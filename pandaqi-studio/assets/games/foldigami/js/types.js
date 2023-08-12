@@ -8,7 +8,33 @@ export default class Types
         this.game = game;
         this.cfg = this.game.cfg;
         this.cfgTypes = this.cfg.types;
-        this.setup();
+
+        const maxTries = 1000;
+        let numTries = 0;
+        do {
+            this.setup();
+            numTries++;
+        } while(this.hasInvalidTypeDictionary() && numTries < maxTries)
+    }
+
+    hasInvalidTypeDictionary()
+    {
+        const maxTypes = this.cfgTypes.maxPerDifficulty[this.cfg.difficulty];
+
+        // the -1 is for the "scroll" type which is ALWAYS added
+        const numTypes = Object.keys(this.cfg.typeDict).length - 1;
+        return maxTypes <= numTypes;
+    }
+
+    getAllWithProperty(dict, prop, val)
+    {
+        const list = [];
+        for(const [key, data] of Object.entries(dict))
+        {
+            if(data[prop] != val) { continue; }
+            list.push(key);
+        }
+        return list;
     }
 
     getAllOfType(dict, type)
@@ -115,29 +141,50 @@ export default class Types
         for(const type of setTemplate)
         {
             const options = this.getAllOfType(typesDict, type);
+            const tempOptionDict = {};
+            for(const option of options)
+            {
+                tempOptionDict[option] = fullTypesDict[option];
+            }
+
             const addAll = type == "required";
             if(addAll) { 
                 types = types.concat(options); 
                 this.removeKeysFromDict(typesDict, options);
             } else { 
-                const option = Random.fromArray(options);
+                const option = Random.getWeighted(tempOptionDict, "prob");
                 types.push(option);
                 this.removeKeysFromDict(typesDict, [option]);
             }
-            console.log(types);
         }
-        
+
+        // EXCEPTION: make sure we have something that uses blank squares
+        const typeUsesBlankSquares = this.checkIfPropertyInData(CELL_TYPES, types, "usesBlankSquares");
+        if(!typeUsesBlankSquares)
+        {
+            const options = this.getAllWithProperty(CELL_TYPES, "usesBlankSquares", true);
+            const tempOptionDict = {};
+            for(const option of options)
+            {
+                tempOptionDict[option] = fullTypesDict[option];
+            }
+
+            const randOption = Random.getWeighted(tempOptionDict, "prob");
+            types.push(randOption);
+            this.removeKeysFromDict(typesDict, [randOption]);
+        }
+
         // fill up the list of types as needed
         const setBounds = this.cfgTypes.maxSetSize;
         const setMax = Random.rangeInteger(setBounds.min, setBounds.max);
         while(types.length < setMax)
         {
-            const randOption = Random.getWeighted(typesDict);
+            const randOption = Random.getWeighted(typesDict, "prob");
             types.push(randOption);
             this.removeKeysFromDict(typesDict, [randOption]);
         }
 
-        // exception: some types specifically need a spy in the game
+        // EXCEPTION: some types specifically need a spy in the game
         const needsSpy = this.checkIfPropertyInData(CELL_TYPES, types, "needsSpy");
         const alreadyHasSpy = types.includes("spy");
         if(needsSpy && !alreadyHasSpy)
@@ -149,9 +196,6 @@ export default class Types
             this.removeKeysFromDict(typesDict, ["spy"]);
 
         }
-
-        console.log("NEEDS SPY", needsSpy);
-        console.log(types);
 
         // this should always be LAST, as the debug types override the rest
         const debugTypes = this.cfg.types.debug;
@@ -170,8 +214,6 @@ export default class Types
             newDict[type] = fullTypesDict[type];
         }
 
-        console.log(newDict);
-
         // some generation parameters (for types) change based on other user-input settings
         const placeTutorials = this.cfg.includeRules;
         if(!placeTutorials)
@@ -181,5 +223,8 @@ export default class Types
 
 
         this.cfg.typeDict = newDict;
+
+        console.log("[DEBUG] Final type dictionary");
+        console.log(this.cfg.typeDict);
     }
 }

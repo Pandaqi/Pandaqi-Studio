@@ -19,35 +19,35 @@ const BASE_TYPES =
 const CELL_TYPES = 
 {
     scroll: { num: { min: 1, max: 1 }, tutorial: "scroll", type: "required", skipEval: true },
-    crown1: { num: { min: 1, max: 2 }, type: "objective", skipEval: true },
-    crown2: { tutFrame: 21, num: { min: 2, max: 5 }, type: "objective", skipEval: true, needsSpy: true },
-    crown3: { tutFrame: 23, num: { min: 2, max: 4 }, type: "objective", needsTeam: true, score: 6, difficulty: "hard", usesBlankSquares: true },
+    crown1: { num: { min: 1, max: 2 }, type: "objective", skipEval: true, prob: 0.1 },
+    crown2: { tutFrame: 21, num: { min: 2, max: 5 }, type: "objective", skipEval: true, needsSpy: true, prob: 0.2 },
+    crown3: { tutFrame: 23, num: { min: 2, max: 4 }, type: "objective", needsTeam: true, score: 6, difficulty: "hard", usesBlankSquares: true, prob: 1 },
     
-    dragon: { needsTeam: true, value: { min: 1, max: 3 }, type: "score" },
+    dragon: { needsTeam: true, value: { min: 1, max: 3 }, type: "score", prob: 2 },
     
-    arrow1: { needsTeam: true, type: "score", allowAllRotations: true, difficulty: "medium", usesBlankSquares: true },
-    arrow2: { tutFrame: 16, type: "score", allowAllRotations: true, difficulty: "medium", dirDecidesTeam: true, usesBlankSquares: true },
+    arrow1: { needsTeam: true, type: "score", allowAllRotations: true, difficulty: "medium", usesBlankSquares: true, prob: 0.66 },
+    arrow2: { tutFrame: 16, type: "score", allowAllRotations: true, difficulty: "medium", dirDecidesTeam: true, usesBlankSquares: true, prob: 0.33 },
     
-    bomb: { type: "board", num: { min: 0, max: 3 }, skipEval: true },
-    twins1: { needsTeam: true, keepTeamEachPick: true, numPerTeam: { min: 0, max: 1 }, numEachPick: 2, type: "score", score: 6 },
-    twins2: { tutFrame: 17, type: "score", num: { min: 3, max: 7 }, score: 2 },
+    bomb: { type: "board", num: { min: 0, max: 3 }, skipEval: true, prob: 0.75 },
+    twins1: { needsTeam: true, keepTeamEachPick: true, numPerTeam: { min: 0, max: 1 }, numEachPick: 2, type: "score", score: 6, prob: 0.66 },
+    twins2: { tutFrame: 17, type: "score", num: { min: 3, max: 7 }, score: 2, prob: 1.33, needsTeam: true },
     
-    shield1: { needsTeam: true, num: { min: 0, max: 1 }, type: "board", skipEval: true, needsSpy: true },
-    shield2: { tutFrame: 19, type: "objective", needsTeam: true, num: { min: 0, max: 1 }, skipEval: true },
+    shield1: { needsTeam: true, num: { min: 0, max: 1 }, type: "board", skipEval: true, needsSpy: true, prob: 0.85 },
+    shield2: { tutFrame: 19, type: "objective", needsTeam: true, num: { min: 0, max: 1 }, skipEval: true, prob: 0.2 },
 
-    sword: { needsTeam: true, type: "score", allowAllRotations: true, usesBlankSquares: true },
-    tiger1: { num: { min: 3, max: 6 }, type: "score", needsSpy: true, difficulty: "medium" },
-    tiger2: { tutFrame: 20, needsTeam: true, num: { min: 1, max: 5 }, type: "score", difficulty: "medium", score: 1, usesBlankSquares: true },
+    sword: { needsTeam: true, type: "score", allowAllRotations: true, usesBlankSquares: true, prob: 1.5 },
+    tiger1: { num: { min: 3, max: 6 }, type: "score", needsSpy: true, difficulty: "medium", prob: 0.5 },
+    tiger2: { tutFrame: 20, needsTeam: true, num: { min: 1, max: 5 }, type: "score", difficulty: "medium", score: 1, usesBlankSquares: true, prob: 1.2 },
     
-    spy: { needsTeam: true, num: { min: 1, max: 4 }, type: "board", skipEval: true, difficulty: "medium" },
-    bird: { value: { min: 1, max: 3 }, type: "rotation", allowAllRotations: true, dirDecidesTeam: true },
-    tortoise: { value: { min: 1, max: 3 }, type: "rotation" },
+    spy: { needsTeam: true, num: { min: 1, max: 4 }, type: "board", skipEval: true, difficulty: "medium", prob: 1 },
+    bird: { value: { min: 1, max: 3 }, type: "rotation", allowAllRotations: true, dirDecidesTeam: true, prob: 1.75 },
+    tortoise: { value: { min: 1, max: 3 }, type: "rotation", prob: 1.33 },
     
-    bear1: { type: "rotation", needsSpy: true, difficulty: "hard" },
-    bear2: { tutFrame: 18, type: "rotation", needsSpy: true, difficulty: "hard", usesBlankSquares: true },
+    bear1: { type: "rotation", needsSpy: true, difficulty: "hard", prob: 0.1 },
+    bear2: { tutFrame: 18, type: "rotation", needsSpy: true, difficulty: "hard", usesBlankSquares: true, prob: 0.75 },
     
-    joker1: { needsTeam: true, value: { min: 1, max: 4 }, type: "board", skipEval: true },
-    joker2: { tutFrame: 22, needsTeam: true, value: { min: 1, max: 4 }, type: "score" },
+    joker1: { needsTeam: true, value: { min: 1, max: 4 }, type: "board", skipEval: true, prob: 0.5 },
+    joker2: { tutFrame: 22, needsTeam: true, value: { min: 1, max: 4 }, type: "score", prob: 0.25 },
 }
 
 const TUTORIAL_DATA = 

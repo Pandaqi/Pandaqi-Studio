@@ -72,6 +72,7 @@ Generate a paper below. Print and play!
     {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly white / grayscale to conserve ink." >}}
     {{< setting-checkbox id="setting-includeRules" text="Include Rules?" remark="Only turn off if you're familiar with all the rules." checked="checked" >}}
     {{< setting-enum id="setting-difficulty" text="Difficulty?" values="Easy,Medium,Hard" valaskey="true" def="Easy" remark="Higher difficulties fill more of the board and use more complicated powerups." >}}
+    {{< setting-checkbox id="setting-noRotation" text="Rotate icons identically?" remark="Normally, icons rotate towards the player to whom they belong." >}}
   {{< /boardgame-settings >}}
 
 <p class="remark-under-settings">Not working? Don't worry! At the "Download" link, you can also find PDFs with valid boards for all situations. Check the "Premade" folder.</p> 

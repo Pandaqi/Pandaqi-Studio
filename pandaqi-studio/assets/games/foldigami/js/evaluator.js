@@ -9,9 +9,58 @@ export default class Evaluator
 
     evaluate(board)
     {
+        let isValid = true;
         const state = this.cloneAndPrepareGrid(board);
         this.state = state;
 
+        //
+        // Step 1) check for specific exceptions
+        //
+        // CROWN1 can't share line (row, column) with other crown or neighbor empty spaces.
+        const crownCellsType1 = state.getCellsOfType("crown1");
+        for(const cell of crownCellsType1)
+        {
+            const nbs = state.getNeighbors(cell);
+            let hasEmptyNeighbour = false;
+            for(const nb of nbs) 
+            {
+                if(!nb.getType()) { hasEmptyNeighbour = true; break; }
+            }
+
+            const sameLine = state.getCellsSameRow(cell).concat(state.getCellsSameColumn(cell));
+            let sharesLineWithCrown = false;
+            for(const cell of sameLine)
+            {
+                if(cell.getType() == "crown1") { sharesLineWithCrown = true; break; }
+            }
+
+            if(hasEmptyNeighbour || sharesLineWithCrown) { isValid = false; break; }
+        }
+
+        // CROWN2 is too powerful to allow an imbalance
+        const crownCellsType2 = state.getCellsOfType("crown2");
+        const numCrownsPerTeam = [0,0];
+        for(const cell of crownCellsType2) {
+            numCrownsPerTeam[cell.getTeam()] += 1;
+        }
+
+        if(numCrownsPerTeam[0] != numCrownsPerTeam[1]) { isValid = false; }
+
+        // SHIELDS have no score influence, and thus ignored by evaluator scores
+        // That's why we check if they're equal this way
+        const shieldCells = state.getCellsOfType("shield1").concat(state.getCellsOfType("shield2"));
+        const numShieldsPerTeam = [0,0];
+        for(const cell of shieldCells) {
+            numShieldsPerTeam[cell.getTeam()] += 1;
+        }
+
+        if(numShieldsPerTeam[0] != numShieldsPerTeam[1]) { isValid = false; }
+
+        if(!isValid) { return isValid; }
+
+        //
+        // Step 2) calculate raw scores
+        //
         const scores = [];
         for(let i = 0; i < this.cfg.teams.num; i++)
         {
@@ -38,7 +87,7 @@ export default class Evaluator
 
         this.scores = scores;
 
-        let isValid = maxDiffBetweenScores <= this.cfg.teams.maxStartingScoreDifference;
+        isValid = maxDiffBetweenScores <= this.cfg.teams.maxStartingScoreDifference;
         if(this.cfg.evaluator.forbidNegativeScores && hasNegativeScore) { isValid = false; }
 
         return isValid;
@@ -105,7 +154,7 @@ export default class Evaluator
 
     calculateScoreForTeam(state, team)
     {
-        console.log("Evaluator State");
+        console.log("[DEBUG] Evaluator State");
         console.log(state.getGridFlat().slice());
 
         const cells = state.getGridFlat();
@@ -231,7 +280,7 @@ export default class Evaluator
         const cells = this.state.getGridFlat();
         if(this.cfg.evaluator.debug)
         {
-            console.log("SCORES");
+            console.log("[DEBUG] Scores");
             console.log(this.scores);
 
             for(const c of cells)

@@ -200,6 +200,30 @@ export default class BoardState
         return cellsEvaluated;
     }
 
+    getCellsSameRow(cell)
+    {
+        const allCells = this.getGridFlat();
+        const arr = [];
+        for(const otherCell of allCells)
+        {
+            if(otherCell.x != cell.x) { continue; }
+            arr.push(otherCell);
+        }
+        return arr;
+    }
+
+    getCellsSameColumn(cell)
+    {
+        const allCells = this.getGridFlat();
+        const arr = [];
+        for(const otherCell of allCells)
+        {
+            if(otherCell.y != cell.y) { continue; }
+            arr.push(otherCell);
+        }
+        return arr;
+    }
+
     // @TODO: should be much smarter, and generalizable to other team nums?
     getClosestPlayer(cell)
     {

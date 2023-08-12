@@ -9,7 +9,7 @@ const sceneKey = "boardGeneration"
 const config = {
     teams: {
         num: 2,
-        maxStartingScoreDifference: 4,
+        maxStartingScoreDifference: 3,
         textureKey: "teams",
         sheetData: { frameWidth: 256, frameHeight: 256 },
         iconScale: 0.4, // both relative to iconSize = spriteSize of cell
@@ -37,6 +37,11 @@ const config = {
         maxSetSize: { min: 4, max: 5 },
         generalMaxPerType: 7,
         generalMaxPerTeam: 7,
+        maxPerDifficulty: {
+            easy: 3,
+            medium: 4,
+            hard: 5
+        }
     },
 
     board: {
@@ -45,9 +50,9 @@ const config = {
         addHalfLines: true,
         dims: { x: 7, y: 5 },
         percentageEmpty: {
-            easy: { min: 0.1, max: 0.2 }, // relative to total number of cells
-            medium: { min: 0.2, max: 0.25 },
-            hard: { min: 0.25, max: 0.3 }
+            easy: { min: 0.2, max: 0.3 }, // relative to total number of cells
+            medium: { min: 0.125, max: 0.2 },
+            hard: { min: 0.05, max: 0.125 }
         },
         outerMargin: { x: 0.05, y: 0.05 }, // relative to total page size
         iconScale: 0.9,
@@ -101,6 +106,7 @@ class BoardGeneration extends Scene
         this.load.spritesheet(config.types.textureKey, base + config.types.textureKey + '.webp', config.types.sheetData);
         this.load.spritesheet(config.tutorial.textureKey, base + config.tutorial.textureKey + '.webp', config.tutorial.sheetData);
         this.load.spritesheet(config.teams.textureKey, base + config.teams.textureKey + '.webp', config.teams.sheetData);
+        this.load.image("scroll_grayscale", base + "/grayscale_scroll.webp");
     }
 
     async create(userConfig) {

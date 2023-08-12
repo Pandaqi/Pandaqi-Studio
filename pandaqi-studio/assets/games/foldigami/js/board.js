@@ -115,9 +115,6 @@ export default class Board
             c.setValue(randval);
         }
 
-        console.log("type", t);
-        console.log("data", data);
-
         let changeRotation = true;
         if(data.needsTeam) {
             const myTeam = params.lastTeam;
@@ -140,7 +137,8 @@ export default class Board
             changeRotation = true;
         } else {
             myRot = params.lastTutorialRotation;
-            const newRot = (params.lastTutorialRotation + 2) % 4;
+            let newRot = (params.lastTutorialRotation + 2) % 4;
+            if(this.cfg.noRotation) { myRot = 0; newRot = 0; }
             params.lastTutorialRotation = newRot;
         }
 
@@ -150,6 +148,7 @@ export default class Board
     determineTypes()
     {
         let cells = this.state.getGridFlat();
+        const totalNumCells = cells.length;
         Random.shuffle(cells);
 
         const placeTutorials = this.cfg.includeRules;
@@ -199,8 +198,6 @@ export default class Board
 
             if(!cell) { return console.error("Can't place cell because no empty neighbors possible"); }
 
-            console.log(cell, type);
-
             cellParams.type = type;
             cellParams.cell = cell;
             cellParams.tutorial = null;
@@ -237,8 +234,7 @@ export default class Board
         }
 
         const percentageEmpty = this.cfgBoard.percentageEmpty[this.cfg.difficulty];
-        const cellsLeft = cells.length;
-        const numEmptyCells = Math.round( Random.range(percentageEmpty.min*cellsLeft, percentageEmpty.max*cellsLeft) );
+        const numEmptyCells = Math.round( Random.range(percentageEmpty.min*totalNumCells, percentageEmpty.max*totalNumCells) );
 
         // fill up the remaining empty space with random types
         while(cells.length > numEmptyCells)
@@ -276,8 +272,6 @@ export default class Board
         }
 
         this.finishGeneration();
-
-        console.log(this.state.getGridFlat().slice());
     }
 
     finishGeneration()
@@ -317,6 +311,7 @@ export default class Board
         if(c.hasTeam() && !data.allowAllRotations)
         {
             rotation = (c.getTeam() * rotationPerTeam) % 4;
+            if(this.cfg.noRotation) { rotation = 0; }
         }
 
         return rotation * 0.5 * Math.PI;
@@ -367,23 +362,18 @@ export default class Board
     {
         const graphics = this.game.add.graphics();
         const cells = this.state.getGridFlat();
+        const inkFriendly = this.cfg.inkFriendly;
 
         // filled in background / rectangles
         for(const c of cells)
         {
+            if(inkFriendly) { continue; }
+
             const colorIndex = (c.x + c.y) % 2;
-
             let baseCol = this.cfgBoard.grid.colorNeutral;
-            if(c.hasType())
-            {
-                baseCol = this.cfg.typeDict[c.getType()].bg;
-            }
+            if(c.hasType()) { baseCol = this.cfg.typeDict[c.getType()].bg; }
 
-            console.log(baseCol);
-            console.log(c.getType());
-            console.log(this.cfg.typeDict);
             baseCol = Display.Color.ValueToColor(baseCol);
-            console.log(baseCol);
 
             const slightlyModifyColor = colorIndex == 1;
             if(slightlyModifyColor) { baseCol.lighten(this.cfgBoard.grid.colorModifyPercentage); }
@@ -471,7 +461,7 @@ export default class Board
         {
             let prevPos = curPos.clone();
             currentlyAtGap = !currentlyAtGap;
-            
+
             if(currentlyAtGap) {
                 curPos.add( vectorNorm.clone().scaleFactor(gapLength) );
             } else {
@@ -491,6 +481,7 @@ export default class Board
     drawIcons()
     {
         const cells = this.state.getGridFlat();
+        const inkFriendly = this.cfg.inkFriendly;
 
         const fontCfg = this.cfgBoard.font;
         const textCfg = {
@@ -514,9 +505,17 @@ export default class Board
             if(hasTutorial) { iconSize = rectSize; }
 
             const center = this.getRectCenter(rect);
-            const sprite = this.game.add.sprite(center.x, center.y, this.cfg.types.textureKey);
+            let textureKey = this.cfg.types.textureKey;
+            let frame = this.cfg.typeDict[t].frame;
+            if(t == "scroll" && inkFriendly)
+            {
+                textureKey = "scroll_grayscale"; 
+                frame = 0;
+            }
+
+            const sprite = this.game.add.sprite(center.x, center.y, textureKey);
             sprite.setOrigin(0.5, 0.5);
-            sprite.setFrame(this.cfg.typeDict[t].frame);
+            sprite.setFrame(frame);
             sprite.setRotation(rot);
             sprite.displayWidth = sprite.displayHeight = iconSize * this.cfgBoard.iconScale;
 
@@ -560,7 +559,6 @@ export default class Board
                 const textObject = this.game.add.text(center.x, center.y, text, textCfg);
                 textObject.setOrigin(0.5, 0.5);
                 textObject.setRotation(rot);
-                console.log("created text", text);
             }
         }
     }
@@ -572,6 +570,5 @@ export default class Board
         const lineColor = this.cfgBoard.outline.color || 0x00000;
         graphics.lineStyle(lineWidth, lineColor);
         graphics.strokeRectShape(this.rect);
-        console.log(lineWidth, lineColor);
     }
 }
