@@ -1,0 +1,497 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><title>Windowsilk | Pandaqi Blog</title><link rel=icon type=image/png href=https://pandaqi.com/blog//favicon.png><link rel=stylesheet type=text/css href=/blog/css/critical.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin></head><body><header id=site-header><nav class=menu><ul><li><a href=https://pandaqi.com/blog/ class="masked-link big-mask mask-6" style=--rotation:0.5deg>Home</a></li><li><a href=/blog/boardgames/ class="masked-link big-mask mask-6" style=--rotation:2deg>Boardgames</a></li><li><a href=/blog/news-and-updates/ class="masked-link big-mask mask-1" style=--rotation:2deg>News & Updates</a></li><li><a href=/blog/reviews-and-thoughts/ class="masked-link big-mask mask-3" style=--rotation:-1deg>Reviews & Thoughts</a></li><li><a href=/blog/tutorials/ class="masked-link big-mask mask-2" style=--rotation:-1deg>Tutorials</a></li><li><a href=/blog/videogames/ class="masked-link big-mask mask-3" style=--rotation:-1deg>Videogames</a></li></ul></nav></header><main class="padding center-block"><article class=single-article><div class=thumbnail-media><img src=itch_logo.webp></div><h1>Windowsilk</h1><aside class=metadata><nav class=breadcrumbs><span class=metadata-label><span class=emoji>🥐</span> Breadcrumbs ||</span>
+<a href=https://pandaqi.com/blog/>Home</a>
+/
+<a href=https://pandaqi.com/blog/videogames/>Videogames</a>
+/
+<a href=https://pandaqi.com/blog/videogames/game-jams/>Game jams</a>
+/
+<a href=https://pandaqi.com/blog/videogames/game-jams/devlog-windowsilk/>Devlog windowsilk</a></nav><script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/pandaqi.com\/blog\/","name":"home"}},{"@type":"ListItem","position":2,"item":{"@id":"https:\/\/pandaqi.com\/blog\/videogames\/","name":"videogames"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/pandaqi.com\/blog\/videogames\/game-jams\/","name":"game-jams"}},{"@type":"ListItem","position":4,"item":{"@id":"https:\/\/pandaqi.com\/blog\/videogames\/game-jams\/devlog-windowsilk\/","name":"devlog-windowsilk"}}]}</script><div><span class=metadata-label><span class=emoji>&#8987;</span> Published ||</span>
+<time datetime=2021-11-27T14:00:00>Saturday, Nov 27, 2021</time></div><nav class=tags><span class=metadata-label><span class=emoji>🎗</span> Tags ||</span><ul><li><a href=https://pandaqi.com/blog/tags/devlog>devlog</a></li><li><a href=https://pandaqi.com/blog/tags/technical-devlog>technical devlog</a></li><li><a href=https://pandaqi.com/blog/tags/jam>jam</a></li></ul></nav><div><span class=metadata-label><span class=emoji>📖</span> Table of Contents ||</span>
+<a href=# id=toc-toggle>Show</a></div></aside><aside id=table-of-contents class=masked-link-block><header><h2>Table of Contents</h2></header><nav id=TableOfContents><ul><li><a href=#whats-the-idea>What&rsquo;s the idea?</a></li><li><a href=#step-1-whats-a-spider-web>Step 1: What&rsquo;s a Spider Web?</a></li><li><a href=#step-2-weaving-a-web>Step 2: Weaving a Web</a></li><li><a href=#step-3-walking-over-it>Step 3: Walking over it</a><ul><li><a href=#the-general-idea>The general idea</a></li><li><a href=#moving-from-point-edge>Moving from point->edge</a></li><li><a href=#moving-along-an-edge>Moving along an edge</a></li><li><a href=#important-remarks>Important remarks</a></li></ul></li><li><a href=#step-4-the-actual-game>Step 4: The actual game</a><ul><li><a href=#conflict-resolution>Conflict resolution</a></li><li><a href=#placing-stuff>Placing stuff</a></li><li><a href=#levels>Levels</a></li><li><a href=#owners--silk-types>Owners & Silk Types</a></li></ul></li><li><a href=#step-5-simplifying>Step 5: Simplifying</a><ul><li><a href=#idea-1-entities--items>Idea #1: Entities = items</a></li><li><a href=#idea-2-entities--leave-trails>Idea #2: Entities = leave trails</a></li><li><a href=#an-important-remark>An important remark</a></li></ul></li><li><a href=#step-6-creating-entities>Step 6: Creating entities</a><ul><li><a href=#movement>Movement</a></li><li><a href=#fleeing--chasing>Fleeing & Chasing</a></li><li><a href=#worm-movement>Worm movement</a></li><li><a href=#about-eating-and-getting-eaten>About eating (and getting eaten)</a></li><li><a href=#trails>Trails</a></li><li><a href=#specialties>Specialties</a></li><li><a href=#an-issue-with-bugs>An issue with bugs</a></li></ul></li><li><a href=#step-7-turning-it-into-an-actual-game>Step 7: Turning it into an actual game</a><ul><li><a href=#observation-1-special-powers>Observation 1: Special powers</a></li><li><a href=#observation-2-power-creep>Observation 2: Power Creep</a></li><li><a href=#observation-3-how-to-handle-death>Observation 3: How to handle death?</a></li><li><a href=#observation-4-the-scale-of-things>Observation 4: The scale of things</a></li></ul></li><li><a href=#step-8-first-actual-playtesting>Step 8: First actual playtesting</a><ul><li><a href=#big-big-trouble>Big, big trouble</a></li><li><a href=#a-different-idea>A different idea</a></li><li><a href=#does-this-work>Does this work?</a></li></ul></li><li><a href=#step-9-teaching-the-game>Step 9: teaching the game</a><ul><li><a href=#before-we-can-do-that->Before we can do that &mldr;</a></li><li><a href=#conclusion>Conclusion</a></li></ul></li><li><a href=#step-10-a-finished-game>Step 10: A finished game</a><ul><li><a href=#remarks>Remarks</a></li></ul></li><li><a href=#bonus-playtest>Bonus: Playtest</a></li></ul></nav></aside><div><p>Welcome to my devlog for the game <a href=https://pandaqi.com/windowsilk>Windowsilk</a></p><p>A local multiplayer game for 1-X players, playing spiders moving across
+an increasingly chaotic web, catching bugs and avoiding falling off
+their web.</p><p>The game was made for the <strong>Github Game Off (2021)</strong> game jam, which had
+the theme <strong>&ldquo;BUG&rdquo;.</strong></p><p>As is required by that jam, the full source code and assets for the game
+is available on GitHub: <a href=https://github.com/Pandaqi/Windowsilk>Windowsilk (Source)</a></p><p>That&rsquo;s also the reason why I won&rsquo;t put any code in this devlog, and only
+explain the general process (with images and short descriptions of the
+algorithms).</p><h2 id=whats-the-idea>What&rsquo;s the idea?</h2><p>When the game jam theme was announced, I was finishing up my previous
+game: <a href=https://pandaqi.com/carving-pumpkins-and-dwarfing-dumplings>Carving Pumpkins & Dwarfing Dumplings</a></p><p>In that game, every player is a <em>shape</em> that can throw knives. When a
+knife hits your opponent, it slices through them (splitting them into
+two, realistically). If you&rsquo;ve become too small, you&rsquo;re dead and out of
+the round.</p><p>It has a <strong>Halloween</strong> theme, which caused me to write down some loose
+ideas for a &ldquo;Bat&rdquo;-related arena and a &ldquo;Spider&rdquo;-related arena.</p><p>When creating a mockup for the Spider arena, I got this idea: &ldquo;What if
+players could <em>only move over the web itself?</em>&rdquo;</p><p>With the follow-up idea: &ldquo;And what if those knives could <em>cut</em> through
+strands of the web, dropping players to their death (if you aimed
+well)?&rdquo;</p><p>The arena never made it into the game. (Too complex, too different from
+the rest, and I ran out of time.) But the idea was nice.</p><p>And when I saw this jam&rsquo;s theme was BUG, I knew I had to make this right
+now.</p><p>The starting idea, which is the first thing I always write down when
+creating the project, was:</p><p><strong>Players are spiders. Level is a spider web. You can only move over the
+web, but you can <em>jump</em> to other locations to create new lines.</strong> (As we
+all know, spiders shoot silk out of their butts. So jumping to a
+different line would create a new connection between the two.) <strong>Your
+objective is to stay alive and/or collect a certain amount of bugs</strong>.</p><p>The objective was still a bit vague. But I had enough of a main idea to
+already get started.</p><h2 id=step-1-whats-a-spider-web>Step 1: What&rsquo;s a Spider Web?</h2><p>What&rsquo;s a spider web? It&rsquo;s</p><ul><li><p>A collection of <em>lines</em></p></li><li><p>Which meet at certain <em>points</em></p></li></ul><p>I created two scenes: <strong>Edge</strong> and <strong>Point.</strong></p><p>An Edge knows these things:</p><ul><li><p>Its extremes (start and end point, no particular order)</p></li><li><p>The entities currently on it</p></li></ul><p>It uses its extremes to draw a rectangle ( + physics body in the same
+shape) from one point to the other.</p><p>A Point knows these things:</p><ul><li><p>The edges connected to it</p></li><li><p>The entities currently on it</p></li></ul><p>It simply draws a circle with the same thickness as the lines. At least
+for now.</p><p>To create a web, I just need to create Points, and then tell it to
+create edges between two given points.</p><p>But that&rsquo;s where the first issues already start: <strong>what if lines
+overlap?</strong> What if I create a new edge that crosses through an existing
+edge?</p><p>In those cases, we want to create a <em>new point</em> where the two edges
+overlap, and split the old edge in two. (This keeps the web consistent
+and easy to traverse: no overlapping edges, you can choose a different
+direction to travel at teach point.)</p><p><img src=Devlog1.webp alt="How to jump across the web"></p><h2 id=step-2-weaving-a-web>Step 2: Weaving a Web</h2><p>Notice how I drew an <em>arrow</em> at the end of the line. Why? Because I
+realized something: <strong>we will never need to create a new line between
+two specific points.</strong></p><p><strong>Instead, we want to simply create a line from point A to <em>the first
+point it hits in a certain direction</em>.</strong></p><p>If you have any experience with game development, you&rsquo;ll immediately
+think**: ray casts!**</p><p>I wrote a function that does the following:</p><ul><li><p>Given a starting point and direction &mldr;</p></li><li><p>Cast a ray from the point, in that direction.</p></li><li><p>This returns the first edge that it hits.</p></li><li><p>Create a new point at that location + split the edge</p></li><li><p>Create a new edge from the starting point to the new point</p></li></ul><p><img src=Devlog2.webp alt="How to add new lines to the web in real-time"></p><p>Using this, the player can jump in any direction, and it will accurately
+move the player <em>and</em> create a new edge from start to end, growing the
+spider web.</p><p>(In this case, the starting point is the <em>player position</em> and the
+direction is <em>the direction input by the player joystick/arrow keys</em>.)</p><p>The nice thing is we can <em>also use this for creating the spider web in
+the first place</em>. We need some structure to start with, some lines for
+the players to stand on when the game starts.</p><p>Well &mldr; I simply call this function for all corners (top-left corner
+to bottom-right, top-right corner to bottom-left) and we get a basic
+web, with all the correct points and edges.*</p><p><strong>Remark:</strong> I created four bodies as the &ldquo;walls&rdquo; of the level. These
+are positioned exactly at the edge of the screen. Any raycast that hits
+no edge, will hit one of these bounds and place a point there. Then the
+algorithm is simply the same.</p><p><strong>Remark:</strong> if the point I want to create is really close to an
+existing point, I don&rsquo;t create a new one. I just snap to the existing
+point and use that. Prevents creating a mess and saves us calculations.
+(In fact, if both points already exist and have an edge between them, I
+obviously can ignore this whole algorithm and just move the player
+without doing anything else.)</p><h2 id=step-3-walking-over-it>Step 3: Walking over it</h2><h3 id=the-general-idea>The general idea</h3><p>How do we make players walk over the web?</p><ul><li><p>They need to know where they are now.</p></li><li><p>If it&rsquo;s an edge, they can only move along it. (Either forward or
+backward.)</p></li><li><p>If it&rsquo;s a point, they should pick a new edge (from the point) to go
+next.</p></li></ul><p>Lines are nice, because they are simple and predictable. You can only
+move up or down. There are easy algorithms to check if a point lies on a
+line segment.</p><p>So this is how it works:</p><ul><li><p>Start the player on any edge. (Just pick one from the starting web
+we created.)</p></li><li><p>Anytime we move over it, check if we are now <em>out of bounds</em>. (We&rsquo;ve
+exceeded the end points of the line. I&rsquo;ll explain the &ldquo;moving&rdquo; part
+soon.)</p></li><li><p>If so, we should be at one of the extremes of the line: either the
+start or end point. Find out which one it is.</p></li><li><p>The next time we move, pick the best edge around this point. Set it
+as our current edge.</p></li><li><p>Repeat.</p></li></ul><p>Players constantly alternate between edges and points. (Even when you
+jump. Because, as you can see in the earlier image, you will create a
+new point and land there.)</p><p>On edges, you simply follow them. On points, you try to find the next
+best edge.</p><h3 id=moving-from-point-edge>Moving from point->edge</h3><p>How does that work?</p><ul><li><p>Calculate the <em>vector for each edge. (Subtract our current point
+from the end point of the edge.)</em></p></li><li><p><em>Calculate the dot product between that vector and our movement
+input vector.</em></p></li><li><p><em>The option with the highest dot product is chosen as the best edge,
+as it most closely aligns our movement input.</em></p></li></ul><p>If you don&rsquo;t know what a vector is: it&rsquo;s an arrow with a certain
+<em>direction</em> and <em>size</em>. For example, if I want my character to move one
+unit to the right, I add the vector (1,0) each frame, which stands for
+(x = 1, y = 0).</p><p>The dot product (between two vectors) is a simple formula with this
+consequence:</p><ul><li><p>A value of 1 means the vectors are identical. (They point in the
+same direction.)</p></li><li><p>A value of -1 means they are exactly opposite.</p></li><li><p>A value of 0 means they are orthogonal. (Their direction is 90
+degrees from each other.)</p></li></ul><p>This means that a <em>higher</em> dot product, means two vectors are <em>more
+alike</em>. And that&rsquo;s why we want the edge with the highest dot product.</p><p><em>Remark:</em> the values I gave above are only true if both vectors are
+<em>normalized</em>, which means that their size is exactly 1. If not, the rule
+of &ldquo;higher = more alike&rdquo; is still true, the values are simply different.</p><p><img src=Devlog3.webp alt="Moving over the web: along points"></p><h3 id=moving-along-an-edge>Moving along an edge</h3><p>This is very similar to the idea above.</p><ul><li><p>Calculate the vector for the edge.</p></li><li><p>Calculate the dot product between that <em>vector</em> and our <em>movement
+input vector</em>.</p></li><li><p>If it&rsquo;s above 0, it means we just move along the edge vector. (We
+were already oriented correctly and just go forward).</p></li><li><p>If it&rsquo;s below 0, it means we are the wrong way around and go
+backward. (Simply negate the edge vector by putting a minus sign in
+front of it.)</p></li></ul><p>Hopefully you can also see <em>why</em> this is true. If the dot product is
+above 0, it means our movement input is more alike the edge vector than
+the reverse of it. So we move forward, instead of backward.</p><p><img src=Devlog1.webp alt="Moving over the web: along edges"></p><h3 id=important-remarks>Important remarks</h3><p><strong>Remark #1:</strong> computers have floating point imprecisions. I can place
+a point at position (10,0), and it&rsquo;s actually placed at (9.99998,0).</p><p>This means that the algorithm for checking if a point is on a line
+segment <em>might, on rare occasions, fail</em>. Players might move off the
+web. In the current state, they would be locked out of this system and
+can&rsquo;t play any further.</p><p>To mediate this problem, I use quite a large &ldquo;margin&rdquo; in the algorithm.
+You can be a bit <em>off</em> and still be considered <em>on the line</em>. It loses
+some visual precision, but ensures gameplay will work.</p><p>In the future I will need to code some more robust &ldquo;fail-safe&rdquo; that can,
+if needed, always snap players to the nearest point/edge. But that&rsquo;s a
+worry for later.</p><p><strong>Remark #2:</strong> when you enter a point I, purposely, <em>freeze player
+movement</em> for 100-300 milliseconds. (Still need to find the best value.)</p><p>Why? If I don&rsquo;t do this, you need to pick your new direction <em>the exact
+moment you enter a point</em>. This is really hard to do for players. Also
+because you can&rsquo;t clearly <em>see</em> when you enter a new point.</p><p>By freezing you for a fraction of a second, you have time to pick your
+new direction and press the keys (or move the joystick) to mirror that.
+It makes moving along this web <em>way more smooth and enjoyable</em>.</p><h2 id=step-4-the-actual-game>Step 4: The actual game</h2><p>I was surprised how easy it was to create this and how well it worked.
+It&rsquo;s already <em>fun</em> to move around it, jump to new strings, and build the
+web as you go.</p><p>This created some doubt. I envisioned this as a <em>competitive party-like
+game</em> (where you battle against each other over control across the web).
+But it might be better as a <em>puzzle game</em> or as a <em>cooperative</em> <em>game</em>.</p><p>In these situations, I simply continue working on things I <em>am</em> sure I
+need.</p><p>These things are:</p><ul><li><p>Something to track how much silk you have. This controls how far you
+can jump (and if you can jump at all).</p></li><li><p>A small jump animation/tween.</p></li><li><p>Different &ldquo;types&rdquo; of silk. (Which would be a variable in the code,
+and a color/icon over the edges. These are the equivalent of
+&ldquo;terrain types&rdquo; from most games.)</p></li><li><p>A system that places &ldquo;stuff&rdquo; on the level. It should be able to
+(purposefully) place it <em>on</em> the web or <em>off</em> it. Why? Player should
+always be able to grab something useful, but it shouldn&rsquo;t be too
+easy &ndash; they need to jump for most things.</p></li><li><p>Some conflict resolution: what if there&rsquo;s already another spider
+where you want to go? What if you try to move off the map?</p></li></ul><p>So I am going to make this and hope I find an answer to my question
+&ldquo;what&rsquo;s the objective and direction for this game?&rdquo; in the meantime.</p><h3 id=conflict-resolution>Conflict resolution</h3><p>Before jumping, I shoot a raycast that <em>only</em> finds other entities. (Not
+parts of the web or anything else.)</p><p>If something is already there, the jump is not allowed. (Alternatively,
+I might <em>push away</em> the thing that&rsquo;s there. Depends on how powerful I
+want the jump to be.)</p><h3 id=placing-stuff>Placing stuff</h3><p>A few years ago, I figured out a nice system for placing stuff &ldquo;roughly
+on top of a network&rdquo;.</p><p>It, again, uses some nice properties of points and lines:</p><ul><li><p>Pick a random edge.</p></li><li><p>Pick a point along the edge. (Position = Start + vector * &lt;some
+number between 0 and 1>)</p></li><li><p>If we want the thing to be on the spider web, we&rsquo;re done!</p></li><li><p>If not, get the <em>orthogonal vector</em>. (Rotate the edge vector 90
+degrees left or right.)</p></li><li><p>And offset the position using that vector. (Position +=
+Orthovector * &lt;some number between 0 and 1> * MAX_OFFSET)</p></li></ul><p>This ensures the thing is placed <em>near</em> existing edges, but not exactly
+<em>on</em> them.</p><p>(We could go further than this. We could calculate the <em>polygons</em> the
+web creates and then place objects near the <em>center</em> of those polygons.
+I&rsquo;ve done it before for other projects, but I think it&rsquo;s too complicated
+to add now. Maybe at a later stage.)</p><h3 id=levels>Levels</h3><p>At this point, I realized this &ldquo;shoot line in direction&rdquo; algorithm was
+<em>so powerful</em> I could actually use it for random level layouts!</p><p>The idea is simple:</p><ul><li><p>Start with a random point and shoot a line in a random direction.</p></li><li><p>Pick a random point on a random edge, shoot a line in a random
+direction.</p></li><li><p>Repeat the step above until satisfied. (A certain number of edges or
+points is reached.)</p></li></ul><p>Of course, this can become quite chaotic. One part of the field might be
+filled with 20 lines, while others are completely empty.</p><p>To soften the issue, I&rsquo;d do things like:</p><ul><li><p>Snap random directions to 8 or 16 fixed angles.</p></li><li><p>Don&rsquo;t pick random points <em>really close</em> to the extremes of an edge
+&ndash; pick them more near the center.</p></li><li><p>Keep a count of the <em>number of points per quadrant</em>. If a quadrant
+becomes way fuller than others, simply don&rsquo;t pick new points there.</p></li></ul><p>We&rsquo;ll see how well this works. I might still add manual levels, if I
+feel they are better. But it&rsquo;s okay for now.</p><h3 id=owners--silk-types>Owners & Silk Types</h3><p>Reading this chapter hopefully shows how good it is to just <em>start
+making stuff</em> for a game. Implementing these things (which I needed
+anyway) gave me another idea:</p><p><strong>What if lines had an <em>owner</em>?</strong></p><p>Lines created by <em>you</em> get <em>your</em> color/icon. This means only you can
+travel over them. (Or your team mates, if this game will support teaming
+up.)</p><p>Why do I think this is interesting?</p><ul><li><p>If everyone can travel everywhere, there&rsquo;s not really any strategy.
+The person closest to an object will get there first, end of story.</p></li><li><p>If you&rsquo;ve just paid 6 silk to jump all the way to the other end of
+the map &mldr; it&rsquo;s a bit annoying if all other players can just use
+that line for free. It doesn&rsquo;t feel fair. It promotes &ldquo;waiting until
+others do the work&rdquo;, which isn&rsquo;t interesting behavior in a game.</p></li><li><p>It just made sense to me. Your silk has your color, and it is yours.</p></li></ul><p>Of course, I&rsquo;ll need to balance this idea. Maybe:</p><ul><li><p>You <em>can</em> travel over other colors, but it costs 1 silk each time.</p></li><li><p>The owner wears off after a while.</p></li><li><p>Lines only become yours if <em>the jump is big enough</em></p></li><li><p>Lines only become yours <em>if a certain powerup is active</em>.</p></li></ul><p>We&rsquo;ll see. For now, I&rsquo;m just coding the edges to support all this. (In a
+clean, modular way.)</p><h2 id=step-5-simplifying>Step 5: Simplifying</h2><p>After the &ldquo;come up with as many ideas as possible&rdquo;-stage comes the
+&ldquo;simplify and streamline into an actual game&rdquo;.</p><p>Writing down all the ideas, I realized there were <em>three different
+systems</em> &mldr;</p><ul><li><p>Items</p></li><li><p>Entities (either predators that will eat you, other players, or bugs
+to eat)</p></li><li><p>Silk types</p></li></ul><p>&mldr; all of which did similar things.</p><p>I mean, I could add a silk type (&ldquo;sticky&rdquo;) that slows down your
+movement. But I could also add an item/powerup that does the same thing.
+What do I choose? Both? Neither? Is this much overlap a good thing or a
+bad thing?</p><p>My experience tells me this is too much and it should be simplified.
+With that mindset, I got some interesting ideas.</p><h3 id=idea-1-entities--items>Idea #1: Entities = items</h3><p><strong>Forget items. The entities <em>are</em> the items.</strong></p><p>I mean, where do spiders get their silk (in real life)? Certainly not
+from powerups that suddenly pop up on their spider web :p No, they eat
+bugs, and their body converts it into silk.</p><p>Why not use this in the game as well? Bugs walk around over the web. If
+you bump into them, you eat them and get their power/resource/whatever.</p><p>Some bugs give points towards the objective. Others simply help you with
+good powerups. Others are predators that will give you negative stuff.
+<em>But all of them are entities</em>.</p><p>This simplifies immensely &mldr;</p><h3 id=idea-2-entities--leave-trails>Idea #2: Entities = leave trails</h3><p>&mldr; but we can do even better.</p><p>Where do <em>silk types</em> come from? How do they appear?</p><ul><li><p>If I make them appear randomly, there&rsquo;s no way for players to
+predict it or use it.</p></li><li><p>If I only create silk types at the <em>start</em> (when I generate the
+initial spider web), they will soon be gone as the web expands.</p></li><li><p>If I ask <em>players</em> to paint the silk, I&rsquo;d need another button or
+system, which is the opposite of simplifying.</p></li></ul><p>Here&rsquo;s the answer I found most satisfying:</p><p><strong>What if <em>entities</em> left trails when they walk? When they exit an edge,
+it&rsquo;s converted to the &ldquo;silk type&rdquo; that belongs to them.</strong></p><p>This way, the web will constantly shift as new types are added (or
+removed). Additionally, players can <em>predict</em> <em>how</em> the web will change.
+They see a specific bug walking somewhere and know: within a few
+seconds, the terrain will change there.</p><p>Look at that. Two simple ideas, two simple rules, and we&rsquo;ve gone from
+three separate systems to <em>one system to rule them all</em>.</p><ul><li><p>Entities appear all over the field.</p></li><li><p>They paint the web as they go.</p></li><li><p>Eat them to get their powerup.</p></li></ul><h3 id=an-important-remark>An important remark</h3><p>I &ldquo;wasted&rdquo; an evening on this step.</p><p>I couldn&rsquo;t force myself to continue programming or start drawing icons
+for the items, because I had these questions that I wanted answered. I
+knew there were some gaping holes in the gameplay and that blindly
+executing the ideas wasn&rsquo;t great.</p><p>(Additionally, I&rsquo;ve created several games the past few months which had
+this exact same structure: terrain types, powerups, movement +
+jumping/throwing mechanic. I was kinda done with programming the same
+game over and over.)</p><p>So I watched a soccer match, then some YouTube videos, then did some
+research, then exercised &ndash; all the while asking myself these questions
+and writing down ideas from time to time.</p><p>To an outsider, it would look like I did absolutely nothing of value for
+5 hours.</p><p>For me, these hours saved this project and made it <em>so much better</em> than
+the original idea.</p><p>The lesson here is that there&rsquo;s great value in just relaxing, taking a
+break, thinking a bit on a problem before continuing. It might feel like
+wasting time. Others might look at you and think you wasted your day.
+But you haven&rsquo;t. Creative work needs time, to solve the unavoidable
+issues creatively.</p><p>With that in mind, the next step will be obvious.</p><h2 id=step-6-creating-entities>Step 6: Creating entities</h2><p>These &ldquo;bugs&rdquo; will be the lifeblood of the game. They should feel alive,
+like an intelligent creature, not just a powerup that happens to move up
+and down.</p><p>Here&rsquo;s the plan. Each entity has a</p><ul><li><p><strong>Movement type</strong></p></li><li><p><strong>Point value</strong></p></li><li><p><strong>Silk type</strong></p></li><li><p><strong>Specialty</strong></p></li></ul><p>When you eat the bug, you gain its <strong>point value</strong>. It will probably be
+low numbers between 0-5 or 0-10. (Large or hostile bugs have large point
+values. But you need to do something special to get them.)</p><p>The <strong>movement</strong> determines how it moves. Some bugs might walk over the
+spider web. Others might fly freely, anywhere they like. Things like
+that.</p><p>The <strong>silk type</strong> is the trail it leaves behind. For many bugs,
+especially flying ones of course, this will be empty.</p><p>The <strong>specialty</strong> is, well, what makes this bug unique. The reason it&rsquo;s
+in the game.</p><p>Whenever possible, the <em>silk type</em> and <em>specialty</em> will be something in
+the same vein. A bug that leaves the &ldquo;move faster&rdquo; terrain, will also
+make your spider faster when eaten. (It just makes sense. Helps remember
+what it does.)</p><p><img src=windowsilk_bugcollection.webp alt="A few examples of the final bugs and how they work"></p><h3 id=movement>Movement</h3><p>Because we already have the code for moving across a web, the basic idea
+is easy:</p><ul><li><p>Start the bug somewhere.</p></li><li><p>Pick a random direction (forward or backward)</p></li><li><p>When we reach a point,</p><ul><li><p>Color the edge (we just exited) to our trail type.</p></li><li><p>Pick a completely random direction. (Remember: the algorithm
+will automatically snap it to the edge that resembles your input
+most.)</p></li></ul></li><li><p>Keep moving until dead.</p></li></ul><p>We can do more interesting stuff, though. Like:</p><ul><li><p>A creature that never backtracks. (It never enters an edge it&rsquo;s
+already been.)</p></li><li><p>Or one that <em>only</em> backtracks.</p></li><li><p>Hostile creatures might prefer edges with other players on them, or
+leading to points closer to another player.</p></li><li><p>Friendly creatures might do the opposite and flee.</p></li></ul><p>&ldquo;Off-web&rdquo; movement for flying bugs is even simpler:</p><ul><li><p>Start a timer</p></li><li><p>Whenever the timer runs out, pick a new random direction and restart
+the timer.</p></li><li><p>Always fly in your current direction.</p></li></ul><p>By making the timer more random, this already feels quite natural. If we
+only <em>rotate</em> our current direction slightly, instead of picking a
+completely new one, bugs will fly a bit more smoothly.</p><h3 id=fleeing--chasing>Fleeing & Chasing</h3><p>These behaviors use many of the same principles we already used before
+(with vectors and stuff).</p><p>To flee from danger, we simply:</p><ul><li><p>Cast a Ray straight ahead. If it hits something that can eat us,
+move in the <em>opposite</em> direction of the ray.</p></li><li><p>When we reach a point and must pick a new edge, only pick edges that
+have <em>no threat</em> on them.</p></li></ul><p>To chase it, we do the reverse.</p><ul><li><p>When our Ray hits something, actually move <em>towards</em> it.</p></li><li><p>When we must pick a new edge, purposely pick those with food on
+them.</p></li></ul><p>This is how it works for web-based creatures. For flying creatures, we
+can keep the RayCast &mldr; but they don&rsquo;t walk over points and edges, so
+what now?</p><p>These creatures get an extra collision circle (that&rsquo;s about 3 times
+their size). When it detects something inside, it moves in the opposite
+direction (if fleeing) or towards it (if chasing).</p><p>Implementing this, however, raised some questions &mldr;</p><h3 id=worm-movement>Worm movement</h3><p>I just realized I never explained that the game also has &ldquo;worms&rdquo; (or worm-like) creatures, which obviously move in a completely different way. They&rsquo;re more of a &ldquo;start-stop&rdquo; bug. (Move forward, then drag your butt with you, repeat.)</p><p>Here&rsquo;s an image that explains my implementation for that:</p><p><img src=WormMovement.webp alt="Worm movement"></p><h3 id=about-eating-and-getting-eaten>About eating (and getting eaten)</h3><p>At first, I <em>split</em> the Player and Entity scenes. My thoughts were:</p><ul><li><p>Players need <em>way more modules</em> than Entities, as they can receive
+input, jump across the web, keep track of points, etcetera.</p></li><li><p>So it would be a waste of performance (and time) to support this for
+<em>all</em> Entities.</p></li></ul><p>However, I soon realized that Players and Entities had <em>too much in
+common</em> to be separate objects. I was copy-pasting modules the whole
+time, until I had enough.</p><p>I reworked the code (and structure) so that <em>everything</em> in the game is
+an Entity. The Players simply receive a few extra modules to poll input
+and keep track of points.</p><p>When adding that &ldquo;points&rdquo; module, however, I ran into a silly issue. I
+already had a module named &ldquo;points&rdquo; that knew <em>how much points a bug was
+worth</em> (when eaten). So I had a name clash for two points scripts and
+things went bad.</p><p>Instead of simply renaming the module to &ldquo;score&rdquo; or something, I though
+this was another change to <em>simplify</em> and <em>streamline</em> the game, because
+I had two important questions:</p><ul><li><p>What determines if an entity can eat you (or you can eat them)?</p></li><li><p>Where on earth do I show <em>two</em> values for all players: silk and
+points?</p></li></ul><p>And the answer, as always, was to solve both in one go: we <strong>don&rsquo;t</strong>
+show two values for players, by making your points the only thing that
+matters.</p><ul><li><p>Each entity has only one &ldquo;points&rdquo; number.</p></li><li><p>By eating another entity, their value is <em>added</em> to your total.</p></li><li><p>When jumping, you <em>pay</em> from your score.</p></li><li><p>And now the most important one: <strong>any entity can eat another <em>if
+they have more points</em>.</strong></p></li></ul><p>So yes, players can be eaten by small bugs if their points are low.
+Players can eat other players, if they have enough points for that.
+Heck, computer-controlled entities can eat other entities on their path
+and grow based on that.</p><p>(A great way to show your point value, beyond showing the actual number,
+is to <strong>grow</strong> entities based on the value. So if you have 0 points,
+you&rsquo;re really small. If you have 10 points, you&rsquo;re this humongous
+spider.)</p><p>Doing this solved some of the last gameplay questions I had, created
+some great new possibilities, and allowed me to simplify my Entity
+scene.</p><p>(As there&rsquo;s almost no difference between a Player and an Entity. Just
+two modules: &ldquo;Input&rdquo; is added, &ldquo;AI&rdquo; is removed. Yes, even <em>jumping</em>
+across the web is now something that some entities could do.)</p><h3 id=trails>Trails</h3><p>We already know when we leave an edge (and enter a point), so I can
+simply use that signal to paint the previous terrain. At least, that&rsquo;s
+how it works for <em>web-moving bugs</em>.</p><p>For flying bugs, I eventually decided to let them paint as well in the
+following way: when they <em>cross an edge</em>, they paint it.</p><p>However, this was too powerful, as flying creatures can cross many edges
+in a single second. To combat this, a <em>timer</em> was added to the painter.
+Any time you paint, that functionality is disabled for the next ~3
+seconds.</p><p>(This also applies to bugs moving on the web, as this behavior is
+desirable in general. You don&rsquo;t want a bug flip-flopping between edges
+(perhaps because it&rsquo;s fleeing) and painting five edges within half a
+second.)</p><p>I did have a problem in terms of <em>space</em> (or <em>legibility</em>). When I
+created icons for the silk types and placed them on the edges &mldr; they
+were just too small to read. I increased the edge thickness, but it&rsquo;s
+not a full solution. I might look into &mldr;</p><ul><li><p><em>Repeating</em> the icon across the whole edge</p></li><li><p><em>Flashing it</em> (bigger and brighter) once in a while, or only when it
+first appears</p></li><li><p>Heavily simplifying the icons (to the point they&rsquo;re a bit abstract)
+and explaining the general idea to players at the start.</p></li></ul><h3 id=specialties>Specialties</h3><p>It will take some time (and experimentation) to find the most fun
+properties I can give to bugs.</p><p>Some early testing, though, revealed the following:</p><ul><li><p><strong>Speed</strong> matters a lot: both for catching bugs and outrunning
+enemies. If you can&rsquo;t speed up or slow down, your fate has been
+sealed ten seconds before it happens. You know you can&rsquo;t escape that
+predator following you. As such, there should be plenty of
+(strategic) ways to change this on the fly.</p></li><li><p>In the same way, a <strong>shield</strong> and <strong>non-hostile</strong> bugs are nice. It
+would allow you to play more defensively, if you desire, and give
+yourself safety in the stress of the game.</p><ul><li>(Non-hostile just means they will never eat anything. A shield
+will protect you against any attacks. There might even be a
+&ldquo;<em>reverse Uno&rdquo;-card</em> of sorts, where anyone trying to eat you is
+killed.)</li></ul></li><li><p><strong>Varied movement</strong> and <strong>web (creation) patterns</strong> are great. A bug
+that flies <em>completely randomly</em> isn&rsquo;t fun, because everything that
+happens is just random. A bug that only flies horizontally, or only
+clockwise, or pauses every once in a while is more interesting and
+strategical.</p></li></ul><p>So, at this point, I just threw everything I had against the wall and
+then tested it. (Usually, that means the <em>code</em> and <em>functionality</em>
+comes first, and then I draw the actual sprites/colors/visual effects to
+go with it.)</p><p>After some frustrating hours rewriting my web code to be much cleaner, I
+got it all to work :p</p><p>(To give you an idea: players will create a new line in the web when
+they jump, and are limited to a maximum distance. Entities, on the other
+hand, do not create anything new and don&rsquo;t have (the same) max
+distances. A jump is just a jump to them. This <em>also</em> means that some
+special powers, such as destroying other lines, cannot be used by
+computer entities.</p><p>The original &ldquo;jump&rdquo; module was only made for the players. It took quite
+a while to restructure it to support all the exceptions for other
+entities, <em>without</em> the code becoming a huge slow mess.)</p><h3 id=an-issue-with-bugs>An issue with bugs</h3><p>Bugs all have the same color scheme. That&rsquo;s the issue :p</p><p>And yes, I know why. They&rsquo;ve evolved to blend in with their environment
+(leading to all sorts of black, grey, beige, dark green colors) or scare
+off predators (with bright flashing red colors).</p><p>But in a game like this, players need to be able to <em>immediately</em> see
+what type of bug they&rsquo;re dealing with. And for that, we need unique
+silhouettes and colors.</p><p>(And bugs are not that distinctive in the silhouette department as well,
+unfortunately.)</p><p>For each bug type, I searched for reference images that had at least
+<em>some</em> splash of color. Then I exaggerated this and just picked whatever
+colors were left for the other bugs. (Which led to blue-tinted beetles
+and purple-tinted crickets and that kind of stuff.)</p><p><em>Remark:</em> players will of course have their own, bright, player colors
+that have nothing to do with the rest of the bugs.</p><h2 id=step-7-turning-it-into-an-actual-game>Step 7: Turning it into an actual game</h2><p>At this point, I&rsquo;d been working on the game for roughly a week. This
+meant that:</p><ul><li><p>All core functionality was working (mostly): creating a web, moving
+over it, eating other entities, etc. (There are still some nasty
+bugs and exceptions to handle, as always.)</p></li><li><p>About 30 different bugs had been implemented. All of them did
+<em>something</em> unique to the web and the gameplay.</p></li><li><p>I&rsquo;ve been testing, experimenting, thinking about good objectives all
+that time.</p></li></ul><p>The reason I implemented all those different bugs, without even knowing
+for certain what the game rules would be (and if it was even fun), is
+because I&rsquo;ve learned you just can&rsquo;t <em>predict</em> what will work.</p><p>If you just <em>build</em> it, you can test it and immediately see if it works.</p><h3 id=observation-1-special-powers>Observation 1: Special powers</h3><p>That&rsquo;s where the first observation comes in: <strong>most of the special
+powers I invented are fine, but some are a bit &ldquo;meh&rdquo;</strong> (they either
+don&rsquo;t do much or are too cliché). The coming days, I want to come up
+with more <em>unique</em> bug types that would be more interesting.</p><p>For example: there are now a handful of bugs that destroy edges in
+different ways. One edge is destroyed as soon as <em>one</em> person leaves.
+Another is a timebomb that is destroyed after some time. Another is
+destroyed by cutting it using your &ldquo;jump&rdquo; input. All of these are
+<em>fine</em>, but I&rsquo;m not sure if I need that many ways to do similar things.
+Perhaps more <em>creative</em> stuff can be done. Something unique to this idea
+of &ldquo;move over a web&rdquo; and &ldquo;build the web while playing&rdquo;</p><h3 id=observation-2-power-creep>Observation 2: Power Creep</h3><p>The second observation is: <strong>power creep.</strong> As soon as you&rsquo;ve eaten a
+few bugs and are at a good size (10+ points) &mldr; nothing really scares
+you anymore. Any extra points from there don&rsquo;t change your game or
+playstyle. It&rsquo;s just a boring &ldquo;eat even <em>more</em> creatures until you win&rdquo;.</p><p>But, ending the game as soon as someone gets 10 points isn&rsquo;t viable
+either. It happens way too quickly. Players might get lucky at the start
+and reach 10 points in no time.</p><p>I&rsquo;ve decided to solve it this way:</p><ul><li><p>Each team has a <em>home base</em>.</p></li><li><p>This base shows your <em>total points</em>. Whenever you visit your home
+base, all your points are drained and added to the total.</p></li><li><p>You can&rsquo;t hold more than 9 points at a time.</p></li><li><p>You need to reach quite a high <em>total number of points</em> to win.</p></li></ul><p>Why do I think this will work?</p><ul><li><p>The low ceiling on points means you simply cannot grow too big and
+must regularly drain the points.</p></li><li><p>Every time you drain, you become vulnerable again and the tension
+rises.</p></li><li><p>Games can last a good amount of time (~5 minutes), even if someone
+becomes very (un)fortunate.</p></li><li><p>Players don&rsquo;t need to remember how many points they need to score: I
+can just display it on the home base (&ldquo;23/50&rdquo; collected)</p></li></ul><p>But most importantly, the home base presents a huge strategic value.
+Namely, players will have to constantly ask themselves these questions:</p><ul><li><p>&ldquo;Do I risk getting more points, or play it safe and go back to base
+now?&rdquo;</p></li><li><p>&ldquo;Do I want to keep my high point total in case something good comes
+along, or am I content to drain it and start from scratch?&rdquo;</p></li></ul><p>I was planning to add this &ldquo;home base&rdquo; as a special mode. But testing
+the game &mldr; it just doesn&rsquo;t work without it, and it&rsquo;s too valuable
+<em>not</em> to include by default.</p><h3 id=observation-3-how-to-handle-death>Observation 3: How to handle death?</h3><p>At first, I wanted to make death optional. A rule you could turn off.
+And when turned off, I would build simple ways to prevent deaths.</p><p>For example: if someone destroys the edge you&rsquo;re walking on, you die, as
+you fall off the web. I could go around this by simply teleporting any
+entities to one of the endpoints of the line.</p><p>But, when it comes to actual gameplay, this has huge issues.</p><ul><li><p>What if those endpoints are also removed? How do I write a quick,
+safe algorithm for teleporting you to <em>something</em>?</p></li><li><p>Even if I manage to do so, that <em>something</em> might be very far away
+(if a large edge is destroyed). That&rsquo;s really disorienting and can
+lead to very unfair situations.</p></li><li><p>And what if all entities are teleported to the same point? The big
+ones will immediately eat all the small ones, until one is left!</p></li></ul><p>Needless to say, I chose to abandon this idea. <em>Dying is dying</em>.</p><p>If your edge is destroyed, you die. If you are eaten, you die. If some
+special power kills you, you are dead.</p><p>It makes the rules and gameplay <em>much more consistent</em> (and easy to
+program and balance).</p><p>The fact that you&rsquo;re dead, however, doesn&rsquo;t mean you need to <em>stay dead</em>
+:p</p><p>There&rsquo;s nothing worse than playing a (local multiplayer) party game,
+dying in some stupid way during the first 30 seconds &mldr; and having to
+sit through 5 minutes of others having fun without you.</p><p>No, everybody should stay in the game until someone wins. <strong>When you
+die, you simply respawn with a handicap.</strong></p><p>Here&rsquo;s the idea:</p><ul><li><p>It takes a few seconds before you respawn. (This &ldquo;delay&rdquo; is both a
+breather so you can process what just happened and a penalty for
+dying.)</p></li><li><p>You lose all your points.</p></li><li><p>You go back to your home base.</p></li><li><p><strong>The target objective is lowered</strong>.</p></li></ul><p>Let&rsquo;s say you need to score 50 points to win. Every time someone dies,
+this numbers decreases. 49 points to win. 48 points to win. In other
+words, the more you die, the <em>easier</em> it becomes for others to win.</p><p><strong>Remark:</strong> This also prevents the game from reaching a stalemate, where
+everyone just keeps dying without making progress. Even if all players
+are <em>that</em> incapable, the target will lower and lower until <em>someone
+wins</em>.</p><p><strong>Remark:</strong> in case of a draw (multiple teams have the target objective
+once lowered), we use some other tiebreaker. Like: number of deaths,
+number of edges created, etc.</p><p><strong>Remark (added later):</strong> Oh, something I forgot to mention is that the
+target objective is obviously lowered for <em>everyone but you</em>. If your
+own target is also lowered, endlessly committing suicide might even
+become a good strategy if you&rsquo;re in the lead :p And we don&rsquo;t want that.</p><h3 id=observation-4-the-scale-of-things>Observation 4: The scale of things</h3><p>Until now, I&rsquo;d been testing the game on a completely black background,
+as it allowed me to see the (white) silk of the web. Additionally, I
+just input a line thickness that seemed right at the start.</p><p>Now that I know the complexity of the game, the icons used, etcetera, I
+realized:</p><ul><li><p>Edges (and points) need an <em>outline</em> to really make them pop out
+against any background.</p></li><li><p>We don&rsquo;t want black backgrounds &ndash; makes the game look like
+something it isn&rsquo;t (a dark, serious game about being an insect)</p></li><li><p>Edges must be way <em>thicker</em>. This also means that points and jumps
+need a larger minimum distance (between them).</p></li></ul><p>The downside is that we lose some space on the field, allowing for
+<em>fewer</em> points and lines as the game progresses, and thus fewer
+variation.</p><p>But the upside is that everything is way easier to see at a glance and
+the game pops out more (visually) &ndash; which are more important to me.</p><h2 id=step-8-first-actual-playtesting>Step 8: First actual playtesting</h2><p>Of course, I test the game constantly during development and try to make
+a working prototype as early as possible. Yet, walking on an empty
+spider web with just a few circles and squares is <em>not</em> the same
+experience as actually playing the game, with many bugs implemented, and
+nice graphics, etcetera.</p><p>I&rsquo;d implemented all the bugs I wanted. (At least, everything I could
+think of at that moment.) I&rsquo;d made all systems functional.</p><p>So I booted up the game, all systems active, from scratch, and started
+playing and trying to win.</p><h3 id=big-big-trouble>Big, big trouble</h3><p>It was disaster.</p><p>There were several glaring issues:</p><ul><li><p>When you are small (0-2 points), you can literally do nothing 99% of
+the time. You just try to avoid big bugs around you and <em>hope</em> a
+Larva spawns that you can eat.</p></li><li><p>Players and bugs can camp on your home base, insta-killing you when
+you respawn.</p></li><li><p>Jumping has become <em>too expensive</em> to actually use a lot. (It costs
+a few of your points, which are capped at 9, and which you
+desperately need to eat <em>something</em>.) Which is a shame, because it&rsquo;s
+one of the most fun parts of the game, <em>and</em> a solution to many
+situations in the game.</p></li><li><p>(And some huge bugs. Such as: flying creatures getting stuck on the
+edge of the screen &mldr; and staying there forever. But those are
+bound to occur at this stage.)</p></li></ul><p>It was clear I needed some significant rewrites to the core rules (and
+balance) of the game. The game right now wasn&rsquo;t that fun, and, in many
+situations, simply unwinnable.</p><p>The &ldquo;simple&rdquo; solution would be to make bugs cheaper ( = less points, so
+you can eat them when you&rsquo;re smaller). But even that wouldn&rsquo;t work, as a
+creature of 0 points gives you nothing, and a creature of 1 point
+<em>still</em> can&rsquo;t be eaten if you have 1 point yourself!</p><p>This confirmed that there was, indeed, some significant change needed.
+(If even simple/naïve solutions are completely useless, something&rsquo;s
+wrong.)</p><p>That&rsquo;s when it hit me: <strong>most spiders don&rsquo;t eat their food alive and
+moving.</strong> And indeed, some quick research on tiny spiders shows that
+they are able to eat insects much larger than them <em>because of a strong
+web that catches (and incapacitates) them</em>.</p><h3 id=a-different-idea>A different idea</h3><p>I&rsquo;d already implemented this, somewhat, in the first version: when you
+create a new line (by jumping), anything that flies into it is stuck and
+can be eaten (no matter the points).</p><p>Let&rsquo;s try to extend that.</p><ul><li><p>Players leave trails as well. Namely, when you exit an edge, it
+becomes <em>yours</em>.</p></li><li><p>(The part about jumping stays the same: a line created that way is
+yours as well.)</p></li><li><p>Bugs entering owned silk get stuck. The bigger the bug, the less
+<em>likely</em> they are to get stuck.</p></li><li><p>Stuck bugs can be eaten, regardless of points. (But because they are
+on a line owned by someone, only <em>they</em> can go there.)</p></li></ul><p>To help support this new idea:</p><ul><li><p>Jumping will become cheaper</p></li><li><p>Ownership still wears off, but perhaps not as quickly.</p></li><li><p>The area around your home base will receive some help. (Maybe I
+automatically steer away flying bugs. Or the edges attached to your
+home base always have <em>good</em> powerups by default. Something like
+that to subtly help you.)</p></li><li><p>Way more bugs should have &ldquo;flee&rdquo; and &ldquo;chase&rdquo; behaviors, as you can
+use those to push bugs to go where you want. (And possibly other
+behaviors that can help with strategies for &ldquo;catching&rdquo; bugs.)</p></li></ul><h3 id=does-this-work>Does this work?</h3><p>Yes, yes it does! Still not perfect, but the game is much more playable
+and enjoyable. It&rsquo;s easy to make a plan and grab some bugs, without
+becoming <em>too</em> easy or random.</p><p>Knowing this, I might want to change some bugs (or add even more) that
+do fun stuff with this new system.</p><p>Also, currently trails are painted <em>anytime you exit an edge</em>. This
+means you can hop onto an edge, and 0.5 seconds later hop off again, and
+it becomes yours. Which is, of course, too easy and a bit of a boring
+cheat. Instead, I&rsquo;ll have to rewrite the system to only allow painting
+<em>if you exit on a different side than you entered</em> (or you&rsquo;ve been on
+the edge long enough)</p><h2 id=step-9-teaching-the-game>Step 9: teaching the game</h2><p>As I&rsquo;m running out of time, many of the extra ideas (for powerups,
+arenas, etc.) have become a bit optional and I have to focus on the last
+essential part: <strong>teaching the game (and menus/UI/etcetera)</strong>.</p><p>The past year, I&rsquo;ve made a lot of games, and each time I&rsquo;ve learnt at
+least one new major lesson about <em>tutorials</em> and <em>accessibility/ease of
+use</em>.</p><p>This is the most important one: <strong>if possible, don&rsquo;t add a tutorial</strong>.</p><p>Games are interactive. Players only need to figure out the basics
+someway, while <em>trying them out</em> or <em>experimenting</em>, and then you can
+send them on their way.</p><p>Reading a wall of text, or watching a sequence of images (trying to
+memorize the info there), is never fun or effective.</p><p>Instead, I want to make the <em>menu itself a sort of tutorial</em>.</p><ul><li><p>The menu itself is a spider web. (Where points represent buttons.)</p></li><li><p>To navigate it, you&rsquo;ll need to walk over the web, already practicing
+<em>moving</em>.</p></li><li><p>To start the game, you need to make an actual jump, practicing that.
+(The start node is disconnected from the rest of the web.)</p></li></ul><p>Yes, it takes quite some extra work, and I need to figure out some
+specifics. But if I pull it off, the menu will be:</p><ul><li><p>Very thematic</p></li><li><p>Good-looking and consistent with the rest of the game</p></li><li><p>An invisible tutorial that teaches players the basics, whilst they
+can try them out and use them for something (in a &ldquo;safe&rdquo; space).</p></li><li><p>A new &ldquo;tutorial trick&rdquo; to add to my arsenal :p</p></li></ul><p>Here&rsquo;s a mockup I made beforehand. (Which might look a bit odd or
+confusing, without any context. But I&rsquo;ve lost my more detailed workflow
+sketch.)</p><p><img src=interactive_menu_mockup.webp alt="My mockup for the interactive web"></p><h3 id=before-we-can-do-that->Before we can do that &mldr;</h3><p>We need some way to manually create a web. (So far, it just randomly
+generates them following some (very) loose restrictions.)</p><p>This is what I did:</p><ul><li><p>In my Engine there&rsquo;s a &ldquo;Line2D&rdquo; node. I use that to draw the lines</p></li><li><p>Similarly, I use a simple &ldquo;Node2D&rdquo; (&ldquo;Position2D&rdquo; in other engines)
+to indicate the points.</p></li><li><p>I save this as a scene with a specific name.</p></li><li><p>When the game starts, I load that scene. All Node2Ds are converted
+into actual points. All Line2Ds are converted into edges, with their
+endpoints snapping to existing points. (So I can be imprecise when
+placing stuff, and it still works.)</p></li></ul><p>To make certain points interactive (such as &ldquo;start the game&rdquo; or &ldquo;load
+the settings&rdquo;), I added one extra module to the Point class. This is
+simply removed in the actual game. It reacts to any entities being added
+and, well, does what it&rsquo;s supposed to do.</p><p>(Also, in the menu, many rules are obviously turned off. I don&rsquo;t want
+players <em>dying</em> in the main menu :p)</p><h3 id=conclusion>Conclusion</h3><p>It was <em>a lot of work</em>. And still isn&rsquo;t perfect.</p><p>(For example, whenever you go back to the main menu, players need
+<em>somewhere</em> to start. And if you&rsquo;re unlucky, this might be a non-ideal
+location and you need to walk for a few seconds to do what you want in
+the menu.)</p><p>But it&rsquo;s the first time I made a menu like this, so I learned a lot and
+the next one will be better.</p><p>And it&rsquo;s miles better than just a list of buttons and a wall of text to
+read as tutorial.</p><h2 id=step-10-a-finished-game>Step 10: A finished game</h2><p>I&rsquo;m both proud of and disappointed with this project.</p><p>When I started, I set out to &ldquo;make a game where you must move over a
+constantly changing spider web, catching bugs&rdquo; And that&rsquo;s what I made. I
+learned how to do it, and I did it.</p><p>Similarly, for a game jam game made in 2 weeks, the project is
+remarkably complete, bug-free, and good-looking. With each game I make,
+I become more efficient and more professional, which is a good sign.</p><p>At the same time, there are issues and missed chances in the game. Some
+are minor, some are major. I only <em>realize</em> these issues now, after
+making the whole game, as seeing the problems takes time and testing.
+But I&rsquo;m out of time.</p><p>And no matter how optimistic I may be that I will &ldquo;continue working on
+the game after the jam&rdquo; &mldr; it just doesn&rsquo;t happen. Jam games are jam
+games. They don&rsquo;t work when you grow them, and when the deadline and
+voting are both over, there&rsquo;s just no motivation to continue with such
+projects.</p><p>(To give you an idea: at the start, the game was all about <em>eating bugs</em>
+and <em>using cool powerups</em>. Then I pivoted to <em>trapping bugs</em> by leaving
+trails and trying to strategically use or avoid their <em>special powers</em>.</p><p>But because I changed direction halfway, there is <em>not a single powerup</em>
+that does something with player trails. Not one. Even though it&rsquo;s the
+most important aspect of the game now, there&rsquo;s nothing that modifies the
+mechanic or shakes it up, because I&rsquo;d already implemented loads of
+powerups for the old direction.</p><p>The result is a game that doesn&rsquo;t utilize its greatest strengths and is
+filled with bugs that aren&rsquo;t <em>that</em> special or unique. I mean, I even
+missed <em>many</em> of the more obvious and colorful bugs.)</p><p>Those are my honest thoughts.</p><p>This game turned out remarkably well <em>and</em> remarkably &ldquo;meh&rdquo;. So the
+optimist in me just has to conclude: I made <em>something</em>, I <em>finished</em> it
+and entered into a huge jam, and I <em>learned a lot from it</em>.</p><p>Hopefully this devlog was interesting to read, until the next one,</p><p>Pandaqi</p><h3 id=remarks>Remarks</h3><p>There are <em>many</em> things I haven&rsquo;t talked about here. To keep the devlog
+short, but also because I don&rsquo;t fully understand them myself (and thus
+can&rsquo;t teach them well) and I can&rsquo;t put any more time into this game jam.</p><p>For example, the legs/antenna/wings of the bugs are <em>procedurally
+animated</em>. It&rsquo;s really cool. Extremely useful as well, and not <em>that</em>
+complicated. But it&rsquo;s the first time I even <em>tried</em> it, so my
+implementation is messy and incomplete, and I can&rsquo;t even really tell you
+why it works xD</p><p>Similarly, the last few days of development were spent fixing <em>nearly
+hundred</em> tiny issues with the menus, accessibility, feedback, game
+balance, exceptional situations that could occur, etcetera. I could list
+them, but it wouldn&rsquo;t tell you anything, and it would just clog up the
+article.</p><h2 id=bonus-playtest>Bonus: Playtest</h2><p>Surprisingly, I was able to get in a playtest with numerous players
+before the deadline of the jam.</p><p>This yielded the following results:</p><ul><li><p>I, somehow, forgot to disable eating your own team members.</p></li><li><p>You cannot enter edges owned by another player. Although this is a
+great rule in theory (and some players said they quite liked it),
+it&rsquo;s way too restrictive and just became annoying quickly. Solution?
+Remove it.</p></li><li><p>There&rsquo;s a bug where if you <em>try</em> to jump, but it fails (because it&rsquo;s
+too close, or because of something else?), you get locked in the
+jump state and can&rsquo;t get out. Solution? This is a crucial crash, so
+I need to get to the bottom of this and make jumping work in all
+cases.</p></li><li><p>I should disallow painting edges attached to a homebase, to any
+other type <em>than the team that owns the homebase</em>. (Otherwise, other
+players can annoy you and basically lock you into your home.)</p></li><li><p>Similarly, protection from the home base fails in some cases. Mostly
+when you&rsquo;re stuck or still in the respawn-animation.</p></li><li><p>The push and pull forces (by e.g. the crickets) are too strong.
+Reduce their impact. (Also reduce the number of clouds on Desertwail
+for the same reason.)</p></li><li><p>The fruit in Fruitfill is fine &mldr; but there&rsquo;s more incentive to
+take fruit seriously if they can be <em>positive</em> numbers (and thus
+free points) as well.</p></li><li><p>It&rsquo;s annoying if you get completely stuck. You&rsquo;re back at home, all
+insects are somewhere else, nothing to trap, stuck at 0 points. In
+those cases, add the fail-safe I already considered: randomly spawn
+larva near home bases, if there are players at 0 or 1 points there.</p></li><li><p><strong>And the biggest one:</strong> sometimes &mldr; it marked the wrong
+team/players as the winner xD No clue how that happened. Led to a
+load of confusion and (temporary) disappointment with players being
+sure they won, yet not receiving the crown.</p><ul><li><p>This turned out to be a silly typo. Whenever someone dies, all
+<em>other</em> teams have their objective lowered by one, which might
+cause them to win.</p></li><li><p>In that case, I find those winning teams in a loop, use a
+tiebreaker to find the first one, and call
+on_team_won(team_num)</p></li><li><p>The problem is that &ldquo;team_num&rdquo; here refers to the team that
+<em>just died</em>. It should have been &ldquo;winning_team.team_num&rdquo;.</p></li><li><p>Small logic mistake, huge consequences :p</p></li></ul></li></ul><p>Besides that, the game worked great! It was simple to understand, easy
+to get into, even my mother quickly got the hang of jumping across the
+web (partly due to the interactive menu and the fact that it&rsquo;s sometimes
+clearly necessary in the game).</p><p>Playtests like these always reveal glaring issues (that I somehow never
+encountered before &mldr;), but they also recharge some of my confidence in
+a game (and my work in general). Seeing it actually being played, people
+enjoying it, things working as I want it, looking good on the big screen
+&mldr; that&rsquo;s why you make (local multiplayer) games.</p><p>Anyway, just wanted to share my thoughts on this playtest. The changes
+above aren&rsquo;t major things in terms of work/code, but <em>are</em> major things
+for the game.</p></div></article><div><nav class=pagination><ul><li><span class=nav-disabled>No previous page :(</span></li><li>Continue reading</li><li><a href=/blog/videogames/game-jams/devlog-ho-ho-sombrero/ class="masked-link big-mask mask-3" style=--rotation:-0.5deg>>> Next Page</a></li></ul></nav></div></main><footer id=site-footer><div class="padding center-block"><h3>More Pandaqi</h3><p>You could <a href=https://pandaqi.com>visit the game studio</a>.
+Or my <a href=https://pandaqi.com/tutorials/>free tutorial website</a>.
+Or my <a href=https://rodepanda.com/>portfolio</a> with easy access to absolutely everything I ever made.</p><h3>Latest</h3><nav class=latest><ul><li><a href=/blog/boardgames/photomone/>Photomone
+(🐜)</a></li><li><a href=/blog/boardgames/keebble-domino/>Keebble: Domino
+(📗)</a></li><li><a href=/blog/boardgames/keebble-knickknack/>Keebble: Knickknack
+(📘)</a></li><li><a href=/blog/videogames/game-jams/less-is-store/>Less is Store
+(🛍️)</a></li><li><a href=/blog/tutorials/placing-grids-within-spaces/>Placing grids within spaces</a></li><li><a href=/blog/boardgames/thats-amorphe-pictures/>That's Amorphe: Pictures
+(🖌️)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-2023-update-ii/>Pandaqi Games: 2023 Update (II)
+(🎮)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-2023-update-iii/>Pandaqi Games: 2023 Update (III)
+(🎮)</a></li><li><a href=/blog/news-and-updates/pq-daw/>PQ_DAW: A music editor for the web
+(🎼)</a></li><li><a href=/blog/news-and-updates/pq-words/>PQ_WORDS: A dictionary for games
+(📋)</a></li></ul></nav><h3>Sections</h3><nav><ul><li><a href=/blog/boardgames/>Boardgames
+(🎲)</a></li><li><a href=/blog/news-and-updates/>News & Updates
+(📢)</a></li><li><a href=/blog/reviews-and-thoughts/>Reviews & Thoughts
+(💭)</a></li><li><a href=/blog/tutorials/>Tutorials
+(👩‍🎓)</a></li><li><a href=/blog/videogames/>Videogames
+(🎮)</a></li></ul></nav><h3>Credits</h3><p>Theme by me (<a href=https://pandaqi.com>Pandaqi</a> 🐼) &#183;
+with ❤️ &#183;
+using <a href=https://gohugo.io>Hugo</a> &#183;
+&copy; 2018&ndash;2023 Pandaqi Blog</p></div></footer><link rel=stylesheet type=text/css href=/blog/css/style.css><script src=/blog/js/bundle.min.js></script></body></html>

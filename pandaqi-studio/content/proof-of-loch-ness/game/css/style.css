@@ -1,0 +1,527 @@
+/*
+COLOR PALETTE:
+
+Pale Silver: #D8CBC7
+Orangy-Red: #CC3F0C
+Golden Brown: #9A6D38
+Hunter Green: #33673B
+Dark Jungle Green: #19231A
+
+*/
+
+body {
+	width: 100%;
+	padding: 0;
+	margin: 0;
+	max-width: 720px;
+	margin: auto;
+	font-size: 20px;
+
+	background-color: #19231A;
+	color: #D8CBC7;
+	font-family: 'Roboto Condensed';
+}
+
+#move, #game, #game-gameresults {
+	display: none;
+}
+
+#move-header {
+	display: flex;
+	align-content: center;
+	align-items: center;
+}
+
+#move-results {
+	text-align: center;
+	position: relative;
+	display: none;
+}
+
+#move-feedback {
+	margin-bottom: 10px;
+	margin-top: 10px;
+	box-sizing: border-box;
+}
+
+.gameover-move-feedback {
+	text-align: left;
+	margin: auto;
+	max-width: 300px;
+}
+
+#move-picture {
+	width: auto;
+	max-height: 400px;
+	max-width: 100%;
+	display: none;
+}
+
+.gameover-move-picture {
+	max-height: initial !important;
+}
+
+#game-ui-container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	align-content: center;
+	margin-bottom: 5px;
+}
+
+#game-instruction {
+	font-size: 12px;
+	text-align: center;
+	opacity: 0.5;
+}
+
+
+
+h1,h2,h3,h4,h5,h6 {
+	font-family: 'Ravi Prakash', cursive;
+	margin-top: 0px;
+	margin-bottom: -42px;
+}
+
+h1 {
+	font-size: 42px;
+}
+
+#game-header {
+	font-size: 32px;
+	display: inline-block;
+	background-color:rgb(39, 81, 27);
+	padding-left: 20px;
+	padding-right: 20px;
+	border-radius: 5px;
+	filter: drop-shadow(0 0 5px black);
+	margin-top: -5px;
+
+	pointer-events: none;
+}
+
+#monsterContainer {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	display: flex;
+	justify-content: center;
+	align-content: center;
+	align-items: center;
+}
+
+/*
+ * GOOD/BAD MESSAGING (feedback)
+ */
+.fb-bad {
+	color:#ffb192;
+}
+
+.fb-good {
+	color:#a9ffa9;
+}
+
+/*
+ * ACTION BUTTONS ( + message, + close button)
+ */
+button {
+	display: flex;
+
+	width: 138px;
+	height: 138px;
+
+	box-sizing: border-box;
+	border: none;
+
+	justify-content: center;
+	align-content: center;
+	align-items: center;
+
+	transition: background-color 0.3s, transform 0.3s, filter 0.3s;
+}
+
+button:hover {
+	cursor: pointer;
+	transform: scale(1.05);
+	filter: drop-shadow(0 0 10px black);
+}
+
+button.action {
+	background-color: #9A6D38;
+}
+
+button.action:hover {
+	background-color: #EA932D;
+}
+
+button.confirm {
+	background-color: #33673B;
+}
+
+button.confirm:hover {
+	background-color: #23AD38;
+}
+
+button.cancel {
+	background-color: #CC3F0C;
+	margin-right: 5px;
+}
+
+button.cancel:hover {
+	background-color: #711E00;
+}
+
+.close-dialog {
+	position: absolute;
+	right: 0;
+	top: 0;
+
+	background-color: #A00;
+	padding: 10px;
+	border-radius: 10px;
+	width: 25px;
+	height: 25px;
+	opacity: 0.5;
+}
+
+.close-dialog:hover {
+	background-color: #FFAAAA;
+	cursor: pointer;
+	opacity: 1.0;
+	color: black;
+}
+
+.error-message {
+	color: red;
+}
+
+.success-message {
+	color: green;
+}
+
+.buttonList {
+	display: flex;
+	/*grid-template-columns: repeat(auto-fill, 138px);*/
+	grid-gap: 10px;
+
+	flex-wrap: wrap;
+	justify-content: center;
+	align-content: center;
+	align-items: center;
+}
+
+/*
+ * CLOCK
+ */
+#clock {
+	width: 128px;
+	height: 128px;
+	pointer-events: none;
+
+	display: flex;
+	justify-content: center;
+	align-content: center;
+	align-items: center;
+}
+
+#clock img, #clock span {
+	position: absolute;
+}
+
+#clock span {
+	display: block;
+	text-align: center;
+	font-family: 'Ravi Prakash';
+	font-size: 64px;
+	color: #FFFFFF;
+	height: 128px;
+	margin-bottom: -36px;
+	text-shadow: 0 0 5px black;
+}
+
+#clock span.money {
+	font-size: 32px;
+	margin-bottom: -80px;
+	color: #82ff82;
+}
+
+/*
+ * WEATHER (display + icons)
+ */
+#weather {
+	text-align: center;
+}
+
+.weather-icon {
+	background-image: url(../assets/weather_icons.png);
+	width: 64px;
+	height: 64px;
+	display: inline-block;
+	background-size: 800%;
+}
+
+.icon-weather-regular {
+	background-position-x: 0px;
+}
+
+.icon-weather-rain {
+	background-position-x: -64px;
+}
+
+.icon-weather-heat {
+	background-position-x: -128px;
+}
+
+.icon-weather-snow {
+	background-position-x: -192px;
+}
+
+.icon-weather-thunder {
+	background-position-x: -256px;
+}
+
+.icon-weather-windy {
+	background-position-x: -320px;
+}
+
+.icon-weather-freezing {
+	background-position-x: -384px;
+}
+
+.icon-weather-unknown {
+	background-position-x: -450px;
+}
+
+/*
+ * ICONS (actions and confirm/cancel)
+ */
+.icon {
+	background-image: url(../assets/action-icons.png);
+	width: 128px;
+	height: 128px;
+	display: inline-block;
+}
+
+.icon-cancel {
+	background-position-x: 0px;
+	background-position-y: 0px;
+}
+
+.icon-confirm {
+	background-position-x: -128px;
+	background-position-y: 0px;
+}
+
+.icon-move {
+	background-position-x: -768px;
+	background-position-y: 0px;
+}
+
+.icon-picture {
+	background-position-x: -896px;
+	background-position-y: 0px;
+}
+
+.icon-pass {
+	background-position-x: 0px;
+	background-position-y: -128px;
+}
+
+.icon-plane {
+	background-position-x: -128px;
+	background-position-y: -128px;
+}
+
+.icon-weather {
+	background-position-x: -256px;
+	background-position-y: -128px;
+}
+
+.icon-gameresults {
+	background-position-x: -384px;
+	background-position-y: -128px;
+}
+
+.icon-pickhideout {
+	background-position-x: -512px;
+	background-position-y: -128px;
+}
+
+.icon-reload {
+	background-position-x: -640px;
+	background-position-y: -128px;
+}
+
+.icon-collect {
+	background-position-x: -768px;
+	background-position-y: -128px;
+}
+
+.icon-areascan {
+	background-position-x: -896px;
+	background-position-y: -128px;
+}
+
+/*
+ * PLAYER ROLE ICONS
+ */
+.role-icon {
+	background-image: url(../assets/role_icons.png);
+	width: 64px;
+	height: 64px;
+	display: inline-block;
+	background-size: 800%;
+}
+
+.role-1 {
+	background-position-x: 0px;
+}
+
+.role-2 {
+	background-position-x: -64px;
+}
+
+.role-3 {
+	background-position-x: -128px;
+}
+
+.role-4 {
+	background-position-x: -192px;
+}
+
+.role-5 {
+	background-position-x: -256px;
+}
+
+.role-6 {
+	background-position-x: -320px;
+}
+
+.role-7 {
+	background-position-x: -384px;
+}
+
+.role-8 {
+	background-position-x: -448px;
+}
+
+/*
+ * SMALLER ICONS (statistics and misc)
+ */
+.stats-icon {
+	background-image: url(../assets/action-icons.png);
+	width: 32px;
+	height: 32px;
+	display: inline-block;
+	background-size: 800%;
+}
+
+/* 
+ NOTE: because we're sized 32x32, the background position ALSO moves in those increments
+
+ Example: footprints/marks are frame 4, so background is -4*32 = -128px ... and for SOME REASON we must also subtract 10?
+ */
+.stats-icon-0 {
+	background-position-x: -64px; 
+	background-position-y: 0px;
+}
+
+.stats-icon-1 {
+	background-position-x: -96px;
+	background-position-y: 0px;
+}
+
+.stats-icon-2 {
+	background-position-x: -128px;
+	background-position-y: 0px;
+}
+
+.stats-icon-3 {
+	background-position-x: -160px;
+	background-position-y: 0px;
+}
+
+/*
+ * GAME OVER POPUP
+ */
+#popup {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+
+	background-color: rgba(0,0,0,0.5);
+	z-index: 10000;
+
+	display: none;
+}
+
+#popup div {
+	background: white;
+	color: black;
+
+	max-width: 350px;
+	box-sizing: border-box;
+
+	margin: auto;
+	margin-top: 50px;
+
+	padding: 20px;
+	border-radius: 10px;
+}
+
+/*
+ * STATISTICS BAR
+ */
+#stats {
+	display: none; /* goes to FLEX if visible */
+	justify-content: space-between;
+	align-content: space-between;
+	align-items: center;
+
+	background-color: rgb(37, 94, 38);
+}
+
+#stats div {
+	display: flex;
+	/*justify-content: center;*/
+	align-content: center;
+	align-items: center;
+
+	width: 100%;
+}
+
+/*
+ * MONSTER ICONS
+ */
+@keyframes monsterMove {
+  0%   { left: 0; }
+  100% { left: 100%; }
+}
+
+#monster {
+	max-width: 280px;
+	height: 100%;
+	margin: auto;
+	position: relative;
+}
+
+#monster-icon {
+	background-image: url(../assets/monsters.png);
+	display: block;
+	position: absolute;
+	width: 64px;
+	height: 64px;
+	background-size: 800%;
+
+	-webkit-animation-name: monsterMove;
+	-moz-animation-name: monsterMove;
+	animation-name: monsterMove;
+		animation-duration: 2s;
+		animation-iteration-count: infinite;
+
+		animation-play-state: paused;
+}

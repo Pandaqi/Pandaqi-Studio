@@ -1,0 +1,750 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><title>Carving Pumpkins & Dwarfing Dumplings | Pandaqi Blog</title><link rel=icon type=image/png href=https://pandaqi.com/blog//favicon.png><link rel=stylesheet type=text/css href=/blog/css/critical.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin></head><body><header id=site-header><nav class=menu><ul><li><a href=https://pandaqi.com/blog/ class="masked-link big-mask mask-5" style=--rotation:-1.5deg>Home</a></li><li><a href=/blog/boardgames/ class="masked-link big-mask mask-3" style=--rotation:-1deg>Boardgames</a></li><li><a href=/blog/news-and-updates/ class="masked-link big-mask mask-7" style=--rotation:-1.5deg>News & Updates</a></li><li><a href=/blog/reviews-and-thoughts/ class="masked-link big-mask mask-4" style=--rotation:1.5deg>Reviews & Thoughts</a></li><li><a href=/blog/tutorials/ class="masked-link big-mask mask-8" style=--rotation:2deg>Tutorials</a></li><li><a href=/blog/videogames/ class="masked-link big-mask mask-7" style=--rotation:0deg>Videogames</a></li></ul></nav></header><main class="padding center-block"><article class=single-article><div class=thumbnail-media><img src=carvingpumpkins_header.webp></div><h1>Carving Pumpkins & Dwarfing Dumplings</h1><aside class=metadata><nav class=breadcrumbs><span class=metadata-label><span class=emoji>🥐</span> Breadcrumbs ||</span>
+<a href=https://pandaqi.com/blog/>Home</a>
+/
+<a href=https://pandaqi.com/blog/videogames/>Videogames</a>
+/
+<a href=https://pandaqi.com/blog/videogames/one-week-games/>One week games</a>
+/
+<a href=https://pandaqi.com/blog/videogames/one-week-games/devlog-carving-pumpkins-and-dwarfing-dumplings/>Devlog carving pumpkins and dwarfing dumplings</a></nav><script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/pandaqi.com\/blog\/","name":"home"}},{"@type":"ListItem","position":2,"item":{"@id":"https:\/\/pandaqi.com\/blog\/videogames\/","name":"videogames"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/pandaqi.com\/blog\/videogames\/one-week-games\/","name":"one-week-games"}},{"@type":"ListItem","position":4,"item":{"@id":"https:\/\/pandaqi.com\/blog\/videogames\/one-week-games\/devlog-carving-pumpkins-and-dwarfing-dumplings\/","name":"devlog-carving-pumpkins-and-dwarfing-dumplings"}}]}</script><div><span class=metadata-label><span class=emoji>&#8987;</span> Published ||</span>
+<time datetime=2022-01-30T14:00:00>Sunday, Jan 30, 2022</time></div><nav class=tags><span class=metadata-label><span class=emoji>🎗</span> Tags ||</span><ul><li><a href=https://pandaqi.com/blog/tags/devlog>devlog</a></li><li><a href=https://pandaqi.com/blog/tags/technical-devlog>technical devlog</a></li></ul></nav><div><span class=metadata-label><span class=emoji>📖</span> Table of Contents ||</span>
+<a href=# id=toc-toggle>Show</a></div></aside><aside id=table-of-contents class=masked-link-block><header><h2>Table of Contents</h2></header><nav id=TableOfContents><ul><li><a href=#the-idea>The idea</a></li><li><a href=#step-1-sometimes-you-dont-need-all-the-physics>Step 1: Sometimes you don&rsquo;t need all the physics</a></li><li><a href=#step-2-throwing-and-catching>Step 2: Throwing and catching</a></li><li><a href=#step-3-cleaning-up-the-mess>Step 3: Cleaning up the mess</a></li><li><a href=#step-5-making-a-first-level>Step 5: Making a first level</a><ul><li><a href=#core-game-loop>Core game loop</a></li><li><a href=#arenas>Arenas</a></li><li><a href=#powerups>Powerups</a></li></ul></li><li><a href=#step-6-top-down-perspective>Step 6: Top-down perspective</a></li><li><a href=#step-7-some-interesting-details-maybe>Step 7: Some interesting details (maybe)</a></li><li><a href=#step-8-teams--ai---the-forgotten-features>Step 8: Teams & AI - The forgotten features</a><ul><li><a href=#how-to-make-bots>How to make bots?</a></li></ul></li><li><a href=#step-9-other-game-modes>Step 9: Other game modes</a></li><li><a href=#step-10-finishing-the-basics-adding-the-content>Step 10: Finishing the basics, adding the content</a></li><li><a href=#step-11-arenas>Step 11: Arenas</a></li><li><a href=#step-12-controls-now-properly>Step 12: Controls, now Properly</a></li><li><a href=#step-13-bots>Step 13: Bots</a></li><li><a href=#step-14-bringing-it-all-together>Step 14: Bringing it all together</a><ul><li><a href=#the-list>The list</a></li><li><a href=#answering-the-last-question>Answering the last question</a></li></ul></li><li><a href=#step-15-playtest>Step 15: Playtest</a></li><li><a href=#conclusion>Conclusion</a></li><li><a href=#post-release-more-fixes--lessons>Post Release: More fixes & lessons</a><ul><li><a href=#realization-1>Realization #1</a></li><li><a href=#realization-2>Realization #2</a></li><li><a href=#realization-3>Realization #3</a></li><li><a href=#realization-4>Realization #4</a></li></ul></li><li><a href=#towards-v2-another-playtest>Towards V2: Another playtest</a><ul><li><a href=#realization-1-1>Realization #1</a></li><li><a href=#realization-2-1>Realization #2</a></li><li><a href=#realization-3-1>Realization #3</a></li><li><a href=#realization-4-1>Realization #4</a></li></ul></li><li><a href=#towards-a-final-version-more-playtesting>Towards a final version: more playtesting</a><ul><li><a href=#the-good-stuff>The Good Stuff</a></li><li><a href=#the-bad-stuff>The Bad Stuff</a></li><li><a href=#were-stopping-here>We&rsquo;re stopping here</a></li></ul></li><li><a href=#where-does-this-leave-us>Where does this leave us?</a></li></ul></nav></aside><div><p>Welcome to the devlog for my game <a href=https://pandaqi.com/carving-pumpkins-and-dwarfing-dumplings>Carving Pumpkins & Dwarfing
+Dumplings</a></p><p>I&rsquo;m going to <em>try</em> to keep this one shorter than usual, as this game is
+basically a spinoff from another game I was making. (It&rsquo;s <a href=https://pandaqi.com/rolling-in-the-sheepe>Rolling in the Sheepe</a>)</p><p>In that game, I implemented a system that could <em>slice any shape
+(realistically</em>). So, for example, a player could be a <em>hexagon</em>. When I
+drew a line through that hexagon, it would <em>split</em> the shape into two
+parts. (Which, if you were to glue them together again, would represent
+the original hexagon.)</p><p>It was really cool to figure out <em>how</em> to do this. It&rsquo;s &ldquo;relatively
+easy&rdquo;, though still quite challenging. (Especially when you get to
+supporting <em>any</em> shape, not just the &ldquo;nice ones&rdquo; like circles,
+rectangles, etc.)</p><p>However &mldr; as the game progressed, the mechanic just didn&rsquo;t fit
+anymore. It was more <em>fun</em> to split players non-realistically.
+(Splitting a hexagon would just yield two smaller hexagons.) It fit
+better with the mechanics, the gameplay, the feeling of the game.</p><p>Determined to not let my code go to waste, I decided to create a quick
+little game that <em>did</em> use it!</p><p>As Halloween was coming up, it became a silly party game about slicing (
+= carving) pumpkins.</p><p><strong>Remark:</strong> I will <em>not</em> explain the algorithm for slicing shapes (in
+2D) here. It&rsquo;s quite complex and I discussed my journey of discovery <em>at
+length</em> in the other devlog. This is meant as a devlog discussing only
+the interesting bits from <em>this</em> game.</p><p>Spoiler Alert: I did not keep it short, the game become too big, and
+I&rsquo;ve learned I&rsquo;m not good enough yet for projects of this size. But hey,
+you can read all about my hard-earned lessons in the coming 10,000 words
+&mldr;</p><h2 id=the-idea>The idea</h2><p>It&rsquo;s simple. You can move and you can throw a knife. If the knife goes
+through another player, you literally slice them in two. The biggest
+part remains ( = <em>you</em> <em>are the biggest part</em>), the smaller parts will
+be lost and out of your control.</p><p>Any player who is too tiny, dies and is out of the game. The last one
+standing wins.</p><h2 id=step-1-sometimes-you-dont-need-all-the-physics>Step 1: Sometimes you don&rsquo;t need all the physics</h2><p>At first, I implemented knives in the &ldquo;traditional way&rdquo;:</p><ul><li><p>I gave them a (narrow, rectangular) body</p></li><li><p>When you threw them, I apply an <em>impulse</em></p></li><li><p>When they hit something, I decide whether I want to <em>slice</em> it ( =
+hitting another player)</p></li><li><p>If not, I simply <em>bounce off of it</em> ( = hitting a wall) and let the
+physics engine do its thing.</p></li></ul><p>This didn&rsquo;t work.</p><p>Why not? Because <em>slicing something</em> is completely different from
+<em>hitting something</em>. They are, in most cases, complete opposites.</p><ul><li><p>To hit something, you need a body with some &ldquo;area&rdquo;. Slicing
+something means cutting it <em>along a thin, zero-width line</em>.</p></li><li><p>It&rsquo;s really hard to tell the physics engine to &ldquo;delay&rdquo; colliding
+with something. They&rsquo;re not built for that, and for a good reason.</p></li></ul><p>As such, the code would work 50% of the time. But the other times, one
+of these situations would happen:</p><ul><li><p>The <em>body</em> hit something. But when I shoot a line from it, the line
+<em>missed</em> that object. So we clearly hit someone &mldr; but still didn&rsquo;t
+slice them.</p></li><li><p>We sliced someone. But, the <em>collision</em> also came through, which
+means our knife had some random rotation/offset added <em>before</em>
+calculating the slice line. Leading to wildly unpredictable slices.</p></li><li><p>Sometimes, if the knife was going fast, both cases would simply fail
+and nothing happened.</p></li></ul><p>So let&rsquo;s return to that first remark: <strong>slicing means a zero-width
+line.</strong> That means &mldr; we don&rsquo;t need the physics body (on knives)!</p><p>I removed the body (and its shape). I added some code to handle
+<em>velocity</em> myself. (Simply move according to velocity each frame and
+dampen it a little.)</p><p>Then I added a <strong>raycast</strong> just ahead of the knife. If it hits a player,
+it shoots a line straight ahead, and slices the player across that line.
+All bodies that come out of it are saved as &ldquo;exceptions&rdquo;. These will
+<em>not</em> be picked up by the raycast from now on.</p><p>(Otherwise, it just keeps slicing and slicing every frame, because it
+will <em>keep hitting the player</em> until the knife comes out on the other
+side.)</p><p>If it hits something else, I simply <em>deflect</em> the knife. There&rsquo;s a basic
+formula for deflecting a force/velocity you can look up online.</p><p>With these simple steps, we have a knife that can both <em>slice</em> and
+<em>collide</em> (realistically) &mldr; without actually having a physics body.</p><p>I only use the physics engine for shooting that <em>raycast</em> into the
+world. Otherwise, the knives are completely handled by my own code,
+which isn&rsquo;t more than 40 lines.</p><h2 id=step-2-throwing-and-catching>Step 2: Throwing and catching</h2><p>Each knife has an <em>area</em> attached to it. (It&rsquo;s called Area2D in Godot,
+my game engine. Many others call this a <em>sensor</em>.)</p><p>If this overlaps with its owner ( = the player that threw the knife),
+you pick it up again.</p><p>Of course, this has one issue: when you throw a knife &mldr; it immediately
+overlaps and you pick it up again! Which means nothing happens.</p><p>As such, just after throwing, I &ldquo;disable&rdquo; this area for 0.5 seconds.
+(This has the added benefit that throwing the knife into the wall, and
+immediately deflecting, will make it go <em>through</em> you instead of nothing
+happening.)</p><p>Then I added some simple code to reposition the knives correctly. (On
+the edge of the player shape, whatever that shape is.)</p><p>It uses the <strong>Shoelace algorithm</strong> to estimate the area of the player.
+We know that, in a perfect circle, Area = pi * r^2. We can reverse
+that to get an <em>estimate</em> on the player radius, which would be r =
+square root(Area / pi).</p><p>The knives are placed this distance away from the player, a bit offset
+from each other. This way, they stick out nicely, whatever your shape.</p><p>At first, I &ldquo;repositioned&rdquo; the knives to always be in front of you.
+(Which is logical, as that&rsquo;s the direction you&rsquo;re facing, and that&rsquo;s
+from where people usually hold/throw knives :p)</p><p>But I soon discovered this had issues and that there was a better idea:
+just keep the knifes <em>wherever you caught them.</em> If you catch your knife
+with your back &mldr; well, guess you&rsquo;ll have to put some extra effort in
+aiming it later.</p><h2 id=step-3-cleaning-up-the-mess>Step 3: Cleaning up the mess</h2><p>Realistically slicing everything has one downside: you can end up with
+loads of ugly, tiny shapes floating around.</p><p>That&rsquo;s why there&rsquo;s a minimum area. If a shape falls below this &ndash; again,
+this is estimated using the Shoelace algorithm &ndash; it&rsquo;s simply deleted
+immediately.</p><p>Similarly, the parts that fly off a player have some damping attached to
+them, so they don&rsquo;t just endlessly float around. After a few seconds,
+they will have stopped rotating and moving, and just lie on the arena as
+a sort of &ldquo;evidence of what happened&rdquo;.</p><p>Another thing that makes it &ldquo;cleaner&rdquo; is that I <em>separate</em> knives you
+grab. At the start, I define X &ldquo;predefined angles&rdquo;. Whenever a new knife
+arrives, it snaps to one of those angles. (If that number is high
+enough, say above 20, the difference between the real angle and the
+snapped one is negligible.) Is the angle already occupied (by another
+knife)? Try another one, until you find an empty spot.</p><p>It makes it <em>so</em> much easier to see how many knifes you have and where
+they are pointing.</p><p>Lastly, I&rsquo;ve learned from previous games that it&rsquo;s actually not a great
+idea to have separate menu screens. Many games, when the game is done,
+will go to a different screen that says something like &ldquo;Game over! This
+player won. Press one of these buttons to continue.&rdquo; (This is often an
+overlay as well.)</p><p>I&rsquo;ve found this to take players out of the experience. Additionally, you
+<em>certainly</em> don&rsquo;t want to switch to a mouse every time (when the rest of
+the game plays on keyboard/controller).</p><p>Instead, when the game is over, each player simply gets a &ldquo;bubble&rdquo; next
+to their head. The winner gets a crown! The losers get a &ldquo;title&rdquo; based
+on their accomplishments. (You&rsquo;ve moved more than anyone else in the
+game? You are a <em>Runner!</em>)</p><p>One of the players gets a bubble with the instructions (Restart or
+Exit), which are completely controlled by keyboard/controller.</p><p>This makes the whole experience much faster and more streamlined.</p><h2 id=step-5-making-a-first-level>Step 5: Making a first level</h2><p>Now we need these things for a first level:</p><ul><li><p>The core game loop. (Know when it&rsquo;s game over, do something then.)</p></li><li><p>An arena in which to play. (Some obstacles, a background, etc.)</p></li><li><p>Some powerups would be nice. Something basic like &ldquo;you get an extra
+knife&rdquo;.</p></li></ul><h3 id=core-game-loop>Core game loop</h3><p>First step is easy. Whenever a player becomes too small, I send a
+&ldquo;player_died&rdquo; signal to the state manager. It checks how many players
+are still alive. If only 1, we go to &ldquo;game_over&rdquo;.</p><p>In that state, all those <em>bubbles</em> appear next to the players.
+Additionally, I turn off anything I don&rsquo;t need (like, we don&rsquo;t need to
+check for &ldquo;game over&rdquo; again <em>if it&rsquo;s already game over</em>), and turn <em>on</em>
+the keys for navigating.</p><h3 id=arenas>Arenas</h3><p>From a previous game that has some similarities to this one (<em>Totems of
+Tag</em>), I&rsquo;ve learned that it&rsquo;s best to manually create the whole arenas.</p><p>(Instead of, for example, creating a bunch of tiles and reusing them
+everywhere.)</p><p>It easily allows each arena to be completely unique (with visuals and
+mechanics not used anywhere else), without requiring me to spend time
+&ldquo;abstracting&rdquo; or &ldquo;generalizing&rdquo; all objects and tiles in the game.</p><p>As such, the first arena will be the <em>graveyard</em>. I&rsquo;ll just draw a
+background, some decoration, and of course the tombstones. Then I import
+these to Godot, give them the necessary physics bodies/scripts/groups</p><p><strong>Remark:</strong> <em>Groups?</em> In Godot, you can put everything into groups. It&rsquo;s
+<em>really</em> useful. Now I have three groups: Sliceables, Deflectables and
+Stuckables. These aren&rsquo;t actual words, I&rsquo;ve simply always named groups
+like this. Why? Because it immediately tells you what the group <em>does</em>:
+the first type can be sliced, the second deflects knives, and the third
+makes knives get stuck inside them.</p><h3 id=powerups>Powerups</h3><p>For the powerups, I invented something nice, I think. Instead of doing
+it the normal way (powerups spawn, if you like what you see, grab it)
+&mldr; what if powerups came inside a package? And you need to open that
+package to see what it is?</p><p>And to open packages &mldr; you need to slice them, obviously.</p><p>I like this for two reasons:</p><ul><li><p>Picking up powerups is still easy: walk onto them</p></li><li><p>But there&rsquo;s a gamble: do you think the powerup is good, or are you
+going to check by throwing a knife against it?</p></li></ul><p>There&rsquo;s one issue, though. If you <em>don&rsquo;t</em> check the powerup first &mldr;
+you don&rsquo;t know what you&rsquo;re getting. So there must be some <em>very clear
+feedback</em> about what you just grabbed.</p><p>At first, I wanted to give each player their own &ldquo;interface&rdquo; in the
+corner and show your powerups there (as usual).</p><p>However, again, I&rsquo;ve learned this isn&rsquo;t ideal.</p><ul><li><p>It takes up a lot of space.</p></li><li><p>It limits me to 4 players maximum.</p></li><li><p>Players need to constantly switch between <em>looking at themselves</em>
+(and what&rsquo;s happening around them) and <em>looking at some corner of
+the screen that happens to hold their interface</em>.</p></li></ul><p>As such, I will simply create <em>clear</em> <em>icons</em> for each powerup. These
+appear above your head for 1 or 2 seconds, then disappear.</p><p>Additionally, I&rsquo;ll try to give each powerup a <em>permanent</em> reminder. Easy
+example: if you&rsquo;re a ghost (and cannot be hit by knives), you become 50%
+transparent.</p><p>All of this together, makes the game &ldquo;UI-less&rdquo;. Which is amazing, if it
+works.</p><h2 id=step-6-top-down-perspective>Step 6: Top-down perspective</h2><p>At this point, I realized I never made a game with a top-down
+perspective before. (Well, except for some abstract puzzle games, but
+then it&rsquo;s not really a perspective but just &ldquo;geometric shapes in a grid
+for clarity&rdquo;).</p><p>This led to mistakes. I drew (and programmed) some things, by force of
+habit, to appear <em>above</em> the player or to look good <em>when viewed from a
+certain angle</em>.</p><p>But in top-down view, you lose all that perspective. There is no &ldquo;above&rdquo;
+or &ldquo;below&rdquo; someone to show information. (The only &ldquo;above&rdquo;/&ldquo;below&rdquo; is in
+terms of <em>depth</em>. For example: players will be rendered <em>in front of</em>
+the ground.)</p><p>I tried some things, but nothing really satisfied me. It either didn&rsquo;t
+look good enough <em>or</em> wasn&rsquo;t clear enough during gameplay.</p><p>In the end, I settled on this:</p><ul><li><p>A &ldquo;distorted top-down perspective&rdquo;. Which means most things have no
+perspective, but the bigger elements near the edges <em>do</em> have some
+depth to them. It&rsquo;s like watching down a hole, where things get
+flatter and flatter as you come near the center.</p></li><li><p>Powerups are displayed <em>literally on top of the player</em>. The icon
+appears, does a bounce, then fades away. It&rsquo;s not ideal, but it&rsquo;s
+good enough.</p></li><li><p>Knifes are drawn with a sort of side view, that still looks good
+from top-down perspective. (Because, if you draw a knife top-down
+&ldquo;realistically&rdquo;, you&rsquo;ll barely be able to see it, as the blade is
+too thin.)</p></li><li><p>Most (important) things have a thick <em>outline</em> to make them stand
+out more.</p></li></ul><p>As I make this game, I&rsquo;m learning more and more about how to deal with
+this perspective. It&rsquo;s a work in progress :p</p><p><strong>Remark:</strong> by now, I also removed the &ldquo;Area&rdquo; from the knives. Looking
+at the code again, I realized I could do <em>everything</em> with that single
+raycast I was shooting. So this simplified the code and made it a bit
+faster. (Just in case there are ever going to be <em>loads of knives</em> on
+screen simultaneously.) Additionally, my engine was complaining that it
+can&rsquo;t re-parent physics objects during the physics calculations. And
+when a game engine complains, you better listen, or you&rsquo;ll run into
+hidden and annoying bugs soon.</p><p>In a similar vein, I modified the <em>raycast length</em> to look <em>further
+ahead</em> if the knife moves faster. Otherwise, if the knife goes <em>really
+fast</em>, it might miss a collision and &ldquo;tunnel&rdquo; through something.</p><h2 id=step-7-some-interesting-details-maybe>Step 7: Some interesting details (maybe)</h2><p>In case you were wondering, this is how I implemented the more unique
+powerups.</p><p><strong>Grow/Shrink:</strong> When setting the shape for a body, I already reposition
+all points so they are around (0,0) (locally). This ensures the shape is
+around the &ldquo;center of mass&rdquo;, which is how it should be.</p><p>This means that, to grow/shrink a shape, I only need to <strong>loop through
+all the points</strong> and <strong>multiply each by a number</strong>. Number greater than
+1? The shape grows. Smaller than 1? It shrinks.</p><p><strong>Morph:</strong> I thought about <em>actually</em> morphing from one shape to the
+next. Then I realized that was too difficult for such a simple game.</p><p>(After some research, I got the general gist of it: convert both shapes
+into a <em>signed distance field</em>, which is just a grid that tells you the
+distance to the closest edge from each cell. Then take a weighted
+average between the two fields, depending on how far you want to morph.
+But by this point I was like: nah, not worth it.)</p><p>So I just drew a bunch of basic shapes in the editor. (I used an image
+as reference and just placed points on top of it.) These are loaded when
+the game starts. When you morph, it picks a random shape from the list,
+resizes it to keep your &ldquo;current size&rdquo;, and then swaps the shapes.</p><p><strong>Reversed controls:</strong> at the start of each frame, I collect player
+input into a vector. When controls are reversed, that vector is simply
+multiplied by -1 before sent to anything else.</p><p><strong>Curved shots:</strong> there&rsquo;s a simple formula for calculating <em>curve</em> on a
+spinning object. You simply calculate something called the <strong>Magnus
+force</strong> and apply it each frame to the velocity.</p><p>This force is defined in 3D, so to make it work in 2D (easily), you just
+need to fake it. Pretend there&rsquo;s a Z-axis, calculate it, then throw it
+away again.</p><p><strong>Boomerang:</strong> boomerangs are easy to implement if you follow a
+simplified model. The boomerang has two states: &ldquo;flying&rdquo; and
+&ldquo;returning&rdquo;.</p><p>When you throw it, it&rsquo;s <strong>flying</strong>. It will just do its thing as always.</p><p>As soon as it hits <em>something</em>, it switches to <strong>returning.</strong> It
+calculates the vector towards its owner ( = the player that threw it)
+and uses <em>that</em> as the new direction. I call this the <em>target velocity</em>.</p><p>Of course, this is a bit <em>too</em> precise. (It just goes back in a straight
+line, probably just the reverse line it just traveled.) To make it
+curve, you simply <em>interpolate</em> between its current velocity and the
+target velocity. To make it even nicer, do a <em>spherical interpolate</em>.
+(Because we&rsquo;re talking about vectors and rotating here.)</p><p><strong>Ice/Skating movement:</strong> The idea is the same as the boomerang curving.
+The player input is the &ldquo;target velocity&rdquo;.</p><p>Normally, the velocity immediately updates to the target.</p><p>When &ldquo;walking on ice&rdquo;, it interpolates, so that each input update is a
+bit &ldquo;delayed&rdquo; and you keep continuing in your original direction.</p><p><strong>A philosophical remark:</strong> It&rsquo;s interesting. Many of the things I use
+in this project I take for granted. Within a <em>two days</em> I had everything
+up until this point, and it still felt like I could&rsquo;ve gone faster.</p><p>But &mldr; then I realized that 80% of the things I&rsquo;m doing were
+<em>impossible</em> to me before the start of this year. Large parts of the
+code in this project are directly copied from other games I made earlier
+this year. There are things I use <em>a lot</em> here (e.g. directly checking
+the world for a collision <em>without</em> requiring an actual body) which I
+didn&rsquo;t even know were possible 6 months ago.</p><p>It&rsquo;s cool to see that progression. It also makes me wonder what stupid
+things I&rsquo;m doing now which will, in 6 months, make me go &ldquo;I wasted 3
+hours on <em>that</em>?! That should be a 5 minute thing!&rdquo;</p><p>It&rsquo;s even funnier when you copy old code and immediately spot a <em>huge</em>
+mistake you made there. Which explains that odd bug that sometimes
+appeared in that specific game :p In a sense, my games literally only
+get <em>better</em> with age.</p><h2 id=step-8-teams--ai---the-forgotten-features>Step 8: Teams & AI - The forgotten features</h2><p>In that similar previous game of mine (<em>Totems of Tag</em>), there were some
+features for which I didn&rsquo;t have time.</p><p>The most important ones were:</p><ul><li><p>Teaming up</p></li><li><p>Computer enemies</p></li></ul><p>(Both of these basically enable the game to be played with much more
+different <em>player counts</em> and <em>player types</em>. Totems of Tag has no
+single player mode. This game should.)</p><p>The first one is relatively easy to fix. In the menu, players should be
+able to press a button to switch teams. In the game, you cannot hit your
+teammates (or you can turn &ldquo;friendly fire&rdquo; on in the settings
+somewhere), and you win if only players from the same team are left
+standing.</p><p>Here's a mockup I made for the &ldquo;game configuration&rdquo; screen. (The final
+one will probably look slightly different, as I figure things out along
+the way.)</p><p><img src=game_config_mockup.webp alt="Mockup of UI"></p><p>In <em>Totems of Tag</em>, I added the configuration as different &ldquo;screens&rdquo;.
+First you had input. Then you got a grid with <em>all</em> ball types in the
+game, and you could select which ones you wanted. Then a grid with <em>all</em>
+powerups. After 4 of those screens, you could start the game.</p><p>It had two advantages: it looked good <em>and</em> encouraged players to check
+out all the content in the game (and try different things).</p><p>But it had a huge disadvantage: you had to go through all screens. It
+took some time. It was annoying, especially on your first play.</p><p>As such, this game will only have that single screen from the image.</p><ul><li><p>Players can be added (or removed)</p></li><li><p>It shows an overview of the <em>current</em> active settings for the game.</p></li><li><p>And you can immediately start (or quit).</p></li></ul><p>If you want to change or see those settings, you can press the indicated
+button. Only <em>then</em> do I switch to the old system of &ldquo;individual
+full-size screens where you can pick the things you want&rdquo;.</p><h3 id=how-to-make-bots>How to make bots?</h3><p>The second feature is, obviously, much harder. How do you make
+competitive AI bots? Ones that can provide a challenge (no matter the
+arena or situation), without being predictable?</p><p>These are things I&rsquo;ve learned from another project I&rsquo;m working on (which
+has many &ldquo;AI&rdquo;-like elements):</p><ul><li><p>There are actions that are &ldquo;always sensible&rdquo;. If you just let the
+computer do those randomly, quite often, it works surprisingly well.
+For example: throwing a knife towards the center of the screen is
+usually worth <em>something</em>.</p></li><li><p>It&rsquo;s better to give the AI <strong>personality</strong>. Instead of one AI with
+fixed parameters/decisions for everything, give them some leeway.
+Make one prefer hiding, another more aggressive, another
+powerup-hungry. Things like these can be <em>random numbers</em> or
+controlled by <em>probabilities</em>.</p></li><li><p>That idea of &ldquo;picking a target&rdquo; and &ldquo;slowly going to it&rdquo; is usually
+what you need. In this case, it&rsquo;s no different. The computer should
+just <em>pick a player to target (sensibly), position themselves for a
+throw, then throw</em>.</p></li></ul><p>Of course, that last part takes time to figure out. Because throwing
+directly at players all the time is certainly not the best move.</p><ul><li><p>Instead of throwing directly at players, computers should <em>predict</em>
+where they will go.</p></li><li><p>If an obstacle stands in the way, there&rsquo;s no use in throwing, so
+they should just chase the player.</p></li><li><p>The computer should be able to see if the <em>other</em> player can hit
+<em>them</em>. If so, prefer walking to a safe location.</p></li></ul><p>Generally, the AI script should</p><ul><li><p>Read the situation around them. (Collect as much meaningful info as
+possible, such as the closest player, average distance to all
+players, etc.)</p></li><li><p>Which gives each possible input a certain &ldquo;score&rdquo;. (If there&rsquo;s
+nobody in sight, the score for &ldquo;throwing a knife&rdquo; should be lower
+than for &ldquo;move towards the action&rdquo;.</p></li><li><p>This score depends on the personality of that AI, which is a
+(somewhat) random set of number and probabilities.</p></li><li><p>And finally pick the option with the best score.</p></li></ul><p>I&rsquo;ll figure out the details over the coming few days, so let&rsquo;s continue
+with something else for now.</p><h2 id=step-9-other-game-modes>Step 9: Other game modes</h2><p>So far, I&rsquo;ve worked on the default game mode: deathmatch. You die if
+you&rsquo;ve become too small. Last player standing wins.</p><p>Pretty basic stuff. Which is also why I wanted to add <em>more</em> game modes.</p><p>When playing, I noticed that the &ldquo;leftover parts&rdquo; (from a sliced player)
+were a bit annoying after a while. They clogged up the field.</p><p>I wrote a script to make them &ldquo;fade out&rdquo; after some time. But that felt
+like a wasted opportunity! Instead, what if we had a game mode where you
+had to <em>collect</em> parts from other players?</p><p>That was the first spark, which led to these game mode ideas:</p><ul><li><p><strong>Deathmatch</strong></p></li><li><p><strong>Collector</strong> => eat slices from other players by moving over them.
+The first to X slices wins.</p></li><li><p><strong>Bullseye</strong> => targets appear across the map, hit them to score
+points. The first to X points wins.</p></li><li><p><strong>Dumplings</strong> => players can eat dumplings to grow themselves. These
+dumplings, then, appear <em>inside</em> your body. When somebody slices
+through them, they take away your dumplings. First to X dumplings
+wins.</p></li><li><p><strong>Dwarfing Dumplings</strong> => each player/team gets <em>one huge dumpling</em>
+to protect. If it becomes too small, you are out.</p></li><li><p><strong>Ropes</strong> => each player has gems attached to them with a rope.
+(Maybe not gems. Just something valuable, Halloween-themed.)
+Obviously, slicing the rope cuts those items loose. Lose all your
+gems and you&rsquo;re out.</p></li><li><p><strong>Capture the Flag</strong> => one player from each team has a <em>flag</em>
+inside of them. However, this is hidden information. (The player who
+has the flag cannot throw knives, that&rsquo;s how they know.) If you
+slice through that player, you capture the flag. The first to X
+captures wins.</p><ul><li>This would require <em>teams</em>. I see no way to adapt it to single
+player or individual players.</li></ul></li></ul><p>I&rsquo;m not sure if I&rsquo;ll be able to make all of them in time. The further we
+get on the list, the harder they become. But the first ones should be
+doable.</p><p>Especially since they share a common core: collect things, win by
+collecting more than a threshold.</p><p>This did leave me with one issue though: <strong>where do I show how many
+things you collected?</strong></p><p>Players can be any size or shape. I already show your <em>powerup</em> and
+<em>orientation</em> on top of you, so there&rsquo;s really no space for a big number
+there. I still didn&rsquo;t want to add <em>interfaces</em>. So what to do?</p><p>Then I remembered a trick I used in an earlier game: <strong>making the
+interface part of the level.</strong></p><p>What if each player had a &ldquo;home base&rdquo; (just an image of a small castle,
+or something) that was simply <strong>part of the level</strong>? Then I&rsquo;d have a
+logical, easily visible location to show how many a player has
+collected.</p><p>In fact, this can add to the challenge. Instead of increasing your
+counter <em>immediately</em>, you first need to successfully bring you items
+<em>to your home base</em>.</p><p>In the end, the first few modes were indeed relatively easy, as they
+share a common core: be the first to collect X of the same thing. That&rsquo;s
+easy to generalize, even if the thing (and how you collect it) is wildly
+different.</p><p>The later modes proved much harder. And as I didn&rsquo;t have much time, I
+decided to focus on some core gameplay elements first. (And only make
+the extra modes if time permits.)</p><h2 id=step-10-finishing-the-basics-adding-the-content>Step 10: Finishing the basics, adding the content</h2><p>I&rsquo;ve been testing the game a lot, obviously, and tweaked many things.
+Here&rsquo;s an incomplete list:</p><ul><li><p>Increased physics FPS + fixed a stupid bug in my code to get rid of
+<em>all</em> tunneling issues.</p></li><li><p>Added many improvements to things that weren&rsquo;t bugs, but still
+didn&rsquo;t suit the gameplay. (For example, if you only slice someone
+&ldquo;halfway&rdquo;, it does nothing. Because you didn&rsquo;t <em>fully</em> go through
+them. It&rsquo;s realistic &mldr; but not so much fun, and not what players
+expect. So I extend those halfway slices to go through something
+completely, in most cases.)</p></li><li><p>You can only pick up powerups <em>after</em> you sliced them ( = &ldquo;unpacked
+them&rdquo;). I also made them way more visible, with a thick outline, a
+flickering animation, a bigger size, etcetera. It was just better,
+as it prevented &ldquo;accidentally triggering powerups&rdquo; and made the
+screen less chaotic.</p></li><li><p>Added clear indications <em>who</em> owned a knife. (Its outline is the
+color of the owning player. If it&rsquo;s free for all, it has a rainbow
+outline.)</p></li><li><p>Added many effects and animations to slicing. This makes it more
+impactful, but also more clear. (Until now, it could happen that you
+sliced someone &mldr; and the body parts stayed together quite well, so
+you didn&rsquo;t even know exactly <em>how</em> you sliced the other.)</p></li><li><p>Added <em>probabilities</em> to powerups, because some are <em>way</em> more vital
+than others. (The &ldquo;extra knife&rdquo; powerup is huge, as you only start
+with a single knife, which you can even lose. Something like &ldquo;move
+slower&rdquo; is much less important, in that sense.)</p></li></ul><p>I&rsquo;m still unsure about the moving and aiming inputs. It feels like a
+different control scheme might be easier. This was the main contender:
+<strong>Use left/right arrows to <em>rotate left/right</em>. Use up/down to move
+<em>forward/backward</em>.</strong></p><p>Another idea was: <strong>shoot automatically on timed intervals (e.g. every 5
+seconds).</strong> This means players aren&rsquo;t required to press/hold the button,
+making the game more accessible and easy to control &mldr; but also
+limiting my options.</p><p>As always: I don&rsquo;t know until I test it.</p><p>What do I think? <strong>Yes, I think this should be the default.</strong> It&rsquo;s not
+that it&rsquo;s <em>obviously better</em>.</p><p>But here&rsquo;s why I chose this new control scheme:</p><ul><li><p>It&rsquo;s a game about aiming. If you can only rotate <em>by also moving in
+that direction</em>, it actually makes aiming quite annoying.</p></li><li><p>(Usually, this is solved by adding a second button or a mouse. For
+example, shooters usually allow you to move with <em>left joystick</em> and
+aim with <em>right joystick</em>, independently. However, as this is a
+local multiplayer game for 1-8 players that also supports keyboard
+&mldr; I can&rsquo;t do that.)</p></li><li><p>It&rsquo;s a top-down game where rotation is vital. Moving in four
+directions only makes sense (and is probably always the best option)
+when rotation does not matter.</p></li></ul><p>The downsides of the new scheme are:</p><ul><li><p>Can&rsquo;t control when you throw your knife. (Although we can modify
+this with, for example, powerups that increase the speed of
+throwing.)</p></li><li><p>It might take some players an extra step to understand it. (&ldquo;Always
+move in the direction of the key you press&rdquo; is more intuitive at
+first glance.)</p></li></ul><p>As such, the old control scheme will be fully supported and is something
+you can turn on in the settings.</p><p>With that done, all the basics and essential mechanics/systems/rules are
+in the game. Now it&rsquo;s time to add the content: arenas, special
+elements/items/locations, and of course loads of polishing with sound
+effects and particles.</p><h2 id=step-11-arenas>Step 11: Arenas</h2><p>Earlier you already saw the first few attempts at an arena (the
+&ldquo;graveyard&rdquo;).</p><p>These taught me that I need to make them <em>bigger</em> and leave <em>enough room
+for players of any size</em>. They also taught me that playing with lighting
+and weirdly-shaped physics objects is cool.</p><p>Lastly, as this is a game about <em>slicing</em> things (realistically, any way
+you want), I feel like that should be prominent feature in any arena.</p><p>First ideas were: an arena which is almost completely filled and you
+need to <em>slice</em> your way through it. (Like an overgrown jungle where you
+need to cut all these vines to get a path for yourself.)</p><p>An arena with big blocks that can be sliced sometimes, but deflect
+knives at other times. (This way, the possible deflections in the level
+constantly change.)</p><p>Things like this. All with a bit of a Halloween theme, although it&rsquo;s not
+too strong, as I don&rsquo;t like games having time-limited appeal.</p><p>This is the final version of the graveyard. It has some more decorations
+(such as the gates), which is mostly to reinforce the perspective and
+add more depth. (Otherwise it just looked too &ldquo;flat&rdquo; and &ldquo;basic&rdquo;). If I
+had more time, I&rsquo;d add way more tiny decorations, such as bits of grass,
+imperfections on the tombstones, flowers around them, etcetera.</p><p>(As always, we&rsquo;re doing a &ldquo;one week game&rdquo; here, which means I need to
+strip any fancy stuff that is &ldquo;non-essential&rdquo;. If the game turns out
+good, or I feel motivated, I can <em>always</em> improve it later. Conversely,
+if I spend all my time now on drawing one beautiful arena, the game
+might never even see the light of day.)</p><p><img src=graveyard.webp alt="Graveyard Arena"></p><p>I decided it might be better to start with a &ldquo;simpler&rdquo; map that was a
+bit more intuitive, so I created &ldquo;the spooky forest&rdquo;.</p><p><img src=spooky_forest.webp alt="Forest Arena"></p><p>This screenshot made me realize the light was too dark and players
+probably need their own (weak) circle of light anyways. Some of the
+trees are also interactive &ndash; some can be chopped down (creating more
+space), others auto-throw knives once in a while.</p><p>I also made knives more visible with unique colors <em>and</em> a &ldquo;flickering&rdquo;
+effect when they are standing still (indicating they can be picked up by
+<em>someone</em>).</p><p>Then I wanted a map where <em>almost the full map</em> consisted of sliceable
+objects. This is how the &ldquo;dark jungle&rdquo; was born.</p><h2 id=step-12-controls-now-properly>Step 12: Controls, now Properly</h2><p>I was able to do a quick playtest. (Very quick, just 10 minutes with a
+random family member.)</p><p>The problems were &mldr; stupid and obvious, in hindsight.</p><ul><li><p><strong>Too few knives</strong>. (If you&rsquo;ve thrown a knife &mldr; you also can&rsquo;t
+open powerups. So there&rsquo;s no way to get another knife, unless
+someone gifts it to you.)</p><ul><li><p><strong>Solution?</strong> Start with more knives. Regularly, spring open a
+powerup (automatically) and set it to &ldquo;extra knife&rdquo; type.</p></li><li><p><strong>What makes it worse?</strong> The &ldquo;quick slash&rdquo; action is a bit
+overpowered, as you don&rsquo;t lose the knife after doing it. This,
+combined with knives being a rare commodity, causes people to
+only use this! => There&rsquo;s now a 5 second cooldown on it, and you
+don&rsquo;t need to hold the button very long to make it a throw.</p></li></ul></li><li><p><strong>Controls.</strong> The idea of &ldquo;rotate left/right&rdquo; (instead of move in
+four directions) was added to make <em>precise aiming</em> possible on
+keyboard. On controller, it&rsquo;s obviously not necessary, as you can
+aim anywhere with joystick. <em>Additionally</em> &mldr; there&rsquo;s no need to
+turn this on during movement. I can just switch to those controls
+<em>during aiming</em>.</p></li></ul><p>Otherwise, things worked as expected, the menus worked (and looked
+really nice), and it&rsquo;s starting to become a game!</p><p>Some other minor tweaks were:</p><ul><li><p>The fact that you lose ownership of your knife when it gets stuck is
+now an <em>optional rule</em> you can turn off if you want.</p></li><li><p>When you&rsquo;re smaller, you move slower. (So that the &ldquo;relative speed&rdquo;
+stays the same. Otherwise, it would feel like you were <em>racing</em> over
+the field if you were small. Which felt weird and &ldquo;off&rdquo;, but also
+gave you a significant benefit, as you were much harder to hit.</p></li><li><p>By default, players start with random shapes. (I have a list of 20
+basic shapes, like rectangle, circle, triangle, hexagon, etc.)
+Again, there&rsquo;s an option <em>&ldquo;everyone starts as a pumpkin&rdquo;</em> you can
+turn on.</p></li><li><p>Decided to add all &ldquo;special objects&rdquo; as powerups, to keep the game
+streamlined. It also prevents me from having to <em>explain</em> each
+special object with an in-game tutorial, as powerups are explained
+in the settings menu when you hover over them/turn them on.</p><ul><li>Example: dumplings are powerups now.</li></ul></li><li><p>Also added some other really useful powerups to enable by default.
+Such as &ldquo;repel knives&rdquo;: repel any hostile knives near you, which is
+basically a shield but more fun/dynamic.</p></li></ul><h2 id=step-13-bots>Step 13: Bots</h2><p>Earlier I gave a general idea of how bots should work.</p><p>After thinking about it for quite a while, I realized I needed to stop
+thinking about it. <strong>I needed to draw a diagram.</strong></p><p>Unfortunately &mldr; I lost that diagram. I know, I&rsquo;m an idiot, in the
+future I&rsquo;ve learned to insert images/GIFs <em>immediately into the devlog</em>
+as I see the need, instead of wait until the game releases.</p><p>It can be summarized as:</p><ul><li><p>Immediate threat? Drop everything and avoid it.</p></li><li><p>Can&rsquo;t do anything because we&rsquo;re out of resources? Find a resource
+(most likely a knife.)</p></li><li><p>Something useful nearby for the long-term goal? Grab it.</p></li><li><p>Still here? We have time and space to attack!</p></li></ul><p>By changing the weights and probabilities, I can make bots more
+&ldquo;defensive&rdquo; (prioritizing the first few parts) or &ldquo;aggressive&rdquo;
+(prioritizing attack, even if the other conditions aren&rsquo;t met).</p><p>Avoiding obstacles uses a basic dynamic physics check:</p><ul><li><p>Shoot a few raycasts ahead of us</p></li><li><p>If any of them hit, we can&rsquo;t move there. So try the same movement,
+but rotated to the left and right.</p></li><li><p>Continue rotating further and further, until we have safe passage.</p></li><li><p>If we had to rotate a lot, the bot goes into &ldquo;stuck&rdquo; mode and <em>tries
+to get away from all obstacles</em> for the next 0.5-1 seconds. (It
+doesn&rsquo;t do anything else.)</p><ul><li>If we don&rsquo;t do this, it will keep rotating endlessly, without
+ever moving out of that space. This fix isn&rsquo;t ideal, but it
+solves 95% of the cases.</li></ul></li></ul><p>This works quite well, better than expected! Bots are quite a challenge
+already and mostly feel like you&rsquo;re playing a smart human being.</p><p>But as I said, it&rsquo;s not <em>perfect</em>. Bots always have this issue: there
+are situations in which a <em>human player</em> would easily see what to do,
+but a bot just gets lost and does something idiotic.</p><p>Bots can still get stuck and will just stand there helplessly,
+especially if they&rsquo;re shooting for a target that&rsquo;s <em>just</em> on the other
+side of a wall.</p><p>To solve this, we could use actual <em>pathfinding</em>. Godot has
+&ldquo;NavigationMesh&rdquo; built-in, which I&rsquo;ve never used before, but looked like
+the perfect fit.</p><p>To use it, I</p><ul><li><p>Draw one big mesh for the whole map</p></li><li><p>Cut out all static bodies. (So they are &ldquo;holes&rdquo; in the
+NavigationMesh.)</p></li><li><p>Tell the bot to find a path between its current position and its
+target, staying inside this NavigationMesh.</p></li><li><p>Then just walk that path.</p></li></ul><p>This <em>also</em> was surprisingly easy. With one big caveat: bodies that
+overlapped the edge of the screen would cause trouble. (It cannot create
+a proper navigation mesh if some of it extends beyond the bounds.)</p><p>Solution? Modify the points of that shape to stay within the screen.</p><p>The problem with that? Whenever a bot wanted to go near the edge, it
+would find a path <em>along the border of the screen</em>, as there was 0.0001
+free space there due to floating point precision errors. Which led to
+paths that didn&rsquo;t actually exist.</p><p>To solve it, I</p><ul><li><p>Check if a path does something like this. (One of the points is an
+edge point.)</p></li><li><p>If so, set the target <em>halfway</em> the real target. Check if the path
+is still wrong.</p></li><li><p>Continue until the path is valid.</p></li><li><p>Because bots re-check targets each frame, it doesn&rsquo;t matter if we
+get only halfway. Because, when we&rsquo;re there, it would just calculate
+the next half from there.</p></li></ul><p>I thought this worked great, but &mldr;</p><p>The day after, I discovered this was just a &ldquo;happy accident&rdquo; and there
+were actually many more issues with the code.</p><p>It would fail to generate a navigation mesh for like 80% of the
+situations. Sometimes I could trigger this crash by just moving a single
+body <em>one pixel</em> to the right.</p><p>I searched, and tried, and recoded for <em>hours</em>. Eventually, the crashes
+were the result of <em>several mistakes</em> coming together, instead of being
+caused by a single error.</p><ul><li><p>Overlapping bodies aren&rsquo;t possible in navigation meshes. So adding a
+body that overlapped with one already added, would just crash it.</p></li><li><p>My code for moving points inside the bounds was flawed. It simply
+<em>forced</em> a point to the nearest edge, but this could lead to
+multiple points (in the same shape) being forced to an identical
+spot, causing illegal polygons.</p></li><li><p>The navigation mesh does not take the size of the player body into
+account: it just generates a path of zero-width lines through the
+allowed area. So I had to grow all shapes myself (by a reasonable
+amount) to make it actually work.</p></li></ul><p>In the end, I learned that Godot (my game engine) has this <strong>amazing</strong>
+Geometry class built-in. It allowed me to <em>merge</em> any overlapping
+polygons into one, and <em>clip</em> any parts of polygons that exceeded the
+screen area, and <em>inflate/deflate</em> shapes as needed. All with three
+lines of code. And it runs fast, on any arena I&rsquo;ve tested so far.</p><p>If I&rsquo;d known this before, coding the main mechanic (&ldquo;slicing stuff
+realistically&rdquo;) would also have been <em>much</em> easier :p But hey, now I
+know, and I already see cool game ideas in my future.</p><p>With that done, bots are at least really good at navigating the map and
+aiming. Being fun to play against will have to be something I finetune.</p><h2 id=step-14-bringing-it-all-together>Step 14: Bringing it all together</h2><p>At this point, it was just about adding more content, fixing the flaws,
+and polishing the gameplay.</p><p>I must admit this is <em>very hard</em> for me to do. For three reasons:</p><ul><li><p>These are local multiplayer games, so I really need other people to
+test it. And other people are busy or might not feel like doing so.</p></li><li><p>This is the &ldquo;moment of truth&rdquo;. Here we see if the game is <em>actually</em>
+as fun as I&rsquo;d hoped, and if things really work and click with
+people.</p></li><li><p>I&rsquo;m more of an inventor than a creator. I come up with unique ideas
+all the time, am motivated to try them, and (over the years) trained
+myself to actually <em>be able to make basically anything I come up
+with</em>. But when the idea has been tested &ndash; the prototype built, the
+algorithm invented, its feasibility determined &ndash; my head is like:
+&ldquo;what&rsquo;s next? What&rsquo;s something you haven&rsquo;t done before? Do that
+now!&rdquo; I really need to stay disciplined to finish my projects and
+polish them.</p></li></ul><p>To overcome this, I usually list <em>all the things I need to do</em>, with as
+much specificity/detail as possible. This way, they are &ldquo;5 minute
+tasks&rdquo;, which I can cross off and &ldquo;power through&rdquo;. I shut down any inner
+critic and just work my way through.</p><h3 id=the-list>The list</h3><p>These were the main things to do:</p><ul><li><p>Sound effects (and soundtrack) &ndash; already had some melodies written
+though</p></li><li><p>Particles and animations (mostly related to <em>feedback</em> about what
+you&rsquo;re doing)</p></li><li><p>Making at least 3 playable arenas and modes</p></li><li><p>Figuring out what to do with &ldquo;throwables&rdquo; => I&rsquo;m not sure if I
+should actually make a category of different things to throw, or
+just shove some of it under &ldquo;powerups&rdquo; and ignore the rest.</p></li></ul><p>For each, I&rsquo;d written a list (almost a full A4 per category) of the
+<em>exact things I need</em>. Like: (sound effects) slash, walk, menu click,
+menu scroll, grab knife, die, game start, &mldr;</p><p>And then I muster as much motivation as I can and do it!</p><p>The soundtrack turned out better than expected! I simply combined many
+&ldquo;Halloween&rdquo; sounds with a simple, catchy melody I came up with over
+dinner. (Remember, this is a One Week Game, the timespan between &ldquo;I need
+an idea => I need to implement it&rdquo; is usually less than an hour.)</p><p>After many games, sound effects and particles are also starting to be
+come less of a hassle. (I copied two sound effects from an older game,
+namely those for the <em>UI Buttons</em>, as I saw no need to change that or do
+something unique here.)</p><p>After some more testing (and more ideas implemented), I realized I
+needed an <em>even simpler</em> starting arena. That&rsquo;s how Ghost Town was born:</p><p><img src=ghost_town.webp alt="Ghost Town random screenshot"></p><p>It&rsquo;s a mostly open arena, with the ruins of an old town. The openness
+was necessary to allow good movement and knife throwing lines, making it
+a good start to the game.</p><p>Nevertheless, it still has enough structures to hide behind. Each wall
+(without exception) gets your knife <em>stuck</em>. This means there are no
+deflections, and you always need to run after the knife you just threw,
+making it an even better starting arena.</p><p>This structure of (half)walls leads to some cool shadows (from the
+lanterns attached to the wall.)</p><p>But, as always, there&rsquo;s a catch: every X seconds, the arena switches
+from day to night (or vice versa). At night, obviously, some players
+turn into ghosts and a big <em>ghost knife</em> appears. It can go through
+walls and follows the nearest player like a homing missile.</p><h3 id=answering-the-last-question>Answering the last question</h3><p>When I wanted to implement that ghost knife, however &mldr; I realized
+there was no good way to do it. The current code for knives was
+<em>completely specific</em> to how knives worked (and mostly resided in a
+single script) and written at the very start of the game.</p><p>If I wanted to implement different knife types, I&rsquo;d have to rework the
+whole thing into smaller, cleaner, more manageable modules. Well &mldr; if
+I have to do that anyway, I might as well add support for any type of
+&ldquo;throwable&rdquo; and thereby answer my last question.</p><p>Yes, the game will have a separate category of throwables, which will
+include things like a <em>boomerang knife</em> or <em>Thor&rsquo;s hammer</em> (if you press
+<em>throw</em>, all hammers you&rsquo;ve thrown will fly back into your hand). It was
+just the best option, especially if I ever decide to improve the game
+after my Halloween deadline.</p><p>(One thing that always helps me answer the question &ldquo;do I need to
+subdivide this into smaller categories?&rdquo; is looking at the UI. When
+navigating the settings, the <em>powerups</em> screen is currently (by far) the
+fullest.<br><br>It&rsquo;s so full that I can&rsquo;t add more than 5 powerups without breaking the
+code, because it cannot position all sprites nicely on screen. Hence, it
+seems that splitting <em>powerups</em> and <em>throwables</em> is the better idea, as
+it will lead to <em>two</em> separate, clean screens.)</p><p>One day was spent on the first three points and rewriting the
+&ldquo;throwable&rdquo; code.</p><p>The next day was spent <em>actually (fully) implementing</em> throwables and
+fixing many issues with the current arenas and feedback.</p><p>And then, finally, on the last day I could add more content at a more
+leisurely pace: some new arenas, some modes that finally work, some
+extra throwables.</p><h2 id=step-15-playtest>Step 15: Playtest</h2><p>I was able to playtest the game (more thoroughly than the last time)
+with 5 players. (4 on controller, 1 on keyboard)</p><p>My play group is a bunch of inexperienced gamers (with, sometimes,
+someone who plays games regularly thrown in). Which is both a blessing
+and a curse.</p><p>The curse is that they don&rsquo;t really have that &ldquo;gaming mentality&rdquo; and
+will not be interested in anything more than the bare basics of the
+game.</p><p>The blessing is that it <em>immediately</em> pinpoints <em>any</em> part of the game
+that&rsquo;s not simple/intuitive/clear/fun enough.</p><p>The major takeaway from the playtest was:</p><ul><li><p>People don&rsquo;t use the system of &ldquo;quick slash vs long throw&rdquo; properly.
+They just keep mashing buttons in the hopes of hitting someone,
+running into them over and over &mldr; and it rarely works.</p></li><li><p>Arenas (and modes) are only explained once you get to the <em>settings</em>
+screen and want to change it. This means there is <em>no</em> explanation
+at all on your first playthrough, which is <em>exactly</em> the moment you
+need it!</p></li><li><p>Players kept being annoying by <em>hoarding knives</em> yet <em>never
+releasing them</em>.</p></li><li><p>Dead players had nothing to do.</p></li><li><p>Quite a few game-breaking, significant bugs.</p></li></ul><p>After asking the players, looking at the footage (I always record these
+sessions), talking about it, I decided on these solutions:</p><ul><li><p><strong>Quick slashing is gone</strong>. It only clogs up the game. The idea is
+nice, the reality is that it doesn&rsquo;t fit. Any button press will
+<em>throw</em> your knife. (This also allows me to remove some of the
+indicators and powerups for quick slashing, tightening the game
+further.)</p></li><li><p><strong>Players cannot move through each other</strong>. In fact, you are even
+<em>repelled/bounced back</em> if you come too close.</p><ul><li><p>This removes a lot of the &ldquo;messiness&rdquo; from people running
+through each other.</p></li><li><p>It does mean players need to be a bit <em>smaller</em>, otherwise it
+doesn&rsquo;t fit.</p></li><li><p>You <em>can</em> go through players of the same team, as I don&rsquo;t see
+why not, and it would help a lot with spacing.</p></li></ul></li><li><p>The first arena should <strong>be even simpler</strong> (so it needs <em>no</em>
+explanation). No special rules or funny stuff, nothing that could
+trip you up.</p></li><li><p>There should be a &ldquo;quick text explanation&rdquo; for your current mode
+<strong>every time</strong>. (For the first mode: &ldquo;Throw knives at others to
+slice them. Too small? You&rsquo;re dead.&rdquo; It just pops up for two
+seconds, then fades away, then the game properly starts.)</p></li><li><p>More <strong>feedback.</strong> (Wanted to do this anyway, but its importance was
+highlighted here.)</p></li><li><p><strong>Lower limit</strong> on holding stuff. If you&rsquo;re at maximum, or haven&rsquo;t
+thrown in a while, the system <strong>automatically throws</strong> a knife for
+you.</p></li><li><p>I don&rsquo;t see a clear thing that <strong>dead players</strong> could do <em>in any
+mode/arena</em>. Instead, I&rsquo;ll do specific things per arena. (For
+example: Ghost Town? Dead players can <em>control</em> the ghost knives.
+Graveyard? You become a tombstone that can still throw any knives it
+receives.)</p></li></ul><p>Besides that, there were <em>tons</em> of situations which resulted in the game
+being unplayable for some (or everyone). This is normal, as playtesting
+is a real &ldquo;stress test&rdquo; for a game, it&rsquo;s just annoying that it happens
+every time :p</p><p>For example, some players would randomly <em>blow up</em> (become 100x larger),
+until they were so big they disappeared from the game entirely.</p><p>Bugs like that are quite invisible, yet <em>must</em> be fixed 100%.</p><p>Only near the end, someone said &ldquo;it&rsquo;s when I grabbed one of those&rdquo; and
+pointed at a specific powerup. And wouldn&rsquo;t you guess it: it was one of
+the first powerups I implemented, but the underlying systems had
+changed, so it was buggy as hell.</p><p>So yeah, a lot of work ahead of me to fix these things. But players
+actually had loads of fun, the game was very easy to get into and play,
+and they specifically complemented the visuals/slicing/lighting effects.
+And seeing them play the game and their process of understanding it
+makes me very certain these changes <em>are more than worth it</em>.</p><p><strong>Remark:</strong> also, I completely forgot to explain in-game that powerups
+need to be <em>sliced</em> to open them. And I also forgot to tell you about it
+in this section. This means, to me, that the mechanic must certainly be
+explained <em>clearly and obviously</em> somewhere. Or that it&rsquo;s not intuitive
+enough and should be removed.</p><p>After some thinking, I decided to <em>implicitly teach it</em> by forcing
+players to experience it in the first arena. This is the idea: powerups
+are placed at locations where players will accidentally slice them.
+(They do not &ldquo;auto slice&rdquo; themselves.) For example, just behind a
+<em>shrub</em> or <em>vine</em> that is sliceable.</p><p>After repeating this a few times, players should (hopefully) understand
+what&rsquo;s happening.</p><h2 id=conclusion>Conclusion</h2><p>This devlog became way longer than I thought (or hoped).</p><p>Surprisingly, that doesn&rsquo;t actually mean the <em>development</em> of the game
+took longer. I worked <em>really</em> hard and actually managed to get it all
+done in time for Halloween.</p><p>It&rsquo;s just that I solve most of my issues by writing about them, which
+means I usually do this:</p><ul><li><p>Spent an hour writing the devlog</p></li><li><p>Discover what I need to do</p></li><li><p>Do that in 30 minutes</p></li></ul><p>Instead of this:</p><ul><li><p>Try to figure out what I need to do</p></li><li><p>And finally succeed after 2 hours</p></li></ul><p>It&rsquo;s what works for me.</p><p>Anyway, the game turned out great! I think it looks good (especially the
+menus and everything <em>around</em> the content got some love this time), it&rsquo;s
+really easy to teach and play, yet offers many possibilities and
+interesting situations.</p><p>It&rsquo;s also another step up from previous games. They did not have:</p><ul><li><p>Teaming up</p></li><li><p>Bots</p></li><li><p>As much content/variety as this one</p></li><li><p>A streamlined and good-looking interface. (They had parts of it, but
+there were always big areas of improvement to be seen.)</p></li><li><p>Dynamic slicing of player shapes :)</p></li></ul><p>Because of this game, I learned how to do all those things above. I also
+learned more methods of dealing with shapes, how my game engine (Godot)
+has built-in functions that really simplify that, and improved some of
+my older code.</p><p>(For example, earlier projects didn&rsquo;t have the possibility of <em>leaving</em>
+after you&rsquo;ve added a player. You&rsquo;d have to restart the whole game if you
+accidentally plugged in a controller too many or somebody had left. Now
+there&rsquo;s proper support for that.)</p><p>This means I can build future projects on that codebase and the next
+game(s) will become even better!</p><p>If I had more time, I would certainly:</p><ul><li><p>Go back to the drawing board to rethink some of the core mechanics
+of the game. Because, well, it only has <em>one</em> (realistic slicing)
+and I don&rsquo;t even use it that much. I&rsquo;m sure I can become more
+creative with it and use it for more.</p></li><li><p>In hindsight, perhaps I should have done away with powerups
+entirely. Instead, <em>throwables</em> should be the powerups. (Holding
+something = you get the effect.) This would greatly simplify the
+game and lead to unique mechanics.</p></li><li><p>Add more arenas and modes ( + really streamline/polish them)</p></li><li><p>Improve some of the surrounding elements, such as marketing
+(trailer), and playtest the game <em>much more</em> to improve it.</p></li></ul><p>But besides that &mldr; I think the game is surprisingly complete in all
+ways. A good sign of things to come.</p><p>Until the next devlog,</p><p>Pandaqi</p><p>(The devlog doesn&rsquo;t actually end here, as this was just version 1 and I
+did a big update <em>after</em> Halloween for the paid version. But you can
+stop here if you want.)</p><h2 id=post-release-more-fixes--lessons>Post Release: More fixes & lessons</h2><p>I raced through development to release the game (well) before Halloween.</p><p>Of course, once released, I took a break for a few days, then dove back
+in to fix all sorts of obvious issues.</p><p>The biggest one had to do with core mechanics: it just wasn&rsquo;t fun to hit
+players from nearby. It defeated the purpose of the game, which was all
+about <em>throwing</em> stuff.</p><p>After some thinking, I decided to &ldquo;subtly&rdquo; encourage players to play
+this way and try keeping their distance to others:</p><ul><li><p>Throwing from <em>really close distance</em> (basically standing on top of
+the other) does not slice them and gives the feedback "Too close!"</p></li><li><p>Throwing from <em>quite nearby</em> has a probability of being succesful,
+which gets higher the further you get away.</p></li><li><p>Then there's a big range where throwing will always be succesful
+and slice your opponent.</p></li><li><p>But if you manage to hit someone from the other side of the field,
+you get a "Long throw!" reward. (Causing your knife to gain speed
+again, your body to grow, and to slice the other player <em>twice</em> if
+you're lucky.)</p></li></ul><p>(This is only applicable to players. Any other objects in the
+environment are still sliceable by any hit, as it would just be annoying
+to put restrictions on that.)</p><p>Then I spent almost a whole day fixing tiny issues with the UI &ndash; both
+the menus and in-game things &ndash; and rewriting some code to be much
+cleaner (and more generally applicable in the future).</p><p>This is an interesting experience, as it usually reveals what the game
+<em>should have been</em> :p Now, after actually making and testing the whole
+game, I have a much clearer picture of which parts I need and which I
+don&rsquo;t.</p><p>The biggest examples are:</p><h3 id=realization-1>Realization #1</h3><p><strong>Realization #1:</strong> It&rsquo;s a game about slicing stuff. Yet most arenas had
+nothing that could be sliced (besides the players, obviously).</p><p>Now, retroactively, I added elements to <em>all arenas</em> that can be sliced.
+But I just didn&rsquo;t think about this beforehand. Most of these elements
+<em>have no functionality</em> and are purely for decoration and the
+satisfaction of destroying the arena :p</p><h3 id=realization-2>Realization #2</h3><p><strong>Realization #2:</strong> It&rsquo;s a game about throwing stuff. In the first
+version, all throws were a straight line &mldr; always. (Unless you had a
+boomerang of course, but that&rsquo;s a special type that only sometimes
+appears.) After making some arenas, I found much more enjoyable/varied
+ways to throw.</p><p>The swimming pool has a <em>drain</em> that sucks knives towards it, with the
+result that anything flying past is <em>curved</em> around it. This looks cool,
+is logical/intuitive, <em>and</em> has clear gameplay applications. I wish I&rsquo;d
+known this sooner!</p><h3 id=realization-3>Realization #3</h3><p><strong>Realization #3:</strong> It&rsquo;s more fun to give players <em>more than they need</em>,
+than to hold back in fear of adding too much.</p><p>After the first playtest, it was clear that players were just <em>swimming</em>
+in knives. They were too easy to get and never disappeared!</p><p>My first instinct is, of course, to lower the numbers. Make them appear
+less frequently. Make it much harder to get a knife. Set hard, low
+limits.</p><p>But that&rsquo;s the wrong way of thinking. Players really <em>enjoyed</em> the fact
+that it was so easy to get something to throw.</p><p>So I decided to keep it this way.</p><p>Instead of scaling back the knives, I added a unique way to <em>lose
+knives</em> in each arena. A way that can happen accidentally <em>or</em> if you
+choose to use it. A way that fits the arena, the setting, the gameplay.</p><p>It is, again, something I should&rsquo;ve done from the start. Luckily I only
+made a few arenas for that first version, so I was able to adjust course
+for all the arenas afterwards.</p><h3 id=realization-4>Realization #4</h3><p><strong>Realization #4:</strong> In the same vein, in a competitive party game (about
+eliminating others) &mldr; players are going to be dead a lot of the time.</p><p>If the rounds are <em>really</em> quick, this is fine. (Elimination is actually
+a <em>great</em> source of tension in a game, as there&rsquo;s no coming back from
+it.)</p><p>But with this game, especially on the full 6-8 players, rounds can be a
+bit longer and you can stay dead a while.</p><p>The solution? Again, a <em>unique thing</em> in each arena that dead players
+can do or at least interact with.</p><p>This means that, over a week of development, a sort of &ldquo;arena bible&rdquo;
+appeared that said:</p><ul><li><p>It should have something for dead players to do. (Not too
+overpowered, but enough to influence gameplay somewhat.)</p></li><li><p>It should have lots of things to slice, either purely for decoration
+or with gameplay influence.</p></li><li><p>It should have a unique way to <em>lose</em> throwables.</p></li><li><p>It should have a unique color scheme. (Just looks nice in general
+and distinctive in the settings.)</p></li><li><p>It should have <em>one</em> completely unique rule or mechanic that&rsquo;s not
+found, in any way, in the other arenas.</p></li></ul><h2 id=towards-v2-another-playtest>Towards V2: Another playtest</h2><p>Albeit delayed (for many reasons), it&rsquo;s now one month after Halloween,
+and I&rsquo;m still working towards that big (paid) v2 release.</p><p>We just did some playtesting for it, and here are the results.</p><p>(First of all, there were obviously bugs. But we&rsquo;re now at a stage where
+none of them are game-breaking, just minor things that don&rsquo;t go exactly
+as intended.)</p><h3 id=realization-1-1>Realization #1</h3><p><strong>Biggest realization: the game should be simplified even more,
+especially at the start.</strong> By adding the second 50% of the content
+(extra arenas, extra throwables), you easily lose sight of the first
+50%. Instead, that becomes harder and more muddled as well, until the
+game has become a bit unfriendly to newcomers.</p><p>Another realization that goes hand in hand with that is: <strong>UI elements
+should be bigger and stay on the screen longer.</strong></p><p>In concrete, I wrote down these notes:</p><ul><li><p>Add another arena at the start. This one has <em>no powerups</em>, everyone
+starts with <em>X knives</em> (and none can be added/removed), and there
+are <em>no specialties</em>. This is literally the &ldquo;training arena&rdquo;</p><ul><li>That&rsquo;s also the general state in which you start: only knives,
+no dumplings or other throwables, no extra rules enabled.</li></ul></li><li><p>Larger UI elements</p></li><li><p>Larger feedback + wait longer before it fades out</p><ul><li>Also, <em>more</em> feedback. Seeing your playtesters do crazy shit is
+a great wake-up call about how many things <em>don&rsquo;t</em> have adequate
+feedback</li></ul></li><li><p>Reminders stay on screen longer ( + can&rsquo;t be skipped by accident)</p></li><li><p>Larger minimum size for players. (Which means they stay more
+visible + die earlier) => also a strict minimum size you can never
+go under, even in modes where you cannot die</p></li><li><p><strong>Your active knife is always at the front</strong></p></li></ul><p>Especially the last one should be huge. This idea of &ldquo;wherever a knife
+enters, that&rsquo;s where you throw it from&rdquo; is <em>nice</em> and will stay in the
+game &mldr; but not enabled by default.</p><p>Why? When we playtested the game, I had been away from it for ~4 weeks.
+(I deemed the game finished and was just waiting for the playtest.)</p><p>When I picked up the controller &mldr; I was surprised by my own controls
+:p It took me at least a minute to realize what was happening and how to
+adjust, and even then it was quite difficult.</p><p>Even me, the developer, expects that the thing we&rsquo;re throwing is right
+in front of us. It&rsquo;s just the natural, intuitive way to think about
+throwing and aiming. So it should be the default.</p><p><strong>Remark:</strong> in hindsight, I should also have left some room for error.
+Now, when a knife just <em>barely</em> glides past your body, it might either
+mean &ldquo;no hit at all&rdquo; or &ldquo;a way bigger slice than expected&rdquo;. The physics
+are completely realistic in that regard and just calculate the precise
+line through the object. Instead, I should&rsquo;ve done something like: &ldquo;a
+tiny hit is no hit, any other hit is <em>at least</em> this damaging&rdquo;</p><h3 id=realization-2-1>Realization #2</h3><p><strong>Another realization: the game is just full of <em>stuff</em>, and the players
+too <em>small</em>.</strong></p><p>I&rsquo;ve learned now that this is an inherent issue with this game idea:
+because you win by slicing other players ( = making them smaller) &mldr; as
+the game continues, it becomes <em>harder and harder</em> to see yourself and
+others.</p><p>There&rsquo;s no way around it. The problem is baked into the game idea.</p><p>(We could&rsquo;ve fixed this by reversing the core idea. Your goal is to be
+the first one to reach size X. This way, other players can <em>delay</em> you
+by slicing you, but in general everyone trends upwards in size.)</p><p>Basically, after working on this game for a month in total, I&rsquo;ve learned
+what <em>not to do</em> and how I&rsquo;d do it <em>differently</em> the next slicing game I
+make.</p><p>But for now, I&rsquo;ll need to fix the game I have.</p><p>Players should die sooner, so they don&rsquo;t become <em>too</em> small. Stuff in
+the level should disappear sooner. (For example, the jungle has vines
+that regrow after X seconds. Make that longer. Don&rsquo;t regrow them after 2
+or 3 times.)</p><p>If players happen to grab a lot of knives (or rarely lose one), the
+number of throwables becomes way too high. Randomly destroy some of them
+(which aren&rsquo;t owned by players, of course).</p><h3 id=realization-3-1>Realization #3</h3><p><strong>Nudging players into the right direction.</strong></p><p>Even though you cannot slice players from close range anymore &mldr;
+players still kept trying it, over and over, leading to button mashing
+frenzies once in a while.</p><p>And then they were confused about what was happening, why they weren&rsquo;t
+hitting anyone, etcetera. So this behavior isn&rsquo;t adding to the fun.</p><p>How do we fix that?</p><ul><li><p>When players do a close-range shot, they are penalized for that.
+(Shrink, get sliced, become frozen in their place, something clearly
+visible.)</p></li><li><p>When players are <em>close to another player</em>, they are somehow
+penalized for that. (But this would be unfair, as I would have to
+penalize <em>both</em> players being close to each other. The only way it&rsquo;d
+work is if the penalty is &ldquo;<em>you cannot throw&rdquo;</em>.)</p></li></ul><p>The only issue I see is: <em>how do we communicate this to players? This is
+another rule to learn/remember? Do we really want that?</em></p><p><strong>Remark:</strong> also, I&rsquo;ll probably enable the &ldquo;shrink area&rdquo; rule by
+default. It really helps bring games to a close in under 5 minutes.
+Especially when there are only 2 players left, it helps them to focus
+and slowly go towards the center, where a confrontation is inevitable.</p><h3 id=realization-4-1>Realization #4</h3><p><strong>A completely different way to aim</strong></p><p>So &mldr; some people have trouble <em>holding one button</em>, then aiming with
+the <em>other</em>. Additionally, it&rsquo;s a bit annoying that you&rsquo;re <em>locked and
+standing still</em> when you do so.</p><p>It seems that it would be better to:</p><ul><li><p>Always allow movement (with arrow keys/joystick)</p></li><li><p>And pressing/holding the throw button just <em>rotates you</em> (for
+aiming). (Release to actually throw.)</p></li></ul><p>Why might this be better?</p><ul><li><p>You&rsquo;re free to move around while aiming. (Allowing you to dodge or
+gain distance.)</p></li><li><p>The movement input is consistent: it always moves, in the same way,
+never changes.</p></li><li><p>Quick-pressing does what you&rsquo;d expect: immediately throw in your
+current direction.</p></li><li><p>Aiming takes slightly more time and therefore becomes a more
+conscious action.</p></li><li><p>But you can still freely aim anywhere you want, after some training
+with the mechanic.</p></li></ul><h2 id=towards-a-final-version-more-playtesting>Towards a final version: more playtesting</h2><p>So, I tested the game again with a bunch of players! To preface this:
+the project dragged on way longer than I wanted, so I was already
+calling this the final playtest, even if I thought major improvements
+were possible. I was just done with it and thought putting more time
+into it would just &mldr; delay it indefinitely.</p><h3 id=the-good-stuff>The Good Stuff</h3><p>Fortunately, it went well! Most parts were really enjoyable, almost no
+&ldquo;teaching&rdquo; or &ldquo;setup&rdquo; was necessary.</p><p>The new control scheme (always walk with joystick, use one button to
+aim) was favored by all players. Gave more freedom and gave them the
+impression they were better at the game. (This might also be because
+many tested it for the <em>second</em> time, automatically making you better
+than the first time :p)</p><p>The new training arena was a great addition, but with some issues I
+hadn&rsquo;t foreseen during development (which I&rsquo;ll mention soon).</p><p>One controller gave out, and switching that player to play with the
+keyboard was also seamless, which I&rsquo;m happy with.</p><p>(It did reveal a flaw with my login system: if somebody <em>leaves</em>, all
+players after it are moved up a spot, because we can&rsquo;t have gaps. But
+that means &mldr; colors can change when somebody accidentally leaves,
+which is <em>very confusing</em>. But I can&rsquo;t really solve it now, I&rsquo;ll
+remember this for the next game.)</p><h3 id=the-bad-stuff>The Bad Stuff</h3><p>However, some key components of the game weren&rsquo;t working the way they
+should. For example &mldr;</p><ul><li><p>Anytime you went back to the menu, teams were reset (instead of
+remembered).</p></li><li><p>The wrong control scheme was turned on by default.</p></li><li><p>Sometimes, players that died couldn&rsquo;t do <em>anything</em> anymore (you
+should be able to move your ghost in any case).</p></li><li><p>In the &ldquo;Family Dinner&rdquo; arena, knives should be able to fly over the
+tables &mldr; but they didn&rsquo;t. (Which makes the arena pretty
+unplayable, as you have almost no space otherwise, and can&rsquo;t slice
+the fruit on the tables.)</p></li></ul><p>But that was down to me leaving on some debugging stuff (before
+exporting the game for the test), or some other minor configuration
+issues. I&rsquo;ve made sure &ndash; as sure as I can be &ndash; this doesn&rsquo;t happen
+again.</p><p><strong>The training arena is a <em>great</em> addition &mldr; with one fatal flaw.</strong> If
+a few players are dead and a few remain &mldr; it&rsquo;s quite likely all knives
+get stuck on a part of the ravine <em>nobody can access</em>, basically
+stalemating the game. How to solve?</p><p>Usually, I immediately have 5 possible solutions. But this time? Nothing
+was great. (Place teleporters? Destroys the purpose of the ravines. Move
+standstill knives in unused areas to used areas? Would work, but very
+complicated to check (well).)</p><p>In the end, I settled on a compromise. Slowly, over time, parts of the
+map open up. The ravine is already broken into three parts (because more
+needs to be blocked off on high player counts), I can just remove one
+every minute or so. This might mean you just need to <em>wait</em> for 30
+seconds before you can continue playing &mldr; but we&rsquo;ll have to accept
+that.</p><p>Automatically enabling the <strong>shrink area</strong> was a great move, as it
+forced games to a conclusion within a nice time frame. On dark maps,
+though, it&rsquo;s really tough to see the black mist coming at you. So I had
+to draw a clear contrasting outline around it.</p><p>The <strong>grow</strong> powerup is the only one put into the game by default. That
+was a bad idea. It caused games to go on way longer, because players
+could just constantly regrow themselves to full size. It should <em>not</em> be
+enabled by default. Moreover, there should be a strong <em>limit</em> on
+powerful powerups like this.</p><p>An idea (which I think is definitely the best): some powerups can have,
+at most, X distributed <em>per game</em>. So they are still a bit random,
+there&rsquo;s still some fluctuation, but after say 5 of them, they won&rsquo;t
+appear ever again.</p><p>And lastly, some of the more &ldquo;dense&rdquo; maps (almost no open space, filled
+with lots of stuff) are annoying if you start too big. So simply start
+players smaller on those maps, and perhaps reduce some of the physics
+bodies. (The <em>Forest</em> is the biggest offender here. But that&rsquo;s to be
+expected, as it was <em>designed</em> to be the most dense map.)</p><h3 id=were-stopping-here>We&rsquo;re stopping here</h3><p>Is the game perfect now? No, of course not.</p><p>Much special content (such as powerups/throwables) are not that
+significant when used in-game, some players still have trouble grasping
+what&rsquo;s happening or how to aim well (at the start), the idea could&rsquo;ve
+been executed better and more &mldr; I guess, cleanly?</p><p>But it&rsquo;s polished, tested a lot, very accessible (to even non-gamers),
+and does an okay job at nudging players towards fun strategies and
+trying cool stuff. And most importantly: the difficulty is just right so
+that actually <em>slicing someone</em> &ndash; getting a good, clean hit on them &ndash;
+is <em>extremely</em> rewarding and makes players jump with joy.</p><p>That&rsquo;s what it&rsquo;s all about, so I don&rsquo;t want to change anything to the
+balance anymore :)</p><h2 id=where-does-this-leave-us>Where does this leave us?</h2><p>In a sense, it means that the current game is <em>not</em> the best it could
+be, and I see clear ways to <em>greatly improve it</em>.</p><ul><li><p>Remove powerups &ndash; everything special comes from the throwables.</p></li><li><p>Build arenas and modes from the ground up using the knowledge I have
+now.</p></li><li><p>Encourage <em>throwing</em> (instead of hitting from close distance) in all
+aspects of gameplay.</p></li><li><p>Add many more elements that make throwing more varied, like the
+attractors that curve throws, teleporters, or things that give back
+your knives after a delay. Make <em>that</em> the backbone of the game.</p></li><li><p>(Using this, clean up all the code and messy systems in the game
+now. Because I couldn&rsquo;t predict, when I started, how this game would
+turn out.)</p></li></ul><p>But here&rsquo;s the thing. This was meant as a quick Halloween game. Working
+on it past Halloween, far past the original plans, is already something
+I had my doubts about. But I don&rsquo;t want to leave projects hanging and
+really like <em>completely</em> finishing something.</p><p>And, if you&rsquo;ve read this devlog the whole way through, you&rsquo;ve seen this
+pattern: I create something, I realize afterwards (because of making it)
+that I need to steer in a different direction, the cycle repeats
+endlessly.</p><p>Even if I took the time to completely redo the game (according to the
+list above), there&rsquo;d probably still be many imperfections and updates to
+make.</p><p>I decided to leave the game as it is. The basic systems and concepts
+from version 1 are fixed and stay in the game. I just want to add a bit
+more content to make the game worth its price. It would probably cost me
+more time and energy than I already put into the project to <em>rewrite and
+improve it</em> by this much. I&rsquo;d rather create a whole new game in that
+time, using the lessons I learned.</p><p>(Also because I noticed I really like drawing/sketching new arenas.
+Making them <em>functional</em> and <em>balanced</em> is a whole different beast &mldr;
+Let me tell you: in a game where objects can be sliced, you&rsquo;ll be
+spending 90% of your time putting things in specific collision groups
+and physics layers and hoping you didn&rsquo;t mix them up.)</p><p>If the game becomes successful? If it gets downloaded/played again by
+thousands each year at Halloween? If I find a short, clear way to
+improve it? Sure, I will do so.</p><p>But for now, it&rsquo;s onto the next project! (Which might use the slicing
+mechanic again &mldr; but <em>improved</em> this time!)</p><p>Until the next devlog,</p><p>Pandaqi</p></div></article><div><nav class=pagination><ul><li><a href=/blog/videogames/one-week-games/devlog-rolling-in-the-sheepe/ class="masked-link big-mask mask-4" style=--rotation:1deg>&lt;&lt; Previous Page</a></li><li>Continue reading</li><li><a href=/blog/videogames/one-week-games/devlog-own-goals-not-allowed/ class="masked-link big-mask mask-5" style=--rotation:1deg>>> Next Page</a></li></ul></nav></div></main><footer id=site-footer><div class="padding center-block"><h3>More Pandaqi</h3><p>You could <a href=https://pandaqi.com>visit the game studio</a>.
+Or my <a href=https://pandaqi.com/tutorials/>free tutorial website</a>.
+Or my <a href=https://rodepanda.com/>portfolio</a> with easy access to absolutely everything I ever made.</p><h3>Latest</h3><nav class=latest><ul><li><a href=/blog/boardgames/photomone/>Photomone
+(🐜)</a></li><li><a href=/blog/boardgames/keebble-domino/>Keebble: Domino
+(📗)</a></li><li><a href=/blog/boardgames/keebble-knickknack/>Keebble: Knickknack
+(📘)</a></li><li><a href=/blog/videogames/game-jams/less-is-store/>Less is Store
+(🛍️)</a></li><li><a href=/blog/tutorials/placing-grids-within-spaces/>Placing grids within spaces</a></li><li><a href=/blog/boardgames/thats-amorphe-pictures/>That's Amorphe: Pictures
+(🖌️)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-2023-update-ii/>Pandaqi Games: 2023 Update (II)
+(🎮)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-2023-update-iii/>Pandaqi Games: 2023 Update (III)
+(🎮)</a></li><li><a href=/blog/news-and-updates/pq-daw/>PQ_DAW: A music editor for the web
+(🎼)</a></li><li><a href=/blog/news-and-updates/pq-words/>PQ_WORDS: A dictionary for games
+(📋)</a></li></ul></nav><h3>Sections</h3><nav><ul><li><a href=/blog/boardgames/>Boardgames
+(🎲)</a></li><li><a href=/blog/news-and-updates/>News & Updates
+(📢)</a></li><li><a href=/blog/reviews-and-thoughts/>Reviews & Thoughts
+(💭)</a></li><li><a href=/blog/tutorials/>Tutorials
+(👩‍🎓)</a></li><li><a href=/blog/videogames/>Videogames
+(🎮)</a></li></ul></nav><h3>Credits</h3><p>Theme by me (<a href=https://pandaqi.com>Pandaqi</a> 🐼) &#183;
+with ❤️ &#183;
+using <a href=https://gohugo.io>Hugo</a> &#183;
+&copy; 2018&ndash;2023 Pandaqi Blog</p></div></footer><link rel=stylesheet type=text/css href=/blog/css/style.css><script src=/blog/js/bundle.min.js></script></body></html>

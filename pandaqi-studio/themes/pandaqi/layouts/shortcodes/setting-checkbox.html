@@ -1,0 +1,12 @@
+{{- $id := .Get "id" -}}
+{{- $checked := "" -}}
+{{- if .Get "checked" -}}
+	{{- $checked = "checked" -}}
+{{- end -}}
+
+<label for="{{- $id -}}">{{- .Get "text" -}} </label>
+<input type="checkbox" name="{{- $id -}}" id="{{- $id -}}" {{- $checked -}}>
+
+{{- with (.Get "remark") -}}
+	<span class="setting-remark">{{- . | safeHTML -}}</span>
+{{- end -}}

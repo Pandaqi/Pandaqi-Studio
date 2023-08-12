@@ -1,0 +1,73 @@
+body {
+    background-image: url('webp/bg_pattern.webp');
+    background-repeat: repeat;
+    font-family: 'Open Sans';
+    font-size: 20px;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    font-family: 'Fredoka One';
+}
+
+h2 {
+    font-size:42px;
+    margin-bottom: 0px;
+    margin-top:0px;
+    text-decoration: 1pt wavy;
+    text-transform: uppercase;
+    text-decoration-skip-ink: none;
+    text-decoration-line: underline;
+
+    color: #330000;
+}
+
+.buy-link {
+    margin-top:60px;
+    display: inline-block;
+    padding: 20px;
+    background-color: brown;
+    color: white;
+    border-radius:0.5em;
+    text-decoration: none;
+    font-family: 'Fredoka One';
+
+    transition: background-color 0.5s, color 0.5s;
+    box-shadow: 0 0 10px 2px #333;
+
+    &:hover {
+        background-color: white;
+        color: #333;
+    }
+    
+}
+
+.limit-width {
+    max-width: 1280px;
+}
+
+.game-header {
+    .video-no-header {
+        max-width: 900px;
+    }
+}
+
+section {
+    a {
+        display:block;
+        padding: 20px;
+        background-color: #0E6A43;
+        color: white;
+        border-radius:0.5em;
+        text-decoration: none;
+        font-family: 'Fredoka One';
+
+        transition: background-color 0.5s, color 0.5s;
+        box-shadow: 0 0 10px 2px #333;
+
+        &:hover {
+            background-color: white;
+            color: #333;
+        }
+    }
+
+}

@@ -1,0 +1,349 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><title>Pirate Drawingbeard | Pandaqi Blog</title><link rel=icon type=image/png href=https://pandaqi.com/blog//favicon.png><link rel=stylesheet type=text/css href=/blog/css/critical.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin></head><body><header id=site-header><nav class=menu><ul><li><a href=https://pandaqi.com/blog/ class="masked-link big-mask mask-4" style=--rotation:0.5deg>Home</a></li><li><a href=/blog/boardgames/ class="masked-link big-mask mask-3" style=--rotation:-0.5deg>Boardgames</a></li><li><a href=/blog/news-and-updates/ class="masked-link big-mask mask-5" style=--rotation:0deg>News & Updates</a></li><li><a href=/blog/reviews-and-thoughts/ class="masked-link big-mask mask-7" style=--rotation:0deg>Reviews & Thoughts</a></li><li><a href=/blog/tutorials/ class="masked-link big-mask mask-8" style=--rotation:2deg>Tutorials</a></li><li><a href=/blog/videogames/ class="masked-link big-mask mask-5" style=--rotation:1.5deg>Videogames</a></li></ul></nav></header><main class="padding center-block"><article class=single-article><div class=thumbnail-media><img src=pirate_drawingbeard_header.webp></div><h1>Pirate Drawingbeard</h1><aside class=metadata><nav class=breadcrumbs><span class=metadata-label><span class=emoji>🥐</span> Breadcrumbs ||</span>
+<a href=https://pandaqi.com/blog/>Home</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/>Boardgames</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/the-pirate-games/>The pirate games</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/the-pirate-games/devlog-pirate-drawingbeard/>Devlog pirate drawingbeard</a></nav><script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/pandaqi.com\/blog\/","name":"home"}},{"@type":"ListItem","position":2,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/","name":"boardgames"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/the-pirate-games\/","name":"the-pirate-games"}},{"@type":"ListItem","position":4,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/the-pirate-games\/devlog-pirate-drawingbeard\/","name":"devlog-pirate-drawingbeard"}}]}</script><div><span class=metadata-label><span class=emoji>&#8987;</span> Published ||</span>
+<time datetime=2022-07-28T12:00:00>Thursday, Jul 28, 2022</time></div><nav class=tags><span class=metadata-label><span class=emoji>🎗</span> Tags ||</span><ul><li><a href=https://pandaqi.com/blog/tags/devlog>devlog</a></li></ul></nav><div><span class=metadata-label><span class=emoji>📖</span> Table of Contents ||</span>
+<a href=# id=toc-toggle>Show</a></div></aside><aside id=table-of-contents class=masked-link-block><header><h2>Table of Contents</h2></header><nav id=TableOfContents><ul><li><a href=#why>Why?</a></li><li><a href=#what-do-we-need>What do we need?</a></li><li><a href=#map>Map</a><ul><li><a href=#advantage-1-better-main-action>Advantage #1: Better main action</a></li><li><a href=#advantage-2-rotation>Advantage #2: Rotation</a></li><li><a href=#lets-create-random-maps>Let&rsquo;s create random maps</a></li><li><a href=#advanced-idea-networks>Advanced Idea: Networks</a></li><li><a href=#the-result>The result</a></li></ul></li><li><a href=#hints>Hints</a><ul><li><a href=#the-general-system>The general system</a></li><li><a href=#what-to-look-out-for>What to look out for</a></li><li><a href=#my-fears-came-true>My fears came true</a></li><li><a href=#the-result-written-hints>The result: written hints</a></li><li><a href=#visualizing-the-hints>Visualizing the hints</a></li><li><a href=#the-result-1>The result</a></li></ul></li><li><a href=#some-issues--improvements>Some issues & improvements</a><ul><li><a href=#water>Water</a></li><li><a href=#redundant-hints>Redundant Hints</a></li><li><a href=#edge-symbols>Edge Symbols</a></li><li><a href=#speed--optimizations>Speed & Optimizations</a></li><li><a href=#rules>Rules</a></li><li><a href=#networks>Networks</a></li></ul></li><li><a href=#finalizing-the-game>Finalizing the game</a><ul><li><a href=#settings>Settings</a></li><li><a href=#botbeard>Botbeard</a></li><li><a href=#optimization>Optimization</a></li><li><a href=#finishing-touches>Finishing Touches</a></li></ul></li><li><a href=#testing--improving>Testing & Improving</a><ul><li><a href=#timing>Timing</a></li><li><a href=#practical-stuff>Practical stuff</a></li><li><a href=#playing>Playing</a></li></ul></li><li><a href=#conclusion>Conclusion</a></li></ul></nav></aside><div><p>This is a devlog for my game <a href=https://pandaqi.com/pirate-drawingbeard>&ldquo;Pirate Drawingbeard&rdquo;</a></p><p>It&rsquo;s kind of a &ldquo;prequel&rdquo; to my game &ldquo;Pirate Riddlebeard&rdquo;.</p><h2 id=why>Why?</h2><p>In the original game (Pirate Riddlebeard), each player received <em>text
+hints</em>. When combined, they&rsquo;d point to the one square containing the
+treasure.</p><p>This had several downsides:</p><ul><li><p>The game can&rsquo;t be played by kids or people with a bad command of
+English</p></li><li><p>The text hints take up a lot of space <em>and</em> can be misread</p></li><li><p>Which also meant it took longer to <em>check</em> the hints or write notes
+while playing.</p></li></ul><p>As such, I decided that the original game was the &ldquo;advanced version&rdquo;.
+Text hints <em>do</em> allow for more advanced maps and more advanced hints, so
+I took advantage of that. Especially with all options/expansions
+enabled, that game can take quite long and be a really tough nut to
+crack.</p><p>But I really wanted to try a simplified version of the game idea.</p><p>This became Pirate Drawingbeard.</p><h2 id=what-do-we-need>What do we need?</h2><p>I learned a lot from developing the original game. Let&rsquo;s try to prevent
+making the same mistakes:</p><ul><li><p>Make <em>everything</em> in the map and hints customizable. (I usually
+start too complicated and need to scale back later.)</p></li><li><p>Don&rsquo;t create a map where each cell can have <em>multiple</em> properties.
+Create a map where each cell <em>is one specific thing</em>.</p></li><li><p>Consider the <em>hint cards</em> from the start. Ensure there&rsquo;s enough
+space, there&rsquo;s already a grid for taking notes, etcetera.</p></li><li><p>Split the <em>visualization</em> and <em>game logic</em> into separate scripts
+behind the scenes.</p></li><li><p>Figure out how to <em>visualize</em> a hint with simple images/icons (no
+text, no numbers) and write some <em>clean</em> code for checking those
+hints.</p></li></ul><p>I created these sketches to get an idea of how this game will work:</p><p><img src=first_sketch_hint_types.webp alt="First Sketch of Hint Icons"></p><p><img src=first_sketch_maps.webp alt="First Sketch of Map & Hints"></p><h2 id=map>Map</h2><p>Being somewhat of a &ldquo;kids version&rdquo;, I wanted this game to be more
+tactile, perhaps use smaller maps.</p><p>After some consideration, I decided: <strong>this game should be played with
+physical tiles.</strong></p><p>So you can:</p><ul><li><p>Either download the material PDF, print and cut it, and reuse that
+for all games from now on.</p></li><li><p>Or grab an empty piece of paper, draw the board, and cut out the
+individual tiles.</p></li></ul><p>Yes, the minor disadvantage is that you need scissors at some point.</p><p>But that doesn&rsquo;t outweigh all the advantages!</p><h3 id=advantage-1-better-main-action>Advantage #1: Better main action</h3><p>Firstly, the &ldquo;propose/change&rdquo; action from the original game can be
+improved. This is how the original works:</p><p><strong>PROPOSE: Pick a tile (A). Propose to change anything about the tile,
+whatever you want. Pick a tile (B). Ask players if changing A changed
+whether the treasure could be in B.</strong></p><p>The idea behind this is that you can slowly test what hints other
+players have. Remove a flower from a tile, check a tile close to it. If
+somebody says &ldquo;yes, that changes my answer&rdquo;, you know their hint has
+<em>something</em> to do with flowers and distance.</p><p>But the action is a <em>bit</em> hard to grasp the first time you play. I mean,
+you really need the image from the rulebook to understand how it works.
+The text explanation is a bit clunky.</p><p>This can be changed to a <strong>&ldquo;swap&rdquo; action.</strong></p><p><strong>SWAP: Pick two tiles. Swap them. Now ask players if this changes if
+the treasure could be in the first or second tile.</strong></p><p>The game becomes more tactile, less static. Swapping is an easy way to
+limit the theories players can test, without limiting it <em>too much</em>.</p><p>Want to test if a flower has an impact? Find a flower tile to swap with.</p><p>However, because people respond to <em>both tiles</em>, there&rsquo;s also a sense of
+uncertainty to the result &mldr; unless you&rsquo;re smart about picking tiles.</p><h3 id=advantage-2-rotation>Advantage #2: Rotation</h3><p>Okay, so we have a map with individual tiles. Each tile is <em>one thing,
+and one thing only.</em> Hints are mostly about the tile itself or the ones
+next to it.</p><p>This simplifies the game. It also reduces our options.</p><p>I wanted to have hints that <em>don&rsquo;t</em> just check your neighbor tiles. I
+wanted to have an easy way to change what a tile does exactly.</p><p>Well, the answer is <em>rotation</em>.</p><p>Some tile types behave differently when <em>rotated</em>. The easiest example
+is the <strong>arrow</strong>: it will point in a certain direction, and it&rsquo;s easy to
+create hints like &ldquo;the treasure has an arrow pointing at it&rdquo;.</p><h3 id=lets-create-random-maps>Let&rsquo;s create random maps</h3><p>These maps should be <em>way</em> simpler than Riddlebeard&rsquo;s maps.</p><ul><li><p>Create a grid</p></li><li><p>Randomly predetermine what tile types we want to place.</p></li><li><p>Each tile knows two things: what it IS and how it&rsquo;s ROTATED.</p></li><li><p>Simply loop through the list and place the stuff we predetermined.</p></li></ul><p><em>Is it that small?</em> Not really. I&rsquo;ve learned from the other game to save
+a bunch of other data in the cells themselves (to optimize performance
+<em>and</em> because we need a bot player in solo mode that requires this). So,
+right from the start, each cell also knows: if it&rsquo;s at the edge, what
+cells are its neighbors, its own coordinates, what happens if you change
+the cells around it, etcetera.</p><p><em>Why predetermine?</em> It gives far greater control than picking randomly
+when we create the cell.</p><p>For example, we could say &ldquo;we want at least 1 tile of each type&rdquo;, so we
+add <em>one of each type</em> to the predetermined list. Before assigning, we
+shuffle the list. Now, no matter what happens, we know that rule is
+obeyed and the map somewhat balanced.</p><p>I thought about &ldquo;growing&rdquo; groups of similar tiles again. But that
+doesn&rsquo;t really make sense on such small maps, where the tiles are <em>not</em>
+nature elements (those can&rsquo;t be rotated and still look right). So I
+didn&rsquo;t.</p><p>Which begs the question: what <em>is</em> the theme of the game? What <em>are</em> the
+tiles?</p><p>Functionally, it&rsquo;d be ideal to just use abstract shapes (triangle,
+square, arrow, &mldr;)</p><p>Visually, that&rsquo;d be terrible, certainly not attractive for
+kids/families.</p><p>In the end, I settled on the <strong>standard things you&rsquo;d expect in a
+treasure hunt.</strong> Treasure, compass, map, key, an island, palm trees,
+that kind of stuff.</p><p>There was just enough there for me to implement what I want. And it
+ensures any player understands the general idea of the game.</p><h3 id=advanced-idea-networks>Advanced Idea: Networks</h3><p>In my original sketches, you see the idea of <strong>networks</strong>. Tiles being
+connected by lines running through them.</p><p>It&rsquo;s a great way to add another dimension, without making the game
+visually complicated.</p><p>(It would be an advanced expansion: it&rsquo;s harder to see if something is
+connected on the network, than to check if it&rsquo;s adjacent to something.)</p><p>But if we&rsquo;re using <em>separate tiles</em> &mldr; how on earth will we do that?</p><p>The best we can do is <em>print network lines on the tiles themselves</em>, but
+that&rsquo;d mean we need to write an algorithm that ensures these lines all
+match up on the final map. Not going to happen.</p><p>In that case, this game mode would only work if you play the <em>online
+way</em> (because then you can just draw them on your paper).</p><p>Even then, swapping tiles has a low chance of the networks neatly
+matching. But that isn&rsquo;t necessarily an issue, as you might want to
+purposely <em>break</em> a connection.</p><p>An alternative is to make these connections separate tokens to place in
+between tiles. But that&rsquo;s just a nightmare waiting to happen: any time
+you swap tiles, you need to lift that network, then put it back. And
+we&rsquo;d need extra rules for how to swap/change/interact with <em>those</em>
+tokens. And it&rsquo;d be more material. A no go.</p><p>As such, I implemented network generation like this:</p><ul><li><p>Start somewhere at the edge. Do a random walk into the map, saving
+the tiles and directions.</p></li><li><p>Now do more random walks, but they may also start from tiles inside
+the map (which we walked through before, already connected to the
+network)</p></li><li><p>Visualize all this by drawing lines between the points.</p></li><li><p>Save which neighbors we&rsquo;re connected with <em>on the cell itself</em>.</p></li><li><p>(To check if two cells are connected via the network, we simply loop
+through our connected neighbors, then <em>their</em> connected neighbors,
+and so forth until we either find the other cell or we&rsquo;ve checked
+everything.)</p></li></ul><p>This is okay for now. We&rsquo;ll improve later if needed.</p><h3 id=the-result>The result</h3><p><img src=pirate_drawingbeard_maps_1.webp alt="Look of the final map, for now, picture 1"></p><p><img src=pirate_drawingbeard_maps_2.webp alt="Look of the final map, for now, picture 2"></p><p>I think they look great already.</p><p>That little triangle on each tile is a very clear way to indicate the
+<em>rotation</em> of a tile. I also tried to make it line up with stuff (like
+the arrow).</p><p>I think only minor improvements to the maps are needed now. (More tile
+types, row/column information, debugging tools for myself.)</p><p>Finally, I had the idea of placing things on the <em>edges</em> of tiles, and
+creating hints about whether they line up, or point to something,
+etcetera. But I&rsquo;m not sure if this will become a thing, as it seems like
+it would mess with visual clarity. That&rsquo;s a worry for later.</p><h2 id=hints>Hints</h2><p>The hints are completely <em>visual</em> to the player.</p><p>But behind the scenes, they obviously still need to be text, as computer
+code is also text and requires that.</p><p>As opposed to the original, our possible hints are simplified though,
+which allows simplifying the implementation.</p><p><strong>All hints are only about whether something IS or ISN&rsquo;T true.</strong></p><p>We never need to calculate something or fill in a value dynamically.</p><p>Additionally, the original has <em>two</em> different algorithms (I wanted to
+try both), but we can just use the one I liked most here.</p><h3 id=the-general-system>The general system</h3><p>The result is a system as follows.</p><p>We have a dictionary with all the hints:</p><ul><li><p>Each hint has an id</p></li><li><p>It has a list of parameters and <em>all they can be.</em> For example:
+&ldquo;type&rdquo; means the parameter must be a tile type.</p></li><li><p>It has a parameter &ldquo;negated&rdquo; that&rsquo;s either true or false.</p></li><li><p>It has optional parameters that do stuff like: limit how often the
+hint can occur, ensure all parameters are different from each other,
+etcetera.</p></li></ul><p>At the start, we pick our treasure location, then generate <em>all</em>
+possible hints for it.</p><ul><li><p>When building a hint, we check its id.</p></li><li><p>We do whatever calculation is necessary. (This is custom code per
+hint, this is the meat of the logic.)</p></li><li><p>And then we check the end result with the real result.</p></li><li><p>(Remember, all we&rsquo;re doing is checking if some statement is <em>true or
+false</em>, then adding a &ldquo;NOT&rdquo; if false. No other possible values, no
+inverse, or &ldquo;greater than&rdquo; hints, or whatever.)</p></li></ul><p>Once we have that, we simply pick random hints until exactly <em>one</em>
+square remains ( = the one we chose at the start).</p><p>If we&rsquo;re happy with that, we&rsquo;re done!</p><p>If not (too few hints, too many, whatever) we try again!</p><p>When displaying the hint, we simply pick an image based on its id,
+overlay it with images for each parameter, and add a big red cross if
+it&rsquo;s negated. (I make it sound simpler than it is. It&rsquo;s not. There are
+many edge cases. But this is the general, summarized idea.)</p><h3 id=what-to-look-out-for>What to look out for</h3><p>These hints are way stricter and more precise than in the original.</p><p>Hints with vagueness like &ldquo;<em>at most</em> 3 trees within 2 spaces&rdquo; are not
+part of this game. Something is either true or not true!</p><p>So my biggest fear is that this simply makes the game too easy <em>or</em>
+unplayable. The hints are so strict that it will barely need more than
+one or two to find the treasure.</p><p>Besides that, I immediately implemented improvements I also added to the
+original:</p><ul><li><p>Assign hints to players so that they don&rsquo;t have two within the same
+category.</p></li><li><p>Count how many possible tiles remain: ensure this is <em>roughly equal</em>
+between players (so nobody has a clear head start)</p></li><li><p>Check if somebody has a useless hint.</p></li></ul><p>And lastly, I mentioned I wanted to split the <em>visualization</em> and the
+<em>logic</em>. In the original game, this is all one huge file, which is only
+active when the Phaser game is running.</p><p>Now I split the map generation into its own object/file, and the hint
+generation into its own object/file. Cleaner, shorter, more flexible.</p><p>Once my business with the Phaser game is done (drawing the map to the
+canvas and saving that image), I can completely shut it off <em>without</em>
+losing access to the game data and the functionality of checking hints.</p><h3 id=my-fears-came-true>My fears came true</h3><p>With such specific (and simple) hints, generation takes a <em>looooong</em>
+time to find something, because the hints are very unbalanced: some
+players literally have 3 tiles left over from the start, others have 30.</p><p>This happens 99% of the time, so I can&rsquo;t brute force my way through
+that.</p><p>What to do?</p><p><strong>Solution #1:</strong> I thought, and thought, then realized something: the
+whole problem comes from hints being <em>too powerful</em>. One hint leaving
+only, like, a handful of tiles out of the full map.</p><p>We can simply <em>not choose those hints</em>.</p><p>When generating our hint list, we simply check how much a hint removes
+when given the whole map, and discard any hint that leaves only 10 or
+fewer tiles.</p><p>I wish I&rsquo;d realized this sooner. This is really powerful!</p><p>We can always stack <em>more</em> hints on top of each other to lower the
+number of options left, but we can&rsquo;t make a hint &ldquo;less powerful&rdquo;
+retroactively. By already stripping the strongest hints (for a specific
+location), we suddenly make the generation very happy.</p><p>(I also implemented the reverse: don&rsquo;t consider hints that only remove
+one or even zero tiles. I never realized it before, but they do exist of
+course: hints that are true for the treasure location &mldr; but also true
+for <em>literally all other tiles</em>. Those are useless.)</p><p><strong>Solution #2:</strong> Right now, I have two categories with only <em>one</em> hint
+type. I was being stupid, because that means the generation will
+<em>always</em> choose that hint (because it tries to alternate between
+categories for diversity).</p><p>That means that it either finds a solution on the first try &mldr; or keeps
+rehashing an almost identical set of hints and failing hundreds of
+times.</p><p>The solution is simply to add more possible hints to those categories.
+(And forget about alternating if a category has too few entries.)</p><p><strong>Solution #3:</strong> I made the hint distribution a bit smarter. Currently
+it assigns hints and <em>then</em>, afterwards, checks if everything is fair.</p><p>I can, instead, do that <em>while</em> assigning hints.</p><ul><li><p>Keep a list of &ldquo;possible tiles&rdquo; for all players.</p></li><li><p>For each hint, go through all players and try the hint on their
+list.</p></li><li><p>Find the player that, when given the hint, creates the fairest
+situation. In general, this is the player who is furthest behind the
+others (in terms of &ldquo;tiles left over&rdquo;).</p></li></ul><p>This way, we keep the number of starting options as high as possible for
+each player, and already balance/check while generating the hints.</p><p>And with all those changes, everything works very smoothly!</p><h3 id=the-result-written-hints>The result: written hints</h3><p>First, we need hints to work <em>behind the scenes</em> and output some written
+text for me to check.</p><p>That&rsquo;s working now. Let&rsquo;s see:</p><p><img src=pirate_drawingbeard_hints_text_1.webp alt="Hints for the map, written like text for now"></p><p><img src=pirate_drawingbeard_hints_text_2.webp alt="Hints for the map, written like text for now"></p><h3 id=visualizing-the-hints>Visualizing the hints</h3><p>This proved trickier than expected. (Then again, I keep expecting things
+to be way easier than I have any reason to.)</p><p>Different hints have very different requirements.</p><ul><li><p>Sometimes the red cross (to indicate NOT) is centered, sometimes
+it&rsquo;s off to a side and smaller (because that looks much cleaner), it
+can be anywhere.</p></li><li><p>Similarly, some hints only have <em>one</em> type (&ldquo;the treasure is on a
+KEY&rdquo;), others have multiple (&ldquo;the treasure is on a KEY or PALM
+TREE&rdquo;)</p></li></ul><p>I also didn&rsquo;t want to redraw the hint every time it was requested.</p><p>I wanted to <em>draw all the hints once, save them as images, then reuse as
+needed</em>.</p><p>The common thread is that the hints are <em>square</em> and use the same <em>set
+of sprites.</em></p><p>After some consideration, I opted for the following:</p><ul><li><p>Ignore Phaser / the map generation code.</p></li><li><p>Instead, use vanilla JavaScript to create many small square
+canvases, invisible to the player.</p></li><li><p>On each canvas, draw a hint, then save as an image.</p></li><li><p>(We do them all at the same time because it&rsquo;s faster.)</p></li></ul><p>Each hint has a &ldquo;layers&rdquo; property where I manually specified which
+sprites and frames to layer on top of each other (and at which
+position/scale/rotation). At the end, if the hint is negated (it has a
+NOT in it), it places a big red cross over it.</p><p>Now we have an array with all the hints, per player, as images.</p><p>We can place these back into the generation code when we want a nice PDF
+with hint cards.</p><p>Or we can display them in the interface when players are playing
+digitally.</p><h3 id=the-result-1>The result</h3><p>For now, I&rsquo;m just throwing the hint images in the HTML and display them
+above the map, for debugging purposes.</p><p>Here&rsquo;s what it looks like:</p><p><img src=pirate_drawingbeard_hints_visual_1.webp alt="Map with visual hints above it, picture 1"></p><p><img src=pirate_drawingbeard_hints_visual_1.webp alt="Map with visual hints above it, picture 2"></p><p><img src=pirate_drawingbeard_hints_visual_1.webp alt="Map with visual hints above it, picture 3"></p><p>I think that&rsquo;s pretty nice :) I&rsquo;m not sure about the clarity of some
+hints, but I can always change that later. The important thing is that
+it completely generates a game (map + hint images) within 5 seconds.</p><h2 id=some-issues--improvements>Some issues & improvements</h2><h3 id=water>Water</h3><p>I thought it&rsquo;d look nicer and more natural if water only appeared near
+the edges. Then the map would really look like an island in the ocean.</p><p>A simple change, but I wanted to add this as an option.</p><p>When generation starts, it spawns a few water tiles at the edge. Then it
+<em>extends</em> existing water tiles (by converting a neighbor into water) a
+few times until it&rsquo;s happy.</p><p>This leads to very natural water surrounding the map.</p><p>Additionally, I decided to make water tiles really a &ldquo;special type&rdquo;, so
+they have a type (water, duh) and a rotation &mldr; but nothing else.
+Anything else a tile can be, especially in the expansions, is simply not
+possible for water.</p><p>It just looked and felt better/simpler that way.</p><p><img src=pirate_drawingbeard_water_generation.webp alt="Map with improved placement of water tiles"></p><h3 id=redundant-hints>Redundant Hints</h3><p>The whole idea of the game is that <em>there&rsquo;s overlap between the tiles a
+hint marks as &ldquo;could be the treasure&rdquo;.</em> So there isn&rsquo;t any check on how
+much hints overlap.</p><p>Unfortunately, though, with certain hints there&rsquo;s a good chance that
+<strong>one of them produces a subset of the other.</strong></p><p>For example: hint A leaves 5 tiles. Hint B leaves <em>the same 5 tiles</em>,
+but also a handful of other tiles. Hint A is a <em>subset</em> of hint B, as
+they say exactly the same thing, but hint A is simply more specific. And
+thus better.</p><p>This makes hint B completely redundant. The player getting it will feel
+a bit betrayed once they realize hint A exists.</p><p>Let&rsquo;s forbid this!</p><p>At first, I wrote a simple loop:</p><ul><li><p>Loop through the new list of options (for the current hint we&rsquo;re
+evaluating)</p></li><li><p>Check it against the lists for all previous hints.</p></li><li><p>If we are a subset of them (all our tiles can be found in their list
+as well), forbid this hint.</p></li></ul><p>This, however, is <em>expensive</em>!</p><p>We need to loop through <em>loads of lists, multiple times, for every
+hint</em>.</p><p><strong>For example:</strong> with 4 hints, on average 20 tiles per list, we&rsquo;re
+already looping 20*20 + 20*20*20 + 20*20*20*20 = 168400 times. Not
+great. Even if we use some basic techniques to <em>break</em> out of the loop
+early (if an element doesn&rsquo;t match between the smaller and the bigger
+list), it is slow. A quick test shows it has to do ~1200 loops for the
+last hint, regularly, and already ~200 loops for the first hint.</p><p>How do we solve this?</p><p>I realized that these lists are <em>sorted the same</em>. Each hint grabs the
+same list of <em>all tiles</em> and strips it, maintaining order. Which means
+two things:</p><ul><li><p>We only need to <em>look ahead</em> for matches, never back. (Because, if a
+match exists, it will be <em>later</em> in the sorted list.)</p></li><li><p>When we realize our <em>larger list</em> has become <em>too small</em> to fit all
+remaining elements of the <em>smaller list</em>, we can immediately stop. A
+subset has become impossible.</p></li></ul><p>It&rsquo;s not a 100% solution, but it&rsquo;s <em>way way faster in most cases.</em> Most
+lists will stop checking after a few elements, maybe even before it
+starts.</p><p><strong>For example:</strong> The highest values I&rsquo;m finding now are ~150 loops for
+the last hint in the list, but even that is rare. It&rsquo;s often near 10-20
+loops.</p><p>(There was a bug that eluded me for the longest time. The answer was, as
+always with these bugs, me being absolutely stupid. I checked redundancy
+when generating the <em>full list</em>. This is obviously expensive and you&rsquo;re
+sure to find loads of redundancy when checking <em>hundreds of similar
+hints</em>. Additionally, these hints are generated in a fixed order, so
+this would <em>always</em> throw away the same hints.</p><p>The solution was, of course, to check redundancy when picking the
+<em>actual final hints</em>. Way fewer checks to make. It actually makes sense.
+This list is randomized. All was fine again with the world.)</p><h3 id=edge-symbols>Edge Symbols</h3><p>I finally figured out what I wanted the last (advanced) map element to
+be.</p><p>They are symbols (circle, square, or a sort of combination of both)
+placed at the <em>edges</em> of tiles.</p><p>The hints about them are very basic: a neighbor has a specific symbol,
+symbols match (which is very satisfying, when two edges line up with the
+same symbol), etcetera.</p><p>It&rsquo;s different enough to include, yet it&rsquo;s not too complex and doesn&rsquo;t
+create too much visual chaos.</p><p>(Especially because I did my best to push them as far into the edge as
+possible, leaving enough whitespace around the tile type icon.)</p><p><img src=pirate_drawingbeard_edge_symbols.webp alt="Map with correct edge symbols on the tiles"></p><h3 id=speed--optimizations>Speed & Optimizations</h3><p>The algorithm is reasonably fast. Can find something within the blink of
+an eye, but takes a few seconds on average.</p><p>Some of that is due to my debugging: logging loads of stuff + displaying
+text on a canvas is <em>expensive</em>.</p><p>But almost 99% of the time it fails because of &ldquo;too many hints&rdquo; (it&rsquo;s
+currently set at a maximum of 2 hints per player).</p><p>On the one hand: that&rsquo;s nice. It&rsquo;s more annoying if there&rsquo;s some vague
+reason the algorithm is slow or can&rsquo;t find anything.</p><p>On the other hand: I don&rsquo;t really like giving players 3+ hints.</p><p>So this seems the solution: add an <em>option</em> to create more hints per
+player and say that this <em>usually</em> speeds up generation.</p><p>It&rsquo;s the best I can do :p Really, it&rsquo;s not big deal. Getting a fully
+completed, functional game in 8 seconds tops is fine.</p><h3 id=rules>Rules</h3><p>I decided to include <em>all</em> possible hints + a (detailed) <em>textual</em>
+explanation in the rules.</p><p>Some of them just can&rsquo;t be expressed in a way that I&rsquo;m <em>certain</em> players
+understand it correctly. And it&rsquo;d be really stupid if people play the
+game incorrectly because they are scratching their head about what a
+symbol means.</p><p>So I wrote a script to download the generated image for <em>all</em> hints.
+Then I just have to arrange those in a two-column layout, and use the
+second column for a precise explanation of the hint. (And an example if
+possible.)</p><p>This will become an &ldquo;appendix&rdquo; though. It&rsquo;s 3 full pages for <em>all</em> the
+hints. Don&rsquo;t want that in the flow of the main rules.</p><p>(Fun fact: browsers do not like it when you queue 100 simultaneous image
+downloads. I ended up learning how to zip dynamic webpage files and
+download them. Which, to be honest, was the better solution to begin
+with :p)</p><h3 id=networks>Networks</h3><p>Right now, networks were &mldr; fine, but too chaotic.</p><p>It was perfectly possible for a map to just have <em>one giant network</em>. Or
+a very tiny one somewhere in the corner.</p><p>This doesn&rsquo;t look great, but is also bad for hints. If there is only
+<em>one network</em>, all the specific network hints become <em>pointless</em>. (&ldquo;It&rsquo;s
+connected to a tile with rotation 0&rdquo; simply means &ldquo;It&rsquo;s connected to the
+one big network&rdquo;.)</p><p>So I needed a way to ensure we had 2 different networks (maybe even
+more) and that they weren&rsquo;t too close or didn&rsquo;t accidentally go through
+each other somewhere.</p><p>I invented <strong>&ldquo;network poison&rdquo;.</strong> One in every 4 random walks that we
+take (to generate the network) becomes poisoned. It will <em>not</em> connect
+to existing tiles on a network, nor will it allow later random walks to
+connect to <em>them</em>.</p><p>They are poison. Everyone stays away.</p><p>This way, the first two random walks will surely be different. After
+that, it depends on how long the walks are/what random network length
+we&rsquo;ve chosen.</p><p>(With 50% chance, instead of starting on a new tile, a random walk
+extends an existing one. It only does this, obviously, for the
+non-poisoned ones.)</p><p>This generates separate networks that usually look good and are a good
+length. The hints about them are now useful again.</p><p>(I still added a check to be sure though. If a network hint leaves a
+list of options that&rsquo;s equal to the total number of <em>network tiles</em> (or
+close to it), I deem it a bad hint and skip it.)</p><p><img src=pirate_drawingbeard_networks_1.webp alt="Map with networks generated between the tiles, picture 1"></p><p><img src=pirate_drawingbeard_networks_2.webp alt="Map with networks generated between the tiles, picture 2"></p><h2 id=finalizing-the-game>Finalizing the game</h2><h3 id=settings>Settings</h3><p>I&rsquo;ve learned that it&rsquo;s (usually) good to leave everything to the player,
+but start with sensible defaults.</p><p>As such, almost all hint/map elements are <em>optional</em> or <em>expansions</em>:
+rotation, edge symbols, networks, special stuff (like the compass).</p><p>Yes, even rotation. Again, my experience tells me that a first game
+should always be <em>as simple as it can be</em>. Using only the two easiest
+hint types (<em>tile type</em> and <em>row/column</em>) seems the best way to be
+introduced to the game and learn it.</p><p>Other settings are:</p><ul><li><p><strong>MultiHint:</strong> by default, it tries to give each player <em>one</em> hint.
+Enabling this allows up to three. (As discussed before, this speeds
+up generation as well.)</p></li><li><p><strong>Advanced:</strong> some hints are harder to grasp/calculate, so they are
+only added when this is enabled.</p></li><li><p><strong>Use Real Material:</strong> enable this when you&rsquo;re reusing the material
+you printed and cut out. It limits generation to how much you have
+of each type and what those fixed tiles look like.</p></li><li><p><strong>For Printing:</strong> puts the generated game into a PDF (map + hint
+cards) you can save and use later. (I use this option myself to
+create the &ldquo;premade games&rdquo; that I usually offer.)</p></li><li><p><strong>Colored:</strong> creates colored boards instead of black-and-white
+(&ldquo;inkfriendly&rdquo;) ones.</p></li></ul><p>This game was meant as the simplest and most &ldquo;kid friendly&rdquo; of the whole
+bundle of deduction games I&rsquo;m planning.</p><p>As such, there are no real &ldquo;expansions&rdquo; or &ldquo;advanced rules&rdquo; or anything.</p><p>I thought about it. For example, certain tile types might <em>block</em> arrows
+pointing at stuff. Maybe other tiles must be <em>rotated</em> when you use them
+in the swap action.</p><p>There are interesting ideas. But none of them necessary for the game.
+And none of them reward the amount of complexity they&rsquo;d add.</p><p>(Fun fact: I ended up using the idea of a &ldquo;material limit&rdquo; on all maps,
+even the digital ones, because it creates much more natural and balanced
+maps. It&rsquo;s just applied more loosely.)</p><h3 id=botbeard>Botbeard</h3><p>I&rsquo;ve learned from my mistakes.</p><p>With <em>Pirate Riddlebeard</em>, I only added a bot at the end. The code
+wasn&rsquo;t set up for it. It works, but it&rsquo;s not ideal, and took longer than
+I wanted.</p><p>With this game, I keep complete access to the map and all its
+functionality. Such as &mldr; testing if a hint is true or not!</p><p>So Botbeard can fully respond to your actions! If you choose &ldquo;swap&rdquo;, you
+input the tiles in the interface, and it can just quickly calculate your
+answer and give it back.</p><p>I thought about giving Botbeard actual <em>turns</em>. Maybe even letting them
+win.</p><p>On their turn, they might ask you about a specific tile, and you tell
+them what you know.</p><p>But it seems pointless. The computer <em>already knows the answer, and the
+hints, and the map</em>. It generated all of that. And there&rsquo;s no way for
+<em>you</em> to outplay it or add strategy.</p><p>So you&rsquo;d just be pointlessly telling the computer random tiles they
+already know.</p><p>There was one other thought that seemed to make sense.</p><p>At the end of your turn, you must reveal your answer to one of the
+tiles, and are always allowed to dig.</p><p>This is something <em>you choose</em> and that&rsquo;s already in the game. So I can
+add a button to tell Botbeard which tiles you interacted with.</p><p>Based on that, I can do a rough calculation of when Botbeard <em>would</em>
+have won: when you&rsquo;ve given away too much information, played for too
+long. This would add a time limit to this mode.</p><p>But when thinking about it even longer, this also didn&rsquo;t seem fun.
+You&rsquo;re playing this game, maybe alone, maybe with two players. You&rsquo;re
+close to cracking the code, working on it for 45 minutes &mldr; and then
+Botbeard just says &ldquo;hey, you took to long, I win&rdquo;</p><p>Not great, eh?</p><p>The original system was the best: <strong>Botbeard has no turns and cannot
+win.</strong> It simply responds to your actions and gives away the information
+you request.</p><p><strong>Having Botbeard implemented, though, we can test the usefulness of the
+SWAP action!</strong></p><p>First I did some manual testing. Loaded a game, did the SWAP action many
+times, checked how often I received a &ldquo;yes, it changed!&rdquo; It felt on the
+low side, but still &ldquo;often enough&rdquo;.</p><p>So I decided to do some more robust calculations.</p><p>I wrote some code to randomly swap 100 pairs of tiles and record how
+many times that changed the outcome of one (or both) of those tiles.</p><p>On average, the result was around 30 &ldquo;flips&rdquo;. So, 1/3 of the time, when
+using a swap action on one player, they&rsquo;ll say yes. Which is great!</p><p>However, it did occur quite often that there were 0 flips. Yes, <em>zero</em>.
+This seemed odd to me. So I checked which hints Botbeard had, and hit
+myself in the face because of my stupidity.</p><p>Of course, this happens when your hint is &ldquo;the tile IS (not) something&rdquo;.
+Swapping any pair of tiles will not change <em>the tile itself</em>, so of
+course this never changes your answer.</p><p>At first, I thought this was a problem, and I needed an extra action (or
+some more rules) to fix it.</p><p>But then I realized it was actually a feature. You see, there are only
+four hints <em>in the whole game</em> that can&rsquo;t change by swapping:</p><ul><li><p>Tile IS (NOT) something</p></li><li><p>Tile HAS (NOT) some rotation</p></li><li><p>Tile HAS (NOT) some symbol</p></li><li><p>Tile HAS (NOT) multiple symbols</p></li></ul><p>So when a player keeps saying <em>no</em> to everything, this is also good
+information, and tells you the hint is probably about the tile itself
+and nothing else.</p><p>Combine this with the fact that players have to give away one of their
+tiles after each turn, and I think this is actually fine.</p><p>I can massage the problem a bit through code, though: mark these four
+hints as &ldquo;swapResistant&rdquo; and only allow picking <em>one</em> (at most) per
+game. (If two or more players react with &ldquo;no&rdquo; to everything, the game
+stops being fun quickly. And is either very easy to figure out, or very
+hard.)</p><h3 id=optimization>Optimization</h3><p>After running many tests, I realized a major performance hog which had
+almost no benefit.</p><p>When selecting hints <em>fails</em> for a map, I retry 20 times, before
+completely changing the map and starting again.</p><p>Well, those 20 retries only yielded a result &lt;1% of the time. Yet they
+can take half a second to complete.</p><p>So I simply lowered it to a single retry. And it&rsquo;s much faster now.
+Which is great, because I was really starting to worry.</p><p>(It&rsquo;s still slower than I&rsquo;d like. But I cannot find any ways to speed it
+up anymore. It&rsquo;s a byproduct of maps being very simple and hints being
+very exact, instead of the more varied maps with vague hints from the
+original game.)</p><h3 id=finishing-touches>Finishing Touches</h3><p>Some of the hints were a bit inconsistent in terms of iconography. I
+tried to make them as clear as possible.</p><p>I added a hook to the top left corner of the map (and all hints that do
+something with the whole map). When playtesting the previous game, I
+realized that some players would view the map <em>upside down</em> (or at an
+angle), and not being sure which orientation to work with was a bit of
+an issue.</p><p>I added a button so you can <em>always</em> view the map again within the
+interface. (With <em>Pirate Riddlebeard</em>, for some reason, you only view
+the map once at the start and then it disappears. Might need to change
+that.)</p><p>Small stuff like that. I think I&rsquo;ve covered everything now.</p><p>Here are pictures of the final maps, including visual hints and expansions.</p><p><img src=pirate_drawingbeard_final_1.webp alt="Final map, everything turned on"></p><p><img src=pirate_drawingbeard_final_2.webp alt="Final map, everything turned off"></p><h2 id=testing--improving>Testing & Improving</h2><p>Being a simplified version of a game idea I already made, we&rsquo;re already
+at the &ldquo;test and finish&rdquo; stage. (I keep saying &ldquo;already&rdquo; as if the
+devlog isn&rsquo;t already 5,000 words long. Making games is <em>hard</em> and takes
+a long time.)</p><h3 id=timing>Timing</h3><p>First the <strong>timing test</strong>. How long does it take to go from a <em>blank
+paper</em> to <em>we can play the game</em>? It takes me roughly 5 minutes:</p><ul><li><p><strong>1 minute</strong> to fold the paper</p></li><li><p><strong>3 minutes</strong> to copy the map</p></li><li><p><strong>1 minute</strong> to cut all the tiles</p></li></ul><p>I try to time these at a regular, casual pace. No &ldquo;tricks&rdquo; to go faster.
+In fact, my workspace is very small and cluttered, so my biggest enemy
+is actually finding the room and angles for writing and cutting :p</p><p>I find this acceptable. You only need 5 minutes + some device +
+paper/pens to setup a game that will last you 30-60 minutes. (The other
+modes are all faster, as you reuse material or print something
+beforehand.)</p><p>Of course, some extra time is needed to copy the <em>hints</em> in this case as
+well. But that depends on the players themselves and the player count,
+and is negligible in all cases. (Players will usually have one or two
+hints that are just a simple icon.)</p><h3 id=practical-stuff>Practical stuff</h3><p>The rules are very simple and clear. It plays the same as Riddlebeard,
+only faster and smoother. The chance of winning early at random is
+slightly higher, but not much, and an unavoidable consequence of simpler
+rules.</p><p>One minor setback is the main swapping action. When reusing material,
+you obviously don&rsquo;t <em>write</em> on the tiles. You place tokens to indicate
+player&rsquo;s answers for tiles.</p><p>This becomes a bit annoying when you start to <em>swap</em> tiles, as you need
+to move the tokens with them <em>or</em> place them to the side for a bit. It&rsquo;s
+nothing major, but it could be better.</p><p>But I see no solution for this, so we&rsquo;ll have to accept it (and maybe
+solve this with the next variant).</p><h3 id=playing>Playing</h3><p>The game works!</p><p>It accomplishes exactly what it wants: a simpler, faster, more
+streamlined, kidfriendly, improved version of Riddlebeard.</p><p>That&rsquo;s the huge benefit of creating variants on game ideas you already
+spent a long time developing and improving.</p><h2 id=conclusion>Conclusion</h2><p>There are still some things I&rsquo;d like to improve in the next variant,
+though:</p><ul><li><p>The main action (&ldquo;swap&rdquo;) feels like it could be further simplified.
+Especially when it becomes impractical as well.</p></li><li><p>Drawn hints aren&rsquo;t all 100% clear, while at the same time being
+quite <em>simple</em>. I&rsquo;d like to change the setup so that drawn hints
+don&rsquo;t need any explanation (or lead to any confusion), but allow
+<em>some</em> numbers or text to allow more complicated hints.</p></li><li><p>The game is only competitive. I&rsquo;d like to add a cooperative mode as
+well.</p></li><li><p>Square/grid maps are boring and overdone. I want to try a more
+dynamic graph map.</p></li></ul><p>So this is it for Pirate Drawingbeard.</p><p>But the points above will probably be implemented in the next variant,
+called <em>Pirate Spacebeard</em> (name might be changed) :p</p><p>Until the next devlog,</p><p>Pandaqi</p></div></article><div><nav class=pagination><ul><li><a href=/blog/boardgames/the-pirate-games/devlog-pirate-riddlebeard/ class="masked-link big-mask mask-5" style=--rotation:-1deg>&lt;&lt; Previous Page</a></li><li>Continue reading</li><li><span class=nav-disabled>No next page :(</span></li></ul></nav></div></main><footer id=site-footer><div class="padding center-block"><h3>More Pandaqi</h3><p>You could <a href=https://pandaqi.com>visit the game studio</a>.
+Or my <a href=https://pandaqi.com/tutorials/>free tutorial website</a>.
+Or my <a href=https://rodepanda.com/>portfolio</a> with easy access to absolutely everything I ever made.</p><h3>Latest</h3><nav class=latest><ul><li><a href=/blog/boardgames/photomone/>Photomone
+(🐜)</a></li><li><a href=/blog/boardgames/keebble-domino/>Keebble: Domino
+(📗)</a></li><li><a href=/blog/boardgames/keebble-knickknack/>Keebble: Knickknack
+(📘)</a></li><li><a href=/blog/videogames/game-jams/less-is-store/>Less is Store
+(🛍️)</a></li><li><a href=/blog/tutorials/placing-grids-within-spaces/>Placing grids within spaces</a></li><li><a href=/blog/boardgames/thats-amorphe-pictures/>That's Amorphe: Pictures
+(🖌️)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-2023-update-ii/>Pandaqi Games: 2023 Update (II)
+(🎮)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-2023-update-iii/>Pandaqi Games: 2023 Update (III)
+(🎮)</a></li><li><a href=/blog/news-and-updates/pq-daw/>PQ_DAW: A music editor for the web
+(🎼)</a></li><li><a href=/blog/news-and-updates/pq-words/>PQ_WORDS: A dictionary for games
+(📋)</a></li></ul></nav><h3>Sections</h3><nav><ul><li><a href=/blog/boardgames/>Boardgames
+(🎲)</a></li><li><a href=/blog/news-and-updates/>News & Updates
+(📢)</a></li><li><a href=/blog/reviews-and-thoughts/>Reviews & Thoughts
+(💭)</a></li><li><a href=/blog/tutorials/>Tutorials
+(👩‍🎓)</a></li><li><a href=/blog/videogames/>Videogames
+(🎮)</a></li></ul></nav><h3>Credits</h3><p>Theme by me (<a href=https://pandaqi.com>Pandaqi</a> 🐼) &#183;
+with ❤️ &#183;
+using <a href=https://gohugo.io>Hugo</a> &#183;
+&copy; 2018&ndash;2023 Pandaqi Blog</p></div></footer><link rel=stylesheet type=text/css href=/blog/css/style.css><script src=/blog/js/bundle.min.js></script></body></html>

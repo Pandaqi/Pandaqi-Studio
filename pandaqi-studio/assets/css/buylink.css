@@ -1,0 +1,30 @@
+/* TO DO: Check the CSS properties for this link on all the other pages */
+/* 		  => then generalize into one base-class, and perhaps a few variations */
+.buy-link-container {
+  text-align: center;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+.buy-link-container.overlay-buy-link {
+  z-index: 10;
+  position: relative;
+  margin-bottom: 80px;
+  margin-top: -5vw !important;
+}
+.buy-link-container .buy-link {
+  margin-top: 0px;
+  display: inline-block;
+  padding: 20px;
+  border-radius: 0.5em;
+  text-decoration: none;
+  font-weight: 900;
+  transition: background-color 0.5s, color 0.5s;
+  box-shadow: 0 0 10px 2px black;
+}
+.buy-link-container .platform-metadata {
+  display: block;
+}
+
+/*# sourceMappingURL=buylink.css.map */

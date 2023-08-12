@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    {{ block "head" . }}{{- partial "head.html" . -}}{{ end }}
+
+    {{ $col := or .Params.color "default" }}
+    <body>
+        {{ block "header" . }}
+            {{- partial "header.html" . -}}
+        {{ end }}
+        
+        <main>
+            {{- block "main" . }}{{- end }}
+        </main>
+
+        {{ block "footer" . }}
+            {{- partial "footer.html" . -}}
+        {{ end }}
+    </body>
+</html>

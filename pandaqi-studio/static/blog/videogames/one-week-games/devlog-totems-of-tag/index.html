@@ -1,0 +1,282 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><title>Totems of Tag | Pandaqi Blog</title><link rel=icon type=image/png href=https://pandaqi.com/blog//favicon.png><link rel=stylesheet type=text/css href=/blog/css/critical.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin></head><body><header id=site-header><nav class=menu><ul><li><a href=https://pandaqi.com/blog/ class="masked-link big-mask mask-2" style=--rotation:0.5deg>Home</a></li><li><a href=/blog/boardgames/ class="masked-link big-mask mask-2" style=--rotation:2deg>Boardgames</a></li><li><a href=/blog/news-and-updates/ class="masked-link big-mask mask-7" style=--rotation:0deg>News & Updates</a></li><li><a href=/blog/reviews-and-thoughts/ class="masked-link big-mask mask-2" style=--rotation:2deg>Reviews & Thoughts</a></li><li><a href=/blog/tutorials/ class="masked-link big-mask mask-7" style=--rotation:-1deg>Tutorials</a></li><li><a href=/blog/videogames/ class="masked-link big-mask mask-2" style=--rotation:-1.5deg>Videogames</a></li></ul></nav></header><main class="padding center-block"><article class=single-article><div class=thumbnail-media><img src=totems-of-tag-header.webp></div><h1>Totems of Tag</h1><aside class=metadata><nav class=breadcrumbs><span class=metadata-label><span class=emoji>🥐</span> Breadcrumbs ||</span>
+<a href=https://pandaqi.com/blog/>Home</a>
+/
+<a href=https://pandaqi.com/blog/videogames/>Videogames</a>
+/
+<a href=https://pandaqi.com/blog/videogames/one-week-games/>One week games</a>
+/
+<a href=https://pandaqi.com/blog/videogames/one-week-games/devlog-totems-of-tag/>Devlog totems of tag</a></nav><script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/pandaqi.com\/blog\/","name":"home"}},{"@type":"ListItem","position":2,"item":{"@id":"https:\/\/pandaqi.com\/blog\/videogames\/","name":"videogames"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/pandaqi.com\/blog\/videogames\/one-week-games\/","name":"one-week-games"}},{"@type":"ListItem","position":4,"item":{"@id":"https:\/\/pandaqi.com\/blog\/videogames\/one-week-games\/devlog-totems-of-tag\/","name":"devlog-totems-of-tag"}}]}</script><div><span class=metadata-label><span class=emoji>&#8987;</span> Published ||</span>
+<time datetime=2021-07-17T14:00:00>Saturday, Jul 17, 2021</time></div><nav class=tags><span class=metadata-label><span class=emoji>🎗</span> Tags ||</span><ul><li><a href=https://pandaqi.com/blog/tags/mini-devlog>mini devlog</a></li></ul></nav><div><span class=metadata-label><span class=emoji>📖</span> Table of Contents ||</span>
+<a href=# id=toc-toggle>Show</a></div></aside><aside id=table-of-contents class=masked-link-block><header><h2>Table of Contents</h2></header><nav id=TableOfContents><ul><li><a href=#whats-the-idea>What&rsquo;s the idea?</a></li><li><a href=#lesson-1-dont-leave-visuals-for-last>Lesson #1: Don&rsquo;t leave visuals for last</a></li><li><a href=#lesson-2-2d-isnt-always-easier-than-3d>Lesson #2: 2D isn&rsquo;t always easier than 3D</a></li><li><a href=#lesson-3-be-mindful-of-taking-decision-away-from-players>Lesson #3: Be mindful of taking decision away from players</a></li><li><a href=#lesson-4-make-the-bare-minimum-fun>Lesson #4: Make the bare minimum fun</a></li><li><a href=#lesson-5-hardcoding-is-fine>Lesson #5: Hardcoding is fine</a></li><li><a href=#lesson-6-sharing-is-comparing>Lesson #6: Sharing is comparing</a></li><li><a href=#lesson-7-ui--first-impression>Lesson #7: UI = first impression</a></li><li><a href=#lesson-8-start-with-extremes-then-scale-back>Lesson #8: Start with extremes, then scale back</a></li><li><a href=#conclusion>Conclusion</a></li></ul></nav></aside><div><p>Welcome to another devlog about a &ldquo;One Week Game&rdquo;! (Which are,
+unsurprisingly, games completely developed in a single week.)</p><p>This one is about <a href=https://pandaqi.com/totems-of-tag>Totems of Tag</a>. (Click the link to visit the
+official page. The game is for 2-4 players and free on all platforms.)</p><p>The first <em>one week games</em> were &ldquo;A Recipe For Disaster&rdquo; and &ldquo;I Wish You
+Good Hug&rdquo;. Both projects were a great success. Especially for something
+made in just a week!</p><p>But &mldr; they were very similar. Both featured a grid, throwing stuff,
+and cooperation enforced by people being split into their own separate
+regions.</p><p>Another problem was their <em>scope</em>. Even though I managed to finish them,
+they were still <em>too large</em> for my liking (and stress levels).</p><p>That&rsquo;s why I wanted to try something different! A silly physics-based
+game, that should be <em>very very simple</em>.</p><p>In the end, I settled on the idea of making a game like &ldquo;dodgeball&rdquo; (you
+know, from high school PE), but with a few clever twists.</p><p>All the other ideas I had were perhaps better, but also <em>larger</em>. I do
+these projects to help me finish stuff and keep it simple, so I want to
+do the simplest ideas first.</p><h2 id=whats-the-idea>What&rsquo;s the idea?</h2><p>All players are dropped in a single-screen arena, with a few lives, and
+a few <em>balls</em>.</p><p>Throwing a ball against someone else removes one of their lives! When
+you have no lives left, you die and are out of the game. The winner is
+the last one standing.</p><p>So far, so simple, right? Well, yeah. And developer can make this in a
+few hours, which also means it would be quite <em>boring and cliché</em>.</p><p>So I permitted myself a few twists:</p><ul><li><p>When throwing, you can rotate your character to add <em>curve</em> to the
+ball.</p></li><li><p>There are all sorts of <em>special powerups and ball types.</em> (Both good
+and bad.)</p></li><li><p>Many powerups can only be acquired by throwing a ball against them,
+from a distance.</p></li><li><p>I planned a second button for &mldr; something, but I didn&rsquo;t know what
+at this time.</p></li></ul><p>In my head, I had this image of these circular <em>totems</em> with parts that
+could rotate independently from each other. The more you rotated (when
+powering up your throw), the more your ball would curve. (This image was
+partly inspired by the boardgame <em>Iwarii</em>.)</p><h2 id=lesson-1-dont-leave-visuals-for-last>Lesson #1: Don&rsquo;t leave visuals for last</h2><p>The general consensus, which I&rsquo;ve read/heard time and time again over
+the years, is to &ldquo;build the whole game first with placeholder graphics,
+then add the actual graphics at the end&rdquo;</p><p>Usually, graphics and design are seen as the <em>very last things</em> you do
+to the game. And I see where people are coming from and largely agreed
+all those years.</p><p>But more and more &mldr; I realize this isn&rsquo;t necessarily a good idea.</p><p>You see, I was ready to give up this project. I woke up and was like
+&ldquo;what am I doing, wasting a whole week on a very boring and simple
+game?&rdquo; I just wasn&rsquo;t impressed by any of the ideas or mechanics, and had
+a million ideas I was more excited about.</p><p>Trying to convince myself to at least do <em>something</em> for the project, I
+started creating visuals. Some cute characters (with different angles
+for rotation), some actual colored balls, some particles, some
+animations.</p><p>I basically spent 5 hours, right at the start of the project, creating
+<em>all those things</em> you are supposed to leave for the end. And guess
+what? It completely restored my faith in the project. Many of these
+visuals are still in the game, because they ended up being fitting
+perfectly.</p><p>Over the course of the week, whenever I was losing motivation, I
+repeated this exercise. I searched for an area that could be improved
+and created some <em>visual</em> thing (a sprite, an animation, particles,
+tween, whatever) to make it just a little nicer.</p><p>If I hadn&rsquo;t done so, this project would never have gotten further than
+the &ldquo;some square people on a grey background are throwing circles at
+each other&rdquo;</p><p><strong>The main lesson?</strong> Visuals are <em>vital</em> to any game. Use them to
+motivate yourself and make your project look/feel fun as early as
+possible. Visuals should inform gameplay, and vice versa. Don&rsquo;t just
+slap them on at the end.</p><h2 id=lesson-2-2d-isnt-always-easier-than-3d>Lesson #2: 2D isn&rsquo;t always easier than 3D</h2><p>At first, I wanted to make this game 3D. It just feels like a better
+fit: totems feel like something I could create and animate in 3D (with
+my very limited skills). And if that&rsquo;s done, I just need to give
+everything a proper collision body, and basically 90% of the game is
+done.</p><p>But I didn&rsquo;t do it. Why? Again, because I needed to keep this game
+simple. And in my experience, 2D was always way easier than 3D.</p><p>This was probably a mistake.</p><p>If you work in a sort of &ldquo;fake 3D&rdquo; world, you need to apply <em>many</em>
+tricks to make it look and feel realistic. I had to think a lot about
+how to <em>draw stuff</em>, which <em>collision shapes</em> to give them, and more
+detailed physics-related stuff.</p><p>Why? Let&rsquo;s say a shrub is standing in the middle of the field. If a
+player approaches from the back, they need to be stopped by it, but not
+immediately! They should be able to <em>stand behind</em> the shrub, moving a
+few pixels into the sprite before stopped, because that&rsquo;s how it would
+work in 3D.</p><p>Moreover, the ball floats a bit above the ground when thrown. So, it
+should be able to move <em>even further into the sprite</em> than players,
+because it&rsquo;s higher off the ground!</p><p>If all of this is confusing, let me tell you: yeah, it is. It was a lot
+of work to make the physics, the perspective, the sprites all work
+together (and properly sorted) to give the illusion of a 3D playing
+field.</p><p>In the end, that energy was probably better spent <em>actually creating
+this game in 3D</em>. Which I might still do as my next project.</p><p><strong>The main lesson?</strong> 2D is easier than 3D, but not if you try to <em>force
+2D to be fake 3D</em>. In that case, just bite the bullet and go full 3D.</p><h2 id=lesson-3-be-mindful-of-taking-decision-away-from-players>Lesson #3: Be mindful of taking decision away from players</h2><p>Okay, let me explain that heading.</p><p>When I first started making games, I was like: &ldquo;players should be able
+to have total freedom! In <em>my games</em>, they can decide whatever they
+want, have control over everything, hooray!&rdquo;</p><p>After some projects, though, I realized the error of my ways. Such
+amount of freedom, such choices, are <em>overwhelming</em>. Most players aren&rsquo;t
+even looking for that. They just want the game delivered in a clear-cut
+way that makes it the most fun for them, which usually means that many
+parts of the game are <em>decided</em> or <em>automated</em> by the code.</p><p><strong>For example:</strong> take the FIFA games. By default, many things are
+enabled to <em>help</em> you. When shooting or passing a ball, it automatically
+picks a corner/teammate which <em>roughly corresponds with where your stick
+is pointing</em>. You can turn this off, if you want! You can enable
+<em>manual</em> aiming, which allows you to be much more precise &mldr; but is
+also <em>waaay harder to pull off</em>. Most people just aren&rsquo;t looking for
+that. They are fine with the help, with the decision being taken away.</p><p>So, when I developed this game, I locked in almost everything. Powerups
+were always <strong>good</strong>. But if you get hit with a &ldquo;bad ball&rdquo;, you receive
+a random powerup that is always <strong>bad</strong>.</p><p>Your <strong>throwing power</strong> and <strong>throwing curve</strong> were always the same.
+(The more curve, the harder the shot.)</p><p>All powerups and balls were picked up by simple walking over them.</p><p>I removed almost all freedom and it <strong>hurt the game severely</strong>. Yes, it
+made the game very simple to play, but it also turned the game into more
+of a &mldr; simulation? You could do and decided <em>so little</em>, that each
+round turned out similar to the last. You couldn&rsquo;t really <em>train</em> to
+improve your skill.</p><p>That&rsquo;s why I gave the player more choice again:</p><ul><li><p>All powerups can be good or bad.</p></li><li><p>Some powerups are picked up by walking over them, but others must be
+<em>actively</em> grabbed by throwing a ball against it.</p></li><li><p>Balls must always be grabbed. This also immediately added the
+mechanic of &ldquo;catching a ball&rdquo; before it could hurt you.</p></li><li><p>Throwing <strong>power</strong> is controlled by <strong>how long you hold the
+button</strong>.</p></li><li><p>Throwing <strong>curve</strong> is controlled by <strong>how much</strong> <strong>you rotate</strong>.</p></li></ul><p>This way, you can make a strategy. You can decide to work a little
+harder to pick up a <em>really useful powerup</em>. Or, if you don&rsquo;t watch out,
+you can accidentally get yourself stuck with very <em>bad ones</em>.</p><p>Similarly, if you train a bit, you can throw the ball any way you like.
+A soft curve ball. A fast straight ball. You can take quick surprise
+shots (by quickly tapping the throw button), but can&rsquo;t really aim those.
+Or you can take a few seconds to line up the perfect throw.</p><p>Making these changes made the game way more strategical, yet also
+skill-based. And it was all a result of <em>doing less work</em> and giving
+many decisions <em>to the players</em>. (Instead of programming my own code to
+help you, I just &mldr; removed that code.)</p><p><strong>The main lesson?</strong> Strike a balance between giving freedom/decisions
+to players, and helping them by making the computer take care of stuff.</p><h2 id=lesson-4-make-the-bare-minimum-fun>Lesson #4: Make the bare minimum fun</h2><p><strong>This one is very important, learned after many years of making
+games!</strong></p><p>Games are about challenge. You try to reach an objective, but something
+is in the way. By trying stuff, playing again and again, you get
+<em>better</em> and get more <em>skill</em> with the game&rsquo;s controls and mechanics.</p><p>However, challenge is very subjective. What I might find easy, is too
+hard for others. Failure that makes me go &ldquo;hmm, interesting, I should
+try X next time&rdquo;, makes others go &ldquo;huh? Weird game, I&rsquo;ll just try the
+same thing again. Or quit.&rdquo;</p><p>The last few years, I&rsquo;ve created many games (or small prototypes), and
+asked other people to test them. And guess what? Many of them don&rsquo;t care
+about all those challenging mechanics I put in the game. They might not
+even care about what all the buttons do. They&rsquo;re contend with learning
+the basic controls (usually moving + one button) and just doing
+something.</p><p>In other words, they will <strong>do the bare minimum</strong>. And you, the
+developer, should <strong>make that fun as well.</strong></p><p>This is, I think, one of the big failures of my past games. Their &ldquo;fun&rdquo;
+was only unlocked if you knew your way around a controller, played quite
+seriously, &ldquo;understood&rdquo; what it was trying to do.</p><p>For this game, I fixed that from the start. (And I will do that for all
+games going forward.)</p><p><strong>Case Study:</strong> let&rsquo;s meet &ldquo;Hank&rdquo;. He&rsquo;s not a pro gamer and just wants
+to have some fun. He only knows the controls for movement and that
+pressing a button will do something.</p><p>What will they try? And how do we make sure they have fun?</p><ul><li><p>If they walk up to a ball, and press that button, they should <em>grab
+it</em>. Even if it&rsquo;s not that precise. Even if their timing is off.</p></li><li><p>If they release the button, the ball should be thrown <em>with
+considerable speed</em>. Even without charging power, or adding curve,
+they should be able to throw balls and hit others.</p></li><li><p>If they accidentally walk over a powerup, they automatically enable
+it, so that works. (They are not &ldquo;locked out&rdquo; of that system in the
+game.)</p></li></ul><p>This way, they don&rsquo;t need to be good at the game, or know <em>all</em> the
+controls or mechanics, to <strong>have fun</strong> and <strong>take (serious) part in the
+game.</strong></p><p>It might feel stupid. Like treating your players like idiots or
+rewarding them for doing nothing. But it&rsquo;s absolutely the right thing to
+do and an art in itself. Just make sure that &ldquo;doing the bare minimum&rdquo; is
+not rewarded 100%, not the best strategy. There should be room to grow,
+expand your skill, be better than that.</p><p><strong>The main lesson?</strong> Make every separate mechanic/system/part of the
+game fun and easy to interact with, so even the bare minimum means
+you&rsquo;re having fun. And yes, this will feel like treating your players
+like idiots.</p><h2 id=lesson-5-hardcoding-is-fine>Lesson #5: Hardcoding is fine</h2><p>I love random generation. I&rsquo;m just endlessly interested in <em>what the
+computer will come up with</em>, given a few simple rules. It creates
+infinite variation and surprises in a game.</p><p>But &mldr; not everything is suited to random generation. I tried to
+randomly generate the arenas, but soon realized it wasn&rsquo;t worth the
+effort.</p><p>The results were just bad and unfair. On such a small space, where
+hitting someone can come down to a few pixels, it&rsquo;s just not <em>fun</em> to
+start with potentially unbalanced or ugly arenas.</p><p>Okay, plan B: manually create a few maps out of a set of <em>tiles</em>. This
+would have been a good idea <em>if the game didn&rsquo;t have this weird fake 3D
+effect going on</em>. Due to that, it was hard to make tiles that seamlessly
+fit together, both visually and physically. (Placing two blocks after
+each other, for example, should <em>not</em> leave a gap that a ball or player
+can fly through.)</p><p>So I settled on plan C: manually create every map from scratch. This
+meant that I could draw <em>anything</em>, and just import it into the game
+engine, and add bodies/functionality where needed. As such, most arenas
+in the game are just a few <em>huge sprites</em> with smaller sprites for
+objects that should be separate (e.g. because you can move them around
+or stand behind them).</p><p>And you know what? Even though I&rsquo;d never done it this way before, and it
+felt &mldr; weird to me, it was <em>absolutely fine</em>. It allowed me to create
+a few varied arenas very quickly. (Considerably quicker than writing all
+the code for randomly generating them.) It allowed me, again, to finish
+this game within a week.</p><p><strong>The main lesson?</strong> Manually creating a small amount of content can be
+completely fine, and can be preferable over random generation.</p><p>(This motto was literally written, in all caps, on top of my notebook:
+&ldquo;Stop thinking in terms of tiles, just sketch the full area and build
+it.&rdquo; I&rsquo;ve done so many tile/grid-based games, it was hard to get out of
+the mindset :p)</p><h2 id=lesson-6-sharing-is-comparing>Lesson #6: Sharing is comparing</h2><p>These are <strong>local multiplayer games</strong>. I make these because I don&rsquo;t play
+games for myself, I play them for the social experience. To share a
+moment with others, have fun with others.</p><p>That&rsquo;s why I think it&rsquo;s perhaps more important to focus on that social
+aspect, than the game itself.</p><p>And when it comes to humans, we are weird social creatures that enjoy
+<em>comparing</em> ourselves with others. Cheering when we do something nice,
+talking smack when somebody does something annoying.</p><p>So here are some things I added to this game to facilitate that:</p><ul><li><p>At the game over screen, it shows <em>statistics</em> for each player. Hit
+the most players? You&rsquo;re a sniper. Walked the largest distance?
+You&rsquo;re a runner.</p></li><li><p>During the game, there are some messages reacting to the game state.
+If you hit someone that previously hit you, you get a &ldquo;Revenge!&rdquo; If
+a ball misses you by the <em>slimmest of margins</em> you get a &ldquo;Ha,
+almost!&rdquo;</p></li></ul><p>These are small things, because I didn&rsquo;t have the time for more (and
+don&rsquo;t have much experience with coding these things yet). But they help
+<em>a lot</em> and always result in a fun discussion during/after a game.</p><p><strong>The main lesson?</strong> I&rsquo;m learning more and more that creating a fun game
+doesn&rsquo;t necessarily mean the game <em>mechanics</em> are absolutely amazing,
+but also means the whole <em>experience</em> around it (game feel, tiny
+details, effects, etc.) is just &ldquo;fun&rdquo;. So it&rsquo;s okay to focus on that a
+lot and make the game itself pretty simple or standard.</p><h2 id=lesson-7-ui--first-impression>Lesson #7: UI = first impression</h2><p>Usually, game developers leave the menus and buttons and UI (user
+interface) for last. But with each game I make, I learn (even more) how
+important the interface is, and how you should spend more time on it.</p><p>For this game, the interface is all about configuring the game you want
+to play. Which arena do you want? Which balls do you want to include?
+Which powerups? Etcetera.</p><p>At first, I sketched a big screen full of sliders and buttons and stuff.
+Because that&rsquo;s how many games do this: a plain old &ldquo;settings&rdquo; menu.</p><p>But then some of my previous experience kicked in and said: &ldquo;No! This is
+too hard to comprehend, too many options to process, too much on one
+screen.&rdquo;</p><p>So I split it up. The interface now has multiple screens, in order,
+where you choose your settings. First it only shows the &ldquo;arenas&rdquo; and you
+can select the one you want. Continue. It shows all different ball
+types, you can select the ones you want. Continue. After four screens,
+you continue into the actual game.</p><p>Yes, this took some effort to implement, especially since I&rsquo;ve never
+done this before. But it made a <em>huge difference</em>. Configuring your game
+was now a quick experience. Each screen only showed a few options, all
+within the same category. You only had to move around (using your
+default move input, aka <em>arrow keys</em> or <em>joystick</em>) and toggle stuff
+on/off with the press of a button.</p><p>From now on, I&rsquo;ll probably do this for all games.</p><p>But the story continues! At first, all navigation was done with your
+move input. If you tried to move right, but there was no option anymore
+(you were at the edge of the grid), it would automatically continue to
+the next screen.</p><p>Even though I really like this and think it&rsquo;s intuitive &mldr; it&rsquo;s not so
+<em>quick</em> when you don&rsquo;t want to change a lot of settings. In that case,
+you are just pressing <em>right, right, right, right</em> at least twenty times
+before the game actually starts. (My playtesters actually revealed this
+flaw and I just <em>saw</em> their mood dropping when they realized they had to
+move through the whole menu again.)</p><p>As usual with these One Week Games, there is some &ldquo;bonus time&rdquo;. A full
+day, maybe more (or less) after the week has ended, where I&rsquo;m allowed to
+fix the most important stuff.</p><p>Well, quite some time was spent adding better controls and graphics to
+the interface. Now you can immediately skip screens by pressing SPACE
+(forward) or BACKSPACE (backward). Underneath the arrows is a picture of
+this key (or the corresponding key on your controller).</p><p>In fact, almost all <em>text</em> has been removed from the whole interface
+now, and you can very quickly move around.</p><p>The result? My playtesters did not mind going through the interface and
+changing some settings anymore, and I did not see their mood or energy
+drop when they had to do that. It&rsquo;s literally 5-10 seconds between
+startup and playing a game (if you want to keep your previous settings).</p><p>Even though that did not change gameplay <em>at all</em>, I think it made every
+impression of the game at least ten times as good.</p><h2 id=lesson-8-start-with-extremes-then-scale-back>Lesson #8: Start with extremes, then scale back</h2><p>Many properties of this game used to be more extreme, but were softened
+after I did some playtests. I see this pattern a lot and think it&rsquo;s more
+useful than the other way around (i.e. being very careful with your
+settings, then cranking them up when they don&rsquo;t seem to work).</p><p>For example, you used to be able to dash and tackle continuously. Then
+you could only dash once the previous dash ended. Now there&rsquo;s a timer of
+5 seconds before you can dash again.</p><p>Or the &ldquo;shrinking field&rdquo; rule (where the arena slowly shrinks, and you
+die if you&rsquo;re outside the &ldquo;safe zone&rdquo;) used to be too quick and
+unexpected. A game with this rule enabled would end within a minute, and
+mostly because players didn&rsquo;t see it coming and suddenly died (to their
+annoyance &mldr;) So now it waits longer <em>and</em> flashes a short warning
+before it starts to shrink.</p><p>Or the &ldquo;statistics/traits&rdquo; shown at the game over screen. At first, it
+showed 3 per person. But that&rsquo;s <em>12 traits appearing on your screen</em> for
+4 players! Just too much, overwhelming, and players stop reading them
+after the first game. So I scaled back and it now randomly shows between
+1-3 traits.</p><p>(The list goes on and on. There used to be more teleports in that
+&ldquo;teleport arena&rdquo;, the edges of the arena used to be pushed more outward
+but it caused players to lose their character if too close to the edge,
+there were originally 6 powerup slots (SIX! What was I thinking?!) per
+player.)</p><p>Working this way, I think most values and mechanisms in the game ended
+up quite balanced. Only a few playtests, a few days, were needed to
+scale back from the extreme.</p><p>Properties that went the other way around, however, gave me more
+trouble. When I first implemented &ldquo;throwing the ball&rdquo;, they went too
+slowly. So I increased the power. And I increased it more. I did a
+playtest and increased it even further. But no matter how often this
+cycle repeats, I was never <em>completely</em> satisfied.</p><p>Probably because I (and my playtesters) got used to the game, and the
+old rules, so now they were like &ldquo;why am I walking so slow?&rdquo; and &ldquo;why
+can&rsquo;t I throw the ball faster?&rdquo;</p><p>I don&rsquo;t know if I&rsquo;m adequately explaining this, maybe I can do a better
+job once I understand it better myself. It just feels like it&rsquo;s better
+to balance games by starting with extremes, because starting
+&ldquo;conservatively&rdquo; makes it easy to just completely miss mechanics or
+their impact, so you don&rsquo;t even <em>know what you&rsquo;re trying to balance</em>.</p><p><strong>Remark:</strong> on a related note, I have the tendency to think &ldquo;oh man this
+mechanic just <em>doesn&rsquo;t work</em>&rdquo; when my playtesters don&rsquo;t really
+understand or use it. But that&rsquo;s way too radical :p Usually, the problem
+is one of <em>balance</em>, of <em>tuning the parameters</em>. Maybe players don&rsquo;t use
+mechanic X because it&rsquo;s too weak right now, but if I make it twice as
+fast it might be the best thing ever. So I try to catch myself when I&rsquo;m
+having these thoughts, and simply try other values/parameters <em>before</em>
+scrapping the whole idea.</p><h2 id=conclusion>Conclusion</h2><p>So yeah, that&rsquo;s it. A game that&rsquo;s nothing special, very small, good for
+a few quick rounds here and there.</p><p>But still, it&rsquo;s a game. A finished game people enjoy. Something that
+taught me these lessons I explained above.</p><p>And that&rsquo;s what these &ldquo;one week games&rdquo; are all about: finishing,
+learning, and mostly having a good time with my friends/family when
+testing these games.</p><p>The next one will probably be completely different again. After all the
+wonky physics stuff I did for this one, I&rsquo;m done with that part of game
+dev for the time being :p</p><p>Alternatively, if I find the courage, I will port this game to actual
+3D.</p><p>Until the next devlog,</p><p>Pandaqi</p><p><strong>Remark:</strong> Just wanted to state that I lost <em>hours</em> trying to find the
+weirdest bug of my life. Whenever I exported the game, half of my font
+files were just &mldr; missing. It seemed really random, because the exact
+same font would work in one scene, but be gone in the other.</p><p>It turned out that it was an issue with <em>case sensitivity</em>. Apparently,
+when creating the project, I called the &ldquo;Fonts&rdquo; folder &ldquo;FOnts&rdquo; instead.
+A simply typo, which I immediately fixed &mldr; or so I thought. I had
+already used the font in a few locations before changing the name. (I&rsquo;ve
+done this so many times, that I probably did it within a minute, on
+autopilot.) So when I changed the folder name (<em>outside of my game
+engine</em>), it all went mayhem a few days later.</p><p>So I renamed all font-related stuff &ldquo;snake_case&rdquo;-style, relinked
+everything, and it was fine. (I use <em>Godot game engine</em> by the way.)</p></div></article><div><nav class=pagination><ul><li><a href=/blog/videogames/one-week-games/devlog-i-wish-you-good-hug/ class="masked-link big-mask mask-1" style=--rotation:2deg>&lt;&lt; Previous Page</a></li><li>Continue reading</li><li><a href=/blog/videogames/one-week-games/devlog-rolling-in-the-sheepe/ class="masked-link big-mask mask-7" style=--rotation:-0.5deg>>> Next Page</a></li></ul></nav></div></main><footer id=site-footer><div class="padding center-block"><h3>More Pandaqi</h3><p>You could <a href=https://pandaqi.com>visit the game studio</a>.
+Or my <a href=https://pandaqi.com/tutorials/>free tutorial website</a>.
+Or my <a href=https://rodepanda.com/>portfolio</a> with easy access to absolutely everything I ever made.</p><h3>Latest</h3><nav class=latest><ul><li><a href=/blog/boardgames/photomone/>Photomone
+(🐜)</a></li><li><a href=/blog/boardgames/keebble-domino/>Keebble: Domino
+(📗)</a></li><li><a href=/blog/boardgames/keebble-knickknack/>Keebble: Knickknack
+(📘)</a></li><li><a href=/blog/videogames/game-jams/less-is-store/>Less is Store
+(🛍️)</a></li><li><a href=/blog/tutorials/placing-grids-within-spaces/>Placing grids within spaces</a></li><li><a href=/blog/boardgames/thats-amorphe-pictures/>That's Amorphe: Pictures
+(🖌️)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-2023-update-ii/>Pandaqi Games: 2023 Update (II)
+(🎮)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-2023-update-iii/>Pandaqi Games: 2023 Update (III)
+(🎮)</a></li><li><a href=/blog/news-and-updates/pq-daw/>PQ_DAW: A music editor for the web
+(🎼)</a></li><li><a href=/blog/news-and-updates/pq-words/>PQ_WORDS: A dictionary for games
+(📋)</a></li></ul></nav><h3>Sections</h3><nav><ul><li><a href=/blog/boardgames/>Boardgames
+(🎲)</a></li><li><a href=/blog/news-and-updates/>News & Updates
+(📢)</a></li><li><a href=/blog/reviews-and-thoughts/>Reviews & Thoughts
+(💭)</a></li><li><a href=/blog/tutorials/>Tutorials
+(👩‍🎓)</a></li><li><a href=/blog/videogames/>Videogames
+(🎮)</a></li></ul></nav><h3>Credits</h3><p>Theme by me (<a href=https://pandaqi.com>Pandaqi</a> 🐼) &#183;
+with ❤️ &#183;
+using <a href=https://gohugo.io>Hugo</a> &#183;
+&copy; 2018&ndash;2023 Pandaqi Blog</p></div></footer><link rel=stylesheet type=text/css href=/blog/css/style.css><script src=/blog/js/bundle.min.js></script></body></html>

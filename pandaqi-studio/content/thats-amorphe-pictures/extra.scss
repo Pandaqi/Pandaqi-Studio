@@ -1,0 +1,80 @@
+$bg-color: #b4f9ff;
+$btn-bg-color: #0b3a3e;
+$btn-text-color: #EEEEFF;
+$btn-hover-bg-color: #f64b64;
+$btn-hover-text-color: #3d0911;
+
+h1, h2, h3, h4, h5, h6, a.btn, #btn-create-pdf, #btn-generate-board, #btn-start-game {
+    font-family: 'Ribeye', sans-serif;
+}
+
+body {
+    font-family: 'Lora', serif;
+    background-color: $bg-color;
+    font-size: 20px;
+}
+
+input, button, select, option, label {
+    font-family: 'Lora', serif;
+}
+
+label {
+    font-size: 18px;
+}
+
+.limit-width {
+    max-width: 960px;
+}
+
+h2 {
+    font-size: 56px;
+    margin-bottom: 0px;
+}
+
+h3 { 
+    font-size: 38px;
+    margin-bottom: -18px;
+
+    &.settings-heading {
+        margin-bottom: 0px;
+        color: rgba(255,255,255,0.87);
+    }
+}
+
+a {
+    color: $btn-bg-color; 
+    transition: color 0.3s;
+
+    &:hover {
+        color: $btn-hover-text-color;
+    }
+}
+
+.boardgame-intro {
+    .big-header-image {
+        filter: none;
+    }
+}
+
+
+.game-settings {
+    background-color: $btn-bg-color;
+    color: $btn-text-color;
+}
+
+a.download-btn, a.download-btn:visited, #btn-start-game, #btn-start-game:visited {
+    background-color: $btn-bg-color;
+    color: $btn-text-color;
+}
+
+a.download-btn:hover, #btn-start-game:hover {
+    background-color: $btn-hover-bg-color;
+    color: $btn-hover-text-color;
+    box-shadow: 0 0 10px #333;
+}
+
+@media all and (max-width: 900px) {
+    .game-settings {
+        font-size: 12px;
+    }
+}

@@ -1,0 +1,84 @@
+$header-font: "Jockey One", serif;
+$body-font: "Figtree", sans-serif;
+$bg-color: #18393E;
+$text-color: #FCFCFC;
+$main-color: #7c2b6b;
+$button-bg: #FCC038;
+$button-color: #212121;
+$link-color: #b2da55;
+$link-color-hover: #d8f398;
+$settings-color: #a51921;
+
+// Color scheme: 
+// DARKBLUE: #18393E
+// MIDBLUE: #438593
+// RED: #a51921;   #CF363F
+// YELLOW: #FCC038
+
+h1, h2, h3, h4, h5, h6, 
+a.btn, #btn-create-pdf, #btn-generate-board, #btn-start-game,
+input, button, select, option, label {
+    font-family: $header-font;
+}
+
+body {
+    font-family: $body-font;
+    background-color: $bg-color;
+    color: $text-color;
+    font-size: 20px;
+    background-size: 100%;
+}
+
+.remark-under-settings {
+    font-size: 0.75em; 
+    opacity: 0.75;
+}
+
+.limit-width {
+    max-width: 960px;
+}
+
+h2 {
+    font-size: 56px;
+    margin-bottom: 0px;
+}
+
+h3 { 
+    font-size: 38px;
+    margin-bottom: 0px;
+}
+
+a {
+    color: $link-color; 
+    transition: color 0.3s;
+
+    &:hover {
+        color: $link-color-hover;
+    }
+}
+
+.game-settings {
+    background-color: $settings-color;
+}
+
+.boardgame-intro {
+    .tagline, .metadata {
+        color: #FCFCFC;
+    }
+}
+
+.boardgame-intro .big-header-image {
+    filter: none !important;
+}
+
+a.download-btn, a.download-btn:visited, 
+#btn-start-game, #btn-start-game:visited,
+#btn-generate-board, #btn-generate-board:visited {
+    background-color: $button-bg;
+    color: $button-color;
+    
+    &:hover {
+        background-color: $button-color;
+        color: $button-bg;
+    }
+}

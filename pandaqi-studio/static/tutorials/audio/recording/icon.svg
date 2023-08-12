@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 256 256" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
+    <g transform="matrix(1,0,0,1,-5120,0)">
+        <g id="Recording" transform="matrix(1.6,0,0,1.70667,-13117.5,-373.411)">
+            <rect x="11398.4" y="218.796" width="160" height="150" style="fill:none;"/>
+            <g transform="matrix(1,0,0,1,-0.416668,8.37175)">
+                <g transform="matrix(1.77959,0,0,1.35254,2139.5,135.278)">
+                    <path d="M5230.03,100.223L5230.03,117.545C5230.03,127.046 5234.88,135.162 5241.69,138.328" style="fill:none;stroke:rgb(152,0,52);stroke-width:5.72px;"/>
+                </g>
+                <g transform="matrix(1.77959,0,0,1.35254,2139.5,135.278)">
+                    <path d="M5254.35,138.34C5261.17,135.182 5266.03,127.058 5266.03,117.545L5266.03,98.357" style="fill:none;stroke:rgb(152,0,52);stroke-width:5.72px;"/>
+                </g>
+                <g transform="matrix(1.85438,0,0,1.85438,-9807.84,-243.861)">
+                    <g transform="matrix(0.625,0,0,0.526602,8198.41,227.592)">
+                        <path d="M5249.03,148.248L5249.03,167.998" style="fill:none;stroke:rgb(152,0,52);stroke-width:8.41px;"/>
+                    </g>
+                    <g transform="matrix(6.44296e-17,0.585937,-1.05222,3.58783e-17,11645.4,-2759.03)">
+                        <path d="M5249.03,148.248L5249.03,167.998" style="fill:none;stroke:rgb(152,0,52);stroke-width:5.78px;"/>
+                    </g>
+                </g>
+                <g transform="matrix(1.15899,0,0,1.08655,5395.68,161.87)">
+                    <path d="M5267.26,77.415L5255.2,77.415L5255.2,83.081L5267.36,83.081L5267.36,88.615L5255.2,88.615L5255.2,94.281L5267.36,94.281L5267.36,99.815L5255.2,99.815L5255.2,105.481L5267.36,105.481L5267.36,111.015L5255.2,111.015L5255.2,116.681L5267.36,116.681L5267.36,122.657C5267.36,133.026 5258.94,141.445 5248.57,141.445C5238.2,141.445 5229.78,133.026 5229.78,122.657L5229.78,116.681L5242.2,116.681L5242.2,111.015L5229.78,111.015L5229.78,105.481L5242.2,105.481L5242.2,99.815L5229.78,99.815L5229.78,94.281L5242.2,94.281L5242.2,88.615L5229.78,88.615L5229.78,83.081L5242.2,83.081L5242.2,77.415L5229.88,77.415C5230.85,67.948 5238.85,60.551 5248.57,60.551C5258.29,60.551 5266.3,67.948 5267.26,77.415Z" style="fill:rgb(241,15,93);"/>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

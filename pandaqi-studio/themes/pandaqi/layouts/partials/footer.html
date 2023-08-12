@@ -1,0 +1,180 @@
+
+{{ $all_colors := .Site.Params.all_colors }}
+{{ $color_scheme := or .Params.color (index ($all_colors | shuffle) 0) }}
+
+{{ if and (not .Params.collection) .Params.gamepage }}
+	<div class="metadata-divider clipped {{ $color_scheme }}"></div>
+	<section class="metadata-container clipped {{ $color_scheme }}">
+		{{ partial "metadata.html" . }}
+	</section>
+{{ end }}
+
+<!-- On narrow screens, a "fake divider" is created and put on top of the footer -->
+<!-- Because the footer itself gets very long, using "mask-image" on that results on very ugly HUGE waves -->
+<div class="footer-divider clipped {{ $color_scheme }}">
+</div>
+
+<footer class="clipped {{ $color_scheme }}">
+	{{ if .Params.gamePage }}
+		<!-- Show narrow footer, easy styling -->
+		{{ partial "narrow-footer.html" . }}
+	{{ else }}
+		<!-- Show full footer, fixed general styling -->
+		{{ partial "full-footer.html" . }}
+	{{ end }}
+</footer>
+
+<!-- EXTRA CSS -->
+<!-- Deferred loading of non-critical CSS -->
+{{ $style := slice }}
+
+{{ $options := (dict "targetPath" "style.css" "outputStyle" "compressed" "transpiler" "dartsass") }}
+
+{{ if .Params.gamepage }}
+	{{ if .Params.boardgame }}
+		{{ $change := dict "targetPath" "css/style-boardgame.css" }}
+		{{ $new_options := merge $options $change }}
+		{{ $style = resources.Get "sass/style-boardgame.scss" | resources.ToCSS $new_options }} 
+	{{ else }}
+		{{ $change := dict "targetPath" "css/style-game.css" }}
+		{{ $new_options := merge $options $change }}
+		{{ $style = resources.Get "sass/style-game.scss" | resources.ToCSS $new_options }} 
+	{{ end }}
+{{ else }}
+	{{ $change := dict "targetPath" "css/style.css" }}
+	{{ $new_options := merge $options $change }}
+	{{ $style = resources.Get "sass/style.scss" | resources.ToCSS $options }}
+{{ end }}
+
+<link rel="stylesheet" type="text/css" href="{{ $style.RelPermalink }}">
+
+<!-- Load extra CSS, if the page requires it -->
+<!-- Can't "combine" this, because it's not a "global resource", but that's fine -->
+{{ if .Params.extraCSS }}
+	{{ $output_path := printf "../%s/extra.css" (path.Dir .Page.File.Path) }}
+	{{ $extra := .Page.Resources.GetMatch "extra.scss" }}
+
+	{{ $change := dict "targetPath" $output_path }}
+	{{ $new_options := merge $options $change }}
+	
+	{{ $style = $extra | resources.ToCSS $new_options }} 
+	<link rel="stylesheet" type="text/css" href="{{ $style.RelPermalink }}" />
+{{ end }}
+
+<!-- EXTRA FONTS -->
+<!-- Deferred loading of Fonts = huge speed boost -->
+{{ $default_google_fonts := "https://fonts.googleapis.com/css2?family=Raleway&family=Dosis:wght@500;800&display=swap" }}
+{{ $fonts := or .Params.googleFonts $default_google_fonts }}
+
+<script type="text/javascript">
+	var fonts = document.createElement('link');
+	fonts.rel = 'stylesheet';
+	fonts.href = '{{ $fonts }}';
+	var godefer = document.getElementsByTagName('link')[0];
+	godefer.parentNode.insertBefore(fonts, godefer);
+</script>
+
+<!-- Default JS needed (for making basic functionality work, like picking random projects) -->
+{{ $js_bundle := slice }}
+{{ $default_js := resources.Get "/js/functionality.js" | js.Build "/js/lib-functionality.js" | minify }}
+{{ $js_bundle = $js_bundle | append $default_js }}
+
+<!-- EXTRA JS + Asset bundling -->
+{{ $pq_games := (resources.Get "/js/pq_games/main.js" | js.Build "/js/lib-pqGames.js" | minify) }}
+{{ $pq_games.Publish }}
+
+{{ $pq_words := (resources.Get "/js/pq_words/main.js" | js.Build "/js/lib-pqWords.js" | minify) }}
+{{ $pq_words.Publish }}
+
+{{ $phaser := (resources.Get "/js/phaser.min.js") }}
+{{ $phaser.Publish }}
+
+{{ if .Params.pqGames }}{{ $js_bundle = $js_bundle | append $pq_games }}{{ end }}
+{{ if .Params.phaser }}{{ $js_bundle = $js_bundle | append $phaser }}{{ end }}
+{{ if .Params.pqWords }}{{ $js_bundle = $js_bundle | append $pq_words }}{{ end }}
+
+{{ $names := slice "/js/bundle" }}
+{{ range $js_bundle }}
+	{{ $name := split .Name "/" }}
+	{{ $name = index $name 1 }}
+	{{ $name = replace $name ".min.js" "" }}
+	{{ $name = replace $name ".js" "" }}
+	{{ $names = $names | append $name }}
+{{ end }}
+{{ $names = $names | append "js" }}
+{{ $final_name := delimit $names "." }}
+
+{{ $final_js_bundle := $js_bundle | resources.Concat $final_name | minify }}
+<script async defer src="{{ $final_js_bundle.RelPermalink }}"></script>
+
+<!-- Shared JS: when I create multiple spin-off games, they share the same library -->
+{{ if .Params.sharedJS }}
+	{{ $build_shared_js := .Params.sharedJSBuild }}
+	{{ $name := .Params.sharedJS }}
+	{{ $file_name := printf "/games/%s/js_shared/main.js" $name }}
+	{{ $output_name := printf "/js_shared/lib-%s.js" $name }}
+	{{ $res := resources.Get $file_name }}
+	{{ if $build_shared_js }}
+		{{ $res = $res | js.Build $output_name | minify }}
+	{{ else }}
+		{{ $res = $res | minify | resources.Copy $output_name }}
+	{{ end }}
+	{{ $res.Publish }}
+	{{ if not .Params.sharedJSOnlyPublish }}
+		<script async defer src="{{ $res.RelPermalink }}"></script>
+	{{ end }}
+{{ end }}
+
+<!-- Extra JS: unique code for this page, given as relative/absolute links -->
+{{ $js_bundle_extra := slice }}
+{{ $url := .RelPermalink }}
+{{ $include_extra_js := .Params.extraJS }}
+{{ $build_extra_js := .Params.extraJSBuild }}
+{{ if $include_extra_js }}
+	{{ with .GetPage "js" }}
+		{{ if $build_extra_js }}
+			{{ $res_built := .Resources.GetMatch "main.js" | js.Build }}
+			{{ $js_bundle_extra = $js_bundle_extra | append $res_built }}
+		{{ else }}
+			{{ range .Resources }}
+				{{ $js_bundle_extra = $js_bundle_extra | append . }}
+			{{ end }}
+		{{ end }}
+
+		{{ $bundle_name := printf "%s/%s" $url "js/bundle.extra.js" }}
+		{{ $res := $js_bundle_extra | resources.Concat $bundle_name | minify }}
+		{{ $res.Publish }}
+		<script async defer src="{{ $res.RelPermalink }}"></script>
+	{{ end }}
+{{ end }}
+
+<!-- Extra JS: build the files used by the game portion, if requested -->
+<!-- but we do not ADD it to this page, we use it on the game page -->
+{{ $include_game_js := .Params.extraJSGame }}
+{{ $build_game_js := .Params.extraJSGameBuild }}
+{{ $js_bundle_game := slice }}
+{{ if $include_game_js }}
+	{{ with .GetPage "js_game" }}
+		{{ if $build_game_js }}
+			{{ $res_built := .Resources.GetMatch "main.js" | js.Build }}
+			{{ $js_bundle_game = $js_bundle_game | append $res_built }}
+		{{ else }}
+			{{ range .Resources }}
+				{{ $js_bundle_game = $js_bundle_game | append . }}
+			{{ end }}
+		{{ end }}
+
+		{{ $bundle_name := printf "%s/%s" $url "js_game/bundle.extra.js" }}
+		{{ $res := $js_bundle_game | resources.Concat $bundle_name | minify }}
+		{{ $res.Publish }}
+	{{ end }}
+{{ end }}
+
+<!-- Extra custom JS: simply a hardcoded link to something else -->
+{{ with .Params.extraJSCustom }}
+	{{ range . }}
+		<script async defer src="{{ . }}"></script>
+	{{ end }}
+{{ end }}
+
+{{ partialCached "footer-cached.html" . }}

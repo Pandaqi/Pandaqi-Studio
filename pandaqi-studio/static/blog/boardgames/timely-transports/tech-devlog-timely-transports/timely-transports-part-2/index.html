@@ -1,0 +1,215 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><title>Timely Transports (Part 2) | Pandaqi Blog</title><link rel=icon type=image/png href=https://pandaqi.com/blog//favicon.png><link rel=stylesheet type=text/css href=/blog/css/critical.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin></head><body><header id=site-header><nav class=menu><ul><li><a href=https://pandaqi.com/blog/ class="masked-link big-mask mask-4" style=--rotation:0deg>Home</a></li><li><a href=/blog/boardgames/ class="masked-link big-mask mask-6" style=--rotation:2deg>Boardgames</a></li><li><a href=/blog/news-and-updates/ class="masked-link big-mask mask-4" style=--rotation:0deg>News & Updates</a></li><li><a href=/blog/reviews-and-thoughts/ class="masked-link big-mask mask-3" style=--rotation:-0.5deg>Reviews & Thoughts</a></li><li><a href=/blog/tutorials/ class="masked-link big-mask mask-4" style=--rotation:-1deg>Tutorials</a></li><li><a href=/blog/videogames/ class="masked-link big-mask mask-7" style=--rotation:-1.5deg>Videogames</a></li></ul></nav></header><main class="padding center-block"><article class=single-article><div class=thumbnail-media><img src=../../timely-transports-header.webp></div><h1>Timely Transports (Part 2)</h1><aside class=metadata><nav class=breadcrumbs><span class=metadata-label><span class=emoji>🥐</span> Breadcrumbs ||</span>
+<a href=https://pandaqi.com/blog/>Home</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/>Boardgames</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/timely-transports/>Timely transports</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/timely-transports/tech-devlog-timely-transports/>Tech devlog timely transports</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/timely-transports/tech-devlog-timely-transports/timely-transports-part-2/>Timely transports part 2</a></nav><script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/pandaqi.com\/blog\/","name":"home"}},{"@type":"ListItem","position":2,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/","name":"boardgames"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/timely-transports\/","name":"timely-transports"}},{"@type":"ListItem","position":4,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/timely-transports\/tech-devlog-timely-transports\/","name":"tech-devlog-timely-transports"}},{"@type":"ListItem","position":5,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/timely-transports\/tech-devlog-timely-transports\/timely-transports-part-2\/","name":"timely-transports-part-2"}}]}</script><div><span class=metadata-label><span class=emoji>&#8987;</span> Published ||</span>
+<time datetime=2020-08-05T10:00:00>Wednesday, Aug 5, 2020</time></div><nav class=tags><span class=metadata-label><span class=emoji>🎗</span> Tags ||</span><ul><li><a href=https://pandaqi.com/blog/tags/technical-devlog>technical devlog</a></li></ul></nav><div><span class=metadata-label><span class=emoji>📖</span> Table of Contents ||</span>
+<a href=# id=toc-toggle>Show</a></div></aside><aside id=table-of-contents class=masked-link-block><header><h2>Table of Contents</h2></header><nav id=TableOfContents><ul><li><a href=#everybody-make-some-noise>Everybody make some noise!</a></li><li><a href=#placing-cities>Placing Cities</a></li><li><a href=#creating-connections>Creating Connections</a></li><li><a href=#pathfinding>Pathfinding</a></li><li><a href=#nice-roads>Nice Roads</a></li></ul></nav></aside><div><p>In part 1 I outlined the difficulties with what I was trying to do (combine a boardgame and smartphone, and generate random boards), but also <strong>why</strong> I want to do it. It has clear advantages, has never been done before, and opens many opportunities.</p><p>So let&rsquo;s see how we go about that.</p><h2 id=everybody-make-some-noise>Everybody make some noise!</h2><p>Step 1, as always, uses <em>noise</em> to generate a random landscape. I
+started with <em>Perlin Noise</em>, but switched to <em>Simplex Noise</em> as it gives
+better results on a grid.</p><p>(Why? Perlin Noise will always yield a noise value of 0 if the
+coordinates you enter are integers. In practice, you get a map with lots
+of completely straight vertical/horizontal lines, which is ugly.)</p><p>I loop through all grid cells, take the <em>average</em> of the noise value of
+the four corners, and save that as the definitive value.</p><p>(Why? After many experiments, I found this to be the best way to capture
+the roughness of continuous noise on a <em>grid</em>. If I just sample one
+noise value &ndash; say, the center of the grid square &ndash; there&rsquo;s a good
+chance two squares next to each other both sample the value &ldquo;0&rdquo;, whilst
+completely missing a range of super high values between them.)</p><p>This approach <em>does</em> smooth the noise, as you&rsquo;re taking weighted
+averages all the time. Even though the noise takes values between -1 and
+1, after averaging the extreme values were usually -0.7 to 0.7.</p><p>But that&rsquo;s fine!</p><p>Now that I have a grid of values, I convert it to a terrain. After some
+trial-and-error, the water line became -0.4. (Everything below that is
+water, everything above is land.) But you can raise this value, for
+example, and get a huge sea with some tiny islands in it.</p><p>Nice!</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-Javascript data-lang=Javascript><span class=line><span class=ln> 1</span><span class=cl><span class=c1>// you can see this as the &#34;resolution&#34; =&gt; it determines how large each cell is and how far zoomed in the noise is
+</span></span></span><span class=line><span class=ln> 2</span><span class=cl><span class=c1></span><span class=kr>const</span> <span class=nx>z</span> <span class=o>=</span> <span class=p>(</span><span class=k>this</span><span class=p>.</span><span class=nx>cfg</span><span class=p>.</span><span class=nx>cellSize</span> <span class=o>/</span> <span class=k>this</span><span class=p>.</span><span class=nx>cfg</span><span class=p>.</span><span class=nx>noiseZoom</span><span class=p>);</span>
+</span></span><span class=line><span class=ln> 3</span><span class=cl>
+</span></span><span class=line><span class=ln> 4</span><span class=cl><span class=c1>// determine noise value per terrain cell (and initialize some other settings for each cell)
+</span></span></span><span class=line><span class=ln> 5</span><span class=cl><span class=c1></span><span class=k>for</span><span class=p>(</span><span class=kd>var</span> <span class=nx>x</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>x</span> <span class=o>&lt;</span> <span class=k>this</span><span class=p>.</span><span class=nx>cfg</span><span class=p>.</span><span class=nx>widthInCells</span><span class=p>;</span> <span class=nx>x</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln> 6</span><span class=cl>  <span class=k>this</span><span class=p>.</span><span class=nx>terrain</span><span class=p>[</span><span class=nx>x</span><span class=p>]</span> <span class=o>=</span> <span class=p>[];</span>
+</span></span><span class=line><span class=ln> 7</span><span class=cl>
+</span></span><span class=line><span class=ln> 8</span><span class=cl>  <span class=k>for</span><span class=p>(</span><span class=kd>var</span> <span class=nx>y</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>y</span> <span class=o>&lt;</span> <span class=k>this</span><span class=p>.</span><span class=nx>cfg</span><span class=p>.</span><span class=nx>heightInCells</span><span class=p>;</span> <span class=nx>y</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln> 9</span><span class=cl>    <span class=c1>// take average of corners in perlin noise
+</span></span></span><span class=line><span class=ln>10</span><span class=cl><span class=c1></span>    <span class=kd>var</span> <span class=nx>weight</span> <span class=o>=</span> <span class=mf>0.25</span>
+</span></span><span class=line><span class=ln>11</span><span class=cl>
+</span></span><span class=line><span class=ln>12</span><span class=cl>    <span class=kd>var</span> <span class=nx>noiseVal</span> <span class=o>=</span> <span class=nx>weight</span><span class=o>*</span><span class=nx>noise</span><span class=p>.</span><span class=nx>simplex2</span><span class=p>(</span><span class=nx>x</span><span class=o>*</span><span class=nx>z</span><span class=p>,</span> <span class=nx>y</span><span class=o>*</span><span class=nx>z</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>13</span><span class=cl>    <span class=nx>noiseVal</span> <span class=o>+=</span> <span class=nx>weight</span><span class=o>*</span><span class=nx>noise</span><span class=p>.</span><span class=nx>simplex2</span><span class=p>((</span><span class=nx>x</span><span class=o>+</span><span class=mi>1</span><span class=p>)</span><span class=o>*</span><span class=nx>z</span><span class=p>,</span> <span class=nx>y</span><span class=o>*</span><span class=nx>z</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>14</span><span class=cl>    <span class=nx>noiseVal</span> <span class=o>+=</span> <span class=nx>weight</span><span class=o>*</span><span class=nx>noise</span><span class=p>.</span><span class=nx>simplex2</span><span class=p>((</span><span class=nx>x</span><span class=o>+</span><span class=mi>1</span><span class=p>)</span><span class=o>*</span><span class=nx>z</span><span class=p>,</span> <span class=p>(</span><span class=nx>y</span><span class=o>+</span><span class=mi>1</span><span class=p>)</span><span class=o>*</span><span class=nx>z</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>15</span><span class=cl>    <span class=nx>noiseVal</span> <span class=o>+=</span> <span class=nx>weight</span><span class=o>*</span><span class=nx>noise</span><span class=p>.</span><span class=nx>simplex2</span><span class=p>(</span><span class=nx>x</span><span class=o>*</span><span class=nx>z</span><span class=p>,</span> <span class=p>(</span><span class=nx>y</span><span class=o>+</span><span class=mi>1</span><span class=p>)</span><span class=o>*</span><span class=nx>z</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>16</span><span class=cl>
+</span></span><span class=line><span class=ln>17</span><span class=cl>    <span class=k>this</span><span class=p>.</span><span class=nx>terrain</span><span class=p>[</span><span class=nx>x</span><span class=p>][</span><span class=nx>y</span><span class=p>]</span> <span class=o>=</span> 
+</span></span><span class=line><span class=ln>18</span><span class=cl>    <span class=p>{</span> 
+</span></span><span class=line><span class=ln>19</span><span class=cl>      <span class=s1>&#39;val&#39;</span><span class=o>:</span> <span class=nx>noiseVal</span><span class=p>,</span>
+</span></span><span class=line><span class=ln>20</span><span class=cl>
+</span></span><span class=line><span class=ln>21</span><span class=cl>      <span class=s1>&#39;isForest&#39;</span><span class=o>:</span> <span class=kc>false</span><span class=p>,</span>
+</span></span><span class=line><span class=ln>22</span><span class=cl>      <span class=s1>&#39;forestFrame&#39;</span><span class=o>:</span> <span class=o>-</span><span class=mi>1</span><span class=p>,</span>
+</span></span><span class=line><span class=ln>23</span><span class=cl>
+</span></span><span class=line><span class=ln>24</span><span class=cl>      <span class=s1>&#39;partOfPath&#39;</span><span class=o>:</span> <span class=kc>false</span><span class=p>,</span>
+</span></span><span class=line><span class=ln>25</span><span class=cl>      <span class=s1>&#39;pathSprite&#39;</span><span class=o>:</span> <span class=kc>null</span><span class=p>,</span>
+</span></span><span class=line><span class=ln>26</span><span class=cl>      <span class=s1>&#39;pathTypes&#39;</span><span class=o>:</span> <span class=p>[],</span>
+</span></span><span class=line><span class=ln>27</span><span class=cl>
+</span></span><span class=line><span class=ln>28</span><span class=cl>      <span class=s1>&#39;cityAllowed&#39;</span><span class=o>:</span> <span class=kc>true</span><span class=p>,</span> 
+</span></span><span class=line><span class=ln>29</span><span class=cl>      <span class=s1>&#39;city&#39;</span><span class=o>:</span> <span class=kc>null</span> 
+</span></span><span class=line><span class=ln>30</span><span class=cl>    <span class=p>};</span>
+</span></span><span class=line><span class=ln>31</span><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=ln>32</span><span class=cl><span class=p>}</span></span></span></code></pre></div><p><img src=timely-trans-tech-3.webp alt="Terrain + Noise Generation (for Timely Transports)"></p><p>(This image already has paths between cities, which I&rsquo;ll discuss soon. I
+just didn&rsquo;t have any earlier screenshots of the progress, sorry. And
+yes, the colors are ugly, that&rsquo;s how it always starts :p)</p><h2 id=placing-cities>Placing Cities</h2><p>This step confirmed a famous quote from the game industry (I&rsquo;m
+paraphrasing):</p><p>&ldquo;Whenever you write a new feature, start with the absolute <em>dumbest</em> and
+<em>most naïve</em> approach possible. It will often turn out to be the right
+one and save you a lot of time.&rdquo;</p><p>A year ago, I worked on a &ldquo;pirate game&rdquo; that needed to know the
+boundaries of islands. (This project eventually went nowhere, <em>but</em> it
+taught me everything I use these days in my newer projects. To prove
+this, it will soon pop up again!)</p><p>I copied this code and changed it to get the boundaries of <em>lakes</em>
+instead.</p><p>How does it work? Really simple: it loops through all water tiles and
+checks the neighbours (top, right, bottom, left). If <em>any</em> of the
+neighbours is a land tile, then this water tile <em>must</em> be at the edge!</p><p>Why do I need the boundaries of lakes? Because traditionally, and
+especially in the jungle area (in which this game is placed), people
+placed settlements <em>near running water</em>. I want to do that as well!</p><p>The city placement algorithm now became very simple:</p><ul><li><p>Pick a random tile at the edge of water.</p></li><li><p>Check if any other city is nearby (I don&rsquo;t want cities too close to
+each other)</p><ul><li><p>If so, retry with a new tile</p></li><li><p>If not, continue</p></li></ul></li><li><p>Place the city on this tile, disallow all tiles within a certain
+radius.</p></li></ul><p>Below is the code for this whole algorithm.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-Javascript data-lang=Javascript><span class=line><span class=ln> 1</span><span class=cl><span class=cm>/* 
+</span></span></span><span class=line><span class=ln> 2</span><span class=cl><span class=cm>    STEP 1
+</span></span></span><span class=line><span class=ln> 3</span><span class=cl><span class=cm>    Go through whole grid, check neighbours, and mark locations at the edge of the water
+</span></span></span><span class=line><span class=ln> 4</span><span class=cl><span class=cm>    (in the code, these were called dock locations, to remind myself they are a bridge between water and land)
+</span></span></span><span class=line><span class=ln> 5</span><span class=cl><span class=cm>    
+</span></span></span><span class=line><span class=ln> 6</span><span class=cl><span class=cm>    NOTE: Perhaps more optimized to keep a list of water cells and only go through those, 
+</span></span></span><span class=line><span class=ln> 7</span><span class=cl><span class=cm>          or do this action within another loop we&#39;re already doing
+</span></span></span><span class=line><span class=ln> 8</span><span class=cl><span class=cm>          but I usually separate these things for clarity&#39;s sake
+</span></span></span><span class=line><span class=ln> 9</span><span class=cl><span class=cm>*/</span>
+</span></span><span class=line><span class=ln>10</span><span class=cl>
+</span></span><span class=line><span class=ln>11</span><span class=cl><span class=k>for</span><span class=p>(</span><span class=kd>var</span> <span class=nx>x</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>x</span> <span class=o>&lt;</span> <span class=k>this</span><span class=p>.</span><span class=nx>cfg</span><span class=p>.</span><span class=nx>widthInCells</span><span class=p>;</span> <span class=nx>x</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>12</span><span class=cl>  <span class=k>for</span><span class=p>(</span><span class=kd>var</span> <span class=nx>y</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>y</span> <span class=o>&lt;</span> <span class=k>this</span><span class=p>.</span><span class=nx>cfg</span><span class=p>.</span><span class=nx>heightInCells</span><span class=p>;</span> <span class=nx>y</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>13</span><span class=cl>
+</span></span><span class=line><span class=ln>14</span><span class=cl>    <span class=k>if</span><span class=p>(</span><span class=o>!</span><span class=k>this</span><span class=p>.</span><span class=nx>terrain</span><span class=p>[</span><span class=nx>x</span><span class=p>][</span><span class=nx>y</span><span class=p>].</span><span class=nx>isWater</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>15</span><span class=cl>      <span class=k>continue</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>16</span><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=ln>17</span><span class=cl>
+</span></span><span class=line><span class=ln>18</span><span class=cl>    <span class=kd>var</span> <span class=nx>neighbors</span> <span class=o>=</span> <span class=p>[[</span><span class=mi>1</span><span class=p>,</span><span class=mi>0</span><span class=p>],</span> <span class=p>[</span><span class=mi>0</span><span class=p>,</span><span class=mi>1</span><span class=p>],</span> <span class=p>[</span><span class=o>-</span><span class=mi>1</span><span class=p>,</span><span class=mi>0</span><span class=p>],</span> <span class=p>[</span><span class=mi>0</span><span class=p>,</span><span class=o>-</span><span class=mi>1</span><span class=p>]];</span>
+</span></span><span class=line><span class=ln>19</span><span class=cl>    <span class=kd>var</span> <span class=nx>waterNeighbors</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>20</span><span class=cl>    <span class=k>for</span><span class=p>(</span><span class=kd>var</span> <span class=nx>n</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>n</span> <span class=o>&lt;</span> <span class=mi>4</span><span class=p>;</span> <span class=nx>n</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>21</span><span class=cl>      <span class=kd>var</span> <span class=nx>newX</span> <span class=o>=</span> <span class=nx>x</span> <span class=o>+</span> <span class=nx>neighbors</span><span class=p>[</span><span class=nx>n</span><span class=p>][</span><span class=mi>0</span><span class=p>],</span> <span class=nx>newY</span> <span class=o>=</span> <span class=nx>y</span> <span class=o>+</span> <span class=nx>neighbors</span><span class=p>[</span><span class=nx>n</span><span class=p>][</span><span class=mi>1</span><span class=p>];</span>
+</span></span><span class=line><span class=ln>22</span><span class=cl>
+</span></span><span class=line><span class=ln>23</span><span class=cl>      <span class=k>if</span><span class=p>(</span><span class=o>!</span><span class=k>this</span><span class=p>.</span><span class=nx>outOfBounds</span><span class=p>(</span><span class=nx>newX</span><span class=p>,</span> <span class=nx>newY</span><span class=p>)</span> <span class=o>&amp;&amp;</span> <span class=k>this</span><span class=p>.</span><span class=nx>terrain</span><span class=p>[</span><span class=nx>newX</span><span class=p>][</span><span class=nx>newY</span><span class=p>].</span><span class=nx>isWater</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>24</span><span class=cl>        <span class=nx>waterNeighbors</span><span class=o>++</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>25</span><span class=cl>      <span class=p>}</span>
+</span></span><span class=line><span class=ln>26</span><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=ln>27</span><span class=cl>
+</span></span><span class=line><span class=ln>28</span><span class=cl>    <span class=c1>// place city on water edges, but NOT if they are very close to the bounds of the map
+</span></span></span><span class=line><span class=ln>29</span><span class=cl><span class=c1></span>    <span class=c1>// (this looks ugly and probably cuts off the city name/details)
+</span></span></span><span class=line><span class=ln>30</span><span class=cl><span class=c1></span>    <span class=k>if</span><span class=p>(</span><span class=nx>waterNeighbors</span> <span class=o>&lt;</span> <span class=mi>4</span> <span class=o>&amp;&amp;</span> <span class=k>this</span><span class=p>.</span><span class=nx>distanceToBounds</span><span class=p>(</span><span class=nx>x</span><span class=p>,</span> <span class=nx>y</span><span class=p>)</span> <span class=o>&gt;=</span> <span class=k>this</span><span class=p>.</span><span class=nx>cfg</span><span class=p>.</span><span class=nx>minDistanceToEdge</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>31</span><span class=cl>      <span class=k>this</span><span class=p>.</span><span class=nx>dockLocations</span><span class=p>.</span><span class=nx>push</span><span class=p>([</span><span class=nx>x</span><span class=p>,</span><span class=nx>y</span><span class=p>])</span>
+</span></span><span class=line><span class=ln>32</span><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=ln>33</span><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=ln>34</span><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=ln>35</span><span class=cl>
+</span></span><span class=line><span class=ln>36</span><span class=cl><span class=cm>/*
+</span></span></span><span class=line><span class=ln>37</span><span class=cl><span class=cm>    STEP 2
+</span></span></span><span class=line><span class=ln>38</span><span class=cl><span class=cm>    for each city, place it somewhere it&#39;s allowed (dock location and not too close to something else)
+</span></span></span><span class=line><span class=ln>39</span><span class=cl><span class=cm>    then disallow any cities in a certain radius
+</span></span></span><span class=line><span class=ln>40</span><span class=cl><span class=cm>    (and turn it into a capital, if we still need those)
+</span></span></span><span class=line><span class=ln>41</span><span class=cl><span class=cm>*/</span>
+</span></span><span class=line><span class=ln>42</span><span class=cl>
+</span></span><span class=line><span class=ln>43</span><span class=cl><span class=k>for</span><span class=p>(</span><span class=kd>var</span> <span class=nx>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>i</span> <span class=o>&lt;</span> <span class=nx>numCities</span><span class=p>;</span> <span class=nx>i</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>44</span><span class=cl>    <span class=kd>var</span> <span class=nx>pos</span><span class=p>,</span> <span class=nx>x</span><span class=p>,</span> <span class=nx>y</span>
+</span></span><span class=line><span class=ln>45</span><span class=cl>    <span class=kd>var</span> <span class=nx>tooCloseToCity</span> <span class=o>=</span> <span class=kc>false</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>46</span><span class=cl>    <span class=k>do</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>47</span><span class=cl>        <span class=nx>pos</span> <span class=o>=</span> <span class=k>this</span><span class=p>.</span><span class=nx>dockLocations</span><span class=p>.</span><span class=nx>splice</span><span class=p>(</span><span class=mi>0</span><span class=p>,</span> <span class=mi>1</span><span class=p>)[</span><span class=mi>0</span><span class=p>];</span>
+</span></span><span class=line><span class=ln>48</span><span class=cl>        <span class=nx>x</span> <span class=o>=</span> <span class=nx>pos</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span>
+</span></span><span class=line><span class=ln>49</span><span class=cl>        <span class=nx>y</span> <span class=o>=</span> <span class=nx>pos</span><span class=p>[</span><span class=mi>1</span><span class=p>]</span>
+</span></span><span class=line><span class=ln>50</span><span class=cl>
+</span></span><span class=line><span class=ln>51</span><span class=cl>        <span class=nx>tooCloseToCity</span> <span class=o>=</span> <span class=o>!</span><span class=k>this</span><span class=p>.</span><span class=nx>terrain</span><span class=p>[</span><span class=nx>x</span><span class=p>][</span><span class=nx>y</span><span class=p>].</span><span class=nx>cityAllowed</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>52</span><span class=cl>    <span class=p>}</span> <span class=k>while</span><span class=p>(</span><span class=nx>tooCloseToCity</span> <span class=o>&amp;&amp;</span> <span class=k>this</span><span class=p>.</span><span class=nx>dockLocations</span><span class=p>.</span><span class=nx>length</span> <span class=o>&gt;</span> <span class=mi>0</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>53</span><span class=cl>
+</span></span><span class=line><span class=ln>54</span><span class=cl>    <span class=k>if</span><span class=p>(</span><span class=k>this</span><span class=p>.</span><span class=nx>dockLocations</span><span class=p>.</span><span class=nx>length</span> <span class=o>&lt;=</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>55</span><span class=cl>        <span class=k>this</span><span class=p>.</span><span class=nx>generationFail</span> <span class=o>=</span> <span class=kc>true</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>56</span><span class=cl>        <span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>57</span><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=ln>58</span><span class=cl>
+</span></span><span class=line><span class=ln>59</span><span class=cl>    <span class=c1>// remember this city
+</span></span></span><span class=line><span class=ln>60</span><span class=cl><span class=c1></span>    <span class=kd>var</span> <span class=nx>newCity</span> <span class=o>=</span> 
+</span></span><span class=line><span class=ln>61</span><span class=cl>    <span class=p>{</span> 
+</span></span><span class=line><span class=ln>62</span><span class=cl>        <span class=s1>&#39;x&#39;</span><span class=o>:</span> <span class=nx>x</span><span class=p>,</span> 
+</span></span><span class=line><span class=ln>63</span><span class=cl>        <span class=s1>&#39;y&#39;</span><span class=o>:</span> <span class=nx>y</span><span class=p>,</span> 
+</span></span><span class=line><span class=ln>64</span><span class=cl>        <span class=s1>&#39;capital&#39;</span><span class=o>:</span> <span class=kc>null</span><span class=p>,</span>
+</span></span><span class=line><span class=ln>65</span><span class=cl>        <span class=s1>&#39;connections&#39;</span><span class=o>:</span> <span class=p>[],</span>
+</span></span><span class=line><span class=ln>66</span><span class=cl>        <span class=s1>&#39;connectionGroup&#39;</span><span class=o>:</span> <span class=kc>null</span><span class=p>,</span> 
+</span></span><span class=line><span class=ln>67</span><span class=cl>        <span class=s1>&#39;wantedGoods&#39;</span><span class=o>:</span> <span class=p>[],</span>
+</span></span><span class=line><span class=ln>68</span><span class=cl>        <span class=s1>&#39;airport&#39;</span><span class=o>:</span> <span class=kc>false</span> 
+</span></span><span class=line><span class=ln>69</span><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=ln>70</span><span class=cl>
+</span></span><span class=line><span class=ln>71</span><span class=cl>    <span class=k>this</span><span class=p>.</span><span class=nx>cities</span><span class=p>.</span><span class=nx>push</span><span class=p>(</span><span class=nx>newCity</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>72</span><span class=cl>    <span class=k>this</span><span class=p>.</span><span class=nx>terrain</span><span class=p>[</span><span class=nx>x</span><span class=p>][</span><span class=nx>y</span><span class=p>].</span><span class=nx>city</span> <span class=o>=</span> <span class=nx>newCity</span>
+</span></span><span class=line><span class=ln>73</span><span class=cl>
+</span></span><span class=line><span class=ln>74</span><span class=cl>    <span class=k>this</span><span class=p>.</span><span class=nx>disallowCitiesInRadius</span><span class=p>(</span><span class=nx>x</span><span class=p>,</span> <span class=nx>y</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>75</span><span class=cl>
+</span></span><span class=line><span class=ln>76</span><span class=cl>    <span class=c1>// make it a player capital, if still needed
+</span></span></span><span class=line><span class=ln>77</span><span class=cl><span class=c1></span>    <span class=k>if</span><span class=p>(</span><span class=nx>i</span> <span class=o>&lt;</span> <span class=k>this</span><span class=p>.</span><span class=nx>cfg</span><span class=p>.</span><span class=nx>playerCount</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>78</span><span class=cl>        <span class=nx>newCity</span><span class=p>.</span><span class=nx>capital</span> <span class=o>=</span> <span class=nx>i</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>79</span><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=ln>80</span><span class=cl><span class=p>}</span></span></span></code></pre></div><p><img src=timely-trans-tech-4.webp alt="City Placement"></p><h2 id=creating-connections>Creating Connections</h2><p>This was the moment I realized <em>why</em> the approach above worked so well:
+it allowed me to create both routes over <em>land</em> and over <em>sea</em>, because
+each city was on the bridge between both worlds.</p><p>This is an overview of the algorithm:</p><ul><li><p>Go through all cities.</p></li><li><p>Check all cities that have <em>not</em> created their connections yet.</p><ul><li><p>Check path over water.</p></li><li><p>If it doesn&rsquo;t exist, check path over land.</p></li></ul></li><li><p>Once we have all possible paths, sort them based on distance.</p></li><li><p>Remove those that are <em>too long</em>, then pick random from the
+available ones.</p></li><li><p>(If at the end of generation, a city has <em>no</em> connections, give it
+an airport => this will change in later versions, as you can
+probably already see the flaw in this reasoning.)</p></li></ul><p>If you do this, you automatically get a collection of paths over land
+and over sea, like this:</p><p><img src=timely-trans-tech-5.webp alt="Pathfinding routes between cities (over land and sea)"></p><p>Again, this is a map from a later stage of development. (I should really
+learn to take screenshots that better suit the devlog.)</p><p><strong>Side note:</strong> in the previous section I talked about creating a list of
+&ldquo;water edge tiles&rdquo;. I used this list for another very important thing as
+well! I used it to create an <em>outline</em> for each body of water. If you
+look closely at the image, you&rsquo;ll see that each lake has a thick blue
+border. This makes a <em>huge difference</em> in the clarity of the map.</p><h2 id=pathfinding>Pathfinding</h2><p>But, you might ask, <em>how</em> do you find the path between two cities?</p><p>Aha! The &ldquo;pirate game&rdquo; returns! In that game, I needed to <em>very quickly</em>
+find the shortest route between all trading harbours in the game &mldr; on
+a regular basis. There were usually 10-20 harbours, which needed to
+update their routes roughly once every 5 turns.</p><p>As such, my pathfinding algorithm had to be <em>fast</em> and <em>customizable</em>.</p><p>That&rsquo;s why I wrote my own pathfinding script:</p><ul><li><p>It uses A*</p></li><li><p>But on a grid => all nodes are automatically connected to all
+neighbours (top, right, bottom, left)</p></li><li><p>With some space where I can input very specific
+changes/requirements/additions</p></li></ul><p>I won&rsquo;t explain the first two parts, as there are countless videos and
+Wikipedia pages on that. (And I don&rsquo;t even think my implementation is
+that good, I only know it&rsquo;s fast and does exactly what I want.)</p><p>But the third part will benefit from some examples.</p><p><strong>Issue #1</strong>: if I create paths between random cities, there&rsquo;s a high
+chance these will <em>nearly overlap</em> or <em>run side by side for a few
+tiles</em>. This looks ugly. In real life, such paths would be &ldquo;merged&rdquo; with
+an intersection.</p><p>So, in my pathfinding algorithm, I said the following: &ldquo;if this
+neighbour already has a path of the same type as you, give it an
+<em>extremely</em> <em>low weight</em>.&rdquo;</p><p>In other words, make that connection <em>so cheap</em>, that the algorithm will
+probably take it. This way, routes &ldquo;snap&rdquo; to existing routes of the same
+type.</p><p>(This isn&rsquo;t perfect, but it solves 99% of the cases.)</p><p><strong>Issue #2:</strong> If I create a path over land &mldr; the shortest path will
+almost always be one that goes <em>along the shoreline</em>. The water is the
+obstacle. The shortest path around the water is by literally following
+the edge of the water. This looks ugly.</p><p>Instead, I want paths over land to stay near the middle of the land, and
+paths over water to stay near the center of the water.</p><p>To do so, I said the following: &ldquo;when creating a path over land, give
+nodes with a <em>higher noise value</em> a <em>lower weight</em>&rdquo; (For water paths,
+the inverse holds.)</p><p>Small changes, but <em>vastly improved</em> results. (All because of that
+unfinished pirate game!)</p><h2 id=nice-roads>Nice Roads</h2><p>Okay, so we have connections between cities which are as short/optimal
+as we can reasonably expect.</p><p>How do we make them look nice? I created an image for each road type
+(water, car, train) containing 4 frames. Each frame was one of the
+possible configurations such a road could have.</p><p><img src=timely-trans-tech-6.webp alt="The four frames for railroutes"></p><p>Then I replaced my rectangles (from previous images) with this
+spritesheet, checked which of our neighbours had the same path type, and
+chose the correct frame and rotation.</p><p>This is a monstrous piece of code which I&rsquo;m not going to show. There are
+probably better ways.</p><p>(I basically run through all neighbours and track the <em>longest sequence
+of existing neighbours</em>. If I have three subsequent neighbour
+connections, starting from the left, I know I need a 3-way connection
+which is rotated 180 degrees. Yeah, it was annoying to write. But once
+it works, it looks really nice!)</p><p><img src=timely-trans-tech-7.webp alt="Beautiful road sprites (rotated/sliced correctly for surroundings)"></p><p>This was also the point where I chose the nicer colors. (I wanted it to
+give a more &ldquo;faded&rdquo; look, instead of bright colors.) I created a quick
+image for the cities, and saw &mldr; that the map was quite empty and most
+roads looked boring. How do we solve this?</p><p>To keep these articles to a nice length, I&rsquo;m going to break it up here and continue in part 3! See you there.</p></div></article><div><nav class=pagination><ul><li><a href=/blog/boardgames/timely-transports/tech-devlog-timely-transports/timely-transports/ class="masked-link big-mask mask-7" style=--rotation:2deg>&lt;&lt; Previous Page</a></li><li>Continue reading</li><li><a href=/blog/boardgames/timely-transports/tech-devlog-timely-transports/timely-transports-part-3/ class="masked-link big-mask mask-7" style=--rotation:2deg>>> Next Page</a></li></ul></nav></div></main><footer id=site-footer><div class="padding center-block"><h3>More Pandaqi</h3><p>You could <a href=https://pandaqi.com>visit the game studio</a>.
+Or my <a href=https://pandaqi.com/tutorials/>free tutorial website</a>.
+Or my <a href=https://rodepanda.com/>portfolio</a> with easy access to absolutely everything I ever made.</p><h3>Latest</h3><nav class=latest><ul><li><a href=/blog/boardgames/photomone/>Photomone
+(🐜)</a></li><li><a href=/blog/boardgames/keebble-domino/>Keebble: Domino
+(📗)</a></li><li><a href=/blog/boardgames/keebble-knickknack/>Keebble: Knickknack
+(📘)</a></li><li><a href=/blog/videogames/game-jams/less-is-store/>Less is Store
+(🛍️)</a></li><li><a href=/blog/tutorials/placing-grids-within-spaces/>Placing grids within spaces</a></li><li><a href=/blog/boardgames/thats-amorphe-pictures/>That's Amorphe: Pictures
+(🖌️)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-2023-update-ii/>Pandaqi Games: 2023 Update (II)
+(🎮)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-2023-update-iii/>Pandaqi Games: 2023 Update (III)
+(🎮)</a></li><li><a href=/blog/news-and-updates/pq-daw/>PQ_DAW: A music editor for the web
+(🎼)</a></li><li><a href=/blog/news-and-updates/pq-words/>PQ_WORDS: A dictionary for games
+(📋)</a></li></ul></nav><h3>Sections</h3><nav><ul><li><a href=/blog/boardgames/>Boardgames
+(🎲)</a></li><li><a href=/blog/news-and-updates/>News & Updates
+(📢)</a></li><li><a href=/blog/reviews-and-thoughts/>Reviews & Thoughts
+(💭)</a></li><li><a href=/blog/tutorials/>Tutorials
+(👩‍🎓)</a></li><li><a href=/blog/videogames/>Videogames
+(🎮)</a></li></ul></nav><h3>Credits</h3><p>Theme by me (<a href=https://pandaqi.com>Pandaqi</a> 🐼) &#183;
+with ❤️ &#183;
+using <a href=https://gohugo.io>Hugo</a> &#183;
+&copy; 2018&ndash;2023 Pandaqi Blog</p></div></footer><link rel=stylesheet type=text/css href=/blog/css/style.css><script src=/blog/js/bundle.min.js></script></body></html>

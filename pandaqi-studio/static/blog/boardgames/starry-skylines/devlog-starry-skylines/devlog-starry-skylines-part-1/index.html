@@ -1,0 +1,189 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><title>Starry Skylines (Part 1) | Pandaqi Blog</title><link rel=icon type=image/png href=https://pandaqi.com/blog//favicon.png><link rel=stylesheet type=text/css href=/blog/css/critical.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin></head><body><header id=site-header><nav class=menu><ul><li><a href=https://pandaqi.com/blog/ class="masked-link big-mask mask-6" style=--rotation:1deg>Home</a></li><li><a href=/blog/boardgames/ class="masked-link big-mask mask-8" style=--rotation:-1deg>Boardgames</a></li><li><a href=/blog/news-and-updates/ class="masked-link big-mask mask-7" style=--rotation:-1deg>News & Updates</a></li><li><a href=/blog/reviews-and-thoughts/ class="masked-link big-mask mask-4" style=--rotation:2deg>Reviews & Thoughts</a></li><li><a href=/blog/tutorials/ class="masked-link big-mask mask-7" style=--rotation:2deg>Tutorials</a></li><li><a href=/blog/videogames/ class="masked-link big-mask mask-7" style=--rotation:-1.5deg>Videogames</a></li></ul></nav></header><main class="padding center-block"><article class=single-article><div class=thumbnail-media><img src=../../starry-skylines-header.webp></div><h1>Starry Skylines (Part 1)</h1><aside class=metadata><nav class=breadcrumbs><span class=metadata-label><span class=emoji>🥐</span> Breadcrumbs ||</span>
+<a href=https://pandaqi.com/blog/>Home</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/>Boardgames</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/starry-skylines/>Starry skylines</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/starry-skylines/devlog-starry-skylines/>Devlog starry skylines</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/starry-skylines/devlog-starry-skylines/devlog-starry-skylines-part-1/>Devlog starry skylines part 1</a></nav><script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/pandaqi.com\/blog\/","name":"home"}},{"@type":"ListItem","position":2,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/","name":"boardgames"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/starry-skylines\/","name":"starry-skylines"}},{"@type":"ListItem","position":4,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/starry-skylines\/devlog-starry-skylines\/","name":"devlog-starry-skylines"}},{"@type":"ListItem","position":5,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/starry-skylines\/devlog-starry-skylines\/devlog-starry-skylines-part-1\/","name":"devlog-starry-skylines-part-1"}}]}</script><div><span class=metadata-label><span class=emoji>&#8987;</span> Published ||</span>
+<time datetime=2020-08-30T10:00:00>Sunday, Aug 30, 2020</time></div><nav class=tags><span class=metadata-label><span class=emoji>🎗</span> Tags ||</span><ul><li><a href=https://pandaqi.com/blog/tags/devlog>devlog</a></li></ul></nav><div><span class=metadata-label><span class=emoji>📖</span> Table of Contents ||</span>
+<a href=# id=toc-toggle>Show</a></div></aside><aside id=table-of-contents class=masked-link-block><header><h2>Table of Contents</h2></header><nav id=TableOfContents><ul><li><a href=#where-did-the-idea-come-from>Where did the idea come from?</a></li><li><a href=#what-did-i-want-to-improve>What did I want to improve?</a></li><li><a href=#the-first-idea>The First Idea</a></li><li><a href=#the-first-big-problem>The First Big Problem</a></li><li><a href=#the-first-playtest>The First Playtest</a></li></ul></nav></aside><div><p>Welcome back to another devlog for one of my <a href=https://pandaqi.com/boardgames#one_paper_games><strong>One Paper Games</strong></a>!</p><p><em>What are One Paper Games?</em> It&rsquo;s a type of game I invented, for which
+you literally only need one blank piece of paper (and a pen), and you
+can already play! I invented these for many reasons (simplicity, ease of
+use, free to play, possibility of innovative mechanics), and so far
+these games have been a great success, so check them out!</p><p>This time, I&rsquo;m talking about the development process behind <a href=https://pandaqi.com/starry-skylines><strong>Starry
+Skylines</strong></a>!</p><h2 id=where-did-the-idea-come-from>Where did the idea come from?</h2><p>I like the boardgame &ldquo;Welcome To &mldr;&rdquo; (Also known as &ldquo;Welcome To &mldr;
+Your New Dream Home!&rdquo;)</p><p><img src=starry-skylines-1.webp alt="Welcome To &amp;hellip; (Boardgame)">{.float-right}</p><p>It&rsquo;s extremely simple to explain, players take turns simultaneously, it
+supports &ldquo;1-100 players&rdquo;, yet it&rsquo;s very engaging and doesn&rsquo;t feel like a
+&ldquo;dumbed-down&rdquo; game or anything.</p><p>In that game, each player gets their own sheet of paper with a bunch of
+streets and houses. Every round, three cards are revealed, showing a
+<strong>number</strong> and a <strong>special effect</strong>. All players must choose one of
+these three options and draw it on their own sheet.</p><p>For example, you might have the number &ldquo;2&rdquo; and a special effect that
+allows you to build a pool for a house (which are obviously worth way
+more points than houses without a pool).</p><p>But here&rsquo;s the tricky part: you must form valid streets. So, numbers
+must go up (from left to right), and you may not have duplicates. Only
+certain houses allow a pool, for example, so the decision suddenly
+becomes very difficult: should I write a &ldquo;2&rdquo; here because it fits nicely
+between my 1 and 3? Or should I write it in a worse location, but which
+would allow me to build that nice pool?</p><p>They often say that games should be all about <strong>forcing players to take
+interesting decisions</strong>. This game is the simplest example of that,
+distilled to its essence.</p><blockquote><p>Each round is <em>one</em> decision between <em>three</em> options, all equally
+interesting.</p></blockquote><p>So, obviously, my brain thought: &ldquo;what if I copy that game &mldr; but
+<em>bigger</em> and <em>different</em>?!&rdquo;</p><p>Well &mldr; allow me to introduce my latest One Paper Game: <a href=https://pandaqi.com/starry-skylines><strong>Starry Skylines</strong></a>!</p><h2 id=what-did-i-want-to-improve>What did I want to improve?</h2><p>When taking inspiration from another game, I usually think: &ldquo;Which parts
+do I like and want to keep, and which parts do I hate and want to
+change?&rdquo;</p><p>I&rsquo;ll try to explain my original idea using these thoughts.</p><p><strong>Like: ownership and customization.</strong> Because each player has their own
+paper, it gives a great sense of ownership, which is way more important
+in games than people think. (Why do you think people spend <em>ages</em>
+designing their character in video games? Even if it doesn&rsquo;t matter for
+the gameplay at all?)</p><p>It&rsquo;s <em>your</em> neighborhood, with <em>your</em> buildings and pools.</p><p>So I wanted to keep that in the game. Everything you place, you must
+<em>draw</em> yourself (allowing some creative expression), and then <em>claim</em>.
+There are no restrictions on customization, and you cannot lose
+something of yours. (Well, there are a handful of events or buildings
+that allow this, but that&rsquo;s only a tiny speck in the full list of
+possibilities.)</p><p><strong>Dislike: lack of interaction.</strong> Instead of players working completely
+independent of each other, I wanted them to interact. I exclusively make
+multiplayer games for a reason: that juicy interaction between players!</p><p>So instead of each player receiving their own small piece of paper,
+everyone is simply playing on the same single sheet of paper.</p><p><strong>Like: interesting choices.</strong> The core mechanic of the game is just so
+strong, I don&rsquo;t want to meddle with it in any way. In my game as well,
+you are presented three options each round, both a number and an effect.</p><p><strong>Dislike: limited number of choices.</strong> That being said, there are only
+five different things to look for. I wanted there to be way more
+possibilities, more buildings and effects that could be part of the
+game. So I made the following choice:</p><blockquote><p>Instead of building a <em>neighborhood</em>, we are building a complete
+<em>city</em>.</p><p>Instead of using a <em>deck of cards</em>, I&rsquo;ll let my <em>website</em> randomly
+chose options. It&rsquo;s quite easy to provide the computer with tens or
+even hundreds of options, and then ask it to randomly select a few.
+It&rsquo;s even easier to make it follow certain requirements: if I want
+some type of building to occur way more often, I just increase its
+probability.</p><p>Lastly, I allowed the number of effects to vary between 0 and 2. This
+allowed for even more strategic variance: perhaps an option has both a
+negative and positive effect. Will you choose the penalty to get the
+reward? Or will you play it safe and just choose a number without any
+effect?</p></blockquote><p><strong>Like: theme.</strong> For a &ldquo;neighborhood-building&rdquo; game, Welcome To has
+quite a strong and appealing theme. It&rsquo;s not just building houses, it&rsquo;s
+building houses in the 1950&rsquo;s, and the visuals and mechanics match that.
+I think this plays a more important role than one might first assume, so
+I spent a great deal of time coming up with a theme (before I even made
+anything else for my game).</p><p>Eventually, I chose <em>space travel</em> (or <em>space colonization</em> if you
+will). Why?</p><p>My first thought was to build medieval towns and castles, but that theme
+is <em>waaaaay</em> overdone.</p><p>My second thought was to go even further back, building caves and
+campfire for prehistoric tribes, but that limited my options too
+severely. (Might still be very interesting, but not for this particular
+One Paper Game.)</p><p>My third thought was to go contemporary and just make something like
+SimCity, but then I was like: &ldquo;but &mldr; SimCity already exists, why copy
+it?&rdquo; Additionally, just using a &ldquo;modern setting&rdquo; doesn&rsquo;t really feel
+like choosing a theme, it feels more like a lack of theme.</p><p>So finally, I arrived at <em>space</em>. It gave me a nice name for the game
+(Starry Skylines) and would allow me to create stupid &ldquo;science-fiction&rdquo;
+buildings and events. Spoiler alert: it gave me many other unforeseen
+advantages as well, which was nice!</p><p>(Yes, name is important. All other names I came up with were either
+<em>too silly</em> or <em>too serious</em>, and I always strive to strike a
+balance. For example, an early name idea was <em>Cityward</em> &mldr; which sounds
+more like an extremely serious 3-hour base building boardgame. Another
+idea was <em>Shady Skylines</em> &mldr; but that&rsquo;s just illogical, what&rsquo;s shady
+about these skylines?!)</p><h2 id=the-first-idea>The First Idea</h2><p>Knowing what I liked and disliked, I set down to write the first idea,
+which was:</p><blockquote><p>You all arrived on a new planet simultaneously. Oh no, now you must
+share it!</p><p>Each round the computer will give you three options: a number and 0-2
+effects. You must choose one and execute it immediately.</p><p>Numbers must always form valid streets: a sequence of numbers
+(horizontal or vertical) may not contain duplicates and must be
+ordered (either ascending or descending).</p><p>Effects usually mean drawing a new building in an empty square (and
+claiming it).</p><p>If two (or more) players want to use the same square, they must
+<em>challenge</em> each other. The person who has the <em>longest street</em> wins,
+otherwise the person with the most <em>government buildings</em> wins,
+otherwise use rock-paper-scissors.</p><p>The game ends when the board is full or someone hasn&rsquo;t been able to do
+anything for three turns.</p><p>The player with the most <em>points</em> wins! You get points for all
+buildings (following their rules) and certain achievements (such as
+having the longest street out of all players)</p></blockquote><p>I liked this a lot, because it was really simple, clean and
+straightforward. There are basically only a handful of rules to explain
+&ndash; all other complexity is hidden within the computer.</p><p>In fact, I created a short and simple GIF that explains 90% of the game, which I also use on the homepage/website for this game:</p><p><img src=starry-skylines-exp-gif.webp alt="Starry Skylines explained (as a GIF)">{.force-white-background}</p><p>That&rsquo;s also the reason why I find this combination of a <em>board game</em> and
+a <em>website component</em> to be <strong>extremely useful</strong>. Whenever an effect
+shows up, players can just <em>click</em> it to get an explanation about what
+it does. This way, I don&rsquo;t need to explain anything before the game
+starts, even if we have 30 unique buildings in the game! It&rsquo;s all in the
+computer.</p><p>Which in turn convinces people to try the game: I can literally get the
+game going after only 1-2 minutes of setup and explanation. If I had to
+explain all the different buildings and how you score points, that would
+be 15 minutes at least. Many people would not even <em>try</em> to sit through
+that explanation.</p><p>Of course, as the saying goes, <strong>with simplicity comes
+oversimplifying.</strong></p><h2 id=the-first-big-problem>The First Big Problem</h2><p>Because all players act simultaneously, and they all act on the same
+board, an obvious problem with <strong>turn order</strong> occurred. The concept of
+&ldquo;challenging&rdquo; seemed nice but didn&rsquo;t really cover the issue.</p><p>For example: I challenge you for the right to place a new street ( = a
+number) at some square. I win, so I place the number. But &mldr; that means
+I now have the longest street, because I placed one number extra, so I
+also win subsequent challenges!</p><p>It&rsquo;s almost impossible to break out of that loop. At the time, I didn&rsquo;t
+have a clear solution, so my first few playtests still used these
+original rules. (I&rsquo;ll talk about the solution later, after the second
+series of playtests.)</p><p>Another consequence of this was <strong>unavoidable symmetry</strong>. Why wouldn&rsquo;t
+players just copy each other&rsquo;s moves? What prevents the game from having
+a <em>tie</em> in almost all challenges?</p><p>This one was easier to solve: <strong>unique player powers!</strong> At the start of
+the game, all players must already decide a <em>number</em> for their starting
+square, and choose a <em>player power</em> from a table in the rulebook.</p><p>Such powers make the setup asymmetric and drive players towards
+different goals. For example, a player might get one point more for each
+house. This player will surely build stuff that allows them to create
+loads of houses, instead of choosing an option that would, for example,
+lead to more entertainment buildings.</p><p>This also prevents ties during challenges. One player power, for
+example, allows you to build 2 streets for free before the game starts.
+Obviously, that player will have the longest street, at least during the
+first few rounds.</p><h2 id=the-first-playtest>The First Playtest</h2><p>I playtested the game several times, mostly on low player counts. These
+were the issues I found:</p><p><strong>Issue 1:</strong> On low player counts, people often chose the same option
+out of the three, because it was simply the best.</p><ul><li><em>How to solve?</em> Disallow this. With 2-3 players, each player must
+choose a unique option. Of course, this needed some extra
+&ldquo;challenging&rdquo; rule in case multiple players wanted the same option.</li></ul><p><strong>Issue 2:</strong> Buildings were too &mldr; boring? Most of the buildings were
+very straightforward, like &ldquo;a garden adds +1 point to all adjacent
+houses&rdquo;, which is nice and simple, but also makes the choice less
+interesting. You can <em>optimize</em> this way too easily.</p><ul><li><em>How to solve?</em> More interesting buildings, of course! Over the
+weekend, I played <em>Tiny Towns</em> with some friends of mine, which gave
+me a first clue about how to do this. In that game, an <em>Inn</em> was
+only worth 4 points if there was <em>no</em> other Inn in the same row or
+column. Well, I copied that, and it was easy to add variations. For
+example, the <em>Cinema</em> is worth 4 points <em>divided</em> by the total
+number of cinemas in the same row and column. This is still a simple
+rule, but it adds way more strategy.</li></ul><p><strong>Issue 3:</strong> it was too easy to get stuck when building streets.
+Currently, you were <em>required</em> to build a new street adjacent to an
+existing street <em>you owned</em>. Not surprisingly, many games ended early
+because someone was stuck and just couldn&rsquo;t do anything.</p><p>In hindsight, this was a stupid rule. The whole <em>point</em> of placing these
+numbers, is that you must <em>plan ahead to make sure you get a nice
+sequence of numbers in the end, which fit precisely on top of one
+another. If you must always place a number adjacent to an existing one,
+the probability of creating nice streets is very low.</em></p><p><strong>Issue 4:</strong> The board filled too quickly. With two players, an average
+round will already fill 4 squares (two options, each with 1 number and 1
+effects). Higher player counts only make this worse.</p><ul><li><p><em>How to solve?</em> Multiple steps, each of them softening the problem
+only slightly.</p></li><li><p><em>Step 1:</em> use multiple papers. This goes against the &ldquo;One Paper
+Game&rdquo; concept, of course, but I needed to do that anyway (which I&rsquo;ll
+explain later). At most four players can start on the same sheet of
+paper. Have more players than that? Grab an extra blank sheet of
+paper!</p></li><li><p><em>Step 2:</em> make less buildings that span multiple squares. (I had a
+<em>Skyscraper</em> in there that required three cells. Filled up the board
+way too quickly.)</p></li><li><p><em>Step 3:</em> allow re-using squares. Some events can <em>destroy</em>
+property, some buildings <em>must</em> be placed on top of water, stuff
+like that.</p></li><li><p><em>Step 4:</em> make it more likely that you can <em>not</em> do an action. For
+example, add more strict requirements to buildings, so you can&rsquo;t
+just place them anywhere</p></li></ul><p><strong>Continuing on issue 4:</strong></p><p><img src=starry-skylines-2.webp alt="Explanation of resource grid (taken from rulebook)">{.float-right .force-white-background}</p><p>After implementing all this, it still wasn&rsquo;t enough, so I came up with
+another big idea:</p><blockquote><p>Instead of just using the space <em>inside</em> cells, we can also use the
+<em>edges</em> of cells!</p></blockquote><p>The first idea was quite obvious: use the edges as an <em>electricity
+grid</em>. Some buildings need to be connected to electricity, so there
+needs to be <em>a</em> path to an energy plant (or something)</p><p>Soon I realized I could add more varied uses. I could also add <em>water</em>
+or <em>oxygen</em> pipelines to this grid. (And maybe I&rsquo;ll later add even more
+possibilities.)</p><p>However, this was quite a complex mechanic. I didn&rsquo;t want to introduce
+this immediately, as it would raise that barrier towards entry, and I
+intend to keep that as low as possible.</p><p>So I thought: &ldquo;I&rsquo;ll just add some concept of <em>difficulty levels</em> later,
+and introduce the resource grid later&rdquo;</p><p>This train of thought eventually became the <strong>planet campaign</strong>.</p><p>Continue reading this devlog at part 2!</p></div></article><div><nav class=pagination><ul><li><span class=nav-disabled>No previous page :(</span></li><li>Continue reading</li><li><a href=/blog/boardgames/starry-skylines/devlog-starry-skylines/devlog-starry-skylines-part-2/ class="masked-link big-mask mask-2" style=--rotation:-1.5deg>>> Next Page</a></li></ul></nav></div></main><footer id=site-footer><div class="padding center-block"><h3>More Pandaqi</h3><p>You could <a href=https://pandaqi.com>visit the game studio</a>.
+Or my <a href=https://pandaqi.com/tutorials/>free tutorial website</a>.
+Or my <a href=https://rodepanda.com/>portfolio</a> with easy access to absolutely everything I ever made.</p><h3>Latest</h3><nav class=latest><ul><li><a href=/blog/boardgames/photomone/>Photomone
+(🐜)</a></li><li><a href=/blog/boardgames/keebble-domino/>Keebble: Domino
+(📗)</a></li><li><a href=/blog/boardgames/keebble-knickknack/>Keebble: Knickknack
+(📘)</a></li><li><a href=/blog/videogames/game-jams/less-is-store/>Less is Store
+(🛍️)</a></li><li><a href=/blog/tutorials/placing-grids-within-spaces/>Placing grids within spaces</a></li><li><a href=/blog/boardgames/thats-amorphe-pictures/>That's Amorphe: Pictures
+(🖌️)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-2023-update-ii/>Pandaqi Games: 2023 Update (II)
+(🎮)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-2023-update-iii/>Pandaqi Games: 2023 Update (III)
+(🎮)</a></li><li><a href=/blog/news-and-updates/pq-daw/>PQ_DAW: A music editor for the web
+(🎼)</a></li><li><a href=/blog/news-and-updates/pq-words/>PQ_WORDS: A dictionary for games
+(📋)</a></li></ul></nav><h3>Sections</h3><nav><ul><li><a href=/blog/boardgames/>Boardgames
+(🎲)</a></li><li><a href=/blog/news-and-updates/>News & Updates
+(📢)</a></li><li><a href=/blog/reviews-and-thoughts/>Reviews & Thoughts
+(💭)</a></li><li><a href=/blog/tutorials/>Tutorials
+(👩‍🎓)</a></li><li><a href=/blog/videogames/>Videogames
+(🎮)</a></li></ul></nav><h3>Credits</h3><p>Theme by me (<a href=https://pandaqi.com>Pandaqi</a> 🐼) &#183;
+with ❤️ &#183;
+using <a href=https://gohugo.io>Hugo</a> &#183;
+&copy; 2018&ndash;2023 Pandaqi Blog</p></div></footer><link rel=stylesheet type=text/css href=/blog/css/style.css><script src=/blog/js/bundle.min.js></script></body></html>

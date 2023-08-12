@@ -1,0 +1,71 @@
+@use "modules/globals.scss" as g;
+
+.page-navigation {
+    background-color: #1EA896;
+    color: #032924;
+
+    text-align: center;
+
+    height: max(29vw, 250px);
+
+    .text-side.custom {
+        max-width: 960px !important;
+    }
+
+    .pagination {
+        margin: 0;
+        margin-top: 3vw;
+        margin-bottom: 3vw;
+        padding: 0;
+
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+
+        @media all and (max-width: g.$cutoff2) {
+            margin-top: 20px;
+        }
+
+        li {
+            list-style-type: none;
+
+            a {
+                padding: 20px;
+                background-color: #032924;
+                color: #74fdeb;
+                text-decoration: none;
+                font-family: "Dosis";
+                font-size: 24px;
+                font-weight:bold;
+
+                transition: background-color 0.3s, color 0.3s, filter 0.3s, transform 0.3s;
+
+                &:hover {
+                    background-color: pink;
+                    color: rgb(66, 7, 17);
+                    filter: drop-shadow(0 0 10px black);
+                    transform: scale(1.2);
+                }
+
+                @media all and (max-width: g.$cutoff2) {
+                    font-size: 16px;
+                    padding: 10px;
+                }
+            }
+            
+            &.pagination__item--current {
+                a {
+                    background-color: transparent;
+                    color: #032924;
+
+                    &:hover {
+                        background-color: transparent;
+                        color: #032924;
+                        filter: none;
+                        transform: none;
+                    }
+                }
+            }
+        }
+    }
+}

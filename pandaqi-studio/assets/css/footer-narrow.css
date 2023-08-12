@@ -1,0 +1,26 @@
+footer {
+  padding: 20px;
+  padding-top: 60px;
+  padding-bottom: 60px;
+  margin-top: -20px;
+}
+footer .narrow-flex {
+  display: flex;
+  justify-content: center;
+}
+footer .narrow-flex ul {
+  margin: 0px;
+  padding: 0px;
+}
+footer .narrow-flex ul li {
+  list-style-type: none;
+  display: inline;
+}
+footer .narrow-flex ul li a {
+  display: inline-block;
+}
+footer .narrow-flex ul li .masked-link {
+  padding: 20px;
+}
+
+/*# sourceMappingURL=footer-narrow.css.map */

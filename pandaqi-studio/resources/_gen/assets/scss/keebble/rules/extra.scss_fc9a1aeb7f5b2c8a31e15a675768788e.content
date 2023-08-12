@@ -1,0 +1,3 @@
+@page{size:A4;margin-top:20mm;margin-bottom:25mm;@top-right{content:string(title);font-style:italic;opacity:0.5}@bottom-center{content:counter(page)}}@page :left{margin-left:19mm;margin-right:23mm}@page :right{margin-left:19mm;margin-right:23mm}h1,h2,h3,h4,h5,h6{font-family:'Lily Script One', sans-serif}body{font-family:'Kanit', serif;background-color:#FCFCFC;font-size:20px}h1{font-size:5.0rem;margin-top:0;margin-bottom:-2.0rem;break-before:page}h2{font-size:3.0rem;margin-bottom:-1.25rem;string-set:title content(text)}h3{font-size:1.8rem;margin-bottom:-1.25rem}ul{margin-top:-1.0rem;margin-bottom:1.5rem}
+
+/*# sourceMappingURL=extra.css.map */

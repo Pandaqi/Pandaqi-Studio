@@ -1,0 +1,122 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><title>Timely Transports (Part 1) | Pandaqi Blog</title><link rel=icon type=image/png href=https://pandaqi.com/blog//favicon.png><link rel=stylesheet type=text/css href=/blog/css/critical.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin></head><body><header id=site-header><nav class=menu><ul><li><a href=https://pandaqi.com/blog/ class="masked-link big-mask mask-6" style=--rotation:0.5deg>Home</a></li><li><a href=/blog/boardgames/ class="masked-link big-mask mask-7" style=--rotation:1deg>Boardgames</a></li><li><a href=/blog/news-and-updates/ class="masked-link big-mask mask-6" style=--rotation:0deg>News & Updates</a></li><li><a href=/blog/reviews-and-thoughts/ class="masked-link big-mask mask-6" style=--rotation:-1.5deg>Reviews & Thoughts</a></li><li><a href=/blog/tutorials/ class="masked-link big-mask mask-1" style=--rotation:-1.5deg>Tutorials</a></li><li><a href=/blog/videogames/ class="masked-link big-mask mask-2" style=--rotation:0.5deg>Videogames</a></li></ul></nav></header><main class="padding center-block"><article class=single-article><div class=thumbnail-media><img src=../../timely-transports-header.webp></div><h1>Timely Transports (Part 1)</h1><aside class=metadata><nav class=breadcrumbs><span class=metadata-label><span class=emoji>🥐</span> Breadcrumbs ||</span>
+<a href=https://pandaqi.com/blog/>Home</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/>Boardgames</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/timely-transports/>Timely transports</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/timely-transports/tech-devlog-timely-transports/>Tech devlog timely transports</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/timely-transports/tech-devlog-timely-transports/timely-transports/>Timely transports</a></nav><script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/pandaqi.com\/blog\/","name":"home"}},{"@type":"ListItem","position":2,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/","name":"boardgames"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/timely-transports\/","name":"timely-transports"}},{"@type":"ListItem","position":4,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/timely-transports\/tech-devlog-timely-transports\/","name":"tech-devlog-timely-transports"}},{"@type":"ListItem","position":5,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/timely-transports\/tech-devlog-timely-transports\/timely-transports\/","name":"timely-transports"}}]}</script><div><span class=metadata-label><span class=emoji>&#8987;</span> Published ||</span>
+<time datetime=2020-08-05T09:00:00>Wednesday, Aug 5, 2020</time></div><nav class=tags><span class=metadata-label><span class=emoji>🎗</span> Tags ||</span><ul><li><a href=https://pandaqi.com/blog/tags/technical-devlog>technical devlog</a></li></ul></nav><div><span class=metadata-label><span class=emoji>📖</span> Table of Contents ||</span>
+<a href=# id=toc-toggle>Show</a></div></aside><aside id=table-of-contents class=masked-link-block><header><h2>Table of Contents</h2></header><nav id=TableOfContents><ul><li><a href=#the-toolset>The toolset</a></li><li><a href=#the-web-page>The web page</a></li><li><a href=#the-game-interface>The Game Interface</a></li><li><a href=#random-board-generation>Random Board Generation</a></li></ul></nav></aside><div><p>Welcome to the <em>technical devlog</em> for <strong><a href=https://pandaqi.com/timely-transports>Timely Transports</a></strong></p><p>Timely Transports is the first ever <em>hybrid</em> board + smartphone game.
+(I, still, need to come up with a catchy short name for these types of
+games. If you have any good ideas, let me know.)</p><p>Here I&rsquo;ll talk briefly about how I created the <em>game interface</em> (for on
+your smartphone), but spent a lot of time explaining how I created a
+tool that <em>randomly generates a game board</em> (to print and play on).</p><p>If you haven&rsquo;t played the game (or checked out the page), be sure to do
+so! Not only is it a lot of fun, this article also won&rsquo;t make sense
+otherwise.</p><h2 id=the-toolset>The toolset</h2><p>I just said this was the &ldquo;first ever hybrid&rdquo; game, and that might have
+raised some question marks for some boardgame-savvy readers.</p><p>&ldquo;Some boardgames already have a &ldquo;companion app&rdquo; you can download and
+use! You are not the first, Pandaqi, stop telling lies!&rdquo;</p><p>Perhaps surprisingly, I don&rsquo;t like those. Why not?</p><ul><li><p>They create an extra setup step. Someone needs to <em>find, download
+and install</em> a whole app (which also works on their particular
+smartphone). Unless you always play with the exact same group, you
+might need to do this multiple times because nobody has the app yet.</p></li><li><p>App stores are annoying. They update all their terms of service all
+the time, and they only need to <em>think</em> that you&rsquo;re doing something
+wrong, and your app is immediately gone. Just gone. (I have too much personal experience with this.) And I&rsquo;m not even
+mentioning actual updates to these stores/platforms, which could
+render apps unusable within a year or so.</p></li><li><p>They aren&rsquo;t easily updated. Again, you need to bundle the app, go
+through the update process at your store, and then force players to
+update the app.</p></li></ul><p>No, instead of an app, I wanted it to be a <em>website</em>.</p><p>I tried to use only the most basic website code, to optimize support for
+all sorts of browsers and old phones.</p><p>Whenever I need to fix a bug, or finetune some details in the algorithm,
+or have an update to the game, I can just update the website. The next
+time you play &ndash; the next time you visit the website &ndash; it&rsquo;s
+automatically the latest version!</p><p>And people can just create a <em>backup</em> of these games. You can just
+download the website (don&rsquo;t forget to download the external JS and CSS
+files as well!). If my server ever goes down, or I somehow stop
+supporting the games, you can still play them and even improve them
+yourself.</p><p>So this was my toolset: <strong>plain old HTML + CSS + JavaScript</strong> using the
+awesome <strong>Phaser</strong> library for the game interface and drawing the game
+board.</p><h2 id=the-web-page>The web page</h2><p>I struggled with the layout of the web page a lot. It needed to do all
+these things:</p><ul><li><p>Explain the game to new players/someone who just stumbled upon the
+website. (Also, make them enthusiastic about it. Just make
+everything look <em>nice and clear.</em>)</p></li><li><p>Give a short guide to using the <em>game interface</em>, plus settings, and
+a clear button to press.</p></li><li><p>Give a short guide to using the <em>board generator</em>, plus settings,
+and a clear button to press.</p></li></ul><p>Below is an image of the current webpage (in case you can&rsquo;t visit it now, or it has changed in the meantime):</p><p><img src=timely-trans-tech-1.webp alt="Full Webpage for Timely Transports"></p><p>At first, I had <em>one</em> settings menu at the top, which influenced both
+the game interface and the board generator. Why? Because they had many
+overlapping settings (such as <em>number of players</em> and <em>difficulty</em>).</p><p>In the end, however, this just didn&rsquo;t work. The settings menu became way
+too large, because at least 50% of the settings did <em>not</em> overlap. Also,
+it&rsquo;s intimidating to load a page and immediately see a bunch of settings
+you need to understand. And about 50% of the people will then just
+<em>ignore</em> this and scroll straight down, never even seeing those
+settings.</p><p>So, I decided to start with the marketing pitch (as you should always
+do): a nice header image, clear tagline for the game, big old download
+button, and a slightly longer explanation underneath.</p><p>Then I get the game interface, which has a short <em>explanation</em>, then its
+specific <em>settings</em>, and then the button.</p><blockquote><p>Again, at first I tried to make the interface work <em>on the same page</em>,
+but that was just asking for trouble. Now the button leads you to a
+new page which <em>only</em> contains the game interface and nothing else.
+Way cleaner, way easier to get a full screen game interface.</p></blockquote><p>Lastly, you get the board generation, with a short <em>explanation</em>,
+<em>settings</em> and then the <em>button</em>.</p><blockquote><p>I considered automatically generating a board, to impress new visitors
+and immediately give them something to print. But that made the page
+laggy on old smartphones, as it took a few seconds to create a board.</p></blockquote><p>This order is important! You only need to print a game board <em>once</em>, so
+that part of the page will rarely be visited. Most players will need the
+game interface, so that needed to be on top.</p><h2 id=the-game-interface>The Game Interface</h2><p>We can be short about this one, as there&rsquo;s really nothing special going
+on here.</p><p><img src=timely-trans-tech-2.webp alt="Game Interface for Timely Transports"></p><p>When you press the button (on the main page), it saves all your settings
+in <strong>localStorage</strong> (using JavaScript), then loads the game page.</p><p>Once loaded, it retrieves your settings from that same localStorage, and
+starts the game using that configuration.</p><p>The game is just a bunch of vehicle icons which listen for
+taps/presses/clicks. If you do so, it starts a timer. If you do so when
+a timer is running, it stops it (but only if the timer is in &ldquo;overtime&rdquo;,
+not while you&rsquo;re still waiting for it to finish).</p><p>Similarly, you can tap the score text to get +1 point. (Players need to
+keep track of their own score, which so far has been no problem at all.
+Especially because everyone can see each other&rsquo;s phones all the time, so
+cheating is not an option.)</p><p>And similarly (again), new messages and events pop up, which get a
+click-event (to make it go away) and a timer (to make sure you click it
+soon enough).</p><p>The reasons for these decisions are all explained in detail in my
+regular devlog: <a href=https://pandaqi.com/blog/boardgames/timely-transports/devlog-timely-transports/>[Devlog] Timely Transports</a>. This is just
+about the technical implementation!</p><p>Sure, there were some nasty issues to solve (such as different screen
+sizes, where to place the upgrade button, how to make a dynamic timer
+bar that responds to changes in length and color), but that&rsquo;s not so
+interesting. It&rsquo;s what I call <em>stumbling through computer-ness</em>, as you
+slowly realize some stupid decisions that your specific
+framework/programming language/screen resolution takes.</p><p>If you want, you can check the code itself, it&rsquo;s quite short and simple
+for a complete working game interface.</p><p>(I make no apologies for code messiness :p The code is quite clean, but
+I&rsquo;m still learning the best practices when making these types of games,
+so I&rsquo;m surely doing things in a way that is needlessly complicated.)</p><p>Instead, let&rsquo;s continue to the real beast!</p><h2 id=random-board-generation>Random Board Generation</h2><p>When I got the idea of &ldquo;randomly generating a game board you can print&rdquo;,
+I was wildly enthusiastic &mldr; and also too optimistic.</p><p>I thought: &ldquo;well, I&rsquo;ve done random generation before, surely I can just
+randomly place stuff according to some rules, connect them, and voila &ndash;
+we have a game board!&rdquo;</p><p>No. No, you cannot.</p><p>Within one hour of building this project, I realized how wrong this
+assumption was. I had a working generator that randomly placed cities
+and connected them with a straight line &mldr; and it looked <em>awful</em> and
+was <em>too chaotic to play on</em>.</p><p>What are the issues here?</p><p>First of all, there&rsquo;s the issue of <strong>clarity</strong>. You can&rsquo;t &ldquo;zoom in&rdquo; or
+&ldquo;rotate the camera&rdquo; on a printed game board, like you would in a
+computer game. Everything needs to be clearly visible and legible,
+separated by enough space, no matter the layout of the map.</p><p>Second of all, there&rsquo;s the issue of <strong>completeness</strong>. When you play this
+game, everyone has <em>four vehicles</em> and there are <em>four goods</em> (in total)
+to move around. With a completely random generation, it&rsquo;s quite possible
+that some of those elements <em>don&rsquo;t even appear on the map!</em> Which is
+terrible, because it makes the game unbalanced or straight-up
+impossible. Instead, you need to ensure there is <em>always</em> at least one
+route for each vehicle and one city that requires a certain good.</p><p>Lastly, there&rsquo;s the issue of <strong>fairness</strong>. Each player has a capital,
+which is where they start and also the only place where new vehicles can
+enter the board. If your capital is cut off from the rest of the world
+&mldr; well, you&rsquo;re going to have a shitty game. Instead, you need to keep
+some <em>score</em> that represents how &ldquo;good&rdquo; a capital is, and ensure that
+capitals are roughly equal in score.</p><p>So, how did we solve these issues?</p><p>Let&rsquo;s find out in part 2 of this devlog! ;)</p></div></article><div><nav class=pagination><ul><li><span class=nav-disabled>No previous page :(</span></li><li>Continue reading</li><li><a href=/blog/boardgames/timely-transports/tech-devlog-timely-transports/timely-transports-part-2/ class="masked-link big-mask mask-4" style=--rotation:0.5deg>>> Next Page</a></li></ul></nav></div></main><footer id=site-footer><div class="padding center-block"><h3>More Pandaqi</h3><p>You could <a href=https://pandaqi.com>visit the game studio</a>.
+Or my <a href=https://pandaqi.com/tutorials/>free tutorial website</a>.
+Or my <a href=https://rodepanda.com/>portfolio</a> with easy access to absolutely everything I ever made.</p><h3>Latest</h3><nav class=latest><ul><li><a href=/blog/boardgames/photomone/>Photomone
+(🐜)</a></li><li><a href=/blog/boardgames/keebble-domino/>Keebble: Domino
+(📗)</a></li><li><a href=/blog/boardgames/keebble-knickknack/>Keebble: Knickknack
+(📘)</a></li><li><a href=/blog/videogames/game-jams/less-is-store/>Less is Store
+(🛍️)</a></li><li><a href=/blog/tutorials/placing-grids-within-spaces/>Placing grids within spaces</a></li><li><a href=/blog/boardgames/thats-amorphe-pictures/>That's Amorphe: Pictures
+(🖌️)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-2023-update-ii/>Pandaqi Games: 2023 Update (II)
+(🎮)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-2023-update-iii/>Pandaqi Games: 2023 Update (III)
+(🎮)</a></li><li><a href=/blog/news-and-updates/pq-daw/>PQ_DAW: A music editor for the web
+(🎼)</a></li><li><a href=/blog/news-and-updates/pq-words/>PQ_WORDS: A dictionary for games
+(📋)</a></li></ul></nav><h3>Sections</h3><nav><ul><li><a href=/blog/boardgames/>Boardgames
+(🎲)</a></li><li><a href=/blog/news-and-updates/>News & Updates
+(📢)</a></li><li><a href=/blog/reviews-and-thoughts/>Reviews & Thoughts
+(💭)</a></li><li><a href=/blog/tutorials/>Tutorials
+(👩‍🎓)</a></li><li><a href=/blog/videogames/>Videogames
+(🎮)</a></li></ul></nav><h3>Credits</h3><p>Theme by me (<a href=https://pandaqi.com>Pandaqi</a> 🐼) &#183;
+with ❤️ &#183;
+using <a href=https://gohugo.io>Hugo</a> &#183;
+&copy; 2018&ndash;2023 Pandaqi Blog</p></div></footer><link rel=stylesheet type=text/css href=/blog/css/style.css><script src=/blog/js/bundle.min.js></script></body></html>

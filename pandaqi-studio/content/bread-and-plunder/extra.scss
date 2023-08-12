@@ -1,0 +1,26 @@
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Acme', cursive;
+    text-decoration: none;
+    text-transform: none;
+    text-align: center;
+}
+
+h1 {
+    font-size: 8vw;
+    margin-bottom: 10px;
+}
+
+body {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 20pt;
+
+    overflow-y: scroll;
+    overflow-x: hidden;
+
+    color: #0D0106;
+    background-color: #DFF2D8;
+}
+
+ul {
+    margin-top:-15px;
+}

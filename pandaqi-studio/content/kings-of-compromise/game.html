@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Kings of Compromise &mdash; The Game</title>
+		<link rel="icon" type="image/png" href="favicon.png" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@100;400;900&display=swap" rel="stylesheet">
+
+		<style type="text/css">
+			body {
+				margin: 0;
+				padding: 0;
+				font-family: 'Grenze Gotisch', cursive;
+				font-size: 20px;
+			}
+
+			#phaser-container {
+				margin: 0;
+				padding: 0;
+			}
+		</style>
+	</head>
+
+	<body>
+		<script src="js/phaser.min.js"></script>
+
+		<!-- Load game dictionary (with lists/data/info that I need in both board generation and game interface) -->
+		<script src="js/dictionary.js"></script>
+
+		<div id="phaser-container">
+		</div>
+
+		<!-- Load actual game logic -->
+		<script src="js/generation.js"></script>
+
+		<div id="interfaceContainer">
+			<div id="interface">
+				Generating Game ...
+			</div>
+		</div>
+
+		<!-- Load interface for managing game/hints -->
+		<script src="js/interface.js"></script>
+	</body>
+</html>

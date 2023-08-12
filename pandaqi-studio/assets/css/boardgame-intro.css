@@ -1,0 +1,26 @@
+.boardgame-intro .big-header-image {
+  max-width: 100%;
+  margin: auto;
+  filter: drop-shadow(0 0 10px black);
+  pointer-events: none;
+}
+.boardgame-intro .no-shadow {
+  filter: none;
+}
+.boardgame-intro .tagline, .boardgame-intro .metadata {
+  font-weight: bold;
+  max-width: 550px;
+  margin-left: auto;
+  margin-right: auto;
+  color: #0D0106;
+  text-align: center;
+}
+.boardgame-intro .metadata {
+  font-size: 12pt;
+  opacity: 0.5;
+}
+.boardgame-intro .download-btn-container {
+  text-align: center;
+}
+
+/*# sourceMappingURL=boardgame-intro.css.map */

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1,width=device-width,height=device-height" />
+	<title>Pro Cycling Club</title>
+	<script src="jquery-2.1.4.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="allStyles.css">
+	<script src="phaser-no-physics.min.js"></script>
+	<script src="Boot.js"></script>
+	<script src="Load.js"></script>
+	<script src="MainMenu.js"></script>
+	<script src="MainGame.js"></script>
+	<script src="MainGameTrial.js"></script>
+	<script src="MainHub.js"></script>
+	<script src="LoadMain.js"></script>
+	<script src="mainFunctions.js"></script>
+	<script src="EndMain.js"></script>
+</head>
+<body>
+<div id="containSVG">
+	<svg id="theSVG" style="transform-origin:0% 0%;">
+		<path id="thePath" stroke="#333" stroke-width="500px" fill="none" />
+		<path id="theStrokes" stroke="#fff" stroke-width="5px" fill="none" stroke-dasharray="30,30" />
+	</svg>
+</div>
+<div id="canvasDIV"></div>
+<div id="miniMapContainer">
+	<svg id="miniMap" style="width:100%;height:100%;">
+		<path id="wholePath" stroke="#666" stroke-width="2px" fill="none"/>
+		<line id="curPosLinePath" x1='0' y1='5' x2='200' y2='5' stroke-width="1px" stroke="yellow"/>
+		<circle id="memberDot0" cx="0" cy="0" r="2" fill="red" />
+		<circle id="memberDot1" cx="0" cy="0" r="2" fill="red" />
+		<circle id="memberDot2" cx="0" cy="0" r="2" fill="red" />
+		<circle id="memberDot3" cx="0" cy="0" r="2" fill="red" />
+		<circle id="memberDot4" cx="0" cy="0" r="2" fill="red" />
+		<circle id="memberDot5" cx="0" cy="0" r="2" fill="red" />
+	</svg>
+</div>
+<div id="extraInfoOverlay"></div>
+<div id="topInfoOverlay"><span id="needsUpdating"></span><span id="noUpdating"></span></div>
+<div id="controlButtonOverlay">
+	<div>
+		Control is <div class="controlButton" id="controlFunction"><span style="color:green;">OFF</span><br/><span style="color:red;">ON</span></div>
+	</div>
+	<div>
+		Zoom <span class="zoomButton">1</span><span class="zoomButton">2</span><span class="zoomButton">4</span><span class="zoomButton">8</span><span class="zoomButton">16</span><span class="zoomButton standardZoom">32</span>
+	</div>
+	<div>
+		Speed: <span class="speedButton">0</span><span class="speedButton">0.25</span><span class="speedButton">0.5</span><span class="speedButton standardSpeed">1</span><span class="speedButton">2</span><span class="speedButton">4</span><span class="speedButton">8</span>
+	</div>
+</div>
+<div id="menuOverlay"></div>
+<div id="groupDisplay"></div>
+<div id="popupWindowContainer"><div id="popupWindow"></div></div>
+<script type="text/javascript">
+
+window.onload = function() {
+	game = new Phaser.Game('100%','100%',Phaser.AUTO,'canvasDIV',null,true);
+	game.state.add('Boot',Scene.Boot);
+	game.state.add('Load', Scene.Load);
+	game.state.add('MainMenu', Scene.MainMenu);
+	game.state.add('MainHub', Scene.MainHub);
+	game.state.add('LoadMain', Scene.LoadMain);
+	game.state.add('MainGame', Scene.MainGame);
+	game.state.add('MainGameTrial', Scene.MainGameTrial);
+	game.state.add('EndMain', Scene.EndMain);
+	game.state.start('Boot');
+};
+</script>
+</body>
+</html>

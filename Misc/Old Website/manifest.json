@@ -1,0 +1,22 @@
+{
+  "short_name": "Pandaqi",
+  "name": "Pandaqi",
+  "description": "A website full of (digital) boardgames",
+  "icons": [
+	  {
+		  "src":"theme/favicon192.png",
+		  "sizes": "192x192",
+		  "type": "image/png"
+	  },
+
+	  {
+		  "src":"theme/favicon512.png",
+		  "sizes": "512x512",
+		  "type": "image/png"
+	  }
+  ],
+  "background_color": "#e05a47",
+  "theme_color": "#e05a47",
+  "display": "standalone",
+  "orientation": "portrait"
+}

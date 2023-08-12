@@ -1,0 +1,187 @@
+/* NOTE: This only indiates some specific elements, like the button styling or blurred background */
+/* More critical elements (which indicate size, for example) are loaded in critical.scss */
+.entry-banner {
+  overflow: hidden;
+  background-color: white;
+  /*.image-gradient-overlay {
+  	position: absolute;
+  	left: 0;
+  	right: 0;
+  	top: 0;
+  	bottom: 0;
+  	background: linear-gradient(180deg, rgba(30,30,30,0.2) 0%, rgba(30,30,30,0.0) 5%);
+
+  	transition: background 0.5s;
+  }*/
+  /* This is completely redundant, as the images are always the full width */
+  /* HOWEVER, if I don't do this, the content-visibility algorithm will NOT load the images properly (it loads them at 0x0 size) */
+  /* Which would cause all the banner backgrounds to disappear on (mostly) mobil screens */
+}
+.entry-banner.height-small {
+  height: 29vw;
+}
+.entry-banner.height-small-medium {
+  height: 34vw;
+}
+.entry-banner.height-medium {
+  height: 39vw;
+}
+.entry-banner.height-large {
+  height: 49vw;
+  margin-top: -2.5vw;
+}
+.entry-banner .bg-image img {
+  min-width: 100vw;
+}
+@media all and (max-width: 660px) {
+  .entry-banner {
+    margin-top: -15px;
+  }
+  .entry-banner .bg-image {
+    transform: scale(3);
+  }
+  .entry-banner.height-small {
+    height: 58vw;
+  }
+  .entry-banner.height-small-medium {
+    height: 68vw;
+  }
+  .entry-banner.height-medium {
+    height: 78vw;
+    margin-top: -22.5px;
+  }
+  .entry-banner.height-large {
+    height: 98vw;
+    margin-top: -30px;
+  }
+  .entry-banner.entry-banner-custom {
+    height: auto;
+  }
+  .entry-banner.entry-banner-custom .horizontal-flex {
+    position: unset;
+  }
+  .entry-banner.entry-banner-custom.height-medium {
+    margin-top: calc(-17.5px + 1vw);
+  }
+  .entry-banner.entry-banner-custom.height-large {
+    margin-top: calc(-20px + 1vw);
+  }
+  .entry-banner.entry-banner-custom img {
+    display: none;
+  }
+}
+.entry-banner a:hover .btn {
+  filter: brightness(130%);
+  box-shadow: 0 0 10px 0 var(--bgcolor);
+}
+.entry-banner a:hover .bg-image {
+  transform: scale(1.1);
+  /*.image-gradient-overlay {
+  	background: linear-gradient(180deg, rgba(30,30,30,0.2) 0%, rgba(30,30,30,0.0) 13%);
+  }*/
+}
+@media all and (max-width: 660px) {
+  .entry-banner a:hover .bg-image {
+    transform: scale(3.5);
+  }
+}
+.entry-banner a:hover .non-text-side img {
+  transform: scale(0.9);
+}
+.entry-banner .bg-image {
+  transition: transform 0.5s;
+}
+.entry-banner .darkened img {
+  filter: brightness(50%);
+}
+.entry-banner .horizontal-flex {
+  justify-content: space-evenly;
+}
+.entry-banner .horizontal-flex.reversed .text-side {
+  order: 1;
+}
+.entry-banner .horizontal-flex.reversed .non-text-side {
+  order: 0;
+}
+.entry-banner .horizontal-flex .non-text-side {
+  max-width: 600px;
+  filter: drop-shadow(0 0 3px #333);
+  padding: 10px;
+}
+.entry-banner .horizontal-flex .non-text-side.no-shadow {
+  filter: none !important;
+}
+.entry-banner .horizontal-flex .non-text-side img {
+  max-height: 22vw;
+  border-radius: 10px;
+  transition: transform 0.5s;
+}
+@media all and (max-width: 960px) {
+  .entry-banner .horizontal-flex .non-text-side {
+    max-width: 200px;
+  }
+  .entry-banner .horizontal-flex .non-text-side.custom {
+    display: none;
+  }
+}
+.entry-banner .horizontal-flex .text-side {
+  width: 100%;
+  max-width: 400px;
+  position: relative;
+  font-size: 20px;
+  padding: 20px;
+}
+.entry-banner .horizontal-flex .text-side.custom {
+  font-size: max(1.35vw, 14px);
+  max-width: 600px;
+}
+.entry-banner .horizontal-flex .text-side h1, .entry-banner .horizontal-flex .text-side h2, .entry-banner .horizontal-flex .text-side h3, .entry-banner .horizontal-flex .text-side h4, .entry-banner .horizontal-flex .text-side h5, .entry-banner .horizontal-flex .text-side h6 {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+@media all and (max-width: 960px) {
+  .entry-banner .horizontal-flex .text-side {
+    font-size: 14px;
+  }
+  .entry-banner .horizontal-flex .text-side.custom {
+    max-width: 100%;
+  }
+}
+.entry-banner .horizontal-flex .text-side .btn {
+  border-radius: 0.5em;
+  font-family: "Dosis", Georgia, serif;
+  font-size: 20px;
+  padding: 7px 20px;
+  width: 100%;
+  border: 2px solid gray;
+  border-color: var(--bordercolor);
+  cursor: pointer;
+  display: block;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 800;
+  background: var(--bgcolor);
+  color: var(--textcolor);
+  transition: background 0.5s, color 0.5s, border-color 0.5s, box-shadow 0.5s, filter 0.5s, opacity 0.5s;
+}
+@media all and (max-width: 660px) {
+  .entry-banner .horizontal-flex .text-side .btn {
+    display: none;
+  }
+}
+.entry-banner .horizontal-flex .text-side::before {
+  background: var(--blurcolor);
+  opacity: 0.75;
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: -1;
+  filter: blur(20px);
+  pointer-events: none;
+  border-radius: 3em;
+}
+
+/*# sourceMappingURL=entry-banner.css.map */

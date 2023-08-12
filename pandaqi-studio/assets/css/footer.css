@@ -1,0 +1,45 @@
+footer {
+  padding-top: 40px;
+  margin-top: -2vw;
+}
+@media all and (max-width: 960px) {
+  footer.clipped {
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
+  }
+}
+footer .general-flex {
+  display: flex;
+  flex-wrap: nowrap;
+  margin: auto;
+  margin-top: -40px;
+  max-width: 1080px;
+  justify-content: center;
+  font-size: 16px;
+  line-height: 140%;
+}
+footer .general-flex aside {
+  width: 100%;
+  padding: 20px;
+}
+footer .general-flex .pandaqi-logo {
+  max-width: 75px;
+  float: left;
+}
+footer .general-flex .social-icon-list {
+  margin: 0px;
+  padding: 0px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+footer .general-flex .social-icon-list li {
+  list-style-type: none;
+}
+@media all and (max-width: 920px) {
+  footer .general-flex {
+    flex-wrap: wrap;
+  }
+}
+
+/*# sourceMappingURL=footer.css.map */

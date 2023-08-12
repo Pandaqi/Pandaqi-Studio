@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Proof of Loch Ness</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<!-- DEPLOYMENT (turn this back on on the live website) -->
+		<!-- <script src="https://pandaqi.com/registerPWA.js"></script> -->
+
+		<!-- TRYING TO STOP THE FUCKING STUPID BROWSER FROM CACHING EVERYTHING ALL THE TIME -->
+		<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+		<meta http-equiv="Pragma" content="no-cache" />
+		<meta http-equiv="Expires" content="0" />
+
+		<link rel="preconnect" href="https://fonts.gstatic.com">
+		<link href="https://fonts.googleapis.com/css2?family=Ravi+Prakash&family=Roboto+Condensed:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+		<link rel="icon" type="image/png" href="../favicon.png"/>
+
+		<meta name="theme-color" content="#AAAAFF">
+
+		<link rel="stylesheet" href="css/style.css?v=2" />
+
+	</head>
+
+	<body>
+		<section id="popup">
+			<div>
+				<h1 id="popup-heading">Game over</h1>
+				<p id="popup-text">XX</p>
+				<p style="font-style: italic; opacity: 0.5;">(Click anywhere to close.)</p>
+			</div>
+		</section>
+
+		<section id="stats">
+			<div>
+				<span class="stats-icon stats-icon-0"></span>
+				<span id="stats-0">0</span>
+			</div>
+			<div>
+				<span class="stats-icon stats-icon-1"></span>
+				<span id="stats-1">0</span>
+			</div>
+			<div>
+				<span class="stats-icon stats-icon-2"></span>
+				<span id="stats-2">0</span>
+			</div>
+			<div>
+				<span class="stats-icon stats-icon-3"></span>
+				<span id="stats-3">0</span>
+			</div>
+		</section>
+
+		<section id="move">
+			<div style="display: flex; margin-top: 5px;">
+				<div style="width: 100%;" >
+					<h1 id="move-header">Loading ... </h1>
+					<p id="move-instruction">Loading ... </p>
+				</div>
+				<div>
+					<div id="clock">
+						<img src="assets/clock.png" />
+						<img id="clock-hand" src="assets/clockhand.png" />
+						<span id="clock-day">D</span>
+					</div>
+					<div id="weather">
+						WEATHER
+					</div>
+				</div>
+			</div>
+			<div id="move-results">
+				<span class="close-dialog" id="close-results">X</span>
+				<div id="move-feedback"></div>
+				<img id="move-picture" />
+			</div>
+			<div class="buttonList" id="action-buttonList">
+			</div>
+		</section>
+
+		<section id="game">
+			<div style="position: fixed; top: 0px; left: 0px; right: 0px; text-align: center;"><h1 id="game-header">XX</h1></div>
+			<div id="game-ui-container">
+				<button id="action-cancel" class="cancel"><span class="icon icon-cancel"></span></button>
+				<button id="action-confirm" class="confirm"><span class="icon icon-confirm"></span></button>
+			</div>
+			<p id="game-instruction">XX</p>
+			<div id="game-gameresults">XX</div>
+			<div id="phaserGameContainer">
+			</div>
+		</section>
+
+		<section id="monster">
+			<div id="monsterContainer">
+				<div>
+					<h1 id="monster-header">Loading</h1>
+					<p id="monster-text">Loading the game ... </p>
+					<span id="monster-icon"></span>
+				</div>
+			</div>
+		</section>
+
+		<!-- GENERAL LIBRARIES (Phaser, noise, seeding, pathfinding - some are custom made by myself) -->
+		<script src="js/libs/phaser.min.js"></script> 
+		<script src="js/libs/pathfinder.js"></script>
+
+		<script src="js/noise_functions/cubicNoise.js"></script>
+		<script src="js/noise_functions/perlin_and_simplex.js"></script>
+
+		<!-- CLASSES -->
+		<script src="js/classes/entity.js?v=1"></script>
+		<script src="js/classes/player.js?v=4"></script>
+		<script src="js/classes/monster.js?v=4"></script>
+		<script src="js/classes/cell.js?v=4"></script>
+		<script src="js/classes/map.js?v=4"></script>
+		<script src="js/classes/state.js?v=4"></script>
+		<script src="js/classes/edge.js?v=1"></script>
+		<script src="js/classes/animal.js?v=1"></script>
+
+		<!-- CONFIGS & DICTIONARIES -->
+		<!-- General config file and GLOBAL variables -->
+		<script src="js/dicts/gameDict.js?v=2"></script>
+
+		<!-- Default monster + all specific monster configs -->
+		<script src="js/dicts/monsterDict.js?v=4"></script>
+
+		<!-- Default scenario + all specific scenario configs -->
+		<script src="js/dicts/scenarioDict.js?v=3"></script>
+
+		<!-- Configurations/properties inherent to each terrain type -->
+		<script src="js/dicts/terrainDict.js?v=1"></script>
+
+		<!-- Properties of each unique animal type -->
+		<script src="js/dicts/animalDict.js?v=1"></script>
+
+		<!-- This PHP code was necessary when I still had my website running on PHP and NO SETTINGS -->
+		<!-- Now it crashes everything and is useless --- remove definitively? -->
+		<!--
+		<script>
+			<?php
+				// use ?debug=true to put the whole game into debugging mode, where you can see all data and map
+				if(isset($_GET['debug'])) {
+					echo "cfg.debugging = true;";
+				}
+
+				// use quick parameters to set certain settings (without having to go through the main page)
+				// player count
+				if(isset($_GET['p'])) {
+					echo 'cfg.playerCount = "' . $_GET['p'] . '";';
+				}
+
+				// monster
+				if(isset($_GET['m'])) {
+					echo 'cfg.monster = "' . $_GET['m'] . '";';
+				}
+
+				// scenario
+				if(isset($_GET['s'])) {
+					echo 'cfg.scenario = "' . $_GET['s'] . '";';
+				}
+			?>
+		</script>
+		-->
+
+		<!-- ACTUAL GAME -->
+
+		<!-- Initializes all global variables, such as the actual map and chosen monster -->
+		<script src="js/gameSetup.js?v=4"></script>
+
+		<!-- Handles the Phaser game -->
+		<script src="js/game.js?v=8"></script>
+
+		<!-- Handles moving and updating the monster -->
+		<script src="js/gameMonster.js?v=9"></script>
+
+		<!-- Handles the game interface (showing/hiding screens, event listeners on buttons, ...) -->
+		<script src="js/gameInterface.js?v=3"></script>
+
+	</body>
+</html>

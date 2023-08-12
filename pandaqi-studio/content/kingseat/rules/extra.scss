@@ -1,0 +1,133 @@
+@use "sass:map";
+@use "sass:math";
+
+$header-font: "UnifrakturCook", sans-serif;
+$body-font: "Brygada 1918", serif;
+$body-font-size: 19px;
+$body-line-height: 140%;
+
+@font-face {
+    font-family: 'UnifrakturCook';
+    src: url('/kingseat/assets/fonts/UnifrakturCook-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Brygada';
+    src: url('/kingseat/assets/fonts/Brygada1918-Regular.woff2') format('woff2'),
+        url('/kingseat/assets/fonts/Brygada1918-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Brygada';
+    src: url('/kingseat/assets/fonts/Brygada1918-Italic.woff2') format('woff2'),
+        url('/kingseat/assets/fonts/Brygada1918-Italic.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+$icons: (
+    "lionsyre": 0,
+    "slydefox": 1,
+    "woolfhall": 2,
+    "hornseeker": 3,
+    "brownbeards": 4,
+    "monarchrys": 5,
+    "crassclamps": 6,
+    "gulliballistas": 7,
+    "hardshellHero": 8,
+    "squlofish": 9,
+    "smugwing": 10,
+    "salsaSalamanda": 11,
+);
+$max-frames: 12;
+
+@each $name, $frame in $icons {
+    $col: $frame % $max-frames;
+    $row: 0;
+    @if $frame >= $max-frames {
+        $row: 1;
+    }
+
+    .rules-icon-pack-#{$name} {
+        background-image: url(/kingseat/assets/crests_full.webp);
+        background-size: 1200%;
+        background-position-x: -$col * 100%;
+        background-position-y: -$row * 100%;
+        margin: auto;
+    }
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: $header-font;
+}
+
+body {
+    font-family: $body-font;
+    background-color: #212121; // #5F5449;
+    font-size: $body-font-size;
+    line-height: $body-line-height;
+}
+
+.remark {
+    line-height: 120%;
+}
+
+#setup {
+    background-color: #c98fff;
+}
+
+#objective {
+    background-color: #ff987b;
+}
+
+#action_play {
+    background-color: #c98fff;
+}
+
+#packs {
+    background-color: #ff987b;
+    
+}
+
+/*
+#action_play {
+    background-color: #AB50FF;
+}
+
+#packs {
+    background-color: #FF4816;
+    
+}*/
+
+@media print {
+    body {
+        font-size: 14px;
+    }
+}
+
+.prince-backstory {
+    font-style: italic;
+
+    h3 {
+        font-style: normal;
+    }
+}
+
+.prince-metadata {
+    ul {
+        margin: auto;
+    }
+
+    margin-bottom: 3em;
+}
+
+.prince-clarifications {
+    
+}

@@ -1,0 +1,116 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><title>Unstable Universe (Part 2) | Pandaqi Blog</title><link rel=icon type=image/png href=https://pandaqi.com/blog//favicon.png><link rel=stylesheet type=text/css href=/blog/css/critical.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin></head><body><header id=site-header><nav class=menu><ul><li><a href=https://pandaqi.com/blog/ class="masked-link big-mask mask-7" style=--rotation:2deg>Home</a></li><li><a href=/blog/boardgames/ class="masked-link big-mask mask-3" style=--rotation:-1.5deg>Boardgames</a></li><li><a href=/blog/news-and-updates/ class="masked-link big-mask mask-8" style=--rotation:1.5deg>News & Updates</a></li><li><a href=/blog/reviews-and-thoughts/ class="masked-link big-mask mask-7" style=--rotation:0.5deg>Reviews & Thoughts</a></li><li><a href=/blog/tutorials/ class="masked-link big-mask mask-4" style=--rotation:-0.5deg>Tutorials</a></li><li><a href=/blog/videogames/ class="masked-link big-mask mask-7" style=--rotation:0deg>Videogames</a></li></ul></nav></header><main class="padding center-block"><article class=single-article><div class=thumbnail-media><img src=../../unstable-universe-header.webp></div><h1>Unstable Universe (Part 2)</h1><aside class=metadata><nav class=breadcrumbs><span class=metadata-label><span class=emoji>🥐</span> Breadcrumbs ||</span>
+<a href=https://pandaqi.com/blog/>Home</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/>Boardgames</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/unstable-universe/>Unstable universe</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/unstable-universe/devlog-unstable-universe/>Devlog unstable universe</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/unstable-universe/devlog-unstable-universe/unstable-universe-part-2/>Unstable universe part 2</a></nav><script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/pandaqi.com\/blog\/","name":"home"}},{"@type":"ListItem","position":2,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/","name":"boardgames"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/unstable-universe\/","name":"unstable-universe"}},{"@type":"ListItem","position":4,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/unstable-universe\/devlog-unstable-universe\/","name":"devlog-unstable-universe"}},{"@type":"ListItem","position":5,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/unstable-universe\/devlog-unstable-universe\/unstable-universe-part-2\/","name":"unstable-universe-part-2"}}]}</script><div><span class=metadata-label><span class=emoji>&#8987;</span> Published ||</span>
+<time datetime=2020-10-11T10:00:00>Sunday, Oct 11, 2020</time></div><nav class=tags><span class=metadata-label><span class=emoji>🎗</span> Tags ||</span><ul><li><a href=https://pandaqi.com/blog/tags/devlog>devlog</a></li></ul></nav><div><span class=metadata-label><span class=emoji>📖</span> Table of Contents ||</span>
+<a href=# id=toc-toggle>Show</a></div></aside><aside id=table-of-contents class=masked-link-block><header><h2>Table of Contents</h2></header><nav id=TableOfContents><ul><li><a href=#writing-the-rules>Writing the Rules</a></li><li><a href=#creating-the-visuals>Creating the Visuals</a></li><li><a href=#dont-forget-the-theme>Don&rsquo;t forget the Theme!</a></li><li><a href=#which-actions-are-fun>Which actions are fun?</a></li></ul></nav></aside><div><p>This devlog is part 2 in a series of articles about the development of Unstable Universe.</p><p>Haven&rsquo;t read the other entries? Go to the <a href=../>devlog overview</a>.</p><h2 id=writing-the-rules>Writing the Rules</h2><p>Usually, you only encounter the biggest problems (but also find the most
+creative solutions) once you actually start writing the rules and
+determining the <em>specifics</em> of all the actions you can take in a game.</p><p>This game was no different.</p><p><strong>Realization #1:</strong> I soon realized that turning <em>all</em> nodes at the
+edge into starting nodes was stupid. It was an overwhelming number of
+options. And the ones nearest the center node were still always the
+best.</p><p>Instead, I decided to do the following:</p><ul><li><p>Each edge (top, right, bottom, left) gets exactly 3 starting nodes.</p></li><li><p>I only pick the ones <em>furthest away</em> from the center node.</p></li><li><p>I don&rsquo;t allow two starting nodes to be connected to a common node.
+(That would mean that the player who gets there first immediately
+cuts off the other player, giving them a huge disadvantage at the
+start of the game.)</p></li></ul><p><strong>Realization #2:</strong> If I create <em>too few</em> mission nodes, they become
+too hard to execute. (If all players are fighting for a specific set of
+nodes, for example, the game becomes near impossible to win.)</p><p>If I create <em>too many</em> mission nodes, however, they become overwhelming.
+(Again. Creating games always seems to be a battle against overwhelming
+players.)</p><p>Instead, I decided on a total of 10 unique mission nodes, of which 4
+only appear when certain expansions are enabled.</p><p>Additionally, at first I thought along the lines of &ldquo;hmm, maybe I will
+just scatter a handful of nodes around the map and ask you to pick them
+all up&rdquo; (like the Twinbird). But that quickly becomes stale and
+repetitive.</p><p>Instead, I decided to view Mission Nodes as a sort of &ldquo;player roles&rdquo;. I
+wanted each mission to force players to <em>change</em> their play style and
+look at the board a different way. I hope my final set of mission nodes
+accomplishes this well.</p><p><strong>Realization #3:</strong> If I move the idea of <em>Expeditions</em> to an expansion
+&mldr; I can fit <strong>all the rules on a single page!</strong> Amazing!</p><p>And so I did. &ldquo;Extreme Expeditions&rdquo; is, at the moment, one of three
+expansions to the game.</p><p>I also decided to properly name all the node types, which makes the
+rules (and gameplay) much simpler. We have:</p><ul><li><p>Mission Nodes (you start on it, gives you a goal)</p></li><li><p>Regular Nodes (resource + action, all other nodes)</p></li><li><p>Expedition Nodes (in the center of an enclosed area, only triggers
+when it is cut loose)</p></li></ul><h2 id=creating-the-visuals>Creating the Visuals</h2><p>I usually only talk about creating the <em>visuals</em> and generating the
+<em>game board</em> in my Technical Devlog.</p><p>But I wanted to shortly touch upon those aspects here, as they turned
+out to be harder than I thought, and impacted many rules decisions.</p><p>This game is called <strong>Unstable Universe</strong>. What is the most unstable
+form of drawing/designing? <em>Sketching</em>. And so, all elements in the game
+(the icons, the nodes, etc.) have a loose and sketchy look.</p><p>Take a look below for a comparison between a computer-drawn (&ldquo;perfect&rdquo;)
+game board and one that uses the sketchy art:</p><p><img src=uu-tech-6.webp alt="Very old version of the board"></p><p><img src=uu-tech-7.webp alt="Newer version with sketchy art style"></p><p>This looks really cute and fitting! But when I add too many elements on
+the page, this quickly becomes a mess (because of the funky art style).</p><p>By far the best solution was adding <em>color</em> to the game following a
+certain logic. I invented several categories (such as Nature, Natural
+Resources, Magic, &mldr;) and tried to give each expansion 1-2 nodes per
+category. By adding color, the board looks better and neater, but it
+also helps to quickly identify what you&rsquo;re looking at.</p><p>Secondly, this influenced my decision to keep the base game really
+simple. I wanted to do crazy stuff, like add &ldquo;secret gold/treasures&rdquo;
+between nodes and allow players to retrieve them with some weird cutting
+maneuvers &ndash; but all of that just felt way too complicated.</p><p>In the end, there was only <em>one crazy idea</em> I had that passed the test:
+a node that allows you to draw <strong>new edges</strong>. (Yes, I only got this idea
+by staring at game boards and thinking &ldquo;surely, I should be able to do
+something nice with all that white space&rdquo;)</p><p>When you enter the <em>dynamite</em> node, you are allowed to draw a new edge
+from that node to any other, as long as you don&rsquo;t cross anything on your
+way and it&rsquo;s a straight line. This edge then simply becomes part of the
+game: you can use it for travel, you can use it when cutting.</p><p><em>This is the real power of One Paper Games</em>. I constantly need to remind
+myself of this fact. Because we have a paper, because we can draw on it,
+we can do <em>much more creative things</em> than move people around. We can
+draw on the paper, invent our own icons, give stuff names, whatever!</p><p>Anyway, we&rsquo;re finally ready to playtest the game &mldr; I just need to
+invent 9 other nodes (besides the dynamite).</p><p><em>Remark:</em> yes, I decided to do 10 mission nodes in total, and 10 regular
+nodes for the base game, because that felt &mldr; consistent. It also meant
+I could fit everything on a <em>single page</em> in the rules, which is always
+nice. It saves space <em>and</em> makes it easier to look up the meaning if
+players forget it, because you know it will always be on the same page.</p><h2 id=dont-forget-the-theme>Don&rsquo;t forget the Theme!</h2><p>There&rsquo;s one thing we haven&rsquo;t really discussed yet, and that is
+<strong>theme</strong>. For some reason, it took me way too long to figure this one
+out. In hindsight, it is obvious:</p><p><strong>It is a metaphor for climate change (or destroying the environment
+because of commercialism).</strong></p><p>You want to win the game by grabbing resources &mldr; but to get a
+resource, you usually need to <em>cut into the paper</em> (aka &ldquo;destroy the
+environment&rdquo;).</p><p>What&rsquo;s the most obvious resource to use for such a system? Yes, it is
+<strong>oil</strong>. (Another advantage: an oil drop makes a recognizable icon on
+the board, even more so as a sketch.)</p><p>The most <strong>prominent</strong> node in the game is now oil. And it does exactly
+what you expect: when you enter it, you must perform a basic cutting
+action ( = &ldquo;drill into the earth to get your oil&rdquo;)</p><p>I&rsquo;m sure this whole concept will be lost on most of the players, but
+hey, if at least some people realize what it&rsquo;s about, that&rsquo;s a win!</p><h2 id=which-actions-are-fun>Which actions are fun?</h2><p>Because I invented the Mission Nodes first, I knew <em>what kind of</em> nodes
+I needed to make those missions viable. For example, one mission asks
+you to possess <em>more</em> nodes than any other player. That is only possible
+if there is a way to <em>skip your turn</em> or <em>take two turns after each
+other</em>, or things like that.</p><p>These &ldquo;action types&rdquo; seemed most fun and essential:</p><ul><li><p><strong>Cutting</strong> (with or without some restrictions, like disallowing
+certain combinations or stopping immediately after hitting a certain
+node)</p></li><li><p><strong>Turn</strong> (skip a turn, do another turn for free, block someone
+else&rsquo;s turn, &mldr;)</p></li><li><p><strong>Modify</strong> (draw a new edge with the <em>dynamite</em>, destroy a node,
+&mldr;)</p></li><li><p><strong>Movement</strong> (teleport across the map, leapfrog over someone, &mldr;)</p></li><li><p><strong>Progression</strong> (you need to collect X nodes of a certain type
+before you can <em>pass</em> a certain monster or gate or challenge)</p></li><li><p><strong>Blocking</strong> (forbid, barricade, destroy a certain action for
+another player)</p></li><li><p><strong>Ownership</strong> (share a node with someone else, get back a node
+you&rsquo;ve lost, &mldr;)</p></li></ul><p>Here&rsquo;s two diagrams I made for myself that show how all the nodes are distributed across the categories and action types. (I almost always do this for games, to get a nice overview and to automatically balance expansions and make them as varied as possible.) These are the (almost final) versions I made near the end, so they also include the other expansions, which we&rsquo;ll talk about soon!</p><p><img src=uu-tech-8.webp alt="Diagram of Node Categories"></p><p><img src=uu-tech-9.webp alt="Diagram of Action Types"></p><p>Another interesting example if <strong>blocking</strong> is something like the &ldquo;Cute
+Puppy&rdquo;. If you are responsible for destroying this node (or cutting it
+loose), you get a severe penalty. This acts as a sort of block: nobody
+wants that penalty, so they will stay away from harming the puppy.
+Perhaps they&rsquo;ll cut around it, or wait a few turns before moving in.</p><p>The <strong>modify-type</strong> nodes are most creative, but also most powerful, so
+I only invented a few of them and spread those across the expansions.</p><p>(For example, there is one Expedition Node that allows you to <em>reattach</em>
+the piece of paper that just came loose. This effectively allows you to
+rearrange the board and move a whole group of nodes to somewhere else.
+Very cool, never saw that before in a game, but also perhaps too
+powerful.)</p><p>There&rsquo;s one specific <strong>turn-type</strong> node that I found so interesting,
+that it basically shaped the whole first expansion to the game. It&rsquo;s the
+<strong>Time Trick</strong> node. It allows you to &ldquo;save&rdquo; a turn for later. Why do I
+think it&rsquo;s so special? Because this is the only thing that would allow
+you to <em>plan far ahead</em> and use a <em>long-term strategy</em> in such a simple
+game.</p></div></article><div><nav class=pagination><ul><li><a href=/blog/boardgames/unstable-universe/devlog-unstable-universe/unstable-universe-part-1/ class="masked-link big-mask mask-5" style=--rotation:2deg>&lt;&lt; Previous Page</a></li><li>Continue reading</li><li><a href=/blog/boardgames/unstable-universe/devlog-unstable-universe/unstable-universe-part-3/ class="masked-link big-mask mask-4" style=--rotation:1deg>>> Next Page</a></li></ul></nav></div></main><footer id=site-footer><div class="padding center-block"><h3>More Pandaqi</h3><p>You could <a href=https://pandaqi.com>visit the game studio</a>.
+Or my <a href=https://pandaqi.com/tutorials/>free tutorial website</a>.
+Or my <a href=https://rodepanda.com/>portfolio</a> with easy access to absolutely everything I ever made.</p><h3>Latest</h3><nav class=latest><ul><li><a href=/blog/boardgames/photomone/>Photomone
+(🐜)</a></li><li><a href=/blog/boardgames/keebble-domino/>Keebble: Domino
+(📗)</a></li><li><a href=/blog/boardgames/keebble-knickknack/>Keebble: Knickknack
+(📘)</a></li><li><a href=/blog/videogames/game-jams/less-is-store/>Less is Store
+(🛍️)</a></li><li><a href=/blog/tutorials/placing-grids-within-spaces/>Placing grids within spaces</a></li><li><a href=/blog/boardgames/thats-amorphe-pictures/>That's Amorphe: Pictures
+(🖌️)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-2023-update-ii/>Pandaqi Games: 2023 Update (II)
+(🎮)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-2023-update-iii/>Pandaqi Games: 2023 Update (III)
+(🎮)</a></li><li><a href=/blog/news-and-updates/pq-daw/>PQ_DAW: A music editor for the web
+(🎼)</a></li><li><a href=/blog/news-and-updates/pq-words/>PQ_WORDS: A dictionary for games
+(📋)</a></li></ul></nav><h3>Sections</h3><nav><ul><li><a href=/blog/boardgames/>Boardgames
+(🎲)</a></li><li><a href=/blog/news-and-updates/>News & Updates
+(📢)</a></li><li><a href=/blog/reviews-and-thoughts/>Reviews & Thoughts
+(💭)</a></li><li><a href=/blog/tutorials/>Tutorials
+(👩‍🎓)</a></li><li><a href=/blog/videogames/>Videogames
+(🎮)</a></li></ul></nav><h3>Credits</h3><p>Theme by me (<a href=https://pandaqi.com>Pandaqi</a> 🐼) &#183;
+with ❤️ &#183;
+using <a href=https://gohugo.io>Hugo</a> &#183;
+&copy; 2018&ndash;2023 Pandaqi Blog</p></div></footer><link rel=stylesheet type=text/css href=/blog/css/style.css><script src=/blog/js/bundle.min.js></script></body></html>

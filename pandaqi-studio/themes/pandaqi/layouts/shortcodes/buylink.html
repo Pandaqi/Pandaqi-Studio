@@ -1,0 +1,21 @@
+{{- $class := .Get "class" -}}
+
+<div>
+	{{- $platforms := split (.Get "platforms") "," -}}
+	{{- $url := .Get "url" -}}
+	{{- $img := .Get "image" -}}
+
+	<a href="{{- $url -}}" class="buy-link {{ $class }}">
+		{{- if $img -}}
+			<img src="{{- $img -}}" />
+		{{- else -}}
+			{{- .Inner |  -}}
+		{{- end -}}
+	</a>
+
+	<span class="platform-metadata">
+		{{- range $v := $platforms -}}
+			<span class="icon {{- $v -}}"></span>
+		{{- end -}}
+	</span>
+</div>

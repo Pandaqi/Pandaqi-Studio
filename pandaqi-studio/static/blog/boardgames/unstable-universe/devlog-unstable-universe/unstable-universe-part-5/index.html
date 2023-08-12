@@ -1,0 +1,126 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><title>Unstable Universe (Part 5) | Pandaqi Blog</title><link rel=icon type=image/png href=https://pandaqi.com/blog//favicon.png><link rel=stylesheet type=text/css href=/blog/css/critical.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin></head><body><header id=site-header><nav class=menu><ul><li><a href=https://pandaqi.com/blog/ class="masked-link big-mask mask-6" style=--rotation:-1deg>Home</a></li><li><a href=/blog/boardgames/ class="masked-link big-mask mask-3" style=--rotation:-0.5deg>Boardgames</a></li><li><a href=/blog/news-and-updates/ class="masked-link big-mask mask-8" style=--rotation:-1deg>News & Updates</a></li><li><a href=/blog/reviews-and-thoughts/ class="masked-link big-mask mask-2" style=--rotation:0deg>Reviews & Thoughts</a></li><li><a href=/blog/tutorials/ class="masked-link big-mask mask-7" style=--rotation:1deg>Tutorials</a></li><li><a href=/blog/videogames/ class="masked-link big-mask mask-1" style=--rotation:0.5deg>Videogames</a></li></ul></nav></header><main class="padding center-block"><article class=single-article><div class=thumbnail-media><img src=../../unstable-universe-header.webp></div><h1>Unstable Universe (Part 5)</h1><aside class=metadata><nav class=breadcrumbs><span class=metadata-label><span class=emoji>🥐</span> Breadcrumbs ||</span>
+<a href=https://pandaqi.com/blog/>Home</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/>Boardgames</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/unstable-universe/>Unstable universe</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/unstable-universe/devlog-unstable-universe/>Devlog unstable universe</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/unstable-universe/devlog-unstable-universe/unstable-universe-part-5/>Unstable universe part 5</a></nav><script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/pandaqi.com\/blog\/","name":"home"}},{"@type":"ListItem","position":2,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/","name":"boardgames"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/unstable-universe\/","name":"unstable-universe"}},{"@type":"ListItem","position":4,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/unstable-universe\/devlog-unstable-universe\/","name":"devlog-unstable-universe"}},{"@type":"ListItem","position":5,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/unstable-universe\/devlog-unstable-universe\/unstable-universe-part-5\/","name":"unstable-universe-part-5"}}]}</script><div><span class=metadata-label><span class=emoji>&#8987;</span> Published ||</span>
+<time datetime=2020-10-11T13:00:00>Sunday, Oct 11, 2020</time></div><nav class=tags><span class=metadata-label><span class=emoji>🎗</span> Tags ||</span><ul><li><a href=https://pandaqi.com/blog/tags/devlog>devlog</a></li></ul></nav><div><span class=metadata-label><span class=emoji>📖</span> Table of Contents ||</span>
+<a href=# id=toc-toggle>Show</a></div></aside><aside id=table-of-contents class=masked-link-block><header><h2>Table of Contents</h2></header><nav id=TableOfContents><ul><li><a href=#intermezzo-a-week-of-thinking>Intermezzo: a week of thinking</a><ul><li><a href=#problem-1>Problem 1</a></li><li><a href=#problem-2>Problem 2</a></li><li><a href=#problem-3>Problem 3</a></li></ul></li><li><a href=#expansion-3-extreme-expeditions>Expansion 3: Extreme Expeditions</a><ul><li><a href=#problem-1-areas-are-irregular>Problem 1: Areas are irregular</a></li><li><a href=#dynamic-expeditions>Dynamic Expeditions!</a></li><li><a href=#the-big-one-re-attaching-nodes>The Big One: Re-attaching Nodes</a></li><li><a href=#conclusion>Conclusion</a></li></ul></li></ul></nav></aside><div><p>This devlog is part 5 in a series of articles about the development of Unstable Universe.</p><p>Haven&rsquo;t read the other entries? Go to the <a href=../>devlog overview</a>.</p><h2 id=intermezzo-a-week-of-thinking>Intermezzo: a week of thinking</h2><p>After writing the piece above, I set out to update the rules and work on
+the last two expansions. In doing so, however, I realized more and more
+that the priorities of the game had shifted.</p><h3 id=problem-1>Problem 1</h3><p><strong>Problem 1:</strong> It stopped being a game about <em>cutting the board</em> and
+became a game about <em>moving on a board with many special locations</em>.</p><p>I don&rsquo;t like that. So I gave myself the challenge of coming up with as
+many unique cutting actions as I could. Just some examples:</p><ul><li><p>Every time you hit a node that&rsquo;s owned by another player during your
+cut, THEY may decide in which direction you must continue your cut.</p></li><li><p>When you cut through a node owned by yourself, you may cut ACROSS
+the paper (through empty space) to another node.</p></li><li><p>Give certain combinations of nodes positive/negative effects. For
+example: if you hit both <em>Fire</em> and <em>Wood</em>, you get an <em>explosion</em>:
+immediately destroy all nodes you hit during your cut.</p></li><li><p>Any time you hit a node which has ALL its power dots filled (I&rsquo;ll
+explain that in a moment), you get a free extra step.</p></li></ul><p>I think these kinds of actions fit the game better, lead to more
+interesting results, and are way easier to explain. (As opposed to
+inventing several new mechanics per expansion.)</p><h3 id=problem-2>Problem 2</h3><p><strong>Problem 2:</strong> So, about those <em>power dots</em>. When I invented them, it
+just sounded like a cool and fitting term: each node has a few dots
+around it, when they lose one of them, they become destroyed/deactivated
+( &mldr; because they&rsquo;ve lost power).</p><p>When I made them small, they were really hard to see. When I made them
+large, it seemed like wasted space &ndash; surely I should be able to do
+something with those big power dots around every node?</p><p>At the same time, I had a problem with space on the board.</p><ul><li><p>If you write your player icon inside a node, it&rsquo;s really hard to
+miss, because the game itself also has a &ldquo;pencil/sketchy&rdquo; style.</p></li><li><p>If another player claims a node, nobody else can pass through there
+anymore! Which really limits your options, especially on higher
+player counts.</p></li></ul><p>That&rsquo;s when it hit me: those <strong>power dots could be movement slots!</strong></p><p><img src=uu-tech-12.webp alt="Power dots image from the rulebook">{.float-right}</p><p>When moving to a node, you simply draw your icon in a <em>free</em>
+(not-occupied) power dot around the node. All power dots are filled?
+Sorry man, can&rsquo;t move to the node anymore. Your power dot gets cut off
+the board? Sorry man, you lost possession of that node.</p><p>It simplified the rules, gave way more space and clarity to the board,
+and even allowed me to give each node a <em>random</em> number of power dots.
+So multiple people could own a single node at the same time &mldr; but you
+could <em>cut</em> the other player off the node if you wanted to!</p><p>And there was even an extra advantage: the name &ldquo;power dot&rdquo; says it all.
+I could use the number of power dots around a node in my &ldquo;Electric
+Expansion&rdquo; for determining how much electricity something gets! (At this
+moment, I&rsquo;m not entirely sure how to do that, especially because that
+expansion is going to get a complete overhaul &mldr; again.)</p><h3 id=problem-3>Problem 3</h3><p><strong>Problem 3:</strong> when I created the base game (the &ldquo;first version&rdquo;) I
+wrote down 10 Mission Nodes that I thought were interesting. After
+months of development, some of those missions have become quite boring
+or ill-fitting.</p><p>For example, the mission &ldquo;Preserver&rdquo; simply says: collect two Twinbirds.
+But Twinbirds don&rsquo;t do something by themselves. So I&rsquo;m clogging up the
+board by placing 4-5 of those icons, which don&rsquo;t do anything for anyone,
+except the person who is a Preserver.</p><p>Even worse, if that Mission is not in the game, those Twinbirds are 100%
+useless. Or if there are multiple players with this Mission, it suddenly
+becomes nigh impossible to fulfill, because there are only a handful of
+these on the board.</p><p>In the end, I changed the problem nodes to:</p><ul><li><p>Preserver: Possess more Nature nodes than anyone else, and at least
+1 of each type</p></li><li><p>Peacemaker: Be the only player to own any Dynamite, Fire or Gas
+nodes on the board. (As it stands now, the &ldquo;Gas&rdquo; node will be so
+important that I expect players to be fighting over it. In a sense,
+the Peacemaker either wants to completely destroy these nodes, or
+exclusively keep them for themselves.)</p></li></ul><p>(Unfortunately, this means my beautiful icon for a Twinbird will not
+appear in the game anymore. Oh well, I&rsquo;ll probably use it for something
+else later.)</p><p><strong>These changes were really important!</strong> After just a week of thinking
+and applying some major tweaks, I solved most of the issues I was having
+with the game. Now cutting is the main mechanic again, moving around the
+board is easy and intuitive (for all player counts), and missions are as
+fun as they can be.</p><p>This is the page of Mission Nodes in the rulebook at the time of writing:</p><p><img src=uu-tech-13.webp alt="Mission Nodes, image taken from rulebook"></p><p>With this fixed, it&rsquo;s time to look at the 3rd and 4th expansion.</p><p>(Normally, I&rsquo;d finish and test the other additions first, before
+continuing development. However, these expansions are completely
+independent of each other and also require <em>a lot of complex code</em> to
+implement. So I decided that I wanted to have the board generation
+working, to see if it was even <em>possible</em>, before making any other
+decisions.)</p><h2 id=expansion-3-extreme-expeditions>Expansion 3: Extreme Expeditions</h2><p>This was the plan:</p><ul><li><p>Detect all <em>areas</em> on the board (the white space between nodes).</p></li><li><p>Randomly place expeditions in the center of the biggest ones: an
+icon (<em>which expedition</em>) and 1-4 circles (<em>slots to join the
+expedition</em>)</p></li><li><p>And then simply invent a few cool events that can happen on an
+expedition.</p></li></ul><p>As usual, reality hit me and I had to completely change the plan.</p><h3 id=problem-1-areas-are-irregular>Problem 1: Areas are irregular</h3><p>Detecting all areas on the board was relatively simple (see the
+technical devlog for that). However, areas are shaped very irregularly.
+Throwing down a bunch of icons in the center was no guarantee that it
+would fit &mldr; at all.</p><p><strong>Solution?</strong> Firstly, I wrote extra code to &ldquo;relax&rdquo; a point to where it
+has the most room. This means that it calculates the distance to all
+nodes in the area, moves a little bit towards the node furthest away,
+and repeats this like 100 times. 99% of the cases, it finds the optimal
+spot and there&rsquo;s enough space.</p><h3 id=dynamic-expeditions>Dynamic Expeditions!</h3><p>Secondly, I got an idea I really liked: the <strong>type of expedition</strong> is
+determined by <strong>how many people join it</strong>.</p><p>This way, I don&rsquo;t have to print a fixed icon on the board! I only need
+to place a few circles ( = slots) in the middle of each area. When the
+piece of paper comes loose, and the expedition triggers, whatever
+happens is based on <em>how many slots there were</em> and <em>how many are
+filled</em>.</p><p>For example: the expedition has three open slots. Two players decided to
+join. Then we execute expedition 5 ( = 2 + 3). The rulebook has a page
+with numbered expeditions, so you can look up what that means at all
+times.</p><p>And then I thought: how can I make this mechanic the most exciting? How
+can I make it a fun, unpredictable element of the game? (If you already
+know what you&rsquo;re going to get when you join, it&rsquo;s not really a fun game
+element.)</p><p>By creating both <strong>positive expeditions</strong> and <strong>negative expeditions</strong>,
+and <strong>alternating between them</strong>. This way, whenever a new researcher
+joins the expedition, it always flips between positive &lt;=> negative.</p><p>For example: the expedition has two open slots. If you join, the number
+would be 2 + 1 = 3. Oh no, that is a bad one! (I don&rsquo;t know, maybe all
+players who joined get some penalty.)</p><p>But &mldr; maybe you can convince another player to join as well. Then it
+would be 2 + 2 = 4, and that is a good one! (All players who joined get
+some reward.)</p><p>You need to predict what other players will do and maybe even work
+together. But they can just as easily backstab you, not join the
+expedition, and leave you with the bad consequences.</p><h3 id=the-big-one-re-attaching-nodes>The Big One: Re-attaching Nodes</h3><p>Lastly, I saved one great idea for this expansion: <strong>re-attaching
+nodes.</strong> If we&rsquo;re cutting into the paper and creating all these separate
+pieces, we might as well make full use of them.</p><p>Let&rsquo;s say a piece of paper came loose which contained a Fruit, Wood and
+Oil node.</p><p>To re-attach it, find another node (that is still on the board) that&rsquo;s
+Fruit/Wood/Oil, and place the matching node next to it. Now all these
+nodes are active again (because they are &ldquo;on the board&rdquo;)!</p><p><img src=uu-tech-14.webp alt="Expedition Nodes, taken from rulebook"></p><p>Of course, this should be reserved for rare types of expeditions. (For
+example, 4 slots, and all 4 are filled.) If this happens too often, the
+board becomes a mess <em>and</em> you never really lose a node.</p><h3 id=conclusion>Conclusion</h3><p>This expansion was surprisingly easy to get right.</p><p>Not the coding aspect though &ndash; those days spend programming the
+algorithm to recognize areas and place expeditions correctly were a
+<em>nightmare</em>.</p><p>But the rules themselves are really simple, yet give a great deal of
+possibilities and strategy to the game. <em>And</em> they make cutting even
+more important, because everything you cut loose <em>also</em> plays a last
+trick on you.</p></div></article><div><nav class=pagination><ul><li><a href=/blog/boardgames/unstable-universe/devlog-unstable-universe/unstable-universe-part-4/ class="masked-link big-mask mask-5" style=--rotation:0deg>&lt;&lt; Previous Page</a></li><li>Continue reading</li><li><a href=/blog/boardgames/unstable-universe/devlog-unstable-universe/unstable-universe-part-6/ class="masked-link big-mask mask-7" style=--rotation:1deg>>> Next Page</a></li></ul></nav></div></main><footer id=site-footer><div class="padding center-block"><h3>More Pandaqi</h3><p>You could <a href=https://pandaqi.com>visit the game studio</a>.
+Or my <a href=https://pandaqi.com/tutorials/>free tutorial website</a>.
+Or my <a href=https://rodepanda.com/>portfolio</a> with easy access to absolutely everything I ever made.</p><h3>Latest</h3><nav class=latest><ul><li><a href=/blog/boardgames/photomone/>Photomone
+(🐜)</a></li><li><a href=/blog/boardgames/keebble-domino/>Keebble: Domino
+(📗)</a></li><li><a href=/blog/boardgames/keebble-knickknack/>Keebble: Knickknack
+(📘)</a></li><li><a href=/blog/videogames/game-jams/less-is-store/>Less is Store
+(🛍️)</a></li><li><a href=/blog/tutorials/placing-grids-within-spaces/>Placing grids within spaces</a></li><li><a href=/blog/boardgames/thats-amorphe-pictures/>That's Amorphe: Pictures
+(🖌️)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-2023-update-ii/>Pandaqi Games: 2023 Update (II)
+(🎮)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-2023-update-iii/>Pandaqi Games: 2023 Update (III)
+(🎮)</a></li><li><a href=/blog/news-and-updates/pq-daw/>PQ_DAW: A music editor for the web
+(🎼)</a></li><li><a href=/blog/news-and-updates/pq-words/>PQ_WORDS: A dictionary for games
+(📋)</a></li></ul></nav><h3>Sections</h3><nav><ul><li><a href=/blog/boardgames/>Boardgames
+(🎲)</a></li><li><a href=/blog/news-and-updates/>News & Updates
+(📢)</a></li><li><a href=/blog/reviews-and-thoughts/>Reviews & Thoughts
+(💭)</a></li><li><a href=/blog/tutorials/>Tutorials
+(👩‍🎓)</a></li><li><a href=/blog/videogames/>Videogames
+(🎮)</a></li></ul></nav><h3>Credits</h3><p>Theme by me (<a href=https://pandaqi.com>Pandaqi</a> 🐼) &#183;
+with ❤️ &#183;
+using <a href=https://gohugo.io>Hugo</a> &#183;
+&copy; 2018&ndash;2023 Pandaqi Blog</p></div></footer><link rel=stylesheet type=text/css href=/blog/css/style.css><script src=/blog/js/bundle.min.js></script></body></html>

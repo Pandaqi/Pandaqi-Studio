@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 256 256" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
+    <g transform="matrix(1,0,0,1,-5376,0)">
+        <g id="Programming-Principles" transform="matrix(1.6,0,0,1.70667,-12861.5,-373.411)">
+            <rect x="11398.4" y="218.796" width="160" height="150" style="fill:none;"/>
+            <g transform="matrix(1.29371,0,0,1.29371,-3371.29,-89.3094)">
+                <g transform="matrix(0.625,0,0,0.585937,8033.09,223.776)">
+                    <path d="M5513.02,39.703L5547.9,95.527L5587.77,119.372L5550.06,142.306L5567.46,207.263L5513.02,178.641L5458.57,207.263L5475.3,143.973L5437.92,119.039L5477.46,93.194L5513.02,39.703Z" style="fill:rgb(146,223,194);"/>
+                </g>
+                <g>
+                    <g transform="matrix(0.625,0,0,0.585937,8065.86,218.337)">
+                        <g transform="matrix(129.679,0,0,129.679,5430.76,164.703)">
+                        </g>
+                        <text x="5375.39px" y="164.703px" style="font-family:'Dosis-ExtraBold', 'Dosis';font-weight:800;font-size:129.679px;fill:rgb(62,13,109);">&lt;</text>
+                    </g>
+                    <g transform="matrix(0.625,0,0,0.585937,8098.98,224.872)">
+                        <g transform="matrix(129.679,0,0,129.679,5439.06,164.703)">
+                        </g>
+                        <text x="5375.39px" y="164.703px" style="font-family:'Dosis-ExtraBold', 'Dosis';font-weight:800;font-size:129.679px;fill:rgb(62,13,109);">/</text>
+                    </g>
+                    <g transform="matrix(0.625,0,0,0.585937,8137.11,218.337)">
+                        <g transform="matrix(129.679,0,0,129.679,5430.76,164.703)">
+                        </g>
+                        <text x="5375.39px" y="164.703px" style="font-family:'Dosis-ExtraBold', 'Dosis';font-weight:800;font-size:129.679px;fill:rgb(62,13,109);">&gt;</text>
+                    </g>
+                </g>
+                <g transform="matrix(0.487106,0,0,0.585937,8796.48,218.796)">
+                    <path d="M5480.64,72.87C5480.64,72.87 5515.91,68.359 5522.33,65.936C5525.5,64.736 5532.59,72.601 5529.31,73.87C5521.14,77.025 5478.31,86.203 5473.31,84.87C5468.31,83.536 5480.64,72.87 5480.64,72.87Z" style="fill:rgb(19,56,42);"/>
+                </g>
+                <g transform="matrix(-0.182905,-0.0821791,0.112473,-0.220016,12491.2,728.836)">
+                    <path d="M5480.64,72.87C5480.64,72.87 5515.91,68.359 5522.33,65.936C5525.5,64.736 5532.59,72.601 5529.31,73.87C5521.14,77.025 5478.31,86.203 5473.31,84.87C5468.31,83.536 5480.64,72.87 5480.64,72.87Z" style="fill:rgb(19,56,42);"/>
+                </g>
+                <g transform="matrix(-0.0969366,0.0796644,-0.105167,-0.112472,12030.8,-171.999)">
+                    <path d="M5480.64,72.87C5480.64,72.87 5515.91,68.359 5522.33,65.936C5525.5,64.736 5532.59,72.601 5529.31,73.87C5521.14,77.025 5478.31,86.203 5473.31,84.87C5468.31,83.536 5480.64,72.87 5480.64,72.87Z" style="fill:rgb(19,56,42);"/>
+                </g>
+            </g>
+            <g transform="matrix(0.625,0,0,0.585937,8038.41,218.796)">
+                <path d="M5449.28,65.008C5449.28,65.008 5439.78,50.008 5432.28,45.008" style="fill:none;stroke:rgb(146,223,194);stroke-width:8px;"/>
+            </g>
+            <g transform="matrix(0.572358,0.23537,0.251061,-0.536585,8299.76,-925.637)">
+                <path d="M5449.28,65.008C5449.28,65.008 5439.78,50.008 5432.28,45.008" style="fill:none;stroke:rgb(146,223,194);stroke-width:8px;"/>
+            </g>
+            <g transform="matrix(-0.625,0,0,0.585937,14920.3,219.968)">
+                <path d="M5449.28,65.008C5449.28,65.008 5439.78,50.008 5432.28,45.008" style="fill:none;stroke:rgb(146,223,194);stroke-width:8px;"/>
+            </g>
+            <g transform="matrix(-0.586895,0.201464,-0.214895,-0.550214,14732.6,-741.878)">
+                <path d="M5449.28,65.008C5449.28,65.008 5439.78,50.008 5432.28,45.008" style="fill:none;stroke:rgb(146,223,194);stroke-width:8px;"/>
+            </g>
+            <g transform="matrix(-0.189607,-0.495677,0.55839,-0.187731,12469.2,3061.06)">
+                <path d="M5449.28,65.008C5449.28,65.008 5439.78,50.008 5432.28,45.008" style="fill:none;stroke:rgb(146,223,194);stroke-width:8px;"/>
+            </g>
+            <g transform="matrix(0.110953,-0.458272,-0.513506,-0.109271,10913.5,2851.62)">
+                <path d="M5449.28,65.008C5449.28,65.008 5439.78,50.008 5432.28,45.008" style="fill:none;stroke:rgb(146,223,194);stroke-width:8px;"/>
+            </g>
+        </g>
+    </g>
+</svg>

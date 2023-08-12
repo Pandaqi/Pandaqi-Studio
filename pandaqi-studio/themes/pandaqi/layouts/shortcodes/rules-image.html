@@ -1,0 +1,10 @@
+{{- $class := or (.Get "class") "" -}}
+{{- $src := or (.Get "src") "" -}}
+{{- $alt := or (.Get "alt") "Example image" -}}
+<picture class="rules-image {{ $class }}">
+    <img 
+        src="{{ $src }}" 
+        alt='{{- $alt -}}' 
+		title='{{- $alt -}}'
+    />
+</picture>

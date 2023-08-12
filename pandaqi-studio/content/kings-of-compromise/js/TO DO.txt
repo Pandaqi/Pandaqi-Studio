@@ -1,0 +1,21 @@
+== MAP ==
+ -> Give different slots to different terrains
+ -> Write rules for swapping tiles; what to do if a slot doesn't exist anymore?
+ -> Find the fourth category
+ -> Simplify:
+	- Make certain categories optional or like an “expansion”
+	- Reduce the number of options _within_ the category for the base game.
+	- Make the “owner” bit an expansion as well
+	- Make the map even smaller  
+
+== HINTS ==
+ -> Invent lots of them
+ -> Write code for building hints and checking validity => allow writing all this custom code in a _separate_ file for clarity
+ -> Distribute + Cut most irrelevant => test if this works completely
+ -> Find clean method for generating LOCAL hints
+
+== FINISHING TOUCHES ==
+ -> Create materials PDF (tiles, tokens, something to track turns + conventions)
+ -> Allow pregenerating games from within the website
+ -> Create the interface again => copy most from Riddlebeard, perhaps make it cleaner
+ -> Finish website + rulebook (fonts/images/links/wording/etc)

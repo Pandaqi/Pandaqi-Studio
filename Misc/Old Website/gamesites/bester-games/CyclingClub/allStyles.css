@@ -1,0 +1,492 @@
+@font-face {
+    font-family: Oswald;
+    src: url(Oswald-Regular.ttf);
+}
+
+@font-face {
+	font-family:DIN;
+	src: url(DIN.ttf);
+}
+
+body, html {
+	margin:0;
+	padding:0;
+	width:100%;
+	height:100%;
+	background-color:#333;
+	overflow:hidden;
+	box-sizing:border-box;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+	background-color:#333;
+}
+
+#containSVG, #canvasDIV {
+	margin:0;
+	padding:0;
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height: 100%;
+}
+
+#topInfoOverlay {
+	position:absolute;
+	display:none;
+	top:0;
+	left:40%;
+	width:450px;
+	height:30px;
+	padding-top:2px;
+	font-family:Oswald;
+	font-size:20px;
+	color:white;
+	background-color:#333;
+	text-align:center;
+	box-shadow:0px 0px 15px black;
+}
+
+.speedButton, .zoomButton {
+	padding-left:8px;
+	padding-right:8px;
+	padding-bottom:3px;
+	padding-top:3px;
+	float:right;
+	font-size:18px;
+}
+.speedButton:hover, .zoomButton:hover {
+	background-color:rgb(150,150,200);
+	cursor:pointer;
+}
+#speedSelected, #zoomSelected {
+	background-color:rgb(220,100,100);
+}
+
+.zoomedOut32 {
+	transform:none;
+	width:100%;
+	height:100%;
+}
+
+.zoomedOut16 {
+	transform: scale(0.5)  !important;
+	width:200%  !important;
+	height:200%  !important;
+}
+
+.zoomedOut8 {
+	transform: scale(0.25)  !important;
+	width:400%  !important;
+	height:400%  !important;
+}
+
+.zoomedOut4 {
+	transform: scale(0.125)  !important;
+	width:800%  !important;
+	height:800%  !important;
+}
+
+.zoomedOut2 {
+	transform: scale(0.0625)  !important;
+	width:1600%  !important;
+	height:1600%  !important;
+}
+
+.zoomedOut1 {
+	transform: scale(0.03125) !important;
+	width:3200% !important;
+	height:3200% !important;
+}
+
+#miniMapContainer {
+	position:absolute;
+	right:0px;
+	bottom:20px;
+	width:200px;
+	height:400px;
+	background-color:rgba(100,200,100,0.8);
+	padding:20px;
+	border:3px solid #336633;
+	border-right:none;
+	display:none;
+}
+
+.groupBox {
+	float:left;
+	padding:5px;
+	box-sizing:border-box;
+	border-left:1px dashed gray;
+}
+
+.groupBox:hover {
+	background-color:rgb(100,100,100);
+	color:white;
+	cursor:pointer;
+}
+
+.curGroupBox {
+	background-color:rgb(180,50,50);
+	color:white;
+}
+
+.waterBottle {
+	width:40px;
+	height:40px;
+	position:absolute;
+	left:0;
+	overflow:hidden;
+}
+
+.energyMember {
+	font-size:40px;
+	font-family:DIN;
+	text-align:right;
+	width:60px;
+	display:inline-block;
+}
+
+.inGameMember, .inGameAction, .inGameSubAction {
+	padding-left:30px;
+	padding-top:5px;
+	width:100%;
+	box-sizing:border-box;
+	margin:5px;
+	/*transition: transform 0.5s, opacity 0.5s;*/
+	font-family:Oswald;
+	height:110px;
+}
+.inGameAction, .inGameSubAction {
+	width:110px;
+	padding:25px;
+	transform:translateX(-40px);
+	opacity:0;
+	background-color:rgb(220,220,220);
+}
+.inGameMember:hover {
+	background-color:rgb(100,100,100);
+	color:white;
+	cursor:pointer;
+	transform: translateX(30px);
+}
+.inGameAction:hover, .inGameSubAction:hover {
+	background-color:#fff;
+	color:red;
+	cursor:pointer;
+}
+.inGameMemberSelected {
+	background-color:rgb(220,220,220);
+	transform:translateX(30px);
+}
+.inGameActionSelected {
+	background-color:#99ff99;
+}
+
+#groupDisplay {
+	position: absolute;
+	bottom:0;
+	left:30px;
+	height:100px;
+	width:1200px;
+	font-family:Oswald;
+}
+
+#extraInfoOverlay {
+	font-family: Oswald;
+	position:absolute;
+	top:20px;
+	right:0px;
+	width:230px;
+	height:400px;
+	overflow:scroll;
+	padding-left:10px;
+	padding-top:10px;
+	padding-bottom:10px;
+	background-color:rgba(100,200,100,0.8);
+	border:3px solid #336633;
+	border-right:none;
+	display:none;
+}
+
+#controlButtonOverlay {
+	font-family:Oswald;
+	position:absolute;
+	top:-20px;
+	left:5px;
+	width:350px;
+	height:50px;
+	font-size:26px;
+	margin:30px;
+	display:none;
+}
+
+.controlButton:hover {
+	background-color:rgb(150,150,200);
+	cursor:pointer;
+}
+
+.controlButton {
+	display:inline-block;
+	height:32px;
+	width:100px;
+	text-align:right;
+	overflow:hidden;
+	float:right;
+}
+
+#popupWindow {
+	background-color:rgba(20,20,20,0.8);
+	box-shadow:0px 0px 20px white;
+	color:#EEE;
+	font-family:Rockwell;
+	font-size:22px;
+	padding:20px;
+	height:100%;
+	box-sizing:border-box;
+	border-radius:0.5em;
+	min-height:670px;
+}
+
+.BigButton {
+	text-align:center;
+	font-size:80px;
+	font-family:Rockwell;
+	background-color:rgba(80,80,80,0.5);
+	color:#BBB;
+	transition: font-size 0.5s;
+}
+.BigButton:hover {
+	/*background-color:rgba(150,150,150,0.8);*/
+	cursor:pointer;
+	color:#EEE;
+	font-size:120px;
+	background: repeating-linear-gradient(
+	  45deg,
+	  #606dbc,
+	  #606dbc 10px,
+	  #465298 10px,
+	  #465298 20px
+	);
+}
+.MediumButton, .SmallButton, .MemberActionButton, .SaveButton, .TabButton, .changeSalary, .NewsButton {
+	transition: box-shadow 0.3s, color 0.3s, transform 0.3s;
+	transition-delay: 0s;
+	-webkit-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+	-moz-transform-style: preserve-3d;
+	text-align:left;
+	vertical-align: top;
+	padding:20px;
+	font-family:Oswald;
+	background-color:rgba(80,80,80,0.5);
+	color:#BBB;
+	-webkit-backface-visibility: hidden;
+}
+.MediumButton:hover, .SmallButton:hover, .NumberButton:hover, .MemberActionButton:hover, .SaveButton:hover, .TabButton:hover, .changeSalary:hover, .NewsButton:hover {
+	color:rgb(100,255,80);
+	cursor:pointer;
+	box-shadow: 0px 0px 20px #AAA;
+	transform: scale(1.1) rotate(0.01deg);
+	-moz-transform: scale(1.1) rotate(0.01deg);
+	-webkit-transform: scale(1.1) rotate(0.01deg);
+}
+
+.NewsButton:hover {
+	transform: scale(1.1) translateX(40px);
+}
+
+.MediumButton:hover, .SmallButton:not(.aMember):hover, .NumberButton:hover, .MemberActionButton:hover, .SaveButton:hover, .TabButton:hover, .changeSalary:hover, .NewsButton:hover {
+	background: repeating-linear-gradient(
+	  45deg,
+	  rgba(96,109,188,0.7),
+	  rgba(96,109,188,0.7) 10px,
+	  rgba(70,82,152,0.7) 10px,
+	  rgba(70,82,152,0.7) 20px
+	);
+}
+
+.MediumButton {
+	font-size:60px;
+}
+.SmallButton, .SaveButton {
+	font-size:28px;
+}
+.TabButton td {
+	font-size:18px;
+	padding:6px;
+}
+
+#myStage {
+	background: -webkit-canvas(stage);
+	background-repeat: no-repeat;
+}
+
+#allStage {
+	background: -webkit-canvas(allStage);
+	background-repeat: no-repeat;
+	vertical-align: top;
+	height:100%;
+}
+
+#classTable tr td {
+	vertical-align: top;
+}
+
+#bigTable {
+	transition: opacity 0.5s;
+}
+
+.NumberButton {
+	text-align:center;
+	vertical-align:center;
+}
+
+.Y {
+	color:yellow;
+}
+.G {
+	color:green;
+}
+.R {
+	color:red;
+}
+.W {
+	color:white;
+}
+.P {
+	color:purple;
+}
+.Y,.G,.R,.W,.P {
+	text-shadow: 0px 0px 5px #000;
+}
+
+#classTable .Y, #classTable .G, #classTable .R, #classTable .W, #classTable .P {
+	font-size:40px;
+}
+
+::-webkit-scrollbar { 
+    display: none; 
+}
+.aMember {
+	background-repeat: no-repeat;
+	background-position:right center;
+	/*background-size:contain;*/
+	background-size: 80px 100px;
+}
+
+.aMemberBig {
+	background-repeat: no-repeat;
+	background-position:right top;
+	background-size:200px 250px;
+}
+
+.alternateBG {
+	background-color:rgba(222,184,135,0.4);
+}
+
+#memberStatsTable tr td, .underExpandDiv td {
+	padding:12px;
+}
+
+.smallRankTable, .bigRankTable {
+	overflow:scroll;
+	height:200px;
+}
+#displaySalary {
+	font-size:40px;
+}
+.isCurSelected {
+	background:rgba(150,150,150,0.5);
+	transform: translateX(40px);
+}
+.newsTitle {
+	border-bottom:1px solid gray;
+}
+#financeTable tr td:nth-child(2) {
+	background-color:rgba(50,200,50,0.5);
+}
+#financeTable tr td:nth-child(3), #financeTable tr td:nth-child(4) {
+	background-color:rgba(200,50,50,0.5);
+}
+#financeTable tr td:nth-child(n+2) {
+	text-align:right;
+}
+.inBetweenFinance td {
+	color:white;
+	background: repeating-linear-gradient(
+	  45deg,
+	  rgba(30,40,70,0.3),
+	  rgba(30,40,70,0.3) 10px,
+	  rgba(70,82,152,0.3) 10px,
+	  rgba(70,82,152,0.3) 20px
+	) !important;
+}
+
+.SmallName:hover {
+	text-decoration: underline;
+	cursor:pointer;
+}
+
+#menuOverlay {
+	position:absolute;
+	display:block;
+	left:0;
+	width:100%;
+	height:100%;
+	min-width:1200px;
+	min-height:800px;
+	overflow:scroll;
+	/*pointer-events:none;*/
+}
+
+.stageResults {
+	font-size:32px;
+	font-family: Oswald;
+	color:white;
+}
+
+#endContinueButton {
+    position: fixed;
+    right: 0;
+    top: 50%;
+    font-size: 40px;
+    font-family: Oswald;
+    background-color: #777;
+    color: white;
+    padding: 20px;
+}
+
+#endContinueButton:hover {
+	background-color:#AAA;
+	color:red;
+	box-shadow:0px 0px 5px white;
+	cursor:pointer;
+}
+
+.inGameTransformMenuOverlay {
+	top:50%;
+	transform: translateY(-50%);
+	min-height:0px !important;
+	height:700px !important;
+}
+
+#popupWindowContainer {
+	position:absolute;
+	display:block;
+	left:0;
+	width:100%;
+	height:100%;
+	padding:100px;
+	box-sizing:border-box;
+	display:none;
+}
+.fullSizeTable {
+	width:100%;
+	height:100%;
+}

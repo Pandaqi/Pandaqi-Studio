@@ -1,0 +1,10 @@
+.clipped {
+  mask-image: url(/theme/webp/mask_image.webp);
+  mask-repeat: repeat-x;
+  mask-size: contain;
+  -webkit-mask-image: url(/theme/webp/mask_image.webp);
+  -webkit-mask-repeat: repeat-x;
+  -webkit-mask-size: contain;
+}
+
+/*# sourceMappingURL=clipping.css.map */

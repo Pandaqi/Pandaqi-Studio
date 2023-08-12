@@ -1,0 +1,55 @@
+.masked-link {
+  display: inline-block;
+  font-size: 16px;
+  text-decoration: none;
+  padding: 0px;
+  padding-left: 10px;
+  padding-right: 10px;
+  mask-image: url(/theme/webp/metadata-masks.webp);
+  -webkit-mask-image: url(/theme/webp/metadata-masks.webp);
+  mask-size: 800% 100%;
+  -webkit-mask-size: 800% 100%;
+  transition: background-color 0.3s, color 0.3s, transform 0.3s;
+  transform: rotate(var(--rotation));
+}
+.masked-link:hover {
+  filter: drop-shadow(0 0 30px black) hue-rotate(-120deg);
+  transform: rotate(0deg) scale(1.1);
+}
+.masked-link.category-link, .masked-link.tag-link, .masked-link.big-mask {
+  padding: 20px;
+}
+.masked-link.mask-1 {
+  mask-position-x: 100%;
+}
+.masked-link.mask-2 {
+  mask-position-x: 200%;
+}
+.masked-link.mask-3 {
+  mask-position-x: 300%;
+}
+.masked-link.mask-4 {
+  mask-position-x: 400%;
+}
+.masked-link.mask-5 {
+  mask-position-x: 500%;
+}
+.masked-link.mask-6 {
+  mask-position-x: 600%;
+}
+.masked-link.mask-7 {
+  mask-position-x: 700%;
+}
+.masked-link.mask-8 {
+  mask-position-x: 800%;
+}
+
+button.masked-link {
+  border: none;
+  font-family: "Raleway";
+}
+button.masked-link:hover {
+  cursor: pointer;
+}
+
+/*# sourceMappingURL=masked-links.css.map */

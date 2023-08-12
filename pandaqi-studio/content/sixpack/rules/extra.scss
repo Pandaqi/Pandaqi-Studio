@@ -1,0 +1,104 @@
+@use "sass:map";
+@use "sass:math";
+
+$header-font: "Londrina Solid", sans-serif;
+$body-font: "Londrina Solid", serif;
+
+@font-face {
+    font-family: 'Londrina Solid';
+    src: url('/sixpack/assets/fonts/LondrinaSolid-Light.woff2') format('woff2'),
+        url('/sixpack/assets/fonts/LondrinaSolid-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Londrina Solid';
+    src: url('/sixpack/assets/fonts/LondrinaSolid-Regular.woff2') format('woff2'),
+        url('/sixpack/assets/fonts/LondrinaSolid-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Londrina Solid';
+    src: url('/sixpack/assets/fonts/LondrinaSolid-Black.woff2') format('woff2'),
+        url('/sixpack/assets/fonts/LondrinaSolid-Black.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+$icons: (
+    "blank": 0,
+    "reverse": 1,
+    "seethrough": 2,
+    "takeback": 3,
+    "secondHand": 4,
+    "bitingHand": 5,
+    "sheriff": 6,
+    "sticky": 7,
+    "noSuperheroes": 8,
+    "carousel": 9,
+    "superNumbers": 10,
+    "pileDriver": 11,
+    "copycat": 12,
+    "lateArrival": 13,
+    "calculator": 14,
+    "veto": 15
+);
+
+@each $name, $frame in $icons {
+    $col: $frame % 8;
+    $row: 0;
+    @if $frame >= 8 {
+        $row: 1;
+    }
+
+    .rules-icon-pack-#{$name} {
+        background-image: url(/sixpack/assets/card_types.webp);
+        background-size: 800%;
+        background-position-x: -$col * 100%;
+        background-position-y: -$row * 100%;
+        margin: auto;
+    }
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: $header-font;
+}
+
+body {
+    font-family: $body-font;
+    background-color: #3c005d; // #5F5449;
+    font-size: 18px;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+}
+
+#setup {
+    background-color: #ff71b7;
+    a { color: #af0080; }
+    a:hover { color: #4a0036; }
+}
+
+#objective {
+    background-color: #3c005d;
+    color: #DCDCDC;
+}
+
+#action_play {
+    background-color:  #93cfe1;
+}
+
+#packs {
+    background-color: #ffd23f;
+}
+
+@media print {
+    body {
+        font-size: 14px;
+    }
+}

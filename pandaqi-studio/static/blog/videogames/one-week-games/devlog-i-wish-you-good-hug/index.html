@@ -1,0 +1,181 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><title>I Wish You Good Hug | Pandaqi Blog</title><link rel=icon type=image/png href=https://pandaqi.com/blog//favicon.png><link rel=stylesheet type=text/css href=/blog/css/critical.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin></head><body><header id=site-header><nav class=menu><ul><li><a href=https://pandaqi.com/blog/ class="masked-link big-mask mask-2" style=--rotation:-1.5deg>Home</a></li><li><a href=/blog/boardgames/ class="masked-link big-mask mask-1" style=--rotation:-1deg>Boardgames</a></li><li><a href=/blog/news-and-updates/ class="masked-link big-mask mask-4" style=--rotation:1.5deg>News & Updates</a></li><li><a href=/blog/reviews-and-thoughts/ class="masked-link big-mask mask-2" style=--rotation:2deg>Reviews & Thoughts</a></li><li><a href=/blog/tutorials/ class="masked-link big-mask mask-4" style=--rotation:1deg>Tutorials</a></li><li><a href=/blog/videogames/ class="masked-link big-mask mask-8" style=--rotation:-0.5deg>Videogames</a></li></ul></nav></header><main class="padding center-block"><article class=single-article><div class=thumbnail-media><img src=huggy-bastard-header.webp></div><h1>I Wish You Good Hug</h1><aside class=metadata><nav class=breadcrumbs><span class=metadata-label><span class=emoji>🥐</span> Breadcrumbs ||</span>
+<a href=https://pandaqi.com/blog/>Home</a>
+/
+<a href=https://pandaqi.com/blog/videogames/>Videogames</a>
+/
+<a href=https://pandaqi.com/blog/videogames/one-week-games/>One week games</a>
+/
+<a href=https://pandaqi.com/blog/videogames/one-week-games/devlog-i-wish-you-good-hug/>Devlog i wish you good hug</a></nav><script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/pandaqi.com\/blog\/","name":"home"}},{"@type":"ListItem","position":2,"item":{"@id":"https:\/\/pandaqi.com\/blog\/videogames\/","name":"videogames"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/pandaqi.com\/blog\/videogames\/one-week-games\/","name":"one-week-games"}},{"@type":"ListItem","position":4,"item":{"@id":"https:\/\/pandaqi.com\/blog\/videogames\/one-week-games\/devlog-i-wish-you-good-hug\/","name":"devlog-i-wish-you-good-hug"}}]}</script><div><span class=metadata-label><span class=emoji>&#8987;</span> Published ||</span>
+<time datetime=2021-07-14T14:00:00>Wednesday, Jul 14, 2021</time></div><nav class=tags><span class=metadata-label><span class=emoji>🎗</span> Tags ||</span><ul><li><a href=https://pandaqi.com/blog/tags/mini-devlog>mini devlog</a></li></ul></nav><div><span class=metadata-label><span class=emoji>📖</span> Table of Contents ||</span>
+<a href=# id=toc-toggle>Show</a></div></aside><aside id=table-of-contents class=masked-link-block><header><h2>Table of Contents</h2></header><nav id=TableOfContents><ul><li><a href=#whats-the-idea>What&rsquo;s the idea?</a></li><li><a href=#lesson-1-just-make-it>Lesson #1: Just make it</a></li><li><a href=#lesson-2-the-best-way-to-teach>Lesson #2: The Best Way to Teach</a></li><li><a href=#lesson-3-they-are-not-board-games>Lesson #3: They Are Not Board Games</a></li><li><a href=#lesson-4-the-three-mechanics>Lesson #4: The Three Mechanics</a></li><li><a href=#lesson-5-atmosphere-is-everything>Lesson #5: Atmosphere is everything</a></li><li><a href=#lesson-6-about-star-systems>Lesson #6: About star systems</a></li><li><a href=#conclusion>Conclusion</a></li></ul></nav></aside><div><p>Welcome to my &ldquo;devlog&rdquo; or &ldquo;What I&rsquo;ve Learned&rdquo; for my latest game: <em>Huggy
+Bastard</em>.</p><p>Because the Play Store doesn&rsquo;t like it when you use the word &ldquo;bastard&rdquo;
+in kid-friendly games, I decided to change the name to <em>I Wish You Good
+Hug</em> on most platforms/websites. But the original project title was a silly pun on Lucky Bastard, just so
+you know.</p><p>Download the game here (for all platforms except iOS):
+<a href=https://pandaqi.itch.io/i-wish-you-good-hug>I Wish You Good Hug</a></p><p>Anyway, it&rsquo;s my second &ldquo;one week game&rdquo; (after the success of the first
+one). This one was actually completed in less than a week! (However,
+because of busy schedules, the <em>playtesting</em> and <em>marketing</em> and such
+took longer than the previous game.)</p><p>In this article I&rsquo;ll explain <strong>the biggest lessons I&rsquo;ve learned</strong>!</p><h2 id=whats-the-idea>What&rsquo;s the idea?</h2><p>Some time ago, I had the idea for a multiplayer hugging game (on
+mobile). This is literally the single paragraph that I wrote down for
+it:</p><p>&ldquo;Players split into their own areas. Objective? Hug people. How? By
+throwing them across the field <em>into the arms</em> of someone else ( = draw
+characters with arms outstretched, a hug means two people are rotated
+opposite each other)&rdquo;</p><p>With that paragraph to go on, I started development!</p><p>Within a few hours of trying to draw a &ldquo;hugging people&rdquo; sprite, I
+realized my best option was to use <em>teddy bears</em> and to change the grid
+cells from square to circular.</p><p>(I tried square robots which could fit perfectly into each other. I
+tried actual realistic people. I tried many things, but this worked
+best.)</p><p>This was my &ldquo;game bible&rdquo;, which I pinned to the top of the document, as
+I always do:</p><ul><li><p><strong>Objective?</strong> You get points for each teddy bear that hugs a big
+bear.</p></li><li><p><strong>Input?</strong> Moving and rotating.</p></li><li><p><strong>Core rule #0:</strong> &ldquo;Hugging&rdquo; always means two sprites are rotated
+opposite each other.</p></li><li><p><strong>Core rule #1:</strong> players can hold <em>one item</em>. It follows your
+rotation, as you&rsquo;d expect. If it can interact with something, it
+will <em>auto-drop</em> onto the cell.</p></li><li><p><strong>Core rule #2:</strong> when you rotate, the cell you&rsquo;re on <em>also</em>
+rotates with you. (This is used by some special cells.)</p></li></ul><p>I experimented with some other rules, but found them lacking for several
+reasons:</p><p><strong>Discarded Rule: Step Counter.</strong> Instead of &ldquo;auto dropping&rdquo;, items
+would show a number of steps. After moving that many squares, it
+dropped.</p><p>Why was it discarded? Because it just wasn&rsquo;t fun. Yeah, it presented a
+good puzzle, but it <em>wasn&rsquo;t fun</em> if all that was standing between you
+and delivering a bear &mldr; was the unfortunate fact that you had one step
+too few (or too many).</p><p><strong>Discarded Rule: Bears are delivered if they hug <em>players</em></strong>. Too easy.
+Players can move and rotate completely freely, so it&rsquo;s not hard to do
+this and won&rsquo;t stay interesting for longer than a few minutes.</p><p><strong>Discarded Rule: Side-hugs (or back-hugs)</strong>. My code still supports
+&ldquo;hugging&rdquo; at any other angle you want. But it just didn&rsquo;t add anything
+to the game. (Why would it be more fun to rotate a bear to a <em>different</em>
+specific angle?) Additionally, it was not intuitive and made things
+needlessly complex. (Nobody hugs you from the side.)</p><h2 id=lesson-1-just-make-it>Lesson #1: Just make it</h2><p>Like most people, I like to make good decisions all the time. Before I
+spend hours implementing something, I want to be sure it&rsquo;s the <em>best
+choice</em> and <em>the right thing to do</em>.</p><p>You can&rsquo;t be sure. So don&rsquo;t even try. Just implement it.</p><p>The &ldquo;discarded rules&rdquo; above show this nicely. Those systems were the
+<em>first ones</em> I ever implemented. I was certain my &ldquo;step counter&rdquo; idea
+would be a core mechanic of the game, based on a number of good, logical
+reasons.</p><p>But after playing around with it, it didn&rsquo;t work. So I switched
+everything to auto drop (which took 1% of the time it took to implement
+the step counter), and the game just instantly became better.</p><p>And in the end, I <em>did</em> end up bringing the step counter back for a few
+other items (but not bears). Because it made more sense then, because
+these items were not <em>crucial</em>, and the puzzle was actually a fun one.</p><p>Similarly, if you look at the spritesheet for this game, the cells are
+all out of order. The first cells I created ended up being introduced
+only halfway the game, or maybe even at the end.</p><p>As a last example: the concept of &ldquo;shifting the map&rdquo; is only introduced
+in the last handful of levels. (What does this mean? For example: if you
+shift a row +1, all cells in the row simply move 1 step to the right.)
+But it was the <em>first thing</em> I made. Because I needed to be sure it was
+possible, that the code supported it, and that it was easy to use.</p><p><em>This always happens</em>. No matter how many games I make, no matter how
+many good reasons I write down for a specific decision, I <em>cannot
+predict the future</em>. So, after thinking for 30 minutes, I always tell
+myself: &ldquo;just make all these things, then we&rsquo;ll see what sticks&rdquo;</p><h2 id=lesson-2-the-best-way-to-teach>Lesson #2: The Best Way to Teach</h2><p>Teaching, in general, is something I&rsquo;m very interested in. It shouldn&rsquo;t
+be a surprise that I also think a lot about <em>how to teach a game in the
+best way possible</em>.</p><p>With this game, a pattern showed itself quite clearly, which I&rsquo;ll
+certainly use for more games.</p><p>Let&rsquo;s take <strong>rotating</strong> as an example. This is how it&rsquo;s taught in the
+game:</p><ul><li><p>First level: bears <em>automatically rotate</em> (every X seconds)</p></li><li><p>Second level: a special cell appears. Stand on it to <em>rotate</em>.</p></li><li><p>Third level: <em>press button X to rotate yourself.</em></p></li><li><p>Fourth level: <em>hey, if you rotate, your cell rotates with you.</em></p></li><li><p>(And later on: <em>cells that do something very special when rotated.</em>)</p></li></ul><p>Every step is <em>the smallest possible learning curve</em>. But at the end,
+you fully understand the input and output that rotation gives you.</p><p>If we generalize this, we get:</p><ul><li><p><strong>Step 1: make it happen automatically, don&rsquo;t explain it</strong></p></li><li><p><strong>Step 2: make it happen at specific locations/times (which can be
+influenced or chosen by the player)</strong></p></li><li><p><strong>Step 3: make it happen when player <em>chooses</em> it themselves (with
+input)</strong></p></li><li><p><strong>Step 4+: make it happen <em>and then do something more advanced</em></strong></p></li></ul><p>By the time you tell players &ldquo;press A to rotate&rdquo;, they already <em>know</em>
+what rotation means, and they <em>know</em> why and when to use it. They just
+needed to learn the button.</p><p>Otherwise, if you don&rsquo;t do this, you need to present players with a big
+tutorial image telling them: &ldquo;Press A to rotate. Rotation means this and
+this. It does that and that. And you can use it for X.&rdquo;</p><p>Which is completely overwhelming. And will, let&rsquo;s be fair, not be
+understood or even <em>read</em> by most players.</p><p>To make sure the idea is clear, let&rsquo;s apply it to something else. Let&rsquo;s
+say &ldquo;backpack management&rdquo; is a huge deal in your game.</p><ul><li><p><strong>Step 1:</strong> stuff randomly appears in your backpack, use it as you
+like</p></li><li><p><strong>Step 2:</strong> when you stand on square X, your backpack opens, or you
+get something.</p></li><li><p><strong>Step 3:</strong> press button Y to open/close your backpack</p></li><li><p><strong>Step 4+:</strong> hey, if your backpack has three &ldquo;water&rdquo; in it, you can
+drown an opponent! (A weirdly specific rule, but I had to come up
+with something.)</p></li></ul><h2 id=lesson-3-they-are-not-board-games>Lesson #3: They Are Not Board Games</h2><p>I come from the world of board games.</p><p>This is both a benefit (I think in terms of very simple, clear,
+communicated rules) and a curse (I don&rsquo;t fully use the tools that video
+games have to offer).</p><p>What do I mean? Well, computers can <em>remember all the rules</em> and <em>do
+things automatically</em>, so that players don&rsquo;t have to.</p><p>I&rsquo;m learning more and more about the value of <strong>automatically doing
+something</strong> and how a game actually becomes easier to learn by trying to
+tell players <strong>less information</strong>.</p><p>This game, just like the last one, improved significantly when I made
+everything automatic. You auto-pickup objects when walking over them.
+You auto-drop objects when they can interact with a special cell. When
+possible, cells will auto-function, and you can only <em>work around it</em> or
+<em>influence their specific timing/behavior</em>.</p><p>But the game doesn&rsquo;t tell you any of this. There&rsquo;s no tutorial saying:
+&ldquo;hey, if you want to pick up that bear, you need to walk towards it and
+stand on the same cell!&rdquo; Why? Because it&rsquo;s a very logical, intuitive
+rule that most players will assume. Also because they can <em>discover</em> the
+rule themselves within 10 seconds of playing the first level.</p><p>It&rsquo;s a fine balance to strike, but I lean towards <em>less is more</em>. Only
+tell players things they really cannot gather from just playing the game
+and trying to win. Or put a small reminder, or tip, on a later level to
+<em>ensure</em> players get a piece of info. But don&rsquo;t give them walls of text,
+or loads of tutorials, up-front that tell them <em>everything</em>.</p><h2 id=lesson-4-the-three-mechanics>Lesson #4: The Three Mechanics</h2><p>I find that most games are very well balanced if they have <em>three main
+systems</em> to learn.</p><p>For this game, those three are:</p><ul><li><p>Rotating ( => Hugging)</p></li><li><p>Shooting ( => Receiving items)</p></li><li><p>Shifting the map</p></li></ul><p>When I created the campaign, I wrote down step-by-step plans to <em>build
+up</em> to a certain system. Doing that for all three systems, led to a
+campaign of almost 30 levels, which has loads of variety and unique
+systems, without being overwhelming. (At least, that&rsquo;s what I hope.)</p><p>For example, because <em>shifting</em> is such a difficult mechanic to master,
+I already start building towards it around level 10.</p><ul><li><p>You get a cell which can be changed by <em>standing on it and
+rotating</em>. (The alarm clock. It can be rewound to make the alarm go
+off later.)</p></li><li><p>Before that, you also get a cell that <em>shifts all beds</em>. (A more
+simple and direct way to use shifting.)</p></li><li><p>Before the full shifter is introduced, you get an <em>autoshifter</em>, and
+another <em>reminder</em> on how to interact with rotating cells.</p></li><li><p>But all of these additions are also fun, interesting mechanics on
+their own, so it&rsquo;s not like the whole game is a tutorial.</p></li></ul><p>Guess what? That&rsquo;s the exact same way you handle a shifter! You stand on
+it, and for each rotation you make, it shifts the row/column one step.</p><p>By building towards mechanics this way, I find that players have no
+trouble at all learning even the most advanced of mechanics, and are
+true huggy wizards near the end of the game.</p><p>But I don&rsquo;t think this would be possible with more than three &ldquo;big&rdquo;
+mechanics. It would be too much. People forget the thing you&rsquo;re building
+towards. People get overwhelmed and just &mldr; put the controller down and
+say &ldquo;I don&rsquo;t know what I&rsquo;m supposed to do anymore&rdquo;</p><p><strong>Why [three]{.underline} mechanics though?</strong> I think it has to do with
+how they interconnect. If A changes B, B changes C, and C changes A
+again &mldr; you get a perfect loop!</p><p>The game is inherently balanced, because there&rsquo;s always a way to do what
+you want, or to change the game state to something better. But it&rsquo;s not
+a boring, predictable balance &ndash; which it would be if there were only 1
+or 2 systems. (&ldquo;Oh, I can&rsquo;t do anything with system A? Then I must use
+system B.&rdquo; Too easy.)</p><h2 id=lesson-5-atmosphere-is-everything>Lesson #5: Atmosphere is everything</h2><p>I tend to overthink things and get too &ldquo;brainy&rdquo;. After a few days, I had
+a large set of interesting cells, mechanics, items, interactions, and
+more for this game. They worked, they were challenging, they fit well
+together, but &mldr;</p><p>&mldr; when I looked at the game from a distance, I realized: <em>where has
+the cute hugging theme gone? WHAT HAVE I BECOME!?</em></p><p>The game was too &ldquo;thinky&rdquo;, too abstract, too calculated.</p><p>So I spend the next few days mostly trying to get back the original
+idea, that original warmth, the feeling of hugging. How? By &mldr;</p><ul><li><p>Adding all sorts of shiny particle effects (such as hearts appearing
+around bears that are hugging)</p></li><li><p>Adding more fitting animations. (For example, at first everything
+did the same &ldquo;flash white&rdquo; animation when something happened on that
+cell. But it&rsquo;s a game about hugging! So when two bears hug, it now
+plays a <em>squeeze tween</em>, as if they are just slightly squeezing each
+other in their arms.)</p></li><li><p>Making the colors a bit more bold and bright.</p></li><li><p>Adding many decorations, including cells that do absolutely nothing
+but just look good.</p></li><li><p>Using the right background music and UI elements. (At first, all
+buttons were just a default red box. Which was &mldr; fine, but just
+didn&rsquo;t help the atmosphere at all.)</p></li></ul><p>I ended up spending <em>more time</em> adding these tiny details, adding this
+atmosphere, adding some warmth and life to the game &mldr; than actually
+developing the game itself (both the ideas and the execution).</p><p>But I think it&rsquo;s totally worth it and I should have spent even <em>more</em>
+time.</p><p>The same game can be enjoyed 10x as much if it just <em>feels</em> fun and
+warm, or not at all if it&rsquo;s bland and abstract. I have to learn, more
+and more, that the value of a game is not just its actual, objective,
+gameplay value (how good are the mechanics? Is it balanced?) &mldr; it&rsquo;s
+also the emotional <em>perceived</em> value (does it have an atmosphere of
+plain old FUN?)</p><h2 id=lesson-6-about-star-systems>Lesson #6: About star systems</h2><p>I plan to write a longer article on this some day, but here&rsquo;s the
+summary: <strong>I used to be against &ldquo;locking&rdquo; a new level until players had
+gathered enough stars, but I&rsquo;ve changed my mind</strong>.</p><p>In the first version of this game, you only had to play a level <em>once</em>
+to unlock the next one. It didn&rsquo;t matter how many stars you got. It
+didn&rsquo;t matter if you failed horribly.</p><p>Although this is very <em>nice</em> and removes any <em>frustration</em> from players
+(because they want to progress, but instead need to replay the same
+level) &mldr; but turned out to be a bad idea in all other regards.</p><p>You see, if you didn&rsquo;t manage to get 1 or 2 stars in a level, that means
+you <em>don&rsquo;t fully understand the new rule(s) yet</em> (or aren&rsquo;t trained
+enough to use them quickly and get many points).</p><p>So, this is what happened: my players would play a level, get a bad
+score, shrug it off, then continue with the next level &mldr; and become
+frustrated that they <em>didn&rsquo;t know what they were doing</em> and their
+<em>scores were getting lower and lower</em>.</p><p>When I encouraged them to replay a level to get a better score, they
+suddenly started to be come a bit more &ldquo;serious&rdquo; or &ldquo;engaged&rdquo;. They
+worked a little harder, made sure they understood what the new
+rule/tile/mechanic did, so they could get that extra star.</p><p>That&rsquo;s the behavior you want! It&rsquo;s more fun for the players, provides a
+bigger/more meaningful challenge, and ensures they don&rsquo;t get stuck later
+on (when harder and harder levels appear).</p><p>As such, after these playtest sessions, I implemented the following
+rule: <strong>you need to earn at least 2 stars to unlock the next level</strong>. So
+far, this rule has worked <em>wonders</em> and provided just the right amount
+of challenge.</p><p>From now on, whenever I make a game with such a &ldquo;star system&rdquo;, I will do
+this again. Because it simply makes a huge positive difference.</p><h2 id=conclusion>Conclusion</h2><p>Try out the game if it looks like something you&rsquo;d enjoy!</p><p>Hopefully you find these lessons interesting and can apply them to your
+own projects. And maybe I&rsquo;ve even inspired you to do your own &ldquo;one week
+games&rdquo;</p><p>Until the next devlog,</p><p>Pandaqi</p></div></article><div><nav class=pagination><ul><li><a href=/blog/videogames/one-week-games/devlog-a-recipe-for-disaster/ class="masked-link big-mask mask-5" style=--rotation:-0.5deg>&lt;&lt; Previous Page</a></li><li>Continue reading</li><li><a href=/blog/videogames/one-week-games/devlog-totems-of-tag/ class="masked-link big-mask mask-8" style=--rotation:0deg>>> Next Page</a></li></ul></nav></div></main><footer id=site-footer><div class="padding center-block"><h3>More Pandaqi</h3><p>You could <a href=https://pandaqi.com>visit the game studio</a>.
+Or my <a href=https://pandaqi.com/tutorials/>free tutorial website</a>.
+Or my <a href=https://rodepanda.com/>portfolio</a> with easy access to absolutely everything I ever made.</p><h3>Latest</h3><nav class=latest><ul><li><a href=/blog/boardgames/photomone/>Photomone
+(🐜)</a></li><li><a href=/blog/boardgames/keebble-domino/>Keebble: Domino
+(📗)</a></li><li><a href=/blog/boardgames/keebble-knickknack/>Keebble: Knickknack
+(📘)</a></li><li><a href=/blog/videogames/game-jams/less-is-store/>Less is Store
+(🛍️)</a></li><li><a href=/blog/tutorials/placing-grids-within-spaces/>Placing grids within spaces</a></li><li><a href=/blog/boardgames/thats-amorphe-pictures/>That's Amorphe: Pictures
+(🖌️)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-2023-update-ii/>Pandaqi Games: 2023 Update (II)
+(🎮)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-2023-update-iii/>Pandaqi Games: 2023 Update (III)
+(🎮)</a></li><li><a href=/blog/news-and-updates/pq-daw/>PQ_DAW: A music editor for the web
+(🎼)</a></li><li><a href=/blog/news-and-updates/pq-words/>PQ_WORDS: A dictionary for games
+(📋)</a></li></ul></nav><h3>Sections</h3><nav><ul><li><a href=/blog/boardgames/>Boardgames
+(🎲)</a></li><li><a href=/blog/news-and-updates/>News & Updates
+(📢)</a></li><li><a href=/blog/reviews-and-thoughts/>Reviews & Thoughts
+(💭)</a></li><li><a href=/blog/tutorials/>Tutorials
+(👩‍🎓)</a></li><li><a href=/blog/videogames/>Videogames
+(🎮)</a></li></ul></nav><h3>Credits</h3><p>Theme by me (<a href=https://pandaqi.com>Pandaqi</a> 🐼) &#183;
+with ❤️ &#183;
+using <a href=https://gohugo.io>Hugo</a> &#183;
+&copy; 2018&ndash;2023 Pandaqi Blog</p></div></footer><link rel=stylesheet type=text/css href=/blog/css/style.css><script src=/blog/js/bundle.min.js></script></body></html>

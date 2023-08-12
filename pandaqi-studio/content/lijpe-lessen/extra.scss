@@ -1,0 +1,70 @@
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Grandstander', sans-serif;
+    font-weight: 900;
+}
+
+
+body {
+    font-family: 'Grandstander', sans-serif;
+    color: black;
+    background-color: beige;
+    font-size: 14pt;
+}
+
+a {
+    color: #248232
+}
+
+a {
+    &.btn, &.btn:visited {
+        font-family: 'Grandstander', sans-serif;
+        font-weight: 900;
+        background-color: #248232;
+        color: #FCFFFC;
+        line-height: 120%;
+    }
+
+    &.btn:hover {
+        background-color: rgb(0, 0, 100);
+        color: rgb(175, 175, 255);
+    }
+
+    
+    &.download-btn, &.download-btn:visited {
+        background-color: #D25757;
+        color: rgba(255,255,255,0.8);
+    }
+
+    &.download-btn:hover {
+        background-color: #040F0F;
+        color: #F4C095;
+    }
+}
+
+
+.game-settings {
+    background-color: #B2D265;
+    color: black;
+}
+
+#btn-start-game {
+    font-weight: 900;
+
+    font-family: 'Grandstander', sans-serif;
+    font-size: 24pt;
+
+    background-color: #248232;
+    color: #FCFFFC;
+
+    &:hover {
+        background-color: #D25757;
+        color: #040F0F;
+        cursor: pointer;
+    }
+}
+
+.setting-remark {
+    max-width: 400px;
+    font-weight: 300;
+    color: rgb(0, 50, 0);
+}

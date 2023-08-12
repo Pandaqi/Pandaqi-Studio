@@ -1,0 +1,136 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><title>Timely Transports (Part 1) | Pandaqi Blog</title><link rel=icon type=image/png href=https://pandaqi.com/blog//favicon.png><link rel=stylesheet type=text/css href=/blog/css/critical.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin></head><body><header id=site-header><nav class=menu><ul><li><a href=https://pandaqi.com/blog/ class="masked-link big-mask mask-6" style=--rotation:-1.5deg>Home</a></li><li><a href=/blog/boardgames/ class="masked-link big-mask mask-4" style=--rotation:-0.5deg>Boardgames</a></li><li><a href=/blog/news-and-updates/ class="masked-link big-mask mask-4" style=--rotation:2deg>News & Updates</a></li><li><a href=/blog/reviews-and-thoughts/ class="masked-link big-mask mask-8" style=--rotation:0.5deg>Reviews & Thoughts</a></li><li><a href=/blog/tutorials/ class="masked-link big-mask mask-5" style=--rotation:-1.5deg>Tutorials</a></li><li><a href=/blog/videogames/ class="masked-link big-mask mask-3" style=--rotation:1deg>Videogames</a></li></ul></nav></header><main class="padding center-block"><article class=single-article><div class=thumbnail-media><img src=../../timely-transports-header.webp></div><h1>Timely Transports (Part 1)</h1><aside class=metadata><nav class=breadcrumbs><span class=metadata-label><span class=emoji>🥐</span> Breadcrumbs ||</span>
+<a href=https://pandaqi.com/blog/>Home</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/>Boardgames</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/timely-transports/>Timely transports</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/timely-transports/devlog-timely-transports/>Devlog timely transports</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/timely-transports/devlog-timely-transports/timely-transports-part-1/>Timely transports part 1</a></nav><script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/pandaqi.com\/blog\/","name":"home"}},{"@type":"ListItem","position":2,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/","name":"boardgames"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/timely-transports\/","name":"timely-transports"}},{"@type":"ListItem","position":4,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/timely-transports\/devlog-timely-transports\/","name":"devlog-timely-transports"}},{"@type":"ListItem","position":5,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/timely-transports\/devlog-timely-transports\/timely-transports-part-1\/","name":"timely-transports-part-1"}}]}</script><div><span class=metadata-label><span class=emoji>&#8987;</span> Published ||</span>
+<time datetime=2020-08-05T09:00:00>Wednesday, Aug 5, 2020</time></div><nav class=tags><span class=metadata-label><span class=emoji>🎗</span> Tags ||</span><ul><li><a href=https://pandaqi.com/blog/tags/devlog>devlog</a></li></ul></nav><div><span class=metadata-label><span class=emoji>📖</span> Table of Contents ||</span>
+<a href=# id=toc-toggle>Show</a></div></aside><aside id=table-of-contents class=masked-link-block><header><h2>Table of Contents</h2></header><nav id=TableOfContents><ul><li><a href=#where-did-the-idea-come-from>Where did the idea come from?</a></li><li><a href=#do-we-really-need-a-smartphone>Do we really need a smartphone?</a></li><li><a href=#advantages-of-using-a-digital-component>Advantages of using a digital component</a></li><li><a href=#an-aside-about-timers--psychology>An aside about Timers & Psychology</a></li><li><a href=#disadvantages-of-using-a-digital-component>Disadvantages of using a digital component</a></li></ul></nav></aside><div><p>Ever since inventing a new genre of board games (the <a href=https://pandaqi.com/boardgames#one_paper_games>One Paper Games</a>), my mind has been overflowing with ideas for innovative types of games.</p><p>In this devlog I proudly present the first result of all those ideas: a
+<strong>hybrid</strong> board and computer game!</p><p>(I don&rsquo;t have a strong name for this type of game yet. A <em>comboard
+game</em>? A <em>&ldquo;smart game&rdquo;?</em>)</p><p><img src=timely-transports-1.webp alt="How the hybrid idea works (taken from rulebook)">{.float-right}</p><p>The game itself is played on a physical board with physical pieces, but
+all players must also have their <em>smartphone</em> on the table and use that
+for many actions in the game. It took me a <em>long</em> time to figure out how
+to make this work, and accessible, and as fun as possible (instead of
+people just staring at their phones all the time).</p><p>So, in this devlog, let me explain the original idea, my steps in
+pursuing it, and how it finally let to the first game of its type: <a href=https://pandaqi.com/timely-transports>Timely Transports</a></p><p>(I&rsquo;ll explain the game in detail later. All you need to know for now, to
+understand the text below, is that it&rsquo;s a game about <em>transporting
+goods</em> across a jungle. The game boards are randomly generated on the
+website and you need to start a timer on your phone for each <em>movement</em>
+of your vehicle(s).)</p><h2 id=where-did-the-idea-come-from>Where did the idea come from?</h2><p>Lately, I played a <em>lot</em> of &ldquo;<em>Magic Maze&rdquo;</em> games. In that game, the sand
+timer is instrumental. When it runs out, you lose. During the game you
+can &ldquo;reset&rdquo; it, but only four times, and you usually need all four of
+those if you want to be successful.</p><p><img src=timely-transports-2.webp alt="Magic Maze (on Mars) in action"></p><p>It reminded me of my love-hate relationship with sand timers. It is
+<em>very easy</em> to miss it when they run out. They can get knocked over by
+an enthusiastic player (certainly in a cooperative, all-around-the-table
+game like Magic Maze). But they also automatically add a time limit and
+a sense of urgency to any game, which is very useful.</p><p>So I thought: why aren&rsquo;t there any boardgames where all your actions are
+timed? Where you need to place a sand timer for doing something, and you
+must wait until it runs out to complete the action?</p><p>Turns out those games exist! I stumbled upon <em>Kitchen Rush</em> and <em>Medic
+Rush</em>.</p><p>The first game is basically the analog version of <em>Overcooked</em> (in case
+that game is familiar to you): you must gather ingredients, combine
+them, cook them, and then deliver them to customers for points. All of
+these actions work by placing a sand timer on the appropriate spot and
+waiting until it has run out.</p><p>I&rsquo;m still waiting for these games to ship to my country, but when they
+do, I&rsquo;ll surely try them out, because they seem to be amazing,
+cooperative, family-friendly, accessible games.</p><p>Anyway, this got me thinking: <strong>instead of including twenty sand timers
+in a game box &mldr; why don&rsquo;t we let the computer do this?</strong></p><p>Computers are amazing at timers! (And numbers in general.) Instead of
+having loads of physical timers (with fixed lengths), I can just start a
+timer <em>of any length</em> on my phone with the press of a button.</p><p>And that&rsquo;s where the original idea came from. I wanted to create a
+regular board game, but with the addition of a computer/smartphone
+component that gives me great new possibilities, such as easy and
+precise timers.</p><p><strong>Update:</strong> I just learned about the game <em>Pendulum</em> that <em>Stonemaier
+Games</em> is releasing. Seems like everyone is discovering the use of
+timers in games these last few years :p</p><h2 id=do-we-really-need-a-smartphone>Do we really need a smartphone?</h2><p>In the rules of Magic Maze, it states that you should NOT use a timer on
+your smartphone for the game, as the experience is noticeably different.</p><p>And I like the inclusion of that warning, because I agree with it.</p><p>If I made a game which required only a single timer, yes, I would just
+include a physical sand timer. It&rsquo;s faster, easier to use and
+understand, keeps you in the game.</p><p>So, for my <em>hybrid</em> idea, I needed a <em>very compelling reason</em> to include
+smartphones. We&rsquo;re still in the <em>early idea</em> stage now, so if I couldn&rsquo;t
+find a good reason, I would&rsquo;ve just thrown this idea into the bin and
+worked on something else.</p><p>The first thing I did was list the <em>pros</em> and <em>cons</em> of this approach.</p><h2 id=advantages-of-using-a-digital-component>Advantages of using a digital component</h2><p>These were the main advantages I could find before and during
+development.</p><ul><li><p><strong>Memory</strong>. A computer can store and display loads of values, so
+players don&rsquo;t have to keep track of anything or calculate values in
+their heads. Most noticeably, it can keep perfect track of
+<strong>score</strong>.</p></li><li><p><strong>Dynamic</strong>. Instead of having only a limited set of timers with a
+fixed length, I can create as many timers as I want, with varying
+lengths.</p><ul><li><p>In fact, instead of having only one stage (full -> empty), I
+can chain stages. In this game (Timely Transports), when a timer
+runs out it goes into a second stage: <em>overtime</em>. This gives you
+10 seconds to either click off the timer or upgrade your
+vehicle.</p></li><li><p>Of course, the possibilities go far beyond timers, but I want to
+keep it simple for now.</p></li></ul></li><li><p><strong>Fast Setup</strong>. Most people always have their smartphone at hand.
+With these games, you only need to take out your phone and visit a
+website, and you&rsquo;re ready to go. (As opposed to board games, where
+you&rsquo;d need to take things out of the box, arrange them, perhaps hand
+out cards, etc.)</p></li><li><p><strong>Sound</strong>. Surprisingly, this only occurred to me halfway
+development. <em>Phones can play sounds!</em> I can play a sound whenever
+something interesting happens in the game, and I can provide a
+general background track that suits the game and the theme.</p><ul><li>This is a far greater advantage than you might think: when
+you&rsquo;re starting at the board trying to decide your strategy, the
+sound of an alarm bell is sure to bring your attention back to a
+new event on your phone.</li></ul></li><li><p><strong>Endless Possibilities</strong>. Seriously, I can display <em>anything</em> on a
+phone, and even make it interactive or use the internet! This allows
+countless innovative mechanics that have never been done before in
+gaming, which is at least worth exploring.</p></li></ul><h2 id=an-aside-about-timers--psychology>An aside about Timers & Psychology</h2><p>An additional advantage to using <em>timers</em> specifically, is that the game
+is guaranteed to be quick (and end after a short amount of time) and
+simultaneous, without any dead moments.</p><p>If there&rsquo;s one thing I&rsquo;ve learned over years of game playing and
+developing, it&rsquo;s that <em>quick and (near) simultaneous games</em> appeal much
+more to people than any other game. What turns people off, usually, is
+the &ldquo;waiting on your turn&rdquo; or &ldquo;I don&rsquo;t want to risk spending the next 2
+hours sitting at a table&rdquo;. Just a small nugget of wisdom.</p><p>(Additionally, if you have a general crowd instead of frequent gamers,
+<em>cooperative</em> games are your best bet. Many people are like &ldquo;I&rsquo;m just
+not a competitive person&rdquo; and only want to play those types of games.
+And when they do, ironically, they become extremely enthusiastic and
+competitive :p)</p><h2 id=disadvantages-of-using-a-digital-component>Disadvantages of using a digital component</h2><p>And these were the main disadvantages I could find before and during
+development.</p><ul><li><p><strong>Hard Requirements.</strong> It&rsquo;s highly unlikely, <em>but possible</em>, that
+someone doesn&rsquo;t have their phone, or doesn&rsquo;t have internet, or my
+website is temporarily down. This would render the game unplayable,
+as the digital component is absolutely necessary.</p></li><li><p><strong>Too Many Screens.</strong> People are already sitting behind screens
+enough these days. I don&rsquo;t want to make &ldquo;placing your phone on the
+table when playing a game&rdquo; a normal behavior. I play board games
+(instead of video games) most of the time, <em>because</em> it&rsquo;s not behind
+a screen and <em>because</em> it&rsquo;s a live social interaction. I don&rsquo;t want
+my games to have a bad influence on people&rsquo;s habits or expectations.</p></li><li><p><strong>Size Restrictions.</strong> Smartphone screens are quite tiny, simple as
+that.</p><ul><li><p>When building the interface for Timely Transports, I had to
+completely rethink my design (and rewrite the code) three times,
+because the first three versions were just <em>too small</em>. It was
+hard to see icons at a glance, and it was easy to click the
+wrong thing.</p></li><li><p>So, lesson learned, I really cannot expect to have more than 5
+or 6 elements on the screen. (Where an element can be an icon,
+or a score counter, or an event popping up.)</p></li></ul></li><li><p><strong>Loose Links.</strong> I cannot &ldquo;connect&rdquo; a smartphone with a piece of
+paper ( = the game board). I also don&rsquo;t want to connect multiple
+smartphones with each other, as that is hard to program and
+maintain, and makes the setup considerably harder. So, I can only
+design games where a <em>loose link</em> is enough to make them work.</p><ul><li><p>For Timely Transports, I eventually decided to give each game
+board an <em>identical</em> number of cities (with identical names).
+That way, phones would automatically shout city names <em>that
+existed</em> on the board, regardless of the game board you printed
+or your player count.</p></li><li><p>Additionally, most of the information is on the game board
+itself. At first, I wanted the phones to determine which goods a
+city wanted to have. (For example, it would say &ldquo;City X now
+wants <strong>Fruit</strong> for <strong>3 points</strong>!&rdquo;) But &mldr; this allowed the
+accidental possibility that, for example, <em>all cities</em> wanted
+fruit, and they wanted nothing else. Which would make the game
+boring or simply unplayable.</p></li></ul></li></ul><p>That&rsquo;s it for part 1. In the next article, I&rsquo;ll discuss how I used these observations to work towards the first version of this game.</p></div></article><div><nav class=pagination><ul><li><span class=nav-disabled>No previous page :(</span></li><li>Continue reading</li><li><a href=/blog/boardgames/timely-transports/devlog-timely-transports/timely-transports-part-2/ class="masked-link big-mask mask-3" style=--rotation:0.5deg>>> Next Page</a></li></ul></nav></div></main><footer id=site-footer><div class="padding center-block"><h3>More Pandaqi</h3><p>You could <a href=https://pandaqi.com>visit the game studio</a>.
+Or my <a href=https://pandaqi.com/tutorials/>free tutorial website</a>.
+Or my <a href=https://rodepanda.com/>portfolio</a> with easy access to absolutely everything I ever made.</p><h3>Latest</h3><nav class=latest><ul><li><a href=/blog/boardgames/photomone/>Photomone
+(🐜)</a></li><li><a href=/blog/boardgames/keebble-domino/>Keebble: Domino
+(📗)</a></li><li><a href=/blog/boardgames/keebble-knickknack/>Keebble: Knickknack
+(📘)</a></li><li><a href=/blog/videogames/game-jams/less-is-store/>Less is Store
+(🛍️)</a></li><li><a href=/blog/tutorials/placing-grids-within-spaces/>Placing grids within spaces</a></li><li><a href=/blog/boardgames/thats-amorphe-pictures/>That's Amorphe: Pictures
+(🖌️)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-2023-update-ii/>Pandaqi Games: 2023 Update (II)
+(🎮)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-2023-update-iii/>Pandaqi Games: 2023 Update (III)
+(🎮)</a></li><li><a href=/blog/news-and-updates/pq-daw/>PQ_DAW: A music editor for the web
+(🎼)</a></li><li><a href=/blog/news-and-updates/pq-words/>PQ_WORDS: A dictionary for games
+(📋)</a></li></ul></nav><h3>Sections</h3><nav><ul><li><a href=/blog/boardgames/>Boardgames
+(🎲)</a></li><li><a href=/blog/news-and-updates/>News & Updates
+(📢)</a></li><li><a href=/blog/reviews-and-thoughts/>Reviews & Thoughts
+(💭)</a></li><li><a href=/blog/tutorials/>Tutorials
+(👩‍🎓)</a></li><li><a href=/blog/videogames/>Videogames
+(🎮)</a></li></ul></nav><h3>Credits</h3><p>Theme by me (<a href=https://pandaqi.com>Pandaqi</a> 🐼) &#183;
+with ❤️ &#183;
+using <a href=https://gohugo.io>Hugo</a> &#183;
+&copy; 2018&ndash;2023 Pandaqi Blog</p></div></footer><link rel=stylesheet type=text/css href=/blog/css/style.css><script src=/blog/js/bundle.min.js></script></body></html>

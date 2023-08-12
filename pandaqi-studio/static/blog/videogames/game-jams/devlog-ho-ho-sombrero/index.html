@@ -1,0 +1,444 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><title>Ho Ho Sombrero | Pandaqi Blog</title><link rel=icon type=image/png href=https://pandaqi.com/blog//favicon.png><link rel=stylesheet type=text/css href=/blog/css/critical.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin></head><body><header id=site-header><nav class=menu><ul><li><a href=https://pandaqi.com/blog/ class="masked-link big-mask mask-2" style=--rotation:-0.5deg>Home</a></li><li><a href=/blog/boardgames/ class="masked-link big-mask mask-2" style=--rotation:-1.5deg>Boardgames</a></li><li><a href=/blog/news-and-updates/ class="masked-link big-mask mask-1" style=--rotation:1.5deg>News & Updates</a></li><li><a href=/blog/reviews-and-thoughts/ class="masked-link big-mask mask-3" style=--rotation:0.5deg>Reviews & Thoughts</a></li><li><a href=/blog/tutorials/ class="masked-link big-mask mask-3" style=--rotation:-1.5deg>Tutorials</a></li><li><a href=/blog/videogames/ class="masked-link big-mask mask-6" style=--rotation:-0.5deg>Videogames</a></li></ul></nav></header><main class="padding center-block"><article class=single-article><div class=thumbnail-media><img src=ho_ho_sombrero-header.webp></div><h1>Ho Ho Sombrero</h1><aside class=metadata><nav class=breadcrumbs><span class=metadata-label><span class=emoji>🥐</span> Breadcrumbs ||</span>
+<a href=https://pandaqi.com/blog/>Home</a>
+/
+<a href=https://pandaqi.com/blog/videogames/>Videogames</a>
+/
+<a href=https://pandaqi.com/blog/videogames/game-jams/>Game jams</a>
+/
+<a href=https://pandaqi.com/blog/videogames/game-jams/devlog-ho-ho-sombrero/>Devlog ho ho sombrero</a></nav><script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/pandaqi.com\/blog\/","name":"home"}},{"@type":"ListItem","position":2,"item":{"@id":"https:\/\/pandaqi.com\/blog\/videogames\/","name":"videogames"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/pandaqi.com\/blog\/videogames\/game-jams\/","name":"game-jams"}},{"@type":"ListItem","position":4,"item":{"@id":"https:\/\/pandaqi.com\/blog\/videogames\/game-jams\/devlog-ho-ho-sombrero\/","name":"devlog-ho-ho-sombrero"}}]}</script><div><span class=metadata-label><span class=emoji>&#8987;</span> Published ||</span>
+<time datetime=2021-12-27T14:00:00>Monday, Dec 27, 2021</time></div><nav class=tags><span class=metadata-label><span class=emoji>🎗</span> Tags ||</span><ul><li><a href=https://pandaqi.com/blog/tags/devlog>devlog</a></li><li><a href=https://pandaqi.com/blog/tags/technical-devlog>technical devlog</a></li><li><a href=https://pandaqi.com/blog/tags/jam>jam</a></li></ul></nav><div><span class=metadata-label><span class=emoji>📖</span> Table of Contents ||</span>
+<a href=# id=toc-toggle>Show</a></div></aside><aside id=table-of-contents class=masked-link-block><header><h2>Table of Contents</h2></header><nav id=TableOfContents><ul><li><a href=#whats-the-idea>What&rsquo;s the idea?</a></li><li><a href=#making-it-unique>Making it unique</a></li><li><a href=#creating-eggs>Creating Eggs</a></li><li><a href=#destroying-eggs>Destroying Eggs</a></li><li><a href=#level-layout>Level Layout</a></li><li><a href=#obstacles>Obstacles</a></li><li><a href=#the-simplification-step>The simplification step</a><ul><li><a href=#step-1-powerups>Step 1: powerups</a></li><li><a href=#step-2-buttons>Step 2: buttons</a></li><li><a href=#step-3-summarizing-the-game>Step 3: summarizing the game</a></li></ul></li><li><a href=#the-physics-control-step>The physics-control step</a></li><li><a href=#creating-the-content>Creating the content</a></li><li><a href=#casual-testing>Casual Testing</a><ul><li><a href=#levels--environment>Levels & Environment</a></li><li><a href=#core-gameplay>Core Gameplay</a></li><li><a href=#conclusions>Conclusions</a></li></ul></li><li><a href=#arenas>Arenas</a></li><li><a href=#quality-of-life>Quality of Life</a></li><li><a href=#more-physics-annoyances>More Physics Annoyances</a></li><li><a href=#nearing-a-playable-game>Nearing a playable game</a><ul><li><a href=#menus>Menus</a></li><li><a href=#solo-mode>Solo Mode</a></li><li><a href=#tutorial>Tutorial?</a></li><li><a href=#some-more-help--variety>Some more help & variety</a></li></ul></li><li><a href=#some-doubts>Some doubts</a></li><li><a href=#a-quick-playtest>A quick playtest</a></li><li><a href=#results-from-trying-stuff>Results from trying stuff</a></li><li><a href=#more-arenas>More Arenas</a></li><li><a href=#lessons-for-the-future>Lessons for the Future</a><ul><li><a href=#lesson-1>Lesson #1</a></li><li><a href=#lesson-2>Lesson #2</a></li><li><a href=#lesson-3>Lesson #3</a></li><li><a href=#lesson-4>Lesson #4</a></li></ul></li><li><a href=#conclusion>Conclusion</a></li></ul></nav></aside><div><p>Welcome to my devlog for the game <a href=https://pandaqi.itch.io/ho-ho-sombrero>&ldquo;Ho Ho Sombrero&rdquo;</a></p><p>At the start of December, the &ldquo;New Horizons&rdquo; game jam came on my radar.
+Even though I&rsquo;d already done <em>two</em> huge game jams in November, and
+wasn&rsquo;t really looking to do another, the theme just resonated with me:
+make a game that&rsquo;s <em>positive</em> and about <em>new year&rsquo;s resolutions</em>.</p><p>This is the game I made for it. Below you can read all about how it came
+to be, why I made certain decisions, and hopefully it&rsquo;s both
+interesting, fun and educational to read :)</p><h2 id=whats-the-idea>What&rsquo;s the idea?</h2><p>Well, yeah, that was a real problem. I was quite busy, so I wasn&rsquo;t able
+to come up with some semblance of an idea before the jam started. I
+waited one or two days, but nothing really came to mind.</p><p>So I started brainstorming. Quickly I realized I wanted to do something
+with &ldquo;eggs&rdquo;: they signal a &ldquo;new beginning&rdquo;, they could be a metaphor for
+your wishes/desires/dreams coming true, it felt fitting.</p><p>But it felt too &ldquo;thinky&rdquo;. I already did some puzzle games recently, and
+didn&rsquo;t want to add another one about collecting/hatching eggs.</p><p>I kept brainstorming. Then I realized that I didn&rsquo;t have much time left
+and should do something simple. Something silly. Something &ldquo;childish&rdquo;,
+perhaps.</p><p>That&rsquo;s when I wrote down the second idea: <em>you&rsquo;re just trying to keep
+something in the air</em>. (When it touches the ground, you lose.)</p><p>A few minutes later, I realized I could combine these ideas:</p><ul><li><p>You&rsquo;re trying to deliver eggs from A to B</p></li><li><p>You must keep them in the air, because they&rsquo;ll break if they touch
+the ground.</p></li></ul><p>And that became the initial idea!</p><h2 id=making-it-unique>Making it unique</h2><p>Delivering stuff, or keeping it from breaking/falling/dying, isn&rsquo;t new
+to games. So I wanted a twist on the concept.</p><p>Eggs have quite a unique shape, making them really hard to catch,
+bouncing all over the place. This indicated (to me) that this should be
+a <em>physics-based game</em>, with proper eggs that realistically bounce
+around.</p><p>Instead of just <em>grabbing an egg</em> and moving it &mldr; <strong>the player has no
+hands!</strong></p><p>In my head, I envisioned this concept of:</p><ul><li><p>Players have <em>huge</em> rectangular heads</p></li><li><p>Use them to bounce the egg up, keeping it from hitting the ground.</p></li><li><p>Until it falls into some <em>egg basket</em> ( = it&rsquo;s delivered)</p></li></ul><p>So I made that. And then I realized: this is <em>way too hard</em>.</p><p>I tried the following things:</p><ul><li><p>Make eggs bigger => good for clarity, but there&rsquo;s a limit here,
+after which the screen just becomes an ugly mess :p</p></li><li><p>Give eggs slower gravity => fixes the issue, but makes the game feel
+slow and boring, and doesn&rsquo;t match the player speed</p></li><li><p>Make players way faster => again, fixes the issue, but there&rsquo;s a
+limit after which players are just zooming around the field and you
+don&rsquo;t know what&rsquo;s going on</p></li><li><p>Make their head bigger => yes, it&rsquo;s easier to save eggs, but only if
+it&rsquo;s <em>so big</em> that the proportions look <em>very weird</em></p></li><li><p>Give them something else, like a racket or frying pan, to save eggs
+=> actually a great idea, but not as the <em>core concept</em> of the game,
+more like a powerup.</p></li></ul><p>Then I realized I was thinking the wrong way.</p><p>Why does it <em>have</em> to be the player&rsquo;s head? Why can&rsquo;t it be a &mldr; <strong>huge
+sombrero?</strong></p><p>I gave players a huge disc on their head, and the game instantly became
+more fun and playable. (The 3D model comes later, for now it&rsquo;s just grey
+cylinders and cubes.)</p><p>But it wasn&rsquo;t enough. Yes, you can <em>save</em> an egg from falling &mldr; but
+you can&rsquo;t <em>steer</em> it. The eggs keep bouncing however they like, and you
+just have to hope they land in the right spot :p</p><p>Luckily, the &ldquo;sombrero&rdquo; theme gave the answer. If I add a round &ldquo;ball&rdquo;
+or &ldquo;hill&rdquo; in the center of the disc, you can use that to send eggs
+whichever way you like.</p><p>And that&rsquo;s how we got here:</p><ul><li><p>Players are just a huge sombrero, mostly flat, but with a ball in
+the middle.</p></li><li><p>Eggs do nothing special and just follow physics laws.</p></li><li><p>Your job is to keep them off the ground and make them land inside
+the egg basket.</p></li></ul><figure><video width=100% controls>
+<source src=vid1.webm type=video/webm>Your browser does not support the video tag.</video><figcaption>First prototype of game idea</figcaption></figure><h2 id=creating-eggs>Creating Eggs</h2><p>I knew I wanted many different <em>types</em> of eggs with <em>patterns</em> on them.
+(Like chocolate eggs you eat during Easter.)</p><p>The <em>inefficient</em> way to do this, would be to duplicate each egg, assign
+a new material, and repeat the process 20 times.</p><p>The <em>efficient</em> way to do it, is this:</p><ul><li><p>Grab the default cube in Blender</p></li><li><p>Scale down the top face</p></li><li><p>Give it a <em>subdivision surface</em> modifier => now it looks like an
+egg!</p></li><li><p>However, because it&rsquo;s still just a cube, the UV-map is easy to work
+with!</p></li><li><p>I created a texture with the pattern for each egg, in a neat grid
+layout.</p></li><li><p>In the game, I simply <em>offset</em> the UV coordinates to select which
+pattern I want.</p></li></ul><p>This way, we only need <em>one model</em> and <em>one material</em>, yet we can get
+infinite visually appealing eggs!</p><h2 id=destroying-eggs>Destroying Eggs</h2><p>I also knew I wanted a proper <em>break</em> animation when eggs hit the
+ground.</p><p>Again, we can do this quite easily in Blender:</p><ul><li><p>Activate the &ldquo;Cell Fracture&rdquo; add-on.</p></li><li><p>Duplicate the original egg (with the right UV coordinates)</p></li><li><p>While selected, SHIFT+R, search for the fracture add-on, and click
+it.</p></li><li><p>Apply it. (You can play with the settings, but I saw no need.)</p></li></ul><p>Now you have an egg divided into several chunks. The original UV
+coordinates are maintained, so it still looks the same.</p><p>All the <em>extra faces</em> that have been created needed to be mapped again,
+so I just gave them all a solid color. (The same as the egg itself.)</p><p>I imported this to Godot, generated a collision shape for each mesh
+(using Godots automatic tools for that), and put mesh + shape inside a
+RigidBody.</p><p>Now I had an egg &mldr; but scattered among 8 separate bodies! Which is
+what I wanted!</p><p>When an egg hits the ground, we instantiate the &ldquo;BrokenEgg&rdquo; scene, with
+the same position/rotation as the original egg, and the same pattern.</p><p>For an even nicer effect, we apply a random force to all the parts, to
+really scatter it.</p><p>Cool! I&rsquo;ll have to check in with performance as the game grows, but it
+seems fine for now.</p><h2 id=level-layout>Level Layout</h2><p>I struggled with the layout of the levels ( = world/arena you play in).</p><p>Here&rsquo;s the thing:</p><ul><li><p>Eggs shouldn&rsquo;t fly off-screen all the time. They should be contained
+within the level.</p></li><li><p>But adding invisible walls is annoying, as you don&rsquo;t know exactly
+<em>when</em> an egg will bounce, or <em>where</em> players can move.</p></li><li><p>But adding visible walls, well, <em>obstructs what you&rsquo;re doing</em> (and
+looks ugly).</p></li></ul><p>After some thinking, I realized I should integrate the walls with the
+level design.</p><p>What do I mean with that? I should create an environment <em>around</em> the
+level, that looks natural, but has the extra purpose of keeping you
+locked in. So, not an invisible wall, but a series of blocks and trees
+and other things that don&rsquo;t look out of place.</p><p>In fact, I found this crucial enough to work on right now. (While
+testing, it became <em>really annoying really quickly</em> that eggs would
+bounce against invisible walls and I didn&rsquo;t know where I could walk.)</p><p>Having never done something like this before (in fact, this is one of my
+first 3D games), I just gave it my best shot.</p><figure><video width=100% controls>
+<source src=vid2.webm type=video/webm>Your browser does not support the video tag.</video><figcaption>Different egg types, trying a better arena</figcaption></figure><p>The good news? Yes, it works way better! You know exactly where the
+level stops, eggs bounce back predictably. (The invisible wall is still
+present, just farther away, to catch the eggs that <em>really</em> go flying.)</p><p>The bad news? It doesn&rsquo;t really <em>look</em> great &mldr; yet. This might be
+because of:</p><ul><li><p>Colors</p></li><li><p>Lack of actual environment (trees, rocks, etc.)</p></li><li><p>Scale (it feels like the tiles should be two times bigger, to match
+better with the players and eggs.)</p></li></ul><p>But those are worries for later, let&rsquo;s continue with more essential
+stuff!</p><p><strong>Remark:</strong> For those wondering how I did this. In Blender, I just gave
+the cube some grass on top and dirt pattern on the side. Then I
+duplicated the cube a bunch of times and made adjustments: a slope, a
+steeper slope, etc. Exported it, turned into a MeshLibrary in Godot
+(there are tutorials for that online), and used that in a GridMap to
+draw a semi-random environment.</p><h2 id=obstacles>Obstacles</h2><p>Creating this level <em>did</em> give me an extra idea though. Why give the
+players a <em>flat, blank, rectangular</em> playing field?</p><p>Isn&rsquo;t it way more interesting if the field itself <em>also</em> had certain
+obstacles, variations, items that you might use?</p><p>There could be a <em>slope</em> that bounces eggs in a less predictable way.
+There could be a <em>pillow</em> you can shove around, which can safely catch
+eggs of course. There might just be small rocks and plants that can get
+in your way when walking around.</p><p>It would bring more life to the arena, both in <em>visuals</em> and <em>gameplay</em>.</p><p>So far, I&rsquo;ve just written down a list of ideas, but haven&rsquo;t implemented
+anything yet. I don&rsquo;t think that&rsquo;s the priority right now.</p><h2 id=the-simplification-step>The simplification step</h2><p>If you&rsquo;ve read other devlogs of mine, you know this step always arrives:
+we have a basic concept, we have many possibilities/ideas that could be
+fun &mldr; but we can&rsquo;t throw them <em>all</em> into the game and expect people to
+understand it.</p><p>Let&rsquo;s simplify instead.</p><h3 id=step-1-powerups>Step 1: powerups</h3><p>One thing this game surely needs are <em>powerups</em> (or <em>something</em> to
+change physics properties and play with them). But I don&rsquo;t just want to
+randomly place some floating icons in the level.</p><p>(Why? It would require players to learn even <em>more</em> icons. It would be
+random, players have no say in what they will get. It would feel
+tacked-on.)</p><p>Instead, let&rsquo;s <strong>make the eggs the powerups!</strong></p><p>Here&rsquo;s the idea:</p><ul><li><p>There are different types of eggs. (Indicated by their
+color/pattern.)</p></li><li><p>If an egg <em>breaks</em>, it reveals its powerup. Now it becomes a
+floating icon of that egg, and you can grab it.</p></li><li><p>If an egg <em>is delivered</em>, well, nothing more happens.</p></li></ul><p>Why do I think this is a good idea?</p><ul><li><p>Breaking things <em>still</em> gives you a way forward. (Helps with the
+theme of &ldquo;positivity&rdquo; and &ldquo;new beginnings&rdquo;)</p></li><li><p>There&rsquo;s a strategic choice here: do you want to deliver an egg, or
+break it for its powerup?</p></li><li><p>There&rsquo;s only <em>one</em> list of things in this game, and that&rsquo;s the list
+of eggs that can appear. Their icon/pattern/color stay constant. (In
+fact, I&rsquo;m thinking about teaching nothing up-front, and just showing
+the eggs currently in the game in the top-right corner.)</p></li></ul><h3 id=step-2-buttons>Step 2: buttons</h3><p>Over the years, I&rsquo;ve learned that every extra button is one too many.
+(At least, if you&rsquo;re aiming for accessibly, family-friendly, coop games
+like I do.)</p><p>So I want this game to be playable <em>just</em> by moving around (and thus
+learning the arrow keys/joystick on controller).</p><p>However, actions like <em>jumping</em> or <em>dashing</em> seem quite essential to a
+game like this. So I still want to add them and make them easy to
+execute.</p><p>How do we do that? Well, we <strong>make actions (that need a button press)
+powerups as well!</strong></p><p>You can only jump once you&rsquo;ve grabbed the <em>jump</em> powerup. When you have
+it, the icon appears above your head, <em>plus</em> the button you need to
+press.</p><p>This means no explanation up-front, and a constant reminder in-game if
+you can do something.</p><p>I&rsquo;ll have to see if this isn&rsquo;t just annoying (because you can&rsquo;t jump if
+you don&rsquo;t have the powerup), but it&rsquo;s a good idea to keep for now.</p><h3 id=step-3-summarizing-the-game>Step 3: summarizing the game</h3><p>Let&rsquo;s do a check for simplicity by summarizing the game.</p><ul><li><p>Objective? Deliver X eggs.</p></li><li><p>How? Move around and hit them, so they <em>don&rsquo;t</em> hit the ground, but
+<em>do</em> land in a basket.</p></li><li><p>They hit the ground? They break and their powerup can be grabbed.</p></li></ul><p>Any other input is shown when needed. What eggs do is shown in the
+corner (for all eggs chosen for <em>that</em> particular game.)</p><p>I think that&rsquo;s quite simple enough.</p><figure><video width=100% controls>
+<source src=vid3.webm type=video/webm>Your browser does not support the video tag.</video><figcaption>This video is from a later stage in development, but it's here to break up the wall of text</figcaption></figure><h2 id=the-physics-control-step>The physics-control step</h2><p>And as with all <em>physics-based</em> games, there comes a time where you must
+take some control back into your own hands and restrict the physics
+system from doing stupid stuff.</p><p>(Completely realistic physics are, in most games, not fun or interesting
+at all.)</p><p>These are tiny things that made a huge difference for this game:</p><ul><li><p>Whenever an egg hits something, its bounce is <em>increased</em>. (By quite
+a large factor.)</p></li><li><p>Not just that, the <em>upward</em> component is also increased. (So eggs
+will mostly bounce up into the sky, giving you more time and a
+clearer view of where they will land.)</p></li><li><p>Their maximum speed is limited, just in case something odd happens.
+(Don&rsquo;t want eggs flying off the field with the speed of light!)</p></li><li><p>On egg baskets, all bounce code is <em>turned off</em>. (Otherwise, eggs
+could easily bounce <em>out</em> of it again, or hit the rim and fly all
+the way across the field.)</p></li><li><p>Players have a way higher gravity than eggs (or any other elements).</p></li><li><p>There&rsquo;s no realistic damping. Player movement is dampened/stopped
+quite harshly using my own code, otherwise you get a &ldquo;slippery
+slidy&rdquo; player controller that just makes this game impossible to
+play.</p></li></ul><p>There&rsquo;ll probably be many more things as we go. These are just examples
+of what you can do to make physics-based games a bit more controlled,
+instead of random and frustrating.</p><h2 id=creating-the-content>Creating the content</h2><p>And now&rsquo;s the moment where I just buckle down and <em>implement all those
+ideas I have</em>. Throw everything against the wall and see what sticks.</p><p>This means:</p><ul><li><p>Drawing a unique (recognizable) egg pattern</p></li><li><p>Assigning some powerup or specialty to it</p></li><li><p>Revealing it when the egg breaks + making it &ldquo;pickupable&rdquo;</p></li><li><p>Creating the functionality in-game for it</p></li></ul><p>Repeat a bunch of times, until I run out of ideas. (Also, preferably,
+the egg pattern would be a <em>hint</em> towards its functionality. The jump
+egg gets an arrow pointing up, for example.)</p><h2 id=casual-testing>Casual Testing</h2><p>While doing this, I constantly test the game of course, which yielded
+the following observations.</p><h3 id=levels--environment>Levels & Environment</h3><p>About the level layout and environment &mldr;</p><ul><li><p>If we&rsquo;re going to spend so much time creating an environment
+<em>around</em> the arena &mldr; why not make the whole arena a unique
+environment?</p></li><li><p>The game could have a handful of &ldquo;levels&rdquo;: one in the desert, one in
+the forest, one in the city. Each would use that same GridMap as
+before <em>for the whole thing</em>, and then add new models on top.</p></li><li><p>This way, I can also get more creative with my boundaries. Instead
+of &ldquo;invisible walls&rdquo;, the boundaries of the level could just be
+<em>buildings</em>, or a <em>tree line</em>.</p></li></ul><p>(Also, I updated the core tileset to be <em>bigger</em> and have more saturated
+<em>colors</em>, and it already makes it look way better.)</p><h3 id=core-gameplay>Core Gameplay</h3><ul><li><p>Getting the egg inside the basket is <em>really hard</em>. (No matter how
+big I make the basket and your sombrero for controlling the eggs.)</p></li><li><p>The basket is also quite <em>high</em> right now, which means it&rsquo;s easy to
+misjudge, ending with eggs just hitting the side and breaking.</p></li><li><p>When I make the sombrero model, I should also make sure it has the
+same <em>hitbox</em> as an actual sombrero. Why?</p><ul><li><p>The ends curl upward a bit on sombreros, which would help keep
+the eggs on your hat.</p></li><li><p>The bulb in the center doesn&rsquo;t have perfectly vertical sides,
+they are more gradual, which <em>also</em> helps with controlling egg
+bounces.</p></li></ul></li><li><p>Often, it feels like I&rsquo;d want a way to deliver the egg <em>in the air</em>
+(like a hoop it should go through)</p></li><li><p>And that it might be more fun if the level <em>wraps around</em>: both eggs
+and players simply teleport to the opposite end when they reach the
+border.</p></li></ul><p>The last thing I was constantly doubting was: &ldquo;should the sombrero be
+<em>high off the ground</em> (so that it stays above baskets and catches eggs
+earlier) or <em>very low to the ground?</em>&rdquo;</p><p>In the end, I took the second option. Otherwise, eggs that were already
+low to the ground simply <em>could never be saved</em>. Additionally, the
+higher your sombrero, the <em>harder</em> it was to gauge where it actually was
+and how it would intercept the egg.</p><p>So, your character is now just this <em>tiny</em> cube, with the sombrero
+directly on top of that :p</p><h3 id=conclusions>Conclusions</h3><p><strong>#1:</strong> Yes, with a bigger sombrero, with a better hitbox, controlling
+eggs is quite doable now.</p><p><strong>#2:</strong> Level wrapping (things that go off at one side, reappear at the
+other) was a great solution &mldr; until I added the sombrero as a separate
+physics object. Now I&rsquo;d need to teleport <em>two bodies,</em> which are <em>linked
+together</em> (with a &ldquo;joint&rdquo;) &mldr; yeah, that&rsquo;s asking for trouble.</p><p>I also planned a powerup where you could <em>throw</em> your sombrero, which
+made the level wrapping definitely a bad idea.</p><p>I&rsquo;ve given up on the idea of &ldquo;randomly generated arenas&rdquo; (so with the
+egg baskets, cannons, etcetera at random locations).</p><p><strong>#3:</strong> Instead, I will create ~5 hand-made arenas, where I manually
+place everything and it&rsquo;s fixed. This way I can find creative, fitting
+ways to add bounds to the level <em>and</em> add special rules and variety to
+each arena.</p><p><strong>#4:</strong> The sombrero is attached to your head with a loose joint. This
+means it wobbles when you move (which is just fun), but it <em>also</em> means
+that it realistically adds extra power to eggs!</p><p>(When they land on the sombrero, it dips down a bit, then shoots up,
+adding extra force like a spring. The more an egg lands on the
+<em>outside</em>, the more force is added &ndash; again, because of the real-world
+concept of <em>leverage</em>.)</p><p>So I&rsquo;m definitely keeping that and making it a core part of the game.</p><p><strong>#5:</strong> The sombrero <em>only</em> interacts with eggs. It can go through
+terrain, egg baskets, other players, etcetera, without issue or
+collision.</p><p>Why? Because you otherwise couldn&rsquo;t get anywhere (at least without
+bumping into stuff and being stopped and having to jump your way
+through). The game flows <em>so much better</em> when you can just position
+your sombrero anywhere you want.</p><p><strong>#6:</strong> Some of my powerups change physics on nearby eggs. The most
+efficient way to do this (by far) is to use Godot&rsquo;s Areas for that and
+turn on &ldquo;space override&rdquo; (with the new physics properties I want).
+Holding the button? Turn override on. Released it? Turn it off again.</p><p>However, it wasn&rsquo;t working. And I couldn&rsquo;t for the life of me figure out
+why.</p><p>Then I stumbled upon this comment by someone in the Q&amp;A forums: <em>areas
+are only updated when they are moved</em>. From my own tests, I&rsquo;d concluded
+that <em>areas are NOT updated when you change their space override (toggle
+on/off).</em></p><p>So I had to change it to the following: the area override is <em>always
+on</em>. However, the <em>size</em> of the area is set to 0 when it&rsquo;s not active.
+Additionally, whenever something changes (button press/release), I move
+the area by a random (tiny) amount to force it to update.</p><p>A bit annoying that there&rsquo;s no clear documentation on this (or an easy
+method to mark an area as &ldquo;dirty&rdquo;), but at least I figured it out.</p><figure><video width=100% controls>
+<source src=vid4.webm type=video/webm>Your browser does not support the video tag.</video><figcaption>A preview of one of the arenas: desert (when it didn't completely work yet)</figcaption></figure><h2 id=arenas>Arenas</h2><p>Okay, so, what do we have now?</p><ul><li><p>A wide variety of eggs can appear</p></li><li><p>You can balance and push them quite well with your sombrero</p></li><li><p>They can be delivered into a basket or smashed to get some powerup.</p></li></ul><p>This means that arenas are the final remaining &ldquo;essential thing&rdquo;. (After
+that, it&rsquo;s time to start looking at polish, such as sound effects,
+prettier graphics, minor fixes, etcetera.)</p><p>As usual with these games, I wrote a list of &ldquo;what each arena <em>needs</em> to
+be good&rdquo;:</p><ul><li><p>Unique color scheme and decorations. (Arenas should <em>look</em> and
+<em>feel</em> distinct.)</p></li><li><p>A natural way to block off the edges.</p></li><li><p>Either a special (general) rule &mldr;</p></li><li><p>&mldr; or a special way of delivering the eggs. (Just dropping
+identical egg baskets in every environment is not fitting nor
+interesting.)</p></li></ul><p>And then I brainstormed until I had an answer to all of these questions.
+It doesn&rsquo;t necessarily need to be a <em>good</em> answer or the <em>final</em> answer,
+just something to try for now.</p><p>It yielded some interesting ideas for arenas &mldr; just not sure if I have
+the time (or 3D modeling skill) to pull it off :p</p><p>For example, I&rsquo;m thinking of adding &ldquo;Easter Island&rdquo; (you know, with the
+big stone faces dumped into the ground) and &ldquo;Cloudy Babies&rdquo; (set in the
+clouds, storks holding towels/cloth, your egg must land in there).
+Thematically speaking, awesome. Attainable? Not sure.</p><p>But the only way to find out is to keep working and see where we end up.</p><h2 id=quality-of-life>Quality of Life</h2><p>There are always many, many ways to make the game clearer and easier.
+And they usually only pop up if you actually <em>test</em> and <em>play</em> the game
+for quite some time (in different situations).</p><p>This is what I found:</p><ul><li><p>We need an indicator on the ground that shows where an egg is going
+to fall.</p></li><li><p>Similarly, an indicator when an egg is off-screen.</p></li><li><p>We need outlines around eggs.</p></li><li><p>A ceiling is also necessary, otherwise eggs can fly <em>super high</em> and
+you never know when they crash back to earth.</p></li><li><p>An interactive menu would be great: one that teaches you how to move
+around, because you <em>need to move to a spot to start that level</em>.
+(It&rsquo;s more work than a traditional menu, but it&rsquo;s miles better. It
+means the game starts right when you launch it, not only after
+clicking some menus. It teaches the game, without taking extra time,
+or it feeling like a tutorial.)</p></li></ul><h2 id=more-physics-annoyances>More Physics Annoyances</h2><p>Today I implemented my special sombrero powerups: throw it like a
+frisbee, put it at an angle, etcetera.</p><p>To do so, I need to</p><ul><li><p>Destroy the joint that attaches the sombrero to the player</p></li><li><p>Position and rotate it correctly</p></li><li><p>Add the new joint (if needed)</p></li></ul><p>Oh boy, this was a pain. The basic version was working within a minute:
+create the specific joints (that attach sombrero + player) at runtime,
+allow destroying the old one.</p><p>However &mldr; this only worked when the player was at the perfect starting
+position (0,0,0). And once a certain joint had been chosen, switching to
+a new one later (by e.g. grabbing that powerup) created all sorts of
+weird glitches.</p><p><strong>Remark:</strong> I was also being stupid, as I forgot to write the line of
+code to actually <em>remove</em> the old joint, instead of just <em>checking if
+there was one</em>. That&rsquo;s why I was confused for 20 minute as to why joints
+didn&rsquo;t do the very simple thing they were supposed to do: there were 2
+or 3 joints acting on the body simultaneously.</p><p>In the end, it came down to what it always comes down to with physics:
+they are updated in a <em>separate step</em>, which means it <em>might take a
+frame (or two) before the physics are actually correct and lined up</em>.</p><p>So this is what I ended up doing:</p><ul><li><p>Grabbed powerup? Remove the old joint, <em>plan</em> the next one => we
+wait a few frames</p></li><li><p>Check the <em>planned</em> joint</p></li><li><p>First, we position the sombrero correctly for this specific joint.
+(For example, the regular one is just at the top of our head, with
+no rotation) => we wait a few frames</p></li><li><p>Now create the joint and set the right parameters</p></li></ul><p>Removing a joint takes a frame to update. Forcefully setting a physics
+body position takes a frame to update. That&rsquo;s why there need to be
+pauses between all these things.</p><p>I&rsquo;m sure there is <em>some</em> way to just say &ldquo;body.force_physics_update()&rdquo;
+to get it immediately, but I couldn&rsquo;t find it after searching for hours.
+(If it&rsquo;s not there, it <em>should really be added</em>. At the same time,
+there&rsquo;s probably a <em>reason</em> it&rsquo;s not implemented then &mldr;)</p><p>Of course, if the player <em>moves</em> during those pauses &mldr; the joint is
+added at a slightly wrong position! So, while the joint is &ldquo;settling&rdquo;
+(that&rsquo;s what I called it in the code), the player can&rsquo;t move or rotate.</p><p>This means you&rsquo;re locked for a few frames, but it&rsquo;s short enough to not
+be noticeable.</p><p>(The alternative is <em>hard-resetting</em> the sombrero to the correct
+location every few frames. But that&rsquo;s very resource intensive and opens
+up many more troubles, so let&rsquo;s not do that.)</p><p>But, after all of this, we now have a bunch of fun powerups for
+throwing, slanting, repositioning your sombrero. (And they all have some
+wiggle room, so they look bouncy and react realistically to the eggs.)</p><h2 id=nearing-a-playable-game>Nearing a playable game</h2><h3 id=menus>Menus</h3><p>I decided to make the menu interactive. In fact, I decided to simply
+make that &ldquo;one of the arenas&rdquo;.</p><p>(So it&rsquo;s built from the same GridMap, follows the same physics rules,
+etcetera. Only, instead of playing the game, you can log in walk to a
+spot to load that level.)</p><p>This means that I just need to <em>make that arena</em> and add the
+functionality to complete the &ldquo;menus&rdquo; part of the game.</p><p>(A specific button opens up <em>settings</em>, but that&rsquo;s basic stuff like
+&ldquo;Volume&rdquo; and &ldquo;Fullscreen&rdquo;. A pause menu in-game would be nice too, but
+that also won&rsquo;t be much work.)</p><p>I&rsquo;ll start now, but obviously need to wait until I have all the arenas
+to finish it, because at the moment I only have basic <em>grass</em> tiles.</p><h3 id=solo-mode>Solo Mode</h3><p>Using custom-made arenas, means I can&rsquo;t really scale them based on
+player count. That means I need to scale them <em>to allow 4 players at
+most</em> &mldr; which means it feels really big and empty when you&rsquo;re playing
+single player. (And that makes it near impossible to play.)</p><p>That&rsquo;s why I decided to give you <strong>two sombreros!</strong></p><p>On keyboard, you simply control the first with arrow keys, and the
+second with WASD.</p><p>On controller, you get a button to <em>switch</em> between them. (Might also
+allow moving the other with the right joystick, but not sure how easy
+that is to execute for players.)</p><h3 id=tutorial>Tutorial?</h3><p>I decided to make the first arena a &ldquo;training ground&rdquo;, based on my
+experience creating multiplayer games the past few years. Yes, it feels
+like a &ldquo;boring&rdquo; start, but I know it will be the &ldquo;perfect&rdquo; start for new
+players.</p><p>This map has some rules and mechanics omitted:</p><ul><li><p>Eggs <em>auto deliver</em>. If you can keep them in the air ( = so they
+don&rsquo;t break) for 10 seconds, they are delivered.</p></li><li><p>When eggs are broken, they <em>don&rsquo;t spawn powerups</em>. (In other words:
+special eggs and powerups are disabled.)</p></li></ul><p>I&rsquo;ll make sure the maps are ordered and numbered so players will start
+with the training ground.</p><p>The next map will then add some rules:</p><ul><li><p>Eggs must be delivered into baskets.</p></li><li><p>Powerups spawn, <em>but</em> only a few simple egg types are enabled for
+the moment.</p></li></ul><p>The map after that will add <em>more</em> unique eggs, and so on, increasing
+difficulty as we go.</p><p>How are these things taught? Although relatively effective, I&rsquo;ve grown
+to despise hitting players with a &ldquo;full screen image tutorial&rdquo; at the
+start of a new level/arena. It breaks the flow. They won&rsquo;t read it all.
+(Probably, someone will skip it and say &ldquo;heck, let&rsquo;s just play!&rdquo;)</p><p>Instead, each arena has a small image that appears when you come close.
+It tells you:</p><ul><li><p>The name</p></li><li><p>A thumbnail of what it (roughly) looks like</p></li><li><p>Any special rules or newly added mechanics to watch out for.</p></li></ul><p>That&rsquo;s all the tutorial needed, and that&rsquo;s all you get.</p><h3 id=some-more-help--variety>Some more help & variety</h3><p>Although it&rsquo;s now quite doable to control the eggs and keep them from
+breaking, this also means some of the <em>variety</em> and <em>challenge</em> is gone.</p><p>I realized I often <em>really</em> wanted to jump to an egg. Or dash towards
+it. Things you only get when that powerup appears.</p><p>But &mldr; we can also give this functionality to you <em>through level
+design</em>!</p><p>If I simply place &ldquo;trampolines&rdquo; in the levels, you can use those for
+some jumping. If I place &ldquo;dash squares&rdquo; in the levels that boost you in
+that direction, you get the same idea.</p><p>This does mean, though, that levels get a bit fuller and shouldn&rsquo;t be so
+flat.</p><p>The current method for checking &ldquo;does an egg hit the ground?&rdquo; was, well,
+just a rectangle on the floor that checks if the egg hits it. That&rsquo;s not
+possible anymore if the ground is all bumpy and uneven.</p><p>Instead, I&rsquo;ll change it to this:</p><ul><li><p>There&rsquo;s a <em>separate</em> GridMap called &ldquo;Floor&rdquo;.</p></li><li><p>Only eggs that hit the Floor are broken. (The other GridMap is used
+for the edges, environment, decorations, etcetera. No fun if those
+break eggs too.)</p></li><li><p>Additionally, they only break if the collision normal is pointing
+<em>upward.</em> (In other words, they fell down on it, instead of hitting
+e.g. the <em>side</em> of a tile, or a <em>ceiling</em> of something.)</p></li></ul><p>It&rsquo;s not precise, but then again, physics games are never precise. There
+will be eggs hitting the floor that <em>should</em> break, but they don&rsquo;t, and
+vice versa. But if that only happens 1% of the time, we&rsquo;re fine.</p><h2 id=some-doubts>Some doubts</h2><p>Right now, we have a perfectly playable game, with two arenas
+(<em>training</em> and <em>forest</em>) and a menu.</p><p>But &mldr; it&rsquo;s not great yet. Sometimes it&rsquo;s very boring (you&rsquo;re just
+waiting for a few seconds until an egg finally comes down), at other
+times it&rsquo;s near impossible (it&rsquo;s <em>really</em> hard to aim eggs and get them
+where they need to go)</p><p>Another annoyance are the <em>edges</em> and <em>corners</em> of the map: eggs often
+get a bit &ldquo;stuck&rdquo; there, and it takes a while before they&rsquo;re really sent
+back into the level.</p><p>Here&rsquo;s how I sought to fix this:</p><ul><li><p>I increased the gravity scale on eggs (from 1 to 2, to be specific).
+This made them fall down way quicker, which just feels better and a
+more accurate tempo. (To compensate, all bouncing forces on the eggs
+are stronger.)</p></li><li><p>The bouncing force on walls is <em>stronger</em> in the direction towards
+the center of the map. Basically, this direction is artificially
+made more important in the physics.</p></li><li><p>The bump in the middle of the sombrero was increased in height and
+width, allowing you to catch and steer eggs more.</p></li><li><p>Delivery locations for eggs have a slight <em>force field</em> around them,
+pulling eggs into it.</p></li><li><p>I should design maps to always have <em>something</em> in the corners to
+prevent eggs getting stuck there. Something as simple as a tree, or
+a slanted stone, would make the bounces more varied and towards the
+center of the level.</p></li></ul><p>Although these are great improvements, it does feel a bit like applying
+band-aids.</p><p>Maybe I should rethink the core idea of the game and be a bit smarter
+about that. Some ideas:</p><ul><li><p>Not necessarily an <em>easier</em> way to deliver, but more <em>consistent</em>
+and something you can improve at over time.</p></li><li><p>Start off with <em>easier</em> shapes to work with, like a perfect sphere
+or a cube?</p></li><li><p>Different methods of delivery: the easiest one is <em>really easy</em>, but
+only gives 1 point. Harder ones give more points.</p></li><li><p>An extra rule about how <em>often</em> an egg bounced? Or how many
+different <em>players</em> it touched? (For example: an egg can only be
+delivered after X bounces. Or it becomes worth more over time.) => a
+good idea, but it would be too much for beginners to learn, so it&rsquo;d
+need to come in a later arena anyways</p></li></ul><h2 id=a-quick-playtest>A quick playtest</h2><p>I was able to do a (very quick, 15 minute) playtest with someone else.
+These were the results:</p><ul><li><p>Yes, very fun game, easy to explain and start playing! (And making
+the extra button an optional thing that appears later was also
+great.)</p></li><li><p>But &mldr; just slightly too hard to deliver the eggs and control them.</p></li><li><p>If I don&rsquo;t manage to make this easier/faster, I&rsquo;ll have to lower the
+number of eggs needed. (First arena took 4 minutes to clear, second
+11 minutes. For games like these, 5 minutes per level seems to be
+the sweet spot.)</p></li><li><p>(And some stupid major issues because I left in debugging code from
+a few days ago :p)</p></li></ul><p>It just made me realize that controlling the egg will always be a bit
+chaotic, no matter how big I make the sombrero, or which shape I pick.
+That&rsquo;s what you get with realistic physics and lots of sloped shapes
+(like, you know, eggs).</p><p>So instead of trying to fix things this way, we just need to explore
+different routes:</p><ul><li><p>Make delivering easier: bigger locations, easier to reach, more of a
+safety net around them.</p></li><li><p>Introduce other elements (unique player roles, environment, etc.)
+that are a <em>certain</em> way to keep an egg safe or send it somewhere.</p></li></ul><p>I&rsquo;ve learned that it&rsquo;s useless to try and predict (or logically reason)
+what will work best for your game. So I&rsquo;m just going to implement a
+bunch of things and see what feels best.</p><ul><li><p>Swapping the eggs with other shapes => mostly spheres and cubes are
+more predictable</p></li><li><p>Making eggs bigger/smaller => the current size was randomly chosen,
+maybe the game is much more fun in a different scale</p></li><li><p>Making the egg baskets way bigger => smaller ones still exist and
+they yield more points per egg. (I&rsquo;ve created 1x1, 1x2 and 2x2
+variations.)</p></li><li><p>Replacing the baskets with <em>holes in the ground</em> or <em>hoops in the
+air</em>.</p></li></ul><p><strong>Remark:</strong> I also added a &ldquo;keep inside&rdquo; body on top of the baskets.
+This is a one-way body, which means once an egg goes through it, it
+can&rsquo;t get out again. This nicely keeps delivered eggs inside the basket,
+no matter the rotation, no matter the speed of the egg. Makes a huge
+difference for such a simple thing.</p><h2 id=results-from-trying-stuff>Results from trying stuff</h2><p><strong>Observation #1:</strong> yes, delivery locations matter a lot.</p><ul><li><p>Making them bigger makes the game considerably less frustrating</p></li><li><p>Instead of placing them <em>on top of</em> the terrain, it&rsquo;s much better to
+have them as a <em>hole in the ground</em> or <em>in the air</em>. Why? When on
+top of the terrain, they restrict the space (can&rsquo;t walk through
+them), and any egg that&rsquo;s close to the ground is basically
+impossible to deliver. In a game where stuff falls down to the
+ground, it feels only logical to place the destination <em>in the
+ground</em>.</p></li><li><p>The &ldquo;force field&rdquo; around egg baskets is <em>great</em> &mldr; but it needs
+some finetuning, as it&rsquo;s now sometimes <em>too</em> obvious (or doesn&rsquo;t
+help at all).</p></li><li><p>Making &ldquo;easy&rdquo; and &ldquo;hard&rdquo; baskets, with different point values, is
+also great. Ensures people can play according to their skill level.
+Gives an interesting choice, rather than letting the <em>egg</em> randomly
+lead you somewhere. And just makes sense, as not every location is
+equal. (And somehow makes the level look better &mldr; more focused, or
+something.)</p></li></ul><p><strong>Observation #2:</strong> yes, different shapes (such as a perfect sphere) are
+easier to control &mldr; but that&rsquo;s all there is to it. It doesn&rsquo;t make the
+game more interesting or fun. It also makes it harder to see what <em>type</em>
+something is.</p><ul><li><p>But, to implement this, I made a general script that could swap the
+egg shapes to anything I want, at any time.</p></li><li><p>So I tested <em>mini eggs</em> and <em>huge eggs</em>. They were both quite fun,
+in their own ways! The huge egg provided a great amount of clarity
+and consistency, so they might become the default.</p></li></ul><p><strong>Observation #3:</strong> one of my ideas was to set the sombrero at an
+<em>angle</em> by default.</p><p>It&rsquo;s already a powerup, but I thought it might be a good default
+setting, as it helps you <em>steer</em> the eggs. (As opposed to a flat
+sombrero that just bounces it up again.)</p><p>But &mldr; it&rsquo;s too strong. It makes the game more difficult overall (if a
+slanted sombrero is all you have) and looks &mldr; wrong.</p><p>So, instead, I loosened the joint between player and sombrero. It can
+now angle much more (as a reaction to eggs, or your walking) which
+accomplishes the same thing: it will frequently be at an angle.</p><p>Also makes the game more fun, more lively, and helps steer eggs in
+specific directions.</p><p><strong>Observation #4:</strong> I also happened to see another game (where things
+flew through the air, in 3D) which did something I hadn&rsquo;t thought about:
+show a <em>white dotted line</em> from the thing to the ground. (So perfectly
+vertical.) This is a <em>great idea</em>, as it gives players a much better
+sense of where something is going to land, and where it is in space.</p><p>Adding a <em>visual guide</em> like this (without changing actual gameplay)
+also made the game easier.</p><p>So maybe I&rsquo;m going at this the wrong way: instead of constantly trying
+new gameplay stuff, I should just focus on giving <em>as many visual
+guides</em> as possible?</p><h2 id=more-arenas>More Arenas</h2><p>With my gameplay worries <em>sort-of</em> soothed at this point, it was time to
+finish the content for the game:</p><ul><li><p>The last powerups ( = egg types)</p></li><li><p>Actual menus and UI for everything</p></li><li><p>And more arenas.</p></li></ul><p>Things to keep in mind:</p><ul><li><p>Place delivery locations <em>inside the ground</em> (like holes) or <em>on the
+walls</em> (in the air)</p></li><li><p>Place stuff in corners to prevent things from getting trapped there.</p></li></ul><p>After a few days, I&rsquo;m now able to say something about that process.</p><p>I &mldr; was very tired (worked <em>a lot</em> the past year), didn&rsquo;t feel
+motivated, and was frustrated by my lack of 3D modeling skills and weird
+physics bugs that kept happening.</p><p>So I <em>did</em> finish most arenas (5 of them in the end), but I wouldn&rsquo;t say
+I&rsquo;m extremely proud of the work or the game in general.</p><p>I also made a unique soundtrack for each arena. (A unique melody of 1-2
+minutes that loops in the background.) I actually wanted to be a
+musician when I was young, so even though I&rsquo;m not that experience with
+mixing/recording music, <em>writing</em> some good songs comes very naturally
+to me.</p><p>And that&rsquo;s when my time was basically up.</p><ul><li><p>I had to finish the marketing side (basic logo, screenshots, game
+page)</p></li><li><p>I had to finish the menu so that each arena could actually be chosen
+(and you saw a preview)</p></li><li><p>I had to fix some leftover bugs or frustrations. (Such as a specific
+powerup not working consistently.)</p></li><li><p>And the game had 0 particles or animations at this point, so I had
+to add at least some of those.</p></li></ul><p>To finish the devlog, I will therefore state the lessons I learned and
+how this game could be improved.</p><p><img src=vid4.webm alt="The first version of the interactive main menu"></p><h2 id=lessons-for-the-future>Lessons for the Future</h2><h3 id=lesson-1>Lesson #1</h3><p><strong>Lesson #1:</strong> <strong>mind your perspective.</strong> Because this game is in 3D
+(whilst all my previous games were 2D), I was constantly surprised by
+how hard it was to see something. I had to re-do many models,
+placements, sprites, UI just to make sure it was all visible from the
+perspective (and zoom level) we were at.</p><p>You just can&rsquo;t think in the same way as 2D. I&rsquo;m starting to grasp the
+basics of 3D modelling and level design, but still not really there yet
+&mldr;</p><h3 id=lesson-2>Lesson #2</h3><p><strong>Lesson #2: actually design your levels <em>while implementing mechanics</em>
+(and before <em>making models for them</em>).</strong></p><p>I thought it would be smart to code and test/balance the mechanics
+first, and then build arenas around that.</p><p>But, as it turns out, you just don&rsquo;t <em>know</em> if your mechanics are fun
+and balanced and flexible enough, <em>if you don&rsquo;t have real levels to
+properly test them</em>.</p><p>So the balance (in speed, power, bounces, level size, etcetera) is all
+just based on my default test level, which was just a grey plane of a
+random size. When I started creating later arenas, I constantly noticed
+I wanted more space, and I should&rsquo;ve included mechanics to keep eggs
+&ldquo;safe&rdquo; for some time <em>or</em> teleport across the map, and that my
+requirements had changed.</p><p>The reason I immediately started making models when creating new arenas,
+was simply because of the game jam time restriction. It&rsquo;s better to
+first sketch the arenas (manually, or with grey cubes and spheres), test
+them, and only create the final models and textures when you&rsquo;re
+satisfied.</p><h3 id=lesson-3>Lesson #3</h3><p><strong>Lesson #3: 3D is still hard and not that suited for a &ldquo;short game&rdquo;.</strong>
+Even though I&rsquo;ve designed my workflow to be very efficient (which also
+comes with experience), I still spent <em>way</em> more time on this game than
+I wanted. And most of it had to do with the simple fact that it was 3D,
+so the models took longer, there were more settings/dimensions/physics
+issues to work out, etcetera.</p><p>Everything is just <em>longer</em> and <em>more difficult</em> than 2D, which means
+even the simplest of game ideas will probably take longer than you want.</p><p>Even though I want to grow my 3D skills and work towards full-blown 3D
+titles in the future, I might stick with 2D for now, especially on my
+&ldquo;game jam&rdquo; or &ldquo;one week game&rdquo; projects.</p><h3 id=lesson-4>Lesson #4</h3><p>Well, here I just want to put my thoughts for a possible &ldquo;improved
+version&rdquo; of the game.</p><ul><li><p>More life and variation to the arenas. (The models there are only
+<em>bare bones</em>. The essentials for functionality. None of it moves or
+is animated. Only a few variations.)</p></li><li><p>Bigger arenas (only slightly).</p></li><li><p>To compensate, give players a way to combat the space: move faster,
+teleporters, keep eggs safe, delay the arrival of eggs (by turning
+off a cannon, for example)</p><ul><li><p>This could be built into the arenas</p></li><li><p>Or additional &ldquo;rules&rdquo; or &ldquo;player roles&rdquo; within the game</p></li></ul></li><li><p>Better UI, sprites, and helpers to show the <em>type</em> of an egg or
+powerup. And where it is or where it&rsquo;s going to come from.</p></li><li><p>Movable obstacles within the level: ramps to deflect eggs, pillows
+to catch them before they break, a bowl to just collect eggs.</p><ul><li>I really wanted this from the get-go, as I think it&rsquo;d be a great
+addition, but didn&rsquo;t have the time :(</li></ul></li><li><p>An actual loss condition (or more interesting win condition). Due to
+the jam being about positivity, there is no way to lose and breaking
+eggs is actually quite a good thing. But that <em>does</em> destroy much of
+the challenge &mldr;</p></li></ul><p>I think this game could be a really strong party game (local
+multiplayer, 1-4 players) that sells for 5-10 bucks. But for that to be
+the case, a <em>significant</em> redesign would be needed, and I&rsquo;d need to
+<em>significantly</em> improve my 3D modeling and general design skills.</p><p>As I already said, I&rsquo;m quite tired of working very hard this year (on
+many big game projects), and the amount of hills to climb for this game
+is a bit too much.</p><p>So don&rsquo;t expect this improved version immediately after the end of the
+game jam. But there&rsquo;s a good chance it&rsquo;ll come, in 6 or 12 months time.</p><p><strong>Remark:</strong> I only just realized &mldr; the solution to my &ldquo;eggs and
+players get stuck in corners&rdquo; issue &mldr; is simply to eliminate corners
+entirely xD How did I not think of that sooner?! Just make the levels
+circular! Well, way too late now, but in the improved version I will
+certainly do that.</p><p><strong>Remark (one day later):</strong> yeah, now the solutions are coming. Too
+late, brain! The arenas should have been <em>egg-shaped</em>, obviously, and
+<em>sitting on top of a sombrero</em>. Extremely thematical, and would solve
+almost all issues I had.</p><h2 id=conclusion>Conclusion</h2><p>That&rsquo;s it for the <em>game jam</em> version of this game. If I make the
+improved version, it&rsquo;ll get its own devlog, as I imagine the amount of
+work (and significant changes) is big enough to warrant it.</p><p>Hopefully it was fun or interesting to read. Tried the game? Let me know
+what you think.</p><p>Until the next devlog,</p><p>Pandaqi</p></div></article><div><nav class=pagination><ul><li><a href=/blog/videogames/game-jams/devlog-windowsilk/ class="masked-link big-mask mask-8" style=--rotation:1.5deg>&lt;&lt; Previous Page</a></li><li>Continue reading</li><li><a href=/blog/videogames/game-jams/devlog-windup-wizards/ class="masked-link big-mask mask-5" style=--rotation:1deg>>> Next Page</a></li></ul></nav></div></main><footer id=site-footer><div class="padding center-block"><h3>More Pandaqi</h3><p>You could <a href=https://pandaqi.com>visit the game studio</a>.
+Or my <a href=https://pandaqi.com/tutorials/>free tutorial website</a>.
+Or my <a href=https://rodepanda.com/>portfolio</a> with easy access to absolutely everything I ever made.</p><h3>Latest</h3><nav class=latest><ul><li><a href=/blog/boardgames/photomone/>Photomone
+(🐜)</a></li><li><a href=/blog/boardgames/keebble-domino/>Keebble: Domino
+(📗)</a></li><li><a href=/blog/boardgames/keebble-knickknack/>Keebble: Knickknack
+(📘)</a></li><li><a href=/blog/videogames/game-jams/less-is-store/>Less is Store
+(🛍️)</a></li><li><a href=/blog/tutorials/placing-grids-within-spaces/>Placing grids within spaces</a></li><li><a href=/blog/boardgames/thats-amorphe-pictures/>That's Amorphe: Pictures
+(🖌️)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-2023-update-ii/>Pandaqi Games: 2023 Update (II)
+(🎮)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-2023-update-iii/>Pandaqi Games: 2023 Update (III)
+(🎮)</a></li><li><a href=/blog/news-and-updates/pq-daw/>PQ_DAW: A music editor for the web
+(🎼)</a></li><li><a href=/blog/news-and-updates/pq-words/>PQ_WORDS: A dictionary for games
+(📋)</a></li></ul></nav><h3>Sections</h3><nav><ul><li><a href=/blog/boardgames/>Boardgames
+(🎲)</a></li><li><a href=/blog/news-and-updates/>News & Updates
+(📢)</a></li><li><a href=/blog/reviews-and-thoughts/>Reviews & Thoughts
+(💭)</a></li><li><a href=/blog/tutorials/>Tutorials
+(👩‍🎓)</a></li><li><a href=/blog/videogames/>Videogames
+(🎮)</a></li></ul></nav><h3>Credits</h3><p>Theme by me (<a href=https://pandaqi.com>Pandaqi</a> 🐼) &#183;
+with ❤️ &#183;
+using <a href=https://gohugo.io>Hugo</a> &#183;
+&copy; 2018&ndash;2023 Pandaqi Blog</p></div></footer><link rel=stylesheet type=text/css href=/blog/css/style.css><script src=/blog/js/bundle.min.js></script></body></html>

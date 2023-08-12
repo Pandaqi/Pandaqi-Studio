@@ -1,0 +1,495 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><title>Windup Wizards | Pandaqi Blog</title><link rel=icon type=image/png href=https://pandaqi.com/blog//favicon.png><link rel=stylesheet type=text/css href=/blog/css/critical.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin></head><body><header id=site-header><nav class=menu><ul><li><a href=https://pandaqi.com/blog/ class="masked-link big-mask mask-7" style=--rotation:-1deg>Home</a></li><li><a href=/blog/boardgames/ class="masked-link big-mask mask-4" style=--rotation:-0.5deg>Boardgames</a></li><li><a href=/blog/news-and-updates/ class="masked-link big-mask mask-7" style=--rotation:-1deg>News & Updates</a></li><li><a href=/blog/reviews-and-thoughts/ class="masked-link big-mask mask-3" style=--rotation:2deg>Reviews & Thoughts</a></li><li><a href=/blog/tutorials/ class="masked-link big-mask mask-3" style=--rotation:-1deg>Tutorials</a></li><li><a href=/blog/videogames/ class="masked-link big-mask mask-2" style=--rotation:1deg>Videogames</a></li></ul></nav></header><main class="padding center-block"><article class=single-article><div class=thumbnail-media><img src=windup_wizards_header.webp></div><h1>Windup Wizards</h1><aside class=metadata><nav class=breadcrumbs><span class=metadata-label><span class=emoji>🥐</span> Breadcrumbs ||</span>
+<a href=https://pandaqi.com/blog/>Home</a>
+/
+<a href=https://pandaqi.com/blog/videogames/>Videogames</a>
+/
+<a href=https://pandaqi.com/blog/videogames/game-jams/>Game jams</a>
+/
+<a href=https://pandaqi.com/blog/videogames/game-jams/devlog-windup-wizards/>Devlog windup wizards</a></nav><script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/pandaqi.com\/blog\/","name":"home"}},{"@type":"ListItem","position":2,"item":{"@id":"https:\/\/pandaqi.com\/blog\/videogames\/","name":"videogames"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/pandaqi.com\/blog\/videogames\/game-jams\/","name":"game-jams"}},{"@type":"ListItem","position":4,"item":{"@id":"https:\/\/pandaqi.com\/blog\/videogames\/game-jams\/devlog-windup-wizards\/","name":"devlog-windup-wizards"}}]}</script><div><span class=metadata-label><span class=emoji>&#8987;</span> Published ||</span>
+<time datetime=2022-01-05T14:00:00>Wednesday, Jan 5, 2022</time></div><nav class=tags><span class=metadata-label><span class=emoji>🎗</span> Tags ||</span><ul><li><a href=https://pandaqi.com/blog/tags/devlog>devlog</a></li><li><a href=https://pandaqi.com/blog/tags/technical-devlog>technical devlog</a></li><li><a href=https://pandaqi.com/blog/tags/jam>jam</a></li></ul></nav><div><span class=metadata-label><span class=emoji>📖</span> Table of Contents ||</span>
+<a href=# id=toc-toggle>Show</a></div></aside><aside id=table-of-contents class=masked-link-block><header><h2>Table of Contents</h2></header><nav id=TableOfContents><ul><li><a href=#theme>Theme</a></li><li><a href=#windup-wizards>Windup Wizards</a></li><li><a href=#why-wizards>Why wizards?</a></li><li><a href=#the-main-mechanic>The main mechanic</a></li><li><a href=#the-objective>The objective</a></li><li><a href=#solving-some-deficits>Solving some deficits</a><ul><li><a href=#moving-is-too-important>Moving is too important</a></li><li><a href=#one-action-at-a-time-is-too-slow>One action at a time is too slow</a></li><li><a href=#static-knobs-are-boring>Static knobs are boring</a></li><li><a href=#something-that-seems-more-intuitive>Something that seems more intuitive</a></li></ul></li><li><a href=#first-steps>First steps</a></li><li><a href=#first-steps-again>First steps, again</a></li><li><a href=#finally-were-getting-somewhere>Finally, we&rsquo;re getting somewhere</a><ul><li><a href=#3d-it-is>3D it is</a></li></ul></li><li><a href=#nope-still-more-mistakes>Nope, still more mistakes</a><ul><li><a href=#simulated-start>Simulated start</a></li><li><a href=#a-rule-modification>A rule modification</a></li><li><a href=#a-remark-about-coding>A remark about coding</a></li></ul></li><li><a href=#the-messy-middle>The messy middle</a><ul><li><a href=#redoing-the-first-two-worlds>Redoing the first two worlds</a></li><li><a href=#nope-more-troubles>Nope, more troubles</a></li></ul></li><li><a href=#the-information-problem>The information problem</a></li><li><a href=#where-are-we-now>Where are we now?</a><ul><li><a href=#the-magnet-world>The magnet world</a></li><li><a href=#the-knob-world>The knob world</a></li><li><a href=#more-animations>More animations</a></li><li><a href=#the-smaller-ideas>The smaller ideas</a></li><li><a href=#support-wizards>Support wizards</a></li></ul></li><li><a href=#a-playtest>A playtest</a></li><li><a href=#never-mind-its-crisis-time>Never mind, it&rsquo;s crisis time!</a></li><li><a href=#finishing-the-thing>Finishing the thing</a><ul><li><a href=#what-do-i-think-of-this-game>What do I think of this game?</a></li><li><a href=#why-am-i-not-superhappy>Why am I not superhappy?</a></li></ul></li></ul></nav></aside><div><p>Alright, so, the GoGodot Jam 2 happened. I decided to participate. This
+was decided well in advance, and I scheduled my other projects around
+it.</p><p>But, as is the case with game jams, I couldn&rsquo;t start doing anything
+until the jam actually started and the theme was revealed.</p><p>Because of timezone differences, and a little disappointment with the
+theme (which I&rsquo;ll explain soon), this meant I had basically <strong>10 days</strong>
+to make a game.</p><p>In this short devlog, I&rsquo;ll talk about creating <a href=https://pandaqi.com/windup-wizards>Windup Wizards</a> from
+start to finish.</p><h2 id=theme>Theme</h2><p>The theme for the jam was <strong>Energy Source</strong>. It&rsquo;s an okay theme, and I
+can see why they&rsquo;d pick it.</p><p>At the same time, it didn&rsquo;t help me at all. There are <em>many</em> cliché
+interpretations in relation with games.</p><p>When the theme was announced, they said something like: &ldquo;Don&rsquo;t go the
+obvious route of making energy sources that the player can collect!
+Instead, for example, you could look at <em>mental energy</em> &ndash; things that
+make you happy or not.&rdquo;</p><p>Yeah &mldr; but that&rsquo;s also obvious. Game developers are more creative than
+that. Almost <em>everything</em> that came to mind with this theme was an
+obvious, overused, video game trope that 100 others will also have come
+up with.</p><p>I wanted to create an action game, as puzzle and platformer puzzle games
+are overdone at game jams. But combining that with the theme &mldr; it just
+didn&rsquo;t work. I couldn&rsquo;t find anything.</p><p>The same was true for other genres I hastily explored (such as a sports
+game).</p><p>There was an idea for &ldquo;delivering dreams to give people energy for the
+next day&rdquo;, which was a <em>great</em> application of the theme (in my eyes),
+but not feasible to create in such a short timespan. It would have to be
+3D to work well, with which I have way fewer experience than 2D.</p><p>There was an idea for a platformer game where you could manipulate
+everything following the laws of physics. (Moving things have kinetic
+energy, static things have potential energy, etcetera.) But the further
+I dove into the topic, the more the game would become a physics lesson
+nobody would understand but Einstein himself.</p><p>There were ideas for other games, but those were, frankly, only
+<em>vaguely</em> related to &ldquo;energy&rdquo;. Because, I mean, energy is everywhere.
+Any action costs energy. Energy is needed to do any &ldquo;work&rdquo; (both
+practically and theoretically). So yeah, <em>any game idea</em> could be
+related to this theme.</p><p>That&rsquo;s where my disappointment came from: it&rsquo;s both too specific and
+cliché for games, and too broad to be any theme at all. But hey, it is
+what it is, let&rsquo;s try to make it work.</p><p>In the end, after talking with some family members about it, I settled
+on an idea that was</p><ul><li><p>Very thematic</p></li><li><p>Feasible, as the art style would be simple, and much of the logic
+would be something I&rsquo;d already coded before</p></li><li><p>Not likely to be done by many people</p></li><li><p>Able to have a life beyond the jam. (I don&rsquo;t like creating games
+that will basically only be played during the week after the jam,
+and then forgotten and buried.)</p></li></ul><h2 id=windup-wizards>Windup Wizards</h2><p>This was the idea: <strong>a puzzle game where everything in the level must be
+<em>wound up</em></strong> (like those old toys)<strong>, then <em>released</em> to do their
+action</strong>.</p><p><img src=screenshot1.webp alt="First level which also explains the core concept"></p><p>As for theme, I think it more than fitting enough:</p><ul><li><p>Why must you wind up everything? Because there&rsquo;s no electricity, no
+energy source.</p></li><li><p>In a sense, those toys are batteries/energy sources themselves</p></li><li><p>And to finish the thematic tie-ins, I made the story revolve around
+some creatures nibbling on our power cables, and you have to remove
+them.</p></li></ul><p>As for the rest:</p><ul><li><p>I couldn&rsquo;t find anything like this that&rsquo;s been done before.</p></li><li><p>I&rsquo;ve made big puzzle games in the past. Learning from that, it
+shouldn&rsquo;t be hard to create most of the puzzle <em>game</em>.</p></li><li><p>A few days prior to the jam, I was experimenting with learning a new
+language (Rust) for doing simulations. This seemed like a perfect
+opportunity to use it to <em>simulate</em> ( = randomly generate) puzzles
+for this game.</p></li></ul><p>Note that I won&rsquo;t just randomly generate 100 puzzles, stick &rsquo;em in the
+game, and call it done.</p><p>I&rsquo;ve experimented with this for months last year, and learned that I
+should use these as an <em>inspiration</em> or <em>starting point</em>. I still have
+to manually play and select the best puzzles, and perhaps alter them if
+I see improvements.</p><h2 id=why-wizards>Why wizards?</h2><p>The process went as follows:</p><ul><li><p>Let&rsquo;s make a quick sketch for this game</p></li><li><p>Hmm. What creatures nibble on power cables? Bunnies!</p></li><li><p>Let&rsquo;s call the game Windup Warriors. Oh no, that already exists.</p></li><li><p>Hmm. I don&rsquo;t want this game to actually kill bunnies, nobody likes
+that. Instead, they should be <em>shoved off the board?</em></p></li><li><p>No, too complicated. Instead they should just <em>disappear?</em> Yes! If
+the toys are magicians/wizards, they can just put the bunny back
+into their hat, like a trick.</p></li></ul><p>That&rsquo;s how the general theme and name came to be.</p><h2 id=the-main-mechanic>The main mechanic</h2><p>Then I had to answer the question: <strong>how will you wind up those toys?</strong>
+Well, by rotating the knob on their back.</p><p>But how do you do that?</p><ul><li><p>Idea 1: when you bump into them. Not great, as &ldquo;bumping into
+something&rdquo; is an action that&rsquo;s hard to see or reason through.</p></li><li><p>Idea 2: an actual button to press when near a toy. Not great, as it
+requires that extra button. Does that count as a move? Or not? What
+if multiple knobs are nearby? Meh.</p></li><li><p>Idea 3: by walking/brushing past it. Yeah, seems intuitive. But this
+means you need to do a lot of <em>walking</em> to get around toys and brush
+past their knob.</p></li><li><p>Idea 4: you are a gust of wind that will <em>fly as far as it can</em> on
+every move. Flying past knobs rotates them. That&rsquo;s a winner!</p></li></ul><p>Because you move until something stops you, you can travel greater
+distances and puzzles are less &ldquo;boring&rdquo; or &ldquo;static&rdquo;.</p><p>However, still <em>something</em> needs to stop you (besides the level bounds),
+so I added the rule:</p><ul><li><p>When you encounter a wizard, you stop on the same cell.</p></li><li><p>Then you <strong>activate</strong> them.</p></li></ul><p>Activating means that it <em>unwinds</em> itself and executes its action! If
+you&rsquo;ve rotated the knob 3 times, it will activate its action 3 times.
+(So, rotating the knob more times, will store more &ldquo;energy&rdquo; in them.
+Theme, theme!)</p><p>(Again, I could&rsquo;ve put &ldquo;activation&rdquo; on an extra button. But I&rsquo;ve learned
+over the years that <em>simplifying controls is amazing</em>. You should do it,
+and you <em>can</em> always do it. If you think &ldquo;we need an extra button for
+this special action&rdquo;, think again if you really need this action, or if
+you can&rsquo;t streamline it more with the existing controls.)</p><p>So this idea of &ldquo;stop on wizards, active them&rdquo; solves two problems with
+one stone :p</p><p>At first, I executed this &ldquo;rotate knob&rdquo; code any time you entered a
+cell. But this could easily be exploited for &ldquo;boring puzzles&rdquo;, as you
+could just <em>shuffle</em> in and out of a cell to add more and more energy to
+a wizard.</p><p>It also didn&rsquo;t make much sense. It&rsquo;s more logical if a knob is turned by
+moving <em>through</em> the cell, so that&rsquo;s what it became: anytime the wind
+moves to the next square, <em>that&rsquo;s</em> when it checks the previous square
+for knob activations.</p><h2 id=the-objective>The objective</h2><p>Which means one piece of the puzzle remains: how do you win? Well, by
+removing all the &ldquo;bad&rdquo; entities. When a good entity enters the cell of a
+bad entity, they remove it.</p><p>At first, I split those into two distinct groups: wizards and the bad
+creatures to remove.</p><p>But I soon realized this was making it more complicated, with 0 benefit.
+It&rsquo;s way easier to make <strong>everything a wizard</strong> (both when coding and
+playing), but some are <strong>good</strong> and others are <strong>bad</strong>.</p><p>This means that I could also, for example, wind up a bad wizard, then
+activate it to send it straight into its death :p</p><p>It streamlines everything, whilst adding way more options to the
+puzzles.</p><p>In summary:</p><ul><li><p>Win by removing all bad wizards</p></li><li><p>Lose by being removed yourself (or running out of turns, obviously)</p></li></ul><h2 id=solving-some-deficits>Solving some deficits</h2><h3 id=moving-is-too-important>Moving is too important</h3><p>By sketching the first few puzzles, I quickly saw a problem. I added a
+&ldquo;Rotator&rdquo; wizard, which, when activated, rotates itself.</p><p>But &mldr; there&rsquo;s literally no point. Rotation doesn&rsquo;t matter, unless you
+can move.</p><ul><li><p>Idea 1: give wizards multiple actions. Nope, way too complicated,
+can&rsquo;t visually make that clear to the player.</p></li><li><p>Idea 2: allow wizards to change their action. Could work, but would
+require extra wizards and extra rules <em>just to make this working</em>,
+which is bad.</p></li><li><p>Idea 3: They can&rsquo;t move themselves &mldr; but maybe <strong>others can move
+them</strong>. Winner!</p></li></ul><p>I invented the &ldquo;Attractor&rdquo; wizard. When activated, it attracts the first
+entity it sees towards itself. This allows moving everything around,
+even if they don&rsquo;t have the &ldquo;Move&rdquo; action themselves.</p><h3 id=one-action-at-a-time-is-too-slow>One action at a time is too slow</h3><p>Because you need to both <em>wind up</em> and <em>activate</em> entities, puzzles can
+be a bit slow. (It takes many turns to get somewhere and do something.)</p><p>To solve this, I added <strong>support wizards</strong>. (Again, these started out as
+a separate class of entities, but then I changed it so you can toggle
+&ldquo;support = true/false&rdquo; on <em>any</em> wizard.)</p><p>They don&rsquo;t execute their action on themselves, but on <strong>all neighbors.</strong>
+(Horizontally and vertically. Diagonally was too much.)</p><p><img src=screenshot9.webp alt="Support wizards explaination level in final game"></p><p>Another solution was <strong>auto wizards</strong>. At the end of a player&rsquo;s move,
+the game checks for any auto wizards which have energy ( = they&rsquo;ve been
+wound up at least once). Those automatically activate. <em>These are also
+great for the first few levels, to simplify the explanation</em>.</p><h3 id=static-knobs-are-boring>Static knobs are boring</h3><p>So far, wizards just start with one (or multiple) knobs in them, and it
+never changes.</p><p>This means my simulation will create <em>many</em> puzzles that are unsolvable
+( = not the right knobs) or just stupid ( = wizards have way more knobs
+than needed)</p><p>It also really constricts your options, making puzzles easier or more
+&ldquo;samey&rdquo;.</p><p>Then I realized: I can add and remove knobs at will! There&rsquo;s nothing
+stopping me!</p><p>The plan is to add knobs just <em>lying around</em> in a level. When you move
+over them, you pick them up. When you enter a wizard, and you have a
+knob, it&rsquo;s added to them (at the side you entered).</p><p>Not sure if I have time for this within the jam, but it is a cool idea.</p><h3 id=something-that-seems-more-intuitive>Something that seems more intuitive</h3><p>When you activate a move wizard (for example), it will move away from
+the player. The player is just left on the cell where the wizard used to
+be, lonely and stranded.</p><p>Although this can be <em>fine</em> &mldr; it felt more intuitive that the player
+<em>moved <strong>with</strong> the wizard they activated</em>. In a sense, the player is
+the one controlling or activating that entity, like they&rsquo;re sitting
+behind the steering wheel. It just feels logical to have them move
+along.</p><p>This did make matters more complicated in my code, especially the
+simulation (as I need to keep an eye out for <em>performance/speed</em>), but I
+just had to add it.</p><p>Also because it, again, speeds up the game: you can use other wizards to
+move around faster now.</p><p>(A puzzle with more than 10 &ldquo;moves&rdquo; quickly becomes overwhelming and not
+&ldquo;fun&rdquo; anymore. That&rsquo;s why I&rsquo;m so concerned with making the player quick
+to move around and take actions. Think about it: you open a puzzle, and
+it says &ldquo;22 moves to complete&rdquo;, do you feel great about that?)</p><h2 id=first-steps>First steps</h2><p>Within half a day, the puzzle <em>game</em> was up and running. The other half
+of that day was spent setting up the simulation, creating a basic
+framework onto which to build the actual game logic.</p><p>The next day, I fixed some issues with the puzzle game and wrote code to
+load a puzzle from a .json file.</p><p>Then I went to the simulation to actually <em>make it work</em> and export its
+results to a .json file.</p><p>I wasted an hour or two thinking something was wrong with my simulation,
+when in actuality something was wrong with my <em>game</em>. The simulation was
+100% correct, the game just didn&rsquo;t work as it should.</p><p>Here&rsquo;s the problem: moves should take time. You don&rsquo;t want to <em>snap</em> the
+player to the next cell instantly. It should be animated/tweened. So,
+you need to <em>wait until all previous animations are done</em> before
+starting the next one.</p><p>In earlier puzzle games, this was <em>hell</em> to program, and ended up using
+tons of code, checks, variables, callbacks, etcetera.</p><p>This time, I want to use <em>coroutines</em> and the <em>yield()</em> function (in
+Godot) to simply pause and resume functionality. But I&rsquo;m not that
+familiar with it yet, so I kept making mistakes, not knowing how
+yielding actually worked.</p><p>(I tried to do it all via signals, which was a mess. Then I learned that
+the yield function itself <em>has a &ldquo;completed&rdquo; signal</em> which fires
+whenever all is done, which was <em>exactly what I needed</em>. So a bit of
+rewriting later, it now neatly waits until everything is animated before
+continuing. And with rewriting, I mean &ldquo;putting yield() around almost
+everything&rdquo; and &ldquo;making every action/command create a tween of some
+sort, even if it&rsquo;s a meaningless one&rdquo;)</p><h2 id=first-steps-again>First steps, again</h2><p>I like to create tutorial images/text/placeholders <em>very early</em> in
+development of a project.</p><p>This shows me how simple the idea <em>actually</em> is to teach players. How
+many steps we need, how much text, whether simple icons are enough to
+convey certain concepts, etcetera.</p><p>Doing this showed me that the idea for this puzzle <em>wasn&rsquo;t as simple as
+I thought</em>. To get a &ldquo;working puzzle&rdquo;, I&rsquo;d need to teach these things to
+players on the first level:</p><ul><li><p>Input? Arrow keys to move, you move as far as you can.</p></li><li><p>Objective? Remove all bad wizards.</p></li><li><p>When brushing past a knob, you rotate it, winding up that entity.</p></li><li><p>When entering an entity, you unleash this energy, and it repeats its
+action as many times as it was wound up.</p></li><li><p>Good wizards remove bad wizards when they encounter them.</p></li></ul><p>That&rsquo;s quite a lot, eh? :p Way too much at once, which forced me to
+rethink it a bit and strip some mechanics for the first 10 levels or so.</p><p>The main problem was: I needed good <em>and</em> bad wizards for the game to
+work (as the good ones remove the bad ones), and you need some control
+over them &mldr; which automatically means at least 3 or 4 things to
+explain at the start.</p><p>So, what if we just <strong>remove</strong> those good wizards for now? This became
+the plan.</p><p>In the <strong>menu</strong> &mldr;</p><ul><li><p>Teach players how to move. (As they&rsquo;ll use that to navigate the menu
+as well.)</p></li><li><p>Introduce the concept of &ldquo;winding up things&rdquo;, as they need to wind
+up a block to load that level.</p></li></ul><p>In the <strong>first level</strong></p><ul><li><p><strong>Teach the objective</strong></p></li><li><p>Add only <strong>bad wizards and &ldquo;holes&rdquo;</strong>.</p></li><li><p><strong>Teach</strong> &ldquo;When a wizard falls into a hole, they are removed&rdquo;</p></li><li><p>Wizards auto-execute.</p></li></ul><p>From that point, slowly introduce the &ldquo;actual&rdquo; mechanics of the game.
+Remove the holes, replace them with the good wizards. Don&rsquo;t
+auto-activate entities, only when you enter them. Etcetera.</p><p>In total, I needed 9 tutorial images for all of this, which would be
+spread across 10-20 levels.</p><p>If this were a real project, I&rsquo;d go back to the drawing board and
+rethink the core mechanic. A puzzle game&rsquo;s core should be <em>simpler</em> than
+this, explainable in the first level, and the rest of the game should
+build on it. But because it&rsquo;s a game jam, I have no time to dawdle and
+must make decisions now. So I decided to continue with the current
+logic/rules and teach them in this spread-out way.</p><h2 id=finally-were-getting-somewhere>Finally, we&rsquo;re getting somewhere</h2><p>After many stupid mistakes in my code, we have a working simulation, and
+a working game to play the puzzles it generates.</p><p>(For example, I accidentally wrote code that only checked for knobs to
+turn <em>at the end of player movement</em>, not during. I don&rsquo;t know what was
+going on in my head when I wrote it. It wasn&rsquo;t even late at night or
+anything. Removing that one check (&ldquo;if stopped&rdquo;) was the end of 1.5 hour
+of scratching my head, trying to find the weirdest of bugs.)</p><h3 id=3d-it-is>3D it is</h3><p>When sketching the game idea, and some possible puzzles, I also become
+certain this had to be <strong>3D</strong>. Otherwise, it was just too hard to see
+knobs that were at the back, or holes behind entities, or when your gust
+of wind was behind/inside something.</p><p>Additionally, it would make many animations easier (such as the rotating
+knobs), as I wouldn&rsquo;t have to draw perfect perspective for many frames.</p><p>Aaaand because I&rsquo;ve already done <em>loads</em> of 2D games this year and
+wanted to brush up my 3D skills. (Which are still not great, so the
+models for this game will be kept really simple: magician hats for the
+good wizards, low-poly bunnies for the bad ones.)</p><p><strong>Remark:</strong> it did remind me that <em>rotations in 3D are stupid</em>. Even
+after all this time, I still think they will just work one way &mldr; and
+then they work a different way.</p><h2 id=nope-still-more-mistakes>Nope, still more mistakes</h2><p>In my undo system, I added the command to the list AFTER executing it.</p><p>But &mldr; commands can execute other commands, so doing this would lead to
+stuff being undone in the wrong order. A miracle how it never failed
+before until now :p</p><p>I also remember why I did it: in Rust, variables can only have one
+owner, and if I added the variable to the list <em>before</em> executing &mldr; it
+would crash, as now that list owned the command object and I couldn&rsquo;t
+execute it anymore afterward.</p><p>Obvious solution? Clone the command to get an independent copy, save
+that in the list.</p><p>But &mldr; because commands are <em>dynamic</em> (they can do anything and hold
+any data, they just need to implement do() and undo() properly), calling
+&ldquo;clone()&rdquo; on it just crashes the system.</p><p>After trying to understand how manual cloning works exactly in Rust (for
+the better part of an hour), I realized: this is too complicated for
+something so simple, surely I&rsquo;m just approaching the problem in the
+wrong way.</p><p>And sure, a few minutes later I realized: I don&rsquo;t need to clone the
+object at all.</p><p>All I care about is its <em>position</em> in the list of commands. This is what
+solved all issues:</p><ul><li><p>Before executing a command, insert a &ldquo;Fake Command&rdquo; into the list,
+and remember the index we put it.</p></li><li><p>Execute the command.</p></li><li><p>Now put the command at that index, replacing the fake one.</p></li></ul><p>Simple, three lines of code, and indeed a way better approach to the
+problem.</p><h3 id=simulated-start>Simulated start</h3><p>Then I simulated the first <strong>two worlds</strong>. (In which you&rsquo;re slowly
+taught winding up, removing bunnies, winding up in reverse, etcetera.)</p><p>This went &mldr; fine. I had to fix even more stupid mistakes and
+inconsistencies. But they were small ones, way easier to see and fix
+than the others.</p><p>Once we reached more complicated levels, I needed more ways to force the
+computer to make &ldquo;interesting&rdquo; puzzles. Here are some of the easier
+ones:</p><ul><li><p>Discard puzzles where less than 80% of the squares are <em>actually
+used in the solution</em></p></li><li><p>Discard puzzles that do not use <em>all</em> available entities</p></li><li><p>Discard puzzles with a &ldquo;shuffle&rdquo;: the player just goes back and
+forth a few times to wind up one specific entity, and that&rsquo;s a major
+part of the solution.</p></li></ul><h3 id=a-rule-modification>A rule modification</h3><p>Then I reached the <strong>third world</strong>, where wizards finally entered. After
+a few good puzzles &mldr; I generated one that was <em>technically correct,
+but felt wrong</em>. In it, a player is dragged by a bunny, moving itself
+into a wizard (and thus, well, committing suicide).</p><p>The player ends on the same square as the wizard. But because it was
+dragged, it does not activate the wizard and the turn ends.</p><p>It <em>feels</em> inconsistent. It <em>feels</em>, as a player, that you should then
+activate the wizard on which you end!</p><p>After thinking about it for a bit, I decided that this should indeed be
+the case. This meant rewriting some core parts of the simulation.</p><ul><li><p>Instead of checking for activation <em>when the player is done with
+their move</em></p></li><li><p>I should check for activation <em>any time the player moves</em></p></li></ul><p>By now, the code has become quite complex, so I just hope this holds and
+I won&rsquo;t encounter lots of strange bugs after this :p</p><p>(For example, a simple move to the right, can now lead to: activating
+something, which drags the player to somewhere else, which removes a
+bunny, which activates something on the place you landed, etc. I&rsquo;ve done
+my best to code this system in a clean and robust way from the start &mldr;
+but I hadn&rsquo;t foreseen this.)</p><p>This will allow <em>chaining</em> lots of actions together on certain puzzles,
+which fits the game itself and the theme for the jam.</p><h3 id=a-remark-about-coding>A remark about coding</h3><p>Okay, if I&rsquo;m going to complain about code complexity, I might as well
+state the <em>positive</em> lessons I&rsquo;ve learned from this project.</p><p>More and more I learn about the power of thinking in terms of
+<strong>&ldquo;commands and queries&rdquo;</strong>.</p><p>On older projects, I&rsquo;d write everything in terms of <em>classes</em>. A &ldquo;Point&rdquo;
+class would then have methods like &ldquo;has_edge_to&rdquo; or &ldquo;is_unconnected&rdquo;
+or things like that.</p><p>Coding complex puzzle simulations, in the programming language Rust, has
+reinforced that this is a <em>bad idea</em> and <em>totally unnecessary</em>.</p><p>Instead, I should write:</p><ul><li><p>Small, modular <strong>commands</strong> that can be done (and undone)</p></li><li><p>And use <strong>queries</strong> to get specific information about the game
+state.</p></li></ul><p>For example, a &ldquo;Move&rdquo; is simply a command that&rsquo;s executed. Which
+executes a list of smaller commands: &ldquo;PositionChange&rdquo;,
+&ldquo;EncounterEntity&rdquo;, &ldquo;TurnKnobs&rdquo;, etc.</p><p>Each of these are no more than 5-10 lines of code, both doing and
+undoing them. By doing <em>everything</em> this way, all logic breaks into
+digestible pieces, and we get undoing + easy chaining for free.</p><p>Lesson #1: instead of adding functionality on <em>objects</em>, add
+functionality through <em>commands that do one specific thing</em>.</p><p>But how do these commands know what to do? Well, instead of handing the
+command <em>the specific entity to move</em>, I hand them a <em>unique ID</em>
+(referring to that entity). When it comes time to execute it, it finds
+the entity that belongs to it. In general, no data is stored in the
+commands themselves &ndash; only what&rsquo;s necessary to read and modify the game
+state.</p><p>That&rsquo;s what I call a &ldquo;query&rdquo;. Instead of saving information and methods
+in e.g. a Point or Cell class, I create a single &ldquo;GridHelper&rdquo; object,
+which has loads of methods for <em>reading information from the grid</em>. (For
+example: &ldquo;get_cell_at&rdquo;, &ldquo;can_move_to&rdquo;, &ldquo;is_out_of_bounds&rdquo;)</p><p>Lesson #2: by doing everything through <em>queries into the game state</em>,
+your code becomes way cleaner, more efficient, and easier to reason
+about.</p><p>That&rsquo;s it for &ldquo;Pandaqi Programming Parables&rdquo;, let&rsquo;s continue with the
+devlog.</p><h2 id=the-messy-middle>The messy middle</h2><p>Every project has this. You have a basic foundation &mldr; but still a long
+way to go until you have a finished, playable game. It&rsquo;s always hard to
+get through that, spend time on the right things, keep working at a
+solid pace.</p><p>To solve this, I usually just write down <em>every tiny, concrete thing</em> I
+need to do, in some order. When I wake up the next day, I just do what
+the list tells me, and cross off the items one by one.</p><p>This means that, in this stage, all sorts of things are
+added/removed/changed without a clear order to them:</p><ul><li><p>Some more 3D models were added</p></li><li><p>Some more animations/tweens were added</p></li><li><p>A bit of UI was added</p></li><li><p>The new logic rule was implemented, and some new levels generated</p></li><li><p>A basic version of the menu + level selection was made</p></li><li><p>A start was made with the iconography and helpers (for players
+playing the puzzle)</p></li></ul><p>Now imagine doing a list like that <em>a few days in a row</em> and just hoping
+things will get finished and playable eventually :p The life of an indie
+game developer.</p><h3 id=redoing-the-first-two-worlds>Redoing the first two worlds</h3><p>The first two worlds, by this point, just weren&rsquo;t great anymore:</p><ul><li><p>I&rsquo;d found several issues in the simulation that prevented it from
+finding better puzzles</p></li><li><p>Those same issues might have made older puzzles possible, which they
+shouldn&rsquo;t have been, which means I&rsquo;d have to recheck all those
+levels anyway.</p></li><li><p>I&rsquo;d added more and more rules to &ldquo;nudge&rdquo; the simulation towards good
+and fun puzzles.</p></li><li><p>By adding 3D models, I was finally able to get a good look at levels
+and how it feels to play them. This made me realize that:</p><ul><li><p>Lots of knobs on an object <em>without purpose</em> is just visual
+noise</p></li><li><p>Starting bunnies with holes underneath them is a bit silly.</p></li></ul></li></ul><p>So I regenerated those puzzles and put them in the order I thought was
+best. Then I could finally do the <em>third</em> world, which is where those
+wizards actually appear. (Instead of pushing bunnies into holes, they
+are removed by encountering wizards from now on (until the end of the
+game).)</p><p>At the start, I had made a long list of ideas for the wizards. But
+seeing that it took 3 &ldquo;worlds&rdquo; to even get to the basic &ldquo;move wizard&rdquo;
+&mldr; I might have to settle for just a few simple types.</p><p>(Also, in hindsight it might have been <em>even easier</em> to start the game
+with &ldquo;suicide bunnies&rdquo;: when you wind them up, they self-destruct. Then
+I wouldn&rsquo;t have to explain the holes at the start. But I don&rsquo;t saw a
+good way to make this thematic, and &ldquo;suicide bunnies&rdquo; wasn&rsquo;t very nice
+either, so I left it.)</p><p><img src=screenshot7.webp alt="An overview of a world, with previews and UI"></p><h3 id=nope-more-troubles>Nope, more troubles</h3><p>I&rsquo;ve never made a puzzle game of this complexity before (behind the
+scenes), in such a short time frame, in 3D &mldr; and it shows.</p><p>Half my day was spent tracking down numerous bugs, both with the
+simulation (for generating puzzles) and the game itself.</p><p>For example, in games like these there&rsquo;s a (very important) order to
+operations. Player moves, which leads to A, which leads to B, which
+activates C, etcetera. This order <em>must</em> be preserved.</p><p>But &mldr; actions take time. I can&rsquo;t just instantly teleport the player to
+their final destination, as it looks bad and is wildly confusing.</p><p>Even worse, some actions must be done <em>simultaneously</em>. For example,
+when you activate a wizard, it will both &ldquo;do its action&rdquo; and &ldquo;undo the
+rotation of its knobs&rdquo; (as it&rsquo;s literally winding down). If you do these
+in sequence, the whole concept falls apart.</p><p>Hopefully you can see where this is going: I must wait for some things
+to end, while other things must <em>not</em> wait on other things &mldr; and it
+quickly becomes a mess. I have it working now, but with a few pauses
+here and there (leading to a minor stuttering on some moves) for safety.</p><p>And then the simulation. Because it&rsquo;s all just number crunching, it&rsquo;s
+hard to get a visual on what&rsquo;s happening and to diagnose problems. Over
+these few days, I&rsquo;ve already written almost thousand lines of code just
+to <em>debug</em> the thing. (Print the board, print specific information about
+the board, print the numbers on the entities at a given move, etcetera.)</p><p>After <em>hours</em> of debugging, I finally discovered there was a <em>major</em>
+issue with entities <em>dying</em>.</p><p>You see, originally, entities could only die by moving. They&rsquo;d move from
+A to B, a wizard or hole was at B, which killed them. So, how did I
+implement that?</p><ul><li><p>When you move from A to B</p></li><li><p>You are removed from cell A</p></li><li><p>And if you die, the function stops here.</p></li><li><p>If not, you are added to cell B.</p></li></ul><p>This worked fine for the earlier levels, but when complexity increased,
+this proved a stupid implementation. Why? Because now</p><ul><li><p>Things can die without moving. (If a bunny sits still, and a wizard
+moves <em>to them</em>, they will die. But they haven&rsquo;t moved &ndash; problems!)</p></li><li><p>It makes the command <em>conditional</em>, which you don&rsquo;t want. (It does
+different things based on circumstance, instead of doing one
+specific thing all the time.)</p></li><li><p>I rely on &ldquo;overwriting&rdquo; the old entity when something new enters a
+cell. Which, again, works for the simple version of the rules. But
+when you think about it, how could this ever work!? By overwriting
+something, we make it impossible to <em>undo</em> that operation! What was
+I thinking?!?!</p></li></ul><p>Eventually, I rewrote the code to do the following:</p><ul><li><p>Added a &ldquo;GridTransfer&rdquo; command. Whenever something changes cells in
+the grid, this is called and handles it properly. If the entity it
+acts on is dead, it does the original behavior: remove from cell A,
+but never add to cell B.</p></li><li><p>Added a &ldquo;remove_from_grid&rdquo; option to the Kill command. Whenever an
+entity is killed <em>outside of movement</em>, this option is true. It does
+nothing more than find the cell the entity is standing, then remove
+it from that cell. I decided to make this a toggle I need to set
+manually, so that I must be <em>explicit</em> about this action and reduce
+the chance of mistakes.</p></li></ul><p>On top of this, there were many minor issues with the way I was tracking
+statistics or the order of certain operations. But after &ldquo;wasting&rdquo; half
+that day, everything works smoothly again. The game can do and undo
+everything with nice, properly timed animations. The simulation can
+quickly find <em>correct</em> puzzles for any configuration.</p><p>Let&rsquo;s hope I don&rsquo;t break it again when new stuff is added :p (Then
+again, this is to be expected when working under the very tight deadline
+of a game jam.)</p><p>What have we learned?</p><ul><li><p>The &ldquo;do everything through Commands&rdquo; system is great &mldr; but only if
+you ensure each command is non-conditional and does exactly one,
+clear, properly coded thing.</p></li><li><p>When working with number-crunching simulations, create loads of
+(visual) debugging tools for yourself, so you can find mistakes
+likes these more quickly.</p></li><li><p>Removing something from a game world <em>always</em> leads to stupid bugs
+&mldr; it&rsquo;s a pattern I&rsquo;ve seen in every project. Adding data is easy,
+removing it is hard. Especially when doing 10000 moves on a board,
+and undoing them as well, one minor slip-up can throw everything
+askew.</p></li></ul><h2 id=the-information-problem>The information problem</h2><p>When I sketched the first ideas for this game, they were 2D. I saw that,
+if I made the wizards flat enough, I had more than enough space on their
+head to display both their <strong>type</strong> (move? rotate? attract?) and their
+<strong>number</strong> (how many times they were wound up.</p><p>With that assumption in the back of my head, I just continued working.</p><p>But at this point in the development, with a 3D scene, I had to concede
+that this just wouldn&rsquo;t work. There&rsquo;s not enough space on top of
+entities to <em>clearly and unambiguously</em> communicate both properties.</p><p>So I listed some ideas:</p><ul><li><p>Give each wizard type their own <em>model</em> that also shows what they
+do. Problem? Lack of time. I can only manage this if all wizards
+look kinda similar, but then we don&rsquo;t communicate what they do!</p></li><li><p>Show an icon and number above their head. Problem? This occludes
+things in the puzzle (which are behind the icon). And two icons <em>per
+entity</em> is just too much.</p></li><li><p>Okay, only show an icon above their head, show their <em>number</em> on the
+body itself. Problem? We&rsquo;re not in perfect top view, nor perfect
+side view, so wherever I put the number (top or side), it won&rsquo;t be
+easy to read. (Additionally, Godot doesn&rsquo;t have native support for
+text in 3D, so it would need a messy workaround anyway.)</p></li><li><p>Do the reverse, then. Number above their head (flat 2D), type shown
+on their body with a 3D model. (&ldquo;Move&rdquo; = an extruded arrow, for
+example.) Problem? No clear problem, but also not great.</p></li></ul><p>All of them weren&rsquo;t great.</p><p>Then I thought: <strong>what if we remove the need to show the number at
+all?</strong></p><ul><li><p>If something can&rsquo;t be activated (number = 0), it&rsquo;s a bit greyed-out,
+or lacks a certain effect (glow, particles, whatever).</p></li><li><p>If something is activated in reverse, its model and icon simply
+flip.</p></li><li><p>If something has a value > 1, we just <em>stack the model on top if
+itself</em>. (So a bunny with a number 3 &mldr; is just 3 bunnies on top of
+each other.)</p></li></ul><p><img src=screenshot8.webp alt="Image of stacking and graying applied in final game"></p><p>This is great for a number of reasons:</p><ul><li><p>Removes the need for ugly/occluding icons or UI overlaying the 3D
+world</p></li><li><p>Actually reversing the model is much more friendly to players than
+showing the &ldquo;-1&rdquo; number</p></li><li><p>Seeing 2 hats stacked is much more intuitive than reading a number</p></li><li><p>Stacking wizard hats on top of each other seems fitting and fun.</p></li></ul><p>I&rsquo;ll probably have to stack bunnies differently than hats, otherwise it
+looks weird. But I think this is the best way to go:</p><ul><li><p>3D model to show what a wizard <em>does</em></p></li><li><p>Stacking stuff to show how much they are powered up</p></li></ul><p>This is going to take <em>quite</em> some work to implement, but it&rsquo;s
+essential, so let&rsquo;s do that first before continuing.</p><h2 id=where-are-we-now>Where are we now?</h2><p>The basics are working and feeling like a game you&rsquo;d actually play, puzzles that are clear and worth your effort.</p><p>Not completely polished, not that many levels or mechanics, but that&rsquo;s
+fine. I always try to work towards a &ldquo;minimum viable product&rdquo; (or
+&ldquo;minimal publishable build&rdquo;, as I like to call it) first. I could submit
+the game to the jam now and it would be fine, that&rsquo;s the idea.</p><p>But of course, we have some time for sound, particles, more content, so
+let&rsquo;s go there.</p><h3 id=the-magnet-world>The magnet world</h3><p>First up: the Attractor wizard.</p><p>At first, I wanted to code it like this:</p><ul><li><p>It attracts the first thing it sees</p></li><li><p>But when inverted (number &lt; 0), it repels the first thing it sees.</p></li></ul><p>But then I realized that this would be inconsistent with how all
+entities moved until now. Inverting them turns them around, making them
+look in the other direction.</p><p>So it was a better idea to keep that consistency:</p><ul><li><p>It attracts the first thing it sees</p></li><li><p>When inverted, it just looks the other way, attracting the first
+thing it sees there.</p></li></ul><p>This meant that &ldquo;repelling&rdquo; wasn&rsquo;t used, so I made that a different
+wizard. This world therefore introduces two wizards, but they are so
+similar that I thought it was okay.</p><p>I also, initially, thought the idea didn&rsquo;t work as well as I hoped. No
+matter how long I kept the simulation running, it just wouldn&rsquo;t find
+(good) puzzles.</p><p>Then I found out I&rsquo;d forgotten to put the attraction code inside a loop
+:p It only checked what was <em>right next to it</em>, instead of continuing
+until it saw something (or went out of bounds).</p><p>With that fixed, good puzzles came back within 5-10 seconds, and all was
+well.</p><p><img src=screenshot3.webp alt="Example of magnet world"></p><h3 id=the-knob-world>The knob world</h3><p>There were two things holding back puzzles now:</p><ul><li><p>Entities can&rsquo;t be rotated. That makes the solution more obvious
+<em>and</em> makes many puzzles fail (&ldquo;no solution possible&rdquo;) in the
+simulation.</p></li><li><p>Knobs are randomly added and don&rsquo;t change, which has the same
+consequence.</p></li></ul><p>I had to choose which one to address first. The &ldquo;Rotate&rdquo; entity only
+makes sense as a <em>support</em> wizard ( = rotating others around it, instead
+of itself). I wanted to hold out on those as long as possible, as they
+are slightly more complex to explain and puzzle with.</p><p>So knobs it is!</p><p>The idea is simple:</p><ul><li><p>Some cells randomly receive a knob, hovering above it.</p></li><li><p>Passing through that cell picks up the knob. (There&rsquo;s a general
+&ldquo;knob inventory&rdquo;, probably in the top-left corner of the screen.)</p></li><li><p>Whenever you activate an entity, and you have a knob, it will be
+added <em>at the side you entered</em>.</p></li></ul><p>As such, <em>you</em> are responsible for adding the knobs to entities at the
+right positions. This leads to more open puzzles + less failed
+simulations due to the random setup.</p><p><img src=screenshot5.webp alt="Example of loose knobs world"></p><h3 id=more-animations>More animations</h3><p>By this point, some actions (which happen <em>a lot</em> in this game) were
+looking a bit odd. Removing a bunny, for example, would just shove the
+hat into the bunny, then slowly scale down the bunny.</p><p>That&rsquo;s not great.</p><p>So I spent (way too much) time creating custom animations to:</p><ul><li><p>Lift the hat in advance</p></li><li><p>So the bunny moves under it</p></li><li><p>Then lower the hat to make the bunny disappear.</p></li></ul><p>In the same vein, when a stack is changed (multiple hats on top of each
+other), a new one pops up and does some &ldquo;squash-and-stretch&rdquo; animation
+before landing on top.</p><p>It&rsquo;s not <em>amazing</em> yet, but already a huge improvement in the look and
+feel of the game.</p><h3 id=the-smaller-ideas>The smaller ideas</h3><p>By now, I wasn&rsquo;t sure if I&rsquo;d have time to even add those support wizards
+(properly). So I wanted to add some smaller ones first, which should
+still be interesting:</p><ul><li><p><strong>Jump:</strong> instead of moving one block at a time (and possibly being
+stopped by something), it immediately jumps to its location</p></li><li><p><strong>Passthrough:</strong> when 0, you can go <strong>through</strong> it without stopping.
+When it&rsquo;s loaded, it does stop you.</p></li><li><p><strong>Destruct:</strong> when 0, nothing&rsquo;s wrong. When loaded positively, it
+kills itself. When loaded negatively, it kills you.</p></li></ul><p>All of these reduce this big issue: because entities stop <em>whenever they
+enter a cell with someone else</em>, movement is quite constricted in most
+puzzles. Jumping, passing through, removing entities, all of them add
+movement opportunities.</p><p>Another issue is also mitigated: it&rsquo;s too safe for the player now,
+meaning that the solution is often a few simple clear lines through all
+entities. By adding ways for the player to die (when entering an
+entity), this gets more fuzzy.</p><p><strong>Remark:</strong> the jumping entity did produce some nasty troubles for the
+code. It doesn&rsquo;t repeat its action X times, it jumps X squares in one
+go. The code wasn&rsquo;t set up for that and it took some time to cleanly
+implement this as a variation (an &ldquo;immediate execute&rdquo;).</p><p>In the end, the &ldquo;passthrough&rdquo; one really didn&rsquo;t pan out. I wasn&rsquo;t able
+to find actually good puzzles with them. &ldquo;Jumping&rdquo;, on the other hand,
+is more powerful than I thought and therefore received its own little
+world (before the others).</p><p><strong>Remark:</strong> implementing these levels also allowed me some insight into
+specific bugs I was having for days, finally able to solve them! Which
+is nice. That&rsquo;s why it&rsquo;s sometimes better to leave bugs open and wait
+for &ldquo;more information&rdquo; on them as you continue working on the project.</p><p>I tried to improve the &ldquo;passthrough&rdquo; (which was renamed to &ldquo;Ghost&rdquo;):</p><ul><li><p>The ghost wizard stops you when its number is 0, as usual.</p></li><li><p>When negatively wound, you can&rsquo;t even enter its square</p></li><li><p>When positively wound, you can move through without stopping.</p></li></ul><p>But it just didn&rsquo;t work out. At least, not in time for the jam deadline,
+so I wanted to continue with something else.</p><h3 id=support-wizards>Support wizards</h3><p>The past two days reminded me that it&rsquo;s just impossible to <em>predict</em> if
+a certain idea will be fun (and will lead to good puzzles). As such, I&rsquo;m
+going to try to just implement <strong>support wizards</strong> (the 3 or 4 ideas I
+had) at lightning speed and find out if something good comes from it.</p><p>These ideas are:</p><ul><li><p>Rotator => rotates wizards around itself</p></li><li><p>Converter => converts wizards around itself (from good to bad, or
+vice versa)</p></li><li><p>Battery => winds up everything around itself</p><ul><li>When non-support, this also allows using the player to transport
+&ldquo;energy&rdquo;. Entering the battery wizard then transfers its energy
+to <em>you</em>.</li></ul></li></ul><p>I had some more wild ideas (such as different types of <em>knobs</em> or a
+wizard that literally <em>gives you extra turns</em> (or takes them)), but
+those were just too much and I decided to leave them.</p><p>Do they work as well as I thought? <strong>Yes.</strong></p><p>Adding the rotating wizard invigorates the game and suddenly makes all
+puzzles feel different (both in look and solution). It&rsquo;s actually quite
+amazing we managed to come all this way <em>without</em> being able to rotate
+anything.</p><p>The converter is fun, albeit a bit hard to reason about as the player,
+so if it appears, it will be as one of the final worlds.</p><p>The battery &mldr; I&rsquo;m not sure. Adding <em>another</em> number onto the
+UI/player, another thing to calculate, it seems a bit too much. But it
+does fit the theme really well and leads to the most complex puzzles of
+all &mldr;</p><h2 id=a-playtest>A playtest</h2><p>I asked my little sister to test the game. (Or, well, at least the first
+few worlds, which were completely done at the time.)</p><p>The result?</p><ul><li><p><em>Many</em> tiny fixes. (Levels in the wrong order, one level I put in
+the wrong world, etc.)</p></li><li><p>99% of the game was immediately clear, but there were <em>some</em>
+hiccups.</p><ul><li><p>For example, activation is taught in two images: Activate (I)
+and Activate (II). My sister, however, thought that &ldquo;I&rdquo; meant
+she had to press the <em>key &ldquo;I&rdquo;</em> to activate stuff. Confusing
+moments like that should be avoided at all costs.</p></li><li><p>Or, the name of the world and level you&rsquo;re currently in are
+<em>never displayed on the level itself</em>. This made it very hard to
+know where you were, and when you transitioned into a new world.</p></li></ul></li><li><p><em>Some new ideas!</em></p></li></ul><p>My sister tried to stack one bunny onto another (to make two of them).
+After trying it, she realized it wasn&rsquo;t possible and that she should do
+it via <em>rotating the knobs</em>, which is <em>good</em>.</p><p>But it did make me wonder: would this be a good mechanic? It feels like
+an intuitive thing to try, and it fits really well with the game and the
+stacking bunny visuals.</p><p>So I decided &ldquo;what the heck, let&rsquo;s add it as an option, and see what we
+get&rdquo;</p><h2 id=never-mind-its-crisis-time>Never mind, it&rsquo;s crisis time!</h2><p>Okay, stacking things was relatively easy to implement (thanks to my
+Command system).</p><p>However, it revealed an issue to me:</p><ul><li><p>In the <em>simulation</em>, it would do a complete cell evaluation after
+each move.</p></li><li><p>In the <em>game code</em>, after each move, it only evaluated if the cell
+<em>did anything with the entity that just moved</em>.</p></li></ul><p>In many cases, these are the same. But not all cases, which I learnt
+today. It&rsquo;s less than 2 days until the deadline &mldr; and I&rsquo;m afraid I
+have to break open this crucial part of the code.</p><p>Here&rsquo;s what needs to change:</p><ul><li><p>Rewrite the &ldquo;on_cell_enter&rdquo; function to evaluate the <em>whole cell</em>,
+no matter what entered it.</p></li><li><p>Don&rsquo;t run this function when the player is <em>dragged</em>. (This happens
+simultaneously with the entity that drags it, so it&rsquo;s enough if that
+entity does the evaluation.)</p></li><li><p>Create a way to make some commands &ldquo;instant&rdquo; (without animation or
+delay), so we can insta-swap models when two things stack on top of
+each other, making it look smooth.</p><ul><li>As we know, games are all <em>smoke and mirrors</em> :p When a bunny
+jumps on top of another &mldr; the original one is killed, and the
+other one just <em>instantly</em> adds a new one on top. Way, way, way
+simpler to code and maintain, the only issue is making visuals
+that hide this transition.</li></ul></li></ul><p>I sincerely hope this doesn&rsquo;t break any of the 50+ puzzles I made before
+this, as I don&rsquo;t have time to test them all again. (A quick test shows
+no issues, but puzzle games can fail with only <em>one</em> tiny logic mistake
+from my part &mldr;)</p><p>Pfew, after a few hours of crisis coding, it seems that everything works
+now. In fact, stacking is quite smooth, which I&rsquo;m happy with.</p><p>This <em>does</em> mean I don&rsquo;t really have time left for the last few worlds I
+had in mind. I just have to finish it up (logo, marketing page, icon,
+last polish) and submit.</p><h2 id=finishing-the-thing>Finishing the thing</h2><p>The soundtrack was completed and added. Some basic marketing images were
+made.</p><p>(Also because I was quite burned out after working so much in such
+little time, there just wasn&rsquo;t inspiration and energy left for some
+grand logo or icon.)</p><p>I wrote down exactly what I&rsquo;d fix and add when the game jam was over &mldr;
+submitted it and went to bed for, like, three days :p (Nah, it&rsquo;s not
+<em>that</em> bad as I know how to pace myself and stay healthy, but I did
+allow myself one &ldquo;rest day&rdquo; after joining two game jams in a single
+month with quite big games.)</p><h3 id=what-do-i-think-of-this-game>What do I think of this game?</h3><p>As always, I&rsquo;m a perfectionist. I never find anything I make good. But
+that&rsquo;s why I&rsquo;ve learnt to look at how <em>others</em> see it for my judgment.</p><p>The few people I asked to test the game, were very positive about it.
+They immediately understood the puzzle mechanics, they thought the game
+looked cute and simple, and usually played way longer than I asked them
+to.</p><p>Looking at the game with some distance &ndash; only the screenshots, the GIFs
+I posted on Twitter during development, an overview of the worlds &ndash; I
+can see that it&rsquo;s quite the game. Many puzzles, well-paced, well
+laid-out, a coherent aesthetic and idea.</p><p>Looking at those findings, I think this is a good game and can be
+enjoyed by anyone, even long after the jam. It also taught me many
+lessons:</p><ul><li><p>How to code (better) puzzle simulations in Rust (the new programming
+language I wanted to learn). This simulation is <em>way faster,
+cleaner, more flexible than anything I wrote before (in Java).</em></p></li><li><p>How to do 3D models, rotations, animations, levels, etcetera. Well,
+I mostly learnt what <em>not</em> to do. (I want to slowly move towards
+more 3D games, and this was a good first step.)</p></li><li><p>A better sense of how to pace puzzle elements, which ones to
+introduce when, and mostly to just <em>try it all out</em> and keep what
+sticks. (A previous puzzle game had <em>500</em> puzzles in the end. They
+were all good, but it was just way too much, and I should&rsquo;ve stopped
+at 50-100 max.)</p></li><li><p>That posting your progress every two days on Twitter is a tiny thing
+with huge results. Many people started following the progress and
+subsequently tried my game when voting began.</p></li></ul><h3 id=why-am-i-not-superhappy>Why am I not superhappy?</h3><p><strong>Reason 1:</strong> The visuals are just a bit &mldr; bland. That&rsquo;s partly due to
+the time limit, partly due to my lack of experience with 3D. After a
+while, all levels start to look identical, and it becomes boring to look
+at the same models time and time again.</p><p>This can be solved with more time, more experience, and just adding
+visual variations: environment around the puzzles, different (colored)
+backgrounds, etcetera.</p><p><strong>Reason 2:</strong> Some puzzles and mechanics just became &ldquo;number crunching&rdquo;
+in the end. Those puzzles don&rsquo;t rely on a &ldquo;Eureka&rdquo; moment ( = a moment
+of clever insight that allows you to find the solution, which is what
+you want in a puzzle) &mldr; they are solved by simply calculating and
+predicting all the possibilities and finding the right one.</p><p>This can be solved by picking better mechanics and writing more (smart)
+rules to force the random generation in a good direction. I was able to
+implement <em>some</em> (10) rules to guide the simulation, but even my
+previous puzzle game had more like 20-30 small rules to get smarter
+puzzles.</p><p><strong>Reason 3:</strong> It feels like, over the course of the game, we move away
+from that concept of &ldquo;rotating knobs to wind up entities&rdquo;</p><p>Instead, the game just moves towards: here are X special entities, find
+a way to activate them in the right order.</p><p>I should&rsquo;ve only added mechanics that do something extremely unique and
+special with the <em>winding up</em> idea and the <em>knobs.</em> That would&rsquo;ve kept
+it more unique and more &mldr; coherent, I guess.</p><p>But hey, learned a lot from that, and will apply it to the next
+(puzzle/3D) game I make.</p><p>Until the next devlog,
+Pandaqi</p></div></article><div><nav class=pagination><ul><li><a href=/blog/videogames/game-jams/devlog-ho-ho-sombrero/ class="masked-link big-mask mask-4" style=--rotation:-1deg>&lt;&lt; Previous Page</a></li><li>Continue reading</li><li><a href=/blog/videogames/game-jams/less-is-store/ class="masked-link big-mask mask-2" style=--rotation:1.5deg>>> Next Page</a></li></ul></nav></div></main><footer id=site-footer><div class="padding center-block"><h3>More Pandaqi</h3><p>You could <a href=https://pandaqi.com>visit the game studio</a>.
+Or my <a href=https://pandaqi.com/tutorials/>free tutorial website</a>.
+Or my <a href=https://rodepanda.com/>portfolio</a> with easy access to absolutely everything I ever made.</p><h3>Latest</h3><nav class=latest><ul><li><a href=/blog/boardgames/photomone/>Photomone
+(🐜)</a></li><li><a href=/blog/boardgames/keebble-domino/>Keebble: Domino
+(📗)</a></li><li><a href=/blog/boardgames/keebble-knickknack/>Keebble: Knickknack
+(📘)</a></li><li><a href=/blog/videogames/game-jams/less-is-store/>Less is Store
+(🛍️)</a></li><li><a href=/blog/tutorials/placing-grids-within-spaces/>Placing grids within spaces</a></li><li><a href=/blog/boardgames/thats-amorphe-pictures/>That's Amorphe: Pictures
+(🖌️)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-2023-update-ii/>Pandaqi Games: 2023 Update (II)
+(🎮)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-2023-update-iii/>Pandaqi Games: 2023 Update (III)
+(🎮)</a></li><li><a href=/blog/news-and-updates/pq-daw/>PQ_DAW: A music editor for the web
+(🎼)</a></li><li><a href=/blog/news-and-updates/pq-words/>PQ_WORDS: A dictionary for games
+(📋)</a></li></ul></nav><h3>Sections</h3><nav><ul><li><a href=/blog/boardgames/>Boardgames
+(🎲)</a></li><li><a href=/blog/news-and-updates/>News & Updates
+(📢)</a></li><li><a href=/blog/reviews-and-thoughts/>Reviews & Thoughts
+(💭)</a></li><li><a href=/blog/tutorials/>Tutorials
+(👩‍🎓)</a></li><li><a href=/blog/videogames/>Videogames
+(🎮)</a></li></ul></nav><h3>Credits</h3><p>Theme by me (<a href=https://pandaqi.com>Pandaqi</a> 🐼) &#183;
+with ❤️ &#183;
+using <a href=https://gohugo.io>Hugo</a> &#183;
+&copy; 2018&ndash;2023 Pandaqi Blog</p></div></footer><link rel=stylesheet type=text/css href=/blog/css/style.css><script src=/blog/js/bundle.min.js></script></body></html>

@@ -1,0 +1,22 @@
+{{- $id := or (.Get "id") "setting-playerCount" -}}
+{{- $remark := .Get "remark" -}}
+{{- $max := or (.Get "max") 10 -}}
+{{- $min := or (.Get "min") 1 -}}
+{{- $def := or (.Get "def") 4 -}}
+{{- $total_num := add 1 (sub (int $max) (int $min)) -}}
+
+<label for="{{- $id -}}">How many players? </label>
+<select name="{{- $id -}}" id="{{- $id -}}">
+	{{- range $i, $sequence := (seq $total_num) -}}
+		{{- $val := add $i (int $min) -}}
+		{{- $selected := "" -}}
+		{{- if eq $val (int $def) -}}
+			{{- $selected = "selected" -}}
+		{{- end -}}
+		<option value="{{- $val -}}" {{- $selected -}}>{{- $val -}}</option>
+	{{- end -}}
+</select>
+
+{{- with $remark -}}
+<span class="setting-remark">{{- . | safeHTML -}}</span>
+{{- end -}}

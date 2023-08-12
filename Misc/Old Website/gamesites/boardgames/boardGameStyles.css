@@ -1,0 +1,38 @@
+
+.remark {
+	color: #143109;
+	font-weight: bold;
+}
+
+.floatingImage {
+	float: right;
+	max-width: 300px;
+	margin-top: 20px;
+	shape-outside: circle();
+}
+
+.boardImage {
+	max-width: 100%;
+	filter: none;
+	transition: filter 1s;
+}
+
+.boardImage:hover {
+	filter: drop-shadow(0 0 10px black);
+}
+
+
+
+
+@media all and (max-width: 600px) {
+	h1 {
+		font-size: 52px;
+	}
+
+	.floatingImage {
+		max-width: 100%;
+		float: none;
+		display: block;
+		margin: auto;
+	}
+}

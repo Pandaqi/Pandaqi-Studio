@@ -1,0 +1,66 @@
+header {
+  font-family: "Dosis";
+  position: relative;
+}
+header nav {
+  margin-top: -16px;
+  /* necessary for some reason, probably because entry banners take margin of 15px at top  */
+  padding: max(3vw, 30px);
+  padding-top: 30px;
+}
+header nav ul {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 10px;
+  margin: 0px;
+  padding: 0px;
+}
+header nav ul button {
+  font-family: "Dosis" !important;
+}
+header nav ul .icon {
+  display: none;
+}
+header nav ul .slogan {
+  font-size: 11px;
+  font-style: italic;
+  opacity: 0.75;
+  white-space: break-spaces !important;
+}
+header nav ul .outspacer {
+  width: 100%;
+  display: inline-block;
+  text-align: center;
+  font-size: 32px;
+}
+header nav ul li {
+  list-style-type: none;
+  display: inline;
+  white-space: nowrap;
+}
+@media all and (max-width: 660px) {
+  header nav {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  header nav ul .outspacer {
+    font-size: 20px;
+    white-space: break-spaces;
+  }
+  header nav ul .slogan {
+    display: none;
+  }
+  header nav ul .text {
+    display: none;
+  }
+  header nav ul .icon {
+    display: inline-block;
+  }
+  header nav ul a.masked-link, header nav ul button.masked-link {
+    all: unset !important;
+  }
+}
+
+/*# sourceMappingURL=header.css.map */

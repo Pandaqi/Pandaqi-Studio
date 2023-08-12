@@ -1,0 +1,78 @@
+---
+type: "tools"
+title: "Dictionary"
+---
+
+<h1>Dictionary</h1>
+<div id="lookup-result" style="display:none;"></div>
+<input type="text" id="input-word" placeholder="... word here ..." maxlength="24" />
+<button id="check-btn">Check!</button>     
+<div id="footer">
+    <span>Nouns? Use <strong>singular</strong> form.</span>
+    <span>Verbs? Use <strong>infinitive</strong> form: "walk", "run", ...</span>
+    <span>This dictionary does not contain "all words". Only reasonable words most people would be expected to know or use.</span>
+    <span>Missing a word? <a href="https://pandaqi.com/info/contact">Let me know</a></span>
+</div>
+
+<!-- Lazy loading of JS -->
+<script src="/js/lib-pqWords.min.js"></script>
+<script>
+    const inp = document.getElementById('input-word');
+    const btn = document.getElementById("check-btn");
+    const results = document.getElementById("lookup-result");
+
+    function performSearch(word)
+    {
+        const fuzziness = 1;
+        const maxFuzzyMatches = 4;
+        const res = PQ_WORDS.findWord(word, fuzziness, maxFuzzyMatches);
+
+        let str = "<p>The word <span class='word'>" + word + "</span>"  
+        let strMetadata = "";
+        if(!res.success) {
+            results.classList = 'result-fail';
+            str += ' is <strong>not</strong>';
+
+            let options = res.matches;
+            if(options.length > 0) { 
+                strMetadata += "<span class='word-metadata'>Maybe you meant "; 
+                for(let i = 0; i < options.length; i++)
+                {
+                    let delimiter = ", ";
+                    if(i == 0) { delimiter = ""; }
+                    if(i == (options.length - 1) && i > 0) { delimiter = " or "}
+                    strMetadata += delimiter + options[i].getWord();
+                }
+
+                strMetadata += "?</span>";
+            }
+
+        } else {
+            results.classList = 'result-success';
+            str += ' is';
+            
+            let metadata = res.matches[0].getMetadata();
+            strMetadata = "<span class='word-metadata'>(" + metadata.prettyPrint() + ")</span>";
+        }
+        str += " in the dictionary.";
+        str += strMetadata;
+        str += "</p>";
+
+        results.innerHTML = str;
+        results.style.display = 'block';
+
+        btn.innerHTML = "Check!";
+    }
+
+    btn.addEventListener("click", async (ev) => {
+        const maxWordLength = 24;
+        const wordToCheck = inp.value;
+        const wordSanitized = wordToCheck.toLowerCase().trim().slice(0, maxWordLength);
+        if(!wordSanitized) { return; }
+
+        btn.innerHTML = "... searching ...";
+        await PQ_WORDS.loadWithParams({ useAll: true, method: "json" })
+
+        setTimeout(() => performSearch(wordSanitized), 10);
+    });
+</script>

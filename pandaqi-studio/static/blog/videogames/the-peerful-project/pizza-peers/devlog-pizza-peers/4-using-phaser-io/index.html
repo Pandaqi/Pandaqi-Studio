@@ -1,0 +1,137 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><title>Using Phaser.io | Pandaqi Blog</title><link rel=icon type=image/png href=https://pandaqi.com/blog//favicon.png><link rel=stylesheet type=text/css href=/blog/css/critical.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin></head><body><header id=site-header><nav class=menu><ul><li><a href=https://pandaqi.com/blog/ class="masked-link big-mask mask-1" style=--rotation:2deg>Home</a></li><li><a href=/blog/boardgames/ class="masked-link big-mask mask-6" style=--rotation:-1.5deg>Boardgames</a></li><li><a href=/blog/news-and-updates/ class="masked-link big-mask mask-7" style=--rotation:-1deg>News & Updates</a></li><li><a href=/blog/reviews-and-thoughts/ class="masked-link big-mask mask-1" style=--rotation:1deg>Reviews & Thoughts</a></li><li><a href=/blog/tutorials/ class="masked-link big-mask mask-2" style=--rotation:2deg>Tutorials</a></li><li><a href=/blog/videogames/ class="masked-link big-mask mask-8" style=--rotation:-1.5deg>Videogames</a></li></ul></nav></header><main class="padding center-block"><article class=single-article><div class=thumbnail-media><img src=../../pizza-peers-static.png></div><h1>Using Phaser.io</h1><aside class=metadata><nav class=breadcrumbs><span class=metadata-label><span class=emoji>🥐</span> Breadcrumbs ||</span>
+<a href=https://pandaqi.com/blog/>Home</a>
+/
+<a href=https://pandaqi.com/blog/videogames/>Videogames</a>
+/
+<a href=https://pandaqi.com/blog/videogames/the-peerful-project/>The peerful project</a>
+/
+<a href=https://pandaqi.com/blog/videogames/the-peerful-project/pizza-peers/>Pizza peers</a>
+/
+<a href=https://pandaqi.com/blog/videogames/the-peerful-project/pizza-peers/devlog-pizza-peers/>Devlog pizza peers</a>
+/
+<a href=https://pandaqi.com/blog/videogames/the-peerful-project/pizza-peers/devlog-pizza-peers/4-using-phaser-io/>4 using phaser io</a></nav><script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/pandaqi.com\/blog\/","name":"home"}},{"@type":"ListItem","position":2,"item":{"@id":"https:\/\/pandaqi.com\/blog\/videogames\/","name":"videogames"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/pandaqi.com\/blog\/videogames\/the-peerful-project\/","name":"the-peerful-project"}},{"@type":"ListItem","position":4,"item":{"@id":"https:\/\/pandaqi.com\/blog\/videogames\/the-peerful-project\/pizza-peers\/","name":"pizza-peers"}},{"@type":"ListItem","position":5,"item":{"@id":"https:\/\/pandaqi.com\/blog\/videogames\/the-peerful-project\/pizza-peers\/devlog-pizza-peers\/","name":"devlog-pizza-peers"}},{"@type":"ListItem","position":6,"item":{"@id":"https:\/\/pandaqi.com\/blog\/videogames\/the-peerful-project\/pizza-peers\/devlog-pizza-peers\/4-using-phaser-io\/","name":"4-using-phaser-io"}}]}</script><div><span class=metadata-label><span class=emoji>&#8987;</span> Published ||</span>
+<time datetime=2020-04-29T13:00:00>Wednesday, Apr 29, 2020</time></div><nav class=tags><span class=metadata-label><span class=emoji>🎗</span> Tags ||</span><ul><li><a href=https://pandaqi.com/blog/tags/devlog>devlog</a></li></ul></nav><div><span class=metadata-label><span class=emoji>📖</span> Table of Contents ||</span>
+<a href=# id=toc-toggle>Show</a></div></aside><aside id=table-of-contents class=masked-link-block><header><h2>Table of Contents</h2></header><nav id=TableOfContents><ul><li><a href=#initializing-the-game>Initializing the game</a></li><li><a href=#communication-with-p2p>Communication with p2p</a></li><li><a href=#moving-players>Moving players</a></li></ul></nav></aside><div><p>This is part 4 in my article series about how I created &ldquo;Pizza Peers&rdquo;.</p><p>Haven&rsquo;t read the other entries? Go to the <a href=../>devlog overview</a>.</p><p>So far, we&rsquo;ve created a system that allows connecting to a server,
+creating a room, and then directly connecting all players within that
+room (via peer-to-peer).</p><p>Now we just need a game that can send and receive information over those
+connections.</p><p>For browser games, there&rsquo;s really no better option than the free
+<strong>Phaser</strong> library. I&rsquo;ve been using it since the day it was created, and
+it&rsquo;s only gained popularity (and features) since then.</p><p>(This surprised me a bit, to be honest. Feels like ages ago that I first
+learnt how to make browser games. I almost feel like a proud daddy who
+watched his kid grow and become one of the most used gaming libraries.)</p><p>I must say, however, that I haven&rsquo;t used Phaser the past couple of
+years. (For the simple reason that I wasn&rsquo;t creating browser games.)
+Since then, version 3 was released, which made a ton of changes to the
+overall design and structure of the framework.</p><p>After using it for this game, I must say that Phaser is still awesome
+and that version 3 is again a leap forward! However, because it was my
+first time working with v3, my code probably can&rsquo;t be called &ldquo;optimized&rdquo;
+or &ldquo;best practice&rdquo;.</p><p>Anyway, let&rsquo;s get started!</p><p><em>Remark:</em> By default, Phaser is a 2D library, but there are extensions
+for 3D in which I have a great interest. Hopefully I&rsquo;ll be able to try
+these out soon and report the results.</p><h2 id=initializing-the-game>Initializing the game</h2><p>I usually make the game full screen by putting it inside an absolutely
+positioned &lt;div> element.</p><p>The rest of the webpage functions as an &ldquo;overlay&rdquo; on top of that.</p><p>This is one great advantage of browser games: they can use <strong>canvas</strong>
+and <strong>regular website stuff</strong> combined. For example, creating buttons,
+or links, or responsive UIs is <em>really</em> easy in website code. So I&rsquo;d
+rather place those things in an overlay with minimal effort, than try to
+recreate it inside Phaser.</p><p>So, all the buttons for &ldquo;create game&rdquo; and &ldquo;join game&rdquo; and all that jazz
+are default HTML code. They are within the overlay and I will not
+discuss them here.</p><p>Once &ldquo;create game&rdquo; is pressed, however, a function &ldquo;startPhaser()&rdquo; is
+called that does the following:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-Javascript data-lang=Javascript><span class=line><span class=ln> 1</span><span class=cl><span class=kd>function</span> <span class=nx>startPhaser</span><span class=p>(</span><span class=nx>connection</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln> 2</span><span class=cl>  <span class=c1>// initialize Phaser game
+</span></span></span><span class=line><span class=ln> 3</span><span class=cl><span class=c1></span>  <span class=c1>// inside a div with id &#34;phaser-game&#34;
+</span></span></span><span class=line><span class=ln> 4</span><span class=cl><span class=c1></span>  <span class=kd>var</span> <span class=nx>config</span> <span class=o>=</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln> 5</span><span class=cl>    <span class=nx>type</span><span class=o>:</span> <span class=nx>Phaser</span><span class=p>.</span><span class=nx>AUTO</span><span class=p>,</span>
+</span></span><span class=line><span class=ln> 6</span><span class=cl>    <span class=nx>width</span><span class=o>:</span> <span class=s1>&#39;100%&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=ln> 7</span><span class=cl>    <span class=nx>height</span><span class=o>:</span> <span class=s1>&#39;100%&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=ln> 8</span><span class=cl>    <span class=nx>backgroundColor</span><span class=o>:</span> <span class=s1>&#39;#8EB526&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=ln> 9</span><span class=cl>    <span class=nx>parent</span><span class=o>:</span> <span class=s1>&#39;phaser-game&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=ln>10</span><span class=cl>    <span class=nx>scene</span><span class=o>:</span> <span class=p>[</span><span class=nx>MainGame</span><span class=p>,</span> <span class=nx>GameOver</span><span class=p>],</span>
+</span></span><span class=line><span class=ln>11</span><span class=cl>    <span class=nx>physics</span><span class=o>:</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>12</span><span class=cl>        <span class=k>default</span><span class=o>:</span> <span class=s1>&#39;arcade&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=ln>13</span><span class=cl>        <span class=nx>arcade</span><span class=o>:</span> <span class=p>{</span> 
+</span></span><span class=line><span class=ln>14</span><span class=cl>          <span class=nx>debug</span><span class=o>:</span> <span class=kc>false</span><span class=p>,</span>
+</span></span><span class=line><span class=ln>15</span><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=ln>16</span><span class=cl>    <span class=p>},</span>
+</span></span><span class=line><span class=ln>17</span><span class=cl>    <span class=nx>pixelArt</span><span class=o>:</span> <span class=kc>true</span><span class=p>,</span>
+</span></span><span class=line><span class=ln>18</span><span class=cl>    <span class=nx>antialias</span><span class=o>:</span> <span class=kc>false</span><span class=p>,</span>
+</span></span><span class=line><span class=ln>19</span><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=ln>20</span><span class=cl>
+</span></span><span class=line><span class=ln>21</span><span class=cl>  <span class=c1>// create the game and save it in a GLOBAL variable, accessible anywhere
+</span></span></span><span class=line><span class=ln>22</span><span class=cl><span class=c1></span>  <span class=nb>window</span><span class=p>.</span><span class=nx>GAME</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>Phaser</span><span class=p>.</span><span class=nx>Game</span><span class=p>(</span><span class=nx>config</span><span class=p>);</span> 
+</span></span><span class=line><span class=ln>23</span><span class=cl>
+</span></span><span class=line><span class=ln>24</span><span class=cl>  <span class=c1>// Start both scenes (the &#34;gameOver&#34; scene also holds the welcome screen and lobby screen)
+</span></span></span><span class=line><span class=ln>25</span><span class=cl><span class=c1></span>  <span class=nx>GAME</span><span class=p>.</span><span class=nx>scene</span><span class=p>.</span><span class=nx>start</span><span class=p>(</span><span class=s1>&#39;mainGame&#39;</span><span class=p>,</span> <span class=p>{</span> <span class=nx>roomCode</span><span class=o>:</span> <span class=nx>connection</span><span class=p>.</span><span class=nx>room</span> <span class=p>});</span>
+</span></span><span class=line><span class=ln>26</span><span class=cl>  <span class=nx>GAME</span><span class=p>.</span><span class=nx>scene</span><span class=p>.</span><span class=nx>start</span><span class=p>(</span><span class=s1>&#39;gameOver&#39;</span><span class=p>,</span> <span class=p>{});</span>
+</span></span><span class=line><span class=ln>27</span><span class=cl><span class=p>}</span></span></span></code></pre></div><p>You&rsquo;ll see here that <strong>GAME</strong> is a global variable. This is just an easy
+way to make it accessible in all modules &ndash; you can do this differently
+if you want to. Global variables are generally bad practice.</p><p>Phaser works with <strong>scenes</strong>, which you can also view as &ldquo;modules&rdquo; or
+&ldquo;components&rdquo;. You can have as many scenes active as you like, you can
+toggle them on/off when you want, etcetera. If you want, you can
+structure your code to the extreme, creating a single scene for every
+bit of functionality. But we&rsquo;ll keep it simple here.</p><p>The scenes <strong>mainGame</strong> and <strong>gameOver</strong> do what you think they do. We
+will not look at the game over scene, as it&rsquo;s not interesting (and the
+source code is extremely self-explanatory).</p><p>Instead, over the course of the next few articles, we&rsquo;ll look at the
+critical parts of the &ldquo;main game&rdquo;.</p><h2 id=communication-with-p2p>Communication with p2p</h2><p>How do we communicate over the internet?</p><p>Well, we need a two-way street:</p><ul><li><p>When a certain <strong>player</strong> does something, we want to send a message
+over the corresponding <strong>peer</strong>.</p></li><li><p>When we receive a message from a <strong>peer</strong>, we want to relay that to
+the corresponding <strong>player</strong>.</p></li></ul><p>During the game, we must keep a list that allows us to easily convert
+player &lt;=> peer.</p><ul><li><p>The game keeps a list of all players. When we create a new player,
+we save its <strong>index</strong> in the list on the peer.</p><ul><li>Yes, this means that the player list may never change order, but
+that&rsquo;s a workable constraint.</li></ul></li><li><p>Conversely, once the player is created, we save the <strong>peer</strong> on the
+player.</p><ul><li>This is easy: &ldquo;player.myPeer = peer&rdquo;</li></ul></li></ul><p>The addPlayer function becomes something like this:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-Javascript data-lang=Javascript><span class=line><span class=ln> 1</span><span class=cl><span class=nx>addPlayer</span><span class=o>:</span> <span class=kd>function</span><span class=p>(</span><span class=nx>peer</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln> 2</span><span class=cl>  <span class=c1>// determine a random position for the player ...
+</span></span></span><span class=line><span class=ln> 3</span><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=ln> 4</span><span class=cl>  <span class=c1>// create new player (use graphics as base, turn into sprite within player group)
+</span></span></span><span class=line><span class=ln> 5</span><span class=cl><span class=c1></span>  <span class=kd>var</span> <span class=nx>newPlayer</span> <span class=o>=</span> <span class=k>this</span><span class=p>.</span><span class=nx>playerBodies</span><span class=p>.</span><span class=nx>create</span><span class=p>(</span><span class=nx>randX</span><span class=p>,</span> <span class=nx>randY</span><span class=p>,</span> <span class=s1>&#39;dude&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=ln> 6</span><span class=cl>
+</span></span><span class=line><span class=ln> 7</span><span class=cl>  <span class=c1>// save player in array
+</span></span></span><span class=line><span class=ln> 8</span><span class=cl><span class=c1></span>  <span class=k>this</span><span class=p>.</span><span class=nx>players</span><span class=p>.</span><span class=nx>push</span><span class=p>(</span><span class=nx>newPlayer</span><span class=p>);</span>
+</span></span><span class=line><span class=ln> 9</span><span class=cl>
+</span></span><span class=line><span class=ln>10</span><span class=cl>  <span class=c1>// save player index on peer
+</span></span></span><span class=line><span class=ln>11</span><span class=cl><span class=c1></span>  <span class=nx>peer</span><span class=p>.</span><span class=nx>playerGameIndex</span> <span class=o>=</span> <span class=p>(</span><span class=k>this</span><span class=p>.</span><span class=nx>players</span><span class=p>.</span><span class=nx>length</span> <span class=o>-</span> <span class=mi>1</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>12</span><span class=cl>
+</span></span><span class=line><span class=ln>13</span><span class=cl>  <span class=c1>// and save peer on the player
+</span></span></span><span class=line><span class=ln>14</span><span class=cl><span class=c1></span>  <span class=nx>newPlayer</span><span class=p>.</span><span class=nx>myPeer</span> <span class=o>=</span> <span class=nx>peer</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>15</span><span class=cl>
+</span></span><span class=line><span class=ln>16</span><span class=cl>  <span class=c1>// ... and create a bunch of properties, settings, visual effects, and stuff for the player here
+</span></span></span><span class=line><span class=ln>17</span><span class=cl><span class=c1></span><span class=p>},</span></span></span></code></pre></div><p><strong>NOTE:</strong> The variable <strong>this.players = []</strong> is initialized when the
+scene is created. I&rsquo;ll remind you again when we talk about randomly
+generating the city and game world.</p><p>Now, whenever we <em>receive</em> a signal, we can convert the peer to the
+corresponding player.</p><p>And whenever we want to <em>send</em> a signal, we can convert the player to
+its peer.</p><p>That&rsquo;s, in essence, all that is needed to communicate between the game
+and the p2p signals.</p><h2 id=moving-players>Moving players</h2><p>To hammer home the concept, let me give you an example of the most basic
+input in the game: movement. (Which is also the first thing I
+implemented and tested.)</p><p>The smartphone sends a message to the computer (using their p2p
+connection). This message contains a movement vector.</p><p>The computer receives this message and calls &ldquo;updatePlayer()&rdquo;, which is
+a very simple function:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-Javascript data-lang=Javascript><span class=line><span class=ln> 1</span><span class=cl><span class=c1>// vec = a 2D movement vector; 
+</span></span></span><span class=line><span class=ln> 2</span><span class=cl><span class=c1>// vec[0] is movement over the X-axis, vec[1] over the Y-axis
+</span></span></span><span class=line><span class=ln> 3</span><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=ln> 4</span><span class=cl><span class=nx>updatePlayer</span><span class=o>:</span> <span class=kd>function</span><span class=p>(</span><span class=nx>peer</span><span class=p>,</span> <span class=nx>vec</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln> 5</span><span class=cl>  <span class=c1>// ... do some error checking to make sure the player exists and vector is valid ...
+</span></span></span><span class=line><span class=ln> 6</span><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=ln> 7</span><span class=cl>  <span class=c1>// grab the player (because we know the peer!)
+</span></span></span><span class=line><span class=ln> 8</span><span class=cl><span class=c1></span>  <span class=kd>var</span> <span class=nx>player</span> <span class=o>=</span> <span class=k>this</span><span class=p>.</span><span class=nx>players</span><span class=p>[</span><span class=nx>peer</span><span class=p>.</span><span class=nx>playerGameIndex</span><span class=p>];</span>
+</span></span><span class=line><span class=ln> 9</span><span class=cl>
+</span></span><span class=line><span class=ln>10</span><span class=cl>  <span class=c1>// just move the player according to velocity vector
+</span></span></span><span class=line><span class=ln>11</span><span class=cl><span class=c1></span>  <span class=nx>player</span><span class=p>.</span><span class=nx>setVelocity</span><span class=p>(</span><span class=nx>vec</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=o>*</span> <span class=nx>speed</span><span class=p>,</span> <span class=nx>vec</span><span class=p>[</span><span class=mi>1</span><span class=p>]</span> <span class=o>*</span> <span class=nx>speed</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>12</span><span class=cl>
+</span></span><span class=line><span class=ln>13</span><span class=cl>  <span class=c1>// ... animate some stuff here, dust particles when moving, etc ...
+</span></span></span><span class=line><span class=ln>14</span><span class=cl><span class=c1></span><span class=p>},</span></span></span></code></pre></div><p><strong>That&rsquo;s it!</strong></p><p>Well, we&rsquo;re not completely done yet. I still haven&rsquo;t shown you how to
+create the interface on the phone and send these messages. Guess what:
+we&rsquo;re going to do that in part 5!</p><p>See you there.</p></div></article><div><nav class=pagination><ul><li><a href=/blog/videogames/the-peerful-project/pizza-peers/devlog-pizza-peers/3-peer-to-peer-connections/ class="masked-link big-mask mask-3" style=--rotation:2deg>&lt;&lt; Previous Page</a></li><li>Continue reading</li><li><a href=/blog/videogames/the-peerful-project/pizza-peers/devlog-pizza-peers/5-player-interface/ class="masked-link big-mask mask-5" style=--rotation:-0.5deg>>> Next Page</a></li></ul></nav></div></main><footer id=site-footer><div class="padding center-block"><h3>More Pandaqi</h3><p>You could <a href=https://pandaqi.com>visit the game studio</a>.
+Or my <a href=https://pandaqi.com/tutorials/>free tutorial website</a>.
+Or my <a href=https://rodepanda.com/>portfolio</a> with easy access to absolutely everything I ever made.</p><h3>Latest</h3><nav class=latest><ul><li><a href=/blog/boardgames/photomone/>Photomone
+(🐜)</a></li><li><a href=/blog/boardgames/keebble-domino/>Keebble: Domino
+(📗)</a></li><li><a href=/blog/boardgames/keebble-knickknack/>Keebble: Knickknack
+(📘)</a></li><li><a href=/blog/videogames/game-jams/less-is-store/>Less is Store
+(🛍️)</a></li><li><a href=/blog/tutorials/placing-grids-within-spaces/>Placing grids within spaces</a></li><li><a href=/blog/boardgames/thats-amorphe-pictures/>That's Amorphe: Pictures
+(🖌️)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-2023-update-ii/>Pandaqi Games: 2023 Update (II)
+(🎮)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-2023-update-iii/>Pandaqi Games: 2023 Update (III)
+(🎮)</a></li><li><a href=/blog/news-and-updates/pq-daw/>PQ_DAW: A music editor for the web
+(🎼)</a></li><li><a href=/blog/news-and-updates/pq-words/>PQ_WORDS: A dictionary for games
+(📋)</a></li></ul></nav><h3>Sections</h3><nav><ul><li><a href=/blog/boardgames/>Boardgames
+(🎲)</a></li><li><a href=/blog/news-and-updates/>News & Updates
+(📢)</a></li><li><a href=/blog/reviews-and-thoughts/>Reviews & Thoughts
+(💭)</a></li><li><a href=/blog/tutorials/>Tutorials
+(👩‍🎓)</a></li><li><a href=/blog/videogames/>Videogames
+(🎮)</a></li></ul></nav><h3>Credits</h3><p>Theme by me (<a href=https://pandaqi.com>Pandaqi</a> 🐼) &#183;
+with ❤️ &#183;
+using <a href=https://gohugo.io>Hugo</a> &#183;
+&copy; 2018&ndash;2023 Pandaqi Blog</p></div></footer><link rel=stylesheet type=text/css href=/blog/css/style.css><script src=/blog/js/bundle.min.js></script></body></html>

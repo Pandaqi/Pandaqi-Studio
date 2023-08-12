@@ -1,0 +1,82 @@
+@use "sass:map";
+@use "sass:math";
+
+$header-font: "Arbutus Slab", sans-serif;
+$body-font: "Arbutus Slab", serif; // font-family: 'Kanit', serif;
+
+@font-face {
+    font-family: 'Arbutus Slab';
+    src: url(../../assets/ArbutusSlab-Regular.woff2);
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+$icons: (
+    "start": 0,
+    "double-word": 1,
+    "triple-word": 2,
+    "double-letter": 3,
+    "triple-letter": 4,
+    "big-ask": 5,
+    "thief": 6,
+    "destroyer": 7,
+    "go-again": 8,
+    "garbage": 9,
+    "blockade": 10,
+    "collector": 11
+);
+
+@each $name, $frame in $icons {
+    $col: $frame % 8;
+    $row: 0;
+    @if $frame >= 8 {
+        $row: 1;
+    }
+
+    .icon-#{$name} {
+        background-image: url(../../assets/special_cells.webp);
+        background-size: 800%;
+        background-position-x: -$col * 100%;
+        background-position-y: -$row * 100%;
+        margin: auto;
+    }
+}
+
+h1, h2, h3, h4, h5, h6 {
+    //font-family: 'Alpha54', sans-serif;
+    //font-family: 'Lily Script One', sans-serif;
+    font-family: $header-font;
+}
+
+body {
+    font-family: $body-font;
+    font-size: 17px;
+}
+
+$colors: (
+    "setup": #d9ffa9,
+    "objective": #68fed3,
+    "expansions": #9c9ce9,
+    "action_play": #ffb6df,
+    "action_letters": #ffd68f
+);
+
+@each $name, $color in $colors {
+    ##{$name} {
+        background-color: $color;
+    }
+}
+
+@media print {
+    @each $name, $color in $colors {
+        ##{$name} {
+            background-color: transparent !important;
+
+            .heading-container {
+                background-color: $color;
+            }
+        }
+    }
+
+}

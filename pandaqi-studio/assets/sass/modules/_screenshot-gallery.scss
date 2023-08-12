@@ -1,0 +1,53 @@
+.screenshot-gallery-container, .video-gallery-container {
+
+	&.full-width {
+		padding: 50px; 
+	}
+
+	content-visibility: auto;
+
+	@media all and (max-width: 660px) {
+		padding-left: 5px;
+		padding-right: 5px;
+	}
+
+	.screenshot-gallery, .video-gallery {
+		height: 400px;
+		overflow-x: scroll;
+		overflow-y: hidden;
+		white-space: nowrap;
+		box-sizing: border-box;
+		margin: 0px;
+
+		margin-top: 20px;
+	
+		img {
+			max-height: 100%;
+			width: auto;
+			height: auto;
+		}
+	
+		@media all and (max-width: 660px) {
+			display: flex;
+			flex-wrap: wrap;
+	
+			overflow-x: auto;
+			overflow-y: auto;
+			white-space: normal;
+	
+			img {
+				max-width: 100%;
+			}
+		}
+	}
+}
+
+.video-gallery-container {
+	video {
+		max-width: 100%;
+		width: auto;
+		height: 100%;
+	}
+}
+
+

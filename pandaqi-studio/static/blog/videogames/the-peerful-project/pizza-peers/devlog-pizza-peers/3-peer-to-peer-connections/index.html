@@ -1,0 +1,127 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><title>Peer to peer connections | Pandaqi Blog</title><link rel=icon type=image/png href=https://pandaqi.com/blog//favicon.png><link rel=stylesheet type=text/css href=/blog/css/critical.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin></head><body><header id=site-header><nav class=menu><ul><li><a href=https://pandaqi.com/blog/ class="masked-link big-mask mask-6" style=--rotation:-1.5deg>Home</a></li><li><a href=/blog/boardgames/ class="masked-link big-mask mask-2" style=--rotation:2deg>Boardgames</a></li><li><a href=/blog/news-and-updates/ class="masked-link big-mask mask-2" style=--rotation:2deg>News & Updates</a></li><li><a href=/blog/reviews-and-thoughts/ class="masked-link big-mask mask-6" style=--rotation:-1.5deg>Reviews & Thoughts</a></li><li><a href=/blog/tutorials/ class="masked-link big-mask mask-2" style=--rotation:-1deg>Tutorials</a></li><li><a href=/blog/videogames/ class="masked-link big-mask mask-8" style=--rotation:1.5deg>Videogames</a></li></ul></nav></header><main class="padding center-block"><article class=single-article><div class=thumbnail-media><img src=../../pizza-peers-static.png></div><h1>Peer to peer connections</h1><aside class=metadata><nav class=breadcrumbs><span class=metadata-label><span class=emoji>🥐</span> Breadcrumbs ||</span>
+<a href=https://pandaqi.com/blog/>Home</a>
+/
+<a href=https://pandaqi.com/blog/videogames/>Videogames</a>
+/
+<a href=https://pandaqi.com/blog/videogames/the-peerful-project/>The peerful project</a>
+/
+<a href=https://pandaqi.com/blog/videogames/the-peerful-project/pizza-peers/>Pizza peers</a>
+/
+<a href=https://pandaqi.com/blog/videogames/the-peerful-project/pizza-peers/devlog-pizza-peers/>Devlog pizza peers</a>
+/
+<a href=https://pandaqi.com/blog/videogames/the-peerful-project/pizza-peers/devlog-pizza-peers/3-peer-to-peer-connections/>3 peer to peer connections</a></nav><script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/pandaqi.com\/blog\/","name":"home"}},{"@type":"ListItem","position":2,"item":{"@id":"https:\/\/pandaqi.com\/blog\/videogames\/","name":"videogames"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/pandaqi.com\/blog\/videogames\/the-peerful-project\/","name":"the-peerful-project"}},{"@type":"ListItem","position":4,"item":{"@id":"https:\/\/pandaqi.com\/blog\/videogames\/the-peerful-project\/pizza-peers\/","name":"pizza-peers"}},{"@type":"ListItem","position":5,"item":{"@id":"https:\/\/pandaqi.com\/blog\/videogames\/the-peerful-project\/pizza-peers\/devlog-pizza-peers\/","name":"devlog-pizza-peers"}},{"@type":"ListItem","position":6,"item":{"@id":"https:\/\/pandaqi.com\/blog\/videogames\/the-peerful-project\/pizza-peers\/devlog-pizza-peers\/3-peer-to-peer-connections\/","name":"3-peer-to-peer-connections"}}]}</script><div><span class=metadata-label><span class=emoji>&#8987;</span> Published ||</span>
+<time datetime=2020-04-29T12:00:00>Wednesday, Apr 29, 2020</time></div><nav class=tags><span class=metadata-label><span class=emoji>🎗</span> Tags ||</span><ul><li><a href=https://pandaqi.com/blog/tags/devlog>devlog</a></li></ul></nav><div><span class=metadata-label><span class=emoji>📖</span> Table of Contents ||</span>
+<a href=# id=toc-toggle>Show</a></div></aside><aside id=table-of-contents class=masked-link-block><header><h2>Table of Contents</h2></header><nav id=TableOfContents><ul><li><a href=#creating-peers>Creating peers</a></li><li><a href=#ice-servers>ICE Servers</a></li><li><a href=#what-now>What now?</a></li></ul></nav></aside><div><p>This is part 3 in my article series about how I created &ldquo;Pizza Peers&rdquo;.</p><p>Haven&rsquo;t read the other entries? Go to the <a href=../>devlog overview</a>.</p><p>As stated earlier, I used the <a href=https://github.com/feross/simple-peer/>simple-peer</a>
+library. It&rsquo;s free, it&rsquo;s small, just grab it from GitHub and include it
+at the top of your index.html page.</p><p>In the code from the previous article, you saw the function &ldquo;createPeer()&rdquo;. In this article
+we&rsquo;ll actually write that function.</p><h2 id=creating-peers>Creating peers</h2><p>The code below creates the peer and then attaches the proper listeners
+(just like everything we&rsquo;ve done before).</p><p>The &ldquo;on(data)&rdquo; call is where all the magic happens. As said before, once
+the connection is established, <em>all</em> communication goes via that
+listener and <em>none</em> of it uses the server anymore.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-Javascript data-lang=Javascript><span class=line><span class=ln> 1</span><span class=cl><span class=kd>function</span> <span class=nx>createPeer</span><span class=p>(</span><span class=nx>initiator</span><span class=p>,</span> <span class=nx>connection</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln> 2</span><span class=cl>  <span class=kd>var</span> <span class=nx>peer</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>SimplePeer</span><span class=p>({</span>
+</span></span><span class=line><span class=ln> 3</span><span class=cl>    <span class=nx>initiator</span><span class=o>:</span> <span class=nx>initiator</span><span class=p>,</span>
+</span></span><span class=line><span class=ln> 4</span><span class=cl>    <span class=nx>trickle</span><span class=o>:</span> <span class=kc>false</span><span class=p>,</span>
+</span></span><span class=line><span class=ln> 5</span><span class=cl>    <span class=nx>config</span><span class=o>:</span> <span class=p>{</span> <span class=nx>iceServers</span><span class=o>:</span> <span class=p>[</span><span class=cm>/* read my bit about ICE and how peer to peer works */</span><span class=p>]</span> <span class=p>},</span>
+</span></span><span class=line><span class=ln> 6</span><span class=cl>  <span class=p>})</span>
+</span></span><span class=line><span class=ln> 7</span><span class=cl>
+</span></span><span class=line><span class=ln> 8</span><span class=cl>  <span class=c1>// here we can attach some variables to the peer regarding game state, such as ...
+</span></span></span><span class=line><span class=ln> 9</span><span class=cl><span class=c1></span>  <span class=nx>peer</span><span class=p>.</span><span class=nx>isConnected</span> <span class=o>=</span> <span class=kc>false</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>10</span><span class=cl>  <span class=nx>peer</span><span class=p>.</span><span class=nx>hasDisconnected</span> <span class=o>=</span> <span class=kc>false</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>11</span><span class=cl>  <span class=nx>peer</span><span class=p>.</span><span class=nx>gameOver</span> <span class=o>=</span> <span class=kc>false</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>12</span><span class=cl>
+</span></span><span class=line><span class=ln>13</span><span class=cl>  <span class=nx>peer</span><span class=p>.</span><span class=nx>on</span><span class=p>(</span><span class=s1>&#39;error&#39;</span><span class=p>,</span> <span class=kd>function</span><span class=p>(</span><span class=nx>err</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>14</span><span class=cl>    <span class=c1>// do something with the error
+</span></span></span><span class=line><span class=ln>15</span><span class=cl><span class=c1></span>    <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=s1>&#39;error&#39;</span><span class=p>,</span> <span class=nx>err</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>16</span><span class=cl>  <span class=p>})</span>
+</span></span><span class=line><span class=ln>17</span><span class=cl>
+</span></span><span class=line><span class=ln>18</span><span class=cl>  <span class=nx>peer</span><span class=p>.</span><span class=nx>on</span><span class=p>(</span><span class=s1>&#39;close&#39;</span><span class=p>,</span> <span class=kd>function</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>19</span><span class=cl>    <span class=c1>// do something when a peer closes/disconnects, perhaps
+</span></span></span><span class=line><span class=ln>20</span><span class=cl><span class=c1></span>  <span class=p>})</span>
+</span></span><span class=line><span class=ln>21</span><span class=cl>
+</span></span><span class=line><span class=ln>22</span><span class=cl>  <span class=c1>// this function is called when the peer wants to SEND OUT a signal
+</span></span></span><span class=line><span class=ln>23</span><span class=cl><span class=c1></span>  <span class=c1>// we call p.signal(...) =&gt; the peer starts to formulate a response =&gt; once done, it triggers this event (where data is the new signal)
+</span></span></span><span class=line><span class=ln>24</span><span class=cl><span class=c1></span>  <span class=nx>peer</span><span class=p>.</span><span class=nx>on</span><span class=p>(</span><span class=s1>&#39;signal&#39;</span><span class=p>,</span> <span class=kd>function</span><span class=p>(</span><span class=nx>data</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>25</span><span class=cl>    <span class=c1>// if it&#39;s an OFFER, push it to the websocket (along with joinRoom credentials)
+</span></span></span><span class=line><span class=ln>26</span><span class=cl><span class=c1></span>    <span class=k>if</span><span class=p>(</span><span class=nx>data</span><span class=p>.</span><span class=nx>type</span> <span class=o>==</span> <span class=s1>&#39;offer&#39;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>27</span><span class=cl>      <span class=kd>var</span> <span class=nx>roomVal</span> <span class=o>=</span> <span class=nb>document</span><span class=p>.</span><span class=nx>getElementById</span><span class=p>(</span><span class=s1>&#39;roomInput&#39;</span><span class=p>).</span><span class=nx>value</span><span class=p>.</span><span class=nx>toUpperCase</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>28</span><span class=cl>      <span class=kd>var</span> <span class=nx>usn</span> <span class=o>=</span> <span class=nb>document</span><span class=p>.</span><span class=nx>getElementById</span><span class=p>(</span><span class=s1>&#39;usernameInput&#39;</span><span class=p>).</span><span class=nx>value</span><span class=p>.</span><span class=nx>toUpperCase</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>29</span><span class=cl>
+</span></span><span class=line><span class=ln>30</span><span class=cl>      <span class=kd>var</span> <span class=nx>message</span> <span class=o>=</span> <span class=p>{</span> <span class=s2>&#34;action&#34;</span><span class=o>:</span> <span class=s1>&#39;joinRoom&#39;</span><span class=p>,</span> <span class=s2>&#34;room&#34;</span><span class=o>:</span> <span class=nx>roomVal</span><span class=p>,</span> <span class=s2>&#34;username&#34;</span><span class=o>:</span> <span class=nx>usn</span><span class=p>,</span><span class=s2>&#34;offer&#34;</span><span class=o>:</span> <span class=nx>data</span> <span class=p>}</span>
+</span></span><span class=line><span class=ln>31</span><span class=cl>      <span class=nx>connection</span><span class=p>.</span><span class=nx>send</span><span class=p>(</span> <span class=nx>JSON</span><span class=p>.</span><span class=nx>stringify</span><span class=p>(</span><span class=nx>message</span><span class=p>)</span> <span class=p>);</span>
+</span></span><span class=line><span class=ln>32</span><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=ln>33</span><span class=cl>
+</span></span><span class=line><span class=ln>34</span><span class=cl>    <span class=c1>// If it&#39;s an ANSWER, push it to the websocket
+</span></span></span><span class=line><span class=ln>35</span><span class=cl><span class=c1></span>    <span class=k>if</span><span class=p>(</span><span class=nx>data</span><span class=p>.</span><span class=nx>type</span> <span class=o>==</span> <span class=s1>&#39;answer&#39;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>36</span><span class=cl>      <span class=kd>var</span> <span class=nx>message</span> <span class=o>=</span> <span class=p>{</span> <span class=s2>&#34;action&#34;</span><span class=o>:</span> <span class=s2>&#34;offerResponse&#34;</span><span class=p>,</span> <span class=s2>&#34;clientUsername&#34;</span><span class=o>:</span> <span class=nx>peer</span><span class=p>.</span><span class=nx>curClientUsername</span><span class=p>,</span> <span class=s2>&#34;response&#34;</span><span class=o>:</span> <span class=nx>data</span> <span class=p>}</span>
+</span></span><span class=line><span class=ln>37</span><span class=cl>      <span class=nx>connection</span><span class=p>.</span><span class=nx>send</span><span class=p>(</span> <span class=nx>JSON</span><span class=p>.</span><span class=nx>stringify</span><span class=p>(</span><span class=nx>message</span><span class=p>)</span> <span class=p>);</span>
+</span></span><span class=line><span class=ln>38</span><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=ln>39</span><span class=cl>  <span class=p>})</span>
+</span></span><span class=line><span class=ln>40</span><span class=cl>
+</span></span><span class=line><span class=ln>41</span><span class=cl>  <span class=nx>peer</span><span class=p>.</span><span class=nx>on</span><span class=p>(</span><span class=s1>&#39;connect&#39;</span><span class=p>,</span> <span class=kd>function</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>42</span><span class=cl>    <span class=c1>// remember we&#39;re connected
+</span></span></span><span class=line><span class=ln>43</span><span class=cl><span class=c1></span>    <span class=nx>peer</span><span class=p>.</span><span class=nx>isConnected</span> <span class=o>=</span> <span class=kc>true</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>44</span><span class=cl>
+</span></span><span class=line><span class=ln>45</span><span class=cl>    <span class=c1>// if we were the initiator of a connection, we are a PLAYER
+</span></span></span><span class=line><span class=ln>46</span><span class=cl><span class=c1></span>    <span class=k>if</span><span class=p>(</span><span class=nx>initiator</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>47</span><span class=cl>      <span class=c1>// @TODO: initialize our interface (on the phone)!
+</span></span></span><span class=line><span class=ln>48</span><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=ln>49</span><span class=cl>    <span class=c1>// otherwise, we&#39;re the computer
+</span></span></span><span class=line><span class=ln>50</span><span class=cl><span class=c1></span>    <span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>51</span><span class=cl>      <span class=c1>// add player into the game
+</span></span></span><span class=line><span class=ln>52</span><span class=cl><span class=c1></span>    <span class=p>}</span>
+</span></span><span class=line><span class=ln>53</span><span class=cl>  <span class=p>})</span>
+</span></span><span class=line><span class=ln>54</span><span class=cl>
+</span></span><span class=line><span class=ln>55</span><span class=cl>  <span class=nx>peer</span><span class=p>.</span><span class=nx>on</span><span class=p>(</span><span class=s1>&#39;data&#39;</span><span class=p>,</span> <span class=kd>function</span><span class=p>(</span><span class=nx>data</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>56</span><span class=cl>    <span class=c1>// parse the message
+</span></span></span><span class=line><span class=ln>57</span><span class=cl><span class=c1></span>    <span class=nx>data</span> <span class=o>=</span> <span class=nx>JSON</span><span class=p>.</span><span class=nx>parse</span><span class=p>(</span><span class=nx>data</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>58</span><span class=cl>
+</span></span><span class=line><span class=ln>59</span><span class=cl>    <span class=c1>// now DO something
+</span></span></span><span class=line><span class=ln>60</span><span class=cl><span class=c1></span>  <span class=p>})</span>
+</span></span><span class=line><span class=ln>61</span><span class=cl>
+</span></span><span class=line><span class=ln>62</span><span class=cl>  <span class=k>return</span> <span class=nx>peer</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>63</span><span class=cl><span class=p>}</span></span></span></code></pre></div><p>At the top of the function you can see the actual peer being created.</p><p>The option &ldquo;initiator&rdquo; is true for players (because they <em>initiate</em> the
+connection), and false for the computer.</p><p><strong>NOTE:</strong> The player only creates a single peer and then tries to
+connect with the computer. The computer creates a <em>new</em> peer for every
+player that wants to connect! That&rsquo;s also why we can save variables on
+the peers relating to the specific player (such as its username or index
+in the game), because every player has a unique peer.</p><p>Remember: peer-to-peer is always a direct two-way connection between two
+peers. If you add a third player, for example, and want to connect
+everyone with everyone, you&rsquo;d need to create <em>two peers per player</em>.</p><p>(I emphasize this, because it&rsquo;s the reason it took me a whole day to get
+simple peers working. I didn&rsquo;t fully understand what it did, what the
+&ldquo;initiator&rdquo; meant, and what ICE servers are. So, read on before you make
+the same mistake!)</p><h2 id=ice-servers>ICE Servers</h2><p>The option &ldquo;iceServers&rdquo; requires some more explanation.</p><p>As said before, allowing any device to reach any other device is not
+very secure (and sometimes very hard to do). Thus, in some cases, you
+need so-called <strong>STUN</strong> and <strong>TURN</strong> servers to establish the
+connection.</p><ul><li><p>A STUN server basically acts as a mirror and allows a computer to
+find out its own IP-address, by bouncing a signal off of it.</p></li><li><p>A TURN server is simply a middleman: it relays your signals directly
+to the other person.</p></li></ul><p>As such, STUN servers are free and easy to get, because they barely do
+anything. TURN servers, on the other hand, will relay tons of data every
+second and are very expensive.</p><p>Luckily, these servers are rarely needed (perhaps 85-90% of the
+connections work without them).</p><p>Even better: <strong>if you are on the same Wi-Fi, you should never need
+them</strong>. You can just leave this option empty and it should work. (In the
+final version of Pizza Peers, I did acquire a free STUN and TURN server,
+just to cover all bases. But it&rsquo;s not necessary for a <em>local</em> game.)</p><h2 id=what-now>What now?</h2><p>All the code seen so far should be enough to connect to a server (and
+serve the game files), create a room, and allow players to create
+peer-to-peer connections within that room.</p><p>This is just the basic structure for networking. There&rsquo;s no game or
+anything yet.</p><p>That&rsquo;s our next stop along this adventure!</p><p>We&rsquo;ll now look at the following elements:</p><ul><li><p>Starting and managing a game using Phaser.io</p></li><li><p>Sending data from the game through a peer.</p></li><li><p>The reverse: receiving data in a peer and sending it to the game.</p></li><li><p>Creating the mobile interface => how to listen for input and other
+things to keep in mind.</p></li><li><p>Creating the actual game => I won&rsquo;t talk about everything, just the
+interesting bits like random city and kitchen generation</p></li></ul><p>See you at part 4!</p></div></article><div><nav class=pagination><ul><li><a href=/blog/videogames/the-peerful-project/pizza-peers/devlog-pizza-peers/2-websockets-node-js-server/ class="masked-link big-mask mask-8" style=--rotation:-0.5deg>&lt;&lt; Previous Page</a></li><li>Continue reading</li><li><a href=/blog/videogames/the-peerful-project/pizza-peers/devlog-pizza-peers/4-using-phaser-io/ class="masked-link big-mask mask-1" style=--rotation:2deg>>> Next Page</a></li></ul></nav></div></main><footer id=site-footer><div class="padding center-block"><h3>More Pandaqi</h3><p>You could <a href=https://pandaqi.com>visit the game studio</a>.
+Or my <a href=https://pandaqi.com/tutorials/>free tutorial website</a>.
+Or my <a href=https://rodepanda.com/>portfolio</a> with easy access to absolutely everything I ever made.</p><h3>Latest</h3><nav class=latest><ul><li><a href=/blog/boardgames/photomone/>Photomone
+(🐜)</a></li><li><a href=/blog/boardgames/keebble-domino/>Keebble: Domino
+(📗)</a></li><li><a href=/blog/boardgames/keebble-knickknack/>Keebble: Knickknack
+(📘)</a></li><li><a href=/blog/videogames/game-jams/less-is-store/>Less is Store
+(🛍️)</a></li><li><a href=/blog/tutorials/placing-grids-within-spaces/>Placing grids within spaces</a></li><li><a href=/blog/boardgames/thats-amorphe-pictures/>That's Amorphe: Pictures
+(🖌️)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-2023-update-ii/>Pandaqi Games: 2023 Update (II)
+(🎮)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-2023-update-iii/>Pandaqi Games: 2023 Update (III)
+(🎮)</a></li><li><a href=/blog/news-and-updates/pq-daw/>PQ_DAW: A music editor for the web
+(🎼)</a></li><li><a href=/blog/news-and-updates/pq-words/>PQ_WORDS: A dictionary for games
+(📋)</a></li></ul></nav><h3>Sections</h3><nav><ul><li><a href=/blog/boardgames/>Boardgames
+(🎲)</a></li><li><a href=/blog/news-and-updates/>News & Updates
+(📢)</a></li><li><a href=/blog/reviews-and-thoughts/>Reviews & Thoughts
+(💭)</a></li><li><a href=/blog/tutorials/>Tutorials
+(👩‍🎓)</a></li><li><a href=/blog/videogames/>Videogames
+(🎮)</a></li></ul></nav><h3>Credits</h3><p>Theme by me (<a href=https://pandaqi.com>Pandaqi</a> 🐼) &#183;
+with ❤️ &#183;
+using <a href=https://gohugo.io>Hugo</a> &#183;
+&copy; 2018&ndash;2023 Pandaqi Blog</p></div></footer><link rel=stylesheet type=text/css href=/blog/css/style.css><script src=/blog/js/bundle.min.js></script></body></html>

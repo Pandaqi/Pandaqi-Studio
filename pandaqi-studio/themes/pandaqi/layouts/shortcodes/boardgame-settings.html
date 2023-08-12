@@ -1,0 +1,33 @@
+{{- $local_storage := or (.Get "local_storage") "pandaqiGeneralConfig" -}}
+{{- $target_url := or (.Get "target_url") "game.html" -}}
+{{- $stay_on_page := or (.Get "stay_on_page") "" -}}
+{{- $single_click := or (.Get "single_click") "" -}}
+{{- $btn_label := .Get "btn_label" -}}
+{{- $type := .Get "type" -}}
+{{- $class := "" -}}
+{{ if eq $type "board" }}{{ $class = "board-game-settings" }}{{ end }}
+
+<div class="game-settings {{ $class }}">
+	<div class="game-settings-container" data-localstorage="{{- $local_storage -}}" data-targeturl="{{- $target_url -}}" data-stayonpage="{{ $stay_on_page }}" data-singleclick="{{ $single_click }}">
+		{{- .Inner -}}
+	</div>
+</div>
+
+{{- if eq $type "board" -}}
+	{{- $def_btn_label := "Generate Board" -}}
+	{{- $btn_label = or $btn_label $def_btn_label -}}
+<div style="text-align: center;">
+	<button id="btn-generate-board">{{- $btn_label -}}</button>
+	<button id="btn-create-pdf" style="display:none;">Download PDF</button>
+</div>
+<div id="phaser-container">
+</div>
+
+{{- else if eq $type "game" -}}
+	{{- $def_btn_label := "Start game" -}}
+	{{- $btn_label = or $btn_label $def_btn_label -}}
+
+<div style="text-align: center;">
+	<button id="btn-start-game">{{- $btn_label -}}</button>
+</div>
+{{- end -}}
