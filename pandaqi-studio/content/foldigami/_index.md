@@ -10,24 +10,23 @@ headerTitle: "Foldigami | A game of wits using only a single paper and nothing e
 blurb: "A game of wits using only a single paper. Even the rules are on the paper itself, and play happens through folding and rotating."
 
 fullHeaderImg: "foldigami_header"
-headerImg: "foldigami_header"
 
-headerThumb: "favicon"
+headerThumb: "foldigami_header"
 
 customHeight: "small"
 headerDarkened: true
 
 color: "green"
 
-bgColor: "#c0e1ff"
-bgColorLink: "#7c2b6b"
+bgColor: "#083d08"
+bgColorLink: "#9ce4eb"
 
-textColor: "#01201c"
-textColorLink: "#eeb9e3"
+textColor: "#cdfff9"
+textColorLink: "#083d42"
 
 googleFonts: "https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400;0,900;1,400&family=Jockey+One&display=swap"
 
-date: 2023-02-16 # @TODO: 2023-11-21
+date: 2023-11-21
 
 categories: ["boardgame"]
 tags: ["one_paper_game", "opg"]
@@ -55,11 +54,21 @@ A game as tough as chess, played using only a paper and nothing else.
 
 {{% /boardgame-intro %}}
 
+<div class="divider-image">
+  <img src="webp/banner_divider.webp">
+</div>
+
 {{% section-centered heading="What do I need?" icon="webp/icon_intro.webp" %}}
 
 Generate a paper below. Print and play!
 
+Or click the "Download" button to print one of the PDFs I already generated for you.
+
 {{% /section-centered %}}
+
+<div class="divider-image">
+  <img src="webp/banner_divider.webp">
+</div>
 
 {{% section-centered heading="Board" html="true" anchor="board" icon="webp/icon_board.webp" %}}
 
@@ -75,9 +84,13 @@ Generate a paper below. Print and play!
     {{< setting-checkbox id="setting-noRotation" text="Rotate icons identically?" remark="Normally, icons rotate towards the player to whom they belong." >}}
   {{< /boardgame-settings >}}
 
-<p class="remark-under-settings">Not working? Don't worry! At the "Download" link, you can also find PDFs with valid boards for all situations. Check the "Premade" folder.</p> 
+<p class="remark-under-settings"><strong>Not working?</strong> Don't worry! At the "Download" link, you can also find PDFs with valid boards for all situations. Check the "Premade" folder.</p> 
 
 {{% /section-centered %}}
+
+<div class="divider-image">
+  <img src="webp/banner_divider.webp">
+</div>
 
 {{% section-centered heading="Clarifications" icon="webp/icon_clarifications.webp" %}}
 
@@ -101,6 +114,10 @@ Below, however, is a list of clarifications in case you're uncertain.
 
 {{% /section-centered %}}
 
+<div class="divider-image">
+  <img src="webp/banner_divider.webp">
+</div>
+
 {{% section-centered heading="Credits" icon="webp/icon_credits.webp" %}}
 
 Fonts? **Jockey One** and **Figtree**, both freely available from Google Fonts.
@@ -118,3 +135,8 @@ Fun fact: the five animals are actual names used by ancient Asian military to in
 Want more details? Check out the [devlog](https://pandaqi.com/blog/boardgames/foldigami).
 
 {{% /section-centered %}}
+
+<div class="divider-image">
+  <img src="webp/banner_divider.webp">
+</div>
+

@@ -109,6 +109,31 @@ body {
 @media print {
     body {
         font-size: 14px;
+        background-color: transparent;
+    }
+
+    #setup, #objective, #action_play, #packs {
+        background-color: transparent;
+    }
+
+    #setup .heading-container, #action_play .heading-container {
+        background-color: #c98fff;
+    }
+
+    #objective .heading-container, #packs .heading-container {
+        background-color: #ff987b;
+    } 
+
+    .float-right {
+        clear: both;
+        float: none;
+        margin: auto;
+
+        img {
+            max-width: 200px;
+            display: block;
+            margin: auto;
+        }
     }
 }
 

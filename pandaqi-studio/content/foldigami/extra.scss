@@ -8,6 +8,7 @@ $button-color: #212121;
 $link-color: #b2da55;
 $link-color-hover: #d8f398;
 $settings-color: #a51921;
+$cutoff: 920px;
 
 // Color scheme: 
 // DARKBLUE: #18393E
@@ -27,6 +28,12 @@ body {
     color: $text-color;
     font-size: 20px;
     background-size: 100%;
+    background-image: url(webp/foldigami_background.webp);
+
+    @media all and (max-width: $cutoff)
+    {
+        background-image: none;
+    }
 }
 
 .remark-under-settings {
@@ -34,8 +41,14 @@ body {
     opacity: 0.75;
 }
 
+.divider-image {
+    max-width: $cutoff;
+    margin: auto;
+    margin-top: 3em;
+}
+
 .limit-width {
-    max-width: 960px;
+    max-width: $cutoff;
 }
 
 h2 {
@@ -64,6 +77,14 @@ a {
 .boardgame-intro {
     .tagline, .metadata {
         color: #FCFCFC;
+    }
+
+    .tagline {
+        font-size: 1.25em;
+    }
+
+    .metadata {
+        font-size: 0.85em;
     }
 }
 

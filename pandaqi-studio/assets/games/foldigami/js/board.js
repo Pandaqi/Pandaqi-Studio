@@ -66,11 +66,13 @@ export default class Board
 
     generate()
     {
+        const maxTries = 100;
+        let numTries = 0;
         do {
             this.generationSuccess = false;
             this.state = this.createBoardState(); 
             this.determineTypes();
-        } while(!this.generationSuccess);
+        } while(!this.generationSuccess && numTries < maxTries);
     }
 
     createBoardState()
@@ -237,10 +239,14 @@ export default class Board
         const numEmptyCells = Math.round( Random.range(percentageEmpty.min*totalNumCells, percentageEmpty.max*totalNumCells) );
 
         // fill up the remaining empty space with random types
+        const maxTries = 200;
+        let numTries = 0;
         while(cells.length > numEmptyCells)
         {
+            numTries += 1;
             const outOfTypes = Object.keys(typesDict).length <= 0;
-            if(outOfTypes) { break; }
+            const ranOutOfTries = (numTries >= maxTries);
+            if(outOfTypes || ranOutOfTries) { break; }
 
             const randType = Random.getWeighted(typesDict);
             const data = typesDict[randType];

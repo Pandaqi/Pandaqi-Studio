@@ -9,6 +9,8 @@ export default class Evaluator
 
     evaluate(board)
     {
+        if(!board.generationSuccess) { return false; }
+
         let isValid = true;
         const state = this.cloneAndPrepareGrid(board);
         this.state = state;
@@ -54,7 +56,7 @@ export default class Evaluator
             numShieldsPerTeam[cell.getTeam()] += 1;
         }
 
-        if(numShieldsPerTeam[0] != numShieldsPerTeam[1]) { isValid = false; }
+        if(numShieldsPerTeam[0] != numShieldsPerTeam[1]) { console.error("Failed because of imbalanced shields!"); isValid = false; }
 
         if(!isValid) { return isValid; }
 

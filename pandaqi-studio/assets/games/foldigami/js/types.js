@@ -9,7 +9,7 @@ export default class Types
         this.cfg = this.game.cfg;
         this.cfgTypes = this.cfg.types;
 
-        const maxTries = 1000;
+        const maxTries = 100;
         let numTries = 0;
         do {
             this.setup();
@@ -99,6 +99,7 @@ export default class Types
 
     setup()
     {
+        this.cfg.typeDict = {}; // reset to prevent leftover info on next tries in loop
         const fullTypesDict = structuredClone(CELL_TYPES);
 
         // remove any invalid types

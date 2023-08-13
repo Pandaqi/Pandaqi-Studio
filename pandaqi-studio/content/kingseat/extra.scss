@@ -1,14 +1,14 @@
 $header-font: "UnifrakturCook", sans-serif;
 $body-font: "Brygada", serif;
-$bg-color: #212121;
-$game-color: #ff987b; // #FF4816;
-$game-text-color: #642311;
-$link-color: #ff987b;
+$bg-color: #060606;
+$game-color: #f9a48c; // #FF4816;
+$game-text-color: #4d180a;
+$link-color: #f9a48c;
 $link-color-hover: #ffd3c7;
 $download-link-bg: #AB50FF;
 $download-link-color:#2f0951;
-$start-game-bg: #642311;
-$start-game-color: #ff987b;
+$start-game-bg: #4d180a;
+$start-game-color: #f9a48c;
 $text-color: #FCFCFC;
 $heading-color: #AB50FF;
 $cutoff: 900px;
@@ -55,7 +55,7 @@ h1,h2,h3,h4,h5,h6 {
 
 .metadata-container {
     h1,h2,h3,h4,h5,h6 {
-        color: #250425;
+        color: $text-color;
     }
 }
 
@@ -92,6 +92,17 @@ h3 {
 
     h3 { color: $game-text-color; }
     .setting-remark { color: rgba(0,0,0,0.75); }
+}
+
+.remark-below-settings {
+    font-size: 0.75em; 
+    opacity: 0.75;
+}
+
+.heading-with-icon {
+    .part-heading {
+        margin-top: -0.33em;
+    }
 }
 
 #btn-start-game, #btn-start-game:visited {

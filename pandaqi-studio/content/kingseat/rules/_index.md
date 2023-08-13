@@ -5,7 +5,7 @@ type: "rules"
 pdf: false
 ---
 
-{{% rules-block id="setup" heading="Setup" icon="setup" icontint="pink" %}}
+{{% rules-block id="setup" heading="Setup" icon="setup" icontint="purple" %}}
 
 Setup for a new game has three easy steps.
 
@@ -16,27 +16,27 @@ Pick a _position_. This is the "Kingseat". Whoever sits (or stands) there, is th
 * Assign one player to keep the pile with votes during the game ( = the **Tell**).
 * Assign another player to keep the discard pile ( = the **Discard**).
 
+{{% remark %}}
+Visit the [website](https://pandaqi.com/kingseat) for material PDFs.
+{{% /remark %}}
+
 {{% /rules-block %}}
 
 {{% rules-block id="setup_deck" heading="Pick your Princes" %}}
 
 {{< rules-image src="starting_setup_1.webp" alt="Example starting setup (for four players)." class="float-right" >}}
 
-_You_ decide the number of unique Princes and the Hand size! Below are recommendations for a first game.
+_You_ decide the number of Princes and the Hand size! Some recommendations for a first game:
 
-{{% remark %}}
-Visit the [website](https://pandaqi.com/kingseat) to generate or download PDFs with the material.
-{{% /remark %}}
-
-* Include (slightly) fewer Princes than players. (E.g. with 4 players, use 3 Princes.)
+* Include (slightly) fewer Princes than players.
 * A good Hand size is ~8 cards.
 * Include equally many cards for each Prince
-
-Shuffle the deck you created. Then deal equally many cards to each player ( = their **Hand**). Any remaining cards are shown and go into the Tell.
 
 {{% remark %}}
 A bigger hand means a longer and more strategical game. The recommended Hand size means ~15 minutes of playtime.
 {{% /remark %}}
+
+Shuffle the deck you created. Then deal equally many cards to each player ( = their **Hand**). Any remaining cards are shown and go into the Tell.
 
 {{% /rules-block %}}
 
@@ -54,7 +54,7 @@ Finally, players exchange some cards to design the Hand they want.
 
 {{% /rules-block %}}
 
-{{% rules-block id="objective" heading="Objective" icon="objective" icontint="purple" %}}
+{{% rules-block id="objective" heading="Objective" icon="objective" icontint="orange" %}}
 
 {{< rules-double-view src="objective.webp" alt="Example counting the votes and declaring a winner (at the end)" >}}
 
@@ -66,7 +66,7 @@ Reveal the **Tell** and count the votes. (Each card is 1 vote.) The Prince with 
 
 {{% /rules-block %}}
 
-{{% rules-block id="action_play" heading="Gameplay" icon="action" class="force-page-break-before" icontint="lightblue" %}}
+{{% rules-block id="action_play" heading="Gameplay" icon="action" class="force-page-break-before" icontint="purple" %}}
 
 {{< rules-example id="turn" >}}
 
@@ -114,7 +114,7 @@ The first round is public.
 
 {{% /rules-block %}}
 
-{{% rules-block id="packs" heading="Packs" class="force-page-break-before" icon="expansion" icontint="yellow" %}}
+{{% rules-block id="packs" heading="Packs" class="force-page-break-before" icon="expansion" icontint="orange" %}}
 
 The packs below are _roughly_ in the order recommended. Further down the list, Princes are more complicated or less balanced. For your first game(s), pick the first few Princes.
 

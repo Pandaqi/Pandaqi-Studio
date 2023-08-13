@@ -32,8 +32,8 @@ const CELL_TYPES =
     twins1: { needsTeam: true, keepTeamEachPick: true, numPerTeam: { min: 0, max: 1 }, numEachPick: 2, type: "score", score: 6, prob: 0.66 },
     twins2: { tutFrame: 17, type: "score", num: { min: 3, max: 7 }, score: 2, prob: 1.33, needsTeam: true },
     
-    shield1: { needsTeam: true, num: { min: 0, max: 1 }, type: "board", skipEval: true, needsSpy: true, prob: 0.85 },
-    shield2: { tutFrame: 19, type: "objective", needsTeam: true, num: { min: 0, max: 1 }, skipEval: true, prob: 0.2 },
+    shield1: { needsTeam: true, numPerTeam: { min: 0, max: 1 }, numEachPick: 1, type: "board", skipEval: true, needsSpy: true, prob: 1.0 },
+    shield2: { tutFrame: 19, type: "objective", needsTeam: true, numEachPick: 1, numPerTeam: { min: 0, max: 1 }, skipEval: true, prob: 0.3 },
 
     sword: { needsTeam: true, type: "score", allowAllRotations: true, usesBlankSquares: true, prob: 1.5 },
     tiger1: { num: { min: 3, max: 6 }, type: "score", needsSpy: true, difficulty: "medium", prob: 0.5 },

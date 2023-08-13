@@ -8,7 +8,7 @@ import Point from "js/pq_games/tools/geometry/point"
 import ProgressBar from "js/pq_games/canvas/progressBar"
 
 const config = {
-    debugWithoutPDF: true, // @DEBUGGING (should be false)
+    debugWithoutPDF: false, // @DEBUGGING (should be false)
     fileName: "[Kingseat] Material",
     configKey: "kingseatConfig",
     fonts: {
@@ -53,7 +53,7 @@ const config = {
         }
     },
     cards: {
-        addShadowToSigil: false, // @DEBUGGING; should be TRUE (but is very slow, hence turned off normally)
+        addShadowToSigil: true, // @DEBUGGING; should be TRUE (but is very slow, hence turned off normally)
         maxDarkCardsPerPack: 2,
         percentageWithAction: 1.0,
         dims: { 

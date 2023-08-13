@@ -70,7 +70,7 @@ Three simple steps.
 
 <p>Input your settings, click the button. A new page will open that generates a nice PDF for you!</p>
 
-{{< boardgame-settings type="game" local_storage="photomoneAntsassinsConfig" >}}
+{{< boardgame-settings type="game" local_storage="photomoneAntsassinsConfig" btn_label="Create Material" >}}
 	{{< setting-hidden id="setting-gameTitle" text="Photomone Antsassins" >}}
   {{< setting-enum id="setting-tileShape" text="Tile Shape?" values="Rectangle,Hexagon,Triangle" valaskey="true" >}}
   {{< setting-enum id="setting-tileType" text="Tile Type?" values="Photomone,Mosaic,Clouds,Shapes,Simple,Lines" valaskey="true" >}}

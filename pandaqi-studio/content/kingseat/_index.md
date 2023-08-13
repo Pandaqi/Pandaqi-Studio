@@ -9,15 +9,15 @@ title: "Kingseat"
 headerTitle: "Kingseat | A social hidden role game for large groups, playable without a table."
 blurb: "A fast and simple hidden role game, with simultaneous turns and no player elimination, and even without table or chairs."
 
-fullHeaderImg: "sixpack_header"
-headerImg: "sixpack_header"
+fullHeaderImg: "kingseat_header"
+headerImg: "kingseat_header"
 
 headerThumb: "favicon"
 
 customHeight: "small"
 headerDarkened: true
 
-color: "purple"
+color: "black"
 
 bgColor: "#0d0018"
 bgColorLink: "#84060b"
@@ -27,7 +27,7 @@ textColorLink: "#f7fa96"
 
 googleFonts: ""
 
-date: 2023-05-02 #@TODO: change to 2023-12-20 when done
+date: 2023-12-20
 
 categories: ["boardgame"]
 tags: ["traditional"]
@@ -42,34 +42,34 @@ multiplayermode: "competitive"
 language: EN
 genre: ["card", "social", "party", "queueing", "fast", "hidden role"]
 playtime: 20
-playercount: [3,4,5,6,7,8,9,10,11,12]
+playercount: [4,5,6,7,8,9,10,11,12]
 complexity: low
 ages: everyone
 
 ---
 
-{{% boardgame-intro heading="" img="sixpack_header" class="no-shadow" url="https://drive.google.com/drive/folders/1as4B3n_kxQ9K1jIVtWMI_P5VnAjbXRP1" %}}
+{{% boardgame-intro heading="" img="kingseat_header" class="no-shadow" url="https://drive.google.com/drive/folders/1as4B3n_kxQ9K1jIVtWMI_P5VnAjbXRP1" %}}
 
 Pick your secret allegiance. Now make sure they get the most votes, without being obvious.
 
 {{% /boardgame-intro %}}
 
-{{% section-centered heading="What do I need?" %}}
+{{% section-centered heading="What do I need?"  icon="webp/icon_requirements.webp" %}}
 
 Three simple steps.
-* Read the _very_ short [playful rules](rules).
-* Download the material to print (using the "Download") button above.
+* Read the short [playful rules](rules).
+* Download the material to print (using the "Download") button above. You only need _one_ of the "sets".
 * Print it, cut it, play!
 
 **Want more?** You can also [generate your own material](#material) right on this website! Pick the "prince packs" you want and enjoy.
 
 {{% /section-centered %}}
 
-{{% section-centered heading="Material" anchor="material" html="true" %}}
+{{% section-centered heading="Material" anchor="material" html="true"  icon="webp/icon_material.webp" %}}
 
 <p>Input your settings, click the button. A new page will open that generates a nice PDF for you!</p>
 
-{{< boardgame-settings type="game" local_storage="kingseatConfig" >}}
+{{< boardgame-settings type="game" btn_label="Create Material" local_storage="kingseatConfig" >}}
 	{{< setting-hidden id="setting-gameTitle" text="Kingseat" >}}
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
   {{< setting-enum id="setting-cardSize" text="Card Size?" values="small,regular,huge" valaskey="true" def="regular" >}}
@@ -88,13 +88,13 @@ Three simple steps.
   {{< setting-checkbox id="setting-packs-salsaSalamanda" text="Salsa Salamanda?"  >}}
 {{< /boardgame-settings >}}
 
-<p style="font-size:0.66em; opacity: 0.66;">Check the rules to see how many Princes are recommended for each player count. Each choice adds ~1 page to print ( = 12 cards for that particular prince).</p> 
+<p class="remark-below-settings">Check the rules to see <strong>how many Princes</strong> are recommended for each player count. Each choice adds ~1 page to print ( = 12 cards for that particular prince).</p> 
 
-<p style="font-size:0.66em; opacity: 0.66;"><strong>Not working?</strong> Don't worry! At the "Download" link, you can also find valid PDFs with material!</p> 
+<p class="remark-below-settings"><strong>Not working?</strong> Don't worry! At the "Download" link, you can also find valid PDFs with material!</p> 
 
 {{% /section-centered %}}
 
-{{% section-centered heading="Throneless Games" %}}
+{{% section-centered heading="Throneless Games" icon="webp/icon_throneless.webp" %}}
 
 This game is part of my series I call "Throneless Games". That name was chosen because in these games ...
 
@@ -110,9 +110,7 @@ They all follow the same simple rules (and visual style). Each version, however,
 
 {{% /section-centered %}}
 
-{{< support >}}
-
-{{% section-centered heading="Credits" %}}
+{{% section-centered heading="Credits" icon="webp/icon_credits.webp" %}}
 
 This game actually uses three different fonts. (These are called "blackletter" or "fraktur" fonts.)
 
@@ -131,3 +129,5 @@ Kingseat was the first game to come out of this journey. It's not the best, as i
 For a detailed diary about the game, check out the [devlog](https://pandaqi.com/blog/boardgames/kingseat).
 
 {{% /section-centered %}}
+
+{{< support >}}
