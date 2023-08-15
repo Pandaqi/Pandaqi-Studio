@@ -1,0 +1,12 @@
+DirectoryPath: public
+
+CheckExternal: false
+
+CheckAnchors: true
+CheckImages: false
+CheckScripts: false
+CheckLinks: false
+CheckMeta: false
+
+IgnoreAltMissing: true
+IgnoreDirectoryMissingTrailingSlash: true

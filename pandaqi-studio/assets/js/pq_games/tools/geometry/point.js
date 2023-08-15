@@ -3,9 +3,10 @@ export default class Point {
     {
         this.x = p.x || 0;
         this.y = p.y || 0;
-        this.neighbors = p.neighbors || []; // any point it CAN reach
-        this.connections = p.connections || []; // points to which it's actually connected
-        this.metadata = p.metadata || null;
+        this.neighbors = (p.neighbors || []).slice(); // any point it CAN reach
+        this.connections = (p.connections || []).slice(); // points to which it's actually connected
+        this.metadata = null;
+        if(p.metadata) { this.metadata = Object.assign({}, p.metadata); }
     }
 
     clone() { return new Point(this); }
@@ -57,6 +58,12 @@ export default class Point {
         const l = this.length();
         if(Math.abs(l) <= 0.0001) { return this; }
         return this.scaleFactor(1.0 / l); 
+    }
+
+    random()
+    {
+        const angle = Math.random() * 2 * Math.PI;
+        return new Point().setXY(Math.cos(angle), Math.sin(angle));
     }
 
     clamp(pMin = new Point(), pMax = new Point())
