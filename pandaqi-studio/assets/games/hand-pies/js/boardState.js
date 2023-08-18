@@ -66,6 +66,15 @@ export default class BoardState
             c.setTypeObject(r);
             typeManager.registerTypeChosen(c, r);
         }
+
+        const requiredMoney = typeManager.getRequiredMoney();
+        while(requiredMoney.length > 0)
+        {
+            const r = requiredMoney.pop();
+            const c = cells.pop();
+            c.setTypeObject(r);
+            typeManager.registerTypeChosen(c, r);
+        }
     }
 
     fillSpaceLeft(typeManager, cells)

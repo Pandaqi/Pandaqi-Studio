@@ -7,14 +7,17 @@ export default class Cell
         this.type = null; // ingredient, machine, money, tutorial
         this.subType = null; // the specific ingredient, machine or tutorial
         this.reservedFor = null;
-        this.num = 0;
-        this.fixedFingers = []; // @TODO
+        this.num = 0; // purchase cost for ingredient/machine, actual value for money
+        this.fixedFingers = [];
+        this.tutorial = false;
     }
 
     setTypeObject(t)
     {
         this.setType(t.mainType);
         this.setSubType(t.subType);
+        this.setNum(t.num);
+        this.setTutorial(t.tutorial);
     }
 
     setType(t) { this.type = t; }
@@ -25,6 +28,9 @@ export default class Cell
     getSubType() { return this.subType; }
     hasSubType() { return this.type !== null; }
 
+    setTutorial(t) { this.tutorial = t; }
+    isTutorial() { return this.tutorial; }
+
     markReservedFor(otherCell) { this.reservedFor = otherCell; }
     isReserved() { return this.reservedFor !== null; }
 
@@ -32,4 +38,13 @@ export default class Cell
 
     setNum(n) { this.num = n; }
     getNum() { return this.num; }
+    hasNum() { return this.num > 0; }
+
+    setFixedFingers(f) { this.fixedFingers = f; }
+    getFixedFingers() { return this.fixedFingers; }
+    hasFixedFingers() { return this.fixedFingers.length > 0; }
+
+    hasExtraData() { 
+        return this.hasFixedFingers() || (this.hasNum() && this.type != "money");
+    }
 }

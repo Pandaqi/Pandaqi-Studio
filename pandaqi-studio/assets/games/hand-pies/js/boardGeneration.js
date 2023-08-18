@@ -21,16 +21,34 @@ const config = {
         resolutionPerCell: 5,
         maxGridLineVariation: 0.1,
         smoothingResolution: 8,
+        outerMarginFactor: { x: 0.05, y: 0.05 }, // empty space around the board, fraction of total paper size
         grid: {
-            lineWidth: 0.05,
+            lineWidth: 0.05, // fraction of CellSizeUnit
             lineColor: 0xFFFFFF,
             lineAlpha: 0.66
-        }
+        },
+        outerEdge: {
+            lineWidth: 0.05,
+            lineColor: 0x000000,
+            lineAlpha: 1.0
+        },
+        iconScale: 0.75,
+        extraFrameScale: 0.66,
+        defaultBackgroundMachines: 0x484848,
+        defaultBackgroundMoney: 0x056703,
     },
 
     types: {
         ingredientBounds: { min: 3, max: 6 },
-        machineBounds: { min: 2, max: 4 }
+        machineBounds: { min: 2, max: 4 },
+        moneyTypeBounds: { min: 0.33, max: 0.66 }, // what percentage of all types should be bought for MONEY
+        moneyTargetBounds: { min: 0.5, max: 0.75 },
+        maxPower: 3, // 0-3
+        maxMoney: 7,
+        maxValueForMoneyCell: 4, // should be lower than maxMoney, otherwise you can buy anything with ONE square,
+        maxMoneyDrawProb: 3, // at the highest possible need, this is the probability of adding a money square
+        fixedFingerBounds: { min: 0.1, max: 0.33 },
+        sheetData: { frameWidth: 256, frameHeight: 256 }
     }
 }
 
@@ -46,7 +64,14 @@ class BoardGeneration extends Scene
         this.canvas = this.sys.game.canvas;
 
         const base = 'assets/';
-        //this.load.spritesheet(config.types.textureKey, base + config.types.textureKey + '.webp', config.types.sheetData);
+        this.load.spritesheet("tutorials_spritesheet", base + 'tutorials_spritesheet.webp', config.types.sheetData);
+        this.load.spritesheet("custom_spritesheet", base + 'tutorial_spritesheet.webp', config.types.sheetData);
+
+        this.load.spritesheet("ingredient_spritesheet", base + 'ingredient_spritesheet.webp', config.types.sheetData);
+        this.load.spritesheet("ingredient_tutorials_spritesheet", base + 'ingredient_tutorials_spritesheet.webp', config.types.sheetData);
+        this.load.spritesheet("machine_spritesheet", base + 'machine_spritesheet.webp', config.types.sheetData);
+        this.load.spritesheet("machine_tutorials_spritesheet", base + 'ingredient_tutorials_spritesheet.webp', config.types.sheetData);
+
     }
 
     async create(userConfig) {

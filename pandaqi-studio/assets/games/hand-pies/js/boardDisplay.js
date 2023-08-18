@@ -1,6 +1,7 @@
 import { Geom, Display } from "js/pq_games/phaser.esm"
 import Point from "js/pq_games/tools/geometry/point"
 import smoothPath from "js/pq_games/tools/geometry/smoothPath"
+import { MAIN_TYPES } from "./dictionary"
 
 export default class BoardDisplay
 {
@@ -12,28 +13,34 @@ export default class BoardDisplay
         this.resolutionPerCell = this.cfgBoard.resolutionPerCell;
 
         this.paperDimensions = { x: this.game.canvas.width, y: this.game.canvas.height };
+
+        const outerMarginFactor = this.cfgBoard.outerMarginFactor;
+        this.outerMargin = { x: this.paperDimensions.x * outerMarginFactor.x, y: this.paperDimensions.y * outerMarginFactor.y };
+        this.boardDimensions = { x: this.paperDimensions.x - 2*this.outerMargin.x, y: this.paperDimensions.y - 2*this.outerMargin.y };
 	}
 
     draw(board)
-    {
-        const grid = board.getGrid();
-        
+    {        
         this.board = board;
         this.dims = board.getDimensions();
         this.cellSize = { 
-            x: this.paperDimensions.x / this.dims.x, 
-            y: this.paperDimensions.y / this.dims.y 
+            x: this.boardDimensions.x / this.dims.x, 
+            y: this.boardDimensions.y / this.dims.y 
         };
         this.cellSizeUnit = Math.min(this.cellSize.x, this.cellSize.y);
 
         // draws the grid and fills in the squares
         const lines = this.createGridLines(this.dims);
-        console.log(Object.assign({}, lines));
         const linesRandomized = this.randomizeGridLines(lines);
         const linesSmoothed = this.smoothLines(linesRandomized);
-        console.log(Object.assign({}, linesSmoothed));
-        this.fillInCells(linesSmoothed);
+        const polygons = this.fillInCells(linesSmoothed);
         this.strokeLines(linesSmoothed);
+
+        // draws the custom images or properties of each cell
+        this.displayCells(polygons);
+
+        // finishing touches
+        this.drawBoardEdge();
     }
 
     createGridLines()
@@ -64,8 +71,8 @@ export default class BoardDisplay
             // start at a fixed location on non variable axis
             // the variable axis starts at 0 and will change
             let curPoint = new Point();
-            let staticCoordinates = a * resolutionPerCell * offsetPerStep[nonVariableAxis];
-            curPoint[variableAxis] = 0;
+            let staticCoordinates = this.outerMargin[nonVariableAxis] + a * resolutionPerCell * offsetPerStep[nonVariableAxis];
+            curPoint[variableAxis] = this.outerMargin[variableAxis];
             curPoint[nonVariableAxis] = staticCoordinates;
             curPoint.metadata = { edge: true, cells: this.getCellsConnectedToRealPoint(variableAxis, curPoint) };
             line.push(curPoint.clone());
@@ -84,7 +91,7 @@ export default class BoardDisplay
             }
 
             let finalPoint = new Point();
-            finalPoint[variableAxis] = this.paperDimensions[variableAxis];
+            finalPoint[variableAxis] = this.outerMargin[variableAxis] + this.boardDimensions[variableAxis];
             finalPoint[nonVariableAxis] = staticCoordinates;
             finalPoint.metadata = { edge: true, cells: this.getCellsConnectedToRealPoint(variableAxis, finalPoint) };
             line.push(finalPoint.clone());
@@ -110,7 +117,7 @@ export default class BoardDisplay
                     let isTutorial = false;
                     for(const cell of point.metadata.cells)
                     {
-                        if(cell.getType() == "tutorial") { isTutorial = true;  }
+                        if(cell.isTutorial()) { isTutorial = true;  }
                     }
 
                     const keepStatic = isAnchorPoint || isEdge || isTutorial;
@@ -138,8 +145,15 @@ export default class BoardDisplay
 
     convertRealPointToGridPoint(p)
     {
-        const x = Math.floor(p.x / this.cellSize.x);
-        const y = Math.floor(p.y / this.cellSize.y);
+        const x = Math.floor((p.x - this.outerMargin.x) / this.cellSize.x);
+        const y = Math.floor((p.y - this.outerMargin.y) / this.cellSize.y);
+        return new Point().setXY(x,y);
+    }
+
+    convertGridPointToRealPoint(p)
+    {
+        const x = p.x * this.cellSize.x + this.outerMargin.x;
+        const y = p.y * this.cellSize.y + this.outerMargin.y;
         return new Point().setXY(x,y);
     }
 
@@ -185,27 +199,143 @@ export default class BoardDisplay
         const smoothingResolution = this.cfgBoard.smoothingResolution;
         const distBetweenAnchors = smoothingResolution * this.resolutionPerCell;
 
-        // @TODO: get actual fill style from cell type
-        const colors = [0xFF0000, 0x00FF00, 0x0000FF, 0xFF00FF, 0xFFFF00, 0x00FFFF]
+        const polygons = [];
 
         for(let x = 0; x < this.dims.x; x++)
         {
+            polygons[x] = [];
+
             for(let y = 0; y < this.dims.y; y++)
             {
-                console.log(x,y);
-                console.log(this.dims.x, this.dims.y);
-                console.log(lines);
+                const cell = this.board.getCellAt(new Point().setXY(x,y));
+                let backgroundColor = cell.color || 0xFFFFFF;
+                if(cell.mainType == "machine") { backgroundColor = this.cfgBoard.defaultBackgroundMachines; }
+                else if(cell.mainType == "money") { backgroundColor = this.cfgBoard.defaultBackgroundMoney; }
 
                 const set1 = this.getLineChunk(lines.x[y], x*distBetweenAnchors, (x+1)*distBetweenAnchors);
                 const set2 = this.getLineChunk(lines.y[x+1], y*distBetweenAnchors, (y+1)*distBetweenAnchors);
                 const set3 = this.getLineChunk(lines.x[y+1], (x+1)*distBetweenAnchors, x*distBetweenAnchors);
                 const set4 = this.getLineChunk(lines.y[x], (y+1)*distBetweenAnchors, y*distBetweenAnchors);
 
-                graphics.fillStyle(colors[Math.floor(Math.random() * colors.length)]);
+                graphics.fillStyle(backgroundColor);
 
                 const polygon = new Geom.Polygon(set1.concat(set2).concat(set3).concat(set4));
-                graphics.fillPoints(polygon.points, true)
+                graphics.fillPoints(polygon.points, true);
+
+                polygons.push(polygon);
             }
+        }
+    }
+
+    displayCells(polygons)
+    {
+        for(let x = 0; x < this.dims.x; x++)
+        {
+            for(let y = 0; y < this.dims.y; y++)
+            {
+                this.displayCell(new Point().setXY(x,y));                
+            }
+        }
+    }
+
+    displayCell(point)
+    {
+        const cell = this.board.getCellAt(point);
+        const data = this.getTypeData(cell);
+        const w = this.cellSize.x, h = this.cellSize.y;
+        const realPos = this.convertGridPointToRealPoint(point);
+        const centerPos = realPos.clone().add(new Point().setXY(0.5*w, 0.5*h));
+
+        // tutorials get a custom square frame to mark them as such
+        if(cell.isTutorial())
+        {
+            const bgSprite = this.game.add.sprite(centerPos.x, centerPos.y, "custom_spritesheet");
+            bgSprite.setFrame(0);
+            bgSprite.setOrigin(0.5, 0.5);
+            bgSprite.displayWidth = w;
+            bgSprite.displayHeight = h;
+
+            // then a custom image (matching frame from spritesheet) with the actual explanation
+            let tutSprite;
+            if(cell.mainType == "ingredient" || cell.mainType == "machine") {
+                tutSprite = this.game.add.sprite(centerPos.x, centerPos.y, cell.mainType + "_tutorials_spritesheet");
+                tutSprite.setFrame(data.frame);
+            } else {
+                tutSprite = this.game.add.sprite(centerPos.x, centerPos.y, "tutorials_spritesheet");
+                tutSprite.setFrame(data.frame);
+            }
+
+            tutSprite.setOrigin(0.5, 0.5);
+            tutSprite.displayWidth = w;
+            tutSprite.displayHeight = h;
+
+            return;
+        }
+
+        // ingredients / machines display their custom sprite big in the center
+        if(cell.mainType == "ingredient" || cell.mainType == "machine")
+        {
+            const iconScale = this.cfgBoard.iconScale;
+            const sprite = this.game.add.sprite(centerPos.x, centerPos.y, cell.mainType + "_spritesheet");
+            sprite.setFrame(data.frame);
+            sprite.setOrigin(0.5, 0.5);
+            sprite.displayWidth = iconScale * w;
+            sprite.displayHeight = iconScale * h;
+
+            // if they have extra data (money number or fixed fingers) ...
+            if(cell.hasExtraData())
+            {
+                // display the background frame
+                const extraFrameScale = this.cfgBoard.extraFrameScale;
+                const extraFrame = this.game.add.sprite(centerPos.x, realPos.y + 0.75*h, "custom_spritesheet");
+                extraFrame.setOrigin(0.5, 0.5);
+                extraFrame.displayWidth = extraFrameScale * w;
+                extraFrame.displayHeight = extraFrameScale * h;
+
+                const displayMoney = cell.hasNum();
+                const displayFixedFingers = cell.hasFixedFingers();
+                if(displayMoney)
+                {
+                    extraFrame.setFrame(3);
+                    // @TODO: money text right next to it, set to correct number
+                }
+
+                if(displayFixedFingers)
+                {
+                    extraFrame.setFrame(4);
+                    // @TODO: not sure yet
+                }
+
+            }
+
+            return;
+        }
+
+        // money displays its icon (at the top) and text (at the bottom)
+        if(cell.mainType == "money")
+        {
+            const moneySpriteScale = this.cfgBoard.moneySpriteScale;
+            const moneySprite = this.game.add.sprite(centerPos.x, realPos.y + 0.25*h, "custom_spritesheet");
+            moneySprite.setFrame(5);
+            moneySprite.setOrigin(0.5, 0.5);
+            moneySprite.displayWidth = moneySpriteScale * w;
+            moneySprite.displayHeight = moneySpriteScale * h;
+
+            // @TODO: read from config, make dependant on cell size
+            const textConfig = {
+                fontFamily: "Cherry Bomb One",
+                fontSize: "128px",
+                color: "#50FF4B",
+                stroke: "#000000",
+                strokeThickness: 16,
+                align: "center"
+            }
+
+            const num = cell.getNum();
+            const text = this.game.add.text(centerPos.x, realPos.y + 0.75*h, num.toString(), textConfig);
+            text.setOrigin(0.5, 0.5);
+
+            return;
         }
     }
 
@@ -226,6 +356,30 @@ export default class BoardDisplay
 
         if(isReversed) { chunk.reverse(); }
         return chunk;
+    }
+
+    drawBoardEdge()
+    {
+        if(!this.hasOuterMargin()) { return; }
+
+        const lineWidth = this.cfgBoard.outerEdge.lineWidth * this.cellSizeUnit;
+        const lineColor = this.cfgBoard.outerEdge.lineColor;
+        const lineAlpha = this.cfgBoard.outerEdge.lineAlpha;
+
+        const graphics = this.game.add.graphics();
+        graphics.lineStyle(lineWidth, lineColor, lineAlpha);
+        const rect = new Geom.Rectangle(this.outerMargin.x, this.outerMargin.y, this.boardDimensions.x, this.boardDimensions.y);
+        graphics.strokeRectShape(rect);
+    }
+
+    hasOuterMargin()
+    {
+        return this.outerMargin.x > 0.003 || this.outerMargin.y > 0.003
+    }
+
+    getTypeData(cell)
+    {
+        return MAIN_TYPES[cell.mainType].DICT[cell.subType];
     }
 
 }
