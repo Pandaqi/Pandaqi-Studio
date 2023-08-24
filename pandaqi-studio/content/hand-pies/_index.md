@@ -1,5 +1,5 @@
 ---
-# draft: true
+draft: true
 type: "single"
 
 gamepage: true

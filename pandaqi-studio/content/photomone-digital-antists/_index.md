@@ -1,6 +1,5 @@
 ---
 type: "single"
-draft: true
 gamepage: true
 
 title: "Photomone: Digital Antists"
@@ -25,7 +24,7 @@ textColorLink: "#ffe4ea"
 
 googleFonts: ""
 
-date: 2023-03-29
+date: 2023-08-21
 
 categories: ["game"]
 tags: ["web", "party_game", "spin-off"]

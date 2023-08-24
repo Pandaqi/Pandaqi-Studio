@@ -94,7 +94,8 @@ class BoardGeneration extends Scene
     {
         do {
             this.board = new BoardState(this);
-            this.board.assignTypes(this.typeManager);
+            const typeManager = new TypeManager(this);
+            this.board.assignTypes(typeManager);
         } while(!this.evaluator.isValid(this.board));
     }
 

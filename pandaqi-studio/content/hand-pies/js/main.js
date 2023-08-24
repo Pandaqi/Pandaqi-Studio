@@ -1,2 +1,2 @@
-import setupBoardGeneration from "games/finger-pies/js/boardGeneration"
+import setupBoardGeneration from "games/hand-pies/js/boardGeneration"
 setupBoardGeneration();
