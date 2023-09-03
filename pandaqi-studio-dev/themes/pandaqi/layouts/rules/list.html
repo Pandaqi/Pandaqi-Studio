@@ -1,0 +1,79 @@
+{{ define "head" }}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {{ $favicon := "../favicon.png" }}
+    <link rel="icon"  type="image/png" href="{{ $favicon }}">
+
+    <title>{{ .Title }} | Rules | Pandaqi Games</title>
+
+    <!-- General CSS for rulebooks -->
+    {{ $options := (dict "targetPath" "/css/style-rules.css" "outputStyle" "compressed" "enableSourceMap" (not hugo.IsProduction)) }}
+    {{ $rules_style := resources.Get "/sass/style-rules.scss" | resources.ToCSS $options }}
+    <link rel="stylesheet" type="text/css" href="{{ $rules_style.RelPermalink }}" /> 
+
+    <!-- Unique CSS for this rulebook -->
+    {{ $output_path := printf "../%s/extra.css" (path.Dir .Page.File.Path) }}
+    {{ $extra := .Page.Resources.GetMatch "extra.scss" }}
+    {{ $options := (dict "targetPath" $output_path "outputStyle" "compressed" "enableSourceMap" (not hugo.IsProduction)) }}
+    {{ $style := $extra | resources.ToCSS $options }} 
+    <link rel="stylesheet" type="text/css" href="{{ $style.RelPermalink }}" />
+</head>
+{{ end }}
+
+{{ define "header" }}
+<!-- Used when you click on an image, to show it full screen -->
+<div class="image-overlay"><img src="" /></div>
+
+<header class="rules-header">
+    <!-- Steal the header image from the parent page, if available -->
+    {{ $url := or .Parent.Params.fullHeaderImg .Parent.Params.headerImg }}
+    {{ if $url }}
+        <div class="header-image">
+            {{ $url = add $url ".webp" }}
+            {{ partial "show-image.html" (dict "context" .Parent "img_url" $url "prepend" "../") }}
+        </div>
+    {{ end }}
+
+    <!-- Display metadata + title (also steal from parent page) -->
+    {{ $duration := .Parent.Params.playtime }}
+    {{ $player_count_min := index (.Parent.Params.playercount | first 1) 0 }}
+    {{ $player_count_max := index (.Parent.Params.playercount | last 1) 0 }}
+    {{ $genres := .Parent.Params.genre }}
+    {{ $genres_str := slice }}
+    {{ range $index, $elem := $genres }}
+        {{ $genres_str = $genres_str | append (printf "#%s" $elem) }}
+    {{ end }}
+    {{ $genres_str = delimit $genres_str " " }}
+
+    <div class="game-title">
+        <span class="metadata-creator">by Pandaqi</span>
+        <span class="metadata-duration">{{ $duration }} minutes</span>
+        <h1>{{ .Title }} (Rules)</h1>
+        <span class="metadata-playercount">{{ $player_count_min }}-{{ $player_count_max }} players</span>
+        <span class="metadata-genres">{{ $genres_str }}</span>
+    </div>
+</header>
+{{ end }}
+        
+{{- define "main" -}}
+<article>
+    {{ .Content }}
+</article>
+{{- end -}}
+
+{{ define "footer" }}
+    {{ $createPDF := and (not hugo.IsProduction) .Params.pdf }}
+    <span style="display:none;" id="hidden-metadata" data-createpdf="{{ $createPDF }}"></span>
+
+    <!-- General JS for rulebooks + custom extra JS per rulebook -->
+    {{ $js := resources.Get "/js/pq_rulebook/main.js" | js.Build "/js/lib-pqRulebook.js" | minify }}
+    {{ $extra_js := .Page.Resources.GetMatch "extra.js" }}
+    {{ if $extra_js }}
+        {{ $extra_js = $extra_js | js.Build "lib-customInteractive.js" | minify }}
+        <script async defer src="{{ $extra_js.RelPermalink }}"></script>
+    {{ end }}
+
+    <script async defer src="{{ $js.RelPermalink }}"></script>
+{{ end }}

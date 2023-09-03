@@ -1,0 +1,16 @@
+baseurl         = "https://pandaqi.com"
+theme           = "pandaqi"
+title       	= "Pandaqi Games | Development Environment"
+languageCode    = "en-US"
+SectionPagesMenu = "main"
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+      hardWraps = false
+
+[permalinks]
+  post = "/:slug/"
+
+

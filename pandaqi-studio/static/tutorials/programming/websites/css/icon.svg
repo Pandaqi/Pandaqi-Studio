@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 256 256" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(1,0,0,1,-7424,0)">
+        <g transform="matrix(1.6,0,0,1.70667,-10813.5,-373.411)">
+            <rect id="css" x="11398.4" y="218.796" width="160" height="150" style="fill:none;"/>
+            <g id="css1" serif:id="css">
+                <g transform="matrix(0.984796,0,0,0.984796,189.46,3.90598)">
+                    <g id="Shape" transform="matrix(0.369466,0,0,0.346375,11408.3,222.471)">
+                        <path d="M233.164,15.681L208.476,15.681L234.15,43.54L234.15,56.801L181.268,56.801L181.268,41.275L206.937,41.275L181.268,13.415L181.268,0.135L233.164,0.135L233.164,15.681ZM170.786,15.681L146.098,15.681L171.771,43.54L171.771,56.801L118.889,56.801L118.889,41.275L144.561,41.275L118.889,13.415L118.889,0.135L170.786,0.135L170.786,15.681ZM109.018,16.312L82.378,16.312L82.378,40.625L109.018,40.625L109.018,56.801L63.444,56.801L63.444,0.135L109.018,0.135L109.018,16.312Z" style="fill:rgb(19,19,19);"/>
+                    </g>
+                    <g id="Shape1" serif:id="Shape" transform="matrix(0.369466,0,0,0.346375,11408.3,220.731)">
+                        <path d="M27.142,386.29L0.071,82.67L297.521,82.67L270.425,386.241L148.614,420.011L27.142,386.29Z" style="fill:rgb(21,114,182);stroke:rgb(0,40,68);stroke-width:13.74px;"/>
+                    </g>
+                    <g id="Shape2" serif:id="Shape" transform="matrix(0.369466,0,0,0.346375,11408.3,220.731)">
+                        <path d="M148.798,394.199L247.225,366.911L270.382,107.496L148.798,107.496L148.798,394.199Z" style="fill:rgb(51,169,220);"/>
+                    </g>
+                    <g id="Group" transform="matrix(0.369466,0,0,0.346375,11428.6,269.917)">
+                        <path id="Shape3" serif:id="Shape" d="M93.797,75.496L143.072,75.496L146.475,37.364L93.797,37.364L93.797,0.125L187.172,0.125L186.279,10.116L177.127,112.732L93.797,112.732L93.797,75.496Z" style="fill:white;"/>
+                        <path id="Shape4" serif:id="Shape" d="M94.02,172.204L93.857,172.25L52.385,161.051L49.733,131.353L12.354,131.353L17.57,189.82L93.848,210.996L94.02,210.948L94.02,172.204Z" style="fill:rgb(235,235,235);"/>
+                        <path id="Shape5" serif:id="Shape" d="M139.907,111.156L135.423,161.026L93.891,172.236L93.891,210.978L170.23,189.82L170.79,183.53L177.268,111.156L139.907,111.156Z" style="fill:white;"/>
+                        <path id="Shape6" serif:id="Shape" d="M93.926,0.125L93.926,37.364L3.979,37.364L3.232,28.994L1.535,10.116L0.645,0.125L93.926,0.125Z" style="fill:rgb(235,235,235);"/>
+                        <path id="Shape7" serif:id="Shape" d="M93.797,75.5L93.797,112.738L52.85,112.738L52.104,104.369L50.406,85.491L49.516,75.5L93.797,75.5Z" style="fill:rgb(235,235,235);"/>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

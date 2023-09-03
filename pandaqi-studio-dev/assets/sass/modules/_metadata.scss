@@ -1,0 +1,92 @@
+@use "modules/globals.scss" as g;
+
+.metadata-divider {
+	display: none;
+
+	@media all and (max-width: g.$cutoff1) {
+        
+        position: relative;
+        z-index: 500;
+
+		display: block;
+		height: 130px;
+		margin-top: 0px;
+		margin-bottom: -110px;
+	}
+	
+}
+
+.metadata-container {
+	position: relative;
+	z-index: 500;
+
+    @media all and (max-width: g.$cutoff1) {
+		mask-image: none !important;
+        -webkit-mask-image: none !important;
+	}
+}
+
+.metadata-container, .entry-banner {
+
+    .metadata {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+
+        aside {
+            min-width: 300px;
+            max-width: 400px;
+            padding: 20px;
+        }
+
+        h3 {
+            font-size: 36px;
+            margin-bottom: 15px;
+            margin-top: 60px;
+            text-align: left;
+        }
+
+        @media all and (max-width: 920px) {
+            justify-content: left;
+
+            .concrete-metadata {
+                order: 0;
+            }
+
+            .info {
+                order: 1;
+            }
+
+            .category-links {
+                order: 2;
+            }
+        }
+
+        ul {
+            margin-left: 0px;
+            padding-left: 0px;
+
+            li {
+                list-style-type: none;
+                display: inline;
+            }
+        }
+
+        .info {
+            em {
+                font-size: 16px;
+                display:inline-block;
+            }
+        }
+
+        .info, .concrete-metadata {
+            li {
+                display: block;
+            }
+        }
+
+        .category-link, .tag-link {
+            padding: 20px;
+        }
+    }
+}

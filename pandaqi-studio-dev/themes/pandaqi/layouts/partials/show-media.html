@@ -1,0 +1,9 @@
+{{ $context := .context }}
+
+{{ if .is_video }}
+	{{ $media_url := add .media_url ".webm" }}
+	{{ partial "show-video.html" (dict "context" $context "video_url" $media_url) }}
+{{ else }}
+	{{ $media_url := add .media_url ".webp" }}
+	{{ partial "show-image.html" (dict "context" $context "img_url" $media_url) }}
+{{ end }}

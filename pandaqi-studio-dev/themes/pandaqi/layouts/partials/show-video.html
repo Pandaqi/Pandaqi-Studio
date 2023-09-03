@@ -1,0 +1,8 @@
+{{ $controls := or (.context.Get "controls") "" }}
+{{ $loop := or (.context.Get "loop") "loop" }}
+{{ $autoplay := or (.context.Get "autoplay") "autoplay" }}
+
+<video {{ $autoplay }} {{ $loop }} {{ $controls }} muted playsinline loading="lazy" decoding="async">
+    <source src="video/{{ .video_url }}" type="video/webm">
+    Video: {{ (replace .video_url ".webm" "") | humanize }}
+</video>

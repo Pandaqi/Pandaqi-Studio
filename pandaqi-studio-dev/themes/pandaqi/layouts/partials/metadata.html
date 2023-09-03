@@ -1,0 +1,115 @@
+<div class="metadata clipped" id="metadata-block">
+	<aside class="category-links">
+
+		<!-- Categories -->
+		<h3>Category</h3>
+		<nav>
+			<ul>
+			{{ range $k, $v := .Params.categories }}
+
+				{{ $url := printf "/categories/%s" $v }}
+				<li>
+					{{ partial "button.html" (dict "href" $url "content" ($v | humanize) "class" "category-link") }}
+				</li>
+
+			{{ end }}
+			</ul>
+		</nav>
+
+		<!-- Tags -->
+		<h3>Tags</h3>
+		<nav>
+			<ul>
+			{{ range $k, $v := .Params.tags }}
+
+				{{ $url := printf "/tags/%s" $v }}
+				<li>
+					{{ partial "button.html" (dict "href" $url "content" ($v | humanize) "class" "tag-link") }}
+				</li>
+			{{ end }}
+			</ul>
+		</nav>
+
+	</aside>
+
+	<!-- Concrete Metadata (player count, multiplayer type, platforms, etc) -->
+	<aside class="concrete-metadata">
+		<h3>Metadata</h3>
+		{{ $data_keys := slice "multiplayertype" "multiplayermode" "price" "platform" "language" "genre" "playtime" "playercount" "input" "ages" "complexity" }}
+		{{ $data_labels := slice "Multiplayer Type" "Multiplayer Mode" "Price" "Platforms" "Languages" "Genres" "Playtime" "Player Count" "Input" "Ages" "Complexity" }}
+
+		<!-- NOTE: I use $.Param $val here, because within a "range", apparently the scope (".") is the value being looped over, not the original one -->
+		<!-- NOTE: or $param_val (eq $param_val 0) basically says => ignore any parameters that are empty, EXCEPT those that are the number 0, as those ALSO resolve to false/empty (as in most languages -->
+		<ul>
+			{{ range $key, $val := $data_keys }}
+				{{ $label := index $data_labels $key }}
+				{{ $param_val := $.Param $val }}
+				{{ if or $param_val (eq $param_val 0) }}
+
+					<!-- Convert the value behind the scenes into something nicer and more meaningful to users -->
+					{{ $humanized_val := $param_val }}
+
+					{{ if eq $val "price" }}
+						{{ if eq $param_val 0 }}
+							{{ $humanized_val = "free" }}
+						{{ else }}
+							{{ $humanized_val = printf "%s euros" (string $param_val) }}
+						{{ end }}
+					{{ end }}
+
+					{{ if eq $val "playtime" }}
+						{{ $humanized_val = printf "%s minutes" (string $param_val) }}
+					{{ end }}
+
+					<!-- If it's a list of things, create a unique link for each -->
+					{{ if reflect.IsSlice $param_val }}
+						<li>{{ $label }}: 
+
+							{{ range $param_val }}
+								{{ $url := printf "/%s/%s" $val (string .) }}
+								{{ partial "button.html" (dict "href" $url "content" . "class" "concrete-link") }}
+							{{ end }}
+
+						</li>
+
+					<!-- Otherwise just create the one link -->
+					{{ else }}
+
+						{{ if eq $val "language" }}
+							{{ $param_val = $param_val | lower }}
+							{{ $humanized_val = $param_val }}
+						{{ end }}
+
+						<li>{{ $label }}: 
+							
+							{{ $url := printf "/%s/%s" $val (string $param_val) }}
+							{{ partial "button.html" (dict "href" $url "content" $humanized_val "class" "concrete-link") }}
+						
+						</li>
+					{{ end }}
+				{{ end }}
+			{{ end }}
+		</ul>
+	</aside>
+
+	<!-- Metadata -->
+	{{ $press_kit := or .Params.pressKit "" }}
+	{{ $download_link := or .Params.downloadLink "" }}
+	{{ $requirements := or "<em>(none specified)</em>" .Params.requirements }}
+
+	<aside class="info">
+		<h3>Info</h3>
+		<ul>
+			<li>Date Published: <em>{{ .Date.Format "January 2, 2006" }}</em></li>
+			<li>Direct Buy/Download:
+				{{ partial "button.html" (dict "href" $download_link "content" .Params.Title "failContent" "<em>(not available)</em>") }}
+			</li>
+			<li>Press Kit: 
+				{{ partial "button.html" (dict "href" $press_kit "content" "Go to press kit" "failContent" "<em>(not available)</em>") }}
+			</li>
+			<li>Requirements: {{ $requirements | safeHTML }}</li>
+
+			<li>Summary: <em>{{ .Params.blurb }}</em></li>
+		</ul>
+	</aside>
+</div>

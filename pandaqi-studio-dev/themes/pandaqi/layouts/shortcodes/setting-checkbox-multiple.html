@@ -1,0 +1,23 @@
+{{- $base_id := or (.Get "id") "multi-checkbox" -}}
+{{- $valuesChecked := split (or (.Get "valuesChecked") "") "," -}}
+{{- $values := split (.Get "values") "," -}}
+{{- $keys := split (or (.Get "keys") "") "," -}}
+{{- if ne (len $keys) (len $values) -}}
+	{{- $keys = $values -}}
+{{- end -}}
+
+<div class="multi-checkbox">
+{{- range $k, $v := $values -}}
+	{{- $id := printf "%s-%s" $base_id $v -}}
+	{{- $key := index $keys $k | title -}}
+	{{- $checked_bool := in $valuesChecked $v -}}
+	{{- $checked := "" -}}
+	{{- if $checked_bool -}}{{- $checked = "checked" -}}{{- end -}}
+	<label for="{{- $id -}}">{{- $key -}}</label>
+	<input type="checkbox" name="{{- $id -}}" id="{{- $id -}}" {{- $checked -}}>
+{{- end -}}
+</div>
+
+{{- with (.Get "remark") -}}
+	<span class="setting-remark">{{- . | safeHTML -}}</span>
+{{- end -}}

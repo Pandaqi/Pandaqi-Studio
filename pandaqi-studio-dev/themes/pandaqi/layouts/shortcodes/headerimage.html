@@ -1,0 +1,6 @@
+{{ $class := .Get "class" }}
+
+<section class="game-header {{ $class }}">
+	{{ $img_url := add (.Get "img") ".webp" }}
+	{{ partial "show-image.html" (dict "context" $.Page "img_url" $img_url) }}
+</section>

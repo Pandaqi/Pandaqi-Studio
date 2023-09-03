@@ -1,0 +1,196 @@
+@use "sass:map";
+@use "sass:list";
+@use "sass:math";
+
+@use "modules/globals.scss" as g;
+
+/* General body */
+* {
+	box-sizing: border-box;
+}
+
+body, html {
+	overflow-x: hidden;
+	padding: 0;
+	margin: 0;
+	font-family: g.$body-font-stack;
+}
+
+img {
+	max-width: 100%;
+	width: auto;
+	height: auto;
+}
+
+video {
+	width: 100%;
+	max-width: 100%;
+	height: auto;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+	font-family: g.$header-font-stack;
+	line-height: 100%;
+}
+
+h1 {
+	font-size: 4vw;
+}
+
+/* Metadata */
+
+/* Footer */
+footer {
+	position: relative;
+	z-index: 1000;
+
+	content-visibility: auto;
+	contain-intrinsic-size: 500px;
+}
+
+.footer-divider {
+	display: none;
+
+	@media all and (max-width: g.$cutoff1) {
+		position: relative;
+		z-index: 999; /* footer itself has 1000 */
+
+		display: block;
+		height: 130px;
+		margin-top: -20px;
+		margin-bottom: -110px;
+	}
+}
+
+/* Header */
+header {
+	.hovering-gotobottom-btn {
+		position: absolute;
+		right: 0;
+		top: 0;
+		background-color: transparent;
+		border: none;
+		z-index: 1000;
+
+		/* Button is small enough AND useful enough to keep around
+		@media all and (max-width: g.$cutoff3) {
+			display: none;
+		}
+		*/
+	}
+
+	.maintenance-modal-container {
+		position: fixed;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		z-index: 2000;
+		background-color: rgba(0,0,0,0.4);
+		pointer-events: none;
+
+		.maintenance-modal-content {
+			background-color: rgb(210, 212, 253);
+			max-width: 500px;
+			padding: 1.0rem;
+			margin: auto;
+			margin-top: 2.0rem;
+			border-radius: 0.5rem;
+			filter: drop-shadow(0 0 10px black);
+		}
+	}
+}
+
+/* Basic sections, centering, max-width, floating images, etc. */
+section {
+
+	.center {
+		padding: 0px 15px;
+		max-width: g.$centered-section-width;
+		margin: auto;
+	}
+}
+
+.float-left, .float-right {
+	max-width: 0.5 * g.$centered-section-width;
+
+	@media all and (max-width: g.$cutoff2) {
+		max-width: 100%;
+		clear:both;
+		float: none;
+		text-align: center;
+		width: 100%;
+	}
+}
+
+.float-left { float: left; margin-right: 20px; }
+.float-right { float: right; margin-left: 20px; }
+
+.limit-width {
+	max-width: g.$centered-section-width;
+	padding: 15px;
+	margin: auto;
+}
+
+/* This is basically all we need. If it ever becomes more, create a seperate SCSS file for this and include it */
+.horizontal-flex-container {
+	.flex {
+		display: flex;
+		flex-wrap: nowrap;
+		align-items: center;
+
+		.text-side, .non-text-side {
+			width: 100%;
+			padding: 15px;
+		}
+
+		.non-text-side {
+			video {
+				width: 100%;
+			}
+		}
+
+		@media all and (max-width: g.$cutoff2) {
+			flex-wrap: wrap;
+		}
+	}
+
+	&.reversed {
+		.text-side { order: 1; }
+		.non-text-side { order: 0; }
+	}
+}
+
+/* Only apply the really rudimentary stuff */
+.entry-banner {
+	position: relative;
+	margin-top: -2vw;
+	height: 29vw;
+
+	content-visibility: auto;
+	contain-intrinsic-size: 1000px;
+
+	.horizontal-flex {
+		display: flex;
+		flex-wrap: nowrap;
+		z-index: 100;
+		align-items: center;
+
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+	}
+}
+
+.page-navigation {
+	background-color: white;
+}
+
+video {
+	background-color:white;
+}
+
+

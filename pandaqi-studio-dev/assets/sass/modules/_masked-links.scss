@@ -1,0 +1,54 @@
+@use "modules/globals.scss" as g;
+
+@mixin icon($offset:0) {
+    mask-position-x: $offset;
+    -webkit-mask-position-x: $offset;
+}
+
+$mask-url: url(/theme/webp/metadata-masks.webp);
+$mask-size: (g.$num-masks * 100 + 0%) 100%;
+
+.masked-link {
+    display: inline-block;
+    font-size: 16px;
+    text-decoration: none;
+    
+    padding: 0px;
+    padding-left: 10px;
+    padding-right: 10px;
+
+    mask-image: $mask-url;
+    -webkit-mask-image: $mask-url;
+
+    mask-size: $mask-size;
+    -webkit-mask-size: $mask-size;
+
+    transition: background-color 0.3s, color 0.3s, transform 0.3s;
+
+    transform: rotate(var(--rotation));
+
+    &:hover {
+        filter:  drop-shadow(0 0 30px black) hue-rotate(-120deg);
+        transform: rotate(0deg) scale(1.1);
+    }
+
+    &.category-link, &.tag-link, &.big-mask {
+        padding: 20px;
+    }
+
+    
+    @for $i from 1 through g.$num-masks {
+        &.mask-#{$i} {
+            @include icon($i * 100 + 0%);
+        }
+    }
+}
+
+button.masked-link {
+    border: none;
+    font-family: 'Raleway';
+
+    &:hover {
+        cursor: pointer;
+    }
+}

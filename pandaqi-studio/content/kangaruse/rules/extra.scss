@@ -1,0 +1,112 @@
+@use "sass:map";
+@use "sass:math";
+
+$header-font: "Mail Ray Stuff", sans-serif;
+$body-font: "Poppins", serif;
+$body-font-size: 18px;
+$body-line-height: 140%;
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('../assets/fonts/Poppins-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('../assets/fonts/Poppins-Italic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Mail Ray Stuff';
+    src: url('../assets/fonts/MailRayStuff-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('../assets/fonts/Poppins-Black.woff2') format('woff2');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: $header-font;
+}
+
+body {
+    font-family: $body-font;
+    background-color: #212121; // #5F5449;
+    font-size: $body-font-size;
+    line-height: $body-line-height;
+}
+
+.remark {
+    line-height: 120%;
+}
+
+#setup {
+    background-color: #c98fff;
+}
+
+#objective {
+    background-color: #ff987b;
+}
+
+#action_play {
+    background-color: #c98fff;
+}
+
+#packs {
+    background-color: #ff987b;
+    
+}
+
+/*
+#action_play {
+    background-color: #AB50FF;
+}
+
+#packs {
+    background-color: #FF4816;
+    
+}*/
+
+@media print {
+    body {
+        font-size: 14px;
+        background-color: transparent;
+    }
+
+    #setup, #objective, #action_play, #packs {
+        background-color: transparent;
+    }
+
+    #setup .heading-container, #action_play .heading-container {
+        background-color: #c98fff;
+    }
+
+    #objective .heading-container, #packs .heading-container {
+        background-color: #ff987b;
+    } 
+
+    .float-right {
+        clear: both;
+        float: none;
+        margin: auto;
+
+        img {
+            max-width: 200px;
+            display: block;
+            margin: auto;
+        }
+    }
+}

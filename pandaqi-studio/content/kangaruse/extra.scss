@@ -1,25 +1,51 @@
-$header-font: "Jockey One", serif;
-$body-font: "Figtree", sans-serif;
-$bg-color: #18393E;
-$text-color: #FCFCFC;
-$main-color: #7c2b6b;
+$header-font: "Mail Ray Stuff", serif;
+$body-font: "Poppins", sans-serif;
+$bg-color: #98bb45;
+$text-color: #0d440c;
 $button-bg: #FCC038;
-$button-color: #212121;
-$link-color: #b2da55;
-$link-color-hover: #d8f398;
-$settings-color: #a51921;
+$button-color: #27231c;
+$link-color: #3b4f0e;
+$link-color-hover: #5d7a1a;
+$settings-color: #8c3f13;
 $cutoff: 920px;
 
-// Color scheme: 
-// DARKBLUE: #18393E
-// MIDBLUE: #438593
-// RED: #a51921;   #CF363F
-// YELLOW: #FCC038
+@font-face {
+    font-family: 'Poppins';
+    src: url('assets/fonts/Poppins-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('assets/fonts/Poppins-Italic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Mail Ray Stuff';
+    src: url('assets/fonts/MailRayStuff-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('assets/fonts/Poppins-Black.woff2') format('woff2');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
 
 h1, h2, h3, h4, h5, h6, 
 a.btn, #btn-create-pdf, #btn-generate-board, #btn-start-game,
 input, button, select, option, label {
     font-family: $header-font;
+    letter-spacing: 0.04em;
 }
 
 body {
@@ -39,12 +65,6 @@ body {
 .remark-under-settings {
     font-size: 0.75em; 
     opacity: 0.75;
-}
-
-.divider-image {
-    max-width: $cutoff;
-    margin: auto;
-    margin-top: 3em;
 }
 
 .limit-width {
@@ -76,7 +96,7 @@ a {
 
 .boardgame-intro {
     .tagline, .metadata {
-        color: #FCFCFC;
+        color: $text-color;
     }
 
     .tagline {

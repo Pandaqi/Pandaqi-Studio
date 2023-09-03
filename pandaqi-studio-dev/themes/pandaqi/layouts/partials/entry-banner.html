@@ -1,0 +1,61 @@
+{{ $counter := .Scratch.Get "counter" }}
+
+{{ $height_append := or .Params.customHeight "medium" }}
+
+{{ $all_colors := .Site.Params.all_colors }}
+{{ $color_scheme := .Params.color }}
+{{ if not $color_scheme }}
+	{{ $color_scheme = index $all_colors $counter }}
+	{{ $height_append = "small" }}
+{{ end }}
+
+{{ $height := printf "height-%s" $height_append }}
+
+{{ $reversed := "" }}
+{{ if eq (mod $counter 2) 1 }}
+	{{ $reversed = "reversed" }}
+{{ end }}
+
+{{ $extra_classes := "" }}
+{{ if .Params.headerDarkened }}
+	{{ $extra_classes = add $extra_classes " darkened" }}
+{{ end }}
+
+{{ $has_header := .Params.headerImg }}
+{{ $has_thumb := .Params.headerThumb }}
+
+{{ $non_text_classes := .Params.entryBannerNonTextClasses }}
+{{ $text_classes := .Params.entryBannerTextClasses }}
+
+{{ $link_text := "Go to game page" }}
+{{ if not .Params.gamepage }}
+	{{ $link_text = "Go to page" }}
+{{ end }}
+
+<section class="clipped entry-banner {{ $height }} {{ $color_scheme }}">
+	<a href="{{ .RelPermalink }}">
+		{{ if $has_header }}
+			<div class="bg-image {{ $extra_classes }}">
+				<div class="image-gradient-overlay"></div>
+				{{ $img_url := add .Params.headerImg ".webp" }}
+				{{ partial "show-image.html" (dict "context" . "img_url" $img_url "use_full_url" true "make_absolute" true ) }}
+			</div>
+		{{ end }}
+
+		<div class="horizontal-flex {{ $reversed }}" style='color:{{ .Params.textColor }};'>
+			<div class="text-side {{ $text_classes }}" style='--blurcolor: {{ .Params.bgColor }}'>
+				<h1 style='color:{{ .Params.textColor }};'>{{ .Title }}</h1>
+				<p>{{ .Params.blurb }}</p>
+				<div class="btn" style="--bgcolor: {{ .Params.bgColorLink }}; --textcolor: {{ .Params.textColorLink }}">
+					{{ $link_text }}
+				</div>
+			</div>
+			{{ if $has_thumb }}
+				<div class="non-text-side {{ $non_text_classes }}">
+					{{ $img_url := add .Params.headerThumb ".webp" }}
+					{{ partial "show-image.html" (dict "context" . "img_url" $img_url "use_full_url" true "make_absolute" true ) }}
+				</div>
+			{{ end }}
+		</div>
+	</a>
+</section>

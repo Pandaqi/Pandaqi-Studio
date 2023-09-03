@@ -1,0 +1,8 @@
+{{- $class := or (.Get "class") "" -}}
+{{- $id := or (.Get "id") "" -}}
+
+<aside id="rules-example-{{ $id }}" class="rules-example {{ $class }}" data-exampleid="{{ $id }}">
+    <div class="ui"></div>
+    <div class="content"></div>
+</aside>
+

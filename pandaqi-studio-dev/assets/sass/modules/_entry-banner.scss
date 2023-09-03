@@ -1,0 +1,247 @@
+@use "sass:map";
+@use "sass:list";
+
+/* NOTE: This only indiates some specific elements, like the button styling or blurred background */
+/* More critical elements (which indicate size, for example) are loaded in critical.scss */
+@use "modules/globals.scss" as g;
+
+$default-margin: 2;
+$small: 29;
+$small-medium: 34;
+$medium: 39;
+$large: 49;
+
+.entry-banner {
+	overflow: hidden;
+	background-color: white;
+
+	/*.image-gradient-overlay {
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		background: linear-gradient(180deg, rgba(30,30,30,0.2) 0%, rgba(30,30,30,0.0) 5%);
+
+		transition: background 0.5s;
+	}*/
+
+	&.height-small {
+		height: $small + 0vw;
+	}
+
+	&.height-small-medium {
+		height: $small-medium + 0vw;
+	}
+
+	&.height-medium {
+		height: $medium + 0vw;
+	}
+
+	&.height-large {
+		height: $large + 0vw;
+		margin-top: -2.5vw;
+	}
+
+	/* This is completely redundant, as the images are always the full width */
+	/* HOWEVER, if I don't do this, the content-visibility algorithm will NOT load the images properly (it loads them at 0x0 size) */
+	/* Which would cause all the banner backgrounds to disappear on (mostly) mobil screens */ 
+	.bg-image {
+		img {
+			min-width: 100vw;
+		}
+	}
+	
+	@media all and (max-width: g.$cutoff2) {
+		margin-top: calc(-15px);
+
+		.bg-image {
+			transform: scale(3);
+		}
+
+		&.height-small {
+			height: 2 * $small + 0vw;
+		}
+
+		&.height-small-medium {
+			height: 2 * $small-medium + 0vw;
+		}
+
+		&.height-medium {
+			height: 2 * $medium + 0vw;
+			margin-top: calc(-22.5px);
+		}
+
+		&.height-large {
+			height: 2 * $large + 0vw;
+			margin-top: calc(-30px);
+		}
+
+		&.entry-banner-custom {
+			height: auto;
+
+			.horizontal-flex {
+				position: unset;
+			}
+
+			&.height-medium {
+				margin-top: calc(-17.5px + 1vw);
+			}
+
+			&.height-large {
+				margin-top: calc(-20px + 1vw);
+			}
+
+			img {
+				display: none;
+			}
+		}
+	}
+
+	a:hover {
+		.btn {
+			filter: brightness(130%);
+			box-shadow: 0 0 10px 0 var(--bgcolor);
+		}
+
+		.bg-image {
+			transform: scale(1.1);
+
+			@media all and (max-width: g.$cutoff2) {
+				transform: scale(3.5);
+			}
+
+			/*.image-gradient-overlay {
+				background: linear-gradient(180deg, rgba(30,30,30,0.2) 0%, rgba(30,30,30,0.0) 13%);
+			}*/
+		}
+
+		.non-text-side {
+			img {
+				transform: scale(0.9);
+			}
+		}
+	}
+
+	.bg-image {
+		transition: transform 0.5s;
+	}
+
+	.darkened {
+		img {
+			filter: brightness(50%);
+		}
+	}
+
+	.horizontal-flex {
+		justify-content: space-evenly;
+
+		&.reversed {
+			.text-side {
+				order: 1;
+			}
+
+			.non-text-side {
+				order: 0;
+			}
+		}
+
+		.non-text-side {
+			max-width: 600px;
+			filter: drop-shadow(0 0 3px #333);
+			padding: 10px;
+
+			&.no-shadow {
+				filter: none !important;
+			}
+
+			img {
+				max-height: 22vw;
+				border-radius: 10px;
+				transition: transform 0.5s;
+			}
+
+			@media all and (max-width: g.$cutoff1) {
+				max-width: 200px;
+
+				&.custom {
+					display: none;
+				}
+			}
+		}
+
+		.text-side {
+			width: 100%;
+			max-width: 400px;
+			position: relative;
+			font-size: 20px;
+			padding: 20px;
+
+			&.custom {
+				font-size: max(1.35vw, 14px);
+				max-width: 600px;
+			}
+
+			h1,h2,h3,h4,h5,h6 {
+				margin-top: 0px;
+				margin-bottom: 0px;
+			}
+
+			@media all and (max-width: g.$cutoff1) {
+				font-size: 14px;
+
+				&.custom {
+					max-width: 100%;
+				}
+			}
+
+			.btn {
+				border-radius: .5em;
+				font-family: g.$header-font-stack;
+				font-size: 20px;
+
+				padding: 7px 20px;
+
+				width: 100%;
+
+				border: 2px solid gray;
+				border-color: var(--bordercolor);
+
+				cursor: pointer;
+				display: block;
+				text-align: center;
+				text-transform: uppercase;
+				font-weight: 800;
+
+				background: var(--bgcolor);
+				color: var(--textcolor);
+				transition: background .5s,color .5s,border-color .5s,box-shadow .5s,filter .5s,opacity .5s;
+
+				@media all and (max-width: g.$cutoff2) {
+					display: none;
+				}
+			}
+
+			&::before {
+				background: var(--blurcolor);
+				opacity: 0.75;
+				content: "";
+				position: absolute;
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				z-index: -1;
+				filter: blur(20px);
+				pointer-events: none;
+				border-radius: 3em;
+			}
+		}
+	}
+}
+
+.entry-banner-custom > a {
+	text-decoration: none !important;
+}
+
+

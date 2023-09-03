@@ -7,9 +7,6 @@ paginate        = 5
 summaryLength 	= 18
 SectionPagesMenu = "main"
 
-defaultContentLanguage = 'en'
-defaultContentLanguageInSubdir = true
-
 [markup]
   [markup.goldmark]
     [markup.goldmark.renderer]

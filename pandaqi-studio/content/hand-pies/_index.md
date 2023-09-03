@@ -1,5 +1,5 @@
 ---
-draft: true
+draft: false
 type: "single"
 
 gamepage: true
@@ -24,7 +24,7 @@ bgColorLink: "#9ce4eb"
 textColor: "#cdfff9"
 textColorLink: "#083d42"
 
-googleFonts: "https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400;0,900;1,400&family=Jockey+One&display=swap"
+googleFonts: "https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&family=Quicksand:wght@500;700&display=swap"
 
 date: 2023-08-13 # @TODO: real release date is 2024-01-26
 

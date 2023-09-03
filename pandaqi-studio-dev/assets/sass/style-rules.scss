@@ -1,0 +1,847 @@
+@use "sass:map" as map;
+
+$max-content-width: 700px;
+$max-print-width: 500px;
+$double-view-breakpoint: $max-content-width;
+$img-max-width: 0.5*($max-content-width - 100px);
+$img-max-height: 300px;
+$bottom-padding: 2rem;
+$side-padding: 2rem;
+$remark-screen-width: 140px;
+$remark-print-width: 80px;
+$remark-screen-padding: 15px;
+$remark-print-padding: 5px;
+
+$min-remark-screen-width: $max-content-width + 2*$remark-screen-width;
+$min-remark-print-width: $max-print-width;
+
+/* Mixins */
+@mixin remark-in-side-margin($w, $p)
+{
+    position: absolute;
+
+    p { 
+        display: block;
+    }
+
+    &.left {
+        left: -($w + $p);
+    }
+
+    &.right {
+        right: -($w + $p);
+    }
+
+    max-width: $w;
+    transform: translateY(-125%);
+    border-top: 2px solid rgba(0,0,0,0.75);
+    border-radius: 0;
+    background-color: transparent;
+    &::before {
+        display: none;
+    }
+}
+
+@mixin tint-icon($hue) {
+    filter: sepia(100%) saturate(500%) brightness(100%) hue-rotate(#{$hue}deg) drop-shadow(0 0 2px #222);
+}
+
+/* General print/page stuff */
+@page { 
+    size: A4; 
+    margin: 0mm;
+    margin-top: 20mm;
+    margin-bottom: 20mm;
+
+    @top-center {
+        content: element(runningHeader);
+        //vertical-align: top;
+    }
+
+    @bottom-center { 
+        content: counter(page); 
+        font-style: italic;
+    }
+} 
+
+// @NOTE: trick to make the margin full size, if I want to place something to completely fill it
+/*
+.pagedjs_margin-top-center 
+{
+    .pagedjs_margin-content
+    {
+        height: 100%;
+    }
+}
+*/
+
+#running-header {
+    position: running(runningHeader);
+    background-color: black;
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+#running-footer {
+    position: running(runningFooter);
+}
+
+body {
+    background-color: #FCFCFC;
+    font-size: 16px;
+}
+
+h1 {
+    font-size: 3.5em;
+}
+
+h2 {
+    font-size: 2.0em;
+    string-set: title content(text);
+}
+
+h3 { 
+    font-size: 1.0em;
+}
+
+ul, ol {
+    margin-top: -0.85em;
+    margin-bottom: 1.5em;
+}
+
+
+
+
+//
+// Icons
+//
+$icons: (
+    "setup": ( "frame": 0 ),
+    "objective": ( "frame": 1 ),
+    "gameplay": ( "frame": 2 ),
+    "action": ( "frame": 3 ),
+    "scoring": ( "frame": 4 ),
+    "expansion": ( "frame": 5 ),
+    "options": ( "frame": 6 ),
+    "beware": ( "frame": 7 )
+);
+
+.heading-with-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+}
+
+.rules-icon {
+    width: 64px;
+    height: 64px;
+    background-image: url(/assets/rules_icons.webp);
+    background-size: 800%;
+}
+
+@each $name, $data in $icons
+{    
+    $frame: map-get($data, "frame");
+
+    .rules-icon-#{$name}
+    {
+        background-position-x: -$frame * 100%;
+    }
+}
+
+// tinting
+$tint: (
+    "yellow": 0,
+    "lightgreen": 15,
+    "green": 45,
+    "turqoise": 70,
+    "lightblue": 160,
+    "blue": 180,
+    "purple": 190,
+    "pink": 270,
+    "red": 300,
+    "orange": 330
+);
+
+@each $name, $data in $tint
+{
+    .tint-#{$name}
+    {
+        @include tint-icon($data);
+    }
+}
+
+
+//
+// Core / helpers
+//
+* { 
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+p {
+    orphans: 2;
+    widows: 2;
+}
+
+article, section {
+    position: relative;
+}
+
+.force-page-break-before {
+    page-break-before: page;
+    break-before: page;
+}
+
+.force-page-break-after {
+    page-break-after: page;
+    break-after: page;
+}
+
+
+// 
+// Game name + metadata, and image on PDF
+//
+header {
+    page-break-after: avoid;
+    break-after: avoid;
+
+    .header-image { 
+        display: none; 
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        @media print {
+            display: block;
+        }
+    }
+
+    .game-title {
+        width: 100%;
+        background-color: black;
+
+        margin-top: -0.5em;
+
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 1em;
+        padding: 1em;
+        width: 100%;
+        font-size: 0.66em;
+    
+        h1 {
+            font-size: 1.0rem;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            margin: 0;
+        }
+
+        span {
+            color: white;
+            opacity: 0.66;
+            font-style: italic;
+
+            @media all and (max-width: 500px) {
+                &.metadata-duration { display: none; }
+                &.metadata-genres { display: none; }
+            }
+        }
+        
+    }
+}
+
+//
+// Interactive examples
+//
+
+.rules-example {
+    padding: 1em;
+    background: rgba(0,0,0,0.1);
+    border-radius: 1em;
+
+    button {
+        padding: 0.5em;
+        width: 100%;
+        background: #521f04;
+        color: beige;
+        font-family: inherit;
+        border: none;
+        font-size: 1.0em;
+        border-radius: 0.5em;
+        filter: drop-shadow(0 0 2px #333);
+        cursor: pointer;
+        transition: background 0.3s, color 0.3s, filter 0.3s;
+
+        &:hover {
+            background: #ffe8be;
+            color: #2b1402;
+            filter: drop-shadow(0 0 5px #212121);
+        }
+    }
+
+    .ui {
+        display: flex;
+        gap: 0.5em;
+    }
+
+    .example-close-button {
+        display: none;
+        flex-shrink: 8;
+    }
+
+    @media print {
+        display: none;
+    }
+}
+
+//
+// Images in rulebooks
+//
+@function css-function( $function, $values... ) {
+	@return 
+		$function
+		+ unquote( '(' )
+		+ $values
+		+ unquote( ')' )
+	;
+}
+
+picture {
+    img {
+        max-width: 100%;
+        height: auto;
+        cursor: pointer;
+        transition: transform 0.3s;
+
+        &:hover {
+            transform: scale(1.1);
+        }
+    }
+
+    &.float-left { float: left; }
+    &.float-right { float: right; }
+
+    &.float-left, &.float-right {
+        max-width: $img-max-width;
+
+        @media screen and (max-width: $double-view-breakpoint) {
+            float: none;
+            max-width: 100%;
+        }
+    }
+
+    &.drop-shadow {
+        filter: drop-shadow(1px 2px 4px #444);
+    }
+}
+
+.image-overlay {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: none;
+    background-color: rgba(255,255,255,0.9);
+    z-index: 10000;
+    padding: 2.0em;
+    cursor: pointer;
+
+    justify-content: center;
+    align-items: center;
+
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+//
+// Double-view / side-by-side
+//
+
+@mixin place-underneath()
+{
+    flex-direction: column;
+
+    .double-block-right {
+        text-align: center;
+
+        img {
+            width: auto;
+            height: auto;
+            max-height: $img-max-height;
+        }
+    }
+}
+
+.double-view {
+	display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: row;
+    gap: 0.5em;
+    position: relative;
+
+    @media screen and (max-width: $double-view-breakpoint) {
+        @include place-underneath();
+    }
+
+    &.split-container-none {
+        @include place-underneath();
+    }
+
+    .double-block-left {
+        width: 100%;
+
+        &.split-rightheavy {
+            flex-shrink: 2;
+        }
+
+        &.split-even {
+            flex-shrink: 1;
+        }
+    }
+
+    .double-block-right {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &.split-leftheavy {
+            flex-shrink: 2; // it's more important that the code has enough space, especially because images can be clicked
+        }
+
+        &.split-even {
+            flex-shrink: 1;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+    }
+
+    svg, canvas {
+        border: 1px solid gray;
+        font-family: "Times New Roman";
+    }
+}
+
+//
+// Remarks
+//
+section[data-folded="true"]
+{
+    .remark {
+        display: none;
+    }
+}
+
+.remark {
+
+    background-color: rgba(0,0,0,0.2);
+    padding: 0.5em;
+    border-radius: 0.5em;
+    font-size: 0.75em;
+    color: rgba(0,0,0,0.8);
+    font-style: italic;
+    margin-bottom: 1em; // because the paragraphs inside won't add it
+
+    &::before {
+        content: "Remark: ";
+        display: inline-block;
+        font-weight: bold;
+        margin-right: 0.5em;
+    }
+
+    p {
+        display: inline;
+    }
+
+    p:first-child {
+        margin-top: 0;
+    }
+
+    p:last-child {
+        margin-bottom: 0;
+    }
+
+    @media screen and (min-width:$min-remark-screen-width)
+    {
+        @include remark-in-side-margin($remark-screen-width, $remark-screen-padding);
+    }
+
+    @media print and (min-width:$min-remark-print-width)
+    {
+        @include remark-in-side-margin($remark-print-width, $remark-print-padding);
+    }
+}
+
+//
+// The main, foldable sections
+//
+.rules-foldable {
+
+    & > .heading-container {
+        margin: 0;
+        padding: 1rem;
+
+        page-break-after: avoid;    
+        break-after: avoid;
+
+        cursor: pointer;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        transition: background-color 0.15s, box-shadow 0.15s;
+
+        &.top-level-heading {
+            box-shadow: 0 4px 6px rgba(0,0,0,0.5);
+        }
+
+        &.mid-level-heading {
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+            padding: 1rem;
+        }
+
+        &:hover {
+            background-color: white;
+            box-shadow: 0 0 5px black;
+        }
+
+        background-color: rgba(255,255,255,0.5);
+ 
+        .heading {
+            
+            margin: auto;
+            max-width: $max-content-width;
+            
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            justify-items: center;
+
+            .arrow {
+                transform: rotate(90deg);
+                font-family: inherit;
+                font-size: 2.5rem;
+            }
+    
+            h1, h2, h3, h4 {
+                margin: 0;
+                color: black;
+                opacity: 0.75;
+            }
+        }
+    }
+
+    .content-container {
+        &[data-folded="false"] {
+            &.top-level-container {
+                padding: 0rem $side-padding $bottom-padding $side-padding;
+
+                > .content {
+                    position: relative;
+                }
+            }
+        }
+
+        &[data-folded="true"] {
+            padding: 0px;
+        }
+
+        overflow-y: hidden;
+        overflow-x: hidden;
+        transition: height 0.3s;
+
+        .content {
+            margin: auto;
+
+            @media screen {
+                max-width: $max-content-width;
+            } 
+
+            @media print {
+                max-width: $max-print-width;
+            }
+        }
+        
+    }
+
+}
+
+// 
+// This styles a regular, _actual table_
+//
+
+$def-table-color: #1d1d1d;
+
+table {
+    border-collapse: collapse;
+    font-size: css-function(min, #{3vw}, #{1.0em});
+    box-shadow: 0 0 1.0em rgba(0, 0, 0, 0.5);
+    width: 100%;
+
+    page-break-inside: avoid;
+    break-inside: avoid;
+
+    page-break-before: auto;
+    break-before: auto;
+
+    thead tr {
+        background-color: $def-table-color;
+        color: #ffffff;
+        text-align: left;
+    }
+
+    th, td { 
+        padding: 0.62em 0.8em; 
+    }
+
+    td:not(:last-of-type) {
+        border-right: 1px solid $def-table-color;
+    }
+
+    tbody {
+        tr {
+            border-bottom: 1px solid #dddddd;
+
+            &:nth-of-type(even) {
+                background-color: rgba(255,255,255,0.85);
+            }
+
+            &:nth-of-type(odd) {
+                background-color: rgba(255,255,255,0.5);
+            }
+
+            &:last-of-type {
+                border-bottom: 2px solid #1d1d1d;
+            }
+        }
+    }
+}
+ 
+// This is a special kind of table
+// It holds clickable elements, which have an icon + (name) + description
+// Almost all my games need this: they give an overview of all options, or special actions, etcetera.
+$rules-table-icon-size: 128px;
+$rules-table-icon-size-print: 0.5*$rules-table-icon-size;
+$rules-table-size-print: 0.75*$rules-table-icon-size;
+
+.rules-table {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax($rules-table-icon-size, 1fr));
+    justify-content: start;
+    align-content: center;
+    gap: 1em;
+    padding: 1em;
+
+    break-inside: avoid;
+
+    &.single-element {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+    }
+
+    &.single-line {
+        display: flex;
+        flex-wrap: nowrap;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .rules-table-icon {
+        width: $rules-table-icon-size;
+        height: $rules-table-icon-size;
+        
+        @media print {
+            width: $rules-table-icon-size-print;
+            height: $rules-table-icon-size-print;
+        } 
+    }
+
+    .rules-table-entry {
+        min-width: $rules-table-icon-size;
+        max-width: 2*$rules-table-icon-size;
+
+        .icon-container {
+            background-color: rgba(0,0,0,0.2);
+            border-radius: 1em;
+            cursor: pointer;
+            box-shadow: 0 0.25em 0.25em black;
+            transition: background-color 0.3s, transform 0.3s, box-shadow;
+            display: flex;
+            justify-content: center;
+
+            &:hover {
+                background-color: rgba(255,255,255,0.2);
+                transform: scale(1.1);
+                box-shadow: 0 0.33em 0.33em black;
+            }
+        }
+
+        .heading-container, .desc-container {
+            font-size: 1.0em;
+            padding: 0.5em;
+        }
+
+        .heading-container {
+            background-color: rgba(255,255,255,0.5);
+            margin-top: 1em;
+        }
+
+        &.big {
+            min-width: 2*$rules-table-icon-size;
+            max-width: 4*$rules-table-icon-size;
+        }
+
+        &.huge {
+            min-width: 3*$rules-table-icon-size;
+            max-width: 6*$rules-table-icon-size;
+        }
+
+        &.enormous {
+            min-width: 4*$rules-table-icon-size;
+            max-width: 8*$rules-table-icon-size;
+        }
+    }
+
+    &.single-element {
+        .rules-table-entry {
+            min-width: 100%;
+            max-width: 100%;
+        }
+    }
+
+    &.single-line {
+        .rules-table-entry {
+            width: 100%;
+            max-width: 100%;
+        }
+    }
+
+    &.big {
+        grid-template-columns: repeat(auto-fill, minmax(2*$rules-table-icon-size, 1fr));
+
+        .rules-table-entry {
+            min-width: 2*$rules-table-icon-size;
+            max-width: 4*$rules-table-icon-size;
+        }
+    }
+
+    .heading-container, .desc-container {
+        display: none;
+    }
+
+    .rules-table-entry-clicked {
+        .heading-container, .desc-container {
+            display: block;
+        }
+    }
+
+    .rules-table-entry-clicked-full {
+        // @NOTE: grid is designed to be max 4 elements, generally
+        // but I don't like hardcoding, so find a better way ...
+        min-width: 100%;
+        width: 100%;
+        max-width: 100%;
+        grid-column: 1 / 5; 
+    }
+}
+
+.ui-hint {
+    font-size: 0.5em;
+    text-align: center;
+
+    @media print {
+        display: none;
+    }
+}
+
+@media screen
+{
+    .rules-media-filter-screen { display: block; }
+    .rules-media-filter-print { display: none; }
+}
+
+@media print 
+{
+    .rules-media-filter-screen { display: none; }
+    .rules-media-filter-print { display: block; }
+
+    body {
+        font-size: 14px;
+    }
+
+    .rules-table {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        grid-template-columns: initial;
+
+        .rules-table-entry {
+            min-width: $rules-table-size-print;
+            max-width: $rules-table-size-print;
+            width: $rules-table-size-print;
+
+            .heading-container, .desc-container {
+                font-size: 0.75em;
+            }
+        }  
+
+                
+        &.big {
+            .rules-table-entry {
+                min-width: 2*$rules-table-size-print;
+                max-width: 2*$rules-table-size-print;
+                width: 2*$rules-table-size-print;
+            }   
+        }
+    }
+
+    .remark {
+        font-size: 0.66em;
+        margin-bottom: 1.0em;
+    }
+
+    .rules-foldable {
+        .heading-container {
+            padding: 0;
+            margin: 0;
+
+            &.mid-level-heading {
+                padding: 0.5em;
+                margin: 0;
+                margin-bottom: -0.5em;
+                margin-top: 2rem;
+
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+        }
+    }
+
+    .mid-level-heading {
+        background-color: rgba(255,255,255,0.75);
+    }
+}

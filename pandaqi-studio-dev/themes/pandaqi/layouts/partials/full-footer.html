@@ -1,0 +1,51 @@
+<div class="general-flex">
+	<aside>
+		<h2 class="red">About</h2>
+		<p>
+			<img src="/theme/webp/favicon.webp" class="pandaqi-logo" loading="lazy" decoding="async" width="150" height="150" />
+			
+			Hi! I'm Pandaqi, an indie <strong>game developer</strong> who specializes in local multiplayer games. It's my mission to get everyone playing: kids, partners, grandparents, friends who've never played a game. You can <strong>hire me</strong> to help develop your next project!
+		</p>
+
+		<div style="text-align: center; display: flex; flex-wrap: wrap; gap: 0.5em;">
+			{{ partial "button.html" (dict "href" "/info/about" "content" "More about me") }}
+			{{ partial "button.html" (dict "href" "/blog/" "content" "Read Pandaqi Blog!") }}
+			{{ partial "button.html" (dict "href" "/tutorials/" "content" "Visit Pandaqi Tutorials!") }}
+		</div>
+		
+	</aside>
+	<aside>
+		<h2 class="green">Games</h2>
+		<p>Check out my full list of video games here.</p>
+
+		<div style="text-align: center;">
+			{{ partial "button.html" (dict "href" "/categories/game" "content" "Video games!") }}
+		</div>
+
+		<p>Or my dedicated page for boardgames.</p>
+		<div style="text-align: center;">
+			{{ partial "button.html" (dict "href" "/boardgames" "content" "Boardgames!") }}
+		</div>
+
+		<p>Or use these buttons.</p>
+		<div style="text-align: center;">
+			{{ partial "button.html" (dict "content" "Random Project" "buttonID" "randProjBtn") }}
+
+			{{ $latest_proj := (index (where .Site.Pages "Params.gamepage" "eq" true) 0).RelPermalink }}
+			{{ partial "button.html" (dict "href" $latest_proj "content" "Latest Project") }}
+		</div>
+	</aside>
+	<aside>
+		<h2 class="blue">Contact</h2>
+		<p>Contact me about anything (questions, feedback, requests). Below are my main (social) platforms: </p>
+		<ul class="social-icon-list">
+			<li><a href="mailto:askthepanda@pandaqi.com" title="Mail me!"><span class="icon hoverable mail"></span></a></li> 
+			<li><a href="https://www.youtube.com/channel/UCUegxnNkcycM67gvyeD4CEQ" title="YouTube Channel"><span class="icon hoverable youtube"></span></a></li> 
+			<li><a href="https://pandaqi.itch.io" title="Itch.io Games Marketplace"><span class="icon hoverable itch"></span></a></li> 
+		</ul>
+		<p>Want to get all the updates (and behind the scenes) immediately? And support me?</p>
+		<div style="text-align: right;">
+			{{ partial "button.html" (dict "href" "https://patreon.com/tiamopastoor" "content" "Subscribe to my Patreon") }}
+		</div>
+	</aside>
+</div>

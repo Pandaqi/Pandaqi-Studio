@@ -1,0 +1,41 @@
+{{ $all_colors := .Site.Params.all_colors }}
+{{ $color_scheme := or .Params.color (index ($all_colors | shuffle) 0) }}
+{{ $under_maintenance := or .Params.maintenance false }}
+
+<header class="{{ $color_scheme }}">
+	{{ if not .Params.gamepage }}
+		{{ $slogans := .Site.Params.slogans }}
+
+		<nav>
+			<ul>
+				<li>
+					{{ $home_url := .Site.Params.baseUrl | absURL }}
+					{{ partial "button.html" (dict "href" $home_url "content" "Pandaqi (Games)" "class" "big-mask" "icon" "home") }}
+				</li>
+
+				{{ $title := partial "func/format-page-title.html" . }}
+
+				<li class="outspacer">{{ $title }}</li>
+				<li class="slogan">({{ index ($slogans | shuffle) 0 }})</li>
+
+				<li>
+					{{ partial "button.html" (dict "href" "/info/about" "content" "About" "class" "big-mask" "icon" "about")}}
+				</li>
+
+				<li>
+					{{ partial "button.html" (dict "buttonID" "gotoBottomBtn" "content" "Go to bottom" "class" "big-mask" "icon" "gotoBottom")}}
+				</li>
+			</ul>
+		</nav>
+	{{ else }}
+		<button class="hovering-gotobottom-btn" id="gotoBottomBtn"><span class="icon hoverable gotobottom"></span></button>
+
+		{{ if $under_maintenance }}
+			<div class="maintenance-modal-container">
+				<div class="maintenance-modal-content">
+					Sorry, this game is <strong>under maintenance</strong> (or not finished yet)! Check back soon to find the new and improved version.
+				</div>
+			</div>
+		{{ end }}
+	{{ end }}
+</header>

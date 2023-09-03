@@ -1,0 +1,34 @@
+{{- $class := .Get "class" -}}
+<section class="boardgame-intro {{ $class }}">
+	<div class="big-header-image">
+		{{- $img := or (.Get "img") $.Page.Params.fullHeaderImg -}}
+		{{- if $img -}}
+			{{- $img_url := add $img ".webp" -}}
+			{{- partial "show-image.html" (dict "context" . "img_url" $img_url) -}}
+		{{- end -}}
+	</div>
+	<div class="center text">
+		{{- $heading := .Get "heading" -}}
+		{{- if $heading -}}
+			<h1>{{- $heading -}}</h1>
+		{{- end -}}
+		<p class="tagline">{{- .Inner | markdownify -}}</p>
+		<p class="metadata">
+			{{- $data_keys := slice "requirements" "ages" "complexity" "playtime" -}}
+
+			{{- $full_slice := slice -}}
+			{{- range $key, $val := $data_keys -}}
+				{{- $param_value := ($.Page.Param $val) -}}
+				{{- if $param_value -}}
+					{{- $full_slice = $full_slice | append (printf "%s: %s" ($val | humanize) (string $param_value)) -}}
+				{{- end -}}
+			{{- end -}}
+
+			{{- delimit $full_slice " | " -}}
+		</p>
+		<p class="download-btn-container">
+			{{- $url := .Get "url" -}}
+			<a href="{{- $url -}}" class="btn download-btn">Download</a>
+		</p>
+	</div>
+</section>

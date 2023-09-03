@@ -1,0 +1,26 @@
+{{- $class := or (.Get "class") "" -}}
+{{- $id := or (.Get "id") "" -}}
+{{- $heading := or (.Get "heading") $id -}}
+{{- $class_header := or (.Get "classheader") "" -}}
+{{- $icon := or (.Get "icon") "" -}}
+{{- $icon_size := or (.Get "iconsize") "medium" -}}
+{{- $icon_tint := or (.Get "icontint") "" -}}
+
+<section class="rules-foldable {{ $class }}" id="{{ $id }}" data-folded="false">
+    <a name="{{ $id }}"></a>
+    <header class="heading-container {{ $class_header }}" data-value="{{ $heading }}">
+        <div class="heading">
+            <div class="counter"></div>
+            <div class="heading-with-icon">
+                {{- with $icon -}}<div class="rules-icon rules-icon-{{ . }} rules-icon-size-{{ $icon_size }} tint-{{ $icon_tint }}"></div>{{- end -}}
+                <h1>{{- $heading -}}</h1>
+            </div>
+            <div class="arrow">&gt;</div>
+        </div>
+    </header>
+    <div class="content-container">
+        <div class="content">
+            {{- .Inner -}}
+        </div>
+    </div>
+</section>

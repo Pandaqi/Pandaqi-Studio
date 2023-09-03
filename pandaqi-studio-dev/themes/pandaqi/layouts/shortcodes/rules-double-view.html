@@ -1,0 +1,12 @@
+{{ $src := or (.Get "src") "" }}
+{{ $split := or (.Get "split") "even" }}
+{{ $text_right := or (.Get "textright") "" }}
+{{ $alt := or (.Get "alt") $src }}
+
+<div class="double-view split-container-{{ $split }}">
+    <div class="double-block-left split-{{ $split }}">{{- .Inner -}}</div>
+    <div class="double-block-right split-{{ $split }}">
+        {{- if $src -}}<picture class="rules-image"><img src="{{ $src }}" alt="{{ $alt }}" /></picture>{{- end -}}
+        {{- if $text_right -}}{{- $text_right -}}{{- end -}}
+    </div>
+</div>

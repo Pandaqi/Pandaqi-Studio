@@ -1,0 +1,4 @@
+{{- $img_url := add (.Get "url") ".webp" -}}
+{{- $class := or (.Get "class") "" -}}
+{{- $alt := .Get "alt" -}}
+{{- partial "show-image.html" (dict "context" . "img_url" $img_url "alt" $alt "class" $class) -}}
