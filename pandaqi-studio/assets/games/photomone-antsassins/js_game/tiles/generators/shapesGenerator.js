@@ -1,5 +1,5 @@
 import Point from "../../shapes/point"
-import Random from "js/pq_games/tools/random/main.js"
+import Random from "js/pq_games/tools/random/main"
 
 class Shape
 {

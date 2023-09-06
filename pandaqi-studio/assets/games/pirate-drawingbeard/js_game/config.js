@@ -1,5 +1,5 @@
 import { TILE_DICT, DISCRETE_LISTS } from "./dictionary" 
-import Random from "js/pq_games/tools/random/main.js"
+import Random from "js/pq_games/tools/random/main"
 
 export default {
 

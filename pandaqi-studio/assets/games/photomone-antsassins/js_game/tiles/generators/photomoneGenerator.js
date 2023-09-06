@@ -1,5 +1,5 @@
 import Line from "js/pq_games/tools/geometry/line"
-import Random from "js/pq_games/tools/random/main.js"
+import Random from "js/pq_games/tools/random/main"
 import GraphSmoother from "../../tools/graphSmoother"
 
 export default class PhotomoneGenerator

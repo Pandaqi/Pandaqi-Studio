@@ -1,6 +1,6 @@
 import Point from "../../shapes/point"
 import PixelCell from "../../tools/pixelCell"
-import Random from "js/pq_games/tools/random/main.js"
+import Random from "js/pq_games/tools/random/main"
 
 export default class CloudsGenerator
 {

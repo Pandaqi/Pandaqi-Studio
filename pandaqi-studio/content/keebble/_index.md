@@ -32,7 +32,6 @@ categories: ["boardgame"]
 tags: ["one_paper_game", "opg"]
 
 extraCSS: true
-extraJS: true
 sharedJS: "keebble"
 sharedJSBuild: true
 

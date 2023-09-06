@@ -1,5 +1,5 @@
 import InteractiveExample from "js/pq_rulebook/examples/interactiveExample"
-import { PACKS, PACK_COLORS } from "games/kingseat/js_game/dictionary.js"
+import { PACKS, PACK_COLORS } from "games/kingseat/js_game/dictionary"
 import shuffle from "js/pq_games/tools/random/shuffle"
 
 const TOOLS = {

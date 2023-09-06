@@ -1,4 +1,4 @@
-import Tiles from "./tiles/tiles.js"
+import Tiles from "./tiles/tiles"
 import CodeCards from "./cards"
 import Tokens from "./tokens"
 import ResourceLoader from "js/pq_games/canvas/resourceLoader"

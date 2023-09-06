@@ -36,7 +36,7 @@ extraCSS: true
 extraJSGame: true
 extraJSGameBuild: true
 
-downloadLink: "https://drive.google.com/drive/folders/1as4B3n_kxQ9K1jIVtWMI_P5VnAjbXRP1"
+downloadLink: "https://drive.google.com/drive/folders/1UyxnFsYPynwQmRD2xbAh7RQyIC7yYAJi"
 
 multiplayermode: "competitive"
 language: EN
@@ -48,16 +48,16 @@ ages: everyone
 
 ---
 
-{{% boardgame-intro heading="" img="sixpack_header" class="no-shadow" url="https://drive.google.com/drive/folders/1as4B3n_kxQ9K1jIVtWMI_P5VnAjbXRP1" %}}
+{{% boardgame-intro heading="" img="sixpack_header" class="no-shadow" url="https://drive.google.com/drive/folders/1UyxnFsYPynwQmRD2xbAh7RQyIC7yYAJi" %}}
 
-Pick your secret allegiance. Now make sure they get the most votes, without being obvious.
+Pick your battles wisely to design the best squad of cute creatures.
 
 {{% /boardgame-intro %}}
 
 {{% section-centered heading="What do I need?" %}}
 
 Three simple steps.
-* Read the _very_ short [playful rules](rules).
+* Read the short [playful rules](rules).
 * Download the material to print (using the "Download") button above.
 * Print it, cut it, play!
 
@@ -92,7 +92,7 @@ This game is something I call a "queuing game". What does that mean?
 * The game requires very little material
 * Rounds are fast and can be started/paused/ended at an instant
 
-In other words, take this game with you wherever you go. Whenever you have to wait for it, stand in line, have some downtime ... play it!
+In other words, take this game with you wherever you go. Whenever you have to wait for something, stand in line, have some downtime ... play it!
 
 {{% /section-centered %}}
 

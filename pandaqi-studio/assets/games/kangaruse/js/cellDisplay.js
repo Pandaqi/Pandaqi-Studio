@@ -1,4 +1,4 @@
-import { CELLS, CONFIG, GENERAL, NB_OFFSETS, CORNER_OFFSETS } from "./dictionary.js"
+import { CELLS, CONFIG, GENERAL, NB_OFFSETS, CORNER_OFFSETS } from "./dictionary"
 import Point from "js/pq_games/tools/geometry/point";
 import Random from "js/pq_games/tools/random/main";
 

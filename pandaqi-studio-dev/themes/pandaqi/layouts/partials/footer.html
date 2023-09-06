@@ -51,6 +51,8 @@
 
 <!-- Default JS needed (for making basic functionality work, like picking random projects) -->
 {{ $js_bundle := slice }}
+{{ $functionality := (resources.Get "/js/functionality.js" | js.Build "/js/functionality.js" | minify) }}
+{{ $js_bundle = $js_bundle | append $functionality }}
 
 <!-- EXTRA JS + Asset bundling -->
 {{ $pq_games := (resources.Get "/js/pq_games/main.js" | js.Build "/js/lib-pqGames.js" | minify) }}
