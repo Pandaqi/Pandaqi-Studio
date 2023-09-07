@@ -32,7 +32,6 @@ tags: ["hybrid", "opg", "one_paper_game", "traditional"]
 
 extraCSS: true
 extraJS: true
-extraJSBuild: true
 extraJSGame: true
 sharedJS: "photomone"
 sharedJSBuild: true

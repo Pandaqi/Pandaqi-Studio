@@ -2,7 +2,7 @@ import Pack from "./pack"
 import ResourceLoader from "js/pq_games/layout/resources/resourceLoader"
 import GridMapper from "js/pq_games/canvas/gridMapper"
 import PdfBuilder from "js/pq_games/pdf/pdfBuilder"
-import Canvas from "js/pq_games/canvas/main"
+import convertCanvasToImageMultiple from "js/pq_games/canvas/helpers/convertCanvasToImageMultiple"
 import ProgressBar from "js/pq_games/canvas/progressBar"
 
 import CONFIG from "./config"
@@ -47,8 +47,7 @@ export default class Generator {
         const gridConfig = { pdfBuilder: pdfBuilder, dims: dims, dimsElement: CONFIG.cards.dimsElement };
         const gridMapper = new GridMapper(gridConfig);
 
-        const cardSize = gridMapper.getMaxElementSize();
-        CONFIG.cards.size = { x: cardSize.width, y: cardSize.height };
+        CONFIG.cards.size = gridMapper.getMaxElementSize();
 
         CONFIG.resLoader = resLoader;
         CONFIG.pdfBuilder = pdfBuilder;
@@ -60,15 +59,16 @@ export default class Generator {
         CONFIG.progressBar.gotoNextPhase();
 
         const numElementUsed = {}
-        for(const subtype of Object.values(CONFIG.elements))
+        const elemDict : Record<string,string> = CONFIG.elements;
+        for(const subtype of Object.values(elemDict))
         {
             numElementUsed[subtype] = 0;
         }
 
         const packs = [];    
         let counter = 0;  
-        const numElements = Object.keys(CONFIG.elements).length;
-        for(const [element,subtype] of Object.entries(CONFIG.elements))
+        const numElements = Object.keys(elemDict).length;
+        for(const [element,subtype] of Object.entries(elemDict))
         {
             const progressText = "Creating element " + element + " => " + subtype + " (" + counter + "/" + numElements + ")"
             CONFIG.progressBar.setInfo(progressText);
@@ -92,7 +92,7 @@ export default class Generator {
     {
         CONFIG.progressBar.gotoNextPhase();
 
-        const images = await Canvas.convertCanvasesToImage(CONFIG.gridMapper.getCanvases());
+        const images = await convertCanvasToImageMultiple(CONFIG.gridMapper.getCanvases());
         if(CONFIG.debugWithoutPDF)
         {
             for(const img of images) { 
@@ -107,3 +107,5 @@ export default class Generator {
         CONFIG.pdfBuilder.downloadPDF(pdfConfig);
     }
 }
+
+new Generator().start();

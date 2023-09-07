@@ -1,3 +1,5 @@
+import Point from "js/pq_games/tools/geometry/point"
+
 export default {
     debugWithoutPDF: true, // @DEBUGGING (should be false)
     fileName: "[Creature Quellector] Material",
@@ -50,11 +52,11 @@ export default {
     },
     cards: {
         dims: { 
-            small: { x: 4, y: 4 },
-            regular: { x: 3, y: 3 },
-            huge: { x: 2, y: 2 }
+            small: new Point({ x: 4, y: 4 }),
+            regular: new Point({ x: 3, y: 3 }),
+            huge: new Point({ x: 2, y: 2 })
         },
-        dimsElement: { x: 1, y: 1.55 },
+        dimsElement: new Point({ x: 1, y: 1.55 }),
         numPerElement: 12,
         iconsPerCard: 4,
         backgroundColor: "#FFE4B3",
@@ -64,7 +66,7 @@ export default {
             maxDifferenceBetweenTypes: 5,
             subTypeExtraProb: 0.2,
         },
-        size: { x: 0, y: 0 },
+        size: new Point(),
         outline: {
             color: "#111111",
             width: 0.05,
