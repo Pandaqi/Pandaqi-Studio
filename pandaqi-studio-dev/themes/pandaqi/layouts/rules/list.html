@@ -68,8 +68,8 @@
     <span style="display:none;" id="hidden-metadata" data-createpdf="{{ $createPDF }}"></span>
 
     <!-- General JS for rulebooks + custom extra JS per rulebook -->
-    {{ $js := resources.Get "/js/pq_rulebook/main.js" | js.Build "/js/lib-pqRulebook.js" | minify }}
-    {{ $extra_js := .Page.Resources.GetMatch "extra.js" }}
+    {{ $js := resources.Get "/js/pq_rulebook/main.ts" | js.Build "/js/lib-pqRulebook.js" | minify }}
+    {{ $extra_js := .Page.Resources.GetMatch "main.ts" }}
     {{ if $extra_js }}
         {{ $extra_js = $extra_js | js.Build "lib-customInteractive.js" | minify }}
         <script async defer src="{{ $extra_js.RelPermalink }}"></script>

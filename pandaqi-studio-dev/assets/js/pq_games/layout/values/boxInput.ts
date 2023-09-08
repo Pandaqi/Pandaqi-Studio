@@ -27,6 +27,8 @@ export default class BoxInput
     anchor : AnchorValue
     keepRatio : NumberValue
 
+    background: boolean
+
     constructor(params:Record<string,any> = {})
     {
         // basic positioning properties
@@ -37,6 +39,8 @@ export default class BoxInput
         this.offset = new TwoAxisValue(params.offset ?? new Point());
         this.anchor = params.anchor ?? AnchorValue.NONE;
         this.keepRatio = new NumberValue(params.keepRatio ?? 0.0);
+
+        this.background = params.background ?? false;
 
         // all the big size/dimension/location properties
         const pos = this.readTwoAxisParams(params, ["x", "y", "pos"]);
@@ -101,18 +105,24 @@ export default class BoxInput
         let parentBox = c.getParentBox();
         b.preCalculate(this, parentBox);
 
-        const usableParentSpace = new Point().setXY(b.parentWidth, b.parentHeight);
+        // @TODO: this should just be a single Point on BoxOutput right?
+        const usableParentSpace = new Point(b.usableParentWidth, b.usableParentHeight);
         let filledContentSpace = new Point().setXY(null, null);
         if(c.dimensionsContent) { filledContentSpace = c.dimensionsContent.getSize(); }
 
         const arr = this.getPropertyList();
         for(const prop of arr) 
         {
-            console.log(prop);
             b[prop as keyof BoxInput] = this.calcSafe(this[prop], usableParentSpace, filledContentSpace);
         }
 
-        b.postCalculate();
+        // @TODO: put this check inside flowOutput? Is that cleaner?
+        if(c.isFlowItem())
+        {
+            c.flowOutput.applyToBox(b);
+        }
+
+        b.postCalculate(this);
         return b;
     }
 

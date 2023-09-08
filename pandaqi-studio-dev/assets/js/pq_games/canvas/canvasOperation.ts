@@ -17,6 +17,8 @@ export default class CanvasOperation
 
     images : ResourceImage[]
     effects : CanvasEffect[]
+    
+    frame: number // frame of image (spritesheets)
 
     constructor(params:any = {})
     {
@@ -29,6 +31,7 @@ export default class CanvasOperation
         this.pivot = params.pivot ?? new Point();
         this.flipX = params.flipX ?? false;
         this.flipY = params.flipY ?? false;
+        this.frame = params.frame ?? 0;
 
         this.images = [];
         this.effects = [];
@@ -72,7 +75,7 @@ export default class CanvasOperation
         offset.scaleFactor(-1).scale(this.size);
         for(const img of this.images)
         {
-            const frameData = img.getFrameData();
+            const frameData = img.getFrameData(this.frame);
             ctx.drawImage(
                 img.getImage(), 
                 frameData.x, frameData.y, frameData.width, frameData.height,

@@ -59,11 +59,17 @@ export default class Generator {
         CONFIG.progressBar.gotoNextPhase();
 
         const numElementUsed = {}
+        const elementCycleSubtype = ["","","",""];
         const elemDict : Record<string,string> = CONFIG.elements;
-        for(const subtype of Object.values(elemDict))
+        for(const [element,subtype] of Object.entries(elemDict))
         {
             numElementUsed[subtype] = 0;
+            const idx = CONFIG.gameplay.elementCycle.indexOf(element);
+            elementCycleSubtype[idx] = subtype;
+
         }
+
+        CONFIG.gameplay.elementCycleSubtype = elementCycleSubtype;
 
         const packs = [];    
         let counter = 0;  

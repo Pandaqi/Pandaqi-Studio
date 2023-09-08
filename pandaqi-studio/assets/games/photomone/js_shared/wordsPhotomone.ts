@@ -1,5 +1,6 @@
 import WordPhotomone from "./wordPhotomone";
 import Random from "js/pq_games/tools/random/main";
+import PandaqiWords from "js/pq_words/main";
 
 export default class WordsPhotomone {
     backupWords: string[];
@@ -7,6 +8,7 @@ export default class WordsPhotomone {
     maxWordLength: number;
     config: Record<string,any>;
     useBackup: boolean;
+    PandaqiWords: PandaqiWords
     
     constructor()
     {
@@ -25,15 +27,15 @@ export default class WordsPhotomone {
     async prepareFromConfig(userConfig:Record<string,any> = {})
     {
         this.useBackup = false;
-        // @ts-ignore
-        // @TODO: eventually, PQ WORDS should just be included as a MODULE, and we're always sure it is loaded
-        // (Right now I have to manually load the extra file in the game page)
+
+        /*
         if(!window.PQ_WORDS)
         {
             this.useBackup = true;
             this.possibleWords = this.backupWords.slice();
             return;
         }
+        */
 
         let categories = [];
 
@@ -77,8 +79,8 @@ export default class WordsPhotomone {
 
         console.log(wordParams);
 
-        // @ts-ignore
-        await PQ_WORDS.loadWithParams(wordParams);
+        this.PandaqiWords = new PandaqiWords();
+        await this.PandaqiWords.loadWithParams(wordParams);
     }
 
     getWords(num: number)
@@ -93,8 +95,7 @@ export default class WordsPhotomone {
             Random.shuffle(this.possibleWords);
             arr = this.possibleWords.splice(0, num);
         } else {
-            // @ts-ignore
-            arr = PQ_WORDS.getRandomMultiple(num, true);
+            arr = this.PandaqiWords.getRandomMultiple(num, true);
         }
 
         const finalList = [];

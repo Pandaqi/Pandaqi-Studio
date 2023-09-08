@@ -55,12 +55,6 @@
 {{ $js_bundle = $js_bundle | append $functionality }}
 
 <!-- EXTRA JS + Asset bundling -->
-{{ $pq_games := (resources.Get "/js/pq_games/main.ts" | js.Build "/js/lib-pqGames.js" | minify) }}
-{{ $pq_games.Publish }}
-
-{{ $pq_words := (resources.Get "/js/pq_words/main.js" | js.Build "/js/lib-pqWords.js" | minify) }}
-{{ $pq_words.Publish }}
-
 {{ $phaser := (resources.Get "/js/phaser.min.js") }}
 {{ $phaser.Publish }}
 

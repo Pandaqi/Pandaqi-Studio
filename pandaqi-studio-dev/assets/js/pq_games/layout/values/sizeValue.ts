@@ -43,6 +43,11 @@ export default class SizeValue extends Value
         // @TODO: default to content growth if value negative?? if(v < 0) { v = 0; t = SizeType.CONTENT; }
     }
 
+    isVariable() : boolean
+    {
+        return this.type == SizeType.CONTENT || this.type == SizeType.PARENT;
+    }
+
     dependsOnContent() : boolean
     {
         return this.type == SizeType.CONTENT
@@ -62,9 +67,6 @@ export default class SizeValue extends Value
         } 
         else if(this.type == SizeType.PARENT)
         {
-            console.log("WHAT?")
-            console.log(this.value);
-            console.log(parentSize);
             return this.value * parentSize;
         }
 

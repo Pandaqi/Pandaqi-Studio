@@ -34,14 +34,6 @@ const canvasTxt = {
     const xEnd = x + width
     const yEnd = y + height
 
-    if (this.textSize) {
-      console.error(
-        '%cCanvas-Txt:',
-        'font-weight: bold;',
-        'textSize is depricated and has been renamed to fontSize'
-      )
-    }
-
     const { fontStyle, fontVariant, fontWeight, fontSize, font } = this
     const style = `${fontStyle} ${fontVariant} ${fontWeight} ${fontSize}px ${font}`
     ctx.font = style
@@ -213,10 +205,10 @@ const canvasTxt = {
     for (let i = 0; i < nbSpacesMinimum; i++) {
       spaces.push(spaceChar)
     }
-    spaces = spaces.join('')
+    let spacesString = spaces.join('')
 
-    const justifiedText = text.replace(/\s+/g, match => {
-      const allSpaces = extraSpaces > 0 ? spaces + spaceChar : spaces
+    const justifiedText = text.replace(/\s+/g, (match:string) => {
+      const allSpaces = extraSpaces > 0 ? spacesString + spaceChar : spacesString
       extraSpaces--
       return match + allSpaces
     })

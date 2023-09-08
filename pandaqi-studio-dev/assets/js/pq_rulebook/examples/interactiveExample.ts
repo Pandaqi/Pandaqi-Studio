@@ -1,8 +1,20 @@
 import OutputBuilder from "./outputBuilder"
 import Random from "js/pq_games/tools/random/main"
 
-export default class InteractiveExample {
-    constructor(config)
+export default class InteractiveExample 
+{
+    id: string;
+    className: string;
+    names: string[];
+    buttonText: string;
+    outputBuilder: OutputBuilder;
+    contentNode: HTMLElement;
+    node: HTMLElement;
+    uiNode: HTMLElement;
+    generateButton: HTMLButtonElement;
+    closeButton: HTMLButtonElement;
+    
+    constructor(config:Record<string,any>)
     {
         this.id = config.id;
 
@@ -18,10 +30,11 @@ export default class InteractiveExample {
 
     findCorrespondingHTML()
     {
-        const exampleNodes = document.getElementsByClassName(this.className);
+        const exampleNodes = Array.from(document.getElementsByClassName(this.className));
         let node = null
         for(const exNode of exampleNodes)
         {
+            // @ts-ignore
             if(exNode.dataset.exampleid != this.id) { continue; }
             node = exNode;
             break;
@@ -58,6 +71,9 @@ export default class InteractiveExample {
         closeBtn.addEventListener("click", (ev) => {
             this.reset();
         }) 
+    }
+    generateCallback() {
+        throw new Error("Method not implemented.");
     }
 
     setGenerationCallback(func)

@@ -10,10 +10,8 @@ export default {
     pdfBuilder: null,
     cardSize: "regular",
     inkFriendly: false,
-    elements: {},
-    fonts: {
-        
-    },
+    elements: {}, // the elements included by user setting on game page
+
     assets: {
         creatures: {
             path: "assets/quellector_creatures.webp",
@@ -50,6 +48,12 @@ export default {
             size: 0.0533
         }
     },
+
+    gameplay: {
+        elementCycle: ["red", "blue", "green", "purple"],
+        elementCycleSubtype: []
+    },
+
     cards: {
         dims: { 
             small: new Point({ x: 4, y: 4 }),

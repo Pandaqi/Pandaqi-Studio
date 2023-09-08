@@ -1,6 +1,8 @@
 export default class OutputBuilder
 {
-    constructor(node)
+    node: HTMLElement;
+
+    constructor(node: HTMLElement)
     {
         this.node = node;
     }
@@ -10,31 +12,31 @@ export default class OutputBuilder
         this.node.innerHTML = '';
     }
 
-    createParagraph(txt)
+    createParagraph(txt: string)
     {
         const p = document.createElement("p");
         p.innerHTML = txt;
         return p;
     }
 
-    createSpan(txt)
+    createSpan(txt: string)
     {
         const s = document.createElement("span");
         s.innerHTML = txt;
         return s;
     }
 
-    addParagraph(txt)
+    addParagraph(txt: any)
     {
         this.addNode(this.createParagraph(txt));
     }
 
-    addNode(node)
+    addNode(node: HTMLParagraphElement)
     {
         this.node.appendChild(node);
     }
 
-    addParagraphList(txts, numbered = false)
+    addParagraphList(txts: any, numbered = false)
     {
         const nodes = []
         for(const txt of txts)
@@ -44,12 +46,12 @@ export default class OutputBuilder
         this.addNodeList(nodes, numbered);
     }
 
-    addParagraphListNumbered(txts)
+    addParagraphListNumbered(txts: any)
     {
         this.addParagraphList(txts, true);
     }
 
-    addFlexList(nodes)
+    addFlexList(nodes: any)
     {
         const cont = document.createElement("div");
         this.node.appendChild(cont);
@@ -65,9 +67,9 @@ export default class OutputBuilder
         }
     }
 
-    addNodeList(nodes, numbered = false)
+    addNodeList(nodes: any[], numbered = false)
     {
-        let listNode
+        let listNode: HTMLUListElement
         if(numbered) { listNode = document.createElement("ol"); }
         else { listNode = document.createElement("ul"); }
         

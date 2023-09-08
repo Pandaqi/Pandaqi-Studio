@@ -1,5 +1,15 @@
-const RulesSection = class {
-    constructor(node, hierarchy, isPDF)
+class RulesSection
+{
+    node: HTMLElement;
+    hierarchy: number[];
+    contentContainer: any;
+    arrow: HTMLElement;
+    subsections: any[];
+    contentHeight: number;
+    header: HTMLElement;
+    counter: HTMLElement;
+
+    constructor(node: HTMLElement, hierarchy: number[], isPDF: boolean)
     {
         this.node = node;
         this.hierarchy = hierarchy.slice();
@@ -20,21 +30,21 @@ const RulesSection = class {
         else { this.toggle(); }
     }
 
-    setZIndexFromHierarchy(h)
+    setZIndexFromHierarchy(h: string | any[])
     {
         let sum = 0;
         for(let i = 0; i < h.length; i++) { sum += h[i]; }
-        this.node.style.zIndex = (1000 - sum);
+        this.node.style.zIndex = (1000 - sum).toString();
     }
 
-    toCounterString(h)
+    toCounterString(h: string | any[])
     {
         let arr = [];
         for(let i = 0; i < h.length; i++) { arr.push(h[i]+1); }
         return arr.join(".");
     }
 
-    getIndentFromHierarchy(h)
+    getIndentFromHierarchy(h: string | any[])
     {
         return h.length + 1; // first heading is h1, not h0, hence +1
     }
@@ -46,12 +56,12 @@ const RulesSection = class {
         this.arrow.style.display = "none";
     }
 
-    searchChildren(isPDF)
+    searchChildren(isPDF: any)
     {
         let rootContainer = this.node.getElementsByClassName("rules-foldable")[0];
         if(!rootContainer) { return; }
 
-        const children = Array.from(rootContainer.parentElement.childNodes);
+        const children : HTMLElement[] = Array.from(rootContainer.parentElement.childNodes) as HTMLElement[];
         const hierarchy = this.hierarchy.slice();
 
         this.subsections = [];        
@@ -85,7 +95,7 @@ const RulesSection = class {
         let classStart = "top-level";
         if(isMidLevel) { classStart = "mid-level"; }
         
-        this.header = this.node.getElementsByClassName("heading-container")[0];
+        this.header = this.node.getElementsByClassName("heading-container")[0] as HTMLElement;
         if(!this.header) { return; } // name clashes with rules-table might cause this => should probably fix?
 
         this.node.classList.add(classStart); 
@@ -93,7 +103,7 @@ const RulesSection = class {
         this.contentContainer.classList.add(classStart + "-container");
 
         // fill in the counter
-        this.counter = this.header.getElementsByClassName("counter")[0];
+        this.counter = this.header.getElementsByClassName("counter")[0] as HTMLElement;
         this.counter.innerHTML = this.toCounterString(this.hierarchy);
 
         // fill in the title
@@ -105,7 +115,7 @@ const RulesSection = class {
         title.replaceWith(h);
 
         // add the interactive click listener
-        this.arrow = this.header.getElementsByClassName("arrow")[0];
+        this.arrow = this.header.getElementsByClassName("arrow")[0] as HTMLElement;
         this.header.addEventListener("click", this.toggle.bind(this));
     }
 
@@ -148,14 +158,14 @@ const RulesSection = class {
         }
     }
 
-    travelHierarchy(curNode)
+    travelHierarchy(curNode: any)
     {
         const sections = this.findAllParentSectionNodes(curNode);
         const numHeadings = sections.length + 1; // the H1 is always above us
         return numHeadings;
     }
 
-    findAllParentSectionNodes(curNode)
+    findAllParentSectionNodes(curNode: { classList: { contains: (arg0: string) => any; }; parentElement: any; })
     {
         const arr = [];
         while(curNode)
@@ -166,13 +176,13 @@ const RulesSection = class {
         return arr;
     }
 
-    findParentSection(curNode)
+    findParentSection(curNode: any)
     {
         const arr = this.findAllParentSectionNodes(curNode);
         const sectionNode = arr[0];
     }
 
-    findSectionContainingNode(node, recurse = false)
+    findSectionContainingNode(node: any, recurse = false)
     {
         const sections = [];
         if(!this.subsections) { return sections; }
@@ -186,7 +196,7 @@ const RulesSection = class {
         return sections.flat();
     }
 
-    unfoldEverythingAbove(node)
+    unfoldEverythingAbove(node: Element)
     {
         const arr = this.findSectionContainingNode(node, true);
         for(const section of arr)
@@ -195,4 +205,5 @@ const RulesSection = class {
         }
     }
 }
+
 export default RulesSection;

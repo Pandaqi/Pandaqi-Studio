@@ -8,25 +8,24 @@ export default class ContainerImage extends Container
 {
     resource : ResourceImage
     operation : CanvasOperation
+    frame : number
 
     // @TODO: the "operation" should probably be on ALL containers and applied to ALL of them, right?
     constructor(params:any = {})
     {
         params.keepRatio = params.resource.getRatio();
-        params.widthDynamic = 1.0;
-        params.heightDynamic = 1.0;
         super(params);
         
         this.operation = new CanvasOperation(params);
         this.resource = params.resource ?? new ResourceImage();
-        if(params.frame) { this.resource.frame = params.frame; }
+        this.frame = params.frame ?? 0;
     }
 
     drawToCustom(canv:HTMLCanvasElement)
     {
-        let pos = new Point();
-        this.operation.pos = pos;
-        this.operation.size = this.boxOutput.size;
+        this.operation.pos = this.boxOutput.getTopAnchor();
+        this.operation.size = this.boxOutput.getUsableSize();
+        this.operation.frame = this.frame;
         this.resource.drawTo(canv, this.operation);
     }
 }

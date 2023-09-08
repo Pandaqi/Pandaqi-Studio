@@ -1,4 +1,5 @@
-import SizeValue from "./sizeValue"
+import { SizeValue, SizeType } from "./sizeValue"
+import AlignValue from "./alignValue"
 import Point from "js/pq_games/tools/geometry/point"
 import Value from "./value"
 
@@ -26,7 +27,7 @@ export default class TwoAxisValue extends Value
             y = a.y;
         }
 
-        if(a && typeof a == "object" && ("x" in a && "y" in a) && !(a instanceof SizeValue))
+        if(a && typeof a == "object" && ("x" in a && "y" in a))
         {
             x = a.x;
             y = a.y;
@@ -36,7 +37,7 @@ export default class TwoAxisValue extends Value
         this.y = new SizeValue(y);
     }
 
-    fromSingle(val:value)
+    fromSingle(val:value) : TwoAxisValue
     {
         if(!(val instanceof SizeValue)) { val = new SizeValue(val); }
         this.x = val;
@@ -44,11 +45,30 @@ export default class TwoAxisValue extends Value
         return this;
     }
 
-    fromPoint(p:Point)
+    fromPoint(p:Point) : TwoAxisValue
     {
         this.x = new SizeValue(p.x);
         this.y = new SizeValue(p.y);
         return this;
+    }
+
+    setBlock() : TwoAxisValue
+    {
+        this.x = new SizeValue(1.0, SizeType.PARENT),
+        this.y = new SizeValue(1.0, SizeType.CONTENT)
+        return this;
+    }
+
+    setFreeGrow() : TwoAxisValue
+    {
+        this.x = new SizeValue(0, SizeType.CONTENT)
+        this.y = new SizeValue(0, SizeType.CONTENT)
+        return this;
+    }
+
+    isVariable() : boolean
+    {
+        return this.x.isVariable() || this.y.isVariable();
     }
 
     dependsOnContent() : boolean

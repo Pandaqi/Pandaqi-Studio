@@ -1,15 +1,16 @@
 import RulesTable from "./table.js";
 import RulesSection from "./section.js";
 
-const PQ_RULEBOOK = {
-    activate(isPDF)
+const PQ_RULEBOOK = 
+{
+    activate(isPDF:boolean)
     {
         // main sections = hierarchy
         const rootSectionNode = document.getElementsByTagName("main")[0];
         const rootSection = new RulesSection(rootSectionNode, [], isPDF);
 
         // rules tables (clickable icons which load their description)
-        const rulesTables = document.getElementsByClassName("rules-table");
+        const rulesTables : HTMLElement[] = Array.from(document.getElementsByClassName("rules-table")) as HTMLElement[];
         const RULES_TABLES = [];
         
         for(const tableNode of rulesTables)
@@ -19,9 +20,9 @@ const PQ_RULEBOOK = {
         }
 
         // make images clickable
-        const imgOverlay = document.getElementsByClassName("image-overlay")[0];
+        const imgOverlay : HTMLElement = document.getElementsByClassName("image-overlay")[0] as HTMLElement;
         const imgOverlayNode = imgOverlay.getElementsByTagName("img")[0];
-        const imgs = document.getElementsByTagName("img");
+        const imgs = Array.from(document.getElementsByTagName("img"));
         const fullScreenImageMargin = 15;
 
         imgOverlay.addEventListener("click", () => { imgOverlay.style.display = "none"; })
@@ -37,7 +38,7 @@ const PQ_RULEBOOK = {
         }
 
         // customize all anchor nodes (within document) 
-        const innerAnchors = document.querySelectorAll('a[href^="#"]');
+        const innerAnchors = Array.from(document.querySelectorAll('a[href^="#"]'));
         for(const anchor of innerAnchors)
         {
             anchor.addEventListener("click", (ev) => {
@@ -53,6 +54,7 @@ const PQ_RULEBOOK = {
     }   
 }
 
+// @ts-ignore
 window.PQ_RULEBOOK = PQ_RULEBOOK;
 
 let isPDF = false;

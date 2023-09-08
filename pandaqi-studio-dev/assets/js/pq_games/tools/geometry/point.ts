@@ -79,6 +79,20 @@ export default class Point
         return this.scaleFactor(1.0 / l); 
     }
 
+    abs()
+    {
+        this.x = Math.abs(this.x);
+        this.y = Math.abs(this.y);
+        return this;
+    }
+
+    round()
+    {
+        this.x = Math.round(this.x);
+        this.y = Math.round(this.y);
+        return this;
+    }
+
     random()
     {
         const angle = Math.random() * 2 * Math.PI;
@@ -107,5 +121,12 @@ export default class Point
     vecTo(p = new Point())
     {
         return new Point().setXY(p.x - this.x, p.y - this.y);
-    }    
+    } 
+    
+    dot(p = new Point())
+    {
+        return this.x * p.x + this.y * p.y;
+    }
+
+
 }

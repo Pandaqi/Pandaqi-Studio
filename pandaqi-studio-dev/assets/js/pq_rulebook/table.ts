@@ -1,5 +1,9 @@
-const RulesTable = class {
-    constructor(node, isPDF)
+class RulesTable
+{
+    node: any;
+    entries: RulesEntry[];
+    
+    constructor(node: HTMLElement, isPDF: boolean)
     {
         this.node = node;
         this.entries = [];
@@ -13,8 +17,15 @@ const RulesTable = class {
     }
 }
 
-const RulesEntry = class {
-    constructor(node, isPDF)
+class RulesEntry 
+{
+    node: any;
+    turnFullWidthOnClick: boolean;
+    heading: HTMLElement;
+    desc: HTMLElement;
+    icon: HTMLElement;
+    
+    constructor(node: any, isPDF: any)
     {   
         this.node = node;
 
@@ -42,5 +53,6 @@ const RulesEntry = class {
     }    
 }
 
+export { RulesTable, RulesEntry }
 export default RulesTable;
 

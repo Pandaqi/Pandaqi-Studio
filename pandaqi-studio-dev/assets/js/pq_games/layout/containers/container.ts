@@ -1,4 +1,3 @@
-import ContainerFlow from "./containerFlow"
 import ContainerDimensions from "./containerDimensions"
 import ContainerConfig from "./containerConfig"
 
@@ -8,14 +7,22 @@ import BoxOutput from "../values/boxOutput"
 import PropsInput from "../values/propsInput"
 import PropsOutput from "../values/propsOutput"
 
+import FlowInput from "../values/flowInput"
+import FlowOutput from "../values/flowOutput"
+
 import Point from "js/pq_games/tools/geometry/point"
+import TwoAxisValue from "../values/twoAxisValue"
 
 
-enum FlowStage {
-    PRE,
-    POST
+
+enum LayoutStage {
+    FIXED, // calculates sizes fixed and depending on parent ( = known)
+    CONTENT, // second pass needed to calculates size (of parent) depending on content
+    FLOW, // third pass needed to properly distribute contents of flow boxes
+    FLOW_UPDATE, // called for intermittent updates in flow children
 }
 
+export { Container, LayoutStage }
 export default class Container
 {
     DEFAULT_SIZE : Point = new Point().setXY(50,50);
@@ -28,14 +35,17 @@ export default class Container
     boxInput : BoxInput
     boxOutput : BoxOutput
 
-    flow : ContainerFlow
+    flowInput : FlowInput
+    flowOutput : FlowOutput
     
     clipPath: Point[]
+    clipBox : boolean
 
     root : boolean
     parent : Container
     children: Container[]
     dimensionsContent : ContainerDimensions
+    targetCanvas : HTMLCanvasElement
 
     constructor(params:any = {})
     {
@@ -43,14 +53,23 @@ export default class Container
 
         this.boxInput = new BoxInput(params);
         this.propsInput = new PropsInput(params);
+        this.flowInput = new FlowInput(params);
 
-        this.flow = params.flow ?? ContainerFlow.NONE;
         this.clipPath = params.clipPath ?? [];
+        this.clipBox = params.clipBox ?? false;
 
         this.root = params.root ?? false;
         
         this.children = [];
         this.parent = params.parent;
+    }
+
+    attachToPhaser(scene:any)
+    {
+        const canvas = scene.sys.game.canvas;
+        this.boxInput.size = new TwoAxisValue(canvas.width, canvas.height);
+        this.boxInput.position = new TwoAxisValue(0,0);
+        this.targetCanvas = canvas;
     }
 
     addChild(c:Container)
@@ -97,25 +116,43 @@ export default class Container
         return c;
     }
 
+    isFlowItem()
+    {
+        if(!this.parent) { return false; }
+        return this.parent.isFlowContainer();
+    }
+
+    isFlowContainer()
+    {
+        return this.flowInput.isActive();
+    }
+
     calculateDimensions()
     {
         if(this.root) { return; }
         if(this.hasNoParent()) { this.parent = this.getRootParent(); }
 
         this.dimensionsContent = null;
-        this.boxOutput = this.calculateDimensionsSelf(FlowStage.PRE);
+        this.boxOutput = this.calculateDimensionsSelf(LayoutStage.FIXED);
         if(this.isLeafNode()) { return; }
 
-        this.dimensionsContent = this.calculateDimensionsContent(FlowStage.PRE);
-        if(!this.dependsOnContent()) { return; }
+        this.dimensionsContent = this.calculateDimensionsContent(LayoutStage.FIXED);
+        if(!this.dependsOnContent() && !this.isFlowContainer()) { return; }
 
-        this.boxOutput = this.calculateDimensionsSelf(FlowStage.POST);
-        this.dimensionsContent = this.calculateDimensionsContent(FlowStage.POST);
+        this.boxOutput = this.calculateDimensionsSelf(LayoutStage.CONTENT);
+        this.dimensionsContent = this.calculateDimensionsContent(LayoutStage.CONTENT);
+        if(!this.isFlowContainer()) { return; }
+
+        this.boxOutput = this.calculateDimensionsSelf(LayoutStage.FLOW);
+        this.dimensionsContent = this.calculateDimensionsContent(LayoutStage.FLOW);
     }
 
     // In post, it only updates width/height/x/y if it isn't fixed (it grows with content)
-    calculateDimensionsSelf(flowStage:FlowStage) : BoxOutput
+    calculateDimensionsSelf(layoutStage:LayoutStage) : BoxOutput
     {
+        const flowOutput = this.flowInput.calc(this, this.dimensionsContent);
+        this.flowOutput = flowOutput;
+
         const boxOutput = this.boxInput.calc(this);
         const propsOutput = this.propsInput.calc(boxOutput.size);
         this.propsOutput = propsOutput;
@@ -123,15 +160,17 @@ export default class Container
         return boxOutput;
     }
 
-    calculateDimensionsContent(flowStage:FlowStage) : ContainerDimensions
+    calculateDimensionsContent(layoutStage:LayoutStage) : ContainerDimensions
     {
         const dimsContent = new ContainerDimensions();
         for(const child of this.children)
         {
             child.calculateDimensions();
+            if(child.boxInput.background) { continue; }
             dimsContent.takeIntoAccount(child);
         }
 
+        dimsContent.grow(this.boxOutput.padding);
         return dimsContent;
     }
 
@@ -150,7 +189,7 @@ export default class Container
         return curNode;
     }
 
-    drawTo(targetCanvas:HTMLCanvasElement)
+    drawTo(targetCanvas:HTMLCanvasElement = this.targetCanvas)
     {
         var canv = this.drawToPre();
         if(canv.width <= 0 || canv.height <= 0)
@@ -189,7 +228,10 @@ export default class Container
         }
         
         ctx.save();
-        ctx.clip(this.getClipPath());
+        if(this.clipPath.length > 0 || this.clipBox)
+        {
+            ctx.clip(this.getClipPath());
+        }
         return canv
     }
 

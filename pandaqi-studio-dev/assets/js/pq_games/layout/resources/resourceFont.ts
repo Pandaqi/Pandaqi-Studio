@@ -3,18 +3,19 @@ import Resource from "./resource"
 export default class ResourceFont extends Resource
 {
     fontface : FontFace;
+    name : string;
 
     constructor(f: FontFace, params:any = {})
     {
         super()
 
+        this.name = (params.name ?? params.key) ?? params.fontFamily;
         this.fontface = f;
     }
     
     clone() : ResourceFont
     {
-        var res = new ResourceFont(this.fontface, this);
-        return res;
+        return new ResourceFont(this.fontface, this);
     }
     
 }

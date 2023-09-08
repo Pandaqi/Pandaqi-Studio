@@ -464,13 +464,15 @@ async function createWordCards(params)
 		useAllLevelsBelow: true
 	}
 
-	await PQ_WORDS.loadWithParams(wordParams);
+	const PandaqiWords = new PandaqiWords();
+
+	await PandaqiWords.loadWithParams(wordParams);
 	
 	const wordsPerCard = 4;
 	const cardsPerPage = gridConfig.dims.x * gridConfig.dims.y;
 	const numPages = 4;
 	const numWordsNeeded = wordsPerCard * cardsPerPage * numPages; 
-	const wordList = PQ_WORDS.getRandomMultiple(numWordsNeeded, true);
+	const wordList = PandaqiWords.getRandomMultiple(numWordsNeeded, true);
 
 	const cardSize = gridMapper.getMaxElementSizeAsSquare();
 	const wordOffsetFromCenter = 0.38; // 0.5 means text is exactly on the edge

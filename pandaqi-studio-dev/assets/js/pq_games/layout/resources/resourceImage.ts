@@ -15,7 +15,6 @@ export default class ResourceImage extends Resource
     size : Point;
     frames : Point;
     frameSize : Point;
-    frame : number = 0;
 
     constructor(img : HTMLImageElement = document.createElement("img"), params:any = {})
     {
@@ -23,7 +22,6 @@ export default class ResourceImage extends Resource
 
         this.img = img;
         this.size = new Point().setXY(img.naturalWidth, img.naturalHeight);
-        this.frame = params.frame ?? 0;
         this.frames = params.frames ?? new Point().setXY(1,1);
         this.frameSize = new Point().setXY(
             this.size.x / this.frames.x,
@@ -33,8 +31,7 @@ export default class ResourceImage extends Resource
     
     clone() : ResourceImage
     {
-        var res = new ResourceImage(this.img, this);
-        return res;
+        return new ResourceImage(this.img, this);
     }
 
     getImage() : HTMLImageElement { return this.img; }
@@ -46,11 +43,11 @@ export default class ResourceImage extends Resource
         operation.removeImage(this);
     }
 
-    getFrameData() : FrameData
+    getFrameData(frm:number) : FrameData
     {
         const frameVec = new Point().setXY(
-            this.frame % this.frames.x,
-            Math.floor(this.frame / this.frames.x)
+            frm % this.frames.x,
+            Math.floor(frm / this.frames.x)
         )
 
         return {
