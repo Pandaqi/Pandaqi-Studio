@@ -36,6 +36,7 @@ export default class TextConfig
     style: TextStyle
     weight: TextWeight
     variant: TextVariant
+    color: string
 
     constructor(params:Record<string,any> = {})
     {
@@ -47,6 +48,7 @@ export default class TextConfig
         this.style = params.style ?? TextStyle.NORMAL;
         this.weight = params.weight ?? TextWeight.REGULAR;
         this.variant = params.variant ?? TextVariant.NORMAL;
+        this.color = params.color ?? "#000000";
     }
 
     getStyleString() : String

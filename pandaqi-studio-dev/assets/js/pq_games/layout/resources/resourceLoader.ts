@@ -114,6 +114,7 @@ export default class ResourceLoader
     getResource(id:string, copy:boolean = true) : Resource
     {
         let res = this.resourcesLoaded[id];
+        if(!res) { return null; }
         if(copy) { res = res.clone(); }
         return res;
     }

@@ -23,7 +23,7 @@ export default class ContainerImage extends Container
 
     drawToCustom(canv:HTMLCanvasElement)
     {
-        this.operation.pos = this.boxOutput.getTopAnchor();
+        this.operation.pos = this.getGlobalPosition().add(this.boxOutput.getTopAnchor());
         this.operation.size = this.boxOutput.getUsableSize();
         this.operation.frame = this.frame;
         this.resource.drawTo(canv, this.operation);

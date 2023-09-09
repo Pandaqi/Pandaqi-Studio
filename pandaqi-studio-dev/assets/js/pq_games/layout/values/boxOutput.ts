@@ -5,6 +5,7 @@ import AnchorValue from "./anchorValue"
 import { FourSideValue } from "./fourSideValue"
 
 import BoxInput from "./boxInput"
+import Container from "../containers/container"
 
 export default class BoxOutput
 {
@@ -17,8 +18,7 @@ export default class BoxOutput
     anchorBottom : Point = new Point()
 
     // the USABLE space inside the parent, ignoring whitespace (automatically calculated)
-    usableParentWidth: number = 0
-    usableParentHeight: number = 0
+    usableParentSize = new Point()
 
     // properties
     margin: FourSideOutput
@@ -109,13 +109,20 @@ export default class BoxOutput
             parentBox.padding.bottom + this.margin.bottom + sMult * this.stroke.width.bottom
         )
 
-        this.usableParentWidth = parentBox.size.x - this.offsetTop.x - this.offsetBottom.x;
-        this.usableParentHeight = parentBox.size.y - this.offsetTop.y - this.offsetBottom.y;
+        this.usableParentSize = new Point(
+            parentBox.size.x - this.offsetTop.x - this.offsetBottom.x,
+            parentBox.size.y - this.offsetTop.y - this.offsetBottom.y
+        );
     }
 
-    postCalculate(b:BoxInput)
+    postCalculate(b:BoxInput, c:Container)
     {
-        if(this.keepRatio > 0 && b.size.isVariable() )
+        if(c.isFlowItem())
+        {
+            c.flowOutput.applyToBox(this);
+        }
+
+        if(this.keepRatio > 0 && b.size.isVariable())
         {
             if(this.keepRatio >= 1.0) { this.size.y = this.size.x * this.keepRatio; }
             else { this.size.x = this.size.y / this.keepRatio; } 
@@ -142,36 +149,32 @@ export default class BoxOutput
     {
         const p = this.offsetTop.clone();
         const a = this.anchor;
-        if(!this.usableParentWidth || !this.usableParentHeight) { return p; }
+        if(!this.usableParentSize.isValid()) { return p; }
         if(a == AnchorValue.TOP_LEFT || a == AnchorValue.NONE) { return p; }
 
-        const rightEdge = this.usableParentWidth + this.offsetTop.x - this.size.x;
-        const bottomEdge = this.usableParentHeight + this.offsetTop.y - this.size.y;
-        const center = new Point().setXY(
-            0.5*this.usableParentWidth - 0.5*this.size.x,
-            0.5*this.usableParentHeight - 0.5*this.size.y
-        );
+        const bottomRight = this.usableParentSize.clone().move(this.offsetTop).sub(this.size);
+        const center = this.usableParentSize.clone().scaleFactor(0.5).sub(this.size.clone().scaleFactor(0.5)).add(this.offsetTop);
 
         if(a == AnchorValue.TOP_CENTER) {
             p.x = center.x;
         } else if(a == AnchorValue.TOP_RIGHT) {
-            p.x = rightEdge;
+            p.x = bottomRight.x;
         } else if(a == AnchorValue.CENTER_LEFT) {
             p.y = center.y;
         } else if(a == AnchorValue.CENTER_CENTER) {
             p.x = center.x;
             p.y = center.y;
         } else if(a == AnchorValue.CENTER_RIGHT) {
-            p.x = rightEdge;
+            p.x = bottomRight.x;
             p.y = center.y;
         } else if(a == AnchorValue.BOTTOM_LEFT) {
-            p.y = bottomEdge;
+            p.y = bottomRight.y;
         } else if(a == AnchorValue.BOTTOM_CENTER) {
             p.x = center.x;
-            p.y = bottomEdge;
+            p.y = bottomRight.y;
         } else if(a == AnchorValue.BOTTOM_RIGHT) {
-            p.x = rightEdge;
-            p.y = bottomEdge;
+            p.x = bottomRight.x;
+            p.y = bottomRight.y;
         }
 
         return p;

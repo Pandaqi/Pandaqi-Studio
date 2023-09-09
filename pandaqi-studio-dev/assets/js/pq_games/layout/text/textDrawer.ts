@@ -2,14 +2,6 @@ import { TextConfig, TextAlign } from "./textConfig"
 import Dims from "js/pq_games/tools/geometry/dims"
 import Point from "js/pq_games/tools/geometry/point"
 
-interface TextBlock
-{
-    x: number,
-    y: number,
-    width: number,
-    height: number
-}
-
 export default class TextDrawer
 {
     HAIR_SPACE = '\u200a'
@@ -17,7 +9,7 @@ export default class TextDrawer
     text:string
     dims:Dims
     cfg:TextConfig
-    textBlockDims:TextBlock
+    textBlockDims:Dims
     debug: boolean
 
     constructor(text:string, dims:Dims, cfg:TextConfig)
@@ -27,22 +19,35 @@ export default class TextDrawer
         this.cfg = cfg;
     }
 
+    measureText() : Dims
+    {
+        const canv = document.createElement("canvas");
+        canv.width = 2048;
+        canv.height = 2048;
+        this.drawTo(canv);
+        return this.textBlockDims;
+    }
+
     drawTo(canv:HTMLCanvasElement)
     {
         const ctx = canv.getContext("2d");
         const style = this.cfg.getCanvasFontString();
         ctx.font = style;
+        ctx.fillStyle = this.cfg.color;
 
         // @ts-ignore
         const x = parseInt(this.dims.position.x);
         // @ts-ignore
         const y = parseInt(this.dims.position.y);
         // @ts-ignore
-        const width = parseInt(this.dims.size.x);
+        let width = parseInt(this.dims.size.x);
         // @ts-ignore
-        const height = parseInt(this.dims.size.y);
+        let height = parseInt(this.dims.size.y);
 
-        if(width <= 0 || height <= 0 || this.cfg.size <= 0) { return; }
+        if(width <= 0) { width = 100000 }
+        if(height <= 0) { height = 100000 }
+
+        if(this.cfg.size <= 0) { return; }
 
         // End points
         const xEnd = x + width
@@ -167,12 +172,12 @@ export default class TextDrawer
         })
 
         // save the resulting dimensions
-        this.textBlockDims = {
-            x: topLeftTotal.x,
-            y: topLeftTotal.y,
-            width: (bottomRightTotal.x - topLeftTotal.x),
-            height: (bottomRightTotal.y - topLeftTotal.y)
-        }
+        this.textBlockDims = new Dims(
+            topLeftTotal.x,
+            topLeftTotal.y,
+            (bottomRightTotal.x - topLeftTotal.x),
+            (bottomRightTotal.y - topLeftTotal.y)
+        );
 
         this.debugDraw(ctx);
     }
@@ -192,8 +197,8 @@ export default class TextDrawer
         ctx.lineWidth = 2
         ctx.strokeStyle = '#000000'
         ctx.strokeRect(
-            this.textBlockDims.x, this.textBlockDims.y, 
-            this.textBlockDims.width, this.textBlockDims.height
+            this.textBlockDims.position.x, this.textBlockDims.position.y, 
+            this.textBlockDims.size.x, this.textBlockDims.size.y
         )
     }
 

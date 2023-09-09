@@ -44,9 +44,9 @@ export default class BoxInput
 
         // all the big size/dimension/location properties
         const pos = this.readTwoAxisParams(params, ["x", "y", "pos"]);
-        this.position = new TwoAxisValue(pos);
+        this.position = params.position ?? new TwoAxisValue(pos);
 
-        const posMin = this.readTwoAxisParams(params, ["xMin", "yMin", "posMin"], [0,0]);
+        const posMin = this.readTwoAxisParams(params, ["xMin", "yMin", "posMin"], [-Infinity, -Infinity]);
         this.positionMin = new TwoAxisValue(posMin);
 
         const posMax = this.readTwoAxisParams(params, ["xMax", "yMax", "posMax"], [Infinity, Infinity]);
@@ -105,8 +105,7 @@ export default class BoxInput
         let parentBox = c.getParentBox();
         b.preCalculate(this, parentBox);
 
-        // @TODO: this should just be a single Point on BoxOutput right?
-        const usableParentSpace = new Point(b.usableParentWidth, b.usableParentHeight);
+        const usableParentSpace = b.usableParentSize.clone();
         let filledContentSpace = new Point().setXY(null, null);
         if(c.dimensionsContent) { filledContentSpace = c.dimensionsContent.getSize(); }
 
@@ -116,13 +115,7 @@ export default class BoxInput
             b[prop as keyof BoxInput] = this.calcSafe(this[prop], usableParentSpace, filledContentSpace);
         }
 
-        // @TODO: put this check inside flowOutput? Is that cleaner?
-        if(c.isFlowItem())
-        {
-            c.flowOutput.applyToBox(b);
-        }
-
-        b.postCalculate(this);
+        b.postCalculate(this, c);
         return b;
     }
 

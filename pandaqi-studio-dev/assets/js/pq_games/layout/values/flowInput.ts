@@ -22,7 +22,8 @@ export default class FlowInput
 {
     flow : FlowType
     dir: FlowDir
-    resize : NumberValue
+    grow : NumberValue
+    shrink: NumberValue
     gap : NumberValue // @TODO: should actually be a size value, properly calculated and all
     alignFlow : AlignValue
     alignStack : AlignValue
@@ -36,7 +37,8 @@ export default class FlowInput
     {
         this.flow = params.flow ?? FlowType.NONE;
         this.dir = params.dir ?? FlowDir.NONE;
-        this.resize = new NumberValue(params.resize ?? 1);
+        this.grow = new NumberValue(params.grow ?? 0);
+        this.shrink = new NumberValue(params.shrink ?? 1);
         this.gap = new NumberValue(params.gap);
         this.alignFlow = params.alignFlow ?? AlignValue.START;
         this.alignStack = params.alignStack ?? AlignValue.START;
@@ -52,12 +54,14 @@ export default class FlowInput
     {
         var f = new FlowOutput();
         f.gap = this.gap.get();
-        f.resize = this.resize.get();
+        f.grow = this.grow.get();
+        f.shrink = this.shrink.get();
         f.position = this.position;
         f.resizeAbsolute = this.resizeAbsolute;
 
         if(!dimsContent) { return f; }
         if(!this.isActive()) { return f; } // active means we're a flow PARENT and must set up our children
+        if(!this.allHaveSize(cont.children)) { return f; }
 
         let flowVec = new Point(1,0);
         let stackVec = new Point(0,1);
@@ -65,9 +69,6 @@ export default class FlowInput
         if(this.dir == FlowDir.VERTICAL) { flowVec = new Point(0,1); stackVec = new Point(1,0); }
         if(this.alignFlow == AlignValue.END) { flowVec.negate(); }
         if(this.alignStack == AlignValue.END) { stackVec.negate(); }
-
-        console.log("Calculating");
-        console.log(cont.children);
 
         // @TODO: Correct anchorPos when coming from other edge
         //  => When coming from LEFT, we actually need to add child size FIRST, then place, then add gap+extra size 
@@ -87,6 +88,8 @@ export default class FlowInput
         
         for(const child of cont.children)
         {
+            if(child.boxInput.background) { continue; }
+
             curFlowLine.add(child);
             if(!curFlowLine.isFull() || !this.wrap) { continue; }
 
@@ -100,10 +103,16 @@ export default class FlowInput
         // @TODO: so _check_ if it's full or not?
         curFlowLine.finalize();
         flowLines.push(curFlowLine);
-
-        console.log(flowLines);
-
         return f;
+    }
+
+    allHaveSize(list:Container[]) : boolean
+    {
+        for(const elem of list)
+        {
+            if(!elem.boxOutput.size || !elem.boxOutput.size.isValid()) { return false; }
+        }
+        return true;
     }
 }
 
@@ -136,21 +145,22 @@ class FlowLine
     finalize()
     {
         // if positive, we can GROW; if negative, we must SHRINK
-        let numResizeChunks = 0;
-        let resizingHappens = false;
+        let numGrowChunks = 0;
+        let numShrinkChunks = 0;
         for(const child of this.list)
         {
-            const val = child.flowOutput.resize;
-            numResizeChunks += val;
-            if(val != 1) { resizingHappens = true; }
+            numGrowChunks += child.flowOutput.grow;
+            numShrinkChunks += child.flowOutput.shrink;
         }
 
-        // If even one container is set to resize, then everything resizes + updates positions
-        // Furthermore, any spacing parameters are ignored, for there's no space left to fill!
-        if(resizingHappens)
+        const availableSpace = this.getAvailableSpace().scale(this.flowVec.abs());
+        let numChunks = numGrowChunks;
+        if(availableSpace.length() < 0) { numChunks = numShrinkChunks; }
+
+        if(numChunks > 0)
         {
             // each child will now add/remove this based on its flow.resize input
-            const resizePerChunk = this.getAvailableSpace().scaleFactor(1.0 / numResizeChunks);
+            const resizePerChunk = availableSpace.scaleFactor(1.0 / numChunks);
             for(const child of this.list)
             {
                 child.flowInput.resizeAbsolute = resizePerChunk.clone();
@@ -158,20 +168,37 @@ class FlowLine
             }
         }
 
+
         this.alignFlowAxis();
         this.alignStackAxis();
     }
 
+    getElementSize(elem:Container)
+    {
+        return elem.boxOutput.getSize();
+    }
+
     getAvailableSpace()
     {
-        const dims = this.getDimensions();
-        return this.maxSize.clone().sub(dims.getSize());
+        let spaceUsedFlow = 0;
+        let spaceUsedStack = 0;
+        for(const child of this.list)
+        {
+            const elemSize = this.getElementSize(child);
+            spaceUsedFlow += elemSize.dot(this.flowVec.clone().abs());
+            spaceUsedStack = Math.max(elemSize.dot(this.stackVec.clone().abs()), spaceUsedStack); 
+        }
+
+        spaceUsedFlow += this.container.flowOutput.gap * (this.count() - 1);
+
+        const dims = this.flowVec.clone().abs().scaleFactor(spaceUsedFlow);
+        dims.add(this.stackVec.clone().abs().scaleFactor(spaceUsedStack))
+        return this.maxSize.clone().sub(dims);
     }
 
     getAvailableSpaceElement(elem:Container)
     {
-        const dims = new ContainerDimensions().fromBox(elem.boxOutput);
-        return this.maxSize.clone().sub(dims.getSize());
+        return this.maxSize.clone().sub(this.getElementSize(elem));
     }
 
     // Space left in the flow axis depends on the entirety of space taken up
@@ -179,8 +206,6 @@ class FlowLine
     alignFlowAxis()
     {
         const availableSpace = this.getAvailableSpace().dot(this.flowVec.clone().abs());
-        const negativeSpace = availableSpace <= 0;
-        if(negativeSpace) { return; }
 
         const flowInput = this.container.flowInput;
         let spaceEdge = 0;
@@ -198,7 +223,9 @@ class FlowLine
 
         if(flowInput.alignFlow == AlignValue.SPACE_BETWEEN)
         {
+            console.log("SPACE BETWEEN");
             spaceBetween = availableSpace / (this.count() - 1);
+            console.log(spaceBetween);
         }
         
         this.resetCurrentPosition();
@@ -226,9 +253,6 @@ class FlowLine
             counter++;
 
             const availableSpace = this.getAvailableSpaceElement(child).dot(this.stackVec.clone().abs());
-            const negativeSpace = availableSpace <= 0;
-            if(negativeSpace && flowInput.alignStack != AlignValue.END) { continue; }
-
             let spaceBefore = 0;
             if(flowInput.alignStack == AlignValue.MIDDLE || flowInput.alignStack == AlignValue.SPACE_AROUND) {
                 spaceBefore = 0.5*availableSpace;
@@ -241,10 +265,8 @@ class FlowLine
             // Solution 1) keep an array of positions (populated in alignFlowAxis), modify this
             // Solution 2) only modify that single axis, not the whole point
             const oldPos = this.positions[counter].clone();
-            console.log("Flow input position is: ", oldPos);
             const offset = this.stackVec.clone().abs().scaleFactor(spaceBefore);
             const newPos = oldPos.move(offset);
-            console.log("New position is: ", newPos);
             child.flowInput.position = newPos;
             child.calculateDimensionsSelf(LayoutStage.FLOW_UPDATE);
         }

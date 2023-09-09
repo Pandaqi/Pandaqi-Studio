@@ -13,19 +13,35 @@ export default {
     elements: {}, // the elements included by user setting on game page
 
     assets: {
-        creatures: {
-            path: "assets/quellector_creatures.webp",
+        creatures_1: {
+            path: "assets/quellector_creatures_1.webp",
             frames: { x: 8, y: 2 }
         },
-        backgrounds: {
-            path: "assets/quellector_backgrounds.webp",
+        creatures_2: {
+            path: "assets/quellector_creatures_2.webp",
+            frames: { x: 8, y: 2 }
+        },
+        creatures_3: {
+            path: "assets/quellector_creatures_3.webp",
+            frames: { x: 8, y: 2 }
+        },
+        backgrounds_1: {
+            path: "assets/quellector_backgrounds_1.webp",
+            frames: { x: 8, y: 2 }
+        },
+        backgrounds_2: {
+            path: "assets/quellector_backgrounds_2.webp",
+            frames: { x: 8, y: 2 }
+        },
+        backgrounds_3: {
+            path: "assets/quellector_backgrounds_3.webp",
             frames: { x: 8, y: 2 }
         },
         icons: {
             path: "assets/quellector_types.webp",
             frames: { x: 8, y: 2 }
         },
-        iconActions: {
+        iconsActions: {
             path: "assets/quellector_actions.webp",
             frames: { x: 8, y: 2 }
         },
@@ -50,7 +66,8 @@ export default {
     },
 
     gameplay: {
-        elementCycle: ["red", "blue", "green", "purple"],
+        // purple defeats green, defeats blue, defeats red, defeats purple
+        elementCycle: ["purple", "green", "blue", "red"],
         elementCycleSubtype: []
     },
 

@@ -20,7 +20,7 @@ export default class ResourceImage extends Resource
     {
         super()
 
-        this.img = img;
+        this.img = img ?? this.createPlaceholderImage();
         this.size = new Point().setXY(img.naturalWidth, img.naturalHeight);
         this.frames = params.frames ?? new Point().setXY(1,1);
         this.frameSize = new Point().setXY(
@@ -32,6 +32,20 @@ export default class ResourceImage extends Resource
     clone() : ResourceImage
     {
         return new ResourceImage(this.img, this);
+    }
+
+    createPlaceholderImage()
+    {
+        const canv = document.createElement("canvas");
+        canv.width = 512;
+        canv.height = 512;
+        const ctx = canv.getContext("2d");
+        ctx.fillStyle = "#FF0000";
+        ctx.fillRect(0,0,512,512);
+
+        const img = document.createElement("img");
+        img.src = canv.toDataURL();
+        return img;
     }
 
     getImage() : HTMLImageElement { return this.img; }

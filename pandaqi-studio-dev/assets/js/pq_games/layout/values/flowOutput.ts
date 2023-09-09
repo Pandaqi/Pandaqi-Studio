@@ -4,7 +4,8 @@ import BoxOutput from "./boxOutput"
 export default class FlowOutput
 {
     gap: number
-    resize: number
+    grow: number
+    shrink: number
 
     // set by parent to make flowing happen
     position: Point
@@ -19,8 +20,11 @@ export default class FlowOutput
 
         if(this.resizeAbsolute)
         {
-            const resize = this.resizeAbsolute.clone().scaleFactor(this.resize)
-            b.size.move(resize);
+            const isNegative = this.resizeAbsolute.x < 0 || this.resizeAbsolute.y < 0
+            const numChunks = isNegative ? this.shrink : this.grow;
+
+            const resize = this.resizeAbsolute.clone().scaleFactor(numChunks);
+            b.size = b.size.clone().move(resize);
         }
     }
 }

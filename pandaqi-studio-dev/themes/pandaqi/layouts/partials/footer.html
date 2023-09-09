@@ -58,9 +58,7 @@
 {{ $phaser := (resources.Get "/js/phaser.min.js") }}
 {{ $phaser.Publish }}
 
-{{ if .Params.pqGames }}{{ $js_bundle = $js_bundle | append $pq_games }}{{ end }}
 {{ if .Params.phaser }}{{ $js_bundle = $js_bundle | append $phaser }}{{ end }}
-{{ if .Params.pqWords }}{{ $js_bundle = $js_bundle | append $pq_words }}{{ end }}
 
 {{ $names := slice "/js/bundle" }}
 {{ range $js_bundle }}

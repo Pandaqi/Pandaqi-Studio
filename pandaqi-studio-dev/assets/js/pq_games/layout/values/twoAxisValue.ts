@@ -54,15 +54,22 @@ export default class TwoAxisValue extends Value
 
     setBlock() : TwoAxisValue
     {
-        this.x = new SizeValue(1.0, SizeType.PARENT),
+        this.x = new SizeValue(1.0, SizeType.PARENT)
         this.y = new SizeValue(1.0, SizeType.CONTENT)
+        return this;
+    }
+
+    setFullSize() : TwoAxisValue
+    {
+        this.x = new SizeValue(1.0, SizeType.PARENT)
+        this.y = new SizeValue(1.0, SizeType.PARENT)
         return this;
     }
 
     setFreeGrow() : TwoAxisValue
     {
-        this.x = new SizeValue(0, SizeType.CONTENT)
-        this.y = new SizeValue(0, SizeType.CONTENT)
+        this.x = new SizeValue(1.0, SizeType.CONTENT)
+        this.y = new SizeValue(1.0, SizeType.CONTENT)
         return this;
     }
 

@@ -91,14 +91,8 @@ export default class Container
         return !this.parent;
     }
 
-    isLeafNode() : boolean
-    {
-        return this.children.length <= 0
-    }
-
     dependsOnContent() : boolean
     {
-        if(this.hasNoParent()) { return false; }
         return this.boxInput.dependsOnContent();
     }
 
@@ -114,6 +108,11 @@ export default class Container
         c.boxOutput = this.boxInput.calc(this);
         c.boxOutput.makeRoot();
         return c;
+    }
+
+    isLeafNode() : boolean
+    {
+        return this.children.length <= 0
     }
 
     isFlowItem()
@@ -148,7 +147,7 @@ export default class Container
     }
 
     // In post, it only updates width/height/x/y if it isn't fixed (it grows with content)
-    calculateDimensionsSelf(layoutStage:LayoutStage) : BoxOutput
+    calculateDimensionsSelf(layoutStage:LayoutStage = LayoutStage.FIXED) : BoxOutput
     {
         const flowOutput = this.flowInput.calc(this, this.dimensionsContent);
         this.flowOutput = flowOutput;
@@ -160,7 +159,7 @@ export default class Container
         return boxOutput;
     }
 
-    calculateDimensionsContent(layoutStage:LayoutStage) : ContainerDimensions
+    calculateDimensionsContent(layoutStage:LayoutStage = LayoutStage.FIXED) : ContainerDimensions
     {
         const dimsContent = new ContainerDimensions();
         for(const child of this.children)
@@ -177,6 +176,18 @@ export default class Container
     getConfig() : ContainerConfig
     {
         return this.getRootContainer().config;
+    }
+
+    getGlobalPosition() : Point
+    {
+        let curNode : Container = this;
+        let pos = this.boxOutput.getPosition();
+        while(!curNode.hasNoParent())
+        {
+            curNode = curNode.parent;
+            pos.add(curNode.boxOutput.getPosition());
+        }
+        return pos;
     }
 
     getRootContainer() : Container
@@ -204,27 +215,19 @@ export default class Container
     drawToPre() : HTMLCanvasElement
     {
         var canv = document.createElement("canvas");
-        canv.width = this.boxOutput.size.x;
-        canv.height = this.boxOutput.size.y;
+        var root = this.getRootContainer();
+        canv.width = root.boxOutput.size.x;
+        canv.height = root.boxOutput.size.y;
 
-        var ctx = canv.getContext("2d");
-
-        if(this.getConfig().useFullSizeCanvas)
-        {
-            var root = this.getRootContainer();
-            canv.width = root.boxOutput.size.x;
-            canv.height = root.boxOutput.size.y;
-
-            let pos = this.boxOutput.position;
-            ctx.translate(pos.x, pos.y);
-        }
+        const ctx = canv.getContext("2d");
 
         ctx.globalAlpha = this.propsOutput.alpha;
 
+        let pos = this.getGlobalPosition();        
         if(this.propsOutput.fill != "transparent")
         {
             ctx.fillStyle = this.propsOutput.fill;
-            ctx.fillRect(0, 0, this.boxOutput.size.x, this.boxOutput.size.y);
+            ctx.fillRect(pos.x, pos.y, this.boxOutput.size.x, this.boxOutput.size.y);
         }
         
         ctx.save();
@@ -248,12 +251,13 @@ export default class Container
         const ctx = canv.getContext("2d")
         ctx.restore();
         
+        const pos = this.getGlobalPosition();
         if(this.getConfig().debugDimensions)
         {
             // @DEBUGGING
             ctx.strokeStyle = "#FF0000";
             ctx.lineWidth = 5;
-            ctx.strokeRect(0,0,this.boxOutput.size.x, this.boxOutput.size.y);
+            ctx.strokeRect(pos.x, pos.y, this.boxOutput.size.x, this.boxOutput.size.y);
         }
 
         // @TODO: properly take different sides into account + align properly (inside, middle, outside)
@@ -264,10 +268,7 @@ export default class Container
             ctx.stroke(this.getClipPath());
         }
 
-        let pos = this.boxOutput.position;
-        if(this.getConfig().useFullSizeCanvas) { pos = new Point(); }
-
-        targetCanvas.getContext("2d").drawImage(canv, pos.x, pos.y);
+        targetCanvas.getContext("2d").drawImage(canv, 0, 0);
     }
 
     getClipPath() : Path2D
@@ -278,12 +279,13 @@ export default class Container
 
     convertToPath2D(pathInput:Point[]) : Path2D
     {
+        const pos = this.getGlobalPosition();
         var path = new Path2D();
         for(const point of pathInput)
         {
-            path.lineTo(point.x, point.y);
+            path.lineTo(pos.x + point.x, pos.y + point.y);
         }
-        path.lineTo(pathInput[0].x, pathInput[0].y);
+        path.lineTo(pos.x + pathInput[0].x, pos.y + pathInput[0].y);
         return path
     }
 

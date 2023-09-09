@@ -12,7 +12,7 @@ export default class PropsInput
 
     constructor(params:Record<string,any> = {})
     {
-        this.fill = new ColorValue(params.color); 
+        this.fill = new ColorValue(params.fill ?? "transparent"); 
         this.alpha = new NumberValue(params.alpha ?? 1.0);  
     }
 

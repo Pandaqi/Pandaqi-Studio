@@ -10,7 +10,7 @@ export default class ColorValue extends Value
     {
         super();
 
-        var color = col;
+        let color = col;
         if(col instanceof ColorValue) { color = col.value; }
         this.value = color as string;
     }

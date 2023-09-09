@@ -62,6 +62,7 @@ export default class SizeValue extends Value
     {
         if(this.type == SizeType.CONTENT)
         {
+            
             if(!contentSize) { return null; }
             return this.value * contentSize; 
         } 
