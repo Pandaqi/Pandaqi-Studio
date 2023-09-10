@@ -1,3 +1,6 @@
+// @ts-ignore
+import modernScreenshot from "../renderEngines/modern-screenshot.min.js"
+
 import ContainerDimensions from "./containerDimensions"
 import ContainerConfig from "./containerConfig"
 
@@ -12,6 +15,7 @@ import FlowOutput from "../values/flowOutput"
 
 import Point from "js/pq_games/tools/geometry/point"
 import TwoAxisValue from "../values/twoAxisValue"
+import AnchorValue from "../values/anchorValue.js"
 
 
 
@@ -25,8 +29,6 @@ enum LayoutStage {
 export { Container, LayoutStage }
 export default class Container
 {
-    DEFAULT_SIZE : Point = new Point().setXY(50,50);
-
     config: ContainerConfig
 
     propsInput : PropsInput
@@ -200,6 +202,14 @@ export default class Container
         return curNode;
     }
 
+    async toCanvas(targetCanvas:HTMLCanvasElement)
+    {
+        this.calculateDimensions();
+
+        if(this.config.renderEngine == "pandaqi") { await this.drawTo(targetCanvas); }
+        else if(this.config.renderEngine = "html2canvas") { await this.toCanvasFromHTML(targetCanvas); }
+    }
+
     drawTo(targetCanvas:HTMLCanvasElement = this.targetCanvas)
     {
         var canv = this.drawToPre();
@@ -289,6 +299,24 @@ export default class Container
         return path
     }
 
+    convertToCSSPath(pathInput:Point[]) : string
+    {
+        const parts = [];
+        let counter = -1;
+
+        for(const point of pathInput)
+        {
+            counter++;
+            if(counter == 0)
+            {
+                parts.push("M " + point.x + "," + point.y);
+                continue;
+            }
+            parts.push("L " + point.x + "," + point.y);
+        }
+        return "path('" + parts.join(" ") + "')";
+    }
+
     getDefaultClipPath() : Point[]
     {
         const dims = this.boxOutput;
@@ -299,4 +327,88 @@ export default class Container
             new Point().setXY(0, dims.size.y)
         ]
     }
+
+    needsWrapperHTML() : boolean
+    {
+        return this.boxInput.anchor != AnchorValue.NONE;
+    }
+
+    createWrapperHTML() : HTMLDivElement
+    {
+        const wrapper = document.createElement("div");
+        wrapper.style.width = "100%";
+        wrapper.style.height = "100%";
+
+        if(this.boxInput.background)
+        {
+            wrapper.style.width = "auto";
+            wrapper.style.height = "auto";
+        }
+
+        wrapper.style.boxSizing = "border-box";
+        return wrapper;
+    }
+
+    toHTML()
+    {
+        const div = document.createElement("div");
+        div.style.boxSizing = "border-box";
+
+        const wrapper = this.needsWrapperHTML() ? this.createWrapperHTML() : null;
+        if(wrapper) { wrapper.appendChild(div); }
+
+        const topElem = wrapper ? wrapper : div;
+
+        // @NOTE: yes, apply to children BEFORE applying to ourselves
+        // For example, if something is "position: absolute" the parent needs to be "position: relative"
+        // This way, we can know such things
+        for(const child of this.children)
+        {
+            div.appendChild(child.toHTML());
+        }
+
+        if(this.shouldHideOverflow()) { div.style.overflow = "hidden"; }
+        if(this.clipPath.length > 0)
+        {
+            topElem.style.clipPath = this.convertToCSSPath(this.clipPath);
+        }
+
+        this.boxInput.applyToHTML(div, wrapper, this.parent);
+        this.propsInput.applyToHTML(div);
+        this.flowInput.applyToHTML(div);
+        
+        // custom hook for custom elements to do whatever they want
+        this.toHTMLCustom(div, wrapper);
+
+        if(wrapper) { return wrapper; }
+        return div;
+    }
+
+    shouldHideOverflow()
+    {
+        return this.hasNoParent() || this.parent.root || this.clipBox || this.boxInput.background;
+    }
+
+    toHTMLCustom(div:HTMLDivElement, wrapper:HTMLDivElement = null) { }
+
+    async toCanvasFromHTML(targetCanvas:HTMLCanvasElement)
+    {
+        const domTree = this.toHTML();
+        const options = {
+            width: this.boxInput.size.x.get(),
+            height: this.boxInput.size.y.get()
+        }
+
+        const canv = await modernScreenshot.domToCanvas(domTree, options);
+
+        document.body.appendChild(domTree);
+        document.body.appendChild(canv);
+
+        const ctx = targetCanvas.getContext("2d");
+        ctx.drawImage(canv, 0, 0);
+
+        console.log(modernScreenshot);
+        console.log(domTree);
+    }
+
 }

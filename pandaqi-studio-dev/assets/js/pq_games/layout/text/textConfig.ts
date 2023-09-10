@@ -51,7 +51,7 @@ export default class TextConfig
         this.color = params.color ?? "#000000";
     }
 
-    getStyleString() : String
+    getStyleString() : string
     {
         if(this.style == TextStyle.NORMAL) { return ""; }
         return "italic";
@@ -81,6 +81,14 @@ export default class TextConfig
     {
         if(this.font instanceof ResourceFont) { return this.font.name; }
         return this.font;
+    }
+
+    getAlignString() : string
+    {
+        if(this.alignHorizontal == TextAlign.START) { return "left"; }
+        else if(this.alignHorizontal == TextAlign.MIDDLE) { return "center"; }
+        else if(this.alignHorizontal == TextAlign.END) { return "right"; }
+        else if(this.alignHorizontal == TextAlign.JUSTIFY) { return "justify"; }
     }
 
     getCanvasFontString() : string

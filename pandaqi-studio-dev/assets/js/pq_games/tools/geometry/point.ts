@@ -30,6 +30,7 @@ export default class Point
 
     clone() { return new Point(this); }
     isValid() { return !isNaN(this.x) && !isNaN(this.y); }
+    hasValue() { return this.isValid() && (this.x != 0 || this.y != 0); }
 
     // setting/overriding
     setX(v = 0) { this.x = v; return this; }

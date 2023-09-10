@@ -2,6 +2,7 @@ import Point from "js/pq_games/tools/geometry/point"
 
 export default {
     debugWithoutPDF: true, // @DEBUGGING (should be false)
+    debugSingleCard: true,
     fileName: "[Creature Quellector] Material",
     configKey: "creatureQuellectorConfig",
     progressBar: null,

@@ -15,7 +15,9 @@ export default class ColorValue extends Value
         this.value = color as string;
     }
 
-    calc() { return this.value; }
+    toCSS() { return this.get(); }
+    get() { return this.value; }
+    calc() { return this.get(); }
     isVisible()
     {
         return this.value != "transparent" // @TODO: and alpha > 0 ?

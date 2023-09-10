@@ -16,18 +16,20 @@ export default class Pack
         this.createCards(stats);
     }
 
-    draw()
+    async draw()
     {
         for(const card of this.cards)
         {
-            card.draw();
+            await card.draw();
             CONFIG.gridMapper.addElement(card.getCanvas());
         }
     }
 
     createCards(stats:Record<string,number>)
     {
-        const num = CONFIG.cards.numPerElement;
+        let num = CONFIG.cards.numPerElement;
+        if(CONFIG.debugSingleCard) { num = 1; }
+
         const cards = [];
 
         const iconDistribution = [];

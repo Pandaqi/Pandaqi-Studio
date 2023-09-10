@@ -23,7 +23,7 @@ export default class Generator {
     {
         await this.loadAssets();
         const packs = this.createPacks();
-        this.drawPacks(packs);
+        await this.drawPacks(packs);
         await this.downloadPDF();
         CONFIG.progressBar.gotoNextPhase();
     }
@@ -60,7 +60,8 @@ export default class Generator {
 
         const numElementUsed = {}
         const elementCycleSubtype = ["","","",""];
-        const elemDict : Record<string,string> = CONFIG.elements;
+        let elemDict : Record<string,string> = CONFIG.elements;
+
         for(const [element,subtype] of Object.entries(elemDict))
         {
             numElementUsed[subtype] = 0;
@@ -73,6 +74,7 @@ export default class Generator {
 
         const packs = [];    
         let counter = 0;  
+        if(CONFIG.debugSingleCard) { elemDict = { "red": "fire" } }
         const numElements = Object.keys(elemDict).length;
         for(const [element,subtype] of Object.entries(elemDict))
         {
@@ -86,11 +88,11 @@ export default class Generator {
         return packs;
     }
 
-    drawPacks(packs:Pack[])
+    async drawPacks(packs:Pack[])
     {
         for(const pack of packs)
         {
-            pack.draw();
+            await pack.draw();
         }
     }
 

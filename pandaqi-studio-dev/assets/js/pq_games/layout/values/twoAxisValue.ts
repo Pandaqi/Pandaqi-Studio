@@ -52,6 +52,13 @@ export default class TwoAxisValue extends Value
         return this;
     }
 
+    setAuto() : TwoAxisValue
+    {
+        this.x.setAuto();
+        this.y.setAuto();
+        return this;
+    }
+
     setBlock() : TwoAxisValue
     {
         this.x = new SizeValue(1.0, SizeType.PARENT)

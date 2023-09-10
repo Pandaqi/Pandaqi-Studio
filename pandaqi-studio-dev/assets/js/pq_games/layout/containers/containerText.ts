@@ -54,4 +54,22 @@ export default class ContainerText extends Container
     {
         this.createTextDrawer().drawTo(canv);
     }
+
+    toHTMLCustom(div:HTMLDivElement, wrapper:HTMLDivElement = null)
+    {
+        const textNode = document.createElement("span");
+        textNode.innerHTML = this.text;
+        div.appendChild(textNode);
+
+        textNode.style.fontFamily = this.textConfig.getNameString();
+        textNode.style.fontWeight = this.textConfig.getWeightString();
+        textNode.style.fontVariant = this.textConfig.getVariantString();
+        textNode.style.fontStyle = this.textConfig.getStyleString();
+        textNode.style.color = this.textConfig.color;
+        textNode.style.fontSize = this.textConfig.getSizeString();
+        textNode.style.lineHeight = (this.textConfig.lineHeight * 100) + "%";
+        textNode.style.textAlign = this.textConfig.getAlignString();
+
+        return div;
+    }
 }

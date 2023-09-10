@@ -5,6 +5,7 @@ import { Container, LayoutStage } from "../containers/container"
 import ContainerDimensions from "../containers/containerDimensions"
 import FlowOutput from "./flowOutput"
 import AlignValue from "./alignValue"
+import SizeValue from "./sizeValue"
 
 enum FlowType {
     NONE,
@@ -24,9 +25,10 @@ export default class FlowInput
     dir: FlowDir
     grow : NumberValue
     shrink: NumberValue
-    gap : NumberValue // @TODO: should actually be a size value, properly calculated and all
+    gap : SizeValue
     alignFlow : AlignValue
     alignStack : AlignValue
+    alignContent: AlignValue
     wrap: boolean
 
     // these are set by the system (if you're a child of a flow parent)
@@ -39,10 +41,39 @@ export default class FlowInput
         this.dir = params.dir ?? FlowDir.NONE;
         this.grow = new NumberValue(params.grow ?? 0);
         this.shrink = new NumberValue(params.shrink ?? 1);
-        this.gap = new NumberValue(params.gap);
+        this.gap = new SizeValue(params.gap);
         this.alignFlow = params.alignFlow ?? AlignValue.START;
         this.alignStack = params.alignStack ?? AlignValue.START;
+        this.alignContent = params.alignContent ?? AlignValue.START;
         this.wrap = params.wrap ?? false;
+    }
+
+    applyToHTML(div:HTMLDivElement)
+    {
+        div.style.flexGrow = this.grow.get().toString();
+        div.style.flexShrink = this.shrink.get().toString();
+
+        if(!this.isActive()) { return; }
+
+        div.style.display = "flex";
+        div.style.flexDirection = this.dir == FlowDir.HORIZONTAL ? "row" : "column";
+        div.style.flexWrap = this.wrap ? "wrap" : "nowrap";
+        div.style.justifyContent = this.convertAlignValueToCSSProp(this.alignFlow);
+        div.style.alignItems = this.convertAlignValueToCSSProp(this.alignStack);
+        div.style.alignContent = this.convertAlignValueToCSSProp(this.alignContent);
+        div.style.gap = this.gap.toCSS();
+
+    }
+
+    convertAlignValueToCSSProp(v:AlignValue) : string
+    {
+        if(v == AlignValue.START) { return "start"; }
+        else if(v == AlignValue.MIDDLE) { return "center"; }
+        else if (v == AlignValue.END) { return "end"; }
+        else if (v == AlignValue.SPACE_BETWEEN) { return "space-between"; }
+        else if (v == AlignValue.SPACE_AROUND) { return "space-around"; }
+        else if (v == AlignValue.SPACE_EVENLY) { return "space-evenly"; }
+        else if (v == AlignValue.STRETCH) { return "stretch"; }
     }
 
     isActive()

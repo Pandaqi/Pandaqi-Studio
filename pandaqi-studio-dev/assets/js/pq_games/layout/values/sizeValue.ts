@@ -43,6 +43,13 @@ export default class SizeValue extends Value
         // @TODO: default to content growth if value negative?? if(v < 0) { v = 0; t = SizeType.CONTENT; }
     }
 
+    setAuto() : SizeValue
+    {
+        this.value = 1.0;
+        this.type = SizeType.CONTENT;
+        return this;
+    }
+
     isVariable() : boolean
     {
         return this.type == SizeType.CONTENT || this.type == SizeType.PARENT;
@@ -56,6 +63,13 @@ export default class SizeValue extends Value
     get() : number
     {
         return this.value;
+    }
+
+    toCSS() : string
+    {
+        if(this.type == SizeType.CONTENT) { return "auto"; }
+        else if(this.type == SizeType.PARENT) { return (this.value * 100) + "%"; }
+        return this.value + "px";
     }
 
     calcs(parentSize : number, contentSize : number = null) : number

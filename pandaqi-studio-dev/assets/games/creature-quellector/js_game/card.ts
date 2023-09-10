@@ -33,13 +33,16 @@ export default class Card
     backgroundSpritesheet: string
     iconSpritesheet: string
 
+    clipPath: Point[]
+    imageContainer: Container
+
     constructor(t:string[]) 
     {    
         this.typeList = t;
     }
 
     getCanvas() : HTMLCanvasElement { return this.ctx.canvas; }
-    draw()
+    async draw()
     {
         this.setup();
         this.drawBackground();
@@ -48,8 +51,10 @@ export default class Card
         this.drawContent();
         this.drawFooter();
 
-        this.container.calculateDimensions();
-        this.container.drawTo(this.getCanvas());
+        //this.container.calculateDimensions();
+        await this.container.toCanvas(this.getCanvas());
+
+        this.drawCustomPost();
     }
 
     setup()
@@ -113,9 +118,9 @@ export default class Card
         const res = CONFIG.resLoader.getResource(this.creatureSpritesheet);
         const params = {
             resource: res,
-            pos: new TwoAxisValue().fromPoint(this.center),
+            anchor: AnchorValue.CENTER_CENTER,
             size: new TwoAxisValue().fromSingle(size),
-            pivot: new Point().setXY(0.5, 0.5),
+            pivot: new Point().setXY(0.5, 0.5), // @TODO??
             alpha: alpha,
             frame: this.getCardBackgroundFrame(),
             background: true
@@ -145,28 +150,31 @@ export default class Card
     {
         // actual image of creature
         const contSize = new TwoAxisValue().setBlock();
-        contSize.y = new SizeValue(0.6*this.sizeUnit);
+        const contHeight = 0.6*this.sizeUnit;
+        contSize.y = new SizeValue(contHeight);
 
         const imageContainer = new Container({
             size: contSize
         });
         this.container.addChild(imageContainer);
 
+        const backgroundImageSize = new Point(contHeight, contHeight);
         const bgResource = CONFIG.resLoader.getResource(this.backgroundSpritesheet);
         const bgContainer = new ContainerImage({ 
             resource: bgResource,
             frame: this.getMainFrame(),
-            width: new SizeValue(1.0, SizeType.PARENT),
+            size: backgroundImageSize,
             anchor: AnchorValue.CENTER_CENTER,
             background: true
         });
         imageContainer.addChild(bgContainer);
 
+        const creatureImageSize = new Point(contHeight, contHeight);
         const creatureResource = CONFIG.resLoader.getResource(this.creatureSpritesheet);
         const creatureContainer = new ContainerImage({ 
             resource: creatureResource,
             frame: this.getMainFrame(),
-            height: new SizeValue(0.75, SizeType.PARENT),
+            size: creatureImageSize,
             anchor: AnchorValue.CENTER_CENTER,
             background: true
         });
@@ -184,10 +192,9 @@ export default class Card
 
         // Clip the creature image (first update dimensions so we can grab the right ones from containers)
         this.container.calculateDimensions();
-        imageContainer.clipPath = this.getClipPath(imageContainer, iconContainer);
-        imageContainer.boxInput.stroke = new StrokeValue(6, "#00FF00");
-
-        console.log(imageContainer.clipPath);
+        this.clipPath = this.getClipPath(imageContainer, iconContainer);
+        this.imageContainer = imageContainer;
+        imageContainer.clipPath = this.clipPath;
 
         // Icon reminder list (of what's on the card, overlays image)
         const iconReminderSize = 0.5*this.cornerIconSize;
@@ -278,14 +285,11 @@ export default class Card
     {
         // The main body of the card: the icons of this creature
         const padding = 0.05*this.sizeUnit
-        const yPos = 0.9*this.sizeUnit;
         const gap = padding;
-        const pos = new TwoAxisValue(0, yPos);
-        console.log(pos);
         const icons = new Container({
             padding: padding,
             size: new TwoAxisValue().setBlock(),
-            pos: pos,
+            margin: new FourSideValue(60,0,0,0),
             dir: FlowDir.HORIZONTAL,
             alignFlow: AlignValue.MIDDLE,
             gap: gap,
@@ -308,11 +312,13 @@ export default class Card
 
     drawFooter()
     {
-        const footerGap = 0.4*this.cornerIconSize;
+        const footerGap = 0.175*this.cornerIconSize;
         const footer = new Container({
             anchor: AnchorValue.BOTTOM_LEFT,
             flow: FlowType.GRID, // @TODO: without this, it displays wrong, but it shouldn't?
             dir: FlowDir.HORIZONTAL,
+            alignFlow: AlignValue.START,
+            alignStack: AlignValue.STRETCH,
             size: new TwoAxisValue().setBlock(),
             gap: footerGap
         })
@@ -324,12 +330,13 @@ export default class Card
             resource: iconResource,
             frame: this.getIconFrame(this.getMainIcon()),
             size: new TwoAxisValue().fromSingle(this.cornerIconSize),
+            shrink: 0 // to prevent changing its size because of full width text box
         })
         footer.addChild(iconContainer);
 
         // the text with the name of the creature
         const textBox = new ContainerText({
-            size: new TwoAxisValue().setFullSize(),
+            size: new TwoAxisValue(new SizeValue(1.0, SizeType.PARENT), new SizeValue(1.0, SizeType.CONTENT)),
             fill: "#FFFFFF",
             stroke: new StrokeValue(5, "#FF0000"),
             textConfig: new TextConfig({
@@ -347,12 +354,12 @@ export default class Card
         // fineprint in the margin
         const fineprintText = new ContainerText({
             size: new TwoAxisValue().setBlock(),
-            margin: new FourSideValue(0,0,-10,0),
+            margin: new FourSideValue(0,0,-20,0),
             anchor: AnchorValue.BOTTOM_LEFT,
             textConfig: new TextConfig({
                 font: "Cabin",
                 style: TextStyle.ITALIC,
-                alignHorizontal: TextAlign.START,
+                alignHorizontal: TextAlign.END,
                 size: 14,
                 color: "rgba(0,0,0,0.85)" // @TODO: proper support for ColorValues in this whole system
             }),
@@ -377,5 +384,23 @@ export default class Card
     getCreatureName() : string
     {
         return "@TODO"
+    }
+
+    drawCustomPost()
+    {
+        const canv = this.getCanvas();
+        const ctx = canv.getContext("2d");
+        ctx.beginPath();
+        const globalPos = this.imageContainer.getGlobalPosition();
+        const path = this.clipPath.slice()
+        path.push(this.clipPath[0]);
+        for(const point of path)
+        {
+            ctx.lineTo(globalPos.x + point.x, globalPos.y + point.y);
+        }
+
+        ctx.strokeStyle = "brown";
+        ctx.lineWidth = 5;
+        ctx.stroke();
     }
 }

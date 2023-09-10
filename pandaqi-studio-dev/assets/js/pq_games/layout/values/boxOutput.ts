@@ -6,6 +6,7 @@ import { FourSideValue } from "./fourSideValue"
 
 import BoxInput from "./boxInput"
 import Container from "../containers/container"
+import PlacementValue from "./placementValue"
 
 export default class BoxOutput
 {
@@ -38,6 +39,7 @@ export default class BoxOutput
     keepRatio : number
 
     background: boolean
+    placement: PlacementValue
 
     makeRoot()
     {
