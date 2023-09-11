@@ -112,9 +112,9 @@ class CatmullRomSegment
 
     getPoints(resolution:number)
     {
-        const step = (1.0 / resolution);
+        const step = (1.0 / (resolution-1));
         const list = [];
-        for(let i = 0; i <= resolution; i++)
+        for(let i = 0; i < resolution; i++)
         {
             const t = i*step;
             list.push(this.getPoint(t));
@@ -125,16 +125,16 @@ class CatmullRomSegment
 
 export default function smoothPath(params:Record<string,any> = {})
 {
-    let path = params.path || [];
+    let path = params.path ?? [];
     if(path.length <= 2) { return path; }
 
-    params.tension = params.tension || 0;
+    params.tension = params.tension ?? 0;
     if(params.tension >= 0.99) { return path; }
 
-    params.resolution = params.resolution || 10;
+    params.resolution = params.resolution ?? 10;
     if(params.resolution <= 1) { return path; }
 
-    const variant = params.variant || "centripetal";
+    const variant = params.variant ?? "centripetal";
     let alpha = 0.5;
     if(variant == "uniform") { alpha = 0.0; }
     else if(variant == "chordal") { alpha = 1.0; } 

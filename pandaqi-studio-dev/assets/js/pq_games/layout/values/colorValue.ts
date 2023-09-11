@@ -6,6 +6,7 @@ export default class ColorValue extends Value
 {
     value:string
 
+    // @TODO: properly allow modifying the color, reading RGBA, representing differently, lighten/darken, etcetera
     constructor(col:value = "transparent")
     {
         super();

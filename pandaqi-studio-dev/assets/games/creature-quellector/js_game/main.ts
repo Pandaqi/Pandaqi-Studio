@@ -7,6 +7,15 @@ import ProgressBar from "js/pq_games/canvas/progressBar"
 
 import CONFIG from "./config"
 
+type TypeStats = Record<string,TypeStat>
+
+interface TypeStat {
+    regular: number,
+    action: number,
+    total: number
+}
+
+export { Generator, TypeStats, TypeStat }
 export default class Generator {
     constructor()
     {
@@ -58,19 +67,26 @@ export default class Generator {
     {
         CONFIG.progressBar.gotoNextPhase();
 
-        const numElementUsed = {}
-        const elementCycleSubtype = ["","","",""];
         let elemDict : Record<string,string> = CONFIG.elements;
 
+        const numElementUsed:TypeStats = {}        
         for(const [element,subtype] of Object.entries(elemDict))
         {
-            numElementUsed[subtype] = 0;
-            const idx = CONFIG.gameplay.elementCycle.indexOf(element);
-            elementCycleSubtype[idx] = subtype;
-
+            numElementUsed[subtype] = { regular: 0, action: 0, total: 0 };
         }
 
+        // to get a quick reference about what type counters what other type
+        // and a reverse dictionary to quickly look up main type from sub type
+        const elementCycleSubtype = ["","","",""];
+        const elemDictReverse:Record<string,string> = {};
         CONFIG.gameplay.elementCycleSubtype = elementCycleSubtype;
+        CONFIG.elementsReverse = elemDictReverse;
+        for(const [element, subtype] of Object.entries(elemDict))
+        {
+            const idx = CONFIG.gameplay.elementCycle.indexOf(element);
+            elementCycleSubtype[idx] = subtype;
+            elemDictReverse[subtype] = element;
+        }
 
         const packs = [];    
         let counter = 0;  
@@ -80,7 +96,8 @@ export default class Generator {
         {
             const progressText = "Creating element " + element + " => " + subtype + " (" + counter + "/" + numElements + ")"
             CONFIG.progressBar.setInfo(progressText);
-            const p = new Pack(element, subtype, numElementUsed);
+            const p = new Pack(element, subtype);
+            p.createCards(numElementUsed);
             packs.push(p);
             counter++;
         }

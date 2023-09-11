@@ -3,11 +3,13 @@ import Point from "js/pq_games/tools/geometry/point";
 import Random from "js/pq_games/tools/random/main";
 import TypeManager from "./typeManager";
 import CONFIG from "./config"
+import RecipeBook from "./recipeBook";
 
 export default class BoardState
 {
     game: any
     grid: Cell[][]
+    recipeBook: RecipeBook
 
     constructor(game:any)
     {
@@ -39,9 +41,11 @@ export default class BoardState
     assignTypes(typeManager:TypeManager)
     {
         let cellsLeft = Random.shuffle(this.getGridFlat());
+        this.reserveSpaceForRecipeBook(cellsLeft);
         this.placeTutorials(typeManager, cellsLeft);
         this.placeRequired(typeManager, cellsLeft);
         this.fillSpaceLeft(typeManager, cellsLeft);
+        this.addRecipeBook(typeManager);
 
         console.log(this.getGridFlat());
     }
@@ -104,7 +108,7 @@ export default class BoardState
     // otherwise, it returns the cells that were reserved/changed
     reserveSpace(anchorCell:Cell, dims:Point)
     {
-        const cellsReserved = [];
+        const cellsReserved : Cell[] = [];
         for(let x = 0; x < dims.x; x++)
         {
             for(let y = 0; y < dims.y; y++)
@@ -126,6 +130,31 @@ export default class BoardState
         }
 
         return cellsReserved
+    }
+
+    reserveSpaceForRecipeBook(cells:Cell[])
+    {
+        if(!CONFIG.expansions.recipeBook) { return; }
+
+        const b = new RecipeBook();
+        this.recipeBook = b;
+        
+        const dims = this.getDimensions();
+        const anchorCell = this.getCellAt(new Point(dims.x - 2, dims.y - 2));
+        const recipeBookSize = new Point(2,2);
+        
+        const cellsReserved = this.reserveSpace(anchorCell, recipeBookSize);
+        b.setReservedCells(cellsReserved);
+        for(const cell of cellsReserved)
+        {
+            cells.splice(cells.indexOf(cell), 1);
+        }
+    }
+
+    addRecipeBook(typeManager:TypeManager)
+    {
+        if(!CONFIG.expansions.recipeBook) { return; }
+        this.recipeBook.createRecipes(typeManager);
     }
 
 }

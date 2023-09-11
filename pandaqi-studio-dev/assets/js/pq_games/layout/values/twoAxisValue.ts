@@ -90,6 +90,11 @@ export default class TwoAxisValue extends Value
         return this.x.dependsOnContent() || this.y.dependsOnContent();
     }
 
+    toCSS()
+    {
+        return [this.x.toCSS(), this.y.toCSS()].join(" ");
+    }
+
     get() : Point
     {
         return new Point().setXY(this.x.get(), this.y.get());

@@ -73,27 +73,23 @@ export default class ResourceLoader
         return this.FONT_EXTENSIONS.includes(this.getExtension(path));
     }
 
-    loadResource(id:string, params:any)
+    async loadResource(id:string, params:any)
     {
         const path = params.path ?? "";
-        const that = this;
 
         if(this.isImage(path))
         {
-            return new Promise((resolve, reject) => {
-                const img = new Image();
-                img.src = params.path;
-                img.onload = () => {
-                    that.cacheLoadedImage(id, params, img);
-                    resolve(true);
-                };
-            });
+            const img = new Image();
+            img.src = params.path;
+            await img.decode();
+            await this.cacheLoadedImage(id, params, img);
         }
 
         if(this.isFont(path))
         {
             const fontFile = new FontFace(params.key, "url('" + params.path + "')");
-            return fontFile.load().then((f) => { this.cacheLoadedFont(id, params, f) });
+            const f = await fontFile.load()
+            this.cacheLoadedFont(id, params, f)
         }
     }
 
@@ -105,9 +101,10 @@ export default class ResourceLoader
         this.resourcesLoaded[id] = res;
     }
 
-    cacheLoadedImage(id:string, params:any, img:HTMLImageElement)
+    async cacheLoadedImage(id:string, params:any, img:HTMLImageElement)
     {
         const res = new ResourceImage(img, params);
+        await res.cacheFrames();
         this.resourcesLoaded[id] = res;
     }
 

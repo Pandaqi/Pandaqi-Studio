@@ -16,6 +16,9 @@ import FlowOutput from "../values/flowOutput"
 import Point from "js/pq_games/tools/geometry/point"
 import TwoAxisValue from "../values/twoAxisValue"
 import AnchorValue from "../values/anchorValue.js"
+import BackgroundOutput from "../values/backgroundOutput.js"
+import BackgroundInput from "../values/backgroundInput.js"
+import CanvasOperation from "js/pq_games/canvas/canvasOperation.js"
 
 
 
@@ -39,9 +42,14 @@ export default class Container
 
     flowInput : FlowInput
     flowOutput : FlowOutput
+
+    bgInput : BackgroundInput
+    bgOutput : BackgroundOutput
     
     clipPath: Point[]
     clipBox : boolean
+
+    operation : CanvasOperation
 
     root : boolean
     parent : Container
@@ -49,13 +57,21 @@ export default class Container
     dimensionsContent : ContainerDimensions
     targetCanvas : HTMLCanvasElement
 
+    // @TODO: Implement a clone() function
+    //  -> Add clone() function to the big variables natively
+    //  -> Just call that and set parameters properly
+    //  -> Also iteratively call clone() on all children
+
     constructor(params:any = {})
     {
         this.config = params.config;
+        
+        this.operation = new CanvasOperation(params);
 
         this.boxInput = new BoxInput(params);
         this.propsInput = new PropsInput(params);
         this.flowInput = new FlowInput(params);
+        this.bgInput = new BackgroundInput(params);
 
         this.clipPath = params.clipPath ?? [];
         this.clipBox = params.clipBox ?? false;
@@ -151,12 +167,12 @@ export default class Container
     // In post, it only updates width/height/x/y if it isn't fixed (it grows with content)
     calculateDimensionsSelf(layoutStage:LayoutStage = LayoutStage.FIXED) : BoxOutput
     {
-        const flowOutput = this.flowInput.calc(this, this.dimensionsContent);
+        const flowOutput = this.flowInput.calc(this);
         this.flowOutput = flowOutput;
 
         const boxOutput = this.boxInput.calc(this);
-        const propsOutput = this.propsInput.calc(boxOutput.size);
-        this.propsOutput = propsOutput;
+        this.propsOutput = this.propsInput.calc(this);
+        this.bgOutput = this.bgInput.calc(this);
 
         return boxOutput;
     }
@@ -167,7 +183,7 @@ export default class Container
         for(const child of this.children)
         {
             child.calculateDimensions();
-            if(child.boxInput.background) { continue; }
+            if(child.boxInput.ghost) { continue; }
             dimsContent.takeIntoAccount(child);
         }
 
@@ -204,10 +220,12 @@ export default class Container
 
     async toCanvas(targetCanvas:HTMLCanvasElement)
     {
-        this.calculateDimensions();
-
-        if(this.config.renderEngine == "pandaqi") { await this.drawTo(targetCanvas); }
-        else if(this.config.renderEngine = "html2canvas") { await this.toCanvasFromHTML(targetCanvas); }
+        if(this.config.renderEngine == "pandaqi") { 
+            this.calculateDimensions();
+            await this.drawTo(targetCanvas); 
+        } else if(this.config.renderEngine = "html2canvas") { 
+            await this.toCanvasFromHTML(targetCanvas); 
+        }
     }
 
     drawTo(targetCanvas:HTMLCanvasElement = this.targetCanvas)
@@ -264,7 +282,6 @@ export default class Container
         const pos = this.getGlobalPosition();
         if(this.getConfig().debugDimensions)
         {
-            // @DEBUGGING
             ctx.strokeStyle = "#FF0000";
             ctx.lineWidth = 5;
             ctx.strokeRect(pos.x, pos.y, this.boxOutput.size.x, this.boxOutput.size.y);
@@ -278,6 +295,10 @@ export default class Container
             ctx.stroke(this.getClipPath());
         }
 
+        // apply our canvas operation to the final canvas in its entirety
+        this.operation.apply(canv);
+
+        // then finally draw the results onto the bigger canvas that called us
         targetCanvas.getContext("2d").drawImage(canv, 0, 0);
     }
 
@@ -339,7 +360,7 @@ export default class Container
         wrapper.style.width = "100%";
         wrapper.style.height = "100%";
 
-        if(this.boxInput.background)
+        if(this.boxInput.ghost)
         {
             wrapper.style.width = "auto";
             wrapper.style.height = "auto";
@@ -360,22 +381,24 @@ export default class Container
         const topElem = wrapper ? wrapper : div;
 
         // @NOTE: yes, apply to children BEFORE applying to ourselves
-        // For example, if something is "position: absolute" the parent needs to be "position: relative"
-        // This way, we can know such things
         for(const child of this.children)
         {
             div.appendChild(child.toHTML());
         }
 
         if(this.shouldHideOverflow()) { div.style.overflow = "hidden"; }
+
+        // @NOTE: Wrappers are only used for anchoring or weird positioning, which means applying clipPath to them will usually not do what you want as it's applied to the wrong sized element
         if(this.clipPath.length > 0)
         {
-            topElem.style.clipPath = this.convertToCSSPath(this.clipPath);
+            div.style.clipPath = this.convertToCSSPath(this.clipPath);
         }
 
         this.boxInput.applyToHTML(div, wrapper, this.parent);
         this.propsInput.applyToHTML(div);
         this.flowInput.applyToHTML(div);
+
+        this.operation.applyToHTML(topElem);
         
         // custom hook for custom elements to do whatever they want
         this.toHTMLCustom(div, wrapper);
@@ -386,7 +409,7 @@ export default class Container
 
     shouldHideOverflow()
     {
-        return this.hasNoParent() || this.parent.root || this.clipBox || this.boxInput.background;
+        return this.hasNoParent() || this.parent.root || this.clipBox || this.boxInput.ghost;
     }
 
     toHTMLCustom(div:HTMLDivElement, wrapper:HTMLDivElement = null) { }

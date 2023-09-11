@@ -1,16 +1,37 @@
+import Point from "js/pq_games/tools/geometry/point";
 import ResourceImage from "../../layout/resources/resourceImage"
 import createContext from "../createContext"
+import CanvasEffect from "./canvasEffect";
 
-export default (res:ResourceImage, params:Record<string,any> = {}) : HTMLCanvasElement =>
+export default class DropShadowEffect extends CanvasEffect
 {
-    const size = res.size;
-    const color = params.color || "#000000";
-    const offset = params.offset || { x: 0, y: 0 };
-    const blurRadius = params.blur || 12;
+    blurRadius: any;
+    color: any;
+    offset: any;
+    
+    constructor(params:Record<string,any> = {})
+    {
+        super(params);
 
-    const contextParams = { width: size.x, height: size.y, alpha: true }
-    let ctx = createContext(contextParams);
-    ctx.filter = "drop-shadow(" + offset.x + "px " + offset.y + "px " + blurRadius + "px " + color + ")"
-    ctx.drawImage(res.img, 0, 0);
-    return ctx.canvas;
+        this.blurRadius = ((params.size ?? params.blur) ?? params.blurRadius) ?? 0;
+        this.color = params.color ?? "black";
+        this.offset = params.offset ?? new Point();
+    }
+
+    createFilterString()
+    {
+        return "drop-shadow(" + this.offset.x + "px " + this.offset.y + "px " + this.blurRadius + "px " + this.color + ")"
+    }
+
+    async applyToContext(ctx:CanvasRenderingContext2D, image:ResourceImage = null)
+    {
+        ctx.filter += this.createFilterString() + " ";
+    }
+
+    applyToHTML(div:HTMLDivElement)
+    {
+        console.log(this.createFilterString());
+        div.style.filter += this.createFilterString() + " ";
+        console.log(div.style.filter);
+    }
 }

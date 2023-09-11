@@ -13,6 +13,8 @@ export default
         dims: { x: 8, y: 6 },
         resolutionPerCell: 5,
         maxGridLineVariation: 0.1,
+
+        useWobblyLines: true,
         smoothingResolution: 8,
         outerMarginFactor: { x: 0.05, y: 0.05 }, // empty space around the board, fraction of total paper size
         grid: {
@@ -28,9 +30,6 @@ export default
         iconScale: 0.75,
         extraFrameScale: 0.66,
         moneySpriteScale: 0.66,
-        
-        defaultBackgroundMachines: 0x484848,
-        defaultBackgroundMoney: 0x056703,
 
         moneyTextConfigTiny: {
             fontFamily: "Cherry Bomb One",
@@ -60,5 +59,12 @@ export default
         maxMoneyDrawProb: 3, // at the highest possible need, this is the probability of adding a money square
         fixedFingerBounds: { min: 0.1, max: 0.33 },
         sheetData: { frameWidth: 256, frameHeight: 256 }
+    },
+
+    recipes: {
+        bounds: { min: 3, max: 5 },
+        recipeLength: { min: 2, max: 4 },
+        maxScoreMostValuableIngredient: 5,
+        forbiddenRecipeProb: 0.3 // you are PENALIZED for getting this recipe (with inverted score)
     }
 }

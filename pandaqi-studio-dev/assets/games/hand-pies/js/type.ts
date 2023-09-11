@@ -1,3 +1,5 @@
+import { MAIN_TYPES } from "./dictionary"
+
 export default class Type
 {
     mainType:string
@@ -18,4 +20,9 @@ export default class Type
 
     setTutorial(t:boolean) { this.tutorial = t; }
     getTutorial() { return this.tutorial; }
+
+    getPower() : number
+    { 
+        return MAIN_TYPES[this.mainType].DICT[this.subType].power ?? 1;
+    }
 }

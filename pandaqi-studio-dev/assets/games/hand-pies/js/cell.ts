@@ -1,3 +1,7 @@
+import CONFIG from "./config"
+import { MAIN_TYPES, COLOR_GROUPS } from "./dictionary"
+import Type from "./type"
+
 export default class Cell
 {
     x:number
@@ -8,7 +12,6 @@ export default class Cell
     num:number
     fixedFingers:number[]
     tutorial:boolean
-    color: number
 
     constructor(x = 0, y = 0)
     {
@@ -22,7 +25,27 @@ export default class Cell
         this.tutorial = false;
     }
 
-    setTypeObject(t)
+    getTypeData()
+    {
+        if(!this.mainType || !this.subType || this.reservedFor) { return null; }
+        return MAIN_TYPES[this.mainType].DICT[this.subType];
+    }
+
+    getColorGroup() : string
+    {
+        if(this.reservedFor) { return "reserved"; }
+        if(this.tutorial) { return "tutorial"; }
+        if(this.mainType == "machine") { return "machine"; }
+        else if(this.mainType == "money") { return "money"; }
+        return this.getTypeData().colorGroup;
+    }
+
+    getColor() : string
+    {
+        return COLOR_GROUPS[this.getColorGroup()] ?? "#FFFFFF";
+    }
+
+    setTypeObject(t:Type)
     {
         this.setMainType(t.mainType);
         this.setSubType(t.subType);

@@ -15,49 +15,62 @@ interface FrameData {
 
 export default class ResourceImage extends Resource
 {
-    img : ImageLike;
+    img : HTMLImageElement;
     size : Point;
     frameDims : Point;
     frameSize : Point;
     frames : HTMLImageElement[];
 
-    constructor(imageData : ImageLike = document.createElement("img"), params:any = {})
+    constructor(imageData : HTMLImageElement = new Image(), params:any = {})
     {
         super()
 
-        if(imageData instanceof HTMLCanvasElement) {
-            const imgNode = document.createElement("img");
-            imgNode.src = imageData.toDataURL();
-            this.img = imgNode;
-        } else {
-            this.img = (imageData as HTMLImageElement) ?? this.createPlaceholderImage();
-        }
-
-        this.frameDims = new Point(params.frames ?? { x: 0, y: 0 });
-        this.frameSize = new Point().setXY(
-            this.size.x / this.frameDims.x,
-            this.size.y / this.frameDims.y
-        )
-
-        this.cacheFrames();
-
-        if(this.img instanceof HTMLImageElement) {
-            this.size = new Point().setXY(this.img.naturalWidth, this.img.naturalHeight);
-        } else {
-            console.error("Can't set size of ResourceImage because resource is not an image: ", this.img);
-        }
-
+        this.img = imageData;
+        this.frameDims = new Point(params.frames ?? new Point(1,1));
+        this.refreshSize();
     }
     
     clone() : ResourceImage
     {
-        return new ResourceImage(this.img, this);
+        const img = new ResourceImage(this.img);
+        img.size = this.size.clone();
+        img.frameDims = this.frameDims.clone();
+        img.frames = this.frames.slice();
+        img.refreshSize();
+        return img;
     }
 
-    cacheFrames()
+    swapImage(img:HTMLImageElement)
+    {
+        this.img = img;
+    }
+
+    refreshSize()
+    {
+        if(!(this.img instanceof HTMLImageElement)) { return; }
+        this.size = new Point().setXY(this.img.naturalWidth, this.img.naturalHeight);
+        this.frameSize = new Point().setXY(
+            this.size.x / this.frameDims.x,
+            this.size.y / this.frameDims.y
+        )
+    }
+
+    async fromCanvas(canv:HTMLCanvasElement)
+    {
+        const imgNode = new Image();
+        imgNode.src = canv.toDataURL();
+        await imgNode.decode();
+        this.img = imgNode;
+        this.refreshSize();
+        await this.cacheFrames();
+        return this;
+    }
+
+    async cacheFrames()
     {
         this.frames = [];
 
+        const promises = [];
         for(let x = 0; x < this.frameDims.x; x++)
         {
             for(let y = 0; y < this.frameDims.y; y++)
@@ -70,37 +83,27 @@ export default class ResourceImage extends Resource
 
                 const ctx = canv.getContext("2d");
                 ctx.drawImage(
-                    canv, 
+                    this.img, 
                     data.x, data.y, data.width, data.height, 
                     0, 0, data.width, data.height
                 )
 
-                const img = document.createElement("img");
+                const img = new Image();
                 img.src = canv.toDataURL();
-                this.frames.push(img);
+                this.frames[frame] = img;
+                promises.push(img.decode());
             }
         }
-    }
 
-    createPlaceholderImage() : HTMLImageElement
-    {
-        const canv = document.createElement("canvas");
-        canv.width = 512;
-        canv.height = 512;
-        const ctx = canv.getContext("2d");
-        ctx.fillStyle = "#FF0000";
-        ctx.fillRect(0,0,512,512);
-        const img = document.createElement("img");
-        img.src = canv.toDataURL();
-        return img;
+        await Promise.all(promises);
     }
 
     getImage() : ImageLike { return this.img; }
-    drawTo(canv:HTMLCanvasElement|CanvasRenderingContext2D, operation:CanvasOperation = new CanvasOperation())
+    async drawTo(canv:HTMLCanvasElement|CanvasRenderingContext2D, operation:CanvasOperation = new CanvasOperation())
     {
         if(canv instanceof CanvasRenderingContext2D) { canv = canv.canvas; }
         operation.addImage(this);
-        operation.apply(canv);
+        await operation.apply(canv);
         operation.removeImage(this);
     }
 
@@ -119,6 +122,11 @@ export default class ResourceImage extends Resource
             width: this.frameSize.x,
             height: this.frameSize.y 
         }
+    }
+
+    getCSSUrl() : string
+    {
+        return "url(" + this.img.src + ")";
     }
 
     getRatio() : number

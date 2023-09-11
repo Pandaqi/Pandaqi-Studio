@@ -38,7 +38,7 @@ export default class BoxOutput
     anchor : AnchorValue
     keepRatio : number
 
-    background: boolean
+    ghost: boolean
     placement: PlacementValue
 
     makeRoot()
@@ -185,13 +185,13 @@ export default class BoxOutput
     
     getTopAnchor()
     {
-        if(this.background) { return new Point(); }
+        if(this.ghost) { return new Point(); }
         return this.anchorTop.clone();
     }
 
     getUsableSize()
     {
-        if(this.background) { return this.getSize(); }
+        if(this.ghost) { return this.getSize(); }
         return this.getSizeContent();
     }
 }

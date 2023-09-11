@@ -1,31 +1,31 @@
 const INGREDIENTS = {
     // low-level
-    flour: { frame: 0, color: 0xFFFFFF },
-    butter: { frame: 1, color: 0xFFFFFF },
-    sugar: { frame: 2, color: 0xFFFFFF },
-    egg: { frame: 3, color: 0xFFFFFF },
-    water: { frame: 4, color: 0xFFFFFF },
-    salt: { frame: 5, color: 0xFFFFFF },
+    flour: { frame: 0, colorGroup: "red" },
+    butter: { frame: 1, colorGroup: "yellow" },
+    sugar: { frame: 2, colorGroup: "blue" },
+    egg: { frame: 3, colorGroup: "red" },
+    water: { frame: 4, colorGroup: "blue" },
+    salt: { frame: 5, colorGroup: "white" },
 
     // mid-level
-    chocolate: { frame: 6, color: 0xFFFFFF },
-    milk: { frame: 7, color: 0xFFFFFF },
-    sprinkles: { frame: 8, color: 0xFFFFFF },
-    cream: { frame: 9, color: 0xFFFFFF },
-    bread: { frame: 10, color: 0xFFFFFF },
+    chocolate: { frame: 6, colorGroup: "red" },
+    milk: { frame: 7, colorGroup: "blue" },
+    sprinkles: { frame: 8, colorGroup: "pink" },
+    cream: { frame: 9, colorGroup: "white" },
+    bread: { frame: 10, colorGroup: "red" },
 
     // high-level
-    pie: { frame: 11, color: 0xFFFFFF },
-    cake: { frame: 12, color: 0xFFFFFF },
-    cookie: { frame: 13, color: 0xFFFFFF }, // @TODO: add a low maximum of cookies, otherwise it's impossible to own all of them
-    smoothie: { frame: 14, color: 0xFFFFFF, minUniqueTypesRequired: 5 }, // @TODO: listen to that property
-    baguette: { frame: 15, color: 0xFFFFFF },
-    croissant: { frame: 16, color: 0xFFFFFF, requiredExpansions: ["machine"] },
-    cupcake: { frame: 17, color: 0xFFFFFF, requiredExpansions: ["machine"] },
-    brownie: { frame: 18, color: 0xFFFFFF, requiredExpansions: ["machine"] },
-    cheesecake: { frame: 19, color: 0xFFFFFF },
-    applepie: { frame: 20, color: 0xFFFFFF },
-    icecream: { frame: 21, color: 0xFFFFFF },
+    pie: { frame: 11, colorGroup: "yellow" },
+    cake: { frame: 12, colorGroup: "pink" },
+    cookie: { frame: 13, colorGroup: "red" }, // @TODO: add a low maximum of cookies, otherwise it's impossible to own all of them
+    smoothie: { frame: 14, colorGroup: "pink", minUniqueTypesRequired: 5 }, // @TODO: listen to that property
+    baguette: { frame: 15, colorGroup: "yellow" },
+    croissant: { frame: 16, colorGroup: "red", requiredExpansions: ["machine"] },
+    cupcake: { frame: 17, colorGroup: "blue", requiredExpansions: ["machine"] },
+    brownie: { frame: 18, colorGroup: "red", requiredExpansions: ["machine"] },
+    cheesecake: { frame: 19, colorGroup: "pink" },
+    applepie: { frame: 20, colorGroup: "red" },
+    icecream: { frame: 21, colorGroup: "blue" },
 }
 
 const MACHINES = {
@@ -73,10 +73,25 @@ const MAIN_TYPES = {
     tutorial: { DICT: TUTORIAL }
 }
 
+// @NOTE: no green or gray/black, as those are for money and machines
+const COLOR_GROUPS = {
+    red: "#FFAA22", // also orange
+    yellow: "#FFFF00",
+    blue: "#CCCCFF",
+    turquoise: "#CCFFFF",
+    pink: "#FFCCFF", // also purple
+    white: "#DDDDDD",
+    machine: "#484848",
+    money: "#056703",
+    tutorial: "#FFFFFF",
+    reserved: "#FFFFFF" // ??
+}
+
 export {
     MAIN_TYPES,
     INGREDIENTS,
     MACHINES,
     MONEY,
-    TUTORIAL
+    TUTORIAL,
+    COLOR_GROUPS
 }

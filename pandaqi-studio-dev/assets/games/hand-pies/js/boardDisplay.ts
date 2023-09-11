@@ -121,6 +121,8 @@ export default class BoardDisplay
 
     randomizeGridLines(lines:Lines)
     {
+        if(!CONFIG.board.useWobblyLines) { return lines; }
+
         const maxVariation = CONFIG.board.maxGridLineVariation * this.cellSizeUnit;
         for(const [axis,linesAxis] of Object.entries(lines))
         {
@@ -177,6 +179,8 @@ export default class BoardDisplay
 
     smoothLines(lines:Lines)
     {
+        if(!CONFIG.board.useWobblyLines) { return lines; }
+
         const smoothingResolution = CONFIG.board.smoothingResolution;
         const newLines:Lines = { x: [], y: [] };
         for(const key of Object.keys(lines))
@@ -214,7 +218,9 @@ export default class BoardDisplay
     fillInCells(lines:Lines)
     {
         const graphics = this.game.add.graphics();
-        const smoothingResolution = CONFIG.board.smoothingResolution;
+        let smoothingResolution = CONFIG.board.smoothingResolution;
+        if(!CONFIG.board.useWobblyLines) { smoothingResolution = 1; }
+
         const distBetweenAnchors = smoothingResolution * this.resolutionPerCell;
 
         const polygons = [];
@@ -226,18 +232,17 @@ export default class BoardDisplay
             for(let y = 0; y < this.dims.y; y++)
             {
                 const cell = this.board.getCellAt(new Point().setXY(x,y));
-                let backgroundColor = cell.color || 0xFFFFFF;
-                if(cell.mainType == "machine") { backgroundColor = CONFIG.board.defaultBackgroundMachines; }
-                else if(cell.mainType == "money") { backgroundColor = CONFIG.board.defaultBackgroundMoney; }
+                let backgroundColor = new Display.Color.HexStringToColor(cell.getColor());
 
                 const set1 = this.getLineChunk(lines.x[y], x*distBetweenAnchors, (x+1)*distBetweenAnchors);
                 const set2 = this.getLineChunk(lines.y[x+1], y*distBetweenAnchors, (y+1)*distBetweenAnchors);
                 const set3 = this.getLineChunk(lines.x[y+1], (x+1)*distBetweenAnchors, x*distBetweenAnchors);
                 const set4 = this.getLineChunk(lines.y[x], (y+1)*distBetweenAnchors, y*distBetweenAnchors);
 
-                graphics.fillStyle(backgroundColor);
+                graphics.fillStyle(backgroundColor.color);
 
-                const polygon = new Geom.Polygon(set1.concat(set2).concat(set3).concat(set4));
+                const points = [set1, set2, set3, set4].flat();
+                const polygon = new Geom.Polygon(points);
                 graphics.fillPoints(polygon.points, true);
 
                 polygons.push(polygon);
@@ -256,10 +261,12 @@ export default class BoardDisplay
         }
     }
 
-    displayCell(point)
+    displayCell(point:Point)
     {
         const cell = this.board.getCellAt(point);
-        const data = this.getTypeData(cell);
+        const data = cell.getTypeData();
+        if(!data) { return; }
+
         const w = this.cellSize.x, h = this.cellSize.y;
         const realPos = this.convertGridPointToRealPoint(point);
         const centerPos = realPos.clone().add(new Point().setXY(0.5*w, 0.5*h));
@@ -394,12 +401,6 @@ export default class BoardDisplay
     hasOuterMargin()
     {
         return this.outerMargin.x > 0.003 || this.outerMargin.y > 0.003
-    }
-
-    getTypeData(cell)
-    {
-        console.log(cell);
-        return MAIN_TYPES[cell.mainType].DICT[cell.subType];
     }
 
 }

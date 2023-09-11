@@ -39,8 +39,6 @@ export default class SizeValue extends Value
 
         this.value = (value as number) ?? 0;
         this.type = type;
-
-        // @TODO: default to content growth if value negative?? if(v < 0) { v = 0; t = SizeType.CONTENT; }
     }
 
     setAuto() : SizeValue

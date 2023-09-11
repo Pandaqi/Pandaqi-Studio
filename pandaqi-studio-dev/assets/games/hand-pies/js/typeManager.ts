@@ -3,11 +3,20 @@ import { MAIN_TYPES, INGREDIENTS, MACHINES, MONEY, TUTORIAL } from "./dictionary
 import Random from "js/pq_games/tools/random/main";
 import CONFIG from "./config"
 
+interface Counters {
+    mainType: Record<string,number>,
+    subType: Record<string,number>,
+    moneyToPay: number,
+    moneyToGet: number,
+    fixedFingerCells: number,
+    cells: number
+}
+
 export default class TypeManager
 {
 
     game:any
-    counters:Record<string,any>
+    counters:Counters
     moneyTargetFraction:number
     fixedFingerFraction:number
     types: Type[]
@@ -116,6 +125,16 @@ export default class TypeManager
         return true;
     }
 
+    getTypesPossible() : Type[]
+    {
+        return this.types.slice();
+    }
+
+    countSubtype(tp:string) : number
+    {
+        return this.counters.subType[tp];
+    }
+
     getSubTypesPossible()
     {
         const arr = [];
@@ -200,9 +219,8 @@ export default class TypeManager
         if(!CONFIG.expansions.money) { return; }
 
         // sort types by power (HIGHEST power comes first, so descending)
-        // @TODO: fix this bug (power SHOULDN'T be set on the type object, right?)
         this.types.sort((a,b) => { 
-            return (b.power || 1) - (a.power || 1); 
+            return b.getPower() - a.getPower();
         })
 
         const moneyTypeBounds = CONFIG.types.moneyTypeBounds;
@@ -249,6 +267,8 @@ export default class TypeManager
 
     getTutorialsNeeded()
     {
+        if(!CONFIG.includeRules) { return []; }
+
         let tutorials = [
             new Type("tutorial", "howtoplay", null, true), 
             new Type("tutorial", "objective", null, true)

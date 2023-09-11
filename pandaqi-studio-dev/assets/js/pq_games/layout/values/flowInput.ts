@@ -6,6 +6,7 @@ import ContainerDimensions from "../containers/containerDimensions"
 import FlowOutput from "./flowOutput"
 import AlignValue from "./alignValue"
 import SizeValue from "./sizeValue"
+import InputGroup from "./inputGroup"
 
 enum FlowType {
     NONE,
@@ -19,7 +20,7 @@ enum FlowDir {
 }
 
 export { FlowInput, FlowDir, FlowType }
-export default class FlowInput
+export default class FlowInput extends InputGroup
 {
     flow : FlowType
     dir: FlowDir
@@ -37,6 +38,8 @@ export default class FlowInput
 
     constructor(params:Record<string,any>)
     {
+        super(params);
+        
         this.flow = params.flow ?? FlowType.NONE;
         this.dir = params.dir ?? FlowDir.NONE;
         this.grow = new NumberValue(params.grow ?? 0);
@@ -81,7 +84,7 @@ export default class FlowInput
         return this.flow != FlowType.NONE;
     }
 
-    calc(cont:Container, dimsContent:ContainerDimensions = null) : FlowOutput
+    calc(cont:Container) : FlowOutput
     {
         var f = new FlowOutput();
         f.gap = this.gap.get();
@@ -89,6 +92,8 @@ export default class FlowInput
         f.shrink = this.shrink.get();
         f.position = this.position;
         f.resizeAbsolute = this.resizeAbsolute;
+
+        const dimsContent = cont.dimensionsContent;
 
         if(!dimsContent) { return f; }
         if(!this.isActive()) { return f; } // active means we're a flow PARENT and must set up our children
@@ -119,7 +124,7 @@ export default class FlowInput
         
         for(const child of cont.children)
         {
-            if(child.boxInput.background) { continue; }
+            if(child.boxInput.ghost) { continue; }
 
             curFlowLine.add(child);
             if(!curFlowLine.isFull() || !this.wrap) { continue; }
@@ -131,7 +136,6 @@ export default class FlowInput
         }
 
         // we miss the last line if it's not full
-        // @TODO: so _check_ if it's full or not?
         curFlowLine.finalize();
         flowLines.push(curFlowLine);
         return f;
@@ -292,9 +296,9 @@ class FlowLine
                 spaceBefore = -this.stackVec.clone().scale(child.boxOutput.getSize()).length();
             }
 
-            // @TODO: better not to read this directly the modify
-            // Solution 1) keep an array of positions (populated in alignFlowAxis), modify this
-            // Solution 2) only modify that single axis, not the whole point
+            // @NOTE: we keep this `positions` array because reading current position directly
+            // might be wrong or accidentally _change_ the base value, which means if
+            // the flow layout is called multiple times, the results will be wildly different (and WRONG)
             const oldPos = this.positions[counter].clone();
             const offset = this.stackVec.clone().abs().scaleFactor(spaceBefore);
             const newPos = oldPos.move(offset);

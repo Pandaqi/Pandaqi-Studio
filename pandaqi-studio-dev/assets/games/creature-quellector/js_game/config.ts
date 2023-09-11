@@ -12,6 +12,7 @@ export default {
     cardSize: "regular",
     inkFriendly: false,
     elements: {}, // the elements included by user setting on game page
+    elementsReverse: {},
 
     assets: {
         creatures_1: {
@@ -42,9 +43,13 @@ export default {
             path: "assets/quellector_types.webp",
             frames: { x: 8, y: 2 }
         },
-        iconsActions: {
+        icons_actions: {
             path: "assets/quellector_actions.webp",
             frames: { x: 8, y: 2 }
+        },
+        counter_icon: {
+            path: "assets/counter_icon.webp",
+            frames: { x: 1, y: 1 }
         },
 
         fontHeading: {
@@ -69,7 +74,11 @@ export default {
     gameplay: {
         // purple defeats green, defeats blue, defeats red, defeats purple
         elementCycle: ["purple", "green", "blue", "red"],
-        elementCycleSubtype: []
+        elementCycleSubtype: [],
+        actionProbability: 0.4,
+        actionPickThreshold: 5, // we'll only consider adding actions once this number of regular icons have been placed
+        actionPercentage: { min: 0.2, max: 0.4 }, // what percentage of icons (in total) should be an action?
+        actionPercentagePerType: { min: 0.1, max: 0.65 } // what percentage of icons (within one type) may be an action?
     },
 
     cards: {
@@ -83,15 +92,21 @@ export default {
         iconsPerCard: 4,
         backgroundColor: "#FFE4B3",
         backgroundScale: 2.0,
-        backgroundAlpha: 0.25,
+        backgroundAlpha: 0.125,
         generator: {
             maxDifferenceBetweenTypes: 5,
             subTypeExtraProb: 0.2,
         },
         size: new Point(),
+        stroke: {
+            color: "#614100",
+            width: 0.01
+        },
         outline: {
-            color: "#111111",
-            width: 0.05,
-        }
+            color: "#332211",
+            width: 0.02,
+        },
+        genericNames: ["mon", "snout", "leg", "fur", "paw", "tail", "speed", "critter", "creat", "monster", "god", "child", "baby", "beak", "wing", "dweller", "kid", "roam", "breath", "blast", "jump", "leap"],
+
     }
 }

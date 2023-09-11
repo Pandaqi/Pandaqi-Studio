@@ -81,8 +81,8 @@ async function createWordCards(userConfig:Record<string,any>)
 
         const res : ResourceImage = resLoader.getResource("grayscale_ant") as ResourceImage;
         const spriteParams = {
-            pos: new Point(0, antMarginY),
-            size: new Point(spriteSize, spriteSize),
+            translate: new Point(0, antMarginY),
+            dims: new Point(spriteSize, spriteSize),
             rotation: Math.PI
         }
         const canvOp = new CanvasOperation(spriteParams);
@@ -91,18 +91,18 @@ async function createWordCards(userConfig:Record<string,any>)
         let antX = 0.5*cardSize.x + Math.random()*0.5*cardSize.x;
         while(antX > 0)
         {
-            canvOp.pos = new Point(antX, spriteParams.pos.y);
+            canvOp.translate = new Point(antX, spriteParams.translate.y);
             res.drawTo(ctx, canvOp);
             antX -= Math.random() * (cardSize.x - antX) + 1.25*spriteSize;
         }
 
         // bottom row
         antX = Math.random()*0.5*cardSize.x;
-        spriteParams.pos.y = (cardSize.y - antMarginY);
+        spriteParams.translate.y = (cardSize.y - antMarginY);
         spriteParams.rotation = 0;
         while(antX < cardSize.x)
         {
-            canvOp.pos = new Point(antX, spriteParams.pos.y);
+            canvOp.translate = new Point(antX, spriteParams.translate.y);
             res.drawTo(ctx, canvOp);
             antX += Math.random() * (cardSize.x - antX) + 1.25*spriteSize;
         }
@@ -206,8 +206,8 @@ async function createWordCards(userConfig:Record<string,any>)
             dataX -= dataTextWidth;
 
             const resParams = {
-                size: new Point(iconSize),
-                pos: new Point(dataX, y)
+                dims: new Point(iconSize),
+                translate: new Point(dataX, y)
             }
             const canvOp = new CanvasOperation(resParams);
             iconPoints.drawTo(ctx, canvOp);
@@ -216,7 +216,7 @@ async function createWordCards(userConfig:Record<string,any>)
             ctx.fillText(word.getLines(), dataX, y);
 
             dataX -= dataTextWidth;
-            canvOp.pos.x = dataX;
+            canvOp.translate.x = dataX;
             iconLines.drawTo(ctx, canvOp);
 
             ctx.globalAlpha = 1.0;

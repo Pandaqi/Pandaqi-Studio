@@ -3,15 +3,16 @@ interface PointDict
     x: number,
     y: number
 }
-type PointLike = Point|PointDict
+type PointLike = Point|PointDict;
+type PointParamValid = PointLike|number;
 
-export { Point, PointLike }
+export { Point, PointLike, PointParamValid }
 export default class Point 
 {
     x:number
     y:number
 
-    constructor(a:number|PointLike = 0, b:number = 0)
+    constructor(a:PointParamValid = 0, b:number = null)
     {
         let x = a;
         let y = b;
@@ -29,8 +30,9 @@ export default class Point
     }
 
     clone() { return new Point(this); }
-    isValid() { return !isNaN(this.x) && !isNaN(this.y); }
+    isValid() { return this.isNumber(this.x) && this.isNumber(this.y); }
     hasValue() { return this.isValid() && (this.x != 0 || this.y != 0); }
+    isNumber(val) { return !isNaN(val); }
 
     // setting/overriding
     setX(v = 0) { this.x = v; return this; }
@@ -38,8 +40,10 @@ export default class Point
     fromXY(x = 0, y = 0) { return this.setXY(x,y); }
     setXY(x = 0, y = 0) { return this.set({ x: x, y: y }); }
     setFactor(f = 0) { return this.setXY(f,f); }
-    set(p:PointLike = new Point())
+    set(p:PointParamValid = new Point())
     {
+        if(this.isNumber(p)) { return this.setFactor(p as number); }
+        p = p as PointLike;
         this.setX(p.x);
         this.setY(p.y);
         return this;
@@ -50,10 +54,12 @@ export default class Point
     moveY(v = 0) { return this.setY(this.y + v); }
     moveXY(x = 0, y = 0) { return this.move({ x: x, y: y }); }
     moveFactor(f = 0) { return this.moveXY(f,f); }
-    add(p:PointLike = new Point()) { return this.move(p); }
+    add(p:PointParamValid = new Point()) { return this.move(p); }
     sub(p = new Point()) { return this.add(p.clone().scaleFactor(-1)); }
-    move(p:PointLike = new Point())
+    move(p:PointParamValid = new Point())
     {
+        if(this.isNumber(p)) { return this.moveFactor(p as number); }
+        p = p as PointLike;
         this.moveX(p.x);
         this.moveY(p.y);
         return this;
@@ -64,8 +70,10 @@ export default class Point
     scaleY(v = 0) { return this.setY(v * this.y); }
     scaleXY(x = 1, y = 1) { return this.scale({ x: x, y: y }); }
     scaleFactor(f = 1) { return this.scaleXY(f,f); }
-    scale(p:PointLike = new Point())
+    scale(p:PointParamValid = new Point())
     {
+        if(this.isNumber(p)) { return this.scaleFactor(p as number); }
+        p = p as PointLike;
         this.scaleX(p.x);
         this.scaleY(p.y);
         return this;
@@ -79,6 +87,13 @@ export default class Point
         const l = this.length();
         if(Math.abs(l) <= 0.0001) { return this; }
         return this.scaleFactor(1.0 / l); 
+    }
+    ortho()
+    {
+        const temp = this.x;
+        this.x = -this.y;
+        this.y = temp;
+        return this;
     }
 
     abs()
@@ -123,7 +138,12 @@ export default class Point
     vecTo(p = new Point())
     {
         return new Point().setXY(p.x - this.x, p.y - this.y);
-    } 
+    }
+    
+    halfwayTo(p = new Point())
+    {
+        return this.clone().add(p).scaleFactor(0.5);
+    }
     
     dot(p = new Point())
     {

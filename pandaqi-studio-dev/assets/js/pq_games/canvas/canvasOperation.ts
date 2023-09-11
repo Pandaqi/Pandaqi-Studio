@@ -5,26 +5,27 @@ import ResourceImage from "js/pq_games/layout/resources/resourceImage"
 export default class CanvasOperation
 {
 
-    pos : Point
+    translate : Point
     rotation : number
-    size : Point
     scale : Point
+
     alpha : number
 
+    dims : Point
     pivot : Point
     flipX : boolean
     flipY : boolean
 
-    images : ResourceImage[]
+    image : ResourceImage
     effects : CanvasEffect[]
     
     frame: number // frame of image (spritesheets)
 
-    constructor(params:any = {})
+    constructor(params:Record<string,any> = {})
     {
-        this.pos = params.pos ?? new Point();
+        this.translate = params.translate ?? new Point();
         this.rotation = params.rotation ?? 0;
-        this.size = params.size ?? new Point().setXY(100, 100);
+        this.dims = (params.dims ?? params.size) ?? new Point().setXY(100, 100);
         this.scale = params.scale ?? new Point().setXY(1,1);
         this.alpha = params.alpha ?? 1.0;
 
@@ -33,18 +34,18 @@ export default class CanvasOperation
         this.flipY = params.flipY ?? false;
         this.frame = params.frame ?? 0;
 
-        this.images = [];
-        this.effects = [];
+        this.image = params.image ?? null;
+        this.effects = params.effects ?? [];
     }
 
     addImage(img:ResourceImage)
     {
-        this.images.push(img);
+        this.image = img;
     }
 
     removeImage(img:ResourceImage)
     {
-        this.images.splice(this.images.indexOf(img), 1);
+        this.image = null;
     }
 
     addEffect(fx:CanvasEffect)
@@ -57,40 +58,74 @@ export default class CanvasOperation
         this.effects.splice(this.effects.indexOf(fx), 1);
     }
 
-    apply(canv:HTMLCanvasElement)
+    getFinalScale() : Point
+    {
+        const scale = this.scale.clone();
+        if(this.flipX) { scale.x *= -1; }
+        if(this.flipY) { scale.y *= -1; }
+        return scale;
+    }
+
+    async apply(canv:HTMLCanvasElement)
     {
         const ctx = canv.getContext("2d");
         ctx.save();
 
-        ctx.translate(this.pos.x, this.pos.y);
+        ctx.translate(this.translate.x, this.translate.y);
         ctx.globalAlpha = this.alpha;
         ctx.rotate(this.rotation);
 
-        const finalScale = this.scale.clone();
-        if(this.flipX) { finalScale.x *= -1; }
-        if(this.flipY) { finalScale.y *= -1; }
-        ctx.scale(this.scale.x, this.scale.y);
+        const finalScale = this.getFinalScale();
+        ctx.scale(finalScale.x, finalScale.y);
 
-        const offset = this.pivot.clone();
-        offset.scaleFactor(-1).scale(this.size);
-        for(const img of this.images)
-        {
-            const frameData = img.getFrameData(this.frame);
-            ctx.drawImage(
-                img.getImage(), 
-                frameData.x, frameData.y, frameData.width, frameData.height,
-                offset.x, offset.y, this.size.x, this.size.y
-            );
-        }
-
-        /*
-        @TODO: these effects often apply to the images, not the canvas after they've been placed, right?
-        @TODO: I at least need the TINT and DROP SHADOW to work again
+        let image = this.image.clone();
         for(const effect of this.effects)
         {
-            effect.applyToContext(ctx);
-        }*/
+            await effect.applyToContext(ctx, image);
+        }
+
+        const offset = this.pivot.clone();
+        offset.scaleFactor(-1).scale(this.dims);
+
+        const frameData = image.getFrameData(this.frame);
+        ctx.drawImage(
+            image.getImage(), 
+            frameData.x, frameData.y, frameData.width, frameData.height,
+            offset.x, offset.y, this.dims.x, this.dims.y
+        );
 
         ctx.restore();
+    }
+
+    applyToHTML(div:HTMLElement)
+    {
+        // all the transform stuff
+        const transforms = []
+        if(this.rotation != 0) 
+        { 
+            transforms.push("rotate(" + this.rotation + "deg)"); 
+        }
+
+        if(this.translate.length() > 0) 
+        { 
+            transforms.push("translate(" + this.translate.x + ", " + this.translate.y + ")");
+        }
+
+        const scale = this.getFinalScale();
+        if(scale.x != 1 || scale.y != 1)
+        {
+            transforms.push("scale(" + scale.x + ", " + scale.y + ")");
+        }
+
+        if(transforms.length > 0)
+        {
+            div.style.transform += " " + transforms.join(" ");
+        }
+
+        // all the filter stuff to make special things happen
+        for(const effect of this.effects)
+        {
+            effect.applyToHTML(div);
+        }
     }
 }
