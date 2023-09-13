@@ -33,9 +33,6 @@ tags: ["hybrid", "opg"]
 
 extraCSS: true
 extraJSGame: true
-extraJSGameBuild: true
-sharedJS: "pirategames"
-sharedJSOnlyPublish: true
 
 downloadLink: "https://drive.google.com/drive/folders/1BU_ccMrmdtSwBwXPqsV8sVUkaZR1Jdjp"
 

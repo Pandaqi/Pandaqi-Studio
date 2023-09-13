@@ -3,9 +3,11 @@ import { Geom, Display } from "js/pq_games/phaser.esm"
 import Point from "js/pq_games/tools/geometry/point"
 import PointGraph from "js/pq_games/tools/geometry/pointGraph"
 import smoothPath from "js/pq_games/tools/geometry/smoothPath"
-import { MAIN_TYPES } from "./dictionary"
+import { CUSTOM } from "./dictionary"
 import BoardState from "./boardState"
 import CONFIG from "./config"
+import FixedFingers from "./fixedFingers"
+import RecipeBook from "./recipeBook"
 
 interface Lines {
     x: Point[][],
@@ -56,6 +58,7 @@ export default class BoardDisplay
 
         // draws the custom images or properties of each cell
         this.displayCells(polygons);
+        this.displayRecipeBook(board.recipeBook);
 
         // finishing touches
         this.drawBoardEdge();
@@ -200,9 +203,11 @@ export default class BoardDisplay
     strokeLines(lines:Lines)
     {
         const graphics = this.game.add.graphics();
-        const lineWidth = CONFIG.board.grid.lineWidth * this.cellSizeUnit;
-        const lineColor = CONFIG.board.grid.lineColor;
-        const lineAlpha = CONFIG.board.grid.lineAlpha;
+        const data = CONFIG.inkFriendly ? CONFIG.board.grid.linesInkfriendly : CONFIG.board.grid.lines;
+
+        const lineWidth = data.width * this.cellSizeUnit;
+        const lineColor = data.color;
+        const lineAlpha = data.alpha;
         graphics.lineStyle(lineWidth, lineColor, lineAlpha);
 
         for(const linesAxis of Object.values(lines))
@@ -233,6 +238,7 @@ export default class BoardDisplay
             {
                 const cell = this.board.getCellAt(new Point().setXY(x,y));
                 let backgroundColor = new Display.Color.HexStringToColor(cell.getColor());
+                if(CONFIG.inkFriendly) { backgroundColor = new Display.Color.HexStringToColor("#FFFFFF"); }
 
                 const set1 = this.getLineChunk(lines.x[y], x*distBetweenAnchors, (x+1)*distBetweenAnchors);
                 const set2 = this.getLineChunk(lines.y[x+1], y*distBetweenAnchors, (y+1)*distBetweenAnchors);
@@ -275,15 +281,17 @@ export default class BoardDisplay
         if(cell.isTutorial())
         {
             const bgSprite = this.game.add.sprite(centerPos.x, centerPos.y, "custom_spritesheet");
-            bgSprite.setFrame(0);
+            bgSprite.setFrame(CUSTOM.tutorialBG.frame);
             bgSprite.setOrigin(0.5, 0.5);
             bgSprite.displayWidth = w;
             bgSprite.displayHeight = h;
 
             // then a custom image (matching frame from spritesheet) with the actual explanation
             let textureKey = "tutorials_spritesheet";
+            let needsTutIcon = false;
             if(cell.mainType == "ingredient" || cell.mainType == "machine") {
                 textureKey = cell.mainType + "_tutorials_spritesheet";
+                needsTutIcon = true;
             }
 
             let tutSprite = this.game.add.sprite(centerPos.x, centerPos.y, textureKey);
@@ -293,12 +301,43 @@ export default class BoardDisplay
             tutSprite.displayWidth = w;
             tutSprite.displayHeight = h;
 
+            if(needsTutIcon)
+            {
+                // and, of course, the icon of the thing to which it refers in top left/right corners
+                // (would normally do this by hand in Affinity, but my laptop just can't handle it anymore)
+                const offsetFromCenter = 0.4*w;
+                const offsetFromTop = 0.1*h;
+                const tutIconSize = CONFIG.tutorials.cornerIconSize * w;
+                const positions = [
+                    new Point(centerPos.x - offsetFromCenter, realPos.y + offsetFromTop),
+                    new Point(centerPos.x + offsetFromCenter, realPos.y + offsetFromTop)
+                ]
+                for(let i = 0; i < 2; i++)
+                {
+                    const tutIcon = this.game.add.sprite(positions[i].x, positions[i].y, cell.mainType + "_spritesheet")
+                    tutIcon.setFrame(data.frame);
+                    tutIcon.setOrigin(0.5);
+                    tutIcon.displayWidth = tutIconSize;
+                    tutIcon.displayHeight = tutIconSize;
+                }
+            }
+
+
             return;
         }
 
         // ingredients / machines display their custom sprite big in the center
         if(cell.mainType == "ingredient" || cell.mainType == "machine")
         {
+            if(cell.mainType == "machine")
+            {
+                const bg = this.game.add.sprite(centerPos.x, centerPos.y, "custom_spritesheet");
+                bg.setFrame(CUSTOM.machineBG.frame);
+                bg.setOrigin(0.5);
+                bg.displayWidth = w;
+                bg.displayHeight = h;
+            }
+
             const iconScale = CONFIG.board.iconScale;
             const sprite = this.game.add.sprite(centerPos.x, centerPos.y, cell.mainType + "_spritesheet");
             sprite.setFrame(data.frame);
@@ -317,10 +356,11 @@ export default class BoardDisplay
                 extraFrame.displayHeight = extraFrameScale * h;
 
                 const displayMoney = cell.hasNum();
-                const displayFixedFingers = cell.hasFixedFingers();
+                const displayFixedFingers = cell.hasFixedFingers() && CONFIG.expansions.fixedFingers;
+                const contentPos = realPos.clone().move(new Point(0.35*w, 0.75*h));
                 if(displayMoney)
                 {
-                    extraFrame.setFrame(3);
+                    extraFrame.setFrame(CUSTOM.moneyFrame.frame);
 
                     const textConfig:any = CONFIG.board.moneyTextConfigTiny;
                     const fontSize = (textConfig.fontScaleFactor * this.cellSizeUnit);
@@ -328,14 +368,18 @@ export default class BoardDisplay
                     textConfig.strokeThickness = fontSize * 0.1;
 
                     const num = cell.getNum();
-                    const text = this.game.add.text(realPos.x + 0.35*w, realPos.y + 0.75*h, num.toString(), textConfig);
+                    const text = this.game.add.text(contentPos.x, contentPos.y, num.toString(), textConfig);
                     text.setOrigin(0.5);
                 }
-
-                if(displayFixedFingers)
+                else if(displayFixedFingers)
                 {
-                    extraFrame.setFrame(4);
-                    // @TODO: not sure yet
+                    extraFrame.setFrame(CUSTOM.fingerFrame.frame);
+                    
+                    const f = new FixedFingers(cell.getFixedFingers());
+                    const handPos = contentPos.clone();
+                    const handHeight = extraFrame.displayHeight;
+                    handPos.x = centerPos.x;
+                    f.display(this, handPos, handHeight);
                 }
 
             }
@@ -345,9 +389,15 @@ export default class BoardDisplay
         // money displays its icon (at the top) and text (at the bottom)
         if(cell.mainType == "money")
         {
+            const bg = this.game.add.sprite(centerPos.x, centerPos.y, "custom_spritesheet");
+            bg.setFrame(CUSTOM.moneyBG.frame);
+            bg.setOrigin(0.5);
+            bg.displayWidth = w;
+            bg.displayHeight = h;
+
             const moneySpriteScale = CONFIG.board.moneySpriteScale;
             const moneySprite = this.game.add.sprite(centerPos.x, realPos.y + 0.33*h, "custom_spritesheet");
-            moneySprite.setFrame(5);
+            moneySprite.setFrame(CUSTOM.moneyIcon.frame);
             moneySprite.setOrigin(0.5, 0.5);
             moneySprite.displayWidth = moneySpriteScale * w;
             moneySprite.displayHeight = moneySpriteScale * h;
@@ -382,6 +432,12 @@ export default class BoardDisplay
 
         if(isReversed) { chunk.reverse(); }
         return chunk;
+    }
+
+    displayRecipeBook(rb:RecipeBook)
+    {
+        if(!rb) { return; }
+        rb.display(this);
     }
 
     drawBoardEdge()

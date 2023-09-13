@@ -12,6 +12,12 @@ export default class Point
     x:number
     y:number
 
+    static LEFT = new Point(-1,0);
+    static RIGHT = new Point(1,0);
+    static UP = new Point(0,-1);
+    static DOWN = new Point(0,1);
+    static ONE = new Point(1,1);
+
     constructor(a:PointParamValid = 0, b:number = null)
     {
         let x = a;

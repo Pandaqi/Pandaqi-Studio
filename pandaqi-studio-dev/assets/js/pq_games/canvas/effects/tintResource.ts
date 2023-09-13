@@ -11,6 +11,11 @@ export default class TintEffect extends CanvasEffect
         super(params);
     }
 
+    async applyToImage(image:ResourceImage)
+    {
+        await this.applyToContext(null, image);
+    }
+
     async applyToContext(_ctx:CanvasRenderingContext2D, image:ResourceImage)
     {
         // first, we get a mask just with the tint color

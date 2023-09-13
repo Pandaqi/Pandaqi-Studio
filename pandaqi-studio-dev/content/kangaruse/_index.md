@@ -28,11 +28,9 @@ extraJSBuild: true
   {{< setting-enum id="setting-sideBarType" text="Side Bar?" values="No,Rules,Score" valaskey="true" remark="Add the rules or a score tracker on the paper itself?" def="Rules" >}}
   {{< setting-checkbox id="setting-startingPositions" text="Starting Positions?" remark="Marks a few squares as possible starting positions." >}}
   {{< setting-enum id="setting-boardSize" text="Board Size?" values="Tiny,Small,Regular,Large,Huge" valaskey="true" remark="For a really short or really long game." def="Regular" >}}
-  {{< setting-checkbox id="setting-expansions-collector" text="Collector Expansion?" remark="Adds more ways to score points by collecting the right squares." >}}
+  {{< setting-checkbox id="setting-simplifiedIcons" text="Simplified Icons?" remark="Uses simple icons for all types, instead of realistic illustrations." >}}
 {{< /boardgame-settings >}}
 
 <p class="remark-under-settings"><strong>Not working?</strong> Don't worry! At the "Download" link, you can also find PDFs with valid boards for all situations. Check the "Premade" folder.</p> 
-
-<p class="remark-under-settings"><strong>Score Trackers?</strong> If you print the score trackers on the page, you can only play with 4 players at most. (There's simply no space for more.) It's mostly recommended to enable this once you play the expansion!</p> 
 
 {{% /section-centered %}}

@@ -20,7 +20,7 @@ export default (obj:Record<string,any>, key = "prob", RNG = Math.random) : strin
     {
         lastElem = typesList[counter];
         if(isArray) { runningSum += lastElem[key] * probFraction; }
-        else { runningSum += typesObject[lastElem][key] * probFraction; }
+        else { runningSum += (typesObject[lastElem][key] ?? 1) * probFraction; }
         counter += 1;
     }
 

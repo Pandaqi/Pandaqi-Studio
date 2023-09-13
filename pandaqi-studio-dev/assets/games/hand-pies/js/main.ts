@@ -29,11 +29,12 @@ class BoardGeneration extends Scene
         const sheetData = CONFIG.types.sheetData;
         this.load.spritesheet("tutorials_spritesheet", base + 'tutorials_spritesheet.webp', sheetData);
         this.load.spritesheet("custom_spritesheet", base + 'custom_spritesheet.webp', sheetData);
+        this.load.spritesheet("fixed_fingers_spritesheet", base + "fixed_fingers_spritesheet.webp", sheetData);
 
         this.load.spritesheet("ingredient_spritesheet", base + 'ingredient_spritesheet.webp', sheetData);
         this.load.spritesheet("ingredient_tutorials_spritesheet", base + 'ingredient_tutorials_spritesheet.webp', sheetData);
         this.load.spritesheet("machine_spritesheet", base + 'machine_spritesheet.webp', sheetData);
-        this.load.spritesheet("machine_tutorials_spritesheet", base + 'ingredient_tutorials_spritesheet.webp', sheetData);
+        this.load.spritesheet("machine_tutorials_spritesheet", base + 'machine_tutorials_spritesheet.webp', sheetData);
 
     }
 

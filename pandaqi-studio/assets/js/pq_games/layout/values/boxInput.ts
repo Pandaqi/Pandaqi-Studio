@@ -8,9 +8,12 @@ import NumberValue from "./numberValue"
 import BoxOutput from "./boxOutput"
 import Point from "js/pq_games/tools/geometry/point"
 import Container from "../containers/container"
+import AnchorTool from "../tools/anchorTool"
+import PlacementValue from "./placementValue"
+import DisplayValue from "./displayValue"
+import InputGroup from "./inputGroup"
 
-
-export default class BoxInput
+export default class BoxInput extends InputGroup
 {
     margin: FourSideValue
     padding: FourSideValue
@@ -27,8 +30,15 @@ export default class BoxInput
     anchor : AnchorValue
     keepRatio : NumberValue
 
+    ghost: boolean
+
+    placement: PlacementValue
+    display: DisplayValue
+
     constructor(params:Record<string,any> = {})
     {
+        super(params)
+
         // basic positioning properties
         this.margin = new FourSideValue(params.margin);
         this.padding = new FourSideValue(params.padding);
@@ -38,17 +48,18 @@ export default class BoxInput
         this.anchor = params.anchor ?? AnchorValue.NONE;
         this.keepRatio = new NumberValue(params.keepRatio ?? 0.0);
 
+        this.ghost = params.ghost ?? false;
+
         // all the big size/dimension/location properties
         const pos = this.readTwoAxisParams(params, ["x", "y", "pos"]);
-        this.position = new TwoAxisValue(pos);
+        this.position = params.position ?? new TwoAxisValue(pos);
 
-        const posMin = this.readTwoAxisParams(params, ["xMin", "yMin", "posMin"], [0,0]);
+        const posMin = this.readTwoAxisParams(params, ["xMin", "yMin", "posMin"], [-Infinity, -Infinity]);
         this.positionMin = new TwoAxisValue(posMin);
 
         const posMax = this.readTwoAxisParams(params, ["xMax", "yMax", "posMax"], [Infinity, Infinity]);
         this.positionMax = new TwoAxisValue(posMax);
 
-        // @TODO: default => new TwoAxisValue(new SizeValue(1.0, SizeType.PARENT), 0);
         const size = this.readTwoAxisParams(params, ["width", "height", "size"]);
         this.size = new TwoAxisValue(size);
 
@@ -59,40 +70,68 @@ export default class BoxInput
         this.sizeMax = new TwoAxisValue(sizeMax);
     }
 
-    readTwoAxisParams(params:Record<string,any>, props:string[], defs:any[] = [null,null])
+    hasAbsoluteChildren(div:HTMLDivElement)
     {
-        let val = params[props[2]];
-        if(val instanceof TwoAxisValue) { return val; }
-
-        const valid = (val && "x" in val && "y" in val);
-        if(valid) { return val; }
-        
-        val = {};
-        if(!val.x) { val.x = params[props[0]] ?? defs[0]; }
-        if(!val.y) { val.y = params[props[1]] ?? defs[1]; }
-        return val;
-    }
-
-    getPropertyList() : string[]
-    {
-        const arr = [];
-        for (const prop in this) 
+        const list = Object.values(div.childNodes) as HTMLElement[];
+        for(const child of list)
         {
-            arr.push(prop);
-        }
-        return arr;
-    }
-
-    dependsOnContent() : boolean
-    {
-        const list = this.getPropertyList();
-        for (const prop in list) 
-        {
-            const val = this[prop]
-            if(!(val instanceof Value)) { continue; }
-            if(val.dependsOnContent()) { return true; }
+            if(child.style.position == "absolute") { return true; }
         }
         return false;
+    }
+
+    applyToHTML(div:HTMLDivElement, wrapper:HTMLDivElement = null, parent:Container = null)
+    {
+        let topElem = wrapper ? wrapper : div;
+
+        div.style.margin = this.margin.toCSS();
+        div.style.padding = this.padding.toCSS();
+
+        div.style.borderWidth = this.stroke.width.toCSS();
+        div.style.borderStyle = this.stroke.getStyleAsCSSProp();
+        div.style.borderColor = this.stroke.color.toCSS();
+
+        div.style.width = this.size.x.toCSS();
+        div.style.height = this.size.y.toCSS();
+        div.style.minWidth = this.sizeMin.x.toCSS();
+        div.style.maxWidth = this.sizeMax.x.toCSS();
+        div.style.minHeight = this.sizeMin.y.toCSS();
+        div.style.maxHeight = this.sizeMax.y.toCSS();
+
+        if(this.hasCustomPosition())
+        {
+            div.style.left = this.position.x.toCSS();
+            div.style.top = this.position.y.toCSS();            
+        }
+
+        const anchorTool = new AnchorTool(this.anchor);
+        anchorTool.applyTo(div, wrapper, parent);
+
+        let position = "relative";
+        if(this.needsAbsolutePosition()) { position = "absolute"; }
+        if(this.placement == PlacementValue.ABSOLUTE) { position = "absolute"; }
+        else if(this.placement == PlacementValue.STICKY) { position = "fixed"; }
+        topElem.style.position = position;
+
+        
+        let display = "block";
+        if(this.display == DisplayValue.INLINE) { display = "inline"; }
+        else if(this.display == DisplayValue.INLINE_BLOCK) { display = "inline-block"; }
+        div.style.display = display;
+
+        if(this.ghost) { 
+            topElem.style.zIndex = "-1";
+        }
+    }
+
+    hasCustomPosition()
+    {
+        return this.position.get().hasValue() || this.offset.get().hasValue();
+    }
+
+    needsAbsolutePosition()
+    {
+        return this.ghost || this.anchor != AnchorValue.NONE || this.hasCustomPosition();
     }
 
     calc(c:Container) : BoxOutput
@@ -101,24 +140,11 @@ export default class BoxInput
         let parentBox = c.getParentBox();
         b.preCalculate(this, parentBox);
 
-        const usableParentSpace = new Point().setXY(b.parentWidth, b.parentHeight);
-        let filledContentSpace = new Point().setXY(null, null);
-        if(c.dimensionsContent) { filledContentSpace = c.dimensionsContent.getSize(); }
+        const usableParentSpace = b.usableParentSize.clone();
+        super.calc(c, b, usableParentSpace);
 
-        const arr = this.getPropertyList();
-        for(const prop of arr) 
-        {
-            console.log(prop);
-            b[prop as keyof BoxInput] = this.calcSafe(this[prop], usableParentSpace, filledContentSpace);
-        }
-
-        b.postCalculate();
+        b.postCalculate(this, c);
         return b;
     }
 
-    calcSafe(val:any, pDims : Point, cDims : Point) : any
-    {
-        if(!(val instanceof Value)) { return val; }
-        return val.calc(pDims, cDims);
-    }
 }

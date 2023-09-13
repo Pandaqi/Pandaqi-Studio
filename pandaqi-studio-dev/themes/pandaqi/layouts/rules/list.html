@@ -71,8 +71,8 @@
     {{ $js := resources.Get "/js/pq_rulebook/main.ts" | js.Build "/js/lib-pqRulebook.js" | minify }}
     {{ $extra_js := .Page.Resources.GetMatch "main.ts" }}
     {{ if $extra_js }}
-        {{ $extra_js = $extra_js | js.Build "lib-customInteractive.js" | minify }}
-        <script async defer src="{{ $extra_js.RelPermalink }}"></script>
+        {{ $extra_js_build := $extra_js | js.Build "lib-customInteractive.js" | minify }}
+        <script async defer src="{{ $extra_js_build.RelPermalink }}"></script>
     {{ end }}
 
     <script async defer src="{{ $js.RelPermalink }}"></script>

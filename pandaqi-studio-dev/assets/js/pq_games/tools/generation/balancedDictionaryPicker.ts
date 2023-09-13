@@ -1,34 +1,69 @@
 import Random from "js/pq_games/tools/random/main";
 
-type reqprop = string|{ prop: string, num: number }
+type bounds = { min: number, max: number };
+type propQuery = { prop: string, num: number };
 
 export default class BalancedDictionaryPicker
 {
-    dict:Record<string,any>
+    dict:Record<string,any> // this holds all the original data, never modified
     numPerType:Record<string,any>
     typesPossible:string[]
-    requiredProperties:reqprop[]
+    minOfProperties:propQuery[]
+    maxOfProperties:propQuery[]
+    template: string[]
+    numBounds: bounds;
 
     constructor(dict:Record<string,any> = {})
     {
         this.dict = structuredClone(dict);
         this.numPerType = {}
+        this.template = [];
+        this.numBounds = { min: 0, max: Infinity }
         this.typesPossible = []
-        this.requiredProperties = [];
+        this.minOfProperties = [];
+        this.maxOfProperties = [];
     }
 
     // Each property is an object { type: string, num: integer }
     // This forces NUM objects with that PROPERTY
     // You can also just give a string, in which case number is 1
-    setRequiredProperties(list:reqprop[])
+    setMinOfProperties(list:(string|propQuery)[])
     {
-        this.requiredProperties = list;
+        const arr = [];
+        for(const elem of list)
+        {
+            if(typeof elem == "object") { arr.push(elem); continue; }
+            const newElem = { prop: elem as string, num: 1 };
+            arr.push(newElem);
+        }
+        this.minOfProperties = arr;
+    }
+
+    setMaxOfProperties(list:(string|propQuery)[])
+    {
+        const arr = [];
+        for(const elem of list)
+        {
+            if(typeof elem == "object") { arr.push(elem); continue; }
+            const newElem = { prop: elem as string, num: 1 };
+            arr.push(newElem);
+        }
+        this.maxOfProperties = arr;
+    }
+
+    // A template is a list of string (properties) that must be the first thing included
+    // Example, I can set properties to "score" and "board" and "misc", 
+    // then force ONE of each to be added in each game with template ["score", "board", "misc"]
+    setTemplate(t:string[])
+    {
+        this.template = t;
     }
 
     pickPossibleTypes(config:Record<string,any>, numBounds:any)
     {
         const tempPossible = [];
 
+        // remove anything that is simply forbidden by default
         const tempDict = structuredClone(this.dict);
         for(const [key,data] of Object.entries(tempDict))
         {
@@ -36,14 +71,11 @@ export default class BalancedDictionaryPicker
             delete tempDict[key];
         }
 
-        for(const reqProp of this.requiredProperties)
+        // add elements with properties that should appear a MINIMUM of times
+        for(const reqProp of this.minOfProperties)
         {
-            let prop = reqProp;
-            let num = 1;
-            if(typeof reqProp === "object") { 
-                prop = reqProp.prop; 
-                num = reqProp.num; 
-            }
+            let prop = reqProp.prop;
+            let num = reqProp.num;
 
             const arr = this.getAllTypesWithProperty(tempDict, prop as string);
             Random.shuffle(arr);
@@ -55,7 +87,23 @@ export default class BalancedDictionaryPicker
             }
         }
 
+        // add elements according to a template (if set)
+        for(const templateProp of this.template)
+        {
+            const arr = this.getAllTypesWithProperty(tempDict, templateProp);
+            if(arr.length <= 0) { continue; }
+
+            const alreadyIncluded = tempPossible.filter(element => arr.includes(element)).length > 0;
+            if(alreadyIncluded) { continue; }
+
+            Random.shuffle(arr);
+            const pickedType = arr[0];
+            this.addPossibleType(tempPossible, tempDict, pickedType);
+        }
+
+        // fill up the list with random draws
         var num = Random.rangeInteger(numBounds.min, numBounds.max)
+        this.numBounds = numBounds;
         while(tempPossible.length < num)
         {
             if(Object.keys(tempDict).length <= 0) { break; }
@@ -64,7 +112,21 @@ export default class BalancedDictionaryPicker
             this.addPossibleType(tempPossible, tempDict, type);
         }
 
+        Random.shuffle(tempPossible);
+
         this.typesPossible = tempPossible;
+    }
+
+    getAllTypesWithPropertyArray(list: string[], dict:Record<string,any>, prop: string)
+    {
+        const arr = [];
+        for(const elem of list)
+        {
+            const data = dict[elem];
+            if(!data[prop]) { continue; }
+            arr.push(elem);
+        }
+        return arr;
     }
 
     getAllTypesWithProperty(dict: Record<string, any>, prop: string)
@@ -104,15 +166,53 @@ export default class BalancedDictionaryPicker
         if(alreadyAdded) { return; }
 
         const data = dict[type];
+
+        const requiredInclusions = this.countRequiredInclusions(data);
+        const projectedListSize = optionList.length + 1 + requiredInclusions;
+        if(projectedListSize > this.numBounds.max) { return; }
+
         delete dict[type];
         optionList.push(type);
         this.handleRequiredInclusions(optionList, dict, data);
+        this.handleMaxOfProperties(optionList, dict);
     }
 
-    removePossibleType(optionList: any[], dict: { [x: string]: any; }, type: string | number)
+    removePossibleType(optionList: any[], dict:Record<string,any>, type: string | number)
     {
         delete dict[type];
         optionList.splice(optionList.indexOf(type), 1);
+    }
+
+    countRequiredInclusions(data)
+    {
+        if(!data.requiredTypes) { return 0; }
+        if(!Array.isArray(data.requiredTypes)) { return 1; }
+        return data.requiredTypes.length;
+    }
+
+    handleMaxOfProperties(optionList: any[], dict:Record<string,any>)
+    {
+        for(const maxProp of this.maxOfProperties)
+        {
+            const prop = maxProp.prop;
+            const num = maxProp.num;
+
+            const typesChosen = this.getAllTypesWithPropertyArray(optionList, this.dict, prop);
+            const typesLeft = this.getAllTypesWithProperty(dict, prop);
+            const reachedMaxForThisProp = typesChosen.length >= num;
+            if(reachedMaxForThisProp)
+            {
+                this.removeTypesFromDictionary(typesLeft, dict);
+            }
+        }
+    }
+
+    removeTypesFromDictionary(types: string[], dict:Record<string,any>)
+    {
+        for(const type of types)
+        {
+            delete dict[type];
+        }
     }
 
     typeRequirementsMet(config: Record<string, any>, data: { unpickable: any; expansion: any[]; })
@@ -140,7 +240,6 @@ export default class BalancedDictionaryPicker
     {
         if(!data.requiredTypes) { return; }
         if(!Array.isArray(data.requiredTypes)) { data.requiredTypes = [data.requiredTypes]; }
-
         for(const tp of data.requiredTypes)
         {
             this.addPossibleType(optionList, dict, tp);
@@ -191,6 +290,7 @@ export default class BalancedDictionaryPicker
             this.pickType(tempPossible, list, tempDict, type);
         }
 
+        Random.shuffle(list);
         return list;
     }
 

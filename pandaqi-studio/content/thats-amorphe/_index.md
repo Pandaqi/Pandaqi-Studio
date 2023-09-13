@@ -27,9 +27,7 @@ categories: ["boardgame"]
 tags: ["hybrid", "traditional"]
 
 extraCSS: true
-sharedJS: "thats-amorphe"
-sharedJSBuild: true
-sharedJSOnlyPublish: true
+extraJSGame: true
 
 downloadLink: "https://drive.google.com/drive/folders/1H1gLrHUsju_tnXbKoJYrsGP1sHRNG-6_"
 

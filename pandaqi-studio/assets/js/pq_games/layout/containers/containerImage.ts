@@ -1,32 +1,69 @@
 import Container from "./container"
 import ResourceImage from "js/pq_games/layout/resources/resourceImage"
-import CanvasOperation from "js/pq_games/canvas/canvasOperation"
-import Point from "js/pq_games/tools/geometry/point"
 
+enum ImageDisplayMethod
+{
+    IMAGE,
+    BACKGROUND
+}
 
+export { ContainerImage, ImageDisplayMethod }
 export default class ContainerImage extends Container
 {
     resource : ResourceImage
-    operation : CanvasOperation
+    frame : number
+    displayMethod : ImageDisplayMethod
 
-    // @TODO: the "operation" should probably be on ALL containers and applied to ALL of them, right?
     constructor(params:any = {})
     {
         params.keepRatio = params.resource.getRatio();
-        params.widthDynamic = 1.0;
-        params.heightDynamic = 1.0;
         super(params);
         
-        this.operation = new CanvasOperation(params);
         this.resource = params.resource ?? new ResourceImage();
-        if(params.frame) { this.resource.frame = params.frame; }
+        this.frame = params.frame ?? 0;
+        this.displayMethod = params.displayMethod ?? ImageDisplayMethod.IMAGE;
     }
 
     drawToCustom(canv:HTMLCanvasElement)
     {
-        let pos = new Point();
-        this.operation.pos = pos;
-        this.operation.size = this.boxOutput.size;
+        this.operation.translate = this.getGlobalPosition().add(this.boxOutput.getTopAnchor());
+        this.operation.dims = this.boxOutput.getUsableSize();
+        this.operation.frame = this.frame;
         this.resource.drawTo(canv, this.operation);
+    }
+
+    toHTMLCustom(div:HTMLDivElement, wrapper:HTMLDivElement = null)
+    {
+        super.toHTMLCustom(div, wrapper);
+
+        const asBackground = (this.displayMethod == ImageDisplayMethod.BACKGROUND);
+        const subNode = asBackground ? this.createImageAsBackground() : this.createImageAsElement();
+        div.appendChild(subNode);
+    }
+
+    createImageAsBackground() : HTMLDivElement
+    {
+        const node = document.createElement("div");
+        
+        node.style.width = "100%";
+        node.style.height = "100%";
+        node.style.backgroundImage = "url(" + this.resource.img.src + ")";
+        node.style.backgroundSize = (this.resource.frameDims.x * 100) + "%";
+        
+        const frameData = this.resource.getFrameData(this.frame);
+        node.style.backgroundPositionX = (-frameData.xIndex * this.boxInput.size.x.get()) + "px";
+        node.style.backgroundPositionY = (-frameData.yIndex * this.boxInput.size.y.get()) + "px";
+
+        return node;
+    }
+
+    createImageAsElement() : HTMLImageElement
+    {
+        console.log(this.resource);
+
+        const img = this.resource.getFrame(this.frame).cloneNode() as HTMLImageElement;
+        img.style.width = "100%";
+        img.style.height = "100%";
+        return img;
     }
 }

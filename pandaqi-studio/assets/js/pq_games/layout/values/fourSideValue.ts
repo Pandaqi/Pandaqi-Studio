@@ -39,9 +39,30 @@ export default class FourSideValue extends Value
         }
 
         this.top = new SizeValue(top as value);
-        this.right = right ? new SizeValue(right) : this.top; 
-        this.bottom = bottom ? new SizeValue(bottom) : this.top;
-        this.left = left ? new SizeValue(left) : this.top;
+        this.right = right != null ? new SizeValue(right) : this.top; 
+        this.bottom = bottom != null ? new SizeValue(bottom) : this.top;
+        this.left = left != null ? new SizeValue(left) : this.top;
+    }
+
+    fromHorizontals(left:value, right:value)
+    {
+        this.left = new SizeValue(left);
+        this.right = new SizeValue(right);
+        this.top = new SizeValue(0);
+        this.bottom = new SizeValue(0);
+    }
+
+    fromVerticals(top:value, bottom:value)
+    {
+        this.top = new SizeValue(top);
+        this.bottom = new SizeValue(bottom);
+        this.right = new SizeValue(0);
+        this.left = new SizeValue(0);
+    }
+
+    toCSS() : string
+    {
+        return [this.top.toCSS(), this.right.toCSS(), this.bottom.toCSS(), this.left.toCSS()].join(" "); 
     }
 
     dependsOnContent() : boolean

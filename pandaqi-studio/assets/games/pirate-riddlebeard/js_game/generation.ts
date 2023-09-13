@@ -4,6 +4,7 @@ import Random from "js/pq_games/tools/random/main"
 // @ts-ignore
 // @TODO: not sure if this even works, it used to grab Phaser as a global variable, loaded by the mystical pirategames.js
 import Phaser from "js/pq_games/phaser.esm"
+import PdfBuilder, { PageOrientation } from "js/pq_games/pdf/pdfBuilder"
 
 type Hint = { final_text?: string, html_text?: string }
 
@@ -654,9 +655,6 @@ export default new Phaser.Class({
 
 		if(this.cfg.debugging) { console.log(" => Creating terrain ... "); }
 
-		// don't use NOISE for terraina nymore
-		// noise.seed(this.cfg.rng.map());
-
 		// randomly place some starting dots for each terrain
 		let numDots = Math.floor(0.5 * Math.pow(this.cfg.totalTileCount, 0.5));
 		let numStartingDots = numDots;
@@ -1125,24 +1123,6 @@ export default new Phaser.Class({
 		let x = Math.floor(RNG() * this.cfg.width);
 		let y = Math.floor(RNG() * this.cfg.height);
 		return this.map[x][y];
-	},
-
-	getAverageNoise: function(x, y, zoom) {
-		const weight = 0.25
-		const z = (this.cfg.cellSize / zoom);
-
-		// @TODO: This noise is part of the mystical pirategames file being loaded
-		// Should include that as a module and grab it in the build directly, at some point
-		// @ts-ignore
-		let noiseVal = weight*noise.simplex2(x*z, y*z);
-		// @ts-ignore
-		noiseVal += weight*noise.simplex2((x+1)*z, y*z);
-		// @ts-ignore
-		noiseVal += weight*noise.simplex2((x+1)*z, (y+1)*z);
-		// @ts-ignore
-		noiseVal += weight*noise.simplex2(x*z, (y+1)*z);
-
-		return noiseVal;
 	},
 
 	/*
@@ -3896,21 +3876,15 @@ export default new Phaser.Class({
 		});
 	},
 
-	createPDF: function(pdfImages)
+	createPDF: function(pdfImages:HTMLImageElement[])
 	{
-		let pdfConfig = {
-			orientation: "l", // landscape
-			unit: 'mm',
-			format: [pdfSize.width, pdfSize.height]
+		const pdfBuilder = new PdfBuilder({ orientation: PageOrientation.LANDSCAPE });
+		for(const img of pdfImages)
+		{
+			pdfBuilder.addImage(img);
 		}
-		// @ts-ignore
-		let doc = new window.jspdf.jsPDF(pdfConfig);
-		let width = doc.internal.pageSize.getWidth(), height = doc.internal.pageSize.getHeight();
-	    for(let i = 0; i < pdfImages.length; i++) {
-	    	if(i > 0) { doc.addPage(); }
-	    	doc.addImage(pdfImages[i], 'png', 0, 0, width, height, undefined, 'FAST');
-	    }
 
-	    doc.save('Premade Pirate Riddlebeard Game');
+		const pdfParams = { customFileName: "[Pirate Riddlebeard] Premade Game" };
+		pdfBuilder.downloadPDF(pdfParams);
 	}
 });

@@ -4,6 +4,7 @@ export default class CanvasEffect
 {
     constructor(params:Record<string,any>) { }
 
+    async applyToImage(image: ResourceImage = null) { }
     async applyToContext(ctx: CanvasRenderingContext2D, image: ResourceImage = null) { }
     applyToHTML(div:HTMLElement) { }
 }

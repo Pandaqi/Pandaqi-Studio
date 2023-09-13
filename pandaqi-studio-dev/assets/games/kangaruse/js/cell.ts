@@ -1,5 +1,5 @@
 import Point from "js/pq_games/tools/geometry/point";
-import { NB_OFFSETS } from "./dictionary";
+import { NB_OFFSETS, CELLS } from "./dictionary";
 
 export default class Cell
 {
@@ -20,6 +20,13 @@ export default class Cell
         this.river = false;
         this.edge = null;
         this.num = null;
+    }
+
+    getData() 
+    { 
+        if(this.river) { return { colorGroup: "blue" }; }
+        if(!this.type) { return {}; }
+        return CELLS[this.type]; 
     }
 
     setNum(n:number) { this.num = n; }

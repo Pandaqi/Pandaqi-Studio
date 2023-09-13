@@ -21,12 +21,14 @@ export default class BoardDisplay
     cellSizeUnit:number
     dims:Point
     board:BoardState
+    graphics: any;
+    boardPadding: Point;
 
 	constructor(game:any)
 	{
 		this.game = game;
 
-        this.originalPaperDimensions = new Point({ x: this.game.canvas.width, y: this.game.canvas.height });
+        this.originalPaperDimensions = new Point(this.game.canvas.width, this.game.canvas.height);
         this.paperDimensions = this.originalPaperDimensions.clone();
 
         if(this.needSideBar())
@@ -36,15 +38,18 @@ export default class BoardDisplay
         }
 
         const outerMarginFactor = CONFIG.board.outerMarginFactor;
-        this.outerMargin = new Point({ 
-            x: this.paperDimensions.x * outerMarginFactor.x, 
-            y: this.paperDimensions.y * outerMarginFactor.y 
-        });
+        this.outerMargin = new Point(
+            this.paperDimensions.x * outerMarginFactor.x, 
+            this.paperDimensions.y * outerMarginFactor.y 
+        );
 
-        this.boardDimensions = new Point({ 
-            x: this.paperDimensions.x - 2*this.outerMargin.x, 
-            y: this.paperDimensions.y - 2*this.outerMargin.y 
-        });
+        const padding = CONFIG.board.padding * Math.min(this.originalPaperDimensions.x, this.originalPaperDimensions.y);
+        this.boardPadding = new Point(padding);
+
+        this.boardDimensions = new Point(
+            this.paperDimensions.x - 2*this.outerMargin.x - 2*this.boardPadding.x, 
+            this.paperDimensions.y - 2*this.outerMargin.y - 2*this.boardPadding.y
+        );
     }
 
     needSideBar()
@@ -54,7 +59,7 @@ export default class BoardDisplay
 
     convertToRealUnits(pos)
     {
-        return pos.clone().scale(this.cellSize).move(this.outerMargin);
+        return pos.clone().scale(this.cellSize).move(this.getAnchorPos());
     }
 
     draw(board:BoardState)
@@ -67,10 +72,20 @@ export default class BoardDisplay
         });
         this.cellSizeUnit = Math.min(this.cellSize.x, this.cellSize.y);
 
+        this.graphics = this.game.add.graphics();
+
+        this.drawBackground(board);
         this.drawRivers(board);
         this.drawCells(board);
         this.drawRowColumnCommands(board);
         this.drawSidebar(board);
+    }
+    
+    drawBackground(board:BoardState)
+    {
+        const col = CONFIG.inkFriendly ? 0xFFFFFF : CONFIG.board.backgroundColor;
+        this.graphics.fillStyle(col);
+        this.graphics.fillRect(0, 0, this.game.canvas.width, this.game.canvas.height);
     }
 
     drawRivers(board)
@@ -78,7 +93,7 @@ export default class BoardDisplay
         const rivers = board.rivers;
         const cfg = CONFIG.board.rivers;
         const lw = cfg.lineWidth * this.cellSizeUnit;
-        const col = cfg.color;
+        const col = CONFIG.inkFriendly ? cfg.colorInkfriendly : cfg.color;
         const alpha = cfg.alpha;
 
         var graphics = this.game.add.graphics();
@@ -111,11 +126,12 @@ export default class BoardDisplay
         const dims = board.getDimensions();
         const colOffset = CONFIG.board.numbers.offsetFromGrid * this.cellSizeUnit;
         const colData = board.columnData;
+        const anchorPos = this.getAnchorPos();
         for(let i = 0; i < dims.x; i++)
         {
-            const x = this.outerMargin.x + (i + 0.5) * this.cellSize.x;
-            const yTop = this.outerMargin.y - colOffset;
-            const yBelow = this.outerMargin.y + this.boardDimensions.y + colOffset;
+            const x = anchorPos.x + (i + 0.5) * this.cellSize.x;
+            const yTop = anchorPos.y - colOffset;
+            const yBelow = anchorPos.y + this.boardDimensions.y + colOffset;
             const positions = [new Point().setXY(x, yTop), new Point().setXY(x,yBelow)];
             
             this.drawGridCommandsAt(colData[i], positions);
@@ -126,13 +142,18 @@ export default class BoardDisplay
         const rowData = board.rowData;
         for(let i = 0; i < dims.y; i++)
         {
-            const y = this.outerMargin.y + (i + 0.5) * this.cellSize.y;
-            const xTop = this.outerMargin.x - rowOffset;
-            const xBelow = this.outerMargin.x + this.boardDimensions.x + rowOffset;
+            const y = anchorPos.y + (i + 0.5) * this.cellSize.y;
+            const xTop = anchorPos.x - rowOffset;
+            const xBelow = anchorPos.x + this.boardDimensions.x + rowOffset;
             const positions = [new Point().setXY(xTop, y), new Point().setXY(xBelow, y)];
 
             this.drawGridCommandsAt(rowData[i], positions);
         }
+    }
+
+    getAnchorPos() : Point
+    {
+        return this.outerMargin.clone().add(this.boardPadding);
     }
 
     drawGridCommandsAt(val:number|string, positions:Point[])

@@ -2,14 +2,35 @@ import Point from "js/pq_games/tools/geometry/point"
 import CanvasEffect from "./effects/canvasEffect"
 import ResourceImage from "js/pq_games/layout/resources/resourceImage"
 
+interface CanvasOperationParams
+{
+    translate?: Point,
+    rotation?:number,
+    scale?:Point,
+
+    alpha?:number,
+    composite?:GlobalCompositeOperation,
+
+    dims?:Point,
+    pivot?:Point,
+    flipX?:boolean,
+    flipY?:boolean,
+
+    // @TODO: expand this to Image and Canvas elements too?
+    image?:ResourceImage,
+    effects?:CanvasEffect[],
+
+    frame?:number
+}
+
 export default class CanvasOperation
 {
-
     translate : Point
     rotation : number
     scale : Point
 
     alpha : number
+    composite : GlobalCompositeOperation
 
     dims : Point
     pivot : Point
@@ -33,6 +54,7 @@ export default class CanvasOperation
         this.flipX = params.flipX ?? false;
         this.flipY = params.flipY ?? false;
         this.frame = params.frame ?? 0;
+        this.composite = params.composite ?? "source-over";
 
         this.image = params.image ?? null;
         this.effects = params.effects ?? [];
@@ -43,7 +65,7 @@ export default class CanvasOperation
         this.image = img;
     }
 
-    removeImage(img:ResourceImage)
+    removeImage()
     {
         this.image = null;
     }
@@ -71,8 +93,10 @@ export default class CanvasOperation
         const ctx = canv.getContext("2d");
         ctx.save();
 
-        ctx.translate(this.translate.x, this.translate.y);
+        ctx.globalCompositeOperation = this.composite;
         ctx.globalAlpha = this.alpha;
+
+        ctx.translate(this.translate.x, this.translate.y);
         ctx.rotate(this.rotation);
 
         const finalScale = this.getFinalScale();

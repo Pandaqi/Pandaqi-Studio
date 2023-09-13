@@ -1,3 +1,4 @@
+import Point from "js/pq_games/tools/geometry/point"
 import CONFIG from "./config"
 import { MAIN_TYPES, COLOR_GROUPS } from "./dictionary"
 import Type from "./type"
@@ -25,9 +26,14 @@ export default class Cell
         this.tutorial = false;
     }
 
+    getPosition()
+    {
+        return new Point(this.x, this.y);
+    }
+
     getTypeData()
     {
-        if(!this.mainType || !this.subType || this.reservedFor) { return null; }
+        if(!this.mainType || !this.subType || this.reservedFor) { return {}; }
         return MAIN_TYPES[this.mainType].DICT[this.subType];
     }
 
@@ -51,6 +57,7 @@ export default class Cell
         this.setSubType(t.subType);
         this.setNum(t.num);
         this.setTutorial(t.tutorial);
+        this.setFixedFingers(t.fixedFingers);
     }
 
     setMainType(t:string) { this.mainType = t; }
@@ -73,7 +80,7 @@ export default class Cell
     getNum() { return this.num; }
     hasNum() { return this.num > 0; }
 
-    setFixedFingers(f:number[]) { this.fixedFingers = f; }
+    setFixedFingers(f:number[]) { this.fixedFingers = f ?? []; }
     getFixedFingers() { return this.fixedFingers; }
     hasFixedFingers() { return this.fixedFingers.length > 0; }
 

@@ -1,8 +1,11 @@
 // @SOURCE: https://codepen.io/peterhry/pen/nbMaYg
 // Modified to allow centering and other stuff
 // @TODO: might want to allow more values for centerX/centerY (start, center, end, etcetera)
-export default (context:CanvasRenderingContext2D, text:string, params:Record<string,any> = {}) => 
+export default (context:CanvasRenderingContext2D|HTMLCanvasElement, text:string|number, params:Record<string,any> = {}) => 
 {
+    if(context instanceof HTMLCanvasElement) { context = context.getContext("2d"); }
+    if(!isNaN(text as number)) { text = text.toString(); }
+
     text = text + "";
 
     let x = params.x || 0;

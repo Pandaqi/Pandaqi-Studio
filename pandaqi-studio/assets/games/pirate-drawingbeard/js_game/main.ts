@@ -1,6 +1,7 @@
 // @ts-nocheck
 import Extractor from "./extractor"
 import GenerationScene from "./generation"
+import Phaser from "js/pq_games/phaser.esm"
 
 export default class Game 
 {

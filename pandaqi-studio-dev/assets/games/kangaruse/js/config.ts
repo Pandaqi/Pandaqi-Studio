@@ -1,20 +1,26 @@
 export default {
     mainFont: "Mail Ray Stuff",
     bodyFont: "Poppins",
-    maxNumPlayers: 6,
-    maxNumPlayersForScoreSheets: 4,
+    maxNumPlayers: 5,
+
+    minScoreTypes: 2,
+    maxScoreTypes: 3,
 
     inkFriendly: false,
     startingPositions: false,
     sideBarType: "rules", // "no", "rules" or "score"
     boardSize: "regular", // tiny, small, regular, large, huge
-    expansions: {
-        collector: false
-    },
+    simplifiedIcons: false,
+
+    cellTexture: "cell_types",
 
     sideBar: {
+        backgroundColor: 0xFFCCAA,
+        borderRadius: 0.03, // relative to WIDTH of sidebar
+        padding: 0.025, // relative to WIDTH of sidebar
+
         gap: 0.05, // gap between board and sidebar, relative to WIDTH of entire page
-        percentageOfBoardWidth: 0.25,
+        percentageOfBoardWidth: 0.3,
         scoreSheetRatio: (977/729.0),
         scoreSheetTexture: "score_sheet",
         tutorialSpriteHeight: 0.066, // relative to HEIGHT of sidebar
@@ -22,10 +28,20 @@ export default {
             fontFamily: 'Poppins',
             fontScaleFactor: 0.047,
             color: '#000000',
+        },
+
+        scoreTextAlpha: 0.35,
+        scoreTextConfig: { 
+            fontFamily: 'Mail Ray Stuff',
+            fontSize: null,
+            fontScaleFactor: 0.05, // relative to WIDTH of sidebar
+            color: '#000000',
         } 
     },
 
     board: {
+        backgroundColor: 0x461F09,
+        padding: 0.0, // relative to shortest axis of full paper size
         randomizeAxes: true, // numbers are given to columns 50% of the time, to rows the other 50%
 
         cellDisplay: {
@@ -44,12 +60,26 @@ export default {
                 scale: 0.4
             },
 
+            stroke: {
+                width: 0.035, // relative to cell size
+                color: 0xEEEEEE,
+                alpha: 0.05
+            },
+
+            strokeInkfriendly: {
+                width: 0.035, // relative to cell size
+                color: 0x333333,
+                alpha: 0.66
+            },
+
+            maxOffsetBG: 0.0, // 0.075, // relative to cell size
+            scaleBG: 0.95, // 1.0 for doing nothing
+            borderRadius: 0.1, // relative to cell size
+
             cornerMargin: 0.1, // relative to cell size
             color: 0xFFFFFF,
             alpha: 1.0,
-            widthStroke: 0.05, // relative to cell size
-            colorStroke: 0x000000,
-            alphaStroke: 1.0
+            
         },
 
         dimsPerSize: {
@@ -70,26 +100,27 @@ export default {
             percentageBounds: { min: 0.125, max: 0.2 },
             sizeBounds: { min: 0.2, max: 0.5 }, // relative to longest side of grid
             lineWidth: 0.1, // relative to cell size
-            color: 0x0000FF,
+            color: 0xBBAAFF,
+            colorInkfriendly: 0x2211FF,
             alpha: 1.0  
         },
         numbers: {
             axis: "column",
             bounds: { min: 1, max: 4 },
             offsetFromGrid: 0.25,
-            scaleFactor: 0.33,
+            scaleFactor: 0.375,
             textConfig: { 
                 fontFamily: 'Mail Ray Stuff',
                 fontSize: '16px',
-                color: '#ffffff',
-                stroke: '#000000',
+                color: '#332211',
+                stroke: '#FFDDBB',
                 strokeThickness: 10
             } 
         },
         dirs: {
             options: ["right", "down", "left", "up"],
-            offsetFromGrid: 0.25,
-            scaleFactor: 0.33
+            offsetFromGrid: 0.275,
+            scaleFactor: 0.4
         },
         outerMarginFactor: { x: 0.08, y: 0.08 }, // empty space around the board, fraction of total paper size
         grid: {
@@ -112,5 +143,12 @@ export default {
             color: '#ffffff',
             stroke: '#000000',
         } 
+    },
+
+    evaluator: {
+        minDistBetweenStartingPositions: 3,
+        minScoreCellsPerQuadrant: 2,
+        maxScoreDifferencePerQuadrant: 5,
+        maxHoleClumpSize: 5
     }
 }

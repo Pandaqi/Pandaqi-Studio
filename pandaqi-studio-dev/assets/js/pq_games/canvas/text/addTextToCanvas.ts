@@ -1,8 +1,10 @@
 import canvasTxt from "./canvasText"
 import Point from "js/pq_games/tools/geometry/point"
 
-export default (ctx:CanvasRenderingContext2D, params:Record<string,any> = {}) =>
+export default (ctx:CanvasRenderingContext2D|HTMLCanvasElement, params:Record<string,any> = {}) =>
 {
+    if(ctx instanceof HTMLCanvasElement) { ctx = ctx.getContext("2d"); }
+
     const text = params.text ?? "?";
     const pos = params.pos ?? new Point().fromXY(0, 0);
     const fontFamily = params.fontFamily ?? "Dosis";

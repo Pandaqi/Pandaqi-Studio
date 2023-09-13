@@ -4,12 +4,15 @@ import Random from "js/pq_games/tools/random/main";
 import TypeManager from "./typeManager";
 import CONFIG from "./config"
 import RecipeBook from "./recipeBook";
+import { NB_OFFSETS } from "./dictionary"
+import Type from "./type";
 
 export default class BoardState
 {
     game: any
     grid: Cell[][]
     recipeBook: RecipeBook
+    fail: boolean
 
     constructor(game:any)
     {
@@ -42,59 +45,27 @@ export default class BoardState
     {
         let cellsLeft = Random.shuffle(this.getGridFlat());
         this.reserveSpaceForRecipeBook(cellsLeft);
-        this.placeTutorials(typeManager, cellsLeft);
-        this.placeRequired(typeManager, cellsLeft);
-        this.fillSpaceLeft(typeManager, cellsLeft);
+
+        const numCellsLeft = cellsLeft.length;
+        console.log("# cells left", numCellsLeft);
+        this.placeCells(cellsLeft, typeManager.getCellDistribution(numCellsLeft));
         this.addRecipeBook(typeManager);
 
         console.log(this.getGridFlat());
     }
 
-    placeTutorials(typeManager:TypeManager, cells:Cell[])
+    placeCells(cellsToFill:Cell[], typesToPlace:Type[])
     {
-        const tutorials = typeManager.getTutorialsNeeded();
-        while(tutorials.length > 0)
+        if(cellsToFill.length != typesToPlace.length) { 
+            this.fail = true;
+            return;
+        }
+
+        while(typesToPlace.length > 0)
         {
-            const t = tutorials.pop();
-            const c = cells.pop();
+            const c = cellsToFill.pop();
+            const t = typesToPlace.pop();
             c.setTypeObject(t);
-        }
-        return cells;
-    }
-
-    placeRequired(typeManager:TypeManager, cells:Cell[])
-    {
-        const required = typeManager.getRequiredTypes();
-        while(required.length > 0)
-        {
-            const r = required.pop();
-            const c = cells.pop();
-            c.setTypeObject(r);
-            typeManager.registerTypeChosen(c, r);
-        }
-
-        const requiredMoney = typeManager.getRequiredMoney();
-        while(requiredMoney.length > 0)
-        {
-            const r = requiredMoney.pop();
-            const c = cells.pop();
-            c.setTypeObject(r);
-            typeManager.registerTypeChosen(c, r);
-        }
-    }
-
-    fillSpaceLeft(typeManager:TypeManager, cells:Cell[])
-    {
-        while(cells.length > 0)
-        {
-            const c = cells.pop();
-            // @TODO: Bug, this returns a type string, while we want an object
-            // Replace with functionality entirely on typeManager that handles this?
-            const possibleTypes = typeManager.getPossibleTypes();
-            const typeKey = Random.getWeighted(possibleTypes, "prob");
-            const typeObject = possibleTypes[typeKey].typeObject
-            c.setTypeObject(typeObject);
-            typeManager.registerTypeChosen(c, typeObject);
         }
     }
 
@@ -155,6 +126,59 @@ export default class BoardState
     {
         if(!CONFIG.expansions.recipeBook) { return; }
         this.recipeBook.createRecipes(typeManager);
+    }
+
+    getCellsOfType(tp:string) : Cell[]
+    {
+        const cells = this.getGridFlat();
+        const arr = [];
+        for(const cell of cells)
+        {
+            if(cell.subType != tp) { continue; }
+            arr.push(cell);
+        }
+        return arr;
+    }
+
+    getCellsAdjacent(cell:Cell) : Cell[]
+    {
+        const pos = cell.getPosition();
+        const arr = [];
+        for(const nbOffset of NB_OFFSETS)
+        {
+            const nbPos = pos.clone().move(nbOffset);
+            const cell = this.getCellAt(nbPos);
+            if(!cell) { continue; }
+            arr.push(cell);
+        }
+        return arr;
+    }
+
+    getCellsOnSameAxis(cell:Cell) : Cell[]
+    {
+        const pos = cell.getPosition();
+        const cells = this.getGridFlat();
+        const arr = [];
+        for(const cell of cells)
+        {
+            if(cell.x != pos.x && cell.y != pos.y) { continue; }
+            arr.push(cell);
+        }
+        return arr;
+    }
+
+    getCellsWithProperty(p:string) : Cell[]
+    {
+        const cells = this.getGridFlat();
+        const arr = [];
+        for(const cell of cells)
+        {
+            const data = cell.getTypeData();
+            if(!(p in data)) { continue; }
+            if(!data[p]) { continue; }
+            arr.push(cell);
+        }
+        return arr;
     }
 
 }

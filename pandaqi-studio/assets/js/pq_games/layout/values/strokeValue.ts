@@ -69,6 +69,12 @@ class StrokeValue extends Value
         this.placement = placement;
         this.type = type;
     }
+    
+    getStyleAsCSSProp() : string
+    {
+        if(this.type == StrokeType.REGULAR) { return "solid"; }
+        else if(this.type == StrokeType.DASHED) { return "dashed"; }
+    }
 
     isVisible() : boolean
     {

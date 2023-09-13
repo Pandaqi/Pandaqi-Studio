@@ -5,16 +5,21 @@ import AnchorValue from "./anchorValue"
 import { FourSideValue } from "./fourSideValue"
 
 import BoxInput from "./boxInput"
+import Container from "../containers/container"
+import PlacementValue from "./placementValue"
 
 export default class BoxOutput
 {
-    // margin parent + padding/border ourselves (automatically calculated)
+    // padding parent + margin/border ourselves (automatically calculated)
     offsetTop: Point = new Point()
     offsetBottom: Point = new Point()
 
+    // starting location ( = padding taken into account)
+    anchorTop: Point = new Point()
+    anchorBottom : Point = new Point()
+
     // the USABLE space inside the parent, ignoring whitespace (automatically calculated)
-    parentWidth: number = 0
-    parentHeight: number = 0
+    usableParentSize = new Point()
 
     // properties
     margin: FourSideOutput
@@ -23,6 +28,7 @@ export default class BoxOutput
 
     position : Point
     size : Point
+    sizeContent : Point
     positionMin : Point
     positionMax : Point
     sizeMin : Point
@@ -32,18 +38,38 @@ export default class BoxOutput
     anchor : AnchorValue
     keepRatio : number
 
+    ghost: boolean
+    placement: PlacementValue
+
     makeRoot()
     {
         this.position = new Point();
         this.offset = new Point();
         this.margin = new FourSideValue().get();
         this.padding = new FourSideValue().get();
+        return this;
     }
 
     setRect(x:number, y: number, w:number, h:number)
     {
         this.position = new Point().setXY(x,y);
         this.size = new Point().setXY(w,h);
+        return this;
+    }
+
+    getPosition()
+    {
+        return this.position.clone();
+    }
+
+    getSizeContent()
+    {
+        return this.sizeContent.clone();
+    }
+
+    getSize()
+    {
+        return this.size.clone();
     }
 
     clamp(val:number, low:number, high:number) : number
@@ -71,6 +97,10 @@ export default class BoxOutput
 
         this.stroke = bi.stroke.calc(parentBox.size);
         this.margin = bi.margin.calc(parentBox.size);
+        this.padding = bi.padding.calc(parentBox.size);
+
+        this.anchorTop = new Point(this.padding.left, this.padding.top);
+        this.anchorBottom = new Point(this.padding.right, this.padding.bottom);
         
         this.offsetTop = new Point().setXY(
             parentBox.padding.left + this.margin.left + sMult * this.stroke.width.left, 
@@ -81,19 +111,28 @@ export default class BoxOutput
             parentBox.padding.bottom + this.margin.bottom + sMult * this.stroke.width.bottom
         )
 
-        this.parentWidth = parentBox.size.x - this.offsetTop.x - this.offsetBottom.x;
-        this.parentHeight = parentBox.size.y - this.offsetTop.y - this.offsetBottom.y;
+        this.usableParentSize = new Point(
+            parentBox.size.x - this.offsetTop.x - this.offsetBottom.x,
+            parentBox.size.y - this.offsetTop.y - this.offsetBottom.y
+        );
     }
 
-    postCalculate()
+    postCalculate(b:BoxInput, c:Container)
     {
-        if(this.keepRatio > 0)
+        if(c.isFlowItem())
+        {
+            c.flowOutput.applyToBox(this);
+        }
+
+        if(this.keepRatio > 0 && b.size.isVariable())
         {
             if(this.keepRatio >= 1.0) { this.size.y = this.size.x * this.keepRatio; }
             else { this.size.x = this.size.y / this.keepRatio; } 
         }
 
         this.clampSize();
+
+        this.sizeContent = this.size.clone().sub(this.anchorTop).sub(this.anchorBottom);
 
         let pos = this.position.clone();
         pos.add(this.offsetTop);
@@ -112,40 +151,47 @@ export default class BoxOutput
     {
         const p = this.offsetTop.clone();
         const a = this.anchor;
-        if(!this.parentWidth || !this.parentHeight) { return p; }
+        if(!this.usableParentSize.isValid()) { return p; }
         if(a == AnchorValue.TOP_LEFT || a == AnchorValue.NONE) { return p; }
 
-        console.log(this.offsetTop);
-
-        const rightEdge = this.parentWidth + this.offsetTop.x - this.size.x;
-        const bottomEdge = this.parentHeight + this.offsetTop.y - this.size.y;
-        const center = new Point().setXY(
-            0.5*this.parentWidth - 0.5*this.size.x,
-            0.5*this.parentHeight - 0.5*this.size.y
-        );
+        const bottomRight = this.usableParentSize.clone().move(this.offsetTop).sub(this.size);
+        const center = this.usableParentSize.clone().scaleFactor(0.5).sub(this.size.clone().scaleFactor(0.5)).add(this.offsetTop);
 
         if(a == AnchorValue.TOP_CENTER) {
             p.x = center.x;
         } else if(a == AnchorValue.TOP_RIGHT) {
-            p.x = rightEdge;
+            p.x = bottomRight.x;
         } else if(a == AnchorValue.CENTER_LEFT) {
             p.y = center.y;
         } else if(a == AnchorValue.CENTER_CENTER) {
             p.x = center.x;
             p.y = center.y;
         } else if(a == AnchorValue.CENTER_RIGHT) {
-            p.x = rightEdge;
+            p.x = bottomRight.x;
             p.y = center.y;
         } else if(a == AnchorValue.BOTTOM_LEFT) {
-            p.y = bottomEdge;
+            p.y = bottomRight.y;
         } else if(a == AnchorValue.BOTTOM_CENTER) {
             p.x = center.x;
-            p.y = bottomEdge;
+            p.y = bottomRight.y;
         } else if(a == AnchorValue.BOTTOM_RIGHT) {
-            p.x = rightEdge;
-            p.y = bottomEdge;
+            p.x = bottomRight.x;
+            p.y = bottomRight.y;
         }
 
         return p;
+    }
+
+    
+    getTopAnchor()
+    {
+        if(this.ghost) { return new Point(); }
+        return this.anchorTop.clone();
+    }
+
+    getUsableSize()
+    {
+        if(this.ghost) { return this.getSize(); }
+        return this.getSizeContent();
     }
 }

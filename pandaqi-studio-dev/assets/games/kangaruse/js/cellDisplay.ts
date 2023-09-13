@@ -1,4 +1,6 @@
-import { CELLS, GENERAL, NB_OFFSETS, CORNER_OFFSETS } from "./dictionary"
+// @ts-ignore
+import { Display } from "js/pq_games/phaser.esm"
+import { CELLS, GENERAL, COLOR_GROUPS, CORNER_OFFSETS } from "./dictionary"
 import CONFIG from "./config"
 import Point from "js/pq_games/tools/geometry/point";
 import Random from "js/pq_games/tools/random/main";
@@ -16,7 +18,7 @@ export default class CellDisplay
         this.boardDisplay = null;
     }
 
-    showBackground() { return false; } // @TODO?
+    showBackground() { return this.getColorGroup() != null && !CONFIG.inkFriendly; }
     showBorder() { return !this.cell.isHole(); }
     showType() { return this.cell.type; }
     showNum() { return this.cell.hasNum(); }
@@ -53,11 +55,7 @@ export default class CellDisplay
     {
         if(!this.showType()) { return null; }
 
-        const useSimplified = CONFIG.inkFriendly;
-        let textureKey = "cell_types";
-        if(useSimplified) { textureKey += "_simplified"; }
-
-        const typeSprite = this.boardDisplay.game.add.sprite(0, 0, textureKey);
+        const typeSprite = this.boardDisplay.game.add.sprite(0, 0, CONFIG.cellTexture);
         const spriteSize = CONFIG.types.iconScale * this.boardDisplay.cellSizeUnit;
         typeSprite.setOrigin(0.5);
         typeSprite.displayWidth = spriteSize;
@@ -99,6 +97,16 @@ export default class CellDisplay
         obj.y = offsetPos.y;
     }
 
+    getColorGroup() : string
+    {
+        return this.cell.getData().colorGroup;
+    }
+
+    getColor() : number
+    {
+        return new Display.Color.HexStringToColor( COLOR_GROUPS[this.getColorGroup()] ).color;
+    }
+
     draw(boardDisplay:BoardDisplay)
     {
         this.boardDisplay = boardDisplay;
@@ -114,16 +122,32 @@ export default class CellDisplay
         this.placeAtCenter(rect);
 
         const cfg = CONFIG.board.cellDisplay;
+        const borderRadius = CONFIG.board.cellDisplay.borderRadius * this.boardDisplay.cellSizeUnit;
+        const maxOffsetBG = CONFIG.board.cellDisplay.maxOffsetBG * this.boardDisplay.cellSizeUnit;
+        const scaleBG = CONFIG.board.cellDisplay.scaleBG;
+
+        const strokeData = CONFIG.inkFriendly ? cfg.strokeInkfriendly : cfg.stroke;
 
         if(this.showBackground())
-        {
-            rect.setFillStyle(cfg.color, cfg.alpha);
+        {   
+            const pos = this.getRealPosition();
+            pos.sub(size.clone().scale(0.5*scaleBG));
+            const sizeScaled = size.clone().scale(scaleBG);
+
+            const randOffset = new Point().random().scaleFactor(maxOffsetBG);
+            pos.move(randOffset);
+            
+            let alpha = 1.0;
+            if(this.cell.hole || this.cell.river) { alpha = 0.33; }
+            this.boardDisplay.graphics.fillStyle(this.getColor(), alpha);
+            this.boardDisplay.graphics.fillRoundedRect(pos.x, pos.y, sizeScaled.x, sizeScaled.y, borderRadius);
+
         }
 
         if(this.showBorder())
         {
-            const lineWidth = cfg.widthStroke * this.boardDisplay.cellSizeUnit;
-            rect.setStrokeStyle(lineWidth, cfg.colorStroke, cfg.alphaStroke);
+            const lineWidth = strokeData.width * this.boardDisplay.cellSizeUnit;
+            rect.setStrokeStyle(lineWidth, strokeData.color, strokeData.alpha);
         }
     }
 

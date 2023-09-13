@@ -23,21 +23,36 @@ export default class ProgressBar
     {
         const div = document.createElement("div");
         container.appendChild(div);
+        
         div.classList.add("progress-bar-container");
+        div.style.position = "fixed";
+        div.style.left = "0";
+        div.style.right = "0";
+        div.style.top = "0";
+        div.style.bottom = "0";
+        div.style.display = "flex";
+        div.style.justifyContent = "center";
+        div.style.alignItems = "center";
+        div.style.alignContent = "center";
+        div.style.fontFamily = "Georgia";
 
         const subdiv = document.createElement("div");
         div.appendChild(subdiv);
         subdiv.classList.add("progress-bar");
+        subdiv.style.maxWidth = "500px";
 
         const header = document.createElement("h1");
         subdiv.appendChild(header);
         header.classList.add("progress-bar-header");
         this.headerNode = header;
+        header.style.textAlign = "center";
 
         const extraInfo = document.createElement("p");
         subdiv.appendChild(extraInfo);
         extraInfo.classList.add("progress-bar-info");
         this.infoNode = extraInfo;
+        extraInfo.style.textAlign = "center";
+        extraInfo.style.opacity = "0.66";
 
         return div;
     }

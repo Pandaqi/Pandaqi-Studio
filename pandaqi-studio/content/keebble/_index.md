@@ -32,8 +32,7 @@ categories: ["boardgame"]
 tags: ["one_paper_game", "opg"]
 
 extraCSS: true
-sharedJS: "keebble"
-sharedJSBuild: true
+extraJS: true
 
 downloadLink: "https://drive.google.com/drive/folders/1JeaAyDSFrnu_j8FeDztXyKyhUlNMPoKe"
 

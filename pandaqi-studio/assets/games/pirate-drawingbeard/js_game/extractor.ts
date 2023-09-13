@@ -1,6 +1,8 @@
+import PdfBuilder, { PageOrientation } from "js/pq_games/pdf/pdfBuilder";
 import HintVisualizer from "./hintVisualizer"
 import Hints from "./hints"
 import Map from "./map"
+import JSZip from "./jszip.min.js"
 
 export default {
 
@@ -146,27 +148,18 @@ export default {
 		this.turnIntoPDF(this.pdfImages);
 	},
 
-	turnIntoPDF(list)
+	turnIntoPDF(pdfImages:HTMLImageElement[])
 	{
-		let pdfConfig = {
-			orientation: "l", // landscape
-			unit: 'mm',
-			format: [this.pdfSize.width, this.pdfSize.height]
+		const pdfBuilder = new PdfBuilder({ orientation: PageOrientation.LANDSCAPE });
+		for(const img of pdfImages)
+		{
+			pdfBuilder.addImage(img);
 		}
-		// @ts-ignore
-		let doc = new window.jspdf.jsPDF(pdfConfig);
-		let width = doc.internal.pageSize.getWidth(), height = doc.internal.pageSize.getHeight();
-	    for(let i = 0; i < list.length; i++) {
-	    	if(i > 0) { doc.addPage(); }
-	    	doc.addImage(list[i], 'png', 0, 0, width, height, undefined, 'FAST');
-	    }
 
-	    doc.save('[Premade Game] Pirate Drawingbeard');
+		const pdfParams = { customFileName: "[Pirate Drawingbeard] Premade Game" };
+		pdfBuilder.downloadPDF(pdfParams);
 
-	    if(this.externalCallback != null)
-	    {
-	    	this.externalCallback();
-	    }
+	    if(this.externalCallback != null) { this.externalCallback(); }
 	},
 
 };

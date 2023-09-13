@@ -2,21 +2,32 @@ import PDF from "js/pq_games/pdf/main"
 // @ts-ignore
 import { jsPDF } from "./jspdf";
 
-enum PageOrientation {
+enum PageOrientation 
+{
     PORTRAIT,
     LANDSCAPE
 }
 
-interface PageSize {
+interface PageSize 
+{
     width: number,
     height: number
 }
 
-interface PdfConfig {
+interface PdfConfig 
+{
     orientation: PageOrientation,
     unit: string,
     format: number[],
     fileName: string
+}
+
+interface PdfBuilderConfig 
+{
+    orientation?: PageOrientation,
+    splitBoard?: boolean
+    splitBoardFactor?: number
+    jsPDF?:any
 }
 
 export { PageOrientation, PdfBuilder, PageSize, PdfConfig }
@@ -31,7 +42,7 @@ export default class PdfBuilder
 
     images : HTMLImageElement[]
 
-    constructor(cfg:Record<string,any> = {})
+    constructor(cfg:PdfBuilderConfig = {})
     {
         this.jsPDF = cfg.jsPDF || jsPDF;
         if(!this.jsPDF) 

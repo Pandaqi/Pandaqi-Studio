@@ -1,6 +1,7 @@
 // @ts-nocheck
 import GenerationScene from "./generation"
 import { scaleFactor, pdfSize } from "./dictionary"
+import Phaser from "js/pq_games/phaser.esm"
 
 export default class Game {
     constructor() {}

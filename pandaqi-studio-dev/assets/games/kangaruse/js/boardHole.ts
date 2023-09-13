@@ -28,7 +28,6 @@ export default class BoardHole
         }
 
         this.cells = list;
-        console.log(this.cells);
     }
 
     convertCell(cell:Cell)

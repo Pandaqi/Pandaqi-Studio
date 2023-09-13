@@ -53,32 +53,44 @@ body {
     line-height: 120%;
 }
 
+.icon {
+    background-image: url('/kangaruse/assets/cell_types.webp');
+    background-size: 800%;
+}
+
+table {
+    tr:nth-child(2n) {
+        background-color: rgba(0,0,0,0.8);
+    }
+
+    tr:nth-child(2n+1) {
+        background-color: rgba(0,0,0,0.6);
+    }
+}
+
 #setup {
-    background-color: #c98fff;
+    background-color: #98bb45;
+    color: #0d440c;
 }
 
 #objective {
-    background-color: #ff987b;
+    background-color: #FCC038;
+    color: #211701;
 }
 
 #action_play {
-    background-color: #c98fff;
+    background-color: #8c3f13;
+    color: #ffe4d5;
+
+    .remark {
+        background-color: rgba(255,255,255,0.5);
+    }
 }
 
-#packs {
-    background-color: #ff987b;
-    
+#special_types {
+    background-color: #344f4b;
+    color: #cdf6f0;
 }
-
-/*
-#action_play {
-    background-color: #AB50FF;
-}
-
-#packs {
-    background-color: #FF4816;
-    
-}*/
 
 @media print {
     body {

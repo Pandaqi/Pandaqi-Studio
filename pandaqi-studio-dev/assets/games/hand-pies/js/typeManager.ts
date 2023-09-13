@@ -2,6 +2,9 @@ import Type from "./type";
 import { MAIN_TYPES, INGREDIENTS, MACHINES, MONEY, TUTORIAL } from "./dictionary";
 import Random from "js/pq_games/tools/random/main";
 import CONFIG from "./config"
+import Cell from "./cell";
+import range from "js/pq_games/tools/random/range";
+import distributeDiscrete from "js/pq_games/tools/generation/distributeDiscrete";
 
 interface Counters {
     mainType: Record<string,number>,
@@ -33,24 +36,10 @@ export default class TypeManager
             cells: 0,
         }
 
-        const moneyTargetBounds = CONFIG.types.moneyTargetBounds;
-        this.moneyTargetFraction = Random.range(moneyTargetBounds.min, moneyTargetBounds.max);
-
-        const fixedFingerBounds = CONFIG.types.fixedFingerBounds;
-        this.fixedFingerFraction = Random.range(fixedFingerBounds.min, fixedFingerBounds.max);
-
         this.drawRandomTypes();
-        this.determineMoneyDistribution();
+        this.determineExtraDataForTypes();
     }
     
-    getTypeData(typeObject)
-    {
-        console.log(typeObject)
-        console.log(MAIN_TYPES[typeObject.mainType])
-
-        return MAIN_TYPES[typeObject.mainType].DICT[typeObject.subType];
-    }
-
     drawRandomTypes()
     {
         this.types = [];
@@ -82,7 +71,7 @@ export default class TypeManager
             delete ingDict[type];
             const typeObj = new Type("ingredient", type);
 
-            const data = this.getTypeData(typeObj);
+            const data = typeObj.getData();
             const minIngReq = data.minUniqueTypesRequired || 0;
             if(minIngReq > numIngredients) { continue; }
 
@@ -147,7 +136,7 @@ export default class TypeManager
 
     handleForbiddenInclusions(type, dict)
     {
-        const data = this.getTypeData(type);
+        const data = type.getData();
         const fobIng = Random.shuffle(data.forbiddenIngredients || []);
         this.handleForbiddenInclusionsForMainType("ingredient", fobIng, dict);
 
@@ -157,7 +146,7 @@ export default class TypeManager
 
     handleRequiredInclusions(type, dict)
     {  
-        const data = this.getTypeData(type);
+        const data = type.getData();
         const reqIng = Random.shuffle(data.requiredIngredients || []);
         this.handleRequiredInclusionsForMainType("ingredient", reqIng, dict);
 
@@ -210,59 +199,106 @@ export default class TypeManager
             delete dict[typeToAdd];
             this.types.push(new Type(mainType, typeToAdd));
         }
-
-        
     }
 
-    determineMoneyDistribution()
+    determineExtraDataForTypes()
     {
-        if(!CONFIG.expansions.money) { return; }
+        if(!CONFIG.expansions.money && !CONFIG.expansions.fixedFingers) { return; }
 
         // sort types by power (HIGHEST power comes first, so descending)
         this.types.sort((a,b) => { 
             return b.getPower() - a.getPower();
         })
 
-        const moneyTypeBounds = CONFIG.types.moneyTypeBounds;
-        const fractionTypesWithMoney = Random.range(moneyTypeBounds.min, moneyTypeBounds.max);
-        const numTypesWithMoney = Math.floor(fractionTypesWithMoney * this.types.length);
+        const numTypesWithMoney = CONFIG.expansions.money ? Math.floor(range(CONFIG.types.moneyTypeBounds) * this.types.length) : 0;
+        const numTypesWithFixedFingers = CONFIG.expansions.fixedFingers ? Math.floor(range(CONFIG.types.fixedFingerBounds) * this.types.length) : 0;
 
         const maxPower = CONFIG.types.maxPower;
         const maxMoney = CONFIG.types.maxMoney;
 
         // the highest X types get a (semi-random) money value permanently attached
-        for(let i = 0; i < numTypesWithMoney; i++)
+        const totalTypesToAssign = Math.min(numTypesWithMoney + numTypesWithFixedFingers, this.types.length);
+        for(let i = 0; i < totalTypesToAssign; i++)
         {
             const type = this.types[i];
-            const power = this.getTypeData(type).power || 1;
-            const moneyBounds = { min: (power / maxPower) * maxMoney, max: ((power + 1) / maxPower) * maxMoney };
-            const money = Math.round(Random.range(moneyBounds.min, moneyBounds.max));
-            this.types[i].setNum(money);
+
+            const shouldBeMoney = i < numTypesWithMoney;
+            if(shouldBeMoney)
+            {
+                const power = type.getPower();
+                const moneyBounds = { min: (power / maxPower) * maxMoney, max: ((power + 1) / maxPower) * maxMoney };
+                const money = Math.round(Random.range(moneyBounds.min, moneyBounds.max));
+                type.setNum(money);
+                continue;
+            }
+            
+            type.setFixedFingers(this.getRandomFixedFingers());            
         }
     }
 
-    getPossibleTypes() { 
-        const dict = {};
+    getCellDistribution(numCellsToFill:number) : Type[]
+    {
+        // add tutorials, however many needed
+        const types : Type[] = this.getTutorialsNeeded();
+        numCellsToFill -= types.length;
 
-        // all ingredients simply follow their usual probability
-        for(const typeObject of this.types)
+        // add required types (usually just at least 1 of each type)
+        const reqTypes : Type[] = this.getRequiredTypes();
+        for(const type of reqTypes)
         {
-            const originalData = MAIN_TYPES[typeObject.mainType].DICT[typeObject.subType];
-            originalData.typeObject = typeObject;
-            dict[typeObject.subType] = originalData;
+            types.push(type);
+            this.registerTypeChosen(type);
+            numCellsToFill--;
         }
 
-        // money is added as well, but with its own probability
-        // money number = depends on how much we're off the target
-        // money prob = depends on money number (higher num = more need for money = higher prob)
-        const moneyNum = this.getNextMoneyNumber();
-        const typeObject = new Type("money", "money");
-        typeObject.setNum(moneyNum);
+        // calculate exactly how much cells we want to devote to each type
+        const numMachines = CONFIG.expansions.machines ? Math.round(range(CONFIG.types.numPlaced.machine) * numCellsToFill) : 0;
+        const numMoney = CONFIG.expansions.money ? Math.round(range(CONFIG.types.numPlaced.money) * numCellsToFill) : 0;
+        const numIngredients = numCellsToFill - numMachines - numMoney;
 
-        let moneyProb = (moneyNum / CONFIG.types.maxMoney) * CONFIG.types.maxMoneyDrawProb;
-        dict["money"] = { typeObject: typeObject, prob: moneyProb }
+        console.log(numIngredients);
+        console.log(numMachines);
+        console.log(numMoney);
 
-        return dict;
+        // then place that
+        for(let i = 0; i < numIngredients; i++)
+        {
+            const obj = this.pickRandomIngredient();
+            if(!obj) { break; }
+            types.push(obj);
+            this.registerTypeChosen(obj);
+        }
+
+        for(let i = 0; i < numMachines; i++)
+        {
+            const obj = this.pickRandomMachine();
+            if(!obj) { break; }
+            types.push(obj);
+            this.registerTypeChosen(obj);
+        }
+
+        console.log(types.slice());
+
+        if(numMoney > 0)
+        {
+            // for money, we calculate the distribution of values beforehand
+            // (which we can do now, as machines+ingredients have all been placed)
+            const moneyTarget = Math.round(this.counters.moneyToPay * range(CONFIG.types.moneyPercentagePayable));
+            const moneyDistribution = distributeDiscrete(moneyTarget, numMoney, 1, CONFIG.types.maxValueForMoneyCell);
+            for(let i = 0; i < numMoney; i++)
+            {
+                const typeObject = new Type("money", "money");
+                if(i >= moneyDistribution.length) { break; }
+
+                const moneyNum = moneyDistribution[i];
+                typeObject.setNum(moneyNum);
+                types.push(typeObject);
+                this.registerTypeChosen(typeObject);
+            }
+        }
+
+        Random.shuffle(types);
+        return types;
     }
 
     getTutorialsNeeded()
@@ -302,7 +338,7 @@ export default class TypeManager
         const arr = [];
         for(const typeObject of this.types)
         {
-            const min = MAIN_TYPES[typeObject.mainType].DICT[typeObject.subType].min || 1;
+            const min = MAIN_TYPES[typeObject.mainType].DICT[typeObject.subType].min ?? 1;
             for(let i = 0; i < min; i++)
             {
                 arr.push(typeObject);
@@ -312,123 +348,18 @@ export default class TypeManager
         return arr;
     }
 
-    getRequiredMoney()
-    {
-        if(!CONFIG.expansions.money) { return []; }
-
-        const moneyBounds = CONFIG.types.moneyTargetBounds;
-        const numMoney = Random.rangeInteger(moneyBounds.min, moneyBounds.max);
-        const arr = [];
-        const moneyDistribution = this.getDiscreteDistributionFor(this.getMoneyTargetValue(), numMoney);
-
-        console.log("Target money", this.getMoneyTargetValue());
-        console.log(this.moneyTargetFraction);
-        console.log(this.counters);
-        console.log(moneyDistribution);
-
-        for(let i = 0; i < numMoney; i++)
-        {
-            const typeObject = new Type("money", "money");
-            const moneyNum = moneyDistribution[i];
-            typeObject.setNum(moneyNum);
-            arr.push(typeObject);
-        }
-
-        return arr;
-    }
-
-    getMoneyTargetValue()
-    {
-        return Math.round(this.moneyTargetFraction * this.counters.moneyToPay);
-    }
-
-    // @TODO: use my new general function forthis, in pq_games/tools
-    getDiscreteDistributionFor(value, numParts)
-    {
-        // note that everything starts at 1, 
-        // to prevent buckets accidentally having "0 money" as a value
-        const dist = new Array(numParts).fill(1);
-        value -= numParts;
-
-        const maxBucketValue = CONFIG.types.maxValueForMoneyCell;
-        const maxPossibleSum = maxBucketValue * numParts;
-        value = Math.min(maxPossibleSum, value);
-
-        let runningSum = 0;
-        while(runningSum < value)
-        {
-            let invalidBucket = true;
-            let bucketIndex = Math.floor(Math.random() * numParts);
-            while(invalidBucket)
-            {
-                bucketIndex = (bucketIndex + 1) % numParts;
-                invalidBucket = dist[bucketIndex] >= maxBucketValue;
-            }
-
-            dist[bucketIndex] += 1;
-            runningSum += 1;
-        }
-
-        return dist;
-    }
-
-    getNextMoneyNumber()
-    {
-        const target = this.getMoneyTargetValue();
-        const curMoney = this.counters.moneyToGet;
-        const maxMoney = CONFIG.types.maxMoney;
-        const distToTarget = (target - curMoney);
-
-        const alreadyHaveEnoughMoney = (distToTarget <= 0);
-        if(alreadyHaveEnoughMoney) { return 0; }
-
-        const clampedDist = Math.min(distToTarget, maxMoney);
-        const randomized = Random.rangeInteger(Math.ceil(0.5*clampedDist), clampedDist);
-        return randomized;
-    }
-
-    registerTypeChosen(cell, typeObject)
+    registerTypeChosen(typeObject:Type)
     {
         this.counters.cells++;
 
         this.registerInCounter("mainType", typeObject);
         this.registerInCounter("subType", typeObject);
-        this.addFixedFingersIfPossible(cell, typeObject);
 
         if(typeObject.mainType == "money") {
             this.counters.moneyToGet += typeObject.getNum();
         } else {
             this.counters.moneyToPay += typeObject.getNum();
         }
-    }
-
-    addFixedFingersIfPossible(cell, typeObject)
-    {
-        if(!CONFIG.expansions.fixedFingers) { return; }
-        const noSpaceForIt = cell.hasExtraData();
-        if(noSpaceForIt) { return; }
-
-        const tooManyCellsWithFixedFingers = this.counters.fixedFingerCells >= this.getFixedFingerTarget();
-        if(tooManyCellsWithFixedFingers) { return; }
-
-        cell.addFixedFingers(this.getRandomFixedFingers());
-    }
-
-    getFixedFingerTarget()
-    {
-        return this.fixedFingerFraction * this.counters.cells;
-    }
-
-    getRandomFixedFingers()
-    {
-        const num = Math.floor(Math.random() * 4) + 1; // 1-4 fingers restricted, never nothing or all 5
-        const options = Random.shuffle([0,1,2,3,4]);
-        const arr = [];
-        for(let i = 0; i < num; i++)
-        {
-            arr.push(options.pop());
-        }
-        return arr;
     }
 
     registerInCounter(dictKey, typeObject)
@@ -439,8 +370,6 @@ export default class TypeManager
         dict[typeKey]++;
 
         let max = 0;
-
-        console.log(typeObject);
 
         if(dictKey == "mainType") { 
             max = MAIN_TYPES[typeKey].max || Infinity; 
@@ -461,5 +390,49 @@ export default class TypeManager
             if(obj[dictKey] != type) { continue; }
             this.types.splice(i, 1);
         }
+    }
+
+    getRandomFixedFingers()
+    {
+        const num = range(1,4); // 1-4 fingers restricted, never nothing or all 5
+        const options = Random.shuffle([0,1,2,3,4]);
+        const arr = [];
+        for(let i = 0; i < num; i++)
+        {
+            arr.push(options.pop());
+        }
+        return arr;
+    }
+
+    pickRandomIngredient() : Type
+    {
+        const dict = this.getDrawDict("ingredient");
+        if(Object.keys(dict).length <= 0) { return null; }
+        const key = Random.getWeighted(dict);
+        return dict[key].typeObject;
+    }
+
+    pickRandomMachine() : Type
+    {
+        const dict = this.getDrawDict("machine");
+        if(Object.keys(dict).length <= 0) { return null; }
+        const key = Random.getWeighted(dict);
+        return dict[key].typeObject;
+    }
+
+    getDrawDict(mainType:string = null)
+    {
+        const dict = {};
+        for(const typeObject of this.types)
+        {
+            const noDrawableType = typeObject.tutorial || typeObject.mainType == "money";
+            if(noDrawableType) { continue; }
+            if(mainType && typeObject.mainType != mainType) { continue; }
+
+            const originalData = MAIN_TYPES[typeObject.mainType].DICT[typeObject.subType];
+            originalData.typeObject = typeObject;
+            dict[typeObject.subType] = originalData;
+        }
+        return dict;
     }
 }

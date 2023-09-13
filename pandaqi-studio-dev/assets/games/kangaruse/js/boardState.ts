@@ -5,11 +5,13 @@ import BoardHole from "./boardHole";
 import BoardRiver from "./boardRiver";
 import distributeDiscrete from "js/pq_games/tools/generation/distributeDiscrete";
 import CONFIG from "./config"
+import FloodFiller from "js/pq_games/tools/generation/floodFiller";
 
 type command = number|string
 
 export default class BoardState
 {
+    fail: boolean = false;
     game:any
     typeManager:TypeManager
     grid: Cell[][]
@@ -65,8 +67,6 @@ export default class BoardState
 
         this.longestSide = Math.max(dims.x, dims.y);
         this.shortestSide = Math.min(dims.x, dims.y);
-
-        console.log(this.grid);
     }
 
     getEdgeName(cell)
@@ -172,7 +172,10 @@ export default class BoardState
         var crossMap = true
         
         river.flow(startingCell, this.grid, bounds, crossMap);
-        if(river.isEmpty()) { return console.error("Impossible to create cross map river on this board"); }
+        if(river.isEmpty()) { 
+            this.fail = true;
+            return console.error("Impossible to create cross map river on this board"); 
+        }
 
         this.rivers.push(river);
 
@@ -314,7 +317,120 @@ export default class BoardState
 
     }
 
+    getCellsWithProperty(prop:string) : Cell[]
+    {
+        const arr = [];
+        for(const cell of this.getGridFlat())
+        {
+            const data = cell.getData();
+            if(!data[prop]) { continue; }
+            arr.push(cell);
+        }
+        return arr;
+    }
 
-    
+    getQuadrantForCell(cell:Cell) : number
+    {
+        const dims = this.getDimensions();
+        if(cell.x < 0.5*dims.x)
+        {
+            if(cell.y < 0.5*dims.y) { return 0; }
+            return 1;
+        }
+        else
+        {
+            if(cell.y < 0.5*dims.y) { return 2; }
+            return 3;
+        }
+    }
 
+    // Groups anything with a type (not a hole)
+    // If multiple of these must be created, then it means we have unreachable sections on the board
+    getConnectedReachableGroups() : FloodFiller[]
+    {
+        const cells = this.getGridFlat();
+        const cellsHandled : Cell[] = [];
+        const groups = [];
+
+        const filter = (a,b) => {
+            return !b.isHole();
+        }
+
+        for(const cell of cells)
+        {
+            if(cell.isHole()) { continue; }
+            if(cellsHandled.includes(cell)) { continue; }
+
+            const group = new FloodFiller();
+            group.grow({
+                start: cell, 
+                grid: this.grid, 
+                filter: filter
+            });
+
+            for(const cellHandled of group.get())
+            {
+                cellsHandled.push(cellHandled);
+            }
+            
+            groups.push(group);
+        }
+
+        return groups;
+    }
+
+    // Groups all holes together, ignores any other cells
+    getHoleClumps() : FloodFiller[]
+    {
+        const cells = this.getGridFlat();
+        const cellsHandled : Cell[] = [];
+        const clumps = [];
+
+        // if this is true, something is considered a valid neighbor that should be added
+        // (the `a` parameter is the original cell that is searching its neighbors, not relevant here)
+        const callback = (a,b) => {
+            return b.isHole();
+        }
+
+        for(const cell of cells)
+        {
+            if(!cell.isHole()) { continue; }
+            if(cellsHandled.includes(cell)) { continue; }
+
+            const clump = new FloodFiller();
+            clump.grow({
+                start: cell, 
+                grid: this.grid, 
+                filter: callback
+            });
+
+            for(const cellHandled of clump.get())
+            {
+                cellsHandled.push(cellHandled);
+            }
+            
+            clumps.push(clump);
+        }
+        return clumps;
+    }
+
+    getTypesWithProperty(prop:string) : string[]
+    {
+        const cells = this.getCellsWithProperty(prop);
+        const types : Set<string> = new Set();
+        for(const cell of cells)
+        {
+            types.add(cell.getType());
+        }
+        return Array.from(types);
+    }
+
+    getDistToEdge(cell:Cell) : number
+    {
+        const dims = this.getDimensions();
+        const xMin = Math.min(cell.x, dims.x - 1 - cell.x);
+        const yMin = Math.min(cell.y, dims.y - 1 - cell.y);
+        return Math.min(xMin, yMin);
+    }
 }
+

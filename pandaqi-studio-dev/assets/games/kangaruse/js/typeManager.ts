@@ -16,11 +16,9 @@ export default class TypeManager
     drawRandomTypes()
     {
         const bounds = CONFIG.types.numUniqueTypes;
-        this.picker.setRequiredProperties([{ prop: "score", num: 2 }]);
+        this.picker.setMinOfProperties([{ prop: "score", num: CONFIG.minScoreTypes }]);
+        this.picker.setMaxOfProperties([{ prop: "score", num: CONFIG.maxScoreTypes }]);
         this.picker.pickPossibleTypes(CONFIG, bounds);
-
-        console.log(this.picker);
-
         if(CONFIG.startingPositions) { this.picker.addPossibleTypeForced("starting_position"); }
     }
 

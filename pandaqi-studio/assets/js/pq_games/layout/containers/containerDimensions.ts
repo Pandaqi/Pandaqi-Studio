@@ -1,6 +1,7 @@
 import Container from "./container"
 import Point from "js/pq_games/tools/geometry/point"
 import BoxOutput from "../values/boxOutput"
+import { FourSideOutput } from "../values/fourSideValue"
 
 export default class ContainerDimensions
 {
@@ -45,10 +46,11 @@ export default class ContainerDimensions
         return new Point().setXY(this.width, this.height);
     }
 
-    fromBox(b:BoxOutput)
+    fromBox(b:BoxOutput) : ContainerDimensions
     {
         this.setPosition(b.position.clone());
         this.setSize(b.size.clone());
+        return this;
     }
 
     takeIntoAccount(c:Container)
@@ -58,6 +60,15 @@ export default class ContainerDimensions
         this.topLeft.y = Math.min(this.topLeft.y, dims.position.y);
         this.bottomRight.x = Math.max(this.bottomRight.x, dims.position.x + dims.size.x);
         this.bottomRight.y = Math.max(this.bottomRight.y, dims.position.y + dims.size.y);
+        this.refresh();
+    }
+
+    grow(v:FourSideOutput)
+    {
+        this.topLeft.x -= v.left;
+        this.topLeft.y -= v.top;
+        this.bottomRight.x += v.right;
+        this.bottomRight.y += v.bottom;
         this.refresh();
     }
 

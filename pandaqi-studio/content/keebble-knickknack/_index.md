@@ -32,11 +32,8 @@ categories: ["boardgame"]
 tags: ["hybrid"]
 
 extraCSS: true
+extraJS: true
 extraJSGame: true
-extraJSGameBuild: true
-
-sharedJS: "keebble"
-sharedJSBuild: true
 
 downloadLink: "https://drive.google.com/drive/folders/1_hK2ICc9T95hSLAGNO4mvBFmqpvrq_15"
 

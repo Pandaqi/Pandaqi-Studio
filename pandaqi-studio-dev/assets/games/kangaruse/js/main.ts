@@ -13,6 +13,7 @@ class BoardGeneration extends Scene
 
     evaluator:Evaluator
     board:BoardState
+    canvas:HTMLCanvasElement
 
 	constructor()
 	{
@@ -29,6 +30,7 @@ class BoardGeneration extends Scene
         this.load.spritesheet("general", base + 'general_spritesheet.webp', sd);
         this.load.spritesheet("cell_types", base + 'cell_types.webp', sd);
         this.load.spritesheet("cell_types_simplified", base + 'cell_types_simplified.webp', sd);
+        this.load.image("sidebar_tutorial", base + "sidebar_tutorial.webp");
     }
 
     async create(userConfig:Record<string,any>) {
@@ -42,11 +44,14 @@ class BoardGeneration extends Scene
     {
         Object.assign(CONFIG, userConfig);
         this.evaluator = new Evaluator();
+
+        let cellTexture = "cell_types";
+        if(CONFIG.inkFriendly || CONFIG.simplifiedIcons) { cellTexture = "cell_types_simplified"; }
+        CONFIG.cellTexture = cellTexture;
     }
 
     async generate()
     {
-        console.log(CONFIG);
         do {
             this.board = new BoardState(this);
         } while(!this.evaluator.isValid(this.board));
