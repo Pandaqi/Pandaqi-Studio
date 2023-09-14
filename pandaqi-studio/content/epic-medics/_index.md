@@ -108,27 +108,16 @@ You use a **secret part** of the board to infect cities, which means medics will
 
 {{% /section-centered %}}
 
-{{% section-centered heading="Random Events" class="background-alternate" %}}
+{{% section-centered heading="Random Events" class="background-alternate" anchor="game" html="true" %}}
 
-This is an expansion to the base game. It introduces a random event at the start of each round, to shake things up and add extra challenge.
 
-_How does it work?_ At the start of a game, go to this website and click the button below. Whenever you start a new round, click the button again to get a new event.
+<p>This is an expansion to the base game. It introduces a random event at the start of each round, to shake things up and add extra challenge.</p>
 
-_Beware!_ Do not refresh/close this page during the game, as you'll lose your event progress.
+<p>At the start of a game, go to this website and click the button below. It opens an interface in a new tab. Whenever you start a new round (in the real game), click the button again to get a new event.</p>
 
-<p id="playerCountForm" style="text-align:center; font-family: 'Woodcutter'; ">
-	<label for="playerCount" style="margin-right:15px;">How many players?</label>
-	<select id="playerCount">
-	  <option value="2">2</option>
-	  <option value="3">3</option>
-	  <option value="4">4</option>
-	  <option value="5">5</option>
-	  <option value="6">6</option>
-	  <option value="7">7</option>
-	</select> 
-</p>
+{{< boardgame-settings type="game" local_storage="epicMedicsConfig" >}}
+	{{< setting-hidden id="setting-gameTitle" text="Epic Medics" >}}
+	{{< setting-playercount min="2" max="7" def="4" >}}
+{{< /boardgame-settings >}}
 
-<p id="curEventDisplay"></p>
-<p style="text-align: center;"><a class="btn event-btn" id="eventButton">Generate Events!</a></p>
-					
 {{% /section-centered %}}

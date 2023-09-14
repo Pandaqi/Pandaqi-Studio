@@ -7,6 +7,7 @@ import Map from "./map"
 import { TILE_DICT, SYMBOLS } from "./dictionary"
 // @ts-ignore
 import Phaser from "js/pq_games/phaser.esm"
+import Point from "js/pq_games/tools/geometry/point"
 
 export default new Phaser.Class({
 
@@ -217,8 +218,8 @@ export default new Phaser.Class({
 
 				let maxGridWidth = 0.66*cs;
 				let gridCellSize = Math.floor(maxGridWidth/Map.width);
-				let gridSize = { "x": Map.width*gridCellSize, "y": Map.height*gridCellSize };
-				let gridOffset = { "x": -0.5*gridSize.x, "y": -0.5*gridSize.y };
+				let gridSize = new Point( Map.width*gridCellSize, Map.height*gridCellSize);
+				let gridOffset = new Point( -0.5*gridSize.x, -0.5*gridSize.y);
 
 				for(let x = 1; x < Map.width; x++)
 				{
@@ -311,9 +312,9 @@ export default new Phaser.Class({
 	{
 		this.clearMap();
 
-		let cardMargin = { "x": 20, "y": 20 };
-		let margin = { "x": 30, "y": 80 };
-		let metadataMargin = { "x": 150, "y": 20 }
+		let cardMargin = new Point( 20, 20);
+		let margin = new Point( 30, 80);
+		let metadataMargin = new Point( 150, 20)
 		let headerHeight = 70;
 		let scale = 0.735 // @IMPROV: calculate dynamically based on PDF size
 		let cardSize = { "w": 495*scale, "h": 525*scale }
@@ -375,8 +376,8 @@ export default new Phaser.Class({
 			if(Config.invertHintGrid) { tiles = Map.invertLocationList(tiles); }
 
 			let cs = Math.floor((cardSize.w - 2*cardMargin.x)/Config.width);
-			let gridSize = { "x": cs*Config.width, "y": cs*Config.height };
-			let gridPos = { "x": sprite.x + cardMargin.x , "y": sprite.y + cardSize.h - cardMargin.y - gridSize.y };
+			let gridSize = new Point( cs*Config.width, cs*Config.height);
+			let gridPos = new Point( sprite.x + cardMargin.x , sprite.y + cardSize.h - cardMargin.y - gridSize.y);
 			
 
 			for(let x = 1; x < Config.width; x++)

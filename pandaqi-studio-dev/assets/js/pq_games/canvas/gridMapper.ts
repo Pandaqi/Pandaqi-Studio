@@ -1,4 +1,4 @@
-import { PdfBuilder, PageSize } from "js/pq_games/pdf/pdfBuilder"
+import { PdfBuilder, PageSize, PdfBuilderConfig } from "js/pq_games/pdf/pdfBuilder"
 import createCanvas from "js/pq_games/canvas/createCanvas"
 import Point from "js/pq_games/tools/geometry/point"
 
@@ -10,6 +10,20 @@ enum GridMapperLayout
     CIRCLE
 }
 
+interface GridMapperParams
+{
+    debug?: boolean,
+    layoutShape?: GridMapperLayout
+    dims?: Point
+    outerMargin?: Point
+    innerMargin?: Point,
+    pdfBuilder?: PdfBuilder,
+    dimsElement?: Point,
+    absoluteElementSize?: Point,
+    pdfParams?: PdfBuilderConfig
+}
+
+export { GridMapperLayout, GridMapperParams }
 export default class GridMapper 
 {
     debug = false
@@ -31,7 +45,7 @@ export default class GridMapper
     elementsPerPage : number
     elementPositions : Point[]
 
-    constructor(params:Record<string,any> = {})
+    constructor(params:GridMapperParams = {})
     {
         this.debug = params.debug ?? false;
 
@@ -43,7 +57,7 @@ export default class GridMapper
         this.padding = new Point();
         this.currentElement = 0;
 
-        this.pdfBuilder = params.pdfBuilder || new PdfBuilder(params);
+        this.pdfBuilder = params.pdfBuilder || new PdfBuilder(params.pdfParams);
         this.pageSize = this.pdfBuilder.getPageSize();
         this.innerPageSize = new Point({
             x: (this.pageSize.width-2*this.outerMargin.x),

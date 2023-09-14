@@ -16,7 +16,7 @@ async function createWordCards(userConfig:Record<string,any>)
     const config = { orientation: PageOrientation.PORTRAIT };
 	const pdfBuilder = new PdfBuilder(config);
 
-    const customPageLayoutDims = { x: 3, y: 4 };
+    const customPageLayoutDims = new Point(3, 4);
 	const gridConfig = { pdfBuilder: pdfBuilder, dims: customPageLayoutDims };
 	const gridMapper = new GridMapper(gridConfig);
 	

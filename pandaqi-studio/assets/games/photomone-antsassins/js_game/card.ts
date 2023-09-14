@@ -16,9 +16,9 @@ export default class Card
     ctx: CanvasRenderingContext2D
     id: number
     // @TODO
-    size: import("c:/Users/Tiamo/Documents/Programming/Websites/Pandaqi/Pandaqi Studio/pandaqi-studio/assets/js/pq_games/tools/geometry/point").Point
+    size: Point
     sizeSquare: number
-    gridSize: import("c:/Users/Tiamo/Documents/Programming/Websites/Pandaqi/Pandaqi Studio/pandaqi-studio/assets/js/pq_games/tools/geometry/point").Point
+    gridSize: Point
     cellSize: number
     innerCellSize: number
     offset: Point
@@ -44,7 +44,7 @@ export default class Card
     setupCanvas()
     {
         const size = CONFIG.cards.size;
-        this.size = size;
+        this.size = new Point(size.x, size.y);
         this.sizeSquare = Math.min(size.x, size.y);
         this.ctx = createContext({ width: size.x, height: size.y, alpha: true, willReadFrequently: false });
 		this.ctx.clearRect(0, 0, size.x, size.y);
@@ -57,7 +57,7 @@ export default class Card
         this.ctx.fillRect(0, 0, size.x, size.y);
         this.ctx.strokeRect(0, 0, size.x, size.y);
 
-        this.gridSize = CONFIG.cards.grid;
+        this.gridSize = new Point(CONFIG.cards.grid.x, CONFIG.cards.grid.y);
 
         const margin = Math.min(size.x, size.y)*CONFIG.cards.innerMargin;
         const innerSize = new Point(size.x - margin, size.y - margin);
@@ -420,7 +420,8 @@ export default class Card
                 const canvOp = new CanvasOperation({
                     frame: ALMOST_ACTIONS[cell.getAction()].frame,
                     translate: centerPos,
-                    dims: new Point(spriteSize)
+                    dims: new Point(spriteSize),
+                    pivot: new Point(0.5)
                 })
                 res.drawTo(ctx, canvOp);
             }

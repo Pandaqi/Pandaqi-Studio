@@ -30,7 +30,7 @@ interface PdfBuilderConfig
     jsPDF?:any
 }
 
-export { PageOrientation, PdfBuilder, PageSize, PdfConfig }
+export { PageOrientation, PdfBuilder, PageSize, PdfConfig, PdfBuilderConfig }
 export default class PdfBuilder 
 {
     jsPDF : jsPDF

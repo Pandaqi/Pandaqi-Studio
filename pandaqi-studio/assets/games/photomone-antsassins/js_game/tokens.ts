@@ -1,5 +1,5 @@
 import Token from "./token"
-import GridMapper from "js/pq_games/canvas/gridMapper"
+import { GridMapper, GridMapperLayout } from "js/pq_games/canvas/gridMapper"
 import Point from "./shapes/point"
 import CONFIG from "./config"
 import convertCanvasToImageMultiple from "js/pq_games/canvas/helpers/convertCanvasToImageMultiple"
@@ -20,7 +20,7 @@ export default class Tokens
 
     setupGridMapper()
     {
-        const gridConfig = { pdfBuilder: CONFIG.pdfBuilder, dims: CONFIG.tokens.dims, layoutShape: "circle" };
+        const gridConfig = { pdfBuilder: CONFIG.pdfBuilder, dims: CONFIG.tokens.dims, layoutShape: GridMapperLayout.CIRCLE };
         this.gridMapper = new GridMapper(gridConfig);
 
         const numPages = CONFIG.tokens.numPages;

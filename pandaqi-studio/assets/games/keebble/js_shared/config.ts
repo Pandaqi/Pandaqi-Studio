@@ -11,7 +11,7 @@ export default
     lineWidth: 4,
     backpackGridColor: "#000000",
     backpackGridAlpha: 0.5,
-    backpackGridSize: { width: 4, height: 4 },
+    backpackGridSize: new Point(4, 4),
     backpackLineWidth: 2,
     letters: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
     numLetters: { min: 0.03, max: 0.08 }, // percentage of total num tiles

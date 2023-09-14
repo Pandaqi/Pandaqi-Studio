@@ -5,6 +5,7 @@ import Random from "js/pq_games/tools/random/main"
 // @TODO: not sure if this even works, it used to grab Phaser as a global variable, loaded by the mystical pirategames.js
 import Phaser from "js/pq_games/phaser.esm"
 import PdfBuilder, { PageOrientation } from "js/pq_games/pdf/pdfBuilder"
+import Point from "js/pq_games/tools/geometry/point"
 
 type Hint = { final_text?: string, html_text?: string }
 
@@ -18,7 +19,7 @@ export default new Phaser.Class({
         Phaser.Scene.call(this, { key: 'generation' });
     },
 
-    preload: function() {
+    preload() {
 		this.load.crossOrigin = 'Anonymous';
 		this.canvas = this.sys.game.canvas;
 
@@ -29,7 +30,7 @@ export default new Phaser.Class({
 		this.load.image('hint_card', base + 'hint_card.png');
     },
 
-    create: function(config) {
+    create(config) {
     	this.generateConfiguration(config);
 
     	let algo = 'forward';
@@ -105,7 +106,7 @@ export default new Phaser.Class({
 
 	},
 
-	finishCreation: function()
+	finishCreation()
 	{
 		this.addLiarsCouncilHints();
 	    this.addTinyTreasuresHints();
@@ -141,7 +142,7 @@ export default new Phaser.Class({
 		ui.start();
 	},
 
-	calculateBotbeardInformation: function()
+	calculateBotbeardInformation()
 	{
 		if(!this.cfg.addBot) { return; }
 
@@ -173,7 +174,7 @@ export default new Phaser.Class({
 		{
 			let tileA = this.mapList[Math.floor(Math.random() * this.mapList.length)];
 			let oldTileA = structuredClone(tileA);
-			let otherPos = { "x": tileA.x, "y": tileA.y };
+			let otherPos = new Point( tileA.x,  tileA.y);
 			otherPos.x = Math.max(Math.min(otherPos.x - 2 + Math.floor(Math.random()*5), this.cfg.width-1), 0);
 			otherPos.y = Math.max(Math.min(otherPos.y - 2 + Math.floor(Math.random()*5), this.cfg.height-1), 0);
 
@@ -234,7 +235,7 @@ export default new Phaser.Class({
 		}
 	},
 
-	getAllLocationsAsStrings: function()
+	getAllLocationsAsStrings()
 	{
 		let list = this.mapList.slice();
 		for(let i = 0; i < list.length; i++)
@@ -244,7 +245,7 @@ export default new Phaser.Class({
 		return list;
 	},
 
-	addLiarsCouncilHints: function()
+	addLiarsCouncilHints()
 	{
 		if(!this.cfg.expansions.liarsCouncil) { return; }
 
@@ -308,7 +309,7 @@ export default new Phaser.Class({
 		}
 	},
 
-	addTinyTreasuresHints: function()
+	addTinyTreasuresHints()
 	{
 		if(!this.cfg.expansions.tinyTreasures) { return; }
 
@@ -322,7 +323,7 @@ export default new Phaser.Class({
 		}
 	},
 
-	distributeHintsAcrossPlayers: function()
+	distributeHintsAcrossPlayers()
 	{
 		// this.hints is a dictionary with key = category, value = list of all hints in that category
 		let categories = Object.keys(this.hints);
@@ -353,7 +354,7 @@ export default new Phaser.Class({
 		if(this.cfg.debugging) { console.log("HINTS PER PLAYER"); console.log(this.hintsPerPlayer); }
 	},
 
-	checkHintValueBalance: function()
+	checkHintValueBalance()
 	{
 		let offset = 0;
 		let t = this.hintGenerationTries;
@@ -425,7 +426,7 @@ export default new Phaser.Class({
 	/*
 		GENERATION
 	*/
-	generateConfiguration: function(config = {})
+	generateConfiguration(config = {})
 	{
 		let data = JSON.parse(window.localStorage.pirateRiddlebeardData);
 
@@ -550,7 +551,7 @@ export default new Phaser.Class({
     	}
 	},
 
-	generateBoard: function() {
+	generateBoard() {
 		this.mapGenerationFail = true
 		this.numMapGenerations = 0;
 
@@ -572,7 +573,7 @@ export default new Phaser.Class({
 		}
 	},
 
-	determineSeed: function() {
+	determineSeed() {
 		let randomSeedLength = Math.floor(Math.random() * 10) + 2;
 		let randomSeed = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, randomSeedLength);
 
@@ -586,7 +587,7 @@ export default new Phaser.Class({
 		this.cfg.rng.hints = Random.seedRandom(finalSeed + "-hints-" + randomSeed);
 	},
 
-	prepareGrid: function() {
+	prepareGrid() {
 		this.map = [];
 		this.mapList = [];
 
@@ -628,13 +629,13 @@ export default new Phaser.Class({
 		}
 
 		// saving all our (valid) neighbours once at the start saves a lot of time (and for loops) later on
-		let nbCoords = [{"x":1,"y":0},{"x":0,"y":1},{"x":-1,"y":0},{"x":0,"y":-1}]
+		let nbCoords = [new Point(1,0),new Point(0,1),new Point(-1,0),new Point(0,-1)]
 		for(let x = 0; x < this.cfg.width; x++) {
 			for(let y = 0; y < this.cfg.height; y++) {
 				
 				let nbs = [];
 				for(let i = 0; i < nbCoords.length; i++) {
-					let newPos = { "x": x + nbCoords[i].x, "y": y + nbCoords[i].y };
+					let newPos = new Point( x + nbCoords[i].x,  y + nbCoords[i].y);
 
 					if(this.cfg.wrapBoard) {
 						newPos.x = (newPos.x + this.cfg.width) % this.cfg.width;
@@ -651,7 +652,7 @@ export default new Phaser.Class({
 		}
 	},
 
-	createTerrain: function() {
+	createTerrain() {
 
 		if(this.cfg.debugging) { console.log(" => Creating terrain ... "); }
 
@@ -728,7 +729,7 @@ export default new Phaser.Class({
 
 	},
 
-	createNature: function() {
+	createNature() {
 		if(this.cfg.debugging) { console.log(" => Creating nature ... "); }
 
 		let noNatureAllowed = (!this.cfg.hintCategories.includes("nature"));
@@ -829,7 +830,7 @@ export default new Phaser.Class({
 		}
 	},
 
-	createLiarsCouncil: function()
+	createLiarsCouncil()
 	{
 		if(!this.cfg.expansions.liarsCouncil) { return; }
 
@@ -864,7 +865,7 @@ export default new Phaser.Class({
 		}
 	},
 
-	createTinyTreasures: function()
+	createTinyTreasures()
 	{
 		if(!this.cfg.expansions.tinyTreasures) { return; }
 
@@ -884,7 +885,7 @@ export default new Phaser.Class({
 		if(this.cfg.debugging) { console.log("TINY TREASURES"); console.log(this.TINY_TREASURES); }
 	},
 
-	natureIsForbidden: function(cell, type)
+	natureIsForbidden(cell, type)
 	{
 		if(!TERRAIN_DATA[cell.terrain].nature.includes(type)) { return true; }
 		if(cell.nature != '') { return true; } // already has nature check ... is this okay?
@@ -893,7 +894,7 @@ export default new Phaser.Class({
 		return false;
 	},
 
-	minDistanceApart: function(cell, list, dist)
+	minDistanceApart(cell, list, dist)
 	{
 		for(let i = 0; i < list.length; i++)
 		{
@@ -903,12 +904,12 @@ export default new Phaser.Class({
 		return true;
 	},
 
-	distBetweenCells: function(a, b)
+	distBetweenCells(a, b)
 	{
 		return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
 	},
 
-	createStones: function() {
+	createStones() {
 		if(this.cfg.debugging) { console.log(" => Creating stones ... "); }
 
 		let noStonesAllowed = (!this.cfg.hintCategories.includes("stones"));
@@ -944,7 +945,7 @@ export default new Phaser.Class({
 		}
 	},
 
-	createRoads: function() {
+	createRoads() {
 		if(this.cfg.debugging) { console.log(" => Creating roads ... "); }
 
 		let noRoadsAllowed = (!this.cfg.hintCategories.includes("roads"));
@@ -1046,7 +1047,7 @@ export default new Phaser.Class({
 		}
 	},
 
-	getDirFromEdge: function(cell)
+	getDirFromEdge(cell)
 	{
 		let dir = 0;
 		if(cell.x == 0) { dir = 0; }
@@ -1056,7 +1057,7 @@ export default new Phaser.Class({
 		return dir;
 	},
 
-	calculateRoadData: function(lastDir, dir, matrix, cell)
+	calculateRoadData(lastDir, dir, matrix, cell)
 	{
 		let roadType = 'straight';
 		if(dir != lastDir) { roadType = 'corner'; }
@@ -1078,7 +1079,7 @@ export default new Phaser.Class({
 		}
 	},
 
-	findDirBetweenCells: function(oldCell, newCell)
+	findDirBetweenCells(oldCell, newCell)
 	{
 		let vector = [newCell.x - oldCell.x, newCell.y - oldCell.y];
 		if(vector[0] == 1) { return 0; }
@@ -1087,7 +1088,7 @@ export default new Phaser.Class({
 		return 3;
 	},
 
-	createLandmarks: function() {
+	createLandmarks() {
 		if(this.cfg.debugging) { console.log(" => Creating landmarks ... "); }
 
 		this.landmarkCells = {}; // general dictionary used to quickly access which landmarks are where during hint generation
@@ -1119,7 +1120,7 @@ export default new Phaser.Class({
 		}
 	},
 
-	getRandomCell: function(RNG) {
+	getRandomCell(RNG) {
 		let x = Math.floor(RNG() * this.cfg.width);
 		let y = Math.floor(RNG() * this.cfg.height);
 		return this.map[x][y];
@@ -1144,7 +1145,7 @@ export default new Phaser.Class({
 		Cons:
 		 - More expensive to calculate
 	*/	
-	generateInstructionsForward: function() {
+	generateInstructionsForward() {
 		let allLocations = this.mapList.slice();
 		let location = allLocations[Math.floor(this.cfg.rng.hints() * allLocations.length)];
 
@@ -1378,7 +1379,7 @@ export default new Phaser.Class({
 		}
 	},
 
-	countNumElementsInDictionary: function(dict)
+	countNumElementsInDictionary(dict)
 	{
 		let sum = 0;
 		for(const key in dict) {
@@ -1387,7 +1388,7 @@ export default new Phaser.Class({
 		return sum;
 	},
 
-	findAllValidLocationsWithHints: function(hints)
+	findAllValidLocationsWithHints(hints)
 	{
 		let locs = this.mapList.slice();
 		let arr = [];
@@ -1438,7 +1439,7 @@ export default new Phaser.Class({
 		 - Needs many (re)tries before a solution is found
 		 - As solutions are so diverse, you can also end up with really obvious/stupid ones
 	*/	
-	generateInstructionsBackward: function() {
+	generateInstructionsBackward() {
 		// contains info about things we DEFINITELY know about the final location while generating hints
 		// (reduces change of impossible hints, makes algorithm faster/smoother)
 		this.fixedData = {
@@ -1538,7 +1539,7 @@ export default new Phaser.Class({
 		this.treasure = validLocations[0];
 	},
 
-	removeForbiddenHints: function(list, hint)
+	removeForbiddenHints(list, hint)
 	{
 		if(!("forbids" in hint)) { return; }
 
@@ -1554,7 +1555,7 @@ export default new Phaser.Class({
 		}
 	},
 
-	generateListWithLandmarkLocations: function() {
+	generateListWithLandmarkLocations() {
 		let arr = [];
 		for(const landmarkName in this.landmarkCells) {
 			arr.push(this.landmarkCells[landmarkName]);
@@ -1563,7 +1564,7 @@ export default new Phaser.Class({
 	},
 
 	// Not very efficient, but this function is only called ONCE at MOST, so ... 
-	generateListWithEdgeLocations: function() {
+	generateListWithEdgeLocations() {
 		let obj = {
 			'left': [],
 			'top': [],
@@ -1585,7 +1586,7 @@ export default new Phaser.Class({
 
 	// For each location, we build HINTS again (following the fixed values we already have)
 	// Then check if the final text is identical to the original hint text
-	removeInvalidLocationsDueToHint: function(arr, hint) 
+	removeInvalidLocationsDueToHint(arr, hint) 
 	{
 		for(let i = arr.length-1; i >= 0; i--)
 		{
@@ -1600,7 +1601,7 @@ export default new Phaser.Class({
 
 	// a is the new hint (with newly calculated values based on its cell)
 	// b is the original version
-	matchHints: function(a, b)
+	matchHints(a, b)
 	{
 		let type = a.type;
 		let incompatibleHints = (type != b.type);
@@ -1651,7 +1652,7 @@ export default new Phaser.Class({
 		it's faster to do handle things slightly differently 
 
 	*/
-	buildHint: function(hint, cell = null, target = 'check')
+	buildHint(hint, cell = null, target = 'check')
 	{
 		let values = [];
 		let knownValues = [];
@@ -3012,7 +3013,7 @@ export default new Phaser.Class({
 		hint.final_values = values;
 	},
 
-	modifyHintValue: function(val, hint, target)
+	modifyHintValue(val, hint, target)
 	{
 		if(target != "calculate") { return val; }
 
@@ -3032,12 +3033,12 @@ export default new Phaser.Class({
 		return val;
 	},
 
-	createNotString: function(val) {
+	createNotString(val) {
 		if(val) { return ''; }
 		else { return 'NOT '; }
 	},
 
-	getRandomSearchRadius: function(param)
+	getRandomSearchRadius(param)
 	{
 		if(param.type == 'bounds' && !this.cfg.advancedHints) { param.max = 1; }
 		return Math.floor(this.cfg.rng.hints() * (param.max - param.min + 1)) + param.min;
@@ -3046,7 +3047,7 @@ export default new Phaser.Class({
 	/*
 		VISUALIZATION
 	*/
-	clearBoard: function()
+	clearBoard()
 	{
 		let allSprites = this.children.list.filter(x => x instanceof Phaser.GameObjects.Sprite);
 		allSprites.forEach(x => x.destroy());
@@ -3058,16 +3059,16 @@ export default new Phaser.Class({
 		allText.forEach(x => x.destroy());
 	},
 
-	visualizeTreasureOnly: function() {
+	visualizeTreasureOnly() {
 		this.clearBoard();
 		this.showTreasureRectangle();
 	},
 
-	visualizeHintCards: function()
+	visualizeHintCards()
 	{
-		let cardMargin = { "x": 20, "y": 20 };
-		let margin = { "x": 30, "y": 80 };
-		let metadataMargin = { "x": 150, "y": 37 }
+		let cardMargin = new Point( 20,  20);
+		let margin = new Point( 30,  80);
+		let metadataMargin = new Point( 150,  37)
 		let scale = 0.35
 		let cardSize = { "w": 1038*scale, "h": 1074*scale }
 
@@ -3088,7 +3089,7 @@ export default new Phaser.Class({
 		let cellSize = Math.floor((cardSize.w - margin.x*2) / this.cfg.width);
 		let gridHeight = this.cfg.height * cellSize;
 		let gridWidth = this.cfg.width * cellSize;
-		let extraGridMargin = { "x": 3, "y": 30 }; // just to center it nicely on the card
+		let extraGridMargin = new Point( 3,  30); // just to center it nicely on the card
 
 		let graphics = this.add.graphics();
 		let lineWidth = 2;
@@ -3129,7 +3130,7 @@ export default new Phaser.Class({
 			let multiplier = Math.min((heightLeftForGrid/gridHeight), 1);
 
 			// create the hint grid
-			let gridPos = { "x": sprite.x + margin.x + extraGridMargin.x , "y": sprite.y + cardSize.h - gridHeight - extraGridMargin.y };
+			let gridPos = new Point( sprite.x + margin.x + extraGridMargin.x ,  sprite.y + cardSize.h - gridHeight - extraGridMargin.y);
 			let cs = cellSize * multiplier;
 
 			for(let x = 1; x < this.cfg.width; x++)
@@ -3165,7 +3166,7 @@ export default new Phaser.Class({
 	// ... except those that are present in arr
 	// which essentially means we "invert" that list
 	// (Splicing as we go is just a minor performance optimization)
-	invertLocationList: function(arr)
+	invertLocationList(arr)
 	{
 		let locs = this.mapList.slice();
 		let list = [];
@@ -3186,12 +3187,12 @@ export default new Phaser.Class({
 		return list;
 	},
 
-	convertToStringCoordinates: function(cell)
+	convertToStringCoordinates(cell)
 	{
 		return alphabet[cell.x] + "" + (cell.y+1);
 	},
 
-	visualizeGame: function() {
+	visualizeGame() {
 		let graphics = this.add.graphics();
 
 		const bgRect = new Phaser.Geom.Rectangle(0, 0, this.cfg.pixelWidth, this.cfg.pixelHeight);
@@ -3426,7 +3427,7 @@ export default new Phaser.Class({
 		}
 	},
 
-	showTreasureRectangle: function()
+	showTreasureRectangle()
 	{
 		let graphics = this.add.graphics();
 		let loc = this.treasure;
@@ -3442,13 +3443,13 @@ export default new Phaser.Class({
 	/*
 		HELPER FUNCTIONS
 	*/
-	getMaxTilesInRadius: function(rad)
+	getMaxTilesInRadius(rad)
 	{
 		rad -= 1; // just to offset it so it works with how hints are presented to players
 		return 2*(rad*rad) - 2*rad + 1;
 	},
 
-	getEmptyNeighbors: function(cell, properties) {
+	getEmptyNeighbors(cell, properties) {
 		let arr = [];
 
 		for(let i = 0; i < cell.nbs.length; i++) {
@@ -3470,7 +3471,7 @@ export default new Phaser.Class({
 		return arr;
 	},
 
-	getNonEmptyNeighbors: function(param)
+	getNonEmptyNeighbors(param)
 	{
 		let cell = param.cell;
 		let arr = [];
@@ -3484,7 +3485,7 @@ export default new Phaser.Class({
 		return arr;
 	},
 
-	hasNeighborWith: function(param)
+	hasNeighborWith(param)
 	{
 		for(let i = 0; i < param.cell.nbs.length; i++) {
 			if(param.cell.nbs[i][param.property] != param.value) { continue; }
@@ -3493,7 +3494,7 @@ export default new Phaser.Class({
 		return false;
 	},
 
-	countMatchingNeighbors: function(param)
+	countMatchingNeighbors(param)
 	{
 		let prop = param.property;
 		let types = {};
@@ -3517,7 +3518,7 @@ export default new Phaser.Class({
 		return largestNum;
 	},
 
-	findClosest: function(param)
+	findClosest(param)
 	{
 		let originalCell = param.cell;
 		let tiles = this.mapList.slice();
@@ -3560,7 +3561,7 @@ export default new Phaser.Class({
 		return closestDist;
 	},
 
-	countTiles: function(param)
+	countTiles(param)
 	{
 		let tiles;
 		let params = structuredClone(param);
@@ -3590,7 +3591,7 @@ export default new Phaser.Class({
 		return sum;
 	},
 
-	matchProperty: function(param)
+	matchProperty(param)
 	{
 		let realValue = param.cell[param.property];
 		let matchesPattern = (realValue == param.value)
@@ -3600,7 +3601,7 @@ export default new Phaser.Class({
 		return matchesPattern;
 	},
 
-	getTilesProperty: function(param)
+	getTilesProperty(param)
 	{
 		let allTiles = this.mapList.slice();
 		for(let i = allTiles.length - 1; i >= 0; i--)
@@ -3613,7 +3614,7 @@ export default new Phaser.Class({
 		return allTiles;
 	},
 
-	getTilesRadius: function(param)
+	getTilesRadius(param)
 	{
 		let oX = param.cell.x;
 		let oY = param.cell.y;
@@ -3640,7 +3641,7 @@ export default new Phaser.Class({
 		return arr;
 	},
 
-	arraysAreEqual: function(a,b)
+	arraysAreEqual(a,b)
 	{
 		if(a.length != b.length) { return false; }
 
@@ -3650,7 +3651,7 @@ export default new Phaser.Class({
 		return true;
 	},
 
-	arraysAreNonEqual: function(a,b)
+	arraysAreNonEqual(a,b)
 	{
 		if(a.length != b.length) { return false; }
 
@@ -3660,7 +3661,7 @@ export default new Phaser.Class({
 		return true;
 	},
 
-	arraysOneMatch: function(a,b)
+	arraysOneMatch(a,b)
 	{
 		for(let i = 0; i < a.length; i++) {
 			if(i >= b.length) { break; }
@@ -3669,34 +3670,34 @@ export default new Phaser.Class({
 		return false;
 	},
 
-	arrayHasDuplicates: function(a)
+	arrayHasDuplicates(a)
 	{
 		return (new Set(a)).size !== a.length;
 	},
 
 	// @IMPROV: All these functions do basically the same thing; should generalize and make this cleaner?
-	getRandomStones: function(exclude = [])
+	getRandomStones(exclude = [])
 	{
 		let stones = STONES.slice();
 		this.handleExclusions(stones, exclude);
 		return stones[Math.floor(this.cfg.rng.hints() * stones.length)];
 	},
 
-	getRandomNature: function(exclude = [])
+	getRandomNature(exclude = [])
 	{
 		let nature = NATURE.slice();
 		this.handleExclusions(nature, exclude);
 		return nature[Math.floor(this.cfg.rng.hints() * nature.length)];
 	},
 
-	getRandomTerrain: function(exclude = [])
+	getRandomTerrain(exclude = [])
 	{
 		let terrains = TERRAINS.slice();
 		this.handleExclusions(terrains, exclude);
 		return terrains[Math.floor(this.cfg.rng.hints() * terrains.length)];
 	},
 
-	getRandomLandmark: function(exclude = [])
+	getRandomLandmark(exclude = [])
 	{
 		if(Object.keys(this.landmarkCells).length <= 0) { return ''; }
 		let landmarks = Object.keys(this.landmarkCells).slice();
@@ -3704,28 +3705,28 @@ export default new Phaser.Class({
 		return landmarks[Math.floor(this.cfg.rng.hints() * landmarks.length)];
 	},
 
-	getRandomRoad: function(exclude = [])
+	getRandomRoad(exclude = [])
 	{
 		let roads = ROADS.slice();
 		this.handleExclusions(roads, exclude);
 		return roads[Math.floor(this.cfg.rng.hints() * roads.length)];
 	},
 
-	getRandomRow: function(exclude = [])
+	getRandomRow(exclude = [])
 	{
 		let rows = LISTS.row.slice();
 		this.handleExclusions(rows, exclude);
 		return rows[Math.floor(this.cfg.rng.hints() * rows.length)];
 	},
 
-	getRandomColumn: function(exclude = [])
+	getRandomColumn(exclude = [])
 	{
 		let cols = LISTS.column.slice();
 		this.handleExclusions(cols, exclude);
 		return cols[Math.floor(this.cfg.rng.hints() * cols.length)];
 	},
 
-	handleExclusions: function(arr, exclude) 
+	handleExclusions(arr, exclude) 
 	{
 		for(let i = 0; i < exclude.length; i++) 
 		{
@@ -3735,7 +3736,7 @@ export default new Phaser.Class({
 		}
 	},
 
-	shuffle: function(a) {
+	shuffle(a) {
 	    let j, x, i;
 	    for (i = a.length - 1; i > 0; i--) {
 	        j = Math.floor(this.cfg.rng.general() * (i + 1));
@@ -3747,11 +3748,11 @@ export default new Phaser.Class({
 	    return a;
 	},
 
-	pixelToCell: function(a) {
+	pixelToCell(a) {
 		return { 'x': Math.floor(a.x/this.cfg.cellSize), 'y': Math.floor(a.y/this.cfg.cellSize) }
 	},
 
-	outOfBounds: function(x, y) {
+	outOfBounds(x, y) {
 		return (x < 0 || x >= this.cfg.width || y < 0 || y >= this.cfg.height);
 	},
 
@@ -3761,7 +3762,7 @@ export default new Phaser.Class({
 	//  - So I can just save two images: one of the map, one of the treasure location and easily display them when the player wants
 	//  - So players can save the map and print it, if they want
 
-	convertCanvasToImage: function() {
+	convertCanvasToImage() {
 		if(!this.cfg.useInterface) { return; }
 
 		let ths = this;
@@ -3772,7 +3773,7 @@ export default new Phaser.Class({
 		ths.time.addEvent({
 		    delay: 200,
 		    loop: false,
-		    callback: function() {
+		    callback() {
 		        let canv = phaser.firstChild  as HTMLCanvasElement;
 
 				let img = new Image();
@@ -3786,7 +3787,7 @@ export default new Phaser.Class({
 					ths.time.addEvent({
 						delay: 200,
 						loop: false,
-						callback: function() {
+						callback() {
 							let canv = phaser.firstChild as HTMLCanvasElement;
 
 							let img2 = new Image();
@@ -3829,7 +3830,7 @@ export default new Phaser.Class({
 		 -> First page is the board
 		 -> Second page creates hint cards + the right hints on top of them
 	 */
-	createPreMadeGame: function()
+	createPreMadeGame()
 	{
 		let ths = this;
 		let phaser = document.getElementById('phaser-container');
@@ -3839,7 +3840,7 @@ export default new Phaser.Class({
 		ths.time.addEvent({
 		    delay: 200,
 		    loop: false,
-		    callback: function() {
+		    callback() {
 		        let canv = phaser.firstChild as HTMLCanvasElement;
 				let img = new Image();
 				img.src = canv.toDataURL();
@@ -3851,7 +3852,7 @@ export default new Phaser.Class({
 		});
 	},
 
-	createHintCards: function(pdfImages)
+	createHintCards(pdfImages)
 	{
 		this.clearBoard();
 		this.visualizeHintCards();
@@ -3863,7 +3864,7 @@ export default new Phaser.Class({
 		ths.time.addEvent({
 		    delay: 200,
 		    loop: false,
-		    callback: function() {
+		    callback() {
 		        let canv = phaser.firstChild  as HTMLCanvasElement;
 				let img = new Image();
 				img.src = canv.toDataURL();
@@ -3876,7 +3877,7 @@ export default new Phaser.Class({
 		});
 	},
 
-	createPDF: function(pdfImages:HTMLImageElement[])
+	createPDF(pdfImages:HTMLImageElement[])
 	{
 		const pdfBuilder = new PdfBuilder({ orientation: PageOrientation.LANDSCAPE });
 		for(const img of pdfImages)

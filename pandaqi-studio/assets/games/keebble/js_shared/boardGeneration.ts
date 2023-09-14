@@ -72,13 +72,13 @@ export default class BoardGeneration extends Scene
 		// @NOTE: My setting-enum shortcode automatically lowercases the values; nice, but should not forget this
 		if(cfg.boardSize == "small") { 
 			cfg.numCellsY = 4;
-			cfg.backpackGridSize.width -= 1;
+			cfg.backpackGridSize.x -= 1;
 		}
 
 		if(cfg.boardSize == "large") {
 			cfg.numCellsX = 16;
-			cfg.backpackGridSize.width += 1;
-			cfg.backpackGridSize.height += 1;
+			cfg.backpackGridSize.x += 1;
+			cfg.backpackGridSize.y += 1;
 		}
 
 		cfg.totalNumCells = cfg.numCellsX * cfg.numCellsY;
@@ -599,12 +599,12 @@ export default class BoardGeneration extends Scene
 		if(!c.hasHand()) { return; }
 
 		const startPos = this.toPixelPos(c.x, c.y);
-		const w = this.cfg.backpackGridSize.width;
-		const h = this.cfg.backpackGridSize.height;
+		const w = this.cfg.backpackGridSize.x;
+		const h = this.cfg.backpackGridSize.y;
 
 		const cellX = (this.cfg.cellSizeX / w);
 		const cellY = (this.cfg.cellSizeY / h);
-		const backpackCellSize = { x: cellX, y: cellY };
+		const backpackCellSize = new Point(cellX, cellY);
 
 		const displayAsGrid = this.cfg.expansions.tinyBackpacks
 		if(displayAsGrid)

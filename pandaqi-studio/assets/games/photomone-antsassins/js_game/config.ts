@@ -10,6 +10,7 @@ export default
     resLoader: null,
 
     inkFriendly: false,
+    generatorReductionFactor: 1.0,
 
     tileShape: "hexagon",
     tileType: "mosaic",
@@ -21,6 +22,7 @@ export default
 
     includeTokens: false,
     includeCodeCards: false,
+    includeTiles: false,
 
     clouds: {
         numClouds: { min: 7, max: 14 },
@@ -32,6 +34,7 @@ export default
     },
 
     photomone: {
+        colors: [],
         strokeStyle: "#000000",
         fillStyle: "#333333",
         pointRadius: 0.04, // relative to tile size
@@ -43,12 +46,14 @@ export default
     },
 
     simple: {
+        colors: [],
         numColors: 3,
         gridPointScalar: 0.66,
         lineWidth: 0.04,
     },
 
     shapes: {
+        colors: [],
         possibleShapeTypes: ["triangle", "rectangle", "circle"],
         numShapes: { min: 5, max: 9 },
         radius: { min: 0.125, max: 0.4 },
@@ -144,6 +149,12 @@ export default
         numPages: 2,
         dims: new Point(4, 5),
         varyDimsPerShape: true,
+
+        // @TODO: this is to handle the nasty name clash between Point (from antassinss) and Point (from my general library)
+        tileSize: new Point() as any,
+        tileCenter: new Point() as any,
+        tileSizeOffset: new Point() as any,
+
         dimsPerShape: {
             rectangle: new Point(4, 5),
             hexagon: new Point(5, 5),
@@ -169,7 +180,7 @@ export default
     cards: {
         debug: false, // @DEBUGGING (should be false)
         numPages: 1,
-        size: new Point(),
+        size: new Point() as any,
         dims: new Point(4, 5),
         grid: new Point(5, 5),
 
@@ -261,7 +272,7 @@ export default
         debug: false, // @DEBUGGING (should be false)
         numPages: 1,
         dims: new Point(8, 8),
-        size: new Point(),
+        size: new Point() as any,
         types: []
     }
 }

@@ -44,39 +44,39 @@ export default class Map
 
     constructor(params:Record<string,any> = {})
     {
-        this.width = params.width || 512;
-        this.height = params.height || 512;
-        this.pointBounds = params.pointBounds || { min: 10, max: 100 };
-        this.pointTypes = params.pointTypes || POINT_TYPES;
-        this.pointRadiusFactor = params.pointRadiusFactor || 0.0075;
-        this.pointRadiusSpecialFactor = params.pointRadiusSpecialFactor || 0.02;
-        this.numSmoothSteps = params.smoothSteps || 20;
+        this.width = params.width ?? 512;
+        this.height = params.height ?? 512;
+        this.pointBounds = params.pointBounds ?? { min: 10, max: 100 };
+        this.pointTypes = params.pointTypes ?? POINT_TYPES;
+        this.pointRadiusFactor = params.pointRadiusFactor ?? 0.0075;
+        this.pointRadiusSpecialFactor = params.pointRadiusSpecialFactor ?? 0.02;
+        this.numSmoothSteps = params.smoothSteps ?? 20;
 
-        this.addStartingLines = params.addStartingLines || false;
-        this.linesBounds = params.linesBounds || { min: 3, max: 12 };
-        this.startingLineMaxDist = params.startingLineMaxDist || 50;
-        this.startingLinePointRadius = params.startingLinePointRadius || 15;
+        this.addStartingLines = params.addStartingLines ?? false;
+        this.linesBounds = params.linesBounds ?? { min: 3, max: 12 };
+        this.startingLineMaxDist = params.startingLineMaxDist ?? 50;
+        this.startingLinePointRadius = params.startingLinePointRadius ?? 15;
 
-        this.wordsToGuessForWinning = params.wordsToGuessForWinning || 7;
+        this.wordsToGuessForWinning = params.wordsToGuessForWinning ?? 7;
 
-        this.spaceReservedForWordsFactor = params.spaceReservedForWordsFactor || 0.15;
+        this.spaceReservedForWordsFactor = params.spaceReservedForWordsFactor ?? 0.15;
         let spaceReservedForWords = this.getSpaceReservedForWords(this.spaceReservedForWordsFactor);
-        this.printWordsOnPaper = params.printWordsOnPaper || false;
+        this.printWordsOnPaper = params.printWordsOnPaper ?? false;
         this.createRectangleDots = this.printWordsOnPaper && !params.expansions.actionAnts;
         if(!this.printWordsOnPaper) { spaceReservedForWords = 0; }
-        this.numberRounding = params.numberRounding || { lines: 4, points: 2, types: 2 };
+        this.numberRounding = params.numberRounding ?? { lines: 4, points: 2, types: 2 };
 
-        this.numWordColumns = params.numWordColumns || 4;
-        this.numWordRows = params.numWordRows || 6;
-        this.WORDS = params.WORDS || new WordsPhotomone();
+        this.numWordColumns = params.numWordColumns ?? 4;
+        this.numWordRows = params.numWordRows ?? 6;
+        this.WORDS = params.WORDS ?? new WordsPhotomone();
 
-        this.edgeMargin = params.edgeMargin || 20;
+        this.edgeMargin = params.edgeMargin ?? 20;
         this.mapBounds = {
             min: new Point({ x: this.edgeMargin, y: this.edgeMargin }),
             max: new Point({ x: this.width - this.edgeMargin - spaceReservedForWords, y: this.height - this.edgeMargin })
         }
 
-        this.useEllipseOutline = params.useEllipseOutline || false;
+        this.useEllipseOutline = params.useEllipseOutline ?? false;
         this.ellipseCenter = new Point({
             x: 0.5*(this.mapBounds.min.x + this.mapBounds.max.x),
             y: 0.5*(this.mapBounds.min.y + this.mapBounds.max.y)
@@ -93,14 +93,14 @@ export default class Map
         for(let i = 0; i < numEllipseBuckets; i++)
         {
             let offset = 0.05 + Math.random()*0.2;
-            if(Math.random() <= 0.5 || curRandomness >= 0.99) { offset *= -1; }
+            if(Math.random() <= 0.5 ?? curRandomness >= 0.99) { offset *= -1; }
             if(curRandomness <= 0.01 && offset < 0) { offset *= -1; }
 
             curRandomness = Math.max(Math.min(curRandomness + offset, 1), 0);
             this.ellipseAngleBuckets.push(curRandomness);
         }
 
-        this.typeBounds = Object.assign({}, params.typeBounds) || { min: 0.15, max: 0.225 };
+        this.typeBounds = Object.assign({}, params.typeBounds) ?? { min: 0.15, max: 0.225 };
 
         const veryFewPointTypes = Object.keys(this.pointTypes).length <= 3;
         const somewhatFewPointTypes = Object.keys(this.pointTypes).length <= 6;
@@ -109,11 +109,11 @@ export default class Map
 
         const defDist = 30;
         this.minDistBetweenPointsFactor = 0.045;
-        this.minDistBetweenPoints = params.minDistBetweenPoints || defDist;
+        this.minDistBetweenPoints = params.minDistBetweenPoints ?? defDist;
         this.minDistSquaredBetweenPoints = Math.pow(this.minDistBetweenPoints, 2);
 
-        this.inkFriendly = params.inkFriendly || false;
-        this.colors = params.colors || [];
+        this.inkFriendly = params.inkFriendly ?? false;
+        this.colors = params.colors ?? [];
 
         this.words = [];
         this.points = [];

@@ -299,9 +299,9 @@ async function createVoteCards(params)
 	await resLoader.loadPlannedResources();
 	
 	const patternData = resLoader.getResource("guess_sign") as ResourceImage;
-	const patternOffset = { x: 0.5*cardSize.x, y: 0.5*cardSize.y };
-	const patternSize = { width: 0.5*cardSize.x*scale, height: 0.5*cardSize.y*scale };
-	const teamNameOffset = { x: 0.05*cardSize.x, y: 0.05*cardSize.y };
+	const patternOffset = new Point(0.5*cardSize.x, 0.5*cardSize.y);
+	const patternSize = new Point(0.5*cardSize.x*scale, 0.5*cardSize.y*scale);
+	const teamNameOffset = new Point(0.05*cardSize.x, 0.05*cardSize.y);
 
 	const edgeMargin = 0.05*cardSize.x;
 	const symbolSize = params.voteSymbolScale * cardSize.x;
@@ -371,8 +371,8 @@ async function createVoteCards(params)
 			ctx.globalAlpha = 0.33;
 			ctx.drawImage(
 				patternData.img, 
-				patternOffset.x - 0.5*patternSize.width, patternOffset.y - 0.5*patternSize.height, 
-				patternSize.width, patternSize.height
+				patternOffset.x - 0.5*patternSize.x, patternOffset.y - 0.5*patternSize.y, 
+				patternSize.x, patternSize.y
 			)
 			ctx.globalAlpha = 1.0;
 

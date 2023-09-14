@@ -9,7 +9,7 @@ title: "Kangaruse"
 headerTitle: "Kangaruse | Jumping has never been so tactical and treacherous"
 blurb: "Jumping has never been so tactical and treacherous. Hop along the smartest route to collect the most points before your opponents stamped the whole brushland to dust."
 
-fullHeaderImg: "foldigami_header"
+fullHeaderImg: "kangaruse_header"
 
 headerThumb: "favicon"
 
@@ -26,14 +26,13 @@ textColorLink: "#083d42"
 
 googleFonts: ""
 
-date: 2023-08-13 # @TODO: real release date is 2024-03-26
+date: 2024-03-26
 
 categories: ["boardgame"]
 tags: ["one_paper_game", "opg"]
 
 extraCSS: true
 extraJS: true
-extraJSBuild: true
 
 downloadLink: "https://drive.google.com/drive/folders/1kYuSs0w3yKLQBMqBWOlS4ZzGUY32vrHB"
 
@@ -41,20 +40,20 @@ multiplayermode: "competitive"
 language: EN
 genre: ["opg", "simple", "quick", "wildlife", "nature", "tactical", "point salad"]
 playtime: 20
-playercount: [2,3,4,5,6]
+playercount: [2,3,4,5]
 complexity: low
 ages: everyone
 
 ---
 
 
-{{% boardgame-intro heading="" img="foldigami_header" url="https://drive.google.com/drive/folders/1kYuSs0w3yKLQBMqBWOlS4ZzGUY32vrHB" %}}
+{{% boardgame-intro heading="" img="kangaruse_header" url="https://drive.google.com/drive/folders/1kYuSs0w3yKLQBMqBWOlS4ZzGUY32vrHB" %}}
 
 Hop along the smartest route to collect points and powers---before your opponents blocked all your desired jumps.
 
 {{% /boardgame-intro %}}
 
-{{% section-centered heading="What do I need?" %}}
+{{% section-centered heading="webp/page_heading_1.webp" asimage="true" %}}
 
 [Generate](#board) a paper below. Or click the "Download" button to find a PDF I already generated for you.
 
@@ -64,7 +63,7 @@ If you didn't add rules on the paper itself---or just want more clarification---
 
 {{% /section-centered %}}
 
-{{% section-centered heading="Board" html="true" anchor="board" %}}
+{{% section-centered heading="webp/page_heading_2.webp" html="true" anchor="board" asimage="true" %}}
 
 <p>Input your desired settings and click "generate".</p>
 
@@ -74,16 +73,14 @@ If you didn't add rules on the paper itself---or just want more clarification---
   {{< setting-enum id="setting-sideBarType" text="Side Bar?" values="No,Rules,Score" valaskey="true" remark="Add the rules or a score tracker on the paper itself?" def="Rules" >}}
   {{< setting-checkbox id="setting-startingPositions" text="Starting Positions?" remark="Marks a few squares as possible starting positions." >}}
   {{< setting-enum id="setting-boardSize" text="Board Size?" values="Tiny,Small,Regular,Large,Huge" valaskey="true" remark="For a really short or really long game." def="Regular" >}}
-  {{< setting-checkbox id="setting-expansions-collector" text="Collector Expansion?" remark="Adds more ways to score points by collecting the right squares." >}}
+  {{< setting-checkbox id="setting-simplifiedIcons" text="Simplified Icons?" remark="Uses simple icons for all types, instead of realistic illustrations." >}}
 {{< /boardgame-settings >}}
 
 <p class="remark-under-settings"><strong>Not working?</strong> Don't worry! At the "Download" link, you can also find PDFs with valid boards for all situations. Check the "Premade" folder.</p> 
 
-<p class="remark-under-settings"><strong>Score Trackers?</strong> If you print the score trackers on the page, you can only play with 4 players at most. (There's simply no space for more.) It's mostly recommended to enable this once you play the expansion!</p> 
-
 {{% /section-centered %}}
 
-{{% section-centered heading="Credits" %}}
+{{% section-centered heading="webp/page_heading_3.webp" asimage="true" %}}
 
 I've used the fonts **Mail Ray Stuff** (headings, thick) and **Poppins** (body, thin). The latter is freely available on Google Fonts, the first was received from 1001fonts.
 

@@ -1,5 +1,6 @@
 import Point from "./point"
 import GeometryHelpers from "./helpers"
+import PointGraph from "./pointGraph"
 
 interface LineDict 
 {
@@ -12,7 +13,7 @@ export default class Line
     start:Point
     end:Point
 
-    constructor(a:Point|Line|LineDict = {}, b = new Point())
+    constructor(a:Point|PointGraph|Line|LineDict = {}, b:Point|PointGraph = new Point())
     {
         let start = a;
         let end = b;

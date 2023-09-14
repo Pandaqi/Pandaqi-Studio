@@ -6,16 +6,16 @@ const eventList : Event[] = [];
 var eventNum = -1;
 
 // when the event button is clicked ...
-document.getElementById('eventButton').addEventListener('click', (clickEvent) => 
+const eventButton = document.getElementById('eventButton');
+const displayNode = document.getElementById('curEventDisplay');
+eventButton.addEventListener('click', (clickEvent) => 
 {
 	const firstClick = eventNum < 0;
-	const displayNode = document.getElementById('curEventDisplay');
-	const playerCountForm = document.getElementById('playerCountForm');
+	const data = JSON.parse(window.localStorage.getItem("epicMedicsConfig") || "{}");
 
 	if(firstClick) 
 	{
-		// @ts-ignore
-		const numPlayers = parseInt( document.getElementById('playerCount').value );
+		const numPlayers = parseInt(data.playerCount ?? data.numPlayers ?? 4);
 		const totalNumEvents = 10 + 2 - numPlayers;
 		Random.shuffle(allEvents);
 
@@ -47,7 +47,6 @@ document.getElementById('eventButton').addEventListener('click', (clickEvent) =>
 
 		const btn : HTMLButtonElement = clickEvent.currentTarget as HTMLButtonElement;
 		btn.innerHTML = 'Next Event!';
-		playerCountForm.remove();
 	}
 
 	eventNum++;

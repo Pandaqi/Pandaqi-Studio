@@ -34,7 +34,7 @@ export default class Token {
     setupCanvas()
     {
         const size = CONFIG.tokens.size;
-        this.size = size;
+        this.size = new Point(size.x, size.y);
         this.sizeSquare = Math.min(size.x, size.y);
         this.radius = 0.5*this.sizeSquare;
         this.centerPos = new Point(0.5*size.x, 0.5*size.y);

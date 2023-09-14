@@ -33,8 +33,8 @@ export default class Cell
 	{
 		const size = this.section.getCellSize();
 		return {
-			x: (this.x + 0.5) * size.width,
-			y: (this.y + 0.5) * size.height
+			x: (this.x + 0.5) * size.x,
+			y: (this.y + 0.5) * size.y
 		}
 	}
 
@@ -42,10 +42,10 @@ export default class Cell
 	{
 		const size = this.section.getCellSize();
 		return new Geom.Rectangle(
-			this.x * size.width, 
-			this.y * size.height, 
-			size.width, 
-			size.height
+			this.x * size.x, 
+			this.y * size.y, 
+			size.x, 
+			size.y
 		);
 	}
 
