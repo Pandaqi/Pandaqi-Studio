@@ -18,7 +18,7 @@ class BoardGeneration extends Scene
 
 	constructor()
 	{
-		super({ key: sceneKey });
+		super({ key: sceneKey, active: true });
 	}
 
     preload() {
@@ -68,4 +68,4 @@ class BoardGeneration extends Scene
     }    
 }
 
-PandaqiPhaser.linkTo(BoardGeneration, sceneKey);
+PandaqiPhaser.linkTo({ scene: BoardGeneration, key: sceneKey, renderer: "webgl" });

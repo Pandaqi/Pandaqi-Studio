@@ -13,6 +13,7 @@ export default class Cell
     num:number
     fixedFingers:number[]
     tutorial:boolean
+    polygon:any[]
 
     constructor(x = 0, y = 0)
     {
@@ -24,6 +25,7 @@ export default class Cell
         this.num = 0; // purchase cost for ingredient/machine, actual value for money
         this.fixedFingers = [];
         this.tutorial = false;
+        this.polygon = null;
     }
 
     getPosition()

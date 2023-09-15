@@ -63,7 +63,7 @@ export default class TypeManager
 
         // NOTE: tutorial and money are handled separately (not part of type list)
         // get ingredients
-        const ingredientBounds = CONFIG.types.ingredientBounds;
+        const ingredientBounds = CONFIG.expansions.machines ? CONFIG.types.ingredientBoundsWithMachines : CONFIG.types.ingredientBoundsBaseGame;
         const numIngredients = Random.rangeInteger(ingredientBounds.min, ingredientBounds.max);
         while(this.types.length < numIngredients)
         {

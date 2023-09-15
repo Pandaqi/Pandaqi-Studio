@@ -31,8 +31,8 @@ export default
             
         },
         outerEdge: {
-            lineWidth: 0.05,
-            lineColor: 0x000000,
+            lineWidth: 0.02,
+            lineColor: 0x333333,
             lineAlpha: 1.0
         },
         iconScale: 0.75,
@@ -57,7 +57,8 @@ export default
     },
 
     types: {
-        ingredientBounds: { min: 3, max: 6 },
+        ingredientBoundsBaseGame: { min: 4, max: 6 },
+        ingredientBoundsWithMachines: { min: 3, max: 4 },
         machineBounds: { min: 2, max: 4 },
         numPlaced: {
             machine: { min: 0.1, max: 0.3 },

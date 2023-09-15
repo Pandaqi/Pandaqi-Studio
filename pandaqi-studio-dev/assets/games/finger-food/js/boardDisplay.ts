@@ -1,5 +1,5 @@
 // @ts-ignore
-import { Geom, Display } from "js/pq_games/phaser.esm"
+import { Geom, Display, GameObjects } from "js/pq_games/phaser.esm"
 import Point from "js/pq_games/tools/geometry/point"
 import PointGraph from "js/pq_games/tools/geometry/pointGraph"
 import smoothPath from "js/pq_games/tools/geometry/smoothPath"
@@ -252,6 +252,7 @@ export default class BoardDisplay
                 graphics.fillPoints(polygon.points, true);
 
                 polygons.push(polygon);
+                cell.polygon = polygon.points;
             }
         }
     }
@@ -305,7 +306,7 @@ export default class BoardDisplay
             {
                 // and, of course, the icon of the thing to which it refers in top left/right corners
                 // (would normally do this by hand in Affinity, but my laptop just can't handle it anymore)
-                const offsetFromCenter = 0.4*w;
+                const offsetFromCenter = 0.38*w;
                 const offsetFromTop = 0.1*h;
                 const tutIconSize = CONFIG.tutorials.cornerIconSize * w;
                 const positions = [
@@ -319,12 +320,20 @@ export default class BoardDisplay
                     tutIcon.setOrigin(0.5);
                     tutIcon.displayWidth = tutIconSize;
                     tutIcon.displayHeight = tutIconSize;
+                    tutIcon.preFX.addGlow(0xFFFFFF, 0.25*tutIcon.displayWidth, 0, false);
                 }
             }
 
 
             return;
         }
+
+        const backgroundPatternScaleUp = 1.175;
+        const backgroundMaskGraphics = new GameObjects.Graphics(this.game);
+        backgroundMaskGraphics.fillStyle(0x000000);
+        backgroundMaskGraphics.fillPoints(cell.polygon, true);
+
+        const backgroundMask = new Display.Masks.GeometryMask(this.game, backgroundMaskGraphics);
 
         // ingredients / machines display their custom sprite big in the center
         if(cell.mainType == "ingredient" || cell.mainType == "machine")
@@ -334,8 +343,9 @@ export default class BoardDisplay
                 const bg = this.game.add.sprite(centerPos.x, centerPos.y, "custom_spritesheet");
                 bg.setFrame(CUSTOM.machineBG.frame);
                 bg.setOrigin(0.5);
-                bg.displayWidth = w;
-                bg.displayHeight = h;
+                bg.displayWidth = backgroundPatternScaleUp * w;
+                bg.displayHeight = backgroundPatternScaleUp * h;
+                bg.setMask(backgroundMask);
             }
 
             const iconScale = CONFIG.board.iconScale;
@@ -344,6 +354,12 @@ export default class BoardDisplay
             sprite.setOrigin(0.5, 0.5);
             sprite.displayWidth = iconScale * w;
             sprite.displayHeight = iconScale * h;
+
+            const shadowOffset = -0.01*sprite.displayWidth;
+            const shadowDecay = 0.075;
+            const shadowPower = 1.0;
+            const shadowColor = 0x000000;
+            sprite.preFX.addShadow(shadowOffset, shadowOffset, shadowDecay, shadowPower, shadowColor);
 
             // if they have extra data (money number or fixed fingers) ...
             if(cell.hasExtraData())
@@ -392,11 +408,12 @@ export default class BoardDisplay
             const bg = this.game.add.sprite(centerPos.x, centerPos.y, "custom_spritesheet");
             bg.setFrame(CUSTOM.moneyBG.frame);
             bg.setOrigin(0.5);
-            bg.displayWidth = w;
-            bg.displayHeight = h;
+            bg.displayWidth = backgroundPatternScaleUp * w;
+            bg.displayHeight = backgroundPatternScaleUp * h;
+            bg.setMask(backgroundMask);
 
             const moneySpriteScale = CONFIG.board.moneySpriteScale;
-            const moneySprite = this.game.add.sprite(centerPos.x, realPos.y + 0.33*h, "custom_spritesheet");
+            const moneySprite = this.game.add.sprite(centerPos.x, realPos.y + 0.5*h, "custom_spritesheet");
             moneySprite.setFrame(CUSTOM.moneyIcon.frame);
             moneySprite.setOrigin(0.5, 0.5);
             moneySprite.displayWidth = moneySpriteScale * w;
@@ -408,7 +425,7 @@ export default class BoardDisplay
             textConfig.strokeThickness = fontSize * 0.1;
 
             const num = cell.getNum();
-            const text = this.game.add.text(centerPos.x, realPos.y + 0.66*h, num.toString(), textConfig);
+            const text = this.game.add.text(centerPos.x, realPos.y + 0.7*h, num.toString(), textConfig);
             text.setOrigin(0.5, 0.5);
 
             return;

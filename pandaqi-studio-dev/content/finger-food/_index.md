@@ -5,8 +5,8 @@ type: "single"
 gamepage: true
 boardgame: true
 
-title: "Hand Pies"
-headerTitle: "Hand Pies | A quick game playable with just a paper and your fingers"
+title: "Finger Food"
+headerTitle: "Finger Food | A quick game playable with just a paper and your fingers"
 blurb: "A quick game playable with just a single paper. Each turn, place a finger on a new square, to score more points than your opponents before you've used your whole hand."
 
 googleFonts: "https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&family=Quicksand:wght@500;700&display=swap"
@@ -19,8 +19,8 @@ extraJSBuild: true
 
 {{% section-centered heading="Board" html="true" anchor="board" %}}
 
-{{< boardgame-settings type="board" local_storage="handPiesConfig" >}}
-  {{< setting-hidden id="setting-gameTitle" text="Hand Pies" >}}
+{{< boardgame-settings type="board" local_storage="fingerFoodConfig" >}}
+  {{< setting-hidden id="setting-gameTitle" text="Finger Food" >}}
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale to conserve ink." >}}
   {{< setting-checkbox id="setting-includeRules" text="Include Rules?" remark="Only turn off if you're familiar with all the rules." checked="checked" >}}
   <h3>Expansions</h3>

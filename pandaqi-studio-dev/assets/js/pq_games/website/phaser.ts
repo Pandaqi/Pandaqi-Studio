@@ -4,7 +4,14 @@ import PDF from "../pdf/main"
 import PdfBuilder from "../pdf/pdfBuilder"
 import Settings from "./settings"
 // @ts-ignore
-import { Game, CANVAS, Scale } from "../phaser.esm"
+import { Game, CANVAS, WEBGL, Scale } from "../phaser.esm"
+
+interface PhaserLinkParams
+{
+	scene:any,
+	key?:string,
+	renderer?:string
+}
 
 class PhaserClass
 {
@@ -13,6 +20,7 @@ class PhaserClass
 	pdfBuilder : PdfBuilder
 	generationClass : any
 	generationKey = "boardGeneration"
+	renderer = "canvas"
 
 	collection = false
 
@@ -31,11 +39,12 @@ class PhaserClass
 		this.generationClass = obj;
 	}
 
-	linkTo(scene:any, key:string = null)
+	linkTo(params:PhaserLinkParams)
 	{
-		this.setGenerationClass(scene);
+		this.setGenerationClass(params.scene);
 		Settings.initBoard(true);
-		if(key) { this.generationKey = key; }
+		this.generationKey = params.key ?? "boardGeneration";
+		this.renderer = params.renderer ?? "canvas";
 	}
 
 	onGenerationStart()
@@ -73,10 +82,11 @@ class PhaserClass
 
 		// @ts-ignore
 		const generationClass = this.generationClass || window.BoardGeneration;
+		const renderer = this.renderer == "webgl" ? WEBGL : CANVAS;
 
 		phaserContainer.innerHTML = '';
 		var phaserConfig = {
-			type: CANVAS,
+			type: renderer,
 			width: cfg.size.width,
 			height: cfg.size.height,
 			scale: {
@@ -118,9 +128,22 @@ class PhaserClass
 		// must wait a bit to ensure Phaser canvas is actually redrawn
 		await new Promise((resolve, reject) => setTimeout(resolve, 100));
 
-		// convert, split if necessary, add to pdfBuilder
-		const img = await convertCanvasToImage(canv);
-		const splitConfig = { split: this.gameConfig.splitBoard, cols: 2, rows: 2 };
+		// convert (this depends on renderer used)
+		let img;
+		if(this.renderer == "webgl")
+		{
+			img = await new Promise((resolve, reject) => {
+				scene.renderer.snapshot(image =>
+				{
+					resolve(image);
+				});
+			})
+		} else if(this.renderer == "canvas") {
+			img = await convertCanvasToImage(canv) as HTMLImageElement;
+		}
+
+		// split if necessary, add to pdfBuilder
+		const splitConfig = { split: this.gameConfig.splitBoard, cols: 2, rows: 2 }; // @TODO: should actually listen to input on cols/rows!
 		const images = await splitImage(img, splitConfig);
 
 		for(let i = 0; i < images.length; i++)

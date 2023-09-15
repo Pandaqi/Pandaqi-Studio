@@ -61,4 +61,4 @@ class BoardGeneration extends Scene
     }    
 }
 
-PandaqiPhaser.linkTo(BoardGeneration, sceneKey);
+PandaqiPhaser.linkTo({ scene: BoardGeneration, key: sceneKey });

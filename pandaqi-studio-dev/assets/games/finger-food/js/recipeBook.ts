@@ -7,6 +7,7 @@ import shuffle from "js/pq_games/tools/random/shuffle";
 import getWeighted from "js/pq_games/tools/random/getWeighted";
 import Point from "js/pq_games/tools/geometry/point";
 import BoardDisplay from "./boardDisplay";
+import { CUSTOM } from "./dictionary";
 
 class Recipe
 {
@@ -189,6 +190,17 @@ export default class RecipeBook
 
     display(boardDisplay : BoardDisplay)
     {
+
+        const dims = this.getAvailableDimensions(boardDisplay);
+
+        // display some background, looks better and prevents grid lines going through us
+        const bg = boardDisplay.game.add.sprite(dims.center.x, dims.center.y, "custom_spritesheet");
+        bg.setFrame(CUSTOM.tutorialBG.frame);
+        bg.displayWidth = dims.size.x;
+        bg.displayHeight = bg.displayWidth;
+
+
+        // now just display each recipe one by one
         let longestRecipe = 0;
         for(const recipe of this.recipes)
         {
@@ -197,7 +209,6 @@ export default class RecipeBook
 
         longestRecipe += 3 // assume the score text takes up 2 more spaces
 
-        const dims = this.getAvailableDimensions(boardDisplay);
         const margin = CONFIG.recipes.marginAroundRecipeBook*boardDisplay.cellSizeUnit;
         const padding = CONFIG.recipes.paddingBetweenRecipes*boardDisplay.cellSizeUnit;
         const maxRecipeHeight = ((dims.size.y-2*margin) / this.recipes.length) - padding;
