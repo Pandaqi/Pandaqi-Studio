@@ -30,8 +30,6 @@ export default class DropShadowEffect extends CanvasEffect
 
     applyToHTML(div:HTMLDivElement)
     {
-        console.log(this.createFilterString());
         div.style.filter += this.createFilterString() + " ";
-        console.log(div.style.filter);
     }
 }

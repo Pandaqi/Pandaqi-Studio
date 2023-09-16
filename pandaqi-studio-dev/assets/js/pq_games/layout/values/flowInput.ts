@@ -51,7 +51,7 @@ export default class FlowInput extends InputGroup
         this.wrap = params.wrap ?? false;
     }
 
-    applyToHTML(div:HTMLDivElement)
+    applyToHTML(div:HTMLElement)
     {
         div.style.flexGrow = this.grow.get().toString();
         div.style.flexShrink = this.shrink.get().toString();
@@ -258,9 +258,7 @@ class FlowLine
 
         if(flowInput.alignFlow == AlignValue.SPACE_BETWEEN)
         {
-            console.log("SPACE BETWEEN");
             spaceBetween = availableSpace / (this.count() - 1);
-            console.log(spaceBetween);
         }
         
         this.resetCurrentPosition();

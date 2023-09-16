@@ -1,23 +1,23 @@
 import Point from "./point"
 import Shape from "./shape";
 
-interface CircleParams
+interface EllipseParams
 {
     center?:Point
-    radius?:number
+    radius?:Point
 }
 
-export { Circle, CircleParams }
-export default class Circle extends Shape
+export { Ellipse, EllipseParams }
+export default class Ellipse extends Shape
 {
     center:Point
-    radius:number
+    radius:Point
 
-    constructor(c:CircleParams = {})
+    constructor(c:EllipseParams = {})
     {
         super();
         this.center = c.center ?? new Point();
-        this.radius = c.radius ?? 10;
+        this.radius = c.radius ?? new Point(10);
     }
 
     toPath(resolution = 32)
@@ -27,8 +27,8 @@ export default class Circle extends Shape
         {
             const angle = i * (2*Math.PI) / resolution;
             const pos = new Point(
-                this.center.x + Math.cos(angle)*this.radius,
-                this.center.y + Math.sin(angle)*this.radius
+                this.center.x + Math.cos(angle)*this.radius.x,
+                this.center.y + Math.sin(angle)*this.radius.y
             )
         }
         return path;
@@ -36,10 +36,11 @@ export default class Circle extends Shape
 
     toSVG()
     {
-        const elem = document.createElementNS(null, 'circle');
+        const elem = document.createElementNS(null, 'ellipse');
         elem.setAttribute("cx", this.center.x.toString());
         elem.setAttribute("cy", this.center.y.toString());
-        elem.setAttribute("r", this.radius.toString());
+        elem.setAttribute("rx", this.radius.x.toString());
+        elem.setAttribute("ry", this.radius.y.toString());
         return elem;
     }
 }

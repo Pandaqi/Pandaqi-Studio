@@ -1,6 +1,7 @@
 import Point from "./point"
 import GeometryHelpers from "./helpers"
 import PointGraph from "./pointGraph"
+import Shape from "./shape"
 
 interface LineDict 
 {
@@ -8,13 +9,15 @@ interface LineDict
     end?:Point
 }
 
-export default class Line 
+export default class Line extends Shape
 {
     start:Point
     end:Point
 
     constructor(a:Point|PointGraph|Line|LineDict = {}, b:Point|PointGraph = new Point())
     {
+        super();
+
         let start = a;
         let end = b;
 
@@ -28,6 +31,17 @@ export default class Line
 
         this.start = (start as Point) ?? new Point();
         this.end = end ?? new Point();
+    }
+
+    toPath() { return [this.start, this.end]; }
+    toSVG()
+    {
+        const elem = document.createElementNS(null, 'line');
+        elem.setAttribute("x1", this.start.x.toString());
+        elem.setAttribute("y1", this.start.y.toString());
+        elem.setAttribute("x2", this.end.x.toString());
+        elem.setAttribute("y2", this.end.y.toString());
+        return elem;
     }
 
     clone() { return new Line(this); }

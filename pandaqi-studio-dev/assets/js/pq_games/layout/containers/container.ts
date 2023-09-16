@@ -51,6 +51,8 @@ export default class Container
 
     operation : CanvasOperation
 
+    element: string
+
     root : boolean
     parent : Container
     children: Container[]
@@ -77,6 +79,8 @@ export default class Container
         this.clipBox = params.clipBox ?? false;
 
         this.root = params.root ?? false;
+
+        this.element = params.element ?? "div";
         
         this.children = [];
         this.parent = params.parent;
@@ -372,7 +376,7 @@ export default class Container
 
     toHTML()
     {
-        const div = document.createElement("div");
+        const div = document.createElement(this.element);
         div.style.boxSizing = "border-box";
 
         const wrapper = this.needsWrapperHTML() ? this.createWrapperHTML() : null;
@@ -412,7 +416,7 @@ export default class Container
         return this.hasNoParent() || this.parent.root || this.clipBox || this.boxInput.ghost;
     }
 
-    toHTMLCustom(div:HTMLDivElement, wrapper:HTMLDivElement = null) { }
+    toHTMLCustom(div:HTMLElement, wrapper:HTMLDivElement = null) { }
 
     async toCanvasFromHTML(targetCanvas:HTMLCanvasElement)
     {
@@ -429,9 +433,6 @@ export default class Container
 
         const ctx = targetCanvas.getContext("2d");
         ctx.drawImage(canv, 0, 0);
-
-        console.log(modernScreenshot);
-        console.log(domTree);
     }
 
 }

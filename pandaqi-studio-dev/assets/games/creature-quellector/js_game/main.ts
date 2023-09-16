@@ -24,8 +24,6 @@ export default class Generator {
 
         CONFIG.progressBar = new ProgressBar();
         CONFIG.progressBar.setPhases(["Loading Assets", "Creating Cards", "Preparing PDF", "Done!"]);
-
-        console.log(CONFIG);
     }
 
     async start()

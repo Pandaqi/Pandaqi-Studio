@@ -1,7 +1,7 @@
 import Point from "./point"
 import Triangle from "./triangle"
 import Rectangle from "./rectangle"
-import Hexagon from "./hexagon"
+import Hexagon from "./polygon"
 import Circle from "./circle"
 
 export default {

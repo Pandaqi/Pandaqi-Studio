@@ -80,7 +80,7 @@ export default class BoxInput extends InputGroup
         return false;
     }
 
-    applyToHTML(div:HTMLDivElement, wrapper:HTMLDivElement = null, parent:Container = null)
+    applyToHTML(div:HTMLElement, wrapper:HTMLDivElement = null, parent:Container = null)
     {
         let topElem = wrapper ? wrapper : div;
 

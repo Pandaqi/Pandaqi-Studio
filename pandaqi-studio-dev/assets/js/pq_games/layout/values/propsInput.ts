@@ -25,7 +25,7 @@ export default class PropsInput extends InputGroup
         this.z = new NumberValue((params.z ?? params.zIndex) ?? "auto");
     }
 
-    applyToHTML(div:HTMLDivElement)
+    applyToHTML(div:HTMLElement)
     {
         div.style.backgroundColor = this.fill.get();
         div.style.opacity = this.alpha.toCSS();

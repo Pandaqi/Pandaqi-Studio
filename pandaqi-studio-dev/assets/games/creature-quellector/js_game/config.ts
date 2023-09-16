@@ -2,7 +2,7 @@ import Point from "js/pq_games/tools/geometry/point"
 
 export default {
     debugWithoutPDF: true, // @DEBUGGING (should be false)
-    debugSingleCard: true,
+    debugSingleCard: false,
     fileName: "[Creature Quellector] Material",
     configKey: "creatureQuellectorConfig",
     progressBar: null,
@@ -75,10 +75,10 @@ export default {
         // purple defeats green, defeats blue, defeats red, defeats purple
         elementCycle: ["purple", "green", "blue", "red"],
         elementCycleSubtype: [],
-        actionProbability: 0.4,
+        actionProbability: 0.35,
         actionPickThreshold: 5, // we'll only consider adding actions once this number of regular icons have been placed
-        actionPercentage: { min: 0.2, max: 0.4 }, // what percentage of icons (in total) should be an action?
-        actionPercentagePerType: { min: 0.1, max: 0.65 } // what percentage of icons (within one type) may be an action?
+        actionPercentage: { min: 0.175, max: 0.3 }, // what percentage of icons (in total) should be an action?
+        actionPercentagePerType: { min: 0.075, max: 0.5 } // what percentage of icons (within one type) may be an action?
     },
 
     cards: {
@@ -90,7 +90,14 @@ export default {
         dimsElement: new Point({ x: 1, y: 1.55 }),
         numPerElement: 12,
         iconsPerCard: 4,
-        backgroundColor: "#FFE4B3",
+        //backgroundColor: "#FFE4B3",
+        backgroundColors: {
+            red: "#FFD2D2",
+            blue: "#D6FEFA",
+            green: "#E8FFDF",
+            purple: "#F2E3FF"
+        },
+        
         backgroundScale: 2.0,
         backgroundAlpha: 0.125,
         generator: {

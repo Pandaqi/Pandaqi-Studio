@@ -29,45 +29,53 @@ Youngest player starts. Take clockwise turns. On your turn ...
 * Reveal your squads at the same time and decide who wins (see [next section](#squads))
 * Trade squads. (You get the opponent's squad, they get yours.) However, the winner picks one card that they do **not** have to give away.
 
+{{< rules-image src="gameplay.webp" alt="The five simple steps of every turn, visualized." >}}
+
 You can't pick a number larger than the number of cards you or your opponent have. 
 
 After the fight, if you're satisfied with your squad, you can decide to stop. Say "I'm Done!" You don't get any more turns. (Un-spread your hand to signal this.)
 
 Your opponent can do so too, _after_ you've chosen what to do.
 
-@TODO: Image of such a turn.
-
 @TODO: Interactive example of a full turn.
 
 {{% /rules-block %}}
 
-{{% rules-block id="squads" heading="Squads" class="force-page-break-before" icon="expansion" icontint="yellow" %}}
+{{% rules-block id="squads" heading="Squads" class="force-page-break-before" icon="scoring" icontint="purple" %}}
 
-Creatures have one main type (large, centered). Underneath it is the type it Counters. (As a reminder; this is always the same.) The rest of the card has a mix of icons.
+{{< rules-image src="card_anatomy.webp" alt="What different card parts mean." class="float-right" >}}
 
-@TODO: Image of card layout + elements named
+Creatures have one main type (the large one in the center and corners). It also shows which type it "counters" (to the right), and what type counters our main type (to the left). 
+
+The rest of the card has a mix of icons.
+
+{{% remark %}}
+This is a reminder. The counter cycle is always the same.
+{{% /remark %}}
 
 Determine your squad's strength with three simple steps.
 
-1.	The player who has the most **action** icons, executes **one** of their actions.
-2.	Check the main types your opponent has. Any types they Counter are worth **nothing** for you.
-3.	Each remaining type icon is worth +1 point.
+1.	The player who has the most **action** icons, executes **one** of their actions. (If tied, nobody does.)
+2.	Check the main types your opponent has. The types they Counter are worth **nothing** for you.
+3.	Each remaining **type icon** is worth +1 point.
 
 The player with the highest score wins. In case of a tie, the defender wins.
 
-When calculating your score at the **end of the game**, pretend you’re fighting **your own hand**! (Its main types Counter yourself.)
+{{< rules-image src="battle_resolution.webp" alt="An example of how to resolve a battle (actions, counters, sum what's left)." >}}
 
-@TODO: Image showing how an attack is resolved, and what the squad scores at the end of the game.
+When calculating your final score at the **end of the game**, pretend you’re fighting **your own hand**! (Its main types Counter yourself.)
 
 {{% /rules-block %}}
 
-{{% rules-block id="types" heading="Types" class="force-page-break-before" icon="expansion" icontint="yellow" %}}
+{{% rules-block id="types" heading="Types" class="force-page-break-before" icon="expansion" icontint="orange" %}}
 
 Each game will have 4 elements (red, blue, green, purple). Each element has 4 options to choose from, which you can pick on the website.
 
 Each action tells you whether it must be executed BEFORE the fight or AFTER it.
 
-On the website, you can turn on "multitype" (optional). This means an icon can show two types at once. Choose which one it is _after_ revealing squads.
+{{% remark %}}
+You can also turn on "multitype": icons can show two types at once. Choose which one it is _after_ revealing squads.
+{{% /remark %}}
 
 {{% rules-block id="red" heading="Red" %}}
 

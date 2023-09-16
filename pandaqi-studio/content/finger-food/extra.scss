@@ -1,12 +1,12 @@
 $header-font: "Cherry Bomb One", serif;
 $body-font: "Quicksand", sans-serif;
-$bg-color: #18393E;
-$text-color: #FCFCFC;
-$button-bg: #FCC038;
-$button-color: #212121;
-$link-color: #b2da55;
-$link-color-hover: #d8f398;
-$settings-color: #a51921;
+$bg-color: #FF76A0;
+$text-color: #320011;
+$button-bg: #6ce55a;
+$button-color: #073506;
+$link-color: #820952;
+$link-color-hover: #aa1a71;
+$settings-color: #524efe;
 $cutoff: 920px;
 
 // Color scheme: 
@@ -20,6 +20,7 @@ a.btn, #btn-create-pdf, #btn-generate-board, #btn-start-game,
 input, button, select, option, label {
     font-family: $header-font;
     font-weight: normal;
+    filter: drop-shadow(3px 3px 3px #212121)
 }
 
 body {
@@ -47,6 +48,7 @@ body {
 h2 {
     font-size: 56px;
     margin-bottom: 0px;
+    color: #FFCCFF;
 }
 
 h3 { 

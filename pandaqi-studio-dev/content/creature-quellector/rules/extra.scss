@@ -1,23 +1,22 @@
 @use "sass:map";
 @use "sass:math";
 
-$header-font: "UnifrakturCook", sans-serif;
-$body-font: "Brygada 1918", serif;
+$header-font: "Comica Boom", sans-serif;
+$body-font: "Cabin", serif;
 $body-font-size: 19px;
 $body-line-height: 140%;
 
-// @TODO: probably want a much cleaner and simpler BODY font
 @font-face {
-    font-family: 'Gothic Ultra OT';
-    src: url('/kingseat/assets/fonts/GothicUltraOT.woff2') format('woff2');
+    font-family: 'Comica Boom';
+    src: url('/creature-quellector/assets/fonts/Comica Boom.otf') format('otf');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: 'Moderne Fraktur';
-    src: url('/kingseat/assets/fonts/ModerneFraktur.woff2') format('woff2');
+    font-family: 'Cabin';
+    src: url('/creature-quellector/assets/fonts/Cabin-Regular.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -25,45 +24,31 @@ $body-line-height: 140%;
 
 @font-face {
     font-family: 'UnifrakturCook';
-    src: url('/kingseat/assets/fonts/UnifrakturCook-Bold.woff2') format('woff2');
-    font-weight: bold;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'Brygada';
-    src: url('/kingseat/assets/fonts/Brygada1918-Regular.woff2') format('woff2'),
-        url('/kingseat/assets/fonts/Brygada1918-Regular.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'Brygada';
-    src: url('/kingseat/assets/fonts/Brygada1918-Italic.woff2') format('woff2'),
-        url('/kingseat/assets/fonts/Brygada1918-Italic.woff') format('woff');
+    src: url('/creature-quellector/assets/fonts/Cabin-Italic.woff2') format('woff2');
     font-weight: normal;
     font-style: italic;
     font-display: swap;
 }
 
 $icons: (
-    "lionsyre": 0,
-    "slydefox": 1,
-    "woolfhall": 2,
-    "hornseeker": 3,
-    "brownbeards": 4,
-    "monarchrys": 5,
-    "crassclamps": 6,
-    "gulliballistas": 7,
-    "hardshellHero": 8,
-    "squlofish": 9,
-    "smugwing": 10,
-    "salsaSalamanda": 11,
+    "red-fire": 0,
+    "red-electric": 1,
+    "red-star": 2,
+    "red-dragon": 3,
+    "blue-water": 4,
+    "blue-ice": 5,
+    "blue-poison": 6,
+    "blue-weather": 7,
+    "green-earth": 8,
+    "green-grass": 9,
+    "green-rock": 10,
+    "green-bug": 11,
+    "purple-air": 12,
+    "purple-magic": 13,
+    "purple-ghost": 14,
+    "purple-dark": 15,
 );
-$max-frames: 12;
+$max-frames: 8;
 
 @each $name, $frame in $icons {
     $col: $frame % $max-frames;
@@ -72,9 +57,9 @@ $max-frames: 12;
         $row: 1;
     }
 
-    .rules-icon-pack-#{$name} {
-        background-image: url(/kingseat/assets/crests_full.webp);
-        background-size: 1200%;
+    .icon-#{$name} {
+        background-image: url(/creature-quellector/rules/quellector_actions_with_bg.webp);
+        background-size: 800%;
         background-position-x: -$col * 100%;
         background-position-y: -$row * 100%;
         margin: auto;
@@ -87,7 +72,7 @@ h1, h2, h3, h4, h5, h6 {
 
 body {
     font-family: $body-font;
-    background-color: #3c005d; // #5F5449;
+    background-color: #FFFFFF;
     font-size: $body-font-size;
     line-height: $body-line-height;
 }
@@ -97,46 +82,27 @@ body {
 }
 
 #setup {
-    background-color: #ff71b7;
-    a { color: #af0080; }
-    a:hover { color: #4a0036; }
+    background-color: #ff9b9b;
 }
 
 #objective {
-    background-color: #3c005d;
-    color: #DCDCDC;
+    background-color: #67d6f2;
 }
 
 #action_play {
-    background-color:  #93cfe1;
+    background-color: #a4f091; //  #23ac01;
 }
 
-#packs {
-    background-color: #ffd23f;
+#squads {
+    background-color: #d486f7; // #bb55ea;
+}
+
+#types {
+    background-color: #eebd89;
 }
 
 @media print {
     body {
         font-size: 14px;
     }
-}
-
-.prince-backstory {
-    font-style: italic;
-
-    h3 {
-        font-style: normal;
-    }
-}
-
-.prince-metadata {
-    ul {
-        margin: auto;
-    }
-
-    margin-bottom: 3em;
-}
-
-.prince-clarifications {
-    
 }

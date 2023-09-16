@@ -11,7 +11,7 @@ export default class AnchorTool
         this.anchor = a;
     }
 
-    applyTo(div:HTMLDivElement, wrapper:HTMLDivElement = null, parent:Container = null)
+    applyTo(div:HTMLElement, wrapper:HTMLDivElement = null, parent:Container = null)
     {
         if(this.anchor == AnchorValue.NONE) { return; }
         if(!wrapper) { return; }

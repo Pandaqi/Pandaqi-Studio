@@ -1,5 +1,5 @@
-$header-font: "UnifrakturCook", sans-serif;
-$body-font: "Brygada", serif;
+$header-font: "Comica Boom", sans-serif;
+$body-font: "Cabin", serif;
 $bg-color: #3c005d;
 $game-color: #93cfe1;
 $game-text-color: #0a4c60;
@@ -12,31 +12,28 @@ $heading-color: #ff48a3;
 $cutoff: 900px;
 
 @font-face {
-    font-family: 'UnifrakturCook';
-    src: url('/kingseat/assets/fonts/UnifrakturCook-Bold.woff2') format('woff2');
-    font-weight: bold;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'Brygada';
-    src: url('/kingseat/assets/fonts/Brygada1918-Regular.woff2') format('woff2'),
-        url('/kingseat/assets/fonts/Brygada1918-Regular.woff') format('woff');
+    font-family: 'Comica Boom';
+    src: url('/creature-quellector/assets/fonts/Comica Boom.otf') format('otf');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: 'Brygada';
-    src: url('/kingseat/assets/fonts/Brygada1918-Italic.woff2') format('woff2'),
-        url('/kingseat/assets/fonts/Brygada1918-Italic.woff') format('woff');
+    font-family: 'Cabin';
+    src: url('/creature-quellector/assets/fonts/Cabin-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'UnifrakturCook';
+    src: url('/creature-quellector/assets/fonts/Cabin-Italic.woff2') format('woff2');
     font-weight: normal;
     font-style: italic;
     font-display: swap;
 }
-
 
 
 h1, h2, h3, h4, h5, h6, 

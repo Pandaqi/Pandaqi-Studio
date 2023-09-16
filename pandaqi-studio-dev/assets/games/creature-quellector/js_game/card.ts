@@ -87,7 +87,7 @@ export default class Card
         this.creatureSpritesheet = "creatures_" + (this.creatureSpritesheetNum + 1);
 
         this.backgroundSpritesheetNum = rangeInteger(0,2);
-        this.backgroundSpritesheet = "backgrounds_" + (this.backgroundSpritesheetNum);
+        this.backgroundSpritesheet = "backgrounds_" + (this.backgroundSpritesheetNum + 1);
         this.iconSpritesheet = "icons";
         this.creatureName = this.getCreatureName();
 
@@ -141,10 +141,7 @@ export default class Card
     getBackgroundFrame()
     {
         if(this.typeList.length <= 1) { return this.getMainFrame(); }
-        console.log(this.typeList);
-        console.log(this.typeList.slice(1));
         const rand = fromArray(this.typeList.slice(1));
-        console.log(rand);
         return this.getIconFrame(rand);
     }
 
@@ -181,7 +178,7 @@ export default class Card
     drawBackground()
     {
         const ctx = this.ctx
-        ctx.fillStyle = CONFIG.cards.backgroundColor;
+        ctx.fillStyle = CONFIG.cards.backgroundColors[this.getMainIconElementType()];
         ctx.fillRect(0, 0, this.dims.x, this.dims.y);
 
         const size = this.sizeUnit * CONFIG.cards.backgroundScale;
@@ -256,9 +253,10 @@ export default class Card
         
 
         // Icon reminder list (of what's on the card, overlays image)
-        const iconReminderSize = 0.5*this.cornerIconSize;
-        const iconReminderPadding = 0.3*iconReminderSize;
+        const iconReminderSize = 0.725*this.cornerIconSize;
+        const iconReminderPadding = 0.25*iconReminderSize;
         const iconReminderGap = 0.5*iconReminderPadding;
+        const iconReminderRadius = new FourSideValue(0.5*this.iconBorderRadius.top.get());
         const listSize = new TwoAxisValue().setFreeGrow();
         const iconReminders = new Container({
             anchor: AnchorValue.BOTTOM_RIGHT,
@@ -277,7 +275,7 @@ export default class Card
                 frame: this.getIconFrame(type),
                 size: new TwoAxisValue().fromSingle(iconReminderSize),
                 stroke: new StrokeValue(0.5*this.strokeWidth, this.getIconColorDark(type)),
-                borderRadius: this.iconBorderRadius,
+                borderRadius: iconReminderRadius,
                 fill: this.getIconColor(type)
             })
             iconReminders.addChild(cont);
@@ -301,8 +299,10 @@ export default class Card
     getElementOnCycle(change:number = 1) : ElementIcon
     {
         const list = CONFIG.gameplay.elementCycleSubtype
-        let idx = list.indexOf(this.getMainIcon())
+        let idx = list.indexOf(this.getMainIcon().type);
         idx = (idx + change + list.length) % list.length
+        console.log(list);
+        console.log(idx, change, this.getMainIcon());
         return new ElementIcon(list[idx], false);
     }
 
@@ -395,7 +395,6 @@ export default class Card
         ]
 
         const funkyPath = takeBitesOutOfPath({ path: path, biteBounds: bounds });
-        console.log(funkyPath);
         return funkyPath;
     }
 
@@ -404,10 +403,11 @@ export default class Card
         // The main body of the card: the icons of this creature
         const padding = 0.05*this.sizeUnit
         const gap = padding;
+        const offsetTop = 0.155*this.sizeUnit;
         const icons = new Container({
             padding: padding,
             size: new TwoAxisValue().setBlock(),
-            margin: new FourSideValue(60,0,0,0),
+            margin: new FourSideValue(offsetTop,0,0,0),
             dir: FlowDir.HORIZONTAL,
             alignFlow: AlignValue.MIDDLE,
             gap: gap,
@@ -415,7 +415,7 @@ export default class Card
         })
         this.container.addChild(icons);
 
-        const iconSize = 0.2*this.sizeUnit;
+        const iconSize = 0.1725*this.sizeUnit;
         for(const type of this.typeList)
         {
             const iconEffects = [
@@ -432,7 +432,8 @@ export default class Card
                 borderRadius: this.iconBorderRadius,
                 size: new TwoAxisValue().fromSingle(iconSize),
                 clipPath: this.getFunkyClipPath(new Point().setFactor(iconSize)),
-                effects: iconEffects
+                effects: iconEffects,
+                shrink: 0,
             })
             icons.addChild(cont);
         }

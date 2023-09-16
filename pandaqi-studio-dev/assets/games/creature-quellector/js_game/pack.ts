@@ -36,7 +36,7 @@ export default class Pack
         const maxIcons = CONFIG.cards.iconsPerCard;
         for(let i = 0; i < Math.ceil(num/maxIcons); i++)
         {
-            for(let a = 0; a < maxIcons; a++)
+            for(let a = 1; a <= maxIcons; a++)
             {
                 iconDistribution.push(a);
             }
@@ -48,6 +48,7 @@ export default class Pack
         {
             var numIcons = iconDistribution[i];
             var iconList = this.getBalancedIconList(numIcons, stats);
+            console.log(structuredClone(stats)); // @DEBUGGING
             var c = new Card(iconList);
             cards.push(c);
         }

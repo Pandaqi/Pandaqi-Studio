@@ -104,7 +104,7 @@ export default class ResourceImage extends Resource
         if(canv instanceof CanvasRenderingContext2D) { canv = canv.canvas; }
         operation.addImage(this);
         await operation.apply(canv);
-        operation.removeImage(this);
+        operation.removeImage();
     }
 
     getFrameData(frm:number) : FrameData

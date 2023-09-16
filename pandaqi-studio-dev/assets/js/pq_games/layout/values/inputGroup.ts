@@ -23,8 +23,6 @@ export default class InputGroup
     calc(c:Container, output:any, parentDims:Point = null, contentDims:Point = null)
     {
         const arr = this.getPropertyList();
-        console.log(c);
-        console.log(c.boxOutput);
         parentDims = parentDims ?? c.boxOutput.getSize();
         if(c.dimensionsContent) { contentDims = c.dimensionsContent.getSize(); }
         contentDims = contentDims ?? new Point();

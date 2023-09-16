@@ -32,7 +32,7 @@ export default class ContainerImage extends Container
         this.resource.drawTo(canv, this.operation);
     }
 
-    toHTMLCustom(div:HTMLDivElement, wrapper:HTMLDivElement = null)
+    toHTMLCustom(div:HTMLElement, wrapper:HTMLDivElement = null)
     {
         super.toHTMLCustom(div, wrapper);
 
@@ -59,8 +59,6 @@ export default class ContainerImage extends Container
 
     createImageAsElement() : HTMLImageElement
     {
-        console.log(this.resource);
-
         const img = this.resource.getFrame(this.frame).cloneNode() as HTMLImageElement;
         img.style.width = "100%";
         img.style.height = "100%";
