@@ -10,6 +10,7 @@ headerTitle: "Kangaruse | Jumping has never been so tactical and treacherous"
 blurb: "Jumping has never been so tactical and treacherous. Hop along the smartest route to collect the most points before your opponents stamped the whole brushland to dust."
 
 fullHeaderImg: "kangaruse_header"
+headerImg: "kangaruse_header"
 
 headerThumb: "favicon"
 

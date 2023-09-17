@@ -1,0 +1,46 @@
+import ResourceImage from "../resources/resourceImage"
+import createContext from "../canvas/createContext"
+import LayoutEffect from "./layoutEffect";
+import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage";
+
+export default class TintEffect extends LayoutEffect
+{
+    color: string
+
+    constructor(params:Record<string,any> = {})
+    {
+        super(params);
+    }
+
+    clone(deep = false)
+    {
+        return new TintEffect({ color: this.color });
+    }
+
+    async applyToImage(image:ResourceImage)
+    {
+        // first, we get a mask just with the tint color
+        const contextParams = { width: image.size.x, height: image.size.y, alpha: true }
+        const ctx = createContext(contextParams);
+        ctx.drawImage(image.getImage(), 0, 0);
+        ctx.globalCompositeOperation = "source-in";
+        ctx.fillStyle = this.color;
+        ctx.fillRect(0, 0, contextParams.width, contextParams.height);
+
+        // then we multiply that mask with the original image to do an actual, proper tinting
+        const ctx2 = createContext(contextParams);
+        ctx2.drawImage(image.getImage(), 0, 0);
+        ctx2.globalCompositeOperation = "multiply";
+        ctx2.drawImage(ctx.canvas, 0, 0);
+
+        const img = await convertCanvasToImage(ctx2.canvas);
+        image.swapImage(img);
+    }
+
+    // @TODO: not really a robust system for tinting ...
+    applyToHTML(div:HTMLElement)
+    {
+        div.style.mixBlendMode = "multiply";
+        div.style.backgroundColor = this.color;
+    }
+}

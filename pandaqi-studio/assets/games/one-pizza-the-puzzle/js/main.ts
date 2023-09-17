@@ -73,6 +73,8 @@ class BoardGeneration extends Scene
 		this.cfg = {}
 		Object.assign(this.cfg, config);
 
+		this.cfg.numPlayers = parseInt(this.cfg.playerCount);
+
 		// number of cells along width of the paper
 		this.cfg.resX = 10 + Math.floor(this.cfg.numPlayers*1.5);
 
@@ -2281,7 +2283,7 @@ class BoardGeneration extends Scene
 					}
 
 					let sprite2 = this.add.sprite(sprite.x, sprite.y, 'ingredients');
-					sprite2.displayWidth = sprite.displayHeight = 0.35*cs;
+					sprite2.displayWidth = sprite2.displayHeight = 0.35*cs;
 					sprite2.setFrame(randIngredient);
 					sprite2.setOrigin(0.5, 0.5);
 					sprite2.depth = 6;

@@ -34,9 +34,7 @@ extraCSS: true
 extraJS: true
 extraJSGame: true
 sharedJS: "photomone"
-sharedJSBuild: true
-
-pqWords: true
+sharedJSIncludeOnPage: true
 
 downloadLink: "https://drive.google.com/drive/folders/1d3b_Zsuor4bz9sVmQIdErx2p5GIYF6Nk"
 
@@ -133,11 +131,11 @@ This idea started its life many years ago when I saw a game called "StarLink". I
 For a detailed diary about the game, check out the [devlog](https://pandaqi.com/blog/boardgames/photomone).
 
 <div class="photomone-update-block">
-Photomone now has a spin-off that turns the game on its head. The result is something similar to popular games like "Codenames". Check out <a href="https://pandaqi.com/photomone-antsassins">Photomone: Antsassins</a>.
+Photomone now has a spin-off you can play entirely on a smartphone or tablet! Check out <a href="https://pandaqi.com/photomone-digital-antists">Photomone: Digital Ant-ists</a>.
 </div>
 
 <div class="photomone-update-block" style="margin-bottom: 3em;">
-Photomone now has a spin-off you can play entirely on a smartphone or tablet! Check out <a href="https://pandaqi.com/photomone-digital-antists">Photomone: Digital Ant-ists</a>.
+Photomone now has a spin-off that turns the game on its head. The result is something similar to popular games like "Codenames". Check out <a href="https://pandaqi.com/photomone-antsassins">Photomone: Antsassins</a>.
 </div>
 
 {{% /section-centered %}}

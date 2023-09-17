@@ -66,7 +66,7 @@ class BoardGeneration extends Scene
 			minSize: minSize,
 			gridWidth: 8,
 			gridHeight: 8,
-			playerCount: parseInt(userConfig.playerCount || 4),
+			playerCount: parseInt(userConfig.playerCount ?? 3),
 			lists: {},
 			totalProbabilities: {},
 			spriteScale: 0.9,
@@ -118,7 +118,8 @@ class BoardGeneration extends Scene
 		this.cfg.cellHeight = (this.canvas.height / this.cfg.gridHeight);
 		this.cfg.minSizeCell = Math.min(this.cfg.cellWidth, this.cfg.cellHeight)*this.cfg.spriteScale;
 		
-		userConfig.playerCount = parseInt(userConfig.playerCount || 4);
+		userConfig.playerCount = parseInt(userConfig.playerCount ?? 4);
+		userConfig.numPlayers = userConfig.playerCount;
 		Object.assign(this.cfg, userConfig);
 
 		this.cfg.soloMode = (this.cfg.playerCount == 1);

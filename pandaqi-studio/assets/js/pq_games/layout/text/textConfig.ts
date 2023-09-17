@@ -51,6 +51,17 @@ export default class TextConfig
         this.color = params.color ?? "#000000";
     }
 
+    clone() : TextConfig
+    {
+        const tf = new TextConfig();
+        for(const prop in this)
+        {
+            // @ts-ignore
+            tf[prop] = this[prop]
+        }
+        return tf;
+    }
+
     getStyleString() : string
     {
         if(this.style == TextStyle.NORMAL) { return ""; }
@@ -98,5 +109,17 @@ export default class TextConfig
             this.getWeightString(),this.getSizeString(),
             "'" + this.getNameString() + "'"
         ].join(" ");
+    }
+
+    applyToHTML(elem:HTMLElement)
+    {
+        elem.style.fontFamily = this.getNameString();
+        elem.style.fontWeight = this.getWeightString();
+        elem.style.fontVariant = this.getVariantString();
+        elem.style.fontStyle = this.getStyleString();
+        elem.style.color = this.color;
+        elem.style.fontSize = this.getSizeString();
+        elem.style.lineHeight = (this.lineHeight * 100) + "%";
+        elem.style.textAlign = this.getAlignString();
     }
 }

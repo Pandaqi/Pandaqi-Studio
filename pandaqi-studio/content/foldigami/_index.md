@@ -10,6 +10,7 @@ headerTitle: "Foldigami | A game of wits using only a single paper and nothing e
 blurb: "A game of wits using only a single paper. Even the rules are on the paper itself, and play happens through folding and rotating."
 
 fullHeaderImg: "foldigami_header"
+headerImg: "foldigami_header"
 
 headerThumb: "foldigami_header"
 

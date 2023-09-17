@@ -164,7 +164,6 @@ export default class Options
 
         const nobodyHasBackpack = (this.game.backpacks.countLettersInside() <= 0);
         const numPlayersWithBackpack = this.game.backpacks.countNumPlayersWithSomething();
-        console.log("players with something, ", numPlayersWithBackpack)
         if(nobodyHasBackpack && dict.empty_backpack)
         {
             delete dict.empty_backpack;
@@ -238,8 +237,6 @@ export default class Options
         }
 
         this.shuffle(this.options);
-
-        console.log(this.options);
     }
 
     displayOptions()

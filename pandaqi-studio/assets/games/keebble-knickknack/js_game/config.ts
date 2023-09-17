@@ -5,6 +5,8 @@ export default
     GAME:null, // will contain reference to active game; ugly but I saw no other way while converting to TypeScript
 
     debugging: false, // @DEBUGGING (should be false)
+    gameURL: "/keebble-knickknack/game.html",
+    playerSaveKey: "keebbleKnickknackSavedPlayers",
     debugPlayers: ["Harry", "Sally", "John", "Beatrice"],
     debugGameover: false,
     predeterminedPlayers: null,

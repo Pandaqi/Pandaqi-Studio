@@ -1,6 +1,5 @@
 import Point from "js/pq_games/tools/geometry/point";
 import { PACKS, PackData } from "./dict"
-import Canvas from "js/pq_games/canvas/main"
 import createContext from "js/pq_games/layout/canvas/createContext";
 import CONFIG from "./config";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
@@ -77,7 +76,7 @@ export default class Card
             frame: this.typeData.frame,
             translate: pos,
             dims: size,
-            composite: CONFIG.cards.hand.composite || "source-in",
+            composite: (CONFIG.cards.hand.composite as GlobalCompositeOperation) || "source-in",
             pivot: new Point(0.5)
         })
         typeResource.toCanvas(this.ctx, canvOp);
@@ -201,7 +200,7 @@ export default class Card
         const canvOp = new LayoutOperation({
             translate: pos,
             dims: size,
-            composite: CONFIG.cards.hand.composite || "source-in",
+            composite: (CONFIG.cards.hand.composite as GlobalCompositeOperation) ?? "source-in",
             pivot: new Point(0.5)
         })
         handResource.toCanvas(this.ctx, canvOp);

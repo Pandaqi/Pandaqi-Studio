@@ -1,0 +1,465 @@
+/* Core */
+@font-face {
+  font-family: "Arbutus Slab";
+  src: url(/keebble/assets/ArbutusSlab-Regular.woff2);
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+* {
+  box-sizing: border-box;
+  user-select: none;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-size: 22px;
+  font-family: "Arbutus Slab";
+  background-color: #325109;
+  color: #f4ffe4;
+}
+
+.disable-select {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.popUp {
+  animation-name: popUp;
+  animation-duration: 0.3s;
+  animation-iteration-count: 1;
+  animation-timing-function: ease;
+  animation-fill-mode: forwards;
+}
+
+.attention-repeat {
+  animation-name: smallPopUp;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease;
+  animation-fill-mode: forwards;
+}
+
+@keyframes popUp {
+  from {
+    transform: scale(1.35);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+@keyframes smallPopUp {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+/* Buttons, input, the usual stuff */
+button, input {
+  width: 100%;
+  font-family: "Arbutus Slab";
+  font-size: 1rem;
+  border: none;
+  border-radius: 0.25rem;
+}
+
+input {
+  padding: 1rem;
+}
+
+.button-look {
+  padding: 0.5rem;
+  filter: drop-shadow(0 0 5px black);
+  background-color: rgba(255, 255, 255, 0.85);
+  border: none;
+  color: black;
+  transition: color 0.3s, background-color 0.3s;
+  cursor: pointer;
+  border-radius: 0.25rem;
+}
+
+.button-look:hover {
+  background-color: rgba(0, 0, 0, 0.85);
+  color: white;
+}
+
+/* Players */
+.players-container,
+.game-over-container {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  height: 100%;
+  padding: 1em;
+}
+
+.players-sub-container,
+.game-over-sub-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  max-width: 500px;
+  line-height: 150%;
+  padding: 1rem;
+  background-color: rgba(0, 0, 0, 0.25);
+  border-radius: 0.66rem;
+}
+
+.remark {
+  font-size: 0.7rem;
+  opacity: 0.7;
+}
+
+.player-name {
+  color: #ffcbfd;
+  text-decoration: underline;
+}
+
+/* Game over */
+.game-over-message {
+  width: 100%;
+  text-align: center;
+  font-size: 2rem;
+  line-height: 160%;
+}
+
+.game-over-results {
+  width: 100%;
+}
+.game-over-results > div {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+}
+.game-over-results > div:nth-of-type(odd) {
+  background-color: rgba(0, 0, 0, 0.15);
+}
+.game-over-results > div.game-over-winner {
+  background-color: #ff8282;
+  filter: drop-shadow(0 0 5px black);
+  border-radius: 0.25rem;
+  color: #3f0101;
+}
+
+.game-over-navigation {
+  width: 100%;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* Powerups (todo) */
+.powerups-container {
+  background-color: #28b6c1;
+  /* #7BF4FD; */
+  height: 64px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.powerups-container .button-look {
+  background-color: transparent;
+  filter: none;
+}
+
+/* Header */
+.header {
+  display: flex;
+  padding: 1rem;
+  background-color: rgba(0, 0, 0, 0.25);
+  gap: 1rem;
+  justify-content: space-between;
+  align-content: center;
+  align-items: center;
+}
+
+.header-container {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Options */
+.options-container {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 1rem;
+  gap: 1rem;
+}
+
+.option {
+  display: flex;
+  gap: 0.5rem;
+}
+.option.option-small {
+  gap: 0;
+}
+
+/* Instructions */
+.instructions-container {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 1rem;
+  gap: 1rem;
+  justify-content: center;
+}
+.instructions-container .instructions-sub-container {
+  max-width: 500px;
+}
+.instructions-container .instructions-sub-container p {
+  line-height: 160%;
+}
+
+/* Backpacks */
+.backpacks-window,
+.scores-window {
+  padding: 1rem;
+  color: #111111;
+}
+
+.backpacks-window {
+  background-color: #ffa1eb;
+}
+
+/* Scores */
+.scores-window {
+  background-color: #efe7a2;
+}
+
+.player-score-container,
+.player-backpack-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  cursor: pointer;
+}
+
+.player-score-container:nth-of-type(odd),
+.player-backpack-container:nth-of-type(odd) {
+  background-color: rgba(0, 0, 0, 0.15);
+}
+
+/* Suboptions + icons */
+.suboption-sprite {
+  position: relative;
+  width: 88.75px;
+  height: 88.75px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.suboption-sprite-small {
+  width: 40px;
+  height: 40px;
+}
+
+.suboption-sprite-letter {
+  background-image: url(assets/option_icons.webp);
+  background-size: cover;
+  background-position-x: 0%;
+}
+
+.suboption-sprite-wall {
+  background-image: url(assets/option_icons.webp);
+  background-size: cover;
+  background-position-x: -100%;
+}
+
+.suboption-sprite-start_player {
+  background-image: url(assets/option_icons.webp);
+  background-size: cover;
+  background-position-x: -200%;
+}
+
+.suboption-sprite-points {
+  background-image: url(assets/option_icons.webp);
+  background-size: cover;
+  background-position-x: -300%;
+}
+
+.suboption-sprite-cell {
+  background-image: url(assets/option_icons.webp);
+  background-size: cover;
+  background-position-x: -400%;
+}
+
+.suboption-sprite-swap {
+  background-image: url(assets/option_icons.webp);
+  background-size: cover;
+  background-position-x: -500%;
+}
+
+.suboption-sprite-destroy {
+  background-image: url(assets/option_icons.webp);
+  background-size: cover;
+  background-position-x: -600%;
+}
+
+.suboption-sprite-po_letter {
+  background-image: url(assets/option_icons.webp);
+  background-size: cover;
+  background-position-x: -700%;
+}
+
+.suboption-sprite-po_word {
+  background-image: url(assets/option_icons.webp);
+  background-size: cover;
+  background-position-x: -800%;
+}
+
+.suboption-sprite-po_straight {
+  background-image: url(assets/option_icons.webp);
+  background-size: cover;
+  background-position-x: -900%;
+}
+
+.suboption-sprite-po_connect {
+  background-image: url(assets/option_icons.webp);
+  background-size: cover;
+  background-position-x: -1000%;
+}
+
+.suboption-sprite-po_clear {
+  background-image: url(assets/option_icons.webp);
+  background-size: cover;
+  background-position-x: -1100%;
+}
+
+.suboption-sprite-empty_backpack {
+  background-image: url(assets/option_icons.webp);
+  background-size: cover;
+  background-position-x: -1200%;
+}
+
+.suboption-sprite-points_standalone {
+  background-image: url(assets/option_icons.webp);
+  background-size: cover;
+  background-position-x: -1300%;
+}
+
+.letter-option-letter {
+  font-size: 2rem;
+}
+
+.suboption-sprite-small .letter-option-letter {
+  font-size: 1rem;
+}
+
+.letter-option-point-value {
+  position: absolute;
+  right: 0.6rem;
+  bottom: 0.6rem;
+  font-size: 0.85rem;
+  opacity: 1;
+}
+
+.points-option-point-value {
+  position: absolute;
+  right: 0;
+  font-size: 2.5rem;
+  color: black;
+  /*bottom: 0;
+  -webkit-text-stroke: 2px #1e3404;
+  filter: drop-shadow(0 0 5px black);*/
+}
+
+.twopart-number {
+  font-size: 2rem;
+}
+
+.suboption-sprite-small .twopart-number {
+  font-size: 1rem;
+}
+
+/* Cell type icons */
+.cell-sprite {
+  width: 64px;
+  height: 64px;
+  background-image: url(/keebble/assets/special_cells.webp);
+  margin: auto;
+}
+
+.cell-sprite-start {
+  background-size: 800%;
+  background-position-x: 0%;
+  background-position-y: 0%;
+}
+
+.cell-sprite-doubleWord {
+  background-size: 800%;
+  background-position-x: -100%;
+  background-position-y: 0%;
+}
+
+.cell-sprite-tripleWord {
+  background-size: 800%;
+  background-position-x: -200%;
+  background-position-y: 0%;
+}
+
+.cell-sprite-doubleLetter {
+  background-size: 800%;
+  background-position-x: -300%;
+  background-position-y: 0%;
+}
+
+.cell-sprite-tripleLetter {
+  background-size: 800%;
+  background-position-x: -400%;
+  background-position-y: 0%;
+}
+
+.cell-sprite-big-ask {
+  background-size: 800%;
+  background-position-x: -500%;
+  background-position-y: 0%;
+}
+
+.cell-sprite-thief {
+  background-size: 800%;
+  background-position-x: -600%;
+  background-position-y: 0%;
+}
+
+.cell-sprite-destroyer {
+  background-size: 800%;
+  background-position-x: -700%;
+  background-position-y: 0%;
+}
+
+.cell-sprite-go-again {
+  background-size: 800%;
+  background-position-x: 0%;
+  background-position-y: -100%;
+}
+
+.cell-sprite-garbage {
+  background-size: 800%;
+  background-position-x: -100%;
+  background-position-y: -100%;
+}
+
+.cell-sprite-blockade {
+  background-size: 800%;
+  background-position-x: -200%;
+  background-position-y: -100%;
+}
+
+.cell-sprite-collector {
+  background-size: 800%;
+  background-position-x: -300%;
+  background-position-y: -100%;
+}
+
+/*# sourceMappingURL=game.css.map */

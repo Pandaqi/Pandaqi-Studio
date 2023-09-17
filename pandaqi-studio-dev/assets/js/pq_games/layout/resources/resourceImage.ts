@@ -7,6 +7,7 @@ import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage
 import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple"
 
 import ResourceLoader from "./resourceLoader"
+import ResourceText from "./resourceText"
 
 type ImageLike = HTMLImageElement|ResourceImage|ResourceGradient|ResourcePattern
 type CanvasLike = HTMLCanvasElement|CanvasRenderingContext2D
@@ -78,9 +79,9 @@ export default class ResourceImage extends Resource
     fromResourceImage(r:ResourceImage, deep = false)
     {
         this.img = r.img;
-        this.size = deep ? r.size.clone() : this.size;
-        this.frameDims = deep ? r.frameDims.clone() : this.frameDims;
-        this.frames = deep ? r.frames.slice() : this.frames;
+        this.size = deep ? r.size.clone() : r.size;
+        this.frameDims = deep ? r.frameDims.clone() : r.frameDims;
+        this.frames = deep ? r.frames.slice() : r.frames;
         this.refreshSize();
     }
 
@@ -111,6 +112,12 @@ export default class ResourceImage extends Resource
         this.refreshSize();
         await this.cacheFrames();
         return this;
+    }
+
+    // @TODO
+    async fromText(text:ResourceText)
+    {
+        return this
     }
 
     /* Helpers & Tools */

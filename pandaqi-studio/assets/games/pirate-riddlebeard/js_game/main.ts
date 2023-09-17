@@ -1,9 +1,9 @@
 // @ts-nocheck
 import GenerationScene from "./generation"
 import { scaleFactor, pdfSize } from "./dictionary"
-import Phaser from "js/pq_games/phaser.esm"
+import { Game, CANVAS, Scale } from "js/pq_games/phaser.esm"
 
-export default class Game {
+export default class PirateGame {
     constructor() {}
 
     start() {
@@ -22,11 +22,11 @@ export default class Game {
         //}
     
         var config = {
-            type: Phaser.CANVAS,
+            type: CANVAS,
             scale: {
-                mode: Phaser.Scale.FIT,
+                mode: Scale.FIT,
                 parent: 'phaser-container',
-                autoCenter: Phaser.Scale.CENTER_BOTH,
+                autoCenter: Scale.CENTER_BOTH,
                 width: width,
                 height: height
             },
@@ -38,11 +38,11 @@ export default class Game {
             parent: 'phaserGameContainer'
         }
     
-        const game = new Phaser.Game(config); 
+        const game = new Game(config); 
         window.GAME = game;
         game.scene.add('generation', GenerationScene, false, {});
         game.scene.start('generation', gameConfig);
     }
 }
 
-new Game().start();
+new PirateGame().start();

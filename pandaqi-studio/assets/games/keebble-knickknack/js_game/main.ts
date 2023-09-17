@@ -46,8 +46,15 @@ export default class Game
 
     start(playerNames = [])
     {
+        window.localStorage.removeItem(CONFIG.playerSaveKey);
         this.generateConfig(playerNames);
         this.gotoNextPhase();
+    }
+
+    restart()
+    {
+        window.localStorage.setItem(CONFIG.playerSaveKey, JSON.stringify(this.players.getPlayerNames()));
+        window.location.href = CONFIG.gameURL;
     }
 
     destroy()
@@ -217,4 +224,5 @@ export default class Game
 
 const gm = new Game();
 CONFIG.GAME = gm;
-gm.start();
+const prevPlayers = JSON.parse(window.localStorage.getItem(CONFIG.playerSaveKey) || "{}");
+gm.start(prevPlayers);

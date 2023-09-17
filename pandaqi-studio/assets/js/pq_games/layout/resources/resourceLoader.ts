@@ -5,7 +5,7 @@ import ResourceFont from "./resourceFont"
 export default class ResourceLoader 
 {
 
-    IMAGE_EXTENSIONS = ["jpg", "jpeg", "webp", "png", "jfif", "avif"]
+    IMAGE_EXTENSIONS = ["jpg", "jpeg", "webp", "png", "jfif", "avif", "svg"]
     AUDIO_EXTENSIONS = ["mp3", "ogg", "wav"]
     VIDEO_EXTENSIONS = ["mp4", "webm"]
     FONT_EXTENSIONS = ["otf", "ttf", "woff", "woff2"]
@@ -108,7 +108,7 @@ export default class ResourceLoader
         this.resourcesLoaded[id] = res;
     }
 
-    getResource(id:string, copy:boolean = true) : Resource
+    getResource(id:string, copy:boolean = false) : any
     {
         let res = this.resourcesLoaded[id];
         if(!res) { return null; }

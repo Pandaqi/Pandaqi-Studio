@@ -79,6 +79,7 @@ class BoardGeneration extends Scene
 		const canvasWidth = this.canvas.width;
 		const scaleFactorDPI = (canvasWidth/1160.0);
 		
+		this.cfg.numPlayers = parseInt(this.cfg.playerCount);
 		this.cfg.scaleFactorDPI = scaleFactorDPI;
 		this.cfg.resolutionX = 10; // number of points across the width of the paper
 
@@ -1045,7 +1046,6 @@ class BoardGeneration extends Scene
 					let res = false;
 					if(spaceBetween > 2*powerDotRadius) {
 						let randAngle = ang + RNG() * (spaceBetween-2*powerDotRadius) + powerDotRadius;
-
 						let res = this.createPowerDot(randAngle, p, allAngles)
 
 						if(res) {
@@ -1066,6 +1066,7 @@ class BoardGeneration extends Scene
 			// fail-safe: if no power dots were placed, place a random one within the range, for certain
 			if(p.powerDots.length <= 0) {
 				let randAngle = RNG() * (angleRange.max - angleRange.min) + angleRange.min;
+				randAngle = randAngle + 0; // without this, the compiler somehow removes this variable ...
 				let res = this.createPowerDot(randAngle, p, allAngles, false);
 			}
 		}

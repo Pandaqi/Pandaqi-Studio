@@ -1,3 +1,4 @@
+import PointGraph from "../geometry/pointGraph";
 import PriorityQueue from "./priorityQueue"
 import Random from "js/pq_games/tools/random/main"
 
@@ -18,6 +19,12 @@ interface PointValid
 	x?: number,
 	y?: number,
 	gridPos?: { x:number, y:number }
+}
+
+interface PathFindParams
+{
+	start?: PointGraph,
+	end?: PointGraph
 }
 
 export default class Pathfinder 
@@ -46,7 +53,7 @@ export default class Pathfinder
 
 		for(const point of map)
 		{
-			const nbs = point.getNeighbours();
+			const nbs = point.getNeighbors();
 			for(const nb of nbs)
 			{
 				const id = this.getConnectionID(point, nb);
@@ -102,8 +109,7 @@ export default class Pathfinder
 		return heuristic;
 	}
 
-	// @TODO: more specific interface/type with the only values that matter
-	getPath(params:Record<string,any> = {})
+	getPath(params:PathFindParams = {})
 	{
 		const start = params.start || null;
 		const end = params.end || null;
@@ -131,7 +137,7 @@ export default class Pathfinder
 			const isEndPoint = (currentPoint == end);
 			if(isEndPoint) { reachable = true; break; }
 
-			const nbs = currentPoint.getNeighbours();
+			const nbs = currentPoint.getNeighbors();
 			for(const nb of nbs)
 			{
 				const id = this.getID(nb);

@@ -62,10 +62,7 @@ export default class GameOver
         restartBtn.innerHTML = 'Play Again (same players)';
         restartBtn.classList.add("button-look");
         restartBtn.addEventListener("click", (ev) => {
-            const curPlayers = this.game.players.getPlayerNames();
-            CONFIG.GAME.destroy();
-            CONFIG.GAME = new Game();
-            CONFIG.GAME.start(curPlayers);
+            CONFIG.GAME.restart();
         })
 
         const leaveBtn = document.createElement("button");

@@ -2,7 +2,7 @@ import Point from "./point"
 import Line from "./line"
 import Triangle from "./triangle"
 import Rectangle from "./rectangle"
-import Hexagon from "./hexagon"
+import Hexagon from "./polygon"
 import Circle from "./circle"
 import GeometryHelpers from "./helpers"
 

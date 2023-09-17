@@ -1,6 +1,7 @@
 import { TextConfig, TextAlign } from "./textConfig"
 import Dims from "js/pq_games/tools/geometry/dims"
 import Point from "js/pq_games/tools/geometry/point"
+import { CanvasLike } from "../resources/resourceImage"
 
 export default class TextDrawer
 {
@@ -24,13 +25,13 @@ export default class TextDrawer
         const canv = document.createElement("canvas");
         canv.width = 2048;
         canv.height = 2048;
-        this.drawTo(canv);
+        this.toCanvas(canv);
         return this.textBlockDims;
     }
 
-    drawTo(canv:HTMLCanvasElement)
+    toCanvas(canv:CanvasLike)
     {
-        const ctx = canv.getContext("2d");
+        const ctx = (canv instanceof HTMLCanvasElement) ? canv.getContext("2d") : canv;
         const style = this.cfg.getCanvasFontString();
         ctx.font = style;
         ctx.fillStyle = this.cfg.color;
@@ -153,7 +154,10 @@ export default class TextDrawer
 
         textarray.forEach(txtline => {
             txtline = txtline.trim()
+
+            // this is the one line that actually draws text!
             ctx.fillText(txtline, textanchor, txtY)
+            
             const oldY = txtY
             txtY += charHeight
 

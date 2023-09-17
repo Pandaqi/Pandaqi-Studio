@@ -2,9 +2,10 @@ import CanvasUI from "./canvasUI";
 import CanvasTurn from "./canvasTurn";
 import Map from "./map";
 import MapVisualizer from "./mapVisualizer";
-import Point from "./point";
 import Line from "./line";
 import LayoutOperation from "js/pq_games/layout/layoutOperation"
+import PointNonPhotomone from "js/pq_games/tools/geometry/point";
+import Point from "./point";
 
 export default class CanvasDrawable 
 {
@@ -421,12 +422,16 @@ export default class CanvasDrawable
         {
             ctx.save();
 
-            // @TODO: this code might be broken after TypeScript update
             const res = this.params.RESOURCE_LOADER.getResource(sprite.textureKey);
             const canvOp = new LayoutOperation({ 
-                size: new Point(sprite.size),
-                pos: sprite.p
+                frame: sprite.frame,
+                dims: new PointNonPhotomone(sprite.size),
+                translate: sprite.p,
+                pivot: new PointNonPhotomone(0.5)
             })
+
+            console.log(res);
+            console.log(canvOp);
 
             res.toCanvas(ctx, canvOp);
             ctx.restore();

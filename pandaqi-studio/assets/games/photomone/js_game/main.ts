@@ -83,7 +83,8 @@ async function createWordCards(userConfig:Record<string,any>)
         const spriteParams = {
             translate: new Point(0, antMarginY),
             dims: new Point(spriteSize, spriteSize),
-            rotation: Math.PI
+            rotation: Math.PI,
+            pivot: new Point(0.5)
         }
         const canvOp = new LayoutOperation(spriteParams);
 
@@ -180,8 +181,8 @@ async function createWordCards(userConfig:Record<string,any>)
         ctx.globalAlpha = 1.0;
 
         // actually put words + data on the card
-        const iconPoints : ResourceImage = resLoader.getResource("icon_points") as ResourceImage;
-        const iconLines : ResourceImage = resLoader.getResource("icon_lines") as ResourceImage;
+        const iconPoints = resLoader.getResource("icon_points") as ResourceImage;
+        const iconLines = resLoader.getResource("icon_lines") as ResourceImage;
 
         for(let a = 0; a < wordsToPutOnCard; a++)
         {
@@ -207,7 +208,8 @@ async function createWordCards(userConfig:Record<string,any>)
 
             const resParams = {
                 dims: new Point(iconSize),
-                translate: new Point(dataX, y)
+                translate: new Point(dataX, y),
+                pivot: new Point(0.5)
             }
             const canvOp = new LayoutOperation(resParams);
             iconPoints.toCanvas(ctx, canvOp);

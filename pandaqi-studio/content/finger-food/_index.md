@@ -10,6 +10,7 @@ headerTitle: "Finger Food | A quick game playable with just a paper and your fin
 blurb: "A quick game playable with just a single paper. Each turn, place a finger on a new square, to score more points than your opponents before you've used your whole hand."
 
 fullHeaderImg: "finger_food_header"
+headerImg: "finger_food_header"
 
 headerThumb: "favicon"
 
@@ -18,11 +19,11 @@ headerDarkened: true
 
 color: "pink"
 
-bgColor: "#083d08"
-bgColorLink: "#9ce4eb"
+bgColor: "#613700"
+bgColorLink: "#ffbc8b"
 
-textColor: "#cdfff9"
-textColorLink: "#083d42"
+textColor: "#ffded3"
+textColorLink: "#5b2608"
 
 googleFonts: "https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&family=Quicksand:wght@500;700&display=swap"
 
@@ -90,7 +91,7 @@ Boards are as balanced and pretty as I can make them (through random generation 
 
 To make sure we're all on the same page, here is an image of how a single hand might be placed and how to score it (at the end of the game.)
 
-![Example of hand placement and scoring.](webp/rules_explanation.webp)
+![Example of hand placement and scoring.](rules_explanation.webp)
 
 {{% /section-centered %}}
 

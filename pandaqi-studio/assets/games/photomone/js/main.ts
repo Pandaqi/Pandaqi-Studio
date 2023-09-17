@@ -4,7 +4,7 @@ import { Scene, Display } from "js/pq_games/phaser.esm"
 import Map from "../js_shared/map"
 import { MapVisualizer, VisResult } from "../js_shared/mapVisualizer"
 import WordsPhotomone from "../js_shared/wordsPhotomone"
-import PHOTOMONE_BASE_PARAMS from "../js_shared/gameDictionary"
+import PHOTOMONE_BASE_PARAMS from "../js_shared/config"
 
 const sceneKey = "boardGeneration"
 class BoardGeneration extends Scene
@@ -109,7 +109,7 @@ class BoardGeneration extends Scene
 
         for(const rect of vis.rects)
         {
-            const color = Display.Color.ValueToColor(rect.color.toHex()).color;
+            const color = Display.Color.ValueToColor(rect.color.toHEX()).color;
             const r = this.add.rectangle(rect.p.x, rect.p.y, rect.size.x, rect.size.y, color, rect.alpha);
             r.setOrigin(0,0);
             objects.push(r);
@@ -117,7 +117,7 @@ class BoardGeneration extends Scene
 
         for(const line of vis.lines)
         {
-            const color = Display.Color.ValueToColor(line.color.toHex()).color;
+            const color = Display.Color.ValueToColor(line.color.toHEX()).color;
             const lw = line.width;
             const l = this.add.line(0, 0, line.p1.x, line.p1.y, line.p2.x, line.p2.y, color, line.alpha);
             l.setOrigin(0,0);
@@ -127,7 +127,7 @@ class BoardGeneration extends Scene
 
         for(const circ of vis.circles)
         {
-            const colorObject = Display.Color.ValueToColor(circ.color.toHex());
+            const colorObject = Display.Color.ValueToColor(circ.color.toHEX());
             const color = colorObject.color;
             const c = this.add.circle(circ.p.x, circ.p.y, circ.radius, color);
             objects.push(c);

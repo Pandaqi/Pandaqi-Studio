@@ -16,7 +16,14 @@ export default class Point
     static RIGHT = new Point(1,0);
     static UP = new Point(0,-1);
     static DOWN = new Point(0,1);
+
+    static ZERO = new Point(0,0);
     static ONE = new Point(1,1);
+
+    static TOP_LEFT = new Point(-1,-1);
+    static TOP_RIGHT = new Point(1,-1);
+    static BOTTOM_RIGHT = new Point(1,1);
+    static BOTTOM_LEFT = new Point(-1,1);
 
     constructor(a:PointParamValid = 0, b:number = null)
     {
@@ -38,7 +45,9 @@ export default class Point
     clone() { return new Point(this); }
     isValid() { return this.isNumber(this.x) && this.isNumber(this.y); }
     hasValue() { return this.isValid() && (this.x != 0 || this.y != 0); }
-    isNumber(val) { return !isNaN(val); }
+    isNumber(val:any) { return !isNaN(val); }
+
+    toSVGString() { return " " + this.x + " " + this.y }
 
     // setting/overriding
     setX(v = 0) { this.x = v; return this; }
@@ -87,6 +96,17 @@ export default class Point
 
     // dimensions
     angle() { return Math.atan2(this.y, this.x); }
+
+    // @TODO: the orthodot part is new to me, is it needed? does this work?
+    angleTo(p:Point)
+    {
+        const length = this.length() * p.length();
+        const dot = this.dot(p);
+        const orthodot = this.x * p.y - this.y * p.x;
+        const sign = orthodot >= 0 ? 1 : -1;
+        return sign * Math.acos(dot / length);
+    }
+
     negate() { return this.scaleFactor(-1); }
     normalize() 
     { 

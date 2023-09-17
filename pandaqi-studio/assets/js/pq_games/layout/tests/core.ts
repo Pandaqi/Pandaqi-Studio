@@ -1,4 +1,4 @@
-import Container from "../containers/container";
+import Container from "../layoutNode";
 import ContainerImage from "../containers/containerImage";
 import ContainerText from "../containers/containerText";
 import ResourceLoader from "../resources/resourceLoader";

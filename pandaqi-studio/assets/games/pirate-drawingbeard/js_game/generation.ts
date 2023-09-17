@@ -6,20 +6,20 @@ import Interface from "./interface"
 import Map from "./map"
 import { TILE_DICT, SYMBOLS } from "./dictionary"
 // @ts-ignore
-import Phaser from "js/pq_games/phaser.esm"
+import { Scene, Geom, GameObjects } from "js/pq_games/phaser.esm"
 import Point from "js/pq_games/tools/geometry/point"
 
-export default new Phaser.Class({
+export default class Generation extends Scene
+{
+	canvas: HTMLCanvasElement
+	textures: any
 
-    Extends: Phaser.Scene,
+    constructor()
+	{
+		super({ key: "generation" });
+	}
 
-    initialize:
-    function Generation()
-    {
-        Phaser.Scene.call(this, { key: 'generation' });
-    },
-
-    preload: function() {
+    preload() {
 		this.load.crossOrigin = 'Anonymous';
 		this.canvas = this.sys.game.canvas;
 
@@ -51,9 +51,9 @@ export default new Phaser.Class({
 		this.load.spritesheet('hint_symbols_inkfriendly', base + 'hint_symbols_inkfriendly.webp', sheetData);
 
 		document.getElementById('debugging').innerHTML = '';
-    },
+    }
 
-    create: function(config) {
+    create(config) {
     	Config.initialize(this, config);
     	HintVisualizer.prepare();
 
@@ -75,18 +75,18 @@ export default new Phaser.Class({
     	}
 
     	interval = setInterval(mainGenerationAction.bind(this), timeout);
-	},
+	}
 
 	// we pass a flat list to the HINT visualizer; it saves the final image on the hint object itself
-	onGenerationFinished: function()
+	onGenerationFinished()
 	{    	
 		this.visualize();
 		HintVisualizer.visualizeAll(Hints.getAsList(), this.onHintVisualizationFinished.bind(this)); 
-	},
+	}
 
 	// if debugging, just stop here and keep the phaser game alive
 	// otherwise, cache the images (and destroy phaser afterwards)
-	onHintVisualizationFinished: function()
+	onHintVisualizationFinished()
 	{
 		for(let i = 0; i < Hints.perPlayer.length; i++)
 		{
@@ -105,34 +105,34 @@ export default new Phaser.Class({
 		}
 
 		this.finishCreation();
-	},
+	}
 
 	// if we want a PDF, create it now
-	onImageCachingFinished: function()
+	onImageCachingFinished()
 	{
 		if(Config.createPremadeGame) {
 			Extractor.createPremadeGame(this.onPremadeCreationFinished.bind(this));
 			return;
 		}
 		this.finishCreation();
-	},
+	}
 
-	onPremadeCreationFinished: function()
+	onPremadeCreationFinished()
 	{
 		this.finishCreation();
-	},
+	}
 
 	// this is only called when we're completely, totally, definitely done with creation
 	// which means we fire up the interface
 	finishCreation()
 	{
 		Interface.initialize();
-	},
+	}
 
 	/*
 		VISUALIZATION
 	 */
-	visualize: function()
+	visualize()
 	{
 		this.clearMap();
 
@@ -184,7 +184,7 @@ export default new Phaser.Class({
 					let nbX = oX + cell.connNbs[n].x*cs + 0.5*cs;
 					let nbY = oY + cell.connNbs[n].y*cs + 0.5*cs;
 
-					let line = new Phaser.Geom.Line(fX, fY, nbX, nbY);
+					let line = new Geom.Line(fX, fY, nbX, nbY);
 					networkGraphics.strokeLineShape(line);
 				}
 			}
@@ -223,13 +223,13 @@ export default new Phaser.Class({
 
 				for(let x = 1; x < Map.width; x++)
 				{
-					let line = new Phaser.Geom.Line(gridOffset.x + x*gridCellSize, gridOffset.y, gridOffset.x + x*gridCellSize, gridOffset.y + gridSize.y);
+					let line = new Geom.Line(gridOffset.x + x*gridCellSize, gridOffset.y, gridOffset.x + x*gridCellSize, gridOffset.y + gridSize.y);
 					specialTileGraphics.strokeLineShape(line);
 				}
 
 				for(let y = 1; y < Map.height; y++)
 				{
-					let line = new Phaser.Geom.Line(gridOffset.x, gridOffset.y + y*gridCellSize, gridOffset.x + gridSize.x, gridOffset.y + y*gridCellSize);
+					let line = new Geom.Line(gridOffset.x, gridOffset.y + y*gridCellSize, gridOffset.x + gridSize.x, gridOffset.y + y*gridCellSize);
 					specialTileGraphics.strokeLineShape(line);
 				}
 
@@ -300,13 +300,13 @@ export default new Phaser.Class({
 			this.showTreasureRectangle();
 		}
 
-	},
+	}
 
 	// NOTE: we simply overlap the rectangle with the map that's already there; makes it simpler for the interface to display the solution
 	visualizeTreasure()
 	{
 		this.showTreasureRectangle();
-	},
+	}
 
 	visualizeHintCards()
 	{
@@ -382,13 +382,13 @@ export default new Phaser.Class({
 
 			for(let x = 1; x < Config.width; x++)
 			{
-				let line = new Phaser.Geom.Line(gridPos.x + x*cs, gridPos.y, gridPos.x + x * cs, gridPos.y + gridSize.y);
+				let line = new Geom.Line(gridPos.x + x*cs, gridPos.y, gridPos.x + x * cs, gridPos.y + gridSize.y);
 				gridGraphics.strokeLineShape(line);
 			}
 
 			for(let y = 1; y < Config.height; y++)
 			{
-				let line = new Phaser.Geom.Line(gridPos.x, gridPos.y + y * cs, gridPos.x + gridSize.x, gridPos.y + y * cs);
+				let line = new Geom.Line(gridPos.x, gridPos.y + y * cs, gridPos.x + gridSize.x, gridPos.y + y * cs);
 				gridGraphics.strokeLineShape(line);
 			}
 
@@ -396,14 +396,14 @@ export default new Phaser.Class({
 			for(let t = 0; t < tiles.length; t++)
 			{
 				let tile = tiles[t];
-				let rect = new Phaser.Geom.Rectangle(gridPos.x + tile.x*cs, gridPos.y + tile.y*cs, cs, cs);
+				let rect = new Geom.Rectangle(gridPos.x + tile.x*cs, gridPos.y + tile.y*cs, cs, cs);
 				gridGraphics.fillRectShape(rect);
 
 			}
 		}
 
 		this.children.bringToTop(gridGraphics);
-	},
+	}
 
 	// @TODO: maybe save oX, oY, cellSize on ourselves as well? (Instead of referencing config all the time)
 	showTreasureRectangle()
@@ -412,29 +412,29 @@ export default new Phaser.Class({
 
 		let fX = Config.oX + Map.treasureLocation.x*Config.cellSize;
 		let fY = Config.oY + Map.treasureLocation.y*Config.cellSize;
-		let rect = new Phaser.Geom.Rectangle(fX, fY, Config.cellSize, Config.cellSize);
+		let rect = new Geom.Rectangle(fX, fY, Config.cellSize, Config.cellSize);
 
 		let lineThickness = 6
 		graphics.lineStyle(lineThickness, 0xFF0000, 1.0);
 		graphics.strokeRectShape(rect);
-	},
+	}
 
-	clearMap: function()
+	clearMap()
 	{
-		let allSprites = this.children.list.filter(x => x instanceof Phaser.GameObjects.Sprite);
+		let allSprites = this.children.list.filter(x => x instanceof GameObjects.Sprite);
 		allSprites.forEach(x => x.destroy());
 
-		let allImages = this.children.list.filter(x => x instanceof Phaser.GameObjects.Image);
+		let allImages = this.children.list.filter(x => x instanceof GameObjects.Image);
 		allImages.forEach(x => x.destroy());
 
-		let allGraphics = this.children.list.filter(x => x instanceof Phaser.GameObjects.Graphics);
+		let allGraphics = this.children.list.filter(x => x instanceof GameObjects.Graphics);
 		allGraphics.forEach(x => x.destroy());
 
-		let allText = this.children.list.filter(x => x instanceof Phaser.GameObjects.Text);
+		let allText = this.children.list.filter(x => x instanceof GameObjects.Text);
 		allText.forEach(x => x.destroy());
 
-		let allContainers = this.children.list.filter(x => x instanceof Phaser.GameObjects.Container);
+		let allContainers = this.children.list.filter(x => x instanceof GameObjects.Container);
 		allContainers.forEach(x => x.destroy());
-	},
+	}
 
-});
+}

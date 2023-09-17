@@ -10,5 +10,5 @@ export default class Shape
     clone() : Shape { return new Shape(); }
     toPath2D() : Path2D { return new Path({ points: this.toPath() }).toPath2D(); }
     toPathString() : string { return new Path({ points: this.toPath() }).toPathString(); }
-    toCSSPath() : string { return "path(" + this.toPathString(); + ")"; }
+    toCSSPath() : string { return "path(" + this.toPathString() + ")"; }
 }

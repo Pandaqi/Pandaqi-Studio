@@ -103,11 +103,13 @@ This website handles everything for you. It also shows explanations for all the 
 
 {{< boardgame-settings type="board" >}}
   {{< setting-hidden id="setting-gameTitle" text="Starry Skylines" >}}
-  {{< setting-playercount min="1" max="8" def="3" >}}
+  {{< setting-playercount min="1" max="3" def="3" >}}
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the board grayscale and simplified." >}}
   {{< setting-enum id="setting-planet" text="Planet?" values="Learnth,Uronus,Marsh,Yumpiter,Meercury,Intervenus,Pluto,Naptune" valaskey="true" keep-case="true" >}}
   {{< setting-enum id="setting-manualCombo" text="Play handpicked combination?" values="-- ignore --,Nature,Leadership,Resources,Entertainment,Chaotic" keys=",Nature,Leadership,Resources,Entertainment,Chaotic" >}}
 {{< /boardgame-settings >}}
+
+<p style="opacity:0.75; font-size: 0.75em;"><strong>Only 3 players maximum?</strong> Nope! As stated in the rules, each <em>paper</em> has a maximum of 3 players. So, for example, with 5 players you play on <em>two</em> papers. Copy this same starting setup to all.</p>
 
 {{% /section-centered %}}
 

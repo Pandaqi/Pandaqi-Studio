@@ -3,21 +3,42 @@ import { TERRAINS, TERRAIN_DATA, NATURE, STONES, QUADRANTS, LANDMARKS, ROADS, HI
 import Random from "js/pq_games/tools/random/main"
 // @ts-ignore
 // @TODO: not sure if this even works, it used to grab Phaser as a global variable, loaded by the mystical pirategames.js
-import Phaser from "js/pq_games/phaser.esm"
+import { Scene, Geom, GameObjects } from "js/pq_games/phaser.esm"
 import PdfBuilder, { PageOrientation } from "js/pq_games/pdf/pdfBuilder"
 import Point from "js/pq_games/tools/geometry/point"
 
 type Hint = { final_text?: string, html_text?: string }
 
-export default new Phaser.Class({
+export default class Generation extends Scene
+{
+	canvas: HTMLCanvasElement
+	cfg: Record<string,any>
+	AVAILABLE_HINTS: any
+	hintsGenerationFail: boolean
+	map: any
+	LOST_RIDDLES: any
+	hintsPerPlayer: any
+	tilesLeftPerPlayer: any
+	botHintCategories: any
+	mapList: any
+	FALSE_SQUARES: any
+	TRUTH_SQUARES: any
+	TINY_TREASURES: any
+	hintGenerationTries: any
+	maxHintGenerationTries: any
+	numMapGenerations: number
+	mapGenerationFail: boolean
+	TREASURE: any
+	roadLocations: any[]
+	treasure: Point
+	hints: any
+	landmarkCells: {}
+	fixedData: { terrain: string; nature: string; stones: number|string; landmark: string; road: string }
 
-    Extends: Phaser.Scene,
-
-    initialize:
-    function Generation()
-    {
-        Phaser.Scene.call(this, { key: 'generation' });
-    },
+	constructor()
+	{
+		super({ key: "generation" });
+	}
 
     preload() {
 		this.load.crossOrigin = 'Anonymous';
@@ -28,7 +49,7 @@ export default new Phaser.Class({
 		this.load.spritesheet('elements', base + 'elements.png', { frameWidth: 400, frameHeight: 400 });
 		this.load.spritesheet('icons', base + 'icons.png', { frameWidth: 400, frameHeight: 400 });
 		this.load.image('hint_card', base + 'hint_card.png');
-    },
+    }
 
     create(config) {
     	this.generateConfiguration(config);
@@ -103,8 +124,7 @@ export default new Phaser.Class({
 		};
 
 		interval = setInterval(mainGenerationAction.bind(this), timeout);
-
-	},
+	}
 
 	finishCreation()
 	{
@@ -140,7 +160,7 @@ export default new Phaser.Class({
 
 		const ui = new Interface(config);
 		ui.start();
-	},
+	}
 
 	calculateBotbeardInformation()
 	{
@@ -233,7 +253,7 @@ export default new Phaser.Class({
 			proposal.changed = changed;
 			tileA.proposeData[this.convertToStringCoordinates(tileB)] = proposal;
 		}
-	},
+	}
 
 	getAllLocationsAsStrings()
 	{
@@ -243,7 +263,7 @@ export default new Phaser.Class({
 			list[i] = this.convertToStringCoordinates(list[i]);
 		}
 		return list;
-	},
+	}
 
 	addLiarsCouncilHints()
 	{
@@ -307,7 +327,7 @@ export default new Phaser.Class({
 				this.hintsPerPlayer[i].push(hint);
 			}
 		}
-	},
+	}
 
 	addTinyTreasuresHints()
 	{
@@ -321,7 +341,7 @@ export default new Phaser.Class({
 			hint.html_text = hint.final_text
 			this.hintsPerPlayer[i].push(hint);
 		}
-	},
+	}
 
 	distributeHintsAcrossPlayers()
 	{
@@ -352,7 +372,7 @@ export default new Phaser.Class({
 		this.hintsPerPlayer = hintsPerPlayer;
 
 		if(this.cfg.debugging) { console.log("HINTS PER PLAYER"); console.log(this.hintsPerPlayer); }
-	},
+	}
 
 	checkHintValueBalance()
 	{
@@ -421,7 +441,7 @@ export default new Phaser.Class({
 		}
 
 		if(failed) { this.hintsGenerationFail = true; }
-	},
+	}
 
 	/*
 		GENERATION
@@ -549,7 +569,7 @@ export default new Phaser.Class({
     		TERRAINS.splice(3);
     		LISTS.terrain = TERRAINS
     	}
-	},
+	}
 
 	generateBoard() {
 		this.mapGenerationFail = true
@@ -571,7 +591,7 @@ export default new Phaser.Class({
 			this.createLiarsCouncil();
 			this.createTinyTreasures();
 		}
-	},
+	}
 
 	determineSeed() {
 		let randomSeedLength = Math.floor(Math.random() * 10) + 2;
@@ -585,7 +605,7 @@ export default new Phaser.Class({
 		this.cfg.rng.general = Random.seedRandom(finalSeed + "-general");
 		this.cfg.rng.map = Random.seedRandom(finalSeed + "-map");
 		this.cfg.rng.hints = Random.seedRandom(finalSeed + "-hints-" + randomSeed);
-	},
+	}
 
 	prepareGrid() {
 		this.map = [];
@@ -650,7 +670,7 @@ export default new Phaser.Class({
 				this.map[x][y].nbs = nbs;
 			}
 		}
-	},
+	}
 
 	createTerrain() {
 
@@ -727,7 +747,7 @@ export default new Phaser.Class({
 			}
 		}
 
-	},
+	}
 
 	createNature() {
 		if(this.cfg.debugging) { console.log(" => Creating nature ... "); }
@@ -828,7 +848,7 @@ export default new Phaser.Class({
 			totalNum[type] += 1;
 
 		}
-	},
+	}
 
 	createLiarsCouncil()
 	{
@@ -863,7 +883,7 @@ export default new Phaser.Class({
 			console.log(this.FALSE_SQUARES);
 			console.log(this.TRUTH_SQUARES);
 		}
-	},
+	}
 
 	createTinyTreasures()
 	{
@@ -883,7 +903,7 @@ export default new Phaser.Class({
 		}
 
 		if(this.cfg.debugging) { console.log("TINY TREASURES"); console.log(this.TINY_TREASURES); }
-	},
+	}
 
 	natureIsForbidden(cell, type)
 	{
@@ -892,7 +912,7 @@ export default new Phaser.Class({
 		if(cell.road != '') { return true; }
 		if(cell.landmark != '') { return true; }
 		return false;
-	},
+	}
 
 	minDistanceApart(cell, list, dist)
 	{
@@ -902,12 +922,12 @@ export default new Phaser.Class({
 			if(this.distBetweenCells(cell, newCell) < dist) { return false; }
 		}
 		return true;
-	},
+	}
 
 	distBetweenCells(a, b)
 	{
 		return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
-	},
+	}
 
 	createStones() {
 		if(this.cfg.debugging) { console.log(" => Creating stones ... "); }
@@ -943,7 +963,7 @@ export default new Phaser.Class({
 				cell.stones = i;
 			}
 		}
-	},
+	}
 
 	createRoads() {
 		if(this.cfg.debugging) { console.log(" => Creating roads ... "); }
@@ -1045,7 +1065,7 @@ export default new Phaser.Class({
 				i -= 1;
 			}
 		}
-	},
+	}
 
 	getDirFromEdge(cell)
 	{
@@ -1055,7 +1075,7 @@ export default new Phaser.Class({
 		else if(cell.y == 0) { dir = 3; }
 		else if(cell.y == (this.cfg.height-1)) { dir = 1; }
 		return dir;
-	},
+	}
 
 	calculateRoadData(lastDir, dir, matrix, cell)
 	{
@@ -1077,7 +1097,7 @@ export default new Phaser.Class({
 			'type': roadType,
 			'orient': orient
 		}
-	},
+	}
 
 	findDirBetweenCells(oldCell, newCell)
 	{
@@ -1086,7 +1106,7 @@ export default new Phaser.Class({
 		else if(vector[0] == -1) { return 2; }
 		else if(vector[1] == -1) { return 1; }
 		return 3;
-	},
+	}
 
 	createLandmarks() {
 		if(this.cfg.debugging) { console.log(" => Creating landmarks ... "); }
@@ -1118,13 +1138,13 @@ export default new Phaser.Class({
 
 			this.landmarkCells[type] = cell;
 		}
-	},
+	}
 
 	getRandomCell(RNG) {
 		let x = Math.floor(RNG() * this.cfg.width);
 		let y = Math.floor(RNG() * this.cfg.height);
 		return this.map[x][y];
-	},
+	}
 
 	/*
 		FORWARD (INSTRUCTION GENERATION)
@@ -1377,7 +1397,7 @@ export default new Phaser.Class({
 				console.log(this.LOST_RIDDLES);
 			}
 		}
-	},
+	}
 
 	countNumElementsInDictionary(dict)
 	{
@@ -1386,7 +1406,7 @@ export default new Phaser.Class({
 			sum += dict[key].length;
 		}
 		return sum;
-	},
+	}
 
 	findAllValidLocationsWithHints(hints)
 	{
@@ -1414,7 +1434,7 @@ export default new Phaser.Class({
 		}
 
 		return arr;
-	},
+	}
 
 	/*
 		BACKWARD (INSTRUCTION GENERATION)
@@ -1537,7 +1557,7 @@ export default new Phaser.Class({
 
 		this.hints = hints;
 		this.treasure = validLocations[0];
-	},
+	}
 
 	removeForbiddenHints(list, hint)
 	{
@@ -1553,7 +1573,7 @@ export default new Phaser.Class({
 				break;
 			}
 		}
-	},
+	}
 
 	generateListWithLandmarkLocations() {
 		let arr = [];
@@ -1561,7 +1581,7 @@ export default new Phaser.Class({
 			arr.push(this.landmarkCells[landmarkName]);
 		}
 		return arr;
-	},
+	}
 
 	// Not very efficient, but this function is only called ONCE at MOST, so ... 
 	generateListWithEdgeLocations() {
@@ -1582,7 +1602,7 @@ export default new Phaser.Class({
 			obj.right.push(this.map[this.cfg.width-1][y]);
 		}
 		return obj;
-	},
+	}
 
 	// For each location, we build HINTS again (following the fixed values we already have)
 	// Then check if the final text is identical to the original hint text
@@ -1597,7 +1617,7 @@ export default new Phaser.Class({
 			let hintsMatch = this.matchHints(newHint, hint);
 			if(!hintsMatch) { arr.splice(i, 1); }
 		}
-	},
+	}
 
 	// a is the new hint (with newly calculated values based on its cell)
 	// b is the original version
@@ -1638,7 +1658,7 @@ export default new Phaser.Class({
 			let high = variable[1];
 			return a.final_values[0] >= b.final_values[low] && a.final_values[1] <= b.final_values[high]
 		}
-	},
+	}
 
 	/*
 		
@@ -1676,7 +1696,7 @@ export default new Phaser.Class({
 			}
 		}
 
-		let bool, value
+		let bool, value, val, val2, dir, stringA, stringB
 
 		switch(hint.id) 
 		{
@@ -2092,8 +2112,8 @@ export default new Phaser.Class({
 				break;
 
 			case "nature_compare":
-				let stringA = "fewer";
-				let stringB = "than";
+				stringA = "fewer";
+				stringB = "than";
 
 				if(check || calculate) {
 					let params = {
@@ -2353,7 +2373,7 @@ export default new Phaser.Class({
 
 			/* GENERAL HINTS */
 			case "general_horizontal":
-				let dir = 'right';
+				dir = 'right';
 				if(check || calculate) {
 					if(cell.x < 0.5*this.cfg.width) {
 						dir = 'left';
@@ -2464,8 +2484,8 @@ export default new Phaser.Class({
 				break;
 
 			case "general_map_bounds":
-				let val = 'closer';
-				let val2 = 'than';
+				val = 'closer';
+				val2 = 'than';
 
 				if(check || calculate) {
 					// we add +0.5 twice, then subtract 1, to make sure distance is correct no matter from what direction you come
@@ -3011,7 +3031,7 @@ export default new Phaser.Class({
 		hint.final_text = baseText;
 		hint.html_text = htmlText;
 		hint.final_values = values;
-	},
+	}
 
 	modifyHintValue(val, hint, target)
 	{
@@ -3031,38 +3051,38 @@ export default new Phaser.Class({
 		val = Math.max(val, 1);
 
 		return val;
-	},
+	}
 
 	createNotString(val) {
 		if(val) { return ''; }
 		else { return 'NOT '; }
-	},
+	}
 
 	getRandomSearchRadius(param)
 	{
 		if(param.type == 'bounds' && !this.cfg.advancedHints) { param.max = 1; }
 		return Math.floor(this.cfg.rng.hints() * (param.max - param.min + 1)) + param.min;
-	},
+	}
 
 	/*
 		VISUALIZATION
 	*/
 	clearBoard()
 	{
-		let allSprites = this.children.list.filter(x => x instanceof Phaser.GameObjects.Sprite);
+		let allSprites = this.children.list.filter(x => x instanceof GameObjects.Sprite);
 		allSprites.forEach(x => x.destroy());
 
-		let allGraphics = this.children.list.filter(x => x instanceof Phaser.GameObjects.Graphics);
+		let allGraphics = this.children.list.filter(x => x instanceof GameObjects.Graphics);
 		allGraphics.forEach(x => x.destroy());
 
-		let allText = this.children.list.filter(x => x instanceof Phaser.GameObjects.Text);
+		let allText = this.children.list.filter(x => x instanceof GameObjects.Text);
 		allText.forEach(x => x.destroy());
-	},
+	}
 
 	visualizeTreasureOnly() {
 		this.clearBoard();
 		this.showTreasureRectangle();
-	},
+	}
 
 	visualizeHintCards()
 	{
@@ -3135,13 +3155,13 @@ export default new Phaser.Class({
 
 			for(let x = 1; x < this.cfg.width; x++)
 			{
-				let line = new Phaser.Geom.Line(gridPos.x + x*cs, gridPos.y, gridPos.x + x * cs, gridPos.y + (this.cfg.height*cs));
+				let line = new Geom.Line(gridPos.x + x*cs, gridPos.y, gridPos.x + x * cs, gridPos.y + (this.cfg.height*cs));
 				graphics.strokeLineShape(line);
 			}
 
 			for(let y = 1; y < this.cfg.height; y++)
 			{
-				let line = new Phaser.Geom.Line(gridPos.x, gridPos.y + y * cs, gridPos.x + (this.cfg.width*cs), gridPos.y + y * cs);
+				let line = new Geom.Line(gridPos.x, gridPos.y + y * cs, gridPos.x + (this.cfg.width*cs), gridPos.y + y * cs);
 				graphics.strokeLineShape(line);
 			}
 
@@ -3152,7 +3172,7 @@ export default new Phaser.Class({
 			for(let t = 0; t < tiles.length; t++)
 			{
 				let tile = tiles[t];
-				let rect = new Phaser.Geom.Rectangle(gridPos.x + tile.x*cs, gridPos.y + tile.y*cs, cs, cs);
+				let rect = new Geom.Rectangle(gridPos.x + tile.x*cs, gridPos.y + tile.y*cs, cs, cs);
 				graphics.fillRectShape(rect);
 
 			}
@@ -3160,7 +3180,7 @@ export default new Phaser.Class({
 		}
 
 		this.children.bringToTop(graphics);
-	},
+	}
 
 	// Basically, we create a new list with all locations ...
 	// ... except those that are present in arr
@@ -3185,17 +3205,17 @@ export default new Phaser.Class({
 			list.push(locs[i]);
 		}
 		return list;
-	},
+	}
 
 	convertToStringCoordinates(cell)
 	{
 		return alphabet[cell.x] + "" + (cell.y+1);
-	},
+	}
 
 	visualizeGame() {
 		let graphics = this.add.graphics();
 
-		const bgRect = new Phaser.Geom.Rectangle(0, 0, this.cfg.pixelWidth, this.cfg.pixelHeight);
+		const bgRect = new Geom.Rectangle(0, 0, this.cfg.pixelWidth, this.cfg.pixelHeight);
 		graphics.fillStyle(0xFFFFFF, 1.0);
 		graphics.fillRectShape(bgRect);
 
@@ -3208,7 +3228,7 @@ export default new Phaser.Class({
 			for(let y = 0; y < this.cfg.height; y++) {
 				let fX = oX + x*cs;
 				let fY = oY + y*cs;
-				let rect = new Phaser.Geom.Rectangle(fX, fY, cs, cs);
+				let rect = new Geom.Rectangle(fX, fY, cs, cs);
 				let cell = this.map[x][y];
 				
 				let terrain = cell.terrain;
@@ -3348,7 +3368,7 @@ export default new Phaser.Class({
 			}
 
 		for(let x = 0; x <= this.cfg.width; x++) {
-			let line = new Phaser.Geom.Line(oX + x*cs, oY + 0, oX + x*cs, oY + this.cfg.height*cs);
+			let line = new Geom.Line(oX + x*cs, oY + 0, oX + x*cs, oY + this.cfg.height*cs);
 			topGraphics.strokeLineShape(line);
 
 			if(x == this.cfg.width) { continue; }
@@ -3357,7 +3377,7 @@ export default new Phaser.Class({
 		}
 
 		for(let y = 0; y <= this.cfg.height; y++) {
-			let line = new Phaser.Geom.Line(oX + 0, oY + y*cs, oX + this.cfg.width*cs, oY + y*cs);	
+			let line = new Geom.Line(oX + 0, oY + y*cs, oX + this.cfg.width*cs, oY + y*cs);	
 			topGraphics.strokeLineShape(line);
 
 			if(y == this.cfg.height) { continue; }
@@ -3383,13 +3403,13 @@ export default new Phaser.Class({
 
 			if(!this.outOfBounds(posBelow.x, posBelow.y) && tiles[i].terrain != this.map[posBelow.x][posBelow.y].terrain)
 			{
-				let line = new Phaser.Geom.Line(oX + posBelow.x*cs, oY + posBelow.y*cs, oX + (posBelow.x+1)*cs, oY + posBelow.y*cs);
+				let line = new Geom.Line(oX + posBelow.x*cs, oY + posBelow.y*cs, oX + (posBelow.x+1)*cs, oY + posBelow.y*cs);
 				topGraphics.strokeLineShape(line);
 			}
 
 			if(!this.outOfBounds(posRight.x, posRight.y) && tiles[i].terrain != this.map[posRight.x][posRight.y].terrain)
 			{
-				let line = new Phaser.Geom.Line(oX + posRight.x*cs, oY + posRight.y*cs, oX + posRight.x*cs, oY + (posRight.y+1)*cs);
+				let line = new Geom.Line(oX + posRight.x*cs, oY + posRight.y*cs, oX + posRight.x*cs, oY + (posRight.y+1)*cs);
 				topGraphics.strokeLineShape(line);
 			}
 		}
@@ -3425,7 +3445,7 @@ export default new Phaser.Class({
 		{
 			this.showTreasureRectangle();
 		}
-	},
+	}
 
 	showTreasureRectangle()
 	{
@@ -3434,11 +3454,11 @@ export default new Phaser.Class({
 
 		let fX = this.cfg.oX + loc.x*this.cfg.cellSize;
 		let fY = this.cfg.oY + loc.y*this.cfg.cellSize;
-		let rect = new Phaser.Geom.Rectangle(fX, fY, this.cfg.cellSize, this.cfg.cellSize);
+		let rect = new Geom.Rectangle(fX, fY, this.cfg.cellSize, this.cfg.cellSize);
 
 		graphics.lineStyle(10, 0xFF0000, 1.0);
 		graphics.strokeRectShape(rect);
-	},
+	}
 
 	/*
 		HELPER FUNCTIONS
@@ -3447,7 +3467,7 @@ export default new Phaser.Class({
 	{
 		rad -= 1; // just to offset it so it works with how hints are presented to players
 		return 2*(rad*rad) - 2*rad + 1;
-	},
+	}
 
 	getEmptyNeighbors(cell, properties) {
 		let arr = [];
@@ -3469,7 +3489,7 @@ export default new Phaser.Class({
 		}
 
 		return arr;
-	},
+	}
 
 	getNonEmptyNeighbors(param)
 	{
@@ -3483,7 +3503,7 @@ export default new Phaser.Class({
 			arr.push(nb);
 		}
 		return arr;
-	},
+	}
 
 	hasNeighborWith(param)
 	{
@@ -3492,7 +3512,7 @@ export default new Phaser.Class({
 			return true;
 		}
 		return false;
-	},
+	}
 
 	countMatchingNeighbors(param)
 	{
@@ -3516,7 +3536,7 @@ export default new Phaser.Class({
 
 		if(largestType == 'unknown') { return 0; }
 		return largestNum;
-	},
+	}
 
 	findClosest(param)
 	{
@@ -3559,7 +3579,7 @@ export default new Phaser.Class({
 		}
 
 		return closestDist;
-	},
+	}
 
 	countTiles(param)
 	{
@@ -3589,7 +3609,7 @@ export default new Phaser.Class({
 		}
 
 		return sum;
-	},
+	}
 
 	matchProperty(param)
 	{
@@ -3599,7 +3619,7 @@ export default new Phaser.Class({
 			matchesPattern = (realValue != 0 && realValue != '');
 		}
 		return matchesPattern;
-	},
+	}
 
 	getTilesProperty(param)
 	{
@@ -3612,7 +3632,7 @@ export default new Phaser.Class({
 			allTiles.splice(i,1);
 		}
 		return allTiles;
-	},
+	}
 
 	getTilesRadius(param)
 	{
@@ -3639,7 +3659,7 @@ export default new Phaser.Class({
 			}
 		}
 		return arr;
-	},
+	}
 
 	arraysAreEqual(a,b)
 	{
@@ -3649,7 +3669,7 @@ export default new Phaser.Class({
 			if(a[i] != b[i]) { return false; }
 		}
 		return true;
-	},
+	}
 
 	arraysAreNonEqual(a,b)
 	{
@@ -3659,7 +3679,7 @@ export default new Phaser.Class({
 			if(a[i] == b[i]) { return false; }
 		}
 		return true;
-	},
+	}
 
 	arraysOneMatch(a,b)
 	{
@@ -3668,12 +3688,12 @@ export default new Phaser.Class({
 			if(a[i] == b[i]) { return true; }
 		}
 		return false;
-	},
+	}
 
 	arrayHasDuplicates(a)
 	{
 		return (new Set(a)).size !== a.length;
-	},
+	}
 
 	// @IMPROV: All these functions do basically the same thing; should generalize and make this cleaner?
 	getRandomStones(exclude = [])
@@ -3681,21 +3701,21 @@ export default new Phaser.Class({
 		let stones = STONES.slice();
 		this.handleExclusions(stones, exclude);
 		return stones[Math.floor(this.cfg.rng.hints() * stones.length)];
-	},
+	}
 
 	getRandomNature(exclude = [])
 	{
 		let nature = NATURE.slice();
 		this.handleExclusions(nature, exclude);
 		return nature[Math.floor(this.cfg.rng.hints() * nature.length)];
-	},
+	}
 
 	getRandomTerrain(exclude = [])
 	{
 		let terrains = TERRAINS.slice();
 		this.handleExclusions(terrains, exclude);
 		return terrains[Math.floor(this.cfg.rng.hints() * terrains.length)];
-	},
+	}
 
 	getRandomLandmark(exclude = [])
 	{
@@ -3703,28 +3723,28 @@ export default new Phaser.Class({
 		let landmarks = Object.keys(this.landmarkCells).slice();
 		this.handleExclusions(landmarks, exclude);
 		return landmarks[Math.floor(this.cfg.rng.hints() * landmarks.length)];
-	},
+	}
 
 	getRandomRoad(exclude = [])
 	{
 		let roads = ROADS.slice();
 		this.handleExclusions(roads, exclude);
 		return roads[Math.floor(this.cfg.rng.hints() * roads.length)];
-	},
+	}
 
 	getRandomRow(exclude = [])
 	{
 		let rows = LISTS.row.slice();
 		this.handleExclusions(rows, exclude);
 		return rows[Math.floor(this.cfg.rng.hints() * rows.length)];
-	},
+	}
 
 	getRandomColumn(exclude = [])
 	{
 		let cols = LISTS.column.slice();
 		this.handleExclusions(cols, exclude);
 		return cols[Math.floor(this.cfg.rng.hints() * cols.length)];
-	},
+	}
 
 	handleExclusions(arr, exclude) 
 	{
@@ -3734,7 +3754,7 @@ export default new Phaser.Class({
 			if(ind < 0) { continue; }
 			arr.splice(ind, 1);
 		}
-	},
+	}
 
 	shuffle(a) {
 	    let j, x, i;
@@ -3746,15 +3766,15 @@ export default new Phaser.Class({
 	    }
 
 	    return a;
-	},
+	}
 
 	pixelToCell(a) {
 		return { 'x': Math.floor(a.x/this.cfg.cellSize), 'y': Math.floor(a.y/this.cfg.cellSize) }
-	},
+	}
 
 	outOfBounds(x, y) {
 		return (x < 0 || x >= this.cfg.width || y < 0 || y >= this.cfg.height);
-	},
+	}
 
 	/* Converts canvas into image */
 	// Why? 
@@ -3822,7 +3842,7 @@ export default new Phaser.Class({
 				});
 		    }
 		})
-	},
+	}
 
 	/* 
 		Creates a "premade game"
@@ -3850,7 +3870,7 @@ export default new Phaser.Class({
 				});
 			}
 		});
-	},
+	}
 
 	createHintCards(pdfImages)
 	{
@@ -3875,7 +3895,7 @@ export default new Phaser.Class({
 				});
 			}
 		});
-	},
+	}
 
 	createPDF(pdfImages:HTMLImageElement[])
 	{
@@ -3888,4 +3908,4 @@ export default new Phaser.Class({
 		const pdfParams = { customFileName: "[Pirate Riddlebeard] Premade Game" };
 		pdfBuilder.downloadPDF(pdfParams);
 	}
-});
+}

@@ -19,7 +19,7 @@
             
             body {
                 font-family: 'PT Serif', serif;
-                background-color: #6885FF;
+                background-color: #d5deff;
                 color: #111111;
                 font-size: 24px;
             }            
@@ -62,33 +62,31 @@
                 color: rgba(255,255,255,0.3);
             }
 
-            a.btn, a.btn:visited {
+            #curEventDisplay 
+            {
+                max-width: 600px;
+                margin: auto;
+                margin-bottom: 1.5em;
+            }
+
+            a.btn, a.btn:visited, a.download-btn, a.download-btn:visited, a.event-btn, a.event-btn:visited {
                 font-family: 'Woodcutter';
-                background-color: #536ACC;
+                background-color: #94a6f4;
                 color: black;
                 border-radius: 10px;
+                padding: 1em;
+                cursor: pointer;
             }
             
-            a.btn:hover {
+            a.btn:hover,a.download-btn:hover, a.event-btn:hover {
                 background-color: rgb(0, 0, 100);
                 color: rgb(175, 175, 255);
             }
-            
-            a.download-btn, a.download-btn:visited, a.event-btn, a.event-btn:visited {
-                background-color: #540003;
-                color: #FF8687;
-            }
-
-            a.download-btn:hover, a.event-btn:hover {
-                background-color: #FF8687;
-                color: #540003;
-            }
-            
         </style>
 	</head>
 
 	<body>
-        <p id="curEventDisplay"></p>
+        <div id="curEventDisplay"></div>
         <p style="text-align: center;">
             <a class="btn event-btn" id="eventButton">Generate Events!</a>
         </p>

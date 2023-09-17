@@ -62,8 +62,8 @@ export default class Visualizer
         fillCanvas(ctx, params.background.color);
 
         const centers = [
-            { x: 0.25 * params.cardSize.width, y: 0.5 * params.cardSize.height },
-            { x: 0.75 * params.cardSize.width, y: 0.5 * params.cardSize.height }
+            new Point(0.25 * params.cardSize.width, 0.5 * params.cardSize.height),
+            new Point(0.75 * params.cardSize.width, 0.5 * params.cardSize.height)
         ];
 
         for(let i = 0; i < 2; i++)

@@ -23,8 +23,11 @@ eventButton.addEventListener('click', (clickEvent) =>
 		// (do not allow duplicates, split events evenly across virus and medics)
 		let curTeam = Math.round(Math.random());
 		let counter = -1;
-		while(eventList.length < totalNumEvents && counter < eventList.length) {
-			counter++;
+		let numTries = 0;
+		const maxTries = 500;
+		while(eventList.length < totalNumEvents && numTries < maxTries) {
+			counter = (counter + 1) % allEvents.length;
+			numTries++;
 
 			const notOurDesiredTeam = allEvents[counter].team != curTeam;
 			if(notOurDesiredTeam) { continue; }
@@ -33,6 +36,13 @@ eventButton.addEventListener('click', (clickEvent) =>
 			allEvents.splice(counter, 1);
 			curTeam = (curTeam + 1) % 2;
 			counter = -1;
+			numTries = 0;
+		}
+
+		const somethingWentWrong = (numTries >= maxTries);
+		if(somethingWentWrong)
+		{
+			while(eventList.length < totalNumEvents) { eventList.push(allEvents.pop()); }
 		}
 
 		const event0 = eventList.splice(0,1)[0];

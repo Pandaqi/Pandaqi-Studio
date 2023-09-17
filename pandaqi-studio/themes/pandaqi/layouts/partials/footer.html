@@ -76,22 +76,14 @@
 
 <!-- Default JS needed (for making basic functionality work, like picking random projects) -->
 {{ $js_bundle := slice }}
-{{ $default_js := resources.Get "/js/functionality.js" | js.Build "/js/lib-functionality.js" | minify }}
+{{ $default_js := resources.Get "/js/functionality.ts" | js.Build "/js/lib-functionality.js" | minify }}
 {{ $js_bundle = $js_bundle | append $default_js }}
 
 <!-- EXTRA JS + Asset bundling -->
-{{ $pq_games := (resources.Get "/js/pq_games/main.js" | js.Build "/js/lib-pqGames.js" | minify) }}
-{{ $pq_games.Publish }}
-
-{{ $pq_words := (resources.Get "/js/pq_words/main.js" | js.Build "/js/lib-pqWords.js" | minify) }}
-{{ $pq_words.Publish }}
-
 {{ $phaser := (resources.Get "/js/phaser.min.js") }}
 {{ $phaser.Publish }}
 
-{{ if .Params.pqGames }}{{ $js_bundle = $js_bundle | append $pq_games }}{{ end }}
 {{ if .Params.phaser }}{{ $js_bundle = $js_bundle | append $phaser }}{{ end }}
-{{ if .Params.pqWords }}{{ $js_bundle = $js_bundle | append $pq_words }}{{ end }}
 
 {{ $names := slice "/js/bundle" }}
 {{ range $js_bundle }}
@@ -104,73 +96,54 @@
 {{ $names = $names | append "js" }}
 {{ $final_name := delimit $names "." }}
 
-{{ $final_js_bundle := $js_bundle | resources.Concat $final_name | minify }}
-<script async defer src="{{ $final_js_bundle.RelPermalink }}"></script>
+{{ if gt (len $js_bundle) 0 }}
+	{{ $final_js_bundle := $js_bundle | resources.Concat $final_name | minify }}
+	<script async defer src="{{ $final_js_bundle.RelPermalink }}"></script>
+{{ end }}
 
 <!-- Shared JS: when I create multiple spin-off games, they share the same library -->
 {{ if .Params.sharedJS }}
-	{{ $build_shared_js := .Params.sharedJSBuild }}
 	{{ $name := .Params.sharedJS }}
-	{{ $file_name := printf "/games/%s/js_shared/main.js" $name }}
+	{{ $file_name := printf "/games/%s/js_shared/main.ts" $name }}
 	{{ $output_name := printf "/js_shared/lib-%s.js" $name }}
-	{{ $res := resources.Get $file_name }}
-	{{ if $build_shared_js }}
-		{{ $res = $res | js.Build $output_name | minify }}
-	{{ else }}
-		{{ $res = $res | minify | resources.Copy $output_name }}
-	{{ end }}
+	{{ $res := resources.Get $file_name | js.Build $output_name | minify }}
 	{{ $res.Publish }}
-	{{ if not .Params.sharedJSOnlyPublish }}
+	{{ if .Params.sharedJSIncludeOnPage }}
 		<script async defer src="{{ $res.RelPermalink }}"></script>
 	{{ end }}
 {{ end }}
 
 <!-- Extra JS: unique code for this page, given as relative/absolute links -->
+<!-- This is always BUILT (used to be an option as some older games didn't use build system) -->
 {{ $js_bundle_extra := slice }}
 {{ $url := .RelPermalink }}
 {{ $include_extra_js := .Params.extraJS }}
-{{ $build_extra_js := .Params.extraJSBuild }}
-{{ if $include_extra_js }}
-	{{ with .GetPage "js" }}
-		{{ if $build_extra_js }}
-			{{ $res_built := .Resources.GetMatch "main.js" | js.Build }}
-			{{ $js_bundle_extra = $js_bundle_extra | append $res_built }}
-		{{ else }}
-			{{ range .Resources }}
-				{{ $js_bundle_extra = $js_bundle_extra | append . }}
-			{{ end }}
-		{{ end }}
-
-		{{ $bundle_name := printf "%s/%s" $url "js/bundle.extra.js" }}
-		{{ $res := $js_bundle_extra | resources.Concat $bundle_name | minify }}
-		{{ $res.Publish }}
-		<script async defer src="{{ $res.RelPermalink }}"></script>
-	{{ end }}
+{{ $game_name := "" }}
+{{ with .File }}
+	{{ $game_name = .ContentBaseName }}
+{{ end }}
+{{ if and $include_extra_js $game_name }}
+	{{ $file_name := printf "/games/%s/js/main.ts" $game_name }}
+	{{ $bundle_name := printf "%s/%s" $url "js/bundle.extra.js" }}
+	{{ $res := resources.Get $file_name | js.Build $bundle_name | minify }}
+	{{ $res.Publish }}
+	<script async defer src="{{ $res.RelPermalink }}"></script>
 {{ end }}
 
 <!-- Extra JS: build the files used by the game portion, if requested -->
+<!-- This is always BUILT (see comment above about older versions not doing that) -->
 <!-- but we do not ADD it to this page, we use it on the game page -->
 {{ $include_game_js := .Params.extraJSGame }}
-{{ $build_game_js := .Params.extraJSGameBuild }}
-{{ $js_bundle_game := slice }}
-{{ if $include_game_js }}
-	{{ with .GetPage "js_game" }}
-		{{ if $build_game_js }}
-			{{ $res_built := .Resources.GetMatch "main.js" | js.Build }}
-			{{ $js_bundle_game = $js_bundle_game | append $res_built }}
-		{{ else }}
-			{{ range .Resources }}
-				{{ $js_bundle_game = $js_bundle_game | append . }}
-			{{ end }}
-		{{ end }}
-
-		{{ $bundle_name := printf "%s/%s" $url "js_game/bundle.extra.js" }}
-		{{ $res := $js_bundle_game | resources.Concat $bundle_name | minify }}
-		{{ $res.Publish }}
-	{{ end }}
+{{ if and $include_game_js $game_name }}
+	{{ $file_name := printf "/games/%s/js_game/main.ts" $game_name }}
+	{{ $bundle_name := printf "%s/%s" $url "js_game/bundle.extra.js" }}
+	{{ $res := resources.Get $file_name | js.Build $bundle_name | minify }}
+	{{ $res.Publish }}
+	<!-- <script async defer src="{{ $res.RelPermalink }}"></script> -->
 {{ end }}
 
 <!-- Extra custom JS: simply a hardcoded link to something else -->
+<!-- Never used right now, but kept in because it might be critical in certain cases -->
 {{ with .Params.extraJSCustom }}
 	{{ range . }}
 		<script async defer src="{{ . }}"></script>

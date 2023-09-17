@@ -190,6 +190,7 @@ export default class LayoutOperation
  
         const res = this.resource;
         const drawShape = res instanceof ResourceShape;
+        const drawText = res instanceof ResourceText;
 
         let image : ResourceImage = null;
         if(res instanceof ResourceImage) { image = res; }
@@ -201,6 +202,12 @@ export default class LayoutOperation
             const path = res.shape.toPath2D();
             ctx.fill(path);
             ctx.stroke(path);
+        }
+
+        if(drawText)
+        {
+            const drawer = res.createTextDrawer(this.dims);
+            drawer.toCanvas(ctx);
         }
 
         const drawImage = image instanceof ResourceImage;

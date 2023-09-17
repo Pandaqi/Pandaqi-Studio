@@ -1,13 +1,17 @@
-import Point from "./shapes/point"
 import Card from "./card"
 import GridMapper from "js/pq_games/layout/gridMapper"
-import Canvas from "js/pq_games/canvas/main"
 import CONFIG from "./config"
-import drawRectangle from "js/pq_games/canvas/shapes/drawRectangle"
-import drawCircle from "js/pq_games/canvas/shapes/drawCircle"
+
 import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple"
 import createContext from "js/pq_games/layout/canvas/createContext"
-import drawLine from "js/pq_games/canvas/shapes/drawLine"
+
+import Circle from "js/pq_games/tools/geometry/circle"
+import Point from "js/pq_games/tools/geometry/point"
+import ResourceShape from "js/pq_games/layout/resources/resourceShape"
+import LayoutOperation from "js/pq_games/layout/layoutOperation"
+import Rectangle from "js/pq_games/tools/geometry/rectangle"
+import Line from "js/pq_games/tools/geometry/line"
+import Color from "js/pq_games/layout/color/color"
 
 export default class CodeCards {
     gridMapper: GridMapper
@@ -41,7 +45,7 @@ export default class CodeCards {
         const resolution = 3;
         const size = CONFIG.cards.size;
         const minSize = size.x;
-        const centerPos = { x: 0.5*size.x, y: 0.5*size.y };
+        const centerPos = new Point(0.5*size.x, 0.5*size.y);
         const stepSize = minSize / resolution;
         const ctx0 = createContext({ width: size.x, height: size.y, alpha: true });
         const ctx1 = createContext({ width: size.x, height: size.y, alpha: true });
@@ -61,22 +65,21 @@ export default class CodeCards {
             const xEnd = xStart + size.x;
             const yStart = 0;
             const yEnd = size.y;
-            const points = [{ x: xStart, y: yStart}, { x: xEnd, y: yEnd}];
-            const pointsInverted = [{ x: xEnd, y: yStart}, { x: xStart, y: yEnd }];
+            const line = new Line(new Point(xStart, yStart), new Point(xEnd, yEnd));
+            const lineInverted = new Line(new Point(xEnd, yStart), new Point(xStart, yEnd));
 
-            const params = {
-                points: points,
-                stroke: null,
-                strokeWidth: strokeWidth,
-            }
+            const resLine = new ResourceShape({ shape: line });
+            const canvOp = new LayoutOperation({
+                stroke: CONFIG.cards.patternData.team0,
+                strokeWidth: strokeWidth
+            })
+            resLine.toCanvas(ctx0, canvOp);
 
-            params.stroke = CONFIG.cards.patternData.team0;
-            drawLine(ctx0, params);
+            canvOp.stroke = new Color(CONFIG.cards.patternData.antsassin);
+            resLine.toCanvas(ctxAntsassin, canvOp);
 
-            params.stroke = CONFIG.cards.patternData.antsassin;
-            drawLine(ctxAntsassin, params);
-            params.points = pointsInverted;
-            drawLine(ctxAntsassin, params);
+            resLine.shape = lineInverted;
+            resLine.toCanvas(ctxAntsassin, canvOp);
         }
 
         // dots for team1
@@ -85,14 +88,13 @@ export default class CodeCards {
         {
             for(let y = 0; y <= resolution; y++)
             {
-                const xPos = x*stepSize;
-                const yPos = y*stepSize;
-                let params = {
-                    pos: { x: xPos, y: yPos },
-                    radius: radius,
-                    color: CONFIG.cards.patternData.team1
-                }
-                drawCircle(ctx1, params);
+                const pos = new Point(x*stepSize, y*stepSize);
+                const circ = new Circle({ center: pos, radius: radius });
+                const res = new ResourceShape({ shape: circ });
+                const canvOp = new LayoutOperation({
+                    fill: CONFIG.cards.patternData.team1,
+                })
+                res.toCanvas(ctx1, canvOp);
             }
         }
 
@@ -103,14 +105,13 @@ export default class CodeCards {
         {
             for(let y = 0; y <= squareResolution; y++)
             {
-                const xPos = x*squareStepSize;
-                const yPos = y*squareStepSize;
-                const params = {
-                    pos: { x: xPos, y: yPos },
-                    extents: { x: squareSize, y: squareSize },
-                    color: CONFIG.cards.patternData.team2
-                }
-                drawRectangle(ctx2, params);
+                const pos = new Point(x*squareStepSize, y*squareStepSize);
+                const rect = new Rectangle({ center: pos, extents: new Point(squareSize) });
+                const res = new ResourceShape({ shape: rect });
+                const canvOp = new LayoutOperation({
+                    fill: CONFIG.cards.patternData.team2,
+                })
+                res.toCanvas(ctx2, canvOp);
             }
         }
 
@@ -119,13 +120,13 @@ export default class CodeCards {
         for(let i = 0; i < resolution; i++)
         {
             const radius = (0.5 + i)*0.5*stepSize;
-            const params = {
-                pos: centerPos,
-                radius: radius,
+            const circ = new Circle({ center: centerPos, radius: radius });
+            const res = new ResourceShape({ shape: circ });
+            const canvOp = new LayoutOperation({
                 stroke: CONFIG.cards.patternData.team3,
                 strokeWidth: team3LineWidth
-            }
-            drawCircle(ctx3, params);
+            })
+            res.toCanvas(ctx3, canvOp);
         }
 
         // save all of those canvases

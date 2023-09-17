@@ -199,7 +199,7 @@ async function createMorphCards(params)
 		let cloudyData = resLoader.getResource("bubbly_cloud") as ResourceImage;
 		if(invert) {
 			const eff = new TintEffect({ color: "#000000" });
-			eff.applyToContext(null, cloudyData);
+			await eff.applyToImage(cloudyData);
 		}
 
 		ctx.drawImage(

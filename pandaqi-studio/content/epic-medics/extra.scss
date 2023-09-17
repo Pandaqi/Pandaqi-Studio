@@ -82,6 +82,11 @@ a.download-btn:hover, a.event-btn:hover {
     }
 }
 
+.game-settings, #btn-start-game {
+    background-color: rgba(0,0,0,0.66);
+    font-family: "Woodcutter";
+}
+
 @media all and (max-width: 600px) {
     .bigQuestionButtons div {
         min-width: 100%;

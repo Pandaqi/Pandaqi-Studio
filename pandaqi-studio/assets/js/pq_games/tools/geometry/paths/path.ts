@@ -1,0 +1,123 @@
+import Point from "../point";
+import PointPath, { PathCommand } from "./pointPath";
+import Shape from "../shape";
+import ArcData from "./arcData";
+import Dims from "../dims";
+
+interface PathParams
+{
+    points?: Point[]|PointPath[]
+    close?: boolean
+}
+
+export { Path, PathParams }
+export default class Path extends Shape
+{
+    points: PointPath[]
+    close: boolean
+
+    constructor(p:PathParams = {})
+    {
+        super();
+        let points = p.points ?? [];
+        this.points = this.convertToPathPoints(points);
+        this.close = p.close ?? false;
+    }
+
+    convertToPathPoints(points:any[]) : PointPath[]
+    {
+        if(points.length <= 0) { return points; }
+        if(points[0] instanceof PointPath) { return points; }
+        const arr = [];
+        for(let i = 0; i < points.length; i++)
+        {
+            const command = (i == 0) ? PathCommand.START : PathCommand.LINE; 
+            const p = new PointPath({ point: points[i], command: command });
+            arr.push(p);
+        }
+        return arr;
+    }
+
+    startAt(p:Point)
+    {
+        this.points.push(new PointPath({point: p, command: PathCommand.START}));
+    }
+
+    lineTo(p:Point)
+    {
+        this.points.push(new PointPath({point: p, command: PathCommand.LINE}));
+    }
+
+    curveTo(p:Point, c1:Point, c2:Point)
+    {
+        let cmd = c2 ? PathCommand.CUBIC : PathCommand.QUAD;
+        this.points.push(new PointPath({point: p, command: cmd, controlPoint1: c1, controlPoint2: c2 }));
+    }
+
+    arcTo(p:Point, d:ArcData)
+    {
+        this.points.push(new PointPath({ point: p, command: PathCommand.ARC, arcData: d }));
+    }
+
+    toPath() : Point[]
+    {
+        const points = [];
+        let prevPoint = null;
+        for(const pointPath of this.points)
+        {
+            points.push(pointPath.toPath(prevPoint));
+            prevPoint = pointPath.getPointAbsolute(prevPoint);
+        }
+        if(this.close && this.points.length > 0) { points.push(this.points[0].point); }
+        return points.flat();
+    }
+
+    toPath2D() : Path2D
+    {
+        const path = new Path2D();
+        for(const pointPath of this.points)
+        {
+            pointPath.toPath2D(path);
+        }
+        return path;
+    }
+
+    getDimensions()
+    {
+        return new Dims().fromPoints(this.toPath());
+    }
+
+    clone(deep = false)
+    {
+        let p = this.points;
+        if(deep)
+        {
+            p = [];
+            for(const point of this.points)
+            {
+                p.push(point.clone(deep));
+            }
+        }
+
+        return new Path({ points: p, close: this.close });
+    }
+
+    toPathString() : string
+    {
+        const points = [];
+        for(const pointPath of this.points)
+        {
+            points.push(pointPath.toPathString());
+        }
+        if(this.close) { points.push("Z"); }
+        const pointsString = points.join(" ");
+        return pointsString;
+    }
+
+    toSVG()
+    {
+        const elem = document.createElementNS(null, 'path');
+        elem.setAttribute("d", this.toPathString());
+        return elem;
+    }
+}

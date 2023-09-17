@@ -1,6 +1,7 @@
 import Point from "js/pq_games/tools/geometry/point";
 import AnchorValue from "../values/anchorValue";
-import Container from "../containers/container";
+import Container from "../layoutNode";
+import BoxOutput from "../values/aggregators/boxOutput";
 
 export default class AnchorTool
 {
@@ -11,7 +12,43 @@ export default class AnchorTool
         this.anchor = a;
     }
 
-    applyTo(div:HTMLDivElement, wrapper:HTMLDivElement = null, parent:Container = null)
+    applyToBoxOutput(b:BoxOutput) : Point
+    {
+        const p = b.offsetTop.clone();
+        const a = this.anchor;
+        
+        if(!b.usableParentSize.isValid()) { return p; }
+        if(a == AnchorValue.TOP_LEFT || a == AnchorValue.NONE) { return p; }
+
+        const bottomRight = b.usableParentSize.clone().move(b.offsetTop).sub(b.size);
+        const center = b.usableParentSize.clone().scaleFactor(0.5).sub(b.size.clone().scaleFactor(0.5)).add(b.offsetTop);
+
+        if(a == AnchorValue.TOP_CENTER) {
+            p.x = center.x;
+        } else if(a == AnchorValue.TOP_RIGHT) {
+            p.x = bottomRight.x;
+        } else if(a == AnchorValue.CENTER_LEFT) {
+            p.y = center.y;
+        } else if(a == AnchorValue.CENTER_CENTER) {
+            p.x = center.x;
+            p.y = center.y;
+        } else if(a == AnchorValue.CENTER_RIGHT) {
+            p.x = bottomRight.x;
+            p.y = center.y;
+        } else if(a == AnchorValue.BOTTOM_LEFT) {
+            p.y = bottomRight.y;
+        } else if(a == AnchorValue.BOTTOM_CENTER) {
+            p.x = center.x;
+            p.y = bottomRight.y;
+        } else if(a == AnchorValue.BOTTOM_RIGHT) {
+            p.x = bottomRight.x;
+            p.y = bottomRight.y;
+        }
+
+        return p;
+    }
+
+    applyTo(div:HTMLElement, wrapper:HTMLDivElement = null, parent:Container = null)
     {
         if(this.anchor == AnchorValue.NONE) { return; }
         if(!wrapper) { return; }

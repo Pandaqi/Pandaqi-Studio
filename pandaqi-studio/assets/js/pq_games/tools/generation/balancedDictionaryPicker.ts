@@ -217,7 +217,6 @@ export default class BalancedDictionaryPicker
 
     typeRequirementsMet(config: Record<string, any>, data: { unpickable: any; expansion: any[]; })
     {
-        console.log(data);
         if(data.unpickable) { return false; }
 
         // check if expansions are available
@@ -254,9 +253,6 @@ export default class BalancedDictionaryPicker
     getFullTypeList(num: number)
     {
         const list = [];
-
-        console.log(num);
-
         const tempPossible = this.typesPossible.slice();
 
         // initialize proper values for all optional settings

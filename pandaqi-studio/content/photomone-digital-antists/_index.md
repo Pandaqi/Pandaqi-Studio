@@ -31,11 +31,8 @@ tags: ["web", "party_game", "spin-off"]
 
 extraCSS: true
 extraJSGame: true
-extraJSGameBuild: true
 sharedJS: "photomone"
-sharedJSBuild: true
-
-pqWords: true
+sharedJSIncludeOnPage: true
 
 downloadLink: ""
 
@@ -97,7 +94,6 @@ Photomone now has a spin-off that turns the game on its head. The result is some
 
 {{% /section-centered %}}
 
-<!-- @TODO: find solution for this; how to call the photomone interface on this page WITHOUT loading the game? (Otherwise we'd just include the extra bundle here as well) -->
 <script>
 window.onload = (ev) => {
   const p = new PHOTOMONE.Game({ gameTitle: "photomoneDigital", loadGame: false })

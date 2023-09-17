@@ -108,7 +108,7 @@ export default class ResourceLoader
         this.resourcesLoaded[id] = res;
     }
 
-    getResource(id:string, copy:boolean = true) : any
+    getResource(id:string, copy:boolean = false) : any
     {
         let res = this.resourcesLoaded[id];
         if(!res) { return null; }

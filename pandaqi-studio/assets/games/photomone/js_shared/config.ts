@@ -1,3 +1,4 @@
+import Point from "js/pq_games/tools/geometry/point";
 import dataPhotomone from "./gameDictionary";
 import dataPhotomoneDigital from "./gameDictionaryDigital";
 import Color from "js/pq_games/layout/color/color";
@@ -57,8 +58,8 @@ const PHOTOMONE_BASE_PARAMS = {
     },
     pointSpriteFrames: null,
     pointSpriteFrameSets: {
-        photomone: { x: 8, y: 3 },
-        photomoneDigital: { x: 8, y: 2 }
+        photomone: new Point(8, 3),
+        photomoneDigital: new Point(8, 2)
     },
 
     printWordsOnPaper: false,
