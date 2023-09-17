@@ -1,7 +1,8 @@
 import Point from "./point"
-import GeometryHelpers from "./helpers"
 import PointGraph from "./pointGraph"
 import Shape from "./shape"
+import Dims from "./dims"
+import { lineIntersectsLineRaw } from "./intersection/lineIntersectsLine"
 
 interface LineDict 
 {
@@ -44,7 +45,17 @@ export default class Line extends Shape
         return elem;
     }
 
-    clone() { return new Line(this); }
+    getDimensions()
+    {
+        return new Dims().fromLine(this);
+    }
+
+    clone(deep = false) 
+    {
+        let s = deep ? this.start.clone() : this.start;
+        let e = deep ? this.end.clone() : this.end;
+        return new Line(s, e); 
+    }
 
     // start/end points
     setStart(s: Point) { this.start = s; return this; }
@@ -115,7 +126,7 @@ export default class Line extends Shape
         const vec1 = this.vector().normalize().scaleFactor(margin);
         const vec2 = line.vector().normalize().scaleFactor(margin);
         
-        return GeometryHelpers.intersectsLine(
+        return lineIntersectsLineRaw(
             this.start.x+vec1.x, this.start.y+vec1.y, this.end.x-vec1.x, this.end.y-vec1.y,
             line.start.x+vec2.x, line.start.y+vec2.y, line.end.x-vec2.x, line.end.y-vec2.y
         )

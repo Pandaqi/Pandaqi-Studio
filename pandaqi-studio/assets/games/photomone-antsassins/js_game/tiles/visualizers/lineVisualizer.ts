@@ -1,4 +1,4 @@
-import smoothPath from "js/pq_games/tools/geometry/smoothPath"
+import smoothPath from "js/pq_games/tools/geometry/paths/smoothPath"
 
 export default class LineVisualizer
 {

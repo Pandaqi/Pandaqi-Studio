@@ -35,7 +35,7 @@ export default class Point
 
     setNeighbours(arr) { this.nbs = arr; return this; }
     addNeighbour(p) { this.nbs.push(p); return this; }
-    getNeighbours() { return this.nbs.slice(); }
+    getNeighbors() { return this.nbs.slice(); }
     getRandomNeighbourGrid(params:Record<string,any> = {})
     {
         const validNbs = [];

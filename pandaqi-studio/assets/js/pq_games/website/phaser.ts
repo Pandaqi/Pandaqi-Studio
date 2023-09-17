@@ -5,6 +5,13 @@ import PdfBuilder from "../pdf/pdfBuilder"
 import Settings from "./settings"
 // @ts-ignore
 import { Game, CANVAS, Scale } from "../phaser.esm"
+import Point from "../tools/geometry/point"
+
+interface CanvasToImageParams
+{
+	splitBoard?: boolean
+	splitDims?: Point
+}
 
 class PhaserClass
 {
@@ -107,7 +114,7 @@ class PhaserClass
 		window.scrollTo(scrollLeft, scrollTop);
 	}
 
-	async convertCanvasToImage(scene:any) {
+	async convertCanvasToImage(scene:any, params:CanvasToImageParams = {}) {
 		if(!this.pdfBuilder) { console.error("Can't convert canvas to image. No PDF builder!"); return; }
 
 		const phaserContainer = this.getPhaserContainer();
@@ -117,10 +124,13 @@ class PhaserClass
 
 		// must wait a bit to ensure Phaser canvas is actually redrawn
 		await new Promise((resolve, reject) => setTimeout(resolve, 100));
+		const img = await convertCanvasToImage(canv);
 
 		// convert, split if necessary, add to pdfBuilder
-		const img = await convertCanvasToImage(canv);
-		const splitConfig = { split: this.gameConfig.splitBoard, cols: 2, rows: 2 };
+		const splitConfig = { 
+			split: (params.splitBoard ?? this.gameConfig.splitBoard) ?? false, 
+			splitDims: params.splitDims ?? new Point(2,2)
+		}
 		const images = await splitImage(img, splitConfig);
 
 		for(let i = 0; i < images.length; i++)

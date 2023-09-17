@@ -2,7 +2,7 @@ import Tile from "./tile"
 import Point from "../shapes/point"
 import { GridMapper, GridMapperLayout } from "js/pq_games/canvas/gridMapper"
 import Colorizer from "../tools/colorizer"
-import convertCanvasToImageMultiple from "js/pq_games/canvas/helpers/convertCanvasToImageMultiple"
+import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple"
 import CONFIG from "../config"
 
 export default class Tiles 

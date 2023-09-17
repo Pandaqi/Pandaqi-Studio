@@ -124,7 +124,7 @@ export default class RandomWalk
     walk(config)
     {
         const lastPoint = this.getLastPoint();
-        let nbs = lastPoint.getNeighbours();
+        let nbs = lastPoint.getNeighbors();
         nbs = this.removeDoubleLines(lastPoint, nbs);
         nbs = this.forbidEdgeLines(lastPoint, nbs);
         nbs = this.checkMaxConnections(config, nbs);

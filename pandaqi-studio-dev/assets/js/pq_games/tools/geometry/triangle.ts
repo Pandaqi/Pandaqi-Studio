@@ -1,10 +1,10 @@
+import Dims from "./dims";
 import Line from "./line";
 import Point from "./point"
 import Shape from "./shape";
 
 interface TriangleParams
 {
-    edges?:Line[]
     points?:Point[]
 }
 
@@ -13,13 +13,32 @@ interface TriangleParams
 export { Triangle, TriangleParams }
 export default class Triangle extends Shape
 {
-    edges: Line[]
     points: Point[]
 
     constructor(t:TriangleParams = {}) 
     {
         super()
-        this.edges = t.edges ?? [];
+        this.points = t.points ?? [];
+    }
+
+    clone(deep = false)
+    {
+        let p = this.points;
+        if(deep)
+        {
+            p = [];
+            for(const point of this.points)
+            {
+                p.push(point.clone());
+            }
+        }
+
+        return new Triangle({ points: p });
+    }
+
+    getDimensions()
+    {
+        return new Dims().fromPoints(this.toPath());
     }
 
     toPath()

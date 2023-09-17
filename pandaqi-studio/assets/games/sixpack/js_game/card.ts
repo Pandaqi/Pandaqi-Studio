@@ -1,9 +1,9 @@
 import Point from "js/pq_games/tools/geometry/point";
 import { PACKS, PackData } from "./dict"
 import Canvas from "js/pq_games/canvas/main"
-import createContext from "js/pq_games/canvas/createContext";
+import createContext from "js/pq_games/layout/canvas/createContext";
 import CONFIG from "./config";
-import CanvasOperation from "js/pq_games/canvas/canvasOperation";
+import LayoutOperation from "js/pq_games/layout/layoutOperation";
 
 export default class Card 
 {
@@ -54,13 +54,13 @@ export default class Card
 
         const scaleFactor = CONFIG.cards.bgScale || 0.99;
         const bgResource = CONFIG.resLoader.getResource("card_backgrounds");
-        const canvOp = new CanvasOperation({
+        const canvOp = new LayoutOperation({
             frame: this.typeData.frame,
             translate: this.centerPos,
             dims: new Point(this.dims.x*scaleFactor, this.dims.y*scaleFactor),
             pivot: new Point(0.5)
         })
-        bgResource.drawTo(this.ctx, canvOp);
+        bgResource.toCanvas(this.ctx, canvOp);
     }
 
     visualizeType()
@@ -73,14 +73,14 @@ export default class Card
         const size = new Point(typeSize*this.minSize, typeSize*this.minSize);
 
         const typeResource = CONFIG.resLoader.getResource("card_types");
-        const canvOp = new CanvasOperation({
+        const canvOp = new LayoutOperation({
             frame: this.typeData.frame,
             translate: pos,
             dims: size,
             composite: CONFIG.cards.hand.composite || "source-in",
             pivot: new Point(0.5)
         })
-        typeResource.drawTo(this.ctx, canvOp);
+        typeResource.toCanvas(this.ctx, canvOp);
     }
 
     visualizeNumbers()
@@ -198,13 +198,13 @@ export default class Card
         const handSize = CONFIG.cards.hand.size;
         const size = new Point(handSize*this.minSize, handSize*this.minSize);
         const handResource = CONFIG.resLoader.getResource("hand_icon");
-        const canvOp = new CanvasOperation({
+        const canvOp = new LayoutOperation({
             translate: pos,
             dims: size,
             composite: CONFIG.cards.hand.composite || "source-in",
             pivot: new Point(0.5)
         })
-        handResource.drawTo(this.ctx, canvOp);
+        handResource.toCanvas(this.ctx, canvOp);
     }
 
     visualizeOutline()

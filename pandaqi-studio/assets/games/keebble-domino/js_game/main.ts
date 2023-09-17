@@ -3,7 +3,7 @@ import Random from "js/pq_games/tools/random/main"
 import Domino from "./domino"
 import Visualizer from "./visualizer"
 import PdfBuilder, { PageOrientation } from "js/pq_games/pdf/pdfBuilder"
-import GridMapper from "js/pq_games/canvas/gridMapper"
+import GridMapper from "js/pq_games/layout/gridMapper"
 import ResourceLoader from "js/pq_games/layout/resources/resourceLoader"
 import Point from "js/pq_games/tools/geometry/point"
 

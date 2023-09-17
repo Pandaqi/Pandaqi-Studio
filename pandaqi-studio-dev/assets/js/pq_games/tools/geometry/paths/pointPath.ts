@@ -42,6 +42,19 @@ export default class PointPath
         this.arcData = params.arcData ?? new ArcData();
     }
 
+    clone(deep = false)
+    {
+        const p = deep ? this.point.clone() : this.point;
+        const cp1 = (this.controlPoint1 && deep) ? this.controlPoint1.clone() : this.controlPoint1;
+        const cp2 = (this.controlPoint2 && deep) ? this.controlPoint2.clone() : this.controlPoint2;
+
+        return new PointPath({
+            point: p, command: this.command, relative: this.relative,
+            controlPoint1: cp1, controlPoint2: cp2,
+            arcData: this.arcData.clone(deep)
+        })
+    }
+
     toPath(prevPoint:Point)
     {
         const p = this.getPointAbsolute(prevPoint);
@@ -78,5 +91,29 @@ export default class PointPath
 
         if(this.relative) { string = string.toLowerCase(); }
         return string;
+    }
+
+    toPath2D(path:Path2D)
+    {
+        const cmd = this.command;
+        const p = this.point;
+        const cp1 = this.controlPoint1;
+        const cp2 = this.controlPoint2;
+        const ad = this.arcData;
+
+        if(cmd == PathCommand.START) {
+            path.moveTo(p.x, p.y);
+        } else if(cmd == PathCommand.LINE) { 
+            path.lineTo(p.x, p.y);
+        } else if(cmd == PathCommand.CUBIC) {
+            path.bezierCurveTo(cp1.x, cp1.y, cp2.x, cp2.y, p.x, p.y);
+        } else if(cmd == PathCommand.QUAD) {
+            path.quadraticCurveTo(cp1.x, cp1.y, p.x, p.y);
+        } else if(cmd == PathCommand.ARC) {
+            // @TODO: this is just WRONG; canvas has no equivalent to SVG's arcs, how to solve?
+            path.arcTo(cp1.x, cp1.y, p.x, p.x, ad.radius.x);
+        }
+
+        return path;
     }
 }

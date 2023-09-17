@@ -1,4 +1,4 @@
-import { CITY_NAMES, PLAYERCOUNT_TO_CITYCOUNT, GOODS, EVENTS, DIFFICULTY_LEVELS } from "../js/gameDictionary"
+import { CITY_NAMES, PLAYERCOUNT_TO_CITYCOUNT, GOODS, EVENTS, DIFFICULTY_LEVELS } from "../js/dict"
 import GlobalTimer from "./globalTimer"
 import Score from "./score"
 import Buttons from "./buttons"

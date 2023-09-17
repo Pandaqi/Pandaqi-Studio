@@ -4,7 +4,7 @@ import Map from "./map";
 import MapVisualizer from "./mapVisualizer";
 import Point from "./point";
 import Line from "./line";
-import CanvasOperation from "js/pq_games/canvas/canvasOperation"
+import LayoutOperation from "js/pq_games/layout/layoutOperation"
 
 export default class CanvasDrawable 
 {
@@ -423,12 +423,12 @@ export default class CanvasDrawable
 
             // @TODO: this code might be broken after TypeScript update
             const res = this.params.RESOURCE_LOADER.getResource(sprite.textureKey);
-            const canvOp = new CanvasOperation({ 
+            const canvOp = new LayoutOperation({ 
                 size: new Point(sprite.size),
                 pos: sprite.p
             })
 
-            res.drawTo(ctx, canvOp);
+            res.toCanvas(ctx, canvOp);
             ctx.restore();
         }
     }

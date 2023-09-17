@@ -2,14 +2,14 @@ import Point from "../point";
 import PointPath, { PathCommand } from "./pointPath";
 import Shape from "../shape";
 import ArcData from "./arcData";
+import Dims from "../dims";
 
 interface PathParams
 {
-    points?: Point[]
+    points?: Point[]|PointPath[]
     close?: boolean
 }
 
-// @TODO: All other functions could just use this? They all come down to paths, and this one handles it all
 export { Path, PathParams }
 export default class Path extends Shape
 {
@@ -59,7 +59,6 @@ export default class Path extends Shape
         this.points.push(new PointPath({ point: p, command: PathCommand.ARC, arcData: d }));
     }
 
-    // @TODO: need my own functions to handle arcs/bezier/etcetera => put those in a paths subfolder for geometry?
     toPath() : Point[]
     {
         const points = [];
@@ -71,6 +70,36 @@ export default class Path extends Shape
         }
         if(this.close && this.points.length > 0) { points.push(this.points[0].point); }
         return points.flat();
+    }
+
+    toPath2D() : Path2D
+    {
+        const path = new Path2D();
+        for(const pointPath of this.points)
+        {
+            pointPath.toPath2D(path);
+        }
+        return path;
+    }
+
+    getDimensions()
+    {
+        return new Dims().fromPoints(this.toPath());
+    }
+
+    clone(deep = false)
+    {
+        let p = this.points;
+        if(deep)
+        {
+            p = [];
+            for(const point of this.points)
+            {
+                p.push(point.clone(deep));
+            }
+        }
+
+        return new Path({ points: p, close: this.close });
     }
 
     toPathString() : string

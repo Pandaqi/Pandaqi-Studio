@@ -829,7 +829,7 @@ class BoardGeneration extends Scene
 
 				for(let t = 0; t < b.tiles.length; t++) {
 					let pos = b.tiles[t]
-					let unconnectedNb = this.getNeighbourBuilding('unconnected', pos, buildingIndex);
+					let unconnectedNb = this.getNeighborBuilding('unconnected', pos, buildingIndex);
 
 					if(unconnectedNb == null) { continue; }
 
@@ -853,7 +853,7 @@ class BoardGeneration extends Scene
 				let tempTiles = b.tiles.slice();
 				while(tempTiles.length > 0) {
 					let pos = tempTiles[counter], buildingIndex = b.index;
-					let connectedNb = this.getNeighbourBuilding('connected', pos, buildingIndex)
+					let connectedNb = this.getNeighborBuilding('connected', pos, buildingIndex)
 
 					if(connectedNb == null) { counter = (counter - 1) % tempTiles.length; continue; }
 
@@ -1288,7 +1288,7 @@ class BoardGeneration extends Scene
 		return false;
 	}
 
-	getNeighbourBuildingTile(pos, maxEntrances = -1) {
+	getNeighborBuildingTile(pos, maxEntrances = -1) {
 		let nbs = [[1,0], [0,1], [-1,0], [0,-1]]
 
 		this.shuffle(nbs);
@@ -1311,7 +1311,7 @@ class BoardGeneration extends Scene
 		return null;
 	}
 
-	getNeighbourBuilding(type = 'connected', pos, buildingIndex) {
+	getNeighborBuilding(type = 'connected', pos, buildingIndex) {
 		let nbs = [[1,0], [0,1], [-1,0], [0,-1]]
 
 		this.shuffle(nbs);
@@ -1539,7 +1539,7 @@ class BoardGeneration extends Scene
 
 	placeSingleEntrance(pos, obj, maxEntrances = -1) {
 		// find connected neighbour building (returns an object with some useful properties)
-		let b = this.getNeighbourBuildingTile(pos, maxEntrances);
+		let b = this.getNeighborBuildingTile(pos, maxEntrances);
 
 		// no building around us? continue!
 		if(b == null) { return false; }
@@ -1665,7 +1665,7 @@ class BoardGeneration extends Scene
 
 				for(let t = 0; t < buildingObj.tiles.length; t++) {
 					let pos = buildingObj.tiles[t]
-					let nb = this.getNeighbourBuilding('connected', pos, buildingIndex);
+					let nb = this.getNeighborBuilding('connected', pos, buildingIndex);
 
 					if(nb == null) { 
 						buildingObj.type = 'reserved' 

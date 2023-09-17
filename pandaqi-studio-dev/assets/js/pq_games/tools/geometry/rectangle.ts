@@ -1,10 +1,11 @@
+import Dims from "./dims"
 import Point from "./point"
 import Shape from "./shape"
 
 interface RectangleParams
 {
     center?:Point
-    extents?:Point
+    extents?:Point // the FULL size of the rectangle (multiplied by 0.5 to center it)
 }
 
 export { Rectangle, RectangleParams }
@@ -18,6 +19,29 @@ export default class Rectangle extends Shape
         super();
         this.center = r.center ?? new Point();
         this.extents = r.extents ?? new Point();
+    }
+
+    clone(deep = false)
+    {
+        let c = deep ? this.center.clone() : this.center;
+        let e = deep ? this.extents.clone() : this.extents;
+        return new Rectangle({ center: c, extents: e });
+    }
+
+    toPath2D() 
+    {
+        const p = new Path2D();
+        const dims = this.getDimensions();
+        p.rect(dims.position.x, dims.position.y, dims.size.x, dims.size.y);
+        return p;
+    }
+
+    getDimensions()
+    {
+        return new Dims(
+            this.getTopLeft(),
+            this.extents.clone()
+        );
     }
 
     toPath()

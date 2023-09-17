@@ -1,12 +1,12 @@
 import Point from "./shapes/point"
 import Card from "./card"
-import GridMapper from "js/pq_games/canvas/gridMapper"
+import GridMapper from "js/pq_games/layout/gridMapper"
 import Canvas from "js/pq_games/canvas/main"
 import CONFIG from "./config"
 import drawRectangle from "js/pq_games/canvas/shapes/drawRectangle"
 import drawCircle from "js/pq_games/canvas/shapes/drawCircle"
-import convertCanvasToImageMultiple from "js/pq_games/canvas/helpers/convertCanvasToImageMultiple"
-import createContext from "js/pq_games/canvas/createContext"
+import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple"
+import createContext from "js/pq_games/layout/canvas/createContext"
 import drawLine from "js/pq_games/canvas/shapes/drawLine"
 
 export default class CodeCards {

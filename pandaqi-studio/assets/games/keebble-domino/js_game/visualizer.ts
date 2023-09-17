@@ -1,15 +1,14 @@
-import createContext from "js/pq_games/canvas/createContext";
+import createContext from "js/pq_games/layout/canvas/createContext";
 import { LETTERS, CELLS, DOMINO_COLORS } from "./dict" 
-import Color from "js/pq_games/canvas/color"
-import GridMapper from "js/pq_games/canvas/gridMapper";
-import convertCanvasToImageMultiple from "js/pq_games/canvas/helpers/convertCanvasToImageMultiple";
-import Canvas from "js/pq_games/canvas/main"
+import Color from "js/pq_games/layout/color/color"
+import GridMapper from "js/pq_games/layout/gridMapper";
+import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple";
 import PdfBuilder from "js/pq_games/pdf/pdfBuilder";
-import fillCanvas from "js/pq_games/canvas/helpers/fillCanvas";
-import strokeCanvas from "js/pq_games/canvas/helpers/strokeCanvas";
+import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
+import strokeCanvas from "js/pq_games/layout/canvas/strokeCanvas";
 import ResourceImage from "js/pq_games/layout/resources/resourceImage";
-import TintEffect from "js/pq_games/canvas/effects/tintResource";
-import CanvasOperation from "js/pq_games/canvas/canvasOperation";
+import TintEffect from "js/pq_games/layout/effects/tintEffect";
+import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import Point from "js/pq_games/tools/geometry/point";
 
 export default class Visualizer
@@ -124,7 +123,7 @@ export default class Visualizer
                 if(i == 1 || i == 3) { col = col.lighten(-15); }
 
                 const blockResource = res.getResource("decorations");
-                const canvOp = new CanvasOperation({
+                const canvOp = new LayoutOperation({
                     translate: params.center,
                     rotation: i*0.5*Math.PI,
                     effects: [
@@ -134,7 +133,7 @@ export default class Visualizer
                     alpha: 0.66,
                     pivot: new Point(0.5)
                 });
-                blockResource.drawTo(ctx, canvOp);
+                blockResource.toCanvas(ctx, canvOp);
             }
         }
 
@@ -143,7 +142,7 @@ export default class Visualizer
         if(!params.inkFriendly && params.background.include)
         {
             const bgResource = res.getResource("decorations");
-            const canvOp = new CanvasOperation({
+            const canvOp = new LayoutOperation({
                 frame: 1,
                 translate: params.center,
                 rotation: randRotationBG,
@@ -152,7 +151,7 @@ export default class Visualizer
                 composite: params.background.composite,
                 pivot: new Point(0.5)
             })
-            bgResource.drawTo(ctx, canvOp);
+            bgResource.toCanvas(ctx, canvOp);
         }
 
         let innerSquareColor = params.background.color.lighten(-10);
@@ -172,7 +171,7 @@ export default class Visualizer
             const randBGFrame = 2 + Math.floor(Math.random() * 2);
             const squareSize = partSize * params.innerSquare.scale;
             const decorationResource = res.getResource("decorations");
-            const canvOp = new CanvasOperation({
+            const canvOp = new LayoutOperation({
                 frame: randBGFrame,
                 translate: params.center,
                 rotation: randRotationInnerSquare,
@@ -182,7 +181,7 @@ export default class Visualizer
                 dims: new Point(squareSize),
                 pivot: new Point(0.5)
             })
-            decorationResource.drawTo(ctx, canvOp);
+            decorationResource.toCanvas(ctx, canvOp);
         }
 
         let letterValueColor = params.background.color.lighten(12.5).toString();
@@ -236,7 +235,7 @@ export default class Visualizer
                 const posY = p1.y + fac * (p2.y - p1.y);
 
                 const wallResource = res.getResource("cell");
-                const canvOp = new CanvasOperation({
+                const canvOp = new LayoutOperation({
                     frame: 9,
                     translate: new Point(posX, posY),
                     rotation: wallRotation,
@@ -244,7 +243,7 @@ export default class Visualizer
                     pivot: new Point(0.5)
                 })
 
-                wallResource.drawTo(ctx, canvOp);
+                wallResource.toCanvas(ctx, canvOp);
                 wallAdded = true;
             }
 
@@ -281,7 +280,7 @@ export default class Visualizer
         if(addSymbol)
         {
             const symbolResource = res.getResource(part.getType()) as ResourceImage;
-            const canvOp = new CanvasOperation({
+            const canvOp = new LayoutOperation({
                 frame: dict[part.getValue()].frame,
                 translate: params.center,
                 rotation: randRotation,
@@ -291,7 +290,7 @@ export default class Visualizer
                 ],
                 dims: new Point(sizeMax)
             });
-            symbolResource.drawTo(ctx, canvOp);
+            symbolResource.toCanvas(ctx, canvOp);
         }
 
 

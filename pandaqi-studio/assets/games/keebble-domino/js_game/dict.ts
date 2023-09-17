@@ -1,4 +1,4 @@
-import Color from "js/pq_games/canvas/color"
+import Color from "js/pq_games/layout/color/color"
 
 const KEEBBLE_LETTER_VALUES = {
     A: 1,

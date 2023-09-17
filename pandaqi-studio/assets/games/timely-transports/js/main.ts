@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { CITY_NAMES, PLAYERCOUNT_TO_CITYCOUNT, PLAYER_COLORS, GOODS, DIFFICULTY_LEVELS } from "./gameDictionary"
+import { CITY_NAMES, PLAYERCOUNT_TO_CITYCOUNT, PLAYER_COLORS, GOODS, DIFFICULTY_LEVELS } from "./dict"
 import calculateRoute from "./pathfinder"
 import { noise } from "./perlin"
 import PandaqiPhaser from "js/pq_games/website/phaser"

@@ -1,4 +1,4 @@
-import { VEHICLE_MAP } from "../js/gameDictionary"
+import { VEHICLE_MAP } from "../js/dict"
 import Timer from "./timer"
 import Interface from "./interface"
 

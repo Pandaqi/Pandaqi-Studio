@@ -1,11 +1,9 @@
 import Point from "js/pq_games/tools/geometry/point"
 import CONFIG from "./config"
-import createContext from "js/pq_games/canvas/createContext"
+import createContext from "js/pq_games/layout/canvas/createContext"
 
-import { Container } from "js/pq_games/layout/containers/container"
-import ContainerImage from "js/pq_games/layout/containers/containerImage"
+import LayoutNode from "js/pq_games/layout/layoutNode"
 import AnchorValue from "js/pq_games/layout/values/anchorValue"
-import ContainerConfig from "js/pq_games/layout/containers/containerConfig"
 
 import TwoAxisValue from "js/pq_games/layout/values/twoAxisValue"
 import { SizeValue, SizeType } from "js/pq_games/layout/values/sizeValue"
@@ -15,18 +13,20 @@ import FourSideValue from "js/pq_games/layout/values/fourSideValue"
 import { ELEMENTS, CATEGORIES } from "./dict"
 
 import { TextConfig, TextAlign, TextStyle } from "js/pq_games/layout/text/textConfig"
-import ContainerText from "js/pq_games/layout/containers/containerText"
 import AlignValue from "js/pq_games/layout/values/alignValue"
-import { FlowDir, FlowType } from "js/pq_games/layout/values/flowInput"
+import { FlowDir, FlowType } from "js/pq_games/layout/values/aggregators/flowInput"
 import ElementIcon from "./elementIcon"
-import takeBitesOutOfPath from "js/pq_games/tools/geometry/takeBitesOutOfPath"
-import DropShadowEffect from "js/pq_games/canvas/effects/dropShadowResource"
-import CanvasEffect from "js/pq_games/canvas/effects/canvasEffect"
-import CanvasOperation from "js/pq_games/canvas/canvasOperation"
+import takeBitesOutOfPath from "js/pq_games/tools/geometry/paths/takeBitesOutOfPath"
+import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect"
+import CanvasEffect from "js/pq_games/layout/effects/layoutEffect"
+import CanvasOperation from "js/pq_games/layout/layoutOperation"
 import ResourceImage from "js/pq_games/layout/resources/resourceImage"
 import rangeInteger from "js/pq_games/tools/random/rangeInteger"
 import fromArray from "js/pq_games/tools/random/fromArray"
 import PlacementValue from "js/pq_games/layout/values/placementValue"
+import ResourceText from "js/pq_games/layout/resources/resourceText"
+import ResourceShape from "js/pq_games/layout/resources/resourceShape"
+import Path from "js/pq_games/tools/geometry/paths/path"
 
 export default class Card 
 {
@@ -35,15 +35,14 @@ export default class Card
     dims : Point
     sizeUnit : number
     center : Point
-    container : Container
+    LayoutNode : LayoutNode
 
     cornerIconSize:number
     creatureSpritesheet: string
     backgroundSpritesheet: string
     iconSpritesheet: string
 
-    clipPath: Point[]
-    imageContainer: Container
+    imageLayoutNode: LayoutNode
     strokeWidth: number
     strokeColor: string
     iconEffectsMain: CanvasEffect[]
@@ -70,7 +69,7 @@ export default class Card
         this.drawContent();
         this.drawFooter();
 
-        await this.container.toCanvas(this.getCanvas());
+        await this.LayoutNode.toCanvas(this.getCanvas());
         this.drawCustomPost();
     }
 
@@ -96,7 +95,6 @@ export default class Card
         const params = { 
             size: new TwoAxisValue().fromPoint(this.dims),
             padding: new FourSideValue(this.rootPadding),
-            config: new ContainerConfig({ debugDimensions: true })
         };
 
         this.creatureFlipX = Math.random() <= 0.5;
@@ -112,8 +110,8 @@ export default class Card
             })
         ];
 
-        this.container = new Container(params);
-        console.log(this.container);
+        this.LayoutNode = new LayoutNode(params);
+        console.log(this.LayoutNode);
     }
 
     // ElementIcon holds the subtype (e.g. fire for red) and a boolean for action or not
@@ -204,15 +202,17 @@ export default class Card
         const contHeight = 0.6*this.sizeUnit;
         contSize.y = new SizeValue(contHeight);
 
-        const imageContainer = new Container({
-            size: contSize
+        const clipPath = this.getClipPath(new Point(this.dims.x, contHeight));
+        const imageLayoutNode = new LayoutNode({
+            size: contSize,
+            clip: clipPath
         });
-        this.imageContainer = imageContainer;
-        this.container.addChild(imageContainer);
+        this.imageLayoutNode = imageLayoutNode;
+        this.LayoutNode.addChild(imageLayoutNode);
 
         const backgroundImageSize = new Point(contHeight, contHeight).scaleFactor(1.7);
         const bgResource = CONFIG.resLoader.getResource(this.backgroundSpritesheet);
-        const bgContainer = new ContainerImage({ 
+        const bgLayoutNode = new LayoutNode({ 
             resource: bgResource,
             frame: this.getBackgroundFrame(),
             size: backgroundImageSize,
@@ -220,11 +220,11 @@ export default class Card
             ghost: true,
             flipX: Math.random() <= 0.5
         });
-        imageContainer.addChild(bgContainer);
+        imageLayoutNode.addChild(bgLayoutNode);
 
         const creatureImageSize = new Point(contHeight, contHeight).scaleFactor(0.8);
         const creatureResource = CONFIG.resLoader.getResource(this.creatureSpritesheet);
-        const creatureContainer = new ContainerImage({ 
+        const creatureLayoutNode = new LayoutNode({ 
             resource: creatureResource,
             frame: this.getMainFrame(),
             size: creatureImageSize,
@@ -232,25 +232,22 @@ export default class Card
             ghost: true,
             flipX: this.creatureFlipX
         });
-        imageContainer.addChild(creatureContainer);
+        imageLayoutNode.addChild(creatureLayoutNode);
 
         // Icon top-right
         const iconEffects = this.iconEffectsMain;
 
         const iconResource = CONFIG.resLoader.getResource(this.iconSpritesheet);
-        const iconContainer = new ContainerImage({
+        const iconLayoutNode = new LayoutNode({
             resource: iconResource,
             frame: this.getIconFrame(this.getMainIcon()),
             size: new TwoAxisValue().fromSingle(this.cornerIconSize),
-            clipPath: this.getFunkyClipPath(new Point().setFactor(this.cornerIconSize)),
             fill: this.getIconColor(this.getMainIcon()),
             borderRadius: this.iconBorderRadius,
-            effects: this.iconEffectsMain,
+            effects: iconEffects,
             anchor: AnchorValue.TOP_RIGHT
         })
-        this.container.addChild(iconContainer);
-
-        
+        this.LayoutNode.addChild(iconLayoutNode);
 
         // Icon reminder list (of what's on the card, overlays image)
         const iconReminderSize = 0.725*this.cornerIconSize;
@@ -258,7 +255,7 @@ export default class Card
         const iconReminderGap = 0.5*iconReminderPadding;
         const iconReminderRadius = new FourSideValue(0.5*this.iconBorderRadius.top.get());
         const listSize = new TwoAxisValue().setFreeGrow();
-        const iconReminders = new Container({
+        const iconReminders = new LayoutNode({
             anchor: AnchorValue.BOTTOM_RIGHT,
             padding: iconReminderPadding,
             size: listSize,
@@ -266,11 +263,11 @@ export default class Card
             gap: iconReminderGap,
             flow: FlowType.GRID
         })
-        imageContainer.addChild(iconReminders);
+        imageLayoutNode.addChild(iconReminders);
 
         for(const type of this.typeList)
         {
-            const cont = new ContainerImage({
+            const cont = new LayoutNode({
                 resource: this.getIconResource(type),
                 frame: this.getIconFrame(type),
                 size: new TwoAxisValue().fromSingle(iconReminderSize),
@@ -281,19 +278,18 @@ export default class Card
             iconReminders.addChild(cont);
         }
   
-        // Clip the creature image (first update dimensions so we can grab the right ones from containers)
-        this.clipPath = this.getClipPath(new Point(this.dims.x, contHeight));
-        imageContainer.clipPath = this.clipPath;
+        
 
         // we draw our clip path as an IMAGE, so it fits right into this pipeline at the right moment
-        const clipPathResource = await this.getClipPathImageResource();
-        const clipPath = new ContainerImage({
+        const clipPathShape = new Path({ points: clipPath, close: true });
+        const clipPathResource = new ResourceShape({ shape: clipPathShape });
+        const clipPathVisible = new LayoutNode({
             resource: clipPathResource,
-            size: clipPathResource.size.clone(),
+            size: new TwoAxisValue().setFullSize(),
             placement: PlacementValue.ABSOLUTE,
             pos: new TwoAxisValue(this.rootPadding, this.rootPadding)
         })
-        this.container.addChild(clipPath);
+        this.LayoutNode.addChild(clipPathVisible);
     }
 
     getElementOnCycle(change:number = 1) : ElementIcon
@@ -309,14 +305,14 @@ export default class Card
     drawBanner()
     {
         const bannerHeight = 0.2*this.sizeUnit;
-        const bannerContainer = new Container({
+        const bannerLayoutNode = new LayoutNode({
             size: new TwoAxisValue(new SizeValue(1.0, SizeType.PARENT), bannerHeight),
             flow: FlowType.GRID,
             dir: FlowDir.HORIZONTAL,
             alignFlow: AlignValue.SPACE_BETWEEN,
             alignStack: AlignValue.MIDDLE
         })
-        this.container.addChild(bannerContainer);
+        this.LayoutNode.addChild(bannerLayoutNode);
 
         const iconResource = CONFIG.resLoader.getResource(this.iconSpritesheet);
         const counterSize = this.cornerIconSize;
@@ -328,11 +324,10 @@ export default class Card
             })
         ];
 
-        const counteredBy = new ContainerImage({
+        const counteredBy = new LayoutNode({
             resource: iconResource,
             frame: this.getIconFrame(this.getElementOnCycle(-1)),
             size: new TwoAxisValue().fromSingle(counterSize),
-            clipPath: this.getFunkyClipPath(new Point().setFactor(counterSize)),
             fill: this.getIconColor(this.getElementOnCycle(-1)),
             borderRadius: this.iconBorderRadius,
             effects: iconEffects1,
@@ -345,16 +340,14 @@ export default class Card
             frame: 0,
             size: new TwoAxisValue().setAuto()
         }
-        const counterIcon1 = new ContainerImage(counterParams);
-        const counterIcon2 = new ContainerImage(counterParams);
+        const counterIcon = new LayoutNode(counterParams);
 
-        const mainIcon = new ContainerImage({
+        const mainIcon = new LayoutNode({
             resource: iconResource,
             frame: this.getIconFrame(this.getMainIcon()),
             fill: this.getIconColor(this.getMainIcon()),
             borderRadius: this.iconBorderRadius,
             size: new TwoAxisValue().fromSingle(mainIconSize),
-            clipPath: this.getFunkyClipPath(new Point().setFactor(mainIconSize), { min: 14.0, max: 22.0 }),
             effects: this.iconEffectsMain,
             shrink: 0
         })
@@ -365,37 +358,22 @@ export default class Card
                 color: this.getIconColorDark(this.getElementOnCycle(+1)),
             })
         ];
-        const weCounter = new ContainerImage({
+        const weCounter = new LayoutNode({
             resource: iconResource,
             frame: this.getIconFrame(this.getElementOnCycle(+1)),
             fill: this.getIconColor(this.getElementOnCycle(+1)),
             borderRadius: this.iconBorderRadius,
             size: new TwoAxisValue().fromSingle(counterSize),
-            clipPath: this.getFunkyClipPath(new Point().setFactor(counterSize)),
             effects: iconEffects2,
             shrink: 0
         })
 
-        bannerContainer.addChild(counteredBy);
-        bannerContainer.addChild(counterIcon1);
-        bannerContainer.addChild(mainIcon);
-        bannerContainer.addChild(counterIcon2);
-        bannerContainer.addChild(weCounter);
+        bannerLayoutNode.addChild(counteredBy);
+        bannerLayoutNode.addChild(counterIcon);
+        bannerLayoutNode.addChild(mainIcon);
+        bannerLayoutNode.addChild(counterIcon.clone());
+        bannerLayoutNode.addChild(weCounter);
 
-    }
-
-    getFunkyClipPath(size:Point, bounds = { min: 3, max: 6 }) : Point[]
-    {
-        const offsetForShadow = 10;
-        const path = [
-            new Point(),
-            new Point(size.x, 0),
-            new Point(size.x, size.y + offsetForShadow),
-            new Point(0, size.y + offsetForShadow)
-        ]
-
-        const funkyPath = takeBitesOutOfPath({ path: path, biteBounds: bounds });
-        return funkyPath;
     }
 
     drawContent()
@@ -404,7 +382,7 @@ export default class Card
         const padding = 0.05*this.sizeUnit
         const gap = padding;
         const offsetTop = 0.155*this.sizeUnit;
-        const icons = new Container({
+        const icons = new LayoutNode({
             padding: padding,
             size: new TwoAxisValue().setBlock(),
             margin: new FourSideValue(offsetTop,0,0,0),
@@ -413,7 +391,7 @@ export default class Card
             gap: gap,
             flow: FlowType.GRID
         })
-        this.container.addChild(icons);
+        this.LayoutNode.addChild(icons);
 
         const iconSize = 0.1725*this.sizeUnit;
         for(const type of this.typeList)
@@ -425,13 +403,12 @@ export default class Card
                 })
             ];
 
-            const cont = new ContainerImage({
+            const cont = new LayoutNode({
                 resource: this.getIconResource(type),
                 frame: this.getIconFrame(type),
                 fill: this.getIconColor(type),
                 borderRadius: this.iconBorderRadius,
                 size: new TwoAxisValue().fromSingle(iconSize),
-                clipPath: this.getFunkyClipPath(new Point().setFactor(iconSize)),
                 effects: iconEffects,
                 shrink: 0,
             })
@@ -442,7 +419,7 @@ export default class Card
     drawFooter()
     {
         const footerGap = 0.175*this.cornerIconSize;
-        const footer = new Container({
+        const footer = new LayoutNode({
             anchor: AnchorValue.BOTTOM_LEFT,
             flow: FlowType.GRID,
             dir: FlowDir.HORIZONTAL,
@@ -451,35 +428,35 @@ export default class Card
             size: new TwoAxisValue().setBlock(),
             gap: footerGap
         })
-        this.container.addChild(footer);
+        this.LayoutNode.addChild(footer);
 
         // icon again in bottom left
         const iconResource = CONFIG.resLoader.getResource(this.iconSpritesheet);
-        const iconContainer = new ContainerImage({
+        const iconLayoutNode = new LayoutNode({
             resource: iconResource,
             frame: this.getIconFrame(this.getMainIcon()),
             fill: this.getIconColor(this.getMainIcon()),
             borderRadius: this.iconBorderRadius,
             size: new TwoAxisValue().fromSingle(this.cornerIconSize),
-            clipPath: this.getFunkyClipPath(new Point().setFactor(this.cornerIconSize)),
             effects: this.iconEffectsMain,
             shrink: 0 // to prevent changing its size because of full width text box
         })
-        footer.addChild(iconContainer);
+        footer.addChild(iconLayoutNode);
 
         // the text with the name of the creature
-        const textBox = new ContainerText({
+        const txtCfg = new TextConfig({
+            font: "Comica Boom",
+            size: 40,
+            color: "#000000",
+            alignVertical: TextAlign.MIDDLE,
+        })
+        const textRes = new ResourceText({ text: this.creatureName, textConfig: txtCfg })
+        const textBox = new LayoutNode({
+            resource: textRes,
             size: new TwoAxisValue(new SizeValue(1.0, SizeType.PARENT), new SizeValue(1.0, SizeType.CONTENT)),
             fill: "#FFFFFF",
             borderRadius: this.iconBorderRadius,
             stroke: new StrokeValue(this.strokeWidth, this.strokeColor),
-            textConfig: new TextConfig({
-                font: "Comica Boom",
-                size: 40,
-                color: "#000000",
-                alignVertical: TextAlign.MIDDLE,
-            }),
-            text: this.creatureName
         })
         footer.addChild(textBox);
 
@@ -487,20 +464,22 @@ export default class Card
         // @TODO: BUG => it only picks 3 types at most per card, though I said 4?
         // fineprint in the margin
         const fontSize = 11
-        const fineprintText = new ContainerText({
+        const txtCfgSmall = new TextConfig({
+            font: "Cabin",
+            style: TextStyle.ITALIC,
+            alignHorizontal: TextAlign.END,
+            size: fontSize,
+            color: "rgba(0,0,0,0.85)" // @TODO: proper support for ColorValues in this whole system
+        })
+        const textResSmall = new ResourceText({ text: this.getFinePrintText(), textConfig: txtCfgSmall });
+        const fineprintText = new LayoutNode({
+            resource: textResSmall,
             size: new TwoAxisValue().setBlock(),
             margin: new FourSideValue(0,0,-(fontSize+3),0),
             anchor: AnchorValue.BOTTOM_LEFT,
-            textConfig: new TextConfig({
-                font: "Cabin",
-                style: TextStyle.ITALIC,
-                alignHorizontal: TextAlign.END,
-                size: fontSize,
-                color: "rgba(0,0,0,0.85)" // @TODO: proper support for ColorValues in this whole system
-            }),
             text: this.getFinePrintText()
         })
-        this.container.addChild(fineprintText)
+        this.LayoutNode.addChild(fineprintText)
 
     }
 
@@ -575,31 +554,5 @@ export default class Card
         ]
 
         return points;
-    }
-
-    async getClipPathImageResource()
-    {
-        const canv : HTMLCanvasElement = document.createElement("canvas");
-        canv.width = this.dims.x;
-        canv.height = this.dims.y;
-
-        const ctx = canv.getContext("2d");
-
-        const path = this.clipPath.slice();
-        path.push(this.clipPath[0]);
-
-        ctx.beginPath();
-        for(const point of path)
-        {
-            ctx.lineTo(point.x, point.y);
-        }
-
-        ctx.strokeStyle = this.strokeColor;
-        ctx.lineWidth = this.strokeWidth;
-        ctx.stroke();
-
-        const res = new ResourceImage()
-        await res.fromCanvas(canv);
-        return res;
     }
 }

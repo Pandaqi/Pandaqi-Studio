@@ -1,8 +1,8 @@
 import Point from "./shapes/point"
 import { PHOTOMONE_TOKENS } from "./dict"
 import CONFIG from "./config"
-import createContext from "js/pq_games/canvas/createContext";
-import CanvasOperation from "js/pq_games/canvas/canvasOperation";
+import createContext from "js/pq_games/layout/canvas/createContext";
+import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import RandomWalk from "./tools/randomWalk";
 import RandomWalkPathfind from "./tools/randomWalkPathfind";
 
@@ -52,13 +52,13 @@ export default class Token {
     {
         const ctx = this.ctx;
         const res = CONFIG.resLoader.getResource("tokens");
-        const canvOp = new CanvasOperation({
+        const canvOp = new LayoutOperation({
             translate: this.centerPos.clone(),
             dims: new Point(this.radius*2),
             frame: this.typeData.frame,
             pivot: new Point(0.5)
         });
-        res.drawTo(this.ctx, canvOp);
+        res.toCanvas(this.ctx, canvOp);
     }
 
     visualizeGrid()

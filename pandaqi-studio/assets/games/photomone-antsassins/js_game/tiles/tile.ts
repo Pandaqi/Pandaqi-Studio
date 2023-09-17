@@ -5,7 +5,7 @@ import Canvas from "js/pq_games/canvas/main"
 import Point from "../shapes/point"
 import TileGenerator from "./tileGenerator"
 import TileVisualizer from "./tileVisualizer"
-import createContext from "js/pq_games/canvas/createContext"
+import createContext from "js/pq_games/layout/canvas/createContext"
 
 type Shape = Hexagon|Rectangle|Triangle
 

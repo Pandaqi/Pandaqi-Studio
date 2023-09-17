@@ -1,3 +1,4 @@
+import Dims from "./dims";
 import Point from "./point"
 import Shape from "./shape";
 
@@ -18,6 +19,27 @@ export default class Circle extends Shape
         super();
         this.center = c.center ?? new Point();
         this.radius = c.radius ?? 10;
+    }
+
+    clone(deep = false)
+    {
+        let c = deep ? this.center.clone() : this.center;
+        return new Circle({ center: c, radius: this.radius });
+    }
+
+    getDimensions()
+    {
+        return new Dims(
+            this.center.clone().sub(new Point(this.radius)),
+            new Point(this.radius*2)
+        );
+    }
+
+    toPath2D() 
+    {
+        const p = new Path2D();
+        p.arc(this.center.x, this.center.y, this.radius, 0, 2*Math.PI);
+        return p;
     }
 
     toPath(resolution = 32)

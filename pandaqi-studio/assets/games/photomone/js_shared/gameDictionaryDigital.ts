@@ -1,4 +1,4 @@
-import Color from "js/pq_games/canvas/color";
+import Color from "js/pq_games/layout/color/color";
 
 export default {
     POINT_TYPES: {

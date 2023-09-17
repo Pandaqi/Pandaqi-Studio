@@ -1,7 +1,7 @@
 import Random from "js/pq_games/tools/random/main"
 import Point from "./shapes/point"
 // @ts-ignore
-import * as d3 from "js/pq_games/tools/geometry/d3-delaunay@6"
+import * as d3 from "js/pq_games/tools/graphs/d3-delaunay@6"
 
 class MosaicGroup
 {

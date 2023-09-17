@@ -2,7 +2,7 @@
 import { Geom, Display, GameObjects } from "js/pq_games/phaser.esm"
 import Point from "js/pq_games/tools/geometry/point"
 import PointGraph from "js/pq_games/tools/geometry/pointGraph"
-import smoothPath from "js/pq_games/tools/geometry/smoothPath"
+import smoothPath from "js/pq_games/tools/geometry/paths/smoothPath"
 import { CUSTOM } from "./dictionary"
 import BoardState from "./boardState"
 import CONFIG from "./config"

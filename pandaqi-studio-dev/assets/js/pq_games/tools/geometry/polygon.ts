@@ -1,3 +1,4 @@
+import Dims from "./dims";
 import Point from "./point";
 import Shape from "./shape";
 
@@ -21,6 +22,11 @@ export default class Polygon extends Shape
         this.center = h.center ?? new Point();
         this.radius = h.radius ?? 10;
         this.corners = h.corners ?? 6;
+    }
+
+    getDimensions()
+    {
+        return new Dims().fromPoints(this.toPath());
     }
 
     toPath()

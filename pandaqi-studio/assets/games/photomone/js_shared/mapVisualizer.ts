@@ -1,5 +1,5 @@
 import Point from "./point";
-import Color from "js/pq_games/canvas/color";
+import Color from "js/pq_games/layout/color/color";
 import Map from "./map"
 
 interface VisResult {

@@ -2,7 +2,7 @@
 import { Geom, Display } from "js/pq_games/phaser.esm"
 import CellDisplay from "./cellDisplay"
 import Point from "js/pq_games/tools/geometry/point";
-import smoothPath from "js/pq_games/tools/geometry/smoothPath"
+import smoothPath from "js/pq_games/tools/geometry/paths/smoothPath"
 import { GENERAL } from "./dictionary"
 import CONFIG from "./config"
 import SideBar from "./sideBar"

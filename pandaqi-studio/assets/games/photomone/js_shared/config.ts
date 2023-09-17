@@ -1,6 +1,6 @@
 import dataPhotomone from "./gameDictionary";
 import dataPhotomoneDigital from "./gameDictionaryDigital";
-import Color from "js/pq_games/canvas/color";
+import Color from "js/pq_games/layout/color/color";
 
 const PHOTOMONE_BASE_PARAMS = {
     width: 512,

@@ -6,8 +6,8 @@ import Random from "js/pq_games/tools/random/main"
 import Canvas from "js/pq_games/canvas/main"
 import { ALMOST_ACTIONS } from "./dict"
 import CONFIG from "./config"
-import createContext from "js/pq_games/canvas/createContext"
-import CanvasOperation from "js/pq_games/canvas/canvasOperation"
+import createContext from "js/pq_games/layout/canvas/createContext"
+import LayoutOperation from "js/pq_games/layout/layoutOperation"
 
 type Cell = Rectangle|Triangle|Hexagon;
 
@@ -417,13 +417,13 @@ export default class Card
                 if(CONFIG.tileShape == "triangle") { spriteSize *= 0.75; } // simply less space in triangles, so compensate
 
                 const res = CONFIG.resLoader.getResource("almostActions");
-                const canvOp = new CanvasOperation({
+                const canvOp = new LayoutOperation({
                     frame: ALMOST_ACTIONS[cell.getAction()].frame,
                     translate: centerPos,
                     dims: new Point(spriteSize),
                     pivot: new Point(0.5)
                 })
-                res.drawTo(ctx, canvOp);
+                res.toCanvas(ctx, canvOp);
             }
 
             ctx.restore();

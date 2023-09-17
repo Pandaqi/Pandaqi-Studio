@@ -1,13 +1,13 @@
 import { PdfBuilder, PageOrientation } from "js/pq_games/pdf/pdfBuilder"
-import GridMapper from "js/pq_games/canvas/gridMapper"
+import GridMapper from "js/pq_games/layout/gridMapper"
 import ResourceLoader from "js/pq_games/layout/resources/resourceLoader"
-import createContext from "js/pq_games/canvas/createContext"
+import createContext from "js/pq_games/layout/canvas/createContext"
 import ResourceImage from "js/pq_games/layout/resources/resourceImage"
-import CanvasOperation from "js/pq_games/canvas/canvasOperation"
+import LayoutOperation from "js/pq_games/layout/layoutOperation"
 import Point from "js/pq_games/tools/geometry/point"
 import PointGraph from "js/pq_games/tools/geometry/pointGraph"
 import Line from "js/pq_games/tools/geometry/line"
-import convertCanvasToImageMultiple from "js/pq_games/canvas/helpers/convertCanvasToImageMultiple"
+import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple"
 import InterfaceWordOptions from "../js_shared/interfaceWordOptions"
 import PhotomoneGame from "../js_shared/main"
 
@@ -85,14 +85,14 @@ async function createWordCards(userConfig:Record<string,any>)
             dims: new Point(spriteSize, spriteSize),
             rotation: Math.PI
         }
-        const canvOp = new CanvasOperation(spriteParams);
+        const canvOp = new LayoutOperation(spriteParams);
 
         // top row
         let antX = 0.5*cardSize.x + Math.random()*0.5*cardSize.x;
         while(antX > 0)
         {
             canvOp.translate = new Point(antX, spriteParams.translate.y);
-            res.drawTo(ctx, canvOp);
+            res.toCanvas(ctx, canvOp);
             antX -= Math.random() * (cardSize.x - antX) + 1.25*spriteSize;
         }
 
@@ -103,7 +103,7 @@ async function createWordCards(userConfig:Record<string,any>)
         while(antX < cardSize.x)
         {
             canvOp.translate = new Point(antX, spriteParams.translate.y);
-            res.drawTo(ctx, canvOp);
+            res.toCanvas(ctx, canvOp);
             antX += Math.random() * (cardSize.x - antX) + 1.25*spriteSize;
         }
 
@@ -209,15 +209,15 @@ async function createWordCards(userConfig:Record<string,any>)
                 dims: new Point(iconSize),
                 translate: new Point(dataX, y)
             }
-            const canvOp = new CanvasOperation(resParams);
-            iconPoints.drawTo(ctx, canvOp);
+            const canvOp = new LayoutOperation(resParams);
+            iconPoints.toCanvas(ctx, canvOp);
 
             dataX -= iconSize;
             ctx.fillText(word.getLines(), dataX, y);
 
             dataX -= dataTextWidth;
             canvOp.translate.x = dataX;
-            iconLines.drawTo(ctx, canvOp);
+            iconLines.toCanvas(ctx, canvOp);
 
             ctx.globalAlpha = 1.0;
         }

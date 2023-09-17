@@ -1,6 +1,13 @@
+import Point from "js/pq_games/tools/geometry/point";
 import convertCanvasToImage from "./convertCanvasToImage"
 
-export default async (img:HTMLImageElement, params:Record<string,any> = {}) => 
+interface SplitParams
+{
+	split?: boolean
+	splitDims?: Point
+}
+
+const splitImage = async (img:HTMLImageElement, params:Record<string,any> = {}) => 
 {
     if(!params.split) { return [img]; }
 
@@ -34,3 +41,6 @@ export default async (img:HTMLImageElement, params:Record<string,any> = {}) =>
     const arr = await Promise.all(promises);
     return arr;
 }
+
+export { splitImage, SplitParams }
+export default splitImage;

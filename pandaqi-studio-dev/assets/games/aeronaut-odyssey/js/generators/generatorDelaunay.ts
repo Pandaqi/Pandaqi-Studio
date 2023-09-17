@@ -4,7 +4,7 @@ import CONFIG from "../config";
 import Point from "js/pq_games/tools/geometry/point";
 import range from "js/pq_games/tools/random/range";
 // @ts-ignore
-import * as d3 from "js/pq_games/tools/geometry/d3-delaunay@6"
+import * as d3 from "js/pq_games/tools/graphs/d3-delaunay@6"
 import PointGraph from "js/pq_games/tools/geometry/pointGraph";
 import shuffle from "js/pq_games/tools/random/shuffle";
 import Route from "../route";

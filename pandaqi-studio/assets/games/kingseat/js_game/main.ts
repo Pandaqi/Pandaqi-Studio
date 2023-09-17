@@ -1,11 +1,11 @@
 import Pack from "./pack"
 import { PACKS, PACK_DEFAULT, PACK_COLORS } from "./dict"
-import GridMapper from "js/pq_games/canvas/gridMapper"
+import GridMapper from "js/pq_games/layout/gridMapper"
 import PdfBuilder, { PageOrientation } from "js/pq_games/pdf/pdfBuilder"
 import Point from "js/pq_games/tools/geometry/point"
-import ProgressBar from "js/pq_games/canvas/progressBar"
+import ProgressBar from "js/pq_games/website/progressBar"
 import CONFIG from "./config";
-import convertCanvasToImageMultiple from "js/pq_games/canvas/helpers/convertCanvasToImageMultiple"
+import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple"
 import ResourceLoader from "js/pq_games/layout/resources/resourceLoader"
 
 export default class Generator {

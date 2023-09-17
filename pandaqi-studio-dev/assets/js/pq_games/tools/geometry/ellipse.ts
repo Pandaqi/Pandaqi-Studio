@@ -1,3 +1,4 @@
+import Dims from "./dims";
 import Point from "./point"
 import Shape from "./shape";
 
@@ -18,6 +19,21 @@ export default class Ellipse extends Shape
         super();
         this.center = c.center ?? new Point();
         this.radius = c.radius ?? new Point(10);
+    }
+
+    clone(deep = false)
+    {
+        let c = deep ? this.center.clone() : this.center;
+        let r = deep ? this.radius.clone() : this.radius;
+        return new Ellipse({ center: c, radius: r });
+    }
+
+    getDimensions()
+    {
+        return new Dims(
+            this.center.clone().sub(this.radius),
+            this.radius.clone().scaleFactor(2.0)
+        );
     }
 
     toPath(resolution = 32)

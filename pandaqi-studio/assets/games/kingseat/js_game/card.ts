@@ -1,12 +1,11 @@
 import { PACKS } from "./dict"
-import Canvas from "js/pq_games/canvas/main"
 import Point from "js/pq_games/tools/geometry/point"
 import CONFIG from "./config"
-import createContext from "js/pq_games/canvas/createContext";
-import CanvasOperation from "js/pq_games/canvas/canvasOperation";
-import DropShadowEffect from "js/pq_games/canvas/effects/dropShadowResource";
-import TintEffect from "js/pq_games/canvas/effects/tintResource";
-import addTextToCanvas from "js/pq_games/canvas/text/addTextToCanvas";
+import createContext from "js/pq_games/layout/canvas/createContext";
+import LayoutOperation from "js/pq_games/layout/layoutOperation";
+import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
+import TintEffect from "js/pq_games/layout/effects/tintEffect";
+import addTextToCanvas from "js/pq_games/layout/text/addTextToCanvas";
 
 export default class Card 
 {
@@ -70,13 +69,13 @@ export default class Card
 
             const alpha = this.isDark() ? 0.5 : 1.0;
             const res = CONFIG.resLoader.getResource("multicolor_bg");
-            const canvOp = new CanvasOperation({
+            const canvOp = new LayoutOperation({
                 translate: this.centerPos.clone(),
                 dims: this.dims.clone(),
                 pivot: new Point(0.5),
                 alpha: alpha
             });
-            res.drawTo(this.ctx, canvOp);
+            res.toCanvas(this.ctx, canvOp);
         }
 
         const scaleFactor = this.typeData.bg.icon.scale;
@@ -86,14 +85,14 @@ export default class Card
         const iconSize = this.minSize*scaleFactor;
 
         const res = CONFIG.resLoader.getResource("crests_full");
-        const canvOp = new CanvasOperation({
+        const canvOp = new LayoutOperation({
             frame: this.typeData.frame,
             translate: pos,
             dims: new Point(iconSize),
             pivot: new Point(0.5),
             alpha: alpha
         })
-        res.drawTo(ctx, canvOp);
+        res.toCanvas(ctx, canvOp);
     }
 
     // main part
@@ -132,8 +131,8 @@ export default class Card
             ];
         }
 
-        const canvOp = new CanvasOperation(params);
-        res.drawTo(this.ctx, canvOp);
+        const canvOp = new LayoutOperation(params);
+        res.toCanvas(this.ctx, canvOp);
     }
 
     drawSeparator()
@@ -160,8 +159,8 @@ export default class Card
                 new TintEffect({ color: sepColor })
             ]
         }
-        const canvOp = new CanvasOperation(spriteParams);
-        res.drawTo(ctx, canvOp);
+        const canvOp = new LayoutOperation(spriteParams);
+        res.toCanvas(ctx, canvOp);
         
         for(let i = 0; i < 2; i++)
         {
@@ -365,8 +364,8 @@ export default class Card
             params.flipY = data[i].flipY;
 
             const res = CONFIG.resLoader.getResource("crests_simple");
-            const canvOp = new CanvasOperation(params);
-            res.drawTo(this.ctx, canvOp);
+            const canvOp = new LayoutOperation(params);
+            res.toCanvas(this.ctx, canvOp);
         }
     }
 
@@ -383,11 +382,11 @@ export default class Card
     drawGradientOverlay()
     {
         const res = CONFIG.resLoader.getResource("gradient_overlay");
-        const canvOp = new CanvasOperation({
+        const canvOp = new LayoutOperation({
             translate: this.centerPos.clone(),
             dims: this.dims.clone(),
             pivot: new Point(0.5)
         })
-        res.drawTo(this.ctx, canvOp);
+        res.toCanvas(this.ctx, canvOp);
     }
 }

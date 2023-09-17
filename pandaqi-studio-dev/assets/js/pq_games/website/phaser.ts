@@ -1,16 +1,23 @@
-import splitImage from "js/pq_games/canvas/helpers/splitImage"
-import convertCanvasToImage from "js/pq_games/canvas/helpers/convertCanvasToImage"
+import splitImage from "js/pq_games/layout/canvas/splitImage"
+import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage"
 import PDF from "../pdf/main"
 import PdfBuilder from "../pdf/pdfBuilder"
 import Settings from "./settings"
 // @ts-ignore
 import { Game, CANVAS, WEBGL, Scale } from "../phaser.esm"
+import Point from "../tools/geometry/point"
 
 interface PhaserLinkParams
 {
 	scene:any,
 	key?:string,
 	renderer?:string
+}
+
+interface CanvasToImageParams
+{
+	splitBoard?: boolean
+	splitDims?: Point
 }
 
 class PhaserClass
@@ -117,7 +124,7 @@ class PhaserClass
 		window.scrollTo(scrollLeft, scrollTop);
 	}
 
-	async convertCanvasToImage(scene:any) {
+	async convertCanvasToImage(scene:any, params:CanvasToImageParams = {}) {
 		if(!this.pdfBuilder) { console.error("Can't convert canvas to image. No PDF builder!"); return; }
 
 		const phaserContainer = this.getPhaserContainer();
@@ -143,7 +150,12 @@ class PhaserClass
 		}
 
 		// split if necessary, add to pdfBuilder
-		const splitConfig = { split: this.gameConfig.splitBoard, cols: 2, rows: 2 }; // @TODO: should actually listen to input on cols/rows!
+		const splitConfig = { 
+			split: (params.splitBoard ?? this.gameConfig.splitBoard) ?? false, 
+			splitDims: params.splitDims ?? new Point(2,2)
+		}
+
+
 		const images = await splitImage(img, splitConfig);
 
 		for(let i = 0; i < images.length; i++)

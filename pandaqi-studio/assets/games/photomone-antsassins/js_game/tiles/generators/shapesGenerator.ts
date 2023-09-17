@@ -156,7 +156,7 @@ export default class PhotomoneGenerator
         const validNeighbors = new Set();
         for(const point of group)
         {
-            const nbs = point.getNeighbours();
+            const nbs = point.getNeighbors();
             if(nbs.length <= 0) { continue; }
             for(const nb of nbs)
             {

@@ -16,7 +16,14 @@ export default class Point
     static RIGHT = new Point(1,0);
     static UP = new Point(0,-1);
     static DOWN = new Point(0,1);
+
+    static ZERO = new Point(0,0);
     static ONE = new Point(1,1);
+
+    static TOP_LEFT = new Point(-1,-1);
+    static TOP_RIGHT = new Point(1,-1);
+    static BOTTOM_RIGHT = new Point(1,1);
+    static BOTTOM_LEFT = new Point(-1,1);
 
     constructor(a:PointParamValid = 0, b:number = null)
     {

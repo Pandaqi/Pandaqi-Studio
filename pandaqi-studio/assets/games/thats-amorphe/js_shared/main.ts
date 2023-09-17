@@ -1,15 +1,15 @@
-import Color from "js/pq_games/canvas/color"
-import GridMapper from "js/pq_games/canvas/gridMapper"
+import Color from "js/pq_games/layout/color/color"
+import GridMapper from "js/pq_games/layout/gridMapper"
 import PdfBuilder, { PageOrientation } from "js/pq_games/pdf/pdfBuilder"
 import { ICONS, ICONS_SPECIAL, ICONS_PICTURES } from "./dict"
-import createContext from "js/pq_games/canvas/createContext"
+import createContext from "js/pq_games/layout/canvas/createContext"
 import ResourceLoader from "js/pq_games/layout/resources/resourceLoader"
-import convertCanvasToImageMultiple from "js/pq_games/canvas/helpers/convertCanvasToImageMultiple"
+import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple"
 import PandaqiWords from "js/pq_words/main"
 import ResourceImage from "js/pq_games/layout/resources/resourceImage"
-import CanvasOperation from "js/pq_games/canvas/canvasOperation"
-import addWrappedTextToCanvas from "js/pq_games/canvas/text/addWrappedTextToCanvas"
-import TintEffect from "js/pq_games/canvas/effects/tintResource"
+import LayoutOperation from "js/pq_games/layout/layoutOperation"
+import addWrappedTextToCanvas from "js/pq_games/layout/text/addWrappedTextToCanvas"
+import TintEffect from "js/pq_games/layout/effects/tintEffect"
 import Point from "js/pq_games/tools/geometry/point"
 
 const baseAssetDir = '/thats-amorphe/assets/'
@@ -123,8 +123,8 @@ async function createSpecialMorphCards(params)
 		}
 
 		const iconResource = resLoader.getResource(iconKey) as ResourceImage;
-		const canvOp = new CanvasOperation(iconParams);
-		iconResource.drawTo(ctx, canvOp);
+		const canvOp = new LayoutOperation(iconParams);
+		iconResource.toCanvas(ctx, canvOp);
 
 		// numbers
 		ctx.fillStyle = contrastColor
@@ -517,8 +517,8 @@ async function createWordCards(params)
 			reminderPos.y += 0.5*iconParams.dims.x*(1.0 / resize);
 
 			const iconResource = resLoader.getResource(iconKey) as ResourceImage;
-			const canvOp = new CanvasOperation(iconParams);
-			iconResource.drawTo(ctx, canvOp);
+			const canvOp = new LayoutOperation(iconParams);
+			iconResource.toCanvas(ctx, canvOp);
 	
 			// add reminder of the "-1 penalty" rule
 			ctx.textAlign = "center";

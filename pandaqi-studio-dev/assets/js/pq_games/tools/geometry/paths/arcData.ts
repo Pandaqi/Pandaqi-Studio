@@ -24,6 +24,16 @@ export default class ArcData
         this.goClockwise = params.goClockwise ?? false;
     }
 
+    clone(deep = false)
+    {
+        const r = deep ? this.radius.clone() : this.radius;
+        return new ArcData({
+            radius: r, rotation: this.rotation,
+            takeLongerRoute: this.takeLongerRoute,
+            goClockwise: this.goClockwise
+        });
+    }
+
     getBooleanString(val:boolean)
     {
         return val ? "1" : "0";

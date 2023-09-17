@@ -1,8 +1,15 @@
-import CanvasOperation from "js/pq_games/canvas/canvasOperation"
+import LayoutOperation from "js/pq_games/layout/layoutOperation"
 import Resource from "./resource"
 import Point from "js/pq_games/tools/geometry/point"
+import ResourceGradient from "./resourceGradient"
+import ResourcePattern from "./resourcePattern"
+import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage"
+import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple"
 
-type ImageLike = HTMLImageElement
+import ResourceLoader from "./resourceLoader"
+
+type ImageLike = HTMLImageElement|ResourceImage|ResourceGradient|ResourcePattern
+type CanvasLike = HTMLCanvasElement|CanvasRenderingContext2D
 
 interface FrameData {
     xIndex: number,
@@ -13,10 +20,11 @@ interface FrameData {
     height: number
 }
 
+export { ResourceImage, ImageLike, CanvasLike }
 export default class ResourceImage extends Resource
 {
     img : HTMLImageElement;
-    size : Point;
+    size : Point; // can't be set from outside, calculated internally
     frameDims : Point;
     frameSize : Point;
     frames : HTMLImageElement[];
@@ -30,21 +38,82 @@ export default class ResourceImage extends Resource
         this.refreshSize();
     }
     
-    clone() : ResourceImage
+    clone(deep = false) : ResourceImage
     {
-        const img = new ResourceImage(this.img);
-        img.size = this.size.clone();
-        img.frameDims = this.frameDims.clone();
-        img.frames = this.frames.slice();
-        img.refreshSize();
+        const img = new ResourceImage();
+        img.fromResourceImage(this, deep);
         return img;
     }
 
-    swapImage(img:HTMLImageElement)
+    /* The `to` functions */
+    async toCanvas(canv:CanvasLike = null, op:LayoutOperation = null)
     {
-        this.img = img;
+        this.operation.dims = this.size.clone();
+
+        const operation = op ?? this.operation;
+        operation.resource = this;
+        return await operation.applyToCanvas(canv);
     }
 
+    async toHTML(op:LayoutOperation = null)
+    {
+        const node = this.getImageFrame(this.getFrame()).cloneNode() as HTMLImageElement;
+        node.style.width = "100%";
+        node.style.height = "100%";
+        
+        const operation = op ?? this.operation;
+        return await operation.applyToHTML(node);
+    }
+
+    async toSVG(op:LayoutOperation = null)
+    {
+        const elem = document.createElementNS(null, "image");
+        elem.setAttribute("href", this.getImage().src);
+
+        const operation = op ?? this.operation;
+        return await operation.applyToSVG(elem);
+    }
+
+    /* The `from` functions */
+    fromResourceImage(r:ResourceImage, deep = false)
+    {
+        this.img = r.img;
+        this.size = deep ? r.size.clone() : this.size;
+        this.frameDims = deep ? r.frameDims.clone() : this.frameDims;
+        this.frames = deep ? r.frames.slice() : this.frames;
+        this.refreshSize();
+    }
+
+    // @TODO
+    async fromPattern(p:ResourcePattern)
+    {
+        return new ResourceImage();
+    }
+
+    // @TODO
+    async fromGradient(g:ResourceGradient)
+    {
+        return new ResourceImage();
+    }
+
+    async fromSVG(elem:SVGImageElement)
+    {
+        const resLoader = new ResourceLoader();
+        resLoader.planLoad("svg_embedded_image", { path: elem.href });
+        resLoader.loadPlannedResources();
+        const imgRes = resLoader.getResource("svg_embedded_image");
+        this.fromResourceImage(imgRes);
+    }
+
+    async fromCanvas(canv:HTMLCanvasElement)
+    {
+        this.img = await convertCanvasToImage(canv);
+        this.refreshSize();
+        await this.cacheFrames();
+        return this;
+    }
+
+    /* Helpers & Tools */
     refreshSize()
     {
         if(!(this.img instanceof HTMLImageElement)) { return; }
@@ -55,22 +124,9 @@ export default class ResourceImage extends Resource
         )
     }
 
-    async fromCanvas(canv:HTMLCanvasElement)
-    {
-        const imgNode = new Image();
-        imgNode.src = canv.toDataURL();
-        await imgNode.decode();
-        this.img = imgNode;
-        this.refreshSize();
-        await this.cacheFrames();
-        return this;
-    }
-
     async cacheFrames()
     {
-        this.frames = [];
-
-        const promises = [];
+        const canvases = [];
         for(let x = 0; x < this.frameDims.x; x++)
         {
             for(let y = 0; y < this.frameDims.y; y++)
@@ -88,26 +144,14 @@ export default class ResourceImage extends Resource
                     0, 0, data.width, data.height
                 )
 
-                const img = new Image();
-                img.src = canv.toDataURL();
-                this.frames[frame] = img;
-                promises.push(img.decode());
+                canvases.push(canv);
             }
         }
 
-        await Promise.all(promises);
+        this.frames = await convertCanvasToImageMultiple(canvases);
     }
 
-    getImage() : ImageLike { return this.img; }
-    async drawTo(canv:HTMLCanvasElement|CanvasRenderingContext2D, operation:CanvasOperation = new CanvasOperation())
-    {
-        if(canv instanceof CanvasRenderingContext2D) { canv = canv.canvas; }
-        operation.addImage(this);
-        await operation.apply(canv);
-        operation.removeImage();
-    }
-
-    getFrameData(frm:number) : FrameData
+    getFrameData(frm:number = 0) : FrameData
     {
         const frameVec = new Point().setXY(
             frm % this.frameDims.x,
@@ -134,10 +178,47 @@ export default class ResourceImage extends Resource
         return this.frameSize.x / this.frameSize.y
     }
 
-    getFrame(num:number) : HTMLImageElement
+    getImage() : HTMLImageElement 
+    { 
+        return this.img; 
+    }
+
+    getImageFrame(num:number) : HTMLImageElement
     {
         return this.frames[num];
     }
+
+    countFrames() : number
+    {
+        return this.frames.length;
+    }
+
+    getFrame() : number
+    {
+        return this.operation.frame;
+    }
+
+    setFrame(f:number)
+    {
+        this.operation.frame = f;
+    }
+
+    swapImage(img:HTMLImageElement)
+    {
+        this.img = img;
+    }
+
+    swapFrame(idx:number, img:HTMLImageElement)
+    {
+        this.frames[idx] = img;
+    }
+
+    swapFrames(newFrames:HTMLImageElement[])
+    {
+        if(newFrames.length != this.frames.length) { return console.error("Can't swap frames if number of them doesn't match"); }
+        this.frames = newFrames;
+    }
+
 
     
     
