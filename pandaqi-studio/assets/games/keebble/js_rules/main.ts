@@ -1,6 +1,4 @@
-// @ts-ignore
 import InteractiveExample from "js/pq_rulebook/examples/interactiveExample"
-// @ts-ignore
 import shuffle from "js/pq_games/tools/random/shuffle"
 
 const tools = {

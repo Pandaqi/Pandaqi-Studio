@@ -32,7 +32,7 @@ tags: ["web", "party_game", "spin-off"]
 extraCSS: true
 extraJSGame: true
 sharedJS: "photomone"
-sharedJSIncludeOnPage: true
+sharedJSInclude: true
 
 downloadLink: ""
 

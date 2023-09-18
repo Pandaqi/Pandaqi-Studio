@@ -32,8 +32,9 @@ categories: ["boardgame"]
 tags: ["hybrid"]
 
 extraCSS: true
-extraJS: true
+extraJSBoard: true
 extraJSGame: true
+extraJSBoardInclude: true
 
 downloadLink: "https://drive.google.com/drive/folders/1_hK2ICc9T95hSLAGNO4mvBFmqpvrq_15"
 

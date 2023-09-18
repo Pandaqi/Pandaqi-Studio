@@ -32,7 +32,6 @@ tags: ["traditional"]
 
 extraCSS: true
 extraJSGame: true
-extraJSGameBuild: true
 
 downloadLink: "https://drive.google.com/drive/folders/14KGDtFeGMpGRltZorC6shHr3pYXGk5MQ"
 

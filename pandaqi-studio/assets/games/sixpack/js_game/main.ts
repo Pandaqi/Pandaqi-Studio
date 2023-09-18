@@ -2,13 +2,13 @@ import Pack from "./pack"
 import { PACKS } from "./dict"
 import GridMapper from "js/pq_games/layout/gridMapper"
 import PdfBuilder, { PageOrientation } from "js/pq_games/pdf/pdfBuilder"
-import Canvas from "js/pq_games/canvas/main"
 import ProgressBar from "js/pq_games/website/progressBar"
 import Random from "js/pq_games/tools/random/main"
 
 import CONFIG from "./config"
 import ResourceLoader from "js/pq_games/layout/resources/resourceLoader"
 import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple"
+import Point from "js/pq_games/tools/geometry/point"
 
 export default class Generator 
 {
@@ -64,6 +64,7 @@ export default class Generator
         await this.loadAssets();
         this.determinePackTypes();
         this.createPacks();
+        await this.drawPacks();
         await this.downloadPDF();
         console.log("[Sixpack] Done.");
         CONFIG.progressBar.gotoNextPhase();
@@ -75,8 +76,8 @@ export default class Generator
 
         const resLoader = new ResourceLoader();
         resLoader.planLoad(CONFIG.font.key, { key: CONFIG.font.key, path: CONFIG.font.url });
-        resLoader.planLoad("card_backgrounds", { path: "assets/card_backgrounds.webp", frames: { x: 8, y: 2 } });
-        resLoader.planLoad("card_types", { path: "assets/card_types.webp", frames: { x: 8, y: 2 } });
+        resLoader.planLoad("card_backgrounds", { path: "assets/card_backgrounds.webp", frames: new Point(8,2) });
+        resLoader.planLoad("card_types", { path: "assets/card_types.webp", frames: new Point(8,2) });
         resLoader.planLoad("hand_icon", { path: "assets/hand_icon.webp" });
         await resLoader.loadPlannedResources();
 
@@ -134,6 +135,20 @@ export default class Generator
         this.packs = packs;
     }
 
+    async drawPacks()
+    {
+        const promises = [];
+        for(const pack of this.packs)
+        {
+            promises.push(pack.visualize());
+        }
+        const canvases = await Promise.all(promises);
+        for(const canvas of canvases.flat())
+        {
+            CONFIG.gridMapper.addElement(canvas);
+        }
+    }
+
     async downloadPDF()
     {
         CONFIG.progressBar.gotoNextPhase();
@@ -153,3 +168,5 @@ export default class Generator
         CONFIG.pdfBuilder.downloadPDF(pdfConfig);
     }
 }
+
+new Generator().start();

@@ -1,4 +1,5 @@
 import Point from "./shapes/point"
+import PointNonPhotomone from "js/pq_games/tools/geometry/point"
 import { PHOTOMONE_TOKENS } from "./dict"
 import CONFIG from "./config"
 import createContext from "js/pq_games/layout/canvas/createContext";
@@ -26,7 +27,6 @@ export default class Token {
         this.type = CONFIG.tokens.types[id];
         this.typeData = PHOTOMONE_TOKENS[this.type];
         this.setupCanvas();
-        this.visualize();
 
         if(CONFIG.tokens.debug) { document.body.appendChild(this.getCanvas()); }
     }
@@ -42,23 +42,24 @@ export default class Token {
 		this.ctx.clearRect(0, 0, size.x, size.y);
     }
 
-    visualize()
+    async draw()
     {
-        this.visualizeSprite();
+        await this.visualizeSprite();
         this.visualizeGrid();
+        return this.getCanvas();
     }
 
-    visualizeSprite()
+    async visualizeSprite()
     {
         const ctx = this.ctx;
         const res = CONFIG.resLoader.getResource("tokens");
         const canvOp = new LayoutOperation({
-            translate: this.centerPos.clone(),
-            dims: new Point(this.radius*2),
+            translate: new PointNonPhotomone(this.centerPos.x, this.centerPos.y),
+            dims: new PointNonPhotomone(this.radius*2),
             frame: this.typeData.frame,
-            pivot: new Point(0.5)
+            pivot: new PointNonPhotomone(0.5)
         });
-        res.toCanvas(this.ctx, canvOp);
+        await res.toCanvas(this.ctx, canvOp);
     }
 
     visualizeGrid()

@@ -1,4 +1,5 @@
 import Dims from "./dims";
+import Path from "./paths/path";
 import Point from "./point"
 import Shape from "./shape";
 
@@ -48,6 +49,16 @@ export default class Ellipse extends Shape
             )
         }
         return path;
+    }
+
+    toPath2D()
+    {
+        return new Path({ points: this.toPath() }).toPath2D();
+    }
+
+    toPathString()
+    {
+        return new Path({ points: this.toPath() }).toPathString();
     }
 
     toSVG()

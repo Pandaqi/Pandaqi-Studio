@@ -25,32 +25,27 @@ export default class ResourceShape extends Resource
         return new ResourceShape({ shape: shape });
     }
 
-    async toCanvas(canv:CanvasLike = null, op:LayoutOperation = null)
+    async toCanvas(canv:CanvasLike = null, op:LayoutOperation = new LayoutOperation())
     {
         const dims = this.shape.getDimensions();
         if(!canv) { canv = createCanvas({ width: dims.size.x, height: dims.size.y }); }
-
-        const operation = op ?? this.operation;
-        operation.resource = this;
-        return await operation.applyToCanvas(canv);
+        op.resource = this;
+        return await op.applyToCanvas(canv);
     }
 
-    async toHTML(op:LayoutOperation = null)
+    async toHTML(op:LayoutOperation = new LayoutOperation())
     {
-        const operation = op ?? this.operation;
-
         const svg = document.createElement("svg");
         const dims = this.shape.getDimensions();
         svg.setAttribute("width", dims.size.x.toString());
         svg.setAttribute("height", dims.size.y.toString());
         const elem = await this.toSVG();
         svg.appendChild(elem);
-
-        operation.applyToHTML(svg);
+        op.applyToHTML(svg);
         return svg;
     }
     
-    async toSVG(op:LayoutOperation = null)
+    async toSVG(op:LayoutOperation = new LayoutOperation())
     {
         return this.shape.toSVG();
     }

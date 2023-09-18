@@ -72,7 +72,7 @@ async function createSpecialMorphCards(params)
 
 	for(let i = 0; i < 12; i++)
 	{
-		const ctx = createContext(cardSize);
+		const ctx = createContext({ size: cardSize });
 		const randNum = Math.floor(Math.random()*8) + 1;
 		let secondRandNum = Math.floor(Math.random()*8) + 1;
 		if(Math.abs(secondRandNum - randNum) < 2) { 
@@ -124,7 +124,7 @@ async function createSpecialMorphCards(params)
 
 		const iconResource = resLoader.getResource(iconKey) as ResourceImage;
 		const canvOp = new LayoutOperation(iconParams);
-		iconResource.toCanvas(ctx, canvOp);
+		await iconResource.toCanvas(ctx, canvOp);
 
 		// numbers
 		ctx.fillStyle = contrastColor
@@ -183,7 +183,7 @@ async function createMorphCards(params)
 
 	for(let i = 0; i <= 10; i++)
 	{
-		const ctx = createContext(cardSize);
+		const ctx = createContext({ size: cardSize });
 		const invert = (i == 10);
 		
 		let contrastColor = morphCardColors[i].lighten(60).toString();
@@ -323,7 +323,7 @@ async function createVoteCards(params)
 		for(let i = 1; i <= 9; i++)
 		{
 			const numberText = i + "";
-			const ctx = createContext(cardSize);
+			const ctx = createContext({ size: cardSize });
 
 			// solid bg color
 			ctx.fillStyle = teamColor.toString();
@@ -480,10 +480,10 @@ async function createWordCards(params)
 	}
 	
 	await resLoader.loadPlannedResources();
-	
-	while(wordList.length > 0)
+
+	const createWordCard = async (words) => 
 	{
-		const ctx = createContext(cardSize);
+		const ctx = createContext({ size: cardSize });
 		ctx.fillStyle = "#DDDDDD";
 		ctx.fillRect(0, 0, cardSize.x, cardSize.y);
 
@@ -495,9 +495,6 @@ async function createWordCards(params)
 		ctx.lineWidth = borderWidth;
 		ctx.strokeRect(0, 0, cardSize.x, cardSize.y);
 
-		let tempWordsPerCard = wordsPerCard;
-		if(config.varyWordCount) { tempWordsPerCard = Math.floor(Math.random() * (wordsPerCard-1)) + 1; }
-		
 		// add action icon in the middle
 		const placeIcon = Math.random() <= iconProbability && addActions;
 		if(placeIcon)
@@ -518,7 +515,7 @@ async function createWordCards(params)
 
 			const iconResource = resLoader.getResource(iconKey) as ResourceImage;
 			const canvOp = new LayoutOperation(iconParams);
-			iconResource.toCanvas(ctx, canvOp);
+			await iconResource.toCanvas(ctx, canvOp);
 	
 			// add reminder of the "-1 penalty" rule
 			ctx.textAlign = "center";
@@ -538,11 +535,9 @@ async function createWordCards(params)
 		if(Math.random() <= 0.725) { morphNumbers.push(5); }
 		if(Math.random() <= 0.5) { morphNumbers.push(1); morphNumbers.push(9); }
 
-		for(let i = 0; i < tempWordsPerCard; i++)
+		for(let i = 0; i < words.length; i++)
 		{
-			if(wordList.length <= 0) { break; }
-
-			const wordData = wordList.pop();
+			const wordData = words[i];
 
 			const angle = i * 0.5 * Math.PI;
 			const x = (0.5 + wordOffsetFromCenter*Math.cos(angle))*cardSize.x;
@@ -620,7 +615,27 @@ async function createWordCards(params)
 			ctx.restore();
 		}
 
-		gridMapper.addElement(ctx.canvas);
+		return ctx.canvas;
+	}
+	
+	const promises = [];
+	while(wordList.length > 0)
+	{
+		let tempWordsPerCard = wordsPerCard;
+		if(config.varyWordCount) 
+		{ 
+			tempWordsPerCard = Math.floor(Math.random() * (wordsPerCard-1)) + 1; 
+		}
+		tempWordsPerCard = Math.min(tempWordsPerCard, wordList.length);
+
+		const words = wordList.splice(0, tempWordsPerCard);
+		promises.push(createWordCard(words));
+	}
+	
+	const canvases = await Promise.all(promises);
+	for(const canv of canvases)
+	{
+		gridMapper.addElement(canv);
 	}
 
 	const images = await convertCanvasToImageMultiple(gridMapper.getCanvases());

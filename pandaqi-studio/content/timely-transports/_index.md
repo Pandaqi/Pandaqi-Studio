@@ -23,10 +23,9 @@ textColorLink: "#FFCCAA"
 googleFonts: "https://fonts.googleapis.com/css2?family=Rowdies:wght@400;700&family=Yanone+Kaffeesatz:wght@400;700&display=swap"
 
 extraCSS: true
-extraJS: true
-extraJSBuild: true
+extraJSBoard: true
+extraJSBoardInclude: true
 extraJSGame: true
-extraJSGameBuild: true
 
 date: 2020-07-02
 

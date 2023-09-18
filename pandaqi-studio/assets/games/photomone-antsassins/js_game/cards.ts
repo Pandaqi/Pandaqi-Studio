@@ -17,12 +17,12 @@ export default class CodeCards {
     gridMapper: GridMapper
     cardsToGenerate: number
     images: HTMLImageElement[]
+    cards: Card[]
 
     constructor()
     {
         this.setupGridMapper();
         if(!CONFIG.includeCodeCards) { return; }
-        this.setupPatterns();
         this.setupRoles();
         this.generate();
     }
@@ -40,7 +40,7 @@ export default class CodeCards {
         CONFIG.cards.size = new Point(0.5 * size, 0.5 * size);
     }
 
-    setupPatterns()
+    async setupPatterns()
     {
         const resolution = 3;
         const size = CONFIG.cards.size;
@@ -73,13 +73,13 @@ export default class CodeCards {
                 stroke: CONFIG.cards.patternData.team0,
                 strokeWidth: strokeWidth
             })
-            resLine.toCanvas(ctx0, canvOp);
+            await resLine.toCanvas(ctx0, canvOp);
 
             canvOp.stroke = new Color(CONFIG.cards.patternData.antsassin);
-            resLine.toCanvas(ctxAntsassin, canvOp);
+            await resLine.toCanvas(ctxAntsassin, canvOp);
 
             resLine.shape = lineInverted;
-            resLine.toCanvas(ctxAntsassin, canvOp);
+            await resLine.toCanvas(ctxAntsassin, canvOp);
         }
 
         // dots for team1
@@ -94,7 +94,7 @@ export default class CodeCards {
                 const canvOp = new LayoutOperation({
                     fill: CONFIG.cards.patternData.team1,
                 })
-                res.toCanvas(ctx1, canvOp);
+                await res.toCanvas(ctx1, canvOp);
             }
         }
 
@@ -111,7 +111,7 @@ export default class CodeCards {
                 const canvOp = new LayoutOperation({
                     fill: CONFIG.cards.patternData.team2,
                 })
-                res.toCanvas(ctx2, canvOp);
+                await res.toCanvas(ctx2, canvOp);
             }
         }
 
@@ -126,7 +126,7 @@ export default class CodeCards {
                 stroke: CONFIG.cards.patternData.team3,
                 strokeWidth: team3LineWidth
             })
-            res.toCanvas(ctx3, canvOp);
+            await res.toCanvas(ctx3, canvOp);
         }
 
         // save all of those canvases
@@ -151,14 +151,30 @@ export default class CodeCards {
 
     generate()
     {
-        const arr = [];
+        const arr : Card[] = [];
         for(let i = 0; i < this.cardsToGenerate; i++)
         {
             const t = new Card(i);
             if(this.cardAlreadyExists(t, arr)) { i--; continue; }
             arr.push(t);
-            this.gridMapper.addElement(t.getCanvas());
         }
+        this.cards = arr;
+    }
+
+    async draw()
+    {
+        if(!this.cards) { return; }
+
+        await this.setupPatterns();
+
+        const promises = [];
+        for(const card of this.cards)
+        {
+            promises.push(card.draw());
+        }
+        const canvases = await Promise.all(promises);
+        this.gridMapper.addElements(canvases);
+        await this.convertToImages();
     }
 
     cardAlreadyExists(needle, haystack)
@@ -182,7 +198,7 @@ export default class CodeCards {
         return true;
     }
 
-    getImages() { return this.images; }
+    getImages() { return this.images ?? []; }
     async convertToImages()
     {
         this.images = await convertCanvasToImageMultiple(this.gridMapper.getCanvases());

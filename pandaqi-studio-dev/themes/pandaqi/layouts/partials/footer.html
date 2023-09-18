@@ -76,51 +76,46 @@
 	<script async defer src="{{ $final_js_bundle.RelPermalink }}"></script>
 {{ end }}
 
-<!-- Shared JS: when I create multiple spin-off games, they share the same library -->
+<!-- Shared JS: anything shared across multiple components of the same game or multiple (spin-off) games -->
 {{ if .Params.sharedJS }}
-	{{ $build_shared_js := .Params.sharedJSBuild }}
 	{{ $name := .Params.sharedJS }}
 	{{ $file_name := printf "/games/%s/js_shared/main.ts" $name }}
 	{{ $output_name := printf "/js_shared/lib-%s.js" $name }}
-	{{ $res := resources.Get $file_name }}
-	{{ if $build_shared_js }}
-		{{ $res = $res | js.Build $output_name | minify }}
-	{{ else }}
-		{{ $res = $res | minify | resources.Copy $output_name }}
-	{{ end }}
+	{{ $res := resources.Get $file_name | js.Build $output_name | minify }}
 	{{ $res.Publish }}
-	{{ if not .Params.sharedJSOnlyPublish }}
+	{{ if .Params.sharedJSInclude }}
 		<script async defer src="{{ $res.RelPermalink }}"></script>
 	{{ end }}
 {{ end }}
 
-<!-- Extra JS: unique code for this page, given as relative/absolute links -->
-<!-- This is always BUILT (used to be an option as some older games didn't use build system) -->
+<!-- Extra JS: BOARD -->
 {{ $js_bundle_extra := slice }}
 {{ $url := .RelPermalink }}
-{{ $include_extra_js := .Params.extraJS }}
+{{ $include_extra_js := .Params.extraJSBoard }}
 {{ $game_name := "" }}
 {{ with .File }}
 	{{ $game_name = .ContentBaseName }}
 {{ end }}
 {{ if and $include_extra_js $game_name }}
-	{{ $file_name := printf "/games/%s/js/main.ts" $game_name }}
+	{{ $file_name := printf "/games/%s/js_board/main.ts" $game_name }}
 	{{ $bundle_name := printf "%s/%s" $url "js/bundle.extra.js" }}
 	{{ $res := resources.Get $file_name | js.Build $bundle_name | minify }}
 	{{ $res.Publish }}
-	<script async defer src="{{ $res.RelPermalink }}"></script>
+	{{ if .Params.extraJSBoardInclude }}
+		<script async defer src="{{ $res.RelPermalink }}"></script>
+	{{ end }}
 {{ end }}
 
-<!-- Extra JS: build the files used by the game portion, if requested -->
-<!-- This is always BUILT (see comment above about older versions not doing that) -->
-<!-- but we do not ADD it to this page, we use it on the game page -->
+<!-- Extra JS: GAME/MATERIAL -->
 {{ $include_game_js := .Params.extraJSGame }}
 {{ if and $include_game_js $game_name }}
 	{{ $file_name := printf "/games/%s/js_game/main.ts" $game_name }}
 	{{ $bundle_name := printf "%s/%s" $url "js_game/bundle.extra.js" }}
 	{{ $res := resources.Get $file_name | js.Build $bundle_name | minify }}
 	{{ $res.Publish }}
-	<!-- <script async defer src="{{ $res.RelPermalink }}"></script> -->
+	{{ if .Params.extraJSGameInclude }}
+		<script async defer src="{{ $res.RelPermalink }}"></script>
+	{{ end }}
 {{ end }}
 
 <!-- Extra custom JS: simply a hardcoded link to something else -->

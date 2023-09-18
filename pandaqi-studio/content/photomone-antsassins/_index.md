@@ -26,7 +26,7 @@ textColorLink: "#282310"
 
 googleFonts: ""
 
-date: 2023-09-20
+date: 2023-09-18
 
 categories: ["boardgame"]
 tags: ["traditional"]

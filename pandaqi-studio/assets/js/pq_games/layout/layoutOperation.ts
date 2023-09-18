@@ -1,6 +1,7 @@
 import Point from "js/pq_games/tools/geometry/point"
 import LayoutEffect from "./effects/layoutEffect"
 import ResourceImage, { CanvasLike } from "js/pq_games/layout/resources/resourceImage"
+import Path from "../tools/geometry/paths/path"
 import Resource from "./resources/resource"
 import ResourceShape from "./resources/resourceShape"
 import ResourceGradient from "./resources/resourceGradient"
@@ -11,6 +12,11 @@ import Color from "./color/color"
 import Dims from "../tools/geometry/dims"
 
 type ResourceLike = ResourceImage|ResourceShape|ResourceGradient|ResourcePattern|ResourceText
+
+interface EffectData
+{
+    filters?: string[]
+}
 
 interface LayoutOperationParams
 {
@@ -41,6 +47,7 @@ interface LayoutOperationParams
     frame?:number
 }
 
+export { LayoutOperation, EffectData }
 export default class LayoutOperation
 {
     translate : Point
@@ -71,7 +78,7 @@ export default class LayoutOperation
     {
         this.translate = params.translate ?? new Point();
         this.rotation = params.rotation ?? 0;
-        this.dims = (params.dims ?? params.size) ?? new Point().setXY(100, 100);
+        this.dims = (params.dims ?? params.size) ?? new Point();
         this.scale = params.scale ?? new Point().setXY(1,1);
         this.alpha = params.alpha ?? 1.0;
 
@@ -164,8 +171,6 @@ export default class LayoutOperation
         const offset = this.pivot.clone();
         offset.scaleFactor(-1).scale(this.dims);
 
-        // @TODO: fill and stroke and stuff
-
         // mask should come before anything else happens (right?)
         if(this.mask)
         {
@@ -178,10 +183,13 @@ export default class LayoutOperation
         }
 
         // some effects merely require setting something on the canvas
+        const effectData : EffectData = { filters: [] };
         for(const effect of this.effects)
         {
-            effect.applyToCanvas(ctx);
+            effect.applyToCanvas(ctx, effectData);
         }
+
+        ctx.filter = effectData.filters.join(" ");
 
         ctx.fillStyle = this.fill.toString();
         ctx.strokeStyle = this.stroke.toString();
@@ -211,11 +219,13 @@ export default class LayoutOperation
 
         const drawImage = image instanceof ResourceImage;
         if(drawImage)
-        {            
+        { 
+            let frameResource = image.getImageFrameAsResource(this.frame);
+
             // apply the effects that require an actual image to manipulate
             for(const effect of this.effects)
             {
-                await effect.applyToImage(image);
+                frameResource = await effect.applyToImage(frameResource, effectData);
             }
 
             const box = new Dims(offset.clone(), this.dims.clone());
@@ -224,10 +234,8 @@ export default class LayoutOperation
             ctx.fillStyle = this.fill.toString();
             ctx.fill(boxPath);
 
-            const frameData = image.getFrameData(this.frame);
             ctx.drawImage(
-                image.getImage(), 
-                frameData.x, frameData.y, frameData.width, frameData.height,
+                frameResource.getImage(), 
                 box.position.x, box.position.y, box.size.x, box.size.y
             );
 
@@ -235,6 +243,7 @@ export default class LayoutOperation
         }
 
         ctx.restore();
+        console.log("Should restore context");
         return ctx.canvas;
     }
 
@@ -284,10 +293,13 @@ export default class LayoutOperation
         }
 
         // all the filter stuff to make special things happen
+        const effectData : EffectData = { filters: [] };
         for(const effect of this.effects)
         {
-            effect.applyToHTML(node);
+            effect.applyToHTML(node, effectData);
         }
+
+        node.style.filter = effectData.filters.join(" ");
 
         return node;
     }

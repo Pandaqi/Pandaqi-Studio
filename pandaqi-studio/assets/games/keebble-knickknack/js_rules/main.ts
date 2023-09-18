@@ -1,4 +1,3 @@
-// @ts-ignore
 import InteractiveExample from "js/pq_rulebook/examples/interactiveExample"
 
 const KEEBBLE_LETTER_VALUES = {

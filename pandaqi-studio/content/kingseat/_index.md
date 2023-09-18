@@ -27,14 +27,13 @@ textColorLink: "#f7fa96"
 
 googleFonts: ""
 
-date: 2023-01-01 # 2023-12-20
+date: 2023-12-20
 
 categories: ["boardgame"]
 tags: ["traditional"]
 
 extraCSS: true
 extraJSGame: true
-extraJSGameBuild: true
 
 downloadLink: "https://drive.google.com/drive/folders/1as4B3n_kxQ9K1jIVtWMI_P5VnAjbXRP1"
 

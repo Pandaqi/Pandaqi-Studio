@@ -1,4 +1,4 @@
-import { INGREDIENTS, DECOY_NAMES, EFFECT_DICT } from "../js/dictionary"
+import { INGREDIENTS, DECOY_NAMES, EFFECT_DICT } from "../js_shared/dict"
 
 // holds one ingredient
 export default class Ingredient 

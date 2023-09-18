@@ -1,8 +1,5 @@
-// @ts-ignore
 import InteractiveExample from "js/pq_rulebook/examples/interactiveExample"
-// @ts-ignore
-import { PACKS, PACK_COLORS } from "games/kingseat/js_game/dict"
-// @ts-ignore
+import { PACKS, PACK_COLORS } from "../js_game/dict"
 import shuffle from "js/pq_games/tools/random/shuffle"
 
 const img = new Image();

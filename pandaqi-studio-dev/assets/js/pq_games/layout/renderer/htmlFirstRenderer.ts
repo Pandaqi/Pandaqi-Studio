@@ -2,7 +2,7 @@
 import LayoutNode from "../layoutNode.js";
 import { CanvasLike } from "../resources/resourceImage.js";
 // @ts-ignore
-import modernScreenshot from "./renderer/modern-screenshot.min.js"
+import modernScreenshot from "./modern-screenshot.min.js"
 
 export default class HTMLFirstRenderer
 {

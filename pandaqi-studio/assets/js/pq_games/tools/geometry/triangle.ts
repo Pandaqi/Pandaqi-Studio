@@ -1,5 +1,6 @@
 import Dims from "./dims";
 import Line from "./line";
+import Path from "./paths/path";
 import Point from "./point"
 import Shape from "./shape";
 
@@ -43,7 +44,21 @@ export default class Triangle extends Shape
 
     toPath()
     {
-        return [];
+        return this.points.slice();
+    }
+
+    toPath2D() 
+    {
+        const p = new Path2D();
+        p.moveTo(this.points[0].x, this.points[0].y);
+        p.lineTo(this.points[1].x, this.points[1].y);
+        p.lineTo(this.points[2].x, this.points[2].y);
+        return p;
+    }
+
+    toPathString()
+    {
+        return new Path({ points: this.toPath() }).toPathString();
     }
 
     toSVG()

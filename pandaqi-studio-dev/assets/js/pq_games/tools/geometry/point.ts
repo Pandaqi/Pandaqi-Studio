@@ -18,6 +18,7 @@ export default class Point
     static DOWN = new Point(0,1);
 
     static ZERO = new Point(0,0);
+    static CENTER = new Point(0.5, 0.5);
     static ONE = new Point(1,1);
 
     static TOP_LEFT = new Point(-1,-1);

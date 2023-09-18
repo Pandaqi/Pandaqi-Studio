@@ -12,7 +12,6 @@ export default class Pack
         this.type = type;
         this.setupHands();
         this.setupCards();
-        this.visualize();
     }
 
     getNumberWithLeastHands(dict: Record<number, number>, exclude = [])
@@ -74,12 +73,13 @@ export default class Pack
         }
     }
 
-    visualize()
+    async visualize()
     {
+        const promises = [];
         for(const card of this.cards)
         {
-            card.visualize();
-            CONFIG.gridMapper.addElement(card.getCanvas());
+            promises.push(card.visualize());
         }
+        return await Promise.all(promises);
     }
 }

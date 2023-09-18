@@ -3,13 +3,7 @@ import { CanvasLike } from "./resourceImage";
 
 export default class Resource
 {
-    //operation: LayoutOperation
-
-    constructor()
-    {
-        //this.operation = new LayoutOperation();
-    }
-
+    constructor() { }
     clone(deep = false) : any
     {
         return new Resource();
@@ -24,9 +18,9 @@ export default class Resource
     { 
         return document.createElement("div"); 
     }
-    
+
     async toSVG(op:LayoutOperation = null) : Promise<HTMLElement> 
-    {
+    { 
         return document.createElement("svg"); 
     }
 }

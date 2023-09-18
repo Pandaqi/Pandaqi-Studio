@@ -1,8 +1,8 @@
 import AI from "./ai"
 import Events from "./events"
 import Options from "./options"
-import { PLANET_MAP, PLANET_SETS } from "../js/dictionary"
-import configurator from "../js/configurator"
+import { PLANET_MAP, PLANET_SETS } from "../js_shared/dict"
+import configurator from "../js_board/configurator"
 
 export default class Game 
 {

@@ -37,7 +37,7 @@ After the fight, if you're satisfied with your squad, you can decide to stop. Sa
 
 Your opponent can do so too, _after_ you've chosen what to do.
 
-@TODO: Interactive example of a full turn.
+{{< rules-example id="turn" >}}
 
 {{% /rules-block %}}
 

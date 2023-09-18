@@ -6,12 +6,21 @@ import DragDropDebugger from "./tools/dragdrop"
 import CONFIG from "./config"
 import ResourceLoader from "js/pq_games/layout/resources/resourceLoader"
 import Point from "js/pq_games/tools/geometry/point"
+import ProgressBar from "js/pq_games/website/progressBar"
 
 export default class Generator {
     constructor() {}
 
     async start()
     {
+        const progressBar = new ProgressBar();
+        progressBar.setPhases(
+            ["Loading Assets",
+            "Generating tiles", "Generating code cards", "Generating tokens", 
+            "Converting to Images", "Creating a PDF"]
+        );
+        progressBar.gotoNextPhase();
+
         const resLoader = new ResourceLoader();
         resLoader.planLoad("geldotica", { key: "GelDoticaLowercase", path: CONFIG.fontURL });
         resLoader.planLoad("tokens", { path: "assets/tokens_new.webp", frames: new Point(8,1) });
@@ -23,12 +32,10 @@ export default class Generator {
         
         CONFIG.pdfBuilder = pdfBuilder;
         CONFIG.resLoader = resLoader;
-        Object.assign(CONFIG, JSON.parse(window.localStorage.photomoneAntsassinsCONFIG || "{}"));
+        Object.assign(CONFIG, JSON.parse(window.localStorage.photomoneAntsassinsConfig || "{}"));
 
-        // @ts-ignore
-        CONFIG.numTeamsOnCodeCard = parseInt(CONFIG.numTeamsOnCodeCard);
-        // @ts-ignore
-        CONFIG.numSecretTilesPerTeam = parseInt(CONFIG.numSecretTilesPerTeam);
+        CONFIG.numTeamsOnCodeCard = parseInt(CONFIG.numTeamsOnCodeCard + "");
+        CONFIG.numSecretTilesPerTeam = parseInt(CONFIG.numSecretTilesPerTeam + "");
 
         // last minute change: the simple version only supports rectangles and a 3+1 = 4 point tile
         if(CONFIG.tileType == "simple") { 
@@ -39,25 +46,32 @@ export default class Generator {
             CONFIG.cards.gridPerShapeReduced.rectangle = new Point(8, 8);
         }
 
-        console.log(CONFIG);
+
+        progressBar.gotoNextPhase();
 
         // some repetitive code, both here and inside the classes, but it's fine
         // it's a minor "issue", but it helps readability of the code
         const tiles = new Tiles();
         console.log("[Photomone] Created Tiles");
+        progressBar.gotoNextPhase();
+
         const cards = new CodeCards();
         console.log("[Photomone] Created Code Cards");
+        progressBar.gotoNextPhase();
+
         const tokens = new Tokens();
         console.log("[Photomone] Created Tokens");
+        progressBar.gotoNextPhase();
 
-        await tiles.convertToImages();
-        await cards.convertToImages();
-        await tokens.convertToImages();
+        // asynchronously draw all of that (which also converts it into images)
+        const promises = [tiles.draw(), cards.draw(), tokens.draw()];
+        await Promise.all(promises);
 
-        const images = [tiles.getImages(), cards.getImages(), tokens.getImages()].flat();
         console.log("[Photomone] Created Images");
+        progressBar.gotoNextPhase();
 
-        if(CONFIG.debugWithDragDrop) { new DragDropDebugger(CONFIG, tiles.getIndividualImages()); }
+        //if(CONFIG.debugWithDragDrop) { new DragDropDebugger(CONFIG, tiles.getIndividualImages()); }
+        const images = [tiles.getImages(), cards.getImages(), tokens.getImages()].flat();
         if(CONFIG.debugWithoutPDF)
         {    
             for(const img of images)

@@ -11,7 +11,6 @@ export default class Pack
     {
         this.type = type;
         this.setupCards();
-        this.draw();
     }
 
     setupCards()
@@ -43,12 +42,13 @@ export default class Pack
         }
     }
 
-    draw()
+    async draw()
     {
+        const promises = [];
         for(const card of this.cards)
         {
-            card.draw();
-            CONFIG.gridMapper.addElement(card.getCanvas());
+            promises.push(card.draw());
         }
+        return await Promise.all(promises);
     }
 }

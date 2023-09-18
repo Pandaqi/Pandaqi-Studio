@@ -10,7 +10,10 @@ const getAlphaFloat = (a, alpha) => {
     return alpha
 }
 
-export const hexToRGBA = (hex, alpha) => {
+export default (hex, alpha) => {
+    //if(hex.length == 7) { hex += "FF"; }
+    //if(hex.length == 3) { hex += "F"; }
+
     if (!isValidHex(hex)) {throw new Error("Invalid HEX")}
     const chunkSize = Math.floor((hex.length - 1) / 3)
     const hexArr = getChunksFromString(hex.slice(1), chunkSize)

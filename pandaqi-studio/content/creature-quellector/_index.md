@@ -34,7 +34,6 @@ tags: ["queuing game"]
 
 extraCSS: true
 extraJSGame: true
-extraJSGameBuild: true
 
 downloadLink: "https://drive.google.com/drive/folders/1UyxnFsYPynwQmRD2xbAh7RQyIC7yYAJi"
 

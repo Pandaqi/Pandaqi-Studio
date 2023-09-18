@@ -1,4 +1,5 @@
 import Dims from "./dims";
+import Path from "./paths/path";
 import Point from "./point"
 import Shape from "./shape";
 
@@ -54,6 +55,11 @@ export default class Circle extends Shape
             )
         }
         return path;
+    }
+
+    toPathString()
+    {
+        return new Path({ points: this.toPath() }).toPathString();
     }
 
     toSVG()

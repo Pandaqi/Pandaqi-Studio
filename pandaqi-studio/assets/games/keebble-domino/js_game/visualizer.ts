@@ -1,53 +1,64 @@
 import createContext from "js/pq_games/layout/canvas/createContext";
 import { LETTERS, CELLS, DOMINO_COLORS } from "./dict" 
 import Color from "js/pq_games/layout/color/color"
-import GridMapper from "js/pq_games/layout/gridMapper";
 import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple";
-import PdfBuilder from "js/pq_games/pdf/pdfBuilder";
 import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
 import strokeCanvas from "js/pq_games/layout/canvas/strokeCanvas";
 import ResourceImage from "js/pq_games/layout/resources/resourceImage";
 import TintEffect from "js/pq_games/layout/effects/tintEffect";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import Point from "js/pq_games/tools/geometry/point";
+import CONFIG from "./config";
 
 export default class Visualizer
 {
-    gridMapper: GridMapper;
-    pdfBuilder: PdfBuilder;
     
-    constructor(gm, pdf) 
-    {
-        this.gridMapper = gm;
-        this.pdfBuilder = pdf;
-    }
+    constructor() {}
 
     async start(params)  
     {  
-        this.visualizeDominoContents(params);
+        await this.visualizeDominoContents(params);
         await this.downloadPDF();
     }
 
     async downloadPDF()
     {
         // turn into images, then pdf, then download
-        const images = await convertCanvasToImageMultiple(this.gridMapper.getCanvases());
-        this.pdfBuilder.addImages(images);
+        const images = await convertCanvasToImageMultiple(CONFIG.gridMapper.getCanvases());
+        if(CONFIG.debugWithoutPDF) { 
+            for(const img of images)
+            {
+                document.body.appendChild(img);
+            }
+            return;
+        }
+
+        CONFIG.pdfBuilder.addImages(images);
 
         let fileName = "[Keebble; Domino] Material";
         const pdfConfig = { customFileName: fileName }
-        this.pdfBuilder.downloadPDF(pdfConfig);
+        CONFIG.pdfBuilder.downloadPDF(pdfConfig);
     }
 
-    visualizeDominoContents(params)
+    async visualizeDominoContents(params)
     {
+        const promises = [];
+        const canvases = [];
         for(let i = 0; i < params.numDominoes; i++)
         {
-            const ctx = createContext(params.cardSize);
-            params.ctx = ctx;
-            params.domino = params.dominoContents[i];
-            this.createDomino(params);
-            params.gridMapper.addElement(ctx.canvas);
+            const ctx = createContext({ size: params.cardSize });
+            const paramsCopy = structuredClone(params);
+            paramsCopy.ctx = ctx;
+            paramsCopy.domino = params.dominoContents[i];
+            promises.push( this.createDomino(paramsCopy) );
+            canvases.push( ctx.canvas );
+        }
+
+        await Promise.all(promises);
+
+        for(const canv of canvases)
+        {
+            CONFIG.gridMapper.addElement(canv);
         }
     }
 
@@ -62,8 +73,8 @@ export default class Visualizer
         fillCanvas(ctx, params.background.color);
 
         const centers = [
-            new Point(0.25 * params.cardSize.width, 0.5 * params.cardSize.height),
-            new Point(0.75 * params.cardSize.width, 0.5 * params.cardSize.height)
+            new Point(0.25 * params.cardSize.x, 0.5 * params.cardSize.y),
+            new Point(0.75 * params.cardSize.x, 0.5 * params.cardSize.y)
         ];
 
         for(let i = 0; i < 2; i++)
@@ -71,7 +82,7 @@ export default class Visualizer
             params.side = i;
             params.center = centers[i];
             params.dominoPart = params.domino.getSide(i);
-            this.createDominoPart(params);
+            await this.createDominoPart(params);
         }
 
         // the separator line between parts
@@ -82,8 +93,8 @@ export default class Visualizer
             ctx.lineWidth = params.dominoPartSeparator.width;
         
             ctx.beginPath();
-            ctx.moveTo(0.5*params.cardSize.width, margin);
-            ctx.lineTo(0.5*params.cardSize.width, params.cardSize.height - margin);
+            ctx.moveTo(0.5*params.cardSize.x, margin);
+            ctx.lineTo(0.5*params.cardSize.x, params.cardSize.y - margin);
             ctx.stroke();
         }
 
@@ -94,9 +105,9 @@ export default class Visualizer
     async createDominoPart(params)
     {
         const ctx = params.ctx;
-        const res = params.resLoader;
+        const res = CONFIG.resLoader;
         const part = params.dominoPart;
-        const c = params.center;
+        const c = params.center.clone();
         const cs = params.cardSize;
         const isLetter = (part.getType() == "letter")
 
@@ -105,7 +116,7 @@ export default class Visualizer
 
         const randRotationInt = Math.floor(Math.random() * 4);
         const randRotation = randRotationInt * 0.5 * Math.PI;
-        const partSize = cs.height;
+        const partSize = cs.y;
 
         // add heightened block on all sides that mean something
         if(params.ramps.include)
@@ -170,28 +181,28 @@ export default class Visualizer
             const randRotationInnerSquare = Math.floor(Math.random() * 4) * 0.5 * Math.PI;
             const randBGFrame = 2 + Math.floor(Math.random() * 2);
             const squareSize = partSize * params.innerSquare.scale;
-            const decorationResource = res.getResource("decorations");
+            const decorationResource = res.getResource("decorations") as ResourceImage;
             const canvOp = new LayoutOperation({
                 frame: randBGFrame,
-                translate: params.center,
+                translate: params.center.clone(),
                 rotation: randRotationInnerSquare,
                 effects: [
-                    new TintEffect({ color: innerSquareColor.toString() }),
+                    new TintEffect({ color: innerSquareColor }),
                 ],
                 dims: new Point(squareSize),
                 pivot: new Point(0.5)
             })
-            decorationResource.toCanvas(ctx, canvOp);
+            await decorationResource.toCanvas(ctx, canvOp);
         }
 
         let letterValueColor = params.background.color.lighten(12.5).toString();
         if(params.inkFriendly) { letterValueColor = params.background.color.lighten(-55).toString(); }
 
         const points = [
-            { x: c.x, y: c.y + 0.5*cs.height },
-            { x: c.x - 0.5*partSize, y: c.y },
-            { x: c.x, y: 0 },
-            { x: c.x + 0.5*partSize, y: c.y }
+            new Point(c.x, c.y + 0.5*cs.y),
+            new Point(c.x - 0.5*partSize, c.y),
+            new Point(c.x, 0),
+            new Point(c.x + 0.5*partSize, c.y)
         ]
 
         const wallPositions = [];
@@ -213,8 +224,8 @@ export default class Visualizer
             const offsetIndex = (randRotationInt - i + 4) % 4;
             const hasAValue = letters[offsetIndex];
 
-            const p1 = params.center;
-            const p2 = points[i];
+            const p1 = params.center.clone();
+            const p2 = points[i].clone();
 
             if(hasAValue)
             {
@@ -269,8 +280,8 @@ export default class Visualizer
         }
 
         // add actual symbol
-        let sizeMax = 0.67*cs.height;
-        if(params.walls.include) { sizeMax = 0.6*cs.height; } // @NOTE: need a little more space if walls included
+        let sizeMax = 0.67*cs.y;
+        if(params.walls.include) { sizeMax = 0.6*cs.y; } // @NOTE: need a little more space if walls included
         const addSymbol = !(isLetter && part.getValue() == "");
         
         let symbolColor = params.background.color.lighten(-70);
@@ -286,11 +297,11 @@ export default class Visualizer
                 rotation: randRotation,
                 pivot: new Point(0.5),
                 effects: [
-                    new TintEffect({ color: symbolColor.toString() }),
+                    new TintEffect({ color: symbolColor }),
                 ],
                 dims: new Point(sizeMax)
             });
-            symbolResource.toCanvas(ctx, canvOp);
+            await symbolResource.toCanvas(ctx, canvOp);
         }
 
 
@@ -299,10 +310,10 @@ export default class Visualizer
             // indicators for sides that mean nothing
             const scalar = 0.9;
             const corners = [
-                { x: c.x + scalar*0.25*cs.width, y: c.y + scalar*0.5*cs.height },
-                { x: c.x - scalar*0.25*cs.width, y: c.y + scalar*0.5*cs.height },
-                { x: c.x - scalar*0.25*cs.width, y: c.y - scalar*0.5*cs.height },
-                { x: c.x + scalar*0.25*cs.width, y: c.y - scalar*0.5*cs.height }
+                { x: c.x + scalar*0.25*cs.x, y: c.y + scalar*0.5*cs.y },
+                { x: c.x - scalar*0.25*cs.x, y: c.y + scalar*0.5*cs.y },
+                { x: c.x - scalar*0.25*cs.x, y: c.y - scalar*0.5*cs.y },
+                { x: c.x + scalar*0.25*cs.x, y: c.y - scalar*0.5*cs.y }
             ]
 
             let col = params.emptySide.color;

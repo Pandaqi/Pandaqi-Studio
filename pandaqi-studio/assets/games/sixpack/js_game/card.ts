@@ -10,7 +10,6 @@ export default class Card
     type: string;
     typeData: PackData;
     hand: boolean;
-    config: any;
     ctx: CanvasRenderingContext2D;
     dims: Point;
     minSize: number;
@@ -18,33 +17,34 @@ export default class Card
 
     constructor(params)
     {
-        this.num = params.num || 0;
-        this.type = params.type || "blank";
+        this.num = params.num ?? 0;
+        this.type = params.type ?? "blank";
         this.typeData = PACKS[this.type];
-        this.hand = params.hand || false;
+        this.hand = params.hand ?? false;
     }
 
-    visualize()
+    async visualize() : Promise<HTMLCanvasElement>
     {
         this.setupCanvas();
-        this.visualizeBackground();
-        this.visualizeType();
+        await this.visualizeBackground();
+        await this.visualizeType();
         this.visualizeNumbers();
-        this.visualizeHands();
+        await this.visualizeHands();
         this.visualizeOutline();
+        return this.getCanvas();
     }
 
     getCanvas() { return this.ctx.canvas; }
     setupCanvas()
     {
         const dims = CONFIG.cards.size;
-        this.ctx = createContext({ width: dims.x, height: dims.y, alpha: true, willReadFrequently: false });
-        this.dims = Object.assign({}, dims);
+        this.ctx = createContext({ size: dims, alpha: true, willReadFrequently: false });
+        this.dims = dims.clone();
         this.minSize = Math.min(this.dims.x, this.dims.y);
         this.centerPos = new Point(0.5*dims.x, 0.5*dims.y);
     }
 
-    visualizeBackground()
+    async visualizeBackground()
     {
         this.ctx.fillStyle = "#FFFFFF";
         this.ctx.fillRect(0, 0, this.dims.x, this.dims.y);
@@ -59,10 +59,10 @@ export default class Card
             dims: new Point(this.dims.x*scaleFactor, this.dims.y*scaleFactor),
             pivot: new Point(0.5)
         })
-        bgResource.toCanvas(this.ctx, canvOp);
+        await bgResource.toCanvas(this.ctx, canvOp);
     }
 
-    visualizeType()
+    async visualizeType()
     {
         if(this.type == "blank") { return; }
 
@@ -79,7 +79,7 @@ export default class Card
             composite: (CONFIG.cards.hand.composite as GlobalCompositeOperation) || "source-in",
             pivot: new Point(0.5)
         })
-        typeResource.toCanvas(this.ctx, canvOp);
+        await typeResource.toCanvas(this.ctx, canvOp);
     }
 
     visualizeNumbers()
@@ -113,7 +113,7 @@ export default class Card
         const mainStrokeCol = typeConfig.mainNumber.strokeColor || CONFIG.cards.mainNumber.strokeColor;
         const mainStrokeWidth = (typeConfig.mainNumber.strokeWidth || CONFIG.cards.mainNumber.strokeWidth) * this.minSize;
         
-        let pos = Object.assign({}, this.centerPos);
+        let pos = this.centerPos.clone();
         let positions = [pos];
         let texts = [text];
         const dualNumberOffset = { x: 0.15 * this.minSize, y: 0.15 * this.minSize }
@@ -165,7 +165,7 @@ export default class Card
 
         for(let i = 0; i < 2; i++)
         {
-            let edgePos = { x: 0, y: 0 }
+            let edgePos = new Point();
             if(i == 0) {
                 edgePos.x = this.dims.x * (1.0 - edgeNumPos.x);
                 edgePos.y = this.dims.y * edgeNumPos.y;
@@ -188,7 +188,7 @@ export default class Card
         }
     }
 
-    visualizeHands()
+    async visualizeHands()
     {
         if(!this.hand) { return; }
 
@@ -203,7 +203,7 @@ export default class Card
             composite: (CONFIG.cards.hand.composite as GlobalCompositeOperation) ?? "source-in",
             pivot: new Point(0.5)
         })
-        handResource.toCanvas(this.ctx, canvOp);
+        await handResource.toCanvas(this.ctx, canvOp);
     }
 
     visualizeOutline()

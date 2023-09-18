@@ -1,8 +1,5 @@
-// @ts-ignore
 import InteractiveExample from "js/pq_rulebook/examples/interactiveExample"
-// @ts-ignore
 import shuffle from "js/pq_games/tools/random/shuffle"
-// @ts-ignore
 import Point from "js/pq_games/tools/geometry/point"
 
 const LETTER_DICTIONARY = {

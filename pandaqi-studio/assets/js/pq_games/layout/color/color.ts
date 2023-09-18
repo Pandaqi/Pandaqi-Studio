@@ -1,8 +1,8 @@
 import Random from "../../tools/random/main"
 import HSLAToRGBA from "./HSLAToRGBA"
 import RGBAToHSLA from "./RGBAToHSLA"
-import RGBAToHex from "./RGBAToHex"
-import { hexToRGBA } from "./hexToRGBA"
+import RGBAToHEXA from "./RGBAToHEXA"
+import HEXAToRGBA from "./HEXAToRGBA"
 
 export default class Color 
 {
@@ -14,7 +14,7 @@ export default class Color
     constructor(h:number|Color|string, s:number = 0, l:number = 0, a:number = 1.0) {
         if(h == null || h == undefined) { a = 0; h = 0; }
         if(h instanceof Color) { this.fromColor(h); return; }
-        if(typeof h === 'string') { this.fromHex(h); return; }
+        if(typeof h === 'string') { this.fromHEXA(h); return; }
         this.fromHSLA(h, s, l, a);
     }
 
@@ -29,13 +29,13 @@ export default class Color
         this.fromHSLA(c.h, c.s, c.l, c.a);
     }
 
-    fromHex(s:string)
+    fromHEXA(s:string)
     {
-        const rgba = hexToRGBA(s,null);
+        const rgba = HEXAToRGBA(s,null);
         this.fromRGBA(...rgba);
     }
 
-    fromRGBA(r = 0, g = 0, b = 0, a = 0)
+    fromRGBA(r = 0, g = 0, b = 0, a = 255)
     {
         const hsl = RGBAToHSLA(r, g, b, a);
         this.fromHSLA(...hsl);
@@ -79,7 +79,7 @@ export default class Color
 
     toHEXA()
     {
-        return RGBAToHex(...HSLAToRGBA(this.h, this.s, this.l, this.a));
+        return RGBAToHEXA(...HSLAToRGBA(this.h, this.s, this.l, this.a));
     }
 
     toHEX()

@@ -1,5 +1,5 @@
 import Cauldron from "./cauldron";
-import { EFFECT_DICT } from "../js/dictionary"
+import { EFFECT_DICT } from "../js_shared/dict"
 
 export default class PotionEvaluator 
 {

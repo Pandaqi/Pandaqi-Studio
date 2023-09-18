@@ -1,4 +1,5 @@
 import Dims from "./dims"
+import Path from "./paths/path"
 import Point from "./point"
 import Shape from "./shape"
 
@@ -28,14 +29,6 @@ export default class Rectangle extends Shape
         return new Rectangle({ center: c, extents: e });
     }
 
-    toPath2D() 
-    {
-        const p = new Path2D();
-        const dims = this.getDimensions();
-        p.rect(dims.position.x, dims.position.y, dims.size.x, dims.size.y);
-        return p;
-    }
-
     getDimensions()
     {
         return new Dims(
@@ -52,6 +45,19 @@ export default class Rectangle extends Shape
             this.getBottomRight(),
             this.getBottomLeft()
         ]
+    }
+
+    toPath2D() 
+    {
+        const p = new Path2D();
+        const dims = this.getDimensions();
+        p.rect(dims.position.x, dims.position.y, dims.size.x, dims.size.y);
+        return p;
+    }
+
+    toPathString()
+    {
+        return new Path({ points: this.toPath() }).toPathString();
     }
 
     toSVG()

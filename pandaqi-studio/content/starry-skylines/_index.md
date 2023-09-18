@@ -23,11 +23,9 @@ textColorLink: "#FFCCAA"
 googleFonts: "https://fonts.googleapis.com/css2?family=Montserrat+Subrayada:wght@700&family=Titillium+Web:ital,wght@0,400;0,700;1,400&display=swap"
 
 extraCSS: true
-extraJS: true
-extraJSBuild: true
-
+extraJSBoard: true
+extraJSBoardInclude: true
 extraJSGame: true
-extraJSGameBuild: true
 
 date: 2020-08-22
 

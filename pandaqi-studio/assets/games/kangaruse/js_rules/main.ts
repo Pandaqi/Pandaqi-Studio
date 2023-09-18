@@ -1,5 +1,5 @@
 import InteractiveExample from "js/pq_rulebook/examples/interactiveExample"
-import { CELLS } from "games/kangaruse/js/dictionary"
+import { CELLS } from "../js/dictionary"
 import Point from "js/pq_games/tools/geometry/point"
 import rangeInteger from "js/pq_games/tools/random/rangeInteger"
 

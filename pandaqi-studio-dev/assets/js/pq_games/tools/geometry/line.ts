@@ -35,6 +35,18 @@ export default class Line extends Shape
     }
 
     toPath() { return [this.start, this.end]; }
+    toPath2D() 
+    { 
+        const p = new Path2D();
+        p.moveTo(this.start.x, this.start.y);
+        p.lineTo(this.end.x, this.end.y);
+        return p;
+    }
+    toPathString()
+    {
+        return "M" + this.start.x + "," + this.start.y + " L" + this.end.x + "," + this.end.y;
+    }
+
     toSVG()
     {
         const elem = document.createElementNS(null, 'line');

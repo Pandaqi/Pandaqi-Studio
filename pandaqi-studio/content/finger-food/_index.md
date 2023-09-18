@@ -33,7 +33,8 @@ categories: ["boardgame"]
 tags: ["one_paper_game", "opg"]
 
 extraCSS: true
-extraJS: true
+extraJSBoard: true
+extraJSBoardInclude: true
 
 downloadLink: "https://drive.google.com/drive/folders/101SQ5KBbdwiiYC-2nU-5H7gKoTnqhXZE"
 

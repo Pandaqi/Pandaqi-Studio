@@ -28,14 +28,15 @@ export default class Card
     }
 
     isDark() { return this.dark > 0; }
-    draw()
+    async draw() : Promise<HTMLCanvasElement>
     {
         this.setupCanvas();
-        this.drawBackground();
-        this.drawMainPart();
-        this.drawEdgePart();
+        await this.drawBackground();
+        await this.drawMainPart();
+        await this.drawEdgePart();
         this.drawOutline();
-        this.drawGradientOverlay();
+        await this.drawGradientOverlay();
+        return this.getCanvas();
     }
 
     getColor(obj, key = "color")
@@ -55,7 +56,7 @@ export default class Card
         this.centerPos = new Point(0.5*dims.x, 0.5*dims.y);
     }
 
-    drawBackground()
+    async drawBackground()
     {
         const ctx = this.ctx;
 
@@ -75,7 +76,7 @@ export default class Card
                 pivot: new Point(0.5),
                 alpha: alpha
             });
-            res.toCanvas(this.ctx, canvOp);
+            await res.toCanvas(this.ctx, canvOp);
         }
 
         const scaleFactor = this.typeData.bg.icon.scale;
@@ -92,20 +93,20 @@ export default class Card
             pivot: new Point(0.5),
             alpha: alpha
         })
-        res.toCanvas(ctx, canvOp);
+        await res.toCanvas(ctx, canvOp);
     }
 
     // main part
-    drawMainPart()
+    async drawMainPart()
     {
-        this.drawSigil();
-        this.drawSeparator();
+        await this.drawSigil();
+        await this.drawSeparator();
         this.drawName();
         this.drawActionText();
         this.drawSlogan()
     }
 
-    drawSigil()
+    async drawSigil()
     {
         const scaleFactor = this.typeData.sigil.scale;
         const offset = this.typeData.sigil.offset.clone().scaleFactor(this.minSize);
@@ -132,10 +133,10 @@ export default class Card
         }
 
         const canvOp = new LayoutOperation(params);
-        res.toCanvas(this.ctx, canvOp);
+        await res.toCanvas(this.ctx, canvOp);
     }
 
-    drawSeparator()
+    async drawSeparator()
     {
         const ctx = this.ctx;
         const offset = this.typeData.action.offset.clone().scaleFactor(this.minSize);
@@ -160,7 +161,7 @@ export default class Card
             ]
         }
         const canvOp = new LayoutOperation(spriteParams);
-        res.toCanvas(ctx, canvOp);
+        await res.toCanvas(ctx, canvOp);
         
         for(let i = 0; i < 2; i++)
         {
@@ -260,10 +261,10 @@ export default class Card
     }
 
     // edges, corners, decoration
-    drawEdgePart()
+    async drawEdgePart()
     {
         this.drawEdgeLines();
-        this.drawCornerIcons();
+        await this.drawCornerIcons();
     }
 
     drawEdgeLines()
@@ -313,7 +314,7 @@ export default class Card
         ctx.restore();
     }
 
-    drawCornerIcons()
+    async drawCornerIcons()
     {
         const corners = [
             new Point().fromXY(this.dims.x, this.dims.y),
@@ -365,7 +366,7 @@ export default class Card
 
             const res = CONFIG.resLoader.getResource("crests_simple");
             const canvOp = new LayoutOperation(params);
-            res.toCanvas(this.ctx, canvOp);
+            await res.toCanvas(this.ctx, canvOp);
         }
     }
 
@@ -379,7 +380,7 @@ export default class Card
     }
 
     // gradient overlay = not sure where to put this
-    drawGradientOverlay()
+    async drawGradientOverlay()
     {
         const res = CONFIG.resLoader.getResource("gradient_overlay");
         const canvOp = new LayoutOperation({
@@ -387,6 +388,6 @@ export default class Card
             dims: this.dims.clone(),
             pivot: new Point(0.5)
         })
-        res.toCanvas(this.ctx, canvOp);
+        await res.toCanvas(this.ctx, canvOp);
     }
 }

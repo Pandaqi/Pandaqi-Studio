@@ -1,6 +1,6 @@
 import Tile from "./tile"
 import Point from "../shapes/point"
-import { GridMapper, GridMapperLayout } from "js/pq_games/canvas/gridMapper"
+import GridMapper, { GridMapperLayout } from "js/pq_games/layout/gridMapper"
 import Colorizer from "../tools/colorizer"
 import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple"
 import CONFIG from "../config"
@@ -12,6 +12,7 @@ export default class Tiles
     tilesToGenerate: number
     //individualImages: HTMLImageElement[]
     images: HTMLImageElement[]
+    tiles: Tile[]
 
     constructor()
     {
@@ -100,20 +101,32 @@ export default class Tiles
 
     generate()
     {
+        const arr : Tile[] = []
         for(let i = 0; i < this.tilesToGenerate; i++)
         {
             const t = new Tile(CONFIG, i);
-            //this.individualCanvases.push(t.getCanvas());
-            this.gridMapper.addElement(t.getCanvas());
+            arr.push(t);
         }
+        this.tiles = arr;
     }
 
-    // getIndividualImages() { return this.individualImages; }
-    getImages() { return this.images; }
+    async draw()
+    {
+        if(!this.tiles) { return; }
 
+        const promises = [];
+        for(const tile of this.tiles)
+        {
+            promises.push(tile.draw());
+        }
+        const canvases = await Promise.all(promises);
+        this.gridMapper.addElements(canvases);
+        await this.convertToImages();
+    }
+
+    getImages() { return this.images ?? []; }
     async convertToImages()
     {
-        //this.individualImages = await convertCanvasToImageMultiple(this.individualCanvases);
         this.images = await convertCanvasToImageMultiple(this.gridMapper.getCanvases());
     }
 }

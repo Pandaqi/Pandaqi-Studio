@@ -27,6 +27,8 @@ The game ends when a player **can't take any action** on their turn. The player 
 
 Take clockwise turns. On your turn, pick one action: **Move** or **Claim**.
 
+{{< rules-example id="turn" >}}
+
 {{% rules-block id="action_move" heading="Move" %}}
 
 Pick a **destination**: a city connected to your traveler's current city, with a free movement slot. Skip over any cities with all slots filled.

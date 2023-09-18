@@ -1,4 +1,4 @@
-import { FIRST_HINT_TYPES, EFFECTS, EFFECT_DICT } from "../js/dictionary"
+import { FIRST_HINT_TYPES, EFFECTS, EFFECT_DICT } from "../js_shared/dict"
 
 // Holds the puzzle and solution + can print/explain it
 export default class Puzzle 

@@ -208,6 +208,14 @@ export default class GridMapper
         this.elementPositions = arr;
     }
 
+    addElements(elems:HTMLCanvasElement[])
+    {
+        for(const elem of elems)
+        {
+            this.addElement(elem);
+        }
+    }
+
     addElement(elem:HTMLCanvasElement)
     {
         this.addNewCanvasIfNeeded();

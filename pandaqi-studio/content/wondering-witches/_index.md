@@ -23,10 +23,9 @@ textColorLink: "#102600"
 googleFonts: "https://fonts.googleapis.com/css2?family=Niconne&family=Mali:ital,wght@0,400;0,700;1,400&display=swap"
 
 extraCSS: true
-extraJS: true
-extraJSBuild: true
+extraJSBoard: true
+extraJSBoardInclude: true
 extraJSGame: true
-extraJSGameBuild: true
 
 date: 2023-02-14 # old publishing date: 2020-04-28
 

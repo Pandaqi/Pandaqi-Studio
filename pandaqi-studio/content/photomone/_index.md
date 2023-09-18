@@ -31,10 +31,11 @@ categories: ["boardgame"]
 tags: ["hybrid", "opg", "one_paper_game", "traditional"]
 
 extraCSS: true
-extraJS: true
+extraJSBoard: true
+extraJSBoardInclude: true
 extraJSGame: true
 sharedJS: "photomone"
-sharedJSIncludeOnPage: true
+sharedJSInclude: true
 
 downloadLink: "https://drive.google.com/drive/folders/1d3b_Zsuor4bz9sVmQIdErx2p5GIYF6Nk"
 

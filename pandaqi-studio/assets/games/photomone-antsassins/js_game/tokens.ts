@@ -1,5 +1,5 @@
 import Token from "./token"
-import { GridMapper, GridMapperLayout } from "js/pq_games/canvas/gridMapper"
+import GridMapper, { GridMapperLayout } from "js/pq_games/layout/gridMapper"
 import Point from "./shapes/point"
 import CONFIG from "./config"
 import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple"
@@ -9,6 +9,7 @@ export default class Tokens
     gridMapper: GridMapper
     tokensToGenerate: number
     images: HTMLImageElement[]
+    tokens: Token[]
 
     constructor()
     {
@@ -71,14 +72,30 @@ export default class Tokens
 
     generate()
     {
+        const arr : Token[] = [];
         for(let i = 0; i < this.tokensToGenerate; i++)
         {
             const t = new Token(i);
-            this.gridMapper.addElement(t.getCanvas());
+            arr.push(t);
         }
+        this.tokens = arr;
+    }
+
+    async draw()
+    {
+        if(!this.tokens) { return; }
+
+        const promises = [];
+        for(const t of this.tokens)
+        {
+            promises.push(t.draw());
+        }
+        const canvases = await Promise.all(promises);
+        this.gridMapper.addElements(canvases);
+        await this.convertToImages();
     }
     
-    getImages() { return this.images; }
+    getImages() { return this.images ?? []; }
     async convertToImages()
     {
         this.images = await convertCanvasToImageMultiple(this.gridMapper.getCanvases());

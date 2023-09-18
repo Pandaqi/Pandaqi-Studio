@@ -36,6 +36,7 @@ export default class Generator {
         await this.loadAssets();
         this.cacheDefaults();
         this.createPacks();
+        await this.drawPacks();
         await this.downloadPDF();
         console.log("[Kingseat] Done.");
         CONFIG.progressBar.gotoNextPhase();
@@ -130,6 +131,20 @@ export default class Generator {
             counter++;
         }
         this.packs = packs;
+    }
+
+    async drawPacks()
+    {
+        const promises = [];
+        for(const pack of this.packs)
+        {
+            promises.push(pack.draw());
+        }
+        const canvases = await Promise.all(promises);
+        for(const canv of canvases.flat())
+        {
+            CONFIG.gridMapper.addElement(canv);
+        }
     }
 
     async downloadPDF()

@@ -1,6 +1,16 @@
+import Point from "js/pq_games/tools/geometry/point"
 import createCanvas from "./createCanvas"
 
-export default (params = {}) : CanvasRenderingContext2D =>
+interface NewContextParams
+{
+    alpha?:boolean
+    willReadFrequently?:boolean
+    width?:number
+    height?:number
+    size?:Point
+}
+
+export default (params:NewContextParams = {}) : CanvasRenderingContext2D =>
 {
     const contextParams = { 
         willReadFrequently: true,

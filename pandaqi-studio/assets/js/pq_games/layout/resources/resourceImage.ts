@@ -28,6 +28,7 @@ export default class ResourceImage extends Resource
     size : Point; // can't be set from outside, calculated internally
     frameDims : Point;
     frameSize : Point;
+    frame: number;
     frames : HTMLImageElement[];
 
     constructor(imageData : HTMLImageElement = new Image(), params:any = {})
@@ -36,8 +37,6 @@ export default class ResourceImage extends Resource
 
         this.img = imageData;
         this.frameDims = new Point(params.frames ?? new Point(1,1));
-        console.log("IMAGE PARAMS");
-        console.log(params);
         this.refreshSize();
     }
     
@@ -49,32 +48,27 @@ export default class ResourceImage extends Resource
     }
 
     /* The `to` functions */
-    async toCanvas(canv:CanvasLike = null, op:LayoutOperation = null)
+    async toCanvas(canv:CanvasLike = null, op:LayoutOperation = new LayoutOperation())
     {
-        this.operation.dims = this.size.clone();
-
-        const operation = op ?? this.operation;
-        operation.resource = this;
-        return await operation.applyToCanvas(canv);
+        if(op.dims.length() <= 0.003) { op.dims = this.size.clone(); }
+        op.resource = this;
+        op.frame = op.frame ?? this.frame;
+        return await op.applyToCanvas(canv);
     }
 
-    async toHTML(op:LayoutOperation = null)
+    async toHTML(op:LayoutOperation = new LayoutOperation())
     {
         const node = this.getImageFrame(this.getFrame()).cloneNode() as HTMLImageElement;
         node.style.width = "100%";
         node.style.height = "100%";
-        
-        const operation = op ?? this.operation;
-        return await operation.applyToHTML(node);
+        return await op.applyToHTML(node);
     }
 
-    async toSVG(op:LayoutOperation = null)
+    async toSVG(op:LayoutOperation = new LayoutOperation())
     {
         const elem = document.createElementNS(null, "image");
         elem.setAttribute("href", this.getImage().src);
-
-        const operation = op ?? this.operation;
-        return await operation.applyToSVG(elem);
+        return await op.applyToSVG(elem);
     }
 
     /* The `from` functions */
@@ -153,11 +147,11 @@ export default class ResourceImage extends Resource
                     0, 0, data.width, data.height
                 )
 
-                canvases.push(canv);
+                canvases[frame] = canv;
             }
         }
 
-        this.frames = await convertCanvasToImageMultiple(canvases);
+        this.frames = await convertCanvasToImageMultiple(canvases, true);
     }
 
     getFrameData(frm:number = 0) : FrameData
@@ -192,6 +186,12 @@ export default class ResourceImage extends Resource
         return this.img; 
     }
 
+    getImageFrameAsResource(num:number) : ResourceImage
+    {
+        const img = this.getImageFrame(num);
+        return new ResourceImage(img);
+    }
+
     getImageFrame(num:number) : HTMLImageElement
     {
         return this.frames[num];
@@ -204,28 +204,32 @@ export default class ResourceImage extends Resource
 
     getFrame() : number
     {
-        return this.operation.frame;
+        return this.frame;
     }
 
     setFrame(f:number)
     {
-        this.operation.frame = f;
+        this.frame = f;
+        return this;
     }
 
     swapImage(img:HTMLImageElement)
     {
         this.img = img;
+        return this;
     }
 
     swapFrame(idx:number, img:HTMLImageElement)
     {
         this.frames[idx] = img;
+        return this;
     }
 
     swapFrames(newFrames:HTMLImageElement[])
     {
         if(newFrames.length != this.frames.length) { return console.error("Can't swap frames if number of them doesn't match"); }
         this.frames = newFrames;
+        return this;
     }
 
 

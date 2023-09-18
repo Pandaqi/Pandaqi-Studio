@@ -6,6 +6,7 @@ import PdfBuilder, { PageOrientation } from "js/pq_games/pdf/pdfBuilder"
 import GridMapper from "js/pq_games/layout/gridMapper"
 import ResourceLoader from "js/pq_games/layout/resources/resourceLoader"
 import Point from "js/pq_games/tools/geometry/point"
+import CONFIG from "./config"
 
 export default class Generator {
     constructor() {}
@@ -49,11 +50,13 @@ export default class Generator {
         resLoader.planLoad("decorations", { path: baseAssetDir +  "domino_decorations.webp", frames: new Point(8,1) });
         await resLoader.loadPlannedResources();
 
+        CONFIG.resLoader = resLoader;
+        CONFIG.gridMapper = gridMapper;
+        CONFIG.pdfBuilder = pdfBuilder;
+
         const numPages = (userConfig.bigSize) ? 8 : 4;
         const params = { 
             cfg: userConfig,
-            resLoader: resLoader,
-            gridMapper: gridMapper,
             cardSize: cardSize,
             specialCellBounds: { min: 0.145, max: 0.2375 }, // "Scrabble" has roughly 0.26 = 26% of the board a special cell
             useDynamicProbs: false,
@@ -130,7 +133,7 @@ export default class Generator {
         this.generateRandomDominoContents(params);
 
         // then simply visualize that
-        const visualizer = new Visualizer(gridMapper, pdfBuilder);
+        const visualizer = new Visualizer();
         await visualizer.start(params);
     }
 

@@ -3,7 +3,7 @@ import PotionEvaluator from "./evaluator";
 import Ingredient from "./ingredient";
 import Interface from "./interface";
 import Puzzle from "./puzzle";
-import { INGREDIENTS, EVENTS } from "../js/dictionary"
+import { INGREDIENTS, EVENTS } from "../js_shared/dict"
 
 export default class Game 
 {

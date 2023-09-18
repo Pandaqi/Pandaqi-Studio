@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { SPECIAL_CELLS } from "./dictionary"
+import { SPECIAL_CELLS } from "../js_shared/dict"
 import Random from "js/pq_games/tools/random/main"
 import PandaqiPhaser from "js/pq_games/website/phaser"
 import Section from "./section"

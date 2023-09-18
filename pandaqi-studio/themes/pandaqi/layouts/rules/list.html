@@ -67,13 +67,17 @@
     {{ $createPDF := and (not hugo.IsProduction) .Params.pdf }}
     <span style="display:none;" id="hidden-metadata" data-createpdf="{{ $createPDF }}"></span>
 
-    <!-- General JS for rulebooks + custom extra JS per rulebook -->
-    {{ $js := resources.Get "/js/pq_rulebook/main.ts" | js.Build "/js/lib-pqRulebook.js" | minify }}
-    {{ $extra_js := .Page.Resources.GetMatch "main.ts" }}
-    {{ if $extra_js }}
-        {{ $extra_js_build := $extra_js | js.Build "lib-customInteractive.js" | minify }}
-        <script async defer src="{{ $extra_js_build.RelPermalink }}"></script>
+    {{ $game_name := (index .Ancestors 0).File.ContentBaseName }}
+    {{ $file_name := printf "/games/%s/js_rules/main.ts" $game_name }}
+    
+    {{ $res := resources.Get $file_name }}
+    {{ if $res }}
+        {{ $url := .RelPermalink }}
+        {{ $bundle_name := printf "%s/%s" $url "js/bundle.rules.js" }}
+        {{ $custom_rules_js_build := $res | js.Build $bundle_name | minify }}
+        <script async defer src="{{ $custom_rules_js_build.RelPermalink }}"></script>
     {{ end }}
 
+    {{ $js := resources.Get "/js/pq_rulebook/main.ts" | js.Build "/js/lib-pqRulebook.js" | minify }}
     <script async defer src="{{ $js.RelPermalink }}"></script>
 {{ end }}

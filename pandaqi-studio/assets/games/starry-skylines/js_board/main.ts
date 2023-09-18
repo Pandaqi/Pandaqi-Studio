@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { PLANET_MAP } from "./dictionary"
+import { PLANET_MAP } from "../js_shared/dict"
 import configurator from "./configurator"
 import PandaqiPhaser from "js/pq_games/website/phaser"
 import { Scene, Geom } from "js/pq_games/phaser.esm"

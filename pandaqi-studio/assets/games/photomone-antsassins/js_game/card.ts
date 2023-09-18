@@ -1,9 +1,9 @@
 import Point from "./shapes/point"
+import PointNonPhotomone from "js/pq_games/tools/geometry/point"
 import Rectangle from "./shapes/rectangle"
 import Triangle from "./shapes/triangle"
 import Hexagon from "./shapes/hexagon"
 import Random from "js/pq_games/tools/random/main"
-import Canvas from "js/pq_games/canvas/main"
 import { ALMOST_ACTIONS } from "./dict"
 import CONFIG from "./config"
 import createContext from "js/pq_games/layout/canvas/createContext"
@@ -36,7 +36,6 @@ export default class Card
         this.setupGrid();
         this.prepareAlmostActions();
         this.assignRoles();
-        this.visualize();
 
         if(CONFIG.cards.debug) { document.body.appendChild(this.ctx.canvas); }
     }
@@ -344,13 +343,14 @@ export default class Card
         return Array.from(arr);
     }
 
-    visualize()
+    async draw()
     {
-        this.visualizeCells();
+        await this.visualizeCells();
         this.visualizeStartingTeam();
+        return this.getCanvas();
     }
 
-    visualizeCells()
+    async visualizeCells()
     {
         const ctx = this.ctx;
         const cells = this.getFlatGrid();
@@ -419,11 +419,11 @@ export default class Card
                 const res = CONFIG.resLoader.getResource("almostActions");
                 const canvOp = new LayoutOperation({
                     frame: ALMOST_ACTIONS[cell.getAction()].frame,
-                    translate: centerPos,
-                    dims: new Point(spriteSize),
-                    pivot: new Point(0.5)
+                    translate: new PointNonPhotomone(centerPos.x, centerPos.y),
+                    dims: new PointNonPhotomone(spriteSize),
+                    pivot: new PointNonPhotomone(0.5)
                 })
-                res.toCanvas(ctx, canvOp);
+                await res.toCanvas(ctx, canvOp);
             }
 
             ctx.restore();

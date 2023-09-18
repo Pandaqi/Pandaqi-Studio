@@ -1,7 +1,6 @@
 import Hexagon from "../shapes/hexagon"
 import Rectangle from "../shapes/rectangle"
 import Triangle from "../shapes/triangle"
-import Canvas from "js/pq_games/canvas/main"
 import Point from "../shapes/point"
 import TileGenerator from "./tileGenerator"
 import TileVisualizer from "./tileVisualizer"
@@ -20,21 +19,23 @@ export default class Tile
     gridPoints: Point[]
     generator: TileGenerator
     visualizer: TileVisualizer
+    config: any
 
     getCanvas() { return this.ctx.canvas; }
     constructor(config, num)
     {
-        this.createShape(config, num);
-        this.createGenerator(config);
-        this.createVisualizer(config);
-        this.draw(config);
+        this.config = Object.assign({}, config);
+
+        this.createShape(this.config, num);
+        this.createGenerator(this.config);
+        this.createVisualizer(this.config);
     }
 
     createShape(config, num)
     {
         const size = config.tiles.tileSize;
         const centerPos = config.tiles.tileCenter;
-        this.ctx = createContext({ width: size.x, height: size.y, alpha: true, willReadFrequently: false });
+        this.ctx = createContext({ size: size, alpha: true, willReadFrequently: false });
 
         this.shape = null;
         const smallerSize = config.tiles.tileSizeOffset;
@@ -79,8 +80,10 @@ export default class Tile
         config.ctx = this.ctx;
     }
 
-    draw(config)
+    async draw() : Promise<HTMLCanvasElement>
     {
+        const config = this.config;
+
         this.clipShape();
         this.drawBackground(config);
         this.visualizer.draw(config);
@@ -88,6 +91,8 @@ export default class Tile
         this.drawOutline(config);
 
         if(config.tiles.debug) { document.body.appendChild(this.ctx.canvas); }
+        
+        return this.getCanvas();
     }
 
     drawBackground(config)

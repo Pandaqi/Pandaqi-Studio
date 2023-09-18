@@ -2,6 +2,7 @@ import Point from "js/pq_games/tools/geometry/point";
 import ResourceImage from "../resources/resourceImage"
 import createContext from "../canvas/createContext"
 import LayoutEffect from "./layoutEffect";
+import { EffectData } from "../layoutOperation";
 
 interface DropShadowParams
 {
@@ -38,14 +39,14 @@ export default class DropShadowEffect extends LayoutEffect
         return eff;
     }
 
-    applyToCanvas(ctx:CanvasRenderingContext2D)
+    applyToCanvas(ctx:CanvasRenderingContext2D, effectData:EffectData = {})
     {
-        ctx.filter += this.createFilterString();
+        effectData.filters.push(this.createFilterString());
     }
 
-    applyToHTML(div:HTMLDivElement)
+    applyToHTML(div:HTMLDivElement, effectData:EffectData = {})
     {
-        div.style.filter += this.createFilterString();
+        effectData.filters.push(this.createFilterString());
     }
 
     createFilterString()

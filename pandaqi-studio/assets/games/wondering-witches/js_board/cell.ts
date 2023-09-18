@@ -1,4 +1,4 @@
-import { INGREDIENTS, SPECIAL_CELLS } from "./dictionary"
+import { INGREDIENTS, SPECIAL_CELLS } from "../js_shared/dict"
 import Random from "js/pq_games/tools/random/main"
 // @ts-ignore
 import { Geom } from "js/pq_games/phaser.esm"
