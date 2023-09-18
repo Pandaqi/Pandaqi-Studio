@@ -10,6 +10,8 @@ import takeBitesOutOfPath from "js/pq_games/tools/geometry/paths/takeBitesOutOfP
 import Point from "js/pq_games/tools/geometry/point"
 import LayoutOperation from "js/pq_games/layout/layoutOperation"
 import Path from "js/pq_games/tools/geometry/paths/path"
+import ResourceImage from "js/pq_games/layout/resources/resourceImage"
+import { CATEGORIES } from "./dict"
 
 type TypeStats = Record<string,TypeStat>
 
@@ -49,6 +51,7 @@ export default class Generator {
             resLoader.planLoad(key, data);
         }
         await resLoader.loadPlannedResources();
+        CONFIG.resLoader = resLoader;
 
         // convert image icons into ones with a random cutout
         await this.bakeCutoutInto("icons");
@@ -56,17 +59,15 @@ export default class Generator {
 
         const pdfBuilderConfig = { orientation: PageOrientation.PORTRAIT };
         const pdfBuilder = new PdfBuilder(pdfBuilderConfig);
+        CONFIG.pdfBuilder = pdfBuilder;
 
         const dims = CONFIG.cards.dims[CONFIG.cardSize ?? "regular"];
 
         const gridConfig = { pdfBuilder: pdfBuilder, dims: dims, dimsElement: CONFIG.cards.dimsElement };
         const gridMapper = new GridMapper(gridConfig);
+        CONFIG.gridMapper = gridMapper;     
 
         CONFIG.cards.size = gridMapper.getMaxElementSize();
-
-        CONFIG.resLoader = resLoader;
-        CONFIG.pdfBuilder = pdfBuilder;
-        CONFIG.gridMapper = gridMapper;     
     }
 
     createPacks() : Pack[]
@@ -113,16 +114,29 @@ export default class Generator {
 
     async bakeCutoutInto(key:string)
     {
-        const iconRes = CONFIG.resLoader.getResource(key);
+        console.log(key);
+
+        const iconRes = CONFIG.resLoader.getResource(key) as ResourceImage;
         const numFrames = iconRes.countFrames();
         let newCanvases = [];
+        
+        const bgTypes = ["red", "blue", "green", "purple"];
+        const frameSize = 512;
+        const biteSize = { min: 0.05*frameSize, max: 0.15*frameSize };
+
         for(let i = 0; i < numFrames; i++)
         {
-            const img = iconRes.getFrameAsResource(i);
+            let col = CATEGORIES[ bgTypes[Math.floor(i / 4)] ].color;
+            if(CONFIG.inkFriendly) { col = CONFIG.cards.icon.backgroundInkFriendly; }
+
+            const img = iconRes.getImageFrameAsResource(i);
             const op = new LayoutOperation({
-                clip: this.getFunkyClipPath(img.size) 
+                fill: col,
+                clip: this.getFunkyClipPath(img.size, biteSize) 
             });
-            const canv = img.toCanvas(null, op);
+            console.log(img);
+
+            const canv = await img.toCanvas(null, op);
             newCanvases.push(canv);
         }
 
@@ -141,16 +155,21 @@ export default class Generator {
             new Point(size.x, size.y),
             new Point(0, size.y)
         ]
-        const funkyPath = takeBitesOutOfPath({ path: path, biteBounds: bounds });
+        const chunkSize = 0.5*(bounds.min + bounds.max);
+        const funkyPath = takeBitesOutOfPath({ path: path, biteBounds: bounds, chunkSize: chunkSize });
         return new Path({ points: funkyPath });
     }
 
     async drawPacks(packs:Pack[])
     {
+        const promises = [];
         for(const pack of packs)
         {
-            await pack.draw();
+            promises.push(pack.draw());
         }
+
+        const canvases = await Promise.all(promises);
+        CONFIG.gridMapper.addElements(canvases.flat());
     }
 
     async downloadPDF()

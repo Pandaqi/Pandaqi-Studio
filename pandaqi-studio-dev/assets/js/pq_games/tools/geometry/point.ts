@@ -48,7 +48,7 @@ export default class Point
     hasValue() { return this.isValid() && (this.x != 0 || this.y != 0); }
     isNumber(val:any) { return !isNaN(val); }
 
-    toSVGString() { return " " + this.x + " " + this.y }
+    toSVGString() { return this.x + " " + this.y }
 
     // setting/overriding
     setX(v = 0) { this.x = v; return this; }

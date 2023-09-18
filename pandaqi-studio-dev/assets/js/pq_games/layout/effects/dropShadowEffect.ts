@@ -51,7 +51,7 @@ export default class DropShadowEffect extends LayoutEffect
 
     createFilterString()
     {
-        return " drop-shadow(" + this.offset.x + "px " + this.offset.y + "px " + this.blurRadius + "px " + this.color + ")"
+        return "drop-shadow(" + this.offset.x + "px " + this.offset.y + "px " + this.blurRadius + "px " + this.color + ")"
     }
     
 }

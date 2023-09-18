@@ -2,7 +2,7 @@ import Point from "js/pq_games/tools/geometry/point"
 import LayoutEffect from "./effects/layoutEffect"
 import ResourceImage, { CanvasLike } from "js/pq_games/layout/resources/resourceImage"
 import Path from "../tools/geometry/paths/path"
-import Resource from "./resources/resource"
+import Resource, { ElementLike } from "./resources/resource"
 import ResourceShape from "./resources/resourceShape"
 import ResourceGradient from "./resources/resourceGradient"
 import ResourcePattern from "./resources/resourcePattern"
@@ -246,7 +246,7 @@ export default class LayoutOperation
         return ctx.canvas;
     }
 
-    async applyToHTML(node:HTMLElement)
+    async applyToHTML(node:ElementLike)
     {
         // misc basic properties
         node.style.opacity = this.alpha.toString();
@@ -304,14 +304,11 @@ export default class LayoutOperation
     }
 
     // @TODO: write the same thing, but now using SVG's built-in filters and clipping and stuff
-    async applyToSVG(elem:HTMLElement)
+    async applyToSVG(elem:ElementLike)
     {
-        /*
-        elem.setAttribute("fill", this.fill);
-        elem.setAttribute("stroke", this.stroke);
-        elem.setAttribute("stroke-width", this.strokeWidth);
-        */
-
+        elem.setAttribute("fill", this.fill.toString());
+        elem.setAttribute("stroke", this.stroke.toString());
+        elem.setAttribute("stroke-width", this.strokeWidth.toString());
         return elem;
     }
 }

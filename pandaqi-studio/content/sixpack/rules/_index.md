@@ -35,6 +35,10 @@ You can also play multiple rounds and keep score. Your score for each round is *
 
 All players pick one secret card from their hand. When everyone is ready, reveal them all at the same time.
 
+{{% remark class="anchor-top" %}}
+With 2 players, each player picks **two** cards from their hand (if possible).
+{{% /remark %}}
+
 Any **duplicate** cards are removed. Then handle the cards from **lowest** to **highest**.
 
 {{< rules-image src="gameplay_1_reveal_and_remove.webp" alt="Start of a round: pick, reveal, remove duplicates." >}}
@@ -48,9 +52,6 @@ Each card is placed on the pile with the closest number _below_ it.
 
 That's it! Have fun!
 
-{{% remark %}}
-With 2 players, each player picks **two** cards from their hand. If you only have one card left, both players play only **one** card that round.
-{{% /remark %}}
 
 {{< rules-image src="gameplay_2_place_or_claim.webp" alt="End of a round: handle cards from low to high. Place, claim, or take back." >}}
 

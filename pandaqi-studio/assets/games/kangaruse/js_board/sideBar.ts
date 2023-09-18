@@ -1,6 +1,6 @@
 // @ts-ignore
 import { Display } from "js/pq_games/phaser.esm"
-import { GENERAL, CELLS, COLOR_GROUPS } from "./dictionary"
+import { GENERAL, CELLS, COLOR_GROUPS } from "../js_shared/dictionary"
 import CONFIG from "./config"
 import Point from "js/pq_games/tools/geometry/point";
 import BoardDisplay from "./boardDisplay"

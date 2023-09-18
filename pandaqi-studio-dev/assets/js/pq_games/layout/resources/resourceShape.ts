@@ -33,20 +33,29 @@ export default class ResourceShape extends Resource
         return await op.applyToCanvas(canv);
     }
 
-    async toHTML(op:LayoutOperation = new LayoutOperation())
+    async toHTML(op = new LayoutOperation())
     {
-        const svg = document.createElement("svg");
+        // @DEBUGGING
+        const svgNS = "http://www.w3.org/2000/svg";
+        const svg = document.createElementNS(svgNS, "svg");
         const dims = this.shape.getDimensions();
-        svg.setAttribute("width", dims.size.x.toString());
-        svg.setAttribute("height", dims.size.y.toString());
-        const elem = await this.toSVG();
+        const sizeInt = dims.size.round();
+        svg.setAttribute("width", sizeInt.x.toString());
+        svg.setAttribute("height", sizeInt.y.toString());
+        svg.setAttribute("viewBox", "0 0 " + sizeInt.x + " " + sizeInt.y);
+        svg.setAttribute("fill", "none");
+        svg.setAttribute("xmlns", "http://www.w3.org/2000/svg")
+        
+        svg.style.boxSizing = "border-box";
+
+        const elem = await this.toSVG(op);
         svg.appendChild(elem);
         op.applyToHTML(svg);
         return svg;
     }
     
-    async toSVG(op:LayoutOperation = new LayoutOperation())
+    async toSVG(op = new LayoutOperation())
     {
-        return this.shape.toSVG();
+        return await op.applyToSVG(this.shape.toSVG());
     }
 }

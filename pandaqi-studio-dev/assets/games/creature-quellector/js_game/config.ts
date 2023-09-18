@@ -2,7 +2,7 @@ import Point from "js/pq_games/tools/geometry/point"
 
 export default {
     debugWithoutPDF: true, // @DEBUGGING (should be false)
-    debugSingleCard: false,
+    debugSingleCard: true,
     fileName: "[Creature Quellector] Material",
     configKey: "creatureQuellectorConfig",
     progressBar: null,
@@ -97,6 +97,11 @@ export default {
             green: "#E8FFDF",
             purple: "#F2E3FF"
         },
+
+        icon: {
+            backgroundInkFriendly: "#777777",
+            backgroundDarkInkFriendly: "#333333"
+        },
         
         backgroundScale: 2.0,
         backgroundAlpha: 0.125,
@@ -107,10 +112,12 @@ export default {
         size: new Point(),
         stroke: {
             color: "#614100",
+            colorInkFriendly: "#999999",
             width: 0.01
         },
         outline: {
             color: "#332211",
+            colorInkFriendly: "#333333",
             width: 0.02,
         },
         genericNames: ["mon", "snout", "leg", "fur", "paw", "tail", "speed", "critter", "creat", "monster", "god", "child", "baby", "beak", "wing", "dweller", "kid", "roam", "breath", "blast", "jump", "leap"],

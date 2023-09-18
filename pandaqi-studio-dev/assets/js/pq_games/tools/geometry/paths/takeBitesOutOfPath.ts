@@ -1,6 +1,14 @@
 import rangeInteger from "../../random/rangeInteger";
 import Point from "../point";
 
+interface BiteParams
+{
+    path?: Point[],
+    chunkSize?: number,
+    biteBounds?: { min: number, max: number },
+    chunksInterval?: { min: number, max: number }
+}
+
 function takeBite(idx:number, path:Point[], dist:number)
 {
     const curPoint = path[idx];
@@ -13,7 +21,7 @@ function takeBite(idx:number, path:Point[], dist:number)
     path.splice(idx + 1, 0, bitePoint);
 }
 
-export default (params:Record<string,any>) : Point[] => 
+export default (params:BiteParams) : Point[] => 
 {
     const path = params.path;
     if(!path) { return []; }

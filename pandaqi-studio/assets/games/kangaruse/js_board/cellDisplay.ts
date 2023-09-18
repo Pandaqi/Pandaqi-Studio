@@ -1,6 +1,6 @@
 // @ts-ignore
 import { Display } from "js/pq_games/phaser.esm"
-import { CELLS, GENERAL, COLOR_GROUPS, CORNER_OFFSETS } from "./dictionary"
+import { CELLS, GENERAL, COLOR_GROUPS, CORNER_OFFSETS } from "../js_shared/dictionary"
 import CONFIG from "./config"
 import Point from "js/pq_games/tools/geometry/point";
 import Random from "js/pq_games/tools/random/main";

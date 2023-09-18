@@ -27,6 +27,7 @@ import PlacementValue from "js/pq_games/layout/values/placementValue"
 import ResourceText from "js/pq_games/layout/resources/resourceText"
 import ResourceShape from "js/pq_games/layout/resources/resourceShape"
 import Path from "js/pq_games/tools/geometry/paths/path"
+import GrayScaleEffect from "js/pq_games/layout/effects/grayScaleEffect"
 
 export default class Card 
 {
@@ -35,7 +36,7 @@ export default class Card
     dims : Point
     sizeUnit : number
     center : Point
-    LayoutNode : LayoutNode
+    mainNode : LayoutNode
 
     cornerIconSize:number
     creatureSpritesheet: string
@@ -69,8 +70,10 @@ export default class Card
         this.drawContent();
         this.drawFooter();
 
-        await this.LayoutNode.toCanvas(this.getCanvas());
+        await this.mainNode.toCanvas(this.getCanvas());
         this.drawCustomPost();
+        
+        return this.getCanvas();
     }
 
     setup()
@@ -100,8 +103,8 @@ export default class Card
         this.creatureFlipX = Math.random() <= 0.5;
         this.iconBorderRadius = new FourSideValue(0.025*this.sizeUnit);
         this.strokeWidth = CONFIG.cards.stroke.width * this.sizeUnit;
-        this.strokeColor = CONFIG.cards.stroke.color;
-        this.dropShadowOffset = new Point(0, 5);
+        this.strokeColor = CONFIG.inkFriendly ? CONFIG.cards.stroke.colorInkFriendly : CONFIG.cards.stroke.color;
+        this.dropShadowOffset = new Point(0, 3.5);
 
         this.iconEffectsMain = [
             new DropShadowEffect({ 
@@ -110,8 +113,8 @@ export default class Card
             })
         ];
 
-        this.LayoutNode = new LayoutNode(params);
-        console.log(this.LayoutNode);
+        this.mainNode = new LayoutNode(params);
+        console.log(this.mainNode);
     }
 
     // ElementIcon holds the subtype (e.g. fire for red) and a boolean for action or not
@@ -152,6 +155,7 @@ export default class Card
 
     getIconColorDark(elem:ElementIcon) : string
     {
+        if(CONFIG.inkFriendly) { return CONFIG.cards.icon.backgroundDarkInkFriendly; }
         const cat = this.getIconElementType(elem);
         return CATEGORIES[cat].colorDark;
     }
@@ -175,15 +179,21 @@ export default class Card
     // @NOTE: drawn manually, as that's easier here
     drawBackground()
     {
+
         const ctx = this.ctx
-        ctx.fillStyle = CONFIG.cards.backgroundColors[this.getMainIconElementType()];
+        let color = CONFIG.cards.backgroundColors[this.getMainIconElementType()];
+        if(CONFIG.inkFriendly) { color = "#FFFFFF"; }
+
+        ctx.fillStyle = color;
         ctx.fillRect(0, 0, this.dims.x, this.dims.y);
+
+        if(CONFIG.inkFriendly) { return; }
 
         const size = this.sizeUnit * CONFIG.cards.backgroundScale;
         const sizePoint = new Point(size, size);
         const alpha = CONFIG.cards.backgroundAlpha;
 
-        const res = CONFIG.resLoader.getResource(this.creatureSpritesheet);
+        const res = CONFIG.resLoader.getResource(this.creatureSpritesheet) as ResourceImage;
         const canvOp = new CanvasOperation({
             dims: sizePoint,
             pivot: new Point().setXY(0.5, 0.5),
@@ -192,7 +202,7 @@ export default class Card
             flipX: this.creatureFlipX,
             frame: this.getCardBackgroundFrame()
         })
-        res.drawTo(this.getCanvas(), canvOp);
+        res.toCanvas(this.getCanvas(), canvOp);
     }
 
     async drawHeader()
@@ -208,7 +218,13 @@ export default class Card
             clip: clipPath
         });
         this.imageLayoutNode = imageLayoutNode;
-        this.LayoutNode.addChild(imageLayoutNode);
+        this.mainNode.addChild(imageLayoutNode);
+
+        const effects = [];
+        if(CONFIG.inkFriendly)
+        {
+            effects.push(new GrayScaleEffect())
+        }
 
         const backgroundImageSize = new Point(contHeight, contHeight).scaleFactor(1.7);
         const bgResource = CONFIG.resLoader.getResource(this.backgroundSpritesheet);
@@ -218,6 +234,7 @@ export default class Card
             size: backgroundImageSize,
             anchor: AnchorValue.BOTTOM_CENTER,
             ghost: true,
+            effects: effects,
             flipX: Math.random() <= 0.5
         });
         imageLayoutNode.addChild(bgLayoutNode);
@@ -230,6 +247,7 @@ export default class Card
             size: creatureImageSize,
             anchor: AnchorValue.CENTER_CENTER,
             ghost: true,
+            effects: effects,
             flipX: this.creatureFlipX
         });
         imageLayoutNode.addChild(creatureLayoutNode);
@@ -242,12 +260,11 @@ export default class Card
             resource: iconResource,
             frame: this.getIconFrame(this.getMainIcon()),
             size: new TwoAxisValue().fromSingle(this.cornerIconSize),
-            fill: this.getIconColor(this.getMainIcon()),
             borderRadius: this.iconBorderRadius,
             effects: iconEffects,
             anchor: AnchorValue.TOP_RIGHT
         })
-        this.LayoutNode.addChild(iconLayoutNode);
+        this.mainNode.addChild(iconLayoutNode);
 
         // Icon reminder list (of what's on the card, overlays image)
         const iconReminderSize = 0.725*this.cornerIconSize;
@@ -273,7 +290,6 @@ export default class Card
                 size: new TwoAxisValue().fromSingle(iconReminderSize),
                 stroke: new StrokeValue(0.5*this.strokeWidth, this.getIconColorDark(type)),
                 borderRadius: iconReminderRadius,
-                fill: this.getIconColor(type)
             })
             iconReminders.addChild(cont);
         }
@@ -281,15 +297,16 @@ export default class Card
         
 
         // we draw our clip path as an IMAGE, so it fits right into this pipeline at the right moment
-        const clipPathShape = new Path({ points: clipPath, close: true });
-        const clipPathResource = new ResourceShape({ shape: clipPathShape });
+        const clipPathResource = new ResourceShape({ shape: clipPath });
         const clipPathVisible = new LayoutNode({
             resource: clipPathResource,
             size: new TwoAxisValue().setFullSize(),
             placement: PlacementValue.ABSOLUTE,
-            pos: new TwoAxisValue(this.rootPadding, this.rootPadding)
+            pos: new TwoAxisValue(this.rootPadding, this.rootPadding),
+            stroke: this.strokeColor,
+            strokeWidth: this.strokeWidth
         })
-        this.LayoutNode.addChild(clipPathVisible);
+        this.mainNode.addChild(clipPathVisible);
     }
 
     getElementOnCycle(change:number = 1) : ElementIcon
@@ -297,8 +314,6 @@ export default class Card
         const list = CONFIG.gameplay.elementCycleSubtype
         let idx = list.indexOf(this.getMainIcon().type);
         idx = (idx + change + list.length) % list.length
-        console.log(list);
-        console.log(idx, change, this.getMainIcon());
         return new ElementIcon(list[idx], false);
     }
 
@@ -312,7 +327,7 @@ export default class Card
             alignFlow: AlignValue.SPACE_BETWEEN,
             alignStack: AlignValue.MIDDLE
         })
-        this.LayoutNode.addChild(bannerLayoutNode);
+        this.mainNode.addChild(bannerLayoutNode);
 
         const iconResource = CONFIG.resLoader.getResource(this.iconSpritesheet);
         const counterSize = this.cornerIconSize;
@@ -328,7 +343,6 @@ export default class Card
             resource: iconResource,
             frame: this.getIconFrame(this.getElementOnCycle(-1)),
             size: new TwoAxisValue().fromSingle(counterSize),
-            fill: this.getIconColor(this.getElementOnCycle(-1)),
             borderRadius: this.iconBorderRadius,
             effects: iconEffects1,
             shrink: 0
@@ -345,7 +359,6 @@ export default class Card
         const mainIcon = new LayoutNode({
             resource: iconResource,
             frame: this.getIconFrame(this.getMainIcon()),
-            fill: this.getIconColor(this.getMainIcon()),
             borderRadius: this.iconBorderRadius,
             size: new TwoAxisValue().fromSingle(mainIconSize),
             effects: this.iconEffectsMain,
@@ -361,7 +374,6 @@ export default class Card
         const weCounter = new LayoutNode({
             resource: iconResource,
             frame: this.getIconFrame(this.getElementOnCycle(+1)),
-            fill: this.getIconColor(this.getElementOnCycle(+1)),
             borderRadius: this.iconBorderRadius,
             size: new TwoAxisValue().fromSingle(counterSize),
             effects: iconEffects2,
@@ -381,7 +393,7 @@ export default class Card
         // The main body of the card: the icons of this creature
         const padding = 0.05*this.sizeUnit
         const gap = padding;
-        const offsetTop = 0.155*this.sizeUnit;
+        const offsetTop = 0.165*this.sizeUnit;
         const icons = new LayoutNode({
             padding: padding,
             size: new TwoAxisValue().setBlock(),
@@ -391,7 +403,7 @@ export default class Card
             gap: gap,
             flow: FlowType.GRID
         })
-        this.LayoutNode.addChild(icons);
+        this.mainNode.addChild(icons);
 
         const iconSize = 0.1725*this.sizeUnit;
         for(const type of this.typeList)
@@ -406,7 +418,6 @@ export default class Card
             const cont = new LayoutNode({
                 resource: this.getIconResource(type),
                 frame: this.getIconFrame(type),
-                fill: this.getIconColor(type),
                 borderRadius: this.iconBorderRadius,
                 size: new TwoAxisValue().fromSingle(iconSize),
                 effects: iconEffects,
@@ -428,14 +439,13 @@ export default class Card
             size: new TwoAxisValue().setBlock(),
             gap: footerGap
         })
-        this.LayoutNode.addChild(footer);
+        this.mainNode.addChild(footer);
 
         // icon again in bottom left
         const iconResource = CONFIG.resLoader.getResource(this.iconSpritesheet);
         const iconLayoutNode = new LayoutNode({
             resource: iconResource,
             frame: this.getIconFrame(this.getMainIcon()),
-            fill: this.getIconColor(this.getMainIcon()),
             borderRadius: this.iconBorderRadius,
             size: new TwoAxisValue().fromSingle(this.cornerIconSize),
             effects: this.iconEffectsMain,
@@ -479,7 +489,7 @@ export default class Card
             anchor: AnchorValue.BOTTOM_LEFT,
             text: this.getFinePrintText()
         })
-        this.LayoutNode.addChild(fineprintText)
+        this.mainNode.addChild(fineprintText)
 
     }
 
@@ -534,15 +544,16 @@ export default class Card
         // thick card outline
         const canv = this.getCanvas();
         const ctx = canv.getContext("2d");
-        ctx.strokeStyle = CONFIG.cards.outline.color;
+        const col = CONFIG.inkFriendly ? CONFIG.cards.outline.colorInkFriendly : CONFIG.cards.outline.color;
+        ctx.strokeStyle = col;
         ctx.lineWidth = CONFIG.cards.outline.width * this.sizeUnit;
         ctx.strokeRect(0, 0, canv.width, canv.height);
     }
 
     
-    getClipPath(size:Point) : Point[]
+    getClipPath(size:Point) : Path
     {
-        var margin = this.cornerIconSize*1.1;
+        var margin = this.cornerIconSize*1.25;
         var p = this.rootPadding;
         var points = [
             new Point().setXY(0, 0),
@@ -553,6 +564,6 @@ export default class Card
             new Point().setXY(0, size.y)
         ]
 
-        return points;
+        return new Path({ points: points, close: true });
     }
 }

@@ -19,21 +19,27 @@ $min-remark-print-width: $max-print-width;
 @mixin remark-in-side-margin($w, $p)
 {
     position: absolute;
+    left: -($w + $p);
+    transform: translateY(-100%);
 
     p { 
         display: block;
     }
 
-    &.left {
-        left: -($w + $p);
-    }
-
     &.right {
+        left: auto;
         right: -($w + $p);
     }
 
+    &.anchor-top {
+        transform: translateY(0);
+    }
+
+    &.anchor-center {
+        transform: translateY(-50%);
+    }
+
     max-width: $w;
-    transform: translateY(-125%);
     border-top: 2px solid rgba(0,0,0,0.75);
     border-radius: 0;
     background-color: transparent;

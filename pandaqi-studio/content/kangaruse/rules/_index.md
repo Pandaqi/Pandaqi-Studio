@@ -14,7 +14,7 @@ Grab a new paper. It should show a grid.
 * All squares on one axis show the same **number** command (1-4).
 * All squares on the other axis show a **direction** command (left, right, up, down).
 
-Everybody invents a simple, unique icon they draw in their starting position. (If you enabled "starting positions", these are given. Otherwise, you may choose any square that doesn't score points.)
+Everybody invents a simple, unique icon they draw in their starting position. If you enabled "starting positions", these are given. Otherwise, choose any square that doesn't score points.
 
 
 {{% /rules-block %}}
@@ -46,7 +46,7 @@ Your target square must be **unused**: not crossed out and not occupied.
 If you have no valid move, you _may_ teleport to an unused non-scoring square by **paying 15 points**. If you can't or won't, you get no more turns.
 
 {{% remark %}}
-You can't land or jump over **trees**. **Rivers** simply do nothing.
+You can't land on or jump over **trees**. **Rivers** simply do nothing.
 {{% /remark %}}
 
 Finally, check the special action of your new square. That's it!

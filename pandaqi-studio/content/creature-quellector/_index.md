@@ -1,6 +1,4 @@
 ---
-draft: true
-
 type: "single"
 gamepage: true
 boardgame: true
@@ -9,8 +7,8 @@ title: "Creature Quellector"
 headerTitle: "Creature Quellector | A game you can play while standing in line, about collecting and battling creatures."
 blurb: "Choose your battles wisely and build the strongest hand of magical creatures. A queuing game, playable without table, chairs, or loads of material"
 
-fullHeaderImg: "sixpack_header"
-headerImg: "sixpack_header"
+fullHeaderImg: "creature_quellector_header"
+headerImg: "creature_quellector_header"
 
 headerThumb: "favicon"
 
@@ -27,10 +25,10 @@ textColorLink: "#f7fa96"
 
 googleFonts: ""
 
-date: 2023-05-02
+date: 2024-02-25
 
 categories: ["boardgame"]
-tags: ["queuing game"]
+tags: ["queuing game", "waitless game"]
 
 extraCSS: true
 extraJSGame: true
@@ -39,7 +37,7 @@ downloadLink: "https://drive.google.com/drive/folders/1UyxnFsYPynwQmRD2xbAh7RQyI
 
 multiplayermode: "competitive"
 language: EN
-genre: ["card", "queue", "collecting", "deck", "battle"]
+genre: ["card", "queue", "waitless", "collecting", "deck", "battle"]
 playtime: 20
 playercount: [2,3,4,5,6]
 complexity: low
@@ -47,7 +45,7 @@ ages: everyone
 
 ---
 
-{{% boardgame-intro heading="" img="sixpack_header" class="no-shadow" url="https://drive.google.com/drive/folders/1UyxnFsYPynwQmRD2xbAh7RQyIC7yYAJi" %}}
+{{% boardgame-intro heading="" img="creature_quellector_header" class="no-shadow" url="https://drive.google.com/drive/folders/1UyxnFsYPynwQmRD2xbAh7RQyIC7yYAJi" %}}
 
 Pick your battles wisely to design the best squad of cute creatures.
 
@@ -83,13 +81,16 @@ Three simple steps.
 
 {{% /section-centered %}}
 
-{{% section-centered heading="Queuing Games" %}}
+{{% section-centered heading="Waitless Games?" %}}
 
-This game is something I call a "queuing game". What does that mean?
+This game is part of a genre I invented which I call "waitless games" or "queuing games".
 
-* You don't need a table, chairs, or much space at all
-* The game requires very little material
-* Rounds are fast and can be started/paused/ended at an instant
+What does that mean?
+
+* You don't need a table, chairs, or much space at all.
+* The game requires very little material.
+* Rounds are fast and can be started/paused/ended at an instant.
+* (If possible, turns happen simultaneously so you literally don't need to wait.)
 
 In other words, take this game with you wherever you go. Whenever you have to wait for something, stand in line, have some downtime ... play it!
 
@@ -107,7 +108,7 @@ This was my first attempt. (Well, actually my second, but the first one turned i
 
 * Small deck
 * Big cards, preferably with no text, so easy to read in any circumstance.
-* No "discarding", "drawing" or "playing" of cards (as that requires a table)
+* No "discarding", "drawing" or "playing" of cards (as that requires a table or extra space)
 * Something in which the specific cards in your hand, or their order, doesn't really matter. (This makes it easy to immediately pause the game by just putting the cards in your pocket or something.)
 
 After a long process of brainstorming and experimenting, this game was the result.

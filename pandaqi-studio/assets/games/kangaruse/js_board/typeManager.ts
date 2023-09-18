@@ -1,4 +1,4 @@
-import { CELLS } from "./dictionary";
+import { CELLS } from "../js_shared/dictionary";
 import CONFIG from "./config"
 import BalancedDictionaryPicker from "js/pq_games/tools/generation/balancedDictionaryPicker";
 

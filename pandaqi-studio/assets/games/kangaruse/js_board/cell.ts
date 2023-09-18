@@ -1,5 +1,5 @@
 import Point from "js/pq_games/tools/geometry/point";
-import { NB_OFFSETS, CELLS } from "./dictionary";
+import { NB_OFFSETS, CELLS } from "../js_shared/dictionary";
 
 export default class Cell
 {

@@ -174,7 +174,7 @@ Below are your options.
 
 This adds even more special cells that could be on the board! As usual, they activate when you place a letter on them.
 
-{{% remark class="right" %}}
+{{% remark class="anchor-top right" %}}
 Requires "Supercells" expansion. The website automatically does this for you.
 {{% /remark %}}
 

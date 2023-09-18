@@ -18,11 +18,12 @@ export default class Pack
 
     async draw()
     {
+        const promises = [];
         for(const card of this.cards)
         {
-            await card.draw();
-            CONFIG.gridMapper.addElement(card.getCanvas());
+            promises.push(card.draw());
         }
+        return await Promise.all(promises);
     }
 
     createCards(stats:TypeStats)
