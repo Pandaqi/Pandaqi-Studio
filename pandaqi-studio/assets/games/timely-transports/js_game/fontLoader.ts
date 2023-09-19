@@ -2,6 +2,7 @@ export default class FontLoader {
     constructor() {}
     async load()
     {
+        // @TODO: dangerous relative links, but works for now
         const fontURL1 = "assets/fonts/Rowdies-Regular.woff2";
         const fontFile1 = new FontFace("Rowdies", "url(" + fontURL1 + ")");
 

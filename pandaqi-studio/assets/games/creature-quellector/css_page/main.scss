@@ -1,0 +1,132 @@
+@use "sass:map";
+
+$header-font: "Comica Boom", sans-serif;
+$body-font: "Cabin", serif;
+$cutoff: 900px;
+
+@font-face {
+    font-family: 'Comica Boom';
+    src: url('/creature-quellector/assets/fonts/Comica Boom.otf') format('otf');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Cabin';
+    src: url('/creature-quellector/assets/fonts/Cabin-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'UnifrakturCook';
+    src: url('/creature-quellector/assets/fonts/Cabin-Italic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+
+h1, h2, h3, h4, h5, h6, 
+a.btn, #btn-create-pdf, #btn-generate-board, #btn-start-game,
+input, button, select, option, label {
+    font-family: $header-font;
+    font-weight: normal;
+}
+
+body {
+    font-family: $body-font;
+    background-color: #999;
+    font-size: 19px;
+    background-size: 100%;
+    color: #333;
+    line-height: 140%;
+}
+
+h2 {
+    font-size: 3em;
+    margin-bottom: 0;
+}
+
+h3 { 
+    font-size: 2em;
+    margin-bottom: 0;
+}
+
+.metadata-container .metadata 
+{
+    h2, h3, p {
+        color: rgba(255,200,155,0.75);
+    }
+}
+
+.setting-remark
+{
+    font-size:0.75em; 
+    opacity: 75;
+}
+
+$themes: (
+    "red": ("bg": #fdb4b4, "text": #200000, "dark": #9c0606, "light": #FFD2D2),
+    "blue": ("bg": #9eeafd, "text": #001216, "dark": #04627a, "light": #D6FEFA ),
+    "green": ("bg": #bdfcad, "text": #051700, "dark": #1e7209, "light": #E8FFDF),
+    "purple": ("bg": #ebc1ff, "text": #160021, "dark": #5d0984, "light": #F2E3FF )
+);
+
+@each $name, $data in $themes {
+    .theme-#{$name} {
+        background-color: map.get($data, "bg");
+        color: map.get($data, "text");
+
+        h1,h2,h3,h4,h5,h6 
+        {
+            color: map.get($data, "dark");
+        }
+
+        .game-settings {
+            background-color: map.get($data, "dark");
+            color: map.get($data, "light");
+            h3 { color: map.get($data, "light"); }
+        }
+
+        #btn-start-game, #btn-start-game:visited, a.download-btn, a.download-btn:visited {
+            background-color: map.get($data, "dark");
+            color: map.get($data, "light");
+            margin-top: 0.5em;
+        
+            &:hover {
+                background-color: map.get($data, "light");
+                color: map.get($data, "dark");
+            }
+        }
+        
+
+        .boardgame-intro {
+            .tagline, .metadata {
+                color: map.get($data, "text");
+            }
+        }
+        
+        a {
+            color: rgba(0,0,0,0.9);
+            transition: color 0.2s;
+            &:hover {
+                color: rgba(0,0,0,0.66);
+            }
+        }
+
+
+    }
+}
+
+
+
+
+
+
+
+
+
+

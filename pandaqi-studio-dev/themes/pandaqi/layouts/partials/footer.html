@@ -1,4 +1,28 @@
 
+{{ $all_colors := .Site.Params.all_colors }}
+{{ $color_scheme := or .Params.color (index ($all_colors | shuffle) 0) }}
+
+{{ if and (not .Params.collection) .Params.gamepage }}
+	<div class="metadata-divider clipped {{ $color_scheme }}"></div>
+	<section class="metadata-container clipped {{ $color_scheme }}">
+		{{ partial "metadata.html" . }}
+	</section>
+{{ end }}
+
+<!-- On narrow screens, a "fake divider" is created and put on top of the footer -->
+<!-- Because the footer itself gets very long, using "mask-image" on that results on very ugly HUGE waves -->
+<div class="footer-divider clipped {{ $color_scheme }}"></div>
+
+<footer class="clipped {{ $color_scheme }}">
+	{{ if .Params.gamePage }}
+		<!-- Show narrow footer, easy styling -->
+		{{ partial "narrow-footer.html" . }}
+	{{ else }}
+		<!-- Show full footer, fixed general styling -->
+		{{ partial "full-footer.html" . }}
+	{{ end }}
+</footer>
+
 <!-- EXTRA CSS -->
 <!-- Deferred loading of non-critical CSS -->
 {{ $style := slice }}
@@ -23,18 +47,7 @@
 
 <link rel="stylesheet" type="text/css" href="{{ $style.RelPermalink }}">
 
-<!-- Load extra CSS, if the page requires it -->
-<!-- Can't "combine" this, because it's not a "global resource", but that's fine -->
-{{ if .Params.extraCSS }}
-	{{ $output_path := printf "../%s/extra.css" (path.Dir .Page.File.Path) }}
-	{{ $extra := .Page.Resources.GetMatch "extra.scss" }}
-
-	{{ $change := dict "targetPath" $output_path }}
-	{{ $new_options := merge $options $change }}
-	
-	{{ $style = $extra | resources.ToCSS $new_options }} 
-	<link rel="stylesheet" type="text/css" href="{{ $style.RelPermalink }}" />
-{{ end }}
+{{ partial "load-assets.html" (dict "context" . "ext" "css" "type" "page" "include" .Params.extraCSS) }}
 
 <!-- EXTRA FONTS -->
 <!-- Deferred loading of Fonts = huge speed boost -->
@@ -50,73 +63,16 @@
 </script>
 
 <!-- Default JS needed (for making basic functionality work, like picking random projects) -->
-{{ $js_bundle := slice }}
-{{ $functionality := (resources.Get "/js/functionality.ts" | js.Build "/js/functionality.js" | minify) }}
-{{ $js_bundle = $js_bundle | append $functionality }}
+{{ $default_js := resources.Get "/js/functionality.ts" | js.Build "/js/lib-functionality.js" | minify }}
+<script async defer src="{{ $default_js.RelPermalink }}"></script>
 
-<!-- EXTRA JS + Asset bundling -->
-{{ $phaser := (resources.Get "/js/phaser.min.js") }}
-{{ $phaser.Publish }}
-
-{{ if .Params.phaser }}{{ $js_bundle = $js_bundle | append $phaser }}{{ end }}
-
-{{ $names := slice "/js/bundle" }}
-{{ range $js_bundle }}
-	{{ $name := split .Name "/" }}
-	{{ $name = index $name 1 }}
-	{{ $name = replace $name ".min.js" "" }}
-	{{ $name = replace $name ".js" "" }}
-	{{ $names = $names | append $name }}
-{{ end }}
-{{ $names = $names | append "js" }}
-{{ $final_name := delimit $names "." }}
-
-{{ if gt (len $js_bundle) 0 }}
-	{{ $final_js_bundle := $js_bundle | resources.Concat $final_name | minify }}
-	<script async defer src="{{ $final_js_bundle.RelPermalink }}"></script>
-{{ end }}
-
-<!-- Shared JS: anything shared across multiple components of the same game or multiple (spin-off) games -->
+<!--- CUSTOM JS: Board / Game / Shared / Whatever --->
 {{ if .Params.sharedJS }}
-	{{ $name := .Params.sharedJS }}
-	{{ $file_name := printf "/games/%s/js_shared/main.ts" $name }}
-	{{ $output_name := printf "/js_shared/lib-%s.js" $name }}
-	{{ $res := resources.Get $file_name | js.Build $output_name | minify }}
-	{{ $res.Publish }}
-	{{ if .Params.sharedJSInclude }}
-		<script async defer src="{{ $res.RelPermalink }}"></script>
-	{{ end }}
+	{{ partial "load-assets.html" (dict "context" . "ext" "js" "type" "shared" "include" .Params.sharedJSInclude "name" .Params.sharedJS) }}
 {{ end }}
 
-<!-- Extra JS: BOARD -->
-{{ $js_bundle_extra := slice }}
-{{ $url := .RelPermalink }}
-{{ $include_extra_js := .Params.extraJSBoard }}
-{{ $game_name := "" }}
-{{ with .File }}
-	{{ $game_name = .ContentBaseName }}
-{{ end }}
-{{ if and $include_extra_js $game_name }}
-	{{ $file_name := printf "/games/%s/js_board/main.ts" $game_name }}
-	{{ $bundle_name := printf "%s/%s" $url "js/bundle.extra.js" }}
-	{{ $res := resources.Get $file_name | js.Build $bundle_name | minify }}
-	{{ $res.Publish }}
-	{{ if .Params.extraJSBoardInclude }}
-		<script async defer src="{{ $res.RelPermalink }}"></script>
-	{{ end }}
-{{ end }}
-
-<!-- Extra JS: GAME/MATERIAL -->
-{{ $include_game_js := .Params.extraJSGame }}
-{{ if and $include_game_js $game_name }}
-	{{ $file_name := printf "/games/%s/js_game/main.ts" $game_name }}
-	{{ $bundle_name := printf "%s/%s" $url "js_game/bundle.extra.js" }}
-	{{ $res := resources.Get $file_name | js.Build $bundle_name | minify }}
-	{{ $res.Publish }}
-	{{ if .Params.extraJSGameInclude }}
-		<script async defer src="{{ $res.RelPermalink }}"></script>
-	{{ end }}
-{{ end }}
+{{ partial "load-assets.html" (dict "context" . "ext" "js" "type" "board" "include" .Params.extraJSBoardInclude) }}
+{{ partial "load-assets.html" (dict "context" . "ext" "js" "type" "game" "include" .Params.extraJSGameInclude) }}
 
 <!-- Extra custom JS: simply a hardcoded link to something else -->
 <!-- Never used right now, but kept in because it might be critical in certain cases -->
@@ -125,3 +81,5 @@
 		<script async defer src="{{ . }}"></script>
 	{{ end }}
 {{ end }}
+
+{{ partialCached "footer-cached.html" . }}

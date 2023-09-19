@@ -14,11 +14,7 @@
     <link rel="stylesheet" type="text/css" href="{{ $rules_style.RelPermalink }}" /> 
 
     <!-- Unique CSS for this rulebook -->
-    {{ $output_path := printf "../%s/extra.css" (path.Dir .Page.File.Path) }}
-    {{ $extra := .Page.Resources.GetMatch "extra.scss" }}
-    {{ $options := (dict "targetPath" $output_path "outputStyle" "compressed" "enableSourceMap" (not hugo.IsProduction)) }}
-    {{ $style := $extra | resources.ToCSS $options }} 
-    <link rel="stylesheet" type="text/css" href="{{ $style.RelPermalink }}" />
+    {{ partial "load-assets.html" (dict "context" . "ext" "css" "type" "rules" "include" true) }}
 </head>
 {{ end }}
 
@@ -67,16 +63,7 @@
     {{ $createPDF := and (not hugo.IsProduction) .Params.pdf }}
     <span style="display:none;" id="hidden-metadata" data-createpdf="{{ $createPDF }}"></span>
 
-    {{ $game_name := (index .Ancestors 0).File.ContentBaseName }}
-    {{ $file_name := printf "/games/%s/js_rules/main.ts" $game_name }}
-    
-    {{ $res := resources.Get $file_name }}
-    {{ if $res }}
-        {{ $url := .RelPermalink }}
-        {{ $bundle_name := printf "%s/%s" $url "js/bundle.rules.js" }}
-        {{ $custom_rules_js_build := $res | js.Build $bundle_name | minify }}
-        <script async defer src="{{ $custom_rules_js_build.RelPermalink }}"></script>
-    {{ end }}
+    {{ partial "load-assets.html" (dict "context" . "ext" "js" "type" "rules" "include" true) }}
 
     {{ $js := resources.Get "/js/pq_rulebook/main.ts" | js.Build "/js/lib-pqRulebook.js" | minify }}
     <script async defer src="{{ $js.RelPermalink }}"></script>

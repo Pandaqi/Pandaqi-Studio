@@ -1,6 +1,9 @@
 import LayoutOperation from "../layoutOperation";
 import { CanvasLike } from "./resourceImage";
 
+type ElementLike = HTMLElement|SVGElement
+
+export { Resource, ElementLike }
 export default class Resource
 {
     constructor() { }
@@ -14,13 +17,14 @@ export default class Resource
         return document.createElement("canvas"); 
     }
     
-    async toHTML(op:LayoutOperation = null) : Promise<HTMLElement> 
+    async toHTML(op:LayoutOperation = null) : Promise<ElementLike> 
     { 
         return document.createElement("div"); 
     }
 
-    async toSVG(op:LayoutOperation = null) : Promise<HTMLElement> 
+    async toSVG(op:LayoutOperation = null) : Promise<ElementLike> 
     { 
-        return document.createElement("svg"); 
+        const svgNS = "http://www.w3.org/2000/svg";
+        return document.createElementNS(svgNS, "svg"); 
     }
 }

@@ -37,6 +37,10 @@ export default class ResourceImage extends Resource
 
         this.img = imageData;
         this.frameDims = new Point(params.frames ?? new Point(1,1));
+
+        const singleFrame = this.frameDims.x*this.frameDims.y == 1;
+        if(singleFrame) { this.frames = [this.img]; }
+
         this.refreshSize();
     }
     
@@ -58,9 +62,11 @@ export default class ResourceImage extends Resource
 
     async toHTML(op:LayoutOperation = new LayoutOperation())
     {
-        const node = this.getImageFrame(this.getFrame()).cloneNode() as HTMLImageElement;
+        const frame = op.frame ?? 0;
+        const node = this.getImageFrame(frame).cloneNode() as HTMLImageElement;
         node.style.width = "100%";
         node.style.height = "100%";
+        
         return await op.applyToHTML(node);
     }
 
@@ -69,6 +75,15 @@ export default class ResourceImage extends Resource
         const elem = document.createElementNS(null, "image");
         elem.setAttribute("href", this.getImage().src);
         return await op.applyToSVG(elem);
+    }
+
+    // for getting a new ResourceImage with result after operation applied
+    async toResourceImage(op = new LayoutOperation())
+    {
+        const canv = await this.toCanvas();
+        const img = await convertCanvasToImage(canv);
+        const resImg = new ResourceImage(img);
+        return resImg;
     }
 
     /* The `from` functions */

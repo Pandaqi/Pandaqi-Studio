@@ -1,0 +1,97 @@
+$header-font: "Arbutus Slab", sans-serif;
+$body-font: "Arbutus Slab", serif;
+$main-color: #435a20;
+$inv-color: #346899;
+$inv-color-dark: #1a466f;
+$tagline-bg: #8baece;
+$cutoff: 900px;
+$btn-text-color: #FFFFFF;
+$btn-text-color-hover: #8baece;
+
+@font-face {
+    font-family: 'Arbutus Slab';
+    src: url(/keebble/assets/ArbutusSlab-Regular.woff2);
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+h1, h2, h3, h4, h5, h6, 
+a.btn, #btn-create-pdf, #btn-generate-board, #btn-start-game,
+input, button, select, option, label {
+    font-family: $header-font;
+}
+
+body {
+    font-family: $body-font;
+    background-color: #d8d8d8;
+    font-size: 20px;
+    background-size: 100%;
+    background-image: url(bg_pattern.webp);
+}
+
+label {
+    font-size: 18px;
+}
+
+.limit-width {
+    max-width: 960px;
+}
+
+h2 {
+    font-size: 56px;
+    margin-bottom: 0px;
+}
+
+h3 { 
+    font-size: 38px;
+    margin-bottom: 0px;
+}
+
+a {
+    color: $main-color; 
+    transition: color 0.3s;
+
+    &:hover {
+        color: $inv-color-dark;
+    }
+}
+
+.game-settings {
+    background-color: $main-color;
+}
+
+a.download-btn, a.download-btn:visited, 
+#btn-start-game, #btn-start-game:visited,
+#btn-generate-board, #btn-generate-board:visited {
+    background-color: $main-color;
+    color: $btn-text-color;
+    
+    &:hover {
+        background-color: $inv-color;
+        color: $btn-text-color-hover;
+    }
+}
+
+
+@media all and (max-width: $cutoff) {
+    body {
+        background-image: none;
+    }
+
+    .tagline {
+        background-color: $tagline-bg;
+        padding: 1em;
+        border-radius: 1em;
+
+        a {
+            color: black;
+        }
+    }
+
+    .game-settings {
+        font-size: 12px;
+    }
+
+    
+}

@@ -1548,6 +1548,9 @@ const BUILDINGS =
 		},
 };
 
+// @TODO: the below is needed for library-of-components.html to get this data
+// HOWEVER, this simply loads the whole thing, so it also ERRORS trying to load the actual GAME, which works fine right now, but is a huge problem that should be fixed someday
+
 // @ts-ignore
 window.STARRY_EFFECTS = EFFECTS;
 // @ts-ignore

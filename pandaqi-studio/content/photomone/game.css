@@ -132,7 +132,7 @@ button:hover {
     border-image-width: 8px 8px 8px 8px;
     border-image-outset: 8px;
     border-image-repeat: round round;
-    border-image-source: url(/photomone/assets/photomone_border_image.webp);
+    border-image-source: url(/photomone/css/photomone_border_image.webp);
     transition: transform 0.3s, color 0.3s, background-color 0.3s;
     filter: none;
     box-shadow: none;

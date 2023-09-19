@@ -1,0 +1,3 @@
+body{background-image:url(webp/arfd_pattern_full.webp);background-repeat:repeat-y;background-position:center;background-size:100%;font-family:'Open Sans Condensed', sans-serif;font-size:20px;color:#101010}h1,h2,h3,h4,h5,h6{font-family:'Chewy', cursive}h1,h2{text-align:center;font-size:52px;margin-bottom:10px;margin-top:40px}.buy-link,a{font-family:"Chewy";font-size:36px;display:block;max-width:500px;margin:auto;padding:20px;background-color:#6BB73E;color:#1B2E0F;text-align:center;text-decoration:none;border-radius:10px}.buy-link:hover,a:hover{background-color:#944FC0;color:rgba(255,255,255,0.75)}@media all and (max-width: 500px){.buy-link,a{font-size:20px}}
+
+/*# sourceMappingURL=extra.css.map */

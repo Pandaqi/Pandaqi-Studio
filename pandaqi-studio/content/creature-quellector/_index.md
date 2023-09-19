@@ -5,23 +5,23 @@ boardgame: true
 
 title: "Creature Quellector"
 headerTitle: "Creature Quellector | A game you can play while standing in line, about collecting and battling creatures."
-blurb: "Choose your battles wisely and build the strongest hand of magical creatures. A queuing game, playable without table, chairs, or loads of material"
+blurb: "Choose your battles wisely and build the strongest hand of magical creatures. A waitless game, playable without table, chairs, or loads of material"
 
 fullHeaderImg: "creature_quellector_header"
 headerImg: "creature_quellector_header"
 
 headerThumb: "favicon"
 
-customHeight: "small"
+customHeight: "large"
 headerDarkened: true
 
-color: "purple"
+color: "brown"
 
-bgColor: "#0d0018"
-bgColorLink: "#84060b"
+bgColor: "#014556"
+bgColorLink: "#601a87"
 
-textColor: "#ecd9ff"
-textColorLink: "#f7fa96"
+textColor: "#e6faff"
+textColorLink: "#edccff"
 
 googleFonts: ""
 
@@ -66,10 +66,11 @@ Three simple steps.
 
 <p>Input your settings, click the button. A new page will open that generates a nice PDF for you!</p>
 
-{{< boardgame-settings type="game" local_storage="kingseatConfig" >}}
-	{{< setting-hidden id="setting-gameTitle" text="Kingseat" >}}
+{{< boardgame-settings type="game" local_storage="creatureQuellectorConfig" >}}
+	{{< setting-hidden id="setting-gameTitle" text="Creature Quellector" >}}
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
   {{< setting-enum id="setting-cardSize" text="Card Size?" values="small,regular,huge" valaskey="true" def="regular" >}}
+  {{< setting-checkbox id="setting-multiType" text="Multitype?" remark="An expansion: some icons will become two types at once." >}}
   <h3>Elements</h3>
   {{< setting-enum id="setting-elements-red" text="Red" values="fire,electric,star,dragon" valaskey="true" def="fire" >}}
   {{< setting-enum id="setting-elements-blue" text="Blue" values="water,ice,poison,weather" valaskey="true" def="water" >}}
@@ -77,7 +78,7 @@ Three simple steps.
   {{< setting-enum id="setting-elements-purple" text="Purple" values="air,magic,ghost,dark" valaskey="true" def="air" >}}
 {{< /boardgame-settings >}}
 
-<p style="font-size:0.66em; opacity: 0.66;"><strong>Not working?</strong> Don't worry! At the "Download" link, you can also find valid PDFs with material already created!</p> 
+<p class="setting-remark"><strong>Not working?</strong> Don't worry! At the "Download" link, you can also find valid PDFs with material already created!</p> 
 
 {{% /section-centered %}}
 
@@ -118,3 +119,9 @@ Obviously, the aesthetic and rules were very much inspired by Pokémon (and simi
 For a detailed diary about the game, check out the [devlog](https://pandaqi.com/blog/boardgames/creature-quellector).
 
 {{% /section-centered %}}
+
+<script>
+  const themes = ["red", "blue", "green", "purple"];
+  const randTheme = themes[Math.floor(Math.random() * themes.length)];
+  document.body.classList.add("theme-" + randTheme);
+</script>

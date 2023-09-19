@@ -145,10 +145,12 @@ export default class LayoutNode
         if(wrapper) { wrapper.appendChild(div); }
 
         const topElem = wrapper ? wrapper : div;
+        let resNode = null;
 
         if(this.resource)
         {
-            div.appendChild(await this.resource.toHTML());
+            resNode = await this.resource.toHTML(this.operation);
+            div.appendChild(resNode);
         }
 
         // @NOTE: yes, apply to children BEFORE applying to ourselves
@@ -163,7 +165,14 @@ export default class LayoutNode
         this.propsInput.applyToHTML(div);
         this.flowInput.applyToHTML(div);
 
-        this.operation.applyToHTML(div);
+        // @TODO: ugly exception for border radius, should find generalized system for transfering properties to resource someday
+        //  > maybe pass resNode into applyToHTML above?
+        if(resNode)
+        {
+            resNode.style.borderRadius = this.propsInput.borderRadius.toCSS();
+        }
+
+        await this.operation.applyToHTML(div);
         
         if(wrapper) { return wrapper; }
         return div;

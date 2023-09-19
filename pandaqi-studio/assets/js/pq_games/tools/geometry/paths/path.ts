@@ -116,7 +116,8 @@ export default class Path extends Shape
 
     toSVG()
     {
-        const elem = document.createElementNS(null, 'path');
+        const svgNS = "http://www.w3.org/2000/svg";
+        const elem = document.createElementNS(svgNS, 'path');
         elem.setAttribute("d", this.toPathString());
         return elem;
     }

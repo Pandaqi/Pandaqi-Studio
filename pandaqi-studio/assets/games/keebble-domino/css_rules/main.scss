@@ -1,0 +1,148 @@
+@use "sass:map";
+@use "sass:math";
+
+$header-font: "Arbutus Slab", sans-serif;
+$body-font: "Arbutus Slab", serif;
+
+@font-face {
+    font-family: 'Arbutus Slab';
+    src: url(/keebble/assets/ArbutusSlab-Regular.woff2);
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@mixin tint-icon($hue) {
+    filter: sepia(100%) saturate(500%) brightness(100%) hue-rotate(#{$hue}deg) drop-shadow(0 0 2px #222);
+}
+
+@page { 
+    size: A4; 
+    margin: 0mm;
+    margin-top: 20mm;
+    margin-bottom: 20mm;
+
+    @top-center {
+        content: element(runningHeader);
+        //vertical-align: top;
+    }
+
+    @bottom-center { 
+        content: counter(page); 
+        font-style: italic;
+    }
+} 
+
+.interactive-example-image-container {
+    max-width: 100%;
+    text-align: center;
+
+    img {
+        max-width: 100%;
+        max-height: 240px;
+    }
+}
+
+.interactive-example-hand-container {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    gap: 1.0rem;
+
+    img {
+        max-width: 100%;
+        max-height: 200px;
+    }
+}
+
+$icons: (
+    "double-letter": 1,
+    "double-word": 0,
+    "thief": 2,
+    "destroyer": 3,
+    "dictionary": 4,
+    "shield": 5,
+    "gift": 6,
+    "rotate": 7,
+    "detour": 8,
+    "wall": 9,
+    "x-ray": 10,
+);
+
+@each $name, $frame in $icons {
+    $col: $frame % 8;
+    $row: 0;
+    @if $frame >= 8 {
+        $row: 1;
+    }
+
+    .icon-#{$name} {
+        background-image: url(/keebble-domino/assets/special_cells.webp);
+        background-size: 800%;
+        background-position-x: -$col * 100%;
+        background-position-y: -$row * 100%;
+        margin: auto;
+    }
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: $header-font;
+}
+
+body {
+    font-family: $body-font;
+    background-color: #FCFCFC;
+    font-size: 17px;
+}
+
+h1 {
+    font-size: 3.5em;
+}
+
+h2 {
+    font-size: 2.0em;
+    string-set: title content(text);
+}
+
+h3 { 
+    font-size: 1.0em;
+}
+
+ul {
+    margin-top: -0.85em;
+    margin-bottom: 1.5em;
+}
+
+$colors: (
+    "setup": #d9ffa9,
+    "objective": #68fed3,
+    "expansions": #bebef6,
+    "action_play": #ffb6df,
+    "action_scoring": #ffd68f,
+    "how_it_works": #ffcbcb
+);
+
+@each $name, $color in $colors {
+    ##{$name} {
+        background-color: $color;
+    }
+}
+
+@media print {
+    body {
+        font-size: 14px;
+    }
+
+    @each $name, $color in $colors {
+        ##{$name} {
+            background-color: transparent !important;
+
+            .heading-container {
+                background-color: $color;
+            }
+        }
+    }
+
+}

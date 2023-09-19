@@ -31,7 +31,7 @@ export default class OutputBuilder
         this.addNode(this.createParagraph(txt));
     }
 
-    addNode(node: HTMLParagraphElement)
+    addNode(node: HTMLElement)
     {
         this.node.appendChild(node);
     }
