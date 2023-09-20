@@ -1,6 +1,7 @@
 import Point from "./point";
 import Dims from "./dims";
 import { ElementLike } from "js/pq_games/layout/resources/resource";
+import roundPath from "./paths/roundPath";
 
 export default class Shape
 {
@@ -10,5 +11,6 @@ export default class Shape
     clone() : Shape { return new Shape(); }
     toPath2D() : Path2D { return new Path2D(); }
     toPathString() : string { return ""; }
+    toPathRounded(radius:number|number[]) { return roundPath(this.toPath(), radius); }
     toCSSPath() : string { return 'path("' + this.toPathString() + '")'; }
 }

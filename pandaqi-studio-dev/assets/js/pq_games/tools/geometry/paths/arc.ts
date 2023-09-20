@@ -72,8 +72,8 @@ export default (params:ArcParams) =>
         (-pos1.y-cpos1.y)/rad.y
     )
 
-    const startAngle = new Point(1,0).angleTo(angleVector);
-    let deltaAngle = angleVector.angleTo(angleVectorDelta);
+    const startAngle = new Point(1,0).angleSignedTo(angleVector);
+    let deltaAngle = angleVector.angleSignedTo(angleVectorDelta);
 
     // if sweep = 0 and delta > 0, subtract 360 degrees
     // if sweep = 1 and delta < 0, add 360 degrees

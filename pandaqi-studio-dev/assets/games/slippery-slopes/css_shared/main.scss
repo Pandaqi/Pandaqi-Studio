@@ -1,0 +1,52 @@
+// This is the Fraunces "super-soft" variation, as it fit best with the general theme and other font
+@font-face {
+    font-family: 'Fraunces';
+    src: url('../assets/fonts/Fraunces9ptSuperSoft-Italic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Fraunces';
+    src: url('../assets/fonts/Fraunces9ptSuperSoft-Black.woff2') format('woff2');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Fraunces';
+    src: url('../assets/fonts/Fraunces9ptSuperSoft-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Super Funtime';
+    src: url('../assets/fonts/SuperFuntime.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+$header-font: "Super Funtime", serif;
+$body-font: "Fraunces", serif;
+$body-font-size: 18px;
+$body-line-height: 120%;
+
+h1, h2, h3, h4, h5, h6, 
+a.btn, #btn-create-pdf, #btn-generate-board, #btn-start-game,
+input, button, select, option, label
+{
+    font-family: g.$header-font;
+    font-weight: normal;
+}
+
+body {
+    font-family: $body-font;
+    background-color: #FFFFFF;
+    font-size: $body-font-size;
+    line-height: $body-line-height;
+}

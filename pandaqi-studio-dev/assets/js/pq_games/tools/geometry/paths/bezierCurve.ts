@@ -18,12 +18,12 @@ function getPointAt(t:number, params:CurveParams)
     const quadratic = !cp2;
     if(quadratic) {
         return from.clone().scaleFactor(Math.pow(1-t, 2))
-            .add(cp1.clone().scaleFactor(2*(1-t)))
+            .add(cp1.clone().scaleFactor(2*(1-t)*t))
             .add(to.clone().scaleFactor(Math.pow(t, 2)));
     } else {
         return from.clone().scaleFactor(Math.pow(1-t,3))
             .add(cp1.clone().scaleFactor(3*Math.pow(1-t,2)*t))
-            .add(cp2.clone().scaleFactor(3*(1-t)*t))
+            .add(cp2.clone().scaleFactor(3*(1-t)*Math.pow(t,2)))
             .add(to.clone().scaleFactor(Math.pow(t,3)));
     }
 }

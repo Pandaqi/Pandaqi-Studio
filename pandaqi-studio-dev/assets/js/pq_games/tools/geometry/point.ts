@@ -43,7 +43,7 @@ export default class Point
         this.y = y ?? this.x;
     }
 
-    clone() { return new Point(this); }
+    clone() : Point { return new Point(this); }
     isValid() { return this.isNumber(this.x) && this.isNumber(this.y); }
     hasValue() { return this.isValid() && (this.x != 0 || this.y != 0); }
     isNumber(val:any) { return !isNaN(val); }
@@ -70,9 +70,9 @@ export default class Point
     moveY(v = 0) { return this.setY(this.y + v); }
     moveXY(x = 0, y = 0) { return this.move({ x: x, y: y }); }
     moveFactor(f = 0) { return this.moveXY(f,f); }
-    add(p:PointParamValid = new Point()) { return this.move(p); }
-    sub(p = new Point()) { return this.add(p.clone().scaleFactor(-1)); }
-    move(p:PointParamValid = new Point())
+    add(p:PointParamValid = new Point()) : Point { return this.move(p); }
+    sub(p = new Point()) : Point { return this.add(p.clone().scaleFactor(-1)); }
+    move(p:PointParamValid = new Point()) : Point
     {
         if(this.isNumber(p)) { return this.moveFactor(p as number); }
         p = p as PointLike;
@@ -86,6 +86,7 @@ export default class Point
     scaleY(v = 0) { return this.setY(v * this.y); }
     scaleXY(x = 1, y = 1) { return this.scale({ x: x, y: y }); }
     scaleFactor(f = 1) { return this.scaleXY(f,f); }
+    mult(f = 1) { return this.scaleFactor(f); }
     scale(p:PointParamValid = new Point())
     {
         if(this.isNumber(p)) { return this.scaleFactor(p as number); }
@@ -97,9 +98,15 @@ export default class Point
 
     // dimensions
     angle() { return Math.atan2(this.y, this.x); }
+    angleTo(p:Point)
+    {
+        const length = this.length() * p.length();
+        const dot = this.dot(p);
+        return Math.acos(dot / length);
+    }
 
     // @TODO: the orthodot part is new to me, is it needed? does this work?
-    angleTo(p:Point)
+    angleSignedTo(p:Point)
     {
         const length = this.length() * p.length();
         const dot = this.dot(p);
@@ -109,7 +116,7 @@ export default class Point
     }
 
     negate() { return this.scaleFactor(-1); }
-    normalize() 
+    normalize() : Point
     { 
         const l = this.length();
         if(Math.abs(l) <= 0.0001) { return this; }

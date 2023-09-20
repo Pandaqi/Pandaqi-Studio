@@ -1,0 +1,54 @@
+@use "../css_shared/main.scss" as g;
+
+$icons: (
+    "red-fire": 0,
+    "red-electric": 1,
+    "red-star": 2,
+    "red-dragon": 3,
+    "blue-water": 4,
+    "blue-ice": 5,
+    "blue-poison": 6,
+    "blue-weather": 7,
+);
+$max-frames: 8;
+
+@each $name, $frame in $icons {
+    $col: $frame % $max-frames;
+    $row: 0;
+
+    .icon-#{$name} {
+        background-image: url(slippery_slope_actions.webp);
+        background-size: 800%;
+        background-position-x: -$col * 100%;
+        background-position-y: -$row * 100%;
+        margin: auto;
+    }
+}
+
+
+
+#setup {
+    background-color: #ff9b9b;
+}
+
+#objective {
+    background-color: #67d6f2;
+}
+
+#action_play {
+    background-color: #a4f091; //  #23ac01;
+}
+
+#squads {
+    background-color: #d486f7; // #bb55ea;
+}
+
+#types {
+    background-color: #eebd89;
+}
+
+@media print {
+    body {
+        font-size: 14px;
+    }
+}
