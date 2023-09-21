@@ -1,4 +1,4 @@
-<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><title>Windup Wizards | Pandaqi Blog</title><link rel=icon type=image/png href=https://pandaqi.com/blog//favicon.png><link rel=stylesheet type=text/css href=/blog/css/critical.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin></head><body><header id=site-header><nav class=menu><ul><li><a href=https://pandaqi.com/blog/ class="masked-link big-mask mask-7" style=--rotation:-1deg>Home</a></li><li><a href=/blog/boardgames/ class="masked-link big-mask mask-4" style=--rotation:-0.5deg>Boardgames</a></li><li><a href=/blog/news-and-updates/ class="masked-link big-mask mask-7" style=--rotation:-1deg>News & Updates</a></li><li><a href=/blog/reviews-and-thoughts/ class="masked-link big-mask mask-3" style=--rotation:2deg>Reviews & Thoughts</a></li><li><a href=/blog/tutorials/ class="masked-link big-mask mask-3" style=--rotation:-1deg>Tutorials</a></li><li><a href=/blog/videogames/ class="masked-link big-mask mask-2" style=--rotation:1deg>Videogames</a></li></ul></nav></header><main class="padding center-block"><article class=single-article><div class=thumbnail-media><img src=windup_wizards_header.webp></div><h1>Windup Wizards</h1><aside class=metadata><nav class=breadcrumbs><span class=metadata-label><span class=emoji>🥐</span> Breadcrumbs ||</span>
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><title>Windup Wizards | Pandaqi Blog</title><link rel=icon type=image/png href=https://pandaqi.com/blog//favicon.png><link rel=stylesheet type=text/css href=/blog/css/critical.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin></head><body><header id=site-header><nav class=menu><ul><li><a href=https://pandaqi.com/blog/ class="masked-link big-mask mask-1" style=--rotation:1deg>Home</a></li><li><a href=/blog/boardgames/ class="masked-link big-mask mask-8" style=--rotation:-1deg>Boardgames</a></li><li><a href=/blog/news-and-updates/ class="masked-link big-mask mask-5" style=--rotation:-0.5deg>News & Updates</a></li><li><a href=/blog/reviews-and-thoughts/ class="masked-link big-mask mask-3" style=--rotation:0deg>Reviews & Thoughts</a></li><li><a href=/blog/tutorials/ class="masked-link big-mask mask-6" style=--rotation:-1.5deg>Tutorials</a></li><li><a href=/blog/videogames/ class="masked-link big-mask mask-6" style=--rotation:0.5deg>Videogames</a></li></ul></nav></header><main class="padding center-block"><article class=single-article><div class=thumbnail-media><figure class=thumb-image><picture><img src=windup_wizards_header.webp loading=lazy decoding=async alt="Thumbnail / Header for article: Windup Wizards" title="Thumbnail / Header for article: Windup Wizards" width=960 height=366></picture></figure></div><h1>Windup Wizards</h1><aside class=metadata><nav class=breadcrumbs><span class=metadata-label><span class=emoji>🥐</span> Breadcrumbs ||</span>
 <a href=https://pandaqi.com/blog/>Home</a>
 /
 <a href=https://pandaqi.com/blog/videogames/>Videogames</a>
@@ -43,7 +43,7 @@ would be something I&rsquo;d already coded before</p></li><li><p>Not likely to b
 that will basically only be played during the week after the jam,
 and then forgotten and buried.)</p></li></ul><h2 id=windup-wizards>Windup Wizards</h2><p>This was the idea: <strong>a puzzle game where everything in the level must be
 <em>wound up</em></strong> (like those old toys)<strong>, then <em>released</em> to do their
-action</strong>.</p><p><img src=screenshot1.webp alt="First level which also explains the core concept"></p><p>As for theme, I think it more than fitting enough:</p><ul><li><p>Why must you wind up everything? Because there&rsquo;s no electricity, no
+action</strong>.</p><p><figure class=inline-image><picture><img src=screenshot1.webp loading=lazy decoding=async alt="First level which also explains the core concept" title="First level which also explains the core concept" width=1920 height=1080></picture><figcaption class=side-note><span>First level which also explains the core concept</span></figcaption></figure></p><p>As for theme, I think it more than fitting enough:</p><ul><li><p>Why must you wind up everything? Because there&rsquo;s no electricity, no
 energy source.</p></li><li><p>In a sense, those toys are batteries/energy sources themselves</p></li><li><p>And to finish the thematic tie-ins, I made the story revolve around
 some creatures nibbling on our power cables, and you have to remove
 them.</p></li></ul><p>As for the rest:</p><ul><li><p>I couldn&rsquo;t find anything like this that&rsquo;s been done before.</p></li><li><p>I&rsquo;ve made big puzzle games in the past. Learning from that, it
@@ -99,7 +99,7 @@ even if they don&rsquo;t have the &ldquo;Move&rdquo; action themselves.</p><h3 i
 be a bit slow. (It takes many turns to get somewhere and do something.)</p><p>To solve this, I added <strong>support wizards</strong>. (Again, these started out as
 a separate class of entities, but then I changed it so you can toggle
 &ldquo;support = true/false&rdquo; on <em>any</em> wizard.)</p><p>They don&rsquo;t execute their action on themselves, but on <strong>all neighbors.</strong>
-(Horizontally and vertically. Diagonally was too much.)</p><p><img src=screenshot9.webp alt="Support wizards explaination level in final game"></p><p>Another solution was <strong>auto wizards</strong>. At the end of a player&rsquo;s move,
+(Horizontally and vertically. Diagonally was too much.)</p><p><figure class=inline-image><picture><img src=screenshot9.webp loading=lazy decoding=async alt="Support wizards explaination level in final game" title="Support wizards explaination level in final game" width=1920 height=1080></picture><figcaption class=side-note><span>Support wizards explaination level in final game</span></figcaption></figure></p><p>Another solution was <strong>auto wizards</strong>. At the end of a player&rsquo;s move,
 the game checks for any auto wizards which have energy ( = they&rsquo;ve been
 wound up at least once). Those automatically activate. <em>These are also
 great for the first few levels, to simplify the explanation</em>.</p><h3 id=static-knobs-are-boring>Static knobs are boring</h3><p>So far, wizards just start with one (or multiple) knobs in them, and it
@@ -258,7 +258,7 @@ seeing that it took 3 &ldquo;worlds&rdquo; to even get to the basic &ldquo;move 
 with &ldquo;suicide bunnies&rdquo;: when you wind them up, they self-destruct. Then
 I wouldn&rsquo;t have to explain the holes at the start. But I don&rsquo;t saw a
 good way to make this thematic, and &ldquo;suicide bunnies&rdquo; wasn&rsquo;t very nice
-either, so I left it.)</p><p><img src=screenshot7.webp alt="An overview of a world, with previews and UI"></p><h3 id=nope-more-troubles>Nope, more troubles</h3><p>I&rsquo;ve never made a puzzle game of this complexity before (behind the
+either, so I left it.)</p><p><figure class=inline-image><picture><img src=screenshot7.webp loading=lazy decoding=async alt="An overview of a world, with previews and UI" title="An overview of a world, with previews and UI" width=1920 height=1080></picture><figcaption class=side-note><span>An overview of a world, with previews and UI</span></figcaption></figure></p><h3 id=nope-more-troubles>Nope, more troubles</h3><p>I&rsquo;ve never made a puzzle game of this complexity before (behind the
 scenes), in such a short time frame, in 3D &mldr; and it shows.</p><p>Half my day was spent tracking down numerous bugs, both with the
 simulation (for generating puzzles) and the game itself.</p><p>For example, in games like these there&rsquo;s a (very important) order to
 operations. Player moves, which leads to A, which leads to B, which
@@ -326,7 +326,7 @@ all?</strong></p><ul><li><p>If something can&rsquo;t be activated (number = 0), 
 or lacks a certain effect (glow, particles, whatever).</p></li><li><p>If something is activated in reverse, its model and icon simply
 flip.</p></li><li><p>If something has a value > 1, we just <em>stack the model on top if
 itself</em>. (So a bunny with a number 3 &mldr; is just 3 bunnies on top of
-each other.)</p></li></ul><p><img src=screenshot8.webp alt="Image of stacking and graying applied in final game"></p><p>This is great for a number of reasons:</p><ul><li><p>Removes the need for ugly/occluding icons or UI overlaying the 3D
+each other.)</p></li></ul><p><figure class=inline-image><picture><img src=screenshot8.webp loading=lazy decoding=async alt="Image of stacking and graying applied in final game" title="Image of stacking and graying applied in final game" width=1920 height=1080></picture><figcaption class=side-note><span>Image of stacking and graying applied in final game</span></figcaption></figure></p><p>This is great for a number of reasons:</p><ul><li><p>Removes the need for ugly/occluding icons or UI overlaying the 3D
 world</p></li><li><p>Actually reversing the model is much more friendly to players than
 showing the &ldquo;-1&rdquo; number</p></li><li><p>Seeing 2 hats stacked is much more intuitive than reading a number</p></li><li><p>Stacking wizard hats on top of each other seems fitting and fun.</p></li></ul><p>I&rsquo;ll probably have to stack bunnies differently than hats, otherwise it
 looks weird. But I think this is the best way to go:</p><ul><li><p>3D model to show what a wizard <em>does</em></p></li><li><p>Stacking stuff to show how much they are powered up</p></li></ul><p>This is going to take <em>quite</em> some work to implement, but it&rsquo;s
@@ -344,7 +344,7 @@ matter how long I kept the simulation running, it just wouldn&rsquo;t find
 (good) puzzles.</p><p>Then I found out I&rsquo;d forgotten to put the attraction code inside a loop
 :p It only checked what was <em>right next to it</em>, instead of continuing
 until it saw something (or went out of bounds).</p><p>With that fixed, good puzzles came back within 5-10 seconds, and all was
-well.</p><p><img src=screenshot3.webp alt="Example of magnet world"></p><h3 id=the-knob-world>The knob world</h3><p>There were two things holding back puzzles now:</p><ul><li><p>Entities can&rsquo;t be rotated. That makes the solution more obvious
+well.</p><p><figure class=inline-image><picture><img src=screenshot3.webp loading=lazy decoding=async alt="Example of magnet world" title="Example of magnet world" width=1920 height=1080></picture><figcaption class=side-note><span>Example of magnet world</span></figcaption></figure></p><h3 id=the-knob-world>The knob world</h3><p>There were two things holding back puzzles now:</p><ul><li><p>Entities can&rsquo;t be rotated. That makes the solution more obvious
 <em>and</em> makes many puzzles fail (&ldquo;no solution possible&rdquo;) in the
 simulation.</p></li><li><p>Knobs are randomly added and don&rsquo;t change, which has the same
 consequence.</p></li></ul><p>I had to choose which one to address first. The &ldquo;Rotate&rdquo; entity only
@@ -354,7 +354,7 @@ are slightly more complex to explain and puzzle with.</p><p>So knobs it is!</p><
 &ldquo;knob inventory&rdquo;, probably in the top-left corner of the screen.)</p></li><li><p>Whenever you activate an entity, and you have a knob, it will be
 added <em>at the side you entered</em>.</p></li></ul><p>As such, <em>you</em> are responsible for adding the knobs to entities at the
 right positions. This leads to more open puzzles + less failed
-simulations due to the random setup.</p><p><img src=screenshot5.webp alt="Example of loose knobs world"></p><h3 id=more-animations>More animations</h3><p>By this point, some actions (which happen <em>a lot</em> in this game) were
+simulations due to the random setup.</p><p><figure class=inline-image><picture><img src=screenshot5.webp loading=lazy decoding=async alt="Example of loose knobs world" title="Example of loose knobs world" width=1920 height=1080></picture><figcaption class=side-note><span>Example of loose knobs world</span></figcaption></figure></p><h3 id=more-animations>More animations</h3><p>By this point, some actions (which happen <em>a lot</em> in this game) were
 looking a bit odd. Removing a bunny, for example, would just shove the
 hat into the bunny, then slowly scale down the bunny.</p><p>That&rsquo;s not great.</p><p>So I spent (way too much) time creating custom animations to:</p><ul><li><p>Lift the hat in advance</p></li><li><p>So the bunny moves under it</p></li><li><p>Then lower the hat to make the bunny disappear.</p></li></ul><p>In the same vein, when a stack is changed (multiple hats on top of each
 other), a new one pops up and does some &ldquo;squash-and-stretch&rdquo; animation
@@ -473,18 +473,18 @@ a way to activate them in the right order.</p><p>I should&rsquo;ve only added me
 special with the <em>winding up</em> idea and the <em>knobs.</em> That would&rsquo;ve kept
 it more unique and more &mldr; coherent, I guess.</p><p>But hey, learned a lot from that, and will apply it to the next
 (puzzle/3D) game I make.</p><p>Until the next devlog,
-Pandaqi</p></div></article><div><nav class=pagination><ul><li><a href=/blog/videogames/game-jams/devlog-ho-ho-sombrero/ class="masked-link big-mask mask-4" style=--rotation:-1deg>&lt;&lt; Previous Page</a></li><li>Continue reading</li><li><a href=/blog/videogames/game-jams/less-is-store/ class="masked-link big-mask mask-2" style=--rotation:1.5deg>>> Next Page</a></li></ul></nav></div></main><footer id=site-footer><div class="padding center-block"><h3>More Pandaqi</h3><p>You could <a href=https://pandaqi.com>visit the game studio</a>.
+Pandaqi</p></div></article><div><nav class=pagination><ul><li><a href=/blog/videogames/game-jams/devlog-ho-ho-sombrero/ class="masked-link big-mask mask-4" style=--rotation:0.5deg>&lt;&lt; Previous Page</a></li><li>Continue reading</li><li><a href=/blog/videogames/game-jams/less-is-store/ class="masked-link big-mask mask-8" style=--rotation:1deg>>> Next Page</a></li></ul></nav></div></main><footer id=site-footer><div class="padding center-block"><h3>More Pandaqi</h3><p>You could <a href=https://pandaqi.com>visit the game studio</a>.
 Or my <a href=https://pandaqi.com/tutorials/>free tutorial website</a>.
-Or my <a href=https://rodepanda.com/>portfolio</a> with easy access to absolutely everything I ever made.</p><h3>Latest</h3><nav class=latest><ul><li><a href=/blog/boardgames/photomone/>Photomone
+Or my <a href=https://rodepanda.com/>portfolio</a> with easy access to absolutely everything I ever made.</p><h3>Latest</h3><nav class=latest><ul><li><a href=/blog/boardgames/photomone-antsassins/>Photomone: Antsassins
+(🐜)</a></li><li><a href=/blog/boardgames/photomone-digital-antists/>Photomone: Digital Antists
+(🐜)</a></li><li><a href=/blog/boardgames/photomone/>Photomone
 (🐜)</a></li><li><a href=/blog/boardgames/keebble-domino/>Keebble: Domino
 (📗)</a></li><li><a href=/blog/boardgames/keebble-knickknack/>Keebble: Knickknack
 (📘)</a></li><li><a href=/blog/videogames/game-jams/less-is-store/>Less is Store
-(🛍️)</a></li><li><a href=/blog/tutorials/placing-grids-within-spaces/>Placing grids within spaces</a></li><li><a href=/blog/boardgames/thats-amorphe-pictures/>That's Amorphe: Pictures
+(🛍️)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-2023-update-iii/>Pandaqi Games: 2023 Update (III)
+(🎮)</a></li><li><a href=/blog/tutorials/placing-grids-within-spaces/>Placing grids within spaces</a></li><li><a href=/blog/boardgames/thats-amorphe-pictures/>That's Amorphe: Pictures
 (🖌️)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-2023-update-ii/>Pandaqi Games: 2023 Update (II)
-(🎮)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-2023-update-iii/>Pandaqi Games: 2023 Update (III)
-(🎮)</a></li><li><a href=/blog/news-and-updates/pq-daw/>PQ_DAW: A music editor for the web
-(🎼)</a></li><li><a href=/blog/news-and-updates/pq-words/>PQ_WORDS: A dictionary for games
-(📋)</a></li></ul></nav><h3>Sections</h3><nav><ul><li><a href=/blog/boardgames/>Boardgames
+(🎮)</a></li></ul></nav><h3>Sections</h3><nav><ul><li><a href=/blog/boardgames/>Boardgames
 (🎲)</a></li><li><a href=/blog/news-and-updates/>News & Updates
 (📢)</a></li><li><a href=/blog/reviews-and-thoughts/>Reviews & Thoughts
 (💭)</a></li><li><a href=/blog/tutorials/>Tutorials

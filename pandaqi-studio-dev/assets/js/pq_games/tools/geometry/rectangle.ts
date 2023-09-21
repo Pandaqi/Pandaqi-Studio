@@ -71,10 +71,29 @@ export default class Rectangle extends Shape
         return elem;
     }
 
+    fromTopLeft(pos:Point, size:Point)
+    {
+        this.center = pos.clone().add(size.clone().scaleFactor(0.5));
+        this.extents = size.clone();
+        return this;
+    }
+
+    fromBottomRight(pos:Point, size:Point)
+    {
+        this.center = pos.clone().sub(size.clone().scaleFactor(0.5));
+        this.extents = size.clone();
+        return this;
+    }
+
     getPositionWithOffset(off:Point) : Point
     {
         const offset = this.extents.clone().scale(off).scaleFactor(0.5);
         return this.center.clone().add(offset);
+    }
+
+    getSize()
+    {
+        return this.extents.clone();
     }
 
     getTopLeft()

@@ -9,6 +9,9 @@ import PointGraph from "js/pq_games/tools/geometry/pointGraph";
 import shuffle from "js/pq_games/tools/random/shuffle";
 import Route from "../route";
 import fromArray from "js/pq_games/tools/random/fromArray";
+import getWeightedByIndex from "js/pq_games/tools/random/getWeightedByIndex";
+import { pointIsInsideRectangle } from "js/pq_games/tools/geometry/intersection/pointInsideShape";
+import clamp from "js/pq_games/tools/numbers/clamp";
 
 class RequiredArea
 {
@@ -38,7 +41,6 @@ export default class GeneratorDelaunay
 {
     boardState: BoardState;
     points: PointGraph[];
-    routes: Route[];
 
     constructor(bs:BoardState)
     {
@@ -50,15 +52,14 @@ export default class GeneratorDelaunay
         const cities = this.placeCities();
         const citiesGraph = this.triangulate(cities);
         const pointsRelaxed = this.relaxPoints(citiesGraph);
-        const routes = this.createRoutesFromPoints(pointsRelaxed);
-        const routesColored = this.assignTypesToRoutes(routes);
         this.points = pointsRelaxed;
-        this.routes = routesColored;
+        return pointsRelaxed;
     }
 
     placeCities()
     {
-        const numCities = rangeInteger(CONFIG.generation.numCityBounds);
+        const numCityFactor = CONFIG.generation.numCityMultipliers[CONFIG.boardSize];
+        const numCities = Math.round(rangeInteger(CONFIG.generation.numCityBounds) * numCityFactor);
         const m = 0.33;
         const requiredAreas = [
             new RequiredArea(0, 0, m, m),
@@ -91,9 +92,15 @@ export default class GeneratorDelaunay
         do {
             pos = new Point(Math.random(), Math.random()).scale(dims);
             badPos = this.getDistToClosest(pos, list) < this.getMinDistance();
+            badPos = badPos || this.insideTrajectoryRectangle(pos);
             numTries++;
         } while(badPos && numTries <= 100);
         return pos;
+    }
+
+    insideTrajectoryRectangle(pos:Point)
+    {
+        return pointIsInsideRectangle(pos, this.boardState.trajectories.rectangle);
     }
 
     getDistToClosest(pos:Point, list:Point[])
@@ -123,6 +130,7 @@ export default class GeneratorDelaunay
 
         // reconstruct connections from delaunay results
         let numConnections = 0;
+        const numCities = citiesGraph.length;
         for(let i = 0; i < citiesGraph.length; i++)
         {
             const c1 = citiesGraph[i];
@@ -141,26 +149,30 @@ export default class GeneratorDelaunay
         // filter this list
         // take away connections from those that have the most
         // but never leave anything with too few connections
-        const connsToRemove = Math.floor(CONFIG.generation.connRemovePercentage * numConnections);
-        const minConns = CONFIG.generation.minConnectionsPerPoint;
+        const connBounds = CONFIG.generation.connectionBounds
+        const connBoundsClamped = { 
+            min: Math.max(connBounds.min * numCities, numConnections),
+            max: Math.min(connBounds.max * numCities, numConnections)
+        }
+        const numIdealConnections = rangeInteger(connBoundsClamped);
+
+        const connsToRemove = numConnections - numIdealConnections;
+        const minConnsPerPoint = CONFIG.generation.minConnectionsPerPoint;
         let connsRemoved = 0;
-        let numTries = 0;
         while(connsRemoved < connsToRemove)
         {
-            numTries++;
             citiesGraph.sort((a,b) => {
                 return b.getConnections().length - a.getConnections().length
             })
 
-            let randIdx = rangeInteger(0, 5);
-            if(numTries >= 100) { randIdx = rangeInteger(0, citiesGraph.length-1); }
+            let randIdx = getWeightedByIndex(citiesGraph, true);
 
             const city = citiesGraph[randIdx];
             if(city.countConnections() <= 0) { break; } // @TODO: should really stop generation entirely because everything needs a connection, right?
 
             const randConnIdx = rangeInteger(0, city.countConnections()-1);
             const conn = city.getConnectionByIndex(randConnIdx);
-            if(conn.countConnections() <= minConns || city.countConnections() <= minConns) { continue; }
+            if(conn.countConnections() <= minConnsPerPoint || city.countConnections() <= minConnsPerPoint) { continue; }
 
             city.removeConnectionByIndex(randConnIdx);
             connsRemoved++;
@@ -183,8 +195,10 @@ export default class GeneratorDelaunay
     {
         if(p1.isConnectedTo(p2) || p2.isConnectedTo(p1)) { return false; }
 
+        const distBuffer = CONFIG.generation.maxBlocksOverflowBeforeRelaxation;
+
         const dist = p1.distTo(p2);
-        if(dist > this.getMaxDistance()) { return false; }
+        if(dist > (this.getMaxDistance()+distBuffer)) { return false; }
 
         const vec = p1.vecTo(p2).normalize();
 
@@ -232,7 +246,8 @@ export default class GeneratorDelaunay
                     const vecNorm = vecTo.clone().normalize();
 
                     const rawLength = dist - 2*CONFIG.generation.cityRadius;
-                    const idealLength = Math.round(rawLength) + 2*CONFIG.generation.cityRadius;
+                    let idealLength = Math.min(Math.round(rawLength) + 2*CONFIG.generation.cityRadius, this.getMaxDistance());
+
                     let change = 0.5 * (dist - idealLength);
                     change *= iterationDampingFactor;
 
@@ -245,73 +260,33 @@ export default class GeneratorDelaunay
             for(const p1 of arr)
             {
                 const off = p1.metadata.offset;
-                p1.move(off);
-                p1.clamp(new Point(), this.boardState.dims);
+                const posNew = p1.clone();
+                posNew.move(off);
+                posNew.clamp(new Point(), this.boardState.dims);
+
+                if(this.insideTrajectoryRectangle(posNew)) { continue; }
+                p1.set(posNew);
             }
         }
 
         return arr;
     }
 
-    routeAlreadyRegistered(needle:Route, haystack:Route[])
+    generatePost(points)
     {
-        for(const route of haystack)
-        {
-            if(route.matches(needle)) { return true; }
-        }
-        return false;
+        this.assignVisitorSpots(points);
     }
 
-    createRoutesFromPoints(points:PointGraph[])
+    assignVisitorSpots(points)
     {
-        const routes = [];
+        const spotBounds = CONFIG.generation.visitorSpotBounds;
+
         for(const point of points)
         {
-            for(const conn of point.getConnections())
-            {
-                const r = new Route(point, conn);
-                if(this.routeAlreadyRegistered(r, routes)) { continue; }
-                routes.push(r);
-            }
+            const numSpotsPerRoute = range(CONFIG.generation.numVisitorSpotsPerRoute);
+            const numRoutes = point.metadata.routes.length;
+            const numSpots = clamp(numRoutes * numSpotsPerRoute, spotBounds.min, spotBounds.max);
+            point.metadata.numVisitorSpots = Math.round(numSpots);
         }
-        return routes;
-    }
-
-    assignTypesToRoutes(routes:Route[])
-    {
-        const numTypes = CONFIG.generation.numBlockTypes;
-        const numTypeUsed = new Array(numTypes).fill(0);
-        const routesSorted = routes.slice();
-
-        routesSorted.sort((a,b) => {
-            return b.getBlockLength() - a.getBlockLength()
-        })
-
-        for(const route of routesSorted)
-        {
-            const type = this.pickLeastUsedType(numTypeUsed);
-            route.type = type;
-            numTypeUsed[type] += route.getBlockLength();
-        }
-
-        return routesSorted;
-    }
-
-    pickLeastUsedType(stats:number[])
-    {
-        let lowestNumber = Infinity;
-        for(let i = 0; i < stats.length; i++)
-        {
-            lowestNumber = Math.min(lowestNumber, stats[i]);
-        }
-
-        const options = [];
-        for(let i = 0; i < stats.length; i++)
-        {
-            if(stats[i] != lowestNumber) { continue; }
-            options.push(i);
-        }
-
-        return fromArray(options);
     }
 }

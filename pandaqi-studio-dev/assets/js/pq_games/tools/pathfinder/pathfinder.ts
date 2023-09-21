@@ -2,23 +2,26 @@ import PointGraph from "../geometry/pointGraph";
 import PriorityQueue from "./priorityQueue"
 import Random from "js/pq_games/tools/random/main"
 
-const baseCfg = {
-	cost: 1,
-	costFunction: (params:Record<string,any>) => { return params.score; },
-	costMap: new Map(),
-	forbiddenPoints: [], // goes via ID
-	forbiddenLines: [], // goes via ID
-	heuristic: 0,
-	heuristicFunction: (params:Record<string,any>) => { return params.heuristic; },
-	heuristicDistance: true
-}
-
 interface PointValid 
 {
-	id?: number,
+	id?: number|string,
 	x?: number,
 	y?: number,
 	gridPos?: { x:number, y:number }
+}
+
+interface PathFinderParams
+{
+	cost?:number,
+	costFunction?:(params) => number,
+	costMap?:Map<string,number>,
+
+	forbiddenPoints?:string[],
+	forbiddenLines?:string[],
+
+	heuristic?:number,
+	heuristicFunction?:(params) => number,
+	heuristicDistance?:boolean
 }
 
 interface PathFindParams
@@ -27,21 +30,50 @@ interface PathFindParams
 	end?: PointGraph
 }
 
-export default class Pathfinder 
+export default class PathFinder 
 {
-	baseCfg:Record<string,any>
-	cfg:Record<string,any>
+	cost:number
+	costFunction: (params) => number
+	costMap:Map<string, number>
 
-	constructor() 
+	// these go via ID
+	forbiddenPoints:string[]
+	forbiddenLines:string[]
+
+	heuristic:number
+	heuristicFunction: (params) => number
+	heuristicDistance:boolean
+	neighborFunction: (point: PointGraph) => PointGraph[];
+
+	constructor(params) 
 	{ 
-		this.baseCfg = baseCfg; 
-		this.setConfig(); 
+		this.setConfig(params);
+	}
+
+	setConfig(params:PathFinderParams)
+	{
+		this.cost = params.cost ?? 1;
+		this.costMap = params.costMap ?? new Map();
+
+		const defaultCostFunction = (params:Record<string,any>) => { return params.score; }
+		this.costFunction = params.costFunction ?? defaultCostFunction;
+
+		this.forbiddenPoints = params.forbiddenPoints ?? [];
+		this.forbiddenLines = params.forbiddenLines ?? [];
+
+		this.heuristic = params.heuristic ?? 0;
+		const defaultHeuristicFunction = (params:Record<string,any>) => { return params.heuristic; };
+		this.heuristicFunction = params.heuristicFunction ?? defaultHeuristicFunction;
+		this.heuristicDistance = params.heuristicDistance ?? true;
+
+		const defaultNeighborFunction = (point:PointGraph) => { return point.getNeighbors(); }
+		this.neighborFunction = defaultNeighborFunction;
 	}
 
 	getRandomWeight(params:any)
 	{
-		const min = params.min || 0;
-		const max = params.max || 1;
+		const min = params.min ?? 0;
+		const max = params.max ?? 1;
 		return Random.range(min, max);
 	}
 
@@ -64,16 +96,9 @@ export default class Pathfinder
 		return costMap;
 	}
 
-	setConfig(params = {}) 
-	{ 
-		const configCopy = Object.assign({}, baseCfg);
-		this.cfg = Object.assign(configCopy, params);
-		return this;
-	}
-
-	getID(point:PointValid)
+	getID(point:PointValid) : string
 	{
-		if("id" in point) { return point.id; }
+		if("id" in point) { return point.id.toString(); }
 		if("gridPos" in point) { return point.gridPos.x + "-" + point.gridPos.y; }
 		return Math.round(point.x*10)/10 + "-" + Math.round(point.y*10)/10;
 	}
@@ -86,35 +111,40 @@ export default class Pathfinder
 	getTravelCost(from:PointValid, to:PointValid)
 	{
 		const id = this.getConnectionID(from, to);
-		let score = (this.cfg.costMap.get(id) || this.cfg.cost) || 1;
+		let score = (this.costMap.get(id) ?? this.cost) ?? 1;
 		const params = { from: from, to: to, score: score };
-		score = this.cfg.costFunction(params);
+		score = this.costFunction(params);
 		return score;
 	}
 
 	getHeuristic(from:PointValid, to:PointValid, start:PointValid, end:PointValid)
 	{
-		let heuristic = this.cfg.heuristic;
+		let heuristic = this.heuristic;
 
 		// the A* heuristic that makes it fast
-		if(this.cfg.heuristicDistance)
+		if(this.heuristicDistance)
 		{
 			const dX = Math.abs(to.x - end.x);
 			const dY = Math.abs(to.y - end.y);
-			let heuristic = (dX + dY);
+			heuristic = (dX + dY);
 		}
 
 		const params = { from: from, to: to, start: start, end: end, heuristic: heuristic };
-		heuristic = this.cfg.heuristicFunction(params)
+		heuristic = this.heuristicFunction(params)
 		return heuristic;
+	}
+
+	getNeighbors(point:PointGraph)
+	{
+		return this.neighborFunction(point);
 	}
 
 	getPath(params:PathFindParams = {})
 	{
-		const start = params.start || null;
-		const end = params.end || null;
+		const start = params.start;
+		const end = params.end;
 	
-		if(!start || !end) { return console.error("Can't pathfind without start and end points"); }
+		if(!start || !end) { console.error("Can't pathfind without start and end points"); return[]; }
 	
 		const Q = new PriorityQueue();
 	
@@ -128,7 +158,8 @@ export default class Pathfinder
 		costSoFar.set(startLabel, 0);
 	
 		let reachable = false;
-		while(!Q.isEmpty()) {
+		while(!Q.isEmpty()) 
+		{
 			const currentPoint = Q.get();
 			const currentLabel = this.getID(currentPoint);
 			tilesChecked.set(currentLabel, true);
@@ -137,15 +168,15 @@ export default class Pathfinder
 			const isEndPoint = (currentPoint == end);
 			if(isEndPoint) { reachable = true; break; }
 
-			const nbs = currentPoint.getNeighbors();
+			const nbs = this.getNeighbors(currentPoint);
 			for(const nb of nbs)
 			{
 				const id = this.getID(nb);
-				const isForbidden = this.cfg.forbiddenPoints.includes(id);
+				const isForbidden = this.forbiddenPoints.includes(id);
 				if(isForbidden) { continue; }
 
 				const connID = this.getConnectionID(currentPoint, nb);
-				const connectionIsForbidden = this.cfg.forbiddenLines.includes(connID);
+				const connectionIsForbidden = this.forbiddenLines.includes(connID);
 				if(connectionIsForbidden) { continue; }
 
 				const newCost = costSoFar.get(currentLabel) + this.getTravelCost(currentPoint, nb);

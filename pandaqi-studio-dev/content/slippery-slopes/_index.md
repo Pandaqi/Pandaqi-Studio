@@ -23,3 +23,5 @@ extraJSGame: true
 {{< /boardgame-settings >}}
 
 {{% /section-centered %}}
+
+CREDITS = Frauces font (super soft variation) for body, Super Funtime for headers. A sort of spiritual successor to my That's Amorphe games, only delayed because I was too busy to make it back then (and ran into some problems I didn't know how to solve back then).

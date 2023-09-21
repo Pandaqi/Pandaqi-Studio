@@ -1,7 +1,7 @@
 import RandomWalk from "../../tools/randomWalk"
 import RandomWalkPathfind from "../../tools/randomWalkPathfind"
 import Random from "js/pq_games/tools/random/main"
-import Pathfinder from "js/pq_games/tools/pathfinder/pathfinder"
+import PathFinder from "js/pq_games/tools/pathFinder/pathFinder"
 
 export default class LineGenerator
 {
@@ -31,7 +31,7 @@ export default class LineGenerator
     {
         this.randomWalks = {};
 
-        const pathfinder = new Pathfinder();
+        const pathfinder = new PathFinder();
         const costMap = pathfinder.assignRandomWeights({ map: config.gridPoints });
         config.randomWalk.costMap = costMap;
         config.randomWalk.dotsBetweenDist = config.shape.getDistToNeighbour(config.tiles.gridResolution);

@@ -5,6 +5,7 @@ import BoardState from "./boardState"
 import BoardDisplay from "./boardDisplay"
 import Evaluator from "./evaluator"
 import CONFIG from "./config"
+import Point from "js/pq_games/tools/geometry/point"
 
 const sceneKey = "boardGeneration"
 
@@ -36,7 +37,7 @@ class BoardGeneration extends Scene
         this.setup(userConfig)
         await this.generate();
         this.draw();
-        PandaqiPhaser.convertCanvasToImage(this);
+        PandaqiPhaser.convertCanvasToImage(this, CONFIG.convertParameters);
     }
 
     setup(userConfig:Record<string,any>)
@@ -45,6 +46,7 @@ class BoardGeneration extends Scene
         this.evaluator = new Evaluator();
         this.boardDisplay = new BoardDisplay(this);
         CONFIG.boardDisplay = this.boardDisplay;
+        CONFIG.convertParameters.splitDims = CONFIG.printSize;
     }
 
     async generate()

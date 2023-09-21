@@ -20,6 +20,12 @@ extraJS: true
 {{< boardgame-settings type="board" local_storage="aeronautOdysseyConfig" >}}
 	{{< setting-hidden id="setting-gameTitle" text="Aeronaut Oddysey" >}}
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the board mostly grayscale." >}}
+  {{< setting-enum id="setting-boardSize" text="Board Size?" values="tiny,small,regular,large,huge" valaskey="true" def="regular" remark="How many cities and routes to place." >}}
+  {{< setting-enum id="setting-printSize" text="Print Size?" values="1 page, 4 pages, 9 pages" keys="1x1,2x2,3x3" def="1x1" >}}
+  <h3>Expansions</h3>
+  {{< setting-checkbox id="setting-trajectories" text="Trajectories?" remark="Get points for completing specific routes." >}}
+  {{< setting-checkbox id="setting-bonusBalloons" text="Bonus Balloons?" remark="Some routes have a bonus or penalty for using it." >}}
+  {{< setting-checkbox id="setting-multiRoutes" text="Multi Routes?" remark="Some routes require players to collaborate to complete them." >}}
 {{< /boardgame-settings >}}
 
 {{% /section-centered %}}

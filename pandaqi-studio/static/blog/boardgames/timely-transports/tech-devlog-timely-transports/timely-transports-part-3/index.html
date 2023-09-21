@@ -1,4 +1,4 @@
-<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><title>Timely Transports (Part 3) | Pandaqi Blog</title><link rel=icon type=image/png href=https://pandaqi.com/blog//favicon.png><link rel=stylesheet type=text/css href=/blog/css/critical.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin></head><body><header id=site-header><nav class=menu><ul><li><a href=https://pandaqi.com/blog/ class="masked-link big-mask mask-7" style=--rotation:1deg>Home</a></li><li><a href=/blog/boardgames/ class="masked-link big-mask mask-6" style=--rotation:1deg>Boardgames</a></li><li><a href=/blog/news-and-updates/ class="masked-link big-mask mask-6" style=--rotation:-0.5deg>News & Updates</a></li><li><a href=/blog/reviews-and-thoughts/ class="masked-link big-mask mask-7" style=--rotation:1deg>Reviews & Thoughts</a></li><li><a href=/blog/tutorials/ class="masked-link big-mask mask-6" style=--rotation:0deg>Tutorials</a></li><li><a href=/blog/videogames/ class="masked-link big-mask mask-3" style=--rotation:0.5deg>Videogames</a></li></ul></nav></header><main class="padding center-block"><article class=single-article><div class=thumbnail-media><img src=../../timely-transports-header.webp></div><h1>Timely Transports (Part 3)</h1><aside class=metadata><nav class=breadcrumbs><span class=metadata-label><span class=emoji>🥐</span> Breadcrumbs ||</span>
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><title>Timely Transports (Part 3) | Pandaqi Blog</title><link rel=icon type=image/png href=https://pandaqi.com/blog//favicon.png><link rel=stylesheet type=text/css href=/blog/css/critical.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin></head><body><header id=site-header><nav class=menu><ul><li><a href=https://pandaqi.com/blog/ class="masked-link big-mask mask-8" style=--rotation:0.5deg>Home</a></li><li><a href=/blog/boardgames/ class="masked-link big-mask mask-2" style=--rotation:0deg>Boardgames</a></li><li><a href=/blog/news-and-updates/ class="masked-link big-mask mask-8" style=--rotation:1deg>News & Updates</a></li><li><a href=/blog/reviews-and-thoughts/ class="masked-link big-mask mask-5" style=--rotation:2deg>Reviews & Thoughts</a></li><li><a href=/blog/tutorials/ class="masked-link big-mask mask-3" style=--rotation:0deg>Tutorials</a></li><li><a href=/blog/videogames/ class="masked-link big-mask mask-7" style=--rotation:1deg>Videogames</a></li></ul></nav></header><main class="padding center-block"><article class=single-article><div class=thumbnail-media><figure class=thumb-image><picture><img src=../../timely-transports-header.webp loading=lazy decoding=async alt="Thumbnail / Header for article: Timely Transports (Part 3)" title="Thumbnail / Header for article: Timely Transports (Part 3)" width=2481 height=877></picture></figure></div><h1>Timely Transports (Part 3)</h1><aside class=metadata><nav class=breadcrumbs><span class=metadata-label><span class=emoji>🥐</span> Breadcrumbs ||</span>
 <a href=https://pandaqi.com/blog/>Home</a>
 /
 <a href=https://pandaqi.com/blog/boardgames/>Boardgames</a>
@@ -14,7 +14,7 @@
 complex</em>. It&rsquo;s one of the few algorithms to do that &ndash; most get slower
 and more unwieldy when there&rsquo;s more stuff.</p><p>So, I created a <em>second noise map</em>, and used this to place forests
 around the world. That&rsquo;s how I get these &ldquo;blobs&rdquo; of forest, which looks
-significantly better than just placing random trees all over the map.</p><p><img src=timely-trans-tech-8.webp alt="Forests all over the map"></p><p>I also looped through all tiles again to determine random <em>tree types</em>
+significantly better than just placing random trees all over the map.</p><p><figure class=inline-image><picture><img src=timely-trans-tech-8.webp loading=lazy decoding=async alt="Forests all over the map" title="Forests all over the map" width=1157 height=797></picture><figcaption class=side-note><span>Forests all over the map</span></figcaption></figure></p><p>I also looped through all tiles again to determine random <em>tree types</em>
 for each forest. It is, again, a quite naïve approach that works:</p><blockquote><p>&ldquo;Hey, I am a tree, and there&rsquo;s another tree next to me! Let&rsquo;s set <em>my
 type</em> to the type of that <em>other tree!</em>&rdquo;</p></blockquote><p>This way, each connected set of trees will eventually have an identical
 type.</p><p>With trees in the world, my pathfinding algorithm had way less space,
@@ -117,12 +117,12 @@ cities). Similarly, displaying the goods <em>above</em> the city name also
 allowed the situation where two cities overlapped each other.</p><p>I eventually ended with the following setup:</p><ul><li><p>The city icon is <em>literally</em> the player shape, so it&rsquo;s hard to miss</p></li><li><p>The city name is <em>underneath</em> the city.</p></li><li><p>The goods are <em>above</em> the city.</p></li><li><p>If there&rsquo;s an airport, it becomes a <em>thick underline</em> (with a &ldquo;wings
 pattern&rdquo;) underneath the city name.</p></li></ul><p>Because all elements are spaced <em>around</em> the city, and cities are at
 least X squares apart (as mandated by my generation algorithm), it
-(almost) never happens that something overlaps.</p><p><img src=timely-trans-tech-9.webp alt="Information placement around cities (name, airport, goods)"></p><h2 id=placing-airports>Placing Airports</h2><p>One final problem remained: where should the airports go?</p><p>Currently, they were placed on any city without connection, and then
+(almost) never happens that something overlaps.</p><p><figure class=inline-image><picture><img src=timely-trans-tech-9.webp loading=lazy decoding=async alt="Information placement around cities (name, airport, goods)" title="Information placement around cities (name, airport, goods)" width=891 height=630></picture><figcaption class=side-note><span>Information placement around cities (name, airport, goods)</span></figcaption></figure></p><h2 id=placing-airports>Placing Airports</h2><p>One final problem remained: where should the airports go?</p><p>Currently, they were placed on any city without connection, and then
 randomly on some other cities (with 20% probability or so). But that
 didn&rsquo;t fix anything.</p><p>Instead, once generation is done, we usually end up with several
 &ldquo;groups&rdquo; of connected cities. See the image below: all cities on the
 left are their own group, cut off from the cities on the right. (And
-that&rsquo;s why the generator placed an airport on Bisto and Camor.)</p><p><img src=timely-trans-tech-10.webp alt="Two disconnected city groups"></p><p>To always connect these, without fail, I needed <em>one airport per
+that&rsquo;s why the generator placed an airport on Bisto and Camor.)</p><p><figure class=inline-image><picture><img src=timely-trans-tech-10.webp loading=lazy decoding=async alt="Two disconnected city groups" title="Two disconnected city groups" width=891 height=630></picture><figcaption class=side-note><span>Two disconnected city groups</span></figcaption></figure></p><p>To always connect these, without fail, I needed <em>one airport per
 &ldquo;connection group&rdquo;</em>.</p><p>Thus, when adding connections, I kept track of a &ldquo;connectionGroup&rdquo;
 variable on each city. When you connect with another city that already
 has a group, you copy it. If that doesn&rsquo;t happen, you start a new group
@@ -219,7 +219,7 @@ check fails, the path is <em>not allowed at all</em> to merge with an existing
 path.</p><p>(It&rsquo;s a bit of a hacky way to do this, creating a pathfinding algorithm
 based on <em>chance</em>, but it works really well.)</p><p>The second problem were these &ldquo;ugly boxes&rdquo; (as I&rsquo;ve come to call them in
 the code). Parts of the map where these useless rectangles appeared (see
-top center, around Camorr):</p><p><img src=timely-trans-tech-11.webp alt="Ugly rectangles and stuff"></p><p>There&rsquo;s no reason for these paths to create such rectangles &ndash; it
+top center, around Camorr):</p><p><figure class=inline-image><picture><img src=timely-trans-tech-11.webp loading=lazy decoding=async alt="Ugly rectangles and stuff" title="Ugly rectangles and stuff" width=1187 height=802></picture><figcaption class=side-note><span>Ugly rectangles and stuff</span></figcaption></figure></p><p>There&rsquo;s no reason for these paths to create such rectangles &ndash; it
 wouldn&rsquo;t happen on a real map &ndash; so I tried to prevent these as much as
 possible.</p><p>How? By sweeping over the whole map (all tiles, one by one), checking
 the neighbours for such an ugly rectangle, and then checking <em>if one of
@@ -310,18 +310,18 @@ I&rsquo;m not quite certain if it will work, but you can think of it as
 &ldquo;random generation for board games &mldr; <em>on steroids!</em>&rdquo;)</p><p>This game heavily relies on a <em>grid</em>, some <em>noise</em> and <em>pathfinding</em>.
 I&rsquo;ve done this a few times now, so I want to try something else! The
 next games will probably feature different methods of random world/map
-generation.</p><p>Thanks for reading, until the next devlog,</p><p>Pandaqi</p></div></article><div><nav class=pagination><ul><li><a href=/blog/boardgames/timely-transports/tech-devlog-timely-transports/timely-transports-part-2/ class="masked-link big-mask mask-4" style=--rotation:-1.5deg>&lt;&lt; Previous Page</a></li><li>Continue reading</li><li><span class=nav-disabled>No next page :(</span></li></ul></nav></div></main><footer id=site-footer><div class="padding center-block"><h3>More Pandaqi</h3><p>You could <a href=https://pandaqi.com>visit the game studio</a>.
+generation.</p><p>Thanks for reading, until the next devlog,</p><p>Pandaqi</p></div></article><div><nav class=pagination><ul><li><a href=/blog/boardgames/timely-transports/tech-devlog-timely-transports/timely-transports-part-2/ class="masked-link big-mask mask-8" style=--rotation:-1.5deg>&lt;&lt; Previous Page</a></li><li>Continue reading</li><li><span class=nav-disabled>No next page :(</span></li></ul></nav></div></main><footer id=site-footer><div class="padding center-block"><h3>More Pandaqi</h3><p>You could <a href=https://pandaqi.com>visit the game studio</a>.
 Or my <a href=https://pandaqi.com/tutorials/>free tutorial website</a>.
-Or my <a href=https://rodepanda.com/>portfolio</a> with easy access to absolutely everything I ever made.</p><h3>Latest</h3><nav class=latest><ul><li><a href=/blog/boardgames/photomone/>Photomone
+Or my <a href=https://rodepanda.com/>portfolio</a> with easy access to absolutely everything I ever made.</p><h3>Latest</h3><nav class=latest><ul><li><a href=/blog/boardgames/photomone-antsassins/>Photomone: Antsassins
+(🐜)</a></li><li><a href=/blog/boardgames/photomone-digital-antists/>Photomone: Digital Antists
+(🐜)</a></li><li><a href=/blog/boardgames/photomone/>Photomone
 (🐜)</a></li><li><a href=/blog/boardgames/keebble-domino/>Keebble: Domino
 (📗)</a></li><li><a href=/blog/boardgames/keebble-knickknack/>Keebble: Knickknack
 (📘)</a></li><li><a href=/blog/videogames/game-jams/less-is-store/>Less is Store
-(🛍️)</a></li><li><a href=/blog/tutorials/placing-grids-within-spaces/>Placing grids within spaces</a></li><li><a href=/blog/boardgames/thats-amorphe-pictures/>That's Amorphe: Pictures
+(🛍️)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-2023-update-iii/>Pandaqi Games: 2023 Update (III)
+(🎮)</a></li><li><a href=/blog/tutorials/placing-grids-within-spaces/>Placing grids within spaces</a></li><li><a href=/blog/boardgames/thats-amorphe-pictures/>That's Amorphe: Pictures
 (🖌️)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-2023-update-ii/>Pandaqi Games: 2023 Update (II)
-(🎮)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-2023-update-iii/>Pandaqi Games: 2023 Update (III)
-(🎮)</a></li><li><a href=/blog/news-and-updates/pq-daw/>PQ_DAW: A music editor for the web
-(🎼)</a></li><li><a href=/blog/news-and-updates/pq-words/>PQ_WORDS: A dictionary for games
-(📋)</a></li></ul></nav><h3>Sections</h3><nav><ul><li><a href=/blog/boardgames/>Boardgames
+(🎮)</a></li></ul></nav><h3>Sections</h3><nav><ul><li><a href=/blog/boardgames/>Boardgames
 (🎲)</a></li><li><a href=/blog/news-and-updates/>News & Updates
 (📢)</a></li><li><a href=/blog/reviews-and-thoughts/>Reviews & Thoughts
 (💭)</a></li><li><a href=/blog/tutorials/>Tutorials

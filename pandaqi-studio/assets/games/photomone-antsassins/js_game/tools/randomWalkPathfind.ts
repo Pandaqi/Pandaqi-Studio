@@ -1,4 +1,4 @@
-import Pathfinder from "js/pq_games/tools/pathfinder/pathfinder"
+import PathFinder from "js/pq_games/tools/pathFinder/pathFinder"
 import Random from "js/pq_games/tools/random/main"
 import Point from "../shapes/point"
 import Line from "../shapes/line"
@@ -9,7 +9,7 @@ export default class RandomWalkPathfind
     failed: boolean;
     halved: boolean;
     tooLong: boolean;
-    pathfinder: Pathfinder;
+    pathfinder: PathFinder;
     dotsBetween: any[];
     hairs: any[];
     shapesAttached: any[];
@@ -20,7 +20,7 @@ export default class RandomWalkPathfind
         this.failed = false;
         this.halved = false;
         this.tooLong = false;
-        this.pathfinder = new Pathfinder();
+        this.pathfinder = new PathFinder();
         this.dotsBetween = [];
         this.hairs = [];
         this.shapesAttached = [];

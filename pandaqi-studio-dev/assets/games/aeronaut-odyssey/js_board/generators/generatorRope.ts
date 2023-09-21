@@ -23,6 +23,7 @@ export default class GeneratorRope
         points = await this.relaxPoints(points);
         this.connectCities(points);
         this.points = points;
+        return points;
     }
 
     createPoints()
@@ -163,6 +164,11 @@ export default class GeneratorRope
 
         // now pathfind our way to nearest neighbors
         // @TODO: use my pathfinding algorithm, check again how it wants its input
+
+    }
+
+    generatePost(points)
+    {
 
     }
 }

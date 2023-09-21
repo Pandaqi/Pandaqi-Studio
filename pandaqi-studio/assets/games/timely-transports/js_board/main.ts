@@ -4,6 +4,7 @@ import calculateRoute from "./pathfinder"
 import { noise } from "./perlin"
 import PandaqiPhaser from "js/pq_games/website/phaser"
 import { Scene, Geom } from "js/pq_games/phaser.esm"
+import Point from "js/pq_games/tools/geometry/point"
 
 const sceneKey = "boardGeneration"
 class BoardGeneration extends Scene
@@ -143,7 +144,8 @@ class BoardGeneration extends Scene
 		this.generateBoard();
 
 		// convert board into image
-		PandaqiPhaser.convertCanvasToImage(this);
+		const splitDims = cfg.splitBoard ? new Point(2,2) : null; 
+		PandaqiPhaser.convertCanvasToImage(this, { splitDims: splitDims });
 	}
 
 	generateBoard() {
