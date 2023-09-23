@@ -1,6 +1,7 @@
 import calculateCenter from "js/pq_games/tools/geometry/paths/calculateCenter";
 import Continent from "./continent";
 import Region from "./region";
+import Path from "js/pq_games/tools/geometry/paths/path";
 
 export default class Area
 {
@@ -17,6 +18,7 @@ export default class Area
         this.continent = null;
     }
 
+    count() { return this.regions.length; }
     getType() { return this.regions[0].getType(); }
 
     setContinent(c) { this.continent = c; }
@@ -60,10 +62,22 @@ export default class Area
             }
         }
         this.neighbors = Array.from(areas);
-        console.log(this.neighbors);
     }
 
-    getOutlines()
+    clearOutlines()
+    {
+        for(const r of this.regions) { r.clearOutlines(); }
+    }
+
+    calculateOutlines()
+    {
+        for(const r of this.regions)
+        {
+            r.calculateOutlines();
+        }
+    }
+
+    getOutlines() : Path[]
     {
         const arr = [];
         for(const r of this.regions)
@@ -71,5 +85,15 @@ export default class Area
             arr.push(r.getOutlines());
         }
         return arr.flat();
+    }
+
+    getDistanceToAreas(areas:Area[])
+    {
+        let sum = 0;
+        for(const area of areas)
+        {
+            sum += this.centroid.distTo(area.centroid);
+        }
+        return sum;
     }
 }

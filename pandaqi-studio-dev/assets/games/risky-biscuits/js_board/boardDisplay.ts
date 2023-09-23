@@ -9,6 +9,7 @@ import equidistantColors from "js/pq_games/layout/color/equidistantColors";
 import Region from "./region";
 import Line from "js/pq_games/tools/geometry/line";
 import Area from "./area";
+import Path from "js/pq_games/tools/geometry/paths/path";
 
 
 export default class BoardDisplay
@@ -56,9 +57,20 @@ export default class BoardDisplay
 
         //this.drawGrid(board);
         this.prepareContinents(board);
+        this.prepareAreas(board);
         this.drawAreas(board);
         this.drawAreaOutlines(board);
         this.drawContinents(board);
+        this.drawContinentScores(board);
+
+
+        // @DEBUGGING
+        /*
+        for(let i = 0; i < 10; i++)
+        {
+            this.drawAreaAndOutline(board.areas[i]);
+        }
+        */
 
         // @DEBUGGING
         /*
@@ -71,7 +83,20 @@ export default class BoardDisplay
     
     prepareContinents(board:BoardState)
     {
-        this.colorsContinents = equidistantColors(board.continents.length, 75, 75);
+        this.colorsContinents = equidistantColors(board.continents.count(), 75, 75);
+    }
+
+    prepareAreas(board:BoardState)
+    {
+        for(const area of board.areas)
+        {
+            area.clearOutlines();
+        }
+
+        for(const area of board.areas)
+        {
+            area.calculateOutlines();
+        }
     }
 
     drawGrid(board:BoardState)
@@ -104,7 +129,7 @@ export default class BoardDisplay
     drawRegion(region:Region, col:number = 0xFF0000)
     {
         const alpha = region.getType() == "land" ? 1.0 : 0.4;
-        const poly = new Geom.Polygon(this.convertToRealPositions(region.getPoints()));
+        const poly = new Geom.Polygon(this.convertToRealPositions(region.getPointsDisplay()));
         this.graphics.fillStyle(col, alpha);
         this.graphics.fillPoints(poly.points);
 
@@ -132,9 +157,8 @@ export default class BoardDisplay
         const numAreas = areas.length
         for(let i = 0; i < numAreas; i++)
         {
-            const area = areas[i];
-            const color = this.getAreaColor(area)
-            this.drawRegions(area.regions, color);
+            this.drawArea(areas[i]);
+
         }
     }
 
@@ -143,22 +167,37 @@ export default class BoardDisplay
         const areas = board.areas;
         for(const area of areas)
         {
-            const alpha = area.getType() == "sea" ? 0.2 : 1.0;
-            this.graphics.lineStyle(8, 0x000000, alpha);
-            this.drawOutline(area.getOutlines());
+            this.drawAreaOutline(area);
         }
     }
 
-    drawOutline(lines:Line[])
+    drawOutline(paths:Path[])
     {
-        for(const line of lines)
+        for(const path of paths)
         {
-            const start = this.convertToRealPosition(line.start);
-            const end = this.convertToRealPosition(line.end);
-
-            const l = new Geom.Line(start.x, start.y, end.x, end.y);
-            this.graphics.strokeLineShape(l);
+            const pathReal = this.convertToRealPositions(path.toPath());
+            const l = new Geom.Polygon(pathReal);
+            this.graphics.strokePoints(l.points);
         }
+    }
+
+    drawArea(area:Area)
+    {
+        const color = this.getAreaColor(area)
+        this.drawRegions(area.regions, color);
+    }
+
+    drawAreaOutline(area:Area)
+    {
+        const alpha = area.getType() == "sea" ? 0.2 : 1.0;
+        this.graphics.lineStyle(8, 0x000000, alpha);
+        this.drawOutline(area.getOutlines());
+    }
+
+    drawAreaAndOutline(area:Area)
+    {
+        this.drawArea(area);
+        this.drawAreaOutline(area);
     }
 
     drawRegionAndNeighbors(r:Region)
@@ -182,7 +221,7 @@ export default class BoardDisplay
 
     drawContinents(board:BoardState)
     {
-        for(const continent of board.continents)
+        for(const continent of board.continents.get())
         {
             //this.drawCentroid(continent.centroid);
 
@@ -196,6 +235,32 @@ export default class BoardDisplay
                 }
             }
 
+        }
+    }
+
+    drawContinentScores(b:BoardState)
+    {
+        const radius = 40;
+        const margin = 10;
+
+        const pos = new Point(radius+margin);
+        const textCfg = {
+            fontFamily: "Arial",
+            fontSize: radius + "px",
+            color: "#FFFFFF"
+        }
+
+        for(const continent of b.continents.get())
+        {
+            const circle = new Geom.Circle(pos.x, pos.y, radius);
+            const color = this.colorsContinents[continent.id].toHEXNumber();
+            this.graphics.fillStyle(color);
+            this.graphics.fillCircleShape(circle);
+
+            const score = continent.calculateScore();
+            const text = this.game.add.text(pos.x + 2*radius, pos.y, score.toString(), textCfg);
+            text.setOrigin(0, 0.5);
+            pos.y += 2 * (radius + margin);
         }
     }
 

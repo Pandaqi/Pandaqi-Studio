@@ -1,4 +1,5 @@
 import Point from "js/pq_games/tools/geometry/point"
+import Bounds from "js/pq_games/tools/numbers/bounds"
 
 enum GenerationMethod
 {
@@ -23,7 +24,9 @@ const CONFIG = {
     {
         mapWidth: 100,
         distBetweenPoints: 3,
-        gridJitterBounds: { min: 0.1, max: 0.35 }, // relative to distBetweenPoints
+        gridJitterBounds: new Bounds(0.1, 0.35), // relative to distBetweenPoints
+        edgeJitterChunkSize: 1.0,
+        edgeJitterBounds: new Bounds(0.05, 0.9), // relative to chunkSize of jitter
         boardRatio: 1.44,
         
         noise: 
@@ -36,14 +39,17 @@ const CONFIG = {
 
         areas:
         {
-            sizeBounds: { min: 10, max: 25 },
+            sizeBounds: new Bounds(10, 25),
             oceanSizeFactor: 2.0,
         },
 
         continents:
         {
-            sizeBounds: { min: 2, max: 8 },
+            sizeBounds: new Bounds(3, 8),
             maxColorChange: 20,
+            scorePerArea: 1,
+            scoreRegionDensityBounds: new Bounds(0.5, 3),
+            scoreRandomness: new Bounds(-1.5, 1.5)
         }
     },
 
@@ -54,7 +60,7 @@ const CONFIG = {
 
     display:
     {
-
+        smoothOutlines: true
     }
 }
 

@@ -1,5 +1,6 @@
 import rangeInteger from "../../random/rangeInteger";
 import Point from "../point";
+import subdividePath from "./subdividePath";
 
 interface BiteParams
 {
@@ -27,26 +28,8 @@ export default (params:BiteParams) : Point[] =>
     if(!path) { return []; }
 
     // chop the path into lots of (regularly sized) chunks
-    const pathChopped : Point[] = [];
     const chunkSize = params.chunkSize ?? 10.0;
-    for(let i = 0; i < path.length; i++)
-    {
-        const curPoint = path[i];
-        const nextPoint = path[(i + 1) % path.length];
-        const vec = curPoint.vecTo(nextPoint);
-        const dist = vec.clone().length();
-        const vecNorm = vec.clone().normalize();
-        const numSteps = Math.floor(dist / chunkSize);
-
-        const offset = vecNorm.clone().scaleFactor(chunkSize);
-        let p = curPoint.clone();
-        pathChopped.push(p);
-        for(let a = 0; a < numSteps; a++)
-        {
-            p = p.clone().move(offset);
-            pathChopped.push(p);
-        }
-    }
+    const pathChopped : Point[] = subdividePath({ path: path, chunkSize: chunkSize });
 
     // then randomly move some of them inward
     const chunksInterval = params.chunksInterval ?? { min: 3, max: 10 };

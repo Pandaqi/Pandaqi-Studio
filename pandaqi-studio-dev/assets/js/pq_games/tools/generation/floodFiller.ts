@@ -12,7 +12,8 @@ interface FloodFillParams
     neighborPickFunction?: (list:any[], nbs:any[]) => any
     filter?: (a:any, b:any) => boolean // if this returns false, a cell isn't allowed for growing
     bounds?: { min: number, max: number },
-    existing?: any[]
+    existing?: any[],
+    mask?: any[]
 }
 
 export default class FloodFiller
@@ -30,6 +31,7 @@ export default class FloodFiller
     {
         let start = params.start;
         let existing = params.existing ?? [];
+        let mask = params.mask ?? [];
         if(existing.length > 0) { start = existing[0]; }
 
         const grid = params.grid;
@@ -48,7 +50,7 @@ export default class FloodFiller
 
         while(list.length < maxSize)
         {
-            const nbs = this.getAllValidNeighbors(list, grid, filter, neighborFunction);
+            const nbs = this.getAllValidNeighbors(list, grid, filter, neighborFunction, mask);
             if(nbs.length <= 0) { break; }
 
             const nb = neighborPickFunction(list, nbs);
@@ -59,7 +61,7 @@ export default class FloodFiller
         return list.slice();
     }
 
-    getAllValidNeighbors(list:any[], grid:any[][], filter:Function, neighborFunction:string)
+    getAllValidNeighbors(list:any[], grid:any[][], filter:Function, neighborFunction:string, mask:any[])
     {
         const nbSet = new Set();
         for(const cell of list)
@@ -71,6 +73,7 @@ export default class FloodFiller
             for(const nb of nbs)
             {
                 if(list.includes(nb)) { continue; }
+                if(mask.length > 0 && !mask.includes(nb)) { continue; }
                 if(!filter(cell, nb)) { continue; }
                 nbSet.add(nb)
             }

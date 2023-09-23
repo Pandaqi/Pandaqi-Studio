@@ -49,6 +49,7 @@ export default class Point
     isValid() { return this.isNumber(this.x) && this.isNumber(this.y); }
     hasValue() { return this.isValid() && (this.x != 0 || this.y != 0); }
     isNumber(val:any) { return !isNaN(val); }
+    matches(p:Point) { return Math.abs(this.x - p.x) < 0.003 && Math.abs(this.y - p.y) < 0.003; }
 
     toSVGString() { return this.x + " " + this.y }
 

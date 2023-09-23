@@ -89,7 +89,7 @@ export default class Path extends Shape
 
     clone(deep = false)
     {
-        let p = this.points;
+        let p = this.points.slice();
         if(deep)
         {
             p = [];
@@ -120,5 +120,23 @@ export default class Path extends Shape
         const elem = document.createElementNS(svgNS, 'path');
         elem.setAttribute("d", this.toPathString());
         return elem;
+    }
+
+    reverse()
+    {
+        this.points.reverse();
+        return this;
+    }
+
+    getFirst() { return this.points[0].point; }
+    getLast() { return this.points[this.points.length-1].point; }
+
+    endPointsMatch(p1:Point, p2:Point)
+    {
+        const first = this.getFirst();
+        const last = this.getLast();
+        if(first.matches(p1) && last.matches(p2)) { return true; }
+        if(first.matches(p2) && last.matches(p1)) { return true; }
+        return false;
     }
 }

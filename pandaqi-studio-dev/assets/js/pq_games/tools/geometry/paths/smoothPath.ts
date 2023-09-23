@@ -1,4 +1,4 @@
-import Point from "./point"
+import Point from "../point"
 
 function prepareFullPath(path:Point[])
 {
@@ -123,7 +123,17 @@ class CatmullRomSegment
     }
 }
 
-export default function smoothPath(params:Record<string,any> = {})
+
+interface SmoothPathParams
+{
+    path: Point[]
+    tension?: number
+    resolution?: number
+    variant?: string
+    alpha?: number
+}
+
+export default function smoothPath(params:SmoothPathParams)
 {
     let path = params.path ?? [];
     if(path.length <= 2) { return path; }

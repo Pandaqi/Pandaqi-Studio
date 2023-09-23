@@ -5,6 +5,10 @@ import Line from "js/pq_games/tools/geometry/line";
 import calculateCentroid from "js/pq_games/tools/geometry/paths/calculateCentroid";
 import { lineIntersectsLine } from "js/pq_games/tools/geometry/intersection/lineIntersectsLine";
 import { pointIsInsidePolygon } from "js/pq_games/tools/geometry/intersection/pointInsideShape";
+import subdividePath from "js/pq_games/tools/geometry/paths/subdividePath";
+import Path from "js/pq_games/tools/geometry/paths/path";
+import signRandom from "js/pq_games/tools/random/signRandom";
+import smoothPath from "js/pq_games/tools/geometry/paths/smoothPath";
 
 export default class Region
 {
@@ -15,6 +19,7 @@ export default class Region
     area: Area
     centroid: Point;
     neighborsPerEdge: any[];
+    outlines: Path[];
 
     constructor(id:number, points:Point[])
     {
@@ -68,20 +73,82 @@ export default class Region
         this.neighborsPerEdge = nbPerEdge;
     }
 
-    getOutlines()
+    getPointsDisplay()
     {
-        const arr = [];
+        // @DEBUGGING
+        //return this.getPoints();
+
+        const points = [];
+        for(let i = 0; i < this.points.length; i++)
+        {
+            const p1 = this.points[i];
+            const p2 = this.points[(i+1) % this.points.length];
+            const outline = this.getOutlineWith(p1, p2); // @TODO: is this just this.neighbors[i]? Think it is
+            if(outline) { points.push(outline.toPath()) }
+            else { points.push(p1); }
+        }
+        return points.flat();
+    }
+
+    clearOutlines() { this.outlines = null; }
+    getOutlines() { return this.outlines.filter((elem) => elem != null); }
+    calculateOutlines()
+    {
+        const arr : Path[] = [];
         const numPoints = this.points.length;
-        for(let i = 0; i < numPoints; i++)
+        for(let i = 0; i < numPoints-1; i++)
         {
             const neighbor = this.neighborsPerEdge[i];
-            if(!neighbor) { continue; }
-            if(neighbor.area == this.area) { continue; }
+            if(!neighbor || neighbor.area == this.area) { arr.push(null); continue; }
 
             const p1 = this.points[i];
             const p2 = this.points[(i+1) % numPoints];
-            arr.push(new Line(p1, p2));
+
+            let path
+
+            // If the neighbor has already calculated their outlines, there MUST be a valid path for us
+            if(neighbor.outlines != null) {
+                let existingPath = neighbor.getOutlineWith(p1, p2);
+                path = existingPath;
+                const pathOrientedTheWrongWay = !path.getFirst().matches(p1);
+                if(pathOrientedTheWrongWay) { path.reverse(); }
+            } else {
+                path = this.createJaggedLine(p1, p2); 
+            }
+            arr.push(path);
         }
-        return arr;
+        this.outlines = arr;
+    }
+
+    getOutlineWith(start:Point, end:Point) : Path
+    {
+        for(const ol of this.outlines)
+        {
+            if(!ol || !ol.endPointsMatch(start, end)) { continue; }
+            return ol.clone(true);
+        }
+        return null;
+    }
+
+    createJaggedLine(p1:Point, p2:Point) : Path
+    {
+        const chunkSize = CONFIG.generation.edgeJitterChunkSize;
+        let pathChopped = subdividePath({ path: [p1, p2], chunkSize: chunkSize });
+        const maxOffset = CONFIG.generation.edgeJitterBounds;
+        for(let i = 1; i < pathChopped.length - 1; i++)
+        {
+            const vec = pathChopped[i-1].vecTo(pathChopped[i]).normalize();
+            const vecOrtho = vec.rotate(0.5*Math.PI*signRandom());
+            const offset = vecOrtho.scaleFactor(maxOffset.random() * chunkSize);
+
+            pathChopped[i].move(offset);
+        }
+
+        if(CONFIG.display.smoothOutlines)
+        {
+            pathChopped = smoothPath({ path: pathChopped });
+        }
+
+        return new Path({ points: pathChopped });
     }
 }

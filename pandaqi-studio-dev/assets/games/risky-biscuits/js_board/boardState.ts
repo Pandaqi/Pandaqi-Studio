@@ -1,19 +1,19 @@
-import PointGraph from "js/pq_games/tools/geometry/pointGraph";
 import CONFIG, { GenerationMethod } from "./config"
 import Point from "js/pq_games/tools/geometry/point";
 import range from "js/pq_games/tools/random/range";
 // @ts-ignore
 import * as d3 from "js/pq_games/tools/graphs/d3-delaunay@6"
 import Region from "./region";
-import signRandom from "js/pq_games/tools/numbers/signRandom";
+import signRandom from "js/pq_games/tools/random/signRandom";
 import { createNoise2D } from "js/pq_games/tools/generation/simplexNoise"
-import calculateCentroid from "js/pq_games/tools/geometry/paths/calculateCentroid";
 import clamp from "js/pq_games/tools/numbers/clamp";
 import lerp from "js/pq_games/tools/numbers/lerp";
 import FloodFiller from "js/pq_games/tools/generation/floodFiller";
 import shuffle from "js/pq_games/tools/random/shuffle";
 import Area from "./area";
 import Continent from "./continent";
+import Continents from "./continents";
+import subdividePath from "js/pq_games/tools/geometry/paths/subdividePath";
 
 export default class BoardState
 {
@@ -22,7 +22,7 @@ export default class BoardState
     dimsGrid: Point;
     regions: Region[];
     areas: any[];
-    continents: Continent[];
+    continents: Continents;
     
     // @NOTE: The board works in relative (scaled-down) coordinates, 
     // the display scales it up to its actual size
@@ -41,7 +41,9 @@ export default class BoardState
         this.createVoronoi();
         this.createNoise();
         this.assignAreas();
-        this.assignContinents();
+
+        this.continents = new Continents();
+        this.continents.generate(this);
     }
 
     getGrid() { return this.grid; }
@@ -77,7 +79,6 @@ export default class BoardState
         {
             arr.push([pt.x, pt.y]);
         }
-        console.log(arr);
         return arr;
     }
 
@@ -114,11 +115,7 @@ export default class BoardState
         }
 
         this.regions = shuffle(list);
-
-        const p = new Point(5,0);
-        console.log(p.rotate(0.5*Math.PI));
-        console.log(p.rotate(Math.PI));
-
+        console.log("== REGIONS ==");
         console.log(this.regions);
     }
 
@@ -249,153 +246,8 @@ export default class BoardState
         }
         
         this.areas = areas;
-        
-    }
 
-    assignContinents()
-    {
-        const unassigned = this.areas.slice();
-
-        const growFilter = (a,b) => 
-        {
-            return b.getType() == "land"
-        }
-
-        const sizeBounds = CONFIG.generation.continents.sizeBounds;
-
-        // first assign the big ones
-        const continents : Continent[] = [];
-        const continentsTooSmall : Continent[] = []
-        while(unassigned.length > 0)
-        {
-            const a = unassigned.pop();
-            if(a.getType() != "land") { continue; }
-            if(a.hasContinent()) { continue; }
-
-            const f = new FloodFiller();
-            const params = {
-                start: a,
-                neighborFunction: "getNeighbors",
-                filter: growFilter
-            }
-            const list = f.grow(params);
-
-            const tooSmall = list.length < sizeBounds.min;
-            if(tooSmall)
-            {
-                continentsTooSmall.push(new Continent(-1, list));
-                continue;
-            }
-
-            shuffle(list);
-            const continent = new Continent(continents.length, list);
-            continents.push(continent);
-        }
-        
-        // we might end up with one or two HUGE continents
-        // use a divide-and-conquer approach to break them up
-        const growFilterDivide = (a,b) =>
-        {
-            return a.continent == b.continent;
-        }
-
-        const neighborPick = (list, nbs) =>
-        {
-            let minDist = Infinity;
-            let minNB = null;
-            for(const nb of nbs)
-            {
-                const dist = list[0].centroid.distTo(nb.centroid);
-                if(dist >= minDist) { continue; }
-                minDist = dist;
-                minNB = nb;
-            }
-            return minNB;
-        }
-
-        for(const continent of continents)
-        {
-            while(continent.count() > sizeBounds.max)
-            {
-                const targetSize = Math.ceil(0.5 * continent.count());
-                console.log("target size");
-                console.log(targetSize);
-
-                const oldAreas = continent.getAreas().slice();
-                const f = new FloodFiller();
-                const params = {
-                    start: continent.areas[0],
-                    neighborFunction: "getNeighbors",
-                    neighborPickFunction: neighborPick,
-                    filter: growFilterDivide,
-                    bounds: { min: targetSize, max: targetSize }
-                }
-                const list = f.grow(params);
-                continent.setAreas(list);
-
-                console.log("old areas");
-                console.log(oldAreas.slice());
-                console.log("new list");
-                console.log(list);
-
-                for(const elem of list)
-                {
-                    oldAreas.splice(oldAreas.indexOf(elem), 1);
-                }
-
-                console.log("areas left");
-                console.log(oldAreas.slice());
-
-                const newContinent = new Continent(continents.length, oldAreas);
-                continents.push(newContinent);
-                
-            }
-        }
-        
-
-        // now find the closest continent for the ones that were too small
-        // and assign them to _those_
-        for(const contTooSmall of continentsTooSmall)
-        {
-
-            // if ALL continents were too small, we need to add one and start the chain
-            if(continents.length < 0)
-            {
-                contTooSmall.id = 0;
-                continents.push(contTooSmall);
-                continue;
-            }
-
-            let closestContinent = null;
-            let closestDist = Infinity;
-
-            for(const continent of continents)
-            {
-                const dist = this.findClosestDistBetweenAreas(contTooSmall.areas, continent.areas);
-                if(dist >= closestDist) { continue; }
-                closestDist = dist;
-                closestContinent = continent;
-            }
-
-            closestContinent.mergeWith(contTooSmall);
-        }
-
-        this.continents = continents;
-        console.log("CONTINENTS");
-        console.log(this.continents);
-    }
-
-    findClosestDistBetweenAreas(a:Area[], b:Area[])
-    {
-        let minDist = Infinity
-        for(const area1 of a)
-        {
-            for(const area2 of b)
-            {
-                const dist = area1.centroid.distTo(area2.centroid);
-                minDist = Math.min(minDist, dist);
-            }
-        }
-        return minDist;
+        console.log("== AREAS ==");
+        console.log(this.areas);
     }
 }
