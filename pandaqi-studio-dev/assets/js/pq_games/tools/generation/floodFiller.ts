@@ -4,6 +4,17 @@ import rangeInteger from "../random/rangeInteger";
 
 const NB_OFFSETS = [Point.RIGHT, Point.DOWN, Point.LEFT, Point.UP];
 
+interface FloodFillParams
+{
+    start?:any
+    grid?:any[][],
+    neighborFunction: string
+    neighborPickFunction?: (list:any[], nbs:any[]) => any
+    filter?: (a:any, b:any) => boolean // if this returns false, a cell isn't allowed for growing
+    bounds?: { min: number, max: number },
+    existing?: any[]
+}
+
 export default class FloodFiller
 {
     elements: any[]
@@ -15,27 +26,37 @@ export default class FloodFiller
 
     count() { return this.get().length; }
     get() { return this.elements; }
-    grow(params:Record<string,any>) 
+    grow(params:FloodFillParams) 
     {
-        const start = params.start;
+        let start = params.start;
+        let existing = params.existing ?? [];
+        if(existing.length > 0) { start = existing[0]; }
+
         const grid = params.grid;
         const neighborFunction = params.neighborFunction ?? null;
         const defaultFilter = (a:any, b:any) => { return true; };
         const filter = params.filter ?? defaultFilter;
-        const bounds = params.bounds ?? { min: 1, max: Infinity };
+
+        const defaultPickFunction = (list,nbs) => { return fromArray(nbs); }
+        const neighborPickFunction = params.neighborPickFunction ?? defaultPickFunction;
+
+        const bounds = params.bounds ?? { min: 1, max: 1000000 };
 
         const maxSize = rangeInteger(bounds.min, bounds.max);
-        const list = [start];
+        let list = [start];
+        if(existing.length > 0) { list = existing.slice(); }
+
         while(list.length < maxSize)
         {
             const nbs = this.getAllValidNeighbors(list, grid, filter, neighborFunction);
             if(nbs.length <= 0) { break; }
 
-            const nb = fromArray(nbs);
+            const nb = neighborPickFunction(list, nbs);
             list.push(nb);
         }
 
         this.elements = list;
+        return list.slice();
     }
 
     getAllValidNeighbors(list:any[], grid:any[][], filter:Function, neighborFunction:string)

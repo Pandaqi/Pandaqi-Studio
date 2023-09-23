@@ -1,0 +1,25 @@
+---
+type: "single"
+gamepage: true
+boardgame: true
+
+title: "Risky Biscuits"
+headerTitle: "Risky Biscuits | A game of world domination, now playable with just paper and a pen."
+blurb: "Infiltrate enemy territories, spy on them, use magical artefacts, and dominate the world."
+
+extraCSS: true
+extraJSBoard: true
+extraJSBoardInclude: true
+
+---
+
+{{% section-centered heading="Material" anchor="material" html="true" %}}
+
+{{< boardgame-settings type="board" local_storage="riskyBiscuitsConfig" >}}
+	{{< setting-hidden id="setting-gameTitle" text="Risky Biscuits" >}}
+  {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the board mostly grayscale." >}}
+  {{< setting-enum id="setting-boardSize" text="Board Size?" values="tiny,small,regular,large,huge" valaskey="true" def="regular" remark="How many cities and routes to place." >}}
+  {{< setting-enum id="setting-printSize" text="Print Size?" values="1 page, 4 pages, 9 pages" keys="1x1,2x2,3x3" def="1x1" >}}
+{{< /boardgame-settings >}}
+
+{{% /section-centered %}}

@@ -32,7 +32,7 @@ export default class LineGenerator
         this.randomWalks = {};
 
         const pathfinder = new PathFinder();
-        const costMap = pathfinder.assignRandomWeights({ map: config.gridPoints });
+        const costMap = pathfinder.assignRandomWeights({ points: config.gridPoints });
         config.randomWalk.costMap = costMap;
         config.randomWalk.dotsBetweenDist = config.shape.getDistToNeighbour(config.tiles.gridResolution);
 

@@ -1,3 +1,5 @@
+import lerp from "../numbers/lerp";
+
 interface PointDict 
 {
     x: number,
@@ -130,6 +132,16 @@ export default class Point
         return this;
     }
 
+    rotate(rot:number)
+    {
+        let norm = this.length();
+        let ang = this.angle();
+        ang += rot;
+        this.x = Math.cos(ang) * norm;
+        this.y = Math.sin(ang) * norm;
+        return this;
+    }
+
     abs()
     {
         this.x = Math.abs(this.x);
@@ -174,12 +186,20 @@ export default class Point
         return new Point().setXY(p.x - this.x, p.y - this.y);
     }
     
-    halfwayTo(p = new Point())
+    halfwayTo(p:Point)
     {
         return this.clone().add(p).scaleFactor(0.5);
     }
+
+    lerp(p:Point, factor:number)
+    {
+        return new Point(
+            lerp(this.x, p.x, factor),
+            lerp(this.y, p.y, factor)
+        )
+    }
     
-    dot(p = new Point())
+    dot(p:Point)
     {
         return this.x * p.x + this.y * p.y;
     }

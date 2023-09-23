@@ -11,7 +11,8 @@ export default class Color
     l:number // 0-100
     a:number // 0-1
 
-    constructor(h:number|Color|string, s:number = 0, l:number = 0, a:number = 1.0) {
+    constructor(h:number|Color|string, s:number = 0, l:number = 0, a:number = 1.0) 
+    {
         if(h == null || h == undefined) { a = 0; h = 0; }
         if(h instanceof Color) { this.fromColor(h); return; }
         if(typeof h === 'string') { this.fromHEXA(h); return; }
@@ -27,6 +28,11 @@ export default class Color
     fromColor(c:Color)
     {
         this.fromHSLA(c.h, c.s, c.l, c.a);
+    }
+
+    fromHEXNumber(n:number)
+    {
+        // @TODO: how to do this??
     }
 
     fromHEXA(s:string)
@@ -87,11 +93,22 @@ export default class Color
         return this.toHEXA().slice(0, -2);
     }
 
+    toHEXNumber()
+    {
+        const hex = this.toHEX();
+        return parseInt(hex.replace("#", "0x"));
+    }
+
     /* Helpers & Tools */
     lighten(dl = 0) : Color
     {
         const newLightness = Math.max(Math.min(this.l + dl, 100), 0);
         return new Color(this.h, this.s, newLightness);
+    }
+
+    darken(dl = 0) : Color
+    {
+        return this.lighten(-dl);
     }
 
     saturate(ds = 0) : Color

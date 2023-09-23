@@ -4,18 +4,20 @@ import Shape from "./shape"
 import Dims from "./dims"
 import { lineIntersectsLineRaw } from "./intersection/lineIntersectsLine"
 
+type PointLike = Point|PointGraph
+
 interface LineDict 
 {
-    start?:Point
-    end?:Point
+    start?:PointLike
+    end?:PointLike
 }
 
 export default class Line extends Shape
 {
-    start:Point
-    end:Point
+    start:PointLike
+    end:PointLike
 
-    constructor(a:Point|PointGraph|Line|LineDict = {}, b:Point|PointGraph = new Point())
+    constructor(a:PointLike|Line|LineDict = {}, b:PointLike = new Point())
     {
         super();
 
@@ -70,10 +72,17 @@ export default class Line extends Shape
     }
 
     // start/end points
-    setStart(s: Point) { this.start = s; return this; }
+    setStart(s: PointLike) { this.start = s; return this; }
     getStart() { return this.start; }
-    setEnd(s: Point) { this.end = s; return this; }
+    setEnd(s: PointLike) { this.end = s; return this; }
     getEnd() { return this.end; }
+    getOther(p: PointLike) 
+    {
+        if(p == this.start) { return this.end; }
+        if(p == this.end) { return this.start; }
+        console.error("Can't get other point on ", this, " because point given ", p, " isn't a member in the first place");
+        return null;
+    }
     setPoints(start: any, end: any)
     {
         this.setStart(start);
@@ -85,7 +94,7 @@ export default class Line extends Shape
     // @TODO: also allow the other input methods, such as "x,y" two parameters, only clamp one side, etcetera
     scaleXY(x: number, y: number, anchor = "center") { return this.scale(new Point({ x: x, y: y }), anchor); }
     scaleFactor(f: number, anchor = "center") { return this.scaleXY(f, f, anchor); }
-    scale(p: Point, anchor = "center")
+    scale(p: PointLike, anchor = "center")
     {
         const newVec = this.vector().scale(p);
         if(anchor == "start") { this.end.set(this.start.clone().move(newVec)); }
@@ -101,14 +110,14 @@ export default class Line extends Shape
     }
 
     moveXY(x: number, y: number) { return this.move(new Point({ x: x, y: y })); }
-    move(p: Point)
+    move(p: PointLike)
     {
         this.start.move(p);
         this.end.move(p);
         return this;
     }
 
-    clamp(pMin: Point, pMax: Point)
+    clamp(pMin: PointLike, pMax: PointLike)
     {
         this.start.clamp(pMin, pMax);
         this.end.clamp(pMin, pMax);

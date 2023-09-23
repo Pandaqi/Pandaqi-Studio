@@ -59,7 +59,7 @@ export default class RandomWalkPathfind
         if(config.randomWalk.useSharedCostMap) {
             costMap = config.randomWalk.costMap
         } else {
-            costMap = this.pathfinder.assignRandomWeights({ map: points });
+            costMap = this.pathfinder.assignRandomWeights({ points: points });
         }
         
         const forbiddenPoints = this.getForbiddenEdgePoints(config, points);
@@ -67,7 +67,8 @@ export default class RandomWalkPathfind
         const pathfindConfig = {
             costMap: costMap,
             forbiddenPoints: forbiddenPoints,
-            forbiddenLines: forbiddenLines
+            forbiddenLines: forbiddenLines,
+            connectionFunction: (point) => { return point.getNeighbors() }
         }
         this.pathfinder.setConfig(pathfindConfig);
 
@@ -130,8 +131,7 @@ export default class RandomWalkPathfind
             for(const p of points)
             {
                 if(p.isOnEdge()) { continue; }
-                const id = this.pathfinder.getID(p);
-                list.push(id);
+                list.push(p);
             }
             return list;
         }
@@ -140,8 +140,7 @@ export default class RandomWalkPathfind
         {
             if(!p.isOnEdge()) { continue; }
             if(p.getLineIndex() == config.randomWalk.targetLineIndex) { continue; }
-            const id = this.pathfinder.getID(p);
-            list.push(id);
+            list.push(p);
         }
         return list;
     }

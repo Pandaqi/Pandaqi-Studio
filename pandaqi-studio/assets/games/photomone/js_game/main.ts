@@ -139,7 +139,7 @@ async function createWordCard(wordList)
         }
 
         const l = new Line(p1, closestPoint);
-        p1.addConnection(closestPoint);
+        p1.addConnectionByPoint(closestPoint);
         bgLines.push(l);
 
         subCtx.beginPath();

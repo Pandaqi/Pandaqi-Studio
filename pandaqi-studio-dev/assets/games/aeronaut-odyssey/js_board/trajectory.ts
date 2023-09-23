@@ -3,6 +3,7 @@ import PathFinder from "js/pq_games/tools/pathFinder/pathFinder";
 import Route from "./route";
 import CONFIG from "./config";
 import clamp from "js/pq_games/tools/numbers/clamp";
+import LineGraph from "js/pq_games/tools/geometry/lineGraph";
 
 export default class Trajectory
 {
@@ -31,12 +32,12 @@ export default class Trajectory
         return false;
     }
 
-    getRouteBetween(from:PointGraph, to:PointGraph)
+    getRouteBetween(line:LineGraph)
     {
-        const routes : Route[] = from.metadata.routes;
+        const routes : Route[] = (line.start as PointGraph).metadata.routes;
         for(const route of routes)
         {
-            if(route.start == to || route.end == to) { return route; }
+            if(route.start == line.start || route.end == line.end) { return route; }
         }
         return null;
     }
@@ -53,9 +54,9 @@ export default class Trajectory
     {
         const pfConfig = 
         {
-            neighborFunction: (point) => { return point.getConnections(); },
-            costFunction: (params) => { 
-                return this.getRouteBetween(params.from, params.to).getBlockLength()
+            neighborFunction: (point:PointGraph) => { return point.getConnectionsByLine(); },
+            costFunction: (line:LineGraph, score:number) => { 
+                return this.getRouteBetween(line).getBlockLength()
             }
         }
 
@@ -66,7 +67,7 @@ export default class Trajectory
         {
             const p1 = shortestPath[i];
             const p2 = shortestPath[i+1];
-            const route = this.getRouteBetween(p1, p2);
+            const route = this.getRouteBetween(p1.getConnectionLineTo(p2));
             pathBlockLength += route.getBlockLength();
         }
 

@@ -140,8 +140,7 @@ export default class GeneratorDelaunay
                 const c2 = citiesGraph[nbIndex];
                 if(!this.connectionIsValid(c1, c2)) { continue; }
 
-                c1.addConnection(c2);
-                c2.addConnection(c1);
+                c1.addConnectionByPoint(c2);
                 numConnections++;
             }
         }

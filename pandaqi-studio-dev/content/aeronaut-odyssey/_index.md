@@ -9,7 +9,8 @@ blurb: "Travel the world, claim the most valuable routes and profit from it. Con
 
 
 extraCSS: true
-extraJS: true
+extraJSBoard: true
+extraJSBoardInclude: true
 
 ---
 
