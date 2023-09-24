@@ -43,6 +43,7 @@ export default class PointGraph extends Point
     hasNeighbor(p:PointGraph) { return this.neighbors.includes(p); }
     canConnectTo(p:PointGraph) { return this.hasNeighbor(p); }
     hasNeighbors() { return this.countNeighbors() > 0; }
+    setNeighbors(nbs:PointGraph[]) { this.neighbors = nbs; }
     getNeighbors() { return this.neighbors.slice(); }
     clearNeighbors() { this.neighbors = []; }
 

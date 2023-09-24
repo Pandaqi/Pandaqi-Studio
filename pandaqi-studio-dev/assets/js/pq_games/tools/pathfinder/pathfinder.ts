@@ -36,6 +36,13 @@ interface PathFindParams
 	end?: PointGraph
 }
 
+interface PathFindRandomizeParams
+{
+	points: any[],
+	min?: number,
+	max?: number
+}
+
 // By default, PathFinder expects PointGraph elements and uses their automatically created LineGraph connections
 // But if it receives a PointGraph for the connection list instead, it falls back on assigning unique string IDs to store data
 // (And the function for cost, A* heuristic, and where to get connections from can be set any way you like)
@@ -75,7 +82,7 @@ export default class PathFinder
 		this.heuristicDistance = params.heuristicDistance ?? true;
 
 		const defaultConnectionFunction = (point:PointGraph) => { return point.getConnectionsByLine(); }
-		this.connectionFunction = defaultConnectionFunction;
+		this.connectionFunction = params.connectionFunction ?? defaultConnectionFunction;
 	}
 
 	getRandomWeight(params:any)
@@ -85,9 +92,9 @@ export default class PathFinder
 		return Random.range(min, max);
 	}
 
-	assignRandomWeights(params:any)
+	assignRandomWeights(params:PathFindRandomizeParams)
 	{
-		const points = params.points || [];
+		const points = params.points;
 		const costMap = new Map();
 		if(points.length <= 0) { return costMap; }
 
@@ -96,7 +103,7 @@ export default class PathFinder
 			const nbLines = this.getConnectionsForPoint(point);
 			for(const nbLine of nbLines)
 			{
-				costMap.set(nbLine, this.getRandomWeight(params));
+				costMap.set(this.getConnectionKey(point, nbLine), this.getRandomWeight(params));
 			}
 		}
 
@@ -110,6 +117,12 @@ export default class PathFinder
 		return Math.round(point.x*10)/10 + "-" + Math.round(point.y*10)/10;
 	}
 
+	getConnectionKey(from:PointGraph, to:LineGraph|PointGraph) : LineGraph|string
+	{
+		if(to instanceof PointGraph) { return this.getConnectionID(from, to); }
+		return to;
+	}
+
 	getConnectionID(a:PointValid, b:PointValid)
 	{
 		return this.getID(a) + "/" + this.getID(b);
@@ -117,13 +130,14 @@ export default class PathFinder
 
 	getTravelCost(l:LineGraph|string, from?:PointGraph, to?:PointGraph)
 	{
+		let score = (this.costMap.get(l) ?? this.cost) ?? 1;
+		console.log(score);
+
 		if(!(l instanceof LineGraph)) 
 		{ 
 			l = new LineGraph(from, to);
 			l.hashID = this.getConnectionID(from, to); 
 		}
-
-		let score = (this.costMap.get(l) ?? this.cost) ?? 1;
 		score = this.costFunction(l, score);
 		return score;
 	}
@@ -155,7 +169,11 @@ export default class PathFinder
 		const start = params.start;
 		const end = params.end;
 	
-		if(!start || !end) { console.error("Can't pathfind without start and end points"); return[]; }
+		if(!start || !end) 
+		{ 
+			console.error("PathFinder: Can't pathfind without start and end points"); 
+			return []; 
+		}
 	
 		const Q = new PriorityQueue();
 	
@@ -170,6 +188,8 @@ export default class PathFinder
 		let reachable = false;
 		while(!Q.isEmpty()) 
 		{
+			console.log(Q);
+
 			const currentPoint = Q.get();
 			tilesChecked.set(currentPoint, true);
 		
@@ -180,15 +200,21 @@ export default class PathFinder
 			const nbLines = this.getConnectionsForPoint(currentPoint);
 			for(const nbLine of nbLines)
 			{
-				const nb = nbLine instanceof PointGraph ? nbLine : nbLine.getOther(currentPoint) as PointGraph;
+				const nb = nbLine instanceof PointGraph ? nbLine : (nbLine.getOther(currentPoint) as PointGraph);
 				const isForbidden = this.forbiddenPoints.includes(nb);
 				if(isForbidden) { continue; }
 
-				const connID = nbLine instanceof PointGraph ? this.getConnectionID(currentPoint, nbLine) : nbLine;
-				const connectionIsForbidden = this.forbiddenLines.includes(connID);
+				console.log("reached here");
+				console.log(currentPoint);
+				console.log(nbLine);
+
+				const connKey = this.getConnectionKey(currentPoint, nbLine);
+				const connectionIsForbidden = this.forbiddenLines.includes(connKey);
 				if(connectionIsForbidden) { continue; }
 
-				const newCost = costSoFar.get(currentPoint) + this.getTravelCost(connID, currentPoint, nb);
+				console.log("now reached here");
+
+				const newCost = costSoFar.get(currentPoint) + this.getTravelCost(connKey, currentPoint, nb);
 
 				const notVisitedYet = !costSoFar.has(nb) && !tilesChecked.has(nb);
 				const newCostIsLower = newCost < costSoFar.get(nb);
@@ -205,7 +231,13 @@ export default class PathFinder
 			}
 		}
 	
-		if(!reachable) { return null; }
+		if(!reachable) 
+		{ 
+			console.error("PathFinder finds no path between ", start, " and ", end); 
+			return []; 
+		}
+
+		console.log("even reached here!");
 	
 		// reconstruct the path
 		const path = []
@@ -213,7 +245,8 @@ export default class PathFinder
 		let isStartPoint = false;
 		while(!isStartPoint) {
 			path.push(currentPoint)
-			currentPoint = cameFrom.get(this.getID(currentPoint));
+			console.log(currentPoint);
+			currentPoint = cameFrom.get(currentPoint);
 			isStartPoint = (currentPoint == start);
 		}
 	

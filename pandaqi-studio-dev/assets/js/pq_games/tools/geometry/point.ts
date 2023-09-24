@@ -1,3 +1,4 @@
+import isZero from "../numbers/isZero";
 import lerp from "../numbers/lerp";
 
 interface PointDict 
@@ -48,6 +49,7 @@ export default class Point
     clone() : Point { return new Point(this); }
     isValid() { return this.isNumber(this.x) && this.isNumber(this.y); }
     hasValue() { return this.isValid() && (this.x != 0 || this.y != 0); }
+    isZero() { return isZero(this.length()); }
     isNumber(val:any) { return !isNaN(val); }
     matches(p:Point) { return Math.abs(this.x - p.x) < 0.003 && Math.abs(this.y - p.y) < 0.003; }
 
@@ -203,6 +205,11 @@ export default class Point
     dot(p:Point)
     {
         return this.x * p.x + this.y * p.y;
+    }
+
+    cross(p:Point)
+    {
+        return this.x * p.y - this.y * p.x;
     }
 
 

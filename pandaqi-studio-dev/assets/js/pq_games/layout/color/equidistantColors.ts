@@ -1,6 +1,6 @@
 import Color from "./color";
 
-export default (num:number = 1, s:number = 100, l:number = 100, a:number = 1) =>
+export default (num:number = 1, s:number = 100, l:number = 100, a:number = 1) : Color[] =>
 {
     const start = Math.random()*360;
     const offset = 360 / num;

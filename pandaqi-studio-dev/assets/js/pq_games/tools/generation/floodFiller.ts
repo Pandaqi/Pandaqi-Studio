@@ -13,12 +13,18 @@ interface FloodFillParams
     filter?: (a:any, b:any) => boolean // if this returns false, a cell isn't allowed for growing
     bounds?: { min: number, max: number },
     existing?: any[],
-    mask?: any[]
+    mask?: any[],
+    forbidden?: any[]
 }
 
 export default class FloodFiller
 {
     elements: any[]
+    filter: (a:any, b:any) => boolean
+    neighborFunction: string
+    mask: any[]
+    forbidden: any[]
+    grid: any[][]
 
     constructor()
     {
@@ -27,19 +33,28 @@ export default class FloodFiller
 
     count() { return this.get().length; }
     get() { return this.elements; }
+    addElement(elem:any) { this.elements.push(elem); }
+    addElements(list:any[]) { for(const elem of list) { this.addElement(elem); } }
     grow(params:FloodFillParams) 
     {
         let start = params.start;
         let existing = params.existing ?? [];
         let mask = params.mask ?? [];
+        this.mask = mask;
+        this.forbidden = params.forbidden ?? [];
         if(existing.length > 0) { start = existing[0]; }
 
         const grid = params.grid;
+        this.grid = grid;
+        
         const neighborFunction = params.neighborFunction ?? null;
+        this.neighborFunction = neighborFunction;
+
         const defaultFilter = (a:any, b:any) => { return true; };
         const filter = params.filter ?? defaultFilter;
+        this.filter = filter;
 
-        const defaultPickFunction = (list,nbs) => { return fromArray(nbs); }
+        const defaultPickFunction = (list, nbs) => { return fromArray(nbs); }
         const neighborPickFunction = params.neighborPickFunction ?? defaultPickFunction;
 
         const bounds = params.bounds ?? { min: 1, max: 1000000 };
@@ -50,7 +65,7 @@ export default class FloodFiller
 
         while(list.length < maxSize)
         {
-            const nbs = this.getAllValidNeighbors(list, grid, filter, neighborFunction, mask);
+            const nbs = this.getAllValidNeighbors(list);
             if(nbs.length <= 0) { break; }
 
             const nb = neighborPickFunction(list, nbs);
@@ -61,36 +76,37 @@ export default class FloodFiller
         return list.slice();
     }
 
-    getAllValidNeighbors(list:any[], grid:any[][], filter:Function, neighborFunction:string, mask:any[])
+    getAllValidNeighbors(list:any[])
     {
         const nbSet = new Set();
         for(const cell of list)
         {
             let nbs : any[]
-            if(neighborFunction) { nbs = cell[neighborFunction](); }
-            else { nbs = this.getValidNeighbors(cell, grid); }
+            if(this.neighborFunction) { nbs = cell[this.neighborFunction](); }
+            else { nbs = this.getValidNeighbors(cell); }
             
             for(const nb of nbs)
             {
                 if(list.includes(nb)) { continue; }
-                if(mask.length > 0 && !mask.includes(nb)) { continue; }
-                if(!filter(cell, nb)) { continue; }
+                if(this.forbidden.includes(nb)) { continue; }
+                if(this.mask.length > 0 && !this.mask.includes(nb)) { continue; }
+                if(!this.filter(cell, nb)) { continue; }
                 nbSet.add(nb)
             }
         }
         return Array.from(nbSet);
     }
 
-    getValidNeighbors(elem:any, grid:any[][]) : any[]
+    getValidNeighbors(elem:any) : any[]
     {
         const nbs = [];
         const basePos = new Point(elem.x, elem.y);
         for(const offset of NB_OFFSETS)
         {
             var pos = basePos.clone().move(offset);
-            if(this.outOfBounds(pos, grid)) { continue; }
+            if(this.outOfBounds(pos, this.grid)) { continue; }
             
-            const cell = grid[pos.x][pos.y];
+            const cell = this.grid[pos.x][pos.y];
             nbs.push(cell);
         }
         return nbs;
