@@ -22,11 +22,6 @@ const CONFIG = {
 
         squareSizeInPathPoints: 1, // after moving X points on the path, we start a new square
 
-        paths:
-        {
-            smoothResolution: 10,
-            thickness: 0.5, // relative to cell size / dist between two grid points
-        }
     },
 
     evaluator:
@@ -36,6 +31,17 @@ const CONFIG = {
 
     display:
     {
+
+        showSquares: true,
+        
+        paths:
+        {
+            smoothPath: true,
+            thickenPath: true,
+
+            smoothResolution: 10,
+            thickness: 0.5, // relative to cell size / dist between two grid points
+        }
     }
 }
 

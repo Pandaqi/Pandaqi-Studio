@@ -89,7 +89,6 @@ export default class Drawer
             this.graphics.fillRectShape(rect);
         }
 
-        if(n.children.length > 1) { console.log("More than 1 child!"); }
         for(const child of n.children)
         {
             this.drawSectionNode(child);
@@ -98,26 +97,29 @@ export default class Drawer
 
     drawPaths(board:Board)
     {
-        const smoothResolution = CONFIG.generation.paths.smoothResolution;
+        const smoothResolution = CONFIG.display.paths.smoothResolution;
         const squareSize = CONFIG.generation.squareSizeInPathPoints;
-        const thickness = CONFIG.generation.paths.thickness * this.cellSize;
+        const thickness = CONFIG.display.paths.thickness * this.cellSize;
         const squareSizeReal = squareSize * smoothResolution;
 
         for(const path of board.paths)
         {
-            const points = this.convertToRealPositions(path.toPath(), new Point(0.5));
-            const pointsSmoothed = smoothPath({ path: points, resolution: smoothResolution });
-            const shape = thickenPath({ path: pointsSmoothed, thickness: thickness });
+            let points = this.convertToRealPositions(path.toPath(), new Point(0.5));
+            if(CONFIG.display.paths.smoothPath) { points = smoothPath({ path: points, resolution: smoothResolution }); }
+            if(CONFIG.display.paths.thickenPath) { points = thickenPath({ path: points, thickness: thickness }); }
 
             this.debugSquareColors = equidistantColors(path.squares.length, 100, 75);
 
-            for(let i = 0; i < path.squares.length; i++)
+            if(CONFIG.display.showSquares)
             {
-                const squareType = path.squares[i];
-                this.drawPathSquare(i, shape, squareType, squareSizeReal);
+                for(let i = 0; i < path.squares.length; i++)
+                {
+                    const squareType = path.squares[i];
+                    this.drawPathSquare(i, points, squareType, squareSizeReal);
+                }
             }
 
-            const poly = new Geom.Polygon(shape);
+            const poly = new Geom.Polygon(points);
             this.graphics.lineStyle(10, 0x000000);
             this.graphics.strokePoints(poly.points);
         }
@@ -128,8 +130,6 @@ export default class Drawer
         const left = path.slice(num * offset, (num+1)*offset + 1);
         const right = path.slice(path.length - (num+1)*offset - 1, path.length - (num * offset));
         const points = [left, right].flat();
-
-        console.log(points);
 
         const poly = new Geom.Polygon(points);
         this.graphics.fillStyle(this.debugSquareColors[num].toHEXNumber());

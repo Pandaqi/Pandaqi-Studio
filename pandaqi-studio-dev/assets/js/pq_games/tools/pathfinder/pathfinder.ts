@@ -131,8 +131,6 @@ export default class PathFinder
 	getTravelCost(l:LineGraph|string, from?:PointGraph, to?:PointGraph)
 	{
 		let score = (this.costMap.get(l) ?? this.cost) ?? 1;
-		console.log(score);
-
 		if(!(l instanceof LineGraph)) 
 		{ 
 			l = new LineGraph(from, to);
@@ -188,8 +186,6 @@ export default class PathFinder
 		let reachable = false;
 		while(!Q.isEmpty()) 
 		{
-			console.log(Q);
-
 			const currentPoint = Q.get();
 			tilesChecked.set(currentPoint, true);
 		
@@ -204,15 +200,9 @@ export default class PathFinder
 				const isForbidden = this.forbiddenPoints.includes(nb);
 				if(isForbidden) { continue; }
 
-				console.log("reached here");
-				console.log(currentPoint);
-				console.log(nbLine);
-
 				const connKey = this.getConnectionKey(currentPoint, nbLine);
 				const connectionIsForbidden = this.forbiddenLines.includes(connKey);
 				if(connectionIsForbidden) { continue; }
-
-				console.log("now reached here");
 
 				const newCost = costSoFar.get(currentPoint) + this.getTravelCost(connKey, currentPoint, nb);
 
@@ -236,8 +226,6 @@ export default class PathFinder
 			console.error("PathFinder finds no path between ", start, " and ", end); 
 			return []; 
 		}
-
-		console.log("even reached here!");
 	
 		// reconstruct the path
 		const path = []
@@ -245,7 +233,6 @@ export default class PathFinder
 		let isStartPoint = false;
 		while(!isStartPoint) {
 			path.push(currentPoint)
-			console.log(currentPoint);
 			currentPoint = cameFrom.get(currentPoint);
 			isStartPoint = (currentPoint == start);
 		}

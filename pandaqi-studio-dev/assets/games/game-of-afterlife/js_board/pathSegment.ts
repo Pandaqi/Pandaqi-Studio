@@ -19,8 +19,6 @@ export default class PathSegment
         const squareSize = CONFIG.generation.squareSizeInPathPoints;
         const numSquares = Math.floor( this.lengthRaw() / squareSize);
         this.squares = this.pickSquaresBalanced(numSquares);
-
-        console.log(this.squares);
     }
 
     // @TODO: actually pick, actually fairly

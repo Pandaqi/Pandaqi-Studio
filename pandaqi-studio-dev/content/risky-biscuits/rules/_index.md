@@ -1,5 +1,5 @@
 ---
-title: "Aeronaut Odyssey"
+title: "Risky Biscuits"
 date: 2023-05-02
 type: "rules"
 pdf: false
@@ -7,148 +7,99 @@ pdf: false
 
 {{% rules-block id="setup" heading="Setup" icon="setup" icontint="pink" %}}
 
-Print a game board. Cut off the player areas (or fold them away).
+Print a world map from the website. Each player invents a unique icon: you'll use this to draw where your armies are.
 
-Each player ...
+Take clockwise turns placing **1** army in any free space, until everybody has **2** armies in total.
 
-* Receives a player area. Keep this secret all game.
-* Picks any drawable icon: you'll use that to represent yourself
-* Draws that icon at a city of choice: that's your **traveler**.
+{{% remark %}}
+A free space has nothing inside: no artefact, no obstacle, no other army.
+{{% /remark %}}
+
+All land spaces can be used. Ocean spaces, however, can only be used if highlighted.
+
+Areas can contain any number of icons from any number of players! The "current owner" of an area, however, is the one who has the **majority**. In case of a tie, it's the player who holds the most artefacts. If that's also a tie, nobody owns the area.
+
+@TODO: IMAGE EXAMPLE
+* Clearly label continent, area, region, artefact, available ocean space
+* Show unique icon being drawn inside squares
+* Show majority rule => who "owns" what areas after some setup
 
 {{% /rules-block %}}
 
 {{% rules-block id="objective" heading="Objective" icon="objective" icontint="blue" %}}
 
-The game ends when a player **can't take any action** on their turn. The player with the **highest score** wins.
+The game ends once all army slots have been used. The player who **owns the most areas** (at that moment) **wins**. Ties are broken by most individual armies.
 
 {{% /rules-block %}}
 
 {{% rules-block id="gameplay" heading="Gameplay" icon="action" class="force-page-break-before" icontint="lightblue" %}}
 
-Take clockwise turns. On your turn, pick one action: **Move** or **Claim**.
+Take clockwise turns. Each turn has the same three steps: **Move**, **Battle** and **Debrief**. All of these are _optional_.
 
 {{< rules-example id="turn" >}}
 
 {{% rules-block id="action_move" heading="Move" %}}
 
-Pick a **destination**: a city connected to your traveler's current city, with a free movement slot. Skip over any cities with all slots filled.
+Move an army of yours into another free space. Cross out the old one, draw it again at the new location. You can repeat this as often as you like, but each individual army can only move once per turn.
 
-* Cross out your traveler and draw it at your destination.
-* Pick one of the types over which you just moved. You receive **two trains** of that type; draw them in your player area.
-* If you traveled over a claimed route (from someone else), the owner is rewarded with one train of choice.
+@TODO: IMAGE EXAMPLE
+
+{{% /rules-block %}}
+
+{{% rules-block id="action_battle" heading="Battle" %}}
+
+Start a battle against another player. This can be within an area you occupy _or_ against an adjacent area.
+
+Both sides of the conflict ...
+
+* Go clockwise around the table, asking any player who is also inside the contested area ...
+  * If they _support_ the battle. If so, their number of armies is added to the total.
+  * If they want to use an _artefact_. If they do, execute its power, then cross it out (it can never be used again).
+* Until they arrive at the number that represents their final strength.
 
 {{% remark %}}
-Your area is full? You can't receive any more trains or do a "Move" action.
+You can discuss, promise, negotiate all you want. But when the battle has started, and you ask people what they want to do (join and/or use artefact) ... they're free to break promises and do anything they want.
 {{% /remark %}}
 
-@TODO: IMAGE
+The losing side---the lowest number---is _wiped out_. Cross out all their armies (in that area).
+
+The winning side loses as many armies as the _difference_ between these numbers. Distribute these losses fairly across everyone who contributed, rounded down. Any losses that simply can't be taken by someone, must be suffered by the current owner of the area.
+
+@TODO: IMAGE EXAMPLE
+* A fights player B within the same territory.
+* A asks around and gets support from C, bringing their total to 10 armies.
+* B has no support and has 5 armies.
+* A and C win, B is wiped out. They difference is 10 - 5 = 5 armies. So, A loses 2 armies and C loses 2 armies.
+
+All winners receive **1 free army** to place in one of the areas involved _or_ an adjacent one.
+
+If this _completely_ wipes out a player, they simply come back following the same rules as the setup. (Place 2 new armies in any free spaces.)
 
 {{% /rules-block %}}
 
-{{% rules-block id="action_claim" heading="Claim" %}}
+{{% rules-block id="action_debrief" heading="Debrief" %}}
 
-To claim a route, pay trains from your own area. They must be ...
+Count how many areas you own. That is, you are currently the _majority_. Also count bonus armies if you control an entire _continent_. 
 
-* The same type as the route
-* The same number as the length of the route ( = number of spaces)
-
-Cross out the trains paid from your own area. Draw your icon in all claimed spaces. (A route can only be claimed once.)
-
-Check the two cities of the route you just claimed. Any traveler currently there receives one train of the type you used.
-{{% /rules-block %}}
-
-{{% /rules-block %}}
-
-{{% rules-block id="scoring" heading="Scoring" class="force-page-break-before" icon="score" icontint="yellow" %}}
-
-All points are permanent on the board. This means you don't need to track score while playing: just calculate it when the game is over.
-
-You score points for claimed routes.
-* 1 train = 1 point
-* 2 trains = 2 points
-* 3 trains = 4 points
-* 4 trains = 7 points
-* 5 trains = 10 points
-
-{{% /rules-block %}}
-
-{{% rules-block id="solo_mode" heading="Solo & Duo Mode" class="force-page-break-before" %}}
-
-With 2 players ("duo mode"), double routes become single routes. They can only be claimed once. Additionally, you have a bigger hand: use the extra space in the player area.
-
-With 1 player ("solo mode"), play against a fake opponent. 
-
-On their turn,
-* Check if they can claim any route. If so, do it.
-* Otherwise, they move from their current city to the destination with the lowest number.
-* If you move over a route they claimed, they choose a train of the same type as the route.
-* Otherwise, whenever they have a choice, you decide.
-
-{{% /rules-block %}}
-
-{{% rules-block id="expansions" heading="Expansions" class="force-page-break-before" icon="expansion" icontint="yellow" %}}
-
-Once you've played the base game once or twice, you might be ready for expansions!
-
-{{% rules-block id="expansion_trajectories" heading="Trajectories" %}}
-
-You've fulfilled a trajectory if you can travel from one city to the other using _your_ routes.
-
-They are printed at the bottom right. If you've fulfilled one, draw your icon in its slot and receive its reward. 
-
-{{% remark %}}
-You can't claim a trajectory twice nor when all its slots are already taken.
-{{% /remark %}}
-
-The reward can be ...
-* A point value
-* Extra trains for your player area
-* A one-time power. These can be used at any time on your turn. Afterwards, cross out the power.
-
-{{% /rules-block %}}
-
-{{% rules-block id="expansion_bonus" heading="Bonus" %}}
-
-Some routes receive a bonus attached to the side. If you claim that route, you immediately receive its bonus.
-
-Bonuses don't run out. On a double route, for example, the player to claim the second track also receives that bonus.
-
-@TODO IDEA: A permanent bonus. You may steal from anybody using that route for moving.
-
-{{% /rules-block %}}
-
-{{% rules-block id="expansion_multiroutes" heading="Multiroutes" %}}
-
-Some routes can become **multiroutes**.
-
-Each space of a multiroute is a different type. As such, during a **Claim** action, you only claim one space at a time. 
-
-Anybody who participated scores _full_ points for this route, but only if it is _completed_. Similarly, anybody who participated can use it to complete trajectories _once completed_.
-
-@TODO => IDEA: Also make the “grey” routes part of this expansion? Don’t include in the base game to simplify?
-
-{{% /rules-block %}}
-
-{{% rules-block id="expansion_thieves" heading="Thieves & Spies" %}}
-
-IDEA: You can steal trains from another player. You say a random number and get whatever is (or was?) inside that cell.
-
-Related idea: if you lay the second route on a double, the original player steals the last card in your hand (or any card). Or you may steal. It’s just a great situation for stealing.
-
-IDEA: A way to change the value of trajectories. (Like make them better just before completing them, or worse just before someone else does it.)
-
-IDEA: Benefit from being in the same city as the player who just claimed some route?
-
-Yes, leave this as an expansion. Because the idea of “stealing” needs a paragraph of explanation. (Say a number. What if nothing is there? How to prevent repeating the same number during the game, if that’s allowed?)
-
-IDEA (could be its own expansion): Add secret objectives or powers to the player areas (expansion).
-
-IDEA (could be its own expansion): Turn the train types ( = hot air balloons I guess) into characters or resources that each have their own unique effect?
+Now place that many new armies, in areas you already occupy _or_ adjacent areas that are unoccupied.
 
 {{% /rules-block %}}
 
 {{% /rules-block %}}
 
+{{% rules-block id="artefacts" heading="Artefacts" class="force-page-break-before" icon="score" icontint="yellow" %}}
 
+There are two types. 
 
+* **Area Powers**: these can only be activated by the current owner of that area. (As such, they can change hands and don't belong to anyone until used.)
+* **Artefacts**: these are simply _spaces_ that can be visited. They are, thus, owned by the first visitor forever. (If that army is destroyed, the artefact is destroyed with it. Some artefacts have some "curse" or "effect" upon destruction.)
 
+These powerups are how I want to make "destroyed" slots relevant. Examples are ... 
+
+* "Army of the Dead": all destroyed armies in your area belong to _you_ now (in this battle).
+* "Shield of Ruin": you can only battle in this area if the number of armies used is greater/smaller than the number of destroyed armies.
+* "Path to the Underworld": all armies that are adjacent to a _destroyed_ slot, may flee the battle before it begins. (Next to any other destroyed square in an adjacent area.) 
+
+@TODO: RULES TABLE, IMAGE EXAMPLE
+
+{{% /rules-block %}}

@@ -3,6 +3,7 @@ import PointPath, { PathCommand } from "./pointPath";
 import Shape from "../shape";
 import ArcData from "./arcData";
 import Dims from "../dims";
+import fromArray from "../../random/fromArray";
 
 interface PathParams
 {
@@ -130,7 +131,18 @@ export default class Path extends Shape
 
     getFirst() { return this.points[0].point; }
     getLast() { return this.points[this.points.length-1].point; }
-
+    hasPoint(p) 
+    { 
+        for(const point of this.points)
+        {
+            if(point.point == p || point.point.matches(p)) { return true; }
+        }
+        return false;
+    }
+    getRandomPoint()
+    {
+        return fromArray(this.points).point;
+    }
     endPointsMatch(p1:Point, p2:Point)
     {
         const first = this.getFirst();

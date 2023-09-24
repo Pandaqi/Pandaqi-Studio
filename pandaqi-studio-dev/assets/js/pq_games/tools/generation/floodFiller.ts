@@ -33,6 +33,7 @@ export default class FloodFiller
 
     count() { return this.get().length; }
     get() { return this.elements; }
+    hasElement(elem:any) { return this.elements.includes(elem); }
     addElement(elem:any) { this.elements.push(elem); }
     addElements(list:any[]) { for(const elem of list) { this.addElement(elem); } }
     grow(params:FloodFillParams) 
@@ -72,11 +73,15 @@ export default class FloodFiller
             list.push(nb);
         }
 
+        // @TODO: should think more about the structure of this thing and resetting stuff
+        this.forbidden = [];
+        this.mask = [];
+
         this.elements = list;
         return list.slice();
     }
 
-    getAllValidNeighbors(list:any[])
+    getAllValidNeighbors(list:any[] = this.elements)
     {
         const nbSet = new Set();
         for(const cell of list)

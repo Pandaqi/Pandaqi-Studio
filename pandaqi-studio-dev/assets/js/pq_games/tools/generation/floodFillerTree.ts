@@ -6,15 +6,18 @@ class FloodFillerTreeNode
     floodFiller:FloodFiller
     parent:FloodFillerTreeNode
     children:FloodFillerTreeNode[]
+    metadata:Record<string,any>
 
     constructor(f)
     {
         this.floodFiller = f;
         this.children = [];
         this.parent = null;
+        this.metadata = {};
     }
 
     hasParent() { return this.parent != null; }
+    hasElement(elem) { return this.floodFiller.hasElement(elem); }
     setParent(n) { this.parent = n; }
     count() 
     { 
@@ -29,6 +32,19 @@ class FloodFillerTreeNode
     {
         this.children.push(f);
         f.setParent(this);
+    }
+
+    getNeighborsToNode(n:FloodFillerTreeNode)
+    {
+        const ourElems = this.floodFiller.get();
+        const nbElems = n.floodFiller.getAllValidNeighbors();
+        const arr = [];
+        for(const nbElem of nbElems)
+        {
+            if(!ourElems.includes(nbElem)) { continue; }
+            arr.push(nbElem);
+        }
+        return arr;
     }
 }
 
@@ -100,9 +116,6 @@ export default class FloodFillerTree
 
     getAllValidNeighbors(assigned:any[], f:FloodFiller)
     {
-        console.log(f);
-        console.log("searching neighbors");
-        
         const arr = [];
         const nbs = f.getAllValidNeighbors(f.get());
         for(const nb of nbs)
