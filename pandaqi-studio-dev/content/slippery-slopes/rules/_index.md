@@ -7,7 +7,7 @@ pdf: false
 
 {{% rules-block id="setup" heading="Setup" icon="setup" icontint="pink" %}}
 
-There are four **slider card** types: words, shapes, color, or any two properties. You can create separate decks for them (easier) or shuffle them all into one deck (harder). Now ...
+Create a deck of slider cards.
 
 * Draw 3 sliders at random and place them in front of the start player. These are the guessing sliders.
 * Draw another one and place it in the center of the table. This is the action slider.
@@ -36,7 +36,7 @@ Each turn has two simple steps: **change sliders** and **communicate**. Read the
 
 You receive the three guessing sliders from the previous player. Now ...
 
-* Draw a random word card.
+* Draw a random word card and secretly pick 1 word from it.
 * Place one of the guessing sliders on top of the action slider, replacing it.
 * Draw a new guessing slider from any of the piles.
 
@@ -50,7 +50,7 @@ If you play competitively, the teams simply alternate taking their turn.
 
 {{% rules-block id="communicate" heading="Communicate" %}}
 
-Start the timer (1 minute).
+Start a [timer](https://pandaqi.com/tools/timer). The recommended duration is 1 or 2 minutes.
 
 You must communicate your secret word ... using only the sliders. 
 
@@ -66,9 +66,14 @@ If somebody guesses the correct word, you score **5 points**. If time runs out, 
 
 {{% /rules-block %}}
 
-{{% rules-block id="actions" heading="Actions" class="force-page-break-before" icon="expansions" icontint="purple" %}}
+{{% rules-block id="expansions" heading="Expansions" class="force-page-break-before" icon="expansions" icontint="purple" %}}
 
-While guessing, other players can also **tap an action** on the current action slider to activate it. Each action taken, however, reduces the score for this word by **1 point**.
+{{% rules-block id="expansion_glidy_gifts" heading="Glidy Gifts" %}}
+
+While guessing, other players can also **tap an action** on the current action slider to activate it. Each action, however,
+
+* Can only be taken once.
+* And reduces the score for this word by **1 point**.
 
 Below is a table of all actions and what they mean.
 
@@ -79,5 +84,23 @@ Below is a table of all actions and what they mean.
     {{< /rules-table-entry >}}
 <!-- -->
 {{< /rules-table >}}
+
+{{% /rules-block %}}
+
+{{% rules-block id="expansion_crashery_cliffs" heading="Crashery Cliffs" %}}
+
+This expansion adds three things: more slider types, a new rule, and a way to differentiate which slider is most important.
+
+**Slider Types**: the additions are **words**, **shapes** and **color**. You can create separate decks for them (easier) or shuffle them all into one deck (harder). Everything else is the same: use a card to indicate a specific point on the slider.
+
+**New Rule**: players are allowed to pick how many sliders they want: 2, 3, 4 or 5. Discard and re-draw whatever is needed.
+
+{{% remark %}}
+Having more sliders on your turn might seem beneficial ( = you can be more specific), but it can also hurt you, as you must set them _all_!
+{{% /remark %}}
+
+**Slider Priority**: by using a stack of _multiple_ face-down sliders to indicate the same spot, you communicate that this specific guessing slider is _more important_ than the others.
+
+{{% /rules-block %}}
 
 {{% /rules-block %}}

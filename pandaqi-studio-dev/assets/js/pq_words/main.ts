@@ -27,7 +27,8 @@ interface LoadParams
     maxWordLength?:number
 }
 
-class PandaqiWords {
+class PandaqiWords 
+{
 
     jsonCache:Record<string,any> = {}
     txtCache:Record<string,any> = {}
@@ -329,7 +330,7 @@ class PandaqiWords {
         return { success: false, matches: matches }
     }
 
-    getRandomMultiple(num = 10, remove = false)
+    getRandomMultiple(num = 10, remove = false) : WordData[]
     {
         const arr = [];
         for(let i = 0; i < num; i++)
@@ -341,7 +342,7 @@ class PandaqiWords {
         return arr;
     }
 
-    getRandom(remove = false)
+    getRandom(remove = false) : WordData
     {
         if(this.list.length <= 0) { return null; }
 
@@ -351,7 +352,7 @@ class PandaqiWords {
         return val;
     }
 
-    getAllSubcategories(cat)
+    getAllSubcategories(cat) : string[]
     {
         const arr = [];
         for(const otherCat of this.allCategories)

@@ -16,10 +16,13 @@ extraJSGame: true
 
 {{< boardgame-settings type="game" local_storage="slipperySlopesConfig" >}}
 	{{< setting-hidden id="setting-gameTitle" text="Slippery Slopes" >}}
-  {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
+  {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material grayscale." >}}
   {{< setting-enum id="setting-cardSize" text="Card Size?" values="small,regular,huge" valaskey="true" def="regular" >}}
-  {{< setting-checkbox id="setting-includeActions" text="Include Actions?" remark="Highly recommended to make guessing easier." checked="checked" >}}
-  {{< setting-checkbox id="setting-crasheryCliffs" text="Crashery Cliffs?" remark="An expansion: slight rule changes and more types of sliders and actions." >}}
+  {{< setting-checkbox id="setting-generateSliders" text="Generate Sliders?" checked="checked" >}}
+  {{< setting-checkbox id="setting-generateWords" text="Generate Words?" checked="checked" >}}
+  <h3>Expansions</h3>
+  {{< setting-checkbox id="setting-glidyGifts" text="Glidy Gifts?" remark="Adds actions to help make guessing easier." checked="checked" >}}
+  {{< setting-checkbox id="setting-crasheryCliffs" text="Crashery Cliffs?" remark="Slight rule changes and more slider types." >}}
 {{< /boardgame-settings >}}
 
 {{% /section-centered %}}
