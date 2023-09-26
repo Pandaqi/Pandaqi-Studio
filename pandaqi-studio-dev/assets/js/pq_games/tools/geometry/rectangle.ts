@@ -19,7 +19,7 @@ export default class Rectangle extends Shape
     {
         super();
         this.center = r.center ?? new Point();
-        this.extents = r.extents ?? new Point();
+        this.extents = r.extents ?? new Point(1,1);
     }
 
     clone(deep = false)

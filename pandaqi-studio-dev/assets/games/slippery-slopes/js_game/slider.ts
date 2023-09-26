@@ -4,12 +4,19 @@ import equidistantColorsBetweenOpposites from "./tools/equidistantColorsBetweenO
 import createWavyRect from "./tools/createWavyRect";
 import Point from "js/pq_games/tools/geometry/point";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import { ACTIONS, SLIDERS } from "../js_shared/dict";
+import { ACTIONS, RANDOM_SHAPE_LIST, SLIDERS } from "../js_shared/dict";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
 import Rectangle from "js/pq_games/tools/geometry/rectangle";
 import ResourceShape from "js/pq_games/layout/resources/resourceShape";
 import GrayScaleEffect from "js/pq_games/layout/effects/grayScaleEffect";
 import Color from "js/pq_games/layout/color/color";
+import TextConfig from "js/pq_games/layout/text/textConfig";
+import rangeInteger from "js/pq_games/tools/random/rangeInteger";
+import shuffle from "js/pq_games/tools/random/shuffle";
+import range from "js/pq_games/tools/random/range";
+import Path from "js/pq_games/tools/geometry/paths/path";
+import createRandomShape from "js/pq_games/tools/geometry/random/createRandomShape";
+import scalePath from "js/pq_games/tools/geometry/transform/scalePath";
 
 export default class Slider
 {
@@ -86,7 +93,7 @@ export default class Slider
     async drawCustom(ctx, colors, textConfig, blockHeight, cardSize)
     {
         if(this.mainType == "property") { await this.drawProperties(ctx, colors, textConfig, blockHeight, cardSize); }
-        else if(this.mainType == "words") { await this.drawWords(ctx, colors, textConfig, blockHeight, cardSize); }
+        else if(this.mainType == "words") { await this.drawWords(ctx, colors, blockHeight, cardSize); }
         else if(this.mainType == "color") { await this.drawColorRamp(ctx); }
         else if(this.mainType == "shapes") { await this.drawShapes(ctx, colors, blockHeight, cardSize); }
     }
@@ -106,16 +113,61 @@ export default class Slider
             const translate = (i == 0) ? new Point(0, 0.5*blockHeight) : new Point(0, cardSize.y - 0.5*blockHeight)
             const canvOp = new LayoutOperation({
                 translate: translate,
-                fill: color.darken(textDarken)
+                fill: color.darken(textDarken),
+                dims: new Point(cardSize.x, blockHeight)
             })
             await text.toCanvas(ctx, canvOp);
         }
     }
 
     // draw random words/letters in random fonts
-    async drawWords(ctx, colors, textConfig, blockHeight, cardSize)
+    async drawWords(ctx, colors, blockHeight, cardSize)
     {
-        // @TODO
+        const textDarken = CONFIG.cards.textDarkenFactor;
+        const fonts = []; // @TODO: select random fonts (no duplicates)
+        for(let i = 0; i < CONFIG.numSpecialFonts; i++)
+        {
+            fonts.push(i);
+        }
+        shuffle(fonts);
+
+        for(let i = 0; i < colors.length; i++)
+        {
+            const fontKey =  CONFIG.fonts["special" + fonts.pop()].key;
+            const tempTextCfg = new TextConfig({
+                font: fontKey
+            })
+
+            const word = this.getRandomWord();
+
+            const translate = new Point(0, (i+0.5) * blockHeight);
+            const res = new ResourceText({ text: word, textConfig: tempTextCfg })
+            const canvOp = new LayoutOperation({
+                translate: translate,
+                fill: colors[i].darken(textDarken),
+                dims: new Point(cardSize.x, blockHeight)
+            })
+            await res.toCanvas(ctx, canvOp);
+        }
+    }
+
+    getRandomWord()
+    {
+        const realWord = Math.random() <= CONFIG.sliderCards.words.useRealWordProb;
+        if(realWord) { return CONFIG.pandaqiWords.getRandom(true); }
+
+        const randLength = rangeInteger(CONFIG.sliderCards.words.stringLengthBounds);
+        const arr = [];
+        for(let i = 0; i < randLength; i++)
+        {
+            arr.push(this.getRandomLetter());
+        }
+        return arr.join("");
+    }
+
+    getRandomLetter()
+    {
+        return String.fromCharCode(97 + Math.floor(Math.random() * 26));
     }
 
     // just draw the full color wheel from top to bottom
@@ -125,6 +177,8 @@ export default class Slider
         const steps = this.meterRect.extents.y / stepSize;
         const stepExtents = new Point(this.meterRect.extents.x, stepSize);
         const hueStep = 360 / (steps - 1);
+
+        // @TODO: a lot of syntax just to get a tiny rectangle in a color => create convenience functions like "drawRect" and "drawCircle" and stuff?
         for(let i = 0; i < steps; i++)
         {
             const hue = i * hueStep;
@@ -141,7 +195,42 @@ export default class Slider
     // draw a random assortment of shapes (some pretty standard, some chaotic random)
     async drawShapes(ctx, colors, blockHeight, cardSize)
     {
-        // @TODO
+        const textDarken = CONFIG.cards.textDarkenFactor;
+        const randShapeProb = CONFIG.sliderCards.shapes.completelyRandomizeProb;
+
+        const shapes = RANDOM_SHAPE_LIST;
+        const shapeList = shuffle(Object.keys(shapes));
+
+        const maxShapeHeight = 0.75*blockHeight;
+
+        for(let i = 0; i < colors.length; i++)
+        {
+            let randShape = shapes[shapeList.pop()];
+            let useRandomShape = Math.random() <= randShapeProb;
+            if(useRandomShape) {
+                const randShapeParams = {
+                    corners: rangeInteger(4, 8),
+                    chaos: range(0.2, 0.6),
+                    radius: 0.5*maxShapeHeight,
+                    spikiness: range(0.2, 0.6)
+                } 
+                randShape = new Path({ points: createRandomShape(randShapeParams) }); 
+            } else {
+                // the pre-existing shapes are normalized to -0.5<->0.5 range, so scale to correct size for card
+                randShape = new Path({ points: scalePath(randShape.toPath(), maxShapeHeight) });
+            }
+            
+            const color = colors[i];
+            const translate = new Point(0.5*cardSize.x, (i+0.5) * blockHeight);
+            const res = new ResourceShape({ shape: randShape });
+            const randRotation = rangeInteger(0,7) * 0.25 * Math.PI
+            const canvOp = new LayoutOperation({
+                translate: translate,
+                fill: color.darken(textDarken),
+                rotation: randRotation
+            })
+            res.toCanvas(ctx, canvOp);
+        }
     }
 
     async drawActionIcons(ctx, colors, blockHeight, cardSize)

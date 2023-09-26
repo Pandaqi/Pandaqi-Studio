@@ -19,7 +19,7 @@ export default class Circle extends Shape
     {
         super();
         this.center = c.center ?? new Point();
-        this.radius = c.radius ?? 10;
+        this.radius = c.radius ?? 0.5;
     }
 
     clone(deep = false)

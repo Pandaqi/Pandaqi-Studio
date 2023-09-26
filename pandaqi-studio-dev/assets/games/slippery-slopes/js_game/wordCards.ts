@@ -14,15 +14,16 @@ export default class WordCards
 {
     words: WordData[];
     gridMapper: GridMapper;
+    pqWords: PandaqiWords;
     
     constructor() { }
 
-    async generate()
+    generate()
     {
         if(!CONFIG.generateWords) { return; }
 
         this.setup();
-        await this.pickWords();
+        this.pickWords();
     }
 
     setup()
@@ -37,13 +38,10 @@ export default class WordCards
         CONFIG.wordCards.size = cardSize.clone();
     }
     
-    async pickWords()
-    {
-        const pqWords = new PandaqiWords();
-        const wordParams = {}; // @TODO: read/set this
-        await pqWords.loadWithParams(wordParams);
+    pickWords()
+    {        
         const wordsNeeded = CONFIG.wordCards.num * CONFIG.wordCards.numPerCard;
-        this.words = pqWords.getRandomMultiple(wordsNeeded, true);
+        this.words = CONFIG.pandaqiWords.getRandomMultiple(wordsNeeded, true);
     }
 
     async draw()

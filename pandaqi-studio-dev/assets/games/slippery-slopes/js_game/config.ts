@@ -11,6 +11,7 @@ const CONFIG = {
     pdfBuilder: null,
     resLoader: null,
     gridMapper: null,
+    pandaqiWords: null,
     cardSize: "regular",
 
     inkFriendly: false,
@@ -23,18 +24,76 @@ const CONFIG = {
     },
 
     actionSpritesheetKey: "actions",
+    numSpecialFonts: 10,
 
     fonts: {
-        heading: {
+        special0: {
             key: "Super Funtime",
             url: "assets/fonts/SuperFuntime.woff2",
             crasheryCliffs: false,
         },
 
-        // @TODO: create list of special fonts for the words sliders here
+        // @TODO: create list of special fonts for the words sliders here (8 of them)
+        // slab serif, old-timey
         special1: {
-            key: "Lala",
-            url: "assets/fonts/special/lala.woff2",
+            key: "Abril Fatface",
+            url: "assets/fonts/special/AbrilFatface-Regular.woff2",
+            crasheryCliffs: true
+        },
+
+        // sans-serif
+        special2: {
+            key: "Advent Pro",
+            url: "assets/fonts/special/AdventPro-Bold.woff2",
+            crasheryCliffs: true
+        },
+
+        // serif, book
+        special3: {
+            key: "Alegreya",
+            url: "assets/fonts/special/Alegreya-Italic.woff2",
+            crasheryCliffs: true
+        },
+
+        // handwritten, small-caps
+        special4: {
+            key: "Amatic",
+            url: "assets/fonts/special/AmaticSC-Regular.woff2",
+            crasheryCliffs: true
+        },
+
+        // grunge, chaotic
+        special5: {
+            key: "AnuDaw",
+            url: "assets/fonts/special/AnuDawItalic.woff2",
+            crasheryCliffs: true
+        },
+
+        // cursive, curly, handwritten
+        special6: {
+            key: "BlackJack",
+            url: "assets/fonts/special/BlackJack.woff2",
+            crasheryCliffs: true
+        },
+
+        // blackletter, medieval, fantasy
+        special7: {
+            key: "Chomsky",
+            url: "assets/fonts/special/Chomsky.woff2",
+            crasheryCliffs: true
+        },
+
+        // monotype, typewriter
+        special8: {
+            key: "Courier",
+            url: "assets/fonts/special/CourierNewPS-ItalicMT.woff2",
+            crasheryCliffs: true
+        },
+
+        // display, cursive, thick, swooshy
+        special9: {
+            key: "Pacifico",
+            url: "assets/fonts/special/Pacifico-Regular.woff2",
             crasheryCliffs: true
         }
     },
@@ -73,6 +132,17 @@ const CONFIG = {
         },
         dimsElement: new Point(1,2),
         size: new Point(),
+
+        words:
+        {
+            useRealWordProb: 0.33,
+            stringLengthBounds: new Bounds(1,4)
+        },
+
+        shapes:
+        {
+            completelyRandomizeProb: 0.25,
+        }
     },
 
     cards: {

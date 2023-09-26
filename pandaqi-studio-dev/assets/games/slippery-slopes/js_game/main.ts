@@ -5,6 +5,7 @@ import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanva
 import ResourceLoader from "js/pq_games/layout/resources/resourceLoader"
 import WordCards from "./wordCards"
 import SliderCards from "./sliderCards"
+import PandaqiWords from "js/pq_words/main";
 
 export default class Generator 
 {
@@ -40,7 +41,7 @@ export default class Generator
 
         const wordCards = new WordCards();
         CONFIG.progressBar.setInfo("Generating word cards.");
-        await wordCards.generate();
+        wordCards.generate();
 
         const sliderCards = new SliderCards();
         CONFIG.progressBar.setInfo("Generating sliders.");
@@ -71,10 +72,15 @@ export default class Generator
         }
         await resLoader.loadPlannedResources();
 
+        const pqWords = new PandaqiWords();
+        const wordParams = {}; // @TODO: read/set this
+        await pqWords.loadWithParams(wordParams);
+
         const pdfBuilderConfig = { orientation: PageOrientation.PORTRAIT };
         const pdfBuilder = new PdfBuilder(pdfBuilderConfig);
         CONFIG.resLoader = resLoader;
-        CONFIG.pdfBuilder = pdfBuilder;    
+        CONFIG.pdfBuilder = pdfBuilder; 
+        CONFIG.pandaqiWords = pqWords;   
     }
 
     async downloadPDF(canvases:HTMLCanvasElement[])

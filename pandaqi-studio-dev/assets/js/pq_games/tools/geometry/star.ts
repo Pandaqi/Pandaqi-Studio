@@ -11,8 +11,8 @@ interface StarParams
     corners?:number
 }
 
-export { Polygon, StarParams }
-export default class Polygon extends Shape
+export { Star, StarParams }
+export default class Star extends Shape
 {
     center:Point
     radiusInside:number
@@ -23,8 +23,8 @@ export default class Polygon extends Shape
     {
         super()
         this.center = h.center ?? new Point();
-        this.radiusInside = h.radiusInside ?? 10;
-        this.radiusOutside = h.radiusOutside ?? 20;
+        this.radiusInside = h.radiusInside ?? 0.25;
+        this.radiusOutside = h.radiusOutside ?? 0.5;
         this.corners = h.corners ?? 5;
     }
 
@@ -64,15 +64,6 @@ export default class Polygon extends Shape
 
     toSVG()
     {
-        const elem = document.createElementNS(null, 'polygon');
-        const points = [];
-        for(const point of this.toPath())
-        {
-            points.push(point.x + "," + point.y);
-        }
-
-        const pointsString = points.join(" ");
-        elem.setAttribute("points", pointsString);
-        return elem;
+        return new Path({ points: this.toPath() }).toSVG();
     }
 }
