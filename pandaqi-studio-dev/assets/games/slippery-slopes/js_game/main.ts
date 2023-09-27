@@ -1,106 +1,44 @@
-import PdfBuilder, { PageOrientation } from "js/pq_games/pdf/pdfBuilder"
-import ProgressBar from "js/pq_games/website/progressBar"
-import CONFIG from "./config";
-import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple"
-import ResourceLoader from "js/pq_games/layout/resources/resourceLoader"
-import WordCards from "./wordCards"
-import SliderCards from "./sliderCards"
 import PandaqiWords from "js/pq_words/main";
+import CONFIG from "./config";
+import Game from "./game";
+import Generator from "./generator";
 
-export default class Generator 
+const start = async () =>
 {
-    setup()
-    {
-        this.setupConfig();
-        this.setupProgressBar();
+    const userConfig = JSON.parse(window.localStorage[CONFIG.configKey] || "{}");
+    Object.assign(CONFIG, userConfig);
+    
+    const types = ["nouns"];
+    if(userConfig.includeNamesAndGeography) {
+        types.push("geography"); 
+        types.push("names");
+    }
+    
+    const wordComplexity = userConfig.wordComplexity || "core";
+    
+    const wordParams = {
+        method: "json",
+        types: types,
+        levels: [wordComplexity],
+        useAllSubcat: true,
+        useAllCategories: true,
+        useAllLevelsBelow: true,
+        maxWordLength: CONFIG.maxWordLength,
     }
 
-    setupConfig()
+    const pqWords = new PandaqiWords();
+    CONFIG.pandaqiWords = pqWords;
+    if(CONFIG.asGame || CONFIG.generateWords)
     {
-        const userConfig = JSON.parse(window.localStorage[CONFIG.configKey] || "{}");
-        // @TODO: optionally work through "packs" or card types included
-        Object.assign(CONFIG, userConfig);
-    }
-
-    setupProgressBar()
-    {
-        const progressBar = new ProgressBar();
-        CONFIG.progressBar = progressBar;
-        progressBar.setPhases(["Loading Assets", "Creating Cards", "Preparing PDF", "Done!"]);
-    }
-
-    async start()
-    {
-        console.log("[Slippery Slopes] Generation started.")
-        
-        this.setup();
-
-        await this.loadAssets();
-        
-        CONFIG.progressBar.gotoNextPhase();
-
-        const wordCards = new WordCards();
-        CONFIG.progressBar.setInfo("Generating word cards.");
-        wordCards.generate();
-
-        const sliderCards = new SliderCards();
-        CONFIG.progressBar.setInfo("Generating sliders.");
-        sliderCards.generate();
-
-        CONFIG.progressBar.setInfo("Drawing everything onto cards.");
-        const canvases = await Promise.all([wordCards.draw(), sliderCards.draw()]);
-        
-        await this.downloadPDF(canvases.flat());
-        console.log("[Slippery Slopes] Done.");
-        CONFIG.progressBar.gotoNextPhase();
-    }
-
-    async loadAssets()
-    {
-        CONFIG.progressBar.gotoNextPhase();
-        
-        const resLoader = new ResourceLoader();
-        for(const [key,data] of Object.entries(CONFIG.fonts))
-        {
-            if(data.crasheryCliffs && !CONFIG.expansions.crasheryCliffs) { continue; }
-            resLoader.planLoad(key, { key: data.key, path: data.url });
-        }
-
-        for(const [key,data] of Object.entries(CONFIG.assets))
-        {
-            resLoader.planLoad(key, { path: data.path, frames: data.frames });
-        }
-        await resLoader.loadPlannedResources();
-
-        const pqWords = new PandaqiWords();
-        const wordParams = {}; // @TODO: read/set this
         await pqWords.loadWithParams(wordParams);
-
-        const pdfBuilderConfig = { orientation: PageOrientation.PORTRAIT };
-        const pdfBuilder = new PdfBuilder(pdfBuilderConfig);
-        CONFIG.resLoader = resLoader;
-        CONFIG.pdfBuilder = pdfBuilder; 
-        CONFIG.pandaqiWords = pqWords;   
     }
-
-    async downloadPDF(canvases:HTMLCanvasElement[])
-    {
-        CONFIG.progressBar.gotoNextPhase();
-
-        const images = await convertCanvasToImageMultiple(canvases);
-        if(CONFIG.debugWithoutPDF)
-        {
-            for(const img of images) { 
-                img.style.maxWidth = "100%";
-                document.body.appendChild(img);
-            }
-            return;
-        }
-
-        CONFIG.pdfBuilder.addImages(images);
-        const pdfCONFIG = { customFileName: CONFIG.fileName }
-        CONFIG.pdfBuilder.downloadPDF(pdfCONFIG);
+    
+    if(CONFIG.asGame) { 
+        new Game().start();
+    } else {
+        new Generator().start();
     }
 }
 
-new Generator().start();
+start();
+

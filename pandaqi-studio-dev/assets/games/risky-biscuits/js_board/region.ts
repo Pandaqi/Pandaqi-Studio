@@ -1,14 +1,12 @@
 import Point from "js/pq_games/tools/geometry/point";
 import Area from "./area";
 import CONFIG from "./config";
-import Line from "js/pq_games/tools/geometry/line";
 import calculateCentroid from "js/pq_games/tools/geometry/paths/calculateCentroid";
-import { lineIntersectsLine } from "js/pq_games/tools/geometry/intersection/lineIntersectsLine";
-import { pointIsInsidePolygon } from "js/pq_games/tools/geometry/intersection/pointInsideShape";
 import subdividePath from "js/pq_games/tools/geometry/paths/subdividePath";
 import Path from "js/pq_games/tools/geometry/paths/path";
 import signRandom from "js/pq_games/tools/random/signRandom";
 import smoothPath from "js/pq_games/tools/geometry/paths/smoothPath";
+import PathAdvanced from "js/pq_games/tools/geometry/paths/pathAdvanced";
 
 export default class Region
 {
@@ -19,7 +17,7 @@ export default class Region
     area: Area
     centroid: Point;
     neighborsPerEdge: any[];
-    outlines: Path[];
+    outlines: PathAdvanced[];
 
     constructor(id:number, points:Point[])
     {
@@ -94,7 +92,7 @@ export default class Region
     getOutlines() { return this.outlines.filter((elem) => elem != null); }
     calculateOutlines()
     {
-        const arr : Path[] = [];
+        const arr : PathAdvanced[] = [];
         const numPoints = this.points.length;
         for(let i = 0; i < numPoints-1; i++)
         {
@@ -107,6 +105,7 @@ export default class Region
             let path
 
             // If the neighbor has already calculated their outlines, there MUST be a valid path for us
+            // @TODO: this isn't always true yet, figure out why and FIX THAT
             if(neighbor.outlines != null) {
                 let existingPath = neighbor.getOutlineWith(p1, p2);
                 path = existingPath;
@@ -120,7 +119,7 @@ export default class Region
         this.outlines = arr;
     }
 
-    getOutlineWith(start:Point, end:Point) : Path
+    getOutlineWith(start:Point, end:Point) : PathAdvanced
     {
         for(const ol of this.outlines)
         {
@@ -130,7 +129,7 @@ export default class Region
         return null;
     }
 
-    createJaggedLine(p1:Point, p2:Point) : Path
+    createJaggedLine(p1:Point, p2:Point) : PathAdvanced
     {
         const chunkSize = CONFIG.generation.edgeJitterChunkSize;
         let pathChopped = subdividePath({ path: [p1, p2], chunkSize: chunkSize });
@@ -149,6 +148,6 @@ export default class Region
             pathChopped = smoothPath({ path: pathChopped });
         }
 
-        return new Path({ points: pathChopped });
+        return new PathAdvanced({ points: pathChopped });
     }
 }

@@ -1,0 +1,74 @@
+@use "../css_shared/main" as g;
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-image: g.$bg-image;
+}
+
+.game-container {
+    background-color: rgba(255,255,255,0.8);
+    padding: 1em;
+    margin: auto;
+    max-width: 720px;
+    border-radius: 1em;
+}
+
+h2 {
+    text-align: center;
+    font-size: 3em;
+}
+
+button {
+    width: 100%;
+    padding: 1em;
+    font-size: 1em;
+    border-radius: 0.5em;
+    background-color: rgba(0,0,0,0.8);
+    color: #FDFDFD;
+    border-style: none;
+    cursor: pointer;
+    transition: color 0.2s, background-color 0.2s;
+
+    &:hover {
+        background-color: white;
+        color: black;
+    }
+}
+
+.button-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5em;
+}
+
+.word-options {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 1em;
+    margin: 1em;
+
+    .word-option {
+        width: 100%;
+        max-width: 300px;
+        padding: 1em;
+        background-color: #BBBBBB;
+        text-align: center;
+        border-radius: 1em;
+
+        .word {
+            font-size: 1.75em;
+            font-weight: bold;
+        }
+
+        .category {
+            font-size: 0.8em;
+            opacity: 0.75;
+            font-style: italic;
+        }
+    }
+}

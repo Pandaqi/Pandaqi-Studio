@@ -1,6 +1,4 @@
 ---
-title: "Keebble: Domino"
-date: 2023-03-07
 type: "rules"
 pdf: false
 ---

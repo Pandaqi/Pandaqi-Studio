@@ -23,7 +23,6 @@ textColor: "#e2fce9"
 textColorLink: "#1a0428"
 
 extraCSS: true
-extraJSGame: true
 
 googleFonts: "https://fonts.googleapis.com/css2?family=Chelsea+Market&family=Charis+SIL:ital,wght@0,400;1,400;1,700&display=swap"
 
@@ -45,7 +44,7 @@ ages: everyone
 ---
 
 
-{{% boardgame-intro heading="" img="pirate_riddlebeard_header" url="https://drive.google.com/drive/folders/1GXtqwg9tsK57zDzmiumtdtlgn3NeAHuF" %}}
+{{% boardgame-intro heading="" img="pirate_riddlebeard_header" %}}
 
 A [One Paper Game](/boardgames#one_paper_games) for 1&ndash;6 pirates who each own a part of the secret riddle pointing towards a great treasure.
 

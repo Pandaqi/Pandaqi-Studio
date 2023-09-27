@@ -10,6 +10,7 @@ blurb: "Infiltrate enemy territories, spy on them, use magical artefacts, and do
 extraCSS: true
 extraJSBoard: true
 extraJSBoardInclude: true
+downloadLink: "https://drive.google.com/drive/folders/16Zhb_Ze5ijQTEWXIizQsO1SAh1xNXU9p"
 
 ---
 

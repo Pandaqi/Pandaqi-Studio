@@ -31,7 +31,6 @@ categories: ["boardgame"]
 tags: ["traditional"]
 
 extraCSS: true
-extraJSGame: true
 
 downloadLink: "https://drive.google.com/drive/folders/14KGDtFeGMpGRltZorC6shHr3pYXGk5MQ"
 
@@ -46,7 +45,7 @@ ages: everyone
 ---
 
 
-{{% boardgame-intro heading="" img="keebble_domino_header" url="https://drive.google.com/drive/folders/14KGDtFeGMpGRltZorC6shHr3pYXGk5MQ" %}}
+{{% boardgame-intro heading="" img="keebble_domino_header" %}}
 
 A word game like Scrabble, but played using letters that change when viewed from different directions. A domino-based spin-off of [Keebble](https://pandaqi.com/keebble).
 

@@ -49,7 +49,7 @@ ages: everyone
 ---
 
 
-{{% boardgame-intro heading="" img="finger_food_header" url="https://drive.google.com/drive/folders/101SQ5KBbdwiiYC-2nU-5H7gKoTnqhXZE" %}}
+{{% boardgame-intro heading="" img="finger_food_header" %}}
 
 Place your fingers on the best squares and score more pie points than your opponents! Playable with just a single paper, nothing else needed.
 

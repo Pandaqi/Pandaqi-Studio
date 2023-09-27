@@ -27,7 +27,6 @@ categories: ["boardgame"]
 tags: ["hybrid", "traditional"]
 
 extraCSS: true
-extraJSGame: true
 
 downloadLink: "https://drive.google.com/drive/folders/1H1gLrHUsju_tnXbKoJYrsGP1sHRNG-6_"
 
@@ -41,7 +40,7 @@ ages: everyone
 ---
 
 
-{{% boardgame-intro heading="" img="thats_amorphe_header" url="https://drive.google.com/drive/folders/1H1gLrHUsju_tnXbKoJYrsGP1sHRNG-6_" %}}
+{{% boardgame-intro heading="" img="thats_amorphe_header" %}}
 
 What happens when you morph a cat halfway into a house? And what if you do it _a little bit_? A party game about inventing things and then asking others to guess what on earth you meant.
 

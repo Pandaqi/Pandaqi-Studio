@@ -43,13 +43,13 @@
 {{ $default_js := resources.Get "/js/functionality.ts" | js.Build "/js/lib-functionality.js" | minify }}
 <script async defer src="{{ $default_js.RelPermalink }}"></script>
 
-<!--- CUSTOM JS: Board / Game / Shared / Whatever --->
+<!--- CUSTOM JS: Shared --->
 {{ if .Params.sharedJS }}
 	{{ partial "load-assets.html" (dict "context" . "ext" "js" "type" "shared" "include" .Params.sharedJSInclude "name" .Params.sharedJS) }}
 {{ end }}
 
+<!--- CUSTOM JS: Board (will probably move to its own file one day, just like game/rules, but not right now) --->
 {{ partial "load-assets.html" (dict "context" . "ext" "js" "type" "board" "include" .Params.extraJSBoardInclude) }}
-{{ partial "load-assets.html" (dict "context" . "ext" "js" "type" "game" "include" .Params.extraJSGameInclude) }}
 
 <!-- Extra custom JS: simply a hardcoded link to something else -->
 <!-- Never used right now, but kept in because it might be critical in certain cases -->

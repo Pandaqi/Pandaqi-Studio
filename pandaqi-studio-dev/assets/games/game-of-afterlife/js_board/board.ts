@@ -12,6 +12,7 @@ import PathSegment from "./pathSegment";
 import fromArray from "js/pq_games/tools/random/fromArray";
 import calculatePathLength from "js/pq_games/tools/geometry/paths/calculatePathLength";
 import mergePaths from "js/pq_games/tools/geometry/paths/mergePaths";
+import PathAdvanced from "js/pq_games/tools/geometry/paths/pathAdvanced";
 
 export default class Board
 {
@@ -189,7 +190,7 @@ export default class Board
         return maxElem;
     }
 
-    createPathBetweenPoints(start:PointGraph, end:PointGraph, n:FloodFillerTreeNode)
+    createPathBetweenPoints(start:PointGraph, end:PointGraph, n:FloodFillerTreeNode) : PathAdvanced
     {
         // decides whether something is a connection or not
         // we must filter out anything that isn't actually inside the section from our Node
@@ -230,7 +231,7 @@ export default class Board
             }
         }
 
-        const path = new Path({ points: pathRaw });
+        const path = new PathAdvanced({ points: pathRaw });
         return path;
     }
 

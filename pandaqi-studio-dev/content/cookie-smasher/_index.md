@@ -3,19 +3,19 @@ type: "single"
 gamepage: true
 boardgame: true
 
-title: "Arquetect"
-headerTitle: "Arquetect | A fast and light game about designing your ideal city, despite opponents starting fires."
-blurb: "A fast game about designing the best scoring city, despite opponents starting fires and disease outbreaks. A waitless game using cards in your hand and nothing else."
+title: "Cookie Smasher"
+headerTitle: "Cookie Smasher | Smash the poisoned food faster than anyone else to prevent the king's assassination!"
+blurb: "A fast party game about quick thinking and deduction, finding the poisoned food, then smashing it before anyone else."
 
 extraCSS: true
-extraJSGame: true
+downloadLink: "https://drive.google.com/drive/folders/1Vb-cB7KrYaxakv2X2oSmQJdSNg-9T5T_"
 
 ---
 
 {{% section-centered heading="Material" anchor="material" html="true" %}}
 
-{{< boardgame-settings type="game" local_storage="arquetectConfig" >}}
-	{{< setting-hidden id="setting-gameTitle" text="Arquetect" >}}
+{{< boardgame-settings type="game" local_storage="cookieSmasherConfig" >}}
+	{{< setting-hidden id="setting-gameTitle" text="Cookie Smasher" >}}
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
   {{< setting-enum id="setting-cardSize" text="Card Size?" values="small,regular,huge" valaskey="true" def="regular" >}}
 {{< /boardgame-settings >}}
@@ -40,3 +40,5 @@ Below is a list of "wrong" foods.
 _Then why is the game called Cookie Smasher?_ This started as a spin-off for the mobile game "Cookie Clicker". Before I knew it, the idea of cookies was entrenched in the rules and illustrations, and I couldn't get rid of it. The name also stayed because it's a good description of the game: you smash the right card to win, and Cookies are the right card most often. (As they are automatically "poisoned" when nothing else is.)
 
 For more information, as always, read my [detailed devlog on Pandaqi Blog](https://pandaqi.com/blog/boardgames/cookie-smasher).
+
+{{% /section-centered %}}

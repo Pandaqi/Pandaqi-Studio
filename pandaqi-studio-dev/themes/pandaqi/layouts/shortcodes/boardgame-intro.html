@@ -27,7 +27,7 @@
 			{{- delimit $full_slice " | " -}}
 		</p>
 		<p class="download-btn-container">
-			{{- $url := .Get "url" -}}
+			{{- $url := or (.Page.Params.downloadLink) (.Get "url") -}}
 			<a href="{{- $url -}}" class="btn download-btn">Download</a>
 		</p>
 	</div>

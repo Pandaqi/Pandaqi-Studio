@@ -9,7 +9,6 @@ blurb: "Choose your battles wisely and build the strongest hand of magical creat
 
 
 extraCSS: true
-extraJSGame: true
 
 ---
 

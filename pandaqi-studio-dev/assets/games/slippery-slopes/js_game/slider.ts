@@ -17,6 +17,7 @@ import range from "js/pq_games/tools/random/range";
 import Path from "js/pq_games/tools/geometry/paths/path";
 import createRandomShape from "js/pq_games/tools/geometry/random/createRandomShape";
 import scalePath from "js/pq_games/tools/geometry/transform/scalePath";
+import drawRectangle from "js/pq_games/layout/canvas/shapes/drawRectangle";
 
 export default class Slider
 {
@@ -183,12 +184,7 @@ export default class Slider
         {
             const hue = i * hueStep;
             const color = new Color(hue, 75, 75);
-            const rect = new Rectangle({ center: this.meterRect.center, extents: stepExtents });
-            const res = new ResourceShape({ shape: rect });
-            const canvOp = new LayoutOperation({
-                fill: color
-            })
-            res.toCanvas(ctx, canvOp);
+            drawRectangle(ctx, { center: this.meterRect.center, extents: stepExtents }, { fill: color })
         }
     }
 

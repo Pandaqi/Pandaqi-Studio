@@ -1,0 +1,241 @@
+
+h1, h2, h3 {
+    font-weight: 900;
+    line-height: 120%;
+}
+
+body {
+    background-color: #111111;
+    color: #EEEEEE;
+    font-family: 'Recursive', sans-serif;
+    font-size: 16pt;
+    line-height: 120%;
+}
+
+div, p {
+    line-height: 120%;
+}
+
+input, button, select {
+    font-family: 'Recursive', sans-serif;
+    font-weight: 900;
+    font-size: 16pt;
+}
+
+option {
+    font-weight: 300;
+}
+
+button {
+    background-color: #0b4d0b;
+    border: none;
+    padding: 20px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+
+    transition: 0.3s background-color, 0.3s color;
+}
+
+button:hover {
+    background-color: lime;
+    color: black;
+    font-size: 22pt;
+}
+
+main {
+    max-width: 650px;
+    margin: auto;
+}
+
+#options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#options > div {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: left;
+}
+
+#options > div > * {
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+#options > div > button {
+    font-size: 20pt;
+}
+
+#story {
+    font-style: italic;
+    color: #AAAAAA;
+    font-size: 12pt;
+    font-weight: 300;
+}
+
+#category {
+    color: red;
+}
+
+#money {
+    color: lime;
+}
+
+#continueButton {
+    width: 100%;
+    max-width: 400px;
+    margin: auto;
+    font-size: 20pt;
+}
+
+#input {
+    max-width: 400px;
+    margin: auto;
+}
+
+#input > * {
+    width: 100%;
+    font-size: 20pt;
+    box-sizing: border-box;
+}
+
+#inputSettings {
+    margin: auto;
+    margin-top: 20px;
+    display: inline-block;
+    padding: 20px;
+    background-color: #143109;
+    border-radius: 5px;
+    color: white;
+    box-sizing: border-box;
+}
+
+#inputSettings > div {
+    text-align: left;
+    grid-gap: 15px;
+    display: grid;
+    grid-template-columns: auto auto;
+    font-size: 16pt;
+    box-sizing: border-box;
+    align-items: center;
+}
+
+.input-number {
+    font-size: 20pt;
+    max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.input-checkbox {
+    width: 100%;
+    height: 100%;
+}
+
+.numPlayersIndicator {
+    font-weight: bold;
+    color: yellow;
+}
+
+.hintButton {
+    margin-left: 20px;
+    padding: 2px;
+    font-size: inherit;
+    opacity: 0.5;
+}
+
+.hintButton:hover {
+    font-size: inherit;
+}
+
+.eliminatedPlayer, .winningPlayer {
+    font-weight: 900;
+    border-bottom: 2px solid;
+}
+
+#addertjeContainer, #rolvoordeelContainer {
+    display: block; 
+    margin-top: 10px;
+    font-size: 12pt;
+    line-height: 120%;
+}
+
+#addertje {
+    color: yellow;
+}
+
+#rolvoordeel {
+    color: pink;
+}
+
+#timer > div {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+}
+
+#timer > div > * {
+    padding: 10px;
+}
+
+#timerValue {
+    font-size: 22pt; 
+    font-weight: 900;
+}
+
+#ruleReminder {
+    display: none;
+    font-size: 12pt;
+    padding: 10px;
+    background-color: rgba(0, 255, 0, 0.2);
+    margin-top: -25px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+/* card types */
+.cardType-base {
+    font-weight: 900;
+    border-bottom: 3px solid;
+    display: inline-block;
+}
+
+.cardType-running {
+    color: #ff5656; /* light red */
+}
+
+.cardType-puzzling {
+    color: #6c6cf5; /* light blue */
+}
+
+.cardType-information {
+    color: #65ea65; /* light green */
+}
+
+.cardType-effort {
+    color: #F7CF85; /* light orangy/browny */
+}
+
+.cardType-relaxation {
+    color: #d732d7; /* light purple */
+}
+
+.cardType-cooperation {
+    color: #3B92F3; /* light light blue */
+}
+
+.cardType-distrust {
+    color: #ABF33B; /* muddy yellow-green */
+}
+
+.cardType-leader {
+    color: #F3693B; /* orange-red => @IMPROV: might swap for a more pink color */
+}

@@ -1,84 +1,33 @@
 import Point from "../point";
-import PointPath, { PathCommand } from "./pointPath";
 import Shape from "../shape";
-import ArcData from "./arcData";
 import Dims from "../dims";
-import fromArray from "../../random/fromArray";
 
 interface PathParams
 {
-    points?: Point[]|PointPath[]
+    points?: Point[]
     close?: boolean
 }
 
 export { Path, PathParams }
 export default class Path extends Shape
 {
-    points: PointPath[]
+    points: Point[]
     close: boolean
 
     constructor(p:PathParams = {})
     {
         super();
-        let points = p.points ?? [];
-        this.points = this.convertToPathPoints(points);
+        this.points = p.points ?? [];
         this.close = p.close ?? false;
     }
 
-    convertToPathPoints(points:any[]) : PointPath[]
-    {
-        if(points.length <= 0) { return points; }
-        if(points[0] instanceof PointPath) { return points; }
-        const arr = [];
-        for(let i = 0; i < points.length; i++)
-        {
-            const command = (i == 0) ? PathCommand.START : PathCommand.LINE; 
-            const p = new PointPath({ point: points[i], command: command });
-            arr.push(p);
-        }
-        return arr;
-    }
-
-    startAt(p:Point)
-    {
-        this.points.push(new PointPath({point: p, command: PathCommand.START}));
-    }
-
-    lineTo(p:Point)
-    {
-        this.points.push(new PointPath({point: p, command: PathCommand.LINE}));
-    }
-
-    curveTo(p:Point, c1:Point, c2:Point)
-    {
-        let cmd = c2 ? PathCommand.CUBIC : PathCommand.QUAD;
-        this.points.push(new PointPath({point: p, command: cmd, controlPoint1: c1, controlPoint2: c2 }));
-    }
-
-    arcTo(p:Point, d:ArcData)
-    {
-        this.points.push(new PointPath({ point: p, command: PathCommand.ARC, arcData: d }));
-    }
-
-    toPath() : Point[]
-    {
-        const points = [];
-        let prevPoint = null;
-        for(const pointPath of this.points)
-        {
-            points.push(pointPath.toPath(prevPoint));
-            prevPoint = pointPath.getPointAbsolute(prevPoint);
-        }
-        if(this.close && this.points.length > 0) { points.push(this.points[0].point); }
-        return points.flat();
-    }
-
+    toPath() : Point[] { return this.points; }
     toPath2D() : Path2D
     {
         const path = new Path2D();
-        for(const pointPath of this.points)
+        for(const point of this.points)
         {
-            pointPath.toPath2D(path);
+            path.lineTo(point.x, point.y);
         }
         return path;
     }
@@ -96,7 +45,7 @@ export default class Path extends Shape
             p = [];
             for(const point of this.points)
             {
-                p.push(point.clone(deep));
+                p.push(point.clone());
             }
         }
 
@@ -106,9 +55,11 @@ export default class Path extends Shape
     toPathString() : string
     {
         const points = [];
-        for(const pointPath of this.points)
+        for(let i = 0; i < this.points.length; i++)
         {
-            points.push(pointPath.toPathString());
+            let prefix = (i == 0) ? "M" : "L";
+            let point = this.points[i].x + "," + this.points[i].y;
+            points.push(prefix + point);
         }
         if(this.close) { points.push("Z"); }
         const pointsString = points.join(" ");
@@ -117,7 +68,7 @@ export default class Path extends Shape
 
     toSVG()
     {
-        const svgNS = "http://www.w3.org/2000/svg";
+        const svgNS = "http://www.w3.org/2000/svg"; // @TODO: declare this ONCE somewhere and re-use?
         const elem = document.createElementNS(svgNS, 'path');
         elem.setAttribute("d", this.toPathString());
         return elem;
@@ -129,26 +80,6 @@ export default class Path extends Shape
         return this;
     }
 
-    getFirst() { return this.points[0].point; }
-    getLast() { return this.points[this.points.length-1].point; }
-    hasPoint(p) 
-    { 
-        for(const point of this.points)
-        {
-            if(point.point == p || point.point.matches(p)) { return true; }
-        }
-        return false;
-    }
-    getRandomPoint()
-    {
-        return fromArray(this.points).point;
-    }
-    endPointsMatch(p1:Point, p2:Point)
-    {
-        const first = this.getFirst();
-        const last = this.getLast();
-        if(first.matches(p1) && last.matches(p2)) { return true; }
-        if(first.matches(p2) && last.matches(p1)) { return true; }
-        return false;
-    }
+    getFirst() { return this.points[0]; }
+    getLast() { return this.points[this.points.length-1]; }
 }

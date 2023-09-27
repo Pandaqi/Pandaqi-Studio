@@ -1,6 +1,4 @@
 ---
-title: "Photomone: Antsassins"
-date: 2023-03-31
 type: "rules"
 pdf: false
 ---

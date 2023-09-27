@@ -32,7 +32,6 @@ categories: ["boardgame"]
 tags: ["hybrid", "opg"]
 
 extraCSS: true
-extraJSGame: true
 
 downloadLink: "https://drive.google.com/drive/folders/1BU_ccMrmdtSwBwXPqsV8sVUkaZR1Jdjp"
 
@@ -47,7 +46,7 @@ ages: everyone
 ---
 
 
-{{% boardgame-intro heading="" img="pirate_drawingbeard_header" url="https://drive.google.com/drive/folders/1BU_ccMrmdtSwBwXPqsV8sVUkaZR1Jdjp" %}}
+{{% boardgame-intro heading="" img="pirate_drawingbeard_header" %}}
 
 Discover the treasure by figuring out what secret visual clues the other players are holding!
 

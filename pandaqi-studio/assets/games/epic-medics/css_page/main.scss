@@ -1,14 +1,7 @@
-@font-face {
-    font-family: 'Woodcutter';
-    src: url(woodcutter.woff2);
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-
+@use "../css_shared/main.scss" as g;
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Woodcutter', cursive;
+    font-family: g.$heading-font;
     margin: 60px 0px -20px 0px;
 }
 
@@ -17,7 +10,7 @@ h3 {
 }
 
 body {
-    font-family: 'PT Serif', serif;
+    font-family: g.$body-font;
     background-color: #6885FF;
     color: #111111;
     font-size: 24px;
@@ -55,7 +48,7 @@ section {
 }
 
 a.btn, a.btn:visited {
-    font-family: 'Woodcutter';
+    font-family: g.$heading-font;
     background-color: #536ACC;
     color: black;
     border-radius: 10px;
@@ -84,7 +77,7 @@ a.download-btn:hover, a.event-btn:hover {
 
 .game-settings, #btn-start-game {
     background-color: rgba(0,0,0,0.66);
-    font-family: "Woodcutter";
+    font-family: g.$heading-font;
 }
 
 @media all and (max-width: 600px) {

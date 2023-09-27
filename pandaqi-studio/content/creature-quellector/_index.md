@@ -31,7 +31,6 @@ categories: ["boardgame"]
 tags: ["queuing game", "waitless game"]
 
 extraCSS: true
-extraJSGame: true
 
 downloadLink: "https://drive.google.com/drive/folders/1UyxnFsYPynwQmRD2xbAh7RQyIC7yYAJi"
 
@@ -45,7 +44,7 @@ ages: everyone
 
 ---
 
-{{% boardgame-intro heading="" img="creature_quellector_header" class="no-shadow" url="https://drive.google.com/drive/folders/1UyxnFsYPynwQmRD2xbAh7RQyIC7yYAJi" %}}
+{{% boardgame-intro heading="" img="creature_quellector_header" class="no-shadow" %}}
 
 Pick your battles wisely to design the best squad of cute creatures.
 
@@ -55,7 +54,7 @@ Pick your battles wisely to design the best squad of cute creatures.
 
 Three simple steps.
 * Read the short [playful rules](rules).
-* Download the material to print (using the "Download") button above.
+* Download any one material PDF (using the "Download" button above).
 * Print it, cut it, play!
 
 **Want more?** You can also [generate your own material](#material) right on this website! For each element, pick the type you like the most.

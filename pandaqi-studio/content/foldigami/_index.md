@@ -49,7 +49,7 @@ ages: everyone
 ---
 
 
-{{% boardgame-intro heading="" img="foldigami_header" url="https://drive.google.com/drive/folders/17jgCO-P1M1Fqa0T7NKt8nfJxslF2TDMB" %}}
+{{% boardgame-intro heading="" img="foldigami_header" %}}
 
 A game as tough as chess, played using only a paper and nothing else.
 

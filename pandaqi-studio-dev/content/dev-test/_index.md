@@ -7,7 +7,6 @@ title: "Dev Test"
 headerTitle: "Dev Test | Testing Environment"
 
 extraCSS: true
-extraJSGame: true
 
 ---
 

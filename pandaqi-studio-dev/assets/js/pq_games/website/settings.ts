@@ -41,7 +41,7 @@ class SettingsClass
 
 		if(cfg.stayOnPage) { return false; }
 		
-		const URL = cfg.targetURL ?? "game.html";
+		const URL = cfg.targetURL ?? "game"; // "game.html";
 		return window.open(URL, "_blank");
 	}
 

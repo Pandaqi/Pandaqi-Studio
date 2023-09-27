@@ -27,7 +27,6 @@ categories: ["boardgame"]
 tags: ["traditional"]
 
 extraCSS: true
-extraJSGame: true
 
 downloadLink: "https://drive.google.com/drive/folders/1ovrsGP6oso--ii20P5tOfOsdDVRWzz0r"
 
@@ -41,7 +40,7 @@ ages: everyone
 ---
 
 
-{{% boardgame-intro heading="" img="thats_amorphe_pictures_header" url="https://drive.google.com/drive/folders/1ovrsGP6oso--ii20P5tOfOsdDVRWzz0r" %}}
+{{% boardgame-intro heading="" img="thats_amorphe_pictures_header" %}}
 
 You receive a drawing of a cat. You have to change it into a farmer with just three lines. Others need to guess what on earth you did. A spin-off of [That's Amorphe](https://pandaqi.com/thats-amorphe).
 

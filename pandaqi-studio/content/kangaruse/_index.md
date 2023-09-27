@@ -49,7 +49,7 @@ ages: everyone
 ---
 
 
-{{% boardgame-intro heading="" img="kangaruse_header" url="https://drive.google.com/drive/folders/1kYuSs0w3yKLQBMqBWOlS4ZzGUY32vrHB" %}}
+{{% boardgame-intro heading="" img="kangaruse_header" %}}
 
 Hop along the smartest route to collect points and powers---before your opponents blocked all your desired jumps.
 

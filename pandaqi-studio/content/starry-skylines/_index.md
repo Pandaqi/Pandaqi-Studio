@@ -25,7 +25,6 @@ googleFonts: "https://fonts.googleapis.com/css2?family=Montserrat+Subrayada:wght
 extraCSS: true
 extraJSBoard: true
 extraJSBoardInclude: true
-extraJSGame: true
 
 date: 2020-08-22
 
@@ -44,7 +43,7 @@ ages: everyone
 
 ---
 
-{{% boardgame-intro heading="" img="starryskylines_header" url="https://drive.google.com/drive/folders/1_CkFN2QRv_amGofQcfP9RkGQgiZj9HXh" %}}
+{{% boardgame-intro heading="" img="starryskylines_header" %}}
 
 A [One Paper Game](/boardgames#one_paper_games) for 1&ndash;9 players about simultaneously building a city in space.</p>
 

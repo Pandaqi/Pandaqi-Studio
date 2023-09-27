@@ -1,6 +1,4 @@
 ---
-title: "Creature Quellector"
-date: 2023-05-02
 type: "rules"
 pdf: false
 ---

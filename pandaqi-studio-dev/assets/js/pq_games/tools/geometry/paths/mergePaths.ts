@@ -7,7 +7,6 @@ export default (pathList:Path[]) =>
     for(const path of pathList)
     {
         let newPath = path.toPath();
-        console.log(prevPath);
         if(prevPath && prevPath.getLast() == path.getFirst()) { newPath.shift(); } // no duplicates
         arr.push(newPath);
         prevPath = path;

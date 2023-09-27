@@ -32,7 +32,6 @@ categories: ["boardgame"]
 tags: ["traditional"]
 
 extraCSS: true
-extraJSGame: true
 
 downloadLink: "https://drive.google.com/drive/folders/1g78Fggawe7LX35DNlYHZJALXqPZIAPav"
 
@@ -46,7 +45,7 @@ ages: everyone
 
 ---
 
-{{% boardgame-intro heading="" img="photomone_antsassins_header" class="no-shadow" url="https://drive.google.com/drive/folders/1g78Fggawe7LX35DNlYHZJALXqPZIAPav" %}}
+{{% boardgame-intro heading="" img="photomone_antsassins_header" class="no-shadow" %}}
 
 A party game about communicating a secret code to your team mates. But the code is made out of weird _shapes_---and you may only say _words_.
 

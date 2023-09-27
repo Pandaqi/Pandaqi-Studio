@@ -33,7 +33,6 @@ tags: ["hybrid"]
 
 extraCSS: true
 extraJSBoard: true
-extraJSGame: true
 extraJSBoardInclude: true
 
 downloadLink: "https://drive.google.com/drive/folders/1_hK2ICc9T95hSLAGNO4mvBFmqpvrq_15"
@@ -49,7 +48,7 @@ ages: everyone
 ---
 
 
-{{% boardgame-intro heading="" img="keebble_knickknack_header" url="https://drive.google.com/drive/folders/1_hK2ICc9T95hSLAGNO4mvBFmqpvrq_15" %}}
+{{% boardgame-intro heading="" img="keebble_knickknack_header" %}}
 
 A word game like Scrabble, but faster, simpler and more exciting. A hybrid spin-off of [Keebble](https://pandaqi.com/keebble).
 

@@ -33,7 +33,6 @@ tags: ["hybrid", "opg", "one_paper_game", "traditional"]
 extraCSS: true
 extraJSBoard: true
 extraJSBoardInclude: true
-extraJSGame: true
 sharedJS: "photomone"
 sharedJSInclude: true
 
@@ -50,7 +49,7 @@ ages: everyone
 ---
 
 
-{{% boardgame-intro heading="" img="photomone_header" class="no-shadow" url="https://drive.google.com/drive/folders/1d3b_Zsuor4bz9sVmQIdErx2p5GIYF6Nk" %}}
+{{% boardgame-intro heading="" img="photomone_header" class="no-shadow" %}}
 
 A party game about drawing secret words. But you're an ant, so you can only draw using your pheromone trail.
 

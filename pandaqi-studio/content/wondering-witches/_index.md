@@ -25,7 +25,6 @@ googleFonts: "https://fonts.googleapis.com/css2?family=Niconne&family=Mali:ital,
 extraCSS: true
 extraJSBoard: true
 extraJSBoardInclude: true
-extraJSGame: true
 
 date: 2023-02-14 # old publishing date: 2020-04-28
 
@@ -45,7 +44,7 @@ requirements: "A blank paper!"
 
 ---
 
-{{% boardgame-intro heading="" img="wonderingwitches_header" url="https://drive.google.com/open?id=1y4WescX98VLllbV7FqojADUnAr5fc8Vx" %}}
+{{% boardgame-intro heading="" img="wonderingwitches_header" %}}
 
 Ten ingredients, one correct combination.<br/><br/>A cooperative [One Paper Game](/boardgames#one_paper_games) for 1&ndash;5 players about finding the right potion, where ingredients have wondrous effects and the High Witch is terrible at communicating.
 

@@ -1,14 +1,14 @@
 @use "../css_shared/main" as g;
 
 $icons: (
-    "red-fire": 0,
-    "red-electric": 1,
-    "red-star": 2,
-    "red-dragon": 3,
-    "blue-water": 4,
-    "blue-ice": 5,
-    "blue-poison": 6,
-    "blue-weather": 7,
+    "add": 0,
+    "replace": 1,
+    "ignore": 2,
+    "double": 3,
+    "hint": 4,
+    "category": 5,
+    "order": 6,
+    "property": 7,
 );
 $max-frames: 8;
 
@@ -17,7 +17,7 @@ $max-frames: 8;
     $row: 0;
 
     .icon-#{$name} {
-        background-image: url(slippery_slope_actions.webp);
+        background-image: url(/slippery-slopes/assets/actions.webp);
         background-size: 800%;
         background-position-x: -$col * 100%;
         background-position-y: -$row * 100%;
@@ -25,26 +25,29 @@ $max-frames: 8;
     }
 }
 
+$col-blue: #67ddd9;
+$col-green: #87d66d;
+$col-red: #f88d81;
+$col-purple: #d997fa;
 
+.remark {
+    line-height: 120%;
+}
 
 #setup {
-    background-color: #ff9b9b;
+    background-color: $col-blue;
 }
 
 #objective {
-    background-color: #67d6f2;
+    background-color: $col-green;
 }
 
 #action_play {
-    background-color: #a4f091; //  #23ac01;
+    background-color: $col-red; 
 }
 
-#squads {
-    background-color: #d486f7; // #bb55ea;
-}
-
-#types {
-    background-color: #eebd89;
+#expansions {
+    background-color: $col-purple;
 }
 
 @media print {

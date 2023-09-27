@@ -8,7 +8,7 @@ headerTitle: "Arquetect | A fast and light game about designing your ideal city,
 blurb: "A fast game about designing the best scoring city, despite opponents starting fires and disease outbreaks. A waitless game using cards in your hand and nothing else."
 
 extraCSS: true
-extraJSGame: true
+downloadLink: "https://drive.google.com/drive/folders/1ydtMKAUdtozQFcBwwR8VoP9TrmmNv_0F"
 
 ---
 

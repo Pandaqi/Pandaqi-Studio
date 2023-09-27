@@ -25,7 +25,6 @@ googleFonts: "https://fonts.googleapis.com/css2?family=Rowdies:wght@400;700&fami
 extraCSS: true
 extraJSBoard: true
 extraJSBoardInclude: true
-extraJSGame: true
 
 date: 2020-07-02
 
@@ -45,7 +44,7 @@ ages: everyone
 ---
 
 
-{{% boardgame-intro heading="" img="timelytransports_header_faded" url="https://drive.google.com/drive/folders/1d0eedJEL16SlrI33umvVDxZOgPvqQ25r" %}}
+{{% boardgame-intro heading="" img="timelytransports_header_faded" %}}
 
 A hybrid board+smartphone game for 1&ndash;8 players about transporting exotic goods across the jungle.
 

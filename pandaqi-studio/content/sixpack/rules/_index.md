@@ -1,6 +1,4 @@
 ---
-title: "Sixpack"
-date: 2023-04-14
 type: "rules"
 pdf: false
 ---

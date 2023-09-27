@@ -31,7 +31,6 @@ categories: ["boardgame"]
 tags: ["traditional"]
 
 extraCSS: true
-extraJSGame: true
 
 downloadLink: "https://drive.google.com/drive/folders/1as4B3n_kxQ9K1jIVtWMI_P5VnAjbXRP1"
 
@@ -45,7 +44,7 @@ ages: everyone
 
 ---
 
-{{% boardgame-intro heading="" img="sixpack_header" class="no-shadow" url="https://drive.google.com/drive/folders/1as4B3n_kxQ9K1jIVtWMI_P5VnAjbXRP1" %}}
+{{% boardgame-intro heading="" img="sixpack_header" class="no-shadow" %}}
 
 You get six cards. Play them well, but don't be the first to play them all.
 

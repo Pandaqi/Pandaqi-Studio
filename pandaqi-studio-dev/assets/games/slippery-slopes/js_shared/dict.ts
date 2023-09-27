@@ -20,7 +20,7 @@ const ACTIONS:Record<string, ActionData> =
     hint: { frame: 4, prob: 1, desc: "Give a one-word hint, but it must start with the same letter as another word on your card. (You can't say your original word.)" },
     category: { frame: 5, prob: 1.33, desc: "Say the category to which the word belongs." },
     order: { frame: 6, prob: 1.33, desc: "Explain the order of importance of your sliders. (Which one is the best hint, until the one that's the worst hint.)" },
-    property: { frame: 7, prob: 2.0, desc: "Rename the ends of a slider to two different properties. Now mark your secret word on that new scale." }
+    property: { frame: 7, prob: 2.5, desc: "Rename the ends of a slider to two different properties. Now mark your secret word on that new scale." }
 }
 
 interface PropertyData
@@ -30,7 +30,6 @@ interface PropertyData
     frame:number
 }
 
-// @TODO: come up with way more properties
 const PROPERTIES:Record<string, PropertyData> =
 {
     temperature: { low: "cold", high: "hot", frame: 0 },
@@ -127,6 +126,7 @@ const RANDOM_SHAPE_LIST =
 {
     circle: new Circle(),
     rect: new Rectangle(),
+    triangle: new Polygon({ corners: 3 }),
     pentagon: new Polygon({ corners: 5 }),
     hexagon: new Polygon({ corners: 6 }),
     octagon: new Polygon({ corners: 8 }),

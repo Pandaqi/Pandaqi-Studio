@@ -1,0 +1,254 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Mali', serif;
+    background-color: #4B2142;
+    color: white;
+    font-size: 16pt;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Niconne', serif;
+    text-align: center;
+}
+
+#ingredient-clicker, #current-cauldron {
+    padding: 0.5em;
+}
+            
+#ingredient-clicker {
+    margin-top: 0.5em;
+    display: grid;
+    /* 120px regular size, 4px for margin/padding */
+    grid-template-columns: repeat(auto-fit, minmax(124px, 1fr));
+    /*grid-template-rows: repeat(auto-fill, minmax(300px, 1fr));*/
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#current-cauldron .oneIngredient {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    color: black;
+    
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    box-sizing: border-box;
+    padding: 10px;
+    border-radius: 5px;
+
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+    align-items: center;
+
+    scroll-margin: 20px;
+}
+
+#potion-result {
+    text-align: center;
+    background-color: rgba(0,0,0,0.3);
+    padding: 2em;
+    border-radius: 0.25em;
+}
+
+#event {
+    background-color: rgba(0,0,0,0.3);
+    padding: 0.5em;
+    margin-bottom: 0.5em;
+    border-radius: 0.25em;
+    font-size: 0.66em;
+}
+
+#event > div {
+    margin: auto;
+    max-width: 400px;
+}
+
+#event h2 {
+    margin-top: 0.33em;
+}
+
+.winMessage {
+    color: rgb(100, 255, 100);
+    font-size: 32px;
+}
+
+#effects-in-play, #potionResult, #use-potion-button, 
+#current-cauldron, #ingredient-clicker, #effect-explanations {
+    display: none;
+
+    /* to disable annoying accidental selection of buttons/text */
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                supported by Chrome, Opera and Firefox */
+}
+
+#effects-in-play, #effect-explanations {
+    margin: 1em;
+}
+
+#effect-explanations {
+    border-left: 10px solid white;
+    padding-left: 10px;
+    box-sizing: border-box;
+    background-color: rgba(0,0,0,0.3);
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 0.66em;
+    margin-top: -1.25em;
+}
+
+.effectName {
+    padding: 5px;
+    background-color: rgba(0,0,0,0.3);
+    margin: 5px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+
+.ingSprite, .ingSprite-small {
+    /* load spritesheet once */
+    background: url(assets/ingredient_spritesheet.webp) no-repeat;
+
+    /* on the element itself, we move the background-position along the negative x-direction to find the right sprite */
+
+    /* set size and make sure the background stretches to fill the height completely */
+    width: 120px;
+    height: 120px; 
+    background-size: cover;
+    margin: 4px;
+    display: inline-block;
+
+    /* some browsers (such as Chrome) have a tendency to blur image when scaling them up or down => this fixes that */
+    image-rendering: pixelated;
+    /*image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;*/
+}
+
+.ingSprite-small {
+    width: 60px;
+    height: 60px;
+}
+
+.ingButton {
+    background-color: rgba(255,255,255,0.8);
+    border: none;
+    border-radius: 2px; 
+    box-shadow: 0 0 10px black;
+
+    padding: 0;
+    text-align: center;
+}
+
+#solution-revealer {
+    text-align: center; 
+    display: none;
+    margin-top: 4em;
+    padding: 1em;
+}
+
+a.solution-btn, a.solution-btn:visited {
+    box-sizing: border-box;
+    display: block;
+    background-color: #FF3333;
+    color: white;
+    box-shadow: 0 0 6px red;
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 2px;
+    width: 100%;
+    margin: 0px;
+    cursor: pointer;
+    width: 100%;
+    transition: color 0.3s, background-color 0.3s;	
+}
+
+a.solution-btn:hover {
+    background-color: #4c0404;
+    color: #ffcfcf; 
+    box-shadow: 0 0 10px darkred;
+}
+
+a.reload-button {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+select, input, button {
+    padding: 5px;
+}
+
+input, select, button {
+    font-family: 'Mali', cursive;
+    font-size: 2.0rem;
+    cursor:pointer;
+
+    background: rgb(125 75 114);
+    border-radius: 0.5rem;
+    color: white;
+    border: none;
+}
+
+#use-potion-button {
+    background-color: #74226C;
+    color: #f5bbff;
+    box-shadow: 0 0 10px purple;
+    font-family: 'Niconne';
+    padding: 1em;
+    margin: 0.5em;
+    font-size: 1.45em;
+    transition: color 0.3s, background-color 0.3s;
+}
+
+#use-potion-button:hover {
+    background-color: #f5bbff;
+    color: #74226C;
+    cursor: pointer;
+}
+
+#event-minified {
+    background: rgb(199, 59, 199);
+    margin: 0.5em;
+    text-align: center;
+    border-radius: 0.5em;
+    cursor: pointer;
+}
+
+.event-notification {
+    background: red;
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 1);
+    transform: scale(1);
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+    }
+
+    70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+    }
+
+    100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    }
+}
+
+@media all and (max-width: 600px) {
+    .ingredientName-inCauldron {
+        display: none;
+    }
+}

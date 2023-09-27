@@ -48,7 +48,7 @@ ages: everyone
 ---
 
 
-{{% boardgame-intro heading="" img="keebble_header" url="https://drive.google.com/drive/folders/1JeaAyDSFrnu_j8FeDztXyKyhUlNMPoKe" %}}
+{{% boardgame-intro heading="" img="keebble_header" %}}
 
 A word game that can be played with a blank piece of paper and a pen. Like Scrabble, but it doesn't take three hours and a big board.
 

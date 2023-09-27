@@ -55,6 +55,13 @@ export default class Point
 
     toSVGString() { return this.x + " " + this.y }
 
+    fromAngle(ang:number)
+    {
+        this.x = Math.cos(ang);
+        this.y = Math.sin(ang);
+        return this;
+    }
+
     // setting/overriding
     setX(v = 0) { this.x = v; return this; }
     setY(v = 0) { this.y = v; return this; }

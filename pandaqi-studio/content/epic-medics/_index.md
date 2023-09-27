@@ -25,7 +25,6 @@ entryBannerNonTextClasses: "no-shadow"
 
 googleFonts: "https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap"
 extraCSS: true
-extraJSGame: true
 
 date: 2020-03-22
 
@@ -44,7 +43,7 @@ ages: everyone
 
 ---
 
-{{% boardgame-intro heading="" img="epicmedics_header" url="https://drive.google.com/open?id=1bZ0z3L63sfoK-iMKIQFG8yPzU5Efe9b-" %}}
+{{% boardgame-intro heading="" img="epicmedics_header" %}}
 
 A cooperative <a href="/boardgames#one_paper_games" style="color:#540003;">One Paper Game</a> for 2&ndash;7 players about fighting an uncontrollable pandemic</p>
 

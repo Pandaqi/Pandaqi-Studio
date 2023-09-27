@@ -44,7 +44,7 @@ complexity: easy
 ages: everyone
 ---
 
-{{% boardgame-intro heading="" img="onepizza_header" url="https://drive.google.com/drive/folders/19oX1xwugq8ArnmKhe8kDO5fuZNPDTfKd" %}}
+{{% boardgame-intro heading="" img="onepizza_header" %}}
 
 A [One Paper Game](/boardgames#one_paper_games) for 2&ndash;8 players about running your own pizza business, but a raging rivalry forbids crossing paths with other pizza couriers.
 

@@ -1,6 +1,4 @@
 ---
-title: "Keebble"
-date: 2022-02-02
 type: "rules"
 pdf: false
 ---

@@ -1,6 +1,4 @@
 ---
-title: "Photomone"
-date: 2023-03-19
 type: "rules"
 pdf: false
 ---
