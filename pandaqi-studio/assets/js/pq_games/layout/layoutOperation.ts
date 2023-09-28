@@ -213,6 +213,7 @@ export default class LayoutOperation
 
         if(drawText)
         {
+            console.log(ctx.fillStyle);
             const drawer = res.createTextDrawer(this.dims);
             drawer.toCanvas(ctx);
         }

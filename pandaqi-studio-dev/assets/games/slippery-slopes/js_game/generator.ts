@@ -1,16 +1,25 @@
 import PdfBuilder, { PageOrientation } from "js/pq_games/pdf/pdfBuilder"
 import ProgressBar from "js/pq_games/website/progressBar"
-import CONFIG from "./config";
+import CONFIG from "../js_shared/config";
 import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple"
 import ResourceLoader from "js/pq_games/layout/resources/resourceLoader"
 import WordCards from "./wordCards"
 import SliderCards from "./sliderCards"
+import loadPandaqiWords from "../js_shared/loadPandaqiWords";
 
 export default class Generator 
 {
     setup()
     {
+        this.setupConfig();
         this.setupProgressBar();
+    }
+
+    setupConfig()
+    {
+        const userConfig = JSON.parse(window.localStorage[CONFIG.configKeyBaseGame] || "{}");
+        console.log(userConfig);
+        Object.assign(CONFIG, userConfig);
     }
 
     setupProgressBar()
@@ -60,6 +69,9 @@ export default class Generator
             resLoader.planLoad(key, { path: data.path, frames: data.frames });
         }
         await resLoader.loadPlannedResources();
+
+        const shouldLoadWords = CONFIG.generateWords || CONFIG.expansions.crasheryCliffs;
+        CONFIG.pandaqiWords = await loadPandaqiWords(CONFIG, shouldLoadWords);
 
         const pdfBuilderConfig = { orientation: PageOrientation.PORTRAIT };
         const pdfBuilder = new PdfBuilder(pdfBuilderConfig);

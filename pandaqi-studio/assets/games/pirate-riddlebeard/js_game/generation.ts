@@ -3,12 +3,13 @@ import { TERRAINS, TERRAIN_DATA, NATURE, STONES, QUADRANTS, LANDMARKS, ROADS, HI
 import Random from "js/pq_games/tools/random/main"
 // @ts-ignore
 // @TODO: not sure if this even works, it used to grab Phaser as a global variable, loaded by the mystical pirategames.js
-import { Scene, Geom, GameObjects } from "js/pq_games/phaser.esm"
+import { Scene, Geom, GameObjects } from "js/pq_games/phaser/phaser.esm"
 import PdfBuilder, { PageOrientation } from "js/pq_games/pdf/pdfBuilder"
 import Point from "js/pq_games/tools/geometry/point"
 
 type Hint = { final_text?: string, html_text?: string }
 
+const assetsBase = '/pirate-riddlebeard/assets/';
 export default class Generation extends Scene
 {
 	canvas: HTMLCanvasElement
@@ -44,11 +45,9 @@ export default class Generation extends Scene
 		this.load.crossOrigin = 'Anonymous';
 		this.canvas = this.sys.game.canvas;
 
-		let base = 'assets/';
-
-		this.load.spritesheet('elements', base + 'elements.png', { frameWidth: 400, frameHeight: 400 });
-		this.load.spritesheet('icons', base + 'icons.png', { frameWidth: 400, frameHeight: 400 });
-		this.load.image('hint_card', base + 'hint_card.png');
+		this.load.spritesheet('elements', assetsBase + 'elements.png', { frameWidth: 400, frameHeight: 400 });
+		this.load.spritesheet('icons', assetsBase + 'icons.png', { frameWidth: 400, frameHeight: 400 });
+		this.load.image('hint_card', assetsBase + 'hint_card.png');
     }
 
     create(config) {

@@ -21,7 +21,8 @@ const CONFIG =
     margin: new Point(),
     wordColors: ["#FFD23F", "#37FF8B", "#EE4266", "#CB9CF2"],
     distanceBetweenWords: 0,
-    spaceAroundWord: 0
+    spaceAroundWord: 0,
+    assetsBase: "/photomone/assets/"
 }
 
 async function createWordCard(wordList)
@@ -226,11 +227,10 @@ async function createWordCards(userConfig:Record<string,any>)
     const totalNumCards = cardsPerPage * numPages;
 	const numWordsNeeded = CONFIG.wordsPerCard * totalNumCards;
 
-    const baseAssetDir = "assets/"
-    const resLoader = new ResourceLoader();
-	resLoader.planLoad("icon_lines", { path: baseAssetDir + "icon_lines.webp" });
-    resLoader.planLoad("icon_points", { path: baseAssetDir + "icon_points.webp" });
-    resLoader.planLoad("grayscale_ant", { path: baseAssetDir + "grayscale_ant.webp" });
+    const resLoader = new ResourceLoader({ base: CONFIG.assetsBase });
+	resLoader.planLoad("icon_lines", { path: "icon_lines.webp" });
+    resLoader.planLoad("icon_points", { path: "icon_points.webp" });
+    resLoader.planLoad("grayscale_ant", { path: "grayscale_ant.webp" });
 	await resLoader.loadPlannedResources();
 
     CONFIG.resLoader = resLoader;

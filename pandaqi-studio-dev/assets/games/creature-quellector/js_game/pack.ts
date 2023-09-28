@@ -106,10 +106,13 @@ export default class Pack
 
     getBalancedIconList(num:number, stats:TypeStats) : ElementIcon[]
     {
-        // always add our main type once at the start
-        const elem = this.getDefaultElement();
-        const arr = [elem];
-        this.registerTypePicked(elem, stats);
+        const arr = [];
+        if(CONFIG.alwaysAddMainTypeOnce)
+        {
+            const elem = this.getDefaultElement();
+            arr.push(elem);
+            this.registerTypePicked(elem, stats);
+        }
 
         while(arr.length < num)
         {

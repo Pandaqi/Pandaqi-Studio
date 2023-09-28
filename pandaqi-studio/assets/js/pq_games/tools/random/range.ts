@@ -1,8 +1,12 @@
+import Bounds, { BoundsLike } from "../numbers/bounds";
 
-export default (lowData:number|{ min: number, max: number} , high:number = 0) : number =>
+export default (low:number|BoundsLike, high:number = 0) : number =>
 {
-    let low = lowData
-    if(typeof lowData == "object") { low = lowData.min; high = lowData.max; }
-    low = low as number
+    if(typeof low == "object") 
+    {
+        const boundsObj = new Bounds(low); 
+        low = boundsObj.min;
+        high = boundsObj.max;
+    }
     return Math.random()*(high-low) + low;
 }

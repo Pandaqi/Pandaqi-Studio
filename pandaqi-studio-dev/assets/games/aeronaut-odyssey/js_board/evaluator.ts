@@ -1,4 +1,4 @@
-import countElementsInArray from "js/pq_games/tools/logic/countElementsInArray";
+import countElementsInArray from "js/pq_games/tools/collections/countElementsInArray";
 import BoardState from "./boardState";
 import CONFIG from "./config"
 

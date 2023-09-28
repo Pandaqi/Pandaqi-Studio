@@ -21,10 +21,9 @@ export default class Generator {
         );
         progressBar.gotoNextPhase();
 
-        const resLoader = new ResourceLoader();
-        resLoader.planLoad("geldotica", { key: "GelDoticaLowercase", path: CONFIG.fontURL });
-        resLoader.planLoad("tokens", { path: "assets/tokens_new.webp", frames: new Point(8,1) });
-        resLoader.planLoad("almostActions", { path: "assets/almost_actions.webp", frames: new Point(8,1) });
+        const resLoader = new ResourceLoader({ base: CONFIG.assetsBase });
+        resLoader.planLoad("tokens", { path: "tokens_new.webp", frames: new Point(8,1) });
+        resLoader.planLoad("almostActions", { path: "almost_actions.webp", frames: new Point(8,1) });
         await resLoader.loadPlannedResources();
 
         const pdfBuilderCONFIG = { orientation: PageOrientation.PORTRAIT };

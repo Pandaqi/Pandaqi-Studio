@@ -21,7 +21,7 @@ export default class Polygon extends Shape
     {
         super()
         this.center = h.center ?? new Point();
-        this.radius = h.radius ?? 10;
+        this.radius = h.radius ?? 0.5;
         this.corners = h.corners ?? 6;
     }
 

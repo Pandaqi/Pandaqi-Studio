@@ -43,8 +43,6 @@ export default class PhotomoneGame
     
         config.RESOURCE_LOADER = new ResourceLoader();
         config.RESOURCE_LOADER.planLoad("point_types", { path: config.pointSpritePath, frames: config.pointSpriteFrames });
-        console.log("POINT SPRITE FRAMES");
-        console.log(config.pointSpriteFrames);
         await config.RESOURCE_LOADER.loadPlannedResources();
         
         const canvasNodes = Array.from(document.getElementsByClassName("photomone-canvas"));

@@ -99,6 +99,11 @@ export default class Point
     scaleXY(x = 1, y = 1) { return this.scale({ x: x, y: y }); }
     scaleFactor(f = 1) { return this.scaleXY(f,f); }
     mult(f = 1) { return this.scaleFactor(f); }
+    div(p:PointParamValid = new Point()) 
+    {
+        if(typeof p == "object") { return this.scale(new Point(1.0 / p.x, 1.0 / p.y)); }
+        return this.scaleFactor(1.0 / p);
+    }
     scale(p:PointParamValid = new Point())
     {
         if(this.isNumber(p)) { return this.scaleFactor(p as number); }

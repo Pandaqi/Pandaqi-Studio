@@ -1,7 +1,7 @@
 import { INGREDIENTS, SPECIAL_CELLS } from "../js_shared/dict"
 import Random from "js/pq_games/tools/random/main"
 // @ts-ignore
-import { Geom } from "js/pq_games/phaser.esm"
+import { Geom } from "js/pq_games/phaser/phaser.esm"
 import Section from "./section"
 
 export default class Cell 

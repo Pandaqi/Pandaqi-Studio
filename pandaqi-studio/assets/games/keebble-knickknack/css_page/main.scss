@@ -1,5 +1,5 @@
-$header-font: "Arbutus Slab", sans-serif;
-$body-font: "Arbutus Slab", serif;
+@use "../../keebble/css_shared/main.scss" as g;
+
 $main-color: #346899;
 $inv-color: #7c2b6b;
 $inv-color-dark: #3b052f;
@@ -8,22 +8,14 @@ $cutoff: 900px;
 $btn-text-color: #FFFFFF;
 $btn-text-color-hover: #f9d2ff;
 
-@font-face {
-    font-family: 'Arbutus Slab';
-    src: url(/keebble/assets/ArbutusSlab-Regular.woff2);
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-
 h1, h2, h3, h4, h5, h6, 
 a.btn, #btn-create-pdf, #btn-generate-board, #btn-start-game,
 input, button, select, option, label {
-    font-family: $header-font;
+    font-family: g.$header-font;
 }
 
 body {
-    font-family: $body-font;
+    font-family: g.$body-font;
     background-color: #d8d8d8;
     font-size: 20px;
     background-size: 100%;

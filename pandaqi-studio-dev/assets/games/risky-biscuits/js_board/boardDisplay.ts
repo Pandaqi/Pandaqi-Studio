@@ -1,6 +1,6 @@
 import BoardState from "./boardState";
 // @ts-ignore
-import { Geom, Display } from "js/pq_games/phaser.esm"
+import { Geom, Display } from "js/pq_games/phaser/phaser.esm"
 import CONFIG from "./config";
 import PointGraph from "js/pq_games/tools/geometry/pointGraph";
 import Point from "js/pq_games/tools/geometry/point";

@@ -1,7 +1,7 @@
 // @ts-nocheck
 import GenerationScene from "./generation"
 import { scaleFactor, pdfSize } from "./dictionary"
-import { Game, CANVAS, Scale } from "js/pq_games/phaser.esm"
+import { Game, CANVAS, Scale } from "js/pq_games/phaser/phaser.esm"
 
 export default class PirateGame {
     constructor() {}

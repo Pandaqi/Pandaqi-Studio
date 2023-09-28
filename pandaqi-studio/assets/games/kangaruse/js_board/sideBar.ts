@@ -1,10 +1,10 @@
 // @ts-ignore
-import { Display } from "js/pq_games/phaser.esm"
 import { GENERAL, CELLS, COLOR_GROUPS } from "../js_shared/dictionary"
 import CONFIG from "./config"
 import Point from "js/pq_games/tools/geometry/point";
 import BoardDisplay from "./boardDisplay"
 import BoardState from "./boardState"
+import Color from "js/pq_games/layout/color/color";
 
 export default class SideBar
 {
@@ -134,7 +134,7 @@ export default class SideBar
 
             
             const colorHex = COLOR_GROUPS[CELLS[type].colorGroup];
-            const color = new Display.Color.HexStringToColor(colorHex).color;
+            const color = new Color(colorHex).toHEXNumber();
             const borderRadius = 10;
             const alphaBG = 0.66;
             

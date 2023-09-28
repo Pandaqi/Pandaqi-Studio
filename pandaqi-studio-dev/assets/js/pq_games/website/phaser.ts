@@ -4,7 +4,7 @@ import PDF from "../pdf/main"
 import PdfBuilder from "../pdf/pdfBuilder"
 import Settings from "./settings"
 // @ts-ignore
-import { Game, CANVAS, WEBGL, Scale } from "../phaser.esm"
+import { Game, CANVAS, WEBGL, Scale } from "../phaser/phaser.esm"
 import Point from "../tools/geometry/point"
 
 interface PhaserLinkParams

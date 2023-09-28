@@ -34,7 +34,7 @@ export default class TextDrawer
         const ctx = (canv instanceof HTMLCanvasElement) ? canv.getContext("2d") : canv;
         const style = this.cfg.getCanvasFontString();
         ctx.font = style;
-        ctx.fillStyle = this.cfg.color;
+        //ctx.fillStyle = this.cfg.color;
 
         // @ts-ignore
         const x = parseInt(this.dims.position.x);

@@ -2,6 +2,8 @@
 // this is a softer, less present one
 //const url2 = "https://www.zapsplat.com/wp-content/uploads/2015/sound-effects-31172/zapsplat_nature_forest_ambience_distant_river_dist_planes_birds_32171.mp3?_=8";
 
+import CONFIG from "../js_shared/config";
+
 // this one is more present
 // https://www.zapsplat.com/wp-content/uploads/2015/sound-effects-free-to-use-sounds/ftus_jungle_rainforest_daytime_birds_singing_close_up_distant_traffic_vietnam_705.mp3?_=7
 
@@ -12,7 +14,7 @@ export default class AudioLoader {
 
     constructor() 
     {
-        this.filePath = "assets/audio/"
+        this.filePath = CONFIG.assetsBase + "audio"
         this.buffer = {};
         this.setupContext();
     }

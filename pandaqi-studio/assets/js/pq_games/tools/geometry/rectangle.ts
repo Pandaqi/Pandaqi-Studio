@@ -19,7 +19,7 @@ export default class Rectangle extends Shape
     {
         super();
         this.center = r.center ?? new Point();
-        this.extents = r.extents ?? new Point();
+        this.extents = r.extents ?? new Point(1,1);
     }
 
     clone(deep = false)
@@ -60,7 +60,7 @@ export default class Rectangle extends Shape
         return new Path({ points: this.toPath() }).toPathString();
     }
 
-    toSVG()
+    toSVG() : SVGElement|HTMLElement
     {
         const elem = document.createElementNS(null, 'rect');
         const topLeft = this.getTopLeft();
@@ -71,10 +71,29 @@ export default class Rectangle extends Shape
         return elem;
     }
 
+    fromTopLeft(pos:Point, size:Point)
+    {
+        this.center = pos.clone().add(size.clone().scaleFactor(0.5));
+        this.extents = size.clone();
+        return this;
+    }
+
+    fromBottomRight(pos:Point, size:Point)
+    {
+        this.center = pos.clone().sub(size.clone().scaleFactor(0.5));
+        this.extents = size.clone();
+        return this;
+    }
+
     getPositionWithOffset(off:Point) : Point
     {
         const offset = this.extents.clone().scale(off).scaleFactor(0.5);
         return this.center.clone().add(offset);
+    }
+
+    getSize()
+    {
+        return this.extents.clone();
     }
 
     getTopLeft()

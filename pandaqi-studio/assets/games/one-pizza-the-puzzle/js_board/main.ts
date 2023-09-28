@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { TRAFFIC_SIGNS, SPECIAL_INGREDIENTS, SPECIAL_BUILDINGS } from "./dictionary"
 import PandaqiPhaser from "js/pq_games/website/phaser"
-import { Scene, Geom } from "js/pq_games/phaser.esm"
+import { Scene, Geom } from "js/pq_games/phaser/phaser.esm"
 import Random from "js/pq_games/tools/random/main"
 
 const sceneKey = "boardGeneration"

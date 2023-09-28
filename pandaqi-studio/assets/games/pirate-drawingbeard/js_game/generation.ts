@@ -6,9 +6,10 @@ import Interface from "./interface"
 import Map from "./map"
 import { TILE_DICT, SYMBOLS } from "./dictionary"
 // @ts-ignore
-import { Scene, Geom, GameObjects } from "js/pq_games/phaser.esm"
+import { Scene, Geom, GameObjects } from "js/pq_games/phaser/phaser.esm"
 import Point from "js/pq_games/tools/geometry/point"
 
+const assetsBase = "/pirate-drawingbeard/assets/"
 export default class Generation extends Scene
 {
 	canvas: HTMLCanvasElement
@@ -24,31 +25,30 @@ export default class Generation extends Scene
 		this.canvas = this.sys.game.canvas;
 
 		let sheetData =  { frameWidth: 256, frameHeight: 256 };
-		let base = 'assets/';
 
-		this.load.spritesheet('tile_types', base + 'tile_types.webp', sheetData);
-		this.load.spritesheet('tile_types_inkfriendly', base + 'tile_types_inkfriendly.webp', sheetData);
+		this.load.spritesheet('tile_types', assetsBase + 'tile_types.webp', sheetData);
+		this.load.spritesheet('tile_types_inkfriendly', assetsBase + 'tile_types_inkfriendly.webp', sheetData);
 
-		this.load.spritesheet('symbols', base + 'symbols.webp', sheetData);
-		this.load.spritesheet('symbols_inkfriendly', base + 'symbols_inkfriendly.webp', sheetData);
+		this.load.spritesheet('symbols', assetsBase + 'symbols.webp', sheetData);
+		this.load.spritesheet('symbols_inkfriendly', assetsBase + 'symbols_inkfriendly.webp', sheetData);
 
-		this.load.spritesheet('hint_cards', base + 'hint_cards.webp', { frameWidth: 495, frameHeight: 525 });
+		this.load.spritesheet('hint_cards', assetsBase + 'hint_cards.webp', { frameWidth: 495, frameHeight: 525 });
 
 		// (also) used by hint visualizer
-		this.load.spritesheet('hint_base', base + 'hint_base.webp', sheetData);
-		this.load.spritesheet('hint_base_inkfriendly', base + 'hint_base_inkfriendly.webp', sheetData);
+		this.load.spritesheet('hint_base', assetsBase + 'hint_base.webp', sheetData);
+		this.load.spritesheet('hint_base_inkfriendly', assetsBase + 'hint_base_inkfriendly.webp', sheetData);
 
-		this.load.spritesheet('hint_tile_type', base + 'hint_tile_type.webp', sheetData);
-		this.load.spritesheet('hint_tile_type_inkfriendly', base + 'hint_tile_type_inkfriendly.webp', sheetData);
+		this.load.spritesheet('hint_tile_type', assetsBase + 'hint_tile_type.webp', sheetData);
+		this.load.spritesheet('hint_tile_type_inkfriendly', assetsBase + 'hint_tile_type_inkfriendly.webp', sheetData);
 
-		this.load.spritesheet('hint_quadrant', base + 'hint_quadrant.webp', sheetData);
-		this.load.spritesheet('hint_quadrant_inkfriendly', base + 'hint_quadrant_inkfriendly.webp', sheetData);
+		this.load.spritesheet('hint_quadrant', assetsBase + 'hint_quadrant.webp', sheetData);
+		this.load.spritesheet('hint_quadrant_inkfriendly', assetsBase + 'hint_quadrant_inkfriendly.webp', sheetData);
 
-		this.load.spritesheet('hint_bearings', base + 'hint_bearings.webp', sheetData);
-		this.load.spritesheet('hint_bearings_inkfriendly', base + 'hint_bearings_inkfriendly.webp', sheetData);
+		this.load.spritesheet('hint_bearings', assetsBase + 'hint_bearings.webp', sheetData);
+		this.load.spritesheet('hint_bearings_inkfriendly', assetsBase + 'hint_bearings_inkfriendly.webp', sheetData);
 
-		this.load.spritesheet('hint_symbols', base + 'hint_symbols.webp', sheetData);
-		this.load.spritesheet('hint_symbols_inkfriendly', base + 'hint_symbols_inkfriendly.webp', sheetData);
+		this.load.spritesheet('hint_symbols', assetsBase + 'hint_symbols.webp', sheetData);
+		this.load.spritesheet('hint_symbols_inkfriendly', assetsBase + 'hint_symbols_inkfriendly.webp', sheetData);
 
 		document.getElementById('debugging').innerHTML = '';
     }

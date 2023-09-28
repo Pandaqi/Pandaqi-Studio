@@ -1,5 +1,5 @@
-$header-font: "Londrina Solid", sans-serif;
-$body-font: "Londrina Solid", serif;
+@use "../css_shared/main.scss" as g;
+
 $bg-color: #3c005d;
 $game-color: #93cfe1;
 $game-text-color: #0a4c60;
@@ -11,39 +11,10 @@ $text-color: #efe3d6;
 $heading-color: #ff48a3;
 $cutoff: 900px;
 
-@font-face {
-    font-family: 'Londrina Solid';
-    src: url('/sixpack/assets/fonts/LondrinaSolid-Light.woff2') format('woff2'),
-        url('/sixpack/assets/fonts/LondrinaSolid-Light.woff') format('woff');
-    font-weight: 300;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'Londrina Solid';
-    src: url('/sixpack/assets/fonts/LondrinaSolid-Regular.woff2') format('woff2'),
-        url('/sixpack/assets/fonts/LondrinaSolid-Regular.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'Londrina Solid';
-    src: url('/sixpack/assets/fonts/LondrinaSolid-Black.woff2') format('woff2'),
-        url('/sixpack/assets/fonts/LondrinaSolid-Black.woff') format('woff');
-    font-weight: 900;
-    font-style: normal;
-    font-display: swap;
-}
-
-
-
 h1, h2, h3, h4, h5, h6, 
 a.btn, #btn-create-pdf, #btn-generate-board, #btn-start-game,
 input, button, select, option, label {
-    font-family: $header-font;
+    font-family: g.$header-font;
     font-weight: normal;
 }
 
@@ -58,7 +29,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 body {
-    font-family: $body-font;
+    font-family: g.$body-font;
     background-color: $bg-color;
     font-size: 22px;
     background-size: 100%;
@@ -66,7 +37,7 @@ body {
     font-weight: 300;
     letter-spacing: 1px;
 
-    background-image: url(bg_pattern.webp);
+    background-image: g.$bg-pattern-url;
     background-size: contain;
     background-repeat: repeat-y;
 }

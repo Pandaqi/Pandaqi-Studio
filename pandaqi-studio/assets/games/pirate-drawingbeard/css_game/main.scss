@@ -1,7 +1,9 @@
+@use "../../pirate-riddlebeard/css_shared/main.scss" as g;
+
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Chelsea Market', cursive;
+    font-family: g.$header-font;
     font-size: 20px;
     background-color: #eeeeab;
 }
@@ -47,7 +49,7 @@ body {
 
 button, select {
     width: 100%;
-    font-family: 'Chelsea Market';
+    font-family: g.$header-font;
     font-size: 24px;
     background: #ff7600;
     border-radius: 5px;

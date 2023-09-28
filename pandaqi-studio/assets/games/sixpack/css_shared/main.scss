@@ -1,0 +1,32 @@
+
+@font-face {
+    font-family: 'Londrina Solid';
+    src: url('/sixpack/assets/fonts/LondrinaSolid-Light.woff2') format('woff2'),
+        url('/sixpack/assets/fonts/LondrinaSolid-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Londrina Solid';
+    src: url('/sixpack/assets/fonts/LondrinaSolid-Regular.woff2') format('woff2'),
+        url('/sixpack/assets/fonts/LondrinaSolid-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Londrina Solid';
+    src: url('/sixpack/assets/fonts/LondrinaSolid-Black.woff2') format('woff2'),
+        url('/sixpack/assets/fonts/LondrinaSolid-Black.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+$header-font: "Londrina Solid", sans-serif;
+$body-font: "Londrina Solid", serif;
+$bg-pattern-url: url(bg_pattern.webp);
+$types-url: url(/sixpack/assets/card_types.webp);

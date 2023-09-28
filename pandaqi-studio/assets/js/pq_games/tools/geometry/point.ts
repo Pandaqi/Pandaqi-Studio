@@ -1,3 +1,6 @@
+import isZero from "../numbers/isZero";
+import lerp from "../numbers/lerp";
+
 interface PointDict 
 {
     x: number,
@@ -43,12 +46,21 @@ export default class Point
         this.y = y ?? this.x;
     }
 
-    clone() { return new Point(this); }
+    clone() : Point { return new Point(this); }
     isValid() { return this.isNumber(this.x) && this.isNumber(this.y); }
     hasValue() { return this.isValid() && (this.x != 0 || this.y != 0); }
+    isZero() { return isZero(this.length()); }
     isNumber(val:any) { return !isNaN(val); }
+    matches(p:Point) { return Math.abs(this.x - p.x) < 0.003 && Math.abs(this.y - p.y) < 0.003; }
 
     toSVGString() { return this.x + " " + this.y }
+
+    fromAngle(ang:number)
+    {
+        this.x = Math.cos(ang);
+        this.y = Math.sin(ang);
+        return this;
+    }
 
     // setting/overriding
     setX(v = 0) { this.x = v; return this; }
@@ -70,9 +82,9 @@ export default class Point
     moveY(v = 0) { return this.setY(this.y + v); }
     moveXY(x = 0, y = 0) { return this.move({ x: x, y: y }); }
     moveFactor(f = 0) { return this.moveXY(f,f); }
-    add(p:PointParamValid = new Point()) { return this.move(p); }
-    sub(p = new Point()) { return this.add(p.clone().scaleFactor(-1)); }
-    move(p:PointParamValid = new Point())
+    add(p:PointParamValid = new Point()) : Point { return this.move(p); }
+    sub(p = new Point()) : Point { return this.add(p.clone().scaleFactor(-1)); }
+    move(p:PointParamValid = new Point()) : Point
     {
         if(this.isNumber(p)) { return this.moveFactor(p as number); }
         p = p as PointLike;
@@ -86,6 +98,12 @@ export default class Point
     scaleY(v = 0) { return this.setY(v * this.y); }
     scaleXY(x = 1, y = 1) { return this.scale({ x: x, y: y }); }
     scaleFactor(f = 1) { return this.scaleXY(f,f); }
+    mult(f = 1) { return this.scaleFactor(f); }
+    div(p:PointParamValid = new Point()) 
+    {
+        if(typeof p == "object") { return this.scale(new Point(1.0 / p.x, 1.0 / p.y)); }
+        return this.scaleFactor(1.0 / p);
+    }
     scale(p:PointParamValid = new Point())
     {
         if(this.isNumber(p)) { return this.scaleFactor(p as number); }
@@ -97,9 +115,15 @@ export default class Point
 
     // dimensions
     angle() { return Math.atan2(this.y, this.x); }
+    angleTo(p:Point)
+    {
+        const length = this.length() * p.length();
+        const dot = this.dot(p);
+        return Math.acos(dot / length);
+    }
 
     // @TODO: the orthodot part is new to me, is it needed? does this work?
-    angleTo(p:Point)
+    angleSignedTo(p:Point)
     {
         const length = this.length() * p.length();
         const dot = this.dot(p);
@@ -109,7 +133,7 @@ export default class Point
     }
 
     negate() { return this.scaleFactor(-1); }
-    normalize() 
+    normalize() : Point
     { 
         const l = this.length();
         if(Math.abs(l) <= 0.0001) { return this; }
@@ -120,6 +144,16 @@ export default class Point
         const temp = this.x;
         this.x = -this.y;
         this.y = temp;
+        return this;
+    }
+
+    rotate(rot:number)
+    {
+        let norm = this.length();
+        let ang = this.angle();
+        ang += rot;
+        this.x = Math.cos(ang) * norm;
+        this.y = Math.sin(ang) * norm;
         return this;
     }
 
@@ -167,14 +201,27 @@ export default class Point
         return new Point().setXY(p.x - this.x, p.y - this.y);
     }
     
-    halfwayTo(p = new Point())
+    halfwayTo(p:Point)
     {
         return this.clone().add(p).scaleFactor(0.5);
     }
+
+    lerp(p:Point, factor:number)
+    {
+        return new Point(
+            lerp(this.x, p.x, factor),
+            lerp(this.y, p.y, factor)
+        )
+    }
     
-    dot(p = new Point())
+    dot(p:Point)
     {
         return this.x * p.x + this.y * p.y;
+    }
+
+    cross(p:Point)
+    {
+        return this.x * p.y - this.y * p.x;
     }
 
 

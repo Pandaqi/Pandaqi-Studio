@@ -1,11 +1,12 @@
 // @ts-ignore
-import { Geom, Display } from "js/pq_games/phaser.esm"
+import { Geom } from "js/pq_games/phaser/phaser.esm"
 import Random from "js/pq_games/tools/random/main"
 import Point from "js/pq_games/tools/geometry/point"
 import Cell from "./cell"
 import { TUTORIAL_DATA } from "./dict"
 import BoardState from "./boardState"
 import CONFIG from "./config"
+import Color from "js/pq_games/layout/color/color"
 
 export default class Board
 {
@@ -389,13 +390,13 @@ export default class Board
             let baseCol = CONFIG.board.grid.colorNeutral;
             if(c.hasType()) { baseCol = CONFIG.typeDict[c.getType()].bg; }
 
-            const baseColObject = Display.Color.ValueToColor(baseCol);
+            const baseColObject = new Color(baseCol);
 
             const slightlyModifyColor = colorIndex == 1;
             if(slightlyModifyColor) { baseColObject.lighten(CONFIG.board.grid.colorModifyPercentage); }
 
             const alpha = CONFIG.board.grid.colorBackgroundAlpha;
-            graphics.fillStyle(baseColObject.color, alpha);
+            graphics.fillStyle(baseColObject.toHEXNumber, alpha);
 
             const rect = this.getRectForCell(c);
             graphics.fillRectShape(rect);

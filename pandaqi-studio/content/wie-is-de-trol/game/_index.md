@@ -17,9 +17,9 @@ googleFonts: "https://fonts.googleapis.com/css2?family=Recursive:wght@300;500;70
     </p>
     <div id="timer">
         <div>
-            <button onclick="startTimer()">Start</button> 
+            <button id="timerStartButton">Start</button> 
             <span id="timerValue">00:00</span> 
-            <button onclick="stopTimer()">Stop</button>
+            <button id="timerStopButton">Stop</button>
         </div>
     </div>
     <p id="story">Story</p>

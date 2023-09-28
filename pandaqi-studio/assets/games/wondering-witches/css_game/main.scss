@@ -1,14 +1,16 @@
+@use "../css_shared/main.scss" as g; 
+
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Mali', serif;
+    font-family: g.$body-font;
     background-color: #4B2142;
     color: white;
     font-size: 16pt;
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Niconne', serif;
+    font-family: g.$header-font;
     text-align: center;
 }
 
@@ -117,7 +119,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .ingSprite, .ingSprite-small {
     /* load spritesheet once */
-    background: url(assets/ingredient_spritesheet.webp) no-repeat;
+    background: g.$ingredients-url no-repeat;
 
     /* on the element itself, we move the background-position along the negative x-direction to find the right sprite */
 
@@ -188,7 +190,7 @@ select, input, button {
 }
 
 input, select, button {
-    font-family: 'Mali', cursive;
+    font-family: g.$body-font;
     font-size: 2.0rem;
     cursor:pointer;
 
@@ -202,7 +204,7 @@ input, select, button {
     background-color: #74226C;
     color: #f5bbff;
     box-shadow: 0 0 10px purple;
-    font-family: 'Niconne';
+    font-family: g.$header-font;
     padding: 1em;
     margin: 0.5em;
     font-size: 1.45em;

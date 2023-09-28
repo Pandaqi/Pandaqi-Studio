@@ -1,16 +1,6 @@
 @use "sass:map";
 @use "sass:math";
-
-$header-font: "Arbutus Slab", sans-serif;
-$body-font: "Arbutus Slab", serif;
-
-@font-face {
-    font-family: 'Arbutus Slab';
-    src: url(/keebble/assets/ArbutusSlab-Regular.woff2);
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
+@use "../../keebble/css_shared/main.scss" as g;
 
 @mixin tint-icon($hue) {
     filter: sepia(100%) saturate(500%) brightness(100%) hue-rotate(#{$hue}deg) drop-shadow(0 0 2px #222);
@@ -79,7 +69,7 @@ $icons: (
     }
 
     .icon-#{$name} {
-        background-image: url(/keebble-domino/assets/special_cells.webp);
+        background-image: g.$special-cells-domino-url;
         background-size: 800%;
         background-position-x: -$col * 100%;
         background-position-y: -$row * 100%;
@@ -88,11 +78,11 @@ $icons: (
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: $header-font;
+    font-family: g.$header-font;
 }
 
 body {
-    font-family: $body-font;
+    font-family: g.$body-font;
     background-color: #FCFCFC;
     font-size: 17px;
 }

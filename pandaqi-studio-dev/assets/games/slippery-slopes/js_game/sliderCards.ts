@@ -1,5 +1,5 @@
 import GridMapper from "js/pq_games/layout/gridMapper";
-import CONFIG from "./config";
+import CONFIG from "../js_shared/config";
 import PandaqiWords from "js/pq_words/main";
 import WordData from "js/pq_words/wordData";
 import createContext from "js/pq_games/layout/canvas/createContext";
@@ -9,7 +9,7 @@ import ResourceText from "js/pq_games/layout/resources/resourceText";
 import equidistantColorsBetweenOpposites from "./tools/equidistantColorsBetweenOpposites";
 import createWavyRect from "./tools/createWavyRect";
 import ResourceShape from "js/pq_games/layout/resources/resourceShape";
-import Slider from "./slider";
+import Slider from "../js_shared/slider";
 import { ACTIONS, PROPERTIES, SLIDERS } from "../js_shared/dict";
 import fromArray from "js/pq_games/tools/random/fromArray";
 import shuffle from "js/pq_games/tools/random/shuffle";
@@ -53,6 +53,8 @@ export default class SliderCards
         
         const numSliders = CONFIG.sliderCards.num;
         const slidersPerMainType = {};
+
+        console.log(CONFIG);
         
         let sliders = [];
         for(let i = 0; i < numSliders; i++)
@@ -109,7 +111,6 @@ export default class SliderCards
         }
         const canvases = await Promise.all(promises);
         this.gridMapper.addElements(canvases.flat());
-
         return this.gridMapper.getCanvases();
     }
 }

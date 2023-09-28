@@ -12,44 +12,45 @@ export default
     cardSize: "regular",
     packs: [],
 
+    assetsBase: "/kingseat/assets/",
     fonts: {
         heading: {
             key: "UniFraktur",
-            url: "assets/fonts/UnifrakturCook-Bold.woff2",
+            url: "fonts/UnifrakturCook-Bold.woff2",
             size: 0.1285
         },
 
         text: {
             key: "ModerneFraktur",
-            url: "assets/fonts/ModerneFraktur.woff2",
+            url: "fonts/ModerneFraktur.woff2",
             size: 0.063
         },
 
         slogan: {
             key: "Gothic",
-            url: "assets/fonts/GothicUltraOT.woff2",
+            url: "fonts/GothicUltraOT.woff2",
             size: 0.0533
         }
     },
     assets: {
         crests_full: {
-            path: "assets/crests_full.webp",
+            path: "crests_full.webp",
             frames: new Point(12, 1)
         },
         crests_simple: {
-            path: "assets/crests_simplified.webp",
+            path: "crests_simplified.webp",
             frames: new Point(12, 1)
         },
         gradient_overlay: {
-            path: "assets/gradient_overlay.webp",
+            path: "gradient_overlay.webp",
             frames: Point.ONE
         },
         multicolor_bg: {
-            path: "assets/multicolor_bg.webp",
+            path: "multicolor_bg.webp",
             frames: Point.ONE
         },
         decoration_icons: {
-            path: "assets/decoration_icons.webp",
+            path: "decoration_icons.webp",
             frames: new Point(2,1)
         }
     },
@@ -67,7 +68,7 @@ export default
         size: new Point(),
         outline: {
             color: "#111111",
-            width: 0.05,
+            width: 0.025,
         }
     }
 }

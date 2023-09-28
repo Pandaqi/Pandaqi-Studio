@@ -135,9 +135,6 @@ export default class CanvasDrawable
         {
             this.params.width = window.innerWidth;
             this.params.height = window.innerHeight;
-
-            console.log("RESIZING FULL");
-            console.log(this.params.width, window.innerWidth);
         }
 
         this.canvas.style.width = this.params.width + "px";
@@ -429,10 +426,6 @@ export default class CanvasDrawable
                 translate: sprite.p,
                 pivot: new PointNonPhotomone(0.5)
             })
-
-            console.log(res);
-            console.log(canvOp);
-
             res.toCanvas(ctx, canvOp);
             ctx.restore();
         }

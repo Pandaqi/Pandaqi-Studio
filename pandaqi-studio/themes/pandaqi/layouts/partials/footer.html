@@ -80,7 +80,6 @@
 {{ end }}
 
 {{ partial "load-assets.html" (dict "context" . "ext" "js" "type" "board" "include" .Params.extraJSBoardInclude) }}
-{{ partial "load-assets.html" (dict "context" . "ext" "js" "type" "game" "include" .Params.extraJSGameInclude) }}
 
 <!-- Extra custom JS: simply a hardcoded link to something else -->
 <!-- Never used right now, but kept in because it might be critical in certain cases -->

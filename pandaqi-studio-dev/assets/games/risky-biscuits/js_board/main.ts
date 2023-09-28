@@ -1,6 +1,6 @@
 import PandaqiPhaser from "js/pq_games/website/phaser"
 // @ts-ignore
-import { Scene } from "js/pq_games/phaser.esm"
+import { Scene } from "js/pq_games/phaser/phaser.esm"
 import BoardState from "./boardState"
 import BoardDisplay from "./boardDisplay"
 import Evaluator from "./evaluator"

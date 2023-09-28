@@ -3,6 +3,7 @@ import HSLAToRGBA from "./HSLAToRGBA"
 import RGBAToHSLA from "./RGBAToHSLA"
 import RGBAToHEXA from "./RGBAToHEXA"
 import HEXAToRGBA from "./HEXAToRGBA"
+import isZero from "js/pq_games/tools/numbers/isZero"
 
 export default class Color 
 {
@@ -11,7 +12,10 @@ export default class Color
     l:number // 0-100
     a:number // 0-1
 
-    constructor(h:number|Color|string, s:number = 0, l:number = 0, a:number = 1.0) 
+    static BLACK = new Color("#000000")
+    static WHITE = new Color("#FFFFFF")
+
+    constructor(h:number|Color|string = null, s:number = 0, l:number = 0, a:number = 1.0) 
     {
         if(h == null || h == undefined) { a = 0; h = 0; }
         if(h instanceof Color) { this.fromColor(h); return; }
@@ -28,23 +32,27 @@ export default class Color
     fromColor(c:Color)
     {
         this.fromHSLA(c.h, c.s, c.l, c.a);
+        return this;
     }
 
     fromHEXNumber(n:number)
     {
         // @TODO: how to do this??
+        return this;
     }
 
     fromHEXA(s:string)
     {
         const rgba = HEXAToRGBA(s,null);
         this.fromRGBA(...rgba);
+        return this;
     }
 
     fromRGBA(r = 0, g = 0, b = 0, a = 255)
     {
         const hsl = RGBAToHSLA(r, g, b, a);
         this.fromHSLA(...hsl);
+        return this;
     }
 
     fromHSLA(h = 0, s = 0, l = 0, a = 1)
@@ -53,6 +61,7 @@ export default class Color
         this.s = s;
         this.l = l;
         this.a = a;
+        return this;
     }
 
     /* The `to` functions */
@@ -134,17 +143,58 @@ export default class Color
         return c;
     }
 
+    getBestContrast()
+    {
+        if(this.getLuminosity() >= 165) { return Color.BLACK; }
+        return Color.WHITE;
+    }
+
+    // @SOURCE: https://stackoverflow.com/questions/9733288/how-to-programmatically-calculate-the-contrast-ratio-between-two-colors
+    getLuminosity()
+    {
+        const rgba = HSLAToRGBA(this.h, this.s, this.l, this.a); // get RGBA
+        const gamma = 2.4; // linearize it for sRGB
+        var a = rgba.map((v) => {
+            v /= 255;
+            return v <= 0.04045
+              ? v / 12.92
+              : Math.pow((v + 0.055) / 1.055, gamma);
+        });
+        // mix in correct proportions
+        return (0.2126 * a[0]) + (0.7152 * a[1]) + (0.0722 * a[2]); // SMPTE C, Rec. 709 weightings
+    }
+
+    getContrastWith(c:Color)
+    {
+        const lum1 = this.getLuminosity();
+        const lum2 = c.getLuminosity();
+        const brightest = Math.max(lum1, lum2);
+        const darkest = Math.min(lum1, lum2);
+        return (brightest + 0.05) / (darkest + 0.05);
+    }
+
+    getHighestContrast(colors:Color[])
+    {
+        let bestRatio = 0;
+        let bestColor = null;
+        for(const color of colors)
+        {
+            const ratio = this.getContrastWith(color);
+            if(ratio <= bestRatio) { continue; }
+            bestRatio = ratio;
+            bestColor = color;
+        }
+        return bestColor;
+    }
+
+    isTransparent()
+    {
+        return isZero(this.a);
+    }
+
     // @TODO
     invert()
     {
 
     }
-
-    // @TODO
-    contrast()
-    {
-
-    }
-
-
 }

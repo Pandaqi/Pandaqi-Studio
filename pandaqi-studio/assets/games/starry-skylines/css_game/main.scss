@@ -1,3 +1,5 @@
+@use "../css_shared/main.scss" as g;
+
 * {
     box-sizing: border-box;
     user-select: none;
@@ -9,17 +11,17 @@ body, html {
 }
 
 body {
-    font-family: "Titillium Web", serif;
+    font-family: g.$body-font;
     color: #FCFFFC;
     background-color: #040F0F;
-    background-image: url(/starry-skylines/webp/starryskylines_bg.webp);
+    background-image: g.$bg-pattern-url;
     background-size: 100%;
     font-size: 20px;
     padding: 1em;
 }
 
 h1,h2,h3 {
-    font-family: 'Montserrat Subrayada', sans-serif;
+    font-family: g.$header-font;
 }
 
 .main-window {
@@ -28,7 +30,7 @@ h1,h2,h3 {
 }
 
 button {
-    font-family: 'Montserrat Subrayada', sans-serif;
+    font-family: g.$header-font;
     font-size: 24pt;
 
     background-color: #248232;
@@ -133,7 +135,7 @@ a:hover {
 .game-options .number-text {
     text-align: center;
     font-size: 43px;
-    font-family: 'Montserrat Subrayada', sans-serif;
+    font-family: g.$header-font;
     background-color: rgba(0,0,0,0.25);
     border-radius: 10px;
     margin: 10px;

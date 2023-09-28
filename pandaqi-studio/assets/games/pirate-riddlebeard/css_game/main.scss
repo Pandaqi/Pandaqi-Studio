@@ -1,7 +1,11 @@
+@use "../css_shared/main.scss" as g;
+
+$hint-icons-url: url(/pirate-riddlebeard/assets/hint_icons.png);
+
 body {
     margin: 0;
     padding: 0;
-    font-family: "Chelsea Market";
+    font-family: g.$header-font;
     font-size: 20px;
     background-color: #eeeeab;
 }
@@ -44,7 +48,7 @@ body {
 
 button, select {
     width: 100%;
-    font-family: 'Chelsea Market';
+    font-family: g.$header-font;
     font-size: 24px;
     background: #ff7600;
     border-radius: 5px;
@@ -78,7 +82,7 @@ button:hover, select:hover {
 }
 
 .icon {
-    background: url(assets/hint_icons.png);
+    background: $hint-icons-url;
     background-repeat: no-repeat;
     width: 25px;
     height: 25px;

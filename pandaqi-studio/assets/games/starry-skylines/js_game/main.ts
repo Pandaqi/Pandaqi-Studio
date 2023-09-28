@@ -1,7 +1,7 @@
 import AI from "./ai"
 import Events from "./events"
 import Options from "./options"
-import { PLANET_MAP, PLANET_SETS } from "../js_shared/dict"
+import { BUILDINGS, EFFECTS, PLANET_MAP, PLANET_SETS } from "../js_shared/dict"
 import configurator from "../js_board/configurator"
 
 export default class Game 
@@ -17,14 +17,17 @@ export default class Game
     options: Options
     container: any
     buttonContinue: HTMLButtonElement
+    failed: boolean
     
     constructor()
     {
         this.curRound = -1;
+        this.failed = false;
         this.started = false;
         this.lastClickWasEvent = false;
         this.config = this.setupConfig();
         this.node = this.setupHTML();
+        if(!this.node) { return; }
         this.setupClasses();
         this.tutorial = this.setupTutorialHTML();
     }
@@ -73,6 +76,7 @@ export default class Game
     setupHTML()
     {
         const gameContainer = document.getElementById("game-container");
+        if(!gameContainer) { this.failed = true; return null; }
         this.container = gameContainer;
 
         const cont = document.createElement("div");
@@ -187,4 +191,11 @@ export default class Game
     }
 }
 
-new Game().load()
+const g = new Game();
+if(!g.failed) { g.load(); }
+
+// @NOTE: the below is needed for library-of-components.html to get this data
+// @ts-ignore
+window.STARRY_EFFECTS = EFFECTS;
+// @ts-ignore
+window.STARRY_BUILDINGS = BUILDINGS;

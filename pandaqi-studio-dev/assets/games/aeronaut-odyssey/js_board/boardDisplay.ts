@@ -1,11 +1,12 @@
 import BoardState from "./boardState";
 // @ts-ignore
-import { Geom, Display } from "js/pq_games/phaser.esm"
+import { Geom } from "js/pq_games/phaser/phaser.esm"
 import CONFIG from "./config";
 import PointGraph from "js/pq_games/tools/geometry/pointGraph";
 import Point from "js/pq_games/tools/geometry/point";
 import Route from "./route";
 import shuffle from "js/pq_games/tools/random/shuffle";
+import Color from "js/pq_games/layout/color/color";
 
 
 export default class BoardDisplay
@@ -159,9 +160,9 @@ export default class BoardDisplay
 
     getColorForType(tp:number)
     {
-        const hue = (tp / CONFIG.generation.numBlockTypes);
-        const colorObject = Display.Color.HSLToColor(hue, 0.95, 0.5);
-        return colorObject.color;
+        const hue = (tp / CONFIG.generation.numBlockTypes)*360;
+        const colorObject = new Color(hue, 95, 50);
+        return colorObject.toHEXNumber();
     }
 
     drawTrajectoryBoard(board:BoardState)

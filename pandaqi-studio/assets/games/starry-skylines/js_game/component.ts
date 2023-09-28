@@ -1,3 +1,5 @@
+import CONFIG from "./config";
+
 export default class Component
 {
     game: any;
@@ -90,7 +92,7 @@ export default class Component
         cont.classList.add('people-icon', "component");
 
         const imageKey = randPerson.charAt(0).toUpperCase() + randPerson.slice(1) + "Icon.png";
-        cont.innerHTML = '<img src="assets/' + imageKey + '" />';
+        cont.innerHTML = '<img src="' + CONFIG.assetsBase + imageKey + '" />';
         this.node.appendChild(cont);
     }
 
@@ -121,7 +123,7 @@ export default class Component
         cont.classList.add('resource-line-icon', "component");
         
         const imageKey = randResource.charAt(0).toUpperCase() + randResource.slice(1) + "Icon.png";
-        cont.innerHTML = '<img src="assets/' + imageKey + '" />';
+        cont.innerHTML = '<img src="' + CONFIG.assetsBase + imageKey + '" />';
         this.node.appendChild(cont);
     }
 

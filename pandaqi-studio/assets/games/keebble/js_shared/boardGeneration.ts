@@ -1,13 +1,13 @@
-// @ts-nocheck
 import Cell from "./cell"
 import Edge from "./edge"
-import { KEEBBLE_TYPES, KEEBBLE_LETTER_VALUES } from "./dict"
+import { KEEBBLE_TYPES } from "./dict"
 import CONFIG from "./config"
 import Random from "js/pq_games/tools/random/main"
 import PandaqiPhaser from "js/pq_games/website/phaser"
 // @ts-ignore
-import { Scene, Geom, Display } from "js/pq_games/phaser.esm"
+import { Scene, Geom } from "js/pq_games/phaser/phaser.esm"
 import Point from "js/pq_games/tools/geometry/point"
+import Color from "js/pq_games/layout/color/color"
 
 interface GenerationData
 {
@@ -144,7 +144,7 @@ export default class BoardGeneration extends Scene
 		for(let i = 0; i < cfg.numPlayers; i++)
 		{
 			const hue = i*hueDistBetweenPlayers;
-			const col = new Display.Color.HSLToColor(hue, 0.7, 0.7).color;
+			const col = new Color(hue, 70, 70).toHEXNumber();
 			colors.push(col);
 		}
 	}
@@ -470,7 +470,7 @@ export default class BoardGeneration extends Scene
 		
 		const baseHue = CONFIG.baseCellBackgroundHue;
 		const hue = this.getHueAsRatio( baseHue + (Math.random()-0.5)*CONFIG.cellBackgroundHueVariation)
-		return Display.Color.HSLToColor(hue, 0.3, 0.8).color;
+		return new Color(hue, 30, 80).toHEXNumber();
 	}
 
 	visualizeBackground()

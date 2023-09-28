@@ -1,6 +1,6 @@
 // @ts-nocheck
 import PandaqiPhaser from "js/pq_games/website/phaser"
-import { Scene, Display } from "js/pq_games/phaser.esm"
+import { Scene } from "js/pq_games/phaser/phaser.esm"
 import Map from "../js_shared/map"
 import { MapVisualizer, VisResult } from "../js_shared/mapVisualizer"
 import WordsPhotomone from "../js_shared/wordsPhotomone"
@@ -109,7 +109,7 @@ class BoardGeneration extends Scene
 
         for(const rect of vis.rects)
         {
-            const color = Display.Color.ValueToColor(rect.color.toHEX()).color;
+            const color = rect.color.toHEXNumber();
             const r = this.add.rectangle(rect.p.x, rect.p.y, rect.size.x, rect.size.y, color, rect.alpha);
             r.setOrigin(0,0);
             objects.push(r);
@@ -117,7 +117,7 @@ class BoardGeneration extends Scene
 
         for(const line of vis.lines)
         {
-            const color = Display.Color.ValueToColor(line.color.toHEX()).color;
+            const color = line.color.toHEXNumber();
             const lw = line.width;
             const l = this.add.line(0, 0, line.p1.x, line.p1.y, line.p2.x, line.p2.y, color, line.alpha);
             l.setOrigin(0,0);
@@ -127,7 +127,7 @@ class BoardGeneration extends Scene
 
         for(const circ of vis.circles)
         {
-            const colorObject = Display.Color.ValueToColor(circ.color.toHEX());
+            const colorObject = circ.color.toHEXNumber();
             const color = colorObject.color;
             const c = this.add.circle(circ.p.x, circ.p.y, circ.radius, color);
             objects.push(c);
@@ -147,9 +147,9 @@ class BoardGeneration extends Scene
         {
             const textConfig = {
                 fontFamily: text.fontFamily,
-                fontSize: text.fontSize || "12px",
-                color: Display.Color.ValueToColor(text.color) || 0x000000,
-                stroke: text.stroke || "#FFFFFF",
+                fontSize: text.fontSize ?? "12px",
+                color: text.color.toHEX() ?? "#000000",
+                stroke: text.stroke ?? "#FFFFFF",
                 strokeThickness: text.strokeWidth || 0,
             }
 
@@ -161,7 +161,7 @@ class BoardGeneration extends Scene
             if(text.textBaseline == "middle") { originY = 0.5; }
 
             t.setOrigin(originX, originY);
-            t.setRotation(text.rotation || 0);
+            t.setRotation(text.rotation ?? 0);
             //t.setShadow(randOffset.x, randOffset.y, 'rgba(0,0,0,0.5)', 5);
             objects.push(t);
         }

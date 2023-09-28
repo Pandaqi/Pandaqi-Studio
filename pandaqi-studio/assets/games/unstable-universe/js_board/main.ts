@@ -1,7 +1,7 @@
 // @ts-nocheck
 import PandaqiPhaser from "js/pq_games/website/phaser"
 import Random from "js/pq_games/tools/random/main"
-import { Scene, Geom, Display } from "js/pq_games/phaser.esm"
+import { Scene, Geom } from "js/pq_games/phaser/phaser.esm"
 import {
 	NODE_ACTION_TYPES,
 	NODE_CATEGORIES,
@@ -1929,21 +1929,9 @@ class BoardGeneration extends Scene
 				lightColor = 0xFFFFFF;
 			}
 
-			let colorObject = Display.Color.IntegerToColor(color);
-
 			// Start nodes are rectangular, all other nodes are circular
 			let obj = null, sprite = null, spriteOutline = null;
 			let powerDotRadius = this.cfg.powerDotRadius;
-			let lineWidth = this.cfg.lineWidth;
-
-			/*
-			let lighterColor = colorObject.clone(), darkerColor = colorObject.clone()
-			lighterColor.brighten(50)
-			darkerColor.darken(80)
-
-			graphics.fillStyle(lighterColor.color, 1.0);
-			graphics.lineStyle(lineWidth, darkerColor.color, 1.0)
-			*/
 
 			graphics.fillStyle(lightColor, 1.0);
 
@@ -2244,7 +2232,7 @@ class BoardGeneration extends Scene
 
 		// draw enclosed areas (TURNED OFF for now)
 		if(this.areas != undefined && false) {
-			let color = new Display.Color(0, 0, 0);
+			let color = Color.BLACK;
 
 			for(let i = 0; i < this.areas.length; i++) {
 				let a = this.areas[i];

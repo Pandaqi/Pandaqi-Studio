@@ -38,9 +38,10 @@ function getPointsFromSegments(params:Record<string,any>, segments:CatmullRomSeg
 {
     const res = params.resolution;
     const list = [];
-    for(const segment of segments)
+    for(let i = 0; i < segments.length; i++)
     {
-        list.push(segment.getPoints(res));
+        const lastSegment = i == segments.length - 1;
+        list.push(segments[i].getPoints(res, lastSegment));
     }
     return list.flat();
 }
@@ -110,9 +111,10 @@ class CatmullRomSegment
         return c1.add(c2).add(c3).add(c4);
     }
 
-    getPoints(resolution:number)
+    getPoints(resolution:number, lastSegment = false)
     {
-        const step = (1.0 / (resolution-1));
+        const numSteps = lastSegment ? resolution - 1 : resolution;
+        const step = 1.0 / numSteps;
         const list = [];
         for(let i = 0; i < resolution; i++)
         {

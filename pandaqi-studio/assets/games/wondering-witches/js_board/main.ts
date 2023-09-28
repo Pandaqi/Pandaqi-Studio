@@ -3,7 +3,7 @@ import { SPECIAL_CELLS } from "../js_shared/dict"
 import Random from "js/pq_games/tools/random/main"
 import PandaqiPhaser from "js/pq_games/website/phaser"
 import Section from "./section"
-import { Scene, Geom } from "js/pq_games/phaser.esm"
+import { Scene, Geom } from "js/pq_games/phaser/phaser.esm"
 
 const sceneKey = "boardGeneration"
 class BoardGeneration extends Scene

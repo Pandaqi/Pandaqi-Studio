@@ -3,6 +3,19 @@ import { KEEBBLE_TYPES, KEEBBLE_LETTER_VALUES } from "./dict"
 
 export default 
 {
+    inkFriendly: false,
+    playerColors: [],
+    letterDictionary: {},
+    numPlayers: 4,
+    addWalls: false,
+
+    expansions:
+    {
+        specialCells: false,
+        scrabbleScoring: false,
+        tinyBackpacks: false
+    },
+
     gameTitle: "Keebble",
     numCellsX: 8,
     numCellsY: 8,
@@ -33,9 +46,6 @@ export default
 
     types: KEEBBLE_TYPES,
     scrabbleScores: KEEBBLE_LETTER_VALUES,
-    expansions: {
-        scrabbleScoring: false
-    },
 
     spriteAlpha: 1.0,
     forPrinting: false,

@@ -95,8 +95,6 @@ export default class Game
             delete dict[type];
         }
         this.cfg.pointTypes = powerups;
-
-        console.log(this.cfg.pointTypes);
     }
 
     // A very CRUDE implementation of events/signals, but it's okay for such a tiny game
@@ -108,7 +106,6 @@ export default class Game
         })
 
         window.addEventListener("photomone-numlines", (ev:CustomEvent) => {
-            console.log("Change lines with", ev);
             this.interface.turnObject.changeLines(ev.detail.num);
         })
 
@@ -117,7 +114,6 @@ export default class Game
         })
 
         window.addEventListener("photomone-timer", (ev:CustomEvent) => {
-            console.log("Change timer with", ev);
             this.interface.turnObject.changeTimer(ev.detail.num);
         })
 

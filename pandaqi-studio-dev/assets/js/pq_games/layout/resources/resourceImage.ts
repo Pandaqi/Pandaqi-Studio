@@ -212,6 +212,11 @@ export default class ResourceImage extends Resource
         return this.frames[num];
     }
 
+    isSingleFrame()
+    {
+        return this.frames.length == 1;
+    }
+
     countFrames() : number
     {
         return this.frames.length;
@@ -247,7 +252,15 @@ export default class ResourceImage extends Resource
         return this;
     }
 
-
+    // @TODO: not truly unique if you load the same image multiple times, but why'd you do that?
+    getUniqueKey() : string
+    {
+        const src = this.img.src;
+        const srcName = src.split(".")[0];
+        const maxLength = 25;
+        const srcTrunc = srcName.slice(0, Math.min(srcName.length, maxLength));
+        return srcTrunc
+    }
     
     
 }

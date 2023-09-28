@@ -2,6 +2,11 @@ import Resource from "./resource"
 import ResourceImage from "./resourceImage"
 import ResourceFont from "./resourceFont"
 
+interface ResourceLoaderParams
+{
+    base?:string
+}
+
 export default class ResourceLoader 
 {
 
@@ -12,11 +17,15 @@ export default class ResourceLoader
 
     resourcesQueued : Record<string, Resource>
     resourcesLoaded : Record<string, Resource>
+    base: string
 
-    constructor()
+    constructor(params:ResourceLoaderParams = {})
     {
         this.resourcesQueued = {};
         this.resourcesLoaded = {};
+
+        this.base = params.base ?? "";
+        if(this.base.slice(-1) != "/") { this.base += "/"; }
     }
 
     planLoad(id:string, params:any = {})
@@ -75,7 +84,12 @@ export default class ResourceLoader
 
     async loadResource(id:string, params:any)
     {
-        const path = params.path ?? "";
+        let originalPath = params.path ?? "";
+        // @NOTE: base always ends on a slash, so originalPath should never start with one
+        if(originalPath.slice(0,1) == "/") { originalPath = originalPath.slice(1); }
+
+        const path = this.base + originalPath;
+        params.path = path;
 
         if(this.isImage(path))
         {

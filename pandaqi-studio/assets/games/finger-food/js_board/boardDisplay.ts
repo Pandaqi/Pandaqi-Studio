@@ -1,5 +1,5 @@
 // @ts-ignore
-import { Geom, Display, GameObjects } from "js/pq_games/phaser.esm"
+import { Geom, Display, GameObjects } from "js/pq_games/phaser/phaser.esm"
 import Point from "js/pq_games/tools/geometry/point"
 import PointGraph from "js/pq_games/tools/geometry/pointGraph"
 import smoothPath from "js/pq_games/tools/geometry/paths/smoothPath"
@@ -8,6 +8,7 @@ import BoardState from "./boardState"
 import CONFIG from "./config"
 import FixedFingers from "./fixedFingers"
 import RecipeBook from "./recipeBook"
+import Color from "js/pq_games/layout/color/color"
 
 interface Lines {
     x: Point[][],
@@ -237,15 +238,15 @@ export default class BoardDisplay
             for(let y = 0; y < this.dims.y; y++)
             {
                 const cell = this.board.getCellAt(new Point().setXY(x,y));
-                let backgroundColor = new Display.Color.HexStringToColor(cell.getColor());
-                if(CONFIG.inkFriendly) { backgroundColor = new Display.Color.HexStringToColor("#FFFFFF"); }
+                let backgroundColor = new Color(cell.getColor()).toHEXNumber();
+                if(CONFIG.inkFriendly) { backgroundColor = 0xFFFFFF; }
 
                 const set1 = this.getLineChunk(lines.x[y], x*distBetweenAnchors, (x+1)*distBetweenAnchors);
                 const set2 = this.getLineChunk(lines.y[x+1], y*distBetweenAnchors, (y+1)*distBetweenAnchors);
                 const set3 = this.getLineChunk(lines.x[y+1], (x+1)*distBetweenAnchors, x*distBetweenAnchors);
                 const set4 = this.getLineChunk(lines.y[x], (y+1)*distBetweenAnchors, y*distBetweenAnchors);
 
-                graphics.fillStyle(backgroundColor.color);
+                graphics.fillStyle(backgroundColor);
 
                 const points = [set1, set2, set3, set4].flat();
                 const polygon = new Geom.Polygon(points);
@@ -333,6 +334,7 @@ export default class BoardDisplay
         backgroundMaskGraphics.fillStyle(0x000000);
         backgroundMaskGraphics.fillPoints(cell.polygon, true);
 
+        // @TODO: find a replacement for this (+ preFX/postFX?) once I switch to loose coupling with Phaser
         const backgroundMask = new Display.Masks.GeometryMask(this.game, backgroundMaskGraphics);
 
         // ingredients / machines display their custom sprite big in the center

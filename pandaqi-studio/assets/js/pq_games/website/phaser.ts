@@ -4,7 +4,7 @@ import PDF from "../pdf/main"
 import PdfBuilder from "../pdf/pdfBuilder"
 import Settings from "./settings"
 // @ts-ignore
-import { Game, CANVAS, WEBGL, Scale } from "../phaser.esm"
+import { Game, CANVAS, WEBGL, Scale } from "../phaser/phaser.esm"
 import Point from "../tools/geometry/point"
 
 interface PhaserLinkParams
@@ -16,8 +16,7 @@ interface PhaserLinkParams
 
 interface CanvasToImageParams
 {
-	splitBoard?: boolean
-	splitDims?: Point
+	splitDims?: Point|string
 }
 
 class PhaserClass
@@ -150,12 +149,7 @@ class PhaserClass
 		}
 
 		// split if necessary, add to pdfBuilder
-		const splitConfig = { 
-			split: (params.splitBoard ?? this.gameConfig.splitBoard) ?? false, 
-			splitDims: params.splitDims ?? new Point(2,2)
-		}
-
-
+		const splitConfig = { splitDims: params.splitDims ?? new Point(1,1) }
 		const images = await splitImage(img, splitConfig);
 
 		for(let i = 0; i < images.length; i++)

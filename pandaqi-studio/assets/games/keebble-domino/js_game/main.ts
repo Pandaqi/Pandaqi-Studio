@@ -44,10 +44,10 @@ export default class Generator {
 
         const cardSize = gridMapper.getMaxElementSize();
 
-        const resLoader = new ResourceLoader();
-        resLoader.planLoad("letter", { path: baseAssetDir +  "ambigram_letters.webp", frames: new Point(8,6) });
-        resLoader.planLoad("cell", { path: baseAssetDir +  "special_cells.webp", frames: new Point(8,2) });
-        resLoader.planLoad("decorations", { path: baseAssetDir +  "domino_decorations.webp", frames: new Point(8,1) });
+        const resLoader = new ResourceLoader({ base: CONFIG.assetsBase });
+        resLoader.planLoad("letter", { path: "ambigram_letters.webp", frames: new Point(8,6) });
+        resLoader.planLoad("cell", { path: "special_cells.webp", frames: new Point(8,2) });
+        resLoader.planLoad("decorations", { path: "domino_decorations.webp", frames: new Point(8,1) });
         await resLoader.loadPlannedResources();
 
         CONFIG.resLoader = resLoader;

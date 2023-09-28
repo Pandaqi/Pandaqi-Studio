@@ -1,16 +1,9 @@
-@font-face {
-    font-family: 'Londrina Solid';
-    src: url('/sixpack/assets/fonts/LondrinaSolid-Black.woff2') format('woff2'),
-        url('/sixpack/assets/fonts/LondrinaSolid-Black.woff') format('woff');
-    font-weight: 900;
-    font-style: normal;
-    font-display: swap;
-}
+@use "../css_shared/main.scss" as g;
 
 body {
     background-color: #3c005d;
     color: #efe3d6;
-    font-family: "Londrina Solid";
+    font-family: g.$header-font;
 }
 
 .progress-bar-container {

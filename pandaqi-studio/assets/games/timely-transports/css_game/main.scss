@@ -1,3 +1,6 @@
+$goods-url: url(/timely-transports/assets/goods.webp);
+$vehicles-url: url(/timely-transports/assets/vehicle_icons.webp);
+
 * {
     box-sizing: border-box;
     user-select: none;
@@ -200,7 +203,7 @@ body {
 }
 
 .good-icon {
-    background-image: url(assets/goods.webp);
+    background-image: $goods-url;
     background-size: cover;
     width: 32px;
     height: 32px;
@@ -268,7 +271,7 @@ body {
 }
 
 .vehicle-icon {
-    background-image: url(assets/vehicle_icons.webp);
+    background-image: $vehicles-url;
     background-size: cover;
     width: 256px;
     height: 256px;

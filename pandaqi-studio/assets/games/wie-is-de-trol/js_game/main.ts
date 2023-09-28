@@ -185,6 +185,9 @@ function prepareButtons() {
 	document.getElementById('continueButton').addEventListener('click', function(ev) {
 		continueButtonPressed();
 	});
+
+	document.getElementById("timerStartButton").addEventListener("click", (ev) => { startTimer(); });
+	document.getElementById("timerStopButton").addEventListener("click", (ev) => { stopTimer(); });
 }
 
 //

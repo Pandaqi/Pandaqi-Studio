@@ -35,10 +35,8 @@ export default class ResourceText extends Resource
     async toCanvas(canv:CanvasLike = null, op:LayoutOperation = null)
     {
         if(canv instanceof CanvasRenderingContext2D) { canv = canv.canvas; }
-
-        const operation = op ?? this.operation;
-        operation.resource = this;
-        operation.applyToCanvas(canv);
+        op.resource = this;
+        op.applyToCanvas(canv);
         return canv;
     }
 

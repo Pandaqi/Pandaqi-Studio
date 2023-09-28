@@ -1,11 +1,11 @@
 // @ts-ignore
-import { Display } from "js/pq_games/phaser.esm"
 import { CELLS, GENERAL, COLOR_GROUPS, CORNER_OFFSETS } from "../js_shared/dictionary"
 import CONFIG from "./config"
 import Point from "js/pq_games/tools/geometry/point";
 import Random from "js/pq_games/tools/random/main";
 import Cell from "./cell"
 import BoardDisplay from "./boardDisplay"
+import Color from "js/pq_games/layout/color/color";
 
 export default class CellDisplay
 {
@@ -104,7 +104,7 @@ export default class CellDisplay
 
     getColor() : number
     {
-        return new Display.Color.HexStringToColor( COLOR_GROUPS[this.getColorGroup()] ).color;
+        return new Color( COLOR_GROUPS[this.getColorGroup()] ).toHEXNumber();
     }
 
     draw(boardDisplay:BoardDisplay)

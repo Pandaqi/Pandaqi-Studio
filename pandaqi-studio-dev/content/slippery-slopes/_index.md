@@ -67,7 +67,6 @@ Three simple steps.
 
 {{< boardgame-settings type="game" local_storage="slipperySlopesConfig" btn_label="Generate Material" >}}
 	{{< setting-hidden id="setting-gameTitle" text="Slippery Slopes" >}}
-  {{< setting-checkbox id="setting-asGame" text="Start Game Instead?" remark="Starts the game interface to supply random words instead." >}}
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material grayscale." >}}
   {{< setting-enum id="setting-cardSize" text="Card Size?" values="small,regular,huge" valaskey="true" def="regular" >}}
   {{< setting-checkbox id="setting-generateSliders" text="Generate Sliders?" checked="checked" >}}
@@ -76,8 +75,8 @@ Three simple steps.
   {{< setting-enum id="setting-wordComplexity" text="Word Complexity?" values="Core,Easy,Medium" valaskey="true" remark="How hard should the words be?" def="Core" >}}
   {{< setting-checkbox id="setting-includeNamesAndGeography" text="Include names?" remark="Adds geography and proper names of people, brands, ..." >}}
   <h3>Expansions</h3>
-  {{< setting-checkbox id="setting-glidyGifts" text="Glidy Gifts?" remark="Adds actions to help make guessing easier." checked="checked" >}}
-  {{< setting-checkbox id="setting-crasheryCliffs" text="Crashery Cliffs?" remark="Slight rule changes and more slider types." >}}
+  {{< setting-checkbox id="setting-expansions-glidyGifts" text="Glidy Gifts?" remark="Adds actions to help make guessing easier." checked="checked" >}}
+  {{< setting-checkbox id="setting-expansions-crasheryCliffs" text="Crashery Cliffs?" remark="Slight rule changes and more slider types." >}}
 {{< /boardgame-settings >}}
 
 {{% /section-centered %}}
@@ -86,10 +85,7 @@ Three simple steps.
 
 By default, this game is completely offline: just download the material once, print it, and play.
 
-But there are two parts that can be done online, if you so desire.
-
-* Use my [timer](https://pandaqi.com/tools/timer) tool for the timer.
-* Check the setting "Start Game" in the [settings](#material) above, then click start. Now you don't need printed word cards---the phone will supply random words!
+It is highly recommended, however, to add a timer to rounds. You can use any timer or app, including my own [Pandaqi Timer](https://pandaqi.com/tools/timer) page.
 
 {{% /section-centered %}}
 
@@ -108,5 +104,7 @@ This game takes the same idea of "communicate secret words/concepts in a vague a
 A simple, fast party game for any group!
 
 For more details, as always, read the [devlog](https://pandaqi.com/blog/boardgames/slippery-slopes).
+
+**UPDATE!** This game now also has a completely _digital_ version. Playable with just one smartphone, rules explained as you go, still the same fun core mechanic. Try it at: [Slippery Slopes: Trippy Touches](https://pandaqi.com/slippery-slopes-trippy-touches).
 
 {{% /section-centered %}}

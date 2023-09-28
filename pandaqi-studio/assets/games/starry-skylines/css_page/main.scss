@@ -1,5 +1,7 @@
+@use "../css_shared/main.scss" as g;
+
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Montserrat Subrayada', sans-serif;
+    font-family: g.$header-font;
 }
 
 h2 {
@@ -9,10 +11,10 @@ h2 {
 }
 
 body {
-    font-family: 'Titillium Web', sans-serif;
+    font-family: g.$body-font;
     color: #FCFFFC;
     background-color: #040F0F;
-    background-image: url(starryskylines_bg.webp);
+    background-image: g.$bg-pattern-url;
     background-size: 100%;
     font-size: 20px;
 }
@@ -36,7 +38,7 @@ a {
 }
 
 a.btn, a.btn:visited {
-    font-family: 'Montserrat Subrayada', sans-serif;
+    font-family: g.$header-font;
     background-color: #248232;
     color: #FCFFFC;
 }
@@ -80,7 +82,7 @@ ul {
 }
 
 #btn-start-game, #btn-generate-board, #btn-create-pdf {
-    font-family: 'Montserrat Subrayada', sans-serif;
+    font-family: g.$header-font;
     font-size: 24pt;
 
     background-color: #248232;

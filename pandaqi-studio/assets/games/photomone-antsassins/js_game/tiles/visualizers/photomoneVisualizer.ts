@@ -41,9 +41,11 @@ export default class PhotomoneVisualizer
             ctx.closePath();
             ctx.fill();
 
+            /* @DEBUGGING
             ctx.fillStyle = "#FF0000";
             ctx.font = "36px Arial";
             ctx.fillText(p.lineIndex, p.x, p.y);
+            */
         }
     }
 

@@ -5,6 +5,7 @@ import Buttons from "./buttons"
 import Goods from "./goods"
 import Events from "./events"
 import Random from "js/pq_games/tools/random/main"
+import CONFIG from "../js_shared/config"
 
 export default class Interface {
     game: any
@@ -47,7 +48,7 @@ export default class Interface {
             planesAndTrainsDisabled: true,
             cityNames: [],
             difficultyIndex: 0,
-            upgradeButtonPath: "assets/upgrade_button.webp",
+            upgradeButtonPath: CONFIG.assetsBase + "upgrade_button.webp",
             addGlobalTimer: false,
             eventsEnabled: false,
 		}

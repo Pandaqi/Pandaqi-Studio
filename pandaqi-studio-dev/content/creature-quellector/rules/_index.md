@@ -1,6 +1,4 @@
 ---
-title: "Creature Quellector"
-date: 2023-05-02
 type: "rules"
 pdf: false
 ---
@@ -45,25 +43,22 @@ Your opponent can do so too, _after_ you've chosen what to do.
 
 {{< rules-image src="card_anatomy.webp" alt="What different card parts mean." class="float-right" >}}
 
-Creatures have one main type (the large one in the center and corners). It also shows which type it "counters" (to the right), and what type counters our main type (to the left). 
-
-The rest of the card has a mix of icons.
-
-{{% remark %}}
-This is a reminder. The counter cycle is always the same.
-{{% /remark %}}
+Creatures always belong to one **element** (their "main type"; the large icon in the center and corners). The rest of the card has a mix of _powers_: **types** and **actions**.
 
 Determine your squad's strength with three simple steps.
 
-1.	The player who has the most **action** icons, executes **one** of their actions. (If tied, nobody does.)
-2.	Check the main types your opponent has. The types they Counter are worth **nothing** for you.
-3.	Each remaining **type icon** is worth +1 point.
+1. The player who has the most **actions**, executes **one** of them. (If tied, nobody does.)
+2. Every **type** is worth +1 point for you.
+3. However, types that match an **element** played by the opponent are worth **nothing** for you. (They are "Countered".)
 
-The player with the highest score wins. In case of a tie, the defender wins.
+The player with the highest score wins. If tied, the defender wins.
+
+When calculating your final score at the **end of the game**, pretend you’re fighting **your own hand**! 
+
+* All your elements Counter yourself.
+* All _actions_ score +1 point and cannot be countered.
 
 {{< rules-image src="battle_resolution.webp" alt="An example of how to resolve a battle (actions, counters, sum what's left)." >}}
-
-When calculating your final score at the **end of the game**, pretend you’re fighting **your own hand**! (Its main types Counter yourself.)
 
 {{% /rules-block %}}
 
@@ -79,16 +74,16 @@ You can also turn on "multitype": icons can show two types at once. Choose which
 
 {{% rules-block id="red" heading="Red" %}}
 
-Red stands for aggression, attacking, destroying. It counters Purple.
+Red stands for aggression, attacking, destroying.
 
 {{< rules-table >}}
 <!-- -->
     {{< rules-table-entry heading="Fire" icon="red-fire" >}}
-        <span class="action-timing">BEFORE</span>: Take one Squad card into your hand.
+        <span class="action-timing">BEFORE</span>: Take 1 Squad card into your hand.
     {{< /rules-table-entry >}}
 <!-- -->
     {{< rules-table-entry heading="Electric" icon="red-electric" >}}
-        <span class="action-timing">AFTER</span>: The winner steals one card from the loser.
+        <span class="action-timing">AFTER</span>: The loser steals one card from the winner's hand.
     {{< /rules-table-entry >}}
 <!-- -->
     {{< rules-table-entry heading="Star" icon="red-star" >}}
@@ -104,24 +99,24 @@ Red stands for aggression, attacking, destroying. It counters Purple.
 
 {{% rules-block id="blue" heading="Blue" %}}
 
-Blue stands for change, multitype, fluidity. It counters Red.
+Blue stands for change, multitype, fluidity.
 
 {{< rules-table >}}
 <!-- -->
     {{< rules-table-entry heading="Water" icon="blue-water" >}}
-        <span class="action-timing">BEFORE</span>: Swap one card from your squad with one from your hand.
+        <span class="action-timing">BEFORE</span>: Swap 1 card from your squad with 1 from your hand.
     {{< /rules-table-entry >}}
 <!-- -->
     {{< rules-table-entry heading="Ice" icon="blue-ice" >}}
-        <span class="action-timing">BEFORE</span>: Pick one type from a card with multiple types. Only the chosen one counts (for that card).
+        <span class="action-timing">BEFORE</span>: Pick 1 type from a card with multiple types. Only the chosen one counts (for that card).
     {{< /rules-table-entry >}}
 <!-- -->
     {{< rules-table-entry heading="Poison" icon="blue-poison" >}}
-        <span class="action-timing">BEFORE</span>: Pick two types. All icons of type 1 turn into type 2.
+        <span class="action-timing">BEFORE</span>: Pick 2 types. All icons of type 1 turn into type 2.
     {{< /rules-table-entry >}}
 <!-- -->
     {{< rules-table-entry heading="Weather" icon="blue-weather" >}}
-        <span class="action-timing">BEFORE</span>: Swap one card from your squad with one card from the opponent's squad.
+        <span class="action-timing">BEFORE</span>: Swap 1 card from your squad with 1 card from the opponent's squad.
     {{< /rules-table-entry >}}
 {{< /rules-table >}}
 
@@ -129,12 +124,12 @@ Blue stands for change, multitype, fluidity. It counters Red.
 
 {{% rules-block id="green" heading="Green" %}}
 
-Green stands for defense, blocking, safety. It counters Blue.
+Green stands for defense, blocking, safety.
 
 {{< rules-table >}}
 <!-- -->
     {{< rules-table-entry heading="Earth" icon="green-earth" >}}
-        <span class="action-timing">BEFORE</span>: Pick a type. Ignore it entirely. (It's worth 0 points, but also doesn't Counter anything.)
+        <span class="action-timing">BEFORE</span>: Pick a type. Ignore it entirely. (Icons are worth 0 points and main types do not Counter anything.)
     {{< /rules-table-entry >}}
 <!-- -->
     {{< rules-table-entry heading="Grass" icon="green-grass" >}}
@@ -154,24 +149,24 @@ Green stands for defense, blocking, safety. It counters Blue.
 
 {{% rules-block id="purple" heading="Purple" %}}
 
-Purple stands for revealing, randomness, surprises. It counters Green.
+Purple stands for revealing, randomness, surprises.
 
 {{< rules-table >}}
 <!-- -->
     {{< rules-table-entry heading="Air" icon="purple-air" >}}
-        <span class="action-timing">AFTER</span>: The loser must show their whole hand to the opponent
+        <span class="action-timing">AFTER</span>: The loser must show their whole hand to the opponent.
     {{< /rules-table-entry >}}
 <!-- -->
     {{< rules-table-entry heading="Magic" icon="purple-magic" >}}
-        <span class="action-timing">BEFORE</span>: Both players add another (secret) card to the opponent's squad. The attacker decides: continue fighting, or cancel the fight.
+        <span class="action-timing">BEFORE</span>: Both players add 1 (secret) card to the opponent's squad. The attacker decides: continue fighting, or cancel the fight.
     {{< /rules-table-entry >}}
 <!-- -->
     {{< rules-table-entry heading="Ghost" icon="purple-ghost" >}}
-        <span class="action-timing">AFTER</span>: Permanently reveal one card from your hand. (Rotate it to face away from you.)
+        <span class="action-timing">AFTER</span>: Permanently reveal 1 card from your hand. (Rotate it to face away from you.)
     {{< /rules-table-entry >}}
 <!-- -->
     {{< rules-table-entry heading="Dark" icon="purple-dark" >}}
-        <span class="action-timing">BEFORE</span>: Pick a type. It becomes a penalty (worth -1 instead of +1).
+        <span class="action-timing">BEFORE</span>: Pick a type. All its icons become a penalty (worth -1 instead of +1).
     {{< /rules-table-entry >}}
 {{< /rules-table >}}
 

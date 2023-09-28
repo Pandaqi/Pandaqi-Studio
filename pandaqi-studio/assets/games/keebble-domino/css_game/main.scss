@@ -1,21 +1,15 @@
-@font-face {
-    font-family: "Arbutus Slab";
-    src: url(/keebble/assets/ArbutusSlab-Regular.woff2);
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
+@use "../../keebble/css_shared/main.scss" as g;
 
 * {
     box-sizing: border-box;
 }
 
-html, body {
+html, body, main {
     height: 100%;
     margin: 0;
     padding: 0;
     font-size: 22px;
-    font-family: "Arbutus Slab";
+    font-family: g.$header-font;
     background-color: #e580e5;
     color: #430f4d;
 }

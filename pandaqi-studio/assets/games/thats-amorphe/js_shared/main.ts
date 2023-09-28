@@ -55,9 +55,9 @@ async function createSpecialMorphCards(params)
 {
 	const ink = params.userConfig.inkFriendly;
 
-	const resLoader = new ResourceLoader();
-	resLoader.planLoad("icons_special", { path: baseAssetDir + "icons_special.webp", frames: new Point(8,1), inkfriendly: ink }); 
-	resLoader.planLoad("bubbly_cloud", { path: baseAssetDir +  "bubbly_cloud.webp" });
+	const resLoader = new ResourceLoader({ base: baseAssetDir });
+	resLoader.planLoad("icons_special", { path: "icons_special.webp", frames: new Point(8,1), inkfriendly: ink }); 
+	resLoader.planLoad("bubbly_cloud", { path: "bubbly_cloud.webp" });
 	await resLoader.loadPlannedResources();
 
 	const config = { orientation: PageOrientation.PORTRAIT };
@@ -165,8 +165,8 @@ async function createSpecialMorphCards(params)
 
 async function createMorphCards(params)
 {
-	const resLoader = new ResourceLoader();
-	resLoader.planLoad("bubbly_cloud", { path: baseAssetDir + "bubbly_cloud.webp" });
+	const resLoader = new ResourceLoader({ base: baseAssetDir });
+	resLoader.planLoad("bubbly_cloud", { path: "bubbly_cloud.webp" });
 	await resLoader.loadPlannedResources();
 
 	const config = { orientation: PageOrientation.PORTRAIT };
@@ -293,8 +293,8 @@ async function createVoteCards(params)
 	const numberX = 0.5*cardSize.x;
 	const numberY = 0.5*cardSize.y + 0.075*baseFontSize; // @NOTE: some weird visual offset error somewhere? this compensates
 
-	const resLoader = new ResourceLoader();
-	resLoader.planLoad("guess_sign", { path: baseAssetDir +  "guess_sign.webp" });
+	const resLoader = new ResourceLoader({ base: baseAssetDir });
+	resLoader.planLoad("guess_sign", { path: "guess_sign.webp" });
 
 	await resLoader.loadPlannedResources();
 	
@@ -472,11 +472,11 @@ async function createWordCards(params)
 		actionDictionary = ICONS_PICTURES; 
 	}
 
-	const resLoader = new ResourceLoader();
-	resLoader.planLoad("bg", { path: baseAssetDir + "background_word_card.webp", inkfriendly: ink });
+	const resLoader = new ResourceLoader({ base: baseAssetDir });
+	resLoader.planLoad("bg", { path: "background_word_card.webp", inkfriendly: ink });
 	if(addActions) 
 	{ 
-		resLoader.planLoad(actionIconsKey, { path: baseAssetDir + actionIconsKey + ".webp", frames: new Point(10, 1) }); 
+		resLoader.planLoad(actionIconsKey, { path: actionIconsKey + ".webp", frames: new Point(10, 1) }); 
 	}
 	
 	await resLoader.loadPlannedResources();

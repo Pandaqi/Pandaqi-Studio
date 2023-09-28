@@ -1,17 +1,8 @@
 @use "sass:map";
 @use "sass:math";
-
-$header-font: "Arbutus Slab", sans-serif;
+@use "../../keebble/css_shared/main.scss" as g;
 
 /* Core */
-@font-face {
-    font-family: 'Arbutus Slab';
-    src: url(/keebble/assets/ArbutusSlab-Regular.woff2);
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-
 * {
     box-sizing: border-box;
     user-select: none;
@@ -22,7 +13,7 @@ html, body {
     margin: 0;
     padding: 0;
     font-size: 22px;
-    font-family: "Arbutus Slab";
+    font-family: g.$header-font;
     background-color: #325109;
     color: #f4ffe4;
 }
@@ -65,7 +56,7 @@ html, body {
 /* Buttons, input, the usual stuff */
 button, input {
     width: 100%;
-    font-family: "Arbutus Slab";
+    font-family: g.$header-font;
     font-size: 1rem;
     border: none;
     border-radius: 0.25rem;
@@ -298,7 +289,7 @@ $option-icons: (
 @each $name, $frame in $option-icons {
 
     .suboption-sprite-#{$name} {
-        background-image: url(assets/option_icons.webp);
+        background-image: g.$knickknack-options-url;
         background-size: cover;
         background-position-x: -$frame * 100%;
     }
@@ -364,7 +355,7 @@ $icons: (
 .cell-sprite {
     width: 64px;
     height: 64px;
-    background-image: url(/keebble/assets/special_cells.webp);
+    background-image: g.$special-cells-url;
     margin: auto;
 }
 

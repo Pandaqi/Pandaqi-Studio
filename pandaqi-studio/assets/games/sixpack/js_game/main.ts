@@ -74,11 +74,11 @@ export default class Generator
     {
         CONFIG.progressBar.gotoNextPhase();
 
-        const resLoader = new ResourceLoader();
+        const resLoader = new ResourceLoader({ base: CONFIG.assetsBase });
         resLoader.planLoad(CONFIG.font.key, { key: CONFIG.font.key, path: CONFIG.font.url });
-        resLoader.planLoad("card_backgrounds", { path: "assets/card_backgrounds.webp", frames: new Point(8,2) });
-        resLoader.planLoad("card_types", { path: "assets/card_types.webp", frames: new Point(8,2) });
-        resLoader.planLoad("hand_icon", { path: "assets/hand_icon.webp" });
+        resLoader.planLoad("card_backgrounds", { path: "card_backgrounds.webp", frames: new Point(8,2) });
+        resLoader.planLoad("card_types", { path: "card_types.webp", frames: new Point(8,2) });
+        resLoader.planLoad("hand_icon", { path: "hand_icon.webp" });
         await resLoader.loadPlannedResources();
 
         const pdfBuilderConfig = { orientation: PageOrientation.PORTRAIT };

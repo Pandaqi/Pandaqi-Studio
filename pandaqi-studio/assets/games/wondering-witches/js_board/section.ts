@@ -1,7 +1,7 @@
 import Point from "js/pq_games/tools/geometry/point";
 import Cell from "./cell"
 // @ts-ignore
-import { Geom } from "js/pq_games/phaser.esm"
+import { Geom } from "js/pq_games/phaser/phaser.esm"
 
 export default class Section 
 {

@@ -1,35 +1,6 @@
 @use "sass:map";
 @use "sass:math";
-
-$header-font: "Londrina Solid", sans-serif;
-$body-font: "Londrina Solid", serif;
-
-@font-face {
-    font-family: 'Londrina Solid';
-    src: url('/sixpack/assets/fonts/LondrinaSolid-Light.woff2') format('woff2'),
-        url('/sixpack/assets/fonts/LondrinaSolid-Light.woff') format('woff');
-    font-weight: 300;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'Londrina Solid';
-    src: url('/sixpack/assets/fonts/LondrinaSolid-Regular.woff2') format('woff2'),
-        url('/sixpack/assets/fonts/LondrinaSolid-Regular.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'Londrina Solid';
-    src: url('/sixpack/assets/fonts/LondrinaSolid-Black.woff2') format('woff2'),
-        url('/sixpack/assets/fonts/LondrinaSolid-Black.woff') format('woff');
-    font-weight: 900;
-    font-style: normal;
-    font-display: swap;
-}
+@use "../css_shared/main.scss" as g;
 
 $icons: (
     "blank": 0,
@@ -58,7 +29,7 @@ $icons: (
     }
 
     .rules-icon-pack-#{$name} {
-        background-image: url(/sixpack/assets/card_types.webp);
+        background-image: g.$types-url;
         background-size: 800%;
         background-position-x: -$col * 100%;
         background-position-y: -$row * 100%;
@@ -67,11 +38,11 @@ $icons: (
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: $header-font;
+    font-family: g.$header-font;
 }
 
 body {
-    font-family: $body-font;
+    font-family: g.$body-font;
     background-color: #3c005d; // #5F5449;
     font-size: 18px;
     font-weight: 300;

@@ -10,6 +10,7 @@ import ResourceText from "./resources/resourceText"
 import Shape from "../tools/geometry/shape"
 import Color from "./color/color"
 import Dims from "../tools/geometry/dims"
+import isZero from "../tools/numbers/isZero"
 
 type ResourceLike = ResourceImage|ResourceShape|ResourceGradient|ResourcePattern|ResourceText
 
@@ -311,4 +312,7 @@ export default class LayoutOperation
         elem.setAttribute("stroke-width", this.strokeWidth.toString());
         return elem;
     }
+
+    hasFill() { return !this.fill.isTransparent(); }
+    hasStroke() { return !this.stroke.isTransparent() && !isZero(this.strokeWidth); }
 }

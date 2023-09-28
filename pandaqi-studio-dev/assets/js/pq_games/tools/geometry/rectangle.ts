@@ -60,7 +60,7 @@ export default class Rectangle extends Shape
         return new Path({ points: this.toPath() }).toPathString();
     }
 
-    toSVG()
+    toSVG() : SVGElement|HTMLElement
     {
         const elem = document.createElementNS(null, 'rect');
         const topLeft = this.getTopLeft();

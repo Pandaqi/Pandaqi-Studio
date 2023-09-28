@@ -1,5 +1,5 @@
 // @ts-ignore
-import { Geom, Display } from "js/pq_games/phaser.esm"
+import { Geom, Display } from "js/pq_games/phaser/phaser.esm"
 import Board from "./board";
 import CONFIG from "./config";
 import Point from "js/pq_games/tools/geometry/point";

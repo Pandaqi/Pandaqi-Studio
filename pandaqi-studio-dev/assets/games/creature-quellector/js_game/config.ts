@@ -14,6 +14,8 @@ export default {
     elements: {}, // the elements included by user setting on game page
     elementsReverse: {},
 
+    alwaysAddMainTypeOnce: false,
+
     assets: {
         creatures_1: {
             path: "assets/quellector_creatures_1.webp",

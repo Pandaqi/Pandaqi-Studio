@@ -3,16 +3,26 @@ import convertCanvasToImage from "./convertCanvasToImage"
 
 interface SplitParams
 {
-	split?: boolean
-	splitDims?: Point
+	splitDims?: Point|string
 }
 
 export default async (img:HTMLImageElement, params:SplitParams = {}) => 
 {
-    if(!params.split) { return [img]; }
+    let dims : Point;
+    if(params.splitDims instanceof Point) {
+        dims = params.splitDims;
+    } else {
+        const newDimsArray = (params.splitDims as string).split("x");
+        if(newDimsArray.length != 2) { console.error("Can't split canvas with dimensions: ", params.splitDims); return [img]; };
+        const newDims = new Point(parseInt(newDimsArray[0]), parseInt(newDimsArray[1]));
+        dims = newDims;
+    }
 
-    const cols = params.splitDims.x ?? 2;
-    const rows = params.splitDims.y ?? 2; 
+    const mustSplit = dims.x > 1 || dims.y > 1;
+    if(!mustSplit) { return [img]; }
+
+    const cols = dims.x ?? 2;
+    const rows = dims.y ?? 2; 
     const totalParts = cols * rows;
     
     const promises = [];

@@ -53,6 +53,7 @@ export default class Circle extends Shape
                 this.center.x + Math.cos(angle)*this.radius,
                 this.center.y + Math.sin(angle)*this.radius
             )
+            path.push(pos);
         }
         return path;
     }

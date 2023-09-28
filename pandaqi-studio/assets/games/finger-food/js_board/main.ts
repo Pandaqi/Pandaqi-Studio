@@ -1,6 +1,6 @@
 // @ts-nocheck
 import PandaqiPhaser from "js/pq_games/website/phaser"
-import { Scene } from "js/pq_games/phaser.esm"
+import { Scene } from "js/pq_games/phaser/phaser.esm"
 import BoardState from "./boardState"
 import BoardDisplay from "./boardDisplay"
 import TypeManager from "./typeManager"

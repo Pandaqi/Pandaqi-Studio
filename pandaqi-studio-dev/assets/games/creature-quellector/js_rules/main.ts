@@ -35,11 +35,6 @@ class Card
         this.types = [];
         this.actions = [];
 
-        // first one always same as main type
-        this.types.push(this.mainType);
-        this.actions.push(false);
-        numTypes--;
-
         // otherwise fill randomly
         for(let i = 0; i < numTypes; i++)
         {
@@ -186,14 +181,15 @@ class Squad
 
     getCounteredTypes() : string[]
     {
-        const mainTypes = this.getMainTypesUnique();
+        return this.getMainTypesUnique();
+        /*const mainTypes = this.getMainTypesUnique();
         const counteredTypes : string[] = [];
         for(const type of mainTypes)
         {
             counteredTypes.push(CATEGORIES[type].counters);
         }
 
-        return counteredTypes;
+        return counteredTypes;*/
     }
 
     getFinalTypes(counteredTypes:string[]) : Stats
@@ -315,13 +311,13 @@ async function generate()
         const tie = numActions[0] == numActions[1];
         const diffString = "(" + numActions[0] + " vs " + numActions[1] + ")"
         if(!actionsPlayed) {
-            o.addParagraph("Nobody played any <strong>action icons</strong>.");
+            o.addParagraph("Nobody played any <strong>actions</strong>.");
         } else if(tie) {
-            o.addParagraph("Both players played equally many <strong>action icons</strong> " + diffString + ", so nobody gets to take any action.");
+            o.addParagraph("Both players played equally many <strong>actions</strong> " + diffString + ", so nobody gets to take any action.");
         } else {
             const player1won = numActions[0] > numActions[1];
             const winner = player1won ? "A" : "B";
-            o.addParagraph(winner + " played the most <strong>action icons</strong> " + diffString + ". They pick one of them to execute. From now on, ignore any action icons.");
+            o.addParagraph(winner + " played the most <strong>actions</strong> " + diffString + ". They pick one of them to execute.");
         }
     }
 
@@ -336,8 +332,8 @@ async function generate()
     // count main types and counters
     o.addParagraph("Now let's check their counters.");
     const listCounters = [
-        "A has main type(s) " + squads[0].getMainTypesAsString() + ", so they counter all " + squads[0].getCountersAsString() + " of the opponent.",
-        "B has main type(s) " + squads[1].getMainTypesAsString() + ", so they counter all " + squads[1].getCountersAsString() + " of the opponent."
+        "A has element(s) " + squads[0].getMainTypesAsString() + ", so all those types are worth nothing for B.",
+        "B has element(s) " + squads[1].getMainTypesAsString() + ", so all those types are worth nothing for A."
     ]
     o.addParagraphList(listCounters);
 
@@ -359,7 +355,7 @@ async function generate()
     let winner = player1won ? "A" : "B";
 
     o.addParagraph(winner + " won the battle! Both players trade squads, but " + winner + " keeps one card they don't trade.");
-    if(tie) { o.addParagraph("(In case of a tie, the defender wins."); }
+    if(tie) { o.addParagraph("(It's tied, so the defending player wins.)"); }
     if(singleCardPlayed) { o.addParagraph("(Yes, because only one card was played, this means the winner just gets the loser's card.)"); }
 
     o.addParagraph("Next player's turn!");

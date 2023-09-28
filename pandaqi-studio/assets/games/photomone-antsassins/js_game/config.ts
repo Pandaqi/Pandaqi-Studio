@@ -2,7 +2,7 @@ import Point from "js/pq_games/tools/geometry/point";
 
 export default
 {
-    fontURL: "/photomone/assets/fonts/GelDoticaLowerCaseThick.woff2",
+    assetsBase: "/photomone-antsassins/assets/",
     debugWithoutPDF: false, // @DEBUGGING (should be false)
     debugWithDragDrop: false, // @DEBUGGING (should be false)
 

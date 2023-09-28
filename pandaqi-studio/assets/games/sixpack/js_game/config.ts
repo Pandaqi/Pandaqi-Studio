@@ -18,9 +18,11 @@ const CONFIG = {
     numberList: [1,2,3,4,5,6],
     fileName: "[Sixpack] Material",
     numHandsPerPack: 2,
+
+    assetsBase: "/sixpack/assets/",
     font: {
         key: "LondrinaSolid",
-        url: "assets/fonts/LondrinaSolid-Black.woff2",
+        url: "fonts/LondrinaSolid-Black.woff2",
         size: 0.795,
         smallSize: 0.1
     },

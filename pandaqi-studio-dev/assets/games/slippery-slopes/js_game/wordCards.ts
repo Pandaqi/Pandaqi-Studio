@@ -1,5 +1,5 @@
 import GridMapper from "js/pq_games/layout/gridMapper";
-import CONFIG from "./config";
+import CONFIG from "../js_shared/config";
 import PandaqiWords from "js/pq_words/main";
 import WordData from "js/pq_words/wordData";
 import createContext from "js/pq_games/layout/canvas/createContext";
@@ -51,8 +51,9 @@ export default class WordCards
         const numCards = CONFIG.wordCards.num;
         const wordsPerCard = CONFIG.wordCards.numPerCard;
         const blockHeight = CONFIG.wordCards.size.y / wordsPerCard;
-        const wavyRectSize = new Point(CONFIG.wordCards.size.x, blockHeight);
-        const wavyRect = createWavyRect(wavyRectSize, 5, 5, 3);
+        const amp = CONFIG.wavyRect.amplitude * blockHeight;
+        const wavyRectSize = new Point(CONFIG.wordCards.size.x, blockHeight + 4*amp);
+        const wavyRect = createWavyRect(wavyRectSize, amp, CONFIG.wavyRect.frequency, CONFIG.wavyRect.stepSize);
 
         const promises = [];
         for(let i = 0; i < numCards; i++)
@@ -69,29 +70,54 @@ export default class WordCards
     async drawCard(words:WordData[], wavyRect:ResourceShape, wordsPerCard:number, blockHeight:number)
     {
         const textConfig = CONFIG.cards.textConfig;
-        textConfig.size = CONFIG.cards.textScale * blockHeight;
+        textConfig.size = CONFIG.wordCards.textScale * blockHeight;
 
-        const ctx = createContext({ size: CONFIG.wordCards.size });
-        const saturation = CONFIG.inkFriendly ? 0 : 85;
-        const colors = equidistantColorsBetweenOpposites(wordsPerCard, saturation, 50);
+        const subTextConfig = CONFIG.cards.subTextConfig;
+
+        const cardSize = CONFIG.wordCards.size;
+        const ctx = createContext({ size: cardSize });
+        const saturation = CONFIG.inkFriendly ? 0 : CONFIG.wavyRect.saturation;
+        const colors = equidistantColorsBetweenOpposites(wordsPerCard, saturation, CONFIG.wavyRect.lightness);
         const textDarken = CONFIG.cards.textDarkenFactor;
+
+        const amp = CONFIG.wavyRect.amplitude * blockHeight;
 
         for(let a = 0; a < wordsPerCard; a++)
         {
             const color = colors[a];
+            const textColor = color.getHighestContrast([color.darken(textDarken), color.lighten(textDarken)]);
+
+            const topOffset = a == 0 ? -2*amp : 0;
             const canvOp = new LayoutOperation({
-                translate: new Point(0, blockHeight*a),
-                fill: color
+                translate: new Point(0, blockHeight*a + topOffset),
+                fill: color,
+                stroke: "#000000",
+                strokeWidth: 1,
             });
             await wavyRect.toCanvas(ctx, canvOp);
 
             const wordData = words[a];
             const text = new ResourceText({ text: wordData.getWord(), textConfig: textConfig })
 
-            canvOp.translate.y += 0.5*blockHeight;
-            canvOp.fill = color.darken(textDarken);
+            canvOp.translate = new Point(0, blockHeight * a - amp);
+            canvOp.dims = new Point(cardSize.x, blockHeight);
+            canvOp.fill = textColor;
             await text.toCanvas(ctx, canvOp);
+
+            canvOp.translate.y += 0.715*textConfig.size;
+            canvOp.alpha = 0.66
+
+            subTextConfig.size = 0.3 * CONFIG.wordCards.textScale * blockHeight;
+            const subText = new ResourceText({ text: wordData.getMetadata().cat, textConfig: subTextConfig });
+            await subText.toCanvas(ctx, canvOp);
         }
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.strokeStyle = CONFIG.cards.outline.color;
+        ctx.lineWidth = CONFIG.cards.outline.width * cardSize.x;
+        ctx.strokeRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        ctx.restore();
 
         return ctx.canvas;
     }

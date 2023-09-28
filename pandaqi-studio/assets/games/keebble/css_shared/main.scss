@@ -1,0 +1,13 @@
+@font-face {
+    font-family: 'Arbutus Slab';
+    src: url(/keebble/assets/ArbutusSlab-Regular.woff2);
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+$header-font: "Arbutus Slab", sans-serif;
+$body-font: "Arbutus Slab", serif;
+$special-cells-url: url(/keebble/assets/special_cells.webp);
+$special-cells-domino-url: url(/keebble-domino/assets/special_cells.webp);
+$knickknack-options-url: url(/keebble-knickknack/assets/option_icons.webp);

@@ -2,12 +2,6 @@ import { VEHICLE_MAP } from "../js_shared/dict"
 import Timer from "./timer"
 import Interface from "./interface"
 
-/*
-this.load.image('upgrade_button', base + 'upgrade_button.webp');
-		this.load.spritesheet('vehicle_icons', base + 'vehicle_icons.webp', { frameWidth: 400, frameHeight: 400 });
-		this.load.spritesheet('goods', base + 'goods.webp', { frameWidth: 100, frameHeight: 100 });
-        */
-
 export default class Button {
     interface: Interface;
     type: string;

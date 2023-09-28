@@ -1,5 +1,7 @@
+@use "../css_shared/main.scss" as g; 
+
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Niconne', cursive;
+    font-family: g.$header-font;
     text-align: center;
 }
 
@@ -10,7 +12,7 @@ h2 {
 }
 
 body {
-    font-family: 'Mali', cursive;
+    font-family: g.$body-font;
     background-color: #4B2142;
     color: white;
     font-size: 16pt;
@@ -46,7 +48,7 @@ a, a:visited {
 }
 
 a.btn, a.btn:visited {
-    font-family: 'Niconne';
+    font-family: g.$header-font;
     background-color: #536ACC;
     color: black;
 }
@@ -124,7 +126,7 @@ select {
 }
 
 .special-cell-sprite {
-    background: url(special_cell_spritesheet.webp) no-repeat;
+    background: g.$special-cells-url no-repeat;
 
     width: 60px;
     height: 60px;

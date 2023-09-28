@@ -3,7 +3,7 @@ import { CITY_NAMES, PLAYERCOUNT_TO_CITYCOUNT, PLAYER_COLORS, GOODS, DIFFICULTY_
 import calculateRoute from "./pathfinder"
 import { noise } from "./perlin"
 import PandaqiPhaser from "js/pq_games/website/phaser"
-import { Scene, Geom } from "js/pq_games/phaser.esm"
+import { Scene, Geom } from "js/pq_games/phaser/phaser.esm"
 import Point from "js/pq_games/tools/geometry/point"
 
 const sceneKey = "boardGeneration"

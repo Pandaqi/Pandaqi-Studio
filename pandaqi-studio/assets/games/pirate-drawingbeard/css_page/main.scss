@@ -1,16 +1,18 @@
+@use "../../pirate-riddlebeard/css_shared/main.scss" as g;
+
 h1, h2, h3, h4, h5, h6, a.btn, #btn-create-pdf, #btn-generate-board, #btn-start-game {
-    font-family: 'Chelsea Market', cursive;
+    font-family: g.$header-font;
 }
 
 body {
-    font-family: 'Charis SIL', serif;
+    font-family: g.$body-font;
     background-color: #FFD479;
     font-size: 20px;
     background-size: 100%;
 }
 
 input, button, select, option, label {
-    font-family: 'Charis SIL', serif;
+    font-family: g.$body-font;
 }
 
 label {

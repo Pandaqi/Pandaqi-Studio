@@ -46,7 +46,7 @@ export default class Generator {
     {
         CONFIG.progressBar.gotoNextPhase();
         
-        const resLoader = new ResourceLoader();
+        const resLoader = new ResourceLoader({ base: CONFIG.assetsBase });
         for(const [key,data] of Object.entries(CONFIG.fonts))
         {
             resLoader.planLoad(key, { key: data.key, path: data.url });
