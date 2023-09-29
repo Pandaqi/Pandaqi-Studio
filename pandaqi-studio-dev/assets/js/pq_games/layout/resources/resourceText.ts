@@ -44,6 +44,7 @@ export default class ResourceText extends Resource
     {
         const textNode = document.createElement("span");
         textNode.innerHTML = this.text;
+        textNode.style.display = "inline-block";
         this.textConfig.applyToHTML(textNode);
         return textNode;
     }

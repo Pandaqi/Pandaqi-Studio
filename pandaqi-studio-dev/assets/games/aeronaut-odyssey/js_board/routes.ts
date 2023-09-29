@@ -6,6 +6,9 @@ import CONFIG from "./config";
 import range from "js/pq_games/tools/random/range";
 import shuffle from "js/pq_games/tools/random/shuffle";
 import RouteSet from "./routeSet";
+import lineIntersectsShape from "js/pq_games/tools/geometry/intersection/lineIntersectsShape";
+import Line from "js/pq_games/tools/geometry/line";
+import getWeightedByIndex from "js/pq_games/tools/random/getWeightedByIndex";
 
 export default class Routes
 {
@@ -39,6 +42,11 @@ export default class Routes
         return false;
     }
 
+    overlapsTrajectoryRectangle(l:Line)
+    {
+        return lineIntersectsShape(l, this.boardState.trajectories.rectangle);
+    }
+
     createRoutesFromPoints(points:PointGraph[])
     {
         for(const point of points)
@@ -46,12 +54,23 @@ export default class Routes
             point.metadata.routes = [];
         }
 
+        // remove any connections overlapping trajectory rectangle outright
+        for(const point of points)
+        {
+            for(const conn of point.getConnectionsByPoint())
+            {
+                const line = new Line(point, conn)
+                if(!this.overlapsTrajectoryRectangle(line)) { continue; }
+                point.removeConnectionByPoint(conn);
+            }
+        }
+
         // first create the initial routes
         const routes : Route[] = [];
         let sum = 0;
         for(const point of points)
         {
-            for(const conn of point.getConnections())
+            for(const conn of point.getConnectionsByPoint())
             {
                 const r = new Route(point, conn);
                 if(this.routeAlreadyRegistered(r, routes)) { continue; }
@@ -65,24 +84,22 @@ export default class Routes
 
         // then turn some of them into double routes
         // (feels cleaner to assemble them all first and _then_ add them all to routes)
-        shuffle(routes)
-
         let numDoubleRoutes = Math.round(range(CONFIG.generation.doubleRouteBounds) * routes.length);
         if(!CONFIG.generation.doubleRoutesInclude) { numDoubleRoutes = 0; }
+
+        routes.sort((a,b) => {
+            return a.getBlockLength() - b.getBlockLength();
+        });
 
         const maxBlocks = CONFIG.generation.maxBlocksPerRoute;
         const doubleRoutes = [];
         let counter = -1;
         while(doubleRoutes.length < numDoubleRoutes)
         {
-            counter = (counter + 1) % routes.length;
-            const r = routes[counter];
+            // descending => the longer the route, the less likely it is to be doubled
+            const r = routes[getWeightedByIndex(routes, true, 0.1)];
             const alreadyDoubled = r.set != null;
             if(alreadyDoubled) { continue; }
-
-            // the longer the route, the less likely it is to be doubled
-            const prob = 1.0 - r.getBlockLength() / (maxBlocks + 1);
-            if(Math.random() > prob) { continue; }
 
             const set = new RouteSet();
             set.add(r);
@@ -90,6 +107,7 @@ export default class Routes
             const doubled = new Route(r.start, r.end);
             set.add(doubled);
 
+            doubleRoutes.push(doubled);
             r.start.metadata.routes.push(doubled);
             r.end.metadata.routes.push(doubled);
         }

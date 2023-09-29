@@ -22,10 +22,10 @@ const pointIsInsideTriangle = (p:Point, triangle:Triangle, epsilon = 0.001) =>
 
 const pointIsInsideRectangle = (p:Point, rect:Rectangle) =>
 {
-    const c = rect.center
-    const e = rect.extents;
-    return p.x >= (c.x - 0.5*e.x) && p.x <= (c.x + 0.5*e.x) && 
-            p.y >= (c.y - 0.5*e.y) && p.y <= (c.y + 0.5*e.y)
+    const topLeft = rect.getTopLeft();
+    const bottomRight = rect.getBottomRight();
+    return p.x >= topLeft.x && p.x <= bottomRight.x && 
+            p.y >= topLeft.y && p.y <= bottomRight.y
 }
 
 const pointIsInsideHexagon = (p:Point, hexagon:Polygon, epsilon = 0.001) =>

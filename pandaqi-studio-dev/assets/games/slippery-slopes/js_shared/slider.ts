@@ -59,9 +59,9 @@ export default class Slider
         const textConfig = CONFIG.cards.textConfig;
         textConfig.size = CONFIG.sliderCards.textScale * blockHeight;
 
-        // @TODO: put wavy rect and saturation/lightness into config, so it's consistent between word and slider cards
         const saturation = CONFIG.inkFriendly ? 0 : CONFIG.wavyRect.saturation;
-        const colors = equidistantColorsBetweenOpposites(colorSteps, saturation, CONFIG.wavyRect.lightness);
+        const lightness = CONFIG.inkFriendly ? 100 : CONFIG.wavyRect.lightness;
+        const colors = equidistantColorsBetweenOpposites(colorSteps, saturation, lightness);
 
         this.createOutlineRect(ctx, cardSize);
         ctx.clip();
@@ -166,7 +166,8 @@ export default class Slider
         for(let i = 0; i < extremes.length; i++)
         {
             const color = (i == 0) ? colors[0] : colors[colors.length-1];
-            const finalColor = color.getHighestContrast([color.darken(textDarken), Color.WHITE]);
+            let finalColor = color.getHighestContrast([color.darken(textDarken), Color.WHITE]);
+            if(CONFIG.inkFriendly) { finalColor = Color.BLACK; }
 
             const word = extremes[i];
             const text = new ResourceText({ text: word, textConfig: textConfig })
@@ -207,7 +208,8 @@ export default class Slider
             if(fontKey == "AnuDaw") { tempTextCfg.size *= 0.5; }
 
             const color = colors[i];
-            const finalColor = color.getHighestContrast([color.darken(textDarken), Color.WHITE]);
+            let finalColor = color.getHighestContrast([color.darken(textDarken), Color.WHITE]);
+            if(CONFIG.inkFriendly) { finalColor = Color.BLACK; }
 
             const word = this.getRandomWord();
 
@@ -389,6 +391,6 @@ export default class Slider
     getExtremes()
     {
         const data = this.getSubData();
-        return [data.low, data.high];
+        return [data.high, data.low]; // reverse order, so "high" actually ends up "high" on the card
     }
 }

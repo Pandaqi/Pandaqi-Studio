@@ -29,8 +29,8 @@ const rectToPhaser = (rect:Rectangle, op:LayoutOperation, graphics = null) =>
     const pos = rect.getTopLeft();
     const rectPhaser = new Geom.Rectangle(pos.x, pos.y, rect.extents.x, rect.extents.y);
     layoutOperationToGraphics(graphics, op);
-    if(op.hasFill()) { graphics.fillRectangleShape(rectPhaser); }
-    if(op.hasStroke()) { graphics.strokeRectangleShape(rectPhaser); }
+    if(op.hasFill()) { graphics.fillRectShape(rectPhaser); }
+    if(op.hasStroke()) { graphics.strokeRectShape(rectPhaser); }
     return rectPhaser;
 }
 

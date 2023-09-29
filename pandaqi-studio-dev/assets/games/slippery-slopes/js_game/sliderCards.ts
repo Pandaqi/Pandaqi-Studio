@@ -42,6 +42,17 @@ export default class SliderCards
         const cardSize = gridMapper.getMaxElementSize();
         CONFIG.sliderCards.size = cardSize.clone();
     }
+
+    getRequiredProperties(dict:Record<string,any>)
+    {
+        const arr = [];
+        for(const [key,val] of Object.entries(dict))
+        {
+            if(!val.req) { continue; }
+            arr.push(key);
+        }
+        return arr;
+    }
     
     pickSliders()
     {
@@ -51,8 +62,43 @@ export default class SliderCards
         const sliderDict = Object.assign({}, SLIDERS);
         const actionDict = Object.assign({}, ACTIONS);
         
-        const numSliders = CONFIG.sliderCards.num;
+        let numSliders = CONFIG.sliderCards.num;
         const slidersPerMainType = {};
+
+        // determine main types beforehand
+        let mainTypes = [];
+        let numPropertySliders = 0;
+        for(let i = 0; i < numSliders; i++)
+        {
+            let mainType = "property";
+            if(CONFIG.expansions.crasheryCliffs) { mainType = getWeighted(sliderDict); }
+            mainTypes.push(mainType);
+            if(mainType == "property") { numPropertySliders++; }
+        }
+
+        // so we can determine exact sub types beforehand
+        // (taking into account required types, min/max, etc.)
+        let subTypes = [];
+        const requiredSubTypes = this.getRequiredProperties(PROPERTIES);
+        for(const type of requiredSubTypes)
+        {
+            subTypes.push(type);
+        }
+        while(subTypes.length < numPropertySliders)
+        {
+            subTypes.push(getWeighted(PROPERTIES));
+        }
+
+        if(CONFIG.debugAllPossibleProperties)
+        {
+            const allProperties = Object.keys(PROPERTIES);
+            numSliders = allProperties.length;
+            subTypes = allProperties;
+            mainTypes = new Array(numSliders).fill("property");
+        }
+
+        shuffle(mainTypes);
+        shuffle(subTypes);
 
         console.log(CONFIG);
         
@@ -60,12 +106,11 @@ export default class SliderCards
         for(let i = 0; i < numSliders; i++)
         {
             // pick main type
-            let mainType = "property";
-            if(CONFIG.expansions.crasheryCliffs) { mainType = getWeighted(sliderDict); }
+            const mainType = mainTypes.pop();
             const data = SLIDERS[mainType];
 
             // pick subtype, if applicable
-            const subType = (mainType == "property") ? properties.pop() : "";
+            const subType = (mainType == "property") ? subTypes.pop() : "";
             
             // determine actions
             let numActions = rangeInteger(CONFIG.sliderCards.numActionBounds);
@@ -104,6 +149,8 @@ export default class SliderCards
 
     async draw()
     {
+        if(!this.sliders) { return []; }
+
         const promises = [];
         for(const slider of this.sliders)
         {

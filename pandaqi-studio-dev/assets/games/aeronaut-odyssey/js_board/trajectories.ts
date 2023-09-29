@@ -20,11 +20,13 @@ export default class Trajectories
     
     generatePre()
     {
+        this.rectangle = new Rectangle({ extents: new Point() });
         if(!CONFIG.expansions.trajectories) { return; }
 
         const numTrajectories = rangeInteger(CONFIG.generation.numTrajectoryBounds);
         const trajectorySize = CONFIG.generation.trajectorySize; // relative to block size
-        const size = trajectorySize.scale(new Point(1, numTrajectories));
+        const size = trajectorySize.clone().scale(new Point(1, numTrajectories));
+        console.log(size);
         const rect = new Rectangle().fromBottomRight(this.boardState.dims, size);
         this.num = numTrajectories;
         this.rectangle = rect;   
@@ -66,5 +68,8 @@ export default class Trajectories
             trajectories.push(traj);
         }
         this.list = trajectories;
+
+        console.log("== TRAJECTORIES ==");
+        console.log(trajectories);
     }
 }

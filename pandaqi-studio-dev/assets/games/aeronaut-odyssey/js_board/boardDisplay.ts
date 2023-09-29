@@ -7,6 +7,11 @@ import Point from "js/pq_games/tools/geometry/point";
 import Route from "./route";
 import shuffle from "js/pq_games/tools/random/shuffle";
 import Color from "js/pq_games/layout/color/color";
+import Circle from "js/pq_games/tools/geometry/circle";
+import LayoutOperation from "js/pq_games/layout/layoutOperation";
+import { circleToPhaser } from "js/pq_games/phaser/shapeToPhaser";
+import Rectangle from "js/pq_games/tools/geometry/rectangle";
+import { rectToPhaserObject } from "js/pq_games/phaser/shapeToPhaserObject";
 
 
 export default class BoardDisplay
@@ -74,43 +79,47 @@ export default class BoardDisplay
     {
         const realPos = this.convertToRealPoint(p);
         const radius = (CONFIG.generation.cityRadius*0.95) * this.blockSize.x;
-        const circ = new Geom.Circle(realPos.x, realPos.y, radius);
-        //let color = point.metadata.city ? 0xFF0000 : 0x000000;
+        const circ = new Circle({ center: realPos, radius: radius });
 
-        // draw basic point/sprite
-        let color = 0x000000;
-        this.graphics.fillStyle(color);
-        this.graphics.fillCircleShape(circ);
+        let color = "#0000000";
+        const op = new LayoutOperation({ fill: color });
+        circleToPhaser(circ, op, this.graphics);
 
         // draw visitor dots
         const freeAngles = this.getFreeAnglesAroundPoint(p);
+
         const dotRadius = CONFIG.display.visitorSpotRadius * this.blockSize.x;
-        const num = p.metadata.numVisitorSpots;
+        const num = Math.min(p.metadata.numVisitorSpots, freeAngles.length);
         shuffle(freeAngles);
+
         for(let i = 0; i < num; i++)
         {
-            const ang = freeAngles.pop();
-            const offset = new Point(Math.cos(ang), Math.sin(ang)).scaleFactor(radius + 0.5*dotRadius);
+            const ang = freeAngles[i];
+            const offset = new Point().fromAngle(ang).scaleFactor(radius + 0.5*dotRadius);
             const pos = realPos.clone().add(offset);
-            const spot = new Geom.Circle(pos.x, pos.y, dotRadius);
 
-            this.graphics.fillStyle(0x00FF00);
-            this.graphics.fillCircleShape(spot);
+            const spot = new Circle({ center: pos, radius: dotRadius });
+            op.fill = new Color("#00FF00");
+            circleToPhaser(spot, op, this.graphics);
         }
     }
 
     getFreeAnglesAroundPoint(p:PointGraph)
     {
-        const numAngles = 9;
+        const numAngles = 12;
         const anglesTaken = new Array(numAngles).fill(false);
         const routes : Route[] = p.metadata.routes;
         for(const route of routes)
         {
-            let angle = Point.RIGHT.angleTo(route.getOther(p));
+            let angle = p.vecTo(route.getOther(p)).angle();
             if(angle < 0) { angle += 2*Math.PI; }
 
-            const bucket = Math.round(angle / (2*Math.PI) * numAngles) % numAngles;
-            anglesTaken[bucket] = true;
+            const val = angle / (2*Math.PI) * numAngles;
+            const valLow = (Math.floor(val) + numAngles) % numAngles;
+            const valHigh = (Math.ceil(val) + numAngles) % numAngles;
+
+            anglesTaken[valLow] = true;
+            anglesTaken[valHigh] = true;
         }
 
         const anglesFree = [];
@@ -136,7 +145,8 @@ export default class BoardDisplay
 
         const emptySpace = (rawLength - numBlocks) * bl;
 
-        // why +1? Add space at start and end => 2 blocks, for example, will have 3 spaces to fill
+        // why +1? Add space at start and end
+        // For example, 2 blocks will have 3 spaces to fill, |-|-|
         const emptySpacePerBlock = emptySpace / (numBlocks + 1); 
         const offsetPerBlock = emptySpacePerBlock + bl;
 
@@ -145,24 +155,44 @@ export default class BoardDisplay
         const routeTooLong = emptySpacePerBlock < 0; // @TODO: do something with this, probably add CURVE
 
         const blockTypeList = r.getTypes();
+        const blockSize = new Point(blockLengthDisplayed, this.blockSize.y);
+
+        const partOfSet = r.set;
+        const marginBetweenSameSet = 0.1*blockSize.y;
+        const vecForSet = vec.clone().rotate(0.5*Math.PI).scale(blockSize.y + marginBetweenSameSet);
+        let offsetForSet = 0;
+        if(partOfSet)
+        {
+            const idx = r.set.indexOf(r)
+            const num = r.set.count()
+            const baseOffset = -0.5*(num - 1);
+            offsetForSet = baseOffset + idx;
+        }
+        vecForSet.scale(offsetForSet);
+        
         for(let i = 0; i < numBlocks; i++)
         {
             const color = this.getColorForType(blockTypeList[i]);
 
-            const rect = this.game.add.rectangle(curPos.x, curPos.y, blockLengthDisplayed, this.blockSize.y, color);
-            rect.setOrigin(0.5);
+            const op = new LayoutOperation({
+                fill: color,
+                pivot: new Point(0.5),
+                rotation: vec.angle()
+            })
 
-            const angle = vec.angle();
-            rect.setRotation(angle);
+            const finalPos = curPos.clone().add(vecForSet);
+            const rect = new Rectangle().fromTopLeft(finalPos, blockSize);
+            const rectObj = rectToPhaserObject(rect, op, this.game);
+
             curPos.add(vec.clone().scale(offsetPerBlock));
         }
     }
 
-    getColorForType(tp:number)
+    getColorForType(tp:number) : Color
     {
         const hue = (tp / CONFIG.generation.numBlockTypes)*360;
         const colorObject = new Color(hue, 95, 50);
-        return colorObject.toHEXNumber();
+        return colorObject;
     }
 
     drawTrajectoryBoard(board:BoardState)
@@ -172,10 +202,11 @@ export default class BoardDisplay
         const rect = board.trajectories.rectangle;
         const pos = this.convertToRealPoint(rect.getTopLeft());
         const size = this.convertToRealSize(rect.getSize());
-        
-        const rectDisplayed = this.game.add.rectangle(pos.x, pos.y, size.x, size.y);
-        rectDisplayed.setFillStyle(0xFF0000, 1.0);
 
+        const op = new LayoutOperation({ fill: "#FF0000" });
+        const rectShape = new Rectangle().fromTopLeft(pos, size);
+        rectToPhaserObject(rectShape, op, this.game);
+        
         // Draw the background and all the trajectories
     }
 

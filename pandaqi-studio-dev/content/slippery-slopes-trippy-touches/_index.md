@@ -47,9 +47,11 @@ ages: everyone
 
 {{% section-centered heading="" %}}
 
-How would you communicate the word <strong><span id="random-slippery-word">...</span></strong> using only the four sliders below? Use your mouse/finger to move them!
+<p style="font-size: 1.5em; line-height: 1.35em; text-align: center;">How would you communicate the word <strong>"<span id="random-slippery-word">...</span>"</strong> using only the four sliders below?</p>
 
 <div class="slippery-slopes-interactive-widget" data-wordnodeid="random-slippery-word" data-reloadbtnid="slippery-reload-button"></div>
+
+<p style="font-size: 0.75em; opacity: 0.75; text-align: center; margin-top: 0;">(Use your mouse/finger to move them!)</p>
 
 Congratulations, you've just learned how to play this quick party game! Use the section below to start an official game on your phone. Or <a href="" id="slippery-reload-button">refresh this example</a> as much as you like.
 

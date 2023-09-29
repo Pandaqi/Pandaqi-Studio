@@ -156,7 +156,8 @@ export default class TextDrawer
             txtline = txtline.trim()
 
             // this is the one line that actually draws text!
-            ctx.fillText(txtline, textanchor, txtY)
+            ctx.fillText(txtline, textanchor, txtY);
+            ctx.strokeText(txtline, textanchor, txtY);
             
             const oldY = txtY
             txtY += charHeight

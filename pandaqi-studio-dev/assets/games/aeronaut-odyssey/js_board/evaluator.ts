@@ -1,11 +1,14 @@
 import countElementsInArray from "js/pq_games/tools/collections/countElementsInArray";
 import BoardState from "./boardState";
 import CONFIG from "./config"
+import Route from "./route";
 
 export default class Evaluator
 {
     isValid(board:BoardState) : boolean
     {
+        if(!CONFIG.evaluator.enable) { return true; }
+
         if(!this.typesFairlyDistributed(board)) { return false; }
         if(this.typesClumpedUp(board)) { return false; }
         if(this.pointsWithBadConnections(board)) { return false; }
@@ -45,23 +48,26 @@ export default class Evaluator
         for(const point of board.getPoints())
         {
             const routeTypes = [];
-            for(const route of point.metadata.routes)
+            const routesHere : Route[] = point.metadata.routes;
+            for(const route of routesHere)
             {
-                routeTypes.push(route.type);
+                if(route.multi) { continue; }
+                routeTypes.push(route.getMainType());
             }
 
             const counts = countElementsInArray(routeTypes);
             const maxCount = Math.max(...Object.values(counts));
-            if(maxCount >= maxRoutesOfSameType) { return true; }
+            if(maxCount > maxRoutesOfSameType) { return true; }
         }
         return false;
     }
 
     pointsWithBadConnections(board:BoardState)
     {
+        const minConnections = CONFIG.generation.minConnectionsPerPoint;
         for(const point of board.getPoints())
         {
-            if(point.countConnections() <= 1) { return true; }
+            if(point.countConnections() < minConnections) { return true; }
         }
         return false;
     }

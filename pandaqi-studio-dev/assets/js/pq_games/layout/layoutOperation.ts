@@ -11,8 +11,9 @@ import Shape from "../tools/geometry/shape"
 import Color from "./color/color"
 import Dims from "../tools/geometry/dims"
 import isZero from "../tools/numbers/isZero"
+import ResourceBox from "./resources/resourceBox"
 
-type ResourceLike = ResourceImage|ResourceShape|ResourceGradient|ResourcePattern|ResourceText
+type ResourceLike = ResourceImage|ResourceShape|ResourceGradient|ResourcePattern|ResourceText|ResourceBox
 
 interface EffectData
 {
@@ -247,15 +248,23 @@ export default class LayoutOperation
         return ctx.canvas;
     }
 
-    async applyToHTML(node:ElementLike)
+    async applyToHTML(node:ElementLike, res:Resource = null)
     {
+        const textMode = res instanceof ResourceText;
+
         // misc basic properties
         node.style.opacity = this.alpha.toString();
-        node.style.backgroundColor = this.fill.toString();
+        if(textMode) { node.style.color = this.fill.toString(); }
+        else { node.style.backgroundColor = this.fill.toString(); }
 
-        if(this.strokeWidth > 0) { node.style.borderStyle = "solid"; }
-        node.style.borderWidth = this.strokeWidth + "px";
-        node.style.borderColor = this.stroke.toString();
+        if(textMode) {
+            node.style.stroke = this.stroke.toString();
+            node.style.strokeWidth = this.strokeWidth + "px";
+        } else {
+            if(this.strokeWidth > 0) { node.style.borderStyle = "solid"; }
+            node.style.borderWidth = this.strokeWidth + "px";
+            node.style.borderColor = this.stroke.toString();
+        }
 
         // clip and mask
         if(this.clip)

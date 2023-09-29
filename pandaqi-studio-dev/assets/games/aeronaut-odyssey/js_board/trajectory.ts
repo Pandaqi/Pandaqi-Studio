@@ -32,12 +32,12 @@ export default class Trajectory
         return false;
     }
 
-    getRouteBetween(line:LineGraph)
+    getRouteBetween(line:LineGraph) : Route
     {
         const routes : Route[] = (line.start as PointGraph).metadata.routes;
         for(const route of routes)
         {
-            if(route.start == line.start || route.end == line.end) { return route; }
+            if(route.matches(line)) { return route; }
         }
         return null;
     }

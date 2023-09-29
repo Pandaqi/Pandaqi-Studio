@@ -54,10 +54,10 @@ A party game about communicating words by grading them on funky scales.
 
 Three simple steps.
 * Read the short [playful rules](rules).
-* Download any one material PDF (using the "Download" button above).
+* Download any premade PDF. (Download > Premade > Starter Pack.)
 * Print it, cut it, play!
 
-**Want more?** You can also [generate your own material](#material) right on this website!
+**Want more?** You can also [generate your own material](#material) right on this website! Or check the other file bundles at the download folder.
 
 {{% /section-centered %}}
 

@@ -9,6 +9,7 @@ import ResourceText from "js/pq_games/layout/resources/resourceText";
 import equidistantColorsBetweenOpposites from "./tools/equidistantColorsBetweenOpposites";
 import createWavyRect from "./tools/createWavyRect";
 import ResourceShape from "js/pq_games/layout/resources/resourceShape";
+import Color from "js/pq_games/layout/color/color";
 
 export default class WordCards
 {
@@ -77,7 +78,8 @@ export default class WordCards
         const cardSize = CONFIG.wordCards.size;
         const ctx = createContext({ size: cardSize });
         const saturation = CONFIG.inkFriendly ? 0 : CONFIG.wavyRect.saturation;
-        const colors = equidistantColorsBetweenOpposites(wordsPerCard, saturation, CONFIG.wavyRect.lightness);
+        const lightness = CONFIG.inkFriendly ? 100 : CONFIG.wavyRect.lightness;
+        const colors = equidistantColorsBetweenOpposites(wordsPerCard, saturation, lightness);
         const textDarken = CONFIG.cards.textDarkenFactor;
 
         const amp = CONFIG.wavyRect.amplitude * blockHeight;
@@ -85,7 +87,8 @@ export default class WordCards
         for(let a = 0; a < wordsPerCard; a++)
         {
             const color = colors[a];
-            const textColor = color.getHighestContrast([color.darken(textDarken), color.lighten(textDarken)]);
+            let textColor = color.getHighestContrast([color.darken(textDarken), color.lighten(textDarken)]);
+            if(CONFIG.inkFriendly) { textColor = Color.BLACK; }
 
             const topOffset = a == 0 ? -2*amp : 0;
             const canvOp = new LayoutOperation({

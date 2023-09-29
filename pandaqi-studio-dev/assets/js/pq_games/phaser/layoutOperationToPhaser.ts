@@ -12,9 +12,12 @@ const layoutOperationToObject = (obj, op:LayoutOperation) =>
         obj.setLineStyle(op.strokeWidth, op.stroke.toHEXNumber(), op.stroke.a);
     }
 
+    obj.x += op.translate.x;
+    obj.y += op.translate.y;
+
     obj.setOrigin(op.pivot.x, op.pivot.y);
-    obj.x = op.translate.x;
-    obj.y = op.translate.y;
+    
+    obj.setRotation(op.rotation);
 }
 
 const layoutOperationToGraphics = (graphics, op:LayoutOperation) =>

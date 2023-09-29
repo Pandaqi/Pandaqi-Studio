@@ -31,4 +31,23 @@ export default class Bounds
 
     random() { return range(this); }
     randomInteger() {  return rangeInteger(this); }
+
+    swap()
+    {
+        const temp = this.min;
+        this.min = this.max;
+        this.max = temp;
+    }
+
+    sortAsc()
+    {
+        if(this.min <= this.max) { return; }
+        this.swap();
+    }
+
+    sortDesc()
+    {
+        if(this.min >= this.max) { return; }
+        this.swap();
+    }
 }

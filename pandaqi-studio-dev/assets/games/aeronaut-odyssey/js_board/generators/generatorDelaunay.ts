@@ -60,7 +60,7 @@ export default class GeneratorDelaunay
     {
         const numCityFactor = CONFIG.generation.numCityMultipliers[CONFIG.boardSize];
         const numCities = Math.round(rangeInteger(CONFIG.generation.numCityBounds) * numCityFactor);
-        const m = 0.33;
+        const m = CONFIG.generation.requiredAreaSize; // relative to full dimensions
         const requiredAreas = [
             new RequiredArea(0, 0, m, m),
             new RequiredArea(1.0 - m, 0, 1.0, m),
@@ -78,6 +78,7 @@ export default class GeneratorDelaunay
             let pos:Point;
             if(useRequiredArea) { pos = requiredAreas[i].getRandomPointInside(dims); }
             else { pos = this.getValidPoint(cities, dims) }
+            if(this.insideTrajectoryRectangle(pos)) { i--; continue; }
             cities.push(pos);
         }
         
@@ -92,7 +93,6 @@ export default class GeneratorDelaunay
         do {
             pos = new Point(Math.random(), Math.random()).scale(dims);
             badPos = this.getDistToClosest(pos, list) < this.getMinDistance();
-            badPos = badPos || this.insideTrajectoryRectangle(pos);
             numTries++;
         } while(badPos && numTries <= 100);
         return pos;
@@ -100,7 +100,8 @@ export default class GeneratorDelaunay
 
     insideTrajectoryRectangle(pos:Point)
     {
-        return pointIsInsideRectangle(pos, this.boardState.trajectories.rectangle);
+        const val = pointIsInsideRectangle(pos, this.boardState.trajectories.rectangle);
+        return val;
     }
 
     getDistToClosest(pos:Point, list:Point[])
@@ -150,18 +151,26 @@ export default class GeneratorDelaunay
         // but never leave anything with too few connections
         const connBounds = CONFIG.generation.connectionBounds
         const connBoundsClamped = { 
-            min: Math.max(connBounds.min * numCities, numConnections),
-            max: Math.min(connBounds.max * numCities, numConnections)
+            min: connBounds.min * numCities,
+            max: connBounds.max * numCities
         }
         const numIdealConnections = rangeInteger(connBoundsClamped);
 
-        const connsToRemove = numConnections - numIdealConnections;
+        // multiply by 2 to count connections BOTH WAYS
+        const connsToRemove = 2*numConnections - numIdealConnections;
+        console.log(connsToRemove);
+
         const minConnsPerPoint = CONFIG.generation.minConnectionsPerPoint;
         let connsRemoved = 0;
+        let numTries = 0;
+        const maxTries = 1000;
         while(connsRemoved < connsToRemove)
         {
+            numTries++;
+            if(numTries >= maxTries) { break; }
+
             citiesGraph.sort((a,b) => {
-                return b.getConnections().length - a.getConnections().length
+                return b.getConnectionsByPoint().length - a.getConnectionsByPoint().length
             })
 
             let randIdx = getWeightedByIndex(citiesGraph, true);
@@ -170,7 +179,7 @@ export default class GeneratorDelaunay
             if(city.countConnections() <= 0) { break; } // @TODO: should really stop generation entirely because everything needs a connection, right?
 
             const randConnIdx = rangeInteger(0, city.countConnections()-1);
-            const conn = city.getConnectionByIndex(randConnIdx);
+            const conn = city.getConnectionPointByIndex(randConnIdx);
             if(conn.countConnections() <= minConnsPerPoint || city.countConnections() <= minConnsPerPoint) { continue; }
 
             city.removeConnectionByIndex(randConnIdx);
@@ -202,14 +211,14 @@ export default class GeneratorDelaunay
         const vec = p1.vecTo(p2).normalize();
 
         const DOT_PROD_THRESHOLD = 0.875;
-        for(const conn of p1.getConnections())
+        for(const conn of p1.getConnectionsByPoint())
         {
             const vec2 = p1.vecTo(conn).normalize();
             const dot = vec.dot(vec2);
             if(dot >= DOT_PROD_THRESHOLD) { return false; }
         }
 
-        for(const conn of p2.getConnections())
+        for(const conn of p2.getConnectionsByPoint())
         {
             const vec2 = conn.vecTo(p2).normalize();
             const dot = vec.dot(vec2);
@@ -222,6 +231,8 @@ export default class GeneratorDelaunay
     relaxPoints(points:PointGraph[])
     {
         const arr = points.slice();
+        if(!CONFIG.generation.relaxPoints) { return arr; }
+
         const numIterations = CONFIG.generation.numRelaxIterations;
 
         for(let i = 0; i < numIterations; i++)
@@ -238,7 +249,7 @@ export default class GeneratorDelaunay
             // now check influence on (and from) surroundings
             for(const p1 of arr)
             {
-                for(const p2 of p1.getConnections())
+                for(const p2 of p1.getConnectionsByPoint())
                 {
                     const vecTo = p1.vecTo(p2);
                     const dist = vecTo.length();

@@ -40,7 +40,7 @@ export default class Route
         return this.getAsLine().length();
     }
 
-    matches(r:Route)
+    matches(r:Route|Line)
     {
         return (this.start == r.start && this.end == r.end) || (this.start == r.end && this.end == r.start);
     }
@@ -53,6 +53,11 @@ export default class Route
     addType(tp:number)
     {
         this.types.push(tp);
+    }
+    
+    getMainType()
+    {
+        return this.types[0];
     }
 
     getTypes()

@@ -1,14 +1,16 @@
-// @ts-ignore
-import { Geom, Display } from "js/pq_games/phaser/phaser.esm"
 import Board from "./board";
 import CONFIG from "./config";
 import Point from "js/pq_games/tools/geometry/point";
 import thickenPath from "js/pq_games/tools/geometry/paths/thickenPath";
 import smoothPath from "js/pq_games/tools/geometry/paths/smoothPath";
 import { FloodFillerTreeNode } from "js/pq_games/tools/generation/floodFillerTree";
-import fromArray from "js/pq_games/tools/random/fromArray";
 import equidistantColors from "js/pq_games/layout/color/equidistantColors";
 import Color from "js/pq_games/layout/color/color";
+import Rectangle from "js/pq_games/tools/geometry/rectangle";
+import LayoutOperation from "js/pq_games/layout/layoutOperation";
+import { circleToPhaser, pathToPhaser, rectToPhaser } from "js/pq_games/phaser/shapeToPhaser";
+import Circle from "js/pq_games/tools/geometry/circle";
+import Path from "js/pq_games/tools/geometry/paths/path";
 
 export default class Drawer
 {
@@ -55,20 +57,20 @@ export default class Drawer
 
     drawBackground()
     {
-        const rect = new Geom.Rectangle(0, 0, this.canvSize.x, this.canvSize.y);
-        this.graphics.fillStyle(0xFFFFFF);
-        this.graphics.fillRectShape(rect);
+        const rect = new Rectangle().fromTopLeft(new Point(), this.canvSize);
+        const op = new LayoutOperation({ fill: "#FFFFFF" });
+        rectToPhaser(rect, op, this.graphics);
     }
 
     drawGrid(board:Board)
     {
         const points = board.getPoints();
-        this.graphics.fillStyle(0xFF0000, 1.0);
+        const op = new LayoutOperation({ fill: "#FF0000" });
         for(const point of points)
         {
             const pos = this.convertToRealPosition(point);
-            const circ = new Geom.Circle(pos.x, pos.y, 10);
-            this.graphics.fillCircleShape(circ);
+            const circ = new Circle({ center: pos, radius: 10 });
+            circleToPhaser(circ, op, this.graphics);
         }
     }
 
@@ -80,13 +82,12 @@ export default class Drawer
 
     drawSectionNode(n:FloodFillerTreeNode)
     {
-        this.graphics.fillStyle(this.sectionColors.pop().toHEXNumber());
-
+        const op = new LayoutOperation({ fill: this.sectionColors.pop() });
         for(const point of n.floodFiller.get())
         {
             const realPoint = this.convertToRealPosition(point);
-            const rect = new Geom.Rectangle(realPoint.x, realPoint.y, this.cellSize, this.cellSize);
-            this.graphics.fillRectShape(rect);
+            const rect = new Rectangle().fromTopLeft(realPoint, new Point(this.cellSize));
+            rectToPhaser(rect, op, this.graphics);
         }
 
         for(const child of n.children)
@@ -101,6 +102,8 @@ export default class Drawer
         const squareSize = CONFIG.generation.squareSizeInPathPoints;
         const thickness = CONFIG.display.paths.thickness * this.cellSize;
         const squareSizeReal = squareSize * smoothResolution;
+
+        const op = new LayoutOperation({ stroke: "#000000", strokeWidth: 10 });
 
         for(const path of board.paths)
         {
@@ -119,9 +122,8 @@ export default class Drawer
                 }
             }
 
-            const poly = new Geom.Polygon(points);
-            this.graphics.lineStyle(10, 0x000000);
-            this.graphics.strokePoints(poly.points);
+            const pathObject = new Path({ points: points });
+            pathToPhaser(pathObject, op, this.graphics);
         }
     }
 
@@ -131,8 +133,8 @@ export default class Drawer
         const right = path.slice(path.length - (num+1)*offset - 1, path.length - (num * offset));
         const points = [left, right].flat();
 
-        const poly = new Geom.Polygon(points);
-        this.graphics.fillStyle(this.debugSquareColors[num].toHEXNumber());
-        this.graphics.fillPoints(poly.points);
+        const pathObject = new Path({ points: points });
+        const op = new LayoutOperation({ fill: this.debugSquareColors[num] });
+        pathToPhaser(pathObject, op, this.graphics);
     }
 }

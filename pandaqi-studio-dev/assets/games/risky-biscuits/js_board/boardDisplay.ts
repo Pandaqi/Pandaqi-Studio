@@ -1,15 +1,18 @@
 import BoardState from "./boardState";
-// @ts-ignore
-import { Geom, Display } from "js/pq_games/phaser/phaser.esm"
 import CONFIG from "./config";
-import PointGraph from "js/pq_games/tools/geometry/pointGraph";
 import Point from "js/pq_games/tools/geometry/point";
-import shuffle from "js/pq_games/tools/random/shuffle";
 import equidistantColors from "js/pq_games/layout/color/equidistantColors";
 import Region from "./region";
-import Line from "js/pq_games/tools/geometry/line";
 import Area from "./area";
 import Path from "js/pq_games/tools/geometry/paths/path";
+import Rectangle from "js/pq_games/tools/geometry/rectangle";
+import { circleToPhaser, pathToPhaser, rectToPhaser } from "js/pq_games/phaser/shapeToPhaser";
+import LayoutOperation from "js/pq_games/layout/layoutOperation";
+import Circle from "js/pq_games/tools/geometry/circle";
+import Color from "js/pq_games/layout/color/color";
+import ResourceText from "js/pq_games/layout/resources/resourceText";
+import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
+import textToPhaser from "js/pq_games/phaser/textToPhaser";
 
 
 export default class BoardDisplay
@@ -50,10 +53,9 @@ export default class BoardDisplay
         
         this.graphics = this.game.add.graphics();
 
-        const rect = new Geom.Rectangle(0, 0, canvSize.x, canvSize.y);
-        this.graphics.fillStyle(0x000000);
-        this.graphics.fillRectShape(rect);
-
+        const rect = new Rectangle().fromTopLeft(new Point(), canvSize);
+        const op = new LayoutOperation({ fill: "#000000" });
+        rectToPhaser(rect, op, this.graphics);
 
         //this.drawGrid(board);
         this.prepareContinents(board);
@@ -102,12 +104,14 @@ export default class BoardDisplay
     drawGrid(board:BoardState)
     {
         const points = board.getPoints();
+        const op = new LayoutOperation({ fill: "#FF0000 "});
+
         this.graphics.fillStyle(0xFF0000, 1.0);
         for(const point of points)
         {
             const pos = this.convertToRealPosition(point);
-            const circ = new Geom.Circle(pos.x, pos.y, 10);
-            this.graphics.fillCircleShape(circ);
+            const circ = new Circle({ center: pos, radius: 10});
+            circleToPhaser(circ, op, this.graphics);
         }
     }
 
@@ -117,28 +121,27 @@ export default class BoardDisplay
         return 0x00FF00;
     }
 
-    drawRegions(list:Region[], col:number)
+    drawRegions(list:Region[], col:string)
     {
-        this.graphics.lineStyle(1, 0x000000, 1.0);
         for(const region of list)
         {
             this.drawRegion(region, col);   
         }
     }
 
-    drawRegion(region:Region, col:number = 0xFF0000)
+    drawRegion(region:Region, col:string = "#FF00000")
     {
         const alpha = region.getType() == "land" ? 1.0 : 0.4;
-        const poly = new Geom.Polygon(this.convertToRealPositions(region.getPointsDisplay()));
-        this.graphics.fillStyle(col, alpha);
-        this.graphics.fillPoints(poly.points);
 
-        this.graphics.strokePoints(poly.points);
+        const poly = new Path({ points: this.convertToRealPositions(region.getPointsDisplay()) });
+        const op = new LayoutOperation({ fill: col, stroke: "#000000", strokeWidth: 1 });
+        pathToPhaser(poly, op, this.graphics);
     }
 
     getAreaColor(area:Area)
     {
-        if(!area.hasContinent()) { return 0x0000FF; }
+        if(!area.hasContinent()) { return "#0000FF"; }
+
         const numAreasInContinent = area.continent.count();
         const index = area.continent.indexOf(area);
 
@@ -147,7 +150,7 @@ export default class BoardDisplay
         const changeFactor = (index / numAreasInContinent) * maxColorChange;
         const color = rawColor.clone().lighten(-changeFactor);
 
-        return color.toHEXNumber();
+        return color;
     }
 
     drawAreas(board:BoardState)
@@ -171,13 +174,13 @@ export default class BoardDisplay
         }
     }
 
-    drawOutline(paths:Path[])
+    drawOutline(paths:Path[], op:LayoutOperation)
     {
         for(const path of paths)
         {
             const pathReal = this.convertToRealPositions(path.toPath());
-            const l = new Geom.Polygon(pathReal);
-            this.graphics.strokePoints(l.points);
+            const pathObj = new Path({ points: pathReal });
+            pathToPhaser(pathObj, op, this.graphics);
         }
     }
 
@@ -190,8 +193,15 @@ export default class BoardDisplay
     drawAreaOutline(area:Area)
     {
         const alpha = area.getType() == "sea" ? 0.2 : 1.0;
-        this.graphics.lineStyle(8, 0x000000, alpha);
-        this.drawOutline(area.getOutlines());
+        const col = new Color("#000000");
+        col.a = alpha;
+
+        const op = new LayoutOperation({
+            strokeWidth: 8,
+            stroke: col
+        })
+
+        this.drawOutline(area.getOutlines(), op);
     }
 
     drawAreaAndOutline(area:Area)
@@ -205,18 +215,20 @@ export default class BoardDisplay
         this.drawRegion(r);
         for(const nb of r.getNeighbors())
         {
-            this.drawRegion(nb, 0x00FF00)
+            this.drawRegion(nb, "#00FF00")
         }
     }
 
     drawCentroid(p:Point)
     {
         const c = this.convertToRealPosition(p);
-        const circ = new Geom.Circle(c.x, c.y, 15);
-        this.graphics.fillStyle(0xFF0000);
-        this.graphics.fillCircleShape(circ);
-        this.graphics.lineStyle(3, 0x000000);
-        this.graphics.strokeCircleShape(circ);
+        const op = new LayoutOperation({
+            fill: "#FF0000",
+            stroke: "#000000",
+            strokeWidth: 3  
+        })
+        const circ = new Circle({ center: c, radius: 15 });
+        circleToPhaser(circ, op, this.graphics);
     }
 
     drawContinents(board:BoardState)
@@ -244,22 +256,29 @@ export default class BoardDisplay
         const margin = 10;
 
         const pos = new Point(radius+margin);
-        const textCfg = {
-            fontFamily: "Arial",
-            fontSize: radius + "px",
-            color: "#FFFFFF"
-        }
+        const textConfig = new TextConfig({
+            font: "Arial",
+            size: radius,
+            alignVertical: TextAlign.MIDDLE
+        })
 
         for(const continent of b.continents.get())
         {
-            const circle = new Geom.Circle(pos.x, pos.y, radius);
-            const color = this.colorsContinents[continent.id].toHEXNumber();
-            this.graphics.fillStyle(color);
-            this.graphics.fillCircleShape(circle);
+            const color = this.colorsContinents[continent.id];
+            const op = new LayoutOperation({ fill: color, })
+            const circ = new Circle({ center: pos, radius: radius });
+            circleToPhaser(circ, op, this.graphics);
 
-            const score = continent.calculateScore();
-            const text = this.game.add.text(pos.x + 2*radius, pos.y, score.toString(), textCfg);
-            text.setOrigin(0, 0.5);
+            const scoreText = continent.calculateScore().toString();
+            const textPos = new Point(pos.x + 2*radius, pos.y);
+
+            const res = new ResourceText({ text: scoreText, textConfig: textConfig });
+            const textOp = new LayoutOperation({
+                fill: Color.WHITE,
+                translate: textPos
+            })
+            textToPhaser(res, textOp, this.game);
+
             pos.y += 2 * (radius + margin);
         }
     }

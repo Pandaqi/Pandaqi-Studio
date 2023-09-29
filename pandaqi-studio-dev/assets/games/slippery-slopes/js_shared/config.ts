@@ -5,6 +5,7 @@ import Bounds from "js/pq_games/tools/numbers/bounds";
 
 const CONFIG = {
     debugWithoutPDF: false, // @DEBUGGING (should be false)
+    debugAllPossibleProperties: false, // @DEBUGGING (should be false)
 
     fileName: "[Slippery Slopes] Material",
     configKeyBaseGame: "slipperySlopesConfig",
@@ -12,7 +13,7 @@ const CONFIG = {
     progressBar: null,
     pdfBuilder: null,
 
-    assetsURL: "/slippery-slopes/assets/",
+    assetsURL: "/slippery-slopes/assets/", // same for both versions, hence only one URL
     resLoader: null,
     gridMapper: null,
     pandaqiWords: null,
@@ -131,7 +132,7 @@ const CONFIG = {
 
     wordCards:
     {
-        num: 36,
+        num: 48, // 12 per page on regular settings
         numPerCard: 4,
         dims: { 
             small: new Point(4,5),
@@ -145,7 +146,7 @@ const CONFIG = {
 
     sliderCards:
     {
-        num: 36,
+        num: 48, // 12 per page on regular settings
         numColorSteps: 6,
         meter: 
         {
@@ -158,9 +159,9 @@ const CONFIG = {
         actionBGColor: "rgba(255,255,255,1.0)",
         numActionBounds: new Bounds(1,3),
         dims: { 
-            small: new Point(4,4),
-            regular: new Point(3,3),
-            huge: new Point(2,2)
+            small: new Point(5,4),
+            regular: new Point(4,3),
+            huge: new Point(3,2)
         },
         dimsElement: new Point(1,2),
         size: new Point(),

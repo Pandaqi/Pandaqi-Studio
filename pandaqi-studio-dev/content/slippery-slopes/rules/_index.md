@@ -9,9 +9,11 @@ pdf: false
 
 Create a deck of **slider cards**. Draw 4 sliders at random and place them in front of the start player.
 
-Shuffle the deck of **word cards**. (Or open the [website](/slippery-slope) on a phone and use that to receive random words!)
+Shuffle the deck of **word cards**.
 
 That's it!
+
+(You can also play this game completely digitally, on a single smartphone, by going to the [digital spin-off](/slippery-slopes-trippy-touches)!)
 
 {{% /rules-block %}}
 
