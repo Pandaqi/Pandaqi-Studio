@@ -25,7 +25,8 @@ export default class Routes
     generate(points:PointGraph[])
     {
         const routes = this.createRoutesFromPoints(points);
-        const routesMulti = this.assignMultiRoute(routes);
+        const routesCurved = this.addCurveToRoutes(routes);
+        const routesMulti = this.assignMultiRoute(routesCurved);
         const routesColored = this.assignTypesToRoutes(routesMulti);
         const routesWithBonus = this.assignBonusToRoutes(routesColored);
         this.routes = routesWithBonus;
@@ -93,7 +94,6 @@ export default class Routes
 
         const maxBlocks = CONFIG.generation.maxBlocksPerRoute;
         const doubleRoutes = [];
-        let counter = -1;
         while(doubleRoutes.length < numDoubleRoutes)
         {
             // descending => the longer the route, the less likely it is to be doubled
@@ -120,6 +120,16 @@ export default class Routes
 
         this.numTotalBlocks = sum;
 
+        return routes;
+    }
+
+    addCurveToRoutes(routes:Route[])
+    {
+        for(const route of routes)
+        {
+            route.calculateCurvedPath();
+        }
+        
         return routes;
     }
 

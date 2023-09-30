@@ -100,4 +100,8 @@ a {
     .tagline, .metadata {
         color: $text-color;
     }
+
+    .big-header-image img {
+        border-bottom: 5px solid #500e06;
+    }
 }

@@ -9,7 +9,7 @@ const layoutOperationToObject = (obj, op:LayoutOperation) =>
 
     if(op.hasStroke())
     {
-        obj.setLineStyle(op.strokeWidth, op.stroke.toHEXNumber(), op.stroke.a);
+        obj.setStrokeStyle(op.strokeWidth, op.stroke.toHEXNumber(), op.stroke.a);
     }
 
     obj.x += op.translate.x;

@@ -27,13 +27,14 @@ const CONFIG = {
         method: GenerationMethod.DELAUNAY,
         numBlocksFullWidth: 12, // for knowing the scale at which to display everything
         numBlocksFullWidthMultipliers: { tiny: 0.5, small: 0.75, regular: 1.0, big: 1.5, huge: 2.0 },
+        blockHeightRelativeToWidth: 0.25,
 
         pageRatio: 1.41,
         minConnectionsPerPoint: 3,
 
         requiredAreaSize: 0.2, // the first few points are placed in the corners (required), how much freedom do they have?
 
-        numBlockTypes: 5,
+        numBlockTypes: 6,
 
         connectionBounds: { min: 3.0, max: 3.25 }, // this is per point = city
 
@@ -58,7 +59,7 @@ const CONFIG = {
         numCityBounds: { min: 16, max: 20 },
         numCityMultipliers: { tiny: 0.33, small: 0.66, regular: 1.0, big: 1.5, huge: 2.0 },
 
-        cityRadius: 0.15,
+        cityRadius: 0.25,
 
         trackSizeBounds: { min: 0.1, max: 0.15 },
         startWithGrid: true,
@@ -89,6 +90,8 @@ const CONFIG = {
             include: true
         },
         visitorSpotRadius: 0.1, // relative to blockSize
+        maxAvoidanceAngleBetweenRoutes: 1*Math.PI, // if angle is greater, those routes (from the same point) won't clash anyway, so ignore
+        maxAngleCurveAnyway: 0.35*Math.PI
     }
 }
 

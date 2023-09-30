@@ -7,10 +7,10 @@ title: "Slippery Slopes"
 headerTitle: "Slippery Slopes | A party game about communicating words by grading them on funky scales."
 blurb: "A party game about conveying words by grading them on funky scales. How do you communicate PIZZA when you only have hot-cold, heavy-light and dry-wet?"
 
-fullHeaderImg: "creature_quellector_header"
-headerImg: "creature_quellector_header"
+fullHeaderImg: "slippery_slopes_header"
+headerImg: "slippery_slopes_header"
 
-headerThumb: "favicon"
+headerThumb: "favicon_slippery_slopes"
 
 customHeight: "large"
 headerDarkened: true
@@ -25,7 +25,7 @@ textColorLink: "#edccff"
 
 googleFonts: ""
 
-date: 2023-01-01 # 2024-04-25
+date: 2024-04-25
 
 categories: ["boardgame"]
 tags: ["traditional", "party", "quick", "creativity", "group", "language"]
@@ -44,7 +44,7 @@ ages: everyone
 
 ---
 
-{{% boardgame-intro heading="" img="creature_quellector_header" class="no-shadow" %}}
+{{% boardgame-intro heading="" class="no-shadow" %}}
 
 A party game about communicating words by grading them on funky scales.
 

@@ -1,3 +1,4 @@
+import Line from "../line";
 import Point from "../point";
 
 const distToLineSegmentSquared = (p:Point, v:Point, w: Point) => {
@@ -16,6 +17,7 @@ const distToLineSegmentSquared = (p:Point, v:Point, w: Point) => {
 }
 
 const distToLineSegment = (p:Point, v:Point, w:Point) => { return Math.sqrt(distToLineSegmentSquared(p, v, w)); }
+const distToLine = (p:Point, l:Line) => { return distToLineSegment(p, l.start, l.end); }
 const distToLineSegments = (p:Point, arr:Point[], closeLines = true) =>
 {
     let smallestDist = Infinity;
@@ -30,4 +32,4 @@ const distToLineSegments = (p:Point, arr:Point[], closeLines = true) =>
     return smallestDist;
 }
 
-export { distToLineSegment, distToLineSegmentSquared, distToLineSegments }
+export { distToLineSegment, distToLineSegmentSquared, distToLineSegments, distToLine }

@@ -55,7 +55,7 @@ You must communicate your secret word ... using only the sliders.
 
 > **Use another card (sideways, facedown) on each slider to indicate where you think your word ranks.**
 
-Others can guess as much as they like, and you can change your markings as you go. You obviously can't communicate in _any_ other way during your turn.
+You obviously can't communicate in _any_ other way during your turn. Others can guess as much as they like and even ask questions, but all you can do is change your markings on the sliders.
 
 If somebody guesses the correct word, you score **5 points**. If time runs out, your turn is over with **0 points**.
 

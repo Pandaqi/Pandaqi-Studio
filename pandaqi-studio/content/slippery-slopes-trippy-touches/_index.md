@@ -7,10 +7,10 @@ title: "Slippery Slopes: Trippy Touches"
 headerTitle: "Slippery Slopes: Trippy Touches | A spin-off of Slippery Slopes, completely playable on one mobile phone."
 blurb: "A spin-off of the popular party game Slippery Slopes, completely playable on one mobile phone."
 
-fullHeaderImg: "creature_quellector_header"
-headerImg: "creature_quellector_header"
+fullHeaderImg: "slippery_slopes_trippy_touches_header"
+headerImg: "slippery_slopes_trippy_touches_header"
 
-headerThumb: "favicon"
+headerThumb: "favicon_trippy_touches"
 
 customHeight: "large"
 headerDarkened: true
@@ -25,17 +25,17 @@ textColorLink: "#edccff"
 
 googleFonts: ""
 
-date: 2023-01-01 # 2024-04-25
+date: 2024-04-25
 
 categories: ["boardgame"]
-tags: ["traditional", "party", "quick", "creativity", "group", "language"]
+tags: ["hybrid", "party", "quick", "creativity", "group", "language"]
 
 extraCSS: true
 customJS: ["external"]
 
 multiplayermode: "cooperative"
 language: EN
-genre: ["card", "party", "language", "communication"]
+genre: ["party", "language", "communication"]
 playtime: 20
 playercount: [2,3,4,5,6,7,8,9,10]
 complexity: low
@@ -43,7 +43,11 @@ ages: everyone
 
 ---
 
-@TODO: HEADER? (The example overlays it, just like Photomone Digital Antists?)
+<div class="boardgame-intro">
+  <div class="big-header-image">
+    <img src="webp/slippery_slopes_trippy_touches_header.webp">
+  </div>
+</div>
 
 {{% section-centered heading="" %}}
 
@@ -81,7 +85,6 @@ While finishing that project, I realized there was nothing standing in the way o
 
 Well, you know me, if I think "it shouldn't be _too_ hard to ..." then I've basically decided to try and make it this very weekend.
 
-
-@TODO: mostly just refer to the original game
+For more information, I refer you to the original game (and its credits/devlog at the bottom)!
 
 {{% /section-centered %}}

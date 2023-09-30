@@ -1,6 +1,4 @@
 import BoardState from "./boardState";
-// @ts-ignore
-import { Geom } from "js/pq_games/phaser/phaser.esm"
 import CONFIG from "./config";
 import PointGraph from "js/pq_games/tools/geometry/pointGraph";
 import Point from "js/pq_games/tools/geometry/point";
@@ -9,9 +7,10 @@ import shuffle from "js/pq_games/tools/random/shuffle";
 import Color from "js/pq_games/layout/color/color";
 import Circle from "js/pq_games/tools/geometry/circle";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import { circleToPhaser } from "js/pq_games/phaser/shapeToPhaser";
+import { circleToPhaser, pathToPhaser } from "js/pq_games/phaser/shapeToPhaser";
 import Rectangle from "js/pq_games/tools/geometry/rectangle";
-import { rectToPhaserObject } from "js/pq_games/phaser/shapeToPhaserObject";
+import { pathToPhaserObject, rectToPhaserObject } from "js/pq_games/phaser/shapeToPhaserObject";
+import Path from "js/pq_games/tools/geometry/paths/path";
 
 
 export default class BoardDisplay
@@ -51,7 +50,7 @@ export default class BoardDisplay
         this.boardSize = new Point(canvSize.x - 2*this.outerMargin.x, canvSize.y - 2*this.outerMargin.y);
 
         const blockX = this.boardSize.x / CONFIG.generation.numBlocksFullWidth;
-        const blockY = 0.25*blockX;
+        const blockY = CONFIG.generation.blockHeightRelativeToWidth*blockX;
         this.blockSize = new Point(blockX, blockY);
 
         if(this.graphics) { this.graphics.clear(); }
@@ -131,35 +130,20 @@ export default class BoardDisplay
 
         return anglesFree;
     }
-
+    
     drawRoute(r:Route)
     {
-        const l = r.getAsLine();
-        const rawLength = l.length() - 2*CONFIG.generation.cityRadius;
-        const numBlocks = Math.round(rawLength);
-        const vec = l.vector().normalize();
-        const curPos = this.convertToRealPoint(l.start);
         const bl = this.blockSize.x;
         const blockLengthDisplayed = bl*0.9;
-        const cityRadiusDisplayed = CONFIG.generation.cityRadius*bl;
 
-        const emptySpace = (rawLength - numBlocks) * bl;
-
-        // why +1? Add space at start and end
-        // For example, 2 blocks will have 3 spaces to fill, |-|-|
-        const emptySpacePerBlock = emptySpace / (numBlocks + 1); 
-        const offsetPerBlock = emptySpacePerBlock + bl;
-
-        curPos.add(vec.clone().scaleFactor(emptySpacePerBlock + cityRadiusDisplayed + 0.5*bl));
-
-        const routeTooLong = emptySpacePerBlock < 0; // @TODO: do something with this, probably add CURVE
-
+        // sample equidistant points along curve (that's precisely long enough to fit)
+        const blockData = r.blockData;
         const blockTypeList = r.getTypes();
         const blockSize = new Point(blockLengthDisplayed, this.blockSize.y);
 
+        // calculate offset vectors for doubled routes
         const partOfSet = r.set;
         const marginBetweenSameSet = 0.1*blockSize.y;
-        const vecForSet = vec.clone().rotate(0.5*Math.PI).scale(blockSize.y + marginBetweenSameSet);
         let offsetForSet = 0;
         if(partOfSet)
         {
@@ -168,24 +152,48 @@ export default class BoardDisplay
             const baseOffset = -0.5*(num - 1);
             offsetForSet = baseOffset + idx;
         }
-        vecForSet.scale(offsetForSet);
-        
-        for(let i = 0; i < numBlocks; i++)
+
+        // draw the blocks at the combined positions (curvePos + offsetForSet)
+        // first and last position aren't used for blocks but for getting the right vector/rotation 
+        for(let i = 0; i < blockData.length; i++)
         {
             const color = this.getColorForType(blockTypeList[i]);
+            const pos = this.convertToRealPoint(blockData[i].pos);
+            const rot = blockData[i].rot;
 
             const op = new LayoutOperation({
                 fill: color,
+                stroke: "#000000",
+                strokeWidth: 4,
                 pivot: new Point(0.5),
-                rotation: vec.angle()
+                rotation: rot
             })
 
-            const finalPos = curPos.clone().add(vecForSet);
+            const vecForSet = new Point().fromAngle(rot);
+            vecForSet.rotate(0.5*Math.PI).scale(blockSize.y + marginBetweenSameSet);
+            vecForSet.scale(offsetForSet);
+
+            const tempPos = pos.clone();
+            const finalPos = tempPos.add(vecForSet);
             const rect = new Rectangle().fromTopLeft(finalPos, blockSize);
             const rectObj = rectToPhaserObject(rect, op, this.game);
-
-            curPos.add(vec.clone().scale(offsetPerBlock));
         }
+
+
+        // @DEBUGGING
+        const op = new LayoutOperation({
+            stroke: "#FF0000",
+            strokeWidth: 6,
+        })
+        const path = [];
+        for(const point of r.pathSimple)
+        {
+            path.push(this.convertToRealPoint(point));
+        }
+
+        const graphics = this.game.add.graphics();
+        const pathObject = new Path({ points: path });
+        pathToPhaser(pathObject, op, graphics);
     }
 
     getColorForType(tp:number) : Color

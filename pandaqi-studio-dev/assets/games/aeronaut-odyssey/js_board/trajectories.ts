@@ -26,7 +26,6 @@ export default class Trajectories
         const numTrajectories = rangeInteger(CONFIG.generation.numTrajectoryBounds);
         const trajectorySize = CONFIG.generation.trajectorySize; // relative to block size
         const size = trajectorySize.clone().scale(new Point(1, numTrajectories));
-        console.log(size);
         const rect = new Rectangle().fromBottomRight(this.boardState.dims, size);
         this.num = numTrajectories;
         this.rectangle = rect;   

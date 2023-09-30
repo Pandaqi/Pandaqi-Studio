@@ -3,12 +3,15 @@ import Route from "./route";
 export default class RouteSet
 {
     routes:Route[]
+    randomCurve:number;
 
     constructor()
     {
         this.routes = [];
+        this.randomCurve = null;
     }
 
+    has(r:Route) { return this.routes.includes(r); }
     count() { return this.routes.length; }
     add(r:Route)
     {

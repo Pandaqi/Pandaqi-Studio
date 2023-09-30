@@ -13,9 +13,7 @@ class BoardGeneration extends Scene
 {
 
     board: BoardState
-    evaluator: Evaluator
     canvas: HTMLCanvasElement
-    boardDisplay: BoardDisplay
 
 	constructor()
 	{
@@ -43,23 +41,22 @@ class BoardGeneration extends Scene
     setup(userConfig:Record<string,any>)
     {
         Object.assign(CONFIG, userConfig);
-        this.evaluator = new Evaluator();
-        this.boardDisplay = new BoardDisplay(this);
-        CONFIG.boardDisplay = this.boardDisplay;
         CONFIG.convertParameters.splitDims = CONFIG.printSize;
     }
 
     async generate()
     {
+        const evaluator = new Evaluator();
         do {
             this.board = new BoardState();
             await this.board.generate();
-        } while(!this.evaluator.isValid(this.board));
+        } while(!evaluator.isValid(this.board));
     }
 
     draw()
     {
-        this.boardDisplay.draw(this.board);
+        const boardDisplay = new BoardDisplay(this);
+        boardDisplay.draw(this.board);
     }    
 }
 

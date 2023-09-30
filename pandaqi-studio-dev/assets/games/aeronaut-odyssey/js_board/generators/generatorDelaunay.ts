@@ -158,7 +158,6 @@ export default class GeneratorDelaunay
 
         // multiply by 2 to count connections BOTH WAYS
         const connsToRemove = 2*numConnections - numIdealConnections;
-        console.log(connsToRemove);
 
         const minConnsPerPoint = CONFIG.generation.minConnectionsPerPoint;
         let connsRemoved = 0;

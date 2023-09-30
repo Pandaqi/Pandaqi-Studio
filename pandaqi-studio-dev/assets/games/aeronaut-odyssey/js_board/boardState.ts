@@ -6,6 +6,7 @@ import GeneratorRope from "./generators/generatorRope";
 import Trajectories from "./trajectories";
 import Route from "./route";
 import Routes from "./routes";
+import Evaluator from "./evaluator";
 
 type Generator = GeneratorDelaunay|GeneratorRope;
 
@@ -13,6 +14,7 @@ export default class BoardState
 {
     points: PointGraph[]
     routes: Route[]
+    failed: boolean
 
     dims: Point
     generator: Generator;
@@ -28,6 +30,7 @@ export default class BoardState
         
         this.dims = new Point(blocksX, blocksY);
         this.trajectories = new Trajectories(this);
+        this.failed = false;
     }
 
     async generate()
@@ -36,6 +39,7 @@ export default class BoardState
         // rectangle will take up _before_ placing the cities and routes
         this.trajectories.generatePre();
 
+        const evaluator = new Evaluator();
         const m = CONFIG.generation.method;
         if(m == GenerationMethod.DELAUNAY) {
             this.generator = new GeneratorDelaunay(this);
@@ -45,12 +49,14 @@ export default class BoardState
         
         this.points = await this.generator.generate();
         this.routes = new Routes(this).generate(this.points);
+        if(!evaluator.areRoutesValid(this)) { return this.fail(); }
 
         this.generator.generatePost(this.points);
         this.trajectories.generatePost();
+        if(!evaluator.areTrajectoriesValid(this)) { return this.fail(); }
     }
 
-
+    fail() { this.failed = true; return false; }
     getPoints() { return this.points; }
     getRoutes() { return this.routes; }
 }
