@@ -71,12 +71,40 @@ export default class Rectangle extends Shape
         return elem;
     }
 
+    // @TODO: should really just think about how I generally want to handle pivoting/rotation for all shapes, in a much smarter and more general way
+    rotateFromPivot(pivot: Point, rotation:number)
+    {
+        const rot = rotation % 4;
+        const newExtents = this.extents.clone();
+        const rotRadians = rot * 0.5 * Math.PI;
+        if(rot == 1 || rot == 3) 
+        { 
+            newExtents.rotate(rotRadians); 
+            newExtents.abs();
+        }
+
+        // move coordinate system to (0,0)
+        const pivotNorm = pivot.sub(new Point(0.5));
+        const pivotPos = this.center.clone().add(pivotNorm.clone().scale(this.extents));
+        const offsetVec = this.center.clone().sub(pivotPos);
+
+        // rotate
+        offsetVec.rotate(rotRadians);
+
+        // move back to original position
+        const newCenter = offsetVec.add(pivotPos);
+
+        this.extents = newExtents;
+        this.center = newCenter;
+    }
+
     fromTopLeft(pos:Point, size:Point)
     {
         this.center = pos.clone().add(size.clone().scaleFactor(0.5));
         this.extents = size.clone();
         return this;
     }
+
 
     fromBottomRight(pos:Point, size:Point)
     {
@@ -114,5 +142,11 @@ export default class Rectangle extends Shape
     getBottomLeft()
     {
         return this.getPositionWithOffset(new Point(-1,1));
+    }
+
+    grow(ds:number|Point)
+    {
+        this.extents.add(new Point(ds));
+        return this;
     }
 }

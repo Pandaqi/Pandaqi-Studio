@@ -52,7 +52,7 @@ export default (params:SubDivideParams) =>
     // so do that now
     if(!pathChopped[pathChopped.length - 1].matches(last))
     {
-        pathChopped.push(last);
+        pathChopped.push(last.clone());
     }
 
     return pathChopped;

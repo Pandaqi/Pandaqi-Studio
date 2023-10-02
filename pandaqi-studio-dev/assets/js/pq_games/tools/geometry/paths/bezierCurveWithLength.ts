@@ -11,26 +11,29 @@ export default (params) =>
     const targetLength = params.targetLength ?? 0.0;
     const stepSize = params.stepSize ?? 1.0;
 
-    const alreadyFine = line.length() >= targetLength;
-    if(alreadyFine) 
-    { 
-        const pathStraight = [line.start, line.end];
-        return subdividePath({ path: pathStraight, numChunks: params.resolution }); 
-    }
+    let offset = 0;
+    let rightLength = false;
+
+    const midPoint : Point = line.start.halfwayTo(line.end);
+    const orthoVec : Point = line.start.vecTo(line.end)
+    orthoVec.normalize().rotate(controlPointRotation);
 
     const paramsCurve = {
         resolution: params.resolution,
         from: line.start,
         to: line.end,
-        controlPoint1: null
+        controlPoint1: midPoint
     }
 
-    let offset = 0;
-    let rightLength = false;
+    const alreadyFine = line.length() >= targetLength;
+    if(alreadyFine) 
+    { 
+        //also fine, just worse performance usually
+        //return bezierCurve(paramsCurve);
 
-    const midPoint : Point = paramsCurve.from.halfwayTo(paramsCurve.to);
-    const orthoVec : Point = paramsCurve.from.vecTo(paramsCurve.to)
-    orthoVec.normalize().rotate(controlPointRotation);
+        const pathStraight = [line.start, line.end];
+        return subdividePath({ path: pathStraight, numChunks: params.resolution }); 
+    }
 
     // every iteration, we move the control point even further away
     // then we approximate path length to see if it matches our target

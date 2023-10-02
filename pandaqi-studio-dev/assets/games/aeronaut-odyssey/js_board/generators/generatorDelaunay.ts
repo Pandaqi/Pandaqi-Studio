@@ -7,10 +7,7 @@ import range from "js/pq_games/tools/random/range";
 import * as d3 from "js/pq_games/tools/graphs/d3-delaunay@6"
 import PointGraph from "js/pq_games/tools/geometry/pointGraph";
 import shuffle from "js/pq_games/tools/random/shuffle";
-import Route from "../route";
-import fromArray from "js/pq_games/tools/random/fromArray";
 import getWeightedByIndex from "js/pq_games/tools/random/getWeightedByIndex";
-import { pointIsInsideRectangle } from "js/pq_games/tools/geometry/intersection/pointInsideShape";
 import clamp from "js/pq_games/tools/numbers/clamp";
 
 class RequiredArea
@@ -28,11 +25,11 @@ class RequiredArea
         this.yMax = yMax;
     }
 
-    getRandomPointInside(realDims:Point) : Point
+    getRandomPointInside(marginBoard:Point, realDims:Point) : Point
     {
         return new Point(
-            range(this.xMin, this.xMax) * realDims.x,
-            range(this.yMin, this.yMax) * realDims.y
+            marginBoard.x + range(this.xMin, this.xMax) * realDims.x,
+            marginBoard.y + range(this.yMin, this.yMax) * realDims.y
         )
     }
 }
@@ -41,6 +38,8 @@ export default class GeneratorDelaunay
 {
     boardState: BoardState;
     points: PointGraph[];
+    dimsUsable: Point;
+    marginBoard: Point;
 
     constructor(bs:BoardState)
     {
@@ -50,16 +49,16 @@ export default class GeneratorDelaunay
     generate()
     {
         const cities = this.placeCities();
-        const citiesGraph = this.triangulate(cities);
-        const pointsRelaxed = this.relaxPoints(citiesGraph);
-        this.points = pointsRelaxed;
-        return pointsRelaxed;
+        const points = this.triangulate(cities);
+        this.points = points;
+        this.relaxPoints(points);
+        return points;
     }
 
     placeCities()
     {
         const numCityFactor = CONFIG.generation.numCityMultipliers[CONFIG.boardSize];
-        const numCities = Math.round(rangeInteger(CONFIG.generation.numCityBounds) * numCityFactor);
+        const numCities = Math.ceil(range(CONFIG.generation.numCityBounds) * numCityFactor);
         const m = CONFIG.generation.requiredAreaSize; // relative to full dimensions
         const requiredAreas = [
             new RequiredArea(0, 0, m, m),
@@ -71,37 +70,39 @@ export default class GeneratorDelaunay
         shuffle(requiredAreas);
 
         const cities = [];
-        const dims = this.boardState.dims; // @TODO; probably want a cleaner location for this reference?
+        const dims = this.boardState.dims;
+        const marginBoard = new Point(CONFIG.display.outerMarginBoard);
+        const dimsUsable = new Point(dims.x-2*marginBoard.x, dims.y-2*marginBoard.y);
+
+        this.marginBoard = marginBoard;
+        this.dimsUsable = dimsUsable;
+        
         for(let i = 0; i < numCities; i++)
         {
             const useRequiredArea = (i < requiredAreas.length);
             let pos:Point;
-            if(useRequiredArea) { pos = requiredAreas[i].getRandomPointInside(dims); }
-            else { pos = this.getValidPoint(cities, dims) }
-            if(this.insideTrajectoryRectangle(pos)) { i--; continue; }
+            if(useRequiredArea) { pos = requiredAreas[i].getRandomPointInside(marginBoard, dimsUsable); }
+            else { pos = this.getValidPoint(cities, marginBoard, dimsUsable) }
+            
+            if(this.boardState.forbiddenAreas.pointIsInside(pos)) { i--; continue; }
+            
             cities.push(pos);
         }
         
         return cities;
     }
 
-    getValidPoint(list:Point[], dims:Point)
+    getValidPoint(list:Point[], marginBoard: Point, dimsUsable:Point)
     {
         let pos:Point;
         let badPos = false;
         let numTries = 0;
         do {
-            pos = new Point(Math.random(), Math.random()).scale(dims);
+            pos = marginBoard.clone().add(new Point(Math.random(), Math.random()).scale(dimsUsable));
             badPos = this.getDistToClosest(pos, list) < this.getMinDistance();
             numTries++;
         } while(badPos && numTries <= 100);
         return pos;
-    }
-
-    insideTrajectoryRectangle(pos:Point)
-    {
-        const val = pointIsInsideRectangle(pos, this.boardState.trajectories.rectangle);
-        return val;
     }
 
     getDistToClosest(pos:Point, list:Point[])
@@ -127,7 +128,6 @@ export default class GeneratorDelaunay
         }
 
         const delaunay = d3.Delaunay.from(delaunayList);
-        console.log(delaunay);
 
         // reconstruct connections from delaunay results
         let numConnections = 0;
@@ -157,9 +157,22 @@ export default class GeneratorDelaunay
         const numIdealConnections = rangeInteger(connBoundsClamped);
 
         // multiply by 2 to count connections BOTH WAYS
-        const connsToRemove = 2*numConnections - numIdealConnections;
+        let connsToRemove = 2*numConnections - numIdealConnections;
+        if(!CONFIG.generation.reduceConnectivityAfterTriangulation) { connsToRemove = 0; }
 
         const minConnsPerPoint = CONFIG.generation.minConnectionsPerPoint;
+        const citiesThatCanLoseConnections = [];
+        for(let i = citiesGraph.length-1; i >= 0; i--)
+        {
+            const city = citiesGraph[i];
+            const numConns = city.getConnectionsByPoint().length;
+            if(numConns == 0) { citiesGraph.splice(i, 1); continue; }
+            if(numConns <= minConnsPerPoint) { continue; }
+            if(this.cityNearCenter(city)) { continue; }
+
+            citiesThatCanLoseConnections.push(city);
+        }
+
         let connsRemoved = 0;
         let numTries = 0;
         const maxTries = 1000;
@@ -167,25 +180,42 @@ export default class GeneratorDelaunay
         {
             numTries++;
             if(numTries >= maxTries) { break; }
+            if(citiesThatCanLoseConnections.length <= 0) { break; }
 
-            citiesGraph.sort((a,b) => {
+            citiesThatCanLoseConnections.sort((a,b) => {
                 return b.getConnectionsByPoint().length - a.getConnectionsByPoint().length
             })
 
-            let randIdx = getWeightedByIndex(citiesGraph, true);
+            let randIdx = getWeightedByIndex(citiesThatCanLoseConnections, true);
 
-            const city = citiesGraph[randIdx];
-            if(city.countConnections() <= 0) { break; } // @TODO: should really stop generation entirely because everything needs a connection, right?
-
+            const city = citiesThatCanLoseConnections[randIdx];
             const randConnIdx = rangeInteger(0, city.countConnections()-1);
             const conn = city.getConnectionPointByIndex(randConnIdx);
-            if(conn.countConnections() <= minConnsPerPoint || city.countConnections() <= minConnsPerPoint) { continue; }
+            if(conn.countConnections() <= minConnsPerPoint) { continue; }
 
             city.removeConnectionByIndex(randConnIdx);
             connsRemoved++;
+
+            // ugly boards usually remove too many points from one city
+            // so just remove use from the list once we get low
+            if(city.countConnections() <= minConnsPerPoint + 2) 
+            {
+                citiesThatCanLoseConnections.splice(citiesThatCanLoseConnections.indexOf(city), 1);
+            }
         }
 
         return citiesGraph;
+    }
+
+    cityNearCenter(city:PointGraph)
+    {
+        const dims = this.boardState.dims;
+        const halfDims = dims.clone().scale(0.5);
+        const maxDist = dims.clone().scale(0.125);
+        const manhattanDist = new Point(city.x - halfDims.x, city.y - halfDims.y).abs();
+        if(manhattanDist.x < maxDist.x) { return true; }
+        if(manhattanDist.y < maxDist.y) { return true; }
+        return false;
     }
 
     getMinDistance()
@@ -229,10 +259,12 @@ export default class GeneratorDelaunay
     
     relaxPoints(points:PointGraph[])
     {
-        const arr = points.slice();
-        if(!CONFIG.generation.relaxPoints) { return arr; }
+        if(!CONFIG.generation.relaxPoints) { return points; }
 
         const numIterations = CONFIG.generation.numRelaxIterations;
+
+        const minBounds = this.marginBoard;
+        const maxBounds = minBounds.clone().add(this.dimsUsable);
 
         for(let i = 0; i < numIterations; i++)
         {
@@ -240,13 +272,13 @@ export default class GeneratorDelaunay
             const iterationDampingFactor = CONFIG.generation.influenceDamping * iterationDampingAuto;
 
             // intialize all points to not move
-            for(const p1 of arr)
+            for(const p1 of points)
             {
                 p1.metadata.offset = new Point();
             }
 
             // now check influence on (and from) surroundings
-            for(const p1 of arr)
+            for(const p1 of points)
             {
                 for(const p2 of p1.getConnectionsByPoint())
                 {
@@ -266,19 +298,17 @@ export default class GeneratorDelaunay
             }
 
             // now apply all those offsets at the same time
-            for(const p1 of arr)
+            for(const p1 of points)
             {
                 const off = p1.metadata.offset;
                 const posNew = p1.clone();
                 posNew.move(off);
-                posNew.clamp(new Point(), this.boardState.dims);
+                posNew.clamp(minBounds, maxBounds);
 
-                if(this.insideTrajectoryRectangle(posNew)) { continue; }
+                if(this.boardState.forbiddenAreas.pointIsInside(posNew)) { continue; }
                 p1.set(posNew);
             }
         }
-
-        return arr;
     }
 
     generatePost(points)

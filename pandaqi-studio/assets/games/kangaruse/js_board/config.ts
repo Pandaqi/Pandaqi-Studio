@@ -15,7 +15,7 @@ export default {
     negativeScoreBounds: { min: 0.05, max: 0.2 }, // relative to total number of score cells
     allowNegativePoints: true,
 
-    cellTexture: "cell_types",
+    cellTexture: "cell_types", // changed to inkfriendly version if needed
 
     sideBar: {
         backgroundColor: 0xFFCCAA,
@@ -55,7 +55,7 @@ export default {
 
             space: {
                 corner: "bottom center",
-                scale: 0.33
+                scale: 0.385
             },
 
             text: {
@@ -95,7 +95,7 @@ export default {
 
         holes: {
             enable: true,
-            percentageOfBoard: 0.125,
+            percentageOfBoard: 0.0866,
             sizeBounds: { min: 1, max: 4 }
         },
         rivers: {
@@ -137,7 +137,7 @@ export default {
         sheetData: { frameWidth: 256, frameHeight: 256 },
         iconScale: 0.8,
         numUniqueTypes: { min: 5, max: 7 },
-        scoreBounds: { min: 30, max: 50 },
+        scoreBounds: { min: 30, max: 50 }, // when the regular "score cell" is added, how high should the summed score numbers be from all those cells?
         textScaleFactor: 0.35,
         textConfig: { 
             fontFamily: 'Mail Ray Stuff',
@@ -152,6 +152,7 @@ export default {
         minDistBetweenStartingPositions: 3,
         minScoreCellsPerQuadrant: 2,
         maxScoreDifferencePerQuadrant: 5,
-        maxHoleClumpSize: 5
+        maxHoleClumpSize: 5,
+        maxRiverCells: 0.166 // percentage of total # cells
     }
 }

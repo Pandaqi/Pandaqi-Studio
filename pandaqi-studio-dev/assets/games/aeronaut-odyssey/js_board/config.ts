@@ -26,17 +26,23 @@ const CONFIG = {
     {
         method: GenerationMethod.DELAUNAY,
         numBlocksFullWidth: 12, // for knowing the scale at which to display everything
-        numBlocksFullWidthMultipliers: { tiny: 0.5, small: 0.75, regular: 1.0, big: 1.5, huge: 2.0 },
+        numBlocksFullWidthMultipliers: { tiny: 0.5, small: 0.75, regular: 1.0, large: 1.5, huge: 2.0 },
         blockHeightRelativeToWidth: 0.25,
 
-        pageRatio: 1.41,
-        minConnectionsPerPoint: 3,
+        pageRatio: 1.41428571,
+        minConnectionsPerPoint: 2,
+        minBoardSpan: 0.8, // how much of the paper size should be used by the graph
 
         requiredAreaSize: 0.2, // the first few points are placed in the corners (required), how much freedom do they have?
+        reduceConnectivityAfterTriangulation: false, // @DEBUGGING should probably be true
 
         numBlockTypes: 6,
 
-        connectionBounds: { min: 3.0, max: 3.25 }, // this is per point = city
+        connectionBounds: { min: 3.0, max: 3.375 }, // this is per point = city
+
+        forbiddenAreaGrowFactor: 0.25,
+
+        routeOverlapThicknessFactor: 0.3, // how thick it makes the paths when checking for overlap; 1.0 = actual size
 
         numTrajectoryBounds: { min: 3, max: 6}, // @TODO: scale with board size
         trajectorySize: new Point(2, 0.5), // this is relative to "block size"
@@ -57,9 +63,9 @@ const CONFIG = {
         visitorSpotBounds: { min: 3, max: 6 },
 
         numCityBounds: { min: 16, max: 20 },
-        numCityMultipliers: { tiny: 0.33, small: 0.66, regular: 1.0, big: 1.5, huge: 2.0 },
+        numCityMultipliers: { tiny: 0.33, small: 0.66, regular: 1.0, large: 1.5, huge: 2.0 },
 
-        cityRadius: 0.25,
+        cityRadius: 0.3,
 
         trackSizeBounds: { min: 0.1, max: 0.15 },
         startWithGrid: true,
@@ -68,6 +74,8 @@ const CONFIG = {
         numRelaxIterations: 20,
         influenceDamping: 0.2,
 
+        addRandomCurvesWhenUnnecessary: true,
+
         maxBlocksPerRoute: 5,
         maxBlocksOverflowBeforeRelaxation: 1, // to allow slightly longer routes at initial placement, and rely on relaxation to bring them in line later
         connRemovePercentage: 0.15
@@ -75,23 +83,32 @@ const CONFIG = {
 
     evaluator:
     {
-        enable: true, // @DEBUGGING (should be true)
+        enable: false, // @DEBUGGING (should be true)
         performTypeBalanceCheck: true,
         maxDifferenceTypeFrequency: 6,
         maxRoutesOfSameTypeAtPoint: 2,
         performTakeRouteAwayCheck: true,
+        performGraphRemovals: false,
     },
 
     display:
     {
-        outerMargin: 0.1, // relative to (smallest) side of page
+        outerMargin: 0.0, // relative to (smallest) side of page
+        outerMarginBoard: 0.85, // relative to block size; @TODO: move to generation?
         playerAreas:
         {
-            include: true
+            include: true,
+            numSpaces: 15,
+            edgeOffset: new Point(0.04, 0.02),
         },
+        cityDotRadius: 0.333, // relative to full cityRadius
+        cityNameRadius: 0.9, // relative to full cityDotRadius
         visitorSpotRadius: 0.1, // relative to blockSize
+        numVisitorSpotAngles: 6,
         maxAvoidanceAngleBetweenRoutes: 1*Math.PI, // if angle is greater, those routes (from the same point) won't clash anyway, so ignore
-        maxAngleCurveAnyway: 0.35*Math.PI
+        maxAngleCurveAnyway: 0.35*Math.PI,
+
+        debugDrawOverlapRectangle: true, // @DEBUGGING (should be false)
     }
 }
 

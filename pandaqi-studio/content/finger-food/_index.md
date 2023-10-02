@@ -48,7 +48,6 @@ ages: everyone
 
 ---
 
-
 {{% boardgame-intro heading="" img="finger_food_header" %}}
 
 Place your fingers on the best squares and score more pie points than your opponents! Playable with just a single paper, nothing else needed.
@@ -93,6 +92,8 @@ Boards are as balanced and pretty as I can make them (through random generation 
 To make sure we're all on the same page, here is an image of how a single hand might be placed and how to score it (at the end of the game.)
 
 ![Example of hand placement and scoring.](rules_explanation.webp)
+
+At the end, you might want to take a picture (from above) or write down the fingers for each player on another paper. Especially if you have many players (4+), it can be tiring to keep your hand in a difficult position for a long time, or very hard to verify scores from your own perspective.
 
 {{% /section-centered %}}
 

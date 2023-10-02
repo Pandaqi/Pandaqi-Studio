@@ -34,6 +34,8 @@ export default class Route
     path:Point[]
     pathSimple: Point[];
 
+    failed:boolean;
+
     constructor(start:PointGraph, end:PointGraph)
     {
         this.start = start;
@@ -43,6 +45,15 @@ export default class Route
         this.multi = false;
         this.bonuses = [];
         this.set = null;
+        this.failed = false;
+    }
+
+    removeFromPoints()
+    {
+        this.start.metadata.routes.splice(this.end.metadata.routes.indexOf(this), 1);
+        this.start.removeConnectionByPoint(this.end);
+        this.end.metadata.routes.splice(this.end.metadata.routes.indexOf(this), 1);
+        this.end.removeConnectionByPoint(this.start);
     }
 
     getOther(p:PointGraph)
@@ -55,13 +66,12 @@ export default class Route
 
     getBlockLength()
     {
-        return Math.round(this.getRawLength() - 2*CONFIG.generation.cityRadius);
+        return Math.round(this.getBlockLengthRaw());
     }
 
-    // @TODO: duplicate code, make nicer
-    getBlockLengthCeiled()
+    getBlockLengthRaw()
     {
-        return Math.ceil(this.getRawLength() - 2*CONFIG.generation.cityRadius);
+        return this.getRawLength() - 2*CONFIG.generation.cityRadius;
     }
 
     getRawLength()
@@ -89,13 +99,10 @@ export default class Route
         return this.types[0];
     }
 
-    getTypes()
+    getTypes() : number[]
     {
         const arr = this.types.slice();
-        while(arr.length < this.getBlockLength())
-        {
-            arr.push(this.types[0]);
-        }
+        this.fillRestOfRoute(arr, this.getMainType());
         return arr;
     }
 
@@ -103,6 +110,26 @@ export default class Route
     placeBonus(bonus:string)
     {
         this.bonuses.push(bonus);
+    }
+
+    getBonuses() : string[]
+    {
+        const arr = this.bonuses.slice();
+        this.fillRestOfRoute(arr, null);
+        return arr;
+    }
+
+    fillRestOfRoute(list:any[], val:any)
+    {
+        while(list.length < this.getBlockLength())
+        {
+            list.push(val);
+        }
+    }
+
+    refresh()
+    {
+        this.calculateBlocksAlongRoute();
     }
 
     calculateCurvedPath()
@@ -161,8 +188,10 @@ export default class Route
 
         // we might be the correct length already, but if we're close to another route
         // curve anyway to make more space
+        
         const alreadyFine = line.length() > targetLength;
-        if(alreadyFine && !this.isSingleBlock())
+        const addRandomCurves = CONFIG.generation.addRandomCurvesWhenUnnecessary;
+        if(alreadyFine && !this.isSingleBlock() && addRandomCurves)
         {
             const closeToAnotherRoute = Math.abs(this.closestAngle) <= CONFIG.display.maxAngleCurveAnyway;
             const setCurve = this.set ? this.set.randomCurve : null;
@@ -179,7 +208,7 @@ export default class Route
             line: line,
             targetLength: targetLength,
             controlPointRotation: this.curveSide,
-            stepSize: 0.15, // smaller = more precise fit, but more expensive to calculate
+            stepSize: 0.05, // smaller = more precise fit, but more expensive to calculate
             resolution: resolution
         }
 
@@ -195,6 +224,8 @@ export default class Route
         const indexStepSize = (resolutionUsedByPath / lengthInBlocks);
         let curIndex = 0.5*resolutionUsedByCity + 0.5*indexStepSize;
 
+        this.offsetCurveForRouteSet(curve);
+
         const arr : BlockData[] = [];
         for(let i = 0; i < lengthInBlocks; i++)
         {
@@ -208,14 +239,50 @@ export default class Route
             curIndex += indexStepSize;
         }
 
-        const resCityRounded = Math.ceil(0.5*resolutionUsedByCity);
+        const resCityMargin = 1.5; // just to make it a bit larger and give ourselves more freedom
+        const resCityRounded = Math.ceil(0.5*resCityMargin*resolutionUsedByCity);
         const curveRelevant = curve.slice(resCityRounded, -resCityRounded);
+        if(curveRelevant.length <= 2) { this.failed = true; return; }
+
         const pathSimple = simplifyPath({ path: curveRelevant, numSteps: 10 });
         const blockY = CONFIG.generation.blockHeightRelativeToWidth;
-        const pathSimpleThick = thickenPath({ path: pathSimple, thickness: 0.5*blockY })
+        const thickness = CONFIG.generation.routeOverlapThicknessFactor;
+        const pathSimpleThick = thickenPath({ path: pathSimple, thickness: thickness*blockY })
 
         this.path = curveRelevant;
         this.pathSimple = pathSimpleThick;
         this.blockData = arr;
+    }
+
+    offsetCurveForRouteSet(curve)
+    {
+        const partOfSet = this.set;
+        if(!partOfSet) { return; }
+
+        // calculate offset vectors for doubled routes
+        const idx = this.set.indexOf(this);
+        const num = this.set.count()
+        const baseOffset = -0.5*(num - 1);
+        const offsetForSet = baseOffset + idx;
+
+        const blockY = CONFIG.generation.blockHeightRelativeToWidth;
+        const marginBetweenSameSet = 0.25*blockY;
+
+        let rot = 0;
+        for(let i = 0; i < curve.length; i++)
+        {
+            const point = curve[i];
+            if(i < curve.length - 1) {
+                const nextPoint = curve[i+1];
+                rot = point.vecTo(nextPoint).angle()
+            }
+
+            const vecForSet = new Point().fromAngle(rot);
+            vecForSet.rotate(0.5*Math.PI).scale(blockY + marginBetweenSameSet);
+            vecForSet.scale(offsetForSet);
+            point.add(vecForSet);     
+            
+            console.log(vecForSet);
+        }
     }
 }

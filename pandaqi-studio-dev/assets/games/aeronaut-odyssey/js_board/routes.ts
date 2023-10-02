@@ -9,6 +9,8 @@ import RouteSet from "./routeSet";
 import lineIntersectsShape from "js/pq_games/tools/geometry/intersection/lineIntersectsShape";
 import Line from "js/pq_games/tools/geometry/line";
 import getWeightedByIndex from "js/pq_games/tools/random/getWeightedByIndex";
+import getWeighted from "js/pq_games/tools/random/getWeighted";
+import { BONUSES } from "./dict";
 
 export default class Routes
 {
@@ -21,19 +23,33 @@ export default class Routes
         this.boardState = bs;
     }
     
+    get() { return this.routes; }
     count() { return this.routes.length; }
     generate(points:PointGraph[])
     {
         const routes = this.createRoutesFromPoints(points);
-        const routesCurved = this.addCurveToRoutes(routes);
-        const routesMulti = this.assignMultiRoute(routesCurved);
-        const routesColored = this.assignTypesToRoutes(routesMulti);
-        const routesWithBonus = this.assignBonusToRoutes(routesColored);
-        this.routes = routesWithBonus;
-        return this.routes;
+        this.routes = routes;
+        this.addCurveToRoutes(routes);
+        this.removeFailedRoutes(); // curving can be impossible in rare instances, so remove any failed routes right after it
+
+        this.assignMultiRoute(routes);
+        this.assignTypesToRoutes(routes);
+        this.assignBonusToRoutes(routes);
+        return routes;
     }
 
-    
+    remove(route:Route)
+    {
+        route.removeFromPoints();
+
+        if(route.set)
+        {
+            route.set.remove(route);
+        }
+
+        this.routes.splice(this.routes.indexOf(route), 1);
+    }
+
     routeAlreadyRegistered(needle:Route, haystack:Route[])
     {
         for(const route of haystack)
@@ -43,11 +59,6 @@ export default class Routes
         return false;
     }
 
-    overlapsTrajectoryRectangle(l:Line)
-    {
-        return lineIntersectsShape(l, this.boardState.trajectories.rectangle);
-    }
-
     createRoutesFromPoints(points:PointGraph[])
     {
         for(const point of points)
@@ -55,13 +66,13 @@ export default class Routes
             point.metadata.routes = [];
         }
 
-        // remove any connections overlapping trajectory rectangle outright
+        // remove any connections overlapping forbidden rectangles outright
         for(const point of points)
         {
             for(const conn of point.getConnectionsByPoint())
             {
                 const line = new Line(point, conn)
-                if(!this.overlapsTrajectoryRectangle(line)) { continue; }
+                if(!this.boardState.forbiddenAreas.lineIsInside(line)) { continue; }
                 point.removeConnectionByPoint(conn);
             }
         }
@@ -129,13 +140,19 @@ export default class Routes
         {
             route.calculateCurvedPath();
         }
-        
-        return routes;
+    }
+
+    removeFailedRoutes()
+    {
+        for(const route of this.routes)
+        {
+            if(route.failed || !route.pathSimple) { this.remove(route); }
+        }
     }
 
     assignMultiRoute(routes:Route[])
     {
-        if(!CONFIG.expansions.multiRoutes) { return routes; }
+        if(!CONFIG.expansions.multiRoutes) { return; }
 
         shuffle(routes);
 
@@ -153,21 +170,18 @@ export default class Routes
             route.multi = true;
             multiBlocksPlaced += route.getBlockLength();
         }
-
-        return routes;
     }
 
     assignTypesToRoutes(routes:Route[])
     {
         const numTypes = CONFIG.generation.numBlockTypes;
         const numTypeUsed = new Array(numTypes).fill(0);
-        const routesSorted = routes.slice();
 
-        routesSorted.sort((a,b) => {
+        routes.sort((a,b) => {
             return b.getBlockLength() - a.getBlockLength()
         })
 
-        for(const route of routesSorted)
+        for(const route of routes)
         {
             const numTypesWanted = route.multi ? route.getBlockLength() : 1;
             for(let i = 0; i < numTypesWanted; i++)
@@ -177,8 +191,6 @@ export default class Routes
                 numTypeUsed[type]++;
             }
         }
-
-        return routesSorted;
     }
 
     pickLeastUsedType(stats:number[])
@@ -204,14 +216,15 @@ export default class Routes
         const arr = [];
         for(let i = 0; i < num; i++)
         {
-            arr.push("train"); // @TODO: draw actual bonus, weighted, perhaps with more control
+            const randBonus = getWeighted(BONUSES);
+            arr.push(randBonus);
         }
         return arr;
     }
 
     assignBonusToRoutes(routes:Route[])
     {
-        if(!CONFIG.expansions.bonusBalloons) { return routes; }
+        if(!CONFIG.expansions.bonusBalloons) { return; }
 
         shuffle(routes);
 
@@ -228,7 +241,5 @@ export default class Routes
             if(curRoute.getBlockLength() < minLength) { continue; }
             curRoute.placeBonus(bonuses.pop());
         }
-
-        return routes;
     }
 }

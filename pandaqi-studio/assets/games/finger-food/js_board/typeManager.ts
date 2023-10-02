@@ -23,6 +23,7 @@ export default class TypeManager
     moneyTargetFraction:number
     fixedFingerFraction:number
     types: Type[]
+    globalMaxPerType: number
 
     constructor(game:any) 
     {
@@ -256,6 +257,7 @@ export default class TypeManager
         const numMoney = CONFIG.expansions.money ? Math.round(range(CONFIG.types.numPlaced.money) * numCellsToFill) : 0;
         const numIngredients = numCellsToFill - numMachines - numMoney;
 
+        console.log("== Num Ingredients, Machines and Money ===");
         console.log(numIngredients);
         console.log(numMachines);
         console.log(numMoney);
@@ -277,6 +279,7 @@ export default class TypeManager
             this.registerTypeChosen(obj);
         }
 
+        console.log("== Final list of types ==");
         console.log(types.slice());
 
         if(numMoney > 0)
@@ -372,9 +375,9 @@ export default class TypeManager
         let max = 0;
 
         if(dictKey == "mainType") { 
-            max = MAIN_TYPES[typeKey].max || Infinity; 
+            max = MAIN_TYPES[typeKey].max ?? Infinity; 
         } else if(dictKey == "subType") { 
-            max = MAIN_TYPES[typeObject.mainType].DICT[typeKey].max || Infinity;
+            max = MAIN_TYPES[typeObject.mainType].DICT[typeKey].max ?? this.globalMaxPerType;
         }
 
         const newVal = dict[typeKey];

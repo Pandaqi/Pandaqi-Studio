@@ -96,4 +96,10 @@ That was a good morning.
 
 Want more details? Check out the [devlog](https://pandaqi.com/blog/boardgames/kangaruse).
 
+Below is a quick image (from my cheap phone) of one early test game we played.
+
+<img src="assets/kangaruse_playtest_paper.webp">
+
+As usual, my players stubbornly insisted on complicated icons and aggressively crossing out squares from opponents who just blocked their move ;) Otherwise, this is fairly representative of what a finished game looks like.
+
 {{% /section-centered %}}

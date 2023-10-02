@@ -25,6 +25,10 @@ const textToPhaser = (res:ResourceText, op:LayoutOperation, game) =>
     
     // make sure its alignment/placement is correct
     const pivot = op.pivot.clone();
+    if(res.textConfig.alignHorizontal == TextAlign.START) { pivot.x = 0.0; }
+    else if(res.textConfig.alignHorizontal == TextAlign.MIDDLE) { pivot.x = 0.5; }
+    else if(res.textConfig.alignHorizontal == TextAlign.END) { pivot.x = 1.0; }
+
     if(res.textConfig.alignVertical == TextAlign.START) { pivot.y = 0.0; }
     else if(res.textConfig.alignVertical == TextAlign.MIDDLE) { pivot.y = 0.5; }
     else if(res.textConfig.alignVertical == TextAlign.END) { pivot.y = 1.0; }

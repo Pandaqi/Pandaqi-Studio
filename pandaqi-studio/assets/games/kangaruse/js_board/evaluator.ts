@@ -61,6 +61,12 @@ export default class Evaluator
 
         if(biggestHoleClump > CONFIG.evaluator.maxHoleClumpSize) { return false; }
 
+        // CHECK: make sure we don't have too many river cells
+        const numRiverCells = board.getCellsOfType("river").length;
+        const numCells = board.getGridFlat().length;
+        const maxRiverCells = CONFIG.evaluator.maxRiverCells * numCells;
+        if(numRiverCells > maxRiverCells) { return false; }
+
         // CHECK: If all areas are reachable
         const reachableGroups = board.getConnectedReachableGroups();
         if(reachableGroups.length > 1) { return false; }

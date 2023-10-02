@@ -8,7 +8,6 @@ import fromArray from "js/pq_games/tools/random/fromArray";
 
 export default class Trajectories
 {
-    rectangle: Rectangle;
     num: number;
     list: Trajectory[];
     boardState: BoardState;
@@ -20,15 +19,15 @@ export default class Trajectories
     
     generatePre()
     {
-        this.rectangle = new Rectangle({ extents: new Point() });
         if(!CONFIG.expansions.trajectories) { return; }
 
         const numTrajectories = rangeInteger(CONFIG.generation.numTrajectoryBounds);
         const trajectorySize = CONFIG.generation.trajectorySize; // relative to block size
         const size = trajectorySize.clone().scale(new Point(1, numTrajectories));
-        const rect = new Rectangle().fromBottomRight(this.boardState.dims, size);
         this.num = numTrajectories;
-        this.rectangle = rect;   
+
+        const rect = new Rectangle().fromBottomRight(this.boardState.dims, size);
+        this.boardState.forbiddenAreas.add(rect); 
     }
 
     generatePost()

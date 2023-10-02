@@ -18,6 +18,8 @@ export default (params:SimplifyPathParams) : Point[] =>
         numSteps = Math.floor(numPoints / params.stepSize);
     }
 
+    numSteps = Math.max(numSteps, 1);
+
     const stepSize = Math.floor(numPoints / numSteps);
     const arr = [];
     for(let i = 0; i < numSteps; i++)

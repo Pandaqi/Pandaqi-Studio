@@ -4,6 +4,7 @@ import CONFIG from "./config"
 import Route from "./route";
 import pathIntersectsPath from "js/pq_games/tools/geometry/intersection/pathIntersectsPath";
 import distToPath from "js/pq_games/tools/geometry/distance/distToPath";
+import Point from "js/pq_games/tools/geometry/point";
 
 export default class Evaluator
 {
@@ -14,16 +15,35 @@ export default class Evaluator
         return true;
     }
 
+    removeInvalidGraphParts(board:BoardState)
+    {
+        if(!CONFIG.evaluator.enable) { return true; }
+        if(!CONFIG.evaluator.performGraphRemovals) { return true; }
+
+        // @TODO: sometimes a route has no pathSimple ... figure out why, instead of brute forcing removing
+        const routes = board.getRoutes();
+        for(let i = routes.length - 1; i >= 0; i--)
+        {
+            if(routes[i].pathSimple) { continue; }
+            board.routesManager.remove(routes[i]);
+        }
+
+        // check nasty situations that occur infrequently, then just REMOVE the troublemakers
+        this.removeRoutesOverlappingForbiddenRectangles(board);
+        this.removeRoutesOverlappingRoutes(board);
+        this.removePointsOverlappingRoute(board); 
+    }
+
     areRoutesValid(board:BoardState)
     {
+        if(!CONFIG.evaluator.enable) { return true; }
+
+        // check if we use as much of the paper as possible
+        if(this.boardTooSmall(board)) { return false; }
+
         // check type distribution (very cheap, do first)
         if(!this.typesFairlyDistributed(board)) { return false; }
         if(this.typesClumpedUp(board)) { return false; }
-
-        // check nasty situations that occur 1/10 times
-        // @TODO: actually make these REMOVE the problematic ones, instead of cancelling outright?
-        if(this.pointOverlapsRoute(board)) { return false; }
-        if(this.routesOverlap(board)) { return false; }
 
         // check graph connectedness (more expensive)
         if(this.pointsWithBadConnections(board)) { return false; }
@@ -35,7 +55,27 @@ export default class Evaluator
 
     areTrajectoriesValid(board:BoardState)
     {
+        if(!CONFIG.evaluator.enable) { return true; }
         return true; // @TODO: no specific checks for trajectories at this moment
+    }
+
+    boardTooSmall(board:BoardState)
+    {
+        let topLeft = new Point(Infinity, Infinity);
+        let bottomRight = new Point(-Infinity, -Infinity);
+        for(const point of board.getPoints())
+        {
+            topLeft.x = Math.min(topLeft.x, point.x);
+            topLeft.y = Math.min(topLeft.y, point.y);
+            bottomRight.x = Math.max(bottomRight.x, point.y);
+            bottomRight.y = Math.max(bottomRight.y, point.y);
+        }
+
+        const dims = board.dims;
+        const margin = 0.5*(1.0 - CONFIG.generation.minBoardSpan);
+        if(topLeft.x < margin || topLeft.y < margin) { return true; }
+        if(dims.x - bottomRight.x < margin || dims.y - bottomRight.y < margin) { return true; }
+        return false;
     }
 
     typesFairlyDistributed(board:BoardState)
@@ -99,8 +139,6 @@ export default class Evaluator
         const checked = [];
         const unchecked = [startingPoint]; 
 
-        console.log(startingPoint);
-
         while(unchecked.length > 0)
         {
             const p = unchecked.pop();
@@ -116,9 +154,6 @@ export default class Evaluator
                 unchecked.push(conn);
             }
         }
-
-        console.log(checked.length);
-        console.log(points.length);
 
         return checked.length == points.length;
     }
@@ -140,11 +175,29 @@ export default class Evaluator
         return true;
     }
 
-    routesOverlap(board:BoardState)
+    removeRoutesOverlappingForbiddenRectangles(board:BoardState)
     {
         const routes = board.getRoutes();
-        for(const route1 of routes)
+        for(let i = routes.length-1; i >= 0; i--)
         {
+            const route1 = routes[i];
+            for(const rect of board.forbiddenAreas.get())
+            {
+                if(pathIntersectsPath(route1.pathSimple, rect.toPath()))
+                {
+                    board.routesManager.remove(route1);
+                    break;
+                }
+            }
+        }
+    }
+
+    removeRoutesOverlappingRoutes(board:BoardState)
+    {
+        const routes = board.getRoutes();
+        for(let i = routes.length-1; i >= 0; i--)
+        {
+            const route1 = routes[i];
             for(const route2 of routes)
             {
                 const sameRoute = route1 == route2;
@@ -153,19 +206,23 @@ export default class Evaluator
 
                 // pathSimple is just a rough approximation of the path with fewer points
                 // for performance reasons
-                if(pathIntersectsPath(route1.pathSimple, route2.pathSimple)) { return true; }
+                if(pathIntersectsPath(route1.pathSimple, route2.pathSimple)) 
+                {
+                    board.routesManager.remove(route1);
+                    break;
+                }
             }
         }
-        return false;
     }
 
-    pointOverlapsRoute(board:BoardState)
+    removePointsOverlappingRoute(board:BoardState)
     {
         const minDistToUnconnectedRoute = 2*CONFIG.generation.cityRadius;
         const cities = board.getPoints();
         const routes = board.getRoutes();
-        for(const city of cities)
+        for(let i = cities.length-1; i >= 0; i--)
         {
+            const city = cities[i];
             const myRoutes = city.metadata.routes;
             for(const route of routes)
             {
@@ -175,7 +232,9 @@ export default class Evaluator
                 // rough check against the line, not the curved path
                 const dist = distToPath(city, route.pathSimple);
                 if(dist > minDistToUnconnectedRoute) { continue; }
-                return true;
+                
+                board.removePoint(city);
+                break;
             }
         }
         return false;

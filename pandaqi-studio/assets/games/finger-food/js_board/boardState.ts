@@ -20,6 +20,7 @@ export default class BoardState
         this.createGrid();
     }
 
+    countCells() { return this.getGridFlat().length; }
     getDimensions() { return new Point({ x: this.grid.length, y: this.grid[0].length}); }
     getGrid() { return this.grid; }
     getGridFlat() { return this.grid.flat(); }
@@ -43,15 +44,15 @@ export default class BoardState
 
     assignTypes(typeManager:TypeManager)
     {
+        const numCells = this.countCells();
+        typeManager.globalMaxPerType = Math.round(CONFIG.types.globalMaxPerType * numCells);
+
         let cellsLeft = Random.shuffle(this.getGridFlat());
         this.reserveSpaceForRecipeBook(cellsLeft);
 
         const numCellsLeft = cellsLeft.length;
-        console.log("# cells left", numCellsLeft);
         this.placeCells(cellsLeft, typeManager.getCellDistribution(numCellsLeft));
         this.addRecipeBook(typeManager);
-
-        console.log(this.getGridFlat());
     }
 
     placeCells(cellsToFill:Cell[], typesToPlace:Type[])

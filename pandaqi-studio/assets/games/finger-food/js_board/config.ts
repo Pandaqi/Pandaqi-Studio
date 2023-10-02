@@ -57,6 +57,7 @@ export default
     },
 
     types: {
+        globalMaxPerType: 0.225, // percentage of total cells, NO type can have more than this 
         ingredientBoundsBaseGame: { min: 4, max: 6 },
         ingredientBoundsWithMachines: { min: 3, max: 4 },
         machineBounds: { min: 2, max: 4 },

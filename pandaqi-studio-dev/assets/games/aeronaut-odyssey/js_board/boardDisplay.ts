@@ -11,6 +11,9 @@ import { circleToPhaser, pathToPhaser } from "js/pq_games/phaser/shapeToPhaser";
 import Rectangle from "js/pq_games/tools/geometry/rectangle";
 import { pathToPhaserObject, rectToPhaserObject } from "js/pq_games/phaser/shapeToPhaserObject";
 import Path from "js/pq_games/tools/geometry/paths/path";
+import ResourceText from "js/pq_games/layout/resources/resourceText";
+import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
+import textToPhaser from "js/pq_games/phaser/textToPhaser";
 
 
 export default class BoardDisplay
@@ -49,19 +52,19 @@ export default class BoardDisplay
         this.outerMargin = new Point(CONFIG.display.outerMargin * canvUnit);
         this.boardSize = new Point(canvSize.x - 2*this.outerMargin.x, canvSize.y - 2*this.outerMargin.y);
 
-        const blockX = this.boardSize.x / CONFIG.generation.numBlocksFullWidth;
+        const blockX = this.boardSize.x / board.dims.x;
         const blockY = CONFIG.generation.blockHeightRelativeToWidth*blockX;
         this.blockSize = new Point(blockX, blockY);
-
+        
         if(this.graphics) { this.graphics.clear(); }
 
         const graphics = this.game.add.graphics();
         this.graphics = graphics;
 
         const points : PointGraph[] = board.getPoints()
-        for(const point of points)
+        for(let i = 0; i < points.length; i++)
         {
-            this.drawPoint(point);
+            this.drawPoint(i, points[i]);
         }
 
         const routes : Route[] = board.getRoutes();
@@ -70,43 +73,70 @@ export default class BoardDisplay
             this.drawRoute(route);
         }
 
+        this.debugDrawForbiddenAreas(board);
         this.drawTrajectoryBoard(board);
-        this.drawPlayerAreas();
+        this.drawPlayerAreas(board);
     }
 
-    drawPoint(p:PointGraph)
+    drawPoint(idx: number, p:PointGraph)
     {
         const realPos = this.convertToRealPoint(p);
-        const radius = (CONFIG.generation.cityRadius*0.95) * this.blockSize.x;
+        const radius = (CONFIG.generation.cityRadius*CONFIG.display.cityDotRadius) * this.blockSize.x;
         const circ = new Circle({ center: realPos, radius: radius });
 
-        let color = "#0000000";
-        const op = new LayoutOperation({ fill: color });
-        circleToPhaser(circ, op, this.graphics);
-
         // draw visitor dots
-        const freeAngles = this.getFreeAnglesAroundPoint(p);
+        const angles = this.getAnglesSortedByAvailability(p);
 
         const dotRadius = CONFIG.display.visitorSpotRadius * this.blockSize.x;
-        const num = Math.min(p.metadata.numVisitorSpots, freeAngles.length);
-        shuffle(freeAngles);
+        const num = Math.min(p.metadata.numVisitorSpots, angles.length);
 
+        const op = new LayoutOperation({ fill: "#FFFFFF", stroke: "#000000", strokeWidth: 2 });
         for(let i = 0; i < num; i++)
         {
-            const ang = freeAngles[i];
-            const offset = new Point().fromAngle(ang).scaleFactor(radius + 0.5*dotRadius);
+            const ang = angles[i].angle;
+            const offset = new Point().fromAngle(ang).scaleFactor(0.75*radius + 0.75*dotRadius);
             const pos = realPos.clone().add(offset);
 
             const spot = new Circle({ center: pos, radius: dotRadius });
-            op.fill = new Color("#00FF00");
             circleToPhaser(spot, op, this.graphics);
         }
+
+        // draw actual city
+        op.fill = Color.BLACK;
+        circleToPhaser(circ, op, this.graphics);
+
+        // draw name
+        const name = this.getCityName(idx);
+        const textCfg = new TextConfig({
+            font: "ArmWrestler",
+            size: 2*radius*CONFIG.display.cityNameRadius,
+            alignHorizontal: TextAlign.MIDDLE,
+            alignVertical: TextAlign.MIDDLE
+        })
+        const text = new ResourceText({ text: name, textConfig: textCfg });
+        const textOp = new LayoutOperation({
+            fill: "#FFFFFF",
+            translate: circ.center
+        })
+        textToPhaser(text, textOp, this.game);
     }
 
-    getFreeAnglesAroundPoint(p:PointGraph)
+    getCityName(idx:number)
     {
-        const numAngles = 12;
-        const anglesTaken = new Array(numAngles).fill(false);
+        return "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".charAt(idx);
+    }
+
+    // @TODO: create PQ GAMES library function for this? "divideAnglesIntoBuckets"?
+    getAnglesSortedByAvailability(p:PointGraph)
+    {
+        const numAngles = CONFIG.display.numVisitorSpotAngles;
+        const angleData = [];
+        for(let i = 0; i < numAngles; i++)
+        {
+            const ang = (i / numAngles) * 2 * Math.PI;
+            angleData.push({ angle: ang, available: true })
+        }
+
         const routes : Route[] = p.metadata.routes;
         for(const route of routes)
         {
@@ -117,18 +147,18 @@ export default class BoardDisplay
             const valLow = (Math.floor(val) + numAngles) % numAngles;
             const valHigh = (Math.ceil(val) + numAngles) % numAngles;
 
-            anglesTaken[valLow] = true;
-            anglesTaken[valHigh] = true;
+            angleData[valLow].available = false;
+            angleData[valHigh].available = false;
         }
 
-        const anglesFree = [];
-        for(let i = 0; i < numAngles; i++)
-        {
-            if(anglesTaken[i]) { continue; }
-            anglesFree.push((i / numAngles) * 2 * Math.PI);
-        }
+        shuffle(angleData);
+        angleData.sort((a,b) => {
+            if(a.available && !b.available) { return -1; }
+            if(b.available && !a.available) { return 1; }
+            return 0;
+        })
 
-        return anglesFree;
+        return angleData;
     }
     
     drawRoute(r:Route)
@@ -139,25 +169,15 @@ export default class BoardDisplay
         // sample equidistant points along curve (that's precisely long enough to fit)
         const blockData = r.blockData;
         const blockTypeList = r.getTypes();
+        const blockBonusList = r.getBonuses();
         const blockSize = new Point(blockLengthDisplayed, this.blockSize.y);
-
-        // calculate offset vectors for doubled routes
-        const partOfSet = r.set;
-        const marginBetweenSameSet = 0.1*blockSize.y;
-        let offsetForSet = 0;
-        if(partOfSet)
-        {
-            const idx = r.set.indexOf(r)
-            const num = r.set.count()
-            const baseOffset = -0.5*(num - 1);
-            offsetForSet = baseOffset + idx;
-        }
 
         // draw the blocks at the combined positions (curvePos + offsetForSet)
         // first and last position aren't used for blocks but for getting the right vector/rotation 
         for(let i = 0; i < blockData.length; i++)
         {
             const color = this.getColorForType(blockTypeList[i]);
+            const bonus = blockBonusList[i]; // @TODO: display
             const pos = this.convertToRealPoint(blockData[i].pos);
             const rot = blockData[i].rot;
 
@@ -169,18 +189,17 @@ export default class BoardDisplay
                 rotation: rot
             })
 
-            const vecForSet = new Point().fromAngle(rot);
-            vecForSet.rotate(0.5*Math.PI).scale(blockSize.y + marginBetweenSameSet);
-            vecForSet.scale(offsetForSet);
-
-            const tempPos = pos.clone();
-            const finalPos = tempPos.add(vecForSet);
-            const rect = new Rectangle().fromTopLeft(finalPos, blockSize);
+            const rect = new Rectangle().fromTopLeft(pos, blockSize);
             const rectObj = rectToPhaserObject(rect, op, this.game);
         }
 
+        this.debugDrawRouteOverlapRectangle(r);
+    }
 
-        // @DEBUGGING
+    debugDrawRouteOverlapRectangle(r:Route)
+    {
+        if(!CONFIG.display.debugDrawOverlapRectangle) { return; }
+
         const op = new LayoutOperation({
             stroke: "#FF0000",
             strokeWidth: 6,
@@ -206,22 +225,58 @@ export default class BoardDisplay
     drawTrajectoryBoard(board:BoardState)
     {
         if(!CONFIG.expansions.trajectories) { return; }
-
-        const rect = board.trajectories.rectangle;
-        const pos = this.convertToRealPoint(rect.getTopLeft());
-        const size = this.convertToRealSize(rect.getSize());
-
-        const op = new LayoutOperation({ fill: "#FF0000" });
-        const rectShape = new Rectangle().fromTopLeft(pos, size);
-        rectToPhaserObject(rectShape, op, this.game);
         
         // Draw the background and all the trajectories
     }
 
-    drawPlayerAreas()
+    // subdivide player areas into number of squares, draw those
+    drawPlayerAreas(board:BoardState)
     {
         if(!CONFIG.display.playerAreas.include) { return; }
 
-        // @TODO: just place a row of squares in the margin of the paper
+        const op = new LayoutOperation({ stroke: "#000000", strokeWidth: 2 });
+
+        const numSpaces = CONFIG.display.playerAreas.numSpaces;
+        const playerAreas = board.playerAreas.get();
+        for(const playerArea of playerAreas)
+        {
+            const vec = playerArea.getVec();
+            const extents = this.convertToRealSize(playerArea.rect.extents);
+            const length = Math.abs(extents.dot(vec));
+            const orthoLength = Math.abs(extents.dot(vec.clone().rotate(0.5*Math.PI)));
+            
+            const subRectSize = new Point(length / numSpaces, orthoLength);
+            let anchor = this.convertToRealPoint(playerArea.anchor);
+        
+            const subRectangles = [];
+            for(let i = 0; i < numSpaces; i++)
+            {
+                const subRect = new Rectangle().fromTopLeft(anchor, subRectSize);
+                subRect.rotateFromPivot(new Point(0, 0.5), playerArea.getRotation());
+                subRectangles.push(subRect);
+
+                let offset = vec.clone().scale(subRect.extents);
+                anchor.add(offset);
+            }
+
+            for(const subRect of subRectangles)
+            {
+                rectToPhaserObject(subRect, op, this.game);
+            }
+        }
+
+    }
+
+    debugDrawForbiddenAreas(board:BoardState)
+    {
+        for(const rect of board.forbiddenAreas.get())
+        {
+            const pos = this.convertToRealPoint(rect.getTopLeft());
+            const size = this.convertToRealSize(rect.getSize());
+    
+            const op = new LayoutOperation({ fill: "#FF0000" });
+            const rectShape = new Rectangle().fromTopLeft(pos, size);
+            rectToPhaserObject(rectShape, op, this.game);
+        }        
     }
 }

@@ -7,37 +7,44 @@ import Trajectories from "./trajectories";
 import Route from "./route";
 import Routes from "./routes";
 import Evaluator from "./evaluator";
+import ForbiddenAreas from "./forbiddenAreas";
+import PlayerAreas from "./playerAreas";
 
 type Generator = GeneratorDelaunay|GeneratorRope;
 
 export default class BoardState
 {
     points: PointGraph[]
-    routes: Route[]
     failed: boolean
 
     dims: Point
     generator: Generator;
+    forbiddenAreas: ForbiddenAreas;
+    playerAreas: PlayerAreas;
     trajectories: Trajectories;
+    routesManager: Routes;
     
     // @NOTE: The board simply measures in blocks (1 = the length of one train block)
     // Only boardDisplay converts this to the actual page size and pixels
     constructor()
     {
         const blocksFactor = CONFIG.generation.numBlocksFullWidthMultipliers[CONFIG.boardSize];
-        const blocksX = Math.round(CONFIG.generation.numBlocksFullWidth * blocksFactor);
-        const blocksY = Math.floor(blocksX / CONFIG.generation.pageRatio);
+        const blocksX = Math.ceil(CONFIG.generation.numBlocksFullWidth * blocksFactor);
+        const blocksY = blocksX / CONFIG.generation.pageRatio;
         
         this.dims = new Point(blocksX, blocksY);
         this.trajectories = new Trajectories(this);
+        this.playerAreas = new PlayerAreas(this);
+        this.forbiddenAreas = new ForbiddenAreas();
         this.failed = false;
     }
 
     async generate()
     {
-        // this comes before the rest, because we need to know how much space its 
-        // rectangle will take up _before_ placing the cities and routes
+        // this comes before the rest, because we need to know how much space the
+        // forbidden rectangles will take up _before_ placing the cities and routes
         this.trajectories.generatePre();
+        this.playerAreas.generatePre();
 
         const evaluator = new Evaluator();
         const m = CONFIG.generation.method;
@@ -48,7 +55,9 @@ export default class BoardState
         }
         
         this.points = await this.generator.generate();
-        this.routes = new Routes(this).generate(this.points);
+        this.routesManager = new Routes(this);
+        this.routesManager.generate(this.points);
+        evaluator.removeInvalidGraphParts(this);
         if(!evaluator.areRoutesValid(this)) { return this.fail(); }
 
         this.generator.generatePost(this.points);
@@ -58,5 +67,18 @@ export default class BoardState
 
     fail() { this.failed = true; return false; }
     getPoints() { return this.points; }
-    getRoutes() { return this.routes; }
+    getRoutes() { return this.routesManager.get(); }
+
+    // @TODO: use a pointManager instead? (like with routes?) Make the Generator that manager?
+    removePoint(p:PointGraph)
+    {
+        const routes : Route[] = p.metadata.routes;
+        for(const route of routes)
+        {
+            this.routesManager.remove(route);
+        }
+
+        this.points.splice(this.points.indexOf(p), 1);
+    }
+
 }

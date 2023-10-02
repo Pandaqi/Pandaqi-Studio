@@ -21,11 +21,11 @@ const INGREDIENTS = {
     cake: { frame: 12, colorGroup: "pink", power: 1, max: 3, prob: 0.75, timerRelevant: true },
     cookie: { frame: 13, colorGroup: "red", max: 3, power: 2, prob: 0.5, timerRelevant: true },
     smoothie: { frame: 14, colorGroup: "pink", power: 1, minUniqueTypesRequired: 5 },
-    baguette: { frame: 15, colorGroup: "yellow", power: 1, prob: 1.25 },
+    baguette: { frame: 15, colorGroup: "yellow", power: 2, prob: 1.25, max: 3 },
     croissant: { frame: 16, colorGroup: "red", power: 2, requiredExpansions: ["machines"], prob: 1.5 },
     cupcake: { frame: 17, colorGroup: "blue", power: 1, requiredExpansions: ["machines"], prob: 1.75, timerRelevant: true },
     brownie: { frame: 18, colorGroup: "red", requiredExpansions: ["machines"], prob: 1.25 },
-    cheesecake: { frame: 19, colorGroup: "pink", power: 2, requiredIngredients: ["milk", "cream", "egg"], max: 5, prob: 0.75, timerRelevant: true },
+    cheesecake: { frame: 19, colorGroup: "pink", power: 2, requiredIngredients: ["milk", "cream", "egg"], max: 4, prob: 0.75, timerRelevant: true },
     applepie: { frame: 20, colorGroup: "red", requiredExpansions: ["recipeBook"], prob: 1.25 },
     icecream: { frame: 21, colorGroup: "blue", power: 1, requiredExpansions: ["recipeBook"], prob: 1.5 },
 }

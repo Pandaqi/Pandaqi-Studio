@@ -158,26 +158,29 @@ export default class BoardDisplay
 
     drawGridCommandsAt(val:number|string, positions:Point[])
     {
+        let counter = 0;
         for(const pos of positions)
         {
-            this.drawGridCommandAt(val, pos);
+            this.drawGridCommandAt(val, pos, counter);
+            counter++;
         }
     }
 
-    drawGridCommandAt(val:number|string, pos:Point)
+    drawGridCommandAt(val:number|string, pos:Point, side:number)
     {
         // @ts-ignore
-        if(!isNaN(parseInt(val))) { return this.drawNumberAt(val as number, pos); }
+        if(!isNaN(parseInt(val))) { return this.drawNumberAt(val as number, pos, side); }
         this.drawDirAt(val as string, pos);
     }
 
-    drawNumberAt(num:number, pos:Point)
+    drawNumberAt(num:number, pos:Point, side:number)
     {
         var txtCfg = CONFIG.board.numbers.textConfig;
         txtCfg.fontSize = (CONFIG.board.numbers.scaleFactor * this.cellSizeUnit) + "px";
 
         const txt = this.game.add.text(pos.x, pos.y, num.toString(), txtCfg);
         txt.setOrigin(0.5);
+        if(side == 1) { txt.setRotation(Math.PI); }
     }
 
     drawDirAt(dir:string, pos:Point)
