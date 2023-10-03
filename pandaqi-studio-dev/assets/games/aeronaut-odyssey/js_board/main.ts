@@ -5,9 +5,14 @@ import BoardState from "./boardState"
 import BoardDisplay from "./boardDisplay"
 import Evaluator from "./evaluator"
 import CONFIG from "./config"
-import Point from "js/pq_games/tools/geometry/point"
+import ResourceLoader from "js/pq_games/layout/resources/resourceLoader"
+import resourceLoaderToPhaser from "js/pq_games/phaser/resourceLoaderToPhaser"
+import setDefaultPhaserSettings from "js/pq_games/phaser/setDefaultPhaserSettings"
 
 const sceneKey = "boardGeneration"
+const resLoader = new ResourceLoader({ base: CONFIG.assetsBase });
+resLoader.planLoadMultiple(CONFIG.assets);
+CONFIG.resLoader = resLoader;
 
 class BoardGeneration extends Scene
 {
@@ -20,15 +25,10 @@ class BoardGeneration extends Scene
 		super({ key: sceneKey });
 	}
 
-    preload() {
-        // @ts-ignore
-        this.load.crossOrigin = 'Anonymous';
-        // @ts-ignore
-        this.canvas = this.sys.game.canvas;
-
-        const base = 'assets/';
-        const sheetData = CONFIG.sheetData;
-        // this.load.spritesheet("tutorials_spritesheet", base + 'tutorials_spritesheet.webp', sheetData);
+    async preload() {
+        setDefaultPhaserSettings(this);
+        await resLoader.loadPlannedResources();
+        resourceLoaderToPhaser(resLoader, this)
     }
 
     async create(userConfig:Record<string,any>) {

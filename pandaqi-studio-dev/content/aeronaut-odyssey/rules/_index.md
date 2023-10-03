@@ -90,40 +90,51 @@ Once you've played the base game once or twice, you might be ready for expansion
 
 {{% rules-block id="expansion_trajectories" heading="Trajectories" %}}
 
-You've fulfilled a trajectory if you can travel from one city to the other using _your_ routes.
+Trajectories are printed at the bottom right. If you've fulfilled one, draw your icon in an open slot and receive its reward. 
 
-They are printed at the bottom right. If you've fulfilled one, draw your icon in its slot and receive its reward. 
+You've fulfilled a trajectory if you can travel from one city to the other using only _your_ routes. (You have "connected" the two cities with your traveling company!)
 
 {{% remark %}}
 You can't claim a trajectory twice nor when all its slots are already taken.
 {{% /remark %}}
 
-The reward can be ...
-* A point value
-* Extra trains for your player area
-* A one-time power. These can be used at any time on your turn. Afterwards, cross out the power.
+@TODO: Rules table showing specific trajectory bonuses
 
 {{% /rules-block %}}
 
-{{% rules-block id="expansion_bonus" heading="Bonus" %}}
+{{% rules-block id="expansion_bonus" heading="Bonus Balloons" %}}
 
-Some routes receive a bonus attached to the side. If you claim that route, you immediately receive its bonus.
+Some route blocks have an added bonus or penalty. You receive this bonus when you claim the route.
 
-Bonuses don't run out. On a double route, for example, the player to claim the second track also receives that bonus.
+By default, the bonus immediately takes effect. Other bonuses are an **ability**: you can use this power once, at any time. Once used, cross out the bonus.
 
-@TODO IDEA: A permanent bonus. You may steal from anybody using that route for moving.
+As opposed to trajectories, bonuses are always value "1". (One point, one balloon, etcetera.) 
+
+When they have a red minus sign, however, their value is "-1". (You lose one point, you lose one balloon, etcetera.)
+
+@TODO: Rules table showing these bonuses
 
 {{% /rules-block %}}
 
 {{% rules-block id="expansion_multiroutes" heading="Multiroutes" %}}
 
-Some routes can become **multiroutes**.
+Introduces **multiroutes**.
 
 Each space of a multiroute is a different type. As such, during a **Claim** action, you only claim one space at a time. 
 
 Anybody who participated scores _full_ points for this route, but only if it is _completed_. Similarly, anybody who participated can use it to complete trajectories _once completed_.
 
-@TODO => IDEA: Also make the “grey” routes part of this expansion? Don’t include in the base game to simplify?
+@TODO: IMAGE EXAMPLE?
+
+{{% /rules-block %}}
+
+{{% rules-block id="expansion_multiroutes" heading="Multiroutes" %}}
+
+Introduces **gray routes**. You can use any one type to claim these. (For example, a gray route of 3 blocks can be claimed by 3 yellow.)
+
+@TODO: IMAGE EXAMPLE
+
+When you travel across a gray route, you can _choose_ which balloon types you want to receive!
 
 {{% /rules-block %}}
 

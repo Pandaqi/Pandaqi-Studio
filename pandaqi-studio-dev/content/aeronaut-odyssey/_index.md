@@ -28,6 +28,7 @@ downloadLink: "https://drive.google.com/drive/folders/1lgnWjJG1pjb-YD7vg_0rS1QHW
   {{< setting-checkbox id="setting-expansions-trajectories" text="Trajectories?" remark="Get points for completing specific routes." >}}
   {{< setting-checkbox id="setting-expansions-bonusBalloons" text="Bonus Balloons?" remark="Some routes have a bonus or penalty for using it." >}}
   {{< setting-checkbox id="setting-expansions-multiRoutes" text="Multi Routes?" remark="Some routes require players to collaborate to complete them." >}}
+  {{< setting-checkbox id="setting-expansions-wildWinds" text="Wild Winds?" remark="Adds wildcard routes and balloons (use/get a type of choice)." >}}
 {{< /boardgame-settings >}}
 
 {{% /section-centered %}}

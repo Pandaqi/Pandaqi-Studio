@@ -1,5 +1,6 @@
 import LayoutOperation from "../layout/layoutOperation";
 import ResourceImage from "../layout/resources/resourceImage";
+import effectToPhaser from "./effectToPhaser";
 
 const imageToPhaser = (img:ResourceImage, op:LayoutOperation, game) => 
 {
@@ -8,6 +9,12 @@ const imageToPhaser = (img:ResourceImage, op:LayoutOperation, game) =>
     sprite.displayHeight = op.dims.y;
     sprite.setOrigin(op.pivot.x, op.pivot.y);
     sprite.setFrame(op.frame);
+
+    for(const effect of op.effects)
+    {
+        effectToPhaser(effect, sprite);
+    }
+
     return sprite;
 }
 

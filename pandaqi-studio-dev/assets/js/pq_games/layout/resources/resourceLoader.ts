@@ -43,6 +43,14 @@ export default class ResourceLoader
         }
     }
 
+    planLoadMultiple(dict:Record<string,any>)
+    {
+        for(const [id,data] of Object.entries(dict))
+        {
+            this.planLoad(id, data);
+        }
+    }
+
     async loadPlannedResources()
     {
         const promises = [];
@@ -91,19 +99,21 @@ export default class ResourceLoader
         const path = this.base + originalPath;
         params.path = path;
 
+        const key = (params.id ?? params.key) ?? id;
+
         if(this.isImage(path))
         {
             const img = new Image();
             img.src = params.path;
             await img.decode();
-            await this.cacheLoadedImage(id, params, img);
+            await this.cacheLoadedImage(key, params, img);
         }
 
         if(this.isFont(path))
         {
-            const fontFile = new FontFace(params.key, "url('" + params.path + "')");
+            const fontFile = new FontFace(key, "url('" + params.path + "')");
             const f = await fontFile.load()
-            this.cacheLoadedFont(id, params, f)
+            this.cacheLoadedFont(key, params, f)
         }
     }
 

@@ -7,6 +7,8 @@ enum GenerationMethod
 }
 
 const CONFIG = {
+    resLoader: null,
+
     inkFriendly: false,
     boardSize: "regular",
     printSize: "singlePage",
@@ -14,7 +16,18 @@ const CONFIG = {
     {
         trajectories: false,
         bonusBalloons: false,
-        multiRoutes: false
+        multiRoutes: false,
+        wildWinds: false,
+    },
+
+    assetsBase: "/aeronaut-odyssey/assets/",
+    assets:
+    {
+        "block_icons":
+        {
+            src: "block_icons.webp",
+            frames: new Point(10,1)
+        }
     },
 
     boardDisplay: null,
@@ -48,6 +61,7 @@ const CONFIG = {
         trajectorySize: new Point(2, 0.5), // this is relative to "block size"
         maxTrajectoryLength: 2.0, // relative to numBlocksFullWidth
         maxTrajectoryPoints: 20.0, 
+        minTrajectoryScore: 2,
         trajectoryVarietyMarginFactor: 1.33, // higher = less variety/balance, but more likely and faster solution
 
         numBonusBounds: { min: 0.2, max: 0.375 }, // relative to total number of blocks that COULD receive a bonus
@@ -98,9 +112,18 @@ const CONFIG = {
         playerAreas:
         {
             include: true,
-            numSpaces: 15,
+            numSpacesPerRoute: 3.0 / 4.0, // multiplied by number of routes to get total spaces inside player areas; motivation = ~3 spaces per route avg, ~4 players avg
             edgeOffset: new Point(0.04, 0.02),
+            sizeRaw: new Point(0.35, 0.5), // X is relative (scales to stay consistent), Y is absolute (shrinks as map gets bigger)
         },
+
+        blocks:
+        {
+            iconSize: 0.8, // relative to maximum space (min of width and height)
+            bevelOffset: 0.125, // relative to full block length
+            writingSpaceScale: 0.9 // relative to maximum space
+        },
+
         cityDotRadius: 0.333, // relative to full cityRadius
         cityNameRadius: 0.9, // relative to full cityDotRadius
         visitorSpotRadius: 0.1, // relative to blockSize

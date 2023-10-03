@@ -4,12 +4,15 @@ import Route from "./route";
 import CONFIG from "./config";
 import clamp from "js/pq_games/tools/numbers/clamp";
 import LineGraph from "js/pq_games/tools/geometry/lineGraph";
+import { BONUSES } from "./dict";
 
 export default class Trajectory
 {
     start: PointGraph;
     end: PointGraph;
     score: number;
+    bonus: string;
+    bonusNumber: number;
     
     constructor(start:PointGraph, end:PointGraph)
     {
@@ -74,5 +77,13 @@ export default class Trajectory
         const length = clamp(pathBlockLength / this.getMaxTrajectoryLength(), 0.05, 1.0);
         this.score = Math.round(length * CONFIG.generation.maxTrajectoryPoints);
         return this.score;
+    }
+
+    // this is a transformation of the score, based on how valuable I think the bonus type is
+    calculateBonusNumber()
+    {
+        const value = BONUSES[this.bonus].value ?? 1;
+        const number = clamp(Math.round(this.score / value), 1, Infinity);
+        this.bonusNumber = number;
     }
 }

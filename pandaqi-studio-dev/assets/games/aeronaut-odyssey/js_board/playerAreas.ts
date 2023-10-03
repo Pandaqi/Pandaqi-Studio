@@ -21,7 +21,7 @@ export default class PlayerAreas
 
         const dims = this.boardState.dims;
         const off = CONFIG.display.playerAreas.edgeOffset;
-        const areaSizeRaw = new Point(0.35, 0.05);
+        const areaSizeRaw = CONFIG.display.playerAreas.sizeRaw;
         const areas = [
             { anchor: new Point(off.x, 1.0-off.y-areaSizeRaw.y), rotation: 0, size: null },
             { anchor: new Point(0.5+off.x, 1.0-off.y-areaSizeRaw.y), rotation: 0 },
@@ -30,7 +30,7 @@ export default class PlayerAreas
             { anchor: new Point(0.5-off.x, off.y), rotation: 2 },
             { anchor: new Point(off.x, off.y), rotation: 1 }
         ]
-        const areaSize = areaSizeRaw.clone().scale(dims);
+        const areaSize = areaSizeRaw.clone().scale(new Point(dims.x, 1));
 
         for(const areaData of areas)
         {
