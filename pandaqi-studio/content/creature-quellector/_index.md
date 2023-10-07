@@ -54,7 +54,7 @@ Pick your battles wisely to design the best squad of cute creatures.
 
 Three simple steps.
 * Read the short [playful rules](rules).
-* Download any one material PDF (using the "Download" button above).
+* Download any _one_ material PDF (Download > Files > Sets > any file).
 * Print it, cut it, play!
 
 **Want more?** You can also [generate your own material](#material) right on this website! For each element, pick the type you like the most.
@@ -78,6 +78,8 @@ Three simple steps.
 {{< /boardgame-settings >}}
 
 <p class="setting-remark"><strong>Not working?</strong> Don't worry! At the "Download" link, you can also find valid PDFs with material already created!</p> 
+
+<p class="setting-remark"><strong>Creature names</strong> are randomly generated from a huge list of words and phrases. This means there might be "unfortunate" combinations to some people, such as "childkill", which I just can't prevent. I hope we can all see the humor in silly random names!
 
 {{% /section-centered %}}
 
@@ -119,6 +121,7 @@ For a detailed diary about the game, check out the [devlog](https://pandaqi.com/
 
 {{% /section-centered %}}
 
+<!--- Loads a random element-related theme for the whole page --->
 <script>
   const themes = ["red", "blue", "green", "purple"];
   const randTheme = themes[Math.floor(Math.random() * themes.length)];

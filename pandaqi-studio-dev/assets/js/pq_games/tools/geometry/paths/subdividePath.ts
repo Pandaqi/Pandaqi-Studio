@@ -4,6 +4,7 @@ import calculatePathLength from "./calculatePathLength";
 interface SubDivideParams
 {
     path: Point[],
+    close?: boolean,
     chunkSize?: number
     numChunks?: number
 }
@@ -24,8 +25,15 @@ export default (params:SubDivideParams) =>
 
 
     const first = path[0];
-    const last = path[path.length - 1];
-    const selfClosing = first.matches(last);
+    let last = path[path.length - 1];
+    let selfClosing = first.matches(last);
+    if(params.close && !selfClosing)
+    {
+        selfClosing = true;
+        last = first.clone();
+        path.push(last);
+    }
+
     const pathLengthToConsider = selfClosing ? path.length : path.length - 1;
 
     for(let i = 0; i < pathLengthToConsider; i++)

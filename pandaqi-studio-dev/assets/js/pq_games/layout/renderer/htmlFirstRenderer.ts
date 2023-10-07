@@ -23,9 +23,6 @@ export default class HTMLFirstRenderer
 
         const canv = await modernScreenshot.domToCanvas(domTree, options);
 
-        document.body.appendChild(domTree);
-        document.body.appendChild(canv);
-
         const ctx = (targetCanvas instanceof HTMLCanvasElement) ? targetCanvas.getContext("2d") : targetCanvas;
         ctx.drawImage(canv, 0, 0);
 

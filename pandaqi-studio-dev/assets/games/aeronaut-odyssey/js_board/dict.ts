@@ -44,6 +44,9 @@ const BLOCKS:Record<string,BlockData> =
     green: { frame: 7, color: "#91C846" },
 
     // this is never automatically picked for blocks; added manually to make sure they appear
+    // but they are linked: GRAY is for tracks (no icon, gray color); WILDCARD is for bonuses (icon; no color)
+    // the code automatically converts one to the other where needed
+    // not completely clean, but it's fine
     wildcard: { frame: 8, color: "??", unpickable: true },
     gray: { frame: 9, color: "#C8D2D8", unpickable: true }
 }

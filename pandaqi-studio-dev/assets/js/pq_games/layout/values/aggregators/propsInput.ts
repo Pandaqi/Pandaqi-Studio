@@ -6,6 +6,9 @@ import FourSideValue from "../fourSideValue"
 import PropsOutput from "./propsOutput"
 
 import InputGroup from "./inputGroup"
+import LayoutOperation from "../../layoutOperation"
+import ColorLike from "../../color/colorLike"
+import { ElementLike } from "../../resources/resource"
 
 export default class PropsInput extends InputGroup
 {
@@ -30,12 +33,18 @@ export default class PropsInput extends InputGroup
         return super.cloneInto(b);
     }
 
-    applyToHTML(div:HTMLElement)
+    applyToHTML(div:ElementLike)
     {
-        div.style.backgroundColor = this.fill.get();
-        div.style.opacity = this.alpha.toCSS();
+        //div.style.backgroundColor = this.fill.get();
+        //div.style.opacity = this.alpha.toCSS();
         div.style.borderRadius = this.borderRadius.toCSS();
         div.style.zIndex = this.z.toCSS();
+    }
+
+    applyToLayoutOperation(op:LayoutOperation)
+    {
+        op.fill = new ColorLike(this.fill.get());
+        op.alpha = this.alpha.get();
     }
 
     calc(c:LayoutNode)

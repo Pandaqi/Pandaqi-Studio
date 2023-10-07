@@ -133,13 +133,18 @@ export default class LayoutNode
             }); 
         }
 
-        this.renderer.toCanvas(this, canv, calcDims);
+        await this.renderer.toCanvas(this, canv, calcDims);
         return canv;
     }
 
     async toHTML()
     {
-        const resNode = await this.resource.toHTML(this.operation) as HTMLElement;
+        // @NOTE: operation needs to be modified BEFORE moving resource toHTML
+        // (otherwise these changes are obviously not taken into account)
+        this.boxInput.applyToLayoutOperation(this.operation);
+        this.propsInput.applyToLayoutOperation(this.operation);
+
+        const resNode = await this.resource.toHTML(this.operation);
         resNode.style.boxSizing = "border-box";
 
         const wrapper = this.needsWrapperHTML() ? this.createWrapperHTML() : null;
@@ -157,9 +162,7 @@ export default class LayoutNode
 
         this.boxInput.applyToHTML(resNode, wrapper, this.parent);
         this.flowInput.applyToHTML(resNode);
-
-        // @TODO: all its functionality was just taken over by LayoutOperation, so what to do with this?
-        //this.propsInput.applyToHTML(resNode);
+        this.propsInput.applyToHTML(resNode);
 
         await this.operation.applyToHTML(resNode, this.resource);
         return topElem;

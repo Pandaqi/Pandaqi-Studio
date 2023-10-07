@@ -28,10 +28,15 @@ import ResourceText from "js/pq_games/layout/resources/resourceText"
 import ResourceShape from "js/pq_games/layout/resources/resourceShape"
 import Path from "js/pq_games/tools/geometry/paths/path"
 import GrayScaleEffect from "js/pq_games/layout/effects/grayScaleEffect"
+import ResourceGradient, { GradientType } from "js/pq_games/layout/resources/resourceGradient"
+import ColorStop from "js/pq_games/layout/color/colorStop"
+import Color from "js/pq_games/layout/color/color"
 
 export default class Card 
 {
     typeList : ElementIcon[]
+    mainType: ElementIcon
+
     ctx : CanvasRenderingContext2D
     dims : Point
     sizeUnit : number
@@ -55,8 +60,9 @@ export default class Card
     creatureFlipX: boolean
     dropShadowOffset: Point
 
-    constructor(t:ElementIcon[]) 
+    constructor(mainType: ElementIcon, t:ElementIcon[]) 
     {    
+        this.mainType = mainType;
         this.typeList = t;
     }
 
@@ -64,7 +70,7 @@ export default class Card
     async draw()
     {
         this.setup();
-        this.drawBackground();
+        await this.drawBackground();
         await this.drawHeader();
         this.drawBanner();
         this.drawContent();
@@ -103,24 +109,23 @@ export default class Card
         this.creatureFlipX = Math.random() <= 0.5;
         this.iconBorderRadius = new FourSideValue(0.025*this.sizeUnit);
         this.strokeWidth = CONFIG.cards.stroke.width * this.sizeUnit;
-        this.strokeColor = CONFIG.inkFriendly ? CONFIG.cards.stroke.colorInkFriendly : CONFIG.cards.stroke.color;
-        this.dropShadowOffset = new Point(0, 3.5);
+        this.strokeColor = CONFIG.inkFriendly ? CONFIG.cards.stroke.colorInkFriendly : this.getIconColorDark(this.getMainIcon());
+        this.dropShadowOffset = new Point(0, CONFIG.cards.dropShadowOffset * this.cornerIconSize);
 
         this.iconEffectsMain = [
             new DropShadowEffect({ 
                 offset: this.dropShadowOffset,
-                color: this.getIconColorDark(this.getMainIcon()), // @TODO: color based on icon type??
+                color: this.getIconColorDark(this.getMainIcon()),
             })
         ];
 
         this.mainNode = new LayoutNode(params);
-        console.log(this.mainNode);
     }
 
     // ElementIcon holds the subtype (e.g. fire for red) and a boolean for action or not
     getMainIcon() : ElementIcon
     {
-        return this.typeList[0]
+        return this.mainType;
     }
 
     // This is the overarching type (red, blue, green, purple)
@@ -141,13 +146,14 @@ export default class Card
 
     getBackgroundFrame()
     {
-        if(this.typeList.length <= 1) { return this.getMainFrame(); }
-        const rand = fromArray(this.typeList.slice(1));
+        const rand = fromArray(this.typeList);
         return this.getIconFrame(rand);
     }
 
     getIconResource(elem:ElementIcon) : ResourceImage
     {
+        if(elem.multi) { return CONFIG.multiTypeImageResource; }
+
         let textureKey = this.iconSpritesheet + "";
         if(elem.action) { textureKey += "_actions"; }
         return CONFIG.resLoader.getResource(textureKey);
@@ -168,6 +174,17 @@ export default class Card
 
     getIconFrame(elem:ElementIcon) : number
     {
+        if(elem.multi)
+        {
+            console.log(elem);
+
+            let frame1 = Math.floor(ELEMENTS[elem.type].frame / 4);
+            let frame2 = Math.floor(ELEMENTS[elem.multi].frame / 4);
+            console.log(frame1*4 + frame2);
+
+            return frame1*4 + frame2;
+        }
+
         return ELEMENTS[elem.type].frame
     }
 
@@ -177,7 +194,7 @@ export default class Card
     }
 
     // @NOTE: drawn manually, as that's easier here
-    drawBackground()
+    async drawBackground()
     {
 
         const ctx = this.ctx
@@ -202,7 +219,7 @@ export default class Card
             flipX: this.creatureFlipX,
             frame: this.getCardBackgroundFrame()
         })
-        res.toCanvas(this.getCanvas(), canvOp);
+        await res.toCanvas(this.getCanvas(), canvOp);
     }
 
     async drawHeader()
@@ -226,6 +243,7 @@ export default class Card
             effects.push(new GrayScaleEffect())
         }
 
+        // background environment image
         const backgroundImageSize = new Point(contHeight, contHeight).scaleFactor(1.7);
         const bgResource = CONFIG.resLoader.getResource(this.backgroundSpritesheet);
         const bgLayoutNode = new LayoutNode({ 
@@ -239,6 +257,21 @@ export default class Card
         });
         imageLayoutNode.addChild(bgLayoutNode);
 
+        // a little gradient to help focus the image and make the creature fit better
+        const gradientResource = new ResourceGradient({ type: GradientType.RADIAL, start: backgroundImageSize.clone().scaleFactor(0.5) });
+        const gradientAlpha = 0.3;
+        gradientResource.addStop(new ColorStop({ pos: 0, color: new Color(0,0,0,0) }));
+        gradientResource.addStop(new ColorStop({ pos: 1, color: new Color(0,0,0,gradientAlpha)}));
+
+        const gradientLayoutNode = new LayoutNode({
+            resource: gradientResource,
+            size: backgroundImageSize,
+            anchor: AnchorValue.CENTER_CENTER,
+            ghost: true
+        })
+        imageLayoutNode.addChild(gradientLayoutNode);
+
+        // actual creature (smaller)
         const creatureImageSize = new Point(contHeight, contHeight).scaleFactor(0.8);
         const creatureResource = CONFIG.resLoader.getResource(this.creatureSpritesheet);
         const creatureLayoutNode = new LayoutNode({ 
@@ -293,18 +326,19 @@ export default class Card
             })
             iconReminders.addChild(cont);
         }
-  
-        
 
+        // @TODO: add rootPadding to clipPath coordinates
+  
         // we draw our clip path as an IMAGE, so it fits right into this pipeline at the right moment
-        const clipPathResource = new ResourceShape({ shape: clipPath });
+        const clipPathForStroke = this.getClipPath(new Point(this.dims.x, contHeight), new Point(this.rootPadding));
+        const clipPathResource = new ResourceShape({ shape: clipPathForStroke });
         const clipPathVisible = new LayoutNode({
             resource: clipPathResource,
-            size: new TwoAxisValue().setFullSize(),
+            dims: new Point(this.dims.x, contHeight+3*this.rootPadding),
+            size: new TwoAxisValue().setAuto(),
             placement: PlacementValue.ABSOLUTE,
-            pos: new TwoAxisValue(this.rootPadding, this.rootPadding),
-            stroke: this.strokeColor,
-            strokeWidth: this.strokeWidth
+            pos: new Point(0.5),
+            stroke: new StrokeValue(this.strokeWidth, this.strokeColor),
         })
         this.mainNode.addChild(clipPathVisible);
     }
@@ -324,7 +358,7 @@ export default class Card
             size: new TwoAxisValue(new SizeValue(1.0, SizeType.PARENT), bannerHeight),
             flow: FlowType.GRID,
             dir: FlowDir.HORIZONTAL,
-            alignFlow: AlignValue.SPACE_BETWEEN,
+            alignFlow: AlignValue.MIDDLE,
             alignStack: AlignValue.MIDDLE
         })
         this.mainNode.addChild(bannerLayoutNode);
@@ -332,59 +366,82 @@ export default class Card
         const iconResource = CONFIG.resLoader.getResource(this.iconSpritesheet);
         const counterSize = this.cornerIconSize;
         const mainIconSize = 3.0*counterSize;
-        const iconEffects1 = [
+
+        const useCounterRules = CONFIG.enableOldCounterRules;
+
+        const mainIconEffects = [
             new DropShadowEffect({ 
-                offset: this.dropShadowOffset,
-                color: this.getIconColorDark(this.getElementOnCycle(-1)),
+                offset: this.dropShadowOffset.clone().scaleFactor(2.5),
+                color: this.getIconColorDark(this.getMainIcon()),
             })
-        ];
-
-        const counteredBy = new LayoutNode({
-            resource: iconResource,
-            frame: this.getIconFrame(this.getElementOnCycle(-1)),
-            size: new TwoAxisValue().fromSingle(counterSize),
-            borderRadius: this.iconBorderRadius,
-            effects: iconEffects1,
-            shrink: 0
-        })
-
-        const counterIconResource = CONFIG.resLoader.getResource("counter_icon");
-        const counterParams = {   
-            resource: counterIconResource,
-            frame: 0,
-            size: new TwoAxisValue().setAuto()
-        }
-        const counterIcon = new LayoutNode(counterParams);
+        ]
 
         const mainIcon = new LayoutNode({
             resource: iconResource,
             frame: this.getIconFrame(this.getMainIcon()),
             borderRadius: this.iconBorderRadius,
             size: new TwoAxisValue().fromSingle(mainIconSize),
-            effects: this.iconEffectsMain,
+            effects: mainIconEffects,
             shrink: 0
         })
 
-        const iconEffects2 = [
-            new DropShadowEffect({ 
-                offset: this.dropShadowOffset,
-                color: this.getIconColorDark(this.getElementOnCycle(+1)),
+        let counteredBy, counterIcon, weCounter;
+        if(useCounterRules)
+        {
+            const iconEffects1 = [
+                new DropShadowEffect({ 
+                    offset: this.dropShadowOffset,
+                    color: this.getIconColorDark(this.getElementOnCycle(-1)),
+                })
+            ];
+    
+            counteredBy = new LayoutNode({
+                resource: iconResource,
+                frame: this.getIconFrame(this.getElementOnCycle(-1)),
+                size: new TwoAxisValue().fromSingle(counterSize),
+                borderRadius: this.iconBorderRadius,
+                effects: iconEffects1,
+                shrink: 0
             })
-        ];
-        const weCounter = new LayoutNode({
-            resource: iconResource,
-            frame: this.getIconFrame(this.getElementOnCycle(+1)),
-            borderRadius: this.iconBorderRadius,
-            size: new TwoAxisValue().fromSingle(counterSize),
-            effects: iconEffects2,
-            shrink: 0
-        })
+    
+            const counterIconResource = CONFIG.resLoader.getResource("counter_icon");
+            const counterParams = {   
+                resource: counterIconResource,
+                frame: 0,
+                size: new TwoAxisValue().setAuto()
+            }
+            counterIcon = new LayoutNode(counterParams);
+    
+    
+            const iconEffects2 = [
+                new DropShadowEffect({ 
+                    offset: this.dropShadowOffset,
+                    color: this.getIconColorDark(this.getElementOnCycle(+1)),
+                })
+            ];
+            weCounter = new LayoutNode({
+                resource: iconResource,
+                frame: this.getIconFrame(this.getElementOnCycle(+1)),
+                borderRadius: this.iconBorderRadius,
+                size: new TwoAxisValue().fromSingle(counterSize),
+                effects: iconEffects2,
+                shrink: 0
+            })
+        }
 
-        bannerLayoutNode.addChild(counteredBy);
-        bannerLayoutNode.addChild(counterIcon);
+        if(useCounterRules)
+        {
+            bannerLayoutNode.addChild(counteredBy);
+            bannerLayoutNode.addChild(counterIcon);
+        }
+
         bannerLayoutNode.addChild(mainIcon);
-        bannerLayoutNode.addChild(counterIcon.clone());
-        bannerLayoutNode.addChild(weCounter);
+
+        if(useCounterRules)
+        {
+            bannerLayoutNode.addChild(counterIcon.clone());
+            bannerLayoutNode.addChild(weCounter);
+        }
 
     }
 
@@ -437,7 +494,7 @@ export default class Card
             alignFlow: AlignValue.START,
             alignStack: AlignValue.STRETCH,
             size: new TwoAxisValue().setBlock(),
-            gap: footerGap
+            gap: footerGap,
         })
         this.mainNode.addChild(footer);
 
@@ -453,25 +510,30 @@ export default class Card
         })
         footer.addChild(iconLayoutNode);
 
+        const textContainer = new LayoutNode({
+            size: new TwoAxisValue().setFullSize(),
+            fill: "#FFFFFF",
+            borderRadius: this.iconBorderRadius,
+            stroke: new StrokeValue(this.strokeWidth, this.strokeColor),
+            padding: new FourSideValue(0,0,0,10)
+        })
+
+        footer.addChild(textContainer);
+
         // the text with the name of the creature
         const txtCfg = new TextConfig({
             font: "Comica Boom",
             size: 40,
-            color: "#000000",
             alignVertical: TextAlign.MIDDLE,
         })
         const textRes = new ResourceText({ text: this.creatureName, textConfig: txtCfg })
         const textBox = new LayoutNode({
             resource: textRes,
-            size: new TwoAxisValue(new SizeValue(1.0, SizeType.PARENT), new SizeValue(1.0, SizeType.CONTENT)),
-            fill: "#FFFFFF",
-            borderRadius: this.iconBorderRadius,
-            stroke: new StrokeValue(this.strokeWidth, this.strokeColor),
+            size: new TwoAxisValue().setFullSize(),
+            fill: Color.BLACK
         })
-        footer.addChild(textBox);
-
-
-        // @TODO: BUG => it only picks 3 types at most per card, though I said 4?
+        textContainer.addChild(textBox);
+        
         // fineprint in the margin
         const fontSize = 11
         const txtCfgSmall = new TextConfig({
@@ -479,7 +541,6 @@ export default class Card
             style: TextStyle.ITALIC,
             alignHorizontal: TextAlign.END,
             size: fontSize,
-            color: "rgba(0,0,0,0.85)" // @TODO: proper support for ColorValues in this whole system
         })
         const textResSmall = new ResourceText({ text: this.getFinePrintText(), textConfig: txtCfgSmall });
         const fineprintText = new LayoutNode({
@@ -487,7 +548,9 @@ export default class Card
             size: new TwoAxisValue().setBlock(),
             margin: new FourSideValue(0,0,-(fontSize+3),0),
             anchor: AnchorValue.BOTTOM_LEFT,
-            text: this.getFinePrintText()
+            text: this.getFinePrintText(),
+            alpha: 0.66,
+            fill: Color.BLACK
         })
         this.mainNode.addChild(fineprintText)
 
@@ -551,7 +614,7 @@ export default class Card
     }
 
     
-    getClipPath(size:Point) : Path
+    getClipPath(size:Point, offset:Point = new Point()) : Path
     {
         var margin = this.cornerIconSize*1.25;
         var p = this.rootPadding;
@@ -563,6 +626,11 @@ export default class Card
             new Point().setXY(size.x - 2*p, size.y),
             new Point().setXY(0, size.y)
         ]
+
+        for(const point of points)
+        {
+            point.add(offset);
+        }
 
         return new Path({ points: points, close: true });
     }

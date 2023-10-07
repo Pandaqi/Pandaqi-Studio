@@ -45,12 +45,13 @@ export default class Pack
 
         Random.shuffle(iconDistribution);
 
+        const subtypeAsIcon = new ElementIcon(this.subtype, false, "");
+
         for(let i = 0; i < num; i++)
         {
             var numIcons = iconDistribution[i];
             var iconList = this.getBalancedIconList(numIcons, stats);
-            console.log(structuredClone(stats)); // @DEBUGGING
-            var c = new Card(iconList);
+            var c = new Card(subtypeAsIcon, iconList);
             cards.push(c);
         }
 
@@ -106,10 +107,13 @@ export default class Pack
 
     getBalancedIconList(num:number, stats:TypeStats) : ElementIcon[]
     {
-        // always add our main type once at the start
-        const elem = this.getDefaultElement();
-        const arr = [elem];
-        this.registerTypePicked(elem, stats);
+        const arr = [];
+        if(CONFIG.alwaysAddMainTypeOnce)
+        {
+            const elem = this.getDefaultElement();
+            arr.push(elem);
+            this.registerTypePicked(elem, stats);
+        }
 
         while(arr.length < num)
         {
@@ -119,6 +123,21 @@ export default class Pack
         }
 
         return arr;
+    }
+
+    getMultiIconType(icon:ElementIcon, stats:TypeStats) : string
+    {
+        const isAction = icon.action; // action types can't be multitype
+        if(!CONFIG.multiType || isAction) { return ""; }
+        
+        let shouldAdd = Math.random() <= CONFIG.gameplay.multiTypeProbability;
+        if(!shouldAdd) { return ""; }
+
+        // @TODO: more balancing checks for whether we should add; possibly track in stats
+
+        const allTypes = Object.values(CONFIG.elements);
+        allTypes.splice(allTypes.indexOf(icon.type), 1);
+        return Random.fromArray(allTypes);
     }
 
     drawRandomIconBalanced(stats:TypeStats) : ElementIcon
@@ -131,26 +150,21 @@ export default class Pack
         const rarestElement = options[0];
         const mostCommonElement = options[options.length - 1];
 
-        // if one element is used WAAAY too little, always pick that
-        const maxDiff = CONFIG.cards.generator.maxDifferenceBetweenTypes;
-        const elementTooRare = (stats[mostCommonElement].total - stats[rarestElement].total) >= maxDiff;
-        if(elementTooRare) { 
-            const icon = new ElementIcon(rarestElement); 
-            icon.action = this.shouldTurnIntoAction(icon, stats);
-            return icon;
-        }
+        // by default, pick randomly
+        let finalType = Random.fromArray(options);
 
         // picking our main type (for this card) again has a higher probability
         const pickSubType = Math.random() <= CONFIG.cards.generator.subTypeExtraProb;
-        if(pickSubType) { 
-            const icon = new ElementIcon(this.subtype);
-            icon.action = this.shouldTurnIntoAction(icon, stats);
-            return icon;
-        }
+        if(pickSubType) { finalType = this.subtype; }
 
-        // otherwise, pick randomly
-        const icon = new ElementIcon(Random.fromArray(options));
+        // if one element is used WAAAY too little, always pick that
+        const maxDiff = CONFIG.cards.generator.maxDifferenceBetweenTypes;
+        const elementTooRare = (stats[mostCommonElement].total - stats[rarestElement].total) >= maxDiff;
+        if(elementTooRare) { finalType = rarestElement; }
+
+        const icon = new ElementIcon(finalType);
         icon.action = this.shouldTurnIntoAction(icon, stats);
+        icon.multi = this.getMultiIconType(icon, stats);
         return icon;
     }
 }

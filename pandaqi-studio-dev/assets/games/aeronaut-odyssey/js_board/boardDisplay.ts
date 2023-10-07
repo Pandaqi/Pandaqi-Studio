@@ -483,7 +483,8 @@ export default class BoardDisplay
 
         const op = new LayoutOperation({ stroke: "#000000", strokeWidth: 2 });
 
-        const numSpaces = CONFIG.display.playerAreas.numSpaces;
+        const numRoutes = board.getRoutes().length;
+        const numSpaces = Math.round(CONFIG.display.playerAreas.numSpacesPerRoute * numRoutes);
         const playerAreas = board.playerAreas.get();
         for(const playerArea of playerAreas)
         {

@@ -11,7 +11,13 @@ import Point from "js/pq_games/tools/geometry/point"
 import LayoutOperation from "js/pq_games/layout/layoutOperation"
 import Path from "js/pq_games/tools/geometry/paths/path"
 import ResourceImage from "js/pq_games/layout/resources/resourceImage"
-import { CATEGORIES } from "../js_shared/dict"
+import { CATEGORIES, ELEMENTS } from "../js_shared/dict"
+import fillCanvas from "js/pq_games/layout/canvas/fillCanvas"
+import createContext from "js/pq_games/layout/canvas/createContext"
+import ResourceShape from "js/pq_games/layout/resources/resourceShape"
+import Line from "js/pq_games/tools/geometry/line"
+import Bounds from "js/pq_games/tools/numbers/bounds"
+import fromArray from "js/pq_games/tools/random/fromArray"
 
 type TypeStats = Record<string,TypeStat>
 
@@ -27,6 +33,17 @@ export default class Generator {
     {
         const userConfig = JSON.parse(window.localStorage[CONFIG.configKey] || "{}");
         Object.assign(CONFIG, userConfig);
+
+        if(CONFIG.debugRandomizeTypes)
+        {
+            const customElements = {
+                red: fromArray(["fire", "electric", "star", "dragon"]),
+                blue: fromArray(["water", "ice", "poison", "weather"]),
+                green: fromArray(["earth", "grass", "rock", "bug"]),
+                purple: fromArray(["air", "magic", "ghost", "dark"])
+            }
+            CONFIG.elements = customElements;
+        }
 
         CONFIG.progressBar = new ProgressBar();
         CONFIG.progressBar.setPhases(["Loading Assets", "Creating Cards", "Preparing PDF", "Done!"]);
@@ -45,7 +62,7 @@ export default class Generator {
     {
         CONFIG.progressBar.gotoNextPhase();
 
-        const resLoader = new ResourceLoader();
+        const resLoader = new ResourceLoader({ base: CONFIG.assetsBase });
         for(const [key,data] of Object.entries(CONFIG.assets))
         {
             resLoader.planLoad(key, data);
@@ -56,6 +73,11 @@ export default class Generator {
         // convert image icons into ones with a random cutout
         await this.bakeCutoutInto("icons");
         await this.bakeCutoutInto("icons_actions");
+
+        if(CONFIG.multiType)
+        {
+            await this.createMultiTypeIcons("icons");
+        }
 
         const pdfBuilderConfig = { orientation: PageOrientation.PORTRAIT };
         const pdfBuilder = new PdfBuilder(pdfBuilderConfig);
@@ -97,7 +119,8 @@ export default class Generator {
 
         const packs = [];    
         let counter = 0;  
-        if(CONFIG.debugSingleCard) { elemDict = { "red": "fire" } }
+        if(CONFIG.debugSingleCard) { elemDict = { "red": elemDict.red } }
+
         const numElements = Object.keys(elemDict).length;
         for(const [element,subtype] of Object.entries(elemDict))
         {
@@ -114,8 +137,6 @@ export default class Generator {
 
     async bakeCutoutInto(key:string)
     {
-        console.log(key);
-
         const iconRes = CONFIG.resLoader.getResource(key) as ResourceImage;
         const numFrames = iconRes.countFrames();
         let newCanvases = [];
@@ -123,28 +144,132 @@ export default class Generator {
         const bgTypes = ["red", "blue", "green", "purple"];
         const frameSize = 512;
         const biteSize = { min: 0.05*frameSize, max: 0.15*frameSize };
+        const isAction = (key == "icons_actions");
 
         for(let i = 0; i < numFrames; i++)
         {
-            let col = CATEGORIES[ bgTypes[Math.floor(i / 4)] ].color;
-            if(CONFIG.inkFriendly) { col = CONFIG.cards.icon.backgroundInkFriendly; }
+            const categoryData = CATEGORIES[ bgTypes[Math.floor(i / 4)] ];
+            let col = categoryData.color;
+            let colPattern = categoryData.colorDark;
+            if(CONFIG.inkFriendly) 
+            { 
+                col = CONFIG.cards.icon.backgroundInkFriendly; 
+                colPattern = CONFIG.cards.icon.backgroundDarkInkFriendly;
+            }
 
+            // grab only this frame
             const img = iconRes.getImageFrameAsResource(i);
-            const op = new LayoutOperation({
-                fill: col,
-                clip: this.getFunkyClipPath(img.size, biteSize) 
-            });
-            console.log(img);
+            const op = new LayoutOperation();
 
-            const canv = await img.toCanvas(null, op);
+            // fill background with correct color
+            const ctx = createContext({ size: img.size });
+            ctx.clip(this.getFunkyClipPath(img.size, biteSize).toPath2D());
+            fillCanvas(ctx, col);
+
+            // if an action, also add a pattern
+            if(isAction)
+            {
+                await this.addActionPattern(ctx, colPattern);
+            }
+
+            const canv = await img.toCanvas(ctx, op);
             newCanvases.push(canv);
         }
 
-        const newFrames = await convertCanvasToImageMultiple(newCanvases);
+        const newFrames = await convertCanvasToImageMultiple(newCanvases, true);
         for(let i = 0; i < numFrames; i++)
         {
             iconRes.swapFrame(i, newFrames[i]);
         }
+    }
+
+    async addActionPattern(ctx:CanvasRenderingContext2D, col:string)
+    {
+        const numLines = 5;
+        const size = new Point(ctx.canvas.width, ctx.canvas.height);
+        const op = new LayoutOperation({
+            stroke: col,
+            strokeWidth: CONFIG.cards.actionIconPatternStrokeWidth * ctx.canvas.width,
+            alpha: CONFIG.cards.actionIconPatternAlpha,
+        })
+
+        let stepSize = size.x / numLines;
+
+        for(let i = -1; i <= (numLines+1); i++)
+        {
+            const start = new Point(stepSize*i, size.y);
+            const end = new Point(stepSize*(i+1), 0);
+            const l = new Line(start, end);
+            const res = new ResourceShape({ shape: l });
+            await res.toCanvas(ctx, op);
+        }
+    }
+
+    async createMultiTypeIcons(key:string)
+    {
+        const res = new ResourceImage();
+
+        // for this spritesheet, we only grab the 4 types actually used in the game
+        // (because multityping them, we get 4x4 = 16 icons in total that way)
+        const framesUsed = [];
+
+        // given by user, maps main type (e.g. red) to sub type (e.g. fire)
+        let elemDict : Record<string,string> = CONFIG.elements;
+        for(const [mainType, subType] of Object.entries(elemDict))
+        {
+            framesUsed.push(ELEMENTS[subType].frame);
+        }
+
+        const iconRes = CONFIG.resLoader.getResource(key) as ResourceImage;
+        const newCanvases = [];
+
+        for(let i = 0; i < 4; i++)
+        {
+            const img1 = iconRes.getImageFrameAsResource(framesUsed[i]);
+
+            for(let j = 0; j < 4; j++)
+            {
+                // just a triangle from top left
+                const clipPath1 = [
+                    new Point(),
+                    new Point(img1.size.x, 0),
+                    new Point(0, img1.size.y)
+                ]
+
+                // image 1 is added fully
+                const ctx = createContext({ size: img1.size });
+                const op1 = new LayoutOperation({
+                    clip: new Path({ points: clipPath1 })
+                })
+                await img1.toCanvas(ctx, op1);
+
+                // and a triangle from bottom right
+                const clipPath2 = [
+                    new Point(img1.size.x, 0),
+                    img1.size.clone(),
+                    new Point(0, img1.size.y)
+                ]
+
+                // image 2 is added with a clip so it only shows half (cut diagonally)
+                const img2 = iconRes.getImageFrameAsResource(framesUsed[j]);
+                const op2 = new LayoutOperation({
+                    clip: new Path({ points: clipPath2 })
+                });
+
+                const canv = await img2.toCanvas(ctx, op2);
+                newCanvases.push(canv);
+            }
+        }
+
+        const newFrames = await convertCanvasToImageMultiple(newCanvases, true);
+        for(const frame of newFrames)
+        {
+            res.addFrame(frame);
+        }
+
+        console.log(res);
+
+        CONFIG.multiTypeImageResource = res;
     }
 
     getFunkyClipPath(size:Point, bounds = { min: 3, max: 6 }) : Path
@@ -156,7 +281,7 @@ export default class Generator {
             new Point(0, size.y)
         ]
         const chunkSize = 0.5*(bounds.min + bounds.max);
-        const funkyPath = takeBitesOutOfPath({ path: path, biteBounds: bounds, chunkSize: chunkSize });
+        const funkyPath = takeBitesOutOfPath({ path: path, biteBounds: bounds, chunkSize: chunkSize, chunksInterval: new Bounds(6, 11), close: true });
         return new Path({ points: funkyPath });
     }
 

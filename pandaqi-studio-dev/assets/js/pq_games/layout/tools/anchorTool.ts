@@ -2,6 +2,7 @@ import Point from "js/pq_games/tools/geometry/point";
 import AnchorValue from "../values/anchorValue";
 import Container from "../layoutNode";
 import BoxOutput from "../values/aggregators/boxOutput";
+import { ElementLike } from "../resources/resource";
 
 export default class AnchorTool
 {
@@ -48,7 +49,7 @@ export default class AnchorTool
         return p;
     }
 
-    applyTo(div:HTMLElement, wrapper:HTMLDivElement = null, parent:Container = null)
+    applyTo(div:ElementLike, wrapper:HTMLDivElement = null, parent:Container = null)
     {
         if(this.anchor == AnchorValue.NONE) { return; }
         if(!wrapper) { return; }

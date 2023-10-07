@@ -31,12 +31,17 @@ export default class ResourceImage extends Resource
     frame: number;
     frames : HTMLImageElement[];
 
-    constructor(imageData : HTMLImageElement = new Image(), params:any = {})
+    constructor(imageData : HTMLImageElement = null, params:any = {})
     {
         super()
 
         this.img = imageData;
         this.frameDims = new Point(params.frames ?? new Point(1,1));
+        if(!this.img) {
+            this.frameDims = new Point();
+            this.frames = [];
+            return;
+        }
 
         const singleFrame = this.frameDims.x*this.frameDims.y == 1;
         if(singleFrame) { this.frames = [this.img]; }
@@ -237,6 +242,14 @@ export default class ResourceImage extends Resource
     {
         this.img = img;
         return this;
+    }
+
+    addFrame(img:HTMLImageElement)
+    {
+        this.frames.push(img);
+        this.frameDims.x += 1;
+        if(this.frameDims.y <= 0) { this.frameDims.y = 1; }
+        this.refreshSize();
     }
 
     swapFrame(idx:number, img:HTMLImageElement)

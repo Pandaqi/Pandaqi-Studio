@@ -1,8 +1,10 @@
 import Point from "js/pq_games/tools/geometry/point"
 
 export default {
-    debugWithoutPDF: true, // @DEBUGGING (should be false)
-    debugSingleCard: true,
+    debugWithoutPDF: false, // @DEBUGGING (should be false)
+    debugSingleCard: false, // @DEBUGGING (should be false)
+    debugRandomizeTypes: false, // @DEBUGGING (should be false)
+    
     fileName: "[Creature Quellector] Material",
     configKey: "creatureQuellectorConfig",
     progressBar: null,
@@ -11,62 +13,73 @@ export default {
     pdfBuilder: null,
     cardSize: "regular",
     inkFriendly: false,
+
+    multiType: false,
+    multiTypeImageResource: null,
+
+    enableOldCounterRules: false, // the old rules included counter icons/cycle on the card; not anymore
+
     elements: {}, // the elements included by user setting on game page
     elementsReverse: {},
 
+    alwaysAddMainTypeOnce: false,
+
+    assetsBase: "/creature-quellector/assets/",
     assets: {
         creatures_1: {
-            path: "assets/quellector_creatures_1.webp",
+            path: "quellector_creatures_1.webp",
             frames: { x: 8, y: 2 }
         },
         creatures_2: {
-            path: "assets/quellector_creatures_2.webp",
+            path: "quellector_creatures_2.webp",
             frames: { x: 8, y: 2 }
         },
         creatures_3: {
-            path: "assets/quellector_creatures_3.webp",
+            path: "quellector_creatures_3.webp",
             frames: { x: 8, y: 2 }
         },
         backgrounds_1: {
-            path: "assets/quellector_backgrounds_1.webp",
+            path: "quellector_backgrounds_1.webp",
             frames: { x: 8, y: 2 }
         },
         backgrounds_2: {
-            path: "assets/quellector_backgrounds_2.webp",
+            path: "quellector_backgrounds_2.webp",
             frames: { x: 8, y: 2 }
         },
         backgrounds_3: {
-            path: "assets/quellector_backgrounds_3.webp",
+            path: "quellector_backgrounds_3.webp",
             frames: { x: 8, y: 2 }
         },
         icons: {
-            path: "assets/quellector_types.webp",
+            path: "quellector_types.webp",
             frames: { x: 8, y: 2 }
         },
         icons_actions: {
-            path: "assets/quellector_actions.webp",
+            path: "quellector_actions.webp",
             frames: { x: 8, y: 2 }
         },
         counter_icon: {
-            path: "assets/counter_icon.webp",
+            path: "counter_icon.webp",
             frames: { x: 1, y: 1 }
         },
 
         fontHeading: {
             key: "Comica Boom",
-            path: "assets/fonts/Comica Boom.otf",
+            path: "fonts/Comica Boom.otf",
             size: 0.1285
         },
 
+        /*
         fontText: {
             key: "Beautiful Humility",
-            path: "assets/fonts/Beautiful Humility.otf",
+            path: "fonts/Beautiful Humility.otf",
             size: 0.063
         },
+        */
 
         fontDetails: {
             key: "Cabin-Italic",
-            path: "assets/fonts/Cabin-Italic.woff2",
+            path: "fonts/Cabin-Italic.woff2",
             size: 0.0533
         }
     },
@@ -75,10 +88,12 @@ export default {
         // purple defeats green, defeats blue, defeats red, defeats purple
         elementCycle: ["purple", "green", "blue", "red"],
         elementCycleSubtype: [],
-        actionProbability: 0.35,
+        actionProbability: 0.275,
         actionPickThreshold: 5, // we'll only consider adding actions once this number of regular icons have been placed
         actionPercentage: { min: 0.175, max: 0.3 }, // what percentage of icons (in total) should be an action?
-        actionPercentagePerType: { min: 0.075, max: 0.5 } // what percentage of icons (within one type) may be an action?
+        actionPercentagePerType: { min: 0.075, max: 0.5 }, // what percentage of icons (within one type) may be an action?
+    
+        multiTypeProbability: 0.175,
     },
 
     cards: {
@@ -102,6 +117,10 @@ export default {
             backgroundInkFriendly: "#777777",
             backgroundDarkInkFriendly: "#333333"
         },
+
+        actionIconPatternStrokeWidth: 0.075, // relative to icon size (during bake-stuff-into-type-icons phase)
+        actionIconPatternAlpha: 0.4,
+        dropShadowOffset: 0.08, // relative to (corner) icon size
         
         backgroundScale: 2.0,
         backgroundAlpha: 0.125,

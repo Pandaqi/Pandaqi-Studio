@@ -18,6 +18,7 @@ export default class Color
     constructor(h:number|Color|string = null, s:number = 0, l:number = 0, a:number = 1.0) 
     {
         if(h == null || h == undefined) { a = 0; h = 0; }
+        if(h == "transparent") { this.fromHSLA(0,0,0,0); return; } // @TODO: better support with function/static for "transparent"
         if(h instanceof Color) { this.fromColor(h); return; }
         if(typeof h === 'string') { this.fromHEXA(h); return; }
         this.fromHSLA(h, s, l, a);
@@ -65,6 +66,8 @@ export default class Color
     }
 
     /* The `to` functions */
+    toCSS() { return this.toString(); }
+
     toString() : string
     {
         return this.toHSLA();
