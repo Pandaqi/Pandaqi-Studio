@@ -1,6 +1,5 @@
 ---
 type: "rules"
-pdf: false
 ---
 
 {{% rules-block id="setup" heading="Setup" icon="setup" icontint="yellow" %}}

@@ -84,17 +84,17 @@ class PhaserClass
 		if(!phaserContainer) { return console.error("Can't start Phaser without container."); }
 
 		this.gameConfig = cfg;
-		this.createPDFBuilder();
+		this.createPDFBuilder(cfg); // this sets gameConfig.size to PDF size => find cleaner syntax for that
 
 		// @ts-ignore
-		const generationClass = this.generationClass || window.BoardGeneration;
+		const generationClass = this.generationClass ?? window.BoardGeneration;
 		const renderer = this.renderer == "webgl" ? WEBGL : CANVAS;
 
 		phaserContainer.innerHTML = '';
 		var phaserConfig = {
 			type: renderer,
-			width: cfg.size.width,
-			height: cfg.size.height,
+			width: cfg.size.x,
+			height: cfg.size.y,
 			scale: {
 				mode: Scale.FIT,
 			},
@@ -104,8 +104,8 @@ class PhaserClass
 			scene: [generationClass],
 		}
 
-		const scrollLeft = window.scrollX || document.documentElement.scrollLeft;
-		const scrollTop = window.scrollY || document.documentElement.scrollTop;
+		const scrollLeft = window.scrollX ?? document.documentElement.scrollLeft;
+		const scrollTop = window.scrollY ?? document.documentElement.scrollTop;
 
 		this.phaserGame = new Game(phaserConfig);
 		this.phaserGame.scene.start(this.generationKey, cfg);
@@ -168,13 +168,13 @@ class PhaserClass
 		this.onConversionDone(scene);
 	}
 
-	createPDFBuilder()
+	createPDFBuilder(cfg = this.gameConfig)
 	{
 		if(this.pdfBuilder) { this.pdfBuilder.destroy(); }
 
 		this.pdfBuilder = new PdfBuilder(this.gameConfig);
-		this.gameConfig.size = this.pdfBuilder.getPageSize();
-		this.pdfBuilder.connectConfig(this.gameConfig);
+		cfg.size = this.pdfBuilder.getPageSize();
+		this.pdfBuilder.connectConfig(cfg);
 		this.pdfBuilder.connectButton(PDF.getCreatePDFButton());
 		this.pdfBuilder.onGenerationStart();
 	}

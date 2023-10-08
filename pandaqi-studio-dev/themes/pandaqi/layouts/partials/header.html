@@ -1,10 +1,8 @@
-{{ $all_colors := .Site.Params.all_colors }}
-{{ $color_scheme := or .Params.color (index ($all_colors | shuffle) 0) }}
 {{ $under_maintenance := or .Params.maintenance false }}
 
-<header class="{{ $color_scheme }}">
+<header>
 	{{ if not .Params.gamepage }}
-		{{ $slogans := .Site.Params.slogans }}
+		{{ $slogans :=  or .Site.Params.slogans (slice "testslogan1" "testslogan2") }}
 
 		<nav>
 			<ul>

@@ -1,18 +1,15 @@
 import Point from "js/pq_games/tools/geometry/point"
 import LayoutEffect from "./effects/layoutEffect"
 import ResourceImage, { CanvasLike } from "js/pq_games/layout/resources/resourceImage"
-import Path from "../tools/geometry/paths/path"
 import Resource, { ElementLike } from "./resources/resource"
 import ResourceShape from "./resources/resourceShape"
-import ResourceGradient from "./resources/resourceGradient"
-import ResourcePattern from "./resources/resourcePattern"
 import ResourceText from "./resources/resourceText"
 import Shape from "../tools/geometry/shape"
-import Color from "./color/color"
 import Dims from "../tools/geometry/dims"
 import isZero from "../tools/numbers/isZero"
 import ResourceBox from "./resources/resourceBox"
 import ColorLike, { ColorLikeValue } from "./color/colorLike"
+import createContext from "./canvas/createContext"
 
 type ResourceLike = ResourceImage|ResourceShape|ResourceText|ResourceBox
 
@@ -150,14 +147,12 @@ export default class LayoutOperation
 
     async applyToCanvas(canv:CanvasLike = null) : Promise<HTMLCanvasElement>
     {        
-        // @TODO: how to control this size better?
-        if(!canv) { 
-            canv = document.createElement("canvas");
-            canv.width = this.dims.x;
-            canv.height = this.dims.y;
-        }
+        let ctx = (canv instanceof HTMLCanvasElement) ? canv.getContext("2d") : canv;
+        if(!ctx) { ctx = createContext({ size: this.dims }); } // @TODO: how to control this size better?
 
-        const ctx = (canv instanceof HTMLCanvasElement) ? canv.getContext("2d") : canv;
+        ctx.imageSmoothingEnabled = false;
+        ctx.imageSmoothingQuality = "low";
+
         ctx.save();
 
         ctx.globalCompositeOperation = this.composite;

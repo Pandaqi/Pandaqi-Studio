@@ -122,14 +122,10 @@ export default class Point
         return Math.acos(dot / length);
     }
 
-    // @TODO: the orthodot part is new to me, is it needed? does this work?
     angleSignedTo(p:Point)
     {
-        const length = this.length() * p.length();
-        const dot = this.dot(p);
-        const orthodot = this.x * p.y - this.y * p.x;
-        const sign = orthodot >= 0 ? 1 : -1;
-        return sign * Math.acos(dot / length);
+        const sign = Math.sign(this.cross(p));
+        return sign * this.angleTo(p);
     }
 
     negate() { return this.scaleFactor(-1); }

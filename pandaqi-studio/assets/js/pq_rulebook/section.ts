@@ -1,6 +1,7 @@
 class RulesSection
 {
     node: HTMLElement;
+    root: boolean;
     hierarchy: number[];
     contentContainer: any;
     arrow: HTMLElement;
@@ -9,26 +10,29 @@ class RulesSection
     header: HTMLElement;
     counter: HTMLElement;
 
-    constructor(node: HTMLElement, hierarchy: number[], isPDF: boolean)
+    constructor(node: HTMLElement, hierarchy: number[])
     {
         this.node = node;
+        this.subsections = [];
         this.hierarchy = hierarchy.slice();
         this.setZIndexFromHierarchy(hierarchy);
 
-        this.searchChildren(isPDF);
+        this.searchChildren();
 
         const isRootSection = this.hierarchy.length <= 0;
+        this.root = isRootSection;
         if(isRootSection) { return; }
 
         this.setupContent();
         this.setupHeader();
+        this.saveStyleForSimpleView();
 
         // @NOTE: needed for easy CSS styling selection on content only!
         this.contentContainer.dataset.folded = "false";
-        
-        if(isPDF) { this.setupForPDF(); }
-        else { this.toggle(); }
+        this.toggle();
     }
+
+    isRoot() { return this.root; }
 
     setZIndexFromHierarchy(h: string | any[])
     {
@@ -49,19 +53,72 @@ class RulesSection
         return h.length + 1; // first heading is h1, not h0, hence +1
     }
 
-    setupForPDF()
+    saveStyleForSimpleView()
     {
-        this.contentContainer.style.transition = "initial";
-        this.contentContainer.style.height = "auto";
-        this.arrow.style.display = "none";
+        const compStyleNode = window.getComputedStyle(this.node);
+        const headerStyleNode = window.getComputedStyle(this.header);
+        const contentStyleNode = window.getComputedStyle(this.contentContainer);
+
+        const DEF_BG = "#DEDEDE";
+        const DEF_COL = "#121212";
+        const isTransparent = (col) => {
+            return col == "rgba(0, 0, 0, 0)";
+        }
+
+        this.node.dataset.advancedViewBackground = compStyleNode.backgroundColor;
+        this.node.dataset.simpleViewBackground = "transparent";
+
+        this.header.dataset.advancedViewBackground = headerStyleNode.backgroundColor;
+        this.header.dataset.advancedViewColor =  headerStyleNode.color;
+        this.header.dataset.simpleViewBackground = isTransparent(compStyleNode.backgroundColor) ? DEF_BG : compStyleNode.backgroundColor;
+        this.header.dataset.simpleViewColor = isTransparent(headerStyleNode.color) ? DEF_COL : headerStyleNode.color;
+
+        this.contentContainer.dataset.advancedViewBackground = contentStyleNode.backgroundColor;
+        this.contentContainer.dataset.advancedViewColor = contentStyleNode.color;
+        this.contentContainer.dataset.simpleViewBackground = "transparent";
+        this.contentContainer.dataset.simpleViewColor = DEF_COL;
     }
 
-    searchChildren(isPDF: any)
+    getViewColor(node, simple = true, string = "background")
     {
-        let rootContainer = this.node.getElementsByClassName("rules-foldable")[0];
-        if(!rootContainer) { return; }
+        let prefix = simple ? "simple" : "advanced";
+        let suffix = string.charAt(0).toUpperCase() + string.slice(1);
+        return node.dataset[prefix + "View" + suffix];
+    }
 
-        const children : HTMLElement[] = Array.from(rootContainer.parentElement.childNodes) as HTMLElement[];
+    toggleSimpleView(simple = true)
+    {
+        if(!this.isRoot()) 
+        {
+            if(this.isFolded() == simple) { this.toggle(true); }
+
+            if(simple) { this.arrow.style.display = "none"; }
+            else { this.arrow.style.display = "block"; }
+
+            this.node.style.backgroundColor = this.getViewColor(this.node, simple, "background");
+
+            this.header.style.backgroundColor = this.getViewColor(this.header, simple, "background");
+            this.header.style.color = this.getViewColor(this.header, simple, "color");
+
+            this.contentContainer.style.backgroundColor = this.getViewColor(this.contentContainer, simple, "background");
+            this.contentContainer.style.color = this.getViewColor(this.contentContainer, simple, "color");
+        }
+
+        for(const section of this.subsections)
+        {
+            section.toggleSimpleView(simple);
+        }
+    }
+
+    // Only does something when called on the rootContainer; finds ALL children then
+    // @TODO: this isn't great design, change that?
+    searchChildren()
+    {
+
+        let childSectionContainer = this.node.getElementsByClassName("rules-foldable")[0];
+        if(!childSectionContainer) { return; }
+
+        const children : HTMLElement[] = Array.from(childSectionContainer.parentElement.childNodes) as HTMLElement[];
         const hierarchy = this.hierarchy.slice();
 
         this.subsections = [];        
@@ -74,7 +131,7 @@ class RulesSection
             hierarchy.push(counter);
             counter++;
 
-            const newSec = new RulesSection(child, hierarchy, isPDF);
+            const newSec = new RulesSection(child, hierarchy);
             this.subsections.push(newSec);
 
             hierarchy.pop();
@@ -136,7 +193,7 @@ class RulesSection
         this.toggle();
     }
 
-    toggle()
+    toggle(instant = false)
     {
         const that = this;
 
@@ -150,12 +207,18 @@ class RulesSection
         this.arrow.innerHTML = newArrow;
 
         const shouldFold = newValue == "true";
-        if(shouldFold) {
-            setTimeout(() => { that.contentContainer.style.height = "0px" }, 3);
-        } else {
-            this.header.scrollIntoView({behavior: "smooth", block: "start"});
-            setTimeout(() => { that.contentContainer.style.height = "auto" }, 300);
+
+        let newHeight = shouldFold ? "0px" : "auto";
+        let duration = shouldFold ? 3 : 300;
+
+        if(instant)
+        {
+            this.contentContainer.style.height = newHeight;
+            return;
         }
+
+        if(!shouldFold) { this.header.scrollIntoView({behavior: "smooth", block: "start"}); }
+        setTimeout(() => { that.contentContainer.style.height = newHeight }, duration);
     }
 
     travelHierarchy(curNode: any)

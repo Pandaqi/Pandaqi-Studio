@@ -43,19 +43,22 @@ Your opponent can do so too, _after_ you've chosen what to do.
 
 {{< rules-image src="card_anatomy.webp" alt="What different card parts mean." class="float-right" >}}
 
-Creatures have one main type (the large one in the center and corners). The rest of the card has a mix of icons.
+Creatures always belong to one **element** (their "main type"; the large icon in the center and corners). The rest of the card has a mix of _powers_: **types** and **actions**.
 
 Determine your squad's strength with three simple steps.
 
-1.	The player who has the most **action** icons, executes **one** of their actions. (If tied, nobody does.)
-2.	Check the main types your opponent has: those types are worth **nothing** for you. (They are "Countered".)
-3.	Each remaining **type icon** is worth +1 point.
+1. The player who has the most **actions**, executes **one** of them. (If tied, nobody does.)
+2. Every **type** is worth +1 point for you.
+3. However, types that match an **element** played by the opponent are worth **nothing** for you. (They are "Countered".)
 
 The player with the highest score wins. If tied, the defender wins.
 
-{{< rules-image src="battle_resolution.webp" alt="An example of how to resolve a battle (actions, counters, sum what's left)." >}}
+When calculating your final score at the **end of the game**, pretend you’re fighting **your own hand**! 
 
-When calculating your final score at the **end of the game**, pretend you’re fighting **your own hand**! (All main types Counter yourself.)
+* All your elements Counter yourself.
+* All _actions_ score +1 point and cannot be countered.
+
+{{< rules-image src="battle_resolution.webp" alt="An example of how to resolve a battle (actions, counters, sum what's left)." >}}
 
 {{% /rules-block %}}
 

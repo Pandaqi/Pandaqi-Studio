@@ -1,6 +1,6 @@
 import maximumElements from "../collections/maximumElements";
 import minimumElements from "../collections/minimumElements";
-import ensureDictionaryEntry from "../logic/ensureDictionaryEntry";
+import ensureDictionaryEntry from "../collections/ensureDictionaryEntry";
 import { FrequencyExtreme } from "./balancedFrequencyPicker";
 
 export default class StatsTracker

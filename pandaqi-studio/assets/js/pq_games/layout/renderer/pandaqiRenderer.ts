@@ -69,6 +69,8 @@ export default class PandaqiRenderer
         if(canv.width <= 0 || canv.height <= 0) { return; }
 
         const ctx = canv.getContext("2d");
+        ctx.imageSmoothingEnabled = false;
+        ctx.imageSmoothingQuality = "low";
         ctx.globalAlpha = node.propsOutput.alpha;
 
         let pos = node.getGlobalPosition();        

@@ -22,6 +22,7 @@ import Resource from "./resources/resource.js"
 import createCanvas from "./canvas/createCanvas.js"
 import { CanvasLike } from "./resources/resourceImage.js"
 import Dims from "../tools/geometry/dims.js"
+import ResourceBox from "./resources/resourceBox.js"
 
 export default class LayoutNode
 {
@@ -59,7 +60,7 @@ export default class LayoutNode
         this.config = params.config;
         this.renderer = params.renderer ?? new HTMLFirstRenderer();
         
-        this.resource = params.resource ?? null;
+        this.resource = params.resource ?? new ResourceBox();
         this.operation = new LayoutOperation(params);
 
         this.boxInput = new BoxInput(params);
@@ -132,50 +133,39 @@ export default class LayoutNode
             }); 
         }
 
-        this.renderer.toCanvas(this, canv, calcDims);
+        await this.renderer.toCanvas(this, canv, calcDims);
         return canv;
     }
 
     async toHTML()
     {
-        const div = document.createElement(this.element);
-        div.style.boxSizing = "border-box";
+        // @NOTE: operation needs to be modified BEFORE moving resource toHTML
+        // (otherwise these changes are obviously not taken into account)
+        this.boxInput.applyToLayoutOperation(this.operation);
+        this.propsInput.applyToLayoutOperation(this.operation);
+
+        const resNode = await this.resource.toHTML(this.operation);
+        resNode.style.boxSizing = "border-box";
 
         const wrapper = this.needsWrapperHTML() ? this.createWrapperHTML() : null;
-        if(wrapper) { wrapper.appendChild(div); }
+        if(wrapper) { wrapper.appendChild(resNode); }
 
-        const topElem = wrapper ? wrapper : div;
-        let resNode = null;
-
-        if(this.resource)
-        {
-            resNode = await this.resource.toHTML(this.operation);
-            div.appendChild(resNode);
-        }
+        const topElem = wrapper ? wrapper : resNode;
 
         // @NOTE: yes, apply to children BEFORE applying to ourselves
         for(const child of this.children)
         {
-            div.appendChild(await child.toHTML());
+            resNode.appendChild(await child.toHTML());
         }
 
-        if(this.shouldHideOverflow()) { div.style.overflow = "hidden"; }
+        if(this.shouldHideOverflow()) { resNode.style.overflow = "hidden"; }
 
-        this.boxInput.applyToHTML(div, wrapper, this.parent);
-        this.propsInput.applyToHTML(div);
-        this.flowInput.applyToHTML(div);
+        this.boxInput.applyToHTML(resNode, wrapper, this.parent);
+        this.flowInput.applyToHTML(resNode);
+        this.propsInput.applyToHTML(resNode);
 
-        // @TODO: ugly exception for border radius, should find generalized system for transfering properties to resource someday
-        //  > maybe pass resNode into applyToHTML above?
-        if(resNode)
-        {
-            resNode.style.borderRadius = this.propsInput.borderRadius.toCSS();
-        }
-
-        await this.operation.applyToHTML(div);
-        
-        if(wrapper) { return wrapper; }
-        return div;
+        await this.operation.applyToHTML(resNode, this.resource);
+        return topElem;
     }
 
     async toSVG()

@@ -1,4 +1,4 @@
-import { PdfBuilder, PageSize, PdfBuilderConfig } from "js/pq_games/pdf/pdfBuilder"
+import { PdfBuilder, PdfBuilderConfig } from "js/pq_games/pdf/pdfBuilder"
 import createCanvas from "js/pq_games/layout/canvas/createCanvas"
 import Point from "js/pq_games/tools/geometry/point"
 
@@ -36,7 +36,7 @@ export default class GridMapper
     currentElement : number
 
     pdfBuilder : PdfBuilder
-    pageSize : PageSize
+    pageSize : Point
     innerPageSize : Point
     maxPixels : Point
 
@@ -60,8 +60,8 @@ export default class GridMapper
         this.pdfBuilder = params.pdfBuilder || new PdfBuilder(params.pdfParams);
         this.pageSize = this.pdfBuilder.getPageSize();
         this.innerPageSize = new Point({
-            x: (this.pageSize.width-2*this.outerMargin.x),
-            y: (this.pageSize.height-2*this.outerMargin.y)
+            x: (this.pageSize.x-2*this.outerMargin.x),
+            y: (this.pageSize.y-2*this.outerMargin.y)
         });
 
         this.maxPixels = new Point({ 
@@ -265,7 +265,7 @@ export default class GridMapper
 
     addNewCanvas()
     {
-        const canv = createCanvas({ width: this.pageSize.width, height: this.pageSize.height });
+        const canv = createCanvas({ width: this.pageSize.x, height: this.pageSize.y });
         this.canvases.push(canv);
         this.currentElement = 0;
 

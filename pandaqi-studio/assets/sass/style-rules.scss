@@ -96,6 +96,12 @@ $min-remark-print-width: $max-print-width;
 body {
     background-color: #FCFCFC;
     font-size: 16px;
+
+    @media print 
+    {
+        background-color: transparent;
+        font-size: 11pt;
+    }
 }
 
 h1 {
@@ -211,6 +217,14 @@ article, section {
     break-after: page;
 }
 
+#simpleViewButton, #printButton
+{
+    cursor:pointer;
+    
+    @media print {
+        display: none;
+    }
+}
 
 // 
 // Game name + metadata, and image on PDF
@@ -794,10 +808,6 @@ $rules-table-size-print: 0.75*$rules-table-icon-size;
 {
     .rules-media-filter-screen { display: none; }
     .rules-media-filter-print { display: block; }
-
-    body {
-        font-size: 14px;
-    }
 
     .rules-table {
         display: flex;

@@ -25,7 +25,7 @@ textColorLink: "#edccff"
 
 googleFonts: ""
 
-date: 2024-02-25
+date: 2023-01-01 # 2024-02-25
 
 categories: ["boardgame"]
 tags: ["queuing game", "waitless game"]

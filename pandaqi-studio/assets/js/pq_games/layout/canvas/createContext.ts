@@ -17,5 +17,8 @@ export default (params:NewContextParams = {}) : CanvasRenderingContext2D =>
         alpha: true,
     };
     Object.assign(contextParams, params);
-    return createCanvas(params).getContext("2d", contextParams) as CanvasRenderingContext2D;
+    const ctx = createCanvas(params).getContext("2d", contextParams) as CanvasRenderingContext2D;
+    ctx.imageSmoothingQuality = "low";
+    ctx.imageSmoothingEnabled = false;
+    return ctx;
 }

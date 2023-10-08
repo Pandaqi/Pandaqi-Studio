@@ -8,7 +8,7 @@ interface FloodFillParams
 {
     start?:any
     grid?:any[][],
-    neighborFunction: string
+    neighborFunction?: string
     neighborPickFunction?: (list:any[], nbs:any[]) => any
     filter?: (a:any, b:any) => boolean // if this returns false, a cell isn't allowed for growing
     bounds?: { min: number, max: number },

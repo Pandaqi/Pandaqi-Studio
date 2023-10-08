@@ -5,6 +5,7 @@ import subdividePath from "./subdividePath";
 interface BiteParams
 {
     path?: Point[],
+    close?: boolean,
     chunkSize?: number,
     biteBounds?: { min: number, max: number },
     chunksInterval?: { min: number, max: number }
@@ -29,7 +30,7 @@ export default (params:BiteParams) : Point[] =>
 
     // chop the path into lots of (regularly sized) chunks
     const chunkSize = params.chunkSize ?? 10.0;
-    const pathChopped : Point[] = subdividePath({ path: path, chunkSize: chunkSize });
+    const pathChopped : Point[] = subdividePath({ path: path, chunkSize: chunkSize, close: params.close });
 
     // then randomly move some of them inward
     const chunksInterval = params.chunksInterval ?? { min: 3, max: 10 };

@@ -1,17 +1,17 @@
 import Point from "js/pq_games/tools/geometry/point"
 import LayoutEffect from "./effects/layoutEffect"
 import ResourceImage, { CanvasLike } from "js/pq_games/layout/resources/resourceImage"
-import Path from "../tools/geometry/paths/path"
 import Resource, { ElementLike } from "./resources/resource"
 import ResourceShape from "./resources/resourceShape"
-import ResourceGradient from "./resources/resourceGradient"
-import ResourcePattern from "./resources/resourcePattern"
 import ResourceText from "./resources/resourceText"
 import Shape from "../tools/geometry/shape"
-import Color from "./color/color"
 import Dims from "../tools/geometry/dims"
+import isZero from "../tools/numbers/isZero"
+import ResourceBox from "./resources/resourceBox"
+import ColorLike, { ColorLikeValue } from "./color/colorLike"
+import createContext from "./canvas/createContext"
 
-type ResourceLike = ResourceImage|ResourceShape|ResourceGradient|ResourcePattern|ResourceText
+type ResourceLike = ResourceImage|ResourceShape|ResourceText|ResourceBox
 
 interface EffectData
 {
@@ -20,9 +20,10 @@ interface EffectData
 
 interface LayoutOperationParams
 {
-    fill?:string|Color,
-    stroke?:string|Color,
+    fill?:string|ColorLikeValue,
+    stroke?:string|ColorLikeValue,
     strokeWidth?:number,
+    strokeType?:string,
 
     translate?: Point,
     rotation?:number,
@@ -70,9 +71,10 @@ export default class LayoutOperation
     
     frame: number // frame of image (spritesheets)
 
-    fill: Color
-    stroke: Color
+    fill: ColorLike
+    stroke: ColorLike
     strokeWidth: number
+    strokeType: string
 
     constructor(params:LayoutOperationParams = {})
     {
@@ -93,9 +95,10 @@ export default class LayoutOperation
         this.mask = params.mask ?? null;
         this.effects = params.effects ?? [];
 
-        this.fill = new Color(params.fill);
-        this.stroke = new Color(params.stroke);
+        this.fill = new ColorLike(params.fill);
+        this.stroke = new ColorLike(params.stroke);
         this.strokeWidth = params.strokeWidth ?? 0;
+        this.strokeType = params.strokeType ?? "solid";
     }
 
     clone(deep = false)
@@ -144,14 +147,12 @@ export default class LayoutOperation
 
     async applyToCanvas(canv:CanvasLike = null) : Promise<HTMLCanvasElement>
     {        
-        // @TODO: how to control this size better?
-        if(!canv) { 
-            canv = document.createElement("canvas");
-            canv.width = this.dims.x;
-            canv.height = this.dims.y;
-        }
+        let ctx = (canv instanceof HTMLCanvasElement) ? canv.getContext("2d") : canv;
+        if(!ctx) { ctx = createContext({ size: this.dims }); } // @TODO: how to control this size better?
 
-        const ctx = (canv instanceof HTMLCanvasElement) ? canv.getContext("2d") : canv;
+        ctx.imageSmoothingEnabled = false;
+        ctx.imageSmoothingQuality = "low";
+
         ctx.save();
 
         ctx.globalCompositeOperation = this.composite;
@@ -191,8 +192,8 @@ export default class LayoutOperation
 
         ctx.filter = effectData.filters.join(" ");
 
-        ctx.fillStyle = this.fill.toString();
-        ctx.strokeStyle = this.stroke.toString();
+        ctx.fillStyle = this.fill.toCanvasStyle(ctx);
+        ctx.strokeStyle = this.stroke.toCanvasStyle(ctx);
         ctx.lineWidth = this.strokeWidth;
  
         const res = this.resource;
@@ -201,8 +202,8 @@ export default class LayoutOperation
 
         let image : ResourceImage = null;
         if(res instanceof ResourceImage) { image = res; }
-        else if(res instanceof ResourceGradient) { image = await new ResourceImage().fromGradient(res); }
-        else if(res instanceof ResourcePattern) { image = await new ResourceImage().fromPattern(res); }
+        //else if(res instanceof ResourceGradient) { image = await new ResourceImage().fromGradient(res); }
+        //else if(res instanceof ResourcePattern) { image = await new ResourceImage().fromPattern(res); }
 
         if(drawShape)
         {
@@ -213,7 +214,6 @@ export default class LayoutOperation
 
         if(drawText)
         {
-            console.log(ctx.fillStyle);
             const drawer = res.createTextDrawer(this.dims);
             drawer.toCanvas(ctx);
         }
@@ -232,7 +232,6 @@ export default class LayoutOperation
             const box = new Dims(offset.clone(), this.dims.clone());
             const boxPath = box.toPath2D();
             
-            ctx.fillStyle = this.fill.toString();
             ctx.fill(boxPath);
 
             ctx.drawImage(
@@ -247,15 +246,25 @@ export default class LayoutOperation
         return ctx.canvas;
     }
 
-    async applyToHTML(node:ElementLike)
+    async applyToHTML(node:ElementLike, res:Resource = null)
     {
+        const textMode = res instanceof ResourceText;
+        const svgMode = node instanceof SVGSVGElement;
+        if(svgMode) { return node; } // svg is just a wrapper for the specific shape inside; operation is already applied to THAT
+
         // misc basic properties
         node.style.opacity = this.alpha.toString();
-        node.style.backgroundColor = this.fill.toString();
+        if(textMode) { node.style.color = this.fill.toCSS(); }
+        else { node.style.backgroundColor = this.fill.toCSS(); }
 
-        if(this.strokeWidth > 0) { node.style.borderStyle = "solid"; }
-        node.style.borderWidth = this.strokeWidth + "px";
-        node.style.borderColor = this.stroke.toString();
+        if(textMode) {
+            node.style.stroke = this.stroke.toString();
+            node.style.strokeWidth = this.strokeWidth + "px";
+        } else {
+            if(this.strokeWidth > 0) { node.style.borderStyle = this.strokeType; }
+            node.style.borderWidth = this.strokeWidth + "px";
+            node.style.borderColor = this.stroke.toCSS();
+        }
 
         // clip and mask
         if(this.clip)
@@ -304,12 +313,15 @@ export default class LayoutOperation
         return node;
     }
 
-    // @TODO: write the same thing, but now using SVG's built-in filters and clipping and stuff
+    // @TODO: write the same thing as Canvas/HTML, but now using SVG's built-in filters and clipping and stuff
     async applyToSVG(elem:ElementLike)
     {
-        elem.setAttribute("fill", this.fill.toString());
-        elem.setAttribute("stroke", this.stroke.toString());
+        elem.setAttribute("fill", this.fill.toCSS());
+        elem.setAttribute("stroke", this.stroke.toCSS());
         elem.setAttribute("stroke-width", this.strokeWidth.toString());
         return elem;
     }
+
+    hasFill() { return !this.fill.isTransparent(); }
+    hasStroke() { return !this.stroke.isTransparent() && !isZero(this.strokeWidth); }
 }

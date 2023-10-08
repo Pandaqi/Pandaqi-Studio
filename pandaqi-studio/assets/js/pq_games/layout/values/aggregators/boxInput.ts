@@ -12,6 +12,9 @@ import AnchorTool from "../../tools/anchorTool"
 import PlacementValue from "../placementValue"
 import DisplayValue from "../displayValue"
 import InputGroup from "./inputGroup"
+import LayoutOperation from "../../layoutOperation"
+import ColorLike from "../../color/colorLike"
+import { ElementLike } from "../../resources/resource"
 
 export default class BoxInput extends InputGroup
 {
@@ -86,16 +89,12 @@ export default class BoxInput extends InputGroup
         return false;
     }
 
-    applyToHTML(div:HTMLElement, wrapper:HTMLDivElement = null, parent:Container = null)
+    applyToHTML(div:ElementLike, wrapper:HTMLDivElement = null, parent:Container = null)
     {
         let topElem = wrapper ? wrapper : div;
 
         div.style.margin = this.margin.toCSS();
         div.style.padding = this.padding.toCSS();
-
-        div.style.borderWidth = this.stroke.width.toCSS();
-        div.style.borderStyle = this.stroke.getStyleAsCSSProp();
-        div.style.borderColor = this.stroke.color.toCSS();
 
         div.style.width = this.size.x.toCSS();
         div.style.height = this.size.y.toCSS();
@@ -128,6 +127,13 @@ export default class BoxInput extends InputGroup
         if(this.ghost) { 
             topElem.style.zIndex = "-1";
         }
+    }
+
+    applyToLayoutOperation(op:LayoutOperation)
+    {
+        op.strokeWidth = this.stroke.width.get().top;
+        op.stroke = new ColorLike(this.stroke.color.get());
+        op.strokeType = this.stroke.getStyleAsCSSProp();
     }
 
     hasCustomPosition()

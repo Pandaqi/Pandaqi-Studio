@@ -30,6 +30,19 @@ export default class ResourcePattern extends Resource
         return new ResourcePattern();
     }
 
+    toCSS()
+    {
+        return "";
+        // @TODO
+    }
+
+    toCanvasStyle(ctx:CanvasRenderingContext2D)
+    {
+        // @TODO
+    }
+
+    isTransparent() { return false; } // @TODO: smarter check to see if we actually have something to display
+
     // @TODO: when executing, run loops to tile the image, and within those call the callback each time (with current iteration/position)
     
 }

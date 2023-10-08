@@ -1,6 +1,5 @@
 ---
 type: "rules"
-pdf: false
 ---
 
 {{% rules-block id="setup" heading="Setup" icon="setup" icontint="pink" %}}
@@ -9,7 +8,7 @@ Print a game board. Cut off the player areas (or fold them away).
 
 Each player ...
 
-* Receives a player area. Keep this secret all game.
+* Receives a player area. (Optional: cut these off and keep them secret.)
 * Picks any drawable icon: you'll use that to represent yourself
 * Draws that icon at a city of choice: that's your **traveler**.
 
@@ -72,7 +71,7 @@ You score points for claimed routes.
 
 {{% rules-block id="solo_mode" heading="Solo & Duo Mode" class="force-page-break-before" %}}
 
-With 2 players ("duo mode"), double routes become single routes. They can only be claimed once. Additionally, you have a bigger hand: use the extra space in the player area.
+With 2 players ("duo mode"), double routes become single routes. They can only be claimed once. Additionally, you have a bigger hand: use _two_ player areas (per player).
 
 With 1 player ("solo mode"), play against a fake opponent. 
 
@@ -128,7 +127,7 @@ Anybody who participated scores _full_ points for this route, but only if it is 
 
 {{% /rules-block %}}
 
-{{% rules-block id="expansion_multiroutes" heading="Multiroutes" %}}
+{{% rules-block id="expansion_wildWinds" heading="Wild Winds" %}}
 
 Introduces **gray routes**. You can use any one type to claim these. (For example, a gray route of 3 blocks can be claimed by 3 yellow.)
 

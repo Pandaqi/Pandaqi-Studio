@@ -3,7 +3,7 @@ class RulesTable
     node: any;
     entries: RulesEntry[];
     
-    constructor(node: HTMLElement, isPDF: boolean)
+    constructor(node: HTMLElement)
     {
         this.node = node;
         this.entries = [];
@@ -11,46 +11,65 @@ class RulesTable
         const entryNodes = this.node.getElementsByClassName("rules-table-entry");
         for(const entryNode of entryNodes)
         {
-            const entryObj = new RulesEntry(entryNode, isPDF);
+            const entryObj = new RulesEntry(entryNode);
             this.entries.push(entryObj);
         }   
+    }
+
+    toggleSimpleView(simple = true)
+    {
+        for(const entry of this.entries)
+        {
+            entry.toggleSimpleView(simple);
+        }
     }
 }
 
 class RulesEntry 
 {
-    node: any;
+    node: HTMLElement;
     turnFullWidthOnClick: boolean;
     heading: HTMLElement;
     desc: HTMLElement;
     icon: HTMLElement;
     
-    constructor(node: any, isPDF: any)
+    constructor(node: any)
     {   
         this.node = node;
 
         this.turnFullWidthOnClick = this.node.classList.contains("click-full-width");
 
-        this.heading = this.node.getElementsByClassName("heading-container")[0];
-        this.desc = this.node.getElementsByClassName("desc-container")[0];
-        this.icon = this.node.getElementsByClassName("icon-container")[0];
+        this.heading = this.node.getElementsByClassName("heading-container")[0] as HTMLElement;
+        this.desc = this.node.getElementsByClassName("desc-container")[0] as HTMLElement;
+        this.icon = this.node.getElementsByClassName("icon-container")[0] as HTMLElement;
         this.icon.addEventListener("click", this.toggle.bind(this));
 
-        if(!isPDF) { this.toggle(); } // to fold it at start
+        this.toggle(); // to fold it at start
+    }
+
+    isFolded()
+    {
+        return this.node.dataset.folded == "true"
     }
 
     toggle()
     {
-        if(this.node.dataset.folded == "true") {
-            this.node.dataset.folded = false;
+        if(this.isFolded()) {
+            this.node.dataset.folded = "false";
             this.node.classList.add("rules-table-entry-clicked");
             if(this.turnFullWidthOnClick) { this.node.classList.add("rules-table-entry-clicked-full"); }
-        } else if(this.node.dataset.folded == "false") {
-            this.node.dataset.folded = true;
+        } else {
+            this.node.dataset.folded = "true";
             this.node.classList.remove("rules-table-entry-clicked");
             if(this.turnFullWidthOnClick) { this.node.classList.remove("rules-table-entry-clicked-full"); }
         }
-    }    
+    } 
+    
+    toggleSimpleView(simple = true)
+    {
+        if(this.isFolded() != simple) { return; }
+        this.toggle();
+    }
 }
 
 export { RulesTable, RulesEntry }

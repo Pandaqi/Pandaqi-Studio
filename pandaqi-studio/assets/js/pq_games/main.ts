@@ -1,7 +1,6 @@
 import PDF from "./pdf/main";
 import PHASER from "./website/phaser";
 import SETTINGS from "./website/settings";
-import CANVAS from "./layout/canvas/main";
 import TOOLS from "./tools/main";
 import Color from "./layout/color/color";
 import ResourceLoader from "./layout/resources/resourceLoader";
@@ -11,7 +10,6 @@ import GridMapper from "./layout/gridMapper";
 window.PQ_GAMES = {
     SETTINGS: SETTINGS,
     PHASER: PHASER,
-    CANVAS: CANVAS,
     PDF: PDF,
     TOOLS: TOOLS,
 

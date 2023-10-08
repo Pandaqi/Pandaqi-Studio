@@ -33,10 +33,11 @@
     {{ end }}
 
     <!-- Display metadata + title (also steal from parent page) -->
-    {{ $duration := .Parent.Params.playtime }}
-    {{ $player_count_min := index (.Parent.Params.playercount | first 1) 0 }}
-    {{ $player_count_max := index (.Parent.Params.playercount | last 1) 0 }}
-    {{ $genres := .Parent.Params.genre }}
+    {{ $duration := or .Parent.Params.playtime 20 }}
+    {{ $player_count := or .Parent.Params.playercount (slice 2 3 4) }}
+    {{ $player_count_min := index ($player_count | first 1) 0 }}
+    {{ $player_count_max := index ($player_count | last 1) 0 }}
+    {{ $genres := or .Parent.Params.genre (slice "nogenre") }}
     {{ $genres_str := slice }}
     {{ range $index, $elem := $genres }}
         {{ $genres_str = $genres_str | append (printf "#%s" $elem) }}
@@ -49,6 +50,8 @@
         <h1>{{ .Title }} (Rules)</h1>
         <span class="metadata-playercount">{{ $player_count_min }}-{{ $player_count_max }} players</span>
         <span class="metadata-genres">{{ $genres_str }}</span>
+        <button id="simpleViewButton" title="Toggle Simple View">⚪</button>
+        <button id="printButton" title="Print these rules!">🖨️</button>
     </div>
 </header>
 {{ end }}
@@ -60,9 +63,6 @@
 {{- end -}}
 
 {{ define "footer" }}
-    {{ $createPDF := and (not hugo.IsProduction) .Params.pdf }}
-    <span style="display:none;" id="hidden-metadata" data-createpdf="{{ $createPDF }}"></span>
-
     {{ partial "load-assets.html" (dict "context" . "ext" "js" "type" "rules" "include" true) }}
 
     {{ $js := resources.Get "/js/pq_rulebook/main.ts" | js.Build "/js/lib-pqRulebook.js" | minify }}

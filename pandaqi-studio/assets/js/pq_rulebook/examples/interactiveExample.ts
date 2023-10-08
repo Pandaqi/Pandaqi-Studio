@@ -13,6 +13,7 @@ export default class InteractiveExample
     uiNode: HTMLElement;
     generateButton: HTMLButtonElement;
     closeButton: HTMLButtonElement;
+    generateCallback: Function;
     
     constructor(config:Record<string,any>)
     {
@@ -71,9 +72,6 @@ export default class InteractiveExample
         closeBtn.addEventListener("click", (ev) => {
             this.reset();
         }) 
-    }
-    generateCallback() {
-        throw new Error("Method not implemented.");
     }
 
     setGenerationCallback(func)

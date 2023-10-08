@@ -8,6 +8,7 @@ import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanva
 
 import ResourceLoader from "./resourceLoader"
 import ResourceText from "./resourceText"
+import createContext from "../canvas/createContext"
 
 type ImageLike = HTMLImageElement|ResourceImage|ResourceGradient|ResourcePattern
 type CanvasLike = HTMLCanvasElement|CanvasRenderingContext2D
@@ -31,12 +32,17 @@ export default class ResourceImage extends Resource
     frame: number;
     frames : HTMLImageElement[];
 
-    constructor(imageData : HTMLImageElement = new Image(), params:any = {})
+    constructor(imageData : HTMLImageElement = null, params:any = {})
     {
         super()
 
         this.img = imageData;
         this.frameDims = new Point(params.frames ?? new Point(1,1));
+        if(!this.img) {
+            this.frameDims = new Point();
+            this.frames = [];
+            return;
+        }
 
         const singleFrame = this.frameDims.x*this.frameDims.y == 1;
         if(singleFrame) { this.frames = [this.img]; }
@@ -151,18 +157,14 @@ export default class ResourceImage extends Resource
             {
                 const frame = x + y*this.frameDims.x;
                 const data = this.getFrameData(frame);
-                const canv = document.createElement("canvas");
-                canv.width = data.width;
-                canv.height = data.height;
-
-                const ctx = canv.getContext("2d");
+                const ctx = createContext({ size: new Point(data.width, data.height )});
                 ctx.drawImage(
                     this.img, 
                     data.x, data.y, data.width, data.height, 
                     0, 0, data.width, data.height
                 )
 
-                canvases[frame] = canv;
+                canvases[frame] = ctx.canvas;
             }
         }
 
@@ -212,6 +214,11 @@ export default class ResourceImage extends Resource
         return this.frames[num];
     }
 
+    isSingleFrame()
+    {
+        return this.frames.length == 1;
+    }
+
     countFrames() : number
     {
         return this.frames.length;
@@ -234,6 +241,14 @@ export default class ResourceImage extends Resource
         return this;
     }
 
+    addFrame(img:HTMLImageElement)
+    {
+        this.frames.push(img);
+        this.frameDims.x += 1;
+        if(this.frameDims.y <= 0) { this.frameDims.y = 1; }
+        this.refreshSize();
+    }
+
     swapFrame(idx:number, img:HTMLImageElement)
     {
         this.frames[idx] = img;
@@ -247,7 +262,15 @@ export default class ResourceImage extends Resource
         return this;
     }
 
-
+    // @TODO: not truly unique if you load the same image multiple times, but why'd you do that?
+    getUniqueKey() : string
+    {
+        const src = this.img.src;
+        const srcName = src.split(".")[0];
+        const maxLength = 25;
+        const srcTrunc = srcName.slice(0, Math.min(srcName.length, maxLength));
+        return srcTrunc
+    }
     
     
 }

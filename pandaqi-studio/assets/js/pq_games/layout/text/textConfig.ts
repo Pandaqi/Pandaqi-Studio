@@ -25,6 +25,21 @@ enum TextVariant {
     SMALLCAPS
 }
 
+interface TextConfigParams
+{
+    size?: number
+    fontSize?: number
+    font?: string|ResourceFont
+    fontFamily?: string|ResourceFont
+    align?: TextAlign
+    alignHorizontal?: TextAlign
+    alignVertical?: TextAlign
+    lineHeight?: number // @NOTE: this is RELATIVE to font size (as that's usually practical)
+    style?: TextStyle
+    weight?: TextWeight
+    variant?: TextVariant
+}
+
 export { TextConfig, TextAlign, TextStyle, TextWeight, TextVariant }
 export default class TextConfig
 {
@@ -32,23 +47,21 @@ export default class TextConfig
     font: string|ResourceFont
     alignHorizontal: TextAlign
     alignVertical: TextAlign
-    lineHeight: number // @NOTE: this is RELATIVE to font size (as that's usually practical)
+    lineHeight: number
     style: TextStyle
     weight: TextWeight
     variant: TextVariant
-    color: string
 
-    constructor(params:Record<string,any> = {})
+    constructor(params:TextConfigParams = {})
     {
         this.size = (params.size ?? params.fontSize) ?? 16;
-        this.font = params.font ?? "Arial";
+        this.font = (params.font ?? params.fontFamily) ?? "Arial";
         this.alignHorizontal = (params.align ?? params.alignHorizontal) ?? TextAlign.START;
         this.alignVertical = (params.alignVertical) ?? TextAlign.START;
         this.lineHeight = params.lineHeight ?? 1.2;
         this.style = params.style ?? TextStyle.NORMAL;
         this.weight = params.weight ?? TextWeight.REGULAR;
         this.variant = params.variant ?? TextVariant.NORMAL;
-        this.color = params.color ?? "#000000";
     }
 
     clone() : TextConfig
@@ -96,10 +109,20 @@ export default class TextConfig
 
     getAlignString() : string
     {
-        if(this.alignHorizontal == TextAlign.START) { return "left"; }
-        else if(this.alignHorizontal == TextAlign.MIDDLE) { return "center"; }
-        else if(this.alignHorizontal == TextAlign.END) { return "right"; }
-        else if(this.alignHorizontal == TextAlign.JUSTIFY) { return "justify"; }
+        const h = this.alignHorizontal;
+        if(h == TextAlign.START) { return "left"; }
+        else if(h == TextAlign.MIDDLE) { return "center"; }
+        else if(h == TextAlign.END) { return "right"; }
+        else if(h == TextAlign.JUSTIFY) { return "justify"; }
+    }
+
+    getAlignVerticalString() : string
+    {
+        const v = this.alignVertical;
+        if(v == TextAlign.START) { return "top"; }
+        else if(v == TextAlign.MIDDLE) { return "middle"; }
+        else if(v == TextAlign.END) { return "bottom"; }
+        else if(v == TextAlign.JUSTIFY) { return "baseline"; }
     }
 
     getCanvasFontString() : string
@@ -117,9 +140,9 @@ export default class TextConfig
         elem.style.fontWeight = this.getWeightString();
         elem.style.fontVariant = this.getVariantString();
         elem.style.fontStyle = this.getStyleString();
-        elem.style.color = this.color;
         elem.style.fontSize = this.getSizeString();
         elem.style.lineHeight = (this.lineHeight * 100) + "%";
         elem.style.textAlign = this.getAlignString();
+        elem.style.verticalAlign = this.getAlignVerticalString();
     }
 }

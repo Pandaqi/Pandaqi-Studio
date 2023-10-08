@@ -8,6 +8,7 @@ import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanva
 
 import ResourceLoader from "./resourceLoader"
 import ResourceText from "./resourceText"
+import createContext from "../canvas/createContext"
 
 type ImageLike = HTMLImageElement|ResourceImage|ResourceGradient|ResourcePattern
 type CanvasLike = HTMLCanvasElement|CanvasRenderingContext2D
@@ -156,18 +157,14 @@ export default class ResourceImage extends Resource
             {
                 const frame = x + y*this.frameDims.x;
                 const data = this.getFrameData(frame);
-                const canv = document.createElement("canvas");
-                canv.width = data.width;
-                canv.height = data.height;
-
-                const ctx = canv.getContext("2d");
+                const ctx = createContext({ size: new Point(data.width, data.height )});
                 ctx.drawImage(
                     this.img, 
                     data.x, data.y, data.width, data.height, 
                     0, 0, data.width, data.height
                 )
 
-                canvases[frame] = canv;
+                canvases[frame] = ctx.canvas;
             }
         }
 

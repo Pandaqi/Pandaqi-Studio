@@ -1,6 +1,8 @@
 import PDF from "js/pq_games/pdf/main"
 // @ts-ignore
 import { jsPDF } from "./jspdf";
+import Point from "../tools/geometry/point";
+import { readSplitDims } from "../layout/canvas/splitImage";
 
 enum PageOrientation 
 {
@@ -8,10 +10,11 @@ enum PageOrientation
     LANDSCAPE
 }
 
-interface PageSize 
+enum PageFormat
 {
-    width: number,
-    height: number
+    A4 = "A4",
+    A5 = "A5",
+    LETTER = "LETTER"
 }
 
 interface PdfConfig 
@@ -19,18 +22,26 @@ interface PdfConfig
     orientation: PageOrientation,
     unit: string,
     format: number[],
-    fileName: string
+    fileName: string,
+    userUnit: number
 }
 
 interface PdfBuilderConfig 
 {
     orientation?: PageOrientation,
     splitBoard?: boolean
-    splitBoardFactor?: number
+    splitDims?: Point,
+    format?: PageFormat
     jsPDF?:any
 }
 
-export { PageOrientation, PdfBuilder, PageSize, PdfConfig, PdfBuilderConfig }
+const PAGE_FORMATS = {
+    [PageFormat.A4]: new Point(297, 210),
+    [PageFormat.A5]: new Point(210, 148),
+    [PageFormat.LETTER]: new Point(297, 216) 
+}
+
+export { PageOrientation, PdfBuilder, PdfConfig, PdfBuilderConfig, PageFormat }
 export default class PdfBuilder 
 {
     jsPDF : jsPDF
@@ -38,7 +49,9 @@ export default class PdfBuilder
     buttonConfig : Record<string,any>
     orientation : PageOrientation
     buttonClickHandler : (this: HTMLButtonElement, ev: MouseEvent) => any
-    size : PageSize
+    size : Point
+    format: PageFormat
+    splitDims: Point
 
     images : HTMLImageElement[]
 
@@ -54,6 +67,8 @@ export default class PdfBuilder
         this.button = null;
         this.buttonConfig = {};
         this.orientation = cfg.orientation ?? PageOrientation.LANDSCAPE;
+        this.format = (cfg.format as PageFormat) ?? PageFormat.A4;
+        this.splitDims = new Point(1,1);
         this.size = this.calculatePageSize(cfg);
         this.buttonClickHandler = this.onPDFButtonClicked.bind(this);
         this.reset();
@@ -133,22 +148,24 @@ export default class PdfBuilder
         this.button.style.display = 'inline-block';
     }
 
-    calculatePageSize(cfg:Record<string,any> = {}) : PageSize
+    calculatePageSize(cfg:Record<string,any> = {}) : Point
     {
-        var scaleFactor = PDF.getDPIScalar();
-        if(cfg.splitBoard) { scaleFactor *= (cfg.splitBoardFactor ?? 2.0); }
+        const scaleFactor = PDF.getDPIScalar();
+        const splitDims = readSplitDims(cfg.splitDims, cfg.splitBoard) ?? new Point(1,1);
+        this.splitDims = splitDims;
+        const pageFormatSize = PAGE_FORMATS[this.format];
 
-        const longSide = 297*scaleFactor;
-        const shortSide = 210*scaleFactor;
+        const longSide = Math.ceil(scaleFactor*pageFormatSize.x*splitDims.x);
+        const shortSide = Math.ceil(scaleFactor*pageFormatSize.y*splitDims.y);
 
         if(this.orientation == PageOrientation.LANDSCAPE) { 
-            return { width: longSide, height: shortSide };
+            return new Point(longSide, shortSide);
         } else {
-            return { width: shortSide, height: longSide };
+            return new Point(shortSide, longSide);
         }
     }
 
-    getPageSize() : PageSize
+    getPageSize() : Point
     {
         return this.size;
     }
@@ -158,11 +175,19 @@ export default class PdfBuilder
         let fileName = cfg.gameTitle + ' (' + cfg.seed + ').pdf';
         if(cfg.customFileName) { fileName = cfg.customFileName + ".pdf"; }
 
+        // if the page is split, we blew up the size at the start
+        // now undo that to get the size _per page_
+        const pageSize = new Point(
+            this.size.x / this.splitDims.x,
+            this.size.y / this.splitDims.y
+        )
+
         return {
             orientation: this.orientation,
             unit: 'px',
-            format: [this.size.width, this.size.height],
-            fileName: fileName
+            format: [pageSize.x, pageSize.y],
+            fileName: fileName,
+            userUnit: 300 // 300 DPI
         }
     }
 
@@ -170,14 +195,18 @@ export default class PdfBuilder
     {
         const pdfConfig = this.getPDFConfig(cfg);
         const doc = new this.jsPDF(pdfConfig);
-        const width = doc.internal.pageSize.getWidth();
-        const height = doc.internal.pageSize.getHeight();
+        //const width = doc.internal.pageSize.getWidth();
+        //const height = doc.internal.pageSize.getHeight();
+
+        const pageSize = new Point(pdfConfig.format[0], pdfConfig.format[1]);
 
         // This simply places images, one per page, and creates a _new_ page each time after the first one
         // DOC: addImage(imageData, format, x, y, width, height, alias, compression, rotation)
+        // compression values = NONE, FAST, MEDIUM, SLOW
+        // NONE creates 100+ mb files, so don't use that
         for(var i = 0; i < this.images.length; i++) {
             if(i > 0) { doc.addPage(); }
-            doc.addImage(this.images[i], 'png', 0, 0, width, height, undefined, 'FAST');
+            doc.addImage(this.images[i], 'png', 0, 0, pageSize.x, pageSize.y, undefined, 'MEDIUM');
         }
 
         doc.save(pdfConfig.fileName);

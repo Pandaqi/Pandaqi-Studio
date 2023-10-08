@@ -17,7 +17,7 @@ export default {
     multiType: false,
     multiTypeImageResource: null,
 
-    enableOldCounterRules: false, // the old rules included counter icons/cycle on the card; not anymore
+    enableOldCounterRules: false, // @DEBUGGING? the old rules included counter icons/cycle on the card; not anymore
 
     elements: {}, // the elements included by user setting on game page
     elementsReverse: {},
@@ -112,6 +112,9 @@ export default {
             green: "#E8FFDF",
             purple: "#F2E3FF"
         },
+
+        textSize: 0.08, // relative to card size
+        textSizeFineprint: 0.02, // relative to card size
 
         icon: {
             backgroundInkFriendly: "#777777",

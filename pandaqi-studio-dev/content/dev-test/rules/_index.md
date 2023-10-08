@@ -2,7 +2,6 @@
 title: "Test Rules"
 date: 2023-05-02
 type: "rules"
-pdf: false
 ---
 
 {{% rules-block id="setup" heading="Setup" icon="setup" icontint="pink" %}}

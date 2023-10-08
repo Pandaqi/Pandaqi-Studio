@@ -3,6 +3,10 @@
     {{ block "head" . }}{{- partial "head.html" . -}}{{ end }}
 
     <body>
+        {{ block "header" . }}
+            {{- partial "header.html" . -}}
+        {{ end }}
+
         <main>
             {{- block "main" . }}{{- end }}
         </main>

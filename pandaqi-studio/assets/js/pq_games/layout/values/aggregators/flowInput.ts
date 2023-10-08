@@ -8,6 +8,7 @@ import AlignValue from "../alignValue"
 import SizeValue from "../sizeValue"
 import LayoutNode from "../../layoutNode"
 import Dims from "js/pq_games/tools/geometry/dims"
+import { ElementLike } from "../../resources/resource"
 
 enum FlowType {
     NONE,
@@ -58,7 +59,7 @@ export default class FlowInput extends InputGroup
         return super.cloneInto(b);
     }
 
-    applyToHTML(div:HTMLElement)
+    applyToHTML(div:ElementLike)
     {
         div.style.flexGrow = this.grow.get().toString();
         div.style.flexShrink = this.shrink.get().toString();

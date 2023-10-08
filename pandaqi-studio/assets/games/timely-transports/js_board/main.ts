@@ -144,7 +144,7 @@ class BoardGeneration extends Scene
 		this.generateBoard();
 
 		// convert board into image
-		const splitDims = cfg.splitBoard ? new Point(2,2) : null; 
+		const splitDims = this.cfg.splitBoard ? new Point(2,2) : null; 
 		PandaqiPhaser.convertCanvasToImage(this, { splitDims: splitDims });
 	}
 
@@ -1168,9 +1168,8 @@ class BoardGeneration extends Scene
 		//  -> Random Jungle Name
 		//  -> # Players
 		//  -> Chosen Difficulty
-		let fontSize = 12;
-		let margin = 8
-		if(this.cfg.splitBoard) { fontSize *= 2; margin *= 2; }
+		let fontSize = 0.5 * this.cfg.cellSize;
+		let margin = 0.5 * fontSize;
 
 		textCfg = 
 		{
@@ -1200,7 +1199,7 @@ class BoardGeneration extends Scene
 		let rect = new Geom.Rectangle(txt1.getLeftCenter().x - 0.5*margin, txt1.getTopLeft().y - 0.5*margin, maxWidth + margin, maxHeight + margin);
 
 		let overlayGraphics = this.add.graphics();
-		overlayGraphics.fillStyle(0x000000, 0.5);
+		overlayGraphics.fillStyle(0x000000, 0.75);
 		overlayGraphics.fillRectShape(rect);
 
 		overlayGraphics.depth = 20000 - 1;	
