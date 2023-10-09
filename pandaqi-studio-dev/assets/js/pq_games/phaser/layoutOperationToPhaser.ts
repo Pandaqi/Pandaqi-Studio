@@ -1,15 +1,23 @@
+import Color from "../layout/color/color";
 import LayoutOperation from "../layout/layoutOperation";
 
 const layoutOperationToObject = (obj, op:LayoutOperation) =>
 {
     if(op.hasFill())
     {
-        obj.setFillStyle(op.fill.toHEXNumber(), op.fill.a);
+        const col = op.fill.get() as Color;
+        obj.setFillStyle(col.toHEXNumber(), col.a);
     }
 
     if(op.hasStroke())
     {
-        obj.setStrokeStyle(op.strokeWidth, op.stroke.toHEXNumber(), op.stroke.a);
+        const stroke = op.stroke.get() as Color;
+        obj.setStrokeStyle(op.strokeWidth, stroke.toHEXNumber(), stroke.a);
+        if(obj.setLineWidth)
+        {
+            obj.setLineWidth(op.strokeWidth, op.strokeWidth); // @NOTE: only used in webgl, but REQUIRED there otherwise it just draws one hair thin line and ignores stroke width
+        }
+        
     }
 
     obj.x += op.translate.x;
@@ -24,12 +32,14 @@ const layoutOperationToGraphics = (graphics, op:LayoutOperation) =>
 {
     if(op.hasFill()) 
     { 
-        graphics.fillStyle(op.fill.toHEXNumber(), op.fill.a); 
+        const col = op.fill.get() as Color;
+        graphics.fillStyle(col.toHEXNumber(), col.a); 
     }
 
     if(op.hasStroke()) 
     { 
-        graphics.lineStyle(op.strokeWidth, op.stroke.toHEXNumber(), op.stroke.a);
+        const stroke = op.stroke.get() as Color;
+        graphics.lineStyle(op.strokeWidth, stroke.toHEXNumber(), stroke.a);
     }
 }
 

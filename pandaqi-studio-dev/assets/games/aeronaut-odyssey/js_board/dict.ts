@@ -37,7 +37,7 @@ const BLOCKS:Record<string,BlockData> =
     red: { frame: 0, color: "#EE3230" },
     orange: { frame: 1, color: "#FD832D" },
     yellow: { frame: 2, color: "#FBEB47" },
-    white: { frame: 3, color: "#FFFFFF" },
+    white: { frame: 3, color: "#FAFAFA" }, // slightly off-white because it looks less stark/harsh
     black: { frame: 4, color: "#222B28" }, 
     blue: { frame: 5, color: "#0BB3D0" },
     pink: { frame: 6, color: "#A9659E" },

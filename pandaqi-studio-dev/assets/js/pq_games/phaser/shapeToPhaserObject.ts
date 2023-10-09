@@ -1,8 +1,6 @@
 import LayoutOperation from "../layout/layoutOperation";
 import Circle from "../tools/geometry/circle";
 import Line from "../tools/geometry/line";
-import calculateCenter from "../tools/geometry/paths/calculateCenter";
-import Point from "../tools/geometry/point";
 import Rectangle from "../tools/geometry/rectangle";
 import Shape from "../tools/geometry/shape";
 import { layoutOperationToObject } from "./layoutOperationToPhaser";
@@ -14,7 +12,7 @@ const DEF_FILL_ALPHA = 0;
 
 const lineToPhaserObject = (line:Line, op:LayoutOperation, game) =>
 {
-    const linePhaser = game.add.line(line.start.x, line.start.y, line.end.x, line.end.y, DEF_FILL_COLOR, DEF_FILL_ALPHA);
+    const linePhaser = game.add.line(0, 0, line.start.x, line.start.y, line.end.x, line.end.y, DEF_FILL_COLOR, DEF_FILL_ALPHA);
     layoutOperationToObject(linePhaser, op);
     return linePhaser;
 }
@@ -28,7 +26,7 @@ const circleToPhaserObject = (circ:Circle, op:LayoutOperation, game) =>
 
 const rectToPhaserObject = (rect:Rectangle, op:LayoutOperation, game) =>
 {
-    const pos = rect.getTopLeft();
+    const pos = rect.center;
     const rectPhaser = game.add.rectangle(pos.x, pos.y, rect.extents.x, rect.extents.y, DEF_FILL_COLOR, DEF_FILL_ALPHA);
     layoutOperationToObject(rectPhaser, op);
     return rectPhaser;

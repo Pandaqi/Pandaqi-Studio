@@ -1,3 +1,4 @@
+import Color from "../layout/color/color";
 import LayoutOperation from "../layout/layoutOperation";
 import ResourceText from "../layout/resources/resourceText";
 import { TextAlign } from "../layout/text/textConfig";
@@ -14,8 +15,8 @@ const textToPhaser = (res:ResourceText, op:LayoutOperation, game) =>
         useAdvancedWrap: true
     }
 
-    cfg.color = op.fill.toHEX();
-    cfg.stroke = op.stroke.toHEX();
+    cfg.color = (op.fill.get() as Color).toHEX();
+    cfg.stroke = (op.stroke.get() as Color).toHEX();
     cfg.strokeThickness = op.strokeWidth;
 
     // @TODO: also support shadow?

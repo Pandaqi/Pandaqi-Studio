@@ -58,7 +58,7 @@ export default class GridMapper
         this.currentElement = 0;
 
         this.pdfBuilder = params.pdfBuilder || new PdfBuilder(params.pdfParams);
-        this.pageSize = this.pdfBuilder.getPageSize();
+        this.pageSize = this.pdfBuilder.getSinglePageSize();
         this.innerPageSize = new Point({
             x: (this.pageSize.x-2*this.outerMargin.x),
             y: (this.pageSize.y-2*this.outerMargin.y)

@@ -266,7 +266,9 @@ export default class ResourceImage extends Resource
     getUniqueKey() : string
     {
         const src = this.img.src;
-        const srcName = src.split(".")[0];
+        const srcSplit = src.split("/");
+        const fileName = srcSplit[srcSplit.length-1];
+        const srcName = fileName.split(".")[0];
         const maxLength = 25;
         const srcTrunc = srcName.slice(0, Math.min(srcName.length, maxLength));
         return srcTrunc

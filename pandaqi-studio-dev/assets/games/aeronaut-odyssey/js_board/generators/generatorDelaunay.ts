@@ -71,7 +71,7 @@ export default class GeneratorDelaunay
 
         const cities = [];
         const dims = this.boardState.dims;
-        const marginBoard = new Point(CONFIG.display.outerMarginBoard);
+        const marginBoard = new Point(CONFIG.generation.outerMarginBoard);
         const dimsUsable = new Point(dims.x-2*marginBoard.x, dims.y-2*marginBoard.y);
 
         this.marginBoard = marginBoard;

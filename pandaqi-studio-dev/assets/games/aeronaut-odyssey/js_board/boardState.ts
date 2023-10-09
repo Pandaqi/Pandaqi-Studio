@@ -29,7 +29,7 @@ export default class BoardState
     constructor()
     {
         const blocksFactor = CONFIG.generation.numBlocksFullWidthMultipliers[CONFIG.boardSize];
-        const blocksX = Math.ceil(CONFIG.generation.numBlocksFullWidth * blocksFactor);
+        const blocksX = CONFIG.numBlocksXOverride ?? Math.ceil(CONFIG.generation.numBlocksFullWidth * blocksFactor);
         const blocksY = blocksX / CONFIG.generation.pageRatio;
         
         this.dims = new Point(blocksX, blocksY);
@@ -43,8 +43,8 @@ export default class BoardState
     {
         // this comes before the rest, because we need to know how much space the
         // forbidden rectangles will take up _before_ placing the cities and routes
+        this.playerAreas.generatePre(); // also, this must come before trajectories
         this.trajectories.generatePre();
-        this.playerAreas.generatePre();
 
         const evaluator = new Evaluator();
         const m = CONFIG.generation.method;

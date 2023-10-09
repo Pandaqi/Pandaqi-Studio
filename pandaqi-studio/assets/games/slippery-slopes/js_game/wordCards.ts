@@ -10,6 +10,7 @@ import equidistantColorsBetweenOpposites from "./tools/equidistantColorsBetweenO
 import createWavyRect from "./tools/createWavyRect";
 import ResourceShape from "js/pq_games/layout/resources/resourceShape";
 import Color from "js/pq_games/layout/color/color";
+import ColorLike from "js/pq_games/layout/color/colorLike";
 
 export default class WordCards
 {
@@ -104,7 +105,7 @@ export default class WordCards
 
             canvOp.translate = new Point(0, blockHeight * a - amp);
             canvOp.dims = new Point(cardSize.x, blockHeight);
-            canvOp.fill = textColor;
+            canvOp.fill = new ColorLike(textColor);
             await text.toCanvas(ctx, canvOp);
 
             canvOp.translate.y += 0.715*textConfig.size;

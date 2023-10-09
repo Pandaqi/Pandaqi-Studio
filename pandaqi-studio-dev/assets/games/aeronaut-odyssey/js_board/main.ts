@@ -8,6 +8,7 @@ import CONFIG from "./config"
 import ResourceLoader from "js/pq_games/layout/resources/resourceLoader"
 import resourceLoaderToPhaser from "js/pq_games/phaser/resourceLoaderToPhaser"
 import setDefaultPhaserSettings from "js/pq_games/phaser/setDefaultPhaserSettings"
+import { getDPIScalar } from "js/pq_games/pdf/main"
 
 const sceneKey = "boardGeneration"
 const resLoader = new ResourceLoader({ base: CONFIG.assetsBase });
@@ -25,23 +26,38 @@ class BoardGeneration extends Scene
 		super({ key: sceneKey });
 	}
 
-    async preload() {
-        setDefaultPhaserSettings(this);
-        await resLoader.loadPlannedResources();
-        resourceLoaderToPhaser(resLoader, this)
+    async preload() 
+    {
+        setDefaultPhaserSettings(this);    
     }
 
-    async create(userConfig:Record<string,any>) {
+    async create(userConfig:Record<string,any>) 
+    {
+        await resLoader.loadPlannedResources();
+        await resourceLoaderToPhaser(resLoader, this);
+
         this.setup(userConfig)
         await this.generate();
         this.draw();
-        PandaqiPhaser.convertCanvasToImage(this, CONFIG.convertParameters);
+        PandaqiPhaser.convertCanvasToImage(this);
     }
 
     setup(userConfig:Record<string,any>)
     {
         Object.assign(CONFIG, userConfig);
-        CONFIG.convertParameters.splitDims = CONFIG.printSize;
+
+        if(CONFIG.useRealMaterial)
+        {
+            CONFIG.display.playerAreas.include = false;
+            CONFIG.generation.numBlockTypes = 8; // all of them
+            CONFIG.expansions.wildWinds = true; // including gray routes!
+            CONFIG.generation.maxBlocksPerRoute = 6;
+
+            // the real TTR trains are about an inch (25.4mm), but the blocks are really 27mm
+            // I took a value somewhere between that
+            CONFIG.blockSizeOverride = 26.5 * getDPIScalar(); // 26 millimeters to pixels
+            CONFIG.numBlocksXOverride = Math.floor(this.canvas.width / CONFIG.blockSizeOverride);
+        }
     }
 
     async generate()

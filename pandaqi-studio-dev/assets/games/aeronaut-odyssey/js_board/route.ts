@@ -195,8 +195,7 @@ export default class Route
         {
             const closeToAnotherRoute = Math.abs(this.closestAngle) <= CONFIG.display.maxAngleCurveAnyway;
             const setCurve = this.set ? this.set.randomCurve : null;
-            // @TODO: control bounds through config
-            const randOffset = setCurve ? setCurve : range(0.025, 0.175);
+            const randOffset = setCurve ? setCurve : range(CONFIG.display.maxRandomRouteCurveBounds);
             if(closeToAnotherRoute) 
             { 
                 targetLength += randOffset; 
@@ -281,8 +280,6 @@ export default class Route
             vecForSet.rotate(0.5*Math.PI).scale(blockY + marginBetweenSameSet);
             vecForSet.scale(offsetForSet);
             point.add(vecForSet);     
-            
-            console.log(vecForSet);
         }
     }
 }

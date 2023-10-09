@@ -12,6 +12,7 @@ import LayoutOperation from "js/pq_games/layout/layoutOperation"
 import Rectangle from "js/pq_games/tools/geometry/rectangle"
 import Line from "js/pq_games/tools/geometry/line"
 import Color from "js/pq_games/layout/color/color"
+import ColorLike from "js/pq_games/layout/color/colorLike"
 
 export default class CodeCards {
     gridMapper: GridMapper
@@ -75,7 +76,7 @@ export default class CodeCards {
             })
             await resLine.toCanvas(ctx0, canvOp);
 
-            canvOp.stroke = new Color(CONFIG.cards.patternData.antsassin);
+            canvOp.stroke = new ColorLike(new Color(CONFIG.cards.patternData.antsassin));
             await resLine.toCanvas(ctxAntsassin, canvOp);
 
             resLine.shape = lineInverted;

@@ -7,9 +7,9 @@ import shuffle from "js/pq_games/tools/random/shuffle";
 import Color from "js/pq_games/layout/color/color";
 import Circle from "js/pq_games/tools/geometry/circle";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import { circleToPhaser, pathToPhaser } from "js/pq_games/phaser/shapeToPhaser";
+import { circleToPhaser, lineToPhaser, pathToPhaser } from "js/pq_games/phaser/shapeToPhaser";
 import Rectangle from "js/pq_games/tools/geometry/rectangle";
-import { lineToPhaserObject, pathToPhaserObject, rectToPhaserObject } from "js/pq_games/phaser/shapeToPhaserObject";
+import { circleToPhaserObject, lineToPhaserObject, pathToPhaserObject, rectToPhaserObject } from "js/pq_games/phaser/shapeToPhaserObject";
 import Path from "js/pq_games/tools/geometry/paths/path";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
 import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
@@ -17,10 +17,12 @@ import textToPhaser from "js/pq_games/phaser/textToPhaser";
 import bevelPath from "js/pq_games/tools/geometry/effects/bevelPath";
 import { BLOCKS, BONUSES } from "./dict";
 import imageToPhaser from "js/pq_games/phaser/imageToPhaser";
-import TintEffect from "js/pq_games/layout/effects/tintEffect";
 import Line from "js/pq_games/tools/geometry/line";
 import Trajectory from "./trajectory";
 import fromArray from "js/pq_games/tools/random/fromArray";
+import ColorLike from "js/pq_games/layout/color/colorLike";
+import rotatePath from "js/pq_games/tools/geometry/transform/rotatePath";
+import calculateCenter from "js/pq_games/tools/geometry/paths/calculateCenter";
 
 
 export default class BoardDisplay
@@ -111,10 +113,11 @@ export default class BoardDisplay
         this.outerMargin = new Point(CONFIG.display.outerMargin * canvUnit);
         this.boardSize = new Point(canvSize.x - 2*this.outerMargin.x, canvSize.y - 2*this.outerMargin.y);
 
-        const blockX = this.boardSize.x / board.dims.x;
+        const blockX = CONFIG.blockSizeOverride ?? this.boardSize.x / board.dims.x;
         const blockY = CONFIG.generation.blockHeightRelativeToWidth*blockX;
         this.blockSize = new Point(blockX, blockY);
         
+        // @NOTE: only used when debugging and redrawing different stages on top of each other
         if(this.graphics) { this.graphics.clear(); }
 
         const graphics = this.game.add.graphics();
@@ -150,8 +153,9 @@ export default class BoardDisplay
 
         const dotRadius = CONFIG.display.visitorSpotRadius * this.blockSize.x;
         const num = Math.min(p.metadata.numVisitorSpots, angles.length);
+        const strokeWidth = CONFIG.display.visitorSpotStrokeWidth * this.blockSize.x;
 
-        const op = new LayoutOperation({ fill: "#FFFFFF", stroke: "#000000", strokeWidth: 2 });
+        const op = new LayoutOperation({ fill: "#FFFFFF", stroke: "#000000", strokeWidth: strokeWidth });
         for(let i = 0; i < num; i++)
         {
             const ang = angles[i].angle;
@@ -163,13 +167,13 @@ export default class BoardDisplay
         }
 
         // draw actual city
-        op.fill = Color.BLACK;
+        op.fill = new ColorLike(Color.BLACK);
         circleToPhaser(circ, op, this.graphics);
 
         // draw name
         const name : string = p.metadata.cityName;
         const textCfg = new TextConfig({
-            font: "ArmWrestler",
+            font: CONFIG.fonts.heading,
             size: 2*radius*CONFIG.display.cityNameRadius,
             alignHorizontal: TextAlign.MIDDLE,
             alignVertical: TextAlign.MIDDLE
@@ -221,6 +225,10 @@ export default class BoardDisplay
     
     drawRoute(r:Route)
     {
+        if(!r.blockData) {
+            return console.error("Can't display a route without block data", r);
+        }
+
         const bl = this.blockSize.x;
         const blockLengthDisplayed = bl*0.9;
 
@@ -230,50 +238,76 @@ export default class BoardDisplay
         const blockBonusList = r.getBonuses();
         const blockSize = new Point(blockLengthDisplayed, this.blockSize.y);
 
+        const routeInverted = r.start.y > r.end.y;
+
+        // used to get consistently colored bevels
+        const lightVec = CONFIG.display.blocks.bevelLightVec; 
+        const routeStrokeWidth = CONFIG.display.blocks.strokeWidth * blockSize.x;
+        const writingSpaceStrokeWidth = CONFIG.display.blocks.writingSpaceStrokeWidth * blockSize.x;
+
         // draw the blocks at the combined positions (curvePos + offsetForSet)
         // first and last position aren't used for blocks but for getting the right vector/rotation 
         for(let i = 0; i < blockData.length; i++)
         {
-            const color = this.getColorForType(blockTypeList[i]);
-            const bonus = blockBonusList[i]; // @TODO: display
+            const type = blockTypeList[i];
+            const color = this.getColorForType(type);
+            const bonus = blockBonusList[i];
             const pos = this.convertToRealPoint(blockData[i].pos);
             const rot = blockData[i].rot;
+            let rotAlwaysUp = rot;
+            if(rotAlwaysUp < -0.5*Math.PI) { rotAlwaysUp += 0.5*Math.PI; }
+            if(rotAlwaysUp > 0.5*Math.PI) { rotAlwaysUp -= 0.5*Math.PI; }
 
             // base rectangle + bevels
             const op = new LayoutOperation({
                 fill: color,
                 stroke: "#000000",
-                strokeWidth: 4,
+                strokeWidth: routeStrokeWidth,
                 pivot: new Point(0.5),
                 rotation: rot
             })
 
-            const rect = new Rectangle().fromTopLeft(pos, blockSize);
+            const rect = new Rectangle({ center: pos, extents: blockSize });
             const rectObj = rectToPhaserObject(rect, op, this.game);
 
-            // @TODO: probably wrong because pathToPhaserObject not correct
+            const graphics = this.game.add.graphics();
             const bevelOffset = CONFIG.display.blocks.bevelOffset * blockSize.x; 
-            const bevels = bevelPath({ path: rect.toPath(), offset: bevelOffset });
+            const rectRotatedPath = rotatePath(rect, rot);
+            const bevels = bevelPath({ path: rectRotatedPath, offset: bevelOffset });
+            const colorChangeVal = 30;
 
-            const bevelOp = new LayoutOperation({
-                fill: color.darken(50),
+            const bevelOpDark = new LayoutOperation({
+                fill: color.darken(colorChangeVal),
                 pivot: new Point(0.5),
-                rotation: rot
+            })
+
+            const bevelOpLight = new LayoutOperation({
+                fill: color.lighten(colorChangeVal),
+                pivot: new Point(0.5)
             })
 
             for(const bevel of bevels)
             {
-                pathToPhaserObject(bevel, bevelOp, this.game);
+                const center = calculateCenter(bevel.toPath());
+                const vecToBevelCenter : Point = rect.center.vecTo(center);
+                const dot = vecToBevelCenter.normalize().dot(lightVec);
+
+                const bevelOp = dot >= 0 ? bevelOpLight : bevelOpDark;
+                pathToPhaser(bevel, bevelOp, graphics);
             }
 
             const numSubdivisions = 3;
             const subdivLength = blockSize.x / numSubdivisions;
-            const vec = new Point().fromAngle(rot).scale(blockSize.x).scale(1.0 / (numSubdivisions - 1));
+            const vec = new Point().fromAngle(rot).scale(blockSize.x).scale(1.0 / numSubdivisions);
             const positions = [
                 pos.clone().sub(vec),
                 pos.clone(),
                 pos.clone().add(vec)
             ];
+
+            // this makes sure the order of icon>writingspace is generally consistent on the map
+            // which looks less messy
+            if(routeInverted) { positions.reverse(); }
 
             // type icon
             const img = CONFIG.resLoader.getResource("block_icons");
@@ -282,10 +316,8 @@ export default class BoardDisplay
                 translate: positions[0],
                 pivot: new Point(0.5),
                 dims: new Point(iconSize),
-                rotation: rot,
-                effects: [
-                    new TintEffect({ color: color })
-                ]
+                frame: this.getFrameForType(type),
+                rotation: rotAlwaysUp,
             })
             imageToPhaser(img, iconOp, this.game);
 
@@ -302,12 +334,14 @@ export default class BoardDisplay
 
             // writing space
             const writingSpaceSize = new Point(subdivLength, blockSize.y).scaleFactor(CONFIG.display.blocks.writingSpaceScale);
-            const writingRect = new Rectangle({ center: positions[2], extents: writingSpaceSize });
+            const writingRect = new Rectangle({ center: new Point(), extents: writingSpaceSize });
             const writingOp = new LayoutOperation({
+                translate: positions[2],
                 fill: "#FFFFFF",
                 stroke: "#000000",
-                strokeWidth: 2,
-                pivot: new Point(0.5)
+                strokeWidth: writingSpaceStrokeWidth,
+                pivot: new Point(0.5),
+                rotation: rot
             })
             rectToPhaserObject(writingRect, writingOp, this.game);
 
@@ -345,6 +379,11 @@ export default class BoardDisplay
         return this.getDataForType(tp).color as Color;
     }
 
+    getFrameForType(tp:number) : number
+    {
+        return this.getDataForType(tp).frame;
+    }
+
     drawTrajectoryBoard(board:BoardState)
     {
         if(!CONFIG.expansions.trajectories) { return; }
@@ -355,11 +394,13 @@ export default class BoardDisplay
         const trajs = board.trajectories.get();
         const fullRectSize = this.convertToRealSize(CONFIG.generation.trajectorySize);
         const numSubdivisions = 6;
+        
+        const connLineStrokeWidth = CONFIG.display.trajectories.connLineStrokeWidth * fullRectSize.y;
 
         let anchor = this.convertToRealPoint(board.trajectories.getRectangle().getTopLeft());
 
         const textConfig = new TextConfig({
-            font: "ArmWrestler",
+            font: CONFIG.fonts.heading,
             size: 0.8*fullRectSize.y,
             alignHorizontal: TextAlign.MIDDLE,
             alignVertical: TextAlign.MIDDLE
@@ -371,47 +412,61 @@ export default class BoardDisplay
 
             // background rectangle
             const rect = new Rectangle().fromTopLeft(anchor, fullRectSize);
-            const rectOp = new LayoutOperation({ fill: "#CCCCCC" });
+            const rectOp = new LayoutOperation({ fill: "#CCCCCC", pivot: new Point(0.5) });
             rectToPhaserObject(rect, rectOp, this.game);
 
             // determine subdivisions beforehand
+            const tempAnchor = anchor.clone();
             const positions = [];
             const subdivSize = new Point(fullRectSize.x / numSubdivisions, fullRectSize.y);
-            anchor.add(subdivSize.clone().scaleFactor(0.5)); // subdivisions are anchored at center, that's what everything needs anyway
+            const subdivSizeUnit = new Point(Math.min(subdivSize.x, subdivSize.y));
+            tempAnchor.add(subdivSize.clone().scaleFactor(0.5)); // subdivisions are anchored at center, that's what everything needs anyway
             for(let i = 0; i < numSubdivisions; i++)
             {
                 const offset = new Point(subdivSize.x, 0).scaleFactor(i);
-                positions.push(anchor.clone().add(offset));
+                positions.push(tempAnchor.clone().add(offset));
             }
 
             // now display subdivisions
             // 1) start city
             this.drawCityName(positions[0], traj.start.metadata.cityName, textConfig);
 
-            // 2) connection line
-            const line = new Line(positions[0], positions[2]);
+            // 2) connection line + dots
+            const linePos = positions[1];
+            const lineVec = positions[1].vecTo(positions[2]).scale(0.375);
+
+            const line = new Line(linePos.clone().sub(lineVec), linePos.clone().add(lineVec));
             const lineOp = new LayoutOperation({ 
                 stroke: "#000000", 
-                strokeWidth: 4, 
-                pivot: new Point(0.5, 0.5), 
+                strokeWidth: connLineStrokeWidth, 
+                pivot: new Point(0), 
             })
             lineToPhaserObject(line, lineOp, this.game);
+
+            const circRadius = connLineStrokeWidth*2;
+            const circ1 = new Circle({ center: line.start, radius: circRadius });
+            const circ2 = new Circle({ center: line.end, radius: circRadius });
+            const circOp = new LayoutOperation({ fill: "#000000", pivot: new Point(0.5) });
+            circleToPhaserObject(circ1, circOp, this.game);
+            circleToPhaserObject(circ2, circOp, this.game);
 
             // 3) end city
             this.drawCityName(positions[2], traj.end.metadata.cityName, textConfig);
 
             // 4) bonus 1
-            this.drawBonus(positions[3], subdivSize, traj, 0, textConfig);
+            this.drawBonus(positions[3], subdivSizeUnit, traj, 0, textConfig);
 
             // 5) writing space 1 / bonus 2
             if(!this.getBonusData(bonus).singleSpace) {
-                this.drawBonus(positions[4], subdivSize, traj, 1, textConfig);
+                this.drawBonus(positions[4], subdivSizeUnit, traj, 1, textConfig);
             } else {
-                this.drawWritingSpace(positions[4], subdivSize);
+                this.drawWritingSpace(positions[4], subdivSizeUnit);
             }
 
             // 6) writing space 2
-            this.drawWritingSpace(positions[5], subdivSize);
+            this.drawWritingSpace(positions[5], subdivSizeUnit);
+
+            anchor.move(new Point(0,fullRectSize.y))
         }
     }
 
@@ -427,6 +482,7 @@ export default class BoardDisplay
 
     drawWritingSpace(pos:Point, size:Point)
     {
+        size = size.clone().scaleFactor(0.9); // just a bit of padding to make it nicer
         const rect = new Rectangle({ center: pos, extents: size });
         const op = new LayoutOperation({ fill: "#FFFFFF", stroke: "#000000", strokeWidth: 1, pivot: new Point(0.5) });
         rectToPhaserObject(rect, op, this.game);
@@ -481,7 +537,8 @@ export default class BoardDisplay
     {
         if(!CONFIG.display.playerAreas.include) { return; }
 
-        const op = new LayoutOperation({ stroke: "#000000", strokeWidth: 2 });
+        const strokeWidth = CONFIG.display.playerAreas.strokeWidth * this.blockSize.x;
+        const op = new LayoutOperation({ stroke: "#000000", strokeWidth: strokeWidth, pivot: new Point(0.5) });
 
         const numRoutes = board.getRoutes().length;
         const numSpaces = Math.round(CONFIG.display.playerAreas.numSpacesPerRoute * numRoutes);
@@ -517,12 +574,14 @@ export default class BoardDisplay
 
     debugDrawForbiddenAreas(board:BoardState)
     {
+        if(!CONFIG.display.debugDrawForbiddenAreas) { return; }
+
         for(const rect of board.forbiddenAreas.get())
         {
             const pos = this.convertToRealPoint(rect.getTopLeft());
             const size = this.convertToRealSize(rect.getSize());
     
-            const op = new LayoutOperation({ fill: "#FF0000" });
+            const op = new LayoutOperation({ fill: "#FF0000", pivot: new Point(0.5) });
             const rectShape = new Rectangle().fromTopLeft(pos, size);
             rectToPhaserObject(rectShape, op, this.game);
         }        

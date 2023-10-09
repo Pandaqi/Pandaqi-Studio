@@ -1,4 +1,3 @@
-import rangeInteger from "js/pq_games/tools/random/rangeInteger";
 import BoardState from "./boardState";
 import CONFIG from "./config";
 import Trajectory from "./trajectory";
@@ -7,6 +6,7 @@ import Point from "js/pq_games/tools/geometry/point";
 import fromArray from "js/pq_games/tools/random/fromArray";
 import { BONUSES } from "./dict";
 import getWeighted from "js/pq_games/tools/random/getWeighted";
+import range from "js/pq_games/tools/random/range";
 
 export default class Trajectories
 {
@@ -26,18 +26,26 @@ export default class Trajectories
     {
         if(!CONFIG.expansions.trajectories) { return; }
 
-        const numTrajectories = rangeInteger(CONFIG.generation.numTrajectoryBounds);
+        const mult = CONFIG.generation.numTrajectoryMultipliers[CONFIG.boardSize];
+        const numTrajectories = Math.round(range(CONFIG.generation.numTrajectoryBounds) * mult);
         const trajectorySize = CONFIG.generation.trajectorySize; // relative to block size
         const size = trajectorySize.clone().scale(new Point(1, numTrajectories));
         this.num = numTrajectories;
 
-        const rect = new Rectangle().fromBottomRight(this.boardState.dims, size);
+        const offsetFromCorner = CONFIG.generation.calculatedTrajectoryRectOffset ?? new Point(0.125, 0.125);
+        const fullPageDims = this.boardState.dims;
+        const anchor = fullPageDims.clone().sub(offsetFromCorner);
+
+
+        const rect = new Rectangle().fromBottomRight(anchor, size);
         this.rectangle = rect;
         this.boardState.forbiddenAreas.add(rect); 
     }
 
     generatePost()
     {
+        if(!CONFIG.expansions.trajectories) { return; }
+
         const trajectories : Trajectory[] = [];
         const points = this.boardState.getPoints();
         

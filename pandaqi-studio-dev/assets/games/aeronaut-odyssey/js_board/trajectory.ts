@@ -52,14 +52,14 @@ export default class Trajectory
         return Math.round(maxLength);
     }
 
-    // @TODO: An alternative is just to say "find ANY route", but that might be wildly inaccurate if we're unlucky
     calculateScore()
     {
         const pfConfig = 
         {
             neighborFunction: (point:PointGraph) => { return point.getConnectionsByLine(); },
             costFunction: (line:LineGraph, score:number) => { 
-                return this.getRouteBetween(line).getBlockLength()
+                const r = this.getRouteBetween(line);
+                return r ? r.getBlockLength() : 1000000;
             }
         }
 

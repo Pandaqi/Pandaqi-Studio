@@ -77,6 +77,17 @@ export default class Routes
             }
         }
 
+        // remove any points with a single connection to start with
+        for(let i = points.length-1; i >= 0; i--)
+        {
+            const numConns = points[i].countConnections();
+            if(numConns > 1) { continue; }
+            if(numConns == 1) {
+                points[i].removeConnectionByIndex(0);
+            }
+            points.splice(i, 1); // @TODO/@NOTE: this doesn't go through state.removePoint because it doesn't need to, there are no routes yet at this point
+        }
+
         // first create the initial routes
         const routes : Route[] = [];
         let sum = 0;

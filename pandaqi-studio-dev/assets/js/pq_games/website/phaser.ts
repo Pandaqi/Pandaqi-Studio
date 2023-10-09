@@ -1,6 +1,5 @@
 import splitImage from "js/pq_games/layout/canvas/splitImage"
 import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage"
-import PDF from "../pdf/main"
 import PdfBuilder from "../pdf/pdfBuilder"
 import Settings from "./settings"
 // @ts-ignore
@@ -149,7 +148,7 @@ class PhaserClass
 		}
 
 		// split if necessary, add to pdfBuilder
-		const splitConfig = { splitDims: params.splitDims ?? new Point(1,1) }
+		const splitConfig = { splitDims: this.pdfBuilder.splitDims }
 		const images = await splitImage(img, splitConfig);
 
 		for(let i = 0; i < images.length; i++)
@@ -172,10 +171,10 @@ class PhaserClass
 	{
 		if(this.pdfBuilder) { this.pdfBuilder.destroy(); }
 
-		this.pdfBuilder = new PdfBuilder(this.gameConfig);
-		cfg.size = this.pdfBuilder.getPageSize();
+		this.pdfBuilder = new PdfBuilder(cfg);
+		cfg.size = this.pdfBuilder.getFullSize();
 		this.pdfBuilder.connectConfig(cfg);
-		this.pdfBuilder.connectButton(PDF.getCreatePDFButton());
+		this.pdfBuilder.connectButton(Settings.getCreatePDFButton());
 		this.pdfBuilder.onGenerationStart();
 	}
 

@@ -1,4 +1,4 @@
-import PDF from "js/pq_games/pdf/main"
+import { getDPIScalar } from "js/pq_games/pdf/main"
 // @ts-ignore
 import { jsPDF } from "./jspdf";
 import Point from "../tools/geometry/point";
@@ -150,7 +150,7 @@ export default class PdfBuilder
 
     calculatePageSize(cfg:Record<string,any> = {}) : Point
     {
-        const scaleFactor = PDF.getDPIScalar();
+        const scaleFactor = getDPIScalar();
         const splitDims = readSplitDims(cfg.splitDims, cfg.splitBoard) ?? new Point(1,1);
         this.splitDims = splitDims;
         const pageFormatSize = PAGE_FORMATS[this.format];
@@ -165,9 +165,17 @@ export default class PdfBuilder
         }
     }
 
-    getPageSize() : Point
+    getFullSize() : Point
     {
         return this.size;
+    }
+
+    getSinglePageSize() : Point
+    {
+        return new Point(
+            this.size.x / this.splitDims.x,
+            this.size.y / this.splitDims.y
+        )
     }
 
     getPDFConfig(cfg:Record<string,any> = {}) : PdfConfig
@@ -175,12 +183,7 @@ export default class PdfBuilder
         let fileName = cfg.gameTitle + ' (' + cfg.seed + ').pdf';
         if(cfg.customFileName) { fileName = cfg.customFileName + ".pdf"; }
 
-        // if the page is split, we blew up the size at the start
-        // now undo that to get the size _per page_
-        const pageSize = new Point(
-            this.size.x / this.splitDims.x,
-            this.size.y / this.splitDims.y
-        )
+        const pageSize = this.getSinglePageSize();
 
         return {
             orientation: this.orientation,
@@ -198,7 +201,7 @@ export default class PdfBuilder
         //const width = doc.internal.pageSize.getWidth();
         //const height = doc.internal.pageSize.getHeight();
 
-        const pageSize = new Point(pdfConfig.format[0], pdfConfig.format[1]);
+        const pageSize = this.getSinglePageSize();
 
         // This simply places images, one per page, and creates a _new_ page each time after the first one
         // DOC: addImage(imageData, format, x, y, width, height, alias, compression, rotation)
