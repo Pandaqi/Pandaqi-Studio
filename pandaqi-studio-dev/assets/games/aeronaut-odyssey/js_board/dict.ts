@@ -13,15 +13,28 @@ interface BonusData
 // value = how valuable one of this type is COMPARED to one point (that's the baseline bonus type)
 const BONUSES:Record<string, BonusData> = 
 {
-    points: { frame: 0, prob: 2, singleSpace: true }, // you simply get X points
-    balloons: { frame: 1, prob: 1, value: 1.66 }, // you get X balloons of a certain type
-    inventory: { frame: 2, prob: 0.75, value: 1.25 }, // you may expand your inventory space by X
-    swap: { frame: 3, prob: 1, value: 1.4 }, // you may swap X balloons from your inventory for another type
-    abilitySteal: { frame: 4, prob: 0.5, once: true, ability: true, value: 2 }, // you may steal X balloons from another player
-    abilityTrajectory: { frame: 5, prob: 1, once: true, ability: true, singleSpace: true }, // you may complete trajectories even if there are no slots left
-    abilityShare: { frame: 6, prob: 1, once: true, ability: true, singleSpace: true }, // you may claim a route already claimed by somebody else
-    abilityTeleport: { frame: 7, prob: 1, once: true, ability: true, singleSpace: true }, // you may teleport to any other city
-    abilityStealRoute: { frame: 8, prob: 1, ability: true, singleSpace: true }, // you may steal one balloon from anybody moving over this route
+    points: { frame: 0, prob: 2.33, singleSpace: true }, // you simply get X points
+    balloons: { frame: 1, prob: 1.33, value: 1.66 }, // you get X balloons of a certain type
+    inventory: { frame: 2, prob: 1, value: 1.25 }, // you may expand your inventory space by X
+    swap: { frame: 3, prob: 1, value: 1.5 }, // you may swap X balloons from your inventory for another type
+
+    // you may steal X balloons from another player
+    abilitySteal: { frame: 4, prob: 0.5, once: true, ability: true, value: 2 }, 
+
+    // you may complete trajectories even if there are no slots left
+    abilityTrajectory: { frame: 5, prob: 1, once: true, ability: true, singleSpace: true }, 
+
+    // you may claim a route already claimed by somebody else
+    abilityShare: { frame: 6, prob: 1, once: true, ability: true, singleSpace: true }, 
+
+    // you may teleport to any other city
+    abilityTeleport: { frame: 7, prob: 1, once: true, ability: true, singleSpace: true }, 
+
+    // you may steal one balloon from anybody moving over this route
+    abilityStealRoute: { frame: 8, prob: 1, ability: true, singleSpace: true }, 
+
+    // immediately take another turn
+    abilityExtraTurn: { frame: 9, prob: 0.75, ability: true, singleSpace: true }
 }
 
 interface BlockData

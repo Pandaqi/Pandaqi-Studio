@@ -4,11 +4,9 @@ type: "rules"
 
 {{% rules-block id="setup" heading="Setup" icon="setup" icontint="pink" %}}
 
-Print a game board. Cut off the player areas (or fold them away).
+Print a game board and hand out pens. Each player ...
 
-Each player ...
-
-* Receives a player area. (Optional: cut these off and keep them secret.)
+* Receives an inventory. (Optional: cut these off and keep them secret.)
 * Picks any drawable icon: you'll use that to represent yourself
 * Draws that icon at a city of choice: that's your **traveler**.
 
@@ -28,15 +26,15 @@ Take clockwise turns. On your turn, pick one action: **Move** or **Claim**.
 
 {{% rules-block id="action_move" heading="Move" %}}
 
-Pick a **destination**: a city connected to your traveler's current city, with a free movement slot. Skip over any cities with all slots filled.
+Pick a **destination**: a city connected to your traveler's current city, with a free movement slot. 
 
-* Cross out your traveler and draw it at your destination.
-* Pick one of the types over which you just moved. You receive **two trains** of that type; draw them in your player area.
-* If you traveled over a claimed route (from someone else), the owner is rewarded with one train of choice.
+* Cross out your traveler and draw it inside a slot at your destination.
+* You receive **two balloons**. You may, however, only pick types that are connected to your destination. (Draw them in your inventory.)
+* If you traveled over a claimed route (from someone else), the owner is rewarded with one balloon of choice _or_ one extra inventory space.
 
-{{% remark %}}
-Your area is full? You can't receive any more trains or do a "Move" action.
-{{% /remark %}}
+Other players may "profit" from your turn. They pick one of the balloon types you received and also receive that. You may, however, only "profit" _once per round_.
+
+If no free movement slot exists, or your inventory is full, you cannot move anymore.
 
 @TODO: IMAGE
 
@@ -44,14 +42,18 @@ Your area is full? You can't receive any more trains or do a "Move" action.
 
 {{% rules-block id="action_claim" heading="Claim" %}}
 
-To claim a route, pay trains from your own area. They must be ...
+To claim a route, pay balloons from your inventory. They must be ...
 
 * The same type as the route
 * The same number as the length of the route ( = number of spaces)
 
-Cross out the trains paid from your own area. Draw your icon in all claimed spaces. (A route can only be claimed once.)
+Cross out the balloons paid from your inventory. Draw your icon in all claimed spaces. (A route can only be claimed once.)
 
-Check the two cities of the route you just claimed. Any traveler currently there receives one train of the type you used.
+You can claim a route from _anywhere_---you don't need to be next to it. If you _are_ next to a route you just claimed, however, you are rewarded with one balloon of choice _or_ one extra inventory space.
+
+<!--- 
+@NOTE: This rule is pretty useless, right? 
+Check the two cities of the route you just claimed. Any traveler currently there receives one balloon of the type you used. --->
 {{% /rules-block %}}
 
 {{% /rules-block %}}
@@ -61,24 +63,25 @@ Check the two cities of the route you just claimed. Any traveler currently there
 All points are permanent on the board. This means you don't need to track score while playing: just calculate it when the game is over.
 
 You score points for claimed routes.
-* 1 train = 1 point
-* 2 trains = 2 points
-* 3 trains = 4 points
-* 4 trains = 7 points
-* 5 trains = 10 points
+
+* 1 balloon = 1 point
+* 2 balloons = 2 points
+* 3 balloons = 4 points
+* 4 balloons = 7 points
+* 5 balloons = 10 points
 
 {{% /rules-block %}}
 
 {{% rules-block id="solo_mode" heading="Solo & Duo Mode" class="force-page-break-before" %}}
 
-With 2 players ("duo mode"), double routes become single routes. They can only be claimed once. Additionally, you have a bigger hand: use _two_ player areas (per player).
+With 2 players ("duo mode"), double routes become single routes. They can only be claimed once. Additionally, you have a bigger hand: use _two_ inventories (per player).
 
 With 1 player ("solo mode"), play against a fake opponent. 
 
 On their turn,
 * Check if they can claim any route. If so, do it.
 * Otherwise, they move from their current city to the destination with the lowest number.
-* If you move over a route they claimed, they choose a train of the same type as the route.
+* If you move over a route they claimed, they choose a balloon of the same type as the route.
 * Otherwise, whenever they have a choice, you decide.
 
 {{% /rules-block %}}
@@ -98,6 +101,8 @@ You can't claim a trajectory twice nor when all its slots are already taken.
 {{% /remark %}}
 
 @TODO: Rules table showing specific trajectory bonuses
+
+When _swapping_, cross out the current balloon and write the new type underneath it. A swap should not cost you any inventory space.
 
 {{% /rules-block %}}
 
@@ -139,7 +144,7 @@ When you travel across a gray route, you can _choose_ which balloon types you wa
 
 {{% rules-block id="expansion_thieves" heading="Thieves & Spies" %}}
 
-IDEA: You can steal trains from another player. You say a random number and get whatever is (or was?) inside that cell.
+IDEA: You can steal balloons from another player. You say a random number and get whatever is (or was?) inside that cell.
 
 Related idea: if you lay the second route on a double, the original player steals the last card in your hand (or any card). Or you may steal. It’s just a great situation for stealing.
 
@@ -149,9 +154,9 @@ IDEA: Benefit from being in the same city as the player who just claimed some ro
 
 Yes, leave this as an expansion. Because the idea of “stealing” needs a paragraph of explanation. (Say a number. What if nothing is there? How to prevent repeating the same number during the game, if that’s allowed?)
 
-IDEA (could be its own expansion): Add secret objectives or powers to the player areas (expansion).
+IDEA (could be its own expansion): Add secret objectives or powers to the inventories (expansion).
 
-IDEA (could be its own expansion): Turn the train types ( = hot air balloons I guess) into characters or resources that each have their own unique effect?
+IDEA (could be its own expansion): Turn the balloon types ( = hot air balloons I guess) into characters or resources that each have their own unique effect?
 
 {{% /rules-block %}}
 

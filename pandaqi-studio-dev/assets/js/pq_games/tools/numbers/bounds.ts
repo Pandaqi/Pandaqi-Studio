@@ -1,6 +1,7 @@
 import Point from "../geometry/point";
 import range from "../random/range";
 import rangeInteger from "../random/rangeInteger";
+import lerp from "./lerp";
 
 type BoundsLike = Bounds|{ min: number, max: number }|Point
 
@@ -28,6 +29,11 @@ export default class Bounds
 
     scaleMin(f:number) { this.min *= f; }
     scaleMax(f:number) { this.max *= f; }
+
+    lerp(f:number)
+    {
+        return lerp(this.min, this.max, f);
+    }
 
     random() { return range(this); }
     randomInteger() {  return rangeInteger(this); }

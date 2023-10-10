@@ -19,6 +19,7 @@ export default class PlayerAreas
     generatePre()
     {
         if(!CONFIG.display.playerAreas.include) { return; }
+        if(CONFIG.useRealMaterial) { return; }
 
         const dims = this.boardState.dims;
         const off = CONFIG.display.playerAreas.edgeOffset;

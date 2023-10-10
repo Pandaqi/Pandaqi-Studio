@@ -40,12 +40,10 @@ export default class Routes
 
     remove(route:Route)
     {
+        //console.log("Should remove route ", route);
+        
         route.removeFromPoints();
-
-        if(route.set)
-        {
-            route.set.remove(route);
-        }
+        if(route.set) { route.set.remove(route); }
 
         this.routes.splice(this.routes.indexOf(route), 1);
     }
@@ -82,10 +80,7 @@ export default class Routes
         {
             const numConns = points[i].countConnections();
             if(numConns > 1) { continue; }
-            if(numConns == 1) {
-                points[i].removeConnectionByIndex(0);
-            }
-            points.splice(i, 1); // @TODO/@NOTE: this doesn't go through state.removePoint because it doesn't need to, there are no routes yet at this point
+            this.boardState.pointsManager.remove(points[i]);
         }
 
         // first create the initial routes
@@ -114,7 +109,6 @@ export default class Routes
             return a.getBlockLength() - b.getBlockLength();
         });
 
-        const maxBlocks = CONFIG.generation.maxBlocksPerRoute;
         const doubleRoutes = [];
         while(doubleRoutes.length < numDoubleRoutes)
         {
@@ -185,7 +179,7 @@ export default class Routes
 
     assignTypesToRoutes(routes:Route[])
     {
-        const numTypes = CONFIG.generation.numBlockTypes;
+        const numTypes = this.boardState.numBlockTypes;
         const numTypeUsed = new Array(numTypes).fill(0);
 
         routes.sort((a,b) => {
@@ -236,6 +230,7 @@ export default class Routes
     assignBonusToRoutes(routes:Route[])
     {
         if(!CONFIG.expansions.bonusBalloons) { return; }
+        if(CONFIG.useRealMaterial) { return; }
 
         shuffle(routes);
 

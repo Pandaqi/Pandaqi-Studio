@@ -13,6 +13,7 @@ export default class Trajectory
     score: number;
     bonus: string;
     bonusNumber: number;
+    lengthBucket: string;
     
     constructor(start:PointGraph, end:PointGraph)
     {
@@ -77,6 +78,18 @@ export default class Trajectory
         const length = clamp(pathBlockLength / this.getMaxTrajectoryLength(), 0.05, 1.0);
         this.score = Math.round(length * CONFIG.generation.maxTrajectoryPoints);
         return this.score;
+    }
+
+    setLengthBucket(bc:string)
+    {
+        this.lengthBucket = bc;
+        // @NOTE: to extra reward the risky long routes
+        this.enhanceScore(CONFIG.generation.trajectoryLengthReward[bc] ?? 1.0);
+    }
+
+    enhanceScore(ds:number)
+    {
+        this.score = Math.ceil(this.score*ds);
     }
 
     // this is a transformation of the score, based on how valuable I think the bonus type is

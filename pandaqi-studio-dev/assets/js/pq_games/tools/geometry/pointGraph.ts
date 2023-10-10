@@ -74,6 +74,14 @@ export default class PointGraph extends Point
         otherSide.removeConnectionByPoint(this);
     }
 
+    removeAllConnections()
+    {
+        while(this.connections.length > 0)
+        {
+            this.removeConnectionByIndex(0);
+        }
+    }
+
     clearConnections() { this.connections = []; }
     removeConnectionByPoint(p:PointGraph)
     {

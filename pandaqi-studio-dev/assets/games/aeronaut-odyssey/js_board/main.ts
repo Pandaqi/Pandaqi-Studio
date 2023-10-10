@@ -46,12 +46,18 @@ class BoardGeneration extends Scene
     {
         Object.assign(CONFIG, userConfig);
 
+        CONFIG.generation.numBlockTypesOverride = null;
+        CONFIG.generation.maxBlocksPerRouteOverride = null;
+        CONFIG.blockSizeOverride = null;
+        CONFIG.numBlocksXOverride = null;
+
+        // just converts string input to a percentage number I can instantly use everywhere
+        CONFIG.boardClarityNumber = CONFIG.boardClarityValues[CONFIG.boardClarity];
+
         if(CONFIG.useRealMaterial)
         {
-            CONFIG.display.playerAreas.include = false;
-            CONFIG.generation.numBlockTypes = 8; // all of them
-            CONFIG.expansions.wildWinds = true; // including gray routes!
-            CONFIG.generation.maxBlocksPerRoute = 6;
+            CONFIG.generation.numBlockTypesOverride = 8; // all of them (wildWinds is also turned on to include gray routes)
+            CONFIG.generation.maxBlocksPerRouteOverride = 6; // base game obviously allows route lengths 1--6
 
             // the real TTR trains are about an inch (25.4mm), but the blocks are really 27mm
             // I took a value somewhere between that

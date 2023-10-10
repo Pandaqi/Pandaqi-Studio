@@ -37,11 +37,10 @@ export default class BoardDisplay
     constructor(game:any)
     {
         this.game = game;
-        this.prepareTypes();
     }
 
     // prepare types + cache some values (such as color object)
-    prepareTypes()
+    prepareTypes(board:BoardState)
     {
         const allBlocks = Object.keys(BLOCKS);
         for(let i = allBlocks.length-1; i >= 0; i--)
@@ -51,7 +50,7 @@ export default class BoardDisplay
         }
         shuffle(allBlocks);
 
-        let numTypes = CONFIG.generation.numBlockTypes;
+        let numTypes = board.numBlockTypes;
         if(CONFIG.expansions.wildWinds) { numTypes--; }
 
         let types = allBlocks.slice(0, numTypes);
@@ -85,7 +84,7 @@ export default class BoardDisplay
             for(const nb of p.getConnectionsByPoint())
             {
                 // add at start of array to go "deep search" and create chains of alphabetical names
-                unchecked.unshift(nb);
+                unchecked.push(nb);
             }
         }
     }
@@ -123,6 +122,7 @@ export default class BoardDisplay
         const graphics = this.game.add.graphics();
         this.graphics = graphics;
 
+        this.prepareTypes(board);
         this.prepareCityNames(board);
 
         const points : PointGraph[] = board.getPoints()
@@ -145,36 +145,44 @@ export default class BoardDisplay
     drawPoint(p:PointGraph)
     {
         const realPos = this.convertToRealPoint(p);
-        const radius = (CONFIG.generation.cityRadius*CONFIG.display.cityDotRadius) * this.blockSize.x;
+        const cityRadiusFactor = CONFIG.useRealMaterial ? 1.0 : CONFIG.display.cityDotRadius
+
+        const radius = (CONFIG.generation.cityRadius*cityRadiusFactor) * this.blockSize.x;
         const circ = new Circle({ center: realPos, radius: radius });
 
         // draw visitor dots
-        const angles = this.getAnglesSortedByAvailability(p);
+        const drawVisitorDots = !CONFIG.useRealMaterial;
 
-        const dotRadius = CONFIG.display.visitorSpotRadius * this.blockSize.x;
-        const num = Math.min(p.metadata.numVisitorSpots, angles.length);
-        const strokeWidth = CONFIG.display.visitorSpotStrokeWidth * this.blockSize.x;
-
-        const op = new LayoutOperation({ fill: "#FFFFFF", stroke: "#000000", strokeWidth: strokeWidth });
-        for(let i = 0; i < num; i++)
+        if(drawVisitorDots)
         {
-            const ang = angles[i].angle;
-            const offset = new Point().fromAngle(ang).scaleFactor(0.75*radius + 0.75*dotRadius);
-            const pos = realPos.clone().add(offset);
+            const angles = this.getAnglesSortedByAvailability(p);
 
-            const spot = new Circle({ center: pos, radius: dotRadius });
-            circleToPhaser(spot, op, this.graphics);
+            const dotRadius = CONFIG.display.visitorSpotRadius * this.blockSize.x;
+            const num = Math.min(p.metadata.numVisitorSpots, angles.length);
+            const strokeWidth = CONFIG.display.visitorSpotStrokeWidth * this.blockSize.x;
+    
+            const op = new LayoutOperation({ fill: "#FFFFFF", stroke: "#000000", strokeWidth: strokeWidth });
+            for(let i = 0; i < num; i++)
+            {
+                const ang = angles[i].angle;
+                const offset = new Point().fromAngle(ang).scaleFactor(0.75*radius + 0.75*dotRadius);
+                const pos = realPos.clone().add(offset);
+    
+                const spot = new Circle({ center: pos, radius: dotRadius });
+                circleToPhaser(spot, op, this.graphics);
+            }
         }
 
+
         // draw actual city
-        op.fill = new ColorLike(Color.BLACK);
+        const op = new LayoutOperation({ fill: "#000000" });
         circleToPhaser(circ, op, this.graphics);
 
         // draw name
         const name : string = p.metadata.cityName;
         const textCfg = new TextConfig({
             font: CONFIG.fonts.heading,
-            size: 2*radius*CONFIG.display.cityNameRadius,
+            size: CONFIG.display.cityNameFontSize*2*radius*CONFIG.display.cityNameRadius,
             alignHorizontal: TextAlign.MIDDLE,
             alignVertical: TextAlign.MIDDLE
         })
@@ -310,10 +318,11 @@ export default class BoardDisplay
             if(routeInverted) { positions.reverse(); }
 
             // type icon
-            const img = CONFIG.resLoader.getResource("block_icons");
+            const img = CONFIG.resLoader.getResource("block_icons_filled");
+            const imgPos = CONFIG.useRealMaterial ? positions[1] : positions[0];
             const iconSize = CONFIG.display.blocks.iconSize * Math.min(subdivLength, blockSize.y);
             const iconOp = new LayoutOperation({
-                translate: positions[0],
+                translate: imgPos,
                 pivot: new Point(0.5),
                 dims: new Point(iconSize),
                 frame: this.getFrameForType(type),
@@ -332,19 +341,23 @@ export default class BoardDisplay
                 imageToPhaser(bonusSprite, iconOp, this.game);
             }
 
-            // writing space
-            const writingSpaceSize = new Point(subdivLength, blockSize.y).scaleFactor(CONFIG.display.blocks.writingSpaceScale);
-            const writingRect = new Rectangle({ center: new Point(), extents: writingSpaceSize });
-            const writingOp = new LayoutOperation({
-                translate: positions[2],
-                fill: "#FFFFFF",
-                stroke: "#000000",
-                strokeWidth: writingSpaceStrokeWidth,
-                pivot: new Point(0.5),
-                rotation: rot
-            })
-            rectToPhaserObject(writingRect, writingOp, this.game);
+            const drawWritingSpace = !CONFIG.useRealMaterial;
 
+            if(drawWritingSpace)
+            {
+                // writing space
+                const writingSpaceSize = new Point(subdivLength, blockSize.y).scaleFactor(CONFIG.display.blocks.writingSpaceScale);
+                const writingRect = new Rectangle({ center: new Point(), extents: writingSpaceSize });
+                const writingOp = new LayoutOperation({
+                    translate: positions[2],
+                    fill: "#FFFFFF",
+                    stroke: "#000000",
+                    strokeWidth: writingSpaceStrokeWidth,
+                    pivot: new Point(0.5),
+                    rotation: rot
+                })
+                rectToPhaserObject(writingRect, writingOp, this.game);
+            }
         }
 
         this.debugDrawRouteOverlapRectangle(r);
@@ -401,7 +414,7 @@ export default class BoardDisplay
 
         const textConfig = new TextConfig({
             font: CONFIG.fonts.heading,
-            size: 0.8*fullRectSize.y,
+            size: CONFIG.display.trajectories.cityNameFontSize*fullRectSize.y,
             alignHorizontal: TextAlign.MIDDLE,
             alignVertical: TextAlign.MIDDLE
         })
@@ -501,7 +514,7 @@ export default class BoardDisplay
         let img, text;
         const op = new LayoutOperation({
             translate: pos,
-            dims: size,
+            dims: size.clone(),
             pivot: new Point(0.5),
             frame: BONUSES[bonusType].frame
         })
@@ -509,6 +522,7 @@ export default class BoardDisplay
         const numberTypes = ["points", "balloons", "inventory", "swap", "abilitySteal"];
         if(spaceIndex == 0 && numberTypes.includes(bonusType)) {
             text = traj.bonusNumber + "";
+            op.dims.x *= 2; // to prevent text wrapping because narrow width on double digits
         } else {
             // if balloons, use the block_icons spritesheet instead, 
             // with a randomly selected frame (that is IN the game!)

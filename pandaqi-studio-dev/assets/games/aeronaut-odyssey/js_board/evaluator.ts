@@ -5,6 +5,7 @@ import Route from "./route";
 import pathIntersectsPath from "js/pq_games/tools/geometry/intersection/pathIntersectsPath";
 import distToPath from "js/pq_games/tools/geometry/distance/distToPath";
 import Point from "js/pq_games/tools/geometry/point";
+import { rectIntersectsRect } from "js/pq_games/tools/geometry/intersection/shapeIntersectsShape";
 
 export default class Evaluator
 {
@@ -32,11 +33,21 @@ export default class Evaluator
         this.removeRoutesOverlappingForbiddenRectangles(board);
         this.removeRoutesOverlappingRoutes(board);
         this.removePointsOverlappingRoute(board); 
+
+        const points = board.getPoints();
+        for(let i = points.length - 1; i >= 0; i--)
+        {
+            if(points[i].countConnections() > 0) { continue; }
+            board.pointsManager.remove(points[i]);
+        }
     }
 
     areRoutesValid(board:BoardState)
     {
         if(!CONFIG.evaluator.enable) { return true; }
+
+        // @DEBUGGING
+        //return true;
 
         // check if we use as much of the paper as possible
         if(this.boardTooSmall(board)) { return false; }
@@ -71,8 +82,10 @@ export default class Evaluator
             bottomRight.y = Math.max(bottomRight.y, point.y);
         }
 
+        const minSpan = CONFIG.generation.minBoardSpan.lerp(CONFIG.boardClarityNumber);
+
         const dims = board.dims;
-        const margin = 0.5*(1.0 - CONFIG.generation.minBoardSpan);
+        const margin = 0.5*(1.0 - minSpan);
         if(topLeft.x < margin || topLeft.y < margin) { return true; }
         if(dims.x - bottomRight.x < margin || dims.y - bottomRight.y < margin) { return true; }
         return false;
@@ -80,7 +93,7 @@ export default class Evaluator
 
     typesFairlyDistributed(board:BoardState)
     {
-        const numTypeUsed = new Array(CONFIG.generation.numBlockTypes).fill(0);
+        const numTypeUsed = new Array(board.numBlockTypes).fill(0);
         for(const route of board.getRoutes())
         {
             const arr = route.getTypes();
@@ -98,13 +111,15 @@ export default class Evaluator
             leastUsed = Math.min(leastUsed, numUsed);
         }
 
+        const maxDist = CONFIG.evaluator.maxDifferenceTypeFrequency.lerp(CONFIG.boardClarityNumber);
         const dist = (mostUsed - leastUsed)
-        return dist <= CONFIG.evaluator.maxDifferenceTypeFrequency;
+        return dist <= maxDist;
     }
 
     typesClumpedUp(board:BoardState)
     {
-        const maxRoutesOfSameType = CONFIG.evaluator.maxRoutesOfSameTypeAtPoint;
+        const maxRoutesOfSameType = Math.round(CONFIG.evaluator.maxRoutesOfSameTypeAtPoint.lerp(CONFIG.boardClarityNumber));
+
         for(const point of board.getPoints())
         {
             const routeTypes = [];
@@ -124,7 +139,7 @@ export default class Evaluator
 
     pointsWithBadConnections(board:BoardState)
     {
-        const minConnections = CONFIG.generation.minConnectionsPerPoint;
+        const minConnections = Math.round(CONFIG.generation.minConnectionsPerPoint.lerp(CONFIG.boardClarityNumber));
         for(const point of board.getPoints())
         {
             if(point.countConnections() < minConnections) { return true; }
@@ -134,6 +149,8 @@ export default class Evaluator
 
     allPointsConnected(board:BoardState)
     {
+        if(!CONFIG.evaluator.performConnectivenessCheck) { return true; }
+
         const points = board.getPoints();
         const startingPoint = points[0];
         const checked = [];
@@ -162,6 +179,7 @@ export default class Evaluator
     {
         // This is an extremely expensive check, so not sure if this should be enabled
         if(!CONFIG.evaluator.performTakeRouteAwayCheck) { return true; }
+        if(CONFIG.boardClarityNumber <= 0.2) { return true; }
 
         // For each route, it takes it away (temporarily), then checks if everything is still connected
         // If not, this one route is way too important and would block the game if allowed
@@ -183,6 +201,7 @@ export default class Evaluator
             const route1 = routes[i];
             for(const rect of board.forbiddenAreas.get())
             {
+                if(!rectIntersectsRect(route1.pathBoundingBox, rect)) { continue; }
                 if(pathIntersectsPath(route1.pathSimple, rect.toPath()))
                 {
                     board.routesManager.remove(route1);
@@ -206,6 +225,7 @@ export default class Evaluator
 
                 // pathSimple is just a rough approximation of the path with fewer points
                 // for performance reasons
+                if(!rectIntersectsRect(route1.pathBoundingBox, route2.pathBoundingBox)) { continue; }
                 if(pathIntersectsPath(route1.pathSimple, route2.pathSimple)) 
                 {
                     board.routesManager.remove(route1);
@@ -233,10 +253,9 @@ export default class Evaluator
                 const dist = distToPath(city, route.pathSimple);
                 if(dist > minDistToUnconnectedRoute) { continue; }
                 
-                board.removePoint(city);
+                board.pointsManager.remove(city);
                 break;
             }
         }
-        return false;
     }
 }

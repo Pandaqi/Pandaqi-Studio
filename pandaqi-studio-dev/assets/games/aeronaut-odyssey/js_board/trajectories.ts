@@ -57,9 +57,16 @@ export default class Trajectories
         const bucketThresholds = { small: maxPoints / 3, medium: 2*maxPoints / 3 }
         const numPerSizeBucket = { small: 0, medium: 0, large: 0 }
         const margin = CONFIG.generation.trajectoryVarietyMarginFactor;
-        const maxPerBucket = Math.ceil(this.num / 3.0) * margin;
+        let maxPerBucket = Math.ceil(this.num / 3.0 * margin);
 
-        const minScore = CONFIG.generation.minTrajectoryScore;
+        let minScore = CONFIG.generation.minTrajectoryScore;
+
+        if(!CONFIG.generation.balanceTrajectoryLengths) 
+        { 
+            maxPerBucket = Infinity;
+            minScore = 0; 
+        }
+
 
         while(trajectories.length < this.num)
         {
@@ -71,14 +78,16 @@ export default class Trajectories
 
             traj.calculateScore();
 
-            if(traj.score < minScore) { continue; }
-
             let bucket = "large"
             if(traj.score <= bucketThresholds.small) { bucket = "small"; }
             else if(traj.score <= bucketThresholds.medium) { bucket = "medium"; }
         
             const bucketAlreadyFull = numPerSizeBucket[bucket] >= maxPerBucket;
             if(bucketAlreadyFull) { continue; }
+
+            traj.setLengthBucket(bucket);
+
+            if(traj.score < minScore) { continue; }
 
             numPerSizeBucket[bucket]++;
             trajectories.push(traj);
@@ -95,7 +104,9 @@ export default class Trajectories
 
         for(const traj of trajectories)
         {
-            const bonus = getWeighted(bonusesWithoutAbilities);
+            let bonus = getWeighted(bonusesWithoutAbilities);
+            // @NOTE: other rewards on long routes are pointless, as the game will be almost over and you can't use them anyway!
+            if(traj.lengthBucket == "large") { bonus = "points"; }
             traj.bonus = bonus;
             traj.calculateBonusNumber();
         }

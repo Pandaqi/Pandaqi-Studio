@@ -41,7 +41,8 @@ export default class ForbiddenAreas
     growRect(rect:Rectangle)
     {
         const newRect = rect.clone(true);
-        newRect.grow(CONFIG.generation.forbiddenAreaGrowFactor);
+        const factor = CONFIG.generation.forbiddenAreaGrowFactor.lerp(CONFIG.boardClarityNumber);
+        newRect.grow(factor);
         return newRect;
     }
 

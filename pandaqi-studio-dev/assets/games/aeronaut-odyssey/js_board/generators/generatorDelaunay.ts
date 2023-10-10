@@ -160,12 +160,12 @@ export default class GeneratorDelaunay
         let connsToRemove = 2*numConnections - numIdealConnections;
         if(!CONFIG.generation.reduceConnectivityAfterTriangulation) { connsToRemove = 0; }
 
-        const minConnsPerPoint = CONFIG.generation.minConnectionsPerPoint;
+        const minConnsPerPoint = Math.round(CONFIG.generation.minConnectionsPerPoint.lerp(CONFIG.boardClarityNumber));
         const citiesThatCanLoseConnections = [];
         for(let i = citiesGraph.length-1; i >= 0; i--)
         {
             const city = citiesGraph[i];
-            const numConns = city.getConnectionsByPoint().length;
+            const numConns = city.countConnections();
             if(numConns == 0) { citiesGraph.splice(i, 1); continue; }
             if(numConns <= minConnsPerPoint) { continue; }
             if(this.cityNearCenter(city)) { continue; }
@@ -225,7 +225,7 @@ export default class GeneratorDelaunay
 
     getMaxDistance()
     {
-        return 2*CONFIG.generation.cityRadius + CONFIG.generation.maxBlocksPerRoute
+        return 2*CONFIG.generation.cityRadius + this.boardState.maxBlocksPerRoute;
     }
 
     connectionIsValid(p1:PointGraph, p2:PointGraph)

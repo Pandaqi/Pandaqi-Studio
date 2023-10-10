@@ -24,7 +24,7 @@ downloadLink: "https://drive.google.com/drive/folders/1lgnWjJG1pjb-YD7vg_0rS1QHW
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the board mostly grayscale." >}}
   {{< setting-enum id="setting-boardSize" text="Board Size?" values="tiny,small,regular,large,huge" valaskey="true" def="regular" remark="How many cities and routes to place." >}}
   {{< setting-enum id="setting-splitDims" text="Print Size?" values="1 page, 4 pages, 9 pages" keys="1x1,2x2,3x3" def="1x1" >}}
-  {{< setting-enum id="setting-boardClarity" text="Board Clarity?" values="chaos,okay,normal,clean,superclean"  def="clean" remark="More clarity means the board does more checks to prevent ugly situations. That, however, takes much longer to generate." >}}
+  {{< setting-enum id="setting-boardClarity" text="Board Clarity?" values="chaos,okay,normal,clean,superclean" valaskey="true" def="clean" remark="More clarity means the board does more checks to prevent ugly situations. That, however, takes much longer to generate." >}}
   {{< setting-checkbox id="setting-useRealMaterial" text="Use Real Material?" remark="Creates a board that you can play using the material of the original game!" >}}
   <h3>Expansions</h3>
   {{< setting-checkbox id="setting-expansions-trajectories" text="Trajectories?" remark="Get points for completing specific routes." >}}

@@ -10,6 +10,7 @@ import calculatePathLength from "js/pq_games/tools/geometry/paths/calculatePathL
 import Point from "js/pq_games/tools/geometry/point";
 import simplifyPath from "js/pq_games/tools/geometry/paths/simplifyPath";
 import thickenPath from "js/pq_games/tools/geometry/paths/thickenPath";
+import calculateBoundingBox from "js/pq_games/tools/geometry/paths/calculateBoundingBox";
 
 
 interface BlockData
@@ -35,6 +36,7 @@ export default class Route
     pathSimple: Point[];
 
     failed:boolean;
+    pathBoundingBox: import("c:/Users/Tiamo/Documents/Programming/Websites/Pandaqi/Pandaqi Studio/pandaqi-studio-dev/assets/js/pq_games/tools/geometry/rectangle").Rectangle;
 
     constructor(start:PointGraph, end:PointGraph)
     {
@@ -50,7 +52,7 @@ export default class Route
 
     removeFromPoints()
     {
-        this.start.metadata.routes.splice(this.end.metadata.routes.indexOf(this), 1);
+        this.start.metadata.routes.splice(this.start.metadata.routes.indexOf(this), 1);
         this.start.removeConnectionByPoint(this.end);
         this.end.metadata.routes.splice(this.end.metadata.routes.indexOf(this), 1);
         this.end.removeConnectionByPoint(this.start);
@@ -63,6 +65,7 @@ export default class Route
     }
 
     isSingleBlock() { return this.getBlockLength() <= 1; }
+    tooSmall() { return this.getBlockLengthRaw() < 0.9;} // simply no space to fit even ONE block
 
     getBlockLength()
     {
@@ -164,8 +167,24 @@ export default class Route
         for(const route of routes)
         {
             if(route.matches(this)) { continue; }
+            const sameSet = this.set && this.set.has(route);
+            if(sameSet) { continue; }
 
+            // this is the vector assuming the other route is STRAIGHT
             let routeVec = p.vecTo(route.getOther(p)).normalize();
+
+            // this is the vector in case the other route has already been calculated
+            // (in which case we properly apply its CURVE)
+            if(route.blockData)
+            {
+                // if we are the start, then we want also the FIRST block
+                // if we're the end, then we want the LAST block
+                const weAreStart = route.start.matches(p);
+                const blockIndex = weAreStart ? 0 : route.blockData.length - 1;
+                let rot = route.blockData[blockIndex].rot;
+                if(!weAreStart) { rot += Math.PI; }
+                routeVec = new Point().fromAngle(rot);
+            }
 
             let ang = anchorVec.angleSignedTo(routeVec);
             if(route.set) { ang += -Math.sign(ang)*doubleRouteAdjustment; }
@@ -179,6 +198,8 @@ export default class Route
 
     calculateBlocksAlongRoute()
     {
+        if(this.tooSmall()) { this.failed = true; return; }
+
         const lengthInBlocks = this.getBlockLength();
         const resolution = 100;
         let targetLength = lengthInBlocks + 2*CONFIG.generation.cityRadius;
@@ -245,11 +266,13 @@ export default class Route
 
         const pathSimple = simplifyPath({ path: curveRelevant, numSteps: 10 });
         const blockY = CONFIG.generation.blockHeightRelativeToWidth;
-        const thickness = CONFIG.generation.routeOverlapThicknessFactor;
+        const thickness = CONFIG.generation.routeOverlapThicknessFactor.lerp(CONFIG.boardClarityNumber);
+
         const pathSimpleThick = thickenPath({ path: pathSimple, thickness: thickness*blockY })
 
         this.path = curveRelevant;
         this.pathSimple = pathSimpleThick;
+        this.pathBoundingBox = calculateBoundingBox(pathSimpleThick);
         this.blockData = arr;
     }
 
