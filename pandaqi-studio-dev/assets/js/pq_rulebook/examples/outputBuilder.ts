@@ -28,12 +28,13 @@ export default class OutputBuilder
 
     addParagraph(txt: any)
     {
-        this.addNode(this.createParagraph(txt));
+        return this.addNode(this.createParagraph(txt));
     }
 
     addNode(node: HTMLElement)
     {
         this.node.appendChild(node);
+        return this.node;
     }
 
     addParagraphList(txts: any, numbered = false)
@@ -43,15 +44,15 @@ export default class OutputBuilder
         {
             nodes.push(this.createSpan(txt));
         }
-        this.addNodeList(nodes, numbered);
+        return this.addNodeList(nodes, numbered);
     }
 
     addParagraphListNumbered(txts: any)
     {
-        this.addParagraphList(txts, true);
+        return this.addParagraphList(txts, true);
     }
 
-    addFlexList(nodes: any)
+    addFlexList(nodes: any[])
     {
         const cont = document.createElement("div");
         this.node.appendChild(cont);
@@ -65,6 +66,7 @@ export default class OutputBuilder
         {
             cont.appendChild(node);
         }
+        return cont;
     }
 
     addNodeList(nodes: any[], numbered = false)
@@ -80,5 +82,6 @@ export default class OutputBuilder
             li.appendChild(node);
             listNode.appendChild(li);
         }
+        return listNode;
     }
 }

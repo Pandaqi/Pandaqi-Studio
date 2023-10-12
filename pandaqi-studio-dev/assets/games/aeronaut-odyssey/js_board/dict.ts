@@ -14,9 +14,9 @@ interface BonusData
 const BONUSES:Record<string, BonusData> = 
 {
     points: { frame: 0, prob: 2.33, singleSpace: true }, // you simply get X points
-    balloons: { frame: 1, prob: 1.33, value: 1.66 }, // you get X balloons of a certain type
-    inventory: { frame: 2, prob: 1, value: 1.25 }, // you may expand your inventory space by X
-    swap: { frame: 3, prob: 1, value: 1.5 }, // you may swap X balloons from your inventory for another type
+    balloons: { frame: 1, prob: 1.33, value: 0.85 }, // you get X balloons of a certain type
+    inventory: { frame: 2, prob: 1, value: 1 }, // you may expand your inventory space by X
+    swap: { frame: 3, prob: 1, value: 1.25 }, // you may swap X balloons from your inventory for another type
 
     // you may steal X balloons from another player
     abilitySteal: { frame: 4, prob: 0.5, once: true, ability: true, value: 2 }, 
@@ -42,7 +42,8 @@ interface BlockData
     frame: number,
     color: string|Color,
     expansion?: string,
-    unpickable?: boolean
+    unpickable?: boolean,
+    unpickableBonus?: boolean,
 }
 
 const BLOCKS:Record<string,BlockData> = 
@@ -51,7 +52,7 @@ const BLOCKS:Record<string,BlockData> =
     orange: { frame: 1, color: "#FD832D" },
     yellow: { frame: 2, color: "#FBEB47" },
     white: { frame: 3, color: "#FAFAFA" }, // slightly off-white because it looks less stark/harsh
-    black: { frame: 4, color: "#222B28" }, 
+    black: { frame: 4, color: "#222B28", unpickableBonus: true }, // can't be combined with bonus icons, nasty exception but hey 
     blue: { frame: 5, color: "#0BB3D0" },
     pink: { frame: 6, color: "#A9659E" },
     green: { frame: 7, color: "#91C846" },

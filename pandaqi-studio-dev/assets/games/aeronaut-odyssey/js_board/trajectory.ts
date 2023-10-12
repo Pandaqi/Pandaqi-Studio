@@ -17,6 +17,15 @@ export default class Trajectory
     
     constructor(start:PointGraph, end:PointGraph)
     {
+        // city names should be displayed alphabetically, is cleaner and easier to understand
+        const sort = start.metadata.cityName.localeCompare(end.metadata.cityName);
+        if(sort > 0)
+        {
+            const temp = start;
+            start = end;
+            end = temp;
+        }
+
         this.start = start;
         this.end = end;
     }

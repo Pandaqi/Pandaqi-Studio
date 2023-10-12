@@ -10,13 +10,11 @@ Deal the deck of cards until empty, as fairly as possible.
 
 Pick a start player: whoever can (and wants to) take the first valid move.
 
-@TODO: IMAGE EXAMPLE of SETUP? (Feels a bit pointless.)
-
 {{% /rules-block %}}
 
 {{% rules-block id="objective" heading="Objective" icon="objective" icontint="blue" %}}
 
-You win if, at the **start of your turn**, the match on the table is **already yours**! (In other words, you played a match that nobody could trump for a whole round.)
+You win if, at the **start of your turn**, the match on the table is **already yours**! (In other words, you played a match that nobody could defeat for a whole round.)
 
 {{% /rules-block %}}
 
@@ -67,7 +65,7 @@ All that needs to happen, is that **two cards** move from your hand to that of *
 Bears are both a **trump** and a **wildcard**. What does that mean?
 
 * You can **always** raise the match by simply playing more bears. (Example: 3 tigers can be trumped by 1 bear, as that is more than 0 bears.)
-* If there's another majority animal in this match, all bears **become the same type** as that one. (Example: you play 2 tigers and 2 bears. Now there are 4 tigers on the table.)
+* If there are other animals in this match, all bears **also become that type**. (Example: you play 2 tigers and 2 bears. Now there are 4 tigers on the table.)
 
 Bears are, however, also a liability. 
 

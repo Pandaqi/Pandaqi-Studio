@@ -27,7 +27,7 @@ downloadLink: "https://drive.google.com/drive/folders/1lgnWjJG1pjb-YD7vg_0rS1QHW
   {{< setting-enum id="setting-boardClarity" text="Board Clarity?" values="chaos,okay,normal,clean,superclean" valaskey="true" def="clean" remark="More clarity means the board does more checks to prevent ugly situations. That, however, takes much longer to generate." >}}
   {{< setting-checkbox id="setting-useRealMaterial" text="Use Real Material?" remark="Creates a board that you can play using the material of the original game!" >}}
   <h3>Expansions</h3>
-  {{< setting-checkbox id="setting-expansions-trajectories" text="Trajectories?" remark="Get points for completing specific routes." >}}
+  {{< setting-checkbox id="setting-expansions-trajectories" text="Trajectories?" remark="Get points for completing specific routes." checked="checked" >}}
   {{< setting-checkbox id="setting-expansions-bonusBalloons" text="Bonus Balloons?" remark="Some routes have a bonus or penalty for using it." >}}
   {{< setting-checkbox id="setting-expansions-multiRoutes" text="Multi Routes?" remark="Some routes require players to collaborate to complete them." >}}
   {{< setting-checkbox id="setting-expansions-wildWinds" text="Wild Winds?" remark="Adds wildcard routes and balloons (use/get a type of choice)." >}}

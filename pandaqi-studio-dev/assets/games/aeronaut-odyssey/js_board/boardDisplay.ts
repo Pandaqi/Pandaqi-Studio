@@ -23,6 +23,7 @@ import fromArray from "js/pq_games/tools/random/fromArray";
 import ColorLike from "js/pq_games/layout/color/colorLike";
 import rotatePath from "js/pq_games/tools/geometry/transform/rotatePath";
 import calculateCenter from "js/pq_games/tools/geometry/paths/calculateCenter";
+import GrayScaleEffect from "js/pq_games/layout/effects/grayScaleEffect";
 
 
 export default class BoardDisplay
@@ -45,22 +46,28 @@ export default class BoardDisplay
         const allBlocks = Object.keys(BLOCKS);
         for(let i = allBlocks.length-1; i >= 0; i--)
         {
-            if(!BLOCKS[allBlocks[i]].unpickable) { continue; }
+            const data = BLOCKS[allBlocks[i]];
+            let unpickable = data.unpickable || (CONFIG.expansions.bonusBalloons && data.unpickableBonus);
+            if(!unpickable) { continue; }
             allBlocks.splice(i, 1);
         }
         shuffle(allBlocks);
-
+        
+        // if WildWinds enabled, we reserve one spot to forcibly insert the gray/wildcard type
         let numTypes = board.numBlockTypes;
         if(CONFIG.expansions.wildWinds) { numTypes--; }
 
         let types = allBlocks.slice(0, numTypes);
         if(CONFIG.expansions.wildWinds) { types.push("gray"); }
         
+        // cache the colors as real color objects, is a bit faster and easier later on
         this.allTypes = types;
         for(let i = 0; i < types.length; i++)
         {
             const data = this.getDataForType(i);
-            data.color = new Color(data.color);
+            let color = new Color(data.color);
+            if(CONFIG.inkFriendly) { color = new Color("#FFFFFF"); }
+            data.color = color;
         }
     }
 
@@ -401,7 +408,7 @@ export default class BoardDisplay
     {
         if(!CONFIG.expansions.trajectories) { return; }
         
-        // draw background (HOW??)
+        // @TODO: draw background (HOW??)
 
         // draw all the trajectories
         const trajs = board.trajectories.get();
@@ -419,13 +426,17 @@ export default class BoardDisplay
             alignVertical: TextAlign.MIDDLE
         })
 
+        const bgColors = [new Color(0,0,0,0.1), new Color(0,0,0,0.3)];
+        let counter = 0;
+
         for(const traj of trajs)
         {
             const bonus = traj.bonus;
 
             // background rectangle
             const rect = new Rectangle().fromTopLeft(anchor, fullRectSize);
-            const rectOp = new LayoutOperation({ fill: "#CCCCCC", pivot: new Point(0.5) });
+            const bgColor = bgColors[counter % 2];
+            const rectOp = new LayoutOperation({ fill: bgColor, pivot: new Point(0.5) });
             rectToPhaserObject(rect, rectOp, this.game);
 
             // determine subdivisions beforehand
@@ -479,7 +490,8 @@ export default class BoardDisplay
             // 6) writing space 2
             this.drawWritingSpace(positions[5], subdivSizeUnit);
 
-            anchor.move(new Point(0,fullRectSize.y))
+            anchor.move(new Point(0,fullRectSize.y));
+            counter++;
         }
     }
 
@@ -512,11 +524,17 @@ export default class BoardDisplay
         if(!bonusType) { return; }
 
         let img, text;
+        const effects = [];
+        if(CONFIG.inkFriendly)
+        {
+            effects.push(new GrayScaleEffect());
+        }
+
         const op = new LayoutOperation({
             translate: pos,
             dims: size.clone(),
             pivot: new Point(0.5),
-            frame: BONUSES[bonusType].frame
+            frame: BONUSES[bonusType].frame,
         })
 
         const numberTypes = ["points", "balloons", "inventory", "swap", "abilitySteal"];
@@ -537,6 +555,8 @@ export default class BoardDisplay
             } else {
                 img = CONFIG.resLoader.getResource("bonus_icons");
             }
+
+            op.effects = effects;
         }
 
         if(img) { imageToPhaser(img, op, this.game); }

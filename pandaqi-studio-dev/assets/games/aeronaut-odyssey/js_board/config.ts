@@ -12,7 +12,7 @@ const CONFIG = {
 
     inkFriendly: false,
     boardSize: "regular",
-    printSize: "singlePage",
+    splitDims: "1x1",
     useRealMaterial: false,
 
     boardClarity: "clean",
@@ -80,13 +80,14 @@ const CONFIG = {
         numBlockTypesOverride: null,
 
         connectionBounds: { min: 3.0, max: 3.375 }, // this is per point = city
+        connRemovePercentage: 0.15, // not used anymore I think?
 
         forbiddenAreaGrowFactor: new Bounds(0.0,0.25),
 
         routeOverlapThicknessFactor: new Bounds(0,1.0), // how thick it makes the paths when checking for overlap; 1.0 = actual size
 
-        numTrajectoryMultipliers: { tiny: 0.75, small: 0.85, regular: 1.0, large: 1.33, huge: 1.5 },
-        numTrajectoryBounds: { min: 3, max: 5 },
+        numTrajectoryMultipliers: { tiny: 0.75, small: 0.85, regular: 1.0, large: 1.33, huge: 1.66 },
+        numTrajectoryBounds: { min: 4, max: 6 },
         trajectorySize: new Point(2, 0.5), // this is relative to "block size"
         calculatedTrajectoryRectOffset: null, // as it says: calculated during generation
         maxTrajectoryLength: 2.0, // relative to numBlocksFullWidth
@@ -125,7 +126,7 @@ const CONFIG = {
         maxBlocksPerRoute: 5,
         maxBlocksPerRouteOverride: null,
         maxBlocksOverflowBeforeRelaxation: 1, // to allow slightly longer routes at initial placement, and rely on relaxation to bring them in line later
-        connRemovePercentage: 0.15
+
     },
 
     evaluator:
@@ -145,7 +146,11 @@ const CONFIG = {
         playerAreas:
         {
             include: true,
-            numSpacesPerRoute: 2.0 / 4.0, // multiplied by number of routes to get total spaces inside player areas; motivation = ~3 spaces per route avg, ~4 players avg
+
+            // multiplied by number of routes to get total spaces inside player areas; 
+            // motivation = ~2 spaces per route avg, ~4 players avg
+            // @UPDATE: now that you can be rewarded with "one extra inventory space", I lowered it further
+            numSpacesPerRoute: 1.66 / 4.0, // 2.0 / 4.0, 
             edgeOffset: new Point(0.02, 0.02),
             sizeRaw: new Point(0.35, 0.25), // X is relative (scales to stay consistent), Y is absolute (shrinks as map gets bigger)
             strokeWidth: 0.0125, // relative to block size (x)

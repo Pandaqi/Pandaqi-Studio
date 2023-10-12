@@ -28,7 +28,8 @@ interface TypeStat {
 }
 
 export { Generator, TypeStats, TypeStat }
-export default class Generator {
+export default class Generator 
+{
     constructor()
     {
         const userConfig = JSON.parse(window.localStorage[CONFIG.configKey] || "{}");

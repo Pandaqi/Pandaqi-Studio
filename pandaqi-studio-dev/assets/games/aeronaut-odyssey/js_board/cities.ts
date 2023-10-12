@@ -13,6 +13,7 @@ export default class Cities
         this.points = points;
     }
 
+    count() { return this.get().length; }
     get() { return this.points; }
     remove(p:PointGraph)
     {

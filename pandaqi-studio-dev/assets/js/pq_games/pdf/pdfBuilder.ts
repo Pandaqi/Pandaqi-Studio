@@ -32,7 +32,8 @@ interface PdfBuilderConfig
     splitBoard?: boolean
     splitDims?: Point,
     format?: PageFormat
-    jsPDF?:any
+    jsPDF?:any,
+    debugWithoutFile?: boolean
 }
 
 const PAGE_FORMATS = {
@@ -54,6 +55,7 @@ export default class PdfBuilder
     splitDims: Point
 
     images : HTMLImageElement[]
+    debugWithoutFile : boolean
 
     constructor(cfg:PdfBuilderConfig = {})
     {
@@ -66,6 +68,7 @@ export default class PdfBuilder
         
         this.button = null;
         this.buttonConfig = {};
+        this.debugWithoutFile = cfg.debugWithoutFile ?? false;
         this.orientation = cfg.orientation ?? PageOrientation.LANDSCAPE;
         this.format = (cfg.format as PageFormat) ?? PageFormat.A4;
         this.splitDims = new Point(1,1);
@@ -196,6 +199,15 @@ export default class PdfBuilder
 
     downloadPDF(cfg = {})
     {
+        if(this.debugWithoutFile)
+        {
+            for(const img of this.images) { 
+                img.style.maxWidth = "100%";
+                document.body.appendChild(img);
+            }
+            return false;
+        }
+
         const pdfConfig = this.getPDFConfig(cfg);
         const doc = new this.jsPDF(pdfConfig);
         //const width = doc.internal.pageSize.getWidth();

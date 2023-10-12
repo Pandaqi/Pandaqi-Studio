@@ -49,6 +49,9 @@ export default class Evaluator
         // @DEBUGGING
         //return true;
 
+        if(!this.enoughPoints(board)) { return false; }
+        if(!this.enoughRoutes(board)) { return false; }
+
         // check if we use as much of the paper as possible
         if(this.boardTooSmall(board)) { return false; }
 
@@ -62,6 +65,21 @@ export default class Evaluator
         if(!this.allPointsAdequatelyConnected(board)) { return false; }
 
         return true;
+    }
+
+    enoughPoints(board:BoardState)
+    {
+        const numPoints = board.pointsManager.count();
+        const minimum = CONFIG.generation.numCityBounds.min - 1; // slight margin to allow some error/variety
+        return numPoints >= minimum;
+    }
+
+    enoughRoutes(board:BoardState)
+    {
+        const numPoints = board.pointsManager.count();
+        const numRoutes = board.routesManager.count();
+        const minimum = Math.floor(CONFIG.generation.connectionBounds.min * numPoints * 0.925); // slight margin again
+        return numRoutes >= minimum;
     }
 
     areTrajectoriesValid(board:BoardState)

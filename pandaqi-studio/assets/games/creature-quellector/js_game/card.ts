@@ -64,6 +64,7 @@ export default class Card
     {    
         this.mainType = mainType;
         this.typeList = t;
+        this.sort();
     }
 
     getCanvas() : HTMLCanvasElement { return this.ctx.canvas; }
@@ -80,6 +81,23 @@ export default class Card
         this.drawCustomPost();
         
         return this.getCanvas();
+    }
+
+    sort()
+    {
+        this.typeList.sort((a,b) => {
+            // first sort per type (and alphabetically, but that's not important)
+            const name = a.type.localeCompare(b.type);
+            if(name != 0) { return name; }
+
+            // then non-actions before actions (the "+" converts boolean to 0 or 1), so 0->1 ascending
+            const ac = (+a.action) - (+b.action);
+            if(ac != 0) { return ac; }
+
+            // then regular before multitype
+            // (an empty string if not multi, otherwise the string of the other type)
+            return a.multi.length - b.multi.length;
+        })
     }
 
     setup()

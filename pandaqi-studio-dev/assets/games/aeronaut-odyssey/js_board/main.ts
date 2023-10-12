@@ -63,6 +63,9 @@ class BoardGeneration extends Scene
             // I took a value somewhere between that
             CONFIG.blockSizeOverride = 26.5 * getDPIScalar(); // 26 millimeters to pixels
             CONFIG.numBlocksXOverride = Math.floor(this.canvas.width / CONFIG.blockSizeOverride);
+
+            const tooLittleSpace = (CONFIG.boardSize == "large" || CONFIG.boardSize == "huge") && CONFIG.splitDims == "1x1";
+            if(tooLittleSpace) { CONFIG.splitDims = "2x2"; }
         }
     }
 
