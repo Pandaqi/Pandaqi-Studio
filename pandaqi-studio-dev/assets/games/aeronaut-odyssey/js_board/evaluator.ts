@@ -51,6 +51,8 @@ export default class Evaluator
 
         if(!this.enoughPoints(board)) { return false; }
         if(!this.enoughRoutes(board)) { return false; }
+        if(!this.averageRouteLengthAdequate(board)) { return false; }
+        if(!this.expectedRouteLengthFulfilled(board)) { return false; }
 
         // check if we use as much of the paper as possible
         if(this.boardTooSmall(board)) { return false; }
@@ -67,19 +69,66 @@ export default class Evaluator
         return true;
     }
 
+    expectedRouteLengthFulfilled(board:BoardState)
+    {
+        const lengths = [];
+        const expLength = CONFIG.generation.expectedRouteLength[CONFIG.boardSize];
+        for(let i = 1; i <= expLength; i++)
+        {
+            lengths.push(i);   
+        }
+
+        const routes = board.routesManager.get();
+        for(const route of routes)
+        {
+            const length = route.getBlockLength();
+            const idx = lengths.indexOf(length);
+            if(idx < 0) { continue; }
+            lengths.splice(idx, 1);
+
+            const allLengthsFound = (lengths.length <= 0);
+            if(allLengthsFound) { break; }
+        }
+
+        let valid = lengths.length <= 0;
+        if(!valid) { console.log("[REJECTED] Didn't find routes of length: " + lengths); }
+        return valid;
+    }
+
+    averageRouteLengthAdequate(board:BoardState)
+    {
+        const routes = board.routesManager.get();
+        let sum = 0;
+        for(const route of routes)
+        {
+            sum += route.getBlockLength();
+        }
+        sum /= routes.length;
+
+        const valid = sum >= CONFIG.generation.minAverageRouteLength;
+        if(!valid) { console.log("[REJECTED] Average route length: " + sum + " vs " + CONFIG.generation.minAverageRouteLength); }
+        return valid;
+    }
+
     enoughPoints(board:BoardState)
     {
         const numPoints = board.pointsManager.count();
-        const minimum = CONFIG.generation.numCityBounds.min - 1; // slight margin to allow some error/variety
-        return numPoints >= minimum;
+        const multiplier = CONFIG.generation.numCityMultipliers[CONFIG.boardSize];
+        const margin = CONFIG.generation.numCityMargins[CONFIG.boardSize];
+        const minimum = CONFIG.generation.numCityBounds.min * multiplier - margin; // slight margin to allow some error/variety
+        const valid = numPoints >= minimum;
+        if(!valid) { console.log("[REJECTED] #Cities: " + numPoints + " vs " + minimum); }
+        return valid;
     }
 
     enoughRoutes(board:BoardState)
     {
         const numPoints = board.pointsManager.count();
-        const numRoutes = board.routesManager.count();
-        const minimum = Math.floor(CONFIG.generation.connectionBounds.min * numPoints * 0.925); // slight margin again
-        return numRoutes >= minimum;
+        const numRoutes = board.routesManager.count() * 2; // routes go both ways!
+        const minimum = Math.floor(CONFIG.generation.connectionBounds.min * numPoints * 0.9); // slight margin again
+        const valid = numRoutes >= minimum;
+        if(!valid) { console.log("[REJECTED] #Routes: " + numRoutes + " vs " + minimum) }
+        return valid;
     }
 
     areTrajectoriesValid(board:BoardState)

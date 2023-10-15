@@ -11,6 +11,15 @@ export default class RouteSet
         this.randomCurve = null;
     }
 
+    getOther(r:Route)
+    {
+        for(const route of this.routes)
+        {
+            if(route != r) { return route; }
+        }
+        return null;
+    }
+
     has(r:Route) { return this.routes.includes(r); }
     count() { return this.routes.length; }
     add(r:Route)

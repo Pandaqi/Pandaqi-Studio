@@ -76,6 +76,8 @@ const CONFIG = {
         requiredAreaSize: 0.2, // the first few points are placed in the corners (required), how much freedom do they have?
         reduceConnectivityAfterTriangulation: true, // @DEBUGGING should probably be true
 
+        minAverageRouteLength: 1.6,
+
         numBlockTypes: 6,
         numBlockTypesOverride: null,
 
@@ -84,18 +86,20 @@ const CONFIG = {
 
         forbiddenAreaGrowFactor: new Bounds(0.0,0.25),
 
+        expectedRouteLength: { tiny: 2, small: 2, regular: 3, large: 4, huge: 5 }, // we expect at least one route of this length
+
         routeOverlapThicknessFactor: new Bounds(0,1.0), // how thick it makes the paths when checking for overlap; 1.0 = actual size
 
         numTrajectoryMultipliers: { tiny: 0.75, small: 0.85, regular: 1.0, large: 1.33, huge: 1.66 },
         numTrajectoryBounds: { min: 4, max: 6 },
         trajectorySize: new Point(2, 0.5), // this is relative to "block size"
         calculatedTrajectoryRectOffset: null, // as it says: calculated during generation
-        maxTrajectoryLength: 2.0, // relative to numBlocksFullWidth
-        maxTrajectoryPoints: 20.0, 
-        minTrajectoryScore: 2,
-        balanceTrajectoryLengths: false, // @DEBUGGING (should probably be true)
-        trajectoryVarietyMarginFactor: 1.0, // higher = less variety/balance, but more likely and faster solution
-        trajectoryLengthReward: { small: 1.0, medium: 1.25, large: 1.5 },
+        trajectoryPointsMultiplier: { tiny: 0.75, small: 0.85, regular: 1.0, large: 1.33, huge: 1.66 },
+        maxTrajectoryPoints: 12.0,  // @TODO: we should really scale this based on board size, maybe not use an absolute number here?
+        maxScoreForNonPointsTrajectory: 0.45, // relative to maxTrajectoryPoints
+        minTrajectoryScore: 3,
+        balanceTrajectoryLengths: true, // @DEBUGGING (should probably be true)
+        trajectoryLengthReward: { small: 1.0, medium: 1.0, large: 1.3 },
 
         numBonusBounds: { min: 0.2, max: 0.375 }, // relative to total number of blocks that COULD receive a bonus
         minRouteLengthForBonus: 1.5,
@@ -110,7 +114,8 @@ const CONFIG = {
         visitorSpotBounds: { min: 3, max: 6 },
 
         numCityBounds: { min: 16, max: 20 },
-        numCityMultipliers: { tiny: 0.33, small: 0.66, regular: 1.0, large: 1.5, huge: 2.0 },
+        numCityMultipliers: { tiny: 0.33, small: 0.66, regular: 1.0, large: 1.85, huge: 2.5 },
+        numCityMargins: { tiny: 0, small: 1, regular: 1, large: 2, huge: 4 }, // how far we may be off from the ideal amount
 
         cityRadius: 0.3,
 
@@ -122,6 +127,9 @@ const CONFIG = {
         influenceDamping: 0.2,
 
         addRandomCurvesWhenUnnecessary: true,
+
+        trySneakConnections: true,
+        maxSneakConnections: 2,
 
         maxBlocksPerRoute: 5,
         maxBlocksPerRouteOverride: null,
@@ -183,7 +191,7 @@ const CONFIG = {
         maxAngleCurveAnyway: 0.35*Math.PI,
         maxRandomRouteCurveBounds: new Bounds(0.025, 0.175),
 
-        debugDrawOverlapRectangle: true, // @DEBUGGING (should be false)
+        debugDrawOverlapRectangle: false, // @DEBUGGING (should be false)
         debugDrawForbiddenAreas: false, // @DEBUGGING (should be false)
     }
 }

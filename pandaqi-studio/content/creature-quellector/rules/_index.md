@@ -47,18 +47,19 @@ Creatures always belong to one **element** (their "main type"; the large icon in
 
 Determine your squad's strength with three simple steps.
 
-1. The player who has the most **actions**, executes **one** of them. (If tied, nobody does.)
+1. The player who has the most **actions**, _must_ execute **one** of them. (If tied, defender wins.)
 2. Every **type** is worth +1 point for you.
 3. However, types that match an **element** played by the opponent are worth **nothing** for you. (They are "Countered".)
 
-The player with the highest score wins. If tied, the defender wins.
+{{< rules-image src="battle_resolution.webp" alt="An example of how to resolve a battle (actions, counters, sum what's left)." >}}
 
-When calculating your final score at the **end of the game**, pretend you’re fighting **your own hand**! 
+The player with the highest score wins. If tied, defender wins.
+
+When calculating your final score at the **end of the game**, pretend you're fighting **your own hand**! 
 
 * All your elements Counter yourself.
-* All _actions_ score +1 point and cannot be countered.
-
-{{< rules-image src="battle_resolution.webp" alt="An example of how to resolve a battle (actions, counters, sum what's left)." >}}
+* All _actions_ score +1 point, but can be Countered as usual.
+* The _actions_ from the player who has **the most** (out of all players), however, aren't countered. (They all count +1, always.)
 
 {{% /rules-block %}}
 
@@ -79,11 +80,11 @@ Red stands for aggression, attacking, destroying.
 {{< rules-table >}}
 <!-- -->
     {{< rules-table-entry heading="Fire" icon="red-fire" >}}
-        <span class="action-timing">BEFORE</span>: Take 1 Squad card into your hand.
+        <span class="action-timing">BEFORE</span>: Take 1 Squad card into your hand (from any squad).
     {{< /rules-table-entry >}}
 <!-- -->
     {{< rules-table-entry heading="Electric" icon="red-electric" >}}
-        <span class="action-timing">AFTER</span>: The loser steals one card from the winner's hand.
+        <span class="action-timing">AFTER</span>: The loser steals one card <em>or</em> gives away one card to the winner.
     {{< /rules-table-entry >}}
 <!-- -->
     {{< rules-table-entry heading="Star" icon="red-star" >}}
@@ -108,7 +109,7 @@ Blue stands for change, multitype, fluidity.
     {{< /rules-table-entry >}}
 <!-- -->
     {{< rules-table-entry heading="Ice" icon="blue-ice" >}}
-        <span class="action-timing">BEFORE</span>: Pick 1 type from a card with multiple types. Only the chosen one counts (for that card).
+        <span class="action-timing">BEFORE</span>: For every card with multiple types, pick only <em>one</em> that one counts (for that card).
     {{< /rules-table-entry >}}
 <!-- -->
     {{< rules-table-entry heading="Poison" icon="blue-poison" >}}
@@ -141,7 +142,7 @@ Green stands for defense, blocking, safety.
     {{< /rules-table-entry >}}
 <!-- -->
     {{< rules-table-entry heading="Bug" icon="green-bug" >}}
-        <span class="action-timing">AFTER</span>: The winner must say they are "done".
+        <span class="action-timing">AFTER</span>: If one of the players says they're "done", the other must do so too.
     {{< /rules-table-entry >}}
 {{< /rules-table >}}
 
@@ -154,7 +155,7 @@ Purple stands for revealing, randomness, surprises.
 {{< rules-table >}}
 <!-- -->
     {{< rules-table-entry heading="Air" icon="purple-air" >}}
-        <span class="action-timing">AFTER</span>: The loser must show their whole hand to the opponent.
+        <span class="action-timing">AFTER</span>: The loser must show their whole hand to everyone.
     {{< /rules-table-entry >}}
 <!-- -->
     {{< rules-table-entry heading="Magic" icon="purple-magic" >}}
@@ -162,7 +163,7 @@ Purple stands for revealing, randomness, surprises.
     {{< /rules-table-entry >}}
 <!-- -->
     {{< rules-table-entry heading="Ghost" icon="purple-ghost" >}}
-        <span class="action-timing">AFTER</span>: Permanently reveal 1 card from your hand. (Rotate it to face away from you.)
+        <span class="action-timing">AFTER</span>: Both players permanently reveal 1 card from their hand. (Rotate it to face away from you.)
     {{< /rules-table-entry >}}
 <!-- -->
     {{< rules-table-entry heading="Dark" icon="purple-dark" >}}

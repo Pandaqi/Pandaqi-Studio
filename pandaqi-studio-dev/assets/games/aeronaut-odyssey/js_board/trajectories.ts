@@ -7,6 +7,9 @@ import fromArray from "js/pq_games/tools/random/fromArray";
 import { BONUSES } from "./dict";
 import getWeighted from "js/pq_games/tools/random/getWeighted";
 import range from "js/pq_games/tools/random/range";
+import PointGraph from "js/pq_games/tools/geometry/pointGraph";
+import shuffle from "js/pq_games/tools/random/shuffle";
+import rangeInteger from "js/pq_games/tools/random/rangeInteger";
 
 export default class Trajectories
 {
@@ -36,10 +39,52 @@ export default class Trajectories
         const fullPageDims = this.boardState.dims;
         const anchor = fullPageDims.clone().sub(offsetFromCorner);
 
-
         const rect = new Rectangle().fromBottomRight(anchor, size);
         this.rectangle = rect;
         this.boardState.forbiddenAreas.add(rect); 
+    }
+
+    getMaxPointDistance(points:PointGraph[])
+    {
+        // first establish maximum distance, so we know what "small" / "medium" / "large" mean
+        let maxDist = 0;
+        let extremePoints = [null,null];
+        for(const p1 of points)
+        {
+            for(const p2 of points)
+            {
+                const dist = p1.distTo(p2);
+                if(dist > maxDist)
+                {
+                    extremePoints = [p1, p2];
+                    maxDist = dist;
+                }
+            }
+        }
+
+        const tempTraj = new Trajectory(extremePoints[0], extremePoints[1]);
+        const maxDistPathFind = tempTraj.getPathFindBlockLength();
+        return { maxDist, maxDistPathFind };
+    }
+
+    createPointDistanceLookup(points:PointGraph[], maxDist:number)
+    {
+        const map : Map<PointGraph, any> = new Map();
+
+        // now bucket everything according to that
+        for(const p1 of points)
+        {
+            const dict = { small: [], medium: [], large: [] };
+            for(const p2 of points)
+            {
+                const distRatio = p1.distTo(p2) / maxDist;
+                let key = distRatio <= 0.33 ? "small" : (distRatio <= 0.66 ? "medium" : "large");
+                dict[key].push(p2);
+            }
+            map.set(p1, dict);
+        }
+
+        return map;
     }
 
     generatePost()
@@ -48,49 +93,52 @@ export default class Trajectories
 
         const trajectories : Trajectory[] = [];
         const points = this.boardState.getPoints();
+        let ensureBalance = CONFIG.generation.balanceTrajectoryLengths;
         
-        const maxPoints = CONFIG.generation.maxTrajectoryPoints;
-
-        // we want variety in the route lengths
-        // so we divide it into three chunks (small, medium, large) and try to get them close to even
-        // though with some margin of error
-        const bucketThresholds = { small: maxPoints / 3, medium: 2*maxPoints / 3 }
-        const numPerSizeBucket = { small: 0, medium: 0, large: 0 }
-        const margin = CONFIG.generation.trajectoryVarietyMarginFactor;
-        let maxPerBucket = Math.ceil(this.num / 3.0 * margin);
-
         let minScore = CONFIG.generation.minTrajectoryScore;
+        if(!ensureBalance) { minScore = 0; }
 
-        if(!CONFIG.generation.balanceTrajectoryLengths) 
-        { 
-            maxPerBucket = Infinity;
-            minScore = 0; 
-        }
+        const { maxDist, maxDistPathFind } = this.getMaxPointDistance(points);
+        const pointDistances = this.createPointDistanceLookup(points, maxDist);
 
+        console.log(pointDistances);
+        
+        let pointsPossible = [];
+
+        let sizes = ["small", "medium", "large"];
+        let counter = rangeInteger(0, sizes.length-1);
+
+        let numTries = 0;
+        const maxTries = 150;
 
         while(trajectories.length < this.num)
         {
-            const start = fromArray(points);
-            const end = fromArray(points);
-            const traj = new Trajectory(start, end);
+            numTries++;
+            if(numTries > maxTries) { ensureBalance = false; }
+
+            if(pointsPossible.length <= 0) 
+            { 
+                pointsPossible = points.slice();
+                shuffle(pointsPossible);
+            }
+
+            // we only consider points we already know are at the right distance (small/medium/lage)
+            const p1 = pointsPossible.pop();
+            let possibleDestinations = pointDistances.get(p1)[sizes[counter]];
+            if(!ensureBalance) { possibleDestinations = pointsPossible; }
+
+            if(possibleDestinations.length <= 0) { continue; }
+            
+            const p2 = fromArray(possibleDestinations);
+            const traj = new Trajectory(p1, p2);
             if(!traj.isValid()) { continue; }
             if(traj.matchesAny(trajectories)) { continue; }
 
-            traj.calculateScore();
-
-            let bucket = "large"
-            if(traj.score <= bucketThresholds.small) { bucket = "small"; }
-            else if(traj.score <= bucketThresholds.medium) { bucket = "medium"; }
-        
-            const bucketAlreadyFull = numPerSizeBucket[bucket] >= maxPerBucket;
-            if(bucketAlreadyFull) { continue; }
-
-            traj.setLengthBucket(bucket);
-
+            traj.calculateScore(maxDistPathFind); // we use PATHFIND one because now the trajectory will actually path find and get the real length
             if(traj.score < minScore) { continue; }
 
-            numPerSizeBucket[bucket]++;
             trajectories.push(traj);
+            counter = (counter + 1) % sizes.length;
         }
 
         // now determine the specific bonuses for the trajectories
@@ -102,11 +150,14 @@ export default class Trajectories
             delete bonusesWithoutAbilities[key];
         }
 
+        const maxPoints = CONFIG.generation.maxTrajectoryPoints * CONFIG.generation.trajectoryPointsMultiplier[CONFIG.boardSize]
+        const maxBonusScore = CONFIG.generation.maxScoreForNonPointsTrajectory * maxPoints;
         for(const traj of trajectories)
         {
             let bonus = getWeighted(bonusesWithoutAbilities);
             // @NOTE: other rewards on long routes are pointless, as the game will be almost over and you can't use them anyway!
-            if(traj.lengthBucket == "large") { bonus = "points"; }
+            if(traj.score > maxBonusScore) { bonus = "points"; }
+            if(CONFIG.useRealMaterial) { bonus = "points"; }
             traj.bonus = bonus;
             traj.calculateBonusNumber();
         }

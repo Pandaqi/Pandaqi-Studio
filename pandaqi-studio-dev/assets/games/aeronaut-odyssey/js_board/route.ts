@@ -11,6 +11,7 @@ import Point from "js/pq_games/tools/geometry/point";
 import simplifyPath from "js/pq_games/tools/geometry/paths/simplifyPath";
 import thickenPath from "js/pq_games/tools/geometry/paths/thickenPath";
 import calculateBoundingBox from "js/pq_games/tools/geometry/paths/calculateBoundingBox";
+import Rectangle from "js/pq_games/tools/geometry/rectangle";
 
 
 interface BlockData
@@ -36,8 +37,9 @@ export default class Route
     pathSimple: Point[];
 
     failed:boolean;
-    pathBoundingBox: import("c:/Users/Tiamo/Documents/Programming/Websites/Pandaqi/Pandaqi Studio/pandaqi-studio-dev/assets/js/pq_games/tools/geometry/rectangle").Rectangle;
-
+    conservative:boolean; // rounds block length downwards for more space
+    pathBoundingBox: Rectangle;
+    
     constructor(start:PointGraph, end:PointGraph)
     {
         this.start = start;
@@ -70,6 +72,16 @@ export default class Route
     getBlockLength()
     {
         return Math.round(this.getBlockLengthRaw());
+    }
+
+    getBlockLengthLow()
+    {
+        return Math.floor(this.getBlockLengthRaw());
+    }
+
+    getBlockLengthHigh()
+    {
+        return Math.ceil(this.getBlockLengthHigh());
     }
 
     getBlockLengthRaw()
@@ -124,7 +136,7 @@ export default class Route
 
     fillRestOfRoute(list:any[], val:any)
     {
-        while(list.length < this.getBlockLength())
+        while(list.length < this.blockData.length)
         {
             list.push(val);
         }
@@ -155,11 +167,22 @@ export default class Route
         if(isZero(sideAway)) { sideAway = signRandom(); }
         this.closestAngle = decidingAngle;
         this.curveSide = sideAway * 0.5*Math.PI;
+
+        // @TODO: cleaner API for "clone settings from set partner"
+        if(this.set)
+        {
+            const other = this.set.getOther(this);
+            if(other.closestAngle)
+            {
+                this.closestAngle = other.closestAngle;
+                this.curveSide = other.curveSide;
+            }
+        }
+
     }
 
     getAngleToClosestOtherRoute(p:PointGraph)
     {
-        const doubleRouteAdjustment = 0.2*Math.PI;
         const routes : Route[] = p.metadata.routes;
         let anchorVec : PointGraph = p.vecTo(this.getOther(p)).normalize();
 
@@ -180,15 +203,13 @@ export default class Route
                 // if we are the start, then we want also the FIRST block
                 // if we're the end, then we want the LAST block
                 const weAreStart = route.start.matches(p);
-                const blockIndex = weAreStart ? 0 : route.blockData.length - 1;
+                const blockIndex = weAreStart ? 0 : (route.blockData.length - 1);
                 let rot = route.blockData[blockIndex].rot;
                 if(!weAreStart) { rot += Math.PI; }
                 routeVec = new Point().fromAngle(rot);
             }
 
-            let ang = anchorVec.angleSignedTo(routeVec);
-            if(route.set) { ang += -Math.sign(ang)*doubleRouteAdjustment; }
-            
+            let ang = anchorVec.angleSignedTo(routeVec);            
             if(Math.abs(ang) > closestAng) { continue; }
             closestAng = ang;
         }
@@ -200,7 +221,9 @@ export default class Route
     {
         if(this.tooSmall()) { this.failed = true; return; }
 
-        const lengthInBlocks = this.getBlockLength();
+        let lengthInBlocks = this.getBlockLength();
+        if(this.conservative) { lengthInBlocks = this.getBlockLengthLow(); }
+
         const resolution = 100;
         let targetLength = lengthInBlocks + 2*CONFIG.generation.cityRadius;
         if(this.isSingleBlock()) { targetLength = 0; } // single-block routes obviously cannot curve

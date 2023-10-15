@@ -11,6 +11,7 @@ import Line from "js/pq_games/tools/geometry/line";
 import getWeightedByIndex from "js/pq_games/tools/random/getWeightedByIndex";
 import getWeighted from "js/pq_games/tools/random/getWeighted";
 import { BONUSES } from "./dict";
+import rangeInteger from "js/pq_games/tools/random/rangeInteger";
 
 export default class Routes
 {
@@ -57,6 +58,19 @@ export default class Routes
         return false;
     }
 
+    createRouteBetween(a:PointGraph, b:PointGraph, list:Route[])
+    {
+        const r = new Route(a,b);
+        if(this.routeAlreadyRegistered(r, list)) { return null; }
+
+        list.push(r);
+        if(!a.isConnectedTo(b)) { a.addConnectionByPoint(b); }
+
+        a.metadata.routes.push(r);
+        b.metadata.routes.push(r);
+        return r;
+    }
+
     createRoutesFromPoints(points:PointGraph[])
     {
         for(const point of points)
@@ -90,15 +104,12 @@ export default class Routes
         {
             for(const conn of point.getConnectionsByPoint())
             {
-                const r = new Route(point, conn);
-                if(this.routeAlreadyRegistered(r, routes)) { continue; }
-                routes.push(r);
-
-                point.metadata.routes.push(r);
-                conn.metadata.routes.push(r);
-                sum += r.getBlockLength();
+                const newRoute = this.createRouteBetween(point, conn, routes);
+                if(newRoute) { sum += newRoute.getBlockLength(); }
             }
         }
+
+        this.trySneakConnections(points, routes);
 
         // then turn some of them into double routes
         // (feels cleaner to assemble them all first and _then_ add them all to routes)
@@ -110,8 +121,13 @@ export default class Routes
         });
 
         const doubleRoutes = [];
+        let numTries = 0;
+        const maxTries = 300;
         while(doubleRoutes.length < numDoubleRoutes)
         {
+            numTries++;
+            if(numTries >= maxTries) { break; }
+
             // descending => the longer the route, the less likely it is to be doubled
             const r = routes[getWeightedByIndex(routes, true, 0.1)];
             const alreadyDoubled = r.set != null;
@@ -137,6 +153,57 @@ export default class Routes
         this.numTotalBlocks = sum;
 
         return routes;
+    }
+
+    countUniqueRoutes(point:PointGraph)
+    {
+        const routes = point.metadata.routes;
+        let sets = [];
+        let sum = 0;
+        for(const route of routes)
+        {
+            if(!route.set) { sum += 1; continue; }
+            if(sets.includes(route.set)) { continue; }
+            sum += 1;
+            sets.push(route.set);
+        }
+        return sum;
+    }
+
+    trySneakConnections(points:PointGraph[], routes:Route[])
+    {
+        if(!CONFIG.generation.trySneakConnections) { return; }
+
+        const maxSneakConnections = CONFIG.generation.maxSneakConnections;
+        for(const p1 of points)
+        {
+            let conns = this.countUniqueRoutes(p1);
+            if(conns >= 3) { continue; }
+
+            let candidates = [];
+            for(const p2 of points)
+            {
+                if(p1 == p2) { continue; }
+                if(p1.isConnectedTo(p2)) { continue; }
+
+                const line = new Line(p1, p2)
+                if(this.boardState.forbiddenAreas.lineIsInside(line)) { continue; }
+
+                candidates.push({ point: p2, dist: p1.distTo(p2) });
+            }
+
+            if(candidates.length <= 0) { continue; }
+
+            const candidatesToTry = Math.min(rangeInteger(1,maxSneakConnections), candidates.length);
+            candidates.sort((a,b) => { return a.dist - b.dist; });
+
+            for(let c = 0; c < candidatesToTry; c++)
+            {
+                const candidate = candidates[c].point;
+                const r = this.createRouteBetween(p1, candidate, routes);
+                // r.conservative = true; => too ugly
+            }
+        }
     }
 
     addCurveToRoutes(routes:Route[])
@@ -166,8 +233,13 @@ export default class Routes
 
         let counter = -1;
         let multiBlocksPlaced = 0;
+        let numTries = 0;
+        const maxTries = 300;
         while(multiBlocksPlaced < numMultiBlocks)
         {
+            numTries++;
+            if(numTries >= maxTries) { break; }
+
             counter = (counter + 1) % routes.length;
             const route = routes[counter];
             if(route.getBlockLength() < minLength) { continue; }
@@ -240,8 +312,13 @@ export default class Routes
         const bonuses = this.generateRandomBonuses(numBonuses);
 
         let counter = -1;
+        let numTries = 0;
+        const maxTries = 300;
         while(bonuses.length > 0)
         {
+            numTries++;
+            if(numTries >= maxTries) { break; }
+
             counter = (counter + 1) % routes.length;
             const curRoute = routes[counter];
             if(curRoute.getBlockLength() < minLength) { continue; }

@@ -17,15 +17,6 @@ export default class Trajectory
     
     constructor(start:PointGraph, end:PointGraph)
     {
-        // city names should be displayed alphabetically, is cleaner and easier to understand
-        const sort = start.metadata.cityName.localeCompare(end.metadata.cityName);
-        if(sort > 0)
-        {
-            const temp = start;
-            start = end;
-            end = temp;
-        }
-
         this.start = start;
         this.end = end;
     }
@@ -55,14 +46,14 @@ export default class Trajectory
         return null;
     }
 
-    getMaxTrajectoryLength()
+    /*getMaxTrajectoryLength()
     {
         const blocksFactor = CONFIG.generation.numBlocksFullWidthMultipliers[CONFIG.boardSize];
         const maxLength = CONFIG.generation.maxTrajectoryLength * CONFIG.generation.numBlocksFullWidth * blocksFactor;
         return Math.round(maxLength);
-    }
+    }*/
 
-    calculateScore()
+    getPathFindBlockLength()
     {
         const pfConfig = 
         {
@@ -84,16 +75,23 @@ export default class Trajectory
             pathBlockLength += route.getBlockLength();
         }
 
-        const length = clamp(pathBlockLength / this.getMaxTrajectoryLength(), 0.05, 1.0);
-        this.score = Math.round(length * CONFIG.generation.maxTrajectoryPoints);
-        return this.score;
+        return pathBlockLength;
     }
 
-    setLengthBucket(bc:string)
+    calculateScore(maxDist:number)
     {
-        this.lengthBucket = bc;
+        const length = this.getPathFindBlockLength() / maxDist;
+        const maxPoints = CONFIG.generation.maxTrajectoryPoints * CONFIG.generation.trajectoryPointsMultiplier[CONFIG.boardSize]
+
+        this.score = Math.round(length * maxPoints);
+
+        const distRatio = this.start.distTo(this.end) / maxDist;
+        const size = distRatio <= 0.33 ? "small" : (distRatio <= 0.66 ? "medium" : "large");
         // @NOTE: to extra reward the risky long routes
-        this.enhanceScore(CONFIG.generation.trajectoryLengthReward[bc] ?? 1.0);
+        this.lengthBucket = size; // @TODO: is this used anywhere?
+        this.enhanceScore(CONFIG.generation.trajectoryLengthReward[size] ?? 1.0);
+
+        return this.score;
     }
 
     enhanceScore(ds:number)
@@ -107,5 +105,13 @@ export default class Trajectory
         const value = BONUSES[this.bonus].value ?? 1;
         const number = clamp(Math.round(this.score / value), 1, Infinity);
         this.bonusNumber = number;
+    }
+
+    getCityNamesAlphabetical()
+    {
+        let names = [this.start.metadata.cityName, this.end.metadata.cityName];
+        const sort = names[0].localeCompare(names[1]);
+        if(sort <= 0) { return names; }
+        return names.reverse();
     }
 }

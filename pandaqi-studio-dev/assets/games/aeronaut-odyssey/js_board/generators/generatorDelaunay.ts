@@ -58,7 +58,8 @@ export default class GeneratorDelaunay
     placeCities()
     {
         const numCityFactor = CONFIG.generation.numCityMultipliers[CONFIG.boardSize];
-        const numCities = Math.ceil(range(CONFIG.generation.numCityBounds) * numCityFactor);
+        const numCitiesMax = CONFIG.generation.numCityBounds.max; // we expect some cities to fail/be removed, so always start at max
+        const numCities = Math.ceil(numCitiesMax * numCityFactor);
         const m = CONFIG.generation.requiredAreaSize; // relative to full dimensions
         const requiredAreas = [
             new RequiredArea(0, 0, m, m),
@@ -97,11 +98,12 @@ export default class GeneratorDelaunay
         let pos:Point;
         let badPos = false;
         let numTries = 0;
+        const maxTries = 100;
         do {
             pos = marginBoard.clone().add(new Point(Math.random(), Math.random()).scale(dimsUsable));
             badPos = this.getDistToClosest(pos, list) < this.getMinDistance();
             numTries++;
-        } while(badPos && numTries <= 100);
+        } while(badPos && numTries <= maxTries);
         return pos;
     }
 
@@ -175,7 +177,7 @@ export default class GeneratorDelaunay
 
         let connsRemoved = 0;
         let numTries = 0;
-        const maxTries = 1000;
+        const maxTries = 200;
         while(connsRemoved < connsToRemove)
         {
             numTries++;

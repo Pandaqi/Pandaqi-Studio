@@ -432,6 +432,7 @@ export default class BoardDisplay
         for(const traj of trajs)
         {
             const bonus = traj.bonus;
+            const cityNames = traj.getCityNamesAlphabetical();
 
             // background rectangle
             const rect = new Rectangle().fromTopLeft(anchor, fullRectSize);
@@ -453,7 +454,7 @@ export default class BoardDisplay
 
             // now display subdivisions
             // 1) start city
-            this.drawCityName(positions[0], traj.start.metadata.cityName, textConfig);
+            this.drawCityName(positions[0], cityNames[0], textConfig);
 
             // 2) connection line + dots
             const linePos = positions[1];
@@ -475,7 +476,7 @@ export default class BoardDisplay
             circleToPhaserObject(circ2, circOp, this.game);
 
             // 3) end city
-            this.drawCityName(positions[2], traj.end.metadata.cityName, textConfig);
+            this.drawCityName(positions[2], cityNames[1], textConfig);
 
             // 4) bonus 1
             this.drawBonus(positions[3], subdivSizeUnit, traj, 0, textConfig);
