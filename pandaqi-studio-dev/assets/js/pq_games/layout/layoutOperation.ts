@@ -171,6 +171,7 @@ export default class LayoutOperation
 
         const offset = this.pivot.clone();
         offset.scaleFactor(-1).scale(this.dims);
+        ctx.translate(offset.x, offset.y);
 
         // mask should come before anything else happens (right?)
         if(this.mask)
@@ -179,7 +180,7 @@ export default class LayoutOperation
             ctx.drawImage(
                 this.mask.getImage(),
                 0, 0, maskData.width, maskData.height,
-                offset.x, offset.y, this.dims.x, this.dims.y)
+                0, 0, this.dims.x, this.dims.y)
             ctx.globalCompositeOperation = "source-in";
         }
 
@@ -215,7 +216,7 @@ export default class LayoutOperation
         if(drawText)
         {
             const drawer = res.createTextDrawer(this.dims);
-            drawer.toCanvas(ctx);
+            drawer.toCanvas(ctx, this.pivot);
         }
 
         const drawImage = image instanceof ResourceImage;
@@ -229,7 +230,7 @@ export default class LayoutOperation
                 frameResource = await effect.applyToImage(frameResource, effectData);
             }
 
-            const box = new Dims(offset.clone(), this.dims.clone());
+            const box = new Dims(new Point(), this.dims.clone());
             const boxPath = box.toPath2D();
             
             ctx.fill(boxPath);

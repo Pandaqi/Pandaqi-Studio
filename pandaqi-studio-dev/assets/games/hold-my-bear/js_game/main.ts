@@ -6,6 +6,7 @@ import GridMapper from "js/pq_games/layout/gridMapper";
 import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple";
 import booleanDictToArray from "js/pq_games/tools/collections/booleanDictToArray";
 import Pack from "./pack";
+import { ANIMALS } from "../js_shared/dict";
 
 export default class Generator
 {
@@ -44,9 +45,16 @@ export default class Generator
     {
         this.progressBar.gotoNextPhase();
 
+        let loadExpansionAssets = false;
+        for(const animal of CONFIG.animals)
+        {
+            if(ANIMALS[animal].expansion) { loadExpansionAssets = true; break; }
+        } 
+
         const resLoader = new ResourceLoader({ base: CONFIG.assetsBase });
         for(const [key,data] of Object.entries(CONFIG.assets))
         {
+            if(("expansion" in data) && !loadExpansionAssets) { continue; }
             resLoader.planLoad(key, data);
         }
         await resLoader.loadPlannedResources();

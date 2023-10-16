@@ -29,6 +29,11 @@ export default class Dims
         this.reset();
     }
 
+    clone()
+    {
+        return new Dims(this.position.clone(), this.size.clone());
+    }
+
     setPosition(p:Point)
     {
         this.position = p.clone();
@@ -137,5 +142,11 @@ export default class Dims
             d1.size.x ?? d2.size.x, 
             d1.size.y ?? d2.size.y
         )
+    }
+
+    move(p:Point)
+    {
+        this.position.move(p);
+        return this;
     }
 }

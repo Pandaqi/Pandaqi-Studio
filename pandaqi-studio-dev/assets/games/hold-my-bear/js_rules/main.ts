@@ -1,6 +1,6 @@
 import createCanvas from "js/pq_games/layout/canvas/createCanvas";
 import InteractiveExample from "js/pq_rulebook/examples/interactiveExample"
-import { ANIMALS } from "../js_shared/dict"
+import { ANIMALS, COLORS } from "../js_shared/dict"
 import Bounds from "js/pq_games/tools/numbers/bounds";
 import shuffle from "js/pq_games/tools/random/shuffle";
 import createContext from "js/pq_games/layout/canvas/createContext";
@@ -18,7 +18,7 @@ const CONFIG =
     matchSizeBounds: new Bounds(1,3),
     handSizeBounds: new Bounds(2,5),
     cardSize: new Point(480, 672),
-    fontFamily: "Arial", // @TODO
+    fontFamily: "Ciscopic",
     maxMovesToDisplay: 4,
 }
 
@@ -45,8 +45,10 @@ class Card
         const sizeUnit = Math.min(size.x, size.y);
         const ctx = createContext({ size: size });
 
+        const colorMain = COLORS[ ANIMALS[this.type].color ];
+
         // background + stroke
-        ctx.fillStyle = ANIMALS[this.type].color;
+        ctx.fillStyle = colorMain;
         ctx.fillRect(0, 0, size.x, size.y);
 
         ctx.strokeStyle = "#000000";

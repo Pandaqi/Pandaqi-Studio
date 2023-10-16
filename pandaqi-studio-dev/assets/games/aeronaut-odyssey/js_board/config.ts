@@ -15,6 +15,10 @@ const CONFIG = {
     splitDims: "1x1",
     useRealMaterial: false,
 
+    // the real TTR trains are about an inch (25.4mm), but the blocks are really 27mm
+    // I took a value even larger (slightly) to overcome any paper size differences/margins
+    realBlockSizeMM: 27.66,
+
     boardClarity: "clean",
     boardClarityValues: { "chaos": 0.1, "okay": 0.25, "normal": 0.5, "clean": 0.75, "superclean": 1.0 },
     boardClarityNumber: 0.75,

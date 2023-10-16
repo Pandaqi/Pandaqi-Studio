@@ -1,0 +1,43 @@
+$header-font: "Sloval";
+$body-font: "Merriweather";
+$fancy-font: "Ciscopic";
+
+@font-face {
+    font-family: 'Merriweather';
+    src: url('/hold-my-bear/assets/fonts/Merriweather-Black.woff2') format('woff2');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Merriweather';
+    src: url('/hold-my-bear/assets/fonts/Merriweather-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Merriweather';
+    src: url('/hold-my-bear/assets/fonts/Merriweather-Italic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Ciscopic';
+    src: url('/hold-my-bear/assets/fonts/Ciscopic-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Sloval';
+    src: url('/hold-my-bear/assets/fonts/sloval-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}

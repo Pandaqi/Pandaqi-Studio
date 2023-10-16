@@ -59,9 +59,7 @@ class BoardGeneration extends Scene
             CONFIG.generation.numBlockTypesOverride = 8; // all of them (wildWinds is also turned on to include gray routes)
             CONFIG.generation.maxBlocksPerRouteOverride = 6; // base game obviously allows route lengths 1--6
 
-            // the real TTR trains are about an inch (25.4mm), but the blocks are really 27mm
-            // I took a value somewhere between that
-            CONFIG.blockSizeOverride = 26.5 * getDPIScalar(); // 26 millimeters to pixels
+            CONFIG.blockSizeOverride = CONFIG.realBlockSizeMM * getDPIScalar(); // millimeters to pixels at correct resolution
             CONFIG.numBlocksXOverride = Math.floor(this.canvas.width / CONFIG.blockSizeOverride);
 
             const tooLittleSpace = (CONFIG.boardSize == "large" || CONFIG.boardSize == "huge") && CONFIG.splitDims == "1x1";
