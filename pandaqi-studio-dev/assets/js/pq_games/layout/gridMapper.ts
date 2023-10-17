@@ -37,6 +37,7 @@ export default class GridMapper
 
     pdfBuilder : PdfBuilder
     pageSize : Point
+    pageSizeUnit : number
     innerPageSize : Point
     maxPixels : Point
 
@@ -49,16 +50,21 @@ export default class GridMapper
     {
         this.debug = params.debug ?? false;
 
-        this.canvases = [];
-        this.layoutShape = params.layoutShape ?? GridMapperLayout.RECTANGLE; // rectangle, hexagon, triangle, circle
-        this.dims = params.dims || new Point({ x: 3, y: 3 });
-        this.outerMargin = params.outerMargin || new Point({ x: 35, y: 35 });
-        this.innerMargin = params.innerMargin || new Point({ x: 20, y: 20 });
-        this.padding = new Point();
-        this.currentElement = 0;
-
         this.pdfBuilder = params.pdfBuilder || new PdfBuilder(params.pdfParams);
         this.pageSize = this.pdfBuilder.getSinglePageSize();
+        this.pageSizeUnit = Math.min(this.pageSize.x, this.pageSize.y);
+
+        this.canvases = [];
+        this.layoutShape = params.layoutShape ?? GridMapperLayout.RECTANGLE; // rectangle, hexagon, triangle, circle
+        this.dims = params.dims || new Point(3, 3);
+        this.outerMargin = params.outerMargin ?? new Point(0.02); // default printer margin is 0.5 inch, which is roughly 0.02 of smallest side of A4
+        this.innerMargin = params.innerMargin ?? new Point(0.01); // could be 0 if I wanted, so this is just a nice value for visual clarity
+        this.outerMargin = this.outerMargin.clone().scaleFactor(this.pageSizeUnit);
+        this.innerMargin = this.innerMargin.clone().scaleFactor(this.pageSizeUnit);
+        
+        this.padding = new Point();
+        this.currentElement = 0;
+        
         this.innerPageSize = new Point({
             x: (this.pageSize.x-2*this.outerMargin.x),
             y: (this.pageSize.y-2*this.outerMargin.y)
@@ -70,7 +76,7 @@ export default class GridMapper
         });
 
         this.fakeDims = this.dims.clone();
-        this.offsetPerElement = new Point({ x: 1.0, y: 1.0 });
+        this.offsetPerElement = new Point(1.0, 1.0);
 
         const shp = this.layoutShape;
         const useAlternativeGrid = shp != GridMapperLayout.RECTANGLE;

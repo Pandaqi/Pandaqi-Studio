@@ -4,11 +4,11 @@ type: "rules"
 
 {{% rules-block id="setup" heading="Setup" icon="setup" icontint="pink" %}}
 
-Pick the card types you want to include. It's recommended to have a nice blend of different food categories. Only the **Cookie**, however, is required.
+The website proposes "sets" of cards (ordered based on difficulty). For your first games, just pick one of those. Once you feel comfortable, you can assemble your own decks (see [variants](#variants)).
 
 Explain all cards before the game starts, to make sure everyone has a fair chance. 
 
-Deal the deck until empty. It’s fine if some players have one more card than others.
+Deal the deck until empty. It's fine if some players have one more card than others.
 
 {{% /rules-block %}}
 
@@ -25,13 +25,13 @@ Rounds are played simultaneously.
 * Everyone picks a card from their hand. (With fewer than 4 players, you pick 2 cards.)
 * Once done, count down and simultaneously reveal them all.
 * Based on the cards played, one of them will be "poisoned" (see [next section](#finding_the_poison)).
-* The first player to tap this card, wins the round! (Congratulations, you’ve saved the king’s life again!) 
+* The first player to tap this card, wins the round! (Congratulations, you’ve saved the king's life again!) 
 
 @TODO: EXAMPLE IMAGE?
 
 The winner adds **1 card** to their score pile. 
 
-Any violation of the rules (such as tapping the wrong card) means **-5 points**: remove five cards from your score pile.
+Any violation of the rules (such as tapping the wrong card) means **-3 points**: remove three cards from your score pile.
 
 The round is now over. All other cards played are discarded.
 
@@ -58,5 +58,34 @@ It's your job to rapidly consider these rules and calculate which one is **true*
 Be the first to figure out the poisoned food and tap it.
 
 @TODO: EXAMPLE IMAGE (both showing card skeleton + one round played correctly)
+
+Later sets contain "safe food": they show a green checkmark and don't have a number. These are **never** poisoned themselves, but have a **permanent rule** that applies to this round.
+
+{{% /rules-block %}}
+
+{{% rules-block id="variants" heading="Variants" %}}
+
+{{% rules-block heading="Assemble your own deck" %}}
+
+You can mix and match _any_ cards you want! Below are some guidelines to help you. 
+
+* Only the **Cookie** is required. (Especially if other cards depend on its inclusion.) 
+* Use at least one card from every food category. 
+* Including more card types makes the game harder and more varied. 
+* There's no need to include _all_ cards of a type: you can shrink the deck for a shorter game.
+
+{{% /rules-block %}}
+
+{{% rules-block heading="Variant: Blind Smashing" %}}
+
+This is a fun variant to try.
+
+Instead of holding cards in your hand, everybody has their cards as a facedown deck in front of them. Each round, everyone simultaneously draws and reveals the top card.
+
+When you _win_ a card, you stick it back into your pile wherever you want.
+
+The last player who still has cards, wins!
+
+{{% /rules-block %}}
 
 {{% /rules-block %}}

@@ -96,7 +96,7 @@ const CONFIG = {
 
         numTrajectoryMultipliers: { tiny: 0.75, small: 0.85, regular: 1.0, large: 1.33, huge: 1.66 },
         numTrajectoryBounds: { min: 4, max: 6 },
-        trajectorySize: new Point(2, 0.5), // this is relative to "block size"
+        trajectorySize: new Point(1.4, 0.35), // this is relative to "block size"; roughly 4/1 ratio
         calculatedTrajectoryRectOffset: null, // as it says: calculated during generation
         trajectoryPointsMultiplier: { tiny: 0.75, small: 0.85, regular: 1.0, large: 1.33, huge: 1.66 },
         maxTrajectoryPoints: 12.0,  // @TODO: we should really scale this based on board size, maybe not use an absolute number here?
@@ -117,9 +117,9 @@ const CONFIG = {
         numVisitorSpotsPerRoute: { min: 0.75, max: 1.25 },
         visitorSpotBounds: { min: 3, max: 6 },
 
-        numCityBounds: { min: 16, max: 20 },
+        numCityBounds: { min: 17.5, max: 20 },
         numCityMultipliers: { tiny: 0.33, small: 0.66, regular: 1.0, large: 1.85, huge: 2.5 },
-        numCityMargins: { tiny: 0, small: 1, regular: 1, large: 2, huge: 4 }, // how far we may be off from the ideal amount
+        numCityMargins: { tiny: 0, small: 1, regular: 1, large: 1, huge: 2 }, // how far we may be off from the ideal amount
 
         cityRadius: 0.3,
 

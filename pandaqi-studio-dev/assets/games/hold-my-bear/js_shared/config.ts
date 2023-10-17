@@ -130,7 +130,7 @@ const CONFIG =
 
         outline:
         {
-            size: 0.025, // relative to sizeUnit
+            size: 0.036, // relative to sizeUnit
             color: "#000000"
         }
     }

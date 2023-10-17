@@ -46,7 +46,7 @@ Such a set may contain at most 5 cards.
 
 Remove the previous match (cards) from the game. Ensure the new cards face you to remember you were the one who played them!
 
-@TODO: IMAGE EXAMPLE
+{{< rules-image src="gameplay.webp" alt="An example of sets that would (not) be a valid move." >}}
 
 {{% /rules-block %}}
 
@@ -70,7 +70,7 @@ Bears are, however, also a liability.
 * You **cannot win with a bear in your hand**. <span class="inline-remark">(If you do, replace the current match with that bear. The first player after you who CAN play a valid move MUST do so now.)</span>
 * You also cannot play non-bear cards that have the **same number as a bear** in your hand. <span class="inline-remark">(Not even if you play the bear as well in the same match!)</span>
 
-@TODO: IMAGE EXAMPLE
+{{< rules-image src="bears.webp" alt="Examples of the powers and restrictions of bears." >}}
 
 {{% /rules-block %}}
 
