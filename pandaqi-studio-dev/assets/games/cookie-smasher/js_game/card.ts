@@ -1,5 +1,5 @@
 import createContext from "js/pq_games/layout/canvas/createContext";
-import { COLORS, TYPES } from "../js_shared/dict";
+import { COLORS, CardData, TYPES, Type } from "../js_shared/dict";
 import CONFIG from "../js_shared/config";
 import strokeCanvas from "js/pq_games/layout/canvas/strokeCanvas";
 import Point from "js/pq_games/tools/geometry/point";
@@ -13,38 +13,54 @@ import LayoutNode from "js/pq_games/layout/layoutNode";
 import TwoAxisValue from "js/pq_games/layout/values/twoAxisValue";
 import { FlowDir, FlowType } from "js/pq_games/layout/values/aggregators/flowInput";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
-import TextConfig from "js/pq_games/layout/text/textConfig";
+import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
 import DisplayValue from "js/pq_games/layout/values/displayValue";
 import TintEffect from "js/pq_games/layout/effects/tintEffect";
 import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
 import subdividePath from "js/pq_games/tools/geometry/paths/subdividePath";
 import WonkyRectangle from "./wonkyRectangle";
+import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage";
 
 export default class Card
 {
-    type: string;
+    food: string;
+    type: Type;
     num: number;
     desc: string;
+    safe: boolean;
 
     ctx: CanvasRenderingContext2D;
     size: Point;
     sizeUnit: number;
     colorMain: string;
 
-    constructor(tp:string)
+    poisoned: boolean;
+
+    anyCustom: (string|number)[];
+    typesCustom: string[];
+    numbersCustom: number[];
+    data: CardData;
+
+    constructor(f:string, data:CardData)
     {
-        this.type = tp;
+        this.food = f;
+        this.num = -1;
+        this.desc = "";
+        this.data = data;
     }
 
     fill()
     {
+        this.safe = this.data.safe;
+        this.type = this.data.type; // bit confusing, but it is what it is
+
         this.fillNumber();
         this.fillDescription();
     }
 
     fillNumber()
     {
-        const data = this.getData();
+        const data = this.data;
 
         let num = data.num;
         if(num <= 0 && data.numRange) 
@@ -57,9 +73,10 @@ export default class Card
 
     fillDescription()
     {
-        let desc = this.getData().desc;
+        let desc = this.data.desc;
         const types = [];
         const numbers = [];
+        const any = [];
 
         // replace any's
         let needle = "%any%"
@@ -69,7 +86,8 @@ export default class Card
             let val;
             if(displayType) { val = this.getRandomType(types); types.push(val); }
             else { val = this.getRandomNumber(numbers); numbers.push(val); }
-            desc.replace(needle, this.toDescString(val));
+            any.push(val);
+            desc = desc.replace(needle, this.toDescString(val));
         }
 
         // replace all randomly generated types
@@ -79,11 +97,21 @@ export default class Card
             const type = this.getRandomType(types);
             types.push(type);
             //const typeString = ; => replace string by image of icon, or is that done during draw?
-            desc.replace(needle, this.toDescString(type));
+            desc = desc.replace(needle, this.toDescString(type));
+        }
+
+        // replace with given number of this card
+        needle = "%num%"
+        while(desc.includes(needle))
+        {
+            const val = this.num;
+            numbers.push(val);
+            desc = desc.replace(needle, this.toDescString(val));
         }
 
         // replace custom keys
         // @TODO: this surely needs testing
+        // @NOTE: for now, this only supports numbers (and expects them to be in that format)
         const regex = /\%(.+?)\%/g;
         let match;
         do 
@@ -91,10 +119,16 @@ export default class Card
             match = regex.exec(desc);
             if(!match) { break; }
 
-            const vals = this.getData()[match];
+            const key = match[1]; // this is the captured group; match[0] is the full match
+            const vals = this.data[key];
             const val = vals.randomInteger();
-            desc.replace(match, val);
+            numbers.push(val);
+            desc = desc.replace(match[0], val);
         } while (match);
+
+        this.anyCustom = any;
+        this.typesCustom = types;
+        this.numbersCustom = numbers;
 
         this.desc = desc;
     }
@@ -102,6 +136,18 @@ export default class Card
     toDescString(input:any)
     {
         return "$" + input.toString() + "$";
+    }
+
+    flipPoisoned() 
+    {
+        if(this.data.safe) { return; } // safe cards are NEVER poisoned
+        this.poisoned = !this.poisoned; 
+    }
+
+    changeNum(dn:number)
+    {
+        // @TODO: certain situations in which this isn't allowed?
+        this.num += dn;
     }
 
     getRandomNumber(exclude = [])
@@ -128,7 +174,72 @@ export default class Card
         return fromArray(types);
     }
 
-    getData() { return CONFIG.possibleCards[this.type]; }
+    async drawForRules(cfg)
+    {
+        const size = cfg.cardSize.clone();
+        const sizeUnit = Math.min(size.x, size.y);
+        const ctx = createContext({ size: size });
+
+        const colorMain = COLORS[ cfg.possibleCards[this.food].color ];
+
+        // background + stroke
+        ctx.fillStyle = colorMain;
+        ctx.fillRect(0, 0, size.x, size.y);
+
+        ctx.strokeStyle = "#000000";
+        ctx.lineWidth = 20;
+        ctx.strokeRect(0, 0, size.x, size.y);
+
+        // text
+        const fontSize = 0.2*sizeUnit;
+        ctx.textAlign = "center";
+        ctx.font = fontSize + "px " + cfg.fontFamily;
+        ctx.fillStyle = "#000000";
+
+        // > main food
+        const textPos = new Point(0.5*size.x, 0.5*size.y + 0.33*fontSize);
+        ctx.fillText(this.food, textPos.x, textPos.y);
+
+        // > numbers
+        const numberOffset = 0.1*sizeUnit;
+        const positions = [
+            new Point(numberOffset, textPos.y),
+            new Point(size.x-numberOffset, textPos.y)
+        ]
+
+        for(const pos of positions)
+        {
+            ctx.fillText(this.num.toString(), pos.x, pos.y);
+        }
+
+        // desc
+        const descFontSize = 0.66 * fontSize;
+        const textConfig = new TextConfig({
+            font: cfg.fontFamily,
+            size: descFontSize,
+            alignHorizontal: TextAlign.MIDDLE,
+            alignVertical: TextAlign.MIDDLE,
+            lineHeight: 1.1
+        })
+
+        const res = new ResourceText({ text: this.desc, textConfig: textConfig });
+        const descPos = new Point(0.5*size.x, 0.75*size.y);
+        const descDims = new Point(0.9*size.x, 0.4*size.y);
+        const op = new LayoutOperation({
+            translate: descPos,
+            dims: descDims,
+            pivot: new Point(0.5),
+            fill: "#000000"
+        })
+        await res.toCanvas(ctx, op);
+
+        // turn the whole thing into an image
+        const img = await convertCanvasToImage(ctx.canvas);
+        img.classList.add("playful-example");
+        return img;
+    }
+
+    getData() { return CONFIG.possibleCards[this.food]; }
     getCanvas() { return this.ctx.canvas; }
     async draw()
     {
@@ -137,7 +248,7 @@ export default class Card
         this.ctx = ctx;
         this.size = size;
         this.sizeUnit = Math.min(size.x, size.y);
-        this.colorMain = COLORS[this.getData().color];
+        this.colorMain = COLORS[this.data.color];
 
         this.drawBackground();
         await this.drawMainIllustration();
@@ -170,9 +281,9 @@ export default class Card
         await rect.draw(this.ctx, this.colorMain);
 
         // draw the actual image
-        const res : ResourceImage = CONFIG.resLoader.getResource(this.getData().textureKey);
+        const res : ResourceImage = CONFIG.resLoader.getResource(this.data.textureKey);
         const spriteSize = CONFIG.cards.illustration.sizeFactor * this.sizeUnit;
-        const frame = this.getData().frame;
+        const frame = this.data.frame;
         const effects = [];
         if(CONFIG.inkFriendly) { effects.push(new GrayScaleEffect()); }
         if(CONFIG.cards.illustration.addShadow)
@@ -233,7 +344,7 @@ export default class Card
         root.addChild(flex);
 
         const iconRes = CONFIG.resLoader.getResource("misc");
-        const frame = this.getData().safe ? 1 : 0;
+        const frame = this.data.safe ? 1 : 0;
         const icon = new LayoutNode({
             resource: iconRes,
             frame: frame,

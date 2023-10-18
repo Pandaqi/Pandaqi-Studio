@@ -1,387 +1,148 @@
-import createCanvas from "js/pq_games/layout/canvas/createCanvas";
 import InteractiveExample from "js/pq_rulebook/examples/interactiveExample"
-import { ANIMALS, COLORS } from "../js_shared/dict"
-import Bounds from "js/pq_games/tools/numbers/bounds";
-import shuffle from "js/pq_games/tools/random/shuffle";
-import createContext from "js/pq_games/layout/canvas/createContext";
-import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage";
+import { CardData, SETS } from "../js_shared/dict"
 import fromArray from "js/pq_games/tools/random/fromArray";
-import anyMatch from "js/pq_games/tools/collections/anyMatch";
 import Point from "js/pq_games/tools/geometry/point";
-import arraysAreDuplicates from "js/pq_games/tools/collections/arraysAreDuplicates";
+import rangeInteger from "js/pq_games/tools/random/rangeInteger";
+import Card from "../js_game/card";
+import PowerChecker from "../js_shared/powerChecker";
+import getWeighted from "js/pq_games/tools/random/getWeighted";
 
 const CONFIG =
 {
-    numAnimalTypes: new Bounds(4,6),
-    possibleCardNumbers: new Bounds(1,5),
-    chosenAnimals: [],
-    matchSizeBounds: new Bounds(1,3),
-    handSizeBounds: new Bounds(2,5),
+    debugSpecificSet: "expert", // @DEBUGGING (should be null)
+    debugSimulate: false, // @DEBUGGING (should be false)
+    numSimulations: 10000,
+
+    fontFamily: "Pettingill",
     cardSize: new Point(480, 672),
-    fontFamily: "Ciscopic",
-    maxMovesToDisplay: 4,
-}
-
-interface MoveData
-{
-    move: Match,
-    reason: string
-}
-
-class Card
-{
-    type: string
-    number: number
-
-    constructor()
-    {
-        this.type = fromArray(CONFIG.chosenAnimals);
-        this.number = CONFIG.possibleCardNumbers.randomInteger();
-    }
-
-    async draw(small = false)
-    {
-        const size = CONFIG.cardSize.clone();
-        const sizeUnit = Math.min(size.x, size.y);
-        const ctx = createContext({ size: size });
-
-        const colorMain = COLORS[ ANIMALS[this.type].color ];
-
-        // background + stroke
-        ctx.fillStyle = colorMain;
-        ctx.fillRect(0, 0, size.x, size.y);
-
-        ctx.strokeStyle = "#000000";
-        ctx.lineWidth = 20;
-        ctx.strokeRect(0, 0, size.x, size.y);
-
-        // numbers
-        const fontSize = small ? 0.66*sizeUnit : 0.2*sizeUnit;
-        ctx.textAlign = "center";
-        ctx.font = fontSize + "px " + CONFIG.fontFamily;
-        ctx.fillStyle = "#FFFFFF"; // @TODO: lighten/darken? contrast?
-
-        if(small) {
-            ctx.fillText(this.number.toString(), 0.5*size.x, 0.5*size.y + 0.33*fontSize);
-        } else {
-            const numberOffset = 0.1*sizeUnit;
-            const positions = [
-                new Point(numberOffset, size.y-numberOffset),
-                new Point(size.x-numberOffset, numberOffset+0.66*fontSize)
-            ]
-    
-            for(const pos of positions)
-            {
-                ctx.fillText(this.number.toString(), pos.x, pos.y);
-            }
-    
-            // type name
-            ctx.fillText(this.type, 0.5*size.x, 0.5*size.y);
-        }
-
-        const img = await convertCanvasToImage(ctx.canvas);
-        img.classList.add("playful-example");
-        return img;
-    }
-
-    toText()
-    {
-        return this.type + " (" + this.number + ")";
+    possibleCards: {},
+    setsWeighted: {
+        starter: { prob: 10 },
+        beginner: { prob: 5 },
+        amateur: { prob: 2.5 },
+        advanced: { prob: 1 },
+        expert: { prob: 0.5 }
     }
 }
 
-class Match
+
+class Round
 {
     cards: Card[]
+    checker: PowerChecker
 
     constructor(cards = [])
     {
         this.cards = cards;
+        this.checker = new PowerChecker();
     }
 
     count() { return this.cards.length; }
-    addCard(c:Card)
-    {
-        this.cards.push(c);
-        this.sort();
-    }
-
+    addCard(c:Card) { this.cards.push(c); }
     generate(size:number)
     {
         const arr = [];
         for(let i = 0; i < size; i++)
         {
-            arr.push(new Card());
+            const randType = fromArray(Object.keys(CONFIG.possibleCards));
+            const newCard = new Card(randType, CONFIG.possibleCards[randType]);
+            newCard.fill();
+            arr.push(newCard);
         }
         this.cards = arr;
-        this.sort();
         return this;
     }
 
-    sort()
-    {
-        this.cards.sort((a,b) => {
-            const name = a.type.localeCompare(b.type);
-            if(name != 0) { return name; }
-            return a.number - b.number;
-        })
-    }
-
-    async draw(small = false)
+    async draw(set = this.cards)
     {
         const arr = [];
-        for(const card of this.cards)
+        for(const card of set)
         {
-            arr.push(card.draw(small));
+            arr.push(card.drawForRules(CONFIG));
         }
-
         return await Promise.all(arr);
     }
 
-    toText() : string
+    getPoisonedFood()
     {
-        const arr = [];
-        for(const card of this.cards)
-        {
-            arr.push(card.toText());
-        }
-        return arr.join(", ");
+        const trueCards = this.getTrueCards();
+        const highest = this.getHighest(trueCards);
+        return highest;
     }
 
-    getMajorities() : string[]
+    getTrueCards()
     {
-        const types = this.getTypes();
-        let highestNumber = -1;
-        for(const type of types)
-        {
-            highestNumber = Math.max(highestNumber, this.countType(type));
-        }
+        return this.checker.getTrueCards(this.cards.slice());
+    }
 
+    getHighest(list:Card[])
+    {
+        const highestNum = Math.max(...list.map(o => o.num));
         const arr = [];
-        for(const type of types)
+        for(const elem of list)
         {
-            if(this.countType(type) != highestNumber) { continue; }
-            arr.push(type);
+            if(elem.num != highestNum) { continue; }
+            arr.push(elem);
         }
         return arr;
-    }
-
-    getTotalNumber()
-    {
-        let sum = 0;
-        for(const card of this.cards)
-        {
-            sum += card.number;
-        }
-        return sum;
-    }
-
-    countType(tp:string)
-    {
-        let sum = 0;
-        for(const card of this.cards)
-        {
-            // bear is wildcard, so count it as ANY TYPE here
-            if(card.type != tp && card.type != "bear") { continue; }
-            sum++;
-        }
-        return sum;
-    }
-
-    getTypes()
-    {
-        const set : Set<string> = new Set();
-        for(const card of this.cards)
-        {
-            set.add(card.type);
-        }
-        return Array.from(set);
-    }
-
-    getNumbersOfType(tp:string) : number[]
-    {
-        const arr = [];
-        for(const card of this.cards)
-        {
-            if(card.type != tp) { continue; }
-            arr.push(card.number);
-        }
-        return arr;
-    }
-
-    getAllValidMoves(match:Match)
-    {
-        const numCards = this.count();
-        const possibleCombos = Math.pow(2, numCards);
-        const allCombos : MoveData[] = [];
-
-        const forbiddenNumbers = this.getNumbersOfType("bear");
-
-        for (var i = 0; i < possibleCombos; i++){
-            const combo = new Match();
-
-            for (var j = 0; j < numCards; j++) {
-                if (!(i & Math.pow(2,j))) { continue; } // not part of this combination
-                
-                const card = this.cards[j];
-                const sameNumberAsBear = card.type != "bear" && forbiddenNumbers.includes(card.number);
-                if(sameNumberAsBear) { continue; }
-
-                combo.addCard(card);
-            }
-
-            if(combo.count() <= 0) { continue; }
-
-            const duplicateMove = this.isDuplicate(combo, allCombos);
-            if(duplicateMove) { continue; }
-
-            const matchData = this.compareMatchesForValidMove(combo, match);
-            if(!matchData) { continue; }
-
-            allCombos.push({ move: combo, reason: matchData });
-        }
-        return allCombos;
-    }
-
-    getRaw()
-    {
-        const arr = [];
-        for(const card of this.cards)
-        {
-            arr.push(card.type + "/" + card.number);
-        }
-        return arr;
-    }
-
-    isDuplicate(combo:Match, allCombos:MoveData[])
-    {
-        const myData = combo.getRaw();
-
-        for(const otherCombo of allCombos)
-        {
-            const otherData = otherCombo.move.getRaw();
-            if(arraysAreDuplicates(myData, otherData)) { return true; }
-        }
-        return false;
-    }
-
-    compareMatchesForValidMove(combo:Match, match:Match)
-    {
-        // > same majority animal, higher number
-        let majA = combo.getMajorities();
-        let majB = match.getMajorities();
-        const sameMajority = anyMatch(majA, majB);
-        if(sameMajority)
-        {
-            const totalA = combo.getTotalNumber();
-            const totalB = match.getTotalNumber();
-            if(totalA > totalB) { return "same majority animal, higher total number"; }
-        }
-
-        // > different majority animal, but played more often
-        if(!sameMajority)
-        {
-            const majCountA = combo.countType(majA[0]);
-            const majCountB = match.countType(majB[0]);
-            if(majCountA > majCountB) { return "different majority animal, more frequent than previous"; }
-        }
-
-        // > more bears always wins
-        let bearsA = combo.countType("bear");
-        let bearsB = match.countType("bear");
-        if(bearsA > bearsB) { return "more bears"; }
-
-        return null;
     }
 }
 
 async function generate()
 {
-    // > prepare animal types for this game (always include bear first!)
-    const numAnimals = CONFIG.numAnimalTypes.randomInteger();
-    const possibleAnimals = [];
-    for(const [key,val] of Object.entries(ANIMALS))
+    let setName = CONFIG.debugSpecificSet ?? getWeighted(CONFIG.setsWeighted);
+    const set : Record<string,CardData> = SETS[setName];
+    CONFIG.possibleCards = set;
+
+    for(const [key,data] of Object.entries(set))
     {
-        if(val.expansion) { continue; }
-        if(key == "bear") { continue; }
-        possibleAnimals.push(key);
+        if(data.rulesDisabled && !CONFIG.debugSimulate) { delete set[key]; }
     }
 
-    shuffle(possibleAnimals);
-    possibleAnimals.unshift("bear");
-
-    const chosenAnimals = possibleAnimals.slice(0, numAnimals);
-    CONFIG.chosenAnimals = chosenAnimals
-
-    // > current match
-    o.addParagraph("The current match on the table looks like this.");
-    const matchSize = CONFIG.matchSizeBounds.random();
-    const match = new Match().generate(matchSize);
-    
-    let node = o.addFlexList(await match.draw());
-    node.style.flexWrap = "wrap";
-
-    // > cards in hand
-    o.addParagraph("Your hand looks like this.");
-    const handSize = CONFIG.handSizeBounds.random();
-    const hand = new Match().generate(handSize);
-    node = o.addFlexList(await hand.draw());
-    node.style.flexWrap = "wrap";
-
-    // > possible plays
-    let validMoves = hand.getAllValidMoves(match);
-    const noValidMoves = validMoves.length <= 0;
-    if(noValidMoves) {
-        o.addParagraph("You have no valid moves. You give away two cards to somebody else.");
-    } else {
-        let text = "Below are all your valid moves.";
-        if(validMoves.length > CONFIG.maxMovesToDisplay) 
+    if(CONFIG.debugSimulate)
+    {
+        const stats = { NONE: 0 };
+        for(let i = 0; i < CONFIG.numSimulations; i++)
         {
-            text = "Below are some of your valid moves. (Total #moves is " + validMoves.length + ")";
-            validMoves = shuffle(validMoves).slice(0, CONFIG.maxMovesToDisplay);
+            const numCards = rangeInteger(4,6);
+            const round = new Round().generate(numCards);
+            const result = round.getPoisonedFood();
+            if(!result || result.length <= 0) { stats.NONE++; continue; }
+
+            const poisonedFood = result[0].food;
+            if(!(poisonedFood in stats)) { stats[poisonedFood] = 0; }
+            stats[poisonedFood]++;
         }
 
-        o.addParagraph(text);
-
-        /* @NOTE: This was the textual display, which was just messy and not as good as images
-        const arr = [];
-        for(const m of validMoves)
-        {
-            arr.push("<strong>" + m.move.toText() + "</strong> <em>(" + m.reason + ")</em>");
-        }
-        o.addParagraphList(arr);
-        */
-
-        const node = document.createElement("div");
-        for(const m of validMoves)
-        {
-            const container = document.createElement("div");
-            container.style.display = "flex";
-            container.style.justifyContent = "space-between";
-            container.style.alignItems = "center";
-            container.style.marginBottom = "0.5em";
-            container.style.flexWrap = "wrap";
-
-            const moveContainer = document.createElement("div");
-            moveContainer.style.display = "flex";
-            moveContainer.style.gap = "0.5em";
-
-            const cardImages = await m.move.draw(true);
-            for(const img of cardImages)
-            {
-                moveContainer.appendChild(img);
-                img.style.maxHeight = "8vw";
-            }
-            
-            const reasonContainer = document.createElement("div");
-            reasonContainer.innerHTML = "<em>(" + m.reason + ")</em>";
-
-            container.appendChild(moveContainer);
-            container.appendChild(reasonContainer);
-            node.appendChild(container);
-        }
-        o.addNode(node);
+        console.log(stats);
+        return;
     }
+
+    // > cards on the table
+    const numCards = rangeInteger(4,6);
+    o.addParagraph("These cards were played");
+    const round = new Round().generate(numCards);
+    o.addFlexList(await round.draw());
+
+    const cardsTrue = round.getTrueCards();
+    if(cardsTrue.length <= 0) { o.addParagraph("No card is true. Smash your own card!"); return; }
+
+    // > which cards are true
+    o.addParagraph("All these cards are TRUE");
+    o.addFlexList(await round.draw(cardsTrue));
+
+    if(cardsTrue.length == 1) { o.addParagraph("Smash that card to win the round!"); return; }
+
+    // > which of those has the highest number
+    const cardsHighest = round.getHighest(cardsTrue);
+    o.addParagraph("Multiple are true, so search for the highest number:");
+    o.addFlexList(await round.draw(cardsHighest));
+    o.addParagraph("Smash that card to win the round!");
+
+    if(cardsHighest.length != 1) 
+    { 
+        console.error("[PLAYFUL EXAMPLE] Exactly one card should be highest! But I received " + cardsHighest); 
+    }  
 }
 
 const e = new InteractiveExample({ id: "turn" });

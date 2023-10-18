@@ -21,14 +21,24 @@ const CONFIG =
 
     fonts:
     {
-        heading: "Sloval",
-        body: "Ciscopic"
+        heading: "palette",
+        body: "pettingill"
     },
 
     // assets
     assetsBase: "/hold-my-bear/assets/",
     assets:
     {
+        palette:
+        {
+            path: "fonts/PaletteMosaic-Regular.woff2"
+        },
+
+        pettingill:
+        {
+            path: "fonts/PettingillCF-Bold.woff2"
+        },
+
         types:
         {
             path: "types.webp",

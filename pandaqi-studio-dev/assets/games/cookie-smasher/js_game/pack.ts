@@ -24,7 +24,7 @@ export default class Pack
         const cards = [];
         for(let i = 0; i < num; i++)
         {
-            const newCard = new Card(this.type);
+            const newCard = new Card(this.type, CONFIG.possibleCards[this.type]);
             newCard.fill();
             cards.push(newCard);
         }

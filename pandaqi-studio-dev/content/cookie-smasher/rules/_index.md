@@ -51,15 +51,20 @@ Each card shows a food item. It has a **rule**, a **number** and a **type** (ani
 
 It's your job to rapidly consider these rules and calculate which one is **true**.
 
-* If _multiple_ are true, the card with the _higher number_ is poisoned.
-* If this still leaves multiple poisoned foods, they all win you the round.
-* If _none_ are true, tap the card from the player who won the previous round.
+1. Evaluate cards from low to high.
+2. If multiple cards have the same number, only evaluate the one closest to last round's winner (clockwise).
+3. If _multiple_ are true, the card with the _highest number_ is poisoned.
+4. If _none_ are true, tap your own card.
 
 Be the first to figure out the poisoned food and tap it.
 
+Regarding rule 2: if multiple cards have the same number, the others still count! Don't remove or ignore them. You simply don't evaluate their power, which means they're _not_ poisoned by default.
+
 @TODO: EXAMPLE IMAGE (both showing card skeleton + one round played correctly)
 
-Later sets contain "safe food": they show a green checkmark and don't have a number. These are **never** poisoned themselves, but have a **permanent rule** that applies to this round.
+Later sets contain "safe food": they show a green checkmark. These are **never** poisoned themselves, but have a **permanent rule** that applies to this round.
+
+Similarly, some cards from later sets talk about "last round's winner". These cards do _nothing_ during the first round (as there is no winner from a previous round!)
 
 {{% /rules-block %}}
 
