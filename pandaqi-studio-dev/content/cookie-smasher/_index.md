@@ -17,6 +17,7 @@ downloadLink: "https://drive.google.com/drive/folders/1Vb-cB7KrYaxakv2X2oSmQJdSN
 {{< boardgame-settings type="game" local_storage="cookieSmasherConfig" >}}
 	{{< setting-hidden id="setting-gameTitle" text="Cookie Smasher" >}}
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
+  {{< setting-enum id="setting-cardSet" text="Card Set?" values="starter,beginner,amateur,advanced,expert,random" valaskey="true" def="starter" >}}
   {{< setting-enum id="setting-cardSize" text="Card Size?" values="small,regular,huge" valaskey="true" def="regular" >}}
 {{< /boardgame-settings >}}
 

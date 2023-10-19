@@ -141,6 +141,11 @@ export default class Line extends Shape
         return this.start.clone().move(this.end).scaleFactor(0.5);
     }
 
+    lerp(factor:number)
+    {
+        return this.start.clone().move(this.vector().scaleFactor(factor));
+    }
+
     // geometric tools
     intersectsLine(line:Line, margin = 0.0)
     {

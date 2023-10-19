@@ -1,6 +1,7 @@
 import Point from "../point";
 import Rectangle from "../rectangle";
 
+// @TODO: this is untested, might be wrong?
 export default (path:Point[]) : Rectangle =>
 {
     const topLeft = new Point(Infinity, Infinity);

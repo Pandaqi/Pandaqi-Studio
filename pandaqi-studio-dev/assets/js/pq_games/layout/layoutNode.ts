@@ -23,6 +23,7 @@ import createCanvas from "./canvas/createCanvas.js"
 import { CanvasLike } from "./resources/resourceImage.js"
 import Dims from "../tools/geometry/dims.js"
 import ResourceBox from "./resources/resourceBox.js"
+import ResourceText from "./resources/resourceText.js"
 
 export default class LayoutNode
 {
@@ -291,6 +292,38 @@ export default class LayoutNode
         this.boxInput.size = new TwoAxisValue(canvas.width, canvas.height);
         this.boxInput.position = new TwoAxisValue(0,0);
         this.targetCanvas = canvas;
+    }
+
+    getCustomFonts()
+    {
+        const arr = [];
+
+        if(this.resource instanceof ResourceText)
+        {
+            arr.push(this.resource.textConfig);
+        }
+
+        for(const child of this.children)
+        {
+            arr.push(child.getCustomFonts());
+        }
+
+        return arr.flat();
+    }
+
+    getCustomFontsString()
+    {
+        const list = this.getCustomFonts();
+
+        console.log(list);
+
+        let str = "";
+        for(const config of list)
+        {
+            str += "@font-face { font-family: '" + config.font + "'; src: url('/cookie-smasher/assets/fonts/PaletteMosaic-Regular.woff2'); font-weight: normal; font-style: normal; }";
+        }
+
+        return str;
     }
 
 

@@ -4,7 +4,8 @@ import { TYPES } from "./dict"
 
 const CONFIG = 
 {
-    debugWithoutFile: false, // @DEBUGGING (should be false)
+    debugWithoutFile: true, // @DEBUGGING (should be false)
+    debugSinglePack: false, // @DEBUGGING (should be false)
 
     configKey: "cookieSmasherConfig",
     fileName: "[Material] Cookie Smasher",
@@ -26,7 +27,7 @@ const CONFIG =
     },
 
     // assets
-    assetsBase: "/hold-my-bear/assets/",
+    assetsBase: "/cookie-smasher/assets/",
     assets:
     {
         palette:
@@ -91,6 +92,7 @@ const CONFIG =
     // how generation/balancing happens
     generation:
     {
+        randomSetSize: 10, // all sets are 10 cards exactly
         defaultCardFrequency: 3,
     },
 
@@ -107,7 +109,9 @@ const CONFIG =
 
         wonkyRect:
         {
-            pointOffset: new Bounds(0.01, 0.15), // relative to box Y height
+            pointOffset: new Bounds(0.1, 0.15), // relative to box Y height
+            triangleGap: 0.02, // relative to sizeUnit of box
+            triangleSize: new Bounds(0.06, 0.1), // roughly x3 to x5 of triangleGap?
         },
 
         icons:
@@ -117,18 +121,22 @@ const CONFIG =
 
         illustration:
         {
-            sizeFactor: 0.5, // relative to sizeUnit
-            bgSize: new Point(0.7, 0.55), // should always be bigger than sizeFactor above
+            sizeFactor: 0.6, // relative to sizeUnit
+            bgSize: new Point(0.7, 0.65), // should always be bigger than sizeFactor above
 
             addShadow: true,
-            shadowRadius: 0.02, // relative to spriteSize
-            shadowOffset: new Point(0.15), // relative to spriteSize
+            shadowRadius: 0.01, // relative to spriteSize
+            shadowOffset: new Point(0.02), // relative to spriteSize
         },
 
         power:
         {
            gapIconAndText: 0.05, // relative to sizeUnit
-           fontSize: 0.15, // relative to sizeUnit
+           padding: 0.08, // relative to sizeUnit
+           fontSize: 0.075, // relative to sizeUnit
+           lineHeight: 0.9,
+           iconHeight: 0.55, // relative to text+image container for power
+           inlineIconHeight: 0.9, // icon within text, relative to font size = capital letter height
         },
 
         bg:

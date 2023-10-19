@@ -14,6 +14,7 @@ export default class Color
 
     static BLACK = new Color("#000000")
     static WHITE = new Color("#FFFFFF")
+    static TRANSPARENT = new Color("transparent")
 
     constructor(h:number|Color|string = null, s:number = 0, l:number = 0, a:number = 1.0) 
     {
@@ -89,9 +90,14 @@ export default class Color
         return "rgba(" + r + ", " + g + ", " + b + ", " + a + ")";        
     }
 
+    toRGBRaw()
+    {
+        return HSLAToRGBA(this.h, this.s, this.l, this.a);
+    }
+
     toRGB()
     {
-        const [r,g,b,a] = HSLAToRGBA(this.h, this.s, this.l, this.a);
+        const [r,g,b,a] = this.toRGBRaw();
         return "rgb(" + r + ", " + g + "," + b + ")";
     }
 

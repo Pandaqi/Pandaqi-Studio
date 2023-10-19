@@ -11,34 +11,39 @@ export default class PowerChecker
             card.poisoned = false;
         }
         
-        // eliminate duplicate numbers (that come later)
-        const cardsToEvaluate = cards.slice();
-        for(let i = cardsToEvaluate.length-1; i >= 0; i--)
-        {
-            let firstTypeIndex = getIndexOfProp(cardsToEvaluate, "num", cardsToEvaluate[i].num);
-            const cardOccursEarlier = firstTypeIndex >= i;
-            if(cardOccursEarlier) { continue; }
-            cardsToEvaluate.splice(i,1);
-        }
-
         // crucially, we sort the EVALUATION order, but not the cards list itself
         // that needs to stay in the order it was played (for adjacency checks and such)
+        const cardsToEvaluate = cards.slice();
         cardsToEvaluate.sort((a,b) => { return a.num - b.num; });
 
         // now evaluate all (that remain)
+        let numbersHandled = [];
         for(const card of cardsToEvaluate)
         {
+            // eliminate duplicate numbers (that come later)
+            const numOccursEarlier = numbersHandled.includes(card.num);
+            if(numOccursEarlier) { card.setPoisoned(false); continue; }
+
+            // check if the card still exists (can be eliminated while evaluating)
+            const cardStillRelevant = cards.includes(card);
+            if(!cardStillRelevant) { continue; }
+
+            numbersHandled.push(card.num);
             if(!this.isTrue(card, cards)) { continue; }
-            card.poisoned = true;
+            card.setPoisoned(true);
         }
 
         // poison status can change over time (during later sets), 
         // so we only collect them here by their final status
         const arr = [];
+        numbersHandled = [];
         for(const card of cardsToEvaluate)
         {
             if(!card.poisoned) { continue; }
+            const numOccursEarlier = numbersHandled.includes(card.num);
+            if(numOccursEarlier) { continue; }
             arr.push(card);
+            numbersHandled.push(card.num);
         }
 
         return arr;
@@ -168,14 +173,12 @@ export default class PowerChecker
 
     cinnamon(a,b)
     {
-        // @TODO: impossible without a sense of rounds
-        return Math.random() <= 0.25;
+        return b.indexOf(a) == 0;
     }
 
     ginger(a,b)
     {
-        // @TODO: impossible without a sense of rounds
-        return Math.random() <= 0.75;
+        return b.indexOf(a) != 0;
     }
 
     //
@@ -185,13 +188,13 @@ export default class PowerChecker
     {
         let sum1 = countWithNumAbove(b, 5);
         let sum2 = countWithNumBelow(b, 5);
-        return sum1 > sum2;
+        return sum1 < sum2; // OLD = sum1 > sum2
     }
 
     eggs(a,b)
     {
-        let max = getHighestFrequency(b, "food");
-        return max >= 2;
+        return getHighestFrequency(b, "type") >= 3;
+        // OLD = return getHighestFrequency(b, "food") >= 2;
     }
 
     // the difference with water is that water checks TYPE and this checks FOOD
@@ -213,7 +216,6 @@ export default class PowerChecker
         return seqs[0].length <= 1;
     }
 
-    // @TODO: not entirely correct, may be ties for most occurring frequency
     pea(a,b)
     {
         const count = countType(b, a.typesCustom[0]);
@@ -223,9 +225,15 @@ export default class PowerChecker
 
     cabbage(a,b)
     {
+        const count = countType(b, a.typesCustom[0]);
+        const max = getHighestFrequency(b, "type");
+        return count < max;
+
+        /*
         const sum1 = countType(b, a.typesCustom[0]);
         const sum2 = countType(b, a.typesCustom[1]);
         return sum1 > sum2; 
+        */
     }
 
     wheat(a,b)
@@ -251,14 +259,28 @@ export default class PowerChecker
 
     nutmeg(a,b)
     {
-        // @TODO: can't
-        return Math.random() <= 0.25;
+        let idx = b.indexOf(a);
+        let didSomething = false;
+        for(let i = idx-1; i >= 0; i--)
+        {
+            b.splice(i, 1);
+            didSomething = true;
+        }
+        a.didSomething = didSomething;
+        return false;
     }
 
     saffron(a,b)
     {
-        // @TODO: can't
-        return Math.random() <= 0.25;
+        let idx = b.indexOf(a);
+        let didSomething = false;
+        for(let i = (idx+1); i < b.length; i++)
+        {
+            b[i].setPoisoned(true);
+            didSomething = true;
+        }
+        a.didSomething = didSomething;
+        return false;
     }
 
     //
@@ -332,8 +354,9 @@ export default class PowerChecker
 
     hazelnut(a,b)
     {
-        // @TODO: can't
-        return Math.random() <= 0.15;
+        // "first or last place" for 4 players is 50% chance
+        // with possible ties for first/last, this should be even higher, so 60% it is
+        return Math.random() <= 0.6; 
     }
 
     almond(a,b)
@@ -371,9 +394,18 @@ export default class PowerChecker
         return avg > 5.0;
     }
 
-    // @TODO: not sure about this one
     butter(a,b)
     {
+        let numOdd = 0;
+        let numEven = 0;
+        for(const elem of b)
+        {
+            if(elem.num % 2 == 0) { numEven++; }
+            else { numOdd++; }
+        }
+        return numOdd > numEven;
+
+        /* OLD CODE
         const freqs = getFrequencyStatsSorted(b, "food");
         for(let i = 1; i < freqs.length; i++)
         {
@@ -381,6 +413,7 @@ export default class PowerChecker
             if(freqs[i].freq == freqs[i-1].freq) { return true; } // two foods are tied
         }
         return false;
+        */
     }
 
     beer(a,b)
@@ -400,10 +433,17 @@ export default class PowerChecker
     broccoli(a,b)
     {
         const count = countProp(b, "safe", true);
-        return count <= 0;
+        return count <= 1;
     }
 
     date(a,b)
+    {
+        const sum1 = countType(b, a.typesCustom[0]);
+        const sum2 = countType(b, a.typesCustom[1]);
+        return sum1 > sum2; // this is the old CABBAGE power, which fit better here
+    }
+
+    sugar(a,b)
     {
         let val = a.anyCustom[0];
         let prop = isNaN(parseInt(val)) ? "type" : "num";
@@ -412,10 +452,9 @@ export default class PowerChecker
             if(elem[prop] != val) { continue; }
             elem.flipPoisoned();
         }
-    }
+        return false;
 
-    sugar(a,b)
-    {
+        /* OLD
         for(const elem of b)
         {
             if(elem.type == "sugar") { continue; }
@@ -423,31 +462,50 @@ export default class PowerChecker
             if(nbs[0].food != "sugar" && nbs[1].food != "sugar") { return false; }
         }
         return true;
+        */
     }
 
     porridge(a,b)
     {
+        return countProp(b, "safe", true) >= 2;
+
+        /*
+        for(const elem of b)
+        {
+            if(!elem.safe) { continue; }
+            const nbs = getNeighbors(elem,b);
+            if(nbs[0].safe && nbs[1].safe) { return false; }
+        }
+        return true;
+        */
+
+        /* OLD POWER
         const count = countProp(b, "safe", true, [a]);
         return count >= (b.length - 1);
+        */
     }
 
     sage(a,b)
     {   
-        let val = a.anyCustom[0];
-        let prop = isNaN(parseInt(val)) ? "type" : "num";
+        const val1 = a.anyCustom[0];
+        const prop1 = isNaN(parseInt(val1)) ? "type" : "num";
 
+        const val2 = a.anyCustom[1];
+        const prop2 = isNaN(parseInt(val1)) ? "type" : "num";
+
+        let didSomething = false;
         for(let i = b.length - 1; i >= 0; i--)
         {
-            if(b[i][prop] != val) { continue; }
+            if(b[i][prop1] != val1 && b[i][prop2] != val2) { continue; }
             b.splice(i, 1); 
+            didSomething = true;
         }
-
+        a.didSomething = didSomething;
         return false;
     }
 
     parsley(a,b)
     {
-        // @TODO: can't
-        return false;
+        return a.type == b[0].type || a.num == b[0].num;
     }
 }

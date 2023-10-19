@@ -20,6 +20,10 @@ import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
 import subdividePath from "js/pq_games/tools/geometry/paths/subdividePath";
 import WonkyRectangle from "./wonkyRectangle";
 import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage";
+import AlignValue from "js/pq_games/layout/values/alignValue";
+import AnchorValue from "js/pq_games/layout/values/anchorValue";
+import ColorLike from "js/pq_games/layout/color/colorLike";
+import Color from "js/pq_games/layout/color/color";
 
 export default class Card
 {
@@ -28,6 +32,7 @@ export default class Card
     num: number;
     desc: string;
     safe: boolean;
+    didSomething: boolean; // to track if safe food actually had an influence
 
     ctx: CanvasRenderingContext2D;
     size: Point;
@@ -52,7 +57,7 @@ export default class Card
     fill()
     {
         this.safe = this.data.safe;
-        this.type = this.data.type; // bit confusing, but it is what it is
+        this.type = this.data.type;
 
         this.fillNumber();
         this.fillDescription();
@@ -121,9 +126,9 @@ export default class Card
 
             const key = match[1]; // this is the captured group; match[0] is the full match
             const vals = this.data[key];
-            const val = vals.randomInteger();
+            const val = this.getRandomNumber(numbers, vals.asList());
             numbers.push(val);
-            desc = desc.replace(match[0], val);
+            desc = desc.replace(match[0], this.toDescString(val));
         } while (match);
 
         this.anyCustom = any;
@@ -138,10 +143,15 @@ export default class Card
         return "$" + input.toString() + "$";
     }
 
-    flipPoisoned() 
+    setPoisoned(val:boolean)
     {
         if(this.data.safe) { return; } // safe cards are NEVER poisoned
-        this.poisoned = !this.poisoned; 
+        this.poisoned = val;
+    }
+
+    flipPoisoned() 
+    {
+        this.setPoisoned(!this.poisoned);
     }
 
     changeNum(dn:number)
@@ -150,9 +160,11 @@ export default class Card
         this.num += dn;
     }
 
-    getRandomNumber(exclude = [])
+    getRandomNumber(exclude = [], list = CONFIG.possibleNumbers)
     {
-        let num = CONFIG.possibleNumbers.slice();
+        let num = list.slice();
+        exclude = exclude.slice();
+        exclude.push(this.num); // never pick our main num for custom numbers
         for(const elem of exclude)
         {
             const idx = num.indexOf(elem);
@@ -162,9 +174,11 @@ export default class Card
         return fromArray(num);
     }
 
-    getRandomType(exclude = [])
+    getRandomType(exclude = [], list = CONFIG.possibleTypes)
     {
         const types = CONFIG.possibleTypes.slice();
+        exclude = exclude.slice();
+        exclude.push(this.type); // never pick our main type for custom types
         for(const elem of exclude)
         {
             const idx = types.indexOf(elem);
@@ -252,7 +266,7 @@ export default class Card
 
         this.drawBackground();
         await this.drawMainIllustration();
-        await this.drawMetaData();
+        //await this.drawMetaData();
         await this.drawPower();
         this.drawOutline();
 
@@ -289,7 +303,7 @@ export default class Card
         if(CONFIG.cards.illustration.addShadow)
         {
             const rad = CONFIG.cards.illustration.shadowRadius * spriteSize;
-            const offset = CONFIG.cards.illustration.shadowOffset.scaleFactor(spriteSize);
+            const offset = CONFIG.cards.illustration.shadowOffset.clone().scaleFactor(spriteSize);
             effects.push(new DropShadowEffect({ blurRadius: rad, offset: offset }));
         }
 
@@ -334,25 +348,34 @@ export default class Card
             rotation: rotation,
         })
 
+        const contHeight = 0.275*this.size.y;
         const gap = CONFIG.cards.power.gapIconAndText * this.sizeUnit;
+        const padding = CONFIG.cards.power.padding * this.sizeUnit;
         const flex = new LayoutNode({
-            size: new TwoAxisValue().setFullSize(),
-            dir: FlowDir.VERTICAL,
+            size: new Point(this.size.x, contHeight),
+            dir: FlowDir.HORIZONTAL,
             gap: gap,
-            flow: FlowType.GRID
+            flow: FlowType.GRID,
+            alignFlow: AlignValue.SPACE_EVENLY,
+            alignStack: AlignValue.MIDDLE,
+            anchor: AnchorValue.BOTTOM_LEFT,
+            padding: padding
         })
         root.addChild(flex);
 
         const iconRes = CONFIG.resLoader.getResource("misc");
         const frame = this.data.safe ? 1 : 0;
+        const imgHeight = CONFIG.cards.power.iconHeight * contHeight;
         const icon = new LayoutNode({
             resource: iconRes,
+            size: new Point(imgHeight),
             frame: frame,
+            shrink: 0,
         })
         flex.addChild(icon);
 
         const textCont = new LayoutNode({
-            size: new TwoAxisValue().setFullSize()
+            size: new TwoAxisValue().setAuto(),
         });
         flex.addChild(textCont);
 
@@ -360,7 +383,10 @@ export default class Card
         const textConfig = new TextConfig({
             font: CONFIG.fonts.body,
             size: CONFIG.cards.power.fontSize * this.sizeUnit,
+            lineHeight: CONFIG.cards.power.lineHeight
         })
+
+        const typeIconSize = CONFIG.cards.power.inlineIconHeight * textConfig.size;
 
         // the description is split into parts (regular text, number text, image icon)
         // so we can render each as an individual node
@@ -381,11 +407,20 @@ export default class Card
                 res = new ResourceText({ text: str, textConfig: textConfig });
             }
 
+            let fill = Color.TRANSPARENT;
+            if(!isType) { fill = Color.BLACK; }
+
+            let size = new TwoAxisValue().setAuto();
+            if(isType) { size = new TwoAxisValue(typeIconSize, typeIconSize); }
+
             const node = new LayoutNode({
                 resource: res,
                 display: DisplayValue.INLINE,
-                effects: effects
+                effects: effects,
+                size: size,
+                fill: fill
             })
+
             textCont.addChild(node);
         }
 

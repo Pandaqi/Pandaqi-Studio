@@ -6,6 +6,8 @@ import GridMapper from "js/pq_games/layout/gridMapper";
 import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple";
 import Pack from "./pack";
 import { CardData, SETS } from "../js_shared/dict";
+import fromArray from "js/pq_games/tools/random/fromArray";
+import createRandomSet from "../js_shared/createRandomSet";
 
 export default class Generator
 {
@@ -27,19 +29,16 @@ export default class Generator
         Object.assign(CONFIG, userConfig);
 
         // automatically remember the texture needed
-        let masterDictionary = {};
         for(const [setName,setData] of Object.entries(SETS))
         {
             for(const [cardName, cardData] of Object.entries(setData))
             {
                 cardData.textureKey = setName;
-                masterDictionary[cardName] = cardData;
             }
         }
 
         let dict = SETS[CONFIG.cardSet];
-        if(CONFIG.cardSet == "random") { dict = masterDictionary; }
-
+        if(CONFIG.cardSet == "random") { dict = createRandomSet(); }
         CONFIG.possibleCards = dict;
 
     }
@@ -103,6 +102,8 @@ export default class Generator
             p.fill();
             packs.push(p);
             counter++;
+
+            if(CONFIG.debugSinglePack && counter >= 1) { break; }
         }
 
         return packs;

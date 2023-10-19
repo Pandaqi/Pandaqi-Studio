@@ -10,6 +10,8 @@ Explain all cards before the game starts, to make sure everyone has a fair chanc
 
 Deal the deck until empty. It's fine if some players have one more card than others.
 
+Pick any player to be the "king".
+
 {{% /rules-block %}}
 
 {{% rules-block id="objective" heading="Objective" icon="objective" icontint="blue" %}}
@@ -25,23 +27,23 @@ Rounds are played simultaneously.
 * Everyone picks a card from their hand. (With fewer than 4 players, you pick 2 cards.)
 * Once done, count down and simultaneously reveal them all.
 * Based on the cards played, one of them will be "poisoned" (see [next section](#finding_the_poison)).
-* The first player to tap this card, wins the round! (Congratulations, you’ve saved the king's life again!) 
+* The first player to tap this card, wins the round! (Congratulations, you've saved the king's life again!) 
 
 @TODO: EXAMPLE IMAGE?
 
-The winner adds **1 card** to their score pile. 
+The winner adds **1 card** from the table to their score pile. 
 
 Any violation of the rules (such as tapping the wrong card) means **-3 points**: remove three cards from your score pile.
-
-The round is now over. All other cards played are discarded.
 
 {{% remark %}}
 The confusion and interruption after a wrong guess makes it hard to continue fairly, so any violation ends the round instantly.
 {{% /remark %}}
 
+The round is now over. All other cards played are discarded. The winner/loser of this round becomes the new **king**!
+
 _Everyone plays with one hand. That hand both reveals their own card and must be used for tapping the bad food. Using the wrong hand is, of course, a rules violation._
 
-{{< rules-example id="turn" >}} @TODO: playful example
+{{< rules-example id="turn" >}}
 
 {{% /rules-block %}}
 
@@ -52,19 +54,15 @@ Each card shows a food item. It has a **rule**, a **number** and a **type** (ani
 It's your job to rapidly consider these rules and calculate which one is **true**.
 
 1. Evaluate cards from low to high.
-2. If multiple cards have the same number, only evaluate the one closest to last round's winner (clockwise).
-3. If _multiple_ are true, the card with the _highest number_ is poisoned.
-4. If _none_ are true, tap your own card.
+2. If multiple cards have the same number, only evaluate the one closest to the king (in clockwise direction).
+3. If _multiple_ are true, the card with the _highest number_ is poisoned. Smash that!
+4. If _none_ are true, smash the center of the table.
 
-Be the first to figure out the poisoned food and tap it.
-
-Regarding rule 2: if multiple cards have the same number, the others still count! Don't remove or ignore them. You simply don't evaluate their power, which means they're _not_ poisoned by default.
+Regarding rule 2: if multiple cards have the same number, the others still count! Don't remove or ignore them. You simply don't evaluate their power, which means they're **never** poisoned.
 
 @TODO: EXAMPLE IMAGE (both showing card skeleton + one round played correctly)
 
 Later sets contain "safe food": they show a green checkmark. These are **never** poisoned themselves, but have a **permanent rule** that applies to this round.
-
-Similarly, some cards from later sets talk about "last round's winner". These cards do _nothing_ during the first round (as there is no winner from a previous round!)
 
 {{% /rules-block %}}
 
@@ -74,10 +72,15 @@ Similarly, some cards from later sets talk about "last round's winner". These ca
 
 You can mix and match _any_ cards you want! Below are some guidelines to help you. 
 
-* Only the **Cookie** is required. (Especially if other cards depend on its inclusion.) 
 * Use at least one card from every food category. 
-* Including more card types makes the game harder and more varied. 
-* There's no need to include _all_ cards of a type: you can shrink the deck for a shorter game.
+* Some cards have dependencies. (Examples: Cookie or Safe Food must be included.) Make sure to add those dependencies as well!
+* Try to have unique numbers. (Max 2 duplicates per set.)
+* Don't include too many Safe Food. (Max 2 Safe Food per set.)
+
+Additionally, you can control difficulty and game length.
+
+* DIFFICULTY: Including more different cards to increase difficulty.
+* GAME LENGTH: There's often no need to use _all_ cards of a type you want to include. Shrink the deck for a shorter game.
 
 {{% /rules-block %}}
 

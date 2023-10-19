@@ -283,7 +283,7 @@ export default class LayoutOperation
         const transforms = []
         if(this.rotation != 0) 
         { 
-            transforms.push("rotate(" + this.rotation + "deg)"); 
+            transforms.push("rotate(" + this.rotation + "rad)"); 
         }
 
         if(this.translate.length() > 0) 
