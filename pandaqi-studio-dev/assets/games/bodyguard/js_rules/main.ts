@@ -21,14 +21,11 @@ const CONFIG =
     possibleCards: {},
     setsWeighted: {
         starter: { prob: 10 },
-        beginner: { prob: 5 },
-        amateur: { prob: 2.5 },
-        advanced: { prob: 1 },
-        expert: { prob: 0.5 },
-        random: { prob: 0.25 }
+        amateur: { prob: 5 },
+        expert: { prob: 2.5 },
+        random: { prob: 1.0 }
     }
 }
-
 
 class Round
 {
@@ -46,9 +43,15 @@ class Round
     generate(size:number)
     {
         const arr = [];
+        const options = Object.keys(CONFIG.possibleCards);
+
+        // @TODO: find better way to ensure emperor is part of sets but unpickable
+        if(options.includes("emperor")) { options.splice(options.indexOf("emperor"), 1); }
+
         for(let i = 0; i < size; i++)
         {
-            const randType = fromArray(Object.keys(CONFIG.possibleCards));
+            let randType = fromArray(options);
+            if(i == 0) { randType = "emperor"; } // first card always emperor, for simplicity
             const newCard = new Card(randType, CONFIG.possibleCards[randType]);
             newCard.fill();
             arr.push(newCard);
@@ -66,40 +69,17 @@ class Round
         }
         return await Promise.all(arr);
     }
-
-    hasDuplicateNumbers()
+    
+    getEmperorEliminationData()
     {
-        for(let i = 0; i < this.cards.length; i++)
-        {
-            const card = this.cards[i];
-            const idx = getIndexOfProp(this.cards, "num", card.num);
-            if(idx != i) { return true; }
-        }
-        return false;
+        const cardsCopy = this.checker.cloneCards(this.cards);
+        return this.checker.getEmperorEliminationData(cardsCopy);
     }
 
-    getPoisonedFood()
+    getValidMoves(inDanger = null)
     {
-        const trueCards = this.getTrueCards();
-        const highest = this.getHighest(trueCards);
-        return highest;
-    }
-
-    getTrueCards()
-    {
-        return this.checker.getTrueCards(this.cards.slice());
-    }
-
-    getHighest(list:Card[])
-    {
-        const highestNum = Math.max(...list.map(o => o.num));
-        const arr = [];
-        for(const elem of list)
-        {
-            if(elem.num != highestNum) { continue; }
-            arr.push(elem);
-        }
-        return arr;
+        if(inDanger == null) { inDanger = this.getEmperorEliminationData().eliminated; }
+        return this.checker.getValidMoves(this.cards, inDanger);
     }
 }
 
@@ -109,18 +89,11 @@ const determineSet = () =>
     let set : Record<string, CardData> = SETS[setName];
     if(setName == "random") { set = createRandomSet(); }
     CONFIG.possibleCards = set;
-
-    for(const [key,data] of Object.entries(set))
-    {
-        if(data.rulesDisabled && !CONFIG.debugSimulate) { delete set[key]; }
-    }
 }
 
-const checkSimulation = () =>
+const performSimulation = () =>
 {
-    if(!CONFIG.debugSimulate) { return false; }
-
-    const cardPoisoned = { NONE: 0 };
+    const cardValid = { NONE: 0 };
     const cardFreq = { NONE: CONFIG.numSimulationsSets };
 
     for(let i = 0; i < CONFIG.numSimulationsSets; i++)
@@ -140,30 +113,33 @@ const checkSimulation = () =>
         {
             const numCards = rangeInteger(4,6);
             const round = new Round().generate(numCards);
-            const result = round.getPoisonedFood();
+            const result = round.getValidMoves();
             if(!result || result.length <= 0) { stats.NONE++; continue; }
     
-            const poisonedFood = result[0].food;
-            if(!(poisonedFood in stats)) { stats[poisonedFood] = 0; }
-            stats[poisonedFood]++;
+            for(const validMove of result)
+            {
+                const type = validMove.card.type;
+                if(!(type in stats)) { stats[type] = 0; }
+                stats[type]++;
+            }            
         }
 
         for(const [key,data] of Object.entries(stats))
         {
-            if(!(key in cardPoisoned)) { cardPoisoned[key] = 0; }
-            cardPoisoned[key] += data;
+            if(!(key in cardValid)) { cardValid[key] = 0; }
+            cardValid[key] += data;
         }
     }
 
-    // now assemble POISON and FREQUENCY stats into an accurate probability (given as PERCENTAGE)
+    // now assemble stats into an accurate probability (given as PERCENTAGE)
     // "how often, when this card was in the set, was it the poisoned one?"
     const finalStats : Record<string,number> = {};
     let mean = 0;
-    for(const [key,data] of Object.entries(cardPoisoned))
+    for(const [key,data] of Object.entries(cardValid))
     {
         const howOftenItOccured = CONFIG.numSimulations * cardFreq[key];
-        const howOftenItWasPoisoned = data;
-        const val = Math.round((howOftenItWasPoisoned / howOftenItOccured) * 100);
+        const howOftenItWasAValidMove = data;
+        const val = Math.round((howOftenItWasAValidMove / howOftenItOccured) * 100);
         finalStats[key] = val;
         mean += val;
     }
@@ -192,41 +168,46 @@ const checkSimulation = () =>
     return true;
 }
 
-async function generate()
+const performExample = async () =>
 {
-    const result = checkSimulation();
-    if(result) { return; }
-
     determineSet();
 
     // > cards on the table
     const numCards = rangeInteger(4,6);
-    o.addParagraph("These cards were played. (Imagine they're in a circle. The first card is from the king.)");
+    o.addParagraph("These cards were played. (Imagine they're in a circle.)");
     const round = new Round().generate(numCards);
     o.addFlexList(await round.draw());
 
-    const cardsTrue = round.getTrueCards();
-    if(cardsTrue.length <= 0) { o.addParagraph("No card is true. Smash your own card!"); return; }
-
-    // > which cards are true
-    const duplicateNumbers = round.hasDuplicateNumbers();
-    let str = "All these cards are TRUE.";
-    if(duplicateNumbers) { str += " (If numbers are duplicate, only the first is evaluated.)"; }
-    o.addParagraph(str);
-    o.addFlexList(await round.draw(cardsTrue));
-
-    if(cardsTrue.length == 1) { o.addParagraph("Smash that card to win the round!"); return; }
-
-    // > which of those has the highest number
-    const cardsHighest = round.getHighest(cardsTrue);
-    o.addParagraph("Multiple are true, so search for the highest number:");
-    o.addFlexList(await round.draw(cardsHighest));
-    o.addParagraph("Smash that card to win the round!");
-
-    if(cardsHighest.length != 1) 
+    const elimData = round.getEmperorEliminationData();
+    let str = "Nothing threatens the Emperor. Let's find a card that would put them in danger (if removed).";
+    if(elimData.eliminated) 
     { 
-        console.error("[PLAYFUL EXAMPLE] Exactly one card should be highest! But I received " + cardsHighest); 
-    }  
+        const perp = elimData.perpetrator.person;
+        const idx = elimData.index + 1;
+        str = "The Emperor is in danger! (Killed by " + perp + " at position " + idx + ") Let's find a card that makes them safe (if removed).";
+    }
+    o.addParagraph(str);
+
+    const validMoves = round.getValidMoves(elimData.eliminated);
+    if(validMoves.length <= 0) { o.addParagraph("No such card exists. Smash the Emperor to win!"); return; }
+
+    o.addParagraph("Below are all valid moves.");
+
+    // @TODO: for now, we discard the REASON for valid move, but I should display that in the future
+    const validMoveCards = [];
+    for(const move of validMoves)
+    {
+        validMoveCards.push(move.card);
+    }
+
+    o.addFlexList(await round.draw(validMoveCards));
+    o.addParagraph("Smash any of these to win the round!");
+}
+
+async function generate()
+{
+    if(CONFIG.debugSimulate) { performSimulation(); }
+    else { performExample(); }    
 }
 
 const e = new InteractiveExample({ id: "turn" });

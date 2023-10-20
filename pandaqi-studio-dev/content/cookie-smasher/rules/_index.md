@@ -25,7 +25,7 @@ The game ends when everyone is **out of cards**. The player with the **most poin
 Rounds are played simultaneously.
 
 * Everyone picks a card from their hand. (With fewer than 4 players, you pick 2 cards.)
-* Once done, count down and simultaneously reveal them all.
+* Count down and simultaneously reveal them all.
 * Based on the cards played, one of them will be "poisoned" (see [next section](#finding_the_poison)).
 * The first player to tap this card, wins the round! (Congratulations, you've saved the king's life again!) 
 
@@ -41,7 +41,7 @@ The confusion and interruption after a wrong guess makes it hard to continue fai
 
 The round is now over. All other cards played are discarded. The winner/loser of this round becomes the new **king**!
 
-_Everyone plays with one hand. That hand both reveals their own card and must be used for tapping the bad food. Using the wrong hand is, of course, a rules violation._
+_Everyone plays with one hand. That hand both reveals their own card and smashes the poisoned food. Using the wrong hand is, of course, a rules violation._
 
 {{< rules-example id="turn" >}}
 
@@ -67,6 +67,8 @@ Later sets contain "safe food": they show a green checkmark. These are **never**
 {{% /rules-block %}}
 
 {{% rules-block id="variants" heading="Variants" %}}
+
+Once you're familiar with the base game, you can try these variants or expansions!
 
 {{% rules-block heading="Assemble your own deck" %}}
 

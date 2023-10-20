@@ -145,8 +145,7 @@ export default class PowerChecker
         return countNumber(b, a.numbersCustom[0], [a]) <= 0 && countNumber(b, a.numbersCustom[1], [a]) <= 0;
     }
 
-    // @TODO: this one is hard to implement, but is it hard to play with?
-    cauliflower(a,b)
+    cauli(a,b)
     {
         const count = countWithNumAbove(b, a.numbersCustom[0]);
         const target = a.numbersCustom[1]; // @NOTE: "%num%" replacement comes before custom ones, that's why we need index 1 here, even though the target comes earlier in the card text
@@ -327,13 +326,13 @@ export default class PowerChecker
         return freq <= 1;
     }
 
-    chocolate(a,b)
+    cacao(a,b)
     {
         const nbs = getNeighbors(a,b);
-        return (nbs[0].safe || nbs[0].food == "chocolate") || (nbs[1].safe || nbs[1].food == "chocolate");
+        return (nbs[0].safe || nbs[0].food == "cacao") || (nbs[1].safe || nbs[1].food == "cacao");
 
         // OLD power
-        //const count1 = countFood(b, "chocolate");
+        //const count1 = countFood(b, "cacao");
         //const count2 = countProp(b, "safe", true);
         //return (count1 + count2) >= b.length;
     }
@@ -445,11 +444,15 @@ export default class PowerChecker
 
     sugar(a,b)
     {
-        let val = a.anyCustom[0];
-        let prop = isNaN(parseInt(val)) ? "type" : "num";
+        let val1 = a.anyCustom[0];
+        let prop1 = isNaN(parseInt(val1)) ? "type" : "num";
+
+        let val2 = a.anyCustom[1];
+        let prop2 = isNaN(parseInt(val2)) ? "type" : "num";
+
         for(const elem of b)
         {
-            if(elem[prop] != val) { continue; }
+            if(elem[prop1] != val1 && elem[prop2] != val2) { continue; }
             elem.flipPoisoned();
         }
         return false;

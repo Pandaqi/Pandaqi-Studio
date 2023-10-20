@@ -6,9 +6,11 @@ type: "rules"
 
 Create a deck of cards, but keep the _Emperor_ separate. Shuffle and deal until empty. (It's fine if some players have one more card than others.)
 
-It's important to sit/stand and play cards roughly in a circle. Otherwise, anything goes!
+It's important to sit and play cards roughly in a circle.
 
-Cards come in three flavors: attackers, protectors and bystanders. You can assemble your own custom deck, as long as you make sure each of these is represented.
+The youngest player becomes the Guardian.
+
+Cards come in three flavors: monsters, shields and bystanders. You can assemble your own custom deck, as long as you make sure they are roughly in the proportions 50% / 25% / 25%.
 
 {{% /rules-block %}}
 
@@ -22,57 +24,56 @@ The game ends as soon as a player is **out of cards**. Whoever **has the most ca
 
 Turns happen simultaneously.
 
-* All players pick one card from their hand and place it face-down in front of them.
-* After everyone has chosen, the winner of last round swaps _one_ card for the Emperor (kept to the side).
-* Now reveal all the cards (at the same time).
+* All players pick one card from their hand. (With <4 players, pick two.) 
+* Everyone places their card face-down before them.
+* The Guardian swaps _one_ card for the Emperor (which you kept to the side).
+* Reveal all cards (at the same time).
 
-{{% remark class="right" %}}
-In the first round, the youngest player swaps the Emperor.
-{{% /remark %}}
+Now all players look for the same thing. (Explained in more detail in the [next section](#attacking).)
 
-{{% remark %}}
-Exception: with fewer than 4 players, everyone picks _two_ cards.
-{{% /remark %}}
+> Is there **a card** that would **change** the Emperor's fate if **removed**?
 
-Now all players are looking for one rule. (Explained in more detail in the [next section](#attacking).)
+In other words,
 
-> Is there **a card** that would **prevent** the emperor from being attacked if it were removed or rotated? 
+* Is the Emperor currently safe? Find a card that would put them in danger if removed.
+* Is the Emperor currently under attack? Find a card that would make them safe if removed.
 
 @TODO: IMAGE EXAMPLE (reveal + search the rule + handle scoring)
 
-Be the first to find this card and smash it to win! If there is **no such card**, tap the emperor.
+Be the first to find this card and smash it to win! If there is **no such card**, smash the Emperor.
 
 As soon as somebody smashed a card, the round is over. 
 
-* They were right? They add one of the cards played into their hand, discard the rest.
-* They were wrong? They remove 5 cards from their hand (as the penalty), all cards played are discarded.
+* They were right? They add one of the cards played into their hand. Discard the rest.
+* They were wrong? They remove 3 cards from their hand (as penalty). All cards played are discarded.
+
+Whatever the case, this player becomes the new Guardian.
 
 {{% remark %}}
 Never discard the Emperor. Keep it to the side for next round.
 {{% /remark %}}
 
-{{< rules-example id="turn" >}} @TODO: playful example
+{{< rules-example id="turn" >}}
 
 {{% /rules-block %}}
 
 {{% rules-block id="attacking" heading="Attacking" class="force-page-break-before" icon="expansions" icontint="purple" %}}
 
-Each card shows somebody **facing right**. By playing/revealing the card upside down, you can make them face to the **left**.
+Each card shows somebody **facing right**. By revealing the card upside down, you can make them face **left**.
 
-How do you check what happens in a given round?
+How do you check what happens in a round?
 
-* Evaluate the cards played, starting with the **emperor** and moving in the **direction they face**.
-* Attackers will automatically **attack** in the direction they face. This means they'll _hit_ the first card they encounter.
+* Evaluate the cards played, starting with the **Emperor** and moving in the **direction they face**.
+* If a card shows an action, simply execute it.
+* Monsters will automatically **attack** in the direction they face. 
 
-Any cards hit are eliminated. Pretend they don't exist anymore, removed from the circle. 
+What is an attack?
 
-{{% remark %}}
-Yes, this means an attacker who is already hit will not attack anymore.
-{{% /remark %}}
+* The monster _hits_ the first card they encounter.
+* If a card can't be hit, check the _next_ one. Continue doing so until the attack hits something or has made a full circle.
+* When a card is hit, it's **eliminated**. Pretend it doesn't exist anymore from now on.
 
-It's your job to check if the emperor is hit. If so, find one card that, if it were removed/rotated, would prevent that. (And if such a card doesn't exist, or the emperor isn't hit, you smash the emperor.)
-
-Many cards have special powers, though, that will change the trajectory and consequences of attacks in surprising ways ...
+**Bystanders can't be hit**. Other cards can only avoid being hit through special powers.
 
 @TODO: IMAGE EXAMPLE of how to resolve one round (the playful example will be much better in explaining this)
 
