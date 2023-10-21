@@ -1,6 +1,11 @@
 $header-font: "palette";
-$body-font: "pettingill";
+$body-font: "oldstandard";
+$fancy-font: "pettingill";
 $base: "/cookie-smasher/assets/fonts/";
+
+$col1: #DD92EC;
+$col2: #92C5BF;
+$col3: #EDB24E;
 
 @font-face {
     font-family: 'palette';
@@ -13,6 +18,30 @@ $base: "/cookie-smasher/assets/fonts/";
 @font-face {
     font-family: 'pettingill';
     src: url($base + 'PettingillCF-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'oldstandard';
+    src: url($base + 'OldStandardTT-Italic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'oldstandard';
+    src: url($base + 'OldStandardTT-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'oldstandard';
+    src: url($base + 'OldStandardTT-Bold.woff2') format('woff2');
     font-weight: bold;
     font-style: normal;
     font-display: swap;

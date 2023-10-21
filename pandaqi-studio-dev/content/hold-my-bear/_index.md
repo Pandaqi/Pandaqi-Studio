@@ -31,11 +31,11 @@ googleFonts: ""
 date: 2023-01-01 # 2024-0206-25
 
 categories: ["boardgame"]
-tags: ["animal", "watercolor"]
+tags: ["animal", "watercolor", "numbers", "deck"]
 
 multiplayermode: "competitive"
 language: EN
-genre: ["card", "party", "simple", "numbers", "deck"]
+genre: ["card", "party"]
 playtime: 10
 playercount: [3,4,5,6,7,8]
 complexity: low

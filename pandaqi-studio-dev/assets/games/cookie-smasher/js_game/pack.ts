@@ -29,7 +29,6 @@ export default class Pack
             cards.push(newCard);
         }
         this.cards = cards;
-        console.log(this.cards);
     }
 
     async draw()

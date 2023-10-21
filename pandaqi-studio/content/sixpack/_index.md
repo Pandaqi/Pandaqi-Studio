@@ -54,8 +54,8 @@ You get six cards. Play them well, but don't be the first to play them all.
 
 Three simple steps.
 * Read the short [playful rules](rules).
-* Download **one** material PDF to print. (Use the "Download" button above.)
-* Print it, cut it, play!
+* Download **one** material PDF to print. ("Download" > Files > Essential Pack)
+* Print, cut, play!
 
 **Want more (customization)?** You can also [generate your own material](#material) right on this website! Pick the packs you want and enjoy.
 
@@ -65,7 +65,7 @@ Three simple steps.
 
 <p>Input your settings, click the button. A new page will open that generates a nice PDF for you!</p>
 
-{{< boardgame-settings type="game" local_storage="sixpackConfig" >}}
+{{< boardgame-settings type="game" local_storage="sixpackConfig" btn_label="Generate Material" >}}
 	{{< setting-hidden id="setting-gameTitle" text="Sixpack" >}}
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
   {{< setting-enum id="setting-cardSize" text="Card Size?" values="small,regular,big" valaskey="true" def="regular" >}}

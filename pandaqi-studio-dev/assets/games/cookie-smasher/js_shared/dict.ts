@@ -130,6 +130,7 @@ const COLORS = {
     redDark: "#B3322E",
     yellow: "#FEE075",
     yellowDark: "#957500",
+    grayLight: "#E9E9E9",
     gray: "#C6C6C6"
 }
 

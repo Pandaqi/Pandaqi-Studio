@@ -306,8 +306,9 @@ export default class Card
         const bgSize = CONFIG.cards.illustration.bgSize.clone().scaleFactor(this.sizeUnit);
         const bgCenter = this.size.clone().scaleFactor(0.5);
         const rect = new WonkyRectangle(bgCenter, bgSize);
+        const rectColor = CONFIG.inkFriendly ? COLORS.grayLight : this.colorMain;
         rect.generate();
-        await rect.draw(this.ctx, this.colorMain);
+        await rect.draw(this.ctx, rectColor);
 
         // draw the actual image
         const res : ResourceImage = CONFIG.resLoader.getResource(this.data.textureKey);
@@ -363,8 +364,9 @@ export default class Card
             new Point(pos.x + trapSize.x, pos.y - 0.5*trapSize.y*shrinkFactor)
         ).angle();
 
+        const trapFill = CONFIG.inkFriendly ? COLORS.grayLight : this.colorMain;
         const trapOp = new LayoutOperation({
-            fill: this.colorMain
+            fill: trapFill
         })
         await trapezium.toCanvas(this.ctx, trapOp);
 
@@ -450,8 +452,6 @@ export default class Card
         let namePos = new Point(trapHalfLine.x, trapHalfLine.y + dirX*0.1*trapSize.y);
         let positions = [numberPos, namePos];
 
-        console.log(positions);
-
         // draw number
         const fontSizeNumber = CONFIG.cards.icons.fontSizeNumber * this.sizeUnit;
         const textConfigNumber = new TextConfig({
@@ -460,8 +460,6 @@ export default class Card
             alignHorizontal: TextAlign.MIDDLE,
             alignVertical: TextAlign.MIDDLE
         })
-
-        console.log(fontSizeNumber);
 
         const cardNumber = new ResourceText({ text: this.num.toString(), textConfig: textConfigNumber });
         const textDims = new Point(trapSize.y, trapSize.x);
@@ -472,7 +470,6 @@ export default class Card
             pivot: new Point(0.5),
             dims: textDims,
         })
-        console.log(numOp.fill);
         await cardNumber.toCanvas(this.ctx, numOp);
 
         // draw card name
@@ -527,11 +524,14 @@ export default class Card
         const iconRes = CONFIG.resLoader.getResource("misc");
         const frame = this.data.safe ? 1 : 0;
         const imgHeight = CONFIG.cards.power.iconHeight * contHeight;
+        const iconEffects = [];
+        if(CONFIG.inkFriendly) { iconEffects.push(new GrayScaleEffect()); }
         const icon = new LayoutNode({
             resource: iconRes,
             size: new Point(imgHeight),
             frame: frame,
             shrink: 0,
+            effects: iconEffects
         })
         flex.addChild(icon);
 

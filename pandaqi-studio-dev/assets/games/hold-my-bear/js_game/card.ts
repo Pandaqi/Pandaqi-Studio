@@ -62,7 +62,11 @@ export default class Card
             dims: this.size,
             pivot: new Point(0.5)
         })
-        res.toCanvas(this.ctx, op);
+
+        if(!CONFIG.inkFriendly)
+        {
+            await res.toCanvas(this.ctx, op);
+        }
     }
 
     async drawMainIllustration()
@@ -98,9 +102,7 @@ export default class Card
                 rotation: randRotation,
                 frame: frame
             })
-            resSplat.toCanvas(this.ctx, op);
-
-            console.log(op);
+            await resSplat.toCanvas(this.ctx, op);
         }
 
         // draw the actual image
@@ -190,19 +192,19 @@ export default class Card
                 flipY: i >= 2
             })
             const bgRes = CONFIG.resLoader.getResource("decoration");
-            bgRes.toCanvas(this.ctx, bgOp);
+            await bgRes.toCanvas(this.ctx, bgOp);
 
             let res
             if(displayNumber)
             {
                 res = new ResourceText({ text: this.num.toString(), textConfig: textConfig });
                 op.fill = new ColorLike(textColor);
-                op.dims.scaleFactor(1.5); // text might exceed boundaries, so give ourselves a little extra space
+                op.dims = op.dims.clone().scaleFactor(1.5); // text might exceed boundaries, so give ourselves a little extra space
 
                 const effects = [];
                 if(CONFIG.cards.icons.textShadow)
                 {
-                    effects.push(new DropShadowEffect({ blurRadius: 0.2*fontSize, offset: new Point(10, 10) }));
+                    effects.push(new DropShadowEffect({ blurRadius: 0, offset: new Point(0.04*fontSize) }));
                 }
                 op.effects = effects;
             }
@@ -212,7 +214,7 @@ export default class Card
                 res = CONFIG.resLoader.getResource(spriteKey);
             }
 
-            res.toCanvas(this.ctx, op);
+            await res.toCanvas(this.ctx, op);
         }
     }
 
@@ -239,7 +241,7 @@ export default class Card
             pivot: new Point(0.5)
         })
 
-        res.toCanvas(this.ctx, op);
+        await res.toCanvas(this.ctx, op);
 
         // the actual text
         const fontSize = CONFIG.cards.power.fontSize * this.sizeUnit;
@@ -261,6 +263,6 @@ export default class Card
         const text = new ResourceText({ text: textToDisplay, textConfig: textConfig });
         op.fill = new ColorLike("#FFFFFF");
         op.dims.x *= CONFIG.cards.power.textBoxSidePadding; // a little padding around the text
-        text.toCanvas(this.ctx, op);
+        await text.toCanvas(this.ctx, op);
     }
 }

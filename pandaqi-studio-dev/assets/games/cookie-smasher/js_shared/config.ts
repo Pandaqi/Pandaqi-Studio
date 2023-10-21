@@ -4,7 +4,7 @@ import { TYPES } from "./dict"
 
 const CONFIG = 
 {
-    debugWithoutFile: true, // @DEBUGGING (should be false)
+    debugWithoutFile: false, // @DEBUGGING (should be false)
     debugSinglePack: false, // @DEBUGGING (should be false)
 
     configKey: "cookieSmasherConfig",

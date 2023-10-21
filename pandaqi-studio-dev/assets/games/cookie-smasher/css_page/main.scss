@@ -1,12 +1,13 @@
 @use "../css_shared/main.scss" as g;
+@use "sass:color";
 
-$bg-color: #98bb45;
-$text-color: #0d440c;
-$button-bg: #FCC038;
+$bg-color: #FCFCFC;
+$text-color: #212121;
+$button-bg: g.$col2;
 $button-color: #27231c;
-$link-color: #3b4f0e;
-$link-color-hover: #5d7a1a;
-$settings-color: #8c3f13;
+$link-color: color.adjust(g.$col3, $lightness: -50%);
+$link-color-hover: color.adjust(g.$col3, $lightness: -30%);
+$settings-color: g.$col1;
 $cutoff: 920px;
 
 h1, h2, h3, h4, h5, h6, 
@@ -23,10 +24,10 @@ input, button, select, option, label {
 
 body {
     font-family: g.$body-font;
-    background-color: #999;
-    font-size: 20px;
+    background-color: $bg-color;
+    font-size: 21px;
     background-size: 100%;
-    color: #333;
+    color: $text-color;
     line-height: 140%;
 }
 
@@ -59,7 +60,10 @@ a {
 }
 
 .game-settings {
+    color: black;
     background-color: $settings-color;
+
+    .setting-remark { color: black; }
 }
 
 .boardgame-intro {

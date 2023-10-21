@@ -1,10 +1,11 @@
 @use "../css_shared/main.scss" as g;
+@use "sass:color";
 
 body {
     font-family: g.$body-font;
-    background-color: #5E2C04;
-    font-size: 18px;
-    line-height: 140%;
+    background-color: #FCFCFC;
+    font-size: 20px;
+    line-height: 130%;
 }
 
 h1, h2, h3, h4 {
@@ -27,23 +28,25 @@ img.playful-example {
     line-height: 120%; 
 }
 
+$a: color.adjust(g.$col1, $lightness: 15%);
+$b: color.adjust(g.$col2, $lightness: 15%);
+
 #setup {
-    background-color: #a1fbab;
+    background-color: $a;
 }
 
 #objective {
-    background-color: #7b1e42;
-    color: #FFDDDD;
+    background-color: $b;
 }
 
 #action_play {
-    background-color: #f1aa77;
+    background-color: $a;
 }
 
-#bears {
-    background-color: #f4e29f;
+#finding_the_poison {
+    background-color: $b;
 }
 
-#expansion {
-    background-color: #adf4d3;
+#variants {
+    background-color: $a;
 }

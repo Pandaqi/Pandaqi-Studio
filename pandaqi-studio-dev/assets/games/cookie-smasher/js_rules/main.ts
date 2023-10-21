@@ -11,7 +11,7 @@ import { getIndexOfProp } from "../js_shared/queries";
 
 const CONFIG =
 {
-    debugSpecificSet: "starter", // @DEBUGGING (should be null)
+    debugSpecificSet: null, // @DEBUGGING (should be null)
     debugSimulate: false, // @DEBUGGING (should be false)
     numSimulationsSets: 1000,
     numSimulations: 1000,
@@ -210,7 +210,7 @@ async function generate()
 
     // > which cards are true
     const duplicateNumbers = round.hasDuplicateNumbers();
-    let str = "All these cards are TRUE.";
+    let str = "The following cards are TRUE.";
     if(duplicateNumbers) { str += " (If numbers are duplicate, only the first is evaluated.)"; }
     o.addParagraph(str);
     o.addFlexList(await round.draw(cardsTrue));
