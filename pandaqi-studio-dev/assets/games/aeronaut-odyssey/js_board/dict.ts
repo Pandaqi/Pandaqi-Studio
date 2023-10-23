@@ -14,9 +14,9 @@ interface BonusData
 const BONUSES:Record<string, BonusData> = 
 {
     points: { frame: 0, prob: 2.33, singleSpace: true }, // you simply get X points
-    balloons: { frame: 1, prob: 1.33, value: 1.25 }, // you get X balloons of a certain type
+    balloons: { frame: 1, prob: 1.33, value: 0.9 }, // you get X balloons of a certain type
     inventory: { frame: 2, prob: 1, value: 1 }, // you may expand your inventory space by X
-    swap: { frame: 3, prob: 1, value: 1.25 }, // you may swap X balloons from your inventory for another type
+    swap: { frame: 3, prob: 1, value: 1 }, // you may swap X balloons from your inventory for another type
 
     // you may steal X balloons from another player
     abilitySteal: { frame: 4, prob: 0.5, once: true, ability: true, value: 2 }, 

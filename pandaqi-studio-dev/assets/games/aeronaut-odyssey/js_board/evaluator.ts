@@ -60,6 +60,7 @@ export default class Evaluator
         // check type distribution (very cheap, do first)
         if(!this.typesFairlyDistributed(board)) { return false; }
         if(this.typesClumpedUp(board)) { return false; }
+        if(this.longChainOfSameType(board)) { return false; }
 
         // check graph connectedness (more expensive)
         if(this.pointsWithBadConnections(board)) { return false; }
@@ -202,6 +203,46 @@ export default class Evaluator
             if(maxCount > maxRoutesOfSameType) { return true; }
         }
         return false;
+    }
+
+    longChainOfSameType(board:BoardState)
+    {
+        const maxChainLength = CONFIG.evaluator.maxTypeChainLength[CONFIG.boardSize];
+        const unhandled = board.getRoutes().slice();
+        let valid = true;
+        const chains = {};
+        while(unhandled.length > 0)
+        {
+            const r : Route = unhandled.pop();
+            const curType = r.getMainType();
+            const chain = [];
+            const toCheck = [r];
+            while(toCheck.length > 0)
+            {
+                const curRoute = toCheck.pop();
+                chain.push(curRoute);
+
+                const nbs : Route[] = [curRoute.start.metadata.routes, curRoute.end.metadata.routes].flat();
+                for(const nb of nbs)
+                {
+                    if(toCheck.includes(nb) || chain.includes(nb)) { continue; }
+                    if(nb.getMainType() != curType) { continue; }
+                    toCheck.push(nb);
+                }
+            }
+
+            if(!(curType in chains)) { chains[curType] = []; }
+            chains[curType].push(chain);
+
+            if(chain.length > maxChainLength) { valid = false; break; }
+
+            for(const elem of chain)
+            {
+                unhandled.splice(unhandled.indexOf(elem), 1);
+            }
+        }
+        if(!valid) { console.log("[REJECTED] Longest chain of same type is too long."); }
+        return !valid;
     }
 
     pointsWithBadConnections(board:BoardState)

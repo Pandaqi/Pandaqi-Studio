@@ -6,21 +6,33 @@ type: "rules"
 
 Print a game board and hand out pens. Each player ...
 
-* Receives an inventory. (Optional: cut these off and keep them secret.)
-* Picks any drawable icon: you'll use that to represent yourself
-* Draws that icon at a city of choice: that's your **traveler**.
+* Receives an inventory at the edge of the board. (Optional: cut these off and keep them secret.)
+* Picks any drawable icon: you'll use that to represent your **traveler**.
+* Draws that icon at the capital. (Always the city "A", colored differently.)
+
+Pick a start player. Players who come later in the turn order (clockwise) receive a small compensation before the game starts.
+
+* The 2nd and 3rd player add 1 balloon of choice to their inventory. 
+* The 4th and 5th player add 2 balloons of choice.
+* The 6th player adds 3 balloons of choice.
+
+@TODO: Now we need an IMAGE of the setup (with the new modifications)
 
 {{% /rules-block %}}
 
 {{% rules-block id="objective" heading="Objective" icon="objective" icontint="blue" %}}
 
-The game ends when a player **can't take any action** on their turn. The player with the **highest score** wins.
+The game ends when **all routes have been claimed** or **nobody can take any more actions**. 
+
+The player with the **highest score** wins.
 
 {{% /rules-block %}}
 
 {{% rules-block id="gameplay" heading="Gameplay" icon="action" class="force-page-break-before" icontint="lightblue" %}}
 
 Take clockwise turns. On your turn, pick one action: **Move** or **Claim**.
+
+The rules often mention that somebody is "rewarded". This always means that they pick one balloon of choice _or_ add one space to their inventory.
 
 {{< rules-example id="turn" >}}
 
@@ -29,12 +41,11 @@ Take clockwise turns. On your turn, pick one action: **Move** or **Claim**.
 Pick a **destination**: a city connected to your traveler's current city, with a free movement slot. 
 
 * Cross out your traveler and draw it inside a slot at your destination.
-* You receive **two balloons**. You may, however, only pick types that are connected to your destination. (Draw them in your inventory.)
-* If you traveled over a claimed route (from someone else), the owner is **rewarded**. In this rulebook, "rewarded" always means that somebody may pick one balloon of choice _or_ add one extra inventory space.
+* If you traveled over a claimed route (from someone else), the owner is **rewarded**. 
+* Add **two balloons** to your inventory. You may, however, only pick types from routes that are connected to your destination.
+* If the type you picked belongs to a claimed route (from someone else), the owner is **rewarded**.
 
-Other players may "profit" from your turn. They pick one of the balloon types you received and also receive that. You may, however, only "profit" _once per round_.
-
-If no free movement slot exists, or your inventory is full, you cannot move anymore.
+If no free movement slot exists on a connected city, you cannot move anymore.
 
 @TODO: IMAGE
 
@@ -45,15 +56,12 @@ If no free movement slot exists, or your inventory is full, you cannot move anym
 To claim a route, pay balloons from your inventory.
 
 * They must be the same type as the route
-* And you must pay the same _number_ of them as the length of the route ( = number of spaces)
+* And you must pay equally many as the length of the route ( = number of spaces)
 
 Cross out the balloons paid from your inventory. Draw your icon in all claimed spaces. (A route can only be claimed once.)
 
-You can claim a route from _anywhere_---you don't need to be next to it. If you _are_ next to a route you just claimed, however, you are **rewarded** (see previous section).
+You can claim a route from _anywhere_---you don't need to be next to it. If you _are_ next to a route you just claimed, however, you are **rewarded**.
 
-<!--- 
-@NOTE: This rule is pretty useless, right? 
-Check the two cities of the route you just claimed. Any traveler currently there receives one balloon of the type you used. --->
 {{% /rules-block %}}
 
 {{% /rules-block %}}
@@ -66,9 +74,10 @@ You score points for claimed routes.
 
 * 1 balloon = 1 point
 * 2 balloons = 2 points
-* 3 balloons = 4 points
-* 4 balloons = 7 points
-* 5 balloons = 10 points
+* 3 balloons = 3 points
+* 4 balloons = 5 points
+* 5 balloons = 7 points
+* 6 balloons = 9 points
 
 {{% /rules-block %}}
 
@@ -137,6 +146,18 @@ Introduces **gray routes**. You can use any one type to claim these. (For exampl
 @TODO: IMAGE EXAMPLE
 
 When picking balloons to receive, a gray route allows you to pick a "wildcard". Write a "W" in an inventory slot. This balloon can represent _any_ type when claiming a route. If you do this, however, you only receive 1 balloon this turn (regardless of other rules).
+
+{{% /rules-block %}}
+
+{{% rules-block id="expansion_variants" heading="Variants" %}}
+
+Below are some variants that make the game more competitive and "cutthroat". Try any **one** of the rules below in a game.
+
+When picking your two balloons (during "move") ...
+
+* You must pick two different types (if possible).
+* You can't pick the type over which you just moved.
+* If you pick a type from a claimed route, and the owner doesn't _want_ to be rewarded, they can block you. You're simply not allowed to pick that type.
 
 {{% /rules-block %}}
 

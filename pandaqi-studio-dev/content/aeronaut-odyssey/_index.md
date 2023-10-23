@@ -7,11 +7,41 @@ title: "Aeronaut Odyssey"
 headerTitle: "Aeronaut Odyssey | Claim routes and connect sky castles in a fast game inspired by Ticket to Ride."
 blurb: "Travel the world, claim the most valuable routes and profit from it. Connect the sky castles faster than your opponents, in a One Paper Game inspired by Ticket to Ride."
 
-
 extraCSS: true
 extraJSBoard: true
 extraJSBoardInclude: true
 downloadLink: "https://drive.google.com/drive/folders/1lgnWjJG1pjb-YD7vg_0rS1QHW54xFpP1"
+
+fullHeaderImg: "aeronaut_header"
+headerImg: "aeronaut_header"
+
+headerThumb: "favicon"
+
+customHeight: "small"
+headerDarkened: true
+
+color: "blue"
+
+bgColor: "#014556"
+bgColorLink: "#601a87"
+
+textColor: "#e6faff"
+textColorLink: "#edccff"
+
+googleFonts: ""
+
+date: 2023-01-01 # 2024-05-25
+
+categories: ["boardgame"]
+tags: ["real_inspired", ""]
+
+multiplayermode: "competitive"
+language: EN
+genre: ["opg", "strategy", "map"]
+playtime: 45
+playercount: [1,2,3,4,5,6]
+complexity: medium
+ages: everyone
 
 ---
 

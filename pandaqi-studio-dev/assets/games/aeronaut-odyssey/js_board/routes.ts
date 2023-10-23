@@ -261,26 +261,29 @@ export default class Routes
         for(const route of routes)
         {
             const numTypesWanted = route.multi ? route.getBlockLength() : 1;
+            const forbiddenTypes = route.multi ? [] : route.getForbiddenTypes();
             for(let i = 0; i < numTypesWanted; i++)
             {
-                const type = this.pickLeastUsedType(numTypeUsed);
+                const type = this.pickLeastUsedType(numTypeUsed, forbiddenTypes);
                 route.addType(type);
                 numTypeUsed[type]++;
             }
         }
     }
 
-    pickLeastUsedType(stats:number[])
+    pickLeastUsedType(stats:number[], exclude:number[])
     {
         let lowestNumber = Infinity;
         for(let i = 0; i < stats.length; i++)
         {
+            if(exclude.includes(i)) { continue; }
             lowestNumber = Math.min(lowestNumber, stats[i]);
         }
 
         const options = [];
         for(let i = 0; i < stats.length; i++)
         {
+            if(exclude.includes(i)) { continue; }
             if(stats[i] != lowestNumber) { continue; }
             options.push(i);
         }

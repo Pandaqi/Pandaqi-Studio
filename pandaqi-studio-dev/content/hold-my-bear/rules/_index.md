@@ -8,7 +8,7 @@ Draw a random card and place it face-up on the table. This is the "match" curren
 
 Deal the deck of cards until empty, as fairly as possible.
 
-Pick a start player: whoever can (and wants to) take the first valid move.
+The player with the **highest bear card starts**.
 
 {{% /rules-block %}}
 
@@ -22,23 +22,23 @@ You win if, at the **start of your turn**, the match on the table is **already y
 
 Take clockwise turns until done. On your turn, do ONE of two things: **play a valid move** or **give away two cards**.
 
-If you're out of cards (at the start of your turn), steal 5 cards from other players, in whatever way you want.
+If you're out of cards (at the start of your turn), steal 4 cards from other players, in whatever way you want.
 
 {{< rules-example id="turn" >}}
 
 {{% rules-block id="gameplay_valid_move" heading="Valid Move" %}}
 
-Cards have an animal ( = suit) and a number.
+Cards have an animal and a number.
 
 A "match" is simply the set of cards in the center of the table.
 
-* The sport you're playing is determined by the **most occurring animal**. (In case of a tie, you play multiple sports at once!)
+* The sport you're playing is determined by the **majority animal**: the animal that appears most often. (If tied, you play multiple sports at once!)
 * How well you're doing is determined by the **sum of all numbers**.
 
 To do a valid move, you must play a set of cards that ...
 
-* **Changes the sport**. Provide another animal that occurs more often than the current majority animal. The total value may be anything.
-* **Or** provides a **higher value** (in the same sport). Play cards with the same majority animal, but with a total value that's higher.
+* **Changes the sport**. Provide another animal that occurs more often than the current majority animal. The total value doesn't matter.
+* **Or plays the same sport, but better.** Play cards with the same majority animal, but with a total value that's higher.
 
 {{% remark %}}
 Such a set may contain at most 5 cards.
@@ -52,7 +52,7 @@ Remove the previous match (cards) from the game. Ensure the new cards face you t
 
 {{% rules-block id="gameplay_give_away" heading="Give Away" %}}
 
-Give **two cards** from your hand to **another player**. This happens _publicly_: all players can see the cards.
+Give away **two hand cards**. (To the same player or two different players.) This happens _publicly_: everyone can see the cards.
 
 {{% /rules-block %}}
 
@@ -62,8 +62,8 @@ Give **two cards** from your hand to **another player**. This happens _publicly_
 
 Bears are both a **trump** and a **wildcard**. What does that mean?
 
-* You can **always** raise the match by simply playing more bears. <span class="inline-remark">(Example: 3 tigers can be trumped by 1 bear, as that is more than 0 bears.)</span>
-* If there are other animals in this match, all bears **also become that type**. <span class="inline-remark">(Example: you play 2 tigers and 2 bears. Now there are 4 tigers on the table.)</span>
+* You can **always** raise the match by simply playing more bears. <span class="inline-remark">(Example: 2 tigers can be trumped by 1 bear, as that is more than 0 bears.)</span>
+* On their own, bears are **any type you want**. When played in combination, they **become the majority animal(s)**. <span class="inline-remark">(Example: you play 2 tigers and 2 bears. Now there are 4 tigers on the table.)</span>
 
 Bears are, however, also a liability. 
 

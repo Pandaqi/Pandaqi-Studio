@@ -162,12 +162,14 @@ export default class BoardDisplay
 
         if(drawVisitorDots)
         {
-            const angles = this.getAnglesSortedByAvailability(p);
+            let angles = this.getAnglesSortedByAvailability(p);
 
             const dotRadius = CONFIG.display.visitorSpotRadius * this.blockSize.x;
             const num = Math.min(p.metadata.numVisitorSpots, angles.length);
             const strokeWidth = CONFIG.display.visitorSpotStrokeWidth * this.blockSize.x;
     
+            if(!CONFIG.display.arrangeVisitorSpotsForAvoidance) { angles = this.getEquidistantAngles(num); }
+
             const op = new LayoutOperation({ fill: "#FFFFFF", stroke: "#000000", strokeWidth: strokeWidth });
             for(let i = 0; i < num; i++)
             {
@@ -201,7 +203,16 @@ export default class BoardDisplay
         textToPhaser(text, textOp, this.game);
     }
 
-
+    getEquidistantAngles(num:number)
+    {
+        const angleData = [];
+        for(let i = 0; i < num; i++)
+        {
+            const ang = (i / num) * 2 * Math.PI;
+            angleData.push({ angle: ang, available: true })
+        }
+        return angleData;
+    }
 
     // @TODO: create PQ GAMES library function for this? "divideAnglesIntoBuckets"?
     getAnglesSortedByAvailability(p:PointGraph)

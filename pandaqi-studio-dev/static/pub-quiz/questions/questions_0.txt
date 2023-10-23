@@ -1,0 +1,89 @@
+Question => Hoe oud worden luipaarden?
+Category => Sport
+Media => plaatje1.webp, plaatje2.jpg
+Score => 6
+Answers =>
+4
+10
+100
+Correct => 10
+
+
+
+Question => Hoe vaak ging men naar de bioscoop in 2023?
+Category => Film
+Correct => 10
+Answers =>
+liedje1.mp3
+liedje1.mp3
+1200
+
+
+Question => Hoe oud worden luipaarden?
+Category => Sport
+Score => 2
+Answers =>
+4
+10
+100
+Correct => 10
+
+Question => Hoe oud worden luipaarden?
+Category => Sport
+Score => 2
+Answers =>
+4
+10
+100
+Correct => 10
+
+
+Question => Hoe oud worden luipaarden?
+Category => Sport
+Score => 2
+Answers =>
+4
+10
+100
+Correct => 10
+
+
+Question => Hoe oud worden luipaarden?
+Category => Sport
+Score => 2
+Answers =>
+4
+10
+100
+Correct => 10
+
+
+Question => Hoe oud worden luipaarden?
+Category => Sport
+Score => 2
+Answers =>
+4
+10
+100
+Correct => 10
+
+
+Question => Hoe oud worden luipaarden?
+Category => Sport
+Score => 2
+Answers =>
+4
+10
+100
+Correct => 10
+
+
+Question => Hoe oud worden luipaarden?
+Category => Sport
+Score => 2
+Answers =>
+4
+10
+100
+Correct => 10
+

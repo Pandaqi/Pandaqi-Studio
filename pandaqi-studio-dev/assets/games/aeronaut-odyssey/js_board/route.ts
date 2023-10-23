@@ -12,6 +12,7 @@ import simplifyPath from "js/pq_games/tools/geometry/paths/simplifyPath";
 import thickenPath from "js/pq_games/tools/geometry/paths/thickenPath";
 import calculateBoundingBox from "js/pq_games/tools/geometry/paths/calculateBoundingBox";
 import Rectangle from "js/pq_games/tools/geometry/rectangle";
+import countElementsInArray from "js/pq_games/tools/collections/countElementsInArray";
 
 
 interface BlockData
@@ -118,6 +119,36 @@ export default class Route
     {
         const arr = this.types.slice();
         this.fillRestOfRoute(arr, this.getMainType());
+        return arr;
+    }
+
+    getForbiddenTypes()
+    {
+        const maxTypesAllowed = Math.round(CONFIG.evaluator.maxRoutesOfSameTypeAtPoint.lerp(CONFIG.boardClarityNumber));
+        const arr = [
+            this.getTypesAtPointAtThreshold(this.start, maxTypesAllowed),
+            this.getTypesAtPointAtThreshold(this.end, maxTypesAllowed)
+        ]
+        return arr.flat();
+    }
+
+    getTypesAtPointAtThreshold(p:PointGraph, num:number)
+    {
+        const routeTypes = [];
+        const routesHere : Route[] = p.metadata.routes;
+        for(const route of routesHere)
+        {
+            if(route.multi) { continue; }
+            routeTypes.push(route.getMainType());
+        }
+
+        const counts = countElementsInArray(routeTypes);
+        const arr = [];
+        for(const [key,val] of Object.entries(counts))
+        {
+            if(val <= num) { continue; }
+            arr.push(key);
+        }
         return arr;
     }
 

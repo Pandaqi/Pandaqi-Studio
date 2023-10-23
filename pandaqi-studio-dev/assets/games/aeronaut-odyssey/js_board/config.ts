@@ -25,7 +25,7 @@ const CONFIG = {
 
     expansions: 
     {
-        trajectories: false,
+        trajectories: true,
         bonusBalloons: false,
         multiRoutes: false,
         wildWinds: false,
@@ -92,10 +92,10 @@ const CONFIG = {
 
         expectedRouteLength: { tiny: 2, small: 2, regular: 3, large: 4, huge: 5 }, // we expect at least one route of this length
 
-        routeOverlapThicknessFactor: new Bounds(0,1.0), // how thick it makes the paths when checking for overlap; 1.0 = actual size
+        routeOverlapThicknessFactor: new Bounds(0,0.96), // how thick it makes the paths when checking for overlap; 1.0 = actual size
 
         numTrajectoryMultipliers: { tiny: 0.75, small: 0.85, regular: 1.0, large: 1.33, huge: 1.66 },
-        numTrajectoryBounds: { min: 4, max: 6 },
+        numTrajectoryBounds: { min: 5, max: 6 },
         trajectorySize: new Point(1.4, 0.35), // this is relative to "block size"; roughly 4/1 ratio
         calculatedTrajectoryRectOffset: null, // as it says: calculated during generation
         trajectoryPointsMultiplier: { tiny: 0.75, small: 0.85, regular: 1.0, large: 1.33, huge: 1.66 },
@@ -112,10 +112,10 @@ const CONFIG = {
         minRouteLengthForMulti: 1.5,
 
         doubleRoutesInclude: true,
-        doubleRouteBounds: { min: 0.15, max: 0.33 }, // relative to total number of routes
+        doubleRouteBounds: { min: 0.175, max: 0.375 }, // relative to total number of routes
 
-        numVisitorSpotsPerRoute: { min: 0.75, max: 1.25 },
-        visitorSpotBounds: { min: 3, max: 6 },
+        numVisitorSpotsPerRoute: { min: 0.5, max: 1.0 },
+        visitorSpotBounds: { min: 1, max: 3 },
 
         numCityBounds: { min: 17.5, max: 20 },
         numCityMultipliers: { tiny: 0.33, small: 0.66, regular: 1.0, large: 1.85, huge: 2.5 },
@@ -146,10 +146,11 @@ const CONFIG = {
         enable: true, // @DEBUGGING (should be true)
         performTypeBalanceCheck: true,
         performConnectivenessCheck: true, // @DEBUGGING (should be true)
-        maxDifferenceTypeFrequency: new Bounds(12,5),
-        maxRoutesOfSameTypeAtPoint: new Bounds(5,2),
+        maxDifferenceTypeFrequency: new Bounds(12,7),
+        maxRoutesOfSameTypeAtPoint: new Bounds(5,3),
         performTakeRouteAwayCheck: true,
         performGraphRemovals: true, // @DEBUGGING (should be true)
+        maxTypeChainLength: { tiny: 2, small: 2, regular: 3, large: 3, huge: 4 },
     },
 
     display:
@@ -161,10 +162,10 @@ const CONFIG = {
 
             // multiplied by number of routes to get total spaces inside player areas; 
             // motivation = ~2 spaces per route avg, ~4 players avg
-            // @UPDATE: now that you can be rewarded with "one extra inventory space", I lowered it further
-            numSpacesPerRoute: 1.66 / 4.0, // 2.0 / 4.0, 
+            // @UPDATE: now that you can be rewarded with "one extra inventory space", I lowered it further and further
+            numSpacesPerRoute: 1.125 / 4.0, // 2.0 / 4.0, 
             edgeOffset: new Point(0.02, 0.02),
-            sizeRaw: new Point(0.35, 0.25), // X is relative (scales to stay consistent), Y is absolute (shrinks as map gets bigger)
+            sizeRaw: new Point(0.25, 0.25), // X is relative (scales to stay consistent), Y is absolute (shrinks as map gets bigger)
             strokeWidth: 0.0125, // relative to block size (x)
         },
 
@@ -190,6 +191,7 @@ const CONFIG = {
         visitorSpotRadius: 0.1, // relative to blockSize
         numVisitorSpotAngles: 6,
         visitorSpotStrokeWidth: 0.02, // relative to blockSize
+        arrangeVisitorSpotsForAvoidance: false, // @DEBUGGING (looks weird now, just turn it off)
 
         maxAvoidanceAngleBetweenRoutes: 1*Math.PI, // if angle is greater, those routes (from the same point) won't clash anyway, so ignore
         maxAngleCurveAnyway: 0.35*Math.PI,
