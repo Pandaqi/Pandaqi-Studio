@@ -1,0 +1,127 @@
+import ProgressBar from "js/pq_games/website/progressBar";
+import CONFIG from "../js_shared/config";
+import ResourceLoader from "js/pq_games/layout/resources/resourceLoader";
+import PdfBuilder, { PageOrientation } from "js/pq_games/pdf/pdfBuilder";
+import GridMapper from "js/pq_games/layout/gridMapper";
+import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple";
+import Pack from "./pack";
+import { CardData, SETS } from "../js_shared/dict";
+import createRandomSet from "../js_shared/createRandomSet";
+import CardPicker from "./generator";
+import Card from "./card";
+
+export default class Generator
+{
+    progressBar: ProgressBar;
+    pdfBuilder: PdfBuilder;
+    gridMapper: GridMapper;
+
+    constructor()
+    {
+        this.setupConfig();
+
+        this.progressBar = new ProgressBar();
+        this.progressBar.setPhases(["Loading Assets", "Creating Cards", "Preparing PDF", "Done!"]);
+    }
+
+    setupConfig()
+    {
+        const userConfig = JSON.parse(window.localStorage[CONFIG.configKey] ?? "{}");
+        Object.assign(CONFIG, userConfig);
+
+        // automatically remember the texture needed
+        for(const [setName,setData] of Object.entries(SETS))
+        {
+            for(const [cardName, cardData] of Object.entries(setData))
+            {
+                cardData.textureKey = setName;
+            }
+        }
+
+        let dict = SETS[CONFIG.cardSet];
+        if(CONFIG.cardSet == "random") { dict = createRandomSet(); }
+        CONFIG.allCards = dict;
+
+    }
+
+    async start()
+    {
+        await this.loadAssets();
+        const cards = this.createCards();
+        await this.drawCards(cards);
+        await this.downloadPDF();
+        this.progressBar.gotoNextPhase();
+    }
+
+    async loadAssets()
+    {
+        this.progressBar.gotoNextPhase();
+
+        let cardSetsToLoad : Set<string> = new Set();
+        const dict : Record<string,CardData> = CONFIG.allCards; // just to make type checker happy
+        for(const [key,data] of Object.entries(dict))
+        {
+            cardSetsToLoad.add(data.textureKey);
+        }
+
+        const resLoader = new ResourceLoader({ base: CONFIG.assetsBase });
+        for(const [key,data] of Object.entries(CONFIG.assets))
+        {
+            if(("cardSet" in data) && !cardSetsToLoad.has(key)) { continue; }
+            resLoader.planLoad(key, data);
+        }
+        await resLoader.loadPlannedResources();
+        CONFIG.resLoader = resLoader;
+
+        const pdfBuilderConfig = { orientation: PageOrientation.PORTRAIT, debugWithoutFile: CONFIG.debugWithoutFile };
+        const pdfBuilder = new PdfBuilder(pdfBuilderConfig);
+        this.pdfBuilder = pdfBuilder;
+
+        const dims = CONFIG.cards.dims[CONFIG.cardSize ?? "regular"];
+
+        const gridConfig = { pdfBuilder: pdfBuilder, dims: dims, dimsElement: CONFIG.cards.dimsElement };
+        const gridMapper = new GridMapper(gridConfig);
+        this.gridMapper = gridMapper;     
+
+        CONFIG.cards.size = gridMapper.getMaxElementSize();
+    }
+
+    createCards() : Card[]
+    {
+        this.progressBar.gotoNextPhase();
+
+        const cardPicker = new CardPicker();
+        cardPicker.generate();
+        if(CONFIG.debugOnlyGenerate) { console.log(cardPicker.get()); }
+        return cardPicker.get();
+    }
+    
+    async drawCards(cards:Card[])
+    {
+        if(CONFIG.debugOnlyGenerate) { return; }
+
+        const promises = [];
+        for(const card of cards)
+        {
+            promises.push(card.draw());
+        }
+
+        const canvases = await Promise.all(promises);
+        this.gridMapper.addElements(canvases.flat());
+    }
+
+    async downloadPDF()
+    {
+        if(CONFIG.debugOnlyGenerate) { return; }
+
+        this.progressBar.gotoNextPhase();
+
+        const images = await convertCanvasToImageMultiple(this.gridMapper.getCanvases());
+        this.pdfBuilder.addImages(images);
+        const pdfConfig = { customFileName: CONFIG.fileName }
+        this.pdfBuilder.downloadPDF(pdfConfig);
+    }
+
+}
+
+new Generator().start();

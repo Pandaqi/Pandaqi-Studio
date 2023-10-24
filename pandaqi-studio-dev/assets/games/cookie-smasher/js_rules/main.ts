@@ -16,7 +16,7 @@ const CONFIG =
     numSimulationsSets: 1000,
     numSimulations: 1000,
 
-    fontFamily: "Pettingill",
+    fontFamily: "pettingill",
     cardSize: new Point(480, 672),
     possibleCards: {},
     setsWeighted: {
