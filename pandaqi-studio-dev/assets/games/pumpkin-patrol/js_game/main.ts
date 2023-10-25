@@ -4,11 +4,11 @@ import ResourceLoader from "js/pq_games/layout/resources/resourceLoader";
 import PdfBuilder, { PageOrientation } from "js/pq_games/pdf/pdfBuilder";
 import GridMapper from "js/pq_games/layout/gridMapper";
 import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple";
-import Pack from "./pack";
 import { CardData, SETS } from "../js_shared/dict";
 import createRandomSet from "../js_shared/createRandomSet";
 import CardPicker from "./generator";
 import Card from "./card";
+import Visualizer from "./visualizer";
 
 export default class Generator
 {
@@ -92,7 +92,7 @@ export default class Generator
 
         const cardPicker = new CardPicker();
         cardPicker.generate();
-        if(CONFIG.debugOnlyGenerate) { console.log(cardPicker.get()); }
+        console.log(cardPicker.get());
         return cardPicker.get();
     }
     
@@ -100,9 +100,19 @@ export default class Generator
     {
         if(CONFIG.debugOnlyGenerate) { return; }
 
+        // merely caches some default values (such as bg patterns) for much faster generation
+        const visualizer = new Visualizer();
+        await visualizer.prepare();
+
+        // cards handle drawing themselves
         const promises = [];
+        const cardsOfType = {};
         for(const card of cards)
         {
+            if(!cardsOfType[card.type]) { cardsOfType[card.type] = []; }
+            cardsOfType[card.type].push(card);
+            if(CONFIG.debugSingleCard && cardsOfType[card.type].length > 1) { continue; }
+
             promises.push(card.draw());
         }
 

@@ -4,97 +4,88 @@ type: "rules"
 
 {{% rules-block id="setup" heading="Setup" icon="setup" icontint="purple" %}}
 
-The website proposes "sets" of cards (ordered based on difficulty). For your first games, just pick one of those. Once you feel comfortable, you can assemble your own decks (see [variants](#variants)).
+Pick a set from [the website](https://pandaqi.com/pumpkin-patrol). For your first games, just play the starter set.
 
-Ensure everyone understands all cards before the game starts.
+Each player receives 4 **Hand Cards**. Hand cards always show _two_ things at the same time: you must always pick only _one_ of the options when you use the card.
 
-Deal the deck until empty. It's fine if some players have one more card.
+Place the remaining Hand Cards as a shuffled facedown deck.
 
-Pick any player to be the "king".
+Also create a shuffled facedown deck of **Person Cards**. You can make this deck as large as you want, but it must contain at least one card per player. (The bigger you make this, the longer the game plays.)
+
+For each player, draw 1 Person Card and place it faceup in front of them. (They are at your home, but they're not "yours".)
+
+@TODO: IMAGE EXAMPLE (of setup, but also card skeletons and the general idea with building a home and stuff)
 
 {{% /rules-block %}}
 
 {{% rules-block id="objective" heading="Objective" icon="objective" icontint="lightblue" %}}
 
-The game ends when everyone is **out of cards**. The player with the **most points wins**.
+The game ends as soon as **all Persons have been scored**. 
+
+Players sum the points on the Persons they scored. **Highest score wins!**
 
 {{% /rules-block %}}
 
 {{% rules-block id="action_play" heading="Gameplay" icon="action" class="force-page-break-before" icontint="purple" %}}
 
-Rounds are played simultaneously.
+Play happens in rounds. Rounds have two phases: PLAY and WALK.
 
-* Everyone picks a card from their hand. (With 2 or 3 players, pick two.)
-* Count down and simultaneously reveal them all.
-* Based on the cards played, one of them will be "poisoned" (see [next section](#finding_the_poison)).
-* The first player to tap this card, wins the round! (Congratulations, you've saved the king's life again!) 
+_What's the general idea?_ During the game, players create a row of cards in front of them. (They decorate their home.) You need that to attract Persons and ask them to stop at your front door.
 
-{{< rules-image src="gameplay.webp" alt="Overview of how a round plays." >}}
-
-The winner adds **1 card** from the table to their score pile. 
-
-Any violation of the rules (such as tapping the wrong card) means **-3 points**: remove three cards from your score pile.
-
-{{% remark class="anchor-top" %}}
-The interruption from a wrong guess makes it hard to continue fairly, so any violation ends the round instantly.
-{{% /remark %}}
-
-The round is now over. All other cards played are discarded. The smasher of this round becomes the new **king**!
-
-_Everyone plays with one hand. That hand both reveals their own card and smashes the poisoned food. Using the wrong hand is, of course, a rules violation._
+But that's not enough. Balance building your decorations with building your bowl of treats. Because to score any visitor, you also need to pay the Treats they require.
 
 {{< rules-example id="turn" >}}
 
-{{% /rules-block %}}
+{{% rules-block heading="Play" %}}
 
-{{% rules-block id="finding_the_poison" heading="Finding the Poison" class="force-page-break-before" icon="scoring" icontint="lightblue" %}}
+Take clockwise turns. On your turn, you must do **two actions**. 
 
-Each card shows a food item. It has a **rule**, a **number** and a **type** (animal, drink, vegetable, cereal, spice).
+The possible actions are:
+* ADD: Add a card from your hand to your home. Make sure the side you want ( = which specific decoration) points up.
+* REMOVE: Discard a card from your home or hand. Draw 2 new Hand Cards from the deck (into your hand).
 
-It's your job to rapidly consider these rules and calculate which one is **true**.
-
-1. Evaluate cards **from low to high**.
-2. If multiple cards have the same number, only evaluate the one **closest to the king** (in clockwise direction).
-3. If **multiple are true**, the card with the _highest number_ is poisoned. Smash that!
-4. If **none are true**, smash the center of the table.
-
-{{< rules-image src="finding_the_poison.webp" alt="Example of how to evaluate a given round." >}}
-
-Regarding rule 2: if multiple cards have the same number, the others still count! Don't remove or ignore them. You simply don't evaluate their power, which means they're **never** poisoned.
-
-Later sets contain "safe food": they show a green checkmark. These are **never** poisoned themselves, but have a **permanent rule** that applies to this round.
+@TODO: IMAGE EXAMPLE
 
 {{% /rules-block %}}
 
-{{% rules-block id="variants" heading="Variants" icon="expansion"  icontint="purple" %}}
+{{% rules-block heading="Walk" %}}
+
+Handle all Persons on the table one by one. The player with the **most decorated home** decides the order. (If tied, the one closest to the start player decides.)
+
+Walking works as follows.
+
+* The Person walks to the player on their right.
+* If that player fulfills their Home requirements, they stop there.
+* If they've now made a full circle, they also stop there.
+* Otherwise, they keep walking to the right.
+
+Once all Persons have found their new home, players can score them.
+
+* Pay their Treat requirements. (Discard those cards from your hand.)
+* Place the Person card facedown in your score pile.
+* Draw a new Person card and place it faceup in front of you.
+
+Start player moves one to the left. Next round!
+
+@TODO: IMAGE EXAMPLE
+
+{{% /rules-block %}}
+
+{{% /rules-block %}}
+
+<!--- @TODO: This game will probably not have expansions, so just make this a list of small variants and that's it? -->
+{{% rules-block id="expansions" heading="Expansions" icon="expansion"  icontint="purple" %}}
 
 Once you're familiar with the base game, you can try these variants or expansions!
 
 {{% rules-block heading="Assemble your own deck" %}}
 
-You can use _any_ cards you want! Below are some guidelines to help you. 
+You can combine sets to create your own deck.
 
-* Use at least one card from every food category. 
-* Some cards have dependencies. (Examples: Cookie or Safe Food must be included.) Make sure to add those dependencies as well!
-* Try to have unique numbers. (Max 2 duplicates per set.)
-* Don't include too many Safe Food. (Max 2 Safe Food per set.)
+* Make sure the icons on Person and Hand cards match. (That's why it's recommended to include all or most of a set.)
+* Make sure there's enough variety in the Person scores.
 
-Additionally, you can control difficulty and game length.
-
-* DIFFICULTY: Include more different cards to increase difficulty.
-* GAME LENGTH: There's often no need to use _all_ cards of a type you want to include. Shrink the deck for a shorter game.
-
-{{% /rules-block %}}
-
-{{% rules-block heading="Variant: Blind Smashing" %}}
-
-This is a fun variant to try.
-
-Instead of holding cards in your hand, everybody has their cards as a facedown deck in front of them. Each round, everyone simultaneously draws and reveals the top card.
-
-When you _win_ a card, you stick it back into your pile wherever you want.
-
-The last player who still has cards, wins!
+However, sets are randomly generated! This means a specific card (e.g. "Vampire") is never the same, and also that a set is balanced with _itself_. It's recommended to just play specific sets _or_ generate an entirely new "Random" set.
 
 {{% /rules-block %}}
 

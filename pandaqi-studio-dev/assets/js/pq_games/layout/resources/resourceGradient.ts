@@ -136,6 +136,8 @@ export default class ResourceGradient extends Resource
         if(this.type == GradientType.LINEAR) {
            gradient = ctx.createLinearGradient(this.start.x, this.start.y, this.end.x, this.end.y);
         } else if(this.type == GradientType.RADIAL) {
+            console.log("should create radial gradient");
+            console.log(this);
             gradient = ctx.createRadialGradient(this.start.x, this.start.y, this.startRadius, this.end.x, this.end.y, this.endRadius);
         } else if(this.type == GradientType.CONIC) {
             gradient = ctx.createConicGradient(this.start.x, this.start.y, this.startAngle);
@@ -145,6 +147,8 @@ export default class ResourceGradient extends Resource
         {
             gradient.addColorStop(stop.pos, stop.color.toString());
         }
+
+        console.log(gradient);
 
         return gradient;
     }

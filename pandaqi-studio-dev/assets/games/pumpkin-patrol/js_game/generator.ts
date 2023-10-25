@@ -193,6 +193,7 @@ export default class CardPicker
             {
                 const c = new Card(Type.PERSON);
                 c.setScore(score);
+                c.setPerson(person);
                 c.setDecorations(decos);
                 c.setTreats(treats);
                 cards.push(c);
@@ -202,11 +203,24 @@ export default class CardPicker
         for(let i = 0; i < numHandCards; i++)
         {
             const c = new Card(Type.HAND);
-            c.setSides(sidesData.pop(), sidesData.pop());
+            const data1 = sidesData.pop();
+            const data2 = this.popFirstDataOfDifferentType(sidesData, data1.type);
+            c.setSides(data1, data2);
             cards.push(c);
         }
 
         this.cards = cards;
+    }
+
+    popFirstDataOfDifferentType(sidesData:SideData[], type:string)
+    {
+        for(let i = sidesData.length-1; i >= 0; i--)
+        {
+            if(sidesData[i].type == type) { continue; }
+            const res = sidesData.splice(i, 1);
+            return res[0];
+        }
+        return sidesData.pop();
     }
 
     getEmptyTypesObjectNumber()
@@ -244,7 +258,7 @@ export default class CardPicker
         const number = shouldDouble ? 2 : 1;
         const finalType = shouldWild ? CONFIG.generation.wildcardKey : type;
 
-        return new SideData(finalType, number);
+        return new SideData(finalType, number, subType);
     }
 
     convertToWeighted(dict, weights)
@@ -298,10 +312,6 @@ export default class CardPicker
             
             minDist = dist;
         }
-
-        console.log(score);
-        console.log(scoresSoFar.slice());
-        console.log(minDist);
 
         return minDist;
     }

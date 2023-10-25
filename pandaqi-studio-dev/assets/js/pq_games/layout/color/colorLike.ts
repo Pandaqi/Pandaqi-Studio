@@ -1,3 +1,4 @@
+import LayoutOperation from "../layoutOperation";
 import ResourceGradient from "../resources/resourceGradient";
 import ResourcePattern from "../resources/resourcePattern";
 import Color from "./color";
