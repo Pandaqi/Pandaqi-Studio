@@ -20,9 +20,7 @@ For each player, draw 1 Person Card and place it faceup in front of them. (They 
 
 {{% rules-block id="objective" heading="Objective" icon="objective" icontint="lightblue" %}}
 
-The game ends as soon as **all Persons have been scored**. 
-
-Players sum the points on the Persons they scored. **Highest score wins!**
+The game ends as soon as **all Persons have been scored**.  Players sum the points on the Persons they scored: **highest score wins!**
 
 {{% /rules-block %}}
 
@@ -38,7 +36,7 @@ But that's not enough. Balance building your decorations with building your bowl
 
 {{% rules-block heading="Play" %}}
 
-Take clockwise turns. On your turn, you must do **two actions**. 
+Take clockwise turns. On your turn, take **two actions**. 
 
 The possible actions are:
 * ADD: Add a card from your hand to your home. Make sure the side you want ( = which specific decoration) points up.
@@ -50,20 +48,18 @@ The possible actions are:
 
 {{% rules-block heading="Walk" %}}
 
-Handle all Persons on the table one by one. The player with the **most decorated home** decides the order. (If tied, the one closest to the start player decides.)
+All Persons on the table walk. (This can be done simultaneously!)
 
-Walking works as follows.
-
-* The Person walks to the player on their right.
+* They move to the player on their right.
 * If that player fulfills their Home requirements, they stop there.
 * If they've now made a full circle, they also stop there.
-* Otherwise, they keep walking to the right.
+* Otherwise, they keep walking. (Repeat the three steps above.)
 
-Once all Persons have found their new home, players can score them.
+Once done, players _may_ score anyone currently at their front door. For each visiting Person you want to score,
 
 * Pay their Treat requirements. (Discard those cards from your hand.)
 * Place the Person card facedown in your score pile.
-* Draw a new Person card and place it faceup in front of you.
+* Draw a new Person card and place it faceup in front of you. (This is for next round. You can't score them.)
 
 Start player moves one to the left. Next round!
 
@@ -73,10 +69,52 @@ Start player moves one to the left. Next round!
 
 {{% /rules-block %}}
 
-<!--- @TODO: This game will probably not have expansions, so just make this a list of small variants and that's it? -->
 {{% rules-block id="expansions" heading="Expansions" icon="expansion"  icontint="purple" %}}
 
-Once you're familiar with the base game, you can try these variants or expansions!
+Once you're familiar with the base game, you can try the more advanced sets!
+
+{{% rules-block heading="Beginner Set" %}}
+
+This set adds three new mechanics.
+
+**Powers**: people can have a special power. Such a power is indicated by the _heart_ icon, and replaces the funny tagline.
+
+These can be permanent or triggered at a specific moment.
+
+* "On walk": execute at the _start_ of the walking phase ( = "just before walking").
+* "On visit": execute at the _end_ of the walking phase ( = "everyone is done walking").
+* "On score": execute when you pay treats and score this card.
+
+**"At Most"**: some people have an "at most" requirement. They will only visit if you have **no decorations besides the ones they accept**. 
+
+Example: 
+
+* Say somebody wants "at most 2 pumpkins"
+* They will visit if you have 1 Pumpkin
+* They will not visit if you have 1 Pumpkin and 1 Spider, as the Spider is "too much".
+* They will not visit if you have 3 Pumpkins, as the third Pumpkin is "too much".
+
+It also adds new treats and decorations. These have a different value / probability behind the scenes, but change no rules for players.
+
+{{% /rules-block %}}
+
+{{% rules-block heading="Advanced Set" %}}
+
+This set adds two new mechanics.
+
+**Card Requirements**: instead of requiring specific types, they just want a number of _cards_.
+
+**Set Requirements**: instead of requiring specific types, they just want a _set_. There are two options.
+* "Same" (equals sign): they want X icons of the _same_ type. (The type itself doesn't matter, as long as the whole set is the same one.)
+* "Different" (not-equals sign): they want X icons that are all a _different_ type.
+
+{{% /rules-block %}}
+
+{{% rules-block heading="Expert Set" %}}
+
+This adds no new rules. It simply contains the people with the toughest powers, and of course uses everything introduced before now.
+
+{{% /rules-block %}}
 
 {{% rules-block heading="Assemble your own deck" %}}
 

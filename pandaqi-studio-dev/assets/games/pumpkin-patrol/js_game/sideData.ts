@@ -1,3 +1,4 @@
+import CONFIG from "../js_shared/config";
 import { Type } from "../js_shared/dict";
 
 export default class SideData
@@ -11,5 +12,10 @@ export default class SideData
         this.type = tp;
         this.number = number;
         this.subType = st;
+    }
+
+    isWildcard()
+    {
+        return this.type == CONFIG.generation.wildcardKey;
     }
 }

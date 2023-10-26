@@ -4,7 +4,7 @@ import ResourceLoader from "js/pq_games/layout/resources/resourceLoader";
 import PdfBuilder, { PageOrientation } from "js/pq_games/pdf/pdfBuilder";
 import GridMapper from "js/pq_games/layout/gridMapper";
 import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple";
-import { CardData, SETS } from "../js_shared/dict";
+import { CardData, SETS, Type } from "../js_shared/dict";
 import createRandomSet from "../js_shared/createRandomSet";
 import CardPicker from "./generator";
 import Card from "./card";
@@ -38,10 +38,19 @@ export default class Generator
             }
         }
 
-        let dict = SETS[CONFIG.cardSet];
-        if(CONFIG.cardSet == "random") { dict = createRandomSet(); }
-        CONFIG.allCards = dict;
+        console.log(CONFIG);
 
+        const peopleDict = SETS["people_" + CONFIG.setPeople] ?? createRandomSet(Type.PERSON);
+        const decoDict = SETS["decorations_" + CONFIG.setDecorations] ?? createRandomSet(Type.DECORATION);
+        const treatDict = SETS["treats_" + CONFIG.setTreats] ?? createRandomSet(Type.TREAT);
+
+        console.log(decoDict);
+
+        let dict = Object.assign({}, peopleDict);
+        dict = Object.assign(dict, decoDict);
+        dict = Object.assign(dict, treatDict);
+
+        CONFIG.allCards = dict;
     }
 
     async start()

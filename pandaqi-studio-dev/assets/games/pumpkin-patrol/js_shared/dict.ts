@@ -8,6 +8,13 @@ enum Type
     TREAT = "TREAT"
 }
 
+enum ReqType
+{
+    TYPE = "TYPE",
+    SET = "SET",
+    CARD = "CARD",
+}
+
 interface CardData
 {
     frame: number,
@@ -18,86 +25,129 @@ interface CardData
     value?: number,
     freq?: number, // how often a specific person appears; doesn't apply to other types
     textureKey?: string, // set automatically during generation to remember the spritesheet needed for us
+
+    minDeco?: number,
+    maxDeco?: number,
+    minTreats?: number,
+    maxTreats?: number,
+
+    forbidFlip?: boolean
+    allowSpecial?: ReqType[]
 }
 
 type CardSet = Record<string, CardData>;
 
 // When it's a tagline, it's written in third person.
 // When it's an active power, it's written in first person.
-
 const setStarter:CardSet = 
 {
-    spook: { frame: 0, type: Type.PERSON, desc: '"Why is there a hole in my blanket?" -Mum' },
-    skeleton: { frame: 1, type: Type.PERSON, desc: "Has even more skeletons in their closet." },
-    zombie: { frame: 2, type: Type.PERSON, desc: "I only walk two steps (at most).", power: true },
-    frankenstein: { frame: 3, type: Type.PERSON, desc: "On visit: destroy one decoration of yours.", power: true },
-    vampire: { frame: 4, type: Type.PERSON, desc: "Keeps an absurd amount of diaries." },
-    reaper: { frame: 5, type: Type.PERSON, desc: "On score: steal two cards from another player.", power: true },
-    werewolf: { frame: 6, type: Type.PERSON, desc: "I walk in the other direction.", power: true },
-    witch: { frame: 7, type: Type.PERSON, desc: "Can make candy magically disappear into her mouth." }, 
-    
-    pumpkin: { frame: 8, type: Type.DECORATION, value: 1, color: "orange" },
-    tombstone: { frame: 9, type: Type.DECORATION, value: 1.5, color: "blue" },
-    ghost: { frame: 10, type: Type.DECORATION, value: 2, color: "gray" },
-    plant: { frame: 11, type: Type.DECORATION, value: 2.5, color: "green" },
+    spook: { frame: 0, type: Type.PERSON, desc: '"Why is there a hole in my blanket?" -Mum', forbidFlip: true },
+    skeleton: { frame: 1, type: Type.PERSON, desc: "Has even more skeletons in their closet.", forbidFlip: true },
+    zombie: { frame: 2, type: Type.PERSON, desc: "Brainsss ... eh, I mean, Sweetsss.", forbidFlip: true },
+    frankenstein: { frame: 3, type: Type.PERSON, desc: "'Well, uh, actually, Frankenstein is the inventor.' -Famous last words", forbidFlip: true },
+    vampire: { frame: 4, type: Type.PERSON, desc: "Keeps an absurd number of diaries.", forbidFlip: true },
+    reaper: { frame: 5, type: Type.PERSON, desc: "Feeling kinda grim this evening.", forbidFlip: true },
+    werewolf: { frame: 6, type: Type.PERSON, desc: "Half-man, half-wolf, quarter-hungry, eighth-scary.", forbidFlip: true },
+    witch: { frame: 7, type: Type.PERSON, desc: "Can make candy magically disappear into her mouth.", forbidFlip: true }, 
+}
 
-    chocolate: { frame: 12, type: Type.TREAT, value: 1, color: "brown" },
-    cookie: { frame: 13, type: Type.TREAT, value: 1.5, color: "purple" },
-    taffy: { frame: 14, type: Type.TREAT, value: 2, color: "pink" },
-    pretzel: { frame: 15, type: Type.TREAT, value: 2.5, color: "turquoise" }
+const setDecorationsStarter:CardSet =
+{
+    pumpkin: { frame: 0, type: Type.DECORATION, value: 1, color: "orange" },
+    tombstone: { frame: 1, type: Type.DECORATION, value: 1.5, color: "blue" },
+    ghost: { frame: 2, type: Type.DECORATION, value: 2, color: "gray" },
+    plant: { frame: 3, type: Type.DECORATION, value: 2.5, color: "green" },
+}
+
+const setTreatsStarter:CardSet =
+{
+    chocolate: { frame: 0, type: Type.TREAT, value: 1, color: "brown" },
+    cookie: { frame: 1, type: Type.TREAT, value: 1.5, color: "purple" },
+    taffy: { frame: 2, type: Type.TREAT, value: 2, color: "pink" },
+    pretzel: { frame: 3, type: Type.TREAT, value: 2.5, color: "turquoise" }
 }
 
 const setBeginner:CardSet = 
 {
-    devil: { frame: 0, type: Type.PERSON, desc: "On score: don't replace me with a new Person.", power: true },
-    mummy: { frame: 1, type: Type.PERSON, desc: "On visit: you can't score another Person.", power: true },
+    devil: { frame: 0, type: Type.PERSON, desc: "On visit: destroy 1 decoration of yours.", power: true },
+    mummy: { frame: 1, type: Type.PERSON, desc: "I only walk two steps (at most).", maxDeco: 2, power: true },
     ninja: { frame: 2, type: Type.PERSON, desc: "I ignore wildcards.", power: true },
     pirate: { frame: 3, type: Type.PERSON, desc: "On walk: pay any treat to prevent me from walking away.", power: true },
-    scarecrow: { frame: 4, type: Type.PERSON, desc: "On visit: must be alone. (All other visitors keep walking.)", power: true },
+    scarecrow: { frame: 4, type: Type.PERSON, desc: "On visit: all your other visitors go back from whence they came.", power: true },
     dino: { frame: 5, type: Type.PERSON, desc: "Tries to make that bowl of sweets go extinct." },
     mermaid: { frame: 6, type: Type.PERSON, desc: "Has to be carried, to the frustration of all." },
-    joker: { frame: 7, type: Type.PERSON, desc: "On visit: pay 4 cards with the same icon to score any Person.", power: true }, 
-    
-    skeleton: { frame: 8, type: Type.DECORATION, value: 1, color: "gray" },
-    candle: { frame: 9, type: Type.DECORATION, value: 1, color: "pink" },
-    cat: { frame: 10, type: Type.DECORATION, value: 3, color: "yellow" },
-    spider: { frame: 11, type: Type.DECORATION, value: 3, color: "blue" },
+    joker: { frame: 7, type: Type.PERSON, desc: "I walk in the other direction.", power: true }, 
+}
 
-    peanuts: { frame: 12, type: Type.TREAT, value: 0.5, color: "red" },
-    lollipop: { frame: 13, type: Type.TREAT, value: 1, color: "purple" },
-    cupcake: { frame: 14, type: Type.TREAT, value: 1.5, color: "orange" },
-    gummies: { frame: 15, type: Type.TREAT, value: 2, color: "turquoise" }
+const setDecorationsBeginner =
+{
+    skeleton: { frame: 0, type: Type.DECORATION, value: 0.75, color: "gray" },
+    candle: { frame: 1, type: Type.DECORATION, value: 1.25, color: "pink" },
+    cat: { frame: 2, type: Type.DECORATION, value: 1.75, color: "yellow" },
+    spider: { frame: 3, type: Type.DECORATION, value: 2.75, color: "blue" },
+}
+
+const setTreatsBeginner =
+{
+    peanuts: { frame: 0, type: Type.TREAT, value: 0.75, color: "red" },
+    lollipop: { frame: 1, type: Type.TREAT, value: 1.25, color: "purple" },
+    cupcake: { frame: 2, type: Type.TREAT, value: 1.75, color: "orange" },
+    gummies: { frame: 3, type: Type.TREAT, value: 2.75, color: "turquoise" }
 }
 
 const setAdvanced:CardSet = 
 {
-    alien: { frame: 0, type: Type.PERSON, desc: "Any pair of the same type is a wildcard for you (this round).", power: true },
-    cyclops: { frame: 1, type: Type.PERSON, desc: "I spy with my little eye ... CHOCOLATE!" },
-    astronaut: { frame: 2, type: Type.PERSON, desc: "On visit: if you don't score me, draw 3 cards.", power: true },
-    gnome: { frame: 3, type: Type.PERSON, desc: "On score: replace me with 3 new Persons.", power: true },
-    yeti: { frame: 4, type: Type.PERSON, desc: "Still searching for somebody who hands out ice cream treats." },
-    cowboy: { frame: 5, type: Type.PERSON, desc: "On visit: steal one hand card from another player.", power: true },
-    zorro: { frame: 6, type: Type.PERSON, desc: "On score: give any treats paid to your neighbors.", power: true },
-    cyborg: { frame: 7, type: Type.PERSON, desc: "Input: infinite candy. Output: ?" }, 
-    
-    bat: { frame: 8, type: Type.DECORATION, value: 1, color: "gray" },
-    hand: { frame: 9, type: Type.DECORATION, value: 1, color: "green" },
-    todo7: { frame: 10, type: Type.DECORATION, value: 3, color: "?" },
-    todo8: { frame: 11, type: Type.DECORATION, value: 3, color: "?" },
+    alien: { frame: 0, type: Type.PERSON, desc: "Any pair of the same type is a wildcard for you (this round).", power: true }, // allows no special types, as that defeats its power
+    cyclops: { frame: 1, type: Type.PERSON, desc: "I spy with my little eye ... CHOCOLATE!", allowSpecial: [ReqType.SET] },
+    astronaut: { frame: 2, type: Type.PERSON, desc: "On visit: draw 3 cards, but you can't score me.", power: true, allowSpecial: [ReqType.SET, ReqType.CARD] },
+    gnome: { frame: 3, type: Type.PERSON, desc: "On score: replace me with 3 new Persons.", power: true, allowSpecial: [ReqType.CARD] },
+    yeti: { frame: 4, type: Type.PERSON, desc: "Still searching for somebody who hands out ice cream treats.", allowSpecial: [ReqType.SET] },
+    cowboy: { frame: 5, type: Type.PERSON, desc: "On score: don't replace me with a new Person.", power: true, allowSpecial: [ReqType.CARD] },
+    zorro: { frame: 6, type: Type.PERSON, desc: "On score: give any treats paid to your neighbors.", power: true, allowSpecial: [ReqType.SET, ReqType.CARD] },
+    cyborg: { frame: 7, type: Type.PERSON, desc: "Input: infinite candy. Output: ?", allowSpecial: [ReqType.SET, ReqType.CARD] }, 
+}
 
-    corn: { frame: 12, type: Type.TREAT, value: 0.5, color: "yellow" },
-    cane: { frame: 13, type: Type.TREAT, value: 1, color: "red" },
-    cookie: { frame: 14, type: Type.TREAT, value: 1.5, color: "orange" },
-    wrapper: { frame: 15, type: Type.TREAT, value: 2, color: "blue" }
+// @TODO: Unused atm
+const setDecorationsAdvanced:CardSet =
+{
+    bat: { frame: 0, type: Type.DECORATION, value: 1, color: "gray" },
+    hand: { frame: 1, type: Type.DECORATION, value: 1, color: "green" },
+    todo7: { frame: 2, type: Type.DECORATION, value: 3, color: "?" },
+    todo8: { frame: 3, type: Type.DECORATION, value: 3, color: "?" },
+}
+
+// @TODO: Unused atm
+const setTreatsAdvanced:CardSet =
+{
+    corn: { frame: 0, type: Type.TREAT, value: 0.5, color: "yellow" },
+    cane: { frame: 1, type: Type.TREAT, value: 1, color: "red" },
+    cookie: { frame: 2, type: Type.TREAT, value: 1.5, color: "orange" },
+    wrapper: { frame: 3, type: Type.TREAT, value: 2, color: "blue" }
+}
+
+// desc: "On visit: you can't score another Person (this round).", power: true
+// desc: "On score: steal two cards (decoration or hand)", power: true
+// desc: "On visit: pay 4 cards with the same icon to score any Person.", power: true
+
+// @TODO: add "allowSpecial: [ReqType.SET, ReqType.CARD]" as it fits
+const setExpert:CardSet =
+{
+
 }
 
 const SET_ORDER = ["starter", "beginner", "advanced", "expert"];
 const SETS:Record<string, CardSet> = 
 {
-    starter: setStarter,
-    beginner: setBeginner,
-    advanced: setAdvanced,
-    /*expert: setExpert*/
+    people_starter: setStarter,
+    people_beginner: setBeginner,
+    people_advanced: setAdvanced,
+    people_expert: setExpert,
+
+    decorations_starter: setDecorationsStarter,
+    decorations_beginner: setDecorationsBeginner,
+
+    treats_starter: setTreatsStarter,
+    treats_beginner: setTreatsBeginner,
 }
 
 const MISC =
@@ -108,6 +158,9 @@ const MISC =
     score: { frame: 3 }, // the score star at top of persons
     wildcard: { frame: 4 }, // wildcard icon (to replace dec/treat icons anywhere)
     beam: { frame: 5 }, // beam of light behind characters
+    card: { frame: 6 }, // for people requiring #cards
+    set: { frame: 7 }, // for people requiring sets of the SAME types
+    set_unique: { frame: 8 } // for people requiring sets of UNIQUE types
 }
 
 // The dark ones are for the types
@@ -128,6 +181,7 @@ const COLORS = {
 export 
 {
     Type,
+    ReqType,
     CardData,
     SETS,
     SET_ORDER,

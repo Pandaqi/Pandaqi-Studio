@@ -21,14 +21,16 @@ import { FlowDir, FlowType } from "js/pq_games/layout/values/aggregators/flowInp
 import AlignValue from "js/pq_games/layout/values/alignValue";
 import movePath from "js/pq_games/tools/geometry/transform/movePath";
 import Line from "js/pq_games/tools/geometry/line";
+import RequirementData from "./requirementData";
+import FourSideValue from "js/pq_games/layout/values/fourSideValue";
 
 export default class Card
 {
     type: Type; // PERSON or HAND
     person: string;
     score: number; // for a person card, their score
-    decorations: string[]; // for a person card, the decoration requirements
-    treats: string[]; // for a person card, the treat requirements
+    decorations: RequirementData; // for a person card, the decoration requirements
+    treats: RequirementData; // for a person card, the treat requirements
     sides: SideData[]; // for a hand card, top (0) and bottom (1)
 
     ctx: CanvasRenderingContext2D;
@@ -41,8 +43,8 @@ export default class Card
     {
         this.type = type;
         this.score = 0;
-        this.decorations = [];
-        this.treats = [];
+        this.decorations = null;
+        this.treats = null;
         this.sides = [];
         this.person = null;
     }
@@ -277,7 +279,7 @@ export default class Card
         const desc = data.desc ?? "This is a placeholder tagline.";
         const textColor = CONFIG.cards.details.power.textColor;
         const powerMidY = this.size.y - 0.5*powerRectHeight + elongation;
-        const powerMaxWidth = 0.75*this.size.x;
+        const powerMaxWidth = CONFIG.cards.details.power.textMaxWidth*this.size.x;
         let alpha = 1.0;
         let fontSize = 20.0;
 
@@ -329,7 +331,7 @@ export default class Card
 
         // actual content
         const content = this[prop];
-        content.sort((a,b) => { return a.localeCompare(b); }) // sort by type, looks cleaner than random order
+        content.sort(); // sort by type, looks cleaner than random order
 
         const containerNode = new LayoutNode({
             pos: op.translate,
@@ -341,17 +343,42 @@ export default class Card
         })
         this.rootNode.addChild(containerNode);
 
-        // @TODO: add switch to create text nodes instead if required
+        // @TODO: display different special requirements
         const imageHeight = 0.8*size.y;
         const imageSize = new TwoAxisValue(imageHeight, imageHeight);
         const iconEffects = [ new DropShadowEffect({ blurRadius: CONFIG.cards.details.iconShadowSize*imageHeight }) ];
 
-        for(const elem of content)
+        if(content.atMost)
+        {
+            const fontSize = CONFIG.cards.details.rectTextFontSize * imageHeight;
+            const textConfig = new TextConfig({
+                font: CONFIG.fonts.heading,
+                size: fontSize,
+            });
+
+            const color = CONFIG.cards.details.rectTextColor;
+            const text = new ResourceText({ text: "at most", textConfig: textConfig });
+            const node = new LayoutNode({
+                fill: color,
+                resource: text,
+                size: new TwoAxisValue().setAuto(),
+                shrink: 0,
+                padding: new FourSideValue(0, 0.25*fontSize, 0, 0)
+            })
+            containerNode.addChild(node);
+        }
+
+        for(const elem of content.get())
         {
             const data = CONFIG.allCards[elem];
+            const specialType = !data;
             const isWildcard = (elem == CONFIG.generation.wildcardKey);
-            const resKey = isWildcard ? "misc" : data.textureKey;
-            const frame = isWildcard ? MISC.wildcard.frame : data.frame;
+            const resKey = (isWildcard || specialType) ? "misc" : data.textureKey;
+            
+            let frame = 0;
+            if(isWildcard) { frame = MISC.wildcard.frame; }
+            else if(specialType) { frame = MISC[elem].frame; }
+            else { frame = data.frame; }
 
             const res = CONFIG.resLoader.getResource(resKey).getImageFrameAsResource(frame);
 
@@ -546,7 +573,8 @@ export default class Card
             effects: [ new DropShadowEffect({ blurRadius: CONFIG.cards.bgHand.textShadow * fontSize })],
             pivot: new Point(0.5)
         })
-        const textRes = new ResourceText({ text: subType.toLowerCase(), textConfig: textConfig });
+        const textToDisplay = subType.toLowerCase();
+        const textRes = new ResourceText({ text: textToDisplay, textConfig: textConfig });
         await textRes.toCanvas(this.ctx, textOp);
     }
 
@@ -564,7 +592,7 @@ export default class Card
 
         // draw set ID in top left (use SET_ORDER from dict, convert to roman numerals)
         const offset = CONFIG.cards.setID.offset.clone().scaleFactor(this.sizeUnit);
-        const ID = this.getSetID(this.getData().textureKey);
+        const ID = CONFIG.seed;
         const op = new LayoutOperation({
             fill: CONFIG.cards.setID.color,
             translate: offset,
@@ -582,18 +610,4 @@ export default class Card
         const outlineSize = CONFIG.cards.outline.size * this.sizeUnit;
         strokeCanvas(this.ctx, CONFIG.cards.outline.color, outlineSize);
     }
-
-    getSetID(name:string)
-    {
-        const num = SET_ORDER.indexOf(name);
-        if(num <= 0) { return "I"; }
-        else if(num == 1) { return "II"; }
-        else if(num == 2) { return "III"; }
-        else if(num == 3) { return "IV"; }
-        else if(num == 4) { return "V"; }
-        else if(num == 5) { return "VI"; }
-        return "VII";
-    }
-
-    
 }

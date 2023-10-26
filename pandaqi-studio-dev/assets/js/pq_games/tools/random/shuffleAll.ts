@@ -1,10 +1,12 @@
 import shuffle from "./shuffle";
 
-export default (val:Record<string,any>, RNG = Math.random) =>
+const shuffleAll = (val:Record<string,any>, RNG = Math.random) =>
 {
     for(const [key,data] of Object.entries(val))
     {
-        shuffle(data, RNG);
+        if(typeof data == "object") { shuffleAll(data); }
+        else { shuffle(data, RNG); }
     }
     return val;
 }
+export default shuffleAll;

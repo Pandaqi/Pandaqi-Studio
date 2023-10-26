@@ -1,14 +1,17 @@
 import CONFIG from "./config";
-import { CardData, SETS } from "./dict";
+import { CardData, SETS, Type } from "./dict";
 import shuffle from "js/pq_games/tools/random/shuffle";
 
-export default (sizes = CONFIG.generation.randomSetSizes) => 
+export default (type:Type) => 
 {
+    const numCards = CONFIG.generation.randomSetSizes[type];
+
     let masterDictionary = {};
     for(const [setName,setData] of Object.entries(SETS))
     {
         for(const [cardName, cardData] of Object.entries(setData))
         {
+            if(cardData.type != type) { continue; }
             masterDictionary[cardName] = cardData;
         }
     }
@@ -16,24 +19,11 @@ export default (sizes = CONFIG.generation.randomSetSizes) =>
     let keys = Object.keys(masterDictionary);
     shuffle(keys);
 
-    let numPerType = {};
-    let maxTotal = 0;
-    for(const [key,freq] of Object.entries(sizes))
-    {
-        numPerType[key] = 0;
-        maxTotal += freq;
-    }
-
     const keysPicked = [];
-    while(keysPicked.length < maxTotal)
+    while(keysPicked.length < numCards)
     {
         const key = keys.pop();
-        const data = masterDictionary[key];
-        const subType = data.type;
-        if(numPerType[subType] >= sizes[subType]) { continue; }
-
         keysPicked.push(key);
-        numPerType[subType]++;
     }
 
     // then assemble the final dictionary for those types

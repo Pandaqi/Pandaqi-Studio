@@ -46,7 +46,7 @@ ages: everyone
 
 {{% boardgame-intro heading="" img="cookie_smasher_header" class="no-shadow" %}}
 
-Smash the poisoned food faster than anyone else to prevent the king's assassination!
+Hand out the most candy in a very competitive Halloween neighborhood.
 
 {{% /boardgame-intro %}}
 
@@ -57,7 +57,7 @@ Three simple steps.
 * Download the base game PDF. (Download > Files > Starter.)
 * Print, cut, play!
 
-**Want more?** You can also [generate your own material](#material) right on this website! Pick the set you like (or "random") and press the button.
+**Want more?** You can also [generate your own material](#material) right on this website! Pick the sets you like and press the button.
 
 {{% /section-centered %}}
 
@@ -68,14 +68,23 @@ Three simple steps.
 {{< boardgame-settings type="game" local_storage="pumpkinPatrolConfig" btn_label="Generate Material" >}}
 	{{< setting-hidden id="setting-gameTitle" text="Pumpkin Patrol" >}}
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
-  {{< setting-enum id="setting-cardSet" text="Card Set?" values="starter,beginner,amateur,advanced,expert,random" valaskey="true" def="starter" >}}
+  {{< setting-checkbox id="setting-includePeopleCards" text="Generate People Cards?" checked="checked" >}}
+  {{< setting-checkbox id="setting-includeHandCards" text="Generate Hand Cards?" checked="checked" >}}
   {{< setting-enum id="setting-cardSize" text="Card Size?" values="small,regular,huge" valaskey="true" def="regular" >}}
+  <h3>Cards</h3>
+  {{< setting-enum id="setting-setPeople" text="People Set?" values="starter,beginner,advanced,expert,random" valaskey="true" def="starter" >}}
+  {{< setting-enum id="setting-setDecorations" text="Decoration Set?" values="starter,beginner,random" valaskey="true" def="starter" >}}
+  {{< setting-enum id="setting-setTreats" text="Treat Set?" values="starter,beginner,random" valaskey="true" def="starter" >}}
 {{< /boardgame-settings >}}
+
+<p class="settings-remark">You can combine the sets in any way and the generator will create a balanced deck. The names "starter" and "beginner" merely give an indication how hard it is to play with this specific set.</p>
+
+<p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>
 
 {{% /section-centered %}}
 
 {{% section-centered heading="Credits" anchor="credits" %}}
 
-For more information, as always, read my [detailed devlog on Pandaqi Blog](https://pandaqi.com/blog/boardgames/cookie-smasher).
+For more information, as always, read my [detailed developer diary on Pandaqi Blog](https://pandaqi.com/blog/boardgames/pumpkin-patrol).
 
 {{% /section-centered %}}

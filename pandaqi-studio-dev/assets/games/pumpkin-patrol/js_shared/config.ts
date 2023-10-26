@@ -1,21 +1,27 @@
 import Point from "js/pq_games/tools/geometry/point"
 import Bounds from "js/pq_games/tools/numbers/bounds"
-import { MISC, Type } from "./dict"
+import { MISC, ReqType, Type } from "./dict"
 
 const CONFIG = 
 {
-    debugWithoutFile: true, // @DEBUGGING (should be false)
-    debugSingleCard: true, // @DEBUGGING (should be false)
+    debugWithoutFile: false, // @DEBUGGING (should be false)
+    debugSingleCard: false, // @DEBUGGING (should be false)
     debugOnlyGenerate: false, // @DEBUGGING (should be false)
 
     configKey: "pumpkinPatrolConfig",
     fileName: "[Material] Pumpkin Patrol",
     resLoader: null,
+    seed: "test",
 
     // set through user config on page
     inkFriendly: false,
+    includePeopleCards: true,
+    includeHandCards: true,
     cardSize: "regular",
-    cardSet: "starter",
+    
+    setPeople: "starter",
+    setDecorations: "starter",
+    setTreats: "starter",
 
     allCards: {}, // automatically filled with allowed cards during generation
 
@@ -42,13 +48,62 @@ const CONFIG =
         misc:
         {
             path: "misc.webp",
-            frames: new Point(8,1)
+            frames: new Point(9,1)
         },
 
-        starter:
+        people_starter:
         {
-            path: "starter.webp",
-            frames: new Point(8,2),
+            path: "people_starter.webp",
+            frames: new Point(8,1),
+            cardSet: true
+        },
+
+        people_beginner:
+        {
+            path: "people_beginner.webp",
+            frames: new Point(8,1),
+            cardSet: true
+        },
+
+        people_advanced:
+        {
+            path: "people_advanced.webp",
+            frames: new Point(8,1),
+            cardSet: true
+        },
+
+        people_expert:
+        {
+            path: "people_expert.webp",
+            frames: new Point(8,1),
+            cardSet: true
+        },
+
+        decorations_starter:
+        {
+            path: "decorations_starter.webp",
+            frames: new Point(4,1),
+            cardSet: true
+        },
+
+        decorations_beginner:
+        {
+            path: "decorations_beginner.webp",
+            frames: new Point(4,1),
+            cardSet: true
+        },
+
+        treats_starter:
+        {
+            path: "treats_starter.webp",
+            frames: new Point(4,1),
+            cardSet: true
+        },
+
+        treats_beginner:
+        {
+            path: "treats_beginner.webp",
+            frames: new Point(4,1),
             cardSet: true
         },
     },
@@ -71,6 +126,7 @@ const CONFIG =
         scoreBounds: new Bounds(2,14),
         iconsPerScore: new Bounds(2,8), // how many icons (deco + treat) a person will have, based on their score
         maxIconsPerTypeOnPerson: 5, // one side (deco or treat) can have MAX this #icons
+        forceDifferentSidesProb: 0.2,
         percentageDoublesPerType:
         {
             [Type.DECORATION]: new Bounds(0.1, 0.15),
@@ -80,6 +136,16 @@ const CONFIG =
         {
             [Type.DECORATION]: new Bounds(0.1, 0.15),
             [Type.TREAT]: new Bounds(0.1, 0.15)
+        },
+
+        maxDecosForFlip: 3, // only people with this # decorations (or less) are allowed to flip to "at most"
+        maxFlipsPerSet: 2, // only this # people are allowed to flip in its entirety
+        decoFlipProb: 0.8, // nearly 100%, but just some variety for fun
+
+        maxPerSpecialType:
+        {
+            [ReqType.CARD]: 2,
+            [ReqType.SET]: 2
         }
     },
 
@@ -123,6 +189,8 @@ const CONFIG =
             wonkyRectElongation: 0.015, // relative to sizeUnit
             iconHeight: 0.725, // relative to wonky rect height
             iconShadowSize: 0.04, // relative to icon height
+            rectTextFontSize: 0.75, // relative to icon height!
+            rectTextColor: "#000000",
             bgs:
             {
                 power: "#CCBDE4", // overall light-purple background, only comes through on power at bottom
@@ -135,7 +203,8 @@ const CONFIG =
                 fontSize: 0.0475,
                 fontSizeNoPower: 0.04,
                 alphaNoPower: 0.66,
-                textColor: "#000000"
+                textColor: "#000000",
+                textMaxWidth: 0.7, // relative to full width of card
             },
 
         },
@@ -183,8 +252,8 @@ const CONFIG =
         {
             color: "#FFFFFF",
             alpha: 0.35,
-            size: 0.035, // relative to sizeUnit
-            offset: new Point(0.05, 0.05), // relative to sizeUnit, from top-left corner
+            size: 0.03, // relative to sizeUnit
+            offset: new Point(0.066, 0.04), // relative to sizeUnit, from top-left corner
         },
 
         outline:

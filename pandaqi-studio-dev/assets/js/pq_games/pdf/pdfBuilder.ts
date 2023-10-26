@@ -23,7 +23,8 @@ interface PdfConfig
     unit: string,
     format: number[],
     fileName: string,
-    userUnit: number
+    userUnit?: number,
+    hotfixes?: string[]
 }
 
 interface PdfBuilderConfig 
@@ -189,11 +190,12 @@ export default class PdfBuilder
         const pageSize = this.getSinglePageSize();
 
         return {
-            orientation: this.orientation,
+            orientation: this.orientation, // @TODO: not doing anything right now, because FORMAT determines the actual format!
             unit: 'px',
             format: [pageSize.x, pageSize.y],
             fileName: fileName,
-            userUnit: 300 // 300 DPI
+            userUnit: 1.0, // 300 DPI => didn't work like I thought it would, remove?
+            hotfixes: ["px_scaling"]
         }
     }
 

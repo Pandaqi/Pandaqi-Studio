@@ -21,6 +21,7 @@ export default class HTMLFirstRenderer
         const options = {
             width: node.boxInput.size.x.get(),
             height: node.boxInput.size.y.get(),
+            dpi: 300
         }
 
         // @NOTE (CRUCIAL): modern-screenshot heavily leans on getComputedStyle and ownerWindow and such
