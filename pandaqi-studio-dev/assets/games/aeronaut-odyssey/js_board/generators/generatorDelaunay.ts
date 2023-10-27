@@ -209,14 +209,13 @@ export default class GeneratorDelaunay
         return citiesGraph;
     }
 
-    cityNearCenter(city:PointGraph)
+    cityNearCenter(city:PointGraph, factor = 1.0)
     {
         const dims = this.boardState.dims;
         const halfDims = dims.clone().scale(0.5);
-        const maxDist = dims.clone().scale(0.125);
+        const maxDist = dims.clone().scale(CONFIG.generation.centerBoxScale);
         const manhattanDist = new Point(city.x - halfDims.x, city.y - halfDims.y).abs();
-        if(manhattanDist.x < maxDist.x) { return true; }
-        if(manhattanDist.y < maxDist.y) { return true; }
+        if(manhattanDist.x < maxDist.x && manhattanDist.y < maxDist.y) { return true; }
         return false;
     }
 
@@ -311,23 +310,11 @@ export default class GeneratorDelaunay
                 p1.set(posNew);
             }
         }
-    }
 
-    generatePost(points)
-    {
-        this.assignVisitorSpots(points);
-    }
-
-    assignVisitorSpots(points)
-    {
-        const spotBounds = CONFIG.generation.visitorSpotBounds;
-
-        for(const point of points)
+        // now that we know the final location of all points, we can cache some more data on them
+        for(const p of points)
         {
-            const numSpotsPerRoute = range(CONFIG.generation.numVisitorSpotsPerRoute);
-            const numRoutes = point.metadata.routes.length;
-            const numSpots = clamp(numRoutes * numSpotsPerRoute, spotBounds.min, spotBounds.max);
-            point.metadata.numVisitorSpots = Math.round(numSpots);
+            p.metadata.nearCenter = this.cityNearCenter(p);
         }
     }
 }

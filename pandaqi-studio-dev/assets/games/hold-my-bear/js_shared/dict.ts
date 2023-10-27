@@ -28,7 +28,7 @@ const ANIMALS:Record<string, AnimalData> = {
     // expansion
     aardvark: { frame: 0, color: "pink", expansion: true, type: Action.PLAYED, desc: "Take one card from your match back into your hand." },
     giraffe: { frame: 1, color: "yellow", expansion: true, type: Action.PLAYED, desc: "Pick an animal. All players say how many such cards they have." },
-    turtle: { frame: 2, color: "blue", expansion: true, type: Action.GIVEN, desc: "The receiver has to give back a (different) card from their hand." },
+    turtle: { frame: 2, color: "blue", expansion: true, type: Action.GIVEN, desc: "The receiver has to give back another card from their hand." },
     beaver: { frame: 3, color: "orange", expansion: true, type: Action.GIVEN, desc: "The receiver MUST choose to give away cards on their next turn." },
     ape: { frame: 4, color: "green", expansion: true, type: Action.ALWAYS, desc: "Can only be played in combination with other animals." },
     bat: { frame: 5, color: "gray", expansion: true, type: Action.ALWAYS, desc: "Not allowed in a match that plays multiple sports." },

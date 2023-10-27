@@ -39,7 +39,7 @@ multiplayermode: "competitive"
 language: EN
 genre: ["opg", "strategy", "map"]
 playtime: 45
-playercount: [1,2,3,4,5,6]
+playercount: [2,3,4,5,6]
 complexity: medium
 ages: everyone
 
@@ -58,9 +58,10 @@ ages: everyone
   {{< setting-checkbox id="setting-useRealMaterial" text="Use Real Material?" remark="Creates a board playable using a Ticket to Ride game!" >}}
   <h3>Expansions</h3>
   {{< setting-checkbox id="setting-expansions-trajectories" text="Trajectories?" remark="Get points for completing specific routes." checked="checked" >}}
-  {{< setting-checkbox id="setting-expansions-bonusBalloons" text="Bonus Balloons?" remark="Some routes have a bonus or penalty for using it." >}}
-  {{< setting-checkbox id="setting-expansions-multiRoutes" text="Multi Routes?" remark="Some routes require players to collaborate to complete them." >}}
   {{< setting-checkbox id="setting-expansions-wildWinds" text="Wild Winds?" remark="Adds wildcard routes and balloons (use/get a type of choice)." >}}
+  {{< setting-checkbox id="setting-expansions-multiRoutes" text="Multi Routes?" remark="Some routes require players to collaborate to complete them." >}}
+  {{< setting-checkbox id="setting-expansions-bonusBalloons" text="Bonus Balloons?" remark="Some routes have a bonus or penalty for using it." >}}
+
 {{< /boardgame-settings >}}
 
 <p class="settings-remark"><strong>Not working?</strong> Don't worry! At the "download" button you can find loads of premade boards I already generated for you. (Also, send me an email about what isn't working.)</p>

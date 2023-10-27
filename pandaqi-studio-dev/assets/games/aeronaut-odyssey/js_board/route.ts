@@ -40,6 +40,7 @@ export default class Route
     failed:boolean;
     conservative:boolean; // rounds block length downwards for more space
     pathBoundingBox: Rectangle;
+    usedForArea: boolean[];
     
     constructor(start:PointGraph, end:PointGraph)
     {
@@ -358,5 +359,17 @@ export default class Route
             vecForSet.scale(offsetForSet);
             point.add(vecForSet);     
         }
+    }
+
+    isUsedForAreaBy(p:PointGraph)
+    {
+        if(this.start == p) { return this.usedForArea[0]; }
+        else if(this.end == p) { return this.usedForArea[1]; }
+    }
+
+    markUsedForArea(startPoint)
+    {
+        if(startPoint == this.start) { this.usedForArea[0] = true; }
+        else { this.usedForArea[1] = true;}
     }
 }

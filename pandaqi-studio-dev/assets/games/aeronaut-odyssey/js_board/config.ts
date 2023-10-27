@@ -77,10 +77,12 @@ const CONFIG = {
         minConnectionsPerPoint: new Bounds(1,2),
         minBoardSpan: new Bounds(0.6,0.925), // how much of the paper size should be used by the graph
 
+        centerBoxScale: 0.2, // the half-extents of a box around the center in which points are highly encouraged to have as many routes as possible
+
         requiredAreaSize: 0.2, // the first few points are placed in the corners (required), how much freedom do they have?
         reduceConnectivityAfterTriangulation: true, // @DEBUGGING should probably be true
 
-        minAverageRouteLength: 1.6,
+        averageRouteLength: new Bounds(1.6, 2.05),
 
         numBlockTypes: 6,
         numBlockTypesOverride: null,
@@ -98,9 +100,10 @@ const CONFIG = {
         numTrajectoryBounds: { min: 5, max: 6 },
         trajectorySize: new Point(1.4, 0.35), // this is relative to "block size"; roughly 4/1 ratio
         calculatedTrajectoryRectOffset: null, // as it says: calculated during generation
-        trajectoryPointsMultiplier: { tiny: 0.75, small: 0.85, regular: 1.0, large: 1.33, huge: 1.66 },
-        maxTrajectoryPoints: 12.0,  // @TODO: we should really scale this based on board size, maybe not use an absolute number here?
-        maxScoreForNonPointsTrajectory: 0.45, // relative to maxTrajectoryPoints
+        trajectoryPointsMultiplier: { tiny: 0.75, small: 0.875, regular: 1.0, large: 1.15, huge: 1.3 },
+        trajectoryScorePerBlock: 1.25,
+        trajectoryScoreRandomization: new Bounds(0.9, 1.1),
+        maxScoreForNonPointsTrajectory: 7,
         minTrajectoryScore: 3,
         balanceTrajectoryLengths: true, // @DEBUGGING (should probably be true)
         trajectoryLengthReward: { small: 1.0, medium: 1.0, large: 1.3 },
@@ -116,10 +119,11 @@ const CONFIG = {
 
         numVisitorSpotsPerRoute: { min: 0.5, max: 1.0 },
         visitorSpotBounds: { min: 1, max: 3 },
+        numVisitorSpotsAtCapital: 6, // full player count seems to be 6, so we need at least that!
 
-        numCityBounds: { min: 17.5, max: 20 },
+        numCityBounds: { min: 16.75, max: 20 },
         numCityMultipliers: { tiny: 0.33, small: 0.66, regular: 1.0, large: 1.85, huge: 2.5 },
-        numCityMargins: { tiny: 0, small: 1, regular: 1, large: 1, huge: 2 }, // how far we may be off from the ideal amount
+        numCityMargins: { tiny: 1.0, small: 1.0, regular: 1.0, large: 0.95, huge: 0.9 }, // how far we may be off from the ideal amount
 
         cityRadius: 0.3,
 
@@ -139,18 +143,23 @@ const CONFIG = {
         maxBlocksPerRouteOverride: null,
         maxBlocksOverflowBeforeRelaxation: 1, // to allow slightly longer routes at initial placement, and rely on relaxation to bring them in line later
 
+        maxRouteAreaPoints: 20, // at this point, we can give up trying to find an enclosed area, we're probably at the edge
+
     },
 
     evaluator:
     {
         enable: true, // @DEBUGGING (should be true)
-        performTypeBalanceCheck: true,
+        log: true, // @DEBUGGING (if true, simply logs all that it's doing to the console)
+        performTypeBalanceCheck: true, // @DEBUGGING (should be true)
         performConnectivenessCheck: true, // @DEBUGGING (should be true)
         maxDifferenceTypeFrequency: new Bounds(12,7),
         maxRoutesOfSameTypeAtPoint: new Bounds(5,3),
         performTakeRouteAwayCheck: true,
         performGraphRemovals: true, // @DEBUGGING (should be true)
         maxTypeChainLength: { tiny: 2, small: 2, regular: 3, large: 3, huge: 4 },
+        maxTypeChainClarityFactor: new Bounds(2.25, 1),
+        connectionBoundsMargin: new Bounds(0.9, 1.2) // we're way more likely to overshoot, and that's fine.
     },
 
     display:
@@ -188,7 +197,9 @@ const CONFIG = {
         cityDotRadius: 0.333, // relative to full cityRadius
         cityNameRadius: 0.9, // relative to full cityDotRadius
         cityNameFontSize: 0.95, // relative to full radius of circle
-        visitorSpotRadius: 0.1, // relative to blockSize
+        cityDotColor: "#000000",
+        cityDotColorCapital: "#AA0000",
+        visitorSpotRadius: 0.12, // relative to blockSize
         numVisitorSpotAngles: 6,
         visitorSpotStrokeWidth: 0.02, // relative to blockSize
         arrangeVisitorSpotsForAvoidance: false, // @DEBUGGING (looks weird now, just turn it off)

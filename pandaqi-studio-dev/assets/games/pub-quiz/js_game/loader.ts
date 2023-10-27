@@ -1,24 +1,32 @@
-import { isValidMediaType, parseExtension, parseQuestionsIntoList, parseTextFile } from "./parser";
+import { isExternalURL, isValidMediaType, parseExtension, parseQuestionsIntoList, parseTextFile } from "./parser";
 import Question from "./question";
+import { QuizParams } from "./quiz";
+
+const BASE_URL = "/pub-quiz/";
+const QUESTION_FILE_NAME_PATTERN = "questions";
+const MAX_SCORE = 5;
 
 export default class Loader
 {
+    params: QuizParams;
     url: string;
     filename: string;
     cache: Record<string, Question[]>
     maxScore: number;
     data: Question[]
 
+    // @TODO: bring into constants, add default check for folder slash behind it
     subfolders = {
         media: "media/",
         questions: "questions/"
     }
 
-    constructor(params)
+    constructor(params:QuizParams = {})
     {
-        this.url = params.url;
-        this.maxScore = params.maxScore;
-        this.filename = params.filename;
+        this.params = params;
+        this.url = params.url ?? BASE_URL;
+        this.maxScore = params.maxScore ?? MAX_SCORE;
+        this.filename = params.filename ?? QUESTION_FILE_NAME_PATTERN;
         this.cache = {};
     }
 
@@ -79,7 +87,7 @@ export default class Loader
 
     onTextFileLoaded(url: string, data: string)
     {
-        const questions = parseTextFile(data);
+        const questions = parseTextFile(data, this.params);
         this.addToCache(url, questions);
     }
 
@@ -95,7 +103,9 @@ export default class Loader
 
     getFilePath(name:string, ext = "txt", sub = "media")
     {
-        const base = this.url + (this.subfolders[sub] ?? "") + name;
+        let base = this.url + (this.subfolders[sub] ?? "") + name;
+        if(isExternalURL(name)) { base = name; }
+
         if(ext.length <= 0) { return base; }
         return base + "." + ext;
     }

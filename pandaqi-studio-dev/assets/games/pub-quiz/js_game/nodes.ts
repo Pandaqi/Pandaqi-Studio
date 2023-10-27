@@ -1,4 +1,4 @@
-import { AUDIO_FORMATS, IMAGE_FORMATS, VIDEO_FORMATS, isValidMediaType, parseExtension } from "./parser";
+import { AUDIO_FORMATS, IMAGE_FORMATS, VIDEO_FORMATS, isExternalURL, isValidMediaType, parseExtension, toWhiteSpaceString } from "./parser";
 import Question from "./question";
 import { QuizMode } from "./quiz";
 
@@ -10,6 +10,9 @@ export default class Nodes
     answerRevealed:boolean
     mediaNodes: HTMLElement[]
 
+    startButtonText = "Speel de vragen!"
+    answerButtonText = "Bekijk de antwoorden!"
+    openQuestionText = "Dit is een open vraag!"
     startScreen = {
         questionNumber: "?",
         questionCategory: "Start",
@@ -26,9 +29,18 @@ export default class Nodes
     node: HTMLDivElement;
     statsNode: HTMLDivElement;
     currentTheme: string;
+    loadExternalMediaAsIframe: boolean;
+    hiddenNodes: string[];
+    openQuestionRemark: HTMLDivElement;
 
-    constructor()
+    constructor(params:any)
     {
+        this.hiddenNodes = [];
+        if(params.hideAuthor) { this.hiddenNodes.push("questionAuthor"); }
+        if(params.hideCategory) { this.hiddenNodes.push("questionCategory"); }
+        if(params.hideScore) { this.hiddenNodes.push("questionScore"); }
+
+        this.loadExternalMediaAsIframe = params.loadExternalMediaAsIframe ?? false;
         this.nodes = {};
         this.answerRevealed = false;
     }
@@ -50,14 +62,24 @@ export default class Nodes
         //this.nodes.metadata = metadata;
 
         const num = document.createElement("div");
-        num.classList.add("question-number");
+        num.classList.add("question-number", "metadata-part");
         metadata.appendChild(num);
         this.nodes.questionNumber = num;
 
+        const score = document.createElement("div");
+        score.classList.add("question-score", "metadata-part");
+        metadata.appendChild(score);
+        this.nodes.questionScore = score;
+
         const cat = document.createElement("div");
-        cat.classList.add("question-category");
+        cat.classList.add("question-category", "metadata-part");
         metadata.appendChild(cat);
         this.nodes.questionCategory = cat;
+
+        const author = document.createElement("div");
+        author.classList.add("question-author", "metadata-part");
+        metadata.appendChild(author);
+        this.nodes.questionAuthor = author;
 
         const h1 = document.createElement("h1");
         h1.classList.add("quiz-question");
@@ -91,7 +113,10 @@ export default class Nodes
 
         for(const [name,node] of Object.entries(this.nodes))
         {
-            if(!data[name]) { node.style.display = "none"; continue; }
+            const noEntry = !data[name];
+            const forcedHidden = this.hiddenNodes.includes(name);
+            const shouldHide = noEntry || forcedHidden;
+            if(shouldHide) { node.style.display = "none"; continue; }
             node.innerHTML = data[name];
             node.style.display = "flex";
         }
@@ -117,7 +142,7 @@ export default class Nodes
     addDefaultButtons(quiz)
     {
         const startButton = document.createElement("button");
-        startButton.innerHTML = "Speel de vragen";
+        startButton.innerHTML = this.startButtonText;
         startButton.addEventListener("click", (ev) => {
             quiz.gotoQuestionMode();
             quiz.start();
@@ -126,7 +151,7 @@ export default class Nodes
         this.nodes.instruction.appendChild(startButton);
 
         const restartButton = document.createElement("button");
-        restartButton.innerHTML = "Bekijk de antwoorden!";
+        restartButton.innerHTML = this.answerButtonText;
         restartButton.addEventListener("click", (ev) => {
             quiz.gotoAnswerMode();
             quiz.start();
@@ -147,9 +172,11 @@ export default class Nodes
     {
         // set the default texts and (in)visible parts
         const data = {
-            question: q.question,
+            question: toWhiteSpaceString(q.question),
             questionNumber: (num + 1), // we start at 0, people will expect it to start at 1
-            questionCategory: q.category.join(", "),
+            questionCategory: "🏷️" + q.category.join(", "),
+            questionAuthor: "🧔" + q.author.join(", "),
+            questionScore: "⭐" + q.score,
             answers: "Answers here",
             media: q.hasMedia() ? "Media here" : ""
         }
@@ -181,42 +208,55 @@ export default class Nodes
         // add the answers
         const openQuestion = q.isOpen();
         this.answerNodes = [];
-        if(openQuestion) 
-        { 
-            this.nodes.answers.innerHTML = "Dit is een open vraag!"; 
-        }
-        else 
-        {
-            this.nodes.answers.innerHTML = "";
-            let counter = 0;
-            const elems = [];
-            for(const answer of q.answers)
-            {
-                elems.push(this.createAnswerHTML(counter, answer));
-                counter++;
-            }
-            this.answerNodes = elems;
+        this.nodes.answers.innerHTML = "";
 
-            for(const elem of elems)
-            {
-                this.nodes.answers.appendChild(elem);
-            }
+        this.openQuestionRemark = this.createOpenQuestionRemark();
+        if(openQuestion && mode == QuizMode.QUESTIONS)
+        {
+            this.nodes.answers.appendChild(this.openQuestionRemark); 
+        }
+
+        let counter = 0;
+        const elems = [];
+        for(const answer of q.answers)
+        {
+            elems.push(this.createAnswerHTML(counter, answer, openQuestion));
+            counter++;
+        }
+        this.answerNodes = elems;
+
+        for(const elem of elems)
+        {
+            this.nodes.answers.appendChild(elem);
+            if(openQuestion && mode == QuizMode.QUESTIONS) { elem.style.display = "none"; }
         }
 
         if(mode == QuizMode.ANSWERS) { this.toggleAnswer(q); }
     }
 
-    createAnswerHTML(num:number, val:string)
+    createOpenQuestionRemark()
+    {
+        const div = document.createElement("div");
+        div.classList.add("open-question-remark");
+        div.innerHTML = this.openQuestionText;
+        return div;
+    }
+
+    createAnswerHTML(num:number, val:string, openQuestion:boolean)
     {
         const div = document.createElement("div");
         div.classList.add("answer");
         div.dataset.id = val;
 
-        const number = document.createElement("div");
-        number.innerHTML = this.alphabet.charAt(num);
-        number.classList.add("answer-number");
-        div.appendChild(number);
-
+        const enumerate = !openQuestion;
+        if(enumerate)
+        {
+            const number = document.createElement("div");
+            number.innerHTML = this.alphabet.charAt(num);
+            number.classList.add("answer-number");
+            div.appendChild(number);
+        }
+        
         const answer = document.createElement("div");
         answer.classList.add("answer-text");
         div.appendChild(answer);
@@ -244,6 +284,21 @@ export default class Nodes
 
         const isVideo = VIDEO_FORMATS.includes(ext);
         const isAudio = AUDIO_FORMATS.includes(ext);
+        const externalNonFile = isExternalURL(val) && !isValidMediaType(val);
+
+        if(externalNonFile)
+        {
+            if(this.loadExternalMediaAsIframe) {
+                const iframe = document.createElement("iframe");
+                iframe.src = val;
+                return iframe;
+            } else {
+                const a = document.createElement("a");
+                a.href = val;
+                return a;
+            }
+        }
+
         if(isVideo || isAudio)
         {
             const elemType = isVideo ? "video" : "audio";
@@ -266,15 +321,20 @@ export default class Nodes
     {
         this.answerRevealed = !this.answerRevealed;
         
+        const openQuestion = q.isOpen();
+        this.openQuestionRemark.style.display = this.answerRevealed ? "none" : "block";
+
         for(const elem of this.answerNodes)
         {
             const isAnswer = q.isCorrectAnswer(elem.dataset.id);
             if(this.answerRevealed) {
                 if(isAnswer) { elem.classList.add("answer-right"); }
                 else { elem.classList.add("answer-wrong"); }
+                elem.style.display = "block";
             } else {
                 elem.classList.remove("answer-right");
                 elem.classList.remove("answer-wrong");
+                if(openQuestion) { elem.style.display = "none"; }
             }
         }
     }

@@ -126,7 +126,7 @@ export default class Line extends Shape
 
     // useful properties
     isPoint() { return this.start == this.end || this.length() < 0.00001; }
-    vector() { return this.start.vecTo(this.end); }
+    vector() : Point { return this.start.vecTo(this.end); }
     length() { return this.start.distTo(this.end); }
     lengthSquared() { return this.start.distSquaredTo(this.end); }
     

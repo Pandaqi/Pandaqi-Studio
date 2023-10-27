@@ -4,6 +4,7 @@
 $max-width: 960px;
 $max-media-height: 350px;
 $min-media-width: 300px;
+$cutoff-small: 600px;
 $border-radius: 0.5rem;
 $base: "/pub-quiz/";
 $base-fonts: $base + "fonts/";
@@ -107,22 +108,46 @@ button {
     margin-bottom: 1rem;
     position: relative;
 
+    @media all and (max-width: $cutoff-small)
+    {
+        flex-wrap: wrap;
+    }
+
     .question-metadata {
         padding: 1rem;
         background-color: $near-black;
         color: $near-white;
+        
+        @media all and (max-width: $cutoff-small)
+        {
+            width: 100%;
+        }
+        
+        .metadata-part
+        {
+            justify-content: center;
+            white-space: nowrap;
+            padding: 0.3rem;
+        }
 
         .question-number {
             font-size: 3em;
-            justify-content: center
         }
 
-        .question-category {
+        .question-score {
+            font-size: 1.2em;
+            margin-bottom: 0.25rem;
+            background-color: rgba(0,0,0,0.2);
+        }
+
+        .question-category, .question-author {
             text-transform: uppercase;
             font-weight: bold;
             font-size: 0.75em;
             opacity: 0.75;
             letter-spacing: 1px;
+            background-color: rgba(0,0,0,0.2);
+            margin-bottom: 0.25rem;
         }
     }
 }
@@ -141,6 +166,7 @@ button {
     {
         width: 100%;
         min-width: $min-media-width;
+        max-height: $max-media-height;
     }
 
     img {
@@ -151,6 +177,7 @@ button {
 
 .question-answers {
     flex-wrap: wrap;
+    justify-content: center;
     gap: 1em;
     margin-bottom: 1rem;
 
@@ -187,6 +214,12 @@ button {
         .answer-number {
             font-weight: bold;
         }
+    }
+
+    .open-question-remark 
+    {
+        font-weight: bold;
+        font-size: 1.66rem;
     }
 }
 

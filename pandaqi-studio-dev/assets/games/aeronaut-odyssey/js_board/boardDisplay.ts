@@ -24,6 +24,7 @@ import ColorLike from "js/pq_games/layout/color/colorLike";
 import rotatePath from "js/pq_games/tools/geometry/transform/rotatePath";
 import calculateCenter from "js/pq_games/tools/geometry/paths/calculateCenter";
 import GrayScaleEffect from "js/pq_games/layout/effects/grayScaleEffect";
+import calculateCentroid from "js/pq_games/tools/geometry/paths/calculateCentroid";
 
 
 export default class BoardDisplay
@@ -73,8 +74,7 @@ export default class BoardDisplay
 
     prepareCityNames(board:BoardState)
     {
-        const points = board.getPoints();
-        const unchecked = [points[0]];
+        const unchecked = [board.pointsManager.getCapital()];
         const checked = [];
 
         const names = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -132,6 +132,8 @@ export default class BoardDisplay
         this.prepareTypes(board);
         this.prepareCityNames(board);
 
+        this.drawRouteAreas(board);
+
         const points : PointGraph[] = board.getPoints()
         for(const point of points)
         {
@@ -182,9 +184,9 @@ export default class BoardDisplay
             }
         }
 
-
         // draw actual city
-        const op = new LayoutOperation({ fill: "#000000" });
+        const cityColor = p.metadata.capital ? CONFIG.display.cityDotColorCapital : CONFIG.display.cityDotColor;
+        const op = new LayoutOperation({ fill: cityColor });
         circleToPhaser(circ, op, this.graphics);
 
         // draw name
@@ -631,5 +633,56 @@ export default class BoardDisplay
             const rectShape = new Rectangle().fromTopLeft(pos, size);
             rectToPhaserObject(rectShape, op, this.game);
         }        
+    }
+
+    drawRouteAreas(board:BoardState)
+    {
+        const areas = board.routeAreas.get();
+        console.log(areas);
+        const graphics = this.game.add.graphics();
+        let counter = 0;
+        let inc = 360 / areas.length;
+        for(const area of areas)
+        {
+            const path = this.convertRouteAreaToPath(area);
+            const pathObj = new Path({ points: path });
+            const op = new LayoutOperation({ fill: new Color(counter * inc, 50, 50, 0.2) });
+            pathToPhaser(pathObj, op, graphics);
+
+            const midPoint = calculateCentroid(path); // calculateCenter(path);
+            const circ = new Circle({ center: midPoint, radius: 20 });
+            const opCirc = new LayoutOperation({ fill: "#FFFFFF" });
+            circleToPhaser(circ, opCirc, graphics);
+
+            counter++;
+        }
+    }
+
+    convertRouteAreaToPath(area:PointGraph[])
+    {
+        const path = [];
+        for(let i = 0; i < area.length-1; i++)
+        {
+            const p1 = area[i];
+            const p2 = area[i+1];
+
+            let matchingRoute = null;
+            for(const route of p1.metadata.routes)
+            {
+                if(route.getOther(p1) != p2) { continue; }
+                matchingRoute = route;
+                break;
+            }
+
+            path.push(this.convertToRealPoint(p1));
+
+            const blockData = matchingRoute.blockData.slice();
+            if(matchingRoute.start != p1) { blockData.reverse(); }
+            for(const block of blockData)
+            {
+                path.push(this.convertToRealPoint(block.pos.clone()));
+            }
+        }
+        return path;
     }
 }

@@ -1,8 +1,4 @@
-interface DOMParams
-{
-    enableMouse?: boolean
-    enableKeys?: boolean
-}
+import { QuizParams } from "./quiz";
 
 export default class DOM
 {
@@ -17,10 +13,10 @@ export default class DOM
     enableKeys: boolean;
 
     // @TODO: a key to immediately go to start/end
-    constructor(params:DOMParams)
+    constructor(params:QuizParams)
     {
-        this.enableMouse = params.enableMouse;
-        this.enableKeys = params.enableKeys;
+        this.enableMouse = params.enableMouse ?? false;
+        this.enableKeys = params.enableKeys ?? true;
 
         if(this.enableMouse) { document.body.addEventListener("click", this.onNext.bind(this)); }
         if(this.enableKeys) { document.body.addEventListener("keyup", this.onKeyPress.bind(this)); }

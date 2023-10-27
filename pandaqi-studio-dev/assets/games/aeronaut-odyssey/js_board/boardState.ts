@@ -10,6 +10,7 @@ import Evaluator from "./evaluator";
 import ForbiddenAreas from "./forbiddenAreas";
 import PlayerAreas from "./playerAreas";
 import Cities from "./cities";
+import RouteAreas from "./routeAreas";
 
 type Generator = GeneratorDelaunay|GeneratorRope;
 
@@ -30,6 +31,7 @@ export default class BoardState
     // @NOTE: these are NOT read from config as they can be overriden and altered in various ways and that would just be a mess
     numBlockTypes: number;
     maxBlocksPerRoute: number;
+    routeAreas: RouteAreas;
     
     // @NOTE: The board simply measures in blocks (1 = the length of one train block)
     // Only boardDisplay converts this to the actual page size and pixels
@@ -72,9 +74,12 @@ export default class BoardState
         evaluator.removeInvalidGraphParts(this);
         if(!evaluator.areRoutesValid(this)) { return this.fail(); }
 
-        this.generator.generatePost(points);
+        this.pointsManager.generatePost();
         this.trajectories.generatePost();
         if(!evaluator.areTrajectoriesValid(this)) { return this.fail(); }
+
+        this.routeAreas = new RouteAreas();
+        this.routeAreas.generate(this.getPoints(), this.getRoutes());
     }
 
     fail() { this.failed = true; return false; }

@@ -33,10 +33,21 @@ export default class Routes
         this.addCurveToRoutes(routes);
         this.removeFailedRoutes(); // curving can be impossible in rare instances, so remove any failed routes right after it
 
+        this.cacheRouteStats(routes);
         this.assignMultiRoute(routes);
         this.assignTypesToRoutes(routes);
         this.assignBonusToRoutes(routes);
         return routes;
+    }
+
+    cacheRouteStats(routes:Route[])
+    {
+        let sum = 0;
+        for(const r of routes)
+        {
+            sum += r.getBlockLength();
+        }
+        this.numTotalBlocks = sum;
     }
 
     remove(route:Route)
@@ -99,16 +110,17 @@ export default class Routes
 
         // first create the initial routes
         const routes : Route[] = [];
-        let sum = 0;
         for(const point of points)
         {
             for(const conn of point.getConnectionsByPoint())
             {
-                const newRoute = this.createRouteBetween(point, conn, routes);
-                if(newRoute) { sum += newRoute.getBlockLength(); }
+                this.createRouteBetween(point, conn, routes);
             }
         }
 
+        // a huge improvement that simply tries quick routes to nearby points
+        // (which are removed anyway if they overlap/don't fit)
+        // adds more routes + more variation for little cost
         this.trySneakConnections(points, routes);
 
         // then turn some of them into double routes
@@ -147,10 +159,7 @@ export default class Routes
         for(const doubleRoute of doubleRoutes)
         {
             routes.push(doubleRoute);
-            sum += doubleRoute.getBlockLength();
         }
-
-        this.numTotalBlocks = sum;
 
         return routes;
     }

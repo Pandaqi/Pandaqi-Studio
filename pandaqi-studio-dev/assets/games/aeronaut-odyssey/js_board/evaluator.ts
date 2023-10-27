@@ -9,6 +9,13 @@ import { rectIntersectsRect } from "js/pq_games/tools/geometry/intersection/shap
 
 export default class Evaluator
 {
+    log(valid:boolean, str:string, val:any = "")
+    {
+        if(!CONFIG.evaluator.log) { return; }
+        if(valid) { return; }
+        console.log("[REJECTED] " + str, val);
+    }
+
     isValid(board:BoardState) : boolean
     {
         if(!CONFIG.evaluator.enable) { return true; }
@@ -55,15 +62,15 @@ export default class Evaluator
         if(!this.expectedRouteLengthFulfilled(board)) { return false; }
 
         // check if we use as much of the paper as possible
-        if(this.boardTooSmall(board)) { return false; }
+        if(!this.boardLargeEnough(board)) { return false; }
 
         // check type distribution (very cheap, do first)
         if(!this.typesFairlyDistributed(board)) { return false; }
-        if(this.typesClumpedUp(board)) { return false; }
-        if(this.longChainOfSameType(board)) { return false; }
+        if(!this.typesProperlySpreadOut(board)) { return false; }
+        if(!this.noLongChainsOfSameType(board)) { return false; }
 
         // check graph connectedness (more expensive)
-        if(this.pointsWithBadConnections(board)) { return false; }
+        if(!this.allPointsHaveProperConnections(board)) { return false; }
         if(!this.allPointsConnected(board)) { return false; }
         if(!this.allPointsAdequatelyConnected(board)) { return false; }
 
@@ -92,7 +99,7 @@ export default class Evaluator
         }
 
         let valid = lengths.length <= 0;
-        if(!valid) { console.log("[REJECTED] Didn't find routes of length: " + lengths); }
+        this.log(valid, "Didn't find routes of length: ", lengths);
         return valid;
     }
 
@@ -106,29 +113,36 @@ export default class Evaluator
         }
         sum /= routes.length;
 
-        const valid = sum >= CONFIG.generation.minAverageRouteLength;
-        if(!valid) { console.log("[REJECTED] Average route length: " + sum + " vs " + CONFIG.generation.minAverageRouteLength); }
+        const valid = CONFIG.generation.averageRouteLength.contains(sum);
+        this.log(valid, "Average route length: " + sum + " vs ", CONFIG.generation.averageRouteLength);
         return valid;
     }
 
     enoughPoints(board:BoardState)
     {
+        if(CONFIG.boardClarityNumber <= 0.15) { return true; }
+
         const numPoints = board.pointsManager.count();
         const multiplier = CONFIG.generation.numCityMultipliers[CONFIG.boardSize];
         const margin = CONFIG.generation.numCityMargins[CONFIG.boardSize];
-        const minimum = CONFIG.generation.numCityBounds.min * multiplier - margin; // slight margin to allow some error/variety
+        const minimum = Math.floor(CONFIG.generation.numCityBounds.min * multiplier * margin); // slight margin to allow some error/variety
         const valid = numPoints >= minimum;
-        if(!valid) { console.log("[REJECTED] #Cities: " + numPoints + " vs " + minimum); }
+        this.log(valid, "#Cities: " + numPoints + " vs " + minimum);
         return valid;
     }
 
     enoughRoutes(board:BoardState)
     {
+        if(CONFIG.boardClarityNumber <= 0.15) { return true; }
+
         const numPoints = board.pointsManager.count();
         const numRoutes = board.routesManager.count() * 2; // routes go both ways!
-        const minimum = Math.floor(CONFIG.generation.connectionBounds.min * numPoints * 0.9); // slight margin again
-        const valid = numRoutes >= minimum;
-        if(!valid) { console.log("[REJECTED] #Routes: " + numRoutes + " vs " + minimum) }
+        const margin = CONFIG.evaluator.connectionBoundsMargin;
+        const minimum = Math.floor(CONFIG.generation.connectionBounds.min * numPoints * margin.min); // slight margin again
+        const maximum = Math.ceil(CONFIG.generation.connectionBounds.max * numPoints * margin.max);
+
+        const valid = numRoutes >= minimum && numRoutes <= maximum;
+        this.log(valid, "#Routes: " + numRoutes + " vs interval (" + minimum + "," + maximum + ")");
         return valid;
     }
 
@@ -138,7 +152,7 @@ export default class Evaluator
         return true; // @TODO: no specific checks for trajectories at this moment
     }
 
-    boardTooSmall(board:BoardState)
+    boardLargeEnough(board:BoardState)
     {
         let topLeft = new Point(Infinity, Infinity);
         let bottomRight = new Point(-Infinity, -Infinity);
@@ -154,9 +168,11 @@ export default class Evaluator
 
         const dims = board.dims;
         const margin = 0.5*(1.0 - minSpan);
-        if(topLeft.x < margin || topLeft.y < margin) { return true; }
-        if(dims.x - bottomRight.x < margin || dims.y - bottomRight.y < margin) { return true; }
-        return false;
+        let valid = true;
+        if(topLeft.x < margin || topLeft.y < margin) { valid = false; }
+        if(dims.x - bottomRight.x < margin || dims.y - bottomRight.y < margin) { valid = false; }
+        this.log(valid, "Board span too small: ", { topLeft: topLeft, bottomRight: bottomRight, dims: dims });
+        return valid;
     }
 
     typesFairlyDistributed(board:BoardState)
@@ -181,13 +197,17 @@ export default class Evaluator
 
         const maxDist = CONFIG.evaluator.maxDifferenceTypeFrequency.lerp(CONFIG.boardClarityNumber);
         const dist = (mostUsed - leastUsed)
-        return dist <= maxDist;
+        const valid = dist <= maxDist;
+        this.log(valid, "Types unfairly distributed, max distance is " + dist + " (vs allowed " + maxDist + ")");
+        return valid;
     }
 
-    typesClumpedUp(board:BoardState)
+    typesProperlySpreadOut(board:BoardState)
     {
         const maxRoutesOfSameType = Math.round(CONFIG.evaluator.maxRoutesOfSameTypeAtPoint.lerp(CONFIG.boardClarityNumber));
 
+        let valid = true;
+        let max = 0;
         for(const point of board.getPoints())
         {
             const routeTypes = [];
@@ -200,16 +220,21 @@ export default class Evaluator
 
             const counts = countElementsInArray(routeTypes);
             const maxCount = Math.max(...Object.values(counts));
-            if(maxCount > maxRoutesOfSameType) { return true; }
+            max = maxCount;
+            if(maxCount > maxRoutesOfSameType) { valid = false; break; }
         }
-        return false;
+        this.log(valid, "Types clumped up. A point has " + max + " routes of same type (vs allowed " + maxRoutesOfSameType + ")");
+        return valid;
     }
 
-    longChainOfSameType(board:BoardState)
+    noLongChainsOfSameType(board:BoardState)
     {
-        const maxChainLength = CONFIG.evaluator.maxTypeChainLength[CONFIG.boardSize];
+        const factor = CONFIG.evaluator.maxTypeChainClarityFactor.lerp(CONFIG.boardClarityNumber);
+        const maxChainLength = Math.floor(CONFIG.evaluator.maxTypeChainLength[CONFIG.boardSize] * factor);
+
         const unhandled = board.getRoutes().slice();
         let valid = true;
+        let longestChain = 0;
         const chains = {};
         while(unhandled.length > 0)
         {
@@ -234,6 +259,7 @@ export default class Evaluator
             if(!(curType in chains)) { chains[curType] = []; }
             chains[curType].push(chain);
 
+            longestChain = chain.length;
             if(chain.length > maxChainLength) { valid = false; break; }
 
             for(const elem of chain)
@@ -241,18 +267,20 @@ export default class Evaluator
                 unhandled.splice(unhandled.indexOf(elem), 1);
             }
         }
-        if(!valid) { console.log("[REJECTED] Longest chain of same type is too long."); }
-        return !valid;
+        this.log(valid, "Longest chain of same type is " + longestChain + " (vs allowed " + maxChainLength + ")");
+        return valid;
     }
 
-    pointsWithBadConnections(board:BoardState)
+    allPointsHaveProperConnections(board:BoardState)
     {
         const minConnections = Math.round(CONFIG.generation.minConnectionsPerPoint.lerp(CONFIG.boardClarityNumber));
+        let valid = true;
         for(const point of board.getPoints())
         {
-            if(point.countConnections() < minConnections) { return true; }
+            if(point.countConnections() < minConnections) { valid = false; break; }
         }
-        return false;
+        this.log(valid, "A point has too few connections.");
+        return valid;
     }
 
     allPointsConnected(board:BoardState)
@@ -280,7 +308,9 @@ export default class Evaluator
             }
         }
 
-        return checked.length == points.length;
+        const valid = (checked.length == points.length);
+        this.log(valid, "Not all points connected.");
+        return valid;
     }
 
     allPointsAdequatelyConnected(board:BoardState)
@@ -291,14 +321,16 @@ export default class Evaluator
 
         // For each route, it takes it away (temporarily), then checks if everything is still connected
         // If not, this one route is way too important and would block the game if allowed
+        let valid = true;
         for(const r of board.getRoutes())
         {
             r.disabled = true;
-            if(!this.allPointsConnected(board)) { return false; }
+            if(!this.allPointsConnected(board)) { valid = false; }
             r.disabled = false;
+            if(!valid) { break; }
         }
-
-        return true;
+        this.log(valid, "Points not connected enough. (Hinges on one route.)");
+        return valid;
     }
 
     removeRoutesOverlappingForbiddenRectangles(board:BoardState)
@@ -321,6 +353,8 @@ export default class Evaluator
 
     removeRoutesOverlappingRoutes(board:BoardState)
     {
+        if(CONFIG.boardClarityNumber <= 0.2) { return; }
+
         const routes = board.getRoutes();
         for(let i = routes.length-1; i >= 0; i--)
         {
@@ -345,6 +379,8 @@ export default class Evaluator
 
     removePointsOverlappingRoute(board:BoardState)
     {
+        if(CONFIG.boardClarityNumber <= 0.2) { return; }
+
         const minDistToUnconnectedRoute = 2*CONFIG.generation.cityRadius;
         const cities = board.getPoints();
         const routes = board.getRoutes();

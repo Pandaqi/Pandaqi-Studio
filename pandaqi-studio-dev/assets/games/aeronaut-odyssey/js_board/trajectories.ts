@@ -141,23 +141,30 @@ export default class Trajectories
             counter = (counter + 1) % sizes.length;
         }
 
-        // now determine the specific bonuses for the trajectories
-        // (abilities are too unpredictable/small to attach to trajectories)
-        const bonusesWithoutAbilities = structuredClone(BONUSES);
-        for(const [key,data] of Object.entries(bonusesWithoutAbilities))
-        {
-            if(!data.ability) { continue; }
-            delete bonusesWithoutAbilities[key];
-        }
 
-        const maxPoints = CONFIG.generation.maxTrajectoryPoints * CONFIG.generation.trajectoryPointsMultiplier[CONFIG.boardSize]
-        const maxBonusScore = CONFIG.generation.maxScoreForNonPointsTrajectory * maxPoints;
         for(const traj of trajectories)
         {
-            let bonus = getWeighted(bonusesWithoutAbilities);
-            // @NOTE: other rewards on long routes are pointless, as the game will be almost over and you can't use them anyway!
-            if(traj.score > maxBonusScore) { bonus = "points"; }
+            // determine the specific bonuses this trajectory can have
+            const possibleBonuses = structuredClone(BONUSES);
+            for(const [key,data] of Object.entries(possibleBonuses))
+            {
+                let shouldDelete = false;
+                // (abilities are too unpredictable/small to attach to trajectories, so reject those outright)
+                if(data.ability) { shouldDelete = true; }
+
+                // many rewards on long routes are pointless, as the game will be almost over and you can't use them anyway!
+                const maxScore = data.maxScore ?? Infinity;
+                const minScore = data.minScore ?? 0;
+                if(traj.score > maxScore || traj.score < minScore) { shouldDelete = true; }
+
+                if(!shouldDelete) { continue; }
+                delete possibleBonuses[key];
+            }
+
+            let bonus = getWeighted(possibleBonuses);
             if(CONFIG.useRealMaterial) { bonus = "points"; }
+
+            
             traj.bonus = bonus;
             traj.calculateBonusNumber();
         }

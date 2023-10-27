@@ -41,6 +41,11 @@ export default class Bounds
         return lerp(this.min, this.max, f);
     }
 
+    contains(val:number)
+    {
+        return this.min <= val && this.max >= val;
+    }
+
     random() { return range(this); }
     randomInteger() {  return rangeInteger(this); }
 

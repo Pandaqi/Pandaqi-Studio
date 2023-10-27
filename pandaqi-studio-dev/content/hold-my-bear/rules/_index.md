@@ -80,12 +80,22 @@ Played a few games and ready for a bigger challenge? Try the expansion(s)!
 
 This game has 14 "expansion animals". You can swap regular animals for expansion animals however you like, as long as every game has the _bear_ in it!
 
-These animals have an **action**. There are three types.
+These animals have a simple **action**. There are three types.
 
 * ALWAYS: These are always active.
 * WHEN PLAYED: These trigger when you play the card as part of a match.
-* WHEN GIVEN: These trigger when you give away this card.
+* WHEN GIVEN: These trigger when you give away this card (as part of the "give away" action on your turn).
 
-The actions are very simple and explained on the cards themselves. Have fun!
+You can only do a specific animal's action _once_ per turn. If you played 3 Aardvarks, for example, you only do their action once.
+
+The actions are explained on the cards themselves. Below are just some clarifications in case you're uncertain.
+
+* **Turtle**: "another card" means you can't give back a turtle with the same number, but _any other card_ is fine.
+* **Ape**: "other animals" means other animal _types_. In other words, you can never play a match that's only apes.
+* **Walrus**: simply the opposite of Ape. You can never play a match with a Walrus and some other animal(s).
+* **Bat**: remember that "multiple sports" means there are multiple animals that have the majority. So a match of "Bat + Tiger" is forbidden, as both appear once and thus are both the majority animal.
+* **Squid**: simply the opposite of Bat. A match of "Squid + Tiger" _is_ allowed. But "Squid + Squid + Tiger" isn't, as that match plays only one sport (skiing).
+* **Rabbit**: remember that this stays true as long as the card shows. If (on your turn) there's a match with a rabbit on the table, and you can do a valid move, you _must_ do so.
+* **Sheep**: surprisingly powerful. "Tie" refers to all rules, so you may tie bears, tie majority animal, and tie number. If the current match has a sheep, there are many more ways to play a valid move over it.
 
 {{% /rules-block %}}

@@ -10,6 +10,8 @@ Print a game board and hand out pens. Each player ...
 * Picks any drawable icon: you'll use that to represent your **traveler**.
 * Draws that icon at the capital. (Always the city "A", colored differently.)
 
+With **2 players**, you get a bigger hand: use 2 inventories per player.
+
 Pick a start player. Players who come later in the turn order (clockwise) receive a small compensation before the game starts.
 
 * The 2nd and 3rd player add 1 balloon of choice to their inventory. 
@@ -62,6 +64,8 @@ Cross out the balloons paid from your inventory. Draw your icon in all claimed s
 
 You can claim a route from _anywhere_---you don't need to be next to it. If you _are_ next to a route you just claimed, however, you are **rewarded**.
 
+With **2 players**, double routes become single routes. Only one of them can be claimed.
+
 {{% /rules-block %}}
 
 {{% /rules-block %}}
@@ -79,19 +83,11 @@ You score points for claimed routes.
 * 5 balloons = 7 points
 * 6 balloons = 9 points
 
-{{% /rules-block %}}
+You'll also notice there are numbers in the empty space between routes. Those points are scored if that area is **completely enclosed by claimed routes**.
 
-{{% rules-block id="solo_mode" heading="Solo & Duo Mode" class="force-page-break-before" %}}
+The points go to the player who participated the most: the majority of routes used (to enclose the area) are theirs. (If tied, this bonus goes to all who have the majority.)
 
-With 2 players ("duo mode"), double routes become single routes. They can only be claimed once. Additionally, you have a bigger hand: use _two_ inventories (per player).
-
-With 1 player ("solo mode"), play against a fake opponent. 
-
-On their turn,
-* Check if they can claim any route. If so, do it.
-* Otherwise, they move from their current city to the destination with the lowest number.
-* If you move over a route they claimed, they choose a balloon of the same type as the route.
-* Otherwise, whenever they have a choice, you decide.
+@TODO: IMAGE EXAMPLE?
 
 {{% /rules-block %}}
 
@@ -103,7 +99,10 @@ Once you've played the base game once or twice, you might be ready for expansion
 
 Trajectories are printed at the bottom right. If you've fulfilled one, draw your icon in an open slot and receive its reward. 
 
-You've fulfilled a trajectory if you can travel from one city to the other using only _your_ routes. (You have "connected" the two cities with your traveling company!)
+There are two trajectory types:
+
+* **Cities**: fulfilled if you can travel from one city to the other using only _your_ routes. (You have "connected" the two cities with your traveling company!)
+* **Routes**: fulfilled if you own routes of all the types shown (at least). Order and length doesn't matter.
 
 {{% remark %}}
 You can't claim a trajectory twice nor when all its slots are already taken.
@@ -111,19 +110,17 @@ You can't claim a trajectory twice nor when all its slots are already taken.
 
 @TODO: Rules table showing specific trajectory bonuses
 
-When _swapping_, cross out the current balloon and write the new type underneath it. A swap should not cost you any inventory space.
+When _swapping_, add a new inventory space. Then cross out the current balloon and draw the new one in the new space you just created. (A swap should not cost you any inventory space.)
 
 {{% /rules-block %}}
 
-{{% rules-block id="expansion_bonus" heading="Bonus Balloons" %}}
+{{% rules-block id="expansion_wildWinds" heading="Wild Winds" %}}
 
-Some route blocks have an added bonus or penalty. You receive this bonus when you claim the route.
+Introduces **gray routes**. You can use any one type to claim these. (For example, a gray route of 3 blocks can be claimed by 3 yellow.)
 
-By default, the bonus immediately takes effect. Other bonuses are an **ability**: you can use this power once, at any time. Once used, cross out the bonus.
+@TODO: IMAGE EXAMPLE
 
-As opposed to trajectories, bonuses are always value "1". (One point, one balloon, etcetera.) 
-
-@TODO: Rules table showing these bonuses
+When picking balloons to receive, a gray route allows you to pick a "wildcard". Write a "W" in an inventory slot. This balloon can represent _any_ type when claiming a route. If you do this, however, you only receive 1 balloon this turn (regardless of other rules).
 
 {{% /rules-block %}}
 
@@ -139,13 +136,15 @@ Anybody who participated scores _full_ points for this route, but only if it is 
 
 {{% /rules-block %}}
 
-{{% rules-block id="expansion_wildWinds" heading="Wild Winds" %}}
+{{% rules-block id="expansion_bonus" heading="Bonus Balloons" %}}
 
-Introduces **gray routes**. You can use any one type to claim these. (For example, a gray route of 3 blocks can be claimed by 3 yellow.)
+Some route blocks have an added bonus or penalty. You receive this bonus when you claim the route.
 
-@TODO: IMAGE EXAMPLE
+By default, the bonus immediately takes effect. Other bonuses are an **ability**: you can use this power once, at any time. Once used, cross out the bonus.
 
-When picking balloons to receive, a gray route allows you to pick a "wildcard". Write a "W" in an inventory slot. This balloon can represent _any_ type when claiming a route. If you do this, however, you only receive 1 balloon this turn (regardless of other rules).
+As opposed to trajectories, bonuses are always value "1". (One point, one balloon, etcetera.) 
+
+@TODO: Rules table showing these bonuses
 
 {{% /rules-block %}}
 

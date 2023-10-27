@@ -11,7 +11,20 @@ interface QuizParams
     url?: string,
     filename?: string,
     seed?: string,
-    maxScore?: number
+    maxScore?: number,
+    loadExternalMediaAsIframe?: boolean,
+    
+    // @TODO: somehow, get these into the parser to override defaults if set?
+    linkPrefixes?: string[],
+    mediaFormats?: string[],
+
+    defaultCategory?: string,
+    defaultAuthor?: string,
+    defaultScore?: number,
+
+    hideCategory?: boolean,
+    hideAuthor?: boolean,
+    hideScore?: boolean,
 
     enableSafety?: boolean
     enableMouse?: boolean
@@ -24,7 +37,9 @@ enum QuizMode
     ANSWERS
 }
 
-export { QuizMode }
+const DEFAULT_SEED = "quiz";
+
+export { QuizMode, QuizParams, Quiz }
 export default class Quiz
 {
     questions: Question[];
@@ -40,19 +55,14 @@ export default class Quiz
 
     constructor(params:QuizParams = {})
     {
-        const url = params.url ?? "/pub-quiz/";
-        const filename = params.filename ?? "questions";
-        const seed = params.seed ?? "quiz";
-        const maxScore = params.maxScore ?? 5;
-        const enableMouse = params.enableMouse ?? false;
-        const enableKeys = params.enableKeys ?? true;
-
+        const seed = params.seed ?? DEFAULT_SEED;
         this.enableSafety = params.enableSafety ?? true;
+
         this.mode = QuizMode.QUESTIONS;
-        this.loader = new Loader({ url: url, filename: filename, maxScore: maxScore });
-        this.nodes = new Nodes();
+        this.loader = new Loader(params);
+        this.nodes = new Nodes(params);
         this.rng = seedrandom(seed);
-        this.dom = new DOM({ enableMouse: enableMouse, enableKeys: enableKeys });
+        this.dom = new DOM(params);
         
         this.dom.listenFor(DOM.NEXT, () => { this.changeQuestion(+1); });
         this.dom.listenFor(DOM.PREV, () => { this.changeQuestion(-1); })
@@ -73,7 +83,6 @@ export default class Quiz
     start()
     {
         this.changeQuestion(+1);
-        console.log(this.questions);
     }
 
     gotoQuestionMode() { this.mode = QuizMode.QUESTIONS; }
@@ -120,6 +129,8 @@ export default class Quiz
             totalScore: totalScore
         }
         this.nodes.saveStats(stats);
+
+        console.log(this.questions);
     }
 
     changeQuestion(dc:number)

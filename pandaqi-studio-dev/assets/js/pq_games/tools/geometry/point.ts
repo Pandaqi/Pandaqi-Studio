@@ -119,6 +119,7 @@ export default class Point
     {
         const length = this.length() * p.length();
         const dot = this.dot(p);
+        if(isZero(length)) { return 0; }
         return Math.acos(dot / length);
     }
 
@@ -217,7 +218,7 @@ export default class Point
 
     cross(p:Point)
     {
-        return this.x * p.y - this.y * p.x;
+        return -this.x * p.y + this.y * p.x;
     }
 
 

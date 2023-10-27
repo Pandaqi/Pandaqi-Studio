@@ -13,7 +13,7 @@ export default class Trajectory
     score: number;
     bonus: string;
     bonusNumber: number;
-    lengthBucket: string;
+    shortestPath: PointGraph[];
     
     constructor(start:PointGraph, end:PointGraph)
     {
@@ -46,13 +46,6 @@ export default class Trajectory
         return null;
     }
 
-    /*getMaxTrajectoryLength()
-    {
-        const blocksFactor = CONFIG.generation.numBlocksFullWidthMultipliers[CONFIG.boardSize];
-        const maxLength = CONFIG.generation.maxTrajectoryLength * CONFIG.generation.numBlocksFullWidth * blocksFactor;
-        return Math.round(maxLength);
-    }*/
-
     getPathFindBlockLength()
     {
         const pfConfig = 
@@ -60,12 +53,14 @@ export default class Trajectory
             neighborFunction: (point:PointGraph) => { return point.getConnectionsByLine(); },
             costFunction: (line:LineGraph, score:number) => { 
                 const r = this.getRouteBetween(line);
-                return r ? r.getBlockLength() : 1000000;
+                return r ? r.getBlockLength() : Infinity;
             }
         }
 
         const pf = new PathFinder(pfConfig);
         const shortestPath = pf.getPath({ start: this.start, end: this.end });
+        this.shortestPath = shortestPath;
+
         let pathBlockLength = 0;
         for(let i = 0; i < (shortestPath.length - 1); i++)
         {
@@ -80,23 +75,13 @@ export default class Trajectory
 
     calculateScore(maxDist:number)
     {
-        const length = this.getPathFindBlockLength() / maxDist;
-        const maxPoints = CONFIG.generation.maxTrajectoryPoints * CONFIG.generation.trajectoryPointsMultiplier[CONFIG.boardSize]
-
-        this.score = Math.round(length * maxPoints);
-
-        const distRatio = this.start.distTo(this.end) / maxDist;
-        const size = distRatio <= 0.33 ? "small" : (distRatio <= 0.66 ? "medium" : "large");
-        // @NOTE: to extra reward the risky long routes
-        this.lengthBucket = size; // @TODO: is this used anywhere?
-        this.enhanceScore(CONFIG.generation.trajectoryLengthReward[size] ?? 1.0);
-
-        return this.score;
-    }
-
-    enhanceScore(ds:number)
-    {
-        this.score = Math.ceil(this.score*ds);
+        const scorePerBlock = CONFIG.generation.trajectoryScorePerBlock;
+        const multiplierForBoardSize = CONFIG.generation.trajectoryPointsMultiplier[CONFIG.boardSize];
+        const randomization = CONFIG.generation.trajectoryScoreRandomization.random();
+        const length = this.getPathFindBlockLength();
+        const score = Math.round(length * scorePerBlock * multiplierForBoardSize * randomization);
+        this.score = score;
+        return score;
     }
 
     // this is a transformation of the score, based on how valuable I think the bonus type is

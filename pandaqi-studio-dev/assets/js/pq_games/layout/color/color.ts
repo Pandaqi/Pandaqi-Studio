@@ -137,7 +137,7 @@ export default class Color
 
     rotate(dh = 0) : Color
     {
-        const newHue = (this.h + dh) % 360;
+        const newHue = (this.h + dh + 360) % 360;
         return new Color(newHue, this.s, this.l);
     }
 

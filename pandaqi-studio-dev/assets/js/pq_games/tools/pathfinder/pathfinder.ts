@@ -205,6 +205,7 @@ export default class PathFinder
 				if(connectionIsForbidden) { continue; }
 
 				const newCost = costSoFar.get(currentPoint) + this.getTravelCost(connKey, currentPoint, nb);
+				if(!isFinite(newCost)) { continue; }
 
 				const notVisitedYet = !costSoFar.has(nb) && !tilesChecked.has(nb);
 				const newCostIsLower = newCost < costSoFar.get(nb);
