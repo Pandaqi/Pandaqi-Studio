@@ -1,0 +1,59 @@
+Question => Hoeveel volgers heeft Yishay op spotify?
+Answers =>
+0
+3
+6
+12
+Correct => 3
+Category => Social media, Music
+Media => spotifylogo.jpeg
+Score => 4
+
+
+
+Question => Wat deed Yishay met zijn hand toen hij die niet meer nodig had tijdens de uitvoering in het muziekgebouw?
+Answers =>
+Hij legde hem op natuurlijke wijze op zijn schoot neer
+Hij hield hem onhandig bij zijn oor
+Hij hield hem bij zijn kin waardoor het leek alsof hij heel diep nadacht
+Correct => Hij hield hem bij zijn kin waardoor het leek alsof hij heel diep nadacht
+Category => Beschamende memories, Uitvoeringen
+Score => 3
+
+
+
+Question => Wat is er zo bijzonder aan Yishay's spotify premium?
+Answers =>
+Hij betaalt er maar 2 cent voor door een glitch in de website
+Hij zit in de familiebundel van Aimee
+Hij heeft helemaal geen Spotify premium (#zware tijden)
+Correct => Hij zit in de familiebundel van Aimee
+Category => Rare Random Feitjes
+Score => 2
+
+
+Question => Tijdens De Wilderen's uitvoering van Corona de musical had Yishay welk bijzondere kledingsstuk aan?
+Answers =>
+Een korte broek die helemaal niet goed bij de "vibes" pastte
+Een spijkerjurk die hem helemaal niet eens goed zat
+Een crop top om te accentueren dat zijn karakter het warm had
+Een vet coole zonnebril om de coolness van zijn karakter te tonen
+Correct => Een spijkerjurk die hem helemaal niet eens goed zat
+Category => Musicals
+Score => 4
+
+
+
+Question => Welke docent op het vml zei dat de violen hoorden te worden gemaakt door kleine chineze kinderen?
+Answers =>
+A. Swinkels
+M. Verbere
+A. Messelaar
+G. Pastoor
+Correct => A. Swinkels
+Category => Vreemde uitspraken van vml personeel
+Score => 5
+
+
+
+

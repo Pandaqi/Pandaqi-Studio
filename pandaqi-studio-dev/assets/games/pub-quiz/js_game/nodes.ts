@@ -128,15 +128,26 @@ export default class Nodes
         node.innerHTML = "(Statistieken: " + stats.numQuestions + " vragen, " + stats.totalScore + " punten)";
     }
 
+    toggleLeaveProtection(val:boolean)
+    {
+        if(val) {
+            window.onbeforeunload = () => { return "Are you sure you want to leave?"; }
+        } else {
+            window.onbeforeunload = null;
+        }
+    }
+
     showStartScreen(quiz) 
     { 
         this.changeScreen(this.startScreen); 
         this.addDefaultButtons(quiz);
+        this.toggleLeaveProtection(false);
     }
     
     showEndScreen(quiz) 
     { 
         this.changeScreen(this.endScreen); 
+        this.toggleLeaveProtection(false);
     }
 
     addDefaultButtons(quiz)
@@ -174,8 +185,8 @@ export default class Nodes
         const data = {
             question: toWhiteSpaceString(q.question),
             questionNumber: (num + 1), // we start at 0, people will expect it to start at 1
-            questionCategory: "🏷️" + q.category.join(", "),
-            questionAuthor: "🧔" + q.author.join(", "),
+            questionCategory: "🏷️" + toWhiteSpaceString(q.category),
+            questionAuthor: "🧔" + toWhiteSpaceString(q.author),
             questionScore: "⭐" + q.score,
             answers: "Answers here",
             media: q.hasMedia() ? "Media here" : ""
@@ -183,6 +194,7 @@ export default class Nodes
 
         this.changeScreen(data);
         this.changeTheme(q.color);
+        this.toggleLeaveProtection(true);
 
         // add media, if available
         const hasMedia = q.hasMedia();
@@ -330,7 +342,7 @@ export default class Nodes
             if(this.answerRevealed) {
                 if(isAnswer) { elem.classList.add("answer-right"); }
                 else { elem.classList.add("answer-wrong"); }
-                elem.style.display = "block";
+                elem.style.display = "flex";
             } else {
                 elem.classList.remove("answer-right");
                 elem.classList.remove("answer-wrong");

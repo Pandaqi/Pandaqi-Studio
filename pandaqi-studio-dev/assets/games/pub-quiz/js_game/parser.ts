@@ -24,7 +24,6 @@ const parseTextFile = (data:string, params:QuizParams = {}) =>
     params.defaultCategory = params.defaultCategory ?? DEFAULT_CATEGORY;
     params.defaultScore = params.defaultScore ?? DEFAULT_SCORE;
 
-    // @ts-ignore
     const lines = data.split(/\r?\n/)
 
     let curQuestion : Question = null;

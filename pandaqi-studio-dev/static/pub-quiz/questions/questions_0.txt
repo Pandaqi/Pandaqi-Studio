@@ -1,11 +1,13 @@
 Question => Uit welk jaartal is dit nummer?
 Media => 3biggetjes stukje.mp3
 Answers => 2003, 2000, 2007, 2005
+Category => Muziek
 Score => 3
 
 Question => Welk nummer is dit?
 Media => eerste_10_seconden_blauw.mp4
 Answers => Blauw van thé lau
+Category => Muziek
 Score => 1
 
 Question => Waarom schreef Stef Bos het volgende nummer?
@@ -16,11 +18,13 @@ Omdat hij als kind graag speelde met vuur.
 Ter nagedachtenis van zijn pyromanenvriend.
 Omdat hij het woord "uur" niet kan spellen.
 Score => 2
+Category => Muziek
 
 Question => Het volgende nummer staat op een Spotify playlist van Saidah genaamd "voor esther". Hoe lang duurt die playlist?
 Media => fleetwood_mac_dreams.mp3
 Answers => 2 uur en 56 minuten, 3 uur en 7 minuten, 1 uur precies, 2 uur en 34 minuten
 Score => 5
+Category => Muziek
 
 Question => Anita Meijer zingt hier niet helemaaaal de juiste tekst. Wat had ze eigenlijk moeten zingen?
 Media => skepslep.mp4
@@ -30,3 +34,4 @@ Er lammeren liggen in de dauw.
 Er een weg is terug naar jou.
 Er sneeuw valt in de kou.
 Score => 3
+Category => Muziek

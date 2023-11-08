@@ -29,6 +29,8 @@ interface QuizParams
     enableSafety?: boolean
     enableMouse?: boolean
     enableKeys?: boolean
+
+    groupBy?: string
 }
 
 enum QuizMode
@@ -50,13 +52,16 @@ export default class Quiz
     dom: DOM;
     counter: number;
     enableSafety: boolean;
+    groupBy: string;
 
     colors = ["red", "orange", "green", "blue", "turquoise", "purple", "pink"]
 
     constructor(params:QuizParams = {})
     {
         const seed = params.seed ?? DEFAULT_SEED;
+
         this.enableSafety = params.enableSafety ?? true;
+        this.groupBy = params.groupBy ?? null;
 
         this.mode = QuizMode.QUESTIONS;
         this.loader = new Loader(params);
@@ -107,11 +112,24 @@ export default class Quiz
 
     prepareQuestions()
     {
-        // randomly sort questions, but grouped by category
-        shuffle(this.questions, this.rng);
+        // first do a STABLE, CONSISTENT sort on anything (I picked the question, but it doesn't matter)
+        // so that the seeded shuffling works later on
+        // otherwise it's STILL random because of delays and inconsistencies in downloading the questions,
+        // and thus different ordering when inserted into array
         this.questions.sort((a,b) => {
-            return a.category[0].localeCompare(b.category[0]);
+            return a.question[0].localeCompare(b.question[0]);
         })
+
+        // randomly sort questions
+        shuffle(this.questions, this.rng);
+
+        // allow some common groupings
+        if(this.groupBy != null)
+        {
+            this.questions.sort((a,b) => {
+                return a.getPropertySingle(this.groupBy).localeCompare(b.getPropertySingle(this.groupBy));
+            })
+        }
 
         this.assignColors();
 

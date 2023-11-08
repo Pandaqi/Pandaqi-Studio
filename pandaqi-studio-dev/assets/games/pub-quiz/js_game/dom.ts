@@ -12,7 +12,6 @@ export default class DOM
     enableMouse: boolean;
     enableKeys: boolean;
 
-    // @TODO: a key to immediately go to start/end
     constructor(params:QuizParams)
     {
         this.enableMouse = params.enableMouse ?? false;

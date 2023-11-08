@@ -4,6 +4,8 @@ import RGBAToHSLA from "./RGBAToHSLA"
 import RGBAToHEXA from "./RGBAToHEXA"
 import HEXAToRGBA from "./HEXAToRGBA"
 import isZero from "js/pq_games/tools/numbers/isZero"
+import lerp from "js/pq_games/tools/numbers/lerp"
+import slerp from "js/pq_games/tools/numbers/slerp"
 
 export default class Color 
 {
@@ -205,5 +207,13 @@ export default class Color
     invert()
     {
 
+    }
+
+    mix(c:Color, factor = 0.5)
+    {
+        const hue = slerp(this.h, c.h, factor, 360);
+        const l = lerp(this.l, c.l, factor);
+        const s = lerp(this.s, c.s, factor);
+        return new Color(hue, l, s);
     }
 }

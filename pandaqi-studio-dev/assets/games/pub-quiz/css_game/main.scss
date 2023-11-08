@@ -126,7 +126,8 @@ button {
         .metadata-part
         {
             justify-content: center;
-            white-space: nowrap;
+            min-width: 2em;
+            //white-space: nowrap;
             padding: 0.3rem;
         }
 

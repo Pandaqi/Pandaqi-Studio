@@ -10,6 +10,7 @@ import isZero from "../tools/numbers/isZero"
 import ResourceBox from "./resources/resourceBox"
 import ColorLike, { ColorLikeValue } from "./color/colorLike"
 import createContext from "./canvas/createContext"
+import StrokeAlignValue from "./values/strokeAlignValue"
 
 type ResourceLike = ResourceImage|ResourceShape|ResourceText|ResourceBox
 
@@ -24,6 +25,7 @@ interface LayoutOperationParams
     stroke?:string|ColorLikeValue,
     strokeWidth?:number,
     strokeType?:string,
+    strokeAlign?:StrokeAlignValue,
 
     translate?: Point,
     rotation?:number,
@@ -74,6 +76,7 @@ export default class LayoutOperation
     fill: ColorLike
     stroke: ColorLike
     strokeWidth: number
+    strokeAlign: StrokeAlignValue
     strokeType: string
 
     constructor(params:LayoutOperationParams = {})
@@ -99,6 +102,7 @@ export default class LayoutOperation
         this.stroke = new ColorLike(params.stroke);
         this.strokeWidth = params.strokeWidth ?? 0;
         this.strokeType = params.strokeType ?? "solid";
+        this.strokeAlign = params.strokeAlign ?? StrokeAlignValue.MIDDLE;
     }
 
     clone(deep = false)
@@ -150,6 +154,8 @@ export default class LayoutOperation
         let ctx = (canv instanceof HTMLCanvasElement) ? canv.getContext("2d") : canv;
         if(!ctx) { ctx = createContext({ size: this.dims }); } // @TODO: how to control this size better?
 
+        let strokeBeforeFill = false;
+
         ctx.imageSmoothingEnabled = false;
         ctx.imageSmoothingQuality = "low";
 
@@ -195,7 +201,10 @@ export default class LayoutOperation
 
         ctx.fillStyle = this.fill.toCanvasStyle(ctx);
         ctx.strokeStyle = this.stroke.toCanvasStyle(ctx);
-        ctx.lineWidth = this.strokeWidth;
+
+        let lineWidth = this.strokeWidth;
+        if(this.strokeAlign != StrokeAlignValue.MIDDLE) { lineWidth *= 2; }
+        ctx.lineWidth = lineWidth;
  
         const res = this.resource;
         const drawShape = res instanceof ResourceShape;
@@ -209,14 +218,13 @@ export default class LayoutOperation
         if(drawShape)
         {
             const path = res.shape.toPath2D();
-            ctx.fill(path);
-            ctx.stroke(path);
+            this.applyFillAndStrokeToPath(ctx, path);
         }
 
         if(drawText)
         {
             const drawer = res.createTextDrawer(this.dims);
-            drawer.toCanvas(ctx, this.pivot);
+            drawer.toCanvas(ctx, this);
         }
 
         const drawImage = image instanceof ResourceImage;
@@ -232,19 +240,40 @@ export default class LayoutOperation
 
             const box = new Dims(new Point(), this.dims.clone());
             const boxPath = box.toPath2D();
-            
-            ctx.fill(boxPath);
 
-            ctx.drawImage(
-                frameResource.getImage(), 
-                box.position.x, box.position.y, box.size.x, box.size.y
-            );
+            const drawImageCallback = () =>
+            {
+                ctx.drawImage(
+                    frameResource.getImage(), 
+                    box.position.x, box.position.y, box.size.x, box.size.y
+                );
+            }
 
-            ctx.stroke(boxPath);
+            this.applyFillAndStrokeToPath(ctx, boxPath, drawImageCallback);
         }
 
         ctx.restore();
         return ctx.canvas;
+    }
+
+    applyFillAndStrokeToPath(ctx:CanvasRenderingContext2D, path:Path2D, callback:Function = null)
+    {
+        const strokeBeforeFill = this.strokeAlign == StrokeAlignValue.OUTSIDE;
+        const clipStroke = this.strokeAlign == StrokeAlignValue.INSIDE;
+
+        if(clipStroke) { ctx.save(); ctx.clip(path); }
+
+        if(strokeBeforeFill) {
+            ctx.stroke(path);
+            ctx.fill(path);
+            if(callback) { callback(); }
+        } else {
+            ctx.fill(path);
+            if(callback) { callback(); }
+            ctx.stroke(path);
+        }
+
+        if(clipStroke) { ctx.restore(); }
     }
 
     async applyToHTML(node:ElementLike, res:Resource = null)

@@ -54,6 +54,13 @@ export default class Dims
         return this.size.clone();
     }
 
+    setCorners(topLeft:Point, bottomRight:Point)
+    {
+        this.topLeft = topLeft
+        this.bottomRight = bottomRight;
+        this.refresh();
+    }
+
     fromLine(l:Line)
     {
         this.reset();

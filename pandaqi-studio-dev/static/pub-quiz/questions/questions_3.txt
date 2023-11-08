@@ -1,0 +1,52 @@
+Question => Wat is de originele naam van Saidah's spotify account?
+Answers =>
+fairytalemodel
+Correct => fairytalemodel
+Author => Zhenga
+Category =>
+Media => 
+Score => 2
+
+Question => Vul aan: "Het is een sprong in het onbekende, maar hij is de moeite waard."
+Answers =>
+Het is een sprong in het onbekende, maar hij is de moeite waard.
+Het is een zoektocht vol ellende, die geen vriend of vijand spaart.
+Het is een levende legende, eeuwenlang veilig bewaard.
+Kom, volg het pad, volg het pad der zeven zonden.
+Correct => Het is een zoektocht vol ellende, die geen vriend of vijand spaart.
+Author => Zhenga
+Category =>
+Media =>
+Score => 3
+
+Question => Welke van deze instrumenten bestaat NIET?
+Answers =>
+Hurdy-Gurdy
+H2Orgel
+Zeusaphone
+Bladviool
+Correct => Bladviool
+Category =>
+Media => 
+Author => Zhenga
+Score => 4
+
+Question => Het genre muziek waar een koe naar luistert kan invloed hebben op de hoeveelheid melk die een koe produceert. Wat gebeurt er als een koe naar rapmuziek luistert?
+Answers =>
+De koe produceert 3% meer melk.
+De koe produceert 3% minder melk.
+De koe produceert evenveel melk.
+Correct => De koe produceert evenveel melk.
+Category =>
+Media => 
+Author => Zhenga
+Score => 3
+
+Question => Glee is een show met veel muziek. Hoeveel liedjes werden er volledig gezongen? Rond af op een honderdtal.
+Answers =>
+800
+Correct => 800
+Category =>
+Media => 
+Author => Zhenga
+Score => 2

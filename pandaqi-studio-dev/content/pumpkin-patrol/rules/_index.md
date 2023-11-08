@@ -2,25 +2,64 @@
 type: "rules"
 ---
 
+{{< decision-tree >}}
+label = root
+text = Your turn. What do you want?
+paths =
+* Attract People = attract
+* Prepare Treats = treats
+* Hinder Another = obstruct
+style =
+* color = #FFAAAA
+<!---->
+label = attract
+text = Add cards to your home that match what that Person wants.
+<!----->
+label = treats
+text = Discard cards you don't need and draw 2 new ones for each.
+paths =
+* A = nodeA
+* B = nodeB
+<!---->
+label = obstruct
+text = Add cards to another player's home. Steal decorations with a matching icon.
+<!---->
+label = nodeA
+text = 
+paths =
+* A = nodeC
+* B = nodeD
+<!---->
+label = nodeB
+<!---->
+label = nodeC
+<!---->
+label = nodeD
+{{< /decision-tree >}}
+
+
 {{% rules-block id="setup" heading="Setup" icon="setup" icontint="purple" %}}
 
 Pick a set from [the website](https://pandaqi.com/pumpkin-patrol). For your first games, just play the starter set.
 
-Each player receives 4 **Hand Cards**. Hand cards always show _two_ things at the same time: you must always pick only _one_ of the options when you use the card.
+Each player receives 5 **Hand Cards**. Hand cards always show _two_ things at the same time: you pick only _one_ of the options when you use the card. Place the remaining Hand Cards as a shuffled facedown deck.
 
-Place the remaining Hand Cards as a shuffled facedown deck.
+Each player places 1 random Person Card faceup between them and their left neighbor. 
 
-Also create a shuffled facedown deck of **Person Cards**. You can make this deck as large as you want, but it must contain at least one card per player. (The bigger you make this, the longer the game plays.)
+* With 2 or 3 players, place 2 Person cards each.
+* With 2 players, include each Person only _once_.
 
-For each player, draw 1 Person Card and place it faceup in front of them. (They are at your home, but they're not "yours".)
+Randomly place the remaining Person Cards faceup in the center of the table, in a row.
 
-@TODO: IMAGE EXAMPLE (of setup, but also card skeletons and the general idea with building a home and stuff)
+The scariest person becomes start player.
+
+@TODO: IMAGE EXAMPLE (of setup, but also card skeletons + WILDCARD and the general idea with building a home and stuff)
 
 {{% /rules-block %}}
 
 {{% rules-block id="objective" heading="Objective" icon="objective" icontint="lightblue" %}}
 
-The game ends as soon as **all Persons have been scored**.  Players sum the points on the Persons they scored: **highest score wins!**
+The game ends as soon as **2 or fewer Persons remain** (unscored) at the start of a round. Players sum the points on the Persons they scored: **highest score wins!**
 
 {{% /rules-block %}}
 
@@ -28,7 +67,7 @@ The game ends as soon as **all Persons have been scored**.  Players sum the poin
 
 Play happens in rounds. Rounds have two phases: PLAY and WALK.
 
-_What's the general idea?_ During the game, players create a row of cards in front of them. (They decorate their home.) You need that to attract Persons and ask them to stop at your front door.
+_What's the general idea?_ During the game, players create a row of cards in front of them. (They decorate their home.) You need that to attract Persons and ask them to stop at your beautiful front door.
 
 But that's not enough. Balance building your decorations with building your bowl of treats. Because to score any visitor, you also need to pay the Treats they require.
 
@@ -36,11 +75,23 @@ But that's not enough. Balance building your decorations with building your bowl
 
 {{% rules-block heading="Play" %}}
 
-Take clockwise turns. On your turn, take **two actions**. 
+Take clockwise turns, beginning with the start player. On your turn, take **two actions**. 
 
-The possible actions are:
-* ADD: Add a card from your hand to your home. Make sure the side you want ( = which specific decoration) points up.
-* REMOVE: Discard a card from your home or hand. Draw 2 new Hand Cards from the deck (into your hand).
+The possible actions are ...
+
+**ADD**: Add a card from your hand to _any_ home. Make sure the side you want ( = which specific decoration) points up. 
+
+If you add it to somebody else's home,
+
+* They decide how to rotate it.
+* You steal a decoration of theirs, but only one that matches an icon on _your_ card. 
+* A wildcard ("?") matches any icon, even disregarding the type (decoration or treat).
+
+**REMOVE**: Draw 2 new Hand Cards, either from the facedown deck _or_ from the discard pile. Pay for it by discarding 1 card from your home or hand.
+
+{{% remark %}}
+If the draw pile runs out, immediately take the discard pile, shuffle it, and make it the new facedown deck.
+{{% /remark %}}
 
 @TODO: IMAGE EXAMPLE
 
@@ -48,18 +99,17 @@ The possible actions are:
 
 {{% rules-block heading="Walk" %}}
 
-All Persons on the table walk. (This can be done simultaneously!)
+All Persons currently in play will **walk**. They can do so simultaneously.
 
-* They move to the player on their right.
-* If that player fulfills their Home requirements, they stop there.
-* If they've now made a full circle, they also stop there.
-* Otherwise, they keep walking. (Repeat the three steps above.)
+> Each person moves clockwise to the first player who fulfills their **Home requirements**. If no such player exists, they take one step and stop _between_ their current player and the next.
 
-Once done, players _may_ score anyone currently at their front door. For each visiting Person you want to score,
+Home requirements are fulfilled if a player has _at least_ the decorations shown on the Person's card.
 
-* Pay their Treat requirements. (Discard those cards from your hand.)
+Once all Persons have moved, scoring happens in turn order. You _may_ score anyone at your front door, except a Person you have _already scored_. For each Person,
+
+* Pay their **Treat requirements**. (Discard cards from your hand that contain _at least_ their Treat requirements. As always, you can only pick _one_ side per card.)
 * Place the Person card facedown in your score pile.
-* Draw a new Person card and place it faceup in front of you. (This is for next round. You can't score them.)
+* Grab the first Person card from the row in the center of the table. Place it between you and your left neighbor: it's now in play.
 
 Start player moves one to the left. Next round!
 
@@ -72,6 +122,23 @@ Start player moves one to the left. Next round!
 {{% rules-block id="expansions" heading="Expansions" icon="expansion"  icontint="purple" %}}
 
 Once you're familiar with the base game, you can try the more advanced sets!
+
+{{% rules-block heading="Variants" %}}
+
+**Want an easier game?** (Perhaps when playing with kids or first-timers.) Add this rule:
+
+> If a person comes from _between two players_ ( = they didn't start walking from another's front door), you may ignore any _one decoration_ from their requirements.
+
+This makes it easier to attract Persons in certain situations, without being overpowered.
+
+**Want a less cutthroat game?** Don't allow placing decorations in other player's homes.
+
+**Want a more strategic game?** 
+* Start with 4 cards each. 
+* Whenever you add a new Person to the game, you may pick _any_ card from the row in the center of the table. 
+* (If that's too overwhelming, keep a market of 4 faceup Persons at any time. Keep the rest as a facedown deck, unpickable until revealed.)
+
+{{% /rules-block %}}
 
 {{% rules-block heading="Beginner Set" %}}
 
@@ -118,7 +185,9 @@ This adds no new rules. It simply contains the people with the toughest powers, 
 
 {{% rules-block heading="Assemble your own deck" %}}
 
-You can combine sets to create your own deck.
+Firstly, there's no need to play with exactly 16 Persons (2 of each type). You can shrink the Person pool for a shorter game, or include each person only once and add _more_ types.
+
+Secondly, you can combine sets to create your own deck.
 
 * Make sure the icons on Person and Hand cards match. (That's why it's recommended to include all or most of a set.)
 * Make sure there's enough variety in the Person scores.

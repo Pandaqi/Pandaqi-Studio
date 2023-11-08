@@ -2,6 +2,8 @@ import { TextConfig, TextAlign } from "./textConfig"
 import Dims from "js/pq_games/tools/geometry/dims"
 import Point from "js/pq_games/tools/geometry/point"
 import { CanvasLike } from "../resources/resourceImage"
+import LayoutOperation from "../layoutOperation"
+import StrokeAlignValue from "../values/strokeAlignValue"
 
 export default class TextDrawer
 {
@@ -29,7 +31,7 @@ export default class TextDrawer
         return this.textBlockDims;
     }
 
-    toCanvas(canv:CanvasLike, pivot:Point = new Point())
+    toCanvas(canv:CanvasLike, op:LayoutOperation = new LayoutOperation())
     {
 
         const ctx = (canv instanceof HTMLCanvasElement) ? canv.getContext("2d") : canv;
@@ -197,9 +199,11 @@ export default class TextDrawer
         textarray.forEach(txtline => {
             txtline = txtline.trim()
 
+            const pos = new Point(textanchor, txtY);
+            const text = txtline;
+
             // this is the one line that actually draws text!
-            ctx.fillText(txtline, textanchor, txtY);
-            ctx.strokeText(txtline, textanchor, txtY);
+            this.fillAndStrokeText(ctx, text, pos, op);
 
             // and moves to next line
             txtY += charHeight
@@ -208,6 +212,48 @@ export default class TextDrawer
         this.debugDraw(ctx);
         ctx.restore();
     }
+
+    fillAndStrokeText(ctx:CanvasRenderingContext2D, txt:string, pos:Point, op:LayoutOperation)
+    {
+        const strokeBeforeFill = op.strokeAlign == StrokeAlignValue.OUTSIDE;
+        const clipStroke = op.strokeAlign == StrokeAlignValue.INSIDE;
+
+        // @TODO: Clipping (for the inside stroke) NOT IMPLEMENTED YET
+        // Clipping only works for paths, and text is not a path
+        // Use secondary image and masking for this!
+        // @SOURCE: https://stackoverflow.com/questions/7307430/html-canvas-clipping-and-text
+
+        if(strokeBeforeFill) {
+            ctx.strokeText(txt, pos.x, pos.y);
+            ctx.fillText(txt, pos.x, pos.y);
+        } else {
+            ctx.fillText(txt, pos.x, pos.y);
+            ctx.strokeText(txt, pos.x, pos.y);
+        }
+    }
+
+    /*
+    applyFillAndStroke(ctx:CanvasRenderingContext2D, path:Path2D, callback:Function = null)
+    {
+        const strokeBeforeFill = this.strokeAlign == StrokeAlignValue.OUTSIDE;
+        const clipStroke = this.strokeAlign == StrokeAlignValue.INSIDE;
+
+        if(clipStroke) { ctx.save(); ctx.clip(path); }
+
+        if(strokeBeforeFill) {
+            ctx.stroke(path);
+            ctx.fill(path);
+            if(callback) { callback(); }
+        } else {
+            ctx.fill(path);
+            if(callback) { callback(); }
+            ctx.stroke(path);
+        }
+
+        if(clipStroke) { ctx.restore(); }
+    }
+
+    */
 
     debugDraw(ctx:CanvasRenderingContext2D)
     {

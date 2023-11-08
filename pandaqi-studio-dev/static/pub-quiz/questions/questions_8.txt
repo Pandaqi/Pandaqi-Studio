@@ -1,0 +1,44 @@
+Question => Maak de tekst af: “Want ooit op een dag, dan dooft
+het vuur. Maar als ik sterf en word geblust ...”
+Answers => Laat het dan zijn met een kus.
+Correct => Laat het dan zijn met een kus.
+Category => Muziek
+Media =>
+Score => 3
+
+Question => Welk nummer is dit?
+Answers => Slaapliedje van Samson en Gert
+Correct => Slaapliedje van Samson en Gert
+Category => Muziek
+Media => samsonquiz.mp3
+Score => 2
+
+Question => Welk nummer is dit?
+Answers => Une Belle Histoire - Michelle Fugain
+Correct => Une Belle Histoire - Michelle Fugain
+Category => Muziek
+Media => bellehisquiz.mp3
+Score => 2
+
+Question => Op hoeveel minuut en seconde komen de drums bij
+“In the Air Tonight”?
+Answers =>
+3.15
+3.36
+4.03
+Correct => 3.15
+Category => Muziek
+Media => philquiz.mp3
+Score => 4
+
+Question => In welk jaar won Nederland het eurovisie songfestival
+met het grandioze nummer Dinge-dong (Ding-a-dong)?
+Answers =>
+1972
+1973
+1974
+1975
+Correct => 1975
+Category => Muziek
+Media =>
+Score => 2

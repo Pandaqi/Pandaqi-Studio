@@ -90,6 +90,14 @@ export default class Question
         }
     }
 
+    getPropertySingle(prop:string) : string
+    {
+        const val = this[prop];
+        if(!val) { return ""; }
+        if(Array.isArray(val) && val.length > 0) { return this[prop][0].toString(); }
+        return val.toString();
+    }
+
     propertyAlreadyHasData(prop:string)
     {
         const val = this[prop]
