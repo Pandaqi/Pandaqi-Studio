@@ -13,25 +13,27 @@ interface PowerData
     reqs?:string[] // any requirements that should be dynamically filled in
 }
 
+// @NOTE: power names should not have underscores; those are used for creating dynamic keys for powers that need it
+// (and thus, when drawing the card, to check which specific subType we have to draw)
 type PowerSet = Record<string, PowerData>;
 const POWERS:PowerSet = 
 {
     skip: { label: "Skip Turn", drawNum: 2, frame: 0 },
     copycat: { label: "Copycat", drawNum: 1, frame: 1 },
     wildcard: { label: "Wildcard", drawNum: 1, frame: 2 },
-    wildcard_paid: { label: "Wildcard Paid", drawNum: 2, frame: 3 },
+    wildcardPaid: { label: "Wildcard Paid", drawNum: 2, frame: 3 },
     override: { label: "Replace", drawNum: 2, frame: 4 },
     swap: { label: "Swap", drawNum: 2, frame: 5 },
     steal: { label: "Steal", drawNum: 1, frame: 6 },
-    risky_deck: { label: "Draw and Play", drawNum: 1, frame: 7 },
-    risky_player: { label: "Steal and Play", drawNum: 1, frame: 8 },
-    double_turn: { label: "Double Turn", drawNum: 2, frame: 9 },
-    rotate_cards: { label: "Card Carousel", drawNum: 2, frame: 10 }, // everyone gives 2 cards to the left/right
+    riskyDeck: { label: "Draw and Play", drawNum: 1, frame: 7 },
+    riskyPlayer: { label: "Steal and Play", drawNum: 1, frame: 8 },
+    doubleTurn: { label: "Double Turn", drawNum: 2, frame: 9 },
+    rotateCards: { label: "Card Carousel", drawNum: 2, frame: 10 }, // everyone gives 2 cards to the left/right
     inspect: { label: "Inspect", drawNum: 2, frame: 11 }, // look at the hand of 2 other players.
 
     shapeshift: { label: "Shapeshift", reqs: ["cat", "cat"], drawNum: 2 },
     ignore: { label: "Ignore", reqs: ["cat"], drawNum: 1 },
-    cat_plus: { label: "More Allowed", reqs: ["cat"], drawNum: 2 },
+    plus: { label: "More Allowed", reqs: ["cat"], drawNum: 2 },
 }
 
 interface CatData
@@ -43,10 +45,10 @@ interface CatData
 
 const CATS: Record<string, CatData> = 
 {
-    circle: { frame: 0, color: "#145C00" }, // frame + 1 is the simplified version
+    circle: { frame: 0, color: "#134B00" }, // frame + 1 is the simplified version
     square: { frame: 2, color: "#084670" },
-    triangle: { frame: 4, color: "#802D12" },
-    star: { frame: 6, color: "#3A236D", excludeFromCombos: true }
+    triangle: { frame: 4, color: "#601B01" },
+    star: { frame: 6, color: "#29125C", excludeFromCombos: true }
 }
 
 const MISC =

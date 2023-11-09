@@ -3,12 +3,11 @@ import Point from "js/pq_games/tools/geometry/point"
 const CONFIG = 
 {
     debugWithoutFile: true, // @DEBUGGING (should be false)
-    debugSingleCard: true, // @DEBUGGING (should be false)
-    debugOnlyGenerate: true, // @DEBUGGING (should be false)
+    debugSingleCard: false, // @DEBUGGING (should be false)
+    debugOnlyGenerate: false, // @DEBUGGING (should be false)
 
     configKey: "nineLivesConfig",
     fileName: "[Material] Nine Lives",
-    resLoader: null,
 
     // set through user config on page
     inkFriendly: false,
@@ -51,7 +50,7 @@ const CONFIG =
         powers:
         {
             path: "powers.webp",
-            frames: new Point(16,1),
+            frames: new Point(8,2),
         },
     },
 
@@ -60,12 +59,16 @@ const CONFIG =
     {
         numberCards:
         {
-
+            num: 45, // a hard threshold for the number deck which we try to reach exactly
+            includeAllCombosUntil: 3,
+            maxCatsOnComboCard: 6,
+            maxCatsOnRegularCard: 9,
+            highComboFalloff: 2.5, // how quickly we reduce the number of cards for higher and higher numbers
         },
 
         lifeCards:
         {
-            num: 6 * 9, // max 6 players, 9 per player
+            num: 5 * 9, // max 5 players, 9 per player
         }
     },
 
@@ -82,7 +85,8 @@ const CONFIG =
         
         shared:
         {
-
+            shadowOffset: new Point(0.0175, 0.0175),
+            shadowColor: "#00000099"
         },
 
         bgCats:
@@ -91,7 +95,7 @@ const CONFIG =
             patternNumIcons: 12, // again, Y-axis
             patternIconSize: 0.8, // relative to full space reserved for icon (1.0)
 
-            patternAlpha: 0.2,
+            patternAlpha: 0.125,
             patternRotation: -0.166*Math.PI, // = 30 degrees tilt
             patternAlphaInkFriendly: 0.1
         },
@@ -117,35 +121,40 @@ const CONFIG =
                 [new Point(-1, -1), new Point(0, -1), new Point(1, -1), new Point(-1, 0), new Point(1, 0), new Point(-1, 1), new Point(0, 1), new Point(1, 1)],
                 [new Point(-1, -1), new Point(0, -1), new Point(1, -1), new Point(-1, 0), Point.ZERO, new Point(1, 0), new Point(-1, 1), new Point(0, 1), new Point(1, 1)]
             ],
-            iconSize: 0.2, // ~sizeUnit
-            simplifiedIconSize: 0.1, // ~sizeUnit
+            iconSize: 0.25, // ~sizeUnit
+            simplifiedIconSize: 0.08, // ~sizeUnit
             simplifiedIconOffset: new Point(0.05, 0.05), // ~sizeUnit
         },
 
         life:
         {
-            bgColor: "#7C0600", // @TODO
-            heartPosY: 0.66, // ~sizeY
-            heartSize: 1.2, // ~sizeUnit, should be above 1.0 by a good amount
-            heartCornerSize: 0.1, // ~sizeUnit
-            heartCornerOffset: 1.2, // ~half size of corner heart
+            bgColor: "#7C0600",
+            heartPosY: 0.533, // ~sizeY
+            heartSize: 1.4, // ~sizeUnit, should be above 1.0 by a good amount
+            heartCornerSize: 0.175, // ~sizeUnit
+            heartCornerOffset: 1.4, // ~half size of corner heart
 
-            cardRectY: 0.15, // ~sizeY
-            cardRectSize: new Point(0.3, 0.15), // ~sizeUnit
+            cardRectY: 0.08, // ~sizeY
+            cardRectSize: new Point(0.315, 0.135), // ~sizeUnit
             cardRectBevel: 0.15, // ~rectSizeUnit
-            cardRectStrokeWidth: 0.025, // ~sizeUnit
+            cardRectStrokeWidth: 0.0075, // ~sizeUnit
             cardRectIconSize: 0.9, // ~rectY
-            cardRectIconXSpacing: 0.65, // ~rectIconX (cards are portrait, so their actual width is smaller than the square frame, compensate for that)
+            cardRectIconXSpacing: 0.675, // ~rectIconX (cards are portrait, so their actual width is smaller than the square frame, compensate for that)
 
             fontSize: 0.075, // ~sizeUnit
-            textOffsetFromCenter: 0.25, // ~sizeY
-            textStrokeWidth: 0.05, // ~sizeUnit
+            textOffsetFromCenter: 0.175, // ~sizeY
+            textStrokeWidth: 0.005, // ~sizeUnit
             lifeCardTextAlpha: 0.5,
+            lifeCardFontSizeFactor: 0.85,
         },
 
         powers:
         {
-            iconSize: 0.25, // ~sizeUnit
+            iconSize: 0.33, // ~sizeUnit
+            shapeshift:
+            {
+                iconSize: 0.775, // ~iconSize normal
+            }
         },
 
         outline:

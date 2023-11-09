@@ -18,10 +18,10 @@ export default (a:number, b:number, factor = 0.5, wrap = 1.0) =>
     // lerp through that path
     const lerpLeft = distLeft < distRight;
     if(lerpLeft) { 
-        if(b < a) { return lerp(a, b, factor); }
+        if(b <= a) { return lerp(a, b, factor); } // equals here is important, otherwise slerping between identical numbers takes the case below and that's NOT CORRECT
         else { return lerp(a + wrap, b, factor) % wrap; }
     } else {
-        if(a < b) { return lerp(a, b, factor); }
+        if(a <= b) { return lerp(a, b, factor); }
         else { return lerp(a, b + wrap, factor) % wrap; }
     }
 }

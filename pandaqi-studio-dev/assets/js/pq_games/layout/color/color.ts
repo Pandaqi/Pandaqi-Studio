@@ -214,6 +214,6 @@ export default class Color
         const hue = slerp(this.h, c.h, factor, 360);
         const l = lerp(this.l, c.l, factor);
         const s = lerp(this.s, c.s, factor);
-        return new Color(hue, l, s);
+        return new Color(hue, s, l);
     }
 }

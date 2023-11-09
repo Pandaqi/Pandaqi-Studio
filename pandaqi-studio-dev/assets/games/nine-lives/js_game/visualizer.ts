@@ -1,17 +1,41 @@
-import createContext from "js/pq_games/layout/canvas/createContext";
 import CONFIG from "../js_shared/config";
-import Point from "js/pq_games/tools/geometry/point";
 import { MISC } from "../js_shared/dict";
-import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage";
 import ResourceImage from "js/pq_games/layout/resources/resourceImage";
 import patternizeGrid from "js/pq_games/layout/patterns/patternizeGrid";
+import ResourceLoader from "js/pq_games/layout/resources/resourceLoader";
+import Point from "js/pq_games/tools/geometry/point";
+import GrayScaleEffect from "js/pq_games/layout/effects/grayScaleEffect";
+import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
+import LayoutEffect from "js/pq_games/layout/effects/layoutEffect";
 
 export default class Visualizer
 {
     patternCat: ResourceImage
     patternHeart: ResourceImage
     patternHeartOutline: ResourceImage
+    resLoader: ResourceLoader;
+    size: Point;
+    sizeUnit: number;
+    center: Point;
+    inkFriendly: boolean;
+    effects: LayoutEffect[];
+
+    constructor(r:ResourceLoader, cardSize:Point, inkFriendly:boolean)
+    {
+        this.resLoader = r;
+        this.inkFriendly = inkFriendly;
+        this.size = cardSize;
+        this.sizeUnit = Math.min(this.size.x, this.size.y);
+        this.center = this.size.clone().scale(0.5);
+
+        const shadowOffset = CONFIG.cards.shared.shadowOffset.clone().scale(this.sizeUnit);
+        const shadowColor = CONFIG.cards.shared.shadowColor;
+        this.effects = [
+            new DropShadowEffect({ offset: shadowOffset, color: shadowColor })
+        ]
+
+        if(inkFriendly) { this.effects.push(new GrayScaleEffect()); }
+    }
 
     async prepare()
     {
@@ -24,13 +48,13 @@ export default class Visualizer
             dims: (1.0 + CONFIG.cards.bgCats.patternExtraMargin) * CONFIG.cards.size.y,
             size: CONFIG.cards.bgCats.patternIconSize,
             num: CONFIG.cards.bgCats.patternNumIcons,
-            resource: CONFIG.resLoader.getResource("misc"),
+            resource: this.resLoader.getResource("misc"),
             frame: MISC.bg_cat.frame
         }
 
         this.patternCat = await patternizeGrid(params);
 
-        params.frame = MISC.heart.frame;
+        params.frame = MISC.heart_simple.frame;
         this.patternHeart = await patternizeGrid(params);
 
         params.frame = MISC.heart_outline.frame;

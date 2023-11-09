@@ -13,6 +13,7 @@ export default class Generator
     progressBar: ProgressBar;
     pdfBuilder: PdfBuilder;
     gridMapper: GridMapper;
+    resLoader: ResourceLoader;
 
     constructor()
     {
@@ -45,7 +46,7 @@ export default class Generator
         const resLoader = new ResourceLoader({ base: CONFIG.assetsBase });
         resLoader.planLoadMultiple(CONFIG.assets)
         await resLoader.loadPlannedResources();
-        CONFIG.resLoader = resLoader;
+        this.resLoader = resLoader;
 
         const pdfBuilderConfig = { orientation: PageOrientation.PORTRAIT, debugWithoutFile: CONFIG.debugWithoutFile };
         const pdfBuilder = new PdfBuilder(pdfBuilderConfig);
@@ -75,7 +76,7 @@ export default class Generator
         if(CONFIG.debugOnlyGenerate) { return; }
 
         // merely caches some default values (such as bg patterns) for much faster generation
-        const visualizer = new Visualizer();
+        const visualizer = new Visualizer(this.resLoader, this.gridMapper.getMaxElementSize(), CONFIG.inkFriendly);
         await visualizer.prepare();
 
         // cards handle drawing themselves

@@ -65,8 +65,8 @@ Three simple steps.
 
 <p>Pick your desired settings and click the button! When in doubt, just use the defaults for your first games.</p>
 
-{{< boardgame-settings type="game" local_storage="nineLivesMathMeowsConfig" btn_label="Generate Material" >}}
-	{{< setting-hidden id="setting-gameTitle" text="Nine Lives: Math Meows" >}}
+{{< boardgame-settings type="game" local_storage="nineLivesConfig" btn_label="Generate Material" >}}
+	{{< setting-hidden id="setting-gameTitle" text="Nine Lives" >}}
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
   {{< setting-checkbox id="setting-includeLifeCards" text="Generate Life Cards?" checked="checked" >}}
   {{< setting-checkbox id="setting-includeCatCards" text="Generate Cat Cards?" checked="checked" >}}

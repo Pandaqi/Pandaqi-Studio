@@ -64,7 +64,7 @@ Only the _top_ card of your lives deck is relevant (and can be played) at any gi
 
 
 @TODO:
-* ISSUE 1: What if you run out of hand cards before somebody has lost all their lives? => Should never happen, right? Because you have 9 lives + ~9 hand cards, plenty to play with.
+* ISSUE 1: What if you run out of hand cards before somebody has lost all their lives? => You can always play your top life when out of cards. I just need to have enough "powers" that allow drawing more cards (or stealing, or taking cards from the last trick into your hand, etcetera.)
 
 
 {{% /rules-block %}}

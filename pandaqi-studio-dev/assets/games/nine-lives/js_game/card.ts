@@ -38,27 +38,28 @@ export default class Card
     }
 
     getCanvas() { return this.ctx.canvas; }
-    async draw(visualizer:Visualizer)
+    async draw(vis:Visualizer)
     {
-        const size = CONFIG.cards.size;
-        const ctx = createContext({ size: size });
+        const ctx = createContext({ size: vis.size });
         this.ctx = ctx;
-        this.size = size;
-        this.sizeUnit = Math.min(size.x, size.y);
 
-        this.cats.sort((a,b) => {
-            return a.localeCompare(b);
-        })
-
-        await this.drawBackground(visualizer);
-
-        if(this.type == Type.LIFE) {
-            await this.drawLifeCard();
-        } else {
-            await this.drawCatCard();
+        if(this.cats)
+        {
+            this.cats.sort((a,b) => {
+                return a.localeCompare(b);
+            })
         }
 
-        this.drawOutline();
+
+        await this.drawBackground(vis);
+
+        if(this.type == Type.LIFE) {
+            await this.drawLifeCard(vis);
+        } else {
+            await this.drawCatCard(vis);
+        }
+
+        this.drawOutline(vis);
 
         return this.getCanvas();
     }
@@ -66,21 +67,21 @@ export default class Card
     //
     // > LIFE CARDS
     //
-    async drawLifeCard()
+    async drawLifeCard(vis:Visualizer)
     {
-        await this.drawLifeBackground();
-        await this.drawCornerHearts();
-        await this.drawCardLimit();
-        await this.drawPower();
-        await this.drawLifeText();
+        await this.drawLifeBackground(vis);
+        await this.drawCornerHearts(vis);
+        await this.drawCardLimit(vis);
+        await this.drawPower(vis);
+        await this.drawLifeText(vis);
     }
 
-    async drawLifeBackground()
+    async drawLifeBackground(vis:Visualizer)
     {
-        const res = CONFIG.resLoader.getResource("misc");
+        const res = vis.resLoader.getResource("misc");
         const frame = MISC.heart_life.frame;
-        const pos = new Point(0.5*this.size.x, CONFIG.cards.life.heartPosY * this.size.y);
-        const dims = new Point(CONFIG.cards.life.heartSize * this.sizeUnit);
+        const pos = new Point(0.5*vis.size.x, CONFIG.cards.life.heartPosY * vis.size.y);
+        const dims = new Point(CONFIG.cards.life.heartSize * vis.sizeUnit);
         const op = new LayoutOperation({
             frame: frame,
             translate: pos,
@@ -91,12 +92,12 @@ export default class Card
         await res.toCanvas(this.ctx, op);
     }
 
-    async drawCornerHearts()
+    async drawCornerHearts(vis:Visualizer)
     {
-        const dims = new Point(CONFIG.cards.life.heartCornerSize * this.sizeUnit);
+        const dims = new Point(CONFIG.cards.life.heartCornerSize * vis.sizeUnit);
         const offset = dims.clone().scaleFactor(0.5).scaleFactor(CONFIG.cards.life.heartCornerOffset);
-        const positions = getRectangleCornersWithOffset(this.size, offset);
-        const res = CONFIG.resLoader.getResource("misc");
+        const positions = getRectangleCornersWithOffset(vis.size, offset);
+        const res = vis.resLoader.getResource("misc");
         const frame = MISC.heart.frame;
         for(let i = 0; i < positions.length; i++)
         {
@@ -107,28 +108,30 @@ export default class Card
                 translate: pos,
                 dims: dims,
                 rotation: rot,
-                pivot: Point.CENTER
+                pivot: Point.CENTER,
+                effects: vis.effects,
             })
             await res.toCanvas(this.ctx, op);
         }
     }
 
-    async drawCardLimit()
+    async drawCardLimit(vis:Visualizer)
     {
         // background rect (with beveled corners)
-        const center = new Point(0.5*this.size.y, CONFIG.cards.life.cardRectY * this.size.y);
-        const extents = CONFIG.cards.life.cardRectSize.clone().scaleFactor(this.sizeUnit);
+        const center = new Point(0.5*vis.size.x, CONFIG.cards.life.cardRectY * vis.size.y);
+        const extents = CONFIG.cards.life.cardRectSize.clone().scaleFactor(vis.sizeUnit);
         const rect = new Rectangle({ center: center, extents: extents });
         const rectBevel = CONFIG.cards.life.cardRectBevel * Math.min(extents.x, extents.y);
         const path = bevelCorners(rect.toPath(), rectBevel);
         
-        const pathObj = new Path({ points: path });
+        const pathObj = new Path({ points: path, close: true });
         const res = new ResourceShape({ shape: pathObj });
-        const strokeWidth = CONFIG.cards.life.cardRectStrokeWidth * this.sizeUnit;
+        const strokeWidth = CONFIG.cards.life.cardRectStrokeWidth * vis.sizeUnit;
         const op = new LayoutOperation({
             fill: "#00353D",
             stroke: "#FFFFFF",
-            strokeWidth: strokeWidth
+            strokeWidth: strokeWidth,
+            effects: vis.effects,
         })
         await res.toCanvas(this.ctx, op);
 
@@ -137,7 +140,7 @@ export default class Card
         const cardSize = CONFIG.cards.life.cardRectIconSize * extents.y;
         const cardWidth = CONFIG.cards.life.cardRectIconXSpacing * cardSize;
         const offsetTotal = new Point(-0.5*(numCards - 1)*cardWidth, 0);
-        const resCard = CONFIG.resLoader.getResource("misc");
+        const resCard = vis.resLoader.getResource("misc");
         const frame = MISC.card.frame;
         for(let i = 0; i < numCards; i++)
         {
@@ -152,31 +155,32 @@ export default class Card
         }
     }
 
-    async drawPower()
+    async drawPower(vis:Visualizer)
     {
         const isCustomPower = this.data.reqs && this.data.reqs.length > 0;
-        const center = this.size.clone().scale(0.5);
-        const dims = new Point(CONFIG.cards.powers.iconSize * this.sizeUnit);
+        const center = vis.size.clone().scale(0.5);
+        const dims = new Point(CONFIG.cards.powers.iconSize * vis.sizeUnit);
 
         if(isCustomPower) {
-            await this.drawCustomPower(center, dims);
+            await this.drawCustomPower(vis, center, dims);
         } else {
-            const res = CONFIG.resLoader.getResource("powers");
+            const res = vis.resLoader.getResource("powers");
             const frame = this.data.frame;
             const op = new LayoutOperation({
                 frame: frame,
                 translate: center,
                 dims: dims,
                 pivot: Point.CENTER,
+                effects: vis.effects,
             })
             await res.toCanvas(this.ctx, op);
         }
     }
 
-    async drawCustomPower(center:Point, dims:Point)
+    async drawCustomPower(vis:Visualizer, center:Point, dims:Point)
     {
-        const res = CONFIG.resLoader.getResource("cats");
-        const resMisc = CONFIG.resLoader.getResource("misc");
+        const res = vis.resLoader.getResource("cats");
+        const resMisc = vis.resLoader.getResource("misc");
         const posLeft = center.clone().move(new Point(-0.5*dims.x, 0));
         const posRight = center.clone().move(new Point(0.5*dims.x, 0));
 
@@ -184,11 +188,16 @@ export default class Card
             translate: new Point(),
             dims: dims, 
             frame: 0,
-            pivot: Point.CENTER
+            pivot: Point.CENTER,
+            effects: vis.effects,
         })
 
-        if(this.power == "shapeshift")
+        const powerSubtype = this.power.split("_")[0];
+
+        if(powerSubtype == "shapeshift")
         {
+            dims = dims.scale(CONFIG.cards.powers.shapeshift.iconSize);
+
             const frame0 = CATS[this.data.reqs[0]].frame;
             const frame1 = MISC.arrow.frame;
             const frame2 = CATS[this.data.reqs[1]].frame;
@@ -206,7 +215,7 @@ export default class Card
             op.translate = center.clone().move(new Point(dims.x, 0));
             await res.toCanvas(this.ctx, op);
         }
-        else if(this.power == "ignore")
+        else if(powerSubtype == "ignore")
         {
             op.frame = MISC.cross.frame;
             op.translate = posLeft;
@@ -216,7 +225,7 @@ export default class Card
             op.translate = posRight;
             await res.toCanvas(this.ctx, op);
         }
-        else if(this.power == "cat_plus")
+        else if(powerSubtype == "plus")
         {
             op.frame = CATS[this.data.reqs[0]].frame;
             op.translate = posLeft;
@@ -228,9 +237,9 @@ export default class Card
         }
     }
 
-    async drawLifeText()
+    async drawLifeText(vis:Visualizer)
     {
-        const fontSize = CONFIG.cards.life.fontSize * this.sizeUnit;
+        const fontSize = CONFIG.cards.life.fontSize * vis.sizeUnit;
         const textConfig = new TextConfig({
             font: CONFIG.fonts.heading,
             size: fontSize,
@@ -239,12 +248,12 @@ export default class Card
         })
         const label = this.data.label;
         const res = new ResourceText({ text: label, textConfig: textConfig });
-        const offset = CONFIG.cards.life.textOffsetFromCenter * this.size.y;
-        const pos = new Point(0.5*this.size.x, 0.5*this.size.y + offset);
-        const strokeWidth = CONFIG.cards.life.textStrokeWidth * this.sizeUnit;
+        const offset = CONFIG.cards.life.textOffsetFromCenter * vis.size.y;
+        const pos = new Point(0.5*vis.size.x, 0.5*vis.size.y + offset);
+        const strokeWidth = CONFIG.cards.life.textStrokeWidth * vis.sizeUnit;
         const op = new LayoutOperation({
             translate: pos,
-            dims: new Point(this.size.x, fontSize),
+            dims: new Point(vis.size.x, fontSize),
             fill: "#FFFFFF",
             stroke: "#000000",
             strokeWidth: strokeWidth,
@@ -253,55 +262,59 @@ export default class Card
         });
         await res.toCanvas(this.ctx, op);
 
+        textConfig.size *= CONFIG.cards.life.lifeCardFontSizeFactor;
         const resLife = new ResourceText({ text: "Life Card", textConfig });
         op.alpha = CONFIG.cards.life.lifeCardTextAlpha;
+        op.translate = pos.clone().move(new Point(0, fontSize*1.2));
         await resLife.toCanvas(this.ctx, op);
     }
 
     //
     // > CAT cards 
     //
-    async drawCatCard()
+    async drawCatCard(vis:Visualizer)
     {
-        await this.drawCats();
-        await this.drawCatsSimplified();
+        await this.drawCats(vis);
+        await this.drawCatsSimplified(vis);
     }
 
-    async drawCats()
+    async drawCats(vis:Visualizer)
     {
         const numIcons = this.cats.length;
         const positions = CONFIG.cards.cats.positions[numIcons];
-        const res = CONFIG.resLoader.getResource("cats");
+        const res = vis.resLoader.getResource("cats");
 
-        const dims = new Point(CONFIG.cards.cats.iconSize * this.sizeUnit);
-        const center = this.size.clone().scale(0.5);
+        const dims = new Point(CONFIG.cards.cats.iconSize * vis.sizeUnit);
+        const center = vis.size.clone().scale(0.5);
         const posOffset = CONFIG.cards.cats.positionOffset;
+        const posOffsetAbsolute = vis.size.clone().scaleFactor(0.5 * posOffset);
 
         for(let i = 0; i < numIcons; i++)
         {
-            const pos = center.clone().move(positions[i].clone().scale(posOffset).scale(this.size));
+            const pos = center.clone().move(positions[i].clone().scale(posOffsetAbsolute));
             const cat = this.cats[i];
             const frame = CATS[cat].frame;
             const op = new LayoutOperation({
                 translate: pos,
                 dims: dims,
                 frame: frame,
-                pivot: Point.CENTER
+                pivot: Point.CENTER,
+                effects: vis.effects,
             })
 
             await res.toCanvas(this.ctx, op);
         }
     }
 
-    async drawCatsSimplified()
+    async drawCatsSimplified(vis:Visualizer)
     {
-        const iconSize = CONFIG.cards.cats.simplifiedIconSize * this.sizeUnit;
+        const iconSize = CONFIG.cards.cats.simplifiedIconSize * vis.sizeUnit;
         const numIcons = this.cats.length;
-        const offset = CONFIG.cards.cats.simplifiedIconOffset.clone().scale(this.sizeUnit);
+        const offset = CONFIG.cards.cats.simplifiedIconOffset.clone().scale(vis.sizeUnit);
         const positions = 
         [
-            new Point(this.size.x - numIcons*iconSize - offset.x, 0.5*iconSize + offset.y),
-            new Point(numIcons * iconSize + offset.x, this.size.y - 0.5*iconSize - offset.y)
+            new Point(vis.size.x - (numIcons-0.5)*iconSize - offset.x, 0.5*iconSize + offset.y),
+            new Point((numIcons-0.5) * iconSize + offset.x, vis.size.y - 0.5*iconSize - offset.y)
         ]
         const vectors =
         [
@@ -309,7 +322,7 @@ export default class Card
             Point.LEFT
         ]
 
-        const res = CONFIG.resLoader.getResource("cats");
+        const res = vis.resLoader.getResource("cats");
         for(let i = 0; i < 2; i++)
         {
             const basePos = positions[i];
@@ -318,14 +331,16 @@ export default class Card
             
             for(let a = 0; a < numIcons; a++)
             {
-                const pos = basePos.clone().move(vec.clone().scaleFactor(a));    
+                const myOffset = vec.clone().scaleFactor(a).scaleFactor(iconSize);
+                const pos = basePos.clone().move(myOffset);    
                 const frame = CATS[this.cats[a]].frame + 1;
                 const op = new LayoutOperation({
                     frame: frame,
                     translate: pos,
                     dims: new Point(iconSize),
                     pivot: new Point(0.5),
-                    rotation: rot
+                    rotation: rot,
+                    effects: vis.effects,
                 })
                 await res.toCanvas(this.ctx, op);
             }
@@ -364,7 +379,7 @@ export default class Card
 
         const pattern = (this.type == Type.CAT) ? vis.patternCat : vis.patternHeart;
         const rot = (this.type == Type.CAT) ? CONFIG.cards.bgCats.patternRotation : CONFIG.cards.bgHearts.patternRotation;
-        const center = this.size.clone().scaleFactor(0.5);
+        const center = vis.size.clone().scaleFactor(0.5);
         const op = new LayoutOperation({
             translate: center,
             alpha: alpha,
@@ -374,9 +389,9 @@ export default class Card
         await pattern.toCanvas(this.ctx, op);
     }
 
-    drawOutline()
+    drawOutline(vis:Visualizer)
     {
-        const outlineSize = CONFIG.cards.outline.size * this.sizeUnit;
+        const outlineSize = CONFIG.cards.outline.size * vis.sizeUnit;
         strokeCanvas(this.ctx, CONFIG.cards.outline.color, outlineSize);
     }
 }

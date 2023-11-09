@@ -21,20 +21,20 @@ export default async (params:PatternizeParams) =>
     const resourceInput = params.resource;
     const frame = params.frame ?? 0;
 
-    const distBetweenIcons = dims.div(num);
-    const iconSize = size.scale(distBetweenIcons);
+    const distBetweenIcons = dims.clone().div(num);
+    const iconSize = size.clone().scale(distBetweenIcons);
 
     const ctx = createContext({ size: new Point(dims) });
     for(let x = 0; x < num.x; x++)
     {
         for(let y = 0; y < num.y; y++)
         {
-            const pos = new Point(x,y).scaleFactor(distBetweenIcons);
+            const pos = new Point(x,y).scale(distBetweenIcons);
             const op = new LayoutOperation({
                 frame: frame,
                 translate: pos,
                 dims: iconSize,
-                pivot: new Point(0.5),
+                pivot: Point.CENTER,
             })
             await resourceInput.toCanvas(ctx, op);
         }
