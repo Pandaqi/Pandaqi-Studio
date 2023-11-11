@@ -1,4 +1,5 @@
 import Question from "./question";
+import QVal, { QValType } from "./questionValue";
 import { QuizParams } from "./quiz";
 
 const IMAGE_FORMATS = ["jpg", "jpeg", "png", "webp", "gif"];
@@ -12,13 +13,16 @@ const DEFAULT_CATEGORY = "general";
 const PROPS_ACCEPTING_LIST = ["category", "media", "answers", "author"];
 const PROPS_FORCED_LOWERCASE = ["category", "autor"];
 
+const MASK_QUESTION_SYMBOL = "?";
+const MASK_ANSWER_SYMBOL = "!";
+
 const isValidMediaType = (path:string) =>
 {
     const ext = parseExtension(path);
     return IMAGE_FORMATS.includes(ext) || AUDIO_FORMATS.includes(ext) || VIDEO_FORMATS.includes(ext);
 }
 
-const parseTextFile = (data:string, params:QuizParams = {}) =>
+const parseTextFile = (url: string, data:string, params:QuizParams = {}) =>
 {
     params.defaultAuthor = params.defaultAuthor ?? DEFAULT_AUTHOR;
     params.defaultCategory = params.defaultCategory ?? DEFAULT_CATEGORY;
@@ -62,6 +66,7 @@ const parseTextFile = (data:string, params:QuizParams = {}) =>
             const mustSavePreviousQuestion = curQuestion != null && curQuestion.isValid();
             if(mustSavePreviousQuestion) { curQuestion.finalize(params); questions.push(curQuestion); }
             curQuestion = new Question();
+            curQuestion.url = url;
         }
         
         const val = parseInlinePropertyValue(currentProperty, parts[1]);
@@ -89,12 +94,23 @@ const parseInlinePropertyValue = (prop: string, val:string) : string[] =>
     return [val];
 }
 
-const parseQuestionProperty = (prop: string, val:string[]) : string[] =>
+const parseQuestionProperty = (prop: string, val:string[]) : QVal[] =>
 {
     val = val.map(s => s.trim());
     if(PROPS_FORCED_LOWERCASE.includes(prop)) { val = val.map(s => s.toLowerCase()); }
     val = val.filter(x => x != ''); // no completely empty entries
-    return val;
+
+    const arr : QVal[] = [];
+    for(let elem of val)
+    {
+        const firstChar = elem.charAt(0);
+        let qValType = QValType.ALL;
+        if(firstChar == MASK_QUESTION_SYMBOL) { elem = elem.slice(1); qValType = QValType.QUESTION; }
+        else if(firstChar == MASK_ANSWER_SYMBOL) { elem = elem.slice(1); qValType = QValType.ANSWER; }
+
+        arr.push(new QVal(elem, qValType));
+    }
+    return arr;
 }
 
 const parseExtension = (path:string) =>

@@ -22,19 +22,20 @@ const TILES: Record<string, TileData> =
     tree: { frame: 3, color: "#094C01" },
     present_square: { frame: 4, bgLight: true },
     present_circle: { frame: 5, bgLight: true },
-    present_triangle: { frame: 7, bgLight: true }
+    present_triangle: { frame: 6, bgLight: true },
+    wildcard: { frame: 7, bgLight: true }
 }
 
 interface MiscData
 {
-    frame: number
+    frame: number,
 }
 
 const MISC:Record<string, MiscData> =
 {
     bg_hole: { frame: 0 }, // better for LIGHT backgrounds (e.g. present white)
     bg_hole_inverse: { frame: 1 }, // better for DARK backgrounds (basically everything else)
-    wildcard: { frame: 2 },
+    UNUSED: { frame: 2 },
     points_star: { frame: 3 }
 }
 

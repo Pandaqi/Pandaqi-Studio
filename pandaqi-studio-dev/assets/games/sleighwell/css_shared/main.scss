@@ -8,14 +8,14 @@ $col2: #00FF00;
 $col3: #0000FF;
 
 @font-face {
-    font-family: $body-font;
+    font-family: $header-font;
     src: url($base-fonts + 'Good-Grace.otf') format('otf');
     font-weight: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: $header-font;
+    font-family: $body-font;
     src: url($base-fonts + 'RobotoSlab-Regular.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
@@ -23,7 +23,7 @@ $col3: #0000FF;
 }
 
 @font-face {
-    font-family: $header-font;
+    font-family: $body-font;
     src: url($base-fonts + 'RobotoSlab-Black.woff2') format('woff2');
     font-weight: 900;
     font-style: normal;

@@ -27,7 +27,7 @@ If you scored **all houses**, you've beat the game and have proven yourself wort
 
 {{% rules-block id="action_play" heading="Gameplay" icon="action" class="force-page-break-before" icontint="purple" %}}
 
-Take clockwise turns until done. On your turn, take one action: **PLAY**, **REINDEER** or **MOVE**.
+Take clockwise turns until done. On your turn, take one action: **PLAY**, **SLEIGH** or **REINDEER WAY**.
 
 The rules below hold true regardless of the action you take.
 
@@ -55,7 +55,19 @@ If this isn't true for a sequence (which can happen when doing the REINDEER acti
 
 {{% /rules-block %}}
 
-{{% rules-block heading="Reindeer" %}}
+{{% rules-block heading="Sleigh" %}}
+
+Move the **sleigh** in a straight line towards another tile. (In other words, the destination is on the same row or column).
+
+All tiles you pass along the way are **removed from the table**.
+
+If you ended on a **house**, and the tiles you removed satisfy the **wishes of that house**, you score it! Remove the house as well and place it on your score pile.
+
+@TODO: IMAGE EXAMPLE
+
+{{% /rules-block %}}
+
+{{% rules-block heading="Reindeer Way" %}}
 
 Discard a tile from your hand (to pay for this action).
 
@@ -65,18 +77,6 @@ Then,
 * If this destination already contains a tile, swap them. 
 
 You **don't have to follow** the placement rules from the PLAY action (ascending / descending number)!
-
-@TODO: IMAGE EXAMPLE
-
-{{% /rules-block %}}
-
-{{% rules-block heading="Sleigh" %}}
-
-Move the **sleigh** in a straight line towards another tile. (In other words, the destination is on the same row or column).
-
-All tiles you pass along the way are **removed from the table**.
-
-If you ended on a **house**, and the tiles you removed satisfy the **wishes of that house**, you score it! Remove the house as well and place it on your score pile.
 
 @TODO: IMAGE EXAMPLE
 

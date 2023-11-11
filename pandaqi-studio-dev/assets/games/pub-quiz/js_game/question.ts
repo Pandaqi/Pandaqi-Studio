@@ -1,17 +1,20 @@
 import shuffle from "js/pq_games/tools/random/shuffle"
 import { parsePathToID, parseQuestionProperty } from "./parser"
 import { QuizParams } from "./quiz"
+import QVal, { QValType } from "./questionValue"
 
 export default class Question
 {
-    question: string[]
-    category: string[]
-    media: string[]
-    score: string|number
-    correct: string
-    answers: string[]
-    author: string[]
-    color: string
+    question: QVal[]
+    comment: QVal[]
+    category: QVal[]
+    media: QVal[]
+    score: QVal
+    correct: QVal
+    answers: QVal[]
+    author: QVal[]
+    color: QVal
+    url: string // origin file of this question, for easier debugging/finding an error in submitted questions
 
     constructor()
     {
@@ -20,11 +23,12 @@ export default class Question
         this.answers = [];
         this.question = [];
         this.author = [];
+        this.comment = [];
     }
 
     hasQuestion() { return this.question.length >= 1; }
     hasAnswers() { return this.answers.length >= 1; }
-    hasCorrectAnswer() { return this.correct.length >= 1; }
+    hasCorrectAnswer() { return this.correct.isValid(); }
     hasMedia() { return this.media.length >= 1; }
     shuffleAnswers(rng:any)
     {
@@ -45,17 +49,60 @@ export default class Question
     {
         if(!this.hasAnswers()) { return; }
 
-        if(this.category.length <= 0) { this.category.push(params.defaultCategory); }
+        if(this.category.length <= 0) { this.category.push(new QVal(params.defaultCategory)); }
+        if(params.possibleCategories)
+        {
+            const list = this.getQuestionValues("category");
+            for(const cat of list)
+            {
+                if(params.possibleCategories.includes(cat)) { continue; }
+                console.error("Question has category " + cat + " which is not a possible category", this);
+            }
+        }
+
+        if(!this.correct) { this.correct = this.answers[0]; }
+        if(this.correct) {
+            let correctAnswerIncluded = false;
+            if(this.answers.includes(this.correct)) { correctAnswerIncluded = true; }
+
+            if(!correctAnswerIncluded)
+            {
+                const list = this.getQuestionValues("answers", QValType.QUESTION);
+                for(const answer of list)
+                {
+                    if(answer.toLowerCase() != this.correct.get().toLowerCase()) { continue; }
+                    console.error("Question had a correct answer (" + this.correct + "), but spelled differently from the real one (" + answer + ")", this);
+                    this.correct = new QVal(answer);
+                    correctAnswerIncluded = true;
+                    break;
+                }
+            }
+
+            if(!correctAnswerIncluded) 
+            { 
+                console.error("Question has no valid correct answer ", this);
+                this.correct = this.answers[0];
+            }
+        }
+
         if(!this.correct || !this.answers.includes(this.correct)) { this.correct = this.answers[0]; }
         
         this.category.sort((a,b) => {
-            return a.localeCompare(b);
+            return a.get().localeCompare(b.get());
         })
 
-        if(!this.score) { this.score = params.defaultScore; }
-        // @ts-ignore
-        this.score = parseInt(this.score);
-        if(!this.author || this.author.length <= 0) { this.author = [params.defaultAuthor]; }
+        if(!this.score) { this.score = new QVal(params.defaultScore + ""); }
+
+        if(!this.author || this.author.length <= 0) { this.author = [new QVal(params.defaultAuthor)]; }
+        if(params.possibleAuthors)
+        {
+            const list = this.getQuestionValues("author");
+            for(const author of list)
+            {
+                if(params.possibleAuthors.includes(author)) { continue; }
+                console.error("Question has author " + author + " which is not a possible author", this);
+            }
+        }
     }
 
     updateProperty(prop:string, val:string|string[])
@@ -69,7 +116,7 @@ export default class Question
             return;
         }
 
-        const valParsed : string[] = parseQuestionProperty(prop, val);
+        const valParsed : QVal[] = parseQuestionProperty(prop, val);
         if(valParsed.length <= 0)
         {
             console.error("Can't set property " + prop + " to empty value: " + val);
@@ -108,7 +155,24 @@ export default class Question
 
     isCorrectAnswer(val:string)
     {
-        return this.correct == val || this.correct == parsePathToID(val); 
+        return this.correct.get() == val || this.correct.get() == parsePathToID(val); 
+    }
+
+    getQuestionValues(key:string, type:QValType = QValType.ALL) : string[]
+    {
+        const list = this[key];
+        const arr = [];
+        let matches = [QValType.QUESTION, QValType.ALL, QValType.ANSWER];
+        if(type == QValType.QUESTION) { matches = [QValType.QUESTION, QValType.ALL]; }
+        else if(type == QValType.ANSWER) { matches = [QValType.ANSWER, QValType.ALL]; }
+
+        for(const elem of list)
+        {
+            if(!matches.includes(elem.type)) { continue; }
+            arr.push(elem.get());
+        }
+
+        return arr;
     }
 
 }

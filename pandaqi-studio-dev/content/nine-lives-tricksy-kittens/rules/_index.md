@@ -4,9 +4,11 @@ type: "rules"
 
 {{% rules-block id="setup" heading="Setup" icon="setup" icontint="purple" %}}
 
-Each player receives **9 random Cards**. Order them however you want, then place them in a faceup stack before you. This is your **life deck**.
+Each player receives **9 random cards**. Place them in a faceup stack before you: your **life deck**.
 
-Shuffle the **Cat Deck** and deal until empty: these are your (secret) **hand cards**. Finally, pick anyone to be the Kittykeeper.
+Shuffle the remaining cards and deal fairly until empty. These are your (secret) **hand cards**. 
+
+Finally, pick anyone to be the Kittykeeper.
 
 {{% remark %}}
 Material can be downloaded from [the website](https://pandaqi.com/nine-lives-tricksy-kittens).
@@ -24,26 +26,23 @@ The game ends when **a player runs out of lives**. The players with the **most l
 
 This is a trick-taking game with a twist. 
 
-This means that the general overview of each round is as follows.
-* A single "trick" is played. 
-* Once all players have played a card, the trick is done.
-* One player will _win_ this trick. They become the new Kittykeeper.
-* All other players **lose a life**.
-
-Now let's see how a trick works.
-
 The Kittykeeper starts, then take clockwise turns around the table.
-* If you have cards in your hand **with the same suit as the previous card played**, you must play one of those.
-* If not, you may play **any card you want**.
 
-Instead of playing a card from your hand, you may also play your **life** ( = the top card of your life deck). Doing so activates its special power.
+* On your turn, play a card from your hand _or_ play your current life ( = the top card of your life deck).
+* **If possible,** you must play the same suit as one **already played**. (The Kittykeeper can thus play anything. The suit of their card is called the _leading suit_.)
+* The special power on your card **only activates** if it's played as a life card.
 
-Once everybody has played, decide the winner.
-* Count which suit was played the most. **The highest card in that suit wins the trick.**
-* If there are multiple "most frequent suits", use the suit that the Kittykeeper played.
-* If there are multiple "highest cards", the first card played (out of the tied cards) wins.
+Once everyone has played, decide the winner: the player who played the **highest card** in the **leading suit**.
 
-All cards are discarded. If you played a _life_, however, you get it back if you _win the round_! 
+Now every player checks the _total_ number of the suit they played. (Sum the numbers on all cards in that suit.)
+* If it's **greater than 9** (it "exploded"), you **lose a life**.
+* Otherwise, nothing happens.
+
+If you played a _life_ card this round, you get it back.
+* You're the winner? Put it at the bottom of your Life Deck.
+* Otherwise? Choose whether to take it into your hand or discard it.
+
+All other cards played are discarded. The winner becomes the new Kittykeeper.
 
 Next round!
 
@@ -60,11 +59,5 @@ Each card has a **suit**, a **number** and a **special power**.
 As stated, the special power _only_ activates when the card is played as a Life Card.
 
 Only the _top_ card of your lives deck is relevant (and can be played) at any given time. Though you're allowed to look through your life deck at any time.
-
-
-
-@TODO:
-* ISSUE 1: What if you run out of hand cards before somebody has lost all their lives? => You can always play your top life when out of cards. I just need to have enough "powers" that allow drawing more cards (or stealing, or taking cards from the last trick into your hand, etcetera.)
-
 
 {{% /rules-block %}}

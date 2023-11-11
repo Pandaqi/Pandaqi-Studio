@@ -1,23 +1,36 @@
 import { AUDIO_FORMATS, IMAGE_FORMATS, VIDEO_FORMATS, isExternalURL, isValidMediaType, parseExtension, toWhiteSpaceString } from "./parser";
 import Question from "./question";
+import { QValType } from "./questionValue";
 import { QuizMode } from "./quiz";
 
 export default class Nodes
 {
     nodes: Record<string, HTMLElement>;
+    nodesUI: Record<string, HTMLElement>;
     alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     answerNodes: HTMLElement[]
     answerRevealed:boolean
     mediaNodes: HTMLElement[]
 
+    fontSizes = [9,12,16,20,24,28,32]
+    fontSizeDefault = 20
+
     startButtonText = "Speel de vragen!"
     answerButtonText = "Bekijk de antwoorden!"
     openQuestionText = "Dit is een open vraag!"
+
+    loadingScreen = {
+        questionNumber: "?",
+        questionCategory: "Loading",
+        question: "Loading ...",
+        instruction: "The quiz is loading all your juicy questions!"
+    }
+
     startScreen = {
         questionNumber: "?",
         questionCategory: "Start",
         question: "Welkom bij de quiz!",
-        instruction: "Schrijf bij elke vraag het nummer en je antwoord op. Is iedereen er klaar voor?"
+        instruction: "<p>Schrijf bij elke vraag het nummer en je antwoord op. Is iedereen er klaar voor?</p>"
     }
 
     endScreen = {
@@ -26,12 +39,16 @@ export default class Nodes
         questionNumber: "?",
         instruction: "<p>Dat waren alle vragen!</p><p>Herlaad de pagina om de antwoorden te bekijken.</p>"
     }
+
     node: HTMLDivElement;
     statsNode: HTMLDivElement;
     currentTheme: string;
     loadExternalMediaAsIframe: boolean;
     hiddenNodes: string[];
     openQuestionRemark: HTMLDivElement;
+
+    enableUI: boolean;
+    enableSafety: boolean;
 
     constructor(params:any)
     {
@@ -40,8 +57,12 @@ export default class Nodes
         if(params.hideCategory) { this.hiddenNodes.push("questionCategory"); }
         if(params.hideScore) { this.hiddenNodes.push("questionScore"); }
 
+        params.enableUI = params.enableUI ?? true;
+        this.enableUI = params.enableUI;
         this.loadExternalMediaAsIframe = params.loadExternalMediaAsIframe ?? false;
+        this.enableSafety = params.enableSafety;
         this.nodes = {};
+        this.nodesUI = {};
         this.answerRevealed = false;
     }
 
@@ -52,6 +73,39 @@ export default class Nodes
         document.body.appendChild(cont);
         this.node = cont;
 
+        if(this.enableUI)
+        {
+            const ui = document.createElement("div");
+            ui.classList.add("quiz-ui");
+            cont.appendChild(ui);
+            this.nodesUI.container = ui;
+    
+            const prevBtn = document.createElement("button");
+            prevBtn.innerHTML = "Previous";
+            ui.appendChild(prevBtn);
+            this.nodesUI.prevButton = prevBtn;
+
+            const fontSizeMinBtn = document.createElement("button");
+            fontSizeMinBtn.innerHTML = "Font -";
+            ui.appendChild(fontSizeMinBtn);
+            this.nodesUI.fontSizeMinButton = fontSizeMinBtn;
+
+            const divider = document.createElement("div");
+            divider.style.width = "100%";
+            ui.appendChild(divider);
+
+            const fontSizePlusBtn = document.createElement("button");
+            fontSizePlusBtn.innerHTML = "Font +";
+            ui.appendChild(fontSizePlusBtn);
+            this.nodesUI.fontSizePlusButton = fontSizePlusBtn;
+
+            const nextBtn = document.createElement("button");
+            nextBtn.innerHTML = "Next";
+            ui.appendChild(nextBtn);
+            this.nodesUI.nextButton = nextBtn;
+            
+        }
+        
         const header = document.createElement("div");
         header.classList.add("question-header");
         cont.appendChild(header);
@@ -86,15 +140,20 @@ export default class Nodes
         header.appendChild(h1);
         this.nodes.question = h1;
 
+        const comment = document.createElement("div");
+        comment.classList.add("question-comment");
+        cont.appendChild(comment);
+        this.nodes.questionComment = comment;
+
         const mediaCont = document.createElement("div");
         mediaCont.classList.add("question-media");
         cont.appendChild(mediaCont);
         this.nodes.media = mediaCont;
 
-        const p = document.createElement("p");
-        p.classList.add("quiz-instruction");
-        cont.appendChild(p);
-        this.nodes.instruction = p;
+        const div = document.createElement("div");
+        div.classList.add("quiz-instruction");
+        cont.appendChild(div);
+        this.nodes.instruction = div;
 
         const answerCont = document.createElement("div");
         answerCont.classList.add("question-answers");
@@ -105,6 +164,8 @@ export default class Nodes
         stats.classList.add("quiz-statistics");
         cont.appendChild(stats);
         this.statsNode = stats;
+        
+        this.changeScreen(this.loadingScreen);
     }
 
     changeScreen(data)
@@ -116,7 +177,7 @@ export default class Nodes
             const noEntry = !data[name];
             const forcedHidden = this.hiddenNodes.includes(name);
             const shouldHide = noEntry || forcedHidden;
-            if(shouldHide) { node.style.display = "none"; continue; }
+            if(shouldHide) { node.style.display = "none"; node.innerHTML = ''; continue; }
             node.innerHTML = data[name];
             node.style.display = "flex";
         }
@@ -130,7 +191,7 @@ export default class Nodes
 
     toggleLeaveProtection(val:boolean)
     {
-        if(val) {
+        if(val && this.enableSafety) {
             window.onbeforeunload = () => { return "Are you sure you want to leave?"; }
         } else {
             window.onbeforeunload = null;
@@ -141,13 +202,21 @@ export default class Nodes
     { 
         this.changeScreen(this.startScreen); 
         this.addDefaultButtons(quiz);
+        this.updateUI(true, false);
         this.toggleLeaveProtection(false);
     }
     
     showEndScreen(quiz) 
     { 
         this.changeScreen(this.endScreen); 
+        this.updateUI(false, true);
         this.toggleLeaveProtection(false);
+    }
+
+    updateUI(atStart = false, atEnd = false)
+    {
+        (this.nodesUI.prevButton as HTMLButtonElement).disabled = atStart;
+        (this.nodesUI.nextButton as HTMLButtonElement).disabled = atEnd;
     }
 
     addDefaultButtons(quiz)
@@ -181,30 +250,35 @@ export default class Nodes
     
     showQuestion(num:number, q:Question, mode:QuizMode)
     {
+        const qValType = mode == QuizMode.QUESTIONS ? QValType.QUESTION : QValType.ANSWER;
+        const mediaList = q.getQuestionValues("media", qValType);
+        const hasMedia = mediaList.length > 0;
+
         // set the default texts and (in)visible parts
         const data = {
-            question: toWhiteSpaceString(q.question),
+            question: toWhiteSpaceString(q.getQuestionValues("question", qValType)),
+            questionComment: toWhiteSpaceString(q.getQuestionValues("comment", qValType)),
             questionNumber: (num + 1), // we start at 0, people will expect it to start at 1
-            questionCategory: "🏷️" + toWhiteSpaceString(q.category),
-            questionAuthor: "🧔" + toWhiteSpaceString(q.author),
-            questionScore: "⭐" + q.score,
+            questionCategory: "🏷️" + toWhiteSpaceString(q.getQuestionValues("category", qValType)),
+            questionAuthor: "🧔" + toWhiteSpaceString(q.getQuestionValues("author", qValType)),
+            questionScore: "⭐" + q.score.get(),
             answers: "Answers here",
-            media: q.hasMedia() ? "Media here" : ""
+            media: hasMedia ? "Media here" : ""
         }
 
         this.changeScreen(data);
-        this.changeTheme(q.color);
+        this.changeTheme(q.color.get());
+        this.updateUI();
         this.toggleLeaveProtection(true);
 
         // add media, if available
-        const hasMedia = q.hasMedia();
         this.mediaNodes = [];
         if(hasMedia)
         {
             this.nodes.media.innerHTML = "";
             let counter = 0;
             const elems = [];
-            for(const elem of q.media)
+            for(const elem of mediaList)
             {
                 elems.push(this.createMediaHTML(counter, elem));
                 counter++;
@@ -230,7 +304,8 @@ export default class Nodes
 
         let counter = 0;
         const elems = [];
-        for(const answer of q.answers)
+        const answerList = q.getQuestionValues("answers", qValType);
+        for(const answer of answerList)
         {
             elems.push(this.createAnswerHTML(counter, answer, openQuestion));
             counter++;
@@ -243,7 +318,7 @@ export default class Nodes
             if(openQuestion && mode == QuizMode.QUESTIONS) { elem.style.display = "none"; }
         }
 
-        if(mode == QuizMode.ANSWERS) { this.toggleAnswer(q); }
+        if(mode == QuizMode.ANSWERS) { this.showAnswer(q); }
     }
 
     createOpenQuestionRemark()
@@ -307,6 +382,7 @@ export default class Nodes
             } else {
                 const a = document.createElement("a");
                 a.href = val;
+                a.innerHTML = val;
                 return a;
             }
         }
@@ -329,10 +405,11 @@ export default class Nodes
         return placeholder;
     }
 
-    toggleAnswer(q:Question)
+    // This actually has the ability to TOGGLE, but I don't really use that right now?
+    showAnswer(q:Question)
     {
         this.answerRevealed = !this.answerRevealed;
-        
+
         const openQuestion = q.isOpen();
         this.openQuestionRemark.style.display = this.answerRevealed ? "none" : "block";
 
@@ -368,5 +445,17 @@ export default class Nodes
                 break;
             }
         }
+    }
+
+    changeFontSize(change:number)
+    {
+        const curSizeString = window.getComputedStyle(document.body).fontSize;
+        let curSize = parseInt(curSizeString.slice(0, curSizeString.length - 2));
+        if(!this.fontSizes.includes(curSize)) { curSize = this.fontSizeDefault; }
+
+        let curIndex = this.fontSizes.indexOf(curSize);
+        let newIndex = Math.min(Math.max(curIndex + change, 0), this.fontSizes.length-1);
+        
+        document.body.style.fontSize = this.fontSizes[newIndex] + "px";
     }
 }

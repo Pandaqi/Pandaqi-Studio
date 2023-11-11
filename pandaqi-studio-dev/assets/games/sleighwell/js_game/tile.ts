@@ -12,11 +12,14 @@ import ResourceText from "js/pq_games/layout/resources/resourceText";
 import ColorLike from "js/pq_games/layout/color/colorLike";
 import getPositionsCenteredAround from "js/pq_games/tools/geometry/paths/getPositionsCenteredAround";
 import clamp from "js/pq_games/tools/numbers/clamp";
+import StrokeAlignValue from "js/pq_games/layout/values/strokeAlignValue";
+import Color from "js/pq_games/layout/color/color";
 
 export default class Tile
 {
     type: string; // "wildcard" = wildcard
-    num: number; // -1 = wildcard
+    num: number;
+    numWildcard: boolean;
     reqs: string[];
     ctx: CanvasRenderingContext2D;
 
@@ -24,9 +27,11 @@ export default class Tile
     {
         this.type = type;
         this.num = num;
+        this.numWildcard = false;
+        this.reqs = [];
     }
 
-    isWildcardNumber() { return this.num <= -1; }
+    isWildcardNumber() { return this.numWildcard; }
     isWildcard() { return this.type == "wildcard"; }
 
     async drawForRules(cfg)
@@ -40,9 +45,13 @@ export default class Tile
         const ctx = createContext({ size: visualizer.size });
         this.ctx = ctx;
 
-        this.reqs.sort((a, b) => {
-            return a.localeCompare(b);
-        })
+        if(this.reqs)
+        {
+            this.reqs.sort((a, b) => {
+                return a.localeCompare(b);
+            })
+        }
+        
 
         await this.drawBackground(visualizer);
         await this.drawNumbers(visualizer);
@@ -55,7 +64,7 @@ export default class Tile
     async drawBackground(vis:Visualizer)
     {
         // first solid color
-        const tileData = TILES[this.type]
+        const tileData = TILES[this.type];
         let color = tileData.color ?? CONFIG.tiles.shared.defaultBGColor;
         if(vis.inkFriendly) { color = "#FFFFFF"; }
         fillCanvas(this.ctx, color);
@@ -75,9 +84,9 @@ export default class Tile
     async drawNumbers(vis:Visualizer)
     {
         const tileData = TILES[this.type]
-        const isWildcard = this.num <= -1;
+        const isWildcard = this.isWildcardNumber();
 
-        const offset = CONFIG.tiles.numbers.offset.scale(vis.sizeUnit);
+        const offset = CONFIG.tiles.numbers.offset.clone().scale(vis.sizeUnit);
         const positions = getRectangleCornersWithOffset(vis.size, offset);
         const offsetsForSmall = [
             Point.DOWN,
@@ -102,10 +111,15 @@ export default class Tile
         const text = this.num.toString();
         const resTextBig = new ResourceText({ text: text, textConfig: textConfigBig });
         const resTextSmall = new ResourceText({ text: text, textConfig: textConfigSmall });
-        const resMisc = vis.resourceLoader.getResource("misc");
+        const resTiles = vis.resourceLoader.getResource("tiles");
+
+        const isLightBG = (tileData.bgLight || vis.inkFriendly);
 
         const textSmallAlpha = CONFIG.tiles.numbers.fontAlphaTiny;
-        const textColor = (tileData.bgLight || vis.inkFriendly) ? "#000000" : "#FFFFFF";
+        const textColor = isLightBG ? "#000000" : "#FFFFFF";
+        //const strokeColor = isLightBG ? Color.TRANSPARENT : CONFIG.tiles.numbers.stroke;
+        //const strokeWidth = CONFIG.tiles.numbers.strokeWidth * fontSize;
+        const numberIconSizeFactor = CONFIG.tiles.numbers.numberIconSizeFactor;
 
         for(let i = 0; i < positions.length; i++)
         {
@@ -114,14 +128,16 @@ export default class Tile
                 translate: pos,
                 dims: new Point(0.5*vis.size.x, fontSize),
                 pivot: Point.CENTER,
-                effects: vis.effects
+                //stroke: strokeColor,
+                //strokeWidth: strokeWidth,
+                strokeAlign: StrokeAlignValue.OUTSIDE
             })
 
             // wildcard = an IMAGE (same dims as number otherwise)
             if(isWildcard) {
-                op.dims = new Point(fontSize);
-                op.frame = MISC.wildcard.frame;
-                await resMisc.toCanvas(this.ctx, op);
+                op.dims = new Point(fontSize * numberIconSizeFactor);
+                op.frame = TILES.wildcard.frame;
+                await resTiles.toCanvas(this.ctx, op);
             
             // otherwise just the text
             } else {
@@ -130,8 +146,9 @@ export default class Tile
             }
 
             // the small text stays at all times (for consistency and its purpose of clarity)
-            op.translate = pos.clone().move(offsetsForSmall[i].clone().scale(fontSize + fontSizeSmall));
+            op.translate = pos.clone().move(offsetsForSmall[i].clone().scale(0.5*(fontSize + fontSizeSmall)));
             op.alpha = textSmallAlpha;
+            op.strokeWidth = 0;
             op.effects = [];
             await resTextSmall.toCanvas(this.ctx, op);
         }
@@ -167,7 +184,7 @@ export default class Tile
         const res = vis.resourceLoader.getResource("tiles");
         const frame = TILES.house.frame;
         const xPosLeft = CONFIG.tiles.main.house.xPosLeft * vis.size.x;
-        const dims = new Point(CONFIG.tiles.main.iconSize * vis.sizeUnit);
+        const dims = new Point(CONFIG.tiles.main.iconSize * CONFIG.tiles.main.house.iconSizeFactor * vis.sizeUnit);
         const op = new LayoutOperation({
             frame: frame,
             translate: new Point(xPosLeft, vis.center.y),
@@ -180,23 +197,22 @@ export default class Tile
         // draw the presents it wants in a centered (column) list on the right
         const xPosRight = CONFIG.tiles.main.house.xPosRight * vis.size.x;
         const posRight = new Point(xPosRight, vis.center.y);
-        const dimsPresent = new Point(CONFIG.tiles.main.house.iconSizePresent * vis.sizeUnit);
+        const dimsPresentWithSpace = new Point(CONFIG.tiles.main.house.iconSizePresent * vis.sizeUnit);
+        const dimsPresent = dimsPresentWithSpace.clone().scale(1.0 - CONFIG.tiles.main.house.iconPresentEmptySpace);
         const numPresents = this.reqs.length;
         const positions = getPositionsCenteredAround({ 
             pos: posRight, 
             num: numPresents, 
-            dims: dimsPresent, 
+            dims: dimsPresentWithSpace, 
             dir: Point.DOWN
         });
 
-        const resMisc = vis.resourceLoader.getResource("misc");
         for(let i = 0; i < numPresents; i++)
         {
             const present = this.reqs[i];
-            const isWildcard = (present == "wildcard");
             const pos = positions[i];
-            const framePresent = isWildcard ? MISC.wildcard.frame : TILES[present].frame;
-            const resPresent = isWildcard ? resMisc : res;
+            const framePresent = TILES[present].frame;
+            const resPresent = res;
 
             const op = new LayoutOperation({
                 frame: framePresent,
@@ -220,6 +236,7 @@ export default class Tile
             dir: Point.RIGHT
         })
 
+        const resMisc = vis.resourceLoader.getResource("misc");
         const frameStar = MISC.points_star.frame;
         for(let i = 0; i < score; i++)
         {
@@ -229,7 +246,7 @@ export default class Tile
                 translate: pos,
                 dims: dimsStar,
                 pivot: Point.CENTER,
-                effects: vis.effects
+                //effects: vis.effects
             });
             await resMisc.toCanvas(this.ctx, op);
         }

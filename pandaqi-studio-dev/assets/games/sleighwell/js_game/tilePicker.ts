@@ -3,6 +3,7 @@ import CONFIG from "../js_shared/config";
 import Tile from "./tile";
 import getAllPossibleCombinations from "js/pq_games/tools/collections/getAllPossibleCombinations";
 import rangeInteger from "js/pq_games/tools/random/rangeInteger";
+import fromArray from "js/pq_games/tools/random/fromArray";
 
 export default class TilePicker
 {
@@ -23,22 +24,24 @@ export default class TilePicker
     generateBaseGame()
     {
         // the required sleigh, of course
-        const sleighTile = new Tile("sleigh", -1);
         const numSleighs = CONFIG.generation.baseGame.numSleighs;
         for(let i = 0; i < numSleighs; i++)
         {
+            const sleighTile = new Tile("sleigh", 0);
+            sleighTile.numWildcard = true;
             this.tiles.push(sleighTile);
         }
         
 
         // all types, fairly distributed
         const types = ["reindeer", "present_square", "present_triangle", "present_circle", "house", "wildcard"];
+        const numTypes = types.length;
         shuffle(types);
 
         const numTiles = CONFIG.generation.baseGame.numTiles;
         for(let i = 0; i < numTiles; i++)
         {
-            const type = types[i % numTiles];
+            const type = types[i % numTypes];
             const tile = new Tile(type, (i+1));
             this.tiles.push(tile);
         }
@@ -50,9 +53,12 @@ export default class TilePicker
         const groupSize = Math.floor(numTiles / numWildcardNumbers);
         for(let i = 0; i < numWildcardNumbers; i++)
         {
-            const options = [];
+            let options = [];
+            let allOptions = [];
             for(let a = i*groupSize; a < (i+1)*groupSize; a++)
             {
+                allOptions.push(a);
+
                 const isExtreme = a == 0 || a == this.tiles.length-1;
                 if(isExtreme || this.tiles[a].isWildcardNumber()) { continue; }
 
@@ -62,11 +68,13 @@ export default class TilePicker
                 options.push(a);
             }
 
+            if(options.length <= 0) { options = [fromArray(allOptions)]; }
+
             shuffle(options);
             
             const option = options.pop();
-            this.tiles[option].num = -1;
-            typesGivenWildcard.push(option);
+            this.tiles[option].numWildcard = true;
+            typesGivenWildcard.push(this.tiles[option].type);
         }
 
         // assign the requirements for the houses
@@ -83,21 +91,56 @@ export default class TilePicker
 
         const maxDistToMiddle = Math.round(0.5 * numTiles);
         const houseTiles = this.getAllOfType(this.tiles, "house");
+        let reqs = []; // number of reqs in order of houses, do not shuffle or take the wrong end
+        let totalReqs = 0;
         for(const tile of houseTiles)
         {
-            const distToMiddle = Math.ceil(tile.num - 0.5*numTiles);
-            const distRatio = distToMiddle / maxDistToMiddle;
+            const distToMiddle = Math.abs(Math.ceil(tile.num - maxDistToMiddle));
+            const distRatio = 1.0 - distToMiddle / maxDistToMiddle;
             let numReqs = -1;
             if(distRatio <= 0.33) { numReqs = 1; }
             else if(distRatio <= 0.66) { numReqs = 2; }
             else { numReqs = 3; }
 
-            if(tile.isWildcardNumber()) { numReqs = 3; }
+            reqs.push(numReqs);
+            totalReqs += numReqs;
+        }
 
-            let options = combos[numReqs];
-            const option = options.pop();
+        const maxPerPresent = Math.ceil(totalReqs / presentOptions.length);
+        const statsPerPresent = {};
+        for(const key of presentOptions) { statsPerPresent[key] = 0; }
 
+        const wouldExceedLimit = (combo:string[], stats:Record<string, number>) =>
+        {
+            const newStats = Object.assign({}, stats);
+            for(const elem of combo)
+            {
+                newStats[elem]++;
+            }
+            for(const value of Object.values(newStats))
+            {
+                if(value > maxPerPresent) { return true; }
+            }
+            return false;
+        }
+
+        for(const tile of houseTiles)
+        {
+            const numReqs = reqs.shift();
+            const options = combos[numReqs];
+
+            let idx = rangeInteger(0, options.length-1);
+            for(let i = 0; i < options.length; i++)
+            {
+                const option = options[i];
+                if(wouldExceedLimit(option, statsPerPresent)) { continue; }
+                idx = i;
+                break;
+            }
+
+            const option = options.splice(idx, 1)[0];
             tile.reqs = option;
+            for(const elem of option) { statsPerPresent[elem]++; }
         }
     }
 
@@ -130,8 +173,8 @@ export default class TilePicker
         for(let i = 0; i < numTrees; i++)
         {
             let num = startNum + i*distBetweenNums;
-            if(i == wildcardIndex) { num = -1; }
             const tile = new Tile("tree", num);
+            if(i == wildcardIndex) { tile.numWildcard = true; }
             this.tiles.push(tile);
         }
     }

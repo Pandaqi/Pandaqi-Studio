@@ -87,7 +87,7 @@ export default class Loader
 
     onTextFileLoaded(url: string, data: string)
     {
-        const questions = parseTextFile(data, this.params);
+        const questions = parseTextFile(url, data, this.params);
         this.addToCache(url, questions);
     }
 
@@ -122,7 +122,7 @@ export default class Loader
     {
         for(const q of questions)
         {
-            const score = q.score as number;
+            const score = parseInt(q.score.get());
             if(score > this.maxScore || score <= 0)
             {
                 console.error("Question has a score that's too high or too low: " + score, q);
@@ -145,14 +145,17 @@ export default class Loader
         const newList = [];
         for(const elem of q[prop])
         {
-            const path = this.getFilePath(elem, "", "media");
+            const val = elem.get();
+            const path = this.getFilePath(val, "", "media");
             const isMedia = isValidMediaType(parseExtension(path));
-            let newValue = isMedia ? path : elem;
+            let newValue = isMedia ? path : val;
             if(isMedia && !this.fileExists(path))
             {
                 console.error("Media doesn't exist: " + path);
             }
-            newList.push(newValue);
+
+            elem.set(newValue);
+            newList.push(elem);
         }
         q[prop] = newList;
     }

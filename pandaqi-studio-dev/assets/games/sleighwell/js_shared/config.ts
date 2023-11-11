@@ -3,8 +3,8 @@ import Point from "js/pq_games/tools/geometry/point"
 const CONFIG = 
 {
     debugWithoutFile: true, // @DEBUGGING (should be false)
-    debugSingleCard: true, // @DEBUGGING (should be false)
-    debugOnlyGenerate: true, // @DEBUGGING (should be false)
+    debugSingleCard: false, // @DEBUGGING (should be false)
+    debugOnlyGenerate: false, // @DEBUGGING (should be false)
 
     configKey: "sleighwellConfig",
     fileName: "[Material] Sleighwell",
@@ -84,7 +84,7 @@ const CONFIG =
         {
             defaultBGColor: "#FFFFFF",
             glowColor: "#FFFFFF",
-            glowRadius: 0.1, // ~sizeUnit
+            glowRadius: 0.0175, // ~sizeUnit
         },
 
         main:
@@ -93,21 +93,27 @@ const CONFIG =
 
             house:
             {
-                xPosLeft: 0.33, // ~sizeX
-                xPosRight: 0.33, // ~sizeX
-                iconSizePresent: 0.35, // ~sizeUnit
+                xPosLeft: 0.35, // ~sizeX
+                xPosRight: 0.75, // ~sizeX
+                iconSizeFactor: 0.8125, // ~original iconSize
+                iconSizePresent: 0.175, // ~sizeUnit
+                iconPresentEmptySpace: 0.075, // ~1.0 = total icon size
 
-                iconSizeStar: 0.2, // ~sizeUnit
-                yPosStar: 0.15, // ~sizeY
+                iconSizeStar: 0.15, // ~sizeUnit
+                yPosStar: 0.115, // ~sizeY
             }
         },
 
         numbers:
         {
-            fontSize: 0.1, // ~sizeUnit
-            fontSizeTiny: 0.05, // ~sizeUnit
-            fontAlphaTiny: 0.66,
-            offset: new Point(0.1, 0.1) // ~sizeUnit
+            fontSize: 0.15, // ~sizeUnit
+            fontSizeTiny: 0.066, // ~sizeUnit
+            fontAlphaTiny: 0.75,
+            offset: new Point(0.12, 0.12), // ~sizeUnit
+            numberIconSizeFactor: 0.975, // ~fontSize; it looks better if images in corners (wildcard numbers) are slightly smaller
+        
+            stroke: "#000000",
+            strokeWidth: 0.05, // ~fontSize
         },
 
         outline:

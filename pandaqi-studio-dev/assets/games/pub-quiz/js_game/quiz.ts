@@ -22,6 +22,9 @@ interface QuizParams
     defaultAuthor?: string,
     defaultScore?: number,
 
+    possibleCategories?: string[],
+    possibleAuthors?: string[],
+
     hideCategory?: boolean,
     hideAuthor?: boolean,
     hideScore?: boolean,
@@ -29,6 +32,7 @@ interface QuizParams
     enableSafety?: boolean
     enableMouse?: boolean
     enableKeys?: boolean
+    enableUI?: boolean
 
     groupBy?: string
 }
@@ -60,7 +64,8 @@ export default class Quiz
     {
         const seed = params.seed ?? DEFAULT_SEED;
 
-        this.enableSafety = params.enableSafety ?? true;
+        params.enableSafety = params.enableSafety ?? false;
+        this.enableSafety = params.enableSafety;
         this.groupBy = params.groupBy ?? null;
 
         this.mode = QuizMode.QUESTIONS;
@@ -75,11 +80,13 @@ export default class Quiz
         this.dom.listenFor(DOM.MEDIA, () => { this.toggleMedia(); });
         this.dom.listenFor(DOM.MODE, () => { this.toggleMode(); });
         this.dom.listenFor(DOM.END, () => { this.gotoEnd(); })
+        this.dom.listenFor(DOM.FONT_SIZE, (ev) => { this.changeFontSize(ev.detail.change); })
     }
 
     async load()
     {
         this.nodes.createHTML();
+        this.dom.connectToNodes(this.nodes);
         this.questions = await this.loader.load();
         this.prepareQuestions();
         this.reset();
@@ -117,7 +124,7 @@ export default class Quiz
         // otherwise it's STILL random because of delays and inconsistencies in downloading the questions,
         // and thus different ordering when inserted into array
         this.questions.sort((a,b) => {
-            return a.question[0].localeCompare(b.question[0]);
+            return a.question[0].get().localeCompare(b.question[0].get());
         })
 
         // randomly sort questions
@@ -137,7 +144,7 @@ export default class Quiz
         let totalScore = 0;
         for(const question of this.questions)
         {
-            totalScore += question.score as number;
+            totalScore += parseInt(question.score.get());
             question.shuffleAnswers(this.rng);
         }
 
@@ -164,7 +171,7 @@ export default class Quiz
             return this.nodes.showEndScreen(this);
         }
 
-        this.nodes.showQuestion(this.counter, this.questions[this.counter], this.mode);
+        this.nodes.showQuestion(this.counter, this.getCurrentQuestion(), this.mode);
     }
 
     getCurrentQuestion()
@@ -176,7 +183,9 @@ export default class Quiz
     toggleAnswer()
     {
         if(this.enableSafety && !confirm("Weet je zeker dat je het antwoord wilt zien?")) { return; }
-        this.nodes.toggleAnswer(this.getCurrentQuestion());
+        let curQuestion = this.counter;
+        this.toggleMode();
+        this.changeQuestion(curQuestion);
     }
 
     toggleMedia()
@@ -190,6 +199,11 @@ export default class Quiz
         if(this.mode == QuizMode.ANSWERS) { this.gotoQuestionMode(); }
         else { this.gotoAnswerMode(); }
         this.changeQuestion(0);
+    }
+
+    changeFontSize(change:number)
+    {
+        this.nodes.changeFontSize(change);
     }
 
     assignColors()
@@ -212,4 +226,7 @@ export default class Quiz
             q.updateProperty("color", allColors.pop());
         }
     }
+
+    atStart() { return this.counter < 0; }
+    atEnd() { return this.counter >= this.questions.length; }
 }

@@ -6,6 +6,8 @@ $max-media-height: 350px;
 $min-media-width: 300px;
 $cutoff-small: 600px;
 $border-radius: 0.5rem;
+$metadata-part-width: 8rem;
+$metadata-padding: 1rem;
 $base: "/pub-quiz/";
 $base-fonts: $base + "fonts/";
 $base-assets: $base + "assets/";
@@ -41,6 +43,7 @@ $tint-color: #afc2ff;
 * {
     box-sizing: border-box;
     border-radius: $border-radius;
+    user-select: none;
 }
 
 html, body {
@@ -62,7 +65,20 @@ body {
 }
 
 main { display: none; }
-p { margin: 0; width: 100%; }
+p { margin: 0; width: 100%; font-size: 2em; }
+
+.quiz-ui {
+    display: flex;
+    margin-bottom: 0.5em;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+    gap: 1rem;
+
+    button {
+        max-width: $metadata-part-width + 2*$metadata-padding;
+    }
+}
 
 button {
     font-family: $font;
@@ -75,6 +91,13 @@ button {
     background-color: $tint-color;
     cursor: pointer;
     transition: color 0.2s, background-color 0.2s, filter 0.2s;
+
+    &:disabled {
+        pointer-events: none;
+        opacity: 0.66;
+        background-color: $tint-color;
+        color: #000000;
+    }
 
     &:hover {
         color: $near-white;
@@ -114,7 +137,7 @@ button {
     }
 
     .question-metadata {
-        padding: 1rem;
+        padding: $metadata-padding;
         background-color: $near-black;
         color: $near-white;
         
@@ -126,7 +149,7 @@ button {
         .metadata-part
         {
             justify-content: center;
-            min-width: 2em;
+            min-width: $metadata-part-width;
             //white-space: nowrap;
             padding: 0.3rem;
         }
@@ -151,6 +174,13 @@ button {
             margin-bottom: 0.25rem;
         }
     }
+}
+
+.question-comment {
+    display: flex;
+    margin-bottom: 0.5em;
+    font-size: 1.35em;
+    padding: 1rem;
 }
 
 .question-media {
@@ -273,4 +303,11 @@ $colors: (
             background-color: $col-dark;
         }
     }
+}
+
+// These are the default values for YouTube videos and they seem fine in most cases
+// But we might want a better system someday
+iframe {
+    width: 560px;
+    height: 315px;
 }
