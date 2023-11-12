@@ -4,11 +4,7 @@ type: "rules"
 
 {{% rules-block id="setup" heading="Setup" icon="setup" icontint="purple" %}}
 
-Each player receives **9 random cards**. Place them in a faceup stack before you: your **life deck**.
-
-Shuffle the remaining cards and deal fairly until empty. These are your (secret) **hand cards**. 
-
-Finally, pick anyone to be the Kittykeeper.
+Include 1 suit (all cards 1-9 of one color) per player. Pick anyone to be the Kittykeeper ( = start player). That's it!
 
 {{% remark %}}
 Material can be downloaded from [the website](https://pandaqi.com/nine-lives-tricksy-kittens).
@@ -18,46 +14,90 @@ Material can be downloaded from [the website](https://pandaqi.com/nine-lives-tri
 
 {{% rules-block id="objective" heading="Objective" icon="objective" icontint="lightblue" %}}
 
-The game ends when **a player runs out of lives**. The players with the **most lives** left win.
+The game ends when **a player reaches 9(+) lives**. The player with the most lives wins.
 
 {{% /rules-block %}}
 
 {{% rules-block id="action_play" heading="Gameplay" icon="action" class="force-page-break-before" icontint="purple" %}}
 
-This is a trick-taking game with a twist. 
+Play happens in rounds. Each round has three steps: bidding, playing, scoring.
 
-The Kittykeeper starts, then take clockwise turns around the table.
+@TODO: INTERACTIVE EXAMPLE?
 
-* On your turn, play a card from your hand _or_ play your current life ( = the top card of your life deck).
-* **If possible,** you must play the same suit as one **already played**. (The Kittykeeper can thus play anything. The suit of their card is called the _leading suit_.)
-* The special power on your card **only activates** if it's played as a life card.
+{{% rules-block heading="Bidding" %}}
 
-Once everyone has played, decide the winner: the player who played the **highest card** in the **leading suit**.
+Shuffle the deck and deal as fairly as possible. (You might have a few cards left over in some rounds. Reveal them, but don't use them.)
 
-Now every player checks the _total_ number of the suit they played. (Sum the numbers on all cards in that suit.)
-* If it's **greater than 9** (it "exploded"), you **lose a life**.
-* Otherwise, nothing happens.
+At the start of each round, everyone secretly **places a bid**. Simultaneously, all players take a card from their hand and place it facedown in front of them. The number on that card indicates how many "tricks" you expect to win.
 
-If you played a _life_ card this round, you get it back.
-* You're the winner? Put it at the bottom of your Life Deck.
-* Otherwise? Choose whether to take it into your hand or discard it.
-
-All other cards played are discarded. The winner becomes the new Kittykeeper.
-
-Next round!
+Once done, reveal all the bids. Any players who bid the **same suit** are---for this round only---in the **same "team"**.
 
 @TODO: IMAGE EXAMPLE
 
-@TODO: INTERACTIVE EXAMPLE
+{{% /rules-block %}}
+
+{{% rules-block heading="Playing" %}}
+
+This is a trick-taking game with a twist. You keep playing "tricks" until all players are out of cards.
+
+So how does a trick work?
+
+The Kittykeeper starts by playing any card they want. 
+* The suit of their played card is called the **leading suit**.
+* The suit of their bid card is the **trump**.
+
+Then take clockwise turns around the table. On your turn, play one card from your hand. _If possible_, match the leading suit. Otherwise, play anything.
+
+Once everybody has played, check who won this trick.
+* If a **trump** was played, the highest trump wins.
+* Otherwise, the highest card in the **leading suit** wins.
+
+Now comes the biggest twist of this game.
+* If a player played a card in the same suit as their own _bid_, that card is **ignored**. Pretend it doesn't exist.
+* If _all_ cards in a trick are ignored in this way, the Kittykeeper wins.
+
+The winner receives the trick and places it facedown before them (to track how many you've won). They become the new Kittykeeper.
+
+@TODO: IMAGE EXAMPLE
 
 {{% /rules-block %}}
 
-{{% rules-block id="action_play" heading="Cards" icon="score" class="force-page-break-before" icontint="purple" %}}
+{{% rules-block %}}
 
-Each card has a **suit**, a **number** and a **special power**.
+Once you've played all the tricks, scoring happens.
 
-As stated, the special power _only_ activates when the card is played as a Life Card.
+> **If you won exactly as many tricks as you bid, score your bid card!** (Add it facedown to a pile that represents your lives.)
 
-Only the _top_ card of your lives deck is relevant (and can be played) at any given time. Though you're allowed to look through your life deck at any time.
+If you were in a **team**, you also score if you _collectively_ scored the correct amount. 
+
+EXAMPLE: A and B are teamed. A bid 2, B bid 3. But at the end of the round, A has won 4 tricks and B has won 1. They're still both allowed to score, because _together_ they've scored the right amount (2 + 3 = 4 + 1). 
+
+If this causes somebody to have 9 (or more) lives, the game ends here. Otherwise, play the next round!
+
+@TODO: IMAGE EXAMPLE
+
+{{% /rules-block %}}
+
+{{% /rules-block %}}
+
+{{% rules-block id="expansion" heading="After your first game" icon="expansion" class="force-page-break-before" icontint="purple" %}}
+
+You might have noticed that there are **powers** on the cards. These can be ignored for your first few games. Once you're familiar with trick-taking, however, it's highly recommended to add the rules below.
+
+Your "bid" card starts a row in front of you.
+
+* If you **win a trick**, pick one of its cards and place it in this row. (The other cards are discarded.)
+* Your current "bid" is always the **left-most card** of this row. (So yes, your bid might change during the game.)
+
+On each turn, you _may_
+
+* Discard one card from your row ...
+* ... to execute the power written on it!
+
+You can do so before or after playing your card for this trick. (Do notice, though, that paying the card means _losing_ that trick. Which means you may not be able to score your bid anymore!)
+
+However, only **one power may be used per trick**.
+
+@TODO: IMAGE EXAMPLE
 
 {{% /rules-block %}}

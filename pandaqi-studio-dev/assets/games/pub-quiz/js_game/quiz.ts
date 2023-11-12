@@ -5,11 +5,15 @@ import Question from "./question";
 import seedrandom from "js/pq_games/tools/random/seedrandom";
 import DOM from "./dom";
 import clamp from "js/pq_games/tools/numbers/clamp";
+import { parseQuestionsIntoJSON } from "./parser";
+import ErrorHandler from "./errorHandler";
 
 interface QuizParams
 {
     url?: string,
-    filename?: string,
+    filename?: string, // for automatic pattern matching (name_0, name_1, ...)
+    filenames?: string[], // for fixed filenames given by user, can be anything
+    fileExtensions?: string[],
     seed?: string,
     maxScore?: number,
     loadExternalMediaAsIframe?: boolean,
@@ -35,6 +39,10 @@ interface QuizParams
     enableUI?: boolean
 
     groupBy?: string
+
+    subFolders?: { media?: string, questions?: string }
+
+    showErrors?: boolean
 }
 
 enum QuizMode
@@ -44,6 +52,9 @@ enum QuizMode
 }
 
 const DEFAULT_SEED = "quiz";
+const DEFAULT_SCORE = 1;
+const DEFAULT_AUTHOR = "anonymous";
+const DEFAULT_CATEGORY = "general";
 
 export { QuizMode, QuizParams, Quiz }
 export default class Quiz
@@ -59,10 +70,16 @@ export default class Quiz
     groupBy: string;
 
     colors = ["red", "orange", "green", "blue", "turquoise", "purple", "pink"]
+    errorHandler: ErrorHandler;
 
     constructor(params:QuizParams = {})
     {
         const seed = params.seed ?? DEFAULT_SEED;
+
+        params.defaultAuthor = params.defaultAuthor ?? DEFAULT_AUTHOR;
+        params.defaultCategory = params.defaultCategory ?? DEFAULT_CATEGORY;
+        params.defaultScore = params.defaultScore ?? DEFAULT_SCORE;
+        params.showErrors = params.showErrors ?? true;
 
         params.enableSafety = params.enableSafety ?? false;
         this.enableSafety = params.enableSafety;
@@ -71,6 +88,7 @@ export default class Quiz
         this.mode = QuizMode.QUESTIONS;
         this.loader = new Loader(params);
         this.nodes = new Nodes(params);
+        this.errorHandler = new ErrorHandler(params);
         this.rng = seedrandom(seed);
         this.dom = new DOM(params);
         
@@ -102,12 +120,12 @@ export default class Quiz
 
     gotoEnd() 
     { 
-        if(this.enableSafety && !confirm("Weet je zeker dat je helemaal naar het einde wilt?")) { return; }
+        if(this.enableSafety && !confirm("Are you sure you want to skip to the end?")) { return; }
         this.changeQuestion(Infinity); 
     }
     gotoStart() 
     { 
-        if(this.enableSafety && !confirm("Weet je zeker dat je helemaal naar het begin wilt?")) { return; }
+        if(this.enableSafety && !confirm("Are you sure you want to skip to the start?")) { return; }
         this.changeQuestion(-Infinity); 
     }
 
@@ -155,7 +173,11 @@ export default class Quiz
         }
         this.nodes.saveStats(stats);
 
+        console.log("### Questions ###");
         console.log(this.questions);
+
+        console.log("### JSON Output ###");
+        console.log(parseQuestionsIntoJSON(this.questions));
     }
 
     changeQuestion(dc:number)
@@ -182,9 +204,9 @@ export default class Quiz
 
     toggleAnswer()
     {
-        if(this.enableSafety && !confirm("Weet je zeker dat je het antwoord wilt zien?")) { return; }
+        if(this.enableSafety && !confirm("Are you sure you wish to toggle answers?")) { return; }
         let curQuestion = this.counter;
-        this.toggleMode();
+        this.toggleMode(true);
         this.changeQuestion(curQuestion);
     }
 
@@ -193,9 +215,9 @@ export default class Quiz
         this.nodes.toggleMedia();
     }
 
-    toggleMode()
+    toggleMode(suppressSafety = false)
     {
-        if(this.enableSafety && !confirm("Weet je zeker dat je de modus wilt veranderen?")) { return; }
+        if(this.enableSafety && !suppressSafety && !confirm("Are you sure you want to toggle mode (questions<->answers)?")) { return; }
         if(this.mode == QuizMode.ANSWERS) { this.gotoQuestionMode(); }
         else { this.gotoAnswerMode(); }
         this.changeQuestion(0);

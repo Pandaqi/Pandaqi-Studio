@@ -32,7 +32,7 @@ Play happens in rounds. The Kittyking starts, then take clockwise turns.
 
 On your turn, you **play a number that isn't already on the table.** That's it.
 
-Play it to the _left_ or the _right_ of the row on the table. If you match **suit** with the neighbor card, **draw 2 cards**.
+Play it to the _left_ or the _right_ of the row on the table. If it matches **suit** with its neighbor, **draw 2 cards**.
 
 @TODO: IMAGE EXAMPLE => show playing cards in a row and not playing forbidden numbers, show matching neighbor.
 
@@ -42,15 +42,17 @@ Play it to the _left_ or the _right_ of the row on the table. If you match **sui
 
 But what if you can't play a card?
 
-Before taking your turn, you _may_ **wager a life**. 
+Before taking your turn, you _may_ **wager a life** (as often as you like). 
 
 * Place your top Life Card before you.
 * Draw 1 card from the deck.
-* And you're allowed to play multiple cards (a "stack") this round.
+* And you're allowed to play multiple cards (a "stack") this turn.
 
 If you play a stack, the individual cards don't matter, only its **total**! _Add_ or _subtract_ the numbers on the cards---however you want---to get its final number. It can't be outside of the range 1 through 9.
 
-All other rules remain. (The final number of your stack can't already be on the table; draw 2 cards for every neighbor card with a matching suit.)
+All other rules remain. 
+* For each card that matches suit with a card in the neighbor column, draw 2 cards.
+* The _total_ number of your stack can't already be on the table. (But the individual cards may be anything.)
 
 @TODO: IMAGE EXAMPLE => Show playing a stack (cards underneath each other)
 

@@ -31,13 +31,13 @@ googleFonts: ""
 date: 2023-01-01 # 2024-07-25?
 
 categories: ["boardgame"]
-tags: ["medieval", "mosaic", "numbers", "deck"]
+tags: ["traditional", "animals", "numbers", "abilities"]
 
 multiplayermode: "competitive"
 language: EN
 genre: ["card", "party"]
-playtime: 20
-playercount: [2,3,4,5,6,7,8,9,10]
+playtime: 40
+playercount: [2,3,4,5,6]
 complexity: low
 ages: everyone
 

@@ -1,0 +1,127 @@
+import Point from "js/pq_games/tools/geometry/point"
+
+const CONFIG = 
+{
+    debugWithoutFile: true, // @DEBUGGING (should be false)
+    debugSingleCard: false, // @DEBUGGING (should be false)
+    debugOnlyGenerate: false, // @DEBUGGING (should be false)
+
+    configKey: "nineLivesTricksyKittensConfig",
+    fileName: "[Material] Nine Lives: Tricksy Kittens",
+
+    // set through user config on page
+    inkFriendly: false,
+    includePowers: true,
+    cardSize: "regular",
+    suits: {},
+    
+    fonts:
+    {
+        heading: "puss",
+        body: "catcafe"
+    },
+
+    // assets
+    assetsBase: "/nine-lives-tricksy-kittens/assets/",
+    assets:
+    {
+        puss:
+        {
+            path: "fonts/puss.woff2"
+        },
+
+        catcafe:
+        {
+            path: "fonts/catcafe.woff2"
+        },
+
+        misc:
+        {
+            path: "misc.webp",
+            frames: new Point(4,1)
+        },
+
+        cats:
+        {
+            path: "cats.webp",
+            frames: new Point(8,1),
+        },
+
+        suits:
+        {
+            path: "powers.webp",
+            frames: new Point(8,2),
+        },
+    },
+
+    // how generation/balancing happens
+    generation:
+    {
+        numbers: [1,2,3,4,5,6,7,8,9],
+        cardsPerNumber: 1
+    },
+
+    // how to draw/layout cards (mostly visually)
+    cards:
+    {
+        dims: { 
+            small: new Point(4,4),
+            regular: new Point(3,3),
+            huge: new Point(2,2)
+        },
+        dimsElement: new Point(1, 1.4),
+        
+        shared:
+        {
+            defaultBGColor: "#FEFEFE",
+            shadowColor: "#00000099",
+            shadowOffset: 0.03, // ~sizeUnit
+            colorLighten: 50
+        },
+
+        corners:
+        {
+            fontSize: 0.05, // ~sizeUnit
+            offsetText: 1.2, // ~0.5 fontSize
+            strokeWidth: 0.1, // ~fontSize
+
+            iconSize: 0.6, // ~fontSize
+            offsetIcon: 1.0, //~default distance => (0.5 fontSize + 0.5 iconSize)
+
+        },
+
+        bgCats:
+        {
+            patternExtraMargin: 0.2, // relative to card Y, extra margin at edge to make sure no empty space when rotated   
+            patternNumIcons: 12, // again, Y-axis
+            patternIconSize: 0.8, // relative to full space reserved for icon (1.0)
+
+            patternAlpha: 0.125,
+            patternRotation: -0.166*Math.PI, // = 30 degrees tilt
+            patternAlphaInkFriendly: 0.1
+        },
+
+        illustration:
+        {
+            offset: 0.8, // ~rectSizeUnit (from powers, see below)
+            size: 0.5, // ~sizeUnit (note that this is placed twice, top and bottom (rotated), so higher than 0.5 will surely clip it on Y-axis)
+        },
+
+        powers:
+        {
+            rectSize: new Point(0.8, 0.25), // ~sizeUnit
+            rectBevel: 0.1, // ~rectSizeUnit
+            rectStrokeWidth: 0.015, // ~sizeUnit
+            fontSize: 0.05, // ~sizeUnit
+            textPadding: new Point(0.05, 0.05) // ~rectSizeUnit
+        },
+
+        outline:
+        {
+            size: 0.025, // relative to sizeUnit
+            color: "#000000"
+        }
+    }
+}
+
+export default CONFIG

@@ -56,11 +56,15 @@ export default class CardPicker
 
             let options:any[] = [3,5,7];
             let needle = "%number%";
-            if(data.desc.includes("%suit%")) 
-            {
+            if(data.desc.includes("%suit%")) {
                 needle = "%suit%" 
                 options = Object.keys(SUITS); 
+            } else if(data.desc.includes("%side%")) {
+                needle = "%side%";
+                options = ["left", "right"];
             }
+
+            if(data.dynamicOptions) { options = data.dynamicOptions.slice(); }
 
             for(const option of options)
             {

@@ -15,9 +15,9 @@ export default class Nodes
     fontSizes = [9,12,16,20,24,28,32]
     fontSizeDefault = 20
 
-    startButtonText = "Speel de vragen!"
-    answerButtonText = "Bekijk de antwoorden!"
-    openQuestionText = "Dit is een open vraag!"
+    startButtonText = "Play the Questions!"
+    answerButtonText = "View the Answers!"
+    openQuestionText = "This is an open question!"
 
     loadingScreen = {
         questionNumber: "?",
@@ -29,15 +29,15 @@ export default class Nodes
     startScreen = {
         questionNumber: "?",
         questionCategory: "Start",
-        question: "Welkom bij de quiz!",
-        instruction: "<p>Schrijf bij elke vraag het nummer en je antwoord op. Is iedereen er klaar voor?</p>"
+        question: "Welcome to the quiz!",
+        instruction: "<p>For each question, write down the number and your answer. Is everyone ready?</p>"
     }
 
     endScreen = {
         question: "Het einde is bereikt!",
         questionCategory: "Einde",
         questionNumber: "?",
-        instruction: "<p>Dat waren alle vragen!</p><p>Herlaad de pagina om de antwoorden te bekijken.</p>"
+        instruction: "<p>You've finished all the questions!</p><p>Reload this page to view the answers.</p>"
     }
 
     node: HTMLDivElement;
@@ -116,31 +116,37 @@ export default class Nodes
         //this.nodes.metadata = metadata;
 
         const num = document.createElement("div");
+        num.title = "Question number";
         num.classList.add("question-number", "metadata-part");
         metadata.appendChild(num);
         this.nodes.questionNumber = num;
 
         const score = document.createElement("div");
+        score.title = "Question score";
         score.classList.add("question-score", "metadata-part");
         metadata.appendChild(score);
         this.nodes.questionScore = score;
 
         const cat = document.createElement("div");
+        cat.title = "Question category";
         cat.classList.add("question-category", "metadata-part");
         metadata.appendChild(cat);
         this.nodes.questionCategory = cat;
 
         const author = document.createElement("div");
+        author.title = "Question author";
         author.classList.add("question-author", "metadata-part");
         metadata.appendChild(author);
         this.nodes.questionAuthor = author;
 
         const h1 = document.createElement("h1");
+        h1.title = "The question!";
         h1.classList.add("quiz-question");
         header.appendChild(h1);
         this.nodes.question = h1;
 
         const comment = document.createElement("div");
+        comment.title = "Question comment";
         comment.classList.add("question-comment");
         cont.appendChild(comment);
         this.nodes.questionComment = comment;
@@ -161,6 +167,7 @@ export default class Nodes
         this.nodes.answers = answerCont;
 
         const stats = document.createElement("div");
+        stats.title = "Statistics about the entire quiz";
         stats.classList.add("quiz-statistics");
         cont.appendChild(stats);
         this.statsNode = stats;
@@ -186,7 +193,7 @@ export default class Nodes
     saveStats(stats)
     {
         const node = this.statsNode;
-        node.innerHTML = "(Statistieken: " + stats.numQuestions + " vragen, " + stats.totalScore + " punten)";
+        node.innerHTML = "(Statistics: " + stats.numQuestions + " questions, " + stats.totalScore + " points)";
     }
 
     toggleLeaveProtection(val:boolean)

@@ -4,8 +4,8 @@ gamepage: true
 boardgame: true
 
 title: "Nine Lives: Tricksy Kittens"
-headerTitle: "Nine Lives: Tricksy Kittens | Don't be the first cat to run out of lives!"
-blurb: "As we all know, all cats start with nine lives. And as we all know, losing a trick makes you lose a life ... unless you're willing to bet your life on your victory."
+headerTitle: "Nine Lives: Tricksy Kittens | Be the first cat to achieve your nine lives!"
+blurb: "A trick-taking game about getting your nine lives before anybody else, by placing smart bets on the right cats."
 
 extraCSS: true
 downloadLink: "@TODO"
@@ -46,7 +46,7 @@ ages: everyone
 
 {{% boardgame-intro heading="" img="cookie_smasher_header" class="no-shadow" %}}
 
-A simple and fast card game about losing your nine lives less quickly than all the other players.
+A trick-taking game about getting your nine lives before anybody else, by placing smart bets on the right cats.
 
 {{% /boardgame-intro %}}
 
@@ -68,12 +68,15 @@ Three simple steps.
 {{< boardgame-settings type="game" local_storage="nineLivesMathMeowsConfig" btn_label="Generate Material" >}}
 	{{< setting-hidden id="setting-gameTitle" text="Nine Lives: Math Meows" >}}
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
-  {{< setting-checkbox id="setting-includeLifeCards" text="Generate Life Cards?" checked="checked" >}}
-  {{< setting-checkbox id="setting-includeCatCards" text="Generate Cat Cards?" checked="checked" >}}
   {{< setting-enum id="setting-cardSize" text="Card Size?" values="small,regular,huge" valaskey="true" def="regular" >}}
+  {{< setting-checkbox id="setting-includePowers" text="Include Powers?" checked="checked" remark="Remove them if you're sure you never want to play with them." >}}
+  <h3>Suits</h3>
+  {{< setting-checkbox-multiple id="setting-suits" values="hearts,spades,diamonds,clubs,hourglasses,cups,stars,cats" >}}
 {{< /boardgame-settings >}}
 
 <p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>
+
+<p class="settings-remark">As stated in the rules, you need 1 suit per player. Each suit is only 9 cards (1 page in regular size), so when unsure, just include all of them.</p>
 
 {{% /section-centered %}}
 
@@ -84,6 +87,8 @@ The fonts used are **Puss in Boots** (headings, fancy text) and **Catcafe** (bod
 This game is obviously a variant on the original game [Nine Lives](https://pandaqi.com/nine-lives).
 
 To most gamers, the idea of trick taking is second nature. To people who have never played such a game---or rarely do so---it needs quite some explanation. That's why this version didn't become the "original", but rather a spin-off to try for those who think they'll enjoy it.
+
+This one was also the hardest to make, as my first _five_ attempts were fine and playable, but just felt very mediocre. It took a return to one of my favorite card games (Spades) to make it all work.
 
 Do you have a favorite version of Nine Lives? Let me know which one and why!
 
