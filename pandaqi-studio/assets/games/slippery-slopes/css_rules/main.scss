@@ -54,4 +54,12 @@ $col-purple: #d997fa;
     body {
         font-size: 14px;
     }
+
+    picture.float-right {
+        max-width: 150px;
+    }
+
+    .rules-table-entry {
+        line-height: 100%;
+    }
 }

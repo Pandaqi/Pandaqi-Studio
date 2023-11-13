@@ -1,0 +1,35 @@
+
+$header-font: "Mail Ray Stuff", sans-serif;
+$body-font: "Poppins", serif;
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('/kangaruse/assets/fonts/Poppins-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('/kangaruse/assets/fonts/Poppins-Italic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Mail Ray Stuff';
+    src: url('/kangaruse/assets/fonts/MailRayStuff-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('/kangaruse/assets/fonts/Poppins-Black.woff2') format('woff2');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}

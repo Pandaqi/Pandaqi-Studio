@@ -62,6 +62,12 @@ export default class ResourceText extends Resource
         return new TextDrawer(this.text, dims, this.textConfig);
     }
 
+    measureDims(size:Point) : Dims
+    {
+        const drawer = this.createTextDrawer(size);
+        return drawer.measureText();
+    }
+
     /* 
     Old placement code for canvas renderer
     @TODO: need to find an alternative for how LayoutNodes give their position and dims to children

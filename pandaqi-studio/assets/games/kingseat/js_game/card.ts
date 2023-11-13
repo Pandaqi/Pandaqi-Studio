@@ -5,7 +5,12 @@ import createContext from "js/pq_games/layout/canvas/createContext";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
 import TintEffect from "js/pq_games/layout/effects/tintEffect";
-import addTextToCanvas from "js/pq_games/layout/text/addTextToCanvas";
+import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
+import ResourceText from "js/pq_games/layout/resources/resourceText";
+import ColorLike from "js/pq_games/layout/color/colorLike";
+import ResourceShape from "js/pq_games/layout/resources/resourceShape";
+import Rectangle from "js/pq_games/tools/geometry/rectangle";
+import BlurEffect from "js/pq_games/layout/effects/blurEffect";
 
 export default class Card 
 {
@@ -68,7 +73,7 @@ export default class Card
             ctx.fillStyle = "#000000";
             ctx.fillRect(0, 0, this.dims.x, this.dims.y);
 
-            const alpha = this.isDark() ? 0.5 : 1.0;
+            const alpha = this.isDark() ? 0.25 : 1.0;
             const res = CONFIG.resLoader.getResource("multicolor_bg");
             const canvOp = new LayoutOperation({
                 translate: this.centerPos.clone(),
@@ -100,10 +105,10 @@ export default class Card
     async drawMainPart()
     {
         await this.drawSigil();
+        await this.drawActionText();
         await this.drawSeparator();
-        this.drawName();
-        this.drawActionText();
-        this.drawSlogan()
+        await this.drawName();
+        await this.drawSlogan()
     }
 
     async drawSigil()
@@ -174,27 +179,35 @@ export default class Card
         }
     }
 
-    drawName()
+    async drawName()
     {
         const offset = this.typeData.name.offset.clone().scaleFactor(this.minSize);
         const shadowOffset = this.typeData.name.shadowOffset.clone().scaleFactor(this.minSize);
         const pos = this.centerPos.clone().add(offset);
-        pos.setX(0);
+        pos.x = this.centerPos.x;
 
-        const textParams = {
-            text: this.typeData.name.text,
-            fontFamily: CONFIG.fonts.heading.key,
-            fontSize: CONFIG.fonts.heading.size * this.minSize,
-            color: this.getColor(this.typeData.name, "colorBottom"),
-            pos: pos.clone().add(shadowOffset),
-            maxWidth: this.dims.x
-        }
+        const fontSize = CONFIG.fonts.heading.size * this.minSize;
+        const textConfig = new TextConfig({
+            font: CONFIG.fonts.heading.key,
+            size: fontSize,
+            alignHorizontal: TextAlign.MIDDLE,
+            alignVertical: TextAlign.MIDDLE
+        })
+        const text = this.typeData.name.text;
+        const resText = new ResourceText({ text: text, textConfig: textConfig });
+        const op = new LayoutOperation({
+            translate: pos.clone().add(shadowOffset),
+            dims: new Point(this.dims.x, fontSize),
+            fill: this.getColor(this.typeData.name, "colorBottom"),
+            pivot: new Point(0.5)
+        })
 
-        addTextToCanvas(this.ctx, textParams);
+        await resText.toCanvas(this.ctx, op);
 
-        textParams.pos = pos;
-        textParams.color = this.getColor(this.typeData.name, "colorTop");
-        addTextToCanvas(this.ctx, textParams)
+        op.translate = pos;
+        op.fill = new ColorLike(this.getColor(this.typeData.name, "colorTop"));
+
+        await resText.toCanvas(this.ctx, op);
 
         this.namePos = pos.clone();
     }
@@ -208,56 +221,89 @@ export default class Card
         return data;
     }
 
-    drawActionText()
+    async drawActionText()
     {
         if(!this.action) { return; }
 
         const offset = this.typeData.action.offset.clone().scaleFactor(this.minSize);
         const pos = this.centerPos.clone().add(offset);
+        const edgeOffset = 0.035*this.minSize;
         const maxWidth = this.typeData.action.maxWidth * this.minSize;
-        pos.setX(0.5 * (this.dims.x - maxWidth));
+        const sloganHeight = 2 * (CONFIG.fonts.slogan.size * this.minSize);
+        const maxHeight = this.dims.y - pos.y - sloganHeight - edgeOffset;
+        //pos.setX(0.5 * (this.dims.x - maxWidth));
+        pos.x = 0.5*this.dims.x;
+        pos.y += 0.5*maxHeight;
+
+        // @UPDATE: add a rectangle behind the text for readability
+        const rectExtents = new Point(maxWidth*1.1, maxHeight + sloganHeight);
+        const rect = new Rectangle({ center: new Point(pos.x, pos.y+0.5*sloganHeight), extents: rectExtents });
+        const resRect = new ResourceShape({ shape: rect });
+        const rectOp = new LayoutOperation({
+            fill: this.isDark() ? "#000000" : "#FFFFFF",
+            alpha: this.isDark() ? 0.5 : 0.8,
+            effects: [new BlurEffect(0.05*maxWidth)]
+        })
+
+        await resRect.toCanvas(this.ctx, rectOp);
 
         // @TODO: print the type of action, if not a regular one (which we get from an OBJECT in the .dark config array)
 
-        let text = this.getDarkText() || this.typeData.action.text;
+        const text = this.getDarkText() ?? this.typeData.action.text;
+        const fill = this.getColor(this.typeData.action);
+        const fontUsed = CONFIG.highLegibility ? "textLegible" : "text";
 
-        const textParams = {
-            text: text,
-            fontFamily: CONFIG.fonts.text.key,
-            fontSize: CONFIG.fonts.text.size * this.minSize,
-            color: this.getColor(this.typeData.action),
-            pos: pos,
-            maxWidth: maxWidth,
-            align: "left"
-        }
+        const fontSize = CONFIG.fonts[fontUsed].size * this.minSize;
+        const textConfig = new TextConfig({
+            font: CONFIG.fonts[fontUsed].key,
+            size: fontSize,
+            alignHorizontal: TextAlign.START,
+            alignVertical: TextAlign.MIDDLE
+        })
 
-        addTextToCanvas(this.ctx, textParams);
+        const resText = new ResourceText({ text: text, textConfig: textConfig });
+        const op = new LayoutOperation({
+            translate: pos,
+            dims: new Point(maxWidth, maxHeight),
+            fill: fill,
+            pivot: Point.CENTER
+        })
+
+        await resText.toCanvas(this.ctx, op);
     }
 
-    drawSlogan()
+    async drawSlogan()
     {
         const offset = this.typeData.slogan.offset.clone().scaleFactor(this.minSize);
         const pos = new Point().fromXY(0.5*this.dims.x, this.dims.y).add(offset);
         const maxWidth = this.typeData.slogan.maxWidth * this.dims.x;
-        pos.setX(0.5 * (this.dims.x - maxWidth));
+        //pos.setX(0.5 * (this.dims.x - maxWidth));
+        pos.x = 0.5 * this.dims.x;
 
         const text = '\u201C' + this.typeData.slogan.text + '\u201D'
         const fontSize = CONFIG.fonts.slogan.size * this.minSize
-        const maxHeight = 2 * fontSize
+        const maxHeight = fontSize
 
-        const textParams = {
-            text: text,
-            fontFamily: CONFIG.fonts.slogan.key,
-            fontSize: fontSize,
-            color: this.getColor(this.typeData.slogan),
-            alpha: this.typeData.slogan.alpha,
-            pos: pos,
-            maxWidth: maxWidth,
-            maxHeight: maxHeight,
-            alignVertical: "bottom"
-        }
+        const fill = this.getColor(this.typeData.slogan);
+        const alpha = this.typeData.slogan.alpha
+        const textConfig = new TextConfig({
+            font: CONFIG.fonts.slogan.key,
+            size: fontSize,
+            alignHorizontal: TextAlign.MIDDLE,
+            alignVertical: TextAlign.END,
+            lineHeight: 0.875
+        })
 
-        addTextToCanvas(this.ctx, textParams);
+        const resText = new ResourceText({ text: text, textConfig: textConfig });
+        const op = new LayoutOperation({
+            translate: pos,
+            dims: new Point(maxWidth, maxHeight),
+            fill: fill,
+            alpha: alpha,
+            pivot: new Point(0.5, 1.0)
+        })
+
+        await resText.toCanvas(this.ctx, op);
     }
 
     // edges, corners, decoration

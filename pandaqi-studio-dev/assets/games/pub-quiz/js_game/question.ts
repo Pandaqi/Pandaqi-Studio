@@ -6,6 +6,7 @@ import { showMessage } from "./errorHandler"
 
 export default class Question
 {
+    quizID:string;
     question: QVal[]
     comment: QVal[]
     category: QVal[]
@@ -50,9 +51,11 @@ export default class Question
 
     finalize(params:QuizParams)
     {
+        this.quizID = params.id;
+
         if(!this.isValid())
         {
-            showMessage(["Question wants to be finalized, but isn't valid.", this]);
+            showMessage(["Question wants to be finalized, but isn't valid.", this], this.quizID);
             return;
         }
 
@@ -72,7 +75,7 @@ export default class Question
             for(const author of list)
             {
                 if(params.possibleAuthors.includes(author)) { continue; }
-                showMessage(["Question has author " + author + " which is not a possible author", this]);
+                showMessage(["Question has author " + author + " which is not a possible author", this], this.quizID);
             }
         }
     }
@@ -87,7 +90,7 @@ export default class Question
             for(const cat of list)
             {
                 if(params.possibleCategories.includes(cat)) { continue; }
-                showMessage(["Question has category " + cat + " which is not a possible category", this]);
+                showMessage(["Question has category " + cat + " which is not a possible category", this], this.quizID);
             }
         }
 
@@ -110,7 +113,7 @@ export default class Question
             for(const answer of list)
             {
                 if(answer.toLowerCase() != this.correct.get().toLowerCase()) { continue; }
-                showMessage(["Question had a correct answer (" + this.correct + "), but spelled differently from the real one (" + answer + ")", this]);
+                showMessage(["Question had a correct answer (" + this.correct + "), but spelled differently from the real one (" + answer + ")", this], this.quizID);
                 this.correct = new QVal(answer);
                 correctAnswerIncluded = true;
                 break;
@@ -120,7 +123,7 @@ export default class Question
         // if still not included, mention it and try our best with the first answer
         if(!correctAnswerIncluded) 
         { 
-            showMessage(["Question has no valid correct answer ", this]);
+            showMessage(["Question has no valid correct answer ", this], this.quizID);
             this.correct = this.answers[0];
         }
 
@@ -128,7 +131,7 @@ export default class Question
         const correctAnswerNotVisible = this.correct.type == QValType.ANSWER;
         if(correctAnswerNotVisible)
         {
-            showMessage(["Question's correct answer is not question visible", this]);
+            showMessage(["Question's correct answer is not question visible", this], this.quizID);
         }
     }
 
@@ -139,14 +142,14 @@ export default class Question
 
         if(!Object.keys(this).includes(prop))
         {
-            showMessage(["Unknown question property: " + prop, this]);
+            showMessage(["Unknown question property: " + prop, this], this.quizID);
             return;
         }
 
         const valParsed : QVal[] = parseQuestionProperty(prop, val);
         if(valParsed.length <= 0)
         {
-            showMessage("Can't set property " + prop + " to empty value: " + val);
+            showMessage("Can't set property " + prop + " to empty value: " + val, this.quizID);
             return;
         }
 
@@ -154,7 +157,7 @@ export default class Question
         if(!isList)
         {
             if(valParsed.length <= 1) { this[prop] = valParsed[0]; }
-            else { showMessage("Can't set property " + prop + " to value " + val); }
+            else { showMessage("Can't set property " + prop + " to value " + val, this.quizID); }
             return;
         }
 
@@ -200,6 +203,11 @@ export default class Question
         }
 
         return arr;
+    }
+
+    toString()
+    {
+        return "<strong>&ldquo;" + this.getQuestionValues("question").join(" ") + "&rdquo;</strong>";
     }
 
 }

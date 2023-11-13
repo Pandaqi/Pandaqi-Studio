@@ -37,6 +37,7 @@ const POWERS:PowerSet =
     show_hand: { desc: "You must play with your hand open.", class: PClass.HIGH },
     cant_wager: { desc: "You can't wager.", class: PClass.HIGH },
     must_wager_first: { desc: "You must wager on your first turn.", class: PClass.HIGH },
+    must_wager_all: { desc: "You must wager every turn.", lives: [8] },
     inverse_turn: { desc: "You MUST play a number that's already been played.", class: PClass.HIGH },
     forced_side: { desc: "You must play cards to the %side%.", class: PClass.HIGH, dynamic: true },
     no_unique_suits: { desc: "You can't play a suit if you only have it once.", class: PClass.HIGH },
@@ -51,6 +52,7 @@ const POWERS:PowerSet =
     wager_double: { desc: "If you wager, you pay 2 lives (instead of 1).", class: PClass.HIGH },
     hand_empty_loss: { desc: "If you run out of cards, everyone loses the round.", class: PClass.HIGH },
     suit_play_limit: { desc: "Each suit may only be played TWICE.", class: PClass.HIGH },
+    must_play_lives: { desc: "You can only play numbers currently on Life Cards.", class: PClass.HIGH },
 
     // generally MEDIUM powers
     value_above_lives: { desc: "You can't play a number lower than your Life", class: PClass.MED },
@@ -83,7 +85,11 @@ const POWERS:PowerSet =
     wager_means_open: { desc: "If you wager, play with your hand open (from now on).", lives: [5,6] },
     draw_from_discard: { desc: "Instead of drawing from the deck, draw from the discard pile.", class: PClass.MED },
     hand_empty_carousel: { desc: "If you run out of cards, all players give their hand to the %side%.", class: PClass.MED, dynamic: true },
-    reverse_direction: { desc: "If you wager, reverse playing direction (for this round).", class: PClass.MED },
+    reverse_direction: { desc: "If you wager, reverse playing direction.", class: PClass.MED },
+    reverse_direction_match: { desc: "Turn Over: if you drew cards, reverse playing direction.", class: PClass.MED },
+    cant_play_lives: { desc: "You can't play any number that's currently on a Life Card.", lives: [5,6] },
+    extra_num: { desc: "Round Start: pick any number 1-9. Duplicates are allowed for it.", class: PClass.MED },
+    extra_num_outside_range: { desc: "Round Start: pick any number outside 1-9. Stacks may be that number.", class: PClass.MED },
 
     // generally LOW powers
     ignore_numbers_side: { desc: "Ignore all numbers to the %side% of the starting card.", class: PClass.LOW, dynamic: true },
@@ -115,7 +121,8 @@ const POWERS:PowerSet =
     others_low_limit: { desc: "Everybody else has a hand limit of 3.", class: PClass.LOW },
     others_no_suit: { desc: "Nobody else may play %suit%", class: PClass.LOW, dynamic: true },
     others_play_open: { desc: "Everybody else must play with their hand open.", lives: [2,3] },
-    play_in_order: { desc: "Everybody else must play cards in order (ascending or descending).", class: PClass.LOW }
+    play_in_order: { desc: "Everybody else must play cards in order (ascending or descending).", class: PClass.LOW },
+    others_low_draw: { desc: "Everybody else only draws 1 card for matching suits.", lives: [2,3] }
 }
 
 const SUITS = 

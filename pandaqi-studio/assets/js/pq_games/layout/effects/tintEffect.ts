@@ -4,15 +4,18 @@ import LayoutEffect from "./layoutEffect";
 import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage";
 import Color from "../color/color";
 import { EffectData } from "../layoutOperation";
+import getTintCSSFilters from "./tintEffectSolver";
 
 export default class TintEffect extends LayoutEffect
 {
     color: Color
+    from: Color
 
     constructor(params:Record<string,any> = {})
     {
         super(params);
         this.color = new Color(params.color ?? "#FFFFFF");
+        this.from = new Color(params.from ?? "#FFFFFF");
     }
 
     clone(deep = false)
@@ -40,10 +43,12 @@ export default class TintEffect extends LayoutEffect
         return image.clone().swapImage(img);
     }
 
-    // @TODO: not really a robust system for tinting ...
     applyToHTML(div:HTMLElement, effectData:EffectData = {})
     {
-        div.style.mixBlendMode = "multiply";
-        div.style.backgroundColor = this.color.toString();
+        const filters = getTintCSSFilters(this.color, this.from);
+        for(const filter of filters)
+        {
+            effectData.filters.push(filter);
+        }
     }
 }

@@ -7,12 +7,13 @@ const imageToPhaser = (img:ResourceImage, op:LayoutOperation, game) =>
     const sprite = game.add.sprite(op.translate.x, op.translate.y, img.getUniqueKey());
     sprite.displayWidth = op.dims.x;
     sprite.displayHeight = op.dims.y;
+    sprite.rotation = op.rotation;
     sprite.setOrigin(op.pivot.x, op.pivot.y);
     sprite.setFrame(op.frame);
 
     for(const effect of op.effects)
     {
-        effectToPhaser(effect, sprite);
+        effectToPhaser(sprite, effect);
     }
 
     return sprite;

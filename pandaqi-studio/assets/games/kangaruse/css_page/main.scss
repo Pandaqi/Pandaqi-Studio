@@ -1,5 +1,5 @@
-$header-font: "Mail Ray Stuff", serif;
-$body-font: "Poppins", sans-serif;
+@use "../css_shared/main.scss" as g;
+
 $bg-color: #98bb45;
 $text-color: #0d440c;
 $button-bg: #FCC038;
@@ -9,47 +9,15 @@ $link-color-hover: #5d7a1a;
 $settings-color: #8c3f13;
 $cutoff: 920px;
 
-@font-face {
-    font-family: 'Poppins';
-    src: url('assets/fonts/Poppins-Regular.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'Poppins';
-    src: url('assets/fonts/Poppins-Italic.woff2') format('woff2');
-    font-weight: normal;
-    font-style: italic;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'Mail Ray Stuff';
-    src: url('assets/fonts/MailRayStuff-Regular.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'Poppins';
-    src: url('assets/fonts/Poppins-Black.woff2') format('woff2');
-    font-weight: 900;
-    font-style: normal;
-    font-display: swap;
-}
-
 h1, h2, h3, h4, h5, h6, 
 a.btn, #btn-create-pdf, #btn-generate-board, #btn-start-game,
 input, button, select, option, label {
-    font-family: $header-font;
+    font-family: g.$header-font;
     letter-spacing: 0.04em;
 }
 
 body {
-    font-family: $body-font;
+    font-family: g.$body-font;
     background-color: $bg-color;
     color: $text-color;
     font-size: 20px;

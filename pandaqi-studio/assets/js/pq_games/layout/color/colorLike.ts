@@ -1,3 +1,4 @@
+import LayoutOperation from "../layoutOperation";
 import ResourceGradient from "../resources/resourceGradient";
 import ResourcePattern from "../resources/resourcePattern";
 import Color from "./color";
@@ -17,6 +18,7 @@ export default class ColorLike
         }
     }
 
+    get() { return this.val; }
     toCSS()
     {
         return this.val.toCSS();

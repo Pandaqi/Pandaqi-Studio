@@ -12,7 +12,7 @@ headerImg: "slippery_slopes_header"
 
 headerThumb: "favicon_slippery_slopes"
 
-customHeight: "large"
+customHeight: "small"
 headerDarkened: true
 
 color: "red"

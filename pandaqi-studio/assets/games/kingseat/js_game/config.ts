@@ -2,7 +2,8 @@ import Point from "js/pq_games/tools/geometry/point";
 
 export default 
 {
-    debugWithoutPDF: false, // @DEBUGGING (should be false)
+    debugWithoutFile: false, // @DEBUGGING (should be false)
+
     fileName: "[Kingseat] Material",
     configKey: "kingseatConfig",
     progressBar: null,
@@ -10,6 +11,8 @@ export default
     resLoader: null,
     gridMapper: null,
     cardSize: "regular",
+    premadePacks: "",
+    highLegibility: true,
     packs: [],
 
     assetsBase: "/kingseat/assets/",
@@ -30,6 +33,12 @@ export default
             key: "Gothic",
             url: "fonts/GothicUltraOT.woff2",
             size: 0.0533
+        },
+
+        textLegible: {
+            key: "Brygada",
+            url: "fonts/Brygada1918-Regular.woff2",
+            size: 0.057
         }
     },
     assets: {
@@ -68,7 +77,7 @@ export default
         size: new Point(),
         outline: {
             color: "#111111",
-            width: 0.025,
+            width: 0.0125,
         }
     }
 }

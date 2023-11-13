@@ -2,7 +2,7 @@ import Quiz from "./quiz";
 
 const params = {
     //loadExternalMediaAsIframe: true
-    possibleCategories: [],
+    //possibleCategories: [],
     groupBy: "category"
 }
 const quiz = new Quiz(params);

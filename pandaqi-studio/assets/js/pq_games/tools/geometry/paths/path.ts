@@ -21,11 +21,17 @@ export default class Path extends Shape
         this.close = p.close ?? false;
     }
 
-    toPath() : Point[] { return this.points; }
+    toPath() : Point[] 
+    { 
+        const points = this.points.slice();
+        if(this.close) { points.push(points[0]); }
+        return points;
+    }
+
     toPath2D() : Path2D
     {
         const path = new Path2D();
-        for(const point of this.points)
+        for(const point of this.toPath())
         {
             path.lineTo(point.x, point.y);
         }

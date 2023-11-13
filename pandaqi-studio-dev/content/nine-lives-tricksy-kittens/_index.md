@@ -8,7 +8,7 @@ headerTitle: "Nine Lives: Tricksy Kittens | Be the first cat to achieve your nin
 blurb: "A trick-taking game about getting your nine lives before anybody else, by placing smart bets on the right cats."
 
 extraCSS: true
-downloadLink: "@TODO"
+downloadLink: "https://drive.google.com/drive/folders/1FxdHCEaLdaSrGDIrCx5yZHMx6P07_Ios"
 
 fullHeaderImg: "cookie_smasher_header"
 headerImg: "cookie_smasher_header"

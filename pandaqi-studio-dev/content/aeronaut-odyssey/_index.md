@@ -10,7 +10,7 @@ blurb: "Travel the world, claim the most valuable routes and profit from it. Con
 extraCSS: true
 extraJSBoard: true
 extraJSBoardInclude: true
-downloadLink: "https://drive.google.com/drive/folders/1lgnWjJG1pjb-YD7vg_0rS1QHW54xFpP1"
+downloadLink: "https://drive.google.com/drive/folders/11yggBK2i8MlMg6sxD-oE4xBQzpgC4AUr"
 
 fullHeaderImg: "aeronaut_header"
 headerImg: "aeronaut_header"

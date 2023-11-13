@@ -14,4 +14,8 @@ export default (res:ResourceImage, game) =>
     } else {
         game.load.spritesheet(key, path, sheetData);
     }
+
+    console.log(key);
+    console.log(path);
+    console.log(sheetData);
 }

@@ -78,6 +78,15 @@ class SettingsClass
 		return document.getElementById('btn-generate-board') as HTMLButtonElement;
 	}
 
+	getCreatePDFButton() : HTMLButtonElement
+	{
+		return document.getElementById('btn-create-pdf') as HTMLButtonElement;
+	}
+
+	// @NOTE: The first part of an input id is literally IGNORED (it's usually setting-, but can be settingBoard- sometimes)
+	// Why does it exist? To keep the id unique on the page
+	// What comes after "setting-" is the actual name being used in the config passed on
+	// And if there are multiple things (setting-expansions-blabla), then the third is used and put into the group "expansions"
 	addToConfig(cfg:Record<string,any>, id:string, val:any)
 	{
 		const idSplit = id.split("-");

@@ -1,5 +1,5 @@
 import Pack from "./pack"
-import { PACKS, PACK_DEFAULT, PACK_COLORS } from "./dict"
+import { PACKS, PACK_DEFAULT, PACK_COLORS, SETS } from "./dict"
 import GridMapper from "js/pq_games/layout/gridMapper"
 import PdfBuilder, { PageOrientation } from "js/pq_games/pdf/pdfBuilder"
 import Point from "js/pq_games/tools/geometry/point"
@@ -15,16 +15,24 @@ export default class Generator {
     {
         const userConfig = JSON.parse(window.localStorage[CONFIG.configKey] || "{}");
 
-        const packs = [];
+        const customPacks = [];
+        let randomPacks = [];
         for(const [type,include] of Object.entries(userConfig.packs))
         {
+            randomPacks.push(type);
             if(!include) { continue; }
-            packs.push(type);
+            customPacks.push(type);
         }
-        userConfig.packs = packs;
 
+        let premadePacks = []; // or "sets"
+        if(userConfig.premadePacks == "random") { premadePacks = randomPacks.slice(0,5); }
+        if(userConfig.premadePacks && (userConfig.premadePacks in SETS)) { premadePacks = SETS[userConfig.premadePacks]; }
+
+        userConfig.packs = customPacks.length > 0 ? customPacks : premadePacks;
         Object.assign(CONFIG, userConfig);
 
+        console.log(CONFIG);
+        
         const progressBar = new ProgressBar();
         CONFIG.progressBar = progressBar;
         progressBar.setPhases(["Loading Assets", "Creating Packs", "Preparing PDF", "Done!"]);
@@ -58,7 +66,7 @@ export default class Generator {
         }
         await resLoader.loadPlannedResources();
 
-        const pdfBuilderConfig = { orientation: PageOrientation.PORTRAIT };
+        const pdfBuilderConfig = { orientation: PageOrientation.PORTRAIT, debugWithoutFile: CONFIG.debugWithoutFile };
         const pdfBuilder = new PdfBuilder(pdfBuilderConfig);
 
         const dims = CONFIG.cards.dims[CONFIG.cardSize ?? "regular"];
@@ -152,15 +160,6 @@ export default class Generator {
         CONFIG.progressBar.gotoNextPhase();
 
         const images = await convertCanvasToImageMultiple(CONFIG.gridMapper.getCanvases());
-        if(CONFIG.debugWithoutPDF)
-        {
-            for(const img of images) { 
-                img.style.maxWidth = "100%";
-                document.body.appendChild(img);
-            }
-            return;
-        }
-
         CONFIG.pdfBuilder.addImages(images);
         const pdfCONFIG = { customFileName: CONFIG.fileName }
         CONFIG.pdfBuilder.downloadPDF(pdfCONFIG);

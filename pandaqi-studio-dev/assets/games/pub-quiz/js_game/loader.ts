@@ -7,7 +7,7 @@ const BASE_URL = "/pub-quiz/";
 const QUESTION_FILE_NAME_PATTERN = "questions";
 const MAX_SCORE = 5;
 const DEF_FILE_EXTENSIONS = ["txt"];
-const VALID_FILE_EXTENSIONS = ["txt", "md", "doc", "docx", "pdf", "json"];
+const VALID_FILE_EXTENSIONS = ["txt", "md", "json"]; //["txt", "md", "doc", "docx", "pdf", "json"];
 const SUB_FOLDERS = {
     media: "media/",
     questions: "questions/"
@@ -24,6 +24,7 @@ export default class Loader
     maxScore: number;
     data: Question[];
     subFolders: { media: string, questions: string }
+    id: string;
 
     constructor(params:QuizParams = {})
     {
@@ -33,6 +34,7 @@ export default class Loader
         this.filename = params.filename ?? QUESTION_FILE_NAME_PATTERN;
         this.filenames = params.filenames ?? [];
         this.fileExtensions = params.fileExtensions ?? DEF_FILE_EXTENSIONS;
+        this.id = params.id;
         this.ensureFileExtensionValidity();
 
         this.subFolders = Object.assign(structuredClone(SUB_FOLDERS), params.subFolders);
@@ -115,10 +117,10 @@ export default class Loader
             xhr.open('GET', url);
 
             xhr.onerror = (ev) => { resolve(false); }
-            xhr.onloadend = () => {
+            xhr.onloadend = async () => {
                 if(xhr.status == 404) { resolve(false); return; }
                 if(xhr.status == 200) {
-                    this.onFileLoaded(url, xhr.response);
+                    await this.onFileLoaded(url, xhr.response);
                     resolve(true);
                 }
             };
@@ -127,9 +129,9 @@ export default class Loader
         });
     }
 
-    onFileLoaded(url: string, data: string)
+    async onFileLoaded(url: string, data: string)
     {
-        const dataParsed = parseRawFile(data);
+        const dataParsed = await parseRawFile(url, data);
         let questions;
         if(typeof dataParsed === "object") {
             questions = parseFileObject(url, dataParsed, this.params);
@@ -173,7 +175,7 @@ export default class Loader
             const score = parseInt(q.score.get());
             if(score > this.maxScore || score <= 0)
             {
-                showMessage(["Question has a score that's too high or too low: " + score, q]);
+                showMessage(["Question has a score that's too high or too low: " + score, q], this.id);
             }
         }
     }
@@ -199,7 +201,7 @@ export default class Loader
             let newValue = isMedia ? path : val;
             if(isMedia && !this.fileExists(path))
             {
-                showMessage(["Media doesn't exist: " + path]);
+                showMessage(["Media doesn't exist: " + path], this.id);
             }
 
             elem.set(newValue);

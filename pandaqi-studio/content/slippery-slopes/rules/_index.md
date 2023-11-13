@@ -8,11 +8,9 @@ type: "rules"
 
 Create a deck of **slider cards**. Draw 4 sliders at random and place them in front of the start player.
 
-Shuffle the deck of **word cards**.
+Shuffle the deck of **word cards**. That's it!
 
-That's it!
-
-(You can also play this game completely digitally, on a single smartphone, by going to the [digital spin-off](/slippery-slopes-trippy-touches)!)
+(You can also play this game digitally, on a single smartphone. Check the [digital spin-off](/slippery-slopes-trippy-touches)!)
 
 {{% /rules-block %}}
 

@@ -50,6 +50,7 @@ export default class BoxInput extends InputGroup
         this.offset = new TwoAxisValue(params.offset ?? new Point());
         this.anchor = params.anchor ?? AnchorValue.NONE;
         this.keepRatio = new NumberValue(params.keepRatio ?? 0.0);
+        this.display = params.display ?? DisplayValue.BLOCK;
 
         this.ghost = params.ghost ?? false;
 

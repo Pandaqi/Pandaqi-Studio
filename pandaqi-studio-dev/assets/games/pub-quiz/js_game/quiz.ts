@@ -10,6 +10,7 @@ import ErrorHandler from "./errorHandler";
 
 interface QuizParams
 {
+    id?: string, // if you want multiple quizzes on the same page, they need unique IDs
     url?: string,
     filename?: string, // for automatic pattern matching (name_0, name_1, ...)
     filenames?: string[], // for fixed filenames given by user, can be anything
@@ -51,6 +52,7 @@ enum QuizMode
     ANSWERS
 }
 
+const DEFAULT_ID = "defaultQuizID";
 const DEFAULT_SEED = "quiz";
 const DEFAULT_SCORE = 1;
 const DEFAULT_AUTHOR = "anonymous";
@@ -71,6 +73,7 @@ export default class Quiz
 
     colors = ["red", "orange", "green", "blue", "turquoise", "purple", "pink"]
     errorHandler: ErrorHandler;
+    id: string;
 
     constructor(params:QuizParams = {})
     {
@@ -80,10 +83,12 @@ export default class Quiz
         params.defaultCategory = params.defaultCategory ?? DEFAULT_CATEGORY;
         params.defaultScore = params.defaultScore ?? DEFAULT_SCORE;
         params.showErrors = params.showErrors ?? true;
+        params.id = (params.id ?? seed) ?? DEFAULT_ID;
 
         params.enableSafety = params.enableSafety ?? false;
         this.enableSafety = params.enableSafety;
         this.groupBy = params.groupBy ?? null;
+        this.id = params.id;
 
         this.mode = QuizMode.QUESTIONS;
         this.loader = new Loader(params);

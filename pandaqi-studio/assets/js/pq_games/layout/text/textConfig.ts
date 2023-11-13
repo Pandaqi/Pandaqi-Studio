@@ -136,7 +136,7 @@ export default class TextConfig
 
     applyToHTML(elem:HTMLElement)
     {
-        elem.style.fontFamily = this.getNameString();
+        elem.style.fontFamily = '"' + this.getNameString() + '"';
         elem.style.fontWeight = this.getWeightString();
         elem.style.fontVariant = this.getVariantString();
         elem.style.fontStyle = this.getStyleString();

@@ -70,7 +70,9 @@ Three simple steps.
 {{< boardgame-settings type="game" btn_label="Create Material" local_storage="kingseatConfig" >}}
 	{{< setting-hidden id="setting-gameTitle" text="Kingseat" >}}
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
+  {{< setting-checkbox id="setting-highLegibility" text="High Legibility?" remark="Picks a more neutral font for maximum legibility." checked="checked" >}}
   {{< setting-enum id="setting-cardSize" text="Card Size?" values="small,regular,huge" valaskey="true" def="regular" >}}
+  {{< setting-enum id="setting-premadePacks" text="Set?" values="none,starter,medium,advanced,complete,random" valaskey="true" def="starter" remark="Pick a predetermined set, or use none and pick your specific princes below!" >}}
   <h3>Princes</h3>
   {{< setting-checkbox id="setting-packs-lionsyre" text="Lionsyre?"  >}}
   {{< setting-checkbox id="setting-packs-slydefox" text="Slydefox?"  >}}

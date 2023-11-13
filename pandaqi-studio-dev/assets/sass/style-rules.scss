@@ -117,14 +117,11 @@ h3 {
     font-size: 1.0em;
 }
 
-h1,h2,h3 {
-    line-height: 110%;
-}
-
 ul, ol {
     margin-top: -0.85em;
     margin-bottom: 1.5em;
 }
+
 
 
 
@@ -155,7 +152,6 @@ $icons: (
     height: 64px;
     background-image: url(/assets/rules_icons.webp);
     background-size: 800%;
-    flex-shrink: 0;
 }
 
 @each $name, $data in $icons
@@ -213,13 +209,15 @@ article, section {
 }
 
 .force-page-break-before {
-    page-break-before: page;
     break-before: page;
 }
 
 .force-page-break-after {
-    page-break-after: page;
     break-after: page;
+}
+
+section {
+    break-inside: avoid;
 }
 
 #simpleViewButton, #printButton
@@ -235,8 +233,8 @@ article, section {
 // Game name + metadata, and image on PDF
 //
 header {
-    page-break-after: avoid;
     break-after: avoid;
+    break-inside: avoid;
 
     .header-image { 
         display: none; 
@@ -364,6 +362,7 @@ picture {
 
     &.float-left, &.float-right {
         max-width: $img-max-width;
+        margin-left: 0.5rem;
 
         @media screen and (max-width: $double-view-breakpoint) {
             float: none;
@@ -371,6 +370,7 @@ picture {
         }
     }
 
+    
     &.drop-shadow {
         filter: drop-shadow(1px 2px 4px #444);
     }
@@ -529,7 +529,6 @@ section[data-folded="true"]
         margin: 0;
         padding: 1rem;
 
-        page-break-after: avoid;    
         break-after: avoid;
 
         cursor: pointer;
@@ -626,10 +625,7 @@ table {
     box-shadow: 0 0 1.0em rgba(0, 0, 0, 0.5);
     width: 100%;
 
-    page-break-inside: avoid;
     break-inside: avoid;
-
-    page-break-before: auto;
     break-before: auto;
 
     thead tr {
@@ -708,6 +704,7 @@ $rules-table-size-print: 0.75*$rules-table-icon-size;
     .rules-table-entry {
         min-width: $rules-table-icon-size;
         max-width: 2*$rules-table-icon-size;
+        line-height: 105%; // @TODO: not sure why this is needed, but it is, otherwise line height is all out of whack
 
         .icon-container {
             background-color: rgba(0,0,0,0.2);

@@ -8,7 +8,7 @@ headerTitle: "Nine Lives | Don't be the first cat to run out of lives!"
 blurb: "As we all know, all cats start with nine lives. And as we all know, being unable to play a valid card makes you lose a life. Don't lose all of them before anyone else!"
 
 extraCSS: true
-downloadLink: "@TODO"
+downloadLink: "https://drive.google.com/drive/folders/1kKuH20FTKx5pm4qy_dqdNgt79iDSJwYp"
 
 fullHeaderImg: "cookie_smasher_header"
 headerImg: "cookie_smasher_header"

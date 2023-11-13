@@ -109,7 +109,7 @@ Blue stands for change, multitype, fluidity.
     {{< /rules-table-entry >}}
 <!-- -->
     {{< rules-table-entry heading="Ice" icon="blue-ice" >}}
-        <span class="action-timing">BEFORE</span>: For every card with multiple types, pick only <em>one</em> that one counts (for that card).
+        <span class="action-timing">BEFORE</span>: For every card with multiple types, pick only <em>one</em> that counts (for that card).
     {{< /rules-table-entry >}}
 <!-- -->
     {{< rules-table-entry heading="Poison" icon="blue-poison" >}}

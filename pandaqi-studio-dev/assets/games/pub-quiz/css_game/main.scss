@@ -311,3 +311,25 @@ iframe {
     width: 560px;
     height: 315px;
 }
+
+.error-handler {
+    position: fixed;
+    z-index: 10000;
+    width: 100%;
+    max-width: 200px;
+    font-size: 0.5rem;
+    padding: 0.5rem;
+
+    .error-message {
+        background-color: #FFFFFF;
+        padding: 0.5rem;
+        border: 0.125rem solid black;
+        filter: drop-shadow(0 0 0.125rem black);
+        cursor: pointer;
+
+        &.error-type-fail { background-color: #FFAAAA; border-color: red; }
+        &.error-type-warning { background-color: #ffff75; border-color: yellow; }
+        &.error-type-feedback { background-color: #AAAAFF; border-color: blue; }
+        &.error-type-success { background-color: #AAFFAA; border-color: green; }
+    }
+}

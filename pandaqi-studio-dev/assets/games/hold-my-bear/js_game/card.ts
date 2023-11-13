@@ -12,6 +12,7 @@ import GrayScaleEffect from "js/pq_games/layout/effects/grayScaleEffect";
 import ColorLike from "js/pq_games/layout/color/colorLike";
 import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
 import rangeInteger from "js/pq_games/tools/random/rangeInteger";
+import getPositionsCenteredAround from "js/pq_games/tools/geometry/paths/getPositionsCenteredAround";
 
 export default class Card
 {
@@ -43,6 +44,7 @@ export default class Card
         await this.drawBackground();
         await this.drawMainIllustration();
         await this.drawCornerIcons();
+        await this.drawBearIcons();
         await this.drawSpecialPower();
         
         const outlineSize = CONFIG.cards.outline.size * this.sizeUnit;
@@ -214,6 +216,30 @@ export default class Card
                 res = CONFIG.resLoader.getResource(spriteKey);
             }
 
+            await res.toCanvas(this.ctx, op);
+        }
+    }
+
+    async drawBearIcons()
+    {
+        if(this.type != "bear") { return; }
+        if(!CONFIG.addBearIcons) { return; }
+
+        const yPos = CONFIG.cards.bearIcons.yPos * this.size.y;
+        const xPos = 0.5 * this.size.x;
+        const pos = new Point(xPos, yPos);
+        const dims = new Point(CONFIG.cards.bearIcons.size * this.sizeUnit);
+        const positions = getPositionsCenteredAround({ pos: pos, num: 4, dir: Point.RIGHT, dims: dims });
+        const res = CONFIG.resLoader.getResource("bear_icons");
+        const dimsWithPadding = dims.clone().scale(1.0 - CONFIG.cards.bearIcons.padding);
+        for(let i = 0; i < 4; i++)
+        {
+            const op = new LayoutOperation({
+                frame: i,
+                translate: positions[i],
+                dims: dimsWithPadding,
+                pivot: Point.CENTER
+            })
             await res.toCanvas(this.ctx, op);
         }
     }

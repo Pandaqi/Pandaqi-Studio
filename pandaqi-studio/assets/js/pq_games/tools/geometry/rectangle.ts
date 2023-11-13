@@ -96,6 +96,7 @@ export default class Rectangle extends Shape
 
         this.extents = newExtents;
         this.center = newCenter;
+        return this;
     }
 
     fromTopLeft(pos:Point, size:Point)

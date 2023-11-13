@@ -8,7 +8,7 @@ const PACK_DEFAULT = {
         colorTopDark: "#FFFFFF",
         colorBottom: "#000000",
         colorBottomDark: "#000000",
-        offset: new Point().fromXY(0, 0),
+        offset: new Point().fromXY(0, 0.082),
         shadowOffset: new Point().fromXY(0, 0.015)
     },
     dark: [
@@ -34,15 +34,15 @@ const PACK_DEFAULT = {
         color: "#000000",
         colorDark: "#FFFFFF",
         offset: new Point().fromXY(0, 0.175),
-        maxWidth: 0.85,
+        maxWidth: 0.805,
         percentage: 1.0, // how many of the cards actually GET an action
     },
     slogan: {
         text: "Slogan here",
         color: "#000000",
         colorDark: "#FFFFFF",
-        offset: new Point().fromXY(0, -0.175), // this offset is relative to the bottom of the card
-        alpha: 0.775,
+        offset: new Point().fromXY(0, -0.0275), // this offset is relative to the bottom of the card
+        alpha: 1.0,
         maxWidth: 0.68
     },
     separator: {
@@ -64,9 +64,9 @@ const PACK_DEFAULT = {
         insetScale: 0.05 // how much the line is moved towards the center of the card
     },
     outline: {
-        color: "#333333",
+        color: "#111111",
         colorDark: "#000000",
-        width: 0.05
+        width: 0.02
     }
 }
 
@@ -78,7 +78,7 @@ const PACK_COLORS = {
         },
         bg: {
             color: "#FDF232",
-            colorDark: "#908400"
+            colorDark: "#706200"
         },
     },
 
@@ -89,13 +89,7 @@ const PACK_COLORS = {
         },
         bg: {
             color: "#FF4816",
-            colorDark: "#A51E09",
-        },
-        action: {
-            color: "#FFFFFF"
-        },
-        slogan: {
-            color: "#FFFFFF"
+            colorDark: "#840C07",
         },
         separator: {
             color: "#FFFFFF"
@@ -108,8 +102,8 @@ const PACK_COLORS = {
             colorBottom: "#FFFFFF"
         },
         bg: {
-            color: "#B9B9B9",
-            colorDark: "#6A6A6A"
+            color: "#CACACA",
+            colorDark: "#484848"
         },
     },
 
@@ -120,7 +114,7 @@ const PACK_COLORS = {
         },
         bg: {
             color: "#FFFFFF",
-            colorDark: "#908383"
+            colorDark: "#605050"
         },
     },
 
@@ -131,7 +125,7 @@ const PACK_COLORS = {
         },
         bg: {
             color: "#FFB775",
-            colorDark: "#E37C1D"
+            colorDark: "#B0490A"
         },
     },
 
@@ -142,13 +136,7 @@ const PACK_COLORS = {
         },
         bg: {
             color: "#FF2D86",
-            colorDark: "#AC0040"
-        },
-        action: {
-            color: "#FFFFFF"
-        },
-        slogan: {
-            color: "#FFFFFF"
+            colorDark: "#8A0020"
         },
         separator: {
             color: "#FFFFFF"
@@ -162,13 +150,7 @@ const PACK_COLORS = {
         },
         bg: {
             color: "#FF352A",
-            colorDark: "#AE0C01"
-        },
-        action: {
-            color: "#FFFFFF"
-        },
-        slogan: {
-            color: "#FFFFFF"
+            colorDark: "#8C0A00"
         },
         separator: {
             color: "#FFFFFF"
@@ -182,13 +164,7 @@ const PACK_COLORS = {
         },
         bg: {
             color: "#AB50FF",
-            colorDark: "#6600D4"
-        },
-        action: {
-            color: "#FFFFFF"
-        },
-        slogan: {
-            color: "#FFFFFF"
+            colorDark: "#4400B2"
         },
         separator: {
             color: "#FFFFFF"
@@ -202,13 +178,7 @@ const PACK_COLORS = {
         },
         bg: {
             color: "#4E67FF",
-            colorDark: "#0011D0"
-        },
-        action: {
-            color: "#FFFFFF"
-        },
-        slogan: {
-            color: "#FFFFFF"
+            colorDark: "#0011C0"
         },
         separator: {
             color: "#FFFFFF"
@@ -222,7 +192,7 @@ const PACK_COLORS = {
         },
         bg: {
             color: "#55F5FD",
-            colorDark: "#009098"
+            colorDark: "#007076"
         },
     },
 
@@ -233,7 +203,7 @@ const PACK_COLORS = {
         },
         bg: {
             color: "#77EC3B",
-            colorDark: "#207503"
+            colorDark: "#005301"
         },
     },
 
@@ -315,7 +285,7 @@ const PACKS = {
             text: "Pick a Prince. All Woolfhall voters must vote this next round.\n\nYou're the only one? All must vote this."
         },
         slogan: {
-            text: "Spoils shared, howling moon,\nbrothers care, rulers soon.",
+            text: "Spoilshare, howl moon, brothercare, rulers soon.",
         },
         dark: [
             "All non-Woolfhall voters show you their Loyalty.",
@@ -363,7 +333,8 @@ const PACKS = {
             text: "Add this card to the Tell."
         },
         slogan: {
-            text: "Wars are temporary, wisdom is timeless, and honey is tasty, though it gets stuck in our beards.",
+            text: "Wars are temporary, honey is timeless.",
+            //text: "Wars are temporary, wisdom is timeless, and honey is tasty, though it gets stuck in our beards.",
         },
         dark: [
             "For every Brownbeard voter, take a Brownbeard card from the Discard into your Hand.",
@@ -387,7 +358,7 @@ const PACKS = {
             text: "Ask another for a specific Prince. If they have such a card, they must give it.",
         },
         slogan: {
-            text: "The prettiest color-ups have the deadliest follow-ups.",
+            text: "Pretty color-ups have deadly follow-ups.",
         },
         dark: [
             "Pick another player. They give you all their Dark cards.\n\nThey have none? Give your Dark cards to them.",
@@ -400,7 +371,7 @@ const PACKS = {
 
     crassclamps: { 
         frame: 6,
-        clarification: "<p>About the Regular action: if the King doesn't have the card mentioned, they simply don't have to follow this command.</p><p>About Dark 2: an open round means everyone plays their card face-up, in turn. After that special first player (picked by Crassclamps), the round continues as normal.</p>",
+        clarification: "<p>About the Regular action: if the player doesn't have the card mentioned, they simply don't have to follow that command. They do have to follow the swap/action command, <em>even if</em> they were part of the winning vote.</p><p>About Dark 2: an open round means everyone plays their card face-up, in turn. After that special first player (picked by Crassclamps), the round continues as normal.</p>",
         backstory: "These nasty Crabs like to clamp down on everything. They won't do much themselves, but will surely try to steer what the others can and can't do. An aggressive bunch that will take control of any situation—even if it often isn't the smartest move and doesn't help them.",
         animal: "Lobster",
         colorClass: "Red",
@@ -408,14 +379,16 @@ const PACKS = {
             text: "Crassclamps",
         },
         action: {
-            text: "Decide what the next player handled should do (action or swap).\n\nNo next player? Tell the king which card to play next round.",
+            text: "Tell a player which specific Prince to play next round, AND whether to swap places or take their action."
+            //text: "Force all players after you to do their card action.\n\nNo next player? Tell the king which card to play next round.",
         },
         slogan: {
-            text: "To be, or not to squeeze disobedience out of everyone.",
+            text: "To squeeze or not to squeeze.",
+            //text: "To be, or not to squeeze disobedience out of everyone.",
         },
         dark: [
             "Next round, all actions are worthless and can't be picked.",
-            "Next round is played openly.\n\nAlso pick any player: they must play the first card."
+            "Next round is played openly.\n\nAlso pick a player: they must play the first card."
         ],
         edges: {
             lineScale: { x: 0.725, y: 0.825 }
@@ -435,7 +408,7 @@ const PACKS = {
             text: "Both you and the king must reveal 3 Hand cards.",
         },
         slogan: {
-            text: "A gullible mind will speak equal truths each time.",
+            text: "Gullible minds speak equal truths all times.",
         },
         dark: [
             "You and the king show your entire Hand to each other.",
@@ -456,10 +429,11 @@ const PACKS = {
             text: "Hardshell Hero",
         },
         action: {
-            text: "Anytime you swap (from now on), trade 2 cards with the other.\n\nNow swap places with somebody.",
+            text: "Swap places with somebody and trade 2 cards with them.",
         },
         slogan: {
-            text: "The shell protects, the shell serves,\nthe shell may waver, but never swerves.",
+            text: "The shell protects, the shell serves",
+            //text: "The shell protects, the shell serves,\nthe shell may waver, but never swerves.",
         },
         dark: [
             "Everyone throws away a random card, except you.",
@@ -483,7 +457,7 @@ const PACKS = {
             text: "Action? Steal all Squlofish cards from another player.\n\nIn the Tell? It counts for 2 votes."
         },
         slogan: {
-            text: "Swim. Swim. Swim. SHARK. Swim. Swim. Swim.",
+            text: "Swim. Swim. SHARK. Swim. Swim. ",
         },
         dark: [
             "Discard one Hand card to remove 3 Squlofish votes from the Tell.",
@@ -507,7 +481,7 @@ const PACKS = {
             text: "Next round, you're immune to any actions aimed at you, but may not vote."
         },
         slogan: {
-            text: "Protect what's worth protecting. Destroy everything else.",
+            text: "Protect your gold. Destroy everything else.",
         },
         dark: [
             "The winning votes go to the Discard, instead of the Tell.",
@@ -531,7 +505,8 @@ const PACKS = {
             text: "Put one of the winning cards into any player's Hand, or the Discard.",
         },
         slogan: {
-            text: "If anybody asks your Loyalty, just dance around the question.",
+            text: "Dance around every tough question.",
+            //text: "If anybody asks your Loyalty, just dance around the question.",
         },
         dark: [
             "Swap your Loyalty card with any other from your Hand.",
@@ -543,4 +518,12 @@ const PACKS = {
     },
 }
 
-export { PACKS, PACK_DEFAULT, PACK_COLORS }
+const SETS =
+{
+    starter: ["lionsyre", "hornseeker", "monarchrys", "gulliballistas"],
+    medium: ["slydefox", "brownbeards", "hardshellHero", "smugwing"],
+    advanced: ["woolfhall", "crassclamps", "squlofish", "salsaSalamanda"],
+    complete: Object.keys(PACKS)
+}
+
+export { PACKS, PACK_DEFAULT, PACK_COLORS, SETS }

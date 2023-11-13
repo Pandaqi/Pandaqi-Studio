@@ -2,6 +2,8 @@ import { TextConfig, TextAlign } from "./textConfig"
 import Dims from "js/pq_games/tools/geometry/dims"
 import Point from "js/pq_games/tools/geometry/point"
 import { CanvasLike } from "../resources/resourceImage"
+import LayoutOperation from "../layoutOperation"
+import StrokeAlignValue from "../values/strokeAlignValue"
 
 export default class TextDrawer
 {
@@ -29,9 +31,12 @@ export default class TextDrawer
         return this.textBlockDims;
     }
 
-    toCanvas(canv:CanvasLike)
+    toCanvas(canv:CanvasLike, op:LayoutOperation = new LayoutOperation())
     {
+
         const ctx = (canv instanceof HTMLCanvasElement) ? canv.getContext("2d") : canv;
+        ctx.save();
+
         const style = this.cfg.getCanvasFontString();
         ctx.font = style;
         //ctx.fillStyle = this.cfg.color;
@@ -53,9 +58,6 @@ export default class TextDrawer
         // End points
         const xEnd = x + width
         const yEnd = y + height
-
-        // @ts-ignore
-        let txtY = y + height * 0.5 + parseInt(this.cfg.size) * 0.5
 
         let textanchor
 
@@ -112,8 +114,9 @@ export default class TextDrawer
 
                 //if statement ensures a new line only happens at a space, and not amidst a word
                 const backup = textlen
-                if (temptext.slice(textlen, 1) != ' ') {
-                    while (temptext.slice(textlen, 1) != ' ' && textlen != 0) {
+                if (temptext.charAt(textlen) != ' ') 
+                {
+                    while (temptext.charAt(textlen) != ' ' && textlen != 0) {
                         textlen--
                     }
                     
@@ -134,58 +137,123 @@ export default class TextDrawer
             // end foreach temptextarray
         })
 
-        //close approximation of height with width
+        // figure out total size of the block
         const charHeight = (this.cfg.lineHeight * this.cfg.size) ?? this.getTextHeight(ctx, text, style) 
-        const vheight = charHeight * (textarray.length - 1)
-        const negoffset = 0.5 * vheight
 
-        const alignV = this.cfg.alignVertical;
-        if (alignV === TextAlign.START) {
-            txtY = y + this.cfg.size
-        } else if (alignV === TextAlign.END) {
-            txtY = yEnd - vheight
-        } else {
-            txtY -= negoffset
-        }
-
-        // print all lines of text + track the actual bounding box
-        let topLeftTotal = new Point(Infinity, Infinity);
-        let bottomRightTotal = new Point(-Infinity, -Infinity);
-
+        const topLeftTotal = new Point(Infinity, Infinity);
+        const bottomRightTotal = new Point(-Infinity, -Infinity);
+        let tempTextY = 0;
+        let ascents = [];
+        let descents = [];
         textarray.forEach(txtline => {
             txtline = txtline.trim()
-
-            // this is the one line that actually draws text!
-            ctx.fillText(txtline, textanchor, txtY);
-            ctx.strokeText(txtline, textanchor, txtY);
-            
-            const oldY = txtY
-            txtY += charHeight
 
             const measure = ctx.measureText(txtline);
             let xLeft = textanchor, xRight = textanchor + measure.width
             if(alignH == TextAlign.MIDDLE) { xLeft -= 0.5*measure.width; xRight -= 0.5*measure.width; }
             if(alignH == TextAlign.END) { xLeft -= measure.width; xRight -= measure.width; }
 
-            const topLeft = new Point(xLeft, oldY - measure.actualBoundingBoxAscent);
-            const bottomRight = new Point(xRight, oldY + measure.actualBoundingBoxDescent);
+            const ascent = measure.actualBoundingBoxAscent;
+            ascents.push(ascent);
+
+            const descent = measure.actualBoundingBoxDescent;
+            descents.push(descent);
+
+            const topLeft = new Point(xLeft, tempTextY - ascent);
+            const bottomRight = new Point(xRight, tempTextY + descent);
 
             topLeftTotal.x = Math.min(topLeftTotal.x, topLeft.x);
             topLeftTotal.y = Math.min(topLeftTotal.y, topLeft.y);
             bottomRightTotal.x = Math.max(bottomRightTotal.x, bottomRight.x);
             bottomRightTotal.y = Math.max(bottomRightTotal.y, bottomRight.y);
+
+            tempTextY += charHeight;
         })
 
-        // save the resulting dimensions
-        this.textBlockDims = new Dims(
+        const rawDims = new Dims(
             topLeftTotal.x,
             topLeftTotal.y,
             (bottomRightTotal.x - topLeftTotal.x),
             (bottomRightTotal.y - topLeftTotal.y)
         );
 
+        const realHeight = rawDims.size.y;
+
+        let txtY;
+        const alignV = this.cfg.alignVertical;
+        // @TODO: vertical justify not yet implemented
+        if (alignV === TextAlign.START) {
+            txtY = y + ascents[0]
+        } else if (alignV === TextAlign.END) {
+            txtY = yEnd - realHeight // @TODO: is this still correct now that I use the TRUE dimensions?
+        } else if(alignV == TextAlign.MIDDLE) {
+            // center within dims, then remove half the height to find top anchor point
+            txtY = y + 0.5 * height + ascents[0] - 0.5*realHeight;
+        }
+
+        // save the resulting dimensions
+        // we should already be absolutely certain about them here, so this is also a correctness test
+        this.textBlockDims = rawDims.clone().move(new Point(0, txtY));
+
+        // print all lines of text + track the actual bounding box
+        textarray.forEach(txtline => {
+            txtline = txtline.trim()
+
+            const pos = new Point(textanchor, txtY);
+            const text = txtline;
+
+            // this is the one line that actually draws text!
+            this.fillAndStrokeText(ctx, text, pos, op);
+
+            // and moves to next line
+            txtY += charHeight
+        })
+
         this.debugDraw(ctx);
+        ctx.restore();
     }
+
+    fillAndStrokeText(ctx:CanvasRenderingContext2D, txt:string, pos:Point, op:LayoutOperation)
+    {
+        const strokeBeforeFill = op.strokeAlign == StrokeAlignValue.OUTSIDE;
+        const clipStroke = op.strokeAlign == StrokeAlignValue.INSIDE;
+
+        // @TODO: Clipping (for the inside stroke) NOT IMPLEMENTED YET
+        // Clipping only works for paths, and text is not a path
+        // Use secondary image and masking for this!
+        // @SOURCE: https://stackoverflow.com/questions/7307430/html-canvas-clipping-and-text
+
+        if(strokeBeforeFill) {
+            ctx.strokeText(txt, pos.x, pos.y);
+            ctx.fillText(txt, pos.x, pos.y);
+        } else {
+            ctx.fillText(txt, pos.x, pos.y);
+            ctx.strokeText(txt, pos.x, pos.y);
+        }
+    }
+
+    /*
+    applyFillAndStroke(ctx:CanvasRenderingContext2D, path:Path2D, callback:Function = null)
+    {
+        const strokeBeforeFill = this.strokeAlign == StrokeAlignValue.OUTSIDE;
+        const clipStroke = this.strokeAlign == StrokeAlignValue.INSIDE;
+
+        if(clipStroke) { ctx.save(); ctx.clip(path); }
+
+        if(strokeBeforeFill) {
+            ctx.stroke(path);
+            ctx.fill(path);
+            if(callback) { callback(); }
+        } else {
+            ctx.fill(path);
+            if(callback) { callback(); }
+            ctx.stroke(path);
+        }
+
+        if(clipStroke) { ctx.restore(); }
+    }
+
+    */
 
     debugDraw(ctx:CanvasRenderingContext2D)
     {

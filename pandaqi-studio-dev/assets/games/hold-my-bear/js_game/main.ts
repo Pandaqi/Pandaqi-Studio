@@ -55,6 +55,7 @@ export default class Generator
         for(const [key,data] of Object.entries(CONFIG.assets))
         {
             if(("expansion" in data) && !loadExpansionAssets) { continue; }
+            if(key == "bear_icons" && !CONFIG.addBearIcons) { continue; }
             resLoader.planLoad(key, data);
         }
         await resLoader.loadPlannedResources();

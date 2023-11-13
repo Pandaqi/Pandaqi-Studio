@@ -3,7 +3,7 @@ import Bounds from "js/pq_games/tools/numbers/bounds"
 
 const CONFIG = 
 {
-    debugWithoutFile: false, // @DEBUGGING (should be false)
+    debugWithoutFile: true, // @DEBUGGING (should be false)
 
     configKey: "holdMyBearConfig",
     fileName: "[Material] Hold my Bear",
@@ -14,6 +14,7 @@ const CONFIG =
     inkFriendly: false,
     animalsBase: {},
     animalsExpansion: {},
+    addBearIcons: true,
     cardSize: "regular",
 
     fonts:
@@ -50,6 +51,12 @@ const CONFIG =
             path: "animals_expansion.webp",
             expansion: true,
             frames: new Point(8,2)
+        },
+
+        bear_icons:
+        {
+            path: "bear_icons.webp",
+            frames: new Point(4,1)
         },
 
         bg:
@@ -109,6 +116,13 @@ const CONFIG =
             bgScaleFactor: 2.6, // relative to icon scaleFactor (above)
             bgOffset: new Point(0.135, 0.18), 
             textShadow: true, // (shadow is SLOW, but looks much better/more legible)
+        },
+
+        bearIcons:
+        {
+            yPos: 0.72, // ~sizeY
+            size: 0.215, // ~sizeUnit
+            padding: 0.035, // ~bearIconSize
         },
 
         illustration:

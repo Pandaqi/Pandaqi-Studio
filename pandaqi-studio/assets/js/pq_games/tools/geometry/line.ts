@@ -126,7 +126,7 @@ export default class Line extends Shape
 
     // useful properties
     isPoint() { return this.start == this.end || this.length() < 0.00001; }
-    vector() { return this.start.vecTo(this.end); }
+    vector() : Point { return this.start.vecTo(this.end); }
     length() { return this.start.distTo(this.end); }
     lengthSquared() { return this.start.distSquaredTo(this.end); }
     
@@ -139,6 +139,11 @@ export default class Line extends Shape
     center()
     {
         return this.start.clone().move(this.end).scaleFactor(0.5);
+    }
+
+    lerp(factor:number)
+    {
+        return this.start.clone().move(this.vector().scaleFactor(factor));
     }
 
     // geometric tools

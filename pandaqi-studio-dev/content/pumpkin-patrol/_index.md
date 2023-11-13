@@ -8,7 +8,7 @@ headerTitle: "Pumpkin Patrol | Hand out the most candy in a very competitive Hal
 blurb: "Attract the most valuable Trick-or-Treaters with beautiful Halloween decorations, but don't forget to collect enough candy to actually make them happy!"
 
 extraCSS: true
-downloadLink: "@TODO"
+downloadLink: "https://drive.google.com/drive/folders/1tg66GnYFxZukTDFUGoSjGIpr9BlU3Wy8"
 
 fullHeaderImg: "cookie_smasher_header"
 headerImg: "cookie_smasher_header"

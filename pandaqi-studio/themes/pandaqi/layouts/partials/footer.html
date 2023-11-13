@@ -74,19 +74,20 @@
 {{ $default_js := resources.Get "/js/functionality.ts" | js.Build "/js/lib-functionality.js" | minify }}
 <script async defer src="{{ $default_js.RelPermalink }}"></script>
 
-<!--- CUSTOM JS: Board / Game / Shared / Whatever --->
+<!--- CUSTOM JS: Shared --->
 {{ if .Params.sharedJS }}
 	{{ partial "load-assets.html" (dict "context" . "ext" "js" "type" "shared" "include" .Params.sharedJSInclude "name" .Params.sharedJS) }}
 {{ end }}
 
+<!--- CUSTOM JS: Board (will probably move to its own file one day, just like game/rules, but not right now) --->
 {{ partial "load-assets.html" (dict "context" . "ext" "js" "type" "board" "include" .Params.extraJSBoardInclude) }}
 
-<!-- Extra custom JS: simply a hardcoded link to something else -->
-<!-- Never used right now, but kept in because it might be critical in certain cases -->
-{{ with .Params.extraJSCustom }}
+<!--- CUSTOM JS: This can be anything, as long as it has a folder with the matching name. --->
+<!--- Used sporadically when a game does something truly unique --->
+<!--- Or for "external" scripts that need to be accessible from the game page or other places --->
+{{ $context := . }}
+{{ with .Params.customJS }}
 	{{ range . }}
-		<script async defer src="{{ . }}"></script>
+		{{ partial "load-assets.html" (dict "context" $context "ext" "js" "type" . "include" true) }}
 	{{ end }}
 {{ end }}
-
-{{ partialCached "footer-cached.html" . }}

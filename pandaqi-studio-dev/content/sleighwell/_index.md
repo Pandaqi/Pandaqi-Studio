@@ -8,7 +8,7 @@ headerTitle: "Sleighwell | Santa needs help delivering presents in a town that c
 blurb: "A cooperative game about placing houses and presents such that the sleigh can fulfill all wishes, with a dash of reindeer road and pine tree obstacles."
 
 extraCSS: true
-downloadLink: "@TODO"
+downloadLink: "https://drive.google.com/drive/folders/11q1JvlufY06QORspG35SfAKQU4JakWhS"
 
 fullHeaderImg: "cookie_smasher_header"
 headerImg: "cookie_smasher_header"

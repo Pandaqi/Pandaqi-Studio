@@ -4,6 +4,8 @@ import RGBAToHSLA from "./RGBAToHSLA"
 import RGBAToHEXA from "./RGBAToHEXA"
 import HEXAToRGBA from "./HEXAToRGBA"
 import isZero from "js/pq_games/tools/numbers/isZero"
+import lerp from "js/pq_games/tools/numbers/lerp"
+import slerp from "js/pq_games/tools/numbers/slerp"
 
 export default class Color 
 {
@@ -14,6 +16,7 @@ export default class Color
 
     static BLACK = new Color("#000000")
     static WHITE = new Color("#FFFFFF")
+    static TRANSPARENT = new Color("transparent")
 
     constructor(h:number|Color|string = null, s:number = 0, l:number = 0, a:number = 1.0) 
     {
@@ -89,9 +92,14 @@ export default class Color
         return "rgba(" + r + ", " + g + ", " + b + ", " + a + ")";        
     }
 
+    toRGBRaw()
+    {
+        return HSLAToRGBA(this.h, this.s, this.l, this.a);
+    }
+
     toRGB()
     {
-        const [r,g,b,a] = HSLAToRGBA(this.h, this.s, this.l, this.a);
+        const [r,g,b,a] = this.toRGBRaw();
         return "rgb(" + r + ", " + g + "," + b + ")";
     }
 
@@ -131,7 +139,7 @@ export default class Color
 
     rotate(dh = 0) : Color
     {
-        const newHue = (this.h + dh) % 360;
+        const newHue = (this.h + dh + 360) % 360;
         return new Color(newHue, this.s, this.l);
     }
 
@@ -199,5 +207,13 @@ export default class Color
     invert()
     {
 
+    }
+
+    mix(c:Color, factor = 0.5)
+    {
+        const hue = slerp(this.h, c.h, factor, 360);
+        const l = lerp(this.l, c.l, factor);
+        const s = lerp(this.s, c.s, factor);
+        return new Color(hue, s, l);
     }
 }

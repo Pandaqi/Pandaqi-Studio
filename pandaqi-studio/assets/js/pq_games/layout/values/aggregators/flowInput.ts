@@ -28,6 +28,7 @@ export default class FlowInput extends InputGroup
     dir: FlowDir
     grow : NumberValue
     shrink: NumberValue
+    basis: NumberValue
     gap : SizeValue
     alignFlow : AlignValue
     alignStack : AlignValue
@@ -46,6 +47,7 @@ export default class FlowInput extends InputGroup
         this.dir = params.dir ?? FlowDir.NONE;
         this.grow = new NumberValue(params.grow ?? 0);
         this.shrink = new NumberValue(params.shrink ?? 1);
+        this.basis = new NumberValue(params.basis ?? -1);
         this.gap = new SizeValue(params.gap);
         this.alignFlow = params.alignFlow ?? AlignValue.START;
         this.alignStack = params.alignStack ?? AlignValue.START;
@@ -63,6 +65,9 @@ export default class FlowInput extends InputGroup
     {
         div.style.flexGrow = this.grow.get().toString();
         div.style.flexShrink = this.shrink.get().toString();
+
+        const basis = this.basis.get();
+        div.style.flexBasis = basis == -1 ? "auto" : basis.toString();
 
         if(!this.isActive()) { return; }
 

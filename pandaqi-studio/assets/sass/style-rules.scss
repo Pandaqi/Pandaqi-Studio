@@ -125,6 +125,7 @@ ul, ol {
 
 
 
+
 //
 // Icons
 //
@@ -208,13 +209,15 @@ article, section {
 }
 
 .force-page-break-before {
-    page-break-before: page;
     break-before: page;
 }
 
 .force-page-break-after {
-    page-break-after: page;
     break-after: page;
+}
+
+section {
+    break-inside: avoid;
 }
 
 #simpleViewButton, #printButton
@@ -230,8 +233,8 @@ article, section {
 // Game name + metadata, and image on PDF
 //
 header {
-    page-break-after: avoid;
     break-after: avoid;
+    break-inside: avoid;
 
     .header-image { 
         display: none; 
@@ -524,7 +527,6 @@ section[data-folded="true"]
         margin: 0;
         padding: 1rem;
 
-        page-break-after: avoid;    
         break-after: avoid;
 
         cursor: pointer;
@@ -621,10 +623,7 @@ table {
     box-shadow: 0 0 1.0em rgba(0, 0, 0, 0.5);
     width: 100%;
 
-    page-break-inside: avoid;
     break-inside: avoid;
-
-    page-break-before: auto;
     break-before: auto;
 
     thead tr {

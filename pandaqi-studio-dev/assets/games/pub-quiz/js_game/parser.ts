@@ -20,18 +20,16 @@ const isValidMediaType = (path:string) =>
     return IMAGE_FORMATS.includes(ext) || AUDIO_FORMATS.includes(ext) || VIDEO_FORMATS.includes(ext);
 }
 
-const parseRawFile = (data:string) : string|Object =>
+const parseRawFile = async (url: string, data:string) : Promise<string|Object> =>
 {
-    const ext = parseExtension(data);
+    const ext = parseExtension(url);
     if(ext == "txt" || ext == "md") { return data; }
     else if(ext == "json") { return JSON.parse(data); }
     else if(ext == "doc" || ext == "docx") {
-
+        return parseWordDocument(url);
     } else if(ext == "pdf") {
-
+        // @NOTE: too heavyweight, too hard, skip
     }
-
-    // @TODO: depending on type, invoke a different parser to process and return content
 }
 
 const parseFileObject = (url: string, data:Record<string,any>, params:QuizParams = {}) : Question[] =>
@@ -71,14 +69,14 @@ const parseFileString = (url: string, data:string, params:QuizParams = {}) : Que
         const invalid = parts.length > 2;
         if(invalid)
         {
-            showMessage("Can't parse invalid line: " + line);
+            showMessage("Can't parse invalid line: " + line, params.id);
             continue;
         }
 
         const continueCurrentProperty = parts.length <= 1;
         if(continueCurrentProperty)
         {
-            if(!curQuestion) { showMessage(["Can't continue property because no question started: ", parts]); continue; }
+            if(!curQuestion) { showMessage(["Can't continue property because no question started: ", parts], params.id); continue; }
             const val = parts[0];
             curQuestion.updateProperty(currentProperty, [val]);
             continue;
@@ -129,8 +127,8 @@ const parseQuestionProperty = (prop: string, val:string[]) : QVal[] =>
     {
         const firstChar = elem.charAt(0);
         let qValType = QValType.ALL;
-        if(firstChar == MASK_QUESTION_SYMBOL) { elem = elem.slice(1); qValType = QValType.QUESTION; }
-        else if(firstChar == MASK_ANSWER_SYMBOL) { elem = elem.slice(1); qValType = QValType.ANSWER; }
+        if(firstChar == MASK_QUESTION_SYMBOL) { elem = elem.slice(1).trim(); qValType = QValType.QUESTION; }
+        else if(firstChar == MASK_ANSWER_SYMBOL) { elem = elem.slice(1).trim(); qValType = QValType.ANSWER; }
 
         arr.push(new QVal(elem, qValType));
     }
@@ -181,17 +179,19 @@ const parseQuestionsIntoJSON = (questions: Question[]) =>
         const obj = {};
         for(const prop of Object.keys(q))
         {
-            if(Array.isArray(prop)) {
+            const val = q[prop];
+            if(Array.isArray(val)) {
                 const arr = [];
-                for(const elem of q[prop])
+                for(const elem of val)
                 {
                     arr.push(parseQuestionValueIntoString(elem));
                 }
                 obj[prop] = arr;
             } else {
-                obj[prop] = parseQuestionValueIntoString(q[prop]);
+                obj[prop] = parseQuestionValueIntoString(val);
             }
         }
+        questionsParsed.push(obj);
     }
     const obj = { questions: questionsParsed };
     return obj;
@@ -204,10 +204,20 @@ const parseQuestionsIntoJSONString = (questions: Question[]) =>
 
 const parseQuestionValueIntoString = (v:QVal) =>
 {
+    if(!(v instanceof QVal)) { return v; }
+
     const val = v.get();
     if(v.type == QValType.ALL) { return val; }
     else if(v.type == QValType.ANSWER) { return MASK_ANSWER_SYMBOL + val; }
     else if(v.type == QValType.QUESTION) { return MASK_QUESTION_SYMBOL + val; }
+}
+
+// @SOURCE (one of many): https://stackoverflow.com/questions/28440170/get-docx-file-contents-using-javascript-jquery
+// @SOURCE (seemed promising, until Node was required again): https://www.npmjs.com/package/docxyz?activeTab=readme
+// @SOURCE (also seemed promising, but no): https://github.com/morungos/node-word-extractor
+const parseWordDocument = async (url:string) =>
+{
+    return "CAN'T PARSE WORD DOCUMENTS, all libraries for some fucking reason require Node and a bunch of dependencies. I tried, I really tried.";
 }
 
 export
