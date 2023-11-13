@@ -31,18 +31,19 @@ googleFonts: ""
 date: 2023-01-01 # 2024-07-25?
 
 categories: ["boardgame"]
-tags: ["medieval", "mosaic", "numbers", "deck"]
+tags: ["traditional", "animals", "abilities", "kids", "no-text"]
 
 multiplayermode: "competitive"
 language: EN
 genre: ["card", "party"]
-playtime: 20
-playercount: [2,3,4,5,6,7,8,9,10]
+playtime: 30
+playercount: [2,3,4,5]
 complexity: low
 ages: everyone
 
 ---
 
+<div class="bg-cats"></div>
 
 {{% boardgame-intro heading="" img="cookie_smasher_header" class="no-shadow" %}}
 
@@ -70,6 +71,7 @@ Three simple steps.
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
   {{< setting-checkbox id="setting-includeLifeCards" text="Generate Life Cards?" checked="checked" >}}
   {{< setting-checkbox id="setting-includeCatCards" text="Generate Cat Cards?" checked="checked" >}}
+  {{< setting-checkbox id="setting-limitedPowers" text="Limited Powers?" checked="checked" remark="Only includes a handful of unique powers, to make playing your first game even easier." >}}
   {{< setting-enum id="setting-cardSize" text="Card Size?" values="small,regular,huge" valaskey="true" def="regular" >}}
 {{< /boardgame-settings >}}
 

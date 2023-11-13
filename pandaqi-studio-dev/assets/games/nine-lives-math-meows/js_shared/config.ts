@@ -2,7 +2,7 @@ import Point from "js/pq_games/tools/geometry/point"
 
 const CONFIG = 
 {
-    debugWithoutFile: false, // @DEBUGGING (should be false)
+    debugWithoutFile: true, // @DEBUGGING (should be false)
     debugSingleCard: false, // @DEBUGGING (should be false)
     debugOnlyGenerate: false, // @DEBUGGING (should be false)
 
@@ -100,7 +100,7 @@ const CONFIG =
         {
             iconSize: 0.175, // relative to sizeUnit
             offset: new Point(0.125, 0.125), // relative to sizeUnit
-            bigSuitSize: 0.5, // relative to SizeUnit
+            bigSuitSize: 0.55, // relative to SizeUnit
             bigSuitAlpha: 0.55
         },
 
@@ -109,6 +109,10 @@ const CONFIG =
             fontSize: 0.2, // relative to sizeUnit
             fontSizeBig: 1.165, // relative to sizeUnit => the big number in the center
             offsetFromEdge: 0.5, // relative to fontSize
+
+            clarityLineBevel: 0.4, // ~lineSizeUnit => this is the line underneath 6 and 9 to differentiate
+            clarityLineOffsetY: 0.36, // ~fontSize
+            clarityLineSize: new Point(0.4, 0.0375), // ~fontSize
         },
 
         cat:

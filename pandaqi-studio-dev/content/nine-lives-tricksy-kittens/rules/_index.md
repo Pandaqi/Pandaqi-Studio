@@ -2,7 +2,7 @@
 type: "rules"
 ---
 
-{{% rules-block id="setup" heading="Setup" icon="setup" icontint="purple" %}}
+{{% rules-block id="setup" heading="Setup" icon="setup" icontint="pink" %}}
 
 Include 1 suit (all cards 1-9 of one color) per player. Pick anyone to be the Kittykeeper ( = start player). That's it!
 
@@ -12,7 +12,7 @@ Material can be downloaded from [the website](https://pandaqi.com/nine-lives-tri
 
 {{% /rules-block %}}
 
-{{% rules-block id="objective" heading="Objective" icon="objective" icontint="lightblue" %}}
+{{% rules-block id="objective" heading="Objective" icon="objective" icontint="blue" %}}
 
 The game ends when **a player reaches 9(+) lives**. The player with the most lives wins.
 
@@ -62,7 +62,7 @@ The winner receives the trick and places it facedown before them (to track how m
 
 {{% /rules-block %}}
 
-{{% rules-block %}}
+{{% rules-block heading="Scoring" %}}
 
 Once you've played all the tricks, scoring happens.
 
@@ -80,7 +80,7 @@ If this causes somebody to have 9 (or more) lives, the game ends here. Otherwise
 
 {{% /rules-block %}}
 
-{{% rules-block id="expansion" heading="After your first game" icon="expansion" class="force-page-break-before" icontint="purple" %}}
+{{% rules-block id="after_your_first_game" heading="After your first game" icon="expansion" class="force-page-break-before" icontint="lightblue" %}}
 
 You might have noticed that there are **powers** on the cards. These can be ignored for your first few games. Once you're familiar with trick-taking, however, it's highly recommended to add the rules below.
 

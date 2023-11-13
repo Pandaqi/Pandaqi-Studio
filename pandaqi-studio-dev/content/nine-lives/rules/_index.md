@@ -2,7 +2,7 @@
 type: "rules"
 ---
 
-{{% rules-block id="setup" heading="Setup" icon="setup" icontint="purple" %}}
+{{% rules-block id="setup" heading="Setup" icon="setup" icontint="green" %}}
 
 Each player receives **9 random Life Cards**. Decide the order you want, then place them in a faceup stack before you.
 
@@ -20,7 +20,7 @@ The game ends when **a player runs out of lives**. The players with the **most l
 
 {{% /rules-block %}}
 
-{{% rules-block id="action_play" heading="Gameplay" icon="action" class="force-page-break-before" icontint="purple" %}}
+{{% rules-block id="action_play" heading="Gameplay" icon="action" class="force-page-break-before" icontint="orange" %}}
 
 Play happens in rounds. The Kittyqueen starts, then take clockwise turns.
 
@@ -50,9 +50,11 @@ A round can end in three ways.
 
 Losing a life means discarding the top card of your lives deck, as well as _any lives you wagered_. (Otherwise, wagered lives just return to the top of your Life deck.)
 
-Each player draws as many cards as their current Life indicates. 
-
 The player with the most lives becomes the new Kittyqueen. (If tied, the current Kittyqueen picks their successor from the tied players.)
+
+<!--- Another alternative: all those who did NOT wager, draw cards now --->
+
+For a more "forgiving" (first) game, perhaps add the following rule: at the end of each round, always draw as many cards as your current Life indicates.
 
 @TODO: IMAGE EXAMPLE => Show playing a stack (cards underneath each other)
 
@@ -60,12 +62,12 @@ The player with the most lives becomes the new Kittyqueen. (If tied, the current
 
 {{% /rules-block %}}
 
-{{% rules-block id="action_play" heading="Lives" icon="score" class="force-page-break-before" icontint="purple" %}}
+{{% rules-block id="lives" heading="Lives" icon="score" class="force-page-break-before" icontint="purple" %}}
 
 Each Life Card shows a **power** and a number of **cards**. 
 
-* The number of cards indicates how many cards you draw when wagering the card. (And also at the end of each _round_.)
-* The power indicates some special ability you get when wagering this card. (Only on that turn!)
+* The number of cards indicates how many cards you draw when wagering the card.
+* The power indicates some special ability you get when wagering this card. (Only for _you_, and only on that turn!)
 
 At any time, only the _top card_ from your deck applies to you. (Whenever your top Life Card changes, make sure to check your new power.)
 

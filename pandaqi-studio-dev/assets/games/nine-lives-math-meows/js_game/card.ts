@@ -22,6 +22,7 @@ import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
 import ResourceImage from "js/pq_games/layout/resources/resourceImage";
 import GrayScaleEffect from "js/pq_games/layout/effects/grayScaleEffect";
 import bevelCorners from "js/pq_games/tools/geometry/paths/bevelCorners";
+import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage";
 
 export default class Card
 {
@@ -45,7 +46,24 @@ export default class Card
 
     async drawForRules(cfg)
     {
-        // @TODO
+        const size = cfg.size;
+        const ctx = createContext({ size: size });
+        this.ctx = ctx;
+        this.size = size;
+        this.sizeUnit = Math.min(size.x, size.y);
+
+        // background color
+        let bgColor = SUITS[this.suit].color;
+        fillCanvas(ctx, bgColor);
+
+        // the number
+        await this.drawBigNumber();
+
+        // finish it off
+        this.drawOutline();
+
+        const img = await convertCanvasToImage(this.getCanvas());
+        return img;
     }
 
     getCanvas() { return this.ctx.canvas; }
@@ -365,27 +383,11 @@ export default class Card
     {
         await this.drawNumbers();
         await this.drawSuits();
-        await this.drawBigNumber();
+        await this.drawMainPart();
     }
 
     async drawBigNumber()
     {
-        const center = this.size.clone().scaleFactor(0.5);
-
-        // the abstract suit icon behind it (@TODO: not sure about this one)
-        const resIcon = CONFIG.resLoader.getResource("suits");
-        const frame = this.data.frame + 1;
-        const iconSize = CONFIG.cards.suits.bigSuitSize * this.sizeUnit
-        const opIcon = new LayoutOperation({
-            frame: frame,
-            translate: center,
-            dims: new Point(iconSize),
-            pivot: new Point(0.5),
-            alpha: CONFIG.cards.suits.bigSuitAlpha
-        })
-
-        await resIcon.toCanvas(this.ctx, opIcon);
-
         // the number
         const fontSize = CONFIG.cards.numbers.fontSizeBig * this.sizeUnit;
         const textConfig = new TextConfig({
@@ -398,6 +400,8 @@ export default class Card
         const strokeWidth = CONFIG.cards.sharedStrokeWidth * this.sizeUnit;
         const shadowOffset = new Point(CONFIG.cards.sharedShadowOffset * this.sizeUnit);
         const effects = [new DropShadowEffect({ offset: shadowOffset, color: CONFIG.cards.sharedShadowColor })];
+        const iconSize = CONFIG.cards.suits.bigSuitSize * this.sizeUnit
+        const center = this.size.clone().scale(0.5);
 
         const op = new LayoutOperation({
             dims: new Point(iconSize*3), // @TODO: if no dims given, just make dims "whatever needed"?
@@ -412,6 +416,48 @@ export default class Card
 
         const res = new ResourceText({ text: this.num.toString(), textConfig: textConfig });
         await res.toCanvas(this.ctx, op);
+
+        return op;
+    }
+
+    async drawMainPart()
+    {
+        const center = this.size.clone().scaleFactor(0.5);
+
+        // the abstract suit icon behind it
+        const resIcon = CONFIG.resLoader.getResource("suits");
+        const frame = this.data.frame + 1;
+        const iconSize = CONFIG.cards.suits.bigSuitSize * this.sizeUnit
+        const opIcon = new LayoutOperation({
+            frame: frame,
+            translate: center,
+            dims: new Point(iconSize),
+            pivot: new Point(0.5),
+            alpha: CONFIG.cards.suits.bigSuitAlpha
+        })
+
+        await resIcon.toCanvas(this.ctx, opIcon);
+
+        const op = await this.drawBigNumber();
+
+        const is6or9 = (this.num == 6 || this.num == 9);
+        const needsLine = is6or9
+        if(!needsLine) { return; }
+
+        const fontSize = CONFIG.cards.numbers.fontSizeBig * this.sizeUnit;
+        const lineCenter = center.clone().move(new Point(0, CONFIG.cards.numbers.clarityLineOffsetY*fontSize));
+        const lineExtents = CONFIG.cards.numbers.clarityLineSize.clone().scale(fontSize);
+        const rect = new Rectangle({ center: lineCenter, extents: lineExtents });
+        const bevelSize = CONFIG.cards.numbers.clarityLineBevel * Math.min(lineExtents.x, lineExtents.y);
+        const path = bevelCorners(rect.toPath(), bevelSize);
+        const pathObj = new Path({ points: path, close: true });
+        const resLine = new ResourceShape({ shape: pathObj });
+
+        op.translate = new Point();
+        op.dims = new Point();
+        op.pivot = new Point();
+        await resLine.toCanvas(this.ctx, op);
+        
     }
 
     async drawNumbers()

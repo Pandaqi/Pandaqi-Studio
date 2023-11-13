@@ -2,7 +2,7 @@ import Point from "js/pq_games/tools/geometry/point"
 
 const CONFIG = 
 {
-    debugWithoutFile: true, // @DEBUGGING (should be false)
+    debugWithoutFile: false, // @DEBUGGING (should be false)
     debugSingleCard: false, // @DEBUGGING (should be false)
     debugOnlyGenerate: false, // @DEBUGGING (should be false)
 
@@ -14,6 +14,7 @@ const CONFIG =
     includeLifeCards: true,
     includeCatCards: true,
     cardSize: "regular",
+    limitedPowers: true,
     
     fonts:
     {
@@ -38,7 +39,7 @@ const CONFIG =
         misc:
         {
             path: "misc.webp",
-            frames: new Point(9,1)
+            frames: new Point(10,1)
         },
 
         cats:
@@ -151,7 +152,17 @@ const CONFIG =
         powers:
         {
             iconSize: 0.33, // ~sizeUnit
+            textStrokeWidth: 0.01, // ~sizeUnit, only used for ONE power right now (that shows a NUMBER)
+            glowAroundIcons:
+            {
+                blur: 0.05, //~iconSize
+                color: "#FFFFFF"
+            },
             shapeshift:
+            {
+                iconSize: 0.775, // ~iconSize normal
+            },
+            numbershift:
             {
                 iconSize: 0.775, // ~iconSize normal
             }

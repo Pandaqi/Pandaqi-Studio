@@ -148,6 +148,7 @@ export default class CardPicker
 
                 // add to list, make unpickable from now on
                 list.push(option);
+                cardsLeft--;
                 options.splice(idx, 1);
             }
 
@@ -157,6 +158,7 @@ export default class CardPicker
 
         // create all non-combo cards
         // (these are extremely simple to make, but they come now because they should NOT influence the combos above)
+        // (their influence on cardsLeft is already calculated above)
         for(const option of optionsNoCombo)
         {
             for(let i = 1; i <= maxCatsOnRegularCard; i++)
@@ -197,33 +199,42 @@ export default class CardPicker
         const powersToRemove = [];
         const powersToAdd = {};
 
-        const catOptions = Object.keys(CATS);
+        const allCatOptions = Object.keys(CATS);
         const powerDict = structuredClone(POWERS);
         for(const [key,data] of Object.entries(powerDict))
         {
-            if(!data.reqs || data.reqs.length <= 0) { continue; }
+            const notIncludedInSet = CONFIG.limitedPowers && !data.core;
+            if(notIncludedInSet) { powersToRemove.push(key); continue; }
+
+            const needsNoFurtherGeneration = !data.reqs || data.reqs.length <= 0;
+            if(needsNoFurtherGeneration) { continue; }
             
             powersToRemove.push(key);
 
             const reqs = data.reqs;
 
-            let options = catOptions.slice();
-            for(const option of options)
+            const catOptions = allCatOptions.slice();
+            const numberOptions = ["1","2","3","4","5"];
+
+            const options1 = reqs[0] == "cat" ? catOptions : numberOptions;
+            const options2 = reqs.length >= 2 ? (reqs[1] == "cat" ? catOptions : numberOptions) : [];
+
+            for(const option1 of options1)
             {
-                let key1 = key + "_" + option;
+                let key1 = key + "_" + option1;
                 
-                if(reqs.length == 2) {
-                    for(const option2 of options)
+                if(options2.length > 0) {
+                    for(const option2 of options2)
                     {
-                        if(option2 == option) { continue; }
+                        if(option2 == option1) { continue; }
                         const dataCopy = structuredClone(data);
                         let key2 = key1 + "_" + option2;
-                        dataCopy.reqs = [option, option2];
+                        dataCopy.reqs = [option1, option2];
                         powersToAdd[key2] = dataCopy;
                     }
                 } else {
                     const dataCopy = structuredClone(data);
-                    dataCopy.reqs = [option];
+                    dataCopy.reqs = [option1];
                     powersToAdd[key1] = dataCopy;
                 }
             }
@@ -238,6 +249,8 @@ export default class CardPicker
         {
             powerDict[key] = data;
         }
+
+        console.log(powerDict);
 
         return powerDict;
     }

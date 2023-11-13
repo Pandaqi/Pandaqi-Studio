@@ -28,25 +28,18 @@ img.playful-example {
     line-height: 120%; 
 }
 
-$a: color.adjust(g.$col1, $lightness: 15%);
-$b: color.adjust(g.$col2, $lightness: 15%);
-
 #setup {
-    background-color: $a;
+    background-color: g.$col1;
 }
 
 #objective {
-    background-color: $b;
+    background-color: g.$col2;
 }
 
 #action_play {
-    background-color: $a;
+    background-color: g.$col3;
 }
 
-#finding_the_poison {
-    background-color: $b;
-}
-
-#variants {
-    background-color: $a;
+#after_your_first_game {
+    background-color: g.$col4;
 }

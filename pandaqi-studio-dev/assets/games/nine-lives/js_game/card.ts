@@ -15,6 +15,9 @@ import bevelCorners from "js/pq_games/tools/geometry/paths/bevelCorners";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
 import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
 import StrokeAlignValue from "js/pq_games/layout/values/strokeAlignValue";
+import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
+import LayoutEffect from "js/pq_games/layout/effects/layoutEffect";
+import ColorLike from "js/pq_games/layout/color/colorLike";
 
 export default class Card
 {
@@ -160,9 +163,18 @@ export default class Card
         const isCustomPower = this.data.reqs && this.data.reqs.length > 0;
         const center = vis.size.clone().scale(0.5);
         const dims = new Point(CONFIG.cards.powers.iconSize * vis.sizeUnit);
+        const powerEffects = vis.effects.slice();
+
+        const glowBlur = CONFIG.cards.powers.glowAroundIcons.blur * dims.x;
+        const glowColor = CONFIG.cards.powers.glowAroundIcons.color;
+        if(glowBlur > 0.001)
+        {
+            const glowEffect = new DropShadowEffect({ blurRadius: glowBlur, color: glowColor });
+            powerEffects.unshift(glowEffect);
+        }
 
         if(isCustomPower) {
-            await this.drawCustomPower(vis, center, dims);
+            await this.drawCustomPower(vis, center, dims, powerEffects);
         } else {
             const res = vis.resLoader.getResource("powers");
             const frame = this.data.frame;
@@ -171,25 +183,26 @@ export default class Card
                 translate: center,
                 dims: dims,
                 pivot: Point.CENTER,
-                effects: vis.effects,
+                effects: powerEffects,
             })
             await res.toCanvas(this.ctx, op);
         }
     }
 
-    async drawCustomPower(vis:Visualizer, center:Point, dims:Point)
+    async drawCustomPower(vis:Visualizer, center:Point, dims:Point, powerEffects:LayoutEffect[])
     {
         const res = vis.resLoader.getResource("cats");
         const resMisc = vis.resLoader.getResource("misc");
         const posLeft = center.clone().move(new Point(-0.5*dims.x, 0));
         const posRight = center.clone().move(new Point(0.5*dims.x, 0));
+        const strokeWidth = CONFIG.cards.powers.textStrokeWidth * vis.sizeUnit;
 
         const op = new LayoutOperation({
             translate: new Point(),
             dims: dims, 
             frame: 0,
             pivot: Point.CENTER,
-            effects: vis.effects,
+            effects: powerEffects,
         })
 
         const powerSubtype = this.power.split("_")[0];
@@ -215,7 +228,51 @@ export default class Card
             op.translate = center.clone().move(new Point(dims.x, 0));
             await res.toCanvas(this.ctx, op);
         }
+        else if(powerSubtype == "numbershift")
+        {
+            dims = dims.scale(CONFIG.cards.powers.numbershift.iconSize);
+
+            const fontSize = dims.x;
+            const textConfig = new TextConfig({
+                font: CONFIG.fonts.heading,
+                size: fontSize,
+                alignHorizontal: TextAlign.MIDDLE,
+                alignVertical: TextAlign.MIDDLE
+            })
+
+            const frame0 = CATS[this.data.reqs[0]].frame;
+            const frame1 = MISC.arrow.frame;
+            const numberText = this.data.reqs[1].toString();
+            const pos = center.clone().move(new Point(-dims.x, 0));
+
+            op.frame = frame0;
+            op.translate = pos;
+            await res.toCanvas(this.ctx, op);
+
+            op.frame = frame1;
+            op.translate = center.clone();
+            await resMisc.toCanvas(this.ctx, op);
+
+            const resText = new ResourceText({ text: numberText, textConfig: textConfig });
+
+            op.fill = new ColorLike("#FFFFFF");
+            op.stroke = new ColorLike("#000000");
+            op.strokeWidth = strokeWidth;
+            op.strokeAlign = StrokeAlignValue.OUTSIDE;
+            op.translate = center.clone().move(new Point(dims.x, 0));
+            await resText.toCanvas(this.ctx, op);
+        }
         else if(powerSubtype == "ignore")
+        {
+            op.frame = MISC.ignore.frame;
+            op.translate = posLeft;
+            await resMisc.toCanvas(this.ctx, op);
+
+            op.frame = CATS[this.data.reqs[0]].frame;
+            op.translate = posRight;
+            await res.toCanvas(this.ctx, op);
+        }
+        else if(powerSubtype == "forbid")
         {
             op.frame = MISC.cross.frame;
             op.translate = posLeft;

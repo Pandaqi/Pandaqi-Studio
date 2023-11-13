@@ -3,9 +3,17 @@ $body-font: "catcafe";
 $base: "/nine-lives-math-meows/assets/";
 $base-fonts: $base + "fonts/";
 
-$col1: #FF0000;
-$col2: #00FF00;
-$col3: #0000FF;
+$bg-image-url: url($base + "bg_cat_outline.webp");
+
+$col1-dark: #1B7900;
+$col2-dark: #1E41AA;
+$col3-dark: #AA1E2B;
+$col4-dark: #444444;
+
+$col1: #a7ed94;
+$col2: #bbcbff;
+$col3: #ffc1c7;
+$col4: #dbdbdb;
 
 @font-face {
     font-family: $body-font;

@@ -22,9 +22,23 @@ input, button, select, option, label {
     //font-size: 1.175em;
 }
 
+.bg-cats {
+    position: fixed;
+    left: -30%;
+    right: -30%;
+    top: -33%;
+    bottom: -33%;
+    background-image: g.$bg-image-url;
+    background-size: 5%;
+    opacity: 0.066;
+    transform: rotate(-30deg);
+    z-index: -10;
+}
+
 body {
     font-family: g.$body-font;
     background-color: $bg-color;
+    background-image: g.$bg-image-url;
     font-size: 21px;
     background-size: 100%;
     color: $text-color;

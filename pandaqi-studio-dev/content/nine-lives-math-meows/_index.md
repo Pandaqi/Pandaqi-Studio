@@ -3,8 +3,8 @@ type: "single"
 gamepage: true
 boardgame: true
 
-title: "Nine Lives"
-headerTitle: "Nine Lives | Don't be the first cat to run out of lives!"
+title: "Nine Lives: Math Meows"
+headerTitle: "Nine Lives: Math Meows | Don't be the first cat to run out of lives!"
 blurb: "As we all know, all cats start with nine lives. And as we all know, being unable to play a valid card makes you lose a life. Don't lose all of them before anyone else!"
 
 extraCSS: true
@@ -43,6 +43,7 @@ ages: everyone
 
 ---
 
+<div class="bg-cats"></div>
 
 {{% boardgame-intro heading="" img="cookie_smasher_header" class="no-shadow" %}}
 
