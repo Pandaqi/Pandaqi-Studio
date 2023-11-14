@@ -36,17 +36,16 @@ tags: ["medieval", "mosaic", "numbers", "deck"]
 multiplayermode: "competitive"
 language: EN
 genre: ["card", "party"]
-playtime: 20
-playercount: [2,3,4,5,6,7,8,9,10]
+playtime: 30
+playercount: [2,3,4,5,6,7]
 complexity: low
 ages: everyone
 
 ---
 
-
 {{% boardgame-intro heading="" img="cookie_smasher_header" class="no-shadow" %}}
 
-A simple and fast card game about losing your nine lives less quickly than all the other players.
+A bluffin', stealin', eatin' game of food heists and dividing treasure amongst the pearates.
 
 {{% /boardgame-intro %}}
 
@@ -65,12 +64,11 @@ Three simple steps.
 
 <p>Pick your desired settings and click the button! When in doubt, just use the defaults for your first games.</p>
 
-{{< boardgame-settings type="game" local_storage="nineLivesConfig" btn_label="Generate Material" >}}
-	{{< setting-hidden id="setting-gameTitle" text="Nine Lives" >}}
+{{< boardgame-settings type="game" local_storage="splitTheFoodyConfig" btn_label="Generate Material" >}}
+	{{< setting-hidden id="setting-gameTitle" text="Split the Foody" >}}
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
-  {{< setting-checkbox id="setting-includeLifeCards" text="Generate Life Cards?" checked="checked" >}}
-  {{< setting-checkbox id="setting-includeCatCards" text="Generate Cat Cards?" checked="checked" >}}
   {{< setting-enum id="setting-cardSize" text="Card Size?" values="small,regular,huge" valaskey="true" def="regular" >}}
+  {{< setting-enum id="setting-cardSet" text="Which set?" values="Base Game,Appetite for All,Coins for Combos" keys="base,appetite,coins" def="base" >}}
 {{< /boardgame-settings >}}
 
 <p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>
@@ -79,21 +77,14 @@ Three simple steps.
 
 {{% section-centered heading="Credits" anchor="credits" %}}
 
-The fonts used are **Puss in Boots** (headings, fancy text) and **Catcafe** (body text, readable). Both freely available online. Parts of the illustrations were generated with AI. Everything else is mine.
+For a while now, the popular author Brandon Sanderson has had a running joke about food heists. One day, I wrote down that it would be a cool title for a game about pirates ignoring treasure but stealing food.
 
-This game has two spin-offs!
+About half a year later, I picked up that idea and actually turned it into a game. So I guess my first credits must go to Brando, though the eventual game barely has anything to do with the original spark.
 
-* [Nine Lives: Math Meows](https://pandaqi.com/nine-lives-math-meows): the same game that you love, but now with more depth. It's a little more mathematical and requires players to read English text (on the Life Cards).
-* [Nine Lives: Tricksy Kittens](https://pandaqi.com/nine-lives-tricksy-kittens): also the same core mechanic, but now as a trick-taking game.
+Besides that, the fonts used are **??** (headings) and **???** (body text). Parts of the illustrations were generated with AI. Everything else is entirely mine.
 
-This idea started right after writing down (and completing) some other ideas for card games based around numbers and animals. Somehow, while exercising, my brain made a connection between the two: "what if you played a cat with nine lives, and losing a trick made you lose a life?"
+I usually pick my next idea based on what is "easiest or simplest to make". This idea seemed really simple ... but I had to do a _lot_ of testing and prototyping to actually make it work, while keeping the rules light. A bit of a misfire from me, but in the end I'm glad I stuck it out and made this game, because it's quite different from anything else I made before.
 
-(Yes, the original idea was the one with tricks, and then the one with numbers. What is now the "base game" is actually the third idea, once I realized how to simplify the game even further. That's not special: that's how it always goes. Making something teaches you how to make it simpler next time.)
-
-This snowballed into three ideas with the same core, but different directions. All of them were immediately simple and fun enough that I found it worthwhile to create them all, basically back-to-back.
-
-Do you have a favorite version of Nine Lives? Let me know which one and why!
-
-For more information, as always, read my [detailed developer diary on Pandaqi Blog](https://pandaqi.com/blog/boardgames/nine-lives).
+For more information, as always, read my [detailed developer diary on Pandaqi Blog](https://pandaqi.com/blog/boardgames/split-the-foody).
 
 {{% /section-centered %}}

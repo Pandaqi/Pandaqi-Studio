@@ -11,6 +11,7 @@ import ResourceBox from "./resources/resourceBox"
 import ColorLike, { ColorLikeValue } from "./color/colorLike"
 import createContext from "./canvas/createContext"
 import StrokeAlignValue from "./values/strokeAlignValue"
+import calculateBoundingBox from "../tools/geometry/paths/calculateBoundingBox"
 
 type ResourceLike = ResourceImage|ResourceShape|ResourceText|ResourceBox
 
@@ -154,10 +155,13 @@ export default class LayoutOperation
         let ctx = (canv instanceof HTMLCanvasElement) ? canv.getContext("2d") : canv;
         if(!ctx) { ctx = createContext({ size: this.dims }); } // @TODO: how to control this size better?
 
-        let strokeBeforeFill = false;
-
         ctx.imageSmoothingEnabled = false;
         ctx.imageSmoothingQuality = "low";
+
+        // now we create a temporary canvas, so we can collect fill + stroke + anything we need
+        // and THEN apply the right effects/position/postFX to the whole thing as we stamp it onto the real canvas
+        const totalSize = new Point(ctx.canvas.width, ctx.canvas.height);
+        const ctxTemp = createContext({ size: totalSize });
 
         ctx.save();
 
@@ -169,15 +173,15 @@ export default class LayoutOperation
             ctx.clip(this.clip.toPath2D());
         }
 
-        ctx.translate(this.translate.x, this.translate.y);
-        ctx.rotate(this.rotation);
+        ctxTemp.translate(this.translate.x, this.translate.y);
+        ctxTemp.rotate(this.rotation);
 
         const finalScale = this.getFinalScale();
-        ctx.scale(finalScale.x, finalScale.y);
+        ctxTemp.scale(finalScale.x, finalScale.y);
 
         const offset = this.pivot.clone();
         offset.scaleFactor(-1).scale(this.dims);
-        ctx.translate(offset.x, offset.y);
+        ctxTemp.translate(offset.x, offset.y);
 
         // mask should come before anything else happens (right?)
         if(this.mask)
@@ -199,12 +203,12 @@ export default class LayoutOperation
 
         ctx.filter = effectData.filters.join(" ");
 
-        ctx.fillStyle = this.fill.toCanvasStyle(ctx);
-        ctx.strokeStyle = this.stroke.toCanvasStyle(ctx);
+        ctxTemp.fillStyle = this.fill.toCanvasStyle(ctxTemp);
+        ctxTemp.strokeStyle = this.stroke.toCanvasStyle(ctxTemp);
 
         let lineWidth = this.strokeWidth;
         if(this.strokeAlign != StrokeAlignValue.MIDDLE) { lineWidth *= 2; }
-        ctx.lineWidth = lineWidth;
+        ctxTemp.lineWidth = lineWidth;
  
         const res = this.resource;
         const drawShape = res instanceof ResourceShape;
@@ -214,17 +218,18 @@ export default class LayoutOperation
         if(res instanceof ResourceImage) { image = res; }
         //else if(res instanceof ResourceGradient) { image = await new ResourceImage().fromGradient(res); }
         //else if(res instanceof ResourcePattern) { image = await new ResourceImage().fromPattern(res); }
-
+        
         if(drawShape)
         {
             const path = res.shape.toPath2D();
-            this.applyFillAndStrokeToPath(ctx, path);
+            this.applyFillAndStrokeToPath(ctxTemp, path);
         }
 
+        // @TODO: not sure if text is positioned correctly/not cut-off now with the ctxTemp switch?
         if(drawText)
         {
             const drawer = res.createTextDrawer(this.dims);
-            drawer.toCanvas(ctx, this);
+            drawer.toCanvas(ctxTemp, this);
         }
 
         const drawImage = image instanceof ResourceImage;
@@ -243,14 +248,25 @@ export default class LayoutOperation
 
             const drawImageCallback = () =>
             {
-                ctx.drawImage(
+                ctxTemp.drawImage(
                     frameResource.getImage(), 
                     box.position.x, box.position.y, box.size.x, box.size.y
                 );
             }
 
-            this.applyFillAndStrokeToPath(ctx, boxPath, drawImageCallback);
+            this.applyFillAndStrokeToPath(ctxTemp, boxPath, drawImageCallback);
         }
+
+        let ctxFinal = ctxTemp;
+        for(const effect of this.effects)
+        {
+            const result = await effect.applyToCanvasPost(ctxFinal);
+            if(!result) { continue; }
+            ctxFinal = result;
+        }
+
+        // finally, stamp the final canvas onto the real one
+        ctx.drawImage(ctxFinal.canvas, 0, 0);
 
         ctx.restore();
         return ctx.canvas;

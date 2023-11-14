@@ -14,8 +14,8 @@ import bevelCorners from "js/pq_games/tools/geometry/paths/bevelCorners";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
 import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
 import StrokeAlignValue from "js/pq_games/layout/values/strokeAlignValue";
-import { SUITS } from "games/nine-lives-math-meows/js_shared/dict";
-import OutlineEffect from "js/pq_games/layout/effects/outlineEffect";
+import { CATS, POWERS } from "../js_shared/dict";
+import ColorLike from "js/pq_games/layout/color/colorLike";
 
 export default class Card
 {
@@ -29,6 +29,7 @@ export default class Card
     {
         this.suit = suit;
         this.num = num;
+        this.power = "-";
     }
 
     async drawForRules(cfg)
@@ -36,6 +37,7 @@ export default class Card
         // @TODO
     }
 
+    getData() { return CATS[this.suit]; }
     getCanvas() { return this.ctx.canvas; }
     async draw(vis:Visualizer)
     {
@@ -90,8 +92,11 @@ export default class Card
 
         const offset = new Point(fontSize * 0.5 * CONFIG.cards.corners.offsetText);
         const positions = getRectangleCornersWithOffset(vis.size, offset);
-        const color = SUITS[this.suit].color;
-        const colorLight = new Color(color).lighten(CONFIG.cards.shared.colorLighten);
+        const color = this.getData().color;
+        const lighten = this.getData().colorLighten ?? CONFIG.cards.shared.colorLighten;
+        const darken = this.getData().colorDarken ?? CONFIG.cards.shared.colorDarken;
+        const colorDark = new Color(color).darken(darken);
+        const colorLight = new Color(color).lighten(lighten);
         const strokeWidth = CONFIG.cards.corners.strokeWidth * fontSize;
 
         for(let i = 0; i < positions.length; i++)
@@ -101,7 +106,6 @@ export default class Card
             const op = new LayoutOperation({
                 translate: pos,
                 dims: new Point(vis.size.x, fontSize),
-                fill: color,
                 stroke: colorLight,
                 strokeWidth: strokeWidth,
                 strokeAlign: StrokeAlignValue.OUTSIDE,
@@ -111,17 +115,24 @@ export default class Card
             })
 
             await resText.toCanvas(this.ctx, op);
+
+            // split FILL and STROKE, because only stroke should get shadow
+            op.fill = new ColorLike(colorDark);
+            op.strokeWidth = 0;
+            op.effects = [];
+
+            await resText.toCanvas(this.ctx, op);
         }
 
         // then the suit icon below
         const resIcon = vis.resLoader.getResource("suits");
         const dimsIcon = CONFIG.cards.corners.iconSize * fontSize;
         const offsetIcon = (0.5 * fontSize + 0.5*dimsIcon) * CONFIG.cards.corners.offsetIcon;
-        const frame = SUITS[this.suit].frame;
+        const frame = this.getData().frame;
 
         // the icon draws its outline dynamically; this is an experiment, could've just baked those into the original images
-        const effectsIcon = vis.effects.slice();
-        effectsIcon.unshift(new OutlineEffect({ color: colorLight, thickness: strokeWidth }));
+        //const effectsIcon = vis.effects.slice();
+        //effectsIcon.unshift(new OutlineEffect({ color: colorLight, thickness: strokeWidth }));
 
         for(let i= 0; i < positions.length; i++)
         {
@@ -134,7 +145,7 @@ export default class Card
                 translate: pos,
                 rotation: rot,
                 pivot: Point.CENTER,
-                effects: effectsIcon
+                //effects: effectsIcon
             })
 
             await resIcon.toCanvas(this.ctx, op);
@@ -144,14 +155,15 @@ export default class Card
     async drawMainIllustration(vis:Visualizer)
     {
         const extentsRect = vis.size.clone().scale(CONFIG.cards.powers.rectSize);
-        const offset = CONFIG.cards.illustration.offset * extentsRect.y;
+        const offsetFactor = CONFIG.includePowers ? CONFIG.cards.illustration.offset : 0.0;
+        const offset = 0.5 * offsetFactor * extentsRect.y;
         const dims = new Point(CONFIG.cards.illustration.size * vis.sizeUnit);
         const res = vis.resLoader.getResource("cats");
-        const frame = SUITS[this.suit].frame;
+        const frame = this.getData().frame;
 
         for(let i = 0; i < 2; i++)
         {
-            const dir = (i == 0) ? 1 : -1;
+            const dir = (i == 0) ? -1 : 1;
             const rot = (i == 0) ? 0 : Math.PI;
             const pos = vis.center.clone().move(new Point(0, dir * offset));
             const op = new LayoutOperation({
@@ -168,6 +180,8 @@ export default class Card
 
     async drawPower(vis:Visualizer)
     {
+        if(!CONFIG.includePowers) { return; }
+
         // the background rectangle
         const extents = vis.size.clone().scale(CONFIG.cards.powers.rectSize);
         const extentsUnit = Math.min(extents.x, extents.y);;
@@ -177,8 +191,9 @@ export default class Card
         const pathObj = new Path({points: rectBeveled, close: true });
         const shape = new ResourceShape({ shape: pathObj });
                 
-        const color = SUITS[this.suit].color;
-        const colorLight = new Color(color).lighten(CONFIG.cards.shared.colorLighten);
+        const color = this.getData().color;
+        const lighten = this.getData().colorLighten ?? CONFIG.cards.shared.colorLighten;
+        const colorLight = new Color(color).lighten(lighten);
         const strokeWidth = CONFIG.cards.powers.rectStrokeWidth * vis.sizeUnit;
 
         const op = new LayoutOperation({
@@ -199,7 +214,7 @@ export default class Card
             alignVertical: TextAlign.MIDDLE
         });
 
-        const text = this.power; // @TODO: does this need further modification??
+        const text = POWERS[this.power].desc;
         const resText = new ResourceText({ text: text, textConfig: textConfig });
         const padding = CONFIG.cards.powers.textPadding.clone().scale(extentsUnit);
         const extentsText = new Point(extents.x - 2*padding.x, extents.y - 2*padding.y);

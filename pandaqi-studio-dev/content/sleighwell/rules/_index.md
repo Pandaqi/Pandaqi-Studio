@@ -6,6 +6,8 @@ type: "rules"
 
 Place the sleigh tile in the center of the table. Deal everybody 5 tiles.
 
+**First game**? You may choose to remove all reindeer tiles, so you can also skip their explanation (the "reindeer" action). The _game_ becomes harder, but the _rules_ become even simpler.
+
 {{% remark %}}
 Material can be downloaded from [the website](https://pandaqi.com/sleighwell).
 {{% /remark %}}
@@ -49,7 +51,7 @@ Play a tile from your hand. It must be next to an existing tile.
 
 EXAMPLE: Say a row already has the cards "3" and "8". Then you may only place a higher number behind the "8", or a lower number before the "3". Because the sequence must stay ascending.
 
-If this isn't true for a sequence (which can happen when doing the REINDEER action), you **can't add a tile to that sequence**.
+If this isn't true for a sequence (which can happen after doing reindeer actions), you **can't add a tile to that sequence**.
 
 @TODO: IMAGE EXAMPLE
 

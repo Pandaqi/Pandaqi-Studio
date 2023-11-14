@@ -66,8 +66,8 @@ Three simple steps.
 
 <p>Pick your desired settings and click the button! When in doubt, just use the defaults for your first games.</p>
 
-{{< boardgame-settings type="game" local_storage="nineLivesMathMeowsConfig" btn_label="Generate Material" >}}
-	{{< setting-hidden id="setting-gameTitle" text="Nine Lives: Math Meows" >}}
+{{< boardgame-settings type="game" local_storage="nineLivesTricksyKittensConfig" btn_label="Generate Material" >}}
+	{{< setting-hidden id="setting-gameTitle" text="Nine Lives: Tricksy Kittens" >}}
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
   {{< setting-enum id="setting-cardSize" text="Card Size?" values="small,regular,huge" valaskey="true" def="regular" >}}
   {{< setting-checkbox id="setting-includePowers" text="Include Powers?" checked="checked" remark="Remove them if you're sure you never want to play with them." >}}

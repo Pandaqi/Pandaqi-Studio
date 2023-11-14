@@ -20,6 +20,7 @@ export default class LayoutEffect
     }
 
     applyToCanvas(canv:CanvasLike, effectData:EffectData = {}) { }
+    async applyToCanvasPost(source:CanvasLike) : Promise<CanvasRenderingContext2D> { return null; }
     applyToHTML(div:ElementLike, effectData:EffectData = {}) { }
     applyToSVG(elem:ElementLike) { }
     clone(deep = false) : LayoutEffect { return new LayoutEffect(); }

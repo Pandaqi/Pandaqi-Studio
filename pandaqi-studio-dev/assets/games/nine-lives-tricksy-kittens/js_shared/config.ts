@@ -3,7 +3,7 @@ import Point from "js/pq_games/tools/geometry/point"
 const CONFIG = 
 {
     debugWithoutFile: true, // @DEBUGGING (should be false)
-    debugSingleCard: false, // @DEBUGGING (should be false)
+    debugSingleCard: true, // @DEBUGGING (should be false)
     debugOnlyGenerate: false, // @DEBUGGING (should be false)
 
     configKey: "nineLivesTricksyKittensConfig",
@@ -41,16 +41,16 @@ const CONFIG =
             frames: new Point(4,1)
         },
 
+        suits:
+        {
+            path: "suits.webp",
+            frames: new Point(8,1)
+        },
+
         cats:
         {
             path: "cats.webp",
             frames: new Point(8,1),
-        },
-
-        suits:
-        {
-            path: "powers.webp",
-            frames: new Point(8,2),
         },
     },
 
@@ -58,7 +58,8 @@ const CONFIG =
     generation:
     {
         numbers: [1,2,3,4,5,6,7,8,9],
-        cardsPerNumber: 1
+        cardsPerNumber: 1,
+        numbersWithoutPower: [9]
     },
 
     // how to draw/layout cards (mostly visually)
@@ -75,17 +76,18 @@ const CONFIG =
         {
             defaultBGColor: "#FEFEFE",
             shadowColor: "#00000099",
-            shadowOffset: 0.03, // ~sizeUnit
-            colorLighten: 50
+            shadowOffset: 0.01, // ~sizeUnit
+            colorLighten: 62.5,
+            colorDarken: 10,
         },
 
         corners:
         {
-            fontSize: 0.05, // ~sizeUnit
+            fontSize: 0.21, // ~sizeUnit
             offsetText: 1.2, // ~0.5 fontSize
-            strokeWidth: 0.1, // ~fontSize
+            strokeWidth: 0.075, // ~fontSize
 
-            iconSize: 0.6, // ~fontSize
+            iconSize: 0.575, // ~fontSize
             offsetIcon: 1.0, //~default distance => (0.5 fontSize + 0.5 iconSize)
 
         },
@@ -103,7 +105,7 @@ const CONFIG =
 
         illustration:
         {
-            offset: 0.8, // ~rectSizeUnit (from powers, see below)
+            offset: 0.7, // ~rectSizeUnit (from powers, see below)
             size: 0.5, // ~sizeUnit (note that this is placed twice, top and bottom (rotated), so higher than 0.5 will surely clip it on Y-axis)
         },
 
@@ -111,8 +113,8 @@ const CONFIG =
         {
             rectSize: new Point(0.8, 0.25), // ~sizeUnit
             rectBevel: 0.1, // ~rectSizeUnit
-            rectStrokeWidth: 0.015, // ~sizeUnit
-            fontSize: 0.05, // ~sizeUnit
+            rectStrokeWidth: 0.01, // ~sizeUnit
+            fontSize: 0.065, // ~sizeUnit
             textPadding: new Point(0.05, 0.05) // ~rectSizeUnit
         },
 

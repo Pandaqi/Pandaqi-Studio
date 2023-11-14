@@ -231,9 +231,6 @@ async function generate()
     } else {
         o.addParagraph("You don't match suit with its neighbor. Next player!");
     }
-
-    // @TODO: check match
-
 }
 
 const e = new InteractiveExample({ id: "turn" });

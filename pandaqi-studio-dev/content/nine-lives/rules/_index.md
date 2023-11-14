@@ -24,7 +24,7 @@ The game ends when **a player runs out of lives**. The players with the **most l
 
 Play happens in rounds. The Kittyqueen starts, then take clockwise turns.
 
-@TODO: Interactive Example
+{{< rules-example id="turn" >}}
 
 {{% rules-block heading="On your turn" %}}
 
@@ -36,7 +36,7 @@ Before playing a card, you _may_ also **wager a life**. Place your top Life Card
 
 If your turn makes a cat appear _exactly_ 9 times, you are rewarded: you aren't required to take turns anymore (this round).
 
-@TODO: IMAGE EXAMPLE => show playing forbidden numbers, wagering a life, playing a perfect 9
+{{< rules-image src="gameplay.webp" alt="Examples of valid and invalid turns." >}}
 
 {{% /rules-block %}}
 
@@ -56,14 +56,14 @@ The player with the most lives becomes the new Kittyqueen. (If tied, the current
 
 For a more "forgiving" (first) game, perhaps add the following rule: at the end of each round, always draw as many cards as your current Life indicates.
 
-@TODO: IMAGE EXAMPLE => Show playing a stack (cards underneath each other)
-
 {{% /rules-block %}}
 
 {{% /rules-block %}}
 
 {{% rules-block id="lives" heading="Lives" icon="score" class="force-page-break-before" icontint="purple" %}}
 
+{{< rules-image src="life_card_skeleton.webp" class="float-right" alt="The different parts of a Life Card." >}}
+ 
 Each Life Card shows a **power** and a number of **cards**. 
 
 * The number of cards indicates how many cards you draw when wagering the card.
@@ -73,11 +73,14 @@ At any time, only the _top card_ from your deck applies to you. (Whenever your t
 
 During the game, you may always browse through your lives to see what's coming up!
 
-Below is a table explaining what each icon means.
+Below are tables explaining what each icon means.
 
-@TODO: Rules-table with all icons explained. 
-=> Shouldn't I just create an automatic feature that _reads_ stuff like this from the dict? 
-=> Yes, an automatic part of PQ-RULEBOOK!! 
-=> Can create a TABLE or a RULES-TABLE. (For the first, check Kangaruse implementation. For the second, check underlying HTML for rules tables.)
+If you enabled "limited powers", only these ones appear.
+
+<div id="powers-rules-table-limited"></div>
+
+If all powers are enabled, these ones can also appear.
+
+<div id="powers-rules-table-advanced"></div>
 
 {{% /rules-block %}}

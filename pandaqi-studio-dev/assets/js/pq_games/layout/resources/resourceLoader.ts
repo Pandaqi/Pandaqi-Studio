@@ -53,6 +53,8 @@ export default class ResourceLoader
 
     async loadPlannedResources()
     {
+        if(Object.keys(this.resourcesQueued).length <= 0) { return; }
+
         const promises = [];
         for(const [id, params] of Object.entries(this.resourcesQueued))
         {

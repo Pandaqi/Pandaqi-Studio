@@ -51,7 +51,7 @@ const CONFIG =
         powers:
         {
             path: "powers.webp",
-            frames: new Point(8,2),
+            frames: new Point(8,3),
         },
     },
 

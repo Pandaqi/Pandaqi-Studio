@@ -70,6 +70,10 @@ Once you've played all the tricks, scoring happens.
 
 If you were in a **team**, you also score if you _collectively_ scored the correct amount. 
 
+{{% remark %}}
+Exception: when ALL players are in the same team, this rule is ignored.
+{{% /remark %}}
+
 EXAMPLE: A and B are teamed. A bid 2, B bid 3. But at the end of the round, A has won 4 tricks and B has won 1. They're still both allowed to score, because _together_ they've scored the right amount (2 + 3 = 4 + 1). 
 
 If this causes somebody to have 9 (or more) lives, the game ends here. Otherwise, play the next round!
@@ -93,10 +97,15 @@ On each turn, you _may_
 
 * Discard one card from your row ...
 * ... to execute the power written on it!
+* However, only **one power may be used per trick** (in total).
 
-You can do so before or after playing your card for this trick. (Do notice, though, that paying the card means _losing_ that trick. Which means you may not be able to score your bid anymore!)
+Powers are executed **before** playing your card for this trick. Unless the power specifically states some other moment at which it triggers.
 
-However, only **one power may be used per trick**.
+{{% remark %}}
+Notice that paying the card means _losing_ that trick. Which means you may not be able to score your bid anymore!
+{{% /remark %}}
+
+Powers only apply to the remainder of the _current trick_. If multiple powers contradict each other, the _last_ one played overrides the others.
 
 @TODO: IMAGE EXAMPLE
 
