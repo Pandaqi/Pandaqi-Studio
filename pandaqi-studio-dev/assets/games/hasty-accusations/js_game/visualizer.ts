@@ -27,37 +27,11 @@ export default class Visualizer
         this.size = cardSize;
         this.sizeUnit = Math.min(this.size.x, this.size.y);
         this.center = this.size.clone().scale(0.5);
-
-        const shadowOffset = CONFIG.cards.shared.shadowOffset.clone().scale(this.sizeUnit);
-        const shadowColor = CONFIG.cards.shared.shadowColor;
-        this.effects = [
-            new DropShadowEffect({ offset: shadowOffset, color: shadowColor })
-        ]
-
+        this.effects = [];
         if(inkFriendly) { this.effects.push(new GrayScaleEffect()); }
     }
 
     async prepare()
     {
-        await this.createPatterns();
-    }
-
-    async createPatterns()
-    {
-        const params = {
-            dims: (1.0 + CONFIG.cards.bgCats.patternExtraMargin) * CONFIG.cards.size.y,
-            size: CONFIG.cards.bgCats.patternIconSize,
-            num: CONFIG.cards.bgCats.patternNumIcons,
-            resource: this.resLoader.getResource("misc"),
-            frame: MISC.bg_cat.frame
-        }
-
-        this.patternCat = await patternizeGrid(params);
-
-        params.frame = MISC.heart_simple.frame;
-        this.patternHeart = await patternizeGrid(params);
-
-        params.frame = MISC.heart_outline.frame;
-        this.patternHeartOutline = await patternizeGrid(params);
     }
 }

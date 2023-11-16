@@ -5,26 +5,26 @@ boardgame: true
 
 title: "Nine Lives"
 headerTitle: "Nine Lives | Don't be the first cat to run out of lives!"
-blurb: "As we all know, all cats start with nine lives. And as we all know, playing the wrong cards makes you lose a life ... unless you're willing to bet on it."
+blurb: "As we all know, cats start with nine lives. And as we all know, playing the wrong cards makes you lose a life ... unless you're willing to bet on it."
 
 extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/1WkqwCiMo_ggHSkjPDfKS1fSDENgWjzoh"
 
-fullHeaderImg: "cookie_smasher_header"
-headerImg: "cookie_smasher_header"
+fullHeaderImg: "nine_lives_header"
+headerImg: "nine_lives_header"
 
-headerThumb: "favicon"
+headerThumb: "nine_lives_favicon"
 
 customHeight: "small"
 headerDarkened: true
 
 color: "white"
 
-bgColor: "#014556"
-bgColorLink: "#601a87"
+bgColor: "#161616"
+bgColorLink: "#3e1a87"
 
-textColor: "#e6faff"
-textColorLink: "#edccff"
+textColor: "#f7f7f7"
+textColorLink: "#dfccff"
 
 googleFonts: ""
 
@@ -45,7 +45,7 @@ ages: everyone
 
 <div class="bg-cats"></div>
 
-{{% boardgame-intro heading="" img="cookie_smasher_header" class="no-shadow" %}}
+{{% boardgame-intro heading="" class="no-shadow" %}}
 
 A simple and fast card game about losing your nine lives less quickly than all the other players.
 

@@ -10,21 +10,21 @@ blurb: "A trick-taking game about getting your nine lives before anybody else, b
 extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/1FxdHCEaLdaSrGDIrCx5yZHMx6P07_Ios"
 
-fullHeaderImg: "cookie_smasher_header"
-headerImg: "cookie_smasher_header"
+fullHeaderImg: "nine_lives_tricksy_kittens_header"
+headerImg: "nine_lives_tricksy_kittens_header"
 
-headerThumb: "favicon"
+headerThumb: "nine_lives_tricksy_kittens_favicon"
 
 customHeight: "small"
 headerDarkened: true
 
 color: "white"
 
-bgColor: "#014556"
-bgColorLink: "#601a87"
+bgColor: "#161616"
+bgColorLink: "#871a45"
 
-textColor: "#e6faff"
-textColorLink: "#edccff"
+textColor: "#f7f7f7"
+textColorLink: "#ffcce7"
 
 googleFonts: ""
 
@@ -45,7 +45,7 @@ ages: everyone
 
 <div class="bg-cats"></div>
 
-{{% boardgame-intro heading="" img="cookie_smasher_header" class="no-shadow" %}}
+{{% boardgame-intro heading="" class="no-shadow" %}}
 
 A trick-taking game about getting your nine lives before anybody else, by placing smart bets on the right cats.
 
