@@ -78,7 +78,11 @@ Three simple steps.
 
 {{% section-centered heading="Credits" anchor="credits" %}}
 
-@TODO
+This game doesn't have an interesting (or complicated) origin, for a change. I woke up one day with this idea in my head, tested a paper prototype the same day, and after some tweaks it just worked.
+
+The words "deceptively cute" are certainly applicable. The game is simple, light and looks warm and fuzzy. But while playing, you'll notice it's exceptionally cutthroat and mean. My body of work can pretty much be summarized as "player interaction---the game", so I'm okay with this contrast and actually think it's quite funny.
+
+The fonts used are **Sheep** (by MJType) and **PajamaPants** (by Sarah Weber). Some images were generated with AI, but not all, because it _really_ doesn't understand top-down perspective on many things. Everything else is mine.
 
 For more information, as always, read my [detailed developer diary on Pandaqi Blog](https://pandaqi.com/blog/boardgames/meadowmight).
 

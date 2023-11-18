@@ -1,4 +1,5 @@
 import CONFIG from "../js_shared/config";
+import { MISC } from "../js_shared/dict";
 import ResourceImage from "js/pq_games/layout/resources/resourceImage";
 import patternizeGrid from "js/pq_games/layout/patterns/patternizeGrid";
 import ResourceLoader from "js/pq_games/layout/resources/resourceLoader";
@@ -26,7 +27,6 @@ export default class Visualizer
         this.size = cardSize;
         this.sizeUnit = Math.min(this.size.x, this.size.y);
         this.center = this.size.clone().scale(0.5);
-        
         this.effects = [];
         if(inkFriendly) { this.effects.push(new GrayScaleEffect()); }
     }

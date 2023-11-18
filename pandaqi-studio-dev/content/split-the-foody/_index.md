@@ -81,7 +81,7 @@ For a while now, the popular author Brandon Sanderson has had a running joke abo
 
 About half a year later, I picked up that idea and actually turned it into a game. So I guess my first credits must go to Brando, though the eventual game barely has anything to do with the original spark.
 
-Besides that, the fonts used are **??** (headings) and **???** (body text). Parts of the illustrations were generated with AI. Everything else is entirely mine.
+Besides that, the fonts used are **Primitive** (headings) and **Rosarivo** (body text). (I initially used a different pirate-like-font that's quite common, but ditched it because it looked too clean and similar to the body font.) Parts of the illustrations were generated with AI. Everything else is entirely mine.
 
 I usually pick my next idea based on what is "easiest or simplest to make". This idea seemed really simple ... but I had to do a _lot_ of testing and prototyping to actually make it work, while keeping the rules light. A bit of a misfire from me, but in the end I'm glad I stuck it out and made this game, because it's quite different from anything else I made before.
 

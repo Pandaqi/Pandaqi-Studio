@@ -1,0 +1,3 @@
+@font-face{font-family:"rosarivo";src:url("/split-the-foody/assets/fonts/Rosarivo-Regular.woff2") format("woff2");font-weight:normal;font-style:normal;font-display:swap}@font-face{font-family:"rosarivo";src:url("/split-the-foody/assets/fonts/Rosarivo-Italic.woff2") format("woff2");font-weight:normal;font-style:italic;font-display:swap}@font-face{font-family:"primitive";src:url("/split-the-foody/assets/fonts/Primitive.woff2") format("woff2");font-weight:normal;font-style:normal;font-display:swap}body{font-family:"rosarivo";background-color:#fcfcfc;font-size:18px;line-height:140%}h1,h2,h3,h4{font-family:"primitive"}
+
+/*# sourceMappingURL=bundle.game.css.map */

@@ -17,31 +17,23 @@ const CONFIG =
     {
         wolf: false
     },
-    
-    fonts:
-    {
-        heading: "puss",
-        body: "catcafe"
-    },
+
+    // @NOTE: That's right, no fonts in this one.
 
     // assets
     assetsBase: "/meadowmight/assets/",
     assets:
     {
-        puss:
+        player_sheep:
         {
-            path: "fonts/puss.woff2"
+            path: "player_sheep.webp",
+            frames: new Point(6,1)
         },
 
-        catcafe:
+        assets:
         {
-            path: "fonts/catcafe.woff2"
-        },
-
-        misc:
-        {
-            path: "misc.webp",
-            frames: new Point(10,1)
+            path: "assets.webp",
+            frames: new Point(8,2)
         },
 
     },
@@ -49,11 +41,14 @@ const CONFIG =
     // how generation/balancing happens
     generation:
     {
-       
+        numPlayers: 5,
+        defaultNumEmpty: 4,
+        defaultNumSheep: 4,
+        defaultNumWolf: 1,
     },
 
     // how to draw/layout cards (mostly visually)
-    cards:
+    tiles:
     {
         dims: { 
             small: new Point(6,5),
@@ -65,6 +60,17 @@ const CONFIG =
         shared:
         {
             
+        },
+
+        fences:
+        {
+            scale: 0.9,
+            edgeOffset: 0.05, // ~sizeUnit
+        },
+
+        sheep:
+        {
+            scale: 0.6, // ~sizeUnit, cut in half further for multiple sheep on a tile
         },
 
         outline:
