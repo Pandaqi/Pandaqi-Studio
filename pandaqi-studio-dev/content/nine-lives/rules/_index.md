@@ -44,17 +44,13 @@ If your turn makes a cat appear _exactly_ 9 times, you are rewarded: you aren't 
 
 A round can end in three ways.
 
-* Somebody must take a turn, but can't. If so, only they **lose a life**.
+* Somebody must take a turn, but can't (or won't). If so, only they **lose a life**.
 * Only one player remains who is forced to take turns. If so, only they **lose a life**.
 * Or _all_ cats appear 9(+) times. If so, **everyone loses a life**.
 
-Losing a life means discarding the top card of your lives deck, as well as _any lives you wagered_. (Otherwise, wagered lives just return to the top of your Life deck.)
+Losing a life means discarding the top card of your lives deck, as well as _any lives you wagered_. Otherwise, wagered lives return to the _bottom_ of your Life deck (in any order).
 
-The player with the most lives becomes the new Kittyqueen. (If tied, the current Kittyqueen picks their successor from the tied players.)
-
-<!--- Another alternative: all those who did NOT wager, draw cards now --->
-
-For a more "forgiving" (first) game, perhaps add the following rule: at the end of each round, always draw as many cards as your current Life indicates.
+The player with the most cards becomes the new Kittyqueen. (If tied, the current Kittyqueen picks their successor from the tied players.)
 
 {{% /rules-block %}}
 

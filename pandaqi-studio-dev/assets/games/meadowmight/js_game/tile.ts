@@ -11,7 +11,6 @@ import rangeInteger from "js/pq_games/tools/random/rangeInteger";
 
 export default class Tile
 {
-    ctx: CanvasRenderingContext2D;
     type: string; // this is a key from the TILE_TYPES dict
     sheep: number;
     player: number;
@@ -27,46 +26,43 @@ export default class Tile
     async drawForRules(vis:Visualizer)
     {
         const ctx = createContext({ size: vis.size });
-        this.ctx = ctx;
         // @TODO;
         
-        return this.getCanvas();
+        return ctx.canvas;
     }
 
-    getCanvas() { return this.ctx.canvas; }
     async draw(vis:Visualizer)
     {
         const ctx = createContext({ size: vis.size });
-        this.ctx = ctx;
-
-        await this.drawBackground(vis);
-        await this.drawFences(vis);
-        await this.drawIllustration(vis);
-        this.drawOutline(vis);
-
-        return this.getCanvas();
+        await this.drawBackground(vis, ctx);
+        await this.drawFences(vis, ctx);
+        await this.drawIllustration(vis, ctx);
+        this.drawOutline(vis, ctx);
+        return ctx.canvas;
     }
 
-    async drawBackground(vis:Visualizer)
+    async drawBackground(vis:Visualizer, ctx:CanvasRenderingContext2D)
     {
         const res = vis.resLoader.getResource("assets");
-        const frame = ASSETS.grass.frame;
+        const frameVariation = rangeInteger(0,3);
+        const frame = this.getFrame("grass", frameVariation);
         const op = new LayoutOperation({
             dims: vis.size,
             frame: frame
         })
 
-        await res.toCanvas(this.ctx, op);
+        await res.toCanvas(ctx, op);
     }
 
-    async drawFences(vis:Visualizer)
+    async drawFences(vis:Visualizer, ctx:CanvasRenderingContext2D)
     {
         const fenceData = TILE_TYPES[this.type].fences.slice();
 
         const res = vis.resLoader.getResource("assets");
-        const frame = ASSETS.fence.frame;
-        const dims = vis.size.clone().scale(CONFIG.tiles.fences.scale);
-        const edgeOffset = CONFIG.tiles.fences.edgeOffset * vis.sizeUnit;
+        const frameVariation = this.isSpecial() ? 0 : rangeInteger(1,2);
+        const frame = this.getFrame("fence", frameVariation);
+        const dims = vis.size.clone().scale(CONFIG.tiles.fences.scale[frameVariation]);
+        const edgeOffset = CONFIG.tiles.fences.edgeOffset[frameVariation] * vis.sizeUnit;
         const op = new LayoutOperation({
             dims: dims,
             frame: frame,
@@ -77,7 +73,7 @@ export default class Tile
             new Point(vis.center.x, edgeOffset),
             new Point(vis.size.x - edgeOffset, vis.center.y),
             new Point(vis.center.x, vis.size.y - edgeOffset),
-            new Point(0, vis.center.y)
+            new Point(edgeOffset, vis.center.y)
         ]
 
         for(let i = 0; i < fenceData.length; i++)
@@ -86,19 +82,24 @@ export default class Tile
 
             op.translate = positions[i];
             op.rotation = i * 0.5 * Math.PI;
-            await res.toCanvas(this.ctx, op);
+            await res.toCanvas(ctx, op);
         }
     }
 
-    async drawIllustration(vis:Visualizer)
+    async drawIllustration(vis:Visualizer, ctx:CanvasRenderingContext2D)
     {
         if(this.sheep <= 0) { return; }
 
         let res = vis.resLoader.getResource("assets");
-        let frame = this.wolf ? ASSETS.wolf.frame : ASSETS.sheep.frame;
+        const frameVariation = rangeInteger(0,3);
+        let frame = this.getFrame("sheep", frameVariation);
 
-        const showPlayerSheep = this.player >= 0;
-        if(showPlayerSheep)
+        if(this.isWolf())
+        {
+            frame = this.getFrame("wolf");
+        }
+
+        if(this.isPlayer())
         {
             res = vis.resLoader.getResource("player_sheep");
             frame = this.player;
@@ -132,13 +133,33 @@ export default class Tile
                 pivot: Point.CENTER,
             })
     
-            await res.toCanvas(this.ctx, op);
+            await res.toCanvas(ctx, op);
         }
     }
 
-    drawOutline(vis:Visualizer)
+    drawOutline(vis:Visualizer, ctx:CanvasRenderingContext2D)
     {
         const outlineSize = CONFIG.tiles.outline.size * vis.sizeUnit;
-        strokeCanvas(this.ctx, CONFIG.tiles.outline.color, outlineSize);
+        strokeCanvas(ctx, CONFIG.tiles.outline.color, outlineSize);
+    }
+
+    getFrame(type:string, variation = 0)
+    {
+        return ASSETS[type].frame + variation*4;
+    }
+
+    isPlayer()
+    {
+        return this.player >= 0;
+    }
+
+    isWolf()
+    {
+        return this.wolf;
+    }
+
+    isSpecial()
+    {
+        return this.isPlayer() || this.isWolf();
     }
 }

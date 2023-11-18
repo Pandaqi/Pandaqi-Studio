@@ -2,7 +2,7 @@ import Point from "js/pq_games/tools/geometry/point"
 
 const CONFIG = 
 {
-    debugWithoutFile: false, // @DEBUGGING (should be false)
+    debugWithoutFile: true, // @DEBUGGING (should be false)
     debugSingleCard: false, // @DEBUGGING (should be false)
     debugOnlyGenerate: false, // @DEBUGGING (should be false)
 
@@ -51,9 +51,9 @@ const CONFIG =
     tiles:
     {
         dims: { 
-            small: new Point(6,5),
-            regular: new Point(5,4),
-            huge: new Point(4,3)
+            small: new Point(5,6),
+            regular: new Point(4,5),
+            huge: new Point(3,4)
         },
         dimsElement: new Point(1, 1),
         
@@ -64,8 +64,8 @@ const CONFIG =
 
         fences:
         {
-            scale: 0.9,
-            edgeOffset: 0.05, // ~sizeUnit
+            scale: [0.775, 0.75, 0.705],
+            edgeOffset: [0.08, 0.11, 0.115], // ~sizeUnit
         },
 
         sheep:

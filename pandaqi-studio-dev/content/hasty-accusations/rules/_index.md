@@ -4,154 +4,91 @@ type: "rules"
 
 {{% rules-block id="setup" heading="Setup" icon="setup" icontint="purple" %}}
 
-All players receive **5 cards**. The remaining cards become a (shuffled) facedown deck. 
+Pick as many different _characters_ as the number of players.
+* Place one row of **faceup** characters on the table. (Below these cards, evidence piles will build during the game.)
+* Place the **spyglass token** above the first.
+* Shuffle and deal the remaining character cards. (Each player should have *two* secret characters: their "suspects".)
+* Create a deck of **playing cards**, shuffle, and deal each player 4.
 
-For a **shorter game**, simply remove any number of cards from the deck. (Anybody may look at the cards removed.)
-
-Biggest food thief starts.
+@TODO: IMAGE EXAMPLE of this setup
 
 {{% /rules-block %}}
 
 {{% rules-block id="objective" heading="Objective" icon="objective" icontint="lightblue" %}}
 
-The game ends after the round when **the draw pile runs out**. All players count their score: **highest score wins**.
+The game ends when **only 1 character is left**. The player(s) who had them as their secret suspect win!
 
 {{% /rules-block %}}
 
 {{% rules-block id="action_play" heading="Gameplay" icon="action" class="force-page-break-before" icontint="purple" %}}
 
-Each round ...
-* The start player locates a new treasure (*Draw*).
-* Clockwise, players take turns reacting to this treasure: *Pass, Bid, or Play*.
-* This continues until all players have _Passed_.
-* The treasure is split (*Split Treasure*).
-* Start player advances clockwise.
+Most treacherous player starts. Take clockwise turns until done.
 
-Each individual step should be simple and fast. They're all explained below.
+{{% rules-block heading="On your turn" %}}
 
-**On being a Pearate:** it's *absolutely allowed* to bluff, lie, steal, negotiate, and so forth. Bluff about what you saw inside your treasure. Strike deals. Promise to stop bidding, then break that promise. As long as you *follow the rules* explicitly stated in this rulebook.
+Play a card from your hand **facedown** on a character's evidence pile, then draw back up to 4 cards.
 
-@TODO: INTERACTIVE EXAMPLE (_or_ an overview of a full round, globally)
+If you play a card at the current *spyglass* character, play it **faceup** and execute its action.
 
-{{% rules-block heading="Draw" %}}
-
-This is done by the _start player_.
-* Take the bigger number: **2** or your **hand size**.
-* Draw that many cards from the deck: this is the secret treasure for this round. 
-* Look at the treasure and arrange the cards any way you wish.
-* Then place it facedown in the center of the table.
-
-@TODO: IMAGE EXAMPLE
+Finally, move the spyglass one character forward ( = to the right). If there is none, execute a [review](#review).
 
 {{% /rules-block %}}
 
-{{% rules-block heading="Pass" %}}
+{{% rules-block heading="Review" id="review" %}}
 
-Passing simply means doing nothing for the rest of this round.
+When a review triggers, whatever evidence pile has the **most cards** is evaluated. (If tied, the active player picks _one_ of them to evaluate.)
 
-{{% /rules-block %}}
+> **From top to bottom, reveal each card and execute what it does.** 
 
-{{% rules-block heading="Bid" %}}
+If an action must be executed by a player, this is always the _active player_.
 
-You bid by placing one or more cards facedown before you. Each card is worth 1. **You DON'T need to bid more than the previous player!**
+{{% remark %}}
+Cards may already be faceup. Those are executed too, just like the rest.
+{{% /remark %}}
 
-@TODO: IMAGE EXAMPLE?
+If the corresponding character is **murdered**, remove them, and end this phase immediately.
 
-{{% /rules-block %}}
+If this means that none of a player's suspects are alive, they must say so. They're eliminated. They reveal their hand and give their cards to the remaining players (however they want).
 
-{{% rules-block heading="Play" %}}
-
-Play a card from your hand with an action. Execute it. Then add the card to the treasure.
-
-@TODO: IMAGE EXAMPLE
+Discard all cards from this evidence pile. Return the spyglass to the first character. Next turn!
 
 {{% /rules-block %}}
-
-{{% rules-block heading="Split Treasure" %}}
-
-**Total bid is larger than the treasure size (a "Mutiny")?** The player with the highest bid receives the treasure. (If tied, the start player chooses.) The start player receives the highest bid; everyone else receives their own bid.
-
-> EXAMPLE: The treasure has 4 cards. Player 1 bid 2 cards, player 2 bid 3 cards. The total bid is 5, which is higher than 4. So, the treasure is entirely given to player 2.
-
-**Otherwise?** Treasure is *divided*. In turn order, each player takes as many cards as they put in, either all from the _top_ or all from the _bottom_. The start player receives all the bids. Leftover treasure is discarded.
-
-Finally, everyone makes a choice about **all cards they received** during this round: either take them **all into your hand** or **score them all**. 
-
-The hand limit is 8 cards. If you can't fit all new cards into your hand, you must score them.
-
-{{% /rules-block %}}
-
-{{% /rules-block %}}
-
-{{% rules-block id="scoring" heading="Scoring" icon="score" class="force-page-break-before" icontint="purple" %}}
-
-"Scoring" a card simply means placing it faceup in front of you. You can't use these cards anymore.
-
-When determining the winner at the end of the game,
-
-> Only count types **of which you have the most** (out of all players). Ties for majority are allowed.
-
-> EXAMPLE: You have one 7, and another player has the other two 7s. Then you score _nothing_ for this card, while the other player scores 2 x 7 = 14.
-
-@TODO: IMAGE EXAMPLE => show keeping the cards in stacks (don't explicitly mention it in the text)
-
-Highest score wins. If tied, the player with the most _hand cards_ wins.
 
 {{% /rules-block %}}
 
 {{% rules-block id="cards" heading="Cards" icon="score" class="force-page-break-before" icontint="purple" %}}
 
-Whenever an action allows you to add/remove cards, you may
-* Do so from the _top_ OR the _bottom_.
-* Take them from your _hand_ or from the _deck_.
+Cards always have a power. As stated, this triggers when _revealed_. This happens when placed at the spyglass pile (where you play faceup), or when a pile is evaluated.
 
-Below are some clarifications in case of uncertainty about card powers.
+Most cards can be played anywhere, but there are some exceptions.
 
-@TODO
+* A @TODO:ICON means it must be played at the (current) spyglass pile.
+* A @TODO:ICON means it CAN'T be played at the (current) spyglass pile.
+* A @TODO:ICON means it must be played at one of your own suspects.
+* A @TODO:ICON means it CAN'T be played at one of your own suspects.
 
+@TODO: IMAGE of card skeleton.
 
-{{% /rules-block %}}
-
-{{% rules-block id="expansions" heading="Expansions" icon="expansion" class="force-page-break-before" icontint="purple" %}}
-
-Once you've played the base game a few times, maybe you're ready for some expansions or variants!
-
-{{% rules-block heading="Variants" %}}
-
-**Want a friendlier game?** Use the following rules.
-* If nobody bids on a treasure, the start player receives it.
-* Every _trio_ of cards with a value below 4 (in your score pile), is worth +5 points.
-* In the final round, you automatically score all cards received.
-* Optional: remove some or all of the negative numbers.
-
-**Want a more strict rule for resolving ties?** Use the following rule. (This variant was mostly removed to simplify your first few games.)
-
-> In case of a tie ( = multiple players bid the most), the cards are revealed and "scored". Highest score wins. If still equal, divide the treasure between the tied players, as fairly as possible, throwing away leftover cards.
-
-**Want a longer game?** When the draw pile is empty, shuffle the discarded cards and make it the new draw pile. You can do this once, or twice, or however long you want the game to last.
+On the website you can pick which card set you want. For your first games, just pick the base set. As you gain experience, consider introducing more and more advanced cards.
 
 {{% /rules-block %}}
 
-{{% rules-block heading="Appetite for All" %}}
+{{% rules-block id="expansion" heading="Variants & Expansions" icon="expansion" class="force-page-break-before" icontint="purple" %}}
 
-This one adds more cards with special actions.
+@TODO: EXPANSIONS/VARIANTS (once I figure out what I want to do with those)
 
-@TODO: Rules-table? What's the point?
+EXPANSION 1: Traitor.
 
-You're also allowed to **strike deals** using cards received in a round. For example, you might promise somebody part of your treasure if they stop bidding *now*. Whether somebody follows up on their promises ...
+EXPANSION 2: Character Powers.
 
-Once a card is definitively scored or in your hand, however, you can't strike any more deals with it.
+VARIANT 1: Vary the number of characters. (Fewer of them means a quicker game. More of them means a longer and more strategic game)
 
-{{% /rules-block %}}
+When dealing out secret suspects, deal them all. Yes, some players might have more than others, but the game automatically balances this advantage.
 
-{{% rules-block heading="Coins for Combos" %}}
+VARIANT 2: Instead of drawing cards as you go, deal the _whole deck_ at the start (as fairly as possible). 
 
-This one introduces cards that **score** in a special way. (This takes the same space as an action, so these cards always have **no action**.)
-
-It also adds cards with a _question mark_ for their number (**wildcards**). When played or scored, they are any number you want.
-
-@TODO: Rules-table? What's the point?
-
-{{% /rules-block %}}
+On your turn, if you have no cards,
+* One of your suspects dies
+* If you're not eliminated, steal 1 card from all other players and continue playing.
 
 {{% /rules-block %}}
