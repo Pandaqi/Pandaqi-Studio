@@ -44,7 +44,15 @@ export default class Generator
         this.progressBar.gotoNextPhase();
 
         const resLoader = new ResourceLoader({ base: CONFIG.assetsBase });
-        resLoader.planLoadMultiple(CONFIG.assets)
+        const assetsToLoad = {};
+        for(const [key,data] of Object.entries(CONFIG.assets))
+        {
+            // @ts-ignore
+            if(data.cardSet && CONFIG.cardSet != key) { continue; }
+            assetsToLoad[key] = data;
+        }
+
+        resLoader.planLoadMultiple(assetsToLoad)
         await resLoader.loadPlannedResources();
         this.resLoader = resLoader;
 

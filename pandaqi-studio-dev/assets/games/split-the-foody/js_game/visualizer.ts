@@ -28,6 +28,12 @@ export default class Visualizer
         this.sizeUnit = Math.min(this.size.x, this.size.y);
         this.center = this.size.clone().scale(0.5);
         this.effects = [];
+
+        const shadowRadius = CONFIG.cards.shared.shadowRadius * this.sizeUnit;
+        const shadowColor = CONFIG.cards.shared.shadowColor;
+        const shadowEffect = new DropShadowEffect({ blurRadius: shadowRadius, color: shadowColor });
+
+        this.effects.push(shadowEffect);
         if(inkFriendly) { this.effects.push(new GrayScaleEffect()); }
     }
 

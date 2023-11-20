@@ -1,3 +1,4 @@
+import shuffle from "js/pq_games/tools/random/shuffle";
 import CONFIG from "../js_shared/config";
 import { TILE_TYPES } from "../js_shared/dict";
 import Tile from "./tile";
@@ -13,6 +14,9 @@ export default class TilePicker
     {
         this.tiles = [];
 
+        const specialTypes = shuffle(CONFIG.generation.defaultSpecialAllowed.slice());
+        let specialTypeIndex = 0;
+
         for(const [key,data] of Object.entries(TILE_TYPES))
         {
             const numEmpty = data.numEmpty ?? CONFIG.generation.defaultNumEmpty;
@@ -25,11 +29,21 @@ export default class TilePicker
                 this.tiles.push(newTile);
             }
 
-            const numWolf = CONFIG.expansions.wolf ? (data.numWolf ?? CONFIG.generation.defaultNumWolf) : 0;
-            for(let i = 0; i < numWolf; i++)
+            // this _cycles_ through all special types, to make sure they're fairly distributed
+            // across all fence configurations
+            const numSpecial = CONFIG.expansions.wolf ? (data.numSpecial ?? CONFIG.generation.defaultNumSpecial) : 0;
+            const specialAllowed = data.allowedSpecial ?? CONFIG.generation.defaultSpecialAllowed;
+            for(let i = 0; i < numSpecial; i++)
             {
                 const newTile = new Tile(key);
-                newTile.wolf = true;
+                let curType;
+                for(let a = 0; a < specialTypes.length; a++) {
+                    specialTypeIndex = (specialTypeIndex + 1) % specialTypes.length;
+                    curType = specialTypes[specialTypeIndex];
+                    if(specialAllowed.includes(curType)) { break; }
+                }
+
+                newTile.special = curType;
                 this.tiles.push(newTile);
             }
 

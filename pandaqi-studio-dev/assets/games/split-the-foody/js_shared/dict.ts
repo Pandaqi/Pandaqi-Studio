@@ -4,7 +4,7 @@ interface PowerData
     frame?: number,
     label?: string,
     desc?: string,
-    num?: number,
+    num?: number|string,
     freq?: number
 }
 
@@ -13,7 +13,7 @@ const POWERS_BASE:PowerSet =
 {
     empty_chest: { frame: 0, label: "Empty Chest", desc: "", num: -4, freq: 2 },
     rotten_eggs: { frame: 1, label: "Rotten Eggs", desc: "Take 1 card from every bid and add it to your own.", num: -3, freq: 4 },
-    infested_bread: { frame: 2, label: "Infested Bread", desc: "All bids this round are open", num: -2, freq: 6 }, // @TODO: find something better
+    infested_bread: { frame: 2, label: "Infested Bread", desc: "All bids this round are open", num: -2, freq: 6 }, // @TODO: find something better, perhaps?
     fish_skeleton: { frame: 3, label: "Fish Skeleton", desc: "Each player must score all MINUS cards in their bid.", num: -1, freq: 8 },
     pepper: { frame: 4, label: "Pearl Pepper", desc: "The round instantly ends in Mutiny. Highest bid is calculated by total value.", num: 0, freq: 4 },
     fish: { frame: 5, label: "Goldfish", desc: "Force the next player to BID or PLAY.", num: 1, freq: 8 },
@@ -26,7 +26,6 @@ const POWERS_BASE:PowerSet =
     filled_chest: { frame: 12, label: "Filled Chest", desc: "", num: 8, freq: 1 } 
 }
 
-// @TODO: change empty_chest and filled_chest to something else anyway?
 const POWERS_APPETITE:PowerSet =
 {
     empty_chest: { frame: 0, label: "Empty Chest", desc: "", num: -4, freq: 1 },
@@ -44,11 +43,20 @@ const POWERS_APPETITE:PowerSet =
     filled_chest: { frame: 12, label: "Filled Chest", desc: "", num: 8, freq: 1 } 
 }
 
-// @TODO
 const POWERS_COINS:PowerSet =
 {
-
+    sabre: { frame: 0, label: "Banana Sabre", desc: "Wildcard; any number you want it to be.", num: "?", freq: 5 },
+    spyglass: { frame: 1, label: "Soupy Spyglass", desc: "When received, you must SCORE this particular card.", num: -3, freq: 3 },
+    barrel: { frame: 2, label: "Basic Barrel", desc: "Worth as much as your lowest scoring card.", num: 2, freq: 3 },
+    compass: { frame: 3, label: "Confused Compass", desc: "Anytime you score, place 1 card at a wrong stack.", num: -1, freq: 4 },
+    pearl: { frame: 4, label: "Pirate Pearl", desc: "Flips all numbers on one stack of scoring cards (negative <-> positive)", num: 1, freq: 4 },
+    bottle: { frame: 5, label: "Ship in a Bottle", desc: "Worth as much as your number of negative scoring cards.", num: 0, freq: 3 },
+    diamond: { frame: 6, label: "Dazzling Diamond", desc: "Worth as much as your highest scoring card.", num: -2, freq: 3 },
+    coin: { frame: 7, label: "Chewy Coin", desc: "Each coin is worth the number of coins you score.", num: 4, freq: 5 },
+    artefact: { frame: 8, label: "Amulet Artefact", desc: "Only scores if you have the LEAST artefacts (of all artefact owners)", num: 5, freq: 5 },
+    hook: { frame: 9, label: "Hopeful Hook", desc: "Scores +6 if you have at least 3 Hooks; otherwise -12.", num: 6, freq: 5 },
 }
+
 
 const SETS:Record<string,PowerSet> = 
 {
@@ -60,7 +68,9 @@ const SETS:Record<string,PowerSet> =
 // This is for any decorations, backgrounds, textures needed for general card layout
 const MISC =
 {
-    // @TODO
+    coin: { frame: 0 },
+    scroll: { frame: 1 },
+    rope: { frame: 2 }
 }
 
 export 

@@ -14,13 +14,14 @@ export default class Tile
     type: string; // this is a key from the TILE_TYPES dict
     sheep: number;
     player: number;
-    wolf: boolean;
+    special: string;
 
     constructor(tp: string, shp: number = 0, plyr:number = -1)
     {
         this.type = tp;
         this.sheep = shp;
         this.player = plyr;
+        this.special = null;
     }
 
     async drawForRules(vis:Visualizer)
@@ -59,7 +60,7 @@ export default class Tile
         const fenceData = TILE_TYPES[this.type].fences.slice();
 
         const res = vis.resLoader.getResource("assets");
-        const frameVariation = this.isSpecial() ? 0 : rangeInteger(1,2);
+        const frameVariation = this.useUniqueFences() ? 0 : rangeInteger(1,2);
         const frame = this.getFrame("fence", frameVariation);
         const dims = vis.size.clone().scale(CONFIG.tiles.fences.scale[frameVariation]);
         const edgeOffset = CONFIG.tiles.fences.edgeOffset[frameVariation] * vis.sizeUnit;
@@ -82,23 +83,26 @@ export default class Tile
 
             op.translate = positions[i];
             op.rotation = i * 0.5 * Math.PI;
+
+            // this keeps their shaded side semi-consistent
+            op.flipX = (i == 1 || i == 2);
+
             await res.toCanvas(ctx, op);
         }
     }
 
     async drawIllustration(vis:Visualizer, ctx:CanvasRenderingContext2D)
     {
-        if(this.sheep <= 0) { return; }
+        let numIllustrations = this.sheep;
+        if(this.isSpecial()) { numIllustrations = 1; }
+
+        if(numIllustrations <= 0) { return; }
 
         let res = vis.resLoader.getResource("assets");
         const frameVariation = rangeInteger(0,3);
         let frame = this.getFrame("sheep", frameVariation);
 
-        if(this.isWolf())
-        {
-            frame = this.getFrame("wolf");
-        }
-
+        if(this.isSpecial()) { frame = this.getFrame(this.special); }
         if(this.isPlayer())
         {
             res = vis.resLoader.getResource("player_sheep");
@@ -107,13 +111,13 @@ export default class Tile
 
         let positions = [vis.center];
         let dims = new Point(CONFIG.tiles.sheep.scale * vis.sizeUnit);
-        if(this.sheep == 2) {
+        if(numIllustrations == 2) {
             dims.scale(0.5);
             positions = [
                 vis.center.clone().sub(dims),
                 vis.center.clone().add(dims)
             ]
-        } else if(this.sheep == 3) {
+        } else if(numIllustrations == 3) {
             positions = [
                 vis.center.clone().sub(new Point(2*dims.x, 2*dims.y)),
                 vis.center.clone().add(new Point(0, 2*dims.y)),
@@ -122,7 +126,7 @@ export default class Tile
             dims.scale(0.33);
         }
 
-        for(let i = 0; i < this.sheep; i++)
+        for(let i = 0; i < numIllustrations; i++)
         {
             const rotation = rangeInteger(0,8)*(Math.PI*2/8);
             const op = new LayoutOperation({
@@ -153,13 +157,13 @@ export default class Tile
         return this.player >= 0;
     }
 
-    isWolf()
-    {
-        return this.wolf;
-    }
-
     isSpecial()
     {
-        return this.isPlayer() || this.isWolf();
+        return this.special != null;
+    }
+
+    useUniqueFences()
+    {
+        return this.isPlayer() || this.isSpecial();
     }
 }

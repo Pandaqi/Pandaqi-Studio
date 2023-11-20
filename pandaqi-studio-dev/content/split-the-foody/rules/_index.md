@@ -136,21 +136,26 @@ Once you've played the base game a few times, maybe you're ready for some expans
 
 This one adds more cards with special actions.
 
-@TODO: Rules-table? What's the point?
-
 You're also allowed to **strike deals** using cards received in a round. For example, you might promise somebody part of your treasure if they stop bidding *now*. Whether somebody follows up on their promises ...
 
 Once a card is definitively scored or in your hand, however, you can't strike any more deals with it.
+
+Below are some clarifications in case of uncertainty about card powers.
+
+@TODO
 
 {{% /rules-block %}}
 
 {{% rules-block heading="Coins for Combos" %}}
 
-This one introduces cards that **score** in a special way. (This takes the same space as an action, so these cards always have **no action**.)
+This one introduces cards that **score** in a special way. 
 
-It also adds cards with a _question mark_ for their number (**wildcards**). When played or scored, they are any number you want.
+Their action isn't relevant while playing the game and cannot be used with the "Play" action. Instead, their action is permanent and triggers when it says so. (Usually it's a rule that determines their worth when scoring at the end of the game.)
 
-@TODO: Rules-table? What's the point?
+Below are some clarifications in case of uncertainty about card powers.
+
+@TODO
+
 
 {{% /rules-block %}}
 

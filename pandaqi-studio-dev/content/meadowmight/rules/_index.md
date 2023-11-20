@@ -4,9 +4,11 @@ type: "rules"
 
 {{% rules-block id="setup" heading="Setup" icon="setup" icontint="purple" %}}
 
-Each player picks one color and gets all tiles showing that sheep: their **Sheeple**. Take all unused Sheeple out of the deck. 
+Each player picks one color and gets all 5 tiles showing that sheep: their **Sheeple**. Take all unused Sheeple out of the deck. 
 
-Shuffle the deck and deal each player 4 tiles. Finally, place a random tile (faceup) on the table. 
+Shuffle the deck and deal each player 3 tiles. (Each player should hold 8 tiles in total.) 
+
+Finally, place a random tile (faceup) on the table. 
 
 {{% /rules-block %}}
 
@@ -88,6 +90,8 @@ For every sheep that remains, add the score of its meadow.
 
 Once you've played the base game a few times, maybe you're ready for some expansions or variants!
 
+In these rules, the term "adjacent" always means horizontal or vertical, never diagonal.
+
 {{% rules-block heading="Fuzzy Fences" %}}
 
 This is a _variant_ you can play with the same material. It's slightly friendlier, as it allows **multiple people to claim meadows**.
@@ -102,13 +106,40 @@ The following rules change.
 As usual, all losing Sheeple are turned facedown, even if they belong to the winner(s) too.
 {{% /remark %}}
 
+Additionally, the **change** action also allows **moving** an existing tile (instead of rotating). Do so according to the following rules.
+* You can only move tiles that contain neutral sheep.
+* They move one step, to an adjacent tile.
+* They _cannot_ move over a double fence.
+
+@TODO: IMAGE EXAMPLE
+
+{{% /rules-block %}}
+
+{{% rules-block heading="" %}}
+
+This is a _variant_ you can play with the same material.
+
+During **setup**, equally distribute _all tiles_ over facedown piles. Each player receives one such pile. They insert their own Sheeple into it and shuffle.
+
+During **gameplay**, you only draw tiles from _your own deck_. Your hand limit is 6.
+
+Optional: for a game with less conflict (but more tension and luck), include _fewer_ Sheeple per player.
+
 {{% /rules-block %}}
 
 {{% rules-block heading="Wool Wolves" %}}
 
-This expansion adds the **wolf** tile. (@TODO: And special actions on tiles?)
+This expansion adds four special tiles with their own rules. 
 
-@TODO
+**Wolf:** When placed, you may _move_ all adjacent tiles that have a sheep. Move them one step, to a tile that's adjacent to them. (Yes, this may overlap existing tiles, even faceup ones.) Adjacent tiles without a sheep are turned facedown.
+
+**Tree:** When placed, you have a choice. Either rotate two tiles for free, or draw a tile (permanently increasing your hand size by 1).
+
+**Pond:** All adjacent tiles with a sheep score +2 points. If there are _no_ adjacent tiles with sheep, you may take one Sheeple of yours back into your hand.
+
+**House:** This tile and all adjacent tiles (horizontal and vertical) cannot be rotated.
+
+@TODO: IMAGE EXAMPLE
 
 {{% /rules-block %}}
 

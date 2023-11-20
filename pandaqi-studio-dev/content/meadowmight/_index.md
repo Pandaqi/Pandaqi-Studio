@@ -69,7 +69,7 @@ Three simple steps.
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
   {{< setting-enum id="setting-tileSize" text="Tile Size?" values="small,regular,huge" valaskey="true" def="regular" >}}
   <h3>Expansions</h3>
-  {{< setting-checkbox id="setting-expansions-wolf" text="Wolf?" remark="Adds the aggressive wolf tile!" >}}
+  {{< setting-checkbox id="setting-expansions-wolf" text="Wool Wolves?" remark="Adds four special tiles with unique actions!" >}}
 {{< /boardgame-settings >}}
 
 <p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>

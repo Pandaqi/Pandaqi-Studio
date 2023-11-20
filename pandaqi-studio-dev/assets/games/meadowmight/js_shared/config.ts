@@ -2,7 +2,7 @@ import Point from "js/pq_games/tools/geometry/point"
 
 const CONFIG = 
 {
-    debugWithoutFile: true, // @DEBUGGING (should be false)
+    debugWithoutFile: false, // @DEBUGGING (should be false)
     debugSingleCard: false, // @DEBUGGING (should be false)
     debugOnlyGenerate: false, // @DEBUGGING (should be false)
 
@@ -41,10 +41,11 @@ const CONFIG =
     // how generation/balancing happens
     generation:
     {
-        numPlayers: 5,
+        numPlayers: 6,
         defaultNumEmpty: 4,
         defaultNumSheep: 4,
-        defaultNumWolf: 1,
+        defaultNumSpecial: 2,
+        defaultSpecialAllowed: ["wolf", "tree", "pond", "house"]
     },
 
     // how to draw/layout cards (mostly visually)

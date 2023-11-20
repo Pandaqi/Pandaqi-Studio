@@ -6,8 +6,8 @@ const CONFIG =
     debugSingleCard: false, // @DEBUGGING (should be false)
     debugOnlyGenerate: false, // @DEBUGGING (should be false)
 
-    configKey: "hastyAccusationsConfig",
-    fileName: "[Material] Hasty Accusations",
+    configKey: "splitTheFoodyConfig",
+    fileName: "[Material] Split The Foody",
 
     // set through user config on page
     inkFriendly: false,
@@ -37,25 +37,34 @@ const CONFIG =
         base:
         {
             path: "base.webp",
-            frames: new Point(8,2)
+            frames: new Point(8,2),
+            cardSet: true
         },
 
         appetite:
         {
             path: "appetite.webp",
-            frames: new Point(8,2)
+            frames: new Point(8,2),
+            cardSet: true
         },
 
         coins:
         {
             path: "coins.webp",
-            frames: new Point(8,1)
+            frames: new Point(10,1),
+            cardSet: true
         },
 
         misc:
         {
             path: "misc.webp",
-            frames: new Point(8,1)
+            frames: new Point(4,1)
+        },
+
+        bgs:
+        {
+            path: "bgs.webp",
+            frames: new Point(4,1)
         },
     },
 
@@ -77,12 +86,53 @@ const CONFIG =
         
         shared:
         {
-            
+            shadowRadius: 0.033, // ~sizeUnit
+            shadowColor: "#00000099", // semi-transparent black
+        },
+
+        heading:
+        {
+            yPos: 0.925,
+            fontSize: 0.075, // ~sizeUnit
+            fillColor: "#FFFFFF",
+            strokeColor: "#240C00",
+            strokeWidth: 0.1, // ~fontSize
+            shadowOffset: 0.1, // ~fontSize
+        },
+
+        corners:
+        {
+            edgeOffsetBig: new Point(0.15, 0.15), // ~sizeUnit
+            coinScaleBig: 0.235, // ~sizeUnit
+            fontSizeBig: 0.15, // ~sizeUnit
+
+            edgeOffsetSmall: new Point(0.1, 0.1), // ~sizeUnit
+            coinScaleSmall: 0.15, // ~sizeUnit
+            fontSizeSmall: 0.075, // ~sizeUnit
+
+            fillColor: "#FFFFFF",
+            strokeColor: "#240C00",
+            strokeWidth: 0.1, // ~fontSize
+        },
+
+        illustration:
+        {
+            yPos: 0.33, // ~sizeY
+            scale: 0.66 // ~sizeUnit
+        },
+
+        power:
+        {
+            yPos: 0.725, // ~sizeY
+            scrollScale: new Point(0.95, 0.95/2.13), // ~size => the image is about 2.13:1
+            textBoxWidth: 0.844, // ~scrollWidth
+            fontSize: 0.066, // ~sizeUnit
+            shadowOffset: 0.033, // ~fontSize
         },
         
         outline:
         {
-            size: 0.025, // relative to sizeUnit
+            size: 0.025, // ~sizeUnit
             color: "#000000"
         }
     }
