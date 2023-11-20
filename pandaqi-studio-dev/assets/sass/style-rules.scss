@@ -209,6 +209,10 @@ article, section {
     position: relative;
 }
 
+.allow-page-break {
+    break-inside: auto !important;
+}
+
 .force-page-break-before {
     break-before: page;
 }
