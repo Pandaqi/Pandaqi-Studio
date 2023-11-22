@@ -9,7 +9,7 @@ interface RectangleRoundedParams
 {
     center?:Point
     extents?:Point
-    radius?:number
+    radius?:number,
 }
 
 export { RectangleRounded, RectangleRoundedParams }
@@ -32,7 +32,7 @@ export default class RectangleRounded extends Rectangle
 
     toPath()
     {
-        return roundPath(super.toPath(), this.radius);
+        return roundPath(super.toPath(), this.radius, true); // @NOTE: third parameter is for CLOSING the path
     }
 
     toPath2D() 

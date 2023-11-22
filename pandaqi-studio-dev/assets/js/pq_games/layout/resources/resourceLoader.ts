@@ -31,7 +31,9 @@ export default class ResourceLoader
     planLoad(id:string, params:any = {})
     {
         if(!params.path) { return console.error("Can't load resource without path."); }
-        
+        const resourceAlreadyLoaded = this.resourcesQueued[id] || this.resourcesLoaded[id];
+        if(resourceAlreadyLoaded) { return; }
+
         this.resourcesQueued[id] = params;
         
         if(params.inkfriendly)

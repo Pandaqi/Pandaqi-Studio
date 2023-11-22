@@ -1,4 +1,7 @@
-import Random from "js/pq_games/tools/random/main";
+import getWeighted from "../random/getWeighted";
+import shuffle from "../random/shuffle";
+import rangeInteger from "../random/rangeInteger";
+import Bounds from "../numbers/bounds";
 
 type bounds = { min: number, max: number };
 type propQuery = { prop: string, num: number };
@@ -59,7 +62,7 @@ export default class BalancedDictionaryPicker
         this.template = t;
     }
 
-    pickPossibleTypes(config:Record<string,any>, numBounds:any)
+    pickPossibleTypes(config:Record<string,any>, numBounds:Bounds)
     {
         const tempPossible = [];
 
@@ -78,7 +81,7 @@ export default class BalancedDictionaryPicker
             let num = reqProp.num;
 
             const arr = this.getAllTypesWithProperty(tempDict, prop as string);
-            Random.shuffle(arr);
+            shuffle(arr);
             
             const pickedTypes = arr.slice(0, Math.min(num, arr.length));
             for(const pickedType of pickedTypes)
@@ -96,23 +99,23 @@ export default class BalancedDictionaryPicker
             const alreadyIncluded = tempPossible.filter(element => arr.includes(element)).length > 0;
             if(alreadyIncluded) { continue; }
 
-            Random.shuffle(arr);
+            shuffle(arr);
             const pickedType = arr[0];
             this.addPossibleType(tempPossible, tempDict, pickedType);
         }
 
         // fill up the list with random draws
-        var num = Random.rangeInteger(numBounds.min, numBounds.max)
+        const num = numBounds.randomInteger();
         this.numBounds = numBounds;
         while(tempPossible.length < num)
         {
             if(Object.keys(tempDict).length <= 0) { break; }
 
-            const type = Random.getWeighted(tempDict, "prob");
+            const type = getWeighted(tempDict, "prob");
             this.addPossibleType(tempPossible, tempDict, type);
         }
 
-        Random.shuffle(tempPossible);
+        shuffle(tempPossible);
 
         this.typesPossible = tempPossible;
     }
@@ -282,11 +285,11 @@ export default class BalancedDictionaryPicker
         // then fill up randomly
         while(list.length < num)
         {
-            const type = Random.getWeighted(tempDict, "prob");
+            const type = getWeighted(tempDict, "prob");
             this.pickType(tempPossible, list, tempDict, type);
         }
 
-        Random.shuffle(list);
+        shuffle(list);
         return list;
     }
 

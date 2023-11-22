@@ -22,7 +22,7 @@ The game ends when nobody can take another move. Sum the values of all Magnetmen
 
 {{% rules-block id="gameplay" heading="Gameplay" icon="action" class="force-page-break-before" icontint="lightblue" %}}
 
-Take clockwise turns. On your turn, always do the same thing: **collect a square**.
+Take clockwise turns. On your turn, if possible, you must **collect a square**.
 
 * Pick a square that hasn't been collected yet.
 * Cross it out
@@ -42,7 +42,7 @@ Here's the twist. The more often you possess a specific icon, the more you're _r
 
 That's it!
 
-The paper itself explains how each Magnetmen scores you points. Or you can read the next section on the [Magnetmen](#magnetmen).
+The paper itself explains how each Magneeple scores you points. Or you can read the next section on the [Magnetmen](#magnetmen).
 
 {{% /rules-block %}}
 

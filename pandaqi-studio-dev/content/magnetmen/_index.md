@@ -38,8 +38,8 @@ tags: []
 multiplayermode: "competitive"
 language: EN
 genre: ["opg", "strategy", "map"]
-playtime: 45
-playercount: [2,3,4,5,6]
+playtime: 30
+playercount: [2,3,4]
 complexity: medium
 ages: everyone
 
@@ -59,7 +59,9 @@ Print and play!
 
 The rules are so simple, they're on the paper itself. (If you still want a reference or more clarification, check the [rules](rules) page.)
 
-{{% section-centered heading="Material" anchor="material" html="true" %}}
+{{% /section-centered %}}
+
+{{% section-centered heading="Board" anchor="board" html="true" %}}
 
 <p>Input your settings, press the button, and download the PDF with your unique world!</p>
 
@@ -67,17 +69,20 @@ The rules are so simple, they're on the paper itself. (If you still want a refer
 	{{< setting-hidden id="setting-gameTitle" text="Magnetmen" >}}
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the board mostly grayscale." >}}
   {{< setting-checkbox id="setting-includeRules" text="Include Rules?" checked="checked" remark="Only disable this if you know all the rules by heart." >}}
-  <!--- @TODO: probably some difficulty setting or advanced sets to include --->
+  {{< setting-enum id="setting-boardSize" text="Board Size?" values="small,regular,big,huge" valaskey="true" def="regular" remark="Increases or decreases the number of icons on the board; not page size." >}}
+  <h3>Which Magnetmen to include?</h3>
+  {{< setting-checkbox id="setting-sets-base" text="Base Set?" checked="checked" >}}
+  {{< setting-checkbox id="setting-sets-advanced" text="Advanced Set?" >}}
+  {{< setting-checkbox id="setting-sets-expert" text="Expert Set?" >}}
 {{< /boardgame-settings >}}
 
 <p class="settings-remark"><strong>Not working?</strong> Don't worry! At the "download" button you can find loads of premade boards I already generated for you. (Also, send me an email about what isn't working.)</p>
 
 {{% /section-centered %}}
 
-
 {{% section-centered heading="Credits" %}}
 
-The fonts used are **??** (headings) and **Pitagon Serif** (body). Both freely available. 
+The fonts used are **Vina Sans** (headings) and **Urbanist** (body). Both freely available from Google Fonts. 
 
 The Magnetmen were generated using DALL-E 3 image AI. If there's one thing those AIs can consistently do, it's combine physical resources (such as metal or wood) into coherent images of characters or poses! Everything else (assets, icons, rules, code, etcetera) is mine.
 

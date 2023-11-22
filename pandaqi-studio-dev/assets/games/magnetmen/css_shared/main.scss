@@ -1,0 +1,42 @@
+$header-font: "vina";
+$body-font: "urbanist";
+$base: "/magnetmen/assets/";
+$base-fonts: $base + "fonts/";
+
+$col1: #cef996;
+$col2: #b3ddf9;
+$col3: #ffdfc9;
+$col4: #ddceff;
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'Urbanist-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'Urbanist-Italic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'Urbanist-Black.woff2') format('woff2');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $header-font;
+    src: url($base-fonts + 'VinaSans-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+

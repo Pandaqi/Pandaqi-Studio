@@ -7,7 +7,7 @@ export default (textConfig:TextConfig) =>
         fontFamily: textConfig.font,
         fontStyle: textConfig.getStyleString(),
         align: textConfig.getAlignString(),
-        lineSpacing: textConfig.size * textConfig.lineHeight,
+        lineSpacing: textConfig.size * (textConfig.lineHeight - 1.0),
         wordWrap: {},
         color: "#FFFFFF",
         stroke: "#000000",

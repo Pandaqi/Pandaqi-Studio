@@ -59,6 +59,8 @@ Print and play!
 
 The rules are so simple, they're on the paper itself. (If you still want a reference or more clarification, check the [rules](rules) page.)
 
+{{% /section-centered %}}
+
 {{% section-centered heading="Material" anchor="material" html="true" %}}
 
 <p>Input your settings, press the button, and download the PDF with your unique world!</p>

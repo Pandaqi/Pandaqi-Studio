@@ -18,9 +18,7 @@ Material can be downloaded from [the website](https://pandaqi.com/the-mist).
 
 {{% rules-block id="objective" heading="Objective" icon="objective" icontint="blue" %}}
 
-The game ends as soon as the whole board has been explored _or_ nobody can move anymore. 
-
-Check the entire path that you walked. Sum the values of all squares: **highest score wins**!
+The game ends as soon as **nobody can move anymore**. Each player checks the entire path that they walked. Sum the values of all squares: **highest score wins**!
 
 {{% /rules-block %}}
 

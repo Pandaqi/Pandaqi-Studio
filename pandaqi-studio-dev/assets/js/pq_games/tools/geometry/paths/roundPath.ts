@@ -2,7 +2,7 @@ import Point from "../point"
 import bezierCurve from "./bezierCurve";
 
 // @SOURCE: https://www.gorillasun.de/blog/an-algorithm-for-polygons-with-rounded-corners/
-export default (points:Point[], radius:number|number[] = 10) : Point[] =>
+export default (points:Point[], radius:number|number[] = 10, close = false) : Point[] =>
 {
     if(!Array.isArray(radius)) { radius = [radius]; }
     
@@ -44,5 +44,7 @@ export default (points:Point[], radius:number|number[] = 10) : Point[] =>
         arr.push(corner);
     }
 
-    return arr.flat();
+    const result = arr.flat();
+    if(close) { result.push(result[0]); }
+    return result;
 }
