@@ -68,6 +68,8 @@ Three simple steps.
 	{{< setting-hidden id="setting-gameTitle" text="Hasty Accusations" >}}
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
   {{< setting-enum id="setting-cardSize" text="Card Size?" values="small,regular,huge" valaskey="true" def="regular" >}}
+  {{< setting-checkbox id="setting-includeCards" text="Include Cards?" checked="checked" remark="Generates the action cards with which you play." >}}
+  {{< setting-checkbox id="setting-includeCharacters" text="Include Characters?" checked="checked" remark="Generates material for all possible suspects." >}}
   {{< setting-enum id="setting-cardSet" text="Which set?" values="Base Game,Advanced Detective,Expert Investigator" keys="base,advanced,expert" def="base" >}}
 {{< /boardgame-settings >}}
 

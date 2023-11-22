@@ -1,0 +1,50 @@
+---
+type: "rules"
+---
+
+{{% rules-block id="setup" heading="Setup" icon="setup" icontint="pink" %}}
+
+Print a paper and grab some pens. Pick any start player.
+
+Each player invents their own unique symbol, and draws it in any square at the _edge_ of the board. (You can't start at the same location as somebody else.)
+
+@TODO: IMAGE EXAMPLE (inventing a symbol, where the entrances are, etcetera)
+
+{{% remark %}}
+Material can be downloaded from [the website](https://pandaqi.com/the-mist).
+{{% /remark %}}
+
+{{% /rules-block %}}
+
+{{% rules-block id="objective" heading="Objective" icon="objective" icontint="blue" %}}
+
+The game ends as soon as the whole board has been explored _or_ nobody can move anymore. 
+
+Check the entire path that you walked. Sum the values of all squares: **highest score wins**!
+
+{{% /rules-block %}}
+
+{{% rules-block id="gameplay" heading="Gameplay" icon="action" class="force-page-break-before" icontint="lightblue" %}}
+
+Take clockwise turns. On your turn, always do the same thing: **take one step**. 
+
+* On your current location, pick _one_ of its 4 icons to be the correct one. (Clearly cross out all the others.)
+* Then move from your current location to an adjacent, unvisited location. Draw your player icon in the circle of the new tile.
+
+You can always remember where you are now by finding the square that has your player icon, but also still shows all its icons.
+
+@TODO: IMAGE EXAMPLE
+
+That's it!
+
+The paper itself explains how each Square works and/or how it scores. You can also read the next section on the [Squares](#squares).
+
+{{% /rules-block %}}
+
+{{% rules-block id="squares" heading="Squares" class="force-page-break-before" icon="expansion" icontint="yellow" %}}
+
+Below is an overview of _all_ squares in the game.
+
+@TODO: Dynamically load table from dict.ts
+
+{{% /rules-block %}}

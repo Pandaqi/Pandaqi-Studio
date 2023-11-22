@@ -104,6 +104,7 @@ const CONFIG =
         {
             edgeOffsetBig: new Point(0.15, 0.15), // ~sizeUnit
             coinScaleBig: 0.235, // ~sizeUnit
+            coinScoreScale: 0.5, // ~coinDims
             fontSizeBig: 0.15, // ~sizeUnit
 
             edgeOffsetSmall: new Point(0.1, 0.1), // ~sizeUnit

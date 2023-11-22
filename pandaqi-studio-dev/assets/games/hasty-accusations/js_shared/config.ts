@@ -12,32 +12,55 @@ const CONFIG =
     // set through user config on page
     inkFriendly: false,
     cardSize: "regular",
+    includeCards: true,
+    includeCharacters: true,
     cardSet: "base", // base, advanced, expert
     
     fonts:
     {
-        heading: "puss",
-        body: "catcafe"
+        heading: "canoe",
+        body: "caslon"
     },
 
     // assets
-    assetsBase: "/nine-lives/assets/",
+    assetsBase: "/hasty-accusations/assets/",
     assets:
     {
-        puss:
+        canoe:
         {
-            path: "fonts/puss.woff2"
+            path: "fonts/DraggingCanoeRegular.woff2"
         },
 
-        catcafe:
+        caslon:
         {
-            path: "fonts/catcafe.woff2"
+            path: "fonts/LibreCaslonText-Regular.woff2"
+        },
+
+        base:
+        {
+            path: "base.webp",
+            frames: new Point(8,2),
+            cardSet: true
+        },
+
+        advanced:
+        {
+            path: "advanced.webp",
+            frames: new Point(8,2),
+            cardSet: true
+        },
+
+        expert:
+        {
+            path: "expert.webp",
+            frames: new Point(8,2),
+            cardSet: true
         },
 
         misc:
         {
             path: "misc.webp",
-            frames: new Point(10,1)
+            frames: new Point(8,1)
         },
     },
 

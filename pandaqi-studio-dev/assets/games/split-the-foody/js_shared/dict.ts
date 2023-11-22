@@ -5,7 +5,8 @@ interface PowerData
     label?: string,
     desc?: string,
     num?: number|string,
-    freq?: number
+    freq?: number,
+    score?: boolean, 
 }
 
 type PowerSet = Record<string, PowerData>;
@@ -45,16 +46,16 @@ const POWERS_APPETITE:PowerSet =
 
 const POWERS_COINS:PowerSet =
 {
-    sabre: { frame: 0, label: "Banana Sabre", desc: "Wildcard; any number you want it to be.", num: "?", freq: 5 },
-    spyglass: { frame: 1, label: "Soupy Spyglass", desc: "When received, you must SCORE this particular card.", num: -3, freq: 3 },
-    barrel: { frame: 2, label: "Basic Barrel", desc: "Worth as much as your lowest scoring card.", num: 2, freq: 3 },
-    compass: { frame: 3, label: "Confused Compass", desc: "Anytime you score, place 1 card at a wrong stack.", num: -1, freq: 4 },
-    pearl: { frame: 4, label: "Pirate Pearl", desc: "Flips all numbers on one stack of scoring cards (negative <-> positive)", num: 1, freq: 4 },
-    bottle: { frame: 5, label: "Ship in a Bottle", desc: "Worth as much as your number of negative scoring cards.", num: 0, freq: 3 },
-    diamond: { frame: 6, label: "Dazzling Diamond", desc: "Worth as much as your highest scoring card.", num: -2, freq: 3 },
-    coin: { frame: 7, label: "Chewy Coin", desc: "Each coin is worth the number of coins you score.", num: 4, freq: 5 },
-    artefact: { frame: 8, label: "Amulet Artefact", desc: "Only scores if you have the LEAST artefacts (of all artefact owners)", num: 5, freq: 5 },
-    hook: { frame: 9, label: "Hopeful Hook", desc: "Scores +6 if you have at least 3 Hooks; otherwise -12.", num: 6, freq: 5 },
+    sabre: { frame: 0, label: "Banana Sabre", desc: "Wildcard; any number you want it to be.", num: "?", freq: 5, score: true },
+    spyglass: { frame: 1, label: "Soupy Spyglass", desc: "When received, you must SCORE this particular card.", num: -3, freq: 3, score: true },
+    barrel: { frame: 2, label: "Basic Barrel", desc: "Worth as much as your lowest scoring card.", num: 2, freq: 3, score: true },
+    compass: { frame: 3, label: "Confused Compass", desc: "Anytime you score, place 1 card at a wrong stack.", num: -1, freq: 4, score: true },
+    pearl: { frame: 4, label: "Pirate Pearl", desc: "Flips all numbers on one stack of scoring cards (negative <-> positive)", num: 1, freq: 4, score: true },
+    bottle: { frame: 5, label: "Ship in a Bottle", desc: "Worth as much as your number of negative scoring cards.", num: 0, freq: 3, score: true },
+    diamond: { frame: 6, label: "Dazzling Diamond", desc: "Worth as much as your highest scoring card.", num: -2, freq: 3, score: true },
+    coin: { frame: 7, label: "Chewy Coin", desc: "Each coin is worth the number of coins you score.", num: 4, freq: 5, score: true },
+    artefact: { frame: 8, label: "Amulet Artefact", desc: "Only scores if you have the LEAST artefacts (of all artefact owners)", num: 5, freq: 5, score: true },
+    hook: { frame: 9, label: "Hungry Hook", desc: "Scores +6 if you have at least 3 Hooks; otherwise -12.", num: 6, freq: 5, score: true },
 }
 
 
@@ -70,7 +71,8 @@ const MISC =
 {
     coin: { frame: 0 },
     scroll: { frame: 1 },
-    rope: { frame: 2 }
+    rope: { frame: 2 },
+    coin_score: { frame: 3 }
 }
 
 export 

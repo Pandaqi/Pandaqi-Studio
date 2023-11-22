@@ -128,6 +128,8 @@ export default class Card
         const fillColor = vis.inkFriendly ? "#FFFFFF" : CONFIG.cards.corners.fillColor;
         const strokeColor = vis.inkFriendly ? "#111111" : CONFIG.cards.corners.strokeColor;
 
+        const isScoreAction = this.data.score == true;
+
         for(let i = 0; i < positionsBig.length; i++)
         {
             const isBig = i <= 1;
@@ -146,6 +148,21 @@ export default class Card
                 effects: vis.effects
             })
             await resCoin.toCanvas(ctx, op);
+
+            // places a scoring coin underneath the big numbers on cards
+            // with actions that only trigger while scoring
+            if(isBig && isScoreAction)
+            {
+                const scoreCoinDims = dims.clone().scale(CONFIG.cards.corners.coinScoreScale);
+                const opCoin = new LayoutOperation({
+                    frame: MISC.coin_score.frame,
+                    dims: scoreCoinDims,
+                    translate: pos.clone().move(new Point(0, 0.5*dims.y + 0.5*scoreCoinDims.y)),
+                    pivot: Point.CENTER,
+                    effects: vis.effects
+                })
+                await resCoin.toCanvas(ctx, opCoin);
+            }
             
             const strokeWidth = CONFIG.cards.corners.strokeWidth * fontSize;
             const tempTextConfig = textConfig.clone();

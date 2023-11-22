@@ -152,6 +152,8 @@ This one introduces cards that **score** in a special way.
 
 Their action isn't relevant while playing the game and cannot be used with the "Play" action. Instead, their action is permanent and triggers when it says so. (Usually it's a rule that determines their worth when scoring at the end of the game.)
 
+These cards have a **golden ("score") coin** underneath the numbers to remind you of this fact.
+
 Below are some clarifications in case of uncertainty about card powers.
 
 @TODO
