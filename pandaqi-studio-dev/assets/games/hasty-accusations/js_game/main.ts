@@ -12,8 +12,11 @@ export default class Generator
 {
     progressBar: ProgressBar;
     pdfBuilder: PdfBuilder;
-    gridMapper: GridMapper;
     resLoader: ResourceLoader;
+    gridMappers: {
+        cards: GridMapper,
+        suspects: GridMapper
+    }
 
     constructor()
     {
@@ -33,8 +36,9 @@ export default class Generator
     async start()
     {
         await this.loadAssets();
-        const cards = this.createCards();
-        await this.drawCards(cards);
+        const [cardsPlay, cardsSuspect] = this.createCards();
+        await this.drawCards("cards", cardsPlay);
+        await this.drawCards("suspects", cardsSuspect);
         await this.downloadPDF();
         this.progressBar.gotoNextPhase();
     }
@@ -58,32 +62,30 @@ export default class Generator
 
         const pdfBuilderConfig = { orientation: PageOrientation.PORTRAIT, debugWithoutFile: CONFIG.debugWithoutFile };
         const pdfBuilder = new PdfBuilder(pdfBuilderConfig);
-        this.pdfBuilder = pdfBuilder;
-
-        const dims = CONFIG.cards.dims[CONFIG.cardSize ?? "regular"];
-
-        const gridConfig = { pdfBuilder: pdfBuilder, dims: dims, dimsElement: CONFIG.cards.dimsElement };
-        const gridMapper = new GridMapper(gridConfig);
-        this.gridMapper = gridMapper;     
+        this.pdfBuilder = pdfBuilder;   
     }
 
-    createCards() : Card[]
+    createCards()
     {
         this.progressBar.gotoNextPhase();
 
         const cardPicker = new CardPicker();
         cardPicker.generate();
-        console.log(cardPicker.get());
-        return cardPicker.get();
+        return [cardPicker.getPlay(), cardPicker.getSuspect()];
     }
     
-    async drawCards(cards:Card[])
+    async drawCards(type:string, cards:Card[])
     {
-        if(CONFIG.debugOnlyGenerate) { return; }
+        console.log("Drawing cards of type: " + type);
+        console.log(cards); 
 
-        // merely caches some default values (such as bg patterns) for much faster generation
-        const visualizer = new Visualizer(this.resLoader, this.gridMapper.getMaxElementSize(), CONFIG.inkFriendly);
-        await visualizer.prepare();
+        if(CONFIG.debugOnlyGenerate) { return; }
+        
+        const dims = CONFIG[type].dims[CONFIG.cardSize ?? "regular"];
+        const gridConfig = { pdfBuilder: this.pdfBuilder, dims: dims, dimsElement: CONFIG.cards.dimsElement };
+        const gridMapper = new GridMapper(gridConfig);
+        this.gridMappers[type] = gridMapper;  
+        const visualizerPlay = new Visualizer(this.resLoader, gridMapper.getMaxElementSize(), CONFIG.inkFriendly);
 
         // cards handle drawing themselves
         const promises = [];
@@ -94,11 +96,11 @@ export default class Generator
             cardsOfType[card.type].push(card);
             if(CONFIG.debugSingleCard && cardsOfType[card.type].length > 1) { continue; }
 
-            promises.push(card.draw(visualizer));
+            promises.push(card.draw(visualizerPlay));
         }
 
         const canvases = await Promise.all(promises);
-        this.gridMapper.addElements(canvases.flat());
+        gridMapper.addElements(canvases.flat());
     }
 
     async downloadPDF()
@@ -107,8 +109,12 @@ export default class Generator
 
         this.progressBar.gotoNextPhase();
 
-        const images = await convertCanvasToImageMultiple(this.gridMapper.getCanvases());
+        const images = await convertCanvasToImageMultiple(this.gridMappers.cards.getCanvases());
         this.pdfBuilder.addImages(images);
+
+        const images2 = await convertCanvasToImageMultiple(this.gridMappers.suspects.getCanvases());
+        this.pdfBuilder.addImages(images2);
+
         const pdfConfig = { customFileName: CONFIG.fileName }
         this.pdfBuilder.downloadPDF(pdfConfig);
     }

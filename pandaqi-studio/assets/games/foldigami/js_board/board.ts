@@ -390,13 +390,13 @@ export default class Board
             let baseCol = CONFIG.board.grid.colorNeutral;
             if(c.hasType()) { baseCol = CONFIG.typeDict[c.getType()].bg; }
 
-            const baseColObject = new Color(baseCol);
+            let baseColObject = new Color(baseCol);
 
             const slightlyModifyColor = colorIndex == 1;
-            if(slightlyModifyColor) { baseColObject.lighten(CONFIG.board.grid.colorModifyPercentage); }
+            if(slightlyModifyColor) { baseColObject = baseColObject.lighten(CONFIG.board.grid.colorModifyPercentage); }
 
             const alpha = CONFIG.board.grid.colorBackgroundAlpha;
-            graphics.fillStyle(baseColObject.toHEXNumber, alpha);
+            graphics.fillStyle(baseColObject.toHEXNumber(), alpha);
 
             const rect = this.getRectForCell(c);
             graphics.fillRectShape(rect);

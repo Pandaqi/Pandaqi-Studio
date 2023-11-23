@@ -1,3 +1,6 @@
+import Point from "js/pq_games/tools/geometry/point";
+import Bounds from "js/pq_games/tools/numbers/bounds";
+
 export default 
 {
     inkFriendly: false,
@@ -10,13 +13,13 @@ export default
     },
 
     board: {
-        dims: { x: 8, y: 6 },
+        dims: new Point(8, 6),
         resolutionPerCell: 5,
         maxGridLineVariation: 0.1,
 
         useWobblyLines: true,
         smoothingResolution: 8,
-        outerMarginFactor: { x: 0.05, y: 0.05 }, // empty space around the board, fraction of total paper size
+        outerMarginFactor: new Point(0.05, 0.05), // empty space around the board, fraction of total paper size
         grid: {
             lines: {
                 width: 0.05, // fraction of CellSizeUnit
@@ -58,26 +61,26 @@ export default
 
     types: {
         globalMaxPerType: 0.225, // percentage of total cells, NO type can have more than this 
-        ingredientBoundsBaseGame: { min: 4, max: 6 },
-        ingredientBoundsWithMachines: { min: 3, max: 4 },
-        machineBounds: { min: 2, max: 4 },
+        ingredientBoundsBaseGame: new Bounds(4, 6),
+        ingredientBoundsWithMachines: new Bounds(3, 4),
+        machineBounds: new Bounds(2, 4),
         numPlaced: {
-            machine: { min: 0.1, max: 0.3 },
-            money: { min: 0.135, max: 0.215 }
+            machine: new Bounds(0.1, 0.3),
+            money: new Bounds(0.135, 0.215)
         },
 
-        moneyTypeBounds: { min: 0.25, max: 0.5 }, // what percentage of all types should be bought for MONEY
-        moneyPercentagePayable: { min: 0.5, max: 0.75 }, // what percentage of TOTAL money is available as cells on the board
+        moneyTypeBounds: new Bounds(0.25, 0.5), // what percentage of all types should be bought for MONEY
+        moneyPercentagePayable: new Bounds(0.5, 0.75), // what percentage of TOTAL money is available as cells on the board
         maxPower: 3, // so, 0-2
         maxMoney: 7,
         maxValueForMoneyCell: 5, // should be lower than maxMoney, otherwise you can buy anything with ONE square,
-        fixedFingerBounds: { min: 0.25, max: 0.5 },
+        fixedFingerBounds: new Bounds(0.25, 0.5),
         sheetData: { frameWidth: 256, frameHeight: 256 }
     },
 
     recipes: {
-        bounds: { min: 3, max: 5 },
-        recipeLength: { min: 2, max: 4 },
+        bounds: new Bounds(3, 5),
+        recipeLength: new Bounds(2, 4),
         maxScoreMostValuableIngredient: 5,
         forbiddenRecipeProb: 0.3, // you are PENALIZED for getting this recipe (with inverted score)
         

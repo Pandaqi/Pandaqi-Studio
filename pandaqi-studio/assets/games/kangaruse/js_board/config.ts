@@ -1,3 +1,6 @@
+import Point from "js/pq_games/tools/geometry/point";
+import Bounds from "js/pq_games/tools/numbers/bounds";
+
 export default {
     mainFont: "Mail Ray Stuff",
     bodyFont: "Poppins",
@@ -12,7 +15,7 @@ export default {
     boardSize: "regular", // tiny, small, regular, large, huge
     simplifiedIcons: false,
 
-    negativeScoreBounds: { min: 0.05, max: 0.2 }, // relative to total number of score cells
+    negativeScoreBounds: new Bounds(0.05, 0.2), // relative to total number of score cells
     allowNegativePoints: true,
 
     cellTexture: "cell_types", // changed to inkfriendly version if needed
@@ -86,22 +89,22 @@ export default {
         },
 
         dimsPerSize: {
-            tiny: { x: 6, y: 5 },
-            small: { x: 8, y: 6 },
-            regular: { x: 12, y: 8 },
-            large: { x: 14, y: 10 },
-            huge: { x: 16, y: 12 }
+            tiny: new Point(6, 5),
+            small: new Point(8, 6),
+            regular: new Point(12, 8),
+            large: new Point(14, 10),
+            huge: new Point(16, 12)
         },
 
         holes: {
             enable: true,
             percentageOfBoard: 0.0866,
-            sizeBounds: { min: 1, max: 4 }
+            sizeBounds: new Bounds(1, 4)
         },
         rivers: {
             enable: true,
-            percentageBounds: { min: 0.125, max: 0.2 },
-            sizeBounds: { min: 0.2, max: 0.5 }, // relative to longest side of grid
+            percentageBounds: new Bounds(0.125, 0.2),
+            sizeBounds: new Bounds(0.2, 0.5), // relative to longest side of grid
             lineWidth: 0.1, // relative to cell size
             color: 0xBBAAFF,
             colorInkfriendly: 0x2211FF,
@@ -109,7 +112,7 @@ export default {
         },
         numbers: {
             axis: "column",
-            bounds: { min: 1, max: 4 },
+            bounds: new Bounds(1, 4),
             offsetFromGrid: 0.25,
             scaleFactor: 0.375,
             textConfig: { 
@@ -125,7 +128,7 @@ export default {
             offsetFromGrid: 0.275,
             scaleFactor: 0.4
         },
-        outerMarginFactor: { x: 0.08, y: 0.08 }, // empty space around the board, fraction of total paper size
+        outerMarginFactor: new Point(0.08, 0.08), // empty space around the board, fraction of total paper size
         grid: {
             lineWidth: 0.05, // fraction of CellSizeUnit
             lineColor: 0xFFFFFF,
@@ -136,8 +139,8 @@ export default {
     types: {
         sheetData: { frameWidth: 256, frameHeight: 256 },
         iconScale: 0.8,
-        numUniqueTypes: { min: 5, max: 7 },
-        scoreBounds: { min: 30, max: 50 }, // when the regular "score cell" is added, how high should the summed score numbers be from all those cells?
+        numUniqueTypes: new Bounds(5, 7),
+        scoreBounds: new Bounds(30, 50), // when the regular "score cell" is added, how high should the summed score numbers be from all those cells?
         textScaleFactor: 0.35,
         textConfig: { 
             fontFamily: 'Mail Ray Stuff',
