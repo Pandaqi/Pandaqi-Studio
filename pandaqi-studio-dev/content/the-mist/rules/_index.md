@@ -41,6 +41,10 @@ The paper itself explains how each Square works and/or how it scores. You can al
 
 {{% rules-block id="squares" heading="Squares" class="force-page-break-before" icon="expansion" icontint="yellow" %}}
 
+When squares talk about some type being "visible", it means exactly what you think. It doesn't matter whether the square is visited or not, as long as the icon _is showing_ (not crossed out), it's on the board.
+
+When squares talk about "destroying", it means crossing out **all** its icons. (So it represents nothing.) If a player is currently there, they don't die. Just leave them be---you can't die in this game.
+
 Below is an overview of _all_ squares in the game.
 
 @TODO: Dynamically load table from dict.ts

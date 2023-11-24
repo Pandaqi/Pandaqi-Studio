@@ -34,9 +34,9 @@ const BASE_SET:ActionSet =
 const ADVANCED_SET:ActionSet = 
 {
     astronaut: { frame: 0, label: "Astronaut", desc: "Worth +5 points. You may only grab this type ONCE.", type: ActionType.SCORE_PLUS, maxAbs: 3 }, // appears very infrequently to give players a sense of urgency---might not be the right play, but we'll see
-    doctor: { frame: 1, label: "Doctor", desc: "Worth +1 point. The Repel rule does NOT apply to this type.", type: ActionType.SCORE_PLUS, maxAbs: 8 },
+    doctor: { frame: 1, label: "Doctor", desc: "Worth +1 point. The Repel rule does NOT apply to this type until you have 3 (or more).", type: ActionType.SCORE_PLUS, maxAbs: 8 },
     firefighter: { frame: 2, label: "Firefighter", desc: "Worth -2 points, but you may pick 3 squares this turn.", type: ActionType.ACTION },
-    police: { frame: 3, label: "Police", desc: "Worth -2 points, but pick another square this turn while ignoring the Repel rule.", type: ActionType.ACTION },
+    police: { frame: 3, label: "Police", desc: "Worth -2 points. Pick another square this turn while ignoring the Repel rule.", type: ActionType.ACTION },
     baker: { frame: 4, label: "Baker", desc: "Worth +5 points if you have 3 (or more), otherwise -15.", type: ActionType.SCORE_BOTH, minAbs: 5, maxAbs: 14 },
     judge: { frame: 5, label: "Judge", desc: "Worth +3 points if you have only ONE, otherwise -3.", type: ActionType.SCORE_BOTH, minAbs: 6 },
     king: { frame: 6, label: "King", desc: "Worth +12 points. Once taken, however, you never take another turn.", type: ActionType.SCORE_PLUS, maxAbs: 3 }, // only appears VERY infrequently, of course
@@ -44,9 +44,6 @@ const ADVANCED_SET:ActionSet =
 }
 
 
-// Options: (architect), (tailor), queen (too similar king), flycatcher (too out-there)
-// Options: cat, dog, dragon, gnome
-// Options: student, gardener
 
 const EXPERT_SET:ActionSet = 
 {
@@ -57,7 +54,7 @@ const EXPERT_SET:ActionSet =
     actress: { frame: 4, label: "Actress", desc: "Worth +5 points if both main diagonals of the board are completely crossed out, otherwise -5", type: ActionType.SCORE_BOTH, maxAbs: 5 },
     singer: { frame: 5, label: "Singer", desc: "Worth -6 points. Once crossed out, nobody may pick an adjacent square.", type: ActionType.SCORE_MIN, maxAbs: 3, prob: 0.75 }, // low max, otherwise it locks the board way too much
     taxi_driver: { frame: 6, label: "Taxi Driver", desc: "Worth -3 points, but you may remove up to 3 icons from any inventory.", type: ActionType.ACTION, maxAbs: 4, prob: 0.75 }, // low max, otherwise too powerful
-    pilot: { frame: 7, label: "Pilot", desc: "Worth -2 points, but you may pick any square in the same row/column (ignoring all other rules).", type: ActionType.ACTION, maxAbs: 7, prob: 1.33 },
+    pilot: { frame: 7, label: "Pilot", desc: "Worth -2 points. Pick another square in the same row/column (ignoring all other rules).", type: ActionType.ACTION, maxAbs: 7, prob: 1.33 },
 }
 
 

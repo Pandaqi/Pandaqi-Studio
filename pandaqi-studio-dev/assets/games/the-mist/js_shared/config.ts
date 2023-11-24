@@ -1,12 +1,12 @@
 import Point from "js/pq_games/tools/geometry/point"
 import Bounds from "js/pq_games/tools/numbers/bounds"
+import { ActionType } from "./dict"
 
 const CONFIG = 
 {
-    configKey: "magnetmenConfig",
-    fileName: "[Board] Magnetmen",
+    configKey: "theMistConfig",
+    fileName: "[Board] The Mist",
     resLoader: null,
-    useWEBGL: false,
     allTypes: {},
 
     // all debugging toggles
@@ -18,7 +18,7 @@ const CONFIG =
     // set through user config on page
     inkFriendly: false,
     includeRules: true,
-    boardSize: "regular", // small, regular, big, huge
+    boardSize: "regular", // tiny, small, regular, big, huge
     sets:
     {
         base: true,
@@ -28,23 +28,23 @@ const CONFIG =
     
     fonts:
     {
-        heading: "vina",
-        body: "urbanist"
+        heading: "adventure",
+        body: "inika"
     },
 
     // assets
-    assetsBase: "/magnetmen/assets/",
+    assetsBase: "/the-mist/assets/",
     assets:
     {
-        vina:
+        adventure:
         {
-            path: "fonts/VinaSans-Regular.woff2",
+            path: "fonts/AdventureScript.woff2",
             set: false
         },
 
-        urbanist:
+        inika:
         {
-            path: "fonts/Urbanist-Regular.woff2",
+            path: "fonts/Inika.woff2",
             set: false
         },
 
@@ -52,7 +52,7 @@ const CONFIG =
         misc:
         {
             path: "misc.webp",
-            frames: new Point(8,1),
+            frames: new Point(4,1),
             set: false
         },
 
@@ -69,23 +69,9 @@ const CONFIG =
             set: true
         },
 
-        base_simplified:
-        {
-            path: "base_simplified.webp",
-            frames: new Point(8,1),
-            set: true
-        },
-
         advanced:
         {
             path: "advanced.webp",
-            frames: new Point(8,1),
-            set: true
-        },
-
-        advanced_simplified:
-        {
-            path: "advanced_simplified.webp",
             frames: new Point(8,1),
             set: true
         },
@@ -96,29 +82,27 @@ const CONFIG =
             frames: new Point(8,1),
             set: true
         },
-
-        expert_simplified:
-        {
-            path: "expert_simplified.webp",
-            frames: new Point(8,1),
-            set: true
-        },
     },
 
     // how generation/balancing happens
     gen:
     {
         dims: {
-            small: new Point(6,6),
-            regular: new Point(8,8),
-            big: new Point(10,9),
-            huge: new Point(11,11)
+            tiny: new Point(5,5),
+            small: new Point(7,7),
+            regular: new Point(9,9),
+            big: new Point(11,11),
+            huge: new Point(13,13)
         },
 
-        // two requirements for this
-        // => it should FIT in the sidebar
-        // => the number of slots (in player inventory) should be low enough to FORCE many types to be used twice or thrice during the game.
-        numUniqueTypes: new Bounds(5,7)
+        typeTemplate: [ActionType.SCORE, ActionType.MOVE, ActionType.STATE, ActionType.TERRA],
+        numUniqueTypes: new Bounds(6,9),
+        numIconsPerCell: {
+            1: new Bounds(0, 0.05),
+            2: new Bounds(0.05, 0.15),
+            3: new Bounds(0.1, 0.3)
+        },
+        defNumIconsPerCell: 4
     },
 
     // how to draw stuff
@@ -146,21 +130,11 @@ const CONFIG =
             strokeWidth: 0.03, // ~cellSizeUnit
             iconSize: 0.75, // ~cellSizeUnit
             bgColorLightness: 97,
-            bgColorDarken: 9
-        },
+            bgColorDarken: 9,
 
-        inventories:
-        {
-            height: 0.05, // ~boardSizeUnit
-            strokeWidth: 0.03, // ~cellSizeUnit
-            numSlots: {
-                small: 9, 
-                regular: 14,
-                big: 18,
-                huge: 20
-            },
-            extraMargin: 0.0175, // ~pageSizeUnit
-        }
+            dotRadius: 0.33, // ~cellSizeUnit
+            iconOffsetFromCenter: 0.66, // ~cellSizeUnit
+        },
     }
 }
 

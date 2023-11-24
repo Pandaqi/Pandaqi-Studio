@@ -1,7 +1,7 @@
 import Point from "js/pq_games/tools/geometry/point";
 import BoardState from "./boardState";
 import CONFIG from "../js_shared/config";
-import { rectToPhaserObject } from "js/pq_games/phaser/shapeToPhaserObject";
+import { circleToPhaserObject, rectToPhaserObject } from "js/pq_games/phaser/shapeToPhaserObject";
 import Rectangle from "js/pq_games/tools/geometry/rectangle";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import imageToPhaser from "js/pq_games/phaser/imageToPhaser";
@@ -13,6 +13,9 @@ import RectangleRounded from "js/pq_games/tools/geometry/rectangleRounded";
 import shapeToPhaser from "js/pq_games/phaser/shapeToPhaser";
 import GrayScaleEffect from "js/pq_games/layout/effects/grayScaleEffect";
 import Color from "js/pq_games/layout/color/color";
+import Circle from "js/pq_games/tools/geometry/circle";
+import rangeInteger from "js/pq_games/tools/random/rangeInteger";
+import ColorLike from "js/pq_games/layout/color/colorLike";
 
 // Takes in a BoardState, draws it
 export default class BoardDraw
@@ -32,16 +35,17 @@ export default class BoardDraw
     cellSizeHalf: Point;
     cellSizeUnit: number;
     fullSize: Point;
+    showTypeMetadata: boolean;
 
     draw(game:any, bs:BoardState)
     {
-        this.prepareDimensions(game, bs);
+        this.prepare(game, bs);
         this.drawBackground(game, bs);
         this.drawBoard(game, bs);
         this.drawSidebar(game, bs);
     }
 
-    prepareDimensions(game:any, bs:BoardState)
+    prepare(game:any, bs:BoardState)
     {
         const fullSize = new Point(game.canvas.width, game.canvas.height);
         const fullSizeUnit = Math.min(fullSize.x, fullSize.y);
@@ -56,26 +60,25 @@ export default class BoardDraw
         const boardSize = new Point(innerSize.x - sidebarSize.x - extraSidebarMargin, innerSize.y);
         const boardSizeUnit = Math.min(boardSize.x, boardSize.y);
 
-        const inventoryHeight = CONFIG.draw.inventories.height*boardSize.y;
-        const extraInventoryMargin = CONFIG.draw.inventories.extraMargin*fullSizeUnit;
-        const inventorySize = new Point(boardSizeUnit - 2*inventoryHeight -2*extraInventoryMargin, inventoryHeight); // this is for horizontal variant; verticals are just flipped = rotated
-        const inventoryMargin = new Point(inventorySize.y + extraInventoryMargin)
-        const gridSize = boardSize.clone().sub(inventoryMargin.clone().scale(2));
-
         this.fullSize = fullSize;
         this.sizeUnit = fullSizeUnit;
         this.originBoard = edgeMargin;
-        this.originGrid = this.originBoard.clone().move(inventoryMargin);
         this.originSidebar = new Point(this.originBoard.x + innerSize.x - sidebarSize.x, this.originBoard.y);
 
         this.boardSize = boardSize;
-        this.gridSize = gridSize;
-        this.inventorySize = inventorySize;
         this.sidebarSize = sidebarSize;
 
-        this.cellSize = gridSize.clone().div(bs.dims);
+        this.cellSize = boardSize.clone().div(bs.dims);
         this.cellSizeHalf = this.cellSize.clone().scale(0.5);
         this.cellSizeUnit = Math.min(this.cellSize.x, this.cellSize.y);
+
+        let requiresMetadata = false;
+        for(const type of bs.uniqueTypes)
+        {
+            if(CONFIG.allTypes[type].requiresMetadata) { requiresMetadata = true; break; }
+        }
+
+        this.showTypeMetadata = requiresMetadata;
     }
 
     drawBackground(game, bs)
@@ -96,52 +99,26 @@ export default class BoardDraw
 
     drawBoard(game:any, bs:BoardState)
     {
-
-        // draw the inventories
-        const invStrokeWidth = CONFIG.draw.inventories.strokeWidth * this.cellSizeUnit;
-        const inventoryCenters = [
-            new Point(this.originBoard.x + 0.5*this.boardSize.x, this.originBoard.y + 0.5*this.inventorySize.y),
-            new Point(this.originBoard.x + this.boardSize.x - 0.5*this.inventorySize.y, this.originBoard.y + 0.5 * this.boardSize.y),
-            new Point(this.originBoard.x + 0.5*this.boardSize.x, this.originBoard.y + this.boardSize.y - 0.5*this.inventorySize.y),
-            new Point(this.originBoard.x + 0.5 * this.inventorySize.y, this.originBoard.y + 0.5*this.boardSize.y),
-        ];
-
-        const numInventorySlots = CONFIG.draw.inventories.numSlots[CONFIG.boardSize];
-        const slotDims = new Point(this.inventorySize.x / numInventorySlots, this.inventorySize.y);
-        for(let i = 0; i < 4; i++)
-        {
-            const inventoryDir = (i == 0 || i == 2) ? Point.RIGHT : Point.DOWN;
-            const slotDimsTemp = (i == 0 || i == 2) ? slotDims : new Point(slotDims.y, slotDims.x);
-            const positions = getPositionsCenteredAround({
-                pos: inventoryCenters[i],
-                num: numInventorySlots,
-                dims: slotDimsTemp,
-                dir: inventoryDir
-            })
-
-            for(let pos of positions)
-            {
-                const rect = new Rectangle({ center: new Point(), extents: slotDimsTemp });
-                const rectOp = new LayoutOperation({
-                    translate: pos,
-                    fill: "#FFFFFF",
-                    stroke: "#000000",
-                    strokeWidth: invStrokeWidth,
-                    pivot: Point.CENTER
-                })
-                rectToPhaserObject(rect, rectOp, game);
-            }
-        }
-
         const bgColorLightness = CONFIG.draw.cells.bgColorLightness;
         const bgColorDarken = CONFIG.draw.cells.bgColorDarken;
         const bgColorSaturation = CONFIG.inkFriendly ? 0 : 100;
         const bgColor = new Color(Math.random()*360, bgColorSaturation, bgColorLightness);
 
-        // for each cell, simply draw its rectangle (boundaries/cell) and its icon
+        const dotRadius = CONFIG.draw.cells.dotRadius * this.cellSizeUnit;
+        const iconDims = new Point(CONFIG.draw.cells.iconSize * this.cellSizeUnit);
+        const iconOffset = CONFIG.draw.cells.iconOffsetFromCenter * this.cellSizeUnit;
+        const positions = [
+            Point.DOWN.clone().scale(iconOffset),
+            Point.LEFT.clone().scale(iconOffset),
+            Point.UP.clone().scale(iconOffset),
+            Point.RIGHT.clone().scale(iconOffset)
+        ];
+
+        // for each cell, 
         const cellStrokeWidth = CONFIG.draw.cells.strokeWidth * this.cellSizeUnit;
         for(const cell of bs.cells)
         {
+            // - draw its rectangle
             const pos = this.convertGridPosToRealPos(cell.pos);
             const posCenter = pos.clone().add(this.cellSizeHalf);
 
@@ -159,22 +136,31 @@ export default class BoardDraw
             })
             rectToPhaserObject(rect, rectOp, game);
 
-            const iconData = CONFIG.allTypes[cell.type];
-            const icon = CONFIG.resLoader.getResource(iconData.textureKey);
-            const iconDims = new Point(CONFIG.draw.cells.iconSize * this.cellSizeUnit);
-            const iconOp = new LayoutOperation({
-                frame: iconData.frame,
-                translate: posCenter,
-                dims: iconDims,
-                pivot: Point.CENTER
-            })
-            const sprite = imageToPhaser(icon, iconOp, game);
-
-            if(CONFIG.inkFriendly && CONFIG.useWEBGL)
+            // - draw the writable dot in the center
+            const circ = new Circle({ radius: dotRadius });
+            const circOp = rectOp.clone();
+            circOp.fill = new ColorLike("#FFFFFF");
+            circleToPhaserObject(circ, rectOp, game);
+        
+            // - draw its 4 icons
+            let counter = rangeInteger(0,3);
+            for(const iconName of cell.icons)
             {
-                const effect = sprite.postFX.addColorMatrix();
-                effect.grayscale();
+                const iconData = CONFIG.allTypes[iconName];
+                const icon = CONFIG.resLoader.getResource(iconData.textureKey);
+                const rotation = counter * 0.5 * Math.PI;
+                const pos = posCenter.clone().move(positions[counter]);
+                const iconOp = new LayoutOperation({
+                    frame: iconData.frame,
+                    translate: pos,
+                    dims: iconDims,
+                    pivot: Point.CENTER,
+                    rotation: rotation
+                })
+                imageToPhaser(icon, iconOp, game);
+                counter = (counter + 1) % 4;
             }
+            
         }
     }
 
@@ -191,13 +177,7 @@ export default class BoardDraw
             dims: tutDims
         })
         const sprite = imageToPhaser(tut, tutOp, game);
-        
-        if(CONFIG.inkFriendly && CONFIG.useWEBGL)
-        {
-            const effect = sprite.postFX.addColorMatrix();
-            effect.grayscale();
-        }
-        
+
 
         // specific types explained below that
         const uniqueTypes = bs.uniqueTypes; // @TODO: calculate automatically
@@ -208,7 +188,6 @@ export default class BoardDraw
         const iconDims = new Point(maxYSpacePerItem - yPadding);
         const iconDimsWithPadding = iconDims.clone().scale(CONFIG.draw.sidebar.iconScale);
         const xPadding = CONFIG.draw.sidebar.iconPadding * this.sidebarSize.x;
-        const iconSimpleDims = iconDims.clone().scale(CONFIG.draw.sidebar.iconSimpleScale);
         const entryDims = new Point(this.sidebarSize.x, iconDims.y);
         const textDims = entryDims.clone().sub(new Point(iconDims.x + 2*xPadding, 0));
 
@@ -250,22 +229,6 @@ export default class BoardDraw
             shapeToPhaser(rect, rectOp, graphicsMain);
             imageToPhaser(icon, iconOp, game);
 
-            // draw the simplified icon on top
-            const graphicsSimplified = game.add.graphics();
-
-            const iconSimple = CONFIG.resLoader.getResource(data.textureKey + "_simplified");
-            const iconSimplePos = iconPos.clone().move(new Point(iconDims).scale(-0.4));
-            const iconSimpleOp = new LayoutOperation({
-                frame: data.frame,
-                translate: iconSimplePos,
-                dims: iconSimpleDims,
-                pivot: Point.CENTER,
-            })
-
-            const rectSimple = new RectangleRounded({ center: iconSimplePos, extents: iconSimpleDims.clone().scale(1.1), radius: borderRadius });
-            shapeToPhaser(rectSimple, rectOp, graphicsSimplified);
-            imageToPhaser(iconSimple, iconSimpleOp, game);
-
             // add the text explaining how it scores
             const text = data.desc;
             const textRes = new ResourceText({ text: text, textConfig: textConfig });
@@ -285,6 +248,12 @@ export default class BoardDraw
             const rectText = new RectangleRounded({ center: rectCenter, extents: textDims, radius: borderRadius });
             shapeToPhaser(rectText, rectOp, graphicsMain);
             textToPhaser(textRes, textOp, game);
+
+            // @TODO: show the type metadata (HAZARD/ITEM) in some way
+            if(this.showTypeMetadata)
+            {
+
+            }
 
             pos.y += iconDims.y + yPadding;
         }

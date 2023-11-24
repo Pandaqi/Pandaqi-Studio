@@ -14,6 +14,7 @@ export default class BalancedDictionaryPicker
     minOfProperties:propQuery[]
     maxOfProperties:propQuery[]
     template: string[]
+    templateProp: string
     numBounds: bounds;
 
     constructor(dict:Record<string,any> = {})
@@ -57,9 +58,10 @@ export default class BalancedDictionaryPicker
     // A template is a list of string (properties) that must be the first thing included
     // Example, I can set properties to "score" and "board" and "misc", 
     // then force ONE of each to be added in each game with template ["score", "board", "misc"]
-    setTemplate(t:string[])
+    setTemplate(t:string[], prop:string = null)
     {
         this.template = t;
+        this.templateProp = prop;
     }
 
     pickPossibleTypes(config:Record<string,any>, numBounds:Bounds)
@@ -72,6 +74,13 @@ export default class BalancedDictionaryPicker
         {
             if(this.typeRequirementsMet(config, data)) { continue; }
             delete tempDict[key];
+        }
+        
+        // check for blankly ("naively") required types with a simple "required: true" property, at the start
+        for(const [key,data] of Object.entries(tempDict))
+        {
+            if(!data.required) { continue; }
+            this.addPossibleType(tempPossible, tempDict, key);
         }
 
         // add elements with properties that should appear a MINIMUM of times
@@ -93,7 +102,14 @@ export default class BalancedDictionaryPicker
         // add elements according to a template (if set)
         for(const templateProp of this.template)
         {
-            const arr = this.getAllTypesWithProperty(tempDict, templateProp);
+            let arr : string[];
+
+            // we can check for specific VALUES of one property (given)
+            if(this.templateProp) { arr = this.getAllTypesWithPropertyValue(tempDict, this.templateProp, templateProp); }
+
+            // or we can check for the PROPERTY itself (existing is enough, value is irrelevant)
+            else { arr = this.getAllTypesWithProperty(tempDict, templateProp); }
+            
             if(arr.length <= 0) { continue; }
 
             const alreadyIncluded = tempPossible.filter(element => arr.includes(element)).length > 0;
@@ -128,6 +144,17 @@ export default class BalancedDictionaryPicker
             const data = dict[elem];
             if(!data[prop]) { continue; }
             arr.push(elem);
+        }
+        return arr;
+    }
+    
+    getAllTypesWithPropertyValue(dict: Record<string, any>, prop:string, val:any)
+    {
+        const arr = [];
+        for(const [key,data] of Object.entries(dict))
+        {
+            if(data[prop] != val) { continue; }
+            arr.push(key);
         }
         return arr;
     }
@@ -177,6 +204,7 @@ export default class BalancedDictionaryPicker
         delete dict[type];
         optionList.push(type);
         this.handleRequiredInclusions(optionList, dict, data);
+        this.handleRequiredExclusions(optionList, dict, data);
         this.handleMaxOfProperties(optionList, dict);
     }
 
@@ -235,8 +263,13 @@ export default class BalancedDictionaryPicker
         return true;
     }
 
-    // @TODO: also allow forbidden types/required EXCLUSIONS
-    // @TODO: also check for blankly required types with a simple "required: true" property, at the start
+
+    handleRequiredExclusions(optionList: any, dict:Record<string,any>, data:any)
+    {
+        if(!data.forbiddenTypes) { return; }
+        if(!Array.isArray(data.forbiddenTypes)) { data.forbiddenTypes = [data.forbiddenTypes]; }
+        this.removeTypesFromDictionary(data.forbiddenTypes, dict);
+    }
 
     handleRequiredInclusions(optionList: any, dict: any, data: { requiredTypes: any[]; })
     {

@@ -1,0 +1,36 @@
+$header-font: "adventure";
+$body-font: "inika";
+$base: "/the-mist/assets/";
+$base-fonts: $base + "fonts/";
+
+$col1: #cef996;
+$col2: #b3ddf9;
+$col3: #ffdfc9;
+$col4: #ddceff;
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'Inika-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'Inika.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+@font-face {
+    font-family: $header-font;
+    src: url($base-fonts + 'AdventureScript.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+
