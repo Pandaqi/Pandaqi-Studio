@@ -2,7 +2,7 @@
 import { CITY_NAMES, PLAYERCOUNT_TO_CITYCOUNT, PLAYER_COLORS, GOODS, DIFFICULTY_LEVELS } from "../js_shared/dict"
 import calculateRoute from "./pathfinder"
 import { noise } from "./perlin"
-import PandaqiPhaser from "js/pq_games/website/phaser"
+import OnPageVisualizer from "js/pq_games/website/onPageVisualizer"
 import { Scene, Geom } from "js/pq_games/phaser/phaser.esm"
 import Point from "js/pq_games/tools/geometry/point"
 
@@ -145,7 +145,7 @@ class BoardGeneration extends Scene
 
 		// convert board into image
 		const splitDims = this.cfg.splitBoard ? new Point(2,2) : null; 
-		PandaqiPhaser.convertCanvasToImage(this, { splitDims: splitDims });
+		OnPageVisualizer.convertCanvasToImage(this, { splitDims: splitDims });
 	}
 
 	generateBoard() {
@@ -1479,4 +1479,4 @@ class BoardGeneration extends Scene
 	}
 }
 
-PandaqiPhaser.linkTo({ scene: BoardGeneration, key: sceneKey });
+OnPageVisualizer.linkTo({ scene: BoardGeneration, key: sceneKey, backend: "phaser" });

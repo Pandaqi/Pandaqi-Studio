@@ -20,7 +20,7 @@ The game ends when all players are out of tiles. Highest score wins!
 
 {{% rules-block id="action_play" heading="Gameplay" icon="action" class="force-page-break-before" icontint="purple" %}}
 
-Take clockwise turns. On your turn, either PLAY or CHANGE.
+Take clockwise turns. On your turn, either PLAY or CHANGE, then draw 1 tile from the deck.
 
 @TODO: INTERACTIVE EXAMPLE? (Does that even make sense?)
 
@@ -37,18 +37,16 @@ In other words, there can be no path between two different Sheeples with no fenc
 
 If you connect multiple meadows with your tile, a [conflict](#conflict) happens.
 
-Finally, draw a tile from the deck.
-
 @TODO: IMAGE EXAMPLE
 
 {{% /rules-block %}}
 
 {{% rules-block heading="Change" %}}
 
-Discard a tile from your hand to **rotate** an existing tile.
+Discard **2 tiles** from your hand to **rotate** an existing tile.
 * You may orient the tile however you like.
 * You **can't** rotate a tile that has a double fence on any side.
-* You **can't** take the change action anymore once a player has run out of tiles.
+* You **can't** take the change action anymore once any player has run out of tiles.
 
 If this rotation connected two meadows with different Sheeple inside, a [conflict](#conflict) happens.
 
@@ -62,11 +60,13 @@ Yes, this permanently reduces your hand size by 1.
 
 {{% rules-block heading="Conflict" id="conflict" %}}
 
-Count the size of each meadow on different sides of the tile. (Exclude the tile itself.)
+Count the size of each meadow on different sides of the tile. Exclude the tile that caused the conflict itself.
 
 The _biggest_ meadow wins. All Sheeple inside the losing meadow(s) are turned _facedown_.
 * If tied, count the number of Sheeple: highest wins. 
-* If still tied, you **cannot take this action**. (There can never be a single meadow claimed by multiple players.)
+* If still tied, you **cannot take this action**. 
+
+There can never be a single meadow claimed by multiple players. If the tile that caused the conflict contains a Sheeple of the wrong color, it's also turned facedown.
 
 @TODO: IMAGE EXAMPLE
 
@@ -76,9 +76,9 @@ The _biggest_ meadow wins. All Sheeple inside the losing meadow(s) are turned _f
 
 {{% rules-block id="scoring" heading="Scoring" icon="score" class="force-page-break-before" icontint="purple" %}}
 
-Any of your sheep that are not **in an enclosed meadow** ( = fences on all sides), score nothing. Facedown tiles should be considered as "closed on all sides".
+Any of your Sheeple that are **not in an enclosed meadow** ( = fences on all sides), **score nothing**. Facedown tiles should be considered as "closed on all sides".
 
-For every sheep that remains, add the score of its meadow.
+For every Sheeple that remains, add the score of its meadow.
 * Each tile inside the meadow is +1 point.
 * Each _neutral sheep_ inside the meadow is also +1 point.
 
@@ -115,7 +115,7 @@ Additionally, the **change** action also allows **moving** an existing tile (ins
 
 {{% /rules-block %}}
 
-{{% rules-block heading="" %}}
+{{% rules-block heading="Personal Piles" %}}
 
 This is a _variant_ you can play with the same material.
 

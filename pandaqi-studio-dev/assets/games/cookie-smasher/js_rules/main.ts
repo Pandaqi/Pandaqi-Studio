@@ -8,6 +8,7 @@ import PowerChecker from "../js_shared/powerChecker";
 import getWeighted from "js/pq_games/tools/random/getWeighted";
 import createRandomSet from "../js_shared/createRandomSet";
 import { getIndexOfProp } from "../js_shared/queries";
+import RulesSettings, { SettingsType } from "js/pq_rulebook/examples/rulesSettings";
 
 const CONFIG =
 {
@@ -105,7 +106,7 @@ class Round
 
 const determineSet = () =>
 {
-    let setName = CONFIG.debugSpecificSet ?? getWeighted(CONFIG.setsWeighted);
+    let setName = CONFIG.debugSpecificSet ?? settings.get("set");
     let set : Record<string, CardData> = SETS[setName];
     if(setName == "random") { set = createRandomSet(); }
     CONFIG.possibleCards = set;
@@ -232,5 +233,12 @@ async function generate()
 const e = new InteractiveExample({ id: "turn" });
 e.setButtonText("Give me an example turn!");
 e.setGenerationCallback(generate);
+
+const settings = new RulesSettings();
+settings.add({ id: "set", type: SettingsType.ENUM, values: ["starter", "beginner", "amateur", "advanced", "expert", "random"], label: "Card Set?" });
+e.attachSettings(settings);
+
+console.log(settings);
+console.log(settings.get("set"));
 
 const o = e.getOutputBuilder();

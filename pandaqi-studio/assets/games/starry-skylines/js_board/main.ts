@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { PLANET_MAP } from "../js_shared/dict"
 import configurator from "./configurator"
-import PandaqiPhaser from "js/pq_games/website/phaser"
+import OnPageVisualizer from "js/pq_games/website/onPageVisualizer"
 import { Scene, Geom } from "js/pq_games/phaser/phaser.esm"
 
 const sceneKey = "boardGeneration"
@@ -55,7 +55,7 @@ class BoardGeneration extends Scene
 		this.setupConfig(userConfig);
 		configurator.initializeDictionaries(this.cfg);
 		this.generateBoard();
-		PandaqiPhaser.convertCanvasToImage(this);
+		OnPageVisualizer.convertCanvasToImage(this);
 	}
 
 	setupConfig(userConfig:Record<string,any>)
@@ -424,4 +424,4 @@ class BoardGeneration extends Scene
 	}
 }
 
-PandaqiPhaser.linkTo({ scene: BoardGeneration, key: sceneKey });
+OnPageVisualizer.linkTo({ scene: BoardGeneration, key: sceneKey, backend: "phaser" });

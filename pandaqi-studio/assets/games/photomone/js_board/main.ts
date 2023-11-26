@@ -1,5 +1,5 @@
 // @ts-nocheck
-import PandaqiPhaser from "js/pq_games/website/phaser"
+import OnPageVisualizer from "js/pq_games/website/onPageVisualizer"
 import { Scene } from "js/pq_games/phaser/phaser.esm"
 import Map from "../js_shared/map"
 import { MapVisualizer, VisResult } from "../js_shared/mapVisualizer"
@@ -34,7 +34,7 @@ class BoardGeneration extends Scene
         this.setup(userConfig)
         await this.generate();
         this.visualize();
-        if(this.cfg.createImage) { PandaqiPhaser.convertCanvasToImage(this); }
+        if(this.cfg.createImage) { OnPageVisualizer.convertCanvasToImage(this); }
     }
 
     smoothPoints()
@@ -199,5 +199,5 @@ class BoardGeneration extends Scene
     }
 }
 
-PandaqiPhaser.linkTo({ scene: BoardGeneration, key: sceneKey });
+OnPageVisualizer.linkTo({ scene: BoardGeneration, key: sceneKey, backend: "phaser" });
 

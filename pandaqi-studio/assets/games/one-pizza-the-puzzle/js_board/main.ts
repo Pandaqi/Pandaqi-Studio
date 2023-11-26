@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { TRAFFIC_SIGNS, SPECIAL_INGREDIENTS, SPECIAL_BUILDINGS } from "./dictionary"
-import PandaqiPhaser from "js/pq_games/website/phaser"
+import OnPageVisualizer from "js/pq_games/website/onPageVisualizer"
 import { Scene, Geom } from "js/pq_games/phaser/phaser.esm"
 import Random from "js/pq_games/tools/random/main"
 
@@ -151,7 +151,7 @@ class BoardGeneration extends Scene
 
 		this.generateBoard();
 
-		PandaqiPhaser.convertCanvasToImage(this);
+		OnPageVisualizer.convertCanvasToImage(this);
 	}
 
 	generateBoard() {
@@ -2547,4 +2547,4 @@ class BoardGeneration extends Scene
 	}
 }
 
-PandaqiPhaser.linkTo({ scene: BoardGeneration, key: sceneKey });
+OnPageVisualizer.linkTo({ scene: BoardGeneration, key: sceneKey, backend: "phaser" });

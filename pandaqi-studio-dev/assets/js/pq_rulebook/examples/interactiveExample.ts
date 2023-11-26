@@ -1,5 +1,6 @@
 import OutputBuilder from "./outputBuilder"
 import Random from "js/pq_games/tools/random/main"
+import RulesSettings from "./rulesSettings";
 
 export default class InteractiveExample 
 {
@@ -115,4 +116,11 @@ export default class InteractiveExample
     {
         return Random.shuffle(list).slice(0, num);
     }
+
+    
+    attachSettings(s:RulesSettings)
+    {
+        this.uiNode.parentNode.insertBefore(s.getContainer(), this.uiNode);
+    }
+
 }

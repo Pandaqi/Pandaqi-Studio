@@ -1,5 +1,5 @@
 // @ts-nocheck
-import PandaqiPhaser from "js/pq_games/website/phaser"
+import OnPageVisualizer from "js/pq_games/website/onPageVisualizer"
 import Random from "js/pq_games/tools/random/main"
 import { Scene, Geom } from "js/pq_games/phaser/phaser.esm"
 import {
@@ -959,7 +959,7 @@ class BoardGeneration extends Scene
 		// finally, visualize the whole thing we created
 		// and convert to a static image
 		this.visualizeGame();
-		PandaqiPhaser.convertCanvasToImage(this);
+		OnPageVisualizer.convertCanvasToImage(this);
 	}
 
 	orderEdgesByAngle() {
@@ -2355,8 +2355,8 @@ class BoardGeneration extends Scene
 
 		// call convertCanvasToImage() again => it should add this image as well, then destroy the whole game
 		this.createdSecretBoard = true;
-		PandaqiPhaser.convertCanvasToImage(this);
+		OnPageVisualizer.convertCanvasToImage(this);
 	}
 }
 
-PandaqiPhaser.linkTo({ scene: BoardGeneration, key: sceneKey });
+OnPageVisualizer.linkTo({ scene: BoardGeneration, key: sceneKey, backend: "phaser" });

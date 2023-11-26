@@ -12,6 +12,7 @@ import ColorLike, { ColorLikeValue } from "./color/colorLike"
 import createContext from "./canvas/createContext"
 import StrokeAlignValue from "./values/strokeAlignValue"
 import calculateBoundingBox from "../tools/geometry/paths/calculateBoundingBox"
+import { LayoutCombo } from "./layoutGroup"
 
 type ResourceLike = ResourceImage|ResourceShape|ResourceText|ResourceBox
 
@@ -45,13 +46,13 @@ interface LayoutOperationParams
     clip?:Shape,
     mask?:ResourceImage,
 
-    resource?:ResourceLike,
+    resource?:ResourceLike|LayoutCombo[],
     effects?:LayoutEffect[],
 
     frame?:number
 }
 
-export { LayoutOperation, EffectData }
+export { LayoutOperation, EffectData, ResourceLike }
 export default class LayoutOperation
 {
     translate : Point
@@ -69,7 +70,7 @@ export default class LayoutOperation
     clip: Shape
     mask: ResourceImage
 
-    resource : ResourceLike
+    resource : ResourceLike|LayoutCombo[]
     effects : LayoutEffect[]
     
     frame: number // frame of image (spritesheets)
@@ -179,6 +180,8 @@ export default class LayoutOperation
         const finalScale = this.getFinalScale();
         ctxTemp.scale(finalScale.x, finalScale.y);
 
+        // @TODO: perhaps want to move this to AFTER we create the temporary canvas and draw it
+        // so we can just calculate the dims used then
         const offset = this.pivot.clone();
         offset.scaleFactor(-1).scale(this.dims);
         ctxTemp.translate(offset.x, offset.y);
@@ -211,6 +214,7 @@ export default class LayoutOperation
         ctxTemp.lineWidth = lineWidth;
  
         const res = this.resource;
+        const drawGroup = Array.isArray(res);
         const drawShape = res instanceof ResourceShape;
         const drawText = res instanceof ResourceText;
 
@@ -218,7 +222,8 @@ export default class LayoutOperation
         if(res instanceof ResourceImage) { image = res; }
         //else if(res instanceof ResourceGradient) { image = await new ResourceImage().fromGradient(res); }
         //else if(res instanceof ResourcePattern) { image = await new ResourceImage().fromPattern(res); }
-        
+        const drawImage = image instanceof ResourceImage;
+
         if(drawShape)
         {
             const path = res.shape.toPath2D();
@@ -232,7 +237,6 @@ export default class LayoutOperation
             drawer.toCanvas(ctxTemp, this);
         }
 
-        const drawImage = image instanceof ResourceImage;
         if(drawImage)
         { 
             let frameResource = image.getImageFrameAsResource(this.frame);
@@ -255,6 +259,15 @@ export default class LayoutOperation
             }
 
             this.applyFillAndStrokeToPath(ctxTemp, boxPath, drawImageCallback);
+        }
+
+        if(drawGroup)
+        {
+            const combos = this.resource as LayoutCombo[];
+            for(const combo of combos)
+            {
+                await combo.toCanvas(ctxTemp);
+            }
         }
 
         let ctxFinal = ctxTemp;

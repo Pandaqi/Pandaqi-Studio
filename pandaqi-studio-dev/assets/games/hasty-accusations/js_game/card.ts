@@ -21,6 +21,7 @@ import ColorLike from "js/pq_games/layout/color/colorLike";
 import range from "js/pq_games/tools/random/range";
 import ColorOverlayEffect from "js/pq_games/layout/effects/colorOverlayEffect";
 import BlurEffect from "js/pq_games/layout/effects/blurEffect";
+import LayoutGroup from "js/pq_games/layout/layoutGroup";
 
 export default class Card
 {
@@ -40,7 +41,7 @@ export default class Card
         let color = "#FFFFFF";
         fillCanvas(ctx, color);
 
-        // @TODO
+        // @TODO => not even sure if an interactive example is possible here
         this.drawOutline(vis, ctx);
         return ctx.canvas;
     }
@@ -103,14 +104,17 @@ export default class Card
             new Point(vis.size.x - fontSize, vis.center.y)
         ]
 
+        const shadowRadius = CONFIG.suspects.illustration.shadowRadius * vis.sizeUnit;
+        const effects = [new DropShadowEffect({ blurRadius: shadowRadius })];
+
         for(let i = 0; i < 2; i++)
         {
-            // @TODO: shadow behind text?
             const rot = i == 0 ? -0.5 * Math.PI : 0.5 * Math.PI;
             const textOp = new LayoutOperation({
                 translate: positions[i],
                 fill: colorLighten,
-                rotation: rot
+                rotation: rot,
+                effects: effects
             })
 
             await textRes.toCanvas(ctx, textOp);
@@ -124,11 +128,23 @@ export default class Card
             frame: frame,
             translate: vis.center,
             dims: illuDims,
-            pivot: Point.CENTER
+            pivot: Point.CENTER,
+            effects: effects
         })
         await res.toCanvas(ctx, op);
 
-        // @TODO: paperclip at the top
+        // paperclip at the top
+        const resClip = vis.resLoader.getResource("misc");
+        const frameClip = MISC.paperclip.frame;
+        const dimsClip = new Point(CONFIG.suspects.illustration.paperClipScale * vis.sizeUnit);
+        const opClip = new LayoutOperation({
+            frame: frameClip,
+            dims: dimsClip,
+            translate: new Point(vis.center.x, 0),
+            pivot: Point.CENTER
+        })
+
+        await resClip.toCanvas(ctx, opClip);
     }
 
     // 
@@ -161,8 +177,13 @@ export default class Card
         const rectSize = CONFIG.cards.photographs.rectSize.clone().scale(vis.sizeUnit);
         const rectSizeUnit = Math.min(rectSize.x, rectSize.y);
         const rect = new Rectangle({ extents: rectSize });
+        const shadowRadius = CONFIG.cards.photographs.shadowRadius * rectSizeUnit;
+        const shadowOffset = new Point(CONFIG.cards.photographs.shadowOffset * rectSizeUnit);
+        const shadowColor = CONFIG.cards.shared.shadowColor;
+        const effects = [new DropShadowEffect({ blurRadius: shadowRadius, offset: shadowOffset, color: shadowColor })];
         const rectOp = new LayoutOperation({
-            fill: "#000000"
+            fill: "#000000",
+            effects: effects
         })
 
         const padding = CONFIG.cards.photographs.padding.clone().scale(rectSizeUnit);
@@ -194,9 +215,10 @@ export default class Card
         const text = this.getDataPlay().label.toString();
         const titleText = new ResourceText({ text: text, textConfig: textConfig });
         const titleTextCol = this.getMainColor().clone().lighten(CONFIG.cards.photographs.titleColorLighten);
+        const titleShadowRadius = CONFIG.cards.photographs.titleShadowRadius * fontSize;
         const titleTextOp = new LayoutOperation({
             fill: titleTextCol,
-            effects: [new DropShadowEffect({ blurRadius: 0.2*fontSize })]
+            effects: [new DropShadowEffect({ blurRadius: titleShadowRadius })]
         });
 
         // the optional requirements
@@ -204,6 +226,7 @@ export default class Card
         const reqsPadding = CONFIG.cards.photographs.requirementPadding.clone().scale(rectSizeUnit);
         const reqsPos = new Point(rectInnerPos.x + reqsPadding.x, rectInnerPos.y + reqsPadding.y);
         const reqsDims = new Point(CONFIG.cards.photographs.requirementDims * rectSizeUnit);
+        const reqEffects = [new DropShadowEffect({ blurRadius: CONFIG.cards.photographs.requirementShadowRadius * rectSizeUnit })];
         if(this.getDataPlay().spyglass != ReqType.NEUTRAL)
         {
             const frame = this.getDataPlay().spyglass == ReqType.CANT ? MISC.spyglass_cant.frame : MISC.spyglass.frame;
@@ -211,7 +234,8 @@ export default class Card
             spyglassOp = new LayoutOperation({
                 frame: frame,
                 translate: reqsPos,
-                dims: reqsDims
+                dims: reqsDims,
+                effects: reqEffects,
             })
 
             reqsPos.move(new Point(0, reqsDims.y));
@@ -224,7 +248,8 @@ export default class Card
             suspectOp = new LayoutOperation({
                 frame: frame,
                 translate: reqsPos,
-                dims: reqsDims
+                dims: reqsDims,
+                effects: reqEffects
             })
         }
 
@@ -242,9 +267,9 @@ export default class Card
 
         // create one group ( = set of instructions), then repeat it several times with different settings (such as rotation)
         const group = new LayoutGroup();
-        group.add(rect, rectOp);
-        group.add(rectInner, rectInnerOp);
-        group.add(rectTitle, rectTitleOp);
+        group.add(new ResourceShape({ shape: rect }), rectOp);
+        group.add(new ResourceShape({ shape: rectInner }), rectInnerOp);
+        group.add(new ResourceShape({ shape: rectTitle }), rectTitleOp);
 
         const maxPhotoRotation = CONFIG.cards.photographs.maxRotation;
         const alphaJumps = (1.0 / numPhotographs);
@@ -276,6 +301,21 @@ export default class Card
 
             await group.toCanvas(ctx, groupOp);
         }
+
+        // paperclip at the top
+        // @TODO: location should probably depend on how top photograph is rotated, right?
+        const resClip = vis.resLoader.getResource("misc");
+        const frameClip = MISC.paperclip.frame;
+        const dimsClip = new Point(CONFIG.cards.illustration.paperClipScale * vis.sizeUnit);
+        const offsetClip = CONFIG.cards.illustration.paperClipOffset.clone().scale(vis.sizeUnit);
+        const opClip = new LayoutOperation({
+            frame: frameClip,
+            dims: dimsClip,
+            translate: new Point(vis.center.x + offsetClip.x, offsetClip.y),
+            pivot: Point.CENTER
+        })
+
+        await resClip.toCanvas(ctx, opClip);
     }
 
     async drawText(vis:Visualizer, ctx:CanvasRenderingContext2D)
@@ -306,10 +346,12 @@ export default class Card
         })
         const text = this.getDataPlay().desc.toString();
         const textRes = new ResourceText({ text: text, textConfig: textConfig });
+        const effects = [new DropShadowEffect({ offset: new Point(CONFIG.cards.text.hardShadowOffset * fontSize) })];
         const op = new LayoutOperation({
             fill: "#000000",
             dims: size,
-            pivot: Point.CENTER
+            pivot: Point.CENTER,
+            effects: effects
         })
         await textRes.toCanvas(ctx, op);
     }

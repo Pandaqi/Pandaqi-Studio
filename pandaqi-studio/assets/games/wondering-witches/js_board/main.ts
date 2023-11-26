@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { SPECIAL_CELLS } from "../js_shared/dict"
 import Random from "js/pq_games/tools/random/main"
-import PandaqiPhaser from "js/pq_games/website/phaser"
+import OnPageVisualizer from "js/pq_games/website/onPageVisualizer"
 import Section from "./section"
 import { Scene, Geom } from "js/pq_games/phaser/phaser.esm"
 
@@ -29,21 +29,21 @@ class BoardGeneration extends Scene
 	}
 
 	async create(userConfig: any) {
-		PandaqiPhaser.startCollection();
+		OnPageVisualizer.startCollection();
 
 		this.createConfig(userConfig);
 		this.generateBoard();
 		this.visualize();
 		
-		await PandaqiPhaser.convertCanvasToImage(this);
+		await OnPageVisualizer.convertCanvasToImage(this);
 
-		if(!this.cfg.pageBack) { PandaqiPhaser.endCollection(); return; }
+		if(!this.cfg.pageBack) { OnPageVisualizer.endCollection(); return; }
 
 		this.generateBoard();
 		this.visualize();
 
-		await PandaqiPhaser.convertCanvasToImage(this);
-		PandaqiPhaser.endCollection();
+		await OnPageVisualizer.convertCanvasToImage(this);
+		OnPageVisualizer.endCollection();
 	}
 
 	createConfig(userConfig:Record<string,any>)
@@ -451,4 +451,4 @@ class BoardGeneration extends Scene
 	}
 }
 
-PandaqiPhaser.linkTo({ scene: BoardGeneration, key: sceneKey });
+OnPageVisualizer.linkTo({ scene: BoardGeneration, key: sceneKey, backend: "phaser" });

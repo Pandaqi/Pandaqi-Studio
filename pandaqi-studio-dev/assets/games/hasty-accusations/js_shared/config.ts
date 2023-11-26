@@ -117,6 +117,8 @@ const CONFIG =
             fontSize: 0.1, // ~sizeUnit
             textColorLighten: 75,
             scaleFactor: 0.9, // ~sizeUnit
+            shadowRadius: 0.1, // ~sizeUnit
+            paperClipScale: 0.175, // ~sizeUnit
         },
 
         bg:
@@ -138,6 +140,7 @@ const CONFIG =
         shared:
         {
             bgColor: "#210B00",
+            shadowColor: "#00000077", // transparent black
         },
 
         photographs:
@@ -149,16 +152,23 @@ const CONFIG =
             maxRotation: 0.15 * Math.PI,
             numPerCard: new Bounds(2,4),
 
+            shadowRadius: 0.05, // ~rectSize
+            shadowOffset: 0.15, // ~rectSize
+
             requirementDims: 0.15, // ~rectSizeUnit
             requirementPadding: new Point(0.05), // rectSizeUnit
+            requirementShadowRadius: 0.1, // ~rectSizeUnit
 
             titleFontSize: 0.1, // ~rectSizeUnit
-            titleColorLighten: 75
+            titleColorLighten: 75,
+            titleShadowRadius: 0.2, // ~fontSize
         },
 
         illustration:
         {
             scaleFactor: 1.0, // ~innerRectSize
+            paperClipScale: 0.2, // ~sizeUnit
+            paperClipOffset: new Point(0.3, 0.05), // ~sizeUnit, X is from the center, Y is from the top
         },
 
         text:
@@ -168,6 +178,7 @@ const CONFIG =
             rectColor: "#FFEFE6",
             rectBlur: 0.08, // ~rectSizeUnit
             fontSize: 0.1, // ~sizeUnit
+            hardShadowOffset: 0.05, // ~fontSize (a very slight shadow that "thickens" the text and makes it slightly more legible)
         },
         
         outline:

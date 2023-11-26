@@ -1,15 +1,18 @@
 import { TextConfig, TextAlign } from "./textConfig"
 import Dims from "js/pq_games/tools/geometry/dims"
 import Point from "js/pq_games/tools/geometry/point"
-import { CanvasLike } from "../resources/resourceImage"
+import ResourceImage, { CanvasLike } from "../resources/resourceImage"
 import LayoutOperation from "../layoutOperation"
 import StrokeAlignValue from "../values/strokeAlignValue"
+import { TextChunk, TextChunkBreak, TextChunkImage, TextChunkStyle, TextChunkText } from "./textChunk"
+import ResourceLoader from "../resources/resourceLoader"
+import LineData from "./lineData"
 
 export default class TextDrawer
 {
     HAIR_SPACE = '\u200a'
 
-    text:string
+    text:string|TextChunk[]
     dims:Dims
     cfg:TextConfig
     textBlockDims:Dims
@@ -31,183 +34,230 @@ export default class TextDrawer
         return this.textBlockDims;
     }
 
-    toCanvas(canv:CanvasLike, op:LayoutOperation = new LayoutOperation())
+    // Parsing has two stages
+    // - If our input is a string, parse it into TextChunk types
+    // - When we have our chunks, add line breaks wherever needed for wrapping
+    parseText(ctx:CanvasRenderingContext2D)
     {
+        const boxWidth = this.dims.size.x;
 
-        const ctx = (canv instanceof HTMLCanvasElement) ? canv.getContext("2d") : canv;
-        ctx.save();
-
-        const style = this.cfg.getCanvasFontString();
-        ctx.font = style;
-        //ctx.fillStyle = this.cfg.color;
-
-        // @ts-ignore
-        const x = parseInt(this.dims.position.x);
-        // @ts-ignore
-        const y = parseInt(this.dims.position.y);
-        // @ts-ignore
-        let width = parseInt(this.dims.size.x);
-        // @ts-ignore
-        let height = parseInt(this.dims.size.y);
-
-        if(width <= 0) { width = 100000 }
-        if(height <= 0) { height = 100000 }
-
-        if(this.cfg.size <= 0) { return; }
-
-        // End points
-        const xEnd = x + width
-        const yEnd = y + height
-
-        let textanchor
-
-        const alignH = this.cfg.alignHorizontal;
-        const justified = (alignH == TextAlign.JUSTIFY)
-        if(alignH === TextAlign.END) {
-            textanchor = xEnd
-            ctx.textAlign = 'right'
-        } else if (alignH == TextAlign.START) {
-            textanchor = x
-            ctx.textAlign = 'left'
+        let input : TextChunk[];
+        if(Array.isArray(this.text)) {
+            input = this.text;
         } else {
-            textanchor = x + width * 0.5
-            ctx.textAlign = 'center'
+            // line breaks, bold, italic, images
+            // @TODO: font, font size, variants (uppercase,lowercase,small-caps)
+            const regex = /\n|<b>|<\/b>|<em>|<\/em>|<img id="(.+?)" frame="(.+?)">/g; 
+            let text = this.text;
+            let chunks = [];
+            let match;
+            do {
+                match = regex.exec(text);
+                if(!match) { break; }
+
+                const key = match[0];
+                const idx = text.indexOf(key);
+                text = text.slice(idx);
+                
+                let newChunk;
+                if(key == "<b>") { newChunk = new TextChunkStyle("weight", "bold"); }
+                else if(key == "</b>") { newChunk = new TextChunkStyle("weight", "regular"); }
+                else if(key == "<em>") { newChunk = new TextChunkStyle("style", "italic"); }
+                else if(key == "</em>") { newChunk = new TextChunkStyle("style", "normal"); }
+                else if(key == "\n") { newChunk = new TextChunkBreak(); }
+                else if(key.includes("img")) {
+                    const resLoader = this.cfg.resLoader;
+                    const res = resLoader.getResource(match[1]).getImageFrameAsResource(parseInt(match[2]));
+                    newChunk = new TextChunkImage(res);
+                }
+                chunks.push(newChunk);
+                
+            } while (match);
+
+            input = chunks;
         }
 
-        const text = this.text;
-        let textarray = []
-        let temptextarray = text.split('\n')
-
-        const spaceWidth = justified ? ctx.measureText(this.HAIR_SPACE).width : 0
-
-        temptextarray.forEach((txtt) => 
+        // break all text chunks into individual words and spaces
+        for(let i = 0; i < input.length; i++)
         {
-            let textwidth = ctx.measureText(txtt).width
-            const fitsOnLine = (textwidth <= width);
-            if (fitsOnLine) 
+            if(!(input[i] instanceof TextChunkText)) { continue; }
+            const chunks = input[i].break();
+            input.splice(i, 1, ...chunks);
+        }
+
+        const output = []; 
+
+        const style = this.cfg.clone();
+        ctx.font = style.getCanvasFontString();
+
+        let curLine = [];
+        let curLineWidth = 0;
+
+        for(const elem of input)
+        {
+            const elemWidth = elem.getSize(ctx).x;
+            const newLineWidth = curLineWidth + elemWidth;
+            const fitsOnLine = (newLineWidth <= boxWidth);
+            if(elem instanceof TextChunkStyle) { elem.updateTextConfig(style); ctx.font = style.getCanvasFontString(); }
+            if(elem instanceof TextChunkBreak) { curLine = []; curLineWidth = 0; }
+            if(fitsOnLine) { output.push(elem); continue; }
+
+            output.push(new TextChunkBreak());
+            curLine = [];
+            curLineWidth = 0;
+            output.push(elem);
+        }
+
+        return output;
+    }
+
+    getTextMetrics(ctx:CanvasRenderingContext2D, textParsed:TextChunk[])
+    {
+        const xStart = this.dims.position.x;
+        const yStart = this.dims.position.y;
+        const boxWidth = this.dims.size.x;
+        const boxHeight = this.dims.size.y;
+        const xEnd = xStart + boxWidth;
+        const yEnd = yStart + boxHeight;
+
+        //
+        // first, collect the dimensions of each individual LINE
+        //
+        let lineData = new LineData();
+        const lines : LineData[] = [];
+
+        const fixedLineHeight = (this.cfg.lineHeight * this.cfg.size)
+
+        const style = this.cfg.clone();
+        ctx.font = style.getCanvasFontString();
+
+        let tempY = 0;
+        for(const elem of textParsed)
+        {
+            if(elem instanceof TextChunkBreak)
             {
-                textarray.push(txtt);
-                return;
-            } 
-            
-            let temptext = txtt
-            let linelen = width
-            let textlen
-            let textpixlen
-            let texttoprint
-            
-            // as long as the line is too long, keep breaking it until that isn't the case anymore
-            textwidth = ctx.measureText(temptext).width
-            while (textwidth > linelen) {
-                textlen = 0
-                textpixlen = 0
-                texttoprint = ''
-                while (textpixlen < linelen) {
-                    textlen++
-                    texttoprint = temptext.slice(0, textlen)
-                    textpixlen = ctx.measureText(temptext.slice(0, textlen)).width
-                }
+                lines.push(lineData);
+                const dynamicLineHeight = lineData.getSize().y;
+                tempY += this.cfg.useDynamicLineHeight ? dynamicLineHeight : fixedLineHeight;
 
-                // Remove last character that was out of the box
-                textlen--
-                texttoprint = texttoprint.slice(0, textlen)
-
-                //if statement ensures a new line only happens at a space, and not amidst a word
-                const backup = textlen
-                if (temptext.charAt(textlen) != ' ') 
-                {
-                    while (temptext.charAt(textlen) != ' ' && textlen != 0) {
-                        textlen--
-                    }
-                    
-                    if (textlen == 0) { textlen = backup }
-                    texttoprint = temptext.slice(0, textlen)
-                }
-
-                if(justified) { texttoprint = this.justifyLine(ctx, texttoprint, spaceWidth, width) }
-
-                temptext = temptext.slice(textlen)
-                textwidth = ctx.measureText(temptext).width
-                textarray.push(texttoprint)
+                lineData = new LineData(new Point(0, tempY));
+                continue;
             }
-            
-            if (textwidth > 0) {
-                textarray.push(temptext)
+
+            if(elem instanceof TextChunkStyle) { 
+                elem.updateTextConfig(style); 
+                ctx.font = style.getCanvasFontString(); 
             }
-            // end foreach temptextarray
-        })
 
-        // figure out total size of the block
-        const charHeight = (this.cfg.lineHeight * this.cfg.size) ?? this.getTextHeight(ctx, text, style) 
+            lineData.registerChunk(ctx, elem); // refresh a correct topLeft and bottomRight
+        }
 
+        if(lineData.hasContent()) { lines.push(lineData); }
+
+        //
+        // second, combine all those dimensions into total size of the text block
+        //
         const topLeftTotal = new Point(Infinity, Infinity);
         const bottomRightTotal = new Point(-Infinity, -Infinity);
-        let tempTextY = 0;
-        let ascents = [];
-        let descents = [];
-        textarray.forEach(txtline => {
-            txtline = txtline.trim()
 
-            const measure = ctx.measureText(txtline);
-            let xLeft = textanchor, xRight = textanchor + measure.width
-            if(alignH == TextAlign.MIDDLE) { xLeft -= 0.5*measure.width; xRight -= 0.5*measure.width; }
-            if(alignH == TextAlign.END) { xLeft -= measure.width; xRight -= measure.width; }
+        for(const line of lines)
+        {
+            topLeftTotal.x = Math.min(topLeftTotal.x, line.topLeft.x);
+            topLeftTotal.y = Math.min(topLeftTotal.y, line.topLeft.y);
+            bottomRightTotal.x = Math.max(bottomRightTotal.x, line.bottomRight.x);
+            bottomRightTotal.y = Math.max(bottomRightTotal.y, line.bottomRight.y);
+        }
 
-            const ascent = measure.actualBoundingBoxAscent;
-            ascents.push(ascent);
-
-            const descent = measure.actualBoundingBoxDescent;
-            descents.push(descent);
-
-            const topLeft = new Point(xLeft, tempTextY - ascent);
-            const bottomRight = new Point(xRight, tempTextY + descent);
-
-            topLeftTotal.x = Math.min(topLeftTotal.x, topLeft.x);
-            topLeftTotal.y = Math.min(topLeftTotal.y, topLeft.y);
-            bottomRightTotal.x = Math.max(bottomRightTotal.x, bottomRight.x);
-            bottomRightTotal.y = Math.max(bottomRightTotal.y, bottomRight.y);
-
-            tempTextY += charHeight;
-        })
-
-        const rawDims = new Dims(
+        const textDims = new Dims(
             topLeftTotal.x,
             topLeftTotal.y,
             (bottomRightTotal.x - topLeftTotal.x),
             (bottomRightTotal.y - topLeftTotal.y)
         );
 
-        const realHeight = rawDims.size.y;
+        const realHeight = textDims.size.y;
 
-        let txtY;
+        //
+        // third, use all that information for proper aligning
+        //
+
+        const alignH = this.cfg.alignHorizontal;
         const alignV = this.cfg.alignVertical;
+
         // @TODO: vertical justify not yet implemented
-        if (alignV === TextAlign.START) {
-            txtY = y + ascents[0]
-        } else if (alignV === TextAlign.END) {
-            txtY = yEnd - realHeight // @TODO: is this still correct now that I use the TRUE dimensions?
-        } else if(alignV == TextAlign.MIDDLE) {
-            // center within dims, then remove half the height to find top anchor point
-            txtY = y + 0.5 * height + ascents[0] - 0.5*realHeight;
+        let yOffset;
+        if (alignV === TextAlign.START || alignV == TextAlign.JUSTIFY) { yOffset = yStart + lines[0].ascent; }
+        else if (alignV === TextAlign.END) { yOffset = yEnd - realHeight + lines[0].ascent; }
+        else if(alignV == TextAlign.MIDDLE) { yOffset = yStart + 0.5 * (boxHeight - realHeight) + lines[0].ascent; }
+
+        const justifyY = (this.cfg.alignVertical == TextAlign.JUSTIFY);
+        let extraJustifyOffsetY = 0;
+        if(justifyY && lines.length > 0)
+        {
+            const spaceLeftY = boxHeight - realHeight;
+            const numSubdivisions = lines.length - 1;
+            extraJustifyOffsetY = spaceLeftY / numSubdivisions;
         }
+
+        const justifyX = (this.cfg.alignHorizontal == TextAlign.JUSTIFY);
+        for(const line of lines)
+        {
+            let xOffset;
+            if(alignH == TextAlign.START || alignH == TextAlign.JUSTIFY) { xOffset = xStart; }
+            else if(alignH == TextAlign.END) { xOffset = xEnd - line.getSize().x; }
+            else if(alignH == TextAlign.MIDDLE) { xOffset = xStart + 0.5*(xEnd - line.getSize().x); }
+
+            if(justifyX) { line.calculateJustifyX(boxWidth); }
+
+            line.updatePosition(new Point(xOffset, yOffset));
+            yOffset += extraJustifyOffsetY;
+        }
+
+        return { textDims,lines };
+    }
+
+    drawText(ctx:CanvasRenderingContext2D, op:LayoutOperation, lines:LineData[])
+    {
+        const style = this.cfg.clone();
+        ctx.font = style.getCanvasFontString();
+
+        for(const line of lines)
+        {
+            let pos = line.getPosition();
+
+            for(const elem of line.getChunks())
+            {
+                const elemWidth = elem.getSize(ctx).x;
+    
+                if(elem instanceof TextChunkText) {
+                    this.fillAndStrokeText(ctx, elem.text, pos, op);
+                    pos.x += elemWidth;
+                    if(elem.isEmptySpace()) { pos.x += line.extraSpaceJustifyX; }
+                } else if(elem instanceof TextChunkImage) {
+                    const res = elem.resource;
+                    this.drawImageChunk(ctx, res, pos, line);
+                    pos.x += elemWidth;
+                } else if(elem instanceof TextChunkStyle) { 
+                    elem.updateTextConfig(style); 
+                    ctx.font = style.getCanvasFontString(); 
+                }
+            }
+        }
+    }
+
+    toCanvas(canv:CanvasLike, op:LayoutOperation = new LayoutOperation())
+    {
+        const ctx = (canv instanceof HTMLCanvasElement) ? canv.getContext("2d") : canv;
+        ctx.save();
+
+        const textParsed = this.parseText(ctx);
+        const { textDims, lines } = this.getTextMetrics(ctx, textParsed);
+        this.drawText(ctx, op, lines);
 
         // save the resulting dimensions
         // we should already be absolutely certain about them here, so this is also a correctness test
-        this.textBlockDims = rawDims.clone().move(new Point(0, txtY));
-
-        // print all lines of text + track the actual bounding box
-        textarray.forEach(txtline => {
-            txtline = txtline.trim()
-
-            const pos = new Point(textanchor, txtY);
-            const text = txtline;
-
-            // this is the one line that actually draws text!
-            this.fillAndStrokeText(ctx, text, pos, op);
-
-            // and moves to next line
-            txtY += charHeight
-        })
+        // @TODO: isn't there a better location/time to calculate this?
+        this.textBlockDims = textDims.clone().move(lines[0].topLeft.clone());
 
         this.debugDraw(ctx);
         ctx.restore();
@@ -230,6 +280,19 @@ export default class TextDrawer
             ctx.fillText(txt, pos.x, pos.y);
             ctx.strokeText(txt, pos.x, pos.y);
         }
+    }
+
+    // @TODO: this is very barebones right now, expand later
+    // => Allow setting a LayoutOperation on TextChunkImage (if we supply text as array)
+    // => Allow setting a _global_ LayoutOperation to be applied to _all_ inline images (in text config?)
+    drawImageChunk(ctx:CanvasRenderingContext2D, res:ResourceImage, pos:Point, line:LineData)
+    {
+        const dims = new Point(line.size.y);
+        pos.y = line.topLeft.y;
+
+        ctx.drawImage(res.getImage(),
+            pos.x, pos.y,
+            dims.x, dims.y);
     }
 
     /*

@@ -3,7 +3,7 @@ import Edge from "./edge"
 import { KEEBBLE_TYPES } from "./dict"
 import CONFIG from "./config"
 import Random from "js/pq_games/tools/random/main"
-import PandaqiPhaser from "js/pq_games/website/phaser"
+import OnPageVisualizer from "js/pq_games/website/onPageVisualizer"
 // @ts-ignore
 import { Scene, Geom } from "js/pq_games/phaser/phaser.esm"
 import Point from "js/pq_games/tools/geometry/point"
@@ -44,7 +44,7 @@ export default class BoardGeneration extends Scene
 		this.setup(userConfig)
 		this.generate()
 		this.visualize();
-		PandaqiPhaser.convertCanvasToImage(this);
+		OnPageVisualizer.convertCanvasToImage(this);
 	}
 
 	setup(userConfig:Record<string,any>)

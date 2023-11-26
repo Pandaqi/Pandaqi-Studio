@@ -1,5 +1,5 @@
 // @ts-nocheck
-import PandaqiPhaser from "js/pq_games/website/phaser"
+import OnPageVisualizer from "js/pq_games/website/onPageVisualizer"
 import { Scene } from "js/pq_games/phaser/phaser.esm"
 import BoardState from "./boardState"
 import BoardDisplay from "./boardDisplay"
@@ -37,7 +37,7 @@ class BoardGeneration extends Scene
         this.setup(userConfig)
         await this.generate();
         this.draw();
-        PandaqiPhaser.convertCanvasToImage(this);
+        OnPageVisualizer.convertCanvasToImage(this);
     }
 
     setup(userConfig:Record<string,any>)
@@ -64,5 +64,5 @@ class BoardGeneration extends Scene
     }    
 }
 
-PandaqiPhaser.linkTo({ scene: BoardGeneration, key: sceneKey });
+OnPageVisualizer.linkTo({ scene: BoardGeneration, key: sceneKey, backend: "phaser" });
 

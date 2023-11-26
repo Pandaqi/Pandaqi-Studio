@@ -303,6 +303,21 @@ header {
     background: rgba(0,0,0,0.1);
     border-radius: 1em;
 
+    .rules-settings
+    {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        padding: 0.5rem;
+    }
+
+    .rules-setting-entry {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+
     button {
         padding: 0.5em;
         width: 100%;

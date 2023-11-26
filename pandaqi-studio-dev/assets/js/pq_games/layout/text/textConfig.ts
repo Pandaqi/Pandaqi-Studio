@@ -1,4 +1,5 @@
 import ResourceFont from "../resources/resourceFont"
+import ResourceLoader from "../resources/resourceLoader"
 
 enum TextAlign {
     START,
@@ -38,6 +39,9 @@ interface TextConfigParams
     style?: TextStyle
     weight?: TextWeight
     variant?: TextVariant
+
+    resLoader?:ResourceLoader // for text that draws icons/images inline
+    useDynamicLineHeight?:boolean
 }
 
 export { TextConfig, TextAlign, TextStyle, TextWeight, TextVariant }
@@ -51,6 +55,8 @@ export default class TextConfig
     style: TextStyle
     weight: TextWeight
     variant: TextVariant
+    resLoader: ResourceLoader;
+    useDynamicLineHeight: boolean;
 
     constructor(params:TextConfigParams = {})
     {
@@ -59,9 +65,11 @@ export default class TextConfig
         this.alignHorizontal = (params.align ?? params.alignHorizontal) ?? TextAlign.START;
         this.alignVertical = (params.alignVertical) ?? TextAlign.START;
         this.lineHeight = params.lineHeight ?? 1.2;
+        this.useDynamicLineHeight = params.useDynamicLineHeight ?? false;
         this.style = params.style ?? TextStyle.NORMAL;
         this.weight = params.weight ?? TextWeight.REGULAR;
         this.variant = params.variant ?? TextVariant.NORMAL;
+        this.resLoader = params.resLoader ?? null;
     }
 
     clone() : TextConfig

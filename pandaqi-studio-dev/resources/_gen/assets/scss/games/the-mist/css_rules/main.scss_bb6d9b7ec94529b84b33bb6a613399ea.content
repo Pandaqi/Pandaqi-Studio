@@ -1,0 +1,3 @@
+@font-face{font-family:"inika";src:url("/the-mist/assets/fonts/Inika-Bold.woff2") format("woff2");font-weight:bold;font-style:normal;font-display:swap}@font-face{font-family:"inika";src:url("/the-mist/assets/fonts/Inika.woff2") format("woff2");font-weight:normal;font-style:normal;font-display:swap}@font-face{font-family:"adventure";src:url("/the-mist/assets/fonts/AdventureScript.woff2") format("woff2");font-weight:normal;font-style:normal;font-display:swap}body{font-family:"inika";background-color:#fcfcfc;font-size:20px}h1,h2,h3,h4{font-family:"adventure"}#setup{background-color:#cef996}#objective{background-color:#b3ddf9}#action_play{background-color:#ffdfc9}#lives{background-color:#ddceff}
+
+/*# sourceMappingURL=bundle.rules.css.map */
