@@ -13,7 +13,7 @@ downloadLink: "https://drive.google.com/drive/folders/1Vb-cB7KrYaxakv2X2oSmQJdSN
 fullHeaderImg: "cookie_smasher_header"
 headerImg: "cookie_smasher_header"
 
-headerThumb: "favicon"
+headerThumb: "cookie_smasher_favicon"
 
 customHeight: "small"
 headerDarkened: true
@@ -37,14 +37,14 @@ multiplayermode: "competitive"
 language: EN
 genre: ["card", "party"]
 playtime: 20
-playercount: [2,3,4,5,6,7,8,9,10]
+playercount: [2,3,4,5,6,7]
 complexity: low
 ages: everyone
 
 ---
 
 
-{{% boardgame-intro heading="" img="cookie_smasher_header" class="no-shadow" %}}
+{{% boardgame-intro heading="" %}}
 
 Smash the poisoned food faster than anyone else to prevent the king's assassination!
 

@@ -22,14 +22,13 @@ The game ends when all players are out of tiles. Highest score wins!
 
 Take clockwise turns. On your turn, either PLAY or CHANGE, then draw 1 tile from the deck.
 
-@TODO: INTERACTIVE EXAMPLE? (Does that even make sense?)
-
 {{% rules-block heading="Play" %}}
 
 Play a tile from your hand, faceup to the table. 
 
 * It must be next to an existing tile **or** on top of a _facedown_ tile.
 * You can't play a Sheeple into a meadow that **already has another player's Sheeple**. 
+* The maximum board size is 8x8.
 
 {{% remark %}}
 In other words, there can be no path between two different Sheeples with no fences in-between.
@@ -76,11 +75,13 @@ There can never be a single meadow claimed by multiple players. If the tile that
 
 {{% rules-block id="scoring" heading="Scoring" icon="score" class="force-page-break-before" icontint="purple" %}}
 
-Any of your Sheeple that are **not in an enclosed meadow** ( = fences on all sides), **score nothing**. Facedown tiles should be considered as "closed on all sides".
+You score for each **enclosed meadow** ( = fences on all sides) that contains a **Sheeple of yours**. 
+Facedown tiles should be considered as "closed on all sides". 
 
-For every Sheeple that remains, add the score of its meadow.
 * Each tile inside the meadow is +1 point.
 * Each _neutral sheep_ inside the meadow is also +1 point.
+
+So yes, you score each meadow only once, regardless of the number of Sheeple you have.
 
 @TODO: IMAGE EXAMPLE
 
@@ -94,19 +95,24 @@ In these rules, the term "adjacent" always means horizontal or vertical, never d
 
 {{% rules-block heading="Fuzzy Fences" %}}
 
-This is a _variant_ you can play with the same material. It's slightly friendlier, as it allows **multiple people to claim meadows**.
+This is a _variant_ you can play with the same material. It's much friendlier, as it allows bigger scores and multiple people to claim meadows.
 
 The following rules change.
 
-* You _can_ play a Sheeple in the same meadow as another, as long as they're not adjacent (with no fence in-between).
-* When counting your final score, every Sheeple from another player (in your meadow) is **-2 points**
-* If multiple meadows are connected, count **diversity first**. The meadow with the _highest_ number of different Sheeple wins. (If tied, count number of tiles, then number of sheeple.)
+**SCORING**: When counting your final score,
+* You score _every Sheeple_ inside an enclosed meadow. (So now you can score meadows multiple times!)
+* Every Sheeple from another player (in your meadow), however, is **-2 points**
+
+**PLACING & CONFLICT**:
+* There is no maximum board size.
+* You _can_ play a Sheeple in the same meadow as another. Conflict only happens when two meadows, which were previously separate, are connected.
+* If so, count **diversity first**. The meadow with the _highest_ number of different Sheeple wins. (If tied, apply the usual rules: number of tiles, number of sheeple, otherwise conflict is forbidden.)
 
 {{% remark %}}
 As usual, all losing Sheeple are turned facedown, even if they belong to the winner(s) too.
 {{% /remark %}}
 
-Additionally, the **change** action also allows **moving** an existing tile (instead of rotating). Do so according to the following rules.
+**CHANGING:** The **change** action also allows **moving** an existing tile (instead of rotating). Do so according to the following rules.
 * You can only move tiles that contain neutral sheep.
 * They move one step, to an adjacent tile.
 * They _cannot_ move over a double fence.
@@ -140,6 +146,8 @@ This expansion adds four special tiles with their own rules.
 **House:** This tile and all adjacent tiles (horizontal and vertical) cannot be rotated.
 
 @TODO: IMAGE EXAMPLE
+
+Due to the extra tiles, the maximum board size is raised to 10x10.
 
 {{% /rules-block %}}
 
