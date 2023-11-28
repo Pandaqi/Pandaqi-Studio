@@ -17,6 +17,10 @@ export default class LineData
         this.pos = pos;
         this.size = new Point();
         this.chunks = [];
+        this.ascent = 0;
+        this.descent = 0;
+        this.topLeft = new Point();
+        this.bottomRight = new Point();
         this.extraSpaceJustifyX = 0;
     }
 
@@ -24,9 +28,10 @@ export default class LineData
     getChunks() { return this.chunks.slice(); }
     registerChunk(ctx:CanvasRenderingContext2D, chunk:TextChunk)
     {
-        let size = chunk.getSize();
+        let size = chunk.getSize(ctx);
         let ascent = 0;
         let descent = 0;
+
         if(chunk instanceof TextChunkText) {
             const metrics = chunk.getMetrics(ctx);
             ascent = Math.abs(metrics.actualBoundingBoxAscent);
@@ -39,7 +44,7 @@ export default class LineData
         }
 
         this.ascent = Math.max(this.ascent, ascent);
-        this.descent = Math.max(this.descent, ascent);
+        this.descent = Math.max(this.descent, descent);
         this.size.x += size.x;
 
         this.chunks.push(chunk);
@@ -58,7 +63,7 @@ export default class LineData
     refresh()
     {
         this.topLeft = new Point(this.pos.x, this.pos.y - this.ascent);
-        this.bottomRight = new Point(this.pos.x + this.size.x, this.pos.y + this.ascent);
+        this.bottomRight = new Point(this.pos.x + this.size.x, this.pos.y + this.descent);
         this.size.y = this.ascent + this.descent;
     }
 

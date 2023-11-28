@@ -72,7 +72,7 @@ const CONFIG =
         suspects:
         {
             path: "suspects.webp",
-            frames: new Point(10,1)
+            frames: new Point(11,1)
         },
 
         papers:

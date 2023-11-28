@@ -29,13 +29,14 @@ export default class BoardGenerator
         await this.resLoader.loadPlannedResources();
 
         const board = await this.generate();
-        this.draw(board);
+        await this.draw(board);
         OnPageVisualizer.convertCanvasToImage(this);
     }
 
     setup(userConfig:Record<string,any>)
     {
         Object.assign(this.config, userConfig);
+        this.config.resLoader = this.resLoader; // save resource loader on config for use elsewhere; @TODO: not the cleanest approach
         this.canvas = userConfig.canvas; // OnPageVisualizer creates the canvas and passes this through
         this.setupFunction(this.config);
     }
@@ -51,9 +52,9 @@ export default class BoardGenerator
         return board;
     }
 
-    draw(board)
+    async draw(board)
     {
         const boardDraw = new this.drawerClass();
-        boardDraw.draw(this.canvas, board);
+        await boardDraw.draw(this.canvas, board);
     }    
 }

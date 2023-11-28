@@ -17,6 +17,7 @@ interface ActionData
     item?: boolean, // if false/omitted, it's a non-item
     requiresMetadata?: boolean, // if true, it means it relies on HAZARd/ITEM designation to function
     forbiddenTypes?: string[],
+    prePass?: string,
     prob?: number, // default is 1
     minAbs?: number,
     maxAbs?: number,
@@ -26,22 +27,22 @@ interface ActionData
 type ActionSet = Record<string, ActionData>;
 const BASE_SET:ActionSet = 
 {
-    food: { frame: 0, label: "Food", desc: "Worth +1 point.", type: ActionType.SCORE },
-    water: { frame: 1, label: "Water", desc: "Worth +2 points", type: ActionType.SCORE },
-    diamond: { frame: 2, label: "Diamond", desc: "Worth as many points as the total number of diamonds that you have.", type: ActionType.SCORE, item: true },
-    mist: { frame: 3, label: "Mist", desc: "Worth as many points as the number of unvisited spaces.", type: ActionType.STATE, hazard: true },
+    food: { frame: 0, label: "Food", desc: 'Worth +1 point <img id="base" frame="2"> I guess an image.', type: ActionType.SCORE },
+    water: { frame: 1, label: "Water", desc: "Worth <sc>+2 points</sc>.", type: ActionType.SCORE },
+    diamond: { frame: 2, label: "Diamond", desc: "Worth as many points as the total <b>number of diamonds that you have.</b>", type: ActionType.SCORE, item: true },
+    mist: { frame: 3, label: "Mist", desc: "Worth as many points as the <b>number of unvisited spaces.</b>", type: ActionType.STATE, hazard: true },
 
-    journal: { frame: 4, label: "Fragment", desc: "If you own the most, you score +10 points.", type: ActionType.STATE, item: true },
-    bugs: { frame: 5, label: "Bugs", desc: "Worth +2 points if you own the least, otherwise -2 points.", type: ActionType.STATE, hazard: true },
-    rabbit: { frame: 6, label: "Rabbit", desc: "Worth +6 points, but only if this is the MOST occuring type (out of everything)", type: ActionType.STATE }, 
+    journal: { frame: 4, label: "Fragment", desc: "If you own <b>the most</b>, you score +10 points.", type: ActionType.STATE, item: true },
+    bugs: { frame: 5, label: "Bugs", desc: "Worth +2 points if you own <b>the least</b>, otherwise -2 points.", type: ActionType.STATE, hazard: true },
+    rabbit: { frame: 6, label: "Rabbit", desc: "Worth +6 points, but only if this is the <b>most occuring type</b> (out of everything)", type: ActionType.STATE }, 
 
-    boots: { frame: 7, label: "Boots", desc: "Worth -5 points. But each Boots allows you to move an extra space on your turn.", type: ActionType.MOVE, item: true },
+    boots: { frame: 7, label: "Boots", desc: "Worth -5 points. Each Boots allows you to <b>move an extra space</b> on your turn.", type: ActionType.MOVE, item: true },
     signpost: { frame: 8, label: "Signpost", desc: "Worth +3 points, but only pickable if you move in its direction.", type: ActionType.MOVE, item: true },
     portal: { frame: 9, label: "Portal", desc: "Instead of taking 1 step, move to another free square with a portal.", type: ActionType.MOVE },
 
-    tree: { frame: 10, label: "Tree", desc: "Worth as much as the number of Trees on adjacent squares.", type: ActionType.TERRA },
-    trail: { frame: 11, label: "Trail", desc: "Worth as many points as the LONGEST connected trail on the board (not necessarily yours).", type: ActionType.TERRA },
-    river: { frame: 12, label: "River", desc: "Worth as many points as the total length of its river.", type: ActionType.TERRA },
+    tree: { frame: 10, label: "Tree", desc: "Worth as much as the number of <b>Trees on adjacent squares</b>.", type: ActionType.TERRA, prePass: "floodfill" },
+    trail: { frame: 11, label: "Trail", desc: "Worth as many points as the <b>longest connected trail</b> on the board (not necessarily yours).", type: ActionType.TERRA, prePass: "chain" },
+    river: { frame: 12, label: "River", desc: "Worth as many points as the <b>total length of its river</b>.", type: ActionType.TERRA, prePass: "chain" },
 }
 
 const ADVANCED_SET:ActionSet = 
@@ -53,16 +54,16 @@ const ADVANCED_SET:ActionSet =
     jaguar: { frame: 3, label: "Jaguar", desc: "Worth +6 points, but only if this is the LEAST occurring type out of everything on the board.", type: ActionType.STATE },
     trap: { frame: 4, label: "Trap", desc: "Worth -2 points, unless you own the MOST traps (out of all players", type: ActionType.STATE, hazard: true },
     attacker: { frame: 5, label: "Attacker", desc: "Worth +2 points. If there's an adjacent Attacker, however, you CAN'T pick this option.", type: ActionType.STATE, hazard: true },
-    flag: { frame: 6, label: "Flag", desc: "Worth +8 points if more than half the rows contain a Flag, otherwise -8.", type: ActionType.STATE, item: true },
-    home: { frame: 7, label: "Home", desc: "Worth +8 points if less than half the columns contain a Home, otherwise -8.", type: ActionType.STATE, item: true },
+    flag: { frame: 6, label: "Flag", desc: "Worth +8 points if more than half the rows contain a Flag, otherwise -8.", type: ActionType.STATE, item: true, prePass: "rowcol" },
+    home: { frame: 7, label: "Home", desc: "Worth +8 points if less than half the columns contain a Home, otherwise -8.", type: ActionType.STATE, item: true, prePass: "rowcol" },
  
     lookout: { frame: 8, label: "Lookout", desc: "Nobody but you may enter an adjacent space.", type: ActionType.MOVE },
     warningsign: { frame: 9, label: "Warning Sign", desc: "Worth +2 points, but only pickable if you DON'T move in its direction.", type: ActionType.MOVE, item: true },
     rocks: { frame: 10, label: "Rocks", desc: "Worth +2 points. Once chosen, nobody can move across the edge showing the rocks.", type: ActionType.MOVE },
 
-    plant: { frame: 11, label: "Plant", desc: "Worth +1 point. When picked, turn one adjacent tile into a plant (if possible).", type: ActionType.TERRA },
-    virus: { frame: 12, label: "Virus", desc: "Worth -2 points. If there's an adjacent Virus, you MUST pick this option.", type: ActionType.TERRA, forbiddenTypes: ["sheep"], hazard: true },
-    sheep: { frame: 13, label: "Sheep", desc: "Worth +1 point. If there's an adjacent Sheep, you MUST pick this option.", type: ActionType.TERRA, forbiddenTypes: ["virus"] },
+    plant: { frame: 11, label: "Plant", desc: "Worth +1 point. When picked, turn one adjacent tile into a plant (if possible).", type: ActionType.TERRA, prePass: "floodfill" },
+    virus: { frame: 12, label: "Virus", desc: "Worth -2 points. If there's an adjacent Virus, you MUST pick this option.", type: ActionType.TERRA, forbiddenTypes: ["sheep"], hazard: true, prePass: "chain" },
+    sheep: { frame: 13, label: "Sheep", desc: "Worth +1 point. If there's an adjacent Sheep, you MUST pick this option.", type: ActionType.TERRA, forbiddenTypes: ["virus"], prePass: "chain" },
 }
 
 const EXPERT_SET:ActionSet = 
@@ -82,7 +83,7 @@ const EXPERT_SET:ActionSet =
 
     gunshot: { frame: 10, label: "Gunshot", desc: "Worth -2 points. When picked, destroy 2 tiles in the same row or column.", type: ActionType.ACTION, hazard: true },
 
-    herd: { frame: 11, label: "Herd", desc: "Worth as many points as the size of its group ( = all herd connected to it).", type: ActionType.TERRA },
+    herd: { frame: 11, label: "Herd", desc: "Worth as many points as the size of its group ( = all herd connected to it).", type: ActionType.TERRA, prePass: "floodfill" },
     birdsong: { frame: 12, label: "Birdsong", desc: "Worth +1 point. When picked, also turn any other square into Birdsong (if possible).", type: ActionType.TERRA },
     spell: { frame: 13, label: "Spell", desc: "Worth 0 points. When picked, decide the type of any unvisited square.", type: ActionType.ACTION, item: true }
 }

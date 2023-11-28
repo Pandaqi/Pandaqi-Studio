@@ -54,57 +54,57 @@ type ActionSet = Record<string, ActionData>;
 
 const BASE_SET:ActionSet = 
 {
-    murder: { frame: 0, type: AType.MURDER, subType: SType.MURDER, label: "Murder", desc: "Kills the suspect.", spyglass: ReqType.CANT },
-    threat: { frame: 1, type: AType.MURDER, subType: SType.MURDER, label: "Threat", desc: "Kills the suspect if this is the 2nd threat.", spyglass: ReqType.CANT },
-    bodyguard: { frame: 2, type: AType.MURDER, subType: SType.PROTECT, label: "Bodyguard", desc: "Saves the suspect from dying once.", suspect: ReqType.MUST },
-    sidekick: { frame: 3, type: AType.MURDER, subType: SType.MURDER, label: "Sidekick", desc: "Check an adjacent pile. If it also has a Sidekick, this suspect dies.", suspect: ReqType.CANT },
+    murder: { frame: 0, type: AType.MURDER, subType: SType.MURDER, label: "Murder", desc: "<b>Kills</b> the suspect.", spyglass: ReqType.CANT },
+    threat: { frame: 1, type: AType.MURDER, subType: SType.MURDER, label: "Threat", desc: "<b>Kills</b> the suspect if this is the 2nd threat.", spyglass: ReqType.CANT },
+    bodyguard: { frame: 2, type: AType.MURDER, subType: SType.PROTECT, label: "Bodyguard", desc: "<b>Saves</b> the suspect from dying <b>once</b>.", suspect: ReqType.MUST },
+    sidekick: { frame: 3, type: AType.MURDER, subType: SType.MURDER, label: "Sidekick", desc: "Check an adjacent pile. If it also has a Sidekick, this suspect <b>dies</b>.", suspect: ReqType.CANT },
 
-    stop: { frame: 4, type: AType.PILES, subType: SType.REVIEW, label: "Stop", desc: "Stop (further) review. If played OPENLY, instantly do a REVIEW." },
-    jester: { frame: 5, type: AType.PILES, subType: SType.PILE, label: "Jester", desc: "Shuffle the rest of this pile." },
-    delay: { frame: 6, type: AType.PILES, subType: SType.REVIEW, label: "Delay Tactics", desc: "While visible, no REVIEW phase ever happens." },
-    bomb: { frame: 7, type: AType.PILES, subType: SType.PILE, label: "Bomb", desc: "Reveal and execute the top card of all adjacent piles.", suspect: ReqType.CANT },
+    stop: { frame: 4, type: AType.PILES, subType: SType.REVIEW, label: "Stop", desc: "<b>Stop</b> (further) review. If played <b>openly</b>, instantly do a <b>review</b>." },
+    jester: { frame: 5, type: AType.PILES, subType: SType.PILE, label: "Jester", desc: "<b>Shuffle</b> the rest of this pile." },
+    delay: { frame: 6, type: AType.PILES, subType: SType.REVIEW, label: "Delay Tactics", desc: "While visible, <b>no review phase</b> ever happens." },
+    bomb: { frame: 7, type: AType.PILES, subType: SType.PILE, label: "Bomb", desc: "Reveal and execute the <b>top card</b> of all adjacent piles.", suspect: ReqType.CANT },
     
     question: { frame: 8, type: AType.ACTION, subType: SType.INFO, label: "Burning Question", desc: "Reveal a hand card. Ask another player on which pile to play it, then do so." },
     investigator: { frame: 9, type: AType.ACTION, subType: SType.INFO, label: "Investigator", desc: "Look at another player's hand." },
-    mover: { frame: 10, type: AType.ACTION, subType: SType.ORDER, label: "Mover", desc: "Move the spyglass to another location", spyglass: ReqType.MUST },
-    switcheroo: { frame: 11, type: AType.ACTION, subType: SType.ORDER, label: "Switcheroo", desc: "Make two suspects switch places." },
+    mover: { frame: 10, type: AType.ACTION, subType: SType.ORDER, label: "Mover", desc: "Move the <b>spyglass</b> to another location", spyglass: ReqType.MUST },
+    switcheroo: { frame: 11, type: AType.ACTION, subType: SType.ORDER, label: "Switcheroo", desc: "Make two suspects <b>switch places</b>." },
 }
 
 const ADVANCED_SET:ActionSet = 
 {
-    poison: { frame: 0, type: AType.MURDER, subType: SType.MURDER, label: "Poison", desc: "Kills the suspect if this is the 3rd poison. This card always stays in the pile after review!" },
-    armor: { frame: 1, type: AType.MURDER, subType: SType.PROTECT, label: "Armor", desc: "Saves the suspect from dying once if this is the 3rd armor. This card always stays in the pile after review!" },
-    antidote: { frame: 2, type: AType.MURDER, subType: SType.PROTECT, label: "Antidote", desc: "Negates all Poison, Threat or Armor cards in this pile." },
-    revenge: { frame: 3, type: AType.MURDER, subType: SType.REVIEW, label: "Dying Breath", desc: "If this suspect dies, also REVIEW the suspect with the LEAST cards in their pile." }, 
+    poison: { frame: 0, type: AType.MURDER, subType: SType.MURDER, label: "Poison", desc: "<b>Kills</b> the suspect if this is the <b>3rd poison</b>. It always <b>stays</b> in the pile after review!" },
+    armor: { frame: 1, type: AType.MURDER, subType: SType.PROTECT, label: "Armor", desc: "<b>Saves</b> the suspect from dying once if this is the <b>3rd armor</b>. It always <b>stays</b> in the pile after review!" },
+    antidote: { frame: 2, type: AType.MURDER, subType: SType.PROTECT, label: "Antidote", desc: "Negates all <b>Poison, Threat or Armor</b> cards in this pile." },
+    revenge: { frame: 3, type: AType.MURDER, subType: SType.REVIEW, label: "Dying Breath", desc: "If this suspect dies, also <b>review</b> the suspect with the <b>least</b> cards." }, 
 
-    safe_stop: { frame: 4, type: AType.PILES, subType: SType.REVIEW, label: "Safe Stop", desc: "Stop (further) review. Also don't discard the rest of this pile." }, 
-    reverse: { frame: 5, type: AType.PILES, subType: SType.REVIEW, label: "Back to the top", desc: "While visible, the REVIEW direction is inverted. (Top to bottom, or bottom to top.)", spyglass: ReqType.CANT },
-    alley: { frame: 6, type: AType.PILES, subType: SType.PILE, label: "Back Alley", desc: "While visible, cards may be played to the BOTTOM of evidence piles.", spyglass: ReqType.MUST },
-    bomb_timed: { frame: 7, type: AType.PILES, subType: SType.PILE, label: "Time Bomb", desc: "Reveal (and execute) the bottom card of all adjacent piles." },
+    safe_stop: { frame: 4, type: AType.PILES, subType: SType.REVIEW, label: "Safe Stop", desc: "<b>Stop</b> (further) review. Also <b>don't discard</b> the rest of this pile." }, 
+    reverse: { frame: 5, type: AType.PILES, subType: SType.REVIEW, label: "Back to the top", desc: "While visible, the <b>review direction</b> is inverted. (Top to bottom, or bottom to top.)", spyglass: ReqType.CANT },
+    alley: { frame: 6, type: AType.PILES, subType: SType.PILE, label: "Back Alley", desc: "While visible, cards may be played to the <b>bottom</b> of evidence piles.", spyglass: ReqType.MUST },
+    bomb_timed: { frame: 7, type: AType.PILES, subType: SType.PILE, label: "Time Bomb", desc: "Reveal (and execute) the <b>bottom card</b> of all adjacent piles." },
 
-    rebel: { frame: 8, type: AType.ACTION, subType: SType.ORDER, label: "Rebel", desc: "Don't move the spyglass at the end of your turn.", spyglass: ReqType.MUST }, // @TODO: perhaps a little weak? => also, all actions cards in this set are a bit similar
-    show: { frame: 9, type: AType.ACTION, subType: SType.INFO, label: "Show me your hands", desc: "While visible, everybody plays all cards FACEUP.", spyglass: ReqType.MUST },
-    backward: { frame: 10, type: AType.ACTION, subType: SType.ORDER, label: "Walk it back", desc: "While visible, the spyglass moves BACKWARDS after each turn.", spyglass: ReqType.MUST },
-    hasty: { frame: 11, type: AType.ACTION, subType: SType.MISC, label: "Hasty", desc: "Immediately take 2 more turns." }
+    rebel: { frame: 8, type: AType.ACTION, subType: SType.ORDER, label: "Rebel", desc: "<b>Don't</b> move the <b>spyglass</b> at the end of your turn.", spyglass: ReqType.MUST }, // @TODO: perhaps a little weak? => also, all actions cards in this set are a bit similar
+    show: { frame: 9, type: AType.ACTION, subType: SType.INFO, label: "Show me your hands", desc: "While visible, everybody plays all cards <b>faceup</b>.", spyglass: ReqType.MUST },
+    backward: { frame: 10, type: AType.ACTION, subType: SType.ORDER, label: "Walk it back", desc: "While visible, the <b>spyglass moves backwards</b> after each turn.", spyglass: ReqType.MUST },
+    hasty: { frame: 11, type: AType.ACTION, subType: SType.MISC, label: "Hasty", desc: "Immediately take <b>2 more turns</b>." }
 
 }
 
 const EXPERT_SET:ActionSet =
 {
-    sniper: { frame: 0, type: AType.MURDER, subType: SType.MURDER, label: "Sniper", desc: "REVIEW an adjacent suspect. If no card in their pile saves them, they are killed.", suspect: ReqType.CANT, spyglass: ReqType.CANT },
-    lone_murder: { frame: 1, type: AType.MURDER, subType: SType.MURDER, label: "When nobody's around", desc: "Kills the suspect if all adjacent piles have fewer than 3 cards. Otherwise, it saves them ONCE." },
-    last_ditch: { frame: 2, type: AType.MURDER, subType: SType.MURDER, label: "Last ditch effort", desc: "Kills the suspect if fewer than 3 suspects remain (in total). Otherwise, it saves them ONCE." },
-    swapper: { frame: 3, type: AType.MURDER, subType: SType.PROTECT, label: "Wrong address", desc: "Just before being killed, swap this suspect with another." },
+    sniper: { frame: 0, type: AType.MURDER, subType: SType.MURDER, label: "Sniper", desc: "<b>Review</b> an adjacent suspect. If no card in their pile saves them, they are <b>killed</b>.", suspect: ReqType.CANT, spyglass: ReqType.CANT },
+    lone_murder: { frame: 1, type: AType.MURDER, subType: SType.MURDER, label: "When nobody's around", desc: "<b>Kills</b> the suspect if all adjacent piles have fewer than 3 cards. Otherwise, it <b>saves</b> them once." },
+    last_ditch: { frame: 2, type: AType.MURDER, subType: SType.MURDER, label: "Last ditch effort", desc: "<b>Kills</b> the suspect if fewer than 3 suspects remain (in total). Otherwise, it <b>saves</b> them once." },
+    swapper: { frame: 3, type: AType.MURDER, subType: SType.PROTECT, label: "Wrong address", desc: "Just before being killed, <b>swap</b> this suspect with another." },
 
-    wipe: { frame: 4, type: AType.PILES, subType: SType.PILE, label: "Memory Wipe", desc: "Discard this pile and one adjacent pile." },
-    tangled: { frame: 5, type: AType.PILES, subType: SType.PILE, label: "Tangled Up", desc: "Study the contents of an adjacent pile. Move 2 cards to the top of this pile." },
-    spread: { frame: 6, type: AType.PILES, subType: SType.PILE, label: "Spread the love", desc: "Reveal the remaining cards in this pile. Distribute them over all other piles as you wish." },
-    double: { frame: 7, type: AType.PILES, subType: SType.PILE, label: "Double Cross", desc: "Move this entire pile to the bottom or top of another pile." },
+    wipe: { frame: 4, type: AType.PILES, subType: SType.PILE, label: "Memory Wipe", desc: "<b>Discard</b> this pile and one adjacent pile." },
+    tangled: { frame: 5, type: AType.PILES, subType: SType.PILE, label: "Tangled Up", desc: "Study the contents of an adjacent pile. <b>Move 2 cards to the top</b> of this pile." },
+    spread: { frame: 6, type: AType.PILES, subType: SType.PILE, label: "Spread the love", desc: "Reveal the remaining cards in this pile. <b>Distribute</b> them over all other piles as you wish." },
+    double: { frame: 7, type: AType.PILES, subType: SType.PILE, label: "Double Cross", desc: "<b>Move</b> this entire pile to the bottom or top of <b>another pile</b>." },
 
-    investigator_private: { frame: 8, type: AType.ACTION, subType: SType.INFO, label: "Private Investigator", desc: "Look at another player's suspect." },
-    revelation: { frame: 9, type: AType.ACTION, subType: SType.MISC, label: "Revelation", desc: "Immediately play another card on top of all adjacent piles." },
-    thief: { frame: 10, type: AType.ACTION, subType: SType.MISC, label: "Thief", desc: "Steal 3 cards from another player." },
-    clock: { frame: 11, type: AType.ACTION, subType: SType.REVIEW, label: "On the clock", desc: "At most 3 cards may be evaluated during this REVIEW. After that, immediately stop.", spyglass: ReqType.CANT }
+    investigator_private: { frame: 8, type: AType.ACTION, subType: SType.INFO, label: "Private Investigator", desc: "Look at another player's <b>suspect</b>." },
+    revelation: { frame: 9, type: AType.ACTION, subType: SType.MISC, label: "Revelation", desc: "Immediately <b>play another card</b> on top of all adjacent piles." },
+    thief: { frame: 10, type: AType.ACTION, subType: SType.MISC, label: "Thief", desc: "<b>Steal 3 cards</b> from another player." },
+    clock: { frame: 11, type: AType.ACTION, subType: SType.REVIEW, label: "On the clock", desc: "<b>At most 3 cards</b> may be evaluated during this <b>review</b>. After that, immediately stop.", spyglass: ReqType.CANT }
 }
 
 const SETS:Record<string, ActionSet> = 
@@ -117,15 +117,16 @@ const SETS:Record<string, ActionSet> =
 const SUSPECTS = 
 {
     spyglass: { frame: 0, freq: 1 },
-    scarlett: { frame: 1 }, // Miss Scarlett = red
-    green: { frame: 2 }, // Reverend Green = green
-    mustard: { frame: 3 }, // Colonel Mustard = yellow/brown
-    professor: { frame: 4 }, // Professor Plum = purple
-    peacock: { frame: 5 }, // Mrs. Peacock = blue
-    doctor: { frame: 6 }, // Doctor Orchid = white
-    brunette: { frame: 7 }, // Monsieur Brunette
-    rose: { frame: 8 }, // Madame Rose
-    traitor: { frame: 9, freq: 1 }
+    scarlett: { frame: 1, color: "#6E0C0D" }, // Miss Scarlett = red
+    green: { frame: 2, color: "#0B3B00" }, // Reverend Green = green
+    mustard: { frame: 3, color: "#3F350D" }, // Colonel Mustard = yellow/brown
+    professor: { frame: 4, color: "#331D49" }, // Professor Plum = purple
+    peacock: { frame: 5, color: "#0C2E4F" }, // Mrs. Peacock = blue
+    doctor: { frame: 6, color: "#333333" }, // Doctor Orchid = white
+    baker: { frame: 7, color: "#003D39" }, // Baker Girl = turquoise
+    brunette: { frame: 8, color: "#3B2118" }, // Monsieur Brunette
+    rose: { frame: 9, color: "#55123A" }, // Madame Rose
+    traitor: { frame: 10, freq: 1 }
 }
 
 const MISC =

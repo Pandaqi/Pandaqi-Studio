@@ -1,10 +1,19 @@
 import Resource from "./resource"
 import ResourceImage from "./resourceImage"
 import ResourceFont from "./resourceFont"
+import TextConfig from "../text/textConfig"
 
 interface ResourceLoaderParams
 {
     base?:string
+}
+
+interface ResourceLoadParams
+{
+    path: string
+    id?: string
+    key?: string
+    textConfig?: TextConfig
 }
 
 export default class ResourceLoader 
@@ -15,7 +24,7 @@ export default class ResourceLoader
     VIDEO_EXTENSIONS = ["mp4", "webm"]
     FONT_EXTENSIONS = ["otf", "ttf", "woff", "woff2"]
 
-    resourcesQueued : Record<string, Resource>
+    resourcesQueued : Record<string, ResourceLoadParams>
     resourcesLoaded : Record<string, Resource>
     base: string
 
@@ -94,7 +103,7 @@ export default class ResourceLoader
         return this.FONT_EXTENSIONS.includes(this.getExtension(path));
     }
 
-    async loadResource(id:string, params:any)
+    async loadResource(id:string, params:ResourceLoadParams)
     {
         let originalPath = params.path ?? "";
         // @NOTE: base always ends on a slash, so originalPath should never start with one
@@ -115,7 +124,9 @@ export default class ResourceLoader
 
         if(this.isFont(path))
         {
-            const fontFile = new FontFace(key, "url('" + params.path + "')");
+            const textConfig = params.textConfig ? params.textConfig.getFontFaceDescriptors() : {};
+
+            const fontFile = new FontFace(key, "url('" + params.path + "')", textConfig);
             const f = await fontFile.load()
             this.cacheLoadedFont(key, params, f)
         }

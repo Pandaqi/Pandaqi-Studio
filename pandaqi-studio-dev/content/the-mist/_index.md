@@ -69,19 +69,30 @@ The rules are so simple, they're on the paper itself. (If you still want a refer
 	{{< setting-hidden id="setting-gameTitle" text="The Mist" >}}
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the board mostly grayscale." >}}
   {{< setting-checkbox id="setting-includeRules" text="Include Rules?" checked="checked" remark="Only disable this if you know all the rules by heart." >}}
-  <!--- @TODO: probably some difficulty setting or advanced sets to include --->
+  {{< setting-enum id="setting-boardSize" text="Board Size?" values="tiny,small,regular,big,huge" valaskey="true" def="regular" remark="Increases or decreases the number of squares on the board; not page size." >}}
+  <h3>Which sets to include?</h3>
+  {{< setting-checkbox id="setting-sets-base" text="Base Set?" checked="checked" >}}
+  {{< setting-checkbox id="setting-sets-advanced" text="Advanced Set?" >}}
+  {{< setting-checkbox id="setting-sets-expert" text="Expert Set?" >}}
 {{< /boardgame-settings >}}
 
 <p class="settings-remark"><strong>Not working?</strong> Don't worry! At the "download" button you can find loads of premade boards I already generated for you. (Also, send me an email about what isn't working.)</p>
 
 {{% /section-centered %}}
 
-
 {{% section-centered heading="Credits" %}}
 
-The fonts used are **??** (headings) and **??** (body). Both freely available. 
+The fonts used are **Adventure Script** (headings) and **Inika** (body). Both freely available. Some of the art was generated with AI. Everything else (code, assets, idea, etcetera) is entirely mine.
 
-@TODO
+This is probably my game with the highest ratio of "rules" to "depth". 
+
+The game is extremely simple! In fact, it is explained on the paper itself, and even that leaves more than enough room for anything else. 
+
+Yet the core idea behind those rules allows a _lot_ of strategy, play styles, and therefore depth. Every turn is the same simple decision (between 4 icons), but every single decision matters a lot for every turn after it. And to make matters worse, other players are doing the same thing, all within a shared map.
+
+While obviously not on the same level as Chess or Go, I do compare its general feel to those games.
+
+I sometimes feel like those games aren't so much "designed" as that they are "found". This feels like a game that was always there, I just found it and hopefully executed it well enough :)
 
 Want more details? Check out the [devlog](https://pandaqi.com/blog/boardgames/the-mist).
 

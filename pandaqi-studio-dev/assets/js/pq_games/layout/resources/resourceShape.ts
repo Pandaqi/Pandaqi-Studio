@@ -13,10 +13,10 @@ export default class ResourceShape extends Resource
 {
     shape: Shape
 
-    constructor(params:ResourceShapeParams = {})
+    constructor(params:ResourceShapeParams|Shape = {})
     {
         super()
-        this.shape = params.shape ?? new Shape();
+        this.shape = (params instanceof Shape) ? params : (params.shape ?? new Shape());
     }
     
     clone(deep = false) : ResourceShape

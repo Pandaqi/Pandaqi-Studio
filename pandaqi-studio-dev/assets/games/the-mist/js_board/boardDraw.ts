@@ -1,21 +1,16 @@
 import Point from "js/pq_games/tools/geometry/point";
 import BoardState from "./boardState";
 import CONFIG from "../js_shared/config";
-import { circleToPhaserObject, rectToPhaserObject } from "js/pq_games/phaser/shapeToPhaserObject";
 import Rectangle from "js/pq_games/tools/geometry/rectangle";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import imageToPhaser from "js/pq_games/phaser/imageToPhaser";
-import getPositionsCenteredAround from "js/pq_games/tools/geometry/paths/getPositionsCenteredAround";
-import textToPhaser from "js/pq_games/phaser/textToPhaser";
 import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
 import RectangleRounded from "js/pq_games/tools/geometry/rectangleRounded";
-import shapeToPhaser from "js/pq_games/phaser/shapeToPhaser";
-import GrayScaleEffect from "js/pq_games/layout/effects/grayScaleEffect";
 import Color from "js/pq_games/layout/color/color";
 import Circle from "js/pq_games/tools/geometry/circle";
 import rangeInteger from "js/pq_games/tools/random/rangeInteger";
 import ColorLike from "js/pq_games/layout/color/colorLike";
+import ResourceShape from "js/pq_games/layout/resources/resourceShape";
 
 // Takes in a BoardState, draws it
 export default class BoardDraw
@@ -37,17 +32,17 @@ export default class BoardDraw
     fullSize: Point;
     showTypeMetadata: boolean;
 
-    draw(game:any, bs:BoardState)
+    async draw(canvas:any, bs:BoardState)
     {
-        this.prepare(game, bs);
-        this.drawBackground(game, bs);
-        this.drawBoard(game, bs);
-        this.drawSidebar(game, bs);
+        this.prepare(canvas, bs);
+        await this.drawBackground(canvas, bs);
+        await this.drawBoard(canvas, bs);
+        await this.drawSidebar(canvas, bs);
     }
 
-    prepare(game:any, bs:BoardState)
+    prepare(canvas:any, bs:BoardState)
     {
-        const fullSize = new Point(game.canvas.width, game.canvas.height);
+        const fullSize = new Point(canvas.width, canvas.height);
         const fullSizeUnit = Math.min(fullSize.x, fullSize.y);
         const edgeMargin = CONFIG.draw.edgeMargin.clone().scale(fullSizeUnit);
 
@@ -73,6 +68,7 @@ export default class BoardDraw
         this.cellSizeUnit = Math.min(this.cellSize.x, this.cellSize.y);
 
         let requiresMetadata = false;
+        console.log("UNIQUE TYPES: ", bs.uniqueTypes);
         for(const type of bs.uniqueTypes)
         {
             if(CONFIG.allTypes[type].requiresMetadata) { requiresMetadata = true; break; }
@@ -81,7 +77,7 @@ export default class BoardDraw
         this.showTypeMetadata = requiresMetadata;
     }
 
-    drawBackground(game, bs)
+    async drawBackground(canv:HTMLCanvasElement, bs)
     {
         const rect = new Rectangle({ center: this.fullSize.clone().scale(0.5), extents: this.fullSize });
         const bgColor = CONFIG.inkFriendly ? "#FFFFFF" : CONFIG.draw.bgColor;
@@ -89,15 +85,15 @@ export default class BoardDraw
             fill: bgColor,
             pivot: Point.CENTER
         })
-        rectToPhaserObject(rect, op, game);
+        await new ResourceShape(rect).toCanvas(canv, op);
     }
 
     convertGridPosToRealPos(pos:Point)
     {
-        return this.originGrid.clone().add( pos.clone().scale(this.cellSize) );
+        return this.originBoard.clone().add( pos.clone().scale(this.cellSize) );
     }
 
-    drawBoard(game:any, bs:BoardState)
+    async drawBoard(canv:HTMLCanvasElement, bs:BoardState)
     {
         const bgColorLightness = CONFIG.draw.cells.bgColorLightness;
         const bgColorDarken = CONFIG.draw.cells.bgColorDarken;
@@ -106,7 +102,7 @@ export default class BoardDraw
 
         const dotRadius = CONFIG.draw.cells.dotRadius * this.cellSizeUnit;
         const iconDims = new Point(CONFIG.draw.cells.iconSize * this.cellSizeUnit);
-        const iconOffset = CONFIG.draw.cells.iconOffsetFromCenter * this.cellSizeUnit;
+        const iconOffset = CONFIG.draw.cells.iconOffsetFromCenter * 0.5 * this.cellSizeUnit;
         const positions = [
             Point.DOWN.clone().scale(iconOffset),
             Point.LEFT.clone().scale(iconOffset),
@@ -114,8 +110,19 @@ export default class BoardDraw
             Point.RIGHT.clone().scale(iconOffset)
         ];
 
-        // for each cell, 
+        const iconOp = new LayoutOperation({
+            dims: iconDims,
+            pivot: Point.CENTER,
+        })
+
         const cellStrokeWidth = CONFIG.draw.cells.strokeWidth * this.cellSizeUnit;
+        const rectOp = new LayoutOperation({
+            stroke: "#000000",
+            strokeWidth: cellStrokeWidth,
+            pivot: Point.CENTER
+        })
+
+        // for each cell, 
         for(const cell of bs.cells)
         {
             // - draw its rectangle
@@ -127,20 +134,15 @@ export default class BoardDraw
             if(isOddCell) { col = col.darken(bgColorDarken); }
 
             const rect = new Rectangle({ center: new Point(), extents: this.cellSize });
-            const rectOp = new LayoutOperation({
-                translate: posCenter,
-                fill: col,
-                stroke: "#000000",
-                strokeWidth: cellStrokeWidth,
-                pivot: Point.CENTER
-            })
-            rectToPhaserObject(rect, rectOp, game);
+            rectOp.translate = posCenter;
+            rectOp.fill = new ColorLike(col);
+
+            await new ResourceShape(rect).toCanvas(canv, rectOp);
 
             // - draw the writable dot in the center
             const circ = new Circle({ radius: dotRadius });
-            const circOp = rectOp.clone();
-            circOp.fill = new ColorLike("#FFFFFF");
-            circleToPhaserObject(circ, rectOp, game);
+            rectOp.fill = new ColorLike("#FFFFFF");
+            await new ResourceShape(circ).toCanvas(canv, rectOp);
         
             // - draw its 4 icons
             let counter = rangeInteger(0,3);
@@ -150,21 +152,18 @@ export default class BoardDraw
                 const icon = CONFIG.resLoader.getResource(iconData.textureKey);
                 const rotation = counter * 0.5 * Math.PI;
                 const pos = posCenter.clone().move(positions[counter]);
-                const iconOp = new LayoutOperation({
-                    frame: iconData.frame,
-                    translate: pos,
-                    dims: iconDims,
-                    pivot: Point.CENTER,
-                    rotation: rotation
-                })
-                imageToPhaser(icon, iconOp, game);
+                iconOp.frame = iconData.frame;
+                iconOp.translate = pos;
+                iconOp.rotation = rotation;
+
+                await icon.toCanvas(canv, iconOp);
                 counter = (counter + 1) % 4;
             }
             
         }
     }
 
-    drawSidebar(game:any, bs:BoardState)
+    async drawSidebar(canv:HTMLCanvasElement, bs:BoardState)
     {
         if(!CONFIG.includeRules) { return; }
 
@@ -176,8 +175,8 @@ export default class BoardDraw
             translate: this.originSidebar,
             dims: tutDims
         })
-        const sprite = imageToPhaser(tut, tutOp, game);
 
+        await tut.toCanvas(canv, tutOp);
 
         // specific types explained below that
         const uniqueTypes = bs.uniqueTypes; // @TODO: calculate automatically
@@ -199,7 +198,8 @@ export default class BoardDraw
             size: fontSize,
             lineHeight: CONFIG.draw.sidebar.lineHeight,
             alignHorizontal: TextAlign.START,
-            alignVertical: TextAlign.MIDDLE    
+            alignVertical: TextAlign.MIDDLE ,
+            resLoader: CONFIG.resLoader   
         })
 
         const rectOp = new LayoutOperation({
@@ -212,8 +212,6 @@ export default class BoardDraw
         for(const type of uniqueTypes)
         {
             // draw the icon
-            const graphicsMain = game.add.graphics();
-
             const data = CONFIG.allTypes[type];
             const icon = CONFIG.resLoader.getResource(data.textureKey);
             const iconPos = pos.clone().move(new Point(iconDims).scale(0.5));
@@ -226,8 +224,8 @@ export default class BoardDraw
             })
 
             const rect = new RectangleRounded({ center: iconPos, extents: iconDims, radius: borderRadius });
-            shapeToPhaser(rect, rectOp, graphicsMain);
-            imageToPhaser(icon, iconOp, game);
+            await new ResourceShape(rect).toCanvas(canv, rectOp);
+            await icon.toCanvas(canv, iconOp);
 
             // add the text explaining how it scores
             const text = data.desc;
@@ -241,13 +239,13 @@ export default class BoardDraw
                 fill: "#000000",
                 dims: innerTextDims,
                 translate: innerTextPos,
-                pivot: Point.CENTER
+                pivot: new Point(0,0.5)
             })
 
             const rectCenter = new Point(textPos.x + 0.5*textDims.x, textPos.y);
             const rectText = new RectangleRounded({ center: rectCenter, extents: textDims, radius: borderRadius });
-            shapeToPhaser(rectText, rectOp, graphicsMain);
-            textToPhaser(textRes, textOp, game);
+            await new ResourceShape(rectText).toCanvas(canv, rectOp);
+            await textRes.toCanvas(canv, textOp);
 
             // @TODO: show the type metadata (HAZARD/ITEM) in some way
             if(this.showTypeMetadata)

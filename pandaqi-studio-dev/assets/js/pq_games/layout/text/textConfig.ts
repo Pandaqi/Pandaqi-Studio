@@ -1,3 +1,5 @@
+import ColorLike from "../color/colorLike"
+import LayoutOperation from "../layoutOperation"
 import ResourceFont from "../resources/resourceFont"
 import ResourceLoader from "../resources/resourceLoader"
 
@@ -41,12 +43,14 @@ interface TextConfigParams
     variant?: TextVariant
 
     resLoader?:ResourceLoader // for text that draws icons/images inline
+    defaultImageOperation?:LayoutOperation
     useDynamicLineHeight?:boolean
 }
 
 export { TextConfig, TextAlign, TextStyle, TextWeight, TextVariant }
 export default class TextConfig
 {
+    color: ColorLike
     size: number
     font: string|ResourceFont
     alignHorizontal: TextAlign
@@ -55,8 +59,11 @@ export default class TextConfig
     style: TextStyle
     weight: TextWeight
     variant: TextVariant
+
+    defaultImageOperation: LayoutOperation;
     resLoader: ResourceLoader;
     useDynamicLineHeight: boolean;
+    history: Record<string,any>
 
     constructor(params:TextConfigParams = {})
     {
@@ -70,9 +77,11 @@ export default class TextConfig
         this.weight = params.weight ?? TextWeight.REGULAR;
         this.variant = params.variant ?? TextVariant.NORMAL;
         this.resLoader = params.resLoader ?? null;
+        this.defaultImageOperation = params.defaultImageOperation ?? null;
+        this.history = {};
     }
 
-    clone() : TextConfig
+    clone(deep = true) : TextConfig
     {
         const tf = new TextConfig();
         for(const prop in this)
@@ -80,6 +89,12 @@ export default class TextConfig
             // @ts-ignore
             tf[prop] = this[prop]
         }
+
+        if(deep)
+        {
+            this.history = structuredClone(this.history);
+        }
+
         return tf;
     }
 
@@ -142,6 +157,15 @@ export default class TextConfig
         ].join(" ");
     }
 
+    getFontFaceDescriptors() : FontFaceDescriptors
+    {
+        return {
+            style: this.getStyleString(),
+            weight: this.getWeightString(),
+            display: "swap"
+        }
+    }
+
     applyToHTML(elem:HTMLElement)
     {
         elem.style.fontFamily = '"' + this.getNameString() + '"';
@@ -152,5 +176,32 @@ export default class TextConfig
         elem.style.lineHeight = (this.lineHeight * 100) + "%";
         elem.style.textAlign = this.getAlignString();
         elem.style.verticalAlign = this.getAlignVerticalString();
+    }
+
+    applyToCanvas(ctx:CanvasRenderingContext2D)
+    {
+        ctx.font = this.getCanvasFontString();
+        if(this.color) { ctx.fillStyle = this.color.toCanvasStyle(ctx); }
+    }
+
+    rollbackProperty(prop:string)
+    {
+        const hist = this.history[prop];
+        if(!hist || hist.length <= 0) { return; }
+        this[prop] = hist.pop();
+    }
+
+    updateProperty(prop:string, val:any, keepHistory = true)
+    {
+        if(keepHistory) 
+        {
+            if(!(prop in this.history)) { this.history[prop] = []; }
+            this.history[prop].push(this[prop]);
+        }
+
+        // @TODO: find some cleaner conversion function, or remove the need for this completely?
+        if(prop == "color") { val = new ColorLike(val); }
+
+        this[prop] = val;
     }
 }

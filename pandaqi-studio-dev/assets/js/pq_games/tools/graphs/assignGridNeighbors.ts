@@ -21,14 +21,15 @@ const outOfBounds = (pos:Point, dims:Point) =>
     return pos.x < 0 || pos.y < 0 || pos.x >= dims.x || pos.y >= dims.y;
 }
 
-type PointLike = { x: number, y: number, setNeighbors:Function }
+type CellLike = { pos:Point, setNeighbors:Function }
 interface GridNeighborParams
 {
-    grid: PointLike[][],
+    grid: CellLike[][],
     type?: GridNeighborType,
     filter?: Function
 }
 
+export { GridNeighborType }
 export default (params:GridNeighborParams) =>
 {
     const grid = params.grid;
@@ -45,7 +46,7 @@ export default (params:GridNeighborParams) =>
         const neighbors = [];
         for(const offset of OFFSETS)
         {
-            const nbPos = new Point(cell.x + offset.x, cell.y + offset.y);
+            const nbPos = new Point(cell.pos.x + offset.x, cell.pos.y + offset.y);
             if(outOfBounds(nbPos, dims)) { continue; }
             neighbors.push(grid[nbPos.x][nbPos.y]);
         }

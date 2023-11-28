@@ -131,8 +131,8 @@ class OnPageVisualizerClass
 		}
 		else if(this.backend == "raw")
 		{
-			const canvas = createCanvas({ size: cfg.size });
-			container.appendChild(canvas);
+			const canvas = createCanvas({ size: cfg.size, alpha: false });
+			// container.appendChild(canvas); => not necessary
 			this.canvas = canvas;
 
 			cfg.canvas = canvas;

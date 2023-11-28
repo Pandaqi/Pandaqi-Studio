@@ -13,6 +13,7 @@ import RectangleRounded from "js/pq_games/tools/geometry/rectangleRounded";
 import shapeToPhaser from "js/pq_games/phaser/shapeToPhaser";
 import GrayScaleEffect from "js/pq_games/layout/effects/grayScaleEffect";
 import Color from "js/pq_games/layout/color/color";
+import ResourceShape from "js/pq_games/layout/resources/resourceShape";
 
 // Takes in a BoardState, draws it
 export default class BoardDraw
@@ -33,17 +34,17 @@ export default class BoardDraw
     cellSizeUnit: number;
     fullSize: Point;
 
-    draw(game:any, bs:BoardState)
+    async draw(canvas:HTMLCanvasElement, bs:BoardState)
     {
-        this.prepareDimensions(game, bs);
-        this.drawBackground(game, bs);
-        this.drawBoard(game, bs);
-        this.drawSidebar(game, bs);
+        this.prepareDimensions(canvas, bs);
+        await this.drawBackground(canvas, bs);
+        await this.drawBoard(canvas, bs);
+        await this.drawSidebar(canvas, bs);
     }
 
-    prepareDimensions(game:any, bs:BoardState)
+    prepareDimensions(canvas:HTMLCanvasElement, bs:BoardState)
     {
-        const fullSize = new Point(game.canvas.width, game.canvas.height);
+        const fullSize = new Point(canvas.width, canvas.height);
         const fullSizeUnit = Math.min(fullSize.x, fullSize.y);
         const edgeMargin = CONFIG.draw.edgeMargin.clone().scale(fullSizeUnit);
 
@@ -78,7 +79,7 @@ export default class BoardDraw
         this.cellSizeUnit = Math.min(this.cellSize.x, this.cellSize.y);
     }
 
-    drawBackground(game, bs)
+    async drawBackground(canv:HTMLCanvasElement, bs)
     {
         const rect = new Rectangle({ center: this.fullSize.clone().scale(0.5), extents: this.fullSize });
         const bgColor = CONFIG.inkFriendly ? "#FFFFFF" : CONFIG.draw.bgColor;
@@ -86,7 +87,8 @@ export default class BoardDraw
             fill: bgColor,
             pivot: Point.CENTER
         })
-        rectToPhaserObject(rect, op, game);
+
+        await new ResourceShape(rect).toCanvas(canv, op);
     }
 
     convertGridPosToRealPos(pos:Point)
@@ -94,7 +96,7 @@ export default class BoardDraw
         return this.originGrid.clone().add( pos.clone().scale(this.cellSize) );
     }
 
-    drawBoard(game:any, bs:BoardState)
+    async drawBoard(canv:HTMLCanvasElement, bs:BoardState)
     {
 
         // draw the inventories
@@ -129,7 +131,7 @@ export default class BoardDraw
                     strokeWidth: invStrokeWidth,
                     pivot: Point.CENTER
                 })
-                rectToPhaserObject(rect, rectOp, game);
+                await new ResourceShape(rect).toCanvas(canv, rectOp);
             }
         }
 
@@ -157,7 +159,7 @@ export default class BoardDraw
                 strokeWidth: cellStrokeWidth,
                 pivot: Point.CENTER
             })
-            rectToPhaserObject(rect, rectOp, game);
+            await new ResourceShape(rect).toCanvas(canv, rectOp);
 
             const iconData = CONFIG.allTypes[cell.type];
             const icon = CONFIG.resLoader.getResource(iconData.textureKey);
@@ -168,17 +170,11 @@ export default class BoardDraw
                 dims: iconDims,
                 pivot: Point.CENTER
             })
-            const sprite = imageToPhaser(icon, iconOp, game);
-
-            if(CONFIG.inkFriendly && CONFIG.useWEBGL)
-            {
-                const effect = sprite.postFX.addColorMatrix();
-                effect.grayscale();
-            }
+            await icon.toCanvas(canv, iconOp);
         }
     }
 
-    drawSidebar(game:any, bs:BoardState)
+    async drawSidebar(canv:HTMLCanvasElement, bs:BoardState)
     {
         if(!CONFIG.includeRules) { return; }
 
@@ -190,14 +186,7 @@ export default class BoardDraw
             translate: this.originSidebar,
             dims: tutDims
         })
-        const sprite = imageToPhaser(tut, tutOp, game);
-        
-        if(CONFIG.inkFriendly && CONFIG.useWEBGL)
-        {
-            const effect = sprite.postFX.addColorMatrix();
-            effect.grayscale();
-        }
-        
+        await tut.toCanvas(canv, tutOp);
 
         // specific types explained below that
         const uniqueTypes = bs.uniqueTypes; // @TODO: calculate automatically
@@ -233,8 +222,6 @@ export default class BoardDraw
         for(const type of uniqueTypes)
         {
             // draw the icon
-            const graphicsMain = game.add.graphics();
-
             const data = CONFIG.allTypes[type];
             const icon = CONFIG.resLoader.getResource(data.textureKey);
             const iconPos = pos.clone().move(new Point(iconDims).scale(0.5));
@@ -247,12 +234,10 @@ export default class BoardDraw
             })
 
             const rect = new RectangleRounded({ center: iconPos, extents: iconDims, radius: borderRadius });
-            shapeToPhaser(rect, rectOp, graphicsMain);
-            imageToPhaser(icon, iconOp, game);
+            await new ResourceShape(rect).toCanvas(canv, rectOp);
+            await icon.toCanvas(canv, iconOp);
 
             // draw the simplified icon on top
-            const graphicsSimplified = game.add.graphics();
-
             const iconSimple = CONFIG.resLoader.getResource(data.textureKey + "_simplified");
             const iconSimplePos = iconPos.clone().move(new Point(iconDims).scale(-0.4));
             const iconSimpleOp = new LayoutOperation({
@@ -263,8 +248,8 @@ export default class BoardDraw
             })
 
             const rectSimple = new RectangleRounded({ center: iconSimplePos, extents: iconSimpleDims.clone().scale(1.1), radius: borderRadius });
-            shapeToPhaser(rectSimple, rectOp, graphicsSimplified);
-            imageToPhaser(iconSimple, iconSimpleOp, game);
+            await new ResourceShape(rectSimple).toCanvas(canv, rectOp);
+            await iconSimple.toCanvas(canv, iconSimpleOp);
 
             // add the text explaining how it scores
             const text = data.desc;
@@ -278,14 +263,14 @@ export default class BoardDraw
                 fill: "#000000",
                 dims: innerTextDims,
                 translate: innerTextPos,
-                pivot: Point.CENTER
+                pivot: new Point(0, 0.5)
             })
 
             const rectCenter = new Point(textPos.x + 0.5*textDims.x, textPos.y);
             const rectText = new RectangleRounded({ center: rectCenter, extents: textDims, radius: borderRadius });
-            shapeToPhaser(rectText, rectOp, graphicsMain);
-            textToPhaser(textRes, textOp, game);
-
+            await new ResourceShape(rectText).toCanvas(canv, rectOp);
+            await textRes.toCanvas(canv, textOp);
+            
             pos.y += iconDims.y + yPadding;
         }
     }

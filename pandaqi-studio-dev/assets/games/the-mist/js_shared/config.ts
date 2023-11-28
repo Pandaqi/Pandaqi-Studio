@@ -65,21 +65,21 @@ const CONFIG =
         base:
         {
             path: "base.webp",
-            frames: new Point(8,1),
+            frames: new Point(8,2),
             set: true
         },
 
         advanced:
         {
             path: "advanced.webp",
-            frames: new Point(8,1),
+            frames: new Point(8,2),
             set: true
         },
 
         expert:
         {
             path: "expert.webp",
-            frames: new Point(8,1),
+            frames: new Point(8,2),
             set: true
         },
     },
@@ -128,12 +128,12 @@ const CONFIG =
         cells:
         {
             strokeWidth: 0.03, // ~cellSizeUnit
-            iconSize: 0.75, // ~cellSizeUnit
+            iconSize: 0.33, // ~cellSizeUnit
             bgColorLightness: 97,
             bgColorDarken: 9,
 
-            dotRadius: 0.33, // ~cellSizeUnit
-            iconOffsetFromCenter: 0.66, // ~cellSizeUnit
+            dotRadius: 0.1, // ~cellSizeUnit
+            iconOffsetFromCenter: 0.5, // ~cellSizeUnit
         },
     }
 }

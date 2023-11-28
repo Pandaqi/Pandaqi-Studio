@@ -1,4 +1,4 @@
-import { TextConfig, TextAlign } from "./textConfig"
+import { TextConfig, TextAlign, TextWeight, TextStyle, TextVariant } from "./textConfig"
 import Dims from "js/pq_games/tools/geometry/dims"
 import Point from "js/pq_games/tools/geometry/point"
 import ResourceImage, { CanvasLike } from "../resources/resourceImage"
@@ -7,6 +7,127 @@ import StrokeAlignValue from "../values/strokeAlignValue"
 import { TextChunk, TextChunkBreak, TextChunkImage, TextChunkStyle, TextChunkText } from "./textChunk"
 import ResourceLoader from "../resources/resourceLoader"
 import LineData from "./lineData"
+
+const parseTextString = (text:string, config) =>
+{
+    // line breaks, bold, italic, images
+    // @TODO: case changes (uppercase, lowercase)
+    // @TODO: <sup> and <sub> (for supertext and subtext) => just draw it smaller and offset
+    const regex = /\n|<b>|<\/b>|<em>|<\/em>|<sc>|<\/sc>|<img id="(.+?)" frame="(.+?)">|<size num="(.+?)">|<\size>|<font id="(.+?)">|<\/font>|<col hex="(.+?)">|<\/col>/g; 
+    let tempText = text;
+    let chunks = [];
+    let match;
+    do {
+        match = regex.exec(tempText);
+        regex.lastIndex = 0; // @NOTE: This is the crucial line! The regex is a _state_, so it remembers the last match and will only check from THAT POINT, unless we reset it.
+        if(!match) { chunks.push(new TextChunkText(tempText)); break; }
+
+        const key = match[0];
+        const idx = match.index;
+
+        // if it's not the first thing, then we've passed some text before it; register that first
+        const hasTextBefore = (idx > 0);
+        if(hasTextBefore)
+        {
+            const textBefore = tempText.slice(0, idx);
+            chunks.push(new TextChunkText(textBefore));
+            tempText = tempText.slice(idx);
+            continue;
+        }
+
+        let newChunk;
+        if(key == "<b>") { newChunk = new TextChunkStyle("weight", TextWeight.BOLD); }
+        else if(key == "</b>") { newChunk = new TextChunkStyle("weight"); }
+        else if(key == "<em>") { newChunk = new TextChunkStyle("style", TextStyle.ITALIC); }
+        else if(key == "</em>") { newChunk = new TextChunkStyle("style"); }
+        else if(key == "<sc>") { newChunk = new TextChunkStyle("variant", TextVariant.SMALLCAPS); }
+        else if(key == "</sc>") { newChunk = new TextChunkStyle("variant"); }
+        else if(key == "\n") { newChunk = new TextChunkBreak(); }
+        else if(key.includes("<img")) {
+            const resLoader = config.resLoader;
+            const frame = parseInt(match[2]) ?? 0;
+            const res = resLoader.getResource(match[1]).getImageFrameAsResource(frame);
+            newChunk = new TextChunkImage(res);
+        } else if(key.includes("<size")) {
+            newChunk = new TextChunkStyle("size", parseFloat(match[1]));
+        } else if(key == "</size>") {
+            newChunk = new TextChunkStyle("size");
+        } else if(key.includes("<col")) {
+            newChunk = new TextChunkStyle("color", match[1]);
+        } else if(key == "</col>") {
+            newChunk = new TextChunkStyle("color");
+        } else if(key.includes("<font")) {
+            newChunk = new TextChunkStyle("font", match[1]);
+        } else if(key == "</font>") {
+            newChunk = new TextChunkStyle("font");
+        }
+
+        tempText = tempText.slice(key.length);
+        chunks.push(newChunk);
+        
+    } while (match);
+
+    return chunks;
+}
+
+const lineHasVisibleContent = (list:TextChunk[]) =>
+{
+    for(const elem of list)
+    {
+        if(elem.isVisible()) { return true; }
+    }
+    return false;
+}
+
+const getPathToVisibleContent = (list:TextChunk[], dir = "prev", fromElem = null) =>
+{
+    const arr = [];
+    let startIndex = list.length - 1;
+    if(fromElem) { startIndex = list.indexOf(fromElem); }
+
+    let foundSomething = false;
+    if(dir == "prev") {
+        for(let i = startIndex; i >= 0; i--)
+        {
+            arr.push(list[i]);
+            if(list[i].isVisible()) { foundSomething = true; break; }
+        }
+        if(foundSomething) { return arr.reverse(); }
+    } else if(dir == "next") {
+        for(let i = startIndex + 1; i < list.length; i++)
+        {
+            arr.push(list[i]);
+            if(list[i].isVisible()) { foundSomething = true; break; }
+        }
+        if(foundSomething) { return arr; }
+    }
+
+    return [];
+}
+
+const moveLineBreak = (list:TextChunk[], br:TextChunkBreak, beforeElem:TextChunk) =>
+{
+    const breakIndex = list.indexOf(br);
+    list.splice(breakIndex, 1); // remove from original position
+
+    const idx = list.indexOf(beforeElem);
+    list.splice(idx, 0, br); // insert before elem
+}
+
+// @TODO: unused, perhaps not correct
+const getRawTextFromChunks = (list:TextChunk[]) =>
+{
+    let str = "";
+    for(const elem of list)
+    {
+        if(elem instanceof TextChunkText) 
+        { 
+            if(!elem.isEmptySpace()) { str += elem.text; }
+        }
+        if(elem instanceof TextChunkImage) { str += "IMG"; }
+    }
+    return str;
+}
 
 export default class TextDrawer
 {
@@ -18,7 +139,7 @@ export default class TextDrawer
     textBlockDims:Dims
     debug: boolean
 
-    constructor(text:string, dims:Dims, cfg:TextConfig)
+    constructor(text:string|TextChunk[], dims:Dims, cfg:TextConfig)
     {
         this.text = text ?? "";
         this.dims = dims ?? new Dims();
@@ -37,44 +158,15 @@ export default class TextDrawer
     // Parsing has two stages
     // - If our input is a string, parse it into TextChunk types
     // - When we have our chunks, add line breaks wherever needed for wrapping
-    parseText(ctx:CanvasRenderingContext2D)
+    parseText(ctx:CanvasRenderingContext2D, text:string|TextChunk[])
     {
         const boxWidth = this.dims.size.x;
 
         let input : TextChunk[];
-        if(Array.isArray(this.text)) {
-            input = this.text;
+        if(Array.isArray(text)) {
+            input = text;
         } else {
-            // line breaks, bold, italic, images
-            // @TODO: font, font size, variants (uppercase,lowercase,small-caps)
-            const regex = /\n|<b>|<\/b>|<em>|<\/em>|<img id="(.+?)" frame="(.+?)">/g; 
-            let text = this.text;
-            let chunks = [];
-            let match;
-            do {
-                match = regex.exec(text);
-                if(!match) { break; }
-
-                const key = match[0];
-                const idx = text.indexOf(key);
-                text = text.slice(idx);
-                
-                let newChunk;
-                if(key == "<b>") { newChunk = new TextChunkStyle("weight", "bold"); }
-                else if(key == "</b>") { newChunk = new TextChunkStyle("weight", "regular"); }
-                else if(key == "<em>") { newChunk = new TextChunkStyle("style", "italic"); }
-                else if(key == "</em>") { newChunk = new TextChunkStyle("style", "normal"); }
-                else if(key == "\n") { newChunk = new TextChunkBreak(); }
-                else if(key.includes("img")) {
-                    const resLoader = this.cfg.resLoader;
-                    const res = resLoader.getResource(match[1]).getImageFrameAsResource(parseInt(match[2]));
-                    newChunk = new TextChunkImage(res);
-                }
-                chunks.push(newChunk);
-                
-            } while (match);
-
-            input = chunks;
+            input = parseTextString(text, this.cfg);
         }
 
         // break all text chunks into individual words and spaces
@@ -88,23 +180,62 @@ export default class TextDrawer
         const output = []; 
 
         const style = this.cfg.clone();
-        ctx.font = style.getCanvasFontString();
+        style.applyToCanvas(ctx);
 
         let curLine = [];
         let curLineWidth = 0;
 
+        const MIN_SIZE_LAST_LINE = 4;
+
         for(const elem of input)
         {
-            const elemWidth = elem.getSize(ctx).x;
-            const newLineWidth = curLineWidth + elemWidth;
-            const fitsOnLine = (newLineWidth <= boxWidth);
-            if(elem instanceof TextChunkStyle) { elem.updateTextConfig(style); ctx.font = style.getCanvasFontString(); }
-            if(elem instanceof TextChunkBreak) { curLine = []; curLineWidth = 0; }
-            if(fitsOnLine) { output.push(elem); continue; }
+            let elemSize = elem.getSize(ctx);
+            if(elem instanceof TextChunkImage && !elemSize) 
+            { 
+                elem.setDims(this.getDefaultImageSize(style)); 
+                elemSize = elem.getSize();
+            }
 
-            output.push(new TextChunkBreak());
-            curLine = [];
-            curLineWidth = 0;
+            // empty spaces at the start of a line are pointless, remove them
+            if(elem.isEmptySpace() && !lineHasVisibleContent(curLine)) { continue; }
+
+            // gather data about what happened before us (mostly line break)
+            const pathPrev = getPathToVisibleContent(output, "prev");
+            let lineBreakBefore = null;
+            for(const elem of pathPrev)
+            {
+                if(elem instanceof TextChunkBreak) { lineBreakBefore = elem; }
+            }
+            const hasLineBreakBefore = (lineBreakBefore != null);
+
+            // keep punctuation together with what came before, instead of splitting with line break
+            const pathNext = getPathToVisibleContent(input, "next", elem);
+            if(elem.isPunctuation() && hasLineBreakBefore)
+            {
+                moveLineBreak(output, lineBreakBefore, pathPrev[0]);
+            }
+                        
+            const elemWidth = elemSize.x;
+            const newLineWidth = curLineWidth + elemWidth;
+            curLineWidth = newLineWidth;
+
+            // if this element is the last visible one, but the line is too short, move line break to earlier spot
+            const minSizeLastLine = MIN_SIZE_LAST_LINE * style.size;
+            const tooSmallForOwnLine = elem.isVisible() && newLineWidth <= minSizeLastLine && !pathNext;
+            if(tooSmallForOwnLine)
+            {
+                moveLineBreak(output, lineBreakBefore, pathPrev[0]);
+            }
+
+            const fitsOnLine = (newLineWidth <= boxWidth);
+            if(elem instanceof TextChunkStyle) { elem.updateTextConfig(style); style.applyToCanvas(ctx); }
+            if(elem instanceof TextChunkBreak || !fitsOnLine) { 
+                if(!fitsOnLine) { output.push(new TextChunkBreak()); }
+                curLine = []; 
+                curLineWidth = elemWidth;
+            }
+
+            curLine.push(elem);
             output.push(elem);
         }
 
@@ -129,7 +260,7 @@ export default class TextDrawer
         const fixedLineHeight = (this.cfg.lineHeight * this.cfg.size)
 
         const style = this.cfg.clone();
-        ctx.font = style.getCanvasFontString();
+        style.applyToCanvas(ctx);
 
         let tempY = 0;
         for(const elem of textParsed)
@@ -146,13 +277,15 @@ export default class TextDrawer
 
             if(elem instanceof TextChunkStyle) { 
                 elem.updateTextConfig(style); 
-                ctx.font = style.getCanvasFontString(); 
+                style.applyToCanvas(ctx);
             }
 
             lineData.registerChunk(ctx, elem); // refresh a correct topLeft and bottomRight
         }
 
         if(lineData.hasContent()) { lines.push(lineData); }
+
+        console.log(lines);
 
         //
         // second, combine all those dimensions into total size of the text block
@@ -184,7 +317,6 @@ export default class TextDrawer
         const alignH = this.cfg.alignHorizontal;
         const alignV = this.cfg.alignVertical;
 
-        // @TODO: vertical justify not yet implemented
         let yOffset;
         if (alignV === TextAlign.START || alignV == TextAlign.JUSTIFY) { yOffset = yStart + lines[0].ascent; }
         else if (alignV === TextAlign.END) { yOffset = yEnd - realHeight + lines[0].ascent; }
@@ -213,13 +345,18 @@ export default class TextDrawer
             yOffset += extraJustifyOffsetY;
         }
 
+        // save the resulting dimensions
+        // we should already be absolutely certain about them here, so this is also a correctness test
+        this.textBlockDims = textDims.clone().move(new Point(0, lines[0].getPosition().y));
+
         return { textDims,lines };
     }
 
-    drawText(ctx:CanvasRenderingContext2D, op:LayoutOperation, lines:LineData[])
+    async drawText(ctx:CanvasRenderingContext2D, op:LayoutOperation, lines:LineData[])
     {
         const style = this.cfg.clone();
-        ctx.font = style.getCanvasFontString();
+        style.color = op.fill;
+        style.applyToCanvas(ctx);
 
         for(const line of lines)
         {
@@ -234,30 +371,26 @@ export default class TextDrawer
                     pos.x += elemWidth;
                     if(elem.isEmptySpace()) { pos.x += line.extraSpaceJustifyX; }
                 } else if(elem instanceof TextChunkImage) {
-                    const res = elem.resource;
-                    this.drawImageChunk(ctx, res, pos, line);
+                    await this.drawImageChunk(ctx, elem, pos, line);
                     pos.x += elemWidth;
                 } else if(elem instanceof TextChunkStyle) { 
                     elem.updateTextConfig(style); 
-                    ctx.font = style.getCanvasFontString(); 
+                    style.applyToCanvas(ctx);
                 }
             }
         }
     }
 
-    toCanvas(canv:CanvasLike, op:LayoutOperation = new LayoutOperation())
+    async toCanvas(canv:CanvasLike, op:LayoutOperation = new LayoutOperation())
     {
         const ctx = (canv instanceof HTMLCanvasElement) ? canv.getContext("2d") : canv;
         ctx.save();
+        ctx.textAlign = "left";
+        ctx.textBaseline = "alphabetic";
 
-        const textParsed = this.parseText(ctx);
+        const textParsed = this.parseText(ctx, this.text);
         const { textDims, lines } = this.getTextMetrics(ctx, textParsed);
-        this.drawText(ctx, op, lines);
-
-        // save the resulting dimensions
-        // we should already be absolutely certain about them here, so this is also a correctness test
-        // @TODO: isn't there a better location/time to calculate this?
-        this.textBlockDims = textDims.clone().move(lines[0].topLeft.clone());
+        await this.drawText(ctx, op, lines);
 
         this.debugDraw(ctx);
         ctx.restore();
@@ -282,17 +415,24 @@ export default class TextDrawer
         }
     }
 
-    // @TODO: this is very barebones right now, expand later
-    // => Allow setting a LayoutOperation on TextChunkImage (if we supply text as array)
-    // => Allow setting a _global_ LayoutOperation to be applied to _all_ inline images (in text config?)
-    drawImageChunk(ctx:CanvasRenderingContext2D, res:ResourceImage, pos:Point, line:LineData)
+    // @TODO: support non-square ratios => need better support for RATIO in ResourceImage anyway
+    getDefaultImageSize(style:TextConfig)
     {
-        const dims = new Point(line.size.y);
+        return new Point(style.size * 1.5);
+    }
+
+    async drawImageChunk(ctx:CanvasRenderingContext2D, elem:TextChunkImage, pos:Point, line:LineData)
+    {
+        const res = elem.resource;
+        pos = pos.clone();
         pos.y = line.topLeft.y;
 
-        ctx.drawImage(res.getImage(),
-            pos.x, pos.y,
-            dims.x, dims.y);
+        let op = (elem.operation ?? this.cfg.defaultImageOperation) ?? new LayoutOperation();
+        op = op.clone();
+        op.translate.move(pos);
+        if(op.dims.isZero()) { op.dims = elem.getSize(); }
+
+        await res.toCanvas(ctx, op);
     }
 
     /*
