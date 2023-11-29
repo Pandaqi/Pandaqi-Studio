@@ -10,10 +10,10 @@ blurb: "Build a meadow and fill it with sheep, but beware other players stomping
 extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/1mdYwronNojq_L3I9vTkGdCVhVsnpiruT" # already updated!
 
-fullHeaderImg: "cookie_smasher_header"
-headerImg: "cookie_smasher_header"
+fullHeaderImg: "meadowmight_header"
+headerImg: "meadowmight_header"
 
-headerThumb: "favicon"
+headerThumb: "meadowmight_favicon"
 
 customHeight: "small"
 headerDarkened: true
@@ -43,7 +43,7 @@ ages: everyone
 
 ---
 
-{{% boardgame-intro heading="" img="cookie_smasher_header" class="no-shadow" %}}
+{{% boardgame-intro heading="" %}}
 
 Claim the biggest meadow in this war of the wool.
 

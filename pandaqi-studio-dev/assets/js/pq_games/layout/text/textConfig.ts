@@ -45,7 +45,12 @@ interface TextConfigParams
     resLoader?:ResourceLoader // for text that draws icons/images inline
     defaultImageOperation?:LayoutOperation
     useDynamicLineHeight?:boolean
+    heightToSizeRatio?: number
 }
+
+// By default, the HEIGHT of a font is roughly 50%-60% of the font SIZE ( = letter width)
+// (this is a CONSERVATIVE estimate, for most fonts!)
+const DEF_HEIGHT_TO_SIZE_RATIO = 1.5; 
 
 export { TextConfig, TextAlign, TextStyle, TextWeight, TextVariant }
 export default class TextConfig
@@ -63,6 +68,7 @@ export default class TextConfig
     defaultImageOperation: LayoutOperation;
     resLoader: ResourceLoader;
     useDynamicLineHeight: boolean;
+    heightToSizeRatio: number;
     history: Record<string,any>
 
     constructor(params:TextConfigParams = {})
@@ -78,6 +84,7 @@ export default class TextConfig
         this.variant = params.variant ?? TextVariant.NORMAL;
         this.resLoader = params.resLoader ?? null;
         this.defaultImageOperation = params.defaultImageOperation ?? null;
+        this.heightToSizeRatio = params.heightToSizeRatio ?? DEF_HEIGHT_TO_SIZE_RATIO;
         this.history = {};
     }
 

@@ -34,9 +34,11 @@ Play a tile from your hand, faceup to the table.
 In other words, there can be no path between two different Sheeples with no fences in-between.
 {{% /remark %}}
 
-If you connect multiple meadows with your tile, a [conflict](#conflict) happens.
+If your tile connects multiple meadows (owned by different players), a [conflict](#conflict) happens.
 
-@TODO: IMAGE EXAMPLE
+{{< rules-image src="action_play.webp" alt="Examples of how (not) to play a tile." >}}
+
+@TODO: IMAGE => action_play.webp
 
 {{% /rules-block %}}
 
@@ -47,9 +49,9 @@ Discard **2 tiles** from your hand to **rotate** an existing tile.
 * You **can't** rotate a tile that has a double fence on any side.
 * You **can't** take the change action anymore once any player has run out of tiles.
 
-If this rotation connected two meadows with different Sheeple inside, a [conflict](#conflict) happens.
+If this change connects multiple meadows (owned by different players), a [conflict](#conflict) happens.
 
-@TODO: IMAGE EXAMPLE
+{{< rules-image src="action_change.webp" alt="Explanation of how (not) to rotate an existing tile." >}}
 
 {{% remark %}}
 Yes, this permanently reduces your hand size by 1.
@@ -67,7 +69,7 @@ The _biggest_ meadow wins. All Sheeple inside the losing meadow(s) are turned _f
 
 There can never be a single meadow claimed by multiple players. If the tile that caused the conflict contains a Sheeple of the wrong color, it's also turned facedown.
 
-@TODO: IMAGE EXAMPLE
+{{< rules-image src="action_conflict.webp" alt="Example of when conflicts occur and how to resolve them." >}}
 
 {{% /rules-block %}}
 
@@ -83,7 +85,7 @@ Facedown tiles should be considered as "closed on all sides".
 
 So yes, you score each meadow only once, regardless of the number of Sheeple you have.
 
-@TODO: IMAGE EXAMPLE
+{{< rules-image src="scoring.webp" alt="Visualization of how to score your meadows at the end of the game." >}}
 
 {{% /rules-block %}}
 
@@ -101,7 +103,7 @@ The following rules change.
 
 **SCORING**: When counting your final score,
 * You score _every Sheeple_ inside an enclosed meadow. (So now you can score meadows multiple times!)
-* Every Sheeple from another player (in your meadow), however, is **-2 points**
+* Every Sheeple from another player (in your meadow), however, is **-1 point**
 
 **PLACING & CONFLICT**:
 * There is no maximum board size.
@@ -114,10 +116,10 @@ As usual, all losing Sheeple are turned facedown, even if they belong to the win
 
 **CHANGING:** The **change** action also allows **moving** an existing tile (instead of rotating). Do so according to the following rules.
 * You can only move tiles that contain neutral sheep.
-* They move one step, to an adjacent tile.
+* They move one step, to an adjacent tile. (Yes, this overlaps existing tiles.)
 * They _cannot_ move over a double fence.
 
-@TODO: IMAGE EXAMPLE
+{{< rules-image src="fuzzy_fences.webp" alt="Visual examples of the major rules changes for this variant." >}}
 
 {{% /rules-block %}}
 
@@ -137,15 +139,13 @@ Optional: for a game with less conflict (but more tension and luck), include _fe
 
 This expansion adds four special tiles with their own rules. 
 
-**Wolf:** When placed, you may _move_ all adjacent tiles that have a sheep. Move them one step, to a tile that's adjacent to them. (Yes, this may overlap existing tiles, even faceup ones.) Adjacent tiles without a sheep are turned facedown.
+**Wolf:** When placed, you may _move_ all adjacent tiles that have a sheep. Move them one step, to a tile that's adjacent to them. (Yes, this may overlap existing tiles, even faceup ones.) Tiles that didn't move are turned facedown.
 
-**Tree:** When placed, you have a choice. Either rotate two tiles for free, or draw a tile (permanently increasing your hand size by 1).
+**Tree:** When placed, you have a choice. Either rotate 2 tiles for free, or draw a tile (permanently increasing your hand size by 1).
 
-**Pond:** All adjacent tiles with a sheep score +2 points. If there are _no_ adjacent tiles with sheep, you may take one Sheeple of yours back into your hand.
+**Pond:** All adjacent tiles with a sheep score +2 points. If there are _no_ adjacent tiles with sheep, when placed, you may take one Sheeple of yours back into your hand.
 
-**House:** This tile and all adjacent tiles (horizontal and vertical) cannot be rotated.
-
-@TODO: IMAGE EXAMPLE
+**House:** This tile and all adjacent tiles cannot be rotated.
 
 Due to the extra tiles, the maximum board size is raised to 10x10.
 

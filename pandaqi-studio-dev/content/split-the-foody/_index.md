@@ -43,7 +43,7 @@ ages: everyone
 
 ---
 
-{{% boardgame-intro heading="" class="no-shadow" %}}
+{{% boardgame-intro heading="" %}}
 
 A bluffin', stealin', eatin' game of food heists and dividing treasure amongst the pearates.
 

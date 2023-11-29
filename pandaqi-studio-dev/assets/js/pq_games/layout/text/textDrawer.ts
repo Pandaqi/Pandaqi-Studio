@@ -192,7 +192,7 @@ export default class TextDrawer
             let elemSize = elem.getSize(ctx);
             if(elem instanceof TextChunkImage && !elemSize) 
             { 
-                elem.setDims(this.getDefaultImageSize(style)); 
+                elem.setDims(this.getDefaultImageSize(elem, style)); 
                 elemSize = elem.getSize();
             }
 
@@ -415,21 +415,23 @@ export default class TextDrawer
         }
     }
 
-    // @TODO: support non-square ratios => need better support for RATIO in ResourceImage anyway
-    getDefaultImageSize(style:TextConfig)
+    getDefaultImageSize(elem:TextChunkImage, style:TextConfig)
     {
-        return new Point(style.size * 1.5);
+        const sizeY = style.size * this.cfg.heightToSizeRatio;
+        const sizeX = elem.resource.getSizeKeepRatio(sizeY, "y");
+        return new Point(sizeX, sizeY);
     }
 
     async drawImageChunk(ctx:CanvasRenderingContext2D, elem:TextChunkImage, pos:Point, line:LineData)
     {
         const res = elem.resource;
         pos = pos.clone();
-        pos.y = line.topLeft.y;
+        pos.y = line.getCenter().y;
 
         let op = (elem.operation ?? this.cfg.defaultImageOperation) ?? new LayoutOperation();
         op = op.clone();
         op.translate.move(pos);
+        op.pivot = new Point(0, 0.5);
         if(op.dims.isZero()) { op.dims = elem.getSize(); }
 
         await res.toCanvas(ctx, op);

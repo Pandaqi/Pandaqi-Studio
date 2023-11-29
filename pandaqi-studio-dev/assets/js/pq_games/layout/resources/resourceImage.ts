@@ -193,9 +193,18 @@ export default class ResourceImage extends Resource
         return "url(" + this.img.src + ")";
     }
 
+    // Ratio is always X:Y (so 2 means twice as WIDE as it is TALL)
     getRatio() : number
     {
         return this.frameSize.x / this.frameSize.y
+    }
+
+    getSizeKeepRatio(size:number, axisGiven:string = "x")
+    {
+        const ratio = this.getRatio();
+        if(axisGiven == "x") { return size / ratio; }
+        else if(axisGiven == "y") { return size * ratio; }
+        return size;
     }
 
     getImage() : HTMLImageElement 
