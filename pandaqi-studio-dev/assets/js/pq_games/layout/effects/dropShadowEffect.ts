@@ -51,5 +51,11 @@ export default class DropShadowEffect extends LayoutEffect
     {
         return "drop-shadow(" + this.offset.x + "px " + this.offset.y + "px " + this.blurRadius + "px " + this.color + ")"
     }
+
+    getExtraSizeAdded()
+    {
+        const offsetDir = this.offset.clone().normalize();
+        return this.offset.clone().move(offsetDir.scale(0.5 * this.blurRadius));
+    }
     
 }

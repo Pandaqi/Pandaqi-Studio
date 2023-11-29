@@ -1,5 +1,6 @@
-import LayoutOperation, { ResourceLike } from "./layoutOperation";
-import { CanvasLike } from "./resources/resourceImage";
+import LayoutOperation, { ResourceLike } from "../layoutOperation";
+import Resource from "./resource";
+import { CanvasLike } from "./resourceImage";
 
 class LayoutCombo
 {
@@ -16,15 +17,25 @@ class LayoutCombo
     {
         await this.resource.toCanvas(ctx, this.operation);
     }
+
+    getBoundingBox()
+    {
+        const oldResource = this.operation.resource;
+        this.operation.resource = this.resource;
+        const bounds = this.operation.getBoundingBox();
+        this.operation.resource = oldResource;
+        return bounds;
+    }
 }
 
-export { LayoutGroup, LayoutCombo }
-export default class LayoutGroup
+export { ResourceGroup, LayoutCombo }
+export default class ResourceGroup extends Resource
 {
     combos: LayoutCombo[]
 
     constructor()
     {
+        super()
         this.combos = [];
     }
 
@@ -45,7 +56,7 @@ export default class LayoutGroup
 
     async toCanvas(ctx:CanvasLike, op = new LayoutOperation())
     {
-        op.resource = this.combos.slice();
-        await op.applyToCanvas(ctx);
+        op.resource = this;
+        return await op.applyToCanvas(ctx);
     }
 }

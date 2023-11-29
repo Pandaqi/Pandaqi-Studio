@@ -45,7 +45,8 @@ interface TextConfigParams
     resLoader?:ResourceLoader // for text that draws icons/images inline
     defaultImageOperation?:LayoutOperation
     useDynamicLineHeight?:boolean
-    heightToSizeRatio?: number
+    useSimpleDims?:boolean // if true, uses raw #lines * lineHeight for dimensions (faster, sometimes looks better)
+    heightToSizeRatio?: number // for the default estimate on inline image size
 }
 
 // By default, the HEIGHT of a font is roughly 50%-60% of the font SIZE ( = letter width)
@@ -68,6 +69,7 @@ export default class TextConfig
     defaultImageOperation: LayoutOperation;
     resLoader: ResourceLoader;
     useDynamicLineHeight: boolean;
+    useSimpleDims: boolean;
     heightToSizeRatio: number;
     history: Record<string,any>
 
@@ -84,6 +86,7 @@ export default class TextConfig
         this.variant = params.variant ?? TextVariant.NORMAL;
         this.resLoader = params.resLoader ?? null;
         this.defaultImageOperation = params.defaultImageOperation ?? null;
+        this.useSimpleDims = params.useSimpleDims ?? false;
         this.heightToSizeRatio = params.heightToSizeRatio ?? DEF_HEIGHT_TO_SIZE_RATIO;
         this.history = {};
     }

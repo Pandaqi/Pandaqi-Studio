@@ -308,6 +308,13 @@ export default class TextDrawer
             (bottomRightTotal.y - topLeftTotal.y)
         );
 
+        if(this.cfg.useSimpleDims)
+        {
+            const numLines = lines.length;
+            const simpleHeight = fixedLineHeight * numLines;
+            textDims.setSize(new Point(textDims.size.x, simpleHeight));
+        }
+
         const realHeight = textDims.size.y;
 
         //

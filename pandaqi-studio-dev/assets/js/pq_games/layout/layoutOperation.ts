@@ -12,9 +12,12 @@ import ColorLike, { ColorLikeValue } from "./color/colorLike"
 import createContext from "./canvas/createContext"
 import StrokeAlignValue from "./values/strokeAlignValue"
 import calculateBoundingBox from "../tools/geometry/paths/calculateBoundingBox"
-import { LayoutCombo } from "./layoutGroup"
+import ResourceGroup, { LayoutCombo } from "./resources/resourceGroup"
+import Rectangle from "../tools/geometry/rectangle"
+import rotatePath from "../tools/geometry/transform/rotatePath"
+import movePath from "../tools/geometry/transform/movePath"
 
-type ResourceLike = ResourceImage|ResourceShape|ResourceText|ResourceBox
+type ResourceLike = ResourceImage|ResourceShape|ResourceText|ResourceBox|ResourceGroup
 
 interface EffectData
 {
@@ -37,6 +40,8 @@ interface LayoutOperationParams
     composite?:GlobalCompositeOperation,
 
     dims?:Point,
+    ratio?:Point,
+    keepRatio?: boolean,
     size?:Point,
 
     pivot?:Point,
@@ -46,7 +51,7 @@ interface LayoutOperationParams
     clip?:Shape,
     mask?:ResourceImage,
 
-    resource?:ResourceLike|LayoutCombo[],
+    resource?:ResourceLike,
     effects?:LayoutEffect[],
 
     frame?:number
@@ -63,6 +68,8 @@ export default class LayoutOperation
     composite : GlobalCompositeOperation
 
     dims : Point
+    ratio : Point
+    keepRatio : boolean
     pivot : Point
     flipX : boolean
     flipY : boolean
@@ -70,7 +77,7 @@ export default class LayoutOperation
     clip: Shape
     mask: ResourceImage
 
-    resource : ResourceLike|LayoutCombo[]
+    resource : ResourceLike
     effects : LayoutEffect[]
     
     frame: number // frame of image (spritesheets)
@@ -86,6 +93,8 @@ export default class LayoutOperation
         this.translate = params.translate ?? new Point();
         this.rotation = params.rotation ?? 0;
         this.dims = (params.dims ?? params.size) ?? new Point();
+        this.ratio = params.ratio ?? new Point(1,1);
+        this.keepRatio = params.keepRatio ?? false;
         this.scale = params.scale ?? new Point().setXY(1,1);
         this.alpha = params.alpha ?? 1.0;
 
@@ -143,12 +152,69 @@ export default class LayoutOperation
         this.effects.splice(this.effects.indexOf(fx), 1);
     }
 
+    // @TODO: this (probably) all works, but PERFORMANCE is becoming a real issue here.
+    getBoundingBox() : Dims
+    {
+        if(!this.resource) { return new Dims(); }
+        
+        const isGroup = this.resource instanceof ResourceGroup;
+        if(!isGroup) { return this.getBoundingBoxRaw(); }
+
+        const dims = new Dims();
+        const layoutCombos = (this.resource as ResourceGroup).combos;
+        for(const elem of layoutCombos)
+        {
+            dims.takeIntoAccount(elem.getBoundingBox());
+        }
+        return dims;
+    }
+
+    getBoundingBoxRaw()
+    {
+        const dims = this.getDimensionsWithRatio();
+        const dimsScaled = dims.scale(this.scale);
+        const rect = new Rectangle().fromTopLeft(new Point(), dimsScaled);
+        rect.grow(this.scale.clone().scale(this.strokeWidth));
+
+        let extraSize = new Point();
+        for(const effect of this.effects)
+        {
+            const effectExtra = effect.getExtraSizeAdded();
+            extraSize.x = Math.max(extraSize.x, effectExtra.x);
+            extraSize.y = Math.max(extraSize.y, effectExtra.y);
+        }
+        rect.grow(extraSize);
+
+        const path = movePath( rotatePath(rect, this.rotation), this.translate);
+        const dimsObject = new Dims();
+        for(const point of path)
+        {
+            dimsObject.takePointIntoAccount(point);
+        }
+        return dimsObject;
+    }
+
     getFinalScale() : Point
     {
         const scale = this.scale.clone();
         if(this.flipX) { scale.x *= -1; }
         if(this.flipY) { scale.y *= -1; }
         return scale;
+    }
+
+    // If ratio is relevant, check which side is given (or default to X), and infer the other
+    getDimensionsWithRatio() : Point
+    {
+        if(!this.keepRatio) { return this.dims }
+
+        // @TODO: does ratio make sense for any other resource type?
+        const ratio = this.resource instanceof ResourceImage ? this.resource.getRatio() : (this.ratio.x / this.ratio.y);
+
+        const dims = this.dims.clone();
+        const givenAxis = dims.y <= 0 ? "y" : "x";
+        const calcAxis = givenAxis == "x" ? "y" : "x";
+        dims[calcAxis] = (givenAxis == "x") ? dims[givenAxis] / ratio : dims[givenAxis] * ratio;
+        return dims;
     }
 
     async applyToCanvas(canv:CanvasLike = null) : Promise<HTMLCanvasElement>
@@ -159,9 +225,30 @@ export default class LayoutOperation
         ctx.imageSmoothingEnabled = false;
         ctx.imageSmoothingQuality = "low";
 
+        const dims = this.getDimensionsWithRatio();
+        const boundingBox = this.getBoundingBox();
+
+        // calculate the total size canvas we need to draw everything without clamping
+        // this is mostly necessary for LayoutGroups (which draw multiple things in whatever way)
+        // we enlarge + move as needed, then UNDO this extra movement when drawing it back onto the main canvas
+        // @TODO: a potentially cheaper/simpler alternative is to calculate the _final_ position by going through the whole chain of commands first, and draw that => needs a clearer tree structure and tree/node-based drawing approach
+        const totalSize = new Point(ctx.canvas.width, ctx.canvas.height);
+        const extraOffset = new Point();
+        if(boundingBox.topLeft.x < 0 || boundingBox.topLeft.y < 0)
+        {
+            const extraSpaceNeeded = boundingBox.topLeft.clone().abs();
+            extraOffset.move(extraSpaceNeeded);
+            totalSize.move(extraSpaceNeeded);
+        }
+
+        if(boundingBox.bottomRight.x > totalSize.x || boundingBox.bottomRight.y > totalSize.y)
+        {
+            const extraSpaceNeeded = boundingBox.bottomRight.clone().sub(totalSize);
+            totalSize.move(extraSpaceNeeded);
+        }
+
         // now we create a temporary canvas, so we can collect fill + stroke + anything we need
         // and THEN apply the right effects/position/postFX to the whole thing as we stamp it onto the real canvas
-        const totalSize = new Point(ctx.canvas.width, ctx.canvas.height);
         const ctxTemp = createContext({ size: totalSize });
 
         ctx.save();
@@ -175,6 +262,7 @@ export default class LayoutOperation
         }
 
         ctxTemp.translate(this.translate.x, this.translate.y);
+        ctxTemp.translate(extraOffset.x, extraOffset.y);
         ctxTemp.rotate(this.rotation);
 
         const finalScale = this.getFinalScale();
@@ -183,7 +271,7 @@ export default class LayoutOperation
         // @TODO: perhaps want to move this to AFTER we create the temporary canvas and draw it
         // so we can just calculate the dims used then
         const offset = this.pivot.clone();
-        offset.scaleFactor(-1).scale(this.dims);
+        offset.scaleFactor(-1).scale(dims);
         ctxTemp.translate(offset.x, offset.y);
 
         // mask should come before anything else happens (right?)
@@ -193,7 +281,7 @@ export default class LayoutOperation
             ctx.drawImage(
                 this.mask.getImage(),
                 0, 0, maskData.width, maskData.height,
-                0, 0, this.dims.x, this.dims.y)
+                0, 0, dims.x, dims.y)
             ctx.globalCompositeOperation = "source-in";
         }
 
@@ -214,7 +302,7 @@ export default class LayoutOperation
         ctxTemp.lineWidth = lineWidth;
  
         const res = this.resource;
-        const drawGroup = Array.isArray(res);
+        const drawGroup = res instanceof ResourceGroup;
         const drawShape = res instanceof ResourceShape;
         const drawText = res instanceof ResourceText;
 
@@ -233,7 +321,7 @@ export default class LayoutOperation
         // @TODO: not sure if text is positioned correctly/not cut-off now with the ctxTemp switch?
         if(drawText)
         {
-            const drawer = res.createTextDrawer(this.dims);
+            const drawer = res.createTextDrawer(dims);
             drawer.toCanvas(ctxTemp, this);
         }
 
@@ -247,7 +335,7 @@ export default class LayoutOperation
                 frameResource = await effect.applyToImage(frameResource, effectData);
             }
 
-            const box = new Dims(new Point(), this.dims.clone());
+            const box = new Dims(new Point(), dims.clone());
             const boxPath = box.toPath2D();
 
             const drawImageCallback = () =>
@@ -261,14 +349,9 @@ export default class LayoutOperation
             this.applyFillAndStrokeToPath(ctxTemp, boxPath, drawImageCallback);
         }
 
-        // @TODO: If it's a group, calculate the bounding box inside
-        // Use that to know if we need to _translate_ further (to keep everything on the canvas)
-        // Then _undo_ that extra offset when stamping the final canvas onto the real one?
-
-        // @TODO: We need those boundingBox calculations anyway! To automatically set the correct "dims" on groups for pivot
         if(drawGroup)
         {
-            const combos = this.resource as LayoutCombo[];
+            const combos = (this.resource as ResourceGroup).combos;
             for(const combo of combos)
             {
                 await combo.toCanvas(ctxTemp);
@@ -284,7 +367,10 @@ export default class LayoutOperation
         }
 
         // finally, stamp the final canvas onto the real one
-        ctx.drawImage(ctxFinal.canvas, 0, 0);
+        const drawPos = new Point();
+        drawPos.sub(extraOffset);
+
+        ctx.drawImage(ctxFinal.canvas, drawPos.x, drawPos.y);
 
         ctx.restore();
         return ctx.canvas;

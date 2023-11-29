@@ -21,7 +21,7 @@ import ColorLike from "js/pq_games/layout/color/colorLike";
 import range from "js/pq_games/tools/random/range";
 import ColorOverlayEffect from "js/pq_games/layout/effects/colorOverlayEffect";
 import BlurEffect from "js/pq_games/layout/effects/blurEffect";
-import LayoutGroup from "js/pq_games/layout/layoutGroup";
+import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 
 export default class Card
 {
@@ -268,7 +268,7 @@ export default class Card
 
 
         // create one group ( = set of instructions), then repeat it several times with different settings (such as rotation)
-        const group = new LayoutGroup();
+        const group = new ResourceGroup();
         group.add(new ResourceShape({ shape: rect }), rectOp);
         group.add(new ResourceShape({ shape: rectInner }), rectInnerOp);
         group.add(new ResourceShape({ shape: rectTitle }), rectTitleOp);

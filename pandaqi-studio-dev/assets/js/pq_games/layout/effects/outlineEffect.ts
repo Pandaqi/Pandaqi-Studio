@@ -88,4 +88,9 @@ export default class OutlineEffect extends LayoutEffect
             effectData.filters.push(filter);
         }
     }
+
+    getExtraSizeAdded()
+    {
+        return new Point(this.thickness);
+    }
 }

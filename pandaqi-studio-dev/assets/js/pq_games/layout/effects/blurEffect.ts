@@ -31,5 +31,10 @@ export default class BlurEffect extends LayoutEffect
     {
         return "blur(" + this.blur + "px)";
     }
+
+    getExtraSizeAdded()
+    {
+        return new Point(0.5*this.blur);
+    }
     
 }
