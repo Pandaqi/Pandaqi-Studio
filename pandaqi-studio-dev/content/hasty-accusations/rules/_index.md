@@ -6,7 +6,7 @@ type: "rules"
 
 Pick as many different _characters_ as the number of players.
 * Place one row of **faceup** characters on the table. (Below these cards, evidence piles will build during the game.)
-* Place the **spyglass token** above the first.
+* Place the **loupe token** above the first.
 * Shuffle and deal the remaining character cards. (Each player should have *two* secret characters: their "suspects".)
 * Create a deck of **playing cards**, shuffle, and deal each player 4.
 
@@ -28,9 +28,9 @@ Most treacherous player starts. Take clockwise turns until done.
 
 Play a card from your hand **facedown** on a character's evidence pile, then draw back up to 4 cards.
 
-If you play a card at the current *spyglass* character, play it **faceup** and execute its action.
+If you play a card at the current *loupe* character, play it **faceup** and execute its action.
 
-Finally, move the spyglass one character forward ( = to the right). If there is none, execute a [review](#review).
+Finally, move the loupe one character forward ( = to the right). If there is none, execute a [review](#review).
 
 {{% /rules-block %}}
 
@@ -50,7 +50,7 @@ If the corresponding character is **murdered**, remove them, and end this phase 
 
 If this means that none of a player's suspects are alive, they must say so. They're eliminated. They reveal their hand and give their cards to the remaining players (however they want).
 
-Discard all cards from this evidence pile. Return the spyglass to the first character. Next turn!
+Discard all cards from this evidence pile. Return the loupe to the first character. Next turn!
 
 {{% /rules-block %}}
 
@@ -58,12 +58,12 @@ Discard all cards from this evidence pile. Return the spyglass to the first char
 
 {{% rules-block id="cards" heading="Cards" icon="score" class="force-page-break-before" icontint="purple" %}}
 
-Cards always have a power. As stated, this triggers when _revealed_. This happens when placed at the spyglass pile (where you play faceup), or when a pile is evaluated.
+Cards always have a power. As stated, this triggers when _revealed_. This happens when placed at the loupe pile (where you play faceup), or when a pile is evaluated.
 
 Most cards can be played anywhere, but there are some exceptions.
 
-* A @TODO:ICON means it must be played at the (current) spyglass pile.
-* A @TODO:ICON means it CAN'T be played at the (current) spyglass pile.
+* A @TODO:ICON means it must be played at the (current) loupe pile.
+* A @TODO:ICON means it CAN'T be played at the (current) loupe pile.
 * A @TODO:ICON means it must be played at one of your own suspects.
 * A @TODO:ICON means it CAN'T be played at one of your own suspects.
 

@@ -261,6 +261,11 @@ export default class LayoutOperation
             this.applyFillAndStrokeToPath(ctxTemp, boxPath, drawImageCallback);
         }
 
+        // @TODO: If it's a group, calculate the bounding box inside
+        // Use that to know if we need to _translate_ further (to keep everything on the canvas)
+        // Then _undo_ that extra offset when stamping the final canvas onto the real one?
+
+        // @TODO: We need those boundingBox calculations anyway! To automatically set the correct "dims" on groups for pivot
         if(drawGroup)
         {
             const combos = this.resource as LayoutCombo[];

@@ -24,11 +24,11 @@ enum SType
     PILE,
     REVIEW,
     INFO, // gets info, reveals public information, etcetera
-    ORDER, // changes spyglass / order of rounds/actions
+    ORDER, // changes loupe / order of rounds/actions
     MISC
 }
 
-// For the Spyglass and Suspect requirements
+// For the loupe and Suspect requirements
 enum ReqType
 {
     CANT, // can't be played there
@@ -45,8 +45,11 @@ interface ActionData
     desc?: string,
     freq?: Bounds, // default is 1,INF
     prob?: number, // default is 1
-    spyglass?: ReqType, // default is NEUTRAL
+    loupe?: ReqType, // default is NEUTRAL
     suspect?: ReqType, // default is NEUTRAL
+
+    murderQuotient?: number, // 1.0 for certain murder, 0.0 for irrelevant
+    protectQuotient?: number, // 1.0 for certain protection, 0.0 for irrelevant
 
 }
 
@@ -54,57 +57,56 @@ type ActionSet = Record<string, ActionData>;
 
 const BASE_SET:ActionSet = 
 {
-    murder: { frame: 0, type: AType.MURDER, subType: SType.MURDER, label: "Murder", desc: "<b>Kills</b> the suspect.", spyglass: ReqType.CANT },
-    threat: { frame: 1, type: AType.MURDER, subType: SType.MURDER, label: "Threat", desc: "<b>Kills</b> the suspect if this is the 2nd threat.", spyglass: ReqType.CANT },
-    bodyguard: { frame: 2, type: AType.MURDER, subType: SType.PROTECT, label: "Bodyguard", desc: "<b>Saves</b> the suspect from dying <b>once</b>.", suspect: ReqType.MUST },
-    sidekick: { frame: 3, type: AType.MURDER, subType: SType.MURDER, label: "Sidekick", desc: "Check an adjacent pile. If it also has a Sidekick, this suspect <b>dies</b>.", suspect: ReqType.CANT },
+    murder: { frame: 0, type: AType.MURDER, subType: SType.MURDER, label: "Murder", desc: "<b>Kills</b> the suspect.", loupe: ReqType.CANT, murderQuotient: 1.0, freq: new Bounds(6, 10) },
+    threat: { frame: 1, type: AType.MURDER, subType: SType.MURDER, label: "Threat", desc: "<b>Kills</b> the suspect if this is the 2nd threat.", loupe: ReqType.CANT, murderQuotient: 0.5, freq: new Bounds(4, 12) },
+    bodyguard: { frame: 2, type: AType.MURDER, subType: SType.PROTECT, label: "Bodyguard", desc: "<b>Saves</b> the suspect from dying <b>once</b>.", suspect: ReqType.MUST, protectQuotient: 1.0, freq: new Bounds(2, 10) },
+    sidekick: { frame: 3, type: AType.MURDER, subType: SType.MURDER, label: "Sidekick", desc: "Check an adjacent pile. If it also has a Sidekick, this suspect <b>dies</b>.", suspect: ReqType.CANT, murderQuotient: 0.5, freq: new Bounds(4, 12) },
 
-    stop: { frame: 4, type: AType.PILES, subType: SType.REVIEW, label: "Stop", desc: "<b>Stop</b> (further) review. If played <b>openly</b>, instantly do a <b>review</b>." },
+    stop: { frame: 4, type: AType.PILES, subType: SType.REVIEW, label: "Stop", desc: "<b>Stop</b> (further) review. If played <b>openly</b>, instantly do a <b>review</b>.", protectQuotient: 0.33 },
     jester: { frame: 5, type: AType.PILES, subType: SType.PILE, label: "Jester", desc: "<b>Shuffle</b> the rest of this pile." },
-    delay: { frame: 6, type: AType.PILES, subType: SType.REVIEW, label: "Delay Tactics", desc: "While visible, <b>no review phase</b> ever happens." },
+    delay: { frame: 6, type: AType.PILES, subType: SType.REVIEW, label: "Delay Tactics", desc: "While visible, <b>don't move</b> the loupe at the end of your turn.", protectQuotient: 0.33 },
     bomb: { frame: 7, type: AType.PILES, subType: SType.PILE, label: "Bomb", desc: "Reveal and execute the <b>top card</b> of all adjacent piles.", suspect: ReqType.CANT },
     
     question: { frame: 8, type: AType.ACTION, subType: SType.INFO, label: "Burning Question", desc: "Reveal a hand card. Ask another player on which pile to play it, then do so." },
     investigator: { frame: 9, type: AType.ACTION, subType: SType.INFO, label: "Investigator", desc: "Look at another player's hand." },
-    mover: { frame: 10, type: AType.ACTION, subType: SType.ORDER, label: "Mover", desc: "Move the <b>spyglass</b> to another location", spyglass: ReqType.MUST },
-    switcheroo: { frame: 11, type: AType.ACTION, subType: SType.ORDER, label: "Switcheroo", desc: "Make two suspects <b>switch places</b>." },
+    mover: { frame: 10, type: AType.ACTION, subType: SType.ORDER, label: "Mover", desc: "Move the <b>loupe</b> to another location", loupe: ReqType.MUST, protectQuotient: 0.25 },
+    switcheroo: { frame: 11, type: AType.ACTION, subType: SType.ORDER, label: "Switcheroo", desc: "Make two suspects <b>switch places</b> OR switch the <b>top and bottom</b> cards of one pile.", protectQuotient: 0.33 },
 }
 
 const ADVANCED_SET:ActionSet = 
 {
-    poison: { frame: 0, type: AType.MURDER, subType: SType.MURDER, label: "Poison", desc: "<b>Kills</b> the suspect if this is the <b>3rd poison</b>. It always <b>stays</b> in the pile after review!" },
-    armor: { frame: 1, type: AType.MURDER, subType: SType.PROTECT, label: "Armor", desc: "<b>Saves</b> the suspect from dying once if this is the <b>3rd armor</b>. It always <b>stays</b> in the pile after review!" },
-    antidote: { frame: 2, type: AType.MURDER, subType: SType.PROTECT, label: "Antidote", desc: "Negates all <b>Poison, Threat or Armor</b> cards in this pile." },
-    revenge: { frame: 3, type: AType.MURDER, subType: SType.REVIEW, label: "Dying Breath", desc: "If this suspect dies, also <b>review</b> the suspect with the <b>least</b> cards." }, 
+    poison: { frame: 0, type: AType.MURDER, subType: SType.MURDER, label: "Poison", desc: "<b>Kills</b> the suspect if this is the <b>3rd poison</b>. If the suspect survives, it <b>stays</b> in the pile!", freq: new Bounds(5, 9), murderQuotient: 0.33 },
+    armor: { frame: 1, type: AType.MURDER, subType: SType.PROTECT, label: "Armor", desc: "<b>Saves</b> the suspect from dying once if this is the <b>3rd armor</b>. If the suspect survives, it <b>stays</b> in the pile!", protectQuotient: 0.33, freq: new Bounds(5, 9) },
+    antidote: { frame: 2, type: AType.MURDER, subType: SType.PROTECT, label: "Antidote", desc: "Adds 2 <b>Poison<b> if played openly; removes 2 <b>Poison</b> card if played secretly.", protectQuotient: 0.66, murderQuotient: 0.66 },
+    revenge: { frame: 3, type: AType.MURDER, subType: SType.REVIEW, label: "Dying Breath", desc: "<b>Kills</b> this suspect. Then also <b>review</b> the suspect with the <b>least</b> cards.", murderQuotient: 1.25 }, 
 
-    safe_stop: { frame: 4, type: AType.PILES, subType: SType.REVIEW, label: "Safe Stop", desc: "<b>Stop</b> (further) review. Also <b>don't discard</b> the rest of this pile." }, 
-    reverse: { frame: 5, type: AType.PILES, subType: SType.REVIEW, label: "Back to the top", desc: "While visible, the <b>review direction</b> is inverted. (Top to bottom, or bottom to top.)", spyglass: ReqType.CANT },
-    alley: { frame: 6, type: AType.PILES, subType: SType.PILE, label: "Back Alley", desc: "While visible, cards may be played to the <b>bottom</b> of evidence piles.", spyglass: ReqType.MUST },
+    safe_stop: { frame: 4, type: AType.PILES, subType: SType.REVIEW, label: "Safe Stop", desc: "<b>Stop</b> (further) review. Also <b>don't discard</b> the rest of this pile.", protectQuotient: 0.33 }, 
+    reverse: { frame: 5, type: AType.PILES, subType: SType.REVIEW, label: "Back to the top", desc: "While visible, the <b>review direction</b> is inverted: bottom to top.", loupe: ReqType.MUST },
+    alley: { frame: 6, type: AType.PILES, subType: SType.PILE, label: "Back Alley", desc: "While visible, cards may be played to the <b>bottom</b> of evidence piles.", loupe: ReqType.MUST },
     bomb_timed: { frame: 7, type: AType.PILES, subType: SType.PILE, label: "Time Bomb", desc: "Reveal (and execute) the <b>bottom card</b> of all adjacent piles." },
 
-    rebel: { frame: 8, type: AType.ACTION, subType: SType.ORDER, label: "Rebel", desc: "<b>Don't</b> move the <b>spyglass</b> at the end of your turn.", spyglass: ReqType.MUST }, // @TODO: perhaps a little weak? => also, all actions cards in this set are a bit similar
-    show: { frame: 9, type: AType.ACTION, subType: SType.INFO, label: "Show me your hands", desc: "While visible, everybody plays all cards <b>faceup</b>.", spyglass: ReqType.MUST },
-    backward: { frame: 10, type: AType.ACTION, subType: SType.ORDER, label: "Walk it back", desc: "While visible, the <b>spyglass moves backwards</b> after each turn.", spyglass: ReqType.MUST },
-    hasty: { frame: 11, type: AType.ACTION, subType: SType.MISC, label: "Hasty", desc: "Immediately take <b>2 more turns</b>." }
-
+    rebel: { frame: 8, type: AType.ACTION, subType: SType.ORDER, label: "Rebel", desc: "Pick 1 card from <b>every pile</b> and stick it anywhere inside <b>another pile</b>.", loupe: ReqType.MUST, murderQuotient: 0.75, protectQuotient: 0.5 }, // OLD POWER: "<b>Don't</b> move the <b>loupe</b> at the end of your turn."
+    show: { frame: 9, type: AType.ACTION, subType: SType.INFO, label: "Show me your hands", desc: "While visible, everybody plays all cards <b>faceup</b>.", loupe: ReqType.MUST },
+    backward: { frame: 10, type: AType.ACTION, subType: SType.ORDER, label: "Walk it back", desc: "While visible, the <b>loupe moves backwards</b> after each turn.", loupe: ReqType.MUST, protectQuotient: 0.25 },
+    hasty: { frame: 11, type: AType.ACTION, subType: SType.MISC, label: "Hasty", desc: "Immediately take <b>another turn</b>, OR force the next player to <b>skip</b> their turn." }
 }
 
 const EXPERT_SET:ActionSet =
 {
-    sniper: { frame: 0, type: AType.MURDER, subType: SType.MURDER, label: "Sniper", desc: "<b>Review</b> an adjacent suspect. If no card in their pile saves them, they are <b>killed</b>.", suspect: ReqType.CANT, spyglass: ReqType.CANT },
-    lone_murder: { frame: 1, type: AType.MURDER, subType: SType.MURDER, label: "When nobody's around", desc: "<b>Kills</b> the suspect if all adjacent piles have fewer than 3 cards. Otherwise, it <b>saves</b> them once." },
-    last_ditch: { frame: 2, type: AType.MURDER, subType: SType.MURDER, label: "Last ditch effort", desc: "<b>Kills</b> the suspect if fewer than 3 suspects remain (in total). Otherwise, it <b>saves</b> them once." },
-    swapper: { frame: 3, type: AType.MURDER, subType: SType.PROTECT, label: "Wrong address", desc: "Just before being killed, <b>swap</b> this suspect with another." },
+    sniper: { frame: 0, type: AType.MURDER, subType: SType.MURDER, label: "Sniper", desc: "<b>Review</b> an adjacent suspect. If no card in their pile saves them, they are <b>killed</b>.", suspect: ReqType.CANT, loupe: ReqType.CANT, murderQuotient: 1.0 },
+    lone_murder: { frame: 1, type: AType.MURDER, subType: SType.MURDER, label: "When nobody's around", desc: "<b>Kills</b> the suspect if all adjacent piles have fewer than 3 cards. Otherwise, it <b>saves</b> them once.", murderQuotient: 0.5, protectQuotient: 0.5 },
+    last_ditch: { frame: 2, type: AType.MURDER, subType: SType.MURDER, label: "Last ditch effort", desc: "<b>Kills</b> the suspect if fewer than 3 suspects remain (in total). Otherwise, it <b>saves</b> them once.", murderQuotient: 0.5, protectQuotient: 0.5 },
+    swapper: { frame: 3, type: AType.MURDER, subType: SType.PROTECT, label: "Wrong address", desc: "If this suspect is to be killed, <b>swap</b> it with another first.", protectQuotient: 1.0 },
 
-    wipe: { frame: 4, type: AType.PILES, subType: SType.PILE, label: "Memory Wipe", desc: "<b>Discard</b> this pile and one adjacent pile." },
+    wipe: { frame: 4, type: AType.PILES, subType: SType.PILE, label: "Memory Wipe", desc: "<b>Discard</b> this pile and one adjacent pile.", protectQuotient: 0.25 },
     tangled: { frame: 5, type: AType.PILES, subType: SType.PILE, label: "Tangled Up", desc: "Study the contents of an adjacent pile. <b>Move 2 cards to the top</b> of this pile." },
-    spread: { frame: 6, type: AType.PILES, subType: SType.PILE, label: "Spread the love", desc: "Reveal the remaining cards in this pile. <b>Distribute</b> them over all other piles as you wish." },
+    spread: { frame: 6, type: AType.PILES, subType: SType.PILE, label: "Spread the love", desc: "Reveal the remaining cards in this pile. <b>Distribute</b> them over all other piles as you wish.", protectQuotient: 0.25 },
     double: { frame: 7, type: AType.PILES, subType: SType.PILE, label: "Double Cross", desc: "<b>Move</b> this entire pile to the bottom or top of <b>another pile</b>." },
 
     investigator_private: { frame: 8, type: AType.ACTION, subType: SType.INFO, label: "Private Investigator", desc: "Look at another player's <b>suspect</b>." },
     revelation: { frame: 9, type: AType.ACTION, subType: SType.MISC, label: "Revelation", desc: "Immediately <b>play another card</b> on top of all adjacent piles." },
     thief: { frame: 10, type: AType.ACTION, subType: SType.MISC, label: "Thief", desc: "<b>Steal 3 cards</b> from another player." },
-    clock: { frame: 11, type: AType.ACTION, subType: SType.REVIEW, label: "On the clock", desc: "<b>At most 3 cards</b> may be evaluated during this <b>review</b>. After that, immediately stop.", spyglass: ReqType.CANT }
+    clock: { frame: 11, type: AType.ACTION, subType: SType.REVIEW, label: "On the clock", desc: "<b>At most 3 cards</b> may be evaluated during this <b>review</b>. After that, immediately stop.", loupe: ReqType.CANT, protectQuotient: 0.33 }
 }
 
 const SETS:Record<string, ActionSet> = 
@@ -116,7 +118,7 @@ const SETS:Record<string, ActionSet> =
 
 const SUSPECTS = 
 {
-    spyglass: { frame: 0, freq: 1 },
+    loupe: { frame: 0, freq: 1 },
     scarlett: { frame: 1, color: "#6E0C0D" }, // Miss Scarlett = red
     green: { frame: 2, color: "#0B3B00" }, // Reverend Green = green
     mustard: { frame: 3, color: "#3F350D" }, // Colonel Mustard = yellow/brown
@@ -131,8 +133,8 @@ const SUSPECTS =
 
 const MISC =
 {
-    spyglass: { frame: 0 },
-    spyglass_cant: { frame: 1 },
+    loupe: { frame: 0 },
+    loupe_cant: { frame: 1 },
     suspect: { frame: 2 },
     suspect_cant: { frame: 3 },
     paperclip: { frame: 4 }

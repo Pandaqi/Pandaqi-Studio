@@ -100,13 +100,13 @@ export default class TextConfig
 
     getStyleString() : string
     {
-        if(this.style == TextStyle.NORMAL) { return ""; }
+        if(this.style == TextStyle.NORMAL) { return "normal"; }
         return "italic";
     }
 
     getVariantString() : string
     {
-        if(this.variant == TextVariant.NORMAL) { return ""; }
+        if(this.variant == TextVariant.NORMAL) { return "normal"; }
         return "small-caps"
     }
     

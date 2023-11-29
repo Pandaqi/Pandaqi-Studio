@@ -10,10 +10,10 @@ blurb: "Stealing food treasure is the easy part. Grabbing the biggest chunk when
 extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/1Jw9vO5RnVDgh-ECN8NxMDVKeN9Uhfjjg" # already updated!
 
-fullHeaderImg: "cookie_smasher_header"
-headerImg: "cookie_smasher_header"
+fullHeaderImg: "split_the_foody_header"
+headerImg: "split_the_foody_header"
 
-headerThumb: "favicon"
+headerThumb: "split_the_foody_favicon"
 
 customHeight: "small"
 headerDarkened: true
@@ -43,7 +43,7 @@ ages: everyone
 
 ---
 
-{{% boardgame-intro heading="" img="cookie_smasher_header" class="no-shadow" %}}
+{{% boardgame-intro heading="" class="no-shadow" %}}
 
 A bluffin', stealin', eatin' game of food heists and dividing treasure amongst the pearates.
 

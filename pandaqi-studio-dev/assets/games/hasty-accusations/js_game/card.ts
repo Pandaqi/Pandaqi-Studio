@@ -93,7 +93,7 @@ export default class Card
             alignVertical: TextAlign.MIDDLE
         })
         let text = "Suspect";
-        if(this.key == "spyglass") { text = "Spyglass"; }
+        if(this.key == "loupe") { text = "Loupe"; }
         else if(this.key == "traitor") { text = "Traitor!"; }
         const textRes = new ResourceText({ text: text, textConfig: textConfig });
 
@@ -218,20 +218,22 @@ export default class Card
         const titleShadowRadius = CONFIG.cards.photographs.titleShadowRadius * fontSize;
         const titleTextOp = new LayoutOperation({
             fill: titleTextCol,
+            translate: rectTitlePos,
             effects: [new DropShadowEffect({ blurRadius: titleShadowRadius })]
         });
 
         // the optional requirements
-        let spyglass, suspect, spyglassOp, suspectOp;
+        let loupe, suspect, loupeOp, suspectOp;
         const reqsPadding = CONFIG.cards.photographs.requirementPadding.clone().scale(rectSizeUnit);
-        const reqsPos = new Point(rectInnerPos.x + reqsPadding.x, rectInnerPos.y + reqsPadding.y);
+        const rectInnerTopLeft = rectInner.getTopLeft();
+        const reqsPos = new Point(rectInnerTopLeft.x + reqsPadding.x, rectInnerTopLeft.y + reqsPadding.y);
         const reqsDims = new Point(CONFIG.cards.photographs.requirementDims * rectSizeUnit);
         const reqEffects = [new DropShadowEffect({ blurRadius: CONFIG.cards.photographs.requirementShadowRadius * rectSizeUnit })];
-        if(this.getDataPlay().spyglass != ReqType.NEUTRAL)
+        if(this.getDataPlay().loupe != ReqType.NEUTRAL)
         {
-            const frame = this.getDataPlay().spyglass == ReqType.CANT ? MISC.spyglass_cant.frame : MISC.spyglass.frame;
-            spyglass = vis.resLoader.getResource("misc");
-            spyglassOp = new LayoutOperation({
+            const frame = this.getDataPlay().loupe == ReqType.CANT ? MISC.loupe_cant.frame : MISC.loupe.frame;
+            loupe = vis.resLoader.getResource("misc");
+            loupeOp = new LayoutOperation({
                 frame: frame,
                 translate: reqsPos,
                 dims: reqsDims,
@@ -286,13 +288,14 @@ export default class Card
             {
                 group.add(titleText, titleTextOp);
                 group.add(illustration, illustrationOp);
-                if(spyglass) { group.add(spyglass, spyglassOp); }
+                if(loupe) { group.add(loupe, loupeOp); }
                 if(suspect) { group.add(suspect, suspectOp); }
             }
 
             const groupOp = new LayoutOperation({
                 translate: photographCenter,
                 rotation: randRotation,
+                dims: illuDims, // @TODO: checking the best way to give dims to layoutoperation
                 effects: [
                     new ColorOverlayEffect(overlay)
                 ],
@@ -349,6 +352,7 @@ export default class Card
         const effects = [new DropShadowEffect({ offset: new Point(CONFIG.cards.text.hardShadowOffset * fontSize) })];
         const op = new LayoutOperation({
             fill: "#000000",
+            translate: pos,
             dims: size,
             pivot: Point.CENTER,
             effects: effects

@@ -13,15 +13,13 @@ export default class Generator
     progressBar: ProgressBar;
     pdfBuilder: PdfBuilder;
     resLoader: ResourceLoader;
-    gridMappers: {
-        cards: GridMapper,
-        suspects: GridMapper
-    }
+    gridMappers: Record<string,GridMapper>;
 
     constructor()
     {
         this.setupConfig();
 
+        this.gridMappers = {};
         this.progressBar = new ProgressBar();
         this.progressBar.setPhases(["Loading Assets", "Creating Cards", "Preparing PDF", "Done!"]);
     }
@@ -53,6 +51,10 @@ export default class Generator
         {
             // @ts-ignore
             if(data.cardSet && key != CONFIG.cardSet) { continue; }
+            // @ts-ignore
+            if(data.suspectsOnly && !CONFIG.includeCharacters) { continue; }
+            // @ts-ignore
+            if(data.cardsOnly && !CONFIG.includeCards) { continue; }
             assetsToLoad[key] = data;
         }
 
