@@ -8,9 +8,11 @@ import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanva
 import PandaqiWords from "js/pq_words/main"
 import ResourceImage from "js/pq_games/layout/resources/resourceImage"
 import LayoutOperation from "js/pq_games/layout/layoutOperation"
-import addWrappedTextToCanvas from "js/pq_games/layout/text/addWrappedTextToCanvas"
 import TintEffect from "js/pq_games/layout/effects/tintEffect"
 import Point from "js/pq_games/tools/geometry/point"
+import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig"
+import ResourceText from "js/pq_games/layout/resources/resourceText"
+import ColorLike from "js/pq_games/layout/color/colorLike"
 
 const baseAssetDir = '/thats-amorphe/assets/'
 const pageLayoutDims = new Point(3, 4);
@@ -127,27 +129,32 @@ async function createSpecialMorphCards(params)
 		await iconResource.toCanvas(ctx, canvOp);
 
 		// numbers
-		ctx.fillStyle = contrastColor
-		ctx.font = numberFontSize + "px Ribeye";
+		const textConfig = new TextConfig({
+			font: "Ribeye",
+			size: numberFontSize,
+			lineHeight: 0.8,
+			alignHorizontal: TextAlign.MIDDLE,
+			alignVertical: TextAlign.MIDDLE
+		})
 
-		let numberText = randNum + "+";
-		let numberOffset = { x: 75, y: 90 + 0.5*numberFontSize }
-		let textParams = { 
-			x: numberOffset.x, 
-			y: numberOffset.y, 
-			width: 0.25*cardSize.x, 
-			lineHeight: 0.8*numberFontSize, 
-			centerX: true, centerY: true 
-		}
-		addWrappedTextToCanvas(ctx, numberText, textParams);
+		let numberOffset = new Point(75, 90 + 0.5*numberFontSize); // @TODO: might be incorrect after TextDrawer switch
+		const textOp = new LayoutOperation({
+			translate: numberOffset,
+			dims: new Point(0.25*cardSize.x, numberFontSize*2),
+			fill: contrastColor,
+			pivot: Point.CENTER
+		});
+		const numberText = randNum + "+";
+		const textRes = new ResourceText({ text: numberText, textConfig: textConfig });
+		await textRes.toCanvas(ctx, textOp);
 
 		let secondNumberText = numberText;
 		const isDualNumber = (iconData.frame == 0 || iconData.frame == 7);
 		if(isDualNumber) { secondNumberText = secondRandNum + "+"; }
 
-		textParams.x = cardSize.x - numberOffset.x
-		textParams.y = cardSize.y - 30
-		addWrappedTextToCanvas(ctx, secondNumberText, textParams);
+		textRes.text = secondNumberText;
+		textOp.translate = new Point(cardSize.x - numberOffset.x, cardSize.y - 30);
+		await textRes.toCanvas(ctx)
 
 		// thick border
 		ctx.strokeStyle = borderColor;
@@ -216,17 +223,27 @@ async function createMorphCards(params)
 		ctx.globalAlpha = 1.0;
 
 		// numbers
-		ctx.fillStyle = contrastColor
 		const numberSize = (i <= 9) ? numberFontSize : 0.67*numberFontSize;
-		ctx.font = numberSize + "px Ribeye";
+		const textConfig = new TextConfig({
+			font: "Ribeye",
+			size: numberSize,
+			lineHeight: 0.8,
+			alignHorizontal: TextAlign.MIDDLE,
+			alignVertical: TextAlign.MIDDLE,
+		})
 
-		let numberOffset = { x: 50, y: 60 + 0.5*numberSize }
-		let textParams = { x: numberOffset.x, y: numberOffset.y, width: 0.25*cardSize.x, lineHeight: 0.8*numberSize, centerX: true, centerY: true }
-		addWrappedTextToCanvas(ctx, i.toString(), textParams);
+		const textOp = new LayoutOperation({
+			translate: new Point(50, 60 + 0.5 * numberSize), // @TODO: might be incorrect after TextDrawer switch
+			dims: new Point(0.25*cardSize.x, numberSize*2),
+			fill: contrastColor,
+			pivot: Point.CENTER
+		});
+		const numberText = i.toString();
+		const textRes = new ResourceText({ text: numberText, textConfig: textConfig });
+		await textRes.toCanvas(ctx, textOp);
 
-		textParams.x = cardSize.x - numberOffset.x
-		textParams.y = cardSize.y - 30
-		addWrappedTextToCanvas(ctx, i.toString(), textParams);
+		textOp.translate = new Point(cardSize.x - textOp.translate.x, cardSize.y - 30); // @TODO: might be incorrect after TextDrawer switch
+		await textRes.toCanvas(ctx, textOp);
 
 		// arrows
 		ctx.fillStyle = contrastColor
@@ -535,6 +552,21 @@ async function createWordCards(params)
 		if(Math.random() <= 0.725) { morphNumbers.push(5); }
 		if(Math.random() <= 0.5) { morphNumbers.push(1); morphNumbers.push(9); }
 
+		const textConfig = new TextConfig({
+			font: "Ribeye",
+			size: numberFontSize,
+			lineHeight: 1.5,
+			alignHorizontal: TextAlign.MIDDLE,
+			alignVertical: TextAlign.MIDDLE
+		})
+
+		const textOp = new LayoutOperation({
+			dims: new Point(0.75*cardSize.x, numberFontSize*2),
+			pivot: Point.CENTER
+		});
+
+		const textRes = new ResourceText({ text: "", textConfig: textConfig });
+
 		for(let i = 0; i < words.length; i++)
 		{
 			const wordData = words[i];
@@ -551,11 +583,11 @@ async function createWordCards(params)
 
 			let fontSize = baseFontSize - (baseFontSize*0.3)*(wordData.getWord().length/7);
 			fontSize = Math.max(fontSize, 0.4*baseFontSize);
-			const textParams = { x: 0, y: 0, width: 0.75*cardSize.x, lineHeight: 1.5*fontSize, height: 1.5*fontSize, centerY: true, centerX: true }
+			//const textParams = { x: 0, y: 0, width: 0.75*cardSize.x, lineHeight: 1.5*fontSize, height: 1.5*fontSize, centerY: true, centerX: true }
 
 			// draw number above it (if enabled)
-			ctx.font = (baseFontSize * 0.5) + "px Ribeye";
-			ctx.fillStyle = textColors[i];
+			textConfig.size = baseFontSize*0.5;			
+			textOp.fill = new ColorLike(textColors[i]);
 			
 			if(addNumbersToWords)
 			{
@@ -563,53 +595,44 @@ async function createWordCards(params)
 				const number = morphNumbers.splice(randIndex, 1);
 				const numberText = number + "";
 
-				const numberX = textParams.x;
-				const numberY = textParams.y - wordOffsetFromCenter*cardSize.x + numberOffsetFromCenter*cardSize.x;
-
-				ctx.textAlign = "center";
-				ctx.textBaseline = "middle";
+				const numberPos = new Point(0, -wordOffsetFromCenter*cardSize.x + numberOffsetFromCenter*cardSize.x);
+				textOp.translate = numberPos;
 
 				if(params.addCircleBehindNumber)
 				{
 					const radius = 0.37*baseFontSize;
 					ctx.beginPath();
-					ctx.arc(numberX, numberY, radius, 0, 2 * Math.PI, false);
+					ctx.arc(numberPos.x, numberPos.y, radius, 0, 2 * Math.PI, false);
 					ctx.fillStyle = 'rgba(255,255,255,0.4)';
 					if(i == 0 || i == 1) { ctx.fillStyle = 'rgba(255,255,255,0.66)'; }
 					ctx.fill();
 				} else {
 					const strokeWidth = 0.125*baseFontSize;
-					ctx.strokeStyle = "rgba(0,0,0,0.5)";
-					ctx.lineWidth = strokeWidth;
-					ctx.strokeText(numberText, numberX, numberY)
-	
-					ctx.strokeStyle = "#FFFFFF";
-					ctx.lineWidth = 0.5*strokeWidth;
-					ctx.strokeText(numberText, numberX, numberY)
+					textOp.strokeWidth = strokeWidth;
+					textOp.stroke = new ColorLike("#FFFFFF");
 				}
 
-				ctx.fillStyle = textColors[i];
-				if(ink) { ctx.fillStyle = "#000000"; }
-
-				ctx.fillText(numberText, numberX, numberY);
+				textOp.fill = new ColorLike(ink ? "#000000" : textColors[i]);
+				await textRes.toCanvas(ctx, textOp);
 			}
 
 			// draw the main word (big, rotated, center edge)
-			ctx.fillStyle = textColors[i];
-			if(ink) { ctx.fillStyle = "#000000"; }
+			textConfig.size = fontSize;
+			textRes.text = wordData.getWord();
+			textOp.fill = new ColorLike(ink ? "#000000" : textColors[i]);
 
-			ctx.font = fontSize + "px Ribeye";
-			addWrappedTextToCanvas(ctx, wordData.getWord(), textParams);
+			await textRes.toCanvas(ctx, textOp);
 			
 			// draw the subcategory above it (more faded and smaller)
 			const addSubCatText = !addNumbersToWords
 			const subcatText = wordData.getMetadata().getCategory();
 			if(addSubCatText)
 			{
-				ctx.font = (fontSize * 0.44) + "px Ribeye";
-				ctx.globalAlpha = 0.6;
-				ctx.fillText(subcatText, textParams.x, textParams.y - 0.7*fontSize);
-				ctx.globalAlpha = 1.0;
+				textConfig.size = fontSize*0.44;
+				textOp.alpha = 0.6;
+				textRes.text = subcatText;
+				textOp.translate = new Point(0, -0.7*fontSize); // @TODO: might also be incorrect after TextDrawer change
+				await textRes.toCanvas(ctx, textOp);
 			}
 
 			ctx.restore();

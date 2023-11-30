@@ -1,3 +1,4 @@
+import TextConfig, { TextWeight } from "js/pq_games/layout/text/textConfig"
 import Point from "js/pq_games/tools/geometry/point"
 import Bounds from "js/pq_games/tools/numbers/bounds"
 
@@ -45,6 +46,14 @@ const CONFIG =
         urbanist:
         {
             path: "fonts/Urbanist-Regular.woff2",
+            set: false
+        },
+
+        urbanist_bold:
+        {
+            key: "urbanist",
+            path: "fonts/Urbanist-Black.woff2",
+            textConfig: new TextConfig({ weight: TextWeight.BOLD }),
             set: false
         },
 

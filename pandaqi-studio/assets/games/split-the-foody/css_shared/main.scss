@@ -1,0 +1,39 @@
+$header-font: "primitive";
+$body-font: "rosarivo";
+$base: "/split-the-foody/assets/";
+$base-fonts: $base + "fonts/";
+
+$col1: #ffcfc9;
+$col2: #ffff98;
+$col3: #f6d6c3;
+
+
+$col1-dark: #871a1a;
+$col3-dark: #6a3517;
+$col2-dark: #6e6e07;
+
+$bg-image-url: url($base + 'bg_pattern.webp');
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'Rosarivo-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'Rosarivo-Italic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $header-font;
+    src: url($base-fonts + 'Primitive.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}

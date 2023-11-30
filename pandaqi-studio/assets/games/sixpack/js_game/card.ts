@@ -3,6 +3,9 @@ import { PACKS, PackData } from "./dict"
 import createContext from "js/pq_games/layout/canvas/createContext";
 import CONFIG from "./config";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
+import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
+import ResourceText from "js/pq_games/layout/resources/resourceText";
+import ColorLike from "js/pq_games/layout/color/colorLike";
 
 export default class Card 
 {
@@ -28,7 +31,7 @@ export default class Card
         this.setupCanvas();
         await this.visualizeBackground();
         await this.visualizeType();
-        this.visualizeNumbers();
+        await this.visualizeNumbers();
         await this.visualizeHands();
         this.visualizeOutline();
         return this.getCanvas();
@@ -82,7 +85,7 @@ export default class Card
         await typeResource.toCanvas(this.ctx, canvOp);
     }
 
-    visualizeNumbers()
+    async visualizeNumbers()
     {
         let typeConfig = this.typeData;
         if(CONFIG.inkFriendly) { 
@@ -102,21 +105,17 @@ export default class Card
         const numbersToPlace = (this.type == "superNumbers") ? 2 : 1;
         fontSize /= numbersToPlace
 
-        ctx.font = fontSize  + "px " + fontFamily
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-
         const offset = CONFIG.cards.mainNumber.bgOffset * this.minSize;
 
-        const offsetCol = typeConfig.mainNumber.offsetColor || CONFIG.cards.mainNumber.offsetColor;
-        const mainCol = typeConfig.mainNumber.color || CONFIG.cards.mainNumber.color;
-        const mainStrokeCol = typeConfig.mainNumber.strokeColor || CONFIG.cards.mainNumber.strokeColor;
-        const mainStrokeWidth = (typeConfig.mainNumber.strokeWidth || CONFIG.cards.mainNumber.strokeWidth) * this.minSize;
+        const offsetCol = typeConfig.mainNumber.offsetColor ?? CONFIG.cards.mainNumber.offsetColor;
+        const mainCol = typeConfig.mainNumber.color ?? CONFIG.cards.mainNumber.color;
+        const mainStrokeCol = typeConfig.mainNumber.strokeColor ?? CONFIG.cards.mainNumber.strokeColor;
+        const mainStrokeWidth = (typeConfig.mainNumber.strokeWidth ?? CONFIG.cards.mainNumber.strokeWidth) * this.minSize;
         
         let pos = this.centerPos.clone();
         let positions = [pos];
         let texts = [text];
-        const dualNumberOffset = { x: 0.15 * this.minSize, y: 0.15 * this.minSize }
+        const dualNumberOffset = new Point(0.15 * this.minSize);
         if(numbersToPlace == 2)
         {
             positions = [
@@ -133,6 +132,16 @@ export default class Card
             ]
         }
 
+        const textConfig = new TextConfig({
+            font: fontFamily,
+            size: fontSize,
+            alignHorizontal: TextAlign.MIDDLE,
+            alignVertical: TextAlign.MIDDLE
+        })
+
+        const textDims = this.dims;
+        const textRes = new ResourceText({ text: "", textConfig: textConfig });
+
         for(let i = 0; i < numbersToPlace; i++)
         {
             const text = texts[i];
@@ -141,17 +150,22 @@ export default class Card
             // somehow, the 1 is wrongly centered and must be pulled slightly to the left
             if(text == "1") { numPos.x -= 0.02*this.minSize; }
 
-            ctx.fillStyle = offsetCol;
-            numPos.y += offset;
-            ctx.fillText(text, numPos.x, numPos.y);
-    
-            numPos.y -= offset;
-            ctx.fillStyle = mainCol;
-            ctx.fillText(text, numPos.x, numPos.y);
-            
-            ctx.strokeStyle = mainStrokeCol;
-            ctx.lineWidth = mainStrokeWidth;
-            ctx.strokeText(text, numPos.x, numPos.y);
+            textRes.text = text;
+            const textOp = new LayoutOperation({
+                translate: numPos,
+                dims: textDims,
+                pivot: Point.CENTER,
+                fill: offsetCol
+            })
+
+            textOp.translate.y += offset;
+            await textRes.toCanvas(ctx, textOp);
+
+            textOp.translate.y -= offset;
+            textOp.fill = new ColorLike(mainCol);
+            textOp.strokeWidth = mainStrokeWidth;
+            textOp.stroke = new ColorLike(mainStrokeCol);
+            await textRes.toCanvas(ctx, textOp);
         }
 
         // two numbers at edges
@@ -160,8 +174,10 @@ export default class Card
         const edgeStrokeWidth = (typeConfig.edgeNumber.strokeWidth || CONFIG.cards.edgeNumber.strokeWidth) * this.minSize;
         const edgeOffsetCol = (typeConfig.edgeNumber.offsetColor || CONFIG.cards.edgeNumber.offsetColor) || offsetCol;
 
-        fontSize = CONFIG.font.smallSize * this.minSize;
-        ctx.font = fontSize + "px " + fontFamily
+        const smallFontSize = CONFIG.font.smallSize * this.minSize;
+        textConfig.size = smallFontSize;
+
+        const edgeTextDims = new Point(3*smallFontSize);
 
         for(let i = 0; i < 2; i++)
         {
@@ -174,17 +190,20 @@ export default class Card
                 edgePos.y = this.dims.y * (1.0 - edgeNumPos.y);
             }
 
-            edgePos.y += edgeNumOffset;
-            ctx.fillStyle = edgeOffsetCol;
-            ctx.fillText(text, edgePos.x, edgePos.y);
+            const textOp = new LayoutOperation({
+                translate: edgePos,
+                dims: edgeTextDims,
+                fill: edgeOffsetCol,
+                pivot: Point.CENTER
+            });
 
-            edgePos.y -= edgeNumOffset;
-            ctx.fillStyle = mainStrokeCol;
-            ctx.fillText(text, edgePos.x, edgePos.y);
+            textOp.translate.y += edgeNumOffset;
+            await textRes.toCanvas(ctx, textOp);
 
-            ctx.strokeStyle = mainCol;
-            ctx.lineWidth = edgeStrokeWidth;
-            ctx.strokeText(text, edgePos.x, edgePos.y);
+            textOp.translate.y -= edgeNumOffset;
+            textOp.stroke = new ColorLike(mainCol);
+            textOp.strokeWidth = edgeStrokeWidth;
+            await textRes.toCanvas(ctx, textOp);
         }
     }
 
