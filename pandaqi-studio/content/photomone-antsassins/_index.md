@@ -84,7 +84,7 @@ Three simple steps.
 
 <p class="remark-below-settings">Everything is sorted based on how easy it is to play. Rectangles are more predictable (and easy to see shapes in) than hexagons or triangles. The same is true Photomone and Mosaic vs the rest.</p> 
 
-<p class="remark-below-settings">Not working? Don't worry! At the "Download" link, you can also find valid PDFs with material! Check the "Premade" folder.</p> 
+<p class="remark-below-settings">Not working? Don't worry! At the "Download" link, you can also find PDFs I already generated for you.</p> 
 
 {{% /section-centered %}}
 

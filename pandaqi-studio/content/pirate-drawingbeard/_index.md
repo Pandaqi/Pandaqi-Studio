@@ -76,7 +76,7 @@ Three steps.
 
 **Phone?** You only need a device (and internet) to generate the setup. Once that's done, you can put it away.
 
-**Offline version?** There's a folder called "Premade Games". Pick one, print it, cut the hints into cards, and you can play completely offline at some later point in time.
+**Offline version?** There's a folder called "Generated Games". Pick one, print it, cut the hints into cards, and you can play completely offline at some later point in time.
 
 {{% /section-centered %}}
 
@@ -90,7 +90,7 @@ Three steps.
     {{< setting-hidden id="setting-gameTitle" text="Pirate Drawingbeard" >}}
     {{< setting-playercount min="1" max="6" def="4" >}}
     {{< setting-checkbox id="setting-useRealMaterial" text="Use Real Material?" remark="Enable if you're reusing the printed out material sheet." >}}
-    {{< setting-checkbox id="setting-createPremadeGame" text="Create premade game?" remark="Downloads a PDF with a board and hint cards for offline play." >}}
+    {{< setting-checkbox id="setting-createPremadeGame" text="Create PDF?" remark="Downloads a PDF with a board and hint cards for offline play." >}}
     {{< setting-checkbox id="setting-inkFriendly" text="Colored?" remark="Default maps are grayscale to be print friendly. This adds full color." >}}
     {{< setting-checkbox id="setting-fastGeneration" text="Fast Generation?" remark="Produces a game much faster, but can lead to more unfair or chaotic games" >}}
     <h3 class="settings-heading">Hints</h3>

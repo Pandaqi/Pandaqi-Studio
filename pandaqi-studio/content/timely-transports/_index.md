@@ -111,7 +111,7 @@ The **campaign** has six scenarios, increasing in difficulty, allowing you to ge
     {{< setting-checkbox id="settingBoard-rulesReminder" text="Add rules reminder?" checked="true" >}}
   {{< /boardgame-settings >}}
 
-  <p style="font-size: 0.75em;"><strong>Not working?</strong> Don't worry. Click the "Download" button and you'll also find <strong>premade</strong> boards. Use one of those! (And send me an email with the details of your problem.)</p>
+  <p style="font-size: 0.75em;"><strong>Not working?</strong> Don't worry. Click the "Download" button and you'll also find already generated boards. Use one of those! (And send me an email with the details of your problem.)</p>
 
 {{% /section-centered %}}
 

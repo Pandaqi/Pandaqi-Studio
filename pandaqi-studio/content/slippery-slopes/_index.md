@@ -54,7 +54,7 @@ A party game about communicating words by grading them on funky scales.
 
 Three simple steps.
 * Read the short [playful rules](rules).
-* Download any premade PDF. (Download > Premade > Starter Pack.)
+* Download any (single) PDF. (Download > Files > Starter Pack.)
 * Print it, cut it, play!
 
 **Want more?** You can also [generate your own material](#material) right on this website! Or check the other file bundles at the download folder.

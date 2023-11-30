@@ -77,7 +77,7 @@ You can start completely blank. Or you can use the [board generator](#board) bel
     {{< setting-checkbox id="setting-expansions-specialCells" text="Add Supercells?" remark="When playing with the special cells expansion." >}}
   {{< /boardgame-settings >}}
 
-<p style="font-size:0.66em; opacity: 0.66;">Not working? Don't worry! At the "Download" link, you can also find PDFs with valid boards for all situations. Check the "Premade" folder.</p> 
+<p style="font-size:0.66em; opacity: 0.66;">Not working? Don't worry! At the "Download" link, you can also find PDFs I already generated for you.</p> 
 
 {{% /section-centered %}}
 

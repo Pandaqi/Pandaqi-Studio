@@ -78,7 +78,7 @@ If you didn't add rules on the paper itself---or just want more clarification---
   {{< setting-checkbox id="setting-simplifiedIcons" text="Simplified Icons?" remark="Uses simple icons for all types, instead of realistic illustrations." >}}
 {{< /boardgame-settings >}}
 
-<p class="remark-under-settings"><strong>Not working?</strong> Don't worry! At the "Download" link, you can also find PDFs with valid boards for all situations. Check the "Premade" folder.</p> 
+<p class="remark-under-settings"><strong>Not working?</strong> Don't worry! At the "Download" link, you can also find PDFs I already generated for you.</p> 
 
 {{% /section-centered %}}
 

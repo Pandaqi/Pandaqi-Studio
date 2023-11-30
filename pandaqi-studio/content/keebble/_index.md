@@ -83,7 +83,7 @@ You can start completely blank. Or you can use the generator below to get a nice
     {{< setting-checkbox id="setting-expansions-tinyBackpacks" text="Tiny Backpacks?" >}}
   {{< /boardgame-settings >}}
 
-<p style="font-size:0.66em; opacity: 0.66;">Not working? Don't worry! At the "Download" link, you can also find PDFs with valid boards for all situations. Check the "Premade" folder.</p> 
+<p style="font-size:0.66em; opacity: 0.66;">Not working? Don't worry! At the "Download" link, you can also find PDFs I already generated for you.</p> 
 
 {{% /section-centered %}}
 

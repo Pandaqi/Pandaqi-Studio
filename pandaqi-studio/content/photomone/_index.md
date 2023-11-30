@@ -98,7 +98,7 @@ For the words, pick whatever style suits you best.
   {{< setting-checkbox id="setting-expansions-antertainmentBreak" text="Antertainment Break?" >}}
 {{< /boardgame-settings >}}
 
-<p style="font-size:0.66em; opacity: 0.66;">Not working? Don't worry! At the "Download" link, you can also find PDFs with valid boards for all situations. Check the "Premade" folder.</p> 
+<p style="font-size:0.66em; opacity: 0.66;">Not working? Don't worry! At the "Download" link, you can also find PDFs I already generated for you.</p> 
 
 <p style="font-size:0.66em; opacity: 0.66;">For most game modes, using "core" (or "easy") words is ideal. With words printed on the board, however, the game becomes much easier and it's recommended to allow much harder words!</p> 
 

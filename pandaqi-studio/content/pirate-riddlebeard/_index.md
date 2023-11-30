@@ -83,7 +83,7 @@ Three steps.
     {{< setting-seed >}}
     {{< setting-hidden id="setting-gameTitle" text="Pirate Riddlebeard" >}}
     {{< setting-playercount min="1" max="6" def="4" >}}
-    {{< setting-checkbox id="setting-premadeGame" text="Create premade game?" remark="Downloads a PDF with a board and hint cards for offline play." >}}
+    {{< setting-checkbox id="setting-premadeGame" text="Create PDF?" remark="Downloads a PDF with a board and hint cards for offline play." >}}
     <h3 class="settings-heading">Map</h3>
     {{< setting-checkbox id="setting-allTerrains" text="More Terrains?" remark="Increases number of terrains to six." >}}
     {{< setting-checkbox id="setting-includeStones" text="Stones?" remark="Adds stones to the map ( + hints about them)." >}}

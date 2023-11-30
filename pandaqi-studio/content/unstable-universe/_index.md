@@ -121,7 +121,7 @@ Three steps:
   {{< /boardgame-settings >}}
 
   <div class="post-settings-remarks">
-    <p><strong>Not working?</strong> Don't worry. Click the "Download" button and you'll also find a folder with <strong>premade</strong> boards. Use one of those instead! (Also send me an email with details about what isn't working right.)
+    <p><strong>Not working?</strong> Don't worry. Click the "Download" button and you'll also find a folder with already generated boards. Use one of those instead! (Also send me an email with details about what isn't working right.)
     <p><strong>Secret board?</strong> The "Expeditions" expansion adds nodes that trigger whenever their piece of paper comes loose. If you are <em>able to print double-sided</em>, these nodes will be placed on the <em>backside</em> of the paper. This means the paper actually has secrets that will be revealed during the game! (Do a test print, though.)</p>
     <p><strong>Tip for Cleanup?</strong> When done, you should have a bunch of puzzle pieces ( = all pieces of paper you cut off). Here's the challenge: try to fit them back together to recreate the original paper! Sounds easier than it is :)</p>
 

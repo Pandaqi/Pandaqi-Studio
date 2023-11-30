@@ -121,7 +121,7 @@ Three steps ...
     {{< setting-checkbox id="setting-expansions-preposterousPlaces" text="Preposterous Places?" >}}
   {{< /boardgame-settings >}}
 
-  <p><strong>Not working?</strong> Don't worry. Click the "Download" button and you'll also find a folder with <strong>premade</strong> boards. Use one of those instead! (And send me an email with details about what isn't working.)</p>
+  <p><strong>Not working?</strong> Don't worry. Click the "Download" button and you'll also find a folder with already generated boards. Use one of those instead! (And send me an email with details about what isn't working.)</p>
 
 {{% /section-centered %}}
 
