@@ -154,7 +154,7 @@ export default class Loader
     getFilePath(name:string, ext = "txt", sub = "media")
     {
         let base = this.url + (this.subFolders[sub] ?? "") + name;
-        if(isExternalURL(name)) { base = name; }
+        if(isExternalURL(name, this.params)) { base = name; }
 
         if(ext.length <= 0) { return base; }
         return base + "." + ext;
@@ -197,7 +197,7 @@ export default class Loader
         {
             const val = elem.get();
             const path = this.getFilePath(val, "", "media");
-            const isMedia = isValidMediaType(parseExtension(path));
+            const isMedia = isValidMediaType(parseExtension(path), this.params);
             let newValue = isMedia ? path : val;
             if(isMedia && !this.fileExists(path))
             {

@@ -1,0 +1,201 @@
+Question => In welk jaar werd YouTube gelanceerd?
+Answers => 2005, 2001, 2007, 2010 
+Category => Wetenschap, Algemeen
+Author => Tiamo
+Score => 1
+
+Question => Op 17 November gebeurde er iets raars bij OpenAI, het bedrijf achter ChatGPT. Wat?
+Answers =>
+De CEO werd ontslagen en vier dagen later weer aangenomen.
+Twee medewerkers veranderden hun voornaam naar AI.
+Ze lanceerden een nieuwe versie die té goed was en meteen werd uitgeschakeld.
+Ze lanceerden per ongeluk een website met een spelfout (hopenai.com)
+Category => Wetenschap, Nieuws
+Comment => !De CEO wil niet zeggen waarom hij zomaar was ontslagen, maar het was "niet omdat we onveilig bezig waren met AI".
+Author => Tiamo
+Score => 2
+
+Question => Geef de betekenis van dit woord: "Clinomanie"
+Answers => De (ziekelijke) behoefte om altijd in je bed te blijven liggen.
+Category => Literatuur
+Author => Tiamo
+Score => 4
+
+Question => Geef de betekenis van dit woord: "Frisson"
+Answers => Wanneer je kriebels of kippenvel krijgt als je naar (mooie) muziek luistert.
+Category => Literatuur
+Author => Tiamo
+Score => 4
+
+Question => Wat is de meest gedownloade app van 2023 (tot nog toe)?
+Answers => Tiktok, Instagram, Facebook, WhatsApp, Telegram, Spotify, Messenger
+Category => Wetenschap
+Author => Tiamo
+Comment => !Deze app had 672 miljoen downloads.
+Score => 2
+
+Question => Wat is het meest gedownloade spel van 2023 (tot nog toe)?
+Answers => Subway Surfers, Candy Crush, Pokemon Go, Clash of Clans, Roblox, Stumble Guys
+Category => Wetenschap
+Comment => !Ja, Stumble Guys is gewoon een kloon van de hit Fall Guys die legaal twijfelachtig is.
+Author => Tiamo
+Comment => !Deze game had 304 miljoen downloads.
+Score => 2
+
+Question => Reiner Knizia is de meest wereldberoemde ontwerper van bordspellen. Hoeveel spellen heeft hij in totaal ontworpen (tot nog toe)?
+Media => reiner_knizia.jpg
+Answers => 700
+Category => Cultuur
+Comment => Je antwoord mag er maximaal 50 vanaf zitten.
+Author => Tiamo
+Score => 3
+
+Question => Op 1 April dit jaar overleed de spellenmaker Klaus Teuber. Welke wereldberoemde klassieker heeft hij ontworpen?
+Media => klaus_teuber.webp
+Answers => Kolonisten van Catan
+Category => Cultuur
+Author => Tiamo
+Score => 2
+
+Question => Begin dit jaar publiceerde de FBI een bijzonder (dringend) advies. Wat was dat?
+Answers =>
+Iedereen moet ad blockers installeren.
+Elke iPhone voor versie 10 is een gevaar en moet direct weggegooid.
+Gebruik een verzonnen naam en geboortedatum bij al je accounts.
+Koop geen apparaten uit China.
+Zet je laptop nooit aan voordat het middag is.
+Was je stekkers regelmatig met zeep.
+Category => Nieuws, Wetenschap
+Comment => !Criminelen gebruiken ads om virussen te verspreiden, zich voor te doen als andere bedrijven, of de je computer te misbruiken voor hun eigen rekentaken (zoals bitcoin).
+Author => Tiamo
+Score => 4
+
+Question => Uit welke film komt deze soundtrack? Bonuspunt voor de juiste songtitel en componist.
+Media => ?train_your_dragon.mp3, !train_your_dragon.mp4
+Answers => How to Train your Dragon.
+Comment => !Componist = John Powell; Titel = Test Drive
+Category => Muziek
+Author => Tiamo.
+Score => 2
+
+Question => Uit welke getekende kinderserie komt dit nummer?
+Media => ?way_of_the_platypus.mp3, !way_of_the_platypus.mp4
+Answers => Phineas & Ferb.
+Category => Muziek
+Author => Tiamo
+Score => 3
+
+Question => Wat is de officiële titel van het hoofddeuntje van Harry Potter? En wie is de componist?
+Media => harry_potter.mp3
+Answers => 
+Hedwig's Theme
+Harry's Theme
+Dumbledore Returns
+A Wizard Baby
+You're A Wizard 
+Rowling Rock
+Gertje kom je bij me slapen
+Po-Po-Po-Potterface
+Category => Muziek
+Author => Tiamo
+Comment => !De componist is John Williams.
+Score => 2
+
+Question => Wat is het hoogste aantal zetels dat een partij ooit haalde (in de moderne Tweede Kamer)? Welke partij was dat?
+Answers => PvdA met 50 zetels.
+Category => Politiek
+Author => Tiamo
+Comment => ?Je mag er maximaal 5 vanaf zitten.
+!Daarvoor hadden we maar 100 zetels en won de Liberale Unie er ooit 58.
+Score => 4
+
+Question => Tot 14 April had China al 70 jaar de grootste bevolking ter wereld. Welk land heeft die titel afgepakt?
+Answers =>
+India
+Amerika
+Rusland
+Indonesië
+Pakistan
+Brazilië
+Nigeria
+Bangladesh
+Category => Nieuws, Cultuur, Algemeen
+Author => Tiamo
+Comment => !India heeft bijna 1.5 miljard inwoners. Samen met China omvatten ze dus 1/3 van de totale wereldbevolking.
+Score => 1
+
+Question => Op 19 November werd het record verbroken voor grootste uitslag ooit in internationaal voetbal. Geef de uitslag en de twee landen.
+Answers => Frankrijk 14-0 Gibraltar.
+Category => Sport, Nieuws
+Author => Tiamo
+Comment => 1 punt voor elk juist onderdeel.
+Score => 3
+
+// @TODO: Misschien iets minder van deze samenvatting-dingen doen
+
+Question => Welke film wordt hier slecht samengevat? 
+"A lunatic enslaves candy makers, then slowly kills children in front of their parents."
+Answers => Willy Wonka and the Chocolate Factory.
+Category => Cultuur
+Author => Tiamo
+Score => 2
+
+Question => Welke film wordt hier slecht samengevat? 
+"Two royal sisters discover their problems are solved by catchy tunes and the questionable advice of a sentient snowman."
+Answers => Frozen
+Category => Cultuur
+Author => Tiamo
+Comment => Deze samenvatting komt van ChatGPT.
+Score => 2
+
+Question => Welke film wordt hier slecht samengevat? 
+"A quirky romantic comedy where time travel is overshadowed by the real challenge of finding a decent wedding venue in England."
+Answers => About Time
+Category => Cultuur
+Author => Tiamo
+Comment => Deze samenvatting komt van ChatGPT.
+Score => 2
+
+Question => Welke film wordt hier slecht samengevat?
+"A boy attends boarding school to prove the key to success is a weird scar and a distinct lack of adult supervision."
+Answers => Harry Potter
+Category => Cultuur
+Author => Tiamo
+Comment => Deze samenvatting komt van ChatGPT.
+Score => 1
+
+Question => Welke film wordt hier slecht samengevat?
+"A kid comes out of the closet, then forces her siblings to do the same."
+Answers => Narnia (The Lion The Witch and the Wardrobe)
+Category => Cultuur
+Author => Tiamo
+Score => 2
+
+Question => Welk programma wordt hier slecht samengevat?
+"A competition where emotions rise faster than dough and you convince yourself that your creations are anywhere near as impressive as those on TV."
+Answers => Great British Bake Off
+Category => Cultuur
+Author => Tiamo
+Comment => Deze samenvatting komt van ChatGPT.
+Score => 1
+
+Question => Welke film wordt hier slecht samengevat?
+"Everybody tries the ice bucket challenge."
+Answers => Titanic
+Category => Cultuur
+Author => Tiamo
+Score => 1
+
+Question => Welke film wordt hier slecht samengevat?
+"Older sister ruins younger sister's chance to appear on television and win a prize for her district."
+Answers => The Hunger Games
+Category => Cultuur
+Author => Tiamo
+Score => 3
+
+Question => Welke film wordt hier slecht samengevat?
+"Adorable trash can and flower pot force fat people to walk."
+Answers => WALL-E
+Category => Cultuur
+Author => Tiamo
+Score => 2

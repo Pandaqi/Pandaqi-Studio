@@ -70,6 +70,19 @@ const parseTextString = (text:string, config) =>
     return chunks;
 }
 
+const hasVisibleText = (txt) =>
+{
+    if(Array.isArray(txt)) { return lineHasVisibleContent(txt); }
+    return txt.trim().length > 0;
+}
+
+const hasVisibleLines = (lines:LineData[]) =>
+{
+    if(lines.length <= 0) { return false; }
+    if(!lineHasVisibleContent(lines[0].chunks)) { return false; }
+    return true;
+}
+
 const lineHasVisibleContent = (list:TextChunk[]) =>
 {
     for(const elem of list)
@@ -390,6 +403,8 @@ export default class TextDrawer
 
     async toCanvas(canv:CanvasLike, op:LayoutOperation = new LayoutOperation())
     {
+        if(!hasVisibleText(this.text)) { return; }
+
         const ctx = (canv instanceof HTMLCanvasElement) ? canv.getContext("2d") : canv;
         ctx.save();
         ctx.textAlign = "left";
@@ -397,6 +412,7 @@ export default class TextDrawer
 
         const textParsed = this.parseText(ctx, this.text);
         const { textDims, lines } = this.getTextMetrics(ctx, textParsed);
+        if(!hasVisibleLines(lines)) { return; }
         await this.drawText(ctx, op, lines);
 
         this.debugDraw(ctx);

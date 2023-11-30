@@ -106,7 +106,7 @@ export default class DOM
     onReveal() { this.signal(DOM.REVEAL); }
     onNext(ev) { this.signal(DOM.NEXT); this.cancelEvent(ev); }
     onPrev(ev) { this.signal(DOM.PREV); this.cancelEvent(ev); }
-    onFontSizeChange(dfs, ev) { console.log(ev, dfs); this.signal(DOM.FONT_SIZE, { change: dfs }); this.cancelEvent(ev); }
+    onFontSizeChange(dfs, ev) { this.signal(DOM.FONT_SIZE, { change: dfs }); this.cancelEvent(ev); }
 
     cancelEvent(ev)
     {

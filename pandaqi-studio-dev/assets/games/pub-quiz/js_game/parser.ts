@@ -9,15 +9,19 @@ const VIDEO_FORMATS = ["mp4", "webm", "mov", "avi"];
 const LINK_PREFIXES = ["http://", "https://", "www.", ".com"];
 
 const PROPS_ACCEPTING_LIST = ["category", "media", "answers", "author"];
-const PROPS_FORCED_LOWERCASE = ["category", "autor"];
+const PROPS_FORCED_LOWERCASE = ["category", "author", "type"];
 
 const MASK_QUESTION_SYMBOL = "?";
 const MASK_ANSWER_SYMBOL = "!";
+const INLINE_SPLIT_SYMBOL = ",";
+const PROPERTY_DECLARE_SYMBOL = "=>";
+const COMMENT_SYMBOL = "//";
 
-const isValidMediaType = (path:string) =>
+const isValidMediaType = (path:string, params:QuizParams = {}) =>
 {
     const ext = parseExtension(path);
-    return IMAGE_FORMATS.includes(ext) || AUDIO_FORMATS.includes(ext) || VIDEO_FORMATS.includes(ext);
+    const allFormats = params.mediaFormats ?? [IMAGE_FORMATS, AUDIO_FORMATS, VIDEO_FORMATS].flat();
+    return allFormats.includes(ext);
 }
 
 const parseRawFile = async (url: string, data:string) : Promise<string|Object> =>
@@ -55,6 +59,9 @@ const parseFileString = (url: string, data:string, params:QuizParams = {}) : Que
 {
     const lines = data.split(/\r?\n/)
 
+    const commentSymbol = params.symbols.comment ?? COMMENT_SYMBOL;
+    const propertyDeclareSymbol = params.symbols.property ?? PROPERTY_DECLARE_SYMBOL;
+
     let curQuestion : Question = null;
     let currentProperty : string = null;
     const questions = [];
@@ -63,7 +70,10 @@ const parseFileString = (url: string, data:string, params:QuizParams = {}) : Que
         const emptyLine = line.length <= 0;
         if(emptyLine) { continue; }
 
-        let parts = line.split("=>");
+        const comment = line.trim().indexOf(commentSymbol) == 0;
+        if(comment) { continue; }
+
+        let parts = line.split(propertyDeclareSymbol);
         parts = parts.map(s => s.trim());
 
         const invalid = parts.length > 2;
@@ -109,26 +119,33 @@ const acceptsCommaList = (prop:string) =>
     return PROPS_ACCEPTING_LIST.includes(prop); 
 }
 
-const parseInlinePropertyValue = (prop: string, val:string) : string[] =>
+const parseInlinePropertyValue = (prop: string, val:string, params:QuizParams = {}) : string[] =>
 {
     if(val.length <= 0) { return []; }
-    if(acceptsCommaList(prop)) { return val.split(","); }
+    if(acceptsCommaList(prop) && params.enableInlineMultiple) 
+    {
+        const splitSymbol = params.symbols.inlineMultiple ?? INLINE_SPLIT_SYMBOL; 
+        return val.split(splitSymbol); 
+    }
     return [val];
 }
 
-const parseQuestionProperty = (prop: string, val:string[]) : QVal[] =>
+const parseQuestionProperty = (prop: string, val:string[], params:QuizParams = {}) : QVal[] =>
 {
     val = val.map(s => s.trim());
     if(PROPS_FORCED_LOWERCASE.includes(prop)) { val = val.map(s => s.toLowerCase()); }
     val = val.filter(x => x != ''); // no completely empty entries
+
+    const questionMaskSymbol = params.symbols.questionOnly ?? MASK_QUESTION_SYMBOL;
+    const answerMaskSymbol = params.symbols.answerOnly ?? MASK_ANSWER_SYMBOL; 
 
     const arr : QVal[] = [];
     for(let elem of val)
     {
         const firstChar = elem.charAt(0);
         let qValType = QValType.ALL;
-        if(firstChar == MASK_QUESTION_SYMBOL) { elem = elem.slice(1).trim(); qValType = QValType.QUESTION; }
-        else if(firstChar == MASK_ANSWER_SYMBOL) { elem = elem.slice(1).trim(); qValType = QValType.ANSWER; }
+        if(firstChar == questionMaskSymbol) { elem = elem.slice(1).trim(); qValType = QValType.QUESTION; }
+        else if(firstChar == answerMaskSymbol) { elem = elem.slice(1).trim(); qValType = QValType.ANSWER; }
 
         arr.push(new QVal(elem, qValType));
     }
@@ -152,9 +169,10 @@ const toWhiteSpaceString = (val:string[]) =>
    return val.join("<br>");
 }
 
-const isExternalURL = (val:string) =>
+const isExternalURL = (val:string, params:QuizParams = {}) =>
 {
-    for(const prefix of LINK_PREFIXES)
+    const prefixes = params.linkPrefixes ?? LINK_PREFIXES;
+    for(const prefix of prefixes)
     {
         if(val.includes(prefix)) { return true; }
     }

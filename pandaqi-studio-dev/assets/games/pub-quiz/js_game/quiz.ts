@@ -8,6 +8,15 @@ import clamp from "js/pq_games/tools/numbers/clamp";
 import { parseQuestionsIntoJSON } from "./parser";
 import ErrorHandler from "./errorHandler";
 
+interface ParseSymbols
+{
+    comment?: string,
+    property?: string,
+    questionOnly?: string,
+    answerOnly?: string,
+    inlineMultiple?: string
+}
+
 interface QuizParams
 {
     id?: string, // if you want multiple quizzes on the same page, they need unique IDs
@@ -20,8 +29,10 @@ interface QuizParams
     loadExternalMediaAsIframe?: boolean,
     
     // @TODO: somehow, get these into the parser to override defaults if set?
+    // @TODO: we need a clean system anyway to override ANY of the default symbols used by the parser
     linkPrefixes?: string[],
     mediaFormats?: string[],
+    symbols?: ParseSymbols,
 
     defaultCategory?: string,
     defaultAuthor?: string,
@@ -34,6 +45,7 @@ interface QuizParams
     hideAuthor?: boolean,
     hideScore?: boolean,
 
+    enableInlineMultiple?: boolean,
     enableSafety?: boolean
     enableMouse?: boolean
     enableKeys?: boolean
@@ -84,6 +96,8 @@ export default class Quiz
         params.defaultScore = params.defaultScore ?? DEFAULT_SCORE;
         params.showErrors = params.showErrors ?? true;
         params.id = (params.id ?? seed) ?? DEFAULT_ID;
+        params.symbols = params.symbols ?? {};
+        params.enableInlineMultiple = params.enableInlineMultiple ?? true;
 
         params.enableSafety = params.enableSafety ?? false;
         this.enableSafety = params.enableSafety;
@@ -210,9 +224,8 @@ export default class Quiz
     toggleAnswer()
     {
         if(this.enableSafety && !confirm("Are you sure you wish to toggle answers?")) { return; }
-        let curQuestion = this.counter;
         this.toggleMode(true);
-        this.changeQuestion(curQuestion);
+        this.changeQuestion(0);
     }
 
     toggleMedia()

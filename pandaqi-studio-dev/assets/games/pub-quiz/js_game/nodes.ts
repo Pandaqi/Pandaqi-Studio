@@ -1,10 +1,13 @@
 import { AUDIO_FORMATS, IMAGE_FORMATS, VIDEO_FORMATS, isExternalURL, isValidMediaType, parseExtension, toWhiteSpaceString } from "./parser";
 import Question from "./question";
 import { QValType } from "./questionValue";
-import { QuizMode } from "./quiz";
+import { QuizMode, QuizParams } from "./quiz";
+
+const LONG_ANSWER_THRESHOLD = 65; // number of characters
 
 export default class Nodes
 {
+    params: QuizParams;
     nodes: Record<string, HTMLElement>;
     nodesUI: Record<string, HTMLElement>;
     alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -50,7 +53,7 @@ export default class Nodes
     enableUI: boolean;
     enableSafety: boolean;
 
-    constructor(params:any)
+    constructor(params:QuizParams)
     {
         this.hiddenNodes = [];
         if(params.hideAuthor) { this.hiddenNodes.push("questionAuthor"); }
@@ -58,6 +61,7 @@ export default class Nodes
         if(params.hideScore) { this.hiddenNodes.push("questionScore"); }
 
         params.enableUI = params.enableUI ?? true;
+        this.params = params;
         this.enableUI = params.enableUI;
         this.loadExternalMediaAsIframe = params.loadExternalMediaAsIframe ?? false;
         this.enableSafety = params.enableSafety;
@@ -311,7 +315,7 @@ export default class Nodes
 
         let counter = 0;
         const elems = [];
-        const answerList = q.getQuestionValues("answers", qValType);
+        const answerList = q.getAnswers(qValType);
         for(const answer of answerList)
         {
             elems.push(this.createAnswerHTML(counter, answer, openQuestion));
@@ -355,11 +359,15 @@ export default class Nodes
         answer.classList.add("answer-text");
         div.appendChild(answer);
 
-        if(isValidMediaType(val)) {
+        if(isValidMediaType(val, this.params)) {
             answer.appendChild(this.createMediaHTML(num, val));
         } else {
             answer.innerHTML = val;
         }
+
+        const isLongAnswer = val.length > LONG_ANSWER_THRESHOLD;
+        if(isLongAnswer) { div.classList.add("answer-long"); }
+        else { div.classList.add("answer-short"); }
 
         return div;
     }
@@ -378,7 +386,7 @@ export default class Nodes
 
         const isVideo = VIDEO_FORMATS.includes(ext);
         const isAudio = AUDIO_FORMATS.includes(ext);
-        const externalNonFile = isExternalURL(val) && !isValidMediaType(val);
+        const externalNonFile = isExternalURL(val, this.params) && !isValidMediaType(val);
 
         if(externalNonFile)
         {
@@ -424,7 +432,7 @@ export default class Nodes
         {
             const isAnswer = q.isCorrectAnswer(elem.dataset.id);
             if(this.answerRevealed) {
-                if(isAnswer) { elem.classList.add("answer-right"); }
+                if(isAnswer || openQuestion) { elem.classList.add("answer-right"); }
                 else { elem.classList.add("answer-wrong"); }
                 elem.style.display = "flex";
             } else {

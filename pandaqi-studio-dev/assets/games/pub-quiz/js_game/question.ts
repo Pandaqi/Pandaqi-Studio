@@ -1,12 +1,22 @@
 import shuffle from "js/pq_games/tools/random/shuffle"
-import { parsePathToID, parseQuestionProperty } from "./parser"
+import { parsePathToID, parseQuestionProperty, toWhiteSpaceString } from "./parser"
 import { QuizParams } from "./quiz"
 import QVal, { QValType } from "./questionValue"
 import { showMessage } from "./errorHandler"
 
+enum QuestionType
+{
+    MULTIPLE = "multiple", // a multiple choice question
+    OPEN = "open", // an open question, parsed as normal
+    OPEN_SINGLE = "opensingle", // an open question, but the answers should be displayed as ONE piece of text
+    RANGE = "range", // the answer is a numeric range (@TODO: not implemented yet) => interpret the first two answers given as the bounds of that range?
+}
+
+export { Question, QuestionType }
 export default class Question
 {
-    quizID:string;
+    quizID: string;
+    type: QVal;
     question: QVal[]
     comment: QVal[]
     category: QVal[]
@@ -34,14 +44,11 @@ export default class Question
     hasMedia() { return this.media.length >= 1; }
     shuffleAnswers(rng:any)
     {
+        if(this.isOpen()) { return; }
         shuffle(this.answers, rng);
     }
 
-    isOpen()
-    {
-        return this.answers.length == 1;
-    }
-
+    isOpen() { return this.type.get() == QuestionType.OPEN || this.type.get() == QuestionType.OPEN_SINGLE; }
     isValid()
     {
         const visibleQuestions = this.getQuestionValues("question", QValType.QUESTION);
@@ -62,6 +69,9 @@ export default class Question
         this.finalizeCategories(params);
         this.finalizeCorrectAnswer(params);
         this.finalizeAuthor(params);
+        
+        const typeInferred = this.answers.length == 1 ? QuestionType.OPEN : QuestionType.MULTIPLE;
+        this.type = this.type ?? new QVal(typeInferred); 
 
         if(!this.score) { this.score = new QVal(params.defaultScore + ""); }
     }
@@ -104,16 +114,16 @@ export default class Question
         if(!this.correct) { this.correct = this.answers[0]; }
         
         // easiest case: correct answer included, great, stop here
-        let correctAnswerIncluded = this.answers.includes(this.correct);
+        const list = this.getQuestionValues("answers", QValType.QUESTION);
+        let correctAnswerIncluded = list.includes(this.correct.get());
 
         // try to find a correct answer, but spelled differently
         if(!correctAnswerIncluded)
         {
-            const list = this.getQuestionValues("answers", QValType.QUESTION);
             for(const answer of list)
             {
                 if(answer.toLowerCase() != this.correct.get().toLowerCase()) { continue; }
-                showMessage(["Question had a correct answer (" + this.correct + "), but spelled differently from the real one (" + answer + ")", this], this.quizID);
+                showMessage(["Question had a correct answer (" + this.correct.get() + "), but spelled differently from the real one (" + answer + ")", this], this.quizID);
                 this.correct = new QVal(answer);
                 correctAnswerIncluded = true;
                 break;
@@ -157,7 +167,7 @@ export default class Question
         if(!isList)
         {
             if(valParsed.length <= 1) { this[prop] = valParsed[0]; }
-            else { showMessage("Can't set property " + prop + " to value " + val, this.quizID); }
+            else { showMessage("Can't set (single) property " + prop + " to value " + val, this.quizID); }
             return;
         }
 
@@ -203,6 +213,16 @@ export default class Question
         }
 
         return arr;
+    }
+
+    getAnswers(qValType:QValType)
+    {
+        const rawValues = this.getQuestionValues("answers", qValType);
+        if(this.type.get() == QuestionType.OPEN_SINGLE)
+        {
+            return [toWhiteSpaceString(rawValues)];
+        }
+        return rawValues;
     }
 
     toString()
