@@ -1,0 +1,40 @@
+$header-font: "fourth";
+$body-font: "neuton";
+$base: "/firecrackers/assets/";
+$base-fonts: $base + "fonts/";
+
+$col1: #f6d4d4;
+$col2: #d3fcd3;
+$col3: #dedeff;
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'Neuton-ExtraBold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'Neuton-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'Neuton-Italic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $header-font;
+    src: url($base-fonts + '2Peas4thofJuly.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}

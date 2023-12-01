@@ -1,0 +1,105 @@
+@use "../css_shared/main.scss" as g;
+@use "sass:color";
+
+$bg-color: #212121;
+$text-color: #FCFCFC;
+$button-bg: g.$col2;
+$button-color: #27231c;
+$link-color: color.adjust(g.$col3, $lightness: -10%);
+$link-color-hover: color.adjust(g.$col3, $lightness: 5%);
+$settings-color: g.$col1;
+$cutoff: 920px;
+
+h1, h2, h3, h4, h5, h6, 
+a.btn, #btn-create-pdf, #btn-generate-board, #btn-start-game,
+input, button, select, option, label {
+    font-family: g.$header-font;
+    font-weight: normal;
+}
+
+input, button, select, option, label {
+    font-family: g.$body-font;
+    //font-size: 1.175em;
+}
+
+body {
+    font-family: g.$body-font;
+    background-color: $bg-color;
+    font-size: 21px;
+    color: $text-color;
+}
+
+h2 {
+    font-size: 2.25em;
+    margin-top: 1.5em;
+    margin-bottom: -0.25em;
+    filter: drop-shadow(0 0 10px #BBB);
+}
+
+h3 { 
+    font-size: 1.25em;
+    margin-top: 1.25em;
+    margin-bottom: -0.25em;
+}
+
+.settings-remark {
+    font-size: 0.75em; 
+    opacity: 0.75;
+}
+
+.limit-width {
+    max-width: $cutoff;
+}
+
+a {
+    color: $link-color; 
+    transition: color 0.3s;
+
+    &:hover {
+        color: $link-color-hover;
+    }
+}
+
+.game-settings {
+    color: black;
+    background-color: $settings-color;
+
+    .setting-remark { color: black; }
+}
+
+.boardgame-intro {
+    .tagline, .metadata {
+        color: $text-color;
+    }
+
+    .tagline {
+        font-size: 1.25em;
+    }
+
+    .metadata {
+        font-size: 0.85em;
+    }
+}
+
+.boardgame-intro .big-header-image {
+    filter: none !important;
+}
+
+a.download-btn, a.download-btn:visited, 
+#btn-start-game, #btn-start-game:visited,
+#btn-generate-board, #btn-generate-board:visited {
+    background-color: $button-bg;
+    color: $button-color;
+    
+    &:hover {
+        background-color: $button-color;
+        color: $button-bg;
+    }
+}
+
+
+
+
+
+
+
