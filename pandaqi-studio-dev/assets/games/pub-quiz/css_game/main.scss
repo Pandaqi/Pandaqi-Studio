@@ -185,10 +185,8 @@ button {
 
 .question-media {
     display: flex;
+    flex-wrap: wrap;
     gap: 1em;
-    max-height: $max-media-height;
-    overflow-x: scroll;
-    overflow-y: hidden;
     justify-content: center;
     align-items: center;
     margin-bottom: 1rem;

@@ -1,7 +1,9 @@
-import Point from "../point";
+import Shape, { PathLike } from "../shape";
 
-export default (path:Point[]) =>
+export default (path:PathLike) =>
 {
+    if(path instanceof Shape) { path = path.toPath(); }
+
     let sum = 0;
     for(let i = 0; i < (path.length-1); i++)
     {

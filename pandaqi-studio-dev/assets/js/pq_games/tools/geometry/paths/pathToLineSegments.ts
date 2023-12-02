@@ -1,8 +1,11 @@
 import Line from "../line";
 import Point from "../point";
+import Shape, { PathLike } from "../shape";
 
-export default (points:Point[]) =>
+export default (points:PathLike) =>
 {
+    if(points instanceof Shape) { points = points.toPath(); }
+
     const arr = [];
     for(let i = 0; i < points.length; i++)
     {

@@ -1,4 +1,5 @@
 import Point from "../point"
+import Shape, { PathLike } from "../shape";
 
 function prepareFullPath(path:Point[])
 {
@@ -128,7 +129,7 @@ class CatmullRomSegment
 
 interface SmoothPathParams
 {
-    path: Point[]
+    path: PathLike
     tension?: number
     resolution?: number
     variant?: string
@@ -138,6 +139,7 @@ interface SmoothPathParams
 export default function smoothPath(params:SmoothPathParams)
 {
     let path = params.path ?? [];
+    if(path instanceof Shape) { path = path.toPath(); }
     if(path.length <= 2) { return path; }
 
     params.tension = params.tension ?? 0;

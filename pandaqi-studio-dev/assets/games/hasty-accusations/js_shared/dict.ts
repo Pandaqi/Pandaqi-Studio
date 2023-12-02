@@ -31,9 +31,9 @@ enum SType
 // For the loupe and Suspect requirements
 enum ReqType
 {
-    CANT, // can't be played there
-    NEUTRAL, // doesn't care
-    MUST // must be played there
+    CANT = "cant", // can't be played there
+    NEUTRAL = "neutral", // doesn't care
+    MUST = "must" // must be played there
 }
 
 interface ActionData
@@ -64,21 +64,21 @@ const BASE_SET:ActionSet =
 
     stop: { frame: 4, type: AType.PILES, subType: SType.REVIEW, label: "Stop", desc: "<b>Stop</b> (further) review. If played <b>openly</b>, instantly do a <b>review</b>.", protectQuotient: 0.33 },
     jester: { frame: 5, type: AType.PILES, subType: SType.PILE, label: "Jester", desc: "<b>Shuffle</b> the rest of this pile." },
-    delay: { frame: 6, type: AType.PILES, subType: SType.REVIEW, label: "Delay Tactics", desc: "While visible, <b>don't move</b> the loupe at the end of your turn.", protectQuotient: 0.33 },
+    delay: { frame: 6, type: AType.PILES, subType: SType.REVIEW, label: "Delay Tactics", desc: "While visible, <b>don't move</b> the <img id=\"suspects\" frame=\"0\"> at the end of a turn.", protectQuotient: 0.33 },
     bomb: { frame: 7, type: AType.PILES, subType: SType.PILE, label: "Bomb", desc: "Reveal and execute the <b>top card</b> of all adjacent piles.", suspect: ReqType.CANT },
     
     question: { frame: 8, type: AType.ACTION, subType: SType.INFO, label: "Burning Question", desc: "Reveal a hand card. Ask another player on which pile to play it, then do so." },
     investigator: { frame: 9, type: AType.ACTION, subType: SType.INFO, label: "Investigator", desc: "Look at another player's hand." },
-    mover: { frame: 10, type: AType.ACTION, subType: SType.ORDER, label: "Mover", desc: "Move the <b>loupe</b> to another location", loupe: ReqType.MUST, protectQuotient: 0.25 },
-    switcheroo: { frame: 11, type: AType.ACTION, subType: SType.ORDER, label: "Switcheroo", desc: "Make two suspects <b>switch places</b> OR switch the <b>top and bottom</b> cards of one pile.", protectQuotient: 0.33 },
+    mover: { frame: 10, type: AType.ACTION, subType: SType.ORDER, label: "Mover", desc: "Move the <img id=\"suspects\" frame=\"0\"> to another location.", loupe: ReqType.MUST, protectQuotient: 0.25 },
+    switcheroo: { frame: 11, type: AType.ACTION, subType: SType.ORDER, label: "Switcheroo", desc: "Make two suspects <b>switch places</b> OR switch the <b>top and bottom</b> of a pile.", protectQuotient: 0.33 },
 }
 
 const ADVANCED_SET:ActionSet = 
 {
-    poison: { frame: 0, type: AType.MURDER, subType: SType.MURDER, label: "Poison", desc: "<b>Kills</b> the suspect if this is the <b>3rd poison</b>. If the suspect survives, it <b>stays</b> in the pile!", freq: new Bounds(5, 9), murderQuotient: 0.33 },
-    armor: { frame: 1, type: AType.MURDER, subType: SType.PROTECT, label: "Armor", desc: "<b>Saves</b> the suspect from dying once if this is the <b>3rd armor</b>. If the suspect survives, it <b>stays</b> in the pile!", protectQuotient: 0.33, freq: new Bounds(5, 9) },
-    antidote: { frame: 2, type: AType.MURDER, subType: SType.PROTECT, label: "Antidote", desc: "Adds 2 <b>Poison<b> if played openly; removes 2 <b>Poison</b> card if played secretly.", protectQuotient: 0.66, murderQuotient: 0.66 },
-    revenge: { frame: 3, type: AType.MURDER, subType: SType.REVIEW, label: "Dying Breath", desc: "<b>Kills</b> this suspect. Then also <b>review</b> the suspect with the <b>least</b> cards.", murderQuotient: 1.25 }, 
+    poison: { frame: 0, type: AType.MURDER, subType: SType.MURDER, label: "Poison", desc: "<b>Kills</b> the suspect if this is the <b>3rd poison</b>. <col hex=\"#777777\">Stays after a survived review!</col>", freq: new Bounds(5, 9), murderQuotient: 0.33 },
+    armor: { frame: 1, type: AType.MURDER, subType: SType.PROTECT, label: "Armor", desc: "<b>Saves</b> the suspect from dying once if this is the <b>3rd armor</b>. <col hex=\"#777777\">Stays after a survived review!</col>", protectQuotient: 0.33, freq: new Bounds(5, 9) },
+    antidote: { frame: 2, type: AType.MURDER, subType: SType.PROTECT, label: "Antidote", desc: "Adds 2 <b>Poison</b> if played openly; removes 2 <b>Poison</b> if played secretly.", protectQuotient: 0.66, murderQuotient: 0.66 },
+    revenge: { frame: 3, type: AType.MURDER, subType: SType.REVIEW, label: "Dying Breath", desc: "<b>Kill</b> this suspect. Now also <b>review</b> the suspect with the <b>least</b> cards.", murderQuotient: 1.25 }, 
 
     safe_stop: { frame: 4, type: AType.PILES, subType: SType.REVIEW, label: "Safe Stop", desc: "<b>Stop</b> (further) review. Also <b>don't discard</b> the rest of this pile.", protectQuotient: 0.33 }, 
     reverse: { frame: 5, type: AType.PILES, subType: SType.REVIEW, label: "Back to the top", desc: "While visible, the <b>review direction</b> is inverted: bottom to top.", loupe: ReqType.MUST },
@@ -87,7 +87,7 @@ const ADVANCED_SET:ActionSet =
 
     rebel: { frame: 8, type: AType.ACTION, subType: SType.ORDER, label: "Rebel", desc: "Pick 1 card from <b>every pile</b> and stick it anywhere inside <b>another pile</b>.", loupe: ReqType.MUST, murderQuotient: 0.75, protectQuotient: 0.5 }, // OLD POWER: "<b>Don't</b> move the <b>loupe</b> at the end of your turn."
     show: { frame: 9, type: AType.ACTION, subType: SType.INFO, label: "Show me your hands", desc: "While visible, everybody plays all cards <b>faceup</b>.", loupe: ReqType.MUST },
-    backward: { frame: 10, type: AType.ACTION, subType: SType.ORDER, label: "Walk it back", desc: "While visible, the <b>loupe moves backwards</b> after each turn.", loupe: ReqType.MUST, protectQuotient: 0.25 },
+    backward: { frame: 10, type: AType.ACTION, subType: SType.ORDER, label: "Walk it back", desc: "While visible, the <img id=\"suspects\" frame=\"0\"> moves <b>backwards</b> after each turn.", loupe: ReqType.MUST, protectQuotient: 0.25 },
     hasty: { frame: 11, type: AType.ACTION, subType: SType.MISC, label: "Hasty", desc: "Immediately take <b>another turn</b>, OR force the next player to <b>skip</b> their turn." }
 }
 

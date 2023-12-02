@@ -16,7 +16,6 @@ import { TextConfig, TextAlign, TextStyle } from "js/pq_games/layout/text/textCo
 import AlignValue from "js/pq_games/layout/values/alignValue"
 import { FlowDir, FlowType } from "js/pq_games/layout/values/aggregators/flowInput"
 import ElementIcon from "./elementIcon"
-import takeBitesOutOfPath from "js/pq_games/tools/geometry/paths/takeBitesOutOfPath"
 import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect"
 import CanvasEffect from "js/pq_games/layout/effects/layoutEffect"
 import CanvasOperation from "js/pq_games/layout/layoutOperation"

@@ -5,7 +5,7 @@ import Question from "./question";
 import seedrandom from "js/pq_games/tools/random/seedrandom";
 import DOM from "./dom";
 import clamp from "js/pq_games/tools/numbers/clamp";
-import { parseQuestionsIntoJSON } from "./parser";
+import { anyMatch, getAllPossibleValuesFor, parseQuestionsIntoJSON } from "./parser";
 import ErrorHandler from "./errorHandler";
 
 interface ParseSymbols
@@ -27,9 +27,7 @@ interface QuizParams
     seed?: string,
     maxScore?: number,
     loadExternalMediaAsIframe?: boolean,
-    
-    // @TODO: somehow, get these into the parser to override defaults if set?
-    // @TODO: we need a clean system anyway to override ANY of the default symbols used by the parser
+
     linkPrefixes?: string[],
     mediaFormats?: string[],
     symbols?: ParseSymbols,
@@ -40,6 +38,11 @@ interface QuizParams
 
     possibleCategories?: string[],
     possibleAuthors?: string[],
+
+    minAnswers?: number,
+    maxAnswers?: number,
+    exclude?: Record<string, any>, // a FILTER: any properties with these values are removed from the question set
+    include?: Record<string, any>, // a MASK: only questions with properties matching these values are added to the question set
 
     hideCategory?: boolean,
     hideAuthor?: boolean,
@@ -73,6 +76,7 @@ const DEFAULT_CATEGORY = "general";
 export { QuizMode, QuizParams, Quiz }
 export default class Quiz
 {
+    params: QuizParams;
     questions: Question[];
     loader: Loader;
     nodes: Nodes;
@@ -89,6 +93,8 @@ export default class Quiz
 
     constructor(params:QuizParams = {})
     {
+        this.params = params;
+
         const seed = params.seed ?? DEFAULT_SEED;
 
         params.defaultAuthor = params.defaultAuthor ?? DEFAULT_AUTHOR;
@@ -97,7 +103,11 @@ export default class Quiz
         params.showErrors = params.showErrors ?? true;
         params.id = (params.id ?? seed) ?? DEFAULT_ID;
         params.symbols = params.symbols ?? {};
+        params.exclude = params.exclude ?? {};
+        params.include = params.include ?? {};
         params.enableInlineMultiple = params.enableInlineMultiple ?? true;
+
+        console.log(params);
 
         params.enableSafety = params.enableSafety ?? false;
         this.enableSafety = params.enableSafety;
@@ -155,7 +165,10 @@ export default class Quiz
     }
 
     prepareQuestions()
-    {
+    {   
+        this.applyMask();
+        this.filterExclusions();
+
         // first do a STABLE, CONSISTENT sort on anything (I picked the question, but it doesn't matter)
         // so that the seeded shuffling works later on
         // otherwise it's STILL random because of delays and inconsistencies in downloading the questions,
@@ -170,8 +183,12 @@ export default class Quiz
         // allow some common groupings
         if(this.groupBy != null)
         {
+            const allPossibleValues = getAllPossibleValuesFor(this.questions, this.groupBy);
+            shuffle(allPossibleValues, this.rng);
             this.questions.sort((a,b) => {
-                return a.getPropertySingle(this.groupBy).localeCompare(b.getPropertySingle(this.groupBy));
+                const idx1 = allPossibleValues.indexOf(a.getPropertySingle(this.groupBy));
+                const idx2 = allPossibleValues.indexOf(b.getPropertySingle(this.groupBy));
+                return idx1 - idx2;
             })
         }
 
@@ -244,6 +261,57 @@ export default class Quiz
     changeFontSize(change:number)
     {
         this.nodes.changeFontSize(change);
+    }
+
+    filterExclusions()
+    {
+        // delete any questions that need to be excluded
+        const hasExclusions = Object.keys(this.params.exclude).length > 0;
+        if(!hasExclusions) { return; }
+
+        const arr = [];
+        for(const q of this.questions)
+        {
+            let shouldRemove = false;
+            for(const [prop,data] of Object.entries(this.params.exclude))
+            {
+                const val = q.getQuestionValues(prop);
+                const dataList = Array.isArray(data) ? data : [data];
+                if(anyMatch(dataList,val)) {
+                    shouldRemove = true; 
+                    break;
+                }
+            }
+
+            if(shouldRemove) { continue; }
+            arr.push(q);
+        }
+        this.questions = arr;
+    }
+
+    applyMask()
+    {
+        const hasMask = Object.keys(this.params.include).length > 0;
+        if(!hasMask) { return; }
+
+        const arr = [];
+        for(const q of this.questions)
+        {
+            let shouldAdd = false;
+            for(const [prop,data] of Object.entries(this.params.exclude))
+            {
+                const val = q.getQuestionValues(prop);
+                const dataList = Array.isArray(data) ? data : [data];
+                if(anyMatch(dataList,val)) {
+                    shouldAdd = true; 
+                    break;
+                }
+            }
+
+            if(!shouldAdd) { continue; }
+            arr.push(q);
+        }
+        this.questions = arr;
     }
 
     assignColors()

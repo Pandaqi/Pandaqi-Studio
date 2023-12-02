@@ -49,15 +49,15 @@ const parseTextString = (text:string, config) =>
             const res = resLoader.getResource(match[1]).getImageFrameAsResource(frame);
             newChunk = new TextChunkImage(res);
         } else if(key.includes("<size")) {
-            newChunk = new TextChunkStyle("size", parseFloat(match[1]));
+            newChunk = new TextChunkStyle("size", parseFloat(match[3]));
         } else if(key == "</size>") {
             newChunk = new TextChunkStyle("size");
         } else if(key.includes("<col")) {
-            newChunk = new TextChunkStyle("color", match[1]);
+            newChunk = new TextChunkStyle("color", match[5]); // @NOTE: The matches are for the whole regex! So to get a specific capture group, I need to check its position in the WHOLE thing, not just the actual string matched
         } else if(key == "</col>") {
             newChunk = new TextChunkStyle("color");
         } else if(key.includes("<font")) {
-            newChunk = new TextChunkStyle("font", match[1]);
+            newChunk = new TextChunkStyle("font", match[4]);
         } else if(key == "</font>") {
             newChunk = new TextChunkStyle("font");
         }
@@ -297,8 +297,6 @@ export default class TextDrawer
         }
 
         if(lineData.hasContent()) { lines.push(lineData); }
-
-        console.log(lines);
 
         //
         // second, combine all those dimensions into total size of the text block

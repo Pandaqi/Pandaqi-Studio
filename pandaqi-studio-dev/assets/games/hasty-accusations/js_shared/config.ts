@@ -5,7 +5,7 @@ import Bounds from "js/pq_games/tools/numbers/bounds"
 const CONFIG = 
 {
     debugWithoutFile: true, // @DEBUGGING (should be false)
-    debugSingleCard: true, // @DEBUGGING (should be false)
+    debugSingleCard: false, // @DEBUGGING (should be false)
     debugOnlyGenerate: false, // @DEBUGGING (should be false)
 
     configKey: "hastyAccusationsConfig",
@@ -88,7 +88,7 @@ const CONFIG =
         {
             path: "suspects.webp",
             frames: new Point(11,1),
-            suspectsOnly: true
+            //suspectsOnly: true
         },
 
         papers:
@@ -122,9 +122,9 @@ const CONFIG =
         // @NOTE: the WIDTH should be identical to the cards, as this ensures they line up when placed on the table
         // height is whatever fits without shrinking it further
         dims: { 
-            small: new Point(4,7),
-            regular: new Point(3,5),
-            huge: new Point(2,3)
+            small: new Point(4,9),
+            regular: new Point(3,7),
+            huge: new Point(2,5)
         },
         dimsElement: new Point(2, 1),
 
@@ -135,11 +135,11 @@ const CONFIG =
 
         illustration:
         {
-            fontSize: 0.1, // ~sizeUnit
+            fontSize: 0.15, // ~sizeUnit
             textColorLighten: 75,
             scaleFactor: 0.9, // ~sizeUnit
             shadowRadius: 0.1, // ~sizeUnit
-            paperClipScale: 0.175, // ~sizeUnit
+            paperClipScale: 0.375, // ~sizeUnit
         },
 
         bg:
@@ -166,19 +166,20 @@ const CONFIG =
 
         photographs:
         {
-            yPos: 0.4, // ~sizeY
-            rectSize: new Point(0.66), // ~sizeUnit
+            yPos: 0.325, // ~sizeY
+            rectSize: new Point(0.735), // ~sizeUnit
             rectHeightTitle: 0.2, // ~rectSizeY
             padding: new Point(0.05), // ~rectSizeUnit
-            maxRotation: 0.063 * Math.PI,
+            maxRotation: new Bounds(0.025 * Math.PI, 0.04*Math.PI),
             numPerCard: new Bounds(2,4),
 
             shadowRadius: 0.02, // ~rectSize
             shadowOffset: 0.05, // ~rectSize
 
-            requirementDims: 0.15, // ~rectSizeUnit
-            requirementPadding: new Point(0.05), // rectSizeUnit
-            requirementShadowRadius: 0.1, // ~rectSizeUnit
+            requirementDims: 0.125, // ~rectSizeUnit
+            requirementPadding: new Point(0.0225), // rectSizeUnit
+            requirementPaddingBetween: 0.5, // ~requirementPadding
+            requirementShadowRadius: 0.1, // ~reqsDims
 
             titleFontSize: 0.14, // ~rectSizeUnit
             titleColorLighten: 75,
@@ -204,7 +205,7 @@ const CONFIG =
         
         outline:
         {
-            size: 0.025, // relative to sizeUnit
+            size: 0.03, // relative to sizeUnit
             color: "#000000"
         }
     }

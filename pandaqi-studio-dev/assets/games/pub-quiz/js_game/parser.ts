@@ -46,7 +46,7 @@ const parseFileObject = (url: string, data:Record<string,any>, params:QuizParams
         for(const [key, data] of Object.entries(questionRaw))
         {
             if(typeof data !== "string" || !Array.isArray(data)) { continue; }
-            q.updateProperty(key, data);
+            q.updateProperty(key, data, params);
         }
         q.url = url;
         q.finalize(params);
@@ -88,7 +88,7 @@ const parseFileString = (url: string, data:string, params:QuizParams = {}) : Que
         {
             if(!curQuestion) { showMessage(["Can't continue property because no question started: ", parts], params.id); continue; }
             const val = parts[0];
-            curQuestion.updateProperty(currentProperty, [val]);
+            curQuestion.updateProperty(currentProperty, [val], params);
             continue;
         }
 
@@ -104,8 +104,8 @@ const parseFileString = (url: string, data:string, params:QuizParams = {}) : Que
             curQuestion.url = url;
         }
         
-        const val = parseInlinePropertyValue(currentProperty, parts[1]);
-        curQuestion.updateProperty(currentProperty, val);
+        const val = parseInlinePropertyValue(currentProperty, parts[1], params);
+        curQuestion.updateProperty(currentProperty, val, params);
     }
 
     curQuestion.finalize(params);
@@ -114,7 +114,7 @@ const parseFileString = (url: string, data:string, params:QuizParams = {}) : Que
     return questions;
 }
 
-const acceptsCommaList = (prop:string) => 
+const acceptsInlineList = (prop:string) => 
 { 
     return PROPS_ACCEPTING_LIST.includes(prop); 
 }
@@ -122,9 +122,9 @@ const acceptsCommaList = (prop:string) =>
 const parseInlinePropertyValue = (prop: string, val:string, params:QuizParams = {}) : string[] =>
 {
     if(val.length <= 0) { return []; }
-    if(acceptsCommaList(prop) && params.enableInlineMultiple) 
+    if(acceptsInlineList(prop) && params.enableInlineMultiple) 
     {
-        const splitSymbol = params.symbols.inlineMultiple ?? INLINE_SPLIT_SYMBOL; 
+        const splitSymbol = params.symbols.inlineMultiple ?? INLINE_SPLIT_SYMBOL;
         return val.split(splitSymbol); 
     }
     return [val];
@@ -136,6 +136,7 @@ const parseQuestionProperty = (prop: string, val:string[], params:QuizParams = {
     if(PROPS_FORCED_LOWERCASE.includes(prop)) { val = val.map(s => s.toLowerCase()); }
     val = val.filter(x => x != ''); // no completely empty entries
 
+    if(!params.symbols) { params.symbols = {}; }
     const questionMaskSymbol = params.symbols.questionOnly ?? MASK_QUESTION_SYMBOL;
     const answerMaskSymbol = params.symbols.answerOnly ?? MASK_ANSWER_SYMBOL; 
 
@@ -150,6 +151,32 @@ const parseQuestionProperty = (prop: string, val:string[], params:QuizParams = {
         arr.push(new QVal(elem, qValType));
     }
     return arr;
+}
+
+const anyMatch = (a:any[], b:any[]) =>
+{
+    for(const elem1 of a)
+    {
+        for(const elem2 of b)
+        {
+            if(elem1.toString().toLowerCase().trim() == elem2.toString().toLowerCase().trim()) { return true; }
+        }
+    }
+    return false;
+}
+
+const getAllPossibleValuesFor = (list:Question[], prop:string) =>
+{
+    const set:Set<string> = new Set();
+    for(const elem of list)
+    {
+        const values = elem.getQuestionValues(prop);
+        for(const val of values)
+        {
+            set.add(val);
+        }
+    }
+    return Array.from(set);
 }
 
 const parseExtension = (path:string) =>
@@ -253,6 +280,9 @@ export
 
     isValidMediaType,
     isExternalURL,
+
+    anyMatch,
+    getAllPossibleValuesFor,
 
     IMAGE_FORMATS,
     AUDIO_FORMATS,

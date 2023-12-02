@@ -56,7 +56,10 @@ export default class LineData
 
     getCenter() : Point
     {
-        return this.topLeft.clone().move(this.bottomRight.clone().sub(this.topLeft).scale(0.5));
+        return new Point(
+            this.topLeft.x + 0.5 * (this.bottomRight.x - this.topLeft.x),
+            this.topLeft.y + 0.5 * (this.bottomRight.y - this.topLeft.y)
+        );
     }
 
     updatePosition(pos:Point)

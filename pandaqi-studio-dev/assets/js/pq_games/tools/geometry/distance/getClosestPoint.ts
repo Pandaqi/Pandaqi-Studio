@@ -1,7 +1,10 @@
 import Point from "../point";
+import Shape, { PathLike } from "../shape";
 
-export default (p:Point, list:Point[]) =>
+export default (p:Point, list:PathLike) =>
 {
+    if(list instanceof Shape) { list = list.toPath(); }
+
     let closestDist = Infinity;
     let closestPoint = null;
     for(const point of list)

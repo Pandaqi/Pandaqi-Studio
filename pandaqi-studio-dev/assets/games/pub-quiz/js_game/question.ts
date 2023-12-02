@@ -48,6 +48,7 @@ export default class Question
         shuffle(this.answers, rng);
     }
 
+    isMultipleChoice() { return this.type.get() == QuestionType.MULTIPLE; }
     isOpen() { return this.type.get() == QuestionType.OPEN || this.type.get() == QuestionType.OPEN_SINGLE; }
     isValid()
     {
@@ -69,11 +70,21 @@ export default class Question
         this.finalizeCategories(params);
         this.finalizeCorrectAnswer(params);
         this.finalizeAuthor(params);
-        
+
         const typeInferred = this.answers.length == 1 ? QuestionType.OPEN : QuestionType.MULTIPLE;
         this.type = this.type ?? new QVal(typeInferred); 
 
         if(!this.score) { this.score = new QVal(params.defaultScore + ""); }
+
+        if(this.isMultipleChoice())
+        {
+            const tooFewAnswers = this.answers.length < (params.minAnswers ?? 2);
+            if(tooFewAnswers) { showMessage(["Multiple choice question has too few answers", this], this.quizID); }
+
+            const tooManyAnswers = this.answers.length > (params.maxAnswers ?? Infinity);
+            if(tooManyAnswers) { showMessage(["Multiple choice question has too many answers", this], this.quizID); }
+        }
+        
     }
 
     finalizeAuthor(params:QuizParams)
@@ -145,7 +156,7 @@ export default class Question
         }
     }
 
-    updateProperty(prop:string, val:string|string[])
+    updateProperty(prop:string, val:string|string[], params:QuizParams = {})
     {
         if(val.length <= 0) { return; }
         if(!Array.isArray(val)) { val = [val]; }
@@ -156,7 +167,7 @@ export default class Question
             return;
         }
 
-        const valParsed : QVal[] = parseQuestionProperty(prop, val);
+        const valParsed : QVal[] = parseQuestionProperty(prop, val, params);
         if(valParsed.length <= 0)
         {
             showMessage("Can't set property " + prop + " to empty value: " + val, this.quizID);
@@ -179,10 +190,10 @@ export default class Question
 
     getPropertySingle(prop:string) : string
     {
-        const val = this[prop];
-        if(!val) { return ""; }
-        if(Array.isArray(val) && val.length > 0) { return this[prop][0].toString(); }
-        return val.toString();
+        const values = this.getQuestionValues(prop);
+        if(!values) { return ""; }
+        if(!Array.isArray(values)) { return values; }
+        return values[0];
     }
 
     propertyAlreadyHasData(prop:string)
@@ -200,7 +211,9 @@ export default class Question
 
     getQuestionValues(key:string, type:QValType = QValType.ALL) : string[]
     {
-        const list = this[key];
+        let list = this[key];
+        if(!Array.isArray(list)) { list = [list]; }
+
         const arr = [];
         let matches = [QValType.QUESTION, QValType.ALL, QValType.ANSWER];
         if(type == QValType.QUESTION) { matches = [QValType.QUESTION, QValType.ALL]; }

@@ -1,8 +1,7 @@
 import calculateCenter from "../paths/calculateCenter";
-import Point from "../point";
-import Shape from "../shape";
+import Shape, { PathLike } from "../shape";
 
-export default (path:Point[]|Shape, rot:number) =>
+export default (path:PathLike, rot:number) =>
 {
     if(path instanceof Shape) { path = path.toPath(); }
 

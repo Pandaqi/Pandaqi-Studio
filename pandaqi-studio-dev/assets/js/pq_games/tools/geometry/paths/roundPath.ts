@@ -1,9 +1,11 @@
 import Point from "../point"
+import Shape, { PathLike } from "../shape";
 import bezierCurve from "./bezierCurve";
 
 // @SOURCE: https://www.gorillasun.de/blog/an-algorithm-for-polygons-with-rounded-corners/
-export default (points:Point[], radius:number|number[] = 10, close = false) : Point[] =>
+export default (points:PathLike, radius:number|number[] = 10, close = false) : Point[] =>
 {
+    if(points instanceof Shape) { points = points.toPath(); }
     if(!Array.isArray(radius)) { radius = [radius]; }
     
     const arr = [];

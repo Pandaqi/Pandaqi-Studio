@@ -279,10 +279,11 @@ export default class Generator
             new Point(),
             new Point(size.x, 0),
             new Point(size.x, size.y),
-            new Point(0, size.y)
+            new Point(0, size.y),
+            new Point() // to close it
         ]
         const chunkSize = 0.5*(bounds.min + bounds.max);
-        const funkyPath = takeBitesOutOfPath({ path: path, biteBounds: bounds, chunkSize: chunkSize, chunksInterval: new Bounds(6, 11), close: true });
+        const funkyPath = takeBitesOutOfPath({ path: path, biteBounds: bounds, chunkSize: chunkSize, chunksInterval: new Bounds(6, 11) });
         return new Path({ points: funkyPath });
     }
 

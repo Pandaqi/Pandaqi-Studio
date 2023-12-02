@@ -1,0 +1,172 @@
+Question => Mannelijke giraffen doen iets genaamd "necking". Wat houdt dat in?
+Answers =>
+Ze strekken hun nek zo ver mogelijk om zo 'hoger' te zijn dan de ander.
+Ze slingeren hun nek naar achter en slaan hun hoofden samen.
+Ze cirkelen hun nekken om elkaar heen als een soort omhelzing.
+Correct => Ze slingeren hun nek naar achter en slaan hun hoofden samen.
+Category => Wetenschap, Dieren, Giraf
+Media => ! giraf necking.jpg
+Author => Zhenga
+Comment => 
+Score => 2
+
+Question => Zet de onderstaande afbeeldingen in volgorde van lengte. Schrijf eerst de kortste op, en sluit af met de langste.
+Answers => Zhenga's onderbeen, giraffentong, Maeve (geheel), Troy Bolton
+Category => Wetenschap, Dieren, Giraf
+Type => Open
+Media => giraf tong.jpg, troy bolton.jpg, zhenga onderbeen.jpeg, maeve.jpeg
+Author => Zhenga
+Comment => 
+Score => 4
+
+Question => Dit is de mascotte van speelgoedmerk Toys 'r' Us. Wat is zijn oorspronkelijke naam?
+Answers => 
+Geoffrey the Giraffe
+Georgewell "Gee" Raff
+Hanz Giraffenfreund
+Dr. G. Raff
+Correct => Dr. G. Raff
+Category => Wetenschap, Dieren, Giraf
+Media => giraf mascotte.jpg
+Author => Zhenga
+Comment => 
+Score => 1
+
+Question => Waar of niet waar? In de jaren 70 werd het woord giraf gebruikt als belediging tegen kale mensen. 
+Answers => 
+Waar
+Niet waar
+Deels waar
+Correct => Waar 
+Category => Wetenschap, Dieren, Giraf
+Media => kaal.jpeg
+Author => Zhenga
+Comment => 
+Score => 1
+
+Question => Artiest Gucci Mane schreef deze lyric: "I stay [***] than giraffe pussy". Welk woord hoort op de puntjes?
+Answers =>
+Hairier (hariger)
+Higher (hoger)
+Lonelier (eenzamer)
+Bigger (groter)
+Correct => Higher (hoger)
+Category => Wetenschap, Dieren, Giraf
+Media => 
+Author => Zhenga
+Comment => 
+Score => 2
+
+Question => De eerste zinnen van de Iliad zijn als volgt: "Sing, Goddess, of [...] rage, black and murderous, that cost the Greeks incalculable pain, pitched countless souls of heroes into Hades' dark..." Wie hoort er bij de puntjes te staan?
+Answers =>
+Agamemnon
+Achilles
+Menelaos
+Odysseus
+Correct => Achilles
+Category => Literatuur, Griekse Mythologie
+Media => 
+Author => Zhenga
+Comment => 
+Score => 1
+
+Question => Luister naar dit fragment van een lied van Florence and the Machine dat vernoemd is naar een personage uit de Griekse mythologie. Welk personage betreft het?
+Answers =>
+Cassandra
+Elektra
+Ariadne
+Helena
+Correct => Cassandra
+Category => Cultuur, Griekse Mythologie
+Media => quiz fragment.mp3
+Author => Zhenga
+Comment => 
+Score => 4
+
+Question => Welke van de familieleden van het Huis van Atreus was NIET door een direct gezinslid vermoord?
+Answers =>
+Pelops
+Agamemnon
+Clytemnestra
+Iphigenia
+Atreus
+Aegisthus
+Chrysippus
+Orestes
+Correct => Orestes
+Category => Cultuur, Griekse Mythologie
+Media => 
+Author => Zhenga
+Comment => 
+Score => 3
+
+Question => Prometheus bracht - tegen de zin van de oppergod in - vuur naar de mensen. Wat was zijn straf?
+Answers =>
+Hij werd vastgeketend aan een rots. Elke dag opnieuw kwam een adelaar zijn lever opeten.
+Hij moest een rotsblok omhoog duwen tot hij bovenop een berg was, maar vlak voor de top rolde deze steeds weer naar beneden.
+Hij stond in een plas water onder een boom met eeuwige dorst en honger, maar telkens als hij bukte om het water te drinken, zakte deze verder, en telkens als hij een stuk fruit van de boom wilde pakken, schoot deze omhoog.
+Correct => Hij werd vastgeketend aan een rots. Elke dag opnieuw kwam een adelaar zijn lever opeten.
+Category => Cultuur, Griekse Mythologie
+Media => ! prometheus.jpg
+Author => Zhenga
+Comment => 
+Score => 2
+
+Question => Berucht personage Oedipus kreeg van het Orakel twee onfortuinlijke voorspellingen die zijn leven behoorlijk overhoop haalden. Noem de twee voorspellingen.
+Answers => Hij zou zijn vader vermoorden en met zijn moeder trouwen.
+Correct => Hij zou zijn vader vermoorden en met zijn moeder trouwen.
+Category => Cultuur, Griekse Mythologie
+Media => 
+Author => Zhenga
+Comment => ? Hint: het gaat over zijn ouders.
+Score => 2
+
+Question => Hoe noem je het, volgens Aimee, als je twee keer door oranje rijdt met de auto?
+Answers =>
+Een boete-disco
+Een yolo-rit
+Een swagger-toer
+Correct => Een yolo-rit
+Category => Algemeen, Oude-mensen-lijst
+Media => 
+Author => Zhenga
+Comment => 
+Score => 2
+
+Question => Wie sprak de levensveranderende quote: "Alles is te hard en nieuwe muziek is stom"?
+Answers =>
+Aimee
+Esther
+Correct => Aimee
+Category => Algemeen, Oude-mensen-lijst
+Media => 
+Author => Zhenga
+Comment => 
+Score => 1
+
+Question => Wat is hier afgebeeld, in Aimee's woorden?
+Answers =>
+Een notenkraam op de markt
+De centenzuiger
+Haar foute kraampje
+Peter R. De Vries
+Correct => Haar foute kraampje
+Category => Algemeen, Oude-mensen-lijst
+Media => notenkraam.jpg
+Author => Zhenga
+Comment => 
+Score => 1
+
+Question => Esther liep de kamer binnen, op zoek naar haar 'geliefde' puberzoon Yishay. Ze riep zijn naam. Haar partner, Giel, zei behulpzaam dat hij daarachter was, wijzend naar en doelend op de hal bij de wasmachines. Waar besloot Esther gedecideerd te kijken?
+Answers =>
+De hal bij de wasmachines, natuurlijk
+Achter de open deur waar ze direct naast stond
+In de 'garage'
+Ze gaf maar gewoon op
+Correct => Achter de open deur waar ze direct naast stond
+Category => Algemeen, Oude-mensen-lijst
+Media => 
+Author => Zhenga
+Comment => ? Psst, Esther: niet verklappen!
+Score => 2
+

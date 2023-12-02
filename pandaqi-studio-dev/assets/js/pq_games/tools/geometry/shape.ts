@@ -3,6 +3,9 @@ import Dims from "./dims";
 import { ElementLike } from "js/pq_games/layout/resources/resource";
 import roundPath from "./paths/roundPath";
 
+type PathLike = Point[]|Shape;
+
+export { PathLike }
 export default class Shape
 {
     toPath() : Point[] { return []; }

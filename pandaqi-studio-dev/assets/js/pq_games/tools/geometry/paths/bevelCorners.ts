@@ -1,7 +1,10 @@
 import Point from "../point";
+import Shape, { PathLike } from "../shape";
 
-export default (path:Point[], bevelSize:number) =>
+export default (path:PathLike, bevelSize:number) =>
 {
+    if(path instanceof Shape) { path = path.toPath(); }
+
     const pathBeveled = [];
     for(let i = 0; i < path.length; i++)
     {

@@ -171,9 +171,11 @@ export default class LayoutOperation
 
     getBoundingBoxRaw()
     {
-        const dims = this.getDimensionsWithRatio();
+        const [translate, dims] = this.getFinalDimensions(true);
         const dimsScaled = dims.scale(this.scale);
         const rect = new Rectangle().fromTopLeft(new Point(), dimsScaled);
+        const pivotOffset = this.pivot.clone().scale(dimsScaled).negate();
+        rect.move(pivotOffset);
         rect.grow(this.scale.clone().scale(this.strokeWidth));
 
         let extraSize = new Point();
@@ -185,7 +187,7 @@ export default class LayoutOperation
         }
         rect.grow(extraSize);
 
-        const path = movePath( rotatePath(rect, this.rotation), this.translate);
+        const path = movePath( rotatePath(rect, this.rotation), translate);
         const dimsObject = new Dims();
         for(const point of path)
         {
@@ -202,19 +204,28 @@ export default class LayoutOperation
         return scale;
     }
 
-    // If ratio is relevant, check which side is given (or default to X), and infer the other
-    getDimensionsWithRatio() : Point
+    getFinalDimensions(moveToOrigin = false)
     {
-        if(!this.keepRatio) { return this.dims }
+        let dims = this.dims.clone();
+        let translate = this.translate.clone();
+        if(this.resource instanceof ResourceShape)
+        {
+            const dimsObject = calculateBoundingBox(this.resource.shape.toPath())
+            dims = dimsObject.size;
+            if(moveToOrigin) { translate.move(dimsObject.topLeft); }
+        }
 
-        // @TODO: does ratio make sense for any other resource type?
-        const ratio = this.resource instanceof ResourceImage ? this.resource.getRatio() : (this.ratio.x / this.ratio.y);
+        if(this.keepRatio && this.resource instanceof ResourceImage)
+        {
+            // @TODO: does ratio make sense for any other resource type than image?
+            const ratio = this.resource instanceof ResourceImage ? this.resource.getRatio() : (this.ratio.x / this.ratio.y);
 
-        const dims = this.dims.clone();
-        const givenAxis = dims.y <= 0 ? "y" : "x";
-        const calcAxis = givenAxis == "x" ? "y" : "x";
-        dims[calcAxis] = (givenAxis == "x") ? dims[givenAxis] / ratio : dims[givenAxis] * ratio;
-        return dims;
+            const givenAxis = dims.y <= 0 ? "y" : "x";
+            const calcAxis = givenAxis == "x" ? "y" : "x";
+            dims[calcAxis] = (givenAxis == "x") ? dims[givenAxis] / ratio : dims[givenAxis] * ratio;
+        }
+
+        return [translate, dims];
     }
 
     async applyToCanvas(canv:CanvasLike = null) : Promise<HTMLCanvasElement>
@@ -225,7 +236,7 @@ export default class LayoutOperation
         ctx.imageSmoothingEnabled = false;
         ctx.imageSmoothingQuality = "low";
 
-        const dims = this.getDimensionsWithRatio();
+        const [translate, dims] = this.getFinalDimensions();
         const boundingBox = this.getBoundingBox();
 
         // calculate the total size canvas we need to draw everything without clamping
@@ -261,7 +272,7 @@ export default class LayoutOperation
             ctx.clip(this.clip.toPath2D());
         }
 
-        ctxTemp.translate(this.translate.x, this.translate.y);
+        ctxTemp.translate(translate.x, translate.y);
         ctxTemp.translate(extraOffset.x, extraOffset.y);
         ctxTemp.rotate(this.rotation);
 
@@ -314,7 +325,10 @@ export default class LayoutOperation
 
         if(drawShape)
         {
-            const path = res.shape.toPath2D();
+            // @TODO: if I find an easy/clean way to move this path to the ORIGIN,
+            // I can remove the exception "moveToOrigin" for getFinalDimensions
+            // (It's ugly now that positional data is locked inside the shape to be drawn)
+            let path = res.shape.toPath2D();
             this.applyFillAndStrokeToPath(ctxTemp, path);
         }
 
@@ -322,7 +336,7 @@ export default class LayoutOperation
         if(drawText)
         {
             const drawer = res.createTextDrawer(dims);
-            drawer.toCanvas(ctxTemp, this);
+            await drawer.toCanvas(ctxTemp, this);
         }
 
         if(drawImage)

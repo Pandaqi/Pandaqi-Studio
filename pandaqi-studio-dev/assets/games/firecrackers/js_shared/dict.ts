@@ -20,22 +20,23 @@ interface PackData
     actions: string[],
     numbers?: Record<number, number>,
     actionPercentages?: Record<number, number>,
+    colorLight?: string,
+    colorDark?: string,
 }
 
-// @TODO: give each one 2 actions, and the black one a lot more?
 const PACKS:Record<CardType, PackData> =
 {
-    [CardType.BLACK]: { frame: 0, type: "Multi-Break Shell", actions: ["score_color", "score_diversity", "wildcard_up", "wildcard_down", "cleanup", "strong_force", "strong_destroy", "risky_rocket", "pity_purchase", "explosion_self", "explosion_neighbor", "steal", "safety_suit", "same_color_bonus"], numbers: { 2: 10, 4: 10 }, actionPercentages: { 2: 1.0, 4: 1.0 } },
-    [CardType.RED]: { frame: 1, type: "Firecracker", actions: ["remove", "remove_other"] },
-    [CardType.ORANGE]: { frame: 2, type: "Cake", actions: ["force", "skip"] },
-    [CardType.YELLOW]: { frame: 3, type: "Sparkler", actions: ["more_coins", "fewer_coins"] },
-    [CardType.GREEN]: { frame: 4, type: "Ground Flower", actions: ["more_score", "less_score"] },
-    [CardType.TURQUOISE]: { frame: 5, type: "Flare", actions: ["explosion_delayed", "explosion_buddy"] },
-    [CardType.BLUE]: { frame: 6, type: "Fountain", actions: ["return_discard", "return_revealed"] },
-    [CardType.PURPLE]: { frame: 7, type: "Bottle Rocket", actions: ["lower_threshold", "raise_threshold"] },
-    [CardType.PINK]: { frame: 8, type: "Parachute", actions: ["draw_safe", "draw_risky"] },
-    [CardType.WHITE]: { frame: 9, type: "Snappers", actions: ["change_color", "change_num"] },
-    [CardType.BROWN]: { frame: 10, type: "Smoke Bomb", actions: ["super_cracker", "hide_card"] },
+    [CardType.BLACK]: { frame: 0, type: "Multi-Break Shell", actions: ["score_color", "score_diversity", "wildcard_up", "wildcard_down", "cleanup", "strong_force", "strong_destroy", "risky_rocket", "pity_purchase", "explosion_self", "explosion_neighbor", "steal", "safety_suit", "same_color_bonus"], numbers: { 2: 10, 4: 10 }, actionPercentages: { 2: 1.0, 4: 1.0 }, colorDark: "#0F0F0F", colorLight: "#E2E2E2" },
+    [CardType.RED]: { frame: 1, type: "Firecracker", actions: ["remove", "remove_other"], colorDark: "#2A0300", colorLight: "#FFA0A3" },
+    [CardType.ORANGE]: { frame: 2, type: "Cake", actions: ["force", "skip"], colorDark: "#2A1300", colorLight: "#F0AD6C" }, // also "Barrage"
+    [CardType.YELLOW]: { frame: 3, type: "Sparkler", actions: ["more_coins", "fewer_coins"], colorDark: "#211D00", colorLight: "#FDF4AF" },
+    [CardType.GREEN]: { frame: 4, type: "Ground Flower", actions: ["more_score", "less_score"], colorDark: "#042400", colorLight: "#BFFFB7" }, // also "Ground Spinner" or "Ground Blooming Flower"
+    [CardType.TURQUOISE]: { frame: 5, type: "Flare", actions: ["explosion_delayed", "explosion_buddy"], colorDark: "#00211C", colorLight: "#ACEEE2" },
+    [CardType.BLUE]: { frame: 6, type: "Fountain", actions: ["return_discard", "return_revealed"], colorDark: "#000E24", colorLight: "#BFD8FE" }, // also close to "Roman Candle"
+    [CardType.PURPLE]: { frame: 7, type: "Bottle Rocket", actions: ["lower_threshold", "raise_threshold"], colorDark: "#210228", colorLight: "#F6CCFF" },
+    [CardType.PINK]: { frame: 8, type: "Parachute", actions: ["draw_safe", "draw_risky"], colorDark: "#35001B", colorLight: "#FFB5DB" },
+    [CardType.WHITE]: { frame: 9, type: "Snappers", actions: ["change_color", "change_num"], colorDark: "#FBFBFB", colorLight: "#2D2D2D" }, // also "Bang Snaps" or "Fun Snaps"; colors INVERTED (otherwise it'd just be the black cards)
+    [CardType.BROWN]: { frame: 10, type: "Smoke Bomb", actions: ["super_cracker", "hide_card"], colorDark: "#250B00", colorLight: "#DBA087" },
 }
 
 interface ActionData
@@ -101,6 +102,7 @@ const ACTIONS:Record<string,ActionData> =
 
 const MISC =
 {
+    coin: { frame: 0 }
 }
 
 export 

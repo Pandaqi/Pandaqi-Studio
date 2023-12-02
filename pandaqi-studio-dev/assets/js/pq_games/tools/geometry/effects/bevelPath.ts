@@ -1,10 +1,10 @@
 import Path from "../paths/path";
-import Point from "../point";
+import Shape, { PathLike } from "../shape";
 import scalePathAbsolute from "../transform/scalePathAbsolute";
 
 interface BevelParams
 {
-    path: Point[],
+    path: PathLike,
     offset?: number
 }
 
@@ -14,7 +14,9 @@ interface BevelParams
 // Those are your bevels, color/use them as you wish
 export default (params:BevelParams) =>
 {
-    const outerPath = params.path;
+    let outerPath = params.path;
+    if(outerPath instanceof Shape) { outerPath = outerPath.toPath(); }
+
     const offset = params.offset ?? 10;
     const innerPath = scalePathAbsolute(outerPath, offset);
     

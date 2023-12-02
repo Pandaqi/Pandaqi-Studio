@@ -84,7 +84,7 @@ export default class Generator
         if(CONFIG.debugOnlyGenerate) { return; }
         
         const dims = CONFIG[type].dims[CONFIG.cardSize ?? "regular"];
-        const gridConfig = { pdfBuilder: this.pdfBuilder, dims: dims, dimsElement: CONFIG.cards.dimsElement };
+        const gridConfig = { pdfBuilder: this.pdfBuilder, dims: dims, dimsElement: CONFIG[type].dimsElement };
         const gridMapper = new GridMapper(gridConfig);
         this.gridMappers[type] = gridMapper;  
         const visualizerPlay = new Visualizer(this.resLoader, gridMapper.getMaxElementSize(), CONFIG.inkFriendly);
@@ -94,9 +94,9 @@ export default class Generator
         const cardsOfType = {};
         for(const card of cards)
         {
-            if(!cardsOfType[card.type]) { cardsOfType[card.type] = []; }
-            cardsOfType[card.type].push(card);
-            if(CONFIG.debugSingleCard && cardsOfType[card.type].length > 1) { continue; }
+            if(!cardsOfType[card.key]) { cardsOfType[card.key] = []; }
+            cardsOfType[card.key].push(card);
+            if(CONFIG.debugSingleCard && cardsOfType[card.key].length > 1) { continue; }
 
             promises.push(card.draw(visualizerPlay));
         }

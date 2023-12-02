@@ -166,8 +166,9 @@ Score => 1
 
 Question => Welke film wordt hier slecht samengevat?
 "A kid comes out of the closet, then forces her siblings to do the same."
-Answers => Narnia (The Lion The Witch and the Wardrobe)
+Answers => Narnia (The Lion, The Witch, and the Wardrobe)
 Category => Cultuur
+Type => OpenSingle
 Author => Tiamo
 Score => 2
 

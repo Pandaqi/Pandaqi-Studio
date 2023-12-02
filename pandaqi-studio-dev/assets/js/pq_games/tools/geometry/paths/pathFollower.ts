@@ -1,12 +1,12 @@
 import Point from "../point";
-import Shape from "../shape";
+import Shape, { PathLike } from "../shape";
 
 export default class PathFollower
 {
     path: Point[]
     offset: number
 
-    constructor(path:Point[]|Shape, offset = 0)
+    constructor(path:PathLike, offset = 0)
     {
         if(path instanceof Shape) { path = path.toPath(); }
         this.path = path ?? [];

@@ -2,18 +2,19 @@ import { getLineIntersectionFromVectors } from "../intersection/getLineIntersect
 import { lineIntersectsLine } from "../intersection/lineIntersectsLine";
 import Line from "../line";
 import Point from "../point";
+import Shape, { PathLike } from "../shape";
 import Path from "./path";
 
 interface ThickenPathParams
 {
-    path: Point[]|Path,
+    path: PathLike,
     thickness?: number
 }
 
 export default (params:ThickenPathParams) =>
 {
     let points = params.path;
-    if(points instanceof Path) { points = points.toPath(); }
+    if(points instanceof Shape) { points = points.toPath(); }
 
     const thickness = params.thickness ?? 10;
 

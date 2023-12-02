@@ -54,7 +54,7 @@ Build the best fireworks show without having it blow up in your face.
 
 Three simple steps.
 * Read the short [playful rules](rules).
-* Download the base game PDF. (Download > Files > Base Game.)
+* Download the base game PDF. (Download > Files > Starter Set.)
 * Print, cut, play!
 
 **Want more?** You can also [generate your own material](#material) right on this website!
@@ -68,7 +68,7 @@ Three simple steps.
 {{< boardgame-settings type="game" local_storage="firecrackersConfig" btn_label="Generate Material" >}}
 	{{< setting-hidden id="setting-gameTitle" text="Firecrackers" >}}
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
-  {{< setting-enum id="setting-cardSize" text="Card Size?" values="small,regular,large" valaskey="true" def="regular" >}}
+  {{< setting-enum id="setting-itemSize" text="Card Size?" values="small,regular,large" valaskey="true" def="regular" >}}
   <h3>Packs</h3>
   {{< setting-checkbox-multiple id="setting-packs" values="black,red,orange,yellow,green,turquoise,blue,purple,pink,brown,white" valuesChecked="black,red,yellow,green,blue,brown" >}}
 {{< /boardgame-settings >}}

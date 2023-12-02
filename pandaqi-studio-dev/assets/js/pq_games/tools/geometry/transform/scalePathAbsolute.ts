@@ -1,8 +1,8 @@
-import calculateCenter from "../paths/calculateCenter";
 import pathToLineSegments from "../paths/pathToLineSegments";
 import Point from "../point";
+import { PathLike } from "../shape";
 
-export default (path:Point[], offset:number) : Point[] =>
+export default (path:PathLike, offset:number) : Point[] =>
 {
     const arr = [];
     const lines = pathToLineSegments(path);

@@ -1,8 +1,11 @@
 import Point from "../point";
+import Shape, { PathLike } from "../shape";
 
 // @SOURCE: https://stackoverflow.com/questions/9692448/how-can-you-find-the-centroid-of-a-concave-irregular-polygon-in-javascript
-export default (points:Point[]) =>
+export default (points:PathLike) =>
 {
+    if(points instanceof Shape) { points = points.toPath(); }
+
     if(points.length <= 0) { return new Point(); }
     if(points.length <= 1) { return points[0].clone(); }
     if(points.length <= 2) { return points[0].halfwayTo(points[1]).clone(); }
