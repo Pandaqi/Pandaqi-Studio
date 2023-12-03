@@ -9,6 +9,7 @@ export default class Dims
 {
     position:Point
     size:Point
+    center:Point
     topLeft:Point
     bottomRight:Point
 
@@ -136,6 +137,7 @@ export default class Dims
     {
         this.position = this.topLeft.clone();
         this.size = this.bottomRight.clone().sub(this.topLeft.clone());
+        this.center = this.position.clone().move(this.getSize().clone().scale(0.5));
     }
 
     merge(d1:Dims, d2:Dims)

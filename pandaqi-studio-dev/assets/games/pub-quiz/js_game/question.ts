@@ -114,10 +114,6 @@ export default class Question
                 showMessage(["Question has category " + cat + " which is not a possible category", this], this.quizID);
             }
         }
-
-        this.category.sort((a,b) => {
-            return a.get().localeCompare(b.get());
-        })
     }
 
     finalizeCorrectAnswer(params:QuizParams)
