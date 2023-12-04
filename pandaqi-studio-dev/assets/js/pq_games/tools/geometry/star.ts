@@ -9,6 +9,7 @@ interface StarParams
     radiusOutside?:number
     radiusInside?:number
     corners?:number
+    rotation?:number
 }
 
 export { Star, StarParams }
@@ -18,6 +19,7 @@ export default class Star extends Shape
     radiusInside:number
     radiusOutside:number
     corners:number
+    rotation:number
 
     constructor(h:StarParams = {})
     {
@@ -26,6 +28,7 @@ export default class Star extends Shape
         this.radiusInside = h.radiusInside ?? 0.25;
         this.radiusOutside = h.radiusOutside ?? 0.5;
         this.corners = h.corners ?? 5;
+        this.rotation = h.rotation ?? 0;
     }
 
     getDimensions()
@@ -42,7 +45,7 @@ export default class Star extends Shape
             const outerCorner = (i % 2 == 0);
             const radius = outerCorner ? this.radiusOutside : this.radiusInside;
 
-            const ang = i * (2*Math.PI) / num;
+            const ang = this.rotation + i * (2*Math.PI) / num;
             const point = new Point(
                 this.center.x + Math.cos(ang) * radius,
                 this.center.y + Math.sin(ang) * radius

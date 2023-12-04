@@ -38,6 +38,10 @@ export default class MaterialGenerator
 
         this.progressBar = new ProgressBar();
         this.progressBar.setPhases(this.progressBarPhases);
+
+        const pdfBuilderConfig = { orientation: PageOrientation.PORTRAIT, debugWithoutFile: this.config.debug.omitFile };
+        const pdfBuilder = new PdfBuilder(pdfBuilderConfig);
+        this.pdfBuilder = pdfBuilder; 
     }
 
     addPipeline(id:string, generatorClass, drawerConfig)
@@ -85,11 +89,7 @@ export default class MaterialGenerator
         if(!this.config.debug.onlyGenerate) { resLoader.planLoadMultiple(assetsToLoad); }
         await resLoader.loadPlannedResources();
         
-        this.resLoader = resLoader;
-
-        const pdfBuilderConfig = { orientation: PageOrientation.PORTRAIT, debugWithoutFile: this.config.debug.omitFile };
-        const pdfBuilder = new PdfBuilder(pdfBuilderConfig);
-        this.pdfBuilder = pdfBuilder;   
+        this.resLoader = resLoader;  
     }
 
     async createCards()
@@ -111,9 +111,10 @@ export default class MaterialGenerator
         for(const [id,drawer] of Object.entries(this.drawers))
         {
             const items = this.generators[id].get();
+            const itemSize = drawer.getMaxElementSize();
             const visualizer = new this.visualizerClass({
                 resLoader: this.resLoader, 
-                itemSize: drawer.getMaxElementSize(),
+                itemSize: itemSize,
                 inkFriendly: this.config.inkFriendly
             });
     

@@ -167,12 +167,15 @@ export default class TilePicker
     {
         const numTrees = CONFIG.generation.toughTrees.numTiles;
         const maxNum = CONFIG.generation.baseGame.numTiles;
-        const distBetweenNums = Math.floor(numTrees / maxNum);
+        const distBetweenNums = Math.floor(maxNum / numTrees);
         const startNum = rangeInteger(1, distBetweenNums);
         const wildcardIndex = rangeInteger(1, numTrees-1);
+        console.log(distBetweenNums);
+        console.log(startNum);
         for(let i = 0; i < numTrees; i++)
         {
-            let num = startNum + i*distBetweenNums;
+            const num = startNum + i*distBetweenNums;
+            console.log(num);
             const tile = new Tile("tree", num);
             if(i == wildcardIndex) { tile.numWildcard = true; }
             this.tiles.push(tile);

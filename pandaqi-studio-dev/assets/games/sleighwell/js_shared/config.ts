@@ -2,7 +2,7 @@ import Point from "js/pq_games/tools/geometry/point"
 
 const CONFIG = 
 {
-    debugWithoutFile: true, // @DEBUGGING (should be false)
+    debugWithoutFile: false, // @DEBUGGING (should be false)
     debugSingleCard: false, // @DEBUGGING (should be false)
     debugOnlyGenerate: false, // @DEBUGGING (should be false)
 
@@ -26,7 +26,7 @@ const CONFIG =
     {
         grace:
         {
-            path: "fonts/Good-Grace.otf"
+            path: "fonts/Good-Grace.woff2"
         },
 
         roboto:

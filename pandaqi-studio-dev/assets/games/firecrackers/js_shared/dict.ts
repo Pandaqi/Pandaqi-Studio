@@ -22,21 +22,22 @@ interface PackData
     actionPercentages?: Record<number, number>,
     colorLight?: string,
     colorDark?: string,
+    colorMid?: string,
 }
 
 const PACKS:Record<CardType, PackData> =
 {
-    [CardType.BLACK]: { frame: 0, type: "Multi-Break Shell", actions: ["score_color", "score_diversity", "wildcard_up", "wildcard_down", "cleanup", "strong_force", "strong_destroy", "risky_rocket", "pity_purchase", "explosion_self", "explosion_neighbor", "steal", "safety_suit", "same_color_bonus"], numbers: { 2: 10, 4: 10 }, actionPercentages: { 2: 1.0, 4: 1.0 }, colorDark: "#0F0F0F", colorLight: "#E2E2E2" },
-    [CardType.RED]: { frame: 1, type: "Firecracker", actions: ["remove", "remove_other"], colorDark: "#2A0300", colorLight: "#FFA0A3" },
-    [CardType.ORANGE]: { frame: 2, type: "Cake", actions: ["force", "skip"], colorDark: "#2A1300", colorLight: "#F0AD6C" }, // also "Barrage"
-    [CardType.YELLOW]: { frame: 3, type: "Sparkler", actions: ["more_coins", "fewer_coins"], colorDark: "#211D00", colorLight: "#FDF4AF" },
-    [CardType.GREEN]: { frame: 4, type: "Ground Flower", actions: ["more_score", "less_score"], colorDark: "#042400", colorLight: "#BFFFB7" }, // also "Ground Spinner" or "Ground Blooming Flower"
-    [CardType.TURQUOISE]: { frame: 5, type: "Flare", actions: ["explosion_delayed", "explosion_buddy"], colorDark: "#00211C", colorLight: "#ACEEE2" },
-    [CardType.BLUE]: { frame: 6, type: "Fountain", actions: ["return_discard", "return_revealed"], colorDark: "#000E24", colorLight: "#BFD8FE" }, // also close to "Roman Candle"
-    [CardType.PURPLE]: { frame: 7, type: "Bottle Rocket", actions: ["lower_threshold", "raise_threshold"], colorDark: "#210228", colorLight: "#F6CCFF" },
-    [CardType.PINK]: { frame: 8, type: "Parachute", actions: ["draw_safe", "draw_risky"], colorDark: "#35001B", colorLight: "#FFB5DB" },
-    [CardType.WHITE]: { frame: 9, type: "Snappers", actions: ["change_color", "change_num"], colorDark: "#FBFBFB", colorLight: "#2D2D2D" }, // also "Bang Snaps" or "Fun Snaps"; colors INVERTED (otherwise it'd just be the black cards)
-    [CardType.BROWN]: { frame: 10, type: "Smoke Bomb", actions: ["super_cracker", "hide_card"], colorDark: "#250B00", colorLight: "#DBA087" },
+    [CardType.BLACK]: { frame: 0, type: "Multi-Break Shell", actions: ["score_color", "score_diversity", "wildcard_up", "wildcard_down", "cleanup", "strong_force", "strong_destroy", "risky_rocket", "pity_purchase", "explosion_self", "explosion_neighbor", "steal", "safety_suit", "same_color_bonus"], numbers: { 2: 10, 4: 10 }, actionPercentages: { 2: 1.0, 4: 1.0 }, colorDark: "#0F0F0F", colorMid: "#BABABA", colorLight: "#E2E2E2" },
+    [CardType.RED]: { frame: 1, type: "Firecracker", actions: ["remove", "remove_other"], colorDark: "#2A0300", colorMid: "#FFA0A3", colorLight: "#FFE4E7" },
+    [CardType.ORANGE]: { frame: 2, type: "Cake", actions: ["force", "skip"], colorDark: "#2A1300", colorMid: "#F0AD6C", colorLight: "#F4EFAF" }, // also "Barrage"
+    [CardType.YELLOW]: { frame: 3, type: "Sparkler", actions: ["more_coins", "fewer_coins"], colorDark: "#211D00", colorMid: "#DBD28D", colorLight: "#FFF8EF" },
+    [CardType.GREEN]: { frame: 4, type: "Ground Flower", actions: ["more_score", "less_score"], colorDark: "#042400", colorMid: "#AEEEA6", colorLight: "#FFFFFB" }, // also "Ground Spinner" or "Ground Blooming Flower"
+    [CardType.TURQUOISE]: { frame: 5, type: "Flare", actions: ["explosion_delayed", "explosion_buddy"], colorDark: "#00211C", colorMid: "#ACEEE2", colorLight: "#EFFFF6" },
+    [CardType.BLUE]: { frame: 6, type: "Fountain", actions: ["return_discard", "return_revealed"], colorDark: "#000E24", colorMid: "#BFD8FE", colorLight: "#FFFCFF" }, // also close to "Roman Candle"
+    [CardType.PURPLE]: { frame: 7, type: "Bottle Rocket", actions: ["lower_threshold", "raise_threshold"], colorDark: "#210228", colorMid: "#F6CCFF", colorLight: "#FAFFFF" },
+    [CardType.PINK]: { frame: 8, type: "Parachute", actions: ["draw_safe", "draw_risky"], colorDark: "#35001B", colorMid: "#FFB5DB", colorLight: "#FFF9FF" },
+    [CardType.WHITE]: { frame: 9, type: "Snappers", actions: ["change_color", "change_number"], colorDark: "#FBFBFB", colorMid: "#4D4D4D", colorLight: "#090909" }, // also "Bang Snaps" or "Fun Snaps"; colors INVERTED (otherwise it'd just be the black cards)
+    [CardType.BROWN]: { frame: 10, type: "Smoke Bomb", actions: ["super_cracker", "hide_card"], colorDark: "#250B00", colorMid: "#DBA087", colorLight: "#FFE4CB" },
 }
 
 interface ActionData
@@ -49,26 +50,26 @@ interface ActionData
 const ACTIONS:Record<string,ActionData> =
 {
     // those related to a specific set, in sensible pairs
-    remove: { desc: "Destroy a card from your discard pile." },
-    remove_other: { desc: "Destroy a revealed card from another player." },
+    remove: { label: "Destroy Discard", desc: "<b>Destroy</b> a card from your discard pile." },
+    remove_other: { label: "Destroy Others", desc: "<b>Destroy</b> a revealed card from another player." },
 
-    force: { desc: "Force the next player to <b>reveal</b>." },
-    skip: { desc: "Force yourself or your neighbor to <b>skip</b> their next turn." },
+    force: { label: "Force Reveal", desc: "Force the next player to <b>reveal</b>." },
+    skip: { label: "Force skip", desc: "Force yourself or your neighbor to <b>skip</b> their next turn." },
 
-    more_coins: { desc: "Worth <b>2 coins</b> when buying." }, // @TODO: use coin icon instead?
-    fewer_coins: { desc: "Worth <b>0 coins</b> when buying.", cost: 0 },
+    more_coins: { label: "Treasure", desc: "Worth <b>2 <img id=\"misc\" frame=\"0\"></b> when buying." }, // MISC 0 = coin!
+    fewer_coins: { label: "Garbage Product", desc: "Worth <b>0 <img id=\"misc\" frame=\"0\"></b> when buying.", cost: 0 },
 
-    more_score: { desc: "Worth <b>-2 coins</b> when buying, but scores <b>double</b> its number." }, // @TODO: use coin icon instead?
-    less_score: { desc: "Worth <b>3 coins</b> when buying, but scores <b>-1 points</b>." },
+    more_score: { label: "Points Trade", desc: "Worth <b>-2 <img id=\"misc\" frame=\"0\"></b> when buying, but scores <b>double</b> its number." },
+    less_score: { label: "Money Trade", desc: "Worth <b>3 <img id=\"misc\" frame=\"0\"></b> when buying, but scores <b>-1 points</b>." },
 
-    explosion_delayed: { desc: "The first time you explode, you stay alive, but must reveal another card." },
-    explosion_buddy: { desc: "If you explode, so does every neighbor who hasn't already stopped.", cost: 2 },
+    explosion_delayed: { label: "Stayin' Alive", desc: "The first time you explode, you <b>stay alive</b>, but must reveal another card." },
+    explosion_buddy: { label: "Buddy Explosion", desc: "If you <b>explode</b>, so does every neighbor who hasn't already stopped.", cost: 2 },
 
-    return_discard: { desc: "Move 2 cards from your discard back to your deck, then shuffle." },
-    return_revealed: { desc: "Move 2 revealed cards back into your deck, then shuffle." },
+    return_discard: { label: "Old Fireworks", desc: "<b>Move</b> 2 cards from your discard back to your deck, then shuffle." },
+    return_revealed: { label: "Try Again", desc: "<b>Move</b> 2 revealed cards back into your deck, then shuffle." },
 
-    lower_threshold: { desc: "Pick a color. Its threshold for exploding is lowered by 3." },
-    raise_threshold: { desc: "Pick a color. Its threshold for exploding is raised by 3." },
+    lower_threshold: { label: "Easy Ignite", desc: "Pick a color. Its threshold for exploding is <b>lowered by 3</b>." },
+    raise_threshold: { label: "Cold Weather", desc: "Pick a color. Its threshold for exploding is <b>raised by 3</b>." },
 
     last_alive: { label: "Stick it out", desc: "If you're the last player alive, you get <b>any card</b> from the shop (for free)." },
     first_stop: { label: "Sudden Burst", desc: "If you're the first to stop, reveal 3 more cards without exploding.", cost: 2 },
@@ -79,24 +80,24 @@ const ACTIONS:Record<string,ActionData> =
     change_color: { label: "Colorshift", desc: "Tuck this card underneath another: it becomes the same color." },
     change_number: { label: "Numbershift", desc: "Tuck this card underneath another: it becomes the same number." },
 
-    super_cracker: { label: "Super Cracker", desc: "You explode. This card is worth 10 points." },
+    super_cracker: { label: "Super Cracker", desc: "You <b>explode</b> (unstoppable). This card is <b>worth 15 points</b>." },
     hide_card: { label: "Blind Eye", desc: "Turn any revealed card facedown." },
 
     // all the black card powers
-    score_color: { label: "Double Sight", desc: "Scores the number of Black cards that you have." },
-    score_diversity: { label: "Multicolor", desc: "Scores the number of unique actions that your deck contains." },
+    score_color: { label: "Double Sight", desc: "Scores the <b>number of Black cards</b> that you have." },
+    score_diversity: { label: "Multicolor", desc: "Scores the <b>number of unique actions</b> that your deck contains." },
     wildcard_up: { label: "Wildcard Up", desc: "Increases the total of <b>all colors</b> by 3." },
     wildcard_down: { label: "Wildcard Down", desc: "Decreases the total of <b>all colors</b> by 3." },
-    cleanup: { label: "Cleanup", desc: "Move all revealed cards from any player to their discard pile." },
-    strong_force: { label: "Strong Force", desc: "Force any player to <b>reveal</b> or </stop> on their next turn." },
-    strong_destroy: { label: "Strong Destroy", desc: "Destroy any card from yourself (deck, discard or revealed), then shuffle." },
+    cleanup: { label: "Cleanup", desc: "<b>Move</b> all revealed cards from any player to their discard pile." },
+    strong_force: { label: "Strong Force", desc: "Force any player to <b>reveal</b> or <b>stop</b> on their next turn." },
+    strong_destroy: { label: "Strong Destroy", desc: "<b>Destroy</b> any card from yourself (deck, discard or revealed), then shuffle." },
     risky_rocket: { label: "Risky Rocket", desc: "From now on, if anyone <b>reveals</b>, they must reveal 2 cards at once." },
-    pity_purchase: { label: "Pity Purchase", desc: "If you explode, immediately discard all your revealed cards. You may still buy something for 1 coin." },
-    explosion_self: { label: "Own Fault", desc: "Anyone who reveals a color they've already revealed, instantly explodes." },
-    explosion_neighbor: { label: "Reckless Neighbor", desc: "Anyone who reveals the same number as the previous player, instantly explodes." },
-    steal: { label: "Boom Burglar", desc: "Steal 1 revealed card from another player. Place it on your own discard." },
-    safety_suit: { label: "Safety Suit", desc: "You can't explode for 2 turns. But you can only spend <b>half</b> your coins (rounded down)." },
-    same_color_bonus: { label: "Style Points", desc: "If all your revealed cards have the same color or number, you can spend <b>double</b> your coins."  }
+    pity_purchase: { label: "Pity Purchase", desc: "If you <b>explode</b>, discard your revealed cards. Then buy something <b>for 1 <img id=\"misc\" frame=\"0\"></b>." },
+    explosion_self: { label: "Own Fault", desc: "Anyone who reveals a color they've already revealed, instantly <b>explodes</b>." },
+    explosion_neighbor: { label: "Reckless Neighbor", desc: "Anyone who reveals the same number as the previous player, instantly <b>explodes</b>." },
+    steal: { label: "Boom Burglar", desc: "<b>Steal</b> 1 revealed card from another player. Place it on your own discard." },
+    safety_suit: { label: "Safety Suit", desc: "You <b>can't explode</b> for 2 turns. But you can only spend <b>half</b> your <img id=\"misc\" frame=\"0\">." },
+    same_color_bonus: { label: "Style Points", desc: "If all your revealed cards share a color or number, <b>double</b> your <img id=\"misc\" frame=\"0\">."  }
 }
 
 

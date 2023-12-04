@@ -48,19 +48,19 @@ const CONFIG =
         misc:
         {
             path: "misc.webp",
-            frames: new Point(8,1)
+            frames: new Point(4,1)
         },
 
         types:
         {
             path: "types.webp",
-            frames: new Point(8,2),
+            frames: new Point(9,2),
         },
 
         types_bg:
         {
             path: "types_bg.webp",
-            frames: new Point(8,2),
+            frames: new Point(4,1),
         },
     },
 
@@ -88,48 +88,74 @@ const CONFIG =
         {
             dimsElement: new Point(1, 1.4),
             dims: { 
-                small: new Point(5,5),
-                regular: new Point(4,4),
-                large: new Point(3,3)
+                small: new Point(4,4),
+                regular: new Point(3,3),
+                large: new Point(2,2)
             },
             
         }, 
         
         shared:
         {
+            glowRadius: 0.015,
+            glowColor: "#FFFFFFCC",
+            colorDarkInkFriendly: "#FFFFFF",
+            colorLightInkFriendly: "#111111",
+            colorMidInkFriendly: "#BCBCBC"
         },
 
         illustration:
         {
-            yPos: 0.33, // ~sizeY
-            scale: 0.66, // ~sizeUnit
-            bgAlpha: 0.2,
+            yPos: 0.5, // ~sizeY
+            yPosAction: 0.33,
+            scale: 0.775, // ~sizeUnit
+            actionScaleDown: 0.75,
+            bgAlpha: 0.1,
+            bgScale: 1.66,
             bgComposite: "luminosity",
-            blackFrames: [0,11,12,13,14,15]
+            blackFrames: [0,11,12,13,14,15,16,17]
+        },
+
+        coins:
+        {
+            yPos: 0.925,
+            scale: 0.125, // ~sizeUnit
+            displayDownScale: 0.875,
+            rectDims: new Point(0.46, 0.1),
+            rectDimsOffset: 0.8,
+            rectDimsAction: new Point(0.7, 0.1), // ~size, X should match innerRectDownScale too
+            rectDimsOffsetAction: 0.9,
+
+            shadowBlur: 0.01, // ~coinSize
+            shadowOffset: new Point(0.0), // ~coinSize
+            shadowColor: "#000000FF"
         },
 
         title:
         {
-            yPos: 0.55, // ~sizeY
-            fontSize: 0.15, // ~sizeUnit
+            yPos: 0.575, // ~sizeY
+            fontSize: 0.06, // ~sizeUnit
+            rectDims: new Point(0.925, 1.16), // X should generally match innerRectDownScale right?
         },
 
         action:
         {
-            yPos: 0.7, // ~sizeY
-            fontSize: 0.05, // ~sizeUnit
+            yPos: 0.75, // ~sizeY
+            fontSize: 0.0735, // ~sizeUnit
             textDims: new Point(0.8, 0.35), // ~size
+            innerRectDownScale: 0.925, 
         },
 
         corners:
         {
-            edgeOffsetBig: new Point(0.05, 0.05), // ~sizeUnit
-            edgeOffsetSmall: new Point(0.05, 0.05), // ~sizeUnit
-            starScaleBig: 0.15, // ~sizeUnit
-            starScaleSmall: 0.05, // ~sizeUnit
-            fontSizeBig: 0.1, // ~sizeUnit
-            fontSizeSmall: 0.05, // ~sizeUnit
-            strokeWidth: 0.025, // ~fontSize
+            edgeOffsetBig: new Point(0.15), // ~sizeUnit
+            edgeOffsetSmall: new Point(0.08), // ~sizeUnit
+            starScaleBig: 0.125, // ~sizeUnit
+            starScaleSmall: 0.06, // ~sizeUnit
+            fontSizeBig: 0.15, // ~sizeUnit
+            fontSizeSmall: 0.055, // ~sizeUnit
+            strokeWidth: 0.066, // ~fontSize
+            moveSmallStarsToTitle: false
         },
 
         outline:

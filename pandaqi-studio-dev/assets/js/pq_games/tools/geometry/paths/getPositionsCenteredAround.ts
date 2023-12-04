@@ -10,9 +10,11 @@ interface Params
 
 export default (params:Params) =>
 {
+    const num = params.num ?? 1;
+    if(num <= 0) { return []; }
+
     const basePos = params.pos ?? new Point();
     const dims = new Point(params.dims);
-    const num = params.num ?? 1;
     const dir = params.dir ?? Point.RIGHT;
 
     const totalOffset = dir.clone().scaleFactor(-0.5*(num - 1)).scale(dims);

@@ -4,7 +4,7 @@ import Bounds from "js/pq_games/tools/numbers/bounds"
 
 const CONFIG = 
 {
-    debugWithoutFile: true, // @DEBUGGING (should be false)
+    debugWithoutFile: false, // @DEBUGGING (should be false)
     debugSingleCard: false, // @DEBUGGING (should be false)
     debugOnlyGenerate: false, // @DEBUGGING (should be false)
 

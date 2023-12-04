@@ -36,7 +36,7 @@ export default class ResourceText extends Resource
     {
         if(canv instanceof CanvasRenderingContext2D) { canv = canv.canvas; }
         op.resource = this;
-        op.applyToCanvas(canv);
+        await op.applyToCanvas(canv);
         return canv;
     }
 

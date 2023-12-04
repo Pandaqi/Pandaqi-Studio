@@ -9,7 +9,7 @@ $col3: #0000FF;
 
 @font-face {
     font-family: $header-font;
-    src: url($base-fonts + 'Good-Grace.otf') format('otf');
+    src: url($base-fonts + 'Good-Grace.woff2') format('woff2');
     font-weight: normal;
     font-display: swap;
 }
