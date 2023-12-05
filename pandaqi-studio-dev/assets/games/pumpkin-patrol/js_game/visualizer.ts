@@ -5,9 +5,29 @@ import { MISC, Type } from "../js_shared/dict";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage";
 import ResourceImage from "js/pq_games/layout/resources/resourceImage";
+import ResourceLoader from "js/pq_games/layout/resources/resourceLoader";
+import LayoutEffect from "js/pq_games/layout/effects/layoutEffect";
+import GrayScaleEffect from "js/pq_games/layout/effects/grayScaleEffect";
 
 export default class Visualizer
 {
+    resLoader: ResourceLoader;
+    size: Point;
+    sizeUnit: number;
+    inkFriendly: boolean;
+    patterns: Record<string, ResourceImage>;
+    effects: LayoutEffect[];
+
+    constructor(params)
+    {
+        this.resLoader = params.resLoader;
+        this.size = params.size;
+        this.sizeUnit = this.size.smallestSide();
+        this.inkFriendly = params.inkFriendly;
+        this.effects = [];
+        if(this.inkFriendly) { this.effects.push(new GrayScaleEffect()); }
+    }
+
     async prepare()
     {
         await this.createSidePatterns();
@@ -46,10 +66,6 @@ export default class Visualizer
 
         const img = await convertCanvasToImage(ctx.canvas);
         const res = new ResourceImage(img);
-
-        console.log(subType);
-        console.log(res);
-
-        CONFIG.cards.patterns[subType] = res;
+        this.patterns[subType] = res;
     }
 }

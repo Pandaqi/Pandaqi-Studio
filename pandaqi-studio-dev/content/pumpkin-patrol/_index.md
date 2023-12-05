@@ -10,15 +10,15 @@ blurb: "Attract the most valuable Trick-or-Treaters with beautiful Halloween dec
 extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/1tg66GnYFxZukTDFUGoSjGIpr9BlU3Wy8"
 
-fullHeaderImg: "cookie_smasher_header"
-headerImg: "cookie_smasher_header"
+fullHeaderImg: "pumpkin_patrol_header"
+headerImg: "pumpkin_patrol_header"
 
-headerThumb: "favicon"
+headerThumb: "pumpkin_patrol_favicon"
 
 customHeight: "small"
 headerDarkened: true
 
-color: "white"
+color: "purple"
 
 bgColor: "#014556"
 bgColorLink: "#601a87"
@@ -31,20 +31,20 @@ googleFonts: ""
 date: 2023-01-01 # 2024-07-25?
 
 categories: ["boardgame"]
-tags: ["medieval", "mosaic", "numbers", "deck"]
+tags: ["holiday", "large-groups"]
 
 multiplayermode: "competitive"
 language: EN
 genre: ["card", "party"]
-playtime: 20
-playercount: [2,3,4,5,6,7,8,9,10]
+playtime: 60
+playercount: [2,3,4,5,6,7]
 complexity: low
 ages: everyone
 
 ---
 
 
-{{% boardgame-intro heading="" img="cookie_smasher_header" class="no-shadow" %}}
+{{% boardgame-intro heading="" %}}
 
 Hand out the most candy in a very competitive Halloween neighborhood.
 
@@ -54,7 +54,7 @@ Hand out the most candy in a very competitive Halloween neighborhood.
 
 Three simple steps.
 * Read the short [playful rules](rules).
-* Download the base game PDF. (Download > Files > Starter.)
+* Download the base game PDF. (Download > Files > Starter Set.)
 * Print, cut, play!
 
 **Want more?** You can also [generate your own material](#material) right on this website! Pick the sets you like and press the button.
@@ -77,13 +77,25 @@ Three simple steps.
   {{< setting-enum id="setting-setTreats" text="Treat Set?" values="starter,beginner,random" valaskey="true" def="starter" >}}
 {{< /boardgame-settings >}}
 
-<p class="settings-remark">You can combine the sets in any way and the generator will create a balanced deck. The names "starter" and "beginner" merely give an indication how hard it is to play with this specific set.</p>
+<p class="settings-remark">You can combine the sets in any way and the generator will create a balanced deck. The names "starter", "beginner", and so forth merely give an indication how hard it is to play with or learn this specific set.</p>
 
 <p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>
 
 {{% /section-centered %}}
 
 {{% section-centered heading="Credits" anchor="credits" %}}
+
+The fonts used are **Carousel** (headings, thick decorative text) and **DuBellay** (body, longer text), both freely available. Most of the images were generated with AI. Everything else is completely mine.
+
+This game idea started when I went to exercise outside, a week before Halloween, and saw that the neighbors had already placed a huge pumpkin at their front door. I scrambled back inside to write down the idea and immediately get to work. It was done (and even tested with others) a few days before Halloween.
+
+Which meant we got to play it that night and have fun! 
+
+But it also meant it was too late to properly finish and release the game now, which is why it was published a year _later_. This "break" also gave me the chance to come back to the idea with fresh eyes and greatly improve some of the rules and actions before publishing the final version.
+
+It ended up becoming a very simple game with cute art, yet many opportunities to think ahead and strategize.
+
+Hopefully this game gives families around the world a fun activity to do around Halloween. The theme is obviously focused on it, though the game is perfectly playable on its own, any day.
 
 For more information, as always, read my [detailed developer diary on Pandaqi Blog](https://pandaqi.com/blog/boardgames/pumpkin-patrol).
 

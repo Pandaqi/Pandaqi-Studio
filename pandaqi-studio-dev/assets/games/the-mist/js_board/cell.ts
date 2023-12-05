@@ -14,6 +14,7 @@ export default class Cell
         this.icons = [];
     }
 
+    countIcons() { return this.icons.length; }
     hasIcon(i:string) { return this.icons.includes(i); }
     addIcon(i:string)
     {

@@ -69,7 +69,7 @@ Three simple steps.
 	{{< setting-hidden id="setting-gameTitle" text="Sleighwell" >}}
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
   {{< setting-enum id="setting-cardSize" text="Tile Size?" values="small,regular,huge" valaskey="true" def="regular" >}}
-  {{< setting-enum id="setting-set" text="Set?" values="Base Game,Second Sleigh,Tough Trees" keys="baseGame,specialSleighs,toughTrees" def="regular" remark="The other two sets are expansions and require you to already have the base game." >}}
+  {{< setting-enum id="setting-set" text="Set?" values="Base Game,Special Sleighs,Tough Trees" keys="baseGame,specialSleighs,toughTrees" def="regular" remark="The other two sets are expansions and require you to already have the base game." >}}
 {{< /boardgame-settings >}}
 
 <p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>

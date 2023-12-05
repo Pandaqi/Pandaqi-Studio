@@ -198,6 +198,13 @@ const CONFIG =
                 decorations: "#3BFF70"
             },
 
+            bgsInkfriendly:
+            {
+                power: "#B0B0B0",
+                treats: "#D0D0D0",
+                decorations: "F0F0F0"
+            },
+
             power:
             {
                 fontSize: 0.0475,
@@ -219,6 +226,7 @@ const CONFIG =
         {
             color: "#FEFEFE",
             patternAlpha: 0.175,
+            patternAlphaInkFriendly: 0.075,
             patternNumIcons: 10,
             patternIconSize: 0.9, // relative to max available space based on num icons distributed in pattern
             rectElongationFactor: 0.045, // relative to this side's height
