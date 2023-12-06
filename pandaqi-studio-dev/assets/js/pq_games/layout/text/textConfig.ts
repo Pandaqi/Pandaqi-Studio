@@ -51,7 +51,7 @@ interface TextConfigParams
 
 // By default, the HEIGHT of a font is roughly 50%-60% of the font SIZE ( = letter width)
 // (this is a CONSERVATIVE estimate, for most fonts!)
-const DEF_HEIGHT_TO_SIZE_RATIO = 1.5; 
+const DEF_HEIGHT_TO_SIZE_RATIO = 1.35; 
 
 export { TextConfig, TextAlign, TextStyle, TextWeight, TextVariant }
 export default class TextConfig

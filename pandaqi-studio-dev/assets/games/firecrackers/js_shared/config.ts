@@ -128,7 +128,12 @@ const CONFIG =
 
             shadowBlur: 0.01, // ~coinSize
             shadowOffset: new Point(0.0), // ~coinSize
-            shadowColor: "#000000FF"
+            shadowColor: "#000000FF",
+
+            fontSize: 0.0395, // ~sizeUnit
+            textColor: "#FDFDFD",
+            textAlpha: 1.0,
+            textRectDarken: 30,
         },
 
         title:
@@ -140,10 +145,14 @@ const CONFIG =
 
         action:
         {
-            yPos: 0.75, // ~sizeY
+            yPos: 0.74, // ~sizeY
             fontSize: 0.0735, // ~sizeUnit
             textDims: new Point(0.8, 0.35), // ~size
             innerRectDownScale: 0.925, 
+            strokeWidth: 0.02, // ~fontSize
+
+            titleGlowRadius: 0.1, // ~fontSize
+            titleGlowColor: "#FFFFFF88"
         },
 
         corners:
@@ -154,7 +163,7 @@ const CONFIG =
             starScaleSmall: 0.06, // ~sizeUnit
             fontSizeBig: 0.15, // ~sizeUnit
             fontSizeSmall: 0.055, // ~sizeUnit
-            strokeWidth: 0.066, // ~fontSize
+            strokeWidth: 0.075, // ~fontSize
             moveSmallStarsToTitle: false
         },
 

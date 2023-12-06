@@ -6,7 +6,7 @@ import { ACTIONS, CardType, MISC, PACKS } from "../js_shared/dict";
 import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
 import getRectangleCornersWithOffset from "js/pq_games/tools/geometry/paths/getRectangleCornersWithOffset";
 import Point from "js/pq_games/tools/geometry/point";
-import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
+import TextConfig, { TextAlign, TextWeight } from "js/pq_games/layout/text/textConfig";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
 import StrokeAlignValue from "js/pq_games/layout/values/strokeAlignValue";
@@ -20,6 +20,7 @@ import Path from "js/pq_games/tools/geometry/paths/path";
 import Color from "js/pq_games/layout/color/color";
 import getPositionsCenteredAround from "js/pq_games/tools/geometry/paths/getPositionsCenteredAround";
 import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
+import clamp from "js/pq_games/tools/numbers/clamp";
 
 export default class Card
 {
@@ -46,7 +47,9 @@ export default class Card
     {
         const numCost = CONFIG.generation.coinsPerNumber[this.num] ?? 0;
         const actionCost = this.hasAction() ? (ACTIONS[this.action].cost ?? CONFIG.generation.defCoinsPerAction) : 0; 
-        return numCost + actionCost;
+        const val = numCost + actionCost;
+        const valClamped = clamp(val, 1, 5);
+        return valClamped;
     }
 
     toString()
@@ -94,17 +97,43 @@ export default class Card
         });
         await new ResourceShape(pointyRect).toCanvas(ctx, rectOp);
 
+        // @DEBUGGING?
+        // draw a reminder that the coins are the card's COST when buying, not its purchase value/worth
+        const fontSize = CONFIG.cards.coins.fontSize * vis.sizeUnit;
+        const anchorPosCost = new Point(anchorPos.x, anchorPos.y - 0.5*rectDims.y);
+        const rectDimsCost = new Point(7*fontSize, 1.2*fontSize);
+        const pointyRect2 = vis.getPointyRect(anchorPosCost, rectDimsCost);
+
+        const rectOp2 = new LayoutOperation({
+            fill: new Color(color).darken(CONFIG.cards.coins.textRectDarken),
+        })
+        await new ResourceShape(pointyRect2).toCanvas(ctx, rectOp2);
+
+        const textConfig = new TextConfig({
+            font: CONFIG.fonts.body,
+            size: fontSize,
+            alignHorizontal: TextAlign.MIDDLE,
+            alignVertical: TextAlign.MIDDLE,
+            weight: TextWeight.BOLD
+        })
+        const resText = new ResourceText({ text: "Cost", textConfig: textConfig });
+        const textOp = new LayoutOperation({
+            translate: anchorPosCost,
+            dims: rectDims,
+            fill: CONFIG.cards.coins.textColor,
+            alpha: CONFIG.cards.coins.textAlpha,
+            stroke: "#000000",
+            strokeWidth: 0.075 * fontSize,
+            strokeAlign: StrokeAlignValue.OUTSIDE,
+            pivot: Point.CENTER
+        })
+        await resText.toCanvas(ctx, textOp);
+
         // draw actual coins
         const cost = this.getPurchaseCost();
         const coinDims = new Point(CONFIG.cards.coins.scale * vis.sizeUnit);
         const positions = getPositionsCenteredAround({ pos: anchorPos, num: cost, dims: coinDims, dir: Point.RIGHT });
         const coinDimsDisplayed = coinDims.clone().scale(CONFIG.cards.coins.displayDownScale);
-
-        const shadowEffect = new DropShadowEffect({ 
-            blurRadius: CONFIG.cards.coins.shadowBlur * vis.sizeUnit,
-            color: CONFIG.cards.coins.shadowColor,
-            offset: CONFIG.cards.coins.shadowOffset.clone().scale(vis.sizeUnit)
-        })
 
         const res = vis.resLoader.getResource("misc");
         const frame = MISC.coin.frame;
@@ -112,7 +141,6 @@ export default class Card
             dims: coinDimsDisplayed,
             frame: frame,
             pivot: Point.CENTER,
-            effects: [shadowEffect]
         })
 
         for(const pos of positions)
@@ -141,7 +169,6 @@ export default class Card
                 elem.y = titlePos.y
             }
         }
-
 
         const dimsBig = new Point(CONFIG.cards.corners.starScaleBig * vis.sizeUnit);
         const dimsSmall = new Point(CONFIG.cards.corners.starScaleSmall * vis.sizeUnit);
@@ -180,7 +207,7 @@ export default class Card
             })
             await resStar.toCanvas(ctx, op);
 
-            const strokeWidth = CONFIG.cards.corners.strokeWidth * fontSize;
+            const strokeWidth = isBig ? CONFIG.cards.corners.strokeWidth * fontSize : 0;
             const tempTextConfig = textConfig.clone();
             tempTextConfig.size = fontSize;
             const resText = new ResourceText({ text: text, textConfig: tempTextConfig });
@@ -188,15 +215,19 @@ export default class Card
             const textColor = isBig ? colorDark : colorLight;
             const textStrokeColor = isBig ? colorLight : colorMid;
 
+            // @EXCEPTION: as usual, the number 1 needs to be offset slightly to look centered
+            let posOffset = (this.num == 1) ? new Point(-0.1*fontSize, 0) : new Point();
+            const effects = isBig ? vis.effects : [];
+
             const opText = new LayoutOperation({
-                translate: pos,
+                translate: pos.clone().move(posOffset),
                 dims: dims,
                 pivot: Point.CENTER,
                 fill: textColor,
                 stroke: textStrokeColor,
                 strokeWidth: strokeWidth,
                 strokeAlign: StrokeAlignValue.OUTSIDE,
-                effects: vis.effects // @TODO: not sure if it should copy the regular effects for this text
+                effects: effects // @TODO: not sure if it should copy the regular effects for this text
             })
 
             await resText.toCanvas(ctx, opText);
@@ -286,13 +317,19 @@ export default class Card
             alignVertical: TextAlign.MIDDLE,
         })
 
+        //const strokeWidth = CONFIG.cards.action.strokeWidth * titleFontSize;
         const resTextTitle = new ResourceText({ text: title, textConfig: titleTextConfig });
+        const effectsTitle = [new DropShadowEffect({ blurRadius: CONFIG.cards.action.titleGlowRadius * titleFontSize, color: CONFIG.cards.action.titleGlowColor })]
+
         const opTitle = new LayoutOperation({
             translate: titlePos,
             fill: colorLight,
             dims: titleDims,
             pivot: Point.CENTER,
-            effects: vis.effects
+            //stroke: colorDark,
+            //strokeWidth: strokeWidth,
+            //strokeAlign: StrokeAlignValue.OUTSIDE
+            effects: effectsTitle
         })
 
         // the action title + pointy rect behind it

@@ -97,7 +97,7 @@ const setTreatsBeginner =
 
 const setAdvanced:CardSet = 
 {
-    alien: { frame: 0, type: Type.PERSON, desc: "Any pair of the same type is a wildcard for you (this round).", power: true }, // allows no special types, as that defeats its power
+    alien: { frame: 0, type: Type.PERSON, desc: "Any pair of the same type is a wildcard for you (this round).", power: true }, // @NOTE: allows no special types, as that defeats its power
     cyclops: { frame: 1, type: Type.PERSON, desc: "I spy with my little eye ... CHOCOLATE!", allowSpecial: [ReqType.SET] },
     astronaut: { frame: 2, type: Type.PERSON, desc: "On visit: draw 3 cards, but you can't score me.", power: true, allowSpecial: [ReqType.SET, ReqType.CARD] },
     gnome: { frame: 3, type: Type.PERSON, desc: "On score: replace me with 3 new Persons.", power: true, allowSpecial: [ReqType.CARD] },
@@ -105,6 +105,18 @@ const setAdvanced:CardSet =
     cowboy: { frame: 5, type: Type.PERSON, desc: "On score: don't replace me with a new Person.", power: true, allowSpecial: [ReqType.CARD] },
     zorro: { frame: 6, type: Type.PERSON, desc: "On score: give any treats paid to your neighbors.", power: true, allowSpecial: [ReqType.SET, ReqType.CARD] },
     cyborg: { frame: 7, type: Type.PERSON, desc: "Input: infinite candy. Output: ?", allowSpecial: [ReqType.SET, ReqType.CARD] }, 
+}
+
+const setExpert:CardSet =
+{
+    powerfrog: { frame: 0, type: Type.PERSON, desc: "On visit: rotate on or more decorations (to use the other side).", power: true, allowSpecial: [ReqType.SET, ReqType.CARD] }, // yoda, duh
+    batkid: { frame: 1, type: Type.PERSON, desc: "While on the street, all wildcards are worth nothing", power: true, allowSpecial: [ReqType.CARD] },
+    darkmonth: { frame: 2, type: Type.PERSON, desc: "On score: all Persons immediately walk 2 steps backward.", power: true }, // buzz lightyear
+    snowlaf: { frame: 3, type: Type.PERSON, desc: "I walk backwards if somebody has my requirements and is closer in that direction.", power: true }, // olaf 
+    webman: { frame: 4, type: Type.PERSON, desc: "On visit: take one or more decorations back into your hand", power: true, allowSpecial: [ReqType.SET] }, // spiderman
+    hairykin: { frame: 5, type: Type.PERSON, desc: "On score: steal two cards (decoration or hand)", power: true, allowSpecial: [ReqType.CARD] }, // harley quinn
+    supperman: { frame: 6, type: Type.PERSON, desc: "On visit: pay 4 cards with the same icon to score any Person.", power: true, allowSpecial: [ReqType.SET] }, // superman
+    pinkie: { frame: 7, type: Type.PERSON, desc: "On visit: you can't score another Person (this round).", power: true }, // barbie  
 }
 
 // @TODO: Unused atm
@@ -125,15 +137,7 @@ const setTreatsAdvanced:CardSet =
     wrapper: { frame: 3, type: Type.TREAT, value: 2, color: "blue" }
 }
 
-// desc: "On visit: you can't score another Person (this round).", power: true
-// desc: "On score: steal two cards (decoration or hand)", power: true
-// desc: "On visit: pay 4 cards with the same icon to score any Person.", power: true
 
-// @TODO: add "allowSpecial: [ReqType.SET, ReqType.CARD]" as it fits
-const setExpert:CardSet =
-{
-
-}
 
 const SET_ORDER = ["starter", "beginner", "advanced", "expert"];
 const SETS:Record<string, CardSet> = 

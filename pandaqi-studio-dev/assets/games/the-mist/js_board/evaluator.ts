@@ -1,6 +1,7 @@
 import FloodFiller from "js/pq_games/tools/generation/floodFiller";
 import BoardState from "./boardState";
 import Cell from "./cell";
+import CONFIG from "../js_shared/config";
 
 export default class Evaluator
 {
@@ -69,7 +70,42 @@ export default class Evaluator
             return false;
         }
 
+        // some cells depend on enough Hazard/Item type objects, check that
+        const needsHazards = bs.uniqueTypes.includes("egg") || bs.uniqueTypes.includes("payout");
+        const needsItems = bs.uniqueTypes.includes("merchant") || bs.uniqueTypes.includes("bag");
+        if(needsHazards)
+        {
+            const numHazardCells = this.filterProperty(bs.uniqueTypes, "hazard", true).length;
+            if(numHazardCells < 2)
+            {
+                console.error("[Evaluator] Rejected: too few Hazard cells while a type needs it");
+                return false;
+            }
+        }
+
+        if(needsItems)
+        {
+            const numItemCells = this.filterProperty(bs.uniqueTypes, "item", true).length;
+            if(numItemCells < 2)
+            {
+                console.error("[Evaluator] Rejected: too few Item cells while a type needs it");
+                return false;
+            }
+        }
+
         return true;
+    }
+
+    filterProperty(list:string[], prop:string, val:any) : string[]
+    {
+        const arr = [];
+        for(const elem of list)
+        {
+            const data = CONFIG.allTypes[elem];
+            if(data[prop] != val) { continue; }
+            arr.push(elem);
+        }
+        return arr;
     }
 
     getRow(bs:BoardState, num:number)

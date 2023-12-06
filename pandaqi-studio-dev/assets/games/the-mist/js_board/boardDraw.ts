@@ -11,6 +11,15 @@ import Circle from "js/pq_games/tools/geometry/circle";
 import rangeInteger from "js/pq_games/tools/random/rangeInteger";
 import ColorLike from "js/pq_games/layout/color/colorLike";
 import ResourceShape from "js/pq_games/layout/resources/resourceShape";
+import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
+import closePath from "js/pq_games/tools/geometry/paths/closePath";
+import Path from "js/pq_games/tools/geometry/paths/path";
+import { COLORS, MISC } from "../js_shared/dict";
+import getPositionsCenteredAround from "js/pq_games/tools/geometry/paths/getPositionsCenteredAround";
+import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
+import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
+import GrayScaleEffect from "js/pq_games/layout/effects/grayScaleEffect";
+import LayoutEffect from "js/pq_games/layout/effects/layoutEffect";
 
 // Takes in a BoardState, draws it
 export default class BoardDraw
@@ -31,13 +40,16 @@ export default class BoardDraw
     cellSizeUnit: number;
     fullSize: Point;
     showTypeMetadata: boolean;
+    defaultEffects: LayoutEffect[];
 
     async draw(canvas:any, bs:BoardState)
     {
-        this.prepare(canvas, bs);
-        await this.drawBackground(canvas, bs);
-        await this.drawBoard(canvas, bs);
-        await this.drawSidebar(canvas, bs);
+        const drawGroup = this.prepare(canvas, bs);
+        this.drawBackground(canvas, bs);
+        this.drawBoard(drawGroup, bs);
+        this.drawSidebar(drawGroup, bs);
+
+        await drawGroup.toCanvas(canvas);
     }
 
     prepare(canvas:any, bs:BoardState)
@@ -67,6 +79,9 @@ export default class BoardDraw
         this.cellSizeHalf = this.cellSize.clone().scale(0.5);
         this.cellSizeUnit = Math.min(this.cellSize.x, this.cellSize.y);
 
+        this.defaultEffects = [];
+        if(CONFIG.inkFriendly) { this.defaultEffects.push(new GrayScaleEffect()); }
+
         let requiresMetadata = false;
         console.log("UNIQUE TYPES: ", bs.uniqueTypes);
         for(const type of bs.uniqueTypes)
@@ -75,17 +90,28 @@ export default class BoardDraw
         }
 
         this.showTypeMetadata = requiresMetadata;
+
+        const drawGroup = new ResourceGroup();
+        return drawGroup
     }
 
     async drawBackground(canv:HTMLCanvasElement, bs)
     {
-        const rect = new Rectangle({ center: this.fullSize.clone().scale(0.5), extents: this.fullSize });
         const bgColor = CONFIG.inkFriendly ? "#FFFFFF" : CONFIG.draw.bgColor;
-        const op = new LayoutOperation({
-            fill: bgColor,
-            pivot: Point.CENTER
-        })
-        await new ResourceShape(rect).toCanvas(canv, op);
+        fillCanvas(canv, bgColor);
+
+        if(!CONFIG.inkFriendly)
+        {
+            const resBG = CONFIG.resLoader.getResource("bg_map");
+            const opBG = new LayoutOperation({
+                translate: this.fullSize.clone().scale(0.5),
+                dims: this.fullSize.clone().scale(CONFIG.draw.bg.mapScale),
+                alpha: CONFIG.draw.bg.mapAlpha,
+                pivot: Point.CENTER,
+                //composite: "color-burn"
+            })
+            await resBG.toCanvas(canv, opBG);
+        }
     }
 
     convertGridPosToRealPos(pos:Point)
@@ -93,7 +119,7 @@ export default class BoardDraw
         return this.originBoard.clone().add( pos.clone().scale(this.cellSize) );
     }
 
-    async drawBoard(canv:HTMLCanvasElement, bs:BoardState)
+    async drawBoard(group:ResourceGroup, bs:BoardState)
     {
         const bgColorLightness = CONFIG.draw.cells.bgColorLightness;
         const bgColorDarken = CONFIG.draw.cells.bgColorDarken;
@@ -104,23 +130,26 @@ export default class BoardDraw
         const iconDims = new Point(CONFIG.draw.cells.iconSize * this.cellSizeUnit);
         const iconOffset = CONFIG.draw.cells.iconOffsetFromCenter * 0.5 * this.cellSizeUnit;
         const positions = [
-            Point.DOWN.clone().scale(iconOffset),
-            Point.LEFT.clone().scale(iconOffset),
             Point.UP.clone().scale(iconOffset),
-            Point.RIGHT.clone().scale(iconOffset)
+            Point.RIGHT.clone().scale(iconOffset),
+            Point.DOWN.clone().scale(iconOffset),
+            Point.LEFT.clone().scale(iconOffset)
         ];
 
         const iconOp = new LayoutOperation({
             dims: iconDims,
             pivot: Point.CENTER,
+            effects: this.defaultEffects
         })
 
         const cellStrokeWidth = CONFIG.draw.cells.strokeWidth * this.cellSizeUnit;
         const rectOp = new LayoutOperation({
-            stroke: "#000000",
+            stroke: CONFIG.inkFriendly ? "#000000" : CONFIG.draw.cells.strokeColor,
             strokeWidth: cellStrokeWidth,
-            pivot: Point.CENTER
         })
+
+        const triangleStrokeWidth = CONFIG.draw.cells.triangleStrokeWidth * this.cellSizeUnit;
+        const triangleStrokeColor = CONFIG.inkFriendly ? "#666666" : CONFIG.draw.cells.triangleStrokeColor;
 
         // for each cell, 
         for(const cell of bs.cells)
@@ -133,22 +162,37 @@ export default class BoardDraw
             let col = bgColor.clone();
             if(isOddCell) { col = col.darken(bgColorDarken); }
 
-            const rect = new Rectangle({ center: new Point(), extents: this.cellSize });
-            rectOp.translate = posCenter;
-            rectOp.fill = new ColorLike(col);
+            const rect = new Rectangle({ center: posCenter, extents: this.cellSize });
+            rectOp.fill = new ColorLike(Color.TRANSPARENT);
 
-            await new ResourceShape(rect).toCanvas(canv, rectOp);
+            group.add(new ResourceShape(rect), rectOp.clone());
 
-            // - draw the writable dot in the center
-            const circ = new Circle({ radius: dotRadius });
-            rectOp.fill = new ColorLike("#FFFFFF");
-            await new ResourceShape(circ).toCanvas(canv, rectOp);
+            // - cell edge points for drawing triangles below
+            const points = [
+                pos.clone(),
+                new Point(pos.x + this.cellSize.x, pos.y),
+                new Point(pos.x + this.cellSize.x, pos.y + this.cellSize.y),
+                new Point(pos.x, pos.y + this.cellSize.y)
+            ]
         
             // - draw its 4 icons
             let counter = rangeInteger(0,3);
             for(const iconName of cell.icons)
             {
                 const iconData = CONFIG.allTypes[iconName];
+
+                const bgColor = CONFIG.inkFriendly ? "#FFFFFF" : COLORS[iconData.color].light;
+                const triangleOp = new LayoutOperation({
+                    stroke: triangleStrokeColor,
+                    strokeWidth: triangleStrokeWidth,
+                    fill: bgColor,
+                });
+
+                let triangle = [points[counter], points[(counter + 1) % 4], posCenter.clone()];
+                triangle = closePath(triangle);
+                const path = new Path({points:triangle});
+                group.add(new ResourceShape(path), triangleOp);
+
                 const icon = CONFIG.resLoader.getResource(iconData.textureKey);
                 const rotation = counter * 0.5 * Math.PI;
                 const pos = posCenter.clone().move(positions[counter]);
@@ -156,14 +200,18 @@ export default class BoardDraw
                 iconOp.translate = pos;
                 iconOp.rotation = rotation;
 
-                await icon.toCanvas(canv, iconOp);
+                group.add(icon, iconOp.clone());
                 counter = (counter + 1) % 4;
             }
-            
+
+            // - draw the writable dot in the center
+            const circ = new Circle({ center: posCenter, radius: dotRadius });
+            rectOp.fill = new ColorLike("#FFFFFF");
+            group.add(new ResourceShape(circ), rectOp.clone());            
         }
     }
 
-    async drawSidebar(canv:HTMLCanvasElement, bs:BoardState)
+    async drawSidebar(group:ResourceGroup, bs:BoardState)
     {
         if(!CONFIG.includeRules) { return; }
 
@@ -173,13 +221,15 @@ export default class BoardDraw
         const tutDims = new Point(tutWidth, CONFIG.draw.sidebar.tutImageRatio * tutWidth);
         const tutOp = new LayoutOperation({
             translate: this.originSidebar,
-            dims: tutDims
+            dims: tutDims,
+            effects: this.defaultEffects
         })
 
-        await tut.toCanvas(canv, tutOp);
+        group.add(tut, tutOp);
 
         // specific types explained below that
-        const uniqueTypes = bs.uniqueTypes; // @TODO: calculate automatically
+        const resMisc = CONFIG.resLoader.getResource("misc");
+        const uniqueTypes = bs.uniqueTypes;
         const ySpaceLeft = this.sidebarSize.y - tutDims.y;
         const maxYSpacePerItem = ySpaceLeft / uniqueTypes.length;
         const yPadding = CONFIG.draw.sidebar.iconYPadding * maxYSpacePerItem;
@@ -205,7 +255,7 @@ export default class BoardDraw
         const rectOp = new LayoutOperation({
             fill: "#FFFFFF",
             stroke: "#000000",
-            strokeWidth: 4 // @TODO
+            strokeWidth: CONFIG.draw.sidebar.rectStrokeWidth * this.sizeUnit
         });
         const borderRadius = 0.1*iconDims.x;
 
@@ -220,20 +270,21 @@ export default class BoardDraw
                 frame: data.frame,
                 translate: iconPos,
                 dims: iconDimsWithPadding,
-                pivot: Point.CENTER
+                pivot: Point.CENTER,
+                effects: this.defaultEffects
             })
 
             const rect = new RectangleRounded({ center: iconPos, extents: iconDims, radius: borderRadius });
-            await new ResourceShape(rect).toCanvas(canv, rectOp);
-            await icon.toCanvas(canv, iconOp);
+            group.add(new ResourceShape(rect), rectOp);
+            group.add(icon, iconOp);
 
             // add the text explaining how it scores
-            const text = data.desc;
+            const text = "<sc>" + data.label + "</sc>: " + data.desc;
             const textRes = new ResourceText({ text: text, textConfig: textConfig });
             const textPos = new Point(iconPos.x + 0.5*iconDims.x + xPadding, pos.y + 0.5*textDims.y);
             
-            const innerTextPos = textPos.clone().move(new Point(xPadding, 0));
-            const innerTextDims = textDims.clone().sub(new Point(xPadding*2, 0)); 
+            const innerTextPos = textPos.clone().move(new Point(xPadding*2, 0));
+            const innerTextDims = textDims.clone().sub(new Point(xPadding*4, 0)); 
 
             const textOp = new LayoutOperation({
                 fill: "#000000",
@@ -244,13 +295,38 @@ export default class BoardDraw
 
             const rectCenter = new Point(textPos.x + 0.5*textDims.x, textPos.y);
             const rectText = new RectangleRounded({ center: rectCenter, extents: textDims, radius: borderRadius });
-            await new ResourceShape(rectText).toCanvas(canv, rectOp);
-            await textRes.toCanvas(canv, textOp);
 
-            // @TODO: show the type metadata (HAZARD/ITEM) in some way
+            group.add(new ResourceShape(rectText), rectOp);
+            group.add(textRes, textOp);
+
             if(this.showTypeMetadata)
             {
+                const arr = [];
+                if(data.hazard) { arr.push("hazard"); }
+                if(data.item) { arr.push("item"); }
 
+                if(arr.length > 0)
+                {
+
+                    const metaDims = new Point(CONFIG.draw.sidebar.metadataScale * iconDimsWithPadding.x);
+                    const effects = [new DropShadowEffect({ blurRadius: 0.06 * metaDims.x }), this.defaultEffects].flat();
+                    const anchorPos = new Point(iconPos.x, iconPos.y + 0.5*iconDimsWithPadding.y);
+                    const pos = getPositionsCenteredAround({ pos: anchorPos, num: arr.length, dims: metaDims })
+
+                    for(let m = 0; m < arr.length; m++)
+                    {
+                        const metaOp = new LayoutOperation({
+                            frame: MISC[arr[m]].frame,
+                            dims: metaDims,
+                            translate: pos[m],
+                            pivot: Point.CENTER,
+                            effects: effects
+                        })
+
+                        group.add(resMisc, metaOp);
+                    }
+                    
+                }
             }
 
             pos.y += iconDims.y + yPadding;

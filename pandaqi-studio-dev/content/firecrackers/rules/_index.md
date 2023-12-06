@@ -78,6 +78,8 @@ Each card you **revealed** this round is worth **1 coin**. You may use the money
 
 Cards bought go to your _discard_ pile.
 
+If you're the **last player alive**, you may **destroy** one card from your discard pile. (This is a way to get rid of "bad" cards in your deck that you don't want anymore.)
+
 That's it. Have fun!
 
 @TODO: IMAGE EXAMPLE

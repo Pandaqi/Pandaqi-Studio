@@ -28,7 +28,7 @@ textColorLink: "#edccff"
 
 googleFonts: ""
 
-date: 2023-01-01 # 2024-07-25?
+date: 2023-01-01 # 2024-10-12?
 
 categories: ["boardgame"]
 tags: ["holiday", "large-groups"]

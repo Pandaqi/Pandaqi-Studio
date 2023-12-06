@@ -48,11 +48,16 @@ const CONFIG =
             set: false
         },
 
-        // @TODO: for what would we use this?
+        bg_map:
+        {
+            path: "bg_map.webp",
+            set: false
+        },
+
         misc:
         {
             path: "misc.webp",
-            frames: new Point(4,1),
+            frames: new Point(8,1),
             set: false
         },
 
@@ -99,8 +104,8 @@ const CONFIG =
         numUniqueTypes: new Bounds(6,9),
         numIconsPerCell: {
             1: new Bounds(0, 0.05),
-            2: new Bounds(0.05, 0.15),
-            3: new Bounds(0.1, 0.3)
+            2: new Bounds(0.075, 0.175),
+            3: new Bounds(0.15, 0.33)
         },
         defNumIconsPerCell: 4
     },
@@ -109,31 +114,43 @@ const CONFIG =
     draw:
     {
         edgeMargin: new Point(0.05), // ~pageSizeUnit
-        bgColor: "#020823",
+        bgColor: "#fffdc9", //"#040404",
+
+        bg:
+        {
+            mapAlpha: 0.215,
+            mapScale: new Point(1.025, 1.035)
+        },
         
         sidebar:
         {
+            rectStrokeWidth: 0.0015, // ~pageSizeUnit
             width: 0.3, // ~innerPageSizeX
             extraMargin: 0.03, // ~pageSizeX; padding between board and sidebar
-            tutImageRatio: 639.0/572.0,
+            tutImageRatio: 565.0/572.0,
             fontSize: 0.3, // ~entrySizeY
             maxFontSize: 42, // an absolute maximum, anything higher is too large and unnecessary
             lineHeight: 1.033,
             iconSimpleScale: 0.5, // ~iconSize (regular)
             iconPadding: 0.01, // ~entrySizeX (regular)
             iconYPadding: 0.1, // ~entrySizeY
-            iconScale: 0.925, // ~iconSize (regular) => this just creates some breathing room between edge roundedRect and image
+            iconScale: 0.9, // ~iconSize (regular) => this just creates some breathing room between edge roundedRect and image
+        
+            metadataScale: 0.33 // ~iconSize (regular)
         },
 
         cells:
         {
-            strokeWidth: 0.03, // ~cellSizeUnit
-            iconSize: 0.33, // ~cellSizeUnit
+            strokeWidth: 0.02, // ~cellSizeUnit
+            strokeColor: "#332211", // "#FFFFFF",
+            triangleStrokeWidth: 0.01, // ~cellSizeUnit
+            triangleStrokeColor: "#886633", //"#DCDCDC",
+            iconSize: 0.3, // ~cellSizeUnit
             bgColorLightness: 97,
             bgColorDarken: 9,
 
             dotRadius: 0.1, // ~cellSizeUnit
-            iconOffsetFromCenter: 0.5, // ~cellSizeUnit
+            iconOffsetFromCenter: 0.6, // ~cellSizeUnit
         },
     }
 }

@@ -10,6 +10,7 @@ import fromArray from "js/pq_games/tools/random/fromArray";
 import assignGridNeighbors, { GridNeighborType } from "js/pq_games/tools/graphs/assignGridNeighbors";
 import FloodFiller from "js/pq_games/tools/generation/floodFiller";
 import Bounds from "js/pq_games/tools/numbers/bounds";
+import rangeInteger from "js/pq_games/tools/random/rangeInteger";
 
 // Generates a balanced board, then spits out a BoardState object holding it
 export default class BoardGen
@@ -82,30 +83,41 @@ export default class BoardGen
             if(!prePass) { continue; }
 
             let numWanted;
+            let numPlaced = 0;
             if(prePass == "floodfill") {
 
-                numWanted = Math.min(freq, 20);
-                const maxGroupSize = 9;
-                let numPlaced = 0;
-                let alreadyPlaced = [];
-                while(numPlaced < numWanted)
+                numWanted = freq;
+                
+                const minGroupSize = 4;
+                let numLeft = numWanted;
+                while(numPlaced < numWanted && numLeft > minGroupSize)
                 {
+                    console.log(numPlaced);
+                    console.log(numWanted);
+
+                    const maxSize = Math.min(10, numWanted);
+                    const minSize = Math.max(Math.round(0.5*maxSize), minGroupSize);
+
+                    console.log(minSize);
+                    console.log(maxSize);
+
                     const f = new FloodFiller();
                     const group = f.grow({
                         start: fromArray(cells),
-                        grid: grid,
-                        forbidden: alreadyPlaced,
-                        bounds: new Bounds(3, maxGroupSize)
+                        neighborFunction: "getNeighbors",
+                        filter: (cell, nb) => { return nb.hasFreeSpace() && !nb.hasIcon("tree"); },
+                        bounds: new Bounds(minSize, maxSize)
                     })
 
-                    if(group.length <= 0) { continue; }
+                    console.log(group);
+                    if(group.length < minGroupSize) { continue; }
 
                     for(const elem of group)
                     {
                         elem.addIcon(type);
-                        alreadyPlaced.push(elem);
                     }
 
+                    numLeft -= group.length;
                     numPlaced += group.length;
                 }
 
@@ -115,7 +127,6 @@ export default class BoardGen
                 let curChain = [];
                 const maxChainLength = 7;
                 let lastSquare = null;
-                let numPlaced = 0;
                 while(numPlaced < numWanted)
                 {
                     if(!lastSquare)
@@ -152,13 +163,14 @@ export default class BoardGen
                     const cell = grid[cols[i]][rows[i]];
                     cell.addIcon(type);
                     typeList.splice(typeList.indexOf(type), 1);
+                    numPlaced++;
                 }
 
             }
 
 
             // for anything we already placed, remove it from the options of course
-            for(let i = 0; i < numWanted; i++)
+            for(let i = 0; i < numPlaced; i++)
             {
                 typeList.splice(typeList.indexOf(type), 1);
             }

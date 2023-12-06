@@ -192,6 +192,9 @@ export default class BalancedDictionaryPicker
 
     addPossibleType(optionList: any[], dict: Record<string, any>, type: string)
     {
+        const invalidType = (type == null || type == undefined);
+        if(invalidType) { return; }
+
         const alreadyAdded = optionList.includes(type);
         if(alreadyAdded) { return; }
 

@@ -27,17 +27,17 @@ interface PackData
 
 const PACKS:Record<CardType, PackData> =
 {
-    [CardType.BLACK]: { frame: 0, type: "Multi-Break Shell", actions: ["score_color", "score_diversity", "wildcard_up", "wildcard_down", "cleanup", "strong_force", "strong_destroy", "risky_rocket", "pity_purchase", "explosion_self", "explosion_neighbor", "steal", "safety_suit", "same_color_bonus"], numbers: { 2: 10, 4: 10 }, actionPercentages: { 2: 1.0, 4: 1.0 }, colorDark: "#0F0F0F", colorMid: "#BABABA", colorLight: "#E2E2E2" },
-    [CardType.RED]: { frame: 1, type: "Firecracker", actions: ["remove", "remove_other"], colorDark: "#2A0300", colorMid: "#FFA0A3", colorLight: "#FFE4E7" },
-    [CardType.ORANGE]: { frame: 2, type: "Cake", actions: ["force", "skip"], colorDark: "#2A1300", colorMid: "#F0AD6C", colorLight: "#F4EFAF" }, // also "Barrage"
-    [CardType.YELLOW]: { frame: 3, type: "Sparkler", actions: ["more_coins", "fewer_coins"], colorDark: "#211D00", colorMid: "#DBD28D", colorLight: "#FFF8EF" },
-    [CardType.GREEN]: { frame: 4, type: "Ground Flower", actions: ["more_score", "less_score"], colorDark: "#042400", colorMid: "#AEEEA6", colorLight: "#FFFFFB" }, // also "Ground Spinner" or "Ground Blooming Flower"
-    [CardType.TURQUOISE]: { frame: 5, type: "Flare", actions: ["explosion_delayed", "explosion_buddy"], colorDark: "#00211C", colorMid: "#ACEEE2", colorLight: "#EFFFF6" },
-    [CardType.BLUE]: { frame: 6, type: "Fountain", actions: ["return_discard", "return_revealed"], colorDark: "#000E24", colorMid: "#BFD8FE", colorLight: "#FFFCFF" }, // also close to "Roman Candle"
-    [CardType.PURPLE]: { frame: 7, type: "Bottle Rocket", actions: ["lower_threshold", "raise_threshold"], colorDark: "#210228", colorMid: "#F6CCFF", colorLight: "#FAFFFF" },
-    [CardType.PINK]: { frame: 8, type: "Parachute", actions: ["draw_safe", "draw_risky"], colorDark: "#35001B", colorMid: "#FFB5DB", colorLight: "#FFF9FF" },
-    [CardType.WHITE]: { frame: 9, type: "Snappers", actions: ["change_color", "change_number"], colorDark: "#FBFBFB", colorMid: "#4D4D4D", colorLight: "#090909" }, // also "Bang Snaps" or "Fun Snaps"; colors INVERTED (otherwise it'd just be the black cards)
-    [CardType.BROWN]: { frame: 10, type: "Smoke Bomb", actions: ["super_cracker", "hide_card"], colorDark: "#250B00", colorMid: "#DBA087", colorLight: "#FFE4CB" },
+    [CardType.BLACK]: { frame: 0, type: "Multi-Break Shell", actions: ["score_color", "score_diversity", "wildcard_up", "wildcard_down", "cleanup", "strong_force", "strong_destroy", "risky_rocket", "pity_purchase", "explosion_self", "explosion_neighbor", "steal", "safety_suit", "same_color_bonus", "more_score", "less_score"], numbers: { 2: 10, 4: 10 }, actionPercentages: { 2: 1.0, 4: 1.0 }, colorDark: "#0F0F0F", colorMid: "#A9A9A9", colorLight: "#E2E2E2" },
+    [CardType.RED]: { frame: 1, type: "Firecracker", actions: ["remove", "remove_other"], colorDark: "#2A0300", colorMid: "#EE9092", colorLight: "#FFE4E7" },
+    [CardType.ORANGE]: { frame: 2, type: "Cake", actions: ["force", "skip"], colorDark: "#2A1300", colorMid: "#E09C5B", colorLight: "#F4EFAF" }, // also "Barrage"
+    [CardType.YELLOW]: { frame: 3, type: "Sparkler", actions: ["more_coins", "fewer_coins"], colorDark: "#211D00", colorMid: "#CAC17C", colorLight: "#FFF8EF" },
+    [CardType.GREEN]: { frame: 4, type: "Ground Flower", actions: ["last_alive", "first_stop"], colorDark: "#042400", colorMid: "#8CCC84", colorLight: "#FFFFFB" }, // also "Ground Spinner" or "Ground Blooming Flower"
+    [CardType.TURQUOISE]: { frame: 5, type: "Flare", actions: ["explosion_delayed", "explosion_buddy"], colorDark: "#00211C", colorMid: "#8ACCC0", colorLight: "#EFFFF6" },
+    [CardType.BLUE]: { frame: 6, type: "Fountain", actions: ["return_discard", "return_revealed"], colorDark: "#000E24", colorMid: "#AEC7ED", colorLight: "#FFFCFF" }, // also close to "Roman Candle"
+    [CardType.PURPLE]: { frame: 7, type: "Bottle Rocket", actions: ["lower_threshold", "raise_threshold"], colorDark: "#210228", colorMid: "#D4AADD", colorLight: "#FAFFFF" },
+    [CardType.PINK]: { frame: 8, type: "Parachute", actions: ["draw_safe", "draw_risky"], colorDark: "#35001B", colorMid: "#DD93B9", colorLight: "#FFE8EE" },
+    [CardType.WHITE]: { frame: 9, type: "Snappers", actions: ["change_color", "change_number"], colorDark: "#FBFBFB", colorMid: "#5D5D5D", colorLight: "#191919" }, // also "Bang Snaps" or "Fun Snaps"; colors INVERTED (otherwise it'd just be the black cards)
+    [CardType.BROWN]: { frame: 10, type: "Smoke Bomb", actions: ["super_cracker", "hide_card"], colorDark: "#250B00", colorMid: "#CA9076", colorLight: "#FFE4CB" },
 }
 
 interface ActionData
@@ -57,7 +57,7 @@ const ACTIONS:Record<string,ActionData> =
     skip: { label: "Force skip", desc: "Force yourself or your neighbor to <b>skip</b> their next turn." },
 
     more_coins: { label: "Treasure", desc: "Worth <b>2 <img id=\"misc\" frame=\"0\"></b> when buying." }, // MISC 0 = coin!
-    fewer_coins: { label: "Garbage Product", desc: "Worth <b>0 <img id=\"misc\" frame=\"0\"></b> when buying.", cost: 0 },
+    fewer_coins: { label: "Garbage Product", desc: "Worth <b>0 <img id=\"misc\" frame=\"0\"></b> when buying.", cost: -1 },
 
     more_score: { label: "Points Trade", desc: "Worth <b>-2 <img id=\"misc\" frame=\"0\"></b> when buying, but scores <b>double</b> its number." },
     less_score: { label: "Money Trade", desc: "Worth <b>3 <img id=\"misc\" frame=\"0\"></b> when buying, but scores <b>-1 points</b>." },
@@ -72,9 +72,9 @@ const ACTIONS:Record<string,ActionData> =
     raise_threshold: { label: "Cold Weather", desc: "Pick a color. Its threshold for exploding is <b>raised by 3</b>." },
 
     last_alive: { label: "Stick it out", desc: "If you're the last player alive, you get <b>any card</b> from the shop (for free)." },
-    first_stop: { label: "Sudden Burst", desc: "If you're the first to stop, reveal 3 more cards without exploding.", cost: 2 },
+    first_stop: { label: "Sudden Burst", desc: "If you're the first to stop, reveal 2 more cards without exploding.", cost: 2 },
 
-    draw_safe: { label: "Safety Goggles", desc: "Once this round, you may look at your card before revealing, and decide to <b>stop</b> instead." },
+    draw_safe: { label: "Safety Goggles", desc: "Once this round, look at your next card before revealing or stopping." },
     draw_risky: { label: "No Hesitation", desc: "Once this round, you may reveal 3 cards at once." },
 
     change_color: { label: "Colorshift", desc: "Tuck this card underneath another: it becomes the same color." },
