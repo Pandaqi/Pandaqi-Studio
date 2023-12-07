@@ -71,13 +71,11 @@ _What's the general idea?_ During the game, players create a row of cards in fro
 
 But that's not enough. Balance building your decorations with building your bowl of treats. Because to score any visitor, you also need to pay the Treats they require.
 
-{{< rules-example id="turn" >}}
-
 {{% rules-block heading="Play" %}}
 
 Take clockwise turns, beginning with the start player. On your turn, take **two actions**. 
 
-The possible actions are ...
+The possible actions are **add** or **remove**.
 
 **ADD**: Add a card from your hand to _any_ home. Make sure the side you want ( = which specific decoration) points up. 
 
@@ -85,7 +83,7 @@ If you add it to somebody else's home,
 
 * They decide how to rotate it.
 * You steal a decoration of theirs, but only one that matches an icon on _your_ card. 
-* A wildcard ("?") matches any icon, even disregarding the type (decoration or treat).
+* A wildcard (@TODO: ICON) matches any icon, even disregarding the type (decoration or treat).
 
 **REMOVE**: Draw 2 new Hand Cards, either from the facedown deck _or_ from the discard pile. Pay for it by discarding 1 card from your home or hand.
 
@@ -142,7 +140,7 @@ This makes it easier to attract Persons in certain situations, without being ove
 
 {{% rules-block heading="Beginner Set" %}}
 
-This set adds three new mechanics.
+This set adds two new mechanics.
 
 **Powers**: people can have a special power. Such a power is indicated by the _heart_ icon, and replaces the funny tagline.
 
@@ -169,11 +167,11 @@ It also adds new treats and decorations. These have a different value / probabil
 
 This set adds two new mechanics.
 
-**Card Requirements**: instead of requiring specific types, they just want a number of _cards_.
+**Card Requirements** (@TODO: ICON): instead of requiring specific types, they just want a number of _cards_.
 
 **Set Requirements**: instead of requiring specific types, they just want a _set_. There are two options.
-* "Same" (equals sign): they want X icons of the _same_ type. (The type itself doesn't matter, as long as the whole set is the same one.)
-* "Different" (not-equals sign): they want X icons that are all a _different_ type.
+* "Same" (@TODO: ICON): they want X icons of the _same_ type. (The type itself doesn't matter, as long as the whole set is the same one.)
+* "Different" (@TODO: ICON): they want X icons that are all a _different_ type.
 
 {{% /rules-block %}}
 
