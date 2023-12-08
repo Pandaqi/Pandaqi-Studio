@@ -20,15 +20,15 @@ headerDarkened: true
 
 color: "purple"
 
-bgColor: "#014556"
-bgColorLink: "#601a87"
+bgColor: "#210029"
+bgColorLink: "#d14808"
 
-textColor: "#e6faff"
-textColorLink: "#edccff"
+textColor: "#f8ebff"
+textColorLink: "#ffe1d3"
 
 googleFonts: ""
 
-date: 2023-01-01 # 2024-10-12?
+date: 2024-10-12
 
 categories: ["boardgame"]
 tags: ["holiday", "large-groups"]

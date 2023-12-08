@@ -110,7 +110,7 @@ export default class Generator
         if(CONFIG.debugOnlyGenerate) { return; }
 
         // merely caches some default values (such as bg patterns) for much faster generation
-        const visualizer = new Visualizer();
+        const visualizer = new Visualizer({ resLoader: CONFIG.resLoader, inkFriendly: CONFIG.inkFriendly, size: this.gridMapper.getMaxElementSize() });
         await visualizer.prepare();
 
         // cards handle drawing themselves
@@ -122,7 +122,7 @@ export default class Generator
             cardsOfType[card.type].push(card);
             if(CONFIG.debugSingleCard && cardsOfType[card.type].length > 1) { continue; }
 
-            promises.push(card.draw());
+            promises.push(card.draw(visualizer));
         }
 
         const canvases = await Promise.all(promises);

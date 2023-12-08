@@ -25,6 +25,7 @@ export default class Visualizer
         this.sizeUnit = this.size.smallestSide();
         this.inkFriendly = params.inkFriendly;
         this.effects = [];
+        this.patterns = {};
         if(this.inkFriendly) { this.effects.push(new GrayScaleEffect()); }
     }
 

@@ -1,0 +1,61 @@
+$header-font: "carousel";
+$body-font: "dubellay";
+$body-font-clean: "alegreya";
+$base: "/pumpkin-patrol/assets/";
+$base-fonts: $base + "fonts/";
+
+$bg-col: #100C15;
+$text-col: #FCFCFC;
+
+$col1: #d55ae8;
+$col2: #ff6207;
+$col3: #68d5a8;
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'DuBellayItalic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'DuBellay.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $header-font;
+    src: url($base-fonts + 'Carousel.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font-clean;
+    src: url($base-fonts + 'Alegreya-Black.woff2') format('woff2');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font-clean;
+    src: url($base-fonts + 'Alegreya-Italic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font-clean;
+    src: url($base-fonts + 'Alegreya-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+

@@ -198,11 +198,11 @@ const CONFIG =
                 decorations: "#3BFF70"
             },
 
-            bgsInkfriendly:
+            bgsInkFriendly:
             {
                 power: "#B0B0B0",
                 treats: "#D0D0D0",
-                decorations: "F0F0F0"
+                decorations: "#F0F0F0"
             },
 
             power:

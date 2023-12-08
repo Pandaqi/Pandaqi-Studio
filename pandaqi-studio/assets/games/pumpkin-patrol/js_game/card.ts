@@ -119,9 +119,11 @@ export default class Card
         res.addStop(new ColorStop({ pos: 0, color: new Color(0,0,0,0) }));
         res.addStop(new ColorStop({ pos: 1, color: new Color(0,0,0,0.5) }));
 
+        const gradientAlpha = vis.inkFriendly ? 0.15 : 1.0;
         const op = new LayoutOperation({
             translate: midPoint.clone(),
             dims: size,
+            alpha: gradientAlpha,
             pivot: new Point(0.5)
         })
         await res.toCanvas(ctx, op);
@@ -138,6 +140,7 @@ export default class Card
             dims: beamSize,
             pivot: new Point(0.5),
             frame: frame,
+            effects: vis.effects
         })
         await beam.toCanvas(ctx, beamOp);
     }
@@ -311,7 +314,7 @@ export default class Card
         // background rect shape
         const rect = this.getWonkyRectangle(vis, size, side);
         const res = new ResourceShape({ shape: rect });
-        const colorBG = vis.inkFriendly ? CONFIG.cards.details.bgsInkfriendly[prop] : CONFIG.cards.details.bgs[prop];
+        const colorBG = vis.inkFriendly ? CONFIG.cards.details.bgsInkFriendly[prop] : CONFIG.cards.details.bgs[prop];
         const op = new LayoutOperation({
             translate: new Point(0, anchorY),
             fill: colorBG,
@@ -492,29 +495,33 @@ export default class Card
         await bgRes.toCanvas(ctx, op);
 
         // draw icon pattern
-        ctx.save();
-        ctx.clip(bgShape.toPath2D());
-
-        const patternRes = vis.patterns[subType];
-        const patternAlpha = vis.inkFriendly ? CONFIG.cards.bgHand.patternAlphaInkFriendly : CONFIG.cards.bgHand.patternAlpha;
         const patternRot = rot + ang;
-        const patternOp = new LayoutOperation({
-            translate: midPoint,
-            dims: new Point(vis.size.x * CONFIG.cards.bgHand.patternExtraMargin),
-            rotation: patternRot,
-            alpha: patternAlpha,
-            pivot: new Point(0.5)
-        })
-        await patternRes.toCanvas(ctx, patternOp);
-        
-        ctx.restore();
+        if(!vis.inkFriendly)
+        {
+            ctx.save();
+            ctx.clip(bgShape.toPath2D());
+    
+            const patternRes = vis.patterns[subType];
+            const patternAlpha = vis.inkFriendly ? CONFIG.cards.bgHand.patternAlphaInkFriendly : CONFIG.cards.bgHand.patternAlpha;
+            const patternOp = new LayoutOperation({
+                translate: midPoint,
+                dims: new Point(vis.size.x * CONFIG.cards.bgHand.patternExtraMargin),
+                rotation: patternRot,
+                alpha: patternAlpha,
+                pivot: new Point(0.5)
+            })
+            await patternRes.toCanvas(ctx, patternOp);
+            
+            ctx.restore();
+        }
 
         // draw a line to reinforce the split ( + make the transition a little nicer)
         const resLine = new ResourceShape({ shape: slantedLine });
+        const lineColor = vis.inkFriendly ? "#212121" : CONFIG.cards.bgHand.slantedLineColor;
         const lineOp = new LayoutOperation({
             translate: new Point(0, halfHeight),
             strokeWidth: CONFIG.cards.bgHand.slantedLineWidth * vis.sizeUnit,
-            stroke: CONFIG.cards.bgHand.slantedLineColor
+            stroke: lineColor
         })
         await resLine.toCanvas(ctx, lineOp);
 
@@ -535,7 +542,7 @@ export default class Card
         }
 
         const shadowBlur = CONFIG.cards.handSide.shadowSize * iconSize;
-        const effects = [new DropShadowEffect({ blurRadius: shadowBlur })];
+        const effects = [new DropShadowEffect({ blurRadius: shadowBlur }), vis.effects].flat();
         const res = vis.resLoader.getResource(data.textureKey);
         for(const pos of positions)
         {

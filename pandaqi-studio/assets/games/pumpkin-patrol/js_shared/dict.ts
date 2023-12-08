@@ -99,7 +99,7 @@ const setAdvanced:CardSet =
 {
     alien: { frame: 0, type: Type.PERSON, desc: "Any pair of the same type is a wildcard for you (this round).", power: true }, // @NOTE: allows no special types, as that defeats its power
     cyclops: { frame: 1, type: Type.PERSON, desc: "I spy with my little eye ... CHOCOLATE!", allowSpecial: [ReqType.SET] },
-    astronaut: { frame: 2, type: Type.PERSON, desc: "On visit: draw 3 cards, but you can't score me.", power: true, allowSpecial: [ReqType.SET, ReqType.CARD] },
+    astronaut: { frame: 2, type: Type.PERSON, desc: "On visit: you may draw 3 cards. But if you do, you can't score me.", power: true, allowSpecial: [ReqType.SET, ReqType.CARD] },
     gnome: { frame: 3, type: Type.PERSON, desc: "On score: replace me with 3 new Persons.", power: true, allowSpecial: [ReqType.CARD] },
     yeti: { frame: 4, type: Type.PERSON, desc: "Still searching for somebody who hands out ice cream treats.", allowSpecial: [ReqType.SET] },
     cowboy: { frame: 5, type: Type.PERSON, desc: "On score: don't replace me with a new Person.", power: true, allowSpecial: [ReqType.CARD] },

@@ -130,7 +130,7 @@ export default class CardPicker
             const totalIcons = Math.ceil(iconsPerScore.lerp(counter / (maxScore - 1)));
             const maxIconsPerType = Math.min(totalIcons - 1, maxIconsPerTypeOnPerson);
             const minIconsPerType = Math.max(1, totalIcons - maxIconsPerTypeOnPerson);
-            let numDecoration = rangeInteger(minIconsPerType, maxIconsPerType);
+            let numDecoration = rangeInteger(minIconsPerType, maxIconsPerType, rng);
             numDecoration = clamp(numDecoration, data.minDeco, data.maxDeco);
 
             let numTreat = totalIcons - numDecoration;

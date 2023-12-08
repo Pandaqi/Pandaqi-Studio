@@ -2,10 +2,12 @@ import shuffle from "./shuffle";
 
 const shuffleAll = (val:Record<string,any>, RNG = Math.random) =>
 {
+    if(!Object.keys(val)) { console.error("Can't shuffle (all) this value", val); return; }
+
     for(const [key,data] of Object.entries(val))
     {
-        if(typeof data == "object") { shuffleAll(data); }
-        else { shuffle(data, RNG); }
+        if(Array.isArray(data)) { shuffle(data, RNG); }
+        else { shuffleAll(data, RNG); }
     }
     return val;
 }
