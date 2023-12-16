@@ -43,7 +43,7 @@ export default class ResourceLoader
         const resourceAlreadyLoaded = this.resourcesQueued[id] || this.resourcesLoaded[id];
         if(resourceAlreadyLoaded) { return; }
 
-        this.resourcesQueued[id] = params;
+        this.resourcesQueued[id] = Object.assign({}, params);
         
         if(params.inkfriendly)
         {

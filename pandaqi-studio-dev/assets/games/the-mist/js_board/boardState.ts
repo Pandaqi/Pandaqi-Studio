@@ -25,6 +25,7 @@ export default class BoardState
         {
             for(const icon of cell.icons)
             {
+                if(icon == undefined) { console.log("BAD CELL", cell); }
                 types.add(icon);
             }
         }

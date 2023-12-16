@@ -3,10 +3,12 @@ $body-font: "urbanist";
 $base: "/magnetmen/assets/";
 $base-fonts: $base + "fonts/";
 
-$col1: #cef996;
-$col2: #b3ddf9;
-$col3: #ffdfc9;
-$col4: #ddceff;
+$bg-col: #020823;
+$text-col: #FCFCFC;
+
+$col1: #96baf9;
+$col2: #f9b3c4;
+$col3: #dfdfdf;
 
 @font-face {
     font-family: $body-font;

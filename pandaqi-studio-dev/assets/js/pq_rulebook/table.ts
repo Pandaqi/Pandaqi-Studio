@@ -12,6 +12,7 @@ interface RulesTableParams
 {
     sheetURL?: string
     sheetWidth?: number
+    base?: string
 }
 
 const convertDictToRulesTableHTML = (dict:Record<string,any>, props:Record<string,string>, params:RulesTableParams = {}) =>
@@ -53,6 +54,8 @@ const convertRulesTableDictToHTML = (dict:Record<string,RulesEntryData>, params:
 
     params.sheetWidth = params.sheetWidth ?? 8;
 
+    const base = params.base ?? "";
+
     for(const [key,data] of Object.entries(dict))
     {
         const entry = document.createElement("div");
@@ -66,7 +69,7 @@ const convertRulesTableDictToHTML = (dict:Record<string,RulesEntryData>, params:
         const icon = document.createElement("div");
         icon.classList.add("rules-table-icon", "icon-" + data.icon);
 
-        if(params.sheetURL) { icon.style.backgroundImage = "url(" + params.sheetURL + ")"; }
+        if(params.sheetURL) { icon.style.backgroundImage = "url(" + base + params.sheetURL + ")"; }
         icon.style.backgroundSize = (params.sheetWidth*100) + "%";
 
         const xPos = data.frame % params.sheetWidth;
@@ -81,9 +84,12 @@ const convertRulesTableDictToHTML = (dict:Record<string,RulesEntryData>, params:
         headingCont.innerHTML = "<div>" + data.heading + "</div>";
         entry.appendChild(headingCont);
 
+        let desc = data.desc;
+        if(Array.isArray(desc)) { desc = desc[0]; }
+
         const descCont = document.createElement("div");
         descCont.classList.add("desc-container");
-        descCont.innerHTML = data.desc;
+        descCont.innerHTML = desc;
         entry.appendChild(descCont);
     }
 

@@ -134,9 +134,11 @@ class OnPageVisualizerClass
 			const canvas = createCanvas({ size: cfg.size, alpha: false });
 			// container.appendChild(canvas); => not necessary
 			this.canvas = canvas;
-
 			cfg.canvas = canvas;
-			this.generationClass.create(cfg);
+
+			setTimeout(() => {
+				this.generationClass.create(cfg);
+			}, 33);	
 		}
 
 		this.onGenerationStart();

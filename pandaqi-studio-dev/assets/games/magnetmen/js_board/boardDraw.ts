@@ -14,6 +14,10 @@ import shapeToPhaser from "js/pq_games/phaser/shapeToPhaser";
 import GrayScaleEffect from "js/pq_games/layout/effects/grayScaleEffect";
 import Color from "js/pq_games/layout/color/color";
 import ResourceShape from "js/pq_games/layout/resources/resourceShape";
+import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
+import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
+import fromArray from "js/pq_games/tools/random/fromArray";
+import { MISC } from "../js_shared/dict";
 
 // Takes in a BoardState, draws it
 export default class BoardDraw
@@ -36,13 +40,14 @@ export default class BoardDraw
 
     async draw(canvas:HTMLCanvasElement, bs:BoardState)
     {
-        this.prepareDimensions(canvas, bs);
-        await this.drawBackground(canvas, bs);
-        await this.drawBoard(canvas, bs);
-        await this.drawSidebar(canvas, bs);
+        const group = this.prepare(canvas, bs);
+        this.drawBackground(canvas, bs);
+        this.drawBoard(group, bs);
+        this.drawSidebar(group, bs);
+        await group.toCanvas(canvas);
     }
 
-    prepareDimensions(canvas:HTMLCanvasElement, bs:BoardState)
+    prepare(canvas:HTMLCanvasElement, bs:BoardState)
     {
         const fullSize = new Point(canvas.width, canvas.height);
         const fullSizeUnit = Math.min(fullSize.x, fullSize.y);
@@ -77,18 +82,15 @@ export default class BoardDraw
         this.cellSize = gridSize.clone().div(bs.dims);
         this.cellSizeHalf = this.cellSize.clone().scale(0.5);
         this.cellSizeUnit = Math.min(this.cellSize.x, this.cellSize.y);
+
+        const group = new ResourceGroup();
+        return group;
     }
 
-    async drawBackground(canv:HTMLCanvasElement, bs)
+    drawBackground(canv:HTMLCanvasElement, bs)
     {
-        const rect = new Rectangle({ center: this.fullSize.clone().scale(0.5), extents: this.fullSize });
         const bgColor = CONFIG.inkFriendly ? "#FFFFFF" : CONFIG.draw.bgColor;
-        const op = new LayoutOperation({
-            fill: bgColor,
-            pivot: Point.CENTER
-        })
-
-        await new ResourceShape(rect).toCanvas(canv, op);
+        fillCanvas(canv, bgColor);
     }
 
     convertGridPosToRealPos(pos:Point)
@@ -96,7 +98,7 @@ export default class BoardDraw
         return this.originGrid.clone().add( pos.clone().scale(this.cellSize) );
     }
 
-    async drawBoard(canv:HTMLCanvasElement, bs:BoardState)
+    drawBoard(group:ResourceGroup, bs:BoardState)
     {
 
         // draw the inventories
@@ -129,9 +131,8 @@ export default class BoardDraw
                     fill: "#FFFFFF",
                     stroke: "#000000",
                     strokeWidth: invStrokeWidth,
-                    pivot: Point.CENTER
                 })
-                await new ResourceShape(rect).toCanvas(canv, rectOp);
+                group.add(new ResourceShape(rect), rectOp);
             }
         }
 
@@ -157,9 +158,8 @@ export default class BoardDraw
                 fill: col,
                 stroke: "#000000",
                 strokeWidth: cellStrokeWidth,
-                pivot: Point.CENTER
             })
-            await new ResourceShape(rect).toCanvas(canv, rectOp);
+            group.add(new ResourceShape(rect), rectOp);
 
             const iconData = CONFIG.allTypes[cell.type];
             const icon = CONFIG.resLoader.getResource(iconData.textureKey);
@@ -170,11 +170,38 @@ export default class BoardDraw
                 dims: iconDims,
                 pivot: Point.CENTER
             })
-            await icon.toCanvas(canv, iconOp);
+            group.add(icon, iconOp);
+        }
+
+        // draw slight decoration on top
+        const cornerRes = CONFIG.resLoader.getResource("misc");
+        const frame = MISC.corner_magnet.frame;
+        const corners = [
+            this.originGrid.clone(),
+            new Point(this.originGrid.x + this.gridSize.x, this.originGrid.y),
+            new Point(this.originGrid.x + this.gridSize.x, this.originGrid.y + this.gridSize.y),
+            new Point(this.originGrid.x, this.originGrid.y + this.gridSize.y)
+        ]
+        const dims = new Point(0.7 * this.cellSizeUnit);
+
+        for(let i = 0; i < corners.length; i++)
+        {
+            const rot = 0.5 * Math.PI * i;
+            let offset = new Point(-1,-1).rotate(rot);
+            const pos = corners[i].move(offset.scale(-0.3725 * dims.x));
+
+            const cornerOp = new LayoutOperation({
+                frame: frame,
+                translate: pos,
+                rotation: rot,
+                dims: dims,
+                pivot: Point.CENTER
+            });
+            group.add(cornerRes, cornerOp);
         }
     }
 
-    async drawSidebar(canv:HTMLCanvasElement, bs:BoardState)
+    drawSidebar(group:ResourceGroup, bs:BoardState)
     {
         if(!CONFIG.includeRules) { return; }
 
@@ -182,11 +209,13 @@ export default class BoardDraw
         const tut = CONFIG.resLoader.getResource("sidebar");
         const tutWidth = this.sidebarSize.x;
         const tutDims = new Point(tutWidth, CONFIG.draw.sidebar.tutImageRatio * tutWidth);
+        const frame = CONFIG.beginnerMode ? 0 : 1;
         const tutOp = new LayoutOperation({
+            frame: frame,
             translate: this.originSidebar,
             dims: tutDims
         })
-        await tut.toCanvas(canv, tutOp);
+        group.add(tut, tutOp);
 
         // specific types explained below that
         const uniqueTypes = bs.uniqueTypes; // @TODO: calculate automatically
@@ -209,7 +238,8 @@ export default class BoardDraw
             size: fontSize,
             lineHeight: CONFIG.draw.sidebar.lineHeight,
             alignHorizontal: TextAlign.START,
-            alignVertical: TextAlign.MIDDLE    
+            alignVertical: TextAlign.MIDDLE,
+            resLoader: CONFIG.resLoader  
         })
 
         const rectOp = new LayoutOperation({
@@ -234,8 +264,8 @@ export default class BoardDraw
             })
 
             const rect = new RectangleRounded({ center: iconPos, extents: iconDims, radius: borderRadius });
-            await new ResourceShape(rect).toCanvas(canv, rectOp);
-            await icon.toCanvas(canv, iconOp);
+            group.add(new ResourceShape(rect), rectOp);
+            group.add(icon, iconOp);
 
             // draw the simplified icon on top
             const iconSimple = CONFIG.resLoader.getResource(data.textureKey + "_simplified");
@@ -248,11 +278,12 @@ export default class BoardDraw
             })
 
             const rectSimple = new RectangleRounded({ center: iconSimplePos, extents: iconSimpleDims.clone().scale(1.1), radius: borderRadius });
-            await new ResourceShape(rectSimple).toCanvas(canv, rectOp);
-            await iconSimple.toCanvas(canv, iconSimpleOp);
-
+            group.add(new ResourceShape(rectSimple), rectOp);
+            group.add(iconSimple, iconSimpleOp);
+            
             // add the text explaining how it scores
-            const text = data.desc;
+            let text = data.desc;
+            if(Array.isArray(text)) { text = fromArray(text); }
             const textRes = new ResourceText({ text: text, textConfig: textConfig });
             const textPos = new Point(iconPos.x + 0.5*iconDims.x + xPadding, pos.y + 0.5*textDims.y);
             
@@ -268,9 +299,9 @@ export default class BoardDraw
 
             const rectCenter = new Point(textPos.x + 0.5*textDims.x, textPos.y);
             const rectText = new RectangleRounded({ center: rectCenter, extents: textDims, radius: borderRadius });
-            await new ResourceShape(rectText).toCanvas(canv, rectOp);
-            await textRes.toCanvas(canv, textOp);
-            
+            group.add(new ResourceShape(rectText), rectOp);
+            group.add(textRes, textOp);
+
             pos.y += iconDims.y + yPadding;
         }
     }

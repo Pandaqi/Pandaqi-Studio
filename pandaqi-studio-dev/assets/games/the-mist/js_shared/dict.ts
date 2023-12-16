@@ -62,45 +62,45 @@ const BASE_SET:ActionSet =
 
 const ADVANCED_SET:ActionSet = 
 {
-    cursed: { frame: 0, label: "Curse", desc: "Worth -1 " + pIcon + ".", type: ActionType.SCORE, hazard: true, item: true },
-    coconut: { frame: 1, label: "Coconut", desc: "Worth +3 " + pIcon + ".", type: ActionType.SCORE },
-    heart: { frame: 2, label: "Heart", desc: "Worth +5 " + pIcon + ". If this is your <b>3rd heart</b>, however, you're <b>out of the game</b>.", type: ActionType.ACTION, hazard: true, minRel: 0.05, maxRel: 0.1 },
+    cursed: { frame: 0, label: "Curse", desc: "Worth -1 " + pIcon + ".", type: ActionType.SCORE, hazard: true, item: true, color: "black" },
+    coconut: { frame: 1, label: "Coconut", desc: "Worth +3 " + pIcon + ".", type: ActionType.SCORE, color: "brown" },
+    heart: { frame: 2, label: "Heart", desc: "Worth +5 " + pIcon + ". If this is your <b>3rd heart</b>, however, you're <b>out of the game</b>.", type: ActionType.ACTION, hazard: true, minRel: 0.05, maxRel: 0.1, color: "red" },
 
-    jaguar: { frame: 3, label: "Jaguar", desc: "Worth +6 " + pIcon + ", but only if this is the <b>least</b> occurring type out of everything on the board.", type: ActionType.STATE, prob: 0.75 },
-    trap: { frame: 4, label: "Trap", desc: "Worth -2 " + pIcon + ", unless you own the <b>most</b> traps (out of all players).", type: ActionType.STATE, hazard: true, prob: 1.33 },
-    attacker: { frame: 5, label: "Soldier", desc: "Worth +2 " + pIcon + ". If there's an <b>adjacent Soldier</b>, however, you <b>can't</b> pick this option.", type: ActionType.STATE, hazard: true },
-    flag: { frame: 6, label: "Flag", desc: "Worth +8 " + pIcon + " if <b>more than half the rows</b> contain a Flag, otherwise -8.", type: ActionType.STATE, item: true, prePass: "rowcol", minRel: (1/32), maxRel: (2/32) },
-    home: { frame: 7, label: "Home", desc: "Worth +8 " + pIcon + " if <b>less than half the columns</b> contain a Home, otherwise -8.", type: ActionType.STATE, item: true, prePass: "rowcol", minRel: (1/32), maxRel: (2/32) },
+    jaguar: { frame: 3, label: "Jaguar", desc: "Worth +6 " + pIcon + ", but only if this is the <b>least</b> occurring type out of everything on the board.", type: ActionType.STATE, prob: 0.75, color: "yellow" },
+    trap: { frame: 4, label: "Trap", desc: "Worth -2 " + pIcon + ", unless you own the <b>most</b> traps (out of all players).", type: ActionType.STATE, hazard: true, prob: 1.33, color: "red" },
+    attacker: { frame: 5, label: "Soldier", desc: "Worth +2 " + pIcon + ". If there's an <b>adjacent Soldier</b>, however, you <b>can't</b> pick this option.", type: ActionType.STATE, hazard: true, color: "red" },
+    flag: { frame: 6, label: "Flag", desc: "Worth +8 " + pIcon + " if <b>more than half the rows</b> contain a Flag, otherwise -8.", type: ActionType.STATE, item: true, prePass: "rowcol", minRel: (1/32), maxRel: (2/32), color: "blue" },
+    home: { frame: 7, label: "Home", desc: "Worth +8 " + pIcon + " if <b>less than half the columns</b> contain a Home, otherwise -8.", type: ActionType.STATE, item: true, prePass: "rowcol", minRel: (1/32), maxRel: (2/32), color: "brown" },
  
-    lookout: { frame: 8, label: "Lookout", desc: "<b>Nobody but you</b> may enter an <b>adjacent space</b>.", type: ActionType.MOVE, maxRel: 0.05 },
-    warningsign: { frame: 9, label: "Warning", desc: "Worth +2 " + pIcon + ", but only pickable if you <b>don't move</b> in its direction.", type: ActionType.MOVE, item: true },
-    rocks: { frame: 10, label: "Rocks", desc: "You <b>can't move</b> in the direction of rocks.", type: ActionType.MOVE }, // @TODO: is this interesting enough?
+    lookout: { frame: 8, label: "Lookout", desc: "<b>Nobody but you</b> may enter an <b>adjacent space</b>.", type: ActionType.MOVE, maxRel: 0.05, color: "purple" },
+    warningsign: { frame: 9, label: "Warning", desc: "Worth +2 " + pIcon + ", but only pickable if you <b>don't move</b> in its direction.", type: ActionType.MOVE, item: true, color: "yellow" },
+    rocks: { frame: 10, label: "Rocks", desc: "You <b>can't move</b> in the direction of rocks.", type: ActionType.MOVE, color: "turquoise" }, // @TODO: is this interesting enough?
 
-    plant: { frame: 11, label: "Plant", desc: "Worth +1 " + pIcon + ". When picked, turn <b>1 adjacent tile into a plant</b> (if possible).", type: ActionType.TERRA, prePass: "floodfill", minAbs: 5, prob: 1.5 },
-    virus: { frame: 12, label: "Virus", desc: "Worth -2 " + pIcon + ". If there's an <b>adjacent Virus</b>, you <b>must</b> pick this option.", type: ActionType.TERRA, forbiddenTypes: ["sheep"], hazard: true, prePass: "chain", minAbs: 5, prob: 1.5 },
-    sheep: { frame: 13, label: "Sheep", desc: "Worth +1 " + pIcon + ". If there's an <b>adjacent Sheep</b>, you <b>must</b> pick this option.", type: ActionType.TERRA, forbiddenTypes: ["virus"], prePass: "chain", minAbs: 5, prob: 1.5 },
+    plant: { frame: 11, label: "Plant", desc: "Worth +1 " + pIcon + ". When picked, turn <b>1 adjacent tile into a plant</b> (if possible).", type: ActionType.TERRA, prePass: "floodfill", minAbs: 5, prob: 1.5, color: "green" },
+    virus: { frame: 12, label: "Virus", desc: "Worth -2 " + pIcon + ". If a <b>visited neighbor</b> shows a Virus, you <b>must</b> pick this option.", type: ActionType.TERRA, forbiddenTypes: ["sheep"], hazard: true, prePass: "chain", minAbs: 5, prob: 1.5, color: "blue" },
+    sheep: { frame: 13, label: "Sheep", desc: "Worth +1 " + pIcon + ". If <b>at least 2 neighbors</b> show a Sheep, you <b>must</b> pick this option.", type: ActionType.TERRA, forbiddenTypes: ["virus"], prePass: "chain", minAbs: 5, prob: 1.0, color: "black" }, // @TODO: Make sure this is balanced; there are locations where it does NOT have 2 neighbors, it doesn't appear too often, etcetera => might be better served with floodfill algorithm? Custom parameters for prePass? Or just a better rule?
 }
 
 const EXPERT_SET:ActionSet = 
 {
-    bag: { frame: 0, label: "Bag", desc: "Worth as many " + pIcon + " as the number of " + iIcon + " you collected.", type: ActionType.SCORE, requiresMetadata: true, item: true },
-    boar: { frame: 1, label: "Boar", desc: "Worth -2 " + pIcon + ", but immediately <b>take another turn</b>.", type: ActionType.ACTION, maxRel: 0.066 },
-    campfire: { frame: 2, label: "Campfire", desc: "Worth -1 " + pIcon + ". When picked, <b>destroy</b> 2 adjacent tiles.", type: ActionType.ACTION, hazard: true, maxRel: 0.06 },
+    bag: { frame: 0, label: "Bag", desc: "Worth as many " + pIcon + " as the number of " + iIcon + " you collected.", type: ActionType.SCORE, requiresMetadata: true, item: true, color: "brown" },
+    boar: { frame: 1, label: "Boar", desc: "Worth -2 " + pIcon + ", but immediately <b>take another turn</b>.", type: ActionType.ACTION, maxRel: 0.066, color: "brown" },
+    campfire: { frame: 2, label: "Campfire", desc: "Worth -1 " + pIcon + ". When picked, <b>destroy</b> 2 adjacent tiles.", type: ActionType.ACTION, hazard: true, maxRel: 0.06, color: "red" },
 
-    oasis: { frame: 3, label: "Oasis", desc: "If another player <b>can</b> move to an adjacent space, they <b>must</b> do so.", type: ActionType.MOVE, hazard: true, maxRel: 0.06 },
-    tunnel: { frame: 4, label: "Tunnel", desc: "When leaving a tunnel, you take <b>double the steps</b> you otherwise would. (Skipping in-between spaces.)", type: ActionType.MOVE },
-    egg: { frame: 5, label: "Egg", desc: "Worth +6 " + pIcon + ", but you're not allowed to visit " + hIcon + " spaces anymore.", type: ActionType.MOVE, requiresMetadata: true, item: true },
+    oasis: { frame: 3, label: "Oasis", desc: "If another player <b>can</b> move to an adjacent space, they <b>must</b> do so.", type: ActionType.MOVE, hazard: true, maxRel: 0.06, color: "turquoise" },
+    tunnel: { frame: 4, label: "Tunnel", desc: "When leaving a tunnel, you take <b>double the steps</b> you otherwise would. (Skipping in-between spaces.)", type: ActionType.MOVE, color: "black" },
+    egg: { frame: 5, label: "Egg", desc: "Worth +6 " + pIcon + ", but you're not allowed to visit " + hIcon + " spaces anymore.", type: ActionType.MOVE, requiresMetadata: true, item: true, color: "pink" },
 
-    shaman: { frame: 6, label: "Shaman", desc: "Scores +3 if the <b>number of Shamans</b> picked so far is <b>odd</b>, otherwise -3. (Write on the cell to remember.)", type: ActionType.STATE, prob: 1.5, minRel: 0.06 },
-    shipwreck: { frame: 7, label: "Shipwreck", desc: "Worth as many " + pIcon + " as the <b>number of Ships</b> in its row and column.", type: ActionType.STATE, item: true, hazard: true, minRel: (1/32) },
-    merchant: { frame: 8, label: "Merchant", desc: "Worth +6 " + pIcon + " if you collected the <b>most " + iIcon + "</b> (of all players), otherwise -6.", type: ActionType.STATE, requiresMetadata: true },
-    payout: { frame: 9, label: "Payout", desc: "Worth +4 " + pIcon + " if you collected the <b>least " + hIcon + "</b> (of all players), otherwise -4.", type: ActionType.STATE, requiresMetadata: true, item: true },
+    shaman: { frame: 6, label: "Shaman", desc: "Scores +3 if the <b>number of Shamans</b> picked so far is <b>odd</b>, otherwise -3. (Write on the cell to remember.)", type: ActionType.STATE, prob: 1.5, minRel: 0.06, color: "green" },
+    shipwreck: { frame: 7, label: "Shipwreck", desc: "Worth as many " + pIcon + " as the <b>number of Ships</b> in its row and column.", type: ActionType.STATE, item: true, hazard: true, minRel: (1/32), color: "turquoise" },
+    merchant: { frame: 8, label: "Merchant", desc: "Worth +6 " + pIcon + " if you collected the <b>most " + iIcon + "</b> (of all players), otherwise -6.", type: ActionType.STATE, requiresMetadata: true, color: "blue" },
+    payout: { frame: 9, label: "Payout", desc: "Worth +4 " + pIcon + " if you collected the <b>least " + hIcon + "</b> (of all players), otherwise -4.", type: ActionType.STATE, requiresMetadata: true, item: true, color: "yellow" },
 
-    gunshot: { frame: 10, label: "Gunshot", desc: "Worth -2 " + pIcon + ". When picked, <b>destroy</b> 2 tiles in the same row or column.", type: ActionType.ACTION, hazard: true, maxRel: 0.066 },
+    gunshot: { frame: 10, label: "Gunshot", desc: "Worth -2 " + pIcon + ". When picked, <b>destroy</b> 2 tiles in the same row or column.", type: ActionType.ACTION, hazard: true, maxRel: 0.066, color: "red" },
 
-    herd: { frame: 11, label: "Herd", desc: "Worth as many " + pIcon + " as the <b>size of its group</b> ( = all herd connected to it).", type: ActionType.TERRA, prePass: "floodfill", minAbs: 5, prob: 1.5 },
-    birdsong: { frame: 12, label: "Birdsong", desc: "Worth +1 " + pIcon + ". When picked, also turn <b>any other square into Birdsong</b> (if possible).", type: ActionType.TERRA, minAbs: 5, prob: 1.5 },
-    spell: { frame: 13, label: "Spell", desc: "Worth 0 " + pIcon + ". When picked, decide the type of <b>any unvisited square</b>.", type: ActionType.ACTION, item: true, }
+    herd: { frame: 11, label: "Herd", desc: "Worth as many " + pIcon + " as the <b>size of its group</b> ( = all herd connected to it).", type: ActionType.TERRA, prePass: "floodfill", minAbs: 5, prob: 1.5, color: "green" },
+    birdsong: { frame: 12, label: "Birdsong", desc: "Worth +1 " + pIcon + ". When picked, also turn <b>any other square into Birdsong</b> (if possible).", type: ActionType.TERRA, minAbs: 5, prob: 1.5, color: "turquoise" },
+    spell: { frame: 13, label: "Spell", desc: "Worth 0 " + pIcon + ". When picked, decide the type of <b>any unvisited square</b>.", type: ActionType.ACTION, item: true, color: "purple" }
 }
 
 

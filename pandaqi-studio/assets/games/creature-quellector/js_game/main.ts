@@ -180,7 +180,7 @@ export default class Generator
         const newFrames = await convertCanvasToImageMultiple(newCanvases, true);
         for(let i = 0; i < numFrames; i++)
         {
-            iconRes.swapFrame(i, newFrames[i]);
+            await iconRes.swapFrame(i, newFrames[i]);
         }
     }
 
@@ -265,7 +265,7 @@ export default class Generator
         const newFrames = await convertCanvasToImageMultiple(newCanvases, true);
         for(const frame of newFrames)
         {
-            res.addFrame(frame);
+            await res.addFrame(frame);
         }
 
         console.log(res);

@@ -35,6 +35,7 @@ export default class Evaluator
             const group = f.grow({
                 start: boar,
                 mask: boars,
+                neighborFunction: "getNeighbors"
             })
 
             if(group.length <= MAX_BOAR_CHAIN) { continue; }
@@ -55,7 +56,7 @@ export default class Evaluator
             let numMatches = 0;
             for(const cell of allCells)
             {
-                if(cell.type != "shipwreck") { continue; }
+                if(!cell.hasIcon("shipwreck")) { continue; }
                 if(cell == ship) { continue; }
                 numMatches++;
             }
@@ -118,7 +119,7 @@ export default class Evaluator
         const arr = [];
         for(let x = 0; x < bs.dims.x; x++)
         {
-            arr.push(bs[x][num]);
+            arr.push(bs.grid[x][num]);
         }
         return arr;
     }

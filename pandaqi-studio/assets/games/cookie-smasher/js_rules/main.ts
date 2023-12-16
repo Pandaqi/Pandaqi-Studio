@@ -238,7 +238,4 @@ const settings = new RulesSettings();
 settings.add({ id: "set", type: SettingsType.ENUM, values: ["starter", "beginner", "amateur", "advanced", "expert", "random"], label: "Card Set?" });
 e.attachSettings(settings);
 
-console.log(settings);
-console.log(settings.get("set"));
-
 const o = e.getOutputBuilder();

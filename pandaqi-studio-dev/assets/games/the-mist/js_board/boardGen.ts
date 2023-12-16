@@ -84,37 +84,32 @@ export default class BoardGen
 
             let numWanted;
             let numPlaced = 0;
-            if(prePass == "floodfill") {
-
+            if(prePass == "floodfill") 
+            {
                 numWanted = freq;
                 
                 const minGroupSize = 4;
                 let numLeft = numWanted;
-                while(numPlaced < numWanted && numLeft > minGroupSize)
+                const possibleStartingCells = cells.slice();
+                while(numPlaced < numWanted && numLeft > minGroupSize && possibleStartingCells.length > 3)
                 {
-                    console.log(numPlaced);
-                    console.log(numWanted);
-
                     const maxSize = Math.min(10, numWanted);
                     const minSize = Math.max(Math.round(0.5*maxSize), minGroupSize);
 
-                    console.log(minSize);
-                    console.log(maxSize);
-
                     const f = new FloodFiller();
                     const group = f.grow({
-                        start: fromArray(cells),
+                        start: fromArray(possibleStartingCells),
                         neighborFunction: "getNeighbors",
-                        filter: (cell, nb) => { return nb.hasFreeSpace() && !nb.hasIcon("tree"); },
+                        filter: (cell, nb) => { return nb.hasFreeSpace() && !nb.hasIcon(type); },
                         bounds: new Bounds(minSize, maxSize)
                     })
 
-                    console.log(group);
                     if(group.length < minGroupSize) { continue; }
 
                     for(const elem of group)
                     {
                         elem.addIcon(type);
+                        possibleStartingCells.splice(possibleStartingCells.indexOf(elem), 1);
                     }
 
                     numLeft -= group.length;
@@ -134,6 +129,7 @@ export default class BoardGen
                         lastSquare = fromArray(cells);
                         lastSquare.addIcon(type);
                         curChain = [lastSquare];
+                        numPlaced++;
                     }
                     
                     const nbs = this.getNeighborsUnvisited(lastSquare, curChain);
@@ -161,8 +157,8 @@ export default class BoardGen
                 for(let i = 0; i < numWanted; i++)
                 {
                     const cell = grid[cols[i]][rows[i]];
+                    if(!cell.hasFreeSpace()) { continue; }
                     cell.addIcon(type);
-                    typeList.splice(typeList.indexOf(type), 1);
                     numPlaced++;
                 }
 

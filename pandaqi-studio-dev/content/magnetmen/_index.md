@@ -12,25 +12,25 @@ extraJSBoard: true
 extraJSBoardInclude: true
 downloadLink: "https://drive.google.com/drive/folders/1IWl4VH_Ai7e6BQM6PE4dY3YUfkDn2zQj" # already updated!
 
-fullHeaderImg: "aeronaut_header"
-headerImg: "aeronaut_header"
+fullHeaderImg: "magnetmen_header"
+headerImg: "magnetmen_header"
 
-headerThumb: "favicon"
+headerThumb: "magnetmen_favicon"
 
 customHeight: "small"
 headerDarkened: true
 
 color: "blue"
 
-bgColor: "#014556"
-bgColorLink: "#601a87"
+bgColor: "#022e4a"
+bgColorLink: "#010305"
 
-textColor: "#e6faff"
-textColorLink: "#edccff"
+textColor: "#c9ddff"
+textColorLink: "#c9ddff"
 
 googleFonts: ""
 
-date: 2023-01-01 # 2024-05-25
+date: 2023-01-01 # 2025-01-26
 
 categories: ["boardgame"]
 tags: []
@@ -38,16 +38,16 @@ tags: []
 multiplayermode: "competitive"
 language: EN
 genre: ["opg", "strategy", "map"]
-playtime: 30
+playtime: 20
 playercount: [2,3,4]
-complexity: medium
+complexity: small
 ages: everyone
 
 ---
 
 {{% boardgame-intro heading="" %}}
 
-A [One Paper Game](/boardgames#one_paper_games) in which you must score the most points before the Magnetmen repel you from the entire board!
+A [One Paper Game](/boardgames#one_paper_games) about scoring points before the Magnetmen repel you from the entire board!
 
 {{% /boardgame-intro %}}
 
@@ -68,7 +68,7 @@ The rules are so simple, they're on the paper itself. (If you still want a refer
 {{< boardgame-settings type="board" local_storage="magnetmenConfig" >}}
 	{{< setting-hidden id="setting-gameTitle" text="Magnetmen" >}}
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the board mostly grayscale." >}}
-  {{< setting-checkbox id="setting-includeRules" text="Include Rules?" checked="checked" remark="Only disable this if you know all the rules by heart." >}}
+  {{< setting-checkbox id="setting-includeRules" text="Include Rules?" checked="checked" remark="Only disable if you've printed the rulebook or know them by heart." >}}
   {{< setting-enum id="setting-boardSize" text="Board Size?" values="small,regular,big,huge" valaskey="true" def="regular" remark="Increases or decreases the number of icons on the board; not page size." >}}
   <h3>Which Magnetmen to include?</h3>
   {{< setting-checkbox id="setting-sets-base" text="Base Set?" checked="checked" >}}

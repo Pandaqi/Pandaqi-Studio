@@ -12,7 +12,7 @@ import ColorLike, { ColorLikeValue } from "./color/colorLike"
 import createContext from "./canvas/createContext"
 import StrokeAlignValue from "./values/strokeAlignValue"
 import calculateBoundingBox from "../tools/geometry/paths/calculateBoundingBox"
-import ResourceGroup, { LayoutCombo } from "./resources/resourceGroup"
+import ResourceGroup from "./resources/resourceGroup"
 import Rectangle from "../tools/geometry/rectangle"
 import rotatePath from "../tools/geometry/transform/rotatePath"
 import movePath from "../tools/geometry/transform/movePath"
@@ -341,7 +341,7 @@ export default class LayoutOperation
 
         if(drawImage)
         { 
-            let frameResource = image.getImageFrameAsResource(this.frame);
+            let frameResource = image.getImageFrameAsResource(this.frame, dims.clone());
 
             // apply the effects that require an actual image to manipulate
             for(const effect of this.effects)
@@ -488,4 +488,22 @@ export default class LayoutOperation
 
     hasFill() { return !this.fill.isTransparent(); }
     hasStroke() { return !this.stroke.isTransparent() && !isZero(this.strokeWidth); }
+
+    /* Handy functions to quickly get operations I usually want */
+    setFill(c:ColorLikeValue) { this.fill = new ColorLike(c); return this; }
+    setStroke(s:ColorLikeValue) { this.stroke = new ColorLike(s); return this; }
+    setFillAndStroke(c:ColorLikeValue, s:ColorLikeValue) { this.setFill(c); this.setStroke(s); return this; }
+    setOuterStroke(s:ColorLikeValue, w:number)
+    {
+        this.setStroke(s);
+        this.strokeWidth = w;
+        this.strokeAlign = StrokeAlignValue.OUTSIDE;
+        return this;
+    }
+
+    setPivotCenter() { this.pivot = Point.CENTER; return this; }
+    setPivotTopLeft() { this.pivot = Point.ZERO; return this; }
+    setPivotBottomRight() { this.pivot = Point.ONE; return this; }
+
+    setFrame(f:number) { this.frame = f; return this; }
 }

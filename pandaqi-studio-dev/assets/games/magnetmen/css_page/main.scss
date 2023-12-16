@@ -1,12 +1,12 @@
 @use "../css_shared/main.scss" as g;
 @use "sass:color";
 
-$bg-color: #FCFCFC;
-$text-color: #212121;
+$bg-color: g.$bg-col;
+$text-color: g.$text-col;
 $button-bg: g.$col2;
-$button-color: #27231c;
-$link-color: color.adjust(g.$col3, $lightness: -50%);
-$link-color-hover: color.adjust(g.$col3, $lightness: -30%);
+$button-color: #1e1c27;
+$link-color: color.adjust(g.$col3, $lightness: -5%);
+$link-color-hover: color.adjust(g.$col3, $lightness: 15%);
 $settings-color: g.$col1;
 $cutoff: 920px;
 
@@ -25,9 +25,8 @@ input, button, select, option, label {
 body {
     font-family: g.$body-font;
     background-color: $bg-color;
-    font-size: 21px;
+    font-size: 20px;
     color: $text-color;
-    line-height: 140%;
 }
 
 h2 {

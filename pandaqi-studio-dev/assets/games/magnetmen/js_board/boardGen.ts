@@ -22,8 +22,15 @@ export default class BoardGen
     determineTypes(dims:Point)
     {
         const numCells = dims.x * dims.y;
+
+        if(Object.keys(CONFIG.allTypes).includes(CONFIG.gen.beginnerDestroyType))
+        {
+            CONFIG.allTypes[CONFIG.gen.beginnerDestroyType].required = CONFIG.beginnerMode;
+        }
+
         const picker = new BalancedDictionaryPicker(CONFIG.allTypes);
-        picker.pickPossibleTypes(CONFIG, CONFIG.gen.numUniqueTypes);
+        const numBounds = CONFIG.beginnerMode ? CONFIG.gen.numUniqueTypes.beginner : CONFIG.gen.numUniqueTypes.other;
+        picker.pickPossibleTypes(CONFIG, numBounds);
 
         console.log(picker.typesPossible);
         

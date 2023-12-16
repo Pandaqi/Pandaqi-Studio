@@ -214,4 +214,17 @@ export default class TextConfig
 
         this[prop] = val;
     }
+
+    /* Handy automatic functions for configurations I usually want */
+    alignCenter() { this.alignHorizontal = TextAlign.MIDDLE; this.alignVertical = TextAlign.MIDDLE; return this; }
+    alignTopLeft() { this.alignHorizontal = TextAlign.START; this.alignVertical = TextAlign.START; return this; }
+    alignBottomRight() { this.alignHorizontal = TextAlign.END; this.alignVertical = TextAlign.END; return this; }
+    setLoader(r:ResourceLoader) { this.resLoader = r; return this; }
+    resetFormatting()
+    {
+        this.style = TextStyle.NORMAL;
+        this.weight = TextWeight.REGULAR;
+        this.variant = TextVariant.NORMAL;
+        return this;
+    }
 }

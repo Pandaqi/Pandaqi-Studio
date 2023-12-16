@@ -20,6 +20,7 @@ generator.filterAssets = (dict) =>
         if(data.set && !CONFIG.sets[textureKey]) { continue; }
         output[key] = data;
     }
+    console.log(output);
     return output;
 }
 
@@ -27,11 +28,13 @@ generator.setupFunction = (config) =>
 {
     // create master dict of ALL included powers + their texture for displaying
     let allPowers = {};
+    const includedSets = [];
     for(const [setKey,included] of Object.entries(config.sets))
     {
         if(!included) { continue; }
         const setData = SETS[setKey];
         allPowers = Object.assign(allPowers, setData);
+        includedSets.push(setKey);
 
         for(const [elemKey,data] of Object.entries(setData))
         {
@@ -40,4 +43,6 @@ generator.setupFunction = (config) =>
     }
     config.allTypes = allPowers;
     console.log(allPowers);
+
+    config.beginnerMode = includedSets.length <= 1 && includedSets.includes("base");
 }

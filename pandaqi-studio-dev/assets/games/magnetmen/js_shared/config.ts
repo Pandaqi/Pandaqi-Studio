@@ -9,6 +9,7 @@ const CONFIG =
     resLoader: null,
     useWEBGL: false,
     allTypes: {},
+    beginnerMode: true,
 
     // all debugging toggles
     debug:
@@ -57,17 +58,17 @@ const CONFIG =
             set: false
         },
 
-        // @TODO: for what would we use this?
         misc:
         {
             path: "misc.webp",
-            frames: new Point(8,1),
+            frames: new Point(4,1),
             set: false
         },
 
         sidebar:
         {
             path: "sidebar.webp",
+            frames: new Point(2,1),
             set: false
         },
 
@@ -124,10 +125,15 @@ const CONFIG =
             huge: new Point(11,11)
         },
 
+        beginnerDestroyType: "explorer",
+
         // two requirements for this
         // => it should FIT in the sidebar
         // => the number of slots (in player inventory) should be low enough to FORCE many types to be used twice or thrice during the game.
-        numUniqueTypes: new Bounds(5,7)
+        numUniqueTypes: { 
+            beginner: new Bounds(5,6),
+            other: new Bounds(6,7)
+        }
     },
 
     // how to draw stuff
