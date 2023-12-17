@@ -13,4 +13,7 @@ SectionPagesMenu = "main"
 [permalinks]
   post = "/:slug/"
 
-
+# SOURCE: https://discourse.gohugo.io/t/jsconfig-json-clarification/46386
+# SOURCE: https://code.visualstudio.com/docs/languages/jsconfig
+[build]
+  noJSConfigInAssets = false

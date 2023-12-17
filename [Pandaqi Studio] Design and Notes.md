@@ -5,8 +5,6 @@
 **Once Hugo supports "js.Build with page bundles"**, move all the game code from *assets* to *js/js_game* inside the project itself (where it belongs).
 
 > Example: now the Wondering Witches code is in "assets/wondering-witches/js_game/" => move it to "content/wondering-witches/js_game". Also update the one *main.js* file that references it there.
->
-> *The Pirate Games* => now it has a huge bundle (with Phaser, jsPDF, jsZIP and FileSaver all in there) => should probably just integrate it with PQ_CANVAS and load that
 
 **Experiment** with adding animations/videos to **rules** (board game mostly, but could also be done for video games.) => Use <https://motioncanvas.io/docs/> for this. It's open source, free, uses Canvas/Web, and does animation through coding and vectors.
 
@@ -17,9 +15,7 @@
 **Starry Skylines**. Make a *physical* version:
 
 -   Give each element a drawing.
-
 -   Print its properties (description, random number, etcetera) on the card.
-
 -   Generate \~5 pages of these cards as usual.
 
 **Keebble**. Add different sets of letter values (for Dutch, Spanish, German, ...) which you can select in the settings. This is applicable to all games. (Base game has "Scrabble Expansion", Knickknack has the values built-in, and Domino uses the values for probability of using symbol.)
@@ -29,45 +25,29 @@
 ## Layout/Speed 
 
 -   Give images the correct fixed width/height => as per Google PageSpeed recommendation
-
 -   **The wavy pattern** of the footer is not showing up on Chrome mobile? (Probably still has to do with content-visibility?)
-
     -   Metadata-block could be loaded via content-visibility as well. Or is it already?
 
 -   **Overview pages** => make them look more distinct from game banners. (A different background pattern? Maybe even unique icons/patterns per category, if I can manage?)
 
 -   **Entry Banner** => Add fading (dark) background gradient at the *top* of entry banners (with an image)? Like the old website design, it would help separate them and give it a sense of depth.
-
     -   Already implemented this ... but it doesn't look good, because the gradient can only be a straight line ... whilst every divider has the regular curvy pattern.
-
     -   I'd need to add an absolute div, placed at the top, with the curvy mask.
 
 -   **Narrow Footer** => add more buttons (latest project, random project, etc.)
-
 -   Allow playing a **.webm** video when hovering mouse over an entry-banner? (If defined, of course.)
-
--   Keep watch for AVIF images that are *too* compressed/hazy
-
-    -   Can I compare filesizes in Hugo and only pick the smallest one??
 
 # Interactive Rules
 
 Generalize as much as possible into **rules-style.scss**.
 
 -   Add proper anchor names to sections, tables, images and interactive examples => so you can click and move around
-
 -   Decorations? Around page number?
-
 -   Build on my running header/footer code => full size, easily allow placing text or images
-
 -   Now the folding/unfolding is kinda hacky (with the \"jump to full height then collapse\"). How to solve?
-
 -   Easy way to turn heading counters on/off or add an icon/image.
-
 -   Double-view => Make wider (full width?) on wide-screen?
-
 -   The \"cycle through images\" thing (from interactivity below)
-
 -   DOUBT: If random board generation should be included with the rules, or stay on the main page
 
 # Pandaqi Studio

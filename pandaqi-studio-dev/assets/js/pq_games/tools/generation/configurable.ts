@@ -1,5 +1,5 @@
+import Color from "js/pq_games/layout/color/color";
 import ColorSet from "js/pq_games/layout/color/colorSet";
-import Configurator from "./configurator";
 
 export default class Configurable
 {
@@ -12,19 +12,44 @@ export default class Configurable
         this.input = Array.isArray(input) ? input : [input];
     }
 
-    calculate(c:Configurator)
+    getInput() { return this.input; }
+
+    calculate(inputs:any[])
     {
+        if(inputs == null) { return this; }
         if(this.input.length <= 0) { return this.val; }
-        if(this.val instanceof ColorSet) { return this.val.select(c.get("inkFriendly")); }
-        if(typeof this.val === "number")
+
+        // this is mostly to support arrays to be calculated all at once (like vector-scalar multiplication)
+        // in almost all cases, the value will just be a single number
+        const values = Array.isArray(this.val) ? this.val : [this.val];
+        const results = [];
+
+        for(const value of values)
         {
-            let val = this.val;
-            for(const input of this.input)
-            {
-                val *= c.get(input);
+            const isColorSet = value instanceof ColorSet;
+            if(isColorSet) 
+            { 
+                results.push( value.select(inputs[0]) ); // first input should be inkfriendly boolean 
             }
-            return val;
+    
+            const isColor = value instanceof Color;
+            if(isColor) { /* @TODO? */ }
+
+            const isString = typeof this.val === "string";
+            if(isString) { /* @TODO? */ }
+    
+            const isNumber = typeof value === "number";
+            if(isNumber)
+            {
+                let finalVal = value;
+                for(const input of inputs)
+                {
+                    finalVal *= input;
+                }
+                results.push( finalVal );
+            }
         }
 
+        return results;
     }
 }

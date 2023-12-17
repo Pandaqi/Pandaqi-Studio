@@ -46,7 +46,8 @@ SectionPagesMenu = "main"
   ages = 'ages'
   price = 'price'
 
-
+[build]
+  noJSConfigInAssets = false
 
 
 
