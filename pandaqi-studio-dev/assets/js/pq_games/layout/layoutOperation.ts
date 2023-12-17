@@ -490,10 +490,10 @@ export default class LayoutOperation
     hasStroke() { return !this.stroke.isTransparent() && !isZero(this.strokeWidth); }
 
     /* Handy functions to quickly get operations I usually want */
-    setFill(c:ColorLikeValue) { this.fill = new ColorLike(c); return this; }
-    setStroke(s:ColorLikeValue) { this.stroke = new ColorLike(s); return this; }
-    setFillAndStroke(c:ColorLikeValue, s:ColorLikeValue) { this.setFill(c); this.setStroke(s); return this; }
-    setOuterStroke(s:ColorLikeValue, w:number)
+    setFill(c:string|ColorLikeValue) { this.fill = new ColorLike(c); return this; }
+    setStroke(s:string|ColorLikeValue) { this.stroke = new ColorLike(s); return this; }
+    setFillAndStroke(c:string|ColorLikeValue, s:string|ColorLikeValue) { this.setFill(c); this.setStroke(s); return this; }
+    setOuterStroke(s:string|ColorLikeValue, w:number)
     {
         this.setStroke(s);
         this.strokeWidth = w;

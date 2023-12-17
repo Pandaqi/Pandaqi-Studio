@@ -22,6 +22,7 @@ export default class BoardGen
         const iconDistribution = this.determineIconDistribution(dims);
         const cells = this.createCells(dims, iconDistribution);
         this.assignTypes(cells);
+        this.pickStartingPositions(cells, dims);
         
         const bs = new BoardState().fromGrid(cells);
         return bs;
@@ -232,5 +233,75 @@ export default class BoardGen
         })
 
         return arr;
+    }
+
+    getDistToEdge(cell:Cell, dims:Point) : number
+    {
+        const xDist = Math.min(cell.pos.x, dims.x - 1 - cell.pos.x);
+        const yDist = Math.min(cell.pos.y, dims.y - 1 - cell.pos.y);
+        return xDist + yDist;
+    }
+
+    getDistToCells(cell:Cell, list:Cell[]) : number
+    {
+        let minDist = Infinity;
+        for(const otherCell of list)
+        {
+            const xDist = Math.abs(cell.pos.x - otherCell.pos.x);
+            const yDist = Math.abs(cell.pos.y - otherCell.pos.y);
+            minDist = Math.min(xDist + yDist, minDist);
+        }
+        return minDist;
+    }
+
+    pickStartingPositions(grid:Cell[][], dims:Point)
+    {
+        const cells = shuffle(grid.flat());
+        
+        // pick any random first starting position
+        const baseCell = cells.pop();
+        const baseDistToEdge = this.getDistToEdge(baseCell, dims);
+
+        // select all other options with roughly equal distance to edge + enough icons for choice at start
+        // (it's the most limiting / deciding factor)
+        const options = [];
+        const optionsLoose = [];
+        const minIcons = CONFIG.gen.minIconsForStartingPosition;
+        const maxError = CONFIG.gen.maxStartingPositionEdgeDistError;
+        for(const cell of cells)
+        {
+            const distToEdge = this.getDistToEdge(cell, dims);
+            const diff = Math.abs(distToEdge - baseDistToEdge);
+            if(diff > 2*maxError) { continue; }
+            optionsLoose.push(cell);
+            if(diff > maxError) { continue; }
+            if(cell.countIcons() < minIcons) { continue; }
+            options.push(cell);
+        }
+
+        // pick randomly from those, keeping a minimum distance
+        const minDistRequired = Math.floor(Math.min(dims.x, dims.y) * 0.5);
+        const startingPositions : Cell[] = [baseCell];
+        shuffle(optionsLoose);
+        for(const option of options)
+        {
+            const minDist = this.getDistToCells(option, startingPositions);
+            if(minDist < minDistRequired) { continue; }
+            startingPositions.push(option);
+            optionsLoose.splice(optionsLoose.indexOf(option), 1);
+        }
+
+        // if it EVER happens that this doesn't yield enough options, just fill up with random options that are more "looose"
+        const playerCount = CONFIG.gen.maxNumPlayers;
+        while(startingPositions.length < playerCount)
+        {
+            startingPositions.push(optionsLoose.pop());
+        }
+
+        // then just convert the selected cells
+        for(let i = 0; i < playerCount; i++)
+        {
+            startingPositions[i].makeStartingPosition();
+        }
     }
 }

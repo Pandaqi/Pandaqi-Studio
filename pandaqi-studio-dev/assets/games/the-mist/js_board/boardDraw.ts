@@ -9,7 +9,6 @@ import RectangleRounded from "js/pq_games/tools/geometry/rectangleRounded";
 import Color from "js/pq_games/layout/color/color";
 import Circle from "js/pq_games/tools/geometry/circle";
 import rangeInteger from "js/pq_games/tools/random/rangeInteger";
-import ColorLike from "js/pq_games/layout/color/colorLike";
 import ResourceShape from "js/pq_games/layout/resources/resourceShape";
 import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
 import closePath from "js/pq_games/tools/geometry/paths/closePath";
@@ -20,6 +19,8 @@ import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import GrayScaleEffect from "js/pq_games/layout/effects/grayScaleEffect";
 import LayoutEffect from "js/pq_games/layout/effects/layoutEffect";
+import Cell from "./cell";
+import fromArray from "js/pq_games/tools/random/fromArray";
 
 // Takes in a BoardState, draws it
 export default class BoardDraw
@@ -145,11 +146,13 @@ export default class BoardDraw
         const cellStrokeWidth = CONFIG.draw.cells.strokeWidth * this.cellSizeUnit;
         const rectOp = new LayoutOperation({
             stroke: CONFIG.inkFriendly ? "#000000" : CONFIG.draw.cells.strokeColor,
-            strokeWidth: cellStrokeWidth,
         })
 
+        const dotStrokeWidth = CONFIG.draw.cells.dotStrokeWidth * this.cellSizeUnit;
         const triangleStrokeWidth = CONFIG.draw.cells.triangleStrokeWidth * this.cellSizeUnit;
         const triangleStrokeColor = CONFIG.inkFriendly ? "#666666" : CONFIG.draw.cells.triangleStrokeColor;
+
+        const startPosColor = CONFIG.draw.cells.fillColorStart;
 
         // for each cell, 
         for(const cell of bs.cells)
@@ -162,11 +165,6 @@ export default class BoardDraw
             let col = bgColor.clone();
             if(isOddCell) { col = col.darken(bgColorDarken); }
 
-            const rect = new Rectangle({ center: posCenter, extents: this.cellSize });
-            rectOp.fill = new ColorLike(Color.TRANSPARENT);
-
-            group.add(new ResourceShape(rect), rectOp.clone());
-
             // - cell edge points for drawing triangles below
             const points = [
                 pos.clone(),
@@ -176,7 +174,7 @@ export default class BoardDraw
             ]
         
             // - draw its 4 icons
-            let counter = rangeInteger(0,3);
+            let counter = this.pickIdealIconStartingIndex(cell, bs);
             for(const iconName of cell.icons)
             {
                 const iconData = CONFIG.allTypes[iconName];
@@ -205,10 +203,64 @@ export default class BoardDraw
             }
 
             // - draw the writable dot in the center
-            const circ = new Circle({ center: posCenter, radius: dotRadius });
-            rectOp.fill = new ColorLike("#FFFFFF");
-            group.add(new ResourceShape(circ), rectOp.clone());            
+            let circ = cell.isStartingPosition() ? 
+                new Rectangle({ center: posCenter, extents: new Point(2*dotRadius) }) : 
+                new Circle({ center: posCenter, radius: dotRadius });
+
+            rectOp.setFill(cell.isStartingPosition() ? startPosColor : "#FFFFFF");
+            rectOp.strokeWidth = dotStrokeWidth;
+            group.add(new ResourceShape(circ), rectOp.clone());  
+
+            const rect = new Rectangle({ center: posCenter, extents: this.cellSize });
+            const tempRectOp = rectOp.clone();
+            tempRectOp.setFill(Color.TRANSPARENT);
+            tempRectOp.strokeWidth = cellStrokeWidth;
+
+            group.add(new ResourceShape(rect), tempRectOp);
+
         }
+
+        // add an extra layer of effects / thickening to signal starting locations
+        const strokeMult = CONFIG.draw.cells.strokeWidthMultiplierStart;
+        const startRectOp = new LayoutOperation({
+            stroke: startPosColor,
+            strokeWidth: strokeMult * cellStrokeWidth,
+            effects: [
+                new DropShadowEffect({ blurRadius: 0.1 * this.cellSizeUnit, color: startPosColor })
+            ]
+        }) 
+
+        for(const cell of bs.startingPositions)
+        {
+            const pos = this.convertGridPosToRealPos(cell.pos);
+            const posCenter = pos.clone().add(this.cellSizeHalf);
+
+            const rect = new Rectangle({ center: posCenter, extents: this.cellSize });
+            group.add(new ResourceShape(rect), startRectOp);
+        }
+    }
+
+    // We want to avoid icons that point OUTWARD (out of the edge of the board)
+    // Because unless you have some special power, you can never pick those
+    pickIdealIconStartingIndex(cell:Cell, bs:BoardState) : number
+    {
+        let val = rangeInteger(0,3);
+        if(cell.getNeighbors().length >= 4) { return val; } // neighbors on all sides, anything goes!
+        if(cell.countIcons() >= 4) { return val; } // all sides filled anyway, so it doesn't matter!
+
+        const leftSide = cell.pos.x <= 0;
+        const topSide = cell.pos.y <= 0;
+        const rightSide = cell.pos.x >= (bs.dims.x-1);
+        const bottomSide = cell.pos.y >= (bs.dims.y-1);
+
+        let possibleSides = [0,1,2,3];
+        if(leftSide) { possibleSides.splice(possibleSides.indexOf(3), 1); }
+        if(topSide) { possibleSides.splice(possibleSides.indexOf(0), 1); }
+        if(rightSide) { possibleSides.splice(possibleSides.indexOf(1), 1); }
+        if(bottomSide) { possibleSides.splice(possibleSides.indexOf(2), 1); }
+
+        if(possibleSides.length <= 0) { return val; }
+        return fromArray(possibleSides);
     }
 
     async drawSidebar(group:ResourceGroup, bs:BoardState)

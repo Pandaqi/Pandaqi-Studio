@@ -7,6 +7,7 @@ export default class BoardState
     cells: Cell[]
     dims: Point;
     uniqueTypes: string[];
+    startingPositions: Cell[];
 
     fromGrid(grid:Cell[][])
     {
@@ -19,7 +20,8 @@ export default class BoardState
     refresh()
     {
         this.dims = new Point(this.grid.length, this.grid[0].length);
-        
+        this.startingPositions = [];
+
         const types : Set<string> = new Set();
         for(const cell of this.cells)
         {
@@ -28,6 +30,8 @@ export default class BoardState
                 if(icon == undefined) { console.log("BAD CELL", cell); }
                 types.add(icon);
             }
+
+            if(cell.isStartingPosition()) { this.startingPositions.push(cell); }
         }
         this.uniqueTypes = Array.from(types);
     }

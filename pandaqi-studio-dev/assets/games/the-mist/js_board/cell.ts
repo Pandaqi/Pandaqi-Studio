@@ -6,13 +6,18 @@ export default class Cell
     num: number;
     icons: string[];
     nbs: Cell[];
+    start:boolean;
     
     constructor(pos:Point, num:number)
     {
         this.pos = pos;
         this.num = num;
         this.icons = [];
+        this.start = false;
     }
+
+    isStartingPosition() { return this.start; }
+    makeStartingPosition() { this.start = true; }
 
     hasFreeSpace() { return this.numIconsNeeded() > 0; }
     countIcons() { return this.icons.length; }

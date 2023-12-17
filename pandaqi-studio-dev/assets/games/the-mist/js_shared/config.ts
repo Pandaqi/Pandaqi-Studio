@@ -100,12 +100,16 @@ const CONFIG =
             huge: new Point(13,13)
         },
 
-        typeTemplate: [ActionType.SCORE, ActionType.MOVE, ActionType.STATE, ActionType.TERRA],
+        maxNumPlayers: 6,
+        minIconsForStartingPosition: 3,
+        maxStartingPositionEdgeDistError: 1,
+
+        typeTemplate: [ActionType.SCORE, ActionType.MOVE, ActionType.MOVE, ActionType.STATE, ActionType.TERRA],
         numUniqueTypes: new Bounds(6,9),
         numIconsPerCell: {
-            1: new Bounds(0, 0.05),
-            2: new Bounds(0.075, 0.175),
-            3: new Bounds(0.15, 0.33)
+            1: new Bounds(0, 0.066),
+            2: new Bounds(0.0875, 0.195),
+            3: new Bounds(0.175, 0.375)
         },
         defNumIconsPerCell: 4
     },
@@ -141,16 +145,19 @@ const CONFIG =
 
         cells:
         {
-            strokeWidth: 0.02, // ~cellSizeUnit
+            strokeWidth: 0.01, // ~cellSizeUnit
             strokeColor: "#332211", // "#FFFFFF",
+            strokeWidthMultiplierStart: 4, // ~strokeWidth
+            fillColorStart: "#FFAAAA",
             triangleStrokeWidth: 0.01, // ~cellSizeUnit
             triangleStrokeColor: "#886633", //"#DCDCDC",
             iconSize: 0.3, // ~cellSizeUnit
             bgColorLightness: 97,
             bgColorDarken: 9,
 
-            dotRadius: 0.1, // ~cellSizeUnit
-            iconOffsetFromCenter: 0.6, // ~cellSizeUnit
+            dotRadius: 0.115, // ~cellSizeUnit
+            dotStrokeWidth: 0.01, // as thin as triangles, should be visible yet leave loads of space
+            iconOffsetFromCenter: 0.6125, // ~cellSizeUnit
         },
     }
 }
