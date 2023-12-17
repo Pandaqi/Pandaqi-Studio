@@ -1,3 +1,5 @@
-**/public
-**/tutorials
-**/blog
+public/
+tutorials/
+blog/
+private/
+build/
