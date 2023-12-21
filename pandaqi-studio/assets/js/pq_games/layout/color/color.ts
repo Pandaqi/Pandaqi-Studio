@@ -7,6 +7,9 @@ import isZero from "js/pq_games/tools/numbers/isZero"
 import lerp from "js/pq_games/tools/numbers/lerp"
 import slerp from "js/pq_games/tools/numbers/slerp"
 
+type ColorRaw = number | Color | string
+
+export { ColorRaw, Color }
 export default class Color 
 {
     h:number // 0-360
@@ -18,7 +21,7 @@ export default class Color
     static WHITE = new Color("#FFFFFF")
     static TRANSPARENT = new Color("transparent")
 
-    constructor(h:number|Color|string = null, s:number = 0, l:number = 0, a:number = 1.0) 
+    constructor(h:ColorRaw = null, s:number = 0, l:number = 0, a:number = 1.0) 
     {
         if(h == null || h == undefined) { a = 0; h = 0; }
         if(h == "transparent") { this.fromHSLA(0,0,0,0); return; } // @TODO: better support with function/static for "transparent"

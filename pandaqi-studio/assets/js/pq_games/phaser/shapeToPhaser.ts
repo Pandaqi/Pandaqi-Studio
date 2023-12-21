@@ -6,6 +6,7 @@ import Shape from "../tools/geometry/shape";
 // @ts-ignore
 import { Geom } from "js/pq_games/phaser/phaser.esm";
 import { layoutOperationToGraphics } from "./layoutOperationToPhaser";
+import RectangleRounded from "../tools/geometry/rectangleRounded";
 
 const lineToPhaser = (line:Line, op:LayoutOperation, graphics = null) =>
 {
@@ -45,7 +46,7 @@ const pathToPhaser = (shape:Shape, op:LayoutOperation, graphics = null) =>
 
 const shapeToPhaser = (shape:Shape, op:LayoutOperation, graphics = null) =>
 {   
-    if(shape instanceof Rectangle) { return rectToPhaser(shape, op, graphics); }
+    if(shape instanceof Rectangle && !(shape instanceof RectangleRounded)) { return rectToPhaser(shape, op, graphics); }
     else if(shape instanceof Circle) { return circleToPhaser(shape, op, graphics); }
     else if(shape instanceof Line) { return lineToPhaser(shape, op, graphics); }
     return pathToPhaser(shape, op, graphics);

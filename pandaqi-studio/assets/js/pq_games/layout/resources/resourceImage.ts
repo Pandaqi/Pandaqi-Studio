@@ -12,6 +12,7 @@ import createContext from "../canvas/createContext"
 
 type ImageLike = HTMLImageElement|ResourceImage|ResourceGradient|ResourcePattern
 type CanvasLike = HTMLCanvasElement|CanvasRenderingContext2D
+type FrameSet = HTMLImageElement[];
 
 interface FrameData {
     xIndex: number,
@@ -32,21 +33,19 @@ export default class ResourceImage extends Resource
     frame: number;
     frames : HTMLImageElement[];
 
+    thumbnails: FrameSet[];
+    numThumbnails : number; // how many smaller thumbnails we should cache for each frame (e.g. a 1024x1024 also saves a 512x512 if set to 1)
+
+
     constructor(imageData : HTMLImageElement = null, params:any = {})
     {
         super()
 
         this.img = imageData;
         this.frameDims = new Point(params.frames ?? new Point(1,1));
-        if(!this.img) {
-            this.frameDims = new Point();
-            this.frames = [];
-            return;
-        }
-
-        const singleFrame = this.frameDims.x*this.frameDims.y == 1;
-        if(singleFrame) { this.frames = [this.img]; }
-
+        this.numThumbnails = params.numThumbnails ?? 0;
+        this.thumbnails = [];
+        this.frames = [this.img];
         this.refreshSize();
     }
     
@@ -131,7 +130,7 @@ export default class ResourceImage extends Resource
         return this;
     }
 
-    // @TODO
+    // @TODO => would require TextDrawer to draw it to canvas, then convert to image?
     async fromText(text:ResourceText)
     {
         return this
@@ -140,7 +139,13 @@ export default class ResourceImage extends Resource
     /* Helpers & Tools */
     refreshSize()
     {
-        if(!(this.img instanceof HTMLImageElement)) { return; }
+        if(!(this.img instanceof HTMLImageElement)) 
+        { 
+            this.frameDims = new Point();
+            this.frames = [];
+            return; 
+        }
+
         this.size = new Point().setXY(this.img.naturalWidth, this.img.naturalHeight);
         this.frameSize = new Point().setXY(
             this.size.x / this.frameDims.x,
@@ -148,6 +153,43 @@ export default class ResourceImage extends Resource
         )
     }
 
+    async calculateThumbnails(num:number, mask:number[] = [])
+    {
+        this.numThumbnails = num;
+        await this.cacheThumbnails(mask);
+    }
+
+    async cacheThumbnails(mask:number[] = [])
+    {
+        if(this.numThumbnails <= 0) { return; }
+
+        const num = this.numThumbnails;
+        for(let i = 0; i < this.frames.length; i++)
+        {
+            if(mask.length > 0 && !mask.includes(i)) { continue; }
+
+            const data = this.getFrameData(i);
+            const size = new Point(data.width, data.height );
+
+            const canvases = [];
+            for(let t = 0; t < num; t++)
+            {
+                size.div(2);
+                const ctx = createContext({ size: size });
+                ctx.drawImage(
+                    this.img, 
+                    data.x, data.y, data.width, data.height, 
+                    0, 0, size.x, size.y
+                )
+                canvases[t] = ctx.canvas;
+            }
+
+            this.thumbnails[i] = await convertCanvasToImageMultiple(canvases, true);
+        }
+    }
+
+    // @NOTE: the ResourceLoader calls this, not our own constructor.
+    // Is this a confusing system? Will this lead to trouble later? Perhaps.
     async cacheFrames()
     {
         const canvases = [];
@@ -157,18 +199,21 @@ export default class ResourceImage extends Resource
             {
                 const frame = x + y*this.frameDims.x;
                 const data = this.getFrameData(frame);
-                const ctx = createContext({ size: new Point(data.width, data.height )});
+                const size = new Point(data.width, data.height );
+
+                const ctx = createContext({ size: size });
                 ctx.drawImage(
                     this.img, 
                     data.x, data.y, data.width, data.height, 
-                    0, 0, data.width, data.height
+                    0, 0, size.x, size.y
                 )
-
                 canvases[frame] = ctx.canvas;
             }
         }
 
         this.frames = await convertCanvasToImageMultiple(canvases, true);
+
+        await this.cacheThumbnails();
     }
 
     getFrameData(frm:number = 0) : FrameData
@@ -193,9 +238,18 @@ export default class ResourceImage extends Resource
         return "url(" + this.img.src + ")";
     }
 
+    // Ratio is always X:Y (so 2 means twice as WIDE as it is TALL)
     getRatio() : number
     {
         return this.frameSize.x / this.frameSize.y
+    }
+
+    getSizeKeepRatio(size:number, axisGiven:string = "x")
+    {
+        const ratio = this.getRatio();
+        if(axisGiven == "x") { return size / ratio; }
+        else if(axisGiven == "y") { return size * ratio; }
+        return size;
     }
 
     getImage() : HTMLImageElement 
@@ -203,20 +257,36 @@ export default class ResourceImage extends Resource
         return this.img; 
     }
 
-    getImageFrameAsResource(num:number) : ResourceImage
+    getImageFrameAsResource(num:number, desiredSize:Point = null) : ResourceImage
     {
-        const img = this.getImageFrame(num);
+        const img = this.getImageFrame(num, desiredSize);
         return new ResourceImage(img);
     }
 
-    getImageFrame(num:number) : HTMLImageElement
+    getImageFrame(num:number, desiredSize:Point = null) : HTMLImageElement
     {
-        return this.frames[num];
+        const maxSize = this.frameDims.clone();
+        let thumbIndex = 0;
+        if(desiredSize)
+        {
+            // find the smallest thumbnail that's still large enough
+            // the value 0 is reserved for "original image" ( = "don't use thumbnail at all")
+            for(let i = 1; i < this.thumbnails.length + 1; i++)
+            {
+                maxSize.div(2);
+                const becomeTooSmall = maxSize.x < desiredSize.x || maxSize.y < desiredSize.y;
+                if(becomeTooSmall) { break; }
+                thumbIndex = i;
+            }
+        }
+
+        if(thumbIndex <= 0) { return this.frames[num]; }
+        return this.thumbnails[num][thumbIndex];
     }
 
     isSingleFrame()
     {
-        return this.frames.length == 1;
+        return this.countFrames() == 1;
     }
 
     countFrames() : number
@@ -241,28 +311,31 @@ export default class ResourceImage extends Resource
         return this;
     }
 
-    addFrame(img:HTMLImageElement)
+    async addFrame(img:HTMLImageElement)
     {
         this.frames.push(img);
         this.frameDims.x += 1;
         if(this.frameDims.y <= 0) { this.frameDims.y = 1; }
         this.refreshSize();
+        await this.cacheThumbnails([this.countFrames()]);
     }
 
-    swapFrame(idx:number, img:HTMLImageElement)
+    async swapFrame(idx:number, img:HTMLImageElement)
     {
         this.frames[idx] = img;
+        await this.cacheThumbnails([idx]);
         return this;
     }
 
-    swapFrames(newFrames:HTMLImageElement[])
+    async swapFrames(newFrames:HTMLImageElement[])
     {
         if(newFrames.length != this.frames.length) { return console.error("Can't swap frames if number of them doesn't match"); }
-        this.frames = newFrames;
+        this.frames = newFrames.slice();
+        await this.cacheThumbnails();
         return this;
     }
 
-    // @TODO: not truly unique if you load the same image multiple times, but why'd you do that?
+    // @NOTE: not truly unique if you load the same image multiple times, but why'd you do that?
     getUniqueKey() : string
     {
         const src = this.img.src;

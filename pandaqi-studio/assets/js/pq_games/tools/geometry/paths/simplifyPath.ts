@@ -1,8 +1,9 @@
 import Point from "../point";
+import Shape, { PathLike } from "../shape";
 
 interface SimplifyPathParams
 {
-    path: Point[],
+    path: PathLike,
     stepSize?: number
     numSteps?: number
 }
@@ -10,7 +11,9 @@ interface SimplifyPathParams
 // reduces #points by sampling at regular intervals
 export default (params:SimplifyPathParams) : Point[] =>
 {
-    const path = params.path;
+    let path = params.path;
+    if(path instanceof Shape) { path = path.toPath(); }
+
     const numPoints = path.length;
     let numSteps = params.numSteps;
     if(params.stepSize)

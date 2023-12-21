@@ -1,4 +1,4 @@
-import PandaqiPhaser from "js/pq_games/website/phaser"
+import PandaqiPhaser from "js/pq_games/website/onPageVisualizer"
 import { PageOrientation } from "js/pq_games/pdf/pdfBuilder"
 
 class SettingsClass

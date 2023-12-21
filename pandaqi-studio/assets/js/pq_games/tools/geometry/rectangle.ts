@@ -150,4 +150,9 @@ export default class Rectangle extends Shape
         this.extents.add(new Point(ds));
         return this;
     }
+
+    move(dm:number|Point)
+    {
+        this.center.move(new Point(dm));
+    }
 }

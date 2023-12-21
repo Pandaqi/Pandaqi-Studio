@@ -560,10 +560,7 @@ async function createWordCards(params)
 			alignVertical: TextAlign.MIDDLE
 		})
 
-		const textOp = new LayoutOperation({
-			dims: new Point(0.75*cardSize.x, numberFontSize*2),
-			pivot: Point.CENTER
-		});
+
 
 		const textRes = new ResourceText({ text: "", textConfig: textConfig });
 
@@ -574,6 +571,11 @@ async function createWordCards(params)
 			const angle = i * 0.5 * Math.PI;
 			const x = (0.5 + wordOffsetFromCenter*Math.cos(angle))*cardSize.x;
 			const y = (0.5 + wordOffsetFromCenter*Math.sin(angle))*cardSize.y;
+
+			const textOp = new LayoutOperation({
+				dims: new Point(0.75*cardSize.x, numberFontSize*2),
+				pivot: Point.CENTER
+			});
 
 			const visualAngle = angle-0.5*Math.PI;
 

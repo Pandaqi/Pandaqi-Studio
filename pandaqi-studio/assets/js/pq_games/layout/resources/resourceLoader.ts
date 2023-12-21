@@ -1,10 +1,19 @@
 import Resource from "./resource"
 import ResourceImage from "./resourceImage"
 import ResourceFont from "./resourceFont"
+import TextConfig from "../text/textConfig"
 
 interface ResourceLoaderParams
 {
     base?:string
+}
+
+interface ResourceLoadParams
+{
+    path: string
+    id?: string
+    key?: string
+    textConfig?: TextConfig
 }
 
 export default class ResourceLoader 
@@ -15,7 +24,7 @@ export default class ResourceLoader
     VIDEO_EXTENSIONS = ["mp4", "webm"]
     FONT_EXTENSIONS = ["otf", "ttf", "woff", "woff2"]
 
-    resourcesQueued : Record<string, Resource>
+    resourcesQueued : Record<string, ResourceLoadParams>
     resourcesLoaded : Record<string, Resource>
     base: string
 
@@ -31,8 +40,10 @@ export default class ResourceLoader
     planLoad(id:string, params:any = {})
     {
         if(!params.path) { return console.error("Can't load resource without path."); }
-        
-        this.resourcesQueued[id] = params;
+        const resourceAlreadyLoaded = this.resourcesQueued[id] || this.resourcesLoaded[id];
+        if(resourceAlreadyLoaded) { return; }
+
+        this.resourcesQueued[id] = Object.assign({}, params);
         
         if(params.inkfriendly)
         {
@@ -53,6 +64,8 @@ export default class ResourceLoader
 
     async loadPlannedResources()
     {
+        if(Object.keys(this.resourcesQueued).length <= 0) { return; }
+
         const promises = [];
         for(const [id, params] of Object.entries(this.resourcesQueued))
         {
@@ -90,7 +103,7 @@ export default class ResourceLoader
         return this.FONT_EXTENSIONS.includes(this.getExtension(path));
     }
 
-    async loadResource(id:string, params:any)
+    async loadResource(id:string, params:ResourceLoadParams)
     {
         let originalPath = params.path ?? "";
         // @NOTE: base always ends on a slash, so originalPath should never start with one
@@ -111,7 +124,8 @@ export default class ResourceLoader
 
         if(this.isFont(path))
         {
-            const fontFile = new FontFace(key, "url('" + params.path + "')");
+            const textConfig = params.textConfig ? params.textConfig.getFontFaceDescriptors() : {};
+            const fontFile = new FontFace(key, "url('" + params.path + "')", textConfig);
             const f = await fontFile.load()
             this.cacheLoadedFont(key, params, f)
         }

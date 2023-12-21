@@ -1,11 +1,12 @@
 import rangeInteger from "../../random/rangeInteger";
 import Point from "../point";
+import { PathLike } from "../shape";
+import closePath from "./closePath";
 import subdividePath from "./subdividePath";
 
 interface BiteParams
 {
-    path?: Point[],
-    close?: boolean,
+    path?: PathLike,
     chunkSize?: number,
     biteBounds?: { min: number, max: number },
     chunksInterval?: { min: number, max: number }
@@ -25,12 +26,12 @@ function takeBite(idx:number, path:Point[], dist:number)
 
 export default (params:BiteParams) : Point[] => 
 {
-    const path = params.path;
+    let path = params.path;
     if(!path) { return []; }
 
     // chop the path into lots of (regularly sized) chunks
     const chunkSize = params.chunkSize ?? 10.0;
-    const pathChopped : Point[] = subdividePath({ path: path, chunkSize: chunkSize, close: params.close });
+    const pathChopped : Point[] = subdividePath({ path: path, chunkSize: chunkSize });
 
     // then randomly move some of them inward
     const chunksInterval = params.chunksInterval ?? { min: 3, max: 10 };

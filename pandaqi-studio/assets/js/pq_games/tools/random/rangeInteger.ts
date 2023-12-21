@@ -1,7 +1,7 @@
 import Bounds, { BoundsLike } from "../numbers/bounds";
 import range from "./range"
 
-export default (low:number|BoundsLike, high:number = 0) : number =>
+export default (low:number|BoundsLike, high:number = 0, RNG = Math.random) : number =>
 {
     if(typeof low == "object") 
     {
@@ -9,5 +9,5 @@ export default (low:number|BoundsLike, high:number = 0) : number =>
         low = boundsObj.min;
         high = boundsObj.max;
     }
-    return Math.floor(range(low, high+1));
+    return Math.floor(range(low, high+1, RNG));
 }

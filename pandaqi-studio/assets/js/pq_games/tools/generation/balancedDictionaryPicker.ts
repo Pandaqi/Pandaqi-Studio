@@ -1,4 +1,7 @@
-import Random from "js/pq_games/tools/random/main";
+import getWeighted from "../random/getWeighted";
+import shuffle from "../random/shuffle";
+import rangeInteger from "../random/rangeInteger";
+import Bounds from "../numbers/bounds";
 
 type bounds = { min: number, max: number };
 type propQuery = { prop: string, num: number };
@@ -11,6 +14,7 @@ export default class BalancedDictionaryPicker
     minOfProperties:propQuery[]
     maxOfProperties:propQuery[]
     template: string[]
+    templateProp: string
     numBounds: bounds;
 
     constructor(dict:Record<string,any> = {})
@@ -54,12 +58,13 @@ export default class BalancedDictionaryPicker
     // A template is a list of string (properties) that must be the first thing included
     // Example, I can set properties to "score" and "board" and "misc", 
     // then force ONE of each to be added in each game with template ["score", "board", "misc"]
-    setTemplate(t:string[])
+    setTemplate(t:string[], prop:string = null)
     {
         this.template = t;
+        this.templateProp = prop;
     }
 
-    pickPossibleTypes(config:Record<string,any>, numBounds:any)
+    pickPossibleTypes(config:Record<string,any>, numBounds:Bounds)
     {
         const tempPossible = [];
 
@@ -70,6 +75,13 @@ export default class BalancedDictionaryPicker
             if(this.typeRequirementsMet(config, data)) { continue; }
             delete tempDict[key];
         }
+        
+        // check for blankly ("naively") required types with a simple "required: true" property, at the start
+        for(const [key,data] of Object.entries(tempDict))
+        {
+            if(!data.required) { continue; }
+            this.addPossibleType(tempPossible, tempDict, key);
+        }
 
         // add elements with properties that should appear a MINIMUM of times
         for(const reqProp of this.minOfProperties)
@@ -78,7 +90,7 @@ export default class BalancedDictionaryPicker
             let num = reqProp.num;
 
             const arr = this.getAllTypesWithProperty(tempDict, prop as string);
-            Random.shuffle(arr);
+            shuffle(arr);
             
             const pickedTypes = arr.slice(0, Math.min(num, arr.length));
             for(const pickedType of pickedTypes)
@@ -90,29 +102,36 @@ export default class BalancedDictionaryPicker
         // add elements according to a template (if set)
         for(const templateProp of this.template)
         {
-            const arr = this.getAllTypesWithProperty(tempDict, templateProp);
+            let arr : string[];
+
+            // we can check for specific VALUES of one property (given)
+            if(this.templateProp) { arr = this.getAllTypesWithPropertyValue(tempDict, this.templateProp, templateProp); }
+
+            // or we can check for the PROPERTY itself (existing is enough, value is irrelevant)
+            else { arr = this.getAllTypesWithProperty(tempDict, templateProp); }
+            
             if(arr.length <= 0) { continue; }
 
             const alreadyIncluded = tempPossible.filter(element => arr.includes(element)).length > 0;
             if(alreadyIncluded) { continue; }
 
-            Random.shuffle(arr);
+            shuffle(arr);
             const pickedType = arr[0];
             this.addPossibleType(tempPossible, tempDict, pickedType);
         }
 
         // fill up the list with random draws
-        var num = Random.rangeInteger(numBounds.min, numBounds.max)
+        const num = numBounds.randomInteger();
         this.numBounds = numBounds;
         while(tempPossible.length < num)
         {
             if(Object.keys(tempDict).length <= 0) { break; }
 
-            const type = Random.getWeighted(tempDict, "prob");
+            const type = getWeighted(tempDict, "prob");
             this.addPossibleType(tempPossible, tempDict, type);
         }
 
-        Random.shuffle(tempPossible);
+        shuffle(tempPossible);
 
         this.typesPossible = tempPossible;
     }
@@ -125,6 +144,17 @@ export default class BalancedDictionaryPicker
             const data = dict[elem];
             if(!data[prop]) { continue; }
             arr.push(elem);
+        }
+        return arr;
+    }
+    
+    getAllTypesWithPropertyValue(dict: Record<string, any>, prop:string, val:any)
+    {
+        const arr = [];
+        for(const [key,data] of Object.entries(dict))
+        {
+            if(data[prop] != val) { continue; }
+            arr.push(key);
         }
         return arr;
     }
@@ -162,6 +192,9 @@ export default class BalancedDictionaryPicker
 
     addPossibleType(optionList: any[], dict: Record<string, any>, type: string)
     {
+        const invalidType = (type == null || type == undefined);
+        if(invalidType) { return; }
+
         const alreadyAdded = optionList.includes(type);
         if(alreadyAdded) { return; }
 
@@ -174,6 +207,7 @@ export default class BalancedDictionaryPicker
         delete dict[type];
         optionList.push(type);
         this.handleRequiredInclusions(optionList, dict, data);
+        this.handleRequiredExclusions(optionList, dict, data);
         this.handleMaxOfProperties(optionList, dict);
     }
 
@@ -232,8 +266,13 @@ export default class BalancedDictionaryPicker
         return true;
     }
 
-    // @TODO: also allow forbidden types/required EXCLUSIONS
-    // @TODO: also check for blankly required types with a simple "required: true" property, at the start
+
+    handleRequiredExclusions(optionList: any, dict:Record<string,any>, data:any)
+    {
+        if(!data.forbiddenTypes) { return; }
+        if(!Array.isArray(data.forbiddenTypes)) { data.forbiddenTypes = [data.forbiddenTypes]; }
+        this.removeTypesFromDictionary(data.forbiddenTypes, dict);
+    }
 
     handleRequiredInclusions(optionList: any, dict: any, data: { requiredTypes: any[]; })
     {
@@ -282,11 +321,11 @@ export default class BalancedDictionaryPicker
         // then fill up randomly
         while(list.length < num)
         {
-            const type = Random.getWeighted(tempDict, "prob");
+            const type = getWeighted(tempDict, "prob");
             this.pickType(tempPossible, list, tempDict, type);
         }
 
-        Random.shuffle(list);
+        shuffle(list);
         return list;
     }
 

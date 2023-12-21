@@ -52,6 +52,9 @@ export default class Point
     isZero() { return isZero(this.length()); }
     isNumber(val:any) { return !isNaN(val); }
     matches(p:Point) { return Math.abs(this.x - p.x) < 0.003 && Math.abs(this.y - p.y) < 0.003; }
+    unit() { return this.smallestSide(); } // @NOTE: can be confusing with unitVector meaning a normalized vector?
+    largestSide() { return Math.max(this.x, this.y); }
+    smallestSide() { return Math.min(this.x, this.y); }
 
     toSVGString() { return this.x + " " + this.y }
 

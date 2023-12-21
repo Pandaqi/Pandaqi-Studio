@@ -201,6 +201,7 @@ export default class Card
             await textRes.toCanvas(ctx, textOp);
 
             textOp.translate.y -= edgeNumOffset;
+            textOp.fill = new ColorLike(mainStrokeCol)
             textOp.stroke = new ColorLike(mainCol);
             textOp.strokeWidth = edgeStrokeWidth;
             await textRes.toCanvas(ctx, textOp);

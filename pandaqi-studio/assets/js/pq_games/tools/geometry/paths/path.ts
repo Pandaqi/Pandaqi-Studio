@@ -1,5 +1,5 @@
 import Point from "../point";
-import Shape from "../shape";
+import Shape, { PathLike } from "../shape";
 import Dims from "../dims";
 
 interface PathParams
@@ -14,11 +14,18 @@ export default class Path extends Shape
     points: Point[]
     close: boolean
 
-    constructor(p:PathParams = {})
+    constructor(p:PathLike|PathParams = {})
     {
         super();
-        this.points = p.points ?? [];
-        this.close = p.close ?? false;
+
+        if(p instanceof Shape) {
+            this.points = p.toPath();
+        } else if(Array.isArray(p)) {
+            this.points = p;
+        } else {
+            this.points = p.points ?? [];
+            this.close = p.close ?? false;
+        } 
     }
 
     toPath() : Point[] 

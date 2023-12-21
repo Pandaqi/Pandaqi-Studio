@@ -1,4 +1,7 @@
+import ColorLike from "../color/colorLike"
+import LayoutOperation from "../layoutOperation"
 import ResourceFont from "../resources/resourceFont"
+import ResourceLoader from "../resources/resourceLoader"
 
 enum TextAlign {
     START,
@@ -38,11 +41,22 @@ interface TextConfigParams
     style?: TextStyle
     weight?: TextWeight
     variant?: TextVariant
+
+    resLoader?:ResourceLoader // for text that draws icons/images inline
+    defaultImageOperation?:LayoutOperation
+    useDynamicLineHeight?:boolean
+    useSimpleDims?:boolean // if true, uses raw #lines * lineHeight for dimensions (faster, sometimes looks better)
+    heightToSizeRatio?: number // for the default estimate on inline image size
 }
+
+// By default, the HEIGHT of a font is roughly 50%-60% of the font SIZE ( = letter width)
+// (this is a CONSERVATIVE estimate, for most fonts!)
+const DEF_HEIGHT_TO_SIZE_RATIO = 1.35; 
 
 export { TextConfig, TextAlign, TextStyle, TextWeight, TextVariant }
 export default class TextConfig
 {
+    color: ColorLike
     size: number
     font: string|ResourceFont
     alignHorizontal: TextAlign
@@ -52,6 +66,13 @@ export default class TextConfig
     weight: TextWeight
     variant: TextVariant
 
+    defaultImageOperation: LayoutOperation;
+    resLoader: ResourceLoader;
+    useDynamicLineHeight: boolean;
+    useSimpleDims: boolean;
+    heightToSizeRatio: number;
+    history: Record<string,any>
+
     constructor(params:TextConfigParams = {})
     {
         this.size = (params.size ?? params.fontSize) ?? 16;
@@ -59,12 +80,18 @@ export default class TextConfig
         this.alignHorizontal = (params.align ?? params.alignHorizontal) ?? TextAlign.START;
         this.alignVertical = (params.alignVertical) ?? TextAlign.START;
         this.lineHeight = params.lineHeight ?? 1.2;
+        this.useDynamicLineHeight = params.useDynamicLineHeight ?? false;
         this.style = params.style ?? TextStyle.NORMAL;
         this.weight = params.weight ?? TextWeight.REGULAR;
         this.variant = params.variant ?? TextVariant.NORMAL;
+        this.resLoader = params.resLoader ?? null;
+        this.defaultImageOperation = params.defaultImageOperation ?? null;
+        this.useSimpleDims = params.useSimpleDims ?? false;
+        this.heightToSizeRatio = params.heightToSizeRatio ?? DEF_HEIGHT_TO_SIZE_RATIO;
+        this.history = {};
     }
 
-    clone() : TextConfig
+    clone(deep = true) : TextConfig
     {
         const tf = new TextConfig();
         for(const prop in this)
@@ -72,18 +99,24 @@ export default class TextConfig
             // @ts-ignore
             tf[prop] = this[prop]
         }
+
+        if(deep)
+        {
+            this.history = structuredClone(this.history);
+        }
+
         return tf;
     }
 
     getStyleString() : string
     {
-        if(this.style == TextStyle.NORMAL) { return ""; }
+        if(this.style == TextStyle.NORMAL) { return "normal"; }
         return "italic";
     }
 
     getVariantString() : string
     {
-        if(this.variant == TextVariant.NORMAL) { return ""; }
+        if(this.variant == TextVariant.NORMAL) { return "normal"; }
         return "small-caps"
     }
     
@@ -134,6 +167,15 @@ export default class TextConfig
         ].join(" ");
     }
 
+    getFontFaceDescriptors() : FontFaceDescriptors
+    {
+        return {
+            style: this.getStyleString(),
+            weight: this.getWeightString(),
+            display: "swap"
+        }
+    }
+
     applyToHTML(elem:HTMLElement)
     {
         elem.style.fontFamily = '"' + this.getNameString() + '"';
@@ -144,5 +186,45 @@ export default class TextConfig
         elem.style.lineHeight = (this.lineHeight * 100) + "%";
         elem.style.textAlign = this.getAlignString();
         elem.style.verticalAlign = this.getAlignVerticalString();
+    }
+
+    applyToCanvas(ctx:CanvasRenderingContext2D)
+    {
+        ctx.font = this.getCanvasFontString();
+        if(this.color) { ctx.fillStyle = this.color.toCanvasStyle(ctx); }
+    }
+
+    rollbackProperty(prop:string)
+    {
+        const hist = this.history[prop];
+        if(!hist || hist.length <= 0) { return; }
+        this[prop] = hist.pop();
+    }
+
+    updateProperty(prop:string, val:any, keepHistory = true)
+    {
+        if(keepHistory) 
+        {
+            if(!(prop in this.history)) { this.history[prop] = []; }
+            this.history[prop].push(this[prop]);
+        }
+
+        // @TODO: find some cleaner conversion function, or remove the need for this completely?
+        if(prop == "color") { val = new ColorLike(val); }
+
+        this[prop] = val;
+    }
+
+    /* Handy automatic functions for configurations I usually want */
+    alignCenter() { this.alignHorizontal = TextAlign.MIDDLE; this.alignVertical = TextAlign.MIDDLE; return this; }
+    alignTopLeft() { this.alignHorizontal = TextAlign.START; this.alignVertical = TextAlign.START; return this; }
+    alignBottomRight() { this.alignHorizontal = TextAlign.END; this.alignVertical = TextAlign.END; return this; }
+    setLoader(r:ResourceLoader) { this.resLoader = r; return this; }
+    resetFormatting()
+    {
+        this.style = TextStyle.NORMAL;
+        this.weight = TextWeight.REGULAR;
+        this.variant = TextVariant.NORMAL;
+        return this;
     }
 }

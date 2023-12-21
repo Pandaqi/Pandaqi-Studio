@@ -34,7 +34,7 @@ tags: ["traditional"]
 
 extraCSS: true
 
-downloadLink: "https://drive.google.com/drive/folders/1as4B3n_kxQ9K1jIVtWMI_P5VnAjbXRP1"
+downloadLink: "https://drive.google.com/drive/folders/1_s3QEOv6rgYcYQc9E4_KXofg6MPi07m8"
 
 multiplayermode: "competitive"
 language: EN

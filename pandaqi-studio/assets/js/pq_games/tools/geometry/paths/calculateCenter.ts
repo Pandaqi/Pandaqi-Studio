@@ -1,7 +1,10 @@
 import Point from "../point";
+import Shape, { PathLike } from "../shape";
 
-export default (points:Point[]) =>
+export default (points:PathLike) =>
 {
+    if(points instanceof Shape) { points = points.toPath(); }
+
     const center = new Point();
     let numPoints = points.length;
     const closesItself = points[0] == points[points.length-1];

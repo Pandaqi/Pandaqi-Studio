@@ -41,7 +41,7 @@ const PACK_DEFAULT = {
         text: "Slogan here",
         color: "#000000",
         colorDark: "#FFFFFF",
-        offset: new Point().fromXY(0, -0.0275), // this offset is relative to the bottom of the card
+        offset: new Point().fromXY(0, -0.055), // this offset is relative to the bottom of the card
         alpha: 1.0,
         maxWidth: 0.68
     },

@@ -1,4 +1,4 @@
-import ResourceImage from "../resources/resourceImage"
+import ResourceImage, { CanvasLike } from "../resources/resourceImage"
 import createContext from "../canvas/createContext"
 import LayoutEffect from "./layoutEffect";
 import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage";
@@ -41,30 +41,34 @@ export default class OutlineEffect extends LayoutEffect
     }
 
     // @SOURCE: https://stackoverflow.com/questions/28207232/draw-border-around-nontransparent-part-of-image-on-canvas
-    async applyToImage(image:ResourceImage)
+    // @TODO: this is too rough, especially on larger canvases, implement marching squares instead
+    async applyToCanvasPost(source:CanvasLike)
     {
-        const contextParams = { size: image.size, alpha: true }
+        if(source instanceof CanvasRenderingContext2D) { source = source.canvas; }
+
+        const size = new Point(source.width, source.height);
+        const contextParams = { size: size, alpha: true }
         const ctx = createContext(contextParams);
 
         // just draw the image many times, but offset in all directions
         for(let i = 0; i < OFFSETS.length; i++)
         {
-            const pos = OFFSETS[i].clone().scale(this.thickness);
-            ctx.drawImage(image.getImage(), pos.x, pos.y);
+            for(let t = 1; t <= Math.round(this.thickness); t++)
+            {
+                const pos = OFFSETS[i].clone().scale(t).round();
+                ctx.drawImage(source, pos.x, pos.y);
+            }
         }
 
         // use composite mode to make all these redraws the same color
         ctx.globalCompositeOperation = "source-in";
         ctx.fillStyle = this.color.toString();
-        ctx.fillRect(0, 0, image.size.x, image.size.y);
+        ctx.fillRect(0, 0, size.x, size.y);
 
-        // then just draw the original image on top (in normal composite mode)
+        // draw original on top
         ctx.globalCompositeOperation = "source-over";
-        ctx.drawImage(image.getImage(), 0, 0);
-
-        // and replace original with the new one
-        const img = await convertCanvasToImage(ctx.canvas);
-        return image.clone().swapImage(img);
+        ctx.drawImage(source, 0, 0);
+        return ctx;
     }
 
     // @SOURCE: https://stackoverflow.com/questions/12690444/css-border-on-png-image-with-transparent-parts (further down the page)
@@ -83,5 +87,10 @@ export default class OutlineEffect extends LayoutEffect
         {
             effectData.filters.push(filter);
         }
+    }
+
+    getExtraSizeAdded()
+    {
+        return new Point(this.thickness);
     }
 }

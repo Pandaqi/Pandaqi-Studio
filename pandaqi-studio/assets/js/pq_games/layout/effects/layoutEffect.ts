@@ -1,6 +1,7 @@
 import ResourceImage, { CanvasLike } from "js/pq_games/layout/resources/resourceImage";
 import LayoutOperation, { EffectData } from "../layoutOperation";
 import { ElementLike } from "../resources/resource";
+import Point from "js/pq_games/tools/geometry/point";
 
 export default class LayoutEffect
 {
@@ -20,7 +21,9 @@ export default class LayoutEffect
     }
 
     applyToCanvas(canv:CanvasLike, effectData:EffectData = {}) { }
+    async applyToCanvasPost(source:CanvasLike) : Promise<CanvasRenderingContext2D> { return null; }
     applyToHTML(div:ElementLike, effectData:EffectData = {}) { }
     applyToSVG(elem:ElementLike) { }
     clone(deep = false) : LayoutEffect { return new LayoutEffect(); }
+    getExtraSizeAdded() : Point { return new Point(); }
 }

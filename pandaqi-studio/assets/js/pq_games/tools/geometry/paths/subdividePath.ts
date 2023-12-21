@@ -1,10 +1,10 @@
 import Point from "../point";
+import Shape, { PathLike } from "../shape";
 import calculatePathLength from "./calculatePathLength";
 
 interface SubDivideParams
 {
-    path: Point[],
-    close?: boolean,
+    path: PathLike,
     chunkSize?: number
     numChunks?: number
 }
@@ -12,7 +12,8 @@ interface SubDivideParams
 export default (params:SubDivideParams) =>
 {
     // chop the path into lots of (regularly sized) chunks
-    const path = params.path;
+    let path = params.path;
+    if(path instanceof Shape) { path = path.toPath(); }
     if(path.length <= 1) { return []; }
 
     const pathChopped : Point[] = [];
@@ -23,17 +24,9 @@ export default (params:SubDivideParams) =>
         chunkSize = length / params.numChunks;
     }
 
-
     const first = path[0];
-    let last = path[path.length - 1];
-    let selfClosing = first.matches(last);
-    if(params.close && !selfClosing)
-    {
-        selfClosing = true;
-        last = first.clone();
-        path.push(last);
-    }
-
+    const last = path[path.length-1];
+    const selfClosing = first.matches(last);
     const pathLengthToConsider = selfClosing ? path.length : path.length - 1;
 
     for(let i = 0; i < pathLengthToConsider; i++)

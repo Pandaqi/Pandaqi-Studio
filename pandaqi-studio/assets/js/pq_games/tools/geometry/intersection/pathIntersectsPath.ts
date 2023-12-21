@@ -1,8 +1,8 @@
 import pathToLineSegments from "../paths/pathToLineSegments";
-import Point from "../point";
+import { PathLike } from "../shape";
 import { lineIntersectsLine } from "./lineIntersectsLine";
 
-export default (path1:Point[], path2:Point[]) =>
+export default (path1:PathLike, path2:PathLike) =>
 {
     const lines1 = pathToLineSegments(path1);
     const lines2 = pathToLineSegments(path2);
