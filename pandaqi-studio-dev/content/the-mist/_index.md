@@ -12,21 +12,21 @@ extraJSBoard: true
 extraJSBoardInclude: true
 downloadLink: "https://drive.google.com/drive/folders/1yy2JZhtm1iiTvff9o3kyOf0sXtMQjF_f" # already updated!
 
-fullHeaderImg: "aeronaut_header"
-headerImg: "aeronaut_header"
+fullHeaderImg: "the_mist_header"
+headerImg: "the_mist_header"
 
-headerThumb: "favicon"
+headerThumb: "the_mist_favicon"
 
-customHeight: "small"
+customHeight: "large"
 headerDarkened: true
 
-color: "blue"
+color: "brown"
 
-bgColor: "#014556"
-bgColorLink: "#601a87"
+bgColor: "#09162f"
+bgColorLink: "#204208"
 
 textColor: "#e6faff"
-textColorLink: "#edccff"
+textColorLink: "#e5fb9e"
 
 googleFonts: ""
 
@@ -38,9 +38,9 @@ tags: []
 multiplayermode: "competitive"
 language: EN
 genre: ["opg", "strategy", "map"]
-playtime: 45
+playtime: 30
 playercount: [2,3,4,5,6]
-complexity: medium
+complexity: low
 ages: everyone
 
 ---
@@ -61,7 +61,7 @@ The rules are so simple, they're on the paper itself. (If you still want a refer
 
 {{% /section-centered %}}
 
-{{% section-centered heading="Material" anchor="material" html="true" %}}
+{{% section-centered heading="Board" anchor="board" html="true" %}}
 
 <p>Input your settings, press the button, and download the PDF with your unique world!</p>
 

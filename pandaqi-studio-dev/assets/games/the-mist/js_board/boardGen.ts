@@ -62,6 +62,14 @@ export default class BoardGen
             totalTypesNeeded += cell.num;
         }
 
+        // @EXCEPTION: in simple mode, we REQUIRE boots (as it's needed to make movement way more flexible)
+        // Otherwise, well, we simply don't.
+        if(Object.keys(CONFIG.allTypes).includes("boots"))
+        {
+            // @ts-ignore
+            CONFIG.allTypes.boots.required = CONFIG.inSimpleMode;
+        }
+
         const picker = new BalancedDictionaryPicker(CONFIG.allTypes);
         picker.pickPossibleTypes(CONFIG, CONFIG.gen.numUniqueTypes);        
         const typeList = picker.getFullTypeList(totalTypesNeeded);

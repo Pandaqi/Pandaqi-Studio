@@ -3,7 +3,8 @@
 
 body {
     font-family: g.$body-font;
-    background-color: #FCFCFC;
+    background-color: g.$bg-col;
+    color: g.$text-col;
     font-size: 20px;
 }
 
@@ -20,10 +21,10 @@ h1, h2, h3, h4 {
     background-color: g.$col2;
 }
 
-#action_play {
+#gameplay {
     background-color: g.$col3;
 }
 
-#lives {
+#squares {
     background-color: g.$col4;
 }

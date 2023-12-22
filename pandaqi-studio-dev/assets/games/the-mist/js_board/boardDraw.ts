@@ -202,7 +202,7 @@ export default class BoardDraw
                 counter = (counter + 1) % 4;
             }
 
-            // - draw the writable dot in the center
+            // - draw the writable dot in the center (a square instead if starting position)
             let circ = cell.isStartingPosition() ? 
                 new Rectangle({ center: posCenter, extents: new Point(2*dotRadius) }) : 
                 new Circle({ center: posCenter, radius: dotRadius });
@@ -222,21 +222,31 @@ export default class BoardDraw
 
         // add an extra layer of effects / thickening to signal starting locations
         const strokeMult = CONFIG.draw.cells.strokeWidthMultiplierStart;
+        const startPosStrokeColor = CONFIG.draw.cells.strokeColorStart;
         const startRectOp = new LayoutOperation({
-            stroke: startPosColor,
+            stroke: startPosStrokeColor,
             strokeWidth: strokeMult * cellStrokeWidth,
-            effects: [
-                new DropShadowEffect({ blurRadius: 0.1 * this.cellSizeUnit, color: startPosColor })
-            ]
         }) 
 
+        const resMisc = CONFIG.resLoader.getResource("misc");
         for(const cell of bs.startingPositions)
         {
             const pos = this.convertGridPosToRealPos(cell.pos);
             const posCenter = pos.clone().add(this.cellSizeHalf);
 
+            // thickening of rectangle + effects
             const rect = new Rectangle({ center: posCenter, extents: this.cellSize });
             group.add(new ResourceShape(rect), startRectOp);
+
+            // extra starting location icon (low alpha)
+            const iconOp = new LayoutOperation({
+                frame: MISC.starting_position.frame,
+                translate: posCenter,
+                dims: new Point(2*(1.0-0.275)*dotRadius),
+                alpha: 0.45,
+                pivot: Point.CENTER
+            })
+            group.add(resMisc, iconOp);
         }
     }
 
@@ -271,7 +281,9 @@ export default class BoardDraw
         const tut = CONFIG.resLoader.getResource("sidebar");
         const tutWidth = this.sidebarSize.x;
         const tutDims = new Point(tutWidth, CONFIG.draw.sidebar.tutImageRatio * tutWidth);
+        const frame = CONFIG.inSimpleMode ? 0 : 1;
         const tutOp = new LayoutOperation({
+            frame: frame,
             translate: this.originSidebar,
             dims: tutDims,
             effects: this.defaultEffects

@@ -31,8 +31,8 @@ const MISC =
 {
     points: { frame: 0 },
     item: { frame: 1 },
-    hazard: { frame: 2 }
-    // @TODO
+    hazard: { frame: 2 },
+    starting_position: { frame: 3 },
 }
 
 const pIcon = '<img id="misc" frame="' + MISC.points.frame + '">';
@@ -51,7 +51,7 @@ const BASE_SET:ActionSet =
     bugs: { frame: 5, label: "Bugs", desc: "Worth +3 " + pIcon + " if you own <b>the least</b>, otherwise -3 " + pIcon + ".", type: ActionType.STATE, hazard: true, color: "yellow" },
     rabbit: { frame: 6, label: "Rabbit", desc: "Worth +5 " + pIcon + " if this is the <b>most occuring type</b> (out of everything), otherwise -2.", type: ActionType.STATE, prob: 1.725, color: "pink" }, // "simple rabbit"
 
-    boots: { frame: 7, label: "Boots", desc: "Worth -6 " + pIcon + ". Each Boots allows moving <b>+1 square.</b> (Skip all in-between; only draw yourself at the final destination.)", type: ActionType.MOVE, item: true, maxAbs: 6, color: "brown" },
+    boots: { frame: 7, label: "Boots", desc: "Worth -4 " + pIcon + ". Each Boots allows moving <b>+1 square.</b> (Skip all in-between; only draw yourself at the final destination.)", type: ActionType.MOVE, item: true, maxAbs: 6, color: "brown" },
     signpost: { frame: 8, label: "Signpost", desc: "Worth -3 " + pIcon + ". But when you move (this turn), you may start from <b>any</b> square on your trail.", type: ActionType.MOVE, item: true, prob: 1.4, color: "brown" },
     portal: { frame: 9, label: "Portal", desc: "When moving (this turn), move to another free square with a portal.", type: ActionType.MOVE, minAbs: 3, maxRel: 0.05, color: "purple" },
     octopus: { frame: 10, label: "Octopus", desc: "Worth -2 " + pIcon + ". This turn, you may move in <b>any direction</b>.", type: ActionType.MOVE, color: "purple" },
@@ -69,7 +69,7 @@ const ADVANCED_SET:ActionSet =
 
     jaguar: { frame: 3, label: "Jaguar", desc: "Worth +6 " + pIcon + ", but only if this is the <b>least</b> occurring type out of everything on the board.", type: ActionType.STATE, prob: 0.75, color: "yellow" },
     trap: { frame: 4, label: "Trap", desc: "Worth -2 " + pIcon + ", unless you own the <b>most</b> traps (out of all players).", type: ActionType.STATE, hazard: true, prob: 1.33, color: "red" },
-    attacker: { frame: 5, label: "Soldier", desc: "Worth +2 " + pIcon + ". If there's an <b>adjacent Soldier</b>, however, you <b>can't</b> pick this option.", type: ActionType.STATE, hazard: true, color: "red" },
+    attacker: { frame: 5, label: "Soldier", desc: "Worth +4 " + pIcon + ". If there's an <b>adjacent Soldier</b>, however, you <b>can't</b> pick this option.", type: ActionType.STATE, hazard: true, color: "red" },
     flag: { frame: 6, label: "Flag", desc: "Worth +8 " + pIcon + " if <b>more than half the rows</b> contain a Flag, otherwise -8.", type: ActionType.STATE, item: true, prePass: "rowcol", minRel: (1.0/32), maxRel: (2.0/32), color: "blue", forbiddenTypes: ["home"] },
     home: { frame: 7, label: "Home", desc: "Worth +8 " + pIcon + " if <b>less than half the columns</b> contain a Home, otherwise -8.", type: ActionType.STATE, item: true, prePass: "rowcol", minRel: (1.0/32), maxRel: (2.0/32), color: "brown", forbiddenTypes: ["flag"] },
  
@@ -103,7 +103,8 @@ const EXPERT_SET:ActionSet =
 
     herd: { frame: 12, label: "Herd", desc: "Worth as many " + pIcon + " as the <b>size of its group</b> ( = all herd connected to it).", type: ActionType.TERRA, prePass: "floodfill", minAbs: 5, prob: 1.5, color: "green" },
     birdsong: { frame: 13, label: "Birdsong", desc: "Worth +1 " + pIcon + ". When picked, also turn <b>one other square into Birdsong</b> (if possible).", type: ActionType.TERRA, minAbs: 5, prob: 1.5, color: "turquoise" },
-    spell: { frame: 14, label: "Spell", desc: "When picked, decide the icon of <b>any unvisited square</b> with a " + iIcon + ".", type: ActionType.ACTION, item: true, color: "purple", requiresMetadata: true }
+    spell: { frame: 14, label: "Spell", desc: "When picked, decide the icon of <b>any unvisited square</b> with a " + iIcon + ".", type: ActionType.ACTION, item: true, color: "purple", requiresMetadata: true },
+    empty: { frame: 15, label: "Empty", desc: "When picked, draw <b>any icon</b> (from the available options) inside it!", type: ActionType.ACTION, color: "black" } // this simply doesn't exist in the spritesheet, so it shows ... nothing
 }
 
 
@@ -132,6 +133,7 @@ export
 {
     ActionData,
     ActionType,
+    ActionSet,
     SETS,
     BASE_SET,
     ADVANCED_SET,

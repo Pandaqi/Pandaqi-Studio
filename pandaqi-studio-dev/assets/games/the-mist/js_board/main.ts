@@ -27,10 +27,12 @@ generator.setupFunction = (config) =>
 {
     // create master dict of ALL included powers + their texture for displaying
     let allPowers = {};
+    const setsIncluded = [];
     for(const [setKey,included] of Object.entries(config.sets))
     {
         if(!included) { continue; }
         const setData = SETS[setKey];
+        setsIncluded.push(setKey);
         allPowers = Object.assign(allPowers, setData);
 
         for(const [elemKey,data] of Object.entries(setData))
@@ -39,5 +41,6 @@ generator.setupFunction = (config) =>
         }
     }
     config.allTypes = allPowers;
+    config.inSimpleMode = setsIncluded.length <= 1 && setsIncluded.includes("base");
     console.log(allPowers);
 }

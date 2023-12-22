@@ -42,7 +42,6 @@ Here's the twist. The more often you possess a specific icon, the more you're _r
 
 {{% /rules-double-view %}}
 
-
 {{< rules-image src="rules_base.webp" alt="Example of applying the base rules to a turn." >}}
 
 That's it!

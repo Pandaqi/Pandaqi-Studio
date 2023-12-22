@@ -8,6 +8,7 @@ const CONFIG =
     fileName: "[Board] The Mist",
     resLoader: null,
     allTypes: {},
+    inSimpleMode: false,
 
     // all debugging toggles
     debug:
@@ -64,6 +65,7 @@ const CONFIG =
         sidebar:
         {
             path: "sidebar.webp",
+            frames: new Point(2,1),
             set: false
         },
 
@@ -147,8 +149,9 @@ const CONFIG =
         {
             strokeWidth: 0.01, // ~cellSizeUnit
             strokeColor: "#332211", // "#FFFFFF",
-            strokeWidthMultiplierStart: 4, // ~strokeWidth
-            fillColorStart: "#FFAAAA",
+            strokeWidthMultiplierStart: 6, // ~strokeWidth
+            fillColorStart: "#FFFEFE",
+            strokeColorStart: "#663311",
             triangleStrokeWidth: 0.01, // ~cellSizeUnit
             triangleStrokeColor: "#886633", //"#DCDCDC",
             iconSize: 0.3, // ~cellSizeUnit

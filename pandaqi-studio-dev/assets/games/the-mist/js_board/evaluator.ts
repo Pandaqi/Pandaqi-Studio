@@ -7,6 +7,13 @@ export default class Evaluator
 {
     isValid(bs:BoardState) : boolean
     {
+        const uniqueTypes = bs.uniqueTypes;
+        if(uniqueTypes.includes(undefined) || uniqueTypes.includes(null))
+        {
+            console.error("[Evaluator] Rejected: unable to fill some of the icons (filled with undefined)");
+            return false;
+        }
+
         // If a cell has ONLY an attacker icon, but it's adjacent to an attacker, then there is NO pickable option!
         const attackers = this.getCellsOfType(bs, "attacker");
         for(const attacker of attackers)
