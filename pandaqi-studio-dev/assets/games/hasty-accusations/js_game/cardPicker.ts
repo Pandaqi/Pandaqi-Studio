@@ -105,7 +105,7 @@ export default class CardPicker
 
         // then simply create all suspects as often as required
         // (the "loupe" card is also just a suspect!)
-        const suspects = CONFIG.expansions.traitor ? CONFIG.generation.suspectsTraitor : CONFIG.generation.suspectsBase;
+        const suspects = Object.keys(SUSPECTS);
         const freq = CONFIG.generation.defFrequencyForSuspect;
         for(const susp of suspects)
         {

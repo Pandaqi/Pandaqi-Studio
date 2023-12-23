@@ -4,10 +4,12 @@ type: "rules"
 
 {{% rules-block id="setup" heading="Setup" icon="setup" icontint="purple" %}}
 
-Pick as many different _characters_ as the number of players.
-* Place one row of **faceup** characters on the table. (Below these cards, evidence piles will build during the game.)
+Decide the number of suspects to use. It's recommended to use at least 5, and at least as many as the number of players.
+
+Then,
+* Place one row of **faceup** suspects on the table. (Below these cards, evidence piles will build during the game.)
 * Place the **loupe token** above the first.
-* Shuffle and deal the remaining character cards. (Each player should have *two* secret characters: their "suspects".)
+* Shuffle the remaining suspects (that are in the game). Deal each player 1: this is their **secret suspect**. (Suspects that aren't dealt are discarded without looking.)
 * Create a deck of **playing cards**, shuffle, and deal each player 4.
 
 @TODO: IMAGE EXAMPLE of this setup
@@ -16,7 +18,7 @@ Pick as many different _characters_ as the number of players.
 
 {{% rules-block id="objective" heading="Objective" icon="objective" icontint="lightblue" %}}
 
-The game ends when **only 1 character is left**. The player(s) who had them as their secret suspect win!
+The game ends when **only one player is left**. They win!
 
 {{% /rules-block %}}
 
@@ -26,11 +28,17 @@ Most treacherous player starts. Take clockwise turns until done.
 
 {{% rules-block heading="On your turn" %}}
 
-Play a card from your hand **facedown** on a character's evidence pile, then draw back up to 4 cards.
+Play a card from your hand **facedown** on a suspect's evidence pile, then draw back up to 4 cards.
 
-If you play a card at the current *loupe* character, play it **faceup** and execute its action.
+{{% remark %}}
+Can't play a card? Discard your whole hand and draw 4 new cards.
+{{% /remark %}}
 
-Finally, move the loupe one character forward ( = to the right). If there is none, execute a [review](#review).
+If you play a card at the current *loupe* suspect, play it **faceup** and execute its action.
+
+Finally, move the loupe one suspect forward ( = to the right). If there is none, execute a [review](#review).
+
+**Exception: the first round is safe.** No review triggers; the loupe just returns to the first suspect. You can disable this rule on advanced sets (where murdering is harder) or if you don't want it.
 
 {{% /rules-block %}}
 
@@ -42,15 +50,11 @@ When a review triggers, whatever evidence pile has the **most cards** is evaluat
 
 If an action must be executed by a player, this is always the _active player_.
 
-{{% remark %}}
-Cards may already be faceup. Those are executed too, just like the rest.
-{{% /remark %}}
+If the corresponding suspect is **murdered**, remove them, and end this phase immediately.
 
-If the corresponding character is **murdered**, remove them, and end this phase immediately.
+If this was a player's secret suspect, they must say so. They're eliminated and discard their hand.
 
-If this means that none of a player's suspects are alive, they must say so. They're eliminated. They reveal their hand and give their cards to the remaining players (however they want).
-
-Discard all cards from this evidence pile. Return the loupe to the first character. Next turn!
+Discard all cards from this evidence pile. Return the loupe to the first suspect. Next turn!
 
 {{% /rules-block %}}
 
@@ -62,10 +66,10 @@ Cards always have a power. As stated, this triggers when _revealed_. This happen
 
 Most cards can be played anywhere, but there are some exceptions.
 
-* A @TODO:ICON means it must be played at the (current) loupe pile.
-* A @TODO:ICON means it CAN'T be played at the (current) loupe pile.
-* A @TODO:ICON means it must be played at one of your own suspects.
-* A @TODO:ICON means it CAN'T be played at one of your own suspects.
+* A @TODO:INLINE ICON means it MUST be played at the (current) loupe pile.
+* A @TODO:INLINE ICON means it CAN'T be played at the (current) loupe pile.
+* A @TODO:INLINE ICON means it MUST be played at one of your own suspects.
+* A @TODO:INLINE ICON means it CAN'T be played at one of your own suspects.
 
 @TODO: IMAGE of card skeleton.
 
@@ -75,20 +79,34 @@ On the website you can pick which card set you want. For your first games, just 
 
 {{% rules-block id="expansion" heading="Variants & Expansions" icon="expansion" class="force-page-break-before" icontint="purple" %}}
 
-@TODO: EXPANSIONS/VARIANTS (once I figure out what I want to do with those)
+{{% rules-block heading="Traitor Variant" %}}
+When dealing out secret suspects, 
+* Select random cards equal to the number of players.
+* Swap one (at random) for the Traitor card.
 
-EXPANSION 1: Traitor.
+This ensures one player is the _Traitor_!
 
-EXPANSION 2: Character Powers.
+The traitor wins if _everyone else loses_. In other words, 
+* If only 1 suspect remains, they reveal themselves and **lose**.
+* But if multiple suspects remain, yet all **other players are eliminated**, they reveal themselves and **win**.
+{{% /rules-block %}}
 
-VARIANT 1: Vary the number of characters. (Fewer of them means a quicker game. More of them means a longer and more strategic game)
+{{% rules-block heading="Suspect Powers" %}}
+You probably noticed some icons on the suspects. We'll use those now!
 
-When dealing out secret suspects, deal them all. Yes, some players might have more than others, but the game automatically balances this advantage.
+* A @TODO: INLINE ICON (skull?) power triggers when this suspect dies.
+* A @TODO: INLINE ICON (card?) icon triggers when you play a card here.
 
-VARIANT 2: Instead of drawing cards as you go, deal the _whole deck_ at the start (as fairly as possible). 
+It's recommended to have a balanced mix of death and play powers on your chosen suspects.
 
-On your turn, if you have no cards,
-* One of your suspects dies
-* If you're not eliminated, steal 1 card from all other players and continue playing.
+As usual, when the action gives a choice, the currently active player is the one to make it.
+{{% /rules-block %}}
+
+{{% rules-block heading="Big Hands Variant" %}}
+Instead of drawing cards as you go, deal the _whole deck_ at the start (as fairly as possible). 
+
+If you run out of cards, your suspect is immediately reviewed. If they don't die, you receive their evidence pile as your new hand cards.
+{{% /rules-block %}}
+
 
 {{% /rules-block %}}

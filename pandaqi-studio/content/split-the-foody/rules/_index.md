@@ -67,6 +67,8 @@ Finally, everyone makes a choice about **all cards they received** during this r
 
 The hand limit is 8 cards. If you can't fit all new cards into your hand, you must score them.
 
+<!--- @TODO: Optional rule? "You can't win your own treasure with Mutiny." (Or you can, but you don't get back your own bid in this case.) --->
+
 {{< rules-image src="split_treasure.webp" alt="Explanation of the two ways a treasure can be split." >}}
 
 {{% /rules-block %}}

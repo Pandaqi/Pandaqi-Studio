@@ -10,15 +10,15 @@ blurb: "Everybody is investigating the same murder and pointing fingers every wh
 extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/1rpuM28gjwNK5-sSxLlJj0HYrXq8mgZkr" # already updated!
 
-fullHeaderImg: "cookie_smasher_header"
-headerImg: "cookie_smasher_header"
+fullHeaderImg: "hasty_accusations_header"
+headerImg: "hasty_accusations_header"
 
-headerThumb: "favicon"
+headerThumb: "hasty_accusations_favicon"
 
 customHeight: "small"
 headerDarkened: true
 
-color: "white"
+color: "black"
 
 bgColor: "#014556"
 bgColorLink: "#601a87"
@@ -31,19 +31,19 @@ googleFonts: ""
 date: 2023-01-01 # 2024-07-25?
 
 categories: ["boardgame"]
-tags: ["animals"]
+tags: ["murder", "detective"]
 
 multiplayermode: "competitive"
 language: EN
-genre: ["tile", "high-interaction"]
-playtime: 30
-playercount: [2,3,4,5,6]
+genre: ["card", "party"]
+playtime: 45
+playercount: [2,3,4,5,6,7]
 complexity: low
 ages: everyone
 
 ---
 
-{{% boardgame-intro heading="" img="cookie_smasher_header" class="no-shadow" %}}
+{{% boardgame-intro heading="" %}}
 
 Ensure your character survives the murder investigation, but do it in secret.
 
@@ -71,8 +71,6 @@ Three simple steps.
   {{< setting-checkbox id="setting-includeCards" text="Include Cards?" checked="checked" remark="Generates the action cards with which you play." >}}
   {{< setting-checkbox id="setting-includeCharacters" text="Include Characters?" checked="checked" remark="Generates material for all possible suspects." >}}
   {{< setting-enum id="setting-cardSet" text="Which set?" values="Base Game,Advanced Detective,Expert Investigator" keys="base,advanced,expert" def="base" >}}
-  <h3>Expansions</h3>
-  {{< setting-checkbox id="setting-expansions-traitor" text="Spies & Traitors" >}}
 {{< /boardgame-settings >}}
 
 <p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>
@@ -83,6 +81,6 @@ Three simple steps.
 
 @TODO
 
-For more information, as always, read my [detailed developer diary on Pandaqi Blog](https://pandaqi.com/blog/boardgames/meadowmight).
+For more information, as always, read my [detailed developer diary on Pandaqi Blog](https://pandaqi.com/blog/boardgames/hasty-accusations).
 
 {{% /section-centered %}}

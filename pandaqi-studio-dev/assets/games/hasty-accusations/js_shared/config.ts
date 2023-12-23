@@ -18,11 +18,6 @@ const CONFIG =
     includeCharacters: true,
     cardSet: "base", // base, advanced, expert
 
-    expansions:
-    {
-        traitor: false
-    },
-    
     fonts:
     {
         heading: "canoe",
@@ -110,10 +105,8 @@ const CONFIG =
        numPlayingCardsInDeck: 56,
        defFreqBounds: new Bounds(2, 10),
        defFrequencyForSuspect: 3,
-       suspectsBase: ["loupe", "scarlett", "green", "mustard", "professor", "peacock"],
-       suspectsTraitor: ["traitor", "doctor", "brunette", "rose"],
 
-       murderQuotientTarget: new Bounds(0.25, 0.325), // ~deckSize
+       murderQuotientTarget: new Bounds(0.245, 0.29), // ~deckSize
        protectQuotientTarget: new Bounds(0.15, 0.2), // ~deckSize
     },
 

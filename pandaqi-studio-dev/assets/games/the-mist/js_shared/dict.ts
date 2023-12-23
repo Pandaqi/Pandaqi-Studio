@@ -51,7 +51,7 @@ const BASE_SET:ActionSet =
     bugs: { frame: 5, label: "Bugs", desc: "Worth +3 " + pIcon + " if you own <b>the least</b>, otherwise -3 " + pIcon + ".", type: ActionType.STATE, hazard: true, color: "yellow" },
     rabbit: { frame: 6, label: "Rabbit", desc: "Worth +5 " + pIcon + " if this is the <b>most occuring type</b> (out of everything), otherwise -2.", type: ActionType.STATE, prob: 1.725, color: "pink" }, // "simple rabbit"
 
-    boots: { frame: 7, label: "Boots", desc: "Worth -4 " + pIcon + ". Each Boots allows moving <b>+1 square.</b> (Skip all in-between; only draw yourself at the final destination.)", type: ActionType.MOVE, item: true, maxAbs: 6, color: "brown" },
+    boots: { frame: 7, label: "Boots", desc: "Worth -4 " + pIcon + ". Each Boots allows moving <b>+1 square.</b> (Skip all in-between; only draw yourself at the final destination.)", type: ActionType.MOVE, item: true, minRel: 0.0725, maxRel: 0.15, color: "brown" },
     signpost: { frame: 8, label: "Signpost", desc: "Worth -3 " + pIcon + ". But when you move (this turn), you may start from <b>any</b> square on your trail.", type: ActionType.MOVE, item: true, prob: 1.4, color: "brown" },
     portal: { frame: 9, label: "Portal", desc: "When moving (this turn), move to another free square with a portal.", type: ActionType.MOVE, minAbs: 3, maxRel: 0.05, color: "purple" },
     octopus: { frame: 10, label: "Octopus", desc: "Worth -2 " + pIcon + ". This turn, you may move in <b>any direction</b>.", type: ActionType.MOVE, color: "purple" },

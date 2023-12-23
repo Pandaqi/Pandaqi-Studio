@@ -28,6 +28,13 @@ enum SType
     MISC
 }
 
+// Special suspect power type
+enum PType
+{
+    DEATH,
+    PLAY
+}
+
 // For the loupe and Suspect requirements
 enum ReqType
 {
@@ -55,21 +62,23 @@ interface ActionData
 
 type ActionSet = Record<string, ActionData>;
 
+const loupeIcon = "<img id=\"suspects\" frame=\"0\">";
+
 const BASE_SET:ActionSet = 
 {
     murder: { frame: 0, type: AType.MURDER, subType: SType.MURDER, label: "Murder", desc: "<b>Kills</b> the suspect.", loupe: ReqType.CANT, murderQuotient: 1.0, freq: new Bounds(6, 10) },
     threat: { frame: 1, type: AType.MURDER, subType: SType.MURDER, label: "Threat", desc: "<b>Kills</b> the suspect if this is the 2nd threat.", loupe: ReqType.CANT, murderQuotient: 0.5, freq: new Bounds(4, 12) },
     bodyguard: { frame: 2, type: AType.MURDER, subType: SType.PROTECT, label: "Bodyguard", desc: "<b>Saves</b> the suspect from dying <b>once</b>.", suspect: ReqType.MUST, protectQuotient: 1.0, freq: new Bounds(2, 10) },
-    sidekick: { frame: 3, type: AType.MURDER, subType: SType.MURDER, label: "Sidekick", desc: "Check an adjacent pile. If it also has a Sidekick, this suspect <b>dies</b>.", suspect: ReqType.CANT, murderQuotient: 0.5, freq: new Bounds(4, 12) },
+    sidekick: { frame: 3, type: AType.MURDER, subType: SType.MURDER, label: "Sidekick", desc: "Check an adjacent pile. If it also has a Sidekick, this suspect <b>dies</b>.", murderQuotient: 0.5, freq: new Bounds(4, 12) },
 
     stop: { frame: 4, type: AType.PILES, subType: SType.REVIEW, label: "Stop", desc: "<b>Stop</b> (further) review. If played <b>openly</b>, instantly do a <b>review</b>.", protectQuotient: 0.33 },
     jester: { frame: 5, type: AType.PILES, subType: SType.PILE, label: "Jester", desc: "<b>Shuffle</b> the rest of this pile." },
-    delay: { frame: 6, type: AType.PILES, subType: SType.REVIEW, label: "Delay Tactics", desc: "While visible, <b>don't move</b> the <img id=\"suspects\" frame=\"0\"> at the end of a turn.", protectQuotient: 0.33 },
-    bomb: { frame: 7, type: AType.PILES, subType: SType.PILE, label: "Bomb", desc: "Reveal and execute the <b>top card</b> of all adjacent piles.", suspect: ReqType.CANT },
+    delay: { frame: 6, type: AType.PILES, subType: SType.REVIEW, label: "Delay Tactics", desc: "While visible, <b>don't move</b> the " + loupeIcon + " at the end of a turn.", protectQuotient: 0.33 },
+    bomb: { frame: 7, type: AType.PILES, subType: SType.PILE, label: "Bomb", desc: "Reveal and execute the <b>top card</b> of all adjacent piles." },
     
     question: { frame: 8, type: AType.ACTION, subType: SType.INFO, label: "Burning Question", desc: "Reveal a hand card. Ask another player on which pile to play it, then do so." },
-    investigator: { frame: 9, type: AType.ACTION, subType: SType.INFO, label: "Investigator", desc: "Look at another player's hand." },
-    mover: { frame: 10, type: AType.ACTION, subType: SType.ORDER, label: "Mover", desc: "Move the <img id=\"suspects\" frame=\"0\"> to another location.", loupe: ReqType.MUST, protectQuotient: 0.25 },
+    investigator: { frame: 9, type: AType.ACTION, subType: SType.INFO, label: "Investigator", desc: "Look at an evidence pile OR another player's hand." },
+    mover: { frame: 10, type: AType.ACTION, subType: SType.ORDER, label: "Mover", desc: "Move the " + loupeIcon + " to another location.", loupe: ReqType.MUST, protectQuotient: 0.25 },
     switcheroo: { frame: 11, type: AType.ACTION, subType: SType.ORDER, label: "Switcheroo", desc: "Make two suspects <b>switch places</b> OR switch the <b>top and bottom</b> of a pile.", protectQuotient: 0.33 },
 }
 
@@ -87,7 +96,7 @@ const ADVANCED_SET:ActionSet =
 
     rebel: { frame: 8, type: AType.ACTION, subType: SType.ORDER, label: "Rebel", desc: "Pick 1 card from <b>every pile</b> and stick it anywhere inside <b>another pile</b>.", loupe: ReqType.MUST, murderQuotient: 0.75, protectQuotient: 0.5 }, // OLD POWER: "<b>Don't</b> move the <b>loupe</b> at the end of your turn."
     show: { frame: 9, type: AType.ACTION, subType: SType.INFO, label: "Show me your hands", desc: "While visible, everybody plays all cards <b>faceup</b>.", loupe: ReqType.MUST },
-    backward: { frame: 10, type: AType.ACTION, subType: SType.ORDER, label: "Walk it back", desc: "While visible, the <img id=\"suspects\" frame=\"0\"> moves <b>backwards</b> after each turn.", loupe: ReqType.MUST, protectQuotient: 0.25 },
+    backward: { frame: 10, type: AType.ACTION, subType: SType.ORDER, label: "Walk it back", desc: "While visible, the " + loupeIcon + " moves <b>backwards</b> after each turn.", loupe: ReqType.MUST, protectQuotient: 0.25 },
     hasty: { frame: 11, type: AType.ACTION, subType: SType.MISC, label: "Hasty", desc: "Immediately take <b>another turn</b>, OR force the next player to <b>skip</b> their turn." }
 }
 
@@ -103,7 +112,7 @@ const EXPERT_SET:ActionSet =
     spread: { frame: 6, type: AType.PILES, subType: SType.PILE, label: "Spread the love", desc: "Reveal the remaining cards in this pile. <b>Distribute</b> them over all other piles as you wish.", protectQuotient: 0.25 },
     double: { frame: 7, type: AType.PILES, subType: SType.PILE, label: "Double Cross", desc: "<b>Move</b> this entire pile to the bottom or top of <b>another pile</b>." },
 
-    investigator_private: { frame: 8, type: AType.ACTION, subType: SType.INFO, label: "Private Investigator", desc: "Look at another player's <b>suspect</b>." },
+    investigator_private: { frame: 8, type: AType.ACTION, subType: SType.INFO, label: "Private Investigator", desc: "Look at another player's <b>suspect</b> OR <b>swap hands</b> with them." },
     revelation: { frame: 9, type: AType.ACTION, subType: SType.MISC, label: "Revelation", desc: "Immediately <b>play another card</b> on top of all adjacent piles." },
     thief: { frame: 10, type: AType.ACTION, subType: SType.MISC, label: "Thief", desc: "<b>Steal 3 cards</b> from another player." },
     clock: { frame: 11, type: AType.ACTION, subType: SType.REVIEW, label: "On the clock", desc: "<b>At most 3 cards</b> may be evaluated during this <b>review</b>. After that, immediately stop.", loupe: ReqType.CANT, protectQuotient: 0.33 }
@@ -116,20 +125,31 @@ const SETS:Record<string, ActionSet> =
     expert: EXPERT_SET
 }
 
-const SUSPECTS = 
+interface SuspectData
+{
+    frame: number,
+    freq?: number,
+    color?: string,
+    type?: PType,
+    power?: string,
+}
+
+const SUSPECTS:Record<string, SuspectData> = 
 {
     loupe: { frame: 0, freq: 1 },
-    scarlett: { frame: 1, color: "#6E0C0D" }, // Miss Scarlett = red
-    green: { frame: 2, color: "#0B3B00" }, // Reverend Green = green
-    mustard: { frame: 3, color: "#3F350D" }, // Colonel Mustard = yellow/brown
-    professor: { frame: 4, color: "#331D49" }, // Professor Plum = purple
-    peacock: { frame: 5, color: "#0C2E4F" }, // Mrs. Peacock = blue
-    doctor: { frame: 6, color: "#333333" }, // Doctor Orchid = white
-    baker: { frame: 7, color: "#003D39" }, // Baker Girl = turquoise
-    brunette: { frame: 8, color: "#3B2118" }, // Monsieur Brunette
-    rose: { frame: 9, color: "#55123A" }, // Madame Rose
+    scarlett: { frame: 1, color: "#6E0C0D", type: PType.PLAY, power: "Rotate her suspect card 180 degrees. While she is in play and rotated, the hand limit is 1 card. (While you're above it, you simply draw no new cards at the end of your turn.)" }, // Miss Scarlett = red
+    green: { frame: 2, color: "#0B3B00", type: PType.DEATH, power: "All players discard their hand and draw 7 new cards.(While you're above the hand limit of 4, you simply draw no new cards at the end of your turn.)" }, // Reverend Green = green
+    mustard: { frame: 3, color: "#3F350D", type: PType.PLAY, power: "Shuffle this pile." }, // Colonel Mustard = yellow/brown
+    professor: { frame: 4, color: "#331D49", type: PType.PLAY, power: "Cards are always played face-up here, but only executed if the loupe is also here." }, // Professor Plum = purple
+    peacock: { frame: 5, color: "#0C2E4F", type: PType.DEATH, power: "Shuffle all remaining suspects, then randomly place them back above the existing evidence piles." }, // Mrs. Peacock = blue
+    doctor: { frame: 6, color: "#333333", type: PType.DEATH, power: "Bring another suspect back from the death. (The docter itself can never be revived.) If it's a player's secret suspect, they draw a new hand of cards and are back in the game!" }, // Doctor Orchid = white
+    baker: { frame: 7, color: "#003D39", type: PType.PLAY, power: "Rotate the neighbor suspects (left and right) 180 degrees. Rotated suspects are protected from dying ONCE when reviewed." }, // Baker Girl = turquoise
+    brunette: { frame: 8, color: "#3B2118", type: PType.PLAY, power: "Steal a random card from another player OR from any pile." }, // Monsieur Brunette
+    rose: { frame: 9, color: "#55123A", type: PType.DEATH, power: "When killed, she stays alive. Tuck a previously killed suspect underneath her: she takes over THEIR special power instead. If there is no previously killed suspect, she does immediately die." }, // Madame Rose
     traitor: { frame: 10, freq: 1 }
 }
+
+//  
 
 const MISC =
 {
@@ -137,7 +157,9 @@ const MISC =
     loupe_cant: { frame: 1 },
     suspect: { frame: 2 },
     suspect_cant: { frame: 3 },
-    paperclip: { frame: 4 }
+    paperclip: { frame: 4 }, // decoration
+    power_skull: { frame: 5 }, // special power when suspect dies
+    power_card: { frame: 6 }, // special power when you play to this suspect
 }
 
 interface SubTypeData
@@ -162,6 +184,7 @@ export
     AType,
     ReqType,
     ActionData,
+    SuspectData,
     SETS,
     BASE_SET,
     ADVANCED_SET,
