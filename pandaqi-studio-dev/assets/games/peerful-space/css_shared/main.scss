@@ -1,0 +1,31 @@
+$header-font: "grace";
+$body-font: "roboto";
+$base: "/sleighwell/assets/";
+$base-fonts: $base + "fonts/";
+
+$col1: #FF0000;
+$col2: #00FF00;
+$col3: #0000FF;
+
+@font-face {
+    font-family: $header-font;
+    src: url($base-fonts + 'Good-Grace.woff2') format('woff2');
+    font-weight: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'RobotoSlab-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'RobotoSlab-Black.woff2') format('woff2');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
