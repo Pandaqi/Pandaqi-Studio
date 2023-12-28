@@ -1,9 +1,7 @@
+import { PeerfulComponent } from "./main";
 import PeerfulClient from "./peerfulClient";
-import PeerfulServer from "./peerfulServer";
 
-type Peerful = PeerfulClient | PeerfulServer
-
-const sendAction = async (obj: Peerful, actionName:string, data:any = null, mask:string[] = undefined) =>
+const sendAction = async (obj: PeerfulComponent, actionName:string, data:any = null, mask:string[] = undefined) =>
 {
     const [send,receive] = obj.room.makeAction(actionName);
     if(!obj.config.connectAllToAll && obj instanceof PeerfulClient) { mask = [obj.authority]; }
@@ -11,7 +9,7 @@ const sendAction = async (obj: Peerful, actionName:string, data:any = null, mask
     return await send(data, mask);
 }
 
-const receiveAction = (obj: Peerful, actionName:string, callback:Function) =>
+const receiveAction = (obj: PeerfulComponent, actionName:string, callback:Function) =>
 {
     const [send,receive] = obj.room.makeAction(actionName);
     receive(callback);
@@ -19,7 +17,7 @@ const receiveAction = (obj: Peerful, actionName:string, callback:Function) =>
 
 // this signals another peer that we want something (a- = ask)
 // and listens for the response (z-) 
-const askQuestion = (obj: Peerful, actionName: string, data:any = "", callback: Function) =>
+const askQuestion = (obj: PeerfulComponent, actionName: string, data:any = "", callback: Function) =>
 {
     receiveAction(obj, "z-" + actionName, callback);
     sendAction(obj, "a-" + actionName, data);
@@ -27,7 +25,7 @@ const askQuestion = (obj: Peerful, actionName: string, data:any = "", callback: 
 
 // this receives the ask signal of another peer
 // then replies with the listener signal and the correct data
-const answerQuestion = (obj: Peerful, actionName: string, dataTransformation: Function) => 
+const answerQuestion = (obj: PeerfulComponent, actionName: string, dataTransformation: Function) => 
 {
     receiveAction(obj, "a-" + actionName, (data, peerID) => {
         const returnData = dataTransformation(data); // determine response

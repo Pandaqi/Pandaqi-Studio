@@ -9,11 +9,16 @@ const DEF_ROOM_USED_TIMEOUT = 3000;
 const DEF_MAX_ROOM_CODE_RETRIES = 15;
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
+type PeerfulComponent = PeerfulClient | PeerfulServer
+
 interface PeerfulConfig
 {
     debug?: boolean,
     node?: HTMLElement,
     appId: string,
+
+    serverClass?: any,
+    clientClass?: any,
 
     connectAllToAll?: boolean, // for games without an external main screen; device-to-device only
 
@@ -23,11 +28,6 @@ interface PeerfulConfig
 
     logToConsole?: boolean
     logToScreen?: boolean
-
-    phaserEnabled?: boolean
-    phaserRenderer?: string // canvas or webgl
-    phaserBackgroundColor?: string // hex color
-    phaserScenes?: any // the scenes to automatically add in phaser (not necessarily load)
 }
 
 interface PeerfulLoginData
@@ -50,7 +50,7 @@ enum GameState
     GAMEOVER
 }
 
-export { PeerfulConfig, PeerfulLoginData, GameState, PeerfulGame }
+export { PeerfulConfig, PeerfulLoginData, PeerfulComponent, GameState, PeerfulGame }
 export default class PeerfulGame
 {
     server: PeerfulServer

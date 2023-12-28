@@ -1,19 +1,20 @@
 import { PeerfulConfig } from "./main";
 
-const sendEvent = (name:string, data:any = null, config:PeerfulConfig) => 
+
+const sendEvent = (name:string, data:any = null, node:HTMLElement) => 
 {
     const ev = new CustomEvent(name, { detail: data });
-    config.node.dispatchEvent(ev);
+    node.dispatchEvent(ev);
 }
 
-const listenForEvent = (name:string, callback:EventListenerOrEventListenerObject, config:PeerfulConfig) => 
+const listenForEvent = (name:string, callback:EventListenerOrEventListenerObject, node:HTMLElement) => 
 {
-    config.node.addEventListener(name, callback);
+    node.addEventListener(name, callback);
 }
 
-const stopListeningForEvent = (name: string, callback: EventListenerOrEventListenerObject, config: PeerfulConfig) =>
+const stopListeningForEvent = (name: string, callback: EventListenerOrEventListenerObject, node:HTMLElement) =>
 {
-    config.node.removeEventListener(name, callback);
+    node.removeEventListener(name, callback);
 }
 
 export
