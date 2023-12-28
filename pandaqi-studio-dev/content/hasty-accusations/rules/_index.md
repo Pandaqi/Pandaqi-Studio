@@ -75,12 +75,14 @@ Next turn!
 
 {{% rules-block id="cards" heading="Cards" %}}
 
-Cards always have a power. As stated, this triggers when _revealed_. This happens when played faceup or when a pile is evaluated.
+Cards always have a power. As stated, this triggers when _revealed_. This happens when played faceup or when a pile is evaluated during Review.
 
 Some cards, however, show an icon in the top left.
 
-* A @TODO: INLINE icon means their action **only** triggers during **review**!
-* A @TODO: INLINE icon means their action does **not** trigger during **review**!
+* A @TODO: INLINE icon (loupe) means their action **only** triggers during **review**! (Not when played faceup in regular play.)
+* A @TODO: INLINE icon (loupe crossed) means their action does **not** trigger during **review**! (Only in regular play.)
+
+See [All Cards](#cards_reference) if you want a reference that displays and explains all cards in the game.
 
 {{% /rules-block %}}
 
@@ -110,7 +112,10 @@ It's recommended to have a balanced mix of death and play powers on your chosen 
 
 As usual, when the action gives a choice, the currently active player is the one to make it.
 
-@TODO: The rules table with all suspects + their actions explained.
+Below is a table explaining all the suspect's powers.
+
+<div id="rules-table-suspect-powers"></div>
+
 {{% /rules-block %}}
 
 {{% rules-block heading="Big Hands Variant" %}}
@@ -123,6 +128,22 @@ If you have no cards at the start of your turn, your suspect is immediately revi
 
 {{% rules-block heading="Speedy Variant" %}}
 When a suspect is murdered, completely remove their tile from the row. This means the game speeds up (and simplifies) more and more as it progresses.
+{{% /rules-block %}}
+
+{{% rules-block id="cards_reference" heading="All Cards" %}}
+Below is an overview of _all_ cards in the game.
+
+The **base** set contains ...
+
+<div id="rules-table-base"></div>
+
+The **advanced** set contains ...
+
+<div id="rules-table-advanced"></div>
+
+The **expert** set contains ...
+
+<div id="rules-table-expert"></div>
 {{% /rules-block %}}
 
 {{% /rules-block %}}

@@ -1,5 +1,5 @@
 import createContext from "js/pq_games/layout/canvas/createContext";
-import { MISC, ReqType, SETS, SUB_TYPES, SUSPECTS, Type } from "../js_shared/dict";
+import { MISC, PType, ReqType, SETS, SUB_TYPES, SUSPECTS, Type } from "../js_shared/dict";
 import CONFIG from "../js_shared/config";
 import strokeCanvas from "js/pq_games/layout/canvas/strokeCanvas";
 import Point from "js/pq_games/tools/geometry/point";
@@ -45,24 +45,27 @@ export default class Card
     async draw(vis:Visualizer)
     {
         const ctx = createContext({ size: vis.size });
+        const group = new ResourceGroup();
 
         if(this.type == Type.ACTION) {
-            await this.drawBackground(vis, ctx);
-            await this.drawPhotographs(vis, ctx);
-            await this.drawText(vis, ctx);
+            this.drawBackground(vis, ctx, group);
+            this.drawPhotographs(vis, group);
+            this.drawText(vis, group);
         } else if(this.type == Type.CHARACTER) {
-            await this.drawBackgroundSuspect(vis, ctx);
-            await this.drawSuspect(vis, ctx);
+            this.drawBackgroundSuspect(vis, ctx, group);
+            this.drawSuspect(vis, group);
         }
 
+        await group.toCanvas(ctx);
         this.drawOutline(vis, ctx);
+
         return ctx.canvas;
     }
 
     // 
     // SUSPECTS
     //
-    async drawBackgroundSuspect(vis:Visualizer, ctx)
+    async drawBackgroundSuspect(vis:Visualizer, ctx, group:ResourceGroup)
     {
         // first solid color
         let color = vis.inkFriendly ? "#FFFFFF" : this.getDataSuspect().color;
@@ -75,11 +78,13 @@ export default class Card
             dims: vis.size,
             alpha: alpha
         });
-        await res.toCanvas(ctx, op);
+        group.add(res, op);
     }
 
-    async drawSuspect(vis:Visualizer, ctx)
+    async drawSuspect(vis:Visualizer, group:ResourceGroup)
     {
+        const dataSuspect = this.getDataSuspect();
+
         // texts on the side
         const fontSize = CONFIG.suspects.illustration.fontSize * vis.sizeUnit;
         const textConfig = new TextConfig({
@@ -93,7 +98,7 @@ export default class Card
         else if(this.key == "traitor") { text = "Traitor!"; }
         const textRes = new ResourceText({ text: text, textConfig: textConfig });
 
-        const color = this.getDataSuspect().color;
+        const color = dataSuspect.color;
         const colorLighten = new Color(color).lighten(CONFIG.suspects.illustration.textColorLighten);
         const positions = [
             new Point(fontSize, vis.center.y),
@@ -116,12 +121,41 @@ export default class Card
                 effects: effects
             })
 
-            await textRes.toCanvas(ctx, textOp);
+            group.add(textRes, textOp);
+        }
+
+        // special powers further inward
+        const hasSpecialPower = dataSuspect.type && dataSuspect.power;
+        if(hasSpecialPower)
+        {
+            const powerIconDims = new Point(CONFIG.suspects.power.iconSize * vis.sizeUnit);
+            const offset = new Point(0.5 * fontSize + 0.5 * powerIconDims.x, 0);
+            const positionsPower = [
+                positions[0].clone().move(offset),
+                positions[1].clone().move(offset.negate())
+            ]
+    
+            for(let i = 0; i < 2; i++)
+            {
+                // first icon is general type (when power triggers), second is suspect-specific power
+                const res = (i == 0) ? vis.resLoader.getResource("misc") : vis.resLoader.getResource("suspect_powers");
+                let frame = dataSuspect.type == PType.DEATH ? MISC.power_skull.frame : MISC.power_card.frame;
+                if(i == 1) { frame = dataSuspect.frame; }
+    
+                const iconOp = new LayoutOperation({
+                    frame: frame,
+                    translate: positionsPower[i],
+                    dims: powerIconDims,
+                    pivot: Point.CENTER
+                })
+
+                group.add(res, iconOp);
+            }
         }
 
         // main illustration in the center
         const res = vis.resLoader.getResource("suspects");
-        const frame = this.getDataSuspect().frame;
+        const frame = dataSuspect.frame;
         const illuDims = new Point(CONFIG.suspects.illustration.scaleFactor * vis.sizeUnit);
         const op = new LayoutOperation({
             frame: frame,
@@ -130,7 +164,7 @@ export default class Card
             pivot: Point.CENTER,
             effects: effects
         })
-        await res.toCanvas(ctx, op);
+        group.add(res, op);
 
         // paperclip at the top
         const resClip = vis.resLoader.getResource("misc");
@@ -143,13 +177,13 @@ export default class Card
             pivot: Point.CENTER
         })
 
-        await resClip.toCanvas(ctx, opClip);
+        group.add(resClip, opClip);
     }
 
     // 
     // PLAYING CARDS
     //
-    async drawBackground(vis:Visualizer, ctx:CanvasRenderingContext2D)
+    drawBackground(vis:Visualizer, ctx, group:ResourceGroup)
     {
         // first solid color
         let color = vis.inkFriendly ? "#FFFFFF" : CONFIG.cards.shared.bgColor;
@@ -160,14 +194,14 @@ export default class Card
         const op = new LayoutOperation({
             dims: vis.size,
         })
-        await res.toCanvas(ctx, op);
+        group.add(res, op);
     }
 
     getDataPlay() { return SETS[CONFIG.cardSet][this.key]; }
     getDataSuspect() { return SUSPECTS[this.key]; }
     getMainColor() { return new Color(SUB_TYPES[this.getDataPlay().subType].color); }
 
-    async drawPhotographs(vis:Visualizer, ctx:CanvasRenderingContext2D)
+    async drawPhotographs(vis:Visualizer, group:ResourceGroup)
     {
         const numPhotographs = CONFIG.cards.photographs.numPerCard.randomInteger();
         const photographCenter = new Point(vis.center.x, CONFIG.cards.photographs.yPos * vis.size.y);
@@ -234,9 +268,9 @@ export default class Card
         const reqsDims = new Point(CONFIG.cards.photographs.requirementDims * rectSizeUnit);
         const reqEffects = [new DropShadowEffect({ blurRadius: CONFIG.cards.photographs.requirementShadowRadius * reqsDims.x })];
         const dataPlay = this.getDataPlay();
-        if(dataPlay.loupe && dataPlay.loupe != ReqType.NEUTRAL)
+        if(dataPlay.triggers && dataPlay.triggers != ReqType.ALWAYS)
         {
-            const frame = dataPlay.loupe == ReqType.CANT ? MISC.loupe_cant.frame : MISC.loupe.frame;
+            const frame = dataPlay.triggers == ReqType.PLAY ? MISC.loupe_cant.frame : MISC.loupe.frame;
             loupe = vis.resLoader.getResource("misc");
             loupeOp = new LayoutOperation({
                 frame: frame,
@@ -248,6 +282,7 @@ export default class Card
             reqsPos = reqsPos.clone().move(new Point(0, reqsDims.y + reqsPaddingBetween));
         }
 
+        /*
         if(dataPlay.suspect && dataPlay.suspect != ReqType.NEUTRAL)
         {
             const frame = dataPlay.suspect == ReqType.CANT ? MISC.suspect_cant.frame : MISC.suspect.frame;
@@ -259,6 +294,7 @@ export default class Card
                 effects: reqEffects
             })
         }
+        */
 
         // the main illustration
         const illustration = vis.resLoader.getResource(CONFIG.cardSet);
@@ -273,10 +309,10 @@ export default class Card
 
 
         // create one group ( = set of instructions), then repeat it several times with different settings (such as rotation)
-        const group = new ResourceGroup();
-        group.add(new ResourceShape({ shape: rect }), rectOp);
-        group.add(new ResourceShape({ shape: rectInner }), rectInnerOp);
-        group.add(new ResourceShape({ shape: rectTitle }), rectTitleOp);
+        const groupSub = new ResourceGroup();
+        groupSub.add(new ResourceShape({ shape: rect }), rectOp);
+        groupSub.add(new ResourceShape({ shape: rectInner }), rectInnerOp);
+        groupSub.add(new ResourceShape({ shape: rectTitle }), rectTitleOp);
 
         const maxPhotoRotation = CONFIG.cards.photographs.maxRotation;
         const alphaJumps = (1.0 / numPhotographs);
@@ -294,10 +330,10 @@ export default class Card
             if(isTopPhoto)
             {
                 topPhotoRotation = randRotation;
-                group.add(titleText, titleTextOp);
-                group.add(illustration, illustrationOp);
-                if(loupe) { group.add(loupe, loupeOp); }
-                if(suspect) { group.add(suspect, suspectOp); }
+                groupSub.add(titleText, titleTextOp);
+                groupSub.add(illustration, illustrationOp);
+                if(loupe) { groupSub.add(loupe, loupeOp); }
+                if(suspect) { groupSub.add(suspect, suspectOp); }
             }
 
             const groupOp = new LayoutOperation({
@@ -310,7 +346,7 @@ export default class Card
                 alpha: alpha
             })
 
-            await group.toCanvas(ctx, groupOp);
+            group.add(groupSub, groupOp);
         }
 
         // paperclip at the top
@@ -327,7 +363,7 @@ export default class Card
             pivot: Point.CENTER
         })
 
-        await resClip.toCanvas(ctx, opClip);
+        group.add(resClip, opClip);
     }
 
     createPhotoRotations(num:number)
@@ -345,7 +381,7 @@ export default class Card
         return arr;
     }
 
-    async drawText(vis:Visualizer, ctx:CanvasRenderingContext2D)
+    async drawText(vis:Visualizer, group:ResourceGroup)
     {
         // the faded background rect for more legibility/contrast
         const pos = new Point(vis.center.x, CONFIG.cards.text.yPos * vis.size.y);
@@ -361,7 +397,7 @@ export default class Card
         })
 
         const resShape = new ResourceShape({ shape: rect });
-        await resShape.toCanvas(ctx, rectOp);
+        group.add(resShape, rectOp);
 
         // then the actual text
         const fontSize = CONFIG.cards.text.fontSize * vis.sizeUnit;
@@ -382,7 +418,7 @@ export default class Card
             pivot: Point.CENTER,
             effects: effects
         })
-        await textRes.toCanvas(ctx, op);
+        group.add(textRes, op);
     }
 
     drawOutline(vis:Visualizer, ctx:CanvasRenderingContext2D)

@@ -86,6 +86,13 @@ const CONFIG =
             //suspectsOnly: true
         },
 
+        suspect_powers:
+        {
+            path: "suspect_powers.webp",
+            frames: new Point(11,1),
+            suspectsOnly: true
+        },
+
         papers:
         {
             path: "papers.webp",
@@ -106,8 +113,8 @@ const CONFIG =
        defFreqBounds: new Bounds(2, 10),
        defFrequencyForSuspect: 3,
 
-       murderQuotientTarget: new Bounds(0.245, 0.29), // ~deckSize
-       protectQuotientTarget: new Bounds(0.15, 0.2), // ~deckSize
+       murderQuotientTarget: new Bounds(0.2, 0.25), // ~deckSize
+       protectQuotientTarget: new Bounds(0.125, 0.15), // ~deckSize
     },
 
     suspects:
@@ -124,6 +131,11 @@ const CONFIG =
         shared:
         {
 
+        },
+
+        power:
+        {
+            iconSize: 0.3, // ~sizeUnit
         },
 
         illustration:
