@@ -50,6 +50,12 @@ export default class GameClient
 
     prepareActions()
     {
+        // listen for interface reset
+        const resetHandler = (data, peerID) => {
+            this.reset();
+        }
+        receiveAction(this.client, "player-reset", resetHandler);
+
         // listen for players entering and leaving our trade range
         const rangeHandler = (data, peerID) => {
             if(data.inRange) { this.playersInRange.push(data.sender); }
@@ -101,6 +107,14 @@ export default class GameClient
         return this.playersInRange.length > 0;
     }
 
+    reset()
+    {
+        this.playersInRange = [];
+        this.refreshRadar();
+        this.backpackItems = [];
+        this.refreshBackpack();
+    }
+
     refreshRadar()
     {
         this.radar.innerHTML = this.playersInRange.join(" | ");
@@ -118,5 +132,4 @@ export default class GameClient
             elem.addEventListener("click", (ev) => { this.trade(item); })
         }
     }
-
 }

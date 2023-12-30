@@ -3,6 +3,7 @@ import { receiveAction, sendAction } from "js/pq_peerful/peerfulUtilities";
 import GameServer from "./gameServer";
 import CONFIG from "./config";
 import BackpackItem, { BackpackItemRaw } from "./backpackItem";
+import { listenForEvent } from "js/pq_peerful/events";
 
 export default class Player
 {
@@ -13,6 +14,7 @@ export default class Player
     game: GameServer;
     backpack: BackpackItem[];
     sprite: any;
+    exploded: boolean;
     userNameText: any;
 
     constructor(game: GameServer, id, usn)
@@ -20,7 +22,7 @@ export default class Player
         this.game = game;
         this.id = id;
         this.username = usn;
-        this.playersInRange = [];
+        this.reset();
         this.prepareActions();
     }
 
@@ -46,6 +48,13 @@ export default class Player
             this.move(data);
         };
         receiveAction(this.game.server, "move", movementHandler);
+
+        // check for backpack explosions
+        const updateHandler = () => {
+            const itemsExploded = this.getItemsPastTimestamp();
+            if(itemsExploded.length > 0) { this.explode(); return; }
+        }
+        listenForEvent("phaser-update", updateHandler, this.game.server.config.node);
     }
 
     setPosition(pos)
@@ -110,12 +119,16 @@ export default class Player
         return -1;
     }
 
+    isFull() { return this.countItems() >= CONFIG.maxBackpackSize; }
     hasItem(item: BackpackItem) { return this.getItemIndex(item) >= 0; }
     countItems() { return this.backpack.length; }
     updateBackpack(itemRaw: BackpackItemRaw, add: boolean)
     {
         const item = new BackpackItem().from(itemRaw);
         const itemIsDone = item.hasTarget(this.id) && add; // @TODO: perhaps check this on CLIENT, so they see the item for a few seconds, and then it disappears and sends a signal back
+        const currentTime = this.game.getCurrentTime();
+        item.updateTimestamp(currentTime);
+        
         if(!itemIsDone) 
         { 
             if(add) { this.backpack.push(item); }
@@ -127,14 +140,48 @@ export default class Player
 
     grab(item:BackpackItem)
     {
+        if(this.isFull()) { return; } // @TODO: error message on screen for this
+
         this.game.map.removeItem(item);
         this.updateBackpack(item.getRaw(), true);
     }
 
+    getItemsPastTimestamp()
+    {
+        const arr = [];
+        const time = Math.floor(Date.now() / 1000.0);
+        for(const item of this.backpack)
+        {
+            if(!item.pastTimestamp(time)) { continue; }
+            arr.push(item);
+        }
+        return arr;
+    }
+
+    isDead() { return this.exploded; }
+    explode()
+    {
+        this.exploded = true;
+        sendAction(this.game.server, "exploded", null, [this.id]);
+        this.game.handleGameOver();
+    }
+
+    reset()
+    {
+        this.playersInRange = [];
+        this.backpack = [];
+        this.exploded = false;
+        
+        sendAction(this.game.server, "player-reset", null, [this.id]);
+    }
+
     refreshSprites()
     {
+        const oldPos = this.sprite.position;
+        const vec = new Point(this.position.x - oldPos.x, this.position.y - oldPos.y);
+
         this.sprite.setPosition(this.position.x, this.position.y);
-        // @TODO: make sprite face the way we last moved?
+        this.sprite.flipX = (vec.x < 0); // make sprite face the way we last moved
         this.userNameText.setPosition(this.position.x, this.position.y - CONFIG.playerSize);
         this.userNameText.setText(this.username);
     }

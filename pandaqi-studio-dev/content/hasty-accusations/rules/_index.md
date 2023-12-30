@@ -8,6 +8,8 @@ Pick which card set you want from the [website](https://pandaqi.com/hasty-accusa
 
 Decide the number of suspects to use. It's recommended to use at least 5 and more than the number of players.
 
+{{% rules-double-view src="setup.webp" alt="Example setup for a 4-player game (with 5 suspects)." }}
+
 Then,
 * Place one row of **faceup** suspects on the table. (Below these cards, evidence piles will build during the game.)
 * Place the **loupe token** above a suspect in the middle of the row.
@@ -17,7 +19,7 @@ Then,
 
 Let's start!
 
-@TODO: IMAGE EXAMPLE of this setup
+{{% /rules-double-view %}}
 
 {{% /rules-block %}}
 
@@ -44,7 +46,7 @@ If you play nothing, discard your whole hand, and the loupe moves forward one st
 
 Only move the loupe at the end of your turn, after playing all your cards and summing their movement. If there is no next step for the loupe, it **wraps around** to the other side. If this happened, execute a [review](#review) now!
 
-@TODO: EXAMPLE IMAGE
+{{< rules-image src="gameplay.webp" alt="Two examples of turns. (One regular, one that makes the loupe wrap around = review.)" >}}
 
 {{% /rules-block %}}
 
@@ -61,7 +63,7 @@ Evaluation has three simple rules:
 
 Discard all cards from the evaluated evidence pile.
 
-**Exception: the first round is safe.** The loupe just returns to the first suspect _without_ evaluating a pile. You can disable this rule on advanced sets (where murdering is harder) or if you don't want it.
+**Exception: the first review is safe.** The loupe wraps around _without_ evaluating a pile. You can disable this rule on advanced sets (where murdering is harder) or if you don't want it.
 
 Finally, all players fill up their hand. Starting with the active player, take clockwise turns drawing your hand **back up to the hand limit** (default = 4):
 * Pick as many cards as needed from the market.
@@ -69,7 +71,7 @@ Finally, all players fill up their hand. Starting with the active player, take c
 
 Next turn!
 
-@TODO: EXAMPLE IMAGE
+{{< rules-image src="review.webp" alt="Example of a review phase and how to evaluate the largest pile. (And how murders take place!)" >}}
 
 {{% /rules-block %}}
 
@@ -79,8 +81,8 @@ Cards always have a power. As stated, this triggers when _revealed_. This happen
 
 Some cards, however, show an icon in the top left.
 
-* A @TODO: INLINE icon (loupe) means their action **only** triggers during **review**! (Not when played faceup in regular play.)
-* A @TODO: INLINE icon (loupe crossed) means their action does **not** trigger during **review**! (Only in regular play.)
+* A <span class="inline-icon inline-icon-only-review"></span> means their action **only** triggers during **review**! (Not when played faceup in regular play.)
+* A <span class="inline-icon inline-icon-only-play"></span> means their action does **not** trigger during **review**! (Only in regular play.)
 
 See [All Cards](#cards_reference) if you want a reference that displays and explains all cards in the game.
 
@@ -105,8 +107,8 @@ The traitor wins if _everyone else loses_. In other words,
 {{% rules-block heading="Suspect Powers" %}}
 You probably noticed some icons on the suspects. We'll use those now!
 
-* A @TODO: INLINE ICON (skull?) power triggers when this suspect dies.
-* A @TODO: INLINE ICON (card?) icon triggers when you play a card here.
+* A <span class="inline-icon inline-icon-power-skull"></span> power triggers when this suspect **dies**.
+* A <span class="inline-icon inline-icon-power-card"></span> icon triggers when you **play a card** here.
 
 It's recommended to have a balanced mix of death and play powers on your chosen suspects.
 
@@ -144,6 +146,7 @@ The **advanced** set contains ...
 The **expert** set contains ...
 
 <div id="rules-table-expert"></div>
+
 {{% /rules-block %}}
 
 {{% /rules-block %}}

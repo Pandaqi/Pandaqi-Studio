@@ -7,6 +7,7 @@ interface BackpackItemRaw
 {
     type?: string;
     target?: string;
+    timestamp?: number;
 }
 
 // @NOTE: This class covers both Client and Server representation of items
@@ -54,6 +55,23 @@ export default class BackpackItem
     remove()
     {
         this.sprite.destroy();
+    }
+
+    getItemData()
+    {
+        return ITEMS[this.raw.type];
+    }
+
+    pastTimestamp(currentTime:number)
+    {
+        return this.raw.timestamp >= currentTime;
+    }
+
+    updateTimestamp(curTime)
+    {
+        // convert ms to s for less data to send over internet
+        const newEndTime = curTime + (this.getItemData().duration ?? CONFIG.defaultItemDuration);
+        this.raw.timestamp = newEndTime;
     }
 
     createSprites(game:GameServer)

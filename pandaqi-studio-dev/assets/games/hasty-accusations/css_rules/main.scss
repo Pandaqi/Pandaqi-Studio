@@ -27,3 +27,37 @@ h1, h2, h3, h4 {
 #lives {
     background-color: g.$col4;
 }
+
+
+// inline icons in rules
+$ii-size: 24px;
+
+.inline-icon 
+{
+    width: $ii-size;
+    height: $ii-size;
+    background-image: url(g.$base + "misc.webp"); // perhaps use downscaled version?
+    display: inline-block;
+    background-size: cover;
+    vertical-align: bottom;
+}
+
+.inline-icon-only-review
+{
+    background-position-x: 0 * $ii-size;
+}
+
+.inline-icon-only-play
+{
+    background-position: -1 * $ii-size;
+}
+
+.inline-icon-power-skull
+{
+    background-position: -5 * $ii-size;
+}
+
+.inline-icon-power-card
+{
+    background-position: -6 * $ii-size;
+}

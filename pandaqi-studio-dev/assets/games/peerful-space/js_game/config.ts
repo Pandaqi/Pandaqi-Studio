@@ -5,8 +5,10 @@ const CONFIG =
 {
     playerSize: 40,
     itemSize: 20,
+    maxBackpackSize: 5,
     playerTradeRange: 100,
     itemGrabRange: 25,
+    defaultItemDuration: 30, // seconds
     numItems: new Bounds(5, 10),
 
     phaser:
@@ -28,6 +30,7 @@ const CONFIG =
     assets:
     {
         // @TODO: assets to preload in phaser
+        // @TODO: fonts to preload as well; then reuse in phaser configs above
     }
 }
 

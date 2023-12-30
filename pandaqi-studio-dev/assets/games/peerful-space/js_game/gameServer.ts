@@ -19,6 +19,7 @@ export default class GameServer
     phaser: any;
     players: Record<string,Player> = {}; // players (peerID -> Player instance)
     map: GameMap;
+    startTime: number;
 
     constructor(server: PeerfulServer)
     {
@@ -60,7 +61,17 @@ export default class GameServer
 
     startNewGame()
     {
+        this.startTime = this.getCurrentTimeRaw();
+        this.resetPlayers();
         this.map.generate();
+    }
+
+    resetPlayers()
+    {
+        for(const player of Object.values(this.players))
+        {
+            player.reset();
+        }
     }
 
     addPlayer(id, usn)
@@ -74,14 +85,22 @@ export default class GameServer
     {
         delete this.players[id];
     }
+
+    // we work with seconds AND we only start from game start
+    // to keep the numbers constantly sent over the internet much smaller in size
+    getCurrentTimeRaw() { return Math.floor(Date.now() / 1000.0); }
+    getCurrentTime()
+    {
+        return this.getCurrentTimeRaw() - this.startTime;
+    }
     
     isTradeAllowed(trader:string, data)
     {
         const giver = this.getPlayer(trader);
-        const receiver = data.who;
+        const receiverID = data.who;
         const item = data.item;
         if(!giver.hasItem(item)) { return false; }
-        if(!giver.inRangeWith(receiver)) { return false; }
+        if(!giver.inRangeWith(receiverID)) { return false; }
         return true;
     }
 
@@ -89,6 +108,18 @@ export default class GameServer
     getRandomPlayer()
     {
         return fromArray(Object.keys(this.players));
+    }
+
+    countDeadPlayers() { return this.getDeadPlayers().length; }
+    getDeadPlayers()
+    {
+        const arr = [];
+        for(const player of Object.values(this.players))
+        {
+            if(!player.isDead()) { continue; }
+            arr.push(player);
+        }
+        return arr;
     }
 
     countItemsInBackpacks() 
@@ -103,6 +134,9 @@ export default class GameServer
 
     isGameOver()
     {
+        const deadPlayers = this.countDeadPlayers();
+        if(deadPlayers > 0) { return true; }
+
         const numItemsInBackpacks = this.countItemsInBackpacks();
         if(numItemsInBackpacks > 0) { return false; }
 
@@ -112,7 +146,7 @@ export default class GameServer
 
     handleGameOver()
     {
-        if(!this.isGameOver()) { return; }
+        if(!this.isGameOver()) { return false; }
         this.server.gotoGameOver();
         return true;
     }

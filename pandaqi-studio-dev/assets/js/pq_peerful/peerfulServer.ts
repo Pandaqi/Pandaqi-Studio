@@ -39,6 +39,8 @@ export default class PeerfulServer
         this.room = joinRoom(config, roomCode);
         this.prepareActions();
         this.connectToCustomCode();
+        
+        sendEvent("peer-creation-success", true, this.config.node);
         this.changeState(GameState.GAMELOGIN);
     }
 
@@ -54,7 +56,6 @@ export default class PeerfulServer
         if(this.state == GameState.GAMELOGIN)
         {
             this.openToPublic();
-            
             log("Game ready for logins (code = " + this.roomCode + ").", this.config);
         }
         else if(this.state == GameState.GAME)

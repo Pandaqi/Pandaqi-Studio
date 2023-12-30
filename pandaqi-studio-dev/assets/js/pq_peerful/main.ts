@@ -1,7 +1,9 @@
+import { listenForEvent } from './events.js';
 import { Logger, log } from './log.js';
 import PeerfulClient from './peerfulClient.js';
 import PeerfulServer from './peerfulServer.js';
 import { joinRoom, selfId, getTrackers } from './trystero-torrent.min.js';
+import { UUID } from "./qr/uuid.js";
 
 const DEF_NAME_BOUNDS = { min: 4, max: 12 };
 const DEF_ROOM_CODE_LENGTH_BOUNDS = { min: 4, max: 6 };
@@ -16,6 +18,8 @@ interface PeerfulConfig
     debug?: boolean,
     node?: HTMLElement,
     appId: string,
+
+    useQRCode?: boolean, // if true, creates UUID room codes, and a button to scan them
 
     serverClass?: any,
     clientClass?: any,
@@ -74,28 +78,40 @@ export default class PeerfulGame
     createHTML()
     {
         const cont = document.createElement("div");
+        cont.classList.add("peerful-login");
+
+        const successHandler = (val) => { cont.remove(); }
+        listenForEvent("peer-creation-success", successHandler, this.config.node);
+
+        const subCont = document.createElement("div");
+        cont.appendChild(subCont);
+        subCont.classList.add("peerful-login-container");
 
         const roomCodeInput = document.createElement("input");
-        cont.appendChild(roomCodeInput);
+        subCont.appendChild(roomCodeInput);
         this.roomCodeInput = roomCodeInput;
+        roomCodeInput.classList.add("peerful-input-room-code");
         roomCodeInput.type = "text";
         roomCodeInput.placeholder = "... room code here ...";
 
         const nameInput = document.createElement("input");
-        cont.appendChild(nameInput);
+        subCont.appendChild(nameInput);
         this.nameInput = nameInput;
+        nameInput.classList.add("peerful-input-username");
         nameInput.type = "text";
         nameInput.placeholder = "... username here ...";
 
         const createButton = document.createElement("button");
-        cont.appendChild(createButton);
+        subCont.appendChild(createButton);
+        createButton.classList.add("peerful-button-new-game");
         createButton.innerHTML = "Create New Game";
         createButton.addEventListener("click", (ev) => {
             this.addServer();
         });
 
         const joinButton = document.createElement("button");
-        cont.appendChild(joinButton);
+        subCont.appendChild(joinButton);
+        joinButton.classList.add("peerful-button-join-game");
         joinButton.innerHTML = "Join Game";
         joinButton.addEventListener("click", (ev) => {
             this.addClient();
@@ -151,7 +167,23 @@ export default class PeerfulGame
         return this.roomCodeInput.value.trim().toUpperCase();
     }
 
-    async generateRandomRoomCode()
+    generateRandomRoomCode()
+    {
+        if(this.config.useQRCode) { return UUID.generate(); }
+        
+        const codePieces = [];
+        const codeLengthBounds = this.config.roomCodeLength ?? DEF_ROOM_CODE_LENGTH_BOUNDS;
+        const codeLength = codeLengthBounds.min + Math.floor(Math.random() * (codeLengthBounds.max - codeLengthBounds.min + 1));
+        for(let i = 0; i < codeLength; i++)
+        {
+            const randIndex = Math.floor(Math.random() * ALPHABET.length);
+            codePieces.push(ALPHABET.charAt(randIndex));
+        }
+
+        return codePieces.join("");
+    }
+
+    async getRandomRoomCode()
     {
         let roomAlreadyUsed = true;
         let code = "";
@@ -160,16 +192,7 @@ export default class PeerfulGame
         const maxTries = DEF_MAX_ROOM_CODE_RETRIES;
         while(roomAlreadyUsed && numTries < maxTries)
         {
-            const codePieces = [];
-            const codeLengthBounds = this.config.roomCodeLength ?? DEF_ROOM_CODE_LENGTH_BOUNDS;
-            const codeLength = codeLengthBounds.min + Math.floor(Math.random() * (codeLengthBounds.max - codeLengthBounds.min + 1));
-            for(let i = 0; i < codeLength; i++)
-            {
-                const randIndex = Math.floor(Math.random() * ALPHABET.length);
-                codePieces.push(ALPHABET.charAt(randIndex));
-            }
-    
-            code = codePieces.join("");
+            code = this.generateRandomRoomCode();
             
             const room = joinRoom(this.config, code);
             const [sendData,getData] = room.makeAction("checklogin");
@@ -216,7 +239,7 @@ export default class PeerfulGame
     getServer() { return this.server; }
     async addServer()
     {
-        const code = await this.generateRandomRoomCode();
+        const code = await this.getRandomRoomCode();
         if(!code) { return; }
         this.roomCodeInput.value = code; // save generated code for easy use in client logic too
         this.server = new PeerfulServer(code, this.config);

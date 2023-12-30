@@ -90,7 +90,8 @@ export default class PeerfulClient
         log("Connected to authority: " + this.authority, this.config);
         sendEvent("connected-to-authority", null, this.config.node);
 
-        this.prepareActions();        
+        this.prepareActions();  
+        sendEvent("peer-creation-success", true, this.config.node);      
     }
 
     prepareActions()
