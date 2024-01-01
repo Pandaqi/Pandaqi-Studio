@@ -15,9 +15,8 @@ Pick the 3 colors with which you want to start. Grab all their cards that have _
 Each player studies their deck, then shuffles it and places it facedown before them.
 
 Finally, place the remaining cards faceup into the **shop**.
-* Add one pile for all black cards.
 * Add one pile for all cards without an action. (The majority of them.)
-* Group all remaining cards into piles by _action_. (Most actions in colored sets appear exactly twice.)
+* Add one pile _per color_ (with all remaining cards).
 
 The most reckless player becomes Firemaster.
 
@@ -31,7 +30,9 @@ Material can be downloaded from [the website](https://pandaqi.com/firecrackers/)
 
 {{% rules-block id="objective" heading="Objective" icon="objective" icontint="lightblue" %}}
 
-The game ends after the round when the **shop runs out**. Players count their score by **summing the numbers** of all the cards inside their **deck**. Highest score wins! 
+The game ends after the round when the **shop runs out**. 
+
+Players count their score by **summing the numbers** of all the cards inside their **deck**. (Some cards have a special rule for their worth; this _overrides_ their number, it's not added.) Highest score wins! 
 
 {{% /rules-block %}}
 
@@ -41,20 +42,17 @@ Play happens in rounds. Beginning with the Firemaster, take clockwise turns unti
 
 On your turn, either **REVEAL** or **STOP**.
 
+At any point, if your deck is empty, turn over and shuffle your discard pile to create your new deck. (You only permanently lose a card when an action uses the term "destroy".)
+
 The rounds ends when all players are done. When that happens,
 * The last player alive become the new Firemaster.
 * All players move their revealed cards to their own faceup discard pile.
-* If your deck is empty, turn over and shuffle your discard pile to create your new deck. (You only permanently lose a card when an action uses the term "destroy".)
 
 {{< rules-example id="turn" >}}
 
 {{% rules-block heading="Reveal" %}}
 
 **Reveal the top card of your deck.** Your revealed cards form a faceup row next to your deck.
-
-{{% remark %}} 
-No more cards in your deck? You can't take this action and _must_ stop.
-{{% /remark %}}
 
 If the card has a special action, execute it now. If you can't, or it's not relevant now, simply ignore it.
 
@@ -70,11 +68,9 @@ Say "I stop!"
 
 You're out of the round, but you may first **buy new cards** from the shop.
 
-Each card you **revealed** this round is worth **1 coin**. You may use the money any way you want, but leftover coins are lost.
+Each card you **revealed** this round is worth **1 coin** (unless stated otherwise). You may use the money any way you want, but leftover coins are lost.
 
 Cards bought go to your _discard_ pile.
-
-If you're the **last player alive**, you may **destroy** one card from your discard pile. (This is a way to get rid of "bad" cards in your deck that you don't want anymore.)
 
 That's it. Have fun!
 

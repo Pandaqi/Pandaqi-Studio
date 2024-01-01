@@ -47,20 +47,22 @@ interface ActionData
     cost?: number
 }
 
+const cIcon = '<img id="misc" frame="0">'; // coin icon
+
 const ACTIONS:Record<string,ActionData> =
 {
     // those related to a specific set, in sensible pairs
-    remove: { label: "Destroy Discard", desc: "<b>Destroy</b> a card from your discard pile." },
-    remove_other: { label: "Destroy Others", desc: "<b>Destroy</b> a revealed card from another player." },
+    remove: { label: "Destroy Discard", desc: "You may <b>destroy</b> a card from your discard pile or deck (then shuffle)." },
+    remove_other: { label: "Destroy Others", desc: "You may <b>destroy</b> any revealed card." },
 
     force: { label: "Force Reveal", desc: "Force the next player to <b>reveal</b>." },
     skip: { label: "Force skip", desc: "Force yourself or your neighbor to <b>skip</b> their next turn." },
 
-    more_coins: { label: "Treasure", desc: "Worth <b>2 <img id=\"misc\" frame=\"0\"></b> when buying." }, // MISC 0 = coin!
-    fewer_coins: { label: "Garbage Product", desc: "Worth <b>0 <img id=\"misc\" frame=\"0\"></b> when buying.", cost: -1 },
+    more_coins: { label: "Treasure", desc: "Worth <b>2 " + cIcon + "</b> when buying." },
+    fewer_coins: { label: "Garbage Product", desc: "Worth <b>0 " + cIcon + "</b> when buying.", cost: -1 },
 
-    more_score: { label: "Points Trade", desc: "Worth <b>-2 <img id=\"misc\" frame=\"0\"></b> when buying, but scores <b>double</b> its number." },
-    less_score: { label: "Money Trade", desc: "Worth <b>3 <img id=\"misc\" frame=\"0\"></b> when buying, but scores <b>-1 points</b>." },
+    more_score: { label: "Points Trade", desc: "Worth <b>-1 " + cIcon + "</b> when buying, but scores <b>double</b> its number." },
+    less_score: { label: "Money Trade", desc: "Worth <b>3 " + cIcon + "</b> when buying, but scores <b>-2 points</b>." },
 
     explosion_delayed: { label: "Stayin' Alive", desc: "The first time you explode, you <b>stay alive</b>, but must reveal another card." },
     explosion_buddy: { label: "Buddy Explosion", desc: "If you <b>explode</b>, so does every neighbor who hasn't already stopped.", cost: 2 },
@@ -68,36 +70,36 @@ const ACTIONS:Record<string,ActionData> =
     return_discard: { label: "Old Fireworks", desc: "<b>Move</b> 2 cards from your discard back to your deck, then shuffle." },
     return_revealed: { label: "Try Again", desc: "<b>Move</b> 2 revealed cards back into your deck, then shuffle." },
 
-    lower_threshold: { label: "Easy Ignite", desc: "Pick a color. Its threshold for exploding is <b>lowered by 3</b>." },
-    raise_threshold: { label: "Cold Weather", desc: "Pick a color. Its threshold for exploding is <b>raised by 3</b>." },
+    lower_threshold: { label: "Easy Ignite", desc: "Pick a color. Its threshold for exploding is <b>lowered by 4</b>." },
+    raise_threshold: { label: "Cold Weather", desc: "Pick a color. Its threshold for exploding is <b>raised by 4</b>." },
 
     last_alive: { label: "Stick it out", desc: "If you're the last player alive, you get <b>any card</b> from the shop (for free)." },
     first_stop: { label: "Sudden Burst", desc: "If you're the first to stop, reveal 2 more cards without exploding.", cost: 2 },
 
     draw_safe: { label: "Safety Goggles", desc: "Once this round, look at your next card before revealing or stopping." },
-    draw_risky: { label: "No Hesitation", desc: "Once this round, you may reveal 3 cards at once." },
+    draw_risky: { label: "No Hesitation", desc: "You may reveal 3 cards this turn." },
 
     change_color: { label: "Colorshift", desc: "Tuck this card underneath another: it becomes the same color." },
     change_number: { label: "Numbershift", desc: "Tuck this card underneath another: it becomes the same number." },
 
-    super_cracker: { label: "Super Cracker", desc: "You <b>explode</b> (unstoppable). This card is <b>worth 15 points</b>." },
+    super_cracker: { label: "Super Cracker", desc: "You <b>explode</b> (unstoppable). This card is <b>worth 13 points</b>." },
     hide_card: { label: "Blind Eye", desc: "Turn any revealed card facedown." },
 
     // all the black card powers
-    score_color: { label: "Double Sight", desc: "Scores the <b>number of Black cards</b> that you have." },
+    score_color: { label: "Double Sight", desc: "Scores double the <b>number of Black cards</b> that you have." },
     score_diversity: { label: "Multicolor", desc: "Scores the <b>number of unique actions</b> that your deck contains." },
-    wildcard_up: { label: "Wildcard Up", desc: "Increases the total of <b>all colors</b> by 3." },
-    wildcard_down: { label: "Wildcard Down", desc: "Decreases the total of <b>all colors</b> by 3." },
+    wildcard_up: { label: "Wildcard Up", desc: "Increases the total of <b>all colors</b> by 4." },
+    wildcard_down: { label: "Wildcard Down", desc: "Decreases the total of <b>all colors</b> by 4." },
     cleanup: { label: "Cleanup", desc: "<b>Move</b> all revealed cards from any player to their discard pile." },
     strong_force: { label: "Strong Force", desc: "Force any player to <b>reveal</b> or <b>stop</b> on their next turn." },
-    strong_destroy: { label: "Strong Destroy", desc: "<b>Destroy</b> any card from yourself (deck, discard or revealed), then shuffle." },
+    strong_destroy: { label: "Strong Destroy", desc: "You may <b>destroy</b> any card from yourself (deck, discard or revealed), then shuffle." },
     risky_rocket: { label: "Risky Rocket", desc: "From now on, if anyone <b>reveals</b>, they must reveal 2 cards at once." },
-    pity_purchase: { label: "Pity Purchase", desc: "If you <b>explode</b>, discard your revealed cards. Then buy something <b>for 1 <img id=\"misc\" frame=\"0\"></b>." },
+    pity_purchase: { label: "Pity Purchase", desc: "If you <b>explode</b>, discard your revealed cards. Then buy something <b>for 2 " + cIcon + "</b>." },
     explosion_self: { label: "Own Fault", desc: "Anyone who reveals a color they've already revealed, instantly <b>explodes</b>." },
     explosion_neighbor: { label: "Reckless Neighbor", desc: "Anyone who reveals the same number as the previous player, instantly <b>explodes</b>." },
     steal: { label: "Boom Burglar", desc: "<b>Steal</b> 1 revealed card from another player. Place it on your own discard." },
-    safety_suit: { label: "Safety Suit", desc: "You <b>can't explode</b> for 2 turns. But you can only spend <b>half</b> your <img id=\"misc\" frame=\"0\">." },
-    same_color_bonus: { label: "Style Points", desc: "If all your revealed cards share a color or number, <b>double</b> your <img id=\"misc\" frame=\"0\">."  }
+    safety_suit: { label: "Safety Suit", desc: "You <b>can't explode</b> for 2 turns. But you can only spend <b>half</b> your " + cIcon + " (rounded down)." },
+    same_color_bonus: { label: "Style Points", desc: "If all your revealed cards share a color or number with another, <b>double</b> your " + cIcon + "."  }
 }
 
 
