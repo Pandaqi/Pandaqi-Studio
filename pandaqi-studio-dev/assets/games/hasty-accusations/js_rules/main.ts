@@ -17,15 +17,15 @@ const o = e.getOutputBuilder();
 
 
 // auto-display all card options and descriptions inside rulebook
-const rtConversion = { heading: "label" };
-const rtParams = { sheetURL: null, base: CONFIG.assetsBase };
+const rtConversion = { heading: "label", desc: "desc" };
+const rtParams = { sheetURL: null, base: CONFIG.assetsBase, sheetWidth: 8, class: null };
 
 const parse = (dict:ActionSet) =>
 {
     for(const [key,data] of Object.entries(dict))
     {
         let desc = Array.isArray(data.desc) ? data.desc[0] : data.desc;
-        desc = desc.replace('<img id="misc" frame="0">', 'loupe');
+        desc = desc.replace('<img id="suspects" frame="0">', 'loupe');
         dict[key].desc = desc;
     }
 
@@ -48,8 +48,20 @@ rtParams.sheetURL = CONFIG.assets.suspect_powers.path;
 const suspectsParsed = Object.assign({}, SUSPECTS);
 delete suspectsParsed.loupe;
 delete suspectsParsed.traitor;
+rtParams.sheetWidth = 11;
+rtParams.class = "big";
+rtConversion.desc = "power";
 const nodePowers = convertDictToRulesTableHTML(suspectsParsed, rtConversion, rtParams);
 document.getElementById("rules-table-powers").appendChild(nodePowers);
+
+/*
+const entries = Array.from(nodePowers.getElementsByClassName("rules-table-entry"));
+nodePowers.getElementsByClassName("rules-table")[0].classList.add("big");
+for(const entry of entries)
+{
+    entry.classList.add("big");
+}
+*/
 
 // @ts-ignore
 if(window.PQ_RULEBOOK) { window.PQ_RULEBOOK.refreshRulesTables(); }

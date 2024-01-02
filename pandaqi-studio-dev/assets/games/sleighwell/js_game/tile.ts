@@ -1,5 +1,5 @@
 import createContext from "js/pq_games/layout/canvas/createContext";
-import { MISC, TILES } from "../js_shared/dict";
+import { MISC, SPECIAL_ACTIONS, TILES } from "../js_shared/dict";
 import CONFIG from "../js_shared/config";
 import strokeCanvas from "js/pq_games/layout/canvas/strokeCanvas";
 import Point from "js/pq_games/tools/geometry/point";
@@ -14,36 +14,39 @@ import getPositionsCenteredAround from "js/pq_games/tools/geometry/paths/getPosi
 import clamp from "js/pq_games/tools/numbers/clamp";
 import StrokeAlignValue from "js/pq_games/layout/values/strokeAlignValue";
 import Color from "js/pq_games/layout/color/color";
+import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 
 export default class Tile
 {
-    type: string; // "wildcard" = wildcard
-    num: number;
+    type: string[]; // "wildcard" = wildcard
+    num: number[];
     numWildcard: boolean;
     reqs: string[];
-    ctx: CanvasRenderingContext2D;
+    specialAction: string;
 
-    constructor(type:string, num:number)
+    constructor(type:string|string[], num:number|number[])
     {
-        this.type = type;
-        this.num = num;
+        this.type = Array.isArray(type) ? type : [type];
+        this.num = Array.isArray(num) ? num : [num];
         this.numWildcard = false;
+        this.specialAction = "";
         this.reqs = [];
     }
 
     isWildcardNumber() { return this.numWildcard; }
-    isWildcard() { return this.type == "wildcard"; }
+    isWildcard() { return this.type.includes("wildcard"); }
+    getFirstType() { return this.type[0]; }
+    getFirstNumber() { return this.num[0]; }
 
-    async drawForRules(cfg)
+    async drawForRules(vis:Visualizer) : Promise<HTMLCanvasElement>
     {
-        // @TODO
+        return this.draw(vis); // @TODO; optionally add a paramter to "simplify" the draw, removing effects and stuff
     }
 
-    getCanvas() { return this.ctx.canvas; }
-    async draw(visualizer:Visualizer)
+    async draw(vis:Visualizer) : Promise<HTMLCanvasElement>
     {
-        const ctx = createContext({ size: visualizer.size });
-        this.ctx = ctx;
+        const ctx = createContext({ size: vis.size });
+        const group = new ResourceGroup();
 
         if(this.reqs)
         {
@@ -52,22 +55,22 @@ export default class Tile
             })
         }
         
+        this.drawBackground(vis, ctx, group);
+        this.drawNumbers(vis, group);
+        this.drawMainIllustration(vis, group);
+        this.drawOutline(vis, ctx);
 
-        await this.drawBackground(visualizer);
-        await this.drawNumbers(visualizer);
-        await this.drawMainIllustration(visualizer);
-        this.drawOutline(visualizer);
-
-        return this.getCanvas();
+        await group.toCanvas(ctx);
+        return ctx.canvas;
     }
 
-    async drawBackground(vis:Visualizer)
+    drawBackground(vis:Visualizer, ctx:CanvasRenderingContext2D, group)
     {
         // first solid color
-        const tileData = TILES[this.type];
+        const tileData = TILES[this.getFirstType()];
         let color = tileData.color ?? CONFIG.tiles.shared.defaultBGColor;
         if(vis.inkFriendly) { color = "#FFFFFF"; }
-        fillCanvas(this.ctx, color);
+        fillCanvas(ctx, color);
 
         // then the knitted BG pattern (the right one for the color)
         const res = vis.resourceLoader.getResource("misc");
@@ -78,12 +81,12 @@ export default class Tile
             dims: vis.size,
             pivot: Point.CENTER
         });
-        await res.toCanvas(this.ctx, op);
+        group.add(res, op);
     }
 
-    async drawNumbers(vis:Visualizer)
+    drawNumbers(vis:Visualizer, group)
     {
-        const tileData = TILES[this.type]
+        const tileData = TILES[this.getFirstType()]
         const isWildcard = this.isWildcardNumber();
 
         const offset = CONFIG.tiles.numbers.offset.clone().scale(vis.sizeUnit);
@@ -108,9 +111,6 @@ export default class Tile
         textConfigSmall.size = fontSizeSmall;
         textConfigSmall.font = CONFIG.fonts.body;
 
-        const text = this.num.toString();
-        const resTextBig = new ResourceText({ text: text, textConfig: textConfigBig });
-        const resTextSmall = new ResourceText({ text: text, textConfig: textConfigSmall });
         const resTiles = vis.resourceLoader.getResource("tiles");
 
         const isLightBG = (tileData.bgLight || vis.inkFriendly);
@@ -123,6 +123,11 @@ export default class Tile
 
         for(let i = 0; i < positions.length; i++)
         {
+            const currentNumber = this.num[i % this.num.length];
+            const text = currentNumber.toString();
+            const resTextBig = new ResourceText({ text: text, textConfig: textConfigBig });
+            const resTextSmall = new ResourceText({ text: text, textConfig: textConfigSmall });
+
             const pos = positions[i];
             const op = new LayoutOperation({
                 translate: pos,
@@ -137,12 +142,12 @@ export default class Tile
             if(isWildcard) {
                 op.dims = new Point(fontSize * numberIconSizeFactor);
                 op.frame = TILES.wildcard.frame;
-                await resTiles.toCanvas(this.ctx, op);
+                group.add(resTiles, op.clone());
             
             // otherwise just the text
             } else {
                 op.fill = new ColorLike(textColor);
-                await resTextBig.toCanvas(this.ctx, op);
+                group.add(resTextBig, op.clone());
             }
 
             // the small text stays at all times (for consistency and its purpose of clarity)
@@ -150,35 +155,77 @@ export default class Tile
             op.alpha = textSmallAlpha;
             op.strokeWidth = 0;
             op.effects = [];
-            await resTextSmall.toCanvas(this.ctx, op);
+            group.add(resTextSmall, op.clone());
         }
     }
 
-    async drawMainIllustration(vis:Visualizer)
+    drawMainIllustration(vis:Visualizer, group)
     {
-        const tileData = TILES[this.type]
-        const isCustom = tileData.custom;
+        const type = this.getFirstType();
+        const tileData = TILES[type]
+        const isCustom = tileData.custom || this.specialAction;
 
-        if(isCustom) {
-            if(this.type == "house") { await this.drawHouse(vis); }
-        } else {
+        const numSprites = this.type.length;
+        const positions = [
+            [vis.center], 
+            [vis.center.clone().scale(0.5), vis.center.clone().scale(1.5)]
+        ]
+        const dims = new Point(CONFIG.tiles.main.iconSize * vis.sizeUnit);
+        const sizes = [
+            [dims],
+            [dims.clone().scale(0.5), dims.clone().scale(0.5)]
+        ]
 
-            const res = vis.resourceLoader.getResource("tiles");
-            const frame = tileData.frame;
-            const dims = new Point(CONFIG.tiles.main.iconSize * vis.sizeUnit);
-            const op = new LayoutOperation({
-                frame: frame,
-                translate: vis.center,
-                dims: dims,
-                pivot: Point.CENTER,
-                effects: vis.effects
-            })
-
-            await res.toCanvas(this.ctx, op);
+        if(isCustom) 
+        {
+            if(type == "house") { this.drawHouse(vis, group); }
+            if(this.specialAction) { this.drawSpecialAction(vis, group); }
+        } 
+        else 
+        {            
+            for(let i = 0; i < numSprites; i++)
+            {
+                const res = vis.resourceLoader.getResource("tiles");
+                const frame = tileData.frame;
+                
+                const op = new LayoutOperation({
+                    frame: frame,
+                    translate: positions[numSprites - 1][i],
+                    dims: sizes[numSprites - 1][i],
+                    pivot: Point.CENTER,
+                    effects: vis.effects
+                })
+    
+                group.add(res, op);
+            }
         }
     }
 
-    async drawHouse(vis:Visualizer)
+    drawSpecialAction(vis:Visualizer, group)
+    {
+        const fontSize = CONFIG.tiles.specialAction.fontSize * vis.sizeUnit;
+        const textConfig = new TextConfig({
+            font: CONFIG.fonts.body,
+            size: fontSize,
+            alignHorizontal: TextAlign.MIDDLE,
+            alignVertical: TextAlign.MIDDLE
+        })
+
+        const textDims = CONFIG.tiles.specialAction.textDims.clone().scale(vis.size);
+        const textOp = new LayoutOperation({
+            translate: vis.center,
+            dims: textDims,
+            pivot: Point.CENTER,
+            fill: CONFIG.tiles.specialAction.textColor
+        })
+
+        const action = SPECIAL_ACTIONS[this.specialAction].desc;
+        const resText = new ResourceText({ text: action, textConfig: textConfig });
+
+        group.add(resText, textOp);
+    }
+
+    drawHouse(vis:Visualizer, group)
     {
         // draw the big house on the left
         const res = vis.resourceLoader.getResource("tiles");
@@ -192,7 +239,7 @@ export default class Tile
             pivot: Point.CENTER,
             effects: vis.effects
         })
-        await res.toCanvas(this.ctx, op);
+        group.add(res, op);
 
         // draw the presents it wants in a centered (column) list on the right
         const xPosRight = CONFIG.tiles.main.house.xPosRight * vis.size.x;
@@ -221,7 +268,7 @@ export default class Tile
                 pivot: Point.CENTER,
                 effects: vis.effects
             });
-            await resPresent.toCanvas(this.ctx, op);
+            group.add(resPresent, op);
         }
 
         // draw the house score at the top
@@ -248,14 +295,14 @@ export default class Tile
                 pivot: Point.CENTER,
                 //effects: vis.effects
             });
-            await resMisc.toCanvas(this.ctx, op);
+            group.add(resMisc, op);
         }
     }
 
-    drawOutline(vis:Visualizer)
+    drawOutline(vis:Visualizer, ctx)
     {
         const outlineSize = CONFIG.tiles.outline.size * vis.sizeUnit;
-        strokeCanvas(this.ctx, CONFIG.tiles.outline.color, outlineSize);
+        strokeCanvas(ctx, CONFIG.tiles.outline.color, outlineSize);
     }
 
     calculateScore()

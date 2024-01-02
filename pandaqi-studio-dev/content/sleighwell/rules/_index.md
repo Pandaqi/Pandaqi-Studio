@@ -2,7 +2,7 @@
 type: "rules"
 ---
 
-{{% rules-block id="setup" heading="Setup" icon="setup" icontint="purple" %}}
+{{% rules-block id="setup" heading="Setup" icon="setup" icontint="red" %}}
 
 Place the sleigh tile in the center of the table. Deal everybody 4 tiles to take into their hand.
 
@@ -14,12 +14,12 @@ Material can be downloaded from [the website](https://pandaqi.com/sleighwell).
 
 {{% rules-block id="objective" heading="Objective" icon="objective" icontint="lightblue" %}}
 
-During the game, you'll deliver presents to houses. The game ends when ...
+In this game you deliver presents to houses. The game ends when ...
 
 * You've managed to score _all houses_ (in the deck)!
 * Or it's impossible to do so (most likely because everyone is out of tiles).
 
-Sum the stars on the houses you scored: that's your final score! 
+Sum the stars on the houses you scored: that's your final score.
 
 If you scored **all houses**, you've beat the game and have proven yourself worthy Santa Clauses!
 
@@ -29,14 +29,14 @@ If you scored **all houses**, you've beat the game and have proven yourself wort
 
 Take clockwise turns until done. On your turn, take one action: **PLAY** or **SLEIGH**.
 
-The rules below always hold true.
-* You're **never** allowed to split the board into multiple parts. Everything needs to stay connected at all times.
-* You're allowed to discuss and strategize together, but **never** allowed to show or communicate your exact cards. 
-* A **"?"** icon (@TODO: just do an inline image!) is a **wildcard** and represents any value you want.
+The rules below always hold.
+* You're **never** allowed to split the board. Everything must stay connected at all times.
+* Discuss and strategize, sure, but **never** show or communicate your exact cards. 
+* A **"?"** icon (@TODO: just do an inline image!) is a **wildcard**. It represents any value you want.
 
-After your turn, always draw back up to 4 tiles. If you can't do **anything**---however rare---just draw 1 tile and your turn is over.
+After your turn, always draw back up to 4 tiles. If you **can't do anything** (which is quite rare), just draw 1 tile and your turn is over.
 
-@TODO: INTERACTIVE EXAMPLE?
+{{< rules-example id="turn" >}}
 
 @TODO: IMAGE EXAMPLE of applying wildcards + splitting the board (and how it's not allowed)?
 
@@ -46,9 +46,7 @@ Play a tile from your hand. It must be next to an existing tile.
 
 > Numbers in rows/columns must always be either ascending or descending.
 
-EXAMPLE: Say a row already has the cards "3" and "8". Then you may only place a higher number behind the "8", or a lower number before the "3". Because the sequence must stay ascending.
-
-If this isn't true for a sequence (which the expansions can cause), you **can't add a tile to that sequence**.
+If this already **isn't true** for a sequence (which the expansions can cause), you can't add a tile to that sequence.
 
 @TODO: IMAGE EXAMPLE
 
@@ -58,9 +56,9 @@ If this isn't true for a sequence (which the expansions can cause), you **can't 
 
 Move the **sleigh** in a straight line to somewhere else. (That is, the destination is on the same row or column.)
 
-You can place it _on a tile_ or in _an empty space_. (Still follow the regular rules: stay adjacent to the board and don't split it in two parts.)
+You can place it _on a tile_ or in _an empty space_ (adjacent to a tile).
 
-All tiles you pass along the way, including the one on which you landed, are **removed from the table**.
+All tiles you pass along the way, including the one on which you landed, are **removed**.
 
 If you ended on a **house**, and the tiles you removed satisfy the **wishes of that house** (at least), you score it! Place the house on your score pile.
 
@@ -72,7 +70,7 @@ That's it! Have fun.
 
 {{% /rules-block %}}
 
-{{% rules-block id="expansion" heading="Variants & Expansions" icon="score" class="force-page-break-before" icontint="purple" %}}
+{{% rules-block id="expansion" heading="Variants & Expansions" icon="expansion" icontint="green" %}}
 
 Try any of the variants to make the base game fit better with your specific player group. And once you have a few games under your belt, add an expansion to spice it up! 
 
@@ -83,6 +81,8 @@ Try any of the variants to make the base game fit better with your specific play
 * Include fewer houses. For each house left out, though, also remove a random other tile from the deck.
 * Start with the lowest value building (just wants 1 present of any type) next to the sleigh. This immediately gives you something to aim for and something to score.
 * (Optional) Use _two_ sleighs.
+
+**Want a harder game?** Don't allow the sleigh to land on empty spots (outside of the board). It can only land on existing tiles (removing those too, as usual).
 
 **Want to play solo?**
 
@@ -96,7 +96,7 @@ Try any of the variants to make the base game fit better with your specific play
 
 This expansion adds Reindeer tiles.
 
-It also adds a **third possible action** to do on your turn: **Reindeer Way**. 
+This allows a **third possible action** to do on your turn: **Reindeer Way**. 
 
 {{% remark %}}
 You can remember this because it rhymes: Play, Sleigh, Reindeer Way!
@@ -113,6 +113,10 @@ When moving a tile this way, you **don't have to follow** the placement rules fr
 
 @TODO: IMAGE EXAMPLE
 
+It also adds **double presents**: cards that show _two_ types. When delivering, you pick the one type it represents. (It's not both types at once.)
+
+Finally, it adds new houses (that wish for a reindeer).
+
 {{% /rules-block %}}
 
 {{% rules-block heading="Tough Trees" %}}
@@ -122,15 +126,13 @@ This expansion adds the **Christmas Tree** tile.
 * It can **not** move using reindeers.
 * When placed, you draw **2 tiles** at the end of your turn (instead of 1). This _permanently_ raises your hand limit by 1. These tiles may be taken either from the table or the deck. 
 
-{{% /rules-block %}}
+@TODO: IMAGE EXAMPLE??
 
-{{% rules-block heading="Special Sleighs" %}}
+It adds tiles with **double numbers**. For such a tile, pretend it has both those numbers (and all in-between). Yes, this makes placement much harder.
 
-This expansion adds special tiles.
-* Those that show **two things** (such as two different presents).
-* Those that have an **action**. It can trigger when played (HAND ICON), moved (REINDEER ICON), or removed (SLEIGH ICON). 
+It also adds optional tiles with **special actions** written on them. (You can leave them out if you want no text in this game.) The action is executed immediately after placing the tile.
 
-It also adds some special houses (mostly harder ones) that have an **action**. The action triggers when you score this house.
+Finally, it adds new houses (that wish for a tree).
 
 {{% /rules-block %}}
 

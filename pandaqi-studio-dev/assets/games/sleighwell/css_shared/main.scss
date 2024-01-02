@@ -3,9 +3,12 @@ $body-font: "roboto";
 $base: "/sleighwell/assets/";
 $base-fonts: $base + "fonts/";
 
-$col1: #FF0000;
-$col2: #00FF00;
-$col3: #0000FF;
+$bg-col: #8ab1ef;
+$text-col: #111111;
+$col1: #ff9898;
+$col2: #58faf7;
+$col3: #ca95ff;
+$col4: #9edb95;
 
 @font-face {
     font-family: $header-font;

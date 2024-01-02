@@ -61,13 +61,18 @@ const CONFIG =
 
         toughTrees:
         {
-            numTiles: 8
+            numTiles: 8,
+            numHouses: 4,
+            numDoubleNumbers: 5,
+            numSpecialActions: 9
         },
 
-        specialSleighs:
+        reindeerWay:
         {
-
-        }
+            numTiles: 8,
+            numHouses: 3,
+            numDoubleTypes: 7
+        },
     },
 
     // how to draw/layout cards (mostly visually)
@@ -116,11 +121,31 @@ const CONFIG =
             strokeWidth: 0.05, // ~fontSize
         },
 
+        specialAction:
+        {
+            fontSize: 0.135, // ~sizeUnit
+            textDims: new Point(0.8, 0.8), // ~size
+            textColor: "#111111", // should be on light present background (present_circle), so dark text
+        },
+
         outline:
         {
             size: 0.025, // relative to sizeUnit
             color: "#000000"
         }
+    },
+
+    rulebook:
+    {
+        boardDims: new Point(4,4),
+        minBoardDim: 2,
+        minNumBoardTiles: 7,
+        sleighMaxDistFromCenter: 0.75,
+        tileSize: 192,
+        highlightColor: "#FFAAAA",
+        highlightStrokeColor: "#994444",
+        lineWidth: 0.035, // ~tilesize,
+        moveSleighProb: 0.5
     }
 }
 

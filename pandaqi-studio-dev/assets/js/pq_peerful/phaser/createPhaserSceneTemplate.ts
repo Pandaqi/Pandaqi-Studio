@@ -1,5 +1,5 @@
-// @ts-nocheck
-import { sendEvent } from "./events";
+
+import { sendEvent } from "./../events";
 import { Scene } from "./phaser.esm"
 
 const PHASER_SCENE_KEY = "phaserScene";

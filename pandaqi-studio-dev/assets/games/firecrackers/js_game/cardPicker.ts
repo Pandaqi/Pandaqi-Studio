@@ -1,6 +1,6 @@
 import rangeInteger from "js/pq_games/tools/random/rangeInteger";
 import CONFIG from "../js_shared/config";
-import { CardType, PACKS } from "../js_shared/dict";
+import { CardMainType, CardType, PACKS, SCORING_RULES } from "../js_shared/dict";
 import Card from "./card";
 import shuffle from "js/pq_games/tools/random/shuffle";
 
@@ -17,6 +17,7 @@ export default class CardPicker
 
         if(!this.packs) { this.readPacksFromConfig(); }
 
+        // playing cards (per pack)
         for(const pack of this.packs)
         {
             const data = PACKS[pack];
@@ -34,13 +35,24 @@ export default class CardPicker
                 for(let i = 0; i < freq; i++)
                 {
                     const action = i < actionList.length ? actionList[i] : null;
-                    const card = new Card(pack, numInt, action);
+                    const card = new Card(CardMainType.PLAY, pack, numInt, action);
                     this.cards.push(card);
                 }
             }
         }
+
+        // scoreworks cards (if enabled)
+        if(CONFIG.expansions.scoreCards)
+        {
+            for(const [key,data] of Object.entries(SCORING_RULES))
+            {
+                const card = new Card(CardMainType.SCORE, CardType.BLACK, 0, key);
+                this.cards.push(card);
+            }
+        }
     }
 
+    // this is for the simulation, not material generation
     getStarterDecks(numPlayers:number)
     {
         const highPlayerCount = (numPlayers >= CONFIG.generation.starterDeck.highPlayerCountThreshold);

@@ -4,6 +4,7 @@ import Tile from "./tile";
 import getAllPossibleCombinations from "js/pq_games/tools/collections/getAllPossibleCombinations";
 import rangeInteger from "js/pq_games/tools/random/rangeInteger";
 import fromArray from "js/pq_games/tools/random/fromArray";
+import { SPECIAL_ACTIONS } from "../js_shared/dict";
 
 export default class TilePicker
 {
@@ -17,7 +18,7 @@ export default class TilePicker
         this.tiles = [];
 
         if(CONFIG.set == "baseGame") { this.generateBaseGame(); }
-        else if(CONFIG.set == "specialSleighs") { this.generateSpecialSleighs(); }
+        else if(CONFIG.set == "reindeerWay") { this.generateReindeerWay(); }
         else if(CONFIG.set == "toughTrees") { this.generateToughTrees(); }
     }
 
@@ -34,7 +35,7 @@ export default class TilePicker
         
 
         // all types, fairly distributed
-        const types = ["reindeer", "present_square", "present_triangle", "present_circle", "house", "wildcard"];
+        const types = ["present_square", "present_triangle", "present_circle", "house", "wildcard"];
         const numTypes = types.length;
         shuffle(types);
 
@@ -89,18 +90,12 @@ export default class TilePicker
             combos.push(results);
         }
 
-        const maxDistToMiddle = Math.round(0.5 * numTiles);
         const houseTiles = this.getAllOfType(this.tiles, "house");
         let reqs = []; // number of reqs in order of houses, do not shuffle or take the wrong end
         let totalReqs = 0;
         for(const tile of houseTiles)
         {
-            const distToMiddle = Math.abs(Math.ceil(tile.num - maxDistToMiddle));
-            const distRatio = 1.0 - distToMiddle / maxDistToMiddle;
-            let numReqs = -1;
-            if(distRatio <= 0.33) { numReqs = 1; }
-            else if(distRatio <= 0.66) { numReqs = 2; }
-            else { numReqs = 3; }
+            const numReqs = this.calculateNumRequirementsForHouse(tile.num);
 
             reqs.push(numReqs);
             totalReqs += numReqs;
@@ -144,6 +139,19 @@ export default class TilePicker
         }
     }
 
+    calculateNumRequirementsForHouse(num:number)
+    {
+        const numTiles = CONFIG.generation.baseGame.numTiles;
+        const maxDistToMiddle = Math.round(0.5 * numTiles);
+        const distToMiddle = Math.abs(Math.ceil(num - maxDistToMiddle));
+        const distRatio = 1.0 - distToMiddle / maxDistToMiddle;
+        let numReqs = -1;
+        if(distRatio <= 0.33) { numReqs = 1; }
+        else if(distRatio <= 0.66) { numReqs = 2; }
+        else { numReqs = 3; }
+        return numReqs;
+    }
+
     getAllOfType(list:any[], tp: string)
     {
         const arr = [];
@@ -155,31 +163,123 @@ export default class TilePicker
         return arr;
     }
 
-    generateSpecialSleighs()
+    getRandomEquidistantNumbers(numTotal)
     {
-        // @TODO
-        // -> Tiles with two presents
-        // -> Tiles with a special action when played
-        // -> Houses with an action that triggers when scored
+        const maxNumOnTile = CONFIG.generation.baseGame.numTiles;
+        const distBetweenNums = Math.floor(maxNumOnTile / numTotal);
+        const startNum = rangeInteger(1, distBetweenNums);
+        const wildcardIndex = rangeInteger(1, numTotal-1);
+
+        const arr = [];
+        for(let i = 0; i < numTotal; i++)
+        {
+            const num = startNum + i*distBetweenNums;
+            arr.push(num);
+        }
+
+        return { arr, wildcardIndex };
+    }
+
+    // Creates houses with equidistant numbers, where given requirement(s) must always be present
+    generateHousesWithForcedRequirement(num:number, req:string)
+    {
+        const presentOptions = [req, "present_square", "present_circle", "present_triangle"];
+        const { arr, wildcardIndex } = this.getRandomEquidistantNumbers(num);
+        const possibleCombos = getAllPossibleCombinations(presentOptions, 3);
+        for(let i = 0; i < arr.length; i++)
+        {
+            const num = arr[i];
+            const tile = new Tile("house", num);
+            if(i == wildcardIndex) { tile.numWildcard = true; }
+
+            const numReqs = this.calculateNumRequirementsForHouse(num);
+            shuffle(possibleCombos[numReqs]);
+
+            for(const reqOption of possibleCombos[numReqs])
+            {
+                if(!reqOption.includes(req)) { continue; }
+                tile.reqs = reqOption;
+                break;
+            }
+        }
+    }
+
+    // Simply creates tiles with equidistant numbers of a given type
+    generateTilesWithForcedType(num: number, type: string)
+    {
+        const { arr, wildcardIndex } = this.getRandomEquidistantNumbers(num);
+
+        for(let i = 0; i < arr.length; i++)
+        {
+            const num = arr[i];
+            const tile = new Tile(type, num);
+            if(i == wildcardIndex) { tile.numWildcard = true; }
+            this.tiles.push(tile);
+        }
+    }
+
+    generateDoubleTypeTiles(num: number)
+    {
+        const { arr, wildcardIndex } = this.getRandomEquidistantNumbers(num);
+
+        const presentOptions = ["reindeer", "present_square", "present_circle", "present_triangle"];
+        const possibleCombos = getAllPossibleCombinations(presentOptions, 2);
+        const possiblePairs = shuffle(possibleCombos[2]); // all possible combos of length 2
+        for(let i = 0; i < arr.length; i++)
+        {
+            const pair = possiblePairs.pop();
+            const num = arr[i];
+            const tile = new Tile(pair, num);
+            this.tiles.push(tile);
+        }
+        
+    }
+
+    generateDoubleNumberTiles(num: number)
+    {
+        const { arr, wildcardIndex } = this.getRandomEquidistantNumbers(num * 2);
+        const presentOptions = shuffle(["tree", "present_square", "present_circle", "present_triangle"]);
+        for(let i = 0; i < arr.length; i += 2)
+        {
+            const nums = [arr[i], arr[i+1]];
+            const type = presentOptions[i % presentOptions.length];
+            const tile = new Tile(type, nums);
+            this.tiles.push(tile);
+        }
+    }
+
+    generateActionTiles(maxNum: number)
+    {
+        const actionsDict = SPECIAL_ACTIONS;
+        const keys = shuffle(Object.keys(actionsDict));
+        const numTilesToGenerate = Math.min(keys.length, maxNum);
+        const { arr, wildcardIndex } = this.getRandomEquidistantNumbers(numTilesToGenerate);
+        for(let i = 0; i < arr.length; i++)
+        {
+            const num = arr[i];
+            const type = keys[i];
+            // the present_circle is just to make it fit in with the current type system and get the right background
+            // it's not displayed or used in any way
+            const tile = new Tile("present_circle", num);
+            tile.specialAction = type; // this type is truly important here
+            if(i == wildcardIndex) { tile.numWildcard = true; }
+            this.tiles.push(tile);
+        }
+    }
+
+    generateReindeerWay()
+    {
+        this.generateTilesWithForcedType(CONFIG.generation.reindeerWay.numTiles, "reindeer");
+        this.generateHousesWithForcedRequirement(CONFIG.generation.reindeerWay.numHouses, "reindeer");
+        this.generateDoubleTypeTiles(CONFIG.generation.reindeerWay.numDoubleTypes);
     }
 
     generateToughTrees()
     {
-        const numTrees = CONFIG.generation.toughTrees.numTiles;
-        const maxNum = CONFIG.generation.baseGame.numTiles;
-        const distBetweenNums = Math.floor(maxNum / numTrees);
-        const startNum = rangeInteger(1, distBetweenNums);
-        const wildcardIndex = rangeInteger(1, numTrees-1);
-        console.log(distBetweenNums);
-        console.log(startNum);
-        for(let i = 0; i < numTrees; i++)
-        {
-            const num = startNum + i*distBetweenNums;
-            console.log(num);
-            const tile = new Tile("tree", num);
-            if(i == wildcardIndex) { tile.numWildcard = true; }
-            this.tiles.push(tile);
-        }
+        this.generateTilesWithForcedType(CONFIG.generation.toughTrees.numTiles, "tree");
+        this.generateHousesWithForcedRequirement(CONFIG.generation.toughTrees.numHouses, "tree");
+        this.generateDoubleNumberTiles(CONFIG.generation.toughTrees.numDoubleNumbers);
+        this.generateActionTiles(CONFIG.generation.toughTrees.numSpecialActions);
     }
 
 }

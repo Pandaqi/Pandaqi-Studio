@@ -3,8 +3,11 @@ $body-font: "neuton";
 $base: "/firecrackers/assets/";
 $base-fonts: $base + "fonts/";
 
-$col1: #f6d4d4;
-$col2: #d3fcd3;
+$bg-col: #212121;
+$text-col: #FCFCFC;
+
+$col1: #fdb2fb;
+$col2: #d2ffc5;
 $col3: #dedeff;
 
 @font-face {

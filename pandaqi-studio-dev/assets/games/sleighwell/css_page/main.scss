@@ -1,12 +1,12 @@
 @use "../css_shared/main.scss" as g;
 @use "sass:color";
 
-$bg-color: #FCFCFC;
-$text-color: #212121;
+$bg-color: g.$bg-col;
+$text-color: g.$text-col;
 $button-bg: g.$col2;
 $button-color: #27231c;
-$link-color: color.adjust(g.$col3, $lightness: -50%);
-$link-color-hover: color.adjust(g.$col3, $lightness: -30%);
+$link-color: color.adjust(g.$col3, $lightness: -60%);
+$link-color-hover: color.adjust(g.$col3, $lightness: -40%);
 $settings-color: g.$col1;
 $cutoff: 920px;
 
@@ -27,6 +27,8 @@ body {
     background-color: $bg-color;
     font-size: 21px;
     color: $text-color;
+    background-image: url(g.$base + "bg_pattern.webp");
+    background-size: 50%;
 }
 
 h2 {
@@ -76,10 +78,10 @@ a {
     .metadata {
         font-size: 0.85em;
     }
-}
 
-.boardgame-intro .big-header-image {
-    filter: none !important;
+    .big-header-image {
+        border-bottom: 5px solid black;
+    }
 }
 
 a.download-btn, a.download-btn:visited, 

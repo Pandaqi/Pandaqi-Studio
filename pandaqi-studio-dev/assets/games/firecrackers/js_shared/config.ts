@@ -18,6 +18,11 @@ const CONFIG =
     itemSize: "regular",
     packs: {},
 
+    expansions:
+    {
+        scoreCards: false
+    },
+
     fonts:
     {
         heading: "fourth",
@@ -167,11 +172,20 @@ const CONFIG =
             moveSmallStarsToTitle: false
         },
 
+        scoreRule:
+        {
+            yPosTitle: 0.15, // ~sizeY
+            yPosRule: 0.5, // ~sizeY
+            titleFontSize: 0.0735, // ~sizeUnit
+            ruleFontSize: 0.06, // ~sizeUnit
+            textDims: new Point(0.8, 0.6), // ~size
+        },
+
         outline:
         {
             size: 0.025, // relative to sizeUnit
             color: "#000000"
-        }
+        },
     }
 }
 

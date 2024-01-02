@@ -5,14 +5,21 @@ import Bounds from "js/pq_games/tools/numbers/bounds";
 import Card from "../js_game/card";
 import { CardType } from "../js_shared/dict";
 import CONFIG from "../js_shared/config";
+import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple";
+import Point from "js/pq_games/tools/geometry/point";
 
-const SIMULATE = true;
-const SIMULATE_STARTER_DECK = true;
-const PLAYER_BOUNDS = new Bounds(3,5);
+const SIMULATE = false;
+const SIMULATE_STARTER_DECK = false; // if true, it simulates the first round of a game; otherwise it's a random moment from a game
+const SIMULATE_PLAYER_BOUNDS = new Bounds(3,5);
+const PLAY_PLAYER_BOUNDS = new Bounds(3,3);
 const DECK_BOUNDS = new Bounds(5,8);
-const STOP_PROB = 0.25;
+const STOP_PROBS = [0, 0.1, 0.3, 0.45, 0.66];
 const EXPLODE_THRESHOLD = 10; // equal to or greater than
 const NUM_SIMULATIONS = 1000; 
+const MAX_REVEAL_PER_ROUND = 5;
+const CARD_DRAW_CONFIG = {
+    size: new Point(100, 140)
+}
 
 interface SimulationStats
 {
@@ -100,6 +107,16 @@ class Round
         return this.revealed[this.curPlayer];
     }
 
+    countRevealed()
+    {
+        let sum = 0;
+        for(const deck of this.revealed)
+        {
+            sum += deck.count();
+        }
+        return sum;
+    }
+
     count(type:string)
     {
         let sum = 0;
@@ -108,6 +125,24 @@ class Round
             sum += deck.count();
         }
         return sum;
+    }
+
+    async draw()
+    {
+        const promises = [];
+        for(const deck of this.revealed)
+        {
+            promises.push(deck.draw());
+        }
+        const nodes = await Promise.all(promises);
+
+        // fade out those whoe have stopped or exploded
+        for(let i = 0; i < nodes.length; i++)
+        {
+            if(this.stopped[i]) { nodes[i].style.opacity = "0.5"; }
+        }
+
+        return nodes;
     }
 }
 
@@ -153,12 +188,34 @@ class Deck
         }
         return arr;
     }
+
+    async draw()
+    {
+        const promises = [];
+        for(const card of this.cards)
+        {
+            promises.push(card.drawForRules(CARD_DRAW_CONFIG));
+        }
+        
+        const canvases = await Promise.all(promises);
+        const images = await convertCanvasToImageMultiple(canvases);
+
+        const div = document.createElement("div");
+        div.style.display = "flex";
+        for(const img of images)
+        {
+            img.style.maxHeight = "8vw";
+            div.appendChild(img);
+        }
+        
+        return div;
+    }
 }
 
 async function generate()
 {
     // determine decks
-    const numPlayers = PLAYER_BOUNDS.randomInteger();
+    const numPlayers = SIMULATE ? SIMULATE_PLAYER_BOUNDS.randomInteger() : PLAY_PLAYER_BOUNDS.randomInteger();
 
     const cardPicker = new CardPicker();
     cardPicker.setNumPacks(Math.max(numPlayers, CONFIG.generation.starterDeck.numColors));
@@ -192,15 +249,23 @@ async function generate()
     while(!round.allPlayersStopped())
     {
         round.goNext();
+
+        if(!SIMULATE)
+        {
+            o.addNode(document.createElement("hr"));
+        }
         
         const curPlayerNum = (round.curPlayer + 1);
         const curDeck = round.getCurrentDeck();
         const curRevealed = round.getCurrentRevealed();
         const numRevealed = curRevealed.count();
-        let stop = Math.random() <= STOP_PROB;
+        let stop = Math.random() <= STOP_PROBS[Math.min(numRevealed, STOP_PROBS.length-1)]; // probability raises with each card
         if(numRevealed <= 0) { stop = false; }
+        if(numRevealed >= MAX_REVEAL_PER_ROUND) { stop = true; }
         if(SIMULATE) { stop = false; } // simulation always continues until explosion, as that's what we're interested in
         if(curDeck.count() <= 0) { stop = true; }
+
+        let feedback = "";
 
         if(stop) 
         {
@@ -208,37 +273,28 @@ async function generate()
             stats.cardsUntilExplosion += numRevealed;
             stats.didntExplode++;
 
-            if(!SIMULATE)
-            {
-                o.addParagraph("Player " + curPlayerNum + " decides to <strong>STOP</strong>. They played <strong>" + numRevealed + " cards</strong>, so they have " + numRevealed + " coins with which to buy new cards from the shop.");
-            }
+            feedback += "Player " + curPlayerNum + " decides to <strong>STOP</strong>. They played <strong>" + numRevealed + " cards</strong>, so they have " + numRevealed + " coins with which to buy new cards from the shop. "
 
         } else {
             const cardRevealed = round.playerReveals();
-            if(!cardRevealed)
-            {
-                console.log(curDeck);
-                console.log(curRevealed);
-            }
-
-            if(!SIMULATE)
-            {
-                o.addParagraph("Player " + curPlayerNum + " decides to <strong>REVEAL</strong>. They revealed a <strong>" + cardRevealed.toString() + "</strong>.");
-                o.addParagraph("The table now looks like this.");
-                await round.draw();
-            }
+            feedback += "Player " + curPlayerNum + " decides to <strong>REVEAL</strong>: a <strong>" + cardRevealed.toString() + "</strong>. "
 
             const [explodes, num] = round.doesPlayerExplode(cardRevealed);
-            if(explodes) 
-            { 
+            if(explodes) { 
                 round.playerStops(); 
                 stats.cardsUntilExplosion += numRevealed;
                 if(numRevealed == 0) { stats.explodedAfterSingleCard++; }
-                if(!SIMULATE)
-                {
-                    o.addParagraph("Oh no, this brings the total number for that card type to " + num + "! This player <strong>explodes</strong>. They're out of the round.");
-                }
+                feedback += "Oh no, this brings the total number for that type to " + num + "! This player <strong>explodes</strong>. They're out of the round."
+            } else {
+                feedback += "Total for this type is " + num + ", so they're safe!"
             }
+        }
+
+        if(!SIMULATE)
+        {
+            o.addParagraph(feedback);
+            const node = o.addFlexList(await round.draw());
+            node.style.flexWrap = "wrap";
         }
     }
 
@@ -256,7 +312,7 @@ async function generate()
 }
 
 const e = new InteractiveExample({ id: "turn" });
-e.setButtonText("Give me an example turn!");
+e.setButtonText("Give me an example round!");
 e.setGenerationCallback(generate);
 
 const o = e.getOutputBuilder();

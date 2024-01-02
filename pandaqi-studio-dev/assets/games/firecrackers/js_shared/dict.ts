@@ -1,3 +1,10 @@
+// yeah, should've been CardType and CardSubType, but don't feel like renaming EVERYTHING
+enum CardMainType
+{
+    PLAY,
+    SCORE
+}
+
 enum CardType
 {
     BLACK = "black",
@@ -99,9 +106,37 @@ const ACTIONS:Record<string,ActionData> =
     explosion_neighbor: { label: "Reckless Neighbor", desc: "Anyone who reveals the same number as the previous player, instantly <b>explodes</b>." },
     steal: { label: "Boom Burglar", desc: "<b>Steal</b> 1 revealed card from another player. Place it on your own discard." },
     safety_suit: { label: "Safety Suit", desc: "You <b>can't explode</b> for 2 turns. But you can only spend <b>half</b> your " + cIcon + " (rounded down)." },
-    same_color_bonus: { label: "Style Points", desc: "If all your revealed cards share a color or number with another, <b>double</b> your " + cIcon + "."  }
+    same_color_bonus: { label: "Style Points", desc: "If all your revealed cards share a color or number with another, <b>double</b> your " + cIcon + "."  },
+    empty_wallet: { label: "Empty Wallet", desc: "If you stopped but <b>can't buy anything</b>, <b>steal</b> one revealed card from another player." },
+    immunity: { label: "Immunity Ignite", desc: "Worth 0 " + cIcon + " and 0 points. But you're <b>immune</b> to all actions." },
+    schadenfreude: { label: "Schadenfreude", desc: "Worth 0 points. When buying, worth 1 " + cIcon + " for each player already exploded." }
 }
 
+interface ScoringRule
+{
+    label: string,
+    desc: string,
+}
+
+const SCORING_RULES:Record<string, ScoringRule> = 
+{
+    default: { label: "Default", desc: "Nothing special. Use the default scoring rule (sum all numbers in your deck)." },
+    shifted: { label: "Shifted", desc: "Each card scores its number <b>minus 3</b>. So 1 scores -2, all the way to 5 scores 2." },
+    bonus_color: { label: "Bonus Color", desc: "You get a <b>+5 bonus</b> if you have the most cards of a certain <b>color</b> (ties allowed)." },
+    bonus_number: { label: "Bonus Number", desc: "You get a <b>+5 bonus</b> if you have the most cards of a certain <b>number</b> (ties allowed)." },
+    only_action: { label: "Only Action", desc: "All <b>action cards</b> score their number. All cards <b>without action</b> score 1." },
+    only_non_action: { label: "Only Non-Action", desc: "All <b>action cards</b> score 0. All cards <b>without action</b> score their number." },
+    penalty_color: { label: "Penalty Color", desc: "You get a <b>-5 penalty</b> if you have the most cards of a certain <b>color</b> (ties allowed)." },
+    penalty_number: { label: "Penalty Number", desc: "You get a <b>-5 penalty</b> if you have the most cards of a certain <b>number</b> (ties allowed)." },
+    pyromaniacs: { label: "Pyromaniacs", desc: "You only score points for colors of which your total number is <b>at least 10</b>." },
+    regret_rocket: { label: "Regret Rocket", desc: "Each color of yours that \"explodes\" (total 10 or higher), is only worth 2 points total." },
+    sharing_is_caring: { label: "Sharing = Caring", desc: "You score double points for a color if <b>all</b> players have it. You score no points for a color if <b>at most 2</b> players have it." },
+    forbidden_numbers: { label: "Forbidden Numbers", desc: "The number that appears the most in your deck becomes <b>minus points</b>. (If tied, they all do.)" },
+    anti_shopper: { label: "Anti-Shopper", desc: "You get a <b>-5 penalty</b> if you have the most cards, but a <b>+5 bonus</b> if you have the least. (Ties allowed.)" },
+    raincheck: { label: "Raincheck", desc: "The last player alive may put away one revealed card of theirs. They are out of their deck, but still score at the end." },
+    underdog: { label: "Underdog", desc: "After counting score, the player in <b>last place</b> picks one color that only scores for them (and nobody else). Recount scores and decide the winner." },
+    black_magic: { label: "Black Magic", desc: "You get a <b>+5 bonus</b> if you have the most <b>Black cards</b>, and a <b>-5 penalty</b> if you have the least. (Ties allowed.)" }
+}
 
 const MISC =
 {
@@ -110,8 +145,10 @@ const MISC =
 
 export 
 {
+    CardMainType,
     CardType,
     MISC,
     PACKS,
-    ACTIONS
+    ACTIONS,
+    SCORING_RULES
 }

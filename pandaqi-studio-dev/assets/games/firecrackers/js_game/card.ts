@@ -2,7 +2,7 @@ import createContext from "js/pq_games/layout/canvas/createContext";
 import CONFIG from "../js_shared/config";
 import strokeCanvas from "js/pq_games/layout/canvas/strokeCanvas";
 import Visualizer from "./visualizer";
-import { ACTIONS, CardType, MISC, PACKS } from "../js_shared/dict";
+import { ACTIONS, CardMainType, CardType, MISC, PACKS, SCORING_RULES } from "../js_shared/dict";
 import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
 import getRectangleCornersWithOffset from "js/pq_games/tools/geometry/paths/getRectangleCornersWithOffset";
 import Point from "js/pq_games/tools/geometry/point";
@@ -21,15 +21,18 @@ import Color from "js/pq_games/layout/color/color";
 import getPositionsCenteredAround from "js/pq_games/tools/geometry/paths/getPositionsCenteredAround";
 import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
 import clamp from "js/pq_games/tools/numbers/clamp";
+import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 
 export default class Card
 {
+    mainType: CardMainType;
     type: CardType;
     num: number;
-    action: string;
+    action: string; // optional, key (to action for play card, to score rule for score card)
 
-    constructor(type:CardType, num:number, action: string)
+    constructor(mainType: CardMainType, type:CardType, num:number, action: string)
     {
+        this.mainType = mainType;
         this.type = type;
         this.num = num;
         this.action = action;
@@ -37,7 +40,38 @@ export default class Card
 
     async drawForRules(cfg)
     {
-        // @TODO
+        const typeData = this.getTypeData();
+
+        // colored bg (to signal type)
+        const ctx = createContext({ size: cfg.size });
+        const textCol = typeData.colorDark;
+        const bgCol = typeData.colorMid;
+        const foreCol = typeData.colorLight;
+        fillCanvas(ctx, bgCol);
+
+        // huge number in center
+        const textConfig = new TextConfig().alignCenter();
+        textConfig.size = 0.5*cfg.size.x;
+        textConfig.font = CONFIG.fonts.heading;
+
+        const strokeWidth = 0.05*cfg.size.x;
+        const textOp = new LayoutOperation({
+            dims: cfg.size,
+            translate: cfg.size.clone().scale(0.5),
+            pivot: Point.CENTER,
+            fill: textCol,
+            stroke: foreCol,
+            strokeWidth: strokeWidth,
+            strokeAlign: StrokeAlignValue.OUTSIDE
+        })
+
+        const resText = new ResourceText({ text: this.num.toString(), textConfig: textConfig });
+        await resText.toCanvas(ctx, textOp);
+
+        // black outline
+        strokeCanvas(ctx, "#000000", strokeWidth);
+
+        return ctx.canvas;
     }
 
     getTypeData() { return PACKS[this.type]; }
@@ -60,16 +94,91 @@ export default class Card
     async draw(vis:Visualizer)
     {
         const ctx = createContext({ size: vis.size });
-        await this.drawBackground(vis, ctx);
-        await this.drawMainIllustration(vis, ctx);
-        await this.drawAction(vis, ctx);
-        await this.drawCost(vis, ctx);
-        await this.drawCorners(vis, ctx);
+        const group = new ResourceGroup();
+        
+        if(this.mainType == CardMainType.PLAY) {
+            this.drawBackground(vis, ctx);
+            this.drawMainIllustration(vis, group);
+            this.drawAction(vis, group);
+            this.drawCost(vis, group);
+            this.drawCorners(vis, group);
+        } else if(this.mainType == CardMainType.SCORE) {
+            this.drawBackgroundScore(vis, group);
+            this.drawScoreRule(vis, group);
+        }
+        
         this.drawOutline(vis, ctx);
+        await group.toCanvas(ctx);
         return ctx.canvas;
     }
 
-    async drawBackground(vis:Visualizer, ctx)
+    //
+    // Scoreworks cards
+    //
+    drawBackgroundScore(vis:Visualizer, ctx)
+    {
+        fillCanvas(ctx, "#FFFFFF");
+        // @TODO: some default image to surround the text and make it less plain?
+    }
+
+    drawScoreRule(vis:Visualizer, group)
+    {
+        const data = SCORING_RULES[this.action];
+        const titleFontSize = CONFIG.cards.scoreRule.titleFontSize * vis.sizeUnit;
+        const titleTextConfig = new TextConfig({
+            font: CONFIG.fonts.heading,
+            size: titleFontSize,
+            alignHorizontal: TextAlign.MIDDLE,
+            alignVertical: TextAlign.MIDDLE,
+        })
+
+        const title = data.label;
+        const resTextTitle = new ResourceText({ text: title, textConfig: titleTextConfig });
+
+        const titlePos = new Point(vis.center.x, CONFIG.cards.scoreRule.yPosTitle * vis.size.y);
+        const titleDims = new Point(vis.size.x, 2*titleFontSize);
+        const opTitle = new LayoutOperation({
+            translate: titlePos,
+            fill: "#FEFEFE",
+            dims: titleDims,
+            pivot: Point.CENTER,
+        })
+
+        // the action title + pointy rect behind it
+        const titleRectDims = CONFIG.cards.title.rectDims.clone().scale(titleDims);
+        const pointyRect = vis.getPointyRect(titlePos, titleRectDims);
+        const pointyRectOp = new LayoutOperation({ fill: "#212121" })
+
+        group.add(new ResourceShape(pointyRect), pointyRectOp);
+        group.add(resTextTitle, opTitle);
+
+        // the actual scoring rule
+        const text = data.desc;
+        const textPos = new Point(vis.center.x, CONFIG.cards.scoreRule.yPosRule * vis.size.y);
+        const textFontSize = CONFIG.cards.scoreRule.ruleFontSize * vis.sizeUnit;
+        const textDims = CONFIG.cards.scoreRule.textDims.clone().scale(vis.size);
+        const textConfig = new TextConfig({
+            font: CONFIG.fonts.body,
+            size: textFontSize,
+            alignHorizontal: TextAlign.MIDDLE,
+            alignVertical: TextAlign.MIDDLE,
+            resLoader: vis.resLoader
+        })
+        const resText = new ResourceText({ text: text, textConfig: textConfig });
+        const opText = new LayoutOperation({
+            translate: textPos,
+            fill: "#212121",
+            dims: textDims,
+            pivot: Point.CENTER
+        })
+
+        group.add(resText, opText);
+    }
+
+    //
+    // Play cards
+    //
+    drawBackground(vis:Visualizer, ctx)
     {
         let colorDark = this.getTypeData().colorDark;
         if(vis.inkFriendly)
@@ -80,7 +189,7 @@ export default class Card
         fillCanvas(ctx, colorDark);
     }
 
-    async drawCost(vis:Visualizer, ctx)
+    drawCost(vis:Visualizer, group)
     {
         // draw rectangle behind it
         const yPos = CONFIG.cards.coins.yPos;
@@ -95,7 +204,7 @@ export default class Card
         const rectOp = new LayoutOperation({
             fill: color
         });
-        await new ResourceShape(pointyRect).toCanvas(ctx, rectOp);
+        group.add(new ResourceShape(pointyRect), rectOp);
 
         // @DEBUGGING?
         // draw a reminder that the coins are the card's COST when buying, not its purchase value/worth
@@ -107,7 +216,7 @@ export default class Card
         const rectOp2 = new LayoutOperation({
             fill: new Color(color).darken(CONFIG.cards.coins.textRectDarken),
         })
-        await new ResourceShape(pointyRect2).toCanvas(ctx, rectOp2);
+        group.add(new ResourceShape(pointyRect2), rectOp2);
 
         const textConfig = new TextConfig({
             font: CONFIG.fonts.body,
@@ -127,7 +236,7 @@ export default class Card
             strokeAlign: StrokeAlignValue.OUTSIDE,
             pivot: Point.CENTER
         })
-        await resText.toCanvas(ctx, textOp);
+        group.add(resText, textOp);
 
         // draw actual coins
         const cost = this.getPurchaseCost();
@@ -146,11 +255,11 @@ export default class Card
         for(const pos of positions)
         {
             op.translate = pos;
-            await res.toCanvas(ctx, op);
+            group.add(res, op.clone());
         }
     }
 
-    async drawCorners(vis, ctx)
+    drawCorners(vis:Visualizer, group)
     {
         const typeData = this.getTypeData();
         const isAction = this.hasAction();
@@ -205,7 +314,7 @@ export default class Card
                 fill: starColor,
                 effects: vis.effects
             })
-            await resStar.toCanvas(ctx, op);
+            group.add(resStar, op);
 
             const strokeWidth = isBig ? CONFIG.cards.corners.strokeWidth * fontSize : 0;
             const tempTextConfig = textConfig.clone();
@@ -230,12 +339,11 @@ export default class Card
                 effects: effects // @TODO: not sure if it should copy the regular effects for this text
             })
 
-            await resText.toCanvas(ctx, opText);
-
+            group.add(resText, opText);
         }
     }
 
-    async drawMainIllustration(vis:Visualizer, ctx)
+    drawMainIllustration(vis:Visualizer, group)
     {
         const pos = new Point(vis.center.x, CONFIG.cards.illustration.yPos * vis.size.y);
         let dims = new Point(CONFIG.cards.illustration.scale * vis.sizeUnit);
@@ -264,7 +372,7 @@ export default class Card
             // @ts-ignore
             composite: composite
         })
-        await resBG.toCanvas(ctx, opBG);
+        group.add(resBG, opBG);
 
         // actual front picture
         const res = vis.resLoader.getResource("types");
@@ -276,10 +384,10 @@ export default class Card
             pivot: Point.CENTER,
             effects: effects,
         })
-        await res.toCanvas(ctx, op);
+        group.add(res, op);
     }
 
-    async drawAction(vis:Visualizer, ctx)
+    drawAction(vis:Visualizer, group)
     {
         if(!this.hasAction()) { return; }
 
@@ -300,7 +408,7 @@ export default class Card
         const opRect = new LayoutOperation({
             fill: colorMid
         })
-        await new ResourceShape(rect).toCanvas(ctx, opRect);
+        group.add(new ResourceShape(rect), opRect.clone());
 
         // the inner rectangle with padding at left/right edge, lighter bg for readability
         const coinPos = new Point(vis.center.x, CONFIG.cards.coins.yPos * vis.size.y);
@@ -308,7 +416,7 @@ export default class Card
         const rectInner = new Rectangle().fromTopLeft(new Point(0, titlePos.y), new Point(vis.size.x, innerHeight));
         rectInner.extents.x *= CONFIG.cards.action.innerRectDownScale;
         opRect.fill = new ColorLike(colorLight);
-        await new ResourceShape(rectInner).toCanvas(ctx, opRect);
+        group.add(new ResourceShape(rectInner), opRect.clone());
 
         const titleTextConfig = new TextConfig({
             font: CONFIG.fonts.heading,
@@ -339,8 +447,8 @@ export default class Card
             fill: colorDark
         })
 
-        await new ResourceShape(pointyRect).toCanvas(ctx, pointyRectOp);
-        await resTextTitle.toCanvas(ctx, opTitle);
+        group.add(new ResourceShape(pointyRect), pointyRectOp);
+        group.add(resTextTitle, opTitle);
 
         // then the actual action text
         const text = actionData.desc;
@@ -362,7 +470,7 @@ export default class Card
             pivot: Point.CENTER
         })
 
-        await resText.toCanvas(ctx, opText);
+        group.add(resText, opText);
     }
 
 

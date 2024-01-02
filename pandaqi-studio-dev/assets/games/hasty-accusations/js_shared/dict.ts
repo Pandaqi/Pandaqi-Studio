@@ -114,7 +114,7 @@ const EXPERT_SET:ActionSet =
     investigator_private: { frame: 8, type: AType.ACTION, subType: SType.INFO, label: "Private Investigator", desc: "Look at another player's <b>suspect</b> OR <b>swap hands</b> with them." },
     revelation: { frame: 9, type: AType.ACTION, subType: SType.MISC, label: "Revelation", desc: "Immediately <b>play another card</b> on top of all adjacent piles." },
     thief: { frame: 10, type: AType.ACTION, subType: SType.MISC, label: "Thief", desc: "<b>Steal 3 cards</b> from another player." },
-    clock: { frame: 11, type: AType.ACTION, subType: SType.REVIEW, label: "On the clock", desc: "<b>At most 3 cards</b> may be evaluated during this <b>review</b>. After that, immediately stop.", triggers: ReqType.REVIEW, protectQuotient: 0.33 }
+    clock: { frame: 11, type: AType.ACTION, subType: SType.REVIEW, label: "On the clock", desc: "<b>At most 2 cards</b> may be evaluated during this <b>review</b>. After that, immediately stop.", triggers: ReqType.REVIEW, protectQuotient: 0.33 }
 }
 
 const SETS:Record<string, ActionSet> = 
@@ -137,8 +137,8 @@ interface SuspectData
 const SUSPECTS:Record<string, SuspectData> = 
 {
     loupe: { frame: 0, freq: 1 },
-    scarlett: { label: "Ms. Scarlett", frame: 1, color: "#6E0C0D", type: PType.PLAY, power: "Rotate her suspect card 180 degrees. While she is in play and rotated, the hand limit is 1 card. (While you're above it, you simply draw no new cards at the end of your turn.)" }, // Miss Scarlett = red / Power = red hand with 1
-    green: { label: "Rev. Green", frame: 2, color: "#0B3B00", type: PType.DEATH, power: "All players discard their hand and draw 7 new cards.(While you're above the hand limit of 4, you simply draw no new cards at the end of your turn.)" }, // Reverend Green = green / Power = green hand with 7
+    scarlett: { label: "Ms. Scarlett", frame: 1, color: "#6E0C0D", type: PType.PLAY, power: "Rotate her suspect card 180 degrees. While she is in play and rotated, the hand limit is 1 card." }, // Miss Scarlett = red / Power = red hand with 1
+    green: { label: "Rev. Green", frame: 2, color: "#0B3B00", type: PType.DEATH, power: "All players discard their hand and draw 7 new cards." }, // Reverend Green = green / Power = green hand with 7
     mustard: { label: "Col. Mustard", frame: 3, color: "#3F350D", type: PType.PLAY, power: "Shuffle this pile." }, // Colonel Mustard = yellow/brown / Power = yellow arrows back-forth
     professor: { label: "Prof. Plum", frame: 4, color: "#331D49", type: PType.PLAY, power: "Cards are always played faceup here, but never count for moving the loupe." }, // Professor Plum = purple / Power = card with an eye
     peacock: { label: "Mrs. Peacock", frame: 5, color: "#0C2E4F", type: PType.DEATH, power: "Shuffle all remaining suspects, then randomly place them back above the existing evidence piles." }, // Mrs. Peacock = blue / Power = shuffle arrows with suspect card above

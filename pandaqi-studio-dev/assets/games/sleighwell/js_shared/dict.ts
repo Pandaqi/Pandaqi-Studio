@@ -23,7 +23,7 @@ const TILES: Record<string, TileData> =
     present_square: { frame: 4, bgLight: true },
     present_circle: { frame: 5, bgLight: true },
     present_triangle: { frame: 6, bgLight: true },
-    wildcard: { frame: 7, bgLight: true }
+    wildcard: { frame: 7, bgLight: true },
 }
 
 interface MiscData
@@ -39,9 +39,29 @@ const MISC:Record<string, MiscData> =
     points_star: { frame: 3 }
 }
 
+interface ActionData
+{
+    label: string,
+    desc: string
+}
+
+const SPECIAL_ACTIONS:Record<string, ActionData> = 
+{
+    destroy: { label: "Destroy", desc: "Remove one tile from the board." },
+    add: { label: "Add", desc: "Add one tile to the board, ignoring placement rules." },
+    free_sleigh: { label: "Free Sleigh", desc: "Move the sleigh once WITHOUT removing the tiles it passes." },
+    teleport_sleigh: { label: "Teleport Sleigh", desc: "Teleport the sleigh to any other (valid) location." },
+    copycat_number: { label: "Copycat Number", desc: "This tile becomes the same number as its highest neighbor." },
+    copycat_type: { label: "Copycat Type", desc: "This tile becomes the same type as its highest neighbor." },
+    satisfied: { label: "Satisfied", desc: "All adjacent houses are also satisfied if you deliver one wrong present." },
+    replace: { label: "Replace", desc: "This is a wildcard. You must place it ON TOP of an existing tile." },
+    swap_hand: { label: "Swap Hand", desc: "Shuffle your hand tiles back into the deck, then draw a new hand." },
+}
+
 export 
 {
     TILES,
     MISC,
-    SETS
+    SETS,
+    SPECIAL_ACTIONS
 }

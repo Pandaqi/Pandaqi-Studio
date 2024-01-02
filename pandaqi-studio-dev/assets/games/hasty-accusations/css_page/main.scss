@@ -1,12 +1,12 @@
 @use "../css_shared/main.scss" as g;
 @use "sass:color";
 
-$bg-color: #FCFCFC;
-$text-color: #212121;
-$button-bg: g.$col2;
-$button-color: #27231c;
-$link-color: color.adjust(g.$col3, $lightness: -50%);
-$link-color-hover: color.adjust(g.$col3, $lightness: -30%);
+$bg-color: g.$bg-col;
+$text-color: g.$text-col;
+$button-bg: color.adjust(g.$col2, $saturation: -20%, $lightness: -35%);
+$button-color: g.$text-col;
+$link-color: color.adjust(g.$col3, $lightness: 0%);
+$link-color-hover: color.adjust(g.$col3, $lightness: 10%);
 $settings-color: g.$col1;
 $cutoff: 920px;
 
