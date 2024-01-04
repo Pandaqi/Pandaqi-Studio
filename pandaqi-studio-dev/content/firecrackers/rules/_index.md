@@ -4,6 +4,8 @@ type: "rules"
 
 {{% rules-block id="setup" heading="Setup" icon="setup" icontint="purple" %}}
 
+{{% rules-double-view src="setup.webp" alt="Example setup for 4 players." %}}
+
 Create the **deck** you'll use for this game.
 * Include all the black cards.
 * Include 1 colored set per player. 
@@ -20,11 +22,11 @@ Finally, place the remaining cards faceup into the **shop**.
 
 The most reckless player becomes Firemaster.
 
-@TODO: IMAGE EXAMPLE => general deck, personal decks, grouped shops (where one pile is for all the "no action" cards, blacks are together)
-
 {{% remark %}}
 Material can be downloaded from [the website](https://pandaqi.com/firecrackers/).
 {{% /remark %}}
+
+{{% /rules-double-view %}}
 
 {{% /rules-block %}}
 
