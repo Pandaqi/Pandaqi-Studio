@@ -51,7 +51,7 @@ On your turn, either **REVEAL** or **STOP**.
 At any point, if your deck is empty, turn over and shuffle your discard pile to create your new deck. (You only permanently lose a card when an action uses the term "destroy".)
 
 The round ends when all players are done. When that happens,
-* The last player alive become the new Firemaster.
+* The last player alive becomes the new Firemaster.
 * All players move their revealed cards to their own faceup discard pile.
 
 {{< rules-example id="turn" >}}
@@ -64,7 +64,7 @@ If the card has a special action, execute it now. If you can't, or it's not rele
 
 Sum all numbers from revealed cards of the same **color**. If this total is 10 or higher, you **explode!** You're out of the round.
 
-@TODO: IMAGE EXAMPLE
+{{< rules-image src="action_reveal.webp" alt="How to take the reveal action and check for explosion." >}}
 
 {{% /rules-block %}}
 
@@ -80,7 +80,7 @@ Cards bought go to your _discard_ pile.
 
 That's it. Have fun!
 
-@TODO: IMAGE EXAMPLE
+{{< rules-image src="action_stop.webp" alt="How to take the stop action and buy new cards from the shop." >}}
 
 {{% /rules-block %}}
 
