@@ -1,0 +1,46 @@
+$header-font: "sunny";
+$body-font: "minya";
+$base: "/the-game-of-happiness/assets/";
+$base-fonts: $base + "fonts/";
+
+$bg-col: #212121;
+$text-col: #FCFCFC;
+
+$col1: #fdb2fb;
+$col2: #d2ffc5;
+$col3: #dedeff;
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'MinyaNouvelle-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'MinyaNouvelle-Italic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'MinyaNouvelle-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+@font-face {
+    font-family: $header-font;
+    src: url($base-fonts + 'SunnySpells-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
