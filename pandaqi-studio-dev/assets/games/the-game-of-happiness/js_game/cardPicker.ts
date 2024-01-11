@@ -16,15 +16,29 @@ export default class CardPicker
         if(!CONFIG.includeCards) { return; }
         if(!this.packs) { this.readPacksFromConfig(); }
 
+        const cardsPerPack:Record<string,any[]> = {};
         for(const [category,list] of Object.entries(CARDS))
         {
             for(const cardData of list)
             {
                 const pack = cardData.pack ?? Pack.BASE;
-                const shouldInclude = this.packs.includes(pack);
-                if(!shouldInclude) { continue; }
+                if(!(pack in cardsPerPack)) { cardsPerPack[pack] = []; }
+                cardsPerPack[pack].push(cardData);
+                cardData.category = category as Category;
+            }
+        }
 
-                const newCard = new Card(category as Category, cardData.desc, pack);
+        for(const [pack, list] of Object.entries(cardsPerPack))
+        {
+            console.log("#Cards in pack " + pack + ": " + list.length);
+            console.log(pack);
+
+            const shouldInclude = this.packs.includes(pack);
+            if(!shouldInclude) { continue; }
+
+            for(const cardData of list)
+            {
+                const newCard = new Card(cardData.category, cardData.desc, pack);
                 this.cards.push(newCard);
             }
         }

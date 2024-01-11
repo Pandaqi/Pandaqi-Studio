@@ -71,11 +71,14 @@ Three simple steps.
   {{< setting-enum id="setting-itemSize" text="Card Size?" values="small,regular,large" valaskey="true" def="regular" >}}
   {{< setting-checkbox id="setting-includeCards" text="Include Cards?" checked="checked" >}}
   {{< setting-checkbox id="setting-includeTokens" text="Include Tokens?" checked="checked" remark="If you already have these, or plan on using something else, you can disable this." >}}
+  {{< setting-checkbox id="setting-digitalGame" text="Load Digital Game?" remark="Loads the digital interface to play this game on a single smartphone instead (doesn't generate material)." >}}
   <h3>Packs</h3>
-  {{< setting-checkbox-multiple id="setting-packs" values="base,advanced,silly" valuesChecked="base" >}}
+  {{< setting-checkbox-multiple id="setting-packs" keys="base,advanced,expert,silly,super,past,jobs,personal,habits" values="Base,Advanced,Expert,Silly,Superpowers,Blast to Past,Jovial Jobs,Let's Get Personal,Horrible Habits" valuesChecked="base" >}}
 {{< /boardgame-settings >}}
 
-<p class="settings-remark">The base set contains a small set of common cards. The other sets add more possible cards to draw, as well as some that might be more silly or hard to understand for certain players.</p>
+<p class="settings-remark">The base, advanced, expert and silly packs contain ~10 new cards for each category. They are the largest and most diverse. They get slightly more "complex" (in order of the list), but you should mostly see this as a way to break the game into more manageable files to print and cut.</p> 
+
+<p class="settings-remark">The other packs add cards within one particular category, such as Superpowers: cards proposing a fun dilemma through a superpower with a drawback. They are usually much smaller and should just be shuffled into the category cards you already have.</p>
 
 <p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>
 

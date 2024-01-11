@@ -40,7 +40,6 @@ const BASE_SET:ActionSet =
     veterinarian: { frame: 7, label: "Veterinarian", desc: "Worth <b>+2 " + pIcon + "</b>.", type: ActionType.SCORE_PLUS, prob: 1.33 }, // make less frequent than guitarist
 }
 
-
 const ADVANCED_SET:ActionSet = 
 {
     astronaut: { frame: 0, label: "Astronaut", desc: ["Worth <b>+1 " + pIcon + "</b>. Ignore all <b>crossed out</b> icons when applying the Repel rule to this type.", "Worth <b>+1 " + pIcon + "</b>. Ignore all <b>non-crossed out</b> icons when applying the Repel rule to this type."], type: ActionType.SCORE_PLUS },

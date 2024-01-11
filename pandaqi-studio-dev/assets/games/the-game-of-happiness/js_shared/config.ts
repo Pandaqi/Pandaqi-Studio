@@ -20,6 +20,7 @@ const CONFIG =
 
     includeCards: true,
     includeTokens: true,
+    digitalGame: false,
 
     fonts:
     {
