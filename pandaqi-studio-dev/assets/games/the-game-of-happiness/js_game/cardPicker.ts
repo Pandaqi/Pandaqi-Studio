@@ -28,11 +28,13 @@ export default class CardPicker
             }
         }
 
+        let sum = 0;
         for(const [pack, list] of Object.entries(cardsPerPack))
         {
             console.log("#Cards in pack " + pack + ": " + list.length);
-            console.log(pack);
-
+            console.log(list);
+            
+            sum += list.length;
             const shouldInclude = this.packs.includes(pack);
             if(!shouldInclude) { continue; }
 
@@ -42,6 +44,8 @@ export default class CardPicker
                 this.cards.push(newCard);
             }
         }
+
+        console.log("Total #cards in entire game: " + sum);
     }
 
     readPacksFromConfig()

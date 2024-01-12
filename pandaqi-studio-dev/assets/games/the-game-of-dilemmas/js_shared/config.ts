@@ -1,5 +1,6 @@
 import TextConfig, { TextWeight } from "js/pq_games/layout/text/textConfig"
 import Point from "js/pq_games/tools/geometry/point"
+import { TokenType } from "./dict"
 
 const CONFIG = 
 {
@@ -10,8 +11,8 @@ const CONFIG =
         onlyGenerate: true, // @DEBUGGING (should be false)
     },
 
-    configKey: "theGameOfHappinessConfig",
-    fileName: "[Material] The Game of Happiness",
+    configKey: "theGameOfDilemmasConfig",
+    fileName: "[Material] The Game of Dilemmas",
 
     // set through user config on page
     inkFriendly: false,
@@ -20,7 +21,6 @@ const CONFIG =
 
     includeCards: true,
     includeTokens: true,
-    digitalGame: false,
 
     fonts:
     {
@@ -29,7 +29,7 @@ const CONFIG =
     },
 
     // assets
-    assetsBase: "/the-game-of-happiness/assets/",
+    assetsBase: "/the-game-of-dilemmas/assets/",
     assets:
     {
         sunny:
@@ -52,21 +52,24 @@ const CONFIG =
         categories:
         {
             path: "categories.webp",
-            frames: new Point(10,1),
+            frames: new Point(4,1),
         },
+
+        token_types:
+        {
+            path: "token_types.webp",
+            frames: new Point(4,1)
+        }
     },
 
     // how generation/balancing happens
     generation:
     {
-
-    },
-
-    digital:
-    {
-        numCards: 5,
-        totalRounds: 10,
-        pickOneCardPerCategory: true
+        tokenTypes: [TokenType.YES, TokenType.NO],
+        numPerType: 2,
+        maxNumPlayers: 6,
+        tokenTypesVariant: [TokenType.SUPERYES, TokenType.SUPERNO],
+        numPerTypeVariant: 1
     },
 
     // how to draw/layout cards (mostly visually)
@@ -109,6 +112,7 @@ const CONFIG =
         {
             fontSize: 0.06, // ~sizeUnit
             dims: new Point(0.8, 0.6), // ~size
+            negativeCardPrefix: "... but "
         },
 
         token:

@@ -59,6 +59,8 @@ Three simple steps.
 
 **Want more?** You can also [generate your own material](#material) right on this website!
 
+**Don't want to print stuff?** You can also play the game digitally on a single smartphone. Go to [material](#material) on a device and check "Load Digital Game".
+
 {{% /section-centered %}}
 
 {{% section-centered heading="Material" anchor="material" html="true" %}}
@@ -71,12 +73,12 @@ Three simple steps.
   {{< setting-enum id="setting-itemSize" text="Card Size?" values="small,regular,large" valaskey="true" def="regular" >}}
   {{< setting-checkbox id="setting-includeCards" text="Include Cards?" checked="checked" >}}
   {{< setting-checkbox id="setting-includeTokens" text="Include Tokens?" checked="checked" remark="If you already have these, or plan on using something else, you can disable this." >}}
-  {{< setting-checkbox id="setting-digitalGame" text="Load Digital Game?" remark="Loads the digital interface to play this game on a single smartphone instead (doesn't generate material)." >}}
+  {{< setting-checkbox id="setting-digitalGame" text="Load Digital Game?" remark="Loads the digital interface to play this game on a single smartphone instead. (Doesn't generate material.)" >}}
   <h3>Packs</h3>
-  {{< setting-checkbox-multiple id="setting-packs" keys="base,advanced,expert,silly,super,past,jobs,personal,habits" values="Base,Advanced,Expert,Silly,Superpowers,Blast to Past,Jovial Jobs,Let's Get Personal,Horrible Habits" valuesChecked="base" >}}
+  {{< setting-checkbox-multiple id="setting-packs" values="base,advanced,expert,silly,super,past,jobs,personal,habits,items" keys="Base,Advanced,Expert,Silly,Superpowers,Blast to Past,Jovial Jobs,Let's Get Personal,Horrible Habits,Interesting Items" valuesChecked="base" >}}
 {{< /boardgame-settings >}}
 
-<p class="settings-remark">The base, advanced, expert and silly packs contain ~10 new cards for each category. They are the largest and most diverse. They get slightly more "complex" (in order of the list), but you should mostly see this as a way to break the game into more manageable files to print and cut.</p> 
+<p class="settings-remark"><strong>Which pack(s) should I use!?</strong> The base, advanced, expert and silly packs contain ~10 new cards for each category. They are the largest and most diverse. They get slightly more "complex" (in order of the list), but you should mostly see this as a way to break the game into more manageable files to print and cut.</p> 
 
 <p class="settings-remark">The other packs add cards within one particular category, such as Superpowers: cards proposing a fun dilemma through a superpower with a drawback. They are usually much smaller and should just be shuffled into the category cards you already have.</p>
 

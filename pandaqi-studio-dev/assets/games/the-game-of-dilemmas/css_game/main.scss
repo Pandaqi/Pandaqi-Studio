@@ -1,0 +1,14 @@
+@use "../css_shared/main.scss" as g;
+
+body {
+    font-family: g.$body-font;
+    background-color: #ff74ae;
+    font-size: 22px;
+    line-height: 120%;
+    box-sizing: border-box;
+}
+
+h1, h2, h3, h4 {
+    font-family: g.$header-font;
+    font-weight: normal;
+}
