@@ -8,11 +8,13 @@ import { CATEGORIES, Category } from "../js_shared/dict";
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import getRectangleCornersWithOffset from "js/pq_games/tools/geometry/paths/getRectangleCornersWithOffset";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import TextConfig from "js/pq_games/layout/text/textConfig";
+import TextConfig, { TextAlign, TextWeight } from "js/pq_games/layout/text/textConfig";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
+import TintEffect from "js/pq_games/layout/effects/tintEffect";
 
 export default class Card
 {
+    type: Category;
     category: Category;
     text: string;
     pack: string;
@@ -20,6 +22,7 @@ export default class Card
     constructor(c: Category, text: string, pack: string)
     {
         this.category = c;
+        this.type = this.category; // this is merely to use my automatic system for drawing that only does one per "type"
         this.text = text;
         this.pack = pack;
     }
@@ -31,36 +34,81 @@ export default class Card
         const ctx = createContext({ size: vis.size });
         const group = new ResourceGroup();
         
-        this.drawBackground(vis, ctx);
+        this.drawBackground(vis, group, ctx);
         this.drawCategory(vis, group);
         this.drawText(vis, group);
+        this.drawMetaText(vis, group);
         
-        this.drawOutline(vis, ctx);
         await group.toCanvas(ctx);
+        this.drawOutline(vis, ctx);
+
         return ctx.canvas;
     }
 
-    drawBackground(vis:Visualizer, ctx)
+    drawBackground(vis:Visualizer, group: ResourceGroup, ctx)
     {
-        let col = vis.inkFriendly ? "#FFFFFF" : this.getCategoryData().colorBG;
+        // complete fill with dark color
+        const data = this.getCategoryData();
+        let col = vis.inkFriendly ? "#FFFFFF" : data.colorText;
         fillCanvas(ctx, col);
+
+        // overlay tintable templates
+        // first the light one that will contain text
+        const res = vis.resLoader.getResource("tintable_templates");
+        const resOp = new LayoutOperation({
+            frame: 0,
+            effects: [new TintEffect({ color: data.colorBG })],
+            dims: vis.size,
+        });
+        group.add(res, resOp.clone());
+
+        // then the darker one with decorations + bubbly clouds
+        resOp.frame = 1;
+        resOp.effects = [new TintEffect({ color: data.colorMid })];
+        group.add(res, resOp.clone());
     }
 
     drawCategory(vis:Visualizer, group:ResourceGroup)
     {
+        // category icons in 4 corners
         const res = vis.resLoader.getResource("categories");
-        const cornerOffset = new Point(CONFIG.cards.category.iconOffset * vis.sizeUnit);
+        const cornerOffset = CONFIG.cards.category.iconOffset.clone().scale(vis.sizeUnit);
         const corners = getRectangleCornersWithOffset(vis.size, cornerOffset);
         const data = this.getCategoryData();
         const iconDims = new Point(CONFIG.cards.category.iconSize * vis.sizeUnit);
 
-        for(const corner of corners)
+        for(let i = 0; i < corners.length; i++)
         {
             const resOp = new LayoutOperation({
                 frame: data.frame,
-                translate: corner,
-                size: iconDims,
+                translate: corners[i],
+                flipY: (i <= 1),
+                dims: iconDims,
+                effects: vis.effects,
+                pivot: Point.CENTER
             });
+            group.add(res, resOp);
+        }
+
+        // much bigger (but faded) icons above and below text
+        const bigIconDims = new Point(CONFIG.cards.category.iconSizeBig * vis.sizeUnit);
+        const bigYPos = CONFIG.cards.category.bigIconYPos * vis.size.y;
+        const positions = [
+            new Point(vis.center.x, bigYPos),
+            new Point(vis.center.x, vis.size.y - bigYPos)
+        ];
+
+        for(let i = 0; i < positions.length; i++)
+        {
+            const resOp = new LayoutOperation({
+                frame: data.frame,
+                translate: positions[i],
+                flipY: (i <= 0),
+                dims: bigIconDims,
+                effects: vis.effects,
+                composite: "overlay",
+                pivot: Point.CENTER
+            })
             group.add(res, resOp);
         }
         
@@ -68,23 +116,84 @@ export default class Card
 
     drawText(vis:Visualizer, group:ResourceGroup)
     {
-        const fontSize = CONFIG.cards.text.fontSize * vis.sizeUnit;
+        const text = this.text;
+        const textLength = text.length;
+        let fontSizeRaw = CONFIG.cards.text.fontSize.large;
+        if(textLength >= CONFIG.cards.text.fontSizeCutoffs.large) { fontSizeRaw = CONFIG.cards.text.fontSize.medium; }
+        if(textLength >= CONFIG.cards.text.fontSizeCutoffs.medium) { fontSizeRaw = CONFIG.cards.text.fontSize.small; }
+        if(textLength >= CONFIG.cards.text.fontSizeCutoffs.small)
+        {
+            console.error("A card has text that's too long for any font size (" + textLength + " characters): ", text);
+        }
+
+        const fontSize = fontSizeRaw * vis.sizeUnit;
         const textConfig = new TextConfig({
             font: CONFIG.fonts.body,
             size: fontSize,
+            weight: TextWeight.BOLD
         }).alignCenter();
 
-        const resText = new ResourceText({ text: this.text, textConfig: textConfig });
+        const resText = new ResourceText({ text: text, textConfig: textConfig });
         const textDims = CONFIG.cards.text.dims.clone().scale(vis.size);
         const categoryData = this.getCategoryData();
-        const colorText = categoryData.colorText ?? "#000000";
+        const colorText = vis.inkFriendly ? "#000000" : (categoryData.colorText ?? "#000000");
 
         const textOp = new LayoutOperation({
             translate: vis.center,
             dims: textDims,
-            fill: colorText
+            fill: colorText,
+            pivot: Point.CENTER
         });
         group.add(resText, textOp);
+    }
+
+    drawMetaText(vis:Visualizer, group: ResourceGroup)
+    {
+        const texts = ["Category: " + this.category, "Pack: " + this.pack];
+        const fontSize = CONFIG.cards.textMeta.fontSize * vis.sizeUnit;
+        const yPos = CONFIG.cards.textMeta.yPos * vis.size.y;
+        const dims = new Point(CONFIG.cards.textMeta.textBlockWidth * vis.size.x, 1.5*fontSize);
+        const positions = [
+            new Point(vis.center.x, yPos),
+            new Point(vis.center.x, vis.size.y-yPos)
+        ]
+
+        const textConfig = new TextConfig({
+            font: CONFIG.fonts.heading,
+            size: fontSize,
+        }).alignCenter();
+
+        const textConfigLeft = textConfig.clone();
+        textConfigLeft.alignHorizontal = TextAlign.START;
+
+        const textConfigRight = textConfig.clone();
+        textConfigRight.alignHorizontal = TextAlign.END;
+        const textConfigs = [textConfigLeft, textConfigRight];
+
+        const textOp = new LayoutOperation({
+            fill: "#FFFFFF",
+            pivot: Point.CENTER,
+            dims: dims
+        })
+
+        const subGroupOp = new LayoutOperation({
+            translate: positions[0],
+            rotation: Math.PI,
+            pivot: Point.CENTER,
+        })
+
+        const subGroup = new ResourceGroup();
+        for(let a = 0; a < 2; a++)
+        {
+            const resText = new ResourceText({ text: texts[a], textConfig: textConfigs[a] });
+            subGroup.add(resText, textOp);
+        }
+
+        group.add(subGroup, subGroupOp.clone());
+
+        subGroupOp.translate = positions[1];
+        subGroupOp.rotation = 0;
+        group.add(subGroup, subGroupOp.clone());
     }
 
     drawOutline(vis:Visualizer, ctx)

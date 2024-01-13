@@ -96,4 +96,6 @@ The fonts used are **Sunny Spells** (headings, decorative) and **Minya Nouvelle*
 
 For more information, as always, read my [detailed developer diary on Pandaqi Blog](https://pandaqi.com/blog/boardgames/the-game-of-happiness/).
 
+**Want to add your own cards?** You can always send me a message with ideas for cards! Once I have enough, I can easily add them as another pack.
+
 {{% /section-centered %}}

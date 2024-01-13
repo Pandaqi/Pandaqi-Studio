@@ -5,9 +5,9 @@ const CONFIG =
 {
     debug:
     {
-        omitFile: true, // @DEBUGGING (should be false)
-        singleDrawPerType: true, // @DEBUGGING (should be false)
-        onlyGenerate: true, // @DEBUGGING (should be false)
+        omitFile: false, // @DEBUGGING (should be false)
+        singleDrawPerType: false, // @DEBUGGING (should be false)
+        onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
     configKey: "theGameOfHappinessConfig",
@@ -45,7 +45,7 @@ const CONFIG =
         minya_bold:
         {
             key: "minya",
-            path: "fonts/MinyaNouvelle-ExtraBold.woff2",
+            path: "fonts/MinyaNouvelle-Bold.woff2",
             textConfig: new TextConfig({ weight: TextWeight.BOLD })
         },
 
@@ -54,6 +54,12 @@ const CONFIG =
             path: "categories.webp",
             frames: new Point(10,1),
         },
+
+        tintable_templates:
+        {
+            path: "tintable_templates.webp",
+            frames: new Point(2,1)
+        }
     },
 
     // how generation/balancing happens
@@ -101,20 +107,30 @@ const CONFIG =
 
         category:
         {
-            iconSize: 0.1, // ~sizeUnit
-            iconOffset: 0.1, // ~sizeUnit
+            iconSize: 0.12, // ~sizeUnit
+            iconSizeBig: 0.3, // ~sizeUnit
+            bigIconYPos: 0.225, // ~sizeY
+            iconOffset: new Point(0.075, 0.18), // ~sizeUnit
         },
 
         text:
         {
-            fontSize: 0.06, // ~sizeUnit
-            dims: new Point(0.8, 0.6), // ~size
+            fontSize: { large: 0.125, medium: 0.105, small: 0.85 }, // ~sizeUnit
+            fontSizeCutoffs: { large: 50, medium: 90, small: 130 },
+            dims: new Point(0.9, 0.75), // ~size
+        },
+
+        textMeta:
+        {
+            fontSize: 0.04, // ~sizeUnit
+            yPos: 0.0285, // ~sizeUnit
+            textBlockWidth: 0.866, // ~sizeX
         },
 
         token:
         {
-            iconSize: 0.5, // ~sizeUnit
-            fontSize: 0.5, // ~sizeUnit
+            iconSize: 0.75, // ~sizeUnit
+            fontSize: 0.75, // ~sizeUnit
         },
 
         outline:

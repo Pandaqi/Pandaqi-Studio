@@ -258,7 +258,8 @@ export default class Game
         for(const cardData of cards)
         {
             const elem = document.createElement("div");
-            elem.classList.add("game-card");
+            const categoryClass = "category-" + cardData.category;
+            elem.classList.add("game-card", categoryClass);
 
             const content = document.createElement("div");
             elem.appendChild(content);

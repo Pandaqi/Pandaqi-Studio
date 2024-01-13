@@ -32,7 +32,7 @@ export default class CardPicker
         for(const [pack, list] of Object.entries(cardsPerPack))
         {
             console.log("#Cards in pack " + pack + ": " + list.length);
-            console.log(list);
+            //console.log(list);
             
             sum += list.length;
             const shouldInclude = this.packs.includes(pack);

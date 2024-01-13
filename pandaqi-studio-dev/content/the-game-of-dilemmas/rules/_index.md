@@ -28,18 +28,18 @@ Once done, all dilemmas are revealed in the center of the table.
 
 Then, players grab tokens. Grab as many YES and NO tokens as the number of dilemmas divided by 2, rounded up. (Example: 5 dilemmas means 3 yes tokens and 3 no tokens per player.)
 
-For each dilemma, ask yourself if you'd ACCEPT or REJECT this, then place the right token (facedown) on the dilemma.
+For each dilemma, ask yourself if you'd say YES or NO to this, then place the right token (facedown) on the dilemma.
 
 Once done, all the vote tokens are revealed.
 
-> The dilemma with the **smallest difference** between ACCEPT and REJECT tokens wins the round.
+> The dilemma with the **smallest difference** between YES and NO tokens wins the round.
 
-All tokens placed on it become points for the player who created the dilemma.
+All YES tokens placed on it become points for the player who created the dilemma.
 
-@TODO: IMAGE
+{{< rules-image src="gameplay.webp" alt="Example of a single round in this game and how it's scored." >}}
 
 {{% remark %}}
-In case of a tie, the dilemma with the most REJECTs wins. If still tied, all tied dilemmas win.
+In case of a tie, the dilemma with the most NOs wins. If still tied, all tied dilemmas win.
 {{% /remark %}}
 
 All players draw a new positive and negative card for their hand. Next round!

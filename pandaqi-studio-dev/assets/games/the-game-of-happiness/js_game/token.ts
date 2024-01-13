@@ -13,12 +13,14 @@ import strokeCanvas from "js/pq_games/layout/canvas/strokeCanvas";
 export default class Token
 {
     category: Category
+    type: Category|number
     number: number
 
     constructor(c: Category, n: number = 0)
     {
         this.category = c;
         this.number = n;
+        this.type = this.category ?? this.number; // just for my auto generate/debug system that listens for "type" property by default
     }
 
     displayNumber() { return this.number > 0; }
@@ -60,6 +62,8 @@ export default class Token
             frame: frame,
             translate: vis.center,
             size: iconDims,
+            effects: vis.effects,
+            pivot: Point.CENTER
         });
         group.add(res, resOp);
     }
@@ -75,13 +79,14 @@ export default class Token
         const text = this.number.toString();
         const resText = new ResourceText({ text: text, textConfig: textConfig });
         const textDims = vis.size;
-        const categoryData = this.getCategoryData();
-        const colorText = categoryData.colorText ?? "#000000";
+        const colorText = "#000000";
 
+        // @TODO: might want a thick stroke outside here?
         const textOp = new LayoutOperation({
             translate: vis.center,
             dims: textDims,
-            fill: colorText
+            fill: colorText,
+            pivot: Point.CENTER
         });
         group.add(resText, textOp);
     }

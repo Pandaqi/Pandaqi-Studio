@@ -1,3 +1,5 @@
+@use "sass:map";
+
 $header-font: "sunny";
 $body-font: "minya";
 $base: "/the-game-of-happiness/assets/";
@@ -9,6 +11,25 @@ $text-col: #FCFCFC;
 $col1: #fdb2fb;
 $col2: #d2ffc5;
 $col3: #dedeff;
+
+$category-colors: (
+    "event": #FFFFA5, 
+    "item": #FFDDAA, 
+    "action": #FEB9B9,
+    "goal": #AAFFEB,
+    "change": #AAD4FF,
+    "habit": #B4AAFF,
+    "personal": #E9AAFF,
+    "job": #E1E1E1,
+    "health": #BDFFAA
+);
+
+@each $name, $col in $category-colors {
+    .category-#{$name} {
+        background-color: $col;
+    }
+}
+
 
 @font-face {
     font-family: $body-font;

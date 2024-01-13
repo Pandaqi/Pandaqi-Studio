@@ -13,6 +13,7 @@ export default class Visualizer
     sizeUnit: number;
     center: Point;
     inkFriendly: boolean;
+    effects: LayoutEffect[];
 
     constructor(params)
     {
@@ -21,5 +22,8 @@ export default class Visualizer
         this.sizeUnit = this.size.smallestSide();
         this.center = this.size.clone().scale(0.5);
         this.inkFriendly = params.inkFriendly ?? false;
+
+        this.effects = [];
+        if(this.inkFriendly) { this.effects.push(new GrayScaleEffect()); }
     }
 }

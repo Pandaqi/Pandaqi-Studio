@@ -39,20 +39,36 @@ interface CategoryMetaData
     frame: number,
     colorBG: string,
     colorText: string,
+    colorMid: string,
 }
 
 const CATEGORIES:Record<Category, CategoryMetaData> = 
 {
-    [Category.EVENT]: { frame: 0, colorBG: "@TODO", colorText: "@TODO" },
-    [Category.ITEM]: { frame: 1, colorBG: "@TODO", colorText: "@TODO" },
-    [Category.ACTION]: { frame: 2, colorBG: "@TODO", colorText: "@TODO" },
-    [Category.GOAL]: { frame: 3, colorBG: "@TODO", colorText: "@TODO" },
-    [Category.CHANGE]: { frame: 4, colorBG: "@TODO", colorText: "@TODO" },
-    [Category.HABIT]: { frame: 5, colorBG: "@TODO", colorText: "@TODO" },
-    [Category.PERSONAL]: { frame: 6, colorBG: "@TODO", colorText: "@TODO" },
-    [Category.JOB]: { frame: 7, colorBG: "@TODO", colorText: "@TODO" },
-    [Category.HEALTH]: { frame: 8, colorBG: "@TODO", colorText: "@TODO" }
+    [Category.EVENT]: { frame: 0, colorBG: "#FFFFA5", colorMid: "#797900", colorText: "#353500" },
+    [Category.ITEM]: { frame: 1, colorBG: "#FFDDAA", colorMid: "#864400", colorText: "#362100" },
+    [Category.ACTION]: { frame: 2, colorBG: "#FFBBBB", colorMid: "#B60707", colorText: "#330000" },
+    [Category.GOAL]: { frame: 3, colorBG: "#AAFFEB", colorMid: "#09A064", colorText: "#002F23" },
+    [Category.CHANGE]: { frame: 4, colorBG: "#AAD4FF", colorMid: "#0C54B0", colorText: "#001A34" },
+    [Category.HABIT]: { frame: 5, colorBG: "#B4AAFF", colorMid: "#200ABA", colorText: "#160F47" },
+    [Category.PERSONAL]: { frame: 6, colorBG: "#E9AAFF", colorMid: "#8820A0", colorText: "#260731" },
+    [Category.JOB]: { frame: 7, colorBG: "#E1E1E1", colorMid: "#676767", colorText: "#202020" },
+    [Category.HEALTH]: { frame: 8, colorBG: "#BDFFAA", colorMid: "#207405", colorText: "#0C2705" }
 }
+
+/* THESE colorMid values are much LIGHTER
+const CATEGORIES:Record<Category, CategoryMetaData> = 
+{
+    [Category.EVENT]: { frame: 0, colorBG: "#FFFFA5", colorMid: "#ACAC12", colorText: "#353500" },
+    [Category.ITEM]: { frame: 1, colorBG: "#FFDDAA", colorMid: "#B97713", colorText: "#362100" },
+    [Category.ACTION]: { frame: 2, colorBG: "#FFBBBB", colorMid: "#E93A3A", colorText: "#330000" },
+    [Category.GOAL]: { frame: 3, colorBG: "#AAFFEB", colorMid: "#1CD2A7", colorText: "#002F23" },
+    [Category.CHANGE]: { frame: 4, colorBG: "#AAD4FF", colorMid: "#2F87E1", colorText: "#001A34" },
+    [Category.HABIT]: { frame: 5, colorBG: "#B4AAFF", colorMid: "#523DED", colorText: "#160F47" },
+    [Category.PERSONAL]: { frame: 6, colorBG: "#E9AAFF", colorMid: "#BB51E0", colorText: "#260731" },
+    [Category.JOB]: { frame: 7, colorBG: "#E1E1E1", colorMid: "#9A9A9A", colorText: "#202020" },
+    [Category.HEALTH]: { frame: 8, colorBG: "#BDFFAA", colorMid: "#51A738", colorText: "#0C2705" }
+}
+*/
 
 
 interface CategoryData
@@ -232,7 +248,7 @@ const ITEM_CARDS:CategoryDataList = [
     { desc: "Learning your favorite and most valuable object was actually stolen.", feeling: Feeling.AWKWARD, pack: Pack.SILLY  },
     { desc: "Owning a recumbent (horizontal bike).", feeling: Feeling.AWKWARD, pack: Pack.SILLY  },
     { desc: "Being confronted with photos of you as a naked baby, all over the internet.", feeling: Feeling.AWKWARD, pack: Pack.SILLY  },
-    { desc: "Bringing your computer to tach support in a rage, where they explain that you forgot to plug it in.", feeling: Feeling.AWKWARD, pack: Pack.SILLY  },
+    { desc: "Bringing your computer to tech support in a rage, where they explain that you forgot to plug it in.", feeling: Feeling.AWKWARD, pack: Pack.SILLY  },
 
 ];
 
@@ -627,7 +643,6 @@ const JOB_CARDS:CategoryDataList = [
     { desc: "Losing your current job.", feeling: Feeling.UNHAPPY, pack: Pack.BASE },
     { desc: "Establishing a healthy work-life balance.", pack: Pack.BASE },
     { desc: "Starting a successful business.", pack: Pack.BASE },
-    { desc: "Receiving recognition or awards at work.", pack: Pack.BASE },
     { desc: "Working for an oil company.", feeling: Feeling.UNHAPPY, pack: Pack.BASE },
     { desc: "Working for the government.", feeling: Feeling.UNHAPPY, pack: Pack.BASE },
     { desc: "Being a telemarketer.", feeling: Feeling.UNHAPPY, pack: Pack.BASE },
@@ -641,6 +656,7 @@ const JOB_CARDS:CategoryDataList = [
     { desc: "Being the leader of your country.", pack: Pack.BASE },
 
     // ADVANCED
+    { desc: "Receiving recognition or awards at work.", pack: Pack.ADVANCED },
     { desc: "Being a gardener.", pack: Pack.ADVANCED },
     { desc: "Being an educator.", pack: Pack.ADVANCED },
     { desc: "Being a writer.", pack: Pack.ADVANCED },

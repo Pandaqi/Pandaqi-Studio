@@ -6,9 +6,9 @@ const CONFIG =
 {
     debug:
     {
-        omitFile: true, // @DEBUGGING (should be false)
-        singleDrawPerType: true, // @DEBUGGING (should be false)
-        onlyGenerate: true, // @DEBUGGING (should be false)
+        omitFile: false, // @DEBUGGING (should be false)
+        singleDrawPerType: false, // @DEBUGGING (should be false)
+        onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
     configKey: "theGameOfDilemmasConfig",
@@ -45,7 +45,7 @@ const CONFIG =
         minya_bold:
         {
             key: "minya",
-            path: "fonts/MinyaNouvelle-ExtraBold.woff2",
+            path: "fonts/MinyaNouvelle-Bold.woff2",
             textConfig: new TextConfig({ weight: TextWeight.BOLD })
         },
 
@@ -59,6 +59,11 @@ const CONFIG =
         {
             path: "token_types.webp",
             frames: new Point(4,1)
+        },
+
+        template_tintable:
+        {
+            path: "template_tintable.webp"
         }
     },
 
@@ -66,7 +71,7 @@ const CONFIG =
     generation:
     {
         tokenTypes: [TokenType.YES, TokenType.NO],
-        numPerType: 2,
+        numPerType: 3,
         maxNumPlayers: 6,
         tokenTypesVariant: [TokenType.SUPERYES, TokenType.SUPERNO],
         numPerTypeVariant: 1
@@ -91,9 +96,9 @@ const CONFIG =
             dimsElement: new Point(1,1),
             dims: 
             {
-                small: new Point(8,8),
-                regular: new Point(6,6),
-                large: new Point(4,4)
+                small: new Point(8,10),
+                regular: new Point(6,8),
+                large: new Point(4,5)
             }
         },
         
@@ -104,21 +109,26 @@ const CONFIG =
 
         category:
         {
-            iconSize: 0.1, // ~sizeUnit
-            iconOffset: 0.1, // ~sizeUnit
+            iconSize: 0.15, // ~sizeUnit
+            iconOffset: 0.125, // ~sizeUnit
+            textYPos: 0.925, // ~sizeY
+            textFontSize: 0.15, // ~sizeUnit
+            textStrokeWidth: 0.1 // ~textFontSize
         },
 
         text:
         {
-            fontSize: 0.06, // ~sizeUnit
-            dims: new Point(0.8, 0.6), // ~size
+            fontSize: { large: 0.125, medium: 0.105, small: 0.09 }, // ~sizeUnit
+            fontSizeCutoffs: { large: 65, medium: 105, small: 145 },
+            yPos: 0.433, // ~sizeY
+            dims: new Point(0.91, 0.8), // ~size
             negativeCardPrefix: "... but "
         },
 
         token:
         {
-            iconSize: 0.5, // ~sizeUnit
-            fontSize: 0.5, // ~sizeUnit
+            iconSize: 0.75, // ~sizeUnit
+            fontSize: 0.75, // ~sizeUnit
         },
 
         outline:

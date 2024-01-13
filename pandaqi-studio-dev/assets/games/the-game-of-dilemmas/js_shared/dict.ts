@@ -1,3 +1,6 @@
+// @SOURCE: https://morethanamom.nl/50-onmogelijke-would-you-rather-vragen/
+// @SOURCE: Many are lifted from my own Game of Happiness entries (which contains a LOT)
+
 enum Category
 {
     POSITIVE = "positive",
@@ -21,24 +24,26 @@ interface TokenMetaData
 
 const TOKEN_TYPES:Record<TokenType, TokenMetaData> =
 {
-    [TokenType.YES]: { frame: 0, colorBG: "@TODO" },
-    [TokenType.NO]: { frame: 1, colorBG: "@TODO" },
-    [TokenType.SUPERYES]: { frame: 2, colorBG: "@TODO" },
-    [TokenType.SUPERNO]: { frame: 3, colorBG: "@TODO" },
+    [TokenType.YES]: { frame: 0, colorBG: "#BDFFAA" }, // colorText: "#0C2705"
+    [TokenType.NO]: { frame: 1, colorBG: "#FEB9B9" }, // colorText: "#330000"
+    [TokenType.SUPERYES]: { frame: 2, colorBG: "#AAD4FF" }, // colorText: "#001A34" 
+    [TokenType.SUPERNO]: { frame: 3, colorBG: "#E9AAFF" }, // colorText: "#260731"
 }
 
 interface CategoryMetaData
 {
     frame: number,
     colorBG: string,
+    colorMid: string,
     colorText: string
 }
 
 const CATEGORIES:Record<Category, CategoryMetaData> = 
 {
-    [Category.POSITIVE]: { frame: 0, colorBG: "@TODO", colorText: "@TODO" },
-    [Category.NEUTRAL]: { frame: 1, colorBG: "@TODO", colorText: "@TODO" },
-    [Category.NEGATIVE]: { frame: 2, colorBG: "@TODO", colorText: "@TODO" },
+    [Category.POSITIVE]: { frame: 0, colorBG: "#BDFFAA", colorMid: "#146200", colorText: "#0C2705" },
+    [Category.NEUTRAL]: { frame: 1, colorBG: "#E1E1E1", colorMid: "#747474", colorText: "#202020" },
+    [Category.NEGATIVE]: { frame: 2, colorBG: "#FEB9B9", colorMid: "#954545", colorText: "#330000" },
+    // If a 4th category ever arrives => colorBG: "#FFFFA5", colorMid: "#757511", colorText: "#353500"
 }
 
 enum Pack
@@ -61,7 +66,7 @@ const POSITIVE_CARDS:CategoryDataList =
         "You immediately see through any lie",
         "You speak all languages in the world",
         "You get minimum wage for free every day",
-        "You get the love of your live",
+        "You get the love of your life",
         "You can make anybody your friend by saying a magic word",
         "The tiniest events make you happy",
         "You can run faster than anyone in the world",
@@ -250,7 +255,7 @@ const NEGATIVE_CARDS:CategoryDataList =
         "Sleeping for too long breaks your bones",
         "You trip over something at least once every ten minutes",
         "You have vertigo ( = fear of heights)",
-        "You are forever afraid of everything you experienced so far in your life.",
+        "You are forever afraid of everything you experienced so far in your life",
         "Touching another person makes you terminally ill",
         "You become terminally ill",
         "You lose all your memories",
@@ -415,7 +420,7 @@ const NEUTRAL_CARDS:CategoryDataList =
         "While having an invisible companion commenting loudly on all you do or think",
         "While aging backward",
         "While you experience everything in slow-motion",
-        "While perpetually on stage, even in in private moments",
+        "While perpetually on stage, even in private moments",
         "While swapping body with someone else every Sunday",
         "While dancing at all times",
         "While feeling itches in random, unreachable places",

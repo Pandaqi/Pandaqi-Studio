@@ -23,10 +23,13 @@ export default class TokenPicker
             }
         }
 
-        for(let i = 1; i < Object.keys(CATEGORIES).length; i++)
+        for(let i = 0; i < Object.keys(CATEGORIES).length; i++)
         {
-            const newTokenNumber = new Token(null, i);
-            this.tokens.push(newTokenNumber);
+            for(let a = 0; a < NUM_PER_TYPE; a++)
+            {
+                const newTokenNumber = new Token(null, i+1);
+                this.tokens.push(newTokenNumber);
+            }
         }
     }
 }

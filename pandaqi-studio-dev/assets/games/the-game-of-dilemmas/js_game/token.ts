@@ -48,6 +48,8 @@ export default class Token
             frame: frame,
             translate: vis.center,
             size: iconDims,
+            effects: vis.effects,
+            pivot: Point.CENTER
         });
         group.add(res, resOp);
     }
