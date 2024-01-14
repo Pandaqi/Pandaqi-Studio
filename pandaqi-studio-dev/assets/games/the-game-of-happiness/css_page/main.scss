@@ -5,8 +5,8 @@ $bg-color: g.$bg-col;
 $text-color: g.$text-col;
 $button-bg: g.$col2;
 $button-color: #27231c;
-$link-color: color.adjust(g.$col3, $lightness: -10%);
-$link-color-hover: color.adjust(g.$col3, $lightness: 5%);
+$link-color: color.adjust(g.$col3, $lightness: -40%);
+$link-color-hover: color.adjust(g.$col3, $lightness: -10%);
 $settings-color: g.$col1;
 $cutoff: 920px;
 
@@ -33,7 +33,6 @@ h2 {
     font-size: 2.25em;
     margin-top: 1.5em;
     margin-bottom: -0.25em;
-    filter: drop-shadow(0 0 10px #BBB);
 }
 
 h3 { 

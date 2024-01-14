@@ -18,17 +18,17 @@ headerThumb: "the_game_of_dilemmas_favicon"
 customHeight: "small"
 headerDarkened: true
 
-color: "black"
+color: "green"
 
-bgColor: "#014556"
-bgColorLink: "#601a87"
+bgColor: "#003401"
+bgColorLink: "#ff1f1f"
 
-textColor: "#e6faff"
-textColorLink: "#edccff"
+textColor: "#f2ffef"
+textColorLink: "#ffe9e9"
 
 googleFonts: ""
 
-date: 2023-01-01 # 2024-12-12?
+date: 2023-01-01 # 2024-12-26
 
 categories: ["boardgame"]
 tags: ["creative", "guessing", "ranking"]

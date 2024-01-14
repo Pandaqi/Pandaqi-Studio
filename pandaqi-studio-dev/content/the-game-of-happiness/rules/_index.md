@@ -14,7 +14,7 @@ Material can be downloaded from [the website](https://pandaqi.com/the-game-of-ha
 
 {{% /rules-block %}}
 
-{{% rules-block id="objective" heading="Objective" icon="objective" icontint="green" %}}
+{{% rules-block id="objective" heading="Objective" icon="objective" icontint="lightblue" %}}
 
 The game ends once all players have taken a turn. It's cooperative, so your score merely reflects how well you did together. The "perfect score" is 10 x the number of turns.
 
@@ -38,7 +38,7 @@ Once done, **reveal and compare!** Each token in the right place gives you +1 po
 
 {{% /rules-block %}}
 
-{{% rules-block id="variants" heading="Variants" icon="expansion" icontint="purple" %}}
+{{% rules-block id="variants" heading="Variants" icon="expansion" icontint="lightblue" %}}
 
 **Want a harder or easier game?** 
 * Change how many cards you draw on your turn. (More cards = harder)

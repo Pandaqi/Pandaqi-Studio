@@ -115,7 +115,7 @@ const CONFIG =
 
         text:
         {
-            fontSize: { large: 0.125, medium: 0.105, small: 0.85 }, // ~sizeUnit
+            fontSize: { large: 0.125, medium: 0.105, small: 0.085 }, // ~sizeUnit
             fontSizeCutoffs: { large: 50, medium: 90, small: 130 },
             dims: new Point(0.9, 0.75), // ~size
         },

@@ -6,9 +6,9 @@ $base-fonts: $base + "fonts/";
 $bg-col: #212121;
 $text-col: #FCFCFC;
 
-$col1: #fdb2fb;
-$col2: #d2ffc5;
-$col3: #dedeff;
+$col1: #fe9494;
+$col2: #85ff63;
+$col3: $col1;
 
 @font-face {
     font-family: $body-font;

@@ -15,20 +15,20 @@ headerImg: "the_game_of_happiness_header"
 
 headerThumb: "the_game_of_happiness_favicon"
 
-customHeight: "small"
+customHeight: "large"
 headerDarkened: true
 
-color: "black"
+color: "pink"
 
-bgColor: "#014556"
-bgColorLink: "#601a87"
+bgColor: "#fcc8f4"
+bgColorLink: "#168074"
 
-textColor: "#e6faff"
-textColorLink: "#edccff"
+textColor: "#520a45"
+textColorLink: "#ecfffb"
 
 googleFonts: ""
 
-date: 2023-01-01 # 2024-12-12?
+date: 2023-01-01 # 2024-12-26
 
 categories: ["boardgame"]
 tags: ["emotional", "discovery", "guessing", "ranking"]
@@ -37,7 +37,7 @@ multiplayermode: "cooperative"
 language: EN
 genre: ["card", "party", "social"]
 playtime: 45
-playercount: [2,3,4,5,6,7]
+playercount: [2,3,4,5,6,7,8]
 complexity: low
 ages: everyone
 
@@ -75,7 +75,7 @@ Three simple steps.
   {{< setting-checkbox id="setting-includeTokens" text="Include Tokens?" checked="checked" remark="If you already have these, or plan on using something else, you can disable this." >}}
   {{< setting-checkbox id="setting-digitalGame" text="Load Digital Game?" remark="Loads the digital interface to play this game on a single smartphone instead. (Doesn't generate material.)" >}}
   <h3>Packs</h3>
-  {{< setting-checkbox-multiple id="setting-packs" values="base,advanced,expert,silly,super,past,jobs,personal,habits,items" keys="Base,Advanced,Expert,Silly,Superpowers,Blast to Past,Jovial Jobs,Let's Get Personal,Horrible Habits,Interesting Items" valuesChecked="base" >}}
+  {{< setting-checkbox-multiple id="setting-packs" values="base,advanced,expert,silly,superpowers,past,jobs,personal,habits,items" keys="Base,Advanced,Expert,Silly,Superpowers,Blast to Past,Jovial Jobs,Let's Get Personal,Horrible Habits,Interesting Items" valuesChecked="base" >}}
 {{< /boardgame-settings >}}
 
 <p class="settings-remark"><strong>Which pack(s) should I use!?</strong> The base, advanced, expert and silly packs contain ~10 new cards for each category. They are the largest and most diverse. They get slightly more "complex" (in order of the list), but you should mostly see this as a way to break the game into more manageable files to print and cut.</p> 
