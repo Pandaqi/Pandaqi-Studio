@@ -6,13 +6,20 @@ import Color from "../color/color";
 import { EffectData } from "../layoutOperation";
 import getTintCSSFilters from "./tintEffectSolver";
 
+interface TintEffectParams
+{
+    color?: Color|string,
+    from?: Color|string
+}
+
 export default class TintEffect extends LayoutEffect
 {
     color: Color
     from: Color
 
-    constructor(params:Record<string,any> = {})
+    constructor(params:TintEffectParams|string = {})
     {
+        if(typeof params !== "object") { params = { color: params }; }
         super(params);
         this.color = new Color(params.color ?? "#FFFFFF");
         this.from = new Color(params.from ?? "#FFFFFF");

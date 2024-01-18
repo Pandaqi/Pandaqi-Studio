@@ -1,0 +1,45 @@
+@use "sass:map";
+
+$header-font: "boblox";
+$body-font: "averia";
+$base: "/mammoth-messages/assets/";
+$base-fonts: $base + "fonts/";
+
+$bg-col: #ffcaf7;
+$text-col: #1b0016;
+
+$col1: #f872f3;
+$col2: #3bceff;
+$col3:  #975cfc;
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'AveriaSerifLibre-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'AveriaSerifLibre-Italic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'AveriaSerifLibre-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $header-font;
+    src: url($base-fonts + 'BobloxClassic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}

@@ -58,7 +58,8 @@ export default class MaterialGenerator
     addDrawer(id:string, drawerConfig:Record<string,any>)
     {
         const dims = drawerConfig.dims[this.config.itemSize ?? "regular"];
-        const gridConfig = { pdfBuilder: this.pdfBuilder, dims: dims, dimsElement: drawerConfig.dimsElement };
+        const autoStroke = drawerConfig.autoStroke ?? false;
+        const gridConfig = { pdfBuilder: this.pdfBuilder, dims: dims, dimsElement: drawerConfig.dimsElement, autoStroke: autoStroke };
         const gridMapper = new GridMapper(gridConfig);
         this.drawers[id] = gridMapper;
     }

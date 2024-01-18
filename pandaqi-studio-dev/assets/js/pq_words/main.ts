@@ -22,6 +22,8 @@ interface LoadParams
     useAllSubcat?: boolean;
     typeExceptions?: string[];
     categoryExceptions?: string[];
+    wordExceptions?: string[];
+    wordFilters?: string[];
     method?: string;
     minWordLength?:number
     maxWordLength?:number
@@ -382,11 +384,11 @@ class PandaqiWords
             params.categories = this.allCategories;
         }
 
-        params.minWordLength = params.minWordLength || 0;
-        params.maxWordLength = params.maxWordLength || 50;
+        params.minWordLength = params.minWordLength ?? 0;
+        params.maxWordLength = params.maxWordLength ?? 50;
 
-        const types = params.types || this.defaultType;
-        const levels = params.levels || this.defaultLevel;
+        const types = params.types ?? this.defaultType;
+        const levels = params.levels ?? this.defaultLevel;
         if(params.useAllLevelsBelow)
         {
             const idx = this.allLevels.indexOf(params.levels[0]);
@@ -413,8 +415,8 @@ class PandaqiWords
             }
         }
 
-        const typeExceptions = params.typeExceptions || [];
-        const categoryExceptions = params.categoryExceptions || [];
+        const typeExceptions = params.typeExceptions ?? [];
+        const categoryExceptions = params.categoryExceptions ?? [];
 
         // generate the list of all combinations (level, type, cat, ...) we want to have
         const queryList = [];
@@ -443,13 +445,19 @@ class PandaqiWords
         }
 
         // then simply get that list using the preferred method
-        const method = params.method || "json";
+        const method = params.method ?? "json";
 
         if(method == "json"){
             await this.loadJsonWithQueries(path, queryList, params);
         } else if(method == "txt") {
             await this.loadTxtWithQueries(path, queryList, params);
         }
+
+        const wordExceptions = params.wordExceptions ?? [];
+        this.excludeWords(wordExceptions);
+
+        const wordFilter = params.wordFilters ?? [];
+        this.filterWords(wordFilter);
     }
 
     async loadJsonWithQueries(path:string, queryList:Query[], params:LoadParams)
@@ -571,6 +579,43 @@ class PandaqiWords
             arr.push(cat);
         }
         return arr.join(joiner);
+    }
+
+    getIndexOfWord(word:string)
+    {
+        for(let i = 0; i < this.list.length; i++)
+        {
+            if(this.list[i].getWord() != word) { continue; }
+            return i;
+        }
+        return -1;
+    }
+
+    removeWordAtIndex(i:number)
+    {
+        this.list.splice(i, 1);
+    }
+
+    excludeWords(list:string[])
+    {
+        if(list.length <= 0) { return; }
+        for(const elem of list)
+        {
+            const idx = this.getIndexOfWord(elem);
+            if(idx < 0) { continue; }
+            this.removeWordAtIndex(idx);
+        }
+    }
+
+    // only KEEP the ones from the list; not sure when I'd use this, but hey
+    filterWords(list:string[])
+    {
+        if(list.length <= 0) { return; }
+        for(let i = this.list.length - 1; i >= 0; i--)
+        {
+            if(list.includes(this.list[i].getWord())) { continue; }
+            this.removeWordAtIndex(i);
+        }
     }
 }
 

@@ -10,6 +10,18 @@ enum GridMapperLayout
     CIRCLE
 }
 
+
+const DEF_AUTO_STROKE = {
+    size: 0.025,
+    color: "#000000"
+}
+
+interface GridMapperElementStrokeParams
+{
+    size?: number,
+    color?: string,
+}
+
 interface GridMapperParams
 {
     debug?: boolean,
@@ -20,7 +32,8 @@ interface GridMapperParams
     pdfBuilder?: PdfBuilder,
     dimsElement?: Point,
     absoluteElementSize?: Point,
-    pdfParams?: PdfBuilderConfig
+    pdfParams?: PdfBuilderConfig,
+    autoStroke?: GridMapperElementStrokeParams
 }
 
 export { GridMapperLayout, GridMapperParams }
@@ -46,6 +59,8 @@ export default class GridMapper
     elementsPerPage : number
     elementPositions : Point[]
 
+    autoStroke: GridMapperElementStrokeParams
+
     constructor(params:GridMapperParams = {})
     {
         this.debug = params.debug ?? false;
@@ -61,6 +76,8 @@ export default class GridMapper
         this.innerMargin = params.innerMargin ?? new Point(0.01); // could be 0 if I wanted, so this is just a nice value for visual clarity
         this.outerMargin = this.outerMargin.clone().scaleFactor(this.pageSizeUnit);
         this.innerMargin = this.innerMargin.clone().scaleFactor(this.pageSizeUnit);
+
+        this.autoStroke = params.autoStroke ? Object.assign(Object.assign({}, DEF_AUTO_STROKE), params.autoStroke) : null;
         
         this.padding = new Point();
         this.currentElement = 0;
@@ -259,6 +276,14 @@ export default class GridMapper
 
             ctx.strokeStyle = "#0000FF";
             ctx.lineWidth = 5;
+            ctx.strokeRect(finalX, finalY, finalWidth, finalHeight);
+        }
+
+        // @TODO: Clip this? Now the stroke also extends halfway outside bounds
+        if(this.autoStroke)
+        {
+            ctx.strokeStyle = this.autoStroke.color;
+            ctx.lineWidth = this.autoStroke.size * Math.min(finalWidth, finalHeight);
             ctx.strokeRect(finalX, finalY, finalWidth, finalHeight);
         }
     }
