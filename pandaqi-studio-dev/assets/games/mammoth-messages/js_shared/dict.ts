@@ -29,123 +29,97 @@ interface CaveDrawingData
 
 const DRAWINGS:Record<string, CaveDrawingData> = 
 {
-    horse: { frame: 0 },
-    bison: { frame: 1 },
-    deer: { frame: 2 },
-    mammoth: { frame: 3 },
-    rhino: { frame: 4 },
-    lion: { frame: 5 },
-    bear: { frame: 6 },
-    human_idle: { frame: 7 },
-    handprint: { frame: 8 },
-    footprint: { frame: 9 },
-    spear: { frame: 10 },
-    axe: { frame: 11 },
-    club: { frame: 12 },
-    fishing_rod: { frame: 13 },
-    arrow: { frame: 14 },
-    pawprint: { frame: 15 },
-    cave: { frame: 16 },
-    hut: { frame: 17 },
-    sun: { frame: 18 },
-    moon: { frame: 19 },
-    star: { frame: 20 },
-    cloud: { frame: 21 },
-    mountain: { frame: 22 },
-    river: { frame: 23 },
-    water_droplet: { frame: 23 },
-    cross: { frame: 24 },
-    zigzag: { frame: 25 },
-    spiral: { frame: 26 },
-    line: { frame: 27 },
-    dots: { frame: 28 }, // @NOTE: plural to make it mean a bit more?
-    circle: { frame: 29 },
-    square: { frame: 30 },
-    pyramid: { frame: 31 }, // or just triangle
-    male: { frame: 32 }, // or "dad"
-    female: { frame: 33 }, // or "mom"
+    sun: { frame: 0 },
+    moon: { frame: 1 },
+    star: { frame: 2 },
+    male: { frame: 3 }, // or dad/mom, boy/girl, etc.
+    female: { frame: 4 },
+    tree: { frame: 5 },
+    mountain: { frame: 6 },
+    cloud: { frame: 7 },
 
-    sheep: { frame: 34 },
-    mouse: { frame: 35 },
-    boots: { frame: 36 },
-    duck: { frame: 37 },
-    pig: { frame: 38 },
-    ear: { frame: 39 },
-    leg: { frame: 40 },
-    face: { frame: 41 },
-    lightning: { frame: 42 },
-    cat: { frame: 43 },
-    ghost: { frame: 44 },
-    vase: { frame: 45 },
-    hammer: { frame: 46 },
-    stone: { frame: 47 },
-    baby: { frame: 48 },
-    spider: { frame: 49 },
-    volcano: { frame: 50 },
-    tree: { frame: 51 },
-    flower: { frame: 52 },
-    net: { frame: 53 },
+    river: { frame: 8 },
+    water: { frame: 9 },
+    square: { frame: 10 },
+    circle: { frame: 11 },
+    triangle: { frame: 12 }, // also pyramid
+    spiral: { frame: 13 },
+    cross: { frame: 14 }, // also plus
+    arrow: { frame: 15 }, // also spear
+
+    hammer: { frame: 16 },
+    club: { frame: 17 },
+    flower: { frame: 18 },
+    stone: { frame: 19 }, // also rock
+    hand: { frame: 20 },
+    footprint: { frame: 21 },
+    pawprint: { frame: 22 },
+    net: { frame: 23 },
+    
+    line: { frame: 24 },
+    dots: { frame: 25 },
+    plant: { frame: 26 },
+    zigzag: { frame: 27 },
+    lightning: { frame: 28 },
+    cave: { frame: 29 },
+    house: { frame: 30 }, // also hut
+    leaf: { frame: 31 },
+
+    wood: { frame: 32 },
+    feather: { frame: 33 }, // also pen/pencil
+    flag: { frame: 34 },
+    fire: { frame: 35 },
+    rain: { frame: 36 },
+    hourglass: { frame: 37 }, // also sandtimer
+    egg: { frame: 38 },
+    volcano: { frame: 39 },
+
+    heart: { frame: 40 },
+    ship: { frame: 41 },
+    fork: { frame: 42 },
+    bone: { frame: 43 },
+    knife: { frame: 44 },
+    spoon: { frame: 45 },
+    grass: { frame: 46 },
+    clover: { frame: 47 },
+
+    
+
+    // Categories left to do:
+    // Animals
+    // Humans in action
+    // Body parts
+    // Food
+    // Misc (objects, clothing, concepts, etc) => keep some abstract or vague stuff that you could COMBINE with other things
+
+
+    // Actual unique animals: deer/horse/bison, mammoth, snake, fish, bird, rhino, lion, bear, scorpion, camel, butterfly, elephant, giraffe, turtle, salamander. spider / dragonfly, sheep, mouse, duck, pig, cat, dog, owl, rabbit, worm
+    // Misc: ghost, face, baby, hat, shirt, skirt, shoe/boots, fish skeleton, die/dice, snowflake
+    // Body Parts: face, ear, leg, eye, skull
+    // Food: berries, orange, banana, carrot, meat slab / chicken leg
+
+
     human_hunt: { frame: 54 },
     human_carry: { frame: 55 },
-    human_sail: { frame: 56 }
+    human_sail: { frame: 56 },
+    human_idle: { frame: 56 },
 }
 
 /*
 
-treasure/diamond
-camel
-book
-pen/pencil/feather
-wood
-flag
-butterfly
-
-ocean
-grains of sand
-candle/fire
-cook/cooking?
-shoe
-bird
-scorpion
-hourglass/sandtimer
-leaf
-
-egg
-shirt 
-skirt
-
-snowflake
-berries
-orange
-banana
-giant/dwarf/dragon?
-heart
-owl
-hat/headwear
-rain
-
-elephant
-giraffe
-rope
-witch
-ship
-
-
 TOO MODERN?
 table
 chair
-fork
-knife
-spoon
-
 cheese
-shirt
 game?
-rabbit
-worm
-ring
-carrot
+treasure/diamond
+book
+cook/cooking?
+giant/dwarf/dragon?
+rope
 key
+witch
+
 */
 
 const MISC =

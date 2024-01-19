@@ -20,11 +20,11 @@ headerDarkened: true
 
 color: "brown"
 
-bgColor: "#003401"
-bgColorLink: "#ff1f1f"
+bgColor: "#230e00"
+bgColorLink: "#2d2d2d"
 
-textColor: "#f2ffef"
-textColorLink: "#ffe9e9"
+textColor: "#fff0e8"
+textColorLink: "#e0e0e0"
 
 googleFonts: ""
 

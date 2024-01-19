@@ -64,7 +64,7 @@ const CONFIG =
         cave_drawings:
         {
             path: "cave_drawings.webp",
-            frames: new Point(8,4)
+            frames: new Point(8,10)
         }
     },
 
