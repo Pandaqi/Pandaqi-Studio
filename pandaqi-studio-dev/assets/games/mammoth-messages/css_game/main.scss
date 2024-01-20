@@ -2,7 +2,8 @@
 
 body {
     font-family: g.$body-font;
-    background-color: #ff74ae;
+    background-color: g.$bg-col;
+    color: g.$text-col;
     font-size: 22px;
     line-height: 120%;
     box-sizing: border-box;

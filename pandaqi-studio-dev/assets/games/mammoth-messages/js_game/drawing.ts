@@ -39,7 +39,7 @@ export default class Drawing
     drawContent(vis:Visualizer, group:ResourceGroup)
     {
         const data = this.getTypeData();
-        const res = vis.resLoader.getResource("drawings");
+        const res = vis.resLoader.getResource("cave_drawings");
         const frame = data.frame;
         const iconDims = new Point(CONFIG.drawings.iconSize * vis.sizeUnit);
         const resOp = new LayoutOperation({

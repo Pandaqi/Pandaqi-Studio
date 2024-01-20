@@ -29,8 +29,10 @@ interface CaveDrawingData
 
 const DRAWINGS:Record<string, CaveDrawingData> = 
 {
+    // Almost all symbols are just all the common NATURE elements (that cavemen would've illustrated)
+    // that I could think of at the moment
     sun: { frame: 0 },
-    moon: { frame: 1 },
+    moon: { frame: 1 }, // also banana :p
     star: { frame: 2 },
     male: { frame: 3 }, // or dad/mom, boy/girl, etc.
     female: { frame: 4 },
@@ -38,6 +40,7 @@ const DRAWINGS:Record<string, CaveDrawingData> =
     mountain: { frame: 6 },
     cloud: { frame: 7 },
 
+    // ABSTRACT SHAPES
     river: { frame: 8 },
     water: { frame: 9 },
     square: { frame: 10 },
@@ -83,26 +86,79 @@ const DRAWINGS:Record<string, CaveDrawingData> =
     grass: { frame: 46 },
     clover: { frame: 47 },
 
-    
+    // BODY PARTS
+    eye: { frame: 48 },
+    mouth: { frame: 49 },
+    leg: { frame: 50 },
+    ear: { frame: 51 },
+    face: { frame: 52 },
+    skull: { frame: 53 },
+    tail: { frame: 54 },
+    breasts: { frame: 55 }, // tried to make it look like a chest of either male or female, not really succeeded
 
-    // Categories left to do:
-    // Animals
-    // Humans in action
-    // Body parts
-    // Food
-    // Misc (objects, clothing, concepts, etc) => keep some abstract or vague stuff that you could COMBINE with other things
+    // FOOD
+    berries: { frame: 56 },
+    orange: { frame: 57 }, // also apple or similar fruits
+    carrot: { frame: 58 },
+    meat: { frame: 59 },
+    chicken: { frame: 60 }, // chicken leg
+    fish: { frame: 61 },
+    fish_skeleton: { frame: 62 },
+    mushroom: { frame: 63 },
 
+    // ANIMALS
+    deer: { frame: 64 }, // also horse, bison, cow
+    mammoth: { frame: 65 }, // also elephant of course
+    snake: { frame: 66 }, // also worm, salamander, scorpion?
+    bird: { frame: 67 }, // also duck; this is a top-down view of one
+    spider: { frame: 68 }, // also beetle, insect
+    turtle: { frame: 69 }, // also sheep, pig
+    giraffe: { frame: 70 }, // also camel, dino
+    lion: { frame: 71 }, // this is just a general animal (cat-like) face; cat / dog / lion
 
-    // Actual unique animals: deer/horse/bison, mammoth, snake, fish, bird, rhino, lion, bear, scorpion, camel, butterfly, elephant, giraffe, turtle, salamander. spider / dragonfly, sheep, mouse, duck, pig, cat, dog, owl, rabbit, worm
-    // Misc: ghost, face, baby, hat, shirt, skirt, shoe/boots, fish skeleton, die/dice, snowflake
-    // Body Parts: face, ear, leg, eye, skull
-    // Food: berries, orange, banana, carrot, meat slab / chicken leg
+    // MISC
+    skirt: { frame: 72 },
+    shirt: { frame: 73 }, // also just general clothing
+    hat: { frame: 74 }, // general headwear, also hair
+    shoe: { frame: 75 }, // also boots
+    die: { frame: 76 }, // does PQ WORDS have this as dice?
+    ghost: { frame: 77 },
+    snowflake: { frame: 78 },
+    baby: { frame: 79 },
+     
+    // HUMANS (in action) + more ANIMALS + actual CAVEMAN abstract symbols
+    flock: { frame: 80 }, // as in flock of birds, the typical wavy symbols for that
+    rabbit: { frame: 81 },
+    mouse: { frame: 82 },
+    owl: { frame: 83 }, // also bird side view
+    butterfly: { frame: 84 }, // also dragonfly
+    bear: { frame: 85 },
+    rhino: { frame: 87 },
+    pectiform: { frame: 87 },
 
+    half_circle: { frame: 88 },
+    aviform: { frame: 89 },
+    flabelliform: { frame: 90 },
+    tectiform: { frame: 91 },
+    human_idle: { frame: 92 },
+    human_hunt: { frame: 93 },
+    human_flee: { frame: 94 },
+    human_sail: { frame: 95 },
 
-    human_hunt: { frame: 54 },
-    human_carry: { frame: 55 },
-    human_sail: { frame: 56 },
-    human_idle: { frame: 56 },
+    scalariform: { frame: 96 },
+    axe: { frame: 97 },
+    bag: { frame: 98 },
+    necklace: { frame: 99 },
+    penniform: { frame: 100 },
+    diamond: { frame: 101 },
+    corner: { frame: 102 },
+    temple: { frame: 103 },
+
+    cruciform: { frame: 104 },
+    plus: { frame: 105 },
+    human_carry: { frame: 106 },
+    human_archer: { frame: 107 }
+
 }
 
 /*

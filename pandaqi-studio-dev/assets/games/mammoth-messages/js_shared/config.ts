@@ -7,8 +7,8 @@ const CONFIG =
 {
     debug:
     {
-        omitFile: true, // @DEBUGGING (should be false)
-        singleDrawPerType: true, // @DEBUGGING (should be false)
+        omitFile: false, // @DEBUGGING (should be false)
+        singleDrawPerType: false, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
@@ -23,6 +23,10 @@ const CONFIG =
     includeCards: true,
     includeDrawings: true,
     includeTokens: true,
+
+    includeDifficultWords: false,
+    includeNames: false,
+    includeGeography: false,
 
     fonts:
     {
@@ -64,7 +68,7 @@ const CONFIG =
         cave_drawings:
         {
             path: "cave_drawings.webp",
-            frames: new Point(8,10)
+            frames: new Point(8,14)
         }
     },
 
@@ -98,7 +102,7 @@ const CONFIG =
             pqWordsParams: 
             {
                 method: "json",
-                maxWordLength: 14, // longer simply doesn't fit in reasonable font size
+                maxWordLength: 12, // longer simply doesn't fit in reasonable font size
                 types: ["nouns"],
                 levels: ["core", "easy"], // @TODO: add easy as well?
                 useAllCategories: true,
