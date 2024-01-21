@@ -10,7 +10,7 @@ import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import TextConfig, { TextWeight } from "js/pq_games/layout/text/textConfig";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
 import TintEffect from "js/pq_games/layout/effects/tintEffect";
-import StrokeAlignValue from "js/pq_games/layout/values/strokeAlignValue";
+import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
 
 export default class Card
 {
@@ -94,7 +94,7 @@ export default class Card
             dims: new Point(vis.size.x, 1.5*fontSize),
             stroke: data.colorText,
             strokeWidth: strokeWidth,
-            strokeAlign: StrokeAlignValue.OUTSIDE,
+            strokeAlign: StrokeAlign.OUTSIDE,
             pivot: Point.CENTER
         })
 

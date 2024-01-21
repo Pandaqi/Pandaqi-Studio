@@ -3,19 +3,22 @@ import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
 import TintEffect from "js/pq_games/layout/effects/tintEffect";
 import GridMapper from "js/pq_games/layout/gridMapper";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
+import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import ResourceImage from "js/pq_games/layout/resources/resourceImage";
 import ResourceLoader from "js/pq_games/layout/resources/resourceLoader";
+import ResourceShape from "js/pq_games/layout/resources/resourceShape";
 import PdfBuilder, { PageOrientation } from "js/pq_games/pdf/pdfBuilder";
+import Circle from "js/pq_games/tools/geometry/circle";
 import Point from "js/pq_games/tools/geometry/point";
 
 const TEST_ASSETS = {
     creatures_1: {
-        path: "assets/quellector_creatures_1.webp",
+        path: "/dev-test/assets/quellector_creatures_1.webp",
         frames: { x: 8, y: 2 }
     },
     font: {
         key: "Comica Boom",
-        path: "assets/fonts/Comica Boom.otf",
+        path: "/dev-test/assets/fonts/Comica Boom.otf",
         size: 0.1285
     },
 }
@@ -55,14 +58,14 @@ const testGridMapper = (pdfBuilder) =>
     return gridMapper;
 }
 
-const testSingleImage = (canv, resLoader) =>
+const testSingleImage = async (canv, resLoader) =>
 {
     const res = resLoader.getResource("creatures_1") as ResourceImage;
     const spriteParams = {
-        translate: new Point(0, 0),
+        translate: new Point(256, 256),
         dims: new Point(150),
-        rotation: Math.PI,
-        pivot: new Point(0.5),
+        rotation: 0.25*Math.PI,
+        pivot: Point.CENTER,
         frame: 9,
     }
     const canvOp = new LayoutOperation(spriteParams);
@@ -70,26 +73,65 @@ const testSingleImage = (canv, resLoader) =>
         new TintEffect({ color: "#FF0000" })
     )
     canvOp.addEffect(
-        new DropShadowEffect({ blur: 10, color: "#000000", offset: new Point(35, 35) })
+        new DropShadowEffect({ blur: 10, color: "#000000", offset: new Point(5,5) })
     )
 
-    res.toCanvas(canv, canvOp);
+    await res.toCanvas(canv, canvOp);
 
     console.log("== Single Image Placed ==");
     console.log(res);
     console.log(canvOp);
 }
 
+const testGroups = async (canv, resLoader) =>
+{
+    const res = resLoader.getResource("creatures_1") as ResourceImage;
+    const resOp = new LayoutOperation({
+        dims: new Point(150),
+        pivot: Point.CENTER,
+        frame: 9,
+    });
+
+    const resCenter = new ResourceShape(new Circle({ radius: 20 }));
+    const resCenterOp = new LayoutOperation({
+        fill: "#FF0000",
+    })
+
+    const group = new ResourceGroup();
+    group.add(res, resOp);
+    group.add(resCenter, resCenterOp);
+
+    const groupOp = new LayoutOperation({
+        translate: new Point(128, 128),
+        rotation: -0.25 * Math.PI
+    })
+    console.log(groupOp);
+    console.log("Drawing Group with subgroups");
+    await group.toCanvas(canv, groupOp);
+}
+
+/*
+const testSubGroups = async (canv, resLoader) =>
+{
+    const group = new ResourceGroup();
+    group.add(res, resOp);
+}
+*/
+
 const runTests = async () =>
 {
     const resLoader = await testAssetLoading();
-    const pdfBuilder = testPDFBuilder();
-    const gridMapper = testGridMapper(pdfBuilder);
+    //const pdfBuilder = testPDFBuilder();
+    //const gridMapper = testGridMapper(pdfBuilder);
     
-    const size = gridMapper.getMaxElementSize();
-    const canv = createCanvas({ size: size })
+    //const size = gridMapper.getMaxElementSize();
+    //const canv = createCanvas({ size: size })
 
-    testSingleImage(canv, resLoader);
+    const canv = createCanvas({ size: new Point(512, 512) });
+    //await testSingleImage(canv, resLoader);
+    await testGroups(canv, resLoader);
+
+    canv.style.outline = "5px solid red";
 
     document.body.appendChild(canv);
 }

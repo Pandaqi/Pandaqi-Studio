@@ -1,10 +1,9 @@
-import ResourceImage, { CanvasLike } from "../resources/resourceImage"
+import { CanvasLike } from "../resources/resourceImage"
 import createContext from "../canvas/createContext"
 import LayoutEffect from "./layoutEffect";
-import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage";
 import Color from "../color/color";
-import { EffectData } from "../layoutOperation";
 import Point from "js/pq_games/tools/geometry/point";
+import EffectsOperation from "./effectsOperation";
 
 interface OutlineEffectParams
 {
@@ -72,7 +71,7 @@ export default class OutlineEffect extends LayoutEffect
     }
 
     // @SOURCE: https://stackoverflow.com/questions/12690444/css-border-on-png-image-with-transparent-parts (further down the page)
-    applyToHTML(div:HTMLElement, effectData:EffectData = {})
+    applyToHTML(div:HTMLElement, effOp = new EffectsOperation())
     {
         const t = this.thickness;
         const c = this.color.toString();
@@ -83,10 +82,7 @@ export default class OutlineEffect extends LayoutEffect
             filters.push("drop-shadow(" + pos.x + "px " + pos.y + "px 0 " + c + ")");
         }
 
-        for(const filter of filters)
-        {
-            effectData.filters.push(filter);
-        }
+        effOp.addFilters(filters);
     }
 
     getExtraSizeAdded()

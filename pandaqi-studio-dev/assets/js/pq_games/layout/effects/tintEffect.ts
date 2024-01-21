@@ -1,11 +1,9 @@
-import ResourceImage, { CanvasDrawableLike } from "../resources/resourceImage"
+import { CanvasDrawableLike } from "../resources/resourceImage"
 import createContext from "../canvas/createContext"
 import LayoutEffect from "./layoutEffect";
-import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage";
 import Color from "../color/color";
-import { EffectData } from "../layoutOperation";
 import getTintCSSFilters from "./tintEffectSolver";
-import Point from "js/pq_games/tools/geometry/point";
+import EffectsOperation from "./effectsOperation";
 
 interface TintEffectParams
 {
@@ -50,12 +48,9 @@ export default class TintEffect extends LayoutEffect
         return new CanvasDrawableLike(ctx2.canvas);
     }
 
-    applyToHTML(div:HTMLElement, effectData:EffectData = {})
+    applyToHTML(div:HTMLElement, effOp = new EffectsOperation())
     {
         const filters = getTintCSSFilters(this.color, this.from);
-        for(const filter of filters)
-        {
-            effectData.filters.push(filter);
-        }
+        effOp.addFilters(filters);
     }
 }

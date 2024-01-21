@@ -14,10 +14,10 @@ class LayoutCombo
         this.operation = op;
     }
 
-    async toCanvas(ctx:CanvasLike, trans = new TransformationMatrix())
+    toCanvas(ctx:CanvasLike, trans = new TransformationMatrix())
     {
         this.operation.transformParent = trans;
-        await this.resource.toCanvas(ctx, this.operation);
+        this.resource.toCanvas(ctx, this.operation);
     }
 
     getBoundingBox()
@@ -56,9 +56,9 @@ export default class ResourceGroup extends Resource
         this.combos.splice(idx, 1);
     }
 
-    async toCanvas(ctx:CanvasLike, op = new LayoutOperation())
+    toCanvas(ctx:CanvasLike, op = new LayoutOperation())
     {
         op.resource = this;
-        return await op.applyToCanvas(ctx);
+        return op.applyToCanvas(ctx);
     }
 }

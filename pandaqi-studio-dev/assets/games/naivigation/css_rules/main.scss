@@ -1,0 +1,30 @@
+@use "../css_shared/main.scss" as g;
+@use "sass:color";
+
+body {
+    font-family: g.$body-font;
+    background-color: g.$bg-col;
+    font-size: 20px;
+    line-height: 130%;
+}
+
+h1, h2, h3, h4 {
+    font-family: g.$header-font;
+    font-weight: normal;
+}
+
+#setup {
+    background-color: g.$col1;
+}
+
+#objective {
+    background-color: g.$col2;
+}
+
+#action_play {
+    background-color: g.$col1;
+}
+
+#variants {
+    background-color: g.$col2;
+}

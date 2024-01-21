@@ -6,7 +6,7 @@ import Visualizer from "./visualizer";
 import MaterialGenerator from "js/pq_games/tools/generation/materialGenerator";
 
 const generator = new MaterialGenerator(CONFIG);
-generator.visualizerClass = Visualizer;
+generator.setVisualizerClass(Visualizer);
 generator.addPipeline("cards", CardPicker, CONFIG.cards.drawerConfig);
 generator.addPipeline("drawings", DrawingPicker, CONFIG.drawings.drawerConfig);
 generator.addPipeline("tokens", TokenPicker, CONFIG.tokens.drawerConfig);

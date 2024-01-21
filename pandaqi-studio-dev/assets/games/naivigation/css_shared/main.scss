@@ -1,0 +1,62 @@
+@use "sass:map";
+
+$header-font: "boblox";
+$body-font: "averia";
+$base: "/mammoth-messages/assets/";
+$base-fonts: $base + "fonts/";
+
+$bg-col: #59200d;
+$text-col: #ffefe9;
+
+$col1: #eeff82;
+$col2: #ffb895;
+$col3:  #ff8989;
+
+.naivigation-shared-rule
+{
+    margin: 0.5rem;
+    background-color: rgba(255,128,128,0.5);
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border-left: 10px solid rgb(255, 48, 48);
+    font-style: italic;
+
+    &:before 
+    {
+        content: "CORE RULE |";
+        opacity: 0.5;
+        font-weight: bold;
+    }
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'AveriaSerifLibre-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'AveriaSerifLibre-Italic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'AveriaSerifLibre-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $header-font;
+    src: url($base-fonts + 'BobloxClassic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}

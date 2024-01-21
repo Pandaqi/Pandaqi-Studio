@@ -10,7 +10,7 @@ import isZero from "../tools/numbers/isZero"
 import ResourceBox from "./resources/resourceBox"
 import ColorLike, { ColorLikeValue } from "./color/colorLike"
 import createContext from "./canvas/createContext"
-import StrokeAlignValue from "./values/strokeAlignValue"
+import StrokeAlign from "./values/strokeAlign"
 import calculateBoundingBox from "../tools/geometry/paths/calculateBoundingBox"
 import ResourceGroup from "./resources/resourceGroup"
 import Rectangle from "../tools/geometry/rectangle"
@@ -31,7 +31,7 @@ interface LayoutOperationParams
     stroke?:string|ColorLikeValue,
     strokeWidth?:number,
     strokeType?:string,
-    strokeAlign?:StrokeAlignValue,
+    strokeAlign?:StrokeAlign,
 
     translate?: Point,
     rotation?:number,
@@ -86,7 +86,7 @@ export default class LayoutOperation
     fill: ColorLike
     stroke: ColorLike
     strokeWidth: number
-    strokeAlign: StrokeAlignValue
+    strokeAlign: StrokeAlign
     strokeType: string
 
     constructor(params:LayoutOperationParams = {})
@@ -114,7 +114,7 @@ export default class LayoutOperation
         this.stroke = new ColorLike(params.stroke);
         this.strokeWidth = params.strokeWidth ?? 0;
         this.strokeType = params.strokeType ?? "solid";
-        this.strokeAlign = params.strokeAlign ?? StrokeAlignValue.MIDDLE;
+        this.strokeAlign = params.strokeAlign ?? StrokeAlign.MIDDLE;
     }
 
     clone(deep = false)
@@ -323,7 +323,7 @@ export default class LayoutOperation
         ctxTemp.strokeStyle = this.stroke.toCanvasStyle(ctxTemp);
 
         let lineWidth = this.strokeWidth;
-        if(this.strokeAlign != StrokeAlignValue.MIDDLE) { lineWidth *= 2; }
+        if(this.strokeAlign != StrokeAlign.MIDDLE) { lineWidth *= 2; }
         ctxTemp.lineWidth = lineWidth;
  
         const res = this.resource;
@@ -406,8 +406,8 @@ export default class LayoutOperation
 
     applyFillAndStrokeToPath(ctx:CanvasRenderingContext2D, path:Path2D, callback:Function = null)
     {
-        const strokeBeforeFill = this.strokeAlign == StrokeAlignValue.OUTSIDE;
-        const clipStroke = this.strokeAlign == StrokeAlignValue.INSIDE;
+        const strokeBeforeFill = this.strokeAlign == StrokeAlign.OUTSIDE;
+        const clipStroke = this.strokeAlign == StrokeAlign.INSIDE;
 
         if(clipStroke) { ctx.save(); ctx.clip(path); }
 
@@ -511,7 +511,7 @@ export default class LayoutOperation
     {
         this.setStroke(s);
         this.strokeWidth = w;
-        this.strokeAlign = StrokeAlignValue.OUTSIDE;
+        this.strokeAlign = StrokeAlign.OUTSIDE;
         return this;
     }
 

@@ -9,7 +9,7 @@ import Point from "js/pq_games/tools/geometry/point";
 import TextConfig, { TextAlign, TextWeight } from "js/pq_games/layout/text/textConfig";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
-import StrokeAlignValue from "js/pq_games/layout/values/strokeAlignValue";
+import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
 import ColorLike from "js/pq_games/layout/color/colorLike";
 import fromArray from "js/pq_games/tools/random/fromArray";
 import Star from "js/pq_games/tools/geometry/star";
@@ -62,7 +62,7 @@ export default class Card
             fill: textCol,
             stroke: foreCol,
             strokeWidth: strokeWidth,
-            strokeAlign: StrokeAlignValue.OUTSIDE
+            strokeAlign: StrokeAlign.OUTSIDE
         })
 
         const resText = new ResourceText({ text: this.num.toString(), textConfig: textConfig });
@@ -233,7 +233,7 @@ export default class Card
             alpha: CONFIG.cards.coins.textAlpha,
             stroke: "#000000",
             strokeWidth: 0.075 * fontSize,
-            strokeAlign: StrokeAlignValue.OUTSIDE,
+            strokeAlign: StrokeAlign.OUTSIDE,
             pivot: Point.CENTER
         })
         group.add(resText, textOp);
@@ -335,7 +335,7 @@ export default class Card
                 fill: textColor,
                 stroke: textStrokeColor,
                 strokeWidth: strokeWidth,
-                strokeAlign: StrokeAlignValue.OUTSIDE,
+                strokeAlign: StrokeAlign.OUTSIDE,
                 effects: effects // @TODO: not sure if it should copy the regular effects for this text
             })
 
@@ -436,7 +436,7 @@ export default class Card
             pivot: Point.CENTER,
             //stroke: colorDark,
             //strokeWidth: strokeWidth,
-            //strokeAlign: StrokeAlignValue.OUTSIDE
+            //strokeAlign: StrokeAlign.OUTSIDE
             effects: effectsTitle
         })
 

@@ -12,7 +12,7 @@ import ResourceText from "js/pq_games/layout/resources/resourceText";
 import ColorLike from "js/pq_games/layout/color/colorLike";
 import getPositionsCenteredAround from "js/pq_games/tools/geometry/paths/getPositionsCenteredAround";
 import clamp from "js/pq_games/tools/numbers/clamp";
-import StrokeAlignValue from "js/pq_games/layout/values/strokeAlignValue";
+import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
 import Color from "js/pq_games/layout/color/color";
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 
@@ -134,7 +134,7 @@ export default class Tile
                 pivot: Point.CENTER,
                 //stroke: strokeColor,
                 //strokeWidth: strokeWidth,
-                strokeAlign: StrokeAlignValue.OUTSIDE
+                strokeAlign: StrokeAlign.OUTSIDE
             })
 
             // wildcard = an IMAGE (same dims as number otherwise)

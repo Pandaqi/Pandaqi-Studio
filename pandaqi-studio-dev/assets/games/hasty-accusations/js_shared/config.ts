@@ -136,6 +136,7 @@ const CONFIG =
         power:
         {
             iconSize: 0.3, // ~sizeUnit
+            extraEdgeOffset: 0.05, // ~sizeUnit (it already automatically makes sure we're out of the way of text, this is EXTRA)
         },
 
         illustration:

@@ -128,8 +128,9 @@ export default class Card
         const hasSpecialPower = dataSuspect.type && dataSuspect.power;
         if(hasSpecialPower)
         {
+            const extraOffset = CONFIG.suspects.power.extraEdgeOffset * vis.sizeUnit;
             const powerIconDims = new Point(CONFIG.suspects.power.iconSize * vis.sizeUnit);
-            const offset = new Point(0.5 * fontSize + 0.5 * powerIconDims.x, 0);
+            const offset = new Point(0.5 * fontSize + 0.5 * powerIconDims.x + extraOffset, 0);
             const positionsPower = [
                 positions[0].clone().move(offset),
                 positions[1].clone().move(offset.negate())

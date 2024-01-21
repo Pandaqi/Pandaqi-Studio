@@ -1,0 +1,1 @@
+console.log("TEST: Is this JavaScript rules file found automatically?");

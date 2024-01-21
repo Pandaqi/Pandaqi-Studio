@@ -3,6 +3,7 @@ import GridMapper from "js/pq_games/layout/gridMapper";
 import ResourceLoader from "js/pq_games/layout/resources/resourceLoader";
 import PdfBuilder, { PageOrientation } from "js/pq_games/pdf/pdfBuilder";
 import ProgressBar from "js/pq_games/website/progressBar";
+import MaterialVisualizer from "./materialVisualizer";
 
 //
 // Default debug config settings are
@@ -26,7 +27,8 @@ export default class MaterialGenerator
 
     filterAssets: Function = (dict) => { return dict; }
     progressBarPhases:string[] = ["Loading Assets", "Creating Cards", "Preparing PDF", "Done!"]
-    visualizerClass: any; // @TODO: create a DEFAULT visualizer class if omitted?
+    visualizerClass: any;
+    visualizerClassCustom: any;
 
     constructor(CONFIG)
     {
@@ -36,12 +38,24 @@ export default class MaterialGenerator
         this.generators = {};
         this.drawers = {};
 
+        this.visualizerClass = MaterialVisualizer;
+
         this.progressBar = new ProgressBar();
         this.progressBar.setPhases(this.progressBarPhases);
 
         const pdfBuilderConfig = { orientation: PageOrientation.PORTRAIT, debugWithoutFile: this.config.debug.omitFile };
         const pdfBuilder = new PdfBuilder(pdfBuilderConfig);
         this.pdfBuilder = pdfBuilder; 
+    }
+
+    setVisualizerClass(vis)
+    {
+        this.visualizerClass = vis;
+    }
+
+    setVisualizerClassCustom(vis)
+    {
+        this.visualizerClassCustom = vis;
     }
 
     addPipeline(id:string, generatorClass, drawerConfig)
@@ -113,11 +127,11 @@ export default class MaterialGenerator
         {
             const items = this.generators[id].get();
             const itemSize = drawer.getMaxElementSize();
-            const visualizer = new this.visualizerClass({
-                resLoader: this.resLoader, 
-                itemSize: itemSize,
-                inkFriendly: this.config.inkFriendly
-            });
+            this.config.resLoader = this.resLoader;
+            this.config.itemSize = itemSize;
+
+            const visualizer = new this.visualizerClass(this.config);
+            if(this.visualizerClassCustom) { visualizer.setCustomObject(new this.visualizerClassCustom()); }
     
             // cards handle drawing themselves
             const promises = [];

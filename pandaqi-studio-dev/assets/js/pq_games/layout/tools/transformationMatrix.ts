@@ -1,8 +1,10 @@
 import Point from "js/pq_games/tools/geometry/point";
 import isZero from "js/pq_games/tools/numbers/isZero";
 
+// @SOURCE (basically just shows what HTML5 canvas does behind the scenes): https://github.com/simonsarris/Canvas-tutorials/blob/master/transform.js
+
 // @NOTE: I don't use the DOMMatrix natively, just a simple number array
-// because I don't want to rely on that API always staying the same
+// because I don't want to rely on that API always staying the same (or not doing funny business)
 export default class TransformationMatrix
 {
     m: number[];
@@ -32,7 +34,7 @@ export default class TransformationMatrix
 
     applyToContext(ctx:CanvasRenderingContext2D)
     {
-        ctx.setTransform(new DOMMatrix(this.m.slice()));
+        ctx.setTransform(this.m[0], this.m[1], this.m[2], this.m[3], this.m[4], this.m[5]);
     }
 
     setIdentity()
@@ -65,7 +67,7 @@ export default class TransformationMatrix
     {
         if(p.isZero()) { return this; }
         this.m[4] += this.m[0] * p.x + this.m[2] * p.y;
-        this.m[5] += this.m[1] * p.y + this.m[3] * p.y;
+        this.m[5] += this.m[1] * p.x + this.m[3] * p.y;
         return this;
     }
 

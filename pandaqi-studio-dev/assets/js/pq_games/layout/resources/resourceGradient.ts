@@ -77,7 +77,7 @@ export default class ResourceGradient extends Resource
     /* The `to` functions */
     // A gradient itself has no specific visuals/size, so we create a rectangle at full canvas size to use as the "resource"
     // (the gradient simply becomes the fill)
-    async toCanvas(canv:CanvasLike = null, op:LayoutOperation = new LayoutOperation())
+    toCanvas(canv:CanvasLike = null, op:LayoutOperation = new LayoutOperation())
     {
         let dims = op.dims.clone();
         if(canv && dims.isZero()) { 
@@ -91,7 +91,7 @@ export default class ResourceGradient extends Resource
         op.resource = shp;
         op.fill = new ColorLike(this);
 
-        return await op.applyToCanvas(canv);
+        return op.applyToCanvas(canv);
     }
 
     // @TODO: support "repeating-linear-gradient"??

@@ -31,8 +31,8 @@ enum SType
 // Special suspect power type
 enum PType
 {
-    DEATH,
-    PLAY
+    DEATH = "death",
+    PLAY = "play"
 }
 
 // For the loupe and Suspect requirements

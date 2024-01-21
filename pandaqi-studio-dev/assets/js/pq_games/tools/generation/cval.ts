@@ -1,7 +1,8 @@
 import Color from "js/pq_games/layout/color/color";
 import ColorSet from "js/pq_games/layout/color/colorSet";
+import Point from "../geometry/point";
 
-export default class Configurable
+export default class CVal
 {
     val: any;
     input: string[];
@@ -24,6 +25,7 @@ export default class Configurable
         const values = Array.isArray(this.val) ? this.val : [this.val];
         const results = [];
 
+        // @NOTE: any type of class or object must currently be handled separately (as we don't know what multiplication MEANS for it)
         for(const value of values)
         {
             const isColorSet = value instanceof ColorSet;
@@ -37,19 +39,23 @@ export default class Configurable
 
             const isString = typeof this.val === "string";
             if(isString) { /* @TODO? */ }
-    
+
+            const isPoint = value instanceof Point;    
             const isNumber = typeof value === "number";
-            if(isNumber)
+            if(isNumber || isPoint)
             {
-                let finalVal = value;
+                let tempVal = new Point(value);
                 for(const input of inputs)
                 {
-                    finalVal *= input;
+                    tempVal.scale(input);
                 }
-                results.push( finalVal );
+
+                const finalVal = isNumber ? tempVal.x : tempVal;
+                results.push(finalVal);
             }
         }
 
+        if(results.length == 1) { return results[0]; }
         return results;
     }
 }

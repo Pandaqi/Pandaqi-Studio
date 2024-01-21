@@ -76,12 +76,12 @@ export default class ResourceImage extends Resource
     }
 
     /* The `to` functions */
-    async toCanvas(canv:CanvasLike = null, op:LayoutOperation = new LayoutOperation())
+    toCanvas(canv:CanvasLike = null, op:LayoutOperation = new LayoutOperation())
     {
         if(op.dims.length() <= 0.003) { op.dims = this.size.clone(); }
         op.resource = this;
         op.frame = op.frame ?? this.frame;
-        return await op.applyToCanvas(canv);
+        return op.applyToCanvas(canv);
     }
 
     async toHTML(op:LayoutOperation = new LayoutOperation())

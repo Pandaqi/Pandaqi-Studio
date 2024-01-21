@@ -1,10 +1,8 @@
-import ResourceImage, { CanvasDrawableLike } from "../resources/resourceImage"
+import { CanvasDrawableLike } from "../resources/resourceImage"
 import createContext from "../canvas/createContext"
 import LayoutEffect from "./layoutEffect";
-import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage";
 import Color from "../color/color";
-import { EffectData } from "../layoutOperation";
-import getTintCSSFilters from "./tintEffectSolver";
+import EffectsOperation from "./effectsOperation";
 
 export default class ColorOverlayEffect extends LayoutEffect
 {
@@ -36,7 +34,7 @@ export default class ColorOverlayEffect extends LayoutEffect
         return new CanvasDrawableLike(ctx.canvas);
     }
 
-    applyToHTML(div:HTMLElement, effectData:EffectData = {})
+    applyToHTML(div:HTMLElement, effOp = new EffectsOperation())
     {
         // @TODO: Currently not implemented! Don't see how!
     }

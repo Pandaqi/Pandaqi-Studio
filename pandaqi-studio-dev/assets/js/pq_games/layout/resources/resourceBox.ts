@@ -7,10 +7,10 @@ export default class ResourceBox extends Resource
 {    
     clone(deep = false) : ResourceBox { return new ResourceBox(); }
 
-    async toCanvas(canv:CanvasLike = null, op:LayoutOperation = new LayoutOperation())
+    toCanvas(canv:CanvasLike = null, op:LayoutOperation = new LayoutOperation())
     {
         op.resource = this;
-        return await op.applyToCanvas(canv);
+        return op.applyToCanvas(canv);
     }
 
     async toHTML(op = new LayoutOperation())
