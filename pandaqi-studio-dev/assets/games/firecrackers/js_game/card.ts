@@ -107,8 +107,8 @@ export default class Card
             this.drawScoreRule(vis, group);
         }
         
-        this.drawOutline(vis, ctx);
         await group.toCanvas(ctx);
+        this.drawOutline(vis, ctx);
         return ctx.canvas;
     }
 

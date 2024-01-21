@@ -26,6 +26,8 @@ export default class Token
     getColorData() { return COLORS[this.type]; }
     async draw(vis:Visualizer)
     {
+        await vis.cacheTintedSquares();
+
         const ctx = createContext({ size: vis.size });
         const group = new ResourceGroup();
         
@@ -38,28 +40,13 @@ export default class Token
     
     drawBackground(vis:Visualizer, group: ResourceGroup, ctx)
     {
-        // clay square thingy (which acts as entirely solid background)
-        const data = this.getColorData();
-        const tintCol = vis.inkFriendly ? "#FFFFFF" : data.color; 
-        const resBlock = vis.resLoader.getResource("misc");
+        const resBlock = vis.tintedSquareResource;
         const resBlockOp = new LayoutOperation({
-            frame: MISC.clay_square.frame,
+            frame: this.getColorData().frame,
             dims: vis.size,
-            effects: [new TintEffect({ color: tintCol })]
-        });
-        group.add(resBlock, resBlockOp);
-
-        // pattern / symbol for this color
-        const res = vis.resLoader.getResource("colors");
-        const iconDims = new Point(CONFIG.tokens.iconDims * vis.sizeUnit);
-        const resOp = new LayoutOperation({
-            frame: data.frame,
-            translate: vis.center,
-            dims: iconDims,
-            effects: vis.effects,
-            pivot: Point.CENTER
+            effects: vis.effects
         })
-        group.add(res, resOp);
+        group.add(resBlock, resBlockOp);
     }
 
     drawNumber(vis:Visualizer, group:ResourceGroup)

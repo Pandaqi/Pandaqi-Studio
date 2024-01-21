@@ -7,7 +7,7 @@ const CONFIG =
 {
     debug:
     {
-        omitFile: false, // @DEBUGGING (should be false)
+        omitFile: true, // @DEBUGGING (should be false)
         singleDrawPerType: false, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
@@ -96,7 +96,7 @@ const CONFIG =
 
         generation:
         {
-            num: 45,
+            num: 10, // @DEBUGGING; real value is 45
             wordsPerCard: 10,
             
             pqWordsParams: 
@@ -104,9 +104,9 @@ const CONFIG =
                 method: "json",
                 maxWordLength: 12, // longer simply doesn't fit in reasonable font size
                 types: ["nouns"],
-                levels: ["core", "easy"], // @TODO: add easy as well?
+                levels: ["core", "easy"],
                 useAllCategories: true,
-                wordExclusions: [],
+                wordExceptions: [],
             }
         },
 
@@ -132,7 +132,8 @@ const CONFIG =
             edgeMargin: 0.1, // ~sizeUnit; should be higher than iconDims to have space
             strokeWidth: 0.125, // ~fontSize
             dividerDims: 0.9, // ~sizeUnit; should be near 1.0 in any case
-            dividerAlpha: 0.875
+            dividerAlpha: 0.875,
+            dividerAlphaInkFriendly: 0.33,
         }
     },
 

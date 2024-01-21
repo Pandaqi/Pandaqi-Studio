@@ -4,6 +4,7 @@ import Shape, { PathLike } from "../shape";
 export default (path:PathLike, offset:Point) : Point[] =>
 {
     if(path instanceof Shape) { path = path.toPath(); }
+    if(offset.isZero()) { return path.slice(); }
 
     const arr = [];
     for(const point of path)

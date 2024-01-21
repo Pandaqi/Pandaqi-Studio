@@ -1,4 +1,5 @@
 import LayoutOperation, { ResourceLike } from "../layoutOperation";
+import TransformationMatrix from "../tools/transformationMatrix";
 import Resource from "./resource";
 import { CanvasLike } from "./resourceImage";
 
@@ -13,8 +14,9 @@ class LayoutCombo
         this.operation = op;
     }
 
-    async toCanvas(ctx:CanvasLike)
+    async toCanvas(ctx:CanvasLike, trans = new TransformationMatrix())
     {
+        this.operation.transformParent = trans;
         await this.resource.toCanvas(ctx, this.operation);
     }
 

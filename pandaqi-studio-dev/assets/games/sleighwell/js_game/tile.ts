@@ -58,9 +58,8 @@ export default class Tile
         this.drawBackground(vis, ctx, group);
         this.drawNumbers(vis, group);
         this.drawMainIllustration(vis, group);
-        this.drawOutline(vis, ctx);
-
         await group.toCanvas(ctx);
+        this.drawOutline(vis, ctx);
         return ctx.canvas;
     }
 

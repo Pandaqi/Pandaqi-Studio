@@ -147,7 +147,7 @@ export default class Rectangle extends Shape
 
     grow(ds:number|Point)
     {
-        this.extents.add(new Point(ds));
+        this.extents.add(new Point(ds).scale(2));
         return this;
     }
 

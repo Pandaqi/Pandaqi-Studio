@@ -1,4 +1,5 @@
 import LayoutOperation from "../layoutOperation";
+import TransformationMatrix from "../tools/transformationMatrix";
 import { CanvasLike } from "./resourceImage";
 
 type ElementLike = HTMLElement|SVGElement

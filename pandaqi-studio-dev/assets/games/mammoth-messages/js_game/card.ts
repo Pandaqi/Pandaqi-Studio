@@ -13,7 +13,6 @@ import fromArray from "js/pq_games/tools/random/fromArray";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
 import Point from "js/pq_games/tools/geometry/point";
 import range from "js/pq_games/tools/random/range";
-import TintEffect from "js/pq_games/layout/effects/tintEffect";
 import StrokeAlignValue from "js/pq_games/layout/values/strokeAlignValue";
 
 export default class Card
@@ -28,6 +27,8 @@ export default class Card
 
     async draw(vis:Visualizer)
     {
+        await vis.cacheTintedSquares();
+
         const ctx = createContext({ size: vis.size });
         const group = new ResourceGroup();
 
@@ -86,11 +87,14 @@ export default class Card
 
     drawWords(vis:Visualizer, group:ResourceGroup)
     {
+        const fontSize = CONFIG.cards.words.fontSize * vis.sizeUnit;
+
         let yPos = CONFIG.cards.words.yPos * vis.size.y;
+        if(vis.inkFriendly) { yPos = fontSize*1.5; } // if no "Word Card" at the top anyway, just use the full card size
+
         const numWords = this.words.length;
         const distBetweenWords = (vis.size.y - yPos) / numWords;
 
-        const fontSize = CONFIG.cards.words.fontSize * vis.sizeUnit;
         const textConfig = new TextConfig({
             font: CONFIG.fonts.heading,
             size: fontSize
@@ -112,48 +116,45 @@ export default class Card
         const xPositions = [margin, vis.size.x - margin];
 
         const resMisc = vis.resLoader.getResource("misc");
+        const resBlock = vis.tintedSquareResource;
         const resColor = vis.resLoader.getResource("colors");
 
         const iconDims = new Point(CONFIG.cards.words.iconDims * vis.sizeUnit);
         const strokeWidth = CONFIG.cards.words.strokeWidth * fontSize;
         const dividerDims = new Point(CONFIG.cards.words.dividerDims * vis.sizeUnit);
+        const dividerAlpha = vis.inkFriendly ? CONFIG.cards.words.dividerAlphaInkFriendly : CONFIG.cards.words.dividerAlpha;
         const gapIconToText = CONFIG.cards.words.gapIconToText * vis.sizeUnit;
 
         for(let i = 0; i < numWords; i++)
         {
             const word = this.words[i];
-            console.log(word);
             const num = (i + 1).toString();
             const color = this.colors[i];
             const colorData = COLORS[color];
 
             const xPos = xPositions[i % 2];
             const xPosOpposite = xPositions[(i + 1) % 2];
-            
-            // clay icon pushed against edge
-            const resMiscOp = new LayoutOperation({
+
+            // tinted clay square + pattern (read from cache)
+            const resBlockOp = new LayoutOperation({
+                frame: colorData.frame,
                 translate: new Point(xPos, yPos),
                 dims: iconDims,
                 pivot: Point.CENTER,
-                effects: [vis.dropShadowEffects, new TintEffect(colorData.color)].flat()
-            });
-            group.add(resMisc, resMiscOp);
-
-            // color shape on top
-            const colorShapeOp = new LayoutOperation({
-                frame: colorData.frame,
-                translate: new Point(xPos, yPos),
-                dims: iconDims.clone().scale(CONFIG.cards.words.iconSymbolDims),
-                pivot: Point.CENTER
-            });
-            group.add(resColor, colorShapeOp);
-
+                effects: vis.dropShadowEffects
+            })
+            group.add(resBlock, resBlockOp);
+            
             // color shape on opposite side for clarity
-            const colorShapeMirrorOp = colorShapeOp.clone(true);
-            colorShapeMirrorOp.translate.x = xPosOpposite;
-            colorShapeMirrorOp.alpha = 0.75;
-            colorShapeMirrorOp.composite = "color-burn";
-            colorShapeMirrorOp.dims.scale(0.75);
+            const colorShapeMirrorOp = new LayoutOperation({
+                translate: new Point(xPosOpposite, yPos),
+                dims: iconDims.clone().scale(CONFIG.cards.words.iconSymbolDims).scale(0.75),
+                frame: colorData.frame,
+                alpha: 0.75,
+                composite: "color-burn",
+                effects: vis.effects,
+                pivot: Point.CENTER
+            })
             group.add(resColor, colorShapeMirrorOp);
 
             // number on top
@@ -170,11 +171,12 @@ export default class Card
             // the actual word besides it
             const xPosText = margin + gapIconToText;
 
-            const cfg = i % 2 == 0 ? textConfigLeft : textConfigRight; // @DEBUGGING: should be right
+            const cfg = i % 2 == 0 ? textConfigLeft : textConfigRight;
             const resText = new ResourceText({ text: word, textConfig: cfg });
+            const textColor = vis.inkFriendly ? "#FFFFFF" : colorData.colorText;
             const textOp = new LayoutOperation({
                 translate: new Point(xPosText, yPos),
-                fill: colorData.colorText,
+                fill: textColor,
                 dims: new Point(vis.size.x - xPosText*2, 1.5*fontSize),
                 stroke: "#000000",
                 strokeWidth: strokeWidth,
@@ -195,7 +197,7 @@ export default class Card
                     dims: dividerDims,
                     flipX: i % 2 == 1,
                     composite: "overlay",
-                    alpha: CONFIG.cards.words.dividerAlpha,
+                    alpha: dividerAlpha,
                     pivot: Point.CENTER
                 });
                 group.add(resMisc, dividerLineOp);

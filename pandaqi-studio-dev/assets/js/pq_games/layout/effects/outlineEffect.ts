@@ -42,7 +42,7 @@ export default class OutlineEffect extends LayoutEffect
 
     // @SOURCE: https://stackoverflow.com/questions/28207232/draw-border-around-nontransparent-part-of-image-on-canvas
     // @TODO: this is too rough, especially on larger canvases, implement marching squares instead
-    async applyToCanvasPost(source:CanvasLike)
+    applyToCanvasPost(source:CanvasLike)
     {
         if(source instanceof CanvasRenderingContext2D) { source = source.canvas; }
 

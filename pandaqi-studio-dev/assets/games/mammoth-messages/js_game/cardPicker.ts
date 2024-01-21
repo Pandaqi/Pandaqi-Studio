@@ -16,7 +16,7 @@ export default class CardPicker
 
         const pqWords = new PandaqiWords();
         const params = structuredClone(CONFIG.cards.generation.pqWordsParams);
-        params.wordExclusions = Object.keys(DRAWINGS);
+        params.wordExceptions = Object.keys(DRAWINGS);
 
         if(CONFIG.includeDifficultWords) { params.levels.push("medium"); }
         if(CONFIG.includeGeography) { params.types.push("geography"); }
@@ -29,7 +29,6 @@ export default class CardPicker
         const wordsNeeded = numWordCards * numWordsPerCard;
 
         const allWords = pqWords.getRandomMultiple(wordsNeeded, true);
-        console.log(allWords.slice());
         for(let i = 0; i < numWordCards; i++)
         {
             const wordObjects = allWords.splice(0, numWordsPerCard); 

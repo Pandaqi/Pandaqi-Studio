@@ -1,6 +1,6 @@
 import Point from "js/pq_games/tools/geometry/point"
 import LayoutEffect from "./effects/layoutEffect"
-import ResourceImage, { CanvasDrawableLike, CanvasLike } from "js/pq_games/layout/resources/resourceImage"
+import ResourceImage, { CanvasLike } from "js/pq_games/layout/resources/resourceImage"
 import Resource, { ElementLike } from "./resources/resource"
 import ResourceShape from "./resources/resourceShape"
 import ResourceText from "./resources/resourceText"
@@ -36,7 +36,6 @@ interface LayoutOperationParams
     translate?: Point,
     rotation?:number,
     scale?:Point,
-    skew?:Point
 
     alpha?:number,
     composite?:GlobalCompositeOperation,
@@ -56,8 +55,7 @@ interface LayoutOperationParams
     resource?:ResourceLike,
     effects?:LayoutEffect[],
 
-    frame?:number,
-    transformParent?: TransformationMatrix
+    frame?:number
 }
 
 export { LayoutOperation, EffectData, ResourceLike }
@@ -66,7 +64,6 @@ export default class LayoutOperation
     translate : Point
     rotation : number
     scale : Point
-    skew : Point
 
     alpha : number
     composite : GlobalCompositeOperation
@@ -85,7 +82,6 @@ export default class LayoutOperation
     effects : LayoutEffect[]
     
     frame: number // frame of image (spritesheets)
-    transformParent: TransformationMatrix
 
     fill: ColorLike
     stroke: ColorLike
@@ -100,8 +96,7 @@ export default class LayoutOperation
         this.dims = (params.dims ?? params.size) ?? new Point();
         this.ratio = params.ratio ?? new Point(1,1);
         this.keepRatio = params.keepRatio ?? false;
-        this.scale = params.scale ?? new Point(1,1);
-        this.skew = params.skew ?? new Point();
+        this.scale = params.scale ?? new Point().setXY(1,1);
         this.alpha = params.alpha ?? 1.0;
 
         this.pivot = params.pivot ?? new Point();
@@ -239,31 +234,81 @@ export default class LayoutOperation
         const [translate, dims] = this.getFinalDimensions();
         const finalScale = this.getFinalScale();
 
-        const trans = this.transformParent ? this.transformParent.clone() : new TransformationMatrix();
-        trans.translate(translate); 
-        trans.rotate(this.rotation);
-        trans.scale(finalScale);
+        const trans = new TransformationMatrix();
+        trans.translate(translate);
+        
 
-        const offset = this.pivot.clone().negate().scale(dims);
-        trans.translate(offset);
-        trans.skew(this.skew);
-        return trans;
+        ctxTemp.translate(translate.x, translate.y);
+        ctxTemp.translate(extraOffset.x, extraOffset.y);
+        ctxTemp.rotate(this.rotation);
+
+        ctxTemp.scale(finalScale.x, finalScale.y);
+
+        // @TODO: perhaps want to move this to AFTER we create the temporary canvas and draw it
+        // so we can just calculate the dims used then
+        const offset = this.pivot.clone();
+        offset.scaleFactor(-1).scale(dims);
+        ctxTemp.translate(offset.x, offset.y);
+
     }
 
     async applyToCanvas(canv:CanvasLike = null) : Promise<HTMLCanvasElement>
     {        
         let ctx = (canv instanceof HTMLCanvasElement) ? canv.getContext("2d") : canv;
         if(!ctx) { ctx = createContext({ size: this.dims }); } // @TODO: how to control this size better?
-        
-        // we create a temporary canvas to do everything we want
-        // once done, at the end, we stamp that onto the real one (with the right effects, alpha, etcetera set)
-        const ctxTemp = createContext({ size: new Point(ctx.canvas.width, ctx.canvas.height) });
-        const [translate, dims] = this.getFinalDimensions();
 
-        // we make sure we're drawing at the right position right away
-        // (which includes bubbling up the tree to take our parent's transform into account)
+        ctx.imageSmoothingEnabled = false;
+        ctx.imageSmoothingQuality = "low";
+
+
+        const boundingBox = this.getBoundingBox();
+
+        // calculate the total size canvas we need to draw everything without clamping
+        // this is mostly necessary for LayoutGroups (which draw multiple things in whatever way)
+        // we enlarge + move as needed, then UNDO this extra movement when drawing it back onto the main canvas
+        // @TODO: a potentially cheaper/simpler alternative is to calculate the _final_ position by going through the whole chain of commands first, and draw that => needs a clearer tree structure and tree/node-based drawing approach
+        const totalSize = new Point(ctx.canvas.width, ctx.canvas.height);
+        const extraOffset = new Point();
+        if(boundingBox.topLeft.x < 0 || boundingBox.topLeft.y < 0)
+        {
+            const extraSpaceNeeded = boundingBox.topLeft.clone().abs();
+            extraOffset.move(extraSpaceNeeded);
+            totalSize.move(extraSpaceNeeded);
+        }
+
+        if(boundingBox.bottomRight.x > totalSize.x || boundingBox.bottomRight.y > totalSize.y)
+        {
+            const extraSpaceNeeded = boundingBox.bottomRight.clone().sub(totalSize);
+            totalSize.move(extraSpaceNeeded);
+        }
+
+        // now we create a temporary canvas, so we can collect fill + stroke + anything we need
+        // and THEN apply the right effects/position/postFX to the whole thing as we stamp it onto the real canvas
+        const ctxTemp = createContext({ size: totalSize });
+
+        ctx.save();
+
+        ctx.globalCompositeOperation = this.composite;
+        ctx.globalAlpha = this.alpha;
+
+        if(this.clip)
+        {
+            ctx.clip(this.clip.toPath2D());
+        }
+
         const trans = this.getTransformationMatrix();
-        trans.applyToContext(ctxTemp);
+        trans.applyToContext(ctx);
+
+        // mask should come before anything else happens (right?)
+        if(this.mask)
+        {
+            const maskData = this.mask.getFrameData();
+            ctx.drawImage(
+                this.mask.getImage(),
+                0, 0, maskData.width, maskData.height,
+                0, 0, dims.x, dims.y)
+            ctx.globalCompositeOperation = "source-in";
+        }
 
         // some effects merely require setting something on the canvas
         const effectData : EffectData = { filters: [] };
@@ -271,6 +316,8 @@ export default class LayoutOperation
         {
             effect.applyToCanvas(ctx, effectData);
         }
+
+        ctx.filter = effectData.filters.join(" ");
 
         ctxTemp.fillStyle = this.fill.toCanvasStyle(ctxTemp);
         ctxTemp.strokeStyle = this.stroke.toCanvasStyle(ctxTemp);
@@ -308,12 +355,12 @@ export default class LayoutOperation
 
         if(drawImage)
         { 
-            let frameResource:CanvasDrawableLike = image.getImageFrameAsDrawable(this.frame, dims.clone());
+            let frameResource = image.getImageFrameAsResource(this.frame, dims.clone());
 
             // apply the effects that require an actual image to manipulate
             for(const effect of this.effects)
             {
-                frameResource = effect.applyToImage(frameResource, effectData);
+                frameResource = await effect.applyToImage(frameResource, effectData);
             }
 
             const box = new Dims(new Point(), dims.clone());
@@ -335,41 +382,25 @@ export default class LayoutOperation
             const combos = (this.resource as ResourceGroup).combos;
             for(const combo of combos)
             {
-                await combo.toCanvas(ctxTemp, trans);
+                await combo.toCanvas(ctxTemp);
             }
         }
 
         let ctxFinal = ctxTemp;
         for(const effect of this.effects)
         {
-            ctxFinal = effect.applyToCanvasPost(ctxFinal) ?? ctxFinal;
+            const result = await effect.applyToCanvasPost(ctxFinal);
+            if(!result) { continue; }
+            ctxFinal = result;
         }
 
-        // SAVE/RESTORE is extremely expensive and error prone (if you forget one even once),
-        // so limit it to only when really needed
-        const needsStateManagement = this.clip;
-        if(needsStateManagement) { ctx.save(); }
+        // finally, stamp the final canvas onto the real one
+        const drawPos = new Point();
+        drawPos.sub(extraOffset);
 
-        ctx.filter = effectData.filters.length <= 0 ? "none" : effectData.filters.join(" ");
-        ctx.globalCompositeOperation = this.composite;
-        ctx.globalAlpha = this.alpha;
-        if(this.clip) { ctx.clip(this.clip.toPath2D()); }
+        ctx.drawImage(ctxFinal.canvas, drawPos.x, drawPos.y);
 
-        // @TODO: this is entirely untested and needs to be worked on
-        // (also preferably put into its own function)
-        if(this.mask)
-        {
-            const maskData = this.mask.getFrameData();
-            ctx.drawImage(
-                this.mask.getImage(),
-                0, 0, maskData.width, maskData.height,
-                0, 0, dims.x, dims.y)
-            ctx.globalCompositeOperation = "source-in";
-        }
-
-        ctx.drawImage(ctxFinal.canvas, 0, 0);
-
-        if(needsStateManagement) { ctx.restore(); }
+        ctx.restore();
         return ctx.canvas;
     }
 

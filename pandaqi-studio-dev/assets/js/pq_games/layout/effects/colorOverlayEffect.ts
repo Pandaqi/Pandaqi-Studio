@@ -1,4 +1,4 @@
-import ResourceImage from "../resources/resourceImage"
+import ResourceImage, { CanvasDrawableLike } from "../resources/resourceImage"
 import createContext from "../canvas/createContext"
 import LayoutEffect from "./layoutEffect";
 import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage";
@@ -21,21 +21,19 @@ export default class ColorOverlayEffect extends LayoutEffect
         return new ColorOverlayEffect(deep ? this.color.clone() : this.color);
     }
 
-    async applyToImage(image:ResourceImage)
+    applyToImage(drawable:CanvasDrawableLike)
     {
         // we draw the image
-        const contextParams = { size: image.size, alpha: true }
+        const contextParams = { size: drawable.getSize(), alpha: true }
         const ctx = createContext(contextParams);
-        ctx.drawImage(image.getImage(), 0, 0);
+        ctx.drawImage(drawable.getImage(), 0, 0);
 
         // then (using composite) draw a flat color on each filled-in pixel
         ctx.globalCompositeOperation = "source-in";
         ctx.fillStyle = this.color.toString();
         ctx.fillRect(0, 0, contextParams.size.x, contextParams.size.y);
 
-        // that's it; replace new image with old one
-        const img = await convertCanvasToImage(ctx.canvas);
-        return image.clone().swapImage(img);
+        return new CanvasDrawableLike(ctx.canvas);
     }
 
     applyToHTML(div:HTMLElement, effectData:EffectData = {})
