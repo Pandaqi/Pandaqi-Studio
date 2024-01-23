@@ -1,9 +1,11 @@
 import CONFIG from "../js_shared/config";
+import { CardType, MATERIAL, MaterialClass, TokenType } from "../js_shared/dict";
 import Card from "./card";
+import Token from "./token";
 
 export default class CardPicker
 {
-    cards: Card[]
+    cards: MaterialClass[]
 
     constructor() {}
     get() { return this.cards; }
@@ -19,48 +21,87 @@ export default class CardPicker
         this.generateFuelDeck();
     }
 
+    generateFromDictionary(inputType:CardType, cardType:CardType = null)
+    {
+        if(!cardType) { cardType = inputType; }
+        if(!inputType) { inputType = cardType; }
+
+        for(const [key,data] of Object.entries(MATERIAL[inputType]))
+        {
+            const reqs = data.required ?? [];
+            for(const requirement of reqs)
+            {
+                if(!CONFIG[requirement]) { continue; }
+            }
+
+            const freq = data.freq ?? 1;
+            for(let i = 0; i < freq; i++)
+            {
+                const newCard = new Card(cardType, key);
+                this.cards.push(newCard);
+            }
+        }
+    }
+
     generateInstructionTokens()
     {
         if(!CONFIG.includeInstructionTokens) { return; }
 
-        // @TODO: place 2 of the same on the same "card"; this simplifies material generation without wasting space
-        // They must be equally wide as the cards anyway
+        // we use a trick here to push 2/3 tokens on ONE card, to fold it into this system and ensure it has the same dimensions as the cards you play with
+        for(let i = 0; i < 5; i++)
+        {
+            const newToken = new Token(TokenType.INSTRUCTION);
+            newToken.customData = { num: (i + 1) };
+            this.cards.push(newToken);
+        }
 
-        // @TODO: Also include the COMPASS (maybe multiple) here! It's the most associated category and I don't want to make it a standalone script/page
+        // sort of the same for the compass
+        const compassCard = new Card(CardType.COMPASS);
+        this.cards.push(compassCard);
     }
 
     generateVehicleCards()
     {
         if(!CONFIG.includeVehicleCards) { return; }
-
-        // @TODO
+        this.generateFromDictionary(CardType.VEHICLE);
     }
 
     generateHealthCards()
     {
         if(!CONFIG.includeHealthCards) { return; }
-
-        // @TODO
+        this.generateFromDictionary(CardType.HEALTH);
     }
 
     generateGPSCards()
     {
         if(!CONFIG.includeGPSCards) { return; }
+        
+        const num = CONFIG.cards.generation.numGPSCards;
 
-        // @TODO
+        // @TODO: Generate these cards
+        // => create random grid, where some squares are green and some are rad
+        // => attach random bonus/penalty from MATERIAL[CardType.GPS]
+        // => save those as cards
     }
 
     generateTimeDeck()
     {
         if(!CONFIG.includeTimeDeck) { return; }
-
-        // @TODO
+        this.generateFromDictionary(CardType.TIME);
     }
 
     generateFuelDeck()
     {
         if(!CONFIG.includeFuelDeck) { return; }
 
-        // @TODO
+        // add the actual fuel trackers
+        const num = CONFIG.cards.generation.numFuelCards;
+        for(let i = 0; i < num; i++)
+        {
+            const newCard = new Card(CardType.FUEL);
+        }
+
+        // add the vehicle cards to use during play
+        this.generateFromDictionary(CardType.FUEL, CardType.VEHICLE);
     }
 }

@@ -69,6 +69,12 @@ const CONFIG =
             },
         }, 
 
+        generation:
+        {
+            numGPSCards: 30,
+            numFuelCards: 10,
+        },
+
         fontSize: new CVal(0.05, "sizeUnit"),
         textBox: new CVal(new Point(0.1, 0.1), "size"),
         backgroundColor: new CVal(new ColorSet("#FFAAAA", "#FFFFFF"), "inkFriendly")

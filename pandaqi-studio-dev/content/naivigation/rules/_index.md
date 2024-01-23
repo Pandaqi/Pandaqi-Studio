@@ -113,18 +113,15 @@ These cards show the current location of the vehicle and possible squares of the
 
 This expansion adds extra time pressure. This is especially useful if your group tries to drive a little too ... safely.
 
-* During setup, place a deck of **20 Time Cards**.
+* During setup, place a facedown deck of **20 Time Cards**. (Randomly selected, shuffled.)
 * After every round, remove 1 card. If the card has a special event, execute that now.
 * If the deck runs out, you've lost the game.
 
 Whenever you take damage, you can also choose to take a penalty of 3 Time Cards instead.
 
-@IDEA (for events):
-* If you followed the GPS this round, put this Time Card back into the deck.
-* Offer: take 1 damage to regain 3 Time. Choose whether to take the offer together.
-* If you collected a special tile this round, put this Time Card back into the deck.
-* If you collected a special tile this round, lose another 2 Time Cards.
-* ...
+About the special events ...
+* If the card has an **offer**, you may choose whether to take it or not.
+* They always refer to the round you just played, **never** previous rounds or the next round.
 
 {{% /rules-block %}}
 
