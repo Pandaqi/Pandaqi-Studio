@@ -40,6 +40,8 @@ Once done, **reveal and compare!** Each token in the right place gives you +1 po
 
 {{% rules-block id="variants" heading="Variants" icon="expansion" icontint="lightblue" %}}
 
+**Can't I just use the cards themselves for the second ranking?** Yes, the second ranking (by the group) can reorder the original cards! Do that, if you prefer it. Playtesting, however, showed that some people find this confusing and would rather match a row of tokens to an identical row of tokens. That's why all tokens are included twice.
+
 **Want a harder or easier game?** 
 * Change how many cards you draw on your turn. (More cards = harder)
 * Or allow the active player to play _one_ token faceup. (Easier, because you're helping the others by giving away one correct answer.)

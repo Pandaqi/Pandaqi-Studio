@@ -1,21 +1,4 @@
-import Card from "../js_game/card";
-import Token from "../js_game/token";
-
-enum CardType
-{
-    VEHICLE = "vehicle",
-    HEALTH = "health",
-    GPS = "gps",
-    TIME = "time",
-    FUEL = "fuel",
-    COMPASS = "compass"
-}
-
-enum TokenType
-{
-    INSTRUCTION = "intstruction",
-    ACTION = "action"
-}
+import { CardType } from "./dictShared";
 
 interface DefaultCardData
 {
@@ -90,25 +73,42 @@ const TIME_CARDS =
 };
 
 //
-// Action Tokens => @TODO: Not sure if it's more fun to add these as default Vehicle Cards in the deck?
+// Action Cards => @TODO: Not sure if it's more fun to add these as default Vehicle Cards in the deck?
 //
-const ACTION_TOKENS = 
+const ACTION_CARDS = 
 {
-    share_hand: { label: "Share Hand", desc: "Look at another player's cards." },
-    share_hint: { label: "Share Hint", desc: "Look at another player's cards and touch one of them as a suggestion." }, // @TODO: this is quite WEAK, just remove?
-    look_ahead: { label: "Look Ahead", desc: "Look at all instructions played so far." },
-    reconsider_one: { label: "Reconsider One", desc: "Look at an instruction already played. You may replace it with a card from your hand." },
-    reconsider_all: { label: "Reconsider All", desc: "Look at all instructions already played. Rearrange them in any order desired." },
-    make_space: { label: "Make Space", desc: "Place an instruction at a position already occupied. That card (and all after it) shift one position to the right." },
-    clear_instructions: { label: "Clear Instructions", desc: "Play your card faceup this round. All cards played before it may also be faceup." },
-    shield: { label: "Shield", desc: "Any damage taken this round is ignored." }, // @TODO: what to do when elements are in the game that allow TRADING damage for time or something?
-    ghost_driver: { label: "Ghost Driver", desc: "All instructions that Move or Rotate are inverted this round." },
-    scenic_route: { label: "Scenic Route", desc: "All instructions count double this round." },
-    turn_around: { label: "Turn Around", desc: "When executing instructions this round, you may choose whether to execute a card (or not) after revealing." },
+    share_hand: { label: "Share Hand", desc: "All players reveal their cards to each other. (Optional: touch one of them as a 'suggestion'.)" },
+    bumper_strong: { label: "Strong Bumper", desc: "Any involuntary damage taken this round is ignored." }, // @NOTE: "involuntary" is to prevent against stuff like offers to trade damage for time being abused
+    bumper_weak: { label: "Weak Bumper", desc: "Take 1 damage for sure. But any damage beyond that is ignored this round." },
 
+    look_ahead: { label: "Look Ahead", desc: "Play faceup. Look at all instructions played so far." },
+    copy_before: { label: "Copy Before", desc: "This card becomes the same as the previously executed card." }, // @NOTE: copy_after is confusing, so left out
+
+    sudden_insight: { label: "Sudden Insight", desc: "Replace an instruction yet to be revealed with one from your hand." },
+    change_of_plans: { label: "Change of Plans", desc: "Look at all instructions yet to be revealed and rearrange them as desired." },
+    back_it_up: { label: "Back it up", desc: "From now on, unhandled instructions are executed in reverse order (right to left)." },
+
+    late_arrival: { label: "Late Arrival", desc: "Play another card to the end of the row." },
+    try_that_again: { label: "Try That Again", desc: "Return the vehicle to the tile at which it started this round." },
+    
+    make_space: { label: "Make Space", desc: "Play an instruction at a slot already occupied. That card (and all after it) shift one position to the right." },
+    clear_instructions: { label: "Clear Instructions", desc: "Play faceup. All cards played <b>before</b> this one may also be played faceup." },
+    
+    ghost_driver: { label: "Ghost Driver", desc: "All instructions that Move or Orient the vehicle are inverted from now on." },
+    repair_shop: { label: "Repair Shop", desc: "Repairs 1 damage, but all other instructions this round are undone/ignored." },
+    scenic_route: { label: "Scenic Route", desc: "All instructions from now on count double." },
+
+    // these are cool, but slightly more complex
+    turn_around: { label: "Turn Around", desc: "Play faceup. Before handling instructions, take a vote. If the majority is <b>against</b> it, discard all instructions and start the next round." }, // OLD POWER: "When executing instructions this round, you may choose whether to execute a card (or not) after revealing."
+    double_time: { label: "Double Time", desc: "Play faceup. From now on, you may play 2 cards on top of each other. Decide which one to execute when you get there. " }, // OLD POWER: "Play another card <b>on top</b> of an instruction yet to be revealed."
+    reconsider: { label: "Reconsider", desc: "Play faceup. Study all instructions so far, then either rearrange or swap them for random cards from the deck." },
+
+    // these need the GPS cards
     lost_signal: { label: "Lost Signal", desc: "Remove the GPS card for this round.", required: ["includeGPSCards"] },
     advanced_gps: { label: "Advanced GPS", desc: "Look at the next 5 GPS cards and rearrange in any order desired." },
-    crystal_ball: { label: "Crystal Ball", desc: "Look at the next 5 cards of the Time Deck", required: ["includeTimeDeck"] },
+    
+    // these need the time deck
+    crystal_ball: { label: "Crystal Ball", desc: "Look at the next 5 cards of the Time Deck.", required: ["includeTimeDeck"] },
 };
 
 //
@@ -120,27 +120,22 @@ const FUEL_CARDS =
     refuel: { label: "Refuel", desc: "Add X fuel back." }
 }; 
 
-type MaterialClass = Card|Token;
-type MaterialType = CardType|TokenType;
 type MaterialData = Record<string, DefaultCardData>;
 
-const MATERIAL:Record<MaterialType, MaterialData> =
+const MATERIAL:Record<CardType, MaterialData> =
 {
     [CardType.VEHICLE]: VEHICLE_CARDS,
     [CardType.HEALTH]: HEALTH_CARDS,
     [CardType.GPS]: GPS_CARDS,
     [CardType.TIME]: TIME_CARDS,
     [CardType.FUEL]: FUEL_CARDS,
-    [TokenType.ACTION]: ACTION_TOKENS,
-    [TokenType.INSTRUCTION]: {},
+    [CardType.ACTION]: ACTION_CARDS,
+    [CardType.INSTRUCTION]: {},
     [CardType.COMPASS]: {}
 }
 
 
 export 
 {
-    MaterialClass,
-    CardType,
-    TokenType,
     MATERIAL
 }

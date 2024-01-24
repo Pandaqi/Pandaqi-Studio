@@ -1,11 +1,11 @@
 import CONFIG from "../js_shared/config";
-import { CardType, MATERIAL, MaterialClass, TokenType } from "../js_shared/dict";
+import { MATERIAL } from "../js_shared/dict";
+import { CardType } from "../js_shared/dictShared";
 import Card from "./card";
-import Token from "./token";
 
 export default class CardPicker
 {
-    cards: MaterialClass[]
+    cards: Card[]
 
     constructor() {}
     get() { return this.cards; }
@@ -50,7 +50,7 @@ export default class CardPicker
         // we use a trick here to push 2/3 tokens on ONE card, to fold it into this system and ensure it has the same dimensions as the cards you play with
         for(let i = 0; i < 5; i++)
         {
-            const newToken = new Token(TokenType.INSTRUCTION);
+            const newToken = new Card(CardType.INSTRUCTION);
             newToken.customData = { num: (i + 1) };
             this.cards.push(newToken);
         }
@@ -58,6 +58,12 @@ export default class CardPicker
         // sort of the same for the compass
         const compassCard = new Card(CardType.COMPASS);
         this.cards.push(compassCard);
+    }
+
+    generateActionCards()
+    {
+        if(!CONFIG.includeActionCards) { return; }
+        this.generateFromDictionary(CardType.ACTION);
     }
 
     generateVehicleCards()
@@ -79,7 +85,7 @@ export default class CardPicker
         const num = CONFIG.cards.generation.numGPSCards;
 
         // @TODO: Generate these cards
-        // => create random grid, where some squares are green and some are rad
+        // => create random grid, where some squares are green and some are red
         // => attach random bonus/penalty from MATERIAL[CardType.GPS]
         // => save those as cards
     }

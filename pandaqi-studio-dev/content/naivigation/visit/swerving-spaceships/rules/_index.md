@@ -4,76 +4,108 @@ type: "rules"
 
 {{% rules-block id="setup" heading="Setup" icon="setup" icontint="green" %}}
 
-Create two shuffled, facedown decks: one with the large **Word Tiles** (10 words), one with the smaller **Cave Drawings** (a single drawing).
+Press the button below to get a random setup you can simply copy to your table.
 
-Place the **Choice Tokens** (number + color) within easy reach.
+{{< rules-example id="setup" >}}
 
-{{% remark %}}
-Material can be downloaded from [the website](https://pandaqi.com/mammoth-messages/).
-{{% /remark %}}
+Alternatively, manually do the setup as follows.
+* Create 5 piles of 4 tiles each without planets. 
+* Then add exactly 1 planet inside each pile and shuffle. 
+* Place them in a 5x5 grid (each pile being one row). 
+* Place the spaceship on the first non-planet tile, in a random orientation. 
+* (This is for map diversity. If planets are still bunched up in groups, simply redo this setup.)
+
+<div class="naivigation-shared-rule">
+Combine the default Vehicle Cards with the specific Vehicle Cards for this game. Give each player 3 of these to hold in their hand.
+
+Combine the default Health Cards and the specific Health Cards for this game. Shuffle and take out 5: this is your Health Deck.
+
+Place the 5 row tokens in order: you'll place your instructions underneath these each round.
+</div>
 
 {{% /rules-block %}}
 
 {{% rules-block id="objective" heading="Objective" icon="objective" icontint="red" %}}
 
-The game ends after 10 rounds. Collectively score as many points as possible!
+You win once you've visited **5 planets**. You lose immediately once you're total loss: your **health deck is empty**. 
 
 {{% /rules-block %}}
 
 {{% rules-block id="action_play" heading="Gameplay" icon="action" icontint="green" %}}
 
-On your turn, 
-* Draw 1 random **Word Tile** and display it for everyone to see. They show **10 words** (numbered and colored).
-* Draw 10 random **Cave Drawings**.
-* Pick a **Choice Tile**. 
+Skip "Rounds & Turns" if you already know how to play Naivigation (it repeats the shared rules). The other section has unique rules for this game.
 
-Now set a [timer](https://pandaqi.com/tools/timer/) for 60 seconds and start it!
+<!--- @TODO: Mark the entire _block_ as a shared rule?? Test this, make it work --->
+{{% rules-block heading="Rounds & Turns" class="naivigation-shared-rule" %}}
 
-Choice Tiles show a number and a color: _those are the two words you must communicate!_
-* You may only use Cave Drawing tiles, no other communication.
-* You can reveal up to 5 drawings.
-* You can reveal them in any way (all at once, one at a time, in a neat row, some stacked on top of others, etcetera). Once a drawing is set in stone, however, it can't be moved or changed.
+Play happens in rounds.
 
-Once the other players want to make their guess, they _say_ and _tap_ the 2 words on the word card.
-* **Both correct?** You score 10 points, minus how many symbols you revealed.
-* **Otherwise?** Your turn is over and you score 0 points.
+First determine **start player**. Throw the compass in the air and see to which player it points (the most).
 
-{{< rules-image src="gameplay.webp" alt="Example turn that shows how to determine your word and how you might go about communicating it." >}}
+From the start player, take clockwise turns doing one thing: **play a Vehicle Card**.
 
-Finally, some remarks for clarity.
-* If the timer runs out (without a guess), you instantly lose the round.
-* If there's a disagreement, the player to the _left_ of the current communicator has the final say.
-* Your number and color might fall on the same word. If so, simply communicate that single word, and you win if the _first guess_ by the others matches that word.
+> Add a card from your hand, facedown, to an empty spot on the row of instructions. (Then draw a new card.)
+
+At the end of the round, **reveal each instruction and execute it** (left to right), one at a time. This moves the vehicle. Discard the instructions and play the next round!
+
+_No communication about the game is allowed._ You may only communicate about your cards or plans when the **"Discuss"** Vehicle Card is executed.
+
+Whenever you **take damage**, reveal the top card of your Health Deck. These cards always have a _handicap_, which must all be followed at all times.
 
 {{% /rules-block %}}
 
-{{% rules-block id="variants" heading="Variants" icon="expansion" icontint="red" %}}
+{{% rules-block heading="Moving & Visiting" %}}
 
-Once you know the base game, try these variants to suit the game more to your group's needs.
+You can only **visit a planet** if the spaceship has the **same orientation** as indicated. 
+* If it's wrong, you bounce back (to where you came from) and take 1 damage.
+* If correct, replace the planet with a random tile from the deck. You've visited it!
 
-To make the game **harder**, 
-* Pick your Choice Token _before_ drawing your Cave Drawings. (Or draw it randomly.)
-* Only draw 6 Cave Drawings, and you may only reveal 3 of them. 
+The map **wraps around**. (Flying off of one side makes you reappear on the other.) Doing this, however, incurs 1 damage.
 
-To make the game **easier**, 
-* Only pick _one_ word. (Either the number OR the color on the Choice Token.)
-* Limit the words you may pick from on each card. (For example, you may only pick from the first 6 options.)
+In the base game, just ignore any special elements on tiles. They are for the expansions. That's it!
 
-To make the game **competitive**,
-* Split into two teams.
-* Each round, both teams get a turn communicating and guessing. The two communicators sit on the same side.
-* However, only draw 1 Word Tile and 10 Cave Drawings for the entire _round_. The second team in the round may only use the drawings that the first team _didn't use_!
-* The communicators must show the Choice Token they picked to each other.
-* The team that scored the least points starts the next round.
+@TODO: IMAGE
 
-To add more **choice during your turns**, and protection against "a bad hand",
-* You're allowed to discard all unused Cave Drawings and draw equally many new ones from the deck.
-* But if you do so, you must also draw another Choice Token and communicate _those words_ as well.
-* As usual, you only score points if the others guess _all_ words correctly. But if they do, the points are doubled as a bonus!
+{{% /rules-block %}}
 
-If you've played the game _so much_ that you know all the Choice Tokens and/or Word Cards by heart, then ...
-* Firstly, congratulations!
-* Create two separate decks of Choice Tokens. Draw one from each: use the _number_ from each token (ignore color) to decide what to communicate.
-* Generate a new set of word cards (and enable "tough words") from the website.
+{{% /rules-block %}}
+
+{{% rules-block id="vehicle-cards" heading="Vehicle Cards" icon="expansion" icontint="red" %}}
+
+@TODO: Make this a rules-table or something?
+
+@TODO: IMAGE
+
+The following vehicle cards are in the base game.
+
+* **Thrust**: Move one tile forward, in the direction the spaceship currently faces.
+* **Steer:** The steering cards show a **range**. You may pick any angle (perfect horizontal, vertical or diagonal) within that range.
+  * Remember this is steering, so rotate the vehicle starting from its current direction. (Don't just snap to the angle indicated.)
+* **Disengage.** Perform one gravitational pull step.
+	* Find the closest planet. (If tied, pick one.)
+	* Move one tile closer to that planet.
+	* Ignore diagonals in all this: only count horizontal and vertical steps.
+
+
+{{% /rules-block %}}
+
+{{% rules-block id="expansions" heading="Expansions" icon="expansion" icontint="red" %}}
+
+{{% rules-block heading="Shields & Asteroids" %}}
+@TODO
+
+* **Shield**: Toggles the shield on and off. When the shield is on, you don't take damage.
+	* When on, place this card faceup on the table to remember this. (When the shield turns off, just remove this card.)
+	* A **Disengage** card ALSO turns off the shield.
+
+{{% /rules-block %}}
+
+{{% rules-block heading="Weapons & Aliens" %}}
+@TODO
+{{% /rules-block %}}
+
+{{% rules-block heading="Trade & Technology" %}}
+@TODO
+{{% /rules-block %}}
 
 {{% /rules-block %}}

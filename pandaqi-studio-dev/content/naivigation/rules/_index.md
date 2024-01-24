@@ -86,9 +86,18 @@ The best way, though, to keep the game challenging and varied, is by introducing
 
 {{% /rules-block %}}
 
-{{% rules-block heading="Action Tokens" %}}
+{{% rules-block heading="Action Cards" %}}
 
-These tokens represent a special power. Once per game, at any moment during your turn, you can grab one and use it. After using it, turn it facedown or put it away.
+These are vehicle cards with a **special action**. You may choose how you want to use them: either **public** or **mixed in**.
+
+PUBLIC (simpler game): Place **one** of each action card faceup on the table, within reach of all players. At any time, you may grab such a card and execute its action immediately. After doing so, however, the card is discarded and its action can never be taken again.
+
+MIXED-IN (harder game): Simply mix all these cards with the regular Vehicle Cards deck. Execute their action only when the card is **revealed**. 
+* For most cards, this is simply when it is revealed while executing instructions. 
+* Some cards tell you to play faceup, which means instant execution.
+* If a choice must be made, the _start player_ must make it.
+
+
 
 @IDEA: Fewer used = higher score? Or using more of them lowers your health or something? Some other consequence? Bad Actions and you must use all of them or you can't win?
 
@@ -98,7 +107,7 @@ These tokens represent a special power. Once per game, at any moment during your
 
 At the start of each round, draw a new GPS Card from the deck.
 
-These cards show the current location of the vehicle and possible squares of the map it might visit.
+These cards show the current location of the vehicle and possible squares of the map it might visit this round.
 
 * If you visit any of the highlighted red squares, you get the penalty listed on the card.
 * If you visit any of the highlighted green squares, you get the bonus listed on the card.

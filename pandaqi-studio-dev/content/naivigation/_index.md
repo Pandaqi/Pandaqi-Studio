@@ -96,13 +96,15 @@ Below is a list of smaller and more unique spin-offs, roughly sorted by difficul
   {{< setting-checkbox id="setting-includeInstructionTokens" text="Include Instruction Tokens?" checked="checked" >}}
   {{< setting-checkbox id="setting-includeVehicleCards" text="Include Vehicle Cards?" checked="checked" >}}
   {{< setting-checkbox id="setting-includeHealthCards" text="Include Health Cards?" checked="checked" >}}
-  {{< setting-checkbox id="setting-includeActionTokens" text="Include Action Tokens?" >}}
-  {{< setting-checkbox id="setting-includeGPSCards" text="Include GPS Cards?" >}}
+  {{< setting-checkbox id="setting-includeActionCards" text="Include Action Cards?" >}}
   {{< setting-checkbox id="setting-includeTimeDeck" text="Include Time Deck?" >}}
+  {{< setting-checkbox id="setting-includeGPSCards" text="Include GPS Cards?" >}}
   {{< setting-checkbox id="setting-includeFuelDeck" text="Include Fuel Deck?" >}}
 {{< /boardgame-settings >}}
 
 <p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>
+
+<p class="settings-remark">The optional expansions are roughly in the recommended order for trying them out. Especially the Action Cards are recommended to include as soon as possible.</p>
 
 {{% /section-centered %}}
 
