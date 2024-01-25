@@ -1,27 +1,49 @@
+import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textConfig"
 import Point from "js/pq_games/tools/geometry/point"
 
 const CONFIG_NAIVIGATION_SHARED = 
 {
+    // All Naivigation games use the same two "main fonts"
+    // Each one can also, however, have one "special" font (defined in its own config),
+    // that is more thematic and used only in THAT game
     fonts:
     {
-        heading: "boblox",
-        body: "caveman"
+        heading: "ambery",
+        body: "k2d"
     },
 
     // assets
-    assetsBase: "/naivigation/assets/",
+    // these links are absolute, so we can keep using relative links all throughout the specific games
+    // but this shit will still load fine for all
     assets:
     {
-        /*boblox:
+        ambery:
         {
-            path: "fonts/BobloxClassic.woff2"
+            path: "/naivigation/assets/fonts/AmberyGarden-Regular.woff2",
+            useAbsolutePath: true
         },
 
-        caveman:
+        k2d:
         {
-            path: "fonts/Caveman.woff2"
+            path: "/naivigation/assets/fonts/K2D-Regular.woff2",
+            useAbsolutePath: true
         },
-        */
+
+        k2d_bold:
+        {
+            key: "k2d",
+            path: "/naivigation/assets/fonts/K2D-ExtraBold.woff2",
+            useAbsolutePath: true,
+            textConfig: new TextConfig({ weight: TextWeight.BOLD })
+        },
+
+        k2d_italic:
+        {
+            key: "k2d",
+            path: "/naivigation/assets/fonts/K2D-Italic.woff2",
+            useAbsolutePath: true,
+            textConfig: new TextConfig({ style: TextStyle.ITALIC })
+        }
     },
 
     cards:

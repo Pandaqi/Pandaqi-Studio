@@ -64,9 +64,11 @@ export default class MaterialGenerator
         this.addDrawer(id, drawerConfig);
     }
 
+    // This allows passing a CLASS or a CLASS instance (a class is a "function" in the eyes of javascript)
+    // Not great, but a simple compromise for future flexibility
     addGenerator(id:string, generatorClass)
     {
-        this.generators[id] = new generatorClass();
+        this.generators[id] = typeof generatorClass == "function" ? new generatorClass() : generatorClass;
     }
 
     addDrawer(id:string, drawerConfig:Record<string,any>)

@@ -24,12 +24,12 @@ const VEHICLE_CARDS:Record<string,MaterialData> =
 //
 const MAP_TILES:Record<string,MaterialData> =
 {
-    empty: { frame: 0, label: "Empty" },
-    planet: { frame: 1, label: "Planet (Collectable)" },
-    asteroids: { frame: 2, label: "Asteroid Belt" },
-    wormhole: { frame: 3, label: "Wormhole" },
-    sun: { frame: 4, label: "Sun" },
-    spaceship: { frame: 5, label: "Enemy Spaceship" },
+    empty: { frame: 0, label: "Empty", freq: 6 },
+    planet: { frame: 1, label: "Planet (Collectable)", freq: 6 },
+    asteroids: { frame: 2, label: "Asteroid Belt", freq: 6 },
+    wormhole: { frame: 3, label: "Wormhole", freq: 4 },
+    sun: { frame: 4, label: "Sun", freq: 4 },
+    spaceship: { frame: 5, label: "Enemy Spaceship", freq: 4 },
 }
 
 export 

@@ -1,18 +1,34 @@
 @use "sass:map";
 
-$header-font: "boblox";
-$body-font: "averia";
-$base: "/mammoth-messages/assets/";
+$header-font: "ambery";
+$body-font: "k2d";
+$base: "/naivigation/assets/";
 $base-fonts: $base + "fonts/";
 
-$bg-col: #59200d;
-$text-col: #ffefe9;
+$bg-col: #FCFCFC;
+$text-col: #111111;
 
-$col1: #eeff82;
-$col2: #ffb895;
-$col3:  #ff8989;
+$col-spaceship: #8B46FF;
+$col-airplane: #8C8C8C;
+$col-ship: #41E2A8;
+$col-car: #B6ED14;
+$col-train: #FF3D8B;
 
-.naivigation-shared-rule
+body {
+    font-family: $body-font;
+    background-color: $bg-col;
+    color: $text-col;
+    font-size: calc(15px + 0.390625vw);
+    line-height: 120%;
+    box-sizing: border-box;
+}
+
+h1, h2, h3, h4 {
+    font-family: $header-font;
+    font-weight: normal;
+}
+
+.naivigation-shared-rule, .naivigation-shared-rule-block
 {
     margin: 0.5rem;
     background-color: rgba(255,128,128,0.5);
@@ -20,7 +36,10 @@ $col3:  #ff8989;
     border-radius: 0.5rem;
     border-left: 10px solid rgb(255, 48, 48);
     font-style: italic;
+}
 
+.naivigation-shared-rule
+{
     &:before 
     {
         content: "CORE RULE |";
@@ -29,9 +48,19 @@ $col3:  #ff8989;
     }
 }
 
+.naivigation-shared-rule-block
+{
+    .content > p:first-child::before 
+    {
+        content: "CORE RULES | ";
+        opacity: 0.5;
+        font-weight: bold;
+    }
+}
+
 @font-face {
-    font-family: $body-font;
-    src: url($base-fonts + 'AveriaSerifLibre-Regular.woff2') format('woff2');
+    font-family: $header-font;
+    src: url($base-fonts + 'AmberyGarden-Regular.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -39,24 +68,24 @@ $col3:  #ff8989;
 
 @font-face {
     font-family: $body-font;
-    src: url($base-fonts + 'AveriaSerifLibre-Italic.woff2') format('woff2');
+    src: url($base-fonts + 'K2D-Regular.woff2') format('woff2');
     font-weight: normal;
-    font-style: italic;
+    font-style: normal;
     font-display: swap;
 }
 
 @font-face {
     font-family: $body-font;
-    src: url($base-fonts + 'AveriaSerifLibre-Bold.woff2') format('woff2');
+    src: url($base-fonts + 'K2D-ExtraBold.woff2') format('woff2');
     font-weight: bold;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: $header-font;
-    src: url($base-fonts + 'BobloxClassic.woff2') format('woff2');
+    font-family: $body-font;
+    src: url($base-fonts + 'K2D-Italic.woff2') format('woff2');
     font-weight: normal;
-    font-style: normal;
+    font-style: italic;
     font-display: swap;
 }

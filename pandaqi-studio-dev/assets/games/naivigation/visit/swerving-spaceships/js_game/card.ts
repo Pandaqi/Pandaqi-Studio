@@ -16,6 +16,11 @@ export default class Card
         this.key = k;
     }
 
+    async drawForRules(vis:Visualizer)
+    {
+        return this.draw(vis);
+    }
+
     async draw(vis:Visualizer)
     {
         const ctx = createContext({ size: vis.size });

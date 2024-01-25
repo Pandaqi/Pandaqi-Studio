@@ -28,6 +28,11 @@ const CONFIG:any =
         trade: false,
     },
 
+    fonts:
+    {
+        special: "whatever"
+    },
+
     // assets
     assetsBase: "/naivigation/visit/swerving-spaceships/assets/",
     assets:
@@ -43,7 +48,10 @@ const CONFIG:any =
 
     cards:
     {
-
+        generation:
+        {
+            numSteerCards: 20
+        }
     },
 
     tiles:

@@ -51,18 +51,14 @@ Naivigation is a universe of simple party board games about driving one vehicle 
 
 This is the **overview page** of the Naivigation project, or the "master project" if you will. 
 
-It links to all the other games and explains the general idea. All games share the same core mechanic, but using a different vehicle that requires new fun ideas and gameplay. You're playing within a minute and you'll never stop.
+It links to all the other games and explains the general idea. All games share the **same core**, but use a **different vehicle** that changes _everything_. You're playing within a minute and you'll never stop.
 
-This page also contains material to download that you can _reuse in all games_, which saves printing costs and effort. Most of this material is only for variants and expansions, except for the **Core Set**. 
+This page therefore contains downloadable material to _reuse in all games_. Only the **Core Set** is required. 
 
 In other words, want to try it? We recommend ...
 * Click "Download" and get yourself the Core Set.
 * Do the same for [Naivigation: Swerving Spaceships](/naivigation/visit/swerving-spaceships/), and read its short rulebook.
 * Print, cut, have fun!
-
-You can also [read the shared rules](rules), though they are repeated within the rulebook of each specific game. (On their own, they're not a full game!)
-
-You can also [generate your own material](#material) right on this website. (If the PDFs at the "Download" button don't suit your needs, or you're just curious!)
 
 {{% /section-centered %}}
 
@@ -83,19 +79,27 @@ Below is a list of smaller and more unique spin-offs, roughly sorted by difficul
 * Suspicious Submarines (Submarine)
 * ??
 
+You can also [read the shared rules](rules), though they are repeated within the rulebook of each specific game. (On their own, they're not a full game!)
+
+You can also [generate your own material](#material) right on this website. (If the PDFs at the "Download" button don't suit your needs, or you're just curious!)
+
 {{% /section-centered %}}
 
 {{% section-centered heading="Material" anchor="material" html="true" %}}
 
-<p>Pick your desired settings and click the button! The settings already selected are the "core set" mentioned in the introduction.</p>
+<p>Pick your desired settings and click the button!</p>
 
 {{< boardgame-settings type="game" local_storage="naivigationConfig" btn_label="Generate Material" >}}
 	{{< setting-hidden id="setting-gameTitle" text="Naivigation" >}}
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
   {{< setting-enum id="setting-itemSize" text="Card Size?" values="small,regular,large" valaskey="true" def="regular" >}}
+
+  <h3>Core Set</h3>
   {{< setting-checkbox id="setting-includeInstructionTokens" text="Include Instruction Tokens?" checked="checked" >}}
   {{< setting-checkbox id="setting-includeVehicleCards" text="Include Vehicle Cards?" checked="checked" >}}
   {{< setting-checkbox id="setting-includeHealthCards" text="Include Health Cards?" checked="checked" >}}
+
+  <h3>Expansions</h3>
   {{< setting-checkbox id="setting-includeActionCards" text="Include Action Cards?" >}}
   {{< setting-checkbox id="setting-includeTimeDeck" text="Include Time Deck?" >}}
   {{< setting-checkbox id="setting-includeGPSCards" text="Include GPS Cards?" >}}
@@ -110,17 +114,21 @@ Below is a list of smaller and more unique spin-offs, roughly sorted by difficul
 
 {{% section-centered heading="Credits" anchor="credits" %}}
 
-The fonts used are **Boblox Classic** (headings, decorative text) and **Averia Serif Libre** (body, longer paragraphs). Both are freely available online. Some generative AI was used for backgrounds, everything else is entirely mine.
+The fonts used are **Ambery Gardens** (headings, decorative text) and **K2D** (body, longer paragraphs). Both are freely available online. Some generative AI was used for complex illustrations, everything else is entirely mine.
 
-This game was just a simple idea I wanted to quickly create. A party game where you had to communicate words using rudimentary cave drawings? Sounded like it could work, so I didn't linger and just made it. 
+This project started a long time ago, when I had the well-known experience of "multiple people sit in a car shouting directions, but nobody really knows where to go next".
 
-(It originated as a possible party game to play on the computer, where everyone connected using their phone. I might still make that, with the same name and graphics, at some later date. Because I recently figured out how I can create and provide such play-with-your-phone games for free!) 
+_Hey,_ I thought, _that could be a game!_
 
-The key word here is simplicity. Anybody can play this game within 30 seconds. It's a great quick party game that combines language and visual creativity, which makes it a good fit for just about any group. At the same time, there isn't any more depth or strategy underneath it all.
+I made the first version of Naivigation a few months later. A cooperative game about driving a car from start to finish, without much communication. The core concept was _really fun_, but the way I executed it---with my limited game dev experience---was suboptimal to say the least.
 
-You also might wonder "aren't some of these cave drawings a little too modern?" Well, while writing and researching my Saga of Life stories (about human history and origins of life), I repeatedly realized that just because they could not _write_ doesn't mean they didn't have clothes, tools, games, etcetera. We might have invented the knitting needle before any other tool. Dice, and what could possibly be betting chips, have been found on very old archeological sites. 
+So I came back years later, read back my notes, scrapped all the terrible stuff, and made Naivigation the game it was supposed to be. Even simpler rules, much _better_ rules (more fun, challenging, balanced), prettier material, and all the good stuff that comes from my modern game website (such as playful rules).
 
-Their understanding of the world, their _spoken_ language, might have been on par with ours. Because why wouldn't it be? The prehistoric times lasted waaay longer than our modern times. They actually lived in nature and had to use and understand it every day. Science even shows they were healthier and more creative than modern day humans in some respects.
+Now the world can enjoy the final result :)
+
+I honestly think these are my masterpiece so far. The games aren't extremely "deep" or "ground-breaking" or "innovative", surely not. But the amount of _fun_ and _(diverse) challenge_ you get out of extremely simple rules and material is unmatched. 
+
+I mostly make games for families and casual groups. These games are cooperative, mostly textless, simple, fast, intuitive, thematic, cheap to print/cut yourself, varied, anything I'd want games to be.
 
 For more information, as always, read my [detailed developer diary on Pandaqi Blog](https://pandaqi.com/blog/boardgames/naivigation/).
 

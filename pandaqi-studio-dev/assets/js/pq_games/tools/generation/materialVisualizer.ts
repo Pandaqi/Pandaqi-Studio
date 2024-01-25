@@ -13,9 +13,15 @@ export default class MaterialVisualizer
     constructor(config)
     {
         this.resLoader = config.resLoader;
-        this.inkFriendly = config.inkFriendly;
-        this.size = config.itemSize;
+        if(!this.resLoader)
+        {
+            this.resLoader = new ResourceLoader({ base: config.assetsBase });
+            this.resLoader.planLoadMultiple(config.assets ?? {});
+        }
 
+        this.inkFriendly = config.inkFriendly;
+        this.size = config.itemSize ? config.itemSize.clone() : new Point(512, 512);
+        
         this.configurator = new Configurator();
         this.configurator.addExceptions(["resLoader", "drawerConfig", "gameTitle", "fileName", "localstorage", "debug"]);
 

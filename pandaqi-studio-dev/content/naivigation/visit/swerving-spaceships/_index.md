@@ -52,7 +52,7 @@ This game is part of the Naivigation universe. If you have no idea what that is,
 
 It means you need two things to play this game.
 * The Core Set from Naivigation (which you need for all games).
-* And the specific material for _this_ game. (Which you can get by clicking that "Download" button > Core Set.)
+* And the specific material for _this_ game. ("Download" > Core Set.)
 
 Print and cut it, read the short [playful rules](rules), and you can play!
 
@@ -72,9 +72,10 @@ Print and cut it, read the short [playful rules](rules), and you can play!
   {{< setting-enum id="setting-itemSize" text="Card Size?" values="small,regular,large" valaskey="true" def="regular" >}}
   {{< setting-checkbox id="setting-includeMapTiles" text="Include Map Tiles?" checked="checked" >}}
   {{< setting-checkbox id="setting-includeVehicleCards" text="Include Vehicle Cards?" checked="checked" >}}
-  {{< setting-checkbox id="setting-includeHealthCards" text="Include Health Cards?" checked="checked" >}}
-  {{< setting-checkbox id="setting-includeActionTokens" text="Include Action Tokens?" >}}
-  {{< setting-checkbox id="setting-includeGPSCards" text="Include GPS Cards?" >}}
+  <h3>Expansions</h3>
+  {{< setting-checkbox id="setting-expansions-shield" text="Shields & Asteroids" >}}
+  {{< setting-checkbox id="setting-expansions-weapons" text="Weapons & Aliens" >}}
+  {{< setting-checkbox id="setting-expansions-trade" text="Trade & Technology" >}}
 {{< /boardgame-settings >}}
 
 <p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>

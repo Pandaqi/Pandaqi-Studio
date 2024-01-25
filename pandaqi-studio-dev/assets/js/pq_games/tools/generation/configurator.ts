@@ -85,6 +85,9 @@ export default class Configurator
 
     calculate(config:Record<string,any>, path:string[] = [])
     {
+        if(typeof config !== "object") { return; }
+        if(!config) { return; }
+
         for(const [key,data] of Object.entries(config))
         {
             const pathNew = path.slice()

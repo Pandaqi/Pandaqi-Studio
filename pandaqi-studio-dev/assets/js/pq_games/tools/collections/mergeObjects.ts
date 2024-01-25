@@ -1,7 +1,8 @@
 
+// @NOTE: The item.constructor.name is used to exclude any class instances we want to preserve
 const isObject = (item) => 
 {
-    return (item && typeof item === 'object' && !Array.isArray(item));
+  return (item && typeof item === 'object' && !Array.isArray(item) && item.constructor.name === "Object");
 }
 
 const mergeObjects = (target, ...sources) => 

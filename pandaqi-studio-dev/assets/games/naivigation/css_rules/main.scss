@@ -1,30 +1,18 @@
 @use "../css_shared/main.scss" as g;
 @use "sass:color";
 
-body {
-    font-family: g.$body-font;
-    background-color: g.$bg-col;
-    font-size: 20px;
-    line-height: 130%;
-}
-
-h1, h2, h3, h4 {
-    font-family: g.$header-font;
-    font-weight: normal;
-}
-
 #setup {
-    background-color: g.$col1;
+    background-color: g.$col-spaceship;
 }
 
 #objective {
-    background-color: g.$col2;
+    background-color: g.$col-airplane;
 }
 
 #action_play {
-    background-color: g.$col1;
+    background-color: g.$col-ship;
 }
 
 #variants {
-    background-color: g.$col2;
+    background-color: g.$col-car;
 }

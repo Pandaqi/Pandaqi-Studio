@@ -6,7 +6,7 @@ type: "rules"
 
 Press the button below to get a random setup you can simply copy to your table.
 
-{{< rules-example id="setup" >}}
+{{< rules-example id="naivigation-setup" >}}
 
 Alternatively, manually do the setup as follows.
 * Create 5 piles of 4 tiles each without planets. 
@@ -33,10 +33,12 @@ You win once you've visited **5 planets**. You lose immediately once you're tota
 
 {{% rules-block id="action_play" heading="Gameplay" icon="action" icontint="green" %}}
 
-Skip "Rounds & Turns" if you already know how to play Naivigation (it repeats the shared rules). The other section has unique rules for this game.
+Skip "Rounds & Turns" if you already know how to play Naivigation. The other section has unique rules for this game.
+
+{{< rules-example id="naivigation-turn" >}}
 
 <!--- @TODO: Mark the entire _block_ as a shared rule?? Test this, make it work --->
-{{% rules-block heading="Rounds & Turns" class="naivigation-shared-rule" %}}
+{{% rules-block heading="Rounds & Turns" class="naivigation-shared-rule-block" %}}
 
 Play happens in rounds.
 

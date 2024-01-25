@@ -3,11 +3,11 @@
 
 $bg-color: g.$bg-col;
 $text-color: g.$text-col;
-$button-bg: g.$col2;
+$button-bg: g.$col-ship;
 $button-color: #27231c;
-$link-color: color.adjust(g.$col3, $lightness: 0%);
-$link-color-hover: color.adjust(g.$col3, $lightness: 15%);
-$settings-color: g.$col1;
+$link-color: color.adjust(g.$col-car, $lightness: 0%);
+$link-color-hover: color.adjust(g.$col-car, $lightness: 15%);
+$settings-color: g.$col-spaceship;
 $cutoff: 920px;
 
 h1, h2, h3, h4, h5, h6, 
@@ -20,16 +20,6 @@ input, button, select, option, label {
 input, button, select, option, label {
     font-family: g.$body-font;
     //font-size: 1.175em;
-}
-
-body {
-    font-family: g.$body-font;
-    background-color: $bg-color;
-    font-size: 21px;
-    color: $text-color;
-    background-image: url(g.$base + "bg_pattern.webp");
-    background-size: 100%;
-    background-repeat: repeat-y;
 }
 
 h2 {
