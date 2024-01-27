@@ -4,13 +4,8 @@ gamepage: true
 boardgame: true
 
 title: "Creature Quellector"
-headerTitle: "Creature Quellector | A game you can play while standing in line, about collecting and battling creatures."
+headerTitle: "A game you can play while standing in line, about collecting and battling creatures"
 blurb: "Choose your battles wisely and build the strongest hand of magical creatures. A waitless game, playable without table, chairs, or loads of material"
-
-fullHeaderImg: "creature_quellector_header"
-headerImg: "creature_quellector_header"
-
-headerThumb: "favicon"
 
 customHeight: "large"
 headerDarkened: true

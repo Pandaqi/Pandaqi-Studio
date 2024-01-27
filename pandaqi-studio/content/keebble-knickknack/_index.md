@@ -5,13 +5,8 @@ gamepage: true
 boardgame: true
 
 title: "Keebble: Knickknack"
-headerTitle: "Keebble: Knickknack | A hybrid version of the word game Keebble"
+headerTitle: "A hybrid version of the word game Keebble"
 blurb: "A party game like Scrabble. A spin-off for Keebble. Played using an empty paper and one phone with internet."
-
-fullHeaderImg: "keebble_knickknack_header"
-headerImg: "keebble_knickknack_header"
-
-headerThumb: "favicon"
 
 customHeight: "small"
 headerDarkened: true

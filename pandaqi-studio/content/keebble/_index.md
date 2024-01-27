@@ -5,13 +5,8 @@ gamepage: true
 boardgame: true
 
 title: "Keebble"
-headerTitle: "Keebble | It's scrabble, but better."
+headerTitle: "It's scrabble, but better"
 blurb: "A party game like scrabble, played using only a blank piece of paper. It's free, and it's faster."
-
-fullHeaderImg: "keebble_header"
-headerImg: "keebble_header"
-
-headerThumb: "favicon"
 
 customHeight: "small"
 headerDarkened: true
@@ -48,7 +43,7 @@ ages: everyone
 ---
 
 
-{{% boardgame-intro heading="" img="keebble_header" %}}
+{{% boardgame-intro heading="" %}}
 
 A word game that can be played with a blank piece of paper and a pen. Like Scrabble, but it doesn't take three hours and a big board.
 

@@ -36,7 +36,7 @@ downloadLink: "https://drive.google.com/open?id=1bZ0z3L63sfoK-iMKIQFG8yPzU5Efe9b
 multiplayermode: 'cooperative'
 language: EN
 genre: ["strategy", "traitor"]
-playtime: 90-120
+playtime: 90
 playercount: [2,3,4,5,6,7]
 complexity: medium
 ages: everyone
@@ -108,7 +108,6 @@ You use a **secret part** of the board to infect cities, which means medics will
 {{% /section-centered %}}
 
 {{% section-centered heading="Random Events" class="background-alternate" anchor="game" html="true" %}}
-
 
 <p>This is an expansion to the base game. It introduces a random event at the start of each round, to shake things up and add extra challenge.</p>
 

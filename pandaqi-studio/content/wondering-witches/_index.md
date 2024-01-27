@@ -4,11 +4,8 @@ gamepage: true
 boardgame: true
 
 title: "Wondering Witches"
-headerTitle: "Wondering Witches | Brew potions, deduce recipes, and enchant the poorly communicating High Witch"
+headerTitle: "Brew potions, deduce recipes, and enchant the poorly communicating High Witch"
 blurb: "Brew a secret potion to defeat your greatest enemies—as witches tend to do—but the High Witch is terrible at communicating recipes ..."
-
-headerImg: "wonderingwitches_header"
-headerThumb: "wonderingwitches_logo"
 
 customHeight: "small-medium"
 
@@ -44,7 +41,7 @@ requirements: "A blank paper!"
 
 ---
 
-{{% boardgame-intro heading="" img="wonderingwitches_header" %}}
+{{% boardgame-intro heading="" %}}
 
 Ten ingredients, one correct combination.<br/><br/>A cooperative [One Paper Game](/boardgames#one_paper_games) for 1&ndash;5 players about finding the right potion, where ingredients have wondrous effects and the High Witch is terrible at communicating.
 

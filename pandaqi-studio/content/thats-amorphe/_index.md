@@ -1,13 +1,13 @@
 ---
 type: "single"
-draft: false
 gamepage: true
 boardgame: true
 
 title: "That's Amorphe"
-headerTitle: "That's Amorphe | A party game about what's halfway between a moon and an eye"
+headerTitle: "A party game about what's halfway between a moon and an eye"
 blurb: "A party game about imagining what happens if one thing morphed into another---or guessing what other players mean with their inventions."
 
+noHeader: true
 headerThumb: "thats_amorphe_header"
 
 customHeight: "small"

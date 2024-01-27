@@ -6,13 +6,8 @@ gamepage: true
 boardgame: true
 
 title: "Kangaruse"
-headerTitle: "Kangaruse | Jumping has never been so tactical and treacherous"
+headerTitle: "Jumping has never been so tactical and treacherous"
 blurb: "Jumping has never been so tactical and treacherous. Hop along the smartest route to collect the most points before your opponents stamped the whole brushland to dust."
-
-fullHeaderImg: "kangaruse_header"
-headerImg: "kangaruse_header"
-
-headerThumb: "favicon"
 
 customHeight: "small"
 headerDarkened: true
@@ -49,13 +44,13 @@ ages: everyone
 ---
 
 
-{{% boardgame-intro heading="" img="kangaruse_header" %}}
+{{% boardgame-intro heading="" %}}
 
 Hop along the smartest route to collect points and powers---before your opponents blocked all your desired jumps.
 
 {{% /boardgame-intro %}}
 
-{{% section-centered heading="webp/page_heading_1.webp" asimage="true" %}}
+{{% section-centered heading="page/page_heading_1" asimage="true" %}}
 
 [Generate](#board) a paper below. Or click the "Download" button to find a PDF I already generated for you.
 
@@ -65,7 +60,7 @@ If you didn't add rules on the paper itself---or just want more clarification---
 
 {{% /section-centered %}}
 
-{{% section-centered heading="webp/page_heading_2.webp" html="true" anchor="board" asimage="true" %}}
+{{% section-centered heading="page/page_heading_2" html="true" anchor="board" asimage="true" %}}
 
 <p>Input your desired settings and click "generate".</p>
 
@@ -82,7 +77,7 @@ If you didn't add rules on the paper itself---or just want more clarification---
 
 {{% /section-centered %}}
 
-{{% section-centered heading="webp/page_heading_3.webp" asimage="true" %}}
+{{% section-centered heading="page/page_heading_3" asimage="true" %}}
 
 I've used the fonts **Mail Ray Stuff** (headings, thick) and **Poppins** (body, thin). The latter is freely available on Google Fonts, the first was received from 1001fonts.
 
@@ -98,7 +93,7 @@ Want more details? Check out the [devlog](https://pandaqi.com/blog/boardgames/ka
 
 Below is a quick image (from my cheap phone) of one early test game we played.
 
-<img src="assets/kangaruse_playtest_paper.webp">
+<img src="assets/page/kangaruse_playtest_paper.webp">
 
 As usual, my players stubbornly insisted on complicated icons and aggressively crossing out squares from opponents who just blocked their move ;) Otherwise, this is fairly representative of what a finished game looks like.
 

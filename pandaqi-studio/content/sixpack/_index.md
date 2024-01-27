@@ -4,13 +4,8 @@ gamepage: true
 boardgame: true
 
 title: "Sixpack"
-headerTitle: "Sixpack | A simple, fast card game about six wonderful cards."
+headerTitle: "A simple, fast card game about six wonderful cards."
 blurb: "A card game both simple and fast about using your six unique cards as best you can, while predicting how the others will use theirs."
-
-fullHeaderImg: "sixpack_header"
-headerImg: "sixpack_header"
-
-headerThumb: "favicon"
 
 customHeight: "small"
 headerDarkened: true

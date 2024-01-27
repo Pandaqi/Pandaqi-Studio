@@ -4,12 +4,9 @@ gamepage: true
 boardgame: true
 
 title: "Unstable Universe"
-headerTitle: "Unstable Universe | The only boardgame where you're allowed to cut the paper into pieces"
+headerTitle: "The only boardgame where you're allowed to cut the paper into pieces"
 blurb: "The only boardgame where you're allowed to cut the board into pieces, especially when you are losing."
 
-fullHeaderImg: "unstableuniverse_header"
-headerImg: "unstableuniverse_header"
-headerThumb: "unstableuniverse_logo"
 headerDarkened: true
 
 customHeight: "small"
@@ -145,8 +142,8 @@ I wrote two detailed articles about the development of this game:
 
 {{% section-centered heading="In action!" html="true" %}}
   <div style="display: flex; width: 100%; flex-wrap: wrap; margin-top: 2rem;">
-    {{< figure url="unstableuniverse_inaction_1" >}}
-    {{< figure url="unstableuniverse_inaction_2" >}}
+    {{< figure url="page/unstableuniverse_inaction_1" >}}
+    {{< figure url="page/unstableuniverse_inaction_2" >}}
   </div>
 
   <p style="opacity:0.5;font-size:16px;">

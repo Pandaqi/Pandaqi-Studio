@@ -4,16 +4,11 @@ gamepage: true
 boardgame: true
 
 title: "Nine Lives: Math Meows"
-headerTitle: "Nine Lives: Math Meows | Don't be the first cat to run out of lives!"
+headerTitle: "Don't be the first cat to run out of lives!"
 blurb: "As we all know, cats start with nine lives. And as we all know, being unable to play a card makes you lose a life. Don't lose them all!"
 
 extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/1kKuH20FTKx5pm4qy_dqdNgt79iDSJwYp"
-
-fullHeaderImg: "nine_lives_math_meows_header"
-headerImg: "nine_lives_math_meows_header"
-
-headerThumb: "nine_lives_math_meows_favicon"
 
 customHeight: "small"
 headerDarkened: true

@@ -7,12 +7,10 @@ title: "Starry Skylines"
 headerTitle: "Starry Skylines | Build your new city in space, together"
 blurb: "You are all simultaneously building a city in space. On the same planet. And no, this is not a cooperative game."
 
+noThumb: true
 customHeight: "small-medium"
 
 color: "black"
-
-fullHeaderImg: "starryskylines_header"
-headerImg: "starryskylines_header"
 
 bgColor: "#BBFFDD"
 bgColorLink: "brown"
@@ -50,7 +48,7 @@ A [One Paper Game](/boardgames#one_paper_games) for 1&ndash;9 players about simu
 {{% /boardgame-intro %}}
 
 <div class="limit-width explanation-gif">
-  {{< video url="starryskylines_explanation_gif" controls="controls" >}}
+  {{< video url="page/starryskylines_explanation_gif" controls="controls" >}}
 </div>
 
 {{% section-centered heading="How to play" unfold="true" %}}
@@ -127,7 +125,7 @@ I've also written a detailed devlopment log about the whole process of creating 
 
 Wondering what a game looks like? Here are some of our test games.
 
-![Three finished games of Starry Skylines](starryskylines_finishedgames.webp)
+![Three finished games of Starry Skylines](page/starryskylines_finishedgames.webp)
 
 <span style="opacity: 0.75; font-style: italic; font-size: 0.75em; display: inline-block;">(Yeah, we couldn't find any white paper, therefore we used yellow ones. This is a section of the campaign I played with two players; there are more games on the backside of these papers.)</span>
 

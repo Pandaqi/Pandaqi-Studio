@@ -1,18 +1,12 @@
 ---
-draft: false
 type: "single"
 
 gamepage: true
 boardgame: true
 
 title: "Finger Food"
-headerTitle: "Finger Food | A quick game playable with just a paper and your fingers"
+headerTitle: "A quick game playable with just a paper and your fingers"
 blurb: "A quick game playable with just a single paper. Each turn, place a finger on a new square, to score more points than your opponents before you've used your whole hand."
-
-fullHeaderImg: "finger_food_header"
-headerImg: "finger_food_header"
-
-headerThumb: "favicon"
 
 customHeight: "small"
 headerDarkened: true
@@ -54,7 +48,7 @@ Place your fingers on the best squares and score more pie points than your oppon
 
 {{% /boardgame-intro %}}
 
-{{% section-centered heading="What do I need?" icon="webp/finger_food_hand.webp" %}}
+{{% section-centered heading="What do I need?" icon="page/finger_food_hand.webp" %}}
 
 Generate a paper below. Print and play!
 
@@ -62,7 +56,7 @@ Or click the "Download" button to print one of the PDFs I already generated for 
 
 {{% /section-centered %}}
 
-{{% section-centered heading="Board" html="true" anchor="board" icon="webp/finger_food_hand.webp" %}}
+{{% section-centered heading="Board" html="true" anchor="board" icon="page/finger_food_hand.webp" %}}
 
 <p>Input your desired settings and click "generate". Rules are explained on the board itself.</p>
 
@@ -81,7 +75,7 @@ Or click the "Download" button to print one of the PDFs I already generated for 
 
 {{% /section-centered %}}
 
-{{% section-centered heading="Clarifications" icon="webp/finger_food_hand.webp" %}}
+{{% section-centered heading="Clarifications" icon="page/finger_food_hand.webp" %}}
 
 Yes, you really play with your hands! And yes, that means you might physically get in each other's way, and people with large hands naturally have a slight advantage, and after a while you'll need to move your head to see some obscured squares.
 
@@ -91,13 +85,13 @@ Boards are as balanced and pretty as I can make them (through random generation 
 
 To make sure we're all on the same page, here is an image of how a single hand might be placed and how to score it (at the end of the game.)
 
-![Example of hand placement and scoring.](rules_explanation.webp)
+![Example of hand placement and scoring.](assets/page/rules_explanation.webp)
 
 At the end, you might want to take a picture (from above) or write down the fingers for each player on another paper. Especially if you have many players (4+), it can be tiring to keep your hand in a difficult position for a long time, or very hard to verify scores from your own perspective.
 
 {{% /section-centered %}}
 
-{{% section-centered heading="Credits" icon="webp/finger_food_hand.webp" %}}
+{{% section-centered heading="Credits" icon="page/finger_food_hand.webp" %}}
 
 I've used the fonts **Cherry Bomb One** (headings, thick) and **Quicksand** (body, thin). They are both freely available from Google Fonts.
 

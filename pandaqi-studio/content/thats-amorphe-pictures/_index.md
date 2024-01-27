@@ -5,9 +5,10 @@ gamepage: true
 boardgame: true
 
 title: "That's Amorphe: Pictures"
-headerTitle: "That's Amorphe: Pictures | A spin-off for That's Amorphe played using drawings"
+headerTitle: "A spin-off for That's Amorphe played using drawings"
 blurb: "A party game about changing someone else's drawing into a different thing, then asking others to guess how much you changed it."
 
+noHeader: true
 headerThumb: "thats_amorphe_pictures_header"
 
 customHeight: "small"

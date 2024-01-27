@@ -3,13 +3,8 @@ type: "single"
 gamepage: true
 
 title: "Photomone: Digital Antists"
-headerTitle: "Photomone: Digital Antists | A video game spin-off for Photomone"
+headerTitle: "A video game spin-off for Photomone"
 blurb: "Communicate words by drawing. But you may only draw straight lines between the dots on your screen, and not all dots are created equal."
-
-fullHeaderImg: "photomone_digital_antists_header"
-headerImg: "photomone_digital_antists_header"
-
-headerThumb: "favicon"
 
 customHeight: "small"
 headerDarkened: true
@@ -49,7 +44,7 @@ ages: everyone
 <!-- <div style="margin-top: min(3vw, 2em);"> -->
 
 <div style="margin-bottom: -23vw; position: relative; z-index: -1; opacity: 0.9;">
-  <img src="webp/photomone_digital_antists_header.webp">
+  <img src="assets/photomone_digital_antists_header.webp">
 </div>
 
 <div style="max-width: 720px; margin: auto; padding: 1em;">

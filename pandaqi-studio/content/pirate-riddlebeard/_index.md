@@ -4,12 +4,8 @@ gamepage: true
 boardgame: true
 
 title: "Pirate Riddlebeard"
-headerTitle: "Pirate Riddlebeard | Be the first to find the secret location of the treasure!"
+headerTitle: "Be the first to find the secret location of the treasure!"
 blurb: "A One Paper Game for 1-6 pirates about discovering all the secret hints leading to the treasure."
-
-fullHeaderImg: "pirate_riddlebeard_header"
-headerImg: "pirate_riddlebeard_header"
-headerThumb: "favicon"
 
 customHeight: "small"
 headerDarkened: true

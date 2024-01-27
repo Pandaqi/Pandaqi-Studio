@@ -4,16 +4,11 @@ gamepage: true
 boardgame: true
 
 title: "Nine Lives: Tricksy Kittens"
-headerTitle: "Nine Lives: Tricksy Kittens | Be the first cat to achieve your nine lives!"
+headerTitle: "Be the first cat to achieve your nine lives!"
 blurb: "A trick-taking game about getting your nine lives before anybody else, by placing smart bets on the right cats."
 
 extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/1FxdHCEaLdaSrGDIrCx5yZHMx6P07_Ios"
-
-fullHeaderImg: "nine_lives_tricksy_kittens_header"
-headerImg: "nine_lives_tricksy_kittens_header"
-
-headerThumb: "nine_lives_tricksy_kittens_favicon"
 
 customHeight: "small"
 headerDarkened: true

@@ -4,16 +4,11 @@ gamepage: true
 boardgame: true
 
 title: "Mammoth Messages"
-headerTitle: "Mammoth Messages | Communicate words using only barebones cave drawings."
+headerTitle: "Communicate words using only barebones cave drawings"
 blurb: "Give message. They guess. Only cave drawings. Nothing else. More guess is more good. Party game. Hum."
 
 extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/1lFWm9gEBEFxKMeDMy_fucT5xcDac4KsC"
-
-fullHeaderImg: "mammoth_messages_header"
-headerImg: "mammoth_messages_header"
-
-headerThumb: "mammoth_messages_favicon"
 
 customHeight: "small"
 headerDarkened: true

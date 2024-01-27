@@ -4,16 +4,11 @@ gamepage: true
 boardgame: true
 
 title: "Pumpkin Patrol"
-headerTitle: "Pumpkin Patrol | Hand out the most candy in a very competitive Halloween neighborhood."
+headerTitle: "Hand out the most candy in a very competitive Halloween neighborhood."
 blurb: "Attract the most valuable Trick-or-Treaters with beautiful Halloween decorations, but don't forget to collect enough candy to actually make them happy!"
 
 extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/1tg66GnYFxZukTDFUGoSjGIpr9BlU3Wy8"
-
-fullHeaderImg: "pumpkin_patrol_header"
-headerImg: "pumpkin_patrol_header"
-
-headerThumb: "pumpkin_patrol_favicon"
 
 customHeight: "small"
 headerDarkened: true

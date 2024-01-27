@@ -4,13 +4,8 @@ gamepage: true
 boardgame: true
 
 title: "Photomone"
-headerTitle: "Photomone | A party game about drawing secret words like an ant"
+headerTitle: "A party game about drawing secret words like an ant"
 blurb: "A drawing party game. But you're ants leaving pheromone trails, so drawing just became a lot harder and a lot more fun."
-
-fullHeaderImg: "photomone_header"
-headerImg: "photomone_header"
-
-headerThumb: "favicon"
 
 customHeight: "small"
 headerDarkened: true

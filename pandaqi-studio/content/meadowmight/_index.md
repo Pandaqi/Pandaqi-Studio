@@ -4,16 +4,11 @@ gamepage: true
 boardgame: true
 
 title: "Meadowmight"
-headerTitle: "Meadowmight | Claim the biggest meadow in this war of the wool."
+headerTitle: "Claim the biggest meadow in this war of the wool"
 blurb: "Build a meadow and fill it with sheep, but beware other players stomping into your peaceful grasslands and fencing off the wrong parts!"
 
 extraCSS: true
-downloadLink: "https://drive.google.com/drive/folders/1mdYwronNojq_L3I9vTkGdCVhVsnpiruT" # already updated!
-
-fullHeaderImg: "meadowmight_header"
-headerImg: "meadowmight_header"
-
-headerThumb: "meadowmight_favicon"
+downloadLink: "https://drive.google.com/drive/folders/1mdYwronNojq_L3I9vTkGdCVhVsnpiruT"
 
 customHeight: "small"
 headerDarkened: true

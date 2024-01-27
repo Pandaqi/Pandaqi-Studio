@@ -4,13 +4,8 @@ gamepage: true
 boardgame: true
 
 title: "Slippery Slopes: Trippy Touches"
-headerTitle: "Slippery Slopes: Trippy Touches | A spin-off of Slippery Slopes, completely playable on one mobile phone."
+headerTitle: "A spin-off of Slippery Slopes, completely playable on one mobile phone."
 blurb: "It's Slippery Slopes, but now playable on one mobile phone!"
-
-fullHeaderImg: "slippery_slopes_trippy_touches_header"
-headerImg: "slippery_slopes_trippy_touches_header"
-
-headerThumb: "favicon_trippy_touches"
 
 customHeight: "small"
 headerDarkened: true

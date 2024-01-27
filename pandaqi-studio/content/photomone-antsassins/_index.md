@@ -5,13 +5,8 @@ gamepage: true
 boardgame: true
 
 title: "Photomone: Antsassins"
-headerTitle: "Photomone: Antsassins | A party game about trying to communicate which vague shape belongs to your team"
+headerTitle: "A party game about trying to communicate which vague shape belongs to your team"
 blurb: "A party game similar to Codenames. The board has random shapes, and you must somehow communicate which one is yours."
-
-fullHeaderImg: "photomone_antsassins_header"
-headerImg: "photomone_antsassins_header"
-
-headerThumb: "favicon"
 
 customHeight: "small"
 headerDarkened: true

@@ -4,16 +4,11 @@ gamepage: true
 boardgame: true
 
 title: "Cookie Smasher"
-headerTitle: "Cookie Smasher | Smash the poisoned food faster than anyone else to prevent the king's assassination!"
+headerTitle: "Smash the poisoned food faster than anyone else to prevent the king's assassination!"
 blurb: "A fast party game about quick thinking and deduction, finding the poisoned food, then smashing it before anyone else."
 
 extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/1Vb-cB7KrYaxakv2X2oSmQJdSNg-9T5T_"
-
-fullHeaderImg: "cookie_smasher_header"
-headerImg: "cookie_smasher_header"
-
-headerThumb: "cookie_smasher_favicon"
 
 customHeight: "small"
 headerDarkened: true

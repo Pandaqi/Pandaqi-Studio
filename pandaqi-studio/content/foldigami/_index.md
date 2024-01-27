@@ -1,16 +1,12 @@
 ---
-# draft: true
 type: "single"
 
 gamepage: true
 boardgame: true
 
 title: "Foldigami"
-headerTitle: "Foldigami | A game of wits using only a single paper and nothing else."
+headerTitle: "A game of wits using only a single paper and nothing else"
 blurb: "A game of wits using only a single paper. Even the rules are on the paper itself, and play happens through folding and rotating."
-
-fullHeaderImg: "foldigami_header"
-headerImg: "foldigami_header"
 
 headerThumb: "foldigami_header"
 
@@ -56,10 +52,10 @@ A game as tough as chess, played using only a paper and nothing else.
 {{% /boardgame-intro %}}
 
 <div class="divider-image">
-  <img src="webp/banner_divider.webp">
+  <img src="assets/page/banner_divider.webp">
 </div>
 
-{{% section-centered heading="What do I need?" icon="webp/icon_intro.webp" %}}
+{{% section-centered heading="What do I need?" icon="page/icon_intro.webp" %}}
 
 Generate a paper below. Print and play!
 
@@ -68,10 +64,10 @@ Or click the "Download" button to print one of the PDFs I already generated for 
 {{% /section-centered %}}
 
 <div class="divider-image">
-  <img src="webp/banner_divider.webp">
+  <img src="assets/page/banner_divider.webp">
 </div>
 
-{{% section-centered heading="Board" html="true" anchor="board" icon="webp/icon_board.webp" %}}
+{{% section-centered heading="Board" html="true" anchor="board" icon="page/icon_board.webp" %}}
 
 <p>Input your desired settings and click "generate".</p>
 
@@ -90,10 +86,10 @@ Or click the "Download" button to print one of the PDFs I already generated for 
 {{% /section-centered %}}
 
 <div class="divider-image">
-  <img src="webp/banner_divider.webp">
+  <img src="assets/page/banner_divider.webp">
 </div>
 
-{{% section-centered heading="Clarifications" icon="webp/icon_clarifications.webp" %}}
+{{% section-centered heading="Clarifications" icon="page/icon_clarifications.webp" %}}
 
 The rules for the game are explained _on the paper itself_. Nothing to read beforehand! Nothing to remember!
 
@@ -116,10 +112,10 @@ Below, however, is a list of clarifications in case you're uncertain.
 {{% /section-centered %}}
 
 <div class="divider-image">
-  <img src="webp/banner_divider.webp">
+  <img src="assets/page/banner_divider.webp">
 </div>
 
-{{% section-centered heading="Credits" icon="webp/icon_credits.webp" %}}
+{{% section-centered heading="Credits" icon="page/icon_credits.webp" %}}
 
 Fonts? **Jockey One** and **Figtree**, both freely available from Google Fonts.
 
@@ -138,6 +134,6 @@ Want more details? Check out the [devlog](https://pandaqi.com/blog/boardgames/fo
 {{% /section-centered %}}
 
 <div class="divider-image">
-  <img src="webp/banner_divider.webp">
+  <img src="assets/page/banner_divider.webp">
 </div>
 

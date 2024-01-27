@@ -4,7 +4,7 @@ gamepage: true
 boardgame: true
 
 title: "One Pizza the Puzzle"
-headerTitle: "One Pizza the Puzzle | Deliver one pizza before anyone else without crossing paths"
+headerTitle: "Deliver one pizza before anyone else without crossing paths"
 blurb: "A One Paper Game for 2–8 players about running your own pizza business. A raging rivalry, however, makes it impossible to cross paths with other pizza couriers without causing huge problems ..."
 
 longblurb: "A game about sending pizza couriers all over town and cutting off other players. Because, obviously, you are not allowed to cross other lines drawn on the board."

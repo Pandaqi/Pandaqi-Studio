@@ -4,13 +4,8 @@ gamepage: true
 boardgame: true
 
 title: "Slippery Slopes"
-headerTitle: "Slippery Slopes | A party game about communicating words by grading them on funky scales."
+headerTitle: "A party game about communicating words by grading them on funky scales."
 blurb: "A party game about conveying words by grading them on funky scales. How do you communicate PIZZA when you only have hot-cold, heavy-light and dry-wet?"
-
-fullHeaderImg: "slippery_slopes_header"
-headerImg: "slippery_slopes_header"
-
-headerThumb: "favicon_slippery_slopes"
 
 customHeight: "small"
 headerDarkened: true

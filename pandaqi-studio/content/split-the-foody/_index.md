@@ -4,16 +4,11 @@ gamepage: true
 boardgame: true
 
 title: "Split the Foody"
-headerTitle: "Split the Foody | A game of food heists and dividing treasure."
+headerTitle: "A game of food heists and dividing treasure."
 blurb: "Stealing food treasure is the easy part. Grabbing the biggest chunk when dividing the booty is tough---but also crucial to your success as a true pearate."
 
 extraCSS: true
-downloadLink: "https://drive.google.com/drive/folders/1Jw9vO5RnVDgh-ECN8NxMDVKeN9Uhfjjg" # already updated!
-
-fullHeaderImg: "split_the_foody_header"
-headerImg: "split_the_foody_header"
-
-headerThumb: "split_the_foody_favicon"
+downloadLink: "https://drive.google.com/drive/folders/1Jw9vO5RnVDgh-ECN8NxMDVKeN9Uhfjjg"
 
 customHeight: "small"
 headerDarkened: true

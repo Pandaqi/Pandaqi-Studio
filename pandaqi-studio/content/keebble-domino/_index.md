@@ -4,13 +4,8 @@ gamepage: true
 boardgame: true
 
 title: "Keebble: Domino"
-headerTitle: "Keebble: Domino | The word game Keebble, now as a board game"
+headerTitle: "The word game Keebble, now as a board game"
 blurb: "A party game like Scrabble. A spin-off for Keebble. Played using dominoes and a special font where each letter is ... multiple letters."
-
-fullHeaderImg: "keebble_domino_header"
-headerImg: "keebble_domino_header"
-
-headerThumb: "favicon"
 
 customHeight: "small"
 headerDarkened: true

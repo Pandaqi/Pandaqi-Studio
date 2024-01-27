@@ -4,12 +4,10 @@ gamepage: true
 boardgame: true
 
 title: "Timely Transports"
-headerTitle: "Timely Transports | The first ever hybrid between boardgames and computer games"
+headerTitle: "The first ever hybrid between boardgames and computer games"
 blurb: "The first ever hybrid board+smartphone game for 1–8 players about transporting exotic goods across the jungle!"
 
-fullHeaderImg: "timelytransports_header"
-headerImg: "timelytransports_header"
-
+noThumb: true
 customHeight: "small-medium"
 
 color: "green"
@@ -105,7 +103,7 @@ The **campaign** has six scenarios, increasing in difficulty, allowing you to ge
     {{< setting-hidden id="setting-gameTitle" text="Timely Transports" >}}
     {{< setting-playercount min="1" max="8" def="4" >}}
     {{< setting-enum id="settingBoard-difficulty" text="Scenario?" values="1. Training Wheels,2. Good Luck,3. Fancy Vehicles,4. Another Upgrade,5. Extraordinary Events,6. Crazy Cargo" keys="Training Wheels,Good Luck,Fancy Vehicles,Another Upgrade,Extraordinary Events,Crazy Cargo" keep-case="true" >}}
-    {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Removes many decorational elements and turns the board (mostly) grayscale." >}}
+    {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Removes many decorative elements and turns the board (mostly) grayscale." >}}
     {{< setting-checkbox id="settingBoard-splitBoard" text="Split Board?" remark="If disabled, the board is only <em>one</em> piece of paper (instead of four papers that combine into a larger board). Highly recommended to keep this enabled." checked="true" >}}
     {{< setting-checkbox id="settingBoard-cityBonus" text="Bad City Bonus?" remark="If the computer thinks a capital is worse than the others, it will give it a few bonus points. The owner of this capital gets these for free at the start of the game." >}}
     {{< setting-checkbox id="settingBoard-rulesReminder" text="Add rules reminder?" checked="true" >}}

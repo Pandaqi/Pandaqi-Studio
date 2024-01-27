@@ -1,17 +1,11 @@
 ---
 type: "single"
-draft: false
 gamepage: true
 boardgame: true
 
 title: "Pirate Drawingbeard"
-headerTitle: "Pirate Drawingbeard | Unravel cryptic drawings to find the secret treasures"
+headerTitle: "Unravel cryptic drawings to find the secret treasures"
 blurb: "1-6 pirates try to discover the secret (drawn) hints of the other players, to find the treasure before the others"
-
-fullHeaderImg: "pirate_drawingbeard_header"
-headerImg: "pirate_drawingbeard_header"
-
-headerThumb: "favicon"
 
 customHeight: "small"
 headerDarkened: true

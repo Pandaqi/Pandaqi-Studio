@@ -4,16 +4,11 @@ gamepage: true
 boardgame: true
 
 title: "Hold my Bear"
-headerTitle: "Hold my Bear | Play with more skill, or play a different sport altogether, but beware treacherous bears."
+headerTitle: "Play with more skill, or play a different sport altogether, but beware treacherous bears"
 blurb: "Beat your opponents at the Unbearable Games, either by being more skillful ... or changing the sport being played altogether. A fast and loose card game for any situation."
 
 extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/1JD-LWnPoX3yXfQM8jXdlh4vsZvdMOzQQ"
-
-fullHeaderImg: "hold_my_bear_header"
-headerImg: "hold_my_bear_header"
-
-headerThumb: "hold_my_bear_favicon"
 
 customHeight: "small"
 headerDarkened: true

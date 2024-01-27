@@ -1,18 +1,11 @@
 ---
-# draft: true
-
 type: "single"
 gamepage: true
 boardgame: true
 
 title: "Kingseat"
-headerTitle: "Kingseat | A social hidden role game for large groups, playable without a table."
+headerTitle: "A social hidden role game for large groups, playable without a table"
 blurb: "A fast and simple hidden role game, with simultaneous turns and no player elimination, and even without table or chairs."
-
-fullHeaderImg: "kingseat_header"
-headerImg: "kingseat_header"
-
-headerThumb: "favicon"
 
 customHeight: "small"
 headerDarkened: true
@@ -52,7 +45,7 @@ Pick your secret allegiance. Now make sure they get the most votes, without bein
 
 {{% /boardgame-intro %}}
 
-{{% section-centered heading="What do I need?"  icon="webp/icon_requirements.webp" %}}
+{{% section-centered heading="What do I need?"  icon="page/icon_requirements" %}}
 
 Three simple steps.
 * Read the short [playful rules](rules).
@@ -63,7 +56,7 @@ Three simple steps.
 
 {{% /section-centered %}}
 
-{{% section-centered heading="Material" anchor="material" html="true"  icon="webp/icon_material.webp" %}}
+{{% section-centered heading="Material" anchor="material" html="true"  icon="page/icon_material" %}}
 
 <p>Input your settings, click the button. A new page will open that generates a nice PDF for you!</p>
 
@@ -94,7 +87,7 @@ Three simple steps.
 
 {{% /section-centered %}}
 
-{{% section-centered heading="Throneless Games" icon="webp/icon_throneless.webp" %}}
+{{% section-centered heading="Throneless Games" icon="page/icon_throneless" %}}
 
 This game is part of my series I call "Throneless Games". That name was chosen because in these games ...
 
@@ -110,7 +103,7 @@ They all follow the same simple rules (and visual style). Each version, however,
 
 {{% /section-centered %}}
 
-{{% section-centered heading="Credits" icon="webp/icon_credits.webp" %}}
+{{% section-centered heading="Credits" icon="page/icon_credits" %}}
 
 This game actually uses three different fonts. (These are called "blackletter" or "fraktur" fonts.)
 
