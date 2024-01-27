@@ -18,7 +18,7 @@ $ii-size: 24px;
 {
     width: $ii-size;
     height: $ii-size;
-    background-image: url(g.$base + "misc.webp"); // perhaps use downscaled version?
+    background-image: url("misc.webp"); // perhaps use downscaled version?
     display: inline-block;
     background-size: cover;
     vertical-align: bottom;

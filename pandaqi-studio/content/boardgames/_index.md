@@ -32,7 +32,7 @@ collection: true
 		<h1>Boardgames</h1>
 		<p class="fullWidthParagraph">Welcome to my collection of free "Print & Play" boardgames!</p>
 		<p class="fullWidthParagraph">
-			<a class="btn" href="#one_paper_games">One Paper Games</a>
+			<a class="btn" href="#one-paper-games">One Paper Games</a>
 			<a class="btn" href="#hybrid">Hybrid</a>
 			<a class="btn" href="#traditional">Traditional</a>
 			<a class="btn" href="#explanation">How does it work?</a> 
@@ -42,10 +42,10 @@ collection: true
 
 <div class="colorScheme-beige background-pattern">
 	<div class="underline-image">
-		{{< figure url="boardgames_opg" alt="One Paper Games logo" >}}
+{{< figure url="boardgames_opg" alt="One Paper Games logo" >}}
 	</div>
 
-	{{% section-centered heading="One Paper Games" anchor="one_paper_games" %}}
+{{% section-centered heading="One Paper Games" anchor="one-paper-games" %}}
 
 These games only require you to print _a single sheet of paper_ and find a pen(cil) somewhere! (Sometimes even a blank paper is enough!)
 
@@ -53,19 +53,18 @@ This simplicity is great. You can download, explain, carry, play or pause these 
 
 Additionally, they are language-independent. Only one person needs to understand English to read the rules, all other files don't have (essential) text.
 
-	{{% /section-centered %}}
+{{% /section-centered %}}
 
-	<!-- List all in category "opg" -->
-	{{< list-in-category-grid key="opg" >}}
+<!--- List all in category "opg" -->
+{{< list-in-category-grid key="opg" >}}
 </div>
-
 
 <div class="colorScheme-green background-pattern">
 	<div class="underline-image">
-		{{< figure url="boardgames_hybrid" alt="Hybrid Games logo">}}
+{{< figure url="boardgames_hybrid" alt="Hybrid Games logo">}}
 	</div>
 
-	{{% section-centered heading="Hybrid" anchor="hybrid" %}}
+{{% section-centered heading="Hybrid" anchor="hybrid" %}}
 
 **Hybrid games** are a combination of a _boardgame_ and a _video game_.
 
@@ -73,35 +72,35 @@ In other words, they have an offline component (usually a physical board, pieces
 
 Sometimes an offline mode is present or the digital component is optional. But the reason I make these games is precisely _because_ a digital component adds so many possibilities you don't want to miss!
 
-	{{% /section-centered %}}
+{{% /section-centered %}}
 
-	<!-- List all in category "hybrid" -->
-	{{< list-in-category-grid key="hybrid" >}}
+<!--- List all in category "hybrid" -->
+{{< list-in-category-grid key="hybrid" >}}
 </div>
 
 <div class="colorScheme-blue background-pattern">
 	<div class="underline-image">
-		{{< figure url="boardgames_games" alt="Traditional Games logo">}}
+{{< figure url="boardgames_games" alt="Traditional Games logo">}}
 	</div>
 
-	{{% section-centered heading="Traditional Games" anchor="traditional"  %}}
+{{% section-centered heading="Traditional Games" anchor="traditional"  %}}
 
 These are my "regular" boardgames. They are more similar to the typical boardgame, unlike my _hybrid_ games that add a digital element.
 
 Older games are available in multiple languages: Dutch and English. Newer ones are completely English.
 
-	{{% /section-centered %}}
+{{% /section-centered %}}
 
-	<!-- List all in category "traditional" -->
-	{{< list-in-category-grid key="traditional" >}}
+<!--- List all in category "traditional" -->
+{{< list-in-category-grid key="traditional" >}}
 </div>
 
 <div class="colorScheme-beige background-pattern">
 	<div class="underline-image">
-		{{< figure url="boardgames_faq" alt="Frequently Asked Questions - Illustration" >}}
+{{< figure url="boardgames_faq" alt="Frequently Asked Questions - Illustration" >}}
 	</div>
 
-	{{% section-centered heading="How does it work?" anchor="explanation" %}}
+{{% section-centered heading="How does it work?" anchor="explanation" %}}
 
 Click on a game, any game.
 
@@ -119,15 +118,15 @@ The files are also usually sorted. For a first game you can just pick the very f
 
 The project sometimes contains a third folder called "Vault". That's where I store backups of older versions or variants.
 
-	{{% /section-centered %}}
+{{% /section-centered %}}
 </div>
 
 <div class="colorScheme-black">
 	<div class="underline-image">
-		{{< figure url="boardgames_pnp" alt="Print 'n Play - Illustration" >}}
+{{< figure url="boardgames_pnp" alt="Print 'n Play - Illustration" >}}
 	</div>
 
-	{{% section-centered heading="Print & Play" anchor="print_and_play" %}}
+{{% section-centered heading="Print & Play" anchor="print_and_play" %}}
 
 It means you can download the game files, print them yourself, and then play them &mdash; for free!
 
@@ -142,9 +141,11 @@ All games on this website are completely developed by me and unavailable anywher
 * [Asmodee](https://print-and-play.asmodee.fun/en/all/games) has an excellent website with print-and-play versions for many of their (famous) games!
 * [PNP Arcade](https://www.pnparcade.com/) brings together both free and paid PNP versions of games of many different publishers
 
-<div style="opacity:0.66; font-size:10pt; line-height: 140%; padding-bottom: 100px;"><em>Copyright?</em> I maintain the motto "Don't steal my games, share them". Feel free to play these games, share them with others, customize them to your liking, and let them inspire you. Do not copy the name/concept, rules or graphic assets and/or present them as your own, especially not for commercial purposes. Credit me when talking about my work, to support the free creation of these games and to keep this website online.</div>
+<div style="opacity:0.66; font-size:10pt; line-height: 140%; padding-bottom: 100px;">
+	<em>Copyright?</em> I maintain the motto "Don't steal my games, share them". Feel free to play these games, share them with others, customize them to your liking, and let them inspire you. Do not copy the name/concept, rules or graphic assets and/or present them as your own, especially not for commercial purposes. Credit me when talking about my work, to support the free creation of these games and to keep this website online.
+</div>
 
-	{{% /section-centered %}}
+{{% /section-centered %}}
 </div>
 
 		

@@ -43,7 +43,7 @@ requirements: "A blank paper!"
 
 {{% boardgame-intro heading="" %}}
 
-Ten ingredients, one correct combination.<br/><br/>A cooperative [One Paper Game](/boardgames#one_paper_games) for 1&ndash;5 players about finding the right potion, where ingredients have wondrous effects and the High Witch is terrible at communicating.
+Ten ingredients, one correct combination.<br/><br/>A cooperative [One Paper Game](/boardgames#one-paper-games) for 1&ndash;5 players about finding the right potion, where ingredients have wondrous effects and the High Witch is terrible at communicating.
 
 {{% /boardgame-intro %}}
 

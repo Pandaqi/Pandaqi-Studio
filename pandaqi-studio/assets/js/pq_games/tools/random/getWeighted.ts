@@ -3,8 +3,19 @@ import getTotalForKey from "./getTotalForKey"
 
 export default (obj:Record<string,any>, key = "prob", RNG = Math.random) : string =>
 {
+    // sanitize the input (remove probabilites 0 or lower)
+    // @NOTE: unfortunately, for now I have to do this, because many old games of mine used that trick to ignore things temporarily when random drawing :/
+    const copy = Object.assign({}, obj);
+    for(const [objectKey,value] of Object.entries(copy))
+    {
+        if(value[key] && value[key] <= 0)
+        {
+            delete copy[objectKey];
+        }
+    }
+
     const isArray = Array.isArray(obj);
-    const typesObject = obj;
+    const typesObject = copy;
     const totalProb = getTotalForKey(typesObject, key);
     const probFraction = 1.0 / totalProb;
     const targetRand = RNG();

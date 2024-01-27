@@ -98,7 +98,7 @@ This game takes the same idea of "communicate secret words/concepts in a vague a
 
 A simple, fast party game for any group!
 
-For more details, as always, read the [devlog](https://pandaqi.com/blog/boardgames/slippery-slopes).
+For more details, as always, read the [devlog](/blog/boardgames/slippery-slopes).
 
 **UPDATE!** This game now also has a completely _digital_ version. Playable with just one smartphone, rules explained as you go, still the same fun core mechanic. Try it at: [Slippery Slopes: Trippy Touches](https://pandaqi.com/slippery-slopes-trippy-touches).
 

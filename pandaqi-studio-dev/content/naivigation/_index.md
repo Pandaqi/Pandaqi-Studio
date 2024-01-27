@@ -127,6 +127,6 @@ I honestly think these are my masterpiece so far. The games aren't extremely "de
 
 I mostly make games for families and casual groups. These games are cooperative, mostly textless, simple, fast, intuitive, thematic, cheap to print/cut yourself, varied, anything I'd want games to be.
 
-For more information, as always, read my [detailed developer diary on Pandaqi Blog](https://pandaqi.com/blog/boardgames/naivigation/).
+For more information, as always, read my [detailed developer diary on Pandaqi Blog](/blog/boardgames/naivigation/).
 
 {{% /section-centered %}}

@@ -43,15 +43,10 @@ input: ["controller", "keyboard", "touch"]
 
 {{% embedvideo bg="windup_wizards_header" vid="https://www.youtube.com/embed/WMB_kvQn-og" class="limit-width extra-top-offset" %}}
 
-{{% buylink-container class="limit-width" %}}
-	{{< buylink url="http://pandaqi.itch.io/windup-wizards" platforms="windows,mac,linux,android" >}} 
-		Desktop
-	{{< /buylink >}}
-
-	{{< buylink url="https://play.google.com/store/apps/details?id=com.pandaqi.windup_wizards" platforms="android" >}} 
-		Mobile
-	{{< /buylink >}}
-{{% /buylink-container %}}
+{{< buylink-container class="limit-width" >}}
+{{< buylink url="http://pandaqi.itch.io/windup-wizards" platforms="windows,mac,linux,android" text="Desktop" >}} 
+{{< buylink url="https://play.google.com/store/apps/details?id=com.pandaqi.windup_wizards" platforms="android" text="Mobile" >}} 
+{{< /buylink-container >}}
 
 {{% section-centered heading="" class="intro-text" %}}
 Odd creatures have sabotaged our electricity cables, leading to a blackout! Without energy, how will we defend ourselves? No longer able to look at screens all day, the humans put out a desperate cry for help.  

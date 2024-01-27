@@ -39,7 +39,7 @@ ages: everyone
 
 ---
 
-{{% boardgame-intro heading="" img="creature_quellector_header" class="no-shadow" %}}
+{{% boardgame-intro heading="" %}}
 
 Pick your battles wisely to design the best squad of cute creatures.
 
@@ -112,7 +112,7 @@ After a long process of brainstorming and experimenting, this game was the resul
 
 Obviously, the aesthetic and rules were very much inspired by Pokémon (and similar card collection games). I tried to make it more unique, but hey, there's a reason Pokémon is as popular as it is ;)
 
-For a detailed diary about the game, check out the [devlog](https://pandaqi.com/blog/boardgames/creature-quellector).
+For a detailed diary about the game, check out the [devlog](/blog/boardgames/creature-quellector).
 
 {{% /section-centered %}}
 

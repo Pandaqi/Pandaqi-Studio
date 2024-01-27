@@ -88,6 +88,6 @@ This one was also the hardest to make, as my first _five_ attempts were fine and
 
 Do you have a favorite version of Nine Lives? Let me know which one and why!
 
-For more information, as always, read my [detailed developer diary on Pandaqi Blog](https://pandaqi.com/blog/boardgames/nine-lives-tricksy-kittens).
+For more information, as always, read my [detailed developer diary on Pandaqi Blog](/blog/boardgames/nine-lives-tricksy-kittens).
 
 {{% /section-centered %}}

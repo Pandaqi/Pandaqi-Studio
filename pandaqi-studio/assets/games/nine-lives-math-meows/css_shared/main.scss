@@ -1,9 +1,8 @@
 $header-font: "puss";
 $body-font: "catcafe";
-$base: "/nine-lives-math-meows/assets/";
-$base-fonts: $base + "fonts/";
+$base-fonts: "fonts/";
 
-$bg-image-url: url($base + "bg_cat_outline.webp");
+$bg-image-url: url("bg_cat_outline.webp");
 
 $col1-dark: #1B7900;
 $col2-dark: #1E41AA;

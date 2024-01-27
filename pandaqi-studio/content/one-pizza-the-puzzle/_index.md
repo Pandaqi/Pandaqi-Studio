@@ -12,7 +12,7 @@ longblurb: "A game about sending pizza couriers all over town and cutting off ot
 customHeight: "small-medium"
 
 fullHeaderImg: "onepizza_header"
-headerThumb: "onepizza_header"
+noThumb: true
 
 color: "yellow"
 
@@ -46,12 +46,12 @@ ages: everyone
 
 {{% boardgame-intro heading="" img="onepizza_header" %}}
 
-A [One Paper Game](/boardgames#one_paper_games) for 2&ndash;8 players about running your own pizza business, but a raging rivalry forbids crossing paths with other pizza couriers.
+A [One Paper Game](/boardgames#one-paper-games) for 2&ndash;8 players about running your own pizza business, but a raging rivalry forbids crossing paths with other pizza couriers.
 
 {{% /boardgame-intro %}}
 
 <div class="limit-width">
-{{< video url="onepizza_explanation_gif" controls="controls" >}}
+{{< video url="video/onepizza_explanation_gif" controls="controls" >}}
 </div>
 
 {{% review-container class="limit-width" %}}

@@ -89,7 +89,7 @@ This might be the simplest One Paper Game I ever made, while having a lot of dep
 
 That was a good morning.
 
-Want more details? Check out the [devlog](https://pandaqi.com/blog/boardgames/kangaruse).
+Want more details? Check out the [devlog](/blog/boardgames/kangaruse).
 
 Below is a quick image (from my cheap phone) of one early test game we played.
 

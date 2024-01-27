@@ -91,6 +91,6 @@ This snowballed into three ideas with the same core, but different directions. A
 
 Do you have a favorite version of Nine Lives? Let me know which one and why!
 
-For more information, as always, read my [detailed developer diary on Pandaqi Blog](https://pandaqi.com/blog/boardgames/nine-lives).
+For more information, as always, read my [detailed developer diary on Pandaqi Blog](/blog/boardgames/nine-lives).
 
 {{% /section-centered %}}

@@ -40,9 +40,9 @@ ages: everyone
 ---
 
 
-{{% boardgame-intro heading="" img="pirate_riddlebeard_header" %}}
+{{% boardgame-intro heading="" %}}
 
-A [One Paper Game](/boardgames#one_paper_games) for 1&ndash;6 pirates who each own a part of the secret riddle pointing towards a great treasure.
+A [One Paper Game](/boardgames#one-paper-games) for 1&ndash;6 pirates who each own a part of the secret riddle pointing towards a great treasure.
 
 {{% /boardgame-intro %}}
 

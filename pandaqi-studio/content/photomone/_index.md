@@ -44,7 +44,7 @@ ages: everyone
 ---
 
 
-{{% boardgame-intro heading="" img="photomone_header" class="no-shadow" %}}
+{{% boardgame-intro heading="" class="no-shadow" %}}
 
 A party game about drawing secret words. But you're an ant, so you can only draw using your pheromone trail.
 
@@ -123,7 +123,7 @@ The fonts used are **Proza Libre** and **GelDotica**. All other assets and code 
 
 This idea started its life many years ago when I saw a game called "StarLink". In that game---you never guessed it---you must draw things by connecting stars with straight lines. However, that's where the game stopped. I tried to continue the idea further, take it in completely new directions, and provide that for free.
 
-For a detailed diary about the game, check out the [devlog](https://pandaqi.com/blog/boardgames/photomone).
+For a detailed diary about the game, check out the [devlog](/blog/boardgames/photomone).
 
 <div class="photomone-update-block">
 Photomone now has a spin-off you can play entirely on a smartphone or tablet! Check out <a href="https://pandaqi.com/photomone-digital-antists">Photomone: Digital Ant-ists</a>.

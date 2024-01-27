@@ -1,14 +1,10 @@
 {{ $key := or (.Get "key") "peerful" }}
-
 {{ range where .Site.RegularPages "Params.tags" "intersect" (slice $key) }}
-	{{ $img := or (or .Params.fullHeaderImg .Params.headerImg) .Params.headerThumb }}
-	{{ $img_url := printf "%swebp/%s.webp" .Permalink $img }}
-
+	{{ $img_url := partial "func/get-game-header.html" . }}
 	{{ $blurb := .Params.blurb }}
 	{{ if .Params.longblurb }}
 		{{ $blurb = .Params.longblurb | safeHTML }}
 	{{ end }}
-
 	<a class="fullSizeLink" href="{{ .Permalink }}">
 		<section class="hero-image" style="background-image: linear-gradient(rgba(11, 1, 4, 0.75), rgba(11, 1, 4, 0.75)), url({{ $img_url }});">
 			<div class="center-text bright-background">

@@ -48,16 +48,12 @@ input: ["keyboard", "touch"]
 
 {{% embedvideo bg="intomyarms_header" vid="https://www.youtube.com/embed/L3HQCfPT7n8" class="limit-width" col="#002277" %}}
 
-{{% buylink-container class="text" %}}
-	{{< buylink url="http://pandaqi.itch.io/into-my-arms" platforms="windows,mac,linux" >}} 
-		Download
-	{{< /buylink >}}
-	{{< buylink url="https://play.google.com/store/apps/details?id=com.pandaqi.intomyarms" platforms="android" >}} 
-		Download
-	{{< /buylink >}}
-{{% /buylink-container %}}
+{{< buylink-container class="text" >}}
+{{< buylink url="http://pandaqi.itch.io/into-my-arms" platforms="windows,mac,linux" text="Download" >}}
+{{< buylink url="https://play.google.com/store/apps/details?id=com.pandaqi.intomyarms" platforms="android" text="Download" >}} 
+{{< /buylink-container >}}
 
-{{% section-flex media="intomyarms_video" video="true" class="limit-width reversed" %}}
+{{% section-flex media="video/intomyarms_video" video="true" class="limit-width reversed" %}}
 
 Once upon a time, a witch gave two lovers a terrible curse: **they were never allowed to see each other again!**
 

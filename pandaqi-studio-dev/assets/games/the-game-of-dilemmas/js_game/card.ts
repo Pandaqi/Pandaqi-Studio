@@ -83,6 +83,7 @@ export default class Card
         const yPos = CONFIG.cards.category.textYPos * vis.size.y;
         const fontSize = CONFIG.cards.category.textFontSize * vis.sizeUnit;
         const strokeWidth = CONFIG.cards.category.textStrokeWidth * fontSize;
+        const strokeColor = vis.inkFriendly ? "#212121" : data.colorText
         const textConfig = new TextConfig({
             font: CONFIG.fonts.heading,
             size: fontSize,
@@ -92,7 +93,7 @@ export default class Card
             fill: "#FFFFFF",
             translate: new Point(vis.center.x, yPos),
             dims: new Point(vis.size.x, 1.5*fontSize),
-            stroke: data.colorText,
+            stroke: strokeColor,
             strokeWidth: strokeWidth,
             strokeAlign: StrokeAlign.OUTSIDE,
             pivot: Point.CENTER

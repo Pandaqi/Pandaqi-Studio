@@ -43,11 +43,9 @@ input: ["controller", "keyboard"]
 
 {{% embedvideo bg="banner_wide" vid="https://www.youtube.com/embed/o5YTcyDlT70" class="limit-width" %}}
 
-{{% buylink-container class="limit-width" %}}
-	{{< buylink url="http://pandaqi.itch.io/own-goals-not-allowed" platforms="windows,mac,linux" >}} 
-		Download
-	{{< /buylink >}}
-{{% /buylink-container %}}
+{{< buylink-container class="limit-width" >}}
+{{< buylink url="http://pandaqi.itch.io/own-goals-not-allowed" platforms="windows,mac,linux"  text="Download" >}} 
+{{< /buylink-container >}}
 
 {{% section-centered %}}
 

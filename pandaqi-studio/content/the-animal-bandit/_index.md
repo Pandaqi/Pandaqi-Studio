@@ -10,6 +10,7 @@ deprecated: true
 
 fullHeaderImg: "animalbandit_bg"
 headerImg: "animalbandit_bg"
+noThumb: true
 
 customHeight: "small"
 

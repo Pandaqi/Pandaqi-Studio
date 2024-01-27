@@ -1,0 +1,36 @@
+{{ $counter := .Get "id" }}
+
+{{ $reversed := "" }}
+{{ if eq (mod (int $counter) 2) 1 }}
+	{{ $reversed = "reversed" }}
+{{ end }}
+
+{{ $class := .Get "class" }}
+
+{{ $bg_img := .Get "bg" }}
+{{ $thumb_img := .Get "thumb" }}
+{{ $url := or (.Get "url") "" }}
+
+<section class="clipped entry-banner entry-banner-custom {{ $class }}">
+	{{ if $url }}<a href="{{ $url }}">{{ end }}
+	{{ if $bg_img }}
+		<div>
+			{{ partial "show-image.html" (dict "context" . "img_url" $bg_img) }}
+		</div>
+	{{ end }}
+
+	<div class="horizontal-flex {{ $reversed }}">
+		<div class="text-side custom">
+			<h1>{{ (.Get "title") }}</h1>
+			<div>
+				{{ .Inner | markdownify }}
+			</div>
+		</div>
+		{{ if $thumb_img }}
+			<div class="non-text-side custom">
+				{{ partial "show-image.html" (dict "context" . "img_url" $thumb_img) }}
+			</div>
+		{{ end }}
+	</div>
+	{{ if $url }}</a>{{ end }}
+</section>

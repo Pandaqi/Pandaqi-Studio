@@ -40,7 +40,7 @@ ages: everyone
 ---
 
 
-{{% boardgame-intro heading="" img="pirate_drawingbeard_header" %}}
+{{% boardgame-intro heading="" %}}
 
 Discover the treasure by figuring out what secret visual clues the other players are holding!
 

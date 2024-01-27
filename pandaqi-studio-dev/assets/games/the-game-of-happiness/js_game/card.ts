@@ -39,7 +39,7 @@ export default class Card
         this.drawText(vis, group);
         this.drawMetaText(vis, group);
         
-        await group.toCanvas(ctx);
+        group.toCanvas(ctx);
         this.drawOutline(vis, ctx);
 
         return ctx.canvas;
@@ -55,16 +55,17 @@ export default class Card
         // overlay tintable templates
         // first the light one that will contain text
         const res = vis.resLoader.getResource("tintable_templates");
+        const effects = vis.inkFriendly ? [] : [new TintEffect({ color: data.colorBG })]
         const resOp = new LayoutOperation({
             frame: 0,
-            effects: [new TintEffect({ color: data.colorBG })],
+            effects: effects,
             dims: vis.size,
         });
         group.add(res, resOp.clone());
 
         // then the darker one with decorations + bubbly clouds
         resOp.frame = 1;
-        resOp.effects = [new TintEffect({ color: data.colorMid })];
+        resOp.effects = vis.inkFriendly ? [] : [new TintEffect({ color: data.colorMid })];
         group.add(res, resOp.clone());
     }
 
@@ -106,9 +107,13 @@ export default class Card
                 flipY: (i <= 0),
                 dims: bigIconDims,
                 effects: vis.effects,
-                composite: "overlay",
                 pivot: Point.CENTER
             })
+            if(vis.inkFriendly) { 
+                resOp.alpha = 0.4; 
+            } else {
+                resOp.composite = "overlay"; 
+            }
             group.add(res, resOp);
         }
         
@@ -171,7 +176,7 @@ export default class Card
         const textConfigs = [textConfigLeft, textConfigRight];
 
         const textOp = new LayoutOperation({
-            fill: "#FFFFFF",
+            fill: vis.inkFriendly ? "#212121" : "#FFFFFF",
             pivot: Point.CENTER,
             dims: dims
         })

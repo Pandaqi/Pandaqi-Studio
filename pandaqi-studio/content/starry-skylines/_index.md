@@ -41,14 +41,14 @@ ages: everyone
 
 ---
 
-{{% boardgame-intro heading="" img="starryskylines_header" %}}
+{{% boardgame-intro heading="" %}}
 
-A [One Paper Game](/boardgames#one_paper_games) for 1&ndash;9 players about simultaneously building a city in space.</p>
+A [One Paper Game](/boardgames#one-paper-games) for 1&ndash;9 players about simultaneously building a city in space.</p>
 
 {{% /boardgame-intro %}}
 
 <div class="limit-width explanation-gif">
-  {{< video url="page/starryskylines_explanation_gif" controls="controls" >}}
+  {{< video url="video/starryskylines_explanation_gif" controls="controls" >}}
 </div>
 
 {{% section-centered heading="How to play" unfold="true" %}}
@@ -125,7 +125,7 @@ I've also written a detailed devlopment log about the whole process of creating 
 
 Wondering what a game looks like? Here are some of our test games.
 
-![Three finished games of Starry Skylines](page/starryskylines_finishedgames.webp)
+{{% figure alt="Three finished games of Starry Skylines" url="page/starryskylines_finishedgames" %}}
 
 <span style="opacity: 0.75; font-style: italic; font-size: 0.75em; display: inline-block;">(Yeah, we couldn't find any white paper, therefore we used yellow ones. This is a section of the campaign I played with two players; there are more games on the backside of these papers.)</span>
 

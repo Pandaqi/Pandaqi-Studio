@@ -92,11 +92,9 @@ Defend against attacks from all sides, grab the powerups you need, and deflect t
 {{% /section-centered %}}
 
 {{% section-centered heading="POWERUP LIBRARY" html="true" %}}
+<p>In case you've forgotten what a powerup does, or want a glimpse of what you can unlock, I present <strong>The Great Library of Powerups!</strong></p>
 
-	<p>In case you've forgotten what a powerup does, or want a glimpse of what you can unlock, I present <strong>The Great Library of Powerups!</strong></p>
-
-	{{% figure url="powerup_overview" alt="The full library of powerups" %}} 
-
+{{% figure url="powerup_overview" alt="The full library of powerups" %}} 
 {{% /section-centered %}}
 
 {{% section-centered heading="WHY FREE?" %}}

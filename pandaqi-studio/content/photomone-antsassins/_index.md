@@ -40,7 +40,7 @@ ages: everyone
 
 ---
 
-{{% boardgame-intro heading="" img="photomone_antsassins_header" class="no-shadow" %}}
+{{% boardgame-intro heading="" %}}
 
 A party game about communicating a secret code to your team mates. But the code is made out of weird _shapes_---and you may only say _words_.
 
@@ -55,7 +55,7 @@ Three simple steps.
 
 **Want more?** You can [generate your own PDF](#material) with material below, according to your wishes. (Or, at the "Download", handpick your own _Code Cards_ and _Tiles_ combo.)
 
-**Hey, Pandaqi here!** This game is quite experimental. It requires your group to be imaginative and take creative leaps, otherwise it falls flat. I am open to any feedback on how to improve it. If you read my [devlog](https://pandaqi.com/blog/boardgames/photomone-antsassins/), you'll see how much I struggled to make it "good enough".
+**Hey, Pandaqi here!** This game is quite experimental. It requires your group to be imaginative and take creative leaps, otherwise it falls flat. I am open to any feedback on how to improve it. If you read my [devlog](/blog/boardgames/photomone-antsassins/), you'll see how much I struggled to make it "good enough".
 
 {{% /section-centered %}}
 
@@ -91,7 +91,7 @@ The fonts used are **Proza Libre** and **GelDotica**. All other assets and code 
 
 This game is a spin-off of [Photomone](https://pandaqi.com/photomone) . Visit the original game for more information and more fun!
 
-For a detailed diary about the game, check out the [devlog](https://pandaqi.com/blog/boardgames/photomone-antsassins/).
+For a detailed diary about the game, check out the [devlog](/blog/boardgames/photomone-antsassins/).
 
 <div class="photomone-update-block" style="margin-bottom: 3em;">
 Photomone now has a spin-off you can play entirely on a smartphone or tablet! Check out <a href="https://pandaqi.com/photomone-digital-antists">Photomone: Digital Ant-ists</a>.

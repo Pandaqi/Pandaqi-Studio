@@ -75,6 +75,8 @@ The rules are so simple, they're on the paper itself. (If you still want a refer
 
 {{% /section-centered %}}
 
+{{< support >}}
+
 {{% section-centered heading="Credits" %}}
 
 The fonts used are **Adventure Script** (headings) and **Inika** (body). Both freely available. Some of the art was generated with AI. Everything else (code, assets, idea, etcetera) is entirely mine.
@@ -89,6 +91,6 @@ While obviously not on the same level as Chess or Go, I do compare its general f
 
 I sometimes feel like those games aren't so much "designed" as that they are "found". This feels like a game that was always there, I just found it and hopefully executed it well enough :)
 
-Want more details? Check out the [devlog](https://pandaqi.com/blog/boardgames/the-mist).
+Want more details? Check out the [devlog](/blog/boardgames/the-mist).
 
 {{% /section-centered %}}

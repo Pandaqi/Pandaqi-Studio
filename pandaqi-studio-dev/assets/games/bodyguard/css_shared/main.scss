@@ -1,10 +1,10 @@
 $header-font: "palette";
 $body-font: "pettingill";
-$base: "/cookie-smasher/assets/fonts/";
+$base-fonts: "fonts/";
 
 @font-face {
     font-family: 'palette';
-    src: url($base + 'PaletteMosaic-Regular.woff2') format('woff2');
+    src: url($base-fonts + 'PaletteMosaic-Regular.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -12,7 +12,7 @@ $base: "/cookie-smasher/assets/fonts/";
 
 @font-face {
     font-family: 'pettingill';
-    src: url($base + 'PettingillCF-Bold.woff2') format('woff2');
+    src: url($base-fonts + 'PettingillCF-Bold.woff2') format('woff2');
     font-weight: bold;
     font-style: normal;
     font-display: swap;

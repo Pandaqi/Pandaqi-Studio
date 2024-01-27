@@ -41,22 +41,17 @@ input: ["touch", "keyboard"]
 
 {{% embedvideo bg="squareogre_logo" vid="https://youtube.com/embed/wbbFJdYkwZ4" class="limit-width extra-top-offset" %}}
 
-{{% buylink-container class="limit-width" %}}
-	{{< buylink url="http://pandaqi.itch.io/square-ogre" platforms="windows,mac,linux,android" >}} 
-		Buy (&euro;3.99)
-	{{< /buylink >}}
-
-	{{< buylink url="https://play.google.com/store/apps/details?id=com.pandaqi.square_ogre" platforms="android" >}} 
-		Try for Free
-	{{< /buylink >}}
-{{% /buylink-container %}}
+{{< buylink-container class="limit-width" >}}
+{{< buylink url="http://pandaqi.itch.io/square-ogre" platforms="windows,mac,linux,android" text="Buy (&euro;3.99)" >}} 
+{{< buylink url="https://play.google.com/store/apps/details?id=com.pandaqi.square_ogre" platforms="android" text="Try for free" >}} 
+{{< /buylink-container >}}
 
 <!-- Section 1: A Puzzler for Everyone -->
 <div class="image-as-heading">
-	{{< figure url="squareogre_h1" alt="Hiding in plain sight" >}}
+{{< figure url="squareogre_h1" alt="Hiding in plain sight" >}}
 </div>
 
-{{% section-flex heading="" media="squareogre_video1" video="true" class="limit-width"  %}}
+{{% section-flex heading="" media="video/squareogre_video1" video="true" class="limit-width"  %}}
 
 **Square Ogre** is a cute **puzzle game** with the simplest possible controls (swipe in a direction to move that way). Help Ogre improve his eyesight, so he can finally find the cave exit.
 
@@ -66,10 +61,10 @@ It's based upon a children's story and therefore suitable **for all ages**. The 
 
 <!-- Section 2: A Cave of Content -->
 <div class="image-as-heading">
-	{{< figure url="squareogre_h2" alt="A Cave of Content" >}}
+{{< figure url="squareogre_h2" alt="A Cave of Content" >}}
 </div>
 
-{{% section-flex heading="" media="squareogre_video2" video="true" class="reversed limit-width" %}}
+{{% section-flex heading="" media="video/squareogre_video2" video="true" class="reversed limit-width" %}}
 
 **500 unique puzzles** across **20 worlds** will entertain you for tens of hours!
 
@@ -79,10 +74,10 @@ Start of a new world? A brand new mechanic to explore! This makes the game easy 
 
 <!-- Section 3: The Ways of the Ogre -->
 <div class="image-as-heading">
-	{{< figure url="squareogre_h3" alt="The Ways of the Ogre" >}}
+{{< figure url="squareogre_h3" alt="The Ways of the Ogre" >}}
 </div>
 
-{{% section-flex heading="" media="squareogre_video3" video="true" class="limit-width" %}}
+{{% section-flex heading="" media="video/squareogre_video3" video="true" class="limit-width" %}}
 
 You'll be opening doors, flying from trampolines, skidding across icy floors, collecting mysterious scrolls, and most importantly ... 
 
@@ -92,7 +87,7 @@ You'll be opening doors, flying from trampolines, skidding across icy floors, co
 
 <!-- Section 4: Round Ogre -->
 <div class="image-as-heading">
-	{{< figure url="squareogre_h4" alt="Round Ogre" >}}
+{{< figure url="squareogre_h4" alt="Round Ogre" >}}
 </div>
 
 {{% section-centered %}}
@@ -109,10 +104,10 @@ She's just too enthusiastic about life! She wants to see it all! She can barely 
 
 <!-- Section 5: More than a game! (Picturebook) -->
 <div class="image-as-heading">
-	{{< figure url="squareogre_h5" alt="More than a game!" >}}
+{{< figure url="squareogre_h5" alt="More than a game!" >}}
 </div>
 
-{{% section-flex heading="" media="squareogre_picturebook" class="reversed limit-width" %}}
+{{% section-flex heading="" media="video/squareogre_picturebook" class="reversed limit-width" %}}
 
 This game is an extension to an _interactive picture book_ I published in the Netherlands: [Vierkante Ogre (prentenboek)](https://nietdathetuitmaakt.nl/boeken/vierkante-ogre)
 
@@ -122,7 +117,7 @@ If you're Dutch and like (the look of) this game, check out this book and suppor
 
 <!-- Section 6: The Curse of the Ogres -->
 <div class="image-as-heading">
-	{{< figure url="squareogre_h6" alt="The Curse of the Ogres" >}}
+{{< figure url="squareogre_h6" alt="The Curse of the Ogres" >}}
 </div>
 
 {{% section-centered %}}
@@ -143,7 +138,7 @@ Will the Ogres ever find the exit?
 
 <!-- Section 7: Feedback -->
 <div class="image-as-heading">
-	{{< figure url="squareogre_h7" alt="Feedback" >}}
+{{< figure url="squareogre_h7" alt="Feedback" >}}
 </div>
 
 {{% section-centered %}}

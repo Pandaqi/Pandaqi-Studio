@@ -1,38 +1,22 @@
-
 {{- $img_url := index (strings.Split .img_url ".") 0 -}} <!--- chop off any extension --->
-{{- $class := or .class "" -}}
 {{- $alt := or .alt ($img_url | humanize) -}}
-{{- $exts := slice "avif" "webp" "png" "jpg" -}}
-{{- $page_url := .context.Page.RelPermalink -}}
-{{- $base_url := printf "content%sassets/%s" $page_url $img_url }}
-
-{{- $temp_url := "" -}}
-{{- $exists := false -}}
-{{- range $exts -}}
-	{{- $temp_url = printf "%s.%s" $base_url . -}}
-	{{- if fileExists $temp_url -}}
-		{{- $exists = true -}}
-		{{- break -}}
-	{{- end -}}
-{{- end -}}
-
-{{- if not $exists -}}
-	<picture class="{{ $class }}">
-		Sorry, the picture at URL {{ $temp_url }} can't be found!
-	</picture>
+{{- $class := or .class "" -}}
+{{- $url := partial "func/get-valid-image-url.html" (dict "context" .context "img_url" $img_url) -}}
+{{- if not $url -}}
+<picture class="{{ $class }}">
+	Sorry, the picture {{ $img_url }} can't be found!
+</picture>
 {{- else -}}
-	{{- $final_url := $temp_url }}
-	{{- $img := imageConfig $final_url -}}
-	{{- $final_url = replace $final_url "content" ""}}
-	<picture class="{{ $class }}">
-		<img 
-			src="{{- $final_url -}}" 
-			loading="lazy" 
-			decoding="async" 
-			alt='{{- $alt -}}' 
-			title='{{- $alt -}}'
-			width='{{- $img.Width -}}'
-			height='{{- $img.Height -}}'
-		/>
-	</picture>
+	{{- $img := imageConfig (add "content" $url) -}}
+<picture class="{{ $class }}">
+	<img 
+		src="{{- $url -}}" 
+		loading="lazy" 
+		decoding="async" 
+		alt='{{- $alt -}}' 
+		title='{{- $alt -}}'
+		width='{{- $img.Width -}}'
+		height='{{- $img.Height -}}'
+	/>
+</picture>
 {{- end -}}

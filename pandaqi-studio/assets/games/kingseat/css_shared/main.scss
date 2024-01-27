@@ -1,6 +1,8 @@
+$base-fonts: "fonts/";
+
 @font-face {
     font-family: 'UnifrakturCook';
-    src: url('/kingseat/assets/fonts/UnifrakturCook-Bold.woff2') format('woff2');
+    src: url($base-fonts + 'UnifrakturCook-Bold.woff2') format('woff2');
     font-weight: bold;
     font-style: normal;
     font-display: swap;
@@ -8,8 +10,8 @@
 
 @font-face {
     font-family: 'Brygada';
-    src: url('/kingseat/assets/fonts/Brygada1918-Regular.woff2') format('woff2'),
-        url('/kingseat/assets/fonts/Brygada1918-Regular.woff') format('woff');
+    src: url($base-fonts + 'Brygada1918-Regular.woff2') format('woff2'),
+        url($base-fonts + 'Brygada1918-Regular.woff') format('woff');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -17,8 +19,8 @@
 
 @font-face {
     font-family: 'Brygada';
-    src: url('/kingseat/assets/fonts/Brygada1918-Italic.woff2') format('woff2'),
-        url('/kingseat/assets/fonts/Brygada1918-Italic.woff') format('woff');
+    src: url($base-fonts + 'Brygada1918-Italic.woff2') format('woff2'),
+        url($base-fonts + 'Brygada1918-Italic.woff') format('woff');
     font-weight: normal;
     font-style: italic;
     font-display: swap;
@@ -27,5 +29,5 @@
 
 $header-font: "UnifrakturCook", sans-serif;
 $body-font: "Brygada", serif;
-$crests-url: url(/kingseat/assets/crests_full.webp);
+$crests-url: url(crests_full.webp);
 

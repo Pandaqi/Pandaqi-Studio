@@ -43,15 +43,10 @@ input: ["keyboard", "controller", "touch"]
 
 {{% embedvideo bg="goodhug_header" vid="https://www.youtube.com/embed/9Qwpho6_8uc" %}}
 
-{{% buylink-container class="limit-width" %}}
-	{{< buylink url="http://pandaqi.itch.io/i-wish-you-good-hug" platforms="windows,mac,linux,android" >}} 
-		Download
-	{{< /buylink >}}
-
-	{{< buylink url="https://play.google.com/store/apps/details?id=com.pandaqi.i_wish_you_good_hug" platforms="android" >}} 
-		Play Store
-	{{< /buylink >}}
-{{% /buylink-container %}}
+{{< buylink-container class="limit-width" >}}
+{{< buylink url="http://pandaqi.itch.io/i-wish-you-good-hug" platforms="windows,mac,linux,android"  text="Download" >}} 
+{{< buylink url="https://play.google.com/store/apps/details?id=com.pandaqi.i_wish_you_good_hug" platforms="android" text="Play Store" >}} 
+{{< /buylink-container >}}
 
 {{% section-centered heading="" %}}
 
@@ -80,8 +75,8 @@ This means it's simple to pick up and playable by literally anyone. But not beca
 {{% /section-centered %}}
 
 {{% section-centered html="true" %}}
-	{{% figure url="goodhug_1" alt="Action 1: How to move" %}}
-	{{% figure url="goodhug_2" alt="Action 2: How to rotate" %}}
+{{% figure url="goodhug_1" alt="Action 1: How to move" %}}
+{{% figure url="goodhug_2" alt="Action 2: How to rotate" %}}
 {{% /section-centered %}}
 
 {{% section-centered heading="What do I do?" %}}
@@ -93,7 +88,7 @@ However, you can only grab bears by hugging them, and there are a great many tho
 {{% /section-centered %}}
 
 {{% section-centered heading="" html="true" %}}
-	{{% figure url="goodhug_3" alt="Explanation: how to hug ... properly" %}}
+{{% figure url="goodhug_3" alt="Explanation: how to hug ... properly" %}}
 {{% /section-centered %}}
 
 {{% section-centered heading="" %}}

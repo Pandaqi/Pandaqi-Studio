@@ -59,7 +59,7 @@ export default {
 
     createComboComponentSet(cfg:Record<string,any>) 
     {
-        const planetSet = cfg.planetSets[cfg.manualCombo];
+        const planetSet = cfg.planetSets[cfg.manualCombo].slice();
         if(!planetSet || planetSet.length <= 0) { return; }
 
         cfg.playingManualCombo = true;

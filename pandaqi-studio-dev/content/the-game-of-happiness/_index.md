@@ -81,6 +81,8 @@ Three simple steps.
 
 {{% /section-centered %}}
 
+{{< support >}}
+
 {{% section-centered heading="Credits" anchor="credits" %}}
 
 This game is a personal project. I've been struggling with finding something I enjoy and gives me happiness for as long as I can remember. This game is basically another experiment in trying to find answers or discoveries. It's also why the game is kept really small and simple, with no marketing, expansions, or any of the stuff I usually do.
@@ -89,7 +91,7 @@ It's a simple, fun structure that allows a group of people to think about what m
 
 The fonts used are **Sunny Spells** (headings, decorative) and **Minya Nouvelle** (body, text, paragraphs). Both freely available for commercial use. Everything else is entirely mine.
 
-For more information, as always, read my [detailed developer diary on Pandaqi Blog](https://pandaqi.com/blog/boardgames/the-game-of-happiness/).
+For more information, as always, read my [detailed developer diary on Pandaqi Blog](/blog/boardgames/the-game-of-happiness/).
 
 **Want to add your own cards?** You can always send me a message with ideas for cards! Once I have enough, I can easily add them as another pack.
 

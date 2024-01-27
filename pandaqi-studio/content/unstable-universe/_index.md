@@ -43,14 +43,14 @@ ages: everyone
 ---
 
 
-{{% boardgame-intro heading="" img="unstableuniverse_header" %}}
+{{% boardgame-intro heading="" %}}
 
-The only game in which you're allowed to cut the paper into pieces, especially when you are losing. A [One Paper Game](/boardgames#one_paper_games) for 2&ndash;9 players.
+The only game in which you're allowed to cut the paper into pieces, especially when you are losing. A [One Paper Game](/boardgames#one-paper-games) for 2&ndash;9 players.
 
 {{% /boardgame-intro %}}
 
 <div class="limit-width">
-{{< video url="unstableuniverse_explanation_gif" controls="controls" >}}
+{{< video url="video/unstableuniverse_explanation_gif" controls="controls" >}}
 </div>
 
 {{% review-container %}}

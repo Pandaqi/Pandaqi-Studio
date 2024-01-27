@@ -80,6 +80,6 @@ After a week of half-baked not-so-great ideas, this one came along. I instantly 
 
 A simple game that simulates Santa's job quite well, while being _cooperative_ (always great for families or large groups) and having surprising _depth_. The teach is one minute. Turns are five seconds. Ideal for a family game!
 
-For more information, as always, read my [detailed developer diary on Pandaqi Blog](https://pandaqi.com/blog/boardgames/sleighwell).
+For more information, as always, read my [detailed developer diary on Pandaqi Blog](/blog/boardgames/sleighwell).
 
 {{% /section-centered %}}

@@ -43,17 +43,11 @@ input: ["controller", "keyboard", "touch"]
 
 {{% embedvideo bg="arfd_logo" vid="https://www.youtube.com/embed/MQ7srCHHXZg" class="limit-width" %}}
 
-{{% buylink-container class="limit-width" %}}
-	{{< buylink url="https://poki.com/en/g/a-recipe-for-disaster" platforms="web" image="/svg/poki_badge_dark.svg" class="poki-badge" >}} 
-		Play (free; web)
-	{{< /buylink >}}
-	{{< buylink url="http://pandaqi.itch.io/a-recipe-for-disaster" platforms="windows,mac,linux" >}} 
-		Buy
-	{{< /buylink >}}
-	{{< buylink url="https://play.google.com/store/apps/details?id=com.pandaqi.a_recipe_for_disaster" platforms="android" >}} 
-		Play Store
-	{{< /buylink >}}
-{{% /buylink-container %}}
+{{< buylink-container class="limit-width" >}}
+{{< buylink url="https://poki.com/en/g/a-recipe-for-disaster" platforms="web" image="/svg/poki_badge_dark.svg" class="poki-badge" text="Play (free; web)" >}}
+{{< buylink url="http://pandaqi.itch.io/a-recipe-for-disaster" platforms="windows,mac,linux" text="Buy" >}}
+{{< buylink url="https://play.google.com/store/apps/details?id=com.pandaqi.a_recipe_for_disaster" platforms="android" text="Play Store" >}}
+{{< /buylink-container >}}
 
 {{% section-centered heading="" %}}
 
@@ -80,8 +74,8 @@ The images below explain all controls you'll ever need!
 {{% /section-centered %}}
 
 {{% section-centered html="true" %}}
-	{{% figure url="arfd_1" alt="Action 1: How to Move" %}}
-	{{% figure url="arfd_2" alt="Action 2: How to Throw Things" %}}
+{{% figure url="arfd_1" alt="Action 1: How to Move" %}}
+{{% figure url="arfd_2" alt="Action 2: How to Throw Things" %}}
 {{% /section-centered %}}
 
 {{% section-centered heading="What do I do?" %}}
@@ -95,7 +89,7 @@ In long: the game is split into 20 levels. Each level teaches a new ingredient, 
 {{% /section-centered %}}
 
 {{% section-centered heading="" html="true" %}}
-	{{% figure url="arfd_3" alt="Overview of How to Bake Bread" %}}
+{{% figure url="arfd_3" alt="Overview of How to Bake Bread" %}}
 {{% /section-centered %}}
 
 {{% section-centered heading="The 1-week challenge" %}}

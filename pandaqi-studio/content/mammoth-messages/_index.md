@@ -93,6 +93,6 @@ You also might wonder "aren't some of these cave drawings a little too modern?" 
 
 Their understanding of the world, their _spoken_ language, might have been on par with ours. Because why wouldn't it be? The prehistoric times lasted waaay longer than our modern times. They actually lived in nature and had to use and understand it every day. Science even shows they were healthier and more creative than modern day humans in some respects.
 
-For more information, as always, read my [detailed developer diary on Pandaqi Blog](https://pandaqi.com/blog/boardgames/mammoth-messages/).
+For more information, as always, read my [detailed developer diary on Pandaqi Blog](/blog/boardgames/mammoth-messages/).
 
 {{% /section-centered %}}

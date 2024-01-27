@@ -78,6 +78,6 @@ The words "deceptively cute" are certainly applicable. The game is simple, light
 
 The fonts used are **Sheep** (by MJType) and **PajamaPants** (by Sarah Weber). Some images were generated with AI, but not all, because it _really_ doesn't understand top-down perspective on many things. Everything else is mine.
 
-For more information, as always, read my [detailed developer diary on Pandaqi Blog](https://pandaqi.com/blog/boardgames/meadowmight).
+For more information, as always, read my [detailed developer diary on Pandaqi Blog](/blog/boardgames/meadowmight).
 
 {{% /section-centered %}}

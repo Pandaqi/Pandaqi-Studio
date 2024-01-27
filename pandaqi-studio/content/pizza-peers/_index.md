@@ -72,7 +72,7 @@ Do not worry if you don't immediately remember the rules below. Have fun, play a
 
 Simply move your finger around the screen! (For example: if you touch the top left, your character moves in that direction.)
 
-{{< video url="1_how_to_move" >}}
+{{< video url="video/1_how_to_move" >}}
 
 {{% /section-centered %}}
 
@@ -99,7 +99,7 @@ You can buy ingredients by walking to the corresponding building and pressing th
 
 _Beware!_ You only have space for **three things** in your personal backpack.
 
-{{< video url="2_how_to_buy" >}}
+{{< video url="video/2_how_to_buy" >}}
 
 {{% /section-centered %}}
 
@@ -109,7 +109,7 @@ Buildings will automatically place orders. How do you know? The building will fl
 
 Also, an orange circle appears in front of it. Stand on it and press "deliver order" on your phone!
 
-{{< video url="3_how_to_deliver" >}}
+{{< video url="video/3_how_to_deliver" >}}
 
 {{% /section-centered %}}
 
@@ -126,7 +126,7 @@ Walk up to them and press the buttons on your phone to drop or pick up ingredien
 
 _Beware!_ You can only combine ingredients if you have the basis of all pizzas: **dough**
 
-{{< video url="4_how_to_combine" >}}
+{{< video url="video/4_how_to_combine" >}}
 
 {{% /section-centered %}}
 
@@ -138,7 +138,7 @@ You cannot _hold_ any of these ingredients in your backpack!
 
 If you have 4+ players, you also cannot hold a pizza that _contains_ any of those ingredients.
 
-{{< video url="5_how_allergies_work" >}}
+{{< video url="video/5_how_allergies_work" >}}
 
 {{% /section-centered %}}
 
@@ -157,7 +157,7 @@ Baking takes time. The heat meter will show you the current temperature.
 
 If it's **green** (or higher), the pizza is hot enough.
 
-{{< video url="6_how_to_bake" >}}
+{{< video url="video/6_how_to_bake" >}}
 
 {{% /section-centered %}}
 
@@ -169,7 +169,7 @@ A **dancing exclamation mark** means this building wants to order.
 
 >Walk toward the orange circle in front of it and press "take their order" on your phone, before you're too late!
 
-{{< video url="7_how_to_take_orders" >}}
+{{< video url="video/7_how_to_take_orders" >}}
 
 {{% /section-centered %}}
 

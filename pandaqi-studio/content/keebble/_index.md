@@ -98,6 +98,6 @@ Fonts? "Arbetus Slab" for both heading and body.
 
 This game was obviously inspired by Scrabble. Most people know and enjoy the game. But I saw some things to improve: it can take too long, you need to carry a big box, there's no variation to the board. 
 
-I sought to improve those things. The result is "Keebble": free to play, highly portable, with simultaneous turns and more variation. Want more details? Check out the [devlog](https://pandaqi.com/blog/boardgames/keebble).
+I sought to improve those things. The result is "Keebble": free to play, highly portable, with simultaneous turns and more variation. Want more details? Check out the [devlog](/blog/boardgames/keebble).
 
 {{% /section-centered %}}

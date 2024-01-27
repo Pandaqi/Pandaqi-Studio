@@ -80,7 +80,7 @@ ages: everyone
 
 This game is a (completely digital) spin-off for [Photomone](https://pandaqi.com/photomone). It is played on one device (preferably a tablet or smartphone), instead of drawing on a physical paper. It's simplified in some ways, and changed in others to use the computer for cool stuff!
 
-For a detailed diary about the game, check out the [devlog](https://pandaqi.com/blog/boardgames/photomone-digital-antists).
+For a detailed diary about the game, check out the [devlog](/blog/boardgames/photomone-digital-antists).
 
 <div class="photomone-update-block" style="margin-bottom: 3.5em;">
 Photomone now has a spin-off that turns the game on its head. The result is something similar to popular games like "Codenames". Check out <a href="https://pandaqi.com/photomone-antsassins">Photomone: Antsassins</a>.

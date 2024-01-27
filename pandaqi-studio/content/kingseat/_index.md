@@ -39,7 +39,7 @@ ages: everyone
 
 ---
 
-{{% boardgame-intro heading="" img="kingseat_header" class="no-shadow" %}}
+{{% boardgame-intro heading="" %}}
 
 Pick your secret allegiance. Now make sure they get the most votes, without being obvious.
 
@@ -119,7 +119,7 @@ This game started as a "queueing game". I wanted to design games you could play 
 
 Kingseat was the first game to come out of this journey. It's not the best, as it still requires people to stand in a circle and hold quite some cards, but it turned out a very good game in its own right. (Better "queueing games" are coming!)
 
-For a detailed diary about the game, check out the [devlog](https://pandaqi.com/blog/boardgames/kingseat).
+For a detailed diary about the game, check out the [devlog](/blog/boardgames/kingseat).
 
 {{% /section-centered %}}
 

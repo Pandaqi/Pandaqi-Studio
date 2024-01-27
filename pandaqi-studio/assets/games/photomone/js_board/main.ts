@@ -127,8 +127,7 @@ class BoardGeneration extends Scene
 
         for(const circ of vis.circles)
         {
-            const colorObject = circ.color.toHEXNumber();
-            const color = colorObject.color;
+            const color = circ.color.toHEXNumber();
             const c = this.add.circle(circ.p.x, circ.p.y, circ.radius, color);
             objects.push(c);
         }
@@ -148,7 +147,7 @@ class BoardGeneration extends Scene
             const textConfig = {
                 fontFamily: text.fontFamily,
                 fontSize: text.fontSize ?? "12px",
-                color: text.color.toHEX() ?? "#000000",
+                color: text.color ?? "#000000", // @NOTE: that stupid thing about phaser which means THIS particular color is just a CSS HEX string, keep that in mind!
                 stroke: text.stroke ?? "#FFFFFF",
                 strokeThickness: text.strokeWidth || 0,
             }

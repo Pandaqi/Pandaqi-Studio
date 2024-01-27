@@ -39,7 +39,7 @@ ages: everyone
 
 ---
 
-{{% boardgame-intro heading="" img="sixpack_header" class="no-shadow" %}}
+{{% boardgame-intro heading="" class="no-shadow" %}}
 
 You get six cards. Play them well, but don't be the first to play them all.
 
@@ -100,6 +100,6 @@ This game was inspired by a play session of the game "Take 5". (In the Netherlan
 
 Because the rules are so simple, I could spend most of the time on the art and visuals of the cards. The end result is probably my nicest game in terms of graphics and rules!
 
-For a detailed diary about the game, check out the [devlog](https://pandaqi.com/blog/boardgames/sixpack).
+For a detailed diary about the game, check out the [devlog](/blog/boardgames/sixpack).
 
 {{% /section-centered %}}

@@ -9,7 +9,7 @@ blurb: "Oh no, a terrible pandemic is raging across the country! Will you be the
 
 fullHeaderImg: "epicmedics_header"
 headerImg: "epicmedics_bg"
-headerThumb: "epicmedics_logo"
+noThumb: true
 
 customHeight: "small"
 
@@ -45,7 +45,7 @@ ages: everyone
 
 {{% boardgame-intro heading="" img="epicmedics_header" %}}
 
-A cooperative <a href="/boardgames#one_paper_games" style="color:#540003;">One Paper Game</a> for 2&ndash;7 players about fighting an uncontrollable pandemic</p>
+A cooperative <a href="/boardgames#one-paper-games" style="color:#540003;">One Paper Game</a> for 2&ndash;7 players about fighting an uncontrollable pandemic</p>
 
 {{% /boardgame-intro %}}
 

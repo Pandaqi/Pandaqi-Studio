@@ -1,4 +1,35 @@
 
+{{ $all_colors := .Site.Params.all_colors }}
+{{ $color_scheme := or .Params.color (index ($all_colors | shuffle) 0) }}
+
+{{ if and (not .Params.collection) .Params.gamepage }}
+	<div class="metadata-divider clipped {{ $color_scheme }}"></div>
+	<section class="metadata-container clipped {{ $color_scheme }}">
+		{{ partial "metadata.html" . }}
+	</section>
+{{ end }}
+
+<!-- On narrow screens, a "fake divider" is created and put on top of the footer -->
+<!-- Because the footer itself gets very long, using "mask-image" on that results on very ugly HUGE waves -->
+<div class="footer-divider clipped {{ $color_scheme }}">
+</div>
+
+<footer class="clipped {{ $color_scheme }}">
+	{{ if .Params.gamePage }}
+		<!-- Show narrow footer, easy styling -->
+		{{ partial "narrow-footer.html" . }}
+	{{ else }}
+		<!-- Show full footer, fixed general styling -->
+		{{ partial "full-footer.html" . }}
+	{{ end }}
+</footer>
+
+<!-- Some variables I'll need below to get the right paths -->
+{{ $url := .RelPermalink }}
+{{ $game_name := "" }}
+{{ with .File }}
+	{{ $game_name = .ContentBaseName }}
+{{ end }}
 
 <!-- EXTRA CSS -->
 <!-- Deferred loading of non-critical CSS -->
@@ -61,5 +92,4 @@
 	{{ end }}
 {{ end }}
 
-<!--- This should be activated in the REAL one, but turned off in dev for speed and simplicity --->
-<!--- partial "footer-cached.html" . --->
+{{ partial "footer-cached.html" . }}

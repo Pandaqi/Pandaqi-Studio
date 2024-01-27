@@ -9,7 +9,7 @@ blurb: "You're cowboys shooting bullets simultaneously, which means collisions m
 longblurb: "You're dueling cowboys ... but everyone shoots simultaneously and their bullets must follow the paths you created.<br/><br/>Collisions might occur. And that means you might just shoot yourself."
 deprecated: true
 
-fullHeaderImg: "swervingshots_header"
+noHeader: true
 headerThumb: "swervingshots_header" 
 
 customHeight: "small"

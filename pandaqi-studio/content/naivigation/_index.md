@@ -41,7 +41,7 @@ ages: everyone
 
 ---
 
-{{% boardgame-intro heading="" img="naivigation_header" %}}
+{{% boardgame-intro heading="" %}}
 
 Everyone steers the same car. Will you make it to the finish?
 

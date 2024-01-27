@@ -8,9 +8,6 @@ title: "That's Amorphe: Pictures"
 headerTitle: "A spin-off for That's Amorphe played using drawings"
 blurb: "A party game about changing someone else's drawing into a different thing, then asking others to guess how much you changed it."
 
-noHeader: true
-headerThumb: "thats_amorphe_pictures_header"
-
 customHeight: "small"
 color: "turqoise"
 
@@ -41,7 +38,7 @@ ages: everyone
 ---
 
 
-{{% boardgame-intro heading="" img="thats_amorphe_pictures_header" %}}
+{{% boardgame-intro heading="" %}}
 
 You receive a drawing of a cat. You have to change it into a farmer with just three lines. Others need to guess what on earth you did. A spin-off of [That's Amorphe](https://pandaqi.com/thats-amorphe).
 
@@ -107,6 +104,6 @@ This game is a spin-off of [That's Amorphe](https://pandaqi.com/thats-amorphe). 
 
 The two games are very similar. In fact, you can reuse material if you want. But this version is slightly simpler, more immediate, and more accessible. (Most people can draw _somewhat_, while they might struggle to find words.) You might view it as a "sequel".
 
-Want to know how I developed this game? Check out the [devlog](https://pandaqi.com/blog/boardgames/thats-amorphe-pictures/).
+Want to know how I developed this game? Check out the [devlog](/blog/boardgames/thats-amorphe-pictures/).
 
 {{% /section-centered %}}

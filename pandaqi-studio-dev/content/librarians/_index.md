@@ -81,6 +81,6 @@ The base game is simple enough to play with kids who are learning the alphabet. 
 
 @TODO
 
-For more information, as always, read my [detailed developer diary on Pandaqi Blog](https://pandaqi.com/blog/boardgames/librarians/).
+For more information, as always, read my [detailed developer diary on Pandaqi Blog](/blog/boardgames/librarians/).
 
 {{% /section-centered %}}

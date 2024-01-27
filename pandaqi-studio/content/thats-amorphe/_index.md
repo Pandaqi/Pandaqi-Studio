@@ -7,9 +7,6 @@ title: "That's Amorphe"
 headerTitle: "A party game about what's halfway between a moon and an eye"
 blurb: "A party game about imagining what happens if one thing morphed into another---or guessing what other players mean with their inventions."
 
-noHeader: true
-headerThumb: "thats_amorphe_header"
-
 customHeight: "small"
 color: "red"
 
@@ -40,7 +37,7 @@ ages: everyone
 ---
 
 
-{{% boardgame-intro heading="" img="thats_amorphe_header" %}}
+{{% boardgame-intro heading="" %}}
 
 What happens when you morph a cat halfway into a house? And what if you do it _a little bit_? A party game about inventing things and then asking others to guess what on earth you meant.
 
@@ -111,6 +108,6 @@ Fonts? [Ribeye](https://fonts.google.com/specimen/Ribeye) for headings. [Lora](h
 
 The inspiration for this game came from popular party games such as Wavelength.
 
-Want to know how I developed this game? Check out the [devlog](https://pandaqi.com/blog/boardgames/thats-amorphe/).
+Want to know how I developed this game? Check out the [devlog](/blog/boardgames/thats-amorphe/).
 
 {{% /section-centered %}}

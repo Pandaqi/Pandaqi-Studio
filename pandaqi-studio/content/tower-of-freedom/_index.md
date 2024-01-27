@@ -44,11 +44,9 @@ input: [keyboard"]
 
 {{% embedvideo bg="tof_header" vid="https://www.youtube.com/embed/rRJRZrNZp1E" class="darkened" %}}
 
-{{% buylink-container class="overlay-buy-link text" %}}
-	{{< buylink url="http://pandaqi.itch.io/tower-of-freedom" platforms="windows,mac,linux" >}} 
-		Download "Tower of Freedom"
-	{{< /buylink >}}
-{{% /buylink-container %}}
+{{< buylink-container class="overlay-buy-link text" >}}
+{{< buylink url="http://pandaqi.itch.io/tower-of-freedom" platforms="windows,mac,linux" text="Download Tower of Freedom" >}} 
+{{< /buylink-container >}}
 
 {{% section-centered heading="What's this?" class="alternateColor text" %}}
 

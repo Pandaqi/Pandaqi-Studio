@@ -1,0 +1,26 @@
+{{- $all_pages := (where .Site.Pages "Params.gamepage" "eq" true) | shuffle | first 20 -}}
+{{- $list := slice }}
+{{- range $all_pages -}}
+    {{- $list = $list | append .RelPermalink -}}
+{{- end -}}
+{{- $list := delimit $list "," }}
+
+<span style="display:none;" id="hidden-hugo-metadata" data-pages="{{ $list }}"></span>
+
+<script defer async>
+	// We grab it from Hugo so we have consistent naming + minifying + can experiment more easily (like adding a "| fingerprint")
+	if (navigator.serviceWorker && !navigator.serviceWorker.controller) {
+		{{ $pwa := resources.Get "/js/pwa.js" | minify }} 
+		const PWA_URL = "{{ $pwa.Permalink }}".replaceAll("\/", "/");
+		navigator.serviceWorker.register(PWA_URL); 
+		navigator.serviceWorker.getRegistrations().then((registrations) => {
+			for(const registration of registrations) {
+				if(!registration.active) { continue; }
+				if(registration.active.scriptURL == PWA_URL) { continue; }
+				console.log("Comparing PWAs", PWA_URL, registration.active.scriptURL);
+				console.log("Unregistered PWA", registration);
+				registration.unregister();
+			} 
+		});
+	}
+</script>

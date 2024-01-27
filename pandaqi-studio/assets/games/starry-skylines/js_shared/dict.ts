@@ -1,53 +1,53 @@
 // mapping planet to order/difficulty
 const PLANET_MAP = 
 {
-	"Learnth": 0,
-	"Uronus": 1,
-	"Marsh": 2,
-	"Yumpiter": 3, 
-	"Meercury": 4, 
-	"Intervenus": 5, 
-	"Pluto": 6,
-	"Naptune": 7
+	Learnth: 0,
+	Uronus: 1,
+	Marsh: 2,
+	Yumpiter: 3, 
+	Meercury: 4, 
+	Intervenus: 5, 
+	Pluto: 6,
+	Naptune: 7
 }
 
 // combos/sets of planets that work well together, following a similar theme
 const PLANET_SETS = {
-	"Nature": ["Marsh, Pluto"],
-	"Leadership": ["Uronus, Intervenus"],
-	"Resources": ["Yumpiter", "Meercury"],
-	"Entertainment": ["Yumpiter", "Pluto", "Naptune"],
-	"Chaotic": ["Uronus", "Marsh", "Yumpiter", "Meercury", "Intervenus", "Pluto", "Naptune"],
+	Nature: ["Marsh", "Pluto"],
+	Leadership: ["Uronus", "Intervenus"],
+	Resources: ["Yumpiter", "Meercury"],
+	Entertainment: ["Yumpiter", "Pluto", "Naptune"],
+	Chaotic: ["Uronus", "Marsh", "Yumpiter", "Meercury", "Intervenus", "Pluto", "Naptune"],
 }
 
 // all component types (plus their probability of appearing and first planet)
 const COMPONENTS = 
 {
-	'path': { prob: 5.5 },
-	'buildings': { prob: 8 },
-	'effects': { prob: 3 },
-	'people': { prob: 3 },
-	'resource': { prob: 6.5, planet: "Meercury", planetLocked: true },
+	path: { prob: 5.5 },
+	buildings: { prob: 8 },
+	effects: { prob: 3 },
+	people: { prob: 3 },
+	resource: { prob: 6.5, planet: "Meercury", planetLocked: true },
 }
 
 // all people types
 const PEOPLE =
 {
-	'people': { prob: 0.5 },
-	'criminal': { prob: 1, planet: "Intervenus", planetLocked: true },
-	'sick': { prob: 1, planet: "Intervenus", planetLocked: true },
-	'educated': { prob: 0.25, planet: "Intervenus", planetLocked: true },
-	'animal': { prob: 2, planet: "Pluto", planetLocked: true }
+	people: { prob: 0.5 },
+	criminal: { prob: 1, planet: "Intervenus", planetLocked: true },
+	sick: { prob: 1, planet: "Intervenus", planetLocked: true },
+	educated: { prob: 0.25, planet: "Intervenus", planetLocked: true },
+	animal: { prob: 2, planet: "Pluto", planetLocked: true }
 }
 
 // all resource types; only those that can have their resource grid extended have a probability > 0
 const RESOURCES = 
 {
-	'water': { prob: 5, planet: "Marsh" },
-	'electricity': { prob: 5, planet: "Meercury" },
-	'oxygen': { prob: 5, planet: "Meercury" },
-	'gold': { prob: 0, planet: "Meercury" },
-	'meercury': { prob: 0, planet: "Meercury" },
+	water: { prob: 5, planet: "Marsh" },
+	electricity: { prob: 5, planet: "Meercury" },
+	oxygen: { prob: 5, planet: "Meercury" },
+	gold: { prob: 0, planet: "Meercury" },
+	meercury: { prob: 0, planet: "Meercury" },
 }
 
 // list of numbers - why? because different numbers have different probabilities of appearing

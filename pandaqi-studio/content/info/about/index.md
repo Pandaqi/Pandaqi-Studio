@@ -2,6 +2,8 @@
 title: "About"
 infopage: true
 data: 2015-01-01
+noHeader: true
+noThumb: true
 ---
 
 {{< custom-entry-banner id="0" title="Buenos Dias!" bg="pandaqi_bg" thumb="pandaqi_logo" class="orange" >}}

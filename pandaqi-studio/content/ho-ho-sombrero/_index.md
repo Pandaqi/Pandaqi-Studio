@@ -43,11 +43,9 @@ input: ["controller", "keyboard"]
 
 {{% embedvideo bg="sombrero_header" vid="https://www.youtube.com/embed/WMB_kvQn-og" class="limit-width" %}}
 
-{{% buylink-container class="limit-width" %}}
-	{{< buylink url="http://pandaqi.itch.io/ho-ho-sombrero" platforms="windows,mac,linux" >}} 
-		Download
-	{{< /buylink >}}
-{{% /buylink-container %}}
+{{< buylink-container class="limit-width" >}}
+{{< buylink url="http://pandaqi.itch.io/ho-ho-sombrero" platforms="windows,mac,linux" text="Download" >}} 
+{{< /buylink-container >}}
 
 {{% section-centered heading="" %}}
 In an unexpected collaborative effort, _Santa Claus_, the _Easter Bunny_, a bunch of birds, and the _Sombrero Hombres_ have joined forces!

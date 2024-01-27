@@ -81,6 +81,6 @@ Interestingly, though, this game was actually the original idea! As I developed 
 
 The fonts used are **Puss in Boots** (headings, fancy text) and **Catcafe** (body text, readable). Both freely available online. Parts of the illustrations were generated with AI. Everything else is mine.
 
-For more information, as always, read my [detailed developer diary on Pandaqi Blog](https://pandaqi.com/blog/boardgames/nine-lives-math-meows).
+For more information, as always, read my [detailed developer diary on Pandaqi Blog](/blog/boardgames/nine-lives-math-meows).
 
 {{% /section-centered %}}

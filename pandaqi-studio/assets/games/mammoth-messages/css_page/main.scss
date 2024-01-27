@@ -27,7 +27,7 @@ body {
     background-color: $bg-color;
     font-size: 21px;
     color: $text-color;
-    background-image: url(g.$base + "bg_pattern.webp");
+    background-image: url("bg_pattern.webp");
     background-size: 100%;
     background-repeat: repeat-y;
 }

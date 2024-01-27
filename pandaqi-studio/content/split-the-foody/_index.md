@@ -80,6 +80,6 @@ Besides that, the fonts used are **Primitive** (headings) and **Rosarivo** (body
 
 I usually pick my next idea based on what is "easiest or simplest to make". This idea seemed really simple ... but I had to do a _lot_ of testing and prototyping to actually make it work, while keeping the rules light. A bit of a misfire from me, but in the end I'm glad I stuck it out and made this game, because it's quite different from anything else I made before.
 
-For more information, as always, read my [detailed developer diary on Pandaqi Blog](https://pandaqi.com/blog/boardgames/split-the-foody).
+For more information, as always, read my [detailed developer diary on Pandaqi Blog](/blog/boardgames/split-the-foody).
 
 {{% /section-centered %}}

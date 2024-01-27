@@ -1,7 +1,6 @@
 $header-font: "primitive";
 $body-font: "rosarivo";
-$base: "/split-the-foody/assets/";
-$base-fonts: $base + "fonts/";
+$base-fonts: "fonts/";
 
 $col1: #ffcfc9;
 $col2: #ffff98;
@@ -12,7 +11,7 @@ $col1-dark: #871a1a;
 $col3-dark: #6a3517;
 $col2-dark: #6e6e07;
 
-$bg-image-url: url($base + 'bg_pattern.webp');
+$bg-image-url: url('bg_pattern.webp');
 
 @font-face {
     font-family: $body-font;

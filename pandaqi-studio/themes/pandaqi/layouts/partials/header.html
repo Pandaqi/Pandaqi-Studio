@@ -29,13 +29,13 @@
 		</nav>
 	{{ else }}
 		<button class="hovering-gotobottom-btn" id="gotoBottomBtn"><span class="icon hoverable gotobottom"></span></button>
-
-		{{ if $deprecated }}
-			<div class="maintenance-modal-container" onclick="this.remove();">
-				<div class="maintenance-modal-content">
-					This is one of my oldest projects and thus of a lower quality. You may still try it, of course, but I recommend checking out a newer game! (Click to remove this message.)
-				</div>
-			</div>
-		{{ end }}
 	{{ end }}
 </header>
+
+{{ if $deprecated }}
+<div class="maintenance-modal-container" onclick="this.remove();">
+	<div class="maintenance-modal-content">
+		This is one of my oldest projects and thus of a lower quality. You may still try it, of course, but I recommend checking out a newer game! (Click to remove this message.)
+	</div>
+</div>
+{{ end }}

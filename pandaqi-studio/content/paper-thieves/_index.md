@@ -42,7 +42,7 @@ ages: everyone
 ---
 
 {{% boardgame-intro heading="" img="paperthieves_header" class="board-image" %}}
-A [One Paper Game](/boardgames#one_paper_games) for 2–6 players about stealing treasures from real-life locations ... or your fellow players.
+A [One Paper Game](/boardgames#one-paper-games) for 2–6 players about stealing treasures from real-life locations ... or your fellow players.
 {{% /boardgame-intro %}}
 
 <div class="board-image">

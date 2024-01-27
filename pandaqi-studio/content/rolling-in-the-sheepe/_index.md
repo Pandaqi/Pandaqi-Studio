@@ -43,11 +43,9 @@ input: ["controller", "keyboard"]
 
 {{% embedvideo bg="banner_wide" vid="https://www.youtube.com/embed/OorjwESxxZ4" class="limit-width extra-top-offset" %}}
 
-{{% buylink-container class="limit-width" %}}
-	{{< buylink url="http://pandaqi.itch.io/rolling-in-the-sheepe" platforms="windows,mac,linux" >}} 
-		Buy / Try
-	{{< /buylink >}}
-{{% /buylink-container %}}
+{{< buylink-container class="limit-width" >}}
+{{< buylink url="http://pandaqi.itch.io/rolling-in-the-sheepe" platforms="windows,mac,linux" text="Buy / Try" >}} 
+{{< /buylink-container >}}
 
 {{% section-centered heading="" %}}
 The Sheepe are a simple folk. They are born with a random shape and one burning desire in their woolly heart: **cross the finish line before the others!**
@@ -55,7 +53,7 @@ The Sheepe are a simple folk. They are born with a random shape and one burning 
 When they take their first rolls, though, they soon find out not every shape is equally suited for rolling. And in a weird twist of faith, the player in **last place** magically turns into a **wolf** that eats the others!
 
 <div class="limit-width">
-{{< video url="sheepe_video_1" >}}
+{{< video url="video/sheepe_video_1" >}}
 </div>
 
 **Rolling in the Sheepe** is a simple, light-hearted local multiplayer game for 1-6 players of all ages. 
@@ -63,7 +61,7 @@ When they take their first rolls, though, they soon find out not every shape is 
 Roll your sheepe to the finish. Try not to get sliced into many tinier sheepe along the way, or become The Unrollable Triangle, or land on a spike, or miss that jump ten times, or &mdash; well, you know, just try to roll better than the others?
 
 <div class="limit-width">
-{{< video url="sheepe_video_1_5" >}}
+{{< video url="video/sheepe_video_1_5" >}}
 </div>
 
 {{% /section-centered %}}
@@ -79,7 +77,7 @@ This game is playable on **Windows / Mac / Linux** with both **Controllers & Key
 Each player only has two buttons: roll left and roll right. Rolling was never easier!
 
 <div class="limit-width">
-{{< video url="sheepe_video_2" >}}
+{{< video url="video/sheepe_video_2" >}}
 </div>
 
 Of course, for the really tricky bleaters among us, you can do more than roll. Quick press both buttons to do a **quick jump**. Hold both buttons to **float** in the air. Many of the terrains play with your physics, such as the reverse gravity or the spiderman that clings to walls.
@@ -97,7 +95,7 @@ For this game, I tried a new method to make learning the game easier. When the g
 * **A free play mode.** Anything can appear. But, before a new thing is added, a tutorial image also appears (right inside the level) that explains what's coming. 
 
 <div class="limit-width">
-{{< video url="sheepe_video_3" >}}
+{{< video url="video/sheepe_video_3" >}}
 </div>
 
 This way, you only need to play the tutorial once. Then you can free play, without requiring any upfront reading/learning, but it will be different every time and use all content of the game!
@@ -111,7 +109,7 @@ Additionally, the game has several mechanics to bring players closer together.  
 ​**Teleports:​** if you're too far behind, or did not move for too long, you're teleported forward. This does incur a ​_time penalty​_ though, so even if you reach the finish first, you might not necessarily have the best time!
 
 <div class="limit-width">
-{{< video url="sheepe_video_4" >}}
+{{< video url="video/sheepe_video_4" >}}
 </div>
 
 {{% /section-centered %}}
@@ -128,7 +126,7 @@ This game has:
 * 40 obstacles. (Solid tiles can have obstacles on them, such as deadly spikes or trampolines.)
 
 <div class="limit-width">
-{{< video url="sheepe_video_5" >}}
+{{< video url="video/sheepe_video_5" >}}
 </div>
 
 {{% /section-centered %}}
@@ -146,7 +144,7 @@ But it became way bigger (and much different) than I originally imagined. And so
 (Also, the original core idea ended up not fitting with my other ideas, so I had to redo the whole project from scratch. That original core idea eventually became [Carving Pumpkins & Dwarfing Dumplings](https://pandaqi.com/carving-pumpkins-and-dwarfing-dumplings).)
 
 <div class="limit-width">
-{{< video url="sheepe_video_6" >}}
+{{< video url="video/sheepe_video_6" >}}
 </div>
 
 Read the full devlog for the details behind the development: [[Devlog] Rolling in the Sheepe​](/blog/videogames/one-week-games/devlog-rolling-in-the-sheepe) (on Pandaqi Blog)

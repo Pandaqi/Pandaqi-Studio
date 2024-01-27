@@ -1,8 +1,10 @@
 ---
 type: "single"
 title: "Tools"
-draft: false
 infopage: true
+
+noHeader: true
+noThumb: true
 
 headerTitle: "Pandaqi Tools | Always useful when playing a game"
 blurb: "Pandaqi Tools | Always useful when playing a game."

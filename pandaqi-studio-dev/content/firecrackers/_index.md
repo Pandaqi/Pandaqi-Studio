@@ -83,6 +83,8 @@ I guess that's the benefit of basing a game idea on two proven mechanics: **push
 
 One of my simplest games, one of my most thematic games, and one that seems to hook most people immediately.
 
-For more information, as always, read my [detailed developer diary on Pandaqi Blog](https://pandaqi.com/blog/boardgames/firecrackers/).
+For more information, as always, read my [detailed developer diary on Pandaqi Blog](/blog/boardgames/firecrackers/).
 
 {{% /section-centered %}}
+
+{{< support >}}

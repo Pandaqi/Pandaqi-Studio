@@ -43,15 +43,10 @@ input: ["controller", "keyboard"]
 
 {{% embedvideo bg="carvingpumpkins_header" vid="https://www.youtube.com/embed/4eBCYBOjo-0" class="limit-width extra-top-offset" col="#a20000" %}}
 
-{{% buylink-container class="limit-width" %}}
-	{{< buylink url="http://pandaqi.itch.io/carving-pumpkins-and-dwarfing-dumplings" platforms="windows,mac,linux" >}} 
-		Buy (&euro;8)
-	{{< /buylink >}}
-
-	{{< buylink url="http://pandaqi.itch.io/carving-pumpkins-and-dwarfing-dumplings" platforms="windows,mac,linux" class="try-link" >}} 
-		Demo (free)
-	{{< /buylink >}}
-{{% /buylink-container %}}
+{{< buylink-container class="limit-width" >}}
+{{< buylink url="http://pandaqi.itch.io/carving-pumpkins-and-dwarfing-dumplings" platforms="windows,mac,linux" text="Buy (&euro;8)" >}} 
+{{< buylink url="http://pandaqi.itch.io/carving-pumpkins-and-dwarfing-dumplings" platforms="windows,mac,linux" class="try-link" text="Demo (free)" >}} 
+{{< /buylink-container >}}
 
 {{% section-centered heading="" %}}
 **A party game about slicing your friends into smaller and smaller pieces, or protecting a huge dumpling from meeting the same fate.**
@@ -68,7 +63,7 @@ Fun for the whole family, with a unique and intuitive system for slicing anythin
 	<img src="assets/big_slash.png" />
 </div>
 
-{{% section-flex media="02-FamilyDinner" video="true" heading="What's Pumpkinside?" class="alternate_bg" %}}
+{{% section-flex media="video/02-FamilyDinner" video="true" heading="What's Pumpkinside?" class="alternate_bg" %}}
 
 Here are the highlights:
 * Player count? **2-8 Players**. You can easily team up or add bots.
@@ -86,7 +81,7 @@ The game can be played _solo_, but it's not the recommended way to play, as the 
 	<img src="assets/big_slash.png" />
 </div>
 
-{{% section-flex media="01-TrainingRavine" video="true" heading="How does it work?" class="reversed" %}}
+{{% section-flex media="video/01-TrainingRavine" video="true" heading="How does it work?" class="reversed" %}}
 
 Move around! While holding the "throw" button, you rotate and power up (to aim). Release to **throw your knife**!
 
@@ -108,7 +103,7 @@ Gather your friends or family and carve some pumpkins!
 	<img src="assets/big_slash.png" />
 </div>
 
-{{% section-flex media="07-Menus" video="true" heading="Just a slice" %}}
+{{% section-flex media="video/07-Menus" video="true" heading="Just a slice" %}}
 
 Although this party game is simple to learn and explain, it's overflowing with content. The rules explained above are just a slice of the full package.
 

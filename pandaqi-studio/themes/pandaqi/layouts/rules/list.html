@@ -3,15 +3,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    {{ $favicon := "../favicon.png" }}
-    <link rel="icon"  type="image/png" href="{{ $favicon }}">
+    {{ $favicon := partial "func/get-game-favicon.html" .Parent }}
+    <link rel="icon" type="image/png" href="{{ $favicon }}">
 
     <title>{{ .Parent.Title }} | Rules | Pandaqi Games</title>
 
     <!-- General CSS for rulebooks -->
     {{ $options := (dict "targetPath" "/css/style-rules.css" "outputStyle" "compressed" "enableSourceMap" (not hugo.IsProduction)) }}
     {{ $rules_style := resources.Get "/sass/style-rules.scss" | resources.ToCSS $options }}
-    <link rel="stylesheet" type="text/css" href="{{ $rules_style.RelPermalink }}" /> 
+    <link rel="stylesheet" type="text/css" href="{{ $rules_style.RelPermalink }}" />
 
     <!-- Unique CSS for this rulebook -->
     {{ partial "load-assets.html" (dict "context" . "ext" "css" "type" "rules" "include" true) }}
@@ -24,11 +24,10 @@
 
 <header class="rules-header">
     <!-- Steal the header image from the parent page, if available -->
-    {{ $url := or .Parent.Params.fullHeaderImg .Parent.Params.headerImg }}
+    {{ $url := partial "func/get-game-header.html" .Parent }}
     {{ if $url }}
         <div class="header-image">
-            {{ $url = add $url ".webp" }}
-            {{ partial "show-image.html" (dict "context" .Parent "img_url" $url "prepend" "../") }}
+            {{ partial "show-image.html" (dict "context" .Parent "img_url" $url) }}
         </div>
     {{ end }}
 

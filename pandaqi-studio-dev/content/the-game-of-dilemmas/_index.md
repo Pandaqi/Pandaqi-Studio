@@ -77,6 +77,8 @@ Three simple steps.
 
 {{% /section-centered %}}
 
+{{< support >}}
+
 {{% section-centered heading="Credits" anchor="credits" %}}
 
 The fonts used are **Sunny Spells** (headings, decorative) and **Minya Nouvelle** (body, text, paragraphs). Both freely available for commercial use. Everything else is entirely mine.
@@ -87,7 +89,7 @@ I think the Game of Happiness works best in families or groups that want to actu
 
 The Game of Dilemmas is more of a silly, gamified, creative, try-your-best-to-make-your-friends-laugh.
 
-For more information, as always, read my [detailed developer diary on Pandaqi Blog](https://pandaqi.com/blog/boardgames/the-game-of-dilemmas/).
+For more information, as always, read my [detailed developer diary on Pandaqi Blog](/blog/boardgames/the-game-of-dilemmas/).
 
 **Want to add your own cards?** You can always send me a message with ideas for cards! Once I have enough, I can easily add them as another pack.
 

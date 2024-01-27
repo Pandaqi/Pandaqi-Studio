@@ -45,7 +45,7 @@ ages: everyone
 ---
 
 
-{{% boardgame-intro heading="" img="foldigami_header" %}}
+{{% boardgame-intro heading="" %}}
 
 A game as tough as chess, played using only a paper and nothing else.
 
@@ -129,7 +129,7 @@ The algorithm tries to generate boards that are fair and evenly matched. This is
 
 Fun fact: the five animals are actual names used by ancient Asian military to indicate different sections of the army. (_Green Dragon, Red Bird, White Tiger, Black Tortoise_ and _Great Bear_.)
 
-Want more details? Check out the [devlog](https://pandaqi.com/blog/boardgames/foldigami).
+Want more details? Check out the [devlog](/blog/boardgames/foldigami).
 
 {{% /section-centered %}}
 

@@ -3,8 +3,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    {{ $favicon := "../favicon.png" }}
-    <link rel="icon"  type="image/png" href="{{ $favicon }}">
+    {{ $favicon := partial "func/get-game-favicon.html" .Parent }}
+    <link rel="icon" type="image/png" href="{{ $favicon }}">
 
     <title>{{ .Parent.Title }} | Rules | Pandaqi Games</title>
 

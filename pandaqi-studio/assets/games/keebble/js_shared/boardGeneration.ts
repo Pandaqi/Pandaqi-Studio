@@ -365,6 +365,10 @@ export default class BoardGeneration extends Scene
 			types.push(this.getRandomType());
 		}
 
+		console.log(structuredClone(CONFIG.types));
+		console.log(types.slice());
+		console.log(Random.getWeighted(CONFIG.types));
+
 		const locations = this.getEmptyCells();
 		Random.shuffle(locations);
 		while(types.length && locations.length)

@@ -6,7 +6,7 @@ import createContext from "js/pq_games/layout/canvas/createContext"
 import ResourceLoader from "js/pq_games/layout/resources/resourceLoader"
 import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple"
 import PandaqiWords from "js/pq_words/main"
-import ResourceImage from "js/pq_games/layout/resources/resourceImage"
+import ResourceImage, { CanvasDrawableLike } from "js/pq_games/layout/resources/resourceImage"
 import LayoutOperation from "js/pq_games/layout/layoutOperation"
 import TintEffect from "js/pq_games/layout/effects/tintEffect"
 import Point from "js/pq_games/tools/geometry/point"
@@ -203,20 +203,20 @@ async function createMorphCards(params)
 		// cloudy symbols
 		ctx.globalAlpha = 0.2;
 		
-		let cloudyData = resLoader.getResource("bubbly_cloud") as ResourceImage;
+		let cloudyData = new CanvasDrawableLike(resLoader.getResource("bubbly_cloud"));
 		if(invert) {
 			const eff = new TintEffect({ color: "#000000" });
 			await eff.applyToImage(cloudyData);
 		}
 
 		ctx.drawImage(
-			cloudyData.img, 
+			cloudyData.getImage(), 
 			bubblyOffset.x - 0.5*bubblySize.x, bubblyOffset.y - 0.5*bubblySize.y, 
 			bubblySize.x, bubblySize.y
 		)
 		
 		ctx.drawImage(
-			cloudyData.img, 
+			cloudyData.getImage(), 
 			cardSize.x - bubblyOffset.x - 0.5*bubblySize.x - 4, cardSize.y - bubblyOffset.y - 0.5*bubblySize.y - 4, 
 			bubblySize.x, bubblySize.y)
 		
@@ -532,15 +532,17 @@ async function createWordCards(params)
 
 			const iconResource = resLoader.getResource(iconKey) as ResourceImage;
 			const canvOp = new LayoutOperation(iconParams);
-			await iconResource.toCanvas(ctx, canvOp);
-	
-			// add reminder of the "-1 penalty" rule
+			iconResource.toCanvas(ctx, canvOp);
+			
+			/*
+			// add reminder of the "-1 penalty" rule => nah that's just messy
 			ctx.textAlign = "center";
 			ctx.font = (baseFontSize * 0.2) + "px Ribeye";
 			ctx.fillStyle = "#000000";
 			ctx.globalAlpha = 0.5;
 			ctx.fillText("-1", reminderPos.x, reminderPos.y);
 			ctx.globalAlpha = 1.0;
+			*/
 		}
 
 		
@@ -569,19 +571,20 @@ async function createWordCards(params)
 			const wordData = words[i];
 
 			const angle = i * 0.5 * Math.PI;
-			const x = (0.5 + wordOffsetFromCenter*Math.cos(angle))*cardSize.x;
-			const y = (0.5 + wordOffsetFromCenter*Math.sin(angle))*cardSize.y;
-
-			const textOp = new LayoutOperation({
-				dims: new Point(0.75*cardSize.x, numberFontSize*2),
-				pivot: Point.CENTER
-			});
-
+			const center = cardSize.clone().scale(0.5);
+			const offset = new Point(
+				Math.cos(angle),
+				Math.sin(angle)
+			);
+			const basePos = center.clone().add(offset.clone().scale(wordOffsetFromCenter*cardSize.x));
 			const visualAngle = angle-0.5*Math.PI;
 
-			ctx.save();
-			ctx.translate(x, y);
-			ctx.rotate(visualAngle);
+			const textOp = new LayoutOperation({
+				dims: new Point(0.75*cardSize.x, 2*numberFontSize),
+				pivot: Point.CENTER,
+				translate: basePos,
+				rotation: visualAngle
+			});
 
 			let fontSize = baseFontSize - (baseFontSize*0.3)*(wordData.getWord().length/7);
 			fontSize = Math.max(fontSize, 0.4*baseFontSize);
@@ -597,11 +600,11 @@ async function createWordCards(params)
 				const number = morphNumbers.splice(randIndex, 1);
 				const numberText = number + "";
 
-				const numberPos = new Point(0, -wordOffsetFromCenter*cardSize.x + numberOffsetFromCenter*cardSize.x);
+				const numberPos = center.clone().add(offset.clone().scale(numberOffsetFromCenter*cardSize.x));
 				textOp.translate = numberPos;
+				textRes.text = numberText;
 
-				if(params.addCircleBehindNumber)
-				{
+				if(params.addCircleBehindNumber) {
 					const radius = 0.37*baseFontSize;
 					ctx.beginPath();
 					ctx.arc(numberPos.x, numberPos.y, radius, 0, 2 * Math.PI, false);
@@ -615,15 +618,16 @@ async function createWordCards(params)
 				}
 
 				textOp.fill = new ColorLike(ink ? "#000000" : textColors[i]);
-				await textRes.toCanvas(ctx, textOp);
+				textRes.toCanvas(ctx, textOp);
 			}
 
 			// draw the main word (big, rotated, center edge)
 			textConfig.size = fontSize;
 			textRes.text = wordData.getWord();
 			textOp.fill = new ColorLike(ink ? "#000000" : textColors[i]);
+			textOp.translate = basePos;
 
-			await textRes.toCanvas(ctx, textOp);
+			textRes.toCanvas(ctx, textOp);
 			
 			// draw the subcategory above it (more faded and smaller)
 			const addSubCatText = !addNumbersToWords
@@ -633,11 +637,10 @@ async function createWordCards(params)
 				textConfig.size = fontSize*0.44;
 				textOp.alpha = 0.6;
 				textRes.text = subcatText;
-				textOp.translate = new Point(0, -0.7*fontSize); // @TODO: might also be incorrect after TextDrawer change
-				await textRes.toCanvas(ctx, textOp);
+				const subCatPos = center.clone().add(offset.clone().scale(wordOffsetFromCenter*cardSize.x-0.7*fontSize));
+				textOp.translate = subCatPos;
+				textRes.toCanvas(ctx, textOp);
 			}
-
-			ctx.restore();
 		}
 
 		return ctx.canvas;

@@ -92,6 +92,6 @@ It ended up becoming a very simple game with cute art, yet many opportunities to
 
 Hopefully this game gives families around the world a fun activity to do around Halloween. The theme is obviously focused on it, though the game is perfectly playable on its own, any day.
 
-For more information, as always, read my [detailed developer diary on Pandaqi Blog](https://pandaqi.com/blog/boardgames/pumpkin-patrol).
+For more information, as always, read my [detailed developer diary on Pandaqi Blog](/blog/boardgames/pumpkin-patrol).
 
 {{% /section-centered %}}

@@ -43,11 +43,9 @@ input: ["controller", "keyboard"]
 
 {{% embedvideo bg="windowsilk_header_transparent" vid="https://www.youtube.com/embed/AUpIi8ksarQ" class="limit-width" col="#A31119" %}}
 
-{{% buylink-container class="limit-width" %}}
-	{{< buylink url="http://pandaqi.itch.io/windowsilk" platforms="windows,mac,linux" >}} 
-		Play!
-	{{< /buylink >}}
-{{% /buylink-container %}}
+{{< buylink-container class="limit-width" >}}
+{{< buylink url="http://pandaqi.itch.io/windowsilk" platforms="windows,mac,linux" text="Play!" >}} 
+{{< /buylink-container >}}
 
 {{% section-centered %}}
 **A game for 1-6 players about eating … or being eaten.** Run over the spider web to trap bugs. Jump at the right moments to create new lines or catch flying bugs mid-air.  Avoid bigger and meaner bugs trying to steal your thunder (and your precious points).

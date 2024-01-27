@@ -38,7 +38,7 @@ ages: everyone
 
 ---
 
-{{% boardgame-intro heading="" img="hold_my_bear_header" class="no-shadow" %}}
+{{% boardgame-intro heading="" %}}
 
 Beat your opponents at the Unbearable Games, either by being more skillful ... or changing the sport being played altogether.
 
@@ -107,7 +107,7 @@ I combined this with some other ideas, such as the simple game loop of "on your 
 
 Until I ended up with this simple game that has surprising depth.
 
-For a more detailed article about the whole development process, [read the devlog for this game](https://pandaqi.com/blog/hold-my-bear)
+For a more detailed article about the whole development process, [read the devlog for this game](/blog/hold-my-bear)
 
 {{% /section-centered %}}
 

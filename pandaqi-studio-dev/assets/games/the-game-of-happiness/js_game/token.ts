@@ -39,8 +39,8 @@ export default class Token
             this.drawCategory(vis, group);
         }
 
+        group.toCanvas(ctx);
         this.drawOutline(vis, ctx);
-        await group.toCanvas(ctx);
         return ctx.canvas;
     }
 

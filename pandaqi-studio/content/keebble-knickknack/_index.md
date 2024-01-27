@@ -43,7 +43,7 @@ ages: everyone
 ---
 
 
-{{% boardgame-intro heading="" img="keebble_knickknack_header" %}}
+{{% boardgame-intro heading="" %}}
 
 A word game like Scrabble, but faster, simpler and more exciting. A hybrid spin-off of [Keebble](https://pandaqi.com/keebble).
 
@@ -106,6 +106,6 @@ Check out the original version ([Keebble](https://pandaqi.com/keebble)) for the 
 
 This version simplifies many things, at the cost of requiring one device while playing. Why? Because now the device does the heavy lifting for you. It tracks score, it tracks letters, it tracks when the game ends, etcetera.
 
-For a detailed diary about the game, check out the [devlog](https://pandaqi.com/blog/boardgames/keebble-knickknack).
+For a detailed diary about the game, check out the [devlog](/blog/boardgames/keebble-knickknack).
 
 {{% /section-centered %}}

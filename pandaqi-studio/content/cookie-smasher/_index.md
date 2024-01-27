@@ -98,6 +98,6 @@ Before I knew it, the idea of cookies was entrenched in the rules and illustrati
 
 (Unless you play the later, more advanced card sets. Here's a quick strategy tip for those reading this: _eggs_ is the most probable card to be poisoned, while _pear_ and _cinnamon_ are the least probable. I asked the computer to simulate a million games, that's how I know for sure.)
 
-For more information, as always, read my [detailed devlog on Pandaqi Blog](https://pandaqi.com/blog/boardgames/cookie-smasher).
+For more information, as always, read my [detailed devlog on Pandaqi Blog](/blog/boardgames/cookie-smasher).
 
 {{% /section-centered %}}

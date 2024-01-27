@@ -2,6 +2,9 @@
 title: "Support"
 infopage: true
 data: 2015-01-01
+noHeader: true
+noThumb: true
+
 ---
 
 {{< custom-entry-banner id="0" title="Support" class="turqoise height-large" >}}

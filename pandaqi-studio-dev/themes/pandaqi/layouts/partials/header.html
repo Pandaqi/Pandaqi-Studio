@@ -1,8 +1,10 @@
+{{ $all_colors := .Site.Params.all_colors }}
+{{ $color_scheme := or .Params.color (index ($all_colors | shuffle) 0) }}
 {{ $deprecated := or .Params.deprecated false }}
 
-<header>
+<header class="{{ $color_scheme }}">
 	{{ if not .Params.gamepage }}
-		{{ $slogans :=  or .Site.Params.slogans (slice "testslogan1" "testslogan2") }}
+		{{ $slogans := .Site.Params.slogans }}
 
 		<nav>
 			<ul>
@@ -27,13 +29,13 @@
 		</nav>
 	{{ else }}
 		<button class="hovering-gotobottom-btn" id="gotoBottomBtn"><span class="icon hoverable gotobottom"></span></button>
-
-		{{ if $deprecated }}
-			<div class="maintenance-modal-container" onclick="this.remove();">
-				<div class="maintenance-modal-content">
-					This is one of my oldest projects and thus of a lower quality. You may still try it, of course, but I recommend checking out a newer game! (Click to remove this message.)
-				</div>
-			</div>
-		{{ end }}
 	{{ end }}
 </header>
+
+{{ if $deprecated }}
+<div class="maintenance-modal-container" onclick="this.remove();">
+	<div class="maintenance-modal-content">
+		This is one of my oldest projects and thus of a lower quality. You may still try it, of course, but I recommend checking out a newer game! (Click to remove this message.)
+	</div>
+</div>
+{{ end }}

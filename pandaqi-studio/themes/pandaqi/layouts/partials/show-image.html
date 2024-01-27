@@ -1,38 +1,16 @@
-{{- $full_url := printf "content%swebp/%s" .context.Page.RelPermalink .img_url -}}
-{{- $img := imageConfig $full_url -}}
+{{- $img_url := index (strings.Split .img_url ".") 0 -}} <!--- chop off any extension --->
+{{- $alt := or .alt ($img_url | humanize) -}}
 {{- $class := or .class "" -}}
-{{- $alt := or .alt ((replace .img_url ".webp" "") | humanize) -}}
-{{- $prepend := or .prepend "" -}}
-{{- $avif_url := printf "%savif/%s" $prepend (replace .img_url ".webp" ".avif") -}}
-{{- $webp_url := printf "%swebp/%s" $prepend .img_url -}}
-
-{{- if .use_full_url -}}
-	{{- $full_url = replace $full_url "content/" "" -}}
-	{{- $avif_url = (replace $full_url "webp" "avif") -}}
-	{{- $webp_url = $full_url -}}
-{{- end -}}
-
-{{- $checkable_avif_url := (replace $full_url "webp" "avif") -}}
-{{- if fileExists $checkable_avif_url -}}
-	{{- if .make_absolute -}}
-		{{- $avif_url = $avif_url | absURL -}}
-	{{- end -}}
-	<source srcset='{{- $avif_url -}}' type="image/avif" />
-{{- end -}}
-
-{{- if .make_absolute -}}
-	{{- $webp_url = $webp_url | absURL -}}
-{{- end -}}
-
-{{- $default_url := $webp_url -}}
-{{- $orig_url := replace $full_url "webp" "png" -}}
-{{- if fileExists $orig_url -}}
-	{{- $default_url = printf "png/%s" (replace .img_url ".webp" ".png") -}}
-{{- end -}}
-
+{{- $url := partial "func/get-valid-image-url.html" (dict "context" .context "img_url" $img_url) -}}
+{{- if not $url -}}
+<picture class="{{ $class }}">
+	Sorry, the picture {{ $img_url }} can't be found!
+</picture>
+{{- else -}}
+	{{- $img := imageConfig (add "content" $url) -}}
 <picture class="{{ $class }}">
 	<img 
-		src="{{- $default_url -}}" 
+		src="{{- $url -}}" 
 		loading="lazy" 
 		decoding="async" 
 		alt='{{- $alt -}}' 
@@ -41,3 +19,4 @@
 		height='{{- $img.Height -}}'
 	/>
 </picture>
+{{- end -}}

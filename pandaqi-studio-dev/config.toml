@@ -17,3 +17,18 @@ SectionPagesMenu = "main"
 # SOURCE: https://code.visualstudio.com/docs/languages/jsconfig
 [build]
   noJSConfigInAssets = false
+
+[params]
+  title       = "Pandaqi"
+  subtitle    = "Indie Game Developer"
+
+  favicon     = "theme/favicon.png"
+
+  description = "The official website of game studio Pandaqi"
+  metaDescription = "The official website of game studio Pandaqi"
+  
+  pageNotFoundTitle = "404 - Page not found"
+
+  num_masks   = 8
+  all_colors  = ["red", "blue", "green", "yellow", "orange", "turqoise", "beige", "purple", "pink", "darkblue", "brown", "white", "black"]
+  slogans     = ["No, the game will not have online multiplayer", "Creating local multiplayer games until someone tells me to stop", "Creator of friendships, destroyer of friendships", "Couch co-op for everyone (who has a couch)", "Helping gamers and non-gamers connect", "Different games for a different experience"]

@@ -43,15 +43,10 @@ input: ["mouse", "touch"]
 
 {{% embedvideo bg="letters_header" vid="https://www.youtube.com/embed/RFmb-sz5Ox0" class="limit-width" %}}
 
-{{% buylink-container class="limit-width" %}}
-	{{< buylink url="http://pandaqi.itch.io/letters-against-loneliness" platforms="windows" >}} 
-		Download
-	{{< /buylink >}}
-
-	{{< buylink url="https://play.google.com/store/apps/details?id=com.pandaqi.letters_against_loneliness" platforms="android" >}} 
-		Play Store
-	{{< /buylink >}}
-{{% /buylink-container %}}
+{{< buylink-container class="limit-width" >}}
+{{< buylink url="http://pandaqi.itch.io/letters-against-loneliness" platforms="windows" text="Download" >}} 
+{{< buylink url="https://play.google.com/store/apps/details?id=com.pandaqi.letters_against_loneliness" platforms="android" text="Play Store" >}} 
+{{< /buylink-container >}}
 
 {{% section-centered heading="" class="intro-text" %}}
 
@@ -61,7 +56,7 @@ Internet has disappeared. But the human need to socialize and relate has not.
 
 {{% /section-centered %}}
 
-{{% section-flex heading="Gameplay" media="intro_sequence" video="true" class="limit-width"  %}}
+{{% section-flex heading="Gameplay" media="video/intro_sequence" video="true" class="limit-width"  %}}
 
 **Objective?** Send a letter to each person in the puzzle.
 

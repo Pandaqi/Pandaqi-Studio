@@ -44,13 +44,11 @@ input: ["keyboard", "controller"]
 
 {{% embedvideo vid="https://www.youtube.com/embed/Fcyjk8app9w" class="limit-width" full-size="true" %}}
 
-{{% buylink-container class="text" %}}
-	{{< buylink url="http://pandaqi.itch.io/package-party" platforms="windows,mac,linux" >}} 
-		Buy (&euro;5) or Try (free demo)
-	{{< /buylink >}}
-{{% /buylink-container %}}
+{{< buylink-container class="text" >}}
+{{< buylink url="http://pandaqi.itch.io/package-party" platforms="windows,mac,linux" text="Buy (&euro;5) or Try (free demo)" >}}
+{{< /buylink-container >}}
 
-{{% section-flex media="packageparty_1" video="true" class="limit-width" %}}
+{{% section-flex media="video/packageparty_1" video="true" class="limit-width" %}}
 
 **Package Party** is a local multiplayer (“couch co-op”) game for literally anyone. Gather your friends, family, kids, girlfriend, boyfriend, neighbors, neighbor’s dog – and start working together to deliver packages!
 
@@ -62,7 +60,7 @@ Oh, you sweet summer child.
 
 {{% /section-flex %}}
 
-{{% section-flex media="packageparty_2" video="true" class="limit-width reversed" %}}
+{{% section-flex media="video/packageparty_2" video="true" class="limit-width reversed" %}}
 
 There will be &hellip;
 - Conveyor belts
@@ -90,7 +88,7 @@ Then Package Party might be the game for you.
 
 {{% /section-centered %}}
 
-{{% section-flex media="packageparty_5" video="true" class="limit-width" heading="Succeed together, fail together" %}}
+{{% section-flex media="video/packageparty_5" video="true" class="limit-width" heading="Succeed together, fail together" %}}
 
 This game was designed to be _cooperative_ and _local multiplayer_
 
@@ -112,7 +110,7 @@ But don't let that fool you. As the game progresses, only the most capable and t
 
 {{% /section-centered %}}
 
-{{% section-flex media="packageparty_6" video="true" class="limit-width reversed" heading="Tracking your package" %}}
+{{% section-flex media="video/packageparty_6" video="true" class="limit-width reversed" heading="Tracking your package" %}}
 
 The game is currently _paused_. The first two worlds are finished, playable and enjoyable (for free). Then it stops.
 

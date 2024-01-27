@@ -1,23 +1,18 @@
 {{ $key := or (.Get "key") "opg" }}
-
 <div class="game-grid">
 	{{ range where .Site.Pages "Params.tags" "intersect" (slice $key) | first 8 }}
-		{{ $img := or (or .Params.fullHeaderImg .Params.headerImg) .Params.headerThumb }}
-		{{ $img_url := printf "%swebp/%s.webp" .Permalink $img }}
-
+		{{ $img_url := partial "func/get-game-header.html" . }}
 		{{ $blurb := .Params.blurb }}
 		{{ if .Params.longblurb }}
 			{{ $blurb = .Params.longblurb | safeHTML }}
 		{{ end }}
-
 		<a href="{{ .Permalink }}">
-			<img src="{{ $img_url }}" />
+			{{ partial "show-image.html" (dict "context" . "img_url" $img_url) }}
 			<h3>{{ .Title }}</h3>
 			<p>{{ $blurb }}</p>
 		</a>
 	{{ end }}
 </div>
-
 <div>
 	<a href="/tags/{{ $key }}" class="full-category-overview-link">View the full list >></a>
 </div>

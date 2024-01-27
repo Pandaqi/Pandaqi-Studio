@@ -86,6 +86,8 @@ Of course, actually creating and testing the game changed it in so many ways tha
 
 But, as always, all those changes made the game much better.
 
-For more information, as always, read my [detailed developer diary on Pandaqi Blog](https://pandaqi.com/blog/boardgames/hasty-accusations).
+For more information, as always, read my [detailed developer diary on Pandaqi Blog](/blog/boardgames/hasty-accusations).
 
 {{% /section-centered %}}
+
+{{< support >}}
