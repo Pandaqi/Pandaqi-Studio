@@ -3,8 +3,8 @@ type: "single"
 gamepage: true
 boardgame: true
 
-title: "Aeronaut Odyssey"
-headerTitle: "Aeronaut Odyssey | Claim routes and connect sky castles in a fast game inspired by Ticket to Ride."
+title: "Sharopoly"
+headerTitle: "Claim routes and connect sky castles in a fast game inspired by Ticket to Ride."
 blurb: "Travel the world, claim the most valuable routes and profit from it. Connect the sky castles faster than your opponents, in a One Paper Game inspired by Ticket to Ride."
 
 

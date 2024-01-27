@@ -1,4 +1,4 @@
-{{ $under_maintenance := or .Params.maintenance false }}
+{{ $deprecated := or .Params.deprecated false }}
 
 <header>
 	{{ if not .Params.gamepage }}
@@ -28,10 +28,10 @@
 	{{ else }}
 		<button class="hovering-gotobottom-btn" id="gotoBottomBtn"><span class="icon hoverable gotobottom"></span></button>
 
-		{{ if $under_maintenance }}
-			<div class="maintenance-modal-container">
+		{{ if $deprecated }}
+			<div class="maintenance-modal-container" onclick="this.remove();">
 				<div class="maintenance-modal-content">
-					Sorry, this game is <strong>under maintenance</strong> (or not finished yet)! Check back soon to find the new and improved version.
+					This is one of my oldest projects and thus of a lower quality. You may still try it, of course, but I recommend checking out a newer game! (Click to remove this message.)
 				</div>
 			</div>
 		{{ end }}

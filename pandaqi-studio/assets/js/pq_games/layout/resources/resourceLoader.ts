@@ -13,7 +13,8 @@ interface ResourceLoadParams
     path: string
     id?: string
     key?: string
-    textConfig?: TextConfig
+    textConfig?: TextConfig,
+    useAbsolutePath?: boolean // default is false = relative path, potentially from base
 }
 
 export default class ResourceLoader 
@@ -106,10 +107,14 @@ export default class ResourceLoader
     async loadResource(id:string, params:ResourceLoadParams)
     {
         let originalPath = params.path ?? "";
-        // @NOTE: base always ends on a slash, so originalPath should never start with one
-        if(originalPath.slice(0,1) == "/") { originalPath = originalPath.slice(1); }
+        let path;
+        if(params.useAbsolutePath) { path = params.path; } 
+        else {
+            // @NOTE: base always ends on a slash, so originalPath should never start with one
+            if(originalPath.slice(0,1) == "/") { originalPath = originalPath.slice(1); }
+            path = this.base + originalPath;
+        }
 
-        const path = this.base + originalPath;
         params.path = path;
 
         const key = (params.id ?? params.key) ?? id;

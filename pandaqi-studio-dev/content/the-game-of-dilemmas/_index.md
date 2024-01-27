@@ -4,16 +4,11 @@ gamepage: true
 boardgame: true
 
 title: "The Game of Dilemmas"
-headerTitle: "The Game of Dilemmas | Create the juiciest dilemmas that have players doubt themselves."
+headerTitle: "Create the juiciest dilemmas that have players doubt themselves"
 blurb: "Combine a positive and negative card from your hand to create a dilemma. If yours is the most controversial, you score the most points!"
 
 extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/1b-raHI4BNZjow8E4X9Qc7ZLWbr4jZ3ne" # already updated!
-
-fullHeaderImg: "the_game_of_dilemmas_header"
-headerImg: "the_game_of_dilemmas_header"
-
-headerThumb: "the_game_of_dilemmas_favicon"
 
 customHeight: "small"
 headerDarkened: true

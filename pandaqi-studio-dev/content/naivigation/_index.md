@@ -4,14 +4,11 @@ gamepage: true
 boardgame: true
 
 title: "Naivigation"
-headerTitle: "Naivigation | A universe of simple party board games about driving one vehicle together."
+headerTitle: "A universe of simple party board games about driving one vehicle together."
 blurb: "A universe of simple party board games about driving one vehicle together, at the same time, without crashing too much."
 
 extraCSS: true
 downloadLink: ""
-
-headerImg: "naivigation_header"
-headerThumb: "naivigation_favicon"
 
 customHeight: "small"
 headerDarkened: true

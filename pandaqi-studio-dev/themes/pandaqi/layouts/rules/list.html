@@ -24,11 +24,10 @@
 
 <header class="rules-header">
     <!-- Steal the header image from the parent page, if available -->
-    {{ $url := or .Parent.Params.fullHeaderImg .Parent.Params.headerImg }}
+    {{ $url := partial "func/get-game-header.html" .Parent }}
     {{ if $url }}
         <div class="header-image">
-            {{ $url = add $url ".webp" }}
-            {{ partial "show-image.html" (dict "context" .Parent "img_url" $url "prepend" "../") }}
+            {{ partial "show-image.html" (dict "context" .Parent "img_url" $url) }}
         </div>
     {{ end }}
 

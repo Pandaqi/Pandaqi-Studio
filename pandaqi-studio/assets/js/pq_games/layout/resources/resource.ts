@@ -1,4 +1,5 @@
 import LayoutOperation from "../layoutOperation";
+import TransformationMatrix from "../tools/transformationMatrix";
 import { CanvasLike } from "./resourceImage";
 
 type ElementLike = HTMLElement|SVGElement
@@ -12,7 +13,7 @@ export default class Resource
         return new Resource();
     }
 
-    async toCanvas(canv:CanvasLike = null, op:LayoutOperation = null) : Promise<HTMLCanvasElement> 
+    toCanvas(canv:CanvasLike = null, op:LayoutOperation = null) : HTMLCanvasElement 
     { 
         return document.createElement("canvas"); 
     }

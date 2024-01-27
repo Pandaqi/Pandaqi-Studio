@@ -1,10 +1,9 @@
 {{- $class := .Get "class" -}}
 <section class="boardgame-intro {{ $class }}">
 	<div class="big-header-image">
-		{{- $img := or (.Get "img") $.Page.Params.fullHeaderImg -}}
+		{{- $img := or (.Get "img") (partial "func/get-game-header.html" $.Page) -}}
 		{{- if $img -}}
-			{{- $img_url := add $img ".webp" -}}
-			{{- partial "show-image.html" (dict "context" . "img_url" $img_url) -}}
+			{{- partial "show-image.html" (dict "context" . "img_url" $img) -}}
 		{{- end -}}
 	</div>
 	<div class="center text">

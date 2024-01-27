@@ -10,9 +10,6 @@ blurb: "A cooperative game about placing houses and presents such that the sleig
 extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/11q1JvlufY06QORspG35SfAKQU4JakWhS"
 
-fullHeaderImg: "sleighwell_header"
-headerImg: "sleighwell_header"
-
 headerThumb: "sleighwell_favicon"
 
 customHeight: "large"

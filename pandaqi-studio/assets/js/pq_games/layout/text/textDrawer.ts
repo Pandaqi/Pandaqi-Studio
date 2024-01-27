@@ -3,10 +3,11 @@ import Dims from "js/pq_games/tools/geometry/dims"
 import Point from "js/pq_games/tools/geometry/point"
 import ResourceImage, { CanvasLike } from "../resources/resourceImage"
 import LayoutOperation from "../layoutOperation"
-import StrokeAlignValue from "../values/strokeAlignValue"
+import StrokeAlign from "../values/strokeAlign"
 import { TextChunk, TextChunkBreak, TextChunkImage, TextChunkStyle, TextChunkText } from "./textChunk"
 import ResourceLoader from "../resources/resourceLoader"
 import LineData from "./lineData"
+import TransformationMatrix from "../tools/transformationMatrix"
 
 const parseTextString = (text:string, config) =>
 {
@@ -370,7 +371,7 @@ export default class TextDrawer
         return { textDims,lines };
     }
 
-    async drawText(ctx:CanvasRenderingContext2D, op:LayoutOperation, lines:LineData[])
+    drawText(ctx:CanvasRenderingContext2D, op:LayoutOperation, lines:LineData[])
     {
         const style = this.cfg.clone();
         style.color = op.fill;
@@ -389,7 +390,7 @@ export default class TextDrawer
                     pos.x += elemWidth;
                     if(elem.isEmptySpace()) { pos.x += line.extraSpaceJustifyX; }
                 } else if(elem instanceof TextChunkImage) {
-                    await this.drawImageChunk(ctx, elem, pos, line);
+                    this.drawImageChunk(ctx, elem, pos, line);
                     pos.x += elemWidth;
                 } else if(elem instanceof TextChunkStyle) { 
                     elem.updateTextConfig(style); 
@@ -399,7 +400,7 @@ export default class TextDrawer
         }
     }
 
-    async toCanvas(canv:CanvasLike, op:LayoutOperation = new LayoutOperation())
+    toCanvas(canv:CanvasLike, op:LayoutOperation = new LayoutOperation())
     {
         if(!hasVisibleText(this.text)) { return; }
 
@@ -411,7 +412,7 @@ export default class TextDrawer
         const textParsed = this.parseText(ctx, this.text);
         const { textDims, lines } = this.getTextMetrics(ctx, textParsed);
         if(!hasVisibleLines(lines)) { return; }
-        await this.drawText(ctx, op, lines);
+        this.drawText(ctx, op, lines);
 
         this.debugDraw(ctx);
         ctx.restore();
@@ -419,8 +420,8 @@ export default class TextDrawer
 
     fillAndStrokeText(ctx:CanvasRenderingContext2D, txt:string, pos:Point, op:LayoutOperation)
     {
-        const strokeBeforeFill = op.strokeAlign == StrokeAlignValue.OUTSIDE;
-        const clipStroke = op.strokeAlign == StrokeAlignValue.INSIDE;
+        const strokeBeforeFill = op.strokeAlign == StrokeAlign.OUTSIDE;
+        const clipStroke = op.strokeAlign == StrokeAlign.INSIDE;
 
         // @TODO: Clipping (for the inside stroke) NOT IMPLEMENTED YET
         // Clipping only works for paths, and text is not a path
@@ -443,7 +444,7 @@ export default class TextDrawer
         return new Point(sizeX, sizeY);
     }
 
-    async drawImageChunk(ctx:CanvasRenderingContext2D, elem:TextChunkImage, pos:Point, line:LineData)
+    drawImageChunk(ctx:CanvasRenderingContext2D, elem:TextChunkImage, pos:Point, line:LineData)
     {
         const res = elem.resource;
         pos = pos.clone();
@@ -453,16 +454,17 @@ export default class TextDrawer
         op = op.clone();
         op.translate.move(pos);
         op.pivot = new Point(0, 0.5);
+        op.keepTransform = true;
         if(op.dims.isZero()) { op.dims = elem.getSize(); }
 
-        await res.toCanvas(ctx, op);
+        res.toCanvas(ctx, op);
     }
 
     /*
     applyFillAndStroke(ctx:CanvasRenderingContext2D, path:Path2D, callback:Function = null)
     {
-        const strokeBeforeFill = this.strokeAlign == StrokeAlignValue.OUTSIDE;
-        const clipStroke = this.strokeAlign == StrokeAlignValue.INSIDE;
+        const strokeBeforeFill = this.strokeAlign == StrokeAlign.OUTSIDE;
+        const clipStroke = this.strokeAlign == StrokeAlign.INSIDE;
 
         if(clipStroke) { ctx.save(); ctx.clip(path); }
 

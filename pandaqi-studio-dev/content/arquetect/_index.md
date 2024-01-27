@@ -4,7 +4,7 @@ gamepage: true
 boardgame: true
 
 title: "Arquetect"
-headerTitle: "Arquetect | A fast and light game about designing your ideal city, despite opponents starting fires."
+headerTitle: "A fast and light game about designing your ideal city, despite opponents starting fires"
 blurb: "A fast game about designing the best scoring city, despite opponents starting fires and disease outbreaks. A waitless game using cards in your hand and nothing else."
 
 extraCSS: true

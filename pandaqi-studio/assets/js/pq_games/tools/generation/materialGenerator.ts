@@ -3,6 +3,7 @@ import GridMapper from "js/pq_games/layout/gridMapper";
 import ResourceLoader from "js/pq_games/layout/resources/resourceLoader";
 import PdfBuilder, { PageOrientation } from "js/pq_games/pdf/pdfBuilder";
 import ProgressBar from "js/pq_games/website/progressBar";
+import MaterialVisualizer from "./materialVisualizer";
 
 //
 // Default debug config settings are
@@ -26,7 +27,8 @@ export default class MaterialGenerator
 
     filterAssets: Function = (dict) => { return dict; }
     progressBarPhases:string[] = ["Loading Assets", "Creating Cards", "Preparing PDF", "Done!"]
-    visualizerClass: any; // @TODO: create a DEFAULT visualizer class if omitted?
+    visualizerClass: any;
+    visualizerClassCustom: any;
 
     constructor(CONFIG)
     {
@@ -36,6 +38,8 @@ export default class MaterialGenerator
         this.generators = {};
         this.drawers = {};
 
+        this.visualizerClass = MaterialVisualizer;
+
         this.progressBar = new ProgressBar();
         this.progressBar.setPhases(this.progressBarPhases);
 
@@ -44,21 +48,34 @@ export default class MaterialGenerator
         this.pdfBuilder = pdfBuilder; 
     }
 
+    setVisualizerClass(vis)
+    {
+        this.visualizerClass = vis;
+    }
+
+    setVisualizerClassCustom(vis)
+    {
+        this.visualizerClassCustom = vis;
+    }
+
     addPipeline(id:string, generatorClass, drawerConfig)
     {
         this.addGenerator(id, generatorClass);
         this.addDrawer(id, drawerConfig);
     }
 
+    // This allows passing a CLASS or a CLASS instance (a class is a "function" in the eyes of javascript)
+    // Not great, but a simple compromise for future flexibility
     addGenerator(id:string, generatorClass)
     {
-        this.generators[id] = new generatorClass();
+        this.generators[id] = typeof generatorClass == "function" ? new generatorClass() : generatorClass;
     }
 
     addDrawer(id:string, drawerConfig:Record<string,any>)
     {
         const dims = drawerConfig.dims[this.config.itemSize ?? "regular"];
-        const gridConfig = { pdfBuilder: this.pdfBuilder, dims: dims, dimsElement: drawerConfig.dimsElement };
+        const autoStroke = drawerConfig.autoStroke ?? false;
+        const gridConfig = { pdfBuilder: this.pdfBuilder, dims: dims, dimsElement: drawerConfig.dimsElement, autoStroke: autoStroke };
         const gridMapper = new GridMapper(gridConfig);
         this.drawers[id] = gridMapper;
     }
@@ -112,11 +129,11 @@ export default class MaterialGenerator
         {
             const items = this.generators[id].get();
             const itemSize = drawer.getMaxElementSize();
-            const visualizer = new this.visualizerClass({
-                resLoader: this.resLoader, 
-                itemSize: itemSize,
-                inkFriendly: this.config.inkFriendly
-            });
+            this.config.resLoader = this.resLoader;
+            this.config.itemSize = itemSize;
+
+            const visualizer = new this.visualizerClass(this.config);
+            if(this.visualizerClassCustom) { visualizer.setCustomObject(new this.visualizerClassCustom()); }
     
             // cards handle drawing themselves
             const promises = [];

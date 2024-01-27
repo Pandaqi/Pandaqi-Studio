@@ -21,8 +21,8 @@
 	{{ $extra_classes = add $extra_classes " darkened" }}
 {{ end }}
 
-{{ $has_header := .Params.headerImg }}
-{{ $has_thumb := .Params.headerThumb }}
+{{ $header_url := partial "func/get-game-header.html" . }}
+{{ $thumb_url := partial "func/get-game-thumb.html" . }}
 
 {{ $non_text_classes := .Params.entryBannerNonTextClasses }}
 {{ $text_classes := .Params.entryBannerTextClasses }}
@@ -34,11 +34,10 @@
 
 <section class="clipped entry-banner {{ $height }} {{ $color_scheme }}">
 	<a href="{{ .RelPermalink }}">
-		{{ if $has_header }}
+		{{ if $header_url }}
 			<div class="bg-image {{ $extra_classes }}">
 				<div class="image-gradient-overlay"></div>
-				{{ $img_url := add .Params.headerImg ".webp" }}
-				{{ partial "show-image.html" (dict "context" . "img_url" $img_url "use_full_url" true "make_absolute" true ) }}
+				{{ partial "show-image.html" (dict "context" . "img_url" $header_url) }}
 			</div>
 		{{ end }}
 
@@ -50,10 +49,9 @@
 					{{ $link_text }}
 				</div>
 			</div>
-			{{ if $has_thumb }}
+			{{ if $thumb_url }}
 				<div class="non-text-side {{ $non_text_classes }}">
-					{{ $img_url := add .Params.headerThumb ".webp" }}
-					{{ partial "show-image.html" (dict "context" . "img_url" $img_url "use_full_url" true "make_absolute" true ) }}
+					{{ partial "show-image.html" (dict "context" . "img_url" $thumb_url) }}
 				</div>
 			{{ end }}
 		</div>

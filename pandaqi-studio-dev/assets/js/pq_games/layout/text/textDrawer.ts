@@ -327,7 +327,20 @@ export default class TextDrawer
             textDims.setSize(new Point(textDims.size.x, simpleHeight));
         }
 
+        const realWidth = textDims.size.x;
         const realHeight = textDims.size.y;
+
+        const tooHigh = (realHeight > boxHeight);
+        if(tooHigh)
+        {
+            console.error("Textbox overflows on Y-axis!", boxHeight, realHeight, this.text);
+        }
+
+        const tooWide = (realWidth > boxWidth);
+        if(tooWide)
+        {
+            console.error("Textbox overflows on X-axis!", boxWidth, realWidth, this.text);
+        }
 
         //
         // third, use all that information for proper aligning
@@ -405,7 +418,9 @@ export default class TextDrawer
         if(!hasVisibleText(this.text)) { return; }
 
         const ctx = (canv instanceof HTMLCanvasElement) ? canv.getContext("2d") : canv;
-        ctx.save();
+        const oldTextAlign = ctx.textAlign;
+        const oldBaseline = ctx.textBaseline;
+
         ctx.textAlign = "left";
         ctx.textBaseline = "alphabetic";
 
@@ -415,7 +430,9 @@ export default class TextDrawer
         this.drawText(ctx, op, lines);
 
         this.debugDraw(ctx);
-        ctx.restore();
+
+        ctx.textAlign = oldTextAlign;
+        ctx.textBaseline = oldBaseline;
     }
 
     fillAndStrokeText(ctx:CanvasRenderingContext2D, txt:string, pos:Point, op:LayoutOperation)

@@ -4,18 +4,13 @@ gamepage: true
 boardgame: true
 
 title: "Magnetmen"
-headerTitle: "Magnetmen | Score the most points before everyone repels you."
+headerTitle: "Score the most points before everyone repels you"
 blurb: "The Magnetmen are magical robots, scoring points left and right. The only issue? The more you use them, the more spaces from which you're repelled."
 
 extraCSS: true
 extraJSBoard: true
 extraJSBoardInclude: true
 downloadLink: "https://drive.google.com/drive/folders/1IWl4VH_Ai7e6BQM6PE4dY3YUfkDn2zQj" # already updated!
-
-fullHeaderImg: "magnetmen_header"
-headerImg: "magnetmen_header"
-
-headerThumb: "magnetmen_favicon"
 
 customHeight: "small"
 headerDarkened: true

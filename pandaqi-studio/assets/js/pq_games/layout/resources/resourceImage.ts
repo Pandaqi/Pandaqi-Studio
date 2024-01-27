@@ -23,7 +23,26 @@ interface FrameData {
     height: number
 }
 
-export { ResourceImage, ImageLike, CanvasLike }
+class CanvasDrawableLike
+{
+    val: ResourceImage|HTMLCanvasElement|HTMLImageElement
+
+    constructor(val) { this.val = val }
+    getImage()
+    {
+        if(this.val instanceof ResourceImage) { return this.val.getImage(); }
+        return this.val;
+    }
+
+    getSize()
+    {
+        if(this.val instanceof ResourceImage) { return this.val.size; }
+        if(this.val instanceof HTMLImageElement) { return new Point(this.val.naturalWidth, this.val.naturalHeight); }
+        return new Point(this.val.width, this.val.height);
+    }
+}
+
+export { ResourceImage, ImageLike, CanvasLike, CanvasDrawableLike }
 export default class ResourceImage extends Resource
 {
     img : HTMLImageElement;
@@ -41,12 +60,12 @@ export default class ResourceImage extends Resource
     {
         super()
 
-        this.img = imageData;
-        this.frameDims = new Point(params.frames ?? new Point(1,1));
-        this.numThumbnails = params.numThumbnails ?? 0;
+        this.frames = [];
         this.thumbnails = [];
-        this.frames = [this.img];
-        this.refreshSize();
+        this.numThumbnails = params.numThumbnails ?? 0;
+        this.frameDims = new Point();
+
+        if(imageData) { this.fromRawImage(imageData, params); }
     }
     
     clone(deep = false) : ResourceImage
@@ -57,12 +76,12 @@ export default class ResourceImage extends Resource
     }
 
     /* The `to` functions */
-    async toCanvas(canv:CanvasLike = null, op:LayoutOperation = new LayoutOperation())
+    toCanvas(canv:CanvasLike = null, op:LayoutOperation = new LayoutOperation())
     {
         if(op.dims.length() <= 0.003) { op.dims = this.size.clone(); }
         op.resource = this;
         op.frame = op.frame ?? this.frame;
-        return await op.applyToCanvas(canv);
+        return op.applyToCanvas(canv);
     }
 
     async toHTML(op:LayoutOperation = new LayoutOperation())
@@ -98,6 +117,14 @@ export default class ResourceImage extends Resource
         this.size = deep ? r.size.clone() : r.size;
         this.frameDims = deep ? r.frameDims.clone() : r.frameDims;
         this.frames = deep ? r.frames.slice() : r.frames;
+        this.refreshSize();
+    }
+
+    fromRawImage(img:HTMLImageElement, params:any = {})
+    {
+        this.img = img;
+        this.frameDims = new Point(params.frames ?? new Point(1,1));
+        this.frames = [this.img];
         this.refreshSize();
     }
 
@@ -139,12 +166,7 @@ export default class ResourceImage extends Resource
     /* Helpers & Tools */
     refreshSize()
     {
-        if(!(this.img instanceof HTMLImageElement)) 
-        { 
-            this.frameDims = new Point();
-            this.frames = [];
-            return; 
-        }
+        if(!(this.img instanceof HTMLImageElement)) { return; }
 
         this.size = new Point().setXY(this.img.naturalWidth, this.img.naturalHeight);
         this.frameSize = new Point().setXY(
@@ -257,6 +279,11 @@ export default class ResourceImage extends Resource
         return this.img; 
     }
 
+    getImageFrameAsDrawable(num: number, desiredSize:Point = null)
+    {
+        return new CanvasDrawableLike(this.getImageFrame(num, desiredSize));
+    }
+
     getImageFrameAsResource(num:number, desiredSize:Point = null) : ResourceImage
     {
         const img = this.getImageFrame(num, desiredSize);
@@ -318,6 +345,14 @@ export default class ResourceImage extends Resource
         if(this.frameDims.y <= 0) { this.frameDims.y = 1; }
         this.refreshSize();
         await this.cacheThumbnails([this.countFrames()]);
+    }
+
+    async addFrames(imgs:HTMLImageElement[])
+    {
+        for(const img of imgs)
+        {
+            await this.addFrame(img);
+        }
     }
 
     async swapFrame(idx:number, img:HTMLImageElement)

@@ -4,7 +4,7 @@ gamepage: true
 boardgame: true
 
 title: "Risky Biscuits"
-headerTitle: "Risky Biscuits | A game of world domination, now playable with just paper and a pen."
+headerTitle: "A game of world domination, now playable with just paper and a pen."
 blurb: "Infiltrate enemy territories, spy on them, use magical artefacts, and dominate the world."
 
 extraCSS: true

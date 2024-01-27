@@ -1,21 +1,49 @@
 import ColorSet from "js/pq_games/layout/color/colorSet";
-import Configurable from "./configurable";
+import CVal from "./cval";
+import anyMatch from "../collections/anyMatch";
+import Point from "../geometry/point";
+import Color from "js/pq_games/layout/color/color";
 
-const INK_FRIENDLY_KEY = "inkFriendly";
+const PROTECTED_CLASSES = [Point, Color, ColorSet];
 
 export default class Configurator
 {
     itemsCalculated: Record<string, any>;
+    exceptions: string[];
+
+    constructor()
+    {
+        this.itemsCalculated = {};
+        this.exceptions = [];
+    }
+
+    addExceptions(exs:string[])
+    {
+        for(const exception of exs)
+        {
+            this.exceptions.push(exception);
+        }
+    }
+
+    removeExceptions(exs:string[])
+    {
+        for(const exception of exs)
+        {
+            const idx = this.exceptions.indexOf(exception);
+            if(idx < 0) { continue; }
+            this.exceptions.splice(idx, 1);
+        }
+    }
 
     // I don't want to carefully control the order in which these things are calculated and saved
     // Hence, whenever something is requested, if it's not calculated yet we just try it now
-    // (If it still fails, it just returns the Configurable itself, so it can always be tried the next time)
+    // (If it still fails, it just returns the CVal itself, so it can always be tried the next time)
     get(key:string|string[])
     {
         const path = this.keyToPath(key);
         let item = this.itemsCalculated[path];
 
-        const notCalculatedYet = item instanceof Configurable;
+        const notCalculatedYet = item instanceof CVal;
         if(notCalculatedYet)
         {
             item = this.calculateItem(item);
@@ -37,20 +65,19 @@ export default class Configurator
         return key.join(".");
     }
 
-    calculateItem(item:Configurable)
+    calculateItem(item:CVal)
     {
         return item.calculate(this.collectRequiredInputs(item));
     }
 
-    collectRequiredInputs(item:Configurable)
+    collectRequiredInputs(item:CVal)
     {
         const inputs = item.getInput();
         const arr = [];
-        if(item instanceof ColorSet) { arr.unshift(this.get(INK_FRIENDLY_KEY) ?? false); }
         for(const input of inputs)
         {
             const val = this.get(input);
-            if(!val) { return null; }
+            if(val == null) { return null; }
             arr.push(val);
         }
         return arr;
@@ -58,30 +85,46 @@ export default class Configurator
 
     calculate(config:Record<string,any>, path:string[] = [])
     {
+        if(typeof config !== "object") { return; }
+        if(!config) { return; }
+
         for(const [key,data] of Object.entries(config))
         {
             const pathNew = path.slice()
             pathNew.push(key);
 
+            const isException = anyMatch(this.exceptions, pathNew);
+            if(isException) { continue; }
+
             // either calculate the final value (or try to)
-            const isConfigurable = (data instanceof Configurable);
-            if(isConfigurable)
+            const isCVal = (data instanceof CVal);
+            if(isCVal)
             {
                 this.set(pathNew, this.calculateItem(data));
                 continue;
             }
 
             // or go deeper into the object
-            const isObject = typeof data === "object";
+            const isCustomObject = this.isProtectedObject(data);
+            const isObject = typeof data === "object" && !isCustomObject;
             if(isObject)
             {
-                this.calculate(pathNew, data);
+                this.calculate(data, pathNew);
                 continue;
             }
 
             // otherwise assume this is a raw value, save and do not touch
             this.set(pathNew, data);
         }
+    }
+
+    isProtectedObject(data)
+    {
+        for(const elem of PROTECTED_CLASSES)
+        {
+            if(data instanceof elem) { return true; }
+        }
+        return false;
     }
 
 }

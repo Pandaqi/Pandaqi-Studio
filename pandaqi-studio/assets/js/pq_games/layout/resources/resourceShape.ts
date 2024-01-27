@@ -25,12 +25,12 @@ export default class ResourceShape extends Resource
         return new ResourceShape({ shape: shape });
     }
 
-    async toCanvas(canv:CanvasLike = null, op:LayoutOperation = new LayoutOperation())
+    toCanvas(canv:CanvasLike = null, op:LayoutOperation = new LayoutOperation())
     {
         const dims = this.shape.getDimensions();
         if(!canv) { canv = createCanvas({ width: dims.size.x, height: dims.size.y }); }
         op.resource = this;
-        return await op.applyToCanvas(canv);
+        return op.applyToCanvas(canv);
     }
 
     async toHTML(op = new LayoutOperation())

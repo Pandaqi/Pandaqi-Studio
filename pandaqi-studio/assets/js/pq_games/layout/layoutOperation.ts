@@ -1,6 +1,6 @@
 import Point from "js/pq_games/tools/geometry/point"
 import LayoutEffect from "./effects/layoutEffect"
-import ResourceImage, { CanvasLike } from "js/pq_games/layout/resources/resourceImage"
+import ResourceImage, { CanvasDrawableLike, CanvasLike } from "js/pq_games/layout/resources/resourceImage"
 import Resource, { ElementLike } from "./resources/resource"
 import ResourceShape from "./resources/resourceShape"
 import ResourceText from "./resources/resourceText"
@@ -10,19 +10,16 @@ import isZero from "../tools/numbers/isZero"
 import ResourceBox from "./resources/resourceBox"
 import ColorLike, { ColorLikeValue } from "./color/colorLike"
 import createContext from "./canvas/createContext"
-import StrokeAlignValue from "./values/strokeAlignValue"
+import StrokeAlign from "./values/strokeAlign"
 import calculateBoundingBox from "../tools/geometry/paths/calculateBoundingBox"
 import ResourceGroup from "./resources/resourceGroup"
 import Rectangle from "../tools/geometry/rectangle"
 import rotatePath from "../tools/geometry/transform/rotatePath"
 import movePath from "../tools/geometry/transform/movePath"
+import TransformationMatrix from "./tools/transformationMatrix"
+import EffectsOperation from "./effects/effectsOperation"
 
 type ResourceLike = ResourceImage|ResourceShape|ResourceText|ResourceBox|ResourceGroup
-
-interface EffectData
-{
-    filters?: string[]
-}
 
 interface LayoutOperationParams
 {
@@ -30,11 +27,12 @@ interface LayoutOperationParams
     stroke?:string|ColorLikeValue,
     strokeWidth?:number,
     strokeType?:string,
-    strokeAlign?:StrokeAlignValue,
+    strokeAlign?:StrokeAlign,
 
     translate?: Point,
     rotation?:number,
     scale?:Point,
+    skew?:Point
 
     alpha?:number,
     composite?:GlobalCompositeOperation,
@@ -54,15 +52,18 @@ interface LayoutOperationParams
     resource?:ResourceLike,
     effects?:LayoutEffect[],
 
-    frame?:number
+    frame?:number,
+    transformParent?: TransformationMatrix,
+    keepTransform?: boolean
 }
 
-export { LayoutOperation, EffectData, ResourceLike }
+export { LayoutOperation, ResourceLike }
 export default class LayoutOperation
 {
     translate : Point
     rotation : number
     scale : Point
+    skew : Point
 
     alpha : number
     composite : GlobalCompositeOperation
@@ -81,11 +82,13 @@ export default class LayoutOperation
     effects : LayoutEffect[]
     
     frame: number // frame of image (spritesheets)
+    transformParent: TransformationMatrix
+    keepTransform: boolean
 
     fill: ColorLike
     stroke: ColorLike
     strokeWidth: number
-    strokeAlign: StrokeAlignValue
+    strokeAlign: StrokeAlign
     strokeType: string
 
     constructor(params:LayoutOperationParams = {})
@@ -95,7 +98,8 @@ export default class LayoutOperation
         this.dims = (params.dims ?? params.size) ?? new Point();
         this.ratio = params.ratio ?? new Point(1,1);
         this.keepRatio = params.keepRatio ?? false;
-        this.scale = params.scale ?? new Point().setXY(1,1);
+        this.scale = params.scale ?? new Point(1,1);
+        this.skew = params.skew ?? new Point();
         this.alpha = params.alpha ?? 1.0;
 
         this.pivot = params.pivot ?? new Point();
@@ -113,7 +117,10 @@ export default class LayoutOperation
         this.stroke = new ColorLike(params.stroke);
         this.strokeWidth = params.strokeWidth ?? 0;
         this.strokeType = params.strokeType ?? "solid";
-        this.strokeAlign = params.strokeAlign ?? StrokeAlignValue.MIDDLE;
+        this.strokeAlign = params.strokeAlign ?? StrokeAlign.MIDDLE;
+
+        this.transformParent = params.transformParent ?? null;
+        this.keepTransform = params.keepTransform ?? false;
     }
 
     clone(deep = false)
@@ -187,7 +194,7 @@ export default class LayoutOperation
         }
         rect.grow(extraSize);
 
-        const path = movePath( rotatePath(rect, this.rotation), translate);
+        const path = movePath( rotatePath(rect, this.rotation, new Point()), translate);
         const dimsObject = new Dims();
         for(const point of path)
         {
@@ -208,14 +215,14 @@ export default class LayoutOperation
     {
         let dims = this.dims.clone();
         let translate = this.translate.clone();
-        if(this.resource instanceof ResourceShape)
+        if(this.isShape())
         {
-            const dimsObject = calculateBoundingBox(this.resource.shape.toPath())
+            const dimsObject = calculateBoundingBox((this.resource as ResourceShape).shape.toPath())
             dims = dimsObject.size;
             if(moveToOrigin) { translate.move(dimsObject.topLeft); }
         }
 
-        if(this.keepRatio && this.resource instanceof ResourceImage)
+        if(this.keepRatio && this.isImage())
         {
             // @TODO: does ratio make sense for any other resource type than image?
             const ratio = this.resource instanceof ResourceImage ? this.resource.getRatio() : (this.ratio.x / this.ratio.y);
@@ -225,129 +232,92 @@ export default class LayoutOperation
             dims[calcAxis] = (givenAxis == "x") ? dims[givenAxis] / ratio : dims[givenAxis] * ratio;
         }
 
+        translate.round();
+        dims.round();
+
         return [translate, dims];
     }
 
-    async applyToCanvas(canv:CanvasLike = null) : Promise<HTMLCanvasElement>
+    getTransformationMatrix()
+    {
+        const [translate, dims] = this.getFinalDimensions();
+        const finalScale = this.getFinalScale();
+
+        const trans = this.transformParent ? this.transformParent : new TransformationMatrix();
+        trans.translate(translate); 
+        trans.rotate(this.rotation);
+        trans.scale(finalScale);
+
+        const offset = this.pivot.clone().negate().scale(dims);
+        trans.translate(offset);
+        // @TODO: enable once I've checked it works correctly => trans.skew(this.skew);
+        return trans;
+    }
+
+    isGroup() { return this.resource instanceof ResourceGroup; }
+    isImage() { return this.resource instanceof ResourceImage; }
+    isText() { return this.resource instanceof ResourceText; }
+    isShape() { return this.resource instanceof ResourceShape; }
+
+    applyToCanvas(canv:CanvasLike = null) : HTMLCanvasElement
     {        
         let ctx = (canv instanceof HTMLCanvasElement) ? canv.getContext("2d") : canv;
         if(!ctx) { ctx = createContext({ size: this.dims }); } // @TODO: how to control this size better?
+        
+        // @TODO: OPTIMIZATION => don't create the temporary canvas if we don't need it
+        // (Though that is rare; would only apply to stuff with only a transform + fill/stroke and nothing else)
 
-        ctx.imageSmoothingEnabled = false;
-        ctx.imageSmoothingQuality = "low";
-
+        // we create a temporary canvas to do everything we want
+        // once done, at the end, we stamp that onto the real one (with the right effects, alpha, etcetera set)
+        const ctxTemp = createContext({ size: new Point(ctx.canvas.width, ctx.canvas.height) });
         const [translate, dims] = this.getFinalDimensions();
-        const boundingBox = this.getBoundingBox();
 
-        // calculate the total size canvas we need to draw everything without clamping
-        // this is mostly necessary for LayoutGroups (which draw multiple things in whatever way)
-        // we enlarge + move as needed, then UNDO this extra movement when drawing it back onto the main canvas
-        // @TODO: a potentially cheaper/simpler alternative is to calculate the _final_ position by going through the whole chain of commands first, and draw that => needs a clearer tree structure and tree/node-based drawing approach
-        const totalSize = new Point(ctx.canvas.width, ctx.canvas.height);
-        const extraOffset = new Point();
-        if(boundingBox.topLeft.x < 0 || boundingBox.topLeft.y < 0)
-        {
-            const extraSpaceNeeded = boundingBox.topLeft.clone().abs();
-            extraOffset.move(extraSpaceNeeded);
-            totalSize.move(extraSpaceNeeded);
-        }
-
-        if(boundingBox.bottomRight.x > totalSize.x || boundingBox.bottomRight.y > totalSize.y)
-        {
-            const extraSpaceNeeded = boundingBox.bottomRight.clone().sub(totalSize);
-            totalSize.move(extraSpaceNeeded);
-        }
-
-        // now we create a temporary canvas, so we can collect fill + stroke + anything we need
-        // and THEN apply the right effects/position/postFX to the whole thing as we stamp it onto the real canvas
-        const ctxTemp = createContext({ size: totalSize });
-
-        ctx.save();
-
-        ctx.globalCompositeOperation = this.composite;
-        ctx.globalAlpha = this.alpha;
-
-        if(this.clip)
-        {
-            ctx.clip(this.clip.toPath2D());
-        }
-
-        ctxTemp.translate(translate.x, translate.y);
-        ctxTemp.translate(extraOffset.x, extraOffset.y);
-        ctxTemp.rotate(this.rotation);
-
-        const finalScale = this.getFinalScale();
-        ctxTemp.scale(finalScale.x, finalScale.y);
-
-        // @TODO: perhaps want to move this to AFTER we create the temporary canvas and draw it
-        // so we can just calculate the dims used then
-        const offset = this.pivot.clone();
-        offset.scaleFactor(-1).scale(dims);
-        ctxTemp.translate(offset.x, offset.y);
-
-        // mask should come before anything else happens (right?)
-        if(this.mask)
-        {
-            const maskData = this.mask.getFrameData();
-            ctx.drawImage(
-                this.mask.getImage(),
-                0, 0, maskData.width, maskData.height,
-                0, 0, dims.x, dims.y)
-            ctx.globalCompositeOperation = "source-in";
-        }
+        // we make sure we're drawing at the right position right away
+        // (which includes bubbling up the tree to take our parent's transform into account)
+        const trans = this.getTransformationMatrix();
+        trans.applyToContext(ctxTemp);
 
         // some effects merely require setting something on the canvas
-        const effectData : EffectData = { filters: [] };
-        for(const effect of this.effects)
-        {
-            effect.applyToCanvas(ctx, effectData);
-        }
-
-        ctx.filter = effectData.filters.join(" ");
+        const effOp = new EffectsOperation(this.effects);
+        effOp.applyToCanvasPre(ctx);
 
         ctxTemp.fillStyle = this.fill.toCanvasStyle(ctxTemp);
         ctxTemp.strokeStyle = this.stroke.toCanvasStyle(ctxTemp);
 
-        let lineWidth = this.strokeWidth;
-        if(this.strokeAlign != StrokeAlignValue.MIDDLE) { lineWidth *= 2; }
+        let lineWidth = Math.round(this.strokeWidth);
+        if(this.strokeAlign != StrokeAlign.MIDDLE) { lineWidth *= 2; }
         ctxTemp.lineWidth = lineWidth;
- 
-        const res = this.resource;
-        const drawGroup = res instanceof ResourceGroup;
-        const drawShape = res instanceof ResourceShape;
-        const drawText = res instanceof ResourceText;
 
-        let image : ResourceImage = null;
-        if(res instanceof ResourceImage) { image = res; }
-        //else if(res instanceof ResourceGradient) { image = await new ResourceImage().fromGradient(res); }
-        //else if(res instanceof ResourcePattern) { image = await new ResourceImage().fromPattern(res); }
-        const drawImage = image instanceof ResourceImage;
+        if(this.isGroup())
+        {
+            const combos = (this.resource as ResourceGroup).combos;
+            for(const combo of combos)
+            {
+                combo.toCanvas(ctxTemp, trans.clone());
+            }
+        }
 
-        if(drawShape)
+        else if(this.isShape())
         {
             // @TODO: if I find an easy/clean way to move this path to the ORIGIN,
             // I can remove the exception "moveToOrigin" for getFinalDimensions
             // (It's ugly now that positional data is locked inside the shape to be drawn)
-            let path = res.shape.toPath2D();
+            let path = (this.resource as ResourceShape).shape.toPath2D();
             this.applyFillAndStrokeToPath(ctxTemp, path);
         }
 
         // @TODO: not sure if text is positioned correctly/not cut-off now with the ctxTemp switch?
-        if(drawText)
+        else if(this.isText())
         {
-            const drawer = res.createTextDrawer(dims);
-            await drawer.toCanvas(ctxTemp, this);
+            const drawer = (this.resource as ResourceText).createTextDrawer(dims);
+            drawer.toCanvas(ctxTemp, this);
         }
 
-        if(drawImage)
+        else if(this.isImage())
         { 
-            let frameResource = image.getImageFrameAsResource(this.frame, dims.clone());
-
             // apply the effects that require an actual image to manipulate
-            for(const effect of this.effects)
-            {
-                frameResource = await effect.applyToImage(frameResource, effectData);
-            }
+            let frameResource:CanvasDrawableLike = (this.resource as ResourceImage).getImageFrameAsDrawable(this.frame, dims.clone());
+            frameResource = effOp.applyToDrawable(frameResource);
 
             const box = new Dims(new Point(), dims.clone());
             const boxPath = box.toPath2D();
@@ -363,37 +333,48 @@ export default class LayoutOperation
             this.applyFillAndStrokeToPath(ctxTemp, boxPath, drawImageCallback);
         }
 
-        if(drawGroup)
+        const ctxFinal = effOp.applyToCanvasPost(ctxTemp);
+
+        // SAVE/RESTORE is extremely expensive and error prone (if you forget one even once),
+        // so limit it to only when really needed
+        const needsStateManagement = this.clip;
+        if(needsStateManagement) { ctx.save(); }
+
+        // @NOTE: this is necessary if we're subgroups in a tree, as then the context given to us will have some transform from the parent
+        // The keepTransform flag is for special exceptions such as TextDrawer that blend images + text
+        // (Maybe I need to find something cleaner for that one day)
+        if(!this.keepTransform) 
         {
-            const combos = (this.resource as ResourceGroup).combos;
-            for(const combo of combos)
-            {
-                await combo.toCanvas(ctxTemp);
-            }
+            ctx.resetTransform();
         }
 
-        let ctxFinal = ctxTemp;
-        for(const effect of this.effects)
+        ctx.filter = effOp.getFilterString();
+        ctx.globalCompositeOperation = this.composite;
+        ctx.globalAlpha = this.alpha;
+        if(this.clip) { ctx.clip(this.clip.toPath2D()); }
+
+        // @TODO: this is entirely untested and needs to be worked on
+        // (also preferably put into its own function + executed BEFORE making changes to ctx?)
+        if(this.mask)
         {
-            const result = await effect.applyToCanvasPost(ctxFinal);
-            if(!result) { continue; }
-            ctxFinal = result;
+            const maskData = this.mask.getFrameData();
+            ctx.drawImage(
+                this.mask.getImage(),
+                0, 0, maskData.width, maskData.height,
+                0, 0, dims.x, dims.y)
+            ctx.globalCompositeOperation = "source-in";
         }
 
-        // finally, stamp the final canvas onto the real one
-        const drawPos = new Point();
-        drawPos.sub(extraOffset);
+        ctx.drawImage(ctxFinal.canvas, 0, 0);
 
-        ctx.drawImage(ctxFinal.canvas, drawPos.x, drawPos.y);
-
-        ctx.restore();
+        if(needsStateManagement) { ctx.restore(); }
         return ctx.canvas;
     }
 
     applyFillAndStrokeToPath(ctx:CanvasRenderingContext2D, path:Path2D, callback:Function = null)
     {
-        const strokeBeforeFill = this.strokeAlign == StrokeAlignValue.OUTSIDE;
-        const clipStroke = this.strokeAlign == StrokeAlignValue.INSIDE;
+        const strokeBeforeFill = this.strokeAlign == StrokeAlign.OUTSIDE;
+        const clipStroke = this.strokeAlign == StrokeAlign.INSIDE;
 
         if(clipStroke) { ctx.save(); ctx.clip(path); }
 
@@ -466,13 +447,10 @@ export default class LayoutOperation
         }
 
         // all the filter stuff to make special things happen
-        const effectData : EffectData = { filters: [] };
-        for(const effect of this.effects)
-        {
-            effect.applyToHTML(node, effectData);
-        }
+        const effOp = new EffectsOperation(this.effects);
+        effOp.applyToHTML(node);
 
-        node.style.filter = effectData.filters.join(" ");
+        node.style.filter = effOp.getFilterString();
 
         return node;
     }
@@ -497,7 +475,7 @@ export default class LayoutOperation
     {
         this.setStroke(s);
         this.strokeWidth = w;
-        this.strokeAlign = StrokeAlignValue.OUTSIDE;
+        this.strokeAlign = StrokeAlign.OUTSIDE;
         return this;
     }
 

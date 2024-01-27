@@ -1,6 +1,6 @@
 import Point from "js/pq_games/tools/geometry/point";
 import LayoutEffect from "./layoutEffect";
-import { EffectData } from "../layoutOperation";
+import EffectsOperation from "./effectsOperation";
 
 export default class BlurEffect extends LayoutEffect
 {
@@ -17,14 +17,14 @@ export default class BlurEffect extends LayoutEffect
         return new BlurEffect(this.blur);
     }
 
-    applyToCanvas(ctx:CanvasRenderingContext2D, effectData:EffectData = {})
+    applyToCanvas(ctx:CanvasRenderingContext2D, effOp = new EffectsOperation())
     {
-        effectData.filters.push(this.createFilterString());
+        effOp.addFilter(this.createFilterString());
     }
 
-    applyToHTML(div:HTMLDivElement, effectData:EffectData = {})
+    applyToHTML(div:HTMLDivElement, effOp = new EffectsOperation())
     {
-        effectData.filters.push(this.createFilterString());
+        effOp.addFilter(this.createFilterString());
     }
 
     createFilterString()

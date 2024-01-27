@@ -4,7 +4,7 @@ gamepage: true
 boardgame: true
 
 title: "Game of Afterlife"
-headerTitle: "Game of Afterlife | Make daring, brave or unique decisions as you travel through life---and maybe even beyond that."
+headerTitle: "Make daring, brave or unique decisions as you travel through life---and maybe even beyond that."
 blurb: "Make daring, brave or unique decisions as you travel through life---and maybe even beyond that. A free One Paper Game inspired by games like Candyland and Game of Life."
 
 extraCSS: true

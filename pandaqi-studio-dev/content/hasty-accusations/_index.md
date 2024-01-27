@@ -4,16 +4,11 @@ gamepage: true
 boardgame: true
 
 title: "Hasty Accusations"
-headerTitle: "Hasty Accusations | Ensure your character survives the murder investigation, but do it in secret."
+headerTitle: "Ensure your character survives the murder investigation, but do it in secret"
 blurb: "Everybody is investigating the same murder and pointing fingers every which way. Secret fingers. With secret actions. And you don't want too many targeting your hidden role."
 
 extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/1rpuM28gjwNK5-sSxLlJj0HYrXq8mgZkr" # already updated!
-
-fullHeaderImg: "hasty_accusations_header"
-headerImg: "hasty_accusations_header"
-
-headerThumb: "hasty_accusations_favicon"
 
 customHeight: "small"
 headerDarkened: true

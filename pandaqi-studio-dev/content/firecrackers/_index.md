@@ -4,16 +4,11 @@ gamepage: true
 boardgame: true
 
 title: "Firecrackers"
-headerTitle: "Firecrackers | Build the best fireworks show without having it blow up in your face."
+headerTitle: "Build the best fireworks show without having it blow up in your face."
 blurb: "A push-your-luck game about building your own deck of valuable fireworks, with the least chance of igniting the wrong one."
 
 extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/12cmopxbr8HZWw8jkXijINkCd8wdTAPQs" # already_updated!
-
-fullHeaderImg: "firecrackers_header"
-headerImg: "firecrackers_header"
-
-headerThumb: "firecrackers_favicon"
 
 customHeight: "small"
 headerDarkened: true

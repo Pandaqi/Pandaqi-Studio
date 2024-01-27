@@ -100,8 +100,11 @@ export default class Dims
 
     takePointIntoAccount(p:Point)
     {
-        const d = new Dims(p, new Point());
-        this.takeIntoAccount(d);
+        this.topLeft.x = Math.min(this.topLeft.x, p.x);
+        this.topLeft.y = Math.min(this.topLeft.y, p.y);
+        this.bottomRight.x = Math.max(this.bottomRight.x, p.x);
+        this.bottomRight.y = Math.max(this.bottomRight.y, p.y);
+        this.refresh();
     }
 
     takeIntoAccount(d:Dims)

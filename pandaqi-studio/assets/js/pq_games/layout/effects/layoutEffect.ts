@@ -1,16 +1,14 @@
-import ResourceImage, { CanvasLike } from "js/pq_games/layout/resources/resourceImage";
-import LayoutOperation, { EffectData } from "../layoutOperation";
+import ResourceImage, { CanvasDrawableLike, CanvasLike } from "js/pq_games/layout/resources/resourceImage";
+import LayoutOperation from "../layoutOperation";
 import { ElementLike } from "../resources/resource";
 import Point from "js/pq_games/tools/geometry/point";
+import EffectsOperation from "./effectsOperation";
 
 export default class LayoutEffect
 {
     constructor(params:Record<string,any> = {}) { }
 
-    async applyToImage(image:ResourceImage = null, effectData:EffectData = {}) : Promise<ResourceImage> 
-    { 
-        return image; 
-    }
+    applyToImage(image:CanvasDrawableLike = null, effOp:EffectsOperation) : CanvasDrawableLike { return null; }
 
     async applyToImageOverwrite(image:ResourceImage)
     {
@@ -20,9 +18,9 @@ export default class LayoutEffect
         image.fromResourceImage(imgRes);
     }
 
-    applyToCanvas(canv:CanvasLike, effectData:EffectData = {}) { }
-    async applyToCanvasPost(source:CanvasLike) : Promise<CanvasRenderingContext2D> { return null; }
-    applyToHTML(div:ElementLike, effectData:EffectData = {}) { }
+    applyToCanvas(canv:CanvasLike, effOp:EffectsOperation) { }
+    applyToCanvasPost(source:CanvasLike) : CanvasRenderingContext2D { return null; }
+    applyToHTML(div:ElementLike, effOp:EffectsOperation) { }
     applyToSVG(elem:ElementLike) { }
     clone(deep = false) : LayoutEffect { return new LayoutEffect(); }
     getExtraSizeAdded() : Point { return new Point(); }

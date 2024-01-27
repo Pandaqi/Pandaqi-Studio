@@ -4,18 +4,13 @@ gamepage: true
 boardgame: true
 
 title: "Aeronaut Odyssey"
-headerTitle: "Aeronaut Odyssey | Claim routes and connect sky castles in a fast game inspired by Ticket to Ride."
+headerTitle: "Claim routes and connect sky castles in a fast game inspired by Ticket to Ride"
 blurb: "Travel the world, claim the most valuable routes and profit from it. Connect the sky castles faster than your opponents, in a One Paper Game inspired by Ticket to Ride."
 
 extraCSS: true
 extraJSBoard: true
 extraJSBoardInclude: true
 downloadLink: "https://drive.google.com/drive/folders/11yggBK2i8MlMg6sxD-oE4xBQzpgC4AUr"
-
-fullHeaderImg: "aeronaut_header"
-headerImg: "aeronaut_header"
-
-headerThumb: "favicon"
 
 customHeight: "small"
 headerDarkened: true

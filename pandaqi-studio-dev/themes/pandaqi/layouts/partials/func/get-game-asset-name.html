@@ -1,0 +1,5 @@
+
+{{ $title := .Title | urlize }}
+{{ $new_title := strings.Split $title "-" }}
+{{ $new_title = collections.Delimit $new_title "_" }}
+{{ return $new_title }}

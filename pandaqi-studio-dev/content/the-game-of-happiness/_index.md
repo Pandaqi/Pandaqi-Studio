@@ -4,16 +4,11 @@ gamepage: true
 boardgame: true
 
 title: "The Game of Happiness"
-headerTitle: "The Game of Happiness | A group game of discovery and relatability."
+headerTitle: "A group game of discovery and relatability"
 blurb: "Rank a series of random events based on how happy they'd make you---and hope your friends and family know you well enough to perfectly guess your ranking."
 
 extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/1GyAwnyAyk8J9XK190-KQNGulIBGo3xIb" # already updated!
-
-fullHeaderImg: "the_game_of_happiness_header"
-headerImg: "the_game_of_happiness_header"
-
-headerThumb: "the_game_of_happiness_favicon"
 
 customHeight: "large"
 headerDarkened: true

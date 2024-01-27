@@ -6,7 +6,7 @@ gamepage: true
 boardgame: true
 
 title: "Conductors of the Underground"
-headerTitle: "Conductors of the Underground -- fix the transit mess in Hades' underworld"
+headerTitle: "Fix the transit mess in Hades' underworld"
 blurb: "Lala vlavla"
 
 customHeight: "small"
