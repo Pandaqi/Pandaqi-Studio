@@ -1,8 +1,6 @@
-import createContext from "js/pq_games/layout/canvas/createContext";
-import Visualizer from "./visualizer";
-import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
-import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import { CardType } from "games/naivigation/js_shared/dictShared";
+import cardDrawerNaivigation from "games/naivigation/js_shared/cardDrawerNaivigation";
+import { MISC, VEHICLE_CARDS } from "../js_shared/dict";
 
 export default class Card
 {
@@ -16,22 +14,10 @@ export default class Card
         this.key = k;
     }
 
-    async drawForRules(vis:Visualizer)
+    getData() { return VEHICLE_CARDS[this.key]; }
+    getMisc() { return MISC; }
+    async draw(vis)
     {
-        return this.draw(vis);
-    }
-
-    async draw(vis:Visualizer)
-    {
-        const ctx = createContext({ size: vis.size });
-        const group = new ResourceGroup();
-        this.drawBackground(vis, group, ctx);
-        group.toCanvas(ctx);
-        return ctx.canvas;
-    }
-
-    drawBackground(vis:Visualizer, group, ctx)
-    {
-        fillCanvas(ctx, "#FFFFFF");
+        return cardDrawerNaivigation(vis, this);
     }
 }

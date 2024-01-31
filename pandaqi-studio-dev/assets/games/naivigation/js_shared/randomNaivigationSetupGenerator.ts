@@ -166,7 +166,8 @@ export default class RandomNaivigationSetupGenerator
             const realPos = cell.position.clone().scale(TILE_SIZE).move(new Point(0.5*TILE_SIZE));
 
             // @TODO: we really need to support raw Canvases as well, or perhaps create a ResourceCanvas if that's too hard
-            const img = await convertCanvasToImage(await cell.tile.drawForRules(this.visualizer));
+            // Because now we're creating Images all the time, which is slow, and needs async, and just not needed
+            const img = await this.drawItem(cell.tile);
             const resCell = new ResourceImage(img);
             const cellOp = new LayoutOperation({
                 translate: realPos,
@@ -178,7 +179,7 @@ export default class RandomNaivigationSetupGenerator
             
             if(cell == this.playerTokenData.tile)
             {
-                const imgToken = await convertCanvasToImage(await this.playerToken.drawForRules(this.visualizer));
+                const imgToken = await this.drawItem(this.playerToken);
                 const resToken = new ResourceImage(imgToken);
                 const tokenOp = new LayoutOperation({
                     translate: realPos,
@@ -228,5 +229,17 @@ export default class RandomNaivigationSetupGenerator
         })
 
         return positions;
+    }
+
+    async drawItem(item)
+    {
+        let canv;
+        if(typeof item.drawForRules === "function") {
+            canv = await item.drawForRules(this.visualizer);
+        } else {
+            canv = await item.draw(this.visualizer);
+        }
+
+        return convertCanvasToImage(canv);
     }
 }

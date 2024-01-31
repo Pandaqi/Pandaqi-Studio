@@ -35,7 +35,13 @@ const CONFIG:any =
         misc:
         {
             path: "misc.webp",
-            frames: new Point(4,1)
+            frames: new Point(2,1)
+        },
+
+        icons:
+        {
+            path: "icons.webp",
+            frames: new Point(8,2)
         },
     },
 
@@ -46,7 +52,20 @@ const CONFIG:any =
             numGPSCards: 30,
             numFuelCards: 10,
         },
+    
+        instruction:
+        {
+            fontSize: new CVal(0.1, "sizeUnit"),
+            textPos: new CVal(new Point(0.25, 0.25), "sizeUnit"),
+            strokeWidth: new CVal(0.05, "sizeUnit"),
+        },
 
+        compass:
+        {
+            dims: new CVal(0.9, "sizeUnit")
+        },
+
+        // @DEBUGGING/testing
         fontSize: new CVal(0.05, "sizeUnit"),
         textBox: new CVal(new Point(0.1, 0.1), "size"),
         backgroundColor: new CVal(new ColorSet("#FFAAAA", "#FFFFFF"), "inkFriendly")

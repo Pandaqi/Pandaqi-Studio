@@ -15,7 +15,7 @@ interface DefaultCardData
 //
 const VEHICLE_CARDS = 
 {
-    discuss: { label: "Discuss", desc: "When executed, you may communicate until you decide to execute the next card.", freq: 5 }
+    discuss: { frame: 2, label: "Discuss", desc: "When executed, you may communicate until you decide to execute the next card.", freq: 5 }
 };
 
 //
@@ -73,7 +73,7 @@ const TIME_CARDS =
 };
 
 //
-// Action Cards => @TODO: Not sure if it's more fun to add these as default Vehicle Cards in the deck?
+// Action Cards
 //
 const ACTION_CARDS = 
 {
@@ -134,8 +134,41 @@ const MATERIAL:Record<CardType, MaterialData> =
     [CardType.COMPASS]: {}
 }
 
+interface TemplateData
+{
+    frameTemplate?:number, // frame for template at the bottom
+    frameIcon?: number, // frame for big main illustration
+    bgColor?: string, // color used for filling entire background of card
+    tintColor?: string, // color used for tinting template (bg for title + text)
+    label?: string, // title, heading
+    subText?: string, // smaller piece below it, mostly to indicate card type literally
+    desc?: string, // the actual text on card; usually overriden by specific card
+}
+
+const TEMPLATES:Record<string, TemplateData> =
+{
+    [CardType.VEHICLE]: { frameTemplate: 0, bgColor: "#FFFFFF", tintColor: "#DADADA", label: null, subText: "Vehicle Card" },
+    [CardType.HEALTH]: { frameTemplate: 2, frameIcon: 3, bgColor: "#F9C98C", label: "Health", subText: "Handicap" },
+    [CardType.GPS]: { frameTemplate: 3, frameIcon: 4, bgColor: "#A6741A", label: "GPS", subText: null },
+    [CardType.TIME]: { frameTemplate: 4, frameIcon: 5, bgColor: "#4AD9FC", label: "Time", subText: "Event" },
+    [CardType.FUEL]: { frameTemplate: 5, frameIcon: 7, bgColor: "#3A3A3A", label: "Fuel", subText: null, desc: "If <b>empty</b> (0) or <b>overfilled</b> (10), take damage and reset." },
+    [CardType.ACTION]: { frameTemplate: 1, bgColor: "#FFFFFF", tintColor: "#DADADA", label: null, subText: "Action Card" },
+    [CardType.INSTRUCTION]: { frameIcon: 2 },
+    [CardType.COMPASS]: { frameIcon: 1 }
+}
+
+const NUM_BG_BLOBS = 4
+const MISC =
+{
+    game_icon: { frame: 0 },
+    game_pattern: { frame: 1 }
+}
+
 
 export 
 {
-    MATERIAL
+    MATERIAL,
+    MISC,
+    TEMPLATES,
+    NUM_BG_BLOBS
 }

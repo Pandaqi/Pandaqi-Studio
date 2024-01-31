@@ -1,4 +1,5 @@
 import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textConfig"
+import CVal from "js/pq_games/tools/generation/cval"
 import Point from "js/pq_games/tools/geometry/point"
 
 const CONFIG_NAIVIGATION_SHARED = 
@@ -43,6 +44,20 @@ const CONFIG_NAIVIGATION_SHARED =
             path: "/naivigation/assets/fonts/K2D-Italic.woff2",
             useAbsolutePath: true,
             textConfig: new TextConfig({ style: TextStyle.ITALIC })
+        },
+
+        card_templates:
+        {
+            path: "/naivigation/assets/card_templates.webp",
+            frames: new Point(6, 2),
+            useAbsolutePath: true,
+        },
+
+        bg_blobs:
+        {
+            path: "/naivigation/assets/bg_blobs.webp",
+            frames: new Point(4, 2),
+            useAbsolutePath: true
         }
     },
 
@@ -59,6 +74,46 @@ const CONFIG_NAIVIGATION_SHARED =
                 large: new Point(2,2)
             },
         }, 
+
+        background:
+        {
+            dims: new CVal(1.2, "sizeUnit"),
+            blobAlpha: 0.25,
+            patternAlpha: 0.25
+        },
+
+        general:
+        {
+            numBackgroundBlobs: 4,
+            
+            fontSize: new CVal(0.1, "sizeUnit"),
+            fontSizeMeta: new CVal(0.05, "sizeUnit"),
+            fontSizeContent: new CVal(0.07, "sizeUnit"),
+            textPosY: new CVal(0.75, "size.y"),
+            strokeWidth: new CVal(0.04, "sizeUnit"),
+            alphaMeta: 0.5,
+            contentTextBox: new CVal(new Point(0.8, 0.4), "size"),
+
+            extraNumber:
+            {
+                fontSize: new CVal(0.1, "sizeUnit"),
+                strokeWidth: new CVal(0.05, "sizeUnit"),
+                offset: new CVal(0.4, "sizeUnit"),
+            },
+
+            illustration:
+            {
+                mainPos: new CVal(0.5, "size"),
+                mainDims: new CVal(0.8, "sizeUnit"),
+                smallDims: new CVal(0.15, "sizeUnit"),
+            },
+
+            gameIcon:
+            {
+                dims: new CVal(0.1, "sizeUnit"),
+                posDefault: new CVal(new Point(0.5, 0.55), "size")
+            }
+        }
     },
 
     tiles:
@@ -78,6 +133,11 @@ const CONFIG_NAIVIGATION_SHARED =
         generation:
         {
             numUniqueVehicles: 2
+        },
+
+        vehicle:
+        {
+            dims: new CVal(new Point(0.4), "sizeUnit")
         }
     }
 }

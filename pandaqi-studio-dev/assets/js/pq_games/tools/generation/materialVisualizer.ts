@@ -44,4 +44,9 @@ export default class MaterialVisualizer
     {
         return this.configurator.get(s);
     }
+
+    getResource(s:string)
+    {
+        return this.resLoader.getResource(s);
+    }
 }

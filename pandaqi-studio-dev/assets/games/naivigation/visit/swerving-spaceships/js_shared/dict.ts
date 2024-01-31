@@ -8,6 +8,8 @@ interface MaterialData
     freq?: number,
 }
 
+const MAIN_COLORS = { bgColor: "#8B46FF", tintColor: "#D5BDFF", textColor: "#1C004B" };
+
 //
 // Vehicle Cards (thing #1 that'll be unique for each game)
 //
@@ -32,8 +34,16 @@ const MAP_TILES:Record<string,MaterialData> =
     spaceship: { frame: 5, label: "Enemy Spaceship", freq: 4 },
 }
 
+const MISC =
+{
+    game_icon: { frame: 0 },
+    game_pattern: { frame: 1 },
+}
+
 export 
 {
+    MAIN_COLORS,
     VEHICLE_CARDS,
-    MAP_TILES
+    MAP_TILES,
+    MISC
 }

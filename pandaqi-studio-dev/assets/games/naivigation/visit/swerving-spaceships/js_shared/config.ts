@@ -1,5 +1,7 @@
 import CONFIG_NAIVIGATION_SHARED from "games/naivigation/js_shared/configShared"
 import mergeObjects from "js/pq_games/tools/collections/mergeObjects";
+import CVal from "js/pq_games/tools/generation/cval";
+import Bounds from "js/pq_games/tools/numbers/bounds";
 
 const CONFIG:any = 
 {
@@ -56,7 +58,19 @@ const CONFIG:any =
 
     tiles:
     {
+        map: 
+        {
+            maxPosRand: new CVal(0.1, "sizeUnit"),
+            iconDims: new CVal(0.8, "sizeUnit"),
 
+            stars:
+            {
+                numBounds: new Bounds(0,4),
+                baseDims: new CVal(0.1, "sizeUnit"),
+                dimsRand: new Bounds(0.85, 1.15),
+                alphaBounds: new Bounds(0.3, 0.9),
+            }
+        }
     }
 }
 
