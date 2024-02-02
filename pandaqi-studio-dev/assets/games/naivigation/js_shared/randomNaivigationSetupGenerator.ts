@@ -11,10 +11,11 @@ import shuffle from "js/pq_games/tools/random/shuffle";
 import InteractiveExample from "js/pq_rulebook/examples/interactiveExample";
 import { TileType } from "./dictShared";
 import fromArray from "js/pq_games/tools/random/fromArray";
+import MaterialNaivigation from "./materialNaivigation";
 
 interface TileData
 {
-    tile: any
+    tile: MaterialNaivigation
     position: Point,
     rotation: number,
     collectible: boolean
@@ -23,7 +24,7 @@ interface TileData
 interface NaivigationSetupParams
 {
     size?: Point,
-    tiles?: any[],
+    tiles?: MaterialNaivigation[],
     validPlacementCallback?: Function,
     visualizer?: MaterialVisualizer
 }
@@ -177,7 +178,7 @@ export default class RandomNaivigationSetupGenerator
             })
             group.add(resCell, cellOp);
             
-            if(cell == this.playerTokenData.tile)
+            if(cell.tile == this.playerTokenData.tile)
             {
                 const imgToken = await this.drawItem(this.playerToken);
                 const resToken = new ResourceImage(imgToken);
@@ -233,13 +234,6 @@ export default class RandomNaivigationSetupGenerator
 
     async drawItem(item)
     {
-        let canv;
-        if(typeof item.drawForRules === "function") {
-            canv = await item.drawForRules(this.visualizer);
-        } else {
-            canv = await item.draw(this.visualizer);
-        }
-
-        return convertCanvasToImage(canv);
+        return convertCanvasToImage(await item.drawForRules(this.visualizer))
     }
 }

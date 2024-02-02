@@ -1,4 +1,5 @@
 import createCanvas from "js/pq_games/layout/canvas/createCanvas";
+import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
 import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
 import TintEffect from "js/pq_games/layout/effects/tintEffect";
 import GridMapper from "js/pq_games/layout/gridMapper";
@@ -21,6 +22,11 @@ const TEST_ASSETS = {
         path: "/dev-test/assets/fonts/Comica Boom.otf",
         size: 0.1285
     },
+
+    misc: {
+        path: "/naivigation/assets/misc.webp",
+        //frames: new Point(2,1)
+    }
 }
 
 const testAssetLoading = async () =>
@@ -118,6 +124,22 @@ const testSubGroups = async (canv, resLoader) =>
 }
 */
 
+const testCompositeOperation = async (canv, resLoader) =>
+{
+    fillCanvas(canv, "#F9C98C");
+
+    const res = resLoader.getResource("misc") as ResourceImage;
+    const spriteParams = {
+        dims: new Point(512,256),
+        composite: "overlay"
+    }
+    const canvOp = new LayoutOperation(spriteParams);
+
+    const group = new ResourceGroup();
+    group.add(res, canvOp);
+    group.toCanvas(canv);
+}
+
 const runTests = async () =>
 {
     const resLoader = await testAssetLoading();
@@ -129,7 +151,9 @@ const runTests = async () =>
 
     const canv = createCanvas({ size: new Point(512, 512) });
     //await testSingleImage(canv, resLoader);
-    await testGroups(canv, resLoader);
+    //await testGroups(canv, resLoader);
+
+    testCompositeOperation(canv, resLoader);
 
     canv.style.outline = "5px solid red";
 

@@ -16,8 +16,11 @@ enum TileType
     VEHICLE = "vehicle"
 }
 
+type MaterialNaivigationType = CardType | TileType
+
 export
 {
     CardType,
-    TileType
+    TileType,
+    MaterialNaivigationType
 }

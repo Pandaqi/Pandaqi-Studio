@@ -1,8 +1,8 @@
 import CONFIG from "../js_shared/config";
 import MaterialGenerator from "js/pq_games/tools/generation/materialGenerator";
-import { createCardPicker, createTilePicker } from "./generators";
+import { cardPicker, tilePicker } from "./generators";
 
 const generator = new MaterialGenerator(CONFIG);
-generator.addPipeline("tiles", createTilePicker(), CONFIG.tiles.drawerConfig);
-generator.addPipeline("cards", createCardPicker(), CONFIG.cards.drawerConfig);
+generator.addPipeline("tiles", tilePicker, CONFIG.tiles.drawerConfig);
+generator.addPipeline("cards", cardPicker, CONFIG.cards.drawerConfig);
 generator.start();

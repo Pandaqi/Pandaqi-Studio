@@ -96,11 +96,7 @@ export default class RandomNaivigationTurnGenerator
             fillCanvas(ctx, "#FFFFFF");
             canv = ctx.canvas;
         } else {
-            if(typeof card.drawForRules === "function") {
-                canv = await card.drawForRules(this.visualizer);
-            } else {
-                canv = await card.draw(this.visualizer);
-            }
+            canv = await card.drawForRules(this.visualizer);
         }
 
         return await convertCanvasToImage(canv);

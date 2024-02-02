@@ -16,9 +16,12 @@ export default class CardPicker
         this.generateInstructionTokens();
         this.generateVehicleCards();
         this.generateHealthCards();
+        this.generateActionCards();
         this.generateGPSCards();
         this.generateTimeDeck();
         this.generateFuelDeck();
+
+        console.log(this.cards);
     }
 
     generateFromDictionary(inputType:CardType, cardType:CardType = null)

@@ -1,10 +1,5 @@
-import ColorSet from "js/pq_games/layout/color/colorSet";
-import CVal from "./cval";
 import anyMatch from "../collections/anyMatch";
-import Point from "../geometry/point";
-import Color from "js/pq_games/layout/color/color";
-
-const PROTECTED_CLASSES = [Point, Color, ColorSet];
+import CVal from "./cval";
 
 export default class Configurator
 {
@@ -105,9 +100,9 @@ export default class Configurator
             }
 
             // or go deeper into the object
-            const isCustomObject = this.isProtectedObject(data);
-            const isObject = typeof data === "object" && !isCustomObject;
-            if(isObject)
+            const isClassInstance = this.isClassInstance(data);
+            const isRawObject = typeof data === "object" && !isClassInstance;
+            if(isRawObject)
             {
                 this.calculate(data, pathNew);
                 continue;
@@ -118,12 +113,9 @@ export default class Configurator
         }
     }
 
-    isProtectedObject(data)
+    isClassInstance(data)
     {
-        for(const elem of PROTECTED_CLASSES)
-        {
-            if(data instanceof elem) { return true; }
-        }
+        if(data.constructor && data.constructor.name !== "Object") { return true; }
         return false;
     }
 

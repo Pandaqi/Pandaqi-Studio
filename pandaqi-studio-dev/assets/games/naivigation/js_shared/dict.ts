@@ -1,3 +1,4 @@
+import Point from "js/pq_games/tools/geometry/point";
 import { CardType } from "./dictShared";
 
 interface DefaultCardData
@@ -23,21 +24,21 @@ const VEHICLE_CARDS =
 //
 const HEALTH_CARDS = 
 {
-    last_life: { label: "Regular Life", desc: "Nothing special.", num: 1, freq: 2 },
-    random_draw_controlled: { label: "Pick from 2", desc: "Start player must select 2 cards each time, then randomly pick one to place.", num: 5 },
-    random_draw: { label: "Random Draw", desc: "Start player must play a random card (from their hand).", num: 3 },
-    first_from_left: { label: "First from Left", desc: "Players must play their card at the <b>first</b> available spot from the <b>left</b>.", num: 2 },
-    first_from_right: { label: "First from Right", desc: "Players must play their card at the <b>first</b> available spot from the <b>right</b>.", num: 2 }, // @NOTE: "last from left" = "first from right"
-    delayed_draw: { label: "Delayed Draw", desc: "Don't draw new cards until your hand is completely empty.", num: 3 },
-    last_player_disabled: { label: "One Fewer Instruction", desc: "The last player does NOT get to play a card anymore.", num: 4 },
-    last_player_double: { label: "One More Instruction", desc: "The last player must play 2 instructions.", num: 3 },
-    double_round: { label: "Double Round", desc: "You play <b>2 rounds</b> (creating a row that's twice as long) before executing instructions.", num: 3 },
-    forced_follow: { label: "Forced Follow", desc: "Start player plays their card faceup. All other players must play the <b>same card</b> if they have it.", num: 4  },
-    lower_hand_limit: { label: "Lower Hand Limit", desc: "The hand limit is permanently lowered by 1.", num: 3 },
-    forced_spot: { label: "Forced Spot", desc: "Spin the compass again and check the number that points at the start player. They must play their card in that slot.", num: 4 },
-    random_replace: { label: "Random Replace", desc: "End of round: start player must REPLACE one card played with a random one from their hand.", num: 5 },
-    limited_communication: { label: "Limited Communication", desc: "The Discuss card only counts when it's the first card executed.", num: 5 },
-    risky_turns: { label: "Risky Turns", desc: "End of round: Take 1 damage if you end on the same tile as you began.", num: 4 }
+    last_life: { subText: "Regular Life", desc: "Nothing special.", num: 1, freq: 2 },
+    random_draw_controlled: { subText: "Pick from 2", desc: "Start player must select 2 cards each time, then randomly pick one to place.", num: 5 },
+    random_draw: { subText: "Random Draw", desc: "Start player must play a random card (from their hand).", num: 3 },
+    first_from_left: { subText: "First from Left", desc: "Players must play their card at the <b>first</b> available spot from the <b>left</b>.", num: 2 },
+    first_from_right: { subText: "First from Right", desc: "Players must play their card at the <b>first</b> available spot from the <b>right</b>.", num: 2 }, // @NOTE: "last from left" = "first from right"
+    delayed_draw: { subText: "Delayed Draw", desc: "Don't draw new cards until your hand is completely empty.", num: 3 },
+    last_player_disabled: { subText: "One Fewer Instruction", desc: "The last player does NOT get to play a card anymore.", num: 4 },
+    last_player_double: { subText: "One More Instruction", desc: "The last player must play 2 instructions.", num: 3 },
+    double_round: { subText: "Double Round", desc: "You play <b>2 rounds</b> (creating a row that's twice as long) before executing instructions.", num: 3 },
+    forced_follow: { subText: "Forced Follow", desc: "Start player plays their card faceup. All other players must play the <b>same card</b> if they have it.", num: 4  },
+    lower_hand_limit: { subText: "Lower Hand Limit", desc: "The hand limit is permanently lowered by 1.", num: 3 },
+    forced_spot: { subText: "Forced Spot", desc: "Spin the compass again and check the number that points at the start player. They must play their card in that slot.", num: 4 },
+    random_replace: { subText: "Random Replace", desc: "End of round: start player must REPLACE one card played with a random one from their hand.", num: 5 },
+    limited_communication: { subText: "Limited Communication", desc: "The Discuss card only counts when it's the first card executed.", num: 5 },
+    risky_turns: { subText: "Risky Turns", desc: "End of round: Take 1 damage if you end on the same tile as you began.", num: 4 }
 };
 
 //
@@ -143,18 +144,20 @@ interface TemplateData
     label?: string, // title, heading
     subText?: string, // smaller piece below it, mostly to indicate card type literally
     desc?: string, // the actual text on card; usually overriden by specific card
+    smallIconOffset?: Point, // placement of smaller versions of icons is one major difference between templates
+    extraNumberOffset?: Point, // where to position the (optional) number on a select few templates
 }
 
 const TEMPLATES:Record<string, TemplateData> =
 {
-    [CardType.VEHICLE]: { frameTemplate: 0, bgColor: "#FFFFFF", tintColor: "#DADADA", label: null, subText: "Vehicle Card" },
-    [CardType.HEALTH]: { frameTemplate: 2, frameIcon: 3, bgColor: "#F9C98C", label: "Health", subText: "Handicap" },
+    [CardType.VEHICLE]: { frameTemplate: 0, bgColor: "#FFFFFF", tintColor: "#DADADA", label: null, subText: "Vehicle Card", smallIconOffset: new Point(0.33, 0) },
+    [CardType.HEALTH]: { frameTemplate: 2, frameIcon: 3, bgColor: "#F9C98C", label: "Health", subText: "Handicap", smallIconOffset: new Point(0.35, -0.05), extraNumberOffset: new Point(0.46, 0) },
     [CardType.GPS]: { frameTemplate: 3, frameIcon: 4, bgColor: "#A6741A", label: "GPS", subText: null },
-    [CardType.TIME]: { frameTemplate: 4, frameIcon: 5, bgColor: "#4AD9FC", label: "Time", subText: "Event" },
+    [CardType.TIME]: { frameTemplate: 4, frameIcon: 5, bgColor: "#4AD9FC", label: "Time", subText: "Event", extraNumberOffset: new Point(0.46, -0.2) },
     [CardType.FUEL]: { frameTemplate: 5, frameIcon: 7, bgColor: "#3A3A3A", label: "Fuel", subText: null, desc: "If <b>empty</b> (0) or <b>overfilled</b> (10), take damage and reset." },
-    [CardType.ACTION]: { frameTemplate: 1, bgColor: "#FFFFFF", tintColor: "#DADADA", label: null, subText: "Action Card" },
-    [CardType.INSTRUCTION]: { frameIcon: 2 },
-    [CardType.COMPASS]: { frameIcon: 1 }
+    [CardType.ACTION]: { frameTemplate: 1, bgColor: "#FFFFFF", tintColor: "#DADADA", label: null, subText: "Action Card", smallIconOffset: new Point(0.4125, 0) },
+    [CardType.INSTRUCTION]: { frameIcon: 1 },
+    [CardType.COMPASS]: { frameIcon: 0 }
 }
 
 const NUM_BG_BLOBS = 4

@@ -7,7 +7,9 @@ export default class MaterialVisualizer
     configurator: Configurator
     resLoader: ResourceLoader
     inkFriendly: boolean
-    size: Point
+    size: Point;
+    sizeUnit: number;
+    center: Point;
     custom: any;
 
     constructor(config)
@@ -25,11 +27,14 @@ export default class MaterialVisualizer
         this.configurator = new Configurator();
         this.configurator.addExceptions(["resLoader", "drawerConfig", "gameTitle", "fileName", "localstorage", "debug"]);
 
+        this.sizeUnit = Math.min(this.size.x, this.size.y);
+        this.center = this.size.clone().scale(0.5);
+
         // this is just for very easy access through the configurator later; must come first though to ensure we have it for everything else
         this.configurator.calculate({
             size: this.size,
-            sizeUnit: Math.min(this.size.x, this.size.y),
-            center: this.size.clone().scale(0.5),
+            sizeUnit: this.sizeUnit,
+            center: this.center,
             inkFriendly: this.inkFriendly
         })
         this.configurator.calculate(config);

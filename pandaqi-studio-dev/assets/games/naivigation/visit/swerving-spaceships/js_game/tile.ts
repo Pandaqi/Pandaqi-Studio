@@ -7,19 +7,10 @@ import Point from "js/pq_games/tools/geometry/point";
 import { MAP_TILES } from "../js_shared/dict";
 import rangeInteger from "js/pq_games/tools/random/rangeInteger";
 import range from "js/pq_games/tools/random/range";
+import MaterialNaivigation from "games/naivigation/js_shared/materialNaivigation";
 
-export default class Tile
+export default class Tile extends MaterialNaivigation
 {
-    type: TileType
-    key: string
-    customData:Record<string,any>;
-
-    constructor(t:TileType, k:string = "")
-    {
-        this.type = t;
-        this.key = k;
-    }
-
     isCollectible() { return this.key == "planet"; }
     async draw(vis)
     {

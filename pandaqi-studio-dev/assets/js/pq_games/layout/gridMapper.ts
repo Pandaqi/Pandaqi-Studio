@@ -12,7 +12,7 @@ enum GridMapperLayout
 
 
 const DEF_AUTO_STROKE = {
-    size: 0.025,
+    size: 0.01,
     color: "#000000"
 }
 

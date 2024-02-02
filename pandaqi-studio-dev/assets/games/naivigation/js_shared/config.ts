@@ -55,14 +55,14 @@ const CONFIG:any =
     
         instruction:
         {
-            fontSize: new CVal(0.1, "sizeUnit"),
-            textPos: new CVal(new Point(0.25, 0.25), "sizeUnit"),
-            strokeWidth: new CVal(0.05, "sizeUnit"),
+            fontSize: new CVal(0.235, "sizeUnit"),
+            textPos: new CVal(new Point(0.2275, 0.25), "sizeUnit"),
+            strokeWidth: new CVal(0.025, "sizeUnit"),
         },
 
         compass:
         {
-            dims: new CVal(0.9, "sizeUnit")
+            dims: new CVal(new Point(0.9), "sizeUnit")
         },
 
         // @DEBUGGING/testing

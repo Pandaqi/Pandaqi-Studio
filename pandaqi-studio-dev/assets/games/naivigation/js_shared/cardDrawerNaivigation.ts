@@ -11,20 +11,13 @@ import Point from "js/pq_games/tools/geometry/point";
 import rangeInteger from "js/pq_games/tools/random/rangeInteger";
 import { CardType } from "./dictShared";
 import createContext from "js/pq_games/layout/canvas/createContext";
-import { TEMPLATES } from "./dict";
-
-// This data is for the card TYPE, which is the same for all games, that's why it's just a function to grab it here
-// (For example, Time cards always have the same template, no matter which game asks to create them)
-const getTemplateData = (card) =>
-{
-    return TEMPLATES[card.type];
-}
+import MaterialNaivigation from "./materialNaivigation";
 
 const drawCardBackground = (vis, group, card, ctx) =>
 {
     // main background color
-    const tempData = getTemplateData(card);
-    const bgColor = vis.inkFriendly ? (tempData.bgColor ?? "#FFFFFF") : "#FFFFFF";
+    const tempData = card.getTemplateData();
+    const bgColor = vis.inkFriendly ? "#FFFFFF" : (tempData.bgColor ?? "#FFFFFF");
     fillCanvas(ctx, bgColor);
 
     // the blobby shapes on the background
@@ -39,6 +32,7 @@ const drawCardBackground = (vis, group, card, ctx) =>
         rotation: randRotationBlob,
         flipX: Math.random() <= 0.5,
         frame: blobFrame,
+        composite: "overlay",
         alpha: vis.get("cards.background.blobAlpha"),
         pivot: Point.CENTER
     })
@@ -59,13 +53,18 @@ const drawCardBackground = (vis, group, card, ctx) =>
         pivot: Point.CENTER
     });
 
+    // Should be: F5A540
+    // Is actually: D4AB77
+
+    console.log(patternOp);
+
     group.add(resPattern, patternOp);
 }
 
 const drawCard = (vis, group, card) =>
 {
     const data = card.getData();
-    const tempData = getTemplateData(card);
+    const tempData = card.getTemplateData();
 
     // the template behind text
     const resTemplate = vis.getResource("card_templates");
@@ -76,8 +75,8 @@ const drawCard = (vis, group, card) =>
     }
 
     const templateOp = new LayoutOperation({
-        dims: new Point(vis.sizeUnit),
         translate: vis.size,
+        dims: new Point(vis.sizeUnit),
         frame: tempData.frameTemplate,
         effects: tempEffects,
         pivot: Point.ONE
@@ -93,7 +92,7 @@ const drawCard = (vis, group, card) =>
 
     const text = (data.label ?? tempData.label) ?? "No Label";
     const resText = new ResourceText({ text: text, textConfig: textConfig });
-    const textPos = new Point(vis.center.x, vis.get("cards.general.textPosY"));
+    const textPos = vis.get("cards.general.textPos");
     const textOp = new LayoutOperation({
         translate: textPos,
         dims: new Point(vis.size.x, textConfig.size*2), 
@@ -106,16 +105,16 @@ const drawCard = (vis, group, card) =>
 
     group.add(resText, textOp);
 
-    const textMeta = data.subText;
+    const textMeta = data.subText ?? tempData.subText;
+    const metaPos = textPos.clone().add(new Point(0, 0.5*textConfig.size + 0.5*vis.get("cards.general.fontSizeMeta")));
     if(textMeta)
     {
         const textConfigMeta = textConfig.clone();
         textConfigMeta.size = vis.get("cards.general.fontSizeMeta");
         const resTextMeta = new ResourceText({ text: textMeta, textConfig: textConfigMeta });
-        const metaPos = textPos.clone().add(new Point(0, textConfig.size));
         const textMetaOp = new LayoutOperation({
             translate: metaPos,
-            dims: new Point(vis.size.x, textConfig.size*2),
+            dims: new Point(vis.size.x, textConfigMeta.size*2),
             fill: "#000000",
             alpha: vis.get("cards.general.alphaMeta"),
             pivot: Point.CENTER
@@ -126,16 +125,18 @@ const drawCard = (vis, group, card) =>
 
     // card number (if needed)
     const textNumber = data.num + "";
-    if(textNumber)
+    if(textNumber && tempData.extraNumberOffset)
     {
         const textConfigNumber = textConfig.clone();
         textConfigNumber.size = vis.get("cards.general.extraNumber.fontSize");
+        const baseOffset = tempData.extraNumberOffset.clone().scale(vis.sizeUnit);
+        const positions = [
+            textPos.clone().add(new Point(-baseOffset.x, baseOffset.y)),
+            textPos.clone().add(new Point(baseOffset.x, baseOffset.y))
+        ]
 
-        for(let i = 0; i < 2; i++)
+        for(const pos of positions)
         {
-            const dir = i == 0 ? -1 : 1;
-            const offset = new Point(dir * vis.get("cards.general.extraNumber.offset"), 0);
-            const pos = textPos.clone().add(offset)
             const resTextNumber = new ResourceText({ text: textNumber, textConfig: textConfigNumber });
             const textNumberOp = new LayoutOperation({
                 translate: pos,
@@ -156,10 +157,10 @@ const drawCard = (vis, group, card) =>
     if(textContent)
     {
         const textConfigContent = textConfig.clone();
-        textConfig.size = vis.get("cards.general.fontSizeContent");
-        textConfig.font = vis.get("fonts.body");
+        textConfigContent.size = vis.get("cards.general.fontSizeContent");
+        textConfigContent.font = vis.get("fonts.body");
 
-        const contentPos = textPos.clone().add(new Point(0, 0.5*(vis.size.y - textPos.y)));
+        const contentPos = metaPos.clone().add(new Point(0, 0.5*(vis.size.y - metaPos.y)));
 
         const resTextContent = new ResourceText({ text: textContent, textConfig: textConfigContent });
         const textContentOp = new LayoutOperation({
@@ -178,7 +179,7 @@ const drawCardIcons = (vis, group, card) =>
 {
     // the main illustration at the top
     const typeData = card.getData();
-    const tempData = getTemplateData(card);
+    const tempData = card.getTemplateData();
     const resSprite = vis.getResource("icons");
     const spriteFrame = tempData.frameIcon ?? typeData.frame;
     const spriteOp = new LayoutOperation({
@@ -192,21 +193,33 @@ const drawCardIcons = (vis, group, card) =>
 
     // smaller illustrations, usually to the sides of title
     // (how many/at which position they're placed depends on the card type)
-    const smallPositions = []; // @TODO
-    const smallDims = vis.get("cards.general.illustration.smallDims");
-
-    for(const pos of smallPositions)
+    const hasSmallIcons = tempData.smallIconOffset;
+    if(hasSmallIcons)
     {
-        const onRightSide = pos.x > vis.center.x;
-        const spriteOpSmall = new LayoutOperation({
-            translate: pos,
-            frame: spriteFrame,
-            dims: smallDims,
-            pivot: Point.CENTER,
-            flipX: onRightSide
-        })
+        const smallDims = vis.get("cards.general.illustration.smallDims");
+        const anchorPos = vis.get("cards.general.textPos");
+        const anchorOffset = tempData.smallIconOffset.clone().scale(vis.sizeUnit);
+        
+        const smallPositions = [
+            anchorPos.clone().add(new Point(-anchorOffset.x, anchorOffset.y)),
+            anchorPos.clone().add(new Point(anchorOffset.x, anchorOffset.y))
+        ]
+        
+        for(const pos of smallPositions)
+        {
+            const onRightSide = pos.x > vis.center.x;
+            const spriteOpSmall = new LayoutOperation({
+                translate: pos,
+                frame: spriteFrame,
+                dims: smallDims,
+                pivot: Point.CENTER,
+                flipX: onRightSide
+            })
 
-        group.add(resSprite, spriteOpSmall)
+            if(card.type == CardType.ACTION) { spriteOpSmall.composite = "overlay"; }
+    
+            group.add(resSprite, spriteOpSmall)
+        }
     }
     
     // illustrations to show GAME TYPE
@@ -216,10 +229,10 @@ const drawCardIcons = (vis, group, card) =>
     const iconDims = vis.get("cards.general.gameIcon.dims");
 
     const defaultPos =  vis.get("cards.general.gameIcon.posDefault");
-    const offset = iconDims.clone().scale(1.5);
+    const offset = iconDims.clone();
     const cornerPositions = getRectangleCornersWithOffset(vis.size, offset);
     
-    if(card.type == CardType.VEHICLE || card.type == CardType.HEALTH)
+    if(card.type == CardType.VEHICLE || card.type == CardType.HEALTH || card.type == CardType.ACTION)
     {
         iconPositions.push(defaultPos);
     }
@@ -247,7 +260,7 @@ const drawCardIcons = (vis, group, card) =>
 // It's what most other games and variants need, but not all of them
 // Which is why I decided each game has to manually call it, instead of making this 100% automatic for each game
 // The Card object holds the functions/data to grab the correct dictionaries/resources it needs
-export default (vis:MaterialVisualizer, card:any) =>
+export default (vis:MaterialVisualizer, card:MaterialNaivigation) =>
 {
     const ctx = createContext({ size: vis.size });
     const group = new ResourceGroup();

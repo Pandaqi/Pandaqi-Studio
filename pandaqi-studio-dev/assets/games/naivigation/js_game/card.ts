@@ -9,21 +9,11 @@ import TextConfig from "js/pq_games/layout/text/textConfig";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
 import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
 import cardDrawerNaivigation from "../js_shared/cardDrawerNaivigation";
+import MaterialNaivigation from "../js_shared/materialNaivigation";
 
-export default class Card
+export default class Card extends MaterialNaivigation
 {
-    type: CardType
-    key: string
-    customData:Record<string,any>;
-
-    constructor(t:CardType, k:string = "")
-    {
-        this.type = t;
-        this.key = k;
-    }
-
-    getData() { return MATERIAL[this.key][this.type]; }
-    getTemplateData() { return TEMPLATES[this.type]; }
+    getData() { return MATERIAL[this.type][this.key]; }
     getMisc() { return MISC; }
     async draw(vis)
     {
@@ -64,31 +54,42 @@ export default class Card
             size: vis.get("cards.instruction.fontSize")
         }).alignCenter();
 
+        const pos = vis.get("cards.instruction.textPos");
+        const textPositions = [
+            pos,
+            pos.clone().setX(vis.size.x - pos.x)
+        ]
+
         const text = this.customData.num.toString();
         const resText = new ResourceText({ text: text, textConfig: textConfig });
-        const textOp = new LayoutOperation({
-            translate: vis.get("cards.instruction.textPos"),
-            dims: new Point(0.5*vis.sizeUnit), 
-            fill: "#000000",
-            stroke: "#FFFFFF",
-            strokeWidth: vis.get("cards.instruction.strokeWidth"),
-            strokeAlign: StrokeAlign.OUTSIDE,
-            pivot: Point.CENTER
-        });
 
-        subGroup.add(resText, textOp.clone());
-
-        textOp.translate.x = vis.size.x - textOp.translate.x;
-        subGroup.add(resText, textOp)
+        for(const textPos of textPositions)
+        {
+            const textOp = new LayoutOperation({
+                translate: textPos,
+                dims: new Point(0.5*vis.sizeUnit), 
+                fill: "#000000",
+                stroke: "#FFFFFF",
+                strokeWidth: vis.get("cards.instruction.strokeWidth"),
+                strokeAlign: StrokeAlign.OUTSIDE,
+                pivot: Point.CENTER
+            });
+            subGroup.add(resText, textOp);
+        }
 
         // place it twice (one top, one bottom)
         group.add(subGroup);
         const op = new LayoutOperation({ translate: new Point(0, vis.center.y) })
         group.add(subGroup, op);
+
+        console.log("WAT?");
     }
 
     drawCompass(vis, group)
     {
+        console.log("QUE1");
+        console.log(vis.get("cards.compass.dims"));
+
         const resSprite = vis.getResource("icons");
         const spriteOp = new LayoutOperation({
             translate: vis.center,
@@ -97,5 +98,7 @@ export default class Card
             pivot: Point.CENTER
         })
         group.add(resSprite, spriteOp);
+
+        console.log("QUE2");
     }
 }

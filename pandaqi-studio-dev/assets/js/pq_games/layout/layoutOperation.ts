@@ -306,7 +306,6 @@ export default class LayoutOperation
             this.applyFillAndStrokeToPath(ctxTemp, path);
         }
 
-        // @TODO: not sure if text is positioned correctly/not cut-off now with the ctxTemp switch?
         else if(this.isText())
         {
             const drawer = (this.resource as ResourceText).createTextDrawer(dims);

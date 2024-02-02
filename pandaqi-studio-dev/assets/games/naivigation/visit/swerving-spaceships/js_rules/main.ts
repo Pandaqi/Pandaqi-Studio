@@ -1,7 +1,7 @@
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
 import CONFIG from "../js_shared/config";
 import Point from "js/pq_games/tools/geometry/point";
-import { createCardPicker, createTilePicker } from "../js_game/generators";
+import { cardPicker, tilePicker } from "../js_game/generators";
 import RandomNaivigationSetupGenerator from "games/naivigation/js_shared/randomNaivigationSetupGenerator";
 import RandomNaivigationTurnGenerator from "games/naivigation/js_shared/randomNaivigationTurnGenerator";
 
@@ -25,8 +25,8 @@ const validPlacementCallback = (cell, grid, tiles) =>
     return { tile: tileFinal }
 }
 
-const tiles = createTilePicker().generate();
-const cards = createCardPicker().generate();
+const tiles = tilePicker.generate();
+const cards = cardPicker.generate();
 console.log(tiles);
 console.log(cards);
 

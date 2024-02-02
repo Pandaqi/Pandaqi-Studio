@@ -49,7 +49,7 @@ const CONFIG_NAIVIGATION_SHARED =
         card_templates:
         {
             path: "/naivigation/assets/card_templates.webp",
-            frames: new Point(6, 2),
+            frames: new Point(6, 1),
             useAbsolutePath: true,
         },
 
@@ -77,41 +77,40 @@ const CONFIG_NAIVIGATION_SHARED =
 
         background:
         {
-            dims: new CVal(1.2, "sizeUnit"),
-            blobAlpha: 0.25,
-            patternAlpha: 0.25
+            dims: new CVal(new Point(1.2), "sizeUnit"),
+            blobAlpha: 0.33,
+            patternAlpha: 0.15
         },
 
         general:
         {
             numBackgroundBlobs: 4,
             
-            fontSize: new CVal(0.1, "sizeUnit"),
+            fontSize: new CVal(0.125, "sizeUnit"),
             fontSizeMeta: new CVal(0.05, "sizeUnit"),
-            fontSizeContent: new CVal(0.07, "sizeUnit"),
-            textPosY: new CVal(0.75, "size.y"),
-            strokeWidth: new CVal(0.04, "sizeUnit"),
+            fontSizeContent: new CVal(0.0575, "sizeUnit"),
+            textPos: new CVal(new Point(0.5, 0.7), "size"),
+            strokeWidth: new CVal(0.01, "sizeUnit"),
             alphaMeta: 0.5,
-            contentTextBox: new CVal(new Point(0.8, 0.4), "size"),
+            contentTextBox: new CVal(new Point(0.9, 0.3), "size"),
 
             extraNumber:
             {
-                fontSize: new CVal(0.1, "sizeUnit"),
-                strokeWidth: new CVal(0.05, "sizeUnit"),
-                offset: new CVal(0.4, "sizeUnit"),
+                fontSize: new CVal(0.0775, "sizeUnit"),
+                strokeWidth: new CVal(0.005, "sizeUnit"),
             },
 
             illustration:
             {
-                mainPos: new CVal(0.5, "size"),
-                mainDims: new CVal(0.8, "sizeUnit"),
-                smallDims: new CVal(0.15, "sizeUnit"),
+                mainPos: new CVal(new Point(0.5, 0.3), "size"),
+                mainDims: new CVal(new Point(0.7), "sizeUnit"),
+                smallDims: new CVal(new Point(0.15), "sizeUnit"),
             },
 
             gameIcon:
             {
-                dims: new CVal(0.1, "sizeUnit"),
-                posDefault: new CVal(new Point(0.5, 0.55), "size")
+                dims: new CVal(new Point(0.12), "sizeUnit"),
+                posDefault: new CVal(new Point(0.5, 0.6), "size")
             }
         }
     },
