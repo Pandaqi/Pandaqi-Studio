@@ -10,6 +10,7 @@ import ResourceText from "js/pq_games/layout/resources/resourceText";
 import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
 import cardDrawerNaivigation from "../js_shared/cardDrawerNaivigation";
 import MaterialNaivigation from "../js_shared/materialNaivigation";
+import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
 
 export default class Card extends MaterialNaivigation
 {
@@ -62,6 +63,7 @@ export default class Card extends MaterialNaivigation
 
         const text = this.customData.num.toString();
         const resText = new ResourceText({ text: text, textConfig: textConfig });
+        const eff = new DropShadowEffect({ color: "#000000AA", offset: new Point(0, 0.125*textConfig.size) });
 
         for(const textPos of textPositions)
         {
@@ -72,7 +74,8 @@ export default class Card extends MaterialNaivigation
                 stroke: "#FFFFFF",
                 strokeWidth: vis.get("cards.instruction.strokeWidth"),
                 strokeAlign: StrokeAlign.OUTSIDE,
-                pivot: Point.CENTER
+                pivot: Point.CENTER,
+                effects: [eff]
             });
             subGroup.add(resText, textOp);
         }

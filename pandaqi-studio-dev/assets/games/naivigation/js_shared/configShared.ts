@@ -78,8 +78,8 @@ const CONFIG_NAIVIGATION_SHARED =
         background:
         {
             dims: new CVal(new Point(1.2), "sizeUnit"),
-            blobAlpha: 0.33,
-            patternAlpha: 0.15
+            blobAlpha: 0.15,
+            patternAlpha: 0.25
         },
 
         general:
@@ -104,13 +104,17 @@ const CONFIG_NAIVIGATION_SHARED =
             {
                 mainPos: new CVal(new Point(0.5, 0.3), "size"),
                 mainDims: new CVal(new Point(0.7), "sizeUnit"),
+                shadowBlur: new CVal(0.05 * 0.7, "sizeUnit"),
                 smallDims: new CVal(new Point(0.15), "sizeUnit"),
+                smallShadowBlur: new CVal(0.05 * 0.15, "sizeUnit")
             },
 
             gameIcon:
             {
                 dims: new CVal(new Point(0.12), "sizeUnit"),
-                posDefault: new CVal(new Point(0.5, 0.6), "size")
+                posDefault: new CVal(new Point(0.5, 0.6), "size"),
+                edgeOffsetFactor: 0.66,
+                glowBlur: new CVal(0.1 * 0.12, "sizeUnit")
             }
         }
     },

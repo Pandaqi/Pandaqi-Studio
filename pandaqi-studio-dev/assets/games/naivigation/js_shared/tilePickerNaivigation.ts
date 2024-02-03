@@ -29,7 +29,7 @@ export default class TilePickerNaivigation
     {
         if(!this.config.includeVehicleTiles) { return; }
 
-        const num = this.config.tiles.generation.numUniqueVehicles ?? 2;
+        const num = this.config.tiles.generation.numUniqueVehicles ?? 3;
         for(let i = 0; i < num; i++)
         {
             const newTile = new this.tileClass(TileType.VEHICLE);

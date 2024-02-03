@@ -12,6 +12,7 @@ import createContext from "../canvas/createContext"
 
 type ImageLike = HTMLImageElement|ResourceImage|ResourceGradient|ResourcePattern
 type CanvasLike = HTMLCanvasElement|CanvasRenderingContext2D
+type DrawableData = HTMLImageElement|HTMLCanvasElement;
 type FrameSet = HTMLImageElement[];
 
 interface FrameData {
@@ -46,17 +47,17 @@ export { ResourceImage, ImageLike, CanvasLike, CanvasDrawableLike }
 export default class ResourceImage extends Resource
 {
     img : HTMLImageElement;
+    canv : HTMLCanvasElement;
     size : Point; // can't be set from outside, calculated internally
     frameDims : Point;
     frameSize : Point;
     frame: number;
-    frames : HTMLImageElement[];
+    frames : (DrawableData)[];
 
     thumbnails: FrameSet[];
     numThumbnails : number; // how many smaller thumbnails we should cache for each frame (e.g. a 1024x1024 also saves a 512x512 if set to 1)
 
-
-    constructor(imageData : HTMLImageElement = null, params:any = {})
+    constructor(imageData : DrawableData = null, params:any = {})
     {
         super()
 
@@ -65,7 +66,7 @@ export default class ResourceImage extends Resource
         this.numThumbnails = params.numThumbnails ?? 0;
         this.frameDims = new Point();
 
-        if(imageData) { this.fromRawImage(imageData, params); }
+        if(imageData) { this.fromRawDrawable(imageData, params); }
     }
     
     clone(deep = false) : ResourceImage
@@ -75,10 +76,14 @@ export default class ResourceImage extends Resource
         return img;
     }
 
+    isImageElement() { return this.img instanceof HTMLImageElement; }
+    isCanvasElement() { return this.canv instanceof HTMLCanvasElement; }
+    hasDrawableData() { return this.isImageElement() || this.isCanvasElement(); }
+
     /* The `to` functions */
     toCanvas(canv:CanvasLike = null, op:LayoutOperation = new LayoutOperation())
     {
-        if(op.dims.length() <= 0.003) { op.dims = this.size.clone(); }
+        if(op.dims.isZero()) { op.dims = this.size.clone(); }
         op.resource = this;
         op.frame = op.frame ?? this.frame;
         return op.applyToCanvas(canv);
@@ -97,36 +102,37 @@ export default class ResourceImage extends Resource
     async toSVG(op:LayoutOperation = new LayoutOperation())
     {
         const elem = document.createElementNS(null, "image");
+        // @TODO: if we have a canvas as data, convert first
         elem.setAttribute("href", this.getImage().src);
         return await op.applyToSVG(elem);
     }
 
     // for getting a new ResourceImage with result after operation applied
+    // @TODO: does this even WORK!??
     async toResourceImage(op = new LayoutOperation())
     {
-        const canv = await this.toCanvas();
-        const img = await convertCanvasToImage(canv);
-        const resImg = new ResourceImage(img);
-        return resImg;
+        return new ResourceImage(this.toCanvas(null, op));
     }
 
     /* The `from` functions */
     fromResourceImage(r:ResourceImage, deep = false)
     {
-        this.img = r.img;
+        this.fromRawDrawable(r.getImage());
         this.size = deep ? r.size.clone() : r.size;
         this.frameDims = deep ? r.frameDims.clone() : r.frameDims;
         this.frames = deep ? r.frames.slice() : r.frames;
         this.refreshSize();
     }
 
-    fromRawImage(img:HTMLImageElement, params:any = {})
+    fromRawDrawable(img:DrawableData, params:any = {})
     {
-        this.img = img;
+        if(img instanceof HTMLImageElement) { this.img = img; }
+        else if(img instanceof HTMLCanvasElement) { this.canv = img; }
         this.frameDims = new Point(params.frames ?? new Point(1,1));
-        this.frames = [this.img];
+        this.frames = [this.getImage()];
         this.refreshSize();
     }
+
 
     // @TODO
     async fromPattern(p:ResourcePattern)
@@ -166,10 +172,12 @@ export default class ResourceImage extends Resource
     /* Helpers & Tools */
     refreshSize()
     {
-        if(!(this.img instanceof HTMLImageElement)) { return; }
+        if(!this.hasDrawableData()) { return; }
 
-        this.size = new Point().setXY(this.img.naturalWidth, this.img.naturalHeight);
-        this.frameSize = new Point().setXY(
+        if(this.isImageElement()) { this.size = new Point(this.img.naturalWidth, this.img.naturalHeight); }
+        else if(this.isCanvasElement()) { this.size = new Point(this.canv.width, this.canv.height); }
+
+        this.frameSize = new Point(
             this.size.x / this.frameDims.x,
             this.size.y / this.frameDims.y
         )
@@ -206,7 +214,8 @@ export default class ResourceImage extends Resource
                 canvases[t] = ctx.canvas;
             }
 
-            this.thumbnails[i] = await convertCanvasToImageMultiple(canvases, true);
+            if(this.isCanvasElement()) { this.thumbnails[i] = canvases; }
+            else if(this.isImageElement()) { this.thumbnails[i] = await convertCanvasToImageMultiple(canvases, true); }
         }
     }
 
@@ -233,7 +242,8 @@ export default class ResourceImage extends Resource
             }
         }
 
-        this.frames = await convertCanvasToImageMultiple(canvases, true);
+        if(this.isCanvasElement()) { this.frames = canvases; }
+        else if(this.isImageElement()) { this.frames = await convertCanvasToImageMultiple(canvases, true); }
 
         await this.cacheThumbnails();
     }
@@ -255,6 +265,7 @@ export default class ResourceImage extends Resource
         }
     }
 
+    // @TODO: what if canvas data?
     getCSSUrl() : string
     {
         return "url(" + this.img.src + ")";
@@ -274,9 +285,9 @@ export default class ResourceImage extends Resource
         return size;
     }
 
-    getImage() : HTMLImageElement 
+    getImage() : DrawableData
     { 
-        return this.img; 
+        return this.img ?? this.canv;
     }
 
     getImageFrameAsDrawable(num: number, desiredSize:Point = null)
@@ -290,6 +301,8 @@ export default class ResourceImage extends Resource
         return new ResourceImage(img);
     }
 
+    // @TODO: Update shit below this to new system that can also support Canvas
+    // @TODO: update LayoutOperation/Effect to not need a CanvasDrawableLike anymore
     getImageFrame(num:number, desiredSize:Point = null) : HTMLImageElement
     {
         const maxSize = this.frameDims.clone();

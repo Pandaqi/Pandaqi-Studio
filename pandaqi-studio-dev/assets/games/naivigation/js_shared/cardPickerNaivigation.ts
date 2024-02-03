@@ -29,6 +29,16 @@ export default class CardPickerNaivigation
         
         for(const [key,data] of Object.entries(this.vehicleDict))
         {
+            // auto include anything without expansions set;
+            // otherwise only include if at least one matches
+            const expansions = data.expansion ?? [];
+            let shouldInclude = expansions.length <= 0;
+            for(const exp of expansions)
+            {
+                if(this.config.expansions[exp]) { shouldInclude = true; break; }
+            }
+
+            // hook for custom handling of certain cards
             const res = this.vehicleCallback(key, data);
             if(res)
             {
@@ -36,6 +46,7 @@ export default class CardPickerNaivigation
                 continue;
             }
 
+            // otherwise, just create cards as stated, at frequency wanted (default 1)
             const freq = data.freq ?? 1;
             for(let i = 0; i < freq; i++)
             {

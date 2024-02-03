@@ -1,4 +1,5 @@
-import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
+import createContext from "js/pq_games/layout/canvas/createContext";
+import fillResourceGroup from "js/pq_games/layout/canvas/fillResourceGroup";
 import TintEffect from "js/pq_games/layout/effects/tintEffect";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
@@ -10,15 +11,18 @@ import getRectangleCornersWithOffset from "js/pq_games/tools/geometry/paths/getR
 import Point from "js/pq_games/tools/geometry/point";
 import rangeInteger from "js/pq_games/tools/random/rangeInteger";
 import { CardType } from "./dictShared";
-import createContext from "js/pq_games/layout/canvas/createContext";
 import MaterialNaivigation from "./materialNaivigation";
+import Color from "js/pq_games/layout/color/color";
+import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
 
-const drawCardBackground = (vis, group, card, ctx) =>
+const drawCardBackground = (vis, group, card) =>
 {
     // main background color
     const tempData = card.getTemplateData();
-    const bgColor = vis.inkFriendly ? "#FFFFFF" : (tempData.bgColor ?? "#FFFFFF");
-    fillCanvas(ctx, bgColor);
+    const gameData = card.getGameData();
+    let bgColor = gameData ? gameData.bgColor : tempData.bgColor;
+    bgColor = vis.inkFriendly ? "#FFFFFF" : bgColor;
+    fillResourceGroup(vis.size, group, bgColor);
 
     // the blobby shapes on the background
     const resBlobs = vis.getResource("bg_blobs");
@@ -26,14 +30,19 @@ const drawCardBackground = (vis, group, card, ctx) =>
     const pos = new Point(0.5 * vis.sizeUnit);
     const dims = vis.get("cards.background.dims");
     const randRotationBlob = rangeInteger(0,3) * 0.5 * Math.PI;
+    let blobsCol = new Color(bgColor);
+    blobsCol = blobsCol.rotate(6);
+    blobsCol = blobsCol.saturate(10);
+    blobsCol = blobsCol.darken(8);
+
     const blobsOp = new LayoutOperation({
         translate: pos,
         dims: dims,
         rotation: randRotationBlob,
         flipX: Math.random() <= 0.5,
         frame: blobFrame,
-        composite: "overlay",
-        alpha: vis.get("cards.background.blobAlpha"),
+        effects: [new TintEffect({ color: blobsCol })],
+        //alpha: vis.get("cards.background.blobAlpha"),
         pivot: Point.CENTER
     })
 
@@ -53,25 +62,18 @@ const drawCardBackground = (vis, group, card, ctx) =>
         pivot: Point.CENTER
     });
 
-    // Should be: F5A540
-    // Is actually: D4AB77
-
-    console.log(patternOp);
-
     group.add(resPattern, patternOp);
-}
-
-const drawCard = (vis, group, card) =>
-{
-    const data = card.getData();
-    const tempData = card.getTemplateData();
 
     // the template behind text
     const resTemplate = vis.getResource("card_templates");
     const tempEffects = [];
-    if(card.type == CardType.VEHICLE || card.type == CardType.ACTION)
+    let tintColor = gameData ? gameData.tintColor : tempData.tintColor;
+    if(!vis.inkFriendly)
     {
-        tempEffects.push(new TintEffect(tempData.tintColor));
+        if(card.type == CardType.VEHICLE || card.type == CardType.ACTION)
+        {
+            tempEffects.push(new TintEffect(tintColor));
+        }
     }
 
     const templateOp = new LayoutOperation({
@@ -83,6 +85,12 @@ const drawCard = (vis, group, card) =>
     })
 
     group.add(resTemplate, templateOp);
+}
+
+const drawCard = (vis, group, card) =>
+{
+    const data = card.getData();
+    const tempData = card.getTemplateData();
 
     // card title + subtitle ( = type indicator)
     const textConfig = new TextConfig({
@@ -93,11 +101,14 @@ const drawCard = (vis, group, card) =>
     const text = (data.label ?? tempData.label) ?? "No Label";
     const resText = new ResourceText({ text: text, textConfig: textConfig });
     const textPos = vis.get("cards.general.textPos");
+    const shadowOffset = new Point(0, 0.1*textConfig.size);
+    const eff = new DropShadowEffect({ color: "#000000AA", offset: shadowOffset });
     const textOp = new LayoutOperation({
         translate: textPos,
         dims: new Point(vis.size.x, textConfig.size*2), 
         fill: "#000000",
         stroke: "#FFFFFF",
+        effects: [eff],
         strokeWidth: vis.get("cards.general.strokeWidth"),
         strokeAlign: StrokeAlign.OUTSIDE,
         pivot: Point.CENTER
@@ -106,7 +117,7 @@ const drawCard = (vis, group, card) =>
     group.add(resText, textOp);
 
     const textMeta = data.subText ?? tempData.subText;
-    const metaPos = textPos.clone().add(new Point(0, 0.5*textConfig.size + 0.5*vis.get("cards.general.fontSizeMeta")));
+    const metaPos = textPos.clone().add(new Point(0, 0.5*textConfig.size + 0.5*vis.get("cards.general.fontSizeMeta") + shadowOffset.y));
     if(textMeta)
     {
         const textConfigMeta = textConfig.clone();
@@ -134,6 +145,7 @@ const drawCard = (vis, group, card) =>
             textPos.clone().add(new Point(-baseOffset.x, baseOffset.y)),
             textPos.clone().add(new Point(baseOffset.x, baseOffset.y))
         ]
+        const dropShadowEff = new DropShadowEffect({ color: "#00000077", offset: new Point(0, 0.1 * textConfigNumber.size) });
 
         for(const pos of positions)
         {
@@ -145,7 +157,8 @@ const drawCard = (vis, group, card) =>
                 stroke: "#FFFFFF",
                 strokeWidth: vis.get("cards.general.extraNumber.strokeWidth"),
                 strokeAlign: StrokeAlign.OUTSIDE,
-                pivot: Point.CENTER
+                pivot: Point.CENTER,
+                effects: [dropShadowEff]
             })
 
             group.add(resTextNumber, textNumberOp);
@@ -182,14 +195,22 @@ const drawCardIcons = (vis, group, card) =>
     const tempData = card.getTemplateData();
     const resSprite = vis.getResource("icons");
     const spriteFrame = tempData.frameIcon ?? typeData.frame;
+    const eff = new DropShadowEffect({ color: "#000000", blurRadius: vis.get("cards.general.illustration.shadowBlur") });
     const spriteOp = new LayoutOperation({
         translate: vis.get("cards.general.illustration.mainPos"),
-        frame: spriteFrame,
         dims: vis.get("cards.general.illustration.mainDims"),
+        effects: [eff],
+        frame: spriteFrame,
         pivot: Point.CENTER
     });
 
-    group.add(resSprite, spriteOp);
+    let resIllu = resSprite;
+    if(card.getCustomIllustration) {
+        const resTemp = card.getCustomIllustration(spriteOp);
+        if(resTemp) { resIllu = resTemp; spriteOp.frame = undefined; }
+    }
+
+    group.add(resIllu, spriteOp);
 
     // smaller illustrations, usually to the sides of title
     // (how many/at which position they're placed depends on the card type)
@@ -199,6 +220,7 @@ const drawCardIcons = (vis, group, card) =>
         const smallDims = vis.get("cards.general.illustration.smallDims");
         const anchorPos = vis.get("cards.general.textPos");
         const anchorOffset = tempData.smallIconOffset.clone().scale(vis.sizeUnit);
+        const effSmall = new DropShadowEffect({ color: "#000000", blurRadius: vis.get("cards.general.illustration.smallShadowBlur") });
         
         const smallPositions = [
             anchorPos.clone().add(new Point(-anchorOffset.x, anchorOffset.y)),
@@ -213,10 +235,16 @@ const drawCardIcons = (vis, group, card) =>
                 frame: spriteFrame,
                 dims: smallDims,
                 pivot: Point.CENTER,
-                flipX: onRightSide
+                flipX: onRightSide,
+                effects: [effSmall]
             })
 
-            if(card.type == CardType.ACTION) { spriteOpSmall.composite = "overlay"; }
+            if(card.type == CardType.ACTION) 
+            { 
+                spriteOpSmall.composite = "luminosity"; 
+                spriteOpSmall.effects = []; 
+                spriteOpSmall.alpha = 0.5;
+            }
     
             group.add(resSprite, spriteOpSmall)
         }
@@ -229,8 +257,9 @@ const drawCardIcons = (vis, group, card) =>
     const iconDims = vis.get("cards.general.gameIcon.dims");
 
     const defaultPos =  vis.get("cards.general.gameIcon.posDefault");
-    const offset = iconDims.clone();
+    const offset = iconDims.clone().scale(vis.get("cards.general.gameIcon.edgeOffsetFactor"));
     const cornerPositions = getRectangleCornersWithOffset(vis.size, offset);
+    const gameIconEff = new DropShadowEffect({ color: "#FFFFFF", blurRadius: vis.get("cards.general.gameIcon.glowBlur") });
     
     if(card.type == CardType.VEHICLE || card.type == CardType.HEALTH || card.type == CardType.ACTION)
     {
@@ -251,6 +280,7 @@ const drawCardIcons = (vis, group, card) =>
             pivot: Point.CENTER,
             flipX: onRightSide,
             flipY: onBottomSide,
+            effects: [gameIconEff]
         })
         group.add(resIcon, iconOp);
     }   
@@ -265,9 +295,9 @@ export default (vis:MaterialVisualizer, card:MaterialNaivigation) =>
     const ctx = createContext({ size: vis.size });
     const group = new ResourceGroup();
 
-    drawCardBackground(vis, group, card, ctx);
-    drawCard(vis, group, card);
+    drawCardBackground(vis, group, card);
     drawCardIcons(vis, group, card);
+    drawCard(vis, group, card);
 
     group.toCanvas(ctx);
     return ctx.canvas;

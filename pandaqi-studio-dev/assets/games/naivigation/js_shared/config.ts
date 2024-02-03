@@ -9,7 +9,7 @@ const CONFIG:any =
     debug:
     {
         omitFile: true, // @DEBUGGING (should be false)
-        singleDrawPerType: true, // @DEBUGGING (should be false)
+        singleDrawPerType: false, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
