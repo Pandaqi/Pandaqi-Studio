@@ -193,7 +193,9 @@ const drawCardIcons = (vis, group, card) =>
     // the main illustration at the top
     const typeData = card.getData();
     const tempData = card.getTemplateData();
-    const resSprite = vis.getResource("icons");
+    let resSprite = vis.getResource("icons");
+    if(typeData && typeData.shared) { resSprite = vis.getResource("icons_shared"); }
+
     const spriteFrame = tempData.frameIcon ?? typeData.frame;
     const eff = new DropShadowEffect({ color: "#000000", blurRadius: vis.get("cards.general.illustration.shadowBlur") });
     const spriteOp = new LayoutOperation({
@@ -206,8 +208,8 @@ const drawCardIcons = (vis, group, card) =>
 
     let resIllu = resSprite;
     if(card.getCustomIllustration) {
-        const resTemp = card.getCustomIllustration(spriteOp);
-        if(resTemp) { resIllu = resTemp; spriteOp.frame = undefined; }
+        const resTemp = card.getCustomIllustration(vis, card, spriteOp);
+        if(resTemp) { resIllu = resTemp; spriteOp.frame = 0; }
     }
 
     group.add(resIllu, spriteOp);

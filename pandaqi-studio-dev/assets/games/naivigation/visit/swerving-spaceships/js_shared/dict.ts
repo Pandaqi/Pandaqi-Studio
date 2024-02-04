@@ -17,8 +17,8 @@ const MAIN_COLORS = { bgColor: "#8B46FF", tintColor: "#D5BDFF", textColor: "#1C0
 //
 const VEHICLE_CARDS:Record<string,MaterialData> = 
 {
-    thrust: { frame: 0, label: "Thrust", desc: "Move 1 tile forward ( = in the direction your spaceship faces).", freq: 10 },
     steer: { frame: 1, label: "Steer", desc: "Pick an angle within range. Rotate the vehicle that much." },
+    thrust: { frame: 0, label: "Thrust", desc: "Move 1 tile forward ( = in the direction your spaceship faces).", freq: 10 },
     disengage: { frame: 2, label: "Disable", desc: "Perform one gravitational pull step.", freq: 10 },
     shield: { frame: 3, label: "Shield", desc: "Toggles the shield on and off.", freq: 10, expansion: ["shields"] }
 };

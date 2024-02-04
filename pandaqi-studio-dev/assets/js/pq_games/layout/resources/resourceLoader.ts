@@ -154,7 +154,7 @@ export default class ResourceLoader
     getResource(id:string, copy:boolean = false) : any
     {
         let res = this.resourcesLoaded[id];
-        if(!res) { return null; }
+        if(!res) { console.error("[ResourceLoader] Resource with id " + id + " doesn't exist!"); return null; }
         if(copy) { res = res.clone(); }
         return res;
     }

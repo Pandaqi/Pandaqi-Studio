@@ -1,4 +1,4 @@
-import ResourceImage, { CanvasDrawableLike, CanvasLike } from "js/pq_games/layout/resources/resourceImage";
+import ResourceImage, { CanvasLike } from "js/pq_games/layout/resources/resourceImage";
 import LayoutOperation from "../layoutOperation";
 import { ElementLike } from "../resources/resource";
 import Point from "js/pq_games/tools/geometry/point";
@@ -8,7 +8,7 @@ export default class LayoutEffect
 {
     constructor(params:Record<string,any> = {}) { }
 
-    applyToImage(image:CanvasDrawableLike = null, effOp:EffectsOperation) : CanvasDrawableLike { return null; }
+    applyToImage(image:ResourceImage = null, effOp:EffectsOperation) : ResourceImage { return null; }
 
     async applyToImageOverwrite(image:ResourceImage)
     {

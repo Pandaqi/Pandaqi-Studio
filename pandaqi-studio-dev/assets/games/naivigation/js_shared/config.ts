@@ -8,7 +8,7 @@ const CONFIG:any =
 {
     debug:
     {
-        omitFile: true, // @DEBUGGING (should be false)
+        omitFile: false, // @DEBUGGING (should be false)
         singleDrawPerType: false, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
@@ -36,12 +36,6 @@ const CONFIG:any =
         {
             path: "misc.webp",
             frames: new Point(2,1)
-        },
-
-        icons:
-        {
-            path: "icons.webp",
-            frames: new Point(8,2)
         },
     },
 

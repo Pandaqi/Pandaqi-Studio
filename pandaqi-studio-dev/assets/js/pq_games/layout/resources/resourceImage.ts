@@ -24,26 +24,7 @@ interface FrameData {
     height: number
 }
 
-class CanvasDrawableLike
-{
-    val: ResourceImage|HTMLCanvasElement|HTMLImageElement
-
-    constructor(val) { this.val = val }
-    getImage()
-    {
-        if(this.val instanceof ResourceImage) { return this.val.getImage(); }
-        return this.val;
-    }
-
-    getSize()
-    {
-        if(this.val instanceof ResourceImage) { return this.val.size; }
-        if(this.val instanceof HTMLImageElement) { return new Point(this.val.naturalWidth, this.val.naturalHeight); }
-        return new Point(this.val.width, this.val.height);
-    }
-}
-
-export { ResourceImage, ImageLike, CanvasLike, CanvasDrawableLike }
+export { ResourceImage, ImageLike, CanvasLike }
 export default class ResourceImage extends Resource
 {
     img : HTMLImageElement;
@@ -102,8 +83,7 @@ export default class ResourceImage extends Resource
     async toSVG(op:LayoutOperation = new LayoutOperation())
     {
         const elem = document.createElementNS(null, "image");
-        // @TODO: if we have a canvas as data, convert first
-        elem.setAttribute("href", this.getImage().src);
+        elem.setAttribute("href", this.getSRCString());
         return await op.applyToSVG(elem);
     }
 
@@ -112,6 +92,19 @@ export default class ResourceImage extends Resource
     async toResourceImage(op = new LayoutOperation())
     {
         return new ResourceImage(this.toCanvas(null, op));
+    }
+
+    // @TODO: like above, also apply the operation??
+    toResourceImageCanvas() : ResourceImage
+    {
+        const res = this.clone();
+        if(!this.isCanvasElement())
+        {
+            const ctx = createContext({ size: this.size });
+            ctx.drawImage(this.getImage(), 0, 0);
+            res.fromRawDrawable(ctx.canvas);
+        }
+        return res;
     }
 
     /* The `from` functions */
@@ -126,8 +119,8 @@ export default class ResourceImage extends Resource
 
     fromRawDrawable(img:DrawableData, params:any = {})
     {
-        if(img instanceof HTMLImageElement) { this.img = img; }
-        else if(img instanceof HTMLCanvasElement) { this.canv = img; }
+        if(img instanceof HTMLImageElement) { this.img = img; this.canv = null; }
+        else if(img instanceof HTMLCanvasElement) { this.canv = img; this.img = null; }
         this.frameDims = new Point(params.frames ?? new Point(1,1));
         this.frames = [this.getImage()];
         this.refreshSize();
@@ -150,7 +143,7 @@ export default class ResourceImage extends Resource
     {
         const resLoader = new ResourceLoader();
         resLoader.planLoad("svg_embedded_image", { path: elem.href });
-        resLoader.loadPlannedResources();
+        await resLoader.loadPlannedResources();
         const imgRes = resLoader.getResource("svg_embedded_image");
         this.fromResourceImage(imgRes);
     }
@@ -265,13 +258,18 @@ export default class ResourceImage extends Resource
         }
     }
 
-    // @TODO: what if canvas data?
-    getCSSUrl() : string
+    getSRCString() : string
     {
-        return "url(" + this.img.src + ")";
+        if(this.isCanvasElement()) { return (this.getImage() as HTMLCanvasElement).toDataURL(); }
+        else if(this.isImageElement()) { return (this.getImage() as HTMLImageElement).src; }
     }
 
-    // Ratio is always X:Y (so 2 means twice as WIDE as it is TALL)
+    getCSSUrl() : string
+    {
+        return "url(" + this.getSRCString() + ")";
+    }
+
+    // Ratio is always X:Y (so 2 means twice as WIDE as it is TALL, as it's 2:1)
     getRatio() : number
     {
         return this.frameSize.x / this.frameSize.y
@@ -285,14 +283,14 @@ export default class ResourceImage extends Resource
         return size;
     }
 
+    getSize() : Point
+    {
+        return this.size.clone();
+    }
+
     getImage() : DrawableData
     { 
         return this.img ?? this.canv;
-    }
-
-    getImageFrameAsDrawable(num: number, desiredSize:Point = null)
-    {
-        return new CanvasDrawableLike(this.getImageFrame(num, desiredSize));
     }
 
     getImageFrameAsResource(num:number, desiredSize:Point = null) : ResourceImage
@@ -301,9 +299,7 @@ export default class ResourceImage extends Resource
         return new ResourceImage(img);
     }
 
-    // @TODO: Update shit below this to new system that can also support Canvas
-    // @TODO: update LayoutOperation/Effect to not need a CanvasDrawableLike anymore
-    getImageFrame(num:number, desiredSize:Point = null) : HTMLImageElement
+    getImageFrame(num:number, desiredSize:Point = null) : DrawableData
     {
         const maxSize = this.frameDims.clone();
         let thumbIndex = 0;
@@ -345,13 +341,14 @@ export default class ResourceImage extends Resource
         return this;
     }
 
-    swapImage(img:HTMLImageElement)
+    // @TODO: this was updated without testing, if games broke that use it, check the culprit here first
+    swapImage(img:DrawableData)
     {
-        this.img = img;
+        this.fromRawDrawable(img);
         return this;
     }
 
-    async addFrame(img:HTMLImageElement)
+    async addFrame(img:DrawableData)
     {
         this.frames.push(img);
         this.frameDims.x += 1;
@@ -360,7 +357,7 @@ export default class ResourceImage extends Resource
         await this.cacheThumbnails([this.countFrames()]);
     }
 
-    async addFrames(imgs:HTMLImageElement[])
+    async addFrames(imgs:DrawableData[])
     {
         for(const img of imgs)
         {
@@ -368,14 +365,14 @@ export default class ResourceImage extends Resource
         }
     }
 
-    async swapFrame(idx:number, img:HTMLImageElement)
+    async swapFrame(idx:number, img:DrawableData)
     {
         this.frames[idx] = img;
         await this.cacheThumbnails([idx]);
         return this;
     }
 
-    async swapFrames(newFrames:HTMLImageElement[])
+    async swapFrames(newFrames:DrawableData[])
     {
         if(newFrames.length != this.frames.length) { return console.error("Can't swap frames if number of them doesn't match"); }
         this.frames = newFrames.slice();
@@ -384,9 +381,10 @@ export default class ResourceImage extends Resource
     }
 
     // @NOTE: not truly unique if you load the same image multiple times, but why'd you do that?
+    // @TODO: Not the best approach for canvases (as their data url will mostly start with the same characters), but not sure I'll ever need that anyway
     getUniqueKey() : string
     {
-        const src = this.img.src;
+        const src = this.getSRCString();
         const srcSplit = src.split("/");
         const fileName = srcSplit[srcSplit.length-1];
         const srcName = fileName.split(".")[0];

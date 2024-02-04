@@ -19,7 +19,7 @@ cardPicker.vehicleCallback = (key, data) =>
     {
         for(let j = 1; j <= 4; j++)
         {
-            angleCombos.push([i, j]);
+            angleCombos.push([i, i+j]);
         }
     }
 

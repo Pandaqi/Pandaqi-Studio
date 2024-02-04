@@ -58,7 +58,14 @@ const CONFIG_NAIVIGATION_SHARED =
             path: "/naivigation/assets/bg_blobs.webp",
             frames: new Point(4, 2),
             useAbsolutePath: true
-        }
+        },
+
+        icons_shared:
+        {
+            path: "/naivigation/assets/icons.webp",
+            frames: new Point(8,4),
+            useAbsolutePath: true
+        },
     },
 
     cards:

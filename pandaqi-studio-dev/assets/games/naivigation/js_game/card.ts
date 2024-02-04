@@ -43,7 +43,7 @@ export default class Card extends MaterialNaivigation
         const subGroup = new ResourceGroup();
 
         const tempData = this.getTemplateData();
-        const resSprite = vis.getResource("icons");
+        const resSprite = vis.getResource("icons_shared");
         const spriteOp = new LayoutOperation({
             frame: tempData.frameIcon,
             dims: new Point(vis.sizeUnit)
@@ -84,16 +84,11 @@ export default class Card extends MaterialNaivigation
         group.add(subGroup);
         const op = new LayoutOperation({ translate: new Point(0, vis.center.y) })
         group.add(subGroup, op);
-
-        console.log("WAT?");
     }
 
     drawCompass(vis, group)
     {
-        console.log("QUE1");
-        console.log(vis.get("cards.compass.dims"));
-
-        const resSprite = vis.getResource("icons");
+        const resSprite = vis.getResource("icons_shared");
         const spriteOp = new LayoutOperation({
             translate: vis.center,
             frame: this.getTemplateData().frameIcon,
@@ -101,7 +96,5 @@ export default class Card extends MaterialNaivigation
             pivot: Point.CENTER
         })
         group.add(resSprite, spriteOp);
-
-        console.log("QUE2");
     }
 }

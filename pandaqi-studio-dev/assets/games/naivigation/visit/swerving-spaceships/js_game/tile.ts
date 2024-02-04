@@ -10,6 +10,7 @@ import range from "js/pq_games/tools/random/range";
 import MaterialNaivigation from "games/naivigation/js_shared/materialNaivigation";
 import fillResourceGroup from "js/pq_games/layout/canvas/fillResourceGroup";
 import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
+import getRectangleCornersWithOffset from "js/pq_games/tools/geometry/paths/getRectangleCornersWithOffset";
 
 export default class Tile extends MaterialNaivigation
 {
@@ -81,7 +82,34 @@ export default class Tile extends MaterialNaivigation
             effects: [eff],
             pivot: Point.CENTER
         });
-
         group.add(res, op);
+
+        // if a planet, also show the orientation of the vehicle (for landing)
+        if(this.key.includes("planet"))
+        {
+            const randVehicleRot = rangeInteger(0,8)*0.25*Math.PI;
+            const vehicleOp = new LayoutOperation({
+                translate: randPos,
+                frame: MAP_TILES.vehicle_0.frame,
+                dims: vis.get("tiles.map.vehicleIconDims"),
+                rotation: randVehicleRot,
+                alpha: vis.get("tiles.map.vehicleIconAlpha"),
+                composite: vis.get("tiles.map.vehicleComposite"),
+                effects: [new DropShadowEffect({ color: "#000000", blurRadius: vis.get("tiles.map.vehicleShadowBlur" )})],
+                pivot: Point.CENTER
+            })
+            group.add(res, vehicleOp);
+
+            const vehicleDimsSmall = vis.get("tiles.map.vehicleIconDimsSmall");
+            const corners = getRectangleCornersWithOffset(vis.size, vehicleDimsSmall.clone().scale(0.66));
+            for(const corner of corners)
+            {
+                const op = vehicleOp.clone();
+                op.translate = corner;
+                op.dims = vehicleDimsSmall;
+                op.effects = [];
+                group.add(res, op);
+            }
+        }
     }
 }

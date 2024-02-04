@@ -37,6 +37,7 @@ export default class CardPickerNaivigation
             {
                 if(this.config.expansions[exp]) { shouldInclude = true; break; }
             }
+            if(!shouldInclude) { continue; }
 
             // hook for custom handling of certain cards
             const res = this.vehicleCallback(key, data);

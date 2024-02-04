@@ -8,7 +8,7 @@ const CONFIG:any =
 {
     debug:
     {
-        omitFile: true, // @DEBUGGING (should be false)
+        omitFile: false, // @DEBUGGING (should be false)
         singleDrawPerType: false, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
@@ -64,6 +64,18 @@ const CONFIG:any =
         generation:
         {
             numSteerCards: 20
+        },
+
+        steer:
+        {
+            circleRadius: new CVal(0.4, "sizeUnit"),
+            strokeWidthCircle: new CVal(0.075, "sizeUnit"),
+            strokeColorCircle: "#FFFFFF",
+            strokeWidthSpoke: new CVal(0.03, "sizeUnit"),
+            strokeColorSpoke: "#CCCCCC",
+            rangeColor: "#AAFFAA",
+            rangeAlpha: 0.75,
+            vehicleDims: new CVal(new Point(0.4), "sizeUnit")
         }
     },
 
@@ -74,6 +86,12 @@ const CONFIG:any =
             maxPosRand: new CVal(0.1, "sizeUnit"),
             iconDims: new CVal(new Point(0.8), "sizeUnit"),
             glowRadius: new CVal(0.033, "sizeUnit"),
+
+            vehicleIconDims: new CVal(new Point(0.5), "sizeUnit"),
+            vehicleIconDimsSmall: new CVal(new Point(0.185), "sizeUnit"),
+            vehicleIconAlpha: 1.0,
+            vehicleComposite: "luminosity",
+            vehicleShadowBlur: new CVal(0.05 * 0.5, "sizeUnit"),
 
             stars:
             {

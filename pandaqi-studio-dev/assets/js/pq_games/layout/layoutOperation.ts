@@ -1,6 +1,6 @@
 import Point from "js/pq_games/tools/geometry/point"
 import LayoutEffect from "./effects/layoutEffect"
-import ResourceImage, { CanvasDrawableLike, CanvasLike } from "js/pq_games/layout/resources/resourceImage"
+import ResourceImage, { CanvasLike } from "js/pq_games/layout/resources/resourceImage"
 import Resource, { ElementLike } from "./resources/resource"
 import ResourceShape from "./resources/resourceShape"
 import ResourceText from "./resources/resourceText"
@@ -315,7 +315,7 @@ export default class LayoutOperation
         else if(this.isImage())
         { 
             // apply the effects that require an actual image to manipulate
-            let frameResource:CanvasDrawableLike = (this.resource as ResourceImage).getImageFrameAsDrawable(this.frame, dims.clone());
+            let frameResource:ResourceImage = (this.resource as ResourceImage).getImageFrameAsResource(this.frame, dims.clone());
             frameResource = effOp.applyToDrawable(frameResource);
 
             const box = new Dims(new Point(), dims.clone());
