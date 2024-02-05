@@ -1,4 +1,4 @@
-baseurl         = "https://pandaqi.com"
+baseURL         = "https://pandaqi.com/"
 theme           = "pandaqi"
 title       	= "Pandaqi Games"
 languageCode    = "en-US"

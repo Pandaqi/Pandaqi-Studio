@@ -1,7 +1,7 @@
 import LineGraph from "../geometry/lineGraph";
 import PointGraph from "../geometry/pointGraph";
+import range from "../random/range";
 import PriorityQueue from "./priorityQueue"
-import Random from "js/pq_games/tools/random/main"
 
 // @TODO: Improve parameters/types/input for heuristicFunction
 
@@ -89,7 +89,7 @@ export default class PathFinder
 	{
 		const min = params.min ?? 0;
 		const max = params.max ?? 1;
-		return Random.range(min, max);
+		return range(min, max);
 	}
 
 	assignRandomWeights(params:PathFindRandomizeParams)

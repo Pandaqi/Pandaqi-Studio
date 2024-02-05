@@ -1,12 +1,11 @@
-import Tiles from "./tiles/tiles"
-import CodeCards from "./cards"
-import Tokens from "./tokens"
-import PdfBuilder, { PageOrientation } from "js/pq_games/pdf/pdfBuilder"
-import DragDropDebugger from "./tools/dragdrop"
-import CONFIG from "./config"
 import ResourceLoader from "js/pq_games/layout/resources/resourceLoader"
+import PdfBuilder, { PageOrientation } from "js/pq_games/pdf/pdfBuilder"
 import Point from "js/pq_games/tools/geometry/point"
 import ProgressBar from "js/pq_games/website/progressBar"
+import CodeCards from "./cards"
+import CONFIG from "./config"
+import Tiles from "./tiles/tiles"
+import Tokens from "./tokens"
 
 export default class Generator {
     constructor() {}
