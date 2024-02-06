@@ -81,7 +81,7 @@ As always, I'm open to bug fixes, ideas, improvements, so long as they don't tak
 
 Read the full devlog for the details behind the development: [[Devlog] Own Goals Not Allowed](/blog/videogames/one-week-games/devlog-own-goals-not-allowed) (on Pandaqi Blog)
 
-Let me know your thoughts at: [askthepanda@pandaqi.com](mailto:askthepanda@pandaqi.com)
+Let me know your thoughts at: [schoolofpanda@gmail.com](mailto:schoolofpanda@gmail.com)
 
 {{% /section-centered %}}
 

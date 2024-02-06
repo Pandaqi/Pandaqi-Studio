@@ -60,7 +60,7 @@ This game is "print 'n play", which means you can play it for free by taking the
 4. Read/print the rules (6 pages&mdash;including images, examples, and clarifications)
 5. Find some friends and start playing!
 
-Each game I create has been thoroughly playtested and designed as professionally as possible. Nevertheless, if you find errors, unclear rules, or have ideas for improvements, never hesitate to let me know: [askthepanda@pandaqi.com](mailto:askthepanda@pandaqi.com)
+Each game I create has been thoroughly playtested and designed as professionally as possible. Nevertheless, if you find errors, unclear rules, or have ideas for improvements, never hesitate to let me know: [schoolofpanda@gmail.com](mailto:schoolofpanda@gmail.com)
 
 {{% /section-centered %}}
 

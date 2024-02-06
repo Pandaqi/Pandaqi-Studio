@@ -82,7 +82,7 @@ That's what this game is :)
 {{% /section-centered %}}
 
 {{% section-centered heading="Feedback & More" %}}
-Any **feedback** (at [askthepanda@pandaqi.com](mailto:askthepanda@pandaqi.com)) is more than welcome!
+Any **feedback** (at [schoolofpanda@gmail.com](mailto:schoolofpanda@gmail.com)) is more than welcome!
 
 I've written a devlog about the whole process: [Ho Ho Sombrero (devlog)](/blog/videogames/game-jams/devlog-ho-ho-sombrero)
 

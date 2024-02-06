@@ -118,7 +118,7 @@ But in all other ways, this game stands on its own and is completely different.
 
 {{% section-flex heading="" media="video/roundogre_video4" video="true" class="limit-width" %}}
 
-**Feedback is highly appreciated**, send me an email at: [askthepanda@pandaqi.com](mailto:askthepanda@pandaqi.com)
+**Feedback is highly appreciated**, send me an email at: [schoolofpanda@gmail.com](mailto:schoolofpanda@gmail.com)
 
 With every puzzle game, I learn and grow as a developer. This one is already far better (in my opinion) than its prequel, and I plan to make many more puzzle games to entertain players all around the world.
 

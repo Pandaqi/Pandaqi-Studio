@@ -9,7 +9,7 @@ noThumb: true
 
 {{< custom-entry-banner id="0" title="Mail me!" bg="mail_bg" thumb="mail_logo" class="blue" >}}
 
-My mailbox is always open for you: [askthepanda@pandaqi.com](mailto:askthepanda@pandaqi.com)
+My mailbox is always open for you: [schoolofpanda@gmail.com](mailto:schoolofpanda@gmail.com)
 
 Feedback, feature requests, questions about how/why I made something, proposals for collaborations, you name it. Well, anything except _spam_ of course.
 

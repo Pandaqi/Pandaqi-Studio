@@ -6,7 +6,7 @@
 		{{ if .Params.longblurb }}
 			{{ $blurb = .Params.longblurb | safeHTML }}
 		{{ end }}
-		<a href="{{ .Permalink }}">
+		<a href="{{ .RelPermalink }}">
 			{{ partial "show-image.html" (dict "context" . "img_url" $img_url) }}
 			<h3>{{ .Title }}</h3>
 			<p>{{ $blurb }}</p>

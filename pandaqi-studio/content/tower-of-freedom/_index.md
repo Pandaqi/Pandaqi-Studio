@@ -79,7 +79,7 @@ This game was one of the first "professional" games made with the Godot game eng
 
 _Why is "professional" between quotes?_ Because the game looks awesome, but it's nowhere near the scope and polish of a professional game. I kept the game really small and simple, and spent almost all my time on the graphics. The game is still loads of fun, just don't expect to sink 10+ hours into it :p
 
-The game is finished, but nothing is perfect. If you have suggestions, improvements, bugs, let me know at [askthepanda@pandaqi.com](mailto:askthepanda@pandaqi.com)
+The game is finished, but nothing is perfect. If you have suggestions, improvements, bugs, let me know at [schoolofpanda@gmail.com](mailto:schoolofpanda@gmail.com)
 
 {{% /section-centered %}}
 

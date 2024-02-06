@@ -11,7 +11,7 @@
 	// We grab it from Hugo so we have consistent naming + minifying + can experiment more easily (like adding a "| fingerprint")
 	if (navigator.serviceWorker && !navigator.serviceWorker.controller) {
 		{{ $pwa := resources.Get "/js/pwa.js" | minify }} 
-		const PWA_URL = "{{ $pwa.Permalink }}".replaceAll("\/", "/");
+		const PWA_URL = "{{ $pwa.RelPermalink }}".replaceAll("\/", "/");
 		navigator.serviceWorker.register(PWA_URL); 
 		navigator.serviceWorker.getRegistrations().then((registrations) => {
 			for(const registration of registrations) {
