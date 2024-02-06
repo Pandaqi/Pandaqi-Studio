@@ -1,7 +1,7 @@
 import RandomWalk from "../../tools/randomWalk"
 import RandomWalkPathfind from "../../tools/randomWalkPathfind"
 import Random from "js/pq_games/tools/random/main"
-import PathFinder from "js/pq_games/tools/pathFinder/pathFinder"
+import PathFinder from "js/pq_games/tools/pathfinding/pathFinder"
 
 export default class LineGenerator
 {

@@ -1,7 +1,8 @@
-import PathFinder from "js/pq_games/tools/pathFinder/pathFinder"
-import Random from "js/pq_games/tools/random/main"
 import Point from "../shapes/point"
 import Line from "../shapes/line"
+import rangeInteger from "js/pq_games/tools/random/rangeInteger";
+import shuffle from "js/pq_games/tools/random/shuffle";
+import PathFinder from "js/pq_games/tools/pathfinding/pathFinder";
 
 export default class RandomWalkPathfind 
 {
@@ -45,7 +46,7 @@ export default class RandomWalkPathfind
     generate(config, points)
     {
         const options = this.getPossibleEndPoints(config, points);
-        Random.shuffle(options);
+        shuffle(options);
         let start = options.pop();
         let end = options.pop();
 
@@ -183,7 +184,7 @@ export default class RandomWalkPathfind
         if(!config.randomWalk.enhancements_v2.dotsBetween) { return; }
 
         const bounds = config.randomWalk.enhancements_v2.dotsBetweenBounds;
-        const numDots = Random.rangeInteger(bounds.min, bounds.max);
+        const numDots = rangeInteger(bounds.min, bounds.max);
 
         for(let i = 0; i < numDots; i++)
         {
@@ -205,7 +206,7 @@ export default class RandomWalkPathfind
         if(!config.randomWalk.enhancements_v2.hairs) { return; }
 
         const bounds = config.randomWalk.enhancements_v2.hairBounds;
-        const numHairs = Random.rangeInteger(bounds.min, bounds.max);
+        const numHairs = rangeInteger(bounds.min, bounds.max);
         for(let i = 0; i < numHairs; i++)
         {
             const p = this.getRandomPoint();
@@ -227,7 +228,7 @@ export default class RandomWalkPathfind
 
         const shapeTypes = config.randomWalk.enhancements_v2.shapeTypes;
         const shapeBounds = config.randomWalk.enhancements_v2.shapeBounds;
-        const numShapes = Random.rangeInteger(shapeBounds.min, shapeBounds.max);
+        const numShapes = rangeInteger(shapeBounds.min, shapeBounds.max);
         for(let i = 0; i < numShapes; i++)
         {
             const type = shapeTypes[Math.floor(Math.random() * shapeTypes.length)];
