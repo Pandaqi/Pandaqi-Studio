@@ -1,0 +1,228 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><title>Own Goals Not Allowed | Pandaqi Blog</title><link rel=icon type=image/png href=https://pandaqi.com/blog//favicon.png><link rel=stylesheet type=text/css href=/blog/css/critical.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin></head><body><header id=site-header><nav class=menu><ul><li><a href=https://pandaqi.com/blog/ class="masked-link big-mask mask-3" style=--rotation:2deg>Home</a></li><li><a href=/blog/boardgames/ class="masked-link big-mask mask-4" style=--rotation:1.5deg>Boardgames</a></li><li><a href=/blog/news-and-updates/ class="masked-link big-mask mask-2" style=--rotation:-1.5deg>News & Updates</a></li><li><a href=/blog/reviews-and-thoughts/ class="masked-link big-mask mask-7" style=--rotation:0.5deg>Reviews & Thoughts</a></li><li><a href=/blog/tutorials/ class="masked-link big-mask mask-6" style=--rotation:1deg>Tutorials</a></li><li><a href=/blog/videogames/ class="masked-link big-mask mask-5" style=--rotation:-0.5deg>Videogames</a></li></ul></nav></header><main class="padding center-block"><article class=single-article><div class=thumbnail-media><figure class=thumb-image><picture><img src=own_goals-header.webp loading=lazy decoding=async alt="Thumbnail / Header for article: Own Goals Not Allowed" title="Thumbnail / Header for article: Own Goals Not Allowed" width=960 height=500></picture></figure></div><h1>Own Goals Not Allowed</h1><aside class=metadata><nav class=breadcrumbs><span class=metadata-label><span class=emoji>🥐</span> Breadcrumbs ||</span>
+<a href=https://pandaqi.com/blog/>Home</a>
+/
+<a href=https://pandaqi.com/blog/videogames/>Videogames</a>
+/
+<a href=https://pandaqi.com/blog/videogames/one-week-games/>One week games</a>
+/
+<a href=https://pandaqi.com/blog/videogames/one-week-games/devlog-own-goals-not-allowed/>Devlog own goals not allowed</a></nav><script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/pandaqi.com\/blog\/","name":"home"}},{"@type":"ListItem","position":2,"item":{"@id":"https:\/\/pandaqi.com\/blog\/videogames\/","name":"videogames"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/pandaqi.com\/blog\/videogames\/one-week-games\/","name":"one-week-games"}},{"@type":"ListItem","position":4,"item":{"@id":"https:\/\/pandaqi.com\/blog\/videogames\/one-week-games\/devlog-own-goals-not-allowed\/","name":"devlog-own-goals-not-allowed"}}]}</script><div><span class=metadata-label><span class=emoji>&#8987;</span> Published ||</span>
+<time datetime=2022-10-25T14:00:00>Tuesday, Oct 25, 2022</time></div><nav class=tags><span class=metadata-label><span class=emoji>🎗</span> Tags ||</span><ul><li><a href=https://pandaqi.com/blog/tags/devlog>devlog</a></li><li><a href=https://pandaqi.com/blog/tags/technical-devlog>technical devlog</a></li></ul></nav><div><span class=metadata-label><span class=emoji>📖</span> Table of Contents ||</span>
+<a href=# id=toc-toggle>Show</a></div></aside><aside id=table-of-contents class=masked-link-block><header><h2>Table of Contents</h2></header><nav id=TableOfContents><ul><li><a href=#whats-the-idea>What&rsquo;s the idea?</a></li><li><a href=#day-1-basics>Day 1: Basics</a></li><li><a href=#day-1-input---fields>Day 1: Input -> Fields</a></li><li><a href=#day-1-checking-goals>Day 1: Checking goals</a></li><li><a href=#day-1-extra-rules>Day 1: Extra Rules</a></li><li><a href=#day-1-visuals>Day 1: Visuals</a></li><li><a href=#day-1-the-issues>Day 1: The Issues</a></li><li><a href=#day-2-solutions-to-issues>Day 2: Solutions to Issues</a><ul><li><a href=#field-changes>Field Changes</a></li><li><a href=#add-a-camera>Add a Camera</a></li><li><a href=#teleports>Teleports</a></li><li><a href=#varying-the-fields>Varying the Fields</a></li><li><a href=#powerups>Powerups</a></li></ul></li><li><a href=#day-2-gates--fields>Day 2: Gates & Fields</a></li><li><a href=#day-2-input-screen>Day 2: Input Screen</a></li><li><a href=#day-2-powerups>Day 2: Powerups</a></li><li><a href=#day-3-finishing-touches>Day 3: Finishing touches</a></li><li><a href=#day-3-bots>Day 3: Bots?</a></li><li><a href=#day-3-mustnt-forget>Day 3: Mustn&rsquo;t forget</a></li><li><a href=#conclusion>Conclusion</a></li><li><a href=#an-update>An update</a></li></ul></nav></aside><div><p>Welcome to this <em>really short</em> devlog for my game <a href=https://pandaqi.com/own-goals-not-allowed>&ldquo;Own Goals Not
+Allowed&rdquo;</a>.</p><p>(Previously called <strong>Splitball</strong> in my notes. Then it was called &ldquo;No Own
+Goals Allowed&rdquo;, but the combination of <em>No Own</em> is just hard to read and
+pronounce.)</p><p>It&rsquo;s my first &ldquo;weekend project&rdquo;. Previously, I basically worked on my
+main project(s) all days of the week, but it was just burning me out. So
+from now on, I&rsquo;m trying to switch it up during the weekends.</p><p>For that, I needed (game) ideas that were short and simple enough that I
+can make them in 2-3 days. And they&rsquo;d actually be finished and fully
+playable.</p><h2 id=whats-the-idea>What&rsquo;s the idea?</h2><p>You&rsquo;re playing a <em>very simplified</em> game of soccer. Two goals on opposing
+sides. Walk into the ball to hit it. Score in your opponent&rsquo;s goal.</p><p>Simple, right?</p><p>But here&rsquo;s the twist: you&rsquo;re not playing <strong>one</strong> game &mldr; you&rsquo;re playing
+<strong>multiple at the same time.</strong></p><p>When you move up (for example), your character moves up in <em>all</em> fields.</p><p>This seemed like a simple idea that would work wonders, as it&rsquo;s really
+hard to keep track of multiple fields. And it&rsquo;s even harder to not
+<em>accidentally</em> score own goals.</p><p>That&rsquo;s where the second rule comes from: <strong>own goals are 10 points for
+the opponent.</strong> (Which is, you know, a lot more than 1 point.)</p><p>That&rsquo;s the whole idea! Let&rsquo;s start.</p><h2 id=day-1-basics>Day 1: Basics</h2><p>I laid down the basic components/systems I needed and powered through
+them. (I have enough confidence in my game creation skills at this point
+that I don&rsquo;t bother testing at this stage. Maybe that&rsquo;s a mistake, but
+it does make it <em>fast</em>.)</p><p><strong>Field Manager:</strong> Can add/remove fields and position them correctly
+(centered on the screen). Also has helper functions for <em>aggregating</em>
+data about fields, most notably the <em>score</em>.</p><p><strong>Field:</strong> dynamically creates boundaries, but leaves a gap at the
+top/bottom for a goal. Most work went into making this look acceptable.
+As fields, goals, etcetera can be <em>any</em> size, I couldn&rsquo;t just pre-create
+a few beautiful sprites and slap them on there.</p><p>I spent quite some time making it obvious which goal was which, as that
+seemed important :p If the top goal is from team 0, almost <em>everything</em>
+at the top of the field is colored the same way. But not <em>exactly
+everything</em>, as that looked ugly and too &ldquo;harsh&rdquo;. The field is still
+just green.</p><p><strong>Balls:</strong> just a RigidBody with high bounciness. It has code to:</p><ul><li><p>Cap its velocity (so it never comes to a stop, but also never goes
+to fast)</p></li><li><p>Teleport (e.g. after someone scores, the ball resets)</p></li><li><p>Track who was the <em>last</em> player to touch it (to figure out if
+something was an own goal)</p></li></ul><p><strong>Players:</strong> just a RigidBody again with high bounciness. It has code
+to:</p><ul><li>Move (<em>slightly</em> momentum-based: a small period where it speeds
+up/slows down before reaching the desired speed)</li></ul><p>Erm, yeah, that&rsquo;s it. Simple idea, right?</p><h2 id=day-1-input---fields>Day 1: Input -> Fields</h2><p>When created, fields spawn a <strong>ball</strong> and a <strong>player character</strong> for
+each player.</p><p>The ball gets a slight push, but otherwise is completely controlled by
+physics and its own script.</p><p>The players are, obviously, controlled by <em>you</em>.</p><p>A global &ldquo;input&rdquo; script polls input for <em>all players</em>, then sends it
+through to all the fields, who send it through to their player
+characters.</p><p>This is way cheaper than adding a separate input script/module to <em>every
+instance of every player</em>. It&rsquo;s also more flexible for me, as I can (for
+example) completely cut off a player with a single line from this
+script.</p><p>One downside? Players can&rsquo;t randomly walk to a different field. (Which
+they could before, as the goals are <em>open</em>.) But that was never a
+planned feature anyway.</p><h2 id=day-1-checking-goals>Day 1: Checking goals</h2><p>Surprisingly, checking whether an object has fully crossed a line, and
+then resetting it, is more annoying than you think.</p><ul><li><p>Using an Area? You&rsquo;d need to position it <em>precisely</em> so it triggers
+when the ball is over the line.</p></li><li><p>What if a player touches the ball again when it&rsquo;s inside the goal?</p></li><li><p>If the ball immediately resets, it leads to &ldquo;insta-goals&rdquo; for the
+opponent, as <em>you</em> still need to walk back after scoring.</p></li><li><p>Etcetera.</p></li></ul><p>I chose to:</p><ul><li><p>Do a basic y-coordinate check: if ball is higher than goal line,
+someone scored.</p></li><li><p>When a ball is reset, it is &ldquo;frozen&rdquo; for a second or so.</p></li></ul><p>Sometimes, the ball also, erm, wouldn&rsquo;t reset. I&rsquo;m at my wits end on
+this one and think it&rsquo;s just a bug from the (altogether quite buggy)
+physics engine, so I ended up just completely destroying the ball when
+scored and placing a new one. Not optimal, but who cares.</p><h2 id=day-1-extra-rules>Day 1: Extra Rules</h2><p>After testing this, the idea was <em>working</em>, but far from <em>really fun</em>.</p><p>Fields were a bit crowded on high player counts. And most people,
+intuitively, still focused on one field only.</p><p>I added two simple rules to make the game asymmetrical:</p><ul><li><p>When you score, that character is <em>removed</em> from that field. (Unless
+it&rsquo;s the last one you have.)</p></li><li><p>When you get scored on, a player on your team that&rsquo;s <em>not</em> on the
+field yet, is <em>added</em>.</p></li></ul><p>In other words, if one team does great on a field, then it&rsquo;s slowly
+hindered while the other team is helped. With this system, you <em>can&rsquo;t</em>
+focus on one field, as there&rsquo;s a low chance everyone is there.</p><h2 id=day-1-visuals>Day 1: Visuals</h2><p>The rest of this day was spent</p><ul><li><p>Adding loads of visuals, indicators, feedback. (With a game
+happening on multiple fields, you <em>really</em> need this to make sense
+of it all.)</p></li><li><p>Finding bugs/issues/doubts and trying to find ways to fix them.</p></li></ul><p>For example, everything in the game is already animated. (When a field
+appears, it does a short tween. When a player appears, same thing. When
+score changes, the text has a flashy/bouncy tween as well.)</p><p>Players/balls have a particle trail when walking. There&rsquo;s a wild
+explosion on goals (and game over).</p><p>I added a simple <em>Game Over</em> and <em>Pause</em> screen to close the game loop.
+(Always important to do that quickly: being able to start, play, end,
+then restart the game. It&rsquo;s the loop that makes a game, well, <em>a game.</em>)</p><p>The goals were a bit empty being holes, so I spent way too much time
+programming a bouncy/wavy line &mldr; that reacts to a goal. (So when the
+ball flies in, the line displaces as if the ball caused it, wobbling for
+a few seconds afterwards. Looks cool, not sure if it was worth the time
+though :p)</p><h2 id=day-1-the-issues>Day 1: The Issues</h2><p>Here are the issues with which I went to bed:</p><ul><li><p>I need some simple rule for adding/removing fields during the game.</p></li><li><p><em>Forcefully</em> moving physics objects (outside the physics simulation)
+is <em>bad</em>. So when a field is added, I shouldn&rsquo;t have to move other
+fields to make space/center it &mldr; but how?</p></li><li><p>I needed a way for players to manually move between fields. (Adds
+more strategy, fits the theme of the game, helps soften annoying
+situations where one team is completely wiped from a field.)</p></li><li><p>Right now, &ldquo;goal blocking&rdquo; is a pretty viable strategy. Just place
+all bodies you have in front of the goal and done. How to prevent
+this?</p></li><li><p>The game needs just a bit <em>more</em> than it currently is.</p></li></ul><h2 id=day-2-solutions-to-issues>Day 2: Solutions to Issues</h2><p>Sleeping is a good thing.</p><h3 id=field-changes>Field Changes</h3><p><strong>Solution #1:</strong> fields are added/removed <em>when somebody own goals</em>.
+Adds to the theme, it happens enough (in my testing) to make it worth
+it, but not <em>so often</em> that you go crazy from all the fields.</p><p>(With the space we have, this means the number of fields is wobbling
+between 2-4, which I think is a good balance.)</p><h3 id=add-a-camera>Add a Camera</h3><p><strong>Solution #2:</strong> use the age-old trick of &ldquo;don&rsquo;t move the world, move a
+camera in the opposite direction&rdquo;. Fields are simply added to the end of
+the current field list, then the camera is moved to fit them on-screen.
+(So existing fields are <em>never</em> moved.)</p><h3 id=teleports>Teleports</h3><p><strong>Solution #3:</strong> gates/teleports. But I didn&rsquo;t want to make them really
+prominent features of the map, as we&rsquo;re already out of space, and if
+players start teleporting too much the game is just chaos.</p><p>Instead, there&rsquo;s one gate in the <em>left</em> wall of a field, and one in the
+<em>right</em>. Obviously, the right teleport of a field <em>brings you</em> to the
+left one of the field next to it.</p><p>As such, they basically explain themselves and you know exactly where
+you go. You can also <em>accidentally</em> use one, but not so easy you get
+annoyed.</p><p>(Because it&rsquo;s a one-time teleport, that is something the physics engine
+can handle if I code it properly.)</p><h3 id=varying-the-fields>Varying the Fields</h3><p><strong>Solution #4:</strong> Of course, the whole idea of the game itself already
+<em>softens</em> the &ldquo;goal blocking&rdquo; problem.</p><p>Because you can&rsquo;t position characters individually, it&rsquo;s really hard to
+block the goal in <em>all fields</em>.</p><p>Because own goals carry such a penalty, you <em>don&rsquo;t</em> want to be close to
+your goal and accidentally hit it last.</p><p>But it&rsquo;s not enough. Here are ways to shake things up, hopefully enough
+to prevent this &mldr;</p><ul><li><p>Goal size and position are somewhat random.</p></li><li><p>Fields can be <em>rotated</em> (so that the <em>other</em> team is at the top)!</p></li><li><p>When you are <em>close</em> to your goal &mldr; it grows in size. (And when
+you are <em>far</em> it shrinks.)</p></li></ul><p>That last rule is a bit exotic, but it fits well. It also punishes being
+&ldquo;too present&rdquo; on one field, because that&rsquo;d mean there&rsquo;s no space to stay
+away from your goal.</p><h3 id=powerups>Powerups</h3><p><strong>Solution #5:</strong> well &mldr; <strong>powerups!</strong> It&rsquo;s a game about moving. All
+you can do is determine <em>where you are</em> and <em>where you are not</em>.</p><p>Those games are perfectly suited for powerups that you grab by being
+somewhere, or avoid by purposely <em>not</em> going there.</p><p>I had some doubts about the implementation. Wouldn&rsquo;t it be <em>too easy</em> to
+accidentally grab one if they triggered so easily?</p><p>But in the end, I applied the lessons I learned from previous games. <em>If
+you add powerups, they should be &mldr;</em></p><ul><li><p>Rare</p></li><li><p>So impactful it feels unfair</p></li><li><p>Immediately clear on first sight</p></li></ul><p>If they&rsquo;re not rare, you should&rsquo;ve just made their effect a
+permanent/global thing, because being individual powerups is senseless.</p><p>If they&rsquo;re not impactful, players don&rsquo;t care about picking them up.</p><p>If they&rsquo;re not immediately clear, players will be confused about what
+happens, or stop playing for ten seconds to figure it out.</p><p>To finish it off, one last rule to tie it all together: <strong>picking up a
+powerup in <em>one</em> field activates it for <em>all your characters</em> (in all
+fields).</strong></p><p>(We&rsquo;re still in the first hour of day 2, I&rsquo;m just writing down these
+ideas, then I&rsquo;ll implement them. Which is where we&rsquo;re going now!)</p><h2 id=day-2-gates--fields>Day 2: Gates & Fields</h2><p>These were quite quick to implement, but revealed their subtle issues
+later on (as they always do).</p><p>Many bugs came from the fact that &ldquo;Collisions/Events could still happen
+while a field was being removed.&rdquo; (What if a player enters a teleport to
+a field right when it&rsquo;s destroying itself? What if someone scores
+another own goal on a field removing itself, and it comes back?)</p><p>Once I realized this, I added a simple variable &ldquo;busy_removing&rdquo;, and
+when true, everything just stops and calls to events are ignored.</p><p>When a field is removed, I also forgot that:</p><ul><li><p>Its score would also be destroyed. Solution? Keep a &ldquo;permanent
+score&rdquo; counter as well. When a field is removed, add its values to
+that, so its remembered from now on.</p></li><li><p>A player might end up without characters. Solution? Check this, if
+so, add a random one to a random other field.</p></li><li><p>The links between gates wouldn&rsquo;t work anymore. Solution? Just call
+for a complete &ldquo;relink&rdquo; of all existing fields on removal.</p></li></ul><p>(General rule: it&rsquo;s often <em>way easier</em> to just recalculate/redo/update
+everything when any change happens. Way less error prone, more flexible
+and robust in the long run. Yes, don&rsquo;t do this when the update is <em>very
+expensive</em>, but if that&rsquo;s the case, the algorithm you&rsquo;re writing is
+probably at the core of your game and you should take more care anyway.)</p><h2 id=day-2-input-screen>Day 2: Input Screen</h2><p>I quickly decided that an in-game tutorial with several images
+popping-up just wasn&rsquo;t a good idea.</p><p>If I wanted to explain all the rules, it&rsquo;d be too much information, not
+in the spirit of the game. But not explaining <em>anything</em> also isn&rsquo;t
+great.</p><p>So, on the main screen, there&rsquo;s a big image on the left with just 4
+short lines and example images, explaining the core:</p><ul><li><p>Hit the ball</p></li><li><p>Score goals</p></li><li><p>Don&rsquo;t score own goals</p></li><li><p>We play until X points</p></li></ul><p>That&rsquo;s really all you need to know to start playing. The rest shows
+itself during gameplay.</p><p>On the right, we have the login screens. To make my 2-day deadline, I
+decided to keep it <em>very simple</em>. All you can do is:</p><ul><li><p>Add a new player/device</p></li><li><p>Ready yourself ( => once everyone is ready, the game starts)</p></li><li><p>Remove yourself</p></li></ul><p>But interactive menus are <em>awesome</em>, so this is one as well. When logged
+in, you get a player character (confined to your box). The keys for
+movement are shown in the background and you can move around. In fact,
+to ready/remove you must <em>move yourself</em> to that area of the login
+screen.</p><p>This makes the menu much more lively, fun, unique. But it also <em>teaches
+the buttons</em>!</p><p>Great. (I had some trouble with removing players not updating the
+background device dictionary correctly, but that turned out to be a bug
+with my general library. I had to &ldquo;port&rdquo; it to Godot 4, from Godot 3,
+and a few mistakes slipped in.)</p><p>This means the game is <strong>fully playable.</strong> You can start, login, learn
+the buttons/objective, play the whole game, and someone wins in the end.
+(I could publish it like this, if I wanted.)</p><h2 id=day-2-powerups>Day 2: Powerups</h2><p>I did a playtest <em>for a different game</em> (my main project) around this
+time. So, no progress for a few hours here, but lots of insight on how
+to improve that other project.</p><p>Anyway, it&rsquo;s evening now. Let&rsquo;s try to pump out the powerup system and a
+few good ones.</p><p>Very quickly, I realized that powerups across the field just weren&rsquo;t a
+good idea. It was <em>so easy</em> to grab one &mldr; and even easier to
+accidentally grab one and don&rsquo;t know what the hell just happened,
+because you weren&rsquo;t looking at that field</p><p><strong>Solution 1:</strong> Make them quite small and place them in the <em>corners</em> =>
+only a weak fix</p><p><strong>Solution 2:</strong> Powerups are yours by hitting them with the <em>ball</em> =>
+harder to do, encourages looking for who last touched a ball, but still
+not a complete fix.</p><p><strong>Solution 3:</strong> <strong>powerups spawn between teleports.</strong> In other words,
+when you teleport from field A to field B, you get the powerup showing
+between them.</p><p>Very thematic, encourages/discourages teleporting at different moments,
+harder to do accidentally, and more visible. (There&rsquo;s nothing else
+showing in that space.)</p><p>That&rsquo;s what I went with.</p><p>Sounds easier than it is to implement. (Because we have to find pairs of
+gates that are <em>not</em> already being used, which are <em>not</em> at the extreme
+of the map, and remove them properly when their fields are removed, as
+well as reposition the powerup properly when the gates reposition.) But
+I got there in the end.</p><p>Which powerups sound fun?</p><p>I saw several categories:</p><ul><li><p>Those that allow defending/attacking in the field to your right or
+to your left. In other words, do something about a field <em>where you
+are not</em>. (I can just draw an arrow on those powerups and flip it
+when needed.)</p></li><li><p>Those that mess with your movement and ball hits (as that is all you
+have, and it transfers well to <em>all</em> your characters)</p></li><li><p>Those that give <em>variation</em> to prevent many issues I mentioned.
+(Camping on your goal line, focusing on one field only, etcetera.)</p></li></ul><p>I was running out of time, though, and I realized I actually didn&rsquo;t have
+that many <em>great</em> ideas for this. So I kept the list small.</p><p>Eventually, my creative juices were just depleted, so I went to bed with
+some work on this left to go.</p><h2 id=day-3-finishing-touches>Day 3: Finishing touches</h2><p>The next day, I woke up and immediately drew all the icons and finished
+the missing powerups.</p><p>Then I powered through a list of small issues or improvements, which I
+thought were important enough to work on. (For example: ramps in the
+corners to prevent balls getting stuck there.)</p><p>Which left me with some polishing left to do:</p><ul><li><p>Some sound effects and something resembling a soundtrack</p></li><li><p>Some animations/tweens/particles where they were missing (mostly the
+newer stuff I implemented)</p></li></ul><p>This was quite some hours of work. Which taught me my next weekend
+project should be even simpler and shorter than this one.</p><h2 id=day-3-bots>Day 3: Bots?</h2><p>And lastly a question: do I add <em>bots</em> to this game? (Limiting the game
+to 2+ players only is always a great way to ensure almost nobody will or
+can try it.)</p><p>It&rsquo;s not really trivial to add bots, but also not the hardest thing in
+the world.</p><p>So I pulled the trigger and did it, as the final task for this project.</p><ul><li><p>In the main menu, you can turn on &ldquo;bots&rdquo;.</p></li><li><p>All players are in the same team. At game start, as many unique
+&ldquo;bots&rdquo; are started as there are players.</p></li><li><p>Each bot checks for the closest ball and tries to get <em>behind</em> it.
+(Between the ball&rsquo;s trajectory and their goal.)</p></li><li><p>When spread over multiple fields, the bot focuses on the closest
+ball first.</p></li></ul><p>Not great, but it&rsquo;s something.</p><h2 id=day-3-mustnt-forget>Day 3: Mustn&rsquo;t forget</h2><p>Marketing. Of course, I&rsquo;m not talking about <em>really marketing</em> this
+game, but I also can&rsquo;t just upload it without a piece of text or a few
+screenshots.</p><p>So another half hour was spent getting those screenshots, writing that
+text, making a logo that&rsquo;s somewhat decent.</p><p>And with that, we could finally, definitively, upload this game and call
+it done.</p><h2 id=conclusion>Conclusion</h2><p>That&rsquo;s it. My first &ldquo;weekend project&rdquo;. A very simple game about playing
+soccer on multiple fields simultaneously.</p><p>Still took too long and became too complex in certain parts. But all in
+all, especially for <em>me</em> and my bad habit of overscoping, it was a great
+training in keeping something small and finishing it in a really short
+time.</p><p>It was also a nice diversion from my regular, bigger projects. And
+another idea that&rsquo;s been bugging the back of my mind for weeks that I
+can now put to rest with a satisfied heart.</p><p>(Forgot to mention: I also tried a different <em>structure</em> for organizing
+projects in this one. Not sure if I like it better, need more projects
+to determine that. But it was, again, something different and something
+educational.)</p><p>The end result is &mldr; fine, I guess. But that&rsquo;s what I always say about
+my own work :p</p><p>Until the next devlog,</p><p>Pandaqi</p><h2 id=an-update>An update</h2><p>Before releasing, I actually <em>did</em> come back and fix some issues. It
+seemed too important not to do.</p><p>The biggest ones:</p><ul><li><p><strong>Overcrowding:</strong> if multiple players just gang up on you or the
+ball, they get total control, and there&rsquo;s nothing you can do.</p></li><li><p><strong>Corners:</strong> same thing. Ball is in a corner? Someone else is there
+as well? It&rsquo;s basically stuck and won&rsquo;t get out.</p></li></ul><p>How to solve this?</p><p><strong>Solution 1:</strong> We just make the ball much bigger and the players much
+smaller. A player can&rsquo;t stop a ball that&rsquo;s 10 times its size. It&rsquo;s
+harder to provide a brick wall if it&rsquo;s really thin.</p><p><strong>Solution 2:</strong> Add a small &ldquo;stun&rdquo; when players collide.</p><p><strong>Solution 3:</strong> Make corners much bouncier, so players/balls fly away
+from it anyhow.</p><p><strong>Solution 4:</strong> And then allow the ball to have more influence on
+players, pushing them out the way. (Now players are basically much
+heavier and in control.)</p><p><strong>Solution 5:</strong> Add random obstacles <em>inside</em> the fields to prevent
+players from moving just anywhere, or moving like a gang/group.</p><p>In general, I already wanted to increase the size of the field <em>relative
+to the ball/players</em> by quite a bit. Currently it was a bit cramped and
+left too little options.</p><p>So these changes should go hand in hand.</p><p>In the end, I decided to simplify/streamline these ideas (as I noticed
+some extra problems with them), with the simple rule: <strong>when you hit the
+ball/another player, you bounce away from it.</strong></p><p>This means you simply <em>can&rsquo;t</em> overcrowd, or just walk the ball into the
+goal, as you&rsquo;re being bounced around the place. By tweaking the physics
+a bit, I was able to make this feel nice, and balance <em>chaos</em> with
+<em>strategy/control</em>.</p><p>Lastly, I added some &ldquo;quality of life&rdquo; features:</p><ul><li><p>Particles when you grab a powerup (or a powerup someone grabbed
+affects you)</p></li><li><p>Text feedback with a hint as to what the powerup does</p></li><li><p>A graphic with an overview of powerups. (Not in-game, but useful for
+myself and in the marketing.)</p></li><li><p>More powerups to balance it all.</p></li><li><p>Instead of making corners &ldquo;super bouncy&rdquo;, I simply gave them a timer
+that pushes away everything near it once a second. When that
+happens, it plays a nice animation of a growing circle, somewhat
+&ldquo;explaining&rdquo; to players what happens there.</p></li></ul><p>Also, because I opened the project in a <em>newer</em> version of the software,
+it unexpectedly broke some stuff. So I had to waste some time figuring
+out exactly what broke and <em>why</em>. Among those were <em>bots</em>: suddenly they
+walked away from the ball instead of towards it :p</p><p>But then I decided it was <em>really</em> done. I tested it with some people,
+used that footage for trailer/screenshots, and this project is done!</p></div></article><div><nav class=pagination><ul><li><a href=/blog/videogames/one-week-games/devlog-carving-pumpkins-and-dwarfing-dumplings/ class="masked-link big-mask mask-7" style=--rotation:2deg>&lt;&lt; Previous Page</a></li><li>Continue reading</li><li><span class=nav-disabled>No next page :(</span></li></ul></nav></div></main><footer id=site-footer><div class="padding center-block"><h3>More Pandaqi</h3><p>You could <a href=https://pandaqi.com>visit the game studio</a>.
+Or my <a href=https://pandaqi.com/tutorials/>free tutorial website</a>.
+Or my <a href=https://rodepanda.com/>portfolio</a> with easy access to absolutely everything I ever made.</p><h3>Latest</h3><nav class=latest><ul><li><a href=/blog/boardgames/kingseat/>Kingseat
+(👑)</a></li><li><a href=/blog/boardgames/foldigami/>Foldigami
+(📃)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-the-big-typescript-update/>Pandaqi Games: The Big Typescript Update
+(🎮)</a></li><li><a href=/blog/boardgames/sixpack/>Sixpack
+(🃏)</a></li><li><a href=/blog/boardgames/photomone-antsassins/>Photomone: Antsassins
+(🐜)</a></li><li><a href=/blog/boardgames/photomone-digital-antists/>Photomone: Digital Antists
+(🐜)</a></li><li><a href=/blog/boardgames/photomone/>Photomone
+(🐜)</a></li><li><a href=/blog/boardgames/keebble-domino/>Keebble: Domino
+(📗)</a></li><li><a href=/blog/boardgames/keebble-knickknack/>Keebble: Knickknack
+(📘)</a></li><li><a href=/blog/videogames/game-jams/less-is-store/>Less is Store
+(🛍️)</a></li></ul></nav><h3>Sections</h3><nav><ul><li><a href=/blog/boardgames/>Boardgames
+(🎲)</a></li><li><a href=/blog/news-and-updates/>News & Updates
+(📢)</a></li><li><a href=/blog/reviews-and-thoughts/>Reviews & Thoughts
+(💭)</a></li><li><a href=/blog/tutorials/>Tutorials
+(👩‍🎓)</a></li><li><a href=/blog/videogames/>Videogames
+(🎮)</a></li></ul></nav><h3>Credits</h3><p>Theme by me (<a href=https://pandaqi.com>Pandaqi</a> 🐼) &#183;
+with ❤️ &#183;
+using <a href=https://gohugo.io>Hugo</a> &#183;
+&copy; 2018&ndash;2023 Pandaqi Blog</p></div></footer><link rel=stylesheet type=text/css href=/blog/css/style.css><script src=/blog/js/bundle.min.js></script></body></html>

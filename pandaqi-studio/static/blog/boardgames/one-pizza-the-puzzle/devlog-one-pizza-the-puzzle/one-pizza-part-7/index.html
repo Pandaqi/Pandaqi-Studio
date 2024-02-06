@@ -1,0 +1,93 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><title>One Pizza The Puzzle (Part 7) | Pandaqi Blog</title><link rel=icon type=image/png href=https://pandaqi.com/blog//favicon.png><link rel=stylesheet type=text/css href=/blog/css/critical.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin></head><body><header id=site-header><nav class=menu><ul><li><a href=https://pandaqi.com/blog/ class="masked-link big-mask mask-6" style=--rotation:-1.5deg>Home</a></li><li><a href=/blog/boardgames/ class="masked-link big-mask mask-8" style=--rotation:0.5deg>Boardgames</a></li><li><a href=/blog/news-and-updates/ class="masked-link big-mask mask-4" style=--rotation:-1.5deg>News & Updates</a></li><li><a href=/blog/reviews-and-thoughts/ class="masked-link big-mask mask-8" style=--rotation:-1.5deg>Reviews & Thoughts</a></li><li><a href=/blog/tutorials/ class="masked-link big-mask mask-5" style=--rotation:-0.5deg>Tutorials</a></li><li><a href=/blog/videogames/ class="masked-link big-mask mask-2" style=--rotation:1.5deg>Videogames</a></li></ul></nav></header><main class="padding center-block"><article class=single-article><div class=thumbnail-media><figure class=thumb-image><picture><img src=../../one-pizza-header.webp loading=lazy decoding=async alt="Thumbnail / Header for article: One Pizza The Puzzle (Part 7)" title="Thumbnail / Header for article: One Pizza The Puzzle (Part 7)" width=2481 height=877></picture></figure></div><h1>One Pizza The Puzzle (Part 7)</h1><aside class=metadata><nav class=breadcrumbs><span class=metadata-label><span class=emoji>🥐</span> Breadcrumbs ||</span>
+<a href=https://pandaqi.com/blog/>Home</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/>Boardgames</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/one-pizza-the-puzzle/>One pizza the puzzle</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/one-pizza-the-puzzle/devlog-one-pizza-the-puzzle/>Devlog one pizza the puzzle</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/one-pizza-the-puzzle/devlog-one-pizza-the-puzzle/one-pizza-part-7/>One pizza part 7</a></nav><script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/pandaqi.com\/blog\/","name":"home"}},{"@type":"ListItem","position":2,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/","name":"boardgames"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/one-pizza-the-puzzle\/","name":"one-pizza-the-puzzle"}},{"@type":"ListItem","position":4,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/one-pizza-the-puzzle\/devlog-one-pizza-the-puzzle\/","name":"devlog-one-pizza-the-puzzle"}},{"@type":"ListItem","position":5,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/one-pizza-the-puzzle\/devlog-one-pizza-the-puzzle\/one-pizza-part-7\/","name":"one-pizza-part-7"}}]}</script><div><span class=metadata-label><span class=emoji>&#8987;</span> Published ||</span>
+<time datetime=2020-10-25T15:00:00>Sunday, Oct 25, 2020</time></div><nav class=tags><span class=metadata-label><span class=emoji>🎗</span> Tags ||</span><ul><li><a href=https://pandaqi.com/blog/tags/devlog>devlog</a></li></ul></nav><div><span class=metadata-label><span class=emoji>📖</span> Table of Contents ||</span>
+<a href=# id=toc-toggle>Show</a></div></aside><aside id=table-of-contents class=masked-link-block><header><h2>Table of Contents</h2></header><nav id=TableOfContents><ul><li><a href=#pre-playtest>Pre-Playtest</a></li><li><a href=#playtest-session-4>Playtest Session #4</a></li><li><a href=#conclusion>Conclusion</a></li></ul></nav></aside><div><p>This is part 7 of the devlog for my game &ldquo;One Pizza the Puzzle&rdquo;. (It&rsquo;s also the final part of the devlog.)</p><aside class="multipart-message masked-link-block"><span class=label>Multipart Message ||</span><p>This article is part of a multipart series! <a href=/blog/boardgames/one-pizza-the-puzzle/devlog-one-pizza-the-puzzle/one-pizza-part-1/>Click here to read the first article.</a> Scroll to the bottom to visit the next/previous entries.</p></aside><h2 id=pre-playtest>Pre-Playtest</h2><p>When you make many games, and play/test them often, you get a certain
+&ldquo;sense&rdquo; or &ldquo;intuition&rdquo; for what works and what doesn&rsquo;t. As such, when
+<em>preparing</em> for my next testing session, I suddenly realized there were
+some issues with the game that would probably lead to trouble if
+unchanged.</p><p><strong>Subways:</strong> if you take multiple subways &mldr; there&rsquo;s no way to know
+where your current line is! Because you teleport across the map, you
+don&rsquo;t know <em>where</em> you teleported to.</p><p>After some thinking, I added <strong>numbers</strong> to subways. You must always
+teleport to the <em>next</em> number (e.g. from subway 3 -> subway 4). Players
+also may <strong>not</strong> use subways more than once.</p><p>It adds one extra rule to the subway mechanic, but I think it&rsquo;s worth it
+for the enormous clarity it gives.</p><p><strong>Skip-shapes:</strong> in the list of movement shapes, I included two (a
+straight and a corner) that allow you to <strong>skip</strong> a square. This was
+added to make the game a little less harsh (if you&rsquo;re almost stuck, this
+shape can often help you do <em>something</em>), but it has some issues:</p><ul><li><p>It&rsquo;s incredibly similar to a normal <em>straight</em> and <em>corner</em> shape. I
+don&rsquo;t see any use in including <em>both</em>, so I wrote some code to
+include only one shape of this type and then destroy the others.</p></li><li><p>It was hard to concisely explain this shape within the base rules.
+So I made a small section at the back of the rules with a <em>full
+overview</em> of all the shapes, which also explains the skip shape.</p></li><li><p>Why is it hard? Because &ldquo;skip&rdquo; can mean a number of things, so I
+need to clarify that. In this case, you literally ignore what&rsquo;s on
+that square (be it couriers or entrances) and continue after it.</p></li></ul><p>At this point, just before testing the game, I think the game is near
+finished &mldr; but I still have these doubts I want to challenge:</p><ul><li><p>The base game has become <em>just</em> too complex. (With the extra rules
+for subways, splitting lines, and the skip-shape.)</p></li><li><p>I&rsquo;m not sure if the board will remain readable and clear. I&rsquo;ve done
+everything I could to prevent the couriers/drawn lines from turning
+into a mess, but we&rsquo;ll need to see how it works in practice.</p></li><li><p>I&rsquo;ve tried to balance the game in a few major ways (for example,
+there are no 1 dollar pizzas anymore, because that made the game too
+slow). It remains to be seen if those were indeed improvements.</p></li></ul><p>So, let&rsquo;s go!</p><p><strong>Remark:</strong> yes, this devlog turned out <em>way longer</em> than I anticipated
+at the start. I thought I had the game mechanics figured out, it was so
+simple and it <em>just worked</em>, but testing the game revealed major flaws
+<em>and</em> major ways to improve it.</p><p>So although I&rsquo;m always slightly frustrated by the fact that nothing
+works the first time, that&rsquo;s just the way creative projects go. In the
+end, after many different tests, versions and experiments, this game is
+a much better version than the original idea. And that&rsquo;s what it&rsquo;s all
+about.</p><h2 id=playtest-session-4>Playtest Session #4</h2><p>The playtest went really well!</p><p>The game was quick, competitive, easy to understand. The board remained
+clean and readable the whole game, thanks to the improved rules for
+splitting lines and subways.</p><p>In fact, there might be just a little too much space on the board.
+However, with the expansions enabled, you really need that space (for
+many reasons), so I&rsquo;m not going to change that.</p><p>These were the last few issues I&rsquo;ve noted:</p><p><strong>Problem #1</strong>: There&rsquo;s a bug in the algorithm for generating the
+boards. This caused some ingredient buildings to be without entrance,
+which is a bad thing. I&rsquo;ll fix that.</p><p><strong>Problem #2:</strong> Some elements might be <em>slightly</em> overpowered:</p><ul><li><p>Your starting restaurant. (However, you can choose this yourself. So
+it comes down to being able to estimate how useful each location is
+when you start the game, which you get better at as you play more
+games.)</p></li><li><p>Resetting your courier.</p></li><li><p>The 10$ pizzas.</p></li></ul><p>Many games were (almost) won by somebody suddenly delivering that one
+10-dollar pizza. Although this was by design, and means the game is
+quite well balanced, it feels some part of this strategy is overpowered.</p><p>After many games, I&rsquo;ve found the culprit: <em>resetting</em>. Many players won
+by resetting their courier once they had all ingredients, and then
+racing to that 10-dollar pizza.</p><p>As such, I might raise the penalty for resetting.</p><p>On the other hand, the expansions were made exactly to combat this. In
+each expansion, there are more ways to block other players, or even
+steal ingredients from them. This makes it more likely that somebody who
+is <em>clearly</em> going for the 10-dollar pizza, gets more pushback.</p><p>So I&rsquo;m still on the fence about this, because I want to keep the base
+game as <em>simple</em> and <em>straightforward</em> as possible.</p><p><strong>Problem #3:</strong> the duration of the game raises consistently with the
+player count. This is not a big deal, because I don&rsquo;t think anybody
+expects a 6-player game to be as short as a 2-player one. Nevertheless,
+I think it&rsquo;s a good idea to <em>inform</em> people of this:</p><p>> The game takes roughly 10-15 minutes <em>per player</em>.</p><p><strong>Problem #4:</strong> players easily forget that you must choose <em>different
+movement shapes</em> for each of your couriers. That&rsquo;s too bad, especially
+because it&rsquo;s an important rule for balance in the later stage of the
+game. I will probably put a reminder of that on each generated board.</p><h2 id=conclusion>Conclusion</h2><p>But that&rsquo;s all. There were no significant problems with any part of the
+game, and any variation or imbalances came from the fact that boards are
+randomly generated. (And players have different skill levels, because
+some of them have already tested this game multiple times, and some were
+completely new.)</p><p>That&rsquo;s why I&rsquo;m going to call this game finished! (After I fix the bugs,
+of course.)</p><p>Feel free to play the game as much as you like, enjoy it, and tell me
+the results! Any feedback as welcome.</p><p>As always, I hope this devlog was interesting and informative, or at
+least fun to read.</p><p>Until the next devlog,</p><p>Pandaqi</p></div></article><div><nav class=pagination><ul><li><a href=/blog/boardgames/one-pizza-the-puzzle/devlog-one-pizza-the-puzzle/one-pizza-part-6/ class="masked-link big-mask mask-8" style=--rotation:0deg>&lt;&lt; Previous Page</a></li><li>Continue reading</li><li><span class=nav-disabled>No next page :(</span></li></ul></nav></div></main><footer id=site-footer><div class="padding center-block"><h3>More Pandaqi</h3><p>You could <a href=https://pandaqi.com>visit the game studio</a>.
+Or my <a href=https://pandaqi.com/tutorials/>free tutorial website</a>.
+Or my <a href=https://rodepanda.com/>portfolio</a> with easy access to absolutely everything I ever made.</p><h3>Latest</h3><nav class=latest><ul><li><a href=/blog/boardgames/kingseat/>Kingseat
+(👑)</a></li><li><a href=/blog/boardgames/foldigami/>Foldigami
+(📃)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-the-big-typescript-update/>Pandaqi Games: The Big Typescript Update
+(🎮)</a></li><li><a href=/blog/boardgames/sixpack/>Sixpack
+(🃏)</a></li><li><a href=/blog/boardgames/photomone-antsassins/>Photomone: Antsassins
+(🐜)</a></li><li><a href=/blog/boardgames/photomone-digital-antists/>Photomone: Digital Antists
+(🐜)</a></li><li><a href=/blog/boardgames/photomone/>Photomone
+(🐜)</a></li><li><a href=/blog/boardgames/keebble-domino/>Keebble: Domino
+(📗)</a></li><li><a href=/blog/boardgames/keebble-knickknack/>Keebble: Knickknack
+(📘)</a></li><li><a href=/blog/videogames/game-jams/less-is-store/>Less is Store
+(🛍️)</a></li></ul></nav><h3>Sections</h3><nav><ul><li><a href=/blog/boardgames/>Boardgames
+(🎲)</a></li><li><a href=/blog/news-and-updates/>News & Updates
+(📢)</a></li><li><a href=/blog/reviews-and-thoughts/>Reviews & Thoughts
+(💭)</a></li><li><a href=/blog/tutorials/>Tutorials
+(👩‍🎓)</a></li><li><a href=/blog/videogames/>Videogames
+(🎮)</a></li></ul></nav><h3>Credits</h3><p>Theme by me (<a href=https://pandaqi.com>Pandaqi</a> 🐼) &#183;
+with ❤️ &#183;
+using <a href=https://gohugo.io>Hugo</a> &#183;
+&copy; 2018&ndash;2023 Pandaqi Blog</p></div></footer><link rel=stylesheet type=text/css href=/blog/css/style.css><script src=/blog/js/bundle.min.js></script></body></html>

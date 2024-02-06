@@ -1,0 +1,358 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><title>Deduction Boardgames (Part 1; Passive) | Pandaqi Blog</title><link rel=icon type=image/png href=https://pandaqi.com/blog//favicon.png><link rel=stylesheet type=text/css href=/blog/css/critical.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin></head><body><header id=site-header><nav class=menu><ul><li><a href=https://pandaqi.com/blog/ class="masked-link big-mask mask-7" style=--rotation:1.5deg>Home</a></li><li><a href=/blog/boardgames/ class="masked-link big-mask mask-7" style=--rotation:-0.5deg>Boardgames</a></li><li><a href=/blog/news-and-updates/ class="masked-link big-mask mask-5" style=--rotation:0deg>News & Updates</a></li><li><a href=/blog/reviews-and-thoughts/ class="masked-link big-mask mask-3" style=--rotation:1.5deg>Reviews & Thoughts</a></li><li><a href=/blog/tutorials/ class="masked-link big-mask mask-8" style=--rotation:-0.5deg>Tutorials</a></li><li><a href=/blog/videogames/ class="masked-link big-mask mask-6" style=--rotation:1deg>Videogames</a></li></ul></nav></header><main class="padding center-block"><article class=single-article><div class=thumbnail-media><figure class=thumb-image><picture><img src=treasure_hunt_backward_8.webp loading=lazy decoding=async alt="Thumbnail / Header for article: Deduction Boardgames (Part 1; Passive)" title="Thumbnail / Header for article: Deduction Boardgames (Part 1; Passive)" width=981 height=492></picture></figure></div><h1>Deduction Boardgames (Part 1; Passive)</h1><aside class=metadata><nav class=breadcrumbs><span class=metadata-label><span class=emoji>🥐</span> Breadcrumbs ||</span>
+<a href=https://pandaqi.com/blog/>Home</a>
+/
+<a href=https://pandaqi.com/blog/tutorials/>Tutorials</a>
+/
+<a href=https://pandaqi.com/blog/tutorials/deduction-boardgames-part-1-passive/>Deduction boardgames part 1 passive</a></nav><script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/pandaqi.com\/blog\/","name":"home"}},{"@type":"ListItem","position":2,"item":{"@id":"https:\/\/pandaqi.com\/blog\/tutorials\/","name":"tutorials"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/pandaqi.com\/blog\/tutorials\/deduction-boardgames-part-1-passive\/","name":"deduction-boardgames-part-1-passive"}}]}</script><div><span class=metadata-label><span class=emoji>&#8987;</span> Published ||</span>
+<time datetime=2022-08-26T19:11:32>Friday, Aug 26, 2022</time></div><nav class=tags><span class=metadata-label><span class=emoji>🎗</span> Tags ||</span><ul><li><a href=https://pandaqi.com/blog/tags/tutorial>tutorial</a></li></ul></nav><div><span class=metadata-label><span class=emoji>📖</span> Table of Contents ||</span>
+<a href=# id=toc-toggle>Show</a></div></aside><aside id=table-of-contents class=masked-link-block><header><h2>Table of Contents</h2></header><nav id=TableOfContents><ul><li><a href=#what-are-they>What are they?</a></li><li><a href=#what-am-i-going-to-do>What am I going to do?</a></li><li><a href=#why-are-they-so-interesting>Why are they so interesting?</a></li><li><a href=#approach-1-treasure-hunting>Approach #1: Treasure Hunting</a></li><li><a href=#hint-types>Hint Types</a></li><li><a href=#generating-unique-hints-backward>Generating Unique Hints: Backward</a><ul><li><a href=#problems--solutions>Problems & Solutions</a></li><li><a href=#optimization>Optimization</a></li><li><a href=#hows-that>How&rsquo;s that?</a></li><li><a href=#second-try-better-hints>Second Try: Better Hints</a></li><li><a href=#third-try-better-maps>Third Try: Better Maps</a></li><li><a href=#final-version>Final Version</a></li></ul></li><li><a href=#generating-unique-hints-forward>Generating Unique Hints: Forward</a><ul><li><a href=#problems--solutions-1>Problems & Solutions</a></li><li><a href=#implementation>Implementation</a></li><li><a href=#hows-that-first-try>How&rsquo;s that? First try</a></li><li><a href=#second-try>Second Try</a></li><li><a href=#third-try>Third Try</a></li></ul></li><li><a href=#how-to-apply-this-in-a-game>How to apply this in a game?</a></li><li><a href=#update-generating-hints-of-equal-value>Update: generating hints of equal value</a></li></ul></nav></aside><div><p>The past couple of years, more and more &ldquo;logic deduction boardgames&rdquo;
+have appeared. Most of them are very simple, yet have become wildly
+successful and popular.</p><p>Human beings are natural problem solvers, so games like this speak us
+and are easy to learn.</p><p>I&rsquo;m interested in these games as well. Some years ago, I &ldquo;invented&rdquo; the
+idea of <em>hybrid games</em>: boardgames with an essential digital component,
+usually in the form of a smartphone doing some of the work.</p><p>(Obviously, I didn&rsquo;t invent this idea. More and more boardgames use
+companion apps. I never officially published a boardgame in my life :p
+But when I made my projects it was still quite rare, and the techniques
+I use are different than what other games do.)</p><p>I already made a game that <em>somewhat</em> uses this technique: <a href=https://pandaqi.com/wondering-witches>Wondering
+Witches</a></p><p>But the deeper we get into this, the more
+you&rsquo;ll see how that project doesn&rsquo;t really fit this genre or the
+techniques I will discuss.</p><p>So I thought: why not try my hand at creating such a logic deduction
+game?</p><p>This article chronicles my complete journey from start to finish.
+Figuring out algorithms, solving issues with them, displaying the
+results. I find that the <em>best</em> way to teach something and really show
+how it works.</p><p>I used the techniques discussed to create actual, playable, free
+boardgames you can find on my website.</p><ul><li><a href=https://pandaqi.com/pirate-riddlebeard>Pirate Riddlebeard</a> (uses technique 1, in this article)</li><li><a href=https://pandaqi.com/pirate-drawingbeard>Pirate Drawingbeard</a> (uses technique 1, in this article)</li><li>Pirate Spacebeard (coming soon, uses technique 2, from next article)</li></ul><h2 id=what-are-they>What are they?</h2><p>Each player is dealt a <em>unique</em> card containing hints. During the game,
+players obviously may not communicate or show these.</p><p>Only when you combine <em>all</em> the hints, will they point to the solution
+to the problem at hand.</p><p>For example: in the game <em>Cryptid</em> you&rsquo;re searching for a mysterious
+monster on a map. Each player has a card with hints like &ldquo;it&rsquo;s on a
+water or desert square&rdquo; or &ldquo;it&rsquo;s at most two tiles away from X&rdquo;. Your
+hints alone aren&rsquo;t enough to find the right tile. But figure out the
+hints that <em>other</em> players have, and they will point to <em>one</em> unique
+square on the map.</p><p>You can approach this idea in two ways:</p><ul><li><p><strong>Passive:</strong> use a fixed map, let the game pick a location, then
+generate hints that uniquely point towards it. Players are merely
+<em>figuring out the answer</em>.</p></li><li><p><strong>Active:</strong> allow players to <em>change</em> the map to make it conform to
+whatever hints or instructions they have.</p></li></ul><p>You can also choose how mathematically precise you want to get:</p><ul><li><p><strong>Precise:</strong> all hints point to exactly <em>one</em> solution, no hint is
+unnecessary</p></li><li><p><strong>Intermediates:</strong> there are intermediate goals that add an extra
+layer. For example, the map might have multiple <em>small</em> hidden
+treasures. Some hints point to <em>their</em> location, while other hints
+say something like: &ldquo;the big treasure is 2 tiles from a small
+treasure&rdquo;</p></li><li><p><strong>Fuzzy Solution:</strong> there might be multiple solutions, which can
+make the game easier or harder* (depending on the rest of the
+gameplay).</p></li><li><p><strong>Fuzzy Hints:</strong> add unnecessary hints to add some chaos into the
+mix, makes any game much harder, but also more frustrating</p></li><li><p><strong>Chaotic:</strong> fuzzy hints, fuzzy solutions, and players might even be
+able to <em>change</em> these.</p></li></ul><p>*At first, you might think multiple solutions make the game <em>easier</em>.
+You don&rsquo;t need to be as precise, you maybe don&rsquo;t need all the hints, to
+find <em>a</em> correct solution. But on the flipside, you&rsquo;ll never know when
+you&rsquo;re done. Let&rsquo;s say there are 10 possible locations left &mldr; are they
+all a solution? Or are you simply missing one hint? The extra
+uncertainty will often make games harder instead of easier.</p><h2 id=what-am-i-going-to-do>What am I going to do?</h2><p>I&rsquo;m going to program some algorithms to create solutions and unique
+instruction sets that point to them.</p><p>I&rsquo;ll talk about <em>how</em> I approach a problem like this, <em>how</em> I solved it,
+what <em>different</em> techniques you might use.</p><p>I&rsquo;ll do this using <strong>JavaScript</strong> and the <strong>Phaser</strong> framework. (As I
+did with all my other games. It means you only need one smartphone with
+a browser + Wi-Fi to play a game like this. No need to install an app.)</p><p>And I&rsquo;ll use these algorithms to design two game ideas I had. At this
+point, I&rsquo;m not sure if that <em>game</em> is going to work or be fun at all,
+but it&rsquo;s always good to have a practical goal in mind when working on
+tough problems like this. To have some context for what you&rsquo;re doing.</p><p>(All my board games can be found here: <a href=https://pandaqi.com/boardgames>Pandaqi Boardgames</a>. To view their code, simply open the inspector and view the JavaScript files. Nothing is hidden, it&rsquo;s all standard website stuff.)</p><h2 id=why-are-they-so-interesting>Why are they so interesting?</h2><p>I see several reasons why these games are so well-liked.</p><p><strong>Reason #1: Humans are problem solvers.</strong> It just happens
+automatically. This is also why <em>clickbait</em> is so effective: once a
+story is started &mldr; we just <em>need</em> to know how it ends. Once a question
+is asked, we just <em>need</em> to know the answer.</p><p>A question as simple as &ldquo;which location on the map has the treasure?&rdquo; is
+enough to engage anyone.</p><p><strong>Reason #2: Everyone is constantly active.</strong> Because everyone has a
+part of the solution, you have to pay attention and stay focused all the
+time. Each turn impacts you directly. Games like these regularly ask
+players to say if they agree/disagree with the current solution based on
+their unique hints (even if it&rsquo;s not your turn at all).</p><p><strong>Reason #3: Humans like a sense of ownership and individuality.</strong> By
+owning a <em>unique</em> set of hints, which only <em>you</em> know, you feel more
+valuable and powerful as a player. And that feeling is completely
+deserved. You <em>are</em> essential to the game.</p><p>(The exact hints for a scenario depend on player count, for example.
+Changing from 3 to 4 players will completely change what hints are doled
+out.)</p><p><strong>Reason #4: Easy gameplay.</strong> Because all the complexity was done
+<em>beforehand</em>, by creating the actual scenario, the game itself is very
+easy to learn and play. It usually involves a handful of actions for
+<em>asking information in a specific way</em> or <em>adding/removing anything from
+the board.</em></p><p>(The details of these actions <em>are</em> what make the game, and are often
+highly thematic and intuitive. For example, in &ldquo;Search for Planet X&rdquo;,
+you try to, well, find the mysterious planet X in a universe built from
+18 sectors. Almost all your actions are simply about picking a range of
+sectors and asking what&rsquo;s in there.)</p><h2 id=approach-1-treasure-hunting>Approach #1: Treasure Hunting</h2><p>I&rsquo;m drawn to the idea of adding more &ldquo;gameplay&rdquo;, more interactivity and
+chaos to these games. But that&rsquo;s obviously really hard and experimental
+to do.</p><p>So let&rsquo;s start with the simplest core variant: <strong>a passive precise
+game.</strong></p><p>And let&rsquo;s use a very straightforward theme: <strong>treasure hunting.</strong></p><p>There&rsquo;s a map of square tiles. Each tile has a terrain: grass, water or
+sand. Each tile <em>can</em> have a landmark: a building of height 1 to 4. Each
+tile <em>can</em> have nature: trees, shrubs.</p><p>We can just randomly generate one for this purpose. And then we randomly
+choose one tile to be the location of the treasure.</p><p>Most algorithms can be written in two ways: <em>forward</em> and <em>backward</em>.
+We&rsquo;ll explore both, but first we need to determine what &ldquo;hints&rdquo; even
+mean.</p><h2 id=hint-types>Hint Types</h2><p>Hints are simply <em>any</em> statement we can think of that tells you some bit
+of information about a location on the map.</p><p>So we have hints for terrain (&ldquo;the treasure has terrain X&rdquo;, &ldquo;the
+treasure is NOT on terrain Y&rdquo;), landmarks, nature.</p><p>Hints can be about the tile itself, but also its surroundings. (&ldquo;The
+treasure is at most two tiles from a landmark&rdquo;, &ldquo;there are 3 landmarks
+in a radius of 3 tiles from the treasure&rdquo;)</p><p>As long as they don&rsquo;t become too complicated, or their numbers too high,
+any of these ideas are fine.</p><h2 id=generating-unique-hints-backward>Generating Unique Hints: Backward</h2><p><strong>It&rsquo;s the simple but naive approach: we generate a random set of
+hints!</strong></p><p><strong>We <em>start</em> with hints, then work <em>backward</em> to <em>end</em> on a location.</strong></p><p>For example, with 4 players, we say 4 hints each. This means we generate
+16 hints from that list of possibilities. Completely randomly.</p><p>Then we check these hints against <em>all locations on the map</em> to find
+which locations comply with all these requirements.</p><p>It might be 0. It might be 10.</p><p>We&rsquo;re happy if we find exactly 1.</p><h3 id=problems--solutions>Problems & Solutions</h3><p>There&rsquo;s one terrible issue with this: <strong>the probability of stumbling
+upon a perfect solution is terribly low.</strong></p><p><strong>Problem #1:</strong> hints might contradict each other directly.</p><p><strong>Solution #1:</strong> Don&rsquo;t allow this. If we already have a hint stating
+&ldquo;the treasure is in the water&rdquo;, we don&rsquo;t generate any more hints saying
+the treasure is in some other terrain.</p><p><strong>Problem #2:</strong> hints might all be &ldquo;samey&rdquo;. They might all talk about
+terrain and landmarks, and not a single one about nature, removing whole
+parts of the game.</p><p><strong>Solution #2:</strong> divide the hints into categories. Force the algorithm
+to cycle through all categories when picking hints.</p><p><strong>Problem #3:</strong> if a solution exists, we&rsquo;re likely to find multiple.</p><p><strong>Solution #3:</strong> pick one solution as &ldquo;the real one&rdquo; (preferably the one
+furthest away from all the other solutions, as it&rsquo;s least likely to be
+influenced by them), change one aspect about all the other locations so
+they don&rsquo;t fit anymore.</p><p><strong>Alternative Solution #3:</strong> keep adding <em>more</em> hints to exclude the
+extra solutions, until one remains.</p><h3 id=optimization>Optimization</h3><p>While implementing, I figured out a huge optimization that <em>also</em>
+mitigates the problems above.</p><p>Instead of generating <em>all hints at once</em> then checking them against
+<em>all cells</em> &mldr;</p><p>&mldr; we can generate hints one at a time, and strike off any location
+that doesn&rsquo;t fit as we go.</p><p>It&rsquo;s a simple loop:</p><ul><li><p>We create a random hint.</p></li><li><p>We check it against all locations and save the ones that are valid.</p></li><li><p>Repeat for each hint, shrinking the list of possible locations as we
+go.</p></li></ul><p>Once only <em>one location</em> remains, we stop. (If none remain, or we&rsquo;ve
+exceeded some maximum number of hints, we just stop and retry
+completely.)</p><p>Why is this so much better?</p><p>The list of locations only shrinks over time. Only the <em>first</em> hint is
+checked against the <em>whole</em> map. The second one is only checked against
+whatever remains, and so on.</p><p>Instead of checking 16 hints against 128 squares ( = 2048 checks), it&rsquo;d
+be like</p><ul><li><p>1 hint against 128 squares</p></li><li><p>1 hint against 50 squares</p></li><li><p>1 hint against 12 squares</p></li><li><p>&ldquo;Hey, only 1 square remains, solution found!&rdquo;</p></li></ul><p>This also reveals the second benefit: <em>if</em> a solution exists, we&rsquo;ll find
+it <em>as quickly as possible</em> (with the minimum number of hints).</p><p>Below was the first map I received after creating this system, and also
+the very first one that <em>actually</em> provided a solution. (I&rsquo;m writing
+this section &ldquo;in the future&rdquo;, because it took me a few days to realize
+this optimization. So don&rsquo;t worry, I&rsquo;ll explain more about this map
+later on.)</p><p><figure class=inline-image><picture><img src=treasure_hunt_backward_1.webp loading=lazy decoding=async alt="Early example of map and hints generated with backward algorithm" title="Early example of map and hints generated with backward algorithm" width=981 height=493></picture><figcaption class=side-note><span>Early example of map and hints generated with backward algorithm</span></figcaption></figure></p><p>So yes, this works great. We now have proof that this technique is
+viable. It&rsquo;s also very, very fast to compute.</p><p>The problem is that it only renders a solution once every 10-20 tries,
+and they are often very stupid. (Like, only a <strong>single</strong> ridiculously
+specific hint is needed to find the location.)</p><p>Being such a fast algorithm, though, this still means we get a solution
+within 50 milliseconds.</p><p>Here&rsquo;s the next one it generated. <strong>Play for yourself!</strong> Find the single
+tile that fits.</p><p><figure class=inline-image><picture><img src=treasure_hunt_backward_2.webp loading=lazy decoding=async alt="Early example of map and hints generated with backward algorithm" title="Early example of map and hints generated with backward algorithm" width=980 height=490></picture><figcaption class=side-note><span>Early example of map and hints generated with backward algorithm</span></figcaption></figure></p><p>But let&rsquo;s not get ahead of ourselves, read on!</p><h3 id=hows-that>How&rsquo;s that?</h3><p>It&rsquo;s a very imprecise algorithm. You&rsquo;re not certain to find a solution,
+and finding a unique one is even harder.</p><p>If you&rsquo;re lucky, you&rsquo;ll find a great solution in 1 second, with very
+little code. If you&rsquo;re unlucky, the computer might be thinking for 5
+minutes and still come up empty.</p><p>But let&rsquo;s see it in practice.</p><p><strong>First Try:</strong> no solutions were generated at all. The hints were too
+specific and too wild.</p><p>For example! Hints like these regularly appeared: &ldquo;There are 5 landmarks
+in a 1 tile radius.&rdquo; This simply isn&rsquo;t possible. In a 1 tile radius we
+can have at most <em>four</em> landmarks (one on each neighbor).</p><p>Conversely, a hint like &ldquo;there are 0 landmarks in a 5 tile radius&rdquo; is
+unlikely to be true, as that&rsquo;s a <em>very large</em> area to cover without
+finding <em>any</em> landmark.</p><p>But that isn&rsquo;t the biggest issue with hints like that. It&rsquo;s that those
+hints are <em>very precise</em>. There&rsquo;s no leeway, no wiggle room, any tile
+with 4 or 6 landmarks around it won&rsquo;t cut it.</p><p>The same issue is present in all other categories, which, when combined,
+means the computer never finds a suitable tile. No matter how hard it
+tries.</p><p>(All other parts were working fine and efficiently within an hour or two
+of coding. But even when I only used <em>1 hint</em> it often wouldn&rsquo;t find any
+suitable location with this system.)</p><p>How do we fix this? We need to change hints to things like this:</p><ul><li><p>Multiple options: &ldquo;It&rsquo;s on terrain X or Y&rdquo;</p></li><li><p>Thresholds: &ldquo;There are between 5 and 8 trees around it&rdquo;</p></li><li><p>Greater/Less than: &ldquo;It has at most 4 landmarks in a 3 tile radius&rdquo;</p></li></ul><p>How? In the hints I store a &ldquo;secret parameter&rdquo;. This is the &ldquo;random
+offset&rdquo; from the real value that we used. This way I can easily check if
+a location fits the hint: &lt;real number> + &lt;offset> should be the value
+shown in the hint.</p><p>(I also sense I should&rsquo;ve focused on terrain much more. By adding more
+terrain types, the map becomes prettier, and these hints more diverse.)</p><h3 id=second-try-better-hints>Second Try: Better Hints</h3><p>I removed all hints that were just stating an exact piece of
+information, like &ldquo;the treasure is on terrain X&rdquo;. Just never a good idea
+in a game like this.</p><p>I rewrote other hints to be more vague. And I invented some extra hints
+that I thought were nice, like &ldquo;terrain diversity&rdquo; which counts how many
+different terrains are around the treasure.</p><p>For that to work well, I had to bite the bullet and implement more
+terrain types into the game.</p><p>I also had to step away from the idea of a &ldquo;realistic pirate map&rdquo; (with
+islands and water around it). This leads to terrain that is too
+<em>uniform</em> (big blobs of identical terrain), and I obviously can&rsquo;t place
+structures or trees in the water, eliminating half the map before the
+game even started.</p><p>I realized that it was basically becoming more and more like the game
+<em>Cryptid</em>. (And in doing so also learned <em>why</em> they designed that game
+the way they did :p)</p><p>I&rsquo;ll have to worry about being <em>different</em> from that game at a later
+stage, for now I just want to get a working algorithm. (We&rsquo;re already
+quite different due to how maps are generated, the variety of hint
+types, and the fact players can have more than one hint.)</p><p>For now though, I&rsquo;m focusing on the better hints.</p><p>I only changed the visuals to make it easier to see for <em>me</em> when
+debugging. I realized I needed to draw everything <em>from above</em>, and
+needed easy icons so players could easily draw them themselves. This
+resulted in &mldr;</p><ul><li><p>Nature can now be a <em>tree</em> or a <em>flower</em>.</p><ul><li>(Easy to distinguish and draw for players.)</li></ul></li><li><p>Landmarks are replaced with <em>stones</em>: there can be 1 to 4 stones on
+a single cell.</p><ul><li>(How do you draw top-down houses that can have 4 different
+heights? I didn&rsquo;t know, so I changed it. Also, the stones are
+drawn in such a way that there can <em>also</em> be nature on that
+cell.)</li></ul></li></ul><p>How&rsquo;s this?</p><p><figure class=inline-image><picture><img src=treasure_hunt_backward_3.webp loading=lazy decoding=async alt="Improved example of map and hints generated with backward algorithm" title="Improved example of map and hints generated with backward algorithm" width=980 height=491></picture><figcaption class=side-note><span>Improved example of map and hints generated with backward algorithm</span></figcaption></figure></p><p>(Obviously, I need to change the numbers so we don&rsquo;t get &ldquo;at most 0&rdquo; or
+similar situations. That&rsquo;s a small fix. I also need to tell certain
+hints (such as &ldquo;NOT X or Y stones&rdquo;) to only appear once.)</p><p>The system is already quite powerful! Here&rsquo;s the next one I generated
+after these fixes, play it for yourself.</p><p><figure class=inline-image><picture><img src=treasure_hunt_backward_4.webp loading=lazy decoding=async alt="Improved example of map and hints generated with backward algorithm" title="Improved example of map and hints generated with backward algorithm" width=981 height=492></picture><figcaption class=side-note><span>Improved example of map and hints generated with backward algorithm</span></figcaption></figure></p><p>(Solution? The one sand tile with a flower.)</p><p>Better, but not good enough yet.</p><p>The most important element of a game like this remains <em>the map itself</em>.
+If it&rsquo;s not varied enough, or too symmetrical, or has other clear
+issues, then you will <em>never</em> find a good set of hints leading to a
+unique location. So let&rsquo;s completely focus on that now.</p><h3 id=third-try-better-maps>Third Try: Better Maps</h3><p>I spend some time writing a better generator for the maps.</p><p>For example: ensure terrains are well-balanced (count terrains, none of
+them is allowed to have too few or too many tiles).</p><p>I considered changing to hexagons (more connections per tile, more
+intuitive way of counting distances). But I want to keep it as simple as
+possible. And I usually make games people could play with a piece of
+paper, and those are still very much a rectangle.</p><p>But I just wasn&rsquo;t happy with all of this. The problems with this type of
+map just kept stacking up.</p><p>So I completely changed the <em>kind</em> of map and how we generate it.</p><ul><li><p>I invented 6 terrain types: water, grass, desert, mountain, swamp,
+and snow.</p></li><li><p>At the start of generation, I place two or three dots of each
+terrain randomly on the map.</p></li><li><p>Then I &ldquo;grow&rdquo; these one tile at a time &mldr;</p></li><li><p>&mldr; until every tile on the board has a terrain!</p></li></ul><p>The growing ensures terrains come in nice groups/chunks. For each
+terrain, I&rsquo;ll draw a slightly different sprite for trees and such.
+(Example: desert gets a cactus.) And the water terrain can&rsquo;t have nature
+or stones.</p><p>We lose the &ldquo;natural&rdquo; or &ldquo;realistic&rdquo; look we had, but in return get a
+map that&rsquo;s way more diverse and suitable for a game like this.</p><p>Simply by adding more terrains, we already get things like this:</p><p><figure class=inline-image><picture><img src=treasure_hunt_backward_5.webp loading=lazy decoding=async alt="Even more improved backward generated maps" title="Even more improved backward generated maps" width=980 height=488></picture><figcaption class=side-note><span>Even more improved backward generated maps</span></figcaption></figure></p><p><figure class=inline-image><picture><img src=treasure_hunt_backward_6.webp loading=lazy decoding=async alt="Even more improved backward generated maps" title="Even more improved backward generated maps" width=979 height=489></picture><figcaption class=side-note><span>Even more improved backward generated maps</span></figcaption></figure></p><p>Two issues remain:</p><ul><li><p>The placement of other elements (stones, nature) is very bad and
+ugly.</p></li><li><p>Some hints are clearly &ldquo;more valuable&rdquo; than others</p></li></ul><p>At this moment, I don&rsquo;t see an easy way to fix the second issue. That&rsquo;s
+the problem with the backward technique: we start with random hints and
+just hope to end up somewhere. Some of those hints might not be amazing.</p><p>The first issue is a matter of experimenting with how I want the maps to
+look and putting more effort in the drawings.</p><h3 id=final-version>Final Version</h3><p>I&rsquo;ve learned over the years how important it is to have really unique
+elements in a project, that only appear (or make sense) sporadically.</p><p>It just gives a more human and memorable touch to the game, to the
+things it generates.</p><p>As such, I decided to finish the maps in this way. All elements below
+are <em>optional</em>, they <em>might</em> be present:</p><ul><li><p>Add only one or two &ldquo;special buildings&rdquo;.</p></li><li><p>Add a &ldquo;road&rdquo; or two. This is just a random walk through the map.</p></li><li><p>One pirate ship, in the water.</p></li></ul><p>When not present, it simply removes all <em>hints</em> related to these things,
+so they&rsquo;re not generated.</p><p>There might be games where the road(s) or special building(s) don&rsquo;t
+matter at all. But you <em>don&rsquo;t know</em> beforehand, so they are still an
+important part of the game. And they definitely make maps looks more
+interesting and diverse.</p><p>I heavily scaled back how much nature and stones are placed, and placed
+them in tighter groups.</p><p>I also thought more about incorporating the algorithm in a full game in
+the meantime. Which made me realize how we needed a <em>waaaay</em> smaller map
+and a completely black-and-white version that&rsquo;s easy/quick to copy to
+your own paper. (I talk about these things in the devlog for the game
+this ultimately became: Pirate Riddlebeard.)</p><p>So this is the final version:</p><p><figure class=inline-image><picture><img src=treasure_hunt_backward_8.webp loading=lazy decoding=async alt="Final version of backward generated maps" title="Final version of backward generated maps" width=981 height=492></picture><figcaption class=side-note><span>Final version of backward generated maps</span></figcaption></figure></p><p>It generates the full game within less than a second. Never fails, works
+everywhere.</p><p>It does need <em>many</em> retries: at least 10 or 20 in most cases. Most of
+that number comes from the <em>map generation</em>. As such, it&rsquo;s way more
+likely that generating the random map will fail (due to constraints I
+set that should keep the game balanced), than our backward hint
+algorithm failing.</p><p>But because the calculations are relatively simple, the maps small and
+simple, this should be no problem for any modern device to do in a
+fraction of a second.</p><h2 id=generating-unique-hints-forward>Generating Unique Hints: Forward</h2><p>The forward approach, as you&rsquo;d expect, moves in the opposite direction.</p><p><strong>We <em>start</em> by choosing a location, then go forward with that to
+collect all hints pointing to it.</strong></p><p>Initially, this may seem preferable to the previous approach. The
+obvious better and cleaner solution!</p><h3 id=problems--solutions-1>Problems & Solutions</h3><p>That&rsquo;s true &mldr; for the most part.</p><p>Picking one location and generating all hints is easy to code and fast
+to execute. You just run through all hint types you invented, calculate
+what they should be, and save that.</p><p>You&rsquo;re also <em>certain</em> they won&rsquo;t contradict each other. And you are
+<em>certain</em> the hints have at least one solution.</p><p>The next part is hard, though.</p><p><strong>Problem #1:</strong> this results in <em>loads</em> of hints. Most of which are just
+<em>slightly</em> different from others. (&ldquo;The treasure is at least 2 tiles
+away from water&rdquo;, &ldquo;The treasure is at least 3 tiles away from water&rdquo;,
+&mldr;)</p><p>We can&rsquo;t give each player 50 unique hints :p</p><p><strong>Solution #1:</strong> Hints with a <em>number</em> should just pick a random one,
+though preferably near the &ldquo;extreme&rdquo; to keep the hints tight.</p><p>Hints with discrete options (such as a specific terrain) should bundle
+them: the treasure is NOT in water OR grass.</p><p><strong>Problem #2:</strong> the hints might still point to <em>other</em> solutions as
+well. Or, more likely with this many specific hints, it might <em>too
+obviously</em> point towards the treasure.</p><p><strong>Solution #2:</strong> you can actually solve this in a way that almost
+entirely solves problem #1.</p><p>Repeat this loop:</p><ul><li><p>Check your current set of hints against <em>all</em> locations.</p></li><li><p>Only find one solution? The hints are too narrow, remove one at
+random.*</p></li><li><p>Find multiple solutions? Stop! The <em>previous</em> set of hints was
+perfect.</p></li></ul><p>*Instead of random removal, it&rsquo;s probably better to alternate between
+categories again. Ensures hints are nicely distributed and stay unique
+to one solution as long as possible.</p><p>The only reason we don&rsquo;t do this (instead of solution #1 as well) is
+because it&rsquo;s <em>very expensive</em> to calculate all this. We want to have a
+reduced list of hints <em>before</em> doing this loop.</p><h3 id=implementation>Implementation</h3><p>I already had all the code for maps and hints from the backward
+technique.</p><p>There&rsquo;s one big difference I had to figure out.</p><p>In the backward technique, we fill in random numbers. When we check a
+cell, we fill in the same random numbers, but overwrite anything
+specific to the cell.</p><p>In the forward technique, we want create a unique hint for <em>each
+possible combination of numbers</em>.</p><p>Let&rsquo;s say we have a hint of the form: &ldquo;There is X nature within a radius
+of Y tiles&rdquo;</p><p>The <em>radius (Y)</em> is a number we need to fill in ourselves! (The value
+(X) is what&rsquo;s being calculated for the specific cell.)</p><ul><li><p>We need to specify the <em>range</em> such a number is allowed to go
+through.</p></li><li><p>And then we need to write a loop to create a unique hint for each of
+those values.</p></li></ul><p>In this case, I might say &ldquo;the radius must be between 2 and 4&rdquo;. Which
+should result in 3 unique hints: &ldquo;there is X nature within a radius of
+2&rdquo;, &ldquo;there is Y nature within a radius of 3&rdquo;, and &ldquo;there is Z nature
+within a radius of 4&rdquo;</p><h3 id=hows-that-first-try>How&rsquo;s that? First try</h3><p>As expected, it&rsquo;s more robust and streamlined than the other approach,
+but also much slower.</p><p>With my current set of hints (~6 per category, three categories), <em>on
+average</em>, &mldr;</p><ul><li><p>Generating <em>everything</em> yields 130 hints</p></li><li><p>Whittling it down takes 1 second</p></li><li><p>Which means we end up with 5-15 hints</p></li></ul><p>As you can see, it takes longer, and leads to <em>bigger</em> instruction sets
+than the backward technique.</p><p>Here&rsquo;s an example, made using the old visualization of the map. (I
+developed the forward and backward algorithms parallel to each other,
+for some time.)</p><p><figure class=inline-image><picture><img src=treasure_hunt_forward_1.webp loading=lazy decoding=async alt="Early example of forward generated maps" title="Early example of forward generated maps" width=980 height=491></picture><figcaption class=side-note><span>Early example of forward generated maps</span></figcaption></figure></p><p>We see that some hints are just too specific and hard. (19 tiles in a 5
+tile radius!? Let&rsquo;s shrink the maximum radius on that one!)</p><p>We also see a duplicate on the &ldquo;NOT stones&rdquo;.</p><h3 id=second-try>Second Try</h3><p>Let&rsquo;s add the improvements and see what we get:</p><ul><li><p>Lower the radius on many hints. I think 3 tile radius is a clear
+maximum, and <em>maybe</em> even that is too large.</p></li><li><p>On hints that have <em>many</em> variants, randomly remove half of them
+before we even start whittling down the list.</p><ul><li>(Example: &ldquo;it&rsquo;s not on TERRAIN A or TERRAIN B&rdquo;. There are loads
+of 2-terrain-combos on which the treasure <em>is not</em>. But we only
+want this hint to appear like once or twice, and it doesn&rsquo;t
+matter much which combo we pick.)</li></ul></li><li><p>Add the <em>margin of error</em>. When a hint says &ldquo;at most 2 tiles&rdquo;, it
+currently just means &ldquo;exactly 2 tiles&rdquo;. When generating hints, I
+need to add/subtract from numbers to create that margin of
+uncertainty.</p></li><li><p>Alternate categories when removing hints. (Or you might end up with
+10 hints all about nature and nothing else, which is rarely what you
+want.)</p></li></ul><p>But, when I was ready to test this &mldr; I realized I was being stupid.
+Well, I was being stupid about one of these points.</p><p>We can do the same thing as we did with the backward technique!</p><p>Add 1 hint at a time (from the list of all the possible hints, which we
+just made), until our hints only point to one location!</p><p>(We are <em>certain</em> this will happen at some point, as all our hints point
+to exactly one location, and any other solutions are just accidental.)</p><p>What does this get us?</p><ul><li><p>The reduced list of hints is ~50 long</p></li><li><p>It usually finds a solution first try, within a fraction of a second</p></li><li><p>(I&rsquo;ve already restricted it to keep the number of hints at a nice
+length; 1-2 hints per player.)</p></li></ul><p>Below is the first map generated this way:</p><p><figure class=inline-image><picture><img src=treasure_hunt_forward_2.webp loading=lazy decoding=async alt="Improved example of forward generated maps" title="Improved example of forward generated maps" width=1877 height=934></picture><figcaption class=side-note><span>Improved example of forward generated maps</span></figcaption></figure></p><p>Pretty nice. Hints seem equally valuable, but also not too specific. It
+can generate these <em>really</em> quickly, and they are always really
+different.</p><p><figure class=inline-image><picture><img src=treasure_hunt_forward_3.webp loading=lazy decoding=async alt="Improved example of forward generated maps" title="Improved example of forward generated maps" width=1880 height=936></picture><figcaption class=side-note><span>Improved example of forward generated maps</span></figcaption></figure></p><p>Every hint has <em>some</em> value. For example, &ldquo;there are at most 15 nature
+elements on the same terrain&rdquo;. This is true for all terrains &mldr; except
+desert ( = orange). It actually has 16 squares with nature on it.</p><p><strong>Compared to the backward algorithm</strong> &mldr;</p><ul><li><p>I had more trouble implementing it. (It&rsquo;s way harder to generate a
+list of all valid hints than to put in random numbers.)</p></li><li><p>It finds a good result on first try, without retries, 99% of the
+time.</p></li><li><p>It leads to <em>larger</em> sets of instructions.</p></li><li><p>It feels a bit wasteful/useless to generate <em>all hints</em> and then
+just <em>remove almost all of them in the blink of an eye</em>. I don&rsquo;t
+really see the benefit. In practice, I don&rsquo;t see this algorithm
+generating more unique/varied instruction sets than the backward
+version.</p><ul><li>Unless you want to create a game with special requirements:
+irrelevant hints, non-unique hints per player, like <em>loads</em> of
+hints spread all over the place. In that case, the forward
+algorithm gives you easy control over that.</li></ul></li></ul><p>But I really don&rsquo;t want to continue until I&rsquo;ve fixed the absolutely
+<em>ugly</em> maps we&rsquo;re getting now, so let&rsquo;s work on that first.</p><h3 id=third-try>Third Try</h3><p>This is what its final maps look like:</p><p><figure class=inline-image><picture><img src=treasure_hunt_forward_6.webp loading=lazy decoding=async alt="Final example of forward generated maps" title="Final example of forward generated maps" width=979 height=491></picture><figcaption class=side-note><span>Final example of forward generated maps</span></figcaption></figure></p><p>As you can see, you can&rsquo;t really distinguish it from the final results
+of the <em>backward</em> algorithm.</p><p>Behind the scenes I can see that generation often doesn&rsquo;t need retries
+and is thus quicker/more robust.</p><p>For example, the <em>map</em> needed 11 retries to be formed, but the <em>hints</em>
+were perfect first try.</p><p>But besides that? This algorithm <em>feels</em> like it&rsquo;s a cleaner and better
+method, but in practice I don&rsquo;t see it as a clear winner over the
+&ldquo;backward&rdquo; algorithm. It was way harder to implement and we need to
+throw away many of the hints anyway in the end.</p><h2 id=how-to-apply-this-in-a-game>How to apply this in a game?</h2><p>Using the <em>forward</em> technique (with some improvements), we&rsquo;re able to
+generate many different scenarios for any given map: a <em>treasure
+location</em> and a <em>set of hints</em> (unique to each player) leading to it.</p><p>But that&rsquo;s not a game. Not yet. It&rsquo;s just the underlying structure we
+need.</p><p>Now you need a way to show the map, show the hints, and <em>gameplay</em> to
+help with deducing the solution.</p><p>In these games, gameplay is all about <em>communicating information</em> in a
+way that is always helpful, but also always vague. (As players are not
+allowed to just tell their hints, but you still need to figure them out
+somehow.)</p><p>First some practical considerations.</p><p>Once you have this algorithm that generates solutions, you can make the
+game completely analog/physical:</p><ul><li><p>Create some custom maps that look nice and print those.</p></li><li><p>Create hint cards with the hints printed on them. Clearly indicate
+the <em>player count</em> and <em>scenario number</em> on them.</p></li></ul><p>Or you can keep it a digital, free game like I usually do:</p><ul><li><p>Let players generate random maps themselves and print them. (Or show
+them on an iPad in the middle of the table, if they&rsquo;re so inclined
+to remove the physical board from boardgames :p)</p></li><li><p>Pass the phone around the table. It shows the unique hints for each
+player, so they can write them down on a piece of paper.</p></li><li><p>(I use a &ldquo;seed&rdquo; for the random generation, which is just a random
+string of letters, like &ldquo;HUNT&rdquo;. This way, players can always replay
+their favorite maps, for example.)</p></li></ul><p>Then the gameplay.</p><p>As it&rsquo;s a game about treasure hunting, something like the rules below
+seems sensible.</p><p>Your main action is <em>digging</em>. Pick a square, dig there. All players
+around the table tell you if that square is valid: if it contradicts any
+of <em>their</em> hints, it&rsquo;s not.</p><p>If <em>all players</em> agree, you found the treasure! If not, place some
+marker there to indicate it was wrong.</p><p>(You <em>could</em> make it harder by hiding the information. Don&rsquo;t say &ldquo;I
+agree/disagree&rdquo;, give players cards for that. Each player places their
+card facedown in a pile, it&rsquo;s shuffled, then revealed. If that pile has
+<em>at least one</em> disagree-card, you know it&rsquo;s not the treasure location,
+but you don&rsquo;t know <em>who</em> disagreed.)</p><p>This is not enough, but it&rsquo;s a start. Ideas for improvements:</p><ul><li><p>Each player has a character. You can only dig where you are. Moving
+is another action, where you stand determines any bonuses/penalties.</p></li><li><p>There are those &ldquo;small treasures&rdquo; on the map. It would keep players
+happier by achieving small successes along the way, as well as give
+its owners money they can use to do extra stuff.</p></li><li><p>There should be ways to directly trade or reveal some of your hints.</p></li><li><p>There might be a more general digging action, in which you ask
+questions about an <em>area</em> of multiple tiles, but only <em>one</em> player
+gives you their answers.</p></li><li><p>Being pirates, players are allowed to LIE. To keep it controlled,
+though, anyone who lied during a round must reveal this at the end.</p></li></ul><p>In short, use that &ldquo;treasure hunt/adventurer/pirate&rdquo; theme to spice up
+the game and add a second system to make it all more interesting than
+just running the numbers in your head.</p><p>By digging somewhere, players reveal that <em>they</em> think it&rsquo;s a nice
+location. If digging is completely free, however, players will just do
+it willy-nilly and often pick wrong locations to throw off other
+players. If you could somehow make digging more expensive, harder to
+execute, it incentivizes players to be more strategical about it.</p><p>Just some ideas. As long as you have a working system behind it using
+these algorithms, you can do anything you want.</p><h2 id=update-generating-hints-of-equal-value>Update: generating hints of equal value</h2><p>We&rsquo;re one week further now. I&rsquo;ve developed the algorithms above into a
+full game that&rsquo;s completely playable. In doing so, I did receive
+confirmation that <em>not all hints are created equal</em> and that <em>this is a
+problem</em>.</p><p>For example: I&rsquo;d often get maps with a hint like &ldquo;the treasure is next
+to a landmark&rdquo;. But then the map only had one or two landmarks, meaning
+you already narrowed the treasure location down to like 4 or 5 squares.
+Just from this one hint. While another player might get &ldquo;it&rsquo;s NOT on
+desert&rdquo; and still has 20 possible squares to choose from :p</p><p>Then I realized: <em>hey, we can actually solve this quite easily</em>. (It&rsquo;s
+just going to be a bit expensive to calculate.)</p><p>Once we&rsquo;ve generated the hints, calculate their &ldquo;impact&rdquo; (per player).
+For example, let&rsquo;s say Player 1 has 2 hints.</p><ul><li><p>Start with a list of all locations</p></li><li><p>Remove those that don&rsquo;t comply with hint 1</p></li><li><p>Remove those that don&rsquo;t comply with hint 2</p></li><li><p>Count how many possible squares are left over.</p></li></ul><p>Ideally, each player has <em>roughly</em> the same number of possible squares
+when looking at <em>their hints only</em>.</p><p>After calculating these values, we compare them. And if the difference
+between the players is too big, we fail the hint generation and try
+again.</p><p>Doing this also gave me some interesting information, which I should&rsquo;ve
+had a week ago :p Namely: how many options are actually left for a
+player <em>at game start</em>?</p><p>This turned out to vary <em>wildly</em>, as I suspected. Many games had
+something like two players with ~5 spaces left, and others with ~25
+spaces left.</p><p>I added the following restrictions:</p><ul><li><p>There may be no more difference in spaces left (between players)
+than 33% of the map</p></li><li><p>At least 25% of spaces must be left</p></li><li><p>At most 75% of spaces must be left</p></li></ul><p>Why? I started with restriction #1 and numbers that felt sensible.</p><p>That was too strict: generation took way too long. It also wasn&rsquo;t always
+great, because it could lead to games where <em>every player</em> only had ~5
+possible spaces left. (Or all of them had hints that only ruled out like
+one specific square :p)</p><p>So I added the second two restrictions. And then I relaxed the numbers a
+bit until I consistently received results within a second.</p><p>Below is the first map made that way:</p><p><figure class=inline-image><picture><img src=treasure_hunt_hint_balancing_1.webp loading=lazy decoding=async alt="Map with balanced hints" title="Map with balanced hints" width=1885 height=938></picture><figcaption class=side-note><span>Map with balanced hints</span></figcaption></figure></p><p>It&rsquo;s still not perfectly balanced. That only happens some of the games.
+But the starting options for the players (with this particular game)
+were: [18, 18, 12, 8].</p><p>So player 1 had 18 options at game start, player 4 had only 8. Yes,
+slightly unfair games can happen.</p><p>But <em>most</em> of the time the numbers are all around the ~15 range.</p><p>And the advantage isn&rsquo;t as big as you&rsquo;d think: yes, you have fewer
+options to consider right from the start, but it also means that other
+player&rsquo;s hints are more <em>vague</em> and thus harder for you to discover.</p><p>(Technical note: there <em>is</em> a check within the loop that tracks how long
+we&rsquo;ve been trying. The longer it&rsquo;s been, the more these numbers are
+&ldquo;relaxed&rdquo;. It&rsquo;s more important to me that the generation never gets
+stuck and always returns a game within a reasonable amount of time.)</p><p>Here&rsquo;s one last map to finish this part of the article! Starting options
+are: [18, 20, 10, 13]</p><p><figure class=inline-image><picture><img src=treasure_hunt_hint_balancing_2.webp loading=lazy decoding=async alt="Improved map with balanced hints" title="Improved map with balanced hints" width=996 height=507></picture><figcaption class=side-note><span>Improved map with balanced hints</span></figcaption></figure></p><h1 id=the-other-approach>The other approach</h1><p>This article became quite long, and the games I made from it ended up
+completely different and separate.</p><p>As such, the second approach (the <em>active</em> one, where you <em>actively</em>
+change the game state to match certain hints/wishes), has its own
+article: <a href=/blog/tutorials/deduction-boardgames-part-2-active/>Deduction Boardgames (Part 2; Active)</a></p></div></article><div><nav class=pagination><ul><li><a href=/blog/tutorials/placing-stuff-pseudo-randomly/ class="masked-link big-mask mask-7" style=--rotation:0deg>&lt;&lt; Previous Page</a></li><li>Continue reading</li><li><a href=/blog/tutorials/placing-grids-within-spaces/ class="masked-link big-mask mask-5" style=--rotation:-1.5deg>>> Next Page</a></li></ul></nav></div></main><footer id=site-footer><div class="padding center-block"><h3>More Pandaqi</h3><p>You could <a href=https://pandaqi.com>visit the game studio</a>.
+Or my <a href=https://pandaqi.com/tutorials/>free tutorial website</a>.
+Or my <a href=https://rodepanda.com/>portfolio</a> with easy access to absolutely everything I ever made.</p><h3>Latest</h3><nav class=latest><ul><li><a href=/blog/boardgames/kingseat/>Kingseat
+(👑)</a></li><li><a href=/blog/boardgames/foldigami/>Foldigami
+(📃)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-the-big-typescript-update/>Pandaqi Games: The Big Typescript Update
+(🎮)</a></li><li><a href=/blog/boardgames/sixpack/>Sixpack
+(🃏)</a></li><li><a href=/blog/boardgames/photomone-antsassins/>Photomone: Antsassins
+(🐜)</a></li><li><a href=/blog/boardgames/photomone-digital-antists/>Photomone: Digital Antists
+(🐜)</a></li><li><a href=/blog/boardgames/photomone/>Photomone
+(🐜)</a></li><li><a href=/blog/boardgames/keebble-domino/>Keebble: Domino
+(📗)</a></li><li><a href=/blog/boardgames/keebble-knickknack/>Keebble: Knickknack
+(📘)</a></li><li><a href=/blog/videogames/game-jams/less-is-store/>Less is Store
+(🛍️)</a></li></ul></nav><h3>Sections</h3><nav><ul><li><a href=/blog/boardgames/>Boardgames
+(🎲)</a></li><li><a href=/blog/news-and-updates/>News & Updates
+(📢)</a></li><li><a href=/blog/reviews-and-thoughts/>Reviews & Thoughts
+(💭)</a></li><li><a href=/blog/tutorials/>Tutorials
+(👩‍🎓)</a></li><li><a href=/blog/videogames/>Videogames
+(🎮)</a></li></ul></nav><h3>Credits</h3><p>Theme by me (<a href=https://pandaqi.com>Pandaqi</a> 🐼) &#183;
+with ❤️ &#183;
+using <a href=https://gohugo.io>Hugo</a> &#183;
+&copy; 2018&ndash;2023 Pandaqi Blog</p></div></footer><link rel=stylesheet type=text/css href=/blog/css/style.css><script src=/blog/js/bundle.min.js></script></body></html>

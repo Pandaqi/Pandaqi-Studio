@@ -1,0 +1,260 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><title>WebSockets + Node.js server | Pandaqi Blog</title><link rel=icon type=image/png href=https://pandaqi.com/blog//favicon.png><link rel=stylesheet type=text/css href=/blog/css/critical.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin></head><body><header id=site-header><nav class=menu><ul><li><a href=https://pandaqi.com/blog/ class="masked-link big-mask mask-2" style=--rotation:0.5deg>Home</a></li><li><a href=/blog/boardgames/ class="masked-link big-mask mask-8" style=--rotation:1.5deg>Boardgames</a></li><li><a href=/blog/news-and-updates/ class="masked-link big-mask mask-7" style=--rotation:-0.5deg>News & Updates</a></li><li><a href=/blog/reviews-and-thoughts/ class="masked-link big-mask mask-7" style=--rotation:1.5deg>Reviews & Thoughts</a></li><li><a href=/blog/tutorials/ class="masked-link big-mask mask-5" style=--rotation:1.5deg>Tutorials</a></li><li><a href=/blog/videogames/ class="masked-link big-mask mask-1" style=--rotation:-1.5deg>Videogames</a></li></ul></nav></header><main class="padding center-block"><article class=single-article><div class=thumbnail-media><figure class=thumb-image><picture><img src=../../pizza-peers-static.png loading=lazy decoding=async alt="Thumbnail / Header for article: WebSockets + Node.js server" title="Thumbnail / Header for article: WebSockets + Node.js server" width=660 height=396></picture></figure></div><h1>WebSockets + Node.js server</h1><aside class=metadata><nav class=breadcrumbs><span class=metadata-label><span class=emoji>🥐</span> Breadcrumbs ||</span>
+<a href=https://pandaqi.com/blog/>Home</a>
+/
+<a href=https://pandaqi.com/blog/videogames/>Videogames</a>
+/
+<a href=https://pandaqi.com/blog/videogames/the-peerful-project/>The peerful project</a>
+/
+<a href=https://pandaqi.com/blog/videogames/the-peerful-project/pizza-peers/>Pizza peers</a>
+/
+<a href=https://pandaqi.com/blog/videogames/the-peerful-project/pizza-peers/devlog-pizza-peers/>Devlog pizza peers</a>
+/
+<a href=https://pandaqi.com/blog/videogames/the-peerful-project/pizza-peers/devlog-pizza-peers/2-websockets-node-js-server/>2 websockets node js server</a></nav><script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/pandaqi.com\/blog\/","name":"home"}},{"@type":"ListItem","position":2,"item":{"@id":"https:\/\/pandaqi.com\/blog\/videogames\/","name":"videogames"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/pandaqi.com\/blog\/videogames\/the-peerful-project\/","name":"the-peerful-project"}},{"@type":"ListItem","position":4,"item":{"@id":"https:\/\/pandaqi.com\/blog\/videogames\/the-peerful-project\/pizza-peers\/","name":"pizza-peers"}},{"@type":"ListItem","position":5,"item":{"@id":"https:\/\/pandaqi.com\/blog\/videogames\/the-peerful-project\/pizza-peers\/devlog-pizza-peers\/","name":"devlog-pizza-peers"}},{"@type":"ListItem","position":6,"item":{"@id":"https:\/\/pandaqi.com\/blog\/videogames\/the-peerful-project\/pizza-peers\/devlog-pizza-peers\/2-websockets-node-js-server\/","name":"2-websockets-node-js-server"}}]}</script><div><span class=metadata-label><span class=emoji>&#8987;</span> Published ||</span>
+<time datetime=2020-04-29T11:00:00>Wednesday, Apr 29, 2020</time></div><nav class=tags><span class=metadata-label><span class=emoji>🎗</span> Tags ||</span><ul><li><a href=https://pandaqi.com/blog/tags/devlog>devlog</a></li></ul></nav><div><span class=metadata-label><span class=emoji>📖</span> Table of Contents ||</span>
+<a href=# id=toc-toggle>Show</a></div></aside><aside id=table-of-contents class=masked-link-block><header><h2>Table of Contents</h2></header><nav id=TableOfContents><ul><li><a href=#nodejs>Node.js</a></li><li><a href=#peer-to-peer>Peer to Peer</a></li><li><a href=#signaling-server>Signaling server</a></li><li><a href=#client-side---websockets>Client side - Websockets</a></li><li><a href=#almost-done->Almost done &mldr;</a></li></ul></nav></aside><div><p>This is part 2 in my article series about how I created &ldquo;Pizza Peers&rdquo;.</p><p>Haven&rsquo;t read the other entries? Go to the <a href=../>devlog overview</a>.</p><p>So, first things first, we need:</p><ul><li><p>A server that hosts our game (and serves the game files)</p></li><li><p>A server that receives connections from both the players and the
+computer, so that it can <em>connect</em> them directly. (Once connected,
+the whole game goes via peer-to-peer.)</p></li></ul><p>Obviously, we&rsquo;ll use the same server for both these things.</p><p><strong>IMPORTANT REMARK:</strong> In these articles, I will not show the full code
+(as it&rsquo;s too complicated and specific, thus not so good for teaching or
+explaining). Instead, I give a template and some pseudo-code where
+needed. If you want to implement these things yourself, check out the
+source code for all the details and exceptions.</p><h2 id=nodejs>Node.js</h2><p>For the server side, we&rsquo;ll use Node.js. It is simple and small, it uses
+JavaScript (which we&rsquo;ll also use in the game itself), and I have some
+experience with it.</p><p>Below is the template for this server. It simply sets up a server that
+servers both static files (which are the game files) and accepts
+websocket connections (which are needed to connect players with the
+computer).</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-Javascript data-lang=Javascript><span class=line><span class=ln> 1</span><span class=cl><span class=nx>process</span><span class=p>.</span><span class=nx>title</span> <span class=o>=</span> <span class=s1>&#39;pizza-peers&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=ln> 2</span><span class=cl><span class=kd>var</span> <span class=nx>webSocketsServerPort</span> <span class=o>=</span> <span class=nx>process</span><span class=p>.</span><span class=nx>env</span><span class=p>.</span><span class=nx>PORT</span> <span class=o>||</span> <span class=mi>8888</span><span class=p>;</span>
+</span></span><span class=line><span class=ln> 3</span><span class=cl>
+</span></span><span class=line><span class=ln> 4</span><span class=cl><span class=kd>var</span> <span class=nx>WebSocketServer</span> <span class=o>=</span> <span class=nx>require</span><span class=p>(</span><span class=s1>&#39;websocket&#39;</span><span class=p>).</span><span class=nx>server</span><span class=p>;</span>
+</span></span><span class=line><span class=ln> 5</span><span class=cl><span class=kd>var</span> <span class=nx>http</span> <span class=o>=</span> <span class=nx>require</span><span class=p>(</span><span class=s1>&#39;http&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=ln> 6</span><span class=cl>
+</span></span><span class=line><span class=ln> 7</span><span class=cl><span class=c1>// stuff for creating an app that is a WEBSOCKET and also serves STATIC FILES
+</span></span></span><span class=line><span class=ln> 8</span><span class=cl><span class=c1></span><span class=kd>var</span> <span class=nx>WebSocketServer</span> <span class=o>=</span> <span class=nx>require</span><span class=p>(</span><span class=s1>&#39;websocket&#39;</span><span class=p>).</span><span class=nx>server</span><span class=p>;</span>
+</span></span><span class=line><span class=ln> 9</span><span class=cl><span class=kd>var</span> <span class=nx>express</span>         <span class=o>=</span> <span class=nx>require</span><span class=p>(</span><span class=s1>&#39;express&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>10</span><span class=cl><span class=kd>var</span> <span class=nx>app</span>             <span class=o>=</span> <span class=nx>express</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>11</span><span class=cl><span class=kd>var</span> <span class=nx>server</span>          <span class=o>=</span> <span class=nx>app</span><span class=p>.</span><span class=nx>listen</span><span class=p>(</span><span class=nx>webSocketsServerPort</span><span class=p>,</span> <span class=kd>function</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>12</span><span class=cl>	<span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>((</span><span class=k>new</span> <span class=nb>Date</span><span class=p>())</span> <span class=o>+</span> <span class=s2>&#34; Server is listening on port &#34;</span> <span class=o>+</span> <span class=nx>webSocketsServerPort</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>13</span><span class=cl><span class=p>});</span>
+</span></span><span class=line><span class=ln>14</span><span class=cl>
+</span></span><span class=line><span class=ln>15</span><span class=cl><span class=c1>// create the web socket server (using the HTTP server as a basis)
+</span></span></span><span class=line><span class=ln>16</span><span class=cl><span class=c1></span><span class=kd>var</span> <span class=nx>wsServer</span>        <span class=o>=</span> <span class=k>new</span> <span class=nx>WebSocketServer</span><span class=p>({</span> <span class=nx>httpServer</span> <span class=o>:</span> <span class=nx>server</span> <span class=p>});</span>
+</span></span><span class=line><span class=ln>17</span><span class=cl>
+</span></span><span class=line><span class=ln>18</span><span class=cl><span class=c1>// this will make Express serve your static files (from the folder /public)
+</span></span></span><span class=line><span class=ln>19</span><span class=cl><span class=c1></span><span class=nx>app</span><span class=p>.</span><span class=nx>use</span><span class=p>(</span><span class=nx>express</span><span class=p>.</span><span class=kr>static</span><span class=p>(</span><span class=nx>__dirname</span> <span class=o>+</span> <span class=s1>&#39;/public&#39;</span><span class=p>));</span>
+</span></span><span class=line><span class=ln>20</span><span class=cl>
+</span></span><span class=line><span class=ln>21</span><span class=cl><span class=c1>// Global variable that contains all games currently being played!
+</span></span></span><span class=line><span class=ln>22</span><span class=cl><span class=c1></span><span class=kd>var</span> <span class=nx>rooms</span> <span class=o>=</span> <span class=p>{}</span>
+</span></span><span class=line><span class=ln>23</span><span class=cl>
+</span></span><span class=line><span class=ln>24</span><span class=cl><span class=c1>// WebSocket server
+</span></span></span><span class=line><span class=ln>25</span><span class=cl><span class=c1></span><span class=nx>wsServer</span><span class=p>.</span><span class=nx>on</span><span class=p>(</span><span class=s1>&#39;request&#39;</span><span class=p>,</span> <span class=kd>function</span><span class=p>(</span><span class=nx>request</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>26</span><span class=cl>	<span class=c1>// accept the connection
+</span></span></span><span class=line><span class=ln>27</span><span class=cl><span class=c1></span>	<span class=kd>var</span> <span class=nx>connection</span> <span class=o>=</span> <span class=nx>request</span><span class=p>.</span><span class=nx>accept</span><span class=p>(</span><span class=kc>null</span><span class=p>,</span> <span class=nx>request</span><span class=p>.</span><span class=nx>origin</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>28</span><span class=cl>
+</span></span><span class=line><span class=ln>29</span><span class=cl>	<span class=c1>// The most important callback: we&#39;ll handle all messages from users here.
+</span></span></span><span class=line><span class=ln>30</span><span class=cl><span class=c1></span>	<span class=nx>connection</span><span class=p>.</span><span class=nx>on</span><span class=p>(</span><span class=s1>&#39;message&#39;</span><span class=p>,</span> <span class=kd>function</span><span class=p>(</span><span class=nx>message</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>31</span><span class=cl>		<span class=c1>// @TODO: Any message sent to the server is handled here
+</span></span></span><span class=line><span class=ln>32</span><span class=cl><span class=c1></span>	<span class=p>});</span>
+</span></span><span class=line><span class=ln>33</span><span class=cl>
+</span></span><span class=line><span class=ln>34</span><span class=cl>	<span class=c1>// user connection closed
+</span></span></span><span class=line><span class=ln>35</span><span class=cl><span class=c1></span>	<span class=nx>connection</span><span class=p>.</span><span class=nx>on</span><span class=p>(</span><span class=s1>&#39;close&#39;</span><span class=p>,</span> <span class=kd>function</span><span class=p>(</span><span class=nx>connection</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>36</span><span class=cl>    <span class=c1>// if you want, you can use this space to delete games and free up space once a game has ended
+</span></span></span><span class=line><span class=ln>37</span><span class=cl><span class=c1></span>	<span class=p>});</span>
+</span></span><span class=line><span class=ln>38</span><span class=cl><span class=p>});</span></span></span></code></pre></div><p>Of course, all the magic is going to happen in that &ldquo;on(message)&rdquo; block.</p><h2 id=peer-to-peer>Peer to Peer</h2><p>Which messages do we need to send? For that, we need to understand how
+peer-to-peer works.</p><p>Instead of creating a connection with the <em>server</em>, a peer connection is
+a direct connection <em>between two devices</em>. So, once established, your
+smartphone has a direct link with the computer (that hosts the game),
+and vice versa. This is what makes it so incredibly quick and easy.</p><p>However, we cannot allow devices to just establish connections as they
+please. That would not be very secure.</p><p>Instead, there&rsquo;s a handshake protocol we need to follow:</p><ul><li><p>Device A wants to connect with device B</p></li><li><p>A creates a peer (on their side) and sends out an <strong>offer</strong></p></li><li><p>B receives the offer, creates its own peer, and formulates a
+<strong>response</strong>.</p></li><li><p>Once A has received and validated the response, both are officially
+connected.</p></li></ul><p>For generating the offer and response signals, I use the <a href=https://github.com/feross/simple-peer>simple-peer</a>
+library. I don&rsquo;t need to understand what it&rsquo;s doing with
+those signals or what all the information means, and neither do you. I
+just pass the signals along.</p><p>Speaking about that: we&rsquo;ve encountered an issue. A needs to send an
+offer to B. But &mldr; they are not connected yet. How is A going to find
+B?</p><p>That&rsquo;s where our WebSockets come in!</p><h2 id=signaling-server>Signaling server</h2><p>In order to exchange signals, we turn our server into a so-called
+&ldquo;signaling server&rdquo;.</p><p>The idea is very simple:</p><ul><li><p>A generates a signal and sends it to the server.</p></li><li><p>The <em>server</em> determines the intended recipient and relays the
+signal.</p></li><li><p>B receives it, creates a response, sends it back.</p></li><li><p>The <em>server</em> determines that the response must return to A.</p></li><li><p>And voila, peer to peer connection!</p></li></ul><p>So, at our server, we need a way to receive and pass on messages.</p><p>In my case, this is even more simplified:</p><ul><li><p>The <em>player</em> (with the smartphone) is always the initiator of the
+connection.</p></li><li><p>The <em>computer</em> (that hosts the game) is always the one responding.</p></li></ul><p>See the code below for the basic structure of this system. (It will make
+even more sense once we&rsquo;ve created the client side.)</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-Javascript data-lang=Javascript><span class=line><span class=ln> 1</span><span class=cl><span class=c1>// WebSocket server
+</span></span></span><span class=line><span class=ln> 2</span><span class=cl><span class=c1></span><span class=nx>wsServer</span><span class=p>.</span><span class=nx>on</span><span class=p>(</span><span class=s1>&#39;request&#39;</span><span class=p>,</span> <span class=kd>function</span><span class=p>(</span><span class=nx>request</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln> 3</span><span class=cl>	<span class=c1>// accept the connection
+</span></span></span><span class=line><span class=ln> 4</span><span class=cl><span class=c1></span>	<span class=kd>var</span> <span class=nx>connection</span> <span class=o>=</span> <span class=nx>request</span><span class=p>.</span><span class=nx>accept</span><span class=p>(</span><span class=kc>null</span><span class=p>,</span> <span class=nx>request</span><span class=p>.</span><span class=nx>origin</span><span class=p>);</span>
+</span></span><span class=line><span class=ln> 5</span><span class=cl>
+</span></span><span class=line><span class=ln> 6</span><span class=cl>	<span class=c1>// create a persistent variable for our roomID; means we don&#39;t need to look it up all the time, which is faster
+</span></span></span><span class=line><span class=ln> 7</span><span class=cl><span class=c1></span>	<span class=kd>var</span> <span class=nx>roomID</span> <span class=o>=</span> <span class=o>-</span><span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=ln> 8</span><span class=cl>	<span class=kd>var</span> <span class=nx>isServer</span> <span class=o>=</span> <span class=kc>false</span><span class=p>;</span>
+</span></span><span class=line><span class=ln> 9</span><span class=cl>
+</span></span><span class=line><span class=ln>10</span><span class=cl>	<span class=c1>// The most important callback: we&#39;ll handle all messages from users here.
+</span></span></span><span class=line><span class=ln>11</span><span class=cl><span class=c1></span>	<span class=nx>connection</span><span class=p>.</span><span class=nx>on</span><span class=p>(</span><span class=s1>&#39;message&#39;</span><span class=p>,</span> <span class=kd>function</span><span class=p>(</span><span class=nx>message</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>12</span><span class=cl>
+</span></span><span class=line><span class=ln>13</span><span class=cl>		<span class=c1>//
+</span></span></span><span class=line><span class=ln>14</span><span class=cl><span class=c1></span>		<span class=c1>// if this message is a CREATE ROOM message
+</span></span></span><span class=line><span class=ln>15</span><span class=cl><span class=c1></span>		<span class=c1>//
+</span></span></span><span class=line><span class=ln>16</span><span class=cl><span class=c1></span>		<span class=k>if</span><span class=p>(</span><span class=nx>message</span><span class=p>.</span><span class=nx>action</span> <span class=o>==</span> <span class=s2>&#34;createRoom&#34;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>17</span><span class=cl>			<span class=c1>// generate a (non-existing) ID
+</span></span></span><span class=line><span class=ln>18</span><span class=cl><span class=c1></span>			<span class=kd>var</span> <span class=nx>id</span> <span class=o>=</span> <span class=nx>generateID</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>19</span><span class=cl>
+</span></span><span class=line><span class=ln>20</span><span class=cl>			<span class=c1>// insert it into rooms (effectively creating a new room)
+</span></span></span><span class=line><span class=ln>21</span><span class=cl><span class=c1></span>			<span class=c1>// each room simply knows which socket is the server, and which are the players
+</span></span></span><span class=line><span class=ln>22</span><span class=cl><span class=c1></span>			<span class=nx>rooms</span><span class=p>[</span><span class=nx>id</span><span class=p>]</span> <span class=o>=</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>23</span><span class=cl>				<span class=s2>&#34;server&#34;</span><span class=o>:</span> <span class=nx>connection</span><span class=p>,</span>
+</span></span><span class=line><span class=ln>24</span><span class=cl>				<span class=s2>&#34;players&#34;</span><span class=o>:</span> <span class=p>[],</span>
+</span></span><span class=line><span class=ln>25</span><span class=cl>				<span class=s2>&#34;gameStarted&#34;</span><span class=o>:</span> <span class=kc>false</span>
+</span></span><span class=line><span class=ln>26</span><span class=cl>			<span class=p>};</span>
+</span></span><span class=line><span class=ln>27</span><span class=cl>
+</span></span><span class=line><span class=ln>28</span><span class=cl>			<span class=c1>// remember our roomID
+</span></span></span><span class=line><span class=ln>29</span><span class=cl><span class=c1></span>			<span class=nx>roomID</span> <span class=o>=</span> <span class=nx>id</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>30</span><span class=cl>
+</span></span><span class=line><span class=ln>31</span><span class=cl>			<span class=c1>// rember we function as a server
+</span></span></span><span class=line><span class=ln>32</span><span class=cl><span class=c1></span>			<span class=nx>isServer</span> <span class=o>=</span> <span class=kc>true</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>33</span><span class=cl>
+</span></span><span class=line><span class=ln>34</span><span class=cl>			<span class=c1>// beam the room number back to the connection
+</span></span></span><span class=line><span class=ln>35</span><span class=cl><span class=c1></span>			<span class=nx>connection</span><span class=p>.</span><span class=nx>sendUTF</span><span class=p>(</span><span class=nx>JSON</span><span class=p>.</span><span class=nx>stringify</span><span class=p>({</span> <span class=s2>&#34;type&#34;</span><span class=o>:</span> <span class=s2>&#34;confirmRoom&#34;</span><span class=p>,</span> <span class=s2>&#34;room&#34;</span><span class=o>:</span> <span class=nx>roomID</span> <span class=p>}));</span>
+</span></span><span class=line><span class=ln>36</span><span class=cl>
+</span></span><span class=line><span class=ln>37</span><span class=cl>		<span class=c1>//
+</span></span></span><span class=line><span class=ln>38</span><span class=cl><span class=c1></span>		<span class=c1>// if this message is a JOIN ROOM message
+</span></span></span><span class=line><span class=ln>39</span><span class=cl><span class=c1></span>		<span class=c1>//
+</span></span></span><span class=line><span class=ln>40</span><span class=cl><span class=c1></span>		<span class=p>}</span> <span class=k>else</span> <span class=k>if</span><span class=p>(</span><span class=nx>message</span><span class=p>.</span><span class=nx>action</span> <span class=o>==</span> <span class=s2>&#34;joinRoom&#34;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>41</span><span class=cl>			<span class=c1>// which room should we join?
+</span></span></span><span class=line><span class=ln>42</span><span class=cl><span class=c1></span>			<span class=kd>var</span> <span class=nx>roomToJoin</span> <span class=o>=</span> <span class=nx>message</span><span class=p>.</span><span class=nx>room</span>
+</span></span><span class=line><span class=ln>43</span><span class=cl>
+</span></span><span class=line><span class=ln>44</span><span class=cl>			<span class=c1>// what is the player username?
+</span></span></span><span class=line><span class=ln>45</span><span class=cl><span class=c1></span>			<span class=kd>var</span> <span class=nx>usn</span> <span class=o>=</span> <span class=nx>message</span><span class=p>.</span><span class=nx>username</span>
+</span></span><span class=line><span class=ln>46</span><span class=cl>
+</span></span><span class=line><span class=ln>47</span><span class=cl>			<span class=c1>// add this player to that room
+</span></span></span><span class=line><span class=ln>48</span><span class=cl><span class=c1></span>			<span class=nx>rooms</span><span class=p>[</span><span class=nx>roomToJoin</span><span class=p>].</span><span class=nx>players</span><span class=p>[</span><span class=nx>usn</span><span class=p>]</span> <span class=o>=</span> <span class=nx>connection</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>49</span><span class=cl>
+</span></span><span class=line><span class=ln>50</span><span class=cl>			<span class=c1>// remember we joined the room
+</span></span></span><span class=line><span class=ln>51</span><span class=cl><span class=c1></span>			<span class=nx>roomID</span> <span class=o>=</span> <span class=nx>roomToJoin</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>52</span><span class=cl>
+</span></span><span class=line><span class=ln>53</span><span class=cl>			<span class=c1>// we want to connect with the server (peer-to-peer)
+</span></span></span><span class=line><span class=ln>54</span><span class=cl><span class=c1></span>			<span class=c1>// for this, the player generates an &#34;invitation&#34; or &#34;offer&#34;
+</span></span></span><span class=line><span class=ln>55</span><span class=cl><span class=c1></span>			<span class=c1>// it sends this along with the message
+</span></span></span><span class=line><span class=ln>56</span><span class=cl><span class=c1></span>			<span class=kd>var</span> <span class=nx>offer</span> <span class=o>=</span> <span class=nx>message</span><span class=p>.</span><span class=nx>offer</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>57</span><span class=cl>
+</span></span><span class=line><span class=ln>58</span><span class=cl>			<span class=c1>// append the USERNAME of the client extending the offer
+</span></span></span><span class=line><span class=ln>59</span><span class=cl><span class=c1></span>			<span class=c1>// (otherwise, the server doesn&#39;t know to whom the response needs to be send)
+</span></span></span><span class=line><span class=ln>60</span><span class=cl><span class=c1></span>			<span class=nx>offer</span><span class=p>.</span><span class=nx>clientUsername</span> <span class=o>=</span> <span class=nx>usn</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>61</span><span class=cl>
+</span></span><span class=line><span class=ln>62</span><span class=cl>			<span class=c1>// now relay this offer to the server
+</span></span></span><span class=line><span class=ln>63</span><span class=cl><span class=c1></span>			<span class=nx>rooms</span><span class=p>[</span><span class=nx>roomToJoin</span><span class=p>].</span><span class=nx>server</span><span class=p>.</span><span class=nx>sendUTF</span><span class=p>(</span><span class=nx>JSON</span><span class=p>.</span><span class=nx>stringify</span><span class=p>(</span><span class=nx>offer</span><span class=p>));</span>
+</span></span><span class=line><span class=ln>64</span><span class=cl>
+</span></span><span class=line><span class=ln>65</span><span class=cl>		<span class=c1>//
+</span></span></span><span class=line><span class=ln>66</span><span class=cl><span class=c1></span>		<span class=c1>// if this message is an OFFER RESPONSE
+</span></span></span><span class=line><span class=ln>67</span><span class=cl><span class=c1></span>		<span class=c1>//
+</span></span></span><span class=line><span class=ln>68</span><span class=cl><span class=c1></span>		<span class=p>}</span> <span class=k>else</span> <span class=k>if</span><span class=p>(</span><span class=nx>message</span><span class=p>.</span><span class=nx>action</span> <span class=o>==</span> <span class=s2>&#34;offerResponse&#34;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>69</span><span class=cl>			<span class=c1>// get the client that should receive it
+</span></span></span><span class=line><span class=ln>70</span><span class=cl><span class=c1></span>			<span class=kd>var</span> <span class=nx>receivingClient</span> <span class=o>=</span> <span class=nx>message</span><span class=p>.</span><span class=nx>clientUsername</span>
+</span></span><span class=line><span class=ln>71</span><span class=cl>
+</span></span><span class=line><span class=ln>72</span><span class=cl>			<span class=c1>// get the response
+</span></span></span><span class=line><span class=ln>73</span><span class=cl><span class=c1></span>			<span class=kd>var</span> <span class=nx>offerResponse</span> <span class=o>=</span> <span class=nx>message</span><span class=p>.</span><span class=nx>response</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>74</span><span class=cl>
+</span></span><span class=line><span class=ln>75</span><span class=cl>			<span class=c1>// send the response
+</span></span></span><span class=line><span class=ln>76</span><span class=cl><span class=c1></span>			<span class=nx>rooms</span><span class=p>[</span><span class=nx>roomID</span><span class=p>].</span><span class=nx>players</span><span class=p>[</span><span class=nx>receivingClient</span><span class=p>].</span><span class=nx>sendUTF</span><span class=p>(</span><span class=nx>JSON</span><span class=p>.</span><span class=nx>stringify</span><span class=p>(</span><span class=nx>offerResponse</span><span class=p>));</span>
+</span></span><span class=line><span class=ln>77</span><span class=cl>	<span class=p>});</span>
+</span></span><span class=line><span class=ln>78</span><span class=cl><span class=p>});</span></span></span></code></pre></div><p>In fact, this is almost <em>all</em> the code on the server. The only thing I
+added in the real game is more robust error handling and handling some
+extra cases/exceptions.</p><h2 id=client-side---websockets>Client side - Websockets</h2><p>So far, we&rsquo;ve created the server only. It accepts web sockets and passes
+along signals &mldr; but we still need a client side to actually create
+those web sockets and signals.</p><p>I assume you know how to set up a basic HTML page. If not, check out
+index.html in my source code.</p><p>Then, make sure the JavaScript below is run (<em>once the page has finished
+loading</em>):</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-Javascript data-lang=Javascript><span class=line><span class=ln> 1</span><span class=cl><span class=c1>// if user is running mozilla then use it&#39;s built-in WebSocket
+</span></span></span><span class=line><span class=ln> 2</span><span class=cl><span class=c1></span><span class=nb>window</span><span class=p>.</span><span class=nx>WebSocket</span> <span class=o>=</span> <span class=nb>window</span><span class=p>.</span><span class=nx>WebSocket</span> <span class=o>||</span> <span class=nb>window</span><span class=p>.</span><span class=nx>MozWebSocket</span><span class=p>;</span>
+</span></span><span class=line><span class=ln> 3</span><span class=cl>
+</span></span><span class=line><span class=ln> 4</span><span class=cl><span class=c1>// assuming a https connection here, otherwise use &#34;ws://&#34;
+</span></span></span><span class=line><span class=ln> 5</span><span class=cl><span class=c1></span><span class=nx>host</span> <span class=o>=</span> <span class=s1>&#39;wss://&#39;</span> <span class=o>+</span> <span class=nx>location</span><span class=p>.</span><span class=nx>host</span><span class=p>;</span>
+</span></span><span class=line><span class=ln> 6</span><span class=cl>
+</span></span><span class=line><span class=ln> 7</span><span class=cl><span class=c1>// this creates the connection and keeps a reference to it
+</span></span></span><span class=line><span class=ln> 8</span><span class=cl><span class=c1></span><span class=kd>var</span> <span class=nx>connection</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>WebSocket</span><span class=p>(</span><span class=nx>host</span><span class=p>);</span>
+</span></span><span class=line><span class=ln> 9</span><span class=cl>
+</span></span><span class=line><span class=ln>10</span><span class=cl><span class=kd>var</span> <span class=nx>curPeer</span> <span class=o>=</span> <span class=kc>null</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>11</span><span class=cl>
+</span></span><span class=line><span class=ln>12</span><span class=cl><span class=c1>// if browser doesn&#39;t support WebSocket, just show some notification and exit
+</span></span></span><span class=line><span class=ln>13</span><span class=cl><span class=c1></span><span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nb>window</span><span class=p>.</span><span class=nx>WebSocket</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>14</span><span class=cl>  <span class=nx>updateStatus</span><span class=p>(</span><span class=s1>&#39;Sorry, but your browser doesn\&#39;t support WebSocket.&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>15</span><span class=cl>  <span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>16</span><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=ln>17</span><span class=cl>
+</span></span><span class=line><span class=ln>18</span><span class=cl><span class=nx>connection</span><span class=p>.</span><span class=nx>onopen</span> <span class=o>=</span> <span class=kd>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>19</span><span class=cl>  <span class=c1>// connection is opened and ready to use
+</span></span></span><span class=line><span class=ln>20</span><span class=cl><span class=c1></span><span class=p>};</span>
+</span></span><span class=line><span class=ln>21</span><span class=cl>
+</span></span><span class=line><span class=ln>22</span><span class=cl><span class=nx>connection</span><span class=p>.</span><span class=nx>onerror</span> <span class=o>=</span> <span class=kd>function</span> <span class=p>(</span><span class=nx>error</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>23</span><span class=cl>  <span class=c1>// an error occurred when sending/receiving data, display error message
+</span></span></span><span class=line><span class=ln>24</span><span class=cl><span class=c1></span><span class=p>};</span>
+</span></span><span class=line><span class=ln>25</span><span class=cl>
+</span></span><span class=line><span class=ln>26</span><span class=cl><span class=nx>connection</span><span class=p>.</span><span class=nx>onmessage</span> <span class=o>=</span> <span class=kd>function</span> <span class=p>(</span><span class=nx>message</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>27</span><span class=cl>  <span class=c1>// parse message
+</span></span></span><span class=line><span class=ln>28</span><span class=cl><span class=c1></span>  <span class=nx>message</span> <span class=o>=</span> <span class=nx>JSON</span><span class=p>.</span><span class=nx>parse</span><span class=p>(</span><span class=nx>message</span><span class=p>.</span><span class=nx>data</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>29</span><span class=cl>
+</span></span><span class=line><span class=ln>30</span><span class=cl>  <span class=c1>// if it&#39;s a confirmation of the created game (room) ...
+</span></span></span><span class=line><span class=ln>31</span><span class=cl><span class=c1></span>  <span class=k>if</span><span class=p>(</span><span class=nx>message</span><span class=p>.</span><span class=nx>type</span> <span class=o>==</span> <span class=s1>&#39;confirmRoom&#39;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>32</span><span class=cl>    <span class=c1>// start the actual game (Phaser.io)
+</span></span></span><span class=line><span class=ln>33</span><span class=cl><span class=c1></span>  <span class=p>}</span>
+</span></span><span class=line><span class=ln>34</span><span class=cl>
+</span></span><span class=line><span class=ln>35</span><span class=cl>  <span class=c1>// if it&#39;s an OFFER ...
+</span></span></span><span class=line><span class=ln>36</span><span class=cl><span class=c1></span>  <span class=k>if</span><span class=p>(</span><span class=nx>message</span><span class=p>.</span><span class=nx>type</span> <span class=o>==</span> <span class=s1>&#39;offer&#39;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>37</span><span class=cl>    <span class=c1>// Create new peer; initiator = false (you&#39;ll learn about this later)
+</span></span></span><span class=line><span class=ln>38</span><span class=cl><span class=c1></span>    <span class=nx>curPeer</span> <span class=o>=</span> <span class=nx>createPeer</span><span class=p>(...);</span>
+</span></span><span class=line><span class=ln>39</span><span class=cl>
+</span></span><span class=line><span class=ln>40</span><span class=cl>    <span class=c1>// delete some info from the message (to save bandwidth)
+</span></span></span><span class=line><span class=ln>41</span><span class=cl><span class=c1></span>    <span class=k>delete</span> <span class=nx>message</span><span class=p>.</span><span class=nx>clientUsername</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>42</span><span class=cl>
+</span></span><span class=line><span class=ln>43</span><span class=cl>    <span class=c1>// put this signal into our peer (should be the last one we created)
+</span></span></span><span class=line><span class=ln>44</span><span class=cl><span class=c1></span>    <span class=c1>// (when it has formulated an answer, it will automatically send that back)
+</span></span></span><span class=line><span class=ln>45</span><span class=cl><span class=c1></span>    <span class=nx>curPeer</span><span class=p>.</span><span class=nx>signal</span><span class=p>(</span><span class=nx>message</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>46</span><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=ln>47</span><span class=cl>
+</span></span><span class=line><span class=ln>48</span><span class=cl>  <span class=c1>// if it&#39;s a RESPONSE to an offer
+</span></span></span><span class=line><span class=ln>49</span><span class=cl><span class=c1></span>  <span class=k>if</span><span class=p>(</span><span class=nx>message</span><span class=p>.</span><span class=nx>type</span> <span class=o>==</span> <span class=s1>&#39;answer&#39;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>50</span><span class=cl>    <span class=c1>// simply relay it to the peer
+</span></span></span><span class=line><span class=ln>51</span><span class=cl><span class=c1></span>    <span class=c1>// we should be a player, who only has a single peer active
+</span></span></span><span class=line><span class=ln>52</span><span class=cl><span class=c1></span>    <span class=c1>// (NOTE: if accepted, ALL communication henceforth should be peer-to-peer)
+</span></span></span><span class=line><span class=ln>53</span><span class=cl><span class=c1></span>    <span class=nx>curPeer</span><span class=p>.</span><span class=nx>signal</span><span class=p>(</span><span class=nx>message</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>54</span><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=ln>55</span><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=ln>56</span><span class=cl>
+</span></span><span class=line><span class=ln>57</span><span class=cl><span class=c1>// Listen to button for CREATING games
+</span></span></span><span class=line><span class=ln>58</span><span class=cl><span class=c1></span><span class=nb>document</span><span class=p>.</span><span class=nx>getElementById</span><span class=p>(</span><span class=s2>&#34;createGameBtn&#34;</span><span class=p>).</span><span class=nx>addEventListener</span><span class=p>(</span><span class=s1>&#39;click&#39;</span><span class=p>,</span> <span class=kd>function</span><span class=p>(</span><span class=nx>ev</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>59</span><span class=cl>    <span class=c1>// Send a message to the websocket server, creating a game and opening ourselves to connections
+</span></span></span><span class=line><span class=ln>60</span><span class=cl><span class=c1></span>    <span class=kd>var</span> <span class=nx>msg</span> <span class=o>=</span> <span class=p>{</span> <span class=s2>&#34;action&#34;</span><span class=o>:</span> <span class=s1>&#39;createRoom&#39;</span> <span class=p>}</span> 
+</span></span><span class=line><span class=ln>61</span><span class=cl>    <span class=nx>connection</span><span class=p>.</span><span class=nx>send</span><span class=p>(</span> <span class=nx>JSON</span><span class=p>.</span><span class=nx>stringify</span><span class=p>(</span><span class=nx>msg</span><span class=p>)</span> <span class=p>);</span>
+</span></span><span class=line><span class=ln>62</span><span class=cl><span class=p>});</span>
+</span></span><span class=line><span class=ln>63</span><span class=cl>
+</span></span><span class=line><span class=ln>64</span><span class=cl><span class=c1>// Listen to button for JOINING games
+</span></span></span><span class=line><span class=ln>65</span><span class=cl><span class=c1></span><span class=nb>document</span><span class=p>.</span><span class=nx>getElementById</span><span class=p>(</span><span class=s2>&#34;joinGameBtn&#34;</span><span class=p>).</span><span class=nx>addEventListener</span><span class=p>(</span><span class=s1>&#39;click&#39;</span><span class=p>,</span> <span class=kd>function</span><span class=p>(</span><span class=nx>ev</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>66</span><span class=cl>    <span class=c1>// Create peer; initiator = true (again, you&#39;ll learn about this soon)
+</span></span></span><span class=line><span class=ln>67</span><span class=cl><span class=c1></span>    <span class=c1>// NOTE: Once the peer is done and it can start pairing, it will inform the websocket server
+</span></span></span><span class=line><span class=ln>68</span><span class=cl><span class=c1></span>    <span class=nx>curPeer</span> <span class=o>=</span> <span class=nx>createPeer</span><span class=p>(...);</span>
+</span></span><span class=line><span class=ln>69</span><span class=cl><span class=p>});</span></span></span></code></pre></div><p>This bit of code opens the web socket connection, then listens for
+responses from the server. When necessary, it creates a new peer.</p><p>The &ldquo;peer.signal(&mldr;)&rdquo; bit will be explained soon. Essentially, we just
+pass the &ldquo;signal message&rdquo; directly into the peer and let it formulate
+its response. (Remember when I told you that I don&rsquo;t know what&rsquo;s inside
+those signals? Those things are put in here.)</p><p><strong>NOTE:</strong> All messages are JSON. However, we cannot (and don&rsquo;t want to)
+send objects over the internet. So, before sending, we must always
+<em>stringify</em> the object. At the receiving end, we always <em>parse</em> it, so
+it returns to the original JSON object.</p><h2 id=almost-done->Almost done &mldr;</h2><p>All the code above still does not complete our system for connecting &ndash;
+so don&rsquo;t try to run out &ndash; but we&rsquo;re very close.</p><p>This is what we&rsquo;ve achieved so far:</p><ul><li><p>A server that servers our game files.</p></li><li><p>A server that accepts socket connections, gets messages, and then
+relays them to the right connection.</p></li><li><p>A client side that connects with the server, and also sends/receives
+the right messages, and creates the proper peers when needed.</p></li></ul><p>All that&rsquo;s left to do, is actually create the peers. For that, see you
+at part 3!</p></div></article><div><nav class=pagination><ul><li><a href=/blog/videogames/the-peerful-project/pizza-peers/devlog-pizza-peers/1-how-i-created-pizza-peers/ class="masked-link big-mask mask-7" style=--rotation:0deg>&lt;&lt; Previous Page</a></li><li>Continue reading</li><li><a href=/blog/videogames/the-peerful-project/pizza-peers/devlog-pizza-peers/3-peer-to-peer-connections/ class="masked-link big-mask mask-4" style=--rotation:0deg>>> Next Page</a></li></ul></nav></div></main><footer id=site-footer><div class="padding center-block"><h3>More Pandaqi</h3><p>You could <a href=https://pandaqi.com>visit the game studio</a>.
+Or my <a href=https://pandaqi.com/tutorials/>free tutorial website</a>.
+Or my <a href=https://rodepanda.com/>portfolio</a> with easy access to absolutely everything I ever made.</p><h3>Latest</h3><nav class=latest><ul><li><a href=/blog/boardgames/kingseat/>Kingseat
+(👑)</a></li><li><a href=/blog/boardgames/foldigami/>Foldigami
+(📃)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-the-big-typescript-update/>Pandaqi Games: The Big Typescript Update
+(🎮)</a></li><li><a href=/blog/boardgames/sixpack/>Sixpack
+(🃏)</a></li><li><a href=/blog/boardgames/photomone-antsassins/>Photomone: Antsassins
+(🐜)</a></li><li><a href=/blog/boardgames/photomone-digital-antists/>Photomone: Digital Antists
+(🐜)</a></li><li><a href=/blog/boardgames/photomone/>Photomone
+(🐜)</a></li><li><a href=/blog/boardgames/keebble-domino/>Keebble: Domino
+(📗)</a></li><li><a href=/blog/boardgames/keebble-knickknack/>Keebble: Knickknack
+(📘)</a></li><li><a href=/blog/videogames/game-jams/less-is-store/>Less is Store
+(🛍️)</a></li></ul></nav><h3>Sections</h3><nav><ul><li><a href=/blog/boardgames/>Boardgames
+(🎲)</a></li><li><a href=/blog/news-and-updates/>News & Updates
+(📢)</a></li><li><a href=/blog/reviews-and-thoughts/>Reviews & Thoughts
+(💭)</a></li><li><a href=/blog/tutorials/>Tutorials
+(👩‍🎓)</a></li><li><a href=/blog/videogames/>Videogames
+(🎮)</a></li></ul></nav><h3>Credits</h3><p>Theme by me (<a href=https://pandaqi.com>Pandaqi</a> 🐼) &#183;
+with ❤️ &#183;
+using <a href=https://gohugo.io>Hugo</a> &#183;
+&copy; 2018&ndash;2023 Pandaqi Blog</p></div></footer><link rel=stylesheet type=text/css href=/blog/css/style.css><script src=/blog/js/bundle.min.js></script></body></html>

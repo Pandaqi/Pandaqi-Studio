@@ -1,0 +1,116 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><title>Problems with P2P | Pandaqi Blog</title><link rel=icon type=image/png href=https://pandaqi.com/blog//favicon.png><link rel=stylesheet type=text/css href=/blog/css/critical.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin></head><body><header id=site-header><nav class=menu><ul><li><a href=https://pandaqi.com/blog/ class="masked-link big-mask mask-5" style=--rotation:-1.5deg>Home</a></li><li><a href=/blog/boardgames/ class="masked-link big-mask mask-5" style=--rotation:-1deg>Boardgames</a></li><li><a href=/blog/news-and-updates/ class="masked-link big-mask mask-7" style=--rotation:-1deg>News & Updates</a></li><li><a href=/blog/reviews-and-thoughts/ class="masked-link big-mask mask-7" style=--rotation:-0.5deg>Reviews & Thoughts</a></li><li><a href=/blog/tutorials/ class="masked-link big-mask mask-7" style=--rotation:0.5deg>Tutorials</a></li><li><a href=/blog/videogames/ class="masked-link big-mask mask-4" style=--rotation:0.5deg>Videogames</a></li></ul></nav></header><main class="padding center-block"><article class=single-article><div class=thumbnail-media><figure class=thumb-image><picture><img src=../../pizza-peers-static.png loading=lazy decoding=async alt="Thumbnail / Header for article: Problems with P2P" title="Thumbnail / Header for article: Problems with P2P" width=660 height=396></picture></figure></div><h1>Problems with P2P</h1><aside class=metadata><nav class=breadcrumbs><span class=metadata-label><span class=emoji>🥐</span> Breadcrumbs ||</span>
+<a href=https://pandaqi.com/blog/>Home</a>
+/
+<a href=https://pandaqi.com/blog/videogames/>Videogames</a>
+/
+<a href=https://pandaqi.com/blog/videogames/the-peerful-project/>The peerful project</a>
+/
+<a href=https://pandaqi.com/blog/videogames/the-peerful-project/pizza-peers/>Pizza peers</a>
+/
+<a href=https://pandaqi.com/blog/videogames/the-peerful-project/pizza-peers/devlog-pizza-peers/>Devlog pizza peers</a>
+/
+<a href=https://pandaqi.com/blog/videogames/the-peerful-project/pizza-peers/devlog-pizza-peers/6-problems-with-p2p/>6 problems with p2p</a></nav><script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/pandaqi.com\/blog\/","name":"home"}},{"@type":"ListItem","position":2,"item":{"@id":"https:\/\/pandaqi.com\/blog\/videogames\/","name":"videogames"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/pandaqi.com\/blog\/videogames\/the-peerful-project\/","name":"the-peerful-project"}},{"@type":"ListItem","position":4,"item":{"@id":"https:\/\/pandaqi.com\/blog\/videogames\/the-peerful-project\/pizza-peers\/","name":"pizza-peers"}},{"@type":"ListItem","position":5,"item":{"@id":"https:\/\/pandaqi.com\/blog\/videogames\/the-peerful-project\/pizza-peers\/devlog-pizza-peers\/","name":"devlog-pizza-peers"}},{"@type":"ListItem","position":6,"item":{"@id":"https:\/\/pandaqi.com\/blog\/videogames\/the-peerful-project\/pizza-peers\/devlog-pizza-peers\/6-problems-with-p2p\/","name":"6-problems-with-p2p"}}]}</script><div><span class=metadata-label><span class=emoji>&#8987;</span> Published ||</span>
+<time datetime=2020-04-29T15:00:00>Wednesday, Apr 29, 2020</time></div><nav class=tags><span class=metadata-label><span class=emoji>🎗</span> Tags ||</span><ul><li><a href=https://pandaqi.com/blog/tags/devlog>devlog</a></li></ul></nav><div><span class=metadata-label><span class=emoji>📖</span> Table of Contents ||</span>
+<a href=# id=toc-toggle>Show</a></div></aside><aside id=table-of-contents class=masked-link-block><header><h2>Table of Contents</h2></header><nav id=TableOfContents><ul><li><a href=#syncing-players>Syncing players</a></li><li><a href=#smartphone-weirdness>Smartphone weirdness</a></li><li><a href=#disconnecting--crashes>Disconnecting & Crashes</a></li><li><a href=#conclusion>Conclusion</a></li></ul></nav></aside><div><p>This is part 6 in my article series about how I created &ldquo;Pizza Peers&rdquo;.</p><p>Haven&rsquo;t read the other entries? Go to the <a href=../>devlog overview</a>.</p><p>So, let&rsquo;s talk about our current setup:</p><ul><li><p>The game is started on a single computer. This computer is the host
+and also the boss about any game logic.</p></li><li><p>Phones can connect to this computer and directly send input.</p></li></ul><p>As I created &ldquo;Pizza Peers&rdquo;, the big problem with this setup gradually
+came to light: <strong>the game is basically played on X screens
+simultaneously</strong>.</p><p>If you have 4 players, there are 5 screens that need to be updated
+(players + computer host). Most importantly, they need to <strong>stay in
+sync</strong>.</p><p>Let&rsquo;s say you are standing at a table to drop an ingredient (for your
+pizza). Another player comes in and swiftly drops his own backpack on
+the table, just before you pressed your button.</p><p>What happens now? Is your input ignored? Are both your inputs valid? Do
+I need to update your screen every time something changes at the table,
+and how do I do that?</p><p>And what if one of the players disconnects? A few articles ago, I
+mentioned the importance of keeping the player list intact, because we
+use it to convert the <em>peer</em> to the corresponding <em>player</em>.</p><p>Let&rsquo;s see how I tackled these problems. I don&rsquo;t know if it&rsquo;s the best
+way, but it&rsquo;s <em>a</em> way.</p><h2 id=syncing-players>Syncing players</h2><p>Synchronizing players and keeping an online multiplayer game &ldquo;fair&rdquo; is
+one of the hardest things to do. I&rsquo;ve tried it several times and still
+fail to grasp some of the concepts.</p><p>(For example, a large part of it has to do with the server being ahead
+of all the players and being able to go backward/forward in time to
+evaluate the game state for a given player at a given timestamp. Yeah,
+try to code that.)</p><p><strong>Fortunately</strong>, we do not need this. Because there is a <em>single screen</em>
+on which the game is played and hosted, we do not need to update the
+whole game on multiple screens.</p><p>All we need to do, is update the <em>interface</em> on each smartphone to match
+the current game state.</p><p>Because updates are (as good as) instant, we don&rsquo;t need to be careful
+about this either.</p><p>In the final game, I simply do the following:</p><ul><li><p>Player A stands at a table and changes something.</p></li><li><p>Now the game checks if any other players are at the same table.</p></li><li><p>If so, it sends out a message to all of them with the <em>new</em>
+composition of the table.</p></li></ul><p>I&rsquo;ve had several games where two or three players were using the same
+table, and it never led to issues.</p><p>Of course, you do need to be very diligent with <strong>error checking</strong>
+within the game. Before any transaction, check if players are allowed to
+do this transaction. Don&rsquo;t blindly assume that input is correct by any
+means.</p><p>For example, whenever someone tries to update a table, I <em>always</em> check
+the following things first:</p><ul><li><p>Is this player valid?</p></li><li><p>Is this player actually at this specific table?</p></li><li><p>Is the ingredient he wants to add a valid ingredient? (Not all
+numbers correspond to a valid pizza.)</p></li><li><p>Is he allowed to do this (given the current ingredients on the
+table)?</p></li><li><p>(And sometimes even more)</p></li></ul><p>So far, this has never errored or caused glitches. Whenever somebody
+changes a table, everyone connected to it is instantly updated on the
+new game state.</p><p>The same principle applies to all other things.</p><p><strong>A good alternative</strong> would be to change your game&rsquo;s design. Simply do
+not <em>allow</em> more than one player to use something. Limitations like that
+often lead to cleaner, less error-prone, more elegant games designs.</p><p><strong>Another alternative</strong> is a sort of &ldquo;voting&rdquo; system. If the game is
+uncertain about the reality or current state of things, it simply polls
+all players. The value that occurs most often is deemed the right one.
+(Really, in such a tiny local multiplayer game this doesn&rsquo;t matter.
+Might even add to the fun.)</p><h2 id=smartphone-weirdness>Smartphone weirdness</h2><p>A huge drawback with creating a browser game, is that all browsers have
+their own ideas about how things should work.</p><p>I&rsquo;ve created many games that worked flawlessly on my device or browser,
+but completely broke down elsewhere. Sometimes, the fix was simple (add
+a vendor prefix to the CSS or look up when a certain JavaScript feature
+was introduced).</p><p>But sometimes I found out the hard way that I had to redo all my code,
+because a browser simply didn&rsquo;t <em>have</em> a feature or implemented it <em>in
+the complete opposite way</em>.</p><p>Things to keep in mind are:</p><ul><li><p>Vendor prefixes in CSS</p></li><li><p>JavaScript versions and supported functionality.</p></li><li><p>Supported file types (e.g. for audio)</p></li><li><p>Different screen sizes: usually best to use &ldquo;overflow:hidden&rdquo; (never
+allow scrolling on the interface) and minimize the use of dynamic
+elements that might mess with your size (such as images, videos,
+blocks that appear/disappear, &mldr;)</p></li><li><p>Apple is annoying. They only update Safari when they release a new
+version/new product, and they are often late to the party on all
+features.</p></li><li><p>Try to include <em>every single property</em> in your CSS. Why? Because
+each browser and device has a different <em>default look</em> for buttons,
+input, links, etc. You want the game and interface to look
+consistent.</p></li><li><p>If you work with touch events, make sure to prevent propagation,
+otherwise the same event gets fired twice on most systems. Also make
+sure you manually check all your values, because I&rsquo;ve found error
+logging to be quite useless when working with event listeners.</p></li></ul><h2 id=disconnecting--crashes>Disconnecting & Crashes</h2><p>When a peer falls away, the whole connection immediately breaks down.
+This is a side-effect of direct communication: there&rsquo;s no server in
+between to mitigate this or solve the problem.</p><p>If the computer host falls away, the game is simply terminated and you
+need to restart. There&rsquo;s no proper way to save the game state and
+restore it, unless we want to copy the whole game state to all
+smartphones at all times.</p><p>If a player falls away, however, we can fall back to the idea of &ldquo;the
+host is the boss&rdquo;. Whenever anything goes wrong, I simply pause the game
+and show an error message with possible causes and solutions.</p><p>Most importantly: I set a flag on the computer so it knows people will
+try to reconnect.</p><p>When you connect to the game, and the game is in &ldquo;reconnect&rdquo; mode, it
+just searches through the players until it finds the one with a matching
+username. It swaps the old peer for the new one (which you used to
+connect the second time) and tada: you&rsquo;ve regained control of your old
+player sprite!</p><p>I&rsquo;ve found this to be the most elegant and quick way to solve the issue
+of disconnecting and crashing.</p><p>There are still some problems, though, that I must solve at this time:</p><ul><li><p>If a smartphone goes into standby, the connection is also lost. In
+between games, people usually go for a snack or a drink, and by the
+time they get back they are all disconnected.</p></li><li><p>The first player to connect becomes the VIP. This means that they
+get the button to &ldquo;start the game!&rdquo; or &ldquo;play again!&rdquo; If they
+disconnect &mldr; well, then I need some way to transfer that VIP to
+someone else.</p></li><li><p>What if a player simply wants to <em>leave</em> instead of reconnect?</p></li></ul><p>It&rsquo;s my experience that gracefully dealing with disconnects and crashes
+is a never-ending story, that&rsquo;s why I write this bit even though not all
+problems are resolved. They will never all be resolved :p</p><h2 id=conclusion>Conclusion</h2><p>Hopefully you now have an idea of the pros and cons of this system, and
+how to make it all work smoothly.</p><p>You also know how to setup the connections, the game, how to send and
+receive data, and how to properly act on that data.</p><p>I could leave you here and you could create your own peer-to-peer games!</p><p>(In fact, if that&rsquo;s what you came to do, you can leave now and make your
+dream project!)</p><p>There are some parts of &ldquo;Pizza Peers&rdquo;, however, that I find too
+interesting not to share. I&rsquo;m talking about the algorithms I used to
+randomly generate cities and kitchens. They are quite simple and naïve
+approaches, but they worked wonderfully (to my surprise).</p><p>I also have some things to say about Pixel Art (this is my first attempt
+at creating a pixel art game) and other aspects of game development in
+general.</p><p>So, see you in the next (and probably final) article!</p></div></article><div><nav class=pagination><ul><li><a href=/blog/videogames/the-peerful-project/pizza-peers/devlog-pizza-peers/5-player-interface/ class="masked-link big-mask mask-6" style=--rotation:0.5deg>&lt;&lt; Previous Page</a></li><li>Continue reading</li><li><a href=/blog/videogames/the-peerful-project/pizza-peers/devlog-pizza-peers/7-random-city-and-room-generation/ class="masked-link big-mask mask-2" style=--rotation:-1.5deg>>> Next Page</a></li></ul></nav></div></main><footer id=site-footer><div class="padding center-block"><h3>More Pandaqi</h3><p>You could <a href=https://pandaqi.com>visit the game studio</a>.
+Or my <a href=https://pandaqi.com/tutorials/>free tutorial website</a>.
+Or my <a href=https://rodepanda.com/>portfolio</a> with easy access to absolutely everything I ever made.</p><h3>Latest</h3><nav class=latest><ul><li><a href=/blog/boardgames/kingseat/>Kingseat
+(👑)</a></li><li><a href=/blog/boardgames/foldigami/>Foldigami
+(📃)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-the-big-typescript-update/>Pandaqi Games: The Big Typescript Update
+(🎮)</a></li><li><a href=/blog/boardgames/sixpack/>Sixpack
+(🃏)</a></li><li><a href=/blog/boardgames/photomone-antsassins/>Photomone: Antsassins
+(🐜)</a></li><li><a href=/blog/boardgames/photomone-digital-antists/>Photomone: Digital Antists
+(🐜)</a></li><li><a href=/blog/boardgames/photomone/>Photomone
+(🐜)</a></li><li><a href=/blog/boardgames/keebble-domino/>Keebble: Domino
+(📗)</a></li><li><a href=/blog/boardgames/keebble-knickknack/>Keebble: Knickknack
+(📘)</a></li><li><a href=/blog/videogames/game-jams/less-is-store/>Less is Store
+(🛍️)</a></li></ul></nav><h3>Sections</h3><nav><ul><li><a href=/blog/boardgames/>Boardgames
+(🎲)</a></li><li><a href=/blog/news-and-updates/>News & Updates
+(📢)</a></li><li><a href=/blog/reviews-and-thoughts/>Reviews & Thoughts
+(💭)</a></li><li><a href=/blog/tutorials/>Tutorials
+(👩‍🎓)</a></li><li><a href=/blog/videogames/>Videogames
+(🎮)</a></li></ul></nav><h3>Credits</h3><p>Theme by me (<a href=https://pandaqi.com>Pandaqi</a> 🐼) &#183;
+with ❤️ &#183;
+using <a href=https://gohugo.io>Hugo</a> &#183;
+&copy; 2018&ndash;2023 Pandaqi Blog</p></div></footer><link rel=stylesheet type=text/css href=/blog/css/style.css><script src=/blog/js/bundle.min.js></script></body></html>

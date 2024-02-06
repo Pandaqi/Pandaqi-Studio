@@ -1,0 +1,281 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><title>Unstable Universe (Part 2) | Pandaqi Blog</title><link rel=icon type=image/png href=https://pandaqi.com/blog//favicon.png><link rel=stylesheet type=text/css href=/blog/css/critical.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin></head><body><header id=site-header><nav class=menu><ul><li><a href=https://pandaqi.com/blog/ class="masked-link big-mask mask-8" style=--rotation:-1.5deg>Home</a></li><li><a href=/blog/boardgames/ class="masked-link big-mask mask-3" style=--rotation:-0.5deg>Boardgames</a></li><li><a href=/blog/news-and-updates/ class="masked-link big-mask mask-7" style=--rotation:1.5deg>News & Updates</a></li><li><a href=/blog/reviews-and-thoughts/ class="masked-link big-mask mask-8" style=--rotation:2deg>Reviews & Thoughts</a></li><li><a href=/blog/tutorials/ class="masked-link big-mask mask-5" style=--rotation:-1.5deg>Tutorials</a></li><li><a href=/blog/videogames/ class="masked-link big-mask mask-1" style=--rotation:1.5deg>Videogames</a></li></ul></nav></header><main class="padding center-block"><article class=single-article><div class=thumbnail-media><figure class=thumb-image><picture><img src=../../unstable-universe-header.webp loading=lazy decoding=async alt="Thumbnail / Header for article: Unstable Universe (Part 2)" title="Thumbnail / Header for article: Unstable Universe (Part 2)" width=2481 height=877></picture></figure></div><h1>Unstable Universe (Part 2)</h1><aside class=metadata><nav class=breadcrumbs><span class=metadata-label><span class=emoji>🥐</span> Breadcrumbs ||</span>
+<a href=https://pandaqi.com/blog/>Home</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/>Boardgames</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/unstable-universe/>Unstable universe</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/unstable-universe/tech-devlog-unstable-universe/>Tech devlog unstable universe</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/unstable-universe/tech-devlog-unstable-universe/unstable-universe-part-2/>Unstable universe part 2</a></nav><script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/pandaqi.com\/blog\/","name":"home"}},{"@type":"ListItem","position":2,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/","name":"boardgames"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/unstable-universe\/","name":"unstable-universe"}},{"@type":"ListItem","position":4,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/unstable-universe\/tech-devlog-unstable-universe\/","name":"tech-devlog-unstable-universe"}},{"@type":"ListItem","position":5,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/unstable-universe\/tech-devlog-unstable-universe\/unstable-universe-part-2\/","name":"unstable-universe-part-2"}}]}</script><div><span class=metadata-label><span class=emoji>&#8987;</span> Published ||</span>
+<time datetime=2020-10-11T10:00:00>Sunday, Oct 11, 2020</time></div><nav class=tags><span class=metadata-label><span class=emoji>🎗</span> Tags ||</span><ul><li><a href=https://pandaqi.com/blog/tags/technical-devlog>technical devlog</a></li></ul></nav><div><span class=metadata-label><span class=emoji>📖</span> Table of Contents ||</span>
+<a href=# id=toc-toggle>Show</a></div></aside><aside id=table-of-contents class=masked-link-block><header><h2>Table of Contents</h2></header><nav id=TableOfContents><ul><li><a href=#step-5-determine-all-other-nodes>Step 5: Determine all other nodes</a></li><li><a href=#step-6-placing-power-dots>Step 6: Placing Power Dots</a></li><li><a href=#step-7-polishing--visuals>Step 7: Polishing & Visuals!</a></li><li><a href=#conclusion-for-now>Conclusion (for now)</a></li></ul></nav></aside><div><p>Welcome to part 2 of the technical devlog.</p><p>Haven&rsquo;t read the other entries? Go to the <a href=../>devlog overview</a>.</p><h2 id=step-5-determine-all-other-nodes>Step 5: Determine all other nodes</h2><p>This is the big one.</p><p>For each game, I needed:</p><ul><li><p>A diverse set of node types (e.g. each different action type must
+appear at least once)</p></li><li><p>Following certain requirements (e.g. node X must appear at least 3
+times)</p></li><li><p>Placed at proper locations on the board (e.g. harder nodes must be
+placed more towards the center)</p></li></ul><p><strong>Step 1:</strong> determine the nodes we&rsquo;ll use. This is only activated if you
+have <em>expansions</em> enabled, because then the computer needs to choose a
+subset out of a large number of nodes. I&rsquo;ll elaborate on this later.</p><p><strong>Step 2:</strong> create the full list of nodes <em>beforehand</em>. That&rsquo;s usually
+the best way to go with random generation. Ensure that each type is
+considered at least once, then fill the list randomly until it&rsquo;s equal
+to the number of nodes on the board.</p><p>I ended up with these special settings that each node could have:</p><ul><li><p><strong>Prob:</strong> probability of drawing this node (required).</p></li><li><p><strong>Min:</strong> when this node is selected, it is immediately added to the
+list &ldquo;min&rdquo; times.</p></li><li><p><strong>Max:</strong> whenever this node is placed, we count how many already
+exist. If we&rsquo;ve reached the maximum, we remove the node from the
+options (so it&rsquo;s never placed again).</p></li><li><p><strong>MinDistanceFromEdge:</strong> self-explanatory.</p></li><li><p><strong>MaxDistanceFromEdge:</strong> self-explanatory.</p></li><li><p><strong>MaxSequence:</strong> how many of this type may be <em>in sequence</em>. Having
+nodes in sequence is usually boring or overpowered, and makes the
+board unbalanced (because all the nodes of type X are all in the
+same corner). By default, only two are allowed in sequence, with
+many nodes going down to 1. I&rsquo;ll explain the code below.</p></li></ul><p><strong>Remark:</strong> Nodes such as &ldquo;Critters&rdquo; require you to collect X nodes of a
+different type before you&rsquo;re allowed to pass them. They are (near)
+impossible to pass if you reach them early in the game, so that&rsquo;s why I
+introduced the &ldquo;minDistanceFromEdge&rdquo; => to place these away from the
+starting nodes. (To <em>ensure</em> this very rarely happens I even added an
+extra constraint in the code: don&rsquo;t allow nodes with a number on them
+right after a starting node.)</p><p>Whenever you need to find all nodes that share something (they are in
+sequence, they are connected, whatever), but you have no clue how many
+there are or where they are, your best bet is usually a <strong>recursive
+function</strong>.</p><p>To check if a certain node placement would create too many identical
+nodes in sequence, I execute this function:</p><ul><li><p>Add the node to a shared list and mark it as &ldquo;visited&rdquo;.</p></li><li><p>Go through all connections.</p><ul><li>If the connection has the same type as us, call this function
+again, but on <em>that</em> node.</li></ul></li></ul><p>The code for this particular part looks as follows:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-Javascript data-lang=Javascript><span class=line><span class=ln> 1</span><span class=cl><span class=c1>//
+</span></span></span><span class=line><span class=ln> 2</span><span class=cl><span class=c1>// somewhere else, where we check if a node is allowed
+</span></span></span><span class=line><span class=ln> 3</span><span class=cl><span class=c1>//
+</span></span></span><span class=line><span class=ln> 4</span><span class=cl><span class=c1></span><span class=kd>var</span> <span class=nx>sequenceLength</span> <span class=o>=</span> <span class=k>this</span><span class=p>.</span><span class=nx>checkSequenceRecursive</span><span class=p>(</span><span class=nx>p</span><span class=p>,</span> <span class=nx>type</span><span class=p>);</span>
+</span></span><span class=line><span class=ln> 5</span><span class=cl><span class=k>if</span><span class=p>(</span><span class=nx>sequenceLength</span> <span class=o>&gt;</span> <span class=nx>maxSequence</span><span class=p>)</span> <span class=p>{</span> <span class=k>return</span> <span class=kc>false</span><span class=p>;</span> <span class=p>}</span>
+</span></span><span class=line><span class=ln> 6</span><span class=cl>
+</span></span><span class=line><span class=ln> 7</span><span class=cl>
+</span></span><span class=line><span class=ln> 8</span><span class=cl><span class=c1>//
+</span></span></span><span class=line><span class=ln> 9</span><span class=cl><span class=c1>// the big function
+</span></span></span><span class=line><span class=ln>10</span><span class=cl><span class=c1>//
+</span></span></span><span class=line><span class=ln>11</span><span class=cl><span class=c1></span><span class=kd>function</span> <span class=nx>checkSequenceRecursive</span><span class=p>(</span><span class=nx>p</span><span class=p>,</span> <span class=nx>type</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>12</span><span class=cl>  <span class=kd>var</span> <span class=nx>sequenceSums</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span> <span class=c1>// also take into account the node itself
+</span></span></span><span class=line><span class=ln>13</span><span class=cl><span class=c1></span>  <span class=nx>p</span><span class=p>.</span><span class=nx>sequenceCounter</span> <span class=o>=</span> <span class=k>this</span><span class=p>.</span><span class=nx>curSequence</span> <span class=o>+</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>14</span><span class=cl>
+</span></span><span class=line><span class=ln>15</span><span class=cl>  <span class=k>for</span><span class=p>(</span><span class=kd>var</span> <span class=nx>c</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>c</span> <span class=o>&lt;</span> <span class=nx>p</span><span class=p>.</span><span class=nx>connections</span><span class=p>.</span><span class=nx>length</span><span class=p>;</span> <span class=nx>c</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>16</span><span class=cl>    <span class=kd>var</span> <span class=nx>conn</span> <span class=o>=</span> <span class=nx>p</span><span class=p>.</span><span class=nx>connections</span><span class=p>[</span><span class=nx>c</span><span class=p>];</span>
+</span></span><span class=line><span class=ln>17</span><span class=cl>    
+</span></span><span class=line><span class=ln>18</span><span class=cl>    <span class=c1>// node is the wrong type, or already checked? Continue!
+</span></span></span><span class=line><span class=ln>19</span><span class=cl><span class=c1></span>    <span class=k>if</span><span class=p>(</span><span class=nx>conn</span><span class=p>.</span><span class=nx>type</span> <span class=o>!=</span> <span class=nx>type</span> <span class=o>||</span> <span class=nx>conn</span><span class=p>.</span><span class=nx>sequenceCounter</span> <span class=o>&gt;</span> <span class=k>this</span><span class=p>.</span><span class=nx>curSequence</span><span class=p>)</span> <span class=p>{</span> <span class=k>continue</span><span class=p>;</span> <span class=p>}</span>
+</span></span><span class=line><span class=ln>20</span><span class=cl>
+</span></span><span class=line><span class=ln>21</span><span class=cl>    <span class=c1>// otherwise, this node extends the sequence, so call this function again on THAT node
+</span></span></span><span class=line><span class=ln>22</span><span class=cl><span class=c1></span>    <span class=nx>sequenceSums</span> <span class=o>+=</span> <span class=k>this</span><span class=p>.</span><span class=nx>checkSequenceRecursive</span><span class=p>(</span><span class=nx>conn</span><span class=p>,</span> <span class=nx>type</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>23</span><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=ln>24</span><span class=cl>
+</span></span><span class=line><span class=ln>25</span><span class=cl>  <span class=k>return</span> <span class=nx>sequenceSums</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>26</span><span class=cl><span class=p>}</span></span></span></code></pre></div><p><strong>Remark:</strong> I use a trick to make this faster. Normally, you&rsquo;d go
+through <em>all</em> nodes and mark them &ldquo;unvisited&rdquo; before running such an
+algorithm, but I found that slow. I keep a global counter that increases
+every time this algorithm is run. If a node&rsquo;s sequenceCounter is
+<em>smaller than</em> the global one, it means it hasn&rsquo;t been considered for
+this algorithm yet!</p><p>(See the main code for the game for all the finer details.)</p><p><strong>Step 3:</strong> go through all the nodes and assign their type: pick the
+first type in the list, remove it from the list and give it to the node.</p><p>However, a node&rsquo;s special settings might forbid placing this type here.
+If that&rsquo;s the case, we <strong>temporarily</strong> skip it and try the next one on
+the list. Repeat until we find a matching type. (If we find nothing that
+fits, the algorithm begrudgingly assigns a random type from the list.)</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-Javascript data-lang=Javascript><span class=line><span class=ln> 1</span><span class=cl><span class=kd>function</span> <span class=nx>determineNodeTypes</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln> 2</span><span class=cl>  <span class=c1>// now go through all points 
+</span></span></span><span class=line><span class=ln> 3</span><span class=cl><span class=c1></span>  <span class=kd>var</span> <span class=nx>nodeTypes</span> <span class=o>=</span> <span class=p>[];</span> <span class=c1>// ACTUALLY a list with all the nodes we actually want to place; explained later
+</span></span></span><span class=line><span class=ln> 4</span><span class=cl><span class=c1></span>  <span class=kd>var</span> <span class=nx>nodeCounter</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=ln> 5</span><span class=cl>  <span class=k>for</span><span class=p>(</span><span class=kd>var</span> <span class=nx>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>i</span> <span class=o>&lt;</span> <span class=k>this</span><span class=p>.</span><span class=nx>points</span><span class=p>.</span><span class=nx>length</span><span class=p>;</span> <span class=nx>i</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln> 6</span><span class=cl>    <span class=kd>var</span> <span class=nx>p</span> <span class=o>=</span> <span class=k>this</span><span class=p>.</span><span class=nx>points</span><span class=p>[</span><span class=nx>i</span><span class=p>];</span>
+</span></span><span class=line><span class=ln> 7</span><span class=cl>
+</span></span><span class=line><span class=ln> 8</span><span class=cl>    <span class=c1>// (only update those that haven&#39;t yet been updated, otherwise we override center node and mission nodes)
+</span></span></span><span class=line><span class=ln> 9</span><span class=cl><span class=c1></span>    <span class=k>if</span><span class=p>(</span><span class=nx>p</span><span class=p>.</span><span class=nx>type</span> <span class=o>!=</span> <span class=s1>&#39;Regular&#39;</span><span class=p>)</span> <span class=p>{</span> <span class=k>continue</span><span class=p>;</span> <span class=p>}</span>
+</span></span><span class=line><span class=ln>10</span><span class=cl>
+</span></span><span class=line><span class=ln>11</span><span class=cl>    <span class=c1>// as long as we encounter nodes that are not allowed, try the next point type on the list
+</span></span></span><span class=line><span class=ln>12</span><span class=cl><span class=c1></span>    <span class=c1>// (if we&#39;ve exhausted the whole list, reset to 0 and just pick that anyway)
+</span></span></span><span class=line><span class=ln>13</span><span class=cl><span class=c1></span>    <span class=kd>var</span> <span class=nx>nodeAllowed</span> <span class=o>=</span> <span class=kc>false</span><span class=p>,</span> <span class=nx>counter</span> <span class=o>=</span> <span class=o>-</span><span class=mi>1</span><span class=p>,</span> <span class=nx>tempType</span> <span class=o>=</span> <span class=kc>null</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>14</span><span class=cl>    <span class=k>do</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>15</span><span class=cl>      <span class=nx>counter</span><span class=o>++</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>16</span><span class=cl>
+</span></span><span class=line><span class=ln>17</span><span class=cl>      <span class=k>if</span><span class=p>(</span><span class=nx>counter</span> <span class=o>&gt;=</span> <span class=nx>nodeTypes</span><span class=p>.</span><span class=nx>length</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>18</span><span class=cl>        <span class=nx>tempType</span> <span class=o>=</span> <span class=nx>nodeTypes</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span>
+</span></span><span class=line><span class=ln>19</span><span class=cl>        <span class=k>break</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>20</span><span class=cl>      <span class=p>}</span>
+</span></span><span class=line><span class=ln>21</span><span class=cl>
+</span></span><span class=line><span class=ln>22</span><span class=cl>      <span class=nx>tempType</span> <span class=o>=</span> <span class=nx>nodeTypes</span><span class=p>[</span><span class=nx>counter</span><span class=p>]</span>
+</span></span><span class=line><span class=ln>23</span><span class=cl>      <span class=nx>nodeAllowed</span> <span class=o>=</span> <span class=k>this</span><span class=p>.</span><span class=nx>checkIfNodeAllowed</span><span class=p>(</span><span class=nx>p</span><span class=p>,</span> <span class=nx>tempType</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>24</span><span class=cl>    <span class=p>}</span> <span class=k>while</span><span class=p>(</span><span class=o>!</span><span class=nx>nodeAllowed</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>25</span><span class=cl>
+</span></span><span class=line><span class=ln>26</span><span class=cl>    <span class=nx>p</span><span class=p>.</span><span class=nx>type</span> <span class=o>=</span> <span class=nx>tempType</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>27</span><span class=cl>    <span class=nx>nodeTypes</span><span class=p>.</span><span class=nx>splice</span><span class=p>(</span><span class=nx>counter</span><span class=p>,</span> <span class=mi>1</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>28</span><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=ln>29</span><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=ln>30</span><span class=cl> 
+</span></span><span class=line><span class=ln>31</span><span class=cl><span class=kd>function</span> <span class=nx>checkIfNodeAllowed</span><span class=p>(</span><span class=nx>p</span><span class=p>,</span> <span class=nx>type</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>32</span><span class=cl>  <span class=c1>// this is the huge dictionary that holds all node types (key = node name, value = data about it)
+</span></span></span><span class=line><span class=ln>33</span><span class=cl><span class=c1></span>  <span class=kd>var</span> <span class=nx>nodeData</span> <span class=o>=</span> <span class=nx>NODES</span><span class=p>[</span><span class=nx>type</span><span class=p>]</span>
+</span></span><span class=line><span class=ln>34</span><span class=cl>
+</span></span><span class=line><span class=ln>35</span><span class=cl>  <span class=c1>//
+</span></span></span><span class=line><span class=ln>36</span><span class=cl><span class=c1></span>  <span class=c1>// some nodes are not allowed at the edge
+</span></span></span><span class=line><span class=ln>37</span><span class=cl><span class=c1></span>  <span class=c1>//
+</span></span></span><span class=line><span class=ln>38</span><span class=cl><span class=c1></span>  <span class=k>if</span><span class=p>(</span><span class=nx>p</span><span class=p>.</span><span class=nx>edgePoint</span> <span class=o>&amp;&amp;</span> <span class=nx>nodeData</span><span class=p>.</span><span class=nx>forbiddenOnEdge</span><span class=p>)</span> <span class=p>{</span> <span class=k>return</span> <span class=kc>false</span><span class=p>;</span> <span class=p>}</span>
+</span></span><span class=line><span class=ln>39</span><span class=cl>
+</span></span><span class=line><span class=ln>40</span><span class=cl>  <span class=c1>//
+</span></span></span><span class=line><span class=ln>41</span><span class=cl><span class=c1></span>  <span class=c1>// some nodes have a fixed minimum distance from the edge
+</span></span></span><span class=line><span class=ln>42</span><span class=cl><span class=c1></span>  <span class=c1>//
+</span></span></span><span class=line><span class=ln>43</span><span class=cl><span class=c1></span>  <span class=kd>var</span> <span class=nx>minDistance</span> <span class=o>=</span> <span class=nx>nodeData</span><span class=p>.</span><span class=nx>minDistanceFromEdge</span> <span class=o>||</span> <span class=o>-</span><span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>44</span><span class=cl>  <span class=k>if</span><span class=p>(</span><span class=k>this</span><span class=p>.</span><span class=nx>distanceToEdge</span><span class=p>(</span><span class=nx>p</span><span class=p>)</span> <span class=o>&lt;=</span> <span class=nx>minDistance</span><span class=p>)</span> <span class=p>{</span> <span class=k>return</span> <span class=kc>false</span><span class=p>;</span> <span class=p>}</span>
+</span></span><span class=line><span class=ln>45</span><span class=cl>
+</span></span><span class=line><span class=ln>46</span><span class=cl>  <span class=c1>//
+</span></span></span><span class=line><span class=ln>47</span><span class=cl><span class=c1></span>  <span class=c1>// and some even have a fixed MAXIMUM distance from the edge
+</span></span></span><span class=line><span class=ln>48</span><span class=cl><span class=c1></span>  <span class=c1>// (such as water, because I don&#39;t want people teleporting to the center of the board)
+</span></span></span><span class=line><span class=ln>49</span><span class=cl><span class=c1></span>  <span class=c1>//
+</span></span></span><span class=line><span class=ln>50</span><span class=cl><span class=c1></span>  <span class=kd>var</span> <span class=nx>maxDistanceFromEdge</span> <span class=o>=</span> <span class=nx>nodeData</span><span class=p>.</span><span class=nx>maxDistanceFromEdge</span> <span class=o>||</span> <span class=kc>Infinity</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>51</span><span class=cl>  <span class=k>if</span><span class=p>(</span><span class=k>this</span><span class=p>.</span><span class=nx>distanceToEdge</span><span class=p>(</span><span class=nx>p</span><span class=p>)</span> <span class=o>&gt;</span> <span class=nx>maxDistanceFromEdge</span><span class=p>)</span> <span class=p>{</span> <span class=k>return</span> <span class=kc>false</span><span class=p>;</span> <span class=p>}</span>
+</span></span><span class=line><span class=ln>52</span><span class=cl>
+</span></span><span class=line><span class=ln>53</span><span class=cl>
+</span></span><span class=line><span class=ln>54</span><span class=cl>  <span class=c1>//
+</span></span></span><span class=line><span class=ln>55</span><span class=cl><span class=c1></span>  <span class=c1>// many nodes have a maximum on the number of them that may be &#34;in sequence&#34; ( = grouped together)
+</span></span></span><span class=line><span class=ln>56</span><span class=cl><span class=c1></span>  <span class=c1>//
+</span></span></span><span class=line><span class=ln>57</span><span class=cl><span class=c1></span>  <span class=kd>var</span> <span class=nx>maxSequence</span> <span class=o>=</span> <span class=nx>nodeData</span><span class=p>.</span><span class=nx>maxSequence</span> <span class=o>||</span> <span class=mi>2</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>58</span><span class=cl>
+</span></span><span class=line><span class=ln>59</span><span class=cl>  <span class=k>this</span><span class=p>.</span><span class=nx>curSequence</span><span class=o>++</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>60</span><span class=cl>  <span class=kd>var</span> <span class=nx>sequenceLength</span> <span class=o>=</span> <span class=k>this</span><span class=p>.</span><span class=nx>checkSequenceRecursive</span><span class=p>(</span><span class=nx>p</span><span class=p>,</span> <span class=nx>type</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>61</span><span class=cl>  <span class=k>if</span><span class=p>(</span><span class=nx>sequenceLength</span> <span class=o>&gt;</span> <span class=nx>maxSequence</span><span class=p>)</span> <span class=p>{</span> <span class=k>return</span> <span class=kc>false</span><span class=p>;</span> <span class=p>}</span>
+</span></span><span class=line><span class=ln>62</span><span class=cl>
+</span></span><span class=line><span class=ln>63</span><span class=cl>  <span class=c1>//
+</span></span></span><span class=line><span class=ln>64</span><span class=cl><span class=c1></span>  <span class=c1>// a node with a number is NOT allowed right after a starting node
+</span></span></span><span class=line><span class=ln>65</span><span class=cl><span class=c1></span>  <span class=c1>//
+</span></span></span><span class=line><span class=ln>66</span><span class=cl><span class=c1></span>  <span class=k>if</span><span class=p>(</span><span class=nx>nodeData</span><span class=p>.</span><span class=nx>needsNumber</span> <span class=o>&amp;&amp;</span> <span class=k>this</span><span class=p>.</span><span class=nx>connectedToStartingSquare</span><span class=p>(</span><span class=nx>p</span><span class=p>))</span> <span class=p>{</span> <span class=k>return</span> <span class=kc>false</span><span class=p>;</span> <span class=p>}</span>
+</span></span><span class=line><span class=ln>67</span><span class=cl>
+</span></span><span class=line><span class=ln>68</span><span class=cl>  <span class=k>return</span> <span class=kc>true</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>69</span><span class=cl><span class=p>}</span></span></span></code></pre></div><p>Here&rsquo;s the closest image I have of the board at this point in development. Notice how elements are evenly spread out and varied across the board:</p><p><figure class=inline-image><picture><img src=uu-4.webp loading=lazy decoding=async alt="Determining node types, following restrictions (old board)" title="Determining node types, following restrictions (old board)" width=1128 height=798></picture><figcaption class=side-note><span>Determining node types, following restrictions (old board)</span></figcaption></figure></p><h2 id=step-6-placing-power-dots>Step 6: Placing Power Dots</h2><p>The concept of &ldquo;Power Dots&rdquo; is actually the thing that holds this whole
+game together.</p><p>If you allow cutting into the game board, there&rsquo;s going to be a ton of
+<em>imprecision</em>. When is a node &ldquo;destroyed&rdquo; or &ldquo;cut off&rdquo;? When only half
+of it is visible? When it&rsquo;s completely gone? When it&rsquo;s been cut at least
+one time?</p><p>There were no satisfying answers to this question, until I realized that
+the node <em>itself</em> wasn&rsquo;t important. The <em>edges</em> were important.</p><p>And so I invented the idea of power dots: these are placed <em>around</em> a
+node, in the space between edges. (If possible, the board tries to make
+sure they never overlap.) If such a dot is cut off &ndash; which is a clear
+yes/no answer &ndash; it&rsquo;s lost. You only own a node as long as you own one
+of its power dots.</p><p>The power dots are the small (semi-)circles around each node:</p><p><figure class=inline-image><picture><img src=uu-5.webp loading=lazy decoding=async alt="Power dots pointed out on board" title="Power dots pointed out on board" width=1128 height=798></picture><figcaption class=side-note><span>Power dots pointed out on board</span></figcaption></figure></p><p>Finding a good placement algorithm took a few tries, but I eventually
+settled on the following:</p><ul><li><p>Determine the <em>angle</em> of all the edges (of this particular node).</p></li><li><p>Repeat until we find a fitting location:</p><ul><li><p>Pick a random edge. Check the angle between this one and the
+next one.</p></li><li><p>If the angle is large enough, we should be able to <em>fit</em> a power
+dot between them.</p></li><li><p>Place it randomly within the available space.</p></li><li><p>(From now on, &ldquo;pretend&rdquo; the new power dot is also an edge, so we
+don&rsquo;t get overlapping power dots.)</p></li></ul></li></ul><p>We repeat this algorithm as many times as we need power dots. (On higher
+player counts, there are more power dots around each node on average.)</p><p>The loop also terminates once we&rsquo;ve <em>exhausted all possible angles</em>.
+This simply means that we&rsquo;ve checked the space between every edge in our
+list and the next one, and found no space large enough. (It would be
+unwise to wait until literally <em>all angles</em> have been tried, because
+there are infinitely many of them.)</p><p>This is the code:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-Javascript data-lang=Javascript><span class=line><span class=ln> 1</span><span class=cl><span class=kd>function</span> <span class=nx>placePowerDots</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln> 2</span><span class=cl>  <span class=kr>const</span> <span class=nx>powerDotRadius</span><span class=p>;</span> <span class=c1>// size of power dots; depends on, well, whatever you decide to set it to
+</span></span></span><span class=line><span class=ln> 3</span><span class=cl><span class=c1></span>  <span class=kd>var</span> <span class=nx>minPD</span><span class=p>,</span> <span class=nx>maxPD</span> <span class=c1>// minimum and maximum number of power dots; depends on player count
+</span></span></span><span class=line><span class=ln> 4</span><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=ln> 5</span><span class=cl>  <span class=kd>var</span> <span class=nx>tempNumPowerDots</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=ln> 6</span><span class=cl>  <span class=k>for</span><span class=p>(</span><span class=kd>var</span> <span class=nx>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>i</span> <span class=o>&lt;</span> <span class=k>this</span><span class=p>.</span><span class=nx>points</span><span class=p>.</span><span class=nx>length</span><span class=p>;</span> <span class=nx>i</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln> 7</span><span class=cl>    <span class=kd>var</span> <span class=nx>p</span> <span class=o>=</span> <span class=k>this</span><span class=p>.</span><span class=nx>points</span><span class=p>[</span><span class=nx>i</span><span class=p>];</span>
+</span></span><span class=line><span class=ln> 8</span><span class=cl>    <span class=nx>p</span><span class=p>.</span><span class=nx>powerDots</span> <span class=o>=</span> <span class=p>[];</span>
+</span></span><span class=line><span class=ln> 9</span><span class=cl>
+</span></span><span class=line><span class=ln>10</span><span class=cl>    <span class=nx>tempNumPowerDots</span> <span class=o>=</span> <span class=nb>Math</span><span class=p>.</span><span class=nx>floor</span><span class=p>(</span><span class=nb>Math</span><span class=p>.</span><span class=nx>random</span><span class=p>()</span><span class=o>*</span><span class=p>(</span><span class=nx>maxPD</span> <span class=o>-</span> <span class=nx>minPD</span> <span class=o>+</span> <span class=mi>1</span><span class=p>))</span> <span class=o>+</span> <span class=nx>minPD</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>11</span><span class=cl>
+</span></span><span class=line><span class=ln>12</span><span class=cl>    <span class=c1>// make a COPY of the angles list, because we&#39;re going to be modifying it here, 
+</span></span></span><span class=line><span class=ln>13</span><span class=cl><span class=c1></span>    <span class=c1>// and we don&#39;t want to accidentally modify the original
+</span></span></span><span class=line><span class=ln>14</span><span class=cl><span class=c1></span>    <span class=kd>var</span> <span class=nx>allAngles</span> <span class=o>=</span> <span class=nx>p</span><span class=p>.</span><span class=nx>edgeAngles</span><span class=p>.</span><span class=nx>slice</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>15</span><span class=cl>    
+</span></span><span class=line><span class=ln>16</span><span class=cl>    <span class=c1>// How does it work?
+</span></span></span><span class=line><span class=ln>17</span><span class=cl><span class=c1></span>    <span class=c1>// We pick a random edge and calculate distance to next edge. If that is big enough, we can place the dot somewhere in between
+</span></span></span><span class=line><span class=ln>18</span><span class=cl><span class=c1></span>    <span class=c1>// The dot also counts as an edge, so we add it to allAngles
+</span></span></span><span class=line><span class=ln>19</span><span class=cl><span class=c1></span>    <span class=k>for</span><span class=p>(</span><span class=kd>var</span> <span class=nx>pd</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>pd</span> <span class=o>&lt;</span> <span class=nx>tempNumPowerDots</span><span class=p>;</span> <span class=nx>pd</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>20</span><span class=cl>      <span class=kd>var</span> <span class=nx>curAngleIndex</span> <span class=o>=</span> <span class=nb>Math</span><span class=p>.</span><span class=nx>floor</span><span class=p>(</span><span class=nx>RNG</span><span class=p>()</span> <span class=o>*</span> <span class=nx>allAngles</span><span class=p>.</span><span class=nx>length</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>21</span><span class=cl>      <span class=kd>var</span> <span class=nx>foundFreeSpace</span> <span class=o>=</span> <span class=kc>false</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>22</span><span class=cl>      <span class=kd>var</span> <span class=nx>numTries</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>23</span><span class=cl>
+</span></span><span class=line><span class=ln>24</span><span class=cl>      <span class=nx>allAngles</span><span class=p>.</span><span class=nx>sort</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>25</span><span class=cl>
+</span></span><span class=line><span class=ln>26</span><span class=cl>      <span class=k>do</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>27</span><span class=cl>        <span class=kd>var</span> <span class=nx>ang</span> <span class=o>=</span> <span class=nx>allAngles</span><span class=p>[</span><span class=nx>curAngleIndex</span><span class=p>];</span>
+</span></span><span class=line><span class=ln>28</span><span class=cl>        <span class=kd>var</span> <span class=nx>nextAng</span> <span class=o>=</span> <span class=nx>allAngles</span><span class=p>[(</span><span class=nx>curAngleIndex</span> <span class=o>+</span> <span class=mi>1</span><span class=p>)</span> <span class=o>%</span> <span class=nx>allAngles</span><span class=p>.</span><span class=nx>length</span><span class=p>]</span>
+</span></span><span class=line><span class=ln>29</span><span class=cl>
+</span></span><span class=line><span class=ln>30</span><span class=cl>        <span class=kd>var</span> <span class=nx>spaceBetween</span> <span class=o>=</span> <span class=p>(</span><span class=nx>nextAng</span> <span class=o>-</span> <span class=nx>ang</span> <span class=o>+</span> <span class=mi>2</span><span class=o>*</span><span class=nb>Math</span><span class=p>.</span><span class=nx>PI</span><span class=p>)</span> <span class=o>%</span> <span class=p>(</span><span class=mi>2</span><span class=o>*</span><span class=nb>Math</span><span class=p>.</span><span class=nx>PI</span><span class=p>);</span> 
+</span></span><span class=line><span class=ln>31</span><span class=cl>        <span class=k>if</span><span class=p>(</span><span class=nx>ang</span> <span class=o>==</span> <span class=nx>nextAng</span><span class=p>)</span> <span class=p>{</span> <span class=nx>spaceBetween</span> <span class=o>=</span> <span class=mi>2</span><span class=o>*</span><span class=nb>Math</span><span class=p>.</span><span class=nx>PI</span><span class=p>;</span> <span class=p>}</span>
+</span></span><span class=line><span class=ln>32</span><span class=cl>
+</span></span><span class=line><span class=ln>33</span><span class=cl>        <span class=c1>// yes, enough space! place it in here
+</span></span></span><span class=line><span class=ln>34</span><span class=cl><span class=c1></span>        <span class=kd>var</span> <span class=nx>res</span> <span class=o>=</span> <span class=kc>false</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>35</span><span class=cl>        <span class=k>if</span><span class=p>(</span><span class=nx>spaceBetween</span> <span class=o>&gt;</span> <span class=mi>2</span><span class=o>*</span><span class=nx>powerDotRadius</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>36</span><span class=cl>          <span class=kd>var</span> <span class=nx>randAngle</span> <span class=o>=</span> <span class=nx>ang</span> <span class=o>+</span> <span class=nb>Math</span><span class=p>.</span><span class=nx>random</span><span class=p>()</span> <span class=o>*</span> <span class=p>(</span><span class=nx>spaceBetween</span><span class=o>-</span><span class=mi>2</span><span class=o>*</span><span class=nx>powerDotRadius</span><span class=p>)</span> <span class=o>+</span> <span class=nx>powerDotRadius</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>37</span><span class=cl>
+</span></span><span class=line><span class=ln>38</span><span class=cl>          <span class=kd>var</span> <span class=nx>res</span> <span class=o>=</span> <span class=k>this</span><span class=p>.</span><span class=nx>createPowerDot</span><span class=p>(</span><span class=nx>randAngle</span><span class=p>,</span> <span class=nx>p</span><span class=p>,</span> <span class=nx>allAngles</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>39</span><span class=cl>
+</span></span><span class=line><span class=ln>40</span><span class=cl>          <span class=k>if</span><span class=p>(</span><span class=nx>res</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>41</span><span class=cl>            <span class=nx>foundFreeSpace</span> <span class=o>=</span> <span class=kc>true</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>42</span><span class=cl>            <span class=k>break</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>43</span><span class=cl>          <span class=p>}</span>
+</span></span><span class=line><span class=ln>44</span><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=ln>45</span><span class=cl>
+</span></span><span class=line><span class=ln>46</span><span class=cl>        <span class=c1>// no, not enough space, try again with the next edge!
+</span></span></span><span class=line><span class=ln>47</span><span class=cl><span class=c1></span>        <span class=k>if</span><span class=p>(</span><span class=o>!</span><span class=nx>res</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>48</span><span class=cl>          <span class=nx>curAngleIndex</span> <span class=o>=</span> <span class=p>(</span><span class=nx>curAngleIndex</span> <span class=o>+</span> <span class=mi>1</span><span class=p>)</span> <span class=o>%</span> <span class=nx>allAngles</span><span class=p>.</span><span class=nx>length</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>49</span><span class=cl>          <span class=nx>numTries</span><span class=o>++</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>50</span><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=ln>51</span><span class=cl>
+</span></span><span class=line><span class=ln>52</span><span class=cl>      <span class=c1>// we&#39;re certain there is no free space if we&#39;ve tried all angles we have
+</span></span></span><span class=line><span class=ln>53</span><span class=cl><span class=c1></span>      <span class=p>}</span> <span class=k>while</span><span class=p>(</span><span class=o>!</span><span class=nx>foundFreeSpace</span> <span class=o>&amp;&amp;</span> <span class=nx>numTries</span> <span class=o>&lt;=</span> <span class=nx>allAngles</span><span class=p>.</span><span class=nx>length</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>54</span><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=ln>55</span><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=ln>56</span><span class=cl><span class=p>}</span></span></span></code></pre></div><p>(I&rsquo;ve left out some exceptions in case of nodes at the boundary of the paper - which can&rsquo;t use all angles of course, because some are off the board - or when no power dot could be placed at all. For simplicity&rsquo;s sake.)</p><h2 id=step-7-polishing--visuals>Step 7: Polishing & Visuals!</h2><p>We&rsquo;re almost done! Already!</p><p>You might be thinking that the algorithms for this game aren&rsquo;t that
+difficult at all, despite my claims at the beginning, but that&rsquo;s because
+I only wrote down the end result. I can spend days if not weeks
+pondering how to best solve a problem, trying five different approaches,
+until I find the right one for this game.</p><p>(If you want to read about the failed attempts or early versions, they
+are in the regular devlog. I don&rsquo;t see a point in explaining failed
+algorithms and showing their code in such a technical devlog. I&rsquo;d
+basically be steering readers in the wrong direction all the time.)</p><p><figure class=inline-image><picture><img src=uu-6.webp loading=lazy decoding=async alt="Example of a game board, base game only (no expansions or extras)" title="Example of a game board, base game only (no expansions or extras)" width=1128 height=798></picture><figcaption class=side-note><span>Example of a game board, base game only (no expansions or extras)</span></figcaption></figure></p><p><strong>Finishing Touch #1:</strong> I mentioned that certain nodes, like Critters,
+need a number on them. You need to collect that many nodes of some type
+before you can enter. It&rsquo;s only logical that this number <em>depends</em> on
+how many nodes of that type are even <em>on the board</em>.</p><p>So I count that, divide by the player count (as any player could snatch
+those resources), and divide by <em>distance to the center node</em>. (If
+you&rsquo;re further away, you should have really low numbers, as players
+don&rsquo;t have that many resources yet.)</p><p><strong>Finishing Touch #2:</strong> until this point, I&rsquo;d allowed my game engine
+(Phaser v3) to draw some circles and lines. That looked fine, but was
+too abstract and didn&rsquo;t fit the theme of the game.</p><p>I changed it to the following:</p><ul><li><p>I draw a perfect circle/rectangle for each node and color it
+depending on their type.</p></li><li><p>I also draw a perfect line between the nodes (behind them in the
+visual hierarchy).</p></li><li><p>I drew several <em>rough/sketchy outlines</em> and imported them. They are
+placed around the nodes and rotated randomly for extra sketchiness!</p></li><li><p>Then I placed each node icon inside the circle and rotated that
+randomly as well.</p></li></ul><p>I find this a nice balance: the basic parts of the game are drawn by the
+computer, which makes them &ldquo;perfect&rdquo; and &ldquo;crisp&rdquo; (and saves me a lot of
+time and effort). But the other half, the details and the icons, are
+drawn by me in a looser and more organic style. Combining the two
+strikes a nice balance between readability/clarity and
+playfulness/interestingness (is that even a word?).</p><p><strong>Finishing Touch #3:</strong> one of the more common missions in the game is
+to own (at least) one node in each &ldquo;quadrant&rdquo; of the board ( = top left,
+top right, bottom left, bottom right). As you&rsquo;re playing, people
+commented it was hard to see at a glance where each node was. So I added
+two straight lines through the center node to clearly mark the
+quadrants.</p><p><strong>Finishing Touch #4:</strong> edge nodes didn&rsquo;t have much space for icons. To
+solve this, I offset every edge node 10px from the edge by default,
+giving them some breathing space. (This turned out to be more annoying
+than I thought, because it also messed with other calculations if
+certain nodes were suddenly somewhere else. But I got it working after
+some frustrating hours.)</p><h2 id=conclusion-for-now>Conclusion (for now)</h2><p>And that&rsquo;s it! Those are all the algorithms, code and ideas that went
+into creating a random generator of game boards for <em>Unstable Universe</em>.</p><p>The first <em>cutting</em> boardgame ever made! (As far as I can tell.) The
+boards turned out great, the game is a lot of fun, and there are many
+possibilities with the cutting mechanic that are simply impossible in
+other games. (Think about <em>re-attaching­ parts of the board somewhere
+else</em> or <em>drawing your own edge</em>, which can then be moved over or cut.)</p><p>But for all those thoughts and comments, visit the regular devlog!</p><p>I always leave out the finer details, the exceptions, the failed
+attempts, etcetera. So don&rsquo;t think that I did all this in one go,
+finishing this whole system in a single afternoon. Certainly not, it
+took months! (I also worked on many other things at the same time, but
+still.)</p><p>Why do I say this? Because I used to be discouraged, when I was younger,
+whenever I saw an artist create something cool or brilliant and
+pretending they did it in a day. Without any effort, or failed attempts,
+or doubts. I especially hate it when they don&rsquo;t explain <em>why</em> they do
+something. With these devlogs, I try to give inspiration and explain how
+to solve certain problems, without going too much into the details.</p><p>That said, there are still some expansions that we need to talk about!</p></div></article><div><nav class=pagination><ul><li><a href=/blog/boardgames/unstable-universe/tech-devlog-unstable-universe/unstable-universe-part-1/ class="masked-link big-mask mask-1" style=--rotation:1deg>&lt;&lt; Previous Page</a></li><li>Continue reading</li><li><a href=/blog/boardgames/unstable-universe/tech-devlog-unstable-universe/unstable-universe-part-3/ class="masked-link big-mask mask-4" style=--rotation:2deg>>> Next Page</a></li></ul></nav></div></main><footer id=site-footer><div class="padding center-block"><h3>More Pandaqi</h3><p>You could <a href=https://pandaqi.com>visit the game studio</a>.
+Or my <a href=https://pandaqi.com/tutorials/>free tutorial website</a>.
+Or my <a href=https://rodepanda.com/>portfolio</a> with easy access to absolutely everything I ever made.</p><h3>Latest</h3><nav class=latest><ul><li><a href=/blog/boardgames/kingseat/>Kingseat
+(👑)</a></li><li><a href=/blog/boardgames/foldigami/>Foldigami
+(📃)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-the-big-typescript-update/>Pandaqi Games: The Big Typescript Update
+(🎮)</a></li><li><a href=/blog/boardgames/sixpack/>Sixpack
+(🃏)</a></li><li><a href=/blog/boardgames/photomone-antsassins/>Photomone: Antsassins
+(🐜)</a></li><li><a href=/blog/boardgames/photomone-digital-antists/>Photomone: Digital Antists
+(🐜)</a></li><li><a href=/blog/boardgames/photomone/>Photomone
+(🐜)</a></li><li><a href=/blog/boardgames/keebble-domino/>Keebble: Domino
+(📗)</a></li><li><a href=/blog/boardgames/keebble-knickknack/>Keebble: Knickknack
+(📘)</a></li><li><a href=/blog/videogames/game-jams/less-is-store/>Less is Store
+(🛍️)</a></li></ul></nav><h3>Sections</h3><nav><ul><li><a href=/blog/boardgames/>Boardgames
+(🎲)</a></li><li><a href=/blog/news-and-updates/>News & Updates
+(📢)</a></li><li><a href=/blog/reviews-and-thoughts/>Reviews & Thoughts
+(💭)</a></li><li><a href=/blog/tutorials/>Tutorials
+(👩‍🎓)</a></li><li><a href=/blog/videogames/>Videogames
+(🎮)</a></li></ul></nav><h3>Credits</h3><p>Theme by me (<a href=https://pandaqi.com>Pandaqi</a> 🐼) &#183;
+with ❤️ &#183;
+using <a href=https://gohugo.io>Hugo</a> &#183;
+&copy; 2018&ndash;2023 Pandaqi Blog</p></div></footer><link rel=stylesheet type=text/css href=/blog/css/style.css><script src=/blog/js/bundle.min.js></script></body></html>

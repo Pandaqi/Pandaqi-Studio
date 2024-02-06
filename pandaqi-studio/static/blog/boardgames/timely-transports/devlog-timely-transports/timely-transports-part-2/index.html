@@ -1,0 +1,163 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><title>Timely Transports (Part 2) | Pandaqi Blog</title><link rel=icon type=image/png href=https://pandaqi.com/blog//favicon.png><link rel=stylesheet type=text/css href=/blog/css/critical.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin></head><body><header id=site-header><nav class=menu><ul><li><a href=https://pandaqi.com/blog/ class="masked-link big-mask mask-4" style=--rotation:2deg>Home</a></li><li><a href=/blog/boardgames/ class="masked-link big-mask mask-6" style=--rotation:0.5deg>Boardgames</a></li><li><a href=/blog/news-and-updates/ class="masked-link big-mask mask-8" style=--rotation:-1deg>News & Updates</a></li><li><a href=/blog/reviews-and-thoughts/ class="masked-link big-mask mask-3" style=--rotation:-1deg>Reviews & Thoughts</a></li><li><a href=/blog/tutorials/ class="masked-link big-mask mask-8" style=--rotation:-1.5deg>Tutorials</a></li><li><a href=/blog/videogames/ class="masked-link big-mask mask-4" style=--rotation:1.5deg>Videogames</a></li></ul></nav></header><main class="padding center-block"><article class=single-article><div class=thumbnail-media><figure class=thumb-image><picture><img src=../../timely-transports-header.webp loading=lazy decoding=async alt="Thumbnail / Header for article: Timely Transports (Part 2)" title="Thumbnail / Header for article: Timely Transports (Part 2)" width=2481 height=877></picture></figure></div><h1>Timely Transports (Part 2)</h1><aside class=metadata><nav class=breadcrumbs><span class=metadata-label><span class=emoji>🥐</span> Breadcrumbs ||</span>
+<a href=https://pandaqi.com/blog/>Home</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/>Boardgames</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/timely-transports/>Timely transports</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/timely-transports/devlog-timely-transports/>Devlog timely transports</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/timely-transports/devlog-timely-transports/timely-transports-part-2/>Timely transports part 2</a></nav><script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/pandaqi.com\/blog\/","name":"home"}},{"@type":"ListItem","position":2,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/","name":"boardgames"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/timely-transports\/","name":"timely-transports"}},{"@type":"ListItem","position":4,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/timely-transports\/devlog-timely-transports\/","name":"devlog-timely-transports"}},{"@type":"ListItem","position":5,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/timely-transports\/devlog-timely-transports\/timely-transports-part-2\/","name":"timely-transports-part-2"}}]}</script><div><span class=metadata-label><span class=emoji>&#8987;</span> Published ||</span>
+<time datetime=2020-08-05T10:00:00>Wednesday, Aug 5, 2020</time></div><nav class=tags><span class=metadata-label><span class=emoji>🎗</span> Tags ||</span><ul><li><a href=https://pandaqi.com/blog/tags/devlog>devlog</a></li></ul></nav><div><span class=metadata-label><span class=emoji>📖</span> Table of Contents ||</span>
+<a href=# id=toc-toggle>Show</a></div></aside><aside id=table-of-contents class=masked-link-block><header><h2>Table of Contents</h2></header><nav id=TableOfContents><ul><li><a href=#the-first-version----space-shenanigans>The First Version &ndash; Space Shenanigans?</a></li><li><a href=#the-second-version----timely-transports>The Second Version &ndash; Timely Transports</a></li><li><a href=#the-obvious-inclusions>The Obvious Inclusions</a></li><li><a href=#problems-problems-problems>Problems, Problems, Problems</a></li><li><a href=#vehicle-movement>Vehicle Movement</a></li><li><a href=#one-last-problem>One Last Problem</a></li></ul></nav></aside><div><p>Welcome to part 2 of the devlog! Let&rsquo;s dive right in.</p><h2 id=the-first-version----space-shenanigans>The First Version &ndash; Space Shenanigans?</h2><p>With a strong idea about how such a game might work, I went on a hunt
+for simple gameplay ideas and accessible themes.</p><p>My first pick was a cooperative game, where everyone is on a
+<strong>spaceship</strong> together. During the game, you can place tiles to extend
+the ship and send people on missions, <em>but</em> all those missions and
+extensions cost time.</p><p>Additionally, events would regularly occur, such as space pirates
+entering your ship or a meteorite damaging it.</p><p>The rewards for your missions (<em>space credits</em>, probably) could then be
+used to buy things in the <em>shop</em> on your phone.</p><p>The idea is still promising &mldr; but I was already making it <em>way too
+complex</em>. This has at least four or five interconnected unique systems,
+whereas I still didn&rsquo;t know if the original idea would work at all.</p><p>So let&rsquo;s simplify. Let&rsquo;s think.</p><p>What always costs time? And what has an immediate <em>negative</em> impact when
+it takes too much time?</p><p>Ah, I know: <em>traveling!</em> (Or, well, my first thought went to: hmm,
+<em>packages</em> that arrive too late are annoying. But even that lead to a
+more complex game design than I wanted for my first hybrid game.)</p><h2 id=the-second-version----timely-transports>The Second Version &ndash; Timely Transports</h2><p>So here&rsquo;s the reason I think this theme is ideal.</p><p>In the real world, traveling takes time. Additionally, different
+vehicles or routes take different amounts of time.</p><p>If you take too long, the negative consequences are obvious. Someone
+else will arrive before you, stealing your points. Or your cargo will go
+bad (if it&rsquo;s something edible or fragile or whatever). And if you are
+slow once, that will lead to a chain reaction where you&rsquo;re constantly
+too late.</p><p>Without <em>any</em> extra rules, such a game would work and heavily <em>rely</em> on
+timers. People understand how it works and why there&rsquo;s a timer to
+everything.</p><p>(That&rsquo;s also the reason why I think those cooking games work wonders.
+People <em>know</em> cooking takes time, so it&rsquo;s only logical to put a timer on
+it, and force them to do something else in the meantime &mldr; possibly
+causing them to forget their original project and let the kitchen burn
+down.)</p><p>There are many games with modern transportation or semi-modern vehicles
+(like the old steam trains in Ticket to Ride). Let&rsquo;s do something
+different. Let&rsquo;s go &mldr; traveling through the Jungle!</p><p>(This was partly inspired by the font I chose. It just gave that
+Jungle/Rainforest/Indiana Jones vibe, and I liked that.)</p><p>Finally, we&rsquo;ve arrived at a working concept: <strong>you are transporting
+cargo across the jungle</strong>. For each movement, you start a timer. Once it
+runs out, you can finish the movement and go to the next space.
+Delivering goods to cities that want them yields you points. The first
+to 20 points wins!</p><p>To give you a preview, this is how the game board and interface looked
+at the end of development:</p><p><figure class=inline-image><picture><img src=timely-transports-3.webp loading=lazy decoding=async alt="Randomly Generated Board (taken from rulebook)" title="Randomly Generated Board (taken from rulebook)" width=891 height=630></picture><figcaption class=side-note><span>Randomly Generated Board (taken from rulebook)</span></figcaption></figure></p><p><figure class=inline-image><picture><img src=timely-transports-4.webp loading=lazy decoding=async alt="Game Interface on phone, right at the start of the game" title="Game Interface on phone, right at the start of the game" width=1003 height=898></picture><figcaption class=side-note><span>Game Interface on phone, right at the start of the game</span></figcaption></figure></p><h2 id=the-obvious-inclusions>The Obvious Inclusions</h2><p>With a game like this, many of the early choices I made seemed kinda
+obvious. Nevertheless, they were very easy to add and explain, and make
+the game as good as it is today:</p><ul><li><p>I need <strong>different types of routes</strong> on the map. Why? So you need a
+<strong>specific kind of vehicle</strong> to travel it. (Only boats can move over
+water, only trains over railroad, etc.)</p></li><li><p>I need <strong>different goods with different characteristics</strong>. Why? A
+low-value good will appear <em>very often</em> on the map. A high-value
+good will only be accepted by a handful of cities. This
+automatically adds variety, an interesting choice, <em>and</em> a fallback
+decision if you&rsquo;re having a tough game. (&ldquo;Man, I just keep missing
+out on those high-value ones. Maybe I&rsquo;ll just very quickly deliver
+five low-value things.&rdquo;)</p></li><li><p>I need <strong>events</strong>. With everything fixed on the game board, I need
+some more variety. Prices should fluctuate, weather should influence
+traveling, that kind of stuff. I decided to make events pop up at
+random that say something like &ldquo;City X doesn&rsquo;t accept any goods
+anymore&rdquo;, which automatically went away after 30-60 seconds.</p></li><li><p>I need <strong>upgrades/stuff to buy</strong>. This would add a necessary sense
+of <em>progression</em> to the game. After moving 5 goods in a row with
+your boat, you want to do something else. So I wanted to include the
+possibility of upgrading your current vehicles or buying new ones
+(which would be faster).</p></li></ul><p><figure class=inline-image><picture><img src=timely-transports-5.webp loading=lazy decoding=async alt="Overview of all basic vehicles + upgraded version (taken from rulebook)" title="Overview of all basic vehicles + upgraded version (taken from rulebook)" width=2481 height=1051></picture><figcaption class=side-note><span>Overview of all basic vehicles + upgraded version (taken from rulebook)</span></figcaption></figure></p><p>All these things were immediately put into the game, and stayed there,
+because they worked. (Nevertheless, I do try to push myself to
+diversify, as I introduce these concepts <em>a lot</em> in all my games.)</p><p>I <em>did</em> eventually make several &ldquo;difficulty levels&rdquo;, and only introduced
+the more complex mechanics on higher difficulties. This works all the
+time, in my experience. It makes the game super simple when you play it
+for the first time (or with a new group of people), but doesn&rsquo;t take
+away any of the super fun and interesting stuff I also wanted to add.</p><h2 id=problems-problems-problems>Problems, Problems, Problems</h2><p>And then, as usual, problems started to appear.</p><p><strong>Problem 1: Too little space!</strong> The game board was getting cramped (the
+one you should print and play on), as well as the game interface (on
+your smartphone).</p><p>So, let&rsquo;s forget the idea of <em>buying new vehicles</em>, because I simply
+don&rsquo;t have room for them. Let&rsquo;s cap it at four vehicles, which you can
+upgrade.</p><p>Let&rsquo;s also reduce the number of routes and airports. In fact, let&rsquo;s not
+display an icon for airports, and just display an underline below the
+city name.</p><p>While we&rsquo;re at it, let&rsquo;s <em>zoom in</em> on the board on lower player counts,
+so everything is bigger and clearer.</p><p>(I tried, but with 8 players you&rsquo;ll have so many cities on the board, I
+can&rsquo;t make it any bigger than it is. I propose printing on A3 paper if
+you can.)</p><p>The work I did on <em>randomly generating a playable jungle with cities</em> is
+a whole topic on its own! So I&rsquo;ll probably write a separate devlog or
+chapter on that alone. (Spoiler: it&rsquo;s really hard, and messy, and takes
+a lot of experimentation to get right.)</p><p><strong>Problem 2: Loose Connections!</strong> Remember when I talked about this
+disadvantage?</p><p>It might seem obvious now, but at the time I really didn&rsquo;t know how to
+proceed. How to make sure the phones said sensible things? Even if they
+didn&rsquo;t know the game board <em>at all</em>?</p><p>It took me a while to acquire the current solution:</p><ul><li><p>Given a certain player count + difficulty, the board will <em>always</em>
+include the same cities (with the same names) and goods. The board
+is still entirely random, but at least there&rsquo;s the <em>name</em> of cities
+and goods that will always exist.</p></li><li><p>Each city&rsquo;s desires are printed on the board. (But events can change
+this temporarily, to an extent.)</p></li><li><p>Airports are only placed when they are <em>necessary</em> to connect all
+cities. (Otherwise it was too easy to just fly anywhere. Also,
+airplane connections are the <em>hardest</em> to visualize for players. All
+the other connections have a clear line from A to B, but plane
+connections are just &ldquo;yeah, teleport from A to B&rdquo;)</p><ul><li>In fact, as I write this, I&rsquo;m wondering whether I should move
+planes to a higher difficulty level. I can easily imagine people
+getting overwhelmed by learning how <em>four</em> vehicles work on
+their first game. Even if they are extremely simple and
+intuitive.</li></ul></li><li><p>Forests! Surprisingly, placing forests in the world gave the board a
+lot of clarity. Routes were easier to follow, because they had less
+space to wiggle around. It was easy to see where a city was, because
+it surely wasn&rsquo;t anywhere in that big forest.</p><ul><li>It also sped up the board generation, because I didn&rsquo;t need to
+check any possible paths through forests. But that is, again, a
+whole topic on its own.</li></ul></li></ul><p><strong>Problem 3: Too little space, again!</strong></p><p>When I thought I had the space problem figured out, I found a few new
+issues with the game board by simply <em>thinking it through</em>.</p><p>I was like &ldquo;Okay, so, how many cities do I need with each player count?
+Suppose we have &mldr; 6 players, would, say, 6 cities be enough then?&rdquo;</p><p>Then I remembered each player had <em>4 vehicles</em>. With 6 players, that&rsquo;s
+24 vehicles, moving around the board all the time. Not to mention actual
+<em>goods</em> lying around as well. I don&rsquo;t think 6 cities is enough.</p><p>Thus, I invented a (<em>very scientifically sound</em>) rule of thumb: on
+average, there should be <em>at most</em> three things on a city. With 6
+players, that means 24 vehicles, and about 6-12 new goods per minute.
+(The time between new goods is slightly less than a minute, per phone.)
+So, worst case, 32/3 = 11 cities.</p><p>For what it&rsquo;s worth, all tests and generated boards so far have been
+quite balanced, so I have reason to believe this will all work out in
+the end!</p><h2 id=vehicle-movement>Vehicle Movement</h2><p>Now the final aspect. The most important aspect to get right, because
+moving vehicles is <em>all you&rsquo;ll be doing in the game</em>. (When writing the
+rules, I realized it&rsquo;s literally the only type of action. Which is
+always a good thing, as it made the rules super simple.)</p><p>In my head, there is always this four-sided die of navigation: <em>car,
+train, boat, plane</em>. (Which also happens to rhyme.)</p><p>I used this again, because even after all my research into jungles and
+their transportation, this still seemed the best option. (I mean, I
+considered making people hop on the back of monkeys, but that just
+didn&rsquo;t work out. For too many reasons to mention.)</p><p>So everyone has four vehicles. This means we need three road types and
+airports. When moving, simply <strong>start the timer</strong>, wait or do something
+else, and when the timer finished, actually <strong>move</strong> to the new location
+and stop the timer.</p><p>You can always take <strong>one good</strong> from your current city with you. And
+while you&rsquo;re moving this good ( = it&rsquo;s placed on your vehicle), nobody
+else may touch it.</p><p><figure class=inline-image><picture><img src=timely-transports-6.webp loading=lazy decoding=async alt="How to move over the board, with a timer (taken from rulebook)" title="How to move over the board, with a timer (taken from rulebook)" width=907 height=1530></picture><figcaption class=side-note><span>How to move over the board, with a timer (taken from rulebook)</span></figcaption></figure></p><p>Thankfully, the hybrid setup helped me here. I didn&rsquo;t need to give
+vehicles any other properties, because the <em>computer could take care of
+that</em>.</p><p>The different vehicles have slightly different timer lengths, but
+players don&rsquo;t need to have that explained to them. They just click on
+the matching icon, and a timer will magically start and do everything
+for them!</p><p>Also, because each vehicle was unique (you couldn&rsquo;t purchase a &ldquo;second
+boat&rdquo;), you always knew exactly what each icon (and timer) was referring
+to. Tap it to start the timer. Tap it to stop the timer. Simple stuff!</p><h2 id=one-last-problem>One Last Problem</h2><p>There was just one problem left: <strong>how do I get a boat from A to B &mldr;
+if there&rsquo;s no route that&rsquo;s 100% over water?</strong></p><p>(More generally, how to move vehicles to cities if there&rsquo;s no route
+towards the city they can travel themselves?)</p><p>I found two solutions this time, which are both in the game!</p><p><strong>First solution:</strong> vehicles can also be used as <strong>goods</strong>. So, you can
+literally transport your boat to another town <em>using one of your other
+vehicles</em>. This automatically turned the game into a much better and
+bigger puzzle, as you now need to plan ahead to get your vehicles where
+you want them to be.</p><p><strong>Second solution:</strong> each player receives a <strong>capital</strong>. I needed that
+anyway, to give players a city to start from, and to make the world feel
+more alive. (Players want ownership and customization! Give them
+something that&rsquo;s theirs.)</p><p><figure class=inline-image><picture><img src=timely-transports-7.webp loading=lazy decoding=async alt="Moving a vehicle as a good (lower half of the image)" title="Moving a vehicle as a good (lower half of the image)" width=907 height=1076></picture><figcaption class=side-note><span>Moving a vehicle as a good (lower half of the image)</span></figcaption></figure></p><p>(This image is taken directly from the rulebook, so it also includes
+another rule I will talk about soon: bumping other people off the
+board.)</p><p>But this allowed the <strong>Teleportation Rule</strong> to be added: at <em>any time</em>,
+instead of moving over a regular connection, you can <em>teleport</em> your
+vehicle back to your capital. (This follows all the same rules as
+moving: you still start a timer, wait, etc.)</p><p>It&rsquo;s an extremely simple addition, but it helps out a lot. When you&rsquo;re
+stuck, you can always just decide to go back to home base and navigate
+your way back into the world.</p><p>Finally, finally, we have a complete and working first version. So we can playtest it! In the next article I&rsquo;ll discuss this playtest and what I learned from it.</p></div></article><div><nav class=pagination><ul><li><a href=/blog/boardgames/timely-transports/devlog-timely-transports/timely-transports-part-1/ class="masked-link big-mask mask-1" style=--rotation:-1deg>&lt;&lt; Previous Page</a></li><li>Continue reading</li><li><a href=/blog/boardgames/timely-transports/devlog-timely-transports/timely-transports-part-3/ class="masked-link big-mask mask-6" style=--rotation:-1deg>>> Next Page</a></li></ul></nav></div></main><footer id=site-footer><div class="padding center-block"><h3>More Pandaqi</h3><p>You could <a href=https://pandaqi.com>visit the game studio</a>.
+Or my <a href=https://pandaqi.com/tutorials/>free tutorial website</a>.
+Or my <a href=https://rodepanda.com/>portfolio</a> with easy access to absolutely everything I ever made.</p><h3>Latest</h3><nav class=latest><ul><li><a href=/blog/boardgames/kingseat/>Kingseat
+(👑)</a></li><li><a href=/blog/boardgames/foldigami/>Foldigami
+(📃)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-the-big-typescript-update/>Pandaqi Games: The Big Typescript Update
+(🎮)</a></li><li><a href=/blog/boardgames/sixpack/>Sixpack
+(🃏)</a></li><li><a href=/blog/boardgames/photomone-antsassins/>Photomone: Antsassins
+(🐜)</a></li><li><a href=/blog/boardgames/photomone-digital-antists/>Photomone: Digital Antists
+(🐜)</a></li><li><a href=/blog/boardgames/photomone/>Photomone
+(🐜)</a></li><li><a href=/blog/boardgames/keebble-domino/>Keebble: Domino
+(📗)</a></li><li><a href=/blog/boardgames/keebble-knickknack/>Keebble: Knickknack
+(📘)</a></li><li><a href=/blog/videogames/game-jams/less-is-store/>Less is Store
+(🛍️)</a></li></ul></nav><h3>Sections</h3><nav><ul><li><a href=/blog/boardgames/>Boardgames
+(🎲)</a></li><li><a href=/blog/news-and-updates/>News & Updates
+(📢)</a></li><li><a href=/blog/reviews-and-thoughts/>Reviews & Thoughts
+(💭)</a></li><li><a href=/blog/tutorials/>Tutorials
+(👩‍🎓)</a></li><li><a href=/blog/videogames/>Videogames
+(🎮)</a></li></ul></nav><h3>Credits</h3><p>Theme by me (<a href=https://pandaqi.com>Pandaqi</a> 🐼) &#183;
+with ❤️ &#183;
+using <a href=https://gohugo.io>Hugo</a> &#183;
+&copy; 2018&ndash;2023 Pandaqi Blog</p></div></footer><link rel=stylesheet type=text/css href=/blog/css/style.css><script src=/blog/js/bundle.min.js></script></body></html>

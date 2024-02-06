@@ -1,0 +1,220 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><title>Wondering Witches (Part 3) | Pandaqi Blog</title><link rel=icon type=image/png href=https://pandaqi.com/blog//favicon.png><link rel=stylesheet type=text/css href=/blog/css/critical.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin></head><body><header id=site-header><nav class=menu><ul><li><a href=https://pandaqi.com/blog/ class="masked-link big-mask mask-1" style=--rotation:2deg>Home</a></li><li><a href=/blog/boardgames/ class="masked-link big-mask mask-7" style=--rotation:1.5deg>Boardgames</a></li><li><a href=/blog/news-and-updates/ class="masked-link big-mask mask-2" style=--rotation:2deg>News & Updates</a></li><li><a href=/blog/reviews-and-thoughts/ class="masked-link big-mask mask-1" style=--rotation:-1.5deg>Reviews & Thoughts</a></li><li><a href=/blog/tutorials/ class="masked-link big-mask mask-3" style=--rotation:1deg>Tutorials</a></li><li><a href=/blog/videogames/ class="masked-link big-mask mask-7" style=--rotation:1deg>Videogames</a></li></ul></nav></header><main class="padding center-block"><article class=single-article><div class=thumbnail-media><figure class=thumb-image><picture><img src=../../wondering-witches-header.webp loading=lazy decoding=async alt="Thumbnail / Header for article: Wondering Witches (Part 3)" title="Thumbnail / Header for article: Wondering Witches (Part 3)" width=2481 height=877></picture></figure></div><h1>Wondering Witches (Part 3)</h1><aside class=metadata><nav class=breadcrumbs><span class=metadata-label><span class=emoji>🥐</span> Breadcrumbs ||</span>
+<a href=https://pandaqi.com/blog/>Home</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/>Boardgames</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/wondering-witches/>Wondering witches</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/wondering-witches/tech-devlog-wondering-witches/>Tech devlog wondering witches</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/wondering-witches/tech-devlog-wondering-witches/wondering-witches-part-3/>Wondering witches part 3</a></nav><script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/pandaqi.com\/blog\/","name":"home"}},{"@type":"ListItem","position":2,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/","name":"boardgames"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/wondering-witches\/","name":"wondering-witches"}},{"@type":"ListItem","position":4,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/wondering-witches\/tech-devlog-wondering-witches\/","name":"tech-devlog-wondering-witches"}},{"@type":"ListItem","position":5,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/wondering-witches\/tech-devlog-wondering-witches\/wondering-witches-part-3\/","name":"wondering-witches-part-3"}}]}</script><div><span class=metadata-label><span class=emoji>&#8987;</span> Published ||</span>
+<time datetime=2020-04-12T11:00:00>Sunday, Apr 12, 2020</time></div><nav class=tags><span class=metadata-label><span class=emoji>🎗</span> Tags ||</span><ul><li><a href=https://pandaqi.com/blog/tags/technical-devlog>technical devlog</a></li></ul></nav><div><span class=metadata-label><span class=emoji>📖</span> Table of Contents ||</span>
+<a href=# id=toc-toggle>Show</a></div></aside><aside id=table-of-contents class=masked-link-block><header><h2>Table of Contents</h2></header><nav id=TableOfContents><ul><li><a href=#the-importance-of-feedback>The Importance of Feedback</a><ul><li><a href=#feedback-level-1>Feedback Level #1</a></li><li><a href=#feedback-level-2>Feedback Level #2</a></li><li><a href=#feedback-level-3>Feedback Level #3</a></li><li><a href=#feedback-level-3-1>Feedback Level #3</a></li></ul></li></ul></nav></aside><div><p>Welcome to part 3 of my Technical Devlog for the game Wondering Witches!</p><p>Haven&rsquo;t read the other entries? Go to the <a href=../>devlog overview</a>.</p><h2 id=the-importance-of-feedback>The Importance of Feedback</h2><p>Great, our potion evaluator can check if this is the winning potion and
+execute all necessary effects.</p><h3 id=feedback-level-1>Feedback Level #1</h3><p>But one big step is missing: players test a potion to <strong>gather
+information</strong>. The website should give them some feedback. This feedback
+should be useful and informative, but not <em>too</em> useful. That would make
+the game too easy or straightforward.</p><p>At first, I created a category of <strong>investigative effects</strong> to solve
+this problem. It was a list of ~20 effects which simply <em>reported</em>
+information about the potion.</p><p>For example, the <strong>Detective</strong> tells you the secret number of a <em>random
+ingredient</em> from the potion. Or the <strong>Inspector</strong> tells you how many
+ingredients had one (or more) special effects in this potion.</p><p>These effects were extremely useful and effective! Whenever they were
+used, I would just save phrases like &ldquo;Detective says 4&rdquo;, and print that
+to the screen (in a random order).</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-Javascript data-lang=Javascript><span class=line><span class=ln> 1</span><span class=cl><span class=c1>// This is a subsection of that whole switch statement in checkEffect()
+</span></span></span><span class=line><span class=ln> 2</span><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=ln> 3</span><span class=cl><span class=c1>//
+</span></span></span><span class=line><span class=ln> 4</span><span class=cl><span class=c1>// INVESTIGATIVE
+</span></span></span><span class=line><span class=ln> 5</span><span class=cl><span class=c1>//
+</span></span></span><span class=line><span class=ln> 6</span><span class=cl><span class=c1></span><span class=k>case</span> <span class=s1>&#39;Liar&#39;</span><span class=o>:</span>
+</span></span><span class=line><span class=ln> 7</span><span class=cl>  <span class=c1>// make list of all numbers
+</span></span></span><span class=line><span class=ln> 8</span><span class=cl><span class=c1></span>  <span class=kd>var</span> <span class=nx>allNumbers</span> <span class=o>=</span> <span class=p>[];</span>
+</span></span><span class=line><span class=ln> 9</span><span class=cl>  <span class=k>for</span><span class=p>(</span><span class=kd>var</span> <span class=nx>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>i</span> <span class=o>&lt;</span> <span class=nx>codeLength</span><span class=p>;</span> <span class=nx>i</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>10</span><span class=cl>    <span class=nx>allNumbers</span><span class=p>[</span><span class=nx>i</span><span class=p>]</span> <span class=o>=</span> <span class=nx>i</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>11</span><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=ln>12</span><span class=cl>
+</span></span><span class=line><span class=ln>13</span><span class=cl>  <span class=c1>// go through cauldron and REMOVE numbers that are present
+</span></span></span><span class=line><span class=ln>14</span><span class=cl><span class=c1></span>  <span class=k>for</span><span class=p>(</span><span class=kd>var</span> <span class=nx>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>i</span> <span class=o>&lt;</span> <span class=nx>cSize</span><span class=p>;</span> <span class=nx>i</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>15</span><span class=cl>    <span class=kd>var</span> <span class=nx>findElem</span> <span class=o>=</span> <span class=nx>allNumbers</span><span class=p>.</span><span class=nx>indexOf</span><span class=p>(</span><span class=nx>curCauldron</span><span class=p>[</span><span class=nx>i</span><span class=p>].</span><span class=nx>myNum</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>16</span><span class=cl>    <span class=k>if</span><span class=p>(</span><span class=nx>findElem</span> <span class=o>&gt;</span> <span class=o>-</span><span class=mi>1</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>17</span><span class=cl>      <span class=nx>allNumbers</span><span class=p>.</span><span class=nx>splice</span><span class=p>(</span><span class=nx>findElem</span><span class=p>,</span> <span class=mi>1</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>18</span><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=ln>19</span><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=ln>20</span><span class=cl>
+</span></span><span class=line><span class=ln>21</span><span class=cl>  <span class=c1>// now pick one randomly
+</span></span></span><span class=line><span class=ln>22</span><span class=cl><span class=c1></span>  <span class=nx>singular</span> <span class=o>=</span> <span class=kc>false</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>23</span><span class=cl>  <span class=k>if</span><span class=p>(</span><span class=nx>allNumbers</span><span class=p>.</span><span class=nx>length</span> <span class=o>&gt;</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>24</span><span class=cl>    <span class=kd>var</span> <span class=nx>randNum</span> <span class=o>=</span> <span class=nx>allNumbers</span><span class=p>[</span><span class=nb>Math</span><span class=p>.</span><span class=nx>floor</span><span class=p>(</span><span class=nb>Math</span><span class=p>.</span><span class=nx>random</span><span class=p>()</span><span class=o>*</span><span class=nx>allNumbers</span><span class=p>.</span><span class=nx>length</span><span class=p>)];</span>
+</span></span><span class=line><span class=ln>25</span><span class=cl>    <span class=nx>feedbackValue</span> <span class=o>=</span> <span class=s1>&#39;number &#39;</span> <span class=o>+</span> <span class=nx>randNum</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>26</span><span class=cl>  <span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>27</span><span class=cl>    <span class=nx>feedbackValue</span> <span class=o>=</span> <span class=s1>&#39;nothing to say&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>28</span><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=ln>29</span><span class=cl>  <span class=k>break</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>30</span><span class=cl>
+</span></span><span class=line><span class=ln>31</span><span class=cl><span class=k>case</span> <span class=s1>&#39;Detective&#39;</span><span class=o>:</span>
+</span></span><span class=line><span class=ln>32</span><span class=cl>  <span class=kd>var</span> <span class=nx>randNum</span> <span class=o>=</span> <span class=nx>curCauldron</span><span class=p>[</span><span class=nb>Math</span><span class=p>.</span><span class=nx>floor</span><span class=p>(</span><span class=nb>Math</span><span class=p>.</span><span class=nx>random</span><span class=p>()</span> <span class=o>*</span> <span class=nx>cSize</span><span class=p>)].</span><span class=nx>myNum</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>33</span><span class=cl>
+</span></span><span class=line><span class=ln>34</span><span class=cl>  <span class=nx>singular</span> <span class=o>=</span> <span class=kc>false</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>35</span><span class=cl>  <span class=nx>feedbackValue</span> <span class=o>=</span> <span class=s1>&#39;number &#39;</span> <span class=o>+</span> <span class=nx>randNum</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>36</span><span class=cl>  <span class=k>break</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>37</span><span class=cl>
+</span></span><span class=line><span class=ln>38</span><span class=cl><span class=k>case</span> <span class=s1>&#39;General&#39;</span><span class=o>:</span>
+</span></span><span class=line><span class=ln>39</span><span class=cl>  <span class=kd>var</span> <span class=nx>totalNumEffects</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>40</span><span class=cl>  <span class=k>for</span><span class=p>(</span><span class=kd>var</span> <span class=nx>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>i</span> <span class=o>&lt;</span> <span class=nx>cSize</span><span class=p>;</span> <span class=nx>i</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>41</span><span class=cl>    <span class=nx>totalNumEffects</span> <span class=o>+=</span> <span class=nx>curCauldron</span><span class=p>[</span><span class=nx>i</span><span class=p>].</span><span class=nx>effects</span><span class=p>.</span><span class=nx>length</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>42</span><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=ln>43</span><span class=cl>
+</span></span><span class=line><span class=ln>44</span><span class=cl>  <span class=nx>singular</span> <span class=o>=</span> <span class=kc>false</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>45</span><span class=cl>  <span class=nx>feedbackValue</span> <span class=o>=</span> <span class=nx>totalNumEffects</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>46</span><span class=cl>  <span class=k>break</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>47</span><span class=cl>
+</span></span><span class=line><span class=ln>48</span><span class=cl><span class=k>case</span> <span class=s1>&#39;Inspector&#39;</span><span class=o>:</span>
+</span></span><span class=line><span class=ln>49</span><span class=cl>  <span class=kd>var</span> <span class=nx>numWithEffects</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>50</span><span class=cl>  <span class=k>for</span><span class=p>(</span><span class=kd>var</span> <span class=nx>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>i</span> <span class=o>&lt;</span> <span class=nx>cSize</span><span class=p>;</span> <span class=nx>i</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>51</span><span class=cl>    <span class=k>if</span><span class=p>(</span><span class=nx>curCauldron</span><span class=p>[</span><span class=nx>i</span><span class=p>].</span><span class=nx>effects</span><span class=p>.</span><span class=nx>length</span> <span class=o>&gt;</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>52</span><span class=cl>      <span class=nx>numWithEffects</span><span class=o>++</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>53</span><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=ln>54</span><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=ln>55</span><span class=cl>
+</span></span><span class=line><span class=ln>56</span><span class=cl>  <span class=nx>singular</span> <span class=o>=</span> <span class=kc>false</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>57</span><span class=cl>  <span class=nx>feedbackValue</span> <span class=o>=</span> <span class=nx>numWithEffects</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>58</span><span class=cl>  <span class=k>break</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>59</span><span class=cl>
+</span></span><span class=line><span class=ln>60</span><span class=cl><span class=k>case</span> <span class=s1>&#39;Calculator&#39;</span><span class=o>:</span>
+</span></span><span class=line><span class=ln>61</span><span class=cl>  <span class=kd>var</span> <span class=nx>sum</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>62</span><span class=cl>  <span class=k>for</span><span class=p>(</span><span class=kd>var</span> <span class=nx>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>i</span> <span class=o>&lt;</span> <span class=nx>cSize</span><span class=p>;</span> <span class=nx>i</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>63</span><span class=cl>    <span class=k>if</span><span class=p>(</span><span class=nx>curCauldron</span><span class=p>[</span><span class=nx>i</span><span class=p>].</span><span class=nx>myNum</span> <span class=o>==</span> <span class=o>-</span><span class=mi>1</span><span class=p>)</span> <span class=p>{</span> <span class=k>continue</span><span class=p>;</span> <span class=p>}</span>
+</span></span><span class=line><span class=ln>64</span><span class=cl>    <span class=nx>sum</span> <span class=o>+=</span> <span class=nx>curCauldron</span><span class=p>[</span><span class=nx>i</span><span class=p>].</span><span class=nx>myNum</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>65</span><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=ln>66</span><span class=cl>
+</span></span><span class=line><span class=ln>67</span><span class=cl>  <span class=nx>singular</span> <span class=o>=</span> <span class=kc>false</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>68</span><span class=cl>  <span class=nx>feedbackValue</span> <span class=o>=</span> <span class=nx>sum</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>69</span><span class=cl>  <span class=k>break</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>70</span><span class=cl>
+</span></span><span class=line><span class=ln>71</span><span class=cl><span class=k>case</span> <span class=s1>&#39;Revealer&#39;</span><span class=o>:</span>
+</span></span><span class=line><span class=ln>72</span><span class=cl>  <span class=kd>var</span> <span class=nx>numDecoys</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>73</span><span class=cl>  <span class=k>for</span><span class=p>(</span><span class=kd>var</span> <span class=nx>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>i</span> <span class=o>&lt;</span> <span class=nx>cSize</span><span class=p>;</span> <span class=nx>i</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>74</span><span class=cl>    <span class=k>if</span><span class=p>(</span><span class=nx>curCauldron</span><span class=p>[</span><span class=nx>i</span><span class=p>].</span><span class=nx>decoyStatus</span> <span class=o>!=</span> <span class=o>-</span><span class=mi>1</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>75</span><span class=cl>      <span class=nx>numDecoys</span><span class=o>++</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>76</span><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=ln>77</span><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=ln>78</span><span class=cl>
+</span></span><span class=line><span class=ln>79</span><span class=cl>  <span class=nx>singular</span> <span class=o>=</span> <span class=kc>false</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>80</span><span class=cl>  <span class=nx>feedbackValue</span> <span class=o>=</span> <span class=nx>numDecoys</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>81</span><span class=cl>  <span class=k>break</span><span class=p>;</span></span></span></code></pre></div><h3 id=feedback-level-2>Feedback Level #2</h3><p>But it was not enough. When it comes to puzzle games, it&rsquo;s never good to
+actively <em>withhold</em> 90% of the information from the player. That just
+makes it an impossible problem, not a fun puzzle.</p><p>So I decided to give feedback about <em>any effect</em>. If an effect was not
+investigative, it would simply say something like &ldquo;Effect X was
+encountered&rdquo; or &ldquo;Effect X was present&rdquo;. Knowing that an effect was
+present, is very valuable information (and easy to code). Not knowing
+precisely what the effect did, made it into a challenging puzzle.</p><h3 id=feedback-level-3>Feedback Level #3</h3><p>But there was <strong>another level</strong> of feedback I was forgetting. What if
+players didn&rsquo;t figure out the solution? What if players lost the game?
+Surely, they would want to know the actual solution.</p><p>So I added a button that, when clicked, printed the solution to the
+screen. (Each ingredient, plus their number, plus any effects.) In
+hindsight, it was absolutely stupid to forget the inclusion of this
+button. I&rsquo;m happy I remembered to do so.</p><p>Of course, I was worried about people accidentally clicking it. Or being
+too tempted to click it. So I made it smaller, moved it away from the
+interface, colored it red, and clearly marked it as a danger zone. It&rsquo;s
+worked perfectly so far.</p><h3 id=feedback-level-3-1>Feedback Level #3</h3><p>But wait, is that &mldr; <strong>another level of feedback</strong> I am forgetting?
+Sure it is!</p><p>This realization only came to me after numerous playtests. (Which tells
+us, again, that playtesting your game is always the way to go.)</p><p>At the start of the game, players were just &mldr; really unsure about what
+to do. They had absolutely <em>zero</em> information, so what does it matter
+which ingredients we grow? What does it matter which potion we try?</p><p>I changed this to give the players a flying start. When you generate a
+puzzle, it gives you one clue &ldquo;for free&rdquo;. It might say something like
+&ldquo;Free Advice: Parsley is NOT number 1&rdquo; or &ldquo;Bonus Tip: Either Parsley,
+Sage or Thyme is a DECOY&rdquo;</p><p>This gets you started! You already know some ingredients you want to
+test (or avoid). Additionally, it makes the game a little easier. As it
+stands, the game is quite hard, so by framing this information as a
+&ldquo;free clue&rdquo;, I can sneakily balance the game a bit more.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-Javascript data-lang=Javascript><span class=line><span class=ln> 1</span><span class=cl><span class=kd>function</span> <span class=nx>generateFirstHint</span><span class=p>(</span><span class=nx>type</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln> 2</span><span class=cl>	<span class=kd>var</span> <span class=nx>txt</span> <span class=o>=</span> <span class=s1>&#39;&lt;p&gt;Here\&#39;s a &lt;strong&gt;free clue&lt;/strong&gt; to start the game!&lt;/p&gt;&lt;p&gt;&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=ln> 3</span><span class=cl>	<span class=k>switch</span><span class=p>(</span><span class=nx>type</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln> 4</span><span class=cl>		<span class=c1>// reports a group of three elements
+</span></span></span><span class=line><span class=ln> 5</span><span class=cl><span class=c1></span>		<span class=c1>// and either says &#34;one of these is a decoy&#34;
+</span></span></span><span class=line><span class=ln> 6</span><span class=cl><span class=c1></span>		<span class=c1>// or &#34;one of these has number X&#34; (and thus is a good ingredient)
+</span></span></span><span class=line><span class=ln> 7</span><span class=cl><span class=c1></span>		<span class=k>case</span> <span class=s1>&#39;Group&#39;</span><span class=o>:</span>
+</span></span><span class=line><span class=ln> 8</span><span class=cl>			<span class=kd>var</span> <span class=nx>copyPuzzle</span> <span class=o>=</span> <span class=nx>JSON</span><span class=p>.</span><span class=nx>parse</span><span class=p>(</span><span class=nx>JSON</span><span class=p>.</span><span class=nx>stringify</span><span class=p>(</span><span class=nx>curPuzzle</span><span class=p>));</span>
+</span></span><span class=line><span class=ln> 9</span><span class=cl>			<span class=nx>copyPuzzle</span> <span class=o>=</span> <span class=nx>shuffle</span><span class=p>(</span><span class=nx>copyPuzzle</span><span class=p>).</span><span class=nx>splice</span><span class=p>(</span><span class=mi>0</span><span class=p>,</span><span class=mi>3</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>10</span><span class=cl>
+</span></span><span class=line><span class=ln>11</span><span class=cl>			<span class=k>if</span><span class=p>(</span><span class=nx>copyPuzzle</span><span class=p>[</span><span class=mi>0</span><span class=p>].</span><span class=nx>decoyStatus</span> <span class=o>&gt;=</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>12</span><span class=cl>				<span class=nx>txt</span> <span class=o>+=</span> <span class=s1>&#39;One of these ingredients is a DECOY: &#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>13</span><span class=cl>			<span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>14</span><span class=cl>				<span class=nx>txt</span> <span class=o>+=</span> <span class=s1>&#39;One of these ingredients has number &#39;</span> <span class=o>+</span> <span class=nx>copyPuzzle</span><span class=p>[</span><span class=mi>0</span><span class=p>].</span><span class=nx>myNum</span> <span class=o>+</span> <span class=s1>&#39;: &#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>15</span><span class=cl>			<span class=p>}</span>
+</span></span><span class=line><span class=ln>16</span><span class=cl>
+</span></span><span class=line><span class=ln>17</span><span class=cl>			<span class=nx>copyPuzzle</span> <span class=o>=</span> <span class=nx>shuffle</span><span class=p>(</span><span class=nx>copyPuzzle</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>18</span><span class=cl>			<span class=nx>txt</span> <span class=o>+=</span> <span class=nx>copyPuzzle</span><span class=p>[</span><span class=mi>0</span><span class=p>].</span><span class=nx>myName</span> <span class=o>+</span> <span class=s1>&#39;, &#39;</span> <span class=o>+</span> <span class=nx>copyPuzzle</span><span class=p>[</span><span class=mi>1</span><span class=p>].</span><span class=nx>myName</span> <span class=o>+</span> <span class=s1>&#39; or &#39;</span> <span class=o>+</span> <span class=nx>copyPuzzle</span><span class=p>[</span><span class=mi>2</span><span class=p>].</span><span class=nx>myName</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>19</span><span class=cl>			<span class=k>break</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>20</span><span class=cl>
+</span></span><span class=line><span class=ln>21</span><span class=cl>		<span class=c1>// picks one ingredient and states which number it is NOT
+</span></span></span><span class=line><span class=ln>22</span><span class=cl><span class=c1></span>		<span class=k>case</span> <span class=s1>&#39;Negative&#39;</span><span class=o>:</span>
+</span></span><span class=line><span class=ln>23</span><span class=cl>			<span class=c1>// pick a random ingredient
+</span></span></span><span class=line><span class=ln>24</span><span class=cl><span class=c1></span>			<span class=kd>var</span> <span class=nx>randNum</span> <span class=o>=</span> <span class=nb>Math</span><span class=p>.</span><span class=nx>floor</span><span class=p>(</span><span class=nb>Math</span><span class=p>.</span><span class=nx>random</span><span class=p>()</span> <span class=o>*</span> <span class=nx>curPuzzle</span><span class=p>.</span><span class=nx>length</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>25</span><span class=cl>			<span class=kd>var</span> <span class=nx>randIng</span> <span class=o>=</span> <span class=nx>curPuzzle</span><span class=p>[</span><span class=nx>randNum</span><span class=p>];</span>
+</span></span><span class=line><span class=ln>26</span><span class=cl>			<span class=nx>txt</span> <span class=o>+=</span> <span class=nx>ingredientNames</span><span class=p>[</span><span class=nx>randNum</span><span class=p>]</span> <span class=o>+</span> <span class=s1>&#39; is NOT &#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>27</span><span class=cl>
+</span></span><span class=line><span class=ln>28</span><span class=cl>			<span class=c1>// if it&#39;s a non-imposter decoy, return any valid number
+</span></span></span><span class=line><span class=ln>29</span><span class=cl><span class=c1></span>			<span class=c1>// otherwise, report a lower number with 50% chance, or a higher number with 50% chance
+</span></span></span><span class=line><span class=ln>30</span><span class=cl><span class=c1></span>			<span class=kd>var</span> <span class=nx>realNum</span> <span class=o>=</span> <span class=nx>randIng</span><span class=p>.</span><span class=nx>myNum</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>31</span><span class=cl>			<span class=k>if</span><span class=p>(</span><span class=nx>realNum</span> <span class=o>==</span> <span class=o>-</span><span class=mi>1</span> <span class=o>||</span> <span class=nx>realNum</span> <span class=o>==</span> <span class=mi>0</span> <span class=o>||</span> <span class=nx>realNum</span> <span class=o>==</span> <span class=p>(</span><span class=nx>codeLength</span><span class=o>+</span><span class=mi>1</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>32</span><span class=cl>				<span class=nx>txt</span> <span class=o>+=</span> <span class=nb>Math</span><span class=p>.</span><span class=nx>floor</span><span class=p>(</span><span class=nb>Math</span><span class=p>.</span><span class=nx>random</span><span class=p>()</span><span class=o>*</span><span class=nx>codeLength</span><span class=p>)</span> <span class=o>+</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>33</span><span class=cl>			<span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>34</span><span class=cl>				<span class=k>if</span><span class=p>(</span><span class=nb>Math</span><span class=p>.</span><span class=nx>random</span><span class=p>()</span> <span class=o>&lt;=</span> <span class=mf>0.5</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>35</span><span class=cl>					<span class=nx>txt</span> <span class=o>+=</span> <span class=nb>Math</span><span class=p>.</span><span class=nx>floor</span><span class=p>(</span><span class=nb>Math</span><span class=p>.</span><span class=nx>random</span><span class=p>()</span><span class=o>*</span><span class=nx>realNum</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>36</span><span class=cl>				<span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>37</span><span class=cl>					<span class=nx>txt</span> <span class=o>+=</span> <span class=nb>Math</span><span class=p>.</span><span class=nx>floor</span><span class=p>(</span><span class=nx>math</span><span class=p>.</span><span class=nx>random</span><span class=p>()</span><span class=o>*</span><span class=p>(</span><span class=nx>codeLength</span><span class=o>-</span><span class=nx>realNum</span><span class=o>+</span><span class=mi>1</span><span class=p>))</span><span class=o>+</span><span class=nx>realNum</span><span class=o>+</span><span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>38</span><span class=cl>				<span class=p>}</span>
+</span></span><span class=line><span class=ln>39</span><span class=cl>			<span class=p>}</span>
+</span></span><span class=line><span class=ln>40</span><span class=cl>
+</span></span><span class=line><span class=ln>41</span><span class=cl>			<span class=k>break</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>42</span><span class=cl>
+</span></span><span class=line><span class=ln>43</span><span class=cl>		<span class=c1>// pick one ingredient and state whether it has effects or not
+</span></span></span><span class=line><span class=ln>44</span><span class=cl><span class=c1></span>		<span class=k>case</span> <span class=s1>&#39;Effects&#39;</span><span class=o>:</span>
+</span></span><span class=line><span class=ln>45</span><span class=cl>			<span class=kd>var</span> <span class=nx>randIng</span> <span class=o>=</span> <span class=nx>curPuzzle</span><span class=p>[</span><span class=nb>Math</span><span class=p>.</span><span class=nx>floor</span><span class=p>(</span><span class=nb>Math</span><span class=p>.</span><span class=nx>random</span><span class=p>()</span> <span class=o>*</span> <span class=nx>curPuzzle</span><span class=p>.</span><span class=nx>length</span><span class=p>)];</span>
+</span></span><span class=line><span class=ln>46</span><span class=cl>			<span class=nx>txt</span> <span class=o>+=</span> <span class=nx>randIng</span><span class=p>.</span><span class=nx>myName</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>47</span><span class=cl>
+</span></span><span class=line><span class=ln>48</span><span class=cl>			<span class=c1>// if effects aren&#39;t even enabled, ??
+</span></span></span><span class=line><span class=ln>49</span><span class=cl><span class=c1></span>			<span class=k>if</span><span class=p>(</span><span class=nx>effectsLevel</span> <span class=o>==</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>50</span><span class=cl>				<span class=k>if</span><span class=p>(</span><span class=nx>randIng</span><span class=p>.</span><span class=nx>myNum</span> <span class=o>&lt;=</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>51</span><span class=cl>					<span class=nx>txt</span> <span class=o>+=</span> <span class=s1>&#39; is a decoy&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>52</span><span class=cl>				<span class=p>}</span> <span class=k>else</span> <span class=k>if</span><span class=p>(</span><span class=nx>randIng</span><span class=p>.</span><span class=nx>myNum</span> <span class=o>&lt;=</span> <span class=nb>Math</span><span class=p>.</span><span class=nx>floor</span><span class=p>(</span><span class=mf>0.5</span><span class=o>*</span><span class=nx>codeLength</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>53</span><span class=cl>					<span class=nx>txt</span> <span class=o>+=</span> <span class=s1>&#39; should be in the first half of the potion&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>54</span><span class=cl>				<span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>55</span><span class=cl>					<span class=nx>txt</span> <span class=o>+=</span> <span class=s1>&#39; should be in the last half of the potion&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>56</span><span class=cl>				<span class=p>}</span>
+</span></span><span class=line><span class=ln>57</span><span class=cl>				
+</span></span><span class=line><span class=ln>58</span><span class=cl>			
+</span></span><span class=line><span class=ln>59</span><span class=cl>			<span class=c1>// if effects are enabled, return info here
+</span></span></span><span class=line><span class=ln>60</span><span class=cl><span class=c1></span>			<span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>61</span><span class=cl>				<span class=nx>txt</span> <span class=o>+=</span> <span class=s1>&#39; has &#39;</span> <span class=o>+</span> <span class=nx>randIng</span><span class=p>.</span><span class=nx>effects</span><span class=p>.</span><span class=nx>length</span> <span class=o>+</span> <span class=s1>&#39; effects &#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>62</span><span class=cl>			<span class=p>}</span>
+</span></span><span class=line><span class=ln>63</span><span class=cl>
+</span></span><span class=line><span class=ln>64</span><span class=cl>			<span class=k>break</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>65</span><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=ln>66</span><span class=cl>
+</span></span><span class=line><span class=ln>67</span><span class=cl>	<span class=nx>txt</span> <span class=o>+=</span> <span class=s1>&#39;&lt;/p&gt;&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>68</span><span class=cl>	<span class=k>return</span> <span class=nx>txt</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>69</span><span class=cl><span class=p>}</span></span></span></code></pre></div><p><em>Remark:</em> additionally, I changed something about board generation to
+fix this problem. I&rsquo;ll talk about it more later, but here&rsquo;s the general
+idea. At first, when I generated a starting setup, I placed random
+ingredients in <em>gardens</em>. Now I changed that so it also places some
+ingredients within <em>cauldrons</em>. Why? Because this means you can already
+test a potion within one or two turns, giving the game a quicker start.</p><p><strong>What&rsquo;s the conclusion?</strong> When it comes to games, the mantra is
+&ldquo;feedback, feedback, feedback&rdquo; Both boardgames and video games.</p></div></article><div><nav class=pagination><ul><li><a href=/blog/boardgames/wondering-witches/tech-devlog-wondering-witches/wondering-witches-part-2/ class="masked-link big-mask mask-2" style=--rotation:-1deg>&lt;&lt; Previous Page</a></li><li>Continue reading</li><li><a href=/blog/boardgames/wondering-witches/tech-devlog-wondering-witches/wondering-witches-part-4/ class="masked-link big-mask mask-6" style=--rotation:2deg>>> Next Page</a></li></ul></nav></div></main><footer id=site-footer><div class="padding center-block"><h3>More Pandaqi</h3><p>You could <a href=https://pandaqi.com>visit the game studio</a>.
+Or my <a href=https://pandaqi.com/tutorials/>free tutorial website</a>.
+Or my <a href=https://rodepanda.com/>portfolio</a> with easy access to absolutely everything I ever made.</p><h3>Latest</h3><nav class=latest><ul><li><a href=/blog/boardgames/kingseat/>Kingseat
+(👑)</a></li><li><a href=/blog/boardgames/foldigami/>Foldigami
+(📃)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-the-big-typescript-update/>Pandaqi Games: The Big Typescript Update
+(🎮)</a></li><li><a href=/blog/boardgames/sixpack/>Sixpack
+(🃏)</a></li><li><a href=/blog/boardgames/photomone-antsassins/>Photomone: Antsassins
+(🐜)</a></li><li><a href=/blog/boardgames/photomone-digital-antists/>Photomone: Digital Antists
+(🐜)</a></li><li><a href=/blog/boardgames/photomone/>Photomone
+(🐜)</a></li><li><a href=/blog/boardgames/keebble-domino/>Keebble: Domino
+(📗)</a></li><li><a href=/blog/boardgames/keebble-knickknack/>Keebble: Knickknack
+(📘)</a></li><li><a href=/blog/videogames/game-jams/less-is-store/>Less is Store
+(🛍️)</a></li></ul></nav><h3>Sections</h3><nav><ul><li><a href=/blog/boardgames/>Boardgames
+(🎲)</a></li><li><a href=/blog/news-and-updates/>News & Updates
+(📢)</a></li><li><a href=/blog/reviews-and-thoughts/>Reviews & Thoughts
+(💭)</a></li><li><a href=/blog/tutorials/>Tutorials
+(👩‍🎓)</a></li><li><a href=/blog/videogames/>Videogames
+(🎮)</a></li></ul></nav><h3>Credits</h3><p>Theme by me (<a href=https://pandaqi.com>Pandaqi</a> 🐼) &#183;
+with ❤️ &#183;
+using <a href=https://gohugo.io>Hugo</a> &#183;
+&copy; 2018&ndash;2023 Pandaqi Blog</p></div></footer><link rel=stylesheet type=text/css href=/blog/css/style.css><script src=/blog/js/bundle.min.js></script></body></html>

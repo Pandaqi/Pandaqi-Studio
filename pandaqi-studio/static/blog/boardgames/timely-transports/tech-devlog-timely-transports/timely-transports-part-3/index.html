@@ -1,0 +1,333 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><title>Timely Transports (Part 3) | Pandaqi Blog</title><link rel=icon type=image/png href=https://pandaqi.com/blog//favicon.png><link rel=stylesheet type=text/css href=/blog/css/critical.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin></head><body><header id=site-header><nav class=menu><ul><li><a href=https://pandaqi.com/blog/ class="masked-link big-mask mask-1" style=--rotation:2deg>Home</a></li><li><a href=/blog/boardgames/ class="masked-link big-mask mask-5" style=--rotation:-1.5deg>Boardgames</a></li><li><a href=/blog/news-and-updates/ class="masked-link big-mask mask-5" style=--rotation:1.5deg>News & Updates</a></li><li><a href=/blog/reviews-and-thoughts/ class="masked-link big-mask mask-2" style=--rotation:-1.5deg>Reviews & Thoughts</a></li><li><a href=/blog/tutorials/ class="masked-link big-mask mask-8" style=--rotation:1deg>Tutorials</a></li><li><a href=/blog/videogames/ class="masked-link big-mask mask-6" style=--rotation:2deg>Videogames</a></li></ul></nav></header><main class="padding center-block"><article class=single-article><div class=thumbnail-media><figure class=thumb-image><picture><img src=../../timely-transports-header.webp loading=lazy decoding=async alt="Thumbnail / Header for article: Timely Transports (Part 3)" title="Thumbnail / Header for article: Timely Transports (Part 3)" width=2481 height=877></picture></figure></div><h1>Timely Transports (Part 3)</h1><aside class=metadata><nav class=breadcrumbs><span class=metadata-label><span class=emoji>🥐</span> Breadcrumbs ||</span>
+<a href=https://pandaqi.com/blog/>Home</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/>Boardgames</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/timely-transports/>Timely transports</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/timely-transports/tech-devlog-timely-transports/>Tech devlog timely transports</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/timely-transports/tech-devlog-timely-transports/timely-transports-part-3/>Timely transports part 3</a></nav><script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/pandaqi.com\/blog\/","name":"home"}},{"@type":"ListItem","position":2,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/","name":"boardgames"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/timely-transports\/","name":"timely-transports"}},{"@type":"ListItem","position":4,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/timely-transports\/tech-devlog-timely-transports\/","name":"tech-devlog-timely-transports"}},{"@type":"ListItem","position":5,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/timely-transports\/tech-devlog-timely-transports\/timely-transports-part-3\/","name":"timely-transports-part-3"}}]}</script><div><span class=metadata-label><span class=emoji>&#8987;</span> Published ||</span>
+<time datetime=2020-08-05T11:00:00>Wednesday, Aug 5, 2020</time></div><nav class=tags><span class=metadata-label><span class=emoji>🎗</span> Tags ||</span><ul><li><a href=https://pandaqi.com/blog/tags/technical-devlog>technical devlog</a></li></ul></nav><div><span class=metadata-label><span class=emoji>📖</span> Table of Contents ||</span>
+<a href=# id=toc-toggle>Show</a></div></aside><aside id=table-of-contents class=masked-link-block><header><h2>Table of Contents</h2></header><nav id=TableOfContents><ul><li><a href=#forests>Forests</a></li><li><a href=#goods>Goods</a></li><li><a href=#placing-airports>Placing Airports</a></li><li><a href=#solving-the-boardgame-issues-ccf>Solving the Boardgame Issues (CCF)</a><ul><li><a href=#clarity>Clarity</a></li><li><a href=#completeness>Completeness</a></li><li><a href=#fairness>Fairness</a></li><li><a href=#ugliness>Ugliness</a></li></ul></li><li><a href=#the-end>The End!</a></li></ul></nav></aside><div><p>In part 2 I explained 50% of the algorithms/ideas needed to generate a random board. In this part I explain the other half!</p><h2 id=forests>Forests</h2><p>Pathfinding is interesting. It&rsquo;s an algorithm that becomes <em>faster</em> and
+<em>more useful</em>, when you have a world that is <em>more filled and more
+complex</em>. It&rsquo;s one of the few algorithms to do that &ndash; most get slower
+and more unwieldy when there&rsquo;s more stuff.</p><p>So, I created a <em>second noise map</em>, and used this to place forests
+around the world. That&rsquo;s how I get these &ldquo;blobs&rdquo; of forest, which looks
+significantly better than just placing random trees all over the map.</p><p><figure class=inline-image><picture><img src=timely-trans-tech-8.webp loading=lazy decoding=async alt="Forests all over the map" title="Forests all over the map" width=1157 height=797></picture><figcaption class=side-note><span>Forests all over the map</span></figcaption></figure></p><p>I also looped through all tiles again to determine random <em>tree types</em>
+for each forest. It is, again, a quite naïve approach that works:</p><blockquote><p>&ldquo;Hey, I am a tree, and there&rsquo;s another tree next to me! Let&rsquo;s set <em>my
+type</em> to the type of that <em>other tree!</em>&rdquo;</p></blockquote><p>This way, each connected set of trees will eventually have an identical
+type.</p><p>With trees in the world, my pathfinding algorithm had way less space,
+which means roads snapped together more often <em>and</em> they created more
+interesting paths. (Of course, I added the exception in the algorithm
+that forest tiles are completely forbidden.)</p><h2 id=goods>Goods</h2><p>After some experimentation, I realized there weren&rsquo;t really any
+restrictions on this part of the algorithm. Yes, I could try to write
+something that spaces out goods (so no two cities close to each other
+want the same thing), but that would actually make the game &mldr; easier
+and more boring. Whatever good you wanted to deliver, there would always
+be a city within very close range.</p><p>Instead, I allowed the algorithm to be completely free. Sometimes you
+need to travel half the world to deliver a fruit, and <em>that&rsquo;s</em> when
+things get interesting: will you take the risk? Are those 2 points worth
+it? Or do you wait and hope for something better to come along?</p><p>I only implemented the following restriction: each good must appear at
+least <em>twice</em>.</p><ul><li><p>Initialize an empty list</p></li><li><p>Go through the list of goods, add each of them to the list TWICE</p></li><li><p>Fill the remaining space with random goods.</p></li><li><p>Shuffle ( = randomize) this list</p></li></ul><p>Then I loop through the cities in order, giving each city one good at a
+time, until the list is empty.</p><p>Two issues remain:</p><ul><li><p><em>What is the &ldquo;remaining space&rdquo;?</em> At first I wanted 2*&lt;number of
+cities> goods, because I thought that was a good idea. It wasn&rsquo;t.
+It made the board way too full, hard to read, but easy to play
+(because each city wanted many goods). Instead, it now averages 1.5
+good per city, which means roughly 50% will only want one type of
+good, and the other 50% want two types of goods.</p></li><li><p><em>Don&rsquo;t allow the same good to be added on a city twice!</em> It&rsquo;s quite
+stupid if a city wants bees for 4 points &mldr; and bees for 5 points.
+So, before adding the good, I check if it&rsquo;s already there. If so, I
+just continue to the next city.</p></li></ul><p>Below is the code for this algorithm.</p><p>(I don&rsquo;t know if I need to say this, but these code samples are usually <strong>not</strong> the full code. I leave out the uninteresting bits, or parts that might be confusing. And some things are just a function call. Like &ldquo;cityHasRoomForGood()&rdquo;&mdash;I think everyone understands what that function is doing.)</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-Javascript data-lang=Javascript><span class=line><span class=ln> 1</span><span class=cl><span class=c1>// &#34;GOODS&#34; = dictionary with all goods (incl PROBABILITY of appearing and DIFFICULTY when they appear)
+</span></span></span><span class=line><span class=ln> 2</span><span class=cl><span class=c1>// The first part of the function removes all the goods we don&#39;t need
+</span></span></span><span class=line><span class=ln> 3</span><span class=cl><span class=c1>// The second part draws randomly following this probability distribution
+</span></span></span><span class=line><span class=ln> 4</span><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=ln> 5</span><span class=cl><span class=kd>function</span> <span class=nx>determineCityDesires</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln> 6</span><span class=cl>  <span class=c1>// first, truncate list to the goods we actually want
+</span></span></span><span class=line><span class=ln> 7</span><span class=cl><span class=c1></span>  <span class=c1>// whilst calculating total probability
+</span></span></span><span class=line><span class=ln> 8</span><span class=cl><span class=c1></span>  <span class=c1>// and adding each good to the list (twice if it&#39;s a default good and the number of cities supports this)
+</span></span></span><span class=line><span class=ln> 9</span><span class=cl><span class=c1></span>  <span class=kr>const</span> <span class=nx>goodsList</span> <span class=o>=</span> <span class=p>[];</span>
+</span></span><span class=line><span class=ln>10</span><span class=cl>  <span class=kr>const</span> <span class=nx>gameDifficulty</span> <span class=o>=</span> <span class=nx>DIFFICULTY_LEVELS</span><span class=p>[</span><span class=k>this</span><span class=p>.</span><span class=nx>cfg</span><span class=p>.</span><span class=nx>difficulty</span><span class=p>];</span>
+</span></span><span class=line><span class=ln>11</span><span class=cl>
+</span></span><span class=line><span class=ln>12</span><span class=cl>  <span class=kd>var</span> <span class=nx>totalGoodProbability</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>13</span><span class=cl>
+</span></span><span class=line><span class=ln>14</span><span class=cl>  <span class=k>for</span><span class=p>(</span><span class=nx>name</span> <span class=k>in</span> <span class=nx>GOODS</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>15</span><span class=cl>    <span class=kr>const</span> <span class=nx>goodDifficulty</span> <span class=o>=</span> <span class=nx>DIFFICULTY_LEVELS</span><span class=p>[</span><span class=nx>GOODS</span><span class=p>[</span><span class=nx>name</span><span class=p>].</span><span class=nx>difficulty</span> <span class=o>||</span> <span class=s2>&#34;Beginning Explorer&#34;</span><span class=p>];</span>
+</span></span><span class=line><span class=ln>16</span><span class=cl>    <span class=k>if</span><span class=p>(</span><span class=nx>goodDifficulty</span> <span class=o>&gt;</span> <span class=nx>gameDifficulty</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>17</span><span class=cl>      <span class=k>continue</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>18</span><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=ln>19</span><span class=cl>
+</span></span><span class=line><span class=ln>20</span><span class=cl>    <span class=nx>totalGoodProbability</span> <span class=o>+=</span> <span class=nx>GOODS</span><span class=p>[</span><span class=nx>name</span><span class=p>].</span><span class=nx>prob</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>21</span><span class=cl>
+</span></span><span class=line><span class=ln>22</span><span class=cl>    <span class=nx>goodsList</span><span class=p>.</span><span class=nx>push</span><span class=p>(</span><span class=nx>name</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>23</span><span class=cl>    <span class=k>if</span><span class=p>(</span><span class=nx>goodDifficulty</span> <span class=o>==</span> <span class=mi>0</span> <span class=o>&amp;&amp;</span> <span class=k>this</span><span class=p>.</span><span class=nx>cfg</span><span class=p>.</span><span class=nx>numCities</span> <span class=o>&gt;</span> <span class=mi>10</span><span class=p>)</span> <span class=p>{</span> <span class=nx>goodsList</span><span class=p>.</span><span class=nx>push</span><span class=p>(</span><span class=nx>name</span><span class=p>);</span> <span class=p>}</span>
+</span></span><span class=line><span class=ln>24</span><span class=cl>
+</span></span><span class=line><span class=ln>25</span><span class=cl>    <span class=k>this</span><span class=p>.</span><span class=nx>GOODS</span><span class=p>[</span><span class=nx>name</span><span class=p>]</span> <span class=o>=</span> <span class=nx>GOODS</span><span class=p>[</span><span class=nx>name</span><span class=p>];</span>
+</span></span><span class=line><span class=ln>26</span><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=ln>27</span><span class=cl>  
+</span></span><span class=line><span class=ln>28</span><span class=cl>  <span class=c1>// now add goods randomly, following probability distribution, 
+</span></span></span><span class=line><span class=ln>29</span><span class=cl><span class=c1></span>  <span class=c1>// until we have enough (roughly 1.5 per city)
+</span></span></span><span class=line><span class=ln>30</span><span class=cl><span class=c1></span>  <span class=kr>const</span> <span class=nx>desiredTotalNumberGoods</span> <span class=o>=</span> <span class=nb>Math</span><span class=p>.</span><span class=nx>floor</span><span class=p>(</span><span class=k>this</span><span class=p>.</span><span class=nx>cities</span><span class=p>.</span><span class=nx>length</span> <span class=o>*</span> <span class=mf>1.5</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>31</span><span class=cl>  <span class=k>while</span><span class=p>(</span><span class=nx>goodsList</span><span class=p>.</span><span class=nx>length</span> <span class=o>&lt;</span> <span class=nx>desiredTotalNumberGoods</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>32</span><span class=cl>    <span class=kd>var</span> <span class=nx>randGood</span> <span class=o>=</span> <span class=nx>getRandomGood</span><span class=p>(</span><span class=nx>totalGoodProbability</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>33</span><span class=cl>
+</span></span><span class=line><span class=ln>34</span><span class=cl>    <span class=nx>goodsList</span><span class=p>.</span><span class=nx>push</span><span class=p>(</span><span class=nx>randGood</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>35</span><span class=cl>  <span class=p>}</span> 
+</span></span><span class=line><span class=ln>36</span><span class=cl>
+</span></span><span class=line><span class=ln>37</span><span class=cl>  <span class=c1>// shuffle the goods list
+</span></span></span><span class=line><span class=ln>38</span><span class=cl><span class=c1></span>  <span class=c1>// (by default, I always throw a Fisher-Yates shuffle function in my projects, I almost always need it)
+</span></span></span><span class=line><span class=ln>39</span><span class=cl><span class=c1></span>  <span class=k>this</span><span class=p>.</span><span class=nx>shuffle</span><span class=p>(</span><span class=nx>goodsList</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>40</span><span class=cl>
+</span></span><span class=line><span class=ln>41</span><span class=cl>  <span class=c1>// while we have goods, loop through the cities and give them to each city, including a point value
+</span></span></span><span class=line><span class=ln>42</span><span class=cl><span class=c1></span>  <span class=kd>var</span> <span class=nx>counter</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>43</span><span class=cl>  <span class=k>while</span><span class=p>(</span><span class=nx>goodsList</span><span class=p>.</span><span class=nx>length</span> <span class=o>&gt;</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>44</span><span class=cl>    <span class=kr>const</span> <span class=nx>good</span> <span class=o>=</span> <span class=nx>goodsList</span><span class=p>[</span><span class=nx>goodsList</span><span class=p>.</span><span class=nx>length</span> <span class=o>-</span> <span class=mi>1</span><span class=p>]</span>
+</span></span><span class=line><span class=ln>45</span><span class=cl>
+</span></span><span class=line><span class=ln>46</span><span class=cl>    <span class=k>if</span><span class=p>(</span><span class=k>this</span><span class=p>.</span><span class=nx>cityHasRoomForGood</span><span class=p>(</span><span class=nx>counter</span><span class=p>,</span> <span class=nx>good</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>47</span><span class=cl>      <span class=kr>const</span> <span class=nx>data</span> <span class=o>=</span> <span class=nx>GOODS</span><span class=p>[</span><span class=nx>good</span><span class=p>];</span>
+</span></span><span class=line><span class=ln>48</span><span class=cl>      <span class=kr>const</span> <span class=nx>value</span> <span class=o>=</span> <span class=nb>Math</span><span class=p>.</span><span class=nx>floor</span><span class=p>(</span><span class=nb>Math</span><span class=p>.</span><span class=nx>random</span><span class=p>()</span><span class=o>*</span><span class=p>(</span><span class=nx>data</span><span class=p>.</span><span class=nx>pointMax</span> <span class=o>+</span> <span class=mi>1</span> <span class=o>-</span> <span class=nx>data</span><span class=p>.</span><span class=nx>pointMin</span><span class=p>))</span> <span class=o>+</span> <span class=nx>data</span><span class=p>.</span><span class=nx>pointMin</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>49</span><span class=cl>
+</span></span><span class=line><span class=ln>50</span><span class=cl>      <span class=k>this</span><span class=p>.</span><span class=nx>cities</span><span class=p>[</span><span class=nx>counter</span><span class=p>].</span><span class=nx>wantedGoods</span><span class=p>.</span><span class=nx>push</span><span class=p>({</span> <span class=s1>&#39;name&#39;</span><span class=o>:</span> <span class=nx>good</span><span class=p>,</span> <span class=s1>&#39;value&#39;</span><span class=o>:</span> <span class=nx>value</span> <span class=p>});</span>
+</span></span><span class=line><span class=ln>51</span><span class=cl>
+</span></span><span class=line><span class=ln>52</span><span class=cl>      <span class=nx>goodsList</span><span class=p>.</span><span class=nx>pop</span><span class=p>();</span>
+</span></span><span class=line><span class=ln>53</span><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=ln>54</span><span class=cl>
+</span></span><span class=line><span class=ln>55</span><span class=cl>    <span class=nx>counter</span> <span class=o>=</span> <span class=p>(</span><span class=nx>counter</span> <span class=o>+</span> <span class=mi>1</span><span class=p>)</span> <span class=o>%</span> <span class=k>this</span><span class=p>.</span><span class=nx>cities</span><span class=p>.</span><span class=nx>length</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>56</span><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=ln>57</span><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=ln>58</span><span class=cl>
+</span></span><span class=line><span class=ln>59</span><span class=cl><span class=c1>// My &#34;draw randomly from any probability distribution&#34; function, 
+</span></span></span><span class=line><span class=ln>60</span><span class=cl><span class=c1>// if you&#39;ve read any previous devlogs, you&#39;ve seen this one before!
+</span></span></span><span class=line><span class=ln>61</span><span class=cl><span class=c1></span><span class=kd>function</span> <span class=nx>getRandomGood</span><span class=p>(</span><span class=nx>total</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>62</span><span class=cl>  <span class=kr>const</span> <span class=nx>rand</span> <span class=o>=</span> <span class=nb>Math</span><span class=p>.</span><span class=nx>random</span><span class=p>()</span>
+</span></span><span class=line><span class=ln>63</span><span class=cl>  <span class=kd>var</span> <span class=nx>sum</span> <span class=o>=</span> <span class=mi>0</span>
+</span></span><span class=line><span class=ln>64</span><span class=cl>  <span class=k>for</span><span class=p>(</span><span class=nx>name</span> <span class=k>in</span> <span class=k>this</span><span class=p>.</span><span class=nx>GOODS</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>65</span><span class=cl>    <span class=nx>sum</span> <span class=o>+=</span> <span class=p>(</span><span class=k>this</span><span class=p>.</span><span class=nx>GOODS</span><span class=p>[</span><span class=nx>name</span><span class=p>].</span><span class=nx>prob</span> <span class=o>/</span> <span class=nx>total</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>66</span><span class=cl>
+</span></span><span class=line><span class=ln>67</span><span class=cl>    <span class=k>if</span><span class=p>(</span><span class=nx>sum</span> <span class=o>&gt;=</span> <span class=nx>rand</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>68</span><span class=cl>      <span class=k>return</span> <span class=nx>name</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>69</span><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=ln>70</span><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=ln>71</span><span class=cl><span class=p>}</span></span></span></code></pre></div><p>With all elements in place, there was another issue with <em>space</em>. (In my
+regular devlog I also keep talking about how I ran out of space. That&rsquo;s
+the real issue here.)</p><p>Each city had the following elements:</p><ul><li><p>A big icon (to recognize the city and whose it is)</p></li><li><p>A big city name</p></li><li><p>One or two wanted goods ( + a custom price)</p></li><li><p>An airport (optional)</p></li></ul><p>That&rsquo;s a lot to display! I spent quite some time moving stuff around (as
+you can also see in my screenshots).</p><p>For example, airports were first an icon displayed next to the city
+name. But that&rsquo;s very hard to miss (and it can overlap with neighbouring
+cities). Similarly, displaying the goods <em>above</em> the city name also
+allowed the situation where two cities overlapped each other.</p><p>I eventually ended with the following setup:</p><ul><li><p>The city icon is <em>literally</em> the player shape, so it&rsquo;s hard to miss</p></li><li><p>The city name is <em>underneath</em> the city.</p></li><li><p>The goods are <em>above</em> the city.</p></li><li><p>If there&rsquo;s an airport, it becomes a <em>thick underline</em> (with a &ldquo;wings
+pattern&rdquo;) underneath the city name.</p></li></ul><p>Because all elements are spaced <em>around</em> the city, and cities are at
+least X squares apart (as mandated by my generation algorithm), it
+(almost) never happens that something overlaps.</p><p><figure class=inline-image><picture><img src=timely-trans-tech-9.webp loading=lazy decoding=async alt="Information placement around cities (name, airport, goods)" title="Information placement around cities (name, airport, goods)" width=891 height=630></picture><figcaption class=side-note><span>Information placement around cities (name, airport, goods)</span></figcaption></figure></p><h2 id=placing-airports>Placing Airports</h2><p>One final problem remained: where should the airports go?</p><p>Currently, they were placed on any city without connection, and then
+randomly on some other cities (with 20% probability or so). But that
+didn&rsquo;t fix anything.</p><p>Instead, once generation is done, we usually end up with several
+&ldquo;groups&rdquo; of connected cities. See the image below: all cities on the
+left are their own group, cut off from the cities on the right. (And
+that&rsquo;s why the generator placed an airport on Bisto and Camor.)</p><p><figure class=inline-image><picture><img src=timely-trans-tech-10.webp loading=lazy decoding=async alt="Two disconnected city groups" title="Two disconnected city groups" width=891 height=630></picture><figcaption class=side-note><span>Two disconnected city groups</span></figcaption></figure></p><p>To always connect these, without fail, I needed <em>one airport per
+&ldquo;connection group&rdquo;</em>.</p><p>Thus, when adding connections, I kept track of a &ldquo;connectionGroup&rdquo;
+variable on each city. When you connect with another city that already
+has a group, you copy it. If that doesn&rsquo;t happen, you start a new group
+yourself.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-Javascript data-lang=Javascript><span class=line><span class=ln> 1</span><span class=cl><span class=c1>// The code for this is scattered across multiple functions 
+</span></span></span><span class=line><span class=ln> 2</span><span class=cl><span class=c1>// -&gt; to get a full understanding (also of the pathfinding bit), check the createConnections() function in the source code
+</span></span></span><span class=line><span class=ln> 3</span><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=ln> 4</span><span class=cl><span class=c1>// STEP 1:
+</span></span></span><span class=line><span class=ln> 5</span><span class=cl><span class=c1>// Just after connecting with a new city, do this:
+</span></span></span><span class=line><span class=ln> 6</span><span class=cl><span class=c1></span><span class=k>if</span><span class=p>(</span><span class=nx>otherCity</span><span class=p>.</span><span class=nx>connectionGroup</span> <span class=o>!=</span> <span class=kc>null</span> <span class=o>&amp;&amp;</span> <span class=nx>curCity</span><span class=p>.</span><span class=nx>connectionGroup</span> <span class=o>==</span> <span class=kc>null</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln> 7</span><span class=cl>  <span class=nx>curCity</span><span class=p>.</span><span class=nx>connectionGroup</span> <span class=o>=</span> <span class=nx>otherCity</span><span class=p>.</span><span class=nx>connectionGroup</span><span class=p>;</span>
+</span></span><span class=line><span class=ln> 8</span><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=ln> 9</span><span class=cl>
+</span></span><span class=line><span class=ln>10</span><span class=cl><span class=c1>// STEP 2:
+</span></span></span><span class=line><span class=ln>11</span><span class=cl><span class=c1>// if we did not receive any connection group from another city, start our own
+</span></span></span><span class=line><span class=ln>12</span><span class=cl><span class=c1></span><span class=k>if</span><span class=p>(</span><span class=nx>curCity</span><span class=p>.</span><span class=nx>connectionGroup</span> <span class=o>==</span> <span class=kc>null</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>13</span><span class=cl>  <span class=nx>curCity</span><span class=p>.</span><span class=nx>connectionGroup</span> <span class=o>=</span> <span class=o>++</span><span class=nx>nextConnectionGroup</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>14</span><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=ln>15</span><span class=cl>
+</span></span><span class=line><span class=ln>16</span><span class=cl><span class=c1>// in any case, COPY our connection group to all our other connections, so we (mostly) stay in sync with each other
+</span></span></span><span class=line><span class=ln>17</span><span class=cl><span class=c1></span><span class=k>for</span><span class=p>(</span><span class=kd>var</span> <span class=nx>c</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>c</span> <span class=o>&lt;</span> <span class=nx>curCity</span><span class=p>.</span><span class=nx>connections</span><span class=p>.</span><span class=nx>length</span><span class=p>;</span> <span class=nx>c</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>18</span><span class=cl>  <span class=kd>var</span> <span class=nx>conn</span> <span class=o>=</span> <span class=nx>curCity</span><span class=p>.</span><span class=nx>connections</span><span class=p>[</span><span class=nx>c</span><span class=p>];</span>
+</span></span><span class=line><span class=ln>19</span><span class=cl>  <span class=nx>conn</span><span class=p>.</span><span class=nx>connectionGroup</span> <span class=o>=</span> <span class=nx>curCity</span><span class=p>.</span><span class=nx>connectionGroup</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>20</span><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=ln>21</span><span class=cl>
+</span></span><span class=line><span class=ln>22</span><span class=cl><span class=c1>// STEP 3:
+</span></span></span><span class=line><span class=ln>23</span><span class=cl><span class=c1>// Lastly, go through all cities. 
+</span></span></span><span class=line><span class=ln>24</span><span class=cl><span class=c1>// If their connection group doesn&#39;t exist yet, it means they are the first of their group, so place an airport there (and start the group)
+</span></span></span><span class=line><span class=ln>25</span><span class=cl><span class=c1></span><span class=k>for</span><span class=p>(</span><span class=kd>var</span> <span class=nx>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>i</span> <span class=o>&lt;</span> <span class=nx>cities</span><span class=p>.</span><span class=nx>length</span><span class=p>;</span> <span class=nx>i</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>26</span><span class=cl>  <span class=kd>var</span> <span class=nx>c</span> <span class=o>=</span> <span class=nx>cities</span><span class=p>[</span><span class=nx>i</span><span class=p>];</span>
+</span></span><span class=line><span class=ln>27</span><span class=cl>  <span class=kd>var</span> <span class=nx>g</span> <span class=o>=</span> <span class=nx>c</span><span class=p>.</span><span class=nx>connectionGroup</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>28</span><span class=cl>
+</span></span><span class=line><span class=ln>29</span><span class=cl>  <span class=k>if</span><span class=p>(</span><span class=k>this</span><span class=p>.</span><span class=nx>numCitiesInGroup</span><span class=p>[</span><span class=nx>g</span><span class=p>]</span> <span class=o>==</span> <span class=kc>undefined</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>30</span><span class=cl>    <span class=nx>airportsPlaced</span><span class=o>++</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>31</span><span class=cl>    <span class=nx>c</span><span class=p>.</span><span class=nx>airport</span> <span class=o>=</span> <span class=kc>true</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>32</span><span class=cl>    <span class=k>this</span><span class=p>.</span><span class=nx>numCitiesInGroup</span><span class=p>[</span><span class=nx>g</span><span class=p>]</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>33</span><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=ln>34</span><span class=cl>
+</span></span><span class=line><span class=ln>35</span><span class=cl>  <span class=k>this</span><span class=p>.</span><span class=nx>numCitiesInGroup</span><span class=p>[</span><span class=nx>g</span><span class=p>]</span><span class=o>++</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>36</span><span class=cl><span class=p>}</span></span></span></code></pre></div><p>This code is <em>not perfect</em>. It sometimes happens, because of a weird
+order in which cities/connections are evaluated, that one or two cities
+are considered their own group (when they are clearly not).</p><p>However, this is <em>acceptable</em>, because in the worst-case scenario, this
+means we have 1 or 2 airports too many. As long as we have enough
+airports to connect <em>any city</em> to <em>any other city</em>, I&rsquo;m fine with it.</p><p>(Due to this &ldquo;overshooting&rdquo; of the desired target, I do not place any
+extra airports anymore, because most of the maps already have those
+built in.)</p><h2 id=solving-the-boardgame-issues-ccf>Solving the Boardgame Issues (CCF)</h2><p>Remember those three issues I described at the start? <em>Clarity,
+Completeness</em> and <em>Fairness</em>? Despite all my best efforts so far, it&rsquo;s
+almost impossible to eradicate these issues just by writing a strong
+random generation algorithm.</p><p>As I&rsquo;ve learned, you need <em>fail-safes</em>. Pieces of code (&ldquo;exceptions&rdquo;)
+that only trigger when a board is just <em>too bad</em> to continue.</p><h3 id=clarity>Clarity</h3><p>During playtesting, I found that cities without any connections were
+<em>very easy</em> to miss. They weren&rsquo;t used at all, because nobody realized
+they existed. Plopping down an airport did not help at all.</p><p>So, when a city cannot find any connection, I simply <em>move it
+completely</em> to a new position.</p><p>(This initially brought some issues, with cities being placed <em>directly
+on top of existing cities</em>, and such. But that was easily solved by
+checking the distance to all other cities, and only placing something if
+that distance is greater than, say, 3 tiles.)</p><h3 id=completeness>Completeness</h3><p>Once the full generation is done (all cities and connections placed), I
+check if there is at least <em>one path</em> of each type in the game (road,
+boat, train, plane).</p><p>If not, I try to <em>brute force</em> it into the game. I go through all
+cities, check all other cities (with which a city isn&rsquo;t already
+connected), until I find a valid path of the wanted type.</p><p>This almost never fails &mldr; unless such a path simply doesn&rsquo;t exist,
+which is most likely on the lowest player counts, as the board is way
+smaller then.</p><p>What do we do? We use the age-old trick of &mldr; <em>starting all over
+again!</em> The generation code is inside a while loop, which will keep
+running as long as there is <em>something</em> that triggers a &ldquo;generation
+failed&rdquo; state.</p><p>(This can also happen, for example, if we run out of <em>water edge
+locations</em>, because that means we cannot place or move cities anymore.
+Again, most likely on the smaller maps.)</p><p><strong>Important remark:</strong> this is also why I always split the code into a
+<em>generation</em> and <em>visualization</em> part.</p><p>I could already start drawing the cities, icons, connections, terrain
+during generation &mldr; but then I&rsquo;d have to <em>remove</em> or <em>change</em> all of
+that when the generation fails. Or when I decide to add a feature later
+on that requires more flexible visuals.</p><p>Instead, I generate everything and save the results in some nice lists.
+Only once I&rsquo;m <em>sure</em> generation is done and successful, I actually go
+through the lists and draw everything in the right way.</p><h3 id=fairness>Fairness</h3><p>This was something I first noticed during playtesting, and did not think
+about <em>at all</em> when I was designing the original game.</p><p>I was playing a two player game. My capital had only <em>one</em> outgoing
+connection and <em>two steps</em> until I could reach an airport. The other
+player had a capital with <em>five outgoing connections</em> and <em>an airport on
+the city itself</em>.</p><p>That wasn&rsquo;t a fair board. At all.</p><p>So I had two options:</p><ul><li><p>Somehow ensure all capitals have an equal number of connections,
+wanted goods, airport/no airport, etcetera</p></li><li><p>Somehow calculate a score for capitals and then give the lowest
+scoring cities a <em>bonus</em> at the start of the game (of a few points)</p></li></ul><p>The first one quickly proved infeasible. It was hard enough generating
+working, playable, good-looking maps as it is. Checking if all capitals
+were equal basically meant the algorithm threw its results away hundreds
+of times before giving an answer (you know, that other fail-safe I
+described above), which took way too long.</p><p>On to the second solution! I calculated these factors (weighted by their
+importance):</p><ul><li><p>Size of connection group</p></li><li><p>Number of connections</p></li><li><p>Airport (yes/no)</p></li><li><p>Value of goods (that can be delivered here)</p></li></ul><p>First, I sort the list to get the <em>highest scoring</em> capital. (Because,
+for all these factors, <em>larger is better.</em>)</p><p>Then, for each capital, I take the difference with this maximum value,
+divide that by 3, and give that as the bonus.</p><p>(For example, the best city has score 26. Another city has 19. Then it
+gets a (26-19) / 3 = 7 / 3 = 4 point bonus at the start of the game.)</p><p>It&rsquo;s not a perfect solution, but the computer usually finds the worst
+cities and gives them a bonus that, in my experience, levels the playing
+field.</p><h3 id=ugliness>Ugliness</h3><p>There were two ugly bits left at this point.</p><p>Paths were &ldquo;snapping&rdquo; to each other so well, that all maps had almost
+exclusively overlapping paths: each path was both a regular road (for
+jeeps) and a railroad (for trains). This made the game way too easy, as
+you could get anywhere with both of these vehicles.</p><p>So, in the pathfinder algorithm, I only allow &ldquo;crossover&rdquo; (or
+&ldquo;snapping&rdquo;) with a certain probability (somewhere near 5%). If that
+check fails, the path is <em>not allowed at all</em> to merge with an existing
+path.</p><p>(It&rsquo;s a bit of a hacky way to do this, creating a pathfinding algorithm
+based on <em>chance</em>, but it works really well.)</p><p>The second problem were these &ldquo;ugly boxes&rdquo; (as I&rsquo;ve come to call them in
+the code). Parts of the map where these useless rectangles appeared (see
+top center, around Camorr):</p><p><figure class=inline-image><picture><img src=timely-trans-tech-11.webp loading=lazy decoding=async alt="Ugly rectangles and stuff" title="Ugly rectangles and stuff" width=1187 height=802></picture><figcaption class=side-note><span>Ugly rectangles and stuff</span></figcaption></figure></p><p>There&rsquo;s no reason for these paths to create such rectangles &ndash; it
+wouldn&rsquo;t happen on a real map &ndash; so I tried to prevent these as much as
+possible.</p><p>How? By sweeping over the whole map (all tiles, one by one), checking
+the neighbours for such an ugly rectangle, and then checking <em>if one of
+the squares can be removed.</em></p><p>When can a square be removed? If it has <em>no connections</em> outside of this
+ugly box (so no outgoing connections). This means I can just remove the
+square and all cities should still be connected.</p><p>Now, this code is also way longer than you&rsquo;d like, but I really saw no better way to do this.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-Javascript data-lang=Javascript><span class=line><span class=ln> 1</span><span class=cl><span class=c1>// This is called on all squares =&gt; again, could be optimized by only keeping a list of &#34;possible ugly boxes&#34;, but I had no need to
+</span></span></span><span class=line><span class=ln> 2</span><span class=cl><span class=c1></span><span class=kd>function</span> <span class=nx>checkUglyBox</span><span class=p>(</span><span class=nx>x</span><span class=p>,</span><span class=nx>y</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln> 3</span><span class=cl>  <span class=c1>// if we&#39;re not even part of a path, ignore this
+</span></span></span><span class=line><span class=ln> 4</span><span class=cl><span class=c1></span>  <span class=k>if</span><span class=p>(</span><span class=o>!</span><span class=k>this</span><span class=p>.</span><span class=nx>terrain</span><span class=p>[</span><span class=nx>x</span><span class=p>][</span><span class=nx>y</span><span class=p>].</span><span class=nx>partOfPath</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln> 5</span><span class=cl>    <span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=ln> 6</span><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=ln> 7</span><span class=cl>
+</span></span><span class=line><span class=ln> 8</span><span class=cl>  <span class=c1>// if the box would go out of bounds, ignore this
+</span></span></span><span class=line><span class=ln> 9</span><span class=cl><span class=c1></span>  <span class=k>if</span><span class=p>(</span><span class=k>this</span><span class=p>.</span><span class=nx>outOfBounds</span><span class=p>(</span><span class=nx>x</span> <span class=o>+</span> <span class=mi>1</span><span class=p>,</span> <span class=nx>y</span> <span class=o>+</span> <span class=mi>1</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>10</span><span class=cl>    <span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>11</span><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=ln>12</span><span class=cl>
+</span></span><span class=line><span class=ln>13</span><span class=cl>  <span class=c1>// first check if we have a box
+</span></span></span><span class=line><span class=ln>14</span><span class=cl><span class=c1></span>  <span class=c1>// (each cell can have multiple pathTypes, such as road and train track overlapping, that&#39;s what the first loop is for)
+</span></span></span><span class=line><span class=ln>15</span><span class=cl><span class=c1></span>  <span class=kd>var</span> <span class=nx>curCell</span> <span class=o>=</span> <span class=k>this</span><span class=p>.</span><span class=nx>terrain</span><span class=p>[</span><span class=nx>x</span><span class=p>][</span><span class=nx>y</span><span class=p>]</span>
+</span></span><span class=line><span class=ln>16</span><span class=cl>
+</span></span><span class=line><span class=ln>17</span><span class=cl>  <span class=k>for</span><span class=p>(</span><span class=kd>var</span> <span class=nx>i</span> <span class=o>=</span> <span class=p>(</span><span class=nx>curCell</span><span class=p>.</span><span class=nx>pathTypes</span><span class=p>.</span><span class=nx>length</span><span class=o>-</span><span class=mi>1</span><span class=p>);</span> <span class=nx>i</span> <span class=o>&gt;=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>i</span><span class=o>--</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>18</span><span class=cl>    <span class=kd>var</span> <span class=nx>pathType</span> <span class=o>=</span> <span class=nx>curCell</span><span class=p>.</span><span class=nx>pathTypes</span><span class=p>[</span><span class=nx>i</span><span class=p>]</span>
+</span></span><span class=line><span class=ln>19</span><span class=cl>
+</span></span><span class=line><span class=ln>20</span><span class=cl>    <span class=kd>var</span> <span class=nx>numNeighbors</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>21</span><span class=cl>    <span class=k>for</span><span class=p>(</span><span class=kd>var</span> <span class=nx>ooX</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>ooX</span> <span class=o>&lt;</span> <span class=mi>2</span><span class=p>;</span> <span class=nx>ooX</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>22</span><span class=cl>      <span class=k>for</span><span class=p>(</span><span class=kd>var</span> <span class=nx>ooY</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>ooY</span> <span class=o>&lt;</span> <span class=mi>2</span><span class=p>;</span> <span class=nx>ooY</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>23</span><span class=cl>        <span class=kd>var</span> <span class=nx>tempCell</span> <span class=o>=</span> <span class=k>this</span><span class=p>.</span><span class=nx>terrain</span><span class=p>[</span><span class=nx>x</span><span class=o>+</span><span class=nx>ooX</span><span class=p>][</span><span class=nx>y</span><span class=o>+</span><span class=nx>ooY</span><span class=p>]</span>
+</span></span><span class=line><span class=ln>24</span><span class=cl>        <span class=k>if</span><span class=p>(</span><span class=k>this</span><span class=p>.</span><span class=nx>validNeighbour</span><span class=p>(</span><span class=nx>curCell</span><span class=p>,</span> <span class=nx>tempCell</span><span class=p>,</span> <span class=nx>pathType</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>25</span><span class=cl>          <span class=nx>numNeighbors</span><span class=o>++</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>26</span><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=ln>27</span><span class=cl>      <span class=p>}</span>
+</span></span><span class=line><span class=ln>28</span><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=ln>29</span><span class=cl>
+</span></span><span class=line><span class=ln>30</span><span class=cl>    <span class=k>if</span><span class=p>(</span><span class=nx>numNeighbors</span> <span class=o>&lt;</span> <span class=mi>4</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>31</span><span class=cl>      <span class=k>continue</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>32</span><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=ln>33</span><span class=cl>
+</span></span><span class=line><span class=ln>34</span><span class=cl>    <span class=c1>// now check if we can remove a square
+</span></span></span><span class=line><span class=ln>35</span><span class=cl><span class=c1></span>    <span class=kd>var</span> <span class=nx>externalConns</span> <span class=o>=</span> <span class=p>[[</span><span class=o>-</span><span class=mi>1</span><span class=p>,</span><span class=mi>0</span><span class=p>],</span> <span class=p>[</span><span class=mi>0</span><span class=p>,</span><span class=o>-</span><span class=mi>1</span><span class=p>],</span> <span class=p>[</span><span class=mi>1</span><span class=p>,</span><span class=mi>0</span><span class=p>],</span> <span class=p>[</span><span class=mi>0</span><span class=p>,</span><span class=mi>1</span><span class=p>]];</span>
+</span></span><span class=line><span class=ln>36</span><span class=cl>    <span class=kd>var</span> <span class=nx>cell</span> <span class=o>=</span> <span class=p>[</span><span class=nx>x</span><span class=p>,</span> <span class=nx>y</span><span class=p>];</span>
+</span></span><span class=line><span class=ln>37</span><span class=cl>
+</span></span><span class=line><span class=ln>38</span><span class=cl>    <span class=c1>// for each rotation (top left, top right, bottom right, bottom left)
+</span></span></span><span class=line><span class=ln>39</span><span class=cl><span class=c1></span>    <span class=k>for</span><span class=p>(</span><span class=kd>var</span> <span class=nx>rotation</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>rotation</span> <span class=o>&lt;</span> <span class=mi>4</span><span class=p>;</span> <span class=nx>rotation</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>40</span><span class=cl>      <span class=kd>var</span> <span class=nx>numExternalConns</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>41</span><span class=cl>
+</span></span><span class=line><span class=ln>42</span><span class=cl>      <span class=c1>// check if we have a vital external connection
+</span></span></span><span class=line><span class=ln>43</span><span class=cl><span class=c1></span>      <span class=kd>var</span> <span class=nx>curRotatedCell</span> <span class=o>=</span> <span class=k>this</span><span class=p>.</span><span class=nx>terrain</span><span class=p>[</span><span class=nx>cell</span><span class=p>[</span><span class=mi>0</span><span class=p>]][</span><span class=nx>cell</span><span class=p>[</span><span class=mi>1</span><span class=p>]]</span>
+</span></span><span class=line><span class=ln>44</span><span class=cl>      <span class=k>for</span><span class=p>(</span><span class=kd>var</span> <span class=nx>ec</span> <span class=o>=</span> <span class=nx>rotation</span><span class=p>;</span> <span class=nx>ec</span> <span class=o>&lt;</span> <span class=nx>rotation</span><span class=o>+</span><span class=mi>2</span><span class=p>;</span> <span class=nx>ec</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>45</span><span class=cl>        <span class=kd>var</span> <span class=nx>tempX</span> <span class=o>=</span> <span class=nx>cell</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=o>+</span> <span class=nx>externalConns</span><span class=p>[</span><span class=nx>ec</span> <span class=o>%</span> <span class=mi>4</span><span class=p>][</span><span class=mi>0</span><span class=p>],</span> <span class=nx>tempY</span> <span class=o>=</span> <span class=nx>cell</span><span class=p>[</span><span class=mi>1</span><span class=p>]</span> <span class=o>+</span> <span class=nx>externalConns</span><span class=p>[</span><span class=nx>ec</span> <span class=o>%</span> <span class=mi>4</span><span class=p>][</span><span class=mi>1</span><span class=p>];</span>
+</span></span><span class=line><span class=ln>46</span><span class=cl>
+</span></span><span class=line><span class=ln>47</span><span class=cl>        <span class=k>if</span><span class=p>(</span><span class=k>this</span><span class=p>.</span><span class=nx>outOfBounds</span><span class=p>(</span><span class=nx>tempX</span><span class=p>,</span> <span class=nx>tempY</span><span class=p>))</span> <span class=p>{</span> <span class=k>continue</span><span class=p>;</span> <span class=p>}</span>
+</span></span><span class=line><span class=ln>48</span><span class=cl>
+</span></span><span class=line><span class=ln>49</span><span class=cl>        <span class=kd>var</span> <span class=nx>tempCell</span> <span class=o>=</span> <span class=k>this</span><span class=p>.</span><span class=nx>terrain</span><span class=p>[</span><span class=nx>tempX</span><span class=p>][</span><span class=nx>tempY</span><span class=p>]</span>
+</span></span><span class=line><span class=ln>50</span><span class=cl>        <span class=k>if</span><span class=p>(</span><span class=k>this</span><span class=p>.</span><span class=nx>validNeighbour</span><span class=p>(</span><span class=nx>curRotatedCell</span><span class=p>,</span> <span class=nx>tempCell</span><span class=p>,</span> <span class=nx>pathType</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>51</span><span class=cl>          <span class=nx>numExternalConns</span><span class=o>++</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>52</span><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=ln>53</span><span class=cl>      <span class=p>}</span>
+</span></span><span class=line><span class=ln>54</span><span class=cl>
+</span></span><span class=line><span class=ln>55</span><span class=cl>      <span class=c1>// if no external connections, the we can just remove this path!
+</span></span></span><span class=line><span class=ln>56</span><span class=cl><span class=c1></span>      <span class=c1>// also STOP the loop, because now the ugly box is already gone!
+</span></span></span><span class=line><span class=ln>57</span><span class=cl><span class=c1></span>      <span class=k>if</span><span class=p>(</span><span class=nx>numExternalConns</span> <span class=o>==</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>58</span><span class=cl>        <span class=nx>curRotatedCell</span><span class=p>.</span><span class=nx>pathTypes</span><span class=p>.</span><span class=nx>filter</span><span class=p>(</span><span class=kd>function</span><span class=p>(</span><span class=nx>e</span><span class=p>)</span> <span class=p>{</span> <span class=k>return</span> <span class=nx>e</span> <span class=o>!==</span> <span class=nx>pathType</span> <span class=p>})</span>
+</span></span><span class=line><span class=ln>59</span><span class=cl>
+</span></span><span class=line><span class=ln>60</span><span class=cl>        <span class=k>if</span><span class=p>(</span><span class=nx>curRotatedCell</span><span class=p>.</span><span class=nx>pathTypes</span><span class=p>.</span><span class=nx>length</span> <span class=o>&lt;=</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>61</span><span class=cl>          <span class=nx>curRotatedCell</span><span class=p>.</span><span class=nx>partOfPath</span> <span class=o>=</span> <span class=kc>false</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>62</span><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=ln>63</span><span class=cl>        <span class=k>break</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>64</span><span class=cl>      <span class=p>}</span>
+</span></span><span class=line><span class=ln>65</span><span class=cl>
+</span></span><span class=line><span class=ln>66</span><span class=cl>      <span class=c1>// keep track of the current cell (of our 2x2 square) that we are considering
+</span></span></span><span class=line><span class=ln>67</span><span class=cl><span class=c1></span>      <span class=kd>var</span> <span class=nx>orthoVec</span> <span class=o>=</span> <span class=nx>externalConns</span><span class=p>[(</span><span class=nx>rotation</span> <span class=o>+</span> <span class=mi>2</span><span class=p>)</span> <span class=o>%</span> <span class=mi>4</span><span class=p>]</span>
+</span></span><span class=line><span class=ln>68</span><span class=cl>      <span class=nx>cell</span> <span class=o>=</span> <span class=p>[</span><span class=nx>cell</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=o>+</span> <span class=nx>orthoVec</span><span class=p>[</span><span class=mi>0</span><span class=p>],</span> <span class=nx>cell</span><span class=p>[</span><span class=mi>1</span><span class=p>]</span> <span class=o>+</span> <span class=nx>orthoVec</span><span class=p>[</span><span class=mi>1</span><span class=p>]]</span>
+</span></span><span class=line><span class=ln>69</span><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=ln>70</span><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=ln>71</span><span class=cl><span class=p>}</span></span></span></code></pre></div><p>This does not remove <em>all</em> of them. For that, I&rsquo;d need a smarter
+algorithm, or multiple sweeps (at least 5 or 10). But this is fine for
+now, because I rarely get these ugly boxes anymore.</p><h2 id=the-end>The End!</h2><p>So, that is how I created a tool that randomly generates a board you can
+actually use (when printed) in a board game. I hope it was interesting
+and that you learned something from the problems and how I tackled them.</p><p>If you have any questions, or you&rsquo;ve played the game and want to give
+feedback, just let me know!</p><p>I&rsquo;m very happy with the results. It works better than I expected
+(especially for a first try) and it looks better than I could have hoped
+(given that computers don&rsquo;t have a sense of visual design and gameboards
+are usually meticulously handcrafted).</p><p>I&rsquo;ll surely continue creating these kinds of tools and games. In fact, I
+have a few ideas and tricks up my sleeve that might be even more awesome
+&mldr;</p><p>(I don&rsquo;t want to spoil too much, because it&rsquo;s still in early stages and
+I&rsquo;m not quite certain if it will work, but you can think of it as
+&ldquo;random generation for board games &mldr; <em>on steroids!</em>&rdquo;)</p><p>This game heavily relies on a <em>grid</em>, some <em>noise</em> and <em>pathfinding</em>.
+I&rsquo;ve done this a few times now, so I want to try something else! The
+next games will probably feature different methods of random world/map
+generation.</p><p>Thanks for reading, until the next devlog,</p><p>Pandaqi</p></div></article><div><nav class=pagination><ul><li><a href=/blog/boardgames/timely-transports/tech-devlog-timely-transports/timely-transports-part-2/ class="masked-link big-mask mask-8" style=--rotation:-0.5deg>&lt;&lt; Previous Page</a></li><li>Continue reading</li><li><span class=nav-disabled>No next page :(</span></li></ul></nav></div></main><footer id=site-footer><div class="padding center-block"><h3>More Pandaqi</h3><p>You could <a href=https://pandaqi.com>visit the game studio</a>.
+Or my <a href=https://pandaqi.com/tutorials/>free tutorial website</a>.
+Or my <a href=https://rodepanda.com/>portfolio</a> with easy access to absolutely everything I ever made.</p><h3>Latest</h3><nav class=latest><ul><li><a href=/blog/boardgames/kingseat/>Kingseat
+(👑)</a></li><li><a href=/blog/boardgames/foldigami/>Foldigami
+(📃)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-the-big-typescript-update/>Pandaqi Games: The Big Typescript Update
+(🎮)</a></li><li><a href=/blog/boardgames/sixpack/>Sixpack
+(🃏)</a></li><li><a href=/blog/boardgames/photomone-antsassins/>Photomone: Antsassins
+(🐜)</a></li><li><a href=/blog/boardgames/photomone-digital-antists/>Photomone: Digital Antists
+(🐜)</a></li><li><a href=/blog/boardgames/photomone/>Photomone
+(🐜)</a></li><li><a href=/blog/boardgames/keebble-domino/>Keebble: Domino
+(📗)</a></li><li><a href=/blog/boardgames/keebble-knickknack/>Keebble: Knickknack
+(📘)</a></li><li><a href=/blog/videogames/game-jams/less-is-store/>Less is Store
+(🛍️)</a></li></ul></nav><h3>Sections</h3><nav><ul><li><a href=/blog/boardgames/>Boardgames
+(🎲)</a></li><li><a href=/blog/news-and-updates/>News & Updates
+(📢)</a></li><li><a href=/blog/reviews-and-thoughts/>Reviews & Thoughts
+(💭)</a></li><li><a href=/blog/tutorials/>Tutorials
+(👩‍🎓)</a></li><li><a href=/blog/videogames/>Videogames
+(🎮)</a></li></ul></nav><h3>Credits</h3><p>Theme by me (<a href=https://pandaqi.com>Pandaqi</a> 🐼) &#183;
+with ❤️ &#183;
+using <a href=https://gohugo.io>Hugo</a> &#183;
+&copy; 2018&ndash;2023 Pandaqi Blog</p></div></footer><link rel=stylesheet type=text/css href=/blog/css/style.css><script src=/blog/js/bundle.min.js></script></body></html>

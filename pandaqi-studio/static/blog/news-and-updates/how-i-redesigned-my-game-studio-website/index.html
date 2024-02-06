@@ -1,0 +1,414 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><title>How I redesigned my Game Studio website | Pandaqi Blog</title><link rel=icon type=image/png href=https://pandaqi.com/blog//favicon.png><link rel=stylesheet type=text/css href=/blog/css/critical.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin></head><body><header id=site-header><nav class=menu><ul><li><a href=https://pandaqi.com/blog/ class="masked-link big-mask mask-7" style=--rotation:2deg>Home</a></li><li><a href=/blog/boardgames/ class="masked-link big-mask mask-7" style=--rotation:0.5deg>Boardgames</a></li><li><a href=/blog/news-and-updates/ class="masked-link big-mask mask-3" style=--rotation:-0.5deg>News & Updates</a></li><li><a href=/blog/reviews-and-thoughts/ class="masked-link big-mask mask-7" style=--rotation:0.5deg>Reviews & Thoughts</a></li><li><a href=/blog/tutorials/ class="masked-link big-mask mask-5" style=--rotation:1deg>Tutorials</a></li><li><a href=/blog/videogames/ class="masked-link big-mask mask-4" style=--rotation:1.5deg>Videogames</a></li></ul></nav></header><main class="padding center-block"><article class=single-article><div class=thumbnail-media><figure class=thumb-image><picture><img src=devlog-image3.webp loading=lazy decoding=async alt="Thumbnail / Header for article: How I redesigned my Game Studio website" title="Thumbnail / Header for article: How I redesigned my Game Studio website" width=1188 height=457></picture></figure></div><h1>How I redesigned my Game Studio website</h1><aside class=metadata><nav class=breadcrumbs><span class=metadata-label><span class=emoji>🥐</span> Breadcrumbs ||</span>
+<a href=https://pandaqi.com/blog/>Home</a>
+/
+<a href=https://pandaqi.com/blog/news-and-updates/>News and updates</a>
+/
+<a href=https://pandaqi.com/blog/news-and-updates/how-i-redesigned-my-game-studio-website/>How i redesigned my game studio website</a></nav><script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/pandaqi.com\/blog\/","name":"home"}},{"@type":"ListItem","position":2,"item":{"@id":"https:\/\/pandaqi.com\/blog\/news-and-updates\/","name":"news-and-updates"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/pandaqi.com\/blog\/news-and-updates\/how-i-redesigned-my-game-studio-website\/","name":"how-i-redesigned-my-game-studio-website"}}]}</script><div><span class=metadata-label><span class=emoji>&#8987;</span> Published ||</span>
+<time datetime=2021-10-11T10:26:32>Monday, Oct 11, 2021</time></div><div><span class=metadata-label><span class=emoji>📖</span> Table of Contents ||</span>
+<a href=# id=toc-toggle>Show</a></div></aside><aside id=table-of-contents class=masked-link-block><header><h2>Table of Contents</h2></header><nav id=TableOfContents><ul><li><a href=#step-1-what-are-the-requirements>Step 1: What are the requirements?</a><ul><li><a href=#hierarchy>Hierarchy</a></li><li><a href=#visuals>Visuals</a></li><li><a href=#speed>Speed</a></li><li><a href=#minimalist>Minimalist</a></li><li><a href=#usability>Usability</a></li><li><a href=#variety--showcasing>Variety & Showcasing</a></li></ul></li><li><a href=#step-2-say-goodbye-to-databases>Step 2: Say goodbye to databases</a></li><li><a href=#step-3-a-better-general-design>Step 3: A better general design</a></li><li><a href=#step-4-faster-speeds>Step 4: Faster speeds</a><ul><li><a href=#images>Images</a></li><li><a href=#moving-images>Moving images</a></li><li><a href=#images-but-now-later>Images, but now later</a></li><li><a href=#the-usual-suspects>The usual suspects</a></li></ul></li><li><a href=#step-5-modules>Step 5: Modules</a><ul><li><a href=#why-modules>Why modules?</a></li><li><a href=#the-basic-modules>The basic modules</a></li><li><a href=#the-support>The support</a></li></ul></li><li><a href=#step-6-copying-all-the-content>Step 6: Copying all the content</a></li><li><a href=#step-7-fixing-all-the-interactive-components>Step 7: Fixing all the interactive components</a><ul><li><a href=#when-do-you-need-a-local-server>When <em>do</em> you need a local server?</a></li><li><a href=#lessons-learned>Lessons learned</a></li></ul></li><li><a href=#step-8-finishing-it-off>Step 8: Finishing it off</a><ul><li><a href=#metadata>Metadata</a></li><li><a href=#colors>Colors</a></li><li><a href=#sketchy-buttons>Sketchy Buttons</a></li><li><a href=#finishing-touches>Finishing touches</a></li></ul></li><li><a href=#step-9-profit>Step 9: Profit</a></li></ul></nav></aside><div><p>I&rsquo;ve been making games and uploading them (under the moniker &ldquo;Pandaqi&rdquo;)
+for about 7+ years now.</p><p>At first, they were just a few hobby projects on some sketchy website.</p><p>But as it goes, you grow more professional over time, you create bigger
+games, more people find them and download them &mldr; and then you realize
+it&rsquo;s all a mess.</p><p>For 6 years, I had been haphazardly uploading games left and right,
+without any clear structure. There was <em>no</em> central place for all my
+games, even though I&rsquo;d made quite a lot of them at this point. (I was
+actually surprised people were able to find an email address amongst the
+chaos and successfully <em>mail me</em> about projects.)</p><p>That&rsquo;s why, when I registered myself as a freelancer (in the
+Netherlands, my home country), I decided to create a proper &ldquo;game studio
+website&rdquo;.</p><p>I was a fool. I thought websites like these needed to be &ldquo;flashy&rdquo;. I
+thought it was a good idea to <em>make the website itself a game</em>. I
+thought I was good enough, and big enough, to warrant a website with
+boatloads of pictures and GIFs.</p><p>At the same time, I thought &ldquo;I&rsquo;ve made less than 10 games these past 6
+years &mldr; surely this website will only grow <em>slowly</em> and I won&rsquo;t need
+to update it very often&rdquo;.</p><p>All of this led to a website that:</p><ul><li><p>Was incredibly slow to load.</p></li><li><p>Had to outsource all its images to a free image hosting service,
+because my cheap server couldn&rsquo;t handle it otherwise.</p><ul><li>(Before doing this redesign, I had 400+ big images hosted and
+requested 24 hours a day from my free imgur account :p)</li></ul></li><li><p>Only looked <em>awesome</em> &mldr; some of the time.</p><ul><li>(I used &ldquo;ColorThief&rdquo; to read the logos when they were displayed
+and find the most common colors. Then I used those in the
+design. Needless to say, this doesn&rsquo;t <em>ensure</em> legibility or
+something that looks good in general.)</li></ul></li><li><p>Was incredibly hard to navigate.</p></li><li><p>Got in my visitor&rsquo;s way by prompting them to &ldquo;play the game&rdquo; and go
+with that flow</p><ul><li>The game was simply &ldquo;find the hidden pandas on the website&rdquo;. If
+you found one, you could click it and progress.</li></ul></li><li><p>And was so hard to update that I even forgot to do it for my latest
+projects.</p></li></ul><p><figure class=inline-image><picture><img src=devlog-image1.webp loading=lazy decoding=async alt="Front page of the old website" title="Front page of the old website" width=1876 height=898></picture><figcaption class=side-note><span>Front page of the old website</span></figcaption></figure></p><p>Yes, I only made a handful of games in that timespan <em>because I was
+still studying</em> and <em>still learning how to develop games</em>. Once I
+finished my degree, and became a full-time freelancer, I made 10+ games
+in a single year. Each of them bigger and more professional than all
+that came before.</p><p>Additionally, I implicitly built the website for <em>video games</em>. I had
+never thought I would be developing loads of boardgames in the year
+after it &mldr; which subsequently never had a good place on the website.</p><p>That&rsquo;s why I decided to <strong>completely redesign the website and all its
+content</strong>. In this article I&rsquo;ll explain <strong>what I did, why I did it, and
+what you can learn from that</strong>. (For your own website, portfolio, game
+studio, anything that tries to showcase projects and wants to have a
+good user experience.)</p><h2 id=step-1-what-are-the-requirements>Step 1: What are the requirements?</h2><p>Before doing anything, I have to ask the important question: &ldquo;what
+<em>should</em> the new website do? Which problems am I fixing and how do I
+prevent adding more problems?&rdquo;</p><p>Before doing this update, I also redesigned <a href=https://rodepanda.com>my portfolio</a></p><p>Such a website is, of course, purely designed to give an <em>overview</em> of
+all my work. Which means structure, navigation, and literal overviews
+are important.</p><p>This gave me my first clues for this website, which I <em>somehow</em> didn&rsquo;t
+think of the first time:</p><h3 id=hierarchy>Hierarchy</h3><ul><li><p>There should be a clear <em>hierarchy</em>. A few categories (video game,
+board game) and tags you might search for (free, paid, mobile, PC,
+etc.)</p></li><li><p>This hierarchy should enable users to <em>get anywhere they want</em>
+within <em>a single click</em>.</p></li><li><p>To do so, each game needs to be properly tagged, and this metadata
+should be displayed in a few consistent, easy-to-reach places.</p></li></ul><h3 id=visuals>Visuals</h3><ul><li><p>Each project, without exception, should have a <em>thumbnail, header,</em>
+and <em>logo</em>.</p></li><li><p>Always use these images in overviews/lists. If space is at a
+premium, I&rsquo;m okay with leaving out any <em>text</em> (even the title of the
+game), if it allows the visuals to come through.</p></li><li><p>There should be <em>no</em> case, <em>no</em> page, <em>no</em> screen size that makes
+the website (almost) impossible to read or navigate. (Sounds
+obvious. But the previous website had some really wonky colors and
+font sizes on breakpoints between &ldquo;wide screen (desktop)&rdquo; and &ldquo;small
+screen (mobile)&rdquo;.)</p></li><li><p>These images should be as big as possible. Clicking <em>anywhere</em> on
+such an image leads you to the project page. (Nothing worse than
+clicking &mldr; and nothing happening. Until you realize, 10 seconds
+later, there was some <em>small button</em> saying &ldquo;visit game&rdquo; somewhere
+that you actually had to click.)</p></li></ul><p>The original design tried to do everything in one image. I would create
+single image with a (repeating) background and the logo on top. Then I
+used many (<em>many</em>) CSS tricks to make this look good on all sizes, and
+even allow it to <em>swap sides</em> (so if the logo was on the left at first,
+it now was on the right).</p><p>As you can expect: this was a lot of work &mldr; for a system that only
+worked 60% of the time. Often you&rsquo;d still see the gaps, or the image
+wouldn&rsquo;t scale correctly, or the text overlapped the logo.</p><p>That <em>surely</em> had to change.</p><h3 id=speed>Speed</h3><p>A nice start, but not all issues are resolved. The second problem had to
+do with <strong>speed</strong> and <strong>website size.</strong> Obviously, <em>faster is better</em>,
+which can be achieved by:</p><ul><li><p>Reducing page size, mainly by reducing <em>number of images</em> and their
+<em>size</em></p></li><li><p><em>Loading CSS / JavaScript / Fonts after the whole document is
+already loaded.</em></p></li><li><p>Sharing files across the different pages. (So it can be downloaded
+once, then cached, then reused.)</p></li><li><p>Being <em>very</em> picky about what I do or do not include.</p></li><li><p>Removing all the scripts that are now running <em>on every page</em>. (I
+have one that dynamically changes the colors of projects, another
+that loads the &ldquo;game&rdquo; portion of the website, etcetera.)</p></li></ul><h3 id=minimalist>Minimalist</h3><p>That last point illustrates something that&rsquo;s annoying me about many
+&ldquo;modern&rdquo; websites: they all add these fancy effects, huge graphics
+everywhere, dynamic widgets and whatnot.</p><p>The result? I have to wait 10 seconds before the whole thing is loaded.
+During that period, the page keeps jumping, changing in size, adding new
+stuff. And while it plays some cool animation (or asks my permission to
+show push notifications), I&rsquo;m just <em>trying to read the thing for which I
+came</em>.</p><p>As such, I try to keep my websites minimalist. It should just be: click
+on something, it loads almost instantly, you can read/see/use it, boom
+&ndash; done. No extra animations. No dynamic things that should update all
+the time.</p><p>In fact, if I can manage it, <em>no scripts at all</em>.</p><p>After all these years of designing things, I&rsquo;ve learned that the hardest
+thing is not to create fancy and spectacular designs. The hardest thing
+is keeping things simple and streamlined (without making them look ugly
+or boring).</p><p>Hence why I probably failed on that part with the first design.</p><p>In any case, the new website should be minimalist and streamlined.</p><h3 id=usability>Usability</h3><p>The website shouldn&rsquo;t just be good and quick to use for <em>others</em>, it
+should also be great for me to <em>update and maintain</em>.</p><ul><li><p>Host all assets (mainly images) on my own server. This way, I keep
+total control, and everything is in <em>one place</em>.</p></li><li><p>For any &ldquo;pattern&rdquo; that occurs, create a module for it I can reuse.
+New game pages should consist like 90% out of things I <em>already
+made</em> and can just easily reuse.</p></li><li><p>The final folder structure should be one that is obvious and easy to
+navigate. (For example, it&rsquo;s easy to fall into the trap of placing
+all images in one big &ldquo;assets&rdquo; folder. But over time, you&rsquo;d get a
+single folder with <em>a thousand images</em> belonging to <em>many different
+projects</em>. Not great. Instead, each project has its <em>own</em> folder
+which contains <em>everything</em> that&rsquo;s relevant.)</p></li><li><p>Use a &ldquo;static site generator&rdquo;. (I&rsquo;ll explain that one soon.)</p></li></ul><h3 id=variety--showcasing>Variety & Showcasing</h3><p>And lastly, I should be able to give each game <em>its own unique page</em>.
+Which might look <em>completely different</em> from any other page on the
+website. Which might be completely interactive or contain its own
+&ldquo;digital component&rdquo; that belongs to a boardgame of mine.</p><ul><li><p>This was a hard one to fulfill. I had to research <em>a lot</em> to find a
+good way to do this.</p></li><li><p>But eventually, I decided to simply treat each game page as a <em>blank
+slate</em>. Almost zero markup or styles are copied from the &ldquo;main
+theme&rdquo; &ndash; instead, I can create anything I want for each particular
+game.</p></li><li><p>But, I will still create <em>some</em> general patterns. Some &ldquo;plugins&rdquo; I
+can reuse anywhere I want. Some &ldquo;general properties&rdquo; I can set for
+each game, such as which color scheme to use when showcasing the
+game on the front page.</p></li></ul><p>That&rsquo;s about it for the requirements. It should be something that
+showcases all my games in their visual glory, but still keeps a strong
+user experience and navigation to get anywhere with ease. Each game
+should have their own unique look, but behind the scenes I should be
+able to create that look with just a few &ldquo;modules&rdquo; (which I made
+myself).</p><p>And I should let go of the &ldquo;naïve&rdquo; implementation of a &ldquo;game within the
+website&rdquo; and other fancy stuff that contributes absolutely nothing :p</p><h2 id=step-2-say-goodbye-to-databases>Step 2: Say goodbye to databases</h2><p>Most online hosting &ndash; at least the <em>cheap</em> variants &ndash; only support the
+PHP + MySQL databases.</p><p>After all these years, I&rsquo;ve grown to hate these with a passion. The
+interface is slow, ugly, and dated. Their speed (when requesting info or
+updating) is nothing to write home about.</p><p>But at the time, it was the only thing I <em>had</em>, and the only thing I
+<em>knew well</em>. So the old website had all its content stored in a
+database, and almost every file was a <strong>.php</strong> file that included some
+other files here and there.</p><p>Since the inception of this website, I&rsquo;ve learned about <strong>static site
+generators</strong>. I built two websites with them and it&rsquo;s just been a
+<em>breeze</em> compared to the old PHP/SQL/Database method.</p><p>As such, even though this is a <em>game website</em> and thus <em>very
+interactive</em>, I just <em>had</em> to use this system.</p><p>A static site generator works like this:</p><ul><li><p>You download the generator software.</p></li><li><p>You work on the website locally, on your own computer, by writing
+content in files.</p></li><li><p>With the help of some tools, you can create <em>templates</em> to transform
+your content into good-looking websites.</p></li><li><p>When satisfied, you can tell the generator to &ldquo;build&rdquo; or &ldquo;export&rdquo;
+the whole thing, which gives you <em>one folder</em> that contains your
+<em>whole website</em> (as static .html files)</p></li><li><p>Drag that folder to your server (to upload it) and you&rsquo;re done!</p></li></ul><p>These are the <em>benefits</em>:</p><ul><li><p>Extremely fast. The end-product is just a bunch of small files. No
+databases, no other connections, nothing to be calculated
+dynamically.</p></li><li><p>Modular. For example, I can write a bit of code for a &ldquo;screenshot
+gallery&rdquo;. Now, whenever a game wants to display some screenshots in
+a gallery, I just type the name of that code and it&rsquo;s done. No need
+to repeat myself. And if something drastically changes, I only need
+to change this <em>one file</em>, and it updates the whole website
+accordingly.</p></li><li><p>You can work completely offline, locally, without any issues.
+Deploying the website simply means uploading the final folder to
+your server.</p></li><li><p>Creating content is just <em>creating content</em>. I make a file, I type
+my words, I tell it to use images in a few places, and it all works
+out.</p></li></ul><p>The <em>downsides</em> are:</p><ul><li><p>Can&rsquo;t be used for very dynamic websites. (For example, one that has
+<em>user accounts</em> and shows <em>different pages to different users</em>. Or
+one that is updated 100 times per hour.)</p></li><li><p>You need to learn the specific concepts and syntax for your
+generator.</p></li><li><p>For me, there was <em>no</em> easy way to transfer the old website to the
+new one. The systems are so drastically different that I had to
+manually copy-paste most of it.</p></li></ul><p>The first website I created this way took a <em>long time</em>. I needed to
+wrap my head around this &ldquo;new&rdquo; way of thinking, designing, and
+deploying.</p><p>That&rsquo;s why I saved this website (Pandaqi) for <em>last</em> out of all my
+websites. Because I knew it&rsquo;d be the hardest, with its many interactive
+components.</p><p>(In case you don&rsquo;t know: many of my boardgames are actually &ldquo;hybrid
+boardgames&rdquo;. They have an additional digital component. Which is
+basically a whole game, written in JavaScript, that should always be
+online and able to execute on any device. It took quite some skill to
+copy that to the new system <em>without breaking everything</em>.)</p><p><figure class=inline-image><picture><img src=devlog-image2.webp loading=lazy decoding=async alt="Logo of Static Site Generator Hugo" title="Logo of Static Site Generator Hugo" width=592 height=173></picture><figcaption class=side-note><span>Logo of Static Site Generator Hugo</span></figcaption></figure></p><p>For this website, I chose <a href=https://gohugo.io>Hugo</a>. It&rsquo;s one of the most
+popular, it has great documentation and help forums, it has all the
+features I need, and is <em>super fast</em>. Nevertheless, I&rsquo;ve done research
+on many different static site generators, and they all seem more than
+able to do the job. So don&rsquo;t feel like you <em>have</em> to choose Hugo.</p><h2 id=step-3-a-better-general-design>Step 3: A better general design</h2><p>The old <em>design</em> was great! But the way I made it happen &ndash; using all
+those CSS and markup tricks I mentioned earlier &ndash; was bug-ridden and
+messy, to say the least.</p><p>Fortunately, I&rsquo;m a wiser man now, and the internet has grown.</p><p><figure class=inline-image><picture><img src=devlog-image3.webp loading=lazy decoding=async alt="Basic design with &ldquo;banners&rdquo;, wide and narrow." title="Basic design with &ldquo;banners&rdquo;, wide and narrow." width=1188 height=457></picture><figcaption class=side-note><span>Basic design with &ldquo;banners&rdquo;, wide and narrow.</span></figcaption></figure></p><p>This is how I will design the same thing &mldr; but better:</p><ul><li><p>Nothing uses the CSS &ldquo;background-image&rdquo; property.</p><ul><li><p>Why? I can&rsquo;t optimize their loading, making them slow,
+especially when you have many <em>huge</em> background-images on a
+single page. They are also sometimes hard to position/scale
+correctly.</p></li><li><p>Instead, I use regular pictures, wrapped in a <strong>&lt;picture></strong>
+element.</p></li></ul></li><li><p>Each game has a <em>background pattern</em> that scales the full width.
+This, too, is a regular image I designed beforehand.</p></li><li><p>On top of that, there&rsquo;s a <em>flexbox</em> with two components: <em>text</em> (on
+the left) and <em>logo</em> (on the right)</p><ul><li>By adding one CSS class, these can easily be <em>reversed</em>.</li></ul></li><li><p>On smaller screens, both logo and font-size shrink to fit the space.</p><ul><li>I&rsquo;ve experimented with &ldquo;wrapping&rdquo; them, so the text appears
+<em>underneath</em> the logo on small screens. But it just looked weird
+and ugly.</li></ul></li><li><p>The actual <em>images</em> and <em>colors</em> to use are set directly in the
+entry for this game.</p><ul><li><p>At the top of markdown files, which Hugo uses, I can set
+&ldquo;frontmatter&rdquo;. Which basically means &ldquo;any property I want to
+give this game&rdquo;.</p></li><li><p>There I can just say something like &ldquo;bgColor: #FFF&rdquo; and then
+use that in the template that renders this thing.</p></li><li><p>Most importantly: I do <strong>not</strong> dynamically determine these, but
+input them <strong>manually</strong> to look as good as possible.</p></li></ul></li></ul><p>This recreates everything the old design did &mldr; but much faster,
+cleaner, better-looking and easier to maintain.</p><p>Well, everything except for one trick: the <strong>wavy borders</strong> separating
+entries.</p><p><figure class=inline-image><picture><img src=devlog-image4.webp loading=lazy decoding=async alt="Wavy borders between all sections, highlighted." title="Wavy borders between all sections, highlighted." width=1188 height=457></picture><figcaption class=side-note><span>Wavy borders between all sections, highlighted.</span></figcaption></figure></p><p>The trick I used back then was a complicated idea with pseudo-elements
+and background-colors. Fortunately, some new (CSS) properties are now
+well-supported, which make this <em>much easier</em>.</p><p>I&rsquo;m talking about <strong>mask-image.</strong> I can just draw this wave in my design
+software and use that as a mask. Boom, done.</p><p>(In fact, it was so easy and nice, that I wanted to experiment with
+other patterns. So I ended up spending a few days trying to find
+interesting masks I could use throughout the design. I&rsquo;ll talk about that near the end.)</p><p>And if a browser doesn&rsquo;t support it? The entries are just separated by a
+straight line, which is fine as well.</p><h2 id=step-4-faster-speeds>Step 4: Faster speeds</h2><h3 id=images>Images</h3><p>By now, it&rsquo;s obvious this website needs images. It already had a lot,
+but with the new design <em>this amount will only increase</em>.</p><p>Some of these images, like big banners/headers across the full width of
+the website, are <em>huge</em>. Despite my best efforts back then, I could only
+get them to a 500-700 kb .png file, before it started looking too
+pixelated.</p><p>But now &mldr; now we have new image formats! The <strong>webp</strong> format has
+<em>huge</em> compression bonuses over the <strong>jpg</strong> and <strong>png</strong> formats. And
+it&rsquo;s supported everywhere now.</p><p>The upcoming <strong>avif</strong> format is even better, and it&rsquo;s getting there, but
+not quite supported enough to use it fully.</p><p>So, I use <em>both</em> and let the browser pick the one they understand.</p><p>With such a conversion, a single game page (that might&rsquo;ve been 2-3 MB
+before) is reduced to 200-300 kb. And, to my eyes at least, the
+difference is only barely noticeable. Faster load times, less server
+stress, win-win for everyone.</p><p><figure class=inline-image><picture><img src=devlog-image5.webp loading=lazy decoding=async alt="Typical reduction in file size of a game banner." title="Typical reduction in file size of a game banner." width=1188 height=457></picture><figcaption class=side-note><span>Typical reduction in file size of a game banner.</span></figcaption></figure></p><p><strong>Remark:</strong> and the images are now on my own server. Which removes the
+need for an external connection, which <em>should</em> be faster on a decently
+fast hosting.</p><h3 id=moving-images>Moving images</h3><p>Because the website showcases games, there are many <em>GIFs</em>. These are
+terrible for performance. Even <em>extremely compressed and optimized</em> GIFs
+can easily run 3-4 mb. And I might need multiple of the on a single
+page!</p><p>These are converted to <strong>video</strong>. (The <strong>webm</strong> format is optimal. It&rsquo;s
+often at most 20% of the original GIF size.)</p><p>During this process, however, I noticed I went a bit overboard with
+GIFs. So many of the were simply <em>removed</em> and it made the page
+<em>better</em>.</p><p>Which means that many optimizations were done by simply <strong>removing
+things I don&rsquo;t really need.</strong></p><p>A screenshot gallery with 5 screenshots is fine, I don&rsquo;t need 10 of
+them. Displaying one gif that shows the core gameplay is enough, three
+of them that <em>look kinda similar</em> just adds noise.</p><h3 id=images-but-now-later>Images, but now later</h3><p>Native support for &ldquo;lazy loading&rdquo; has also arrived!</p><p>Lazy loading means: only load an image <em>after</em> the rest of the page has
+loaded and/or <em>when</em> they actually come into view.</p><p>On a typical page, you&rsquo;ll only see the first 2-3 game entries, or just
+the header + trailer for a game. This means that 80% of the images on a
+page are <em>not in view</em>.</p><p>By not loading them yet, pages become <em>much faster</em>.</p><p><strong>Remark:</strong> I&rsquo;ve experimented a bit with the &ldquo;content-visibility&rdquo; CSS
+property. This allows lazy loading for <em>any block on the website</em>, not
+just specific images. But it&rsquo;s only (well-)supported in Chrome at this
+time, so I&rsquo;m not betting on this doing anything for me.</p><p><strong>Remark:</strong> I also ask Hugo for the dimensions of each image, so I can
+hardcode them into the <strong>width</strong> and <strong>height</strong> parameters on the image.
+This makes browsers and search engines very happy, but also makes users
+happy, because it reduces those &ldquo;jumps&rdquo; or &ldquo;content shifts&rdquo; that happen
+when a new image gets loaded.</p><h3 id=the-usual-suspects>The usual suspects</h3><p>Most of my performance increase, though, comes simply from using a
+static website. It removes the need to <strong>query a database for things</strong>
+and <strong>do calculations/operations</strong> on the page itself. This saves a lot
+of time.</p><p>It also makes each page (and asset) easily <strong>cacheable</strong>. After a few
+page views, visitors should have most of the website cached in their
+memory, reducing <em>any</em> requests from the server.</p><p>But the other main factor is of course <strong>server quality</strong>. I use
+relatively cheap hosting. At times, it might take a second before the
+server responds to a new request. I can&rsquo;t do anything about that except
+<em>upgrading to a better server</em>.</p><h2 id=step-5-modules>Step 5: Modules</h2><h3 id=why-modules>Why modules?</h3><p>This redesign was my first experiment with making a website <em>really</em>
+modular.</p><p>This was the idea:</p><ul><li><p>Each unique game page can be built from modules (&ldquo;templates&rdquo; or
+&ldquo;shortcodes&rdquo; in Hugo) I designed myself.</p></li><li><p>Each different component receives its own CSS file. These are
+combined into a <em>single</em> CSS file when deployed.</p></li><li><p>One module is the &ldquo;critical CSS&rdquo;. This is loaded <em>before</em> the rest
+of the webpage loads, hence &ldquo;critical&rdquo;. All other CSS is loaded
+<em>after</em> the content is already showing.</p></li></ul><p>Why? Because I&rsquo;ve learned that modular methods &mldr;</p><ul><li><p><strong>Make development itself more efficient</strong>. It&rsquo;s way easier to find
+where something is, update it, and get the precise result you expect
+(because nothing else is affected).</p></li><li><p><strong>Make me more productive.</strong> A new web page is nothing more than
+chaining the correct modules together, instead of <em>writing all that
+HTML myself from scratch.</em></p></li><li><p><strong>Reduce the chance (and severity) of bugs.</strong> It&rsquo;s just easier to
+reason about issues and spot errors with your code.</p></li><li><p><strong>Create a nice structure/hierarchy to the whole project.</strong></p></li></ul><p>Again, this required me to &ldquo;think differently&rdquo;. I had to find patterns
+and common blocks among <em>all</em> the pages I&rsquo;d created thus far.</p><p>And when I found something, I had to ask myself: &ldquo;is this common enough
+to justify creating a module for it?&rdquo;</p><p>And even when I didn&rsquo;t find anything, I often had to ask myself: &ldquo;but I
+<em>might</em> need something like this in the future &ndash; how likely is that?&rdquo;</p><h3 id=the-basic-modules>The basic modules</h3><p>In the end, these modules were created:</p><ul><li><p>Video => shows the trailer for the project + its banner behind it
+(as background)</p></li><li><p>Section => creates a section with header + paragraphs of content</p><ul><li>Section-centered does the same, but now it&rsquo;s <em>centered</em> with a
+specific (consistent) maximum width.</li></ul></li><li><p>Gallery => shows a gallery of screenshots</p><ul><li>Figure => shows a <em>single</em> (full-size) image on a game page, in
+the optimized way</li></ul></li><li><p>BuyLink => shows big, bold links to the official page of a project
+(where you can buy it or play it)</p><ul><li><p>There&rsquo;s a BuyLinkContainer as well, as some projects have
+<em>multiple</em> links/locations of interest, such as something
+released on both Desktop and Mobile.</p></li><li><p>A variation is DownloadBtn, which is used for boardgames where
+you can <em>download</em> files.</p></li></ul></li><li><p>Metadata => creates clickable buttons for the <em>categories</em> and
+<em>tags</em> related to the current project</p></li><li><p>DigitalComponent => holds the form (with settings, input, etc.) I
+use on almost all boardgames for launching the digital component</p></li></ul><p>All of these are <em>shortcodes</em> in Hugo.</p><p>This means I create a file for them (like &ldquo;embedvideo.html&rdquo;, which shows a YouTube video <em>over</em> the game header) which holds
+their code:</p><div class=highlight><pre tabindex=0 class=chroma><code class="language-Go HTML Template" data-lang="Go HTML Template"><span class=line><span class=ln> 1</span><span class=cl><span class=p>&lt;</span><span class=nt>section</span> <span class=na>class</span><span class=o>=</span><span class=s>&#34;game-header </span><span class=cp>{{</span><span class=w> </span><span class=na>.Params.class</span><span class=w> </span><span class=cp>}}</span><span class=s>&#34;</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=ln> 2</span><span class=cl>	<span class=cp>{{</span><span class=w> </span><span class=k>if</span><span class=w> </span><span class=o>(</span><span class=na>.Get</span><span class=w> </span><span class=s>&#34;bg&#34;</span><span class=o>)</span><span class=w> </span><span class=cp>}}</span>
+</span></span><span class=line><span class=ln> 3</span><span class=cl>		<span class=cp>{{</span><span class=w> </span><span class=nx>$img_url</span><span class=w> </span><span class=o>:=</span><span class=w> </span><span class=nx>add</span><span class=w> </span><span class=o>(</span><span class=na>.Get</span><span class=w> </span><span class=s>&#34;bg&#34;</span><span class=o>)</span><span class=w> </span><span class=s>&#34;.webp&#34;</span><span class=w> </span><span class=cp>}}</span>
+</span></span><span class=line><span class=ln> 4</span><span class=cl>		<span class=cp>{{</span><span class=w> </span><span class=nx>partial</span><span class=w> </span><span class=s>&#34;show-image.html&#34;</span><span class=w> </span><span class=o>(</span><span class=nx>dict</span><span class=w> </span><span class=s>&#34;context&#34;</span><span class=w> </span><span class=na>$.Page</span><span class=w> </span><span class=s>&#34;img_url&#34;</span><span class=w> </span><span class=nx>$img_url</span><span class=o>)</span><span class=w> </span><span class=cp>}}</span>
+</span></span><span class=line><span class=ln> 5</span><span class=cl>	<span class=cp>{{</span><span class=w> </span><span class=k>end</span><span class=w> </span><span class=cp>}}</span>
+</span></span><span class=line><span class=ln> 6</span><span class=cl>
+</span></span><span class=line><span class=ln> 7</span><span class=cl>	<span class=cp>{{</span><span class=w> </span><span class=nx>$border_col</span><span class=w> </span><span class=o>:=</span><span class=w> </span><span class=k>or</span><span class=w> </span><span class=o>(</span><span class=na>.Get</span><span class=w> </span><span class=s>&#34;col&#34;</span><span class=o>)</span><span class=w> </span><span class=s>&#34;#6bb73e&#34;</span><span class=w> </span><span class=cp>}}</span>
+</span></span><span class=line><span class=ln> 8</span><span class=cl>	<span class=cp>{{</span><span class=w> </span><span class=nx>$border_width</span><span class=w> </span><span class=o>:=</span><span class=w> </span><span class=k>or</span><span class=w> </span><span class=o>(</span><span class=na>.Get</span><span class=w> </span><span class=s>&#34;thickness&#34;</span><span class=o>)</span><span class=w> </span><span class=s>&#34;5px&#34;</span><span class=w> </span><span class=cp>}}</span>
+</span></span><span class=line><span class=ln> 9</span><span class=cl>
+</span></span><span class=line><span class=ln>10</span><span class=cl>	<span class=cp>{{</span><span class=w> </span><span class=nx>$base_class</span><span class=w> </span><span class=o>:=</span><span class=w> </span><span class=s>&#34;video-over-header&#34;</span><span class=w> </span><span class=cp>}}</span>
+</span></span><span class=line><span class=ln>11</span><span class=cl>	<span class=cp>{{</span><span class=w> </span><span class=nx>$fixed_size</span><span class=w> </span><span class=o>:=</span><span class=w> </span><span class=s>&#34;width=&#39;560&#39; height=&#39;315&#39;&#34;</span><span class=w> </span><span class=cp>}}</span>
+</span></span><span class=line><span class=ln>12</span><span class=cl>	<span class=cp>{{</span><span class=w> </span><span class=k>if</span><span class=w> </span><span class=na>.Get</span><span class=w> </span><span class=s>&#34;full-size&#34;</span><span class=w> </span><span class=cp>}}</span>
+</span></span><span class=line><span class=ln>13</span><span class=cl>		<span class=cp>{{</span><span class=w> </span><span class=nx>$fixed_size</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=s>&#34;&#34;</span><span class=w> </span><span class=cp>}}</span>
+</span></span><span class=line><span class=ln>14</span><span class=cl>		<span class=cp>{{</span><span class=w> </span><span class=nx>$base_class</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=s>&#34;video-no-header&#34;</span><span class=w> </span><span class=cp>}}</span>
+</span></span><span class=line><span class=ln>15</span><span class=cl>	<span class=cp>{{</span><span class=w> </span><span class=k>end</span><span class=w> </span><span class=cp>}}</span>
+</span></span><span class=line><span class=ln>16</span><span class=cl>  
+</span></span><span class=line><span class=ln>17</span><span class=cl>	<span class=p>&lt;</span><span class=nt>div</span> <span class=na>class</span><span class=o>=</span><span class=s>&#34;</span><span class=cp>{{</span><span class=w> </span><span class=nx>$base_class</span><span class=w> </span><span class=cp>}}</span><span class=s>&#34;</span> <span class=na>style</span><span class=o>=</span><span class=s>&#34;border-color:</span><span class=cp>{{</span><span class=w> </span><span class=nx>$border_col</span><span class=w> </span><span class=cp>}}</span><span class=s>;border-size:</span><span class=cp>{{</span><span class=w> </span><span class=nx>$border_width</span><span class=w> </span><span class=cp>}}</span><span class=s>;&#34;</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=ln>18</span><span class=cl>		<span class=p>&lt;</span><span class=nt>div</span> <span class=na>class</span><span class=o>=</span><span class=s>&#34;video-container&#34;</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=ln>19</span><span class=cl>			<span class=p>&lt;</span><span class=nt>iframe</span> <span class=na>src</span><span class=o>=</span><span class=s>&#39;</span><span class=cp>{{</span><span class=w> </span><span class=na>.Get</span><span class=w> </span><span class=s>&#34;vid&#34;</span><span class=w> </span><span class=cp>}}</span><span class=s>&#39;</span> <span class=na>allow</span><span class=o>=</span><span class=s>&#34;accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture&#34;</span> <span class=na>allowfullscreen</span><span class=o>=</span><span class=s>&#34;&#34;</span> <span class=cp>{{</span><span class=w> </span><span class=nx>$fixed_size</span><span class=w> </span><span class=cp>}}</span> <span class=na>frameborder</span><span class=o>=</span><span class=s>&#34;0&#34;</span><span class=p>&gt;&lt;/</span><span class=nt>iframe</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=ln>20</span><span class=cl>		<span class=p>&lt;/</span><span class=nt>div</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=ln>21</span><span class=cl>	<span class=p>&lt;/</span><span class=nt>div</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=ln>22</span><span class=cl>
+</span></span><span class=line><span class=ln>23</span><span class=cl>	<span class=cp>{{</span><span class=w> </span><span class=k>if</span><span class=w> </span><span class=na>.Get</span><span class=w> </span><span class=s>&#34;caption&#34;</span><span class=w> </span><span class=cp>}}</span>
+</span></span><span class=line><span class=ln>24</span><span class=cl>		<span class=p>&lt;</span><span class=nt>div</span> <span class=na>class</span><span class=o>=</span><span class=s>&#34;video-caption&#34;</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=ln>25</span><span class=cl>			<span class=cp>{{</span><span class=w> </span><span class=na>.Get</span><span class=w> </span><span class=s>&#34;caption&#34;</span><span class=w> </span><span class=o>|</span><span class=w> </span><span class=nx>markdownify</span><span class=w> </span><span class=cp>}}</span>
+</span></span><span class=line><span class=ln>26</span><span class=cl>		<span class=p>&lt;/</span><span class=nt>div</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=ln>27</span><span class=cl>	<span class=cp>{{</span><span class=w> </span><span class=k>end</span><span class=w> </span><span class=cp>}}</span>
+</span></span><span class=line><span class=ln>28</span><span class=cl><span class=p>&lt;/</span><span class=nt>section</span><span class=p>&gt;</span></span></span></code></pre></div><p>Then, when I want to use it, I call it by its name and feed it the right
+urls:</p><div class=highlight><pre tabindex=0 class=chroma><code class="language-Go HTML Template" data-lang="Go HTML Template"><span class=line><span class=ln>1</span><span class=cl><span class=cp>{{</span><span class=err>%</span><span class=w> </span><span class=nx>embedvideo</span><span class=w> </span><span class=nx>bg</span><span class=o>=</span><span class=s>&#34;gamename_header&#34;</span><span class=w> </span><span class=nx>vid</span><span class=o>=</span><span class=s>&#34;https://youtube.com/embed/someidhere&#34;</span><span class=w> </span><span class=nx>class</span><span class=o>=</span><span class=s>&#34;optional classes&#34;</span><span class=w> </span><span class=err>%</span><span class=cp>}}</span></span></span></code></pre></div><p>As such, what used to be 20 lines of identical code <em>on each page</em>, with
+40 lines of identical styling <em>on each page</em> &mldr; is now just one line.</p><p><strong>Remark:</strong> I&rsquo;ve written all these modules to support adding any number
+of CSS classes I want. This way, I can still style them differently,
+even if their functionality/markup is the same everywhere. For example,
+some games have the &ldquo;darkened&rdquo; class added, which darkens the background
+image. In some cases, this just looks better <em>and</em> makes the text on top
+more legible. But not all cases.</p><h3 id=the-support>The support</h3><p>Again, each module had its <em>own</em> CSS file. (Which means these files were
+often only 20-30 lines for the whole thing.) And these are all combined
+at the end.</p><p><strong>Remark:</strong> I use SASS for writing CSS. It has loads of functionality
+that I sorely miss in the basic CSS ruleset <em>and</em> it can combine
+multiple files.</p><p>I hardcoded support for an extra CSS file (literally called &ldquo;extra.css&rdquo;)
+on each page. This would hold all the unique adjustments they wanted to
+make, which often ends up <em>longer</em> than the general styles. (Because,
+remember, each game page has a unique layout, with unique fonts, colors,
+dimensions, etcetera.)</p><p>And finally, I hardcoded support for Google Fonts. All game pages use
+it. In the past, I copy-pasted the code (with the new fonts I wanted to
+use) between pages. Now I just specify the font names in the
+&ldquo;frontmatter&rdquo;, and it loads them when deployed.</p><p><strong>Remark:</strong> it might be faster to download these fonts and place them on
+my own server. But this meant ~200 kb extra space <em>per game page</em>, a
+lot of extra work, without any certainty that it even <em>is</em> an
+improvement for me. So I left it for now. I can always do this later.</p><h2 id=step-6-copying-all-the-content>Step 6: Copying all the content</h2><p>Well &mldr; this was an annoying job. To say the least.</p><p>I ended up limiting myself to 1 or 2 projects per day. Because they
+sometimes took <em>hours</em>. I had to:</p><ul><li><p>Copy the original HTML file and its files.</p></li><li><p>Convert all images, rename sensibly, put in the correct location,
+then link to them again in the new post.</p></li><li><p>Remove all styling, extra markup, etcetera from the original HTML
+file. So I was left with <em>just</em> the content itself. (To replace it
+with my new modules. Or simply because it was messy or unnecessary.)</p></li><li><p>Place it at the right location in the new website.</p></li><li><p>Then test if it all worked => realized some things didn&rsquo;t work
+(they looked bad, links stopped working, etc.) => fix them => and
+restart the cycle.</p></li></ul><p>I really tried finding ways to automate this. But despite some mild
+automation on the <em>image conversion</em> part and the <em>stripping HTML</em> part,
+I didn&rsquo;t find any.</p><h2 id=step-7-fixing-all-the-interactive-components>Step 7: Fixing all the interactive components</h2><p>The hardest part was <strong>making the digital (interactive) components
+work</strong>. They often involved</p><ul><li><p>A bunch of JavaScript + Assets</p></li><li><p>That used the Phaser.io framework for many things</p></li><li><p>That needs to communicate with the main page in certain (mostly
+identical) ways</p></li><li><p>Which requires something to be on a <em>server</em> and will not work when
+testing from the local filesystem</p></li><li><p>And often <em>hardcoded</em> the URL to assets used in the component</p></li></ul><p>So, I first had to come up with a &ldquo;general script&rdquo; that would allow this
+communication between main page (where you input settings and click
+&ldquo;start game&rdquo;) and the actual interactive component. Now, all pages use
+this script and can use its functionality, which <em>greatly</em> simplifies
+(future) code.</p><p>Then I had to update all references to JavaScript (to a
+better/consistent folder structure), remove the hardcoding, make the
+Phaser references local, link it to the &ldquo;general script&rdquo;, and test if it
+all still worked. Probably not. Fix the issues, and the cycle repeats.</p><p><figure class=inline-image><picture><img src=devlog-image6.webp loading=lazy decoding=async alt="Logo of Phaser.io web game development framework." title="Logo of Phaser.io web game development framework." width=1283 height=616></picture><figcaption class=side-note><span>Logo of Phaser.io web game development framework.</span></figcaption></figure></p><p>At first, I <em>thought</em> the process was even worse. You see, JavaScript is
+not allowed to read from your filesystem (for obvious security reasons),
+so any HTML5 game that uses image assets has to be run through a
+<em>server</em>.</p><p>When creating my old Phaser games, I always had to boot up a <em>local
+server</em> on my machine, otherwise the images wouldn&rsquo;t load.</p><p>I thought this would be the case here. I thought I had to do some hacky
+tricks to combine the <em>hugo website</em> with my <em>local server</em>.</p><p><strong>But I didn&rsquo;t!</strong></p><p>Hugo itself already runs over a <em>websocket</em> and is viewed as a local
+server (by the Phaser framework). I didn&rsquo;t have to do anything to make
+testing these games (directly) possible!</p><p>(You can imagine the pleasant surprise on my face when I simply &mldr;
+copied the JavaScript to the new folder, the page automatically
+reloaded, and the images just <em>showed up perfectly</em>.)</p><p>Which isn&rsquo;t just great news now, but also for the future, as it means
+development of these interactive components will be <em>much</em> faster and
+smoother.</p><p><strong>Remark:</strong> I also learned the Phaser simply supports &ldquo;whatever formats
+the browser supports&rdquo;. So, I can use any <em>audio</em> and <em>image</em> assets that
+I want, without requiring any other change. This prompted me to
+<em>convert</em> (almost) all the old assets to <strong>.webp</strong> as it&rsquo;s supported
+everywhere now. This made the interactive components 2x-10x <em>smaller</em>
+than they were before! Which is awesome, as it means load times (and
+&ldquo;time until play&rdquo;) are much faster, without losing anything.</p><h3 id=when-do-you-need-a-local-server>When <em>do</em> you need a local server?</h3><p>If you want to execute PHP code or read from a database anyway. (I can
+think of a few reasons why you&rsquo;d want PHP functionality in a static
+website anyway, it&rsquo;s not that strange.)</p><p>If you want to do that, here&rsquo;s how you do it:</p><p><figure class=inline-image><picture><img src=devlog-image7.webp loading=lazy decoding=async alt="Logo of XAMPP, local server software for Windows." title="Logo of XAMPP, local server software for Windows." width=300 height=168></picture><figcaption class=side-note><span>Logo of XAMPP, local server software for Windows.</span></figcaption></figure></p><p><strong>How do you boot up a local server?</strong> I have installed the free
+software &ldquo;XAMPP&rdquo;. Just download it, install it, then run it. By default,
+it serves websites from its own directory (C:\xampp\htdocs).</p><p><strong>How do we connect it with our hugo folder?</strong> But we want it to serve
+from the directory in which I&rsquo;m working (with Hugo enabled).</p><p>To do so, you go to Apache => Configure => httpd.conf => and change
+&ldquo;DocumentRoot&rdquo; to the root of your hugo folder. Also change the
+&ldquo;Directory&rdquo; after that! (I forgot that at first and spent 30 minutes
+pulling my hair out why it didn&rsquo;t work.)</p><p><strong>It doesn&rsquo;t work?</strong> Restart the xampp server! Then build your website
+(to the directory you just linked), and your project is running on a
+local server.</p><h3 id=lessons-learned>Lessons learned</h3><p><strong>The lesson here?</strong> Many actually:</p><ul><li><p>Don&rsquo;t hardcode URLs</p></li><li><p>Don&rsquo;t have external dependencies => keep everything local, on your
+own server, if possible</p></li><li><p>Future-proof your websites <em>before</em> you start adding tons of content</p></li><li><p>Be consistent with naming, folder hierarches, etc. Even if you think
+it won&rsquo;t matter, it <em>will</em>.</p></li><li><p>Use TypeScript instead of JavaScript. With my oldest projects, I am
+in constant fear of it <em>breaking</em> and <em>never finding out how to fix
+it again</em> :p</p></li></ul><h2 id=step-8-finishing-it-off>Step 8: Finishing it off</h2><p>By now, all original content had been copied. The interactive components
+worked again, their images were loaded (from my own server now), great.</p><p>But now it was time to <em>improve</em> the old content.</p><h3 id=metadata>Metadata</h3><p>While building the new website, I noticed it was hard to navigate
+quickly to <em>specific</em> pages. Thinking about it, I realized that game
+stores always show this big block of information about the game:</p><ul><li><p>How many players does it support?</p></li><li><p>Offline or online?</p></li><li><p>System requirements?</p></li><li><p>Etc.</p></li></ul><p><strong>Yes! That&rsquo;s what I needed!</strong></p><p>Every game page received a &ldquo;metadata block&rdquo; at the bottom, which is
+filled with all this information. It took quite some time to <em>edit all
+the gamepages to contain this data</em>, but it&rsquo;s certainly worth it.</p><p>Now you can scroll down to see info about each game, in a predictable
+and clear way. Then you can <em>click</em> on any part of it to find an
+overview of all games that share this trait. (For example, click on
+&ldquo;Playercount 2&rdquo; to get all games you can play with two players.)</p><p><figure class=inline-image><picture><img src=devlog-image8.webp loading=lazy decoding=async alt="Example of metadata block underneath game page." title="Example of metadata block underneath game page." width=1884 height=767></picture><figcaption class=side-note><span>Example of metadata block underneath game page.</span></figcaption></figure></p><h3 id=colors>Colors</h3><p>I needed a general list of &ldquo;color schemes&rdquo; which could be applied.
+Sometimes randomly, sometimes given a specific input.</p><p>Why?</p><ul><li><p>Because each game page <em>does</em> receive this standard metadata block
+(and a small footer). These need to look good with whatever is on
+the page, and can&rsquo;t have &ldquo;one fixed style&rdquo;.</p></li><li><p>Because <em>overview</em> pages (e.g. a list of all genres) don&rsquo;t have
+images or thumbnails. Therefore, I need <em>some</em> colors for their
+background and text color.</p></li></ul><p>In the end, the website received 10 color schemes. (Which are just all
+the different colors along the color wheel, with one &ldquo;light&rdquo; variant and
+one &ldquo;dark&rdquo; variant for contrast.)</p><ul><li><p>Each gamepage has a <em>specific</em> color set. (This is used in all
+locations where no image is present or it isn&rsquo;t overridden by the
+stylesheet.)</p></li><li><p>Overview pages pick random colors, ensuring no color is used two
+times in a row</p></li><li><p>The general header and footer of the website <em>also</em> pick a random
+color.</p></li></ul><p>Again, it took quite some time to find the right color (and set it) for
+<em>every project</em>. But it&rsquo;s more than worth it. The website looks bright,
+colorful, playful, exciting!</p><p>This <em>does</em> have the issue of, sometimes, creating a color combination
+(two color schemes near each other) that is a bit &ldquo;meh&rdquo;. The way I chose
+the colors, it will never be <em>ugly</em> or downright <em>terrible</em>, but it can
+be a bit mediocre.</p><p>I decided I can live with that. If needed, I could always write a script
+to say &ldquo;when picking colors, these combinations are never allowed&rdquo;</p><p><figure class=inline-image><picture><img src=devlog-image9.webp loading=lazy decoding=async alt="Example of banners filled with a solid color from colorscheme (instead of image)." title="Example of banners filled with a solid color from colorscheme (instead of image)." width=1875 height=869></picture><figcaption class=side-note><span>Example of banners filled with a solid color from colorscheme (instead of image).</span></figcaption></figure></p><h3 id=sketchy-buttons>Sketchy Buttons</h3><p>The idea with the &ldquo;mask-image&rdquo; (creating a wavy underline underneath
+each game banner) worked so well, that I wanted to use it more.</p><p>At first, I wanted to try different shapes (curved, sharp edges,
+triangles, etc.) &mldr; but that looked messy. Maybe for a specific game,
+or for another design that&rsquo;s completely about shapes.</p><p>Instead, I drew eight &ldquo;sketchy rectangles&rdquo;. (Which is my term for
+rectangles that are <em>mostly perfect, but also have imperfections, such a
+rounded corners or angled edges. A rectangle that looks like it was
+loosely sketched.)</em></p><p>These are used as the background for (almost) all links on the website.
+The header, the footer, the metadata block.</p><p><figure class=inline-image><picture><img src=devlog-image10.webp loading=lazy decoding=async alt="Example of usage of sketchy blocks + the mask images making it all possible." title="Example of usage of sketchy blocks + the mask images making it all possible." width=1188 height=457></picture><figcaption class=side-note><span>Example of usage of sketchy blocks + the mask images making it all possible.</span></figcaption></figure></p><p>Maybe in the future I&rsquo;ll use them for literally everything. But for
+now, there were issues with that I couldn&rsquo;t quickly solve, and I kept it
+the way it was.</p><h3 id=finishing-touches>Finishing touches</h3><p>As always, there are literally <em>hundreds</em> (if not <em>thousands</em>) of small
+choices and additions to make the site work and look better.</p><p>I won&rsquo;t list them all. But here are some interesting ones:</p><ul><li><p>On narrow (mobile) screens, the text in the header is replaced by
+icons. This way, you keep full functionality (without needing to
+&ldquo;expand&rdquo; a menu or something), without becoming ugly/illegible/too
+big.</p></li><li><p>A small &ldquo;go to bottom&rdquo; icon floats on top of <em>every</em> page, in the
+top-right corner. Pressing it will immediately scroll you down to
+the metadata block. When navigating my own website, I just felt that
+such a button was too useful not to add. (Even if it means an icon
+hovering on <em>every</em> page.)</p></li><li><p>Because my mask-image is set to <em>cover the whole element</em>, it
+<em>scales</em> with the size of the element. This was a problem with the
+footer. On narrow screens, it can be quite long (as all text is
+stacked underneath each other, instead of side by side). Which
+caused the waves to be HUGE. As such, on smaller screens, I remove
+the mask image from the footer, and add a &ldquo;divider&rdquo; element that has
+a fixed height, then give <em>that</em> the mask-image.</p></li><li><p>Many elements are (not so) subtly animated. When visiting other game
+(studio) websites, I noticed they had loads of animations and moving
+parts. And that it was quite fun. So I wanted to copy it, without
+adding the complexity (and thus making the website slower again). An
+example of this: those sketchy buttons are <em>slightly</em> rotated and
+will snap back to 0 rotation when you hover over them.</p></li></ul><h2 id=step-9-profit>Step 9: Profit</h2><p>Let&rsquo;s hope I profit from it :p</p><p>The website is much faster, prettier, more consistent (on all devices,
+even the most terrible of phones), easier to navigate and easier to
+update, has more information and images, the list goes on.</p><p>Looking at it now, and comparing to the previous website, it just feels
+like an &ldquo;upgrade to professionalism&rdquo;. The earlier website was <em>fine</em>,
+and <em>okay</em> in many departments, but showed its amateurism after a minute
+of navigating. The new website looks and feels like a professional
+website, from a serious game studio, who has loads of experience under
+his belt.</p><p>I&rsquo;m quite sure it will bring in more gamers, shine a better spotlight on
+my games, and lead to more opportunities in the indie game dev business.</p><p>That&rsquo;s it for today, until the next devlog,</p><p>Pandaqi</p></div></article><div><nav class=pagination><ul><li><a href=/blog/news-and-updates/print-and-play-games/ class="masked-link big-mask mask-7" style=--rotation:1deg>&lt;&lt; Previous Page</a></li><li>Continue reading</li><li><a href=/blog/news-and-updates/one-paper-games-2022-update/ class="masked-link big-mask mask-6" style=--rotation:-0.5deg>>> Next Page</a></li></ul></nav></div></main><footer id=site-footer><div class="padding center-block"><h3>More Pandaqi</h3><p>You could <a href=https://pandaqi.com>visit the game studio</a>.
+Or my <a href=https://pandaqi.com/tutorials/>free tutorial website</a>.
+Or my <a href=https://rodepanda.com/>portfolio</a> with easy access to absolutely everything I ever made.</p><h3>Latest</h3><nav class=latest><ul><li><a href=/blog/boardgames/kingseat/>Kingseat
+(👑)</a></li><li><a href=/blog/boardgames/foldigami/>Foldigami
+(📃)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-the-big-typescript-update/>Pandaqi Games: The Big Typescript Update
+(🎮)</a></li><li><a href=/blog/boardgames/sixpack/>Sixpack
+(🃏)</a></li><li><a href=/blog/boardgames/photomone-antsassins/>Photomone: Antsassins
+(🐜)</a></li><li><a href=/blog/boardgames/photomone-digital-antists/>Photomone: Digital Antists
+(🐜)</a></li><li><a href=/blog/boardgames/photomone/>Photomone
+(🐜)</a></li><li><a href=/blog/boardgames/keebble-domino/>Keebble: Domino
+(📗)</a></li><li><a href=/blog/boardgames/keebble-knickknack/>Keebble: Knickknack
+(📘)</a></li><li><a href=/blog/videogames/game-jams/less-is-store/>Less is Store
+(🛍️)</a></li></ul></nav><h3>Sections</h3><nav><ul><li><a href=/blog/boardgames/>Boardgames
+(🎲)</a></li><li><a href=/blog/news-and-updates/>News & Updates
+(📢)</a></li><li><a href=/blog/reviews-and-thoughts/>Reviews & Thoughts
+(💭)</a></li><li><a href=/blog/tutorials/>Tutorials
+(👩‍🎓)</a></li><li><a href=/blog/videogames/>Videogames
+(🎮)</a></li></ul></nav><h3>Credits</h3><p>Theme by me (<a href=https://pandaqi.com>Pandaqi</a> 🐼) &#183;
+with ❤️ &#183;
+using <a href=https://gohugo.io>Hugo</a> &#183;
+&copy; 2018&ndash;2023 Pandaqi Blog</p></div></footer><link rel=stylesheet type=text/css href=/blog/css/style.css><script src=/blog/js/bundle.min.js></script></body></html>

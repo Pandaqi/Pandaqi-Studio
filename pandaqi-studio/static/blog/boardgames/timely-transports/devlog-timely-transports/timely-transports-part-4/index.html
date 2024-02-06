@@ -1,0 +1,129 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><title>Timely Transports (Part 4) | Pandaqi Blog</title><link rel=icon type=image/png href=https://pandaqi.com/blog//favicon.png><link rel=stylesheet type=text/css href=/blog/css/critical.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin></head><body><header id=site-header><nav class=menu><ul><li><a href=https://pandaqi.com/blog/ class="masked-link big-mask mask-4" style=--rotation:2deg>Home</a></li><li><a href=/blog/boardgames/ class="masked-link big-mask mask-8" style=--rotation:1deg>Boardgames</a></li><li><a href=/blog/news-and-updates/ class="masked-link big-mask mask-7" style=--rotation:1.5deg>News & Updates</a></li><li><a href=/blog/reviews-and-thoughts/ class="masked-link big-mask mask-7" style=--rotation:-1deg>Reviews & Thoughts</a></li><li><a href=/blog/tutorials/ class="masked-link big-mask mask-2" style=--rotation:0deg>Tutorials</a></li><li><a href=/blog/videogames/ class="masked-link big-mask mask-4" style=--rotation:0.5deg>Videogames</a></li></ul></nav></header><main class="padding center-block"><article class=single-article><div class=thumbnail-media><figure class=thumb-image><picture><img src=../../timely-transports-header.webp loading=lazy decoding=async alt="Thumbnail / Header for article: Timely Transports (Part 4)" title="Thumbnail / Header for article: Timely Transports (Part 4)" width=2481 height=877></picture></figure></div><h1>Timely Transports (Part 4)</h1><aside class=metadata><nav class=breadcrumbs><span class=metadata-label><span class=emoji>🥐</span> Breadcrumbs ||</span>
+<a href=https://pandaqi.com/blog/>Home</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/>Boardgames</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/timely-transports/>Timely transports</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/timely-transports/devlog-timely-transports/>Devlog timely transports</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/timely-transports/devlog-timely-transports/timely-transports-part-4/>Timely transports part 4</a></nav><script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/pandaqi.com\/blog\/","name":"home"}},{"@type":"ListItem","position":2,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/","name":"boardgames"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/timely-transports\/","name":"timely-transports"}},{"@type":"ListItem","position":4,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/timely-transports\/devlog-timely-transports\/","name":"devlog-timely-transports"}},{"@type":"ListItem","position":5,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/timely-transports\/devlog-timely-transports\/timely-transports-part-4\/","name":"timely-transports-part-4"}}]}</script><div><span class=metadata-label><span class=emoji>&#8987;</span> Published ||</span>
+<time datetime=2020-08-05T12:00:00>Wednesday, Aug 5, 2020</time></div><nav class=tags><span class=metadata-label><span class=emoji>🎗</span> Tags ||</span><ul><li><a href=https://pandaqi.com/blog/tags/devlog>devlog</a></li></ul></nav><div><span class=metadata-label><span class=emoji>📖</span> Table of Contents ||</span>
+<a href=# id=toc-toggle>Show</a></div></aside><aside id=table-of-contents class=masked-link-block><header><h2>Table of Contents</h2></header><nav id=TableOfContents><ul><li><a href=#second-playtest-session>Second Playtest Session!</a></li><li><a href=#final-playtest-session>Final Playtest Session!</a></li><li><a href=#where-to-go-from-here>Where to go from here?</a></li></ul></nav></aside><div><p>Welcome to part 4 of the devlog! Let&rsquo;s dive right in.</p><h2 id=second-playtest-session>Second Playtest Session!</h2><p>Fortunately, everything I explained above are indeed improvements to the
+game!</p><p>The board is clearer (fewer vehicles doing nothing and creating a mess),
+you need more strategy and simultaneous vehicles to win. It&rsquo;s a simpler
+game, but harder to win.</p><p>I also got to test some expansions.</p><p>The first one (Vehicle Fun) adds upgrades to vehicles. For example, your
+canoe can become a kayak, which will travel way faster ( = always has a
+shorter timer). I&rsquo;m not sure if the current price for upgrading (5
+points) is worth it, but it added interesting choices to the game, and I
+eventually won by getting a kayak and zooming across the water all game!
+(But I only won by a few seconds.)</p><p>The second one (Extraordinary Events) adds events to the game. These
+were also fun, although I can see them becoming overwhelming on high
+player counts. That&rsquo;s why I eventually decided to implement the setting
+above that spaces out events evenly.</p><p>The third expansion remains to be tested, although I&rsquo;m quite sure it
+will work (given that it&rsquo;s the least experimental/complex of all the
+expansions).</p><p>Lastly, I noticed that the board is way too small for high player
+counts. A single A4 paper (or Letter paper size in the US, if I&rsquo;m not
+mistaken) is just too small for more than 4 players to play on
+concurrently. Additionally, I&rsquo;m quite liking the boards my website
+generates &ndash; so I added an option to print a larger board!</p><p>The website cuts the board into 4 pieces for you, which you can just
+print separately, and then combine on the table.</p><p><strong>Update:</strong> another thing I noticed, but I&rsquo;m still not sure how to fix,
+are asymmetric starting positions. On each board I generated, there was
+always one capital that was just clearly a <em>worse option</em> than the rest.
+Maybe it had no airport, or only 1-2 connections, or you could only
+deliver 1-2 (of the four) goods in that section of the board.</p><p>It&rsquo;s not such a big deal, as fewer connections also mean you&rsquo;ll be left
+alone (instead of being harassed by vehicles from other players), and
+you can plan a strategy to use this to your advantage.</p><p>But I&rsquo;m leaning towards this addition: the computer calculates a value
+for each capital. It creates a &ldquo;connection group&rdquo;, which contains all
+cities with a direct connection (no airport needed). It then counts the
+number of cities/connections/goods &ndash; the higher this value, the more
+valuable the capital, because you can go anywhere and do anything from
+there!</p><p>Finally, the capitals with the <em>worst value</em> get a bonus. Just a simple
+&ldquo;+2&rdquo; or &ldquo;+3&rdquo; mark on the board. This is the head start that these
+players receive by having a worse position.</p><h2 id=final-playtest-session>Final Playtest Session!</h2><p>I did a final series of playtests with the game in its full glory.</p><p>It was great!</p><p>The game just &mldr; works? I&rsquo;m quite surprised as well, usually it takes
+way more playtesting rounds. (My previous game, <a href=https://pandaqi.com/wondering-witches>Wondering Witches</a>, took
+a looooong time to develop and get right. That might also be the reason it was probably the best game I&rsquo;ve made so far.)</p><p>But it&rsquo;s just a simple and fun game, whilst being innovative and the
+first of its kind (as far as I can see), and accessible to anyone.
+Anyone understands moving goods and getting points for it, and everyone
+understands that such a thing takes time and thus requires timers.</p><p>The rulebook is only 2.5 pages, including images and examples and extra
+clarifications. (The fourth page is for expansions.) As I develop more
+games, I come to see 3 pages as a <em>maximum</em> for these kinds of games, so
+I&rsquo;m happy with that. (More difficult/strategical/long games can go over,
+but surely not longer than 6 pages.)</p><p>Does that mean the game is perfect? No. It still lacks some spicy
+interaction, because everyone is watching their phone (or other player&rsquo;s
+phones) quite often.</p><p>The game mechanics are somewhat imprecise: what do you do if two players
+arrive in a city at the <em>exact same time?</em> (I&rsquo;ve learned to be lenient
+in those cases: just allow them both. But it&rsquo;s still an annoying issue
+to have.)</p><p>And I don&rsquo;t feel like I&rsquo;ve gotten <em>full use</em> out of the smartphones or
+the original game idea, but that&rsquo;s to be expected for a first game of
+this type. As I&rsquo;ll explain below, this is just the first step towards
+discovering how to make these games as good as possible.</p><p>For example, the game is not as chaotic/hard as it could be. It rarely
+happens that someone lets a vehicle or good timer run out, because with
+a bit of focus and planning you can achieve quite a lot. (On the other
+hand, I usually play with experienced gamers, who are up to any
+challenge. More than someone who&rsquo;s played fewer (board)games in their
+life.)</p><p>But hey, that&rsquo;s fine, because the game is still fun and it&rsquo;s still hard
+to beat your opponents! I just think that a game with a higher skill
+ceiling should be possible with this system.</p><h2 id=where-to-go-from-here>Where to go from here?</h2><p>Yes, this hybrid idea has some drawbacks. It introduces <em>screens</em> into
+board games, when many people play board games (instead of video games)
+<em>to get away from screens</em>. In all the games I&rsquo;ve played, there were
+moments where people were too enveloped in their screen and not even
+looking at any other players around the table.</p><p>I try to combat this all the time. I try to watch out for this and keep
+my work as &ldquo;analog&rdquo; as possible, force people to come together in real
+life to play my games, to socialize &ndash; all things I hold in high regard.
+So it&rsquo;s not perfect, but in my experience so far, games like this do not
+tip the balance in the wrong direction (yet).</p><p>Such hybrid games also add some requirements (such as having a phone and
+an internet connection, even if only for a second to open the website)
+and a slight disconnect for some people (who aren&rsquo;t as comfortable with
+games or devices).</p><p>But it also has clear benefits. This game I made is a lot of fun to
+play, extremely easy to setup and explain, and has infinite
+replayability (with randomly generated maps, events, and more). All of
+that, just by connecting game types from two different domains (analog
+and digital).</p><p>The future looks bright! (Yes, I know, I&rsquo;m being dramatic.)</p><p>I&rsquo;ll continue working on these hybrid games and exploring their
+possibilities. Most importantly, the next game will probably only
+require <em>one</em> device (instead of everyone needing their own device) and
+be way more <em>connected</em> (learning from my mistakes during this
+development).</p><blockquote><p>As it stands, I&rsquo;m thinking about a simple &ldquo;cooking&rdquo; game. The
+restaurant itself is completely analog: it&rsquo;s a set of tiles on the
+table, with chips/cubes/whatever as food and ovens and waiters. But
+everything you do costs time. So a single device should be placed on
+the table which can take up to 10 concurrent timers (and keep track of
+score and all that good stuff about these hybrid games).</p><p>As I said in the intro: it&rsquo;s been done before, but it&rsquo;s just such a
+good application of the idea to a theme, and I need <em>something to hold
+onto</em> whilst doing these experimental games :p Seriously, I keep doing
+projects where I have absolutely no examples or previous projects to
+learn from, and it&rsquo;s hard.</p></blockquote><p>As for this game? It&rsquo;s as good as done, because everything <em>works</em> and
+<em>looks good</em> and it is fun to play and easy to learn, and that&rsquo;s really
+all you can ask for in a game.</p><p>Nevertheless, being a perfectionist, some improvements might be made in
+the future:</p><ul><li><p>More diverse map generation => now it&rsquo;s just three route types
+(car, railroad, boat) and three terrain types (land, water, forest).
+There&rsquo;s way more to do. Could even include pre-designed buildings or
+cities that just look really good.</p><ul><li><p>Here&rsquo;s a very fun thing I discovered while coding! My code
+generates random numbers for the terrain. If a number is below a
+certain threshold, it is water. Otherwise, it&rsquo;s land.</p></li><li><p>I have a variable called <em>waterLine</em> that controls this. It&rsquo;s
+currently -0.4. But, if I set this to a higher value, suddenly
+the whole map becomes a sea with cute islands!</p></li><li><p>This completely changes the look and feel of the map, which is
+something I can experiment with more.</p></li></ul></li><li><p>Connecting everything more (using the &ldquo;seed&rdquo; idea explained earlier)</p></li><li><p>More events and varied situations on the board. For example, I might
+add special locations halfway routes that trigger when you cross
+them. These might do positive things (you may carry two goods over
+this route!) or negative things (your vehicle breaks down!)</p></li></ul><p>Anyway, until the next devlog,</p><p>Pandaqi</p></div></article><div><nav class=pagination><ul><li><a href=/blog/boardgames/timely-transports/devlog-timely-transports/timely-transports-part-3/ class="masked-link big-mask mask-5" style=--rotation:0.5deg>&lt;&lt; Previous Page</a></li><li>Continue reading</li><li><span class=nav-disabled>No next page :(</span></li></ul></nav></div></main><footer id=site-footer><div class="padding center-block"><h3>More Pandaqi</h3><p>You could <a href=https://pandaqi.com>visit the game studio</a>.
+Or my <a href=https://pandaqi.com/tutorials/>free tutorial website</a>.
+Or my <a href=https://rodepanda.com/>portfolio</a> with easy access to absolutely everything I ever made.</p><h3>Latest</h3><nav class=latest><ul><li><a href=/blog/boardgames/kingseat/>Kingseat
+(👑)</a></li><li><a href=/blog/boardgames/foldigami/>Foldigami
+(📃)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-the-big-typescript-update/>Pandaqi Games: The Big Typescript Update
+(🎮)</a></li><li><a href=/blog/boardgames/sixpack/>Sixpack
+(🃏)</a></li><li><a href=/blog/boardgames/photomone-antsassins/>Photomone: Antsassins
+(🐜)</a></li><li><a href=/blog/boardgames/photomone-digital-antists/>Photomone: Digital Antists
+(🐜)</a></li><li><a href=/blog/boardgames/photomone/>Photomone
+(🐜)</a></li><li><a href=/blog/boardgames/keebble-domino/>Keebble: Domino
+(📗)</a></li><li><a href=/blog/boardgames/keebble-knickknack/>Keebble: Knickknack
+(📘)</a></li><li><a href=/blog/videogames/game-jams/less-is-store/>Less is Store
+(🛍️)</a></li></ul></nav><h3>Sections</h3><nav><ul><li><a href=/blog/boardgames/>Boardgames
+(🎲)</a></li><li><a href=/blog/news-and-updates/>News & Updates
+(📢)</a></li><li><a href=/blog/reviews-and-thoughts/>Reviews & Thoughts
+(💭)</a></li><li><a href=/blog/tutorials/>Tutorials
+(👩‍🎓)</a></li><li><a href=/blog/videogames/>Videogames
+(🎮)</a></li></ul></nav><h3>Credits</h3><p>Theme by me (<a href=https://pandaqi.com>Pandaqi</a> 🐼) &#183;
+with ❤️ &#183;
+using <a href=https://gohugo.io>Hugo</a> &#183;
+&copy; 2018&ndash;2023 Pandaqi Blog</p></div></footer><link rel=stylesheet type=text/css href=/blog/css/style.css><script src=/blog/js/bundle.min.js></script></body></html>

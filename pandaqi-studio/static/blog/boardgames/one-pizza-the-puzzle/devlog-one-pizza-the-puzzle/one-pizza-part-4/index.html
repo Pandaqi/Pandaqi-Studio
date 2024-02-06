@@ -1,0 +1,113 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><title>One Pizza The Puzzle (Part 4) | Pandaqi Blog</title><link rel=icon type=image/png href=https://pandaqi.com/blog//favicon.png><link rel=stylesheet type=text/css href=/blog/css/critical.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin></head><body><header id=site-header><nav class=menu><ul><li><a href=https://pandaqi.com/blog/ class="masked-link big-mask mask-3" style=--rotation:1deg>Home</a></li><li><a href=/blog/boardgames/ class="masked-link big-mask mask-1" style=--rotation:-0.5deg>Boardgames</a></li><li><a href=/blog/news-and-updates/ class="masked-link big-mask mask-7" style=--rotation:-1.5deg>News & Updates</a></li><li><a href=/blog/reviews-and-thoughts/ class="masked-link big-mask mask-6" style=--rotation:0deg>Reviews & Thoughts</a></li><li><a href=/blog/tutorials/ class="masked-link big-mask mask-2" style=--rotation:-1.5deg>Tutorials</a></li><li><a href=/blog/videogames/ class="masked-link big-mask mask-4" style=--rotation:-1.5deg>Videogames</a></li></ul></nav></header><main class="padding center-block"><article class=single-article><div class=thumbnail-media><figure class=thumb-image><picture><img src=../../one-pizza-header.webp loading=lazy decoding=async alt="Thumbnail / Header for article:  One Pizza The Puzzle (Part 4)" title="Thumbnail / Header for article:  One Pizza The Puzzle (Part 4)" width=2481 height=877></picture></figure></div><h1>One Pizza The Puzzle (Part 4)</h1><aside class=metadata><nav class=breadcrumbs><span class=metadata-label><span class=emoji>🥐</span> Breadcrumbs ||</span>
+<a href=https://pandaqi.com/blog/>Home</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/>Boardgames</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/one-pizza-the-puzzle/>One pizza the puzzle</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/one-pizza-the-puzzle/devlog-one-pizza-the-puzzle/>Devlog one pizza the puzzle</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/one-pizza-the-puzzle/devlog-one-pizza-the-puzzle/one-pizza-part-4/>One pizza part 4</a></nav><script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/pandaqi.com\/blog\/","name":"home"}},{"@type":"ListItem","position":2,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/","name":"boardgames"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/one-pizza-the-puzzle\/","name":"one-pizza-the-puzzle"}},{"@type":"ListItem","position":4,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/one-pizza-the-puzzle\/devlog-one-pizza-the-puzzle\/","name":"devlog-one-pizza-the-puzzle"}},{"@type":"ListItem","position":5,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/one-pizza-the-puzzle\/devlog-one-pizza-the-puzzle\/one-pizza-part-4\/","name":"one-pizza-part-4"}}]}</script><div><span class=metadata-label><span class=emoji>&#8987;</span> Published ||</span>
+<time datetime=2020-10-25T12:00:00>Sunday, Oct 25, 2020</time></div><nav class=tags><span class=metadata-label><span class=emoji>🎗</span> Tags ||</span><ul><li><a href=https://pandaqi.com/blog/tags/devlog>devlog</a></li></ul></nav><div><span class=metadata-label><span class=emoji>📖</span> Table of Contents ||</span>
+<a href=# id=toc-toggle>Show</a></div></aside><aside id=table-of-contents class=masked-link-block><header><h2>Table of Contents</h2></header><nav id=TableOfContents><ul><li><a href=#what-did-i-end-up-changing>What did I end up changing?</a></li><li><a href=#playtest-session-3>Playtest Session #3</a></li></ul></nav></aside><div><p>This is part 4 of the devlog for my game &ldquo;One Pizza the Puzzle&rdquo;.</p><aside class="multipart-message masked-link-block"><span class=label>Multipart Message ||</span><p>This article is part of a multipart series! <a href=/blog/boardgames/one-pizza-the-puzzle/devlog-one-pizza-the-puzzle/one-pizza-part-1/>Click here to read the first article.</a> Scroll to the bottom to visit the next/previous entries.</p></aside><h2 id=what-did-i-end-up-changing>What did I end up changing?</h2><p>I rewrote the rules to focus on the concept of having pizza couriers,
+because that simplified explanation a lot. It was also suggested by
+several players, because they kept being confused by the fact that
+&ldquo;moving&rdquo; applied to all your couriers, but &ldquo;eating&rdquo; was only a single
+action, always.</p><p>The first sentence of the rules explanation is now:</p><p>> &ldquo;You start with one courier. Each turn, you execute one action for
+each of your couriers.&rdquo;</p><p>This action can be either <em>moving</em> or <em>eating</em>. This is intuitive,
+simple to explain, <em>and</em> it makes the &ldquo;Eat&rdquo; action as valuable as
+moving. (Because, if you have 2 couriers, you can now also eat twice
+that turn if you want.)</p><p>In the end, I didn&rsquo;t like adding an &ldquo;exception&rdquo; that says: &ldquo;only two
+players may run their couriers parallel&rdquo;. It feels &mldr; clunky and an
+unnecessary addition to the game.</p><p>Instead, I tried to rewrite the special actions of all ingredients to
+<em>automatically</em> stop players running parallel each other.</p><p>For example, I toyed with the idea of &ldquo;gates&rdquo; or &ldquo;fences&rdquo;. You place a
+fence <em>behind</em> your current courier, and from that moment on, <em>nobody</em>
+can go through it anymore. This clearly blocks opponents.</p><p>Gates are more nuanced versions of that. At the moment of writing, I&rsquo;ve
+invented two:</p><ul><li><p>A &ldquo;line gate&rdquo;. They only allow <em>one line</em> to go through. (So once a
+single player has crossed it, nobody else may cross it, not even on
+the other side of the road.)</p></li><li><p>An &ldquo;ingredient gate&rdquo;. You can only pass through this gate if you
+have the corresponding ingredient, or pay 1 money. This means you&rsquo;re
+not 100% blocked, but there&rsquo;s still a price to pay and you must have
+a good strategy to get where you want.</p></li></ul><p>I&rsquo;m still not sure if these are already on the randomly generated board,
+or if they are drawn by players as a special action.</p><p>That&rsquo;s the direction I&rsquo;ve taken the game. It should be a short,
+fast-paced, very interactive/competitive game, that&rsquo;s also really easy
+to teach and play. Bringing everything down to two possible actions per
+courier, and no exceptions/special rules/whatever, feels like the way to
+go.</p><p>(Besides, the &ldquo;Eat&rdquo; action is extremely simple. The rulebook has only
+two lines for that: &ldquo;Eat an ingredient you own. Cross it out and execute
+its special action &ndash; see appendix A. Ingredients&rdquo;)</p><p>This game should not be a highly strategical game that takes more than
+an hour to play and is mostly about following your own pizza courier
+without outside influence. (Which is what some of my test games turned
+out to be, and although it was fine, everyone felt the game should be
+shorter and could be better.)</p><h2 id=playtest-session-3>Playtest Session #3</h2><p>To my pleasant surprise, I was able to get in more playtests just after
+completely updating the rules!</p><p>This was another <strong>major update</strong> to the rules I made: you can&rsquo;t move 3
+steps any way you like anymore. Instead, a set of shapes appear on the
+board, and you must <strong>move according to one of those shapes</strong>. See the
+image:</p><p><figure class=inline-image><picture><img src=one-pizza-9.webp loading=lazy decoding=async alt="Move according to shapes; the big improvement" title="Move according to shapes; the big improvement" width=1241 height=945></picture><figcaption class=side-note><span>Move according to shapes; the big improvement</span></figcaption></figure></p><p>Why did I do this? As I said before, moving 3 steps each turn is quite
+repetitive. Perhaps ironically, because there are so many options (you
+can take three steps <em>any way you like</em>), players get overwhelmed and
+take the same option each time.</p><p>This problem is made worse by the fact that you need to follow the
+traffic rules. Whilst playing the game, you&rsquo;re constantly thinking
+&ldquo;wait, is this the correct direction?&rdquo; and it feels more like a chore to
+follow those rules.</p><p>So, I scrapped all of that. No need to follow traffic, just pick <em>one
+shape</em> from the list and add it to your line. These shapes are randomly
+picked from a long list (about 20 shapes) and printed on the board. This
+makes each game different, but also means you don&rsquo;t have to look up the
+shapes in the rulebook &ndash; they&rsquo;re right there on the board!</p><p><strong>So, how did it go?</strong> It went well! Rules were much simpler to explain,
+we got to play quite quickly, and the game was shorter than previous
+test games. (One player remarked: &ldquo;huh, feels like this game was
+slightly easier to understand/play than your previous game(s)&rdquo;)</p><p>Players were also quite enthusiastic: they really tried to get certain
+ingredients and think about where their courier should go. (Some even
+started to roleplay actually running a pizza restaurant, which I always
+encourage! More engagement and story is always better in a game.)</p><p>Still, some issues remained.</p><p><strong>Issue #1:</strong> Now it&rsquo;s a little <em>too</em> easy to get more couriers. Just
+get a champion, eat it (and take the penalty), and repeat. At one point,
+I had 5 couriers, and I completely overpowered my opponents. At the same
+time, it became harder and harder to keep track of <em>where</em> all my
+couriers were.</p><p><strong>Solution?</strong> There are several options:</p><ul><li><p>Just <em>remove</em> the champion action &ndash; you only get more couriers by
+delivering pizzas.</p></li><li><p>Make the penalty much harsher. But in that case, the champion
+ingredient becomes a bit weak.</p></li><li><p>Create some <em>other</em> simple mechanic that regulates how many couriers
+you have. Maybe there&rsquo;s a fixed maximum that you need to increase,
+or you need to pay &ldquo;upkeep&rdquo; for each courier, just <em>something
+simple</em> that automatically limits it.</p></li></ul><p>I&rsquo;m actually leaning towards the first option, as it&rsquo;s the simplest, and
+it frees up that ingredient to use for a <em>different</em> interesting action.</p><p>Additionally, as I&rsquo;ll explain in a moment, <em>splitting</em> your line has
+become a quite important element of the game. That&rsquo;s basically a more
+interesting version of having many different pizza couriers, so I want
+to focus on <em>that</em> mechanic instead.</p><p><strong>Issue #2:</strong> there are two elements in this game that are necessary
+(for balance and general gameplay), but also make the board more
+cluttered and chaotic. These are:</p><ul><li><p>Players running their couriers parallel to each other.</p></li><li><p>Players splitting their courier line in two.</p></li></ul><p>Because of the &ldquo;shapes&rdquo; movement, it&rsquo;s already much more likely that you
+<em>block</em> other players and prevent this situation. Still, it can and will
+happen.</p><p><strong>Solution?</strong> Well, let&rsquo;s try to solve two birds with one stone! If we
+could somehow <em>prevent players from running parallel</em> near places where
+<em>a courier has been split</em>, it would solve both problems in one go.</p><p>I need to explain the idea of &ldquo;splitting&rdquo; anyway in the rules, so it
+wouldn&rsquo;t be too bad to introduce an extra minor rule there: when you
+split a line, write a dot on the square/split point. <em>There may only be
+ONE LINE in a square with a dot</em>.</p><p>This means that a square with a split can <em>never</em> become messy (because
+nothing else is allowed in the square). It also means you can
+strategically split your line to block other players, and splits are
+more visible (because there is a big fat dot indicating them)</p><p><figure class=inline-image><picture><img src=one-pizza-10.webp loading=lazy decoding=async alt="Line splitting and the limitations of the DOT (image from rulebook)" title="Line splitting and the limitations of the DOT (image from rulebook)" width=1242 height=789></picture><figcaption class=side-note><span>Line splitting and the limitations of the DOT (image from rulebook)</span></figcaption></figure></p><p><strong>Issue #3:</strong> I need to be careful with <em>which</em> shapes I choose to
+include. For the test games, I quickly drew a random set of 5 shapes on
+the paper. After a while, only 2 or 3 of them were actually being used,
+because there wasn&rsquo;t a clear use for the others.</p><p><strong>Solution?</strong> Well, maybe I should categorize the shapes (&ldquo;straight&rdquo;,
+&ldquo;box&rdquo;, &ldquo;corner&rdquo;, &ldquo;exotic&rdquo;) and include one from each category. Should
+solve it.</p><p>Let&rsquo;s implement all of that and see where we stand!</p><p><em>Until I can test again, let&rsquo;s already polish the game and work on
+expansions!</em></p><p>This devlog continues at part 5, which explains the expansions.</p></div></article><div><nav class=pagination><ul><li><a href=/blog/boardgames/one-pizza-the-puzzle/devlog-one-pizza-the-puzzle/one-pizza-part-3/ class="masked-link big-mask mask-7" style=--rotation:2deg>&lt;&lt; Previous Page</a></li><li>Continue reading</li><li><a href=/blog/boardgames/one-pizza-the-puzzle/devlog-one-pizza-the-puzzle/one-pizza-part-5/ class="masked-link big-mask mask-5" style=--rotation:1deg>>> Next Page</a></li></ul></nav></div></main><footer id=site-footer><div class="padding center-block"><h3>More Pandaqi</h3><p>You could <a href=https://pandaqi.com>visit the game studio</a>.
+Or my <a href=https://pandaqi.com/tutorials/>free tutorial website</a>.
+Or my <a href=https://rodepanda.com/>portfolio</a> with easy access to absolutely everything I ever made.</p><h3>Latest</h3><nav class=latest><ul><li><a href=/blog/boardgames/kingseat/>Kingseat
+(👑)</a></li><li><a href=/blog/boardgames/foldigami/>Foldigami
+(📃)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-the-big-typescript-update/>Pandaqi Games: The Big Typescript Update
+(🎮)</a></li><li><a href=/blog/boardgames/sixpack/>Sixpack
+(🃏)</a></li><li><a href=/blog/boardgames/photomone-antsassins/>Photomone: Antsassins
+(🐜)</a></li><li><a href=/blog/boardgames/photomone-digital-antists/>Photomone: Digital Antists
+(🐜)</a></li><li><a href=/blog/boardgames/photomone/>Photomone
+(🐜)</a></li><li><a href=/blog/boardgames/keebble-domino/>Keebble: Domino
+(📗)</a></li><li><a href=/blog/boardgames/keebble-knickknack/>Keebble: Knickknack
+(📘)</a></li><li><a href=/blog/videogames/game-jams/less-is-store/>Less is Store
+(🛍️)</a></li></ul></nav><h3>Sections</h3><nav><ul><li><a href=/blog/boardgames/>Boardgames
+(🎲)</a></li><li><a href=/blog/news-and-updates/>News & Updates
+(📢)</a></li><li><a href=/blog/reviews-and-thoughts/>Reviews & Thoughts
+(💭)</a></li><li><a href=/blog/tutorials/>Tutorials
+(👩‍🎓)</a></li><li><a href=/blog/videogames/>Videogames
+(🎮)</a></li></ul></nav><h3>Credits</h3><p>Theme by me (<a href=https://pandaqi.com>Pandaqi</a> 🐼) &#183;
+with ❤️ &#183;
+using <a href=https://gohugo.io>Hugo</a> &#183;
+&copy; 2018&ndash;2023 Pandaqi Blog</p></div></footer><link rel=stylesheet type=text/css href=/blog/css/style.css><script src=/blog/js/bundle.min.js></script></body></html>

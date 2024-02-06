@@ -1,0 +1,128 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><title>Tables | HTML | Programming | Pandaqi Tutorials</title><link rel=icon type=image/png href=https://pandaqi.com/tutorials/favicon.png><link rel=stylesheet type=text/css href=/tutorials/css/critical.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin></head><body class=theme-dark><button id=gotoBottomBtn aria-label="Button to scroll to bottom of page">
+<img src=/tutorials/icon/go_to_bottom.svg alt="Button to scroll to bottom" title="Button to scroll to bottom" class=no-click></button><div id=overlay-image style=display:none><img id=overlay-image-src alt="Fullscreen image (when image inside article is clicked)"><div class=overlay-image-instruction>(click anywhere to close)</div></div><main class=article><article><div class="block-container style-programming"><div class=left-pad></div><div class=left-block><div class=metadata><div class=course-circle><img alt="Icon for course 'HTML'" title="Icon for course 'HTML'" src=/tutorials/programming/websites/html/icon.svg class=no-click></div><div class=course-line></div><div class=text><a href=/tutorials/programming/websites/html/>HTML</a>
+<a href=/tutorials/programming/websites/>Websites</a></div></div></div><div class=right-block><div class=between-block-hex><img alt="Icon for parent category 'Websites'" title="Icon for parent category 'Websites'" src=/tutorials/programming/websites/icon.svg class=no-click></div><h1>Tables</h1><div><aside id=mobile-metadata><ul><li><div class=link-with-icon><span class=icon><img alt="Icon to accompany button labeled 'Programming'" src=/tutorials/programming/icon.svg></span>
+<a href=/tutorials/programming/>Programming</a></div></li><li><span class=separator>&#187;</span></li><li><div class=link-with-icon><span class=icon><img alt="Icon to accompany button labeled 'HTML'" src=/tutorials/programming/websites/html/icon.svg></span>
+<a href=/tutorials/programming/websites/html/>HTML</a></div></li></ul></aside></div></div><div class=right-pad></div></div><div class="block-container style-programming block-separator"><div class=left-pad></div><div class=left-block></div><div class=right-block></div><div class=right-pad></div></div><div class="block-container style-article secondary-style-programming"><div class=left-pad></div><div class=left-block><aside class=toc><span class=label>Contents ></span><nav id=TableOfContents><ul><li><a href=#head-vs-body-again>Head vs Body (again)</a></li><li><a href=#rows--columns>Rows & Columns</a></li><li><a href=#regular-vs-irregular>Regular vs Irregular</a></li><li><a href=#caption>Caption</a></li><li><a href=#colgroups>Colgroups</a></li></ul></nav></aside></div><div class=right-block><p>As expected, the <code>&lt;table></code> element is meant for content that is a <em>table</em>. Tables are complicated, however, so it requires a lot of other tags to add the proper structure.</p><p>When using them, remind yourself that this structure is <em>good</em>. It allows the computer (search engines, screen readers, &mldr;) to understand your content perfectly, and it allows you to easily style the table later.</p><p>Tables are perhaps the best example of why semantics matter. In the old days, CSS wasn&rsquo;t good enough yet to easily place stuff in a <em>grid</em>. But grids are nice. Many websites wanted a home page with a grid of articles or images.</p><p>So what did people do? People started using HTML <em>tables</em> to achieve this layout.</p><p>The result was a confusing mess, both for the programmers as well as the search engines. The HTML clearly stated &ldquo;this is a table&rdquo;, but the content wasn&rsquo;t a table at all! The element was only used for how it <em>looked</em>, not for its <em>meaning</em>.</p><p>Nowadays, creating grids or table-like visuals with CSS is <em>easypeasy</em>. So only use the <code>&lt;table></code> tag when displaying content that is actually a table.</p><blockquote><p>A table is the most efficient way to combine <em>multiple</em> pieces of data and how they intersect.</p></blockquote><p>For example, the columns are different models of smartphones, and the rows are different features. A table is the best way to present this crossing of information: for each smartphone, it can show whether the feature is present or not.</p><p>I use tables often in my courses, when I need to list multiple things at once. Such as &ldquo;attribute&rdquo; + &ldquo;values it takes&rdquo; + &ldquo;what it does&rdquo;. (When only listing one thing &mldr; use a list.)</p><h2 id=head-vs-body-again>Head vs Body (again)</h2><p>Hopefully, you see this recurring theme throughout the whole course. It&rsquo;s a valuable lesson to learn in general: when working with data (or &ldquo;content&rdquo;), you always have these two parts: the content itself, and information <em>about</em> the content.</p><p>Tables are no different. Your first step is to create a <code>&lt;thead></code> and <code>&lt;tbody></code> element. The header will contain the names for the columns, the body the actual table. (A <code>&lt;tfoot></code> element also exists, for footnotes to the table.)</p><div class=codemirror-editor data-lang=html data-keepbase=false data-nopreview=false data-deftab data-content="<table>
+    <thead></thead>
+    <tbody></tbody>
+</table>" data-height=150><div class=codemirror-tabs></div><div class=codemirror-container></div><div class=codemirror-result></div></div><p>Well &mldr; I don&rsquo;t see anything yet. Let&rsquo;s add some content to the table.</p><div class=remark-arrow><div class=arrow-right></div></div><div class="remark masked-block"><span class=label>Remark</span><p>These elements are optional. Remember, HTML is lenient, browsers will just <strong>add</strong> the head and body if you leave it out. But also remember how I warned you about this: don&rsquo;t rely on browsers, be precise and correct yourself.</p></div><h2 id=rows--columns>Rows & Columns</h2><p>Tables in HTML are laid out vertically, then horizontally. In other words,</p><ul><li>You first define the <em>rows</em> (moving down)</li><li>Inside each row, you define the different <em>cells</em> (per column, moving left to right)</li></ul><p>To create a row, use the <code>&lt;tr></code> tag. This is true for both the head and the body.</p><p>To create a header cell, use <code>&lt;th></code>. This refers to the cells in the first row and column, those that <em>describe</em> the meaning of the row/column.</p><p>Otherwise, use <code>&lt;td></code> ( = table data) for all other cells.</p><div class=codemirror-editor data-lang=html data-keepbase=false data-nopreview=false data-deftab data-content="<table>
+    <thead>
+        <tr>
+            <td></td>
+            <th>HTML</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>Cool?</th><td>Yes</td>
+        </tr>
+        <tr>
+            <th>Difficult?</th><td>No</td>
+        </tr>
+    </tbody>
+</table>" data-height=150><div class=codemirror-tabs></div><div class=codemirror-container></div><div class=codemirror-result></div></div><p>Notice how the browser makes the headers <strong>bold</strong> and centered by default.</p><h2 id=regular-vs-irregular>Regular vs Irregular</h2><p>Notice how I have to provide the same number of columns in each row. (Two for each, in the previous example.) Even if empty, you must make sure all rows have the same size. That&rsquo;s the basic, default, regular table.</p><p>But what if you want some cells to cover a larger area? What if you want a heading to span multiple columns? Then you create an irregular table through certain <em>attributes</em>.</p><ul><li><code>colspan</code>: how many columns this cell should span (a number)</li><li><code>rowspan</code>: how many rows this cell should span (a number)</li></ul><p>There&rsquo;s only one rule: the numbers still have to add up. In the end, all rows should have the same number of columns, and all columns the same number of rows. It is now upon <em>you</em>, the developer, to make sure this is true.</p><div class=codemirror-editor data-lang=html data-keepbase=false data-nopreview=false data-deftab data-content='<table>
+    <thead>
+        <tr>
+            <td></td>
+            <th>HTML</th>
+            <th>CSS</th>
+            <th>JS</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>Cool?</th>
+            <td colspan="2">Yes</td>
+            <td rowspan="2">Maybe</td>
+        </tr>
+        <tr>
+            <th>Difficult?</th>
+            <td colspan="2">No</td>
+            <!-- no third column here, because the cell above has rowspan 2 -->
+        </tr>
+    </tbody>
+</table>' data-height=150><div class=codemirror-tabs></div><div class=codemirror-container></div><div class=codemirror-result></div></div><h2 id=caption>Caption</h2><p>You can add a caption to your table with, unsurprisingly, the <code>&lt;caption></code> element. This must, however, be the <em>first</em> element in the table.</p><div class=codemirror-editor data-lang=html data-keepbase=false data-nopreview=false data-deftab data-content="<table>
+    <caption>Table with features of HTML.</caption>
+    <thead>
+        <tr>
+            <td></td>
+            <th>HTML</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>Cool?</th><td>Yes</td>
+        </tr>
+        <tr>
+            <th>Difficult?</th><td>No</td>
+        </tr>
+    </tbody>
+</table>" data-height=150><div class=codemirror-tabs></div><div class=codemirror-container></div><div class=codemirror-result></div></div><h2 id=colgroups>Colgroups</h2><p>You might have a table where multiple columns belong together. Perhaps you want to style them similarly. You can do this using the <code>&lt;colgroup></code> element. This element must come after the caption, but before the rest of the content.</p><p><em>Why not use a <code>&lt;div></code> or something?</em> Because a table will think the whole div is just <em>one cell</em>. Because, well, it is <em>one element</em>. It will ruin both the meaning of the table and how it&rsquo;s laid out.</p><p>No, tables should follow the regular structure I explained above. To group them &mldr;</p><ul><li>Create a new <code>&lt;colgroup></code> element.</li><li>Inside, add <code>&lt;col></code> elements (until you&rsquo;ve described all columns). Each can take a <code>span</code> attribute, which is a number saying how many columns this group spans.</li></ul><div class=codemirror-editor data-lang=html data-keepbase=false data-nopreview=false data-deftab data-content='<table>
+    <caption>Features of web languages</caption>
+    <colgroup>
+        <col>
+        <col span="2" class="html-versions">
+        <col span="2" class="css-versions">
+    </colgroup>
+    <thead>
+        <tr>
+            <td></td>
+            <th>HTML4</th>
+            <th>HTML5</th>
+            <th>CSS2</th>
+            <th>CSS3</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>Cool?</th>
+            <td>A bit</td><td>Yes</td>
+            <td>Slightly</td><td>Yes!</td>
+        </tr>
+        <tr>
+            <th>Difficult?</th>
+            <td>Not really</td><td>No</td>
+            <td>Nah</td><td>Depends</td>
+        </tr>
+    </tbody>
+</table>
+ 
+<!-- Don&#39;t worry! This is a bit of CSS, to make sure you can see the colgroups -->
+<style type="text/css">
+.html-versions {
+    background-color: violet;
+}
+.css-versions {
+    background-color: lawngreen;
+}
+</style>' data-height=150><div class=codemirror-tabs></div><div class=codemirror-container></div><div class=codemirror-result></div></div><p>The alternative is to manually assign the same class to all cells in the group. That way, you can grab the whole group easily using CSS or JS later. And you still communicate, to the computer, that these cells belong together.</p><p>Now we&rsquo;re finally ready for some more <em>interaction</em>!</p></div><div class=right-pad></div></div><div class="block-container style-programming secondary-style-"><div class=left-pad></div><div class=left-block>Continue with this course</div><div class="right-block style-programming secondary-style-"><div><nav class=pagination><ul><li class=nav-left><div class=nav-arrow><div class=arrow-right></div></div><a href=/tutorials/programming/websites/html/video/ class="masked big-mask mask-7"><span class=container>Video</span></a></li><li class=nav-text></li><li class=nav-right><div class=nav-arrow><div class=arrow-left></div></div><a href=/tutorials/programming/websites/html/forms-i/ class="masked big-mask mask-2"><span class=container>Forms I</span></a></li></ul></nav></div></div><div class=right-pad></div></div><div class="block-container style-support secondary-style-"><div class=left-pad></div><div class=left-block>Support me and this website!</div><div class="right-block style-support secondary-style-"><div class=support-container><p class=mobile-heading>Want to support me?</p><div class=column><p>Buy one of my projects. You get something nice, I get something nice.</p><ul><li><a href=https://pandaqi.com/ class="masked big-mask mask-4 style-general-knowledge"><span class=container><span class=icon><img alt="Icon to accompany button labeled 'My video games'" src=/tutorials/icon/pandaqi.svg class=no-click>
+</span>My video games</span></a></li><li><a href=https://tiamopastoor.com/ class="masked big-mask mask-8 style-visual"><span class=container><span class=icon><img alt="Icon to accompany button labeled 'My books'" src=/tutorials/icon/tiamopastoor.svg class=no-click>
+</span>My books</span></a></li><li><a href=https://eltroubadour.com/ class="masked big-mask mask-1 style-audio"><span class=container><span class=icon><img alt="Icon to accompany button labeled 'My music'" src=/tutorials/icon/el_troubadour.svg class=no-click>
+</span>My music</span></a></li><li><a href=https://rodepanda.com/ class="masked big-mask mask-4 style-life-skills"><span class=container><span class=icon><img alt="Icon to accompany button labeled 'My full portfolio'" src=/tutorials/icon/rode_panda.svg class=no-click>
+</span>My full portfolio</span></a></li></ul></div><div class=column><p>Donate through a popular platform using the link below.</p><ul><li><a href=https://patreon.com/tiamopastoor/ class="masked big-mask mask-7"><span class=container><span class=icon><img alt="Icon to accompany button labeled 'Support me on Patreon'" src=/tutorials/icon/patreon.svg class=no-click>
+</span>Support me on Patreon</span></a></li><li><a href=https://ko-fi.com/tiamopastoor/ class="masked big-mask mask-8"><span class=container><span class=icon><img alt="Icon to accompany button labeled 'Support me on Ko-Fi'" src=/tutorials/icon/ko_fi.svg class=no-click>
+</span>Support me on Ko-Fi</span></a></li><li><a href=https://www.buymeacoffee.com/tiamopastoor/ class="masked big-mask mask-6"><span class=container><span class=icon><img alt="Icon to accompany button labeled 'Support me on Buy me a Coffee'" src=/tutorials/icon/buy_me_a_coffee.svg class=no-click>
+</span>Support me on Buy me a Coffee</span></a></li></ul><p>Simply giving feedback or spreading the word is also worth a lot.</p></div></div></div><div class=right-pad></div></div></article></main><footer id=footer-container><nav class=menu><ul><li><a href=/tutorials/ class="masked big-mask mask-1"><span class=container><span class=icon><img alt="Icon to accompany button labeled 'Home'" src=/tutorials/icon.svg class=no-click>
+</span>Home</span></a></li><li><a href=/tutorials/audio/ class="masked big-mask mask-5 style-audio"><span class=container><span class=icon><img alt="Icon to accompany button labeled 'Audio'" src=/tutorials/audio/icon.svg class=no-click>
+</span>Audio</span></a></li><li><a href=/tutorials/general-knowledge/ class="masked big-mask mask-5 style-general-knowledge"><span class=container><span class=icon><img alt="Icon to accompany button labeled 'General Knowledge'" src=/tutorials/general-knowledge/icon.svg class=no-click>
+</span>General Knowledge</span></a></li><li><a href=/tutorials/life-skills/ class="masked big-mask mask-1 style-life-skills"><span class=container><span class=icon><img alt="Icon to accompany button labeled 'Life Skills'" src=/tutorials/life-skills/icon.svg class=no-click>
+</span>Life Skills</span></a></li><li><a href=/tutorials/programming/ class="masked big-mask mask-8 style-programming"><span class=container><span class=icon><img alt="Icon to accompany button labeled 'Programming'" src=/tutorials/programming/icon.svg class=no-click>
+</span>Programming</span></a></li><li><a href=/tutorials/visual/ class="masked big-mask mask-1 style-visual"><span class=container><span class=icon><img alt="Icon to accompany button labeled 'Visual'" src=/tutorials/visual/icon.svg class=no-click>
+</span>Visual</span></a></li><li><a href=/tutorials/writing/ class="masked big-mask mask-6 style-writing"><span class=container><span class=icon><img alt="Icon to accompany button labeled 'Writing'" src=/tutorials/writing/icon.svg class=no-click>
+</span>Writing</span></a></li></ul></nav><div class=footer-banner></div><div id=footer><ul><li><a href=/tutorials/general-knowledge/pandaqi-tutorials/ class="masked big-mask mask-8 style-general-knowledge"><span class=container><span class=icon><img alt="Icon to accompany button labeled 'About'" src=/tutorials/general-knowledge/pandaqi-tutorials/icon.svg class=no-click>
+</span>About</span></a></li><li><a href=https://pandaqi.com/ class="masked big-mask mask-1"><span class=container><span class=icon><img alt="Icon to accompany button labeled 'Pandaqi | Games'" src=/tutorials/icon/pandaqi.svg class=no-click>
+</span>Pandaqi | Games</span></a></li><li><a href=https://pandaqi.com/blog/ class="masked big-mask mask-6"><span class=container><span class=icon><img alt="Icon to accompany button labeled 'Pandaqi | Blog'" src=/tutorials/icon/writing_feather.svg class=no-click>
+</span>Pandaqi | Blog</span></a></li><li><a href=https://tiamopastoor.com/ class="masked big-mask mask-5"><span class=container><span class=icon><img alt="Icon to accompany button labeled 'Tiamo Pastoor | Books'" src=/tutorials/icon/tiamopastoor.svg class=no-click>
+</span>Tiamo Pastoor | Books</span></a></li><li><a href=https://rodepanda.com/ class="masked big-mask mask-5"><span class=container><span class=icon><img alt="Icon to accompany button labeled 'Rode Panda | Portfolio'" src=/tutorials/icon/rode_panda.svg class=no-click>
+</span>Rode Panda | Portfolio</span></a></li><li><button class="masked big-mask mask-3" id=randProjBtn>
+<span class=container><span class=icon><img alt="Icon to accompany button labeled 'Random'" src=/tutorials/icon/random.svg class=no-click>
+</span>Random</span></button></li><li><button class="masked big-mask mask-7 darkModeBtn">
+<span class=container><span class=icon><img alt="Icon to accompany button labeled 'Light / Dark Mode'" src=/tutorials/icon/dark_mode_button.svg class=no-click>
+</span>Light / Dark Mode</span></button></li><li><button class="masked big-mask mask-4" id=gotoTopBtn>
+<span class=container><span class=icon><img alt="Icon to accompany button labeled 'Go to top'" src=/tutorials/icon/go_to_top.svg class=no-click>
+</span>Go to top</span></button></li></ul></div><div class=credits>Created by a young <a href=https://pandaqi.com>Pandaqi</a> (<a href=https://rodepanda.com>Tiamo Pastoor</a>) &#183;
+Maintained sporadically &#183;
+Using <a href=https://gohugo.io>Hugo</a> &#183;
+&copy; 2016&ndash;2023 <a href=https://pandaqi.com/tutorials>Pandaqi Tutorials</a></div><div class=credits>Contains 38 courses, 575 articles, and 585,366 words &#183;</div></footer><script async defer>const head=document.getElementsByTagName("head")[0];let cssLink=document.createElement("link");cssLink.rel="stylesheet",cssLink.href="/tutorials/css/style.css",cssLink.type="text/css",head.appendChild(cssLink)</script><span style=display:none id=hidden-hugo-metadata data-pages=/tutorials/life-skills/productivity/subconscious-beats-conscious/,/tutorials/life-skills/how-to-learn-anything/conclusion/,/tutorials/life-skills/how-to-learn-anything/varied-versus-predictable/,/tutorials/visual/graphic-design/design-elements/what-is-graphic-design/,/tutorials/visual/typography/page/,/tutorials/life-skills/fitness-health/fitness-and-exercise/tier-i-core/,/tutorials/writing/creative-writing/storytelling/the-heros-journey/,/tutorials/writing/creative-writing/storytelling/starting-a-story/,/tutorials/visual/drawing/construction-form/,/tutorials/writing/creative-writing/worldbuilding/the-purpose-of-worldbuilding/,/tutorials/life-skills/personal-hygiene/tips-and-tricks/,/tutorials/life-skills/fitness-health/fitness-and-exercise/lifestyle/,/tutorials/general-knowledge/chess/light-dark-square-tactic/,/tutorials/audio/music-mixing/the-3d-space/,/tutorials/writing/latex-math/math-graphics/,/tutorials/visual/colour-theory/context/,/tutorials/visual/drawing/ovals/,/tutorials/visual/typography/special-characters-i/,/tutorials/general-knowledge/foosball/shooting/,/tutorials/programming/learn-to-code/bags-iii/,/tutorials/writing/creative-writing/storytelling/the-a-b-c-story/,/tutorials/writing/latex/spacing/,/tutorials/writing/english/introduction/,/tutorials/writing/creative-writing/plot/play-with-timing/,/tutorials/audio/music-mixing/controls-overview/,/tutorials/writing/creative-writing/publishing/conclusion/,/tutorials/life-skills/fitness-health/fitness-and-exercise/breathing/,/tutorials/visual/drawing/lines/,/tutorials/writing/latex/counters/,/tutorials/writing/creative-writing/character/empathy/,/tutorials/life-skills/fitness-health/fitness-and-exercise/tier-ii-legs/,/tutorials/audio/music-mixing/automation/,/tutorials/life-skills/personal-hygiene/teeth/,/tutorials/life-skills/how-to-learn-anything/intrinsic-versus-extrinsic/,/tutorials/writing/creative-writing/character/the-five-questions/,/tutorials/audio/singing-and-speaking/pitch-and-scales/,/tutorials/visual/typography/finding-fonts/,/tutorials/programming/learn-to-code/strings/,/tutorials/writing/latex/lists/,/tutorials/writing/creative-writing/storytelling/why-we-tell-stories/,/tutorials/audio/music-mixing/volume/,/tutorials/programming/websites/html/introduction/,/tutorials/visual/drawing/coloring/,/tutorials/writing/creative-writing/character/conclusion/,/tutorials/visual/graphic-design/design-elements/line/,/tutorials/programming/websites/css/pseudo-classes/,/tutorials/writing/creative-writing/plot/action-i/,/tutorials/audio/songwriting/arrangement-ii/,/tutorials/life-skills/how-to-learn-anything/deep-versus-superficial/,/tutorials/writing/creative-writing/storytelling/the-three-act-structure/,/tutorials/writing/creative-writing/worldbuilding/magic-systems-ii/,/tutorials/writing/creative-writing/dialogue/punctuation/,/tutorials/audio/singing-and-speaking/whats-our-goal/,/tutorials/programming/learn-to-code/machines-i/,/tutorials/writing/latex-math/matrices/,/tutorials/life-skills/fitness-health/fitness-and-exercise/equipment/,/tutorials/writing/creative-writing/character/purpose/,/tutorials/writing/creative-writing/storytelling/narrative-structure/,/tutorials/writing/creative-writing/storytelling/the-story-circle/,/tutorials/writing/latex/basic-structure/,/tutorials/life-skills/fitness-health/sleeping-hygiene/conclusion/,/tutorials/audio/recording/equipment-ii-useful/,/tutorials/visual/graphic-design/design-principles/composition/,/tutorials/life-skills/fitness-health/fitness-and-exercise/conclusion/,/tutorials/programming/websites/css/conclusion/,/tutorials/programming/websites/css/the-box-model/,/tutorials/programming/learn-to-code/conditionals-i/,/tutorials/life-skills/fitness-health/eating-healthy/general-guidelines/,/tutorials/audio/music-mixing/vocals/,/tutorials/life-skills/fitness-health/eating-healthy/how-to-apply-advice/,/tutorials/writing/english/clock-and-dates/,/tutorials/writing/creative-writing/character/the-point-system/,/tutorials/writing/creative-writing/storytelling/flashbacks/,/tutorials/audio/music-mixing/equalizer/,/tutorials/visual/graphic-design/design-properties/introduction/,/tutorials/writing/creative-writing/publishing/synopsis/,/tutorials/programming/websites/html/blocks/,/tutorials/audio/songwriting/arrangement-i/,/tutorials/life-skills/fitness-health/sleeping-hygiene/why-sleep-is-magic/,/tutorials/writing/creative-writing/storytelling/freytags-pyramid/,/tutorials/writing/creative-writing/prose/conclusion/,/tutorials/audio/recording/drums/,/tutorials/visual/typography/hierarchy-i/,/tutorials/programming/websites/css/counters/,/tutorials/programming/websites/css/the-only-syntax/,/tutorials/writing/latex-math/functions/,/tutorials/writing/creative-writing/prose/scenes-chapters/,/tutorials/visual/typography/terminology/,/tutorials/writing/creative-writing/publishing/the-two-hats/,/tutorials/audio/recording/microphone-placement/,/tutorials/general-knowledge/chess/introduction/,/tutorials/visual/drawing/shapes/,/tutorials/life-skills/productivity/habits/,/tutorials/visual/drawing/spheres/,/tutorials/life-skills/fitness-health/fitness-and-exercise/introduction/,/tutorials/audio/songwriting/conclusion/,/tutorials/writing/latex-math/math-environments-i/,/tutorials/audio/songwriting/rules-and-patterns/,/tutorials/audio/recording/equipment-i-essentials/,/tutorials/writing/creative-writing/storytelling/the-four-act-structure/></span>
+<script async defer src=/tutorials/js/lib-pqTutorials.min.js></script>
+<script async defer src=/tutorials/js/codemirror/editor.bundle.min.js></script></body></html>

@@ -1,0 +1,237 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><title>Unstable Universe (Part 1) | Pandaqi Blog</title><link rel=icon type=image/png href=https://pandaqi.com/blog//favicon.png><link rel=stylesheet type=text/css href=/blog/css/critical.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin></head><body><header id=site-header><nav class=menu><ul><li><a href=https://pandaqi.com/blog/ class="masked-link big-mask mask-3" style=--rotation:-0.5deg>Home</a></li><li><a href=/blog/boardgames/ class="masked-link big-mask mask-2" style=--rotation:0deg>Boardgames</a></li><li><a href=/blog/news-and-updates/ class="masked-link big-mask mask-3" style=--rotation:-0.5deg>News & Updates</a></li><li><a href=/blog/reviews-and-thoughts/ class="masked-link big-mask mask-3" style=--rotation:1deg>Reviews & Thoughts</a></li><li><a href=/blog/tutorials/ class="masked-link big-mask mask-6" style=--rotation:0deg>Tutorials</a></li><li><a href=/blog/videogames/ class="masked-link big-mask mask-5" style=--rotation:-0.5deg>Videogames</a></li></ul></nav></header><main class="padding center-block"><article class=single-article><div class=thumbnail-media><figure class=thumb-image><picture><img src=../../unstable-universe-header.webp loading=lazy decoding=async alt="Thumbnail / Header for article: Unstable Universe (Part 1)" title="Thumbnail / Header for article: Unstable Universe (Part 1)" width=2481 height=877></picture></figure></div><h1>Unstable Universe (Part 1)</h1><aside class=metadata><nav class=breadcrumbs><span class=metadata-label><span class=emoji>🥐</span> Breadcrumbs ||</span>
+<a href=https://pandaqi.com/blog/>Home</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/>Boardgames</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/unstable-universe/>Unstable universe</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/unstable-universe/tech-devlog-unstable-universe/>Tech devlog unstable universe</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/unstable-universe/tech-devlog-unstable-universe/unstable-universe-part-1/>Unstable universe part 1</a></nav><script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/pandaqi.com\/blog\/","name":"home"}},{"@type":"ListItem","position":2,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/","name":"boardgames"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/unstable-universe\/","name":"unstable-universe"}},{"@type":"ListItem","position":4,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/unstable-universe\/tech-devlog-unstable-universe\/","name":"tech-devlog-unstable-universe"}},{"@type":"ListItem","position":5,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/unstable-universe\/tech-devlog-unstable-universe\/unstable-universe-part-1\/","name":"unstable-universe-part-1"}}]}</script><div><span class=metadata-label><span class=emoji>&#8987;</span> Published ||</span>
+<time datetime=2020-10-11T09:00:00>Sunday, Oct 11, 2020</time></div><nav class=tags><span class=metadata-label><span class=emoji>🎗</span> Tags ||</span><ul><li><a href=https://pandaqi.com/blog/tags/technical-devlog>technical devlog</a></li></ul></nav><div><span class=metadata-label><span class=emoji>📖</span> Table of Contents ||</span>
+<a href=# id=toc-toggle>Show</a></div></aside><aside id=table-of-contents class=masked-link-block><header><h2>Table of Contents</h2></header><nav id=TableOfContents><ul><li><a href=#whats-the-game-all-about>What&rsquo;s the game all about?</a></li><li><a href=#step-1-placing-points>Step 1: Placing Points</a></li><li><a href=#step-2-creating-connections>Step 2: Creating connections</a></li><li><a href=#step-3-filling-the-tree>Step 3: Filling the tree</a></li><li><a href=#step-4-determine-starting-nodes>Step 4: Determine starting nodes</a></li></ul></nav></aside><div><p>Welcome to the technical devlog about <strong><a href=https://pandaqi.com/unstable-universe>Unstable Universe</a></strong>!</p><p>If you haven&rsquo;t yet looked at the game or played it, make sure to do so,
+otherwise what I talk about in this article won&rsquo;t make much sense.</p><p>For this game, I needed to randomly generate player boards consisting of
+lots of <em>nodes</em> with <em>edges</em> between them. Like this:</p><p><figure class=inline-image><picture><img src=uu-1.webp loading=lazy decoding=async alt="Unstable Universe randomly generated board (seed Tiamo)" title="Unstable Universe randomly generated board (seed Tiamo)" width=1128 height=798></picture><figcaption class=side-note><span>Unstable Universe randomly generated board (seed Tiamo)</span></figcaption></figure></p><p>In my earlier games, the boards always followed a strict (rectangular)
+grid or an even simpler method, so writing the code for such an organic
+board already proved quite a challenge. Making the board balanced and
+fair in all cases required even more ingenious algorithms, so let&rsquo;s get
+started!</p><h2 id=whats-the-game-all-about>What&rsquo;s the game all about?</h2><p>In this game, all players start at the edge (at one of those rectangular
+nodes), and try to reach the center before anyone else.</p><p>There&rsquo;s only one action: <strong>move</strong>. You pick a node you&rsquo;re currently at,
+and move (via an edge) to an adjacent node. Simple as that.</p><p>When you land on the new node, you may take its <strong>action</strong>. And most of
+the time, that means a &ldquo;cutting action&rdquo;: you&rsquo;re allowed to cut into the
+board.</p><p>When you do so, you must start from the <em>edge of the paper</em> or an
+<em>existing cut</em>, and follow the edges on the board. As you might expect:
+if a piece of paper is cut loose from the board, it&rsquo;s gone. Out of the
+game.</p><p>As such, this game is a challenge between moving towards the center +
+grabbing useful nodes for your personal mission &mldr; and making sure
+you&rsquo;re not cut off + strategically cutting off your opponents.</p><p>Below is a GIF which can probably explain this better:</p><p><a href=https://youtu.be/eIcXJeHrPOA>plugin:youtube</a></p><p>(This is also posted on the homepage. I&rsquo;m starting to like these short
+videos to explain a boardgame.)</p><h2 id=step-1-placing-points>Step 1: Placing Points</h2><p>As you might expect, it&rsquo;s vital that the randomly generated game boards
+are <em>fair</em> and <em>balanced</em>. If one side of the board, by accident, has
+way fewer nodes than the other side, or way fewer connections, you&rsquo;re
+going to have a tough game.</p><p>Just before creating this game, I stumbled upon a technique called
+<strong>point relaxation</strong>, which ended up being the solution.</p><p>The idea is as follows:</p><ul><li><p>Randomly place points on the map.</p></li><li><p>Now perform X relaxation steps (where X is something like 100):</p><ul><li><p>For each node, look at the surroundings.</p></li><li><p>Calculate the <em>vector</em> between each node around us and
+ourselves.</p></li><li><p>Once we know all these vectors, sum them, and <em>move</em> the node by
+that much.</p></li><li><p>(Each step, reduce the maximum allowed movement by a little
+bit.)</p></li></ul></li></ul><p>What does this do? It tries to push each node <em>away</em> from other nodes
+that are too close. After doing this many times, each node will be at
+(roughly) equal distance from each other.</p><p>(On the website, it actually shows this relaxation happening. I decided
+to leave this in, because it looked interesting <em>and</em> it showed people
+what was happening. Otherwise you&rsquo;d be staring at a blank page for a few
+seconds before the board suddenly popped up.)</p><p>It&rsquo;s essential to reduce the movement each relaxation step, otherwise
+you&rsquo;ll never find a &ldquo;balance&rdquo; and nodes will just race back-and-forth
+the whole time, as they are pushed around by their surroundings.</p><p>For this game, I decided on a &ldquo;resolution&rdquo; beforehand (how many nodes
+should fit on the width/height of the paper). So, if I wanted 20 nodes
+across the width, then the paper would be divided into sections 0-19.
+Then I forced nodes to keep at least a distance of 1, because that&rsquo;s
+exactly how much room there should be for each node.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-Javascript data-lang=Javascript><span class=line><span class=ln> 1</span><span class=cl><span class=kr>const</span> <span class=nx>numIterations</span> <span class=o>=</span> <span class=mi>100</span><span class=p>;</span>
+</span></span><span class=line><span class=ln> 2</span><span class=cl><span class=kr>const</span> <span class=nx>numPoints</span> <span class=o>=</span> <span class=k>this</span><span class=p>.</span><span class=nx>points</span><span class=p>.</span><span class=nx>length</span><span class=p>;</span>
+</span></span><span class=line><span class=ln> 3</span><span class=cl><span class=kr>const</span> <span class=nx>equilibrium</span> <span class=o>=</span> <span class=mf>1.0</span><span class=p>;</span>
+</span></span><span class=line><span class=ln> 4</span><span class=cl>
+</span></span><span class=line><span class=ln> 5</span><span class=cl><span class=k>for</span><span class=p>(</span><span class=kd>var</span> <span class=nx>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>i</span> <span class=o>&lt;</span> <span class=nx>numIterations</span><span class=p>;</span> <span class=nx>i</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln> 6</span><span class=cl>  <span class=kd>var</span> <span class=nx>stepSize</span> <span class=o>=</span> <span class=mf>2.0</span> <span class=o>/</span> <span class=p>(</span><span class=nx>i</span><span class=o>+</span><span class=mf>1.0</span><span class=p>);</span>
+</span></span><span class=line><span class=ln> 7</span><span class=cl>
+</span></span><span class=line><span class=ln> 8</span><span class=cl>  <span class=c1>// first, determine velocity based on connections
+</span></span></span><span class=line><span class=ln> 9</span><span class=cl><span class=c1></span>  <span class=k>for</span><span class=p>(</span><span class=kd>var</span> <span class=nx>a</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>a</span> <span class=o>&lt;</span> <span class=nx>numPoints</span><span class=p>;</span> <span class=nx>a</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>10</span><span class=cl>    <span class=kd>var</span> <span class=nx>p</span> <span class=o>=</span> <span class=k>this</span><span class=p>.</span><span class=nx>points</span><span class=p>[</span><span class=nx>a</span><span class=p>];</span>
+</span></span><span class=line><span class=ln>11</span><span class=cl>    <span class=kd>var</span> <span class=nx>vel</span> <span class=o>=</span> <span class=p>[</span><span class=mi>0</span><span class=p>,</span><span class=mi>0</span><span class=p>];</span>
+</span></span><span class=line><span class=ln>12</span><span class=cl>    <span class=kd>var</span> <span class=nx>cX</span> <span class=o>=</span> <span class=nb>Math</span><span class=p>.</span><span class=nx>floor</span><span class=p>(</span><span class=nx>p</span><span class=p>.</span><span class=nx>x</span><span class=p>),</span> <span class=nx>cY</span> <span class=o>=</span> <span class=nb>Math</span><span class=p>.</span><span class=nx>floor</span><span class=p>(</span><span class=nx>p</span><span class=p>.</span><span class=nx>y</span><span class=p>)</span>
+</span></span><span class=line><span class=ln>13</span><span class=cl>    
+</span></span><span class=line><span class=ln>14</span><span class=cl>    <span class=kd>var</span> <span class=nx>connections</span> <span class=o>=</span> <span class=c1>// get list of nodes within X distance, whatever way you like
+</span></span></span><span class=line><span class=ln>15</span><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=ln>16</span><span class=cl>    <span class=k>for</span><span class=p>(</span><span class=kd>var</span> <span class=nx>c</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>c</span> <span class=o>&lt;</span> <span class=nx>connections</span><span class=p>.</span><span class=nx>length</span><span class=p>;</span> <span class=nx>c</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>17</span><span class=cl>      <span class=kd>var</span> <span class=nx>p2</span> <span class=o>=</span> <span class=nx>connections</span><span class=p>[</span><span class=nx>c</span><span class=p>];</span>
+</span></span><span class=line><span class=ln>18</span><span class=cl>      <span class=kd>var</span> <span class=nx>vec</span> <span class=o>=</span> <span class=p>[</span><span class=nx>p</span><span class=p>.</span><span class=nx>x</span> <span class=o>-</span> <span class=nx>p2</span><span class=p>.</span><span class=nx>x</span><span class=p>,</span> <span class=nx>p</span><span class=p>.</span><span class=nx>y</span> <span class=o>-</span> <span class=nx>p2</span><span class=p>.</span><span class=nx>y</span><span class=p>]</span>
+</span></span><span class=line><span class=ln>19</span><span class=cl>      <span class=kd>var</span> <span class=nx>dist</span> <span class=o>=</span> <span class=nb>Math</span><span class=p>.</span><span class=nx>sqrt</span><span class=p>(</span><span class=nx>vec</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span><span class=o>*</span><span class=nx>vec</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=o>+</span> <span class=nx>vec</span><span class=p>[</span><span class=mi>1</span><span class=p>]</span><span class=o>*</span><span class=nx>vec</span><span class=p>[</span><span class=mi>1</span><span class=p>]);</span>
+</span></span><span class=line><span class=ln>20</span><span class=cl>
+</span></span><span class=line><span class=ln>21</span><span class=cl>      <span class=kd>var</span> <span class=nx>force</span> <span class=o>=</span> <span class=mi>0</span><span class=p>,</span> <span class=nx>dir</span> <span class=o>=</span> <span class=mf>1.0</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>22</span><span class=cl>      
+</span></span><span class=line><span class=ln>23</span><span class=cl>      <span class=c1>// get the force (if node is closer, we&#39;re pushed away harder
+</span></span></span><span class=line><span class=ln>24</span><span class=cl><span class=c1></span>      <span class=c1>// and the direction of the push
+</span></span></span><span class=line><span class=ln>25</span><span class=cl><span class=c1></span>      <span class=nx>force</span> <span class=o>=</span> <span class=nb>Math</span><span class=p>.</span><span class=nx>abs</span><span class=p>(</span><span class=nx>dist</span> <span class=o>-</span> <span class=nx>equilibrium</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>26</span><span class=cl>      <span class=nx>dir</span> <span class=o>=</span> <span class=p>(</span><span class=nx>dist</span> <span class=o>&lt;</span> <span class=nx>equilibrium</span><span class=p>)</span> <span class=o>?</span> <span class=mf>1.0</span> <span class=o>:</span> <span class=o>-</span><span class=mf>1.0</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>27</span><span class=cl>
+</span></span><span class=line><span class=ln>28</span><span class=cl>      <span class=k>if</span><span class=p>(</span><span class=nx>force</span> <span class=o>!=</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span> <span class=nx>vel</span> <span class=o>=</span> <span class=p>[</span><span class=nx>vel</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=o>+</span> <span class=nx>dir</span><span class=o>*</span><span class=nx>vec</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span><span class=o>*</span><span class=nx>force</span><span class=p>,</span> <span class=nx>vel</span><span class=p>[</span><span class=mi>1</span><span class=p>]</span> <span class=o>+</span> <span class=nx>dir</span><span class=o>*</span><span class=nx>vec</span><span class=p>[</span><span class=mi>1</span><span class=p>]</span><span class=o>*</span><span class=nx>force</span><span class=p>]</span> <span class=p>}</span>
+</span></span><span class=line><span class=ln>29</span><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=ln>30</span><span class=cl>
+</span></span><span class=line><span class=ln>31</span><span class=cl>    <span class=nx>p</span><span class=p>.</span><span class=nx>relaxVelocity</span> <span class=o>=</span> <span class=nx>vel</span>
+</span></span><span class=line><span class=ln>32</span><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=ln>33</span><span class=cl>
+</span></span><span class=line><span class=ln>34</span><span class=cl>  <span class=c1>// then move all points based on that velocity
+</span></span></span><span class=line><span class=ln>35</span><span class=cl><span class=c1></span>  <span class=c1>// NOTE: It&#39;s important to first calculate velocity on all nodes, and THEN move all nodes together
+</span></span></span><span class=line><span class=ln>36</span><span class=cl><span class=c1></span>  <span class=k>for</span><span class=p>(</span><span class=kd>var</span> <span class=nx>a</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>a</span> <span class=o>&lt;</span> <span class=nx>numPoints</span><span class=p>;</span> <span class=nx>a</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>37</span><span class=cl>    <span class=kd>var</span> <span class=nx>p</span> <span class=o>=</span> <span class=k>this</span><span class=p>.</span><span class=nx>points</span><span class=p>[</span><span class=nx>a</span><span class=p>]</span>
+</span></span><span class=line><span class=ln>38</span><span class=cl>    
+</span></span><span class=line><span class=ln>39</span><span class=cl>    <span class=c1>// cells at the edge of the paper are static in one direction; listen to that
+</span></span></span><span class=line><span class=ln>40</span><span class=cl><span class=c1></span>    <span class=k>if</span><span class=p>(</span><span class=nx>p</span><span class=p>.</span><span class=nx>staticX</span><span class=p>)</span> <span class=p>{</span> <span class=nx>p</span><span class=p>.</span><span class=nx>relaxVelocity</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=p>}</span> 
+</span></span><span class=line><span class=ln>41</span><span class=cl>    <span class=k>if</span><span class=p>(</span><span class=nx>p</span><span class=p>.</span><span class=nx>staticY</span><span class=p>)</span> <span class=p>{</span> <span class=nx>p</span><span class=p>.</span><span class=nx>relaxVelocity</span><span class=p>[</span><span class=mi>1</span><span class=p>]</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=p>}</span>
+</span></span><span class=line><span class=ln>42</span><span class=cl>
+</span></span><span class=line><span class=ln>43</span><span class=cl>    <span class=c1>// actually move
+</span></span></span><span class=line><span class=ln>44</span><span class=cl><span class=c1></span>    <span class=nx>p</span><span class=p>.</span><span class=nx>x</span> <span class=o>+=</span> <span class=nx>p</span><span class=p>.</span><span class=nx>relaxVelocity</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=o>*</span> <span class=nx>stepSize</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>45</span><span class=cl>    <span class=nx>p</span><span class=p>.</span><span class=nx>y</span> <span class=o>+=</span> <span class=nx>p</span><span class=p>.</span><span class=nx>relaxVelocity</span><span class=p>[</span><span class=mi>1</span><span class=p>]</span> <span class=o>*</span> <span class=nx>stepSize</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>46</span><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=ln>47</span><span class=cl><span class=p>}</span></span></span></code></pre></div><p><strong>Remark:</strong> whenever a node is near the edge at the end of a relaxation
+step, I also <em>snap</em> it to the edge and don&rsquo;t allow it to come off (it
+can still move in the other direction). This helped ensure there were
+enough edge nodes on every board. It also simply made boards look
+better.</p><p><strong>Remark:</strong> I still use a grid system underneath this all. Why? Because
+it&rsquo;s faster. If I want to know which nodes are around me, I simple check
+the few <em>grid</em> cells around me. And whenever a node moves, I just update
+which cell of the grid it should be in. This is <em>way</em> faster for large
+maps than checking the distance to <em>all</em> other nodes, especially when it
+comes to the following algorithm &mldr;</p><h2 id=step-2-creating-connections>Step 2: Creating connections</h2><p>In this game, the only thing you can do is move from one node to the
+next. As such, all nodes should be <em>reachable</em> from all other nodes,
+otherwise you can&rsquo;t really play the game.</p><p>In Mathematics, such a board (with nodes and edges) is called a <em>graph</em>.
+They also have a name for the set of edges that ensures all nodes can be
+reached: a <em>spanning tree</em>.</p><p>An easy way to create such a spanning tree, is of course to <em>connect
+everything with everything!</em> That&rsquo;s also an ugly way, which doesn&rsquo;t work
+for a boardgame.</p><p>Instead, we want a <em>minimum spanning tree</em>. We want to connect
+everything with the <em>minimum</em> number of edges possible. For this, I used
+<strong>Prim&rsquo;s Algorithm</strong>.</p><p>It works as follows:</p><ul><li><p>Create an empty list L.</p></li><li><p>Pick any starting node, put it in L, mark it &ldquo;visited&rdquo;.</p></li><li><p>Repeat this until <em>all</em> nodes have been visited:</p><ul><li><p>Define N: a node in the list L</p></li><li><p>Define M: a non-visited node that&rsquo;s <em>not</em> in L.</p></li><li><p>Find nodes N and M with the <em>shortest distance</em> to each other.</p></li><li><p>Add M to the list and mark it &ldquo;visited&rdquo;.</p></li></ul></li></ul><p>Quite simple, but also quite slow because it looks at <em>all nodes every
+time</em>.</p><p>That&rsquo;s why I implemented a grid underneath it all. If I know a node is
+in cell [2,2], then I know the nearest node is probably in its
+neighbors (the cells [1,2], [3,2], [2,1], [2,3]). If that fails,
+I cast a wider net, until I find something.</p><p>This requires some extra work (&ldquo;bookkeeping&rdquo; as Mathematicians like to
+call it), but is <em>fast</em>. For this game, I ended up with relatively small
+boards (only 80-90 nodes per game). But I initially tried this method on
+a <em>way larger</em> project with thousands of nodes, and it still got a valid
+result within a second.</p><p>Using this algorithm, we get something like this:</p><p><figure class=inline-image><picture><img src=uu-2.webp loading=lazy decoding=async alt="Prim&rsquo;s algorithm (early version of game board, had obstacles)" title="Prim&rsquo;s algorithm (early version of game board, had obstacles)" width=1128 height=798></picture><figcaption class=side-note><span>Prim&rsquo;s algorithm (early version of game board, had obstacles)</span></figcaption></figure></p><p>And here&rsquo;s the code:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-Javascript data-lang=Javascript><span class=line><span class=ln> 1</span><span class=cl><span class=kd>var</span> <span class=nx>curPoint</span> <span class=o>=</span> <span class=k>this</span><span class=p>.</span><span class=nx>points</span><span class=p>[</span><span class=mi>0</span><span class=p>];</span>
+</span></span><span class=line><span class=ln> 2</span><span class=cl><span class=nx>curPoint</span><span class=p>.</span><span class=nx>visited</span> <span class=o>=</span> <span class=kc>true</span><span class=p>;</span>
+</span></span><span class=line><span class=ln> 3</span><span class=cl>
+</span></span><span class=line><span class=ln> 4</span><span class=cl><span class=kd>var</span> <span class=nx>list</span> <span class=o>=</span> <span class=p>[</span><span class=nx>curPoint</span><span class=p>];</span>
+</span></span><span class=line><span class=ln> 5</span><span class=cl>
+</span></span><span class=line><span class=ln> 6</span><span class=cl><span class=c1>// use Prim&#39;s algorithm to build a minimum spanning tree from ALL points
+</span></span></span><span class=line><span class=ln> 7</span><span class=cl><span class=c1>// NOTE: yes, we must do -1, because the last point has no new connection to make, so we terminate the iteration before that
+</span></span></span><span class=line><span class=ln> 8</span><span class=cl><span class=c1></span><span class=k>while</span><span class=p>(</span><span class=nx>list</span><span class=p>.</span><span class=nx>length</span> <span class=o>&lt;</span> <span class=k>this</span><span class=p>.</span><span class=nx>points</span><span class=p>.</span><span class=nx>length</span> <span class=o>-</span> <span class=mi>1</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln> 9</span><span class=cl>  <span class=kd>var</span> <span class=nx>query</span> <span class=o>=</span> <span class=k>this</span><span class=p>.</span><span class=nx>getClosestConnection</span><span class=p>(</span><span class=nx>list</span><span class=p>);</span> <span class=c1>// again, implement any way you like =&gt; Euler distance, Manhattan distance, Grid, ...
+</span></span></span><span class=line><span class=ln>10</span><span class=cl><span class=c1></span>  <span class=kd>var</span> <span class=nx>p</span> <span class=o>=</span> <span class=nx>query</span><span class=p>.</span><span class=nx>p</span><span class=p>,</span> <span class=nx>p2</span> <span class=o>=</span> <span class=nx>query</span><span class=p>.</span><span class=nx>p2</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>11</span><span class=cl>
+</span></span><span class=line><span class=ln>12</span><span class=cl>  <span class=nx>p</span><span class=p>.</span><span class=nx>connections</span><span class=p>.</span><span class=nx>push</span><span class=p>(</span><span class=nx>p2</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>13</span><span class=cl>  <span class=nx>p2</span><span class=p>.</span><span class=nx>connections</span><span class=p>.</span><span class=nx>push</span><span class=p>(</span><span class=nx>p</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>14</span><span class=cl>
+</span></span><span class=line><span class=ln>15</span><span class=cl>  <span class=nx>p2</span><span class=p>.</span><span class=nx>visited</span> <span class=o>=</span> <span class=kc>true</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>16</span><span class=cl>  
+</span></span><span class=line><span class=ln>17</span><span class=cl>  <span class=nx>list</span><span class=p>.</span><span class=nx>push</span><span class=p>(</span><span class=nx>p2</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>18</span><span class=cl><span class=p>}</span></span></span></code></pre></div><h2 id=step-3-filling-the-tree>Step 3: Filling the tree</h2><p>This is a cutting game which can be played with a large player group.
+Having only ONE connection between nodes is not enough, we need some
+backups!</p><p>Allow me to introduce the &ldquo;random fill tree&rdquo; algorithm:</p><ul><li><p>Keep looping through the nodes until we&rsquo;ve added X extra edges.</p></li><li><p>For each node, find the <em>nearest</em> node, which:</p><ul><li><p>Does not have a connection to it yet. (No sense in creating
+duplicate edges.)</p></li><li><p>Does not already have too many connections. (Depends on node
+type.)</p></li></ul></li><li><p>If we find something, connect the two nodes.</p></li></ul><p>In this case, I allowed starting nodes at most 2 connections, and other
+nodes at most 4. (Why do starting nodes get fewer? Because they only
+have <em>half</em> the board into which to draw edges, it&rsquo;s likely that edges
+will <em>overlap</em> if they get more than 2, which is ugly and unclear for
+players.)</p><p>This algorithm is really simple. The complexity is hidden in the part
+that finds the &ldquo;nearest node&rdquo;: that function is a large bundle of loops
+and if-statements to efficiently find a node following certain
+conditions.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-Javascript data-lang=Javascript><span class=line><span class=ln> 1</span><span class=cl><span class=kr>const</span> <span class=nx>numExtraConnections</span> <span class=o>=</span> <span class=mi>40</span><span class=p>;</span>
+</span></span><span class=line><span class=ln> 2</span><span class=cl><span class=kr>const</span> <span class=nx>connectionMaximum</span> <span class=o>=</span> <span class=mi>3</span><span class=p>;</span>
+</span></span><span class=line><span class=ln> 3</span><span class=cl>
+</span></span><span class=line><span class=ln> 4</span><span class=cl><span class=c1>// then go through all the other points
+</span></span></span><span class=line><span class=ln> 5</span><span class=cl><span class=c1></span><span class=k>for</span><span class=p>(</span><span class=kd>var</span> <span class=nx>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>i</span> <span class=o>&lt;</span> <span class=k>this</span><span class=p>.</span><span class=nx>points</span><span class=p>.</span><span class=nx>length</span><span class=p>;</span> <span class=nx>i</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln> 6</span><span class=cl>  <span class=kd>var</span> <span class=nx>p</span> <span class=o>=</span> <span class=k>this</span><span class=p>.</span><span class=nx>points</span><span class=p>[</span><span class=nx>i</span><span class=p>];</span>
+</span></span><span class=line><span class=ln> 7</span><span class=cl>
+</span></span><span class=line><span class=ln> 8</span><span class=cl>  <span class=c1>// Don&#39;t add connections if something already has too many of them
+</span></span></span><span class=line><span class=ln> 9</span><span class=cl><span class=c1></span>  <span class=c1>// Also don&#39;t add extra connections to edgePoints (high probability of creating overlapping edges)
+</span></span></span><span class=line><span class=ln>10</span><span class=cl><span class=c1></span>  <span class=k>if</span><span class=p>(</span><span class=nx>p</span><span class=p>.</span><span class=nx>edgePoint</span> <span class=o>||</span> <span class=nx>p</span><span class=p>.</span><span class=nx>connections</span><span class=p>.</span><span class=nx>length</span> <span class=o>&gt;=</span> <span class=nx>connectionMaximum</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>11</span><span class=cl>    <span class=k>continue</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>12</span><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=ln>13</span><span class=cl>
+</span></span><span class=line><span class=ln>14</span><span class=cl>  <span class=kd>var</span> <span class=nx>query</span> <span class=o>=</span> <span class=k>this</span><span class=p>.</span><span class=nx>getClosestConnection</span><span class=p>([</span><span class=nx>p</span><span class=p>],</span> <span class=s1>&#39;unconnected&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>15</span><span class=cl>
+</span></span><span class=line><span class=ln>16</span><span class=cl>  <span class=c1>// there IS no closest connection, so continue without doing anything
+</span></span></span><span class=line><span class=ln>17</span><span class=cl><span class=c1></span>  <span class=k>if</span><span class=p>(</span><span class=nx>query</span><span class=p>.</span><span class=nx>p2</span> <span class=o>==</span> <span class=kc>null</span><span class=p>)</span> <span class=p>{</span> <span class=k>continue</span><span class=p>;</span> <span class=p>}</span>
+</span></span><span class=line><span class=ln>18</span><span class=cl>
+</span></span><span class=line><span class=ln>19</span><span class=cl>  <span class=c1>// otherwise, make the connection we found (and we should always draw it)
+</span></span></span><span class=line><span class=ln>20</span><span class=cl><span class=c1></span>  <span class=kd>var</span> <span class=nx>p2</span> <span class=o>=</span> <span class=nx>query</span><span class=p>.</span><span class=nx>p2</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>21</span><span class=cl>
+</span></span><span class=line><span class=ln>22</span><span class=cl>  <span class=nx>p</span><span class=p>.</span><span class=nx>connections</span><span class=p>.</span><span class=nx>push</span><span class=p>(</span><span class=nx>p2</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>23</span><span class=cl>  <span class=nx>p2</span><span class=p>.</span><span class=nx>connections</span><span class=p>.</span><span class=nx>push</span><span class=p>(</span><span class=nx>p</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>24</span><span class=cl><span class=p>}</span></span></span></code></pre></div><p><strong>Remark:</strong> Later, when I was almost done with programming, I decided to
+call a similar function on the <em>center node</em> only. This function would
+give the center node <em>as many connections as possible</em> within a certain
+radius. Why? Because it&rsquo;s important that every player can reach this
+node (as that is how you win the game), so I wanted as many edges as I
+could get.</p><h2 id=step-4-determine-starting-nodes>Step 4: Determine starting nodes</h2><p>During generation, I already save all nodes at the edge of the paper. In
+fact, I save them by side (&ldquo;left&rdquo;, &ldquo;right&rdquo;, &ldquo;top&rdquo;, &ldquo;bottom&rdquo;).</p><p>This allows me to pick <em>three</em> nodes from each side and convert them to
+starting nodes. (These are rectangular and get a special icon. That
+determines your <em>personal mission</em> for the game.)</p><p>At first, I did so randomly, but that quickly proved unfair. If your
+starting node was near the center of the edge, you had a way shorter
+path to victory than other players!</p><p>Instead, I <em>sort</em> the edges based on <em>distance to the center node</em>. Then
+I pick those furthest away.</p><p>I also added another exception because of this problem: if two starting
+nodes were connected with the same node &mldr; one of them would be
+worthless. Why? The player who happened to go first would snatch that
+node, and the other literally has nowhere to go.</p><p>So, when I create a starting node, I go through all its connections and
+set &ldquo;hasStartingNode: true&rdquo;. Later, if I want to create a starting node
+but one of its neighbors already has this property, I just skip that
+node and consider the next option.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-Javascript data-lang=Javascript><span class=line><span class=ln> 1</span><span class=cl><span class=kr>const</span> <span class=nx>edges</span> <span class=o>=</span> <span class=p>[</span><span class=s1>&#39;left&#39;</span><span class=p>,</span> <span class=s1>&#39;right&#39;</span><span class=p>,</span> <span class=s1>&#39;top&#39;</span><span class=p>,</span> <span class=s1>&#39;bottom&#39;</span><span class=p>];</span>
+</span></span><span class=line><span class=ln> 2</span><span class=cl><span class=kr>const</span> <span class=nx>numPlayersPerEdge</span> <span class=o>=</span> <span class=mi>3</span><span class=p>;</span>	
+</span></span><span class=line><span class=ln> 3</span><span class=cl>
+</span></span><span class=line><span class=ln> 4</span><span class=cl><span class=k>for</span><span class=p>(</span><span class=kd>var</span> <span class=nx>e</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>e</span> <span class=o>&lt;</span> <span class=mi>4</span><span class=p>;</span> <span class=nx>e</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln> 5</span><span class=cl>  <span class=kd>var</span> <span class=nx>edgeName</span> <span class=o>=</span> <span class=nx>edges</span><span class=p>[</span><span class=nx>e</span><span class=p>];</span>
+</span></span><span class=line><span class=ln> 6</span><span class=cl>  <span class=kd>var</span> <span class=nx>edge</span> <span class=o>=</span> <span class=k>this</span><span class=p>.</span><span class=nx>edgePoints</span><span class=p>[</span><span class=nx>edgeName</span><span class=p>]</span>
+</span></span><span class=line><span class=ln> 7</span><span class=cl>
+</span></span><span class=line><span class=ln> 8</span><span class=cl>  <span class=c1>// first, sort all edge nodes based on distance to center
+</span></span></span><span class=line><span class=ln> 9</span><span class=cl><span class=c1></span>  <span class=k>for</span><span class=p>(</span><span class=kd>var</span> <span class=nx>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>i</span> <span class=o>&lt;</span> <span class=nx>edge</span><span class=p>.</span><span class=nx>length</span><span class=p>;</span> <span class=nx>i</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>10</span><span class=cl>    <span class=nx>edge</span><span class=p>[</span><span class=nx>i</span><span class=p>].</span><span class=nx>distanceToCenter</span> <span class=o>=</span> <span class=nb>Math</span><span class=p>.</span><span class=nx>pow</span><span class=p>(</span><span class=nx>edge</span><span class=p>[</span><span class=nx>i</span><span class=p>].</span><span class=nx>x</span> <span class=o>-</span> <span class=k>this</span><span class=p>.</span><span class=nx>centerNode</span><span class=p>.</span><span class=nx>x</span><span class=p>,</span> <span class=mi>2</span><span class=p>)</span> <span class=o>+</span> <span class=nb>Math</span><span class=p>.</span><span class=nx>pow</span><span class=p>(</span><span class=nx>edge</span><span class=p>[</span><span class=nx>i</span><span class=p>].</span><span class=nx>y</span> <span class=o>-</span> <span class=k>this</span><span class=p>.</span><span class=nx>centerNode</span><span class=p>.</span><span class=nx>y</span><span class=p>,</span> <span class=mi>2</span><span class=p>)</span> 
+</span></span><span class=line><span class=ln>11</span><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=ln>12</span><span class=cl>
+</span></span><span class=line><span class=ln>13</span><span class=cl>  <span class=nx>edge</span> <span class=o>=</span> <span class=nx>edge</span><span class=p>.</span><span class=nx>sort</span><span class=p>(</span><span class=kd>function</span><span class=p>(</span><span class=nx>a</span><span class=p>,</span><span class=nx>b</span><span class=p>)</span> <span class=p>{</span> <span class=k>if</span><span class=p>(</span><span class=nx>a</span><span class=p>.</span><span class=nx>distanceToCenter</span> <span class=o>&lt;</span> <span class=nx>b</span><span class=p>.</span><span class=nx>distanceToCenter</span><span class=p>)</span> <span class=p>{</span> <span class=k>return</span> <span class=mi>1</span><span class=p>;</span> <span class=p>}</span> <span class=k>else</span> <span class=p>{</span> <span class=k>return</span> <span class=o>-</span><span class=mi>1</span><span class=p>;</span> <span class=p>}</span> <span class=p>})</span>
+</span></span><span class=line><span class=ln>14</span><span class=cl>
+</span></span><span class=line><span class=ln>15</span><span class=cl>  <span class=c1>// then place mission nodes, with two restrictions:
+</span></span></span><span class=line><span class=ln>16</span><span class=cl><span class=c1></span>  <span class=c1>// 1) as far away from center as possible (so pick first in sorted list)
+</span></span></span><span class=line><span class=ln>17</span><span class=cl><span class=c1></span>  <span class=c1>// 2) they must have at least one connection that is NOT also used by another mission node
+</span></span></span><span class=line><span class=ln>18</span><span class=cl><span class=c1></span>  <span class=kd>var</span> <span class=nx>counter</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>19</span><span class=cl>  <span class=k>for</span><span class=p>(</span><span class=kd>var</span> <span class=nx>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>i</span> <span class=o>&lt;</span> <span class=nx>numPlayersPerEdge</span><span class=p>;</span> <span class=nx>i</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>20</span><span class=cl>    <span class=kd>var</span> <span class=nx>p</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>21</span><span class=cl>      <span class=k>do</span> <span class=p>{</span>
+</span></span><span class=line><span class=ln>22</span><span class=cl>        <span class=nx>p</span> <span class=o>=</span> <span class=nx>edge</span><span class=p>[</span><span class=nx>counter</span><span class=p>];</span>
+</span></span><span class=line><span class=ln>23</span><span class=cl>        <span class=nx>counter</span><span class=o>++</span><span class=p>;</span>
+</span></span><span class=line><span class=ln>24</span><span class=cl>      <span class=p>}</span> <span class=k>while</span> <span class=p>(</span><span class=k>this</span><span class=p>.</span><span class=nx>invalidMissionNode</span><span class=p>(</span><span class=nx>p</span><span class=p>));</span>
+</span></span><span class=line><span class=ln>25</span><span class=cl>
+</span></span><span class=line><span class=ln>26</span><span class=cl>      <span class=k>this</span><span class=p>.</span><span class=nx>convertToMissionNode</span><span class=p>(</span><span class=nx>p</span><span class=p>);</span>
+</span></span><span class=line><span class=ln>27</span><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=ln>28</span><span class=cl><span class=p>}</span></span></span></code></pre></div><p><strong>Remark:</strong> in case you were wondering &ldquo;how do you pick the center
+node?&rdquo;, the answer is probably exactly what you expect. When placing
+nodes, I mark the one closest to the center as &ldquo;Center&rdquo;, and that&rsquo;s it.
+This allows some variation &ndash; because the node can drift off during
+relaxation &ndash; but also means I know the center node early on. Which is
+useful for coding other algorithms.</p><p><figure class=inline-image><picture><img src=uu-3.webp loading=lazy decoding=async alt="Mission nodes pointed out, plus their exceptions" title="Mission nodes pointed out, plus their exceptions" width=1128 height=798></picture><figcaption class=side-note><span>Mission nodes pointed out, plus their exceptions</span></figcaption></figure></p><p>This devlog continues at part 2!</p></div></article><div><nav class=pagination><ul><li><span class=nav-disabled>No previous page :(</span></li><li>Continue reading</li><li><a href=/blog/boardgames/unstable-universe/tech-devlog-unstable-universe/unstable-universe-part-2/ class="masked-link big-mask mask-1" style=--rotation:-1deg>>> Next Page</a></li></ul></nav></div></main><footer id=site-footer><div class="padding center-block"><h3>More Pandaqi</h3><p>You could <a href=https://pandaqi.com>visit the game studio</a>.
+Or my <a href=https://pandaqi.com/tutorials/>free tutorial website</a>.
+Or my <a href=https://rodepanda.com/>portfolio</a> with easy access to absolutely everything I ever made.</p><h3>Latest</h3><nav class=latest><ul><li><a href=/blog/boardgames/kingseat/>Kingseat
+(👑)</a></li><li><a href=/blog/boardgames/foldigami/>Foldigami
+(📃)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-the-big-typescript-update/>Pandaqi Games: The Big Typescript Update
+(🎮)</a></li><li><a href=/blog/boardgames/sixpack/>Sixpack
+(🃏)</a></li><li><a href=/blog/boardgames/photomone-antsassins/>Photomone: Antsassins
+(🐜)</a></li><li><a href=/blog/boardgames/photomone-digital-antists/>Photomone: Digital Antists
+(🐜)</a></li><li><a href=/blog/boardgames/photomone/>Photomone
+(🐜)</a></li><li><a href=/blog/boardgames/keebble-domino/>Keebble: Domino
+(📗)</a></li><li><a href=/blog/boardgames/keebble-knickknack/>Keebble: Knickknack
+(📘)</a></li><li><a href=/blog/videogames/game-jams/less-is-store/>Less is Store
+(🛍️)</a></li></ul></nav><h3>Sections</h3><nav><ul><li><a href=/blog/boardgames/>Boardgames
+(🎲)</a></li><li><a href=/blog/news-and-updates/>News & Updates
+(📢)</a></li><li><a href=/blog/reviews-and-thoughts/>Reviews & Thoughts
+(💭)</a></li><li><a href=/blog/tutorials/>Tutorials
+(👩‍🎓)</a></li><li><a href=/blog/videogames/>Videogames
+(🎮)</a></li></ul></nav><h3>Credits</h3><p>Theme by me (<a href=https://pandaqi.com>Pandaqi</a> 🐼) &#183;
+with ❤️ &#183;
+using <a href=https://gohugo.io>Hugo</a> &#183;
+&copy; 2018&ndash;2023 Pandaqi Blog</p></div></footer><link rel=stylesheet type=text/css href=/blog/css/style.css><script src=/blog/js/bundle.min.js></script></body></html>

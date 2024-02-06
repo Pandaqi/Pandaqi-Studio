@@ -1,0 +1,163 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><title>Starry Skylines (Part 3) | Pandaqi Blog</title><link rel=icon type=image/png href=https://pandaqi.com/blog//favicon.png><link rel=stylesheet type=text/css href=/blog/css/critical.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin></head><body><header id=site-header><nav class=menu><ul><li><a href=https://pandaqi.com/blog/ class="masked-link big-mask mask-8" style=--rotation:0deg>Home</a></li><li><a href=/blog/boardgames/ class="masked-link big-mask mask-3" style=--rotation:-1deg>Boardgames</a></li><li><a href=/blog/news-and-updates/ class="masked-link big-mask mask-8" style=--rotation:-1deg>News & Updates</a></li><li><a href=/blog/reviews-and-thoughts/ class="masked-link big-mask mask-8" style=--rotation:2deg>Reviews & Thoughts</a></li><li><a href=/blog/tutorials/ class="masked-link big-mask mask-8" style=--rotation:0.5deg>Tutorials</a></li><li><a href=/blog/videogames/ class="masked-link big-mask mask-2" style=--rotation:2deg>Videogames</a></li></ul></nav></header><main class="padding center-block"><article class=single-article><div class=thumbnail-media><figure class=thumb-image><picture><img src=../../starry-skylines-header.webp loading=lazy decoding=async alt="Thumbnail / Header for article: Starry Skylines (Part 3)" title="Thumbnail / Header for article: Starry Skylines (Part 3)" width=2481 height=877></picture></figure></div><h1>Starry Skylines (Part 3)</h1><aside class=metadata><nav class=breadcrumbs><span class=metadata-label><span class=emoji>🥐</span> Breadcrumbs ||</span>
+<a href=https://pandaqi.com/blog/>Home</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/>Boardgames</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/starry-skylines/>Starry skylines</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/starry-skylines/devlog-starry-skylines/>Devlog starry skylines</a>
+/
+<a href=https://pandaqi.com/blog/boardgames/starry-skylines/devlog-starry-skylines/devlog-starry-skylines-part-3/>Devlog starry skylines part 3</a></nav><script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/pandaqi.com\/blog\/","name":"home"}},{"@type":"ListItem","position":2,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/","name":"boardgames"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/starry-skylines\/","name":"starry-skylines"}},{"@type":"ListItem","position":4,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/starry-skylines\/devlog-starry-skylines\/","name":"devlog-starry-skylines"}},{"@type":"ListItem","position":5,"item":{"@id":"https:\/\/pandaqi.com\/blog\/boardgames\/starry-skylines\/devlog-starry-skylines\/devlog-starry-skylines-part-3\/","name":"devlog-starry-skylines-part-3"}}]}</script><div><span class=metadata-label><span class=emoji>&#8987;</span> Published ||</span>
+<time datetime=2020-08-30T12:00:00>Sunday, Aug 30, 2020</time></div><nav class=tags><span class=metadata-label><span class=emoji>🎗</span> Tags ||</span><ul><li><a href=https://pandaqi.com/blog/tags/devlog>devlog</a></li></ul></nav><div><span class=metadata-label><span class=emoji>📖</span> Table of Contents ||</span>
+<a href=# id=toc-toggle>Show</a></div></aside><aside id=table-of-contents class=masked-link-block><header><h2>Table of Contents</h2></header><nav id=TableOfContents><ul><li><a href=#intermezzo-bigger-is-not-always-better>Intermezzo: bigger is not always better</a></li><li><a href=#intermezzo-ii-for-sure-bigger-isnt-better>Intermezzo II: for sure, bigger isn&rsquo;t better</a></li><li><a href=#what-i-ended-up-doing->What I ended up doing &mldr;</a></li><li><a href=#fourth-playtest>Fourth Playtest</a></li><li><a href=#better-player-powers>Better Player Powers</a></li><li><a href=#final-version>Final version?</a></li><li><a href=#conclusion>Conclusion</a></li></ul></nav></aside><div><p>This is part 3 of my devlog about the game <a href=https://pandaqi.com/starry-skylines><strong>Starry
+Skylines</strong></a>!</p><p>Haven&rsquo;t read the other entries? Go to the <a href=../>devlog overview</a>.</p><h2 id=intermezzo-bigger-is-not-always-better>Intermezzo: bigger is not always better</h2><p><strong>By far the biggest issue though</strong> (after some more quick playtests and
+careful consideration), is the sheer number of possible buildings and
+effects in the game. I need to find a way to make it slightly less
+random and more likely that you can use combos/follow a strategy/have
+some idea about which buildings to expect.</p><blockquote><p>For example, I&rsquo;ve had one game where 6 or 7 &ldquo;wheat fields&rdquo; appeared.
+However, they only work in combination with Farms/Bakeries. On their
+own they do nothing. Guess what? Absolutely NO farm or bakery
+appeared, even though they have quite a high probability of doing so.</p><p>This means that it becomes hard to plan ahead and actually strategize
+and build something nice. Many of the things you do &mldr; will just not
+have any effect (if we&rsquo;re unlucky with the random generation).</p></blockquote><p>The first solution is to alter the probabilities. Now many buildings
+have roughly equal chance of being picked; I should change that so
+buildings that have a greater effect (or belong together) have a greater
+probability of being picked.</p><p>The second solution is to prune some of the tree. Remove the buildings
+that are least fun, only keep the best ones.</p><p>But all those solutions are imperfect, as they can only soften the
+problem, so I&rsquo;m considering the following strategy: include
+&ldquo;combo&rdquo;-information on the buildings and events.</p><p>Whenever I show a certain component, I remember that information. The
+next time, I increase the probability of picking something that is
+<em>somehow related</em> to this previous component. This shouldn&rsquo;t be a
+certainty (&ldquo;oh, we have a police station this round, surely some
+criminals will pop up next round&rdquo;), but it should increase the
+probability that options you pick (and events that appear) actually
+influence each other a lot.</p><p>I don&rsquo;t know how feasible or helpful this is. I&rsquo;ve never done it before.
+But I don&rsquo;t see any other solution: all buildings/events/themes/planets
+I&rsquo;ve created so far, are really nice and interesting. I&rsquo;m happy that I
+could create such a big list of diverse mechanics and situations, but
+with every playtest I see this huge size as more of an obstacle than a
+feature.</p><p>(I already increase the probability of buildings <em>of the specific planet
+you&rsquo;re playing</em>, which helps somewhat. If this is your first time
+playing <em>Intervenus</em>, its unique buildings (such as Police Stations)
+show up way more often, allowing you to get comfortable with them.)</p><h2 id=intermezzo-ii-for-sure-bigger-isnt-better>Intermezzo II: for sure, bigger isn&rsquo;t better</h2><p>After thinking about it some more, you could of course ask another
+question: should this even be one game? The mechanics are so diverse and
+widespread, shouldn&rsquo;t this just be multiple games?</p><p>I think the answer is: no. The core of the game stays exactly the same
+between planets, and I don&rsquo;t see any significant changes I could make to
+reasonably split this into 2, 3 or maybe even 4 games.</p><p>Instead, it&rsquo;s probably more helpful to think in the other direction: if
+this must stay the same game, how do we make each planet feel unique and
+coherent within the whole game? And then I&rsquo;m starting to think I need
+more <em>options/settings</em> for the game.</p><p>Instead of picking a planet and getting all previous planets as well,
+you can cherry pick which &ldquo;expansions sets&rdquo; to use. Maybe I could even
+create something similar to &ldquo;decks&rdquo; in those trading card games. One of
+those decks could be &ldquo;Nature&rdquo;, which includes the planets Marsh and
+Pluto, as they are the only ones strictly focused on nature. Another
+could be &ldquo;Leadership&rdquo;, which contains Uronus and Intervenus, both
+focusing on government and planet leadership stuff.</p><p>Hmm &mldr; hard to make an informed decision on this one. I&rsquo;ll just keep
+polishing and 100% finishing the current game while thinking about a
+solution to this whole thing.</p><h2 id=what-i-ended-up-doing->What I ended up doing &mldr;</h2><p>I ended up implementing a mix of all these ideas.</p><p>I would&rsquo;ve loved to implement an algorithm that picks random buildings
+<em>that are somehow related</em>, but it just wouldn&rsquo;t work.</p><p>Why not? Let&rsquo;s say I create a set of 20 unique buildings. And, by
+chance, only one or two of those use the resource grid (and the rest
+doesn&rsquo;t).</p><p>Then I would <em>have</em> to include the resource line component, and it would
+show up quite often, even though it&rsquo;s only rarely useful. Which is
+annoying. It skews probabilities in the wrong direction, and I can&rsquo;t do
+much about that.</p><p>So, the safest bet is to create random sets of complete &ldquo;planets&rdquo;, and
+limit those sets to at most 3 or 4 planets. This way, everything will
+surely be related, and nothing shows up way too often or way too little.
+Yes, again, I would&rsquo;ve loved more variety and randomness, but this is
+the only way I saw this working out.</p><p>Lesson learned for future games: think about the problem of <em>quantity</em>
+beforehand. There is such a thing as <em>too many options</em> or <em>too much
+stuff</em> in a game, which causes a game to lose focus and
+interconnectivity.</p><h2 id=fourth-playtest>Fourth Playtest</h2><p>So, after some more rounds of playtests, I&rsquo;ve made these observations.</p><p><strong>First of all:</strong> this was the first playtest with a starting setup
+generated by the computer (I had just coded this part of the website)
+and proper planet sets. Fortunately, all of that works great! No need to
+tweak that very much.</p><p><strong>Issue #1:</strong> currently, when you play with 2-3 players I have the rule
+that you can&rsquo;t choose an option that another player already chose. That
+works really well, which is why it&rsquo;s a shame that I throw away this rule
+on 4+ players.</p><p>Additionally, it&rsquo;s a bit confusing that there are <em>three options</em> per
+round, but there can be <em>four players</em> on a planet.</p><p>So, I changed the rule to be more general: &ldquo;each planet starts with 3
+players, each of which must pick a different option&rdquo; (Way simpler, more
+logical.)</p><p><strong>Issue #2:</strong> there were <em>some</em> buildings that showed up, which were
+ultimately useless. For example, in one game we had loads of <em>Paddy
+Fields</em> &mldr; but they can only be built on water, and we had no water,
+because our set of planets did not include the &ldquo;water planet&rdquo; (which is
+Marsh).</p><p>How to fix? These kinds of buildings are, fortunately, the exception to
+the rule. I can add a parameter (in my gigantic list of buildings) that
+says &ldquo;requiredPlanet = blabla&rdquo;. Subsequently, the building is only
+included if the required planet is available.</p><p>Additionally, some buildings might just move to the first planet (the
+&ldquo;core set&rdquo;). They are so useful and interesting, that it&rsquo;s a shame to
+hide them on another planet.</p><blockquote><p>For example: one cool feature of this game is that you can travel
+between planets. But the only building that allows you to do so,
+appears on Uronus. Which is a shame, because that planet will not be
+included in the set a large chunk of the time.</p></blockquote><p>In conclusion: I need to take a hard look at my first planet and make
+sure it includes all the best bits.</p><p><strong>Issue #3:</strong> in this game, you can place stuff <em>anywhere you want</em>.</p><p>In the first version, the rules were way more restrictive. You could
+only place a building/street if it was <em>adjacent</em> to another thing you
+owned. Although that worked fine, it wasn&rsquo;t much fun, and it was easy to
+lose the game halfway because you just didn&rsquo;t have any connections left.</p><p>I completely removed that rule, which was <em>an improvement</em>, but still
+isn&rsquo;t perfect. There&rsquo;s often no reason to plan ahead or create beautiful
+street networks, because &mldr; well &mldr; anyone can block your plans at any
+time, and you can do the same to others.</p><p>I need <em>some rule</em> that restricts placement, but only slightly &mldr;</p><h2 id=better-player-powers>Better Player Powers</h2><p>At this point, I remembered that my idea for &ldquo;unique player powers&rdquo; was
+also broken.</p><p>(I had 8 different powers, which were unbalanced, hard to understand,
+and sometimes worthless unless you were playing one of the later
+planets. Yeah, these relics were left over from the very first draft of
+the rules for this game :p)</p><p>So, let&rsquo;s do the age-old trick of <strong>combining problems to get a single
+solution</strong>!</p><p>I want every <em>player power</em> to have both an <strong>advantage</strong> and a
+<strong>disadvantage.</strong></p><p>The advantage can be something like: &ldquo;you start with one more path than
+the others&rdquo; (which also nicely breaks ties for start player).</p><p>The disadvantage is something that restricts placement: &ldquo;but you may not
+place buildings next to paths owned by someone else!&rdquo;</p><p><strong>What am I going to do now?</strong> I&rsquo;m going to think about these player
+powers, fix the rules, add some more parameters and balancing to the
+huge list of buildings, and perform another playtest session. I think
+the game is nearing completion, but I must also say I&rsquo;m growing tired of
+this game. (As I&rsquo;ll explain below, I created a game in a genre that I
+don&rsquo;t even like myself, and it&rsquo;s become way too big. So that was a
+recipe for motivational disaster :p)</p><p><strong>Why do we even need player powers?</strong> Without player powers, the game
+is completely symmetric, which means there&rsquo;s no fair way to decide a
+start player (or general turn order) and everyone can mostly copy each
+other&rsquo;s turns. Additionally, I&rsquo;ve learned that it&rsquo;s always good to give
+players a sense of ownership/customization: by choosing which &ldquo;role&rdquo;
+they want to play, they become more engaged with and interested in the
+game.</p><h2 id=final-version>Final version?</h2><p>So, all elements are done and working, the game is as finetuned/balanced
+as I can currently make it, time for the fifth playtesting session.</p><p>It went well! (As the heading of this section already spoiled, kinda.)</p><p>It&rsquo;s hard to playtest this game well, on my own, as it&rsquo;s just so
+<em>large</em>. There are 8 planets, over 100 buildings and effects in the
+final game, and this game is best played as a <em>campaign</em> (where you play
+through all these planets with the same group).</p><p>As such, I&rsquo;m most uncertain about the later planets and the game as a
+whole, but &mldr; the first few planets are certainly fun, easy to explain,
+easy to play, and quite addictive as well!</p><p>It&rsquo;s like I said: this game is nothing more than presenting three
+interesting choices each round.</p><p>I must say, though, that I have a slight feeling of &mldr; disappointment.
+But that&rsquo;s not the game&rsquo;s fault, I&rsquo;ve realized, as it works great and
+people have a lot of fun. (It&rsquo;s actually the favorite game out of all my
+games for some people I&rsquo;ve played with.)</p><p>I think it&rsquo;s because I&rsquo;ve never been a fan of &ldquo;point salad&rdquo; games. And
+this game is almost the definition: you score points for <em>all sorts of
+things</em> in this game, and you only know who won by performing a few
+minutes of calculation at the end. It&rsquo;s the first &ldquo;point salad&rdquo; game
+I&rsquo;ve ever made, and I highly doubt I&rsquo;ll make one again.</p><h2 id=conclusion>Conclusion</h2><p>This is probably my &ldquo;biggest&rdquo; game yet, and also the game that is most
+<em>unlike</em> anything I&rsquo;ve ever made before. The fact that it&rsquo;s even
+playable and actually quite good, means it&rsquo;s a success for me!</p><p>I&rsquo;ve planned more balancing and playtesting sessions in the near future.</p><p>(I actually do this for most games: plan a date in my agenda, a few
+weeks or months later, to play the game again. Usually reveals quite
+some flaws and polishing issues that I was too blind to see when I was
+full-on developing the game. And, more playtests are always a good
+thing!)</p><p>Additionally, I&rsquo;ve written quite an extensive to-do list for possible
+future improvements/changes. I&rsquo;m just never really satisfied with my
+work (which is both a blessing and a curse), so although the current
+game is fun and polished, it might get a big overhaul at some date in
+the future.</p><p>Hopefully you learned something from this devlog, and hopefully you have
+fun playing this game!</p><p>Until the next devlog,</p><p>Pandaqi</p></div></article><div><nav class=pagination><ul><li><a href=/blog/boardgames/starry-skylines/devlog-starry-skylines/devlog-starry-skylines-part-2/ class="masked-link big-mask mask-1" style=--rotation:2deg>&lt;&lt; Previous Page</a></li><li>Continue reading</li><li><span class=nav-disabled>No next page :(</span></li></ul></nav></div></main><footer id=site-footer><div class="padding center-block"><h3>More Pandaqi</h3><p>You could <a href=https://pandaqi.com>visit the game studio</a>.
+Or my <a href=https://pandaqi.com/tutorials/>free tutorial website</a>.
+Or my <a href=https://rodepanda.com/>portfolio</a> with easy access to absolutely everything I ever made.</p><h3>Latest</h3><nav class=latest><ul><li><a href=/blog/boardgames/kingseat/>Kingseat
+(👑)</a></li><li><a href=/blog/boardgames/foldigami/>Foldigami
+(📃)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-the-big-typescript-update/>Pandaqi Games: The Big Typescript Update
+(🎮)</a></li><li><a href=/blog/boardgames/sixpack/>Sixpack
+(🃏)</a></li><li><a href=/blog/boardgames/photomone-antsassins/>Photomone: Antsassins
+(🐜)</a></li><li><a href=/blog/boardgames/photomone-digital-antists/>Photomone: Digital Antists
+(🐜)</a></li><li><a href=/blog/boardgames/photomone/>Photomone
+(🐜)</a></li><li><a href=/blog/boardgames/keebble-domino/>Keebble: Domino
+(📗)</a></li><li><a href=/blog/boardgames/keebble-knickknack/>Keebble: Knickknack
+(📘)</a></li><li><a href=/blog/videogames/game-jams/less-is-store/>Less is Store
+(🛍️)</a></li></ul></nav><h3>Sections</h3><nav><ul><li><a href=/blog/boardgames/>Boardgames
+(🎲)</a></li><li><a href=/blog/news-and-updates/>News & Updates
+(📢)</a></li><li><a href=/blog/reviews-and-thoughts/>Reviews & Thoughts
+(💭)</a></li><li><a href=/blog/tutorials/>Tutorials
+(👩‍🎓)</a></li><li><a href=/blog/videogames/>Videogames
+(🎮)</a></li></ul></nav><h3>Credits</h3><p>Theme by me (<a href=https://pandaqi.com>Pandaqi</a> 🐼) &#183;
+with ❤️ &#183;
+using <a href=https://gohugo.io>Hugo</a> &#183;
+&copy; 2018&ndash;2023 Pandaqi Blog</p></div></footer><link rel=stylesheet type=text/css href=/blog/css/style.css><script src=/blog/js/bundle.min.js></script></body></html>

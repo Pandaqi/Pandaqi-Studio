@@ -1,0 +1,130 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><title>Why I created "The Peerful Project" | Pandaqi Blog</title><link rel=icon type=image/png href=https://pandaqi.com/blog//favicon.png><link rel=stylesheet type=text/css href=/blog/css/critical.css><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin></head><body><header id=site-header><nav class=menu><ul><li><a href=https://pandaqi.com/blog/ class="masked-link big-mask mask-8" style=--rotation:0deg>Home</a></li><li><a href=/blog/boardgames/ class="masked-link big-mask mask-7" style=--rotation:0deg>Boardgames</a></li><li><a href=/blog/news-and-updates/ class="masked-link big-mask mask-7" style=--rotation:2deg>News & Updates</a></li><li><a href=/blog/reviews-and-thoughts/ class="masked-link big-mask mask-4" style=--rotation:-0.5deg>Reviews & Thoughts</a></li><li><a href=/blog/tutorials/ class="masked-link big-mask mask-5" style=--rotation:1.5deg>Tutorials</a></li><li><a href=/blog/videogames/ class="masked-link big-mask mask-7" style=--rotation:-0.5deg>Videogames</a></li></ul></nav></header><main class="padding center-block"><article class=single-article><h1>Why I created "The Peerful Project"</h1><aside class=metadata><nav class=breadcrumbs><span class=metadata-label><span class=emoji>🥐</span> Breadcrumbs ||</span>
+<a href=https://pandaqi.com/blog/>Home</a>
+/
+<a href=https://pandaqi.com/blog/videogames/>Videogames</a>
+/
+<a href=https://pandaqi.com/blog/videogames/the-peerful-project/>The peerful project</a>
+/
+<a href=https://pandaqi.com/blog/videogames/the-peerful-project/why-i-created-the-peerful-project/>Why i created the peerful project</a></nav><script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/pandaqi.com\/blog\/","name":"home"}},{"@type":"ListItem","position":2,"item":{"@id":"https:\/\/pandaqi.com\/blog\/videogames\/","name":"videogames"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/pandaqi.com\/blog\/videogames\/the-peerful-project\/","name":"the-peerful-project"}},{"@type":"ListItem","position":4,"item":{"@id":"https:\/\/pandaqi.com\/blog\/videogames\/the-peerful-project\/why-i-created-the-peerful-project\/","name":"why-i-created-the-peerful-project"}}]}</script><div><span class=metadata-label><span class=emoji>&#8987;</span> Published ||</span>
+<time datetime=2020-04-29T21:55:32>Wednesday, Apr 29, 2020</time></div><nav class=tags><span class=metadata-label><span class=emoji>🎗</span> Tags ||</span><ul><li><a href=https://pandaqi.com/blog/tags/thoughts>thoughts</a></li></ul></nav><div><span class=metadata-label><span class=emoji>📖</span> Table of Contents ||</span>
+<a href=# id=toc-toggle>Show</a></div></aside><aside id=table-of-contents class=masked-link-block><header><h2>Table of Contents</h2></header><nav id=TableOfContents><ul><li><a href=#the-solution>The solution</a></li><li><a href=#what-is-the-peerful-project>What is The Peerful Project?</a></li><li><a href=#why-should-anyone-care>Why should anyone care?</a></li><li><a href=#okay-so-why-is-this-better-than-other-games>Okay, so why is this better than other games?</a></li><li><a href=#surely-there-are-disadvantages>Surely there are disadvantages?</a></li><li><a href=#what-kind-of-games-can-we-expect>What kind of games can we expect?</a></li><li><a href=#how-often-can-we-expect-games>How often can we expect games?</a></li><li><a href=#where-does-the-name-come-from>Where does the name come from?</a></li><li><a href=#what-other-technologies-do-you-use>What other technologies do you use?</a></li><li><a href=#conclusion>Conclusion?</a></li><li><a href=#support-me>Support me</a></li></ul></nav></aside><div><p>If you don&rsquo;t know about the project yet, visit the official page: <a href=https://pandaqi.com/the-peerful-project>The Peerful Project&mdash;Free Local Multiplayer Games</a></p><p>I also wrote an in-depth article series about <a href=https://pandaqi.com/blog/videogames/the-peerful-project/pizza-peers/devlog-pizza-peers/1-how-i-created-pizza-peers/>How I Created &ldquo;Pizza Peers&rdquo;</a>. It covers many of the same topics and
+ideas, and actually shares the code I used, in case you want to create
+your own games like these.</p><p>For years now, I&rsquo;ve been thinking about ways to create <em>accessible local
+multiplayer games</em>.</p><p>Everyone I know loves these games &mldr; but only once you&rsquo;ve
+somehow managed to convince them to try one.</p><p>Everyone has different obstacles and excuses:</p><ul><li>&ldquo;But I don&rsquo;t understand controllers&rdquo;</li><li>&ldquo;But our computer isn&rsquo;t good enough&rdquo;</li><li>&ldquo;But I don&rsquo;t have money for those expensive games/controllers/consoles&rdquo;</li><li>&ldquo;But games are too hard&rdquo;</li><li>&ldquo;But I&rsquo;m not that competitive&rdquo;</li><li>&ldquo;But I&rsquo;m not into gaming&rdquo;</li><li>&mldr;</li></ul><p>Creating and playtesting games for years showed me that these concerns
+&ndash; for the most part &ndash; were valid. Games (and the necessary
+hardware/devices for multiplayer) <em>are</em> expensive, and oftentimes
+complex and intimidating to the non-initiated.</p><h2 id=the-solution>The solution</h2><p>Until, a few weeks ago, something clicked.</p><p>Everyone around me had no problem playing the <strong>Jackbox</strong> games. Even
+those who did not like or play any games.</p><p>The Jackbox games are social party games, which you start on the
+computer, but require each player to play on their own smartphone. One
+of their biggest hits was &ldquo;Drawful&rdquo;: you draw something on your phone,
+all pictures are displayed on the big screen, people must guess what
+they represent.</p><p>Apparently, using smartphones solved the issues. People already had a
+smartphone. They used it, understood it, were maybe even a little
+addicted to it.</p><p>So I thought: <strong>what if we use smartphones as <em>controllers</em> for games?</strong></p><p>The Jackbox games are mostly turn-based. You only press a button/draw
+something/type something occasionally. Signals are somewhat delayed, but
+it doesn&rsquo;t matter.</p><p>I wanted to see if a <em>real(time)</em> game was possible. One where you could
+use your smartphone like a controller, as if you were playing an actual
+game. Constant input, instant feedback, all that good stuff.</p><p>After many search sessions and experimental (mostly failed) games, I
+finally found the solution.</p><p>I dubbed that solution <strong>&ldquo;The Peerful Project&rdquo;</strong>.</p><h2 id=what-is-the-peerful-project>What is The Peerful Project?</h2><p>It&rsquo;s a <strong>collection of free local multiplayer games</strong>, which can be
+accessed in your <strong>browser</strong>, and which use your <strong>smartphone</strong> as the
+controller.</p><p>The game is hosted on a computer (or any big screen that is visible to
+all players). You simply open the browser, type the URL, and click
+&ldquo;Create Game!&rdquo;</p><p>Once the game is created, people can type the same URL on their phone,
+join the game, and you&rsquo;re already playing.</p><p>The games can be anything, so long as browsers (and smartphones) are
+capable enough to run it.</p><p>Updates are immediate. I&rsquo;ve found that players forget after a few
+seconds that they are actually playing over the internet and are
+actually holding a phone. By that time, they are in a flow, playing the
+game like they would any other.</p><h2 id=why-should-anyone-care>Why should anyone care?</h2><p>As stated above, my goal is to help hesitant people overcome that first
+hurdle. I estimate that nearly 90%-95% of people thoroughly enjoyed the
+(cooperative) multiplayer games I made them play, yet it was a struggle
+every time to convince them.</p><p>(My mother took three or four tries before she finally admitted: &ldquo;okay,
+now that I can work with the controller, these games are actually a lot
+of fun!&rdquo;)</p><p>Additionally, I want to make people play games <em>together</em>. These days, I
+find the world is growing lonelier and more isolated by the minute. Yet,
+everyone agrees that <em>love</em>, <em>friendship</em>, and undertaking fun
+activities with your loved ones are what brings happiness. They always
+say &ldquo;I wish I could spend more time with family&rdquo; or &ldquo;&rdquo;.</p><p>So why doesn&rsquo;t everyone play boardgames or computer games? Why pass on
+such great opportunities? I want to create games that facilitate and
+encourage these great social and loving movements, and that&rsquo;s why I&rsquo;m
+making this project.</p><h2 id=okay-so-why-is-this-better-than-other-games>Okay, so why is this better than other games?</h2><p>This system has tons of <strong>advantages</strong>:</p><ul><li><p>Free</p></li><li><p>Quick and easy to start, no matter your hardware or situation. (It&rsquo;s
+literally 5-10 seconds to start and connect.)</p></li><li><p>Forces games to be simple, elegant, and accessible to anyone. (I
+will explain below that it&rsquo;s hard to make anything that&rsquo;s truly big
+or complex.)</p></li><li><p>Supports nearly any player count without problems (solo games are
+fine, inviting ten players to your party is fine, so long as they
+all bring their own smartphone)</p></li><li><p>Still plays like a real game and can do (almost) all of the same
+things</p></li><li><p>The smartphone even offers <strong>additional functionality</strong>: for
+example, I can change the screen to match a situation in the game.
+Or I could use the <em>shaking</em> mechanism in phones for gameplay
+elements.</p></li></ul><h2 id=surely-there-are-disadvantages>Surely there are disadvantages?</h2><p>Of course, there are <strong>disadvantages</strong>:</p><ul><li><p>It&rsquo;s only <em>local</em> multiplayer. So no playing together with your
+distant relative who lives on the other side of the world.</p></li><li><p>There are certain limits (in terms of performance and possibilities)
+on browsers and smartphones.</p></li><li><p>Creating a (good) game this way is <em>hard</em>. You need to setup the
+right signals, create two separate interfaces (computer and
+smartphone), balance the game for all player counts, et cetera.</p></li><li><p>A personal disadvantage: I cannot earn income from it, as it&rsquo;s just
+a tiny website, and it&rsquo;s near impossible to prevent people from just
+copying everything.</p></li></ul><p>If you want cutting-edge games, or very large and complex games, or you
+don&rsquo;t want to meet with people in real life &ndash; by all means, choose a
+different game.</p><p>Otherwise, I think the advantages far outweigh the disadvantages, and
+early (play)tests support this.</p><h2 id=what-kind-of-games-can-we-expect>What kind of games can we expect?</h2><p>I am quite experimental &ndash; as the existence of this project shows &ndash; but
+not necessarily in the way you&rsquo;d expect.</p><p>All games are <em>family games</em>, suitable for all ages. Accessibility is a
+key point, with simplicity and elegance being one of my top priorities.
+(I must admit, though, that this is really hard and I&rsquo;m still learning.)</p><p>These games always support many player counts. (This is a habit I picked
+up because I come from a large family.) Regularly, they offer a solo
+mode as well.</p><p>All parts of the game are custom made &ndash; art assets, music and
+soundtrack, any special game systems, everything. It makes the game more
+cohesive, allows me great freedom and flexibility, and I always want to
+learn and improve.</p><p>I also, however, need to be <em>innovative</em> in some way to motivate myself
+for a project. Each game I make needs to do one <em>really special thing</em>,
+which is usually also the &ldquo;hook&rdquo; or the &ldquo;elevator pitch&rdquo; that sells the
+game.</p><p>For example: I have an idea for a hidden role game. Some players are
+thieves, some are police. There&rsquo;s one shared screen, which is the map of
+a city. But on everybody&rsquo;s individual smartphone, they get another
+screen that shows what&rsquo;s around them. Thieves try to hide from the
+police and steal without getting caught, the police tries to catch them.
+Meanwhile, you can send secret chat messages to other players on your
+phone as well, to coordinate your strategies!</p><p>Another example: I have an idea for a game based on <em>sound</em>. You need to
+judge based on sound (volume, direction, pitch, etc.) where you are and
+what is happening. Maybe you can even walk around the room (with your
+phone in your hand) to explore and hear different parts.</p><p>I don&rsquo;t know if these ideas work. I need to try them out, which means
+sometimes a whole month is &ldquo;wasted&rdquo;. But if they work, man, it&rsquo;s awesome
+:)</p><h2 id=how-often-can-we-expect-games>How often can we expect games?</h2><p>As I write this, there&rsquo;s only a single game in the project (&ldquo;Pizza
+Peers&rdquo;). That was my test game, my experiment to see if the concept was
+even <em>possible</em>, let alone <em>fun and accessible</em>.</p><p>Luckily, the concept proved worthy!</p><p>I have at least five strong game ideas outlined at the moment, which I
+will be creating whenever I have time to spare. I honestly think these
+kinds of games are the future, and I am very excited about the
+possibilities.</p><p>Creating Pizza Peers took me 2 weeks (including marketing, art, custom
+soundtrack, etc.) working fulltime. I suspect other games take 1-2
+months, working on them beside my regular job and studies.</p><h2 id=where-does-the-name-come-from>Where does the name come from?</h2><p>The technology used by these games is called <strong>peer-to-peer</strong>.</p><p>Essentially, it establishes a <em>direct</em> connection between your phone and
+your computer. As long as you&rsquo;re on the same Wi-Fi, or relatively close
+to each other, this means it only takes &lt;10ms to send and receive
+signals. That&rsquo;s quick enough to never be noticeable.</p><h2 id=what-other-technologies-do-you-use>What other technologies do you use?</h2><p>Here&rsquo;s a quick overview:</p><ul><li><p>Node.js for the server side.</p></li><li><p>A (free) server from Heroku.</p></li><li><p>The Phaser.io library for creating browser games.</p></li><li><p>Default HTML/CSS/JavaScript for creating the webpages and some of
+the interactive elements.</p></li><li><p>And standard Web Sockets for making your first connection to the
+game server.</p></li></ul><p>The source code for all games in the project is online, so you can check
+out any parts for yourself.</p><h2 id=conclusion>Conclusion?</h2><p>Well, eh, play these games!</p><p>Or just play more local multiplayer games in general!</p><p>If you have trouble convincing people, try my games, or tell them &ldquo;it&rsquo;s
+cooperative; we win and lose together!&rdquo; (almost always works)</p><p>If you have ideas for the project, never hesitate to tell me.</p><p>If you have other feedback or find bugs, also let me know.</p><p>I am but one man, I cannot test everything. I am also a mere human,
+which means I make mistakes.</p><h2 id=support-me>Support me</h2><p><strong>If you like this project</strong>, please support me by donating, or buying
+some of my work, or simply <em>sharing</em> the news with other people.</p><p>I earn no income from all these games. It&rsquo;s a passion project. I also
+refuse to add advertisements or things like that, <em>especially</em> because
+these are family games and kids will be playing them. Yet, it costs a
+significant amount of time and money to create these games and keep them
+online.</p><p>So any help is greatly appreciated.</p></div></article><div><nav class=pagination><ul><li><span class=nav-disabled>No previous page :(</span></li><li>Continue reading</li><li><span class=nav-disabled>No next page :(</span></li></ul></nav></div></main><footer id=site-footer><div class="padding center-block"><h3>More Pandaqi</h3><p>You could <a href=https://pandaqi.com>visit the game studio</a>.
+Or my <a href=https://pandaqi.com/tutorials/>free tutorial website</a>.
+Or my <a href=https://rodepanda.com/>portfolio</a> with easy access to absolutely everything I ever made.</p><h3>Latest</h3><nav class=latest><ul><li><a href=/blog/boardgames/kingseat/>Kingseat
+(👑)</a></li><li><a href=/blog/boardgames/foldigami/>Foldigami
+(📃)</a></li><li><a href=/blog/news-and-updates/pandaqi-games-the-big-typescript-update/>Pandaqi Games: The Big Typescript Update
+(🎮)</a></li><li><a href=/blog/boardgames/sixpack/>Sixpack
+(🃏)</a></li><li><a href=/blog/boardgames/photomone-antsassins/>Photomone: Antsassins
+(🐜)</a></li><li><a href=/blog/boardgames/photomone-digital-antists/>Photomone: Digital Antists
+(🐜)</a></li><li><a href=/blog/boardgames/photomone/>Photomone
+(🐜)</a></li><li><a href=/blog/boardgames/keebble-domino/>Keebble: Domino
+(📗)</a></li><li><a href=/blog/boardgames/keebble-knickknack/>Keebble: Knickknack
+(📘)</a></li><li><a href=/blog/videogames/game-jams/less-is-store/>Less is Store
+(🛍️)</a></li></ul></nav><h3>Sections</h3><nav><ul><li><a href=/blog/boardgames/>Boardgames
+(🎲)</a></li><li><a href=/blog/news-and-updates/>News & Updates
+(📢)</a></li><li><a href=/blog/reviews-and-thoughts/>Reviews & Thoughts
+(💭)</a></li><li><a href=/blog/tutorials/>Tutorials
+(👩‍🎓)</a></li><li><a href=/blog/videogames/>Videogames
+(🎮)</a></li></ul></nav><h3>Credits</h3><p>Theme by me (<a href=https://pandaqi.com>Pandaqi</a> 🐼) &#183;
+with ❤️ &#183;
+using <a href=https://gohugo.io>Hugo</a> &#183;
+&copy; 2018&ndash;2023 Pandaqi Blog</p></div></footer><link rel=stylesheet type=text/css href=/blog/css/style.css><script src=/blog/js/bundle.min.js></script></body></html>
