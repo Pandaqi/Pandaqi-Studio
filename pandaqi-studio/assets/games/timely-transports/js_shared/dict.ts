@@ -1,3 +1,16 @@
+enum TerrainType
+{
+	LAND = "land",
+	WATER = "water"
+}
+
+enum PathType
+{
+	BOAT = "boat",
+	ROAD = "road",
+	RAIL = "rail",
+}
+
 const CITY_NAMES = 
 	[
 		"Al Riz", "Bisto", "Camor", "Dimba", "El Doso",
@@ -277,6 +290,54 @@ const EVENTS = {
 		}
 }
 
+const JUNGLE_NAME_TEMPLATES = 
+[
+	"X Forest", 
+	"X Rainforest",
+	"X Jungle",
+	"X Woods",
+	"X Territory",
+	"X Wilderness",
+	"X Park",
+	"Forest of X",
+	"Rainforest of X",
+	"Jungle of X",
+	"Planes of X",
+	"Park of X"
+]
+
+const COOL_WORD_TEMPLATES = 
+[
+	"Nimi", 
+	"Takuto",
+	"Ungukto",
+	"Tulosi",
+	"Berchake",
+	"El Charpo", 
+	"Caro",
+	"Ziza",
+	"Rain",
+	"Winds",
+	"Sun",
+	"Sea",
+	"Power",
+	"Madness",
+	"Fun",
+	"Thunder",
+	"Gods",
+	"Lions",
+	"Monkeys",
+	"Flowers",
+	"Juga",
+	"Xirp",
+	"Dragon",
+	"Stone",
+	"Fire",
+	"Water",
+	"Flow"
+]
+
+
 export {
 	CITY_NAMES,
 	PLAYERCOUNT_TO_CITYCOUNT,
@@ -284,5 +345,9 @@ export {
 	PLAYER_COLORS,
 	GOODS,
 	EVENTS,
-	DIFFICULTY_LEVELS
+	DIFFICULTY_LEVELS,
+	JUNGLE_NAME_TEMPLATES,
+	COOL_WORD_TEMPLATES,
+	TerrainType,
+	PathType
 }

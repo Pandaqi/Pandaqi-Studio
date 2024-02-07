@@ -9,11 +9,9 @@ noThumb: true
 
 {{< custom-entry-banner id="0" title="Mail me!" bg="mail_bg" thumb="mail_logo" class="blue" >}}
 
-My mailbox is always open for you: [schoolofpanda@gmail.com](mailto:schoolofpanda@gmail.com)
+Send me feedback, feature requests, questions about how/why I made something, proposals for collaborations, you name it. Well, anything except _spam_ of course.
 
-Feedback, feature requests, questions about how/why I made something, proposals for collaborations, you name it. Well, anything except _spam_ of course.
-
-Alternatively, mail me at: [tiamo@rodepanda.com](mailto:tiamo@rodepanda.com). That's the officially registered name for my business (in the Netherlands).
+My email address is: [schoolofpanda@gmail.com](mailto:schoolofpanda@gmail.com)
 
 {{< /custom-entry-banner >}}
 

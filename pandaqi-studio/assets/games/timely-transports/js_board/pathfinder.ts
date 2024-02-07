@@ -1,101 +1,117 @@
+import Point from "js/pq_games/tools/geometry/point";
+import { TerrainType } from "../js_shared/dict";
+
+interface PriorityItem
+{
+	item: Point,
+	priority: number
+}
+
 class PriorityQueue 
 {
-	elements: any[];
+	elements: PriorityItem[];
 
-	constructor() {
+	constructor() 
+	{
 		this.elements = [];
 	}
 
-	isEmpty() {
+	isEmpty() 
+	{
 		return (this.elements.length == 0);
 	}
 
-	put(item, priority) {
+	put(item:Point, priority) 
+	{
 		// loop through current list
 		let insertIndex = 0;
 		while(insertIndex < this.elements.length) {
-			if(this.elements[insertIndex][0] >= priority) {
+			if(this.elements[insertIndex].priority >= priority) {
 				break;
 			}
 			insertIndex++;
 		}
 
 		// add this element!
-		this.elements.splice(insertIndex, 0, [priority, item]);
+		this.elements.splice(insertIndex, 0, { item: item, priority: priority });
 	}
 
-	get() {
+	get() : Point
+	{
 		// remove first element from elements, return it
-		return this.elements.shift()[1];
+		return this.elements.shift().item;
 	}
 }
 
-function calculateRoute(cfg, map, start, end) {
-	let maxWidth = map.length;
-	let maxHeight = map[0].length;
+const getLabel = (pos:Point) : string => { return pos.x + "-" + pos.y }
+const outOfBounds = (pos:Point, size:Point) : boolean =>
+{
+	return (pos.x < 0 || pos.x >= size.x || pos.y < 0 || pos.y >= size.y);
+}
 
-	let Q = new PriorityQueue();
-
+function calculateRoute(cfg:Record<string,any>, map, start:Point, end:Point) 
+{
+	const Q = new PriorityQueue();
 	Q.put(start, 0);
 
 	// Maps are fast for searching, need unique values, AND can use an object as the key
-	let came_from = new Map();
-	let cost_so_far = new Map();
-	let tiles_checked = new Map();
+	const cameFrom = new Map();
+	const costSoFar = new Map();
+	const tilesChecked = new Map();
 
-	let startLabel = start[0] + "-" + start[1];
+	const startLabel = getLabel(start);
 
-	came_from.set(startLabel, null);
-	cost_so_far.set(startLabel, 0);
+	cameFrom.set(startLabel, null);
+	costSoFar.set(startLabel, 0);
 
 	let reachable = false;
+	const maxSize = new Point(map.length, map[0].length);
 
-	while( !Q.isEmpty() ) {
+	while( !Q.isEmpty() ) 
+	{
 		let current = Q.get();
-
-		let currentLabel = current[0] + "-" + current[1]
-		tiles_checked.set(currentLabel, true);
+		let currentLabel = getLabel(current);
+		tilesChecked.set(currentLabel, true);
     
     	// stop when we've found the first "shortest route" to our destination
-        if(current[0] == end[0] && current[1] == end[1]) { 
+		const currentPositionIsEndPosition = current.matches(end);
+        if(currentPositionIsEndPosition) 
+		{ 
         	reachable = true; 
         	break; 
         }
 
         // update all neighbours (to new distance, if run through the current tile)
 		let positions = [[-1,0],[1,0],[0,1],[0,-1]];
-		for(let a = 0; a < 4; a++) {
-			let tempX = current[0] + positions[a][0];
-    		let tempY = current[1] + positions[a][1];
+		for(let a = 0; a < 4; a++) 
+		{
+			const tempPos = new Point(current.x + positions[a][0], current.y + positions[a][1]);
 
     		// skip cells that don't exist (within the grid)
-    		if(tempX < 0 || tempX >= maxWidth || tempY < 0 || tempY >= maxHeight) {
-    			continue;
-    		}
+			if(outOfBounds(tempPos, maxSize)) { continue; }
 
-    		let cell = map[tempX][tempY]
+    		const cell = map[tempPos.x][tempPos.y]
 
     		// don't consider this tile according to rules given in the config
     		// these rules never hold for the end tile (as it's the final in the path, it can be anything)
-    		let val = cell.val
-    		if(!(tempX == end[0] && tempY == end[1])) {
+    		const val = cell.val
+    		if(!(tempPos.x == end.x && tempPos.y == end.y)) {
     			if(val < cfg.minVal || val > cfg.maxVal) {
 	    			continue;
 	    		}
     		}
 
     		// nothing can cross a forest (... for now)
-    		if(cell.isForest) {
-    			continue;
-    		}
+    		if(cell.isForest) { continue; }
 
     		// don't allow ugly boxes!
             // (a rectangle of 4 PATHS, all of the same TYPE)
-    		var nbs = [[0,0], [0,-1], [-1,-1], [-1,0]];
-    		var isUglyBox = true;
+    		const nbs = [[0,0], [0,-1], [-1,-1], [-1,0]];
+    		let isUglyBox = true;
     		for(let n = 0; n < 4; n++) {
-    			var x = nbs[n][0], y = nbs[n][1]
-    			if(x < 0 || y < 0 || x >= maxWidth || y >= maxHeight) { isUglyBox = false; break; }
+    			const x = nbs[n][0], y = nbs[n][1]
+				const ubPos = new Point(x,y);
+    			if(outOfBounds(ubPos, maxSize)) { isUglyBox = false; break; }
     			if(!map[x][y].partOfPath || !map[x][y].pathTypes.includes(cfg.pathType)) {
     				isUglyBox = false;
     				break;
@@ -120,65 +136,60 @@ function calculateRoute(cfg, map, start, end) {
 
     		// calculate the new cost
     		// movement is always 1, in our world 
-    		let new_cost = cost_so_far.get(currentLabel) + 1;
+    		let newCost = costSoFar.get(currentLabel) + 1;
 
     		// get the tile
-    		let next = [tempX, tempY];
-    		let nextLabel = tempX + "-" + tempY;
+    		let next = tempPos.clone();
+    		let nextLabel = getLabel(next);
 
     		// if the tile hasn't been visited yet, OR the new cost is lower than the current one, revisit it and save the update!
-    		if(!cost_so_far.has(nextLabel) || new_cost < cost_so_far.get(nextLabel) ) {
-    			if(tiles_checked.has(nextLabel)) {
-    				continue;
-    			}
+    		if(!costSoFar.has(nextLabel) || newCost < costSoFar.get(nextLabel) ) 
+			{
+    			if(tilesChecked.has(nextLabel)) { continue; } // no endless cycles
 
     			// save the lower cost
-    			cost_so_far.set(nextLabel, new_cost)
+    			costSoFar.set(nextLabel, newCost)
 
     			// calculate heuristic
     			// 1) Calculate Manhattan distance to target tile
-    			let dX = Math.abs(tempX - end[0]);
-    			let dY = Math.abs(tempY - end[1]);
+    			let dX = Math.abs(next.x - end.x);
+    			let dY = Math.abs(next.y - end.y);
     			let heuristic = (dX + dY)
 
 				// 2) Persuade algorithm to stay on the main land (away from (deep) water) if possible (or vice versa)
-				if(cfg.terrainType == 'water') {
+				if(cfg.terrainType == TerrainType.WATER) {
 					heuristic += cell.val*20;
-				} else if(cfg.terrainType == 'land') {
+				} else if(cfg.terrainType == TerrainType.LAND) {
 					heuristic += (1.0 - cell.val)*20;
 				}
 
 				// 3) If this is already part of a path, always move path towards it
 				// (so, conversely, if it's NOT part of a path, or it's the wrong path type, move away from it)
-				if(cfg.snapToPath) {
-					if(!cell.partOfPath) {
-						heuristic += 100;
-					}
+				if(cfg.snapToPath && !cell.partOfPath) 
+				{
+					heuristic += 100;
 				}
 
     			// add this tile to the priority queue
     			// 3) Tie-breaker: Add a small number (1.01) to incentivice the algorithm to explore tiles more near the target, instead of at the start
-    			let priority = new_cost + heuristic * (1.0 + 0.01);
+    			const priority = newCost + heuristic * (1.0 + 0.01);
     			Q.put(next, priority);
 
     			// save where we came from
-    			came_from.set(nextLabel, current)
+    			cameFrom.set(nextLabel, current)
     		}
 		}
 	}
 
 	// if it was unreachable, return null
-	if(!reachable) {
-		return null;
-	}
+	if(!reachable) { return null; }
 
 	// reconstruct the path
-	let path = []
+	const path = []
 	let current = end
-
-    while((current[0] != start[0] || current[1] != start[1])) {
+    while(!current.matches(start)) {
         path.push(current)
-        current = came_from.get(current[0] + "-" + current[1])
+        current = cameFrom.get(getLabel(current))
     }
 
     path.push(start); // add the start position to the path
