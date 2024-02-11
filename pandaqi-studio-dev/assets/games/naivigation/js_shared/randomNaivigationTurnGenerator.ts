@@ -57,8 +57,9 @@ export default class RandomNaivigationTurnGenerator
 
         o.addParagraph("Each player plays a facedown card to the instructions, without communication. Once done, they are revealed and handled one at a time, left to right.");
 
+        const DEF_NUM_INSTRUCTIONS = 5;
         const numPlayers = rangeInteger(3,5);
-        const cardsPlayed = shuffle(this.cards.slice()).slice(0, numPlayers);
+        const cardsPlayed = shuffle(this.cards.slice()).slice(0, DEF_NUM_INSTRUCTIONS);
         const cardsVisualized = [];
         for(const card of cardsPlayed)
         {

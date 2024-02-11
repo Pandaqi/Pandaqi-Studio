@@ -100,7 +100,6 @@ You can also [generate your own material](#material) right on this website. (If 
   {{< setting-checkbox id="setting-includeActionCards" text="Include Action Cards?" >}}
   {{< setting-checkbox id="setting-includeTimeDeck" text="Include Time Deck?" >}}
   {{< setting-checkbox id="setting-includeGPSCards" text="Include GPS Cards?" >}}
-  {{< setting-checkbox id="setting-includeFuelDeck" text="Include Fuel Deck?" >}}
 {{< /boardgame-settings >}}
 
 <p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>

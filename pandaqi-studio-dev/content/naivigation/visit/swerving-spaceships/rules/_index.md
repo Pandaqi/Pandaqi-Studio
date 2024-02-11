@@ -20,7 +20,7 @@ Combine the default Vehicle Cards with the specific Vehicle Cards for this game.
 
 Combine the default Health Cards and the specific Health Cards for this game. Shuffle and take out 5: this is your Health Deck.
 
-Place the 5 row tokens in order: you'll place your instructions underneath these each round.
+Place 5 instruction tokens in a row. You'll place your vehicle cards underneath these each round. Pick any start player.
 </div>
 
 {{% /rules-block %}}
@@ -42,13 +42,13 @@ Skip "Rounds & Turns" if you already know how to play Naivigation. The other sec
 
 Play happens in rounds.
 
-First determine **start player**. Throw the compass in the air and see to which player it points (the most).
-
 From the start player, take clockwise turns doing one thing: **play a Vehicle Card**.
 
 > Add a card from your hand, facedown, to an empty spot on the row of instructions. (Then draw a new card.)
 
-At the end of the round, **reveal each instruction and execute it** (left to right), one at a time. This moves the vehicle. Discard the instructions and play the next round!
+Continue until each instruction token has a card below it! Then, **reveal each instruction and execute it** (left to right), one at a time. This moves the vehicle. 
+
+Whoever played into the first slot becomes the new start player. Discard the instructions and play the next round!
 
 _No communication about the game is allowed._ You may only communicate about your cards or plans when the **"Discuss"** Vehicle Card is executed.
 

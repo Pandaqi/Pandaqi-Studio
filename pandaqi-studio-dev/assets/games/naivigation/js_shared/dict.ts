@@ -16,7 +16,8 @@ interface DefaultCardData
 //
 const VEHICLE_CARDS = 
 {
-    discuss: { shared: true, frame: 2, label: "Discuss", desc: "When executed, you may communicate until you decide to execute the next card.", freq: 5 }
+    discuss: { shared: true, frame: 2, label: "Discuss", desc: "You may <b>communicate</b> until you decide to execute the next card.", freq: 5 },
+    speedup: { shared: true, frame: 7, label: "Speedup", desc: "Remove or Add <b>1 Instruction Slot</b>. (There must be at least 3 and at most 8 slots.)", freq: 6 }
 };
 
 //
@@ -25,20 +26,21 @@ const VEHICLE_CARDS =
 const HEALTH_CARDS = 
 {
     last_life: { shared: true, subText: "Regular Life", desc: "Nothing special.", num: 1, freq: 2 },
-    random_draw_controlled: { shared: true, subText: "Pick from 2", desc: "<b>Start player</b> must <b>select 2 cards</b> each time, then randomly pick one to place.", num: 5 },
-    random_draw: { shared: true, subText: "Random Draw", desc: "<b>Start player</b> must play a <b>random</b> hand card.", num: 3 },
+    be_special: { shared: true, subText: "Be Special", desc: "Each card type is only executed once; ignore duplicates further down the row. All cards are duplicates? Take 1 damage.", num: 3 },
+    random_draw: { shared: true, subText: "Random Draw", desc: "The <b>first card</b> of the round must be randomly selected.", num: 3 },
     first_from_left: { shared: true, subText: "First from Left", desc: "Players must play their card at the <b>first</b> available spot from the <b>left</b>.", num: 2 },
     first_from_right: { shared: true, subText: "First from Right", desc: "Players must play their card at the <b>first</b> available spot from the <b>right</b>.", num: 2 }, // @NOTE: "last from left" = "first from right"
     delayed_draw: { shared: true, subText: "Delayed Draw", desc: "<b>Don't draw new cards</b> until your hand is completely empty.", num: 3 },
-    last_player_disabled: { shared: true, subText: "One Fewer Instruction", desc: "<b>Last player</b> does <b>not</b> get to play a card anymore.", num: 4 },
-    last_player_double: { shared: true, subText: "One More Instruction", desc: "<b>Last player</b> must play <b>2 instructions</b>.", num: 3 },
-    double_round: { shared: true, subText: "Double Round", desc: "You play <b>2 rounds</b> (creating a row that's twice as long) before executing instructions.", num: 3 },
-    forced_follow: { shared: true, subText: "Forced Follow", desc: "<b>Start player</b> plays their card <b>faceup</b>. All other players must play the <b>same card</b> if they have it.", num: 4  },
+    last_player_disabled: { shared: true, subText: "One Fewer Instruction", desc: "1 Instruction Slot must remain <b>empty</b>", num: 5 },
+    last_player_double: { shared: true, subText: "One More Instruction", desc: "The <b>start player</b> must play <b>2 instructions</b> in one turn.", num: 3 },
+    double_round: { shared: true, subText: "Double Round", desc: "You play <b>2 rounds</b> (creating a double row) before executing instructions.", num: 3 },
+    forced_follow: { shared: true, subText: "Forced Follow", desc: "<b>Start player</b> plays their card <b>faceup</b>. All other players must play the <b>same type of card</b> if they have it.", num: 4  },
     lower_hand_limit: { shared: true, subText: "Lower Hand Limit", desc: "The <b>hand limit</b> is permanently lowered by 1.", num: 3 },
-    forced_spot: { shared: true, subText: "Forced Spot", desc: "Spin the compass. <b>Start player</b> must play their card at the <b>number</b> that points to them.", num: 4 },
-    random_replace: { shared: true, subText: "Random Replace", desc: "<b>End of round</b>: start player must <b>replace</b> one card played with a random one from their hand.", num: 5 },
+    forced_spot: { shared: true, subText: "Forced Spot", desc: "The <b>first card<b> of the round must be played at a random slot (decided by the other players).", num: 4 },
+    random_replace: { shared: true, subText: "Random Replace", desc: "<b>End of round</b>: start player must <b>replace</b> one card played with a random one from hand or deck.", num: 5 },
     limited_communication: { shared: true, subText: "Limited Communication", desc: "The <b>Discuss</b> card only counts when it's the <b>first card</b> executed.", num: 5 },
-    risky_turns: { shared: true, subText: "Risky Turns", desc: "<b>End of round</b>: Take <b>1 damage</b> if you end on the same tile as you began.", num: 4 }
+    risky_turns: { shared: true, subText: "Risky Turns", desc: "<b>End of round</b>: Take <b>1 damage</b> if you end on the same tile as you began.", num: 4 },
+    out_of_order: { shared: true, subText: "Out Of Order", desc: "Before executing, <b>shuffle</b> the first 3 instruction tokens. Then execute in <b>numeric order</b>.", num: 1 }
 };
 
 //
@@ -78,7 +80,7 @@ const TIME_CARDS =
 //
 const ACTION_CARDS = 
 {
-    share_hand: { shared: true, frame: 11, label: "Share Hand", desc: "All players <b>reveal</b> their cards to each other. (Optional: touch one of them as a 'suggestion'.)" },
+    share_hand: { shared: true, frame: 11, label: "Share Hand", desc: "All players <b>reveal</b> their cards to each other." },
     bumper_strong: { shared: true, frame: 12, label: "Strong Bumper", desc: "Any <b>involuntary damage</b> taken this round is <b>ignored</b>." }, // @NOTE: "involuntary" is to prevent against stuff like offers to trade damage for time being abused
     bumper_weak: { shared: true, frame: 13, label: "Weak Bumper", desc: "<b>Take 1 damage</b> for sure. But any damage beyond that is <b>ignored</b> this round." },
 
@@ -112,15 +114,6 @@ const ACTION_CARDS =
     crystal_ball: { shared: true, frame: 31, label: "Crystal Ball", desc: "<b>Look at</b> the next 5 cards of the <b>Time Deck</b>.", required: ["includeTimeDeck"] },
 };
 
-//
-// Fuel Cards => @TODO: whether to include this as a default shared expansion is VERY uncertain
-// This is only the Vehicle Card added; the regular fuel cards are just generated on the fly by cardPicker
-//
-const FUEL_CARDS = 
-{
-    refuel: { shared: true, label: "Refuel", desc: "Add X fuel back." }
-}; 
-
 type MaterialData = Record<string, DefaultCardData>;
 
 const MATERIAL:Record<CardType, MaterialData> =
@@ -129,7 +122,6 @@ const MATERIAL:Record<CardType, MaterialData> =
     [CardType.HEALTH]: HEALTH_CARDS,
     [CardType.GPS]: GPS_CARDS,
     [CardType.TIME]: TIME_CARDS,
-    [CardType.FUEL]: FUEL_CARDS,
     [CardType.ACTION]: ACTION_CARDS,
     [CardType.INSTRUCTION]: {},
     [CardType.COMPASS]: {}
@@ -154,7 +146,7 @@ const TEMPLATES:Record<string, TemplateData> =
     [CardType.HEALTH]: { frameTemplate: 2, frameIcon: 3, bgColor: "#F9C98C", label: "Health", subText: "Handicap", smallIconOffset: new Point(0.35, -0.05), extraNumberOffset: new Point(0.46, 0) },
     [CardType.GPS]: { frameTemplate: 3, frameIcon: 4, bgColor: "#A6741A", label: "GPS", subText: null },
     [CardType.TIME]: { frameTemplate: 4, frameIcon: 5, bgColor: "#4AD9FC", label: "Time", subText: "Event", extraNumberOffset: new Point(0.46, -0.2) },
-    [CardType.FUEL]: { frameTemplate: 5, frameIcon: 7, bgColor: "#3A3A3A", label: "Fuel", subText: null, desc: "If <b>empty</b> (0) or <b>overfilled</b> (10), take damage and reset." },
+    /*[CardType.FUEL]: { frameTemplate: 5, frameIcon: 7, bgColor: "#3A3A3A", label: "Fuel", subText: null, desc: "If <b>empty</b> (0) or <b>overfilled</b> (10), take damage and reset." },*/
     [CardType.ACTION]: { frameTemplate: 1, bgColor: "#FFFFFF", tintColor: "#DADADA", label: null, subText: "Action Card", smallIconOffset: new Point(0.4125, 0) },
     [CardType.INSTRUCTION]: { frameIcon: 1 },
     [CardType.COMPASS]: { frameIcon: 0 }

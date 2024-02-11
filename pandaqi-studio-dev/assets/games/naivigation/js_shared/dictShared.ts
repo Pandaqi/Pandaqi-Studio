@@ -4,7 +4,6 @@ enum CardType
     HEALTH = "health",
     GPS = "gps",
     TIME = "time",
-    FUEL = "fuel",
     COMPASS = "compass",
     INSTRUCTION = "instruction",
     ACTION = "action"

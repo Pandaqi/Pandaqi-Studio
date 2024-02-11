@@ -26,7 +26,6 @@ const CONFIG:any =
     includeActionCards: false,
     includeGPSCards: false,
     includeTimeDeck: false,
-    includeFuelDeck: false,
 
     // assets
     assetsBase: "/naivigation/assets/",

@@ -82,6 +82,11 @@ const CONFIG_NAIVIGATION_SHARED =
             },
         }, 
 
+        generation:
+        {
+            numInstructionTokens: 8
+        },
+
         background:
         {
             dims: new CVal(new Point(1.2), "sizeUnit"),
@@ -134,15 +139,15 @@ const CONFIG_NAIVIGATION_SHARED =
             dimsElement: new Point(1, 1),
             dims: 
             { 
-                small: new Point(7,10),
-                regular: new Point(5,7),
-                large: new Point(3,5)
+                small: new Point(5,7),
+                regular: new Point(3,5),
+                large: new Point(2,3)
             },
         }, 
 
         generation:
         {
-            numUniqueVehicles: 2
+            numUniqueVehicles: 3
         },
 
         vehicle:

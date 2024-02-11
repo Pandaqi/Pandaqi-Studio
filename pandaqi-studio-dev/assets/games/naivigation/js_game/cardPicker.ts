@@ -19,7 +19,6 @@ export default class CardPicker
         this.generateActionCards();
         this.generateGPSCards();
         this.generateTimeDeck();
-        this.generateFuelDeck();
 
         console.log(this.cards);
     }
@@ -50,8 +49,9 @@ export default class CardPicker
     {
         if(!CONFIG.includeInstructionTokens) { return; }
 
-        // we use a trick here to push 2/3 tokens on ONE card, to fold it into this system and ensure it has the same dimensions as the cards you play with
-        for(let i = 0; i < 5; i++)
+        // we use a trick here to push 2 tokens on ONE card, to fold it into this system and ensure it has the same dimensions as the cards you play with
+        const num = CONFIG.cards.generation.numInstructionTokens;
+        for(let i = 0; i < num; i++)
         {
             const newToken = new Card(CardType.INSTRUCTION);
             newToken.customData = { num: (i + 1) };
@@ -99,6 +99,7 @@ export default class CardPicker
         this.generateFromDictionary(CardType.TIME);
     }
 
+    /*
     generateFuelDeck()
     {
         if(!CONFIG.includeFuelDeck) { return; }
@@ -113,4 +114,5 @@ export default class CardPicker
         // add the vehicle cards to use during play
         this.generateFromDictionary(CardType.FUEL, CardType.VEHICLE);
     }
+    */
 }

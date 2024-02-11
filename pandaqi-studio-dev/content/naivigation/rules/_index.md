@@ -14,7 +14,9 @@ Combine the default **Vehicle Cards** with the specific Vehicle Cards for this g
 
 Combine the default Health Cards and the specific Health Cards for this game. Shuffle and take out 5: this is your **Health Deck**.
 
-Place the 5 row tokens in order: you'll place your instructions underneath these each round.
+Place 5 instruction tokens in a row. You'll place your vehicle cards underneath these each round.
+
+Pick any start player.
 
 @TODO: IMAGE
 
@@ -32,21 +34,17 @@ You immediately **lose** if your vehicle takes **too much damage**: your Health 
 
 Play happens in rounds.
 
-First, determine **start player**. Throw the compass in the air and see to which player it points (the most).
-
-{{% remark %}}
-Throwing things in the air and seeing how they land is how you randomize everything in Naivigation.
-{{% /remark %}}
-
-Then, from the start player, take clockwise turns doing one thing: **play a Vehicle Card**.
+From the start player, take clockwise turns doing one thing: **play a Vehicle Card**.
 
 > Add a card from your hand, facedown, to an empty spot on the row of instructions. (Then draw your hand back to the hand limit of 3.)
 
-At the end of the round, **reveal each instruction and execute it** (left to right), one at a time. This moves the vehicle. Then discard the instructions and play the next round!
+Continue until each instruction token has a card below it! Then, **reveal each instruction and execute it** (left to right), one at a time. This moves the vehicle. 
+
+Whoever played into the first slot becomes the new start player. Discard the instructions and play the next round!
 
 @TODO: IMAGE
 
-By default, _no communication about the game is allowed._ You may only communicate about your cards or plans when the **"Discuss"** Vehicle Card is executed. (Which is why it's recommended to always include it.)
+By default, _no communication about the game is allowed._ You may only communicate about your cards or plans when the **"Discuss"** Vehicle Card is executed.
 
 Whenever you **take damage**, reveal the top card of your Health Deck. These cards always have a _handicap_, such as restricting which Vehicle Cards you can play. All revealed handicaps must be followed at all times.
 
@@ -58,11 +56,27 @@ In other words, as you take more damage, you lose more and more control over the
 
 {{% /rules-block %}}
 
+{{% rules-block id="vehicle_cards" heading="Vehicle Cards" icon="action" icontint="green" %}}
+
+The shared material has only 2 possible vehicle cards.
+
+**Discuss**: when executed, you may communicate general plans or strategies! You may, however, never explicitly reveal the cards you have in your hand or the cards you played this round. This continues until you decide to execute the next instruction.
+
+**Speedup**: add or remove 1 Instruction Token. Start player decides. The number of instructions must always be between 3 and 8. 
+* If this leaves a card hanging (its token removed), it's just not executed. 
+* If this creates a new empty slot, the player who played the original card must play a card into the new slot. 
+
+{{% /rules-block %}}
+
 {{% rules-block id="large_groups" heading="Playing with 6+ players" icon="action" icontint="green" %}}
 
 At high player counts, you split into **2 teams**. 
 
-Each controls their own vehicle. You win the game if the opponent is total loss _or_ they collected fewer special locations than you.
+Each controls their own vehicle, with their own row of 5 instruction tokens. 
+
+You **win the game** if 
+* The opponent is total loss
+* Or the game is over ( = all special locations collected), and they collected fewer than you.
 
 The rules stay the same, except for the following changes.
 * When evaluating instructions, you alternate between the two vehicles. (Card 1 team A, Card 1 team B, Card 2 team A, ...)
@@ -88,7 +102,9 @@ The best way, though, to keep the game challenging and varied, is by introducing
 
 {{% rules-block heading="Action Cards" %}}
 
-These are vehicle cards with a **special action**. You may choose how you want to use them: either **public** or **mixed in**.
+These are vehicle cards with a **special action**. It's recommended to include 10 random action cards, not the entire deck.
+
+At the start of the game, choose how you want to use them: either **public** or **mixed in**.
 
 PUBLIC (simpler game): Place **one** of each action card faceup on the table, within reach of all players. At any time, you may grab such a card and execute its action immediately. After doing so, however, the card is discarded and its action can never be taken again.
 
@@ -131,29 +147,6 @@ Whenever you take damage, you can also choose to take a penalty of 3 Time Cards 
 About the special events ...
 * If the card has an **offer**, you may choose whether to take it or not.
 * They always refer to the round you just played, **never** previous rounds or the next round.
-
-{{% /rules-block %}}
-
-{{% rules-block heading="Fuel Deck" %}}
-
-@TODO: This might not be a shared one, as some games actually have this mechanic _built-in_. (And to do it well, it would need to be _on the cards_ or something.)
-
-This expansion adds a constant extra pressure or decision to the game. Its rules are simple as always, but it makes the game considerably harder, so ye be warned.
-
-During setup, 
-* Place the **10 Fuel Cards** on the table.
-* Include the **Refuel** Vehicle Cards.
-
-During gameplay,
-* For each Vehicle Card that _changes_ the vehicle (in whatever way), remove 1 Fuel.
-* Each Refuel card adds fuel cards back to the deck. (How many depends on the number shown on the card.)
-
-If you **run out of fuel**, or you **overfill** ( = more then 10 fuel), 
-* All remaining instructions in the round are ignored
-* You take 1 damage
-* And your fuel tank is set to 5.
-
-@TOOD: IMAGE
 
 {{% /rules-block %}}
 
