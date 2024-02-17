@@ -1,0 +1,18 @@
+@use "../css_shared/main.scss" as g;
+@use "sass:color";
+
+#setup {
+    background-color: g.$col1;
+}
+
+#objective {
+    background-color: g.$col2;
+}
+
+#action_play {
+    background-color: g.$col1;
+}
+
+#variants {
+    background-color: g.$col2;
+}

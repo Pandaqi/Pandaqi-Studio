@@ -1,9 +1,10 @@
 {{- $class := .Get "class" -}}
+{{- $context := $.Page -}}
 <section class="boardgame-intro {{ $class }}">
 	<div class="big-header-image">
-		{{- $img := or (.Get "img") (partial "func/get-game-header.html" $.Page) -}}
+		{{- $img := or (.Get "img") (partial "func/get-game-header.html" $context) -}}
 		{{- if $img -}}
-			{{- partial "show-image.html" (dict "context" . "img_url" $img) -}}
+			{{- partial "show-image.html" (dict "context" $context "img_url" $img) -}}
 		{{- end -}}
 	</div>
 	<div class="center text">
@@ -26,7 +27,7 @@
 			{{- delimit $full_slice " | " -}}
 		</p>
 		<p class="download-btn-container">
-			{{- $url := or (.Page.Params.downloadLink) (.Get "url") -}}
+			{{- $url := or ($context.Params.downloadLink) (.Get "url") -}}
 			<a href="{{- $url -}}" class="btn download-btn">Download</a>
 		</p>
 	</div>

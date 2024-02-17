@@ -87,6 +87,7 @@ const CONFIG:any =
             iconDims: new CVal(new Point(0.8), "sizeUnit"),
             glowRadius: new CVal(0.033, "sizeUnit"),
 
+            // this is for their icon on the PLANETS
             vehicleIconDims: new CVal(new Point(0.5), "sizeUnit"),
             vehicleIconDimsSmall: new CVal(new Point(0.185), "sizeUnit"),
             vehicleIconAlpha: 1.0,

@@ -1,5 +1,5 @@
 import PointGraph from "js/pq_games/tools/geometry/pointGraph";
-import PathFinder from "js/pq_games/tools/pathFinder/pathFinder";
+import PathFinder from "js/pq_games/tools/pathfinding/pathFinder";
 import Route from "./route";
 import CONFIG from "./config";
 import clamp from "js/pq_games/tools/numbers/clamp";

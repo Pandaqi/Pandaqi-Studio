@@ -1,4 +1,4 @@
-baseurl         = "https://pandaqi.com"
+baseURL         = "https://pandaqi.com"
 theme           = "pandaqi"
 title       	= "Pandaqi Games | Development Environment"
 languageCode    = "en-US"
@@ -21,8 +21,6 @@ SectionPagesMenu = "main"
 [params]
   title       = "Pandaqi"
   subtitle    = "Indie Game Developer"
-
-  favicon     = "theme/favicon.png"
 
   description = "The official website of game studio Pandaqi"
   metaDescription = "The official website of game studio Pandaqi"

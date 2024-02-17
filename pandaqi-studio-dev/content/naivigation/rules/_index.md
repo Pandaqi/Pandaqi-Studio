@@ -139,14 +139,18 @@ These cards show the current location of the vehicle and possible squares of the
 This expansion adds extra time pressure. This is especially useful if your group tries to drive a little too ... safely.
 
 * During setup, place a facedown deck of **20 Time Cards**. (Randomly selected, shuffled.)
-* After every round, remove 1 card. If the card has a special event, execute that now.
+* At the **start** of each round, reveal the next card.
 * If the deck runs out, you've lost the game.
 
-Whenever you take damage, you can also choose to take a penalty of 3 Time Cards instead.
+Revealing and handling is always done by the start player. They make choices (when relevant), with no communication allowed.
 
-About the special events ...
-* If the card has an **offer**, you may choose whether to take it or not.
-* They always refer to the round you just played, **never** previous rounds or the next round.
+**New Rule:** when you take involuntary damage, you may choose to take a penalty of 3 Time Cards instead. (Involuntary means it's forced by the game's rules, not a special card or your personal choice when doing an action.)
+
+Special actions can be one of three types.
+
+* **Offer**: you may _choose_ whether to take it or not.
+* **Rule**: something that will be true for the entire round. (If it's a condition, check if it's true once the round is over.)
+* **Event**: a single action that must be executed. You decide _when_ to do so: before the round (when the card is revealed) or after the round (once all instructions have been executed).
 
 {{% /rules-block %}}
 

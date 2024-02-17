@@ -1,5 +1,5 @@
 import Point from "js/pq_games/tools/geometry/point";
-import { CardType } from "./dictShared";
+import { CardType, EventType } from "./dictShared";
 
 interface DefaultCardData
 {
@@ -53,26 +53,38 @@ const GPS_CARDS = {};
 //
 // Time Cards
 // This doubles as an "event expansion" that always works nicely in games
-// @TODO: invent some more of this, consider whether the "look ahead" should be an action or something
 //
 const TIME_CARDS = 
 {
-    blank: { shared: true, label: "Regular Card", desc: "Nothing special.", freq: 10 },
-    look_ahead: { shared: true, label: "Look Ahead", desc: "Look at the <b>next 8 Time Cards</b>.", freq: 2 },
-    change_future: { shared: true, label: "Change the Future", desc: "Look at the <b>next 4 Time Cards</b> and put them back any way you want.", freq: 2 },
+    blank: { shared: true, label: "Regular Card", desc: "Nothing special.", freq: 10, type: EventType.NONE },
 
-    sudden_move: { shared: true, label: "Sudden Move", desc: "Move the vehicle to any <b>adjacent tile</b>, except collectible tiles." },
-    sudden_steer: { shared: true, label: "Sudden Steer", desc: "<b>Orient</b> the vehicle any way you want." },
-    extra_cards: { shared: true, label: "Extra Cards", desc: "All players draw <b>1 extra card</b>." },
-    repeat_round: { shared: true, label: "Repeat Round", desc: "<b>Repeat</b> the exact instructions of the previous round." },
-    healing_powers: { shared: true, label: "Healing Powers", desc: "<b>Undo any damage</b> taken this round." },
+    look_ahead: { shared: true, label: "Look Ahead", desc: "Look at the <b>next 8 Time Cards</b>.", freq: 2, type: EventType.EVENT },
+    change_future: { shared: true, label: "Change the Future", desc: "Look at the <b>next 4 Time Cards</b> and put them back any way you want.", freq: 2, type: EventType.EVENT },
+    sudden_move: { shared: true, label: "Sudden Move", desc: "Move the vehicle to any <b>adjacent tile</b>, except collectible tiles.", type: EventType.EVENT },
+    sudden_steer: { shared: true, label: "Sudden Steer", desc: "<b>Orient</b> the vehicle any way you want.", type: EventType.EVENT },
+    extra_cards: { shared: true, label: "Extra Cards", desc: "All players draw <b>1 extra card</b>.", type: EventType.EVENT },
+    steal_cards: { shared: true, label: "Steal Cards", desc: "All players <b>steal 1 card</b> from their left neighbor", type: EventType.EVENT },
+    just_missed_it: { shared: true, label: "Just Missed It", desc: "Pick one tile you already <b>collected</b>. Put it <b>back on the map</b> (adjacent to any tile).", type: EventType.EVENT },
+    teleport: { shared: true, label: "Teleport", desc: "Teleport the vehicle to any other tile in the same row or column.", type: EventType.EVENT },
 
-    damage_for_time: { shared: true, label: "Trade for Time", desc: "<b>Offer</b>: take 1 Damage to regain 3 Time.", freq: 2 },
-    time_for_damage: { shared: true, label: "Trade for Damage", desc: "<b>Offer</b>: lose 3 Time to regain 1 Health.", freq: 2 },
-    collection_bonus: { shared: true, label: "Collection Bonus", desc: "If you <b>collected</b> a tile this round, put this card back into the Time Deck." },
-    collection_penalty: { shared: true, label: "Collection Penalty", desc: "If you <b>collected</b> a tile this round, lose 2 more Time." },
-    gps_bonus: { shared: true, label: "GPS Bonus", desc: "If you <b>followed the GPS</b>, put this card back into the Time Deck.", required: ["includeGPSCards"] },
-    gps_penalty: { shared: true, label: "GPS Penalty", desc: "If you <b>ignored the GPS</b>, lose 2 more Time.", required: ["includesGPSCards"] },
+    time_for_healing: { shared: true, label: "Healing Powers", desc: "Lose 3 time to ignore any damage taken this round.", type: EventType.OFFER }, 
+    damage_for_time: { shared: true, label: "Trade for Time", desc: "Take 1 Damage to regain 3 Time.", freq: 2, type: EventType.OFFER },
+    time_for_damage: { shared: true, label: "Trade for Damage", desc: "Lose 3 Time to regain 1 Health.", freq: 2, type: EventType.OFFER },
+    damage_for_info: { shared: true, label: "Risky Info", desc: "Take 1 Damage to allow an Open Round: everyone shows their hands and plays cards faceup.", type: EventType.OFFER },
+    invaluable_gift: { shared: true, label: "Invaluable Gift", desc: "Put one tile you already collected back on the map, to regain 6 Time or 2 Health.", type: EventType.OFFER },
+
+    repeat_round: { shared: true, label: "Repeat Round", desc: "Once done, <b>repeat</b> the exact instructions of this round.", type: EventType.RULE },
+    good_communication: { shared: true, label: "Good Communication", desc: "All cards must be played <b>faceup</b>.", type: EventType.RULE },
+    orderly_communication: { shared: true, label: "Orderly Communication", desc: "All cards must be played <b>in order</b>. (Either left to right or vice versa.)", type: EventType.RULE },
+    bad_communication: { shared: true, label: "Bad Communication", desc: "<b>No</b> card may be played <b>faceup</b> for any reason.", type: EventType.RULE },
+    forbidden_communication: { shared: true, label: "Forbidden Communication", desc: "Pick a Vehicle Card in the game. It's forbidden to play this card this round", type: EventType.RULE },
+    linked_minds: { shared: true, label: "Linked Minds", desc: "If all players <b>played the same card type</b>, regain 1 Health.", type: EventType.RULE },
+    collection_bonus: { shared: true, label: "Collection Bonus", desc: "If you <b>collected</b> a tile, put this card back into the Time Deck.", type: EventType.RULE },
+    collection_penalty: { shared: true, label: "Collection Penalty", desc: "If you <b>collected</b> a tile, lose 2 more Time.", type: EventType.RULE },
+    idle_bonus: { shared: true, label: "Idle Bonus", desc: "If you end with the same <b>orientation</b> as you started, repair 1 damage.", type: EventType.RULE },
+    idle_penalty: { shared: true, label: "Idle Penalty", desc: "If you end on the <b>same tile</b> as you started, lose 3 more Time.", type: EventType.RULE },
+    gps_bonus: { shared: true, label: "GPS Bonus", desc: "If you <b>followed the GPS</b>, put this card back into the Time Deck.", required: ["includeGPSCards"], type: EventType.RULE },
+    gps_penalty: { shared: true, label: "GPS Penalty", desc: "If you <b>ignored the GPS</b>, lose 2 more Time.", required: ["includesGPSCards"], type: EventType.RULE },
 };
 
 //

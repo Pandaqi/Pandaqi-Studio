@@ -60,6 +60,13 @@ const CONFIG_NAIVIGATION_SHARED =
             useAbsolutePath: true
         },
 
+        terrains:
+        {
+            path: "/naivigation/assets/terrains.webp",
+            frames: new Point(8, 1),
+            useAbsolutePath: true
+        },
+
         icons_shared:
         {
             path: "/naivigation/assets/icons.webp",
@@ -145,15 +152,34 @@ const CONFIG_NAIVIGATION_SHARED =
             },
         }, 
 
+        general:
+        {
+            illustration:
+            {
+                mainDims: new CVal(new Point(0.8), "sizeUnit")
+            },
+
+            elevation:
+            {
+                triangleSideLength: new CVal(0.05, "sizeUnit"),
+                triangleEdgeOffset: new CVal(0.025, "sizeUnit"),
+                fill: "#FFFFFF",
+                stroke: "#000000",
+                strokeWidth: new CVal(0.01, "sizeUnit"),
+            },
+
+            vehicle:
+            {
+                dims: new CVal(new Point(0.4), "sizeUnit")
+            }
+        },
+
         generation:
         {
             numUniqueVehicles: 3
         },
 
-        vehicle:
-        {
-            dims: new CVal(new Point(0.4), "sizeUnit")
-        }
+       
     }
 }
 

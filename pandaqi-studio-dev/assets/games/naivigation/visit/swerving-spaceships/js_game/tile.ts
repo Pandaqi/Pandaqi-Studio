@@ -34,13 +34,10 @@ export default class Tile extends MaterialNaivigation
         const op = new LayoutOperation({
             translate: vis.center,
             frame: frame,
-            dims: vis.get("tiles.vehicle.dims"),
+            dims: vis.get("tiles.general.vehicle.dims"),
             pivot: Point.CENTER
         });
         group.add(res, op);
-
-        console.log(res);
-        console.log(op);
     }
 
     drawMapTile(vis, group)
