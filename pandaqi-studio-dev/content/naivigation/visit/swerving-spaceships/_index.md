@@ -71,7 +71,7 @@ Print and cut it, read the short [playful rules](rules), and you can play!
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
   {{< setting-enum id="setting-itemSize" text="Card Size?" values="small,regular,large" valaskey="true" def="regular" >}}
   {{< setting-checkbox id="setting-includeMapTiles" text="Include Map Tiles?" checked="checked" >}}
-  {{< setting-checkbox id="setting-includeVehicleCards" text="Include Vehicle Cards?" checked="checked" >}}
+  {{< setting-checkbox id="setting-includeCards" text="Include (Vehicle) Cards?" checked="checked" >}}
   <h3>Expansions</h3>
   {{< setting-checkbox id="setting-expansions-shield" text="Shields & Asteroids" >}}
   {{< setting-checkbox id="setting-expansions-weapons" text="Weapons & Aliens" >}}

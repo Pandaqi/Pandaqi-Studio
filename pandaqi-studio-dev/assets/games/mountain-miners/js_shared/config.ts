@@ -5,8 +5,8 @@ const CONFIG:any =
 {
     debug:
     {
-        omitFile: true, // @DEBUGGING (should be false)
-        singleDrawPerType: true, // @DEBUGGING (should be false)
+        omitFile: false, // @DEBUGGING (should be false)
+        singleDrawPerType: false, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
@@ -25,53 +25,98 @@ const CONFIG:any =
 
     fonts:
     {
-        heading: "ambery",
-        body: "k2d"
+        heading: "vlaanderen",
+        body: "rokkitt"
     },
 
     // assets
     assetsBase: "/mountain-miners/assets/",
     assets:
     {
+        vlaanderen:
+        {
+            path: "fonts/VlaanderenChiseledNF.woff2",
+        },
+
+        rokkitt:
+        {
+            path: "/fonts/Rokkitt-Regular.woff2",
+        },
+
         tiles:
         {
             path: "tiles.webp",
-            frames: new Point(4,1)
+            frames: new Point(8,4)
         },
 
         misc:
         {
             path: "misc.webp",
-            frames: new Point(4,1)
+            frames: new Point(5,1)
         },
+    },
+
+    rulebook:
+    {
+        boardDims: new Point(4,4),
+        highlightColor: "#FFAAAA",
+        nonHighlightColor: "#DDDDDD",
+        highlightStrokeColor: "#000000",
+        nonHighlightStrokeColor: "#666666",
+        lineWidth: 0.05,
+        tileSize: 128,
+        nonHighlightAlpha: 0.55,
     },
 
     tiles:
     {
+        drawerConfig:
+        {
+            autoStroke: true,
+            dimsElement: new Point(1, 1),
+            dims: 
+            { 
+                small: new Point(5,7),
+                regular: new Point(3,5),
+                large: new Point(2,3)
+            },
+        }, 
+
         generation:
         {
-            defFreq: 3,
+            numBackgrounds: 4,
+            defFreq: 3, // default amount of times a specific tile type appears
             numArrowTiles: 2,
             numTilesPerGemstoneValue: 
             {
-                1: 6,
-                2: 5,
-                3: 4,
-                4: 3
+                1: 7,
+                2: 6,
+                3: 5,
+                4: 4
             }
         },
 
         icon:
         {
-            dims: new CVal(new Point(0.66), "sizeUnit")
+            dims: new CVal(new Point(0.725), "sizeUnit"),
+            dropShadowBlur: new CVal(0.025, "sizeUnit")
         },
 
         gemstones:
         {
-            fontSize: new CVal(0.1, "sizeUnit"),
+            fontSize: new CVal(0.366, "sizeUnit"),
             textFillColor: "#000000",
             textStrokeColor: "#FFFFFF",
-            strokeWidth: new CVal(0.05, "sizeUnit"),
+            strokeWidth: new CVal(0.016, "sizeUnit"),
+            glowBlur: new CVal(0.033, "sizeUnit"),
+        },
+
+        background:
+        {
+            colorAlpha: 0.5,
+            textureAlpha: 0.3,
+            stroke: "#121212",
+            strokeWidth: new CVal(0.015, "sizeUnit")
         }
     },
 }

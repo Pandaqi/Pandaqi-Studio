@@ -34,7 +34,7 @@ const CONFIG:any =
         misc:
         {
             path: "misc.webp",
-            frames: new Point(2,1)
+            frames: new Point(5,1)
         },
     },
 
@@ -43,6 +43,7 @@ const CONFIG:any =
         generation:
         {
             numGPSCards: 30,
+            percentageSingleGPS: 0.25, // how many only have a reward OR penalty, not both
             numFuelCards: 10,
         },
     

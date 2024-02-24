@@ -15,9 +15,12 @@ export default class TilePicker
         this.tiles = [];
 
         // the crucial arrow tiles
-        for(let i = 0; i < CONFIG.tiles.generation.numArrowTiles; i++)
+        if(CONFIG.sets.base)
         {
-            this.tiles.push(new Tile("arrow"));
+            for(let i = 0; i < CONFIG.tiles.generation.numArrowTiles; i++)
+            {
+                this.tiles.push(new Tile("arrow"));
+            }
         }
 
         // then all remaining tiles
@@ -26,11 +29,11 @@ export default class TilePicker
         const typesNeeded = [];
         for(const [key,data] of Object.entries(TILES))
         {
-            const setIncluded = CONFIG.sets[data.set];
+            const setIncluded = CONFIG.sets[data.set ?? "base"];
             if(!setIncluded) { continue; }
 
-            let freq = data.freq ?? CONFIG.generation.defFreq;
-            if(data.points) { freq = CONFIG.generation.numTilesPerGemstoneValue[data.points] ?? freq; }
+            let freq = data.freq ?? CONFIG.tiles.generation.defFreq;
+            if(data.points) { freq = CONFIG.tiles.generation.numTilesPerGemstoneValue[data.points] ?? freq; }
 
             for(let i = 0; i < freq; i++)
             {
@@ -46,12 +49,19 @@ export default class TilePicker
             let num = allowMultiTiles ? rangeInteger(1,4) : 1;
             num = Math.min(num, typesNeeded.length);            
 
-            const keys = typesNeeded.slice(num);
+            const keys = typesNeeded.splice(0, num);
             this.tiles.push(new Tile(keys));
         }
 
-
         console.log(this.tiles);
+    }
+
+    removeArrows()
+    {
+        for(let i = this.tiles.length - 1; i >= 0; i--)
+        {
+            if(this.tiles[i].isArrowTile()) { this.tiles.splice(i, 1); }
+        }
     }
 
 }

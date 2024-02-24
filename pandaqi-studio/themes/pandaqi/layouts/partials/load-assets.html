@@ -17,8 +17,16 @@
 {{ $full_game_url = or $name_override $full_game_url }}
 {{ $full_folder_url := printf "/%s/assets" $full_game_url }}
 
-{{ $file_name := printf "/games/%s/%s_%s/main.%s" $full_game_url $ext $type $ext_file }}
-{{ $res := resources.Get $file_name }}
+<!--- This searches a folder like "css_rules" and then auto-picks main.scss inside it --->
+{{ $file_name_through_folder := printf "/games/%s/%s_%s/main.%s" $full_game_url $ext $type $ext_file }}
+<!--- This simply finds the direct file called "rules.scss" --->
+{{ $file_name_direct := printf "/games/%s/%s.%s" $full_game_url $type $ext_file }}
+
+<!--- We pick whichever one is available --->
+{{ $res := resources.Get $file_name_through_folder }}
+{{ if not $res }}
+    {{ $res = resources.Get $file_name_direct }}
+{{ end }}
 
 <!--- OLD output url => $output_name := printf "%s/%s/bundle.%s.%s" $url $ext $type $ext_output --->
 <!--- New system: outputs all scripts and stuff into the same Assets folder, so all assets are actually together and can easily find each other --->

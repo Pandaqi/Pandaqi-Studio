@@ -1,19 +1,25 @@
 import { TileType } from "games/naivigation/js_shared/dictShared";
 import Tile from "../visit/swerving-spaceships/js_game/tile";
 
+interface DictData
+{
+    type: TileType,
+    dict: Record<string,any>
+}
+
 export default class TilePickerNaivigation
 {
     tiles: Tile[]
     config: any;
     tileClass: any;
-    mapDict: Record<string,any>;
+    data: DictData[];
     mapCallback: Function = (key, data) => { return null; } // for custom callbacks for map tiles to be made
 
-    constructor(config, tileClass, mapDict) 
+    constructor(config, tileClass) 
     {
         this.config = config;
         this.tileClass = tileClass;
-        this.mapDict = mapDict;
+        this.data = [];
     }
 
     get() { return this.tiles; }
@@ -21,8 +27,17 @@ export default class TilePickerNaivigation
     {
         this.tiles = [];
         this.generateVehicleTiles();
-        this.generateMapTiles();
+        for(const data of this.data) { this.generateTiles(data); }
         return this.tiles;
+    }
+
+    setCustomCallback(cb) { this.mapCallback = cb; }
+    addData(type:TileType = TileType.MAP, dict:Record<string,any>)
+    {
+        this.data.push({
+            type: type,
+            dict: dict
+        })
     }
 
     generateVehicleTiles()
@@ -38,11 +53,12 @@ export default class TilePickerNaivigation
         }
     }
 
-    generateMapTiles()
+    generateTiles(inputData:DictData)
     {
         if(!this.config.includeMapTiles) { return; }
         
-        for(const [key,data] of Object.entries(this.mapDict))
+        const tileType = inputData.type;
+        for(const [key,data] of Object.entries(inputData.dict))
         {
             const res = this.mapCallback(key, data);
             if(res)
@@ -54,7 +70,7 @@ export default class TilePickerNaivigation
             const freq = data.freq ?? 1;
             for(let i = 0; i < freq; i++)
             {
-                const newTile = new this.tileClass(TileType.MAP, key);
+                const newTile = new this.tileClass(tileType, key);
                 this.tiles.push(newTile);
             }
         }

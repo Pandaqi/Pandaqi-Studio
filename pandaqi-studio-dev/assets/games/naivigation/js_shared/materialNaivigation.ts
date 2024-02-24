@@ -14,6 +14,7 @@ export default class MaterialNaivigation
     }
 
     isCollectible() : boolean { return false; }
+    isStartingTile() : boolean { return false; }
     getData() { return; }
     getMisc() { return; }
     getGameData() { return; }

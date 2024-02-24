@@ -1,5 +1,5 @@
 import Point from "js/pq_games/tools/geometry/point";
-import { CardType, EventType } from "./dictShared";
+import { CardType, EventType, MISC_SHARED } from "./dictShared";
 
 interface DefaultCardData
 {
@@ -25,7 +25,7 @@ const VEHICLE_CARDS =
 //
 const HEALTH_CARDS = 
 {
-    last_life: { shared: true, subText: "Regular Life", desc: "Nothing special.", num: 1, freq: 2 },
+    //last_life: { shared: true, subText: "Regular Life", desc: "Nothing special.", num: 1, freq: 2 },
     be_special: { shared: true, subText: "Be Special", desc: "Each card type is only executed once; ignore duplicates further down the row. All cards are duplicates? Take 1 damage.", num: 3 },
     random_draw: { shared: true, subText: "Random Draw", desc: "The <b>first card</b> of the round must be randomly selected.", num: 3 },
     first_from_left: { shared: true, subText: "First from Left", desc: "Players must play their card at the <b>first</b> available spot from the <b>left</b>.", num: 2 },
@@ -36,19 +36,69 @@ const HEALTH_CARDS =
     double_round: { shared: true, subText: "Double Round", desc: "You play <b>2 rounds</b> (creating a double row) before executing instructions.", num: 3 },
     forced_follow: { shared: true, subText: "Forced Follow", desc: "<b>Start player</b> plays their card <b>faceup</b>. All other players must play the <b>same type of card</b> if they have it.", num: 4  },
     lower_hand_limit: { shared: true, subText: "Lower Hand Limit", desc: "The <b>hand limit</b> is permanently lowered by 1.", num: 3 },
-    forced_spot: { shared: true, subText: "Forced Spot", desc: "The <b>first card<b> of the round must be played at a random slot (decided by the other players).", num: 4 },
+    forced_spot: { shared: true, subText: "Forced Spot", desc: "The <b>first card<b> of the round must be played at a random slot (the other players vote on this).", num: 4 },
     random_replace: { shared: true, subText: "Random Replace", desc: "<b>End of round</b>: start player must <b>replace</b> one card played with a random one from hand or deck.", num: 5 },
     limited_communication: { shared: true, subText: "Limited Communication", desc: "The <b>Discuss</b> card only counts when it's the <b>first card</b> executed.", num: 5 },
     risky_turns: { shared: true, subText: "Risky Turns", desc: "<b>End of round</b>: Take <b>1 damage</b> if you end on the same tile as you began.", num: 4 },
-    out_of_order: { shared: true, subText: "Out Of Order", desc: "Before executing, <b>shuffle</b> the first 3 instruction tokens. Then execute in <b>numeric order</b>.", num: 1 }
+    risky_rotations: { shared: true, subText: "<b>End of round</b>: Take <b>1 damage</b> if the vehicle ends the round in the same orientation as it started.", num: 3 },
+    out_of_order: { shared: true, subText: "Out Of Order", desc: "Before executing, <b>shuffle</b> the first 3 instruction tokens. Then execute in <b>numeric order</b>.", num: 1 },
+    forced_swap: { shared: true, subText: "Forced Swap", desc: "Each round, one player must <b>discard</b> their hand and draw new cards from the deck, before playing their first card.", num: 3 },
+    forced_order: { shared: true, subText: "Forced Order", desc: "Your first card played (in a round) must be in numerical order (left to right)", num: 2 },
+    no_neighbors: { shared: true, subText: "No Neighbors", desc: "Nobody is allowed to play a card next to the previously played card (unless this is unavoidable).", num: 2 },
+    prepared_instruction: { shared: true, subText: "Prepared Instruction", desc: "<b>Start of Round:</b> add the top card of the deck faceup into the 3 slot.", num: 4 },
+    starting_confusion: { shared: true, subText: "Starting Confusion", desc: "Each round, one player must play <b>their entire hand</b> in one turn, to become start player next round.", num: 2 },
+    delayed_decisions: { shared: true, subText: "Delayed Decisions", desc: "Cards that require a <b>decision</b> (when executed) are <b>ignored</b> if played before <b>slot 3</b>.", num: 3 },
+    new_decider: { shared: true, subText: "New Decider", desc: "Whoever plays their card in <b>slot 3</b> decides how cards are <b>executed</b> (instead of start player).", num: 4 },
+    one_decision: { shared: true, subText: "One Decision", desc: "If multiple cards are played that require a <b>decision</b> (when executed), only the <b>first one</b> is actually executed.", num: 2 },
+    earlier_decisions: { shared: true, subText: "Earlier Decisions", desc: "Nobody may play a card that requires a <b>decision</b> (when executed) in the last slot (if possible).", num: 2 },
+    cross_decisions: { shared: true, subText: "Cross Decisions", desc: "If playing with 2 teams, the first card that requires a <b>decision</b> (when executed) is handled by the <b>other team</b>.", num: 1 } // @TODO: Not sure if this is okay?
 };
 
 //
-// GPS Cards => @TODO:
+// GPS Cards =>
 // The actual red/green tiles are randomly generated
 // But the dictionary below contains the bonuses/penalties for GPS cards
 //
-const GPS_CARDS = {};
+const GPS_REWARDS = 
+{
+    health: { desc: "Repair 1 damage.", prob: 2.0 },
+    health_plus: { desc: "Repair 2 damage.", prob: 0.25 },
+    cards: { desc: "All players draw 2 more cards." },
+    move: { desc: "You may move the vehicle to any adjacent square." },
+    orient: { desc: "You may orient the vehicle however you want.", prob: 0.5 },
+    reveal: { desc: "All players may reveal their cards.", prob: 0.66 },
+    discuss: { desc: "Pretend a Discuss card was played.", prob: 0.66 },
+    handicap: { desc: "Next round, ignore all your handicaps." },
+    faceup: { desc: "Next round, at most 3 cards may be played faceup." },
+    faceup_single: { desc: "Next round, 1 player may play their card faceup." },
+    no_gps: { desc: "Next round has no GPS card." }, // @NOTE: this can be both good or bad, so added to both
+    good_gps: { desc: "Next round, all highlighted GPS squares are GOOD." },
+    slots_change: { desc: "Change the number of slots to any number between 3 and 8." },
+    start_player: { desc: "You may vote a new start player.", prob: 0.33 },
+    autonomy: { desc: "Next round, each player decides how to execute their own card.", prob: 0.66 },
+    one_exception: { desc: "Next round, after revealing, you may pick 1 card to ignore.", prob: 0.5 },
+}
+
+const GPS_PENALTIES = 
+{
+    health: { desc: "Take 1 damage.", prob: 2.0 },
+    health_plus: { desc: "Take 2 damage.", prob: 0.5 },
+    cards: { desc: "All players discard their cards." },
+    move: { desc: "Move the vehicle back to where it started." },
+    orient: { desc: "Rotate the vehicle back to how it started.", prob: 0.5 },
+    reveal: { desc: "You may not reveal hand cards if you collect a tile.", prob: 0.5 },
+    discuss: { desc: "All Discuss cards in hands must be discarded." },
+    no_actions: { desc: "Next round, no action cards may be played." },
+    forced_first: { desc: "Next round, start player must play their first card in slot 1." },
+    no_moving: { desc: "Next round, any card that moves the vehicle is ignored.", prob: 0.5 },
+    no_rotating: { desc: "Next round, any card that rotates the vehicle is ignored." },
+    forced_order: { desc: "Next round, players must play cards in order." },
+    no_gps: { desc: "Next round has no GPS card." },
+    bad_gps: { desc: "Next round, all highlighted GPS squares are BAD." },
+    slots_change: { desc: "Permanently add or remove 1 instruction slot.", prob: 0.5 },
+    shuffle: { desc: "Next round, shuffle instructions before executing.", prob: 0.66 }
+}
+
 
 //
 // Time Cards
@@ -83,6 +133,10 @@ const TIME_CARDS =
     collection_penalty: { shared: true, label: "Collection Penalty", desc: "If you <b>collected</b> a tile, lose 2 more Time.", type: EventType.RULE },
     idle_bonus: { shared: true, label: "Idle Bonus", desc: "If you end with the same <b>orientation</b> as you started, repair 1 damage.", type: EventType.RULE },
     idle_penalty: { shared: true, label: "Idle Penalty", desc: "If you end on the <b>same tile</b> as you started, lose 3 more Time.", type: EventType.RULE },
+    autonomy: { shared: true, label: "Autonomy", desc: "Each player decides how to execute <b>their own card</b> (instead of start player deciding for all)." },
+    new_decider: { shared: true, label: "New Decider", desc: "Whoever played into the <b>last slot</b> decides how cards are <b>executed</b> (instead of start player deciding for all)." },
+    majority_voting: { shared: true, label: "Majority Voting", desc: "When executing cards that require a <b>decision</b>, players vote (without discussion) on which decision to take." },
+
     gps_bonus: { shared: true, label: "GPS Bonus", desc: "If you <b>followed the GPS</b>, put this card back into the Time Deck.", required: ["includeGPSCards"], type: EventType.RULE },
     gps_penalty: { shared: true, label: "GPS Penalty", desc: "If you <b>ignored the GPS</b>, lose 2 more Time.", required: ["includesGPSCards"], type: EventType.RULE },
 };
@@ -103,7 +157,7 @@ const ACTION_CARDS =
     change_of_plans: { shared: true, frame: 17, label: "Change of Plans", desc: "Look at all instructions yet to be revealed and <b>rearrange</b> them as desired." },
     back_it_up: { shared: true, frame: 18, label: "Back it up", desc: "From now on, unhandled instructions are executed in <b>reverse order</b> (right to left)." },
 
-    late_arrival: { shared: true, frame: 19, label: "Late Arrival", desc: "<b>Play another card</b> to the end of the row." },
+    late_arrival: { shared: true, frame: 19, label: "Late Arrival", desc: "<b>Play another card</b> to any vehicle's instruction row." },
     try_that_again: { shared: true, frame: 20, label: "Try Again", desc: "<b>Return the vehicle</b> to the tile at which it started this round." },
     
     make_space: { shared: true, frame: 21, label: "Make Space", desc: "Play an instruction at a slot already occupied. That card (and all after it) <b>shift</b> one position to the right." },
@@ -124,6 +178,13 @@ const ACTION_CARDS =
     
     // these need the time deck
     crystal_ball: { shared: true, frame: 31, label: "Crystal Ball", desc: "<b>Look at</b> the next 5 cards of the <b>Time Deck</b>.", required: ["includeTimeDeck"] },
+
+    // these were added much later
+    take_control: { shared: true, frame: 32, label: "Take Control", desc: "This round, each player decides how to execute <b>their own card</b> (instead of start player deciding for all)." },
+    new_driver: { shared: true, frame: 33, label: "New Driver", desc: "From now on, whoever played this card <b>makes decisions</b> (for cards that require a decision when executed)." },
+    window_gazing: { shared: true, frame: 34, label: "Window Gazing", desc: "Play <b>faceup</b>. Any card played that requires a <b>decision</b> (when executed) may be played <b>faceup</b> this round." },
+    superman: { shared: true, frame: 35, label: "Superman", desc: "Play <b>faceup</b>. Ignore all your <b>handicaps</b> this round." },
+
 };
 
 type MaterialData = Record<string, DefaultCardData>;
@@ -132,11 +193,12 @@ const MATERIAL:Record<CardType, MaterialData> =
 {
     [CardType.VEHICLE]: VEHICLE_CARDS,
     [CardType.HEALTH]: HEALTH_CARDS,
-    [CardType.GPS]: GPS_CARDS,
+    [CardType.GPS]: {},
     [CardType.TIME]: TIME_CARDS,
     [CardType.ACTION]: ACTION_CARDS,
     [CardType.INSTRUCTION]: {},
-    [CardType.COMPASS]: {}
+    [CardType.COMPASS]: {},
+    [CardType.CUSTOM]: {}
 }
 
 interface TemplateData
@@ -165,17 +227,14 @@ const TEMPLATES:Record<string, TemplateData> =
 }
 
 const NUM_BG_BLOBS = 4
-const MISC =
-{
-    game_icon: { frame: 0 },
-    game_pattern: { frame: 1 }
-}
-
+const MISC = MISC_SHARED
 
 export 
 {
     MATERIAL,
     MISC,
     TEMPLATES,
-    NUM_BG_BLOBS
+    NUM_BG_BLOBS,
+    GPS_REWARDS,
+    GPS_PENALTIES
 }

@@ -6,7 +6,8 @@ enum CardType
     TIME = "time",
     COMPASS = "compass",
     INSTRUCTION = "instruction",
-    ACTION = "action"
+    ACTION = "action",
+    CUSTOM = "custom"
 }
 
 enum TileType
@@ -35,6 +36,22 @@ const TERRAINS =
     mountain: { frame: 7, elevation: 4 },
 }
 
+const GPS_ICONS = 
+{
+    reward: { frame: 8 },
+    penalty: { frame: 9 },
+    arrow: { frame: 10 }
+}
+
+const MISC_SHARED =
+{
+    game_icon: { frame: 0 },
+    game_pattern: { frame: 1 },
+    vehicle_guides: { frame: 2 },
+    collectible_icon: { frame: 3 },
+    starting_icon: { frame: 4 },
+}
+
 type MaterialNaivigationType = CardType | TileType
 
 export
@@ -43,5 +60,7 @@ export
     TileType,
     EventType,
     MaterialNaivigationType,
-    TERRAINS
+    TERRAINS,
+    MISC_SHARED,
+    GPS_ICONS
 }

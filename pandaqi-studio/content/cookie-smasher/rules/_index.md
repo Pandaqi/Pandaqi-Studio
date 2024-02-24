@@ -31,17 +31,13 @@ Rounds are played simultaneously.
 
 {{< rules-image src="gameplay.webp" alt="Overview of how a round plays." >}}
 
-The winner adds **1 card** from the table to their score pile. 
+The winner adds all cards from the table to their score pile. The smasher of this round becomes the new **king**!
 
-Any violation of the rules (such as tapping the wrong card) means **-3 points**: remove three cards from your score pile.
+Any violation of the rules (such as tapping the wrong card) means you are **out of the game**. Distribute your remaining cards fairly over the active players.
 
-{{% remark class="anchor-top" %}}
-The interruption from a wrong guess makes it hard to continue fairly, so any violation ends the round instantly.
-{{% /remark %}}
-
-The round is now over. All other cards played are discarded. The smasher of this round becomes the new **king**!
-
-_Everyone plays with one hand. That hand both reveals their own card and smashes the poisoned food. Using the wrong hand is, of course, a rules violation._
+* The interruption from a wrong guess makes it hard to continue fairly, so any violation ends the round instantly.
+* _Everyone plays with one hand. That hand both reveals their own card and smashes the poisoned food. Using the wrong hand is, of course, a rules violation._
+* You _can_ be softer and punish a wrong guess with only a temporary elimination (e.g. 4 rounds). In practice, however, without the threat of total elimination players will just smash instantly and carelessly---which ruins the game.
 
 {{< rules-example id="turn" >}}
 

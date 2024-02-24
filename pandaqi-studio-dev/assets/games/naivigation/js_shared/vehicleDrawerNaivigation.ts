@@ -5,20 +5,30 @@ import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
 import Point from "js/pq_games/tools/geometry/point";
 import MaterialNaivigation from "./materialNaivigation";
+import { MISC } from "./dict";
 
 const drawHelpers = (vis, group, tile) =>
 {
     // main background color
     fillResourceGroup(vis.size, group, "#FFFFFF");
 
-    // @TODO: I want some simple arrow or compass or whatever to help know what side of the vehicle is up
+    // a guiding sprite behind it to clearly show what's the front and stuff
+    const resGuides = vis.getResource("misc_shared");
+    const opGuides = new LayoutOperation({
+        translate: vis.center,
+        frame: MISC.vehicle_guides.frame,
+        dims: vis.get("tiles.general.vehicle.dimsGuides"),
+        pivot: Point.CENTER
+    })
+    group.add(resGuides, opGuides)
+
 }
 
 const drawVehicle = (vis, group, tile) =>
 {
-    // the main illustration of the tile
+    
+    // the main vehicle illustration
     const typeData = tile.getData();
-    //const tempData = tile.getTemplateData();
     const res = vis.getResource("map_tiles");
     const frame = typeData.frame + tile.customData.num;
     const op = new LayoutOperation({

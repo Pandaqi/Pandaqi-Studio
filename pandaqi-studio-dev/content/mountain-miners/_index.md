@@ -13,7 +13,7 @@ downloadLink: ""
 customHeight: "small"
 headerDarkened: true
 
-color: "brown"
+color: "black"
 
 bgColor: "#230e00"
 bgColorLink: "#2d2d2d"
@@ -80,11 +80,11 @@ The base game can be learned in less than a minute; several small expansions kee
 
 {{% section-centered heading="Credits" anchor="credits" %}}
 
-The fonts used are **??** (headings, decorative text) and **??** (body, longer paragraphs). Both are freely available online. Some generative AI was used for the main tile illustrations, everything else is entirely mine.
+The fonts used are **Vlaanderen Chiseled** (headings, decorative text) and **Rokkitt** (body, longer paragraphs). Both are freely available online. Some generative AI was used for the main tile illustrations, everything else is entirely mine.
 
 I'm not sure where this game idea started. It just popped into my head like "wait a minute, if you rotate a grid of tiles sideways, you get a diamond shape. That's like 4 mountains attached to each other. So you can have a game about people mining from the top of the mountain, but _which_ mountain changes all the time". 
 
-I drew it out, prototyped it, made some changes, actually spent most of the time creating graphics and refining actions, and before you know it there was a very simple but effective game.
+I sketched it, prototyped it, made some changes, actually spent most of the time creating graphics and refining actions, and before you know it there was a very simple but effective game.
 
 I like those kinds of games, because they have very simple _material_ requirements (just a bunch of tiles) and all information is _open_ (the entire mountain is public and visible from the start, allowing long-term plans). Especially with family or kid's games like these, that really helps. If somebody has forgotten what a certain action does, they can just point at it and someone else will remind them. You can't do that when you have to be "secretive" about which cards you're holding or whatever.
 

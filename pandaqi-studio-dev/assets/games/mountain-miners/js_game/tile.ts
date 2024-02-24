@@ -4,12 +4,17 @@ import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
 import Point from "js/pq_games/tools/geometry/point";
 import Rectangle from "js/pq_games/tools/geometry/rectangle";
-import { MISC, TILES } from "../js_shared/dict";
+import { COLORS, MISC, TILES } from "../js_shared/dict";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import ResourceShape from "js/pq_games/layout/resources/resourceShape";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
 import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
 import TextConfig from "js/pq_games/layout/text/textConfig";
+import rangeInteger from "js/pq_games/tools/random/rangeInteger";
+import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
+import GrayScaleEffect from "js/pq_games/layout/effects/grayScaleEffect";
+import LayoutEffect from "js/pq_games/layout/effects/layoutEffect";
+import Line from "js/pq_games/tools/geometry/line";
 
 const NUM_RECTS_PER_KEY =
 {
@@ -22,11 +27,18 @@ const NUM_RECTS_PER_KEY =
 export default class Tile
 {
     keys:string[]
+    customData: Record<string,any>;
 
     constructor(keys:string|string[])
     {
         if(!Array.isArray(keys)) { keys = [keys]; }
         this.keys = keys;
+        this.customData = {};
+    }
+
+    async drawForRules(vis:MaterialVisualizer)
+    {
+        return this.draw(vis);
     }
 
     async draw(vis:MaterialVisualizer)
@@ -38,6 +50,7 @@ export default class Tile
         if(this.isArrowTile()) {
             this.drawArrowTile(vis, group);
         } else {
+            this.drawBackgroundTexture(vis, group);
             this.drawIcons(vis, group);
         }
 
@@ -48,13 +61,33 @@ export default class Tile
     isArrowTile() { return this.keys.includes("arrow"); }
     drawArrowTile(vis:MaterialVisualizer, group:ResourceGroup)
     {
+        const effects : LayoutEffect[] = [new DropShadowEffect({ blurRadius: vis.get("tiles.icon.dropShadowBlur") })];
+        if(vis.inkFriendly) { effects.push(new GrayScaleEffect()); }
+
         const res = vis.getResource("misc");
         const resOp = new LayoutOperation({
             translate: vis.center,
             frame: MISC.arrow.frame,
-            dims: vis.get("cards.icon.dims"),
-            pivot: Point.CENTER
+            dims: vis.get("tiles.icon.dims"),
+            pivot: Point.CENTER,
+            effects: effects
         })
+        group.add(res, resOp);
+    }
+
+    drawBackgroundTexture(vis:MaterialVisualizer, group:ResourceGroup)
+    {
+        if(vis.inkFriendly) { return; }
+
+        const res = vis.getResource("misc");
+        const randBG = rangeInteger(1, vis.get("tiles.generation.numBackgrounds"));
+        const frame = MISC["bg_" + randBG].frame;
+        const resOp = new LayoutOperation({
+            dims: vis.size,
+            frame: frame,
+            alpha: vis.get("tiles.background.textureAlpha")
+        })
+
         group.add(res, resOp);
     }
 
@@ -72,21 +105,39 @@ export default class Tile
         let rectCounter = 0;
         let numRects = NUM_RECTS_PER_KEY[this.keys.length];
 
-        const iconDims = vis.get("cards.icon.dims").clone();
+        const iconDims = vis.get("tiles.icon.dims").clone();
         const res = vis.getResource("tiles");
-        if(this.keys.length > 1) { iconDims.scale(0.5); }
+        const isMultiIcon = this.keys.length > 1;
+        if(isMultiIcon) { iconDims.scale(0.5); }
+
+        const effects : LayoutEffect[] = [new DropShadowEffect({ blurRadius: vis.get("tiles.icon.dropShadowBlur") })];
+        if(vis.inkFriendly) { effects.push(new GrayScaleEffect()); }
+
+        const glowEffect = [new DropShadowEffect({ color: "#FFFFFF", blurRadius: vis.get("tiles.gemstones.glowBlur") })];
+        let fontSize = vis.get("tiles.gemstones.fontSize");
+        if(isMultiIcon) { fontSize *= 0.5; }
 
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
-            size: vis.get("cards.gemstones.fontSize")
+            size: fontSize
         }).alignCenter();
 
+        const DIVIDING_LINES = 
+        [
+            new Line(new Point(), new Point(0,-rectSize.y)),
+            new Line(new Point(), new Point(rectSize.x, 0)),
+            new Line(new Point(), new Point(0, rectSize.y)),
+            new Line(new Point(), new Point(-rectSize.x, 0))
+        ]
+
+        const dividingLineResources = [];
         for(const key of this.keys)
         {
             const tileData = TILES[key];
-            const color = tileData.color ?? "#FFFFFF";
+            const color = vis.inkFriendly ? "#FFFFFF" : COLORS[tileData.color ?? "white"];
             const rectOp = new LayoutOperation({
-                fill: color
+                fill: color,
+                alpha: vis.get("tiles.background.colorAlpha")
             });
 
             // special case; with 3 keys, the last one takes double space to get 1 + 1 + 2 = 4
@@ -113,7 +164,8 @@ export default class Tile
                 dims: iconDims,
                 rotation: rotation,
                 frame: tileData.frame,
-                pivot: Point.CENTER
+                pivot: Point.CENTER,
+                effects: effects
             })
             group.add(res, resOp);
 
@@ -127,14 +179,31 @@ export default class Tile
                     dims: iconDims,
                     pivot: Point.CENTER,
                     rotation: rotation,
-                    fill: vis.get("cards.gemstones.textFillColor"),
-                    stroke: vis.get("cards.gemstones.textStrokeColor"),
-                    strokeWidth: vis.get("cards.gemstones.strokeWidth"),
-                    strokeAlign: StrokeAlign.OUTSIDE
+                    fill: vis.get("tiles.gemstones.textFillColor"),
+                    stroke: vis.get("tiles.gemstones.textStrokeColor"),
+                    strokeWidth: vis.get("tiles.gemstones.strokeWidth"),
+                    strokeAlign: StrokeAlign.OUTSIDE,
+                    effects: glowEffect
                 })
                 group.add(resText, textOp);
             }
 
+            if(isMultiIcon)
+            {
+                // add dividing line at last rect edge (if multiple sections)
+                dividingLineResources.push(new ResourceShape(DIVIDING_LINES[(rectCounter + 4 - 1) % 4]));
+            }
+        }
+
+        // draw all dividing lines we assembled
+        const lineOp = new LayoutOperation({
+            translate: vis.center,
+            stroke: vis.get("tiles.background.stroke"),
+            strokeWidth: vis.get("tiles.background.strokeWidth"),
+        })
+        for(const lineRes of dividingLineResources)
+        {
+            group.add(lineRes, lineOp)
         }
     }
 }

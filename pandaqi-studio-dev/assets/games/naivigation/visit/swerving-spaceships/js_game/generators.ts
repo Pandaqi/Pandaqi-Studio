@@ -1,14 +1,16 @@
 import TilePickerNaivigation from "games/naivigation/js_shared/tilePickerNaivigation";
 import Card from "./card";
-import { CardType } from "games/naivigation/js_shared/dictShared";
+import { CardType, TileType } from "games/naivigation/js_shared/dictShared";
 import CONFIG from "../js_shared/config";
 import Tile from "./tile";
-import { MAP_TILES, VEHICLE_CARDS } from "../js_shared/dict";
+import { HEALTH_CARDS, MAP_TILES, VEHICLE_CARDS } from "../js_shared/dict";
 import shuffle from "js/pq_games/tools/random/shuffle";
 import CardPickerNaivigation from "games/naivigation/js_shared/cardPickerNaivigation";
 
-const cardPicker = new CardPickerNaivigation(CONFIG, Card, VEHICLE_CARDS);
-cardPicker.vehicleCallback = (key, data) =>
+const cardPicker = new CardPickerNaivigation(CONFIG, Card);
+cardPicker.addData(CardType.VEHICLE, VEHICLE_CARDS);
+cardPicker.addData(CardType.HEALTH, HEALTH_CARDS);
+const customCallback = (key, data) =>
 {
     if(key != "steer") { return; }
 
@@ -45,7 +47,22 @@ cardPicker.vehicleCallback = (key, data) =>
 
     return cards;
 }
-const tilePicker = new TilePickerNaivigation(CONFIG, Tile, MAP_TILES);
+cardPicker.setCustomCallback(customCallback);
+
+const tilePicker = new TilePickerNaivigation(CONFIG, Tile);
+tilePicker.addData(TileType.MAP, MAP_TILES);
+let resourceBalancer = 0;
+const mapCallback = (key, data) => 
+{
+    if(key != "moon") { return; }
+
+    const t = new Tile(TileType.MAP, "moon");
+    t.customData.resourceType = resourceBalancer;
+    resourceBalancer = (resourceBalancer + 1) % 2;
+    return t;
+}
+
+tilePicker.setCustomCallback(mapCallback);
 
 export
 {

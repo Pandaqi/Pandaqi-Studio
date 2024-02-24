@@ -15,8 +15,9 @@ const CONFIG =
     inkFriendly: false,
     cardSize: "regular",
     cardSet: "starter",
+    textPlacement: "bottom",
 
-    possibleNumbers: [1,2,3,4,5,6,7,8,9], // @TODO: create helper function to create array with range between numbers
+    possibleNumbers: [1,2,3,4,5,6,7,8,9],
     possibleTypes: Object.keys(TYPES),
     possibleCards: {}, // automatically filled with allowed cards during generation
 

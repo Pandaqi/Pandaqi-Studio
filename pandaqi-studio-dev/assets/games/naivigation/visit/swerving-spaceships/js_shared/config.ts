@@ -20,7 +20,7 @@ const CONFIG:any =
     inkFriendly: false,
     itemSize: "regular",
 
-    includeVehicleCards: true,
+    includeCards: true,
     includeMapTiles: true,
     includeVehicleTiles: true,
 
@@ -43,7 +43,7 @@ const CONFIG:any =
         misc:
         {
             path: "misc.webp",
-            frames: new Point(2,1)
+            frames: new Point(6,1)
         },
 
         map_tiles:
@@ -55,7 +55,7 @@ const CONFIG:any =
         icons:
         {
             path: "icons.webp",
-            frames: new Point(4,1)
+            frames: new Point(7,1)
         },
     },
 
@@ -63,7 +63,7 @@ const CONFIG:any =
     {
         generation:
         {
-            numSteerCards: 20
+            numSteerCards: 14
         },
 
         steer:
@@ -76,6 +76,14 @@ const CONFIG:any =
             rangeColor: "#AAFFAA",
             rangeAlpha: 0.75,
             vehicleDims: new CVal(new Point(0.4), "sizeUnit")
+        },
+
+        planetProperties:
+        {
+            stroke: "#000000",
+            strokeWidth: new CVal(0.03, "sizeUnit"), // @NOTE: remember that true height is smaller than sizeUnit because multiple properties are placed on one card
+            fontSize: new CVal(0.03, "sizeUnit"),
+            iconDims: new CVal(0.4, "sizeUnit")
         }
     },
 
@@ -100,6 +108,12 @@ const CONFIG:any =
                 baseDims: new CVal(new Point(0.066), "sizeUnit"),
                 dimsRand: new Bounds(0.65, 1.45),
                 alphaBounds: new Bounds(0.15, 0.4),
+            },
+
+            resources:
+            {
+                position: new CVal(new Point(0.75, 0.75), "sizeUnit"),
+                dims: new CVal(new Point(0.2), "sizeUnit"),
             }
         }
     }

@@ -1,33 +1,54 @@
 import { CardType } from "games/naivigation/js_shared/dictShared";
 
+interface DictData
+{
+    type: CardType,
+    dict: Record<string,any>
+}
+
 export default class CardPickerNaivigation
 {
     config: any;
     cardClass: any
-    vehicleDict: Record<string,any>
-    vehicleCallback: Function = (key,data) => { return null; } // for custom handling of certain properties
+    data: DictData[]
+    customCallback: Function = (key,data) => { return null; } // for custom handling of certain properties
     cards: any[]
 
-    constructor(config, cardClass, vehicleDict) 
+    constructor(config, cardClass) 
     {
         this.config = config;
         this.cardClass = cardClass;
-        this.vehicleDict = vehicleDict;
+        this.data = [];
     }
 
     get() { return this.cards; }
     generate()
     {
         this.cards = [];
-        this.generateVehicleCards();
+
+        for(const data of this.data)
+        {
+            this.generateCards(data);
+        }
+
         return this.cards;
     }
 
-    generateVehicleCards()
+    setCustomCallback(cb) { this.customCallback = cb; }
+    addData(cardType:CardType = CardType.VEHICLE, dict:Record<string,any>)
     {
-        if(!this.config.includeVehicleCards) { return; }
+        this.data.push({
+            type: cardType,
+            dict: dict
+        })
+    }
+
+    generateCards(inputData:DictData)
+    {
+        if(!this.config.includeCards) { return; }
         
-        for(const [key,data] of Object.entries(this.vehicleDict))
+        const cardType = inputData.type;
+        for(const [key,data] of Object.entries(inputData.dict))
         {
             // auto include anything without expansions set;
             // otherwise only include if at least one matches
@@ -40,7 +61,7 @@ export default class CardPickerNaivigation
             if(!shouldInclude) { continue; }
 
             // hook for custom handling of certain cards
-            const res = this.vehicleCallback(key, data);
+            const res = this.customCallback(key, data);
             if(res)
             {
                 for(const elem of res) { this.cards.push(elem); }
@@ -51,7 +72,7 @@ export default class CardPickerNaivigation
             const freq = data.freq ?? 1;
             for(let i = 0; i < freq; i++)
             {
-                const newCard = new this.cardClass(CardType.VEHICLE, key);
+                const newCard = new this.cardClass(cardType, key);
                 this.cards.push(newCard);
             }
         }

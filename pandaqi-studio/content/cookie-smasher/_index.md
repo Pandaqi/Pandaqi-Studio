@@ -65,6 +65,7 @@ Three simple steps.
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
   {{< setting-enum id="setting-cardSet" text="Card Set?" values="starter,beginner,amateur,advanced,expert,random" valaskey="true" def="starter" >}}
   {{< setting-enum id="setting-cardSize" text="Card Size?" values="small,regular,huge" valaskey="true" def="regular" >}}
+  {{< setting-enum id="setting-textPlacement" text="Text Placement?" values="bottom,top" valaskey="true" def="bottom" remark="Text is always mirrored, this just determines which side is the regular one (top/bottom)." >}}
 {{< /boardgame-settings >}}
 
 {{% /section-centered %}}

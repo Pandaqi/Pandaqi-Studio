@@ -1,22 +1,16 @@
 import createContext from "js/pq_games/layout/canvas/createContext";
 import fillResourceGroup from "js/pq_games/layout/canvas/fillResourceGroup";
-import TintEffect from "js/pq_games/layout/effects/tintEffect";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
-import ResourceText from "js/pq_games/layout/resources/resourceText";
-import TextConfig from "js/pq_games/layout/text/textConfig";
-import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
+import ResourceShape from "js/pq_games/layout/resources/resourceShape";
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
 import getRectangleCornersWithOffset from "js/pq_games/tools/geometry/paths/getRectangleCornersWithOffset";
-import Point from "js/pq_games/tools/geometry/point";
-import rangeInteger from "js/pq_games/tools/random/rangeInteger";
-import { CardType, TERRAINS, TileType } from "./dictShared";
-import MaterialNaivigation from "./materialNaivigation";
-import Color from "js/pq_games/layout/color/color";
-import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
-import ResourceShape from "js/pq_games/layout/resources/resourceShape";
 import Path from "js/pq_games/tools/geometry/paths/path";
+import Point from "js/pq_games/tools/geometry/point";
+import { TERRAINS, TileType } from "./dictShared";
+import MaterialNaivigation from "./materialNaivigation";
 import vehicleDrawerNaivigation from "./vehicleDrawerNaivigation";
+import { MISC_SHARED } from "./dictShared";
 
 const drawTerrain = (vis, group, tile) =>
 {
@@ -60,8 +54,27 @@ const drawTile = (vis, group, tile) =>
         const resTemp = tile.getCustomIllustration(vis, tile, spriteOp);
         if(resTemp) { resIllu = resTemp; spriteOp.frame = 0; }
     }
-
     group.add(resIllu, spriteOp);
+
+    // draw collectible icon top center
+    const extraIconDims = new Point(vis.get("tiles.general.elevation.triangleSideLength"));
+    const topCenterPos = new Point(vis.center.x, 0.66*extraIconDims.y);
+    let extraIconFrame = -1;
+    if(tile.isCollectible()) { extraIconFrame = MISC_SHARED.collectible_icon.frame; }
+    else if(tile.isStartingTile()) { extraIconFrame = MISC_SHARED.starting_icon.frame; }
+
+    const needsExtraIcon = extraIconFrame != -1;
+    if(needsExtraIcon)
+    {
+        const resIcon = vis.getResource("misc_shared");
+        const iconOp = new LayoutOperation({
+            translate: topCenterPos,
+            frame: extraIconFrame,
+            dims: extraIconDims,
+            pivot: Point.CENTER
+        })
+        group.add(resIcon, iconOp);
+    }
 }
 
 const drawElevation = (vis, group, tile) =>

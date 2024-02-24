@@ -46,31 +46,39 @@ const CONFIG_NAIVIGATION_SHARED =
             textConfig: new TextConfig({ style: TextStyle.ITALIC })
         },
 
+        // @NOTE: this is also simply "misc" for shared material, but it's loaded doubly then just for convenient code
+        misc_shared:
+        {
+            path: "/naivigation/assets/misc.webp",
+            frames: new Point(5, 1),
+            useAbsolutePath: true
+        },
+
         card_templates:
         {
             path: "/naivigation/assets/card_templates.webp",
-            frames: new Point(6, 1),
+            frames: new Point(6,1),
             useAbsolutePath: true,
         },
 
         bg_blobs:
         {
             path: "/naivigation/assets/bg_blobs.webp",
-            frames: new Point(4, 2),
+            frames: new Point(4,2),
             useAbsolutePath: true
         },
 
         terrains:
         {
             path: "/naivigation/assets/terrains.webp",
-            frames: new Point(8, 1),
+            frames: new Point(8,1),
             useAbsolutePath: true
         },
 
         icons_shared:
         {
             path: "/naivigation/assets/icons.webp",
-            frames: new Point(8,4),
+            frames: new Point(8,5),
             useAbsolutePath: true
         },
     },
@@ -134,6 +142,30 @@ const CONFIG_NAIVIGATION_SHARED =
                 posDefault: new CVal(new Point(0.5, 0.6), "size"),
                 edgeOffsetFactor: 0.66,
                 glowBlur: new CVal(0.1 * 0.12, "sizeUnit")
+            },
+
+            gps:
+            {
+                strokeColor: "#000000",
+                strokeWidth: new CVal(0.05, "sizeUnit"),
+                gridDims: new CVal(new Point(0.7), "sizeUnit"),
+                alpha: 0.85,
+
+                cellColors:
+                {
+                    neutral: "#FFFFFF",
+                    reward: "#CBFF9C",
+                    penalty: "#FF9894",
+                    arrow: "#FFFFFF"
+                },
+
+                fontColor: "#000000",
+                fontSize: new CVal(0.03, "sizeUnit"),
+                textBoxDims: new CVal(new Point(0.2, 0.8), "size"),
+                textBoxIconDims: new CVal(new Point(0.2), "sizeUnit"),
+                iconOffset: new CVal(0.05, "sizeUnit"),
+                posReward: new CVal(new Point(0.5, 0.7), "size"),
+                posPenalty: new CVal(new Point(0.5, 0.85), "size")
             }
         }
     },
@@ -170,7 +202,8 @@ const CONFIG_NAIVIGATION_SHARED =
 
             vehicle:
             {
-                dims: new CVal(new Point(0.4), "sizeUnit")
+                dims: new CVal(new Point(0.4), "sizeUnit"),
+                dimsGuides: new CVal(new Point(0.6), "sizeUnit")
             }
         },
 

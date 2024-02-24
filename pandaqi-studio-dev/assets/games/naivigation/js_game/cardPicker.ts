@@ -1,7 +1,9 @@
 import CONFIG from "../js_shared/config";
-import { MATERIAL } from "../js_shared/dict";
+import { GPS_PENALTIES, GPS_REWARDS, MATERIAL } from "../js_shared/dict";
 import { CardType } from "../js_shared/dictShared";
+import pickNavigationCards from "../js_shared/pickNavigationCards";
 import Card from "./card";
+
 
 export default class CardPicker
 {
@@ -85,12 +87,19 @@ export default class CardPicker
     {
         if(!CONFIG.includeGPSCards) { return; }
         
-        const num = CONFIG.cards.generation.numGPSCards;
+        const params = {
+            num: CONFIG.cards.generation.numGPSCards,
+            single: CONFIG.cards.generation.percentageSingleGPS,
+            rewardDict: GPS_REWARDS,
+            penaltyDict: GPS_PENALTIES,
+            cardClass: Card
+        }
 
-        // @TODO: Generate these cards
-        // => create random grid, where some squares are green and some are red
-        // => attach random bonus/penalty from MATERIAL[CardType.GPS]
-        // => save those as cards
+        const cards = pickNavigationCards(params);
+        for(const card of cards)
+        {
+            this.cards.push(card);
+        }
     }
 
     generateTimeDeck()

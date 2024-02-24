@@ -1,5 +1,5 @@
 import cardDrawerNaivigation from "games/naivigation/js_shared/cardDrawerNaivigation";
-import { MAIN_COLORS, MAP_TILES, MISC, VEHICLE_CARDS } from "../js_shared/dict";
+import { MAIN_COLORS, MAP_TILES, MISC, PlanetProperty, VEHICLE_CARDS } from "../js_shared/dict";
 import MaterialNaivigation from "games/naivigation/js_shared/materialNaivigation";
 import createContext from "js/pq_games/layout/canvas/createContext";
 import Point from "js/pq_games/tools/geometry/point";
@@ -11,6 +11,10 @@ import Circle from "js/pq_games/tools/geometry/circle";
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import Line from "js/pq_games/tools/geometry/line";
 import Pie from "js/pq_games/tools/geometry/pie";
+import { CardType } from "games/naivigation/js_shared/dictShared";
+import TextConfig from "js/pq_games/layout/text/textConfig";
+import ResourceText from "js/pq_games/layout/resources/resourceText";
+import Rectangle from "js/pq_games/tools/geometry/rectangle";
 
 export default class Card extends MaterialNaivigation
 {
@@ -19,7 +23,76 @@ export default class Card extends MaterialNaivigation
     getMisc() { return MISC; }
     async draw(vis)
     {
+        if(this.type == CardType.CUSTOM) { return this.drawPlanetProperties(vis); }
         return cardDrawerNaivigation(vis, this);
+    }
+
+    drawPlanetProperties(vis:MaterialVisualizer)
+    {
+        const ctx = createContext({ size: vis.size });
+        const group = new ResourceGroup();
+
+        const op = new LayoutOperation();
+        const offset = new Point(0, vis.size.y / 3);
+        for(const prop of this.customData.planetProperties)
+        {
+            group.add(this.drawPlanetProperty(vis, prop), op.clone());
+            op.translate.add(offset);
+        }
+        group.toCanvas(ctx);
+    }
+
+    drawPlanetProperty(vis:MaterialVisualizer, prop:PlanetProperty) : ResourceGroup
+    {
+        const group = new ResourceGroup();
+        const height = vis.size.y / 3.0;
+
+        // (cutting) boundary around it
+        const rect = new Rectangle().fromTopLeft(new Point(), new Point(vis.size.x, height));
+        const resShape = new ResourceShape(rect);
+        const shapeOp = new LayoutOperation({
+            stroke: vis.get("cards.planetProperties.stroke"),
+            strokeWidth: vis.get("cards.planetProperties.strokeWidth")
+        })
+        group.add(resShape, shapeOp);
+
+        // it's either a planet, which just means showing its icon + dark bg color
+        const isPlanet = prop.key == "planet";
+        if(isPlanet) {
+            const bgColor = vis.inkFriendly ? "#FFFFFF" : MAIN_COLORS.mapTileColor;
+            const bgOp = new LayoutOperation({ fill: bgColor });
+            group.add(resShape, bgOp);
+
+            const resPlanet = vis.getResource("map_tiles");
+            const frame = MAP_TILES.planet_0.frame + prop.num;
+            const op = new LayoutOperation({
+                translate: new Point(vis.center.x, 0.5*height),
+                frame: frame,
+                dims: new Point(vis.get("cards.planetProperties.iconDims")),
+                pivot: Point.CENTER
+            })
+            group.add(resPlanet, op);
+        
+        // or its a textual effect (with perhaps an icon, hence resLoader is inserted as dependency)
+        // (in this case, prop.key is the specific effect key in original dictionary)
+        } else {
+            const textConfig = new TextConfig({
+                font: vis.get("fonts.body"),
+                size: vis.get("cards.planetProperties.fontSize"),
+                resLoader: vis.resLoader
+            }).alignCenter();
+
+            const textRes = new ResourceText({ text: prop.desc, textConfig: textConfig });
+            const op = new LayoutOperation({
+                translate: new Point(vis.center.x, 0.5*height),
+                dims: new Point(0.9*vis.size.x, 0.9*height),
+                pivot: Point.CENTER
+            })
+            
+            group.add(textRes, op);
+        }
+
+        return group;
     }
 
     getCustomIllustration(vis:MaterialVisualizer, card:MaterialNaivigation, op:LayoutOperation) : ResourceImage

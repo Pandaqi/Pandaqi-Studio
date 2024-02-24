@@ -30,6 +30,7 @@ import calculateCenter from "js/pq_games/tools/geometry/paths/calculateCenter";
 import calculateBoundingBox from "js/pq_games/tools/geometry/paths/calculateBoundingBox";
 import movePath from "js/pq_games/tools/geometry/transform/movePath";
 import Line from "js/pq_games/tools/geometry/line";
+import Rectangle from "js/pq_games/tools/geometry/rectangle";
 
 export default class Card
 {
@@ -416,7 +417,7 @@ export default class Card
             const midPoint = calculateCenter(points);
             midPoint.x = trapHalfLine.x; // to align it with trapezium stuff
 
-            const iconDims = calculateBoundingBox(points).extents;
+            const iconDims = calculateBoundingBox(points).getSize();
             const iconSize = Math.min(iconDims.x, iconDims.y) * iconScaleFactor;
 
             const flipX = rotation != 0;
@@ -460,6 +461,24 @@ export default class Card
             alignHorizontal: TextAlign.MIDDLE,
             alignVertical: TextAlign.MIDDLE
         })
+
+        // @NOTE: after playtest, added line below 6 and 9 to differentiate them properly
+        // @TODO: Untested! (added in a rush)
+        const addUnderline = (this.num == 6 || this.num == 9);
+        if(addUnderline)
+        {
+            const translate = positions[0].clone();
+            if(rotation == 0) { translate.add(new Point(0, 0.5*fontSizeNumber)); }
+            else { translate.add(new Point(0, -0.5*fontSizeNumber)); }
+
+            const rect = new Rectangle({ extents: new Point(fontSizeNumber, 0.166*fontSizeNumber) });
+            const underlineRes = new ResourceShape(rect);
+            const underlineOp = new LayoutOperation({
+                translate: translate,
+                fill: "#000000",
+            })
+            await underlineRes.toCanvas(this.ctx, underlineOp);
+        }
 
         const cardNumber = new ResourceText({ text: this.num.toString(), textConfig: textConfigNumber });
         const textDims = new Point(trapSize.y, trapSize.x);
@@ -506,6 +525,9 @@ export default class Card
             rotation: rotation,
         })
 
+        // @NOTE: added after playtest that revealed text at bottom might be obscured by fingers and thus be annoying
+        const anchor = CONFIG.textPlacement == "top" ? AnchorValue.TOP_LEFT : AnchorValue.BOTTOM_LEFT;
+
         const contHeight = 0.275*this.size.y;
         const gap = CONFIG.cards.power.gapIconAndText * this.sizeUnit;
         const padding = CONFIG.cards.power.padding * this.sizeUnit;
@@ -516,7 +538,7 @@ export default class Card
             flow: FlowType.GRID,
             alignFlow: AlignValue.SPACE_EVENLY,
             alignStack: AlignValue.MIDDLE,
-            anchor: AnchorValue.BOTTOM_LEFT,
+            anchor: anchor,
             padding: padding
         })
         root.addChild(flex);
