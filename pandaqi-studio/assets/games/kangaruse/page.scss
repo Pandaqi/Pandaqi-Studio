@@ -1,0 +1,103 @@
+@use "./shared.scss" as g;
+
+$bg-color: #98bb45;
+$text-color: #0d440c;
+$button-bg: #FCC038;
+$button-color: #27231c;
+$link-color: #3b4f0e;
+$link-color-hover: #5d7a1a;
+$settings-color: #8c3f13;
+$cutoff: 920px;
+
+h1, h2, h3, h4, h5, h6, 
+a.btn, #btn-create-pdf, #btn-generate-board, #btn-start-game,
+input, button, select, option, label {
+    font-family: g.$header-font;
+    letter-spacing: 0.04em;
+}
+
+body {
+    font-family: g.$body-font;
+    background-color: $bg-color;
+    color: $text-color;
+    font-size: 20px;
+
+    background-image: url(bg_pattern.webp);
+    background-repeat: repeat;
+    background-size: 50%;
+
+    @media all and (max-width: 450px)
+    {
+        background-image: none;
+    }
+}
+
+.title-container {
+    margin-top: 5em;
+}
+
+.big-header-image {
+    border-bottom: 6px solid currentcolor;
+}
+
+.remark-under-settings {
+    font-size: 0.75em; 
+    opacity: 0.75;
+}
+
+.limit-width {
+    max-width: $cutoff;
+}
+
+h2 {
+    font-size: 56px;
+    margin-bottom: 0px;
+}
+
+h3 { 
+    font-size: 38px;
+    margin-bottom: 0px;
+}
+
+a {
+    color: $link-color; 
+    transition: color 0.3s;
+
+    &:hover {
+        color: $link-color-hover;
+    }
+}
+
+.game-settings {
+    background-color: $settings-color;
+}
+
+.boardgame-intro {
+    .tagline, .metadata {
+        color: $text-color;
+    }
+
+    .tagline {
+        font-size: 1.25em;
+    }
+
+    .metadata {
+        font-size: 0.85em;
+    }
+}
+
+.boardgame-intro .big-header-image {
+    filter: none !important;
+}
+
+a.download-btn, a.download-btn:visited, 
+#btn-start-game, #btn-start-game:visited,
+#btn-generate-board, #btn-generate-board:visited {
+    background-color: $button-bg;
+    color: $button-color;
+    
+    &:hover {
+        background-color: $button-color;
+        color: $button-bg;
+    }
+}

@@ -1,0 +1,65 @@
+@use "./shared.scss" as g;
+
+$icons: (
+    "add": 0,
+    "replace": 1,
+    "ignore": 2,
+    "double": 3,
+    "hint": 4,
+    "category": 5,
+    "order": 6,
+    "property": 7,
+);
+$max-frames: 8;
+
+@each $name, $frame in $icons {
+    $col: $frame % $max-frames;
+    $row: 0;
+
+    .icon-#{$name} {
+        background-image: url(/slippery-slopes/assets/actions.webp);
+        background-size: 800%;
+        background-position-x: -$col * 100%;
+        background-position-y: -$row * 100%;
+        margin: auto;
+    }
+}
+
+$col-blue: #67ddd9;
+$col-green: #87d66d;
+$col-red: #f88d81;
+$col-purple: #d997fa;
+
+.remark {
+    line-height: 120%;
+}
+
+#setup {
+    background-color: $col-blue;
+}
+
+#objective {
+    background-color: $col-green;
+}
+
+#action_play {
+    background-color: $col-red; 
+}
+
+#expansions {
+    background-color: $col-purple;
+}
+
+@media print {
+    body {
+        font-size: 14px;
+    }
+
+    picture.float-right {
+        max-width: 150px;
+    }
+
+    .rules-table-entry {
+        line-height: 100%;
+    }
+}

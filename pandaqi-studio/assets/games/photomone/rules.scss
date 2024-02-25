@@ -1,0 +1,85 @@
+@use "sass:map";
+@use "sass:math";
+@use "./shared.scss" as g;
+
+$icons: (
+    "numLines": 0,
+    "distance": 1,
+    "points": 2,
+    "remove": 3,
+    "fixed": 4,
+    "repel": 5,
+    "curve": 6,
+    "add": 7,
+    "trap": 8,
+    "wings": 9,
+    "teleport": 10,
+    "poisonTrail": 11,
+    "leader": 12,
+    "dreamdrawing": 13,
+    "break": 14,
+    "pants": 15,
+    "solid": 16,
+    "eyes": 17,
+    "unfinished": 18,
+    "eraser": 19
+);
+
+@each $name, $frame in $icons {
+    $col: $frame % 8;
+    $row: 0;
+    @if $frame >= 8 {
+        $row: 1;
+    }
+    @if $frame >= 16 {
+        $row: 2;
+    }
+
+    .icon-#{$name} {
+        background-image: g.$photomone-types-url;
+        background-size: 800%;
+        background-position-x: -$col * 100%;
+        background-position-y: -$row * 100%;
+        margin: auto;
+    }
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: g.$header-font;
+}
+
+body {
+    font-family: g.$body-font;
+    //background-color: #CB9CF2; // #5F5449;
+    font-size: 17px;
+}
+
+$colors: (
+    "setup": #FFD23F,
+    "objective": #CB9CF2,
+    "action_play": #FFD23F,
+    "rules_of_drawing": #CB9CF2,
+    "expansions": #FFD23F,
+);
+
+@each $name, $color in $colors {
+    ##{$name} {
+        background-color: $color;
+    }
+}
+
+@media print {
+    body {
+        font-size: 14px;
+    }
+
+    @each $name, $color in $colors {
+        ##{$name} {
+            background-color: transparent !important;
+
+            .heading-container {
+                background-color: $color;
+            }
+        }
+    }
+}

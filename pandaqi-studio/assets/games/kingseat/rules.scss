@@ -1,0 +1,131 @@
+@use "sass:map";
+@use "sass:math";
+@use "./shared.scss" as g;
+
+$body-font-size: 19px;
+$body-line-height: 140%;
+
+$icons: (
+    "lionsyre": 0,
+    "slydefox": 1,
+    "woolfhall": 2,
+    "hornseeker": 3,
+    "brownbeards": 4,
+    "monarchrys": 5,
+    "crassclamps": 6,
+    "gulliballistas": 7,
+    "hardshellHero": 8,
+    "squlofish": 9,
+    "smugwing": 10,
+    "salsaSalamanda": 11,
+);
+$max-frames: 12;
+
+@each $name, $frame in $icons {
+    $col: $frame % $max-frames;
+    $row: 0;
+    @if $frame >= $max-frames {
+        $row: 1;
+    }
+
+    .rules-icon-pack-#{$name} {
+        background-image: g.$crests-url;
+        background-size: 1200%;
+        background-position-x: -$col * 100%;
+        background-position-y: -$row * 100%;
+        margin: auto;
+    }
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: g.$header-font;
+}
+
+body {
+    font-family: g.$body-font;
+    background-color: #212121; // #5F5449;
+    font-size: $body-font-size;
+    line-height: $body-line-height;
+}
+
+.remark {
+    line-height: 120%;
+}
+
+#setup {
+    background-color: #c98fff;
+}
+
+#objective {
+    background-color: #ff987b;
+}
+
+#action_play {
+    background-color: #c98fff;
+}
+
+#packs {
+    background-color: #ff987b;
+    
+}
+
+/*
+#action_play {
+    background-color: #AB50FF;
+}
+
+#packs {
+    background-color: #FF4816;
+    
+}*/
+
+@media print {
+    body {
+        font-size: 14px;
+        background-color: transparent;
+    }
+
+    #setup, #objective, #action_play, #packs {
+        background-color: transparent;
+    }
+
+    #setup .heading-container, #action_play .heading-container {
+        background-color: #c98fff;
+    }
+
+    #objective .heading-container, #packs .heading-container {
+        background-color: #ff987b;
+    } 
+
+    .float-right {
+        clear: both;
+        float: none;
+        margin: auto;
+
+        img {
+            max-width: 200px;
+            display: block;
+            margin: auto;
+        }
+    }
+}
+
+.prince-backstory {
+    font-style: italic;
+
+    h3 {
+        font-style: normal;
+    }
+}
+
+.prince-metadata {
+    ul {
+        margin: auto;
+    }
+
+    margin-bottom: 3em;
+}
+
+.prince-clarifications {
+    
+}

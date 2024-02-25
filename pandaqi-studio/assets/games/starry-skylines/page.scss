@@ -1,0 +1,117 @@
+@use "./shared.scss" as g;
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: g.$header-font;
+}
+
+h2 {
+    margin-bottom: 0px;
+    text-align: center;
+    font-size: 64px;
+}
+
+body {
+    font-family: g.$body-font;
+    color: #FCFFFC;
+    background-color: #040F0F;
+    background-image: g.$bg-pattern-url;
+    background-size: 100%;
+    font-size: 20px;
+}
+
+.boardgame-intro {
+    .tagline, .metadata {
+        color: #FCFFFC;
+    } 
+
+    .tagline {
+        font-size: 28px;
+    }
+
+    .big-header-image {
+        filter: none;
+    }
+}
+
+a {
+    color: #E8D33F;
+}
+
+a.btn, a.btn:visited {
+    font-family: g.$header-font;
+    background-color: #248232;
+    color: #FCFFFC;
+}
+
+a.btn:hover {
+    background-color: rgb(0, 0, 100);
+    color: rgb(175, 175, 255);
+}
+
+a.download-btn, a.download-btn:visited {
+    background-color: #F4C095;
+    color: #040F0F;
+    font-size: 20pt;
+}
+
+a.download-btn:hover {
+    background-color: #040F0F;
+    color: #F4C095;
+}
+
+ul {
+    margin-top:-15px;
+}
+
+.explanation-gif {
+    img {
+        background-color: white;
+    }
+}
+
+.big-header-image {
+    filter: none;
+    
+    -webkit-mask-image: -webkit-linear-gradient(top, white, white 90%, transparent);
+    mask-image: linear-gradient(to bottom, white, white 90%, transparent);
+}
+
+.game-settings {
+    background-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 5px #FCFFFC;
+}
+
+#btn-start-game, #btn-generate-board, #btn-create-pdf {
+    font-family: g.$header-font;
+    font-size: 24pt;
+
+    background-color: #248232;
+    padding: 20px;
+    margin: 10px;
+
+    color: #FCFFFC;
+
+    border-radius: 10px;
+    box-sizing: border-box;
+    display: inline-block;
+
+    transition: background-color 0.3s, color 0.3s;
+
+    border-color: transparent;
+
+    &:hover {
+        background-color: #F4C095;
+        color: #040F0F;
+        cursor: pointer;
+    }
+}
+
+#btn-create-pdf {
+    background-color: #1d3c6c;
+}
+
+@media all and (max-width: 600px) {
+    .download-btn {
+        font-size: 16pt;
+    }
+}

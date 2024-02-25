@@ -70,8 +70,8 @@ export default class Card
     async draw()
     {
         this.setup();
-        await this.drawBackground();
-        await this.drawHeader();
+        this.drawBackground();
+        this.drawHeader();
         this.drawBanner();
         this.drawContent();
         this.drawFooter();
@@ -211,7 +211,7 @@ export default class Card
     }
 
     // @NOTE: drawn manually, as that's easier here
-    async drawBackground()
+    drawBackground()
     {
 
         const ctx = this.ctx
@@ -236,10 +236,10 @@ export default class Card
             flipX: this.creatureFlipX,
             frame: this.getCardBackgroundFrame()
         })
-        await res.toCanvas(this.getCanvas(), canvOp);
+        res.toCanvas(this.getCanvas(), canvOp);
     }
 
-    async drawHeader()
+    drawHeader()
     {
         // actual image of creature
         const contSize = new TwoAxisValue().setBlock();

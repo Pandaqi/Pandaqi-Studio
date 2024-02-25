@@ -1,0 +1,45 @@
+@use "./shared.scss" as g;
+
+body {
+    font-family: g.$body-font;
+    background-color: #5E2C04;
+    font-size: 18px;
+    line-height: 140%;
+}
+
+h1, h2, h3, h4 {
+    font-family: g.$header-font;
+    //font-weight: normal;
+}
+
+
+
+/*
+turquoise: "#49A078",
+    green: "#3BC14A",
+    purple: "#C349FC",
+    pink: "#AF3966",
+    orange: "#DD6E42",
+    yellow: "#C49F1D",
+*/
+
+#setup {
+    background-color: #a1fbab;
+}
+
+#objective {
+    background-color: #7b1e42;
+    color: #FFDDDD;
+}
+
+#action_play {
+    background-color: #f1aa77;
+}
+
+#bears {
+    background-color: #f4e29f;
+}
+
+#expansion {
+    background-color: #adf4d3;
+}

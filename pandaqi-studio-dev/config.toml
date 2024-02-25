@@ -3,6 +3,7 @@ theme           = "pandaqi"
 title       	= "Pandaqi Games | Development Environment"
 languageCode    = "en-US"
 SectionPagesMenu = "main"
+timeout = "60s" # slow pc :/
 
 [markup]
   [markup.goldmark]

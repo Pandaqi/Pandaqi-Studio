@@ -1,0 +1,129 @@
+@use "./shared.scss" as g;
+
+$bg-color: #060606;
+$game-color: #f9a48c; // #FF4816;
+$game-text-color: #4d180a;
+$link-color: #f9a48c;
+$link-color-hover: #ffd3c7;
+$download-link-bg: #AB50FF;
+$download-link-color:#2f0951;
+$start-game-bg: #4d180a;
+$start-game-color: #f9a48c;
+$text-color: #FCFCFC;
+$heading-color: #AB50FF;
+$cutoff: 900px;
+
+
+h1, h2, h3, h4, h5, h6, 
+a.btn, #btn-create-pdf, #btn-generate-board, #btn-start-game,
+input, button, select, option, label {
+    font-family: g.$header-font;
+    font-weight: normal;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    color: $heading-color;
+}
+
+.metadata-container {
+    h1,h2,h3,h4,h5,h6 {
+        color: $text-color;
+    }
+}
+
+body {
+    font-family: g.$body-font;
+    background-color: $bg-color;
+    font-size: 19px;
+    background-size: 100%;
+    color: $text-color;
+    line-height: 140%;
+}
+
+label {
+    font-size: 22px;
+}
+
+.limit-width {
+    max-width: 960px;
+}
+
+h2 {
+    font-size: 56px;
+    margin-bottom: 0px;
+}
+
+h3 { 
+    font-size: 38px;
+    margin-bottom: 0px;
+}
+
+.game-settings {
+    background-color: $game-color;
+    color: $game-text-color;
+
+    h3 { color: $game-text-color; }
+    .setting-remark { color: rgba(0,0,0,0.75); }
+}
+
+.remark-below-settings {
+    font-size: 0.75em; 
+    opacity: 0.75;
+}
+
+.heading-with-icon {
+    .part-heading {
+        margin-top: -0.33em;
+    }
+}
+
+#btn-start-game, #btn-start-game:visited {
+    background-color: $start-game-bg;
+    color: $start-game-color;
+    margin-top: 0.5em;
+
+    &:hover {
+        background-color: $start-game-color;
+        color: $start-game-bg;
+    }
+}
+
+a.download-btn, a.download-btn:visited {
+    color: $download-link-color;
+    background-color: $download-link-bg;
+    transition: color 0.3s;
+
+    &:hover {
+        color: $download-link-bg;
+        background-color: $download-link-color;
+    }
+}
+
+a {
+    color: $link-color;
+    &:hover {
+        color: $link-color-hover;
+    }
+}
+
+.boardgame-intro {
+    .tagline, .metadata {
+        color: $text-color;
+    }
+
+    &.no-shadow .big-header-image {
+        filter: none;    
+    }
+}
+
+
+@media all and (max-width: $cutoff) {
+    .tagline {
+        padding: 1em;
+        border-radius: 1em;
+    }
+
+    .game-settings {
+        font-size: 12px;
+    }
+}

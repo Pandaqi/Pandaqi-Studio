@@ -6,6 +6,7 @@ disqusShortname = ""
 paginate        = 5
 summaryLength 	= 18
 SectionPagesMenu = "main"
+timeout = "60s" # slow pc :/
 
 [markup]
   [markup.goldmark]

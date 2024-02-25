@@ -1,0 +1,3 @@
+@font-face{font-family:"inika";src:url("fonts/Inika-Bold.woff2") format("woff2");font-weight:bold;font-style:normal;font-display:swap}@font-face{font-family:"inika";src:url("fonts/Inika.woff2") format("woff2");font-weight:normal;font-style:normal;font-display:swap}@font-face{font-family:"adventure";src:url("fonts/AdventureScript.woff2") format("woff2");font-weight:normal;font-style:normal;font-display:swap}body{font-family:"inika";background-color:#fffdc9;color:#210;font-size:20px}h1,h2,h3,h4{font-family:"adventure"}#setup{background-color:#cef996}#objective{background-color:#b3ddf9}#gameplay{background-color:#fcc7b3}#squares{background-color:#faadf9}
+
+/*# sourceMappingURL=bundle.rules.css.map */

@@ -12,7 +12,7 @@ export default class HTMLFirstRenderer
 
     async toCanvas(node:LayoutNode, canv:CanvasLike)
     {
-        await this.toCanvasFromHTML(node, canv); 
+        return await this.toCanvasFromHTML(node, canv); 
     }
 
     async toCanvasFromHTML(node:LayoutNode, targetCanvas:CanvasLike)
@@ -32,6 +32,13 @@ export default class HTMLFirstRenderer
         document.body.removeChild(domTree);
 
         const ctx = (targetCanvas instanceof HTMLCanvasElement) ? targetCanvas.getContext("2d") : targetCanvas;
+
+        // @NOTE: Reset any properties on context; perhaps need a cleaner function for this? Some general module that both LayoutOperation and this call upon?
+        ctx.globalAlpha = 1.0;
+        ctx.filter = "none";
+        ctx.globalCompositeOperation = "source-over";
+        ctx.resetTransform();
+        
         ctx.drawImage(canv, 0, 0);
 
         return targetCanvas;

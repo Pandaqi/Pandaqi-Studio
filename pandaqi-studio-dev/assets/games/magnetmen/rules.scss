@@ -1,0 +1,33 @@
+@use "./shared.scss" as g;
+@use "sass:color";
+
+body {
+    font-family: g.$body-font;
+    background-color: g.$bg-col;
+    font-size: 20px;
+}
+
+h1, h2, h3, h4 {
+    font-family: g.$header-font;
+    font-weight: normal;
+}
+
+#setup {
+    background-color: g.$col1;
+}
+
+#objective {
+    background-color: g.$col2;
+}
+
+#gameplay {
+    background-color: g.$col3;
+}
+
+#advanced {
+    background-color: g.$col2;
+}
+
+#magnetmen {
+    background-color: g.$col1;
+}

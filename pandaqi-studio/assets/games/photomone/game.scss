@@ -1,0 +1,192 @@
+@use "./shared.scss" as g;
+
+* {
+    box-sizing: border-box;
+}
+
+body, html {
+    width: 100%;
+    height: 98%; /* @TODO: for some reason, 100% adds scrollbars?!?!? */
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: g.$body-font;
+    background-color: #5F5449;
+}
+
+h1,h2,h3,h4,h5,h6,button,input {
+    font-family: g.$header-font;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-weight: normal;
+}
+
+#feedback-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: white;
+    font-size: 2em;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+h2 {
+    font-size: 3em;
+}
+
+.overlay-window {
+    background-color: #51D6FF;
+    padding: 2em;
+    border-radius: 0.5em;
+    box-shadow: 0 0 5px black;
+    margin: 1em;
+}
+
+.overlay-window p {
+    max-width: 500px;
+    margin: auto;
+    margin-top: 1em;
+}
+
+.ui {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    gap: 1.5em;	
+    padding: 1em;
+}
+
+.score-node, .turns-node {
+    font-size: 0.5em;
+    font-family: g.$body-font;
+    opacity: 0.75;
+}
+
+button {
+    width: 100%;
+    font-size: 2em;
+    cursor: pointer;
+    border: none;
+    border-radius: 0.5em;
+    box-shadow: 0 0 5px black;
+    background-color: rgba(255,255,255,0.8);
+    transition: color 0.3s, background-color 0.3s;
+}
+
+button:hover {
+    background-color: rgba(0,0,0,0.8);
+    color: white;
+}
+
+.photomone-button {
+    min-height: 33px;
+    min-width: 66px;
+    border-radius: 0;
+
+    border-style: solid;
+    border-image-slice: 64 64 64 64;
+    border-image-width: 8px 8px 8px 8px;
+    border-image-outset: 8px;
+    border-image-repeat: round round;
+    border-image-source: g.$border-image-url;
+    transition: transform 0.3s, color 0.3s, background-color 0.3s;
+    filter: none;
+    box-shadow: none;
+}   
+
+.word-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    gap: 1em;
+    padding: 1em;
+}
+
+.word-color-0 {
+    background-color: #FFD23F;
+}
+
+.word-color-1 {
+    background-color: #37FF8B;
+}
+
+.word-color-2 {
+    background-color: #EE4266;
+}
+
+.word-color-3 {
+    background-color: #CB9CF2;
+}
+
+.word-option {
+    width: 100%;
+    padding: 1em;
+    border-radius: 0.25em;
+    cursor: pointer;
+    user-select: none;
+}
+
+.word-option-word {
+    text-align: center;
+    font-size: 2em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.word-option-metadata {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    align-content: center;
+}
+
+.word-option-lines-data, .word-option-points-data {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    gap: 0.25em;
+}
+
+.word-option img {
+    width: 32px;
+    height: 32px;
+}
+
+.word-option-unselected {
+    opacity: 0.66;
+}
+
+.word-option-selected {
+    outline: 4px solid black;
+    box-shadow: 0 0 20px black;
+    opacity: 1.0;
+}
+
+.word-option button {
+    display: none;
+    width: 42px;
+}
+
+.word-option-selected button {
+    display: block;
+}
+
+@media all and (min-width: 700px)
+{
+    .word-option {
+        max-width: 300px;
+    }
+}

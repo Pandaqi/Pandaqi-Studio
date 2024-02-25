@@ -1,0 +1,86 @@
+@use "sass:map";
+@use "sass:math";
+@use "./shared.scss" as g;
+
+$body-font-size: 19px;
+$body-line-height: 140%;
+
+
+$icons: (
+    "red-fire": 0,
+    "red-electric": 1,
+    "red-star": 2,
+    "red-dragon": 3,
+    "blue-water": 4,
+    "blue-ice": 5,
+    "blue-poison": 6,
+    "blue-weather": 7,
+    "green-earth": 8,
+    "green-grass": 9,
+    "green-rock": 10,
+    "green-bug": 11,
+    "purple-air": 12,
+    "purple-magic": 13,
+    "purple-ghost": 14,
+    "purple-dark": 15,
+);
+$max-frames: 8;
+
+@each $name, $frame in $icons {
+    $col: $frame % $max-frames;
+    $row: 0;
+    @if $frame >= $max-frames {
+        $row: 1;
+    }
+
+    .icon-#{$name} {
+        background-image: g.$actions-with-bg-url;
+        background-size: 800%;
+        background-position-x: -$col * 100%;
+        background-position-y: -$row * 100%;
+        margin: auto;
+    }
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: g.$header-font;
+}
+
+body {
+    font-family: g.$body-font;
+    background-color: #FFFFFF;
+    font-size: $body-font-size;
+    line-height: $body-line-height;
+}
+
+.remark {
+    line-height: 120%;
+}
+
+#setup {
+    background-color: #ff9b9b;
+}
+
+#objective {
+    background-color: #67d6f2;
+}
+
+#action_play {
+    background-color: #a4f091; //  #23ac01;
+}
+
+#squads {
+    background-color: #d486f7; // #bb55ea;
+}
+
+#types {
+    background-color: #eebd89;
+}
+
+@media print {
+    body {
+        font-size: 14px;
+    }
+
+    .rules-table-entry { line-height: 100%; }
+}

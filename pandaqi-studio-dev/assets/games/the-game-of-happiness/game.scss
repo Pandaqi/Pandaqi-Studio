@@ -1,0 +1,116 @@
+@use "./shared.scss" as g;
+
+body {
+    font-family: g.$body-font;
+    background-color: #ff74ae;
+    font-size: 22px;
+    line-height: 120%;
+    box-sizing: border-box;
+}
+
+h1, h2, h3, h4 {
+    font-family: g.$header-font;
+    font-weight: normal;
+}
+
+h1 {
+    font-size: 3em;
+    text-align: center;
+    line-height: 100%;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.game-wrapper {
+    display: flex;
+    justify-content: center;
+
+    .game-container {
+        max-width: 500px;
+        background-color: #ffeaf3;
+        border-radius: 0.5em;
+        padding: 1em;
+    }
+
+    .game-button {
+        width: 100%;
+        border: none;
+        font-family: "sunny";
+        font-size: 2em;
+        background-color: #0b655c;
+        border-radius: 0.25em;
+        color: white;
+        cursor: pointer;
+        transition: color 0.3s, background-color 0.3s;
+
+        &:hover {
+            background-color: #2baa9e;
+            filter: drop-shadow(0 0 0.1rem black);
+        }
+    }
+
+    .game-cards {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5em;
+        margin-bottom: 0.5em;
+        margin-top: 0.5em;
+        
+        .game-card {
+            border-radius: 0.25em;
+            padding: 0.5em;
+            text-align: center;
+            filter: drop-shadow(0 0 0.15rem black);
+            width: 100%;
+            cursor: pointer;
+            transition: filter 0.3s;
+
+            display: flex;
+            justify-content: space-between;
+            align-content: center;
+            align-items: center;
+            gap: 0.5em;
+
+            button {
+                font-weight: bold;
+                border: none;
+                background-color: rgba(0,0,0,0.25);
+                color: white;
+                border-radius: 0.25em;
+                font-size: 1.33em;
+                cursor: pointer;
+                transition: color 0.3s, background-color 0.3s;
+
+                &:hover {
+                    background-color: white;
+                    color: black;
+                }
+            }
+
+            &:hover {
+                filter: drop-shadow(0 0 0.3em black) brightness(150%);
+            }
+
+            &.dragged {
+                outline: 5px solid black;
+            }
+
+            &.with-result {
+                
+                text-align: left;
+            }
+
+            &.guess-wrong {
+                outline: 5px solid red;
+                opacity: 0.65;
+                filter: none;
+            }
+
+            &.guess-correct {
+                outline: 5px solid green;
+            }
+        }
+    }
+
+
+}
