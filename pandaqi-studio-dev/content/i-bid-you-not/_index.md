@@ -3,12 +3,12 @@ type: "single"
 gamepage: true
 boardgame: true
 
-title: "Librarians"
-headerTitle: "Fill the book shelves in the correct order without communication."
-blurb: "Silence in the library! Work together to fill bookshelves in alphabetical order, but without any communication."
+title: "I Bid You Not"
+headerTitle: "Sweeten the deal and be the highest bidder---or sour the deal and run away."
+blurb: "Take turns either adding items to the offer or declaring an auction. But once the auction is over, you might not be happy with how much you paid for what you got."
 
 extraCSS: true
-downloadLink: "https://drive.google.com/drive/folders/1oXsEhIbOgYbdzvjnbK0XVSkOymGM8KxX" # already updated!
+downloadLink: ""
 
 customHeight: "small"
 headerDarkened: true
@@ -26,11 +26,11 @@ googleFonts: ""
 date: 2023-01-01 # 2024-12-26
 
 categories: ["boardgame"]
-tags: ["creative", "guessing", "word"]
+tags: ["simple", "auction", "bidding"]
 
-multiplayermode: "cooperative"
+multiplayermode: "competitive"
 language: EN
-genre: ["card", "party", "social"]
+genre: ["tile"]
 playtime: 30
 playercount: [3,4,5,6,7]
 complexity: low
@@ -40,7 +40,7 @@ ages: everyone
 
 {{% boardgame-intro heading="" %}}
 
-Silence in the library! Work together to fill bookshelves in alphabetical order, but without any communication.
+Sweeten the deal and be the highest bidder---or sour the deal and run away.
 
 {{% /boardgame-intro %}}
 
@@ -51,8 +51,6 @@ Three simple steps.
 * Download the base game PDF. (Download > Files > Base Pack.)
 * Print, cut, play!
 
-The base game is simple enough to play with kids who are learning the alphabet. Adding the extra levels turns this into a challenging puzzle for the whole group.
-
 **Want more?** You can also [generate your own material](#material) right on this website!
 
 {{% /section-centered %}}
@@ -61,11 +59,14 @@ The base game is simple enough to play with kids who are learning the alphabet. 
 
 <p>Pick your desired settings and click the button! When in doubt, just use the defaults for your first games.</p>
 
-{{< boardgame-settings type="game" local_storage="librariansConfig" btn_label="Generate Material" >}}
-	{{< setting-hidden id="setting-gameTitle" text="Librarians" >}}
+{{< boardgame-settings type="game" local_storage="iBidYouNotConfig" btn_label="Generate Material" >}}
+	{{< setting-hidden id="setting-gameTitle" text="I Bid You Not" >}}
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
   {{< setting-enum id="setting-itemSize" text="Card Size?" values="small,regular,large" valaskey="true" def="regular" >}}
-<!--- A multi checkbox for which genres to include (sorted/nested by color)? --->
+  <h3>Sets</h3>
+  {{< setting-checkbox id="setting-sets-base" text="Base Game?" >}}
+  {{< setting-checkbox id="setting-sets-oddInventions" text="Odd Inventions?" >}}
+  {{< setting-checkbox id="setting-sets-doubleDevices" text="Double Devices?" >}}
 {{< /boardgame-settings >}}
 
 <p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>
@@ -76,6 +77,6 @@ The base game is simple enough to play with kids who are learning the alphabet. 
 
 @TODO
 
-For more information, as always, read my [detailed developer diary on Pandaqi Blog](/blog/boardgames/librarians/).
+For more information, as always, read my [detailed developer diary on Pandaqi Blog](/blog/boardgames/i-bid-you-not/).
 
 {{% /section-centered %}}

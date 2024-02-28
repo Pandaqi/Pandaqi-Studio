@@ -1,6 +1,7 @@
 import Point from "js/pq_games/tools/geometry/point"
 
-export default {
+export default 
+{
     debugWithoutPDF: false, // @DEBUGGING (should be false)
     debugSingleCard: false, // @DEBUGGING (should be false)
     debugRandomizeTypes: false, // @DEBUGGING (should be false)
@@ -65,14 +66,14 @@ export default {
 
         fontHeading: {
             key: "Comica Boom",
-            path: "fonts/Comica Boom.otf",
+            path: "fonts/ComicaBoomRegular.woff2",
             size: 0.1285
         },
 
         /*
         fontText: {
             key: "Beautiful Humility",
-            path: "fonts/Beautiful Humility.otf",
+            path: "fonts/BeautifulHumilityRegular.woff2",
             size: 0.063
         },
         */

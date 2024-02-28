@@ -1,4 +1,5 @@
 
+import resetContext from "../canvas/resetContext.js";
 import LayoutNode from "../layoutNode.js";
 import { CanvasLike } from "../resources/resourceImage.js";
 import { domToForeignObjectSvg, domToCanvas } from "./modern-screenshot/index.js";
@@ -32,13 +33,7 @@ export default class HTMLFirstRenderer
         document.body.removeChild(domTree);
 
         const ctx = (targetCanvas instanceof HTMLCanvasElement) ? targetCanvas.getContext("2d") : targetCanvas;
-
-        // @NOTE: Reset any properties on context; perhaps need a cleaner function for this? Some general module that both LayoutOperation and this call upon?
-        ctx.globalAlpha = 1.0;
-        ctx.filter = "none";
-        ctx.globalCompositeOperation = "source-over";
-        ctx.resetTransform();
-        
+        resetContext(ctx);
         ctx.drawImage(canv, 0, 0);
 
         return targetCanvas;

@@ -3,12 +3,12 @@ type: "single"
 gamepage: true
 boardgame: true
 
-title: "Librarians"
-headerTitle: "Fill the book shelves in the correct order without communication."
-blurb: "Silence in the library! Work together to fill bookshelves in alphabetical order, but without any communication."
+title: "Captain Flip"
+headerTitle: "Remember the locations of the best tiles and flip them before anyone else."
+blurb: "A mix between a memory game and strategy game, where flipping tiles gives you actions, and scoring the tiles you wanted is a challenge."
 
 extraCSS: true
-downloadLink: "https://drive.google.com/drive/folders/1oXsEhIbOgYbdzvjnbK0XVSkOymGM8KxX" # already updated!
+downloadLink: ""
 
 customHeight: "small"
 headerDarkened: true
@@ -26,13 +26,13 @@ googleFonts: ""
 date: 2023-01-01 # 2024-12-26
 
 categories: ["boardgame"]
-tags: ["creative", "guessing", "word"]
+tags: ["simple"]
 
-multiplayermode: "cooperative"
+multiplayermode: "competitive"
 language: EN
-genre: ["card", "party", "social"]
+genre: ["tile"]
 playtime: 30
-playercount: [3,4,5,6,7]
+playercount: [2,3,4,5,6,7]
 complexity: low
 ages: everyone
 
@@ -40,7 +40,7 @@ ages: everyone
 
 {{% boardgame-intro heading="" %}}
 
-Silence in the library! Work together to fill bookshelves in alphabetical order, but without any communication.
+Remember the locations of the best tiles and flip them before anyone else.
 
 {{% /boardgame-intro %}}
 
@@ -51,7 +51,7 @@ Three simple steps.
 * Download the base game PDF. (Download > Files > Base Pack.)
 * Print, cut, play!
 
-The base game is simple enough to play with kids who are learning the alphabet. Adding the extra levels turns this into a challenging puzzle for the whole group.
+This game is incredibly simple (just flip one tile and take its action) and well-suited for families and kids. This does require text on the tiles, however, which means players need some knowledge of the English language.
 
 **Want more?** You can also [generate your own material](#material) right on this website!
 
@@ -61,14 +61,15 @@ The base game is simple enough to play with kids who are learning the alphabet. 
 
 <p>Pick your desired settings and click the button! When in doubt, just use the defaults for your first games.</p>
 
-{{< boardgame-settings type="game" local_storage="librariansConfig" btn_label="Generate Material" >}}
-	{{< setting-hidden id="setting-gameTitle" text="Librarians" >}}
+{{< boardgame-settings type="game" local_storage="captainFlipConfig" btn_label="Generate Material" >}}
+	{{< setting-hidden id="setting-gameTitle" text="Captain Flip" >}}
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
   {{< setting-enum id="setting-itemSize" text="Card Size?" values="small,regular,large" valaskey="true" def="regular" >}}
-<!--- A multi checkbox for which genres to include (sorted/nested by color)? --->
 {{< /boardgame-settings >}}
 
 <p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>
+
+<p class="settings-remark"><strong>What about expansions?</strong> You can play all expansions and variants using the same minimalist base material!</p>
 
 {{% /section-centered %}}
 
@@ -76,6 +77,6 @@ The base game is simple enough to play with kids who are learning the alphabet. 
 
 @TODO
 
-For more information, as always, read my [detailed developer diary on Pandaqi Blog](/blog/boardgames/librarians/).
+For more information, as always, read my [detailed developer diary on Pandaqi Blog](/blog/boardgames/captain-flip/).
 
 {{% /section-centered %}}
