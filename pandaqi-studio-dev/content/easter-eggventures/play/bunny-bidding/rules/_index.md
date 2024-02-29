@@ -36,7 +36,11 @@ On your turn,
 * Add one tile to the **offer** in the center of the table.
 * Add one tile before you as your **bid**.
 
-Any tiles played may be faceup but also facedown ( = kept a secret from the other players).
+You may play the tiles both faceup and facedown ( = kept a secret from the other players). If you play one tile facedown, however, the other must be faceup. 
+
+{{% remark %}}
+In other words, you can **never** play **all** your tiles facedown.
+{{% /remark %}}
 
 Once everyone has taken their turn, figure out who wins this round.
 * All players reveal their **bid** tile.
@@ -66,10 +70,6 @@ To make the game **harder**, here are some standalone tweaks you can make.
 * Increase the number of eggs in the game. 
 * Give players _two_ Goal Eggs (if material suffices). One scores plus points, the other negative points.
 
-To give the game **more depth**,
-* Either your offer tiles must be _faceup_ and your bid _facedown_.
-* Or vice versa: your bid must be _faceup_ and your offer tiles _facedown_.
-
 To give players **more choice**,
 * After placing your 2 required tiles (1 offer, 1 bid), you may use your remaining hand tiles as well.
 * Your **options** are to: keep them, add them to the offer, add them to your bid, or give them to another player.
@@ -88,11 +88,13 @@ They can be ...
 
 Actions, however, only trigger if the tile was played _faceup_. If played facedown, they're just ignored.
 
+Actions only care about the current round. They aren't permanent.
+
 {{% /rules-block %}}
 
 {{% rules-block heading="Powers & Handiceggs" %}}
 
-During **setup**, also deal each player a **Power Egg** (public) and a **HandicEgg** (secret).
+During **setup**, also deal each player an **Eggstra Power** (public) and a **HandicEgg** (secret).
 
 * You _may_ use your power once per turn.
 * You _must_ comply with your handicap at all times.

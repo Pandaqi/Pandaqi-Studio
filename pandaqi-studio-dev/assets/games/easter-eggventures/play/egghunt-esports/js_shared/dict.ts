@@ -1,111 +1,139 @@
+import Bounds from "js/pq_games/tools/numbers/bounds";
 
+enum TileType
+{
+    EGG = "egg",
+    SPECIAL = "special",
+    PAWN = "pawn",
+    OBSTACLE = "obstacle",
+}
 
-interface MaterialData
+interface TileData
 {
     frame?: number,
     label?: string,
-    subText?: string,
-    num?: number,
     desc?: string,
     freq?: number,
-    collectible?: boolean,
-    starting?: boolean,
-    expansion?: string[]
+    color?: string,
+    invertContrast?: boolean,
+    set?: string,
+    type?: SEggType
 }
 
-const MAIN_COLORS = { bgColor: "#8B46FF", tintColor: "#D5BDFF", textColor: "#1C004B", mapTileColor: "#151E3D" };
+type TileDataDict = Record<string,TileData>;
 
-//
-// Vehicle Cards (thing #1 that'll be unique for each game)
-//
-const VEHICLE_CARDS:Record<string,MaterialData> = 
+const EGGS:TileDataDict =
 {
-    steer: { frame: 1, label: "Steer", desc: "Pick an angle within range. Rotate the vehicle that much." },
-    thrust: { frame: 0, label: "Thrust", desc: "Move 1 tile forward ( = in the direction your spaceship faces).", freq: 12 },
-    disengage: { frame: 2, label: "Disable", desc: "Perform one gravitational pull step.", freq: 12 },
-    shield: { frame: 3, label: "Shield", desc: "Toggles the shield on and off.", freq: 10, expansion: ["shields"] },
-    superthrust: { frame: 4, label: "Thrust+", desc: "Move 2 tiles forward.", freq: 4, expansion: ["shields"] },
-    shoot: { frame: 5, label: "Shoot", desc: "Destroys the first tile within line of sight.", freq: 8, expansion: ["weapons"] },
-    hyperdrive: { frame: 6, label: "Hyper", desc: "Move to a tile at the end of your row or column.", freq: 6, expansion: ["trade"] },
-};
-
-const HEALTH_CARDS:Record<string,MaterialData> =
-{
-    downgrade: { subText: "Downgrade", desc: "You can't wrap around the map anymore.", num: 2 },
-    favorite_direction: { subText: "Favorite Direction", desc: "When moving diagonally, you always pick the <b>horizontal</b> option (never vertical).", num: 3 },
-    fragile_ship: { subText: "Fragile Ship", desc: "Running into a planet or wrapping around the map does <b>2 damage</b> (instead of 1).", num: 3 },
-    bad_steering: { subText: "Bad Steering", desc: "When executing a <b>Steer</b> card, you must always pick one of the two <b>extreme angles</b>", num: 1 },
-    no_engine: { subText: "No Engine", desc: "After executing a <b>Disable</b> card, end the round immediately. Unless the next card is another <b>Disable</b>.", num: 4 }
+    red: { frame: 0, color: "#E61948", invertContrast: true },
+    green: { frame: 1, color: "#3CB44B", invertContrast: true },
+    yellow: { frame: 2, color: "#FFE119" },
+    blue: { frame: 3, color: "#4363D8", invertContrast: true },
+    orange: { frame: 3, color: "#F58231", invertContrast: true },
+    cyan: { frame: 3, color: "#42D4F4" },
+    magenta: { frame: 3, color: "#F032E6", invertContrast: true },
+    pink: { frame: 3, color: "#FABED4" },
 }
 
-//
-// The map tiles (thing #2 that'll be unique each game---there are no "shared" map tiles)
-//
-const MAP_TILES:Record<string,MaterialData> =
+const OBSTACLES:TileDataDict =
 {
-    empty: { frame: -1, label: "Nothing Special", freq: 20 },
-    planet_0: { frame: 0, label: "Planet", collectible: true },
-    planet_1: { frame: 1, label: "Planet", collectible: true },
-    planet_2: { frame: 2, label: "Planet", collectible: true },
-    planet_3: { frame: 3, label: "Planet", collectible: true },
-    planet_4: { frame: 4, label: "Planet", collectible: true },
-    vehicle_0: { frame: 5, label: "Vehicle", freq: 0 },
-    vehicle_1: { frame: 6, label: "Vehicle", freq: 0 },
-    vehicle_2: { frame: 7, label: "Vehicle", freq: 0 },
-
-    starting_tile: { frame: 8, label: "Starting Tile", freq: 1, starting: true },
-
-    wormhole: { frame: 9, label: "Wormhole", freq: 4, expansion: ["shields"] },
-    asteroids: { frame: 10, label: "Asteroids", freq: 4, expansion: ["shields"] },
-    spaceship: { frame: 11, label: "Enemy Spaceship", freq: 4, expansion: ["weapons"] },
-    moon: { frame: 12, label: "Moon", freq: 6, expansion: ["trade"] }, 
-    sun: { frame: 13, label: "Sun", freq: 2, expansion: ["weapons"] },
-    space_station: { frame: 14, label: "Space Station", freq: 3, expansion: ["trade"] }
+    empty: { frame: 0, freq: 7 },
+    log: { frame: 1, desc: "If collected, also collect an adjacent egg.", set: "eggstraObstacles" },
+    bunny: { frame: 2, desc: "If collected, also collect another egg that nobody points at." },
+    rock: { frame: 3, desc: "If collected, that must be the only action on your turn." }, // @NOTE: something like "collecting costs 2 actions" is too weak and meh and similar
+    wall: { frame: 4, desc: "You can never search this tile." },
+    window: { frame: 5, desc: "If searched, you must reveal the egg to all players." },
+    bag: { frame: 6, desc: "If collected, replace a hidden egg with one from the deck.", set: "eggstraObstacles" },
+    tree: { frame: 7, desc: "Can only search or collect if multiple player's pawns point to me." },
+    bed: { frame: 8, desc: "Can only search or collect if no other pawn points at me.", set: "eggstraObstacles" },
+    chicken: { frame: 9, desc: "If searched, swap me with another obstacle tile." },
+    closet: { frame: 10, desc: "If searched, that must be the only action on your turn." }, // or bookshelf / pantry
+    pillow: { frame: 11, desc: "If collected, you get another turn (3 extra actions)." },
+    pot_plant: { frame: 12, desc: "If searched, you must also collect an egg this turn." },
+    rug: { frame: 13, desc: "If collected, destroy one egg or obstacle (on the map).", set: "eggstraObstacles" },
+    shoe: { frame: 14, desc: "If searched, also search another Shoe or Rug tile for free.", set: "eggstraObstacles" },
+    curtains: { frame: 15, desc: "If searched or collected, you must reveal all your collected eggs." },
+    toilet: { frame: 16, desc: "This may never be your current tile.", set: "eggstraObstacles" },
+    stairs: { frame: 17, desc: "If collected, move 2 pawns (of any player) to any location.", set: "eggstraObstacles" }
 }
 
-const MISC =
+enum SEggType
 {
-    game_icon: { frame: 0 },
-    game_pattern: { frame: 1 },
-    star_0: { frame: 2 },
-    star_1: { frame: 3 },
-    resource_0: { frame: 4 },
-    resource_1: { frame: 5 }
+    SCORE = "score",
+    RULE = "rule",
+    ACTION = "action"
 }
 
-
-interface PlanetProperty
+const SPECIAL_EGGS:TileDataDict =
 {
-    values?: any[],
-    key?: string,
-    desc: string,
-    freq?: number,
-    num?: number
+    // scoring rules should be balanced between good/bad, so you actually have to think about it or work for it
+    majority: { frame: 0, type: SEggType.SCORE, desc: "Worth +10 points if you <b>collected the most eggs</b>, otherwise -5." },
+    diversity: { frame: 2, type: SEggType.SCORE, desc: "Worth +10 points if you collected at least 1 egg <b>of each type</b>." },
+    value_changer: { frame: 3, type: SEggType.SCORE, desc: "Worth +2 points for each Red / Blue egg collected, worth -2 points for each Green / Orange egg." },
+    undo_egg: { frame: 4, type: SEggType.SCORE, desc: "Makes 1 collected egg worth <b>0 points</b>." },
+    special_special: { frame: 5, type: SEggType.SCORE, desc: "Worth -4 points for every <b>Special Egg</b>, but +1 for any other egg." },
+    number_matching: { frame: 6, type: SEggType.SCORE, desc: "Worth +3 points for each <b>pair</b> of eggs with the <b>same number</b>, but -3 for each lonely egg." },
+
+    // rules should also be balanced good/bad for the same reason
+    no_sort: { frame: 7, type: SEggType.RULE, desc: "You're allowed to collect eggs <b>out of order</b> (numerically)." },
+    extra_action: { frame: 8, type: SEggType.RULE, desc: "Worth -5 points, but you get an <b>extra action</b> each turn." },
+    no_peek: { frame: 9, type: SEggType.RULE, desc: "You <b>don't</b> have to reveal the egg to others when Searching." },
+    no_specials: { frame: 10, type: SEggType.RULE, desc: "Worth 5 points, but you <b>can't</b> collect any special eggs." },
+    reverse_sort: { frame: 11, type: SEggType.RULE, desc: "From now on, you must collect eggs in <b>reverse order</b> (numerically)." },
+    
+    // actions should always be good, because using them is optional
+    steal: { frame: 12, type: SEggType.ACTION, desc: "<b>Steal</b> 1 collected egg from another player." },
+    swap: { frame: 13, type: SEggType.ACTION, desc: "<b>Swap</b> 2 tiles (both egg and obstacle)." },
+    playing_god: { frame: 14, type: SEggType.ACTION, desc: "Search or Collect <b>any tile</b>, ignoring all other rules." },
+    obstacle_dance: { frame: 15, type: SEggType.ACTION, desc: "<b>Rearrange</b> 5 Obstacle tiles." },
+    area_search: { frame: 16, type: SEggType.ACTION, desc: "Search <b>all tiles</b> one of your pawns looks at." }
+
+
 }
 
-const PLANET_PROPERTY_REWARDS = ["repair 1 damage", "teleport to any non-collectible space", "rearrange the planets and properties", "orient the vehicle however you want"];
-const PLANET_PROPERTY_PENALTIES = ["take 1 extra damage", "lose all your resource tiles", "all players show their hand to each other", "all players discard their hand"];
-const PLANET_PROPERTIES : Record<string, PlanetProperty> =
+const MISC = 
 {
-    health_check_low: { desc: "<b>Collectable</b> if you have at least %val% Health.", values: [2,3,4] },
-    health_check_high: { desc: "<b>Collectable</b> if you have at most %val% Health.", values: [2,3,4] },
-    slot_check_low: { desc: "<b>Collectable</b> using a card in slot %val% or later.", values: [3,4,5] },
-    slot_check_high: { desc: "<b>Collectable</b> using a card in slot %val% or earlier.", values: [1,2,3] },
-    card_check_yes: { desc: "<b>Collectable</b> if you played a %val% card this round.", values: ["Discuss", "Thrust", "Steer", "Disable"] },
-    card_check_no: { desc: "<b>Collectable</b> if you did NOT play a %val% card this round.", values: ["Discuss", "Thrust", "Steer", "Disable"] },
-    resource_check: { desc: "<b>Collectable</b> if you have resource %val%.", values: ['<img id="misc" frame="4">', '<img id="misc" frame="5">'], freq: 2 },
-    reward: { desc: "Reward: if you collect this planet, <b>%val%</b>", values: PLANET_PROPERTY_REWARDS },
-    reward_order: { desc: "Reward: if you visit this planet in order, <b>%val%</b>.", values: PLANET_PROPERTY_REWARDS },
-    reward_fail: { desc: "Penalty: if you bump into this planet, <b>%val%</b>", values: PLANET_PROPERTY_PENALTIES }
+    bg_pattern_0: { frame: 0 },
+    bg_pattern_1: { frame: 1 },
+    bg_pattern_2: { frame: 2 },
+    bg_pattern_3: { frame: 3 },
+    gradient: { frame: 4 },
+    lightrays: { frame: 5 },
+    number_bg: { frame: 6 },
+    text_bg: { frame: 7 }
+}
+
+const MATERIAL:Record<TileType, TileDataDict> = 
+{
+    [TileType.EGG]: EGGS,
+    [TileType.SPECIAL]: SPECIAL_EGGS,
+    [TileType.OBSTACLE]: OBSTACLES,
+    [TileType.PAWN]: {}
+}
+
+interface TileTypeData
+{
+    textureKey: string,
+    backgroundKey: string,
+    label: string,
+    color?: string,
+    backgroundRandom?: Bounds // selects one of its frames from the background spritesheet at random 
+}
+
+const TYPE_DATA:Record<TileType, TileTypeData> =
+{
+    [TileType.EGG]: { textureKey: "eggs", backgroundKey: "eggs_backgrounds", label: "Points Egg" },
+    [TileType.SPECIAL]: { textureKey: "special_eggs", backgroundKey: "misc", label: "Special Egg", backgroundRandom: new Bounds(0,3) },
+    [TileType.OBSTACLE]: { textureKey: "obstacles", backgroundKey: "misc", label: "Obstacle", backgroundRandom: new Bounds(0,3) },
+    [TileType.PAWN]: { textureKey: "", backgroundKey: "", label: "Player Pawn" }
 }
 
 export 
 {
-    MAIN_COLORS,
-    VEHICLE_CARDS,
-    HEALTH_CARDS,
-    MAP_TILES,
+    EGGS,
+    SPECIAL_EGGS,
+    OBSTACLES,
     MISC,
-    PLANET_PROPERTIES,
-    PlanetProperty
+    TileType,
+    MATERIAL,
+    TYPE_DATA
 }

@@ -3,9 +3,9 @@ type: "single"
 gamepage: true
 boardgame: true
 
-title: "Egghunt Esports"
-headerTitle: "An egghunt in a mysterious arena where collecting your prize is always dangerous."
-blurb: "An egghunt in a dangerous arena and competitors stealing precious information about the highest-scoring prizes."
+title: "Reggverse Riddles"
+headerTitle: "Win the reverse egg hunt by cleverly changing egg locations just before you decide to look."
+blurb: "Win the reverse egg hunt by cleverly changing where eggs are hidden just before you decide to look."
 
 extraCSS: true
 downloadLink: ""
@@ -40,7 +40,7 @@ ages: everyone
 
 {{% boardgame-intro heading="" %}}
 
-An [Easter Eggventures](/easter-eggventures/) game about discovering the locations of the best eggs, without ever entering the arena or giving this info away to your competitors.
+An [Easter Eggventures](/easter-eggventures/) game about changing the rules that determine where eggs are hidden ... just before you decide to look and collec them.
 
 {{% /boardgame-intro %}}
 
@@ -59,15 +59,14 @@ Three simple steps.
 
 <p>Pick your desired settings and click the button! The settings already selected are the "base game" mentioned in the introduction.</p>
 
-{{< boardgame-settings type="game" local_storage="egghuntEsportsConfig" btn_label="Generate Material" >}}
-	{{< setting-hidden id="setting-gameTitle" text="Egghunt Esports" >}}
+{{< boardgame-settings type="game" local_storage="reggverseRiddlesConfig" btn_label="Generate Material" >}}
+	{{< setting-hidden id="setting-gameTitle" text="Reggverse Riddles" >}}
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
   {{< setting-enum id="setting-itemSize" text="Card Size?" values="small,regular,large" valaskey="true" def="regular" >}}
-  {{< setting-checkbox id="setting-addTextOnObstacles" text="Add Text On Obstacles?" remark="Obstacle tiles explain their own power, instead of having to remember." checked="checked" >}}
   <h3>Sets</h3>
   {{< setting-checkbox id="setting-sets-base" text="Base Game?" checked="checked" >}}
-  {{< setting-checkbox id="setting-sets-specialEggs" text="Special Eggs?" >}}
-  {{< setting-checkbox id="setting-sets-eggstraObstacles" text="Eggstra Obstacles?" >}}
+  {{< setting-checkbox id="setting-sets-actionTiles" text="Action Tiles?" >}}
+  {{< setting-checkbox id="setting-sets-secretObjectives" text="Secret Objectives?" >}}
 {{< /boardgame-settings >}}
 
 <p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>

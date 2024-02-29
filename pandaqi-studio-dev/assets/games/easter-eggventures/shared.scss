@@ -1,18 +1,16 @@
 @use "sass:map";
 
-$header-font: "ambery";
-$body-font: "k2d";
-$base: "/naivigation/assets/";
+$header-font: "gargle";
+$body-font: "gargle";
+$base: "/easter-eggventures/assets/";
 $base-fonts: $base + "fonts/";
 
 $bg-col: #FCFCFC;
 $text-col: #111111;
 
-$col-spaceship: #8B46FF;
-$col-airplane: #8C8C8C;
-$col-ship: #41E2A8;
-$col-car: #B6ED14;
-$col-train: #FF3D8B;
+$col1: red;
+$col2: blue;
+$col3: green;
 
 body {
     font-family: $body-font;
@@ -28,64 +26,27 @@ h1, h2, h3, h4 {
     font-weight: normal;
 }
 
-.naivigation-shared-rule, .naivigation-shared-rule-block
-{
-    margin: 0.5rem;
-    background-color: rgba(255,128,128,0.5);
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-    border-left: 10px solid rgb(255, 48, 48);
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'GargleRg-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'GargleRg-Italic.woff2') format('woff2');
+    font-weight: normal;
     font-style: italic;
-}
-
-.naivigation-shared-rule
-{
-    &:before 
-    {
-        content: "CORE RULE |";
-        opacity: 0.5;
-        font-weight: bold;
-    }
-}
-
-.naivigation-shared-rule-block
-{
-    .content > p:first-child::before 
-    {
-        content: "CORE RULES | ";
-        opacity: 0.5;
-        font-weight: bold;
-    }
-}
-
-@font-face {
-    font-family: $header-font;
-    src: url($base-fonts + 'AmberyGarden-Regular.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
     font-display: swap;
 }
 
 @font-face {
     font-family: $body-font;
-    src: url($base-fonts + 'K2D-Regular.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: $body-font;
-    src: url($base-fonts + 'K2D-ExtraBold.woff2') format('woff2');
+    src: url($base-fonts + 'GargleRg-Bold.woff2') format('woff2');
     font-weight: bold;
     font-style: normal;
     font-display: swap;
 }
 
-@font-face {
-    font-family: $body-font;
-    src: url($base-fonts + 'K2D-Italic.woff2') format('woff2');
-    font-weight: normal;
-    font-style: italic;
-    font-display: swap;
-}

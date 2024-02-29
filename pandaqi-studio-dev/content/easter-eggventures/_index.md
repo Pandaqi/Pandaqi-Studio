@@ -53,6 +53,7 @@ Click any of the links below to visit a specific game. They are roughly sorted b
 * [Bunny Bidding](/easter-eggventures/play/bunny-bidding/): snatch the best offers containing the one secret egg that scores you points.
 * [Egghunt Esports](/easter-eggventures/play/egghunt-esports/): find the locations of the best eggs and collect them, but without ever entering the arena or giving that info away to your opponents.
 * [Reggverse Riddles](/easter-eggventures/play/reggverse-riddles/): win the reverse egg hunt by cleverly changing where eggs are hidden just before you decide to look.
+* [Chicken Colorout](/easter-eggventures/play/chicken-colorout/): be the first to hide all your eggs in an environment filled with kids (or other forces) eager to find them again.
 * [Quizhide Queaster](/easter-eggventures/play/quizhide-queaster): one team hides the eggs, the other searches, but communication between them is unfortunately limited to vague, dreamlike illustrations.
 
 The games are all completely **unique**. They don't share material or rules, and aren't just minor variations of the same idea.

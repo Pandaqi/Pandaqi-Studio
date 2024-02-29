@@ -26,13 +26,13 @@ googleFonts: ""
 date: 2023-01-01 # 2024-12-26
 
 categories: ["boardgame"]
-tags: ["creative", "guessing", "word"]
+tags: ["bidding", "auction", "secret-objective", "holiday"]
 
 multiplayermode: "competitive"
 language: EN
-genre: ["card", "party", "social"]
+genre: ["tile", "party"]
 playtime: 30
-playercount: [2,3,4,5,6,7,8]
+playercount: [3,4,5,6]
 complexity: low
 ages: everyone
 
@@ -40,7 +40,7 @@ ages: everyone
 
 {{% boardgame-intro heading="" %}}
 
-A [Easter Eggventures](/easter-eggventures/) game about winning auctions that contain your secret point-scoring egg, and purposely losing all the others.
+An [Easter Eggventures](/easter-eggventures/) game about winning auctions that contain your secret point-scoring egg, and strategically losing all the others.
 
 {{% /boardgame-intro %}}
 
@@ -57,7 +57,7 @@ Three simple steps.
 
 {{% section-centered heading="Material" anchor="material" html="true" %}}
 
-<p>Pick your desired settings and click the button! The settings already selected are the "core set" mentioned in the introduction.</p>
+<p>Pick your desired settings and click the button! The settings already selected are the "base game" mentioned in the introduction.</p>
 
 {{< boardgame-settings type="game" local_storage="bunnyBiddingConfig" btn_label="Generate Material" >}}
 	{{< setting-hidden id="setting-gameTitle" text="Bunny Bidding" >}}

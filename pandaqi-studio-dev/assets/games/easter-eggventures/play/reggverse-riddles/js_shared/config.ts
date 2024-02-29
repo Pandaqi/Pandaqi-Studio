@@ -1,6 +1,7 @@
 import TextConfig, { TextWeight } from "js/pq_games/layout/text/textConfig";
 import CVal from "js/pq_games/tools/generation/cval";
 import Point from "js/pq_games/tools/geometry/point";
+import Bounds from "js/pq_games/tools/numbers/bounds";
 
 export default
 {
@@ -11,19 +12,18 @@ export default
         onlyGenerate: true, // @DEBUGGING (should be false)
     },
 
-    configKey: "egghuntEsportsConfig",
-    fileName: "[Material] Egghunt Esports",
+    configKey: "reggverseRiddlesConfig",
+    fileName: "[Material] Reggverse Riddles",
 
     // set through user config on page
     inkFriendly: false,
     itemSize: "regular",
 
-    addTextOnObstacles: true,
     sets:
     {
         base: true,
-        specialEggs: false,
-        eggstraObstacles: false,
+        actionTiles: false,
+        secretObjectives: false
     },
 
     fonts:
@@ -33,7 +33,7 @@ export default
     },
 
     // assets
-    assetsBase: "/easter-eggventures/play/egghunt-esports/assets/",
+    assetsBase: "/easter-eggventures/play/reggverse-riddles/assets/",
     assets:
     {
         gargle:
@@ -92,12 +92,34 @@ export default
     {
         maxNumPlayers: 6,
         maxNumEggs: 6,
-        defaultEggNumbering: [-8, -4, -2, 1, 2, 3, 4, 5],
+        numRuleTiles: 45,
         defaultFrequencies:
         {
-            specialEgg: 2,
-            obstacle: 3
+            eggToken: 10,
+            mapTile: 5,
+            actionTile: 2,
+            secretObjective: 1
+        },
+        movementInstructions:
+        {
+            gridDims: new Point(5, 3),
+            numValid: new Bounds(1, 4)
         }
+    },
+
+    eggs:
+    {
+        drawerConfig:
+        {
+            autoStroke: true,
+            dimsElement: new Point(1, 1),
+            dims: 
+            { 
+                small: new Point(8,12),
+                regular: new Point(6,10),
+                large: new Point(4,6)
+            },
+        },
     },
     
     tiles:

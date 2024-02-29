@@ -46,7 +46,7 @@ const CONFIG_NAIVIGATION_SHARED =
             textConfig: new TextConfig({ style: TextStyle.ITALIC })
         },
 
-        // @NOTE: this is also simply "misc" for shared material, but it's loaded doubly then just for convenient code
+        // @NOTE: this is also simply "misc" for shared material, but it's loaded doubly (only for shared material) just for convenient code
         misc_shared:
         {
             path: "/naivigation/assets/misc.webp",

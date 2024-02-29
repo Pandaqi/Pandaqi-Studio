@@ -8,7 +8,6 @@ import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
 import TextConfig, { TextWeight } from "js/pq_games/layout/text/textConfig";
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
-import getRectangleCornersWithOffset from "js/pq_games/tools/geometry/paths/getRectangleCornersWithOffset";
 import Point from "js/pq_games/tools/geometry/point";
 import { MATERIAL, MISC, TYPE_DATA, TileType } from "../js_shared/dict";
 
@@ -16,24 +15,24 @@ export default class Tile
 {
     type: TileType;
     key: string;
-    num: number;
+    customData: Record<string,any>
 
-    constructor(t:TileType, k:string, num = 0)
+    constructor(t:TileType, k:string, cd:Record<string,any> = {})
     {
         this.type = t;
         this.key = k;
-        this.num = num;
+        this.customData = cd;
     }
 
-    getData() { return MATERIAL[this.type][this.key]; }
     getTypeData() { return TYPE_DATA[this.type]; }
-
-    needsText(vis)
-    {
-        return this.getData().desc && vis.get("addTextOnObstacles");
+    getData() 
+    { 
+        if(this.type == TileType.RULE) { return this.customData.rulesDict[this.key]; }
+        return MATERIAL[this.type][this.key]; 
     }
 
-    needsEggNumber() { return this.type == TileType.EGG || this.type == TileType.SPECIAL; }
+
+    needsText() { return this.type == TileType.RULE || this.type == TileType.OBJECTIVE }
 
     async draw(vis)
     {
@@ -42,6 +41,8 @@ export default class Tile
 
         if(this.type == TileType.PAWN) {
             this.drawPawns(vis, group);
+        } else if(this.type == TileType.EGG) {
+            this.drawEggToken(vis, group);
         } else {
             this.drawBackground(vis, group);
             this.drawIllustration(vis, group);
@@ -62,13 +63,24 @@ export default class Tile
         {
             const op = new LayoutOperation({
                 translate: pos,
-                frame: this.num,
+                frame: this.customData.playerNum,
                 dims: vis.size
             })
 
             pos.x += 0.5*vis.size.x;
             group.add(res, op);
         }
+    }
+
+    // extremely simple, just the one egg sprite
+    drawEggToken(vis:MaterialVisualizer, group: ResourceGroup)
+    {
+        const res = vis.getResource("eggs");
+        const op = new LayoutOperation({
+            dims: vis.size,
+            frame: this.getData().frame
+        })
+        group.add(res, op);
     }
 
     drawBackground(vis:MaterialVisualizer, group:ResourceGroup)

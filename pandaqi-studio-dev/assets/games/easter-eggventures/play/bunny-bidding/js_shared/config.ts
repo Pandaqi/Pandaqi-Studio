@@ -1,3 +1,4 @@
+import TextConfig, { TextWeight } from "js/pq_games/layout/text/textConfig";
 import CVal from "js/pq_games/tools/generation/cval";
 import Point from "js/pq_games/tools/geometry/point";
 
@@ -26,19 +27,58 @@ export default
 
     fonts:
     {
-        heading: "whatever",
-        body: "whatever"
+        heading: "gargle",
+        body: "gargle"
     },
 
     // assets
     assetsBase: "/easter-eggventures/play/bunny-bidding/assets/",
     assets:
     {
-        /*misc:
+        gargle:
+        {
+            key: "gargle",
+            path: "/easter-eggventures/assets/fonts/GargleRg-Regular.woff2",
+            useAbsolutePath: true
+        },
+
+        gargle_bold:
+        {
+            key: "gargle",
+            path: "/easter-eggventures/assets/fonts/GargleRg-Bold.woff2",
+            useAbsolutePath: true,
+            textConfig: new TextConfig({ weight: TextWeight.BOLD })
+        },
+        
+        eggs:
+        {
+            path: "eggs.webp",
+            frames: new Point(8,1)
+        },
+
+        eggs_backgrounds:
+        {
+            path: "eggs_backgrounds.webp",
+            frames: new Point(8,1)
+        },
+
+        misc:
         {
             path: "misc.webp",
-            frames: new Point(6,1)
-        },*/
+            frames: new Point(8,1)
+        },
+
+        powers:
+        {
+            path: "powers.webp",
+            frames: new Point(8,2)
+        },
+
+        actions:
+        {
+            path: "actions.webp",
+            frames: new Point(8,3)
+        }
     },
 
     generation:
@@ -71,13 +111,38 @@ export default
         {
             fontSize: new CVal(0.05, "sizeUnit"),
             translate: new CVal(new Point(0.5, 0.75), "size"),
-            dims: new CVal(new Point(0.9, 0.25), "size")
+            dims: new CVal(new Point(0.9, 0.25), "size"),
+            bgDims: new CVal(new Point(0.95), "sizeUnit")
         },
 
         eggNumber:
         {
             fontSize: new CVal(0.1, "sizeUnit"),
-            translate: new CVal(new Point(0.5, 0.75), "size"), // @TODO
+            edgeOffset: new CVal(0.066, "sizeUnit"),
+            spriteDims: new CVal(0.2, "sizeUnit"),
+            spriteOffset: new CVal(new Point(), "size") // @TODO?
+        },
+
+        bg:
+        {
+            gradientAlpha: 0.5,
+            lightraysAlpha: 0.2,
+            lightraysComposite: "overlay"
+        },
+
+        illu:
+        {
+            glowRadius: new CVal(0.1, "sizeUnit"),
+            glowColor: "#FFFFFF",
+            offsetWhenTextPresent: new CVal(0.1, "sizeUnit")
+        },
+
+        typeText:
+        {
+            fontSize: new CVal(0.05, "sizeUnit"),
+            edgeOffset: new CVal(new Point(0, 0.5), "sizeUnit"),
+            alpha: 1.0,
+            composite: "overlay"
         }
     }
 }
