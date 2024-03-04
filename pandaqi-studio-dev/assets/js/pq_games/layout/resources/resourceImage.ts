@@ -223,7 +223,7 @@ export default class ResourceImage extends Resource
             {
                 const frame = x + y*this.frameDims.x;
                 const data = this.getFrameData(frame);
-                const size = new Point(data.width, data.height );
+                const size = new Point(data.width, data.height);
 
                 const ctx = createContext({ size: size });
                 ctx.drawImage(

@@ -5,7 +5,7 @@ type: "rules"
 {{% rules-block id="setup" heading="Setup" icon="setup" icontint="green" %}}
 
 Pick as many egg types as the number of players. Remove all tiles that are _not_ one of the chosen types from the game.
-* Create a deck of all **Goal Tiles**. Shuffle and deal each player one in secret.
+* Create a deck of all **Goal Tiles**. Shuffle and deal each player 2 in secret.
 * Also create a deck of all **Egg Tiles**: this will be the draw pile.
 * Each player draws 3 Egg Tiles to take into their hand.
 
@@ -50,7 +50,7 @@ Once everyone has taken their turn, figure out who wins this round.
 
 All players draw their hand back up to the hand limit. (Which is 3 tiles by default.) Next round!
 
-Crucially, you only score points for collected eggs that are the same as your secret Goal Egg. Any other regular egg is worth nothing to you.
+Crucially, you only score points for collected eggs that are the same as one of your secret Goal Eggs! Any other regular egg is worth nothing to you.
 
 @TODO: IMAGE EXAMPLE
 
@@ -68,7 +68,7 @@ To make the game **harder**, here are some standalone tweaks you can make.
 * Only "reveal" your hand tiles _on your turn_, not all at the start of the round.
 * Increase the number of tiles in your hand.
 * Increase the number of eggs in the game. 
-* Give players _two_ Goal Eggs (if material suffices). One scores plus points, the other negative points.
+* One goal egg scores plus points, the other minus points.
 
 To give players **more choice**,
 * After placing your 2 required tiles (1 offer, 1 bid), you may use your remaining hand tiles as well.

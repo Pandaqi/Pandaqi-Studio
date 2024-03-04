@@ -26,14 +26,13 @@ const TILES:Record<string,TileData> =
 
     // base actions
     arrow_move: { frame: 8, label: "Arrow Move", desc: "Move the Arrow to any of the eight positions. (North, East, South, West, or in-between.)", freq: 6 },
-    arrow_lock: { frame: 9, label: "Arrow Lock", desc: "Turn the arrow facedown. It doesn't move automatically anymore at the end of your turn. This is undone when the <em>next</em> Lock is played.", freq: 4 },
+    arrow_lock: { frame: 9, label: "Arrow Lock", desc: "Turn the arrow facedown. It can't move anymore. This is undone when the <em>next</em> Lock is played.", freq: 4 },
     swap: { frame: 10, label: "Swap", desc: "Swap 2 tiles on the board. You may also swap with empty space, essentially <em>moving</em> a tile, as long as the board stays connected.", freq: 4 },
-    double: { frame: 11, label: "Double", desc: "Take 2 turns in a row.", freq: 2 },
+    double: { frame: 11, label: "Double", desc: "Grab 1 more tile this turn.", freq: 2 },
     steal: { frame: 12, label: "Steal", desc: "Steal a collected tile from another player.", freq: 2 },
 
-    // dark tunnels actions
-    flashlight: { frame: 13, label: "Flashlight", desc: "Pick a row of tiles and secretly look at them.", set: "darkTunnels", freq: 4 },
-    lightbulb: { frame: 14, label: "Lightbulb", desc: "Pick a row of tiles and <em>reveal</em> all of them.", set: "darkTunnels", freq: 4 },
+    // Dark Tunnels
+    lightbulb: { frame: 14, label: "Lightbulb", desc: "Secretly study 1 row of tiles OR <em>reveal</em> 2 rows to everyone.", set: "darkTunnels", freq: 6 },
     bomb: { frame: 15, label: "Bomb", desc: "Remove a 2x2 cluster of tiles from the board. The next player must skip their turn to refill this hole from the deck.", set: "darkTunnels", freq: 2 },
     second_arrow: { frame: 16, label: "Second Arrow", desc: "Add the second Arrow Tile at any location. If it's already active, remove it instead.", set: "darkTunnels", freq: 2 },
     ransack: { frame: 17, label: "Ransack", desc: "Flip a facup tile facedown. Then collect an adjacent tile and end your turn.", set: "darkTunnels", freq: 3 },
@@ -44,12 +43,15 @@ const TILES:Record<string,TileData> =
     rotate_grabbed: { frame: 20, label: "Rotate Grabbed", desc: "Rotate a tile you already collected. (To make another side point up and be true.)", set: "gemShards", freq: 4 },
     rotate_board: { frame: 21, label: "Rotate Board", desc: "Rotate a tile on the board.", set: "gemShards", freq: 3 },
     chameleon: { frame: 22, label: "Chameleon", desc: "Execute any action that's still on the board.", set: "gemShards", freq: 2 },
-    rumble: { frame: 23, label: "Rumble", desc: "Move 2 tiles to empty spaces in the mountain. They must be spaces within the original 6x6 grid.", set: "gemShards", freq: 3 },
+    artefact: { frame: 25, label: "Artefact", desc: "Throw away one entire gemstone pile of yours.", set: "gemShards", freq: 2 },
     wildcard: { frame: 24, label: "Wildcard", desc: "When received, decide to which gemstone pile to add it. You can't grab a wildcard if you have no regular gemstones yet.", gem: true, points: 0, set: "gemShards", freq: 4, color: "brown" },
 
-    artefact: { frame: 25, label: "Artefact", desc: "Throw away one entire gemstone pile of yours.", set: "gemShards", freq: 2 },
-    ring: { frame: 26, label: "Ring", desc: "Grab 1 tile from anywhere on the map.", set: "gemShards", freq: 3 },
-    wildcard_arrow: { frame: 27, label: "Wildcard Arrow", desc: "Move the arrow to any location both before and after your turn. This overrides the automatic arrow movement (at end of rounds) and arrow lock.", set: "gemShards", freq: 2 },
+    // Golden Actions
+    flashlight: { frame: 13, label: "Flashlight", desc: "Grab 1 tile from anywhere on the map.", set: "goldenActions", freq: 3 },
+    rumble: { frame: 23, label: "Rumble", desc: "Move 2 tiles to empty spaces in the mountain. They must be spaces within the original boundaries.", set: "goldenActions", freq: 2 },
+    ring: { frame: 26, label: "Ring", desc: "Flip the direction the arrow automatically rotates (clockwise <-> counter-clockwise)", set: "goldenActions", freq: 4 },
+    wildcard_arrow: { frame: 27, label: "Wildcard Arrow", desc: "Change how much the arrow rotates by default (half turn, quarter turn, or 1/8 turn).", set: "goldenActions", freq: 4 },
+    // @TODO/IDEA: Something that DISABLES actions temporarily? So you can prevent others from using an action tile in certain situations?
 }
 
 const MISC =

@@ -27,13 +27,13 @@ Begin with the start player, then take clockwise turns until done.
 On your turn, you always **play 1 tile** (from your hand). 
 
 There are two ways to use a tile.
-* Add it next to an egg pile to use its _rule_. To do so, place it next to _or_ on top of an existing rule.
-* Discard it to use its _movement_. If so, move your pawn as described on the tile. You cannot move off the map.
+* Add it next to an egg pile to use its **rule**. To do so, place it next to _or_ on top of an existing rule.
+* Discard it to use its **movement**. If so, move your pawn as described on the tile. You cannot move off the map. Finally, take any one egg (from a pile or tile) and _drop it_ at your final location.
 
 At the end of your turn, check the row of rules for each egg type. They tell you where eggs of that type are currently hidden.
-* For each egg that matches your current tile ( = where your Pawn is), grab 1 of that type from the pile.
-* An egg may _never_ have a ruleset that causes it to match NONE or ALL tiles.
-* If a pile runs out, also remove its rules. (That type is now out of the game.)
+* For each egg that matches your current tile ( = where your Pawn is), grab 1 of that type (either from the pile or the board).
+* An egg may _never_ have a ruleset that causes it to match _none_ or _all_ tiles.
+* If a pile runs out, also remove its rules. (That type is now out of the game. It can't be collected anymore, even if it's still on the board.)
 
 Finally, draw your hand back up to 4 tiles.
 

@@ -1,5 +1,6 @@
+import { EGGS_SHARED } from "games/easter-eggventures/js_shared/dictShared";
 import CONFIG from "../js_shared/config";
-import { EGGS, TileType } from "../js_shared/dict";
+import { TileType } from "../js_shared/dict";
 import Tile from "./tile";
 
 export default class EggPicker
@@ -13,7 +14,7 @@ export default class EggPicker
 
         let counter = 0;
         const maxNumEggs = CONFIG.generation.maxNumEggs;
-        for(const [key,data] of Object.entries(EGGS))
+        for(const [key,data] of Object.entries(EGGS_SHARED))
         {
             const freq = data.freq ?? CONFIG.generation.defaultFrequencies.eggToken;
 

@@ -21,6 +21,7 @@ const CONFIG:any =
         base: true,
         darkTunnels: false,
         gemShards: false,
+        goldenActions: false,
     },
 
     fonts:
@@ -89,10 +90,10 @@ const CONFIG:any =
             numArrowTiles: 2,
             numTilesPerGemstoneValue: 
             {
-                1: 7,
-                2: 6,
-                3: 5,
-                4: 4
+                1: 8,
+                2: 7,
+                3: 6,
+                4: 5
             }
         },
 

@@ -1,7 +1,8 @@
 import shuffle from "js/pq_games/tools/random/shuffle";
 import CONFIG from "../js_shared/config";
-import { EGGS, HANDICAPS, POWERS, SPECIAL_EGGS, TileType } from "../js_shared/dict";
+import { HANDICAPS, POWERS, SPECIAL_EGGS, TileType } from "../js_shared/dict";
 import Tile from "./tile";
+import { EGGS_SHARED } from "games/easter-eggventures/js_shared/dictShared";
 
 export default class TilePicker
 {
@@ -37,11 +38,17 @@ export default class TilePicker
         // this just allows us to cut off the dictionary and play with how many unique eggs the game should generate
         // (all of them is probably way too much + gets us in trouble with the unique numbers)
         const numUniqueEggs = CONFIG.generation.numUniqueEggs;
-        let counter = 0;
+        const eggTypes = Object.keys(EGGS_SHARED);
+        while(eggTypes.length > numUniqueEggs)
+        {
+            shuffle(eggTypes).pop();
+        }
 
-        for(const [key,data] of Object.entries(EGGS))
+        const freqGoal = CONFIG.generation.defaultFrequences.goalEgg;
+        for(const key of eggTypes)
         {
             // the tiles with which we play
+            const data = EGGS_SHARED[key];
             const freq = data.freq ?? CONFIG.generation.defaultFrequencies.regularEgg;
             for(let i = 0; i < freq; i++)
             {
@@ -50,10 +57,10 @@ export default class TilePicker
             }
 
             // the goal tiles
-            this.tiles.push(new Tile(TileType.GOAL, key));
-            
-            counter++;
-            if(counter >= numUniqueEggs) { break; }
+            for(let i = 0; i < freqGoal; i++)
+            {
+                this.tiles.push(new Tile(TileType.GOAL, key));
+            }
         }
     }
 

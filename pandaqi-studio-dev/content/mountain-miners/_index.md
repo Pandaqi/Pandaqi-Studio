@@ -70,6 +70,7 @@ The base game can be learned in less than a minute; several small expansions kee
   {{< setting-checkbox id="setting-sets-base" text="Base Game?" checked="checked" >}}
   {{< setting-checkbox id="setting-sets-darkTunnels" text="Dark Tunnels?" >}}
   {{< setting-checkbox id="setting-sets-gemShards" text="Gemshards?" >}}
+  {{< setting-checkbox id="setting-sets-goldenActions" text="Golden Actions?" >}}
 {{< /boardgame-settings >}}
 
 <p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>

@@ -1,3 +1,4 @@
+import { EGGS_SHARED, TileDataDict } from "games/easter-eggventures/js_shared/dictShared";
 import Bounds from "js/pq_games/tools/numbers/bounds";
 
 enum TileType
@@ -8,37 +9,11 @@ enum TileType
     OBSTACLE = "obstacle",
 }
 
-interface TileData
-{
-    frame?: number,
-    label?: string,
-    desc?: string,
-    freq?: number,
-    color?: string,
-    invertContrast?: boolean,
-    set?: string,
-    type?: SEggType
-}
-
-type TileDataDict = Record<string,TileData>;
-
-const EGGS:TileDataDict =
-{
-    red: { frame: 0, color: "#E61948", invertContrast: true },
-    green: { frame: 1, color: "#3CB44B", invertContrast: true },
-    yellow: { frame: 2, color: "#FFE119" },
-    blue: { frame: 3, color: "#4363D8", invertContrast: true },
-    orange: { frame: 3, color: "#F58231", invertContrast: true },
-    cyan: { frame: 3, color: "#42D4F4" },
-    magenta: { frame: 3, color: "#F032E6", invertContrast: true },
-    pink: { frame: 3, color: "#FABED4" },
-}
-
 const OBSTACLES:TileDataDict =
 {
     empty: { frame: 0, freq: 7 },
     log: { frame: 1, desc: "If collected, also collect an adjacent egg.", set: "eggstraObstacles" },
-    bunny: { frame: 2, desc: "If collected, also collect another egg that nobody points at." },
+    bunny: { frame: 2, desc: "If collected, also collect another egg that no Pawn points at." },
     rock: { frame: 3, desc: "If collected, that must be the only action on your turn." }, // @NOTE: something like "collecting costs 2 actions" is too weak and meh and similar
     wall: { frame: 4, desc: "You can never search this tile." },
     window: { frame: 5, desc: "If searched, you must reveal the egg to all players." },
@@ -86,25 +61,11 @@ const SPECIAL_EGGS:TileDataDict =
     playing_god: { frame: 14, type: SEggType.ACTION, desc: "Search or Collect <b>any tile</b>, ignoring all other rules." },
     obstacle_dance: { frame: 15, type: SEggType.ACTION, desc: "<b>Rearrange</b> 5 Obstacle tiles." },
     area_search: { frame: 16, type: SEggType.ACTION, desc: "Search <b>all tiles</b> one of your pawns looks at." }
-
-
-}
-
-const MISC = 
-{
-    bg_pattern_0: { frame: 0 },
-    bg_pattern_1: { frame: 1 },
-    bg_pattern_2: { frame: 2 },
-    bg_pattern_3: { frame: 3 },
-    gradient: { frame: 4 },
-    lightrays: { frame: 5 },
-    number_bg: { frame: 6 },
-    text_bg: { frame: 7 }
 }
 
 const MATERIAL:Record<TileType, TileDataDict> = 
 {
-    [TileType.EGG]: EGGS,
+    [TileType.EGG]: EGGS_SHARED,
     [TileType.SPECIAL]: SPECIAL_EGGS,
     [TileType.OBSTACLE]: OBSTACLES,
     [TileType.PAWN]: {}
@@ -129,10 +90,8 @@ const TYPE_DATA:Record<TileType, TileTypeData> =
 
 export 
 {
-    EGGS,
     SPECIAL_EGGS,
     OBSTACLES,
-    MISC,
     TileType,
     MATERIAL,
     TYPE_DATA

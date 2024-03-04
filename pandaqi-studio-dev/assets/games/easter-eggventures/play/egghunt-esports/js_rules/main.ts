@@ -1,51 +1,27 @@
+import ResourceLoader from "js/pq_games/layout/resources/resourceLoader";
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
-import CONFIG from "../js_shared/config";
 import Point from "js/pq_games/tools/geometry/point";
-import { cardPicker, tilePicker } from "../js_game/generators";
-import RandomNaivigationSetupGenerator from "games/naivigation/js_shared/randomNaivigationSetupGenerator";
-import RandomNaivigationTurnGenerator from "games/naivigation/js_shared/randomNaivigationTurnGenerator";
+import InteractiveExample from "js/pq_rulebook/examples/interactiveExample";
+import TilePicker from "../js_game/tilePicker";
+import CONFIG from "../js_shared/config";
 
-console.log(CONFIG);
-
-CONFIG.itemSize = new Point(256, 256);
-const visualizerTiles = new MaterialVisualizer(CONFIG);
-
-CONFIG.itemSize = new Point(256, 360)
-const visualizerCards = new MaterialVisualizer(CONFIG);
-
-// given the current grid and available tiles, find a valid one for this cell
-// @TODO
-const validPlacementCallback = (cell, grid, tiles) => 
+async function generate()
 {
-    let tileFinal = null;
-    for(const tile of tiles)
-    {
-        if(tile.isCollectible() == cell.collectible) { tileFinal = tile; break; }
-    }
-    return { tile: tileFinal }
+    await resLoader.loadPlannedResources();
 }
 
-const tiles = tilePicker.generate();
-const cards = cardPicker.generate();
-console.log(tiles);
-console.log(cards);
+const e = new InteractiveExample({ id: "turn" });
+e.setButtonText("Give me an example turn!");
+e.setGenerationCallback(generate);
 
-const setup = new RandomNaivigationSetupGenerator({
-    tiles: tiles,
-    validPlacementCallback: validPlacementCallback,
-    visualizer: visualizerTiles
-});
+const o = e.getOutputBuilder();
 
-// given the card and current map/round state, what happens?
-// @TODO
-const movementCallback = (card, setup, turn) =>
-{
+const resLoader = new ResourceLoader({ base: CONFIG.assetsBase });
+resLoader.planLoadMultiple(CONFIG.assets);
 
-}
+CONFIG.resLoader = resLoader;
+CONFIG.itemSize = new Point(CONFIG.rulebook.tileSize);
+const visualizer = new MaterialVisualizer(CONFIG);
 
-const turn = new RandomNaivigationTurnGenerator({
-    setup: setup,
-    cards: cards,
-    movementCallback: movementCallback,
-    visualizer: visualizerCards
-})
+const picker = new TilePicker();
+picker.generate();

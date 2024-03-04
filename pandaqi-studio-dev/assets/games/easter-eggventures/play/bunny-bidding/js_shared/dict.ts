@@ -1,3 +1,4 @@
+import { EGGS_SHARED, TileDataDict } from "games/easter-eggventures/js_shared/dictShared";
 import Bounds from "js/pq_games/tools/numbers/bounds";
 
 enum TileType
@@ -7,30 +8,6 @@ enum TileType
     SPECIAL = "special",
     POWER = "power",
     HANDICAP = "handicap"
-}
-
-interface TileData
-{
-    frame?: number,
-    label?: string,
-    desc?: string,
-    freq?: number,
-    color?: string,
-    invertContrast?: boolean,
-}
-
-type TileDataDict = Record<string,TileData>;
-
-const EGGS:TileDataDict =
-{
-    red: { frame: 0, color: "#E61948", invertContrast: true },
-    green: { frame: 1, color: "#3CB44B", invertContrast: true },
-    yellow: { frame: 2, color: "#FFE119" },
-    blue: { frame: 3, color: "#4363D8", invertContrast: true },
-    orange: { frame: 3, color: "#F58231", invertContrast: true },
-    cyan: { frame: 3, color: "#42D4F4" },
-    magenta: { frame: 3, color: "#F032E6", invertContrast: true },
-    pink: { frame: 3, color: "#FABED4" },
 }
 
 const SPECIAL_EGGS:TileDataDict =
@@ -62,7 +39,6 @@ const SPECIAL_EGGS:TileDataDict =
     // DISCARDED: "Swap your secret egg with someone else" => just too powerful, especially late in the game.
 }
 
-// @TODO: add more powers and handicaps
 const POWERS:TileDataDict = 
 {
     info_offer: { frame: 0, label: "Offer Study", desc: "Look at a facedown tile in the offer." },
@@ -81,22 +57,10 @@ const HANDICAPS:TileDataDict =
     never_follow: { frame: 9, label: "Never Follow", desc: "You must add an egg to the offer that's not already inside." },
     bid_lower: { frame: 10, label: "Bid Lower", desc: "You must always bid lower than the highest offer card." },
     bid_higher: { frame: 11, label: "Bid Higher", desc: "You must always bid higher than the lowest offer card." },
-    always_faceup: { frame: 12, label: "Always Faceup", desc: "You must always play at least 1 faceup tile." },
+    always_faceup: { frame: 12, label: "Always Faceup", desc: "You must always play at least 2 faceup tiles." },
     small_hands: { frame: 13, label: "Small Hands", desc: "You permanently have 1 fewer tile than the others." },
     lower_bids: { frame: 14, label: "Lower Bids", desc: "You permanently get -10 to your bid card." },
-    public_egg: { frame: 15, label: "Public Egg", desc: "Your secret Goal Egg is permanently revealed." },
-}
-
-const MISC = 
-{
-    bg_pattern_0: { frame: 0 },
-    bg_pattern_1: { frame: 1 },
-    bg_pattern_2: { frame: 2 },
-    bg_pattern_3: { frame: 3 },
-    gradient: { frame: 4 },
-    lightrays: { frame: 5 },
-    number_bg: { frame: 6 },
-    text_bg: { frame: 7 }
+    public_egg: { frame: 15, label: "Public Egg", desc: "One of your secret Goal Eggs is permanently revealed." },
 }
 
 interface TileTypeData
@@ -106,12 +70,13 @@ interface TileTypeData
     label: string,
     color?: string,
     backgroundRandom?: Bounds // selects one of its frames from the background spritesheet at random 
+    rotationRandom?: Bounds // will rotate illustration to random value within bounds
 }
 
 const TYPE_DATA:Record<TileType, TileTypeData> = 
 {
-    [TileType.REGULAR]: { textureKey: "eggs", backgroundKey: "eggs_backgrounds", label: "Regular Egg" },
-    [TileType.SPECIAL]: { textureKey: "special", backgroundKey: "misc", backgroundRandom: new Bounds(0,3), color: "#469990", label: "Special Egg" }, // color = teal
+    [TileType.REGULAR]: { textureKey: "eggs", backgroundKey: "eggs_backgrounds", label: "Regular Egg", rotationRandom: new Bounds(-0.066*Math.PI, 0.066*Math.PI) },
+    [TileType.SPECIAL]: { textureKey: "actions", backgroundKey: "misc", backgroundRandom: new Bounds(0,3), color: "#469990", label: "Special Egg" }, // color = teal
     [TileType.GOAL]: { textureKey: "eggs", backgroundKey: "eggs_backgrounds", label: "Goal Egg" },
     [TileType.POWER]: { textureKey: "powers", backgroundKey: "misc", backgroundRandom: new Bounds(0,3), color: "#DCBEFF", label: "Eggstra Power" }, // color = lavender 
     [TileType.HANDICAP]: { textureKey: "powers", backgroundKey: "misc", backgroundRandom: new Bounds(0,3), color: "#9A6324", label: "Handicegg" }, // color = brown
@@ -119,21 +84,19 @@ const TYPE_DATA:Record<TileType, TileTypeData> =
 
 const MATERIAL = 
 {
-    [TileType.REGULAR]: EGGS,
+    [TileType.REGULAR]: EGGS_SHARED,
     [TileType.SPECIAL]: SPECIAL_EGGS,
-    [TileType.GOAL]: EGGS,
+    [TileType.GOAL]: EGGS_SHARED,
     [TileType.POWER]: POWERS,
     [TileType.HANDICAP]: HANDICAPS 
 }
 
 export 
 {
-    EGGS,
     SPECIAL_EGGS,
     POWERS,
     HANDICAPS,
     TileType,
     TYPE_DATA,
     MATERIAL,
-    MISC
 }

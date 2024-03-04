@@ -8,11 +8,18 @@ import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
 import TextConfig, { TextWeight } from "js/pq_games/layout/text/textConfig";
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
-import getRectangleCornersWithOffset from "js/pq_games/tools/geometry/paths/getRectangleCornersWithOffset";
 import Point from "js/pq_games/tools/geometry/point";
-import { MATERIAL, MISC, TYPE_DATA, TileType } from "../js_shared/dict";
+import { MATERIAL, TYPE_DATA, TileType } from "../js_shared/dict";
+import { MISC_SHARED } from "games/easter-eggventures/js_shared/dictShared";
+import MaterialEaster from "games/easter-eggventures/js_shared/materialEaster";
+import drawBackgroundEaster from "games/easter-eggventures/js_shared/drawBackgroundEaster";
+import drawIllustrationEaster from "games/easter-eggventures/js_shared/drawIllustrationEaster";
+import drawPawnsEaster from "games/easter-eggventures/js_shared/drawPawnsEaster";
+import drawTypeTextEaster from "games/easter-eggventures/js_shared/drawTypeTextEaster";
+import drawTextEaster from "games/easter-eggventures/js_shared/drawTextEaster";
+import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
 
-export default class Tile
+export default class Tile extends MaterialEaster
 {
     type: TileType;
     key: string;
@@ -20,6 +27,7 @@ export default class Tile
 
     constructor(t:TileType, k:string, num = 0)
     {
+        super();
         this.type = t;
         this.key = k;
         this.num = num;
@@ -28,23 +36,43 @@ export default class Tile
     getData() { return MATERIAL[this.type][this.key]; }
     getTypeData() { return TYPE_DATA[this.type]; }
 
+    getText()
+    {
+        let text = this.getData().desc;
+
+        // special eggs prepend the _type_ of special they are
+        // (which we can do directly because it's a string-based enum)
+        if(this.type == TileType.SPECIAL)
+        {
+            text = this.getData().type.toUpperCase() + ": " + text; 
+        }
+
+        return text;
+    }
+
     needsText(vis)
     {
         return this.getData().desc && vis.get("addTextOnObstacles");
     }
 
+    invertColors()
+    {
+        const eggContrast = this.type == TileType.EGG && this.getData().invertContrast;
+        return eggContrast;
+    }
+
     needsEggNumber() { return this.type == TileType.EGG || this.type == TileType.SPECIAL; }
 
-    async draw(vis)
+    async draw(vis:MaterialVisualizer)
     {
         const ctx = createContext({ size: vis.size });
         const group = new ResourceGroup();
 
         if(this.type == TileType.PAWN) {
-            this.drawPawns(vis, group);
+            drawPawnsEaster(this, vis, group);
         } else {
-            this.drawBackground(vis, group);
-            this.drawIllustration(vis, group);
+            drawBackgroundEaster(this, vis, group);
+            drawIllustrationEaster(this, vis, group);
             this.drawSpecial(vis, group);
         }
 
@@ -52,133 +80,12 @@ export default class Tile
         return ctx.canvas;
     }
 
-    drawPawns(vis:MaterialVisualizer, group:ResourceGroup)
-    {
-        // the pawn is just a 1024x1024 texture of which the left column is completely predetermined
-        // and it just places that + a copy to the right
-        const res = vis.getResource("pawns");
-        let pos = new Point();
-        for(let i = 0; i < 2; i++)
-        {
-            const op = new LayoutOperation({
-                translate: pos,
-                frame: this.num,
-                dims: vis.size
-            })
-
-            pos.x += 0.5*vis.size.x;
-            group.add(res, op);
-        }
-    }
-
-    drawBackground(vis:MaterialVisualizer, group:ResourceGroup)
-    {
-        const typeData = this.getTypeData();
-        const data = this.getData();
-
-        // flat color
-        let bgColor = data.color ?? this.getTypeData().color;
-        bgColor = vis.inkFriendly ? "#FFFFFF" : bgColor;
-        fillResourceGroup(vis.size, group, bgColor); 
-
-        // pattern / texture
-        const res = vis.getResource(typeData.backgroundKey);
-        let frame = data.frame ?? 0;
-        if(typeData.backgroundRandom) { frame = typeData.backgroundRandom.randomInteger(); }
-
-        const op = new LayoutOperation({
-            dims: vis.size,
-            frame: frame
-        })
-        group.add(res, op);
-
-        // gradient
-        const resMisc = vis.getResource("misc");
-        const opGrad = new LayoutOperation({
-            dims: vis.size,
-            frame: MISC.gradient.frame,
-            alpha: vis.get("tiles.bg.gradientAlpha")
-        });
-        group.add(resMisc, opGrad);
-
-        // light rays
-        const opRays = new LayoutOperation({
-            translate: vis.center,
-            dims: vis.size,
-            frame: MISC.lightrays.frame,
-            pivot: Point.CENTER,
-            alpha: vis.get("tiles.bg.lightraysAlpha"),
-            composite: vis.get("tiles.bg.lightraysComposite")
-        })
-        group.add(resMisc, opRays);
-    }
-
-    drawIllustration(vis:MaterialVisualizer, group:ResourceGroup)
-    {
-        const typeData = this.getTypeData();
-        const data = this.getData();
-        const res = vis.getResource(typeData.textureKey);
-        const frame =  data.frame;
-
-        const effects:LayoutEffect[] = [new DropShadowEffect({ 
-            blurRadius: vis.get("tiles.illu.glowRadius"), 
-            color: vis.get("tiles.illu.glowColor") 
-        })]
-        if(vis.inkFriendly) { effects.push(new GrayScaleEffect()); }
-
-        let trans = vis.center.clone();
-        if(this.needsText(vis))
-        {
-            trans.y += vis.get("tiles.illu.offsetWhenTextPresent");
-        }
-
-        const op = new LayoutOperation({
-            translate: trans,
-            dims: vis.size,
-            frame: frame,
-            pivot: Point.CENTER,
-            effects: effects,
-        })
-        group.add(res, op);
-    }
-
     drawSpecial(vis:MaterialVisualizer, group:ResourceGroup)
     {
-        const typeData = this.getTypeData();
-        const data = this.getData();
-        const resMisc = vis.getResource("misc");
-
-        // display the tile type along top/bottom edge
-        const textConfig = new TextConfig({
-            font: vis.get("fonts.heading"),
-            size: vis.get("tiles.typeText.fontSize"),
-            weight: TextWeight.BOLD
-        }).alignCenter();
-
-        const resTypeText = new ResourceText({ text: typeData.label, textConfig: textConfig });
-        const typeTextOffset = vis.get("tiles.typeText.edgeOffset");
-
-        for(let i = 0; i < 2; i++)
-        {
-            if(this.needsText(vis) && i > 0) { break; } // if text at bottom, no space for this as well
-
-            const pos = vis.center.clone();
-            const dir = i == 0 ? 1 : -1;
-            pos.add(typeTextOffset.clone().scale(dir));
-
-            const op = new LayoutOperation({
-                translate: pos,
-                dims: new Point(vis.size.x, 2*textConfig.size),
-                pivot: Point.CENTER,
-                alpha: vis.get("tiles.typeText.alpha"),
-                composite: vis.get("tiles.typeText.composite"),
-                rotation: (i == 0 ? 0 : Math.PI)
-            })
-            group.add(resTypeText, op);
-        }
+        drawTypeTextEaster(this, vis, group);
+        drawTextEaster(this, vis, group);
 
         // displays the unique number used for bidding
-        // @TODO: proper position + stroke + general design (need to do sketches first to find this)
         if(this.needsEggNumber())
         {
             const text = this.num == 0 ? "?" : this.num.toString();
@@ -190,50 +97,19 @@ export default class Tile
             }).alignCenter();
 
             const textDims = new Point(3*fontSize, 2*fontSize);
-            const pos = vis.center; // @TODO?
+            const pos = vis.get("tiles.eggNumber.position")
 
             const resText = new ResourceText({ text: text, textConfig: textConfig });
             const textOp = new LayoutOperation({
                 translate: pos,
                 dims: textDims,
-                pivot: Point.CENTER
-            })
-
-            group.add(resText, textOp);
-        }
-
-        // displays the power/action text of the tile in a rectangle at the bottom
-        if(this.needsText(vis))
-        {
-            // the background
-            const bgOp = new LayoutOperation({
-                translate: vis.get("tiles.text.translate"),
-                frame: MISC.text_bg.frame,
-                dims: vis.get("tiles.text.bgDims"),
-                pivot: Point.CENTER
-            })
-            group.add(resMisc, bgOp);
-
-            // the actual power text
-            let text = data.desc;
-
-            // special eggs prepend the _type_ of special they are
-            // (which we can do directly because it's a string-based enum)
-            if(this.type == TileType.SPECIAL)
-            {
-                text = this.getData().type.toUpperCase() + ": " + text; 
-            }
-
-            const textConfig = new TextConfig({
-                font: vis.get("fonts.body"),
-                size: vis.get("tiles.text.fontSize")
-            }).alignCenter();
-
-            const resText = new ResourceText({ text: text, textConfig: textConfig });
-            const textOp = new LayoutOperation({
-                translate: vis.get("tiles.text.translate"),
-                dims: vis.get("tiles.text.dims"),
-                pivot: Point.CENTER
+                pivot: Point.CENTER,
+                fill: vis.get("tiles.eggNumber.fillColor"),
+                stroke: vis.get("tiles.eggNumber.strokeColor"),
+                strokeWidth: vis.get("tiles.eggNumber.strokeWidth"),
+                strokeAlign: StrokeAlign.OUTSIDE,
+                alpha: vis.get("tiles.eggNumber.alpha"),
+                composite: vis.get("tiles.eggNumber.composite")
             })
 
             group.add(resText, textOp);

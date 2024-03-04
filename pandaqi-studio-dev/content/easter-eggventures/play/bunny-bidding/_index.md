@@ -63,6 +63,10 @@ Three simple steps.
 	{{< setting-hidden id="setting-gameTitle" text="Bunny Bidding" >}}
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
   {{< setting-enum id="setting-itemSize" text="Card Size?" values="small,regular,large" valaskey="true" def="regular" >}}
+  <h3>Sets</h3>
+  {{< setting-checkbox id="setting-sets-base" text="Base Game?" checked="checked" >}}
+  {{< setting-checkbox id="setting-sets-special" text="Special Eggs?" >}}
+  {{< setting-checkbox id="setting-sets-powers" text="Powers & Handiceggs?" >}}
 {{< /boardgame-settings >}}
 
 <p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>

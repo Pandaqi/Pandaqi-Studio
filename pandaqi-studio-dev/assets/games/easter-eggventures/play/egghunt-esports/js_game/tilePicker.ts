@@ -1,6 +1,8 @@
+import { EGGS_SHARED } from "games/easter-eggventures/js_shared/dictShared";
 import CONFIG from "../js_shared/config";
-import { EGGS, OBSTACLES, SPECIAL_EGGS, TileType } from "../js_shared/dict";
+import { OBSTACLES, SPECIAL_EGGS, TileType } from "../js_shared/dict";
 import Tile from "./tile";
+import shuffle from "js/pq_games/tools/random/shuffle";
 
 export default class TilePicker
 {
@@ -30,19 +32,22 @@ export default class TilePicker
 
     generateEggs()
     {
-        let counter = 0;
-        const maxNumEggs = CONFIG.generation.maxNumEggs;
+        const numUniqueEggs = CONFIG.generation.maxNumEggs;
         const numbers = CONFIG.generation.defaultEggNumbering.slice();
 
-        for(const [key,data] of Object.entries(EGGS))
+        const eggTypes = Object.keys(EGGS_SHARED);
+        while(eggTypes.length > numUniqueEggs)
         {
+            shuffle(eggTypes).pop();
+        }
+
+        for(const key of eggTypes)
+        {
+            const data = EGGS_SHARED[key];
             for(const num of numbers)
             {
                 this.tiles.push(new Tile(TileType.EGG, key, num));
             }
-
-            counter++;
-            if(counter >= maxNumEggs) { break; }
         }
     }
 
@@ -65,7 +70,7 @@ export default class TilePicker
         for(const [key,data] of Object.entries(OBSTACLES))
         {
             const set = data.set ?? "base";
-            if(!CONFIG.sets[data.set]) { continue; }
+            if(!CONFIG.sets[set]) { continue; }
 
             const freq = data.freq ?? CONFIG.generation.defaultFrequencies.obstacle;
             for(let i = 0; i < freq; i++)

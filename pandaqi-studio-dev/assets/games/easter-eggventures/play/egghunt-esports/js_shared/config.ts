@@ -1,14 +1,15 @@
-import TextConfig, { TextWeight } from "js/pq_games/layout/text/textConfig";
+import CONFIG_SHARED from "games/easter-eggventures/js_shared/configShared";
+import mergeObjects from "js/pq_games/tools/collections/mergeObjects";
 import CVal from "js/pq_games/tools/generation/cval";
 import Point from "js/pq_games/tools/geometry/point";
 
-export default
+const CONFIG:Record<string,any> =
 {
     debug:
     {
         omitFile: true, // @DEBUGGING (should be false)
         singleDrawPerType: true, // @DEBUGGING (should be false)
-        onlyGenerate: true, // @DEBUGGING (should be false)
+        onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
     configKey: "egghuntEsportsConfig",
@@ -26,59 +27,14 @@ export default
         eggstraObstacles: false,
     },
 
-    fonts:
-    {
-        heading: "gargle",
-        body: "gargle"
-    },
-
     // assets
     assetsBase: "/easter-eggventures/play/egghunt-esports/assets/",
     assets:
     {
-        gargle:
-        {
-            key: "gargle",
-            path: "/easter-eggventures/assets/fonts/GargleRg-Regular.woff2",
-            useAbsolutePath: true
-        },
-
-        gargle_bold:
-        {
-            key: "gargle",
-            path: "/easter-eggventures/assets/fonts/GargleRg-Bold.woff2",
-            useAbsolutePath: true,
-            textConfig: new TextConfig({ weight: TextWeight.BOLD })
-        },
-        
-        eggs:
-        {
-            path: "eggs.webp",
-            frames: new Point(8,1)
-        },
-
-        eggs_backgrounds:
-        {
-            path: "eggs_backgrounds.webp",
-            frames: new Point(8,1)
-        },
-
-        pawns:
-        {
-            path: "pawns.webp",
-            frames: new Point(8,1)
-        },
-
-        misc:
-        {
-            path: "misc.webp",
-            frames: new Point(8,1)
-        },
-
         special_eggs:
         {
             path: "special_eggs.webp",
-            frames: new Point(8,1)
+            frames: new Point(8,2)
         },
 
         obstacles:
@@ -102,17 +58,18 @@ export default
     
     tiles:
     {
-        drawerConfig:
+        eggNumber:
         {
-            autoStroke: true,
-            dimsElement: new Point(1, 1),
-            dims: 
-            { 
-                small: new Point(5,7),
-                regular: new Point(3,5),
-                large: new Point(2,3)
-            },
-        }, 
-
+            position: new CVal(new Point(0.5, 0.64), "size"),
+            fontSize: new CVal(0.4, "sizeUnit"),
+            fillColor: "#212121",
+            strokeColor: "#EFEFEF",
+            strokeWidth: new CVal(0.01, "sizeUnit"),
+            alpha: 1.0,
+            composite: "source-over"
+        }
     }
 }
+
+mergeObjects(CONFIG, CONFIG_SHARED);
+export default CONFIG;

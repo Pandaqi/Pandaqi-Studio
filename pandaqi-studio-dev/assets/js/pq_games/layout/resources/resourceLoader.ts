@@ -122,7 +122,7 @@ export default class ResourceLoader
         if(this.isImage(path))
         {
             const img = new Image();
-            img.src = params.path;
+            img.src = path;
             await img.decode();
             await this.cacheLoadedImage(key, params, img);
         }
@@ -130,7 +130,7 @@ export default class ResourceLoader
         if(this.isFont(path))
         {
             const textConfig = params.textConfig ? params.textConfig.getFontFaceDescriptors() : {};
-            const fontFile = new FontFace(key, "url('" + params.path + "')", textConfig);
+            const fontFile = new FontFace(key, "url('" + path + "')", textConfig);
             const f = await fontFile.load()
             this.cacheLoadedFont(key, params, f)
         }

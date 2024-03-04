@@ -101,12 +101,11 @@ export default class MaterialGenerator
         this.progressBar.gotoNextPhase();
 
         const assetsToLoad = this.filterAssets(this.config.assets);
-
         const resLoader = new ResourceLoader({ base: this.config.assetsBase });
         if(!this.config.debug.onlyGenerate) { resLoader.planLoadMultiple(assetsToLoad); }
         await resLoader.loadPlannedResources();
         
-        this.resLoader = resLoader;  
+        this.resLoader = resLoader; 
     }
 
     async createCards()
