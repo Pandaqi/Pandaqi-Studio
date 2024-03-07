@@ -13,13 +13,10 @@ export default class EggPicker
     {
         this.tiles = [];
 
-        const eggTypes = Object.keys(EGGS_SHARED);
+        // @NOTE: We DON'T shuffle these types, because the Score Cards depend on this, and it would be a mess to track it across systems and/or expansions.
+        // So it just cuts off the first X it needs.
         const maxNumEggs = CONFIG.generation.maxNumEggs;
-        shuffle(eggTypes);
-        while(eggTypes.length > maxNumEggs)
-        {
-            eggTypes.pop();
-        }
+        const eggTypes = Object.keys(EGGS_SHARED).slice(0, maxNumEggs);
 
         for(const key of eggTypes)
         {

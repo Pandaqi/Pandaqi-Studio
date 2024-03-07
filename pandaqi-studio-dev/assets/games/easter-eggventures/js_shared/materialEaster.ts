@@ -13,6 +13,7 @@ export default class MaterialEaster
     needsText(vis?:MaterialVisualizer) { return false; }
     needsEggNumber() { return false; }
     invertColors() { return false; }
+    swapGlowForShadow() { return false; }
 
     async draw(vis:MaterialVisualizer) { return null; }
 }

@@ -39,9 +39,10 @@ export default class TilePicker
         // (all of them is probably way too much + gets us in trouble with the unique numbers)
         const numUniqueEggs = CONFIG.generation.numUniqueEggs;
         const eggTypes = Object.keys(EGGS_SHARED);
+        shuffle(eggTypes);
         while(eggTypes.length > numUniqueEggs)
         {
-            shuffle(eggTypes).pop();
+            eggTypes.pop();
         }
 
         const freqGoal = CONFIG.generation.defaultFrequences.goalEgg;

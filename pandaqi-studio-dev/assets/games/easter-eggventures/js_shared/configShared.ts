@@ -94,6 +94,7 @@ const CONFIG_SHARED =
             offsetWhenTextPresent: new CVal(0.166, "sizeUnit"),
             glowRadius: new CVal(0.066, "sizeUnit"),
             glowColor: "#FFFFFF",
+            shadowColor: "#000000"
             
         },
 
@@ -104,7 +105,23 @@ const CONFIG_SHARED =
             alpha: 1.0,
             composite: "overlay"
         }
-    }
+    },
+
+    // for games that have tiny egg tokens
+    eggs:
+    {
+        drawerConfig:
+        {
+            autoStroke: true,
+            dimsElement: new Point(1, 1),
+            dims: 
+            { 
+                small: new Point(8,12),
+                regular: new Point(6,10),
+                large: new Point(4,6)
+            },
+        },
+    },
 }
 
 export default CONFIG_SHARED

@@ -1,15 +1,26 @@
+import Point from "js/pq_games/tools/geometry/point";
 
+interface Area
+{
+    pos: Point,
+    type: string
+}
+
+type AreaList = Area[];
 
 interface TileData
 {
     frame?: number,
     label?: string,
     desc?: string,
+    descNeg?: string,
     freq?: number,
+    prob?: number,
     color?: string,
     invertContrast?: boolean,
     set?: string,
     type?: any,
+    areas?: AreaList,
 }
 
 type TileDataDict = Record<string,TileData>;

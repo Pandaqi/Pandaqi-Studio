@@ -3,6 +3,7 @@ import CONFIG from "../js_shared/config";
 import { ACTION_TILES, MAP_TILES, RULES, SECRET_OBJECTIVES, TileType } from "../js_shared/dict";
 import Tile from "./tile";
 import shuffle from "js/pq_games/tools/random/shuffle";
+import { EGGS_SHARED } from "games/easter-eggventures/js_shared/dictShared";
 
 export default class TilePicker
 {
@@ -50,32 +51,52 @@ export default class TilePicker
     // @TODO: this is the meat of this picker
     generateRuleTiles()
     {
+
+        // @TODO: should/could this be initialized somewhere else?
+        const dynamicRules =
+        {
+            "%tile%": Object.keys(MAP_TILES),
+            "%egg%": Object.keys(EGGS_SHARED).slice(0, CONFIG.generation.maxNumEggs),
+            "%numegg%": [1,2,3,4],
+            "%numpawn%": [2,3],
+            "%side%": ["left", "right", "top", "bottom"]
+        }
+
         // first we expand the rule dictionary to all specific rules, all options, all variations
         const allRules = {};
         for(const [key,data] of Object.entries(RULES))
         {
-            const desc = data.desc;
-            let options = [];
-            let needle = "";
-
-            if(desc.includes("%tile%"))
-            {
-                needle = "%tile%";
-                options = Object.keys(MAP_TILES);
+            const ruleStrings = {
+                [key]: data.desc,
+                [key + "_negative"]: data.descNeg 
             }
 
-            const isDynamic = options.length > 0;
-            for(const option of options)
+            for(const [tempKey,tempString] of Object.entries(ruleStrings))
             {
-                const obj = Object.assign({}, data);
-                const tempKey = key + "_" + option;
-                obj.desc = desc.replace(needle, option);
-                allRules[tempKey] = obj;
-            }
-
-            if(!isDynamic)
-            {
-                allRules[key] = data;
+                let options = [];
+                let needle = "";
+    
+                for(const [keyNeedle,dataOptions] of Object.entries(dynamicRules))
+                {
+                    if(!tempString.includes(keyNeedle)) { continue; }
+                    needle = keyNeedle;
+                    options = dataOptions;
+                    break;
+                }
+    
+                const isDynamic = options.length > 0;
+                for(const option of options)
+                {
+                    const obj = Object.assign({}, data);
+                    const tempTempKey = tempKey + "_" + option;
+                    obj.desc = tempString.replace(needle, option);
+                    allRules[tempTempKey] = obj;
+                }
+    
+                if(!isDynamic)
+                {
+                    allRules[key] = data;
+                }
             }
         }
 
@@ -129,9 +150,48 @@ export default class TilePicker
         }
     }
 
+    replaceNeedleRecursively(string:string)
+    {
+        if(!string.includes("%egg%")) { return []; }
+
+        const newStrings = [];
+        const options = Object.keys(EGGS_SHARED).slice(0, CONFIG.generation.maxNumEggs);
+        for(const option of options)
+        {
+            const sameAsOtherReplacedOption = string.includes(option);
+            if(sameAsOtherReplacedOption) { continue; }
+            const replacedString = string.replace("%egg%", option);
+
+            const finalStrings = this.replaceNeedleRecursively(replacedString);
+            for(const finalString of finalStrings)
+            {
+                newStrings.push(finalString);
+            }
+        }
+
+        return newStrings;
+    }
+
     generateSecretObjectives()
     {
         if(!CONFIG.sets.secretObjectives) { return; }
+
+        const list = [];
+        const maxEntriesPerObjective = CONFIG.generation.maxEntriesPerObjective;
+        for(const [key,data] of Object.entries(SECRET_OBJECTIVES))
+        {
+            const results = this.replaceNeedleRecursively(data.desc);
+            shuffle(results);
+            while(results.length > maxEntriesPerObjective)
+            {
+                results.pop();
+            }
+
+            for(const result of results)
+            {
+                list.push(result);
+            }
+        }
 
         for(const [key,data] of Object.entries(SECRET_OBJECTIVES))
         {

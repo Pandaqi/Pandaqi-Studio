@@ -35,6 +35,7 @@ export default class Tile extends MaterialEaster
     needsEggNumber() { return (this.type == TileType.REGULAR || this.type == TileType.SPECIAL); }
     needsText() { return (this.type == TileType.POWER || this.type == TileType.HANDICAP || this.type == TileType.SPECIAL); }
     
+    swapGlowForShadow() { return this.type == TileType.POWER; }
     invertColors()
     {
         const eggContrast = (this.type == TileType.REGULAR || this.type == TileType.GOAL) && this.getData().invertContrast;

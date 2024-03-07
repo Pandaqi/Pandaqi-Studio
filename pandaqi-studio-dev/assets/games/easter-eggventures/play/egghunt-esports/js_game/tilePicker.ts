@@ -36,9 +36,10 @@ export default class TilePicker
         const numbers = CONFIG.generation.defaultEggNumbering.slice();
 
         const eggTypes = Object.keys(EGGS_SHARED);
+        shuffle(eggTypes);
         while(eggTypes.length > numUniqueEggs)
         {
-            shuffle(eggTypes).pop();
+            eggTypes.pop();
         }
 
         for(const key of eggTypes)

@@ -14,6 +14,8 @@ export default (tile:MaterialEaster, vis:MaterialVisualizer, group:ResourceGroup
     const res = vis.getResource(typeData.textureKey);
     const frame =  data.frame;
 
+    const glowColor = tile.swapGlowForShadow() ? vis.get("tiles.illu.shadowColor") : vis.get("tiles.illu.glowColor")
+
     const effects:LayoutEffect[] = [new DropShadowEffect({ 
         blurRadius: vis.get("tiles.illu.glowRadius"), 
         color: vis.get("tiles.illu.glowColor") 

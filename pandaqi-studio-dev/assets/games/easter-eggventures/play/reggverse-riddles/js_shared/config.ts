@@ -2,6 +2,7 @@ import CONFIG_SHARED from "games/easter-eggventures/js_shared/configShared";
 import Point from "js/pq_games/tools/geometry/point";
 import mergeObjects from "js/pq_games/tools/collections/mergeObjects";
 import Bounds from "js/pq_games/tools/numbers/bounds";
+import CVal from "js/pq_games/tools/generation/cval";
 
 const CONFIG:Record<string,any> =
 {
@@ -30,16 +31,16 @@ const CONFIG:Record<string,any> =
     assetsBase: "/easter-eggventures/play/reggverse-riddles/assets/",
     assets:
     {
-        special_eggs:
+        action_tiles:
         {
-            path: "special_eggs.webp",
-            frames: new Point(8,1)
+            path: "action_tiles.webp",
+            frames: new Point(8,2)
         },
 
-        obstacles:
+        map_tiles:
         {
-            path: "obstacles.webp",
-            frames: new Point(10,2)
+            path: "map_tiles.webp",
+            frames: new Point(8,1)
         },
     },
 
@@ -48,6 +49,7 @@ const CONFIG:Record<string,any> =
         maxNumPlayers: 6,
         maxNumEggs: 6,
         numRuleTiles: 45,
+        maxEntriesPerObjective: 10,
         defaultFrequencies:
         {
             eggToken: 10,
@@ -61,25 +63,44 @@ const CONFIG:Record<string,any> =
             numValid: new Bounds(1, 4)
         }
     },
-
-    eggs:
-    {
-        drawerConfig:
-        {
-            autoStroke: true,
-            dimsElement: new Point(1, 1),
-            dims: 
-            { 
-                small: new Point(8,12),
-                regular: new Point(6,10),
-                large: new Point(4,6)
-            },
-        },
-    },
     
     tiles:
     {
+        action:
+        {
+            iconPos: new CVal(new Point(0.5, 0.25), "size"),
+            iconDims: new CVal(new Point(0.4), "size"),
+        },
+        
+        objective:
+        {
+            iconPos: new CVal(new Point(0.5, 0.275), "size"),
+            iconDims: new CVal(new Point(0.5), "size"),
+            textBoxPos: new CVal(new Point(0.5, 0.66), "size")
+        },
 
+        movementGrid:
+        {
+            pos: new CVal(new Point(0.5, 0.175), "size"),
+            dims: new CVal(new Point(0.55), "size")
+        },
+
+        powerText:
+        {
+            fontSize: new CVal(0.1, "size"),
+            textBoxPos: new CVal(new Point(0.5, 0.72), "size")
+        },
+
+        helperText:
+        {
+            fontSize: new CVal(0.05, "size"),
+            yOffset: new CVal(0.066, "size")
+        },
+
+        map:
+        {
+            iconDims: new CVal(new Point(0.8), "size")
+        }
     }
 }
 
