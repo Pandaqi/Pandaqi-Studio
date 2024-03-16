@@ -178,6 +178,13 @@ export default class Point
         return this;
     }
 
+    ceil()
+    {
+        this.x = Math.ceil(this.x);
+        this.y = Math.ceil(this.y);
+        return this;
+    }
+
     random()
     {
         const angle = Math.random() * 2 * Math.PI;

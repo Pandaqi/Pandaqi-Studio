@@ -7,8 +7,8 @@ const CONFIG:Record<string,any> =
 {
     debug:
     {
-        omitFile: true, // @DEBUGGING (should be false)
-        singleDrawPerType: true, // @DEBUGGING (should be false)
+        omitFile: false, // @DEBUGGING (should be false)
+        singleDrawPerType: false, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
@@ -51,7 +51,7 @@ const CONFIG:Record<string,any> =
         defaultEggNumbering: [-8, -4, -2, 1, 2, 3, 4, 5],
         defaultFrequencies:
         {
-            specialEgg: 2,
+            specialEgg: 1,
             obstacle: 3
         }
     },

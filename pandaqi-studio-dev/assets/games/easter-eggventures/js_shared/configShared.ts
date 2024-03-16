@@ -90,7 +90,7 @@ const CONFIG_SHARED =
         illu:
         {
             dims: new CVal(new Point(0.8), "sizeUnit"),
-            dimsWithText: new CVal(new Point(0.65), "sizeUnit"),
+            dimsWithText: new CVal(new Point(0.635), "sizeUnit"),
             offsetWhenTextPresent: new CVal(0.166, "sizeUnit"),
             glowRadius: new CVal(0.066, "sizeUnit"),
             glowColor: "#FFFFFF",
@@ -116,9 +116,9 @@ const CONFIG_SHARED =
             dimsElement: new Point(1, 1),
             dims: 
             { 
-                small: new Point(8,12),
-                regular: new Point(6,10),
-                large: new Point(4,6)
+                small: new Point(20,24),
+                regular: new Point(12,17),
+                large: new Point(8,12)
             },
         },
     },

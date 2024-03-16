@@ -8,9 +8,9 @@ const CONFIG:Record<string,any> =
 {
     debug:
     {
-        omitFile: true, // @DEBUGGING (should be false)
-        singleDrawPerType: true, // @DEBUGGING (should be false)
-        onlyGenerate: true, // @DEBUGGING (should be false)
+        omitFile: false, // @DEBUGGING (should be false)
+        singleDrawPerType: false, // @DEBUGGING (should be false)
+        onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
     configKey: "reggverseRiddlesConfig",
@@ -42,6 +42,12 @@ const CONFIG:Record<string,any> =
             path: "map_tiles.webp",
             frames: new Point(8,1)
         },
+
+        misc_unique:
+        {
+            path: "misc_unique.webp",
+            frames: new Point(6,1)
+        },
     },
 
     generation:
@@ -50,12 +56,12 @@ const CONFIG:Record<string,any> =
         maxNumEggs: 6,
         numRuleTiles: 45,
         maxEntriesPerObjective: 10,
+        maxNumSecretObjectives: 22,
         defaultFrequencies:
         {
             eggToken: 10,
             mapTile: 5,
-            actionTile: 2,
-            secretObjective: 1
+            actionTile: 1,
         },
         movementInstructions:
         {
@@ -66,6 +72,11 @@ const CONFIG:Record<string,any> =
     
     tiles:
     {
+        shared:
+        {
+            effectBlurRadius: new CVal(0.01, "sizeUnit")
+        },
+
         action:
         {
             iconPos: new CVal(new Point(0.5, 0.25), "size"),
@@ -74,27 +85,31 @@ const CONFIG:Record<string,any> =
         
         objective:
         {
+            fontSize: new CVal(0.07, "sizeUnit"),
             iconPos: new CVal(new Point(0.5, 0.275), "size"),
             iconDims: new CVal(new Point(0.5), "size"),
-            textBoxPos: new CVal(new Point(0.5, 0.66), "size")
+            textBoxPos: new CVal(new Point(0.5, 0.72), "size")
         },
 
         movementGrid:
         {
             pos: new CVal(new Point(0.5, 0.175), "size"),
-            dims: new CVal(new Point(0.55), "size")
+            dims: new CVal(new Point(0.55), "size"),
+            strokeWidth: new CVal(0.005, "sizeUnit"),
+            strokeDarkenValue: -66
         },
 
         powerText:
         {
-            fontSize: new CVal(0.1, "size"),
-            textBoxPos: new CVal(new Point(0.5, 0.72), "size")
+            fontSize: new CVal(0.085, "sizeUnit"),
+            textBoxPos: new CVal(new Point(0.5, 0.78), "size"),
+            textBoxDims: new CVal(new Point(0.9, 0.5), "size")
         },
 
         helperText:
         {
-            fontSize: new CVal(0.05, "size"),
-            yOffset: new CVal(0.066, "size")
+            fontSize: new CVal(0.044, "sizeUnit"),
+            yOffset: new CVal(0.05, "sizeUnit")
         },
 
         map:
@@ -105,4 +120,6 @@ const CONFIG:Record<string,any> =
 }
 
 mergeObjects(CONFIG, CONFIG_SHARED);
+delete CONFIG.assets.eggs_backgrounds;
+
 export default CONFIG;

@@ -42,6 +42,7 @@ export default class Card
         const res = vis.getResource(typeData.textureKey);
         const op = new LayoutOperation({
             translate: new Point(),
+            frame: this.customData.num,
             dims: vis.size,
         })
         group.add(res, op);

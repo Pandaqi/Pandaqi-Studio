@@ -108,8 +108,9 @@ export default class ResourceLoader
     {
         let originalPath = params.path ?? "";
         let path;
-        if(params.useAbsolutePath) { path = params.path; } 
-        else {
+        if(params.useAbsolutePath) { 
+            path = params.path; 
+        } else {
             // @NOTE: base always ends on a slash, so originalPath should never start with one
             if(originalPath.slice(0,1) == "/") { originalPath = originalPath.slice(1); }
             path = this.base + originalPath;
@@ -147,7 +148,8 @@ export default class ResourceLoader
     async cacheLoadedImage(id:string, params:any, img:HTMLImageElement)
     {
         const res = new ResourceImage(img, params);
-        await res.cacheFrames();
+        if(!params.forbidFrameCaching) { await res.cacheFrames(); }
+        else { res.uncacheFrames(); }
         this.resourcesLoaded[id] = res;
     }
 

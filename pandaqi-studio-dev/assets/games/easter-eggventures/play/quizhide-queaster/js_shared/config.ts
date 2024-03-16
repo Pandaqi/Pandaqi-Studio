@@ -8,9 +8,9 @@ const CONFIG:Record<string,any> =
 {
     debug:
     {
-        omitFile: true, // @DEBUGGING (should be false)
-        singleDrawPerType: true, // @DEBUGGING (should be false)
-        onlyGenerate: true, // @DEBUGGING (should be false)
+        omitFile: false, // @DEBUGGING (should be false)
+        singleDrawPerType: false, // @DEBUGGING (should be false)
+        onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
     configKey: "quizhideQueasterConfig",
@@ -23,8 +23,7 @@ const CONFIG:Record<string,any> =
     sets:
     {
         base: true,
-        actionTiles: false,
-        secretObjectives: false
+        cluesRooms: false,
     },
 
     // assets
@@ -34,15 +33,18 @@ const CONFIG:Record<string,any> =
         clue_cards:
         {
             path: "clue_cards.webp",
-            frames: new Point(8,6)
+            frames: new Point(11,8),
+            forbidFrameCaching: true
         },
 
         rooms:
         {
             path: "rooms.webp",
-            frames: new Point(8,4)
+            frames: new Point(8,6),
+            forbidFrameCaching: true
         },
 
+        // @NOTE: some of these frames have been hijacked for misc sprites; had to do that because my broken laptop can't handle loading more individual asset files
         objects:
         {
             path: "objects.webp",
@@ -50,24 +52,27 @@ const CONFIG:Record<string,any> =
         },
 
         // @TODO: not sure about this one yet
-        special_eggs:
+        /*special_eggs:
         {
             path: "special_eggs.webp",
             frames: new Point(8,1)
-        }
+        }*/
     },
 
     generation:
     {
-        clueCardBounds: new Bounds(0, 39), // the range of frames to use for generating clue cards; so basically stores the usable frames of the spritesheet
+        clueCardBoundsBase: new Bounds(0, 43), // the range of frames to use for generating clue cards; so basically stores the usable frames of the spritesheet
+        clueCardBoundsExpansion: new Bounds(44, 88-1),
+        numScoreCards: 20,
         scoringRuleIterationRandomness: new Bounds(-2,6),
         maxValuePerEgg: 4,
         maxNumEggs: 6, 
+        maxNumPlayers: 6,
         defaultFrequencies:
         {
-            eggToken: 4,
+            eggToken: 5,
             roomTile: 1,
-            obstacleTile: 6
+            obstacleTile: 5
         }
     },
 
@@ -76,7 +81,13 @@ const CONFIG:Record<string,any> =
     {
         objects:
         {
-            dims: new CVal(new Point(0.5), "sizeUnit")
+            dims: new CVal(new Point(1.0), "sizeUnit")
+        },
+
+        rooms:
+        {
+            hidingSlotDims: new CVal(new Point(0.1825), "sizeUnit"),
+            hidingSlotsFrame: 0
         }
     },
 
@@ -84,11 +95,12 @@ const CONFIG:Record<string,any> =
     {
         drawerConfig:
         {
+            autoStroke: true,
             dimsElement: new Point(1, 1.4),
             dims: { 
-                small: new Point(4,4),
-                regular: new Point(3,3),
-                large: new Point(2,2)
+                small: new Point(5,5),
+                regular: new Point(4,4),
+                large: new Point(3,3)
             }, 
         }, 
 
@@ -100,4 +112,7 @@ const CONFIG:Record<string,any> =
 }
 
 mergeObjects(CONFIG, CONFIG_SHARED);
+delete CONFIG.assets.eggs_backgrounds;
+delete CONFIG.assets.misc;
+
 export default CONFIG;

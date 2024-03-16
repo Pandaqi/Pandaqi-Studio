@@ -26,6 +26,8 @@ export default class TilePicker
 
     generatePawns()
     {
+        if(!CONFIG.sets.base) { return; }
+
         const maxNumPlayers = CONFIG.generation.maxNumPlayers;
         for(let i = 0; i < maxNumPlayers; i++)
         {
@@ -35,10 +37,12 @@ export default class TilePicker
 
     generateMapTiles()
     {
+        if(!CONFIG.sets.base) { return; }
+
         for(const [key,data] of Object.entries(MAP_TILES))
         {
             const set = data.set ?? "base";
-            if(!CONFIG.sets[data.set]) { continue; }
+            if(!CONFIG.sets[set]) { continue; }
 
             const freq = data.freq ?? CONFIG.generation.defaultFrequencies.mapTile;
             for(let i = 0; i < freq; i++)
@@ -48,15 +52,28 @@ export default class TilePicker
         }
     }
 
-    // @TODO: this is the meat of this picker
     generateRuleTiles()
     {
+        if(!CONFIG.sets.base) { return; }
 
         // @TODO: should/could this be initialized somewhere else?
+        const tileOptions = [];
+        for(const [key,data] of Object.entries(MAP_TILES))
+        {
+            tileOptions.push('<img id="map_tiles" frame="' + data.frame + '">')
+        }
+
+        const availableEggs = Object.keys(EGGS_SHARED).slice(0, CONFIG.generation.maxNumEggs);
+        const eggOptions = [];
+        for(const key of availableEggs)
+        {
+            eggOptions.push('<img id="eggs" frame="' + EGGS_SHARED[key].frame + '">');
+        }
+
         const dynamicRules =
         {
-            "%tile%": Object.keys(MAP_TILES),
-            "%egg%": Object.keys(EGGS_SHARED).slice(0, CONFIG.generation.maxNumEggs),
+            "%tile%": tileOptions,
+            "%egg%": eggOptions,
             "%numegg%": [1,2,3,4],
             "%numpawn%": [2,3],
             "%side%": ["left", "right", "top", "bottom"]
@@ -68,7 +85,11 @@ export default class TilePicker
         {
             const ruleStrings = {
                 [key]: data.desc,
-                [key + "_negative"]: data.descNeg 
+            }
+
+            if(data.descNeg)
+            {
+                ruleStrings[key + "_negative"] = data.descNeg;
             }
 
             for(const [tempKey,tempString] of Object.entries(ruleStrings))
@@ -150,19 +171,18 @@ export default class TilePicker
         }
     }
 
-    replaceNeedleRecursively(string:string)
+    replaceNeedleRecursively(str:string, eggOptions:string[])
     {
-        if(!string.includes("%egg%")) { return []; }
+        if(!str.includes("%egg%")) { return [str]; }
 
         const newStrings = [];
-        const options = Object.keys(EGGS_SHARED).slice(0, CONFIG.generation.maxNumEggs);
-        for(const option of options)
+        for(const option of eggOptions)
         {
-            const sameAsOtherReplacedOption = string.includes(option);
+            const sameAsOtherReplacedOption = str.includes(option);
             if(sameAsOtherReplacedOption) { continue; }
-            const replacedString = string.replace("%egg%", option);
-
-            const finalStrings = this.replaceNeedleRecursively(replacedString);
+            
+            const replacedString = str.replace("%egg%", option);
+            const finalStrings = this.replaceNeedleRecursively(replacedString, eggOptions);
             for(const finalString of finalStrings)
             {
                 newStrings.push(finalString);
@@ -176,11 +196,18 @@ export default class TilePicker
     {
         if(!CONFIG.sets.secretObjectives) { return; }
 
+        const availableEggs = Object.keys(EGGS_SHARED).slice(0, CONFIG.generation.maxNumEggs);
+        const eggOptions = [];
+        for(const key of availableEggs)
+        {
+            eggOptions.push('<img id="eggs" frame="' + EGGS_SHARED[key].frame + '">');
+        }
+
         const list = [];
         const maxEntriesPerObjective = CONFIG.generation.maxEntriesPerObjective;
         for(const [key,data] of Object.entries(SECRET_OBJECTIVES))
         {
-            const results = this.replaceNeedleRecursively(data.desc);
+            const results = this.replaceNeedleRecursively(data.desc, eggOptions);
             shuffle(results);
             while(results.length > maxEntriesPerObjective)
             {
@@ -193,13 +220,11 @@ export default class TilePicker
             }
         }
 
-        for(const [key,data] of Object.entries(SECRET_OBJECTIVES))
+        const numSecretObjectives = CONFIG.generation.maxNumSecretObjectives;
+        shuffle(list);
+        for(let i = 0; i < numSecretObjectives; i++)
         {
-            const freq = data.freq ?? CONFIG.generation.defaultFrequencies.secretObjective;
-            for(let i = 0; i < freq; i++)
-            {
-                this.tiles.push(new Tile(TileType.ACTION, key));
-            }
+            this.tiles.push(new Tile(TileType.OBJECTIVE, "", { desc: list.pop() }))
         }
     }
 

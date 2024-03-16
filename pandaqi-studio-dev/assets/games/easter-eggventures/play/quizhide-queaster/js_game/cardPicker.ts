@@ -14,19 +14,35 @@ export default class CardPicker
         this.cards = [];
         this.generateClueCards();
         this.generateScoreCards();
+        console.log(this.cards);
     }
 
     generateClueCards()
-    {
-        const range = CONFIG.generation.clueCardBounds;
-        for(let i = range.min; i <= range.max; i++)
+    {        
+        if(CONFIG.sets.base)
         {
-            this.cards.push(new Card(CardType.CLUE, { num: i }));
+            const range = CONFIG.generation.clueCardBoundsBase;
+            for(let i = range.min; i <= range.max; i++)
+            {
+                this.cards.push(new Card(CardType.CLUE, { num: i }));
+            }
         }
+
+        if(CONFIG.sets.cluesRooms)
+        {
+            const range = CONFIG.generation.clueCardBoundsExpansion;
+            for(let i = range.min; i <= range.max; i++)
+            {
+                this.cards.push(new Card(CardType.CLUE, { num: i }));
+            }
+        }
+
     }
 
     generateScoreCards()
     {
+        if(!CONFIG.sets.base) { return; }
+
         const numScoreCards = CONFIG.generation.numScoreCards;
         for(let i = 0; i < numScoreCards; i++)
         {

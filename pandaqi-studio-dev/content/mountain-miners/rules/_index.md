@@ -4,17 +4,19 @@ type: "rules"
 
 {{% rules-block id="setup" heading="Setup" icon="setup" icontint="yellow" %}}
 
+{{% rules-double-view src="setup.webp" alt="Example of the default setup for the game (regardless of player count)." %}}
+
 Create a 6x6 grid of random map tiles, but rotated so that it's a _diamond shape_. 
 
 Place the **arrow tile** above any corner (pointing at it). Pick any start player.
 
-@TODO: EXAMPLE IMAGE
+{{% /rules-double-view %}}
 
 {{% /rules-block %}}
 
 {{% rules-block id="objective" heading="Objective" icon="objective" icontint="purple" %}}
 
-The game ends when no **point tiles** remain. (Those are the gemstones with a number on them.) Sum the values of all tiles you scored. Highest score wins!
+The game ends when no **gemstones** remain ( = the only tiles that score points). Sum the values of all tiles you scored. **Highest score wins**!
 
 {{% /rules-block %}}
 
@@ -34,8 +36,7 @@ You _may_ also discard an action tile (of yours) to execute its action. You may 
 **What if the board splits?** You collect all tiles from the _smaller group_! => @TODO: Might just ignore this altogether, why would a split be disastrous for gameplay?
 --->
 
-
-@TODO: EXAMPLE IMAGE
+{{< rules-image src="turn.webp" alt="Examples of two subsequent turns in the game." >}}
 
 {{< rules-example id="turn" >}}
 
@@ -64,7 +65,7 @@ The possible actions are ...
 
 Action tiles can move the arrow tile to diagonals. This is allowed and follows all the same rules; see the example.
 
-@TODO: EXAMPLE IMAGE
+{{< rules-image src="scoring.webp" alt="Scoring example (for 3 players) and clarification about diagonal arrow angles." >}}
 
 {{% /rules-block %}}
 

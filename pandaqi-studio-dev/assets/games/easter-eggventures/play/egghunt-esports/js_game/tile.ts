@@ -44,15 +44,15 @@ export default class Tile extends MaterialEaster
         // (which we can do directly because it's a string-based enum)
         if(this.type == TileType.SPECIAL)
         {
-            text = this.getData().type.toUpperCase() + ": " + text; 
+            text = "<b>" + this.getData().type.toUpperCase() + ":</b> " + text; 
         }
 
         return text;
     }
 
-    needsText(vis)
+    needsText(vis:MaterialVisualizer)
     {
-        return this.getData().desc && vis.get("addTextOnObstacles");
+        return this.getData().desc && (this.type != TileType.OBSTACLE || vis.get("addTextOnObstacles"));
     }
 
     invertColors()
@@ -61,7 +61,7 @@ export default class Tile extends MaterialEaster
         return eggContrast;
     }
 
-    needsEggNumber() { return this.type == TileType.EGG || this.type == TileType.SPECIAL; }
+    needsEggNumber() { return this.type == TileType.EGG; }
 
     async draw(vis:MaterialVisualizer)
     {

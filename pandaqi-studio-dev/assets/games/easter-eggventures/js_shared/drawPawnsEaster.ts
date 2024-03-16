@@ -14,7 +14,7 @@ export default (tile:MaterialEaster, vis:MaterialVisualizer, group:ResourceGroup
     {
         const op = new LayoutOperation({
             translate: positions[i],
-            frame: tile.num,
+            frame: tile.num ?? tile.customData.playerNum,
             dims: vis.size
         })
 

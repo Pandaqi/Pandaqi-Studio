@@ -26,13 +26,13 @@ googleFonts: ""
 date: 2023-01-01 # 2024-12-26
 
 categories: ["boardgame"]
-tags: ["mining", "shared map"]
+tags: ["mining", "shared map", "simple"]
 
 multiplayermode: "competitive"
 language: EN
 genre: ["tile"]
-playtime: 30
-playercount: [2,3,4,5,6,7,8]
+playtime: 15
+playercount: [2,3,4,5,6]
 complexity: low
 ages: everyone
 

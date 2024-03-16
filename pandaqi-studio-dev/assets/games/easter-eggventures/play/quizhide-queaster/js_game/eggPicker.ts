@@ -1,8 +1,7 @@
 import { EGGS_SHARED } from "games/easter-eggventures/js_shared/dictShared";
 import CONFIG from "../js_shared/config";
-import { TileType } from "../js_shared/dict";
+import { OBSTACLES, TileType } from "../js_shared/dict";
 import Tile from "./tile";
-import shuffle from "js/pq_games/tools/random/shuffle";
 
 export default class EggPicker
 {
@@ -13,6 +12,14 @@ export default class EggPicker
     {
         this.tiles = [];
 
+        this.generateEggTokens();
+        this.generateObstacles();
+    }
+
+    generateEggTokens()
+    {
+        if(!CONFIG.sets.base) { return; }
+        
         // @NOTE: We DON'T shuffle these types, because the Score Cards depend on this, and it would be a mess to track it across systems and/or expansions.
         // So it just cuts off the first X it needs.
         const maxNumEggs = CONFIG.generation.maxNumEggs;
@@ -31,4 +38,22 @@ export default class EggPicker
 
         console.log(this.tiles);
     }
+
+    generateObstacles()
+    {
+        if(!CONFIG.sets.base) { return; }
+
+        for(const [key,data] of Object.entries(OBSTACLES))
+        {
+            const set = data.set ?? "base";
+            if(!CONFIG.sets[set]) { continue; }
+
+            const freq = data.freq ?? CONFIG.generation.defaultFrequencies.obstacleTile;
+            for(let i = 0; i < freq; i++)
+            {
+                this.tiles.push(new Tile(TileType.OBSTACLE, key));
+            }
+        }
+    }
+
 }

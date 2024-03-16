@@ -4,10 +4,9 @@ type: "rules"
 
 {{% rules-block id="setup" heading="Setup" icon="setup" icontint="green" %}}
 
-Pick as many egg types as the number of players. Remove all tiles that are _not_ one of the chosen types from the game.
-* Create a deck of all **Goal Tiles**. Shuffle and deal each player 2 in secret.
-* Also create a deck of all **Egg Tiles**: this will be the draw pile.
-* Each player draws 3 Egg Tiles to take into their hand.
+Create a deck of all **Goal Tiles**. Shuffle and deal each player 2 in secret.
+
+Distribute all **Egg Tiles** over the players as fairly as possible. (It's fine if some people have 1 more tile than others.)
 
 Pick anyone to be start player.
 
@@ -17,7 +16,9 @@ Pick anyone to be start player.
 
 {{% rules-block id="objective" heading="Objective" icon="objective" icontint="red" %}}
 
-The game ends after the round when the **draw pile runs out**. The player with the **most points wins**!
+The game ends once all players are out of cards. 
+
+Each secret egg you collected that matches with your Goal Eggs scores you **+5 points**. Any other egg types you collected score **-1 point** each. The player with the **most points wins**!
 
 {{% /rules-block %}}
 
@@ -25,32 +26,28 @@ The game ends after the round when the **draw pile runs out**. The player with t
 
 Play happens in rounds. 
 
-At the start of each round,
-* Draw **2 tiles** and place them faceup on the table. This is the start of this round's offer.
-* All players **reveal** their hand tiles. Make sure everyone can take a good look.
+At the start of each round, the start player plays **2 faceup tiles** (from their hand). This begins the round's offer.
 
 Now begin with the start player and take clockwise turns. 
 
 On your turn,
-* Make your hand tiles secret again for the other players.
-* Add one tile to the **offer** in the center of the table.
-* Add one tile before you as your **bid**.
+* Play one tile before you as your **bid**.
+* Play one tile to the **offer** in the center of the table. If this tile is currently the _highest number_ in the offer, you _must_ play another tile (to bid or offer).
 
-You may play the tiles both faceup and facedown ( = kept a secret from the other players). If you play one tile facedown, however, the other must be faceup. 
-
-{{% remark %}}
-In other words, you can **never** play **all** your tiles facedown.
-{{% /remark %}}
+You may play tiles both _faceup_ and _facedown_. You can, however,
+* **Never** play **all** your tiles facedown (in one turn).
+* Only play at most **5 tiles**.
 
 Once everyone has taken their turn, figure out who wins this round.
-* All players reveal their **bid** tile.
-* The **highest number** collects all tiles inside the current offer.
-* The **lowest number** becomes start player.
-* All other bids just go back into their player's hands.
+* All players reveal their **bid** tile. 
+* Check which egg type(s) appear the most in the offer. Every bid tile of the same type _inverts_ the auction. 
+* The **highest number** wins. (In an inverted auction, of course, the **lowest number** wins.)
+* The winner collects all offer tiles and becomes start player.
+* All bids that were played _facedown_ go into the hand of the worst bidder. Any other bids are removed.
 
-All players draw their hand back up to the hand limit. (Which is 3 tiles by default.) Next round!
+If you have multiple bid tiles, _sum_ their numbers for your final bid number. If this leads to a tie, randomly but fairly distribute the offer among the tied winners.
 
-Crucially, you only score points for collected eggs that are the same as one of your secret Goal Eggs! Any other regular egg is worth nothing to you.
+Next round!
 
 @TODO: IMAGE EXAMPLE
 
@@ -64,16 +61,26 @@ Played the base game and ready for more? Or feel like your group needs some twea
 
 {{% rules-block heading="Variants" %}}
 
-To make the game **harder**, here are some standalone tweaks you can make.
-* Only "reveal" your hand tiles _on your turn_, not all at the start of the round.
-* Increase the number of tiles in your hand.
-* Increase the number of eggs in the game. 
-* One goal egg scores plus points, the other minus points.
+To make the game **easier**, here are some standalone tweaks you can make.
+* All players reveal (at most) 5 tiles at the start of their turn. Those tiles are the only ones they're allowed to use this turn. This means the other players have more information.
+* Simply give all players who did _not_ win the auction back their bid tile(s).
+* Decrease the number of unique eggs in the game.
 
-To give players **more choice**,
-* After placing your 2 required tiles (1 offer, 1 bid), you may use your remaining hand tiles as well.
-* Your **options** are to: keep them, add them to the offer, add them to your bid, or give them to another player.
-* If your bid contains multiple tiles, then your final bid is simply the _sum_ of all those numbers. (If this leads to a tie, randomly but fairly distribute the offer among the tied winners.)
+To make the game **harder**,
+* Deal players only 1 Goal Egg.
+* Allow at most 4 tiles to be played per turn.
+
+To make the game **different**,
+* If your bid type matches the majority, it **doesn't** invert the auction anymore. Instead, it only flips your own tile's numbers. For example, "58" becomes "85".
+* Each type of egg that **appears multiple times** in all bids (e.g. there are duplicates) _inverts the auction_ instead.
+* If you play a **doubled number** (11, 22, 33, ...) in any way (offer or bid), all players immediately give 5 hand tiles to the player on their left.
+
+<!---
+Other rules ideas:
+* Duplicate bids are removed (on type, not number)? Or each duplicate inverts the auction once more?
+* Doubled numbers (11,22,33,44,...) do something special?
+* If you match majority, it doesn't invert the whole auction---it only flips the numbers on your own card. (So 58 becomes 85, for example.)
+--->
 
 {{% /rules-block %}}
 

@@ -24,7 +24,7 @@ export default (tile:MaterialEaster, vis:MaterialVisualizer, group:ResourceGroup
 
     let trans = vis.center.clone();
     let dims = vis.get("tiles.illu.dims");
-    if(tile.needsText())
+    if(tile.needsText(vis))
     {
         trans.y -= vis.get("tiles.illu.offsetWhenTextPresent");
         dims = vis.get("tiles.illu.dimsWithText");

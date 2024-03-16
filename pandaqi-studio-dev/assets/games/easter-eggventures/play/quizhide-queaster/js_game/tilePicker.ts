@@ -14,13 +14,14 @@ export default class TilePicker
 
         this.generatePawns();
         this.generateRoomTiles();
-        this.generateObstacles();
 
         console.log(this.tiles);
     }
 
     generatePawns()
     {
+        if(!CONFIG.sets.base) { return; }
+
         const maxNumPlayers = CONFIG.generation.maxNumPlayers;
         for(let i = 0; i < maxNumPlayers; i++)
         {
@@ -43,20 +44,6 @@ export default class TilePicker
         }
     }
 
-    generateObstacles()
-    {
-        for(const [key,data] of Object.entries(OBSTACLES))
-        {
-            const set = data.set ?? "base";
-            if(!CONFIG.sets[set]) { continue; }
-
-            const freq = data.freq ?? CONFIG.generation.defaultFrequencies.obstacleTile;
-            for(let i = 0; i < freq; i++)
-            {
-                this.tiles.push(new Tile(TileType.OBSTACLE, key));
-            }
-        }
-    }
 
 
 }

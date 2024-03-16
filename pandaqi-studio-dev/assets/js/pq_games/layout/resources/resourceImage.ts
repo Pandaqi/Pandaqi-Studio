@@ -241,6 +241,11 @@ export default class ResourceImage extends Resource
         await this.cacheThumbnails();
     }
 
+    uncacheFrames()
+    {
+        this.frames = [];
+    }
+
     getFrameData(frm:number = 0) : FrameData
     {
         const frameVec = new Point().setXY(
@@ -299,8 +304,27 @@ export default class ResourceImage extends Resource
         return new ResourceImage(img);
     }
 
+    hasFrameInCache(num:number) 
+    { 
+        return num < this.frames.length && this.frames[num];
+    }
+
     getImageFrame(num:number, desiredSize:Point = null) : DrawableData
     {
+        const frameNotCached = !this.hasFrameInCache(num);
+        if(frameNotCached)
+        {
+            const data = this.getFrameData(num);
+            const canv = document.createElement("canvas");
+            canv.width = data.width;
+            canv.height = data.height;
+            const ctx = canv.getContext("2d");
+            ctx.drawImage(this.getImage(),
+                data.x, data.y, data.width, data.height, 
+                0, 0, canv.width, canv.height);
+            return ctx.canvas;
+        }
+
         const maxSize = this.frameDims.clone();
         let thumbIndex = 0;
         if(desiredSize)

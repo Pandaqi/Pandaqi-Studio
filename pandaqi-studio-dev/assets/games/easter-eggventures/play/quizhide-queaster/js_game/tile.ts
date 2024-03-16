@@ -9,6 +9,7 @@ import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer"
 import { MATERIAL, TYPE_DATA, TileType } from "../js_shared/dict";
 import drawEggToken from "games/easter-eggventures/js_shared/drawEggToken";
 import Point from "js/pq_games/tools/geometry/point";
+import { Area } from "games/easter-eggventures/js_shared/dictShared";
 
 export default class Tile extends MaterialEaster
 {
@@ -61,10 +62,25 @@ export default class Tile extends MaterialEaster
         group.add(res, op);
         
         // the actual spots to place stuff
-        // @TODO
         const areas = data.areas;
+        for(const area of areas)
+        {
+            this.drawHidingSlot(area, vis, group);
+        }
+    }
 
-        
+    drawHidingSlot(areaData:Area, vis:MaterialVisualizer, group:ResourceGroup)
+    {
+        const posRel = areaData.pos.clone().div(1024.0);
+        const posFinal = posRel.clone().scale(vis.size);
+        const res = vis.getResource("objects");
+        const op = new LayoutOperation({
+            translate: posFinal,
+            dims: vis.get("tiles.rooms.hidingSlotDims"),
+            pivot: Point.CENTER,
+            frame: vis.get("tiles.rooms.hidingSlotFrame")
+        });
+        group.add(res, op);
     }
 
     drawObstacle(vis:MaterialVisualizer, group:ResourceGroup)

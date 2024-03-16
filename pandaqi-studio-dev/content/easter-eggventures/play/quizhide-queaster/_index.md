@@ -65,8 +65,7 @@ Three simple steps.
   {{< setting-enum id="setting-itemSize" text="Card Size?" values="small,regular,large" valaskey="true" def="regular" >}}
   <h3>Sets</h3>
   {{< setting-checkbox id="setting-sets-base" text="Base Game?" checked="checked" >}}
-  {{< setting-checkbox id="setting-sets-gardenTiles" text="Garden Tiles?" >}}
-  {{< setting-checkbox id="setting-sets-advancedEggs" text="Advanced Eggs?" >}} <!--- or maybe "just more hint cards" as it feels like there should be way more of those. --->
+  {{< setting-checkbox id="setting-sets-cluesRooms" text="Clues & Rooms?" remark="Simply adds more clue cards and possible room tiles." >}}
 {{< /boardgame-settings >}}
 
 <p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>

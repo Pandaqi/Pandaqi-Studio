@@ -23,6 +23,7 @@ export default class TilePicker
 
     generatePawns()
     {
+        if(!CONFIG.sets.base) { return; }
         const maxNumPlayers = CONFIG.generation.maxNumPlayers;
         for(let i = 0; i < maxNumPlayers; i++)
         {
@@ -32,6 +33,8 @@ export default class TilePicker
 
     generateEggs()
     {
+        if(!CONFIG.sets.base) { return; }
+
         const numUniqueEggs = CONFIG.generation.maxNumEggs;
         const numbers = CONFIG.generation.defaultEggNumbering.slice();
 
