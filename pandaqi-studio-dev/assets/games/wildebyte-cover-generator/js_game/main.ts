@@ -54,7 +54,9 @@ const convertInchesToPixels = (input:Point) =>
 
 const getSpineSize = (target:string) =>
 {
-    return new Point(TARGETS[target].pageThickness * BOOK_DATA.numPages, getPageSize(target).y);
+    let spineX = TARGETS[target].pageThickness * BOOK_DATA.numPages;
+    if(BOOK_DATA.forcedSpineSize != null) { spineX = BOOK_DATA.forcedSpineSize; } // this must be inches too
+    return new Point(spineX, getPageSize(target).y);
 }
 
 const getPageSize = (target:string) =>
@@ -378,28 +380,34 @@ const createFront = (size:Point) =>
     });
     group.add(resMetadata, opMetadata);
    
-    // @TODO: Place the book text on top with all the old effects
-    //  -> the major issue here is the gradient per line; can I build an automatic system for that?
-    //  -> SOLUTION = Do the text with NEW RESOURCE PER LINE, and just use simple linear gradient to fill each
-    //  -> the other issue is the repetition with effects behind it; how to do that cleanly?
+
+    // @TODO: That purple-black gradient over each individual ResourceText
+    // @TODO: Repetition with effects behind it; how to do that cleanly?
     //  -> SOLUTION = Just make one function to draw title text, which allows sending in params for how exactly to do it
-    //  -> otherwise, I generally need to add stroke + glow/shadow effects around text everywhere
+    // @TODO: I generally need to add stroke + glow/shadow effects around text everywhere
+
     const posTitle = new Point(0.5 * size.x, diskData.titleText.posY * size.y);
+    const titleFontSize = diskData.titleText.fontSize;
+    const lineHeight = 1.25;
     const textConfigTitle = new TextConfig({
         font: diskData.fonts.heading,
-        size: diskData.titleText.fontSize,
+        size: titleFontSize,
         alignHorizontal: TextAlign.MIDDLE,
         alignVertical: TextAlign.START
     })
-    const titleText = insertLineBreaks(convertToSmallCaps(BOOK_DATA.name, textConfigTitle.size));
-    const resTitleText = new ResourceText({ text: titleText, textConfig: textConfigTitle });
-    const opTitleText = new LayoutOperation({
-        translate: posTitle,
-        dims: new Point(0.9 * size.x, 0.75 * size.y), // @TODO: just a rough guess here
-        fill: "#000000",
-        pivot: new Point(0.5, 0)
-    });
-    group.add(resTitleText, opTitleText)
+    const titleTexts = convertToSmallCaps(BOOK_DATA.name, textConfigTitle.size).split(" ");
+    for(const titleTextPart of titleTexts)
+    {
+        const resTitleText = new ResourceText({ text: titleTextPart, textConfig: textConfigTitle });
+        const opTitleText = new LayoutOperation({
+            translate: posTitle,
+            dims: new Point(0.9 * size.x, lineHeight*titleFontSize),
+            fill: "#000000",
+            pivot: new Point(0.5, 0)
+        });
+        group.add(resTitleText, opTitleText);
+        posTitle.add(new Point(0, lineHeight*titleFontSize))
+    }
 
     drawWildebyteBadge(size, group);
     drawTopGradient(size, group);

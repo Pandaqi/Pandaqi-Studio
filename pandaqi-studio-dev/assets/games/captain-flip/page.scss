@@ -5,8 +5,8 @@ $bg-color: g.$bg-col;
 $text-color: g.$text-col;
 $button-bg: g.$col1;
 $button-color: #27231c;
-$link-color: color.adjust(g.$col2, $lightness: 30%);
-$link-color-hover: color.adjust(g.$col2, $lightness: 50%);
+$link-color: color.adjust(g.$col2, $lightness: 0%);
+$link-color-hover: color.adjust(g.$col2, $lightness: 20%);
 $settings-color: g.$col1;
 $cutoff: 920px;
 
@@ -20,6 +20,11 @@ input, button, select, option, label {
 input, button, select, option, label {
     font-family: g.$body-font;
     //font-size: 1.175em;
+}
+
+.game-settings, #btn-start-game
+{
+    filter: drop-shadow(0 0 5px black);
 }
 
 h2 {

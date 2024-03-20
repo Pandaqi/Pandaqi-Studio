@@ -1,14 +1,9 @@
-import getWeighted from "js/pq_games/tools/random/getWeighted";
+import range from "js/pq_games/tools/random/range";
 import CONFIG from "../js_shared/config";
+import { TYPES } from "../js_shared/dict";
 import Tile from "./tile";
-import { ACTIONS, ActionType, COLORS, TYPES } from "../js_shared/dict";
+import Bounds from "js/pq_games/tools/numbers/bounds";
 import shuffle from "js/pq_games/tools/random/shuffle";
-
-interface TileActionData
-{
-    type: ActionType,
-    key: string
-}
 
 export default class TilePicker
 {
@@ -20,92 +15,99 @@ export default class TilePicker
     {
         this.tiles = [];
 
-        // sort the list of actions into their types
-        const dicts = {
-            [ActionType.HEART]: [],
-            [ActionType.SKULL]: [],
-            [ActionType.STAR]: []
-        }
-
-        for(const [key,data] of Object.entries(ACTIONS))
-        {
-            for(const type of data.types)
-            {
-                dicts[type].push(key);
-            }
-        }
-
-        // draw as many actions as we need per type
-        const numTiles = CONFIG.tiles.generation.numDeckTotal;
-        const numDouble = CONFIG.tiles.generation.percentageDoubleTiles * numTiles;
-        const numSingle = CONFIG.tiles.generation.percentageSingleTiles * numTiles;
-        const actions : TileActionData[] = [];
-
-        const numActionsPerType = Math.ceil(numDouble * (2/3) + numSingle * (1/3));
-        for(let i = 0; i < numActionsPerType; i++)
-        {
-            actions.push({ type: ActionType.HEART, key: getWeighted(dicts[ActionType.HEART], "prob") });
-            actions.push({ type: ActionType.SKULL, key: getWeighted(dicts[ActionType.SKULL], "prob") });
-            actions.push({ type: ActionType.STAR, key: getWeighted(dicts[ActionType.STAR], "prob") });
-        }
-        shuffle(actions);
-
-        // randomly determine the types (in controlled distributions)
-        for(const [key,data] of Object.entries(TYPES))
-        {
-            data.prob = 1.0 / Math.max(Math.abs(data.points), 1.0);
-        }
-
-        const types = [];
-        for(let i = 0; i < numTiles; i++)
-        {
-            types.push(getWeighted(TYPES));
-        }
-        shuffle(types);
-
-        // randomly determine the colors (all equally possible)
-        const numPerColor = numTiles / Object.keys(COLORS).length;
-        const colors = [];
-        for(let i = 0; i < numPerColor; i++)
-        {
-            for(const color of Object.keys(COLORS))
-            {
-                colors.push(color);
-            }
-        }
-        shuffle(colors);
-
-        // randomly draw as many as needed, forcing the two action types to be different
-        for(let i = 0; i < numTiles; i++)
-        {
-            const tileActions = [];
-            const type = types.pop();
-            const color = colors.pop();
-            if(i < numDouble) {
-                const firstAction = actions.pop();
-                tileActions.push(firstAction);
-                const secondAction = this.findUniqueAction(firstAction, actions);
-                if(secondAction) { tileActions.push(secondAction); }
-            } else if(i < numSingle) {
-                tileActions.push(actions.pop());
-            }
-
-            const t = new Tile(type, color, tileActions);
-            this.tiles.push(t);
-        }
+        this.generateTilesFor("base");
+        this.generateTilesFor("oddInventions");
+        this.generateTilesFor("doubleDevices");
 
         console.log(this.tiles);
     }
 
-    findUniqueAction(givenAction:TileActionData, actions:TileActionData[])
+    generateTilesFor(set:string)
     {
-        const forbiddenType = givenAction.type;
-        for(let i = 0; i < actions.length; i++)
+        if(!CONFIG.sets[set]) { return; }
+
+        // sort types based on starting number (low to high)
+        // (this just makes the algorithm much faster and cleaner, it's not crucial)
+        const typesSorted = [];
+        for(const [key,data] of Object.entries(TYPES))
         {
-            if(actions[i].type == forbiddenType) { continue; }
-            const action = actions.splice(i, 1);
-            return action[0];
+            const typeSet = data.set ?? "base";
+            if(typeSet != set) { continue; }
+            typesSorted.push({ key: key, val: data.val });
         }
-        return null;
+        typesSorted.sort((a,b) => {
+            return a.val - b.val;
+        });
+
+        let numTilesNeeded = 0;
+        for(const typeObj of typesSorted)
+        {
+            const freq = TYPES[typeObj.key].freq ?? CONFIG.generation.defaultFreqPerType;
+            numTilesNeeded += freq;
+        }
+
+        // prepare price numbers for random drawing
+        const dist = CONFIG.tiles.generation.priceNumberDistribution.slice();
+        const numDistCopies = Math.ceil(numTilesNeeded / dist.length);
+        const priceNumbers = [];
+        for(let i = 0; i < numDistCopies; i++)
+        {
+            for(const num of dist)
+            {
+                priceNumbers.push(num);
+            }
+        }
+        shuffle(priceNumbers);
+
+        // then start adding them using a stagger algorithm
+        const numbersTaken = [];
+        const staggerConstant = CONFIG.generation.staggerConstant as number;
+        const staggerBounds = CONFIG.generation.staggerBounds as Bounds;
+        const setBounds = CONFIG.generation.setNumBounds[set];
+        const dir = CONFIG.generation.setStaggerDir[set];
+        for(const typeObj of typesSorted)
+        {
+            const type = typeObj.key;
+            const data = TYPES[type];
+            const freq = data.freq ?? CONFIG.generation.defaultFreqPerType;
+            
+            const actionsPossible = data.actions ?? [];
+            const actionsSpecific = [];
+            if(actionsPossible.length > 0)
+            {
+                for(let i = 0; i < freq; i++)
+                {
+                    if(i < 0.5*freq) { actionsSpecific.push(actionsPossible[0]); }
+                    else { actionsSpecific.push(actionsPossible[1]); }
+                }
+            }
+
+            let val = data.val;
+            for(let i = 0; i < freq; i++)
+            {
+                val = this.findFirstAvailableValueFrom(val, dir, numbersTaken, setBounds);
+                if(val === null) { break; }
+
+                const action = actionsSpecific.length > 0 ? actionsSpecific.pop() : "";
+                const price = priceNumbers.length > 0 ? priceNumbers.pop() : 0;
+                
+                const newTile = new Tile(type, val, price, action);
+                this.tiles.push(newTile);
+                numbersTaken.push(val);
+
+                const randStagger = Math.round( staggerBounds.random() * staggerConstant * i );
+                val += randStagger;
+            }
+        }
+    }
+
+    findFirstAvailableValueFrom(val:number, dir: number = 1, numbersTaken: number[], setBounds: Bounds)
+    {
+        while(numbersTaken.includes(val))
+        {
+            val += dir;
+            if(!setBounds.contains(val)) { return null; }
+        }
+        return val;
     }
 }

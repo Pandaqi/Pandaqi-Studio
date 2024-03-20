@@ -13,7 +13,7 @@ downloadLink: ""
 customHeight: "small"
 headerDarkened: true
 
-color: "purple"
+color: "turqoise" # @TODO: this is the wrong spelling, it's turquoise; fix for the entire site!
 
 bgColor: "#003401"
 bgColorLink: "#ff1f1f"
@@ -26,13 +26,13 @@ googleFonts: ""
 date: 2023-01-01 # 2024-12-26
 
 categories: ["boardgame"]
-tags: ["simple"]
+tags: ["simple", "sea", "animals"]
 
 multiplayermode: "competitive"
 language: EN
 genre: ["tile"]
 playtime: 30
-playercount: [2,3,4,5,6,7]
+playercount: [2,3,4,5,6]
 complexity: low
 ages: everyone
 
@@ -75,7 +75,13 @@ This game is incredibly simple (just flip one tile and take its action) and well
 
 {{% section-centered heading="Credits" anchor="credits" %}}
 
-@TODO
+This game started its life as a simple idea: "could I create a game where your only action each turn is to _flip a tile_?" This felt like it should lead to a game that's very easy to learn but has lots of depth. It would combine a _memory game_ (which tiles are where, and what do they do?) and a _strategy game_ (flipping the right ones in the right way).
+
+And that's how this game was made! I realized we needed different actions for _flipping faceup_ and _flipping facedown_. I invented some fun actions and slight rules tweaks to make it all balanced. Then I did a paper prototype that was too complicated, simplified it, and ended up with Captain Flip.
+
+The fonts used are **Underlapped** (headings, short texts) and **Sofia Sans Condensed** (body, paragraphs). Both are freely available. The sea creatures were generated using image AI. Everything else (code, design, rules, drawings, etcetera) is entirely mine.
+
+(Underlapped is what is called a "double font". Each letter is itself twice. Very neat, discovered that while researching fonts for this game, and it just fit the theme---of each tile having two possible actions or states---perfectly.)
 
 For more information, as always, read my [detailed developer diary on Pandaqi Blog](/blog/boardgames/captain-flip/).
 

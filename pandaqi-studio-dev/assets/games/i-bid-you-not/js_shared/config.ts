@@ -1,5 +1,7 @@
+import TextConfig, { TextWeight } from "js/pq_games/layout/text/textConfig"
 import CVal from "js/pq_games/tools/generation/cval"
 import Point from "js/pq_games/tools/geometry/point"
+import Bounds from "js/pq_games/tools/numbers/bounds"
 
 const CONFIG:any = 
 {
@@ -19,34 +21,48 @@ const CONFIG:any =
 
     fonts:
     {
-        heading: "vlaanderen",
-        body: "rokkitt"
+        heading: "digitalt",
+        body: "inter"
+    },
+
+    sets:
+    {
+        base: true,
+        oddInventions: false,
+        doubleDevices: false
     },
 
     // assets
     assetsBase: "/i-bid-you-not/assets/",
     assets:
     {
-        vlaanderen:
+        digitalt:
         {
-            path: "fonts/VlaanderenChiseledNF.woff2",
+            path: "fonts/Digitalt.woff2",
         },
 
-        rokkitt:
+        inter:
         {
-            path: "/fonts/Rokkitt-Regular.woff2",
+            path: "fonts/InterTight-Regular.woff2",
         },
 
-        tiles:
+        inter_bold:
         {
-            path: "tiles.webp",
-            frames: new Point(8,4)
+            key: "inter",
+            path: "fonts/InterTight-Black.woff2",
+            textConfig: new TextConfig({ weight: TextWeight.BOLD })
+        },
+
+        types:
+        {
+            path: "tile_types.webp",
+            frames: new Point(8,3)
         },
 
         misc:
         {
             path: "misc.webp",
-            frames: new Point(5,1)
+            frames: new Point(8,1)
         },
     },
 
@@ -71,8 +87,79 @@ const CONFIG:any =
 
         generation:
         {
-            numDeckTotal: 54
+            defaultFreqPerType: 5,
+            staggerBounds: new Bounds(1,3), // a random number between these are picked for advancing a tile's number for copies
+            staggerConstant: 0.35, // this can be used to grow/shrink the stagger faster
+            priceNumberDistribution: [-7,-5,-3,-2,-1,1,2,3,4,5,6,7,8,9],
+            setNumBounds:
+            {
+                base: new Bounds(0, 64),
+                oddInventions: new Bounds(-64, -1),
+                doubleDevices: new Bounds(65, 100)
+            },
+            setStaggerDir:
+            {
+                base: 1,
+                oddInventions: -1,
+                doubleDevices: 1
+            }
         },
+
+        numbers:
+        {
+            fontSize: new CVal(0.15, "sizeUnit"),
+            starDims: new CVal(new Point(0.2), "sizeUnit"),
+            textColor: "#FFFFFF",
+            strokeColor: "#000000",
+            strokeWidth: new CVal(0.05, "sizeUnit")
+        },
+
+        podium:
+        {
+            pos: new CVal(new Point(0.5, 0.33), "size"),
+            dims: new CVal(new Point(0.8), "sizeUnit"),
+        },
+
+        type:
+        {
+            pos: new CVal(new Point(0.5, 0.25), "size"),
+            dims: new CVal(new Point(0.5), "sizeUnit")
+        },
+
+        priceTag:
+        {
+            rotationBounds: new Bounds(-0.33 * Math.PI, 0.33 * Math.PI),
+            dims: new CVal(new Point(0.25), "sizeUnit"),
+            textColor: "#000000",
+        },
+
+        action:
+        {
+            pos: new CVal(new Point(0.5, 0.75), "size"),
+            dims: new CVal(new Point(0.9, 0.4), "size"),
+            fontSize: new CVal(0.1, "sizeUnit"),
+            textColor: "#000000",
+            rectPosY: new CVal(0.66, "sizeUnit"),
+            bgColor: "#FFFFFF",
+            rectStrokeColor: "#000000",
+            rectStrokeWidth: new CVal(0.01, "sizeUnit")
+
+        },
+
+        label:
+        {
+            pos: new CVal(new Point(0.5, 0.5), "size"),
+            dims: new CVal(new Point(0.75, 0.1), "size"),
+            fontSize: new CVal(0.075, "sizeUnit"),
+            textColor: "#000000"
+        },
+
+        audience:
+        {
+            pos: new CVal(new Point(), "size"),
+            dims: new CVal(new Point(1.0), "size"),
+            alpha: 0.5
+        }
 
     },
 }

@@ -1,5 +1,7 @@
+import TextConfig, { TextWeight } from "js/pq_games/layout/text/textConfig"
 import CVal from "js/pq_games/tools/generation/cval"
 import Point from "js/pq_games/tools/geometry/point"
+import { ActionType } from "./dict"
 
 const CONFIG:any = 
 {
@@ -19,34 +21,47 @@ const CONFIG:any =
 
     fonts:
     {
-        heading: "vlaanderen",
-        body: "rokkitt"
+        heading: "underlapped",
+        body: "sofia"
     },
 
     // assets
     assetsBase: "/captain-flip/assets/",
     assets:
     {
-        vlaanderen:
+        underlapped:
         {
-            path: "fonts/VlaanderenChiseledNF.woff2",
+            path: "fonts/Underlapped.woff2",
         },
 
-        rokkitt:
+        sofia:
         {
-            path: "/fonts/Rokkitt-Regular.woff2",
+            path: "fonts/SofiaSansCondensed-Regular.woff2",
         },
 
-        tiles:
+        sofia_bold:
         {
-            path: "tiles.webp",
-            frames: new Point(8,4)
+            key: "sofia",
+            path: "fonts/SofiaSansCondensed-Black.woff2",
+            textConfig: new TextConfig({ weight: TextWeight.BOLD })
+        },
+
+        tile_types:
+        {
+            path: "tile_types.webp",
+            frames: new Point(8,2)
+        },
+
+        patterns:
+        {
+            path: "patterns.webp",
+            frames: new Point(8,1)
         },
 
         misc:
         {
             path: "misc.webp",
-            frames: new Point(5,1)
+            frames: new Point(8,1)
         },
     },
 
@@ -71,8 +86,46 @@ const CONFIG:any =
 
         generation:
         {
-            numDeckTotal: 54
+            numDeckTotal: 54,
+            percentageDoubleTiles: 0.25,
+            percentageSingleTiles: 0.5,
         },
+
+        shared:
+        {
+            shadowRadius: new CVal(0.01, "sizeUnit"),
+            shadowColor: "#000000"
+        },
+
+        type:
+        {
+            dims: new CVal(new Point(0.35), "sizeUnit"),
+            fontSize: new CVal(0.275, "sizeUnit"),
+            numberOffsetFromCenter: new CVal(0.295, "sizeUnit"),
+            textColor: "#000000",
+            textStrokeColor: "#FFFFFF",
+            textStrokeWidth: new CVal(0.0125, "sizeUnit"),
+        },
+
+        action:
+        {
+            iconDims: new CVal(new Point(0.25), "sizeUnit"),
+            iconScaleFactor: 0.8,
+            fontSize: new CVal(0.075, "sizeUnit"),
+            lineHeight: 1.075,
+            edgeOffsetForColor: new CVal(0.0425, "sizeUnit"),
+            textColor: "#000000"
+        },
+
+        bg:
+        {
+            colors:
+            {
+                [ActionType.HEART]: "#F7FFE4",
+                [ActionType.SKULL]: "#FBE4FF",
+                [ActionType.STAR]: "#FFF8B2"
+            }
+        }
 
     },
 }
