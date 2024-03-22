@@ -1,3 +1,4 @@
+import Point from "js/pq_games/tools/geometry/point"
 
 const DISKS =
 {
@@ -20,11 +21,16 @@ const DISKS =
             sectionStartY: 0.1117,
             sectionJumpY: 0.2313,
             textColor: "#FFFFFF",
+            textStrokeColor: "#000000",
+            textStrokeWidth: 2,
             alternateFlipHeadings: true,
+            headingFontSize: 72,
+            contentFontSize: 48,
+            textBoxDims: new Point(0.775, 0.5),
             sections: [
-                { title: "New Game", text: "" },
-                { title: "Author", text: "" },
-                { title: "Restart", text: "" }
+                { title: "NEW GAME", text: "" },
+                { title: "AUTHOR", text: "" },
+                { title: "RESTART", text: "" }
             ],
         },
 
@@ -37,7 +43,20 @@ const DISKS =
         titleText:
         {
             posY: 0.1431,
-            fontSize: 73.47
+            fontSize: 225,
+            lineHeight: 1.0,
+            textColor: "#000000",
+            textColorOverlay: "#2B2B2B",
+            strokeWidth: 12,
+            strokeColor: "#FFFFFF",
+            glowRadius: 36,
+            gradientColors: ["#6E2D7E", "#000000"],
+            offsetY:
+            {
+                overlay: 55,
+                shadow: 30,
+                front: 0
+            }
         },
 
         electricityLines:
@@ -46,16 +65,21 @@ const DISKS =
             alpha: 0.35
         },
 
+        metadata:
+        {
+            yPos: 0.826, // ~sizeY
+        },
+
         badge:
         {
             yPos: 0.834, // ~sizeY
-            smallFontSize: 12,
-            bigFontSize: 24.1,
+            smallFontSize: 32,
+            bigFontSize: 72,
             smallTextColor: "#FFFFFF",
             bigTextColor: "#FFFFFF",
             composite: "overlay",
-            smallTextOffsetY: -0.4, // ~badgeSizeY, anchor from center
-            bigTextOffsetY: 0.275, // ~badgeSizeY, anchor from center
+            smallTextOffsetY: -0.35, // ~badgeSizeY, anchor from center
+            bigTextOffsetY: 0.225, // ~badgeSizeY, anchor from center
             choiceStoryOffsetY: 0.35, // ~badgeSizeY, anchor from center
         },
 
@@ -72,12 +96,15 @@ const DISKS =
 
         spine:
         {
-            titleFontSize: 29.7,
-            authorFontSize: 21.6,
+            titleFontSize: 84,
+            authorFontSize: 64,
             textColor: "#FDDDFF",
+            iconSize: new Point(96, 96),
             strokeColor: "#000000",
-            strokeWidth: 12,
+            strokeWidth: 8,
+            authorAlpha: 1.0,
             iconEdgeOffset: 0.107, // ~sizeY
+            glowRadius: 12,
         }
     }
 }

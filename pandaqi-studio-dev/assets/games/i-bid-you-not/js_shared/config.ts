@@ -88,7 +88,7 @@ const CONFIG:any =
         generation:
         {
             defaultFreqPerType: 5,
-            staggerBounds: new Bounds(1,3), // a random number between these are picked for advancing a tile's number for copies
+            staggerBounds: new Bounds(1,4), // a random number between these are picked for advancing a tile's number for copies
             staggerConstant: 0.35, // this can be used to grow/shrink the stagger faster
             priceNumberDistribution: [-7,-5,-3,-2,-1,1,2,3,4,5,6,7,8,9],
             setNumBounds:
@@ -107,37 +107,38 @@ const CONFIG:any =
 
         numbers:
         {
-            fontSize: new CVal(0.15, "sizeUnit"),
+            fontSize: new CVal(0.125, "sizeUnit"),
             starDims: new CVal(new Point(0.2), "sizeUnit"),
             textColor: "#FFFFFF",
             strokeColor: "#000000",
-            strokeWidth: new CVal(0.05, "sizeUnit")
+            strokeWidth: new CVal(0.0075, "sizeUnit")
         },
 
         podium:
         {
-            pos: new CVal(new Point(0.5, 0.33), "size"),
-            dims: new CVal(new Point(0.8), "sizeUnit"),
+            pos: new CVal(new Point(0.5, 0.585), "size"),
+            dims: new CVal(new Point(1.0), "sizeUnit"),
         },
 
         type:
         {
-            pos: new CVal(new Point(0.5, 0.25), "size"),
-            dims: new CVal(new Point(0.5), "sizeUnit")
+            pos: new CVal(new Point(0.5, 0.3), "size"),
+            dims: new CVal(new Point(0.475), "sizeUnit")
         },
 
-        priceTag:
+        spotlight:
         {
-            rotationBounds: new Bounds(-0.33 * Math.PI, 0.33 * Math.PI),
-            dims: new CVal(new Point(0.25), "sizeUnit"),
-            textColor: "#000000",
+            dims: new CVal(new Point(0.55), "sizeUnit"),
+            alpha: 0.5,
+            composite: "overlay",
+            numBounds: new Bounds(1,3)
         },
 
         action:
         {
-            pos: new CVal(new Point(0.5, 0.75), "size"),
+            pos: new CVal(new Point(0.5, 0.83), "size"),
             dims: new CVal(new Point(0.9, 0.4), "size"),
-            fontSize: new CVal(0.1, "sizeUnit"),
+            fontSize: new CVal(0.0575, "sizeUnit"),
             textColor: "#000000",
             rectPosY: new CVal(0.66, "sizeUnit"),
             bgColor: "#FFFFFF",
@@ -146,9 +147,19 @@ const CONFIG:any =
 
         },
 
+        priceTag:
+        {
+            rotationBounds: new Bounds(-0.2 * Math.PI, 0.2 * Math.PI),
+            dims: new CVal(new Point(0.25), "sizeUnit"),
+            textColor: "#000000",
+            fontSize: new CVal(0.075, "sizeUnit"), // @NOTE: probably same or close to label fontSize
+            offset: new CVal(0.1525, "sizeUnit"),
+            textRotationCompensation: -0.025 * Math.PI // @NOTE: because the price tag drawing is wonky, price tag text needs a slight adjustment to "align"
+        },
+
         label:
         {
-            pos: new CVal(new Point(0.5, 0.5), "size"),
+            pos: new CVal(new Point(0.5, 0.616), "size"),
             dims: new CVal(new Point(0.75, 0.1), "size"),
             fontSize: new CVal(0.075, "sizeUnit"),
             textColor: "#000000"

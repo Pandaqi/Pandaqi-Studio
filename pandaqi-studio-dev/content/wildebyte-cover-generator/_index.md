@@ -3,8 +3,8 @@ type: "single"
 gamepage: true
 boardgame: true
 
-title: "Dev Test"
-headerTitle: "Dev Test | Testing Environment"
+title: "Wildebyte Cover Generator"
+headerTitle: "Automatic generator of Wildebyte covers, setting correct size and texts"
 
 extraCSS: true
 

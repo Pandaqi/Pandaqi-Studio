@@ -64,7 +64,7 @@ Three simple steps.
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
   {{< setting-enum id="setting-itemSize" text="Card Size?" values="small,regular,large" valaskey="true" def="regular" >}}
   <h3>Sets</h3>
-  {{< setting-checkbox id="setting-sets-base" text="Base Game?" >}}
+  {{< setting-checkbox id="setting-sets-base" text="Base Game?" checked="checked" >}}
   {{< setting-checkbox id="setting-sets-oddInventions" text="Odd Inventions?" >}}
   {{< setting-checkbox id="setting-sets-doubleDevices" text="Double Devices?" >}}
 {{< /boardgame-settings >}}

@@ -9,7 +9,7 @@ Place 4 random **Book Shelf** cards in a column on the table. (In the base game,
 Give each player 4 cards.
 
 {{% remark %}}
-Material can be downloaded from [the website](https://pandaqi.com/mammoth-messages/).
+Material can be downloaded from [the website](https://pandaqi.com/librarians/).
 {{% /remark %}}
 
 {{% /rules-block %}}
@@ -27,14 +27,14 @@ Begin with the start player, then take clockwise turns until done.
 While playing, it's forbidden to explicitly communicate or reveal what's in your hand. It's up to your group how much communication around that is allowed (such as asking people not to touch a certain part of the library).
 
 On your turn, play **at least 2** cards to the library.
-* It must connect to an existing card.
+* Each card must connect to an existing card.
 * You must play to an existing shelf.
 * Each shelf must be sorted _alphabetically_ by **title** (from A-Z, following the arrow).
 * But you may also play a card **on top** of another card with the same letter.
 
 Over time, the shelves might be messed up. That's why alphabetical order is simply defined as:
 
-> The letter must come AFTER the first letter before it (to the left), and BEFORE the first letter after it (to the right). Identical letters are allowed.
+> The letter must appear in the alphabet AFTER the first letter before it (to the left), and BEFORE the first letter after it (to the right). Identical letters are allowed.
 
 @TODO: IMAGE
 
@@ -58,7 +58,7 @@ It's recommended to play with all 6, but ...
 * Use fewer colors for a much easier game
 * Or double some colors for a much harder game
 
-Books that have multiple colors are **wildcards**. They can represent any genre when matching, but represent no action.
+Books that have multiple colors are **wildcards**. They can represent any genre when matching, but have no action.
 
 Below are all the genres and their actions. => @TODO
 
@@ -103,7 +103,7 @@ These powers help communicate or give info to players.
 
 * Show your hand to the table
 * Tap 2 cards on the board (to give or ask hints about what to do)
-* All players their hand to the player on their left/right. (The player executing the power chooses the direction.)
+* All players show (or GIVE?) their hand to the player on their left/right. (The player executing the power chooses the direction.)
 * Study the next 8 cards in the deck. Return them in any order and tell everyone what they are.
 
 Or white, or orange/brown
@@ -123,44 +123,65 @@ This color has weird, unique, special, disrupting powers
 
 {{% rules-block id="expansions" heading="Expansions & Variants" icon="expansion" icontint="red" %}}
 
+All the expansions below can be played with the base material, except for the last one.
 
-All these variants make the game more challenging.
+{{% rules-block heading="Adventure of the Author" %}}
+All books also have an author, and a number telling you how many books that author wrote.
 
-**Variant:** columns must be sorted alphabetically too! (Following the vertical arrow on Shelf Cards.)
+The following rule is now applied.
 
-**Variant:** you must play _exactly_ 2 cards on your turn. (You're not allowed to play more if that helps you, as in the original rules.)
+> If you manage to connect _all_ books from an author in one group, you may remove them from the library and keep one of those cards for its power.
+
+In other words, you can "complete an author" just as you can "complete a genre". However, this only applies to authors who _wrote multiple books_. (If they only wrote one book, they have no number behind their name.)
+
+{{% /rules-block %}}
+
+{{% rules-block heading="Story for the Ages" %}}
+Many books also have a target audience or age range. 
+
+The following rule must now be followed.
+
+> When placing a book with a target audience, it must always be **connected** to another book that has the **same target audience**, unless none exists. 
+
+{{% /rules-block %}}
+
+{{% rules-block heading="Song of the Sequels" %}}
+Some of the books represent a series. This means their titles are the same, except that they end in different numbers.
+
+The following rule must now be followed.
+
+> Books in the same series must be placed in a **connected, straight line** (row or column) and sorted numerically.
+
+{{% /rules-block %}}
 
 {{% rules-block heading="Curse of the Book Shelves" %}}
 
-**Variant:** Shelf Cards have a special power. You must listen to it at all times!
+As you probably noticed by now, Shelf Cards have two more components on them.
 
-**Variant:** you must keep the shelves "balanced". 
+* A special power. Now you must listen to it at all times!
+* A vertical arrow. Columns must be sorted alphabetically too! The vertical arrow indicates the direction from A-Z.
+
+Additionally, you must keep the shelves "balanced". 
 
 > "The difference in stacked cards between the two sides (left and right) of a Book Shelf card can never be greater than 1."
 
 In other words, you can't play a letter on the same letter if the number of such "stacks" on the other side of the shelf doesn't support it.
 
-{{% /rules-block %}}
+EXAMPLE: The left side of the shelf has 3 stacks. The right side has 2 stacks. Then you may not create another stack on the left, as that would imbalance the shelf too much. (You may, of course, add one on the right.)
 
+_If this proves too hard for your group, you can make any of these 3 added rules optional, especially the vertical sorting._
 
-
-{{% rules-block heading="Adventure of the Author" %}}
-@TODO => author grouping mechanic
-{{% /rules-block %}}
-
-{{% rules-block heading="A Story for the Ages" %}}
-@TODO => target audience/age grouping mechanics
-{{% /rules-block %}}
-
-{{% rules-block heading="Song of the Sequels" %}}
-This expansion requires printing new material. (Or are sequels included in base game too?)
-
-@TODO => sequel ordering mechanic
 {{% /rules-block %}}
 
 {{% rules-block heading="Turns full of Thrills" %}}
-This expansion requires printing new material.
-@TODO => unique actions on books?
+This expansion requires printing new material: books with no genre, but a unique action. You can add as many or as few of these as you like into your deck.
+
+Their usage is simple: immediately take the action on the card when you play it.
+
+Additionally, for extra challenge, you can add the following rules variant.
+
+> You must play _exactly_ 2 cards on your turn. (You're not allowed to play more if that helps you, as in the original rules.)
+
 {{% /rules-block %}}
 
 {{% /rules-block %}}

@@ -14,7 +14,7 @@ const parseTextString = (text:string, config) =>
     // line breaks, bold, italic, images
     // @TODO: case changes (uppercase, lowercase)
     // @TODO: <sup> and <sub> (for supertext and subtext) => just draw it smaller and offset
-    const regex = /\n|<b>|<\/b>|<em>|<\/em>|<sc>|<\/sc>|<img id="(.+?)" frame="(.+?)">|<size num="(.+?)">|<\size>|<font id="(.+?)">|<\/font>|<col hex="(.+?)">|<\/col>/g; 
+    const regex = /\n|<b>|<\/b>|<em>|<\/em>|<sc>|<\/sc>|<img id="(.+?)" frame="(.+?)">|<size num="(.+?)">|<\/size>|<font id="(.+?)">|<\/font>|<col hex="(.+?)">|<\/col>/g; 
     let tempText = text;
     let chunks = [];
     let match;

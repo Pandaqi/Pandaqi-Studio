@@ -35,20 +35,15 @@ const ASSETS =
         path: "shared/electric_lines.webp"
     },
 
-    // the thing that "frames" the full painting, e.g. the tablet for Handheld Disk
-    framing_graphic:
-    {
-        path: "shared/frame_graphic.webp"
-    },
-
     overlay_gradient:
     {
         path: "shared/overlay_gradient.webp"
     },
 
-    choice_story:
+    // the thing that "frames" the full painting, e.g. the tablet for Handheld Disk
+    framing_graphic:
     {
-        path: "shared/choice_story.webp"
+        path: "shared/framing_graphic.webp"
     },
 
     metadata:
@@ -56,14 +51,14 @@ const ASSETS =
         path: "shared/metadata.webp"
     },
     
-    spine_background:
-    {
-        path: "shared/spine_background.webp"
-    },
-
     wildebyte_badge:
     {
         path: "shared/wildebyte_badge.webp"
+    },
+
+    spine_background:
+    {
+        path: "shared/spine_background.webp"
     },
 
     wildebyte_logo_simplified:
@@ -76,10 +71,15 @@ const ASSETS =
         path: "shared/back_heading.webp"
     },
 
+    choice_story:
+    {
+        path: "shared/choice_story.webp"
+    },
+
     // UNIQUE (to the specific book/game)
     full_painting:
     {
-        path: "book/full_painting.webp"
+        path: "book/full_size_painting.webp"
     },
 
     spine_icon:

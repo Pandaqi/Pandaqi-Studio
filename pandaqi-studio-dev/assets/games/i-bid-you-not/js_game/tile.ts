@@ -14,6 +14,8 @@ import TintEffect from "js/pq_games/layout/effects/tintEffect";
 import fillResourceGroup from "js/pq_games/layout/canvas/fillResourceGroup";
 import Rectangle from "js/pq_games/tools/geometry/rectangle";
 import ResourceShape from "js/pq_games/layout/resources/resourceShape";
+import Bounds from "js/pq_games/tools/numbers/bounds";
+import shuffle from "js/pq_games/tools/random/shuffle";
 
 export default class Tile
 {
@@ -34,8 +36,7 @@ export default class Tile
     getColorData() { return COLORS[this.getTypeData().color ?? "blue"]; }
     hasAction()
     {
-        if(!this.action || this.action.length <= 0) { return false; }
-        return true;
+        return this.action;
     }
 
     async drawForRules(vis:MaterialVisualizer)
@@ -52,6 +53,7 @@ export default class Tile
         this.drawBackground(vis, group);
         this.drawType(vis, group);
         this.drawNumbers(vis, group);
+        this.drawAction(vis, group);
 
         group.toCanvas(ctx);
         return ctx.canvas;
@@ -106,12 +108,10 @@ export default class Tile
         const opSprite = new LayoutOperation({
             translate: spritePos,
             dims: spriteDims,
-            frame: typeData.frame
+            frame: typeData.frame,
+            pivot: Point.CENTER
         });
         group.add(resTiles, opSprite);
-
-        // @TODO: draw random spotlights (50% alpha, overlay)
-
 
         // draw product name on top
         const textConfig = new TextConfig({
@@ -145,14 +145,68 @@ export default class Tile
         })
         group.add(resMisc, op);
 
-        // draws the actual price text
-        // @TODO: actual PRICE text on top of it (at correct location/rotation)
+        // draws the actual price text (about midway the price tag sprite, at correct rotation)
+        const textConfigPrice = new TextConfig({
+            font: vis.get("fonts.heading"),
+            size: vis.get("tiles.priceTag.fontSize")
+        }).alignCenter();
+        const priceText = "$" + this.price.toString();
+
+        const priceOffset = new Point(1,0).scale( vis.get("tiles.priceTag.offset") );
+        priceOffset.rotate(rotation);
+        const priceTagPos = finalPos.clone().add(priceOffset);
+
+        let rotComp = vis.get("tiles.priceTag.textRotationCompensation");
+        if(shouldFlip) { rotComp *= -1; }
+
+        const resPrice = new ResourceText({ text: priceText, textConfig: textConfigPrice  });
+        const opPrice = new LayoutOperation({
+            translate: priceTagPos,
+            dims: vis.get("tiles.priceTag.dims"),
+            fill: vis.get("tiles.priceTag.textColor"),
+            pivot: Point.CENTER,
+            flipX: shouldFlip,
+            flipY: shouldFlip,
+            rotation: rotation + rotComp
+        });
+        group.add(resPrice, opPrice);
+
+        
+        // draw random spotlights
+        // (they go over everything else in this layer to really make an impact and light it up realistically)
+        const allSpotlightPositions = [];
+        const yBounds = new Bounds(0, spritePos.y);
+        const xBounds = new Bounds(0.33*vis.size.x, 0);
+        allSpotlightPositions.push(new Point(0, yBounds.random()));
+        allSpotlightPositions.push(new Point(xBounds.random(), 0));
+        allSpotlightPositions.push(new Point(xBounds.max + xBounds.random(), 0));
+        allSpotlightPositions.push(new Point(2*xBounds.max + xBounds.random(), 0));
+        allSpotlightPositions.push(new Point(vis.size.x, yBounds.random()));
+        
+        shuffle(allSpotlightPositions);
+        const numSpotlights = vis.get("tiles.spotlight.numBounds").randomInteger();
+        const spotlightPositions = allSpotlightPositions.slice(0, numSpotlights);
+
+        for(const pos of spotlightPositions)
+        {
+            const angle = spritePos.clone().sub(pos).angle();
+            const op = new LayoutOperation({
+                translate: pos,
+                dims: vis.get("tiles.spotlight.dims"),
+                frame: MISC.spotlight.frame,
+                pivot: new Point(0, 0.5),
+                rotation: angle,
+                alpha: vis.get("tiles.spotlight.alpha"),
+                composite: vis.get("tiles.spotlight.composite")
+            });
+            group.add(resMisc, op);
+        }
     }
 
     drawNumbers(vis:MaterialVisualizer, group:ResourceGroup)
     {
         const starDims = vis.get("tiles.numbers.starDims");
-        const offset = starDims.clone().scale(0.66);
+        const offset = starDims.clone().scale(0.585);
         const corners = getRectangleCornersWithOffset(vis.size, offset);
         
         const resMisc = vis.getResource("misc");

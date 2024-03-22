@@ -14,11 +14,16 @@ import ResourceImage from "js/pq_games/layout/resources/resourceImage";
 import TextConfig, { TextAlign, TextStyle, TextWeight } from "js/pq_games/layout/text/textConfig";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
 import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
+import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
+// @ts-ignore
+import { jsPDF } from "js/pq_games/pdf/jspdf";
+import Color from "js/pq_games/layout/color/color";
 
 // @NOTE: the bookData.ts file is saved PER BOOK in their folder, so I can just copy-paste it into here to get all the book info
 
-const resLoader = new ResourceLoader({ base: "/wildebyte-cover-generator/assets/" });
-loadAssets(resLoader);
+const CREATE_PDF = false;
+
+let resLoader:ResourceLoader;
 
 const insertLineBreaks = (str:string) =>
 {
@@ -30,7 +35,7 @@ const convertToSmallCaps = (str:string, fontSize:number) =>
 {
     str = str.toUpperCase();
 
-    const capSize = fontSize * 1.164;
+    const capSize = Math.ceil(fontSize * 1.215);
     const words = str.split(" ");
     const newWords = [];
     for(const word of words)
@@ -44,7 +49,13 @@ const convertToSmallCaps = (str:string, fontSize:number) =>
 
 const convertToBinary = (input:number) =>
 {
-    return (input >>> 0).toString(2);
+    const fixedLength = 6;
+    let bin = (input >>> 0).toString(2);
+    while(bin.length < fixedLength)
+    {
+        bin = "0" + bin;
+    }
+    return bin;
 }
 
 const convertInchesToPixels = (input:Point) =>
@@ -52,11 +63,21 @@ const convertInchesToPixels = (input:Point) =>
     return input.clone().scale(300).ceil();
 }
 
+const getSpineSizePixels = (target:string) =>
+{
+    return convertInchesToPixels(getSpineSize(target));
+}
+
 const getSpineSize = (target:string) =>
 {
     let spineX = TARGETS[target].pageThickness * BOOK_DATA.numPages;
     if(BOOK_DATA.forcedSpineSize != null) { spineX = BOOK_DATA.forcedSpineSize; } // this must be inches too
     return new Point(spineX, getPageSize(target).y);
+}
+
+const getPageSizePixels = (target:string) =>
+{
+    return convertInchesToPixels(getPageSize(target));
 }
 
 const getPageSize = (target:string) =>
@@ -86,11 +107,10 @@ const drawBackgroundRect = (size:Point, group:ResourceGroup) =>
     group.add(rect, rectOp);
 }
 
-const drawElectricityLines = (size: Point, group:ResourceGroup) =>
+const drawElectricityLines = (size: Point, center: Point, group:ResourceGroup) =>
 {
-    const center = size.clone().scale(0.5);
     const diskData = DISKS[BOOK_DATA.disk];
-    const res = resLoader.getResource("electricity_lines");
+    const res = resLoader.getResource("electric_lines");
     const op = new LayoutOperation({
         translate: center,
         dims: size,
@@ -101,16 +121,17 @@ const drawElectricityLines = (size: Point, group:ResourceGroup) =>
     group.add(res, op)
 }
 
-const drawWildebyteBadge = (size: Point, group: ResourceGroup) =>
+const drawWildebyteBadge = (size: Point, center: Point, group: ResourceGroup) =>
 {
     const diskData = DISKS[BOOK_DATA.disk];
-    const pos = new Point(0.5 * size.x, diskData.badge.yPos * size.y);
+    const pos = new Point(center.x, diskData.badge.yPos * size.y);
 
     // badge itself
     const res = resLoader.getResource("wildebyte_badge");
+    const badgeSize = res.getSize();
     const op = new LayoutOperation({
         translate: pos,
-        dims: res.getSize(),
+        dims: badgeSize,
         pivot: Point.CENTER
     })
     group.add(res, op);
@@ -125,6 +146,7 @@ const drawWildebyteBadge = (size: Point, group: ResourceGroup) =>
     const resTextSmall = new ResourceText({ text: textSmall, textConfig: textConfigSmall });
     const opTextSmall = new LayoutOperation({
         translate: new Point(pos.x, pos.y + diskData.badge.smallTextOffsetY*res.getSize().y),
+        dims: new Point(badgeSize.x, 1.5*textConfigSmall.size),
         pivot: Point.CENTER,
         fill: diskData.badge.smallTextColor,
         composite: diskData.badge.composite
@@ -134,7 +156,7 @@ const drawWildebyteBadge = (size: Point, group: ResourceGroup) =>
     // installment text big (binary number, bold, below)
     const textConfigBig = new TextConfig({
         font: diskData.fonts.body,
-        size: diskData.badge.largeFontSize,
+        size: diskData.badge.bigFontSize,
         weight: TextWeight.BOLD
     }).alignCenter();
 
@@ -142,6 +164,7 @@ const drawWildebyteBadge = (size: Point, group: ResourceGroup) =>
     const resTextBig = new ResourceText({ text: textBig, textConfig: textConfigBig });
     const opTextBig = new LayoutOperation({
         translate: new Point(pos.x, pos.y + diskData.badge.bigTextOffsetY*res.getSize().y),
+        dims: new Point(badgeSize.x, 1.5*textConfigBig.size),
         pivot: Point.CENTER,
         fill: diskData.badge.bigTextColor,
         composite: diskData.badge.composite
@@ -176,18 +199,21 @@ const drawBackSection = (sectionData, size: Point, pos:Point, index:number, grou
 {
     const diskData = DISKS[BOOK_DATA.disk];
 
+    console.log(pos);
+    console.log(sectionData,index);
+
     // the sprite supporting the heading
     const resHeading = resLoader.getResource("back_heading");
+    const headingSize = resHeading.getSize();
     const opHeading = new LayoutOperation({
         translate: pos,
-        dims: resHeading.getSize(),
+        dims: headingSize,
         pivot: Point.CENTER,
         flipX: (index % 2 == 0) && diskData.back.alternateFlipHeadings
     });
     group.add(resHeading, opHeading);
 
     // the actual heading text
-    // @TODO: needs stroke or shadow, see original covers
     const textConfigHeading = new TextConfig({
         font: diskData.fonts.heading,
         size: diskData.back.headingFontSize,
@@ -196,9 +222,12 @@ const drawBackSection = (sectionData, size: Point, pos:Point, index:number, grou
     const resHeadingText = new ResourceText({ text: sectionData.title, textConfig: textConfigHeading });
     const opHeadingText = new LayoutOperation({
         translate: pos,
-        dims: resHeading.getSize(),
+        dims: headingSize,
         pivot: Point.CENTER,
-        fill: diskData.back.textColor
+        fill: diskData.back.textColor,
+        stroke: diskData.back.textStrokeColor,
+        strokeWidth: diskData.back.textStrokeWidth,
+        strokeAlign: StrokeAlign.OUTSIDE
     });
     group.add(resHeadingText, opHeadingText);
 
@@ -215,49 +244,130 @@ const drawBackSection = (sectionData, size: Point, pos:Point, index:number, grou
         textConfig.style = TextStyle.ITALIC;
     }
 
+    const textBoxDims = diskData.back.textBoxDims.clone().scale(size);
     const resText = new ResourceText({ text: sectionData.text, textConfig: textConfig });
     const opText = new LayoutOperation({
-        translate: new Point(pos.x, pos.y + 0.66*resHeading.getSize().y),
-        dims: new Point(0.75 * size.x, 0.5 * size.y),
-        fill: diskData.back.textColor
+        translate: new Point(pos.x, pos.y + 0.6*resHeading.getSize().y),
+        dims: textBoxDims,
+        fill: diskData.back.textColor,
+        pivot: new Point(0.5, 0)
     })
     group.add(resText, opText);
 }
 
-const createBack = (size:Point) =>
+const drawTitleText = (size: Point, layer: string, group: ResourceGroup, titleTexts: string[], titlePositions: Point[]) =>
+{
+    const diskData = DISKS[BOOK_DATA.disk];
+
+    const titleFontSize = diskData.titleText.fontSize;
+    const lineHeight = diskData.titleText.lineHeight;
+    const textBoxDims = new Point(0.9 * size.x, lineHeight*titleFontSize);
+    const textConfigTitle = new TextConfig({
+        font: diskData.fonts.heading,
+        size: titleFontSize,
+        alignHorizontal: TextAlign.MIDDLE,
+        alignVertical: TextAlign.START
+    })
+
+    const glowEffect = [new DropShadowEffect({ color: "#FFFFFF", blurRadius: diskData.titleText.glowRadius })];
+    const fillColor = (layer == "overlay") ? diskData.titleText.textColorOverlay : diskData.titleText.textColor;
+
+    const addGradient = (layer == "front");
+    const gradientColors = diskData.titleText.gradientColors;
+
+    for(let i = 0; i < titleTexts.length; i++)
+    {
+        const resTitleText = new ResourceText({ text: titleTexts[i], textConfig: textConfigTitle });
+        const pos = titlePositions[i].clone().add(new Point(0, diskData.titleText.offsetY[layer]));
+        const composite = (layer == "overlay") ? "overlay" : "source-over";
+        const effects = addGradient ? glowEffect : [];
+        const strokeColor = addGradient ? diskData.titleText.strokeColor : Color.TRANSPARENT;
+        const strokeWidth = addGradient ? diskData.titleText.strokeWidth : 0;
+        const opTitleText = new LayoutOperation({
+            translate: pos,
+            dims: textBoxDims,
+            fill: fillColor,
+            stroke: strokeColor,
+            strokeWidth: strokeWidth,
+            strokeAlign: StrokeAlign.OUTSIDE,
+            pivot: new Point(0.5, 0),
+            composite: composite,
+            effects: effects
+        });
+        group.add(resTitleText, opTitleText);
+
+        if(addGradient)
+        {
+            const ctx = createContext({ size: textBoxDims });
+            const opTextCopy = new LayoutOperation({
+                translate: textBoxDims.clone().scale(0.5),
+                dims: textBoxDims,
+                fill: "#000000",
+                pivot: Point.CENTER
+            });
+
+            resTitleText.toCanvas(ctx, opTextCopy);
+
+            const gradient = ctx.createLinearGradient(0, 0, 0, textBoxDims.y);
+            gradient.addColorStop(0, gradientColors[0]);
+            gradient.addColorStop(1, gradientColors[1]);
+            ctx.globalCompositeOperation = "source-atop";
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, textBoxDims.x, textBoxDims.y);
+
+            const res = new ResourceImage(ctx.canvas);
+            const op = new LayoutOperation({
+                translate: pos,
+                dims: textBoxDims,
+                pivot: new Point(0.5, 0),
+            });
+            group.add(res, op);
+        }
+
+    }
+}
+
+const createBack = (size:Point, center:Point) =>
 {
     const group = new ResourceGroup();
     const diskData = DISKS[BOOK_DATA.disk];
 
     drawBackgroundRect(size, group);
-    drawElectricityLines(size, group);
-    drawWildebyteBadge(size, group);
+    drawElectricityLines(size, center, group);
+    drawWildebyteBadge(size, center, group);
 
     const restartText = diskData.texts.restart.replace("%num%", "#" + BOOK_DATA.index);
     const sections = structuredClone(diskData.back.sections);
     sections[0].text = BOOK_DATA.blurb;
+    sections[1].text = diskData.texts.author;
     sections[2].text = restartText;
+
+    console.log(sections);
 
     for(let i = 0; i < sections.length; i++)
     {
         const sectionData = sections[i];
-        const pos = new Point(0.5 * size.x, (diskData.sectionStartY + i*diskData.sectionJumpY) * size.y);
+        const pos = new Point(center.x, (diskData.back.sectionStartY + i*diskData.back.sectionJumpY) * size.y);
         drawBackSection(sectionData, size, pos, i, group);
     }
 
     drawTopGradient(size, group);
-    return group;
+
+    const ctx = createContext({ size: size });
+    group.toCanvas(ctx);
+    return new ResourceImage(ctx.canvas);
 }
 
-const createSpine = (size:Point) =>
+const createSpine = (size:Point, center: Point) =>
 {
     const group = new ResourceGroup();
     const diskData = DISKS[BOOK_DATA.disk];
     const spineRot = 0.5*Math.PI;
 
+    const glowEffect = new DropShadowEffect({ color: "#FFFFFF", blurRadius: diskData.spine.glowRadius });
+
     // the general textured background
     // @NOTE: it retains its size (larger than any spine will ever be) to prevent any ugly stretching
-    const center = size.clone().scale(0.5);
     const resBg = resLoader.getResource("spine_background");
     const opBg = new LayoutOperation({
         translate: center,
@@ -268,13 +378,14 @@ const createSpine = (size:Point) =>
 
     // the unique icon for the book
     const resIcon = resLoader.getResource("spine_icon");
-    const posIcon = new Point(0.5 * size.x, diskData.spine.iconEdgeOffset * size.y);
-    const iconSize = resIcon.getSize();
+    const posIcon = new Point(center.x, diskData.spine.iconEdgeOffset * size.y);
+    const iconSize = diskData.spine.iconSize; // just use consistent icon size for all books; scaling per book will be wonky
     const opIcon = new LayoutOperation({
         translate: posIcon,
-        dims: iconSize, // @TODO: just use consistent icon size for all books? scaling per book will be wonky I guess
+        dims: iconSize,
         rotation: spineRot,
-        pivot: Point.CENTER
+        pivot: Point.CENTER,
+        effects: [glowEffect]
     })
     group.add(resIcon, opIcon);
 
@@ -287,15 +398,17 @@ const createSpine = (size:Point) =>
     })
     const bookTitle = convertToSmallCaps(BOOK_DATA.name, textConfigTitle.size);
     const resTextTitle = new ResourceText({ text: bookTitle, textConfig: textConfigTitle });
+    const marginIconToText = 1.0*iconSize.x;
     const opTextTitle = new LayoutOperation({
-        translate: new Point(posIcon.x, posIcon.y + 0.66*iconSize.x),
+        translate: new Point(posIcon.x, posIcon.y + marginIconToText),
         dims: new Point(0.5*size.y, 1.5*textConfigTitle.size),
         fill: diskData.spine.textColor,
         stroke: diskData.spine.strokeColor,
         strokeWidth: diskData.spine.strokeWidth,
         strokeAlign: StrokeAlign.OUTSIDE,
         pivot: new Point(0, 0.5),
-        rotation: spineRot
+        rotation: spineRot,
+        effects: [glowEffect]
     });
     group.add(resTextTitle, opTextTitle);
 
@@ -307,36 +420,39 @@ const createSpine = (size:Point) =>
     const authorText = convertToSmallCaps("Tiamo Pastoor", textConfigAuthor.size);
     const resTextAuthor = new ResourceText({ text: authorText, textConfig: textConfigAuthor });
     const opTextAuthor = new LayoutOperation({
-        translate: new Point(posIcon.x, size.y - posIcon.y - 0.66*resIcon.getSize().x),
+        translate: new Point(posIcon.x, size.y - posIcon.y - marginIconToText),
         dims: new Point(0.5*size.y, 1.5*textConfigAuthor.size),
         fill: diskData.spine.textColor,
         stroke: diskData.spine.strokeColor,
         strokeWidth: diskData.spine.strokeWidth,
         strokeAlign: StrokeAlign.OUTSIDE,
         pivot: new Point(1, 0.5),
-        rotation: -spineRot,
-        alpha: 0.75
+        rotation: spineRot,
+        alpha: diskData.spine.authorAlpha,
+        effects: [glowEffect]
     });
     group.add(resTextAuthor, opTextAuthor);
 
     // finally, place simple wildebyte icon at the end
     const resWBIcon = resLoader.getResource("wildebyte_logo_simplified");
-    const posWBIcon = new Point(0.5 * size.x, size.y - diskData.spine.iconEdgeOffset * size.y);
+    const posWBIcon = new Point(center.x, size.y - diskData.spine.iconEdgeOffset * size.y);
     const opWBIcon = new LayoutOperation({
         translate: posWBIcon,
-        dims: iconSize, 
+        dims: iconSize,
         rotation: spineRot,
-        pivot: Point.CENTER
+        pivot: Point.CENTER,
+        effects: [glowEffect]
     })
     group.add(resWBIcon, opWBIcon);
 
-    return group;
+    const ctx = createContext({ size: size });
+    group.toCanvas(ctx);
+    return new ResourceImage(ctx.canvas);
 }
 
-const createFront = (size:Point) =>
+const createFront = (size:Point, center: Point) =>
 {
     const group = new ResourceGroup();
-    const center = size.clone().scale(0.5);
     const diskData = DISKS[BOOK_DATA.disk];
 
     drawBackgroundRect(size, group);
@@ -351,12 +467,13 @@ const createFront = (size:Point) =>
     });
     group.add(bgPainting, bgPaintingOp)
 
-    drawElectricityLines(size, group);
+    drawElectricityLines(size, center, group);
 
     // the unique full_painting again, but now at forefront, locked inside framing graphic
     const resFraming = resLoader.getResource("framing_graphic");
-    const framingPos = new Point(0.5 * size.x, diskData.framing.yPos * size.y);
-    const paintingDims = resFraming.getSize().clone().scale(diskData.framing.fullPaintingScaleFactor);
+    const framingPos = new Point(center.x, diskData.framing.yPos * size.y);
+    const idealPaintingDims = resFraming.getSize().clone().scale(diskData.framing.fullPaintingScaleFactor);
+    const paintingDims = new Point(idealPaintingDims.y * bgPainting.getRatio(), idealPaintingDims.y);
     const paintingOp = new LayoutOperation({
         translate: framingPos,
         dims: paintingDims,
@@ -374,71 +491,120 @@ const createFront = (size:Point) =>
     // the metadata graphic (which is entirely fixed per disk, so just one simple image)
     const resMetadata = resLoader.getResource("metadata");
     const opMetadata = new LayoutOperation({
-        translate: new Point(0.5 * size.x, diskData.badge.yPos * size.y),
+        translate: new Point(center.x, diskData.metadata.yPos * size.y),
         dims: resMetadata.getSize(),
         pivot: Point.CENTER
     });
     group.add(resMetadata, opMetadata);
-   
 
-    // @TODO: That purple-black gradient over each individual ResourceText
-    // @TODO: Repetition with effects behind it; how to do that cleanly?
-    //  -> SOLUTION = Just make one function to draw title text, which allows sending in params for how exactly to do it
-    // @TODO: I generally need to add stroke + glow/shadow effects around text everywhere
-
-    const posTitle = new Point(0.5 * size.x, diskData.titleText.posY * size.y);
+    const posTitle = new Point(center.x, diskData.titleText.posY * size.y);
     const titleFontSize = diskData.titleText.fontSize;
-    const lineHeight = 1.25;
-    const textConfigTitle = new TextConfig({
-        font: diskData.fonts.heading,
-        size: titleFontSize,
-        alignHorizontal: TextAlign.MIDDLE,
-        alignVertical: TextAlign.START
-    })
-    const titleTexts = convertToSmallCaps(BOOK_DATA.name, textConfigTitle.size).split(" ");
-    for(const titleTextPart of titleTexts)
+    const lineHeight = diskData.titleText.lineHeight;
+
+    const titleTexts = BOOK_DATA.name.split(" ");
+    const titlePositions = [];
+    for(let i = 0; i < titleTexts.length; i++)
     {
-        const resTitleText = new ResourceText({ text: titleTextPart, textConfig: textConfigTitle });
-        const opTitleText = new LayoutOperation({
-            translate: posTitle,
-            dims: new Point(0.9 * size.x, lineHeight*titleFontSize),
-            fill: "#000000",
-            pivot: new Point(0.5, 0)
-        });
-        group.add(resTitleText, opTitleText);
+        titleTexts[i] = convertToSmallCaps(titleTexts[i], titleFontSize);
+        titlePositions[i] = posTitle.clone();
         posTitle.add(new Point(0, lineHeight*titleFontSize))
     }
 
-    drawWildebyteBadge(size, group);
+    const titleTextLayers = ["overlay", "shadow", "front"];
+    for(const layer of titleTextLayers)
+    {
+        drawTitleText(size, layer, group, titleTexts, titlePositions);
+    }
+
+    drawWildebyteBadge(size, center, group);
     drawTopGradient(size, group);
-    return group;
+
+    const ctx = createContext({ size: size });
+    group.toCanvas(ctx);
+    return new ResourceImage(ctx.canvas);
 }
 
-const createCover = async (target:string) =>
+const createStandaloneCover = async () =>
+{
+    const pageSize = convertInchesToPixels(PAGE_SIZE);
+    const ctx = createContext({ size: pageSize });
+    const center = pageSize.clone().scale(0.5);
+    const resFront = createFront(pageSize, center);
+    resFront.toCanvas(ctx);
+
+    const img = await convertCanvasToImage(ctx.canvas);
+    img.style.maxWidth = "100%";
+    img.title = "Wildebyte Cover (" + BOOK_DATA.name + ")";
+    document.body.appendChild(img);
+}
+
+const createPrintWraparound = async (target:string) =>
 {
     const size = getCoverSize(target);
     const ctx = createContext({ size: size });
     const group = new ResourceGroup();
 
-    // @TODO: now all of these groups will draw some stuff outside of boundaries
-    // perhaps it's better if each function draws to its own canvas (of limited size), and all we get back is one ResourceImage to draw?
-    const groupBack = createBack(getPageSize(target));
-    group.add(groupBack);
+    const pageSize = getPageSizePixels(target);
+    const bleedSize = convertInchesToPixels(new Point(TARGETS[target].bleed));
+    const centerBack = new Point(bleedSize.x + 0.5 * (pageSize.x - bleedSize.x), 0.5 * pageSize.y);
+    const resBack = createBack(pageSize, centerBack);
+    group.add(resBack);
 
-    const groupSpine = createSpine(getSpineSize(target));
-    const spineOp = new LayoutOperation({ translate: new Point(getPageSize(target).x, 0) });
-    group.add(groupSpine, spineOp);
-    
-    const groupFront = createFront(getPageSize(target));
-    const frontOp = new LayoutOperation({ translate: new Point(getPageSize(target).x + getSpineSize(target).x, 0) });
-    group.add(groupFront, frontOp);
+    const spineSize = getSpineSizePixels(target)
+    const centerSpine = spineSize.clone().scale(0.5);
+    const resSpine = createSpine(spineSize, centerSpine);
+    const opSpine = new LayoutOperation({ translate: new Point(pageSize.x, 0) });
+    group.add(resSpine, opSpine);
 
+    const centerFront = new Point(0.5 * (pageSize.x - bleedSize.x), 0.5 * pageSize.y);
+    const resFront = createFront(pageSize, centerFront);
+    const opFront = new LayoutOperation({ translate: new Point(pageSize.x + spineSize.x, 0) });
+    group.add(resFront, opFront);
+
+    // actually draw the entire thing we prepared
     group.toCanvas(ctx);
+
+    // create the raw image to use however
     const img = await convertCanvasToImage(ctx.canvas);
+    img.style.maxWidth = "100%";
+    img.title = "Wildebyte Print Wraparound (" + BOOK_DATA.name + ") for target " + target;
     document.body.appendChild(img);
+
+    // also create a PDF automatically
+    downloadPDF(img);
 }
 
-for(const key of Object.keys(TARGETS))
+const downloadPDF = (img:HTMLImageElement) =>
 {
-    createCover(key);
+    if(!CREATE_PDF) { return; }
+
+    const fileName = "Wildebyte Print Wraparound (" + BOOK_DATA.name + ")";
+    const size = new Point(img.naturalWidth, img.naturalHeight);
+    const pdfConfig = {
+        unit: 'px',
+        orientation: "landscape",
+        format: [size.x, size.y],
+        hotfixes: ["px_scaling"]
+    }
+
+    const doc = new jsPDF(pdfConfig);
+    // DOC: addImage(imageData, format, x, y, width, height, alias, compression, rotation)
+    // compression values = NONE, FAST, MEDIUM, SLOW
+    doc.addImage(img, 'png', 0, 0, size.x, size.y, undefined, 'MEDIUM');
+    doc.save(fileName);
 }
+
+const start = async () =>
+{
+    resLoader = new ResourceLoader({ base: "/wildebyte-cover-generator/assets/" });
+    await loadAssets(resLoader);
+
+    for(const key of Object.keys(TARGETS))
+    {
+        createPrintWraparound(key);
+    }
+
+    createStandaloneCover();
+}
+
+start();

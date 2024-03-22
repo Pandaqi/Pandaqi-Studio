@@ -26,6 +26,8 @@ export default class TilePicker
     {
         if(!CONFIG.sets[set]) { return; }
 
+        const dir = CONFIG.tiles.generation.setStaggerDir[set] ?? 1;
+
         // sort types based on starting number (low to high)
         // (this just makes the algorithm much faster and cleaner, it's not crucial)
         const typesSorted = [];
@@ -36,13 +38,13 @@ export default class TilePicker
             typesSorted.push({ key: key, val: data.val });
         }
         typesSorted.sort((a,b) => {
-            return a.val - b.val;
+            return dir*a.val - dir*b.val;
         });
 
         let numTilesNeeded = 0;
         for(const typeObj of typesSorted)
         {
-            const freq = TYPES[typeObj.key].freq ?? CONFIG.generation.defaultFreqPerType;
+            const freq = TYPES[typeObj.key].freq ?? CONFIG.tiles.generation.defaultFreqPerType;
             numTilesNeeded += freq;
         }
 
@@ -61,15 +63,15 @@ export default class TilePicker
 
         // then start adding them using a stagger algorithm
         const numbersTaken = [];
-        const staggerConstant = CONFIG.generation.staggerConstant as number;
-        const staggerBounds = CONFIG.generation.staggerBounds as Bounds;
-        const setBounds = CONFIG.generation.setNumBounds[set];
-        const dir = CONFIG.generation.setStaggerDir[set];
+        const staggerConstant = CONFIG.tiles.generation.staggerConstant as number;
+        const staggerBounds = CONFIG.tiles.generation.staggerBounds as Bounds;
+        const setBounds = CONFIG.tiles.generation.setNumBounds[set];
+        
         for(const typeObj of typesSorted)
         {
             const type = typeObj.key;
             const data = TYPES[type];
-            const freq = data.freq ?? CONFIG.generation.defaultFreqPerType;
+            const freq = data.freq ?? CONFIG.tiles.generation.defaultFreqPerType;
             
             const actionsPossible = data.actions ?? [];
             const actionsSpecific = [];
@@ -81,12 +83,13 @@ export default class TilePicker
                     else { actionsSpecific.push(actionsPossible[1]); }
                 }
             }
+            shuffle(actionsSpecific);
 
             let val = data.val;
             for(let i = 0; i < freq; i++)
             {
                 val = this.findFirstAvailableValueFrom(val, dir, numbersTaken, setBounds);
-                if(val === null) { break; }
+                if(val == null) { break; }
 
                 const action = actionsSpecific.length > 0 ? actionsSpecific.pop() : "";
                 const price = priceNumbers.length > 0 ? priceNumbers.pop() : 0;
@@ -95,19 +98,23 @@ export default class TilePicker
                 this.tiles.push(newTile);
                 numbersTaken.push(val);
 
-                const randStagger = Math.round( staggerBounds.random() * staggerConstant * i );
-                val += randStagger;
+                const randStagger = Math.round( staggerBounds.random() * staggerConstant * (i+1) );
+                val += dir * randStagger;
             }
         }
     }
 
     findFirstAvailableValueFrom(val:number, dir: number = 1, numbersTaken: number[], setBounds: Bounds)
     {
+        if(!setBounds.contains(val)) { return null; }
+        if(!numbersTaken.includes(val)) { return val; }
+
         while(numbersTaken.includes(val))
         {
             val += dir;
             if(!setBounds.contains(val)) { return null; }
         }
+
         return val;
     }
 }
