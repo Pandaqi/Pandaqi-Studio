@@ -14,7 +14,5 @@ title: "Dictionary"
     <span>Missing a word? <a href="https://pandaqi.com/info/contact">Let me know</a></span>
 </div>
 
-<!-- Lazy loading of JS -->
-<!-- A very, very tiny and specific piece of code for this dictionary -->
-{{ $pq_words := (resources.Get "/js/pq_words/dictionary.ts" | js.Build "/js/lib-pqTools-dictionary.js" | minify) }}
-<script async defer src="{{ $js.RelPermalink }}"></script>
+<!-- Lazy loading of JS; A very, very tiny and specific piece of code for this dictionary -->
+{{< load-assets-custom input="/js/pq_words/dictionary.ts" output="/js/lib-pqTools-dictionary.js" >}}

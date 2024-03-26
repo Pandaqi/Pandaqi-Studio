@@ -53,8 +53,6 @@ Ask these questions until somebody decides to take the offer.
 * Do you want this offer? Then take it. Add the cards to your score pile.
 * You don't want it? Pay for the privilege to skip. **Discard** a random card from your score pile. Then **add** one card from your hand to the offer, anywhere you want.
 
-<!--- @TODO: not sure about this exception/wrinkle: The card you add must have a *higher* number than your own bid. --->
-
 If it comes to the last player---the one with the worst bid---they _must_ accept. If you can't pay to skip, you must also accept.
 
 The winner picks one bid to start the **next offer**. All other bids return to the player's hands.
@@ -67,14 +65,18 @@ The winner picks one bid to start the **next offer**. All other bids return to t
 
 {{% rules-block id="expansions" heading="Expansions" icon="expansion" icontint="red" %}}
 
-Played the game a few times and ready for more challenge? You're in the right place! These expansions mostly add _more cards_ with unique numbers. (The game should never have two cards with the same number.)
+Played the game a few times and ready for more challenge? You're in the right place! These expansions simply add _more cards_ with unique numbers and actions. (The game should never have two cards with the same number.)
 
 {{% rules-block heading="Odd Inventions" %}}
-@TODO
+This expansion adds _negative numbers_. This changes nothing in the rules, but simply gives a larger range of values that can be played or bid.
+
+It also adds more actions, most of which are more chaotic and wild than the base actions.
 {{% /rules-block %}}
 
 {{% rules-block heading="Double Devices" %}}
-@TODO
+This expansion adds _higher numbers_, up to at most 100. This, again, changes nothing about the rules and just increases the variety of values.
+
+It also adds more actions that allow playing with core aspects of the game.
 {{% /rules-block %}}
 
 {{% /rules-block %}}

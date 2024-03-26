@@ -75,6 +75,8 @@ Three simple steps.
 
 <p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>
 
+<p class="settings-remark">The material for this game is heavy to generate. Please use a computer (not a phone, for example) and give it a few minutes!</p>
+
 {{% /section-centered %}}
 
 {{< support >}}

@@ -2,6 +2,27 @@ import WordMetadata from "./wordMetadata";
 import WordData from "./wordData";
 import WordDataList from "./wordDataList";
 
+const CATEGORIES =
+{
+    geography: ["cities", "countries", "locations", "planets"],
+    names: ["business", "clothes", "creative_gaming", "creative_visual", "creative_writing", "digital", "food", "holidays", "items_appliances", "music", "people", "religion", "science", "sports", "travel", "vehicles", "general"],
+    nouns: ["anatomy", "animals", "animals_birds", "animals_farm", "animals_insects", "animals_pets", "business", "clothes", "colors", "continents", "creative_gaming", "creative_visual", "creative_writing", "digital", "events", "food", "food_beverages", "food_fruit", "food_sweets", "general", "holidays", "items", "items_appliances", "items_furniture", "items_household", "items_substances", "items_tools", "items_toys", "military", "music", "music_theory", "nature", "nature_weather", "occupations", "people", "places", "places_architecture", "places_inside",  "religion", "science", "science_chemistry", "science_physics", "shapes", "sports", "time", "travel", "vehicles"],
+    adverbs: ["certainty", "conjunctive", "degree", "frequency", "interrogative", "manner", "place", "relative", "time"],
+    adjectives: ["age", "article", "character", "color", "comparative", "demonstrative", "difference", "distributive", "emotions", "material", "numbers", "opinion", "origin", "possessive", "predeterminer", "quantifier", "ranking", "shape", "size", "superlative", "technology","temperature" ],
+    verbs: ["auxiliary", "basic", "dynamic", "intransitive", "linking", "movement", "phrasal", "stative", "transitive"],
+    pronouns: ["pronouns"],
+    prepositions: ["movement", "place", "time"]
+}
+
+const ALL_CATEGORIES = new Set();
+for(const [key,data] of Object.entries(CATEGORIES))
+{
+    for(const val of data)
+    {
+        ALL_CATEGORIES.add(val);
+    }
+}
+
 interface Query 
 {
     cat?:string
@@ -31,14 +52,13 @@ class PandaqiWords {
 
     jsonCache:Record<string,any> = {}
     txtCache:Record<string,any> = {}
-    list:WordData[] = [] // @TODO might be wrong type
+    list:WordData[] = []
     
-    allCategories =  
-    ["anatomy", "animals", "animals_birds", "animals_farm", "animals_insects", "animals_pets", "business", "cities", "clothes", "colors", "continents", "countries", "creative_gaming", "creative_visual", "creative_writing", "digital", "events", "food", "food_beverages", "food_fruit", "food_sweets", "general", "holidays", "items", "items_appliances", "items_furniture", "items_household", "items_substances", "items_tools", "items_toys", "locations", "military", "music", "music_theory", "nature", "nature_weather", "occupations", "people", "places", "places_architecture", "places_inside", "planets", "religion", "science", "science_chemistry", "science_physics", "shapes", "sports", "time", "travel", "vehicles"]
+    allCategories = Array.from(ALL_CATEGORIES) as string[]
     defaultCategories = ["animals", "food", "places", "items"]
     allLevels = ["core", "easy", "medium", "hard", "hardcore"]
     defaultLevel = ["easy"]
-    allTypes = ["nouns", "geography", "names", "adjectives", "verbs", "adverbs"]
+    allTypes = ["nouns", "geography", "names", "adjectives", "verbs", "adverbs", "pronouns", "prepositions"]
     defaultType = ["nouns"]
 
     defSubcat = "general"
@@ -57,10 +77,10 @@ class PandaqiWords {
     }
 
     // @NOTE: Can print this directly to the console with something like
-    // PQ_WORDS.getTotalWordCount().then((res) => console.log(res));
+    // PQ_WORDS.getWordCount().then((res) => console.log(res));
     async getWordCount(allWords = true)
     {
-        if(allWords) { await this.loadWithParams({ "useAll": true, "method": "json" }); }
+        if(allWords) { await this.loadWithParams({ useAll: true, method: "json" }); }
         return this.recursiveWordCount(this.jsonCache);
     }
 
@@ -365,7 +385,7 @@ class PandaqiWords {
 
     async loadAll()
     {
-        await this.loadWithParams({ "useAll": true, "method": "txt" });
+        await this.loadWithParams({ useAll: true, method: "txt" });
     }
 
     async loadWithParams(params:LoadParams = {})
@@ -379,6 +399,7 @@ class PandaqiWords {
             params.types = this.allTypes;
             params.levels = this.allLevels;
             params.categories = this.allCategories;
+            params.useAllSubcat = true;
         }
 
         params.minWordLength = params.minWordLength || 0;
@@ -422,9 +443,16 @@ class PandaqiWords {
             const isTypeException = (type in typeExceptions);
             if(isTypeException) { continue; }
 
+            const relevantCategories = [];
+            for(const cat of categories)
+            {
+                if(!CATEGORIES[type].includes(cat)) { continue; }
+                relevantCategories.push(cat);
+            }
+
             for(const level of levels)
             {
-                for(const cat of categories)
+                for(const cat of relevantCategories)
                 {
                     let mainCat = cat, subCat = this.defSubcat;
                     if(cat.includes("_"))
@@ -485,17 +513,23 @@ class PandaqiWords {
         this.constructListFromKeys(keys, params);
     }
 
-    fileExists(url:string) 
+    async fileExists(url:string) 
     {
-        var req = new XMLHttpRequest();
-        req.open('HEAD', url, false);
-        req.send();
-        return req.status !== 404;
+        const req = new XMLHttpRequest();
+        return new Promise((resolve, reject) => {
+            req.open('HEAD', url);
+            req.onerror = () => { resolve(false); }
+            req.onload = () => {
+                resolve(req.status !== 404);
+            };
+            req.send();
+        });        
     }
 
     parseTxtFile(data:string)
     {
-        const arr = data.replaceAll("\r", "").split("\n");
+        const arr = data.split(/[\r\n]+/);
+        // this just filters out any empty lines (or too-short-words)
         for(let i = arr.length-1; i >= 0; i--)
         {
             if(arr[i].length >= 2) { continue; }
@@ -504,18 +538,19 @@ class PandaqiWords {
         return arr;
     }
 
-    loadTxtFile(filePath:string, wordData:WordDataList)
+    async loadTxtFile(filePath:string, wordData:WordDataList)
     {   
         console.log("Checking file at ", filePath);
 
-        if(!this.fileExists(filePath)) { return Promise.resolve(); }
+        const fileExists = await this.fileExists(filePath);
+        if(!fileExists) { return Promise.resolve(); }
 
         const that = this;
         return new Promise((resolve, reject) => {
             const xhr = new XMLHttpRequest();
             xhr.open('GET', filePath);
 
-            xhr.onerror = (ev) => { resolve(false); }
+            xhr.onerror = () => { resolve(false); }
             xhr.onloadend = () => {
                 if(xhr.status == 404) { resolve(false); return; }
                 if(xhr.status == 200) {
@@ -531,7 +566,7 @@ class PandaqiWords {
     }
 
     // @IMPROV: slightly duplicate code compared to loadTxtFile; is it necessary to generalize/merge that?
-    async loadJsonFile(filePath)
+    async loadJsonFile(filePath:string)
     {
         const that = this;
         return new Promise((resolve, reject) => {

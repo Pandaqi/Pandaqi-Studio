@@ -147,10 +147,10 @@ const BOOK_TITLES =
     things_fall_apart: { label: "Things Talk Alarmed" },
     fictions: { label: "Fictitious" },
     the_stories_of_anton_chekhov: { label: "The Stories of Anton Checkup" },
-    love_in_the_time_of_cholera: { label: "Love in the Time of ??" },
+    love_in_the_time_of_cholera: { label: "Love in the Time of Chocolate" },
     rebecca: { label: "Rebeckoning" },
     portrait_of_a_lady: { label: "Portrait of a Baby" },
-    candide: { label: "Candle Feeling" },
+    candide: { label: "Candle Feeding" },
     pale_fire: { label: "Pale Hire" },
     harry_potter: { label: "Harry Hotter" },
     lord_of_the_flies: { label: "Lord of the Flights" },
@@ -266,20 +266,55 @@ const BOOK_TITLES =
     wheres_wally: { label: "Where's Walrus?" },
     eragon: { label: "Era Gone" },
 
-    // fairytales @TODO
+    // fairytales
     pinocchio: { label: "Piknockio" },
+    little_red_riding_hood: { label: "Little Bad Riding Foot" },
+    jack_and_the_beanstalk: { label: "Jack and the Lean Walk" },
+    ugly_duckling: { label: "Ugly Darkling" },
+    hansel_and_gretel: { label: "Hansel and Forgetel" },
+    goldilocks_and_the_three_bears: { label: "Goldilocks and the Tree Fears" },
+    rumpelstiltskin: { label: "Rumpelwillwin" },
+    three_little_pigs: { label: "Three Little Wigs" },
+    cinderella: { label: "Cindumbrella" },
+    sleeping_beauty: { label: "Sleeping Fury" },
+    rapunzel: { label: "Rapunsole" },
+    frog_prince: { label: "Frog Fringe" },
+    snow_white_and_the_seven_dwarfs: { label: "Snow White and the Heaven Stars" },
+    little_mermaid: { label: "Little Moremaid" },
+    princess_and_the_pea: { label: "Princess and the Pee" },
+    emperors_new_clothes: { label: "Emperor's New Votes" },
+    beauty_and_the_beast: { label: "Baby and the Beat" },
+    puss_in_boots: { label: "Puss in Kahoots" },
+    aladdin: { label: "Althathings" },
+    gingerbread_man: { label: "Gingerbread Dance" },
 
-    // roald dahl @TODO
+    // roald dahl
     james_and_the_giant_peach: { label: "James and the Giant Leech" },
     charlie_and_the_chocolate_factory: { label: "Charlie and the Chocolate Battery" },
+    big_friendly_giant: { label: "Big Friendly Tyrant" },
+    matilda: { label: "Matilday" },
+    the_witches: { label: "The Wishes" },
+    fantastic_mr_fox: { label: "Fantastic Mr. Fog" },
 
-    // YA / modern hypes @TODO
+    // YA / modern hypes
     hunger_games: { label: "Hunger Dames" },
     catching_fire: { label: "Catching Liar" },
     mockingjay: { label: "Mocking Jay" },
     divergent: { label: "Detergent" },
     twilight: { label: "Twilightbulb" },
     fault_in_our_stars: { label: "Fault in our Cars" },
+    the_princess_diaries: { label: "The Princess Diabetes" },
+    sisterhood_of_the_traveling_pants: { label: "Sisterhood of the Baffling Fans" },
+    perks_of_being_a_wallflower: { label: "Perks of Being a Smalltower" },
+    looking_for_alaska: { label: "Looking for a Maska" },
+    maze_runner: { label: "Maze Rudder" },
+    shadow_and_bone: { label: "Shadow and Stone" },
+    six_of_crows: { label: "Six of Hose" },
+    red_rising: { label: "Red Timing" },
+    one_of_us_is_lying: { label: "One of Us is Dying" },
+    mistborn: { label: "Mistthorn" },
+    scythe: { label: "Sighthe" },
+    his_dark_materials: { label: "His Fart Materials" },
 
     // required reading school
     of_mice_and_men: { label: "Of Lies and Plants" },
@@ -295,11 +330,90 @@ const BOOK_TITLES =
     treasure_island: { label: "Treasure Headband" },
     me_and_earl_and_the_dying_girl: { label: "Me, Earl and the Flying Sir" },
 
-    // letters that are really hard to get
+    // filling up the letters that are really hard to get
+    enders_game: { label: "Ender's Name" },
+    east_of_eden: { label: "East of Demon" },
+    eclipse: { label: "Eclipped" },
+    eat_pray_love: { label: "Eat, Sway, Dove" },
+
+    i_robot: { label: "I, Romcom" },
+    i_am_legend: { label: "I Am Pageant" },
+    i_know_why_the_caged_bird_sings: { label: "I Know Why the Safebird Sings" },
+    into_the_wild: { label: "Into the Smile" },
+    it: { label: "It Support" },
+
+    knight_of_the_seven_kingdoms: { label: "Knight of the Seven Romcoms" },
+    keeper: { label: "Keepurr" },
+    kira_kira: { label: "Kira-Kari" },
+    kidnapped: { label: "Kidnapper" },
+    kafka_on_the_shore: { label: "Kafka on your Door" },
+    killing_mr_griffin: { label: "Killing Mr. Giving" },
+    killer_smile: { label: "Killer File" },
+    kingdom_of_shadows: { label: "Kingdom of Meadows" },
+
+    name_of_the_wind: { label: "Name of the Witch" },
+    never_let_me_go: { label: "Never Let Me Snow" },
+    neverwhere: { label: "Neverwhy" },
+    night_circus: { label: "Night Cactus" },
+    naked_in_death: { label: "Naked in Laugh" },
+    namesake: { label: "Nameshake" },
+    northanger_abbey: { label: "North Angry Abby" },
+
+    quiet_the_power_of_introverts: { label: "Quiet: The Power of Introbirds" },
+    quidditch_through_the_ages: { label: "Quidditch Through the Mazes" },
+    queens_gambit: { label: "Queen's Megabit" },
+    queen_of_the_damned: { label: "Queen of the Rams" },
+    quicksand: { label: "Quickhand" },
+    quarantine: { label: "Quarryteen" },
+    quick_bite: { label: "Quick Bait" },
+    quiet_gentleman: { label: "Quiet Gentleband" },
+    question_of_love: { label: "Question of Gloves" },
+
+    robinson_crusoe: { label: "Robinson Cruiseship" },
+    ready_player_one: { label: "Ready Player Two" },
+    return_of_the_king: { label: "Return of the Swing" },
+    restaurant_at_the_end_of_the_universe: { label: "Restaurant at the End of the Purse" },
+    return_of_the_native: { label: "Return of the Plaintiff" },
+
+    utopia: { label: "Utopiary" },
+    uncle_toms_cabin: { label: "Uncle Tom's Halfling" },
+    unexpected_mrs_pollifax: { label: "Unexpected Mrs. Zodiacs" },
+    uglies: { label: "Ugliest" },
+
+    v_for_vendetta: { label: "V for Vending Machine" },
+    valkyries: { label: "Valkypies" },
+    vampire_academy: { label: "Vampire Acarryme" },
+    vandal_love: { label: "Vandal Shove" },
+    vanishing_girl: { label: "Vanishing Grill" },
+    vacant_possession: { label: "Vacant Aggression" },
+
     x_men: { label: "X-Mental" },
     x_marks_the_spot: { label: "X Marks the Shot" },
     xena_warrior_princess: { label: "Xena: Warrior Biceps" },
+    xenocide: { label: "Xenolies" },
+    x_it: { label: "X-That" },
+    x_isle: { label: "X-Isled" },
+    xoxo: { label: "XOXOXOPEN" },
 
+    year_in_provence: { label: "Year Improvised" },
+    yiddish_for_pirates: { label: "Yiddish for Pamphlets" },
+    you_deserve_nothing: { label: "You Deserve Hot Wings" },
+    yellow_wallpaper: { label: "Yellow Wall Flavor" },
+    youth: { label: "You" },
+    y_the_last_man: { label: "Y: The Last Plant" },
+    you_shall_know_our_velocity: { label: "You Shall Know Our Monstrosity" },
+    yours_jack: { label: "Yours, Jacky" },
+
+    zeitgeist: { label: "Zeitgeiser" },
+    zorro: { label: "Zorrow" },
+    zookeepers_wife: { label: "Zookeeper's Life" },
+    zanzibar_cat: { label: "Zanzibar Flat" },
+    zealots_bones: { label: "Zealot's Thrones" },
+    zen_and_the_art_of_vampires: { label: "Zen and the Art of Fanfires" },
+    zelda: { label: "Zeldom" },
+    zombie: { label: "Zombean" }, 
+    zolotov_affair: { label: "Zolotov, A Fire" },
+    zoo_city: { label: "Zoo Pity" }
 }
 
 //
@@ -395,14 +509,21 @@ const AGE_RANGES =
 //
 // possible special shelf powers
 //
-const SHELF_POWERS =
+interface ShelfPowerData
+{
+    desc: string,
+    min?: number,
+    prob?: number
+}
+
+const SHELF_POWERS:Record<string, ShelfPowerData> =
 {
     no_stack: { desc: "<b>Stacking</b> cards is <b>forbidden</b>." },
-    forbidden_letters: { desc: "Letters %letters% are <b>forbidden</b>." },
-    forbidden_colors: { desc: "Colors %colors% are <b>forbidden</b>." },
-    restricted_letters: { desc: "Only letters %letters% are allowed to the <b>%side%</b> of me." },
-    restricted_colors: { desc: "Only colors %colors% are allowed to the <b>%side%</b> of me." },
-    max_cards: { desc: "At most %num% cards are allowed to the <b>%side%</b> of me." },
+    forbidden_letters: { desc: "Letters <b>%letters%</b> are <b>forbidden</b>." },
+    forbidden_colors: { desc: "Colors <b>%colors%</b> are <b>forbidden</b>." },
+    restricted_letters: { desc: "Only letters <b>%letters%</b> are allowed to the <b>%side%</b> of me." },
+    restricted_colors: { desc: "Only colors <b>%colors%</b> are allowed to the <b>%side%</b> of me." },
+    max_cards: { desc: "<b>At most %num%</b> cards are allowed to the <b>%side%</b> of me." },
     wildcard_letters: { desc: "All letters before <b>%letter%</b> are any <b>genre</b> you want." },
     wildcard_colors: { desc: "Any <b>%color%</b> card here is any <b>genre</b> you want." }
 }
@@ -410,7 +531,13 @@ const SHELF_POWERS =
 //
 // possible actions for the final expansion (that requires extra material)
 //
-const ACTIONS_THRILL =
+interface ActionThrillData
+{
+    desc: string,
+    freq?: number
+}
+
+const ACTIONS_THRILL:Record<string,ActionThrillData> =
 {
     skip: { desc: "The next player must skip their turn." },
     stop: { desc: "End your turn immediately." },
@@ -443,12 +570,12 @@ interface ColorTypeData
 
 const COLORS:Record<string, ColorTypeData> =
 {
-    red: { frame: 0, main: "#E61948", light: "#FFCDD9", letters: ["A", "F", "L", "Q", "U", "D"], authorsFixed: ["shakespeare", "tolstoy", "tolstoy", "dickens", "hemingway", "sanderson", "rowling"], authorsOptions: ["tolkien", "andersen", "carroll", "verne", "kafka", "eliot", "fitzgerald", "milton", "james", "riley"] },
-    green: { frame: 1, main: "#3CB44B", light: "#CCFFD3", letters: ["B", "E", "M", "R", "V", "G"], authorsFixed: ["orwell", "orwell", "dickens", "austen", "sanderson", "christie"], authorsOptions: ["clancy", "seuss", "king", "coelho", "wallace", "stine", "cartland", "roth", "meyer", "pullman"] },
-    blue: { frame: 2, main: "#4363D8", light: "#C5D8FF", letters: ["C", "G", "N", "S", "W", "K"], authorsFixed: ["hemingway", "austen", "dickens", "shakespeare", "sanderson", "christie"], authorsOptions: ["steel", "robbins", "simenon", "blyton", "toriyama", "roberts", "pushkin", "bardugo", "jordan", "hosseini"] },
-    purple: { frame: 3, main: "#AD70F4", light: "#DCBEFF", letters: ["D", "H", "O", "T", "X", "O"], authorsFixed: ["shakespeare", "shakespeare", "dickens", "sanderson", "rowling", "rowling"], authorsOptions:  ["patterson", "dahl", "lewis", "kishimoto", "brown", "lindgren", "rice", "martin", "lee", "alger"] },
-    yellow: { frame: 4, main: "#FFE119", light: "#FFF9D4", letters: ["E", "I", "K", "P", "Y", "S"], authorsFixed: ["orwell", "orwell", "austen", "austen", "sanderson", "christie"], authorsOptions: ["joyce", "marques", "borges", "dickinson", "dostoyevsky", "flaubert", "melville", "collins", "oda", "goscinny"] },
-    black: { frame: 5, main: "#111111", light: "#999999", letters: ["F", "J", "L", "P", "Z", "X"], authorsFixed: ["hemingway", "hemingway", "shakespeare", "tolstoy", "sanderson", "rowling"], authorsOptions: ["blake", "voltaire", "dante", "mark", "homer", "virgil", "cervantes", "patten", "sheldon", "archer"] },
+    red: { frame: 0, main: "#E61948", light: "#FFCDD9", letters: ["A", "F", "L", "Q", "U", "D"], authorsFixed: ["shakespeare", "rowling", "rowling", "rowling", "hemingway", "dickens", "sanderson", "tolstoy"], authorsOptions: ["tolkien", "andersen", "carroll", "verne", "kafka", "eliot", "fitzgerald", "milton", "james", "riley"] },
+    green: { frame: 1, main: "#3CB44B", light: "#CCFFD3", letters: ["B", "E", "M", "R", "V", "G"], authorsFixed: ["orwell", "orwell", "orwell", "austen", "sanderson", "christie"], authorsOptions: ["clancy", "seuss", "king", "coelho", "wallace", "stine", "cartland", "roth", "meyer", "pullman"] },
+    blue: { frame: 2, main: "#4363D8", light: "#C5D8FF", letters: ["C", "G", "N", "S", "W", "K"], authorsFixed: ["hemingway", "austen", "dickens", "dickens", "dickens", "shakespeare", "sanderson", "christie"], authorsOptions: ["steel", "robbins", "simenon", "blyton", "toriyama", "roberts", "pushkin", "bardugo", "jordan", "hosseini"] },
+    purple: { frame: 3, main: "#AD70F4", light: "#DCBEFF", letters: ["D", "H", "O", "T", "X", "O"], authorsFixed: ["shakespeare", "shakespeare", "shakespeare", "dickens", "sanderson", "rowling"], authorsOptions:  ["patterson", "dahl", "lewis", "kishimoto", "brown", "lindgren", "rice", "martin", "lee", "alger"] },
+    yellow: { frame: 4, main: "#FFE119", light: "#FFF9D4", letters: ["E", "I", "K", "P", "Y", "S"], authorsFixed: ["orwell", "orwell", "austen", "austen", "austen", "sanderson", "christie"], authorsOptions: ["joyce", "marques", "borges", "dickinson", "dostoyevsky", "flaubert", "melville", "collins", "oda", "goscinny"] },
+    black: { frame: 5, main: "#111111", light: "#999999", letters: ["F", "J", "L", "P", "Z", "X"], authorsFixed: ["hemingway", "hemingway", "hemingway", "shakespeare", "tolstoy", "sanderson", "rowling"], authorsOptions: ["blake", "voltaire", "dante", "mark", "homer", "virgil", "cervantes", "patten", "sheldon", "archer"] },
 }
 
 const MISC =

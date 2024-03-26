@@ -26,7 +26,8 @@ class BoardGeneration extends Scene
 
         const base = 'assets/';
         const sd = CONFIG.types.sheetData;
-        this.load.image("score_sheet", base + "score_sheet.webp");
+        // DEPRECATED; score displays now generated dynamically based on types actually used in board
+        // this.load.image("score_sheet", base + "score_sheet.webp");
         this.load.spritesheet("general", base + 'general_spritesheet.webp', sd);
         this.load.spritesheet("cell_types", base + 'cell_types.webp', sd);
         this.load.spritesheet("cell_types_simplified", base + 'cell_types_simplified.webp', sd);

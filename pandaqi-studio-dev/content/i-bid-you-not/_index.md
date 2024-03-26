@@ -31,8 +31,8 @@ tags: ["simple", "auction", "bidding"]
 multiplayermode: "competitive"
 language: EN
 genre: ["tile"]
-playtime: 30
-playercount: [3,4,5,6,7]
+playtime: 45
+playercount: [3,4,5,6]
 complexity: low
 ages: everyone
 
@@ -75,7 +75,21 @@ Three simple steps.
 
 {{% section-centered heading="Credits" anchor="credits" %}}
 
-@TODO
+This game started as the question "what's the simplest bidding game I can come up with?" (With the added requirement that it actually be a good game and not a vague shouting match.)
+
+Having played a few abstract, number-based card games lately, my brain immediately wandered to the following set of ideas. (Which are basically the rules to the entire game.)
+
+* You take turns building an **offer** on the table, where each card must have a higher number than the previous.
+* But at any point, somebody can refuse to make the offer better and declare an **auction**.
+* An auction means everyone plays a secret card---their bid---and the highest wins all the cards inside the offer.
+
+It has this push-and-pull that you want in all games. On the one hand, you want the offer to include better cards. But you also don't want to make it too good, or wait too long, before declaring an auction and trying to _win_ that offer.
+
+It also had the usual issue of number-based games where higher number are just "always better". As such, there's one more rule that turns auctions on their head, allowing any number to win. And once that part worked, I polished it with the usual suspects: some cards have _special actions_ and some cards are worth _negative_ points.
+
+All of that combined into the simplest bidding game I can imagine, with as much strategy and variety as possible.
+
+The fonts used are **Digitalt** (header, thick) and **Inter Tight** (body, paragraphs), both freely available for commercial use. Some imagery was generated with AI. Everything else (code, rules, idea, assets, etcetera) is entirely mine.
 
 For more information, as always, read my [detailed developer diary on Pandaqi Blog](/blog/boardgames/i-bid-you-not/).
 

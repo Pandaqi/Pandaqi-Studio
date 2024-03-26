@@ -26,13 +26,14 @@ const CONFIG:any =
 
     packs:
     {
-        red: "todo1",
-        green: "todo1",
-        blue: "todo1",
-        purple: "todo1",
-        yellow: "todo1",
-        black: "todo1",
-        actions: false
+        shelves: true,
+        red: "horror",
+        green: "romance",
+        blue: "thriller",
+        purple: "fantasy",
+        yellow: "biography",
+        black: "mystery",
+        actions: false,
     },
 
     // assets
@@ -90,7 +91,10 @@ const CONFIG:any =
 
         generation:
         {
-            numCardsPerColor: 11
+            numCardsPerColor: 11,
+            numBookShelfCards: 12,
+            minFrequencyForSeries: 3,
+            defAuthorActionCards: "Anonymous",
         },
 
     },
