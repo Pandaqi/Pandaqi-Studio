@@ -36,6 +36,7 @@ playtime: 20
 playercount: [4,5,6,7,8,9,10,11,12]
 complexity: low
 ages: everyone
+devlog: "/blog/boardgames/kingseat/"
 
 ---
 

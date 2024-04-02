@@ -15,10 +15,10 @@ export default class Edge
 
 	getCenterPos()
 	{
-		return {
-			x: 0.5 * (this.start.x + this.end.x),
-			y: 0.5 * (this.start.y + this.end.y)
-		}
+		return new Point(
+			0.5 * (this.start.x + this.end.x),
+			0.5 * (this.start.y + this.end.y)
+		);
 	}
 
 	getRotation()

@@ -45,6 +45,7 @@ genre: ["casual", "action", "delivering"]
 playtime: 5
 playercount: [1,2,3,4,5,6,7,8,9,10]
 input: ["touch"]
+devlog: "/blog/videogames/the-peerful-project/pizza-peers/"
 
 ---
 

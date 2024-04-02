@@ -68,7 +68,7 @@ const CONFIG:any =
 
     rulebook:
     {
-
+        tileSize: new Point(256, 256)
     },
 
     tiles:

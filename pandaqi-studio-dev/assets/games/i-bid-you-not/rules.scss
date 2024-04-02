@@ -8,6 +8,13 @@ body {
 $light-yellow: color.adjust(g.$col1, $lightness: 10%);
 $light-purple: color.adjust(g.$col2, $lightness: 30%);
 
+.rules-example
+{
+    img {
+        max-height: 12.5vw;
+    }
+}
+
 #setup {
     background-color: $light-yellow;
 }
@@ -20,10 +27,6 @@ $light-purple: color.adjust(g.$col2, $lightness: 30%);
     background-color: $light-yellow;
 }
 
-#scoring {
-    background-color: $light-purple;
-}
-
 #expansions {
-    background-color: $light-yellow;
+    background-color: $light-purple;
 }

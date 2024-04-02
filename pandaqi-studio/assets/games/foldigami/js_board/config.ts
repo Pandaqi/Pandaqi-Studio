@@ -7,17 +7,46 @@ export default
     includeRules: true,
     inkFriendly: false,
     noRotation: false,
+    resLoader: null,
 
-    teams: {
+    assetsBase: "/foldigami/assets/",
+    assets:
+    {
+        types: 
+        {
+            path: "types.webp",
+            frames: new Point(8,2),
+        },
+
+        tutorial:
+        {
+            path: "tutorial.webp",
+            frames: new Point(8,3)
+        },
+
+        teams:
+        {
+            path: "teams.webp",
+            frames: new Point(4,1)
+        },
+
+        scroll_grayscale:
+        {
+            path: "scroll_grayscale.webp"
+        }
+    },
+
+    teams: 
+    {
         num: 2,
         maxStartingScoreDifference: 3,
         textureKey: "teams",
-        sheetData: { frameWidth: 256, frameHeight: 256 },
         iconScale: 0.4, // both relative to iconSize = spriteSize of cell
         iconOffset: 0.4,
     },
 
-    evaluator: {
+    evaluator: 
+    {
         debug: false, // @DEBUGGING (should be false)
         forbidNegativeScores: true,
         font: {
@@ -29,12 +58,12 @@ export default
         }
     },
 
-    types: {
+    types: 
+    {
         debug: [], // @DEBUGGING (should be empty)
         setTemplate: ["required", "score", "rotation"],
         textureKey: "types",
         emptyKey: "empty",
-        sheetData: { frameWidth: 256, frameHeight: 256 },
         maxSetSize: { min: 4, max: 5 },
         generalMaxPerType: 7,
         generalMaxPerTeam: 7,
@@ -45,7 +74,8 @@ export default
         }
     },
 
-    board: {
+    board: 
+    {
         position: "center",
         modifyEdgeCells: true,
         addHalfLines: true,
@@ -63,14 +93,14 @@ export default
             colorModifyPercentage: 10,
             colorBackgroundAlpha: 1.0,
             lineWidth: 0.015, // relative to cell size
-            lineColor: 0x333333,
+            lineColor: "#333333",
             halfLineWidth: 0.015*0.5, // relative to cell size; just half lineWidth
-            halfLineColor: 0x333333,
+            halfLineColor: "#333333",
             halfLineAlpha: 0.5,
         },
         outline: {
             width: 0.03, // relative to cell size
-            color: 0x333333
+            color: "#333333"
         },
         font: {
             family: 'Jockey One',
@@ -81,9 +111,9 @@ export default
         }
     },
 
-    tutorial: {
+    tutorial: 
+    {
         textureKey: "tutorial",
-        sheetData: { frameWidth: 256, frameHeight: 256 },
         insideCells: true,
         outerMargin: { x: 0.05, y: 0.05 },
         texts: {

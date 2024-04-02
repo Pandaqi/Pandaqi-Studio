@@ -36,6 +36,7 @@ export default class Point
         return this;
     }
 
+    add(p:Point) { return this.move(p); } // @NOTE: some of these are just aliases because I was stupid enough to mix two different Point classes (the Photomone one---this one---and the general one)
     move(p:Point)
     {
         this.moveX(p.x);
@@ -79,6 +80,7 @@ export default class Point
 
     scaleX(s: number) { this.x *= s; return this; }
     scaleY(s: number) { this.y *= s; return this; }
+    scaleFactor(f: number) { return this.scale(f); }
 
     distSquaredTo(p: Point)
     {

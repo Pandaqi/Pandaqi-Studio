@@ -37,6 +37,7 @@ playtime: 30
 playercount: [2,3,4,5,6,7,8]
 complexity: low
 ages: everyone
+devlog: "/blog/boardgames/photomone-digital-antists/"
 
 ---
 
@@ -83,7 +84,7 @@ This game is a (completely digital) spin-off for [Photomone](https://pandaqi.com
 For a detailed diary about the game, check out the [devlog](/blog/boardgames/photomone-digital-antists).
 
 <div class="photomone-update-block" style="margin-bottom: 3.5em;">
-Photomone now has a spin-off that turns the game on its head. The result is something similar to popular games like "Codenames". Check out <a href="https://pandaqi.com/photomone-antsassins">Photomone: Antsassins</a>.
+Photomone now has a spin-off that turns the game on its head. The result is something similar to popular games like "Codenames". Check out <a href="https://pandaqi.com/photomone-antsassins/">Photomone: Antsassins</a>.
 </div>
 
 {{% /section-centered %}}

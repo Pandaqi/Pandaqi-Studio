@@ -1,8 +1,10 @@
 import Config from "./config"
 import Map from "./map"
 import { DISCRETE_LISTS } from "./dictionary"
+import Point from "js/pq_games/tools/geometry/point";
 
-export default {
+export default 
+{
 	build(params)
 	{
 		// preparation
@@ -10,10 +12,6 @@ export default {
 		if ("values" in params.hint) { values = params.hint.values; } 
 
 		let text = params.hint.text;
-
-		let calculate = (params.target == "calculate");
-		let check = (params.target == "check");
-
 		let list:any[], bool:boolean, obj:Record<string,any>, sum:number, maximum:number[]
 
 		// actually build the hint
@@ -30,9 +28,9 @@ export default {
 
 			case 'type_adjacent':
 				values[0] = Map.adjacentToMatch({
-					"cell": params.cell,
-					"property": "type",
-					"value": values[1]
+					cell: params.cell,
+					property: "type",
+					value: values[1]
 				})
 				break;
 
@@ -48,10 +46,10 @@ export default {
 
 			case 'type_distance':
 				values[1] = Map.isWithinRadius({ 
-					"cell": params.cell, 
-					"radius": 2, 
-					"property": "type",
-					"value": values[0]
+					cell: params.cell, 
+					radius: 2, 
+					property: "type",
+					value: values[0]
 				});
 
 				break;
@@ -70,9 +68,9 @@ export default {
 
 			case 'type_between':
 				obj = {
-					'cell': params.cell,
-					'property': 'type',
-					'options': [values[1], values[2]]
+					cell: params.cell,
+					property: 'type',
+					options: [values[1], values[2]]
 				}
 
 				values[0] = this.isBetweenTiles(obj);
@@ -80,9 +78,9 @@ export default {
 
 			case 'type_sum':
 				sum = Map.countMatchingNeighbors({
-					"cell": params.cell,
-					"property": "type",
-					"value": values[2]
+					cell: params.cell,
+					property: "type",
+					value: values[2]
 				});
 
 				values[0] = (sum >= values[1]);
@@ -104,9 +102,9 @@ export default {
 
 			case 'rotation_adjacent':
 				values[0] = Map.adjacentToMatch({
-					"cell": params.cell,
-					"property": "rotation",
-					"value": values[1]
+					cell: params.cell,
+					property: "rotation",
+					value: values[1]
 				})
 				break;
 
@@ -126,9 +124,9 @@ export default {
 
 			case 'rotation_neighbor_match':
 				values[0] = Map.adjacentToMatch({
-					"cell": params.cell,
-					"property": "rotation",
-					"value": params.cell.rotation
+					cell: params.cell,
+					property: "rotation",
+					value: params.cell.rotation
 				})
 				break;
 
@@ -152,9 +150,9 @@ export default {
 
 			case 'rotation_neighbor_similarity_count':
 				let sameRot = Map.countMatchingNeighbors({
-					"cell": params.cell,
-					"property": "type",
-					"value": params.cell.rotation
+					cell: params.cell,
+					property: "type",
+					value: params.cell.rotation
 				});
 
 				let diffRot = (params.cell.nbs.length - sameRot);
@@ -206,16 +204,16 @@ export default {
 
 			case 'symbol_neighbor':
 				values[0] = Map.adjacentToMatch({
-					"cell": params.cell,
-					"property": "symbols",
-					"value": values[1]
+					cell: params.cell,
+					property: "symbols",
+					value: values[1]
 				})
 				break;
 
 			case 'symbol_match_any':
 				values[0] = Map.adjacentToMatchList({
-					"cell": params.cell,
-					"property": "symbols",
+					cell: params.cell,
+					property: "symbols",
 					"exclude": [null]
 				});
 				break;
@@ -265,9 +263,9 @@ export default {
 
 			case 'symbol_diversity':
 				obj = {
-					"cell": params.cell,
-					"property": "symbols",
-					"value": values[1]
+					cell: params.cell,
+					property: "symbols",
+					value: values[1]
 				}
 
 				let countA = Map.countMatchingNeighbors(obj);
@@ -285,25 +283,25 @@ export default {
 
 			case 'network_connected_type':
 				values[0] = Map.matchNetworkConnection({
-					"cell": params.cell,
-					"property": "type",
-					"value": values[1]
+					cell: params.cell,
+					property: "type",
+					value: values[1]
 				})
 				break;
 
 			case 'network_connected_rotation':
 				values[0] = Map.matchNetworkConnection({
-					"cell": params.cell,
-					"property": "rotation",
-					"value": values[1]
+					cell: params.cell,
+					property: "rotation",
+					value: values[1]
 				})
 				break;
 
 			case 'network_connected_symbol':
 				values[0] = Map.matchNetworkConnection({
-					"cell": params.cell,
-					"property": "symbols",
-					"value": values[1]
+					cell: params.cell,
+					property: "symbols",
+					value: values[1]
 				})
 				break;
 
@@ -363,11 +361,11 @@ export default {
 	isBetweenTiles(params)
 	{
 		const obj = { 
-			"cell": params.cell,
-			"dir": { "x": -1, "y": 0 },
-			"values": params.options,
-			"property": params.property,
-			"value": ''
+			cell: params.cell,
+			dir: new Point(-1, 0),
+			values: params.options,
+			property: params.property,
+			value: ''
 		}
 
 		obj.value = obj.values[0]
@@ -375,20 +373,20 @@ export default {
 		obj.value = obj.values[1]
 		let leftB = Map.hasInDir(obj);
 
-		obj.dir = { "x": 1, "y": 0 }
+		obj.dir = new Point(1,0);
 		let rightB = Map.hasInDir(obj);
 		obj.value = obj.values[0];
 		let rightA = Map.hasInDir(obj)
 
 		if(leftA && rightB || leftB && rightA) { return true; }
 
-		obj.dir = { "x": 0, "y": -1 }
+		obj.dir = new Point(0,-1);
 		obj.value = obj.values[0]
 		let topA = Map.hasInDir(obj)
 		obj.value = obj.values[1]
 		let topB = Map.hasInDir(obj);
 
-		obj.dir = { "x": 0, "y": 1 }
+		obj.dir = new Point(0,1);
 		let bottomB = Map.hasInDir(obj);
 		obj.value = obj.values[0];
 		let bottomA = Map.hasInDir(obj)
@@ -398,7 +396,7 @@ export default {
 		return false;
 	},
 
-	getMaximumValuesFromDictionary(dict)
+	getMaximumValuesFromDictionary(dict:Record<string,any>)
 	{
 		let maxElems = [];
 		let maxNum = -1;

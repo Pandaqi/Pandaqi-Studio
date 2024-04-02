@@ -7,7 +7,7 @@ noThumb: true
 
 ---
 
-{{< custom-entry-banner id="0" title="Support" class="turqoise height-large" >}}
+{{< custom-entry-banner id="0" title="Support" class="turquoise height-large" >}}
 
 Being a solo game developer who focuses on a typical "unprofitable" genre (local multiplayer, family-friendly games) ... all support is more than welcome.
 

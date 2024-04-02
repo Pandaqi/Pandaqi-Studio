@@ -23,6 +23,7 @@ export default class Tile
     num:number
     price:number
     action:string
+    simplified:boolean
 
     constructor(type:string, num:number = 0, price:number = 0, action:string = undefined)
     {
@@ -30,17 +31,20 @@ export default class Tile
         this.num = num;
         this.price = price;
         this.action = action;
+        this.simplified = false;
     }
 
     getTypeData() { return TYPES[this.type]; }
     getColorData() { return COLORS[this.getTypeData().color ?? "blue"]; }
     hasAction()
     {
+        if(this.simplified) { return false; }
         return this.action;
     }
 
     async drawForRules(vis:MaterialVisualizer)
     {
+        this.simplified = true;
         return this.draw(vis);
     }
 
@@ -174,33 +178,38 @@ export default class Tile
         
         // draw random spotlights
         // (they go over everything else in this layer to really make an impact and light it up realistically)
-        const allSpotlightPositions = [];
-        const yBounds = new Bounds(0, spritePos.y);
-        const xBounds = new Bounds(0.33*vis.size.x, 0);
-        allSpotlightPositions.push(new Point(0, yBounds.random()));
-        allSpotlightPositions.push(new Point(xBounds.random(), 0));
-        allSpotlightPositions.push(new Point(xBounds.max + xBounds.random(), 0));
-        allSpotlightPositions.push(new Point(2*xBounds.max + xBounds.random(), 0));
-        allSpotlightPositions.push(new Point(vis.size.x, yBounds.random()));
-        
-        shuffle(allSpotlightPositions);
-        const numSpotlights = vis.get("tiles.spotlight.numBounds").randomInteger();
-        const spotlightPositions = allSpotlightPositions.slice(0, numSpotlights);
+        const drawSpotlights = !this.simplified;
 
-        for(const pos of spotlightPositions)
+        if(drawSpotlights)
         {
-            const angle = spritePos.clone().sub(pos).angle();
-            const op = new LayoutOperation({
-                translate: pos,
-                dims: vis.get("tiles.spotlight.dims"),
-                frame: MISC.spotlight.frame,
-                pivot: new Point(0, 0.5),
-                rotation: angle,
-                alpha: vis.get("tiles.spotlight.alpha"),
-                composite: vis.get("tiles.spotlight.composite")
-            });
-            group.add(resMisc, op);
-        }
+            const allSpotlightPositions = [];
+            const yBounds = new Bounds(0, spritePos.y);
+            const xBounds = new Bounds(0.33*vis.size.x, 0);
+            allSpotlightPositions.push(new Point(0, yBounds.random()));
+            allSpotlightPositions.push(new Point(xBounds.random(), 0));
+            allSpotlightPositions.push(new Point(xBounds.max + xBounds.random(), 0));
+            allSpotlightPositions.push(new Point(2*xBounds.max + xBounds.random(), 0));
+            allSpotlightPositions.push(new Point(vis.size.x, yBounds.random()));
+            
+            shuffle(allSpotlightPositions);
+            const numSpotlights = vis.get("tiles.spotlight.numBounds").randomInteger();
+            const spotlightPositions = allSpotlightPositions.slice(0, numSpotlights);
+    
+            for(const pos of spotlightPositions)
+            {
+                const angle = spritePos.clone().sub(pos).angle();
+                const op = new LayoutOperation({
+                    translate: pos,
+                    dims: vis.get("tiles.spotlight.dims"),
+                    frame: MISC.spotlight.frame,
+                    pivot: new Point(0, 0.5),
+                    rotation: angle,
+                    alpha: vis.get("tiles.spotlight.alpha"),
+                    composite: vis.get("tiles.spotlight.composite")
+                });
+                group.add(resMisc, op);
+            }
+        }  
     }
 
     drawNumbers(vis:MaterialVisualizer, group:ResourceGroup)

@@ -104,6 +104,11 @@ export default class ResourceLoader
         return this.FONT_EXTENSIONS.includes(this.getExtension(path));
     }
 
+    addResource(id:string, res:Resource)
+    {
+        this.resourcesLoaded[id] = res;
+    }
+
     async loadResource(id:string, params:ResourceLoadParams)
     {
         let originalPath = params.path ?? "";

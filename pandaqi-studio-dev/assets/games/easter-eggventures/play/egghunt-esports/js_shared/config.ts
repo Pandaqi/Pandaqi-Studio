@@ -47,8 +47,8 @@ const CONFIG:Record<string,any> =
     generation:
     {
         maxNumPlayers: 6,
-        maxNumEggs: 6,
-        defaultEggNumbering: [-8, -4, -2, 1, 2, 3, 4, 5],
+        maxNumEggs: 5,
+        defaultEggNumbering: [-7, -5, -3, 1, 2, 3, 4, 6, 8],
         defaultFrequencies:
         {
             specialEgg: 1,

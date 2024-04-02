@@ -11,9 +11,9 @@ enum TileType
 
 const OBSTACLES:TileDataDict =
 {
-    empty: { frame: 0, freq: 8, color: "#A9F983" },
+    empty: { frame: 0, freq: 10, color: "#A9F983" },
     log: { frame: 1, desc: "If collected, also collect an <b>adjacent</b> egg.", set: "eggstraObstacles", color: "#F9CD83", freq: 2 },
-    bunny: { frame: 2, desc: "If collected, also collect another egg that <b>no Pawn</b> points at.", color: "#FFA1D9", freq: 2 },
+    bunny: { frame: 2, desc: "If collected, also collect another egg at which <b>no Pawn</b> points.", color: "#FFA1D9", freq: 2 },
     rock: { frame: 3, desc: "If collected, it must be the <b>only action</b> on your turn.", color: "#504E57" }, // @NOTE: something like "collecting costs 2 actions" is too weak and meh and similar
     wall: { frame: 4, desc: "You can <b>never search</b> this tile.", color: "#F5A87F" },
     window: { frame: 5, desc: "If searched, you must <b>reveal</b> the egg to <b>all</b> players.", color: "#29CAEE" },
@@ -23,12 +23,12 @@ const OBSTACLES:TileDataDict =
     chicken: { frame: 9, desc: "If searched, <b>swap</b> me with another obstacle tile.", color: "#B1A109" },
 
     closet: { frame: 10, desc: "If searched, it must be the <b>only</b> action on your turn.", color: "#FFCC97" }, // or bookshelf / pantry
-    pillow: { frame: 11, desc: "If collected, you get <b>another turn</b> (3 extra actions).", color: "#2A9CC0", freq: 2 },
+    pillow: { frame: 11, desc: "If collected, you get <b>2 more actions</b>.", color: "#2A9CC0", freq: 2 },
     pot_plant: { frame: 12, desc: "If searched, you <b>must</b> also <b>collect</b> an egg this turn.", color: "#DDFF3E" },
     rug: { frame: 13, desc: "If collected, <b>destroy</b> one egg or obstacle (on the map).", set: "eggstraObstacles", color: "#B4000A", freq: 2 },
     shoe: { frame: 14, desc: "If searched, also search another <b>Shoe</b> or <b>Rug</b> tile for free.", set: "eggstraObstacles", color: "#F8B601", freq: 2 },
     curtains: { frame: 15, desc: "If searched or collected, you must <b>reveal</b> all your <b>collected</b> eggs.", color: "#FFACDB", freq: 2 },
-    toilet: { frame: 16, desc: "This may <b>never</b> be your <b>current tile</b>.", set: "eggstraObstacles", color: "#32A9E3" },
+    toilet: { frame: 16, desc: "This may <b>never</b> be your <b>current tile</b>.", set: "eggstraObstacles", color: "#32A9E3", freq: 2 },
     stairs: { frame: 17, desc: "If collected, <b>move 2 pawns</b> (of anyone) to any location.", set: "eggstraObstacles", color: "#A4A4A4", freq: 2 }
 }
 

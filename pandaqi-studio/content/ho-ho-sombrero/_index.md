@@ -38,6 +38,7 @@ genre: ["action"]
 playtime: 5
 playercount: [1,2,3,4]
 input: ["controller", "keyboard"]
+devlog: "/blog/videogames/game-jams/devlog-ho-ho-sombrero/"
 
 ---
 

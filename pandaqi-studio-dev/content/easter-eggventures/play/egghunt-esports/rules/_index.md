@@ -14,7 +14,7 @@ Everyone picks their color and its 2 pawns. They place one pawn _above_ the boar
 
 {{% rules-block id="objective" heading="Objective" icon="objective" icontint="red" %}}
 
-The game **ends** as soon as all eggs have been collected _or_ all players have left the arena. The player with the **highest scoring eggs** wins!
+The game **ends** as soon as all eggs have been collected _or_ one player is left in the arena. The player with the **highest scoring eggs** wins!
 
 {{% /rules-block %}}
 

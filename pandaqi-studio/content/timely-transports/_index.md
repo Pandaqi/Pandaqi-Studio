@@ -38,6 +38,7 @@ playtime: 20
 playercount: [1,2,3,4,5,6,7,8]
 complexity: low
 ages: everyone
+devlog: "/blog/boardgames/timely-transports/devlog-timely-transports/"
 
 ---
 
@@ -122,8 +123,8 @@ Fonts? **Rowdies** for header text. **Yanone Kaffeesatz** for body text. Both fr
 Website (boards and game)? The **Phaser 3** library for programming, also completely free and open source.
 
 Everything else (concept, code, graphics, rules, ...) was completely made by me, Pandaqi! I've written two in-depth articles about the creation of this game (as I usually do):
-- [[Devlog] Timely Transports](/blog/boardgames/timely-transports/devlog-timely-transports): about problems I faced, solutions I found, why I chose to do certain things (or not do them), general interesting stuff about game design.
-- [[Technical Devlog] Timely Transports](/blog/boardgames/timely-transports/tech-devlog-timely-transports): about the actual algorithms used for the game interface and generating the game board, both high overview and actual code samples
-- [[Update] Timely Transports](/blog/boardgames/timely-transports/update-timely-transports): about the huge update I did for the game, half a year after release. Why I did it, what changed, and more.
+- [(Devlog) Timely Transports](/blog/boardgames/timely-transports/devlog-timely-transports): about problems I faced, solutions I found, why I chose to do certain things (or not do them), general interesting stuff about game design.
+- [(Technical Devlog) Timely Transports](/blog/boardgames/timely-transports/tech-devlog-timely-transports): about the actual algorithms used for the game interface and generating the game board, both high overview and actual code samples
+- [(Update) Timely Transports](/blog/boardgames/timely-transports/update-timely-transports): about the huge update I did for the game, half a year after release. Why I did it, what changed, and more.
 
 {{% /section-centered %}}

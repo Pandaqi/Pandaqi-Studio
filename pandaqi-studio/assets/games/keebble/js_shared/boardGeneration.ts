@@ -2,12 +2,25 @@ import Cell from "./cell"
 import Edge from "./edge"
 import { KEEBBLE_TYPES } from "./dict"
 import CONFIG from "./config"
-import Random from "js/pq_games/tools/random/main"
 import OnPageVisualizer from "js/pq_games/website/onPageVisualizer"
 // @ts-ignore
 import { Scene, Geom } from "js/pq_games/phaser/phaser.esm"
 import Point from "js/pq_games/tools/geometry/point"
 import Color from "js/pq_games/layout/color/color"
+import setDefaultPhaserSettings from "js/pq_games/phaser/setDefaultPhaserSettings"
+import ResourceLoader from "js/pq_games/layout/resources/resourceLoader"
+import resourceLoaderToPhaser from "js/pq_games/phaser/resourceLoaderToPhaser"
+import Rectangle from "js/pq_games/tools/geometry/rectangle"
+import LayoutOperation from "js/pq_games/layout/layoutOperation"
+import { lineToPhaser, rectToPhaser } from "js/pq_games/phaser/shapeToPhaser"
+import Line from "js/pq_games/tools/geometry/line"
+import imageToPhaser from "js/pq_games/phaser/imageToPhaser"
+import shuffle from "js/pq_games/tools/random/shuffle"
+import getWeighted from "js/pq_games/tools/random/getWeighted"
+import TextConfig from "js/pq_games/layout/text/textConfig"
+import textToPhaser from "js/pq_games/phaser/textToPhaser"
+import ResourceText from "js/pq_games/layout/resources/resourceText"
+import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect"
 
 interface GenerationData
 {
@@ -17,30 +30,35 @@ interface GenerationData
 }
 
 const sceneKey = "boardGeneration"
+const resLoader = new ResourceLoader({ base: CONFIG.assetsBase });
+resLoader.planLoadMultiple(CONFIG.assets);
+CONFIG.resLoader = resLoader;
+
 export { BoardGeneration, sceneKey }
 export default class BoardGeneration extends Scene
 {
 	canvas: HTMLCanvasElement
 	cfg: Record<string,any>
 	gen: GenerationData
+	graphics: any
+	playerColors: Color[]
+	baseCellBackgroundHue: number
 
 	constructor()
 	{
 		super({ key: sceneKey });
 	}
 
-	preload() {
-		// @ts-ignore
-		this.load.crossOrigin = 'Anonymous';
-		// @ts-ignore
-		this.canvas = this.sys.game.canvas;
-
-		const base = '/keebble/assets/';
-		// @ts-ignore
-		this.load.spritesheet('special_cells', base + 'special_cells.webp?v=1', { frameWidth: 354.5, frameHeight: 354.5 });
+	preload() 
+	{
+		setDefaultPhaserSettings(this); 
 	}
 
-	create(userConfig:Record<string,any>) {
+	async create(userConfig:Record<string,any>) 
+	{
+		await resLoader.loadPlannedResources();
+        await resourceLoaderToPhaser(resLoader, this);
+
 		this.setup(userConfig)
 		this.generate()
 		this.visualize();
@@ -94,26 +112,15 @@ export default class BoardGeneration extends Scene
 		cfg.handFontSize = 0.25*cfg.letterFontSize;
 
 		// Text configs
-		cfg.letterTextConfig = {
-			fontFamily: cfg.fontFamily,
-			fontSize: cfg.letterFontSize + 'px',
-			color: "#FFFFFF",
-			stroke: "#000000",
-			strokeThickness: 24, // trying to match the thickness of the sprite strokes
-		}
+		cfg.letterTextConfig = new TextConfig({
+			font: cfg.fontFamily,
+			size: cfg.letterFontSize
+		}).alignCenter();
 
-		cfg.letterTextStrokeConfig = {
-			fontFamily: cfg.letterTextConfig.fontFamily,
-			fontSize: cfg.letterTextConfig.fontSize,
-			color: "transparent",
-		}
-
-		cfg.handTextConfig = {
-			fontFamily: cfg.fontFamily,
-			fontSize: cfg.handFontSize + 'px',
-			color: "#000000",
-			wordWrap: { width: cfg.cellSizeX }
-		}
+		cfg.handTextConfig = new TextConfig({
+			font: cfg.fontFamily,
+			size: cfg.handFontSize
+		}).alignCenter();
 
 		this.createFullLetterDictionary(cfg);
 		this.determinePlayerColors(cfg);
@@ -138,22 +145,23 @@ export default class BoardGeneration extends Scene
 	determinePlayerColors(cfg)
 	{
 		const colors = [];
-		cfg.playerColors = colors;
 		
-		const hueDistBetweenPlayers = 1.0 / cfg.numPlayers;
+		const hueDistBetweenPlayers = 360.0 / cfg.numPlayers;
 		for(let i = 0; i < cfg.numPlayers; i++)
 		{
 			const hue = i*hueDistBetweenPlayers;
-			const col = new Color(hue, 70, 70).toHEXNumber();
+			const col = new Color(hue, 70, 70);
 			colors.push(col);
 		}
+
+		this.playerColors = colors;
 	}
 
 	createExpansionSetup(cfg)
 	{
 		if(cfg.expansions.cellDance) { cfg.expansions.specialCells = true; }
 
-		const typesCopy = structuredClone(cfg.types);
+		const typesCopy = structuredClone(cfg.typesOriginal);
 		cfg.types = typesCopy;
 		for(const [type,data] of Object.entries(typesCopy))
 		{
@@ -191,7 +199,7 @@ export default class BoardGeneration extends Scene
 		if(!CONFIG.addWalls) { return; }
 
 		const edges = this.getAllEdges();
-		Random.shuffle(edges);
+		shuffle(edges);
 		const min = CONFIG.numWalls.min * edges.length;
 		const max = CONFIG.numWalls.max * edges.length;
 		const numWalls = Math.floor( Math.random() * (max - min) + min);
@@ -233,15 +241,8 @@ export default class BoardGeneration extends Scene
 		if(!CONFIG.addStartingCell) { return; }
 
 		const centerCells = this.getCenterCells();
-		Random.shuffle(centerCells);
+		shuffle(centerCells);
 		centerCells.pop().setType("start");
-	}
-
-	shuffle(array) {
-		for (let i = array.length - 1; i > 0; i--) {
-			const j = Math.floor(Math.random() * (i + 1));
-			[array[i], array[j]] = [array[j], array[i]];
-		}
 	}
 
 	getAllCells()
@@ -299,14 +300,14 @@ export default class BoardGeneration extends Scene
 		return arr;
 	}
 
-	getFixedScore(letter)
+	getFixedScore(letter:string)
 	{
 		return CONFIG.letterDictionary[letter].score;
 	}
 
 	getRandomLetter()
 	{
-		return Random.getWeighted(CONFIG.letterDictionary);
+		return getWeighted(CONFIG.letterDictionary);
 	}
 
 	getTotalForKey(obj, key)
@@ -323,10 +324,10 @@ export default class BoardGeneration extends Scene
 
 	getRandomType()
 	{
-		return Random.getWeighted(CONFIG.types);
+		return getWeighted(CONFIG.types);
 	}
 
-	scaleToBoardSize(val)
+	scaleToBoardSize(val:number)
 	{
 		return val * CONFIG.totalNumCells;
 	}
@@ -343,7 +344,7 @@ export default class BoardGeneration extends Scene
 		}
 
 		const locations = this.getEmptyCells();
-		Random.shuffle(locations);
+		shuffle(locations);
 		while(letters.length)
 		{
 			const cell = locations.pop();
@@ -365,12 +366,8 @@ export default class BoardGeneration extends Scene
 			types.push(this.getRandomType());
 		}
 
-		console.log(structuredClone(CONFIG.types));
-		console.log(types.slice());
-		console.log(Random.getWeighted(CONFIG.types));
-
 		const locations = this.getEmptyCells();
-		Random.shuffle(locations);
+		shuffle(locations);
 		while(types.length && locations.length)
 		{
 			const cell = locations.pop();
@@ -379,7 +376,7 @@ export default class BoardGeneration extends Scene
 		}
 	}
 
-	removeNeighbors(cell, list)
+	removeNeighbors(cell:Cell, list:Cell[])
 	{
 		let removed = 0;
 		for(let i = 0; i < list.length; i++)
@@ -392,7 +389,7 @@ export default class BoardGeneration extends Scene
 		}
 	}
 
-	getRandomStartHand(size)
+	getRandomStartHand(size:number)
 	{
 		const hand = [];
 		for(let i = 0; i < size; i++)
@@ -418,7 +415,7 @@ export default class BoardGeneration extends Scene
 		}
 
 		const locations = this.getEdgeCells();
-		Random.shuffle(locations);
+		shuffle(locations);
 		while(hands.length)
 		{
 			const c = locations.pop();
@@ -431,50 +428,44 @@ export default class BoardGeneration extends Scene
 
 	visualize()
 	{
+		// @ts-ignore
+		this.graphics = this.add.graphics();
+		this.baseCellBackgroundHue = Math.random() * 360;
+
 		this.visualizeBackground();
 		this.visualizeGrid();
 		this.visualizeCells();
 		this.visualizeWalls();
 	}
 
-	cellToRect(c, randomness = 0)
+	cellToRect(c:Cell, randomness = 0) : Rectangle
 	{
-		const pixelPos = this.toPixelPos(c.x, c.y);
+		const pixelPos = this.toPixelPos(c.getPos());
 		const pixelSize = CONFIG.cellSize;
 
 		if(c.hasHand()) { randomness = 0; }
-		const off = this.getWonkyOffset(randomness);
+		const wonkyOffset = this.getWonkyOffset(randomness);
+		pixelPos.add(wonkyOffset);
 
-		pixelPos.x += off.x
-		pixelPos.y += off.y;
-
-		return new Geom.Rectangle(pixelPos.x, pixelPos.y, pixelSize.x, pixelSize.y);
+		return new Rectangle().fromTopLeft(pixelPos, pixelSize);
 	}
 
-	edgeToCenterPos(e)
+	edgeToCenterPos(e:Edge)
 	{
-		const c = e.getCenterPos();
-		return this.toPixelPos(c.x, c.y);
+		return this.toPixelPos( e.getCenterPos() );
 	}
 
-	getHueAsRatio(hue)
-	{
-		if(hue < 0) { hue += 360.0 }
-		if(hue >= 360) { hue -= 360.0; }
-		return hue / 360.0;
-	}
-
-	getCellBackgroundColor(c = null)
+	getCellBackgroundColor(c:Cell = undefined) : Color
 	{
 		if(c)
 		{
-			if(c.hasHand()) { return CONFIG.playerColors[c.getPlayerNum()]; }
+			if(c.hasHand()) { return this.playerColors[c.getPlayerNum()]; }
 			if(c.getType()) { return CONFIG.types[c.getType()].col; }
 		}
 		
-		const baseHue = CONFIG.baseCellBackgroundHue;
-		const hue = this.getHueAsRatio( baseHue + (Math.random()-0.5)*CONFIG.cellBackgroundHueVariation)
-		return new Color(hue, 30, 80).toHEXNumber();
+		const baseHue = this.baseCellBackgroundHue;
+		const hue = baseHue + (Math.random()-0.5)*CONFIG.cellBackgroundHueVariation;
+		return new Color(hue, 30, 80);
 	}
 
 	visualizeBackground()
@@ -482,65 +473,70 @@ export default class BoardGeneration extends Scene
 		if(CONFIG.inkFriendly) { return; }
 
 		const cells = this.gen.cellsFlat.slice();
-		Random.shuffle(cells);
+		shuffle(cells);
 		const rand = CONFIG.baseCellBackgroundRandomness * CONFIG.cellSizeUnit;
 
-		const graphics = this.add.graphics();
-		const bg = new Geom.Rectangle(0, 0, this.canvas.width, this.canvas.height);
-		graphics.fillStyle(this.getCellBackgroundColor(null));
-		graphics.fillRectShape(bg);
-
-		for(const c of cells)
+		const bgRect = new Rectangle().fromTopLeft(new Point(), new Point(this.canvas.width, this.canvas.height));
+		const op = new LayoutOperation({
+			fill: this.getCellBackgroundColor()
+		});
+		rectToPhaser(bgRect, op, this.graphics);
+		
+		for(const cell of cells)
 		{
-			const rect = this.cellToRect(c, rand);
-			let col = this.getCellBackgroundColor(c);
-			graphics.fillStyle(col);
-			graphics.fillRectShape(rect);
+			const rect = this.cellToRect(cell, rand);
+			const col = this.getCellBackgroundColor(cell);
+			const op = new LayoutOperation({
+				fill: col
+			})
+			rectToPhaser(rect, op, this.graphics);
 		}
 	}
 
 	visualizeGrid()
 	{
-
 		// vertical lines
 		const lw = CONFIG.lineWidth;
 		const col = CONFIG.gridColor;
 		const alpha = CONFIG.gridAlpha;
+		const op = new LayoutOperation({
+			stroke: col,
+			strokeWidth: lw,
+			alpha: alpha,
+		})
+
 		for(let x = 1; x < CONFIG.numCellsX; x++)
 		{
 			const xPixels = x * CONFIG.cellSizeX;
-			const l = this.add.line(0, 0, xPixels, 0, xPixels, this.canvas.height, col, alpha);
-			l.setOrigin(0,0);
-			l.setLineWidth(lw, lw);
+			const line = new Line(new Point(xPixels, 0), new Point(xPixels, this.canvas.height));
+			lineToPhaser(line, op, this.graphics);
 		}
 
 		// horizontal lines
 		for(let y = 1; y < CONFIG.numCellsY; y++)
 		{
 			const yPixels = y * CONFIG.cellSizeY;
-			const l = this.add.line(0, 0, 0, yPixels, this.canvas.width, yPixels, col, alpha);
-			l.setOrigin(0,0);
-			l.setLineWidth(lw, lw);
-
+			const line = new Line(new Point(0, yPixels), new Point(this.canvas.width, yPixels));
+			lineToPhaser(line, op, this.graphics);
 		}
 	}
 
-	toPixelPos(x,y)
+	toPixelPos(pos:Point) : Point
 	{
-		return { x: CONFIG.cellSizeX * x, y: CONFIG.cellSizeY * y };
+		return new Point(CONFIG.cellSizeX * pos.x, CONFIG.cellSizeY * pos.y);
 	}
 
-	toCenteredPixelPos(x,y)
+	toCenteredPixelPos(pos:Point)
 	{
-		return this.toPixelPos(x+0.5,y+0.5);
+		return this.toPixelPos(pos.clone().add(new Point(0.5)));
 	}
 
-	toOffsetPixelPos(startPos, offsetPos, cellSize)
+	toOffsetPixelPos(startPos:Point, offsetPos:Point, cellSize:Point)
 	{
-		return {
-			x: startPos.x + offsetPos.x * cellSize.x,
-			y: startPos.y + offsetPos.y * cellSize.y
-		}
+		return new Point(
+			startPos.x + offsetPos.x * cellSize.x,
+			startPos.y + offsetPos.y * cellSize.y
+		);
 	}
 
 	visualizeCells()
@@ -557,50 +553,62 @@ export default class BoardGeneration extends Scene
 		}
 	}
 
-	getFrameForType(type)
+	getFrameForType(type:string)
 	{
 		return CONFIG.types[type].frame;
 	}
 
-	getWonkyOffset(maxOffset = 100, cutoff = 0.66)
+	getWonkyOffset(maxOffset = 100, cutoff = 0.66) : Point
 	{
 		let randAngle = Math.random() * 2 * Math.PI;
 		let rand = cutoff + Math.random()*(1.0 - cutoff);
 		let dist = rand * maxOffset;
-		return {
-			x: Math.cos(randAngle) * dist,
-			y: Math.sin(randAngle) * dist
-		}
+		return new Point(
+			Math.cos(randAngle) * dist,
+			Math.sin(randAngle) * dist
+		);
 	}
 
-	visualizeLetter(c)
+	visualizeLetter(c:Cell)
 	{
 		if(!c.getLetter()) { return; }
-		const pixelPos = this.toCenteredPixelPos(c.x, c.y);
+		const pixelPos = this.toCenteredPixelPos(c.getPos());
 		const letter = c.getLetter().toUpperCase();
 
 		const randOffset = this.getWonkyOffset(CONFIG.maxLetterStrokeOffset);
-		const textFill = this.add.text(pixelPos.x, pixelPos.y, letter, CONFIG.letterTextConfig);
-		textFill.setOrigin(0.5, 0.5);
-		textFill.setShadow(randOffset.x, randOffset.y, 'rgba(0,0,0,0.5)', 5);
+		const resText = new ResourceText({ text: letter, textConfig: CONFIG.letterTextConfig });
+		const textDims = new Point(3*CONFIG.letterTextConfig.size);
+		const op = new LayoutOperation({
+			translate: pixelPos,
+			dims: textDims,
+			pivot: Point.CENTER,
+			fill: "#FFFFFF",
+			stroke: "#000000",
+			strokeWidth: 24, // trying to match the thickness of the sprite strokes
+			effects: [new DropShadowEffect({ offset: randOffset, color: "#00000099", blurRadius: 5 })]
+		})
+		textToPhaser(resText, op, this);
 
-		//const textStroke = this.add.text(pixelPos.x, pixelPos.y, letter, CONFIG.letterTextStrokeConfig);
-		//textStroke.setOrigin(0.5, 0.5);
 
 		if(CONFIG.showLetterValues)
 		{
 			const txt = this.getFixedScore(c.getLetter());
-			const posBottomRight = this.toPixelPos(c.x + 0.95, c.y + 0.95);
-			const t = this.add.text(posBottomRight.x, posBottomRight.y, txt, CONFIG.handTextConfig);
-			t.setOrigin(1.0, 1.0);
+			const posBottomRight = this.toPixelPos(c.getPos().add(new Point(0.85)));
+			const resText = new ResourceText({ text: txt, textConfig: CONFIG.handTextConfig });
+			const op = new LayoutOperation({
+				translate: posBottomRight,
+				fill: "#000000",
+				pivot: Point.CENTER
+			})
+			textToPhaser(resText, op, this);
 		}
 	}
 
-	visualizeHand(c)
+	visualizeHand(c:Cell)
 	{
 		if(!c.hasHand()) { return; }
 
-		const startPos = this.toPixelPos(c.x, c.y);
+		const startPos = this.toPixelPos(c.getPos());
 		const w = CONFIG.backpackGridSize.x;
 		const h = CONFIG.backpackGridSize.y;
 
@@ -615,27 +623,32 @@ export default class BoardGeneration extends Scene
 			const alpha = CONFIG.backpackGridAlpha;
 			const lw = CONFIG.backpackLineWidth;
 
+			const op = new LayoutOperation({
+				stroke: col,
+				strokeWidth: lw,
+				alpha: alpha
+			});
+
 			// vertical lines
 			for(let x = 1; x < w; x ++)
 			{
 				const pixelX = startPos.x + cellX * x;
-				const l = this.add.line(0, 0, pixelX, startPos.y, pixelX, startPos.y + CONFIG.cellSizeY, col, alpha)
-				l.setOrigin(0,0);
-				l.setLineWidth(lw, lw);
+				const line = new Line(new Point(pixelX, startPos.y), new Point(pixelX, startPos.y + CONFIG.cellSize.y));
+				lineToPhaser(line, op, this.graphics);
 			}
 
 			// horizontal lines
 			for(let y = 1; y < h; y ++)
 			{
 				const pixelY = startPos.y + cellY * y;
-				const l = this.add.line(0, 0, startPos.x, pixelY, startPos.x + CONFIG.cellSizeX, pixelY, col, alpha)
-				l.setOrigin(0,0);
-				l.setLineWidth(lw, lw);
+				const line = new Line(new Point(startPos.x, pixelY), new Point(startPos.x + CONFIG.cellSizeX, pixelY));
+				lineToPhaser(line, op, this.graphics);
 			}
 		}
 
 		// place letters from top left into those cells
 		const displayLettersAsGrid = displayAsGrid || CONFIG.forPrinting
+		const textDims = new Point(CONFIG.cellSizeX, 2*CONFIG.handTextConfig.size);
 		if(displayLettersAsGrid)
 		{
 			const hand = c.getHand();
@@ -643,43 +656,67 @@ export default class BoardGeneration extends Scene
 			{
 				const col = (i % w);
 				const row = Math.floor(i / w);
-				const offsetPos = { x: (col+0.5), y: (row+0.5) }
+				const offsetPos = new Point( (col+0.5), (row+0.5) );
 				const pixelPos = this.toOffsetPixelPos(startPos, offsetPos, backpackCellSize);
-				const t = this.add.text(pixelPos.x, pixelPos.y, hand[i], CONFIG.handTextConfig);
-				t.setOrigin(0.5);
+
+				const resText = new ResourceText({ text: hand[i], textConfig: CONFIG.handTextConfig });
+				const op = new LayoutOperation({
+					translate: pixelPos,
+					dims: textDims,
+					pivot: Point.CENTER,
+					fill: "#000000"
+				})
+				textToPhaser(resText, op, this);
 			}
 
 			return;
 		}
 
 		// otherwise, place centered
-		const pixelPos = this.toCenteredPixelPos(c.x, c.y);
+		const pixelPos = this.toCenteredPixelPos(c.getPos());
 		const txt = c.getHandAsText();
-		const t = this.add.text(pixelPos.x, pixelPos.y, txt, CONFIG.handTextConfig);
-		t.setOrigin(0.5, 0.5);
+		const resText = new ResourceText({ text: txt, textConfig: CONFIG.handTextConfig });
+		const op = new LayoutOperation({
+			translate: pixelPos,
+			dims: textDims,
+			pivot: Point.CENTER,
+			fill: "#000000"
+		});
+		textToPhaser(resText, op, this);
 	}
 
-	visualizeType(c)
+	visualizeType(c:Cell)
 	{
 		if(!c.getType()) { return; }
-		const pixelPos = this.toCenteredPixelPos(c.x, c.y);
-		const sprite = this.add.sprite(pixelPos.x, pixelPos.y, "special_cells");
-		sprite.setAlpha(CONFIG.spriteAlpha);
-		sprite.setFrame(this.getFrameForType(c.getType()));
-		sprite.displayWidth = sprite.displayHeight = CONFIG.spriteSize;
-		sprite.setOrigin(0.5, 0.5);
+		
+		const pixelPos = this.toCenteredPixelPos(c.getPos());
+		const resSpecial = CONFIG.resLoader.getResource("special_cells");
+		const op = new LayoutOperation({
+			translate: pixelPos,
+			dims: new Point(CONFIG.spriteSize),
+			pivot: Point.CENTER,
+			alpha: CONFIG.spriteAlpha,
+			frame: this.getFrameForType(c.getType())
+		});
+
+		imageToPhaser(resSpecial, op, this);
 	}
 
 	visualizeWalls()
 	{
+		const resSpecial = CONFIG.resLoader.getResource("special_cells");
+
 		for(const wall of this.gen.walls)
 		{
 			const pixelPos = this.edgeToCenterPos(wall);
-			const sprite = this.add.sprite(pixelPos.x, pixelPos.y, "special_cells");
-			sprite.setRotation(wall.getRotation());
-			sprite.setFrame(KEEBBLE_TYPES.wall.frame);
-			sprite.setOrigin(0.5, 0.5);
-			sprite.displayWidth = sprite.displayHeight = CONFIG.spriteSize;
+			const op = new LayoutOperation({
+				translate: pixelPos,
+				dims: new Point(CONFIG.spriteSize),
+				rotation: wall.getRotation(),
+				frame: KEEBBLE_TYPES.wall.frame,
+				pivot: Point.CENTER
+			});
+			imageToPhaser(resSpecial, op, this);
 		}
 	}
 }

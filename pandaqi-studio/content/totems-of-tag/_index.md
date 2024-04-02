@@ -40,6 +40,7 @@ genre: ["casual", "action", "sport"]
 playtime: 5
 playercount: [1,2,3,4]
 input: ["controller", "keyboard"]
+devlog: "/blog/videogames/one-week-games/devlog-totems-of-tag/"
 
 ---
 

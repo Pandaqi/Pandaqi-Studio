@@ -35,6 +35,7 @@ playtime: 30
 playercount: [3,4,5,6]
 complexity: low
 ages: everyone
+devlog: "/blog/boardgames/the-game-of-dilemmas/"
 
 ---
 

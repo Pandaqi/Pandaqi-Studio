@@ -1,56 +1,92 @@
 import Interface from "./interface"
-import { TERRAINS, TERRAIN_DATA, NATURE, STONES, QUADRANTS, LANDMARKS, ROADS, HINT_ICONS, LISTS, HINTS, scaleFactor, pdfSize, alphabet } from "./dictionary"
-import Random from "js/pq_games/tools/random/main"
+import { TERRAINS, TERRAIN_DATA, NATURE, STONES, QUADRANTS, LANDMARKS, ROADS, HINT_ICONS, LISTS, HINTS, alphabet } from "./dictionary"
+import seedRandom from "js/pq_games/tools/random/seedrandom"
 // @ts-ignore
-// @TODO: not sure if this even works, it used to grab Phaser as a global variable, loaded by the mystical pirategames.js
-import { Scene, Geom, GameObjects } from "js/pq_games/phaser/phaser.esm"
+import { Scene, GameObjects } from "js/pq_games/phaser/phaser.esm"
 import PdfBuilder, { PageOrientation } from "js/pq_games/pdf/pdfBuilder"
 import Point from "js/pq_games/tools/geometry/point"
+import setDefaultPhaserSettings from "js/pq_games/phaser/setDefaultPhaserSettings"
+import resourceLoaderToPhaser from "js/pq_games/phaser/resourceLoaderToPhaser"
+import ResourceLoader from "js/pq_games/layout/resources/resourceLoader"
+import Rectangle from "js/pq_games/tools/geometry/rectangle"
+import LayoutOperation from "js/pq_games/layout/layoutOperation"
+import { lineToPhaser, rectToPhaser } from "js/pq_games/phaser/shapeToPhaser"
+import Color from "js/pq_games/layout/color/color"
+import Line from "js/pq_games/tools/geometry/line"
+import imageToPhaser from "js/pq_games/phaser/imageToPhaser"
+import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig"
+import ResourceText from "js/pq_games/layout/resources/resourceText"
+import textToPhaser from "js/pq_games/phaser/textToPhaser"
+import Cell from "./cell"
 
 type Hint = { final_text?: string, html_text?: string }
 
 const assetsBase = '/pirate-riddlebeard/assets/';
+const assets =
+{
+	elements:
+	{
+		path: "elements.png",
+		frames: new Point(8,8),
+	},
+
+	icons:
+	{
+		path: "icons.png",
+		frames: new Point(8,4),
+	},
+
+	hint_card:
+	{
+		path: "hint_card.png"
+	}
+}
+
+const sceneKey = "generation";
+const resLoader = new ResourceLoader({ base: assetsBase });
+resLoader.planLoadMultiple(assets);
+
 export default class Generation extends Scene
 {
 	canvas: HTMLCanvasElement
 	cfg: Record<string,any>
 	AVAILABLE_HINTS: any
 	hintsGenerationFail: boolean
-	map: any
+	map: Cell[][]
+	mapList: Cell[]
 	LOST_RIDDLES: any
 	hintsPerPlayer: any
 	tilesLeftPerPlayer: any
 	botHintCategories: any
-	mapList: any
-	FALSE_SQUARES: any
-	TRUTH_SQUARES: any
-	TINY_TREASURES: any
-	hintGenerationTries: any
-	maxHintGenerationTries: any
+	FALSE_SQUARES: Cell[]
+	TRUTH_SQUARES: Cell[]
+	TINY_TREASURES: Cell[]
+	hintGenerationTries: number
+	maxHintGenerationTries: number
 	numMapGenerations: number
 	mapGenerationFail: boolean
-	TREASURE: any
-	roadLocations: any[]
-	treasure: Point
+	TREASURE: Cell
+	roadLocations: Cell[]
+	treasure: Cell
 	hints: any
 	landmarkCells: {}
 	fixedData: { terrain: string; nature: string; stones: number|string; landmark: string; road: string }
 
 	constructor()
 	{
-		super({ key: "generation" });
+		super({ key: sceneKey });
 	}
 
-    preload() {
-		this.load.crossOrigin = 'Anonymous';
-		this.canvas = this.sys.game.canvas;
-
-		this.load.spritesheet('elements', assetsBase + 'elements.png', { frameWidth: 400, frameHeight: 400 });
-		this.load.spritesheet('icons', assetsBase + 'icons.png', { frameWidth: 400, frameHeight: 400 });
-		this.load.image('hint_card', assetsBase + 'hint_card.png');
+    preload() 
+	{
+		setDefaultPhaserSettings(this);
     }
 
-    create(config) {
+    async create(config:Record<string,any>) 
+	{
+		await resLoader.loadPlannedResources();
+        await resourceLoaderToPhaser(resLoader, this);
+
     	this.generateConfiguration(config);
 
     	let algo = 'forward';
@@ -62,15 +98,19 @@ export default class Generation extends Scene
 
     	// remove any categories that aren't in this game anyway
     	// (useful for creating lower difficulty games with less hint diversity)
-    	for(const category in this.AVAILABLE_HINTS) {
+    	for(const category in this.AVAILABLE_HINTS) 
+		{
     		if(this.cfg.hintCategories.includes(category)) { continue; }
     		delete this.AVAILABLE_HINTS[category];
     	}
 
     	// remove "advanced" hints if this option isn't enabled
-    	if(!this.cfg.advancedHints) {
-    		for(const category in this.AVAILABLE_HINTS) {
-    			for(let i = this.AVAILABLE_HINTS[category].length-1; i >= 0; i--) {
+    	if(!this.cfg.advancedHints) 
+		{
+    		for(const category in this.AVAILABLE_HINTS) 
+			{
+    			for(let i = this.AVAILABLE_HINTS[category].length-1; i >= 0; i--) 
+				{
     				if(!("advanced" in this.AVAILABLE_HINTS[category][i])) { continue; }
     				this.AVAILABLE_HINTS[category].splice(i, 1);
     			}
@@ -85,9 +125,10 @@ export default class Generation extends Scene
 
     	this.hintsGenerationFail = true;
 
-    	let timeout = 12;
+    	const timeout = 12;
     	let interval;
-		let mainGenerationAction = function() {
+		let mainGenerationAction = () => 
+		{
 		    this.generateBoard();
 
 			this.hintGenerationTries = 0;
@@ -116,7 +157,8 @@ export default class Generation extends Scene
 	    		foundSolution = true;
 	    	};
 
-	    	if(foundSolution) { 
+	    	if(foundSolution) 
+			{ 
 	    		clearInterval(interval); 
 	    		this.finishCreation();
 	    	}
@@ -139,15 +181,16 @@ export default class Generation extends Scene
 		let treasureCoords = shortstring + " " + longstring
 
 		// save loads of data somewhere else, so we can close the game before starting the interface
-		const config = {
-			'treasureCoords': treasureCoords,
-			'map': this.map,
-			'leftoverHints': this.LOST_RIDDLES,
-			'hintsPerPlayer': this.hintsPerPlayer,
-			'tilesLeftPerPlayer': this.tilesLeftPerPlayer,
-			'allLocationsAsStrings': this.getAllLocationsAsStrings(),
-			'botData': {
-				'categories': this.botHintCategories
+		const config = 
+		{
+			treasureCoords: treasureCoords,
+			map: this.map,
+			leftoverHints: this.LOST_RIDDLES,
+			hintsPerPlayer: this.hintsPerPlayer,
+			tilesLeftPerPlayer: this.tilesLeftPerPlayer,
+			allLocationsAsStrings: this.getAllLocationsAsStrings(),
+			botData: {
+				categories: this.botHintCategories
 			}
 		}
 		Object.assign(config, this.cfg);
@@ -191,46 +234,51 @@ export default class Generation extends Scene
 		let proposalExtraChangeProb = 0.55;
 		for(let i = 0; i < numProposeChecks; i++)
 		{
-			let tileA = this.mapList[Math.floor(Math.random() * this.mapList.length)];
-			let oldTileA = structuredClone(tileA);
-			let otherPos = new Point( tileA.x,  tileA.y);
+			const tileA = this.mapList[Math.floor(Math.random() * this.mapList.length)];
+			const oldTileA = structuredClone(tileA);
+			const otherPos = new Point(tileA.x, tileA.y);
 			otherPos.x = Math.max(Math.min(otherPos.x - 2 + Math.floor(Math.random()*5), this.cfg.width-1), 0);
 			otherPos.y = Math.max(Math.min(otherPos.y - 2 + Math.floor(Math.random()*5), this.cfg.height-1), 0);
 
 			let tileB = this.map[otherPos.x][otherPos.y];
-			let posAsString = this.convertToStringCoordinates(otherPos);
-			let alreadyCheckedThisTileAndItsTrue = (posAsString in tileA.proposeData) && tileA.proposeData[posAsString].changed;
-			let pickExtremeTileB = (Math.random() <= 0.1) || (alreadyCheckedThisTileAndItsTrue);
+			const posAsString = this.convertToStringCoordinates(otherPos);
+			const alreadyCheckedThisTileAndItsTrue = (posAsString in tileA.proposeData) && tileA.proposeData[posAsString].changed;
+			const pickExtremeTileB = (Math.random() <= 0.1) || (alreadyCheckedThisTileAndItsTrue);
 			if(pickExtremeTileB) {
 				tileB = this.mapList[Math.floor(Math.random() * this.mapList.length)];
 			}
 
-			let proposal : Record<string,any> = {};
-			let originalAnswer = tileB.botPositive;
-			let list = [tileB];
+			const proposal : Record<string,any> = {};
+			const originalAnswer = tileB.botPositive;
+			const list = [tileB];
 
-			if(Math.random() <= 0.66) {
+			if(Math.random() <= 0.66) 
+			{
 				tileA.nature = this.getRandomNature([tileA.nature]);
 				proposal.nature = tileA.nature;
 			}
 
-			if(this.cfg.elements.stones && Math.random() <= proposalExtraChangeProb) {
+			if(this.cfg.elements.stones && Math.random() <= proposalExtraChangeProb) 
+			{
 				tileA.stones = this.getRandomStones([tileA.stones]);
 				proposal.stones = tileA.stones;
 			}
 
-			if(this.cfg.elements.landmarks && Math.random() <= proposalExtraChangeProb) {
+			if(this.cfg.elements.landmarks && Math.random() <= proposalExtraChangeProb) 
+			{
 				tileA.landmark = this.getRandomLandmark([tileA.landmark]);
 				proposal.landmark = tileA.landmark;
 			}
 			
-			if(this.cfg.elements.roads && Math.random() <= proposalExtraChangeProb) {
+			if(this.cfg.elements.roads && Math.random() <= proposalExtraChangeProb) 
+			{
 				tileA.road = this.getRandomRoad([tileA.road]);
 				proposal.road = tileA.road;
 			}
 
 			let nothingChangedYet = (Object.keys(proposal).length == 0);
-			if(nothingChangedYet || Math.random() <= 0.66) {
+			if(nothingChangedYet || Math.random() <= 0.66) 
+			{
 				tileA.terrain = this.getRandomTerrain([tileA.terrain]);
 				proposal.terrain = tileA.terrain;
 			}
@@ -240,7 +288,7 @@ export default class Generation extends Scene
 				this.removeInvalidLocationsDueToHint(list, botHints[h]);
 			}
 
-			let newAnswer = (list.length > 0);
+			const newAnswer = (list.length > 0);
 
 			tileA.nature = oldTileA.nature;
 			tileA.stones = oldTileA.stones;
@@ -248,7 +296,7 @@ export default class Generation extends Scene
 			tileA.road = oldTileA.road;
 			tileA.terrain = oldTileA.terrain;
 
-			let changed = (originalAnswer != newAnswer);
+			const changed = (originalAnswer != newAnswer);
 			proposal.changed = changed;
 			tileA.proposeData[this.convertToStringCoordinates(tileB)] = proposal;
 		}
@@ -256,12 +304,13 @@ export default class Generation extends Scene
 
 	getAllLocationsAsStrings()
 	{
-		let list = this.mapList.slice();
+		const list = this.mapList.slice();
+		const arr = [];
 		for(let i = 0; i < list.length; i++)
 		{
-			list[i] = this.convertToStringCoordinates(list[i]);
+			arr.push( this.convertToStringCoordinates(list[i]) );
 		}
-		return list;
+		return arr;
 	}
 
 	addLiarsCouncilHints()
@@ -275,11 +324,14 @@ export default class Generation extends Scene
 			falseSquaresPerPlayer.push([]);
 		}
 
-		while(this.FALSE_SQUARES.length > 0) {
+		while(this.FALSE_SQUARES.length > 0) 
+		{
 			let randPlayer = Math.floor(this.cfg.rng.hints() * this.cfg.playerCount);
 			let square = this.FALSE_SQUARES[this.FALSE_SQUARES.length - 1];
 			let string = this.convertToStringCoordinates(square);
-			if(falseSquaresPerPlayer[randPlayer].includes(string)) { 
+
+			if(falseSquaresPerPlayer[randPlayer].includes(string)) 
+			{ 
 				this.FALSE_SQUARES.pop();
 				continue;
 			}
@@ -295,11 +347,14 @@ export default class Generation extends Scene
 			truthSquaresPerPlayer.push([]);
 		}
 
-		while(this.TRUTH_SQUARES.length > 0) {
+		while(this.TRUTH_SQUARES.length > 0) 
+		{
 			let randPlayer = Math.floor(this.cfg.rng.hints() * this.cfg.playerCount);
 			let square = this.TRUTH_SQUARES[this.TRUTH_SQUARES.length - 1];
 			let string = this.convertToStringCoordinates(square);
-			if(truthSquaresPerPlayer[randPlayer].includes(string)) { 
+
+			if(truthSquaresPerPlayer[randPlayer].includes(string)) 
+			{ 
 				this.TRUTH_SQUARES.pop();
 				continue;
 			}
@@ -313,14 +368,17 @@ export default class Generation extends Scene
 		{
 			let falseSquares = falseSquaresPerPlayer[i];
 			let hint : Hint = {};
-			if(falseSquares.length > 0) {
+
+			if(falseSquares.length > 0) 
+			{
 				hint.final_text = "These are FALSE squares: " + falseSquares.join(", ");
 				hint.html_text = hint.final_text;
 				this.hintsPerPlayer[i].push(hint);
 			}
 
 			let truthSquares = truthSquaresPerPlayer[i];
-			if(truthSquares.length > 0) {
+			if(truthSquares.length > 0) 
+			{
 				hint.final_text = "These are TRUTH squares: " + truthSquares.join(", ");
 				hint.html_text = hint.final_text;
 				this.hintsPerPlayer[i].push(hint);
@@ -385,7 +443,7 @@ export default class Generation extends Scene
 		if(this.cfg.playerCount == 5) { offset += 1; }
 		else if(this.cfg.playerCount == 6) { offset += 2; }
 
-		let tilesLeft = [];
+		let tilesLeft : number[] = [];
 
 		let minOptionsLeft = Math.round(0.33*this.cfg.totalTileCount); // min options is the more important number, so no offset change here
 		let maxOptionsLeft = Math.round(0.75*this.cfg.totalTileCount) + offset;
@@ -397,8 +455,8 @@ export default class Generation extends Scene
 		let failed = false;
 		for(let i = 0; i < this.hintsPerPlayer.length; i++)
 		{
-			let hints = this.hintsPerPlayer[i];
-			let locs = this.mapList.slice();
+			const hints = this.hintsPerPlayer[i];
+			const locs = this.mapList.slice();
 			
 			for(let h = 0; h < hints.length; h++)
 			{
@@ -410,7 +468,7 @@ export default class Generation extends Scene
 				}
 			}
 
-			let value = locs.length;
+			const value = locs.length;
 			tilesLeft.push(value);
 
 			this.tilesLeftPerPlayer.push(locs);
@@ -424,8 +482,7 @@ export default class Generation extends Scene
 		if(this.cfg.debugging) { console.log("TILES LEFT PER PLAYER"); console.log(tilesLeft); }
 		if(!failIfOptionsNotBalanced) { return; }
 
-		let maxDifference = Math.round(0.3*this.cfg.totalTileCount) + offset;
-		
+		const maxDifference = Math.round(0.3*this.cfg.totalTileCount) + offset;
 		for(let a = 0; a < tilesLeft.length; a++)
 		{
 			for(let b = 0; b < tilesLeft.length; b++)
@@ -451,74 +508,78 @@ export default class Generation extends Scene
 
     	this.cfg = 
     	{
-    		'seed': data.seed || "",
-    		'debugging': false, // @DEBUGGING (should be false)
-    		'premadeGame': data.premadeGame,
-    		'useInterface': true, //@DEBUGGING (should be true)
-    		'inkFriendly': true,
+    		seed: data.seed ?? "",
+    		debugging: false, // @DEBUGGING (should be false)
+    		premadeGame: data.premadeGame,
+    		useInterface: true, //@DEBUGGING (should be true)
+    		inkFriendly: true,
 
-    		'pixelwidth': this.canvas.width,
-    		'pixelheight': this.canvas.height,
-    		'width': 8,
-    		'height': 4,
+    		pixelwidth: this.canvas.width,
+    		pixelheight: this.canvas.height,
+    		width: 8,
+    		height: 4,
 
-    		'playerCount': data.playerCount || 4,
-    		'addBot': (data.playerCount <= 2),
-    		'minHintsPerPlayer': 1,
-			'maxHintsPerPlayer': 1,
-			'minImpactPerHint': 3, // how many squares each hint should REMOVE, at least
-			'forbidUselessHintsPerPlayer': true,
+    		playerCount: data.playerCount ?? 4,
+    		addBot: (data.playerCount <= 2),
+    		minHintsPerPlayer: 1,
+			maxHintsPerPlayer: 1,
+			minImpactPerHint: 3, // how many squares each hint should REMOVE, at least
+			forbidUselessHintsPerPlayer: true,
 
-			'treePercentage': 0.15,
-			'flowerPercentage': 0.15,
-			'stonesPercentage': 0.33,
-			'roadPercentage': 0.5,
-			'hintCategories': [],
+			treePercentage: 0.15,
+			flowerPercentage: 0.15,
+			stonesPercentage: 0.33,
+			roadPercentage: 0.5,
+			hintCategories: [],
 
-			"multiHint": data.multiHint,
-			"advancedHints": data.advancedHints,
-			'invertHintGrid': true, // on premade hint cards, marks all squares which can NOT be the treasure, instead of those that COULD be it
+			multiHint: data.multiHint,
+			advancedHints: data.advancedHints,
+			invertHintGrid: true, // on premade hint cards, marks all squares which can NOT be the treasure, instead of those that COULD be it
 
-			"elements": {
-				'allTerrains': data.allTerrains,
-				"stones": data.includeStones,
-				"roads": data.includeRoads,
-				"landmarks": data.includeLandmarks
+			elements: {
+				allTerrains: data.allTerrains,
+				stones: data.includeStones,
+				roads: data.includeRoads,
+				landmarks: data.includeLandmarks
 			},
 
-			"expansions": {
-				"liarsCouncil": data.expansions.liarsCouncil,
-				"theLostRiddles": data.expansions.theLostRiddles,
-				"tinyTreasures": data.expansions.tinyTreasures,
-				"gamblerOfMyWord": data.expansions.gamblerOfMyWord
+			expansions: {
+				liarsCouncil: data.expansions.liarsCouncil,
+				theLostRiddles: data.expansions.theLostRiddles,
+				tinyTreasures: data.expansions.tinyTreasures,
+				gamblerOfMyWord: data.expansions.gamblerOfMyWord
 			},
 
-			'wrapBoard': false, // experimental
+			wrapBoard: false, // experimental
     	}
 
     	if(this.cfg.wrapBoard) { console.error("CAUTION! Board wrapping is turned ON"); }
 
     	// Not 100% sure this is better, but at least it leads to better generation
     	// And it feels like some players with fewer hints is a good simplification for the game
-    	if(this.cfg.multiHint) {
+    	if(this.cfg.multiHint) 
+		{
     		this.cfg.minHintsPerPlayer = 1;
     		this.cfg.maxHintsPerPlayer = 2.5;
     	}
 
-    	if(this.cfg.premadeGame) {
+    	if(this.cfg.premadeGame) 
+		{
     		this.cfg.useInterface = false;
     		this.cfg.debugging = false;
     	}
 
     	// 12x6 is certainly bigger than the usual board, but not enormously so
-    	if(data.isColored) {
+    	if(data.isColored) 
+		{
     		this.cfg.inkFriendly = false;
 
     		this.cfg.width = 12;
     		this.cfg.height = 6;
     	}
 
-    	if(this.cfg.useInterface) {
+    	if(this.cfg.useInterface) 
+		{
     		this.cfg.debugging = false;
     	}
 
@@ -538,19 +599,19 @@ export default class Generation extends Scene
 
     	// if we have a bot, add that as an extra player as usual
     	// (in the interface, we just need to make sure we don't display its data on startup)
-    	if(this.cfg.addBot) {
-    		this.cfg.playerCount += 1;
-    	}
+    	if(this.cfg.addBot) { this.cfg.playerCount += 1; }
 
     	// calculate the row/column lists dynamically here, as it depends on board size
     	// (all other lists are static and saved in dictionary.js)
-    	let rows = [];
-    	for(let i = 0; i < this.cfg.height; i++) {
+    	const rows : number[] = [];
+    	for(let i = 0; i < this.cfg.height; i++) 
+		{
     		rows.push((i+1)); // stupid humans starting to count at 1
     	}
 
-    	let cols = [];
-    	for(let i = 0; i < this.cfg.width; i++) {
+    	const cols : string[] = [];
+    	for(let i = 0; i < this.cfg.width; i++) 
+		{
     		cols.push(alphabet[i]);
     	}
 
@@ -558,23 +619,27 @@ export default class Generation extends Scene
     	LISTS.column = cols;
 
     	// on ink friendly maps, there can only be 4 stones at most on a cell
-    	if(this.cfg.inkFriendly) {
+    	if(this.cfg.inkFriendly) 
+		{
     		STONES.splice(STONES.indexOf(4), 1);
     		LISTS.stones = STONES;
     	}
 
     	// on first/basic maps, we only use the first X terrains
-    	if(!this.cfg.elements.allTerrains) {
+    	if(!this.cfg.elements.allTerrains) 
+		{
     		TERRAINS.splice(3);
     		LISTS.terrain = TERRAINS
     	}
 	}
 
-	generateBoard() {
+	generateBoard() 
+	{
 		this.mapGenerationFail = true
 		this.numMapGenerations = 0;
 
-		while(this.mapGenerationFail) {
+		while(this.mapGenerationFail) 
+		{
 			this.numMapGenerations += 1;
 			this.mapGenerationFail = false;
 
@@ -592,77 +657,64 @@ export default class Generation extends Scene
 		}
 	}
 
-	determineSeed() {
-		let randomSeedLength = Math.floor(Math.random() * 10) + 2;
-		let randomSeed = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, randomSeedLength);
+	determineSeed() 
+	{
+		const randomSeedLength = Math.floor(Math.random() * 10) + 2;
+		const randomSeed = Math.random().toString(36).replace(/[^a-z]+/g, '').slice(0, randomSeedLength);
 
 		if(this.cfg.seed == '') { this.cfg.seed = randomSeed; }
-		let finalSeed = this.cfg.seed;
+		const finalSeed = this.cfg.seed;
 
 		this.cfg.seed = finalSeed; 
 		this.cfg.rng = {};
-		this.cfg.rng.general = Random.seedRandom(finalSeed + "-general");
-		this.cfg.rng.map = Random.seedRandom(finalSeed + "-map");
-		this.cfg.rng.hints = Random.seedRandom(finalSeed + "-hints-" + randomSeed);
+		this.cfg.rng.general = seedRandom(finalSeed + "-general");
+		this.cfg.rng.map = seedRandom(finalSeed + "-map");
+		this.cfg.rng.hints = seedRandom(finalSeed + "-hints-" + randomSeed);
 	}
 
-	prepareGrid() {
+	prepareGrid() 
+	{
 		this.map = [];
 		this.mapList = [];
 
-		for(let x = 0; x < this.cfg.width; x++) {
+		for(let x = 0; x < this.cfg.width; x++) 
+		{
 			this.map[x] = [];
 
-			for(let y = 0; y < this.cfg.height; y++) {
-				let quadrant = Math.floor(2 * x / this.cfg.width) + Math.floor(2 * y / this.cfg.height)*2;
-				let isEdge = (x == 0 || x == (this.cfg.width-1)) || (y == 0 || y == (this.cfg.height-1));
+			for(let y = 0; y < this.cfg.height; y++) 
+			{
+				const quadrant = Math.floor(2 * x / this.cfg.width) + Math.floor(2 * y / this.cfg.height)*2;
+				const isEdge = (x == 0 || x == (this.cfg.width-1)) || (y == 0 || y == (this.cfg.height-1));
 
-				let obj =
-				{ 
-					'x': x,
-					'y': y,
+				const cell = new Cell();
+				cell.setPosition(new Point(x,y));
+				cell.setLabelData((y+1).toString(), alphabet[x]);
+				cell.setGridData(isEdge, quadrant);
 
-					'row': (y+1),
-					'column': alphabet[x],
-
-					'isEdge': isEdge,
-					'terrain': '',
-					'nature': '',
-					'stones': 0,
-					'quadrant': quadrant,
-					'road': '',
-					'roadOrient': 0,
-					'landmark': '',
-
-					'falseSquare': false,
-					'truthSquare': false,
-					'tinyTreasure': false,
-
-					'botPositive': false,
-					'proposeData': {}
-				};
-
-				this.map[x][y] = obj;
-				this.mapList.push(obj);
+				this.map[x][y] = cell;
 			}
 		}
 
-		// saving all our (valid) neighbours once at the start saves a lot of time (and for loops) later on
-		let nbCoords = [new Point(1,0),new Point(0,1),new Point(-1,0),new Point(0,-1)]
-		for(let x = 0; x < this.cfg.width; x++) {
-			for(let y = 0; y < this.cfg.height; y++) {
-				
-				let nbs = [];
-				for(let i = 0; i < nbCoords.length; i++) {
-					let newPos = new Point( x + nbCoords[i].x,  y + nbCoords[i].y);
+		this.mapList = this.map.flat();
 
-					if(this.cfg.wrapBoard) {
+		// saving all our (valid) neighbours once at the start saves a lot of time (and for loops) later on
+		let nbCoords = [new Point(1,0), new Point(0,1), new Point(-1,0), new Point(0,-1)]
+		for(let x = 0; x < this.cfg.width; x++) 
+		{
+			for(let y = 0; y < this.cfg.height; y++) 
+			{
+				
+				const nbs = [];
+				for(const nbCoord of nbCoords) 
+				{
+					const newPos = new Point( x + nbCoord.x, y + nbCoord.y);
+					if(this.cfg.wrapBoard) 
+					{
 						newPos.x = (newPos.x + this.cfg.width) % this.cfg.width;
 						newPos.y = (newPos.y + this.cfg.height) % this.cfg.height;
 					}
 
-					if(this.outOfBounds(newPos.x, newPos.y)) { continue; }
-					
+					if(this.outOfBounds(newPos)) { continue; }
 					nbs.push(this.map[newPos.x][newPos.y]);
 				}
 
@@ -671,7 +723,8 @@ export default class Generation extends Scene
 		}
 	}
 
-	createTerrain() {
+	createTerrain() 
+	{
 
 		if(this.cfg.debugging) { console.log(" => Creating terrain ... "); }
 
@@ -690,11 +743,14 @@ export default class Generation extends Scene
 
 			for(let i = 0; i < numStartingDots; i++) {
 				let loc = allLocations.pop();
-				if(!(curTerrain in filledLocations)) {
+
+				if(!(curTerrain in filledLocations)) 
+				{
 					filledLocations[curTerrain] = [];
 				}
 
-				if(!this.minDistanceApart(loc, filledLocations[curTerrain], minDistBetweenSameTerrain)) {
+				if(!this.minDistanceApart(loc, filledLocations[curTerrain], minDistBetweenSameTerrain)) 
+				{
 					allLocations.unshift(loc);
 					continue;
 				}
@@ -707,7 +763,8 @@ export default class Generation extends Scene
 
 		// now keep growing random squares until the board is filled
 		let boardFilled = false;
-		while(!boardFilled) {
+		while(!boardFilled) 
+		{
 			let randTerrain = this.getRandomTerrain();
 			if(!(randTerrain in filledLocations)) { continue; }
 
@@ -853,11 +910,11 @@ export default class Generation extends Scene
 	{
 		if(!this.cfg.expansions.liarsCouncil) { return; }
 
-		let allLocs = this.mapList.slice();
+		const allLocs = this.mapList.slice();
 		this.shuffle(allLocs);
 
-		let numFalseSquares = Math.round( (this.cfg.rng.map()*0.33 + 0.33)*this.cfg.playerCount )
-		let numTruthSquares = Math.round( (this.cfg.rng.map()*0.33 + 0.33)*this.cfg.playerCount )
+		const numFalseSquares = Math.round( (this.cfg.rng.map()*0.33 + 0.33)*this.cfg.playerCount )
+		const numTruthSquares = Math.round( (this.cfg.rng.map()*0.33 + 0.33)*this.cfg.playerCount )
 
 		this.FALSE_SQUARES = [];
 		for(let i = 0; i < numFalseSquares; i++)
@@ -877,7 +934,8 @@ export default class Generation extends Scene
 			this.TRUTH_SQUARES.push(square);
 		}
 
-		if(this.cfg.debugging) {
+		if(this.cfg.debugging) 
+		{
 			console.log("FALSE/TRUTH SQUARES");
 			console.log(this.FALSE_SQUARES);
 			console.log(this.TRUTH_SQUARES);
@@ -904,7 +962,7 @@ export default class Generation extends Scene
 		if(this.cfg.debugging) { console.log("TINY TREASURES"); console.log(this.TINY_TREASURES); }
 	}
 
-	natureIsForbidden(cell, type)
+	natureIsForbidden(cell:Cell, type:string)
 	{
 		if(!TERRAIN_DATA[cell.terrain].nature.includes(type)) { return true; }
 		if(cell.nature != '') { return true; } // already has nature check ... is this okay?
@@ -913,36 +971,37 @@ export default class Generation extends Scene
 		return false;
 	}
 
-	minDistanceApart(cell, list, dist)
+	minDistanceApart(cell:Cell, list:Cell[], dist:number)
 	{
-		for(let i = 0; i < list.length; i++)
+		for(const otherCell of list)
 		{
-			let newCell = list[i];
-			if(this.distBetweenCells(cell, newCell) < dist) { return false; }
+			if(this.distBetweenCells(cell, otherCell) < dist) { return false; }
 		}
 		return true;
 	}
 
-	distBetweenCells(a, b)
+	distBetweenCells(a:Cell, b:Cell)
 	{
 		return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
 	}
 
-	createStones() {
+	createStones() 
+	{
 		if(this.cfg.debugging) { console.log(" => Creating stones ... "); }
 
-		let noStonesAllowed = (!this.cfg.hintCategories.includes("stones"));
+		const noStonesAllowed = (!this.cfg.hintCategories.includes("stones"));
 		if(noStonesAllowed) { return; }
 
-		let numStones = Math.floor( (0.8 + this.cfg.rng.map()*0.4) * this.cfg.stonesPercentage * (this.cfg.width * this.cfg.height));
+		const numStones = Math.floor( (0.8 + this.cfg.rng.map()*0.4) * this.cfg.stonesPercentage * (this.cfg.width * this.cfg.height));
 
-		let stonesPerNumber = [0,0,0,0,0];
+		const stonesPerNumber = [0,0,0,0,0];
 		stonesPerNumber[4] = 1 + Math.round(this.cfg.rng.map());
 		stonesPerNumber[3] = Math.floor((0.1 + 0.1*this.cfg.rng.map()) * numStones);
 		stonesPerNumber[2] = Math.floor((0.2 + 0.2*this.cfg.rng.map()) * numStones);
 		stonesPerNumber[1] = numStones - stonesPerNumber[2] - stonesPerNumber[3] - stonesPerNumber[4];
 
-		if(this.cfg.inkFriendly) {
+		if(this.cfg.inkFriendly) 
+		{
 			stonesPerNumber[3] += stonesPerNumber[4];
 			stonesPerNumber[4] = 0;
 		}
@@ -954,7 +1013,8 @@ export default class Generation extends Scene
 				let cell = null;
 				let badCell = true;
 
-				while(badCell) {
+				while(badCell) 
+				{
 					cell = this.getRandomCell(this.cfg.rng.map);
 					badCell = (cell.stones > 0);
 				}
@@ -964,18 +1024,19 @@ export default class Generation extends Scene
 		}
 	}
 
-	createRoads() {
+	createRoads() 
+	{
 		if(this.cfg.debugging) { console.log(" => Creating roads ... "); }
 
-		let noRoadsAllowed = (!this.cfg.hintCategories.includes("roads"));
+		const noRoadsAllowed = (!this.cfg.hintCategories.includes("roads"));
 		if(noRoadsAllowed) { return; }
 
-		let numRoadSequences = Math.max(Math.floor(this.cfg.roadPercentage * (0.6 + 0.4*this.cfg.rng.map()) * Math.pow(this.cfg.totalTileCount, 0.5)), 1);
-		let maxRoadLength = Math.max( Math.floor(0.8 * Math.pow(this.cfg.totalTileCount, 0.5)), 4); 
+		const numRoadSequences = Math.max(Math.floor(this.cfg.roadPercentage * (0.6 + 0.4*this.cfg.rng.map()) * Math.pow(this.cfg.totalTileCount, 0.5)), 1);
+		const maxRoadLength = Math.max( Math.floor(0.8 * Math.pow(this.cfg.totalTileCount, 0.5)), 4); 
 
-		let edgeCells = this.generateListWithEdgeLocations();
-		let landmarkCells = this.generateListWithLandmarkLocations();
-		let startCells = edgeCells;
+		const edgeCells = this.generateListWithEdgeLocations();
+		const landmarkCells = this.generateListWithLandmarkLocations();
+		const startCells = edgeCells;
 		startCells['landmark'] = landmarkCells;
 
 		this.roadLocations = [];
@@ -990,14 +1051,13 @@ export default class Generation extends Scene
 			[  1, 'X',   0, 'X']
 		];
 
-		let locationCategories = ['left', 'top', 'right', 'bottom', 'landmark'];
+		const locationCategories = ['left', 'top', 'right', 'bottom', 'landmark'];
 		this.shuffle(locationCategories);
 
 		let curLocationIndex = 0;
-		
 		for(let i = 0; i < numRoadSequences; i++)
 		{
-			let curLocation = locationCategories[curLocationIndex];
+			const curLocation = locationCategories[curLocationIndex];
 			curLocationIndex = (curLocationIndex + 1) % locationCategories.length;
 
 			if(startCells[curLocation].length <= 0) { continue; }
@@ -1018,16 +1078,16 @@ export default class Generation extends Scene
 
 			while(true)
 			{
-				let nbs = this.getEmptyNeighbors(oldCell, ["road", "landmark"]);
+				const nbs = this.getEmptyNeighbors(oldCell, ["road", "landmark"]);
 				if(nbs.length == 0) { break; }
 
-				let newCell = nbs[Math.floor(this.cfg.rng.map() * nbs.length)];
-				let dir = this.findDirBetweenCells(oldCell, newCell);
-				let lastDir = roadDirs[roadDirs.length - 1];
+				const newCell = nbs[Math.floor(this.cfg.rng.map() * nbs.length)];
+				const dir = this.findDirBetweenCells(oldCell, newCell);
+				const lastDir = roadDirs[roadDirs.length - 1];
 				curRoad.push(newCell);
 				roadDirs.push(dir);
 
-				let roadData = this.calculateRoadData(lastDir, dir, cornerMatrix, oldCell);
+				const roadData = this.calculateRoadData(lastDir, dir, cornerMatrix, oldCell);
 
 				oldCell.road = roadData.type;
 				oldCell.roadOrient = roadData.orient;
@@ -1044,7 +1104,8 @@ export default class Generation extends Scene
 			oldCell.road = 'dead end';
 			oldCell.roadOrient = -roadDirs[roadDirs.length - 1];
 
-			if(oldCell.isEdge) {
+			if(oldCell.isEdge) 
+			{
 				let lastDir = roadDirs[roadDirs.length - 1];
 				let dir = (this.getDirFromEdge(oldCell) + 2) % 4;
 				let roadData = this.calculateRoadData(lastDir, dir, cornerMatrix, oldCell);
@@ -1054,8 +1115,9 @@ export default class Generation extends Scene
 			}
 
 			// if the road ended up too short, just completely delete and undo
-			let tooShort = (curRoad.length < tempMinRoadLength);
-			if(tooShort) {
+			const tooShort = (curRoad.length < tempMinRoadLength);
+			if(tooShort) 
+			{
 				for(let a = 0; a < curRoad.length; a++) {
 					curRoad[a].road = '';
 					curRoad[a].roadOrient = -1;
@@ -1066,7 +1128,7 @@ export default class Generation extends Scene
 		}
 	}
 
-	getDirFromEdge(cell)
+	getDirFromEdge(cell:Cell)
 	{
 		let dir = 0;
 		if(cell.x == 0) { dir = 0; }
@@ -1076,7 +1138,7 @@ export default class Generation extends Scene
 		return dir;
 	}
 
-	calculateRoadData(lastDir, dir, matrix, cell)
+	calculateRoadData(lastDir, dir, matrix, cell:Cell)
 	{
 		let roadType = 'straight';
 		if(dir != lastDir) { roadType = 'corner'; }
@@ -1093,40 +1155,42 @@ export default class Generation extends Scene
 		}
 
 		return {
-			'type': roadType,
-			'orient': orient
+			type: roadType,
+			orient: orient
 		}
 	}
 
-	findDirBetweenCells(oldCell, newCell)
+	findDirBetweenCells(oldCell:Cell, newCell:Cell)
 	{
-		let vector = [newCell.x - oldCell.x, newCell.y - oldCell.y];
+		const vector = [newCell.x - oldCell.x, newCell.y - oldCell.y];
 		if(vector[0] == 1) { return 0; }
 		else if(vector[0] == -1) { return 2; }
 		else if(vector[1] == -1) { return 1; }
 		return 3;
 	}
 
-	createLandmarks() {
+	createLandmarks() 
+	{
 		if(this.cfg.debugging) { console.log(" => Creating landmarks ... "); }
 
 		this.landmarkCells = {}; // general dictionary used to quickly access which landmarks are where during hint generation
 
-		let noLandmarksAllowed = (!this.cfg.hintCategories.includes("landmarks"))
+		const noLandmarksAllowed = (!this.cfg.hintCategories.includes("landmarks"))
 		if(noLandmarksAllowed) { return; }
 
-		let landmarks = LANDMARKS.slice();
+		const landmarks = LANDMARKS.slice();
 		this.shuffle(landmarks);
 		if(this.cfg.rng.map() <= 0.5) { landmarks.pop(); }
 
-		let minDistBetweenLandmarks = 2;
-		let placedLandmarks = [];
+		const minDistBetweenLandmarks = 2;
+		const placedLandmarks = [];
 		for(let i = 0; i < landmarks.length; i++)
 		{
 			let cell = null;
 			let badCell = true;
 
-			while(badCell) {
+			while(badCell) 
+			{
 				cell = this.getRandomCell(this.cfg.rng.map);
 				badCell = !this.minDistanceApart(cell, placedLandmarks, minDistBetweenLandmarks);
 			}
@@ -1139,7 +1203,8 @@ export default class Generation extends Scene
 		}
 	}
 
-	getRandomCell(RNG) {
+	getRandomCell(RNG) 
+	{
 		let x = Math.floor(RNG() * this.cfg.width);
 		let y = Math.floor(RNG() * this.cfg.height);
 		return this.map[x][y];
@@ -1164,17 +1229,20 @@ export default class Generation extends Scene
 		Cons:
 		 - More expensive to calculate
 	*/	
-	generateInstructionsForward() {
+	generateInstructionsForward() 
+	{
 		let allLocations = this.mapList.slice();
 		let location = allLocations[Math.floor(this.cfg.rng.hints() * allLocations.length)];
 
 		if(this.cfg.debugging) { console.log("TREASURE LOCATION"); console.log(location); }
 
 		let hints = {};
-		for(const category in this.AVAILABLE_HINTS) {
+		for(const category in this.AVAILABLE_HINTS) 
+		{
 			hints[category] = [];
 
-			for(let i = 0; i < this.AVAILABLE_HINTS[category].length; i++) {
+			for(let i = 0; i < this.AVAILABLE_HINTS[category].length; i++) 
+			{
 				let originalHint = this.AVAILABLE_HINTS[category][i];
 
 				// This array starts with ONE entry (with exactly enough space to hold all params)
@@ -1182,7 +1250,8 @@ export default class Generation extends Scene
 				let fixedValues = [Array(originalHint.params.length)];	
 
 				// Now generate all these combinations of input parameters
-				for(let p = 0; p < originalHint.params.length; p++) {
+				for(let p = 0; p < originalHint.params.length; p++) 
+				{
 					let param = originalHint.params[p];
 
 					if("variable" in param) { continue; }
@@ -1258,19 +1327,22 @@ export default class Generation extends Scene
 			}
 		}
 
-		if(this.cfg.debugging) {
+		if(this.cfg.debugging) 
+		{
 			console.log("ALL HINTS");
 			console.log(structuredClone(hints));
 		}
 
-		for(const category in hints) {
+		for(const category in hints) 
+		{
 			this.shuffle(hints[category]);
 		}
 
 		// hard remove stuff from hint IDs that already have enough 
 		let hintsById = {};
 		let maxHintsPerId = 3;
-		for(const category in hints) {
+		for(const category in hints) 
+		{
 			for(let i = hints[category].length-1; i >= 0; i--)
 			{
 				let hint = hints[category][i];
@@ -1282,7 +1354,9 @@ export default class Generation extends Scene
 				let maxHints = maxHintsPerId;
 				if("duplicates" in hint) { maxHints = hint.duplicates; }
 
-				if(hintsById[id] >= maxHints) {
+				const alreadyHaveEnough = hintsById[id] >= maxHints;
+				if(alreadyHaveEnough) 
+				{
 					hints[category].splice(i,1);
 				}
 
@@ -1290,7 +1364,8 @@ export default class Generation extends Scene
 			}
 		}
 
-		if(this.cfg.debugging) {
+		if(this.cfg.debugging) 
+		{
 			console.log("REDUCED LIST OF HINTS");
 			console.log(structuredClone(hints));
 		}
@@ -1363,8 +1438,8 @@ export default class Generation extends Scene
 		this.hints = finalHints;
 		this.treasure = location;
 
-		if(this.cfg.expansions.theLostRiddles) {
-
+		if(this.cfg.expansions.theLostRiddles) 
+		{
 			// a very expensive way to remove all hints (from the reduced list) that are actually used
 			// but didn't see anything better at the moment
 			// at least it's categorized, which significantly reduces the lists we need to traverse
@@ -1384,21 +1459,23 @@ export default class Generation extends Scene
 
 			this.shuffle(finalLeftoverHints);
 
-			let maxNumLostRiddles = 30;
-			while(finalLeftoverHints.length > maxNumLostRiddles) {
+			const maxNumLostRiddles = 30;
+			while(finalLeftoverHints.length > maxNumLostRiddles) 
+			{
 				finalLeftoverHints.pop();
 			}
 
 			this.LOST_RIDDLES = finalLeftoverHints;
 
-			if(this.cfg.debugging) {
+			if(this.cfg.debugging) 
+			{
 				console.log("THE LOST RIDDLES");
 				console.log(this.LOST_RIDDLES);
 			}
 		}
 	}
 
-	countNumElementsInDictionary(dict)
+	countNumElementsInDictionary(dict:Record<string,any>)
 	{
 		let sum = 0;
 		for(const key in dict) {
@@ -1461,12 +1538,13 @@ export default class Generation extends Scene
 	generateInstructionsBackward() {
 		// contains info about things we DEFINITELY know about the final location while generating hints
 		// (reduces change of impossible hints, makes algorithm faster/smoother)
-		this.fixedData = {
-			'terrain': 'unknown',
-			'nature': 'unknown',
-			'stones': 'unknown',
-			'landmark': 'unknown',
-			'road': 'unknown'
+		this.fixedData = 
+		{
+			terrain: 'unknown',
+			nature: 'unknown',
+			stones: 'unknown',
+			landmark: 'unknown',
+			road: 'unknown'
 		}; 
 
 		let hintsCopy = structuredClone(this.AVAILABLE_HINTS);
@@ -1574,7 +1652,8 @@ export default class Generation extends Scene
 		}
 	}
 
-	generateListWithLandmarkLocations() {
+	generateListWithLandmarkLocations() 
+	{
 		let arr = [];
 		for(const landmarkName in this.landmarkCells) {
 			arr.push(this.landmarkCells[landmarkName]);
@@ -1583,20 +1662,23 @@ export default class Generation extends Scene
 	}
 
 	// Not very efficient, but this function is only called ONCE at MOST, so ... 
-	generateListWithEdgeLocations() {
-		let obj = {
-			'left': [],
-			'top': [],
-			'right': [],
-			'bottom': []
+	generateListWithEdgeLocations() 
+	{
+		const obj = {
+			left: [],
+			top: [],
+			right: [],
+			bottom: []
 		};
 
-		for(let x = 0; x < this.cfg.width; x++) {
+		for(let x = 0; x < this.cfg.width; x++) 
+		{
 			obj.top.push(this.map[x][0]);
 			obj.bottom.push(this.map[x][this.cfg.height-1]);
 		}
 
-		for(let y = 0; y < this.cfg.height; y++) {
+		for(let y = 0; y < this.cfg.height; y++) 
+		{
 			obj.left.push(this.map[0][y]);
 			obj.right.push(this.map[this.cfg.width-1][y]);
 		}
@@ -1673,7 +1755,7 @@ export default class Generation extends Scene
 	*/
 	buildHint(hint, cell = null, target = 'check')
 	{
-		let values = [];
+		let values : any[] = [];
 		let knownValues = [];
 		if ("final_values" in hint) { knownValues = hint.final_values; }
 		
@@ -3052,7 +3134,8 @@ export default class Generation extends Scene
 		return val;
 	}
 
-	createNotString(val) {
+	createNotString(val) 
+	{
 		if(val) { return ''; }
 		else { return 'NOT '; }
 	}
@@ -3068,100 +3151,130 @@ export default class Generation extends Scene
 	*/
 	clearBoard()
 	{
+		// @ts-ignore
 		let allSprites = this.children.list.filter(x => x instanceof GameObjects.Sprite);
 		allSprites.forEach(x => x.destroy());
 
+		// @ts-ignore
 		let allGraphics = this.children.list.filter(x => x instanceof GameObjects.Graphics);
 		allGraphics.forEach(x => x.destroy());
 
+		// @ts-ignore
 		let allText = this.children.list.filter(x => x instanceof GameObjects.Text);
 		allText.forEach(x => x.destroy());
 	}
 
-	visualizeTreasureOnly() {
+	visualizeTreasureOnly() 
+	{
 		this.clearBoard();
 		this.showTreasureRectangle();
 	}
 
 	visualizeHintCards()
 	{
-		let cardMargin = new Point( 20,  20);
-		let margin = new Point( 30,  80);
-		let metadataMargin = new Point( 150,  37)
-		let scale = 0.35
-		let cardSize = { "w": 1038*scale, "h": 1074*scale }
+		const cardMargin = new Point(20, 20);
+		const margin = new Point(30, 80);
+		const metadataMargin = new Point(150, 37)
+		const scale = 0.35
+		const cardSize = new Point(1038*scale, 1074*scale);
 
-		let txtConfig = 
-			{
-				fontFamily: 'Chelsea Market', 
-				fontSize: '16px',
-				color: '#111111', 
-				stroke: '#FFFFFF',
-				strokeThickness: 1,
-				wordWrap: { width: cardSize.w - margin.x*2, useAdvancedWrap: false }
-			}
+		const textConfig = new TextConfig({
+			font: "Chelsea Market",
+			size: 16
+		});
 
-		let metadataConfig = structuredClone(txtConfig);
-		metadataConfig.fontSize = '11px';
-		metadataConfig.strokeThickness = 0;
+		const metadataConfig = new TextConfig({
+			font: "Chelsea Market",
+			size: 11
+		});
 
-		let cellSize = Math.floor((cardSize.w - margin.x*2) / this.cfg.width);
-		let gridHeight = this.cfg.height * cellSize;
-		let gridWidth = this.cfg.width * cellSize;
-		let extraGridMargin = new Point( 3,  30); // just to center it nicely on the card
+		const cellSize = Math.floor((cardSize.x - margin.x*2) / this.cfg.width);
+		const gridHeight = this.cfg.height * cellSize;
+		const extraGridMargin = new Point(3, 30); // just to center it nicely on the card
 
-		let graphics = this.add.graphics();
-		let lineWidth = 2;
-		let lineColor = 0x000000;
-		let alpha = 0.4;
-		graphics.lineStyle(lineWidth, lineColor, alpha); 
-		graphics.fillStyle(lineColor, 0.33*alpha);
+		// @ts-ignore
+		const graphics = this.add.graphics();
+
+		const lineWidth = 2;
+		const alpha = 0.4;
+		const lineColorStroke = new Color(0,0,0,alpha);
+		const lineColorFill = new Color(0,0,0,alpha);
+
+		const opLine = new LayoutOperation({
+			stroke: lineColorStroke,
+			strokeWidth: lineWidth
+		});
+
+		const opRect = new LayoutOperation({
+			fill: lineColorFill,
+		})
 
 		let txt:any;
 
+		const resHintCard = resLoader.getResource("hint_card");
+
 		for(let i = 0; i < this.cfg.playerCount; i++)
 		{
-			let row = i % 3;
-			let col = Math.floor(i / 3);
+			const row = i % 3;
+			const col = Math.floor(i / 3);
 
 			// create card background
-			let sprite = this.add.sprite(cardMargin.x + row*cardSize.w, cardMargin.y + col*cardSize.h, 'hint_card');
-			sprite.displayWidth = cardSize.w;
-			sprite.displayHeight = cardSize.h;
-			sprite.setOrigin(0.0, 0.0);
+			const posHintCard = new Point(cardMargin.x + row*cardSize.x, cardMargin.y + col*cardSize.y);
+			const opHintCard = new LayoutOperation({
+				translate: posHintCard,
+				dims: cardSize
+			});
+			imageToPhaser(resHintCard, opHintCard, this);
 
 			// add metadata (player number, seed, etcetera) in header
-			let metadata = "(player " + (i+1) + "; " + this.cfg.seed + ")";
-			txt = this.add.text(sprite.x + metadataMargin.x, sprite.y + metadataMargin.y, metadata, metadataConfig);
+			const metadata = "(player " + (i+1) + "; " + this.cfg.seed + ")";
+			const resMetadataText = new ResourceText({ text: metadata, textConfig: metadataConfig });			
+			const opMetadataText = new LayoutOperation({
+				translate: new Point(posHintCard.x + metadataMargin.x, posHintCard.y + metadataMargin.y),
+				fill: "#111111",
+				dims: new Point(cardSize.x - margin.x*2, cardSize.y)
+			})
+			textToPhaser(resMetadataText, opMetadataText, this);
 
 			// generate the full string to place on top of the card
-			let hints = this.hintsPerPlayer[i];
-			let hintTexts = [];
+			const hints = this.hintsPerPlayer[i];
+			const hintTexts : string[] = [];
 			for(let h = 0; h < hints.length; h++)
 			{
 				hintTexts.push(hints[h].final_text);
 			}
-			let hintString = hintTexts.join("\n\n");
+			const hintString = hintTexts.join("\n\n");
 
 			// actually place the hint string
-			txt = this.add.text(sprite.x + margin.x, sprite.y + margin.y, hintString, txtConfig);
-			let heightLeftForGrid = cardSize.h - margin.y - cardMargin.y - txt.getBounds().height - extraGridMargin.y;
-			let multiplier = Math.min((heightLeftForGrid/gridHeight), 1);
+			const resText = new ResourceText({ text: hintString, textConfig: textConfig });
+			const opText = new LayoutOperation({
+				translate: new Point(posHintCard.x + margin.x, posHintCard.y + margin.y),
+				fill: "#111111",
+				stroke: "#FFFFFF",
+				strokeWidth: 1,
+				dims: new Point(cardSize.x - margin.x*2, cardSize.y)
+			})
+			txt = textToPhaser(resText, opText, this);
 
 			// create the hint grid
-			let gridPos = new Point( sprite.x + margin.x + extraGridMargin.x ,  sprite.y + cardSize.h - gridHeight - extraGridMargin.y);
-			let cs = cellSize * multiplier;
+			const heightLeftForGrid = cardSize.y - margin.y - cardMargin.y - txt.getBounds().height - extraGridMargin.y;
+			const multiplier = Math.min((heightLeftForGrid/gridHeight), 1);
+			const gridPos = new Point( 
+				posHintCard.x + margin.x + extraGridMargin.x,
+				posHintCard.y + cardSize.y - gridHeight - extraGridMargin.y
+			);
+			const cs = cellSize * multiplier;
 
 			for(let x = 1; x < this.cfg.width; x++)
 			{
-				let line = new Geom.Line(gridPos.x + x*cs, gridPos.y, gridPos.x + x * cs, gridPos.y + (this.cfg.height*cs));
-				graphics.strokeLineShape(line);
+				const line = new Line(new Point(gridPos.x + x*cs, gridPos.y), new Point(gridPos.x + x * cs, gridPos.y + (this.cfg.height*cs)));
+				lineToPhaser(line, opLine, graphics);
 			}
 
 			for(let y = 1; y < this.cfg.height; y++)
 			{
-				let line = new Geom.Line(gridPos.x, gridPos.y + y * cs, gridPos.x + (this.cfg.width*cs), gridPos.y + y * cs);
-				graphics.strokeLineShape(line);
+				const line = new Line(new Point(gridPos.x, gridPos.y + y * cs), new Point(gridPos.x + (this.cfg.width*cs), gridPos.y + y*cs));
+				lineToPhaser(line, opLine, graphics);
 			}
 
 			let tiles = this.tilesLeftPerPlayer[i];
@@ -3170,14 +3283,14 @@ export default class Generation extends Scene
 			// draw a rectangle for all locations that are still possible (because of yur hints)
 			for(let t = 0; t < tiles.length; t++)
 			{
-				let tile = tiles[t];
-				let rect = new Geom.Rectangle(gridPos.x + tile.x*cs, gridPos.y + tile.y*cs, cs, cs);
-				graphics.fillRectShape(rect);
-
+				const tile = tiles[t];
+				const rect = new Rectangle().fromTopLeft(new Point(gridPos.x + tile.x * cs, gridPos.y + tile.y * cs), new Point(cs));
+				rectToPhaser(rect, opRect, graphics);
 			}
 
 		}
 
+		// @ts-ignore
 		this.children.bringToTop(graphics);
 	}
 
@@ -3211,43 +3324,57 @@ export default class Generation extends Scene
 		return alphabet[cell.x] + "" + (cell.y+1);
 	}
 
-	visualizeGame() {
-		let graphics = this.add.graphics();
+	visualizeGame() 
+	{
+		// @ts-ignore
+		const graphics = this.add.graphics();
 
-		const bgRect = new Geom.Rectangle(0, 0, this.cfg.pixelWidth, this.cfg.pixelHeight);
-		graphics.fillStyle(0xFFFFFF, 1.0);
-		graphics.fillRectShape(bgRect);
+		const bgRect = new Rectangle().fromTopLeft(new Point(), new Point(this.cfg.pixelWidth, this.cfg.pixelHeight));
+		const opRect = new LayoutOperation({
+			fill: "#FFFFFF"
+		});
+		rectToPhaser(bgRect, opRect, graphics);
 
 		const oX = this.cfg.oX;
 		const oY = this.cfg.oY;
 		const cs = this.cfg.cellSize;
 		const inkFriendly = this.cfg.inkFriendly;
 
-		for(let x = 0; x < this.cfg.width; x++) {
-			for(let y = 0; y < this.cfg.height; y++) {
-				let fX = oX + x*cs;
-				let fY = oY + y*cs;
-				let rect = new Geom.Rectangle(fX, fY, cs, cs);
-				let cell = this.map[x][y];
+		const resIcons = resLoader.getResource("icons");
+
+		for(let x = 0; x < this.cfg.width; x++) 
+		{
+			for(let y = 0; y < this.cfg.height; y++) 
+			{
+				const fX = oX + x*cs, fY = oY + y*cs;
+				const rect = new Rectangle().fromTopLeft(new Point(fX, fY), new Point(cs));
 				
-				let terrain = cell.terrain;
+				const cell = this.map[x][y];
+				const spritePos = new Point(fX + 0.5*cs, fY + 0.5*cs);
+				const terrain = cell.terrain;
 
 				if(inkFriendly) {
 					let frame = TERRAINS.indexOf(terrain);
-					let terrainIcon = this.add.sprite(fX + 0.5*cs, fY + 0.5*cs, 'icons', frame);
-					terrainIcon.displayWidth = terrainIcon.displayHeight = cs;
-					terrainIcon.setOrigin(0.5, 0.5);
+					const op = new LayoutOperation({
+						translate: spritePos,
+						dims: new Point(cs),
+						frame: frame,
+						pivot: Point.CENTER
+					})
+					imageToPhaser(resIcons, op, this);
 				} else {
-					graphics.fillStyle(TERRAIN_DATA[terrain].color, 1.0);
-					graphics.fillRectShape(rect);
+					const opRect = new LayoutOperation({
+						fill: TERRAIN_DATA[terrain].color
+					});
+					rectToPhaser(rect, opRect, graphics);
 				}
 				
-
 				// stone sprites must be shown UNDERNEATH nature sprites, hence they are created first
 				let stones = cell.stones;
 				let hasStones = (stones > 0);
 
-				if(hasStones) {
+				if(hasStones) 
+				{
 					let frame = 16;
 					let key = 'elements';
 					if(inkFriendly) { 
@@ -3255,17 +3382,22 @@ export default class Generation extends Scene
 						key = 'icons';
 					}
 					
-
 					let positions = [0,1,2,3];
 					if(inkFriendly) { positions = [1,2,3]; }
 					this.shuffle(positions);
 
-					for(let s = 0; s < stones; s++) {
-						let stoneSprite = this.add.sprite(fX + 0.5*cs, fY + 0.5*cs, key, frame);
-						stoneSprite.displayWidth = cs;
-						stoneSprite.displayHeight = cs;
-						stoneSprite.setOrigin(0.5, 0.5);
-						stoneSprite.rotation = positions[s] * 0.5 * Math.PI;
+					const resStones = resLoader.getResource(key);
+
+					for(let s = 0; s < stones; s++)
+					{
+						const op = new LayoutOperation({
+							translate: spritePos,
+							dims: new Point(cs),
+							pivot: Point.CENTER,
+							rotation: (positions[s] * 0.5 * Math.PI),
+							frame: frame
+						})
+						imageToPhaser(resStones, op, this);
 					}
 					
 				}
@@ -3276,33 +3408,37 @@ export default class Generation extends Scene
 				let natureScale = 1.0;
 				if(!inkFriendly) { natureScale = 0.66; }
 
-				if(hasNature) {
+				if(hasNature) 
+				{
 					let frame = 0;
 					let terrainOffset = TERRAINS.indexOf(terrain);
 					if(nature == 'flower') { frame = 8; }
 					frame += terrainOffset;
 
-					let natureSprite;
+					const resNature = resLoader.getResource( inkFriendly ? "icons" : "elements" );
 					
 					if(inkFriendly) {
 						let iconFrame = 8;
 						if(nature == 'flower') { iconFrame = 9; }
-						natureSprite = this.add.sprite(fX + 0.5*cs, fY + 0.5*cs, 'icons', iconFrame);
-					} else {
-						natureSprite = this.add.sprite(fX + 0.5*cs, fY + 0.5*cs, 'elements', frame);
+						frame = iconFrame;
 					}
 
-					natureSprite.displayWidth = cs * natureScale;
-					natureSprite.displayHeight = cs * natureScale;
-					natureSprite.setOrigin(0.5, 0.5);
-					natureSprite.rotation = Math.floor(this.cfg.rng.map()*4) * 0.5 * Math.PI;
+					const op = new LayoutOperation({
+						translate: spritePos,
+						frame: frame,
+						dims: new Point(cs * natureScale),
+						pivot: Point.CENTER,
+						rotation: (Math.floor(this.cfg.rng.map()*4) * 0.5 * Math.PI)
+					});
+					imageToPhaser(resNature, op, this);
 				}
 
 				// road
 				let road = cell.road;
 				let roadScale = 1.0;
 				let hasRoad = (road != '');
-				if(hasRoad) {
+				if(hasRoad) 
+				{
 					let terrainIndex = TERRAINS.indexOf(terrain);
 					let frame = 24;
 					let iconFrame = 11;
@@ -3310,130 +3446,154 @@ export default class Generation extends Scene
 					if(road == 'dead end') { frame = 40; iconFrame = 13; }
 					frame += terrainIndex;
 
-					let roadSprite;
-					if(inkFriendly) {
-						roadSprite = this.add.sprite(fX + 0.5*cs, fY + 0.5*cs, 'icons', iconFrame);
-					} else {
-						roadSprite = this.add.sprite(fX + 0.5*cs, fY + 0.5*cs, 'elements', frame);
-					}
+					const resRoad = resLoader.getResource( inkFriendly ? "icons" : "elements" );
+					if(inkFriendly) { frame = iconFrame; }
 
-					roadSprite.displayWidth = cs * roadScale;
-					roadSprite.displayHeight = cs * roadScale;
-					roadSprite.setOrigin(0.5, 0.5);
-
-					roadSprite.rotation = cell.roadOrient * 0.5 * Math.PI;
-
+					const op = new LayoutOperation({
+						translate: spritePos,
+						dims: new Point(roadScale * cs),
+						pivot: Point.CENTER,
+						rotation: (cell.roadOrient * 0.5 * Math.PI),
+						frame: frame
+					})
+					imageToPhaser(resRoad, op, this);
 				}
 
 				// landmarks
 				let landmark = cell.landmark;
 				let landmarkScale = 1.0;
 				let hasLandmark = (landmark != '');
-				if(hasLandmark) {
+				if(hasLandmark) 
+				{
 					let frame = 48 + LANDMARKS.indexOf(landmark);
 					let iconFrame = 16 + LANDMARKS.indexOf(landmark);
 
-					let landmarkSprite;
-					if(inkFriendly) {
-						landmarkSprite = this.add.sprite(fX + 0.5*cs, fY + 0.5*cs, 'icons', iconFrame);
-					} else {
-						landmarkSprite = this.add.sprite(fX + 0.5*cs, fY + 0.5*cs, 'elements', frame);
-					}
+					const resLandmark = resLoader.getResource( inkFriendly ? "icons" : "elements" );
+					if(inkFriendly) { frame = iconFrame; }
+					const op = new LayoutOperation({
+						translate: spritePos,
+						dims: new Point(cs * landmarkScale),
+						frame: frame,
+						pivot: Point.CENTER,
+						rotation: Math.floor(this.cfg.rng.map()*4) * 0.5 * Math.PI
+					});
 
-					landmarkSprite.displayWidth = cs * landmarkScale;
-					landmarkSprite.displayHeight = cs * landmarkScale;
-					landmarkSprite.setOrigin(0.5, 0.5);
-					landmarkSprite.rotation = Math.floor(this.cfg.rng.map()*4) * 0.5 * Math.PI;
+					imageToPhaser(resLandmark, op, this);
 				}
 			}
 		}
 
 		// draw divider lines to clearly separate tiles
-		let topGraphics = this.add.graphics();
+		// @ts-ignore
+		const topGraphics = this.add.graphics();
 
-		let gridLineWidth = Math.round(0.015*this.cfg.cellSize);
-		let lineColor = 0x000000;
-		topGraphics.lineStyle(gridLineWidth, lineColor, 1.0); 
+		const gridLineWidth = Math.round(0.015*this.cfg.cellSize);
+		const opTop = new LayoutOperation({
+			stroke: "#000000",
+			strokeWidth: gridLineWidth
+		});
 
-		let fontSize = Math.round(0.0725*cs)
-		let margin = Math.round(0.0275*cs)
-		let txtConfig = 
-			{
-				fontFamily: 'Chelsea Market', 
-				fontSize: fontSize + 'px',
-				color: '#111111', 
-				stroke: '#FFFFFF',
-				strokeThickness: 1,
-			}
+		const fontSize = Math.round(0.0725*cs)
+		const margin = Math.round(0.0275*cs);
+		const textConfig = new TextConfig({
+			font: "Chelsea Market",
+			size: fontSize,
+		})
+	
+		const opText = new LayoutOperation({
+			fill: "#111111",
+			stroke: "#FFFFFF",
+			strokeWidth: 1,
+			dims: new Point(6*fontSize, 1.5*fontSize)
+		});
 
-		for(let x = 0; x <= this.cfg.width; x++) {
-			let line = new Geom.Line(oX + x*cs, oY + 0, oX + x*cs, oY + this.cfg.height*cs);
-			topGraphics.strokeLineShape(line);
+		for(let x = 0; x <= this.cfg.width; x++) 
+		{
+			const line = new Line(new Point(oX + x*cs, oY + 0), new Point(oX + x*cs, oY + this.cfg.height*cs));
+			lineToPhaser(line, opTop, topGraphics);
 
 			if(x == this.cfg.width) { continue; }
-			let txt = this.add.text(oX + (x+0.5)*cs, oY + margin, alphabet[x], txtConfig);
-			txt.setOrigin(0.5, 0.0);
+
+			const opTextTemp = opText.clone();
+			opTextTemp.translate = new Point(oX + (x+0.5)*cs, oY + margin);
+			opTextTemp.pivot = new Point(0.5, 0);
+			const resText = new ResourceText({ text: alphabet[x], textConfig: textConfig });
+			textToPhaser(resText, opTextTemp, this);
 		}
 
-		for(let y = 0; y <= this.cfg.height; y++) {
-			let line = new Geom.Line(oX + 0, oY + y*cs, oX + this.cfg.width*cs, oY + y*cs);	
-			topGraphics.strokeLineShape(line);
+		for(let y = 0; y <= this.cfg.height; y++) 
+		{
+			const line = new Line(new Point(oX + 0, oY + y*cs), new Point(oX + this.cfg.width*cs, oY + y*cs));
+			lineToPhaser(line, opTop, topGraphics);
 
 			if(y == this.cfg.height) { continue; }
-			let txt = this.add.text(oX + margin, oY + (y+0.5)*cs, (y+1), txtConfig);
-			txt.setOrigin(0.0, 0.5);
+
+			const opTextTemp = opText.clone();
+			opTextTemp.translate = new Point(oX + margin, oY + (y+0.5)*cs);
+			opTextTemp.pivot = new Point(0, 0.5);
+			const resText = new ResourceText({ text: (y+1).toString(), textConfig: textConfig });
+			textToPhaser(resText, opTextTemp, this);
 		}
 
 		// display the map seed (underneath the A in the upper left square)
-		let txt = this.add.text(oX + 0.5*cs + margin, oY + margin + 12, this.cfg.seed, txtConfig);
-		txt.setOrigin(0.5, 0.0);
+		textConfig.alignHorizontal = TextAlign.MIDDLE;
+		const resText = new ResourceText({ text: this.cfg.seed, textConfig: textConfig });
+		opText.translate = new Point(oX + 0.5*cs + margin, oY + margin + 12);
+		opText.pivot = new Point(0.5, 0);
+		textToPhaser(resText, opText, this);
 
 		// draw a divider between squares with a different terrain
 		// (helps a ton with clarity)
-		let lineWidth = Math.round(2.5*gridLineWidth);
-		topGraphics.lineStyle(lineWidth, lineColor, 1.0);
+		const opTopDivider = opTop.clone();
+		opTopDivider.strokeWidth = Math.round(2.5*gridLineWidth);
 
 		let tiles = this.mapList.slice();
 		for(let i = 0; i < tiles.length; i++)
 		{
-			let pos = { 'x': tiles[i].x, 'y': tiles[i].y }
-			let posBelow = { 'x': pos.x, 'y': pos.y + 1 }
-			let posRight = { 'x': pos.x + 1, 'y': pos.y }
+			let pos = new Point(tiles[i].x, tiles[i].y);
+			let posBelow = new Point(pos.x, pos.y + 1);
+			let posRight = new Point(pos.x + 1, pos.y);
 
-			if(!this.outOfBounds(posBelow.x, posBelow.y) && tiles[i].terrain != this.map[posBelow.x][posBelow.y].terrain)
+			if(!this.outOfBounds(posBelow) && tiles[i].terrain != this.map[posBelow.x][posBelow.y].terrain)
 			{
-				let line = new Geom.Line(oX + posBelow.x*cs, oY + posBelow.y*cs, oX + (posBelow.x+1)*cs, oY + posBelow.y*cs);
-				topGraphics.strokeLineShape(line);
+				const line = new Line(new Point(oX + posBelow.x*cs, oY + posBelow.y*cs), new Point(oX + (posBelow.x+1)*cs, oY + posBelow.y*cs));
+				lineToPhaser(line, opTopDivider, topGraphics);
 			}
 
-			if(!this.outOfBounds(posRight.x, posRight.y) && tiles[i].terrain != this.map[posRight.x][posRight.y].terrain)
+			if(!this.outOfBounds(posRight) && tiles[i].terrain != this.map[posRight.x][posRight.y].terrain)
 			{
-				let line = new Geom.Line(oX + posRight.x*cs, oY + posRight.y*cs, oX + posRight.x*cs, oY + (posRight.y+1)*cs);
-				topGraphics.strokeLineShape(line);
+				const line = new Line(new Point(oX + posRight.x*cs, oY + posRight.y*cs), new Point(oX + posRight.x*cs, oY + (posRight.y+1)*cs));
+				lineToPhaser(line, opTopDivider, topGraphics);
 			}
 		}
 
 		// display the hints (only when debugging of course)
-		if(this.cfg.debugging) {
-			let txtConfig = 
-				{
-					fontFamily: 'Chelsea Market', 
-					fontSize: '16px',
-					color: '#111111', 
-					stroke: '#FFFFFF',
-					strokeThickness: 5,
-				}
+		if(this.cfg.debugging) 
+		{
+			const textConfigDebug = new TextConfig({
+				font: "Chelsea Market",
+				size: 16
+			});
 
-			let margin = 12;
-			let lineHeight = 24;
+			const margin = 12;
+			const lineHeight = 24;
 			let counter = 0;
 			for(const category in this.hints) 
 			{
 				for(let i = 0; i < this.hints[category].length; i++)
 				{
-					let txt = this.add.text(oX + margin, oY + margin + counter*lineHeight, this.hints[category][i].final_text, txtConfig);
-					txt.setOrigin(0,0);
-					txt.depth = 10000;
+					const str = this.hints[category][i].final_text;
+					const op = new LayoutOperation({
+						translate: new Point(oX + margin, oY + margin + counter*lineHeight),
+						fill: "#111111",
+						stroke: "#FFFFFF",
+						strokeWidth: 5,
+						dims: new Point(0.5*this.canvas.width), // just a random big text box size
+					})		
+
+					const resText = new ResourceText({ text: str, textConfig: textConfigDebug });
+					textToPhaser(resText, op, this);
+					// @NOTE: I have no equivalent for this in my own system; maybe there SHOULD be? => txt.depth = 10000;
 					counter += 1;
 				}
 			}
@@ -3448,27 +3608,33 @@ export default class Generation extends Scene
 
 	showTreasureRectangle()
 	{
+		// @ts-ignore
 		let graphics = this.add.graphics();
 		let loc = this.treasure;
 
 		let fX = this.cfg.oX + loc.x*this.cfg.cellSize;
 		let fY = this.cfg.oY + loc.y*this.cfg.cellSize;
-		let rect = new Geom.Rectangle(fX, fY, this.cfg.cellSize, this.cfg.cellSize);
 
-		graphics.lineStyle(10, 0xFF0000, 1.0);
-		graphics.strokeRectShape(rect);
+		const rect = new Rectangle().fromTopLeft(new Point(fX, fY), new Point(this.cfg.cellSize));
+		const op = new LayoutOperation({
+			stroke: "#FF0000",
+			strokeWidth: 10,
+			alpha: 1.0
+		});
+		rectToPhaser(rect, op, graphics);
 	}
 
 	/*
 		HELPER FUNCTIONS
 	*/
-	getMaxTilesInRadius(rad)
+	getMaxTilesInRadius(rad:number)
 	{
 		rad -= 1; // just to offset it so it works with how hints are presented to players
 		return 2*(rad*rad) - 2*rad + 1;
 	}
 
-	getEmptyNeighbors(cell, properties) {
+	getEmptyNeighbors(cell, properties) 
+	{
 		let arr = [];
 
 		for(let i = 0; i < cell.nbs.length; i++) {
@@ -3639,8 +3805,10 @@ export default class Generation extends Scene
 		let oY = param.cell.y;
 
 		let arr = [];
-		for(let x = -param.radius; x <= param.radius; x++) {
-			for(let y = -param.radius; y <= param.radius; y++) {
+		for(let x = -param.radius; x <= param.radius; x++) 
+		{
+			for(let y = -param.radius; y <= param.radius; y++) 
+			{
 				let dist = Math.abs(x) + Math.abs(y);
 				if(dist > param.radius) { continue; }
 
@@ -3652,7 +3820,8 @@ export default class Generation extends Scene
 					fY = (fY + this.cfg.height) % this.cfg.height;
 				}
 
-				if(this.outOfBounds(fX, fY)) { continue; }
+				const pos = new Point(fX, fY);
+				if(this.outOfBounds(pos)) { continue; }
 
 				arr.push(this.map[fX][fY]);
 			}
@@ -3660,7 +3829,7 @@ export default class Generation extends Scene
 		return arr;
 	}
 
-	arraysAreEqual(a,b)
+	arraysAreEqual(a:any[], b:any[])
 	{
 		if(a.length != b.length) { return false; }
 
@@ -3670,7 +3839,7 @@ export default class Generation extends Scene
 		return true;
 	}
 
-	arraysAreNonEqual(a,b)
+	arraysAreNonEqual(a:any[], b:any[])
 	{
 		if(a.length != b.length) { return false; }
 
@@ -3680,7 +3849,7 @@ export default class Generation extends Scene
 		return true;
 	}
 
-	arraysOneMatch(a,b)
+	arraysOneMatch(a:any[], b:any[])
 	{
 		for(let i = 0; i < a.length; i++) {
 			if(i >= b.length) { break; }
@@ -3689,7 +3858,7 @@ export default class Generation extends Scene
 		return false;
 	}
 
-	arrayHasDuplicates(a)
+	arrayHasDuplicates(a:any[])
 	{
 		return (new Set(a)).size !== a.length;
 	}
@@ -3755,7 +3924,8 @@ export default class Generation extends Scene
 		}
 	}
 
-	shuffle(a) {
+	shuffle(a:any[]) 
+	{
 	    let j, x, i;
 	    for (i = a.length - 1; i > 0; i--) {
 	        j = Math.floor(this.cfg.rng.general() * (i + 1));
@@ -3767,12 +3937,9 @@ export default class Generation extends Scene
 	    return a;
 	}
 
-	pixelToCell(a) {
-		return { 'x': Math.floor(a.x/this.cfg.cellSize), 'y': Math.floor(a.y/this.cfg.cellSize) }
-	}
-
-	outOfBounds(x, y) {
-		return (x < 0 || x >= this.cfg.width || y < 0 || y >= this.cfg.height);
+	outOfBounds(pos:Point) 
+	{
+		return (pos.x < 0 || pos.x >= this.cfg.width || pos.y < 0 || pos.y >= this.cfg.height);
 	}
 
 	/* Converts canvas into image */
@@ -3781,28 +3948,32 @@ export default class Generation extends Scene
 	//  - So I can just save two images: one of the map, one of the treasure location and easily display them when the player wants
 	//  - So players can save the map and print it, if they want
 
-	convertCanvasToImage() {
+	convertCanvasToImage() 
+	{
 		if(!this.cfg.useInterface) { return; }
 
 		let ths = this;
-		let phaser = document.getElementById('phaser-container');
+		const phaser = document.getElementById('phaser-container')!;
 		const cfg = this.cfg;
 
 		// First save the whole map
+		// @ts-ignore
 		ths.time.addEvent({
 		    delay: 200,
 		    loop: false,
 		    callback() {
-		        let canv = phaser.firstChild  as HTMLCanvasElement;
+		        const canv = phaser.firstChild  as HTMLCanvasElement;
 
-				let img = new Image();
+				const img = new Image();
 				img.src = canv.toDataURL();
 
 				// When done, save just the overlay with the solution
-				img.addEventListener('load', function() {
+				img.addEventListener('load', () => {
 					cfg.finalMap = img;
 
 					ths.visualizeTreasureOnly();
+
+					// @ts-ignore
 					ths.time.addEvent({
 						delay: 200,
 						loop: false,
@@ -3852,18 +4023,19 @@ export default class Generation extends Scene
 	createPreMadeGame()
 	{
 		let ths = this;
-		let phaser = document.getElementById('phaser-container');
-		let pdfImages = [];
+		const phaser = document.getElementById('phaser-container')!;
+		const pdfImages : HTMLImageElement[] = [];
 
 		// Save an image of the whole map
+		// @ts-ignore
 		ths.time.addEvent({
 		    delay: 200,
 		    loop: false,
 		    callback() {
-		        let canv = phaser.firstChild as HTMLCanvasElement;
-				let img = new Image();
+		        const canv = phaser.firstChild as HTMLCanvasElement;
+				const img = new Image();
 				img.src = canv.toDataURL();
-				img.addEventListener('load', function() {
+				img.addEventListener('load', () => {
 					pdfImages.push(img);
 					ths.createHintCards(pdfImages);
 				});
@@ -3876,18 +4048,19 @@ export default class Generation extends Scene
 		this.clearBoard();
 		this.visualizeHintCards();
 
-		let phaser = document.getElementById('phaser-container');
+		let phaser = document.getElementById('phaser-container')!;
 		let ths = this;
 		
 		// Save an image of these hint cards
+		// @ts-ignore
 		ths.time.addEvent({
 		    delay: 200,
 		    loop: false,
 		    callback() {
-		        let canv = phaser.firstChild  as HTMLCanvasElement;
+		        let canv = phaser.firstChild as HTMLCanvasElement;
 				let img = new Image();
 				img.src = canv.toDataURL();
-				img.addEventListener('load', function() {
+				img.addEventListener('load', () => {
 					pdfImages.push(img);
 					ths.clearBoard();
 					ths.createPDF(pdfImages);

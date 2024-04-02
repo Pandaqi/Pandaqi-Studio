@@ -104,13 +104,17 @@ export default class ResourceLoader
         return this.FONT_EXTENSIONS.includes(this.getExtension(path));
     }
 
+    addResource(id:string, res:Resource)
+    {
+        this.resourcesLoaded[id] = res;
+    }
+
     async loadResource(id:string, params:ResourceLoadParams)
     {
         let originalPath = params.path ?? "";
         let path;
-        if(params.useAbsolutePath) { 
-            path = params.path; 
-        } else {
+        if(params.useAbsolutePath) { path = params.path; } 
+        else {
             // @NOTE: base always ends on a slash, so originalPath should never start with one
             if(originalPath.slice(0,1) == "/") { originalPath = originalPath.slice(1); }
             path = this.base + originalPath;
@@ -123,7 +127,7 @@ export default class ResourceLoader
         if(this.isImage(path))
         {
             const img = new Image();
-            img.src = path;
+            img.src = params.path;
             await img.decode();
             await this.cacheLoadedImage(key, params, img);
         }
@@ -131,7 +135,7 @@ export default class ResourceLoader
         if(this.isFont(path))
         {
             const textConfig = params.textConfig ? params.textConfig.getFontFaceDescriptors() : {};
-            const fontFile = new FontFace(key, "url('" + path + "')", textConfig);
+            const fontFile = new FontFace(key, "url('" + params.path + "')", textConfig);
             const f = await fontFile.load()
             this.cacheLoadedFont(key, params, f)
         }
@@ -148,15 +152,14 @@ export default class ResourceLoader
     async cacheLoadedImage(id:string, params:any, img:HTMLImageElement)
     {
         const res = new ResourceImage(img, params);
-        if(!params.forbidFrameCaching) { await res.cacheFrames(); }
-        else { res.uncacheFrames(); }
+        await res.cacheFrames();
         this.resourcesLoaded[id] = res;
     }
 
     getResource(id:string, copy:boolean = false) : any
     {
         let res = this.resourcesLoaded[id];
-        if(!res) { console.error("[ResourceLoader] Resource with id " + id + " doesn't exist!"); return null; }
+        if(!res) { return null; }
         if(copy) { res = res.clone(); }
         return res;
     }

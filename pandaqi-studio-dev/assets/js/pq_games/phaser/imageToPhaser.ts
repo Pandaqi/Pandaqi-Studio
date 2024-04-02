@@ -10,6 +10,7 @@ const imageToPhaser = (img:ResourceImage, op:LayoutOperation, game) =>
     sprite.rotation = op.rotation;
     sprite.setOrigin(op.pivot.x, op.pivot.y);
     sprite.setFrame(op.frame);
+    sprite.setAlpha(op.alpha);
 
     for(const effect of op.effects)
     {

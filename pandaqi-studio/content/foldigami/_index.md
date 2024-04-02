@@ -41,6 +41,7 @@ playtime: 20
 playercount: [2]
 complexity: low
 ages: everyone
+devlog: "/blog/boardgames/foldigami/"
 
 ---
 

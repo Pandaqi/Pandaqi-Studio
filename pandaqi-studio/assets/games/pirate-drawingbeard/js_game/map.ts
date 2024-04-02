@@ -1,37 +1,40 @@
 import Config from "./config"
 import Hints from "./hints"
-import Map from "./map"
 import { TILE_DICT, DISCRETE_LISTS, BEARING_CONDITIONS, FIXED_MAP_TILES } from "./dictionary"
+import Point from "js/pq_games/tools/geometry/point";
+import Cell from "./cell";
 
-export default {
+class MapClass
+{
+	mapGenFail = false
+	numMapGens = 0
+	cachedImages:Record<string,any> = {}
 
-	mapGenFail: false,
-	numMapGens: 0,
-	cachedImages: {} as Record<string,any>,
+	width = 0
+	height = 0
+	totalTileCount = 0
 
-	width: 0,
-	height: 0,
-	totalTileCount: 0,
+	map:Cell[][] = []
+	mapList:Cell[] = []
 
-	map: [],
-	mapList: [],
+	arrowTiles:Cell[] = []
+	edgeTiles:Cell[] = []
+	waterTiles:Cell[] = []
+	networkTiles:Cell[] = []
 
-	arrowTiles: [],
-	edgeTiles: [],
-	waterTiles: [],
-	networkTiles: [],
+	compassTile:Cell = null
+	compassBlocks = []
 
-	compassTile: null,
-	compassBlocks: [],
+	mapTile:Cell = null
+	markedMapTiles = []
 
-	mapTile: null,
-	markedMapTiles: [],
+	possibleTypes:string[] = []
+	treasureLocation:Cell = null
 
-	possibleTypes: [],
+	tilesLeftPerPlayer = []
 
-	treasureLocation: null,
-
-	tilesLeftPerPlayer: [],
+	typeSummedProb = 0
+	materialPerType:Record<string,number> = {}
 
 	initialize()
 	{
@@ -44,7 +47,8 @@ export default {
 		this.height = Config.height;
 		this.totalTileCount = Config.totalTileCount;
 
-		while(this.mapGenFail) {
+		while(this.mapGenFail) 
+		{
 			this.numMapGens += 1;
 			this.mapGenFail = false;
 
@@ -54,124 +58,108 @@ export default {
 			this.network();
 			this.treasure();
 		}
-	},
+	}
 
 	seed()
 	{
-		var randomSeedLength = Math.floor(Math.random() * 6) + 3;
-		var randomSeed = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, randomSeedLength);
+		const randomSeedLength = Math.floor(Math.random() * 6) + 3;
+		const randomSeed = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, randomSeedLength);
 
 		if(Config.seed == '') { Config.seed = randomSeed; }
-		var finalSeed = Config.seed + "_" + Config.numGens + "_" + this.numMapGens;
+		const finalSeed = Config.seed + "_" + Config.numGens + "_" + this.numMapGens;
 		
 		Config.createRandomNumberGenerators(finalSeed, randomSeed);
-	},
+	}
 
 	grid()
 	{
 		this.map = [];
-		this.mapList = [];
-
-		this.arrowTiles = [];
 		this.edgeTiles = [];
-
-		let w = this.width;
-		let h = this.height;
-
-		// create base objects for the grid/tiles
-		for(var x = 0; x < w; x++) {
-			this.map[x] = [];
-
-			for(var y = 0; y < h; y++) {
-				var quadrant = Math.floor(2 * x / w) + Math.floor(2 * y / h)*2;
-				var isEdge = (x == 0 || x == (w-1)) || (y == 0 || y == (h-1));
-
-				var obj = { 
-					'x': x,
-					'y': y,
-					'edge': isEdge,
-					'quadrant': quadrant,
-					'quadrantString': DISCRETE_LISTS.quadrant[quadrant],
-
-					'row': y,
-					'column': Config.alphabet[x],
-
-					'nbs': [], // neighbors by adjacency
-
-					'connNbs': [], // neighbors by being connected through the network
-					'allConnectedTiles': [], // all tiles connected through network (not just neighbors)
-					'networkSymbolCount': {}, // how often a (edge) symbol occurs in our network; cached because too messy to calculate otherwise
-					'networkTypeCount': {}, // same thing, but with tile types
-					'networkPoison': false, // used when generating to forbid any new connections to network on a tile
-
-					'type': '',
-					'rotation': 0,
-					'symbols': [null,null,null], // first slot is always our rotation arrow, so always false, so don't even consider it
-
-					'botPositive': false, // caches the bots answer to tiles
-				};
-
-				this.map[x][y] = obj;
-				this.mapList.push(obj);
-
-				if(isEdge) {
-					this.edgeTiles.push(obj);
-				}
-			}
-		}
-
-		// saving all our (valid) neighbours once at the start saves a lot of time (and for loops) later on
-		// we save the ACTUAL NEIGHBOR CELL, not just its location (like previous iterations of this idea)
-		var nbCoords = [{ "x": 1, "y": 0 },{ "x": 0, "y": 1 },{ "x": -1, "y": 0 },{ "x": 0, "y": -1 }]
-		for(var x = 0; x < w; x++) {
-			for(var y = 0; y < h; y++) {
-				
-				var nbs = [];
-				for(let i = 0; i < nbCoords.length; i++) {
-					var newPos = { "x": x + nbCoords[i].x, "y": y + nbCoords[i].y };
-					if(this.outOfBounds(newPos.x, newPos.y)) { continue; }
-					nbs.push(this.map[newPos.x][newPos.y]);
-				}
-
-				this.map[x][y].nbs = nbs;
-			}
-		}
-	},
-
-	randomize()
-	{
-		var types = [];
-
-		this.possibleTypes = Config.typesIncluded.slice();
 		this.materialPerType = {};
 		this.compassTile = null;
 		this.mapTile = null;
+		this.waterTiles = [];
+		this.arrowTiles = [];
+
+		const w = this.width;
+		const h = this.height;
+
+		// create base objects for the grid/tiles
+		for(let x = 0; x < w; x++) 
+		{
+			this.map[x] = [];
+
+			for(let y = 0; y < h; y++) 
+			{
+				const quadrant = Math.floor(2 * x / w) + Math.floor(2 * y / h)*2;
+				const isEdge = (x == 0 || x == (w-1)) || (y == 0 || y == (h-1));
+				const pos = new Point(x,y);
+
+				const cell = new Cell();
+				cell.setPosition(pos);
+				cell.setLabelData(y.toString(), Config.alphabet[x]);
+				cell.setGridData(isEdge, quadrant, DISCRETE_LISTS.quadrant[quadrant])
+
+				this.map[x][y] = cell;
+				if(isEdge) { this.edgeTiles.push(cell); }
+			}
+		}
+
+		this.mapList = this.map.flat();
+
+		// saving all our (valid) neighbours once at the start saves a lot of time (and for loops) later on
+		// we save the ACTUAL NEIGHBOR CELL, not just its location (like previous iterations of this idea)
+		const nbCoords = [
+			new Point(1,0),
+			new Point(0,1),
+			new Point(-1,0),
+			new Point(0,-1)
+		]
+
+		for(const cell of this.mapList)
+		{
+			const nbs = [];
+			for(let i = 0; i < nbCoords.length; i++) 
+			{
+				const newPos = new Point(cell.x + nbCoords[i].x, cell.y + nbCoords[i].y);
+				if(this.outOfBounds(newPos)) { continue; }
+				nbs.push(this.map[newPos.x][newPos.y]);
+
+				this.map[cell.x][cell.y].nbs = nbs;
+			}
+		}
+	}
+
+	randomize()
+	{
+		const types = [];
+		this.possibleTypes = Config.typesIncluded.slice();
 
 		// Even digitally, I apply the material limit, just more loosely/randomly
 		if(!Config.useRealMaterial) 
 		{ 
 			for(const key in TILE_DICT) 
 			{
-				if("once" in TILE_DICT[key]) { continue; }
+				if(TILE_DICT[key].once) { continue; }
 				TILE_DICT[key].material += 5;
 			}
 		}
 
 		// If we only want water at the edges, we determine those tiles first
 		// Then remove water as an option
-		this.waterTiles = [];
-		if(Config.waterOnlyAtEdges) {
+		if(Config.waterOnlyAtEdges) 
+		{
 			this.possibleTypes.splice(this.possibleTypes.indexOf("water"), 1);
 
-			var numEdgeStarters = 1 + Math.floor(Config.rng.map() * 4);
+			const numEdgeStarters = 1 + Math.floor(Config.rng.map() * 4);
 			for(let i = 0; i < numEdgeStarters; i++)
 			{
-				var tile = this.getRandomEdgeTile(this.waterTiles);
+				let tile = this.getRandomEdgeTile(this.waterTiles);
 				tile.type = 'water';
 				this.waterTiles.push(tile);
 			}
 
-			var numExtra = 2 + Math.floor(Config.rng.map() * 5);
+			let numExtra = 2 + Math.floor(Config.rng.map() * 5);
 
 			if(Config.useRealMaterial) {
 				numExtra = Math.min(TILE_DICT.water.material - numEdgeStarters, numExtra);
@@ -179,8 +167,8 @@ export default {
 			
 			for(let i = 0; i < numExtra; i++)
 			{
-				var randTile = this.waterTiles[Math.floor(Config.rng.map() * this.waterTiles.length)];
-				var arr = [];
+				const randTile = this.waterTiles[Math.floor(Config.rng.map() * this.waterTiles.length)];
+				const arr = [];
 				for(let n = 0; n < randTile.nbs.length; n++)
 				{
 					if(randTile.nbs[n].type == 'water') { continue; }
@@ -189,7 +177,7 @@ export default {
 
 				if(arr.length == 0) { i--; continue; }
 
-				var newTile = arr[Math.floor(Config.rng.map() * arr.length)];
+				const newTile = arr[Math.floor(Config.rng.map() * arr.length)];
 				newTile.type = 'water';
 				this.waterTiles.push(newTile);
 			}
@@ -201,7 +189,7 @@ export default {
 		// (reverse loop because "checkMaterialLimit" can change this array)
 		for(let i = this.possibleTypes.length-1; i >= 0; i--)
 		{
-			var type = this.possibleTypes[i];
+			let type = this.possibleTypes[i];
 			types.push(type);
 			this.checkMaterialLimit(type, this.possibleTypes);
 		}
@@ -212,7 +200,7 @@ export default {
 		// ("empty" is simply one of the possible types)
 		while(types.length < (this.totalTileCount-this.waterTiles.length))
 		{
-			var newType = this.getRandomTileType();
+			let newType = this.getRandomTileType();
 			types.push(newType);
 			this.checkMaterialLimit(newType, this.possibleTypes);
 		}
@@ -222,12 +210,12 @@ export default {
 
 		for(let i = 0; i < this.mapList.length; i++)
 		{
-			var cell = this.mapList[i];
+			let cell = this.mapList[i];
 
 			cell.rotation = Math.floor(Config.rng.map() * 4);
 
 			// type comes last, otherwise the "continue" screws things up
-			var alreadyHasType = (cell.type != '');
+			let alreadyHasType = (cell.type != '');
 			if(alreadyHasType) { continue; }
 
 			cell.type = types.pop();
@@ -249,8 +237,8 @@ export default {
 			const EMPTY_SYMBOL_PROB = 0.33; // @TODO: move somewhere else?
 			for(let i = 0; i < this.mapList.length; i++)
 			{
-				var cell = this.mapList[i];
-				var symbolSlots = TILE_DICT[cell.type].symbolSlots;
+				let cell = this.mapList[i];
+				let symbolSlots = TILE_DICT[cell.type].symbolSlots;
 
 				if(Config.useRealMaterial) {
 					cell.symbols = TILE_DICT[cell.type].fixedSymbols;
@@ -270,7 +258,7 @@ export default {
 		this.compassBlocks = [];
 		for(let i = 0; i < 4; i++)
 		{
-			var conditions = structuredClone(BEARING_CONDITIONS[i]);
+			let conditions = structuredClone(BEARING_CONDITIONS[i]);
 			for(let c = 0; c < conditions.length; c++) {
 				// @ts-ignore
 				conditions[c].value = this.compassTile[conditions[c].property];
@@ -285,36 +273,35 @@ export default {
 
 		if(Config.useRealMaterial)
 		{
-			var mapTileCoordinates = FIXED_MAP_TILES;
+			let mapTileCoordinates = FIXED_MAP_TILES;
 			for(let i = 0; i < mapTileCoordinates.length; i++)
 			{
-				var pos = this.convertToRealPos(mapTileCoordinates[i]);
-				var realTile = this.map[pos.x][pos.y];
+				let pos = this.convertToRealPos(mapTileCoordinates[i]);
+				let realTile = this.map[pos.x][pos.y];
 				this.markedMapTiles.push(realTile);
 			}
 		} 
 		else 
 		{	
-			var numMarkedMapTiles = Math.floor(Config.rng.map() * (0.33*this.totalTileCount)) + Math.floor(0.25*this.totalTileCount);
-			var mapListCopy = this.mapList.slice();
+			let numMarkedMapTiles = Math.floor(Config.rng.map() * (0.33*this.totalTileCount)) + Math.floor(0.25*this.totalTileCount);
+			let mapListCopy = this.mapList.slice();
 			this.shuffle(mapListCopy); // (NEVER shuffle the original mapList)
 			for(let i = 0; i < numMarkedMapTiles; i++)
 			{
 				this.markedMapTiles.push(mapListCopy[i]);
 			}
 		}
-
-	},
+	}
 
 	network()
 	{
 		if(!Config.expansions.networks) { return; }
 
-		var minEdges = Math.floor(Config.rng.map() * 5) + 4; // currently not really used for anything ... it just goes to max all the time
-		var maxEdges = Math.floor(Config.rng.map() * 6) + 10;
+		let minEdges = Math.floor(Config.rng.map() * 5) + 4; // currently not really used for anything ... it just goes to max all the time
+		let maxEdges = Math.floor(Config.rng.map() * 6) + 10;
 
-		var totalNumEdges = 0;
-		var walks = [];
+		let totalNumEdges = 0;
+		let walks = [];
 
 		const CONTINUE_EXISTING_WALK_PROB = 0.25; // higher means all networks become one BIG network, which usually is BAD for hints and the game
 		const POISON_WALK_CYCLE = 2;
@@ -325,26 +312,26 @@ export default {
 		while(totalNumEdges < maxEdges)
 		{
 			// pick a start tile (randomly or from an existing random walk)
-			var startTile = this.getRandomTile();
+			let startTile = this.getRandomTile();
 
 			if(walks.length > 1 && (Config.rng.map() <= CONTINUE_EXISTING_WALK_PROB || startTile.networkPoison)) {
-				var randIdx = Math.floor(Config.rng.map() * walks.length);
+				let randIdx = Math.floor(Config.rng.map() * walks.length);
 				if(randIdx % POISON_WALK_CYCLE == 0) { randIdx = (randIdx + 1) % walks.length; }
-				var randWalk = walks[randIdx];
+				let randWalk = walks[randIdx];
 				startTile = randWalk[Math.floor(Config.rng.map() * randWalk.length)];
 			}
 
 			// randomly walk into valid directions
-			var length = Math.floor(Config.rng.map() * 3) + 2;
-			var newWalk = [startTile];
-			var curTile = startTile;
+			let length = Math.floor(Config.rng.map() * 3) + 2;
+			let newWalk = [startTile];
+			let curTile = startTile;
 
-			var makePoison = (walks.length % POISON_WALK_CYCLE == 0); // one in X walks is POISON and stands on its own, whatever happens
+			let makePoison = (walks.length % POISON_WALK_CYCLE == 0); // one in X walks is POISON and stands on its own, whatever happens
 			startTile.networkPoison = makePoison;
 
 			for(let i = 0; i < length; i++)
 			{
-				var nb = this.getRandomValidNetworkNeighbor(curTile);
+				let nb = this.getRandomValidNetworkNeighbor(curTile);
 				if(nb == null) { break; }
 
 				curTile.connNbs.push(nb);
@@ -388,21 +375,21 @@ export default {
 		// also SAVE how often each symbol occurs in our network, also needed for a hint
 		for(let i = 0; i < this.mapList.length; i++)
 		{
-			var perTileType = {};
-			var perType = {};
-			var cell = this.mapList[i];
+			let perTileType = {};
+			let perType = {};
+			let cell = this.mapList[i];
 
 			for(let t = 0; t < cell.allConnectedTiles.length; t++)
 			{
-				var conn = cell.allConnectedTiles[t];
-				var type = conn.type;
+				let conn = cell.allConnectedTiles[t];
+				let type = conn.type;
 				if(!(type in perTileType)) { perTileType[type] = 0; }
 				perTileType[type] += 1;
 
-				var symbols = conn.symbols;
+				let symbols = conn.symbols;
 				for(let s = 0; s < symbols.length; s++)
 				{
-					var symbol = symbols[s];
+					let symbol = symbols[s];
 					if(symbol == null) { continue; }
 
 					if(!(symbol in perType)) { perType[symbol] = 0; }
@@ -413,12 +400,12 @@ export default {
 			cell.networkSymbolCount = perType;
 			cell.networkTypeCount = perTileType;
 		}
-	},
+	}
 
 	treasure()
 	{
 		this.treasureLocation = this.mapList[Math.floor(Config.rng.map() * this.mapList.length)];
-	},
+	}
 
 	checkMaterialLimit(type, list)
 	{
@@ -429,16 +416,16 @@ export default {
 
 		list.splice(list.indexOf(type), 1);
 		this.typeSummedProb = this.calculateListProbabilities(list);
-	},
+	}
 
 	/* UTILITIES */
 	selectTilesWithConditions(conds)
 	{
-		var arr = [];
+		let arr = [];
 
 		for(let i = 0; i < this.mapList.length; i++)
 		{
-			var match = true;
+			let match = true;
 			for(let c = 0; c < conds.length; c++)
 			{
 				if(this.conditionHolds(this.mapList[i], conds[c])) { continue; }
@@ -452,7 +439,7 @@ export default {
 		}
 
 		return arr;
-	},
+	}
 
 	conditionHolds(cell, cond)
 	{
@@ -461,23 +448,23 @@ export default {
 		} else if(cond.check == "morethan") {
 			return cell[cond.property] >= cond.value;
 		}
-	},
+	}
 
 	calculateListProbabilities(list)
 	{
-		var sum = 0;
+		let sum = 0;
 		for(let i = 0; i < list.length; i++)
 		{
-			var data = TILE_DICT[list[i]];
+			let data = TILE_DICT[list[i]];
 			if(!("prob" in data)) { data.prob = 1; }
 			sum += data.prob;
 		}
 		return sum;
-	},
+	}
 
 	getArrowsPointingAtUs(cell, quickFail = false)
 	{
-		var arr = [];
+		let arr = [];
 		for(let i = 0; i < Map.arrowTiles.length; i++)
 		{
 			if(!Map.cellPointsTo(Map.arrowTiles[i], cell)) { continue; }
@@ -485,75 +472,75 @@ export default {
 			if(quickFail) { return arr; }
 		}
 		return arr;
-	},
+	}
 
-	cellPointsTo(a,b)
+	cellPointsTo(a:Cell, b:Cell)
 	{
-		var dir = this.getDirFromRotation(a.rotation);
-		var pos = { "x": a.x, "y": a.y }
+		let dir = this.getDirFromRotation(a.rotation);
+		let pos = new Point(a.x, a.y);
 
 		while(true)
 		{
 			pos.x += dir.x;
 			pos.y += dir.y;
 
-			if(this.outOfBounds(pos.x, pos.y)) { return false; }
+			if(this.outOfBounds(pos)) { return false; }
 			if(this.map[pos.x][pos.y] == b) { return true; }
 		}
-	},
+	}
 
 	hasInDir(params)
 	{
-		var dir = params.dir;
-		var pos = { "x": params.cell.x, "y": params.cell.y };
-		var curCell;
+		let dir = params.dir;
+		let pos = new Point(params.cell.x, params.cell.y);
+		let curCell;
 
 		while(true)
 		{
 			pos.x += dir.x;
 			pos.y += dir.y;
 
-			if(this.outOfBounds(pos.x, pos.y)) { return false; }
+			if(this.outOfBounds(pos)) { return false; }
 
 			curCell = this.map[pos.x][pos.y];
 			if(curCell[params.property] == params.value) { return true; }
 		}
-	},
+	}
 
-	getDirFromRotation(rot)
+	getDirFromRotation(rot) : Point
 	{
-		return {
-			"x": Math.round(Math.cos(rot*0.5*Math.PI)),
-			"y": Math.round(Math.sin(rot*0.5*Math.PI))
-		}
-	},
+		return new Point(
+			Math.round(Math.cos(rot*0.5*Math.PI)),
+			Math.round(Math.sin(rot*0.5*Math.PI))
+		);
+	}
 
-	getRotationFromDir(dir)
+	getRotationFromDir(dir:Point) : number
 	{
 		if(dir.x == 1) { return 0; }
 		else if(dir.x == -1) { return 2; }
 		else if(dir.y == 1) { return 1; }
 		return 3;
-	},
+	}
 
-	getRotationTowardsCell(target,start)
+	getRotationTowardsCell(target:Point, start:Point)
 	{
 		return this.getRotationFromDir(this.getDirTowardsCell(target, start));
-	},
+	}
 
-	getDirTowardsCell(target, start)
+	getDirTowardsCell(target:Point, start:Point) : Point
 	{
-		return { "x": target.x - start.x, "y": target.y - start.y };
-	},
+		return new Point(target.x - start.x, target.y - start.y);
+	}
 
-	cellsAreConnected(a,b)
+	cellsAreConnected(a:Cell, b:Cell)
 	{
-		var cellsToCheck = [a];
-		var cellsChecked = [];
+		let cellsToCheck = [a];
+		let cellsChecked = [];
 
 		while(cellsToCheck.length > 0)
 		{
-			var curCell = cellsToCheck.pop();
+			let curCell = cellsToCheck.pop();
 			if(curCell == b) { return true; }
 
 			for(let i = 0; i < curCell.connNbs.length; i++)
@@ -566,101 +553,103 @@ export default {
 		}
 
 		return false;
-	},
+	}
 
 	isWithinRadius(param)
 	{
-		var tiles = this.getTilesInRadius(param);
+		let tiles = this.getTilesInRadius(param);
 		for(let t = 0; t < tiles.length; t++)
 		{
 			if(tiles[t][param.property] != param.value) { continue; }
 			return true;
 		}
 		return false;
-	},
+	}
 
 	getTilesInRadius(param)
 	{
-		var oX = param.cell.x, oY = param.cell.y;
-
-		var arr = [];
-		for(let x = -param.radius; x <= param.radius; x++) {
-			for(let y = -param.radius; y <= param.radius; y++) {
-				var dist = Math.abs(x) + Math.abs(y);
+		const oX = param.cell.x, oY = param.cell.y;
+		const arr = [];
+		for(let x = -param.radius; x <= param.radius; x++) 
+		{
+			for(let y = -param.radius; y <= param.radius; y++) 
+			{
+				let dist = Math.abs(x) + Math.abs(y);
 				if(dist > param.radius) { continue; }
 
-				var fX = oX + x, fY = oY + y;
-				if(this.outOfBounds(fX, fY)) { continue; }
+				let fX = oX + x, fY = oY + y;
+				const pos = new Point(fX,fY);
+				if(this.outOfBounds(pos)) { continue; }
 
 				arr.push(this.map[fX][fY]);
 			}
 		}
 		return arr;
-	},
+	}
 
 	matchProperty(a,b)
 	{
 		if(Array.isArray(a)) { return a.includes(b); }
 		return a == b;
-	},
+	}
 
 	adjacentToMatchList(params)
 	{
-		var list = params.cell[params.property];
-		var excludeList = [];
+		let list = params.cell[params.property];
+		let excludeList = [];
 		if("exclude" in params) { excludeList = params.exclude; }
 
 		for(let i = 0; i < list.length; i++)
 		{
-			var elem = list[i];
+			let elem = list[i];
 			if(excludeList.includes(elem)) { continue; }
 
 			params.value = elem;
-			var match = Map.adjacentToMatch(params);
+			let match = Map.adjacentToMatch(params);
 			if(!match) { continue; }
 			return true;
 		}
 
 		return false;
-	},
+	}
 
 	adjacentToMatch(params)
 	{
 		for(let i = 0; i < params.cell.nbs.length; i++) 
 		{
-			var nb = params.cell.nbs[i];
+			let nb = params.cell.nbs[i];
 			if(!this.matchProperty(nb[params.property], params.value)) { continue; }
 			return true;
 		}
 		return false;
-	},
+	}
 
 	matchNetworkConnection(params)
 	{
 		for(let i = 0; i < params.cell.allConnectedTiles.length; i++)
 		{
-			var tile = params.cell.allConnectedTiles[i];
+			let tile = params.cell.allConnectedTiles[i];
 			if(!this.matchProperty(tile[params.property], params.value)) { continue; }
 			return true;
 		}
 		return false;
-	},
+	}
 
 	countMatchingNeighbors(params)
 	{
-		var sum = 0;
+		let sum = 0;
 		for(let i = 0; i < params.cell.nbs.length; i++)
 		{
-			var nb = params.cell.nbs[i];
+			let nb = params.cell.nbs[i];
 			if(!this.matchProperty(nb[params.property], params.value)) { continue; }
 			sum += 1;
 		}
 		return sum;
-	},
+	}
 
-	getRandomValidNetworkNeighbor(cell)
+	getRandomValidNetworkNeighbor(cell:Cell)
 	{
-		var arr = [];
+		let arr = [];
 		for(let i = 0; i < cell.nbs.length; i++)
 		{
 			// either they are poisoned, or we are, skip!
@@ -674,51 +663,51 @@ export default {
 		}
 
 		return arr[Math.floor(Config.rng.map() * arr.length)];
-	},
+	}
 
-	getListPerType(list)
+	getListPerType(list:string[])
 	{
-		var perType = {};
+		const perType = {};
 		
 		for(let i = 0; i < list.length; i++)
 		{
-			var elem = list[i];
+			let elem = list[i];
 			if(elem == null) { continue; }
 			
 			if(!(elem in perType)) { perType[elem] = 0; }
 			perType[elem] += 1;
 		}
 		return perType;
-	},
+	}
 
-	countNonEmptyEntries(list)
+	countNonEmptyEntries(list:any[])
 	{
-		var sum = 0;
+		let sum = 0;
 		for(let i = 0; i < list.length; i++)
 		{
-			var elem = list[i];
+			let elem = list[i];
 			if(elem == null || elem == '') { continue; }
 			sum += 1;
 		}
 		return sum;
-	},
+	}
 
-	getTilesInColumn(col)
+	getTilesInColumn(col:number)
 	{
 		return this.map[col].slice();
-	},
+	}
 
-	getTilesInRow(row)
+	getTilesInRow(row:string)
 	{
-		var arr = [];
+		const arr = [];
 		for(let i = 0; i < this.width; i++)
 		{
 			arr.push(this.map[i][row]);
 		}
 		return arr;
-	},
+	}
 
-	tileListHasType(list, type)
+	tileListHasType(list:Cell[], type:string)
 	{
 		for(let i = 0; i < list.length; i++)
 		{
@@ -726,18 +715,18 @@ export default {
 			return true;
 		}
 		return false;
-	},
+	}
 
 	getRandomTile()
 	{
 		return this.mapList[Math.floor(Config.rng.map() * this.mapList.length)];
-	},
+	}
 
 	getRandomTileType()
 	{
-		var rand = Config.rng.map();
-		var sum = 0.0;
-		var counter = -1;
+		let rand = Config.rng.map();
+		let sum = 0.0;
+		let counter = -1;
 		while(sum < rand)
 		{
 			counter += 1;
@@ -745,63 +734,64 @@ export default {
 		}
 
 		return this.possibleTypes[counter];
-	},
+	}
 
 	getRandomEdgeTile(exclusions = [])
 	{
-		var list = this.edgeTiles.slice();
+		let list = this.edgeTiles.slice();
 		this.handleExclusions(list, exclusions);
 		return list[Math.floor(Config.rng.map() * list.length)];
-	},
+	}
 
 	getRandomSymbol()
 	{
 		return DISCRETE_LISTS.symbol[Math.floor(Config.rng.map() * DISCRETE_LISTS.symbol.length)];
-	},
+	}
 
-	isNetworkTile(cell)
+	isNetworkTile(cell:Cell)
 	{
 		return (cell.connNbs.length > 0);
-	},
+	}
 
-	outOfBounds(x, y)
+	outOfBounds(pos:Point)
 	{
-		return (x < 0 || x >= this.width) || (y < 0 || y >= this.height);
-	},
+		return (pos.x < 0 || pos.x >= this.width) || (pos.y < 0 || pos.y >= this.height);
+	}
 
-	convertToStringPos(cell)
+	convertToStringPos(cell:Cell)
 	{
 		return Config.alphabet[cell.x] + (cell.y + 1);
-	},
+	}
 
-	convertToRealPos(string)
+	convertToRealPos(str:string) : Point
 	{
-		return {
-			"x": Config.alphabet.indexOf(string.charAt(0)),
-			"y": parseInt(string.slice(1)) - 1
-		}
-	},
+		return new Point(
+			Config.alphabet.indexOf(str.charAt(0)),
+			parseInt(str.slice(1)) - 1
+		);
+	}
 
 	getAllLocationsAsStrings()
 	{
-		var list = this.mapList.slice();
+		let list = this.mapList.slice();
+		const arr:string[] = [];
 		for(let i = 0; i < list.length; i++)
 		{
-			list[i] = this.convertToStringPos(list[i]);
+			arr.push( this.convertToStringPos(list[i]) );
 		}
 		return list;
-	},
+	}
 
-	testTileSwap(tileA, tileB)
+	testTileSwap(tileA:Cell, tileB:Cell)
 	{
 		// swap
 		Map.map[tileA.x][tileA.y] = tileB;
 		Map.map[tileB.x][tileB.y] = tileA;
 
 		// calculate
-		var list = Hints.getBotbeardPositiveList();
-		var positiveA = list.includes(tileA);
-		var positiveB = list.includes(tileB);
+		let list = Hints.getBotbeardPositiveList();
+		let positiveA = list.includes(tileA);
+		let positiveB = list.includes(tileB);
 
 		// undo swap
 		Map.map[tileA.x][tileA.y] = tileA;
@@ -809,15 +799,15 @@ export default {
 
 		// return if answers changed, per cell
 		return [positiveA != tileA.botPositive, positiveB != tileB.botPositive];
-	},
+	}
 
-	invertLocationList: function(arr)
+	invertLocationList(arr:Cell[])
 	{
-		var locs = this.mapList.slice();
-		var list = [];
+		const locs = this.mapList.slice();
+		const list = [];
 		for(let i = 0; i < locs.length; i++)
 		{
-			var match = false;
+			let match = false;
 			for(let a = arr.length - 1; a >= 0; a--)
 			{
 				if(locs[i] != arr[a]) { continue; }
@@ -830,20 +820,21 @@ export default {
 			list.push(locs[i]);
 		}
 		return list;
-	},
+	}
 
 	handleExclusions(arr, exclude) 
 	{
 		for(let i = 0; i < exclude.length; i++) 
 		{
-			var ind = arr.indexOf(exclude[i]);
+			let ind = arr.indexOf(exclude[i]);
 			if(ind < 0) { continue; }
 			arr.splice(ind, 1);
 		}
-	},
+	}
 
-	shuffle(a) {
-	    var j, x, i;
+	shuffle(a:any[]) 
+	{
+	    let j, x, i;
 	    for (i = a.length - 1; i > 0; i--) {
 	        j = Math.floor(Config.rng.general() * (i + 1));
 	        x = a[i];
@@ -852,5 +843,8 @@ export default {
 	    }
 
 	    return a;
-	},
+	}
 };
+
+const Map = new MapClass();
+export default Map;

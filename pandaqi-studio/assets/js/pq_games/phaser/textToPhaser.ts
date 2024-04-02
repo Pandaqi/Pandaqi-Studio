@@ -34,6 +34,9 @@ const textToPhaser = (res:ResourceText, op:LayoutOperation, game) =>
     else if(res.textConfig.alignVertical == TextAlign.MIDDLE) { pivot.y = 0.5; }
     else if(res.textConfig.alignVertical == TextAlign.END) { pivot.y = 1.0; }
     text.setOrigin(pivot.x, pivot.y);
+    
+    text.setAlpha(op.alpha);
+    text.setRotation(op.rotation);
 
     return text;
 }

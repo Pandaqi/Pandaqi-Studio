@@ -38,6 +38,7 @@ playercount: [1,2,3,4,5]
 complexity: low
 ages: everyone
 requirements: "A blank paper!"
+devlog: "/blog/boardgames/wondering-witches/devlog-wondering-witches/"
 
 ---
 
@@ -115,8 +116,8 @@ Fonts? **Niconne** for headings and **Mali** for the body text. Both freely avai
 The digital part was made using standard website code (HTML/CSS/JavaScript) and the Phaser (v3) framework 
 
 As always, I wrote two devlogs about the development process of this game:
-- [[Devlog] Wondering Witches](/blog/boardgames/wondering-witches/devlog-wondering-witches) => about the whole process for the (board)game
-- [[Technical Devlog] Wondering Witches](/blog/boardgames/wondering-witches/tech-devlog-wondering-witches) => about the technical side, programming this website
-- [Wondering Witches: Update!](/blog/boardgames/wondering-witches/v2-update) => about the huge update I did a few years later, making the game as good as it is now
+- [(Devlog) Wondering Witches](/blog/boardgames/wondering-witches/devlog-wondering-witches) => about the whole process for the (board)game
+- [(Technical Devlog) Wondering Witches](/blog/boardgames/wondering-witches/tech-devlog-wondering-witches) => about the technical side, programming this website
+- [(Update) Wondering Witches](/blog/boardgames/wondering-witches/v2-update) => about the huge update I did a few years later, making the game as good as it is now
 
 {{% /section-centered %}}

@@ -35,6 +35,7 @@ playtime: 10
 playercount: [3,4,5,6,7,8]
 complexity: low
 ages: everyone
+devlog: "/blog/boardgames/hold-my-bear/"
 
 ---
 
@@ -107,7 +108,7 @@ I combined this with some other ideas, such as the simple game loop of "on your 
 
 Until I ended up with this simple game that has surprising depth.
 
-For a more detailed article about the whole development process, [read the devlog for this game](/blog/hold-my-bear)
+For a more detailed article about the whole development process, [read the devlog for this game](/blog/boardgames/hold-my-bear/).
 
 {{% /section-centered %}}
 

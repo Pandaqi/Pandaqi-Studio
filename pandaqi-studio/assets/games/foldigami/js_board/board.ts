@@ -1,5 +1,3 @@
-// @ts-ignore
-import { Geom } from "js/pq_games/phaser/phaser.esm"
 import Random from "js/pq_games/tools/random/main"
 import Point from "js/pq_games/tools/geometry/point"
 import Cell from "./cell"
@@ -7,13 +5,21 @@ import { TUTORIAL_DATA } from "./dict"
 import BoardState from "./boardState"
 import CONFIG from "./config"
 import Color from "js/pq_games/layout/color/color"
+import LayoutOperation from "js/pq_games/layout/layoutOperation"
+import imageToPhaser from "js/pq_games/phaser/imageToPhaser"
+import Line from "js/pq_games/tools/geometry/line"
+import Rectangle from "js/pq_games/tools/geometry/rectangle"
+import { lineToPhaser, rectToPhaser } from "js/pq_games/phaser/shapeToPhaser"
+import ResourceText from "js/pq_games/layout/resources/resourceText"
+import textToPhaser from "js/pq_games/phaser/textToPhaser"
+import TextConfig from "js/pq_games/layout/text/textConfig"
 
 export default class Board
 {
     game: any
-    outerRect: Geom.Rectangle
+    outerRect: Rectangle
     outerMargin: Point
-    rect: Geom.Rectangle
+    rect: Rectangle
     cellSize: Point
     cellSizeSquare: number
     iconSize: number
@@ -47,22 +53,13 @@ export default class Board
 
         if(CONFIG.board.position == "right") { finalPos.x = size.width - finalSize.x; }
 
-        this.outerRect = new Geom.Rectangle(
-            finalPos.x, finalPos.y,
-            finalSize.x, finalSize.y
-        )
-
-        this.rect = new Geom.Rectangle(
-            this.outerRect.x + margin.x,
-            this.outerRect.y + margin.y,
-            finalSize.x - 2*margin.x,
-            finalSize.y - 2*margin.y
-        )
+        this.outerRect = new Rectangle().fromTopLeft(finalPos, finalSize);
+        this.rect = new Rectangle().fromTopLeft(finalPos.clone().add(margin), finalSize.clone().sub(margin.clone().scale(2)));
 
         const fullSizeForCells = CONFIG.board.modifyEdgeCells ? this.outerRect : this.rect;
 
-        const cellX = (fullSizeForCells.width / CONFIG.board.dims.x);
-        const cellY = (fullSizeForCells.height / CONFIG.board.dims.y);
+        const cellX = (fullSizeForCells.getSize().x / CONFIG.board.dims.x);
+        const cellY = (fullSizeForCells.getSize().y / CONFIG.board.dims.y);
         const tilesNotSquare = Math.abs(cellX - cellY) > 10;
         if(tilesNotSquare) { return console.error("Tiles not square: ", cellX, cellY); }
 
@@ -71,7 +68,7 @@ export default class Board
 
         // top left should be the smallest cell, so save that as the measurement for everything
         const topLeftCell = this.getRectForCell(new Cell(0,0));
-        this.iconSize = Math.min(topLeftCell.width, topLeftCell.height);
+        this.iconSize = Math.min(topLeftCell.getSize().x, topLeftCell.getSize().y);
     }
 
     generate()
@@ -303,24 +300,21 @@ export default class Board
         this.drawOutline();
     }
 
-    convertGridToRealPos(pos)
+    convertGridToRealPos(cell:Cell)
     {
         return new Point().setXY(
-            pos.x * this.cellSize.x + this.outerRect.x,
-            pos.y * this.cellSize.y + this.outerRect.y
+            cell.x * this.cellSize.x + this.outerRect.getTopLeft().x,
+            cell.y * this.cellSize.y + this.outerRect.getTopLeft().y
         );
     }
 
 
-    getRectCenter(rect)
+    getRectCenter(rect:Rectangle)
     {
-        return new Point().setXY(
-            rect.x + 0.5*rect.width,
-            rect.y + 0.5*rect.height
-        );
+        return rect.center.clone();
     }
 
-    getRotationForCell(c)
+    getRotationForCell(c:Cell)
     {
         const rotationPerTeam = CONFIG.teams.num == 2 ? 2 : 1;
         let rotation = c.getRotation();
@@ -334,21 +328,23 @@ export default class Board
         return rotation * 0.5 * Math.PI;
     }
 
-    getCornerFromRotation(rect, rot)
+    getCornerFromRotation(rect:Rectangle, rot:number)
     {
         const rotInt = Math.round(rot / (0.5 * Math.PI));
+        const pos = rect.getTopLeft();
+        const size = rect.getSize();
         if(rotInt == 0) {
-            return new Point().setXY(rect.x + rect.width, rect.y + rect.height);
+            return new Point().setXY(pos.x + size.x, pos.y + size.y);
         } else if(rotInt == 1) { 
-            return new Point().setXY(rect.x, rect.y + rect.height);
+            return new Point().setXY(pos.x, pos.y + size.y);
         } else if(rotInt == 2) { 
-            return new Point().setXY(rect.x, rect.y);
+            return new Point().setXY(pos.x, pos.y);
         } else if(rotInt == 3) {
-            return new Point().setXY(rect.x + rect.width, rect.y);
+            return new Point().setXY(pos.x + size.x, pos.y);
         }
     }
 
-    getRectForCell(c)
+    getRectForCell(c:Cell)
     {
         let pos = this.convertGridToRealPos(c);
         let size = this.cellSize.clone();
@@ -368,11 +364,7 @@ export default class Board
             if(isVerticalTopEdge) { pos.y += this.outerMargin.y; }
         }
 
-        const rect = new Geom.Rectangle(
-            pos.x, pos.y,
-            size.x, size.y
-        )
-        return rect;
+        return new Rectangle().fromTopLeft(pos, size);
     }
 
     drawGrid()
@@ -396,17 +388,16 @@ export default class Board
             if(slightlyModifyColor) { baseColObject = baseColObject.lighten(CONFIG.board.grid.colorModifyPercentage); }
 
             const alpha = CONFIG.board.grid.colorBackgroundAlpha;
-            graphics.fillStyle(baseColObject.toHEXNumber(), alpha);
-
             const rect = this.getRectForCell(c);
-            graphics.fillRectShape(rect);
+            const op = new LayoutOperation({
+                fill: baseColObject,
+                alpha: alpha
+            });
+            rectToPhaser(rect, op, graphics);
         }
 
         // vertical lines
         const dims = CONFIG.board.dims;
-        const gridParams = CONFIG.board.grid;
-        const lineWidth = gridParams.lineWidth * this.cellSizeSquare;
-        graphics.lineStyle(lineWidth, gridParams.lineColor);
         for(let x = 1; x < dims.x; x++)
         {
             this.drawLineVertical(graphics, x, dims);
@@ -422,9 +413,6 @@ export default class Board
         const addHalfLines = CONFIG.board.addHalfLines;
         if(addHalfLines)
         {
-            const halfLineWidth = gridParams.halfLineWidth * this.cellSizeSquare;
-            graphics.lineStyle(halfLineWidth, gridParams.halfLineColor, gridParams.halfLineAlpha);
-
             for(let x = 0; x < dims.x; x++)
             {
                 this.drawLineVertical(graphics, x + 0.5, dims, true)
@@ -458,8 +446,14 @@ export default class Board
             return this.drawDottedLineBetween(graphics, pos1, pos2);
         }
 
-        const line = new Geom.Line(pos1.x, pos1.y, pos2.x, pos2.y);
-        graphics.strokeLineShape(line);
+        const line = new Line(pos1, pos2);
+        const gridParams = CONFIG.board.grid;
+        const lineWidth = gridParams.lineWidth * this.cellSizeSquare;
+        const op = new LayoutOperation({
+            stroke: gridParams.lineColor,
+            strokeWidth: lineWidth
+        });
+        lineToPhaser(line, op, graphics);
     }
 
     drawDottedLineBetween(graphics, pos1, pos2)
@@ -471,6 +465,14 @@ export default class Board
         const dashLength = 10;
         const gapLength = 10;
         const stepsNeeded = Math.floor( (vectorLength / (dashLength + gapLength)) * 2 );
+
+        const gridParams = CONFIG.board.grid;
+        const halfLineWidth = gridParams.halfLineWidth * this.cellSizeSquare;
+        const op = new LayoutOperation({
+            stroke: gridParams.halfLineColor,
+            alpha: gridParams.halfLineAlpha,
+            strokeWidth: halfLineWidth
+        });
 
         let curPos = pos1.clone();
         let currentlyAtGap = true;
@@ -490,8 +492,8 @@ export default class Board
 
             if(currentlyAtGap) { continue; }
 
-            const line = new Geom.Line(prevPos.x, prevPos.y, curPos.x, curPos.y);
-            graphics.strokeLineShape(line);
+            const line = new Line(prevPos, curPos);
+            lineToPhaser(line, op, graphics);
         }
     }
 
@@ -501,13 +503,10 @@ export default class Board
         const inkFriendly = CONFIG.inkFriendly;
 
         const fontCfg = CONFIG.board.font;
-        const textCfg = {
-            fontFamily: fontCfg.family,
-            fontSize: (fontCfg.size * this.cellSizeSquare) + 'px',
-            color: fontCfg.color,
-            stroke: fontCfg.strokeColor,
-            strokeThickness: (fontCfg.strokeWidth * this.cellSizeSquare)
-        }
+        const textConfig = new TextConfig({
+            font: fontCfg.family,
+            size: (fontCfg.size * this.cellSizeSquare),
+        }).alignCenter();
 
         for(const c of cells)
         {
@@ -516,7 +515,7 @@ export default class Board
 
             const rect = this.getRectForCell(c);
             const rot = this.getRotationForCell(c);
-            const rectSize = Math.min(rect.width, rect.height);
+            const rectSize = Math.min(rect.getSize().x, rect.getSize().y);
             let iconSize = this.iconSize;
             const hasTutorial = c.hasTutorial();
             if(hasTutorial) { iconSize = rectSize; }
@@ -530,11 +529,15 @@ export default class Board
                 frame = 0;
             }
 
-            const sprite = this.game.add.sprite(center.x, center.y, textureKey);
-            sprite.setOrigin(0.5, 0.5);
-            sprite.setFrame(frame);
-            sprite.setRotation(rot);
-            sprite.displayWidth = sprite.displayHeight = iconSize * CONFIG.board.iconScale;
+            const resSprite = CONFIG.resLoader.getResource(textureKey); // @TODO: re-figure out how to load resources myself and get them
+            const opSprite = new LayoutOperation({
+                translate: center,
+                frame: frame,
+                dims: new Point(iconSize*CONFIG.board.iconScale),
+                rotation: rot,
+                pivot: Point.CENTER
+            });
+            imageToPhaser(resSprite, opSprite, this.game);
 
             const hasTeam = c.hasTeam();
             if(hasTeam)
@@ -547,35 +550,52 @@ export default class Board
                     -Math.sin(rot + 0.25*Math.PI) * teamIconScale
                 );
                 const pos = anchorPos.clone().add(offset);
-                const teamSprite = this.game.add.sprite(pos.x, pos.y, CONFIG.teams.textureKey);
-                teamSprite.setOrigin(0.5, 0.5);
-                teamSprite.setFrame(c.getTeam());
-                teamSprite.setRotation(rot);
-                teamSprite.displayWidth = teamSprite.displayHeight = teamIconScale;
+
+                const resSprite = CONFIG.resLoader.getResource(CONFIG.teams.textureKey);
+                const opSprite = new LayoutOperation({
+                    translate: pos,
+                    dims: new Point(teamIconScale),
+                    rotation: rot,
+                    frame: c.getTeam(),
+                    pivot: Point.CENTER
+                })
+                imageToPhaser(resSprite, opSprite, this.game);
             }
 
             if(hasTutorial) 
             {
                 const tutorialType = c.getTutorial();
-                const tutSprite = this.game.add.sprite(center.x, center.y, CONFIG.tutorial.textureKey);
-                tutSprite.setOrigin(0.5, 0.5);
-                tutSprite.setRotation(rot);
 
                 let frame = 0;
                 if(tutorialType in CONFIG.typeDict) { frame = CONFIG.typeDict[tutorialType].tutFrame; }
                 else { frame = TUTORIAL_DATA[tutorialType].frame; }
 
-                tutSprite.setFrame(frame);
-                tutSprite.displayWidth = tutSprite.displayHeight = iconSize * CONFIG.board.tutScale;
+                const resTut = CONFIG.resLoader.getResource(CONFIG.tutorial.textureKey);
+                const opTut = new LayoutOperation({
+                    translate: center,
+                    dims: new Point(iconSize * CONFIG.board.tutScale),
+                    frame: frame,
+                    rotation: rot,
+                    pivot: Point.CENTER
+                });
+                imageToPhaser(resTut, opTut, this.game);
             }
 
             const hasValue = c.hasValue();
             if(hasValue)
             {
                 const text = c.getValue().toString();
-                const textObject = this.game.add.text(center.x, center.y, text, textCfg);
-                textObject.setOrigin(0.5, 0.5);
-                textObject.setRotation(rot);
+                const resText = new ResourceText({ text: text, textConfig: textConfig });
+                const opText = new LayoutOperation({
+                    translate: center,
+                    dims: new Point(2*textConfig.size),
+                    pivot: Point.CENTER,
+                    rotation: rot,
+                    fill: fontCfg.color,
+                    stroke: fontCfg.strokeColor,
+                    strokeWidth: (fontCfg.strokeWidth * this.cellSizeSquare)
+                });
+                textToPhaser(resText, opText, this.game);
             }
         }
     }
@@ -584,8 +604,12 @@ export default class Board
     {
         const graphics = this.game.add.graphics();
         const lineWidth = CONFIG.board.outline.width * this.cellSizeSquare;
-        const lineColor = CONFIG.board.outline.color || 0x00000;
-        graphics.lineStyle(lineWidth, lineColor);
-        graphics.strokeRectShape(this.rect);
+        const lineColor = CONFIG.board.outline.color ?? "#000000";
+
+        const op = new LayoutOperation({
+            stroke: lineColor,
+            strokeWidth: lineWidth
+        });
+        rectToPhaser(this.rect, op, graphics);
     }
 }

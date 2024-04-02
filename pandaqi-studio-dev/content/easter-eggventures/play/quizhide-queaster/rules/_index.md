@@ -6,14 +6,20 @@ type: "rules"
 
 Place 25 **Room Tiles** in any layout. If unsure, just use a 5x5 grid.
 
-Divide the players into two teams: **Hiders** and **Seekers**. It's usually recommended to only have a single Hider. The Seekers leave the room (or close their eyes), while the Hiders hide eggs.
+Divide the players into two teams: **Hiders** and **Seekers**. It's usually recommended to have a single Hider. 
 
-* For each empty slot (white shape with black stroke) in a room, place a facedown egg.
+First, the Hiders hide their eggs.
+
+* For each empty slot (white shape with colorful stroke) in a room, place a facedown egg.
 * Then cover it up with a faceup obstacle.
 
-The Hiders draw 3 Hint Cards each from the deck, to hold in their hand.
+Finally, each Hider draws 3 Hint Cards from the deck into their hand.
 
-Once done, all Seekers return and place their pawn at different entrances to the map. Finally, they draw a random **Score Card** and place it faceup before them.
+Once done, all Seekers place their pawn at random tiles on the map. Finally, they draw a random **Score Card** and place it faceup before them.
+
+{{% remark %}}
+Multiple hiders usually want to discuss, in which case the Seekers will have to leave the room or stuff their ears.
+{{% /remark %}}
 
 @TODO: IMAGE EXAMPLE
 
@@ -21,7 +27,7 @@ Once done, all Seekers return and place their pawn at different entrances to the
 
 {{% rules-block id="objective" heading="Objective" icon="objective" icontint="red" %}}
 
-The game **ends** as soon as **all eggs have been found**. 
+The game **ends** as soon as **all eggs have been found**, or **all players have left the map**.
 
 Each Seeker calculates their **score** by checking the eggs they collected. The point value of each is determined by their Score Card. 
 
@@ -34,13 +40,13 @@ Each Seeker calculates their **score** by checking the eggs they collected. The 
 
 The Seekers take clockwise turns until done. 
 
-On your turn, you first receive one **Clue Card** from the Hiders. (After which that Hider draws their hand back up to 3.)
+On your turn, you first receive one **Clue Card** from a Hider. (After which that Hider draws their hand back up to 3.)
 
-Then you must do one of two possible actions.
+Then take one of two possible actions.
 * **Walk**: take at most 3 steps to an adjacent room.
 * **Search**: collect the egg underneath 1 obstacle in your room.
 
-If the Hiders think there are no good eggs for a Player anymore, they can say so. The Player gets no more turns or clues until the end of the game.
+If the Hiders think there are no good eggs for a Player anymore, they can say so. The Player leaves the map: they get no more turns until the end of the game.
 
 @TODO: IMAGE EXAMPLE
 
@@ -51,6 +57,8 @@ If the Hiders think there are no good eggs for a Player anymore, they can say so
 Played the base game and ready for more? Check out these expansions!
 
 {{% rules-block heading="??" %}}
+
+@TODO
 
 IDEAS:
 * Some obstacles require _two_ players to be in the room to lift them. (These obstacles are already in base material. We can just say "any obstacle that takes more than 2 spaces requires 2 players.")

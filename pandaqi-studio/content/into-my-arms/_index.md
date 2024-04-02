@@ -95,6 +95,6 @@ The title of the game is taken from the beautiful song **Into My Arms** by **Nic
 
 The game has **40 levels** and a story about love and faith that elegantly matches all the mechanics in the game.
 
-The game was made in [Godot Game Engine](https://godotengine.org)
+The game was made in [Godot Game Engine](https://godotengine.org).
 
 {{% /section-centered %}}

@@ -565,9 +565,9 @@ interface ColorTypeData
     letters: string[], // the letters it's allowed to use for its cards
     authorsFixed: string[], // the authors it must include (can have duplicates if to be included twice)
     authorsOptions: string[], // the authors from which it will randomly pick (no duplicates) to fill up remaining space
-    series?: number, // how many book series it should have
 }
 
+// @TODO: Add a "dark" value to all color options
 const COLORS:Record<string, ColorTypeData> =
 {
     red: { frame: 0, main: "#E61948", light: "#FFCDD9", letters: ["A", "F", "L", "Q", "U", "D"], authorsFixed: ["shakespeare", "rowling", "rowling", "rowling", "hemingway", "dickens", "sanderson", "tolstoy"], authorsOptions: ["tolkien", "andersen", "carroll", "verne", "kafka", "eliot", "fitzgerald", "milton", "james", "riley"] },
@@ -576,11 +576,16 @@ const COLORS:Record<string, ColorTypeData> =
     purple: { frame: 3, main: "#AD70F4", light: "#DCBEFF", letters: ["D", "H", "O", "T", "X", "O"], authorsFixed: ["shakespeare", "shakespeare", "shakespeare", "dickens", "sanderson", "rowling"], authorsOptions:  ["patterson", "dahl", "lewis", "kishimoto", "brown", "lindgren", "rice", "martin", "lee", "alger"] },
     yellow: { frame: 4, main: "#FFE119", light: "#FFF9D4", letters: ["E", "I", "K", "P", "Y", "S"], authorsFixed: ["orwell", "orwell", "austen", "austen", "austen", "sanderson", "christie"], authorsOptions: ["joyce", "marques", "borges", "dickinson", "dostoyevsky", "flaubert", "melville", "collins", "oda", "goscinny"] },
     black: { frame: 5, main: "#111111", light: "#999999", letters: ["F", "J", "L", "P", "Z", "X"], authorsFixed: ["hemingway", "hemingway", "hemingway", "shakespeare", "tolstoy", "sanderson", "rowling"], authorsOptions: ["blake", "voltaire", "dante", "mark", "homer", "virgil", "cervantes", "patten", "sheldon", "archer"] },
+    default: { frame: -1, main: "#FFFFFF00", light: "#FFFFFF", dark: "#000000", letters: [], authorsFixed: [], authorsOptions: [] }
 }
 
 const MISC =
 {
-
+    author_icon: { frame: 0 },
+    age_icon: { frame: 1 },
+    bookshelf_arrow: { frame: 2 },
+    rect_rounded: { frame: 3 },
+    
 }
 
 export 

@@ -42,6 +42,8 @@ playtime: 45
 playercount: [2,3,4,5,6,7,8]
 complexity: easy
 ages: everyone
+devlog: "/blog/boardgames/one-pizza-the-puzzle/devlog-one-pizza-the-puzzle/"
+
 ---
 
 {{% boardgame-intro heading="" img="onepizza_header" %}}
@@ -131,9 +133,9 @@ Three steps ...
 
 Interested how this works? Check out my devlogs at [Pandaqi Blog](/blog/boardgames/one-pizza-the-puzzle). 
 
-Here are links to the specific first articles:</p>
-- [[Devlog] One Pizza](/blog/boardgames/one-pizza-the-puzzle/devlog-one-pizza-the-puzzle) => about the general process, issues I faced, how I solved them, changes and different versions of the game, explanations about what works (and doesn't work) for boardgames, ...
-- [[Technical Devlog] One Pizza](/blog/boardgames/one-pizza-the-puzzle/tech-devlog-one-pizza-the-puzzle) => explains the algorithms and code behind randomly generating complex game boards, which are still balanced and fun to play at all times.)
+Here are links to the specific first articles:
+- [(Devlog) One Pizza](/blog/boardgames/one-pizza-the-puzzle/devlog-one-pizza-the-puzzle) => about the general process, issues I faced, how I solved them, changes and different versions of the game, explanations about what works (and doesn't work) for boardgames, ...
+- [(Technical Devlog) One Pizza](/blog/boardgames/one-pizza-the-puzzle/tech-devlog-one-pizza-the-puzzle) => explains the algorithms and code behind randomly generating complex game boards, which are still balanced and fun to play at all times.)
 
 Fonts? **Leckerli One**, because it just looked like a font you'd find on a pizza box. And **Nunito**, the body font&mdash;minimal, readable, available in many different weights.
 

@@ -1,12 +1,29 @@
-// @ts-nocheck
 import OnPageVisualizer from "js/pq_games/website/onPageVisualizer"
+// @ts-ignore
 import { Scene } from "js/pq_games/phaser/phaser.esm"
 import Map from "../js_shared/map"
 import { MapVisualizer, VisResult } from "../js_shared/mapVisualizer"
 import WordsPhotomone from "../js_shared/wordsPhotomone"
 import PHOTOMONE_BASE_PARAMS from "../js_shared/config"
+import resourceLoaderToPhaser from "js/pq_games/phaser/resourceLoaderToPhaser"
+import setDefaultPhaserSettings from "js/pq_games/phaser/setDefaultPhaserSettings"
+import ResourceLoader from "js/pq_games/layout/resources/resourceLoader"
+import { circleToPhaser, lineToPhaser, rectToPhaser } from "js/pq_games/phaser/shapeToPhaser"
+import LayoutOperation from "js/pq_games/layout/layoutOperation"
+import Rectangle from "js/pq_games/tools/geometry/rectangle"
+import Line from "js/pq_games/tools/geometry/line"
+import Circle from "js/pq_games/tools/geometry/circle"
+import Point from "js/pq_games/tools/geometry/point"
+import imageToPhaser from "js/pq_games/phaser/imageToPhaser"
+import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig"
+import ResourceText from "js/pq_games/layout/resources/resourceText"
+import textToPhaser from "js/pq_games/phaser/textToPhaser"
 
 const sceneKey = "boardGeneration"
+const resLoader = new ResourceLoader({ base: PHOTOMONE_BASE_PARAMS.assetsBase });
+resLoader.planLoadMultiple(PHOTOMONE_BASE_PARAMS.assets);
+PHOTOMONE_BASE_PARAMS.RESOURCE_LOADER = resLoader;
+
 class BoardGeneration extends Scene
 {
     cfg:Record<string,any>
@@ -14,23 +31,23 @@ class BoardGeneration extends Scene
 
     map:Map
     objects:any[]
+    graphics:any
 
 	constructor()
 	{
 		super({ key: sceneKey });
 	}
 
-    preload() {
-        this.load.crossOrigin = 'Anonymous';
-        this.canvas = this.sys.game.canvas;
-
-        const base = 'assets/';
-        this.load.spritesheet('point_types', base + 'point_types.webp', { frameWidth: 256, frameHeight: 256 });
-        this.load.image('icon_points', base + 'icon_points.webp');
-        this.load.image('icon_lines', base + 'icon_lines.webp');
+    preload() 
+    {
+        setDefaultPhaserSettings(this);
     }
 
-    async create(userConfig:Record<string,any>) {
+    async create(userConfig:Record<string,any>) 
+    {
+        await resLoader.loadPlannedResources();
+        await resourceLoaderToPhaser(resLoader, this);
+
         this.setup(userConfig)
         await this.generate();
         this.visualize();
@@ -92,6 +109,10 @@ class BoardGeneration extends Scene
 
     clearVisualization()
     {
+        if(this.graphics) { this.graphics.destroy(); }
+        // @ts-ignore
+        this.graphics = this.add.graphics();
+
         if(!this.objects || !this.objects.length) { return; }
         for(const object of this.objects)
         {
@@ -109,60 +130,78 @@ class BoardGeneration extends Scene
 
         for(const rect of vis.rects)
         {
-            const color = rect.color.toHEXNumber();
-            const r = this.add.rectangle(rect.p.x, rect.p.y, rect.size.x, rect.size.y, color, rect.alpha);
-            r.setOrigin(0,0);
-            objects.push(r);
+            console.log(rect);
+
+            const rectObj = new Rectangle({ center: new Point(rect.p.x, rect.p.y), extents: new Point(rect.size.x, rect.size.y) });
+            const op = new LayoutOperation({
+                fill: rect.color,
+                alpha: rect.alpha ?? 1
+            })
+            objects.push( rectToPhaser(rectObj, op, this.graphics) );
         }
 
         for(const line of vis.lines)
         {
-            const color = line.color.toHEXNumber();
-            const lw = line.width;
-            const l = this.add.line(0, 0, line.p1.x, line.p1.y, line.p2.x, line.p2.y, color, line.alpha);
-            l.setOrigin(0,0);
-            l.setLineWidth(lw, lw);
-            objects.push(l);
+            const lineObj = new Line(line.p1, line.p2);
+            const op = new LayoutOperation({
+                stroke: line.color,
+                strokeWidth: line.width,
+                alpha: line.alpha,
+            })
+            objects.push( lineToPhaser(lineObj, op, this.graphics) );
         }
 
         for(const circ of vis.circles)
         {
-            const color = circ.color.toHEXNumber();
-            const c = this.add.circle(circ.p.x, circ.p.y, circ.radius, color);
-            objects.push(c);
+            const circObj = new Circle({ center: circ.p, radius: circ.radius });
+            const op = new LayoutOperation({
+                fill: circ.color
+            });
+            objects.push( circleToPhaser(circObj, op, this.graphics) );
         }
 
         for(const sprite of vis.sprites)
         {
-            const s = this.add.sprite(sprite.p.x, sprite.p.y, sprite.textureKey);
-            s.setRotation(sprite.rotation || 0);
-            s.setFrame(sprite.frame || 0);
-            s.setOrigin(0.5, 0.5);
-            s.displayWidth = s.displayHeight = sprite.size;
-            objects.push(s);
+            const resSprite = PHOTOMONE_BASE_PARAMS.RESOURCE_LOADER.getResource(sprite.textureKey);
+            const opSprite = new LayoutOperation({
+                translate: sprite.p,
+                rotation: sprite.rotation ?? 0,
+                dims: new Point(sprite.size),
+                frame: sprite.frame ?? 0,
+                pivot: Point.CENTER
+            })
+            objects.push( imageToPhaser(resSprite, opSprite, this) );
         }
 
         for(const text of vis.text)
         {
-            const textConfig = {
-                fontFamily: text.fontFamily,
-                fontSize: text.fontSize ?? "12px",
-                color: text.color ?? "#000000", // @NOTE: that stupid thing about phaser which means THIS particular color is just a CSS HEX string, keep that in mind!
-                stroke: text.stroke ?? "#FFFFFF",
-                strokeThickness: text.strokeWidth || 0,
-            }
-
-            const t = this.add.text(text.p.x, text.p.y, text.text, textConfig);
-
             let originX = 0;
             let originY = 0;
             if(text.textAlign == "center") { originX = 0.5; }
             if(text.textBaseline == "middle") { originY = 0.5; }
+            const pivot = new Point(originX, originY);
 
-            t.setOrigin(originX, originY);
-            t.setRotation(text.rotation ?? 0);
-            //t.setShadow(randOffset.x, randOffset.y, 'rgba(0,0,0,0.5)', 5);
-            objects.push(t);
+            const op = new LayoutOperation({
+                translate: text.p,
+                dims: new Point(0.5*this.canvas.height, 2*text.fontSize),
+                fill: text.color ?? "#000000",
+                stroke: text.stroke ?? "#FFFFFF",
+                strokeWidth: text.strokeWidth ?? 0,
+                rotation: text.rotation ?? 0,
+                pivot: pivot
+            })
+
+            // @TODO: alignment is good now thanks to Phaser magic I don't really understand
+            // if we ever move to my own raw system, reevaluate the pivot + alignment of these things
+            const textConfig = new TextConfig({
+                font: text.fontFamily,
+                size: text.fontSize ?? 12,
+                alignHorizontal: originX == 0 ? TextAlign.START : TextAlign.MIDDLE,
+                alignVertical: originY == 0 ? TextAlign.START : TextAlign.MIDDLE           
+            })
+
+            const resText = new ResourceText({ text: text.text, textConfig: textConfig });
+            objects.push( textToPhaser(resText, op, this) );
         }
 
         // draw target food on top of everything
@@ -175,24 +214,38 @@ class BoardGeneration extends Scene
         const yHeightFactor = 0.66
         const xOffset = edgeMargin + spriteSize, yOffset = edgeMargin + (1.0 - 0.5*yHeightFactor) * spriteSize
 
-        const r = this.add.rectangle(
-            (xOffset + 1.5*xOffset)*0.5, yOffset, 
-            spriteSize*3, (1 + yHeightFactor)*spriteSize, 
-            0xEEEEEE, 1
-        );
+        const rectAnchor = new Point((xOffset + 1.5*xOffset)*0.5, yOffset);
+        const rectSize = new Point(spriteSize*3, (1 + yHeightFactor)*spriteSize);
+        const rect = new Rectangle({ center: rectAnchor, extents: rectSize });
+        const op = new LayoutOperation({
+            fill: "#EEEEEE",
+            alpha: 1.0
+        })
+        rectToPhaser(rect, op, this.graphics);
 
-        const s = this.add.sprite(xOffset, yOffset, "icon_points");
-        s.displayWidth = s.displayHeight = spriteSize;
-        s.setOrigin(0.5, 0.5);
+        const resPoints = PHOTOMONE_BASE_PARAMS.RESOURCE_LOADER.getResource("icon_points");
+        const opPoints = new LayoutOperation({
+            translate: new Point(xOffset, yOffset),
+            dims: new Point(spriteSize),
+            pivot: Point.CENTER
+        });
+        objects.push( imageToPhaser(resPoints, opPoints, this) );
 
-        const textConfig = {
-            fontFamily: "GelDoticaLowerCaseThick",
-            fontSize: fontSize + "px",
-            color: "#000000"
-        }
-        const textString = this.map.getObjectiveScore();
-        const t = this.add.text(1.5*xOffset, yOffset, textString, textConfig);
-        t.setOrigin(0, 0.5);
+        const textConfig = new TextConfig({
+            font: "GelDoticaLowerCaseThick",
+            size: fontSize,
+            alignHorizontal: TextAlign.START,
+            alignVertical: TextAlign.MIDDLE
+        })
+
+        const textString = this.map.getObjectiveScore().toString();
+        const opText = new LayoutOperation({
+            translate: new Point(1.5*xOffset, yOffset),
+            dims: new Point(rect.getSize()),
+            fill: "#000000",
+        })
+        const resText = new ResourceText({ text: textString, textConfig: textConfig });
+        objects.push( textToPhaser(resText, opText, this) );
 
         this.objects = objects;
     }

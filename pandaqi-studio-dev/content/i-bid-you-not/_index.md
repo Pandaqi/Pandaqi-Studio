@@ -8,7 +8,7 @@ headerTitle: "Sweeten the deal and be the highest bidder---or sour the deal and 
 blurb: "Take turns either adding items to the offer or declaring an auction. But once the auction is over, you might not be happy with how much you paid for what you got."
 
 extraCSS: true
-downloadLink: ""
+downloadLink: "https://drive.google.com/drive/folders/17wUGca1wpZq7EFj3XV7zTPL_Q774X4lN"
 
 customHeight: "small"
 headerDarkened: true
@@ -35,6 +35,7 @@ playtime: 45
 playercount: [3,4,5,6]
 complexity: low
 ages: everyone
+devlog: "/blog/boardgames/i-bid-you-not/"
 
 ---
 

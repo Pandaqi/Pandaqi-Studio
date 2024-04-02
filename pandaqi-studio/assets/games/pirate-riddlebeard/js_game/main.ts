@@ -6,7 +6,8 @@ import { Game, CANVAS, Scale } from "js/pq_games/phaser/phaser.esm"
 export default class PirateGame {
     constructor() {}
 
-    start() {
+    start() 
+    {
         document.getElementById('phaser-container').innerHTML = '';
     
         let clientWidth = document.documentElement.clientWidth

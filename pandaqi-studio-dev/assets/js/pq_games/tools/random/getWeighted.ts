@@ -3,17 +3,6 @@ import getTotalForKey from "./getTotalForKey"
 
 export default (obj:Record<string,any>, key = "prob", RNG = Math.random) : string =>
 {
-    // sanitize the input (remove probabilites 0 or lower)
-    // @NOTE: unfortunately, for now I have to do this, because many old games of mine used that trick to ignore things temporarily when random drawing :/
-    const copy = Object.assign({}, obj);
-    for(const [objectKey,value] of Object.entries(copy))
-    {
-        if(value[key] && value[key] <= 0)
-        {
-            delete copy[objectKey];
-        }
-    }
-
     const isArray = Array.isArray(obj);
     const typesObject = obj;
     const totalProb = getTotalForKey(typesObject, key);
@@ -29,10 +18,19 @@ export default (obj:Record<string,any>, key = "prob", RNG = Math.random) : strin
     shuffle(typesList); // to prevent order accidentally playing ANY role
     while(runningSum < targetRand)
     {
-        lastElem = typesList[counter];
-        if(isArray) { runningSum += lastElem[key] * probFraction; }
-        else { runningSum += (typesObject[lastElem][key] ?? 1) * probFraction; }
-        counter += 1;
+        const newElem = typesList[counter];
+        counter++;
+
+        let prob = 1.0;
+        if(isArray) { 
+            prob = newElem[key] ?? 1;
+        } else { 
+            prob = typesObject[newElem][key] ?? 1; 
+        }
+        if(prob <= 0) { continue; }
+
+        runningSum += prob * probFraction;
+        lastElem = newElem;
     }
 
     return lastElem;

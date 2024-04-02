@@ -12,6 +12,26 @@ const PHOTOMONE_BASE_PARAMS = {
     WORDS: null,
     RESOURCE_LOADER: null,
 
+    assetsBase: "/photomone/assets/",
+    assets:
+    {
+        point_types:
+        {
+            path: "point_types.webp",
+            frames: new Point(8,3)
+        },
+
+        icon_points:
+        {
+            path: "icon_points.webp"
+        },
+
+        icon_lines:
+        {
+            path: "icon_lines.webp"
+        }
+    },
+
     wordsToGuessForWinning: 7,
     numberRounding: {
         types: 2,

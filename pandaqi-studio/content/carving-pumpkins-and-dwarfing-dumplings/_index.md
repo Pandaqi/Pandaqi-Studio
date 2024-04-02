@@ -38,6 +38,7 @@ genre: ["casual", "action", "party"]
 playtime: 5
 playercount: [2,3,4,5,6,7,8]
 input: ["controller", "keyboard"]
+devlog: "/blog/videogames/one-week-games/devlog-carving-pumpkins-and-dwarfing-dumplings/"
 
 ---
 

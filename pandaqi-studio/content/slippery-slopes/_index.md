@@ -36,6 +36,7 @@ playtime: 20
 playercount: [2,3,4,5,6,7,8,9,10]
 complexity: low
 ages: everyone
+devlog: "/blog/boardgames/slippery-slopes/"
 
 ---
 
@@ -100,6 +101,6 @@ A simple, fast party game for any group!
 
 For more details, as always, read the [devlog](/blog/boardgames/slippery-slopes).
 
-**UPDATE!** This game now also has a completely _digital_ version. Playable with just one smartphone, rules explained as you go, still the same fun core mechanic. Try it at: [Slippery Slopes: Trippy Touches](https://pandaqi.com/slippery-slopes-trippy-touches).
+**UPDATE!** This game now also has a completely _digital_ version. Playable with just one smartphone, rules explained as you go, still the same fun core mechanic. Try it at: [Slippery Slopes: Trippy Touches](https://pandaqi.com/slippery-slopes-trippy-touches/).
 
 {{% /section-centered %}}

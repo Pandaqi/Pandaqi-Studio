@@ -35,6 +35,7 @@ playtime: 20
 playercount: [2,3,4,5,6,7]
 complexity: low
 ages: everyone
+devlog: "/blog/boardgames/cookie-smasher/"
 
 ---
 

@@ -1,6 +1,6 @@
 import shuffle from "js/pq_games/tools/random/shuffle";
 import CONFIG from "../js_shared/config";
-import { ACTIONS_THRILL, AGE_RANGES, BOOK_TITLES, COLORS, CardType, SHELF_POWERS } from "../js_shared/dict";
+import { ACTIONS_THRILL, AGE_RANGES, AUTHORS, BOOK_TITLES, COLORS, CardType, SHELF_POWERS } from "../js_shared/dict";
 import Card from "./card";
 import fromArray from "js/pq_games/tools/random/fromArray";
 import getWeighted from "js/pq_games/tools/random/getWeighted";
@@ -35,7 +35,25 @@ export default class CardPicker
             this.generateActionCards(bookTitlesAgain);
         }
 
+        const freqs = this.getAuthorFrequencies();
+        for(const [author,freq] of Object.entries(freqs))
+        {
+            AUTHORS[author].freq = freq;
+        }
+
         console.log(this.cards);
+    }
+
+    getAuthorFrequencies()
+    {
+        const freqs:Record<string,number> = {};
+        for(const card of this.cards)
+        {
+            const auth = card.author;
+            if(!freqs[auth]) { freqs[auth] = 0; }
+            freqs[auth]++;
+        }
+        return freqs;
     }
 
     getBookTitlesPerLetter()

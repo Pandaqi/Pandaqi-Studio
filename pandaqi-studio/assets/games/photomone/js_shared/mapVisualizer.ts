@@ -53,8 +53,8 @@ export default class MapVisualizer {
             const start = line.getStart();
             const end = line.getEnd();
             const col = params.lineColor;
-            const width = params.lineWidth || 2;
-            const alpha = params.lineAlpha || 1;
+            const width = params.lineWidth ?? 2;
+            const alpha = params.lineAlpha ?? 1;
             obj.lines.push({
                 p1: start,
                 p2: end,
@@ -69,11 +69,11 @@ export default class MapVisualizer {
     {
         const points = this.map.getPointsAsList();
         const baseRadius = params.pointRadius;
-        const activePoints = params.activePoints || [];
+        const activePoints = params.activePoints ?? [];
 
         for(const point of points)
         {
-            let col = point.getColor() || params.pointColor;
+            let col = point.getColor() ?? params.pointColor;
             let frame = -1
             let radius = baseRadius;
             if(point.getType())
@@ -136,7 +136,7 @@ export default class MapVisualizer {
                     strokeWidth: 0.85*params.lineWidth,
                     fontFamily: "Proza Libre",
                     rotation: 0,
-                    fontSize: 0.735*params.fontSize + "px"
+                    fontSize: 0.735*params.fontSize
                 })
             }  
         }
@@ -179,9 +179,8 @@ export default class MapVisualizer {
                 rotation: -0.5 * Math.PI,
                 textAlign: "left",
                 textBaseline: "top",
-                fontSize: params.fontSize + "px",
+                fontSize: params.fontSize,
                 fontFamily: params.fontFamily,
-                font: params.fontSize + "px " + params.fontFamily,
                 color: "#000000",
                 text: txt
             }
@@ -209,7 +208,7 @@ export default class MapVisualizer {
             const pointsText = Object.assign({}, textParams);
             pointsText.p = metadataPos;
             pointsText.text = word.getPoints();
-            pointsText.fontSize = smallFontSize + "px";
+            pointsText.fontSize = smallFontSize;
             pointsText.textAlign = "right";
             obj.text.push(pointsText);
 
@@ -221,7 +220,7 @@ export default class MapVisualizer {
             const linesText = Object.assign({}, textParams);
             linesText.p = pointsText.p.clone().moveY(spriteOffsetSize + metadataTextSize);
             linesText.text = word.getLines();
-            linesText.fontSize = smallFontSize + "px";
+            linesText.fontSize = smallFontSize;
             linesText.textAlign = "right";
             obj.text.push(linesText);
 
@@ -237,7 +236,7 @@ export default class MapVisualizer {
             if((column + row) % 2 == 0)
             {
                 const rectParams = {
-                    p: new Point({ x: x, y: y - columnWidth + marginToNextColumnFromLine }),
+                    p: new Point({ x: x + 0.5*singleRowHeight, y: y - 0.5*columnWidth + marginToNextColumnFromLine }),
                     size: new Point({ x: singleRowHeight, y: columnWidth }),
                     color: new Color(0, 50, 90),
                     alpha: 1

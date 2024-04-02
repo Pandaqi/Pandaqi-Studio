@@ -37,6 +37,7 @@ playtime: 45
 playercount: [2,3,4,5,6,7,8]
 complexity: low
 ages: everyone
+devlog: "/blog/boardgames/photomone-antsassins/"
 
 ---
 
@@ -94,7 +95,7 @@ This game is a spin-off of [Photomone](https://pandaqi.com/photomone) . Visit th
 For a detailed diary about the game, check out the [devlog](/blog/boardgames/photomone-antsassins/).
 
 <div class="photomone-update-block" style="margin-bottom: 3em;">
-Photomone now has a spin-off you can play entirely on a smartphone or tablet! Check out <a href="https://pandaqi.com/photomone-digital-antists">Photomone: Digital Ant-ists</a>.
+Photomone now has a spin-off you can play entirely on a smartphone or tablet! Check out <a href="https://pandaqi.com/photomone-digital-antists/">Photomone: Digital Ant-ists</a>.
 </div>
 
 {{% /section-centered %}}

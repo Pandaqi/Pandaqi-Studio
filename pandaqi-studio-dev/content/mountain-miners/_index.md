@@ -35,6 +35,7 @@ playtime: 15
 playercount: [2,3,4,5,6]
 complexity: low
 ages: everyone
+devlog: "/blog/boardgames/mountain-miners/"
 
 ---
 

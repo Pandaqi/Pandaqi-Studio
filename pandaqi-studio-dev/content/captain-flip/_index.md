@@ -8,12 +8,12 @@ headerTitle: "Remember the locations of the best tiles and flip them before anyo
 blurb: "A mix between a memory game and strategy game, where flipping tiles gives you actions, and scoring the tiles you wanted is a challenge."
 
 extraCSS: true
-downloadLink: ""
+downloadLink: "https://drive.google.com/drive/folders/1XyTJDG_9tOtEwNdNxfAAKBFr6LHghwIX"
 
 customHeight: "small"
 headerDarkened: true
 
-color: "turqoise" # @TODO: this is the wrong spelling, it's turquoise; fix for the entire site!
+color: "turquoise"
 
 bgColor: "#003401"
 bgColorLink: "#ff1f1f"
@@ -35,6 +35,7 @@ playtime: 30
 playercount: [2,3,4,5,6]
 complexity: low
 ages: everyone
+devlog: "/blog/boardgames/captain-flip/"
 
 ---
 

@@ -93,23 +93,41 @@
 	</aside>
 
 	<!-- Metadata -->
-	{{ $press_kit := or .Params.pressKit "" }}
-	{{ $download_link := or .Params.downloadLink "" }}
-	{{ $requirements := or "<em>(none specified)</em>" .Params.requirements }}
+	{{ $press_kit := .Params.pressKit }}
+	{{ $download_link := .Params.downloadLink }}
+	{{ $requirements := .Params.requirements }}
+	{{ $devlog := .Params.devlog }}
+	{{ $blurb := .Params.blurb }}
+	{{ $title := .Params.Title }}
 
 	<aside class="info">
 		<h3>Info</h3>
 		<ul>
 			<li>Date Published: <em>{{ .Date.Format "January 2, 2006" }}</em></li>
-			<li>Direct Buy/Download:
-				{{ partial "button.html" (dict "href" $download_link "content" .Params.Title "failContent" "<em>(not available)</em>") }}
-			</li>
-			<li>Press Kit: 
-				{{ partial "button.html" (dict "href" $press_kit "content" "Go to press kit" "failContent" "<em>(not available)</em>") }}
-			</li>
-			<li>Requirements: {{ $requirements | safeHTML }}</li>
 
-			<li>Summary: <em>{{ .Params.blurb }}</em></li>
+			{{ with $download_link }}
+				<li>Buy/Download:
+					{{ partial "button.html" (dict "href" . "content" $title "failContent" "<em>(not available)</em>") }}
+				</li>
+			{{ end }}
+
+			{{ with $press_kit }}
+				<li>Press Kit: 
+					{{ partial "button.html" (dict "href" . "content" "Go to press kit" "failContent" "<em>(not available)</em>") }}
+				</li>
+			{{ end }}
+
+			{{ with $requirements }}
+				<li>Requirements: <em>{{ . | safeHTML }}</em></li>
+			{{ end }}
+
+			{{ with $devlog }}
+				<li>Devlog: <a href="{{ . }}">Go to Devlog</a></li>
+			{{ end }}
+
+			{{ with $blurb }}
+				<li>Summary: <em>{{ . }}</em></li>
+			{{ end }}
 		</ul>
 	</aside>
 </div>

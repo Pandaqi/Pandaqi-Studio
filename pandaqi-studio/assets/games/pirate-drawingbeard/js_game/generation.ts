@@ -6,10 +6,122 @@ import Interface from "./interface"
 import Map from "./map"
 import { TILE_DICT, SYMBOLS } from "./dictionary"
 // @ts-ignore
-import { Scene, Geom, GameObjects } from "js/pq_games/phaser/phaser.esm"
+import { Scene, GameObjects } from "js/pq_games/phaser/phaser.esm"
 import Point from "js/pq_games/tools/geometry/point"
+import ResourceLoader from "js/pq_games/layout/resources/resourceLoader"
+import setDefaultPhaserSettings from "js/pq_games/phaser/setDefaultPhaserSettings"
+import resourceLoaderToPhaser from "js/pq_games/phaser/resourceLoaderToPhaser"
+import Rectangle from "js/pq_games/tools/geometry/rectangle"
+import { lineToPhaser, rectToPhaser } from "js/pq_games/phaser/shapeToPhaser"
+import LayoutOperation from "js/pq_games/layout/layoutOperation"
+import Line from "js/pq_games/tools/geometry/line"
+import imageToPhaser from "js/pq_games/phaser/imageToPhaser"
+import TextConfig from "js/pq_games/layout/text/textConfig"
+import ResourceText from "js/pq_games/layout/resources/resourceText"
+import textToPhaser from "js/pq_games/phaser/textToPhaser"
+import ResourceImage from "js/pq_games/layout/resources/resourceImage"
+import Color from "js/pq_games/layout/color/color"
 
 const assetsBase = "/pirate-drawingbeard/assets/"
+const assets =
+{
+	tile_types:
+	{
+		path: "tile_types.webp",
+		frames: new Point(8,2)
+	},
+
+	tile_types_inkfriendly:
+	{
+		path: "tile_types_inkfriendly.webp",
+		frames: new Point(8,2)
+	},
+
+	symbols:
+	{
+		path: "symbols.webp",
+		frames: new Point(4,1)
+	},
+
+	symbols_inkfriendly:
+	{
+		path: "symbols_inkfriendly.webp",
+		frames: new Point(4,1)
+	},
+
+	hint_cards:
+	{
+		path: "hint_cards.webp",
+		frames: new Point(2,1)
+	},
+
+	// @NOTE: the assets below are ALSO used by hint visualizer, but they grab it through the phaser instance---this will BREAK DOWN once I remove the Phaser dependency entirely!!!
+	// @TODO: ALSO, once we switch to my own system, I can just apply my GrayScale filter and remove all the inkfriendly shenanigans!!!
+	hint_base:
+	{
+		path: "hint_base.webp",
+		frames: new Point(8,8)
+	},
+
+	hint_base_inkfriendly:
+	{
+		path: "hint_base_inkfriendly.webp",
+		frames: new Point(8,8)
+	},
+
+	hint_tile_type:
+	{
+		path: "hint_tile_type.webp",
+		frames: new Point(8,2)
+	},
+
+	hint_tile_type_inkfriendly:
+	{
+		path: "hint_tile_type_inkfriendly.webp",
+		frames: new Point(8,2)
+	},
+
+	hint_quadrant:
+	{
+		path: "hint_quadrant.webp",
+		frames: new Point(4,1)
+	},
+
+	hint_quadrant_inkfriendly:
+	{
+		path: "hint_quadrant_inkfriendly.webp",
+		frames: new Point(4,1)
+	},
+
+	hint_bearings:
+	{
+		path: "hint_bearings.webp",
+		frames: new Point(4,1)
+	},
+
+	hint_bearings_inkfriendly:
+	{
+		path: "hint_bearings_inkfriendly.webp",
+		frames: new Point(4,1)
+	},
+
+	hint_symbols:
+	{
+		path: "hint_symbols.webp",
+		frames: new Point(4,1)
+	},
+
+	hint_symbols_inkfriendly:
+	{
+		path: "hint_symbols_inkfriendly.webp",
+		frames: new Point(4,1)
+	},
+}
+
+
+const resLoader = new ResourceLoader({ base: assetsBase });
+resLoader.planLoadMultiple(assets);
+
 export default class Generation extends Scene
 {
 	canvas: HTMLCanvasElement
@@ -20,46 +132,23 @@ export default class Generation extends Scene
 		super({ key: "generation" });
 	}
 
-    preload() {
-		this.load.crossOrigin = 'Anonymous';
-		this.canvas = this.sys.game.canvas;
-
-		let sheetData =  { frameWidth: 256, frameHeight: 256 };
-
-		this.load.spritesheet('tile_types', assetsBase + 'tile_types.webp', sheetData);
-		this.load.spritesheet('tile_types_inkfriendly', assetsBase + 'tile_types_inkfriendly.webp', sheetData);
-
-		this.load.spritesheet('symbols', assetsBase + 'symbols.webp', sheetData);
-		this.load.spritesheet('symbols_inkfriendly', assetsBase + 'symbols_inkfriendly.webp', sheetData);
-
-		this.load.spritesheet('hint_cards', assetsBase + 'hint_cards.webp', { frameWidth: 495, frameHeight: 525 });
-
-		// (also) used by hint visualizer
-		this.load.spritesheet('hint_base', assetsBase + 'hint_base.webp', sheetData);
-		this.load.spritesheet('hint_base_inkfriendly', assetsBase + 'hint_base_inkfriendly.webp', sheetData);
-
-		this.load.spritesheet('hint_tile_type', assetsBase + 'hint_tile_type.webp', sheetData);
-		this.load.spritesheet('hint_tile_type_inkfriendly', assetsBase + 'hint_tile_type_inkfriendly.webp', sheetData);
-
-		this.load.spritesheet('hint_quadrant', assetsBase + 'hint_quadrant.webp', sheetData);
-		this.load.spritesheet('hint_quadrant_inkfriendly', assetsBase + 'hint_quadrant_inkfriendly.webp', sheetData);
-
-		this.load.spritesheet('hint_bearings', assetsBase + 'hint_bearings.webp', sheetData);
-		this.load.spritesheet('hint_bearings_inkfriendly', assetsBase + 'hint_bearings_inkfriendly.webp', sheetData);
-
-		this.load.spritesheet('hint_symbols', assetsBase + 'hint_symbols.webp', sheetData);
-		this.load.spritesheet('hint_symbols_inkfriendly', assetsBase + 'hint_symbols_inkfriendly.webp', sheetData);
-
+    preload() 
+	{
+		setDefaultPhaserSettings(this);
 		document.getElementById('debugging').innerHTML = '';
-    }
+	}
 
-    create(config) {
+    async create(config:Record<string,any>) 
+	{
+		await resLoader.loadPlannedResources();
+        await resourceLoaderToPhaser(resLoader, this);
+
     	Config.initialize(this, config);
     	HintVisualizer.prepare();
 
-    	let timeout = 20;
+    	const timeout = 20;
     	let interval;
-    	let mainGenerationAction = function()
+    	const mainGenerationAction = () =>
     	{
     		Config.numGens += 1;
 
@@ -84,22 +173,33 @@ export default class Generation extends Scene
 		HintVisualizer.visualizeAll(Hints.getAsList(), this.onHintVisualizationFinished.bind(this)); 
 	}
 
+	getImageIDFromHint(hint)
+	{
+		return hint.id + "_" + hint.numericID;
+	}
+
 	// if debugging, just stop here and keep the phaser game alive
 	// otherwise, cache the images (and destroy phaser afterwards)
 	onHintVisualizationFinished()
 	{
 		for(let i = 0; i < Hints.perPlayer.length; i++)
 		{
-			let hints = Hints.perPlayer[i];
-			for(let h = 0; h < hints.length; h++)
+			const hints = Hints.perPlayer[i];
+			for(const hint of hints)
 			{
-				let img = hints[h].image.src;
-				let id = hints[h].id + "_" + hints[h].numericID;
-				this.textures.addBase64(id, img);
+				const img = hint.image;
+				const id = this.getImageIDFromHint(hint);
+				this.textures.addBase64(id, img.src);
+
+				// @NOTE: this force-adds the image to the resourceLoader too, which is a roundabout way to have the whole system be as decoupled from Phaser as possible
+				const resImg = new ResourceImage(img);
+				resImg.setUniqueKey(id);
+				resLoader.addResource(id, resImg);
 			}
 		}
 
-		if(Config.useInterface) {
+		if(Config.useInterface) 
+		{
 			Extractor.cacheImages(this.onImageCachingFinished.bind(this));
 			return;
 		}
@@ -110,10 +210,12 @@ export default class Generation extends Scene
 	// if we want a PDF, create it now
 	onImageCachingFinished()
 	{
-		if(Config.createPremadeGame) {
+		if(Config.createPremadeGame) 
+		{
 			Extractor.createPremadeGame(this.onPremadeCreationFinished.bind(this));
 			return;
 		}
+
 		this.finishCreation();
 	}
 
@@ -151,41 +253,55 @@ export default class Generation extends Scene
 			hintBaseKey += '_inkfriendly';
 		}
 
-		let connLineWidth = 10;
-		let connLineColor = 0x000000;
-		let networkGraphics = this.add.graphics();
-		networkGraphics.lineStyle(connLineWidth, connLineColor, 1.0); 
+		// @ts-ignore
+		const networkGraphics = this.add.graphics();
+		// @ts-ignore
+		const specialTileGraphics = this.add.graphics();
 
-		let specialTileGraphics = this.add.graphics();
+		const opLine = new LayoutOperation({
+			stroke: "#000000",
+			strokeWidth: 10
+		});
+
+		const opLineSpecial = new LayoutOperation({
+			stroke: new Color(0,0,0,0.5),
+			strokeWidth: 1,
+		});
+
+		const resTileType = resLoader.getResource(textureKey);
+		const resSymbol = resLoader.getResource(symbolTextureKey);
 
 		for(let i = 0; i < Map.mapList.length; i++)
 		{
-			let cell = Map.mapList[i];
-			let fX = oX + cell.x*cs + 0.5*cs;
-			let fY = oY + cell.y*cs + 0.5*cs;
+			const cell = Map.mapList[i];
+			const fX = oX + cell.x*cs + 0.5*cs;
+			const fY = oY + cell.y*cs + 0.5*cs;
+			const pos = new Point(fX, fY);
 
 			// show tile type
-			let type = cell.type;
-			let frame = TILE_DICT[type].frame;
+			const type = cell.type;
+			const frame = TILE_DICT[type].frame;
 
-			let sprite = this.add.image(fX, fY, textureKey, frame);
-			sprite.displayWidth = cs;
-			sprite.displayHeight = cs;
-			sprite.setOrigin(0.5, 0.5);
-
-			// rotate correctly
-			sprite.rotation = cell.rotation * 0.5 * Math.PI;
+			const spriteRotation = cell.rotation * 0.5 * Math.PI;
+			const opTileType = new LayoutOperation({
+				translate: pos,
+				dims: new Point(cs),
+				pivot: Point.CENTER,
+				frame: frame,
+				rotation: spriteRotation
+			});
+			imageToPhaser(resTileType, opTileType, this);
 
 			// show network connections
 			if(Config.expansions.networks)
 			{
-				for(let n = 0; n < cell.connNbs.length; n++)
+				for(const nb of cell.connNbs)
 				{
-					let nbX = oX + cell.connNbs[n].x*cs + 0.5*cs;
-					let nbY = oY + cell.connNbs[n].y*cs + 0.5*cs;
+					let nbX = oX + nb.x*cs + 0.5*cs;
+					let nbY = oY + nb.y*cs + 0.5*cs;
 
-					let line = new Geom.Line(fX, fY, nbX, nbY);
-					networkGraphics.strokeLineShape(line);
+					const line = new Line(new Point(fX, fY), new Point(nbX, nbY));
+					lineToPhaser(line, opLine, networkGraphics);
 				}
 			}
 			
@@ -197,87 +313,108 @@ export default class Generation extends Scene
 					let symbol = cell.symbols[s];
 					if(symbol == null) { continue; }
 
-					let symbolFrame = SYMBOLS[symbol].frame;
-					let finalRotation = sprite.rotation + (s+1)*0.5*Math.PI;
-					let symbolSprite = this.add.image(fX, fY, symbolTextureKey, symbolFrame);
-					symbolSprite.rotation = finalRotation;
-					symbolSprite.displayWidth = cs;
-					symbolSprite.displayHeight = cs;
+					const symbolFrame = SYMBOLS[symbol].frame;
+					const finalRotation = spriteRotation + (s+1)*0.5*Math.PI;
+
+					const op = new LayoutOperation({
+						translate: pos,
+						dims: new Point(cs),
+						frame: symbolFrame,
+						rotation: finalRotation
+					})
+					imageToPhaser(resSymbol, op, this);
 				}
 			}
 
 			// the Map tile is very special and gets a whole grid on top of it
 			if(type == "map")
 			{
-				specialTileGraphics.lineStyle(1, 0x000000, 0.5);
-				specialTileGraphics.fillStyle(0xFF0000, 0.5);
+				// this anchors the remaining graphics to the top left of this tile
+				specialTileGraphics.x = pos.x;
+				specialTileGraphics.y = pos.y;
+				specialTileGraphics.rotation = spriteRotation + 0.5*Math.PI; // map is rotated sideways, made more sense for tile and arrow
 
-				specialTileGraphics.x = sprite.x;
-				specialTileGraphics.y = sprite.y;
-				specialTileGraphics.rotation = sprite.rotation + 0.5*Math.PI; // map is rotated sideways, made more sense for tile and arrow
-
-				let maxGridWidth = 0.66*cs;
-				let gridCellSize = Math.floor(maxGridWidth/Map.width);
-				let gridSize = new Point( Map.width*gridCellSize, Map.height*gridCellSize);
-				let gridOffset = new Point( -0.5*gridSize.x, -0.5*gridSize.y);
+				const maxGridWidth = 0.66*cs;
+				const gridCellSize = Math.floor(maxGridWidth/Map.width);
+				const gridSize = new Point( Map.width*gridCellSize, Map.height*gridCellSize);
+				const gridOffset = new Point( -0.5*gridSize.x, -0.5*gridSize.y);
 
 				for(let x = 1; x < Map.width; x++)
 				{
-					let line = new Geom.Line(gridOffset.x + x*gridCellSize, gridOffset.y, gridOffset.x + x*gridCellSize, gridOffset.y + gridSize.y);
-					specialTileGraphics.strokeLineShape(line);
+					const line = new Line(new Point(gridOffset.x + x*gridCellSize, gridOffset.y), new Point(gridOffset.x + x*gridCellSize, gridOffset.y + gridSize.y));
+					lineToPhaser(line, opLineSpecial, specialTileGraphics);
 				}
 
 				for(let y = 1; y < Map.height; y++)
 				{
-					let line = new Geom.Line(gridOffset.x, gridOffset.y + y*gridCellSize, gridOffset.x + gridSize.x, gridOffset.y + y*gridCellSize);
-					specialTileGraphics.strokeLineShape(line);
+					const line = new Line(new Point(gridOffset.x, gridOffset.y + y*gridCellSize), new Point(gridOffset.x + gridSize.x, gridOffset.y + y*gridCellSize));
+					lineToPhaser(line, opLineSpecial, specialTileGraphics);
 				}
 
+				// @ts-ignore
 				let markGroup = this.add.container();
-				for(let i = 0; i < Map.markedMapTiles.length; i++)
+				for(const tile of Map.markedMapTiles)
 				{
-					let tile = Map.markedMapTiles[i];
-					let fX = gridOffset.x + (tile.x+0.5)*gridCellSize;
-					let fY = gridOffset.y + (tile.y+0.5)*gridCellSize;
-					let markSprite = this.add.image(fX, fY, hintBaseKey, 10);
-					markSprite.displayWidth = markSprite.displayHeight = 0.66*gridCellSize;
+					const pos = new Point( 
+						gridOffset.x + (tile.x+0.5)*gridCellSize, 
+						gridOffset.y + (tile.y+0.5)*gridCellSize
+					);
 
+					const res = resLoader.getResource(hintBaseKey);
+					const op = new LayoutOperation({
+						translate: pos,
+						dims: new Point(0.66 * gridCellSize),
+						pivot: Point.CENTER,
+						frame: 10
+					})
+					const markSprite = imageToPhaser(res, op, this);
 					markGroup.add(markSprite);
 				}
 
-				markGroup.x = sprite.x;
-				markGroup.y = sprite.y;
-				markGroup.rotation = sprite.rotation + 0.5*Math.PI;
+				markGroup.x = pos.x;
+				markGroup.y = pos.y;
+				markGroup.rotation = spriteRotation + 0.5*Math.PI;
 
 			}
 		}
 
+		// @ts-ignore
 		this.children.bringToTop(specialTileGraphics);
 		//this.children.bringToTop(networkGraphics); => actually works better when behind!
 
 		// display the HOOK that indicates top left!
-		let hookSprite = this.add.image(oX + 0.1*cs, oY, hintBaseKey, 11);
-		hookSprite.displayWidth = hookSprite.displayHeight = 0.25*cs;
-		hookSprite.setOrigin(0.5, 0.5);
+		const resHook = resLoader.getResource(hintBaseKey);
+		const opHook = new LayoutOperation({
+			translate: new Point(oX + 0.1*cs, oY),
+			dims: new Point(0.25*cs),
+			pivot: Point.CENTER,
+			frame: 11
+		});
+		imageToPhaser(resHook, opHook, this);
 
 		// display the SEED
-		let txtConfig = 
-		{
-			fontFamily: 'Chelsea Market', 
-			fontSize: '11px',
-			color: '#111111', 
-			stroke: '#FFFFFF',
-			strokeThickness: 3,
-		}
+		const textConfig = new TextConfig({
+			font: "Chelsea Market",
+			size: 11
+		})
 
-		let txt = this.add.text(oX + 0.5*cs, oY + 0.05*cs, Config.seed, txtConfig);
-		txt.setOrigin(0.5, 0);
-		txt.depth = 10000;
+		const opText = new LayoutOperation({
+			translate: new Point(oX + 0.5*cs, oY + 0.05*cs),
+			fill: "#111111",
+			stroke: "#FFFFFF",
+			strokeWidth: 3,
+			pivot: new Point(0.5, 0),
+			// depth: 10000 => not supported by my own system yet
+		});
+
+		const resText = new ResourceText({ text: Config.seed, textConfig: textConfig });
+		textToPhaser(resText, opText, this);
 
 		// display the hints (only when debugging of course)
-		if(Config.debugging && Config.debugHintText) {
-			let margin = 12;
-			let lineHeight = 24;
+		if(Config.debugging && Config.debugHintText) 
+		{
+			const margin = 12;
+			const lineHeight = 24;
 			let counter = 0;
 			for(let i = 0; i < Hints.perPlayer.length; i++)
 			{
@@ -285,10 +422,15 @@ export default class Generation extends Scene
 
 				for(let j = 0; j < Hints.perPlayer[i].length; j++)
 				{
-					let txt = this.add.text(oX + margin, oY + margin + counter*lineHeight, playerString + Hints.perPlayer[i][j].text, txtConfig);
-					txt.setOrigin(0,0);
-					txt.depth = 10000;
-					counter += 1;
+					const opTextDebug = opText.clone();
+					opTextDebug.translate = new Point(oX + margin, oY + margin + counter*lineHeight);
+					opTextDebug.pivot = new Point();
+					const str = playerString + Hints.perPlayer[i][j].text;
+
+					const resTextDebug = new ResourceText({ text: str, textConfig: textConfig });
+					textToPhaser(resTextDebug, opTextDebug, this);
+
+					counter++;
 				}
 				
 			}
@@ -313,126 +455,147 @@ export default class Generation extends Scene
 		this.clearMap();
 
 		let cardMargin = new Point( 20, 20);
-		let margin = new Point( 30, 80);
 		let metadataMargin = new Point( 150, 20)
 		let headerHeight = 70;
 		let scale = 0.735 // @IMPROV: calculate dynamically based on PDF size
-		let cardSize = { "w": 495*scale, "h": 525*scale }
+		let cardSize = new Point(495*scale, 525*scale);
 
-		let metadataTextConfig = 
-		{
-			fontFamily: 'Chelsea Market', 
-			fontSize: '11px',
-			color: '#111111'
-		}
-
-		let ctx = this.canvas.getContext('2d');
 		let cardIdx = 0;
 		if(Config.inkFriendly) { cardIdx = 1; }
 
+		// @ts-ignore
 		let gridGraphics = this.add.graphics();
-		let lineWidth = 2;
-		let lineColor = 0x000000;
-		let alpha = 0.4;
-		gridGraphics.lineStyle(lineWidth, lineColor, alpha); 
-		gridGraphics.fillStyle(lineColor, 0.33*alpha);
+		const alpha = 0.4;
+		const opGridStroke = new LayoutOperation({
+			stroke: new Color(0,0,0,alpha),
+			strokeWidth: 2,
+		});
+
+		const opGridFill = new LayoutOperation({
+			fill: new Color(0,0,0,0.33*alpha),
+		});
+
+		const resHintCard = resLoader.getResource("hint_cards");
+
+		const textConfig = new TextConfig({
+			font: "Chelsea Market",
+			size: 11
+		})
 
 		for(let i = 0; i < Config.playerCount; i++)
 		{
 			// card background
-			let row = i % 3;
-			let col = Math.floor(i / 3);
+			const row = i % 3;
+			const col = Math.floor(i / 3);
 
-			let sprite = this.add.image(cardMargin.x + row*cardSize.w, cardMargin.y + col*cardSize.h, 'hint_cards', cardIdx);
-			sprite.displayWidth = cardSize.w;
-			sprite.displayHeight = cardSize.h;
-			sprite.setOrigin(0.0, 0.0);
+			const basePos = new Point(cardMargin.x + row*cardSize.x, cardMargin.y + col*cardSize.y);
+			const opHintCard = new LayoutOperation({
+				translate: basePos,
+				dims: cardSize,
+				frame: cardIdx
+			})
+			imageToPhaser(resHintCard, opHintCard, this);
 
 			// add metadata (player number, seed, etcetera) in header
-			let metadata = "(player " + (i+1) + "; " + Config.seed + ")";
-			let txt = this.add.text(sprite.x + metadataMargin.x, sprite.y + metadataMargin.y, metadata, metadataTextConfig);
+			const metadata = "(player " + (i+1) + "; " + Config.seed + ")";
+
+			const resTextMetadata = new ResourceText({ text: metadata, textConfig: textConfig });
+			const opTextMetadata = new LayoutOperation({
+				translate: new Point(basePos.x + metadataMargin.x, basePos.y + metadataMargin.y),
+				dims: new Point(100*textConfig.size, 2*textConfig.size),
+				fill: "#111111",
+			});
+			textToPhaser(resTextMetadata, opTextMetadata, this);
 
 			// place the hint images
-			let hints = Hints.perPlayer[i];
-			let maxHintHeight = 128;
-			let maxHintWidth = Math.floor((cardSize.w-cardMargin.x*2) / (hints.length));
-			let hintMargin = 10;
-			let hintImageSize = Math.min(maxHintWidth-hintMargin, maxHintHeight);
-			let hintOffset = 0.5*cardSize.w - 0.5*((hints.length-1) * (hintImageSize+hintMargin))
+			const hints = Hints.perPlayer[i];
+			const maxHintHeight = 128;
+			const maxHintWidth = Math.floor((cardSize.x - cardMargin.x*2) / (hints.length));
+			const hintMargin = 10;
+			const hintImageSize = Math.min(maxHintWidth-hintMargin, maxHintHeight);
+			const hintOffset = 0.5*cardSize.x - 0.5*((hints.length-1) * (hintImageSize+hintMargin))
 			for(let h = 0; h < hints.length; h++)
 			{
-				let xPos = sprite.x + h*(hintImageSize+hintMargin) + hintOffset;
-				let yPos = sprite.y + headerHeight;
+				const xPos = basePos.x + h*(hintImageSize+hintMargin) + hintOffset;
+				const yPos = basePos.y + headerHeight;
 
-				//ctx.drawImage(img, xPos, yPos, hintImageSize, hintImageSize);
-				let id = hints[h].id + "_" + hints[h].numericID;
-				let hintSprite = this.add.image(xPos, yPos, id);
-				hintSprite.displayWidth = hintSprite.displayHeight = hintImageSize;
-				hintSprite.setOrigin(0.5, 0.0);
+				const id = this.getImageIDFromHint(hints[h]);
+				const resTemp = resLoader.getResource(id);
+				const opTemp = new LayoutOperation({
+					translate: new Point(xPos, yPos),
+					dims: new Point(hintImageSize),
+					pivot: new Point(0.5, 0)
+				});
+				imageToPhaser(resTemp, opTemp, this);
 			}
 
 			// create the grid with all squares we can cross off
 			let tiles = Map.tilesLeftPerPlayer[i];
 			if(Config.invertHintGrid) { tiles = Map.invertLocationList(tiles); }
 
-			let cs = Math.floor((cardSize.w - 2*cardMargin.x)/Config.width);
-			let gridSize = new Point( cs*Config.width, cs*Config.height);
-			let gridPos = new Point( sprite.x + cardMargin.x , sprite.y + cardSize.h - cardMargin.y - gridSize.y);
+			const cs = Math.floor((cardSize.x - 2*cardMargin.x)/Config.width);
+			const gridSize = new Point( cs*Config.width, cs*Config.height);
+			const gridPos = new Point(basePos.x + cardMargin.x, basePos.y + cardSize.y - cardMargin.y - gridSize.y);
 			
-
 			for(let x = 1; x < Config.width; x++)
 			{
-				let line = new Geom.Line(gridPos.x + x*cs, gridPos.y, gridPos.x + x * cs, gridPos.y + gridSize.y);
-				gridGraphics.strokeLineShape(line);
+				const line = new Line(new Point(gridPos.x + x*cs, gridPos.y), new Point(gridPos.x + x*cs, gridPos.y + gridSize.y));
+				lineToPhaser(line, opGridStroke, gridGraphics);
 			}
 
 			for(let y = 1; y < Config.height; y++)
 			{
-				let line = new Geom.Line(gridPos.x, gridPos.y + y * cs, gridPos.x + gridSize.x, gridPos.y + y * cs);
-				gridGraphics.strokeLineShape(line);
+				const line = new Line(new Point(gridPos.x, gridPos.y + y*cs), new Point(gridPos.x + gridSize.x, gridPos.y + y*cs));
+				lineToPhaser(line, opGridStroke, gridGraphics);
 			}
 
 			// draw a rectangle for all locations that are still possible (because of yur hints)
-			for(let t = 0; t < tiles.length; t++)
+			for(const tile of tiles)
 			{
-				let tile = tiles[t];
-				let rect = new Geom.Rectangle(gridPos.x + tile.x*cs, gridPos.y + tile.y*cs, cs, cs);
-				gridGraphics.fillRectShape(rect);
-
+				const rect = new Rectangle().fromTopLeft(new Point(gridPos.x + tile.x*cs, gridPos.y + tile.y*cs), new Point(cs));
+				rectToPhaser(rect, opGridFill, gridGraphics);
 			}
 		}
 
+		// @ts-ignore
 		this.children.bringToTop(gridGraphics);
 	}
 
-	// @TODO: maybe save oX, oY, cellSize on ourselves as well? (Instead of referencing config all the time)
 	showTreasureRectangle()
 	{
+		// @ts-ignore
 		let graphics = this.add.graphics();
 
 		let fX = Config.oX + Map.treasureLocation.x*Config.cellSize;
 		let fY = Config.oY + Map.treasureLocation.y*Config.cellSize;
-		let rect = new Geom.Rectangle(fX, fY, Config.cellSize, Config.cellSize);
 
-		let lineThickness = 6
-		graphics.lineStyle(lineThickness, 0xFF0000, 1.0);
-		graphics.strokeRectShape(rect);
+		const rect = new Rectangle().fromTopLeft(new Point(fX, fY), new Point(Config.cellSize));
+		const op = new LayoutOperation({
+			stroke: "#FF0000",
+			strokeWidth: 6
+		})
+		rectToPhaser(rect, op, graphics);
 	}
 
 	clearMap()
 	{
+		// @ts-ignore
 		let allSprites = this.children.list.filter(x => x instanceof GameObjects.Sprite);
 		allSprites.forEach(x => x.destroy());
 
+		// @ts-ignore
 		let allImages = this.children.list.filter(x => x instanceof GameObjects.Image);
 		allImages.forEach(x => x.destroy());
 
+		// @ts-ignore
 		let allGraphics = this.children.list.filter(x => x instanceof GameObjects.Graphics);
 		allGraphics.forEach(x => x.destroy());
 
+		// @ts-ignore
 		let allText = this.children.list.filter(x => x instanceof GameObjects.Text);
 		allText.forEach(x => x.destroy());
 
+		// @ts-ignore
 		let allContainers = this.children.list.filter(x => x instanceof GameObjects.Container);
 		allContainers.forEach(x => x.destroy());
 	}

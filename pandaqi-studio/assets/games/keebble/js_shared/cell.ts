@@ -1,3 +1,5 @@
+import Point from "js/pq_games/tools/geometry/point";
+
 export default class Cell 
 {
 	x: number;
@@ -15,6 +17,11 @@ export default class Cell
 		this.type = "";
 		this.hand = [];
 		this.playerNum = -1;
+	}
+
+	getPos()
+	{
+		return new Point(this.x, this.y);
 	}
 
 	setLetter(val: string)

@@ -19,7 +19,7 @@ textColorLink: "#641624"
 
 entryBannerNonTextClasses: "no-shadow"
 
-color: "turqoise"
+color: "turquoise"
 
 googleFonts: "https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
 extraCSS: true

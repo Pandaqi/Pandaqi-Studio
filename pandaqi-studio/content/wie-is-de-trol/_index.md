@@ -140,8 +140,6 @@ Nou ja, ik dus. **Pandaqi**. Ook wel **Tiamo Pastoor** in het echt, een freelanc
 
 Ik was zeer ontevreden met het "officiële" WIDM bordspel en besloot zelf iets te maken dat het programma veel beter nabootst. Het heeft anderhalf jaar en meerdere versies gekost, maar het eindresultaat mag er zijn!
 
-Lees hier mijn zeer uitgebreide devlog (of "ontwikkelaarsdagboek") => [[Devlog] Wie is de Trol?](https://nietdathetuitmaakt.nl/bordspellen/wie-is-de-trol/devlog-wie-is-de-trol/)
-
 {{% /section-centered %}}
 
 {{< support >}}

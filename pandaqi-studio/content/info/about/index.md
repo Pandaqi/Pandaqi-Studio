@@ -18,7 +18,7 @@ Check out my [Portfolio](https://rodepanda.com) for _all_ my work and how to con
 
 {{< /custom-entry-banner >}}
 
-{{< custom-entry-banner id="1" title="Local Multiplayer?" class="turqoise" >}}
+{{< custom-entry-banner id="1" title="Local Multiplayer?" class="turquoise" >}}
 
 A few years ago I realized I barely played games. Me, an actual game developer, never played games.
 

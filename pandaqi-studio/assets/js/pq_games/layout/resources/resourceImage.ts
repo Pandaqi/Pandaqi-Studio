@@ -42,6 +42,13 @@ class CanvasDrawableLike
     }
 }
 
+interface ResourceImageParams
+{
+    numThumbnails?: number,
+    frames?: Point,
+    uniqueKey?: string,
+}
+
 export { ResourceImage, ImageLike, CanvasLike, CanvasDrawableLike }
 export default class ResourceImage extends Resource
 {
@@ -54,9 +61,9 @@ export default class ResourceImage extends Resource
 
     thumbnails: FrameSet[];
     numThumbnails : number; // how many smaller thumbnails we should cache for each frame (e.g. a 1024x1024 also saves a 512x512 if set to 1)
+    uniqueKey:string
 
-
-    constructor(imageData : HTMLImageElement = null, params:any = {})
+    constructor(imageData : HTMLImageElement = null, params:ResourceImageParams = {})
     {
         super()
 
@@ -64,6 +71,7 @@ export default class ResourceImage extends Resource
         this.thumbnails = [];
         this.numThumbnails = params.numThumbnails ?? 0;
         this.frameDims = new Point();
+        this.uniqueKey = params.uniqueKey;
 
         if(imageData) { this.fromRawImage(imageData, params); }
     }
@@ -371,8 +379,15 @@ export default class ResourceImage extends Resource
     }
 
     // @NOTE: not truly unique if you load the same image multiple times, but why'd you do that?
+    setUniqueKey(k:string)
+    {
+        this.uniqueKey = k;
+    }
+
     getUniqueKey() : string
     {
+        if(this.uniqueKey) { return this.uniqueKey; }
+
         const src = this.img.src;
         const srcSplit = src.split("/");
         const fileName = srcSplit[srcSplit.length-1];

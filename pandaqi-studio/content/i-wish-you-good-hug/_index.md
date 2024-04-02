@@ -38,6 +38,7 @@ genre: ["casual", "action", "strategy"]
 playtime: 5
 playercount: [1,2,3,4]
 input: ["keyboard", "controller", "touch"]
+devlog: "/blog/videogames/one-week-games/devlog-i-wish-you-good-hug/"
 
 ---
 

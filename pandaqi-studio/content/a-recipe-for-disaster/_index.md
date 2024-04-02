@@ -38,6 +38,7 @@ genre: ["casual", "action"]
 playtime: 5
 playercount: [1,2,3,4]
 input: ["controller", "keyboard", "touch"]
+devlog: "/blog/videogames/one-week-games/devlog-a-recipe-for-disaster/"
 
 ---
 

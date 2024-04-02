@@ -38,6 +38,7 @@ playtime: 30-60
 playercount: [1,2,3,4,5,6,7,8,9]
 complexity: low
 ages: everyone
+devlog: "/blog/boardgames/starry-skylines/devlog-starry-skylines/"
 
 ---
 
@@ -121,7 +122,7 @@ Fonts are freely available from Google Fonts.
 
 Because the first font looked "space-y", while legible.Tthe second font looked like the letters were skylines. Perfect!
 
-I've also written a detailed devlopment log about the whole process of creating this game: [[Devlog] Starry Skylines](/blog/boardgames/starry-skylines/devlog-starry-skylines)
+I've also written a detailed devlopment log about the whole process of creating this game: [(Devlog) Starry Skylines](/blog/boardgames/starry-skylines/devlog-starry-skylines)
 
 Wondering what a game looks like? Here are some of our test games.
 

@@ -36,6 +36,7 @@ playtime: 45
 playercount: [1,2,3,4,5,6]
 complexity: low
 ages: everyone
+devlog: "/blog/boardgames/the-pirate-games/devlog-pirate-riddlebeard/"
 
 ---
 
@@ -109,6 +110,6 @@ Three steps.
 
 Want to know how I made that? I've written articles!
 - [How to create logic deduction (board)games](/blog/tutorials/deduction-boardgames-part-1-passive)
-- [Devlog: Pirate Riddlebeard](/blog/boardgames/the-pirate-games/devlog-pirate-riddlebeard)
+- [(Devlog) Pirate Riddlebeard](/blog/boardgames/the-pirate-games/devlog-pirate-riddlebeard)
 
 {{% /section-centered %}}

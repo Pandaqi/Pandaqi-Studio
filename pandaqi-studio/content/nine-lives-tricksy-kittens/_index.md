@@ -35,6 +35,7 @@ playtime: 45
 playercount: [3,4,5,6,7,8,9]
 complexity: low
 ages: everyone
+devlog: "/blog/boardgames/nine-lives-tricksy-kittens/"
 
 ---
 

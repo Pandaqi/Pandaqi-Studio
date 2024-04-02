@@ -13,7 +13,7 @@ customHeight: "small"
 
 noThumb: true
 
-color: "turqoise"
+color: "turquoise"
 
 bgColor: "#3578A1"
 bgColorLink: "#E13926"

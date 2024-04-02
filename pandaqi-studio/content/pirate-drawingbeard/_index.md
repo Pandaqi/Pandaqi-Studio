@@ -36,6 +36,7 @@ playtime: 40
 playercount: [1,2,3,4,5,6]
 complexity: low
 ages: everyone
+devlog: "/blog/boardgames/the-pirate-games/devlog-pirate-drawingbeard/"
 
 ---
 

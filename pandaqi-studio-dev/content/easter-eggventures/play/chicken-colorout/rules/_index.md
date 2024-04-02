@@ -4,9 +4,9 @@ type: "rules"
 
 {{% rules-block id="setup" heading="Setup" icon="setup" icontint="green" %}}
 
-Place a 3x3 grid of random tiles on the table. Place the starting tile (showing each egg's special power) in the center. Place the Seeker pawn on it.
+Place a 2x2 grid of random tiles on the table, which includes the starting tile (showing each egg's special power). Place the Seeker pawn on it.
 
-Give each player 10 random egg tokens.
+Give each player 12 random egg tokens.
 
 @TODO: IMAGE EXAMPLE
 
@@ -22,33 +22,38 @@ The game ends as soon as **one player has hidden all their eggs**. That player w
 
 Begin with the start player, then take clockwise turns until done.
 
-On your turn, either **explore** or **hide an egg**.
+On your turn, you **move the Seeker** and then **hide an egg**. Both actions are optional.
 
-Exploring means you _move_ the Seeker in a straight line to a new tile, and rotate them one quarter turn. You may also move them **off board** to "explore". If so, draw a new tile and place it underneath the Seeker.
+Moving means you _move_ the Seeker in a straight line to a new tile OR _rotate_ them one quarter turn. 
+
+You may also move them off board to **"explore"**. If so, draw a new tile and place it underneath the Seeker. The map may never grow larger than a 5x5 grid.
 
 Hiding means placing one egg token (of yours) in a free egg slot.
 * You can **never** hide an egg on a tile that the **Seeker is watching**.
-* You must always satisfy the specific requirements written on that tile.
+* You must always satisfy the specific requirement written on that tile (see [Hiding Slots](#slots) below).
+* If you did **not** move this turn, take the special action of the egg you just placed. (These are written on the starting tile.)
 
-The specific egg type you hide may trigger a consequence or action. The starting tile reminds you of this.
+@TODO: IMAGE EXAMPLE
 
 {{% /rules-block %}}
 
 {{% rules-block id="slots" heading="Hiding Slots" icon="expansion" icontint="red" %}}
 
-There are 4 different types of requirements that can be on a slot. All of them can also be _inverted_, if a red cross shows before them.
+There are 5 different requirements that can be on a slot. All of them can also be _inverted_ by a red cross before them.
 
-There's no need to memorize these; all of this is public information, so just ask around or look up what icons mean as you play.
+There's no need to memorize these. All of this is public information, so just ask for reminders as you play.
 
-* **Egg**: Must play that type of egg
+* **Egg**: Must play that type of egg.
 * **Board**: Must play the type that appears the MOST or the LEAST on the entire map.
-* **Rainbow**: Must play a different type than ones already here
-* **Rainbow Arrow**: must play a different type than what's already on neighbor pointed at.
+* **Rainbow**: Must play a different type than ones already here.
+* **Rainbow Arrow**: Must play a different type than what's already on the neighbor pointed at.
+* **Seeker**: Must play a type of egg that the Seeker can currently see.
 
 @TODO: List them properly, though a rules-table won't work if we need to display both the POSITIVE and NEGATIVE version, right?
 
-Expansions add more varied requirements.
+@TODO: IMAGE EXAMPLE??
 
+This is just the base game. Expansions add more varied requirements.
 
 {{% /rules-block %}}
 
@@ -63,10 +68,10 @@ This expansion adds more _map tiles_ to print.
 These new tiles have some new possible slot requirements:
 
 * **Hand**: Must play the egg type you have the MOST or LEAST.
-* **Skull**: Must play an egg that hasn't been played yet this round---but take no action.
+* **Skull**: Must play an egg that hasn't been played yet this round. <!--- You may **never** take its action, though. --->
 * **Pawn Arrow**: Play any egg here, but only if there's a Pawn on the neighbor to which the arrow points.
 
-They also display some written text that is used in the _Special Scores_ expansion.
+They also display some written text that is used in the _Special Scores_ expansion. If you don't use that expansion, just ignore this text.
 
 {{% /rules-block %}}
 
@@ -95,11 +100,11 @@ This expansion adds _pawns_ to print.
 
 Each player gets their own Pawn.
 
-During the **explore** action, you may also move your own Pawn by at most 3 tiles. Just as with the Seeker, moving _off board_ explores and adds a new tile to the map.
+During the **move** action, you may also move your own Pawn. You get 3 actions. One action is either one step (horizontally or vertically) or one rotation.
 
-Similarly, when triggering the egg action that allows teleporting the Seeker, you may also teleport your own Pawn instead.
+Just as with the Seeker, moving _off board_ explores and adds a new tile to the map. Similarly, any action that allows modifying the Seeker in some way, also allows modifying your own Pawn in the same way.
 
-Crucially, you may only hide eggs on your **current tile** ( = where your Pawn stands now).
+Crucially, you may only hide eggs on your **current tile** ( = where your Pawn stands now) or a **neighbor you look at**.
 
 If playing with the **score** expansion, the default score of an egg changes: now it's equal to the distance between the egg and the closest Pawn (including Seeker; excluding yourself).
 

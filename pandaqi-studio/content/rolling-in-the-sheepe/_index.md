@@ -38,6 +38,7 @@ genre: ["action", "racing", "party"]
 playtime: 10
 playercount: [1,2,3,4,5,6]
 input: ["controller", "keyboard"]
+devlog: "/blog/videogames/one-week-games/devlog-rolling-in-the-sheepe/"
 
 ---
 
@@ -147,7 +148,7 @@ But it became way bigger (and much different) than I originally imagined. And so
 {{< video url="video/sheepe_video_6" >}}
 </div>
 
-Read the full devlog for the details behind the development: [[Devlog] Rolling in the Sheepe​](/blog/videogames/one-week-games/devlog-rolling-in-the-sheepe) (on Pandaqi Blog)
+Read the full devlog for the details behind the development: [(Devlog) Rolling in the Sheepe​](/blog/videogames/one-week-games/devlog-rolling-in-the-sheepe) (on Pandaqi Blog)
 
 {{% /section-centered %}}
 

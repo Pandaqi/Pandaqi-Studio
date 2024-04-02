@@ -1,8 +1,8 @@
 import { TILE_DICT, DISCRETE_LISTS } from "./dictionary" 
 import Random from "js/pq_games/tools/random/main"
 
-export default {
-
+export default 
+{
 	seed: '',
 	playerCount: 4,
 	addBot: false,
@@ -58,8 +58,8 @@ export default {
 		var parsedData:Record<string,any> = {};
 		if(savedData) { parsedData = JSON.parse(savedData); }
 
-		this.seed = parsedData.seed || "";
-		this.playerCount = parseInt(parsedData.playerCount) || 4;
+		this.seed = parsedData.seed ?? "";
+		this.playerCount = parseInt(parsedData.playerCount) ?? 4;
 		this.addBot = (this.playerCount <= 2);
 		if(this.addBot) { this.playerCount += 1; }
 
@@ -67,10 +67,10 @@ export default {
     	this.pixelheight = game.canvas.height
 
 		this.expansions = {
-			'rotation': parsedData.expansions.rotation || false,
-			'networks': parsedData.expansions.networks || false,
-			'symbols': parsedData.expansions.symbols || false,
-			'special': parsedData.expansions.special || false,
+			rotation: parsedData.expansions.rotation ?? false,
+			networks: parsedData.expansions.networks ?? false,
+			symbols: parsedData.expansions.symbols ?? false,
+			special: parsedData.expansions.special ?? false,
 		}
 
 		this.maxHintsPerPlayer = 1;
@@ -103,21 +103,22 @@ export default {
     	this.totalTileCount = (this.width * this.height);
 
     	// Dynamically set all options for row/column
-    	var arr = [];
-    	for(let i = 0; i < this.width; i++) {
-    		arr.push(this.alphabet[i]);
+    	const columns = [];
+    	for(let i = 0; i < this.width; i++) 
+		{
+    		columns.push(this.alphabet[i]);
     	}
-    	DISCRETE_LISTS.column = arr;
+    	DISCRETE_LISTS.column = columns;
 
-    	arr = [];
+    	const rows = [];
     	for(let i = 0; i < this.height; i++)
     	{
-    		arr.push(i);
+    		rows.push(i);
     	}
-    	DISCRETE_LISTS.row = arr;
+    	DISCRETE_LISTS.row = rows;
 	},
 
-	createRandomNumberGenerators(finalSeed, randomSeed)
+	createRandomNumberGenerators(finalSeed:string, randomSeed:string)
 	{
 		this.rng = {};
 		this.rng.general = Random.seedRandom(finalSeed + "-general");

@@ -64,10 +64,19 @@ export default class InteractiveExample
         btn.addEventListener("click", async () => {
             if(this.busy) { return; }
             this.reset();
+            
             this.busy = true;
+            btn.disabled = true;
+            btn.style.opacity = "0.75";
+            btn.innerHTML = "Generating ...";
+
             await this.generateCallback();
+
             this.closeButton.style.display = "block";
             this.busy = false;
+            btn.disabled = false;
+            btn.style.opacity = "1.0";
+            btn.innerHTML = this.buttonText;
         });
 
         const closeBtn = document.createElement("button");

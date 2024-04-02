@@ -102,7 +102,8 @@ export default {
 
 		// Build ALL possible hints
 		this.cachedStrippedLists = [];
-		for(let i = 0; i < this.availableHints.length; i++) {
+		for(let i = 0; i < this.availableHints.length; i++) 
+		{
 			let originalHint = this.availableHints[i];
 
 			let categoryIsForbidden = !this.categories.includes(originalHint.category);
@@ -120,26 +121,28 @@ export default {
 			let values = [Array(originalHint.params.length)];	
 
 			// Now generate all these combinations of input parameters
-			for(let p = 0; p < originalHint.params.length; p++) {
-				let param = originalHint.params[p];
+			for(let p = 0; p < originalHint.params.length; p++) 
+			{
+				const param = originalHint.params[p];
 
 				if("variable" in param) { continue; }
 
 				// generate list of all values THIS parameter can take on
+				const prop = param.property;
 				let list = [];
-				let prop = param.property;
-
 				let realValue = 'unknown';
-				if(param.type == "discrete") {
+				if(param.type == "discrete") 
+				{
 					list = DISCRETE_LISTS[prop].slice();
 					realValue = treasureLocation[prop];
 				}
 
 				// Now add this value to all the existing fixedValues to create all possible combinations
-				let newValues = [];
+				const newValues = [];
 				for(let a = 0; a < list.length; a++)
 				{
-					for(let b = 0; b < values.length; b++) {
+					for(let b = 0; b < values.length; b++) 
+					{
 						let newVal = values[b].slice();
 						newVal[p] = list[a];
 						newValues.push(newVal);
@@ -151,7 +154,7 @@ export default {
 				// for download we only need ONE of each type
 				if(this.buildForDownload) 
 				{ 
-					let randValue = values[Math.floor(Config.rng.hints() * values.length)];
+					const randValue = values[Math.floor(Config.rng.hints() * values.length)];
 					values = [randValue]; 
 				}
 			}
@@ -164,9 +167,9 @@ export default {
 				hint.values = values[a];
 				
 				let params = {
-					'cell': treasureLocation,
-					'hint': hint,
-					'target': 'calculate'
+					cell: treasureLocation,
+					hint: hint,
+					target: 'calculate'
 				}
 				HintBuilder.build(params);
 
@@ -198,7 +201,8 @@ export default {
 		}
 
 		// Shuffle per category
-		for(const category in this.fullList) {
+		for(const category in this.fullList) 
+		{
 			this.shuffle(this.fullList[category]);
 		}
 
@@ -256,13 +260,15 @@ export default {
 			// Because now I keep accidentally creating nasty bugs by forgetting to reset it, or using the wrong thing, etcetera
 
 			let strippedList = [];
-			if(validLocations.length > 1) {
+			if(validLocations.length > 1) 
+			{
 				// hints only need to be impactful when we have lots of tiles left
 				// when we're already near the end, a hint often only removes 1 or 2 tiles, logically
 				let hintDidNothing = (prevNumSolutions == validLocations.length);
 				let hintDidAlmostNothing = (Math.abs(prevNumSolutions - validLocations.length) < Config.minImpactPerHint);
 				
-				if(hintDidNothing || (hintDidAlmostNothing && prevNumSolutions >= 4)) { 
+				if(hintDidNothing || (hintDidAlmostNothing && prevNumSolutions >= 4)) 
+				{ 
 					validLocations = oldValidLocations; 
 					continue; 
 				}

@@ -38,6 +38,7 @@ genre: ["action", "sports", "soccer"]
 playtime: 10
 playercount: [1,2,3,4,5,6]
 input: ["controller", "keyboard"]
+devlog: "/blog/videogames/one-week-games/devlog-own-goals-not-allowed/"
 
 ---
 
@@ -79,7 +80,7 @@ This game ...
 
 As always, I'm open to bug fixes, ideas, improvements, so long as they don't take longer than the time spent on the original game.
 
-Read the full devlog for the details behind the development: [[Devlog] Own Goals Not Allowed](/blog/videogames/one-week-games/devlog-own-goals-not-allowed) (on Pandaqi Blog)
+Read the full devlog for the details behind the development: [Own Goals Not Allowed](/blog/videogames/one-week-games/devlog-own-goals-not-allowed) (on Pandaqi Blog)
 
 Let me know your thoughts at: [schoolofpanda@gmail.com](mailto:schoolofpanda@gmail.com)
 

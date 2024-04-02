@@ -35,7 +35,7 @@
 {{ if $res }}
     {{ if $is_css }}
         {{ $options := (dict "targetPath" $output_name "outputStyle" "compressed" "enableSourceMap" (not hugo.IsProduction) "transpiler" "dartsass") }}
-        {{ $style := $res | resources.ToCSS $options }} 
+        {{ $style := $res | resources.ToCSS $options | minify }} 
         {{ $style.Publish }}
         {{ if $include }}
             <link rel="stylesheet" type="text/css" href="{{ $style.RelPermalink }}" />

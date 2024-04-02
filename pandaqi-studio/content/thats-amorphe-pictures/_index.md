@@ -9,7 +9,7 @@ headerTitle: "A spin-off for That's Amorphe played using drawings"
 blurb: "A party game about changing someone else's drawing into a different thing, then asking others to guess how much you changed it."
 
 customHeight: "small"
-color: "turqoise"
+color: "turquoise"
 
 bgColor: "#eafeff"
 bgColorLink: "#1b5458"
@@ -35,8 +35,9 @@ playtime: 75
 playercount: [2,3,4,5,6,7,8,9,10]
 complexity: low
 ages: everyone
----
+devlog: "/blog/boardgames/thats-amorphe-pictures/"
 
+---
 
 {{% boardgame-intro heading="" %}}
 

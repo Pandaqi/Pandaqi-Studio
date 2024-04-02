@@ -8,12 +8,23 @@ export default
     letterDictionary: {},
     numPlayers: 4,
     addWalls: false,
+    resLoader: null,
 
     expansions:
     {
         specialCells: false,
         scrabbleScoring: false,
         tinyBackpacks: false
+    },
+
+    assetsBase: "/keebble/assets/",
+    assets:
+    {
+        special_cells:
+        {
+            path: "special_cells.webp",
+            frames: new Point(8,2)
+        }	
     },
 
     gameTitle: "Keebble",
@@ -35,7 +46,6 @@ export default
     letterMargin: 15,
     spriteMargin: 15,
 
-    baseCellBackgroundHue: Math.random() * 360, // 20 seems a good value
     cellBackgroundHueVariation: 50,
     baseCellBackgroundRandomness: 0.1, // percentage of cell size
 
@@ -44,7 +54,8 @@ export default
     addStartingCell: true,
     showLetterValues: false,
 
-    types: KEEBBLE_TYPES,
+    typesOriginal: KEEBBLE_TYPES,
+    types: {},
     scrabbleScores: KEEBBLE_LETTER_VALUES,
 
     spriteAlpha: 1.0,

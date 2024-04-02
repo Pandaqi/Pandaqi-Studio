@@ -39,6 +39,7 @@ playtime: 60
 playercount: [2,3,4,5]
 complexity: low
 ages: everyone
+devlog: "/blog/boardgames/keebble-knickknack/"
 
 ---
 

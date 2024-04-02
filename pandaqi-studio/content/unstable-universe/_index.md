@@ -39,6 +39,7 @@ playtime: 30-60
 playercount: [2,3,4,5,6,7,8,9]
 complexity: low
 ages: everyone
+devlog: "/blog/boardgames/unstable-universe/devlog-unstable-universe/"
 
 ---
 
@@ -135,8 +136,8 @@ Fonts? **SciFly**, created by Tomi Haaparanta.
 Check out my other (board)games. Support me if you enjoy my work!
 
 I wrote two detailed articles about the development of this game:
-- [[Devlog] Unstable Universe](/blog/boardgames/unstable-universe/devlog-unstable-universe) => about the general process, problems, decision making, why I did what I did</li>
-- [[Technical Devlog] Unstable Universe](/blog/boardgames/unstable-universe/tech-devlog-unstable-universe) => about the algorithms and (programming) techniques used for creating this website that generates random game boards
+- [(Devlog) Unstable Universe](/blog/boardgames/unstable-universe/devlog-unstable-universe) => about the general process, problems, decision making, why I did what I did</li>
+- [(Technical Devlog) Unstable Universe](/blog/boardgames/unstable-universe/tech-devlog-unstable-universe) => about the algorithms and (programming) techniques used for creating this website that generates random game boards
 
 {{% /section-centered %}}
 

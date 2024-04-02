@@ -299,8 +299,9 @@ export default class Evaluator
                 if(score == null) { continue; }
     
                 const rect = board.getRectForCell(c);
-                const scoreText = this.game.add.text(rect.x, rect.y, score.toString(), textCfg);
-                const teamText = this.game.add.text(rect.x + 70, rect.y, c.getTeam(), textCfg);
+                const pos = rect.getTopLeft();
+                const scoreText = this.game.add.text(pos.x, pos.y, score.toString(), textCfg);
+                const teamText = this.game.add.text(pos.x + 70, pos.y, c.getTeam(), textCfg);
             }
         }
 

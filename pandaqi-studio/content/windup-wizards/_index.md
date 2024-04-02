@@ -19,7 +19,7 @@ textColorLink: "#F4B4B8"
 
 entryBannerNonTextClasses: "no-shadow"
 
-color: "turqoise"
+color: "turquoise"
 
 googleFonts: "https://fonts.googleapis.com/css2?family=Corben:wght@400;700&family=Puppies+Play&display=swap"
 extraCSS: true
@@ -38,6 +38,7 @@ genre: ["puzzle"]
 playtime: 5
 playercount: [1]
 input: ["controller", "keyboard", "touch"]
+devlog: "/blog/videogames/game-jams/devlog-windup-wizards/"
 
 ---
 
@@ -97,6 +98,7 @@ This game was made for the GoGodot Jam 2. The theme was **Energy Source**, which
 It's designed using Godot (surprising, I know). Everything is custom made by me (idea, code, models, sound, ...)
 
 I've written a devlog about the whole process: [Windup Wizards (devlog)](/blog/videogames/game-jams/devlog-windup-wizards)
+
 {{% /section-centered %}}
 
 

@@ -1,12 +1,18 @@
-// @ts-nocheck
 import OnPageVisualizer from "js/pq_games/website/onPageVisualizer"
+// @ts-ignore
 import { Scene } from "js/pq_games/phaser/phaser.esm"
 import Board from "./board"
 import Evaluator from "./evaluator"
 import Types from "./types"
 import CONFIG from "./config"
+import ResourceLoader from "js/pq_games/layout/resources/resourceLoader"
+import resourceLoaderToPhaser from "js/pq_games/phaser/resourceLoaderToPhaser"
+import setDefaultPhaserSettings from "js/pq_games/phaser/setDefaultPhaserSettings"
 
 const sceneKey = "boardGeneration"
+const resLoader = new ResourceLoader({ base: CONFIG.assetsBase });
+resLoader.planLoadMultiple(CONFIG.assets);
+CONFIG.resLoader = resLoader;
 
 class BoardGeneration extends Scene
 {
@@ -20,19 +26,16 @@ class BoardGeneration extends Scene
 		super({ key: sceneKey });
 	}
 
-    preload() {
-        this.load.crossOrigin = 'Anonymous';
-        this.canvas = this.sys.game.canvas;
-
-        const base = 'assets/';
-        this.load.spritesheet(CONFIG.types.textureKey, base + CONFIG.types.textureKey + '.webp', CONFIG.types.sheetData);
-        this.load.spritesheet(CONFIG.tutorial.textureKey, base + CONFIG.tutorial.textureKey + '.webp', CONFIG.tutorial.sheetData);
-        this.load.spritesheet(CONFIG.teams.textureKey, base + CONFIG.teams.textureKey + '.webp', CONFIG.teams.sheetData);
-        this.load.image("scroll_grayscale", base + "/grayscale_scroll.webp");
+    preload() 
+    {
+        setDefaultPhaserSettings(this); 
     }
 
     async create(userConfig:Record<string,any>) 
     {
+        await resLoader.loadPlannedResources();
+        await resourceLoaderToPhaser(resLoader, this);
+
         this.setup(userConfig)
         await this.generate();
         this.draw();
@@ -65,4 +68,3 @@ class BoardGeneration extends Scene
 }
 
 OnPageVisualizer.linkTo({ scene: BoardGeneration, key: sceneKey, backend: "phaser" });
-

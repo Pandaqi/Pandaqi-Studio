@@ -37,6 +37,7 @@ playtime: 20
 playercount: [2,3,4]
 complexity: small
 ages: everyone
+devlog: "/blog/boardgames/magnetmen/"
 
 ---
 
