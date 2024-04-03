@@ -1,5 +1,3 @@
-// @ts-ignore
-import { Geom, Display } from "js/pq_games/phaser/phaser.esm"
 import CellDisplay from "./cellDisplay"
 import Point from "js/pq_games/tools/geometry/point";
 import smoothPath from "js/pq_games/tools/geometry/paths/smoothPath"
@@ -7,6 +5,15 @@ import { GENERAL } from "../js_shared/dictionary"
 import CONFIG from "./config"
 import SideBar from "./sideBar"
 import BoardState from "./boardState"
+import Rectangle from "js/pq_games/tools/geometry/rectangle";
+import LayoutOperation from "js/pq_games/layout/layoutOperation";
+import { pathToPhaser, rectToPhaser } from "js/pq_games/phaser/shapeToPhaser";
+import Color from "js/pq_games/layout/color/color";
+import Path from "js/pq_games/tools/geometry/paths/path";
+import imageToPhaser from "js/pq_games/phaser/imageToPhaser";
+import TextConfig from "js/pq_games/layout/text/textConfig";
+import ResourceText from "js/pq_games/layout/resources/resourceText";
+import textToPhaser from "js/pq_games/phaser/textToPhaser";
 
 export default class BoardDisplay
 {
@@ -57,7 +64,7 @@ export default class BoardDisplay
         return CONFIG.sideBarType != "no";
     }
 
-    convertToRealUnits(pos)
+    convertToRealUnits(pos:Point)
     {
         return pos.clone().scale(this.cellSize).move(this.getAnchorPos());
     }
@@ -66,10 +73,10 @@ export default class BoardDisplay
     {        
         this.board = board;
         this.dims = board.getDimensions();
-        this.cellSize = new Point({ 
-            x: this.boardDimensions.x / this.dims.x, 
-            y: this.boardDimensions.y / this.dims.y 
-        });
+        this.cellSize = new Point(
+            this.boardDimensions.x / this.dims.x, 
+            this.boardDimensions.y / this.dims.y 
+        );
         this.cellSizeUnit = Math.min(this.cellSize.x, this.cellSize.y);
 
         this.graphics = this.game.add.graphics();
@@ -83,12 +90,13 @@ export default class BoardDisplay
     
     drawBackground(board:BoardState)
     {
-        const col = CONFIG.inkFriendly ? 0xFFFFFF : CONFIG.board.backgroundColor;
-        this.graphics.fillStyle(col);
-        this.graphics.fillRect(0, 0, this.game.canvas.width, this.game.canvas.height);
+        const col = CONFIG.inkFriendly ? "#FFFFFF" : CONFIG.board.backgroundColor;
+        const rect = new Rectangle().fromTopLeft(new Point(), new Point(this.game.canvas.width, this.game.canvas.height));
+        const opRect = new LayoutOperation({ fill: col });
+        rectToPhaser(rect, opRect, this.graphics);
     }
 
-    drawRivers(board)
+    drawRivers(board:BoardState)
     {
         const rivers = board.rivers;
         const cfg = CONFIG.board.rivers;
@@ -96,16 +104,20 @@ export default class BoardDisplay
         const col = CONFIG.inkFriendly ? cfg.colorInkfriendly : cfg.color;
         const alpha = cfg.alpha;
 
-        var graphics = this.game.add.graphics();
-        graphics.lineStyle(lw, col, alpha);
+        const graphics = this.game.add.graphics();
+        const colorMod = new Color(col);
+        colorMod.a = alpha;
+        const opPath = new LayoutOperation({
+            stroke: colorMod,
+            strokeWidth: lw
+        })
 
         for(const river of rivers)
         {
             const points = river.getAsLine(this);
             const pointsSmoothed = smoothPath({ path: points, resolution: 10 });
-
-            const poly = new Geom.Polygon(pointsSmoothed);
-            graphics.strokePoints(poly.points, false);
+            const path = new Path(pointsSmoothed);
+            pathToPhaser(path, opPath, graphics);
         }
     }
 
@@ -175,27 +187,44 @@ export default class BoardDisplay
 
     drawNumberAt(num:number, pos:Point, side:number)
     {
-        var txtCfg = CONFIG.board.numbers.textConfig;
-        txtCfg.fontSize = (CONFIG.board.numbers.scaleFactor * this.cellSizeUnit) + "px";
+        const txtCfg = CONFIG.board.numbers.textConfig;
+        const fontSize = (CONFIG.board.numbers.scaleFactor * this.cellSizeUnit);
 
-        const txt = this.game.add.text(pos.x, pos.y, num.toString(), txtCfg);
-        txt.setOrigin(0.5);
-        if(side == 1) { txt.setRotation(Math.PI); }
+        const textConfig = new TextConfig({
+            font: txtCfg.fontFamily,
+            size: fontSize
+        }).alignCenter();
+
+        const rot = (side == 1) ? Math.PI : 0;
+        const opText = new LayoutOperation({
+            translate: pos,
+            dims: new Point(2*fontSize),
+            fill: txtCfg.color,
+            stroke: txtCfg.stroke,
+            strokeWidth: txtCfg.strokeThickness,
+            rotation: rot,
+            pivot: Point.CENTER
+        })
+
+        const resText = new ResourceText({ text: num.toString(), textConfig: textConfig });
+        textToPhaser(resText, opText, this.game);
     }
 
     drawDirAt(dir:string, pos:Point)
     {
-        const sprite = this.game.add.sprite(pos.x, pos.y, "general");
-        sprite.setFrame(GENERAL.dir.frame);
-
         const dirInt = CONFIG.board.dirs.options.indexOf(dir);
         const rot = dirInt * 0.5 * Math.PI;
-        sprite.setRotation(rot);
-        sprite.setOrigin(0.5);
 
-        var size = CONFIG.board.dirs.scaleFactor * this.cellSizeUnit;
-        sprite.displayWidth = size;
-        sprite.displayHeight = size;
+        const size = CONFIG.board.dirs.scaleFactor * this.cellSizeUnit;
+        const res = CONFIG.resLoader.getResource("general_spritesheet");
+        const op = new LayoutOperation({
+            translate: pos,
+            rotation: rot,
+            pivot: Point.CENTER,
+            dims: new Point(size),
+            frame: GENERAL.dir.frame
+        })
+        imageToPhaser(res, op, this.game);
     }
 
     drawSidebar(board:BoardState)

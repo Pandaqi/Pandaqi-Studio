@@ -1,6 +1,6 @@
 import Point from "js/pq_games/tools/geometry/point"
 import LayoutEffect from "./effects/layoutEffect"
-import ResourceImage, { CanvasLike } from "js/pq_games/layout/resources/resourceImage"
+import ResourceImage, { CanvasDrawableLike, CanvasLike } from "js/pq_games/layout/resources/resourceImage"
 import Resource, { ElementLike } from "./resources/resource"
 import ResourceShape from "./resources/resourceShape"
 import ResourceText from "./resources/resourceText"
@@ -32,7 +32,8 @@ interface LayoutOperationParams
     translate?: Point,
     rotation?:number,
     scale?:Point,
-    skew?:Point
+    skew?:Point,
+    depth?:number
 
     alpha?:number,
     composite?:GlobalCompositeOperation,
@@ -64,6 +65,7 @@ export default class LayoutOperation
     rotation : number
     scale : Point
     skew : Point
+    depth : number
 
     alpha : number
     composite : GlobalCompositeOperation
@@ -100,6 +102,7 @@ export default class LayoutOperation
         this.keepRatio = params.keepRatio ?? false;
         this.scale = params.scale ?? new Point(1,1);
         this.skew = params.skew ?? new Point();
+        this.depth = params.depth ?? 0.0; // @TODO: currently only used by generated boards in Phaser; might allow re-ordering stuff within my system later, then this will actually be used
         this.alpha = params.alpha ?? 1.0;
 
         this.pivot = params.pivot ?? new Point();
@@ -306,6 +309,7 @@ export default class LayoutOperation
             this.applyFillAndStrokeToPath(ctxTemp, path);
         }
 
+        // @TODO: not sure if text is positioned correctly/not cut-off now with the ctxTemp switch?
         else if(this.isText())
         {
             const drawer = (this.resource as ResourceText).createTextDrawer(dims);
@@ -315,7 +319,7 @@ export default class LayoutOperation
         else if(this.isImage())
         { 
             // apply the effects that require an actual image to manipulate
-            let frameResource:ResourceImage = (this.resource as ResourceImage).getImageFrameAsResource(this.frame, dims.clone());
+            let frameResource:CanvasDrawableLike = (this.resource as ResourceImage).getImageFrameAsDrawable(this.frame, dims.clone());
             frameResource = effOp.applyToDrawable(frameResource);
 
             const box = new Dims(new Point(), dims.clone());
@@ -483,4 +487,5 @@ export default class LayoutOperation
     setPivotBottomRight() { this.pivot = Point.ONE; return this; }
 
     setFrame(f:number) { this.frame = f; return this; }
+    hasDepth() { return !isZero(this.depth); }
 }

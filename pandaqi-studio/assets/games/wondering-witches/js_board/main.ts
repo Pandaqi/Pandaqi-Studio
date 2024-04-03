@@ -1,34 +1,76 @@
-// @ts-nocheck
 import { SPECIAL_CELLS } from "../js_shared/dict"
-import Random from "js/pq_games/tools/random/main"
 import OnPageVisualizer from "js/pq_games/website/onPageVisualizer"
 import Section from "./section"
-import { Scene, Geom } from "js/pq_games/phaser/phaser.esm"
+// @ts-ignore
+import { Scene } from "js/pq_games/phaser/phaser.esm"
+import Point from "js/pq_games/tools/geometry/point"
+import ResourceLoader from "js/pq_games/layout/resources/resourceLoader"
+import setDefaultPhaserSettings from "js/pq_games/phaser/setDefaultPhaserSettings"
+import resourceLoaderToPhaser from "js/pq_games/phaser/resourceLoaderToPhaser"
+import shuffle from "js/pq_games/tools/random/shuffle"
+import Cell from "./cell"
+import LayoutOperation from "js/pq_games/layout/layoutOperation"
+import imageToPhaser from "js/pq_games/phaser/imageToPhaser"
+import ResourceText from "js/pq_games/layout/resources/resourceText"
+import textToPhaser from "js/pq_games/phaser/textToPhaser"
+import TextConfig from "js/pq_games/layout/text/textConfig"
+import Line from "js/pq_games/tools/geometry/line"
+import { circleToPhaser, lineToPhaser, rectToPhaser } from "js/pq_games/phaser/shapeToPhaser"
+import Circle from "js/pq_games/tools/geometry/circle"
+import Color from "js/pq_games/layout/color/color"
+
+interface GenData
+{
+	graphics: any
+	sprites: any[]
+	gardens: any[]
+	ingredients: any[]
+	specialCells: any[]
+	numGardensOfPotionLength: number 
+}
+
+type Garden = Cell[]
 
 const sceneKey = "boardGeneration"
+const assetsBase = "/wondering-witches/assets/"
+const assets =
+{
+	ingredient_spritesheet:
+	{
+		path: "ingredient_spritesheet.webp",
+		frames: new Point(10,1)
+	},
+
+	special_cell_spritesheet:
+	{
+		path: "special_cell_spritesheet.webp",
+		frames: new Point(8,1)
+	}
+}
+const resLoader = new ResourceLoader({ base: assetsBase });
+resLoader.planLoadMultiple(assets);
+
 class BoardGeneration extends Scene
 {
 	canvas:HTMLCanvasElement
 	cfg:Record<string,any>
-	gen: { graphics: any; sprites: any[]; gardens: any[]; ingredients: any[]; specialCells: any[]; numGardensOfPotionLength: number }
+	gen:GenData
 	
 	constructor()
 	{
 		super({ key: sceneKey });
 	}
 
-	preload() {
-		this.load.crossOrigin = 'Anonymous';
-		this.canvas = this.sys.game.canvas;
-
-		const base = 'assets/';
-		const frameData = { frameWidth: 120, frameHeight: 120 };
-
-		this.load.spritesheet('ingredients', base + 'ingredient_spritesheet.webp', frameData);
-		this.load.spritesheet('specialCells', base + 'special_cell_spritesheet.webp', frameData);
+	preload() 
+	{
+		setDefaultPhaserSettings(this); 
 	}
 
-	async create(userConfig: any) {
+	async create(userConfig: any) 
+	{
+		await resLoader.loadPlannedResources();
+        await resourceLoaderToPhaser(resLoader, this);
+
 		OnPageVisualizer.startCollection();
 
 		this.createConfig(userConfig);
@@ -87,7 +129,7 @@ class BoardGeneration extends Scene
 		cfg.tinyLineWidth = Math.floor(0.5*cfg.lineWidth);
 		cfg.thickLineWidth = 2 * cfg.lineWidth;
 
-		cfg.gridColor = 0x6666ff;
+		cfg.gridColor = "#6666FF";
 		cfg.gridAlpha = 0.5;
 
 		cfg.rectWidth = (cfg.fullWidth / cfg.xLines)
@@ -103,21 +145,17 @@ class BoardGeneration extends Scene
 		cfg.numIngredientBounds = { min: 0, max: 2 }
 		cfg.maxIngredients = Math.round(0.1 * cfg.totalNumCells);
 
-		cfg.gardenColors = [0x99FF99, 0x99EE99, 0x99DD99, 0x99CC99, 0x99BB99, 0x99AA99];
-		cfg.gardenBorderColor = 0x000000;
+		cfg.gardenColors = ["#99FF99", "#99EE99", "#99DD99", "#99CC99", "#99BB99", "#99AA99"];
+		cfg.gardenBorderColor = "#000000";
 		cfg.specialCellContainer = document.getElementById('special-cell-container');
 
-		cfg.playerColors = [0x800000, 0x9A6324, 0x008080, 0x911EB4, 0x808088];
 		cfg.playerColorsHex = ['#800000', '#9a6324', "#008080", "#911EB4", "#808088"];
 		cfg.fontSize = 16.0 * cfg.graphicsScaleFactor;
-		cfg.txtConfig = { 
+		cfg.textConfig = { 
 			fontFamily: 'Mali', 
-			fontSize: cfg.fontSize + "px", 
-			color: cfg.playerColorsHex[0], 
-			stroke: "#FFFFFF", 
-			strokeThickness: cfg.fontSize / 4.0 
+			fontSize: cfg.fontSize, 
 		}
-		cfg.txtShadowColor = 'rgba(0,0,0,0.75)';
+		cfg.txtShadowColor = '#000000BB';
 		cfg.txtShadowSize = 10 * cfg.graphicsScaleFactor;
 
 		this.cfg = cfg;
@@ -125,7 +163,8 @@ class BoardGeneration extends Scene
 
 	generateBoard() 
 	{
-		this.gen = {
+		this.gen = 
+		{
 			graphics: null,
 			sprites: [],
 			gardens: [],
@@ -134,26 +173,25 @@ class BoardGeneration extends Scene
 			numGardensOfPotionLength: 0
 		}
 
-		const shuffledSections = Random.shuffle(this.cfg.sections.slice());
+		const shuffledSections = shuffle(this.cfg.sections.slice());
 		for(const section of shuffledSections)
 		{
 			this.fillSection(section);
 		}
 	}
 
-	fillSection(section: any) 
+	fillSection(section:Section) 
 	{	
 		this.growGardens(section);
-		console.log(section);
 		this.placeIngredients(section);
 		this.placeSpecialCells(section);
 	}
 
-	placeSpecialCells(section: { getTilesFlat: (arg0: boolean) => any[] })
+	placeSpecialCells(section:Section)
 	{
 		if(!this.cfg.supercells) { return; }
 		
-		const tiles = Random.shuffle(section.getTilesFlat(true));
+		const tiles = shuffle(section.getTilesFlat(true));
 		let min = this.cfg.numCellBounds.min
 		let max = this.cfg.numCellBounds.max;
 		if(this.cfg.numPlayers <= 2) { min++; max++; }
@@ -186,9 +224,9 @@ class BoardGeneration extends Scene
 		}
 	}
 
-	placeIngredients(section: { getTilesFlat: (arg0: boolean) => any[] })
+	placeIngredients(section:Section)
 	{	
-		const tiles = Random.shuffle(section.getTilesFlat(true));
+		const tiles = shuffle(section.getTilesFlat(true));
 		let min = this.cfg.numIngredientBounds.min
 		let max = this.cfg.numIngredientBounds.max;
 		if(this.cfg.numPlayers <= 2) { min++; max++; }
@@ -211,9 +249,9 @@ class BoardGeneration extends Scene
 		}
 	}
 
-	growGardens(section: { getTilesFlat: () => any[] })
+	growGardens(section:Section)
 	{
-		const locations = Random.shuffle(section.getTilesFlat());
+		const locations = shuffle(section.getTilesFlat());
 
 		while(locations.length > 0) 
 		{
@@ -225,13 +263,13 @@ class BoardGeneration extends Scene
 			pos.setGarden(garden);
 
 			let keepGrowing = true;
-			while(keepGrowing) {
-
+			while(keepGrowing) 
+			{
 				let emptyNeighboursLeft = (cellsToCheck.length > 0);
 				if(!emptyNeighboursLeft) { break; }
 
 				const c = cellsToCheck.splice(0,1)[0];
-				const nbs = Random.shuffle(c.getValidNeighbors());
+				const nbs = shuffle(c.getValidNeighbors());
 
 				for(const nb of nbs)
 				{
@@ -259,9 +297,11 @@ class BoardGeneration extends Scene
 		}
 	}
 
-	visualize() {
+	visualize() 
+	{
 		this.clearVisualization();
 
+		// @ts-ignore
 		const graphics = this.add.graphics();
 		this.gen.graphics = graphics;
 
@@ -281,19 +321,18 @@ class BoardGeneration extends Scene
 		}
 	}
 
-	paintGarden(graphics: { fillStyle: (arg0: any, arg1: number) => void; fillRectShape: (arg0: any) => void }, garden: any, idx: number)
+	paintGarden(graphics:any, garden:Garden, idx: number)
 	{
 		for(const cell of garden) 
 		{
 			const rect = cell.asRect();
 			const color = this.cfg.gardenColors[idx % this.cfg.gardenColors.length];
-			graphics.fillStyle(color, 1.0);
-			graphics.fillRectShape(rect);
-			
+			const op = new LayoutOperation({ fill: color });
+			rectToPhaser(rect, op, graphics);
 		}
 	}
 
-	findGardenBorders(garden: any, borders: any[])
+	findGardenBorders(garden:Garden, borders: Line[])
 	{
 		const dirsAsLine = [[1,-1,1,1], [1,1,-1,1], [-1,1,-1,-1], [-1,-1,1,-1]];
 		const w = this.cfg.rectWidth, h = this.cfg.rectHeight;
@@ -311,12 +350,12 @@ class BoardGeneration extends Scene
 			{
 				if(nbs[i]) { continue; }
 
-				var dl = dirsAsLine[i];
-				var line = new Geom.Line(
-					myCenter.x + 0.5*dl[0]*w, 
-					myCenter.y + 0.5*dl[1]*h, 
-					myCenter.x + 0.5*dl[2]*w, 
-					myCenter.y + 0.5*dl[3]*h
+				const dl = dirsAsLine[i];
+				const line = new Line(
+					new Point(myCenter.x + 0.5*dl[0]*w, 
+					myCenter.y + 0.5*dl[1]*h), 
+					new Point(myCenter.x + 0.5*dl[2]*w, 
+					myCenter.y + 0.5*dl[3]*h)
 				);
 
 				borders.push(line);
@@ -324,7 +363,7 @@ class BoardGeneration extends Scene
 		}
 	}
 
-	visualizeGardens(graphics: any)
+	visualizeGardens(graphics:any)
 	{
 		let idx = -1;
 		for(const garden of this.gen.gardens)
@@ -334,66 +373,82 @@ class BoardGeneration extends Scene
 		}
 	}
 
-	visualizeGardenBorders(graphics: { lineStyle: (arg0: any, arg1: any, arg2: number) => void; strokeLineShape: (arg0: any) => void })
+	visualizeGardenBorders(graphics:any)
 	{
 		
-		const borders = [];
+		const borders : Line[] = [];
 		for(const garden of this.gen.gardens) 
 		{
 			this.findGardenBorders(garden, borders);
 		}
 
-		graphics.lineStyle(this.cfg.lineWidth, this.cfg.gardenBorderColor, 1.0);
+		const opLine = new LayoutOperation({
+			stroke: this.cfg.gardenBorderColor,
+			strokeWidth: this.cfg.lineWidth
+		})
+
 		for(const border of borders) 
 		{
-			graphics.strokeLineShape(border);
+			lineToPhaser(border, opLine, graphics);
 		}
 	}
 
-	visualizeIngredients(graphics: { fillStyle: (arg0: number, arg1: number) => void; fillCircleShape: (arg0: any) => void })
+	visualizeIngredients(graphics:any)
 	{
 		const spriteSize = this.cfg.spriteSize;
+
+		const res = resLoader.getResource("ingredient_spritesheet");
+
+		const opDot = new LayoutOperation({
+			fill: "#000000"
+		});
 
 		for(const cell of this.gen.ingredients) {
 
 			const center = cell.getCenterPos();
 			const ingFrame = cell.getIngredientAsFrame();
-			const sprite = this.add.sprite(center.x, center.y, 'ingredients');
 
-			sprite.displayWidth = sprite.displayHeight = spriteSize;
-			sprite.setOrigin(0.5);
-			sprite.setFrame(ingFrame);
-			this.gen.sprites.push(sprite);
+			const op = new LayoutOperation({
+				translate: center,
+				dims: new Point(spriteSize),
+				pivot: Point.CENTER,
+				frame: ingFrame
+			});
+			this.gen.sprites.push( imageToPhaser(res, op, this) );
 
-			var seedsDot = new Geom.Circle(sprite.x + 0.35*spriteSize, sprite.y, 0.05*spriteSize);
-			graphics.fillStyle(0x000000, 1.0);
-			graphics.fillCircleShape(seedsDot);
+			const circleCenter = new Point(center.x + 0.35*spriteSize, center.y);
+			const seedsDot = new Circle({ center: circleCenter, radius: 0.05*spriteSize });
+			circleToPhaser(seedsDot, opDot, graphics);
 		}
 	}
 
 	visualizeSpecialCells(_graphics: any)
 	{
-		let typesUsed = new Set();
+		let typesUsed : Set<string> = new Set();
 		const spriteSize = this.cfg.spriteSize;
+
+		const res = resLoader.getResource("special_cell_spritesheet");
 
 		for(const cell of this.gen.specialCells) {
 			const center = cell.getCenterPos();
 			const typeFrame = cell.getTypeAsFrame();
-			const sprite = this.add.sprite(center.x, center.y, 'specialCells');
 
-			sprite.displayWidth = sprite.displayHeight = spriteSize;
-			sprite.setOrigin(0.5);
-			sprite.setFrame(typeFrame);
-			this.gen.sprites.push(sprite);
-			typesUsed.add(cell.getType());
+			const op = new LayoutOperation({
+				translate: center,
+				dims: new Point(spriteSize),
+				pivot: Point.CENTER,
+				frame: typeFrame
+			})
+			this.gen.sprites.push( imageToPhaser(res, op, this) );
 		}
 
 		// add helper/reminder explanations about the cell types underneath
 		this.cfg.specialCellContainer.innerHTML = '';
-		for(const type of Array.from(typesUsed)) {
-			var data = SPECIAL_CELLS[type];
+		for(const type of Array.from(typesUsed)) 
+		{
+			const data = SPECIAL_CELLS[type];
 
-			var elem = '<div class="special-cell-explainer">';
+			let elem = '<div class="special-cell-explainer">';
 			elem += '<span><div class="special-cell-sprite" style="background-position:' + (-60 * data.frame) + 'px;"></div></span>';
 			elem += '<span><strong>' + data.name + '</strong></span>';
 			elem += '<span>' + data.explanation + '</span>';
@@ -407,46 +462,73 @@ class BoardGeneration extends Scene
 	//  - https://graphicdesign.stackexchange.com/questions/3682/where-can-i-find-a-large-palette-set-of-contrasting-colors-for-coloring-many-d
 	//  - https://sashat.me/2017/01/11/list-of-20-simple-distinct-colors/
 	//
-	visualizeGrid(graphics: { lineStyle: (arg0: any, arg1: any, arg2: number) => void; strokeLineShape: (arg0: any) => void; strokeRectShape: (arg0: any) => void })
+	visualizeGrid(graphics:any)
 	{
+		const color = new Color(this.cfg.gridColor);
+		color.a = this.cfg.gridAlpha;
+		const opLine = new LayoutOperation({
+			stroke: color,
+			strokeWidth: this.cfg.tinyLineWidth
+		});
+
 		// => vertical
-		for(var x = 0; x < this.cfg.xLines; x++) {
-			var xPos = x*this.cfg.rectWidth;
-			var l = new Geom.Line(xPos, 0, xPos, this.cfg.fullHeight);
-			graphics.lineStyle(this.cfg.tinyLineWidth, this.cfg.gridColor, this.cfg.gridAlpha);
-			graphics.strokeLineShape(l);
+		for(let x = 0; x < this.cfg.xLines; x++) 
+		{
+			const xPos = x*this.cfg.rectWidth;
+			const l = new Line(new Point(xPos, 0), new Point(xPos, this.cfg.fullHeight));
+			lineToPhaser(l, opLine, graphics);
 		}
 
 		// => horizontal
-		for(var y = 0; y < this.cfg.yLines; y++) {
-			var yPos = y*this.cfg.rectHeight;
-			var l = new Geom.Line(0, yPos, this.cfg.fullWidth, yPos);
-			graphics.lineStyle(this.cfg.tinyLineWidth, this.cfg.gridColor, this.cfg.gridAlpha);
-			graphics.strokeLineShape(l);
+		for(let y = 0; y < this.cfg.yLines; y++) 
+		{
+			const yPos = y*this.cfg.rectHeight;
+			const l = new Line(new Point(0, yPos), new Point(this.cfg.fullWidth, yPos));
+			lineToPhaser(l, opLine, graphics);
 		}
 
 		// => player area
 		// (stroke the rectangle; scale slightly inwards for better separation)
 		let playerNum = -1;
-		for(const section of this.cfg.sections) {
 
+		const fontSize = this.cfg.textConfig.fontSize;
+		const textConfig = new TextConfig({
+			font: this.cfg.textConfig.fontFamily,
+			size: fontSize
+		}).alignCenter();
+
+		for(const section of this.cfg.sections)
+		{
 			const rect = section.asRect();
 			const centerX = (rect.x + 0.5*rect.width)
 			const centerY = (rect.y + 0.5*rect.height);
 
-			var edgeOffset = this.cfg.thickLineWidth * 0.5;
-			rect.setSize(rect.width - 2*edgeOffset, rect.height - 2*edgeOffset);
-			Geom.Rectangle.CenterOn(rect, centerX, centerY);
+			// this just slightly shrinks the rectangle because it looks better and avoids doubling edges at borders
+			const edgeOffset = this.cfg.thickLineWidth * 0.5;
+			rect.center = new Point(centerX, centerY);
+			rect.extents = new Point(rect.width - 2*edgeOffset, rect.height - 2*edgeOffset);
 
 			playerNum += 1
-			graphics.lineStyle(this.cfg.thickLineWidth, this.cfg.playerColors[playerNum], 1.0);
-			graphics.strokeRectShape(rect);
 
-			this.cfg.txtConfig.color = this.cfg.playerColorsHex[playerNum];
-			var txt = this.add.text(centerX, centerY, 'Player ' + (playerNum + 1), this.cfg.txtConfig);
-			txt.setShadow(0, 0, this.cfg.txtShadowColor, this.cfg.txtShadowSize);
-			txt.setOrigin(0.5, 0.5);
-			this.gen.sprites.push(txt);
+			const opRect = new LayoutOperation({
+				stroke: this.cfg.playerColorsHex[playerNum],
+				strokeWidth: this.cfg.thickLineWidth
+			})
+			rectToPhaser(rect, opRect, graphics);
+
+			const str = 'Player ' + (playerNum + 1);
+			const opText = new LayoutOperation({
+				translate: new Point(centerX, centerY),
+				fill: this.cfg.playerColorsHex[playerNum],
+				dims: new Point(20 * fontSize, 2 * fontSize),
+				pivot: Point.CENTER,
+				stroke: "#FFFFFF",
+				strokeWidth: this.cfg.fontSize / 4.0
+			})
+
+			const resText = new ResourceText({ text: str, textConfig: textConfig });
+			this.gen.sprites.push( textToPhaser(resText, opText, this) );
+			// txt.setShadow(0, 0, this.cfg.txtShadowColor, this.cfg.txtShadowSize); => NOT IMPLEMENTED YET BY ME
 		}
 	}
 }

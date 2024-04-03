@@ -1,3 +1,5 @@
+import Point from "js/pq_games/tools/geometry/point"
+
 const TRAFFIC_SIGNS =
 {
 	'Line Gate':
@@ -96,7 +98,7 @@ const SPECIAL_INGREDIENTS =
 		prob: 1,
 		iconFrame: 13,
 		requiredSideDish: true,
-		iconOffset: [0.35, -0.1]
+		iconOffset: new Point(0.35, -0.1)
 
 	},
 }
@@ -107,42 +109,42 @@ const SPECIAL_BUILDINGS =
 	{
 		prob: 3,
 		iconFrame: 0,
-		color: 0xFFC0AD,
+		color: "#FFC0AD",
 	},
 
 	'Subway':
 	{
 		prob: 1,
 		iconFrame: 1,
-		color: 0xFFDF92,
+		color: "#FFDF92",
 	},
 
 	'Party':
 	{
 		prob: 1,
 		iconFrame: 2,
-		color: 0xFFB4BD
+		color: "#FFB4BD"
 	},
 
 	'Heating Station':
 	{
 		prob: 0.5,
 		iconFrame: 3,
-		color: 0xCDEAF6,
+		color: "#CDEAF6",
 	},
 
 	'Weather Station':
 	{
 		prob: 1,
 		iconFrame: 4,
-		color: 0xD8CDF6
+		color: "#D8CDF6"
 	},
 
 	'Plaza':
 	{
 		prob: 2,
 		iconFrame: 5,
-		color: 0xEDEDED
+		color: "#EDEDED"
 	}
 }
 

@@ -1,10 +1,12 @@
 import Point from "js/pq_games/tools/geometry/point";
 import Bounds from "js/pq_games/tools/numbers/bounds";
 
-export default {
+export default 
+{
     mainFont: "Mail Ray Stuff",
     bodyFont: "Poppins",
     maxNumPlayers: 5,
+    resLoader: null,
 
     minScoreTypes: 2,
     maxScoreTypes: 3,
@@ -20,8 +22,9 @@ export default {
 
     cellTexture: "cell_types", // changed to inkfriendly version if needed
 
-    sideBar: {
-        backgroundColor: 0xFFCCAA,
+    sideBar: 
+    {
+        backgroundColor: "#FFCCAA",
         borderRadius: 0.03, // relative to WIDTH of sidebar
         padding: 0.025, // relative to WIDTH of sidebar
 
@@ -30,14 +33,16 @@ export default {
         scoreSheetRatio: (977/729.0),
         scoreSheetTexture: "score_sheet",
         tutorialSpriteHeight: 0.066, // relative to HEIGHT of sidebar
-        tutorialTextConfig: { 
+        tutorialTextConfig: 
+        { 
             fontFamily: 'Poppins',
-            fontScaleFactor: 0.047,
+            fontScaleFactor: 0.041,
             color: '#000000',
         },
 
         scoreTextAlpha: 0.35,
-        scoreTextConfig: { 
+        scoreTextConfig: 
+        { 
             fontFamily: 'Mail Ray Stuff',
             fontSize: null,
             fontScaleFactor: 0.05, // relative to WIDTH of sidebar
@@ -45,36 +50,43 @@ export default {
         } 
     },
 
-    board: {
-        backgroundColor: 0x461F09,
+    board: 
+    {
+        backgroundColor: "#461F09",
         padding: 0.0, // relative to shortest axis of full paper size
         randomizeAxes: true, // numbers are given to columns 50% of the time, to rows the other 50%
 
-        cellDisplay: {
-            icon: {
+        cellDisplay: 
+        {
+            icon: 
+            {
                 corner: "center center",
                 scale: 0.8
             },
 
-            space: {
+            space: 
+            {
                 corner: "bottom center",
                 scale: 0.385
             },
 
-            text: {
+            text: 
+            {
                 corner: "center center",
                 scale: 0.4
             },
 
-            stroke: {
+            stroke: 
+            {
                 width: 0.035, // relative to cell size
-                color: 0xEEEEEE,
+                color: "#EEEEEE",
                 alpha: 0.05
             },
 
-            strokeInkfriendly: {
+            strokeInkfriendly: 
+            {
                 width: 0.035, // relative to cell size
-                color: 0x333333,
+                color: "#333333",
                 alpha: 0.66
             },
 
@@ -83,12 +95,13 @@ export default {
             borderRadius: 0.1, // relative to cell size
 
             cornerMargin: 0.1, // relative to cell size
-            color: 0xFFFFFF,
+            color: "#FFFFFF",
             alpha: 1.0,
             
         },
 
-        dimsPerSize: {
+        dimsPerSize: 
+        {
             tiny: new Point(6, 5),
             small: new Point(8, 6),
             regular: new Point(12, 8),
@@ -96,53 +109,63 @@ export default {
             huge: new Point(16, 12)
         },
 
-        holes: {
+        holes: 
+        {
             enable: true,
             percentageOfBoard: 0.0866,
             sizeBounds: new Bounds(1, 4)
         },
-        rivers: {
+
+        rivers: 
+        {
             enable: true,
             percentageBounds: new Bounds(0.125, 0.2),
             sizeBounds: new Bounds(0.2, 0.5), // relative to longest side of grid
             lineWidth: 0.1, // relative to cell size
-            color: 0xBBAAFF,
-            colorInkfriendly: 0x2211FF,
+            color: "#BBAAFF",
+            colorInkfriendly: "#2211FF",
             alpha: 1.0  
         },
-        numbers: {
+
+        numbers: 
+        {
             axis: "column",
             bounds: new Bounds(1, 4),
             offsetFromGrid: 0.25,
             scaleFactor: 0.375,
             textConfig: { 
                 fontFamily: 'Mail Ray Stuff',
-                fontSize: '16px',
+                fontSize: 16,
                 color: '#332211',
                 stroke: '#FFDDBB',
                 strokeThickness: 10
             } 
         },
-        dirs: {
+
+        dirs: 
+        {
             options: ["right", "down", "left", "up"],
             offsetFromGrid: 0.275,
             scaleFactor: 0.4
         },
+
         outerMarginFactor: new Point(0.08, 0.08), // empty space around the board, fraction of total paper size
-        grid: {
+        grid: 
+        {
             lineWidth: 0.05, // fraction of CellSizeUnit
-            lineColor: 0xFFFFFF,
+            lineColor: "#FFFFFF",
             lineAlpha: 0.66
         },
     },
 
-    types: {
-        sheetData: { frameWidth: 256, frameHeight: 256 },
+    types: 
+    {
         iconScale: 0.8,
         numUniqueTypes: new Bounds(5, 7),
         scoreBounds: new Bounds(30, 50), // when the regular "score cell" is added, how high should the summed score numbers be from all those cells?
         textScaleFactor: 0.35,
-        textConfig: { 
+        textConfig: 
+        { 
             fontFamily: 'Mail Ray Stuff',
             fontScaleFactor: 0.35,
             strokeScaleFactor: 0.1,
@@ -151,7 +174,8 @@ export default {
         } 
     },
 
-    evaluator: {
+    evaluator: 
+    {
         minDistBetweenStartingPositions: 3,
         minScoreCellsPerQuadrant: 2,
         maxScoreDifferencePerQuadrant: 5,

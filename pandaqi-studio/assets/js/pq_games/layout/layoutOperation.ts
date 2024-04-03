@@ -32,7 +32,8 @@ interface LayoutOperationParams
     translate?: Point,
     rotation?:number,
     scale?:Point,
-    skew?:Point
+    skew?:Point,
+    depth?:number
 
     alpha?:number,
     composite?:GlobalCompositeOperation,
@@ -64,6 +65,7 @@ export default class LayoutOperation
     rotation : number
     scale : Point
     skew : Point
+    depth : number
 
     alpha : number
     composite : GlobalCompositeOperation
@@ -100,6 +102,7 @@ export default class LayoutOperation
         this.keepRatio = params.keepRatio ?? false;
         this.scale = params.scale ?? new Point(1,1);
         this.skew = params.skew ?? new Point();
+        this.depth = params.depth ?? 0.0; // @TODO: currently only used by generated boards in Phaser; might allow re-ordering stuff within my system later, then this will actually be used
         this.alpha = params.alpha ?? 1.0;
 
         this.pivot = params.pivot ?? new Point();
@@ -484,4 +487,5 @@ export default class LayoutOperation
     setPivotBottomRight() { this.pivot = Point.ONE; return this; }
 
     setFrame(f:number) { this.frame = f; return this; }
+    hasDepth() { return !isZero(this.depth); }
 }

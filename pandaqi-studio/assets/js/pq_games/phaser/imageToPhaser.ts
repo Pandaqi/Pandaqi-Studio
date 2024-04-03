@@ -11,6 +11,7 @@ const imageToPhaser = (img:ResourceImage, op:LayoutOperation, game) =>
     sprite.setOrigin(op.pivot.x, op.pivot.y);
     sprite.setFrame(op.frame);
     sprite.setAlpha(op.alpha);
+    if(op.hasDepth()) { sprite.setDepth(op.depth) };
 
     for(const effect of op.effects)
     {

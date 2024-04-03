@@ -1,52 +1,52 @@
 const NODE_ACTION_TYPES = ['Cutting', 'Turn', 'Modify', 'Movement', 'Progression', 'Blocking', 'Ownership']
 const NODE_CATEGORIES = 
 {
-	'Plants': 
+	Plants: 
 		{
-			color: 0x7BF1A8,
-			lightColor: 0x94E59E,
+			color: "#7BF1A8",
+			lightColor: "#94E59E",
 		},
 
-	'Nature':
+	Nature:
 		{
-			color: 0x009FB7,
-			lightColor: 0xC2DDF7,
+			color: "#009FB7",
+			lightColor: "#C2DDF7",
 		},
 
-	'Magical':
+	Magical:
 		{
-			color: 0xFED766,
-			lightColor: 0xFFEBAF,
+			color: "#FED766",
+			lightColor: "#FFEBAF",
 		},
 
-	'Enemies':
+	Enemies:
 		{
-			color: 0xE08D79,
-			lightColor: 0xFEAB97,
+			color: "#E08D79",
+			lightColor: "#FEAB97",
 		},
 
-	'Resources':
+	Resources:
 		{
-			color: 0xEFF1F3,
-			lightColor: 0xFFFFFF,
+			color: "#EFF1F3",
+			lightColor: "#FFFFFF",
 		},
 
-	'Misc':
+	Misc:
 		{
-			color: 0xA882DD,
-			lightColor: 0xDAC9F2,
+			color: "#A882DD",
+			lightColor: "#DAC9F2",
 		},
 
-	'Technology':
+	Technology:
 		{
-			color: 0x8C7A6B,
-			lightColor: 0xFFD2AC,
+			color: "#8C7A6B",
+			lightColor: "#FFD2AC",
 		},
 
-	'Center':
+	Center:
 		{
-			color: 0xFFD6E0,
-			lightColor: 0xFF9EB6,
+			color: "#FFD6E0",
+			lightColor: "#FF9EB6",
 		}
 }
 
@@ -58,7 +58,8 @@ const NODE_CATEGORIES =
  - forbiddenOnEdge: whether this node may appear on the edge of the board
 
 */
-const NODES_DICT = {
+const NODES_DICT = 
+{
 	'Center':
 		{
 			prob: 0,
@@ -572,90 +573,90 @@ const NODES_DICT = {
 
 const MISSION_NODES_DICT = 
 {
-	'Preserver': 
+	Preserver: 
 	{
 		prob: 1,
-		color: 0x009FB7,
-		lightColor: 0xC2DDF7,
+		color: "#009FB7",
+		lightColor: "#C2DDF7",
 		iconFrame: 0
 	},
 
-	'Peacemaker':
+	Peacemaker:
 	{
 		prob: 1,
-		color: 0xE08D79,
-		lightColor: 0xFEAB97,
+		color: "#E08D79",
+		lightColor: "#FEAB97",
 		iconFrame: 1,
 
 		relevantNodes: ['Dynamite', 'Fire', 'Gas']
 	},
 
-	'Fighter':
+	Fighter:
 	{
 		prob: 1,
-		color: 0xEFF1F3,
-		lightColor: 0xFFFFFF,
+		color: "#EFF1F3",
+		lightColor: "#FFFFFF",
 		iconFrame: 2,
 
 		relevantNodes: ['Critters', 'Critter Boss', 'Night Owl', 'Dragon Dino']
 	},
 
-	'Traveler':
+	Traveler:
 	{
 		prob: 1,
-		color: 0x8C7A6B,
-		lightColor: 0xFFD2AC,
+		color: "#8C7A6B",
+		lightColor: "#FFD2AC",
 		iconFrame: 3
 	},
 
-	'Biologist':
+	Biologist:
 	{
 		prob: 1,
-		color: 0x7BF1A8,
-		lightColor: 0x94E59E,
+		color: "#7BF1A8",
+		lightColor: "#94E59E",
 		iconFrame: 4
 	},
 
-	'Collector':
+	Collector:
 	{
 		prob: 1,
-		color: 0xA882DD,
-		lightColor: 0xDAC9F2,
+		color: "#A882DD",
+		lightColor: "#DAC9F2",
 		iconFrame: 5
 	},
 
-	'Explorer':
+	Explorer:
 	{
 		prob: 1,
 		expansion: 'extremeExpeditions',
-		color: 0xFED766,
-		lightColor: 0xFFEBAF,
+		color: "#FED766",
+		lightColor: "#FFEBAF",
 		iconFrame: 6
 	},
 
-	'Digger':
+	Digger:
 	{
 		prob: 1,
 		expansion: 'sharpScissors',
-		color: 0xFFD6E0,
-		lightColor: 0xFF9EB6,
+		color: "#FFD6E0",
+		lightColor: "#FF9EB6",
 		iconFrame: 7
 	},
 
-	'Conquerer':
+	Conquerer:
 	{
 		prob: 1,
 		expansion: 'nodesOfKnowledge',
-		color: 0xA23E48,
-		lightColor: 0xF6A7A3,
+		color: "#A23E48",
+		lightColor: "#F6A7A3",
 		iconFrame: 8
 	},
 
-	'Destroyer':
+	Destroyer:
 	{
 		prob: 1,
-		color: 0x37392E,
-		lightColor: 0xEEFFA3,
+		color: "#37392E",
+		lightColor: "#EEFFA3",
 		iconFrame: 9,
 		expansion: 'nastyNodes'
 	}
@@ -716,31 +717,31 @@ const EXPEDITION_NODES_DICT =
 // NOTE: no need to create a dictionary for this and then copy, as this is always the same
 const TINY_NODES = 
 {
-	'Circle':
+	Circle:
 	{
 		prob: 4,
 		iconFrame: 0
 	},
 
-	'Pause':
+	Pause:
 	{
 		prob: 2,
 		iconFrame: 2
 	},
 
-	'Square':
+	Square:
 	{
 		prob: 3,
 		iconFrame: 1
 	},
 
-	'Triangle':
+	Triangle:
 	{
 		prob: 1.5,
 		iconFrame: 3
 	},
 
-	'Cross':
+	Cross:
 	{
 		prob: 2,
 		iconFrame: 4
@@ -750,31 +751,31 @@ const TINY_NODES =
 // NOTE: Same
 const NATURAL_RESOURCES = 
 {
-	'Coal':
+	Coal:
 	{
 		prob: 2,
 		iconFrame: 0
 	},
 
-	'Diamonds':
+	Diamonds:
 	{
 		prob: 2,
 		iconFrame: 1
 	},
 
-	'Gold':
+	Gold:
 	{
 		prob: 2,
 		iconFrame: 2
 	},
 
-	'Minerals':
+	Minerals:
 	{
 		prob: 2,
 		iconFrame: 3
 	},
 
-	'Gas':
+	Gas:
 	{
 		prob: 2,
 		iconFrame: 4
@@ -783,31 +784,31 @@ const NATURAL_RESOURCES =
 
 const LANDMARKS =
 {
-	'Mountain':
+	Mountain:
 	{
 		prob: 2,
 		iconFrame: 0
 	},
 
-	'Forest':
+	Forest:
 	{
 		prob: 2,
 		iconFrame: 1
 	},
 
-	'Lake':
+	Lake:
 	{
 		prob: 2,
 		iconFrame: 2
 	},
 
-	'Capital':
+	Capital:
 	{
 		prob: 2,
 		iconFrame: 3
 	},
 
-	'Caves':
+	Caves:
 	{
 		prob: 2,
 		iconFrame: 4

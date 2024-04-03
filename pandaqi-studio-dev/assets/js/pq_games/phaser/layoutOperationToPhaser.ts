@@ -17,14 +17,13 @@ const layoutOperationToObject = (obj, op:LayoutOperation) =>
         {
             obj.setLineWidth(op.strokeWidth, op.strokeWidth); // @NOTE: only used in webgl, but REQUIRED there otherwise it just draws one hair thin line and ignores stroke width
         }
-        
     }
 
     obj.x += op.translate.x;
     obj.y += op.translate.y;
 
     obj.setOrigin(op.pivot.x, op.pivot.y);
-    
+    if(op.hasDepth()) { obj.setDepth(op.depth) };
     obj.setRotation(op.rotation);
 }
 

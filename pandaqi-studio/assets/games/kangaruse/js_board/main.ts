@@ -1,12 +1,45 @@
-// @ts-nocheck
 import OnPageVisualizer from "js/pq_games/website/onPageVisualizer"
+// @ts-ignore
 import { Scene } from "js/pq_games/phaser/phaser.esm"
 import BoardState from "./boardState"
 import BoardDisplay from "./boardDisplay"
 import Evaluator from "./evaluator"
 import CONFIG from "./config"
+import ResourceLoader from "js/pq_games/layout/resources/resourceLoader"
+import Point from "js/pq_games/tools/geometry/point"
+import setDefaultPhaserSettings from "js/pq_games/phaser/setDefaultPhaserSettings"
+import resourceLoaderToPhaser from "js/pq_games/phaser/resourceLoaderToPhaser"
 
 const sceneKey = "boardGeneration"
+const assetsBase = "/kangaruse/assets/"
+const assets =
+{
+	general_spritesheet:
+    {
+        path: "general_spritesheet.webp",
+        frames: new Point(8,1),
+    },
+
+    cell_types:
+    {
+        path: "cell_types.webp",
+        frames: new Point(8,4),
+    },
+
+    cell_types_simplified:
+    {
+        path: "cell_types_simplified.webp",
+        frames: new Point(8,4),
+    },
+
+    sidebar_tutorial:
+    {
+        path: "sidebar_tutorial.webp",
+    }
+}
+const resLoader = new ResourceLoader({ base: assetsBase });
+resLoader.planLoadMultiple(assets);
+CONFIG.resLoader = resLoader;
 
 class BoardGeneration extends Scene
 {
@@ -20,21 +53,16 @@ class BoardGeneration extends Scene
 		super({ key: sceneKey });
 	}
 
-    preload() {
-        this.load.crossOrigin = 'Anonymous';
-        this.canvas = this.sys.game.canvas;
-
-        const base = 'assets/';
-        const sd = CONFIG.types.sheetData;
-        // DEPRECATED; score displays now generated dynamically based on types actually used in board
-        // this.load.image("score_sheet", base + "score_sheet.webp");
-        this.load.spritesheet("general", base + 'general_spritesheet.webp', sd);
-        this.load.spritesheet("cell_types", base + 'cell_types.webp', sd);
-        this.load.spritesheet("cell_types_simplified", base + 'cell_types_simplified.webp', sd);
-        this.load.image("sidebar_tutorial", base + "sidebar_tutorial.webp");
+    preload() 
+    {
+        setDefaultPhaserSettings(this);
     }
 
-    async create(userConfig:Record<string,any>) {
+    async create(userConfig:Record<string,any>) 
+    {
+        await resLoader.loadPlannedResources();
+        await resourceLoaderToPhaser(resLoader, this);
+
         this.setup(userConfig)
         await this.generate();
         this.draw();

@@ -1,4 +1,3 @@
-// @ts-ignore
 import { CELLS, GENERAL, COLOR_GROUPS, CORNER_OFFSETS } from "../js_shared/dictionary"
 import CONFIG from "./config"
 import Point from "js/pq_games/tools/geometry/point";
@@ -6,13 +5,22 @@ import Random from "js/pq_games/tools/random/main";
 import Cell from "./cell"
 import BoardDisplay from "./boardDisplay"
 import Color from "js/pq_games/layout/color/color";
+import imageToPhaser from "js/pq_games/phaser/imageToPhaser";
+import LayoutOperation from "js/pq_games/layout/layoutOperation";
+import Rectangle from "js/pq_games/tools/geometry/rectangle";
+import TextConfig from "js/pq_games/layout/text/textConfig";
+import ResourceText from "js/pq_games/layout/resources/resourceText";
+import textToPhaser from "js/pq_games/phaser/textToPhaser";
+import { pathToPhaser, rectToPhaser } from "js/pq_games/phaser/shapeToPhaser";
+import roundPath from "js/pq_games/tools/geometry/paths/roundPath";
+import Path from "js/pq_games/tools/geometry/paths/path";
 
 export default class CellDisplay
 {
     cell: Cell
     boardDisplay: BoardDisplay
 
-    constructor(cell)
+    constructor(cell:Cell)
     {
         this.cell = cell;
         this.boardDisplay = null;
@@ -28,58 +36,70 @@ export default class CellDisplay
         return this.boardDisplay.convertToRealUnits(pos);
     }
 
-    createNumText()
+    createNumText(corner: string)
     {
         if(!this.showNum()) { return null; }
 
-        let txtCfg:any = CONFIG.types.textConfig;
+        const txtCfg = CONFIG.types.textConfig;
         const fontSize = (txtCfg.fontScaleFactor * this.boardDisplay.cellSizeUnit);
-        txtCfg.fontSize = fontSize + "px";
-        txtCfg.strokeThickness = (txtCfg.strokeScaleFactor * fontSize);
+        const strokeThickness = (txtCfg.strokeScaleFactor * fontSize);
 
-        const txt = this.boardDisplay.game.add.text(0, 0, this.cell.getNum().toString(), txtCfg);
-        txt.setOrigin(0.5);
-        return txt;
+        const dims = new Point(2*fontSize);
+        const pos = this.placeAtCorner(dims, corner);
+
+        const str = this.cell.getNum().toString();
+        const textConfig = new TextConfig({
+            font: txtCfg.fontFamily,
+            size: fontSize
+        }).alignCenter();
+        const opText = new LayoutOperation({
+            translate: pos,
+            dims: dims,
+            pivot: Point.CENTER,
+            fill: txtCfg.color,
+            stroke: txtCfg.stroke,
+            strokeWidth: strokeThickness
+        });
+
+        const resText = new ResourceText({ text: str, textConfig: textConfig });
+        return textToPhaser(resText, opText, this.boardDisplay.game);
     }
 
-    createWritingSpace()
+    createWritingSpace(dims:Point, corner:string)
     {
-        const sprite = this.boardDisplay.game.add.sprite(0, 0, "general");
-        sprite.setOrigin(0.5);
-        sprite.setFrame(GENERAL.writingSpace.frame);
-        sprite.setVisible(this.showWritingSpace());
-        return sprite;
+        const res = CONFIG.resLoader.getResource("general_spritesheet");
+        const alpha = this.showWritingSpace() ? 1.0 : 0.0;
+        const pos = this.placeAtCorner(dims, corner);
+        const op = new LayoutOperation({
+            translate: pos,
+            dims: dims,
+            pivot: Point.CENTER,
+            frame: GENERAL.writingSpace.frame,
+            alpha: alpha
+        });
+        return imageToPhaser(res, op, this.boardDisplay.game);
     }
 
-    createTypeIcon()
+    createTypeIcon(dims:Point, corner:string)
     {
         if(!this.showType()) { return null; }
 
-        const typeSprite = this.boardDisplay.game.add.sprite(0, 0, CONFIG.cellTexture);
-        const spriteSize = CONFIG.types.iconScale * this.boardDisplay.cellSizeUnit;
-        typeSprite.setOrigin(0.5);
-        typeSprite.displayWidth = spriteSize;
-        typeSprite.displayHeight = spriteSize;
-        typeSprite.flipX = Math.random() <= 0.5;
-
         const frame = CELLS[this.cell.type].frame;
-        typeSprite.setFrame(frame);
-        return typeSprite
+        const res = CONFIG.resLoader.getResource(CONFIG.cellTexture);
+        const pos = this.placeAtCorner(dims, corner);
+        const op = new LayoutOperation({
+            translate: pos,
+            pivot: Point.CENTER,
+            dims: dims,
+            flipX: (Math.random() <= 0.5),
+            frame: frame
+        });
+
+        return imageToPhaser(res, op, this.boardDisplay.game);
     }
 
-    placeAtCenter(obj:any)
+    placeAtCorner(dims:Point, corner:string) : Point
     {
-        if(!obj) { return; }
-
-        const pos = this.getRealPosition();
-        obj.x = pos.x;
-        obj.y = pos.y;
-    }
-
-    placeAtCorner(obj:any, corner:string)
-    {
-        if(!obj) { return; }
-
         const centerPos = this.getRealPosition();
 
         const cs = this.boardDisplay.cellSize;
@@ -87,14 +107,13 @@ export default class CellDisplay
         const margin = CONFIG.board.cellDisplay.cornerMargin * csu;
 
         const cornerOffset = CORNER_OFFSETS[corner].clone();
-        const offsetX = cornerOffset.x * 0.5 * (cs.x - obj.displayWidth - margin);
-        const offsetY = cornerOffset.y * 0.5 * (cs.y - obj.displayHeight - margin);
+        const offsetX = cornerOffset.x * 0.5 * (cs.x - dims.x - margin);
+        const offsetY = cornerOffset.y * 0.5 * (cs.y - dims.y - margin);
 
         const offsetVec = new Point().setXY(offsetX, offsetY);
         const offsetPos = centerPos.move(offsetVec);
 
-        obj.x = offsetPos.x;
-        obj.y = offsetPos.y;
+        return offsetPos;
     }
 
     getColorGroup() : string
@@ -102,9 +121,9 @@ export default class CellDisplay
         return this.cell.getData().colorGroup;
     }
 
-    getColor() : number
+    getColor() : Color
     {
-        return new Color( COLOR_GROUPS[this.getColorGroup()] ).toHEXNumber();
+        return new Color( COLOR_GROUPS[this.getColorGroup()] );
     }
 
     draw(boardDisplay:BoardDisplay)
@@ -118,8 +137,7 @@ export default class CellDisplay
     drawSquare()
     {
         const size = this.boardDisplay.cellSize
-        const rect = this.boardDisplay.game.add.rectangle(0, 0, size.x, size.y);
-        this.placeAtCenter(rect);
+        const rect = new Rectangle({ center: this.getRealPosition(), extents: size });
 
         const cfg = CONFIG.board.cellDisplay;
         const borderRadius = CONFIG.board.cellDisplay.borderRadius * this.boardDisplay.cellSizeUnit;
@@ -139,15 +157,26 @@ export default class CellDisplay
             
             let alpha = 1.0;
             if(this.cell.hole || this.cell.river) { alpha = 0.33; }
-            this.boardDisplay.graphics.fillStyle(this.getColor(), alpha);
-            this.boardDisplay.graphics.fillRoundedRect(pos.x, pos.y, sizeScaled.x, sizeScaled.y, borderRadius);
 
+            const finalColor = this.getColor();
+            finalColor.a = alpha;
+
+            const op = new LayoutOperation({ fill: finalColor });
+            const rectPath = new Rectangle().fromTopLeft(pos, sizeScaled).toPath();
+            const pathRounded = new Path( roundPath(rectPath, borderRadius) );
+            pathToPhaser(pathRounded, op, this.boardDisplay.graphics);
         }
 
         if(this.showBorder())
         {
             const lineWidth = strokeData.width * this.boardDisplay.cellSizeUnit;
-            rect.setStrokeStyle(lineWidth, strokeData.color, strokeData.alpha);
+            const col = new Color(strokeData.color);
+            col.a = strokeData.alpha;
+            const op = new LayoutOperation({
+                stroke: col,
+                strokeWidth: lineWidth
+            })
+            rectToPhaser(rect, op, this.boardDisplay.graphics);
         }
     }
 
@@ -158,21 +187,17 @@ export default class CellDisplay
         let multiPosition = false;
 
         // place icon that reveals cell type
-        const icon = this.createTypeIcon();
-        if(icon)
-        {
-            const iconSize = data.icon.scale * csu;
-            icon.displayWidth = iconSize;
-            icon.displayHeight = iconSize;
-            this.placeAtCorner(icon, data.icon.corner);
-            multiPosition = CELLS[this.cell.getType()].multiPosition;
-        }
+        const iconSize = new Point(data.icon.scale * csu);
+        const icon = this.createTypeIcon(iconSize, data.icon.corner);
+        if(icon) { multiPosition = CELLS[this.cell.getType()].multiPosition; }
 
         // place the space for writing your symbol/marking where you've been
         if(this.showWritingSpace())
         {
             let corners = [data.space.corner];
-            if(multiPosition) { 
+            
+            if(multiPosition) 
+            { 
                 corners = ["bottom right", "bottom left", "top left", "top right"];
                 const randMax = Random.rangeInteger(2,4);
                 corners = corners.slice(0, randMax);
@@ -180,36 +205,12 @@ export default class CellDisplay
 
             for(const corner of corners)
             {
-                const writingSpace = this.createWritingSpace();
-                const spaceSize = data.space.scale * csu;
-                writingSpace.displayWidth = spaceSize;
-                writingSpace.displayHeight = spaceSize;
-                this.placeAtCorner(writingSpace, corner);
+                const dims = new Point(data.space.scale * csu);
+                this.createWritingSpace(dims, corner);
             }
         }
 
         // add a number on top (only used by score at the moment)
-        const text = this.createNumText();
-        if(text)
-        {
-            this.placeAtCorner(text, data.text.corner);
-        }
-        
-
-
-        // small icon in all four corners, all empty space around it is for writing
-        /*if(type == "iconCorners")
-        {
-            const iconSize = configData.iconCornersSpriteScale * csu;
-            const corners = Object.keys(CORNER_OFFSETS);
-            for(let i = 0; i < 4; i++)
-            {
-                const icon = this.createTypeIcon();
-                icon.displayWidth = iconSize;
-                icon.displayHeight = iconSize;
-                this.placeAtCorner(icon, corners[i]);
-            }
-        }*/
-
+        this.createNumText(data.text.corner);
     }
 }

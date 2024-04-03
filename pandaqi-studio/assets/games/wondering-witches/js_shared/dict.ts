@@ -1,11 +1,10 @@
 /*
     Ingredients
 */
-
 const FIRST_HINT_TYPES = ['Group', 'Negative', 'Effects'];
 const INGREDIENTS = {
-    "Parsley": 0, "Sage": 1, "Chives": 2, "Rosemary": 3, "Oregano": 4, 
-    "Mint": 5, "Dill": 6, "Basil": 7, "Thyme": 8, "Black Pepper": 9
+    Parsley: 0, Sage: 1, Chives: 2, Rosemary: 3, Oregano: 4, 
+    Mint: 5, Dill: 6, Basil: 7, Thyme: 8, "Black Pepper": 9
 };
 
 // Saved as an integer in the code

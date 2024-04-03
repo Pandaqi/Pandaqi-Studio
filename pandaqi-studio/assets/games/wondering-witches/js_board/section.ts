@@ -1,7 +1,6 @@
 import Point from "js/pq_games/tools/geometry/point";
 import Cell from "./cell"
-// @ts-ignore
-import { Geom } from "js/pq_games/phaser/phaser.esm"
+import Rectangle from "js/pq_games/tools/geometry/rectangle";
 
 export default class Section 
 {
@@ -22,14 +21,12 @@ export default class Section
 		this.createGrid();
 	}
 
-	asRect()
+	asRect() : Rectangle
 	{
 		const size = this.getCellSize();
-		return new Geom.Rectangle(
-			this.x * size.x, 
-			this.y * size.y, 
-			this.width * size.x, 
-			this.height * size.y
+		return new Rectangle().fromTopLeft(
+			new Point(this.x * size.x, this.y * size.y),
+			new Point(this.width * size.x, this.height * size.y)
 		);
 	}
 
@@ -39,8 +36,8 @@ export default class Section
 	}
 
 	getCellSize() { return new Point(this.cfg.rectWidth, this.cfg.rectHeight); }
-	getCellGlobal(x: number,y: number) { return this.getCellLocal(x - this.x, y - this.y); }
-	getCellLocal(x: number,y: number) { return this.grid[x][y]; }
+	getCellGlobal(x:number, y:number) { return this.getCellLocal(x - this.x, y - this.y); }
+	getCellLocal(x:number, y:number) { return this.grid[x][y]; }
 
 	createGrid()
 	{

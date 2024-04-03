@@ -37,6 +37,7 @@ const textToPhaser = (res:ResourceText, op:LayoutOperation, game) =>
     
     text.setAlpha(op.alpha);
     text.setRotation(op.rotation);
+    if(op.hasDepth()) { text.setDepth(op.depth) };
 
     return text;
 }

@@ -1,16 +1,121 @@
-// @ts-nocheck
 import { PLANET_MAP } from "../js_shared/dict"
 import configurator from "./configurator"
 import OnPageVisualizer from "js/pq_games/website/onPageVisualizer"
-import { Scene, Geom } from "js/pq_games/phaser/phaser.esm"
+// @ts-ignore
+import { Scene } from "js/pq_games/phaser/phaser.esm"
+import ResourceLoader from "js/pq_games/layout/resources/resourceLoader"
+import setDefaultPhaserSettings from "js/pq_games/phaser/setDefaultPhaserSettings"
+import resourceLoaderToPhaser from "js/pq_games/phaser/resourceLoaderToPhaser"
+import Point from "js/pq_games/tools/geometry/point"
+import imageToPhaser from "js/pq_games/phaser/imageToPhaser"
+import LayoutOperation from "js/pq_games/layout/layoutOperation"
+import Rectangle from "js/pq_games/tools/geometry/rectangle"
+import TextConfig from "js/pq_games/layout/text/textConfig"
+import ResourceText from "js/pq_games/layout/resources/resourceText"
+import textToPhaser from "js/pq_games/phaser/textToPhaser"
+import { circleToPhaser, lineToPhaser, rectToPhaser } from "js/pq_games/phaser/shapeToPhaser"
+import Circle from "js/pq_games/tools/geometry/circle"
+import Line from "js/pq_games/tools/geometry/line"
+
+interface Cell
+{
+	x:number,
+	y:number,
+	type?:string
+}
 
 const sceneKey = "boardGeneration"
+const assetsBase = "/starry-skylines/assets/";
+const assets = 
+{
+	// the nine major planets for this game
+	starry_planets:
+	{
+		path: "starry_planets.webp",
+		frames: new Point(9,1),
+	},
+
+	// icon for starting position
+	StartingPositionIcon:
+	{
+		path: "StartingPositionIcon.png",
+		frames: new Point(3,1),
+	},
+
+	// all people icons (+ animal)
+	PeopleIcon:
+	{
+		path: "PeopleIcon.png"
+	},
+
+	CriminalIcon:
+	{
+		path: "CriminalIcon.png"
+	},
+
+	EducatedIcon:
+	{
+		path: "EducatedIcon.png"
+	},
+
+	SickIcon:
+	{
+		path: "SickIcon.png"
+	},
+
+	AnimalIcon:
+	{
+		path: "AnimalIcon.png"
+	},
+
+	// all resource lines
+	OxygenIcon:
+	{
+		path: "OxygenIcon.png"
+	},
+
+	WaterIcon:
+	{
+		path: "WaterIcon.png"
+	},
+
+	ElectricityIcon:
+	{
+		path: "ElectricityIcon.png"
+	},
+
+	// all terrain types
+	RockIcon:
+	{
+		path: "RockIcon.png"
+	},
+
+	RiverIcon:
+	{
+		path: "RiverIcon.png"
+	},
+
+	GardenIcon:
+	{
+		path: "GardenIcon.png"
+	},
+
+	flower_icon:
+	{
+		path: "flower_icon.webp"
+	},
+
+}
+
+const resLoader = new ResourceLoader({ base: assetsBase });
+resLoader.planLoadMultiple(assets);
+
 class BoardGeneration extends Scene
 {
 	canvas: HTMLCanvasElement
-	grid: any[]
-	startingPositions: any[]
-	obstacles: any[]
+	grid: Cell[][]
+	startingPositions: Cell[]
+	obstacles: Cell[]
 	cfg:Record<string,any>
 
 	constructor()
@@ -18,40 +123,16 @@ class BoardGeneration extends Scene
 		super({ key: sceneKey });
 	}
 
-	preload() {
-		this.load.crossOrigin = 'Anonymous';
-		this.canvas = this.sys.game.canvas;
-
-		const base = 'assets/';
-
-		this.load.spritesheet("planets", base + "starry_planets.webp", { frameWidth: 236, frameHeight: 236 });
-
-		// all people icons ( + animal)
-		this.load.image('peopleIcon', base + 'PeopleIcon.png');
-		this.load.image('criminalIcon', base + 'CriminalIcon.png');
-		this.load.image('educatedIcon', base + 'EducatedIcon.png');
-		this.load.image('sickIcon', base + 'SickIcon.png');
-
-		this.load.image('animalIcon', base + 'AnimalIcon.png');
-
-		// all resource lines
-		this.load.image('oxygenIcon', base + 'OxygenIcon.png');
-		this.load.image('waterIcon', base + 'WaterIcon.png');
-		this.load.image('electricityIcon', base + 'ElectricityIcon.png');
-
-		// all terrain types
-		this.load.image('rockIcon', base + 'RockIcon.png');
-		this.load.image('riverIcon', base + 'RiverIcon.png');
-		this.load.image('gardenIcon', base + 'GardenIcon.png?cc=1');
-		
-		this.load.image("flower_icon", base + "flower_icon.webp")
-
-		// icon for starting position
-		this.load.spritesheet('startingPositionIcon', base + 'StartingPositionIcon.png?cc=1', { frameWidth: 500, frameHeight: 500 });
+	preload() 
+	{
+		setDefaultPhaserSettings(this); 
 	}
 
-	create(userConfig = {}) 
+	async create(userConfig = {}) 
 	{
+		await resLoader.loadPlannedResources();
+        await resourceLoaderToPhaser(resLoader, this);
+
 		this.setupConfig(userConfig);
 		configurator.initializeDictionaries(this.cfg);
 		this.generateBoard();
@@ -62,7 +143,8 @@ class BoardGeneration extends Scene
 	{
 		const minSize = Math.min(this.canvas.width, this.canvas.height);
 
-		this.cfg = {
+		this.cfg = 
+		{
 			minSize: minSize,
 			gridWidth: 8,
 			gridHeight: 8,
@@ -72,27 +154,27 @@ class BoardGeneration extends Scene
 			spriteScale: 0.9,
 			maxPlayerCount: 3,
 			numObstacles: 6,
-			bgRectColors: [0xAAFFAA, 0x99DD99],
-			bgRectColorsGray: [0xFFFFFF, 0xEEEEEE],
-			playerColors: [0xFF0000, 0x0000FF, 0xFFFF00, 0xFF00FF, 0x00FFFF, 0x000000, 0xAA8800],
-			peopleColor: 0xFA7921,
+			bgRectColors: ["#AAFFAA", "#99DD99"],
+			bgRectColorsGray: ["#FFFFFF", "#EEEEEE"],
+			playerColors: ["#FF0000", "#0000FF", "#FFFF00", "#FF00FF", "#00FFFF", "#000000", "#AA8800"],
+			peopleColor: "#FA7921",
 			peopleSpriteScale: 0.4,
 			terrainTypes: ['rock', 'river', 'garden'],
 			buildingColors: {
-				river: 0x6EB4FF,
-				rock: 0xD8D8D8,
-				garden: 0x63FF7D
+				river: "#6EB4FF",
+				rock: "#D8D8D8",
+				garden: "#63FF7D"
 			},
 			resourceColors: {
-				water: 0x2B60AD,
-				oxygen: 0x29C1B1,
-				electricity: 0xFFFF00
+				water: "#2B60AD",
+				oxygen: "#29C1B1",
+				electricity: "#FFFF00"
 			},
 			resourceLineWidth: 0.025*minSize,
 			horizontalMarks: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
 			fontFamily: 'Montserrat Subrayada',
 			grid: {
-				fontSize: Math.round(0.025*minSize) + "px",
+				fontSize: Math.round(0.025*minSize),
 				fontColor: "#000000",
 				lineWidth: 0.003*minSize,
 				lineColor: 0x666666,
@@ -100,7 +182,7 @@ class BoardGeneration extends Scene
 				textMargin: { x: 0.0125*minSize, y: 0.0125*minSize }
 			},
 			path: {
-				fontSize: Math.round(0.1*minSize) + "px",
+				fontSize: Math.round(0.1*minSize),
 				fontColor: "#000000",
 				strokeColor: "#AAFFAA",
 				strokeColorGray: "#AAAAAA",
@@ -138,9 +220,11 @@ class BoardGeneration extends Scene
 	{
 		this.grid = [];
 
-		for(var i = 0; i < this.cfg.gridWidth; i++) {
+		for(let i = 0; i < this.cfg.gridWidth; i++) 
+		{
 			this.grid[i] = [];
-			for(var j = 0; j < this.cfg.gridHeight; j++) {
+			for(let j = 0; j < this.cfg.gridHeight; j++) 
+			{
 				this.grid[i][j] = null;
 			}
 		}
@@ -151,7 +235,8 @@ class BoardGeneration extends Scene
 		this.startingPositions = [];
 
 		const cappedPlayerCount = Math.min(this.cfg.maxPlayerCount, this.cfg.playerCount);
-		for(var i = 0; i < cappedPlayerCount; i++) {
+		for(let i = 0; i < cappedPlayerCount; i++) 
+		{
 			let x: number, y: number 
 
 			do {
@@ -159,7 +244,7 @@ class BoardGeneration extends Scene
 				y = Math.floor(Math.random() * (this.cfg.gridHeight - 2)) + 1;
 			} while(this.grid[x][y] != null)
 
-			var obj = { x: x, y: y}
+			let obj = { x: x, y: y }
 
 			this.grid[x][y] = obj
 			this.startingPositions.push(obj);
@@ -171,10 +256,10 @@ class BoardGeneration extends Scene
 		this.obstacles = [];
 
 		const numObstacles = this.cfg.numObstacles - this.startingPositions.length;
-		for(var i = 0; i < numObstacles; i++) {
-			var x: number, y: number 
+		for(let i = 0; i < numObstacles; i++) {
+			let x: number, y: number 
 
-			var randType = this.getRandom(this.cfg.lists.components);
+			let randType = this.getRandom(this.cfg.lists.components);
 			if(randType == 'effects') { randType = 'path' }
 
 			do {
@@ -182,14 +267,14 @@ class BoardGeneration extends Scene
 				y = Math.floor(Math.random() * this.cfg.gridHeight);
 			} while(this.grid[x][y] != null || (randType == 'resource' && this.edgeCell(x,y)))
 
-			var obj = { 'x': x, 'y': y, 'type': randType }
+			let obj = { x: x, y: y, type: randType }
 
 			this.grid[x][y] = obj
 			this.obstacles.push(obj);
 		}
 	}
 
-	getRandom(list: { [x: string]: { prob: number } }) 
+	getRandom(list) 
 	{
 		const rand = Math.random();
 		let totalProb = 0;
@@ -200,13 +285,14 @@ class BoardGeneration extends Scene
 	
 		let sum = 0;
 		const fractionProb = (1.0 / totalProb);
-		for(const key of Object.keys(list)) {
+		for(const key of Object.keys(list)) 
+		{
 			sum += list[key].prob * fractionProb;
 			if(sum >= rand) { return key; }
 		}
 	}
 
-	edgeCell(x: number,y: number) 
+	edgeCell(x:number, y:number) 
 	{
 		return (x == 0 || y == 0 || x == (this.cfg.gridWidth - 1) || y == (this.cfg.gridHeight - 1));
 	}
@@ -215,18 +301,22 @@ class BoardGeneration extends Scene
 	visualizeBackground(graphics:any)
 	{		
 		const inkFriendly = this.cfg.inkFriendly;
-		for(var i = 0; i < this.cfg.gridWidth; i++) {
+		for(let i = 0; i < this.cfg.gridWidth; i++) 
+		{
 			const x = i * this.cfg.cellWidth;
 
-			for(var j = 0; j < this.cfg.gridHeight + 1; j++) {
+			for(let j = 0; j < this.cfg.gridHeight + 1; j++) 
+			{
 				const y = j * this.cfg.cellHeight;
 				const colorIdx = (i + j) % 2;
 				let color = this.cfg.bgRectColors[colorIdx];
 				if(inkFriendly) { color = this.cfg.bgRectColorsGray[colorIdx]; }
 
-				graphics.fillStyle(color, 1.0);
-				const rect = new Geom.Rectangle(x, y, this.cfg.cellWidth, this.cfg.cellHeight);
-				graphics.fillRectShape(rect);
+				const rect = new Rectangle().fromTopLeft(new Point(x,y), new Point(this.cfg.cellWidth, this.cfg.cellHeight));
+				const opRect = new LayoutOperation({
+					fill: color
+				})
+				rectToPhaser(rect, opRect, graphics);
 			}
 		}
 
@@ -238,11 +328,15 @@ class BoardGeneration extends Scene
 			const randSize = (Math.random()*0.5 + 0.5)*this.cfg.minSizeCell;
 			const randRot = Math.random()*2*Math.PI;
 
-			var sprite = this.add.sprite(randX, randY, 'flower_icon');
-			sprite.setOrigin(0.5, 0.5);
-			sprite.setRotation(randRot);
-			sprite.setAlpha(0.05);
-			sprite.displayWidth = sprite.displayHeight = randSize;
+			const res = resLoader.getResource("flower_icon");
+			const op = new LayoutOperation({
+				translate: new Point(randX, randY),
+				pivot: Point.CENTER,
+				dims: new Point(randSize),
+				rotation: randRot,
+				alpha: 0.05
+			})
+			imageToPhaser(res, op, this);
 		}
 	}
 
@@ -251,103 +345,138 @@ class BoardGeneration extends Scene
 	visualizeStartingPositions(graphics: any)
 	{
 		const inkFriendly = this.cfg.inkFriendly;
-		for(let i = 0; i < this.startingPositions.length; i++) {
+		const res = resLoader.getResource("StartingPositionIcon");
+
+		for(let i = 0; i < this.startingPositions.length; i++) 
+		{
 			const pos = this.startingPositions[i];
-			const rect = new Geom.Rectangle(pos.x * this.cfg.cellWidth, pos.y * this.cfg.cellHeight, this.cfg.cellWidth, this.cfg.cellHeight);
+			const rect = new Rectangle().fromTopLeft(new Point(pos.x * this.cfg.cellWidth, pos.y * this.cfg.cellHeight), new Point(this.cfg.cellWidth, this.cfg.cellHeight));
 
 			const color = this.cfg.playerColors[i];
 			if(!inkFriendly)
 			{
-				graphics.fillStyle(color, 1.0);
-				graphics.fillRectShape(rect);
+				const opRect = new LayoutOperation({ fill: color });
+				rectToPhaser(rect, opRect, graphics);
 			}
 
-			var sprite = this.add.sprite(rect.x + 0.5*this.cfg.cellWidth, rect.y + 0.5*this.cfg.cellHeight, 'startingPositionIcon');
+			const op = new LayoutOperation({
+				translate: rect.center.clone(),
+				dims: new Point(this.cfg.minSizeCell),
+				pivot: Point.CENTER,
+				frame: i,
+			})
 
-			sprite.setOrigin(0.5, 0.5);
-			sprite.setFrame(i);
-			sprite.displayWidth = sprite.displayHeight = this.cfg.minSizeCell;
-			sprite.tint = color;
+			imageToPhaser(res, op, this);
 		}
 	}
 
 	visualizeCellContents(graphics: any)
 	{
-		const inkFriendly = this.cfg.inkFriendly;
+		// @ts-ignore
 		const resourceLineGraphics = this.add.graphics();
-		const textCfg = {
-			fontFamily: this.cfg.fontFamily,
-			fontSize: this.cfg.path.fontSize,
-			color: this.cfg.path.fontColor,
-			stroke: inkFriendly ? this.cfg.path.strokeColorGray : this.cfg.path.strokeColor,
-			strokeThickness: this.cfg.path.strokeWidth,
-		}
+		const inkFriendly = this.cfg.inkFriendly;
+
+		const textConfig = new TextConfig({
+			font: this.cfg.fontFamily,
+			size: this.cfg.path.fontSize
+		}).alignCenter();
 
 		// draw random obstacles, buildings, numbers, stuff
-		for(const obj of this.obstacles) {	
+		for(const obj of this.obstacles) 
+		{	
 			const x = (obj.x + 0.5) * this.cfg.cellWidth;
 			const y = (obj.y + 0.5) * this.cfg.cellHeight;
 			const t = obj.type;
 
 			if(t == "path") {
 				const randNum = Math.floor(Math.random() * 15) + 1
-				const txt = this.add.text(x, y, randNum.toString(), textCfg);
-				txt.setOrigin(0.5, 0.5);
+				const resText = new ResourceText({ text: randNum.toString(), textConfig: textConfig });
+				const opText = new LayoutOperation({
+					translate: new Point(x,y),
+					dims: new Point(2*textConfig.size),
+					fill: this.cfg.path.fontColor,
+					stroke: inkFriendly ? this.cfg.path.strokeColorGray : this.cfg.path.strokeColor,
+					strokeWidth: this.cfg.path.strokeWidth,
+					pivot: Point.CENTER
+				})
+				textToPhaser(resText, opText, this);
+
 			} else if(t == "people") {
 				const randPerson = this.getRandom(this.cfg.lists.people)
 				const spriteSize = this.cfg.minSizeCell * this.cfg.peopleSpriteScale;
-				const backgroundCircle = new Geom.Circle(x, y, 0.9*0.5*spriteSize)
+				const backgroundCircle = new Circle({ center: new Point(x,y), radius: 0.9*0.5*spriteSize });
+				const opCircle = new LayoutOperation({
+					fill: this.cfg.peopleColor
+				});
+				circleToPhaser(backgroundCircle, opCircle, graphics);
 
-				graphics.fillStyle(this.cfg.peopleColor, 1.0);
-				graphics.fillCircleShape(backgroundCircle);
-
-				const textureKey = randPerson + 'Icon';
-				const sprite = this.add.sprite(x, y, textureKey);
-				sprite.setOrigin(0.5, 0.5);
-				sprite.displayWidth = sprite.displayHeight = spriteSize;
+				const textureKey = this.capitalize(randPerson) + "Icon";
+				const res = resLoader.getResource(textureKey);
+				const op = new LayoutOperation({
+					translate: new Point(x,y),
+					pivot: Point.CENTER,
+					dims: new Point(spriteSize)
+				})
+				imageToPhaser(res, op, this);
+			
 			} else if(t == "buildings") {
 				const terrainTypes = this.cfg.terrainTypes;
 				const randType = terrainTypes[Math.floor(Math.random() * terrainTypes.length)]
 
-				const backgroundRectangle = new Geom.Rectangle(obj.x*this.cfg.cellWidth, obj.y*this.cfg.cellHeight, this.cfg.cellWidth, this.cfg.cellHeight);
-
-				const textureKey = randType + 'Icon';
-				const sprite = this.add.sprite(x, y, textureKey);
-				sprite.setOrigin(0.5, 0.5);
-				sprite.displayWidth = sprite.displayHeight = this.cfg.minSizeCell;
+				const textureKey = this.capitalize(randType) + 'Icon';
+				const res = resLoader.getResource(textureKey);
+				const op = new LayoutOperation({
+					translate: new Point(x,y),
+					dims: new Point(this.cfg.minSizeCell),
+					pivot: Point.CENTER
+				})
+				imageToPhaser(res, op, this);
 
 				if(!inkFriendly)
 				{
 					const color = this.cfg.buildingColors[randType];
-					graphics.fillStyle(color, 1.0);
-					graphics.fillRectShape(backgroundRectangle)
+					const pos = new Point(obj.x*this.cfg.cellWidth, obj.y*this.cfg.cellHeight);
+					const bgRect = new Rectangle().fromTopLeft(pos, new Point(this.cfg.cellWidth, this.cfg.cellHeight));
+					const opRect = new LayoutOperation({
+						fill: color
+					})
+					rectToPhaser(bgRect, opRect, graphics);
 				}
+			
 			} else if(t == "resource") {
 				const randResource = this.getRandom(this.cfg.lists.resources);
 				const color = this.cfg.resourceColors[randResource];
 
 				// random direction (horizontal or vertical)
-				var startX = obj.x*this.cfg.cellWidth, startY = obj.y*this.cfg.cellHeight
-				var newX = startX + this.cfg.cellWidth, newY = startY
+				let startX = obj.x*this.cfg.cellWidth, startY = obj.y*this.cfg.cellHeight
+				let newX = startX + this.cfg.cellWidth, newY = startY
 				const makeVertical = Math.random() >= 0.5;
-				if(makeVertical) {
+				if(makeVertical) 
+				{
 					newX = startX
 					newY = startY + this.cfg.cellHeight
 				}
 
-				const line = new Geom.Line(startX, startY, newX, newY);
 				const lw = this.cfg.resourceLineWidth;
-				resourceLineGraphics.lineStyle(lw, color, 1.0);
-				resourceLineGraphics.strokeLineShape(line);
+				const line = new Line(new Point(startX, startY), new Point(newX, newY));
+				const opLine = new LayoutOperation({
+					stroke: color,
+					strokeWidth: lw
+				})
+				lineToPhaser(line, opLine, resourceLineGraphics);
 
 				const avgX = 0.5*(startX + newX);
 				const avgY = 0.5*(startY + newY);
 				const spriteSize = 0.95*lw;
 
-				const textureKey = randResource + 'Icon';
-				const sprite = this.add.sprite(avgX, avgY, textureKey);
-				sprite.setOrigin(0.5, 0.5);
-				sprite.displayWidth = sprite.displayHeight = spriteSize;
+				const textureKey = this.capitalize(randResource) + 'Icon'; // @TODO: ugh now I need to CAPITALIZE this shit
+				const res = resLoader.getResource(textureKey);
+				const op = new LayoutOperation({
+					translate: new Point(avgX, avgY),
+					dims: new Point(spriteSize),
+					pivot: Point.CENTER
+				})
+				imageToPhaser(res, op, this);
 			}
 		}
 	}
@@ -356,41 +485,60 @@ class BoardGeneration extends Scene
 	// Also add coordinates: LETTERS is HORIZONTAL, NUMBERS is VERTICAL
 	visualizeGrid(graphics: any)
 	{
-		const gridTextCfg = {
-			fontFamily: this.cfg.fontFamily,
-			fontSize: this.cfg.grid.fontSize,
-			color: this.cfg.grid.fontColor,
-		}
+		const textConfig = new TextConfig({
+			font: this.cfg.fontFamily,
+			size: this.cfg.grid.fontSize
+		}).alignCenter();
 
 		const inkFriendly = this.cfg.inkFriendly;
 		const color = inkFriendly ? this.cfg.grid.lineColorGray : this.cfg.grid.lineColor;
 
-		graphics.lineStyle(this.cfg.grid.lineWidth, color, 1.0);
+		const opLine = new LayoutOperation({
+			stroke: color,
+			strokeWidth: this.cfg.grid.lineWidth
+		})
 
-		for(var i = 0; i <= this.cfg.gridWidth; i++) {
-			var x = i * this.cfg.cellWidth;
+		for(let i = 0; i <= this.cfg.gridWidth; i++) 
+		{
+			const x = i * this.cfg.cellWidth;
 
-			var line = new Geom.Line(x, 0, x, this.canvas.height);
-			graphics.strokeLineShape(line);
+			const line = new Line(new Point(x,0), new Point(x, this.canvas.height));
+			lineToPhaser(line, opLine, graphics);
 
 			const finalX = x + 0.5*this.cfg.cellWidth;
 			const finalY = this.cfg.grid.textMargin.y;
 
-			var txt = this.add.text(finalX, finalY, this.cfg.horizontalMarks.at(i), gridTextCfg);
-			txt.setOrigin(0.5, 0.5);
+			const str = this.cfg.horizontalMarks.at(i);
+			const resText = new ResourceText({ text: str, textConfig: textConfig });
+			const opText = new LayoutOperation({
+				translate: new Point(finalX, finalY),
+				dims: new Point(2*textConfig.size),
+				fill: this.cfg.grid.fontColor,
+				pivot: Point.CENTER
+			})
+			textToPhaser(resText, opText, this);
+
 		}
 
-		for(var i = 0; i <= this.cfg.gridHeight; i++) {
-			var y = i * this.cfg.cellHeight;
+		for(let i = 0; i <= this.cfg.gridHeight; i++) 
+		{
+			const y = i * this.cfg.cellHeight;
 
-			var line = new Geom.Line(0, y, this.canvas.width, y);
-			graphics.strokeLineShape(line);
+			const line = new Line(new Point(0,y), new Point(this.canvas.width, y));
+			lineToPhaser(line, opLine, graphics);
 
 			const finalX = this.cfg.grid.textMargin.x;
 			const finalY = y + 0.5*this.cfg.cellHeight;
 
-			var txt = this.add.text(finalX, finalY, (i + 1).toString(), gridTextCfg);
-			txt.setOrigin(0.5, 0.5);
+			const str = (i + 1).toString();
+			const resText = new ResourceText({ text: str, textConfig: textConfig });
+			const opText = new LayoutOperation({
+				translate: new Point(finalX, finalY),
+				dims: new Point(2*textConfig.size),
+				fill: this.cfg.grid.fontColor,
+				pivot: Point.CENTER
+			})
+			textToPhaser(resText, opText, this);
 		}
 	}
 
@@ -400,20 +548,27 @@ class BoardGeneration extends Scene
 		const margin = 0.33*spriteSize;
 		let x = this.canvas.width - 0.5*spriteSize - margin;
 		let y = this.canvas.height - 0.5*spriteSize - margin;
+
+		const res = resLoader.getResource("starry_planets");
+
 		for(const planet of this.cfg.planetSet)
 		{
 			const frame = PLANET_MAP[planet];
-			console.log(frame);
-			const sprite = this.add.sprite(x, y, "planets");
-			sprite.setOrigin(0.5, 0.5);
-			sprite.displayWidth = sprite.displayHeight = spriteSize;
-			sprite.setFrame(frame);
+			const op = new LayoutOperation({
+				translate: new Point(x,y),
+				dims: new Point(spriteSize),
+				pivot: Point.CENTER,
+				frame: frame
+			})
+			imageToPhaser(res, op, this);
+
 			x -= spriteSize;
 		}
 	}
 
 	visualizeBoard() 
 	{
+		// @ts-ignore
 		const graphics = this.add.graphics();
 		
 		this.visualizeBackground(graphics);
@@ -421,6 +576,11 @@ class BoardGeneration extends Scene
 		this.visualizeCellContents(graphics);
 		this.visualizeGrid(graphics);
 		this.visualizePlanets();
+	}
+
+	capitalize(str:string)
+	{
+		return str.slice(0,1).toUpperCase() + str.slice(1);
 	}
 }
 

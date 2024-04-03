@@ -206,6 +206,35 @@ export default class Color
         return isZero(this.a);
     }
 
+    // easy setters (which I apparently need a lot, as it turns out)
+    getAlpha() { return this.a; }
+    setAlpha(a:number)
+    {
+        this.a = a;
+        return this;
+    }
+
+    getHue() { return this.h; }
+    setHue(h:number)
+    {
+        this.h = h;
+        return this;
+    }
+
+    getSaturation() { return this.s; }
+    setSaturation(s:number)
+    {
+        this.s = s;
+        return this;
+    }
+
+    getLightness() { return this.l; }
+    setLightness(l:number)
+    {
+        this.l = l;
+        return this;
+    }
+
     // @TODO
     invert()
     {

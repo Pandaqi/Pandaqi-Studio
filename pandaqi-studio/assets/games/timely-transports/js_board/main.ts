@@ -1,10 +1,24 @@
 import { CITY_NAMES, PLAYERCOUNT_TO_CITYCOUNT, PLAYER_COLORS, GOODS, DIFFICULTY_LEVELS, JUNGLE_NAME_TEMPLATES, COOL_WORD_TEMPLATES, PathType, TerrainType } from "../js_shared/dict"
 import calculateRoute from "./pathfinder"
+// @ts-ignore
 import { noise } from "./perlin"
 import OnPageVisualizer from "js/pq_games/website/onPageVisualizer"
-import { Scene, Geom } from "js/pq_games/phaser/phaser.esm"
+// @ts-ignore
+import { Scene } from "js/pq_games/phaser/phaser.esm"
 import Point from "js/pq_games/tools/geometry/point"
 import Line from "js/pq_games/tools/geometry/line"
+import CONFIG from "../js_shared/config"
+import ResourceLoader from "js/pq_games/layout/resources/resourceLoader"
+import resourceLoaderToPhaser from "js/pq_games/phaser/resourceLoaderToPhaser"
+import setDefaultPhaserSettings from "js/pq_games/phaser/setDefaultPhaserSettings"
+import LayoutOperation from "js/pq_games/layout/layoutOperation"
+import imageToPhaser from "js/pq_games/phaser/imageToPhaser"
+import Rectangle from "js/pq_games/tools/geometry/rectangle"
+import { lineToPhaser, rectToPhaser } from "js/pq_games/phaser/shapeToPhaser"
+import shuffle from "js/pq_games/tools/random/shuffle"
+import textToPhaser from "js/pq_games/phaser/textToPhaser"
+import ResourceText from "js/pq_games/layout/resources/resourceText"
+import TextConfig from "js/pq_games/layout/text/textConfig"
 
 interface CityData
 {
@@ -69,6 +83,9 @@ interface ConnectionQueryData
 }
 
 const sceneKey = "boardGeneration"
+const resLoader = new ResourceLoader({ base: CONFIG.assetsBase });
+resLoader.planLoadMultiple(CONFIG.assets);
+
 class BoardGeneration extends Scene
 {
 	canvas: HTMLCanvasElement
@@ -90,35 +107,15 @@ class BoardGeneration extends Scene
 
 	preload() 
 	{
-		this.load.crossOrigin = 'Anonymous';
-		this.canvas = this.sys.game.canvas;
-
-		let base = 'assets/';
-
-		this.load.image('city', base + 'city.png');
-		this.load.spritesheet('cities', base + 'cities.webp', { frameWidth: 100, frameHeight: 100 })
-
-		this.load.image('airport', base + 'airport.png');
-		this.load.image('airplane_tile_sprite', base + 'airplane_tile_sprite.png?cc=1');
-		this.load.image('seaprintfriendly', base + 'seaprintfriendly.png?cc=1');
-
-		this.load.spritesheet('forest', base + 'forest.webp', { frameWidth: 100, frameHeight: 200 });
-		this.load.spritesheet('forest_printfriendly', base + 'forest_printfriendly.webp', { frameWidth: 100, frameHeight: 200 });
-
-		this.load.spritesheet('goods', base + 'goods.webp', { frameWidth: 100, frameHeight: 100 });
-
-		this.load.spritesheet('searoutes', base + 'searoutes.png?cc=1', { frameWidth: 50, frameHeight: 50 });
-		this.load.spritesheet('searoutes_printfriendly', base + 'searoutes_printfriendly.png?cc=1', { frameWidth: 50, frameHeight: 50 });
-		this.load.spritesheet('landroutes', base + 'landroutes.png?cc=1', { frameWidth: 50, frameHeight: 50 });
-		this.load.spritesheet('railroutes', base + 'railroutes.png?cc=1', { frameWidth: 50, frameHeight: 50 });
-
-		this.load.image('inbetween_space', base + 'inbetween_space.png');
-		this.load.image('rules_overview', base + 'rules_overview.webp');
+		setDefaultPhaserSettings(this); 
 	}
 
 	// user-input settings should be passed through config
-	create(config) 
+	async create(config:Record<string,any>) 
 	{
+		await resLoader.loadPlannedResources();
+        await resourceLoaderToPhaser(resLoader, this);
+
 		const jungleName = this.getRandomJungleName();
 
 		const canvasWidth = this.canvas.width;
@@ -364,8 +361,8 @@ class BoardGeneration extends Scene
 			}
 		}
 
-		this.shuffle(this.dockLocations);
-		this.shuffle(this.landLocations);
+		shuffle(this.dockLocations);
+		shuffle(this.landLocations);
 	}
 
 	isInRulesMargin(pos:Point) 
@@ -656,7 +653,7 @@ class BoardGeneration extends Scene
 		let airportsPlaced = 0;
 
 		let citiesCopy = this.cities.slice();
-		this.shuffle(citiesCopy);
+		shuffle(citiesCopy);
 
 		for(let i = 0; i < citiesCopy.length; i++) {
 			let c = citiesCopy[i];
@@ -847,7 +844,7 @@ class BoardGeneration extends Scene
 		} 
 
 		// shuffle the goods list
-		this.shuffle(goodsList);
+		shuffle(goodsList);
 
 		// while we have goods, loop through the cities and give them to each city, including a point value
 		let counter = 0;
@@ -946,8 +943,10 @@ class BoardGeneration extends Scene
 		return true;
 	}
 
-	visualizeGame() {
-		let graphics = this.add.graphics();
+	visualizeGame() 
+	{
+		// @ts-ignore
+		const graphics = this.add.graphics();
 
 		const oX = this.cfg.oX;
 		const oY = this.cfg.oY;
@@ -963,60 +962,67 @@ class BoardGeneration extends Scene
 			for(let y = 0; y < this.cfg.heightInCells; y++) 
 			{
 				const pos = new Point(x,y);
+				const rect = new Rectangle().fromTopLeft(new Point(oX + x*cs, oY + y*cs), new Point(cs));
+				const noiseVal = this.getCell(pos).val;
+				const cell = this.getCell(pos);
 
-				let rect = new Geom.Rectangle(oX + x*cs, oY + y*cs, cs, cs);
-				let noiseVal = this.getCell(pos).val;
-
+				let terrainColor = null;
 				if(noiseVal <= deepWaterLine) {
-					graphics.fillStyle(0x030027, 1.0);
+					terrainColor = "#030027";
 				} else if(noiseVal <= waterLine) {
-					graphics.fillStyle(0x086375, 1.0);
+					terrainColor = "#086375";
 				} /*else if(noiseVal <= 0.2) {
-					graphics.fillStyle(0x143109, 1.0);
+					terrainColor = "#143109";
 				} else if(noiseVal <= 0.4) {
-					graphics.fillStyle(0x004F2D, 1.0);
+					terrainColor = "#004F2D";
 				} */ else if(noiseVal <= 0.5) {
-					graphics.fillStyle(0x8FC93A, 1.0);
+					terrainColor = "#8FC93A";
 				} else if(noiseVal <= mountainLine) {
-					graphics.fillStyle(0xC6DEA6, 1.0);
+					terrainColor = "#C6DEA6"
 				} else {
-					graphics.fillStyle(0x7A6263, 1.0);
+					terrainColor = "#7A6263";
 				}
 
-				if(this.getCell(pos).isForest) {
+				if(cell.isForest) 
+				{
 					const frame = this.checkNeighbourForestFrame(pos);
 					const imageKey = this.cfg.printFriendly ? "forest_printfriendly" : "forest";
-					
-					const forest = this.add.sprite(rect.x + 0.5*cs, rect.y + 0.5*cs, imageKey, frame);
-
 					const randSizeChange = Math.random()*8 - 4;
 					const randOffsetChangeX = Math.random()*0.2-0.1, randOffsetChangeY = Math.random()*0.2-0.1;
+					const forestWidth = cs + randSizeChange;
 
-					forest.displayWidth = cs + randSizeChange;
-					forest.displayHeight = forest.displayWidth * 2.0;
-					forest.setOrigin(0.5 + randOffsetChangeX, 1.0 + randOffsetChangeY);
+					const res = resLoader.getResource(imageKey);
+					const rectPos = rect.getTopLeft();
+					const op = new LayoutOperation({
+						translate: new Point(rectPos.x + 0.5*cs, rectPos.y + 0.5*cs),
+						dims: new Point(forestWidth, forestWidth*2.0),
+						pivot: new Point(0.5 + randOffsetChangeX, 1.0 + randOffsetChangeY),
+						flipX: Math.random() <= 0.5,
+						frame: frame,
+						depth: y // @TODO: implement this property 
+					});
 
-					forest.depth = y;
-
-					forest.flipX = Math.random() < 0.5 ? true : false;
-
-					this.getCell(pos).forestFrame = frame;
+					imageToPhaser(res, op, this);
 				}
 				
 				// if printfriendly, don't draw any colors and use outlines/stripes for sea and stuff
 				// otherwise, just draw the terrain in detail
 				if(this.cfg.printFriendly) 
 				{
-					if(noiseVal <= waterLine) {
-						let seaSprite = this.add.sprite(rect.x, rect.y, 'seaprintfriendly');
-
-						seaSprite.displayWidth = seaSprite.displayHeight = cs;
-						seaSprite.setOrigin(0,0);
-						seaSprite.depth = y - 0.51;
-						seaSprite.setAlpha(0.5);
+					if(noiseVal <= waterLine) 
+					{
+						const res = resLoader.getResource("seaprintfriendly");
+						const op = new LayoutOperation({
+							translate: rect.getTopLeft(),
+							dims: new Point(cs),
+							alpha: 0.5,
+							depth: y - 0.51,
+						})
+						imageToPhaser(res, op, this);
 					}
 				} else {
-					graphics.fillRectShape(rect);
+					const opRect = new LayoutOperation({ fill: terrainColor });
+					rectToPhaser(rect, opRect, graphics);
 				}
 				
 				// we also perform a sweep over all the paths to remove ugly connections
@@ -1037,11 +1043,13 @@ class BoardGeneration extends Scene
 
 		// render all water edges (for clearer separation between land and water)
 		const waterEdgeLineWidth = 1.5
+		const opWaterEdge = new LayoutOperation({ stroke: "#000000", strokeWidth: waterEdgeLineWidth });
 		for(const e of this.waterEdges) 
 		{
-			const line = new Geom.Line(oX + e.start.x*cs, oY + e.start.y*cs, oX + e.end.x*cs, oY + e.end.y*cs);
-			graphics.lineStyle(waterEdgeLineWidth, 0x000000, 1.0); 
-			graphics.strokeLineShape(line);
+			const start = new Point(oX + e.start.x*cs, oY + e.start.y*cs);
+			const end = new Point(oX + e.end.x*cs, oY + e.end.y*cs)
+			const line = new Line(start, end);
+			lineToPhaser(line, opWaterEdge, graphics);
 		}
 
 		// connections (between cities)
@@ -1062,15 +1070,10 @@ class BoardGeneration extends Scene
 					let connectionInfo = this.countConnections(pos, pathType);
 
 					let spriteFrame = (connectionInfo.count - 1)
-					if(connectionInfo.count == 2) {
-						if(connectionInfo.hasBend) {
-							spriteFrame = 0;
-						}
-					}
+					if(connectionInfo.count == 2 && connectionInfo.hasBend) { spriteFrame = 0; }
 
-					let spriteRotation = connectionInfo.rotation
+					const spriteRotation = connectionInfo.rotation
 
-					let rect = new Geom.Rectangle(oX + x*cs, oY + y*cs, cs, cs);
 					let sheetKey
 					if(pathType == PathType.BOAT) {
 						sheetKey = 'searoutes'
@@ -1083,16 +1086,19 @@ class BoardGeneration extends Scene
 						sheetKey = 'railroutes'
 					}
 
-					rect = this.add.sprite(rect.x + 0.5*cs, rect.y + 0.5*cs, sheetKey, spriteFrame);
-					rect.displayWidth = cs;
-					rect.displayHeight = cs;
+					const resRoad = resLoader.getResource(sheetKey);
+					const opRoad = new LayoutOperation({
+						translate: new Point(oX + (x+0.5)*cs, oY + (y+0.5)*cs),
+						dims: new Point(cs),
+						frame: spriteFrame,
+						pivot: Point.CENTER,
+						rotation: spriteRotation * 0.5 * Math.PI,
+						depth: y
+					});
+					imageToPhaser(resRoad, opRoad, this);
 
-					rect.setOrigin(0.5, 0.5);
-					rect.angle = spriteRotation*90
-
-					rect.depth = y;
-
-					if(curCell.halfwayPointOfPath) {
+					if(curCell.halfwayPointOfPath) 
+					{
 						// Check if there is already such a cell above/left/diagonal from us
 						// If so, don't display this one, as it's (most likely) redundant and ugly
 
@@ -1106,7 +1112,8 @@ class BoardGeneration extends Scene
 								if(this.outOfBounds(pos)) { continue; }
 
 								let cell = this.getCell(pos);
-								if(cell.halfwayPointOfPath || cell.city != null) { 
+								if(cell.halfwayPointOfPath || cell.city != null) 
+								{ 
 									shouldPlaceSprite = false; 
 									curCell.halfwayPointOfPath = false;
 									break;
@@ -1114,11 +1121,16 @@ class BoardGeneration extends Scene
 							}
 						}
 
-						if(shouldPlaceSprite) {
-							let sprite = this.add.sprite(rect.x, rect.y, 'inbetween_space');
-							sprite.displayWidth = sprite.displayHeight = this.cfg.cellSize*0.75;
-							sprite.setOrigin(0.5, 0.5);
-							sprite.depth = rect.depth + 0.5;
+						if(shouldPlaceSprite) 
+						{
+							const res = resLoader.getResource("inbetween_space");
+							const op = new LayoutOperation({
+								translate: opRoad.translate.clone(),
+								dims: new Point(this.cfg.cellSize*0.75),
+								pivot: Point.CENTER,
+								depth: y + 0.5
+							});
+							imageToPhaser(res, op, this);
 						}
 					}
 
@@ -1130,111 +1142,183 @@ class BoardGeneration extends Scene
 		// cities
 		const radius = this.cfg.cellSize*0.5*1.5;
 		const textCfg:Record<string,any> = 
-			{
-				fontFamily: 'Rowdies', 
-				fontSize: Math.max(radius, 20) + 'px',
-				color: '#111111', 
-				stroke: '#FFFFFF',
-				strokeThickness: 3,
-			}
+		{
+			fontFamily: 'Rowdies', 
+			fontSize: Math.max(radius, 20),
+			color: '#111111', 
+			stroke: '#FFFFFF',
+			strokeThickness: 3,
+		}
+
+		const textConfig = new TextConfig({
+			font: textCfg.fontFamily,
+			size: textCfg.fontSize
+		}).alignCenter();
 
 		const goodNumberCfg = 
-			{
-				fontFamily: "Rowdies",
-				fontSize: Math.max(radius, 16) + 'px',
-				color: '#111111',
-				stroke: "#FFFFFF",
-				strokeThickness: 1.5
-			}
+		{
+			fontFamily: "Rowdies",
+			fontSize: Math.max(radius, 16),
+			color: '#111111',
+			stroke: "#FFFFFF",
+			strokeThickness: 3
+		}
+
+		const textConfigGoodNumber = new TextConfig({
+			font: goodNumberCfg.fontFamily,
+			size: goodNumberCfg.fontSize
+		}).alignCenter();
 
 		const bonusTxtCfg = 
-			{
-				fontFamily: "Rowdies",
-				fontSize: textCfg.fontSize,
-				color: "#66FF66",
-				stroke: "#003300",
-				strokeThickness: 1.5
-			}
+		{
+			fontFamily: "Rowdies",
+			fontSize: textCfg.fontSize,
+			color: "#66FF66",
+			stroke: "#003300",
+			strokeThickness: 3
+		}
+
+		const textConfigBonus = new TextConfig({
+			font: bonusTxtCfg.fontFamily,
+			size: bonusTxtCfg.fontSize
+		}).alignCenter();
 
 		for(let i = 0; i < this.cities.length; i++) 
 		{
-			let c = this.cities[i];
-
+			const c = this.cities[i];
 			let xPos = oX + (c.pos.x + 0.5)*cs, yPos = oY + (c.pos.y + 0.5)*cs
-			let circ
 
-			textCfg.stroke = '#FFFFFF';
+			const opText = new LayoutOperation({
+				fill: textCfg.color,
+				stroke: textCfg.stroke,
+				strokeWidth: textCfg.strokeThickness,
+				dims: new Point(10,2).scale(textConfig.size),
+				pivot: Point.CENTER
+			});
 
+			const opSprite = new LayoutOperation({
+				translate: new Point(xPos, yPos), 
+				dims: new Point(radius*4),
+				pivot: Point.CENTER,
+				depth: yPos + 1.1
+		    });
+			
+			let res;
 			if(c.capital == null) {
-				circ = this.add.sprite(xPos, yPos, 'city')
-				textCfg.color = '#111111';
+				res = resLoader.getResource("city");
+				opText.setFill("#111111");
 			} else {
-				circ = this.add.sprite(xPos, yPos, 'cities', c.capital)
-				textCfg.color = PLAYER_COLORS[c.capital];
+				res = resLoader.getResource("cities");
+				const newColor = PLAYER_COLORS[c.capital];
+				opText.setFill(newColor);
+				opSprite.frame = c.capital;
 
 				// some players colors are so bright that I need to manually set a black outline
-				if(textCfg.color == '#FFFF00' || textCfg.color == '#FFA500') {
-					textCfg.stroke = '#111111'
+				if(newColor == '#FFFF00' || newColor == '#FFA500') {
+					opText.setStroke('#111111');
 				}
 			}
-
-			circ.displayWidth = radius*4;
-			circ.displayHeight = radius*4;
-			circ.setOrigin(0.5, 0.5);
-
-			circ.depth = c.pos.y + 1.1
+			imageToPhaser(res, opSprite, this);
 
 			// display name of city BELOW it
-			let yOffset = -6
-			let txt = this.add.text(circ.x, circ.y + 2*radius + yOffset, CITY_NAMES[i], textCfg);
-			txt.setOrigin(0.5, 0.5);
-			txt.depth = 10000;
+			const yOffset = -6
+			const opTextCity = opText.clone();
+			opTextCity.translate = new Point(xPos, yPos + 2*radius + yOffset);
+			opTextCity.depth = 10000;
+
+			const resTextCity = new ResourceText({ text: CITY_NAMES[i], textConfig: textConfig });
+			const txt = textToPhaser(resTextCity, opTextCity, this);
 
 			// display wanted goods
 			let wg = c.wantedGoods;
-			let iconSize = 2*radius;
-			for(let g = 0; g < wg.length; g++) {
-				let good = wg[g];
-				let spritesheetFrame = GOODS[good.name].frame
-				let value = good.value;
+			const iconSize = 2*radius;
 
-				let sprite = this.add.sprite(circ.x + (-wg.length*0.5 + g + 0.5)*iconSize, circ.y - 2*radius, 'goods', spritesheetFrame);
-				sprite.displayWidth = sprite.displayHeight = 2*radius;
-				sprite.depth = 10000 + 1;
+			for(let g = 0; g < wg.length; g++) 
+			{
+				const good = wg[g];
+				const spritesheetFrame = GOODS[good.name].frame
+				const value = good.value;
 
-				let text = this.add.text(sprite.x, sprite.y, value, goodNumberCfg);
-				text.depth = 10000 + 1;
+				const pos = new Point(xPos + (-wg.length*0.5 + g + 0.5)*iconSize, yPos - 2*radius);
+				const resGood = resLoader.getResource("goods");
+				const opGood = new LayoutOperation({
+					translate: pos,
+					dims: new Point(2*radius),
+					frame: spritesheetFrame,
+					depth: 10000 + 1,
+					pivot: Point.CENTER	
+				})
+				imageToPhaser(resGood, opGood, this);
+
+				const opText = new LayoutOperation({
+					translate: pos.clone().add(new Point(0, 0.33*iconSize)),
+					fill: goodNumberCfg.color,
+					stroke: goodNumberCfg.stroke,
+					strokeWidth: goodNumberCfg.strokeThickness,
+					dims: new Point(5*radius),
+					depth: 10000 + 1
+				})
+
+				const resText = new ResourceText({ text: value.toString(), textConfig: textConfigGoodNumber });
+				textToPhaser(resText, opText, this);
 			}
 
 			// Airport is indicated by underline (with arrow pattern) to city name!
-			if(c.airport) {
-				let pos1 = txt.getBottomLeft()
-				let pos2 = txt.getBottomRight()
-				let thickness = Math.max(radius*0.5, 8)
-				let yOffset = -5
-				let rect = new Geom.Rectangle(pos1.x, pos1.y + yOffset, (pos2.x-pos1.x), thickness)
+			if(c.airport) 
+			{
+				const pos1 = txt.getBottomLeft()
+				const pos2 = txt.getBottomRight()
+				const thickness = Math.max(radius*0.5, 8)
+				const yOffset = -5;
 
-				let gr = this.add.graphics();
-				gr.fillStyle(0xFF6666, 1.0);
-				gr.fillRectShape(rect);
+				const rectPos = new Point(pos1.x, pos1.y + yOffset);
+				const rectSize = new Point((pos2.x-pos1.x), thickness);
 
-				gr.depth = 10000 + 1;
+				let posStart = rectPos.clone();
+				const numRepeats = 4;
+				const sizeFinal = rectSize.clone();
+				const sizePerRepeat = new Point(sizeFinal.x / numRepeats);
+				rectSize.y = sizePerRepeat.x;
+				const rect = new Rectangle().fromTopLeft(rectPos, rectSize);
 
-				let tileSprite = this.add.tileSprite(rect.x, rect.y, rect.width, rect.height, 'airplane_tile_sprite');
-				tileSprite.setOrigin(0,0);
-				
-				tileSprite.tileScaleX = tileSprite.tileScaleY = (thickness/20.0);
+				// @ts-ignore
+				const graphicsAirport = this.add.graphics();
+				graphicsAirport.depth = 10000 + 1;
+				const opRect = new LayoutOperation({ fill: "#FF6666" });
+				rectToPhaser(rect, opRect, graphicsAirport);
 
-				tileSprite.depth = gr.depth + 1;
+				// this repeats a tiny texture several times (horizontally) to mimic what used to be a Phaser native tileSprite
+				// @TODO: this is probably not centered/positioned correctly anymore
+				const resAirplaneTexture = resLoader.getResource("airplane_tile_sprite");
+				for(let i = 0; i < numRepeats; i++)
+				{
+					const opAirplaneTexture = new LayoutOperation({
+						translate: posStart.clone(),
+						dims: sizePerRepeat,
+						depth: graphicsAirport.depth + 1
+					});
+					posStart.x += sizePerRepeat.x;
+					imageToPhaser(resAirplaneTexture, opAirplaneTexture, this);
+				}
 			}
 
 			// If city bonuses are enabled, display it on the city (only if non-zero)
-			if(this.cfg.cityBonus) {
+			if(this.cfg.cityBonus) 
+			{
 				const b = c.addedBonus;
-				if(b > 0) {
-					let txt = this.add.text(circ.x, circ.y, '+' + b, bonusTxtCfg);
-					txt.setOrigin(0.5, 0.5);
-					txt.depth = 10000;
+				if(b > 0) 
+				{
+					const resText = new ResourceText({ text: '+' + b, textConfig: textConfigBonus });
+					const opText = new LayoutOperation({
+						translate: new Point(xPos, yPos),
+						dims: new Point(2*textConfigBonus.size),
+						pivot: Point.CENTER,
+						depth: 10000,
+						fill: bonusTxtCfg.color,
+						stroke: bonusTxtCfg.stroke,
+						strokeWidth: bonusTxtCfg.strokeThickness
+					})
+					textToPhaser(resText, opText, this);
 				}
 			}
 		}
@@ -1245,49 +1329,62 @@ class BoardGeneration extends Scene
 		//  -> Chosen Difficulty
 		let fontSize = 0.5 * this.cfg.cellSize;
 		let margin = 0.5 * fontSize;
+		const color = "#FFFFFF"
 
-		const detailsTextCfg = 
-		{
-			fontFamily: 'Rowdies',
-			fontSize: fontSize + 'px',
-			color: '#FFFFFF'
-		}
+		const textConfigDetails = new TextConfig({
+			font: "Rowdies",
+			size: fontSize,
+		})
 
-		let txt1 = this.add.text(oX + margin, oY + margin, '"' + this.cfg.jungleName + '"', detailsTextCfg);
-		txt1.setOrigin(0,0);
-		txt1.depth = 20000;
+		const jungleNameString = '"' + this.cfg.jungleName + '"';
+		const opTextDetails = new LayoutOperation({
+			translate: new Point(oX + margin, oY + margin),
+			fill: color,
+			depth: 20000
+		});
+		const resText = new ResourceText({ text: jungleNameString, textConfig: textConfigDetails });
+		const txt1 = textToPhaser(resText, opTextDetails, this);
 
-		let playerText = this.cfg.numPlayers + ' Player'
-		if(this.cfg.numPlayers > 1) { playerText += 's'; }
+		let playerTextString = this.cfg.numPlayers + ' Player'
+		if(this.cfg.numPlayers > 1) { playerTextString += 's'; }
 
-		let txt2 = this.add.text(oX + margin, oY + margin + fontSize, playerText, detailsTextCfg);
-		txt2.setOrigin(0, 0);
-		txt2.depth = 20000;
+		opTextDetails.translate.y += fontSize;
+		const resText2 = new ResourceText({ text: playerTextString, textConfig: textConfigDetails });
+		const txt2 = textToPhaser(resText2, opTextDetails, this);
 
-		let txt3 = this.add.text(oX + margin, oY + margin + fontSize*2, this.cfg.difficulty, detailsTextCfg);
-		txt3.setOrigin(0,0);
-		txt3.depth = 20000;	
+		opTextDetails.translate.y += fontSize;
+		const diffString = this.cfg.difficulty.toString();
+		const resText3 = new ResourceText({ text: diffString, textConfig: textConfigDetails });
+		const txt3 = textToPhaser(resText3, opTextDetails, this);
 
 		// a rectangle behind the text, to make it legible (and look a bit like a map legend)
-		let maxWidth = Math.max(txt1.getRightCenter().x, txt3.getRightCenter().x) - margin;
-		let maxHeight = txt3.getBottomRight().y - (txt1.getTopLeft().y - 0.5*margin) + 0.5*margin;
-		let rect = new Geom.Rectangle(txt1.getLeftCenter().x - 0.5*margin, txt1.getTopLeft().y - 0.5*margin, maxWidth + margin, maxHeight + margin);
+		// @TODO: this heavily depends on Phaser's text object and functions => rewrite some day to be truly decoupled
+		const maxWidth = Math.max(txt1.getRightCenter().x, txt3.getRightCenter().x) - margin;
+		const maxHeight = txt3.getBottomRight().y - (txt1.getTopLeft().y - 0.5*margin) + 0.5*margin;
 
-		let overlayGraphics = this.add.graphics();
-		overlayGraphics.fillStyle(0x000000, 0.75);
-		overlayGraphics.fillRectShape(rect);
+		const rectPos = new Point(txt1.getLeftCenter().x - 0.5*margin, txt1.getTopLeft().y - 0.5*margin);
+		const rectSize = new Point(maxWidth + margin, maxHeight + margin);
+		const rect = new Rectangle().fromTopLeft(rectPos, rectSize);
 
-		overlayGraphics.depth = 20000 - 1;	
+		// @ts-ignore
+		const overlayGraphics = this.add.graphics();
+		overlayGraphics.depth = 20000 - 1;
+		overlayGraphics.alpha = 0.75;
+		const op = new LayoutOperation({ fill: "#000000" });
+		rectToPhaser(rect, op, overlayGraphics);
 
 		// display a RULE REMINDER underneath it
 		if(this.cfg.rulesReminder) 
 		{
-			let overview = this.add.sprite(rect.x, rect.y + maxHeight + margin, 'rules_overview');
-			let ratio = (overview.displayWidth / overview.displayHeight);
-			overview.displayWidth = maxWidth + margin;
-			overview.displayHeight = overview.displayWidth / ratio;
-			overview.depth = 20000 - 1;
-			overview.setOrigin(0,0);
+			const res = resLoader.getResource("rules_overview");
+			const ratio = 675.0 / 833;
+			const sizeX = maxWidth + margin;
+			const op = new LayoutOperation({
+				translate: new Point(rectPos.x, rectPos.y + maxHeight + margin),
+				dims: new Point(sizeX, sizeX / ratio),
+				depth: 20000 - 1,
+			});
+			imageToPhaser(res, op, this);
 		}
 	}
 
@@ -1296,19 +1393,6 @@ class BoardGeneration extends Scene
 		const randTemplate = JUNGLE_NAME_TEMPLATES[Math.floor(Math.random() * JUNGLE_NAME_TEMPLATES.length)];
 		const randWord = COOL_WORD_TEMPLATES[Math.floor(Math.random() * COOL_WORD_TEMPLATES.length)];
 		return randTemplate.replace("X", randWord);
-	}
-
-	shuffle(a) 
-	{
-		let j, x, i;
-		for (i = a.length - 1; i > 0; i--) {
-			j = Math.floor(Math.random() * (i + 1));
-			x = a[i];
-			a[i] = a[j];
-			a[j] = x;
-		}
-
-		return a;
 	}
 
 	checkUglyBox(pos:Point) 
@@ -1389,31 +1473,31 @@ class BoardGeneration extends Scene
 
 	countConnections(pos:Point, pathType:PathType = null) : ConnectionQueryData
 	{
-		let nbs = [[1,0], [0,1], [-1,0], [0,-1]]
+		const nbs = [new Point(1,0), new Point(0,1), new Point(-1,0), new Point(0,-1)];
 		let sum = 0;
 		let curCell = this.getCell(pos);
 
 		let rotation = -1;
 		let lastRotation = -1;
 		let hasBend = false;
-		for(let a = 0; a < 4; a++) {
-			const nbPos = new Point(pos.x + nbs[a][0], pos.y + nbs[a][1]);
+		for(let a = 0; a < 4; a++) 
+		{
+			const nbPos = new Point(pos.x + nbs[a].x, pos.y + nbs[a].y);
 			if(this.outOfBounds(nbPos)) { continue; }
 
 			let nbCell = this.getCell(nbPos);
-			if(this.validNeighbour(curCell, nbCell, pathType)) {
-				sum++;
+			if(!this.validNeighbour(curCell, nbCell, pathType)) { continue; }
 
-				if(rotation == -1 || (rotation == 0 && a == 3)) {
-					rotation = a;
-				}
-
-				if(lastRotation != -1 && (a - lastRotation) % 2 == 1) {
-					hasBend = true;
-				}
-
-				lastRotation = a;
+			sum++;
+			if(rotation == -1 || (rotation == 0 && a == 3)) {
+				rotation = a;
 			}
+
+			if(lastRotation != -1 && (a - lastRotation) % 2 == 1) {
+				hasBend = true;
+			}
+
+			lastRotation = a;
 		}
 
 		// now keep looping until we find all neighbours in a row => the first one should be our rotation
@@ -1425,12 +1509,14 @@ class BoardGeneration extends Scene
 			let iterator = 0;
 			while(true) 
 			{
-				const nbPos = new Point(pos.x + nbs[iterator][0], pos.y + nbs[iterator][1]);
+				const nbPos = new Point(pos.x + nbs[iterator].x, pos.y + nbs[iterator].y);
 
 				let addNeighbour = false;
-				if(!this.outOfBounds(nbPos)) {
+				if(!this.outOfBounds(nbPos)) 
+				{
 					let nbCell = this.getCell(nbPos);
-					if(this.validNeighbour(curCell, nbCell, pathType)) {
+					if(this.validNeighbour(curCell, nbCell, pathType)) 
+					{
 						addNeighbour = true;
 					}
 				}
@@ -1439,16 +1525,12 @@ class BoardGeneration extends Scene
 					if(neighboursInARow == 0) {
 						sequenceStarter = iterator;
 					}
-
 					neighboursInARow++;
 				} else {
 					neighboursInARow = 0;
 				}
 
-				if(neighboursInARow >= sum) {
-					break;
-				}
-
+				if(neighboursInARow >= sum) { break; }
 				iterator = (iterator + 1) % 4;
 			}
 
@@ -1479,18 +1561,23 @@ class BoardGeneration extends Scene
 	checkNeighbourForestFrame(pos:Point) 
 	{
 		// if any neighbour is a forest (which already has a frame), copy that
-		let dirs = [[-1,0], [0,-1]];
-		for(let a = 0; a < dirs.length; a++) {
-			const nbPos = new Point(pos.x + dirs[a][0], pos.y + dirs[a][1]);
+		let dirs = shuffle( [new Point(-1,0), new Point(0,-1), new Point(0,1), new Point(1,0)] );
+		for(const dir of dirs) 
+		{
+			const nbPos = new Point(pos.x + dir.x, pos.y + dir.y);
 			if(this.outOfBounds(nbPos)) { continue; }
 
-			if(this.getCell(nbPos).isForest) {
-				return this.getCell(nbPos).forestFrame
+			const cell = this.getCell(nbPos);
+			if(cell.isForest && cell.forestFrame != -1) 
+			{
+				return cell.forestFrame
 			}
 		}
 
 		// otherwise, return a random frame
-		return Math.floor(Math.random()*4)
+		const myCell = this.getCell(pos);
+		myCell.forestFrame = Math.floor(Math.random()*4)
+		return myCell.forestFrame;
 	}
 
 	distanceToBounds(pos:Point) 

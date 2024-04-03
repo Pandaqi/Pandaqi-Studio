@@ -1,75 +1,108 @@
-// @ts-nocheck
 import { TRAFFIC_SIGNS, SPECIAL_INGREDIENTS, SPECIAL_BUILDINGS } from "./dictionary"
 import OnPageVisualizer from "js/pq_games/website/onPageVisualizer"
-import { Scene, Geom } from "js/pq_games/phaser/phaser.esm"
-import Random from "js/pq_games/tools/random/main"
+// @ts-ignore
+import { Scene } from "js/pq_games/phaser/phaser.esm"
+import ResourceLoader from "js/pq_games/layout/resources/resourceLoader";
+import CONFIG from "./config";
+import setDefaultPhaserSettings from "js/pq_games/phaser/setDefaultPhaserSettings";
+import resourceLoaderToPhaser from "js/pq_games/phaser/resourceLoaderToPhaser";
+import Cell, { Order } from "./cell";
+import Point from "js/pq_games/tools/geometry/point";
+import shuffle from "js/pq_games/tools/random/shuffle";
+import seedRandom from "js/pq_games/tools/random/seedrandom";
+import getWeighted from "js/pq_games/tools/random/getWeighted";
+import Building from "./building";
+import Obstacle from "./obstacle";
+import Line from "js/pq_games/tools/geometry/line";
+import Color from "js/pq_games/layout/color/color";
+import LayoutOperation from "js/pq_games/layout/layoutOperation";
+import { lineToPhaser, rectToPhaser } from "js/pq_games/phaser/shapeToPhaser";
+import Rectangle from "js/pq_games/tools/geometry/rectangle";
+import imageToPhaser from "js/pq_games/phaser/imageToPhaser";
+import TextConfig from "js/pq_games/layout/text/textConfig";
+import ResourceText from "js/pq_games/layout/resources/resourceText";
+import textToPhaser from "js/pq_games/phaser/textToPhaser";
+
+type RandomizerFunction = () => number;
+type TrafficSign = { pos: Point, type: string, side: number, ind: number };
 
 const sceneKey = "boardGeneration"
+const resLoader = new ResourceLoader({ base: CONFIG.assetsBase });
+resLoader.planLoadMultiple(CONFIG.assets);
+
+const NBS = [new Point(1,0), new Point(0,1), new Point(-1,0), new Point(0,-1)];
+const NBS_BOX = [new Point(), new Point(1,0), new Point(1,1), new Point(0,1)];
+const CELL_OFFSETS = [new Point(1,-1), new Point(1,1), new Point(-1, 1), new Point(-1,-1)];
+
+const DIRECTIONS = [
+	[1,2,4,8], // Dead end
+	[5,10], // Straight line
+	[3,6,12,9], // Corner
+	[7, 14, 13, 11], // T-crossing (3-way)
+	[15] // All (4-way)
+]
+
+type Border = Point[]
+
+
 class BoardGeneration extends Scene
 {
 	canvas: HTMLCanvasElement
 	cfg: Record<string,any>
-	map: any[][]
-	shapes: any[]
-	crossingCells: any[]
-	possiblePolicePoints: any[]
-	crossingSets: any[]
-	crossingCounter: any
-	pathsToExtend: any
-	curRoadSet: any[]
-	roadSets: any
+	map: Cell[][]
+	mapList: Cell[]
 	extendingUnconnectedRoads: boolean
-	obstacles: any[]
-	buildings: any[]
-	specialIngredientsIncluded: any[]
+	obstacles: Obstacle[]
+	buildings: Building[]
 	subwayCounter: number
-	randomCreationOrder: any[]
-	deadEnds: any[]
-	fullIngredientList: any[]
-	fullOrderList: any[]
+	specialIngredientsIncluded: number[]
+	deadEnds: Point[]
 	orderLengthCounter: number
-	allEntrances: any[]
 	numIngredientBuildings: number
 	numOrderBuildings: number
-	policeCells: any[]
-	trafficSigns: any[]
+	trafficSigns: TrafficSign[]
+	policeCells: Cell[]
+	possiblePolicePoints: Point[]
+	allEntrances: Cell[]
+	fullIngredientList: number[]
+	crossingCells: Point[]
+	crossingSets: Point[][]
+	pathsToExtend: Point[]
 
-	ROAD_EXTEND_RNG: any
-	RAND_POINT_RNG: any
-	BUILDING_GROW_RNG: any
-	BUILDING_TYPE_RNG: any
-	SHUFFLE_RNG: any
-	ALLEY_RNG: any
-	RANDOM_DRAW_RNG: any
-	RANDOM_SQUARE_RNG: any
-	TRAFFIC_SIGN_RNG: any
-	VARIATION_RNG: any
+	randomCreationOrder: any[]
+	fullOrderList: any[]
+	shapes: any[]
+	crossingCounter: any
+	curRoadSet: any[]
+	roadSets: any
+
+	ROAD_EXTEND_RNG: RandomizerFunction
+	RAND_POINT_RNG: RandomizerFunction
+	BUILDING_GROW_RNG: RandomizerFunction
+	BUILDING_TYPE_RNG: RandomizerFunction
+	SHUFFLE_RNG: RandomizerFunction
+	ALLEY_RNG: RandomizerFunction
+	RANDOM_DRAW_RNG: RandomizerFunction
+	RANDOM_SQUARE_RNG: RandomizerFunction
+	TRAFFIC_SIGN_RNG: RandomizerFunction
+	VARIATION_RNG: RandomizerFunction
 
 	constructor()
 	{
 		super({ key: sceneKey });
 	}
 
-	preload() {
-		this.load.crossOrigin = 'Anonymous';
-		this.canvas = this.sys.game.canvas;
-
-		let base = 'assets/';
-
-		const sheetData = { frameWidth: 200, frameHeight: 200 }
-		this.load.spritesheet('roadmarks', base + 'roadmarks.webp', sheetData) 
-		this.load.spritesheet('ingredients', base + 'ingredients.webp', sheetData) // big ingredient icons, used on buildings/entrances
-		this.load.spritesheet('crust', base + 'crust.webp', sheetData) // pizza crust + smaller icons used when combining pizza
-		this.load.spritesheet('general_icons', base + 'general_icons.webp', sheetData) // the icons for any special buildings or elements on the map
-		this.load.spritesheet('decorations', base + 'decorations.webp', sheetData) // natural decorations (such as fountain, roundabout, hedge, ...)
-		this.load.spritesheet('traffic_signs', base + 'traffic_signs.webp', sheetData) // traffic signs (from the Expansion)
-		this.load.spritesheet('shapes', base + 'shapes.webp', sheetData); // movement shapes to pick from (when moving a Pizza Courier)
-		this.load.spritesheet('special_buildings', base + 'special_buildings.webp', sheetData) // special building icons (used when Preposterous Places is enabled)
-		this.load.image('unique_shapes_hint', base + 'unique_shapes_hint.webp'); // a hint to remind players about picking unique shapes for each courier
+	preload() 
+	{
+		setDefaultPhaserSettings(this); 
 	}
 
 	// user-input settings should be passed through config
-	create(config:Record<string,any>) {
+	async create(config:Record<string,any>) 
+	{
+		await resLoader.loadPlannedResources();
+        await resourceLoaderToPhaser(resLoader, this);
+
 		this.cfg = {}
 		Object.assign(this.cfg, config);
 
@@ -94,8 +127,8 @@ class BoardGeneration extends Scene
 		// these colors correspond with ingredient frames
 		this.cfg.buildingColorDict = 
 		[
-			0xFFAAAA, 0xFFFF50, 0xFFECCF, 0xFFECB2, 0xCEFFAB, 0xFFC1DC, 0xFFD8D0, // regular ingredients
-			0xFFDAD4, 0xF0ECCB, 0xFFEEE7, 0xFFD4B9, 0xDEFDC7, 0xFFECF4, 0xE0EDDB // special ingredients
+			"#FFAAAA", "#FFFF50", "#FFECCF", "#FFECB2", "#CEFFAB", "#FFC1DC", "#FFD8D0", // regular ingredients
+			"#FFDAD4", "#F0ECCB", "#FFEEE7", "#FFD4B9", "#DEFDC7", "#FFECF4", "#E0EDDB" // special ingredients
 		];
 		
 		this.cfg.ingredientSpriteScale = 0.8;
@@ -122,7 +155,7 @@ class BoardGeneration extends Scene
 		//
 
 		// variation runs from 0->4, none to extreme
-		const variation = parseInt(this.cfg.boardVariation) || 0;
+		const variation = parseInt(this.cfg.boardVariation) ?? 0;
 
 		this.cfg.streetCornerProbability = variation/4.0; // whether to create a bend/corner in the road when we can
 		this.cfg.forbidFirstStepProbability = variation/4.0; // whether to forbid the first extension of a crossing if it creates a 2x2 blob
@@ -154,7 +187,8 @@ class BoardGeneration extends Scene
 		OnPageVisualizer.convertCanvasToImage(this);
 	}
 
-	generateBoard() {
+	generateBoard() 
+	{
 		// create empty lists and grid (we'll need later on)
 		this.prepareLists();
 		this.createGrid();
@@ -217,54 +251,57 @@ class BoardGeneration extends Scene
 		this.visualizeGame();
 	}
 
-	createGrid() {
-		for(let x = 0; x < this.cfg.resX; x++) {
+	createGrid() 
+	{
+		this.map = [];
+
+		for(let x = 0; x < this.cfg.resX; x++) 
+		{
 			this.map[x] = [];
 
-			for(let y = 0; y < this.cfg.resY; y++) {
-				this.map[x][y] = 
-					{
-						pos: [x,y],
-						type: 'empty',
-						subType: '',
-						dir: -1,
-						closedSides: [false, false, false, false],
-						filledSquares: [false, false, false, false],
-
-						roundabout: false,
-						deadend: false,
-
-						entrance: false,
-						police: false,
-						subway: false
-
-						
-					};
+			for(let y = 0; y < this.cfg.resY; y++) 
+			{
+				const c = new Cell();
+				c.setPosition(new Point(x,y));
+				this.map[x][y] = c;
 			}
 		}
+
+		this.mapList = this.map.flat();
 	}
 
-	reserveShapeSquares() {
-		let CONFIG_RNG = Random.seedRandom(this.cfg.seed + "-config")
+	getCell(p:Point)
+	{
+		return this.map[p.x][p.y];
+	}
+
+	reserveShapeSquares() 
+	{
+		const CONFIG_RNG = seedRandom(this.cfg.seed + "-config")
 
 		// What to do with these?
 		// hard configurations (only 2 shapes): [1,2], [2,1]
 		// easy configurations (6 shapes): [2,3], [3,2]
-
-		let possibleConfigurations = [[4,1], [3,1], [2,2], [1,3], [1,4]];
+		const possibleConfigurations = [
+			new Point(4,1), new Point(3,1), new Point(2,2), 
+			new Point(3,1), new Point(1,4)
+		];
 		this.cfg.shapeRectSize = possibleConfigurations[Math.floor(CONFIG_RNG() * possibleConfigurations.length)]
 
-		for(let x = 0; x < this.cfg.shapeRectSize[0]; x++) {
-			for(let y = 0; y < this.cfg.shapeRectSize[1]; y++) {
-				this.map[this.cfg.resX-1-x][this.cfg.resY-1-y].type = 'shape';
+		for(let x = 0; x < this.cfg.shapeRectSize.x; x++) 
+		{
+			for(let y = 0; y < this.cfg.shapeRectSize.y; y++) 
+			{
+				this.map[this.cfg.resX-1-x][this.cfg.resY-1-y].setType('shape');
 			}
 		}
 	}
 
-	determineShapes() {
-		let RNG = Random.seedRandom(this.cfg.seed + '-shapes');
+	determineShapes() 
+	{
+		let RNG = seedRandom(this.cfg.seed + '-shapes');
 
-		let numShapes = this.cfg.shapeRectSize[0] * this.cfg.shapeRectSize[1];
+		let numShapes = this.cfg.shapeRectSize.x * this.cfg.shapeRectSize.y;
 		let allShapes = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
 		
 		let splitShapes = [2, 5, 10, 11]
@@ -277,21 +314,23 @@ class BoardGeneration extends Scene
 		// if we only have 2 shapes, don't include any exotic ones (moving is hard enough as it is)
 		// @IMPROV: Also include AT MOST one exotic shape?
 		if(numShapes <= 2) {
-			for(let i = 0; i < exoticShapes.length; i++) {
-				allShapes.splice(exoticShapes.indexOf(exoticShapes[i]), 1);
+			for(const shape of exoticShapes) {
+				allShapes.splice(allShapes.indexOf(shape), 1);
 			}
 		}
 
 		// always include only one SPLIT shape => then remove all of them from the total array
 		this.shapes.push(splitShapes[ Math.floor(RNG() * splitShapes.length) ])
-		for(let i = 0; i < splitShapes.length; i++) {
-			allShapes.splice(allShapes.indexOf(splitShapes[i]), 1);
+		for(const shape of splitShapes) 
+		{
+			allShapes.splice(allShapes.indexOf(shape), 1);
 		}
 
-		for(let i = 0; i < numShapes - 1; i++) {
-			let randIndex = Math.floor(RNG() * allShapes.length)
+		for(let i = 0; i < numShapes - 1; i++) 
+		{
+			const randIndex = Math.floor(RNG() * allShapes.length)
 
-			let randVal = allShapes[randIndex];
+			const randVal = allShapes[randIndex];
 			this.shapes.push(randVal);
 
 			allShapes.splice(randIndex, 1);
@@ -301,9 +340,11 @@ class BoardGeneration extends Scene
 			if(sisterIndex > -1) { allShapes.splice(sisterIndex, 1) };
 
 			// if this was a regular shape, disallow all other regular shapes
-			if(regularShapes.includes(randVal)) {
-				for(let a = 0; a < regularShapes.length; a++) {
-					let ind = allShapes.indexOf(regularShapes[a]);
+			if(regularShapes.includes(randVal)) 
+			{
+				for(const shape of regularShapes) 
+				{
+					let ind = allShapes.indexOf(shape);
 					if(ind > -1) { allShapes.splice(ind, 1); }
 				}
 			}
@@ -312,31 +353,31 @@ class BoardGeneration extends Scene
 		this.shuffle(this.shapes);
 	}
 
-	getRandomPoint() {
+	getRandomPoint() : Point
+	{
 		let x,y
 		do {
 			x = Math.floor(this.RAND_POINT_RNG() * this.cfg.resX);
 			y = Math.floor(this.RAND_POINT_RNG() * this.cfg.resY);
-		} while(this.map[x][y].type != 'empty');
-
-		return [x, y]
+		} while(!this.getCell(new Point(x,y)).isEmpty());
+		return new Point(x,y);
 	}
 
-	placeRandomCrossings() {
+	placeRandomCrossings() 
+	{
 		const numCrossings = Math.floor(this.cfg.resX * 0.25);
 
-		for(let i = 0; i < numCrossings; i++) {
+		for(let i = 0; i < numCrossings; i++) 
+		{
 			let pos = this.getRandomPoint();
-			let obj = this.map[pos[0]][pos[1]];
+			let obj = this.getCell(pos);
 
-			obj.type = 'road';
-			obj.subType = 'crossing';
+			obj.setType('road', 'crossing');
 
 			this.crossingCells.push(pos);
-
 			this.possiblePolicePoints.push(pos);
 
-			this.crossingSets.push([pos.slice()]);
+			this.crossingSets.push([pos.clone()]);
 			obj.originCrossing = this.crossingCounter;
 			this.crossingCounter++;
 
@@ -344,21 +385,21 @@ class BoardGeneration extends Scene
 		}
 	}
 
-	fillRoadNetwork() {
-		const nbs = [[1,0], [0,1], [-1,0], [0,-1]]
-
+	fillRoadNetwork() 
+	{
 		this.curRoadSet = []
 
 		// As long as we have paths to extend, do so
-		while(this.pathsToExtend.length > 0) {
-			let pos = this.pathsToExtend.splice(0, 1)[0]
-			let obj = this.map[pos[0]][pos[1]]
+		while(this.pathsToExtend.length > 0) 
+		{
+			let pos = this.pathsToExtend.pop();
+			let obj = this.getCell(pos)
 
 			// crossings are extended in ALL directions, 
 			// otherwise roads are extended in just ONE (valid) direction
 			if(obj.subType == 'crossing') {
 				for(let i = 0; i < 4; i++) {
-					this.extendRoad(pos, nbs[i])
+					this.extendRoad(pos, NBS[i])
 				}
 			} else {
 				let dir = this.getValidExtensionDir(pos)
@@ -375,23 +416,26 @@ class BoardGeneration extends Scene
 		this.roadSets.push(this.curRoadSet);
 	}
 
-	performCrossingDiagonalVariation() {
+	performCrossingDiagonalVariation() 
+	{
 		// road variation: randomly remove crossing cells, but add their diagonals
-		for(let i = this.crossingCells.length - 1; i >= 0; i--) {	
-			if(this.VARIATION_RNG() <= this.cfg.crossingDiagonalVariationProbability) {
+		for(let i = this.crossingCells.length - 1; i >= 0; i--) 
+		{	
+			if(this.VARIATION_RNG() <= this.cfg.crossingDiagonalVariationProbability) 
+			{
 				let pos = this.crossingCells[i];
-				let crossing = this.map[pos[0]][pos[1]].originCrossing
+				let crossing = this.getCell(pos).originCrossing
 
 				this.removeRoadCell(pos);
 
 				// there are two diagonals: top left to bottom right, and bottom left to top right
 				// here we randomly pick one
 				if(this.VARIATION_RNG() <= 0.5) {
-					this.addRoadCell([pos[0] + 1, pos[1] + 1], [ 1, 0], crossing);
-					this.addRoadCell([pos[0] - 1, pos[1] - 1], [-1, 0], crossing)
+					this.addRoadCell(new Point(pos.x + 1, pos.y + 1), new Point(1, 0), crossing);
+					this.addRoadCell(new Point(pos.x - 1, pos.y - 1), new Point(-1, 0), crossing)
 				} else {
-					this.addRoadCell([pos[0] + 1, pos[1] - 1], [ 0,-1], crossing);
-					this.addRoadCell([pos[0] - 1, pos[1] + 1], [ 0, 1], crossing);
+					this.addRoadCell(new Point(pos.x + 1, pos.y - 1), new Point(0,-1), crossing);
+					this.addRoadCell(new Point(pos.x - 1, pos.y + 1), new Point(0, 1), crossing);
 				}
 			}
 		}
@@ -399,23 +443,25 @@ class BoardGeneration extends Scene
 		this.crossingCells = [];
 	}
 
-	addRoadCell(pos, dir, originCrossing) {
+	addRoadCell(pos:Point, dir:Point, originCrossing:number) 
+	{
 		if(this.outOfBounds(pos)) { return; }
 
-		let obj = this.map[pos[0]][pos[1]]
+		let obj = this.getCell(pos)
 		obj.type = 'road';
 		obj.dir = dir;
 		obj.originCrossing = originCrossing;
 
 		// remember which crossing set and road set we belong to
-		this.crossingSets[originCrossing].push(pos.slice());
-		this.curRoadSet.push(pos.slice());
+		this.crossingSets[originCrossing].push(pos.clone());
+		this.curRoadSet.push(pos.clone());
 	}
 
-	removeRoadCell(pos) {
+	removeRoadCell(pos:Point) 
+	{
 		if(this.outOfBounds(pos)) { return; }
 
-		let obj = this.map[pos[0]][pos[1]]
+		let obj = this.getCell(pos)
 		if(obj.type != 'road') { return; }
 
 		// remove ourselves from any sets we were put into
@@ -426,26 +472,23 @@ class BoardGeneration extends Scene
 			let cs = this.crossingSets[obj.originCrossing];
 			for(let i = 0; i < cs.length; i++) {
 				let tPos = cs[i];
-				if(tPos[0] == pos[0] && tPos[1] == pos[1]) {
+				if(tPos.x == pos.x && tPos.y == pos.y) {
 					this.crossingSets[obj.originCrossing].splice(i, 1);
 					break;
 				}
 			}
 		}
 
-		obj.type = 'empty';
-		obj.dir = [1,0];
-		obj.originCrossing = -1;
+		obj.resetRoad();
 	}
 
-	getValidExtensionDir(pos) {
+	getValidExtensionDir(pos:Point) 
+	{
 		// find a free direction into which to extend
-		let nbs = [[1,0], [0,1], [-1,0], [0,-1]]
-		let validExtensionDirections = [];
-		for(let i = 0; i < 4; i++) {
-			let nb = nbs[i];
-			let tPos = [pos[0] + nb[0], pos[1] + nb[1]]
-
+		const validExtensionDirections = [];
+		for(const nb of NBS) 
+		{
+			const tPos = new Point(pos.x + nb.x, pos.y + nb.y);
 			if(this.outOfBounds(tPos)) { continue; }
 			if(!this.cellFilled(tPos)) { validExtensionDirections.push(nb); }
 		}
@@ -456,13 +499,14 @@ class BoardGeneration extends Scene
 		return validExtensionDirections[Math.floor(this.ROAD_EXTEND_RNG() * validExtensionDirections.length)];
 	}
 
-	extendRoad(pos, dir) {
-		let tPos = [pos[0], pos[1]];
+	extendRoad(pos:Point, dir:Point) 
+	{
+		let tPos = pos.clone();
 		let canContinue = true;
 		let cellsFilled = [];
 
 		// keep track of which crossing originated this path => we belong to that group of roads
-		let originCrossing = this.map[pos[0]][pos[1]].originCrossing;
+		let originCrossing = this.getCell(pos).originCrossing;
 
 		let numExtensionsUntilCorner = 0;
 		let lastCornerDir = 0;
@@ -470,41 +514,46 @@ class BoardGeneration extends Scene
 		// also check if the FIRST extension would already hit something
 		// lower this probability to get more roads (and intersections+decorations)
 		// NOTE: don't do this when we're solving unconnected areas, as then we want as many road connections as we can get
-		if(!this.extendingUnconnectedRoads) {
-			if(this.neighbourCellFilled([pos[0]+dir[0], pos[1]+dir[1]], dir) && this.VARIATION_RNG() <= this.cfg.forbidFirstStepProbability) { canContinue = false; 
+		if(!this.extendingUnconnectedRoads) 
+		{
+			if(this.neighbourCellFilled(new Point(pos.x+dir.x, pos.y+dir.y), dir) && this.VARIATION_RNG() <= this.cfg.forbidFirstStepProbability) 
+			{ 
+				canContinue = false; 
 			}
 		}
 
 		// keep extending the road until we hit something ...
-		while(canContinue) {
+		while(canContinue) 
+		{
 			// take one step
-			let tempDir = dir.slice();
+			let tempDir = dir.clone();
 
 			// @IMPROV: Make this CLEANER => put into its own function?
 
 			// if this is NOT the first cell, and the previous cell was NOT a corner,
 			// we may take a corner in the road with some probability
-			if(numExtensionsUntilCorner >= 2 && this.VARIATION_RNG() <= this.cfg.streetCornerProbability) {
-				tempDir = [-dir[1], dir[0]];
+			if(numExtensionsUntilCorner >= 2 && this.VARIATION_RNG() <= this.cfg.streetCornerProbability) 
+			{
+				tempDir = new Point(-dir.y, dir.x);
 
 				// always take the OPPOSITE corner from the last one
 				// this way, we always return to a straight line
 				if(lastCornerDir != 0) {
-					tempDir = [-lastCornerDir*tempDir[0], -lastCornerDir*tempDir[1]]
+					tempDir = new Point( -lastCornerDir*tempDir.x, -lastCornerDir*tempDir.y );
 					lastCornerDir = 0;
 				} else {
 					lastCornerDir = 1;
 
 					// if the first chosen direction is invalid, or with 50% probability, try the other direction
-					let tempTPos = [tPos[0] + tempDir[0], tPos[1] + tempDir[1]]
+					let tempTPos = new Point(tPos.x + tempDir.x, tPos.y + tempDir.y);
 					if(this.VARIATION_RNG() <= 0.5 || (this.outOfBounds(tempTPos)) || (this.cellFilled(tempTPos))) {
 						lastCornerDir = -1;
-						tempDir = [-tempDir[0], -tempDir[1]]
+						tempDir = new Point(-tempDir.x, -tempDir.y);
 					}
 				}
 
 				// only definitely apply the change if we can actually reach the cell we want to go to
-				let tempTPos = [tPos[0] + tempDir[0], tPos[1] + tempDir[1]]
+				let tempTPos = new Point(tPos.x + tempDir.x, tPos.y + tempDir.y);
 				if(this.outOfBounds(tempTPos) || this.cellFilled(tempTPos)) {
 					lastCornerDir = 0;
 					tempDir = dir;
@@ -516,8 +565,8 @@ class BoardGeneration extends Scene
 				numExtensionsUntilCorner++;
 			}
 
-			tPos[0] += tempDir[0];
-			tPos[1] += tempDir[1];
+			tPos.x += tempDir.x;
+			tPos.y += tempDir.y;
 
 			// if we're out of bounds or hit a filled cell, stop
 			if(this.outOfBounds(tPos) || this.cellFilled(tPos)) { canContinue = false; break; }
@@ -526,7 +575,7 @@ class BoardGeneration extends Scene
 			this.addRoadCell(tPos, tempDir, originCrossing);
 
 			// remember this cell (as a COPY) as one of the cells we filled
-			cellsFilled.push(tPos.slice());
+			cellsFilled.push(tPos.clone());
 
 			// if one of our neighbours is filled, immediately stop, as we are already connected to something else
 			// again, don't do this on unconnected roads, as it increases the probability of ugly one-off sections
@@ -537,7 +586,8 @@ class BoardGeneration extends Scene
 
 		// add some new cells to the extension algorithm, one for each chunk of X tiles
 		const streetChunkSize = 5;
-		while(cellsFilled.length >= streetChunkSize) {
+		while(cellsFilled.length >= streetChunkSize) 
+		{
 			let randCell = cellsFilled[Math.floor(this.ROAD_EXTEND_RNG() * (streetChunkSize - 1)) + 1]
 
 			this.pathsToExtend.push(randCell);
@@ -545,28 +595,27 @@ class BoardGeneration extends Scene
 		}
 	}
 
-	prepareLists() {
+	prepareLists() 
+	{
 		// here we prepare our seeded random number generators
-		let seed = this.cfg.seed;
-		this.RAND_POINT_RNG = Random.seedRandom(seed + "-randPoints");
-		this.BUILDING_GROW_RNG = Random.seedRandom(seed + "-buildingGrowth");
-		this.BUILDING_TYPE_RNG = Random.seedRandom(seed + '-buildingType');
-		this.SHUFFLE_RNG = Random.seedRandom(seed + "-shuffle");
+		const seed = this.cfg.seed;
+		this.RAND_POINT_RNG = seedRandom(seed + "-randPoints");
+		this.BUILDING_GROW_RNG = seedRandom(seed + "-buildingGrowth");
+		this.BUILDING_TYPE_RNG = seedRandom(seed + '-buildingType');
+		this.SHUFFLE_RNG = seedRandom(seed + "-shuffle");
 
-		this.ALLEY_RNG = Random.seedRandom(seed + "-alleys");
+		this.ALLEY_RNG = seedRandom(seed + "-alleys");
 
-		this.ROAD_EXTEND_RNG = Random.seedRandom(seed + "-roadExtensions");
-		this.VARIATION_RNG = Random.seedRandom(seed + "-roadVariations");
+		this.ROAD_EXTEND_RNG = seedRandom(seed + "-roadExtensions");
+		this.VARIATION_RNG = seedRandom(seed + "-roadVariations");
 
-		this.RANDOM_DRAW_RNG = Random.seedRandom(seed + "-randomDraws");
-		this.RANDOM_SQUARE_RNG = Random.seedRandom(seed + "-randomSpecialties");
+		this.RANDOM_DRAW_RNG = seedRandom(seed + "-randomDraws");
+		this.RANDOM_SQUARE_RNG = seedRandom(seed + "-randomSpecialties");
 
-		this.TRAFFIC_SIGN_RNG = Random.seedRandom(seed + "-trafficSigns");
+		this.TRAFFIC_SIGN_RNG = seedRandom(seed + "-trafficSigns");
 
 		// here we create some lists we'll use in many different places
 		// (and don't want to re-initialize)
-		this.map = [];
-
 		this.pathsToExtend = [];
 
 		this.obstacles = [];
@@ -597,42 +646,45 @@ class BoardGeneration extends Scene
 		// this is needed to RANDOMLY iterate a 2D array of positions
 		// (otherwise we get artefacts/patterns from always starting at the top left)
 		this.randomCreationOrder = [];
-		for(let x = 0; x < this.cfg.resX; x++) {
-			for(let y = 0; y < this.cfg.resY; y++) {
-				this.randomCreationOrder.push([x,y]);
+		for(let x = 0; x < this.cfg.resX; x++) 
+		{
+			for(let y = 0; y < this.cfg.resY; y++)
+			{
+				this.randomCreationOrder.push(new Point(x,y));
 			}
 		}
 
 		this.shuffle(this.randomCreationOrder);
-
-
 	}
 
-	createBuildings() {
-		for(let i = 0; i < this.randomCreationOrder.length; i++) {
+	createBuildings() 
+	{
+		for(let i = 0; i < this.randomCreationOrder.length; i++) 
+		{
 			let pos = this.randomCreationOrder[i];
-			if(this.map[pos[0]][pos[1]].type != 'empty') { continue; }
-
+			if(!this.getCell(pos).isEmpty()) { continue; }
 			this.growBuilding(pos);
 		}
 	}
 
-	generateBordersToPos(pos, buildingIndex) {
-		let nbs = [[1,0], [0,1], [-1,0], [0,-1]]
-		let borders = [];
-		let corner = [pos[0] + 1, pos[1]]
+	generateBordersToPos(pos:Point, buildingIndex:number) 
+	{
+		const borders : Border[] = [];
+		let corner = new Point(pos.x + 1, pos.y);
 
-		for(let i = 0; i < 4; i++) {
-			let nb = nbs[i];
-			let nextDir = nbs[(i + 1) % 4];
-			let nextCorner = [corner[0] + nextDir[0], corner[1] + nextDir[1]]
-			let tPos = [pos[0] + nb[0], pos[1] + nb[1]]
+		for(let i = 0; i < NBS.length; i++) 
+		{
+			const nb = NBS[i];
+			const nextDir = NBS[(i + 1) % 4];
+			const nextCorner = new Point(corner.x + nextDir.x, corner.y + nextDir.y);
+			const tPos = new Point(pos.x + nb.x, pos.y + nb.y);
 
-			if(!this.outOfBounds(tPos)) { 
-				let obj = this.map[tPos[0]][tPos[1]];
-
-				if(obj.type != 'building' || obj.buildingIndex != buildingIndex) { 
-					borders.push([corner, nextCorner])
+			if(!this.outOfBounds(tPos)) 
+			{ 
+				const obj = this.getCell(tPos);
+				if(obj.type != 'building' || obj.buildingIndex != buildingIndex) 
+				{ 
+					borders.push([corner, nextCorner]);
 				}
 			}
 
@@ -642,29 +694,30 @@ class BoardGeneration extends Scene
 		return borders;
 	}
 
-	convertDirToIndex(dir) {
-		if(dir[0] == 1 && dir[1] == 0) {
+	convertDirToIndex(dir:Point) 
+	{
+		if(dir.x == 1 && dir.y == 0) {
 			return 0;
-		} else if(dir[0] == 0 && dir[1] == 1) {
+		} else if(dir.x == 0 && dir.y == 1) {
 			return 1;
-		} else if(dir[0] == -1 && dir[1] == 0) {
+		} else if(dir.x == -1 && dir.y == 0) {
 			return 2;
-		} else if(dir[0] == 0 && dir[1] == -1) {
+		} else if(dir.x == 0 && dir.y == -1) {
 			return 3;
 		}
 
 		return -1;
 	}
 
-	convertIndexToDir(num) {
-		if(num < 0 || num >= 4) { return null; }
-
-		let dirs = [[1,0], [0,1], [-1,0], [0,-1]];
-		return dirs[num]
+	convertIndexToDir(num:number) 
+	{
+		if(num < 0 || num >= NBS.length) { return null; }
+		return NBS[num];
 	}
 
-	growBuilding(pos) {
-		let obj = this.map[pos[0]][pos[1]]
+	growBuilding(pos) 
+	{
+		let obj = this.getCell(pos)
 		let buildingIndex = this.buildings.length;
 		
 		// start building with this cell ( + set the cell itself to be of type building)
@@ -683,10 +736,11 @@ class BoardGeneration extends Scene
 		let continueGrowing = (nbCells.length > 0);
 
 		// as long as we are BELOW maximum size, we have a new CELL to add, and random chance likes us
-		while(continueGrowing) {
+		while(continueGrowing) 
+		{
 			// pick the first cell in the list
-			let tPos = nbCells.splice(0, 1)[0];
-			let cell = this.map[tPos[0]][tPos[1]];
+			let tPos = nbCells.pop();
+			let cell = this.getCell(tPos);
 
 			// turn it into a building
 			cell.type = 'building';
@@ -705,47 +759,49 @@ class BoardGeneration extends Scene
 		this.buildings.push(building);
 	}
 
-	generateValidNeighbours(pos) {
-		let nbs = [[1,0], [0,1], [-1,0], [0,-1]]
-		let validNeighbours = [];
-
-		for(let i = 0; i < 4; i++) {
-			let nb = nbs[i];
-			let tPos = [pos[0] + nb[0], pos[1] + nb[1]]
-
+	generateValidNeighbours(pos:Point) 
+	{
+		const validNeighbours = [];
+		for(const nb of NBS) 
+		{
+			const tPos = new Point(pos.x + nb.x, pos.y + nb.y);
 			if(this.outOfBounds(tPos)) { continue; }
 			if(this.cellFilled(tPos)) { continue; }
-
 			validNeighbours.push(tPos);
 		}
 
 		return this.shuffle(validNeighbours);
 	}
 
-	shuffle(a) {
-		return Random.shuffle(a, this.SHUFFLE_RNG)
+	shuffle(a:any[]) 
+	{
+		return shuffle(a, this.SHUFFLE_RNG)
 	}
 
-	outOfBounds(pos) {
-		return (pos[0] < 0 || pos[0] >= this.cfg.resX || pos[1] < 0 || pos[1] >= this.cfg.resY)
+	outOfBounds(pos:Point) 
+	{
+		return (pos.x < 0 || pos.x >= this.cfg.resX || pos.y < 0 || pos.y >= this.cfg.resY);
 	}
 
-	cellFilled(pos) {
-		return (this.map[pos[0]][pos[1]].type != 'empty')
+	cellFilled(pos:Point) 
+	{
+		return !this.getCell(pos).isEmpty();
 	}
 
-	sameOriginCrossing(pos1, pos2) {
-		return (this.map[pos1[0]][pos1[1]].originCrossing == this.map[pos2[0]][pos2[1]].originCrossing)
+	sameOriginCrossing(pos1:Point, pos2:Point) 
+	{
+		return (this.getCell(pos1).originCrossing == this.getCell(pos2).originCrossing)
 	}
 
-	neighbourCellFilled(pos, dir) {
-		let nbs = [[1,0], [0,1], [-1,0], [0,-1]]
-		for(let i = 0; i < 4; i++) {
-			let nb = nbs[i];
-			let tPos = [pos[0] + nb[0], pos[1] + nb[1]]
+	neighbourCellFilled(pos:Point, dir:Point) 
+	{
+		for(let i = 0; i < 4; i++) 
+		{
+			const nb = NBS[i];
+			const tPos = new Point(pos.x + nb.x, pos.y + nb.y);
 
 			// ignore the direction we came from
-			if(dir[0] == -nb[0] && dir[1] == -nb[1]) { continue; }
+			if(dir.x == -nb.x && dir.y == -nb.y) { continue; }
 
 			if(this.outOfBounds(tPos)) { continue; }
 			if(this.sameOriginCrossing(pos, tPos)) { continue; }
@@ -755,24 +811,24 @@ class BoardGeneration extends Scene
 		return false;
 	}
 
-	getOrientationFromNeighbours(pos) {
+	getOrientationFromNeighbours(pos:Point) 
+	{
 		// Get how many roads we are neighbouring, and which ones exactly => turn into binary number
 		// Depending on the number, use a different rotation/frame
-		let nbs = [[1,0], [0,1], [-1,0], [0,-1]]
 		let binary = 0;
-
-		let obj = this.map[pos[0]][pos[1]]
+		let obj = this.getCell(pos)
 		let returnObj = { rotation: 0, frame: 0 };
 
-		for(let i = 0; i < 4; i++) {
+		for(let i = 0; i < 4; i++) 
+		{
 			if(obj.closedSides[i]) { continue; }
 
-			let nb = nbs[i];
-			let tPos = [pos[0] + nb[0], pos[1] + nb[1]]
+			let nb = NBS[i];
+			let tPos = new Point(pos.x + nb.x, pos.y + nb.y);
 
 			if(this.outOfBounds(tPos)) { continue; }
 
-			let tempObj = this.map[tPos[0]][tPos[1]];
+			let tempObj = this.getCell(tPos);
 
 			let num = 0;
 			if(tempObj.type == 'road') { num = 1; }
@@ -780,19 +836,12 @@ class BoardGeneration extends Scene
 			binary += num * Math.pow(2, i);
 		}
 
-		let directions = [
-			[1,2,4,8], // Dead end
-			[5,10], // Straight line
-			[3,6,12,9], // Corner
-			[7, 14, 13, 11], // T-crossing (3-way)
-			[15] // All (4-way)
-		]
-
-		for(let i = 0; i < directions.length; i++) {
-			if(!directions[i].includes(binary)) { continue; }
+		for(let i = 0; i < DIRECTIONS.length; i++) 
+		{
+			if(!DIRECTIONS[i].includes(binary)) { continue; }
 
 			returnObj.frame = i;
-			returnObj.rotation = directions[i].indexOf(binary) * 0.5 * Math.PI;
+			returnObj.rotation = DIRECTIONS[i].indexOf(binary) * 0.5 * Math.PI;
 			break;
 		}
 
@@ -879,7 +928,7 @@ class BoardGeneration extends Scene
 
 				let crossingLocations = [];
 				for(let t = 0; t < b.tiles.length; t++) {
-					let pos = b.tiles[t], obj = this.map[pos[0]][pos[1]]
+					let pos = b.tiles[t], obj = this.getCell(pos)
 					
 					obj.type = 'empty'
 
@@ -890,13 +939,15 @@ class BoardGeneration extends Scene
 
 				this.resetToEmptyBuilding(b);
 
-				for(let l = 0; l < crossingLocations.length; l++) {
-					let pos = crossingLocations[l], obj = this.map[pos[0]][pos[1]]
+				for(let l = 0; l < crossingLocations.length; l++) 
+				{
+					let pos = crossingLocations[l], obj = this.getCell(pos)
+					obj.setType("road", "crossing");
 
 					obj.type = 'road';
 					obj.subType = 'crossing';
 
-					this.crossingSets.push([pos.slice()]);
+					this.crossingSets.push([pos.clone()]);
 					obj.originCrossing = this.crossingCounter;
 					this.crossingCounter++;
 
@@ -912,47 +963,44 @@ class BoardGeneration extends Scene
 		} while(unconnectedBuildings.length > 0);
 	}
 
-	createAlleys() {
-		for(let i = this.buildings.length - 1; i >= 0; i--) {
+	createAlleys() 
+	{
+		for(let i = this.buildings.length - 1; i >= 0; i--) 
+		{
 			let b = this.buildings[i];
 
 			this.determineBuildingSurroundings(b);
 
 			let numUniqueStreets = 0, maxStreetSize = 0;
-			for(let d = 0; d < 4; d++) {
-				if(b.streetDirs[d] > 0) {
-					maxStreetSize = Math.max(b.streetDirs[d], maxStreetSize);
-					numUniqueStreets++;
-				}
+			for(let d = 0; d < 4; d++) 
+			{
+				if(b.streetDirs[d] <= 0) { continue; }
+				maxStreetSize = Math.max(b.streetDirs[d], maxStreetSize);
+				numUniqueStreets++;
 			}
 
 			// ignore unconnected streets
 			// @TODO: If I calculate this, I really don't need the "streetConnection" parameter on buildings
-			if(numUniqueStreets == 0) {
-				continue;
-			}
+			if(numUniqueStreets == 0) { continue; }
 
 			// either we have only ONE connection with at most TWO roads, or all our connections have AT MOST ONE road
 			let allowAllifying = (numUniqueStreets == 1 && maxStreetSize <= 2) || (maxStreetSize <= 1);
-			if(allowAllifying && this.ALLEY_RNG() <= this.cfg.createAlleyProbability) {
-
+			if(allowAllifying && this.ALLEY_RNG() <= this.cfg.createAlleyProbability) 
+			{
 				// convert this whole building into roads!
-				for(let t = 0; t < b.tiles.length; t++) {
-					let pos = b.tiles[t]
-					let obj = this.map[pos[0]][pos[1]];
-					
-					obj.type = 'road';
-					obj.subType = 'alley';
-					obj.dir = [1,0]; // the right direction is calculated in the next loop, this is just a default
-
+				for(const pos of b.tiles) 
+				{
+					const obj = this.getCell(pos);
+					obj.setType("road", "alley");
+					obj.setDir(new Point(1,0));
 					this.curRoadSet.push(pos)
 				}
 
 				// now calculate which "direction" the road takes (this is an approximation)
 				// we check our neighbours, and the first one we find, we presume we came from that direction
-				for(let t = 0; t < b.tiles.length; t++) {
-					let pos = b.tiles[t];
-					this.map[pos[0]][pos[1]].dir = this.calculateDirFromSurroundings(pos);
+				for(const pos of b.tiles)
+				{
+					this.getCell(pos).dir = this.calculateDirFromSurroundings(pos);
 				}
 
 				this.buildings[i] = this.generateEmptyBuilding(i);
@@ -960,155 +1008,139 @@ class BoardGeneration extends Scene
 		}
 	}
 
-	calculateDirFromSurroundings(pos) {
-		let nbs = [[1,0], [0,1], [-1,0], [0,-1]];
-		for(let i = 0; i < 4; i++) {
-			let tPos = [pos[0] + nbs[i][0], pos[1] + nbs[i][1]]
+	calculateDirFromSurroundings(pos:Point) : Point 
+	{
+		for(const nb of NBS) 
+		{
+			let tPos = new Point(pos.x + nb.x, pos.y + nb.y);
 			if(this.outOfBounds(tPos)) { continue; }
-			if(this.map[tPos[0]][tPos[1]].type == 'road') {
-				return [ -nbs[i][0], -nbs[i][1] ];
+			if(this.getCell(tPos).type == 'road') {
+				return new Point(-nb.x, -nb.y);
 			}
 		}
-
-		return [1,0];
+		return new Point(1,0);
 	}
 
-	generateEmptyBuilding(index = -1) {
-		return {
-			'tiles': [],
-			'borders': [],
-			'index': index,
-			'streetConnection': false,
-			'streetDirs': [0, 0, 0, 0],
-			'empty': true,
-			'type': '',
-			'numEntrances': 0,
-			
-			'ingredient': null,
-			'order': null,
-
-			'sideDishes': [],
-
-			'special': null,
-			
-			'centerCellData': null
-		};
+	generateEmptyBuilding(index = -1) : Building
+	{
+		const b = new Building();
+		b.setIndex(index);
+		return b;
 	}
 
-	resetToEmptyBuilding(b) {
-		b.tiles = [];
-
-		this.buildings[b.buildingIndex] = this.generateEmptyBuilding(b.buildingIndex);
+	resetToEmptyBuilding(b:Building) 
+	{
+		b.reset(); // @TODO: this was in the old code, and I'm not sure if or why it's needed if we're creating an entirely new building anyway, but I fear taking it away
+		const newBuilding = this.generateEmptyBuilding(b.index);
+		this.buildings[b.index] = b;
+		return newBuilding;
 	}
 
-	determineBuildingSurroundings(b) {
-		for(let t = 0; t < b.tiles.length; t++) {
-			let pos = b.tiles[t];
-
-			let nbs = [[1,0], [0,1], [-1,0], [0,-1]]
-			for(let i = 0; i < 4; i++) {
-				let nb = nbs[i];
-				let tPos = [pos[0] + nb[0], pos[1] + nb[1]]
-
+	determineBuildingSurroundings(b:Building) 
+	{
+		for(const pos of b.tiles) 
+		{
+			for(let i = 0; i < 4; i++) 
+			{
+				let nb = NBS[i];
+				let tPos = new Point(pos.x + nb.x, pos.y + nb.y);
 				if(this.outOfBounds(tPos)) { continue; }
 
-				let obj = this.map[tPos[0]][tPos[1]];
+				const obj = this.getCell(tPos);
 				b.streetDirs[ this.convertDirToIndex(obj.dir) ]++;
 			}
 		}
 	}
 
-	determineBuildingBorders() {
-		// now we have our list of buildings, each of which is an ARRAY of positions [x,y]
+	determineBuildingBorders() 
+	{
+		// now we have our list of buildings, each of which is an ARRAY of Points
 		// it's time to determine their BOUNDARIES ( = which lines should I draw to show where buildings start/end?)
-		for(let i = 0; i < this.buildings.length; i++) {
-			let b = this.buildings[i];
-
-			for(let p = 0; p < b.tiles.length; p++) {
-				let pos = b.tiles[p];
-
+		for(let i = 0; i < this.buildings.length; i++) 
+		{
+			const b = this.buildings[i];
+			for(let p = 0; p < b.tiles.length; p++) 
+			{
+				const pos = b.tiles[p];
 				b.borders = b.borders.concat( this.generateBordersToPos(pos, i) )
 			}
 		}
 	}
 
-	determineDecorationBorders() {
+	determineDecorationBorders() 
+	{
 		let specialPlacesEnabled = this.cfg.expansions.preposterousPlaces
 
-		for(let i = 0; i < this.obstacles.length; i++) {
-			let o = this.obstacles[i];
-
+		for(const o of this.obstacles) 
+		{
 			o.borders = [];
-
 			if(o.type == 'hedge') { continue; }
 
 			// obstacles are saved with their CENTER point, so startPoint + vector2(1,1)
 			// now we just look at its neighbours and check if they have the property "roundabout" set to true
-			let nbs = [[-1, 0], [0, -1], [1, 0], [0, 1]]
-			let borders = [[-1,1], [-1,-1], [1,-1], [1,1]]
-			for(let a = 0; a < nbs.length; a++) {
-				let nb = nbs[a];
-				let tPos = [o.center[0] + nb[0], o.center[1] + nb[1]]
+			const borders = [new Point(-1,1), new Point(-1,-1), new Point(1,-1), new Point(1,1)];
+			const NBS_CUSTOM = [new Point(-1,0), new Point(0,-1), new Point(1,0), new Point(0,1)]; // @UPDATE: we need a custom order for NBs here to make this correct, because old me is stupid
+			for(let a = 0; a < NBS_CUSTOM.length; a++) 
+			{
+				const nb = NBS_CUSTOM[a];
+				const tPos = new Point(o.center.x + nb.x, o.center.y + nb.y);
 
 				let shouldAddBorder = false
-				let neighbourObstacle = this.obstacleWithCenter(tPos)
+				const neighbourObstacle = this.obstacleWithCenter(tPos)
 
 				// only add a border if it's the actual border of a set of decorations
 				if(neighbourObstacle == null || this.outOfBounds(tPos)) { shouldAddBorder = true; }
 
 				// EXCEPT when special buildings are enabled: then place borders if the neighbouring decoration is NOT the same as ours
-				if(!shouldAddBorder && specialPlacesEnabled) {
-					if(neighbourObstacle != null && neighbourObstacle.specialBuilding != o.specialBuilding) {
+				if(!shouldAddBorder && specialPlacesEnabled) 
+				{
+					if(neighbourObstacle != null && neighbourObstacle.specialBuilding != o.specialBuilding) 
+					{
 						shouldAddBorder = true;
 					}
 				}
 
-				if(shouldAddBorder) {
-					let border = 
-					[
-						o.center[0] + borders[a][0]*0.5, 
-						o.center[1] + borders[a][1]*0.5,
-						o.center[0] + borders[(a+1)%4][0]*0.5,
-						o.center[1] + borders[(a+1)%4][1]*0.5
-					]
-
+				if(shouldAddBorder) 
+				{
+					const border = new Line(
+						new Point(o.center.x + borders[a].x*0.5, o.center.y + borders[a].y*0.5),
+						new Point(o.center.x + borders[(a+1)%4].x*0.5, o.center.y + borders[(a+1)%4].y*0.5)
+					)
 					o.borders.push(border)
 				}
 			}
 		}
 	}
 
-	obstacleWithCenter(pos) {
-		for(let i = 0; i < this.obstacles.length; i++) {
-			if(this.obstacles[i].type == 'hedge') { continue; }
-
-			let c = this.obstacles[i].center;
-			if(c[0] == pos[0] && c[1] == pos[1]) {
-				return this.obstacles[i];
-			}
+	obstacleWithCenter(pos:Point) 
+	{
+		for(const obstacle of this.obstacles) 
+		{
+			if(obstacle.type == 'hedge') { continue; }
+			if(!obstacle.center.matches(pos)) { continue; }
+			return obstacle;
 		}
-
 		return null
 	}
 
-	removeUglyBoxes() {
-		let dirVectors = [[1,0], [2,1], [1,2], [0,1]];
-		let boxNbs = [[0,0], [1,0], [1,1], [0,1]];
-		let solutionTypes = ['hedge', 'roundabout'];
+	removeUglyBoxes() 
+	{
+		const dirVectors = [new Point(1,0), new Point(2,1), new Point(1,2), new Point(0,1)];
+		const RNG = seedRandom(this.cfg.seed + '-uglyBoxes');
+		const specialPlacesEnabled = this.cfg.expansions.preposterousPlaces // @TODO: I repeat this variable all over the code, maybe just save it once in this.cfg?
+		const roundabouts = [];
 
-		let RNG = Random.seedRandom(this.cfg.seed + '-uglyBoxes');
-		let specialPlacesEnabled = this.cfg.expansions.preposterousPlaces // @TODO: I repeat this variable all over the code, maybe just save it once in this.cfg?
-		let roundabouts = [];
-
-		for(let i = 0; i < this.randomCreationOrder.length; i++) {
-			let pos = this.randomCreationOrder[i];
-			let uData = this.getUglyBoxData(pos);
+		for(let i = 0; i < this.randomCreationOrder.length; i++) 
+		{
+			const pos = this.randomCreationOrder[i];
+			const uData = this.getUglyBoxData(pos);
 
 			if(!uData.isBox) { continue; }
 
 			// first, try to MERGE the ugly box with nearby buildings with a certain probability
 			let uglyBoxMerged = false;
-			if(RNG() <= this.cfg.solveUglyBoxesByMergingProbability) {
+			if(RNG() <= this.cfg.solveUglyBoxesByMergingProbability) 
+			{
 				uglyBoxMerged = this.mergeUglyBox(pos, RNG);
 			}
 
@@ -1118,55 +1150,50 @@ class BoardGeneration extends Scene
 			let randSolution = 'hedge';
 			if(uData.hasRoundabout || RNG() <= this.cfg.roundaboutProbability) { randSolution = 'roundabout'; }
 
-			if(randSolution == 'hedge') {
-				let randDir = Math.floor(RNG() * 4);
-				let vec = dirVectors[randDir];
-
-				let start = boxNbs[randDir], end = boxNbs[(randDir + 1) % 4];
+			if(randSolution == 'hedge') 
+			{
+				const randDir = Math.floor(RNG() * 4);
+				const vec = dirVectors[randDir];
+				const start = NBS_BOX[randDir].clone();
+				const end = NBS_BOX[(randDir + 1) % 4].clone();
 
 				// remember (on both sides of the hedge) that the opposite side is closed off
-				this.map[pos[0] + start[0]][pos[1] + start[1]].closedSides[randDir] = true;
-				this.map[pos[0] + end[0]][pos[1] + end[1]].closedSides[(randDir + 2) % 4] = true;
+				this.getCell(new Point(pos.x + start.x, pos.y + start.y)).closedSides[randDir] = true;
+				this.getCell(new Point(pos.x + end.x, pos.y + end.y)).closedSides[(randDir + 2) % 4] = true;
 
 				// each hedge starts from the point (1,1) and just goes to one of the four directions
-				let h = {
-					type: randSolution,
-					line: [pos[0]+1, pos[1]+1, pos[0]+vec[0], pos[1]+vec[1]],
-					specialBuilding: null,
-					rotation: 0
-				} 
-
-				h.rotation = Math.atan2(h.line[3] - h.line[1], h.line[2] - h.line[0])
-
+				const h = new Obstacle();
+				h.setType(randSolution);
+				h.setLine( new Line(new Point(pos.x+1, pos.y+1), new Point(pos.x+vec.x, pos.y+vec.y)) );
+				h.setRotation( Math.atan2(h.line.end.y - h.line.start.y, h.line.end.x - h.line.start.x) );
 				this.obstacles.push(h)
 
 			} else if(randSolution == 'roundabout') {
 
 				// remember all these cells were used for a roundabout
-				for(let a = 0; a < 4; a++) {
-					let tPos = [pos[0] + boxNbs[a][0], pos[1] + boxNbs[a][1]]
-					this.map[tPos[0]][tPos[1]].roundabout = true;
-					this.map[tPos[0]][tPos[1]].filledSquares[a+1] = true; // (a+1) just happens to be the direction that we're filling with this decoration; check the boxNbs array above and the array used in "getSquarePositionByIndex", they should match
+				for(let a = 0; a < 4; a++) 
+				{
+					let tPos = new Point(pos.x + NBS_BOX[a].x, pos.y + NBS_BOX[a].y);
+					this.getCell(tPos).roundabout = true;
+					this.getCell(tPos).filledSquares[(a+1) % 4] = true; // (a+1) just happens to be the direction that we're filling with this decoration; check the NBS_BOX array above and the array used in "getSquarePositionByIndex", they should match
 				}
 
 				// just drop some ornamentation in the center
-				let r = {
-					type: randSolution,
-					center: [pos[0] + 1, pos[1] + 1],
-					specialBuilding: null,
-				}
-
+				const r = new Obstacle();
+				r.setType(randSolution);
+				r.setCenter(new Point(pos.x + 1, pos.y + 1));
 				this.obstacles.push(r);
 				roundabouts.push(r);
 			}
 		}
 
 		// once we know all decorations, convert a certain percentage of them into special buildings (if applicable)
-		if(specialPlacesEnabled) { 
+		if(specialPlacesEnabled) 
+		{ 
 			let decorationsToConvert = Math.min( Math.max(0.66*roundabouts.length, 5), roundabouts.length);
-			for(let i = 0; i < decorationsToConvert; i++) {
+			for(let i = 0; i < decorationsToConvert; i++) 
+			{
 				let type = this.getRandom(SPECIAL_BUILDINGS)
-
 				roundabouts[i].specialBuilding = type;
 			}
 
@@ -1175,15 +1202,13 @@ class BoardGeneration extends Scene
 
 			// @TODO: I use this twice in almost identical code => removeUglyBoxes() and determineDecorationBorders()
 			//  => can I put it in a single function?
-			let nbs = [[-1, 0], [0, -1], [1, 0], [0, 1]]
-			for(let i = 0; i < this.obstacles.length; i++) {
-				let o = this.obstacles[i];
+			for(const o of this.obstacles) 
+			{
 				if(o.specialBuilding != 'Plaza') { continue; }
-
-				for(let a = 0; a < 4; a++) {
-					let tPos = [o.center[0] + nbs[a][0], o.center[1] + nbs[a][1] ]
+				for(let a = 0; a < 4; a++) 
+				{
+					let tPos = new Point(o.center.x + NBS[a].x, o.center.y + NBS[a].y);
 					let nbObs = this.obstacleWithCenter(tPos)
-
 					if(nbObs) { nbObs.specialBuilding = 'Plaza'; }
 				}
 			}
@@ -1194,16 +1219,18 @@ class BoardGeneration extends Scene
 		
 	}
 
-	mergeUglyBox(pos, RNG) {
-		let boxNbs = [[0,0], [1,0], [1,1], [0,1]];
+	mergeUglyBox(pos:Point, RNG:RandomizerFunction) 
+	{
 		let success = false;
-		for(let i = 0; i < boxNbs.length; i++) {
-			let tPos = [pos[0] + boxNbs[i][0], pos[1] + boxNbs[i][1]]
+		for(let i = 0; i < NBS_BOX.length; i++) 
+		{
+			let tPos = new Point(pos.x + NBS_BOX[i].x, pos.y + NBS_BOX[i].y);
 
 			let buildingSide1 = this.buildingAtSide(tPos, (i+2) % 4);
 			let buildingSide2 = this.buildingAtSide(tPos, (i+3) % 4);
 
-			if(buildingSide1 && buildingSide2) {
+			if(buildingSide1 && buildingSide2) 
+			{
 				this.removeRoadCell(tPos);
 
 				let randBuilding = buildingSide1;
@@ -1217,12 +1244,12 @@ class BoardGeneration extends Scene
 		return success;
 	}
 
-	getUglyBoxData(pos) {
-		let boxNbs = [[0,0], [1,0], [1,1], [0,1]];
+	getUglyBoxData(pos:Point) 
+	{
 		let hasRoundabout = false;
-		for(let i = 0; i < boxNbs.length; i++) {
-			let tPos = [pos[0] + boxNbs[i][0], pos[1] + boxNbs[i][1]]
-
+		for(let i = 0; i < NBS_BOX.length; i++) 
+		{
+			const tPos = new Point(pos.x + NBS_BOX[i].x, pos.y + NBS_BOX[i].y);
 			if(this.outOfBounds(tPos) || !this.isRoad(tPos)) { return { isBox: false }; }
 			if(this.sideClosed(tPos, i)) { return { isBox: false }; }
 
@@ -1232,31 +1259,36 @@ class BoardGeneration extends Scene
 		return { isBox: true, hasRoundabout: hasRoundabout };
 	}
 
-	buildingAtSide(pos, num) {
+	buildingAtSide(pos:Point, num:number) 
+	{
 		let dir = this.convertIndexToDir(num);
-		let tPos = [pos[0] + dir[0], pos[1] + dir[1]];
+		let tPos = new Point(pos.x + dir.x, pos.y + dir.y);
 
 		if(this.outOfBounds(tPos)) { return null; }
 
-		let obj = this.map[tPos[0]][tPos[1]];
+		let obj = this.getCell(tPos);
 		if(obj.type != 'building') { return null; }
 
 		return this.buildings[obj.buildingIndex];
 	}
 
-	sideClosed(pos, num) {
-		return (this.map[pos[0]][pos[1]].closedSides[num]);
+	sideClosed(pos:Point, num:number) 
+	{
+		return (this.getCell(pos).closedSides[num]);
 	}
 
-	isRoundabout(pos) {
-		return (this.map[pos[0]][pos[1]].roundabout);
+	isRoundabout(pos:Point) 
+	{
+		return (this.getCell(pos).roundabout);
 	}
 
-	isRoad(pos) {
-		return (this.map[pos[0]][pos[1]].type == 'road')
+	isRoad(pos:Point) 
+	{
+		return (this.getCell(pos).type == 'road')
 	}
 
-	mergeBuildings(b1, b2) {
+	mergeBuildings(b1:Building, b2:Building) 
+	{
 		for(let t = 0; t < b2.tiles.length; t++) {
 			this.addToBuilding(b1, b2.tiles[t]);
 		}
@@ -1264,67 +1296,62 @@ class BoardGeneration extends Scene
 		this.resetToEmptyBuilding(b2);
 	}
 
-	addToBuilding(b, pos) {
+	addToBuilding(b:Building, pos:Point) 
+	{
 		b.tiles.push(pos);
 
-		let tile = this.map[pos[0]][pos[1]]
+		let tile = this.getCell(pos)
 		tile.buildingIndex = b.index;
 		tile.type = 'building';
 	}
 
-	connectedWithRoad(pos) {
-		let nbs = [[1,0], [0,1], [-1,0], [0,-1]]
-
-		for(let i = 0; i < 4; i++) {
-			let nb = nbs[i];
-			let tPos = [pos[0] + nb[0], pos[1] + nb[1]]
-
+	connectedWithRoad(pos:Point) 
+	{
+		for(const nb of NBS) 
+		{
+			const tPos = new Point(pos.x + nb.x, pos.y + nb.y);
 			if(this.outOfBounds(tPos)) { continue; }
-			
-			let obj = this.map[tPos[0]][tPos[1]];
+			const obj = this.getCell(tPos);
 			if(obj.type != 'road') { continue; }
-
 			return true;
 		}
 
 		return false;
 	}
 
-	getNeighborBuildingTile(pos, maxEntrances = -1) {
-		let nbs = [[1,0], [0,1], [-1,0], [0,-1]]
-
+	getNeighborBuildingTile(pos:Point, maxEntrances = -1) 
+	{
+		const nbs = NBS.slice();
 		this.shuffle(nbs);
 
-		for(let i = 0; i < 4; i++) {
-			let nb = nbs[i];
-			let tPos = [pos[0] + nb[0], pos[1] + nb[1]]
-
+		for(const nb of nbs) 
+		{
+			let tPos = new Point(pos.x + nb.x, pos.y + nb.y);
 			if(this.outOfBounds(tPos)) { continue; }
 
-			let obj = this.map[tPos[0]][tPos[1]];
+			let obj = this.getCell(tPos);
 			if(obj.type != 'building') { continue; } // ignore non-buildings
 
 			let bObj = this.buildings[obj.buildingIndex]
 			if(maxEntrances > -1 && bObj.numEntrances >= maxEntrances) { continue; }
 			
-			return { 'pos': tPos, 'building': obj.buildingIndex, 'dir': nb };
+			return { pos: tPos, building: obj.buildingIndex, dir: nb };
 		}
 
 		return null;
 	}
 
-	getNeighborBuilding(type = 'connected', pos, buildingIndex) {
-		let nbs = [[1,0], [0,1], [-1,0], [0,-1]]
-
+	getNeighborBuilding(type = 'connected', pos:Point, buildingIndex:number) 
+	{
+		const nbs = NBS.slice();
 		this.shuffle(nbs);
 
-		for(let i = 0; i < 4; i++) {
-			let nb = nbs[i];
-			let tPos = [pos[0] + nb[0], pos[1] + nb[1]]
-
+		for(const nb of nbs) 
+		{
+			let tPos = new Point(pos.x + nb.x, pos.y + nb.y);
 			if(this.outOfBounds(tPos)) { continue; }
 
-			let obj = this.map[tPos[0]][tPos[1]];
+			let obj = this.getCell(tPos);
 
 			if(obj.type != 'building') { continue; } // ignore non-buildings
 			if(obj.buildingIndex == buildingIndex) { continue; } // ignore tiles from the same building
@@ -1340,40 +1367,49 @@ class BoardGeneration extends Scene
 		return null;
 	}
 
-	reserveBuildings() {
+	reserveBuildings() 
+	{
 		let buildingsCopy = this.buildings.slice();
-		buildingsCopy.sort(function(a,b) { if(a.tiles.length < b.tiles.length) { return 1; } else { return -1; }})
+		buildingsCopy.sort((a,b) => { 
+			if(a.tiles.length < b.tiles.length) { return 1; }
+			return -1;
+		});
 
 		// the biggest building is reserved as the bank
-		buildingsCopy[0].type = 'bank'
+		buildingsCopy[0].setType('bank')
 
 		// the rest is reserved for players
 		const numBuildingsToReserve = this.cfg.numPlayers;
-		for(let i = 1; i < (numBuildingsToReserve + 1); i++) {
-			buildingsCopy[i].type = 'reserved'
+		for(let i = 1; i < (numBuildingsToReserve + 1); i++) 
+		{
+			buildingsCopy[i].setType('reserved');
 		}
 	}
 
-	placeSubway(pos) {
+	placeSubway(pos:Point) 
+	{
 		let ind = this.getFreeSquareIndex(pos);
 		if(ind == null) { return; }
 
-		this.map[pos[0]][pos[1]].filledSquares[ind] = true;
-		this.map[pos[0]][pos[1]].subway = { positionIndex: ind, counter: this.subwayCounter };
+		this.getCell(pos).filledSquares[ind] = true;
+		this.getCell(pos).subway = { positionIndex: ind, counter: this.subwayCounter };
 
 		this.subwayCounter++;
 	}
 
-	findDeadEnds() {
+	findDeadEnds() 
+	{
 		this.deadEnds = [];
 
-		for(let x = 0; x < this.cfg.resX; x++) {
-			for(let y = 0; y < this.cfg.resY; y++) {
-				let pos = [x,y]
-				let obj = this.map[x][y];
+		for(let x = 0; x < this.cfg.resX; x++) 
+		{
+			for(let y = 0; y < this.cfg.resY; y++) 
+			{
+				const pos = new Point(x,y);
+				const obj = this.getCell(pos);
 				if(obj.type != 'road') { continue; }
 
-				let orient = this.getOrientationFromNeighbours(pos);
+				const orient = this.getOrientationFromNeighbours(pos);
 				if(orient.frame != 0) { continue; }
 
 				obj.deadend = true
@@ -1382,62 +1418,65 @@ class BoardGeneration extends Scene
 		}
 	}
 
-	createSubways() {
-		let SUBWAY_RNG = Random.seedRandom(this.cfg.seed + '-subways')
+	createSubways() 
+	{
+		let SUBWAY_RNG = seedRandom(this.cfg.seed + '-subways')
 
 		// place at least ONE subway on each crossing set
-		for(let i = 0; i < this.crossingSets.length; i++) {
-			let s = this.crossingSets[i];
-			let subwaySpots = [];
-
-			for(let j = 0; j < s.length; j++) {
-				let pos = s[j];
-				if(this.map[pos[0]][pos[1]].deadend) {
-					subwaySpots.push(pos);
-				}
+		for(const s of this.crossingSets) 
+		{
+			const subwaySpots = [];
+			for(const pos of s) 
+			{
+				if(!this.getCell(pos).deadend) { continue; }
+				subwaySpots.push(pos);
 			}
 
-			if(subwaySpots.length > 0) {
-				let randDeadEnd = subwaySpots.splice(Math.floor(SUBWAY_RNG() * subwaySpots.length), 1)[0];
+			if(subwaySpots.length > 0) 
+			{
+				const randDeadEnd = subwaySpots.splice(Math.floor(SUBWAY_RNG() * subwaySpots.length), 1)[0];
 				this.placeSubway(randDeadEnd);
 			}
 		}
 
 		// then fill out the board with the road sets (which should contain most if not all roads)
 		let numRoadSets = this.roadSets.length;
-		for(let i = 0; i < numRoadSets; i++) {
-			let subwaySpots = [];
+		for(let i = 0; i < numRoadSets; i++) 
+		{
+			const subwaySpots = [];
 
-			for(let j = 0; j < this.roadSets[i].length; j++) {
+			for(let j = 0; j < this.roadSets[i].length; j++) 
+			{
 				let pos = this.roadSets[i][j]
-				let obj = this.map[pos[0]][pos[1]]
-				let orient = this.getOrientationFromNeighbours(pos);
+				let obj = this.getCell(pos)
 
 				// this subway is already placed, or it's not a dead end, so don't count it
-				if(!obj.deadend || obj.subway) { continue; }
+				if(!obj.deadend || obj.hasSubway()) { continue; }
 
 				// if this is an unused dead end, save it as a potential subway
 				subwaySpots.push(pos);
 			}
 
 			// now pick a random dead end to place a subway
-			let subwaysToPlace = Math.ceil(subwaySpots.length / 5.0)
-			for(let j = 0; j < subwaysToPlace; j++) {
+			const subwaysToPlace = Math.ceil(subwaySpots.length / 5.0)
+			for(let j = 0; j < subwaysToPlace; j++) 
+			{
 				if(subwaySpots.length <= 0) { break; }
-
-				let randDeadEnd = subwaySpots.splice(Math.floor(SUBWAY_RNG() * subwaySpots.length), 1)[0];
+				const randDeadEnd = subwaySpots.splice(Math.floor(SUBWAY_RNG() * subwaySpots.length), 1)[0];
 				this.placeSubway(randDeadEnd);
 			}
 		}
 	}
 
-	generateIngredientLists() {
+	generateIngredientLists() 
+	{
 		// generate a huge list of ingredients; 
 		// they will be placed in that order, and skipped (temporarily) whenever placement isn't suitable
-		let ings = [0, 1, 2, 3, 4, 5, 6];
+		const ings = [0, 1, 2, 3, 4, 5, 6];
 
 		this.fullIngredientList = [];
-		while(this.fullIngredientList.length < this.buildings.length) {
+		while(this.fullIngredientList.length < this.buildings.length) 
+		{
 			this.fullIngredientList = this.fullIngredientList.concat( this.shuffle(ings.slice()) )
 		}
 
@@ -1456,10 +1495,11 @@ class BoardGeneration extends Scene
 		}
 	}
 
-	placeEntrances() {
+	placeEntrances() 
+	{
 		this.allEntrances = [];
 
-		let RNG = Random.seedRandom(this.cfg.seed + "-entrances");
+		let RNG = seedRandom(this.cfg.seed + "-entrances");
 
 		// IMPORTANT/REMEMBER: We may NEVER shuffle this buildings list, as that screws up the buildingIndex reference everywhere (an int, array index)
 		// figure out how many non-empty buildings we have
@@ -1480,10 +1520,9 @@ class BoardGeneration extends Scene
 		this.numOrderBuildings = numNonEmptyBuildings - this.numIngredientBuildings;
 
 		// first do all the dead ends
-		for(let i = 0; i < this.deadEnds.length; i++) {
-			let de = this.deadEnds[i];
-			let obj = this.map[de[0]][de[1]];
-
+		for(const de of this.deadEnds) 
+		{
+			let obj = this.getCell(de);
 			this.placeSingleEntrance(de, obj)
 		}
 
@@ -1496,7 +1535,7 @@ class BoardGeneration extends Scene
 
 			for(let i = 0; i < this.randomCreationOrder.length; i++) {
 				let pos = this.randomCreationOrder[i];
-				let obj = this.map[pos[0]][pos[1]]
+				let obj = this.getCell(pos)
 
 				if(obj.type != 'road') { continue; }
 
@@ -1508,12 +1547,12 @@ class BoardGeneration extends Scene
 		} while(entrancesPlacedThisRound > 0);
 	}
 
-	createRandomOrder() {
-		let order = [];
-		let numIngredients = this.orderLengthCounter;
-
-		for(let i = 0; i < numIngredients; i++) {
-
+	createRandomOrder() : Order
+	{
+		const order = [];
+		const numIngredients = this.orderLengthCounter;
+		for(let i = 0; i < numIngredients; i++) 
+		{
 			let newIng, counter = -1, duplicate = false;
 			do {
 				counter++;
@@ -1539,7 +1578,8 @@ class BoardGeneration extends Scene
 		return order;
 	}
 
-	placeSingleEntrance(pos, obj, maxEntrances = -1) {
+	placeSingleEntrance(pos:Point, obj:Cell, maxEntrances = -1) 
+	{
 		// find connected neighbour building (returns an object with some useful properties)
 		let b = this.getNeighborBuildingTile(pos, maxEntrances);
 
@@ -1552,8 +1592,10 @@ class BoardGeneration extends Scene
 		bObj.numEntrances++;
 
 		// if the building has NOT been claimed as a specific type yet ...
-		if(bObj.type == '') {
-			if(this.numIngredientBuildings > 0 || bObj.tiles.length <= 1) {
+		if(bObj.type == '') 
+		{
+			if(this.numIngredientBuildings > 0 || bObj.tiles.length <= 1) 
+			{
 				bObj.type = 'ingredient'
 				bObj.ingredient = this.pickSuitableIngredient(pos)
 				bObj.centerCellData = this.pickCenterCellAndNeighbour(bObj)
@@ -1579,35 +1621,34 @@ class BoardGeneration extends Scene
 		let dirIndex = this.convertDirToIndex(b.dir)
 
 		obj.filledSquares[dirIndex] = true;
-		let entrancePos = this.getSquarePositionOnCell(pos, dirIndex, false);
-
-		obj.entrance = { 'pos': entrancePos, 'building': b.building, 'ingredient': ing, 'order': pizzaOrder  }
-
+		
+		const entrancePos = this.getSquarePositionOnCell(pos, dirIndex, false);
+		obj.entrance = { pos: entrancePos, building: buildingIndex, ingredient: ing, order: pizzaOrder  }
 		this.allEntrances.push(obj);
 
 		return true;
 	}
 
-	getSquarePositionOnCell(pos, ind, center = true) {
-		let offsets = [[1,-1], [1,1], [-1, 1], [-1,-1]]
-		let offset = offsets[ind]
-		let newPos = [pos[0] + 0.5 + 0.25*offset[0], pos[1] + 0.5 + 0.25*offset[1]]
+	getSquarePositionOnCell(pos:Point, ind:number, center = true) 
+	{
+		const offset = CELL_OFFSETS[ind].clone();
+		const newPos = new Point(
+			pos.x + 0.5 + 0.25*offset.x, 
+			pos.y + 0.5 + 0.25*offset.y
+		);
 
-		if(center) {
-			return newPos;
-		} else {
-			return [newPos[0] - 0.25, newPos[1] - 0.25]
-		}
-		
+		if(center) { return newPos; }
+		return new Point( newPos.x - 0.25, newPos.y - 0.25 );
 	}
 
-	pickSuitableIngredient(b) {
+	pickSuitableIngredient(pos:Point) {
 		// keep trying ingredients further up the chain, until we find a suitable one
 		let counter = -1, suitable = false, ingredient = -1; 
 		do {
 			counter++;
 
-			if(counter >= this.fullIngredientList.length) {
+			if(counter >= this.fullIngredientList.length) 
+			{
 				ingredient = this.fullIngredientList[0];
 				counter = 0;
 				break;
@@ -1615,7 +1656,7 @@ class BoardGeneration extends Scene
 
 			ingredient = this.fullIngredientList[counter];
 
-			let closestEntranceOfSameType = this.distanceToSameEntrance(b, ingredient)
+			let closestEntranceOfSameType = this.distanceToSameEntrance(pos, ingredient)
 			suitable = (closestEntranceOfSameType > this.cfg.ingredientBuildingMinimumDistance)
 		} while (!suitable);
 
@@ -1624,38 +1665,38 @@ class BoardGeneration extends Scene
 		return ingredient;
 	}
 
-	distanceToSameEntrance(pos, ing) {
+	distanceToSameEntrance(pos:Point, ing:number) 
+	{
 		let minDist = Infinity;
-		for(let i = 0; i < this.allEntrances.length; i++) {
-			let e = this.allEntrances[i];
-
+		for(const e of this.allEntrances) 
+		{
 			// NOTE: "e" is a TILE on the map, not a BUILDING => its "entrance" property holds info about the entrance (duh)
 			if(e.entrance.ingredient != ing) { continue; }
 
-			minDist = Math.min(minDist, Math.abs(e.pos[0] - pos[0]) + Math.abs(e.pos[1] - pos[1]))
+			minDist = Math.min(minDist, Math.abs(e.pos.x - pos.x) + Math.abs(e.pos.y - pos.y))
 		}
 
 		return minDist;
 	}
 
-	convertBuildingsWithoutEntrance() {
+	convertBuildingsWithoutEntrance() 
+	{
 		let specialPlacesEnabled = this.cfg.expansions.preposterousPlaces
 
-		for(let i = 0; i < this.buildings.length; i++) {
-			let buildingObj = this.buildings[i]
-
+		for(const buildingObj of this.buildings) 
+		{
 			if(buildingObj.tiles.length <= 0) { continue; }
 			if(buildingObj.numEntrances > 0) { continue; }
 			if(buildingObj.type != '') { continue; }
 
 			// if we have the special places/buildings expansion enabled
 			// we want to replace these buildings with special ones
-			if(specialPlacesEnabled) {
+			if(specialPlacesEnabled) 
+			{
 				let randSpecialType = this.getRandom(SPECIAL_BUILDINGS);
 
-				buildingObj.type = 'special';
+				buildingObj.setType('special');
 				buildingObj.special = randSpecialType;
-
 				buildingObj.centerCellData = this.pickCenterCellAndNeighbour(buildingObj)
 
 			// otherwise, just ..
@@ -1665,12 +1706,13 @@ class BoardGeneration extends Scene
 				// @TODO: Make this a general function, because we also call the exact same thing multiple times during other algorithms
 				let buildingIndex = buildingObj.index;
 
-				for(let t = 0; t < buildingObj.tiles.length; t++) {
-					let pos = buildingObj.tiles[t]
-					let nb = this.getNeighborBuilding('connected', pos, buildingIndex);
+				for(let t = 0; t < buildingObj.tiles.length; t++) 
+				{
+					const pos = buildingObj.tiles[t]
+					const nb = this.getNeighborBuilding('connected', pos, buildingIndex);
 
 					if(nb == null) { 
-						buildingObj.type = 'reserved' 
+						buildingObj.setType('reserved');
 					} else {
 						this.mergeBuildings(nb, buildingObj);
 					}
@@ -1679,7 +1721,8 @@ class BoardGeneration extends Scene
 		}
 	}
 
-	getRandomPolicePoint() {
+	getRandomPolicePoint() : Point
+	{
 		let x,y
 		let invalidPoint = false;
 		let tries = 0, maxTries = 200;
@@ -1687,45 +1730,49 @@ class BoardGeneration extends Scene
 			x = Math.floor(this.RAND_POINT_RNG() * this.cfg.resX);
 			y = Math.floor(this.RAND_POINT_RNG() * this.cfg.resY);
 
-			invalidPoint = (this.map[x][y].type != 'road') || this.map[x][y].police || (this.distanceToClosestPolice([x,y]) <= this.cfg.minDistancePoliceIcons);
+			const pos = new Point(x,y);
+			const notARoad = (this.getCell(pos).type != 'road');
+			const isPolice = this.getCell(pos).hasPolice();
+			const tooCloseToPolice = (this.distanceToClosestPolice(pos) <= this.cfg.minDistancePoliceIcons);
+
+			invalidPoint = notARoad || isPolice || tooCloseToPolice;
 			tries++;
 		} while(invalidPoint && tries < maxTries);
 
 		if(tries >= maxTries) { return null; }
 
-		return [x, y]
+		return new Point(x,y);
 	}
 
-	distanceToClosestPolice(posA) {
+	distanceToClosestPolice(posA:Point) 
+	{
 		let dist = Infinity;
-		for(let i = 0; i < this.policeCells.length; i++) {
-			let posB = this.policeCells[i];
-			dist = Math.min(dist, Math.abs(posA[0]-posB[0]) + Math.abs(posA[1]-posB[1]))
+		for(const posB of this.policeCells) 
+		{
+			dist = Math.min(dist, Math.abs(posA.x-posB.x) + Math.abs(posA.y-posB.y))
 		}
-
 		return dist;
 	}
 
-	getFreeSquareIndex(pos) {
-		return this.getRandomFalseValue(this.map[pos[0]][pos[1]].filledSquares)
+	getFreeSquareIndex(pos:Point) 
+	{
+		return this.getRandomFalseValue(this.getCell(pos).filledSquares)
 	}
 
 	// @TODO: This is almost a copy of the getOrientationFromNeighbour function, make general to avoid repeating myself?
-	getEmptySide(pos) {
-		let nbs = [[1,0], [0,1], [-1,0], [0,-1]]
-		let tempArr = [];
-
-		let obj = this.map[pos[0]][pos[1]]
-		for(let i = 0; i < 4; i++) {
+	getEmptySide(pos:Point) 
+	{
+		const tempArr = [];
+		const obj = this.getCell(pos)
+		for(let i = 0; i < 4; i++) 
+		{
 			if(obj.closedSides[i]) { continue; }
 
-			let nb = nbs[i];
-			let tPos = [pos[0] + nb[0], pos[1] + nb[1]]
-
+			let nb = NBS[i];
+			let tPos = new Point(pos.x + nb.x, pos.y + nb.y);
 			if(this.outOfBounds(tPos)) { continue; }
 
-			let tempObj = this.map[tPos[0]][tPos[1]];
-
+			const tempObj = this.getCell(tPos);
 			if(tempObj.type == 'road') { tempArr.push(i) }
 		}
 
@@ -1733,31 +1780,32 @@ class BoardGeneration extends Scene
 		return tempArr[Math.floor(this.RANDOM_SQUARE_RNG() * tempArr.length)]
 	}
 
-	getRandomFalseValue(arr) {
-		let tempArr = [];
+	getRandomFalseValue(arr:any[]) 
+	{
+		const tempArr = [];
 
 		// go through all squares; if they are free (filled = false), add to temporary array
 		// then just return a random element from that
-		for(let i = 0; i < arr.length; i++) {
+		for(let i = 0; i < arr.length; i++) 
+		{
 			if(!arr[i]) { tempArr.push(i); }
 		}
 
 		if(tempArr.length <= 0) { return null; }
-
 		return tempArr[Math.floor(this.RANDOM_SQUARE_RNG() * tempArr.length)];
 	}
 
-	placePizzaPolice() {
+	placePizzaPolice() 
+	{
 		this.policeCells = [];
-
 		this.shuffle(this.possiblePolicePoints);
 
 		const numPolice = Math.max(Math.round(this.possiblePolicePoints.length*this.cfg.policeFactor), 1.0);
-
 		let pos
-		for(let i = 0; i < numPolice; i++) {
+		for(let i = 0; i < numPolice; i++) 
+		{
 			if(this.possiblePolicePoints.length > 0) {
-				pos = this.possiblePolicePoints.splice(0, 1)[0];
+				pos = this.possiblePolicePoints.pop();
 			} else {
 				pos = this.getRandomPolicePoint();
 			}
@@ -1769,22 +1817,24 @@ class BoardGeneration extends Scene
 
 			this.policeCells.push(pos);
 
-			this.map[pos[0]][pos[1]].filledSquares[ind] = true;
-			this.map[pos[0]][pos[1]].police = { positionIndex: ind };
+			this.getCell(pos).filledSquares[ind] = true;
+			this.getCell(pos).police = { positionIndex: ind };
 		}
 	}
 
-	distanceToClosestTrafficSign(posA) {
+	distanceToClosestTrafficSign(posA:Point) 
+	{
 		let dist = Infinity;
-		for(let i = 0; i < this.trafficSigns.length; i++) {
-			let posB = this.trafficSigns[i].pos;
-			dist = Math.min(dist, Math.abs(posA[0]-posB[0]) + Math.abs(posA[1]-posB[1]))
+		for(const sign of this.trafficSigns) 
+		{
+			const posB = sign.pos;
+			dist = Math.min(dist, Math.abs(posA.x-posB.x) + Math.abs(posA.y-posB.y))
 		}
-
 		return dist;
 	}
 
-	getRandomTrafficPoint(type) {
+	getRandomTrafficPoint(type:string) : Point
+	{
 		let isGate = TRAFFIC_SIGNS[type].gate;
 		let x,y
 		let invalidPoint = false;
@@ -1793,28 +1843,35 @@ class BoardGeneration extends Scene
 			x = Math.floor(this.RAND_POINT_RNG() * this.cfg.resX);
 			y = Math.floor(this.RAND_POINT_RNG() * this.cfg.resY);
 
-			invalidPoint = (this.map[x][y].type != 'road') || this.map[x][y].trafficSign || (this.distanceToClosestTrafficSign([x,y]) <= this.cfg.minDistanceTrafficSigns);
+			const pos = new Point(x,y);
+			const cell = this.getCell(pos);
+
+			const tooCloseToSign = (this.distanceToClosestTrafficSign(pos) <= this.cfg.minDistanceTrafficSigns);
+			const notARoad = (cell.type != "road");
+			const isTrafficSign = cell.trafficSign;
+
+			invalidPoint = notARoad || isTrafficSign || tooCloseToSign;
 			tries++;
 			
 			// if the point still seems valid, check one last item, depending on the type of traffic sign
 			// It's invalid if ...
 			//  => NO GATE? The cell has NO free squares to use
 			//  => GATE? The cell has NO empty sides to use
-			if(!invalidPoint) {
+			if(!invalidPoint) 
+			{
 				if(isGate) {
 					// NOTE: We also disallow gates on roundabout cells, because those are only half-width
 					// However, this severely restricts placement, so maybe we want ...
 					// @TODO: Be more precise with checking this SIDE/EDGE overlaps with a DECORATION
-					invalidPoint = this.map[x][y].roundabout || (this.getEmptySide([x,y]) == null)
+					invalidPoint = cell.roundabout || (this.getEmptySide(pos) == null)
 				} else {
-					invalidPoint = (this.getFreeSquareIndex([x,y]) == null)
+					invalidPoint = (this.getFreeSquareIndex(pos) == null)
 				}
 			}
 		} while(invalidPoint && tries < maxTries);
 
 		if(tries >= maxTries) { return null; }
-
-		return [x, y]
+		return new Point(x,y);
 	}
 
 	placeTrafficSigns() {
@@ -1828,7 +1885,8 @@ class BoardGeneration extends Scene
 
 			if(pos == null) { break; }
 
-			let obj = { pos: pos, type: randType, side: -1, ind: -1 }
+			let obj:TrafficSign = { pos: pos, type: randType, side: -1, ind: -1 }
+
 			if(TRAFFIC_SIGNS[randType].gate) {
 				let side = this.getEmptySide(pos);
 				obj.side = side;
@@ -1838,16 +1896,17 @@ class BoardGeneration extends Scene
 				let ind = this.getFreeSquareIndex(pos);
 				obj.ind = ind
 
-				this.map[pos[0]][pos[1]].filledSquares[ind] = true;
+				this.getCell(pos).filledSquares[ind] = true;
 			}
 
 			this.trafficSigns.push(obj)
-			this.map[pos[0]][pos[1]].trafficSign = true;
+			this.getCell(pos).trafficSign = true;
 		}
 	}
 
-	swapSpecialIngredients() {
-		let RNG = Random.seedRandom(this.cfg.seed + "-specialIngredients");
+	swapSpecialIngredients() 
+	{
+		let RNG = seedRandom(this.cfg.seed + "-specialIngredients");
 
 		// find DUPLICATE ingredient buildings; save them as possibilities for swapping
 		let ingredientsCovered = [false, false, false, false, false, false, false]
@@ -1860,7 +1919,8 @@ class BoardGeneration extends Scene
 		this.shuffle(buildingsCopy);
 		buildingsCopy.sort(function(a,b) { if(a.tiles.length < b.tiles.length) { return 1; } else { return -1; }})
 
-		for(let i = 0; i < buildingsCopy.length; i++) {
+		for(let i = 0; i < buildingsCopy.length; i++) 
+		{
 			let b = buildingsCopy[i];
 			let ing = b.ingredient
 
@@ -1884,16 +1944,17 @@ class BoardGeneration extends Scene
 		// 1) we swap roughly 66% of the possible buildings
 		// 2) if we have less than 7 spaces, we prevent repeating ourselves => after that, they are just drawn randomly
 		let numSpecialIngredientsWanted = Math.min(Math.max(possibleSwapBuildings.length * 0.66, 1))
-		for(let i = 0; i < numSpecialIngredientsWanted; i++) {
+		for(let i = 0; i < numSpecialIngredientsWanted; i++) 
+		{
 			let b = possibleSwapBuildings[i];
 			let type, frame
 
-			if(this.specialIngredientsIncluded.length < 7) {
+			if(this.specialIngredientsIncluded.length < 7) 
+			{
 				do {
 					type = this.getRandom(SPECIAL_INGREDIENTS)
 					frame = SPECIAL_INGREDIENTS[type].iconFrame
 				} while(this.specialIngredientsIncluded.includes(frame));
-
 				this.specialIngredientsIncluded.push(frame);
 			} else {
 				type = this.getRandom(SPECIAL_INGREDIENTS)
@@ -1904,29 +1965,36 @@ class BoardGeneration extends Scene
 
 			// if we added the "required side dish", also add that to some of the existing orders
 			let requiredSideDish = SPECIAL_INGREDIENTS[type].requiredSideDish
-			if(requiredSideDish && orderBuildings.length > 0) {
-				let randOrderBuilding = orderBuildings.splice(Math.floor(RNG()*orderBuildings.length), 1)[0];
+			if(requiredSideDish && orderBuildings.length > 0) 
+			{
+				const randOrderBuilding = orderBuildings.splice(Math.floor(RNG()*orderBuildings.length), 1)[0];
 				randOrderBuilding.sideDishes.push(type)
 			}
 		}
 	}
 
-	placeSpecialBuildings() {
+	placeSpecialBuildings() 
+	{
 		// @TODO: Find all decorations. Replace small groups (1-3) with random buildings, large groups with PLAZAS
 		//  => This means the "border detection"/"group detection" must happen before this ... but also again afterward?
 
 		// @TODO: Add some more decorations + functional sprites to the road squares that do cool stuff
 	}
 
-	visualizeGame() {
+	visualizeGame() 
+	{
+		// @ts-ignore
 		const roadGraphics = this.add.graphics();
+		// @ts-ignore
 		const gridGraphics = this.add.graphics();
-
+		// @ts-ignore
 		const shadowGraphics = this.add.graphics();
+		// @ts-ignore
 		const buildingGraphics = this.add.graphics();
 		buildingGraphics.depth = 10;
-
+		// @ts-ignore
 		const overlayGraphics = this.add.graphics();
+		overlayGraphics.depth = 19;
 
 		const cs = this.cfg.cellSize
 
@@ -1934,89 +2002,109 @@ class BoardGeneration extends Scene
 		// Draw some nice grid lines
 		// We go _half resolution_ here, to give each square 4 quadrants
 		//
-		gridGraphics.lineStyle(2, 0x000000, 0.2);
-		for(let x = 0; x < this.cfg.resX; x += 0.5) {
-			let line = new Geom.Line(x * cs, 0, x * cs, this.cfg.resY * cs);
-			gridGraphics.strokeLineShape(line);
+
+		const strokeCol = new Color("#000000");
+		strokeCol.a = 0.2;
+		const opLine = new LayoutOperation({
+			stroke: strokeCol,
+			strokeWidth: 2
+		})
+
+		for(let x = 0; x < this.cfg.resX; x += 0.5) 
+		{
+			const line = new Line(new Point(x*cs,0), new Point(x*cs, this.cfg.resY*cs));
+			lineToPhaser(line, opLine, gridGraphics);
 		}
 
-		for(let y = 0; y < this.cfg.resY; y += 0.5) {
-			let line = new Geom.Line(0, y * cs, this.cfg.resX * cs, y * cs);
-			gridGraphics.strokeLineShape(line);
+		for(let y = 0; y < this.cfg.resY; y += 0.5) 
+		{
+			const line = new Line(new Point(0, y*cs), new Point(this.cfg.resX*cs, y*cs));
+			lineToPhaser(line, opLine, gridGraphics);
 		}
 
-		let fontSize = cs*0.5*0.5;
+		const fontSize = cs*0.5*0.5;
 		const strokeThickness = 0.15*fontSize;
-		let subwayTextCfg = {
-			fontFamily: 'Leckerli One',
-			fontSize: fontSize + 'px',
-			color: '#FFFFFF',
-			stroke: '#6C0003',
-			strokeThickness: strokeThickness
-		}
+		const textConfigSubway = new TextConfig({
+			font: "Leckerli One",
+			size: fontSize
+		}).alignCenter();
 
 		//
 		// Go through all cells, create a graphic based on what they are
 		//
-		for(let x = 0; x < this.cfg.resX; x++) {
-			for(let y = 0; y < this.cfg.resY; y++) {
-				let obj = this.map[x][y];
-				let rect = new Geom.Rectangle(x * cs, y * cs, cs, cs)
+		for(let x = 0; x < this.cfg.resX; x++) 
+		{
+			for(let y = 0; y < this.cfg.resY; y++) 
+			{
+				const pos = new Point(x,y);
+				const obj = this.getCell(pos);
+				const posRect = new Point(x*cs,y*cs);
+				const rect = new Rectangle().fromTopLeft(posRect, new Point(cs));
 
-				let color = 0xEEEEEE
+				let color = this.cfg.inkFriendly ? "#FFFFFF" : "#EEEEEE";
+				if(obj.type == 'road') 
+				{
+					let orient = this.getOrientationFromNeighbours(pos);
+					const resRoad = resLoader.getResource("roadmarks");
+					const opRoad = new LayoutOperation({
+						translate: new Point(posRect.x+0.5*cs, posRect.y+0.5*cs),
+						dims: new Point(cs),
+						pivot: Point.CENTER,
+						alpha: 0.75,
+						frame: orient.frame,
+						rotation: orient.rotation
+					})
+					imageToPhaser(resRoad, opRoad, this);
 
-				// @TODO: check where crossings start
-				/*if(obj.subType == 'crossing') {
-					color = 0x999999;
-				}*/
-
-				if(this.cfg.inkFriendly) {
-					color = 0xFFFFFF;
-				}
-
-
-				if(obj.type == 'road') {
-					let roadmark = this.add.sprite(rect.x + 0.5*cs, rect.y + 0.5*cs, 'roadmarks');
-					roadmark.displayWidth = roadmark.displayHeight = cs;
-					roadmark.setOrigin(0.5, 0.5)
-					roadmark.alpha = 0.75;
-
-					let orient = this.getOrientationFromNeighbours([x, y]);
-					roadmark.setFrame(orient.frame);
-					roadmark.rotation = orient.rotation
-
-					roadGraphics.fillStyle(color, 1.0);
-					roadGraphics.fillRectShape(rect);
-
-
-					let margin = this.cfg.borderWidth
+					const opRect = new LayoutOperation({ fill: color });
+					rectToPhaser(rect, opRect, roadGraphics);
 
 					// If this has a subway, place its sprite
-					if(obj.subway) {
-						let subwayPos = this.getSquarePositionOnCell([x,y], obj.subway.positionIndex, true);
+					const margin = this.cfg.borderWidth
+					if(obj.hasSubway()) 
+					{
+						const subwayPos = this.getSquarePositionOnCell(pos, obj.subway.positionIndex, true);
+						const subwayPosReal = new Point(subwayPos.x*cs, subwayPos.y*cs);
 
-						let sprite = this.add.sprite(subwayPos[0]*cs, subwayPos[1]*cs, 'decorations');
-						sprite.displayWidth = sprite.displayHeight = (0.5-margin)*cs;
-						sprite.setFrame(1);
-						sprite.setOrigin(0.5, 0.5);
-						sprite.depth = 5;
+						const resDec = resLoader.getResource("decorations");
+						const opDec = new LayoutOperation({
+							translate: subwayPosReal,
+							dims: new Point((0.5-margin)*cs),
+							frame: 1,
+							pivot: Point.CENTER,
+							depth: 5
+						})
+						imageToPhaser(resDec, opDec, this);
 
-						let txt = this.add.text(sprite.x, sprite.y, (obj.subway.counter + 1), subwayTextCfg);
-						txt.setOrigin(0.5, 0.5);
-						txt.depth = 6;
+						const str = (obj.subway.counter + 1).toString();
+						const opTextSubway = new LayoutOperation({
+							translate: subwayPosReal,
+							dims: new Point(cs),
+							pivot: Point.CENTER,
+							depth: 6,
+							fill: "#FFFFFF",
+							stroke: "#6C0003",
+							strokeWidth: strokeThickness
+						})
+						const resTextSubway = new ResourceText({ text: str, textConfig: textConfigSubway });
+						textToPhaser(resTextSubway, opTextSubway, this);
 					}
 
-					if(obj.entrance) { this.visualizeEntrance(obj, roadGraphics) }
+					if(obj.hasEntrance()) { this.visualizeEntrance(obj, roadGraphics) }
 
-					if(obj.police) {
-						
-						let policePos = this.getSquarePositionOnCell([x,y], obj.police.positionIndex, true);
-
-						let sprite = this.add.sprite(policePos[0]*cs, policePos[1]*cs, 'general_icons');
-						sprite.displayWidth = sprite.displayHeight = (0.5-margin)*cs;
-						sprite.setOrigin(0.5, 0.5);
-						sprite.setFrame(1);
-						sprite.depth = 5;
+					if(obj.hasPolice()) 
+					{
+						console.log("PLACING POLICE");
+						const policePos = this.getSquarePositionOnCell(new Point(x,y), obj.police.positionIndex, true);
+						const resPolice = resLoader.getResource("general_icons");
+						const opPolice = new LayoutOperation({
+							translate: new Point(policePos.x*cs, policePos.y*cs),
+							dims: new Point((0.5-margin)*cs),
+							pivot: Point.CENTER,
+							frame: 1,
+							depth: 5
+						});
+						imageToPhaser(resPolice, opPolice, this);
 					}
 
 
@@ -2027,55 +2115,60 @@ class BoardGeneration extends Scene
 					if(buildingObj.type == 'ingredient') {
 						color = this.cfg.buildingColorDict[buildingObj.ingredient]
 					} else if(buildingObj.type == 'order') {
-						color = 0x91ACFF
+						color = "#91ACFF"
 					} else if(buildingObj.type == 'reserved' || buildingObj.type == 'bank') {
-						color = 0xFFFFFF
+						color = "#FFFFFF"
 					} else if(buildingObj.type == 'special') {
 						color = SPECIAL_BUILDINGS[buildingObj.special].color;
 					} else {
-						color = 0x333333
+						color = "#333333"
 					}
 					
-					if(!buildingObj.streetConnection) {
-						color = 0x666666
-					}
+					if(!buildingObj.streetConnection) { color = "#666666" }
+					if(this.cfg.inkFriendly) { color = "#FFFFFF"; }
 
-					if(this.cfg.inkFriendly) {
-						color = 0xFFFFFF;
-					}
-
-					buildingGraphics.fillStyle(color, 1.0);
-					buildingGraphics.fillRectShape(rect);
+					const opRect = new LayoutOperation({ fill: color });
+					rectToPhaser(rect, opRect, buildingGraphics);
 
 					// draw the ingredient icon on all cells within the building
 					// or, if it's a special building, draw its special icon
 					// EXCEPTION: on inkFriendly mode, only draw it for the center cell
-					if(buildingObj.type == 'ingredient' || buildingObj.type == 'special') {
-						if(!this.cfg.inkFriendly || (x == buildingObj.centerCellData.cell[0] && y == buildingObj.centerCellData.cell[1])) {
+					if(buildingObj.type == 'ingredient' || buildingObj.type == 'special') 
+					{
+						const isCenterCell = (x == buildingObj.centerCellData.cell.x && y == buildingObj.centerCellData.cell.y);
 
-							let ingredientSprite;
-							if(buildingObj.type == 'ingredient') {
-								ingredientSprite = this.add.sprite(rect.x + 0.5*cs, rect.y + 0.5*cs, 'ingredients')
-								ingredientSprite.setFrame(buildingObj.ingredient)
-							} else {
-								ingredientSprite = this.add.sprite(rect.x + 0.5*cs, rect.y + 0.5*cs, 'special_buildings');
-								ingredientSprite.setFrame(SPECIAL_BUILDINGS[buildingObj.special].iconFrame)
+						if(!this.cfg.inkFriendly || isCenterCell) 
+						{
+							const opSprite = new LayoutOperation({
+								translate: new Point(posRect.x+0.5*cs, posRect.y+0.5*cs),
+								dims: new Point(cs * this.cfg.ingredientSpriteScale),
+								pivot: Point.CENTER,
+								depth: 15,
+								frame: buildingObj.ingredient
+							})
+
+							let resSprite = resLoader.getResource("ingredients");
+							if(buildingObj.type != "ingredient")
+							{
+								resSprite = resLoader.getResource("special_buildings");
+								opSprite.frame = SPECIAL_BUILDINGS[buildingObj.special].iconFrame
 							}
-							ingredientSprite.displayWidth = ingredientSprite.displayHeight = cs * this.cfg.ingredientSpriteScale;
-
-							ingredientSprite.setOrigin(0.5, 0.5)
-							ingredientSprite.depth = 15;
+							imageToPhaser(resSprite, opSprite, this);
 						}
 					}
 
 					// draw a shadow by moving the rect slightly off
-					if(!this.cfg.inkFriendly) {
-						let shadowOffset = this.cfg.borderWidth*this.cfg.cellSize;
-						let shadowRect = Geom.Rectangle.Clone(rect);
-						shadowRect.setPosition(rect.x + shadowOffset, rect.y + shadowOffset)
+					if(!this.cfg.inkFriendly) 
+					{
+						const shadowCol = new Color("#000000");
+						shadowCol.a = 0.3;
 
-						shadowGraphics.fillStyle(0x000000, 0.3);
-						shadowGraphics.fillRectShape(shadowRect);
+						const shadowOffset = new Point(this.cfg.borderWidth*this.cfg.cellSize);
+						const shadowRect = rect.clone(true);
+						shadowRect.move(shadowOffset);
+
+						const opShadow = new LayoutOperation({ fill: shadowCol });
+						rectToPhaser(shadowRect, opShadow, shadowGraphics);
 					}
 				}
 
@@ -2087,16 +2180,17 @@ class BoardGeneration extends Scene
 		// Draw all building borders
 		//
 		const borderWidth = this.cfg.borderWidth*this.cfg.cellSize;
-		for(let a = 0; a < this.buildings.length; a++) {
-			for(let i = 0; i < this.buildings[a].borders.length; i++) {
-				let b = this.buildings[a].borders[i];
-
-				// b is an ARRAY [startCorner, endCorner], where each corner is of format [x,y]
-				// API: new Geom.Line(x1, y1, x2, y2)
-				let line = new Geom.Line(b[0][0] * cs, b[0][1] * cs, b[1][0] * cs, b[1][1] * cs);
-
-				buildingGraphics.lineStyle(borderWidth, 0x000000, 1.0);
-				buildingGraphics.strokeLineShape(line);
+		const opLineBorder = new LayoutOperation({
+			stroke: "#000000",
+			strokeWidth: borderWidth
+		})
+		for(const building of this.buildings) 
+		{
+			for(const b of building.borders) 
+			{
+				// b is an ARRAY [startCorner, endCorner], where each corner is a Point
+				const line = new Line(new Point(b[0].x * cs, b[0].y * cs), new Point(b[1].x * cs, b[1].y * cs));
+				lineToPhaser(line, opLineBorder, buildingGraphics);
 			}
 		}
 
@@ -2114,319 +2208,396 @@ class BoardGeneration extends Scene
 		// Draw bank icon on the bank
 		// ( + draw seed within it)
 		//
-		let obj = this.pickCenterCellAndNeighbour(this.cfg.bankBuilding)
-		let randTile = obj.cell, randNeighbour = obj.buildingCellsAround[Math.floor(this.RANDOM_DRAW_RNG() * obj.buildingCellsAround.length)]
+		const obj = this.pickCenterCellAndNeighbour(this.cfg.bankBuilding)
+		const randTile = obj.cell;
+		const randNeighbour = obj.buildingCellsAround[Math.floor(this.RANDOM_DRAW_RNG() * obj.buildingCellsAround.length)]
 
-		let sprite = this.add.sprite((randTile[0]+0.5) * cs, (randTile[1] + 0.5) * cs, 'general_icons')
-		sprite.setFrame(0)
-		sprite.displayWidth = sprite.displayHeight = cs * this.cfg.ingredientSpriteScale;
-		sprite.setOrigin(0.5, 0.5)
-		sprite.depth = 15;
+		const resGeneral = resLoader.getResource("general_icons");
+		const opBank = new LayoutOperation({
+			translate: new Point((randTile.x+0.5)*cs, (randTile.y+0.5)*cs),
+			frame: 0,
+			dims: new Point(cs * this.cfg.ingredientSpriteScale),
+			pivot: Point.CENTER,
+			depth: 15
+		});
+		imageToPhaser(resGeneral, opBank, this);
 
 		const seedFontSize = 16 * (this.canvas.width / 1160.0);
-		let seedTextCfg = {
-			fontFamily: 'Leckerli One',
-			fontSize: seedFontSize + 'px',
-			color: '#AAAAAA',
-			wordWrap: { width: cs, useAdvancedWrap: true }
-		}
-
-		let txt = this.add.text((randNeighbour[0] + 0.5)*cs, (randNeighbour[1] + 0.5)*cs, '' + this.cfg.seed, seedTextCfg);
-		txt.setOrigin(0.5, 0.5)
-		txt.depth = 15;
+		const textConfigSeed = new TextConfig({
+			font: "Leckerli One",
+			size: seedFontSize
+		}).alignCenter();
+		const opTextSeed = new LayoutOperation({
+			translate: new Point((randNeighbour.x + 0.5)*cs, (randNeighbour.y + 0.5)*cs),
+			dims: new Point(cs),
+			pivot: Point.CENTER,
+			fill: "#AAAAAA",
+			depth: 15
+		})
+		const resTextSeed = new ResourceText({ text: this.cfg.seed, textConfig: textConfigSeed });
+		textToPhaser(resTextSeed, opTextSeed, this);
 
 		//
 		// Draw traffic signs
 		//
-		if(this.trafficSigns != undefined) { this.visualizeTrafficSigns() }
+		this.visualizeTrafficSigns();
 
 		//
 		// Draw movement shapes
 		//
-
-		let rectStart = [this.cfg.resX-this.cfg.shapeRectSize[0], this.cfg.resY-this.cfg.shapeRectSize[1]]
+		const rectStart = new Point(
+			this.cfg.resX-this.cfg.shapeRectSize.x,
+			this.cfg.resY-this.cfg.shapeRectSize.y
+		);
 
 		// Big background rectangle
-		let rect = new Geom.Rectangle(rectStart[0]*cs, rectStart[1]*cs, this.cfg.shapeRectSize[0]*cs, this.cfg.shapeRectSize[1]*cs);
+		const rectStartReal = new Point(rectStart.x*cs, rectStart.y*cs);
+		const rect = new Rectangle().fromTopLeft(rectStartReal, new Point(this.cfg.shapeRectSize.x*cs, this.cfg.shapeRectSize.y*cs));
 
-		overlayGraphics.fillStyle(0xFFCCCC, 1.0);
-		overlayGraphics.lineStyle(this.cfg.borderWidth*cs, 0x330000, 1.0);
-
-		overlayGraphics.fillRectShape(rect);
-		overlayGraphics.strokeRectShape(rect);
+		const opBGRect = new LayoutOperation({
+			fill: "#FFCCCC",
+			stroke: "#330000",
+			strokeWidth: this.cfg.borderWidth*cs
+		});;
+		rectToPhaser(rect, opBGRect, overlayGraphics);
 
 		// Draw shapes individually
-		let moveShapeSize = 0.8*cs
-		for(let i = 0; i < this.shapes.length; i++) {
-			let row = Math.floor(i / this.cfg.shapeRectSize[0])
-			let col = i % this.cfg.shapeRectSize[0]
+		let moveShapeSize = new Point(0.8*cs);
+		const resShapes = resLoader.getResource("shapes");
+		for(let i = 0; i < this.shapes.length; i++) 
+		{
+			const row = Math.floor(i / this.cfg.shapeRectSize.x)
+			const col = i % this.cfg.shapeRectSize.x
+			const pos = new Point((rectStart.x+0.5+col)*cs, (rectStart.y + 0.5+row)*cs);
 
-			let sprite = this.add.sprite((rectStart[0]+0.5+col)*cs, (rectStart[1] + 0.5+row)*cs, 'shapes');
-			sprite.displayWidth = sprite.displayHeight = moveShapeSize;
-			sprite.setOrigin(0.5, 0.5);
-			sprite.setFrame(this.shapes[i]);
-
-			sprite.depth = 20;
+			const opShape = new LayoutOperation({
+				translate: pos,
+				dims: moveShapeSize,
+				pivot: Point.CENTER,
+				frame: this.shapes[i],
+				depth: 20
+			})
+			imageToPhaser(resShapes, opShape, this);
 		}
 
 		// draw hint about picking UNIQUE shapes
-		let hintMargin = 4;
-		let hint = this.add.sprite(rect.x + 0.5*rect.width, rect.y + rect.height - hintMargin, 'unique_shapes_hint')
-		hint.displayWidth = 0.6*moveShapeSize;
-		hint.displayHeight = (160.0/400.0) * hint.displayWidth;
-		hint.setOrigin(0.5, 1);
-
-		hint.depth = 22;
-		hint.alpha = 0.66;
+		const resHint = resLoader.getResource("unique_shapes_hint");
+		const hintMargin = 4;
+		const posHint = new Point(rectStartReal.x + 0.5*rect.getSize().x, rectStartReal.y + rect.getSize().y - hintMargin);
+		const hintX = 0.6*moveShapeSize.x;
+		const opHint = new LayoutOperation({
+			translate: posHint,
+			dims: new Point(hintX, (160.0/400.0) * hintX),
+			pivot: new Point(0.5, 1),
+			depth: 22,
+			alpha: 0.66
+		});
+		imageToPhaser(resHint, opHint, this);
 
 		//
-		// Some extra filters and modifications if inkFriendly is on?
+		// @TODO: Some extra filters and modifications if inkFriendly is on?
 		//
 	}
 
-	visualizeEntrance(obj, roadGraphics) {
+	visualizeEntrance(obj:Cell, roadGraphics:any) 
+	{
 		const cs = this.cfg.cellSize;
 		const specialPlacesEnabled = this.cfg.expansions.preposterousPlaces;
 
 		let entData = obj.entrance
-		let rectEntrance = new Geom.Rectangle(entData.pos[0] * cs, entData.pos[1] * cs, 0.5*cs, 0.5*cs)
+		const rectPos = new Point(entData.pos.x*cs, entData.pos.y*cs);
+		const rectSize = new Point(0.5*cs);
+		const rectEntrance = new Rectangle().fromTopLeft(rectPos, rectSize);
 		let connectedBuilding = this.buildings[entData.building]
 
 		// copy color from the building we're connected to
 		// otherwise default to a light blue
 		// NOTE: Ingredients can be changed on buildings, so this value is NOT necessarily the same as entData.ingredient
-		let color = 0xCCCCFF;
+		let color = "#CCCCFF";
 		let realIngredient = connectedBuilding.ingredient
 		if(realIngredient != null) { color = this.cfg.buildingColorDict[realIngredient] }
 		
-		if(connectedBuilding.type == 'reserved') { color = 0xFFEEDA; } // restaurants get a light brown/beige-ish tint
-		if(connectedBuilding.type == 'bank') { color = 0xC5C1C1; } // banks get a light gray
+		if(connectedBuilding.type == 'reserved') { color = "#FFEEDA"; } // restaurants get a light brown/beige-ish tint
+		if(connectedBuilding.type == 'bank') { color = "#C5C1C1"; } // banks get a light gray
 
 		// banks and restaurants only get an entrance if special places are enabled
 		if((connectedBuilding.type == 'bank' || connectedBuilding.type == 'reserved') && !specialPlacesEnabled) { return; }
 
-		roadGraphics.fillStyle(color, 1.0);
-		roadGraphics.fillRectShape(rectEntrance);
+		const opEntrance = new LayoutOperation({ fill: color });
+		rectToPhaser(rectEntrance, opEntrance, roadGraphics);
+
+		const resGeneral = resLoader.getResource("general_icons");
+		const resIng = resLoader.getResource("ingredients");
+		const opSprite = new LayoutOperation({
+			translate: new Point(rectPos.x + 0.5*rectSize.x, rectPos.y + 0.5*rectSize.y),
+			dims: new Point(rectSize.x * this.cfg.ingredientSpriteScale),
+			pivot: Point.CENTER,
+			alpha: 0.75
+		})
 
 		// determine if this entrance should display some sort of sprite
-		let entSprite = null;
-		if(entData.ingredient != null) {
-			entSprite = this.add.sprite(rectEntrance.x + 0.5*rectEntrance.width, rectEntrance.y + 0.5*rectEntrance.width, 'ingredients')
-			entSprite.setFrame(realIngredient)
+		let resFinal = null;
+		if(entData.ingredient != null) 
+		{
+			resFinal = resIng;
+			opSprite.frame = realIngredient;
 		} 
 
 		if(connectedBuilding.type == 'bank') {
-			entSprite = this.add.sprite(rectEntrance.x + 0.5*rectEntrance.width, rectEntrance.y + 0.5*rectEntrance.width, 'general_icons')
-			entSprite.setFrame(0)
-		} else if(connectedBuilding.type == 'reserved'){
-			entSprite = this.add.sprite(rectEntrance.x + 0.5*rectEntrance.width, rectEntrance.y + 0.5*rectEntrance.width, 'general_icons')
-			entSprite.setFrame(3)
+			resFinal = resGeneral;
+			opSprite.frame = 0;
+		} else if(connectedBuilding.type == 'reserved') {
+			resFinal = resGeneral;
+			opSprite.frame = 3;
 		}
 
-		// if some sprite was created, set the correct settings
-		if(entSprite != null) {
-			entSprite.displayWidth = entSprite.displayHeight = rectEntrance.width * this.cfg.ingredientSpriteScale
-			entSprite.setOrigin(0.5, 0.5)
-			entSprite.alpha = 0.75;
-
-		}
+		// finally, if some sprite was selected, actually create it
+		if(resFinal) { imageToPhaser(resFinal, opSprite, this); }
 	}
 
-	visualizeTrafficSigns() {
+	visualizeTrafficSigns() 
+	{
+		if(!this.trafficSigns) { return; }
+
 		const cs = this.cfg.cellSize;
 
 		const fontSize = 20 * (this.canvas.width / 1160.0);
-		let gateTextCfg = {
-			fontFamily: 'Leckerli One',
-			fontSize: fontSize + 'px',
-			color: '#AAAAAA',
-		}
+		//const textColor = "#AAAAAA"; => somehow didn't use this one, but want to keep it just in case
 
-		for(let i = 0; i < this.trafficSigns.length; i++) {
+		const textConfigGate = new TextConfig({
+			font: "Leckerli One",
+			size: fontSize
+		}).alignCenter();
+
+		const resTrafficSigns = resLoader.getResource("traffic_signs");
+
+		for(let i = 0; i < this.trafficSigns.length; i++) 
+		{
 			let obj = this.trafficSigns[i];
 			let dictObj = TRAFFIC_SIGNS[obj.type]
 
 			// IT'S A GATE!
-			if(dictObj.gate) {
-				let pos = [ 
-					obj.pos[0] + 0.5 + 0.5*Math.cos(obj.side * 0.5 * Math.PI),
-					obj.pos[1] + 0.5 + 0.5*Math.sin(obj.side * 0.5 * Math.PI)
-				]
+			if(dictObj.gate) 
+			{
+				const pos = new Point(
+					obj.pos.x + 0.5 + 0.5*Math.cos(obj.side * 0.5 * Math.PI),
+					obj.pos.y + 0.5 + 0.5*Math.sin(obj.side * 0.5 * Math.PI)
+				);
 
-				let sprite = this.add.sprite(pos[0]*cs, pos[1]*cs, 'traffic_signs');
-				sprite.displayWidth = sprite.displayHeight = cs;
-				sprite.setOrigin(0.5, 0.5);
-				sprite.setFrame(dictObj.iconFrame);
-				sprite.rotation = obj.side * 0.5 * Math.PI;
-
-				sprite.depth = 5;
+				const posReal = new Point(pos.x*cs, pos.y*cs);
+				const opGate = new LayoutOperation({
+					translate: posReal,
+					dims: new Point(cs),
+					pivot: Point.CENTER,
+					frame: dictObj.iconFrame,
+					rotation: obj.side * 0.5 * Math.PI,
+					depth: 5
+				});
+				imageToPhaser(resTrafficSigns, opGate, this);
 
 				if(obj.type == 'Line Gate') {
 					// Place low number inside
-					let string = Math.floor(this.TRAFFIC_SIGN_RNG()*2)+1
+					let str = ( Math.floor(this.TRAFFIC_SIGN_RNG()*2) + 1).toString();
 
 					// The higher the player count, the more likely you are to get a 3
 					// (we need that, otherwise there's just not enough room for all lines)
-					if(this.TRAFFIC_SIGN_RNG() <= this.cfg.numPlayers*0.025) { string = 3; }
+					if(this.TRAFFIC_SIGN_RNG() <= this.cfg.numPlayers*0.025) { str = "3"; }
 
-					gateTextCfg.color = '#2D0B37';
-
-					let txt = this.add.text(sprite.x, sprite.y, string, gateTextCfg);
-					txt.setOrigin(0.5, 0.5)
-					txt.depth = 6;
+					const resText = new ResourceText({ text: str, textConfig: textConfigGate });
+					const opText = new LayoutOperation({
+						translate: posReal,
+						dims: new Point(3*textConfigGate.size),
+						pivot: Point.CENTER,
+						depth: 6,
+						fill: "#2D0B37"
+					})
+					textToPhaser(resText, opText, this);
 
 				} else if(obj.type == 'Ingredient Gate' || obj.type == 'Smuggler Gate') {
 					// Place random ingredient inside
 					let randIngredient = Math.floor(this.TRAFFIC_SIGN_RNG()*7);
-					if(this.TRAFFIC_SIGN_RNG() <= (this.specialIngredientsIncluded.length)/14) {
+					if(this.TRAFFIC_SIGN_RNG() <= (this.specialIngredientsIncluded.length)/14.0) {
 						randIngredient = this.specialIngredientsIncluded[Math.floor(this.TRAFFIC_SIGN_RNG()*this.specialIngredientsIncluded.length)];
 					}
 
-					let sprite2 = this.add.sprite(sprite.x, sprite.y, 'ingredients');
-					sprite2.displayWidth = sprite2.displayHeight = 0.35*cs;
-					sprite2.setFrame(randIngredient);
-					sprite2.setOrigin(0.5, 0.5);
-					sprite2.depth = 6;
+					const resIng = resLoader.getResource("ingredients");
+					const opIng = new LayoutOperation({
+						translate: posReal,
+						dims: new Point(0.35*cs),
+						frame: randIngredient,
+						pivot: Point.CENTER,
+						depth: 6
+					})
+					imageToPhaser(resIng, opIng, this);
 
 					// If smuggler, add (small, randomly rotated) cross icon on top
-					if(obj.type == 'Smuggler Gate') {
-						let cross = this.add.sprite(sprite.x + 0.075*cs, sprite.y - 0.075*cs, 'general_icons');
-						cross.displayWidth = cross.displayHeight = 0.2*cs;
-						cross.setFrame(2);
-						cross.setOrigin(0.5, 0.5);
-
-						cross.rotation = Math.random()*0.5*Math.PI - 0.25*Math.PI;
-						cross.depth = 7;
+					if(obj.type == 'Smuggler Gate') 
+					{
+						const resGeneral = resLoader.getResource("general_icons");
+						const opGate = new LayoutOperation({
+							translate: new Point(posReal.x + 0.075*cs, posReal.y - 0.075*cs),
+							dims: new Point(0.2*cs),
+							frame: 2,
+							pivot: Point.CENTER,
+							rotation: Math.random()*0.5*Math.PI - 0.25*Math.PI,
+							depth: 7
+						})
+						imageToPhaser(resGeneral, opGate, this);
 					}
 
 
 				} else if(obj.type == 'Backpack Gate') {
 					// Add number + "<" or ">" sign
-					let string = '';
+					let str = '';
 					if(this.TRAFFIC_SIGN_RNG() <= 0.5) {
-						string = '<' + (Math.floor(this.TRAFFIC_SIGN_RNG()*5) + 3)
+						str = '<' + (Math.floor(this.TRAFFIC_SIGN_RNG()*5) + 3)
 					} else {
-						string = '>' + (Math.floor(this.TRAFFIC_SIGN_RNG()*4) + 1)
+						str = '>' + (Math.floor(this.TRAFFIC_SIGN_RNG()*4) + 1)
 					}
 
-					gateTextCfg.color = '#166332';
-
-					let txt = this.add.text(sprite.x, sprite.y, string, gateTextCfg);
-					txt.setOrigin(0.5, 0.5)
-					txt.depth = 6;
+					const resText = new ResourceText({ text: str, textConfig: textConfigGate });
+					const opText = new LayoutOperation({
+						translate: posReal,
+						dims: new Point(3*textConfigGate.size),
+						fill: "#166332",
+						pivot: Point.CENTER,
+						depth: 6
+					})
+					textToPhaser(resText, opText, this);
 				}
 
 			// NOT A GATE; just a regular sign, display inside the designated square
 			} else {
-				let margin = this.cfg.borderWidth
-				let pos = this.getSquarePositionOnCell(obj.pos, obj.ind, true);
+				const margin = this.cfg.borderWidth
+				const pos = this.getSquarePositionOnCell(obj.pos, obj.ind, true);
+				const posReal = new Point(pos.x*cs, pos.y*cs); // @TODO: I should just replace AAAALL of these calls with one .toRealPosition() function
 
-				let sprite = this.add.sprite(pos[0]*cs, pos[1]*cs, 'traffic_signs');
-				sprite.displayWidth = sprite.displayHeight = (0.5-margin)*cs;
-				sprite.setOrigin(0.5, 0.5);
-				sprite.setFrame(dictObj.iconFrame);
-
-				sprite.depth = 5;
-				sprite.alpha = 0.75;
+				const op = new LayoutOperation({
+					translate: posReal,
+					dims: new Point((0.5-margin)*cs),
+					pivot: Point.CENTER,
+					frame: dictObj.iconFrame,
+					depth: 5,
+					alpha: 0.75
+				})
+				imageToPhaser(resTrafficSigns, op, this);
 			}
 
 		}
 	}
 
-	visualizeDecorations(buildingGraphics, overlayGraphics) {
+	visualizeDecorations(buildingGraphics:any, overlayGraphics:any) 
+	{
 		const cs = this.cfg.cellSize;
 
-		let DECORATION_RNG = Random.seedRandom(this.cfg.seed + "-decorations");
+		const resDecs = resLoader.getResource("decorations");
+
+		let DECORATION_RNG = seedRandom(this.cfg.seed + "-decorations");
 		let numRoundaboutDecorations = 4;
-		for(let i = 0; i < this.obstacles.length; i++) {
+		for(let i = 0; i < this.obstacles.length; i++) 
+		{
 			let o = this.obstacles[i];
 
-			if(o.type == 'hedge') {
+			if(o.type == 'hedge') 
+			{
+
 				let h = o.line;
-				let line = new Geom.Line(h[0] * cs, h[1] * cs, h[2] * cs, h[3] * cs);
+				const line = new Line(new Point(h.start.x*cs, h.start.y*cs), new Point(h.end.x*cs, h.end.y*cs));
 
-				let sprite = this.add.sprite(h[0] * cs, h[1] * cs, 'decorations');
-				sprite.displayWidth = sprite.displayHeight = cs;
-				sprite.setFrame(0);
-				sprite.setOrigin(0.0, 0.5);
-				sprite.rotation = o.rotation;
-				sprite.depth = 15;
+				const opHedge = new LayoutOperation({
+					translate: line.start,
+					dims: new Point(cs),
+					frame: 0,
+					pivot: new Point(0, 0.5),
+					rotation: o.rotation,
+					depth: 15
+				})
+				imageToPhaser(resDecs, opHedge, this);
 
-				buildingGraphics.lineStyle(this.cfg.borderWidth*cs, 0x006600, 1.0);
-				buildingGraphics.strokeLineShape(line);
+				const opLine = new LayoutOperation({
+					stroke: "#006600",
+					strokeWidth: this.cfg.borderWidth*cs
+				});
+				lineToPhaser(line, opLine, buildingGraphics);
 			
 			} else if(o.type == 'roundabout') {
-				let rect = new Geom.Rectangle((o.center[0] - 0.5) * cs, (o.center[1]-0.5) * cs, cs, cs);
+
+				const rectSize = new Point(cs);
+				const rectPos = new Point((o.center.x - 0.5) * cs, (o.center.y-0.5) * cs);
+				const rect = new Rectangle().fromTopLeft(rectPos, rectSize);
+
+				const opRoundabout = new LayoutOperation({
+					translate: new Point(o.center.x*cs, o.center.y*cs),
+					pivot: Point.CENTER,
+					depth: 20
+				});
 
 				// if special places are enabled, we use all roundabouts for special buildings
 				// otherwise, pick a random decoration/roundabout sprite to display
-				let sprite, color, strokeColor
+				let color, strokeColor
+				let resFinal = resDecs;
 				if(o.specialBuilding != null) {
-					let buildingType = o.specialBuilding
-
-					sprite = this.add.sprite(o.center[0]*cs, o.center[1]*cs, 'special_buildings');
-					sprite.setFrame(SPECIAL_BUILDINGS[buildingType].iconFrame);
-
+					const buildingType = o.specialBuilding
+					resFinal = resLoader.getResource("special_buildings");
+					opRoundabout.frame = SPECIAL_BUILDINGS[buildingType].iconFrame;
+					opRoundabout.dims = new Point(this.cfg.ingredientSpriteScale * cs);
 					color = SPECIAL_BUILDINGS[buildingType].color;
-					strokeColor = 0x000000;
-
-					sprite.displayWidth = sprite.displayHeight = this.cfg.ingredientSpriteScale * cs;
+					strokeColor = "#000000";
 
 					// lower opacity on open field, both to signal its function (cross it any way you like) and make player lines more readable
-					if(buildingType == 'Plaza') { sprite.alpha = 0.55; }
+					if(buildingType == 'Plaza') { opRoundabout.alpha = 0.55; }
 				} else {
-					sprite = this.add.sprite(o.center[0]*cs, o.center[1]*cs, 'decorations');
-					sprite.setFrame(Math.floor(DECORATION_RNG() * numRoundaboutDecorations) + 2);
-					
-					color = 0x9EFB7B;
-					strokeColor = 0x0E5E00;
-
-					sprite.displayWidth = sprite.displayHeight = cs;
+					opRoundabout.frame = Math.floor(DECORATION_RNG() * numRoundaboutDecorations) + 2;
+					opRoundabout.dims = new Point(cs);
+					color = "#9EFB7B";
+					strokeColor = "#0E5E00";
 				}
-
-
-				// just some random depth values so that: SPRITE is on top of everything, but RECTANGLE behind it is also on top of road
-				sprite.depth = 20;
-				overlayGraphics.depth = 19;
+				imageToPhaser(resFinal, opRoundabout, this);
 
 				// ink-friendly maps get a WHITE background and LIGHTGRAY border on decorations
 				// otherwise we get a LIGHT GREEN + DARK GREEN combo
+				let fillColor = "#FFFFFF";
+				let stroke = "#CCCCCC";
 				if(!this.cfg.inkFriendly) {
-					overlayGraphics.fillStyle(color, 1.0);
-					overlayGraphics.lineStyle(this.cfg.borderWidth*cs, strokeColor, 1.0);
-				} else {
-					overlayGraphics.fillStyle(0xFFFFFF, 1.0);
-					overlayGraphics.lineStyle(this.cfg.borderWidth*cs, 0xCCCCCC, 1.0);
+					fillColor = color;
+					stroke = strokeColor
 				}
 
-				overlayGraphics.fillRectShape(rect);
+				const opRect = new LayoutOperation({ fill: fillColor });
+				rectToPhaser(rect, opRect, overlayGraphics);
+
+				const opLineBorder = new LayoutOperation({
+					stroke: stroke,
+					strokeWidth: this.cfg.borderWidth*cs
+				})
 
 				// draw borders individually (because it's ugly to get borders between two adjacent decoration elements)
-				for(let b = 0; b < o.borders.length; b++) {
-					let border = o.borders[b];
-
-					let line = new Geom.Line(border[0]*cs, border[1]*cs, border[2]*cs, border[3]*cs);
-					overlayGraphics.strokeLineShape(line);
+				for(const border of o.borders) 
+				{
+					const line = new Line(border.start.clone().scale(cs), border.end.clone().scale(cs));
+					lineToPhaser(line, opLineBorder, overlayGraphics);
 				}
 			}
 		}
 	}
 
-	visualizeOrders() {
+	visualizeOrders() 
+	{
 		const cs = this.cfg.cellSize;
 		const fontSize = 16 * (this.canvas.width / 1160.0);
-		const priceTextCfg = {
-			fontFamily: 'Leckerli One',
-			fontSize: fontSize + 'px',
-			color: '#003636',
-			//stroke: '#010101',
-			//strokeThickness: 2,
-		}
+		const textConfigPrice = new TextConfig({
+			font: "Leckerli One",
+			size: fontSize
+		}).alignCenter();
 
 		this.cfg.bankBuilding = null;
 
-		let DRAW_RNG = Random.seedRandom(this.cfg.seed + '-drawStuff')
-		for(let i = 0; i < this.buildings.length; i++) {
+		const resCrust = resLoader.getResource("crust");
+		const resIng = resLoader.getResource("ingredients");
+
+		let DRAW_RNG = seedRandom(this.cfg.seed + '-drawStuff')
+		for(let i = 0; i < this.buildings.length; i++) 
+		{
 			let b = this.buildings[i];
 
 			if(b.type == 'bank') { this.cfg.bankBuilding = b; continue; }
@@ -2439,28 +2610,33 @@ class BoardGeneration extends Scene
 			let order = b.order.slice()
 			order.unshift(-1);
 
+			const midPoint = new Point((cell.x + 0.5) * cs, (cell.y + 0.5) * cs);
+
 			// generate sprites for the order, place on top of cell
-			for(let o = 0; o < order.length; o++) {
-				let sprite = this.add.sprite((cell[0] + 0.5) * cs, (cell[1] + 0.5) * cs, 'crust')
-				sprite.setFrame(order[o] + 1);
-				sprite.displayWidth = sprite.displayHeight = cs * this.cfg.ingredientSpriteScale;
-				sprite.setOrigin(0.5, 0.5);
-				sprite.depth = 15;
+			for(const ingNumber of order) 
+			{
+				const op = new LayoutOperation({
+					translate: midPoint,
+					dims: new Point(this.cfg.ingredientSpriteScale * cs),
+					pivot: Point.CENTER,
+					depth: 15,
+					frame: ingNumber + 1
+				})
+				imageToPhaser(resCrust, op, this);
 			}
 
 			// generate sprites for the sideDishes as well
-			for(let sd = 0; sd < b.sideDishes.length; sd++) {
-				let data = SPECIAL_INGREDIENTS[b.sideDishes[sd]]
-
-				let sprite = this.add.sprite((cell[0] + 0.5) * cs, (cell[1] + 0.5) * cs, 'ingredients')
-				sprite.setFrame(data.iconFrame);
-				sprite.displayWidth = sprite.displayHeight = 0.4*cs;
-				sprite.setOrigin(0.5, 0.5);
-				sprite.depth = 15;
-
-
-				sprite.x += data.iconOffset[0]*cs;
-				sprite.y += data.iconOffset[1]*cs;
+			for(let sd = 0; sd < b.sideDishes.length; sd++) 
+			{
+				let data = SPECIAL_INGREDIENTS[b.sideDishes[sd]];
+				const op = new LayoutOperation({
+					translate: midPoint.clone().add(data.iconOffset.clone().scale(cs)),
+					frame: data.iconFrame,
+					dims: new Point(0.4*cs),
+					pivot: Point.CENTER,
+					depth: 15
+				})
+				imageToPhaser(resIng, op, this);
 			}
 
 			// place a price tag underneath
@@ -2486,27 +2662,38 @@ class BoardGeneration extends Scene
 			// also add 2 money for each (required) side dish
 			price += b.sideDishes.length*2;
 
-			let randNeighbourCell = buildingCellsAround[Math.floor(DRAW_RNG() * buildingCellsAround.length)]
-			let txt = this.add.text((randNeighbourCell[0] + 0.5) * cs, (randNeighbourCell[1] + 0.5) * cs, '$' + price, priceTextCfg)
-			txt.setOrigin(0.5, 0.5)
-			txt.depth = 15;
+			const randNeighbourCell = buildingCellsAround[Math.floor(DRAW_RNG() * buildingCellsAround.length)];
+			const posText = new Point((randNeighbourCell.x + 0.5) * cs, (randNeighbourCell.y + 0.5) * cs);
+			const opTextPrice = new LayoutOperation({
+				translate: posText,
+				dims: new Point(cs),
+				pivot: Point.CENTER,
+				fill: "#003636",
+				depth: 15
+			})
+			const resTextPrice = new ResourceText({ text: "$" + price, textConfig: textConfigPrice });
+			textToPhaser(resTextPrice, opTextPrice, this);
 
 			// place a courier icon underneath THAT (to remind players they get a new courier for delivering)
-			let courierSprite = this.add.sprite(txt.x, txt.y + 8 - 0.13*cs, 'general_icons');
-			courierSprite.displayWidth = courierSprite.displayHeight = 0.5*cs;
-			courierSprite.setOrigin(0.5, 0);
-			courierSprite.setFrame(4);
-			courierSprite.depth = 15;
+			const resCourier = resLoader.getResource("general_icons");
+			const opCourier = new LayoutOperation({
+				translate: new Point(posText.x, posText.y + 8 - 0.13*cs),
+				dims: new Point(0.5*cs),
+				pivot: new Point(0.5, 0),
+				frame: 4,
+				depth: 15
+			})
+			imageToPhaser(resCourier, opCourier, this);
 		}
 	}
 
-	pickCenterCellAndNeighbour(b) {
+	pickCenterCellAndNeighbour(b:Building) 
+	{
 		// pick a random cell on the building, preferably somewhere near the middle
 		// (it has the most cells of the same building around it)
 		let cell = null, buildingCellsAround = null;
 
-		for(let t = 0; t < b.tiles.length; t++) {
-			let tempCell = b.tiles[t];
+		for(const tempCell of b.tiles) {
 			let tempBuildingCellsAround = this.getAllBuildingCellsAround(tempCell, b.index)
 			if(buildingCellsAround == null || tempBuildingCellsAround.length > buildingCellsAround.length) {
 				cell = tempCell;
@@ -2519,20 +2706,19 @@ class BoardGeneration extends Scene
 			}
 		}
 
-		return { 'cell': cell, 'buildingCellsAround': buildingCellsAround}
+		return { cell: cell, buildingCellsAround: buildingCellsAround }
 	}
 
-	getAllBuildingCellsAround(pos, ind) {
-		let nbs = [[1,0], [0,1], [-1,0], [0,-1]]
-		
-		let buildingCellsAround = [];
-		for(let i = 0; i < 4; i++) {
-			let nb = nbs[i];
-			let tPos = [pos[0] + nb[0], pos[1] + nb[1]]
-
+	getAllBuildingCellsAround(pos:Point, ind:number) 
+	{
+		const buildingCellsAround = [];
+		for(let i = 0; i < 4; i++) 
+		{
+			const nb = NBS[i];
+			const tPos = new Point(pos.x + nb.x, pos.y + nb.y);
 			if(this.outOfBounds(tPos)) { continue; }
 
-			let obj = this.map[tPos[0]][tPos[1]];
+			let obj = this.getCell(tPos);
 			if(obj.type != 'building') { continue; } // ignore non-buildings
 			if(obj.buildingIndex != ind) { continue; }
 
@@ -2542,8 +2728,9 @@ class BoardGeneration extends Scene
 		return buildingCellsAround
 	}
 
-	getRandom(list) {
-		return Random.getWeighted(list, "prob", this.RANDOM_DRAW_RNG);
+	getRandom(list:Record<string,any>)
+	{
+		return getWeighted(list, "prob", this.RANDOM_DRAW_RNG);
 	}
 }
 

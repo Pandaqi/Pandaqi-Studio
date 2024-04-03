@@ -1,8 +1,8 @@
 import { INGREDIENTS, SPECIAL_CELLS } from "../js_shared/dict"
-import Random from "js/pq_games/tools/random/main"
-// @ts-ignore
-import { Geom } from "js/pq_games/phaser/phaser.esm"
 import Section from "./section"
+import shuffle from "js/pq_games/tools/random/shuffle";
+import Rectangle from "js/pq_games/tools/geometry/rectangle";
+import Point from "js/pq_games/tools/geometry/point";
 
 export default class Cell 
 {
@@ -14,7 +14,7 @@ export default class Cell
 	type: string;
 	ingredientName: string;
 	
-	constructor(section: Section, x: number,y: number)
+	constructor(section: Section, x: number, y: number)
 	{
 		this.section = section;
 		this.x = x;
@@ -38,14 +38,12 @@ export default class Cell
 		}
 	}
 
-	asRect()
+	asRect() : Rectangle
 	{
 		const size = this.section.getCellSize();
-		return new Geom.Rectangle(
-			this.x * size.x, 
-			this.y * size.y, 
-			size.x, 
-			size.y
+		return new Rectangle().fromTopLeft(
+			new Point(this.x * size.x, this.y * size.y),
+			size,
 		);
 	}
 
@@ -91,7 +89,7 @@ export default class Cell
 
 	getValidNeighbors()
 	{
-		const dirs = Random.shuffle( [[1,0], [0,1], [-1,0], [0,-1]] );
+		const dirs = shuffle( [[1,0], [0,1], [-1,0], [0,-1]] );
 		const arr = [];
 		for(const dir of dirs) {
 			const x = this.x + dir[0];
