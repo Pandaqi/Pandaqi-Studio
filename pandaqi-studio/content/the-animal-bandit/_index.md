@@ -22,7 +22,6 @@ bgColorLink: "#B6C7C9"
 textColor: "#510103"
 textColorLink: "#333333"
 
-googleFonts: ""
 extraCSS: true
 
 date: 2018-11-02

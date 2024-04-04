@@ -4,7 +4,7 @@ gamepage: true
 boardgame: true
 
 title: "Starry Skylines"
-headerTitle: "Starry Skylines | Build your new city in space, together"
+headerTitle: "Build your new city in space, together"
 blurb: "You are all simultaneously building a city in space. On the same planet. And no, this is not a cooperative game."
 
 noThumb: true
@@ -17,8 +17,6 @@ bgColorLink: "brown"
 
 textColor: "#1A2225"
 textColorLink: "#FFCCAA"
-
-googleFonts: "https://fonts.googleapis.com/css2?family=Montserrat+Subrayada:wght@700&family=Titillium+Web:ital,wght@0,400;0,700;1,400&display=swap"
 
 extraCSS: true
 extraJSBoard: true

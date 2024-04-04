@@ -19,8 +19,6 @@ bgColorLink: "#ffd340"
 textColor: "#201913"
 textColorLink: "#282310"
 
-googleFonts: ""
-
 date: 2023-09-18
 
 categories: ["boardgame"]

@@ -8,12 +8,6 @@
 
     <title>{{ .Parent.Title }} | Game / Generator | Pandaqi Games</title>
 
-    {{ with .Params.googleFonts }}
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="{{ . }}&display=swap" rel="stylesheet">
-    {{ end }}
-
     <!-- Unique CSS for this rulebook -->
     {{ partial "load-assets.html" (dict "context" . "ext" "css" "type" "game" "include" true) }}
 </head>

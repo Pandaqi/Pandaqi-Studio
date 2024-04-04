@@ -21,8 +21,6 @@ bgColorLink: "#9ce4eb"
 textColor: "#cdfff9"
 textColorLink: "#083d42"
 
-googleFonts: "https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400;0,900;1,400&family=Jockey+One&display=swap"
-
 date: 2023-11-21
 
 categories: ["boardgame"]

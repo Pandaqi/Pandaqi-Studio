@@ -19,7 +19,6 @@ bgColorLink: "#007607"
 textColor: "#562C09"
 textColorLink: "#7CFF86"
 
-googleFonts: "https://fonts.googleapis.com/css2?family=Original+Surfer&family=Zilla+Slab:ital,wght@0,400;0,700;1,400&display=swap"
 extraCSS: true
 
 date: 2021-07-14

@@ -17,8 +17,6 @@ bgColorLink: "#4dc135"
 textColor: "#ebccf6"
 textColorLink: "#102600"
 
-googleFonts: "https://fonts.googleapis.com/css2?family=Niconne&family=Mali:ital,wght@0,400;0,700;1,400&display=swap"
-
 extraCSS: true
 extraJSBoard: true
 extraJSBoardInclude: true

@@ -19,8 +19,6 @@ bgColorLink: "#2a3da5"
 textColor: "#2A3A3B"
 textColorLink: "#C4BCFD"
 
-googleFonts: "https://fonts.googleapis.com/css2?family=Leckerli+One&family=Nunito:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap"
-
 extraCSS: true
 extraJSBoard: true
 extraJSBoardInclude: true

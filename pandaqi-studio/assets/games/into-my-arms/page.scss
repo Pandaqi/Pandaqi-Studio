@@ -1,14 +1,45 @@
+$header-font: '"Caveat Brush"';
+$body-font: "ABeeZee";
+$base-fonts: "fonts/";
+
+@font-face {
+    font-family: $header-font;
+    src: url($base-fonts + 'CaveatBrush-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'ABeeZee-Italic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'ABeeZee-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+
+
 body {
     background-image: url('intomyarms_bg.webp');
     background-repeat: repeat-y;
     background-position: center;
     background-color: #0498FD;
-    font-family: 'ABeeZee';
+    font-family: $body-font;
     font-size: 20px;
 }
 
 h1,h2,h3,h4,h5,h6 {
-    font-family: 'Caveat';
+    font-family: $header-font;
 }
 
 .limit-width {
@@ -43,7 +74,7 @@ p a {
 .buy-link {
     background-color: #0A2A43;
     color: white;
-    font-family: 'Caveat';
+    font-family: $header-font;
     font-size: 32px;
 
     &:hover {

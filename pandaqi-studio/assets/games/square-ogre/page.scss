@@ -1,16 +1,18 @@
+@use "./shared.scss" as g;
+
 body {
     background-image: url(squareogre_bg.webp);
     background-repeat: repeat-y;
     background-position: center;
     background-color: #070110;
     background-size: 100%;
-    font-family: 'Andika New Basic', sans-serif;
+    font-family: g.$body-font, sans-serif;
     font-size: 20px;
     color: #FCFCFC;
 }
 
 h1,h2,h3,h4,h5,h6 {
-    font-family: 'Hanalei Fill', cursive;
+    font-family: g.$header-font, cursive;
     font-weight: normal;
 }
 
@@ -52,7 +54,7 @@ h1 {
     padding: 20px;
     background-color: #6BB73E;
     color: rgba(0,0,0,0.75);
-    font-family: 'Hanalei Fill', cursive;
+    font-family: g.$header-font, cursive;
     font-size: 32px;
 
     margin: 10px;

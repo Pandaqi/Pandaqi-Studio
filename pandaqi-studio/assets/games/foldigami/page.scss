@@ -1,5 +1,9 @@
-$header-font: "Jockey One", serif;
-$body-font: "Figtree", sans-serif;
+$header-font-raw: '"Jockey One"';
+$header-font: $header-font-raw, serif;
+$body-font-raw: "Figtree";
+$body-font: $body-font-raw, sans-serif;
+$base-fonts: "fonts/";
+
 $bg-color: #18393E;
 $text-color: #FCFCFC;
 $main-color: #7c2b6b;
@@ -9,6 +13,42 @@ $link-color: #b2da55;
 $link-color-hover: #d8f398;
 $settings-color: #a51921;
 $cutoff: 920px;
+
+
+@font-face {
+    font-family: $header-font-raw;
+    src: url($base-fonts + 'JockeyOne-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font-raw;
+    src: url($base-fonts + 'Figtree-Black.woff2') format('woff2');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font-raw;
+    src: url($base-fonts + 'Figtree-Italic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font-raw;
+    src: url($base-fonts + 'Figtree-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+
 
 // Color scheme: 
 // DARKBLUE: #18393E

@@ -19,7 +19,6 @@ textColorLink: "#A9FF8A"
 
 color: "yellow"
 
-googleFonts: "https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,700;1,400&family=Griffy&display=swap"
 extraCSS: true
 
 date: 2021-11-26

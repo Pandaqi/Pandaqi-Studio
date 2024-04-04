@@ -20,8 +20,6 @@ textColorLink: "#1a0428"
 
 extraCSS: true
 
-googleFonts: "https://fonts.googleapis.com/css2?family=Chelsea+Market&family=Charis+SIL:ital,wght@0,400;1,400;1,700&display=swap"
-
 date: 2022-06-02
 
 categories: ["boardgame"]

@@ -19,7 +19,6 @@ textColorLink: "#7CFF86"
 
 color: "green"
 
-googleFonts: "https://fonts.googleapis.com/css2?family=Chewy&family=Open+Sans+Condensed:wght@700&display=swap"
 extraCSS: true
 
 date: 2021-04-26
@@ -27,7 +26,7 @@ date: 2021-04-26
 categories: ["game"]
 tags: ["desktop", "mobile", "multiplayer", "silly", "bakery", "one_week_game"]
 
-downloadLink: "http://pandaqi.itch.io/a-recipe-for-disaster"
+downloadLink: "http://pandaqi.itch.io/a-recipe-for-disaster/"
 
 multiplayertype: 'offline'
 multiplayermode: 'cooperative'

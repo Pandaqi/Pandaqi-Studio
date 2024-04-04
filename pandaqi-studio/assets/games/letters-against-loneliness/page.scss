@@ -1,14 +1,26 @@
+$header-font: "VT323";
+$body-font: "VT323";
+$base-fonts: "fonts/";
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'VT323-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 body {
-    font-family: 'Press Start 2P', serif;
-    font-size: 14px;
-    line-height: 140%;
+    font-family: $body-font, serif;
+    font-size: 19px;
+    line-height: 115%;
 
     background-color: #0A579C;
     color: #BDEBEE;
 }
 
 h1,h2,h3,h4,h5,h6 {
-    font-family: 'Press Start 2P', cursive;
+    font-family: $header-font, cursive;
 }
 
 .horizontal-flex-container.limit-width {
@@ -55,7 +67,7 @@ h1, h2 {
 
 
 .buy-link-container .buy-link {
-    font-family: "Press Start 2P";
+    font-family: $header-font;
     font-size: 24px;
 
     border-radius: 0px;

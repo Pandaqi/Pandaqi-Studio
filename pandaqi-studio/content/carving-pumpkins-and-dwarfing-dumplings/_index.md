@@ -19,7 +19,6 @@ textColorLink: "#DBEDFF"
 
 color: "brown"
 
-googleFonts: "https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=IM+Fell+English:ital@0;1&display=swap"
 extraCSS: true
 
 date: 2022-01-27

@@ -21,7 +21,6 @@ entryBannerNonTextClasses: "no-shadow"
 
 color: "turquoise"
 
-googleFonts: "https://fonts.googleapis.com/css2?family=Corben:wght@400;700&family=Puppies+Play&display=swap"
 extraCSS: true
 
 date: 2021-11-30

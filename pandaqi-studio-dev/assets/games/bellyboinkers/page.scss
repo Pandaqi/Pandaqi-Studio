@@ -1,0 +1,102 @@
+$body-font: "Itim";
+$header-font: "Itim";
+
+@font-face {
+    font-family: $body-font;
+    src: url('fonts/Itim-Regular.woff2') format('woff2'),
+        url('fonts/Itim-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+body {
+    font-family: $body-font, serif;
+    font-size: 22px;
+    line-height: 140%;
+
+    background-color: #e4fba3;
+    background-image: url("page/bg_pattern.png");
+    color: #282e31;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    font-family: $header-font, cursive;
+    text-align: center;
+    font-size: 52px;
+    margin-top: 15px;
+    margin-bottom: -10px;
+}
+
+section .center {
+    background-color: rgb(255, 229, 255);
+    max-width: 720px;
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+.image-as-heading {
+    max-width: 100%;
+    margin-top: 60px;
+    margin-bottom: -20px;
+    text-align: center;
+
+    img {
+        width: 100%;
+        max-width: 720px;
+        margin: auto;
+    }
+}
+
+.buy-link-container .buy-link 
+{
+    font-family: $header-font;
+    font-size: 36px;
+    line-height: 40px;
+
+    border-radius: 0px;
+    box-shadow: none;
+
+    border-radius: 12px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+
+    background-color: rgb(24, 144, 213);
+    color: rgb(9, 58, 87);
+
+    transition: color 0.3s, filter 0.3s, transform 0.3s;
+    filter: drop-shadow(0 0 5px #000000);
+
+    &:hover {
+        background-color: rgb(9, 58, 87);
+        color: rgb(24, 144, 213);
+        transform: scale(1.1);
+    }
+}
+
+a {
+    color: rgb(9, 58, 87);
+    transition: color 0.3s;
+    &:hover {
+        color: rgb(215, 31, 31);
+    }
+}
+
+.first-paragraph {
+    font-size: 24px;
+    font-weight: 900;
+    text-align: center;
+}
+
+.one-rule {
+    color: rgb(98, 19, 32);
+}
+
+.one-objective {
+    color: rgb(11, 77, 74);
+}
+
+.last-paragraph {
+    margin-bottom: 50px;
+}

@@ -1,10 +1,45 @@
+
+$header-font: "Woodcutter";
+$body-font: '"PT Serif"';
+$base-fonts: "fonts/";
+
 @font-face {
-    font-family: 'Woodcutter';
-    src: url(/epic-medics/css/woodcutter.woff2);
+    font-family: $header-font;
+    src: url($base-fonts + "woodcutter.woff2") format("woff2");
     font-weight: normal;
     font-style: normal;
     font-display: swap;
-}      
+}  
 
-$heading-font: "Woodcutter";
-$body-font: 'PT Serif', serif;
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'PTSerif-Italic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'PTSerif-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'PTSerif-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'PTSerif-BoldItalic.woff2') format('woff2');
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+}
+

@@ -19,7 +19,6 @@ textColorLink: "#2e3305"
 
 color: "green"
 
-googleFonts: "https://fonts.googleapis.com/css2?family=Rubik+Mono+One&family=Rubik:ital,wght@0,400;0,900;1,400&display=swap"
 extraCSS: true
 
 date: 2022-03-30

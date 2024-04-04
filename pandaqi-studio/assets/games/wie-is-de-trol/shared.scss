@@ -1,0 +1,28 @@
+$header-font: "Recursive";
+$body-font: "Recursive";
+$base-fonts: "fonts/";
+
+@font-face {
+    font-family: $header-font;
+    src: url($base-fonts + 'Recursive-Black.woff2') format('woff2');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'Recursive-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'Recursive-Light.woff2') format('woff2');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+

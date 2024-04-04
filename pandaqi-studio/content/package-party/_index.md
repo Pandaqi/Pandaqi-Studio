@@ -19,8 +19,6 @@ bgColorLink: "#F38C1D"
 textColor: "#510103"
 textColorLink: "#AE380D"
 
-googleFonts: "https://fonts.googleapis.com/css2?family=Fredoka+One&family=Open+Sans&display=swap"
-
 extraCSS: true
 
 date: 2019-09-25
@@ -28,7 +26,7 @@ date: 2019-09-25
 categories: ["game"]
 tags: ["desktop", "multiplayer"]
 
-downloadLink: "http://pandaqi.itch.io/package-party"
+downloadLink: "http://pandaqi.itch.io/package-party/"
 
 multiplayertype: 'offline'
 multiplayermode: 'cooperative'

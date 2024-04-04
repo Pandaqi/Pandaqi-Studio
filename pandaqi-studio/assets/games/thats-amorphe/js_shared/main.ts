@@ -680,7 +680,7 @@ async function createWordCards(params)
 export default async function startAmorpheGenerator(params)
 {
 	const resLoader = new ResourceLoader();
-	resLoader.planLoad("ribeye", { key: "Ribeye", path: baseAssetDir + "ribeye_regular.woff2" })
+	resLoader.planLoad("ribeye", { key: "Ribeye", path: baseAssetDir + "fonts/Ribeye-Regular.woff2" })
 	await resLoader.loadPlannedResources();
 
 	const feedbackHeading = document.getElementById("feedback");

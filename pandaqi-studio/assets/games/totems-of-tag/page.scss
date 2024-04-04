@@ -1,16 +1,70 @@
+$header-font: "Asap";
+$body-font: '"Advent Pro"';
+$base-fonts: "fonts/";
+
+@font-face {
+    font-family: $header-font;
+    src: url($base-fonts + 'Asap-Black.woff2') format('woff2');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $header-font;
+    src: url($base-fonts + 'Asap-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $header-font;
+    src: url($base-fonts + 'Asap-Italic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'AdventPro-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'AdventPro-Black.woff2') format('woff2');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'AdventPro-Italic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+
+
 body {
     background-image: url(totemsoftag_bg.webp);
     background-position: center;
     background-color: #94FF8C;
     background-size: 100%;
-    font-family: 'Advent Pro', cursive;
+    font-family: $body-font, cursive;
     font-size: 24px;
     line-height: 120%;
     color: #101010;
 }
 
 h1,h2,h3,h4,h5,h6 {
-    font-family: 'Asap', sans-serif;
+    font-family: $header-font, sans-serif;
 }
 
 .limit-width, section .center {
@@ -55,7 +109,7 @@ h1, h2 {
     color: rgba(0,0,0,0.75);
     border-radius:0.5em;
     text-decoration: none;
-    font-family: 'Asap', sans-serif;
+    font-family: $header-font, sans-serif;
     font-size: 32px;
 
     transition: background-color 0.5s, color 0.5s;

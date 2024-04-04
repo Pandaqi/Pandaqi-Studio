@@ -17,7 +17,6 @@ bgColorLink: "#00764f"
 textColor: "#51012a"
 textColorLink: "#7CFFAF"
 
-googleFonts: "https://fonts.googleapis.com/css2?family=Capriola&family=Rubik:ital,wght@0,400;0,700;1,400&display=swap"
 extraCSS: true
 
 date: 2020-04-29

@@ -23,8 +23,6 @@ entryBannerNonTextClasses: "no-shadow"
 
 buttonColor: "#7CFF86"
 
-googleFonts: "https://fonts.googleapis.com/css2?family=ABeeZee&family=Caveat&display=swap"
-
 extraCSS: true
 
 date: 2020-01-30

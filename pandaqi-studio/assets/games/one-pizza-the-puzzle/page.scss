@@ -1,9 +1,48 @@
+$header-font: '"Leckerli One"';
+$body-font: "Nunito";
+$base-fonts: "fonts/";
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'Nunito-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'Nunito-Italic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'Nunito-Black.woff2') format('woff2');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $header-font;
+    src: url($base-fonts + 'LeckerliOne-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+
+
 h1, h2, h3, h4, h5, h6, a.btn, #btn-create-pdf, #btn-generate-board {
-    font-family: 'Leckerli One', cursive;
+    font-family: $header-font, cursive;
 }
 
 body {
-    font-family: 'Nunito', sans-serif;
+    font-family: $body-font, sans-serif;
     background-color: #FFCD7E;
     background-image: url(onepizza_bg.webp);
     font-size: 20px;
@@ -11,7 +50,7 @@ body {
 }
 
 input, button, select, option {
-    font-family: 'Nunito', sans-serif;
+    font-family: $body-font, sans-serif;
 }
 
 .limit-width {

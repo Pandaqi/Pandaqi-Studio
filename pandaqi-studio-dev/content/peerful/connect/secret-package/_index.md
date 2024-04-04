@@ -21,7 +21,6 @@ bgColorLink: "#601a87"
 textColor: "#e6faff"
 textColorLink: "#edccff"
 
-googleFonts: ""
 
 date: 2023-01-01 # 2024-07-25?
 

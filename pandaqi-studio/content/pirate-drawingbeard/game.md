@@ -1,6 +1,5 @@
 ---
 type: "game"
-googleFonts: "https://fonts.googleapis.com/css2?family=Chelsea+Market"
 ---
 
 <div id="phaser-container">

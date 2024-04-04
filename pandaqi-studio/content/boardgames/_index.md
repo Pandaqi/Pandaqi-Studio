@@ -16,15 +16,12 @@ bgColorLink: "#03034f"
 textColor: "#03034f"
 textColorLink: "#E6E4FF"
 
-googleFonts: "https://fonts.googleapis.com/css2?family=Patua+One&family=Poppins:ital,wght@0,400;0,700;1,400&display=swap"
 extraCSS: true
 
 date: 2021-04-29
 
 categories: ["boardgame"]
-
 collection: true
-
 ---
 
 <section class="colorScheme-red" style="padding: 30px;">

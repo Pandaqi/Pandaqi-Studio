@@ -1,6 +1,5 @@
 ---
 type: "game"
-googleFonts: "https://fonts.googleapis.com/css2?family=Recursive:wght@300;500;700;900"
 ---
 
 <main>

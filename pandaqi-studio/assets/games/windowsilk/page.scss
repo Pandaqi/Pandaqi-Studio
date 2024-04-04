@@ -1,9 +1,46 @@
+$header-font: "Griffy";
+$body-font: '"Barlow Condensed"';
+$base-fonts: "fonts/";
+
+@font-face {
+    font-family: $header-font;
+    src: url($base-fonts + 'Griffy-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'BarlowCondensed-Italic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'BarlowCondensed-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'BarlowCondensed-Black.woff2') format('woff2');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+
 body {
     background-image: url(windowsilk_bg.webp);
     background-repeat: repeat-y;
     background-position: center;
     background-size: 100%;
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: $body-font, sans-serif;
     font-size: 22px;
 
     background-color: #DBA05D;
@@ -15,7 +52,7 @@ body {
 }
 
 h1,h2,h3,h4,h5,h6 {
-    font-family: 'Griffy', cursive;
+    font-family: $header-font, cursive;
 }
 
 .heading-image {
@@ -49,7 +86,7 @@ h1, h2 {
 }
 
 .buy-link-container .buy-link {
-    font-family: "Griffy";
+    font-family: $header-font;
     font-size: 36px;
 
     border-radius: 0px;

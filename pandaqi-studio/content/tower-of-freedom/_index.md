@@ -20,7 +20,6 @@ textColor: "#2B3B2A"
 textColorLink: "#FFCCAA"
 buttonColor: "#7C593B"
 
-googleFonts: "https://fonts.googleapis.com/css?family=Catamaran:400,900&family=Fredoka+One&display=swap"
 extraCSS: true
 
 date: 2017-07-20
@@ -28,7 +27,7 @@ date: 2017-07-20
 categories: ["game"]
 tags: ["desktop", "multiplayer"]
 
-downloadLink: "http://pandaqi.itch.io/tower-of-freedom"
+downloadLink: "http://pandaqi.itch.io/tower-of-freedom/"
 
 multiplayertype: 'offline'
 multiplayermode: 'cooperative'

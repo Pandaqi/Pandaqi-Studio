@@ -1,15 +1,37 @@
+$header-font: "Chewy";
+$body-font: '"Open Sans Condensed"';
+$base-fonts: "fonts/"; 
+
+@font-face {
+    font-family: $header-font;
+    src: url($base-fonts + 'Chewy-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'OpenSans-CondensedBold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+
 body {
     background-image: url(arfd_pattern_full.webp);
     background-repeat: repeat-y;
     background-position: center;
     background-size: 100%;
-    font-family: 'Open Sans Condensed', sans-serif;
+    font-family: $body-font, sans-serif;
     font-size: 20px;
     color: #101010;
 }
 
 h1,h2,h3,h4,h5,h6 {
-    font-family: 'Chewy', cursive;
+    font-family: $header-font, cursive;
 }
 
 h1, h2 {
@@ -20,7 +42,7 @@ h1, h2 {
 }
 
 .buy-link, a {
-    font-family: "Chewy";
+    font-family: $header-font;
     font-size: 36px;
 
     display: block;

@@ -1,16 +1,28 @@
+$header-font: "Sketchy";
+$body-font: "Sriracha";
+$base-fonts: "fonts/";
+
 @font-face {
-    font-family: sketchy;
-    src: url(sketchy.woff2);
+    font-family: $header-font;
+    src: url($base-fonts + "sketchy.woff2") format("woff2");
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'Sriracha-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
 }
 
 h1,h2,h3,h4,h5,h6 {
-    font-family: 'sketchy';
+    font-family: $header-font;
 }
-
 
 body {
     background-repeat: repeat;
-    font-family: 'Sriracha', Calibri, Georgia, cursive;
+    font-family: $body-font, Calibri, Georgia, cursive;
     font-size: 20px;
     line-height: 120%;
 

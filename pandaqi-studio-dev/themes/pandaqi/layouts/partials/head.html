@@ -26,15 +26,6 @@
     {{ $crit_style := resources.Get "sass/critical.scss" | resources.ToCSS $options }}
     <link rel="stylesheet" type="text/css" href="{{ $crit_style.RelPermalink }}">
 
-    <!-- Fonts (preconnect, full connect if no JavaScript enabled) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    
-    {{ $fonts := or .Params.googleFonts "https://fonts.googleapis.com/css2?family=Raleway&family=Dosis:wght@500;800&display=swap" }}
-    <noscript>
-        <link href="{{ $fonts }}" rel="stylesheet"> 
-    </noscript>
-
     <!-- Favicon (use default one on regular pages, unique one for game pages) -->
     {{ $favicon := .Site.Params.favicon | absURL }}
     {{ if .Params.gamePage }} 

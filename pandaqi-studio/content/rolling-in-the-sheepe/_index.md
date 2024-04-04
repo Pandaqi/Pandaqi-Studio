@@ -19,7 +19,6 @@ textColorLink: "#00261b"
 
 color: "green"
 
-googleFonts: "https://fonts.googleapis.com/css2?family=Skranji:wght@400;700&display=swap"
 extraCSS: true
 
 date: 2022-01-24
@@ -27,7 +26,7 @@ date: 2022-01-24
 categories: ["game"]
 tags: ["desktop", "one_week_game", "chaotic", "accessible", "physics"]
 
-downloadLink: "http://pandaqi.itch.io/rolling-in-the-sheepe"
+downloadLink: "http://pandaqi.itch.io/rolling-in-the-sheepe/"
 
 multiplayertype: 'offline'
 multiplayermode: 'competitive'

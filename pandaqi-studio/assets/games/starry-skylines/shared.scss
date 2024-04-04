@@ -1,3 +1,46 @@
-$header-font: 'Montserrat Subrayada', sans-serif;
-$body-font: 'Titillium Web', sans-serif;
+$header-font-raw: '"Montserrat Subrayada"';
+$header-font: $header-font-raw, sans-serif;
+$body-font-raw: '"Titillium Web"';
+$body-font: $body-font-raw, sans-serif;
 $bg-pattern-url: url(starryskylines_bg.webp);
+$base-fonts: "fonts/";
+
+@font-face {
+    font-family: $header-font-raw;
+    src: url($base-fonts + 'MontserratSubrayada-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $header-font-raw;
+    src: url($base-fonts + 'MontserratSubrayada-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font-raw;
+    src: url($base-fonts + 'TitilliumWeb-Italic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font-raw;
+    src: url($base-fonts + 'TitilliumWeb-Black.woff2') format('woff2');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font-raw;
+    src: url($base-fonts + 'TitilliumWeb-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}

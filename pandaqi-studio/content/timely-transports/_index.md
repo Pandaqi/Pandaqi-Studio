@@ -18,8 +18,6 @@ bgColorLink: "brown"
 textColor: "#2B3B2A"
 textColorLink: "#FFCCAA"
 
-googleFonts: "https://fonts.googleapis.com/css2?family=Rowdies:wght@400;700&family=Yanone+Kaffeesatz:wght@400;700&display=swap"
-
 extraCSS: true
 extraJSBoard: true
 extraJSBoardInclude: true

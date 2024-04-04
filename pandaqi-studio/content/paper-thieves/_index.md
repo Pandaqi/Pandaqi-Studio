@@ -21,7 +21,6 @@ bgColorLink: "#e4d8ff"
 textColor: "#e4d8ff"
 textColorLink: "#200c66"
 
-googleFonts: "https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap"
 extraCSS: true
 
 date: 2020-03-18

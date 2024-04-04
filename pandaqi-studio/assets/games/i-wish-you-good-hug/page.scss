@@ -1,14 +1,53 @@
+$header-font: '"Original Surfer"';
+$body-font: '"Zilla Slab"';
+$base-fonts: "fonts/";
+
+@font-face {
+    font-family: $header-font;
+    src: url($base-fonts + 'ZillaSlab-Italic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'ZillaSlab-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'ZillaSlab-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'OriginalSurfer-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+
+
 body {
     background-color: #94FF8C;
     background-size: 100%;
-    font-family: 'Zilla Slab', cursive;
+    font-family: $body-font, cursive;
     font-size: 20px;
     line-height: 140%;
     color: #101010;
 }
 
 h1,h2,h3,h4,h5,h6 {
-    font-family: 'Original Surfer', cursive;
+    font-family: $header-font, cursive;
 }
 
 h1, h2 {
@@ -37,7 +76,7 @@ a {
     color: rgba(0,0,0,0.75);
     border-radius:0.5em;
     text-decoration: none;
-    font-family: 'Original Surfer', cursive;
+    font-family: $header-font, cursive;
     font-size: 32px;
 
     transition: background-color 0.5s, color 0.5s;

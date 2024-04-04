@@ -17,8 +17,6 @@ bgColorLink: "#1b5458"
 textColor: "#021e20"
 textColorLink: "#eafeff"
 
-googleFonts: "https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&family=Ribeye&display=swap"
-
 date: 2023-03-10
 
 categories: ["boardgame"]

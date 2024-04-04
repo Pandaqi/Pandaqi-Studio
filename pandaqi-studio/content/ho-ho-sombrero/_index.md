@@ -19,7 +19,6 @@ textColorLink: "#e5b5fb"
 
 color: "purple"
 
-googleFonts: "https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,400;0,900;1,400&family=Kavoon&display=swap"
 extraCSS: true
 
 date: 2021-12-24
@@ -27,7 +26,7 @@ date: 2021-12-24
 categories: ["game"]
 tags: ["desktop", "chaotic", "accessible", "gamejam", "holidays"]
 
-downloadLink: "http://pandaqi.itch.io/ho-ho-sombrero"
+downloadLink: "http://pandaqi.itch.io/ho-ho-sombrero/"
 
 multiplayertype: 'offline'
 multiplayermode: 'cooperative'

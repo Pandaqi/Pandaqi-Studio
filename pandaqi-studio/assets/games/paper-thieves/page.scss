@@ -1,5 +1,27 @@
+$header-font: '"Baloo 2"';
+$body-font: '"Baloo 2"';
+$base-fonts: "fonts/";
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'Baloo2-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'Baloo2-ExtraBold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+
 body {
-    font-family: 'Baloo 2', cursive;
+    font-family: $body-font, cursive;
     background-color: #1A1D33;
     color: white;
     line-height: 120%;
@@ -7,7 +29,7 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Baloo 2', cursive;
+    font-family: $header-font, cursive;
     line-height: 120%;
 }
 

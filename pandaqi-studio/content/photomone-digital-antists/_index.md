@@ -17,8 +17,6 @@ bgColorLink: "#ee4266"
 textColor: "#362a03"
 textColorLink: "#ffe4ea"
 
-googleFonts: ""
-
 date: 2023-08-21
 
 categories: ["game"]

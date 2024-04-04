@@ -20,8 +20,6 @@ bgColorLink: "brown"
 textColor: "#2B3B2A"
 textColorLink: "#FFCCAA"
 
-googleFonts: "https://fonts.googleapis.com/css2?family=Recursive:wght@300;500;700;900&display=swap"
-
 extraCSS: true
 
 date: 2020-09-05

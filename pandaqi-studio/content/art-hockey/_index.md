@@ -19,7 +19,6 @@ bgColorLink: "#760007"
 textColor: "#510103"
 textColorLink: "#FF7C86"
 
-googleFonts: "https://fonts.googleapis.com/css?family=Sriracha&display=swap"
 extraCSS: true
 
 date: 2020-03-16

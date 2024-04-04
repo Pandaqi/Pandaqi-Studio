@@ -57,19 +57,6 @@
 
 {{ partial "load-assets.html" (dict "context" . "ext" "css" "type" "page" "include" .Params.extraCSS) }}
 
-<!-- EXTRA FONTS -->
-<!-- Deferred loading of Fonts = huge speed boost -->
-{{ $default_google_fonts := "https://fonts.googleapis.com/css2?family=Raleway&family=Dosis:wght@500;800&display=swap" }}
-{{ $fonts := or .Params.googleFonts $default_google_fonts }}
-
-<script type="text/javascript">
-	var fonts = document.createElement('link');
-	fonts.rel = 'stylesheet';
-	fonts.href = '{{ $fonts }}';
-	var godefer = document.getElementsByTagName('link')[0];
-	godefer.parentNode.insertBefore(fonts, godefer);
-</script>
-
 <!-- Default JS needed (for making basic functionality work, like picking random projects) -->
 {{ $default_js := resources.Get "/js/functionality.ts" | js.Build "/js/lib-functionality.js" | minify }}
 <script async defer src="{{ $default_js.RelPermalink }}"></script>

@@ -1,12 +1,58 @@
+$header-font: "Fredoka";
+$body-font: '"Open Sans"';
+$base-fonts: "fonts/";
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'OpenSans-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'OpenSans-Italic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'OpenSans-ExtraBold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $header-font;
+    src: url($base-fonts + 'Fredoka-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $header-font;
+    src: url($base-fonts + 'Fredoka-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+
 body {
     background-image: url(bg_pattern.webp);
     background-repeat: repeat;
-    font-family: 'Open Sans';
+    font-family: $body-font;
     font-size: 20px;
 }
 
 h1,h2,h3,h4,h5,h6 {
-    font-family: 'Fredoka One';
+    font-family: $header-font;
 }
 
 h2 {

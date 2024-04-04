@@ -21,7 +21,6 @@ textColorLink: "#F5C92B"
 
 buttonColor: "#7CFF86"
 
-googleFonts: "https://fonts.googleapis.com/css2?family=Asap:ital,wght@0,500;1,500&family=Advent+Pro&display=swap"
 extraCSS: true
 
 date: 2022-08-01

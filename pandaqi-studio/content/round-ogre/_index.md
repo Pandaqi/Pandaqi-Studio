@@ -19,7 +19,6 @@ bgColorLink: "#AA77C5"
 textColor: "white"
 textColorLink: "#660080"
 
-googleFonts: "https://fonts.googleapis.com/css2?family=Andika+New+Basic:ital,wght@0,400;0,700;1,400;1,700&family=Hanalei+Fill&display=swap"
 extraCSS: true
 
 date: 2021-12-01

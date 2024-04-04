@@ -1,7 +1,36 @@
+$header-font: '"Puppies Play"';
+$body-font: "Corben";
+$base-fonts: "fonts/";
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'Corben-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'Corben-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $header-font;
+    src: url($base-fonts + 'PuppiesPlay-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+
 body {
     background-image: url(itch_bg.webp);
     background-repeat: repeat;
-    font-family: 'Corben', serif;
+    font-family: $body-font, serif;
     font-size: 20px;
     line-height: 140%;
 
@@ -18,7 +47,7 @@ div.center {
 }
 
 h1,h2,h3,h4,h5,h6 {
-    font-family: 'Puppies Play', cursive;
+    font-family: $header-font, cursive;
 }
 
 .game-header {

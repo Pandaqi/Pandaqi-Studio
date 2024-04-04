@@ -1,3 +1,5 @@
+@use "./shared.scss" as g;
+
 html, body {
     height: 100%;
 }
@@ -5,7 +7,7 @@ html, body {
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Ribeye', serif;
+    font-family: g.$header-font, serif;
     font-size: 20px;
     background-color: pink;
     display: flex;
@@ -15,6 +17,6 @@ body {
 }
 
 h1 {
-    font-family: "Ribeye";
+    font-family: g.$header-font;
     color: #30040c;
 }

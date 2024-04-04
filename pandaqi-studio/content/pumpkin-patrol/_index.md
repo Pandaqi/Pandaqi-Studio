@@ -21,8 +21,6 @@ bgColorLink: "#d14808"
 textColor: "#f8ebff"
 textColorLink: "#ffe1d3"
 
-googleFonts: ""
-
 date: 2024-10-12
 
 categories: ["boardgame"]

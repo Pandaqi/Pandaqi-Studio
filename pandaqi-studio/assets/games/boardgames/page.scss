@@ -9,9 +9,46 @@
 
 */
 
+$header-font: '"Patua One"';
+$body-font: "Poppins";
+$base-fonts: "fonts/";
+
+@font-face {
+    font-family: $header-font;
+    src: url($base-fonts + 'PatuaOne-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'Poppins-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'Poppins-Italic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'Poppins-Black.woff2') format('woff2');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+
 /* Headings */
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Patua One', cursive;
+    font-family: $header-font, cursive;
     text-decoration: none;
     text-transform: none;
     text-align: center;
@@ -25,7 +62,7 @@ h3 { margin-top: 0px; }
 
 /* General body */
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: $body-font, sans-serif;
     font-size: 16pt;
 
     background-color: #fad8d6;

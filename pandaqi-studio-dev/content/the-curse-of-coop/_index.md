@@ -6,7 +6,7 @@ gamepage: true
 boardgame: true
 
 title: "The Curse of Coop"
-headerTitle: "The Curse of Coop | Enter a cursed temple ... or rule it as a (mad) god"
+headerTitle: "Enter a cursed temple ... or rule it as a (mad) god"
 blurb: "Lala vlavla"
 
 customHeight: "small"

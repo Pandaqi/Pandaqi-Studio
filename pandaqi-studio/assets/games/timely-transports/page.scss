@@ -1,5 +1,7 @@
+@use "./shared.scss" as g;
+
 h1,h2,h3,h4,h5,h6 {
-    font-family: 'Rowdies';
+    font-family: g.$header-font;
 }
 
 h2 {
@@ -9,7 +11,7 @@ h2 {
 
 body {
     font-size: 20pt;
-    font-family: 'Yanone Kaffeesatz';
+    font-family: g.$body-font;
     background-color: #DFF2D8;
 }
 
@@ -84,7 +86,7 @@ a.download-btn, a.download-btn:visited {
 }
 
 #btn-create-pdf, #btn-generate-board, #btn-create-pdf, #btn-start-game {
-    font-family: "Rowdies";
+    font-family: g.$header-font;
 }
 
 #btn-create-pdf {

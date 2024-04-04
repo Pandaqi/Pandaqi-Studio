@@ -1,18 +1,21 @@
+$header-font: "SciFly";
+$body-font: "SciFly";
+$base-fonts: "fonts/";
+
 @font-face {
-    font-family: 'SciFly';
-    src: url('fonts/scifly.woff2');
+    font-family: $body-font;
+    src: url($base-fonts + 'scifly.woff2');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
 }
 
-
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'SciFly';
+    font-family: $header-font;
 }
 
 body {
-    font-family: 'SciFly';
+    font-family: $body-font;
 
     background:
         url(unstableuniverse_bg.webp),
@@ -83,7 +86,7 @@ a.link:hover {
 }
 
 a.btn, a.btn:visited, button.btn {
-    font-family: 'SciFly';
+    font-family: $header-font;
 }
 
 .game-settings {
@@ -91,12 +94,12 @@ a.btn, a.btn:visited, button.btn {
 }
 
 #btn-generate-board {
-    font-family: 'SciFly';
+    font-family: $header-font;
 }
 
 #btn-create-pdf {
     font-weight: 900;
-    font-family: 'SciFly', sans-serif;
+    font-family: $header-font, sans-serif;
     font-size: 24pt;
     background-color: #FF6666;
     color: #fcfffc;

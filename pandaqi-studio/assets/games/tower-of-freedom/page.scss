@@ -1,5 +1,26 @@
+$header-font: "Catamaran";
+$body-font: "Catamaran";
+$base-fonts: "fonts/";
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'Catamaran-Black.woff2') format('woff2');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'Catamaran-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+
 body {
-	font-family: 'Catamaran';
+	font-family: $body-font;
 	font-size: 24px;
 	line-height: 130%;
 	color: #ECA;
@@ -8,7 +29,7 @@ body {
 }
 
 h1,h2,h3,h4,h5,h6 {
-	font-family: 'Catamaran';
+	font-family: $header-font;
 }
 
 .screenshot-gallery-container {

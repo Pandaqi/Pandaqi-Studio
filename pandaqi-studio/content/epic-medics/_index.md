@@ -23,7 +23,6 @@ textColorLink: "#FFCCFF"
 
 entryBannerNonTextClasses: "no-shadow"
 
-googleFonts: "https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap"
 extraCSS: true
 
 date: 2020-03-22

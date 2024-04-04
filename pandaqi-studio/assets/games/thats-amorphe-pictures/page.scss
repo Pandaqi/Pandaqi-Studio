@@ -1,3 +1,5 @@
+@use "../thats-amorphe/shared.scss" as g;
+
 $bg-color: #b4f9ff;
 $btn-bg-color: #0b3a3e;
 $btn-text-color: #EEEEFF;
@@ -5,17 +7,17 @@ $btn-hover-bg-color: #f64b64;
 $btn-hover-text-color: #3d0911;
 
 h1, h2, h3, h4, h5, h6, a.btn, #btn-create-pdf, #btn-generate-board, #btn-start-game {
-    font-family: 'Ribeye', sans-serif;
+    font-family: g.$header-font, sans-serif;
 }
 
 body {
-    font-family: 'Lora', serif;
+    font-family: g.$body-font, serif;
     background-color: $bg-color;
     font-size: 20px;
 }
 
 input, button, select, option, label {
-    font-family: 'Lora', serif;
+    font-family: g.$body-font, serif;
 }
 
 label {

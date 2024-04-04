@@ -1,3 +1,4 @@
+@use "./shared.scss" as g;
 
 h1, h2, h3 {
     font-weight: 900;
@@ -7,7 +8,7 @@ h1, h2, h3 {
 body {
     background-color: #111111;
     color: #EEEEEE;
-    font-family: 'Recursive', sans-serif;
+    font-family: g.$body-font, sans-serif;
     font-size: 16pt;
     line-height: 120%;
 }
@@ -17,7 +18,7 @@ div, p {
 }
 
 input, button, select {
-    font-family: 'Recursive', sans-serif;
+    font-family: g.$header-font, sans-serif;
     font-weight: 900;
     font-size: 16pt;
 }

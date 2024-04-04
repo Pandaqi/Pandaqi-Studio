@@ -1,20 +1,22 @@
+@use "./shared.scss" as g;
+
 $btn-bg-color: #8D1919;
 $btn-text-color: #FFEEEE;
 $btn-hover-bg-color: #aacae7;
 $btn-hover-text-color: #0a3a3e;
 
 h1, h2, h3, h4, h5, h6, a.btn, #btn-create-pdf, #btn-generate-board, #btn-start-game {
-    font-family: 'Ribeye', sans-serif;
+    font-family: g.$header-font, sans-serif;
 }
 
 body {
-    font-family: 'Lora', serif;
+    font-family: g.$body-font, serif;
     background-color: #FEB3B3;
     font-size: 20px;
 }
 
 input, button, select, option, label {
-    font-family: 'Lora', serif;
+    font-family: g.$body-font, serif;
 }
 
 label {

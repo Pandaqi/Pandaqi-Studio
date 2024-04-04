@@ -1,5 +1,41 @@
-$header-font: "Niconne", cursive;
-$body-font: "Mali", serif;
+$header-font-raw: "Niconne";
+$header-font: $header-font-raw, cursive;
+$body-font-raw: "Mali";
+$body-font: $body-font-raw, serif;
+$base-fonts: "fonts/";
 
 $special-cells-url: url(special_cell_spritesheet.webp);
-$ingredients-url: url(ingredient_spritesheet.webp)
+$ingredients-url: url(ingredient_spritesheet.webp);
+
+@font-face {
+    font-family: $header-font-raw;
+    src: url($base-fonts + 'Niconne-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font-raw;
+    src: url($base-fonts + 'Mali-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font-raw;
+    src: url($base-fonts + 'Mali-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font-raw;
+    src: url($base-fonts + 'Mali-Italic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+

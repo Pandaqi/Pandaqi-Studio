@@ -1,9 +1,21 @@
+$header-font: "VT323";
+$body-font: "VT323";
+$base-fonts: "fonts/";
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'VT323-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 * {
     font-variant-ligatures: none;
 }
 
 body {
-    font-family: 'VT323', monospace;
+    font-family: $body-font, monospace;
     font-size: 20px;
 
     background-color: rgb(251, 240, 226);
@@ -14,7 +26,7 @@ body {
 }
 
 h1,h2,h3,h4,h5,h6 {
-    font-family: 'VT323', monospace;
+    font-family: $header-font, monospace;
 }
 
 img {

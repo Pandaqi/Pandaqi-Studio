@@ -19,8 +19,6 @@ bgColorLink: "#ffbc8b"
 textColor: "#ffded3"
 textColorLink: "#5b2608"
 
-googleFonts: "https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&family=Quicksand:wght@500;700&display=swap"
-
 date: 2024-01-26
 
 categories: ["boardgame"]

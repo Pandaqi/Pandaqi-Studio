@@ -1,5 +1,6 @@
-$header-font: "Cherry Bomb One", serif;
+$header-font: '"Cherry Bomb One"', serif;
 $body-font: "Quicksand", sans-serif;
+$base-fonts: "fonts/";
 $bg-color: #FF76A0;
 $text-color: #320011;
 $button-bg: #6ce55a;
@@ -8,6 +9,32 @@ $link-color: #820952;
 $link-color-hover: #aa1a71;
 $settings-color: #524efe;
 $cutoff: 920px;
+
+@font-face {
+    font-family: $header-font;
+    src: url($base-fonts + 'CherryBombOne-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'Quicksand-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'Quicksand-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+
 
 // Color scheme: 
 // DARKBLUE: #18393E

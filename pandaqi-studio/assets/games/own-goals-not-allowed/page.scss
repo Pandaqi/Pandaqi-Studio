@@ -1,5 +1,44 @@
+$header-font: '"Rubik Mono One"';
+$body-font: "Rubik";
+$base-fonts: "fonts/";
+
+@font-face {
+    font-family: $header-font;
+    src: url($base-fonts + 'RubikMonoOne-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'Rubik-Italic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'Rubik-Black.woff2') format('woff2');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'Rubik-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+
+
 body {
-    font-family: 'Rubik', serif;
+    font-family: $body-font, serif;
     font-size: 18px;
     line-height: 140%;
 
@@ -9,7 +48,7 @@ body {
 }
 
 h1,h2,h3,h4,h5,h6 {
-    font-family: 'Rubik Mono One', cursive;
+    font-family: $header-font, cursive;
     text-align: center;
     font-size: 40px;
     margin-bottom: -10px;
@@ -29,7 +68,7 @@ section .center, .screenshot-gallery-container {
 }
 
 .buy-link-container .buy-link {
-    font-family: "Rubik Mono One";
+    font-family: $header-font;
     font-size: 36px;
 
     border-radius: 0px;

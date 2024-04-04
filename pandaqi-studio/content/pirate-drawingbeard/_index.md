@@ -18,8 +18,6 @@ bgColorLink: "#ff8f20"
 textColor: "#01202b"
 textColorLink: "#582d11"
 
-googleFonts: "https://fonts.googleapis.com/css2?family=Chelsea+Market&family=Charis+SIL:ital,wght@0,400;1,400;1,700&display=swap"
-
 date: 2022-07-20
 
 categories: ["boardgame"]

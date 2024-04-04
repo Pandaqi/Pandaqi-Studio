@@ -18,8 +18,6 @@ bgColorLink: "#ffd340"
 textColor: "#302a24"
 textColorLink: "#282310"
 
-googleFonts: ""
-
 date: 2023-07-21
 
 categories: ["boardgame"]

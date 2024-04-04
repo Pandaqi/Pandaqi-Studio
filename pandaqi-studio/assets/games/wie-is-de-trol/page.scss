@@ -1,5 +1,7 @@
+@use "./shared.scss" as g;
+
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Recursive', sans-serif;
+    font-family: g.$header-font, sans-serif;
     font-weight: 900;
     margin-bottom: 0px;
 }
@@ -26,7 +28,7 @@ img {
 }
 
 body {
-    font-family: 'Recursive', sans-serif;
+    font-family: g.$body-font, sans-serif;
     color: black;
     background-color: beige;
     font-size: 14pt;
@@ -64,7 +66,7 @@ ul {
 }
 
 a.btn, a.btn:visited {
-    font-family: 'Recursive', sans-serif;
+    font-family: g.$header-font, sans-serif;
     font-weight: 900;
     background-color: #248232;
     color: #FCFFFC;
@@ -99,7 +101,7 @@ a.download-btn:hover {
 #btn-start-game {
     font-weight: 900;
 
-    font-family: 'Recursive', sans-serif;
+    font-family: g.$header-font, sans-serif;
     font-size: 24pt;
 
     background-color: #248232;
