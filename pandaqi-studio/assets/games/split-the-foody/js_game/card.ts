@@ -10,7 +10,7 @@ import Point from "js/pq_games/tools/geometry/point";
 import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
 import getRectangleCornersWithOffset from "js/pq_games/tools/geometry/paths/getRectangleCornersWithOffset";
-import StrokeAlignValue from "js/pq_games/layout/values/strokeAlignValue";
+import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
 import ColorLike from "js/pq_games/layout/color/colorLike";
 import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
 
@@ -93,7 +93,7 @@ export default class Card
         op.fill = new ColorLike(fillColor);
         op.stroke = new ColorLike(strokeColor);
         op.strokeWidth = strokeWidth;
-        op.strokeAlign = StrokeAlignValue.OUTSIDE,
+        op.strokeAlign = StrokeAlign.OUTSIDE,
         op.dims = new Point(vis.size.x, 2*fontSize);
         op.effects = [new DropShadowEffect({ offset: new Point(textShadowOffset), color: CONFIG.cards.shared.shadowColor })];
 
@@ -172,7 +172,7 @@ export default class Card
             op.fill = new ColorLike(fillColor);
             op.stroke = new ColorLike(strokeColor);
             op.strokeWidth = strokeWidth;
-            op.strokeAlign = StrokeAlignValue.OUTSIDE
+            op.strokeAlign = StrokeAlign.OUTSIDE
             op.effects = vis.effects; // @TODO: not sure if it should copy the regular effects for this text
             await resText.toCanvas(ctx, op);
 

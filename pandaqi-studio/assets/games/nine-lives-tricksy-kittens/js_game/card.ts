@@ -13,7 +13,7 @@ import ResourceShape from "js/pq_games/layout/resources/resourceShape";
 import bevelCorners from "js/pq_games/tools/geometry/paths/bevelCorners";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
 import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
-import StrokeAlignValue from "js/pq_games/layout/values/strokeAlignValue";
+import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
 import { CATS, POWERS } from "../js_shared/dict";
 import ColorLike from "js/pq_games/layout/color/colorLike";
 import GrayScaleEffect from "js/pq_games/layout/effects/grayScaleEffect";
@@ -117,7 +117,7 @@ export default class Card
                 fill: colorDark,
                 stroke: colorLight,
                 strokeWidth: strokeWidth,
-                strokeAlign: StrokeAlignValue.OUTSIDE,
+                strokeAlign: StrokeAlign.OUTSIDE,
                 pivot: Point.CENTER,
                 rotation: rot,
                 effects: vis.effects
@@ -212,7 +212,7 @@ export default class Card
             fill: colorLight,
             stroke: "#000000",
             strokeWidth: strokeWidth,
-            strokeAlign: StrokeAlignValue.OUTSIDE,
+            strokeAlign: StrokeAlign.OUTSIDE,
             effects: vis.effects
         })
         await shape.toCanvas(ctx, op);

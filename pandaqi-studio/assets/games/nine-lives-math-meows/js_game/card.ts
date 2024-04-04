@@ -12,7 +12,7 @@ import movePath from "js/pq_games/tools/geometry/transform/movePath";
 import Path from "js/pq_games/tools/geometry/paths/path";
 import ResourceShape from "js/pq_games/layout/resources/resourceShape";
 import Rectangle from "js/pq_games/tools/geometry/rectangle";
-import StrokeAlignValue from "js/pq_games/layout/values/strokeAlignValue";
+import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
 import LayoutNode from "js/pq_games/layout/layoutNode";
 import { FlowDir, FlowType } from "js/pq_games/layout/values/aggregators/flowInput";
 import AlignValue from "js/pq_games/layout/values/alignValue";
@@ -161,7 +161,7 @@ export default class Card
             fill: "#000000",
             stroke: "#FFFFFF",
             strokeWidth: strokeWidth * CONFIG.cards.cat.strokeWidthFactor,
-            strokeAlign: StrokeAlignValue.OUTSIDE,
+            strokeAlign: StrokeAlign.OUTSIDE,
             rotation: -0.5*Math.PI,
             pivot: new Point(0.5),
             effects: effects
@@ -218,7 +218,7 @@ export default class Card
             fill: vis.inkFriendly ? "#FFFFFF" : "#FFE7D5",
             stroke: vis.inkFriendly ? "#111111" : "#4B0300",
             strokeWidth: strokeWidth,
-            strokeAlign: StrokeAlignValue.OUTSIDE,
+            strokeAlign: StrokeAlign.OUTSIDE,
             effects: effects
         })
 
@@ -263,7 +263,7 @@ export default class Card
                 fill: vis.inkFriendly ? "#ECECEC" : "#B3FFFE",
                 stroke: vis.inkFriendly ? "#323232" : "#003938",
                 strokeWidth: strokeWidth,
-                strokeAlign: StrokeAlignValue.OUTSIDE
+                strokeAlign: StrokeAlign.OUTSIDE
             })
             await resHandText.toCanvas(ctx, handTextOp);
         }
@@ -396,7 +396,7 @@ export default class Card
             fill: "#FFFFFF",
             stroke: "#000000",
             strokeWidth: strokeWidth,
-            strokeAlign: StrokeAlignValue.OUTSIDE,
+            strokeAlign: StrokeAlign.OUTSIDE,
             effects: effects
         })
 
@@ -486,7 +486,7 @@ export default class Card
                 fill: "#FFFFFF",
                 stroke: "#000000",
                 strokeWidth: strokeWidth,
-                strokeAlign: StrokeAlignValue.OUTSIDE,
+                strokeAlign: StrokeAlign.OUTSIDE,
                 rotation: rot
             });
             await res.toCanvas(ctx, op);

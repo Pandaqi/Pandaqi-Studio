@@ -74,3 +74,49 @@ if(unfoldBtn && unfoldElem)
     });
 }
 
+
+// Fold/Unfold for setting sections => at some point, functionality like this should receive its own .ts file!!!
+const initSettingSections = () =>
+{
+    const nodes = Array.from(document.getElementsByClassName("game-settings-section")) as HTMLElement[];
+
+    const fold = (node, content, instruction, forced = false) =>
+    {
+        if(!forced) { node.dataset.folded = "true"; }
+        content.style.display = "none";
+        instruction.innerHTML = "(Click to unfold.)";
+    }
+
+    const unfold = (node, content, instruction, forced = false) =>
+    {
+        if(!forced) { node.dataset.folded = "false"; }
+        content.style.display = "grid";
+        instruction.innerHTML = "(Click to fold.)";
+    }
+
+    for(const node of nodes)
+    {
+        const header = node.getElementsByClassName("section-header")[0] as HTMLElement;
+        const instruction = header.getElementsByClassName("section-instruction")[0] as HTMLElement;
+        const content = node.getElementsByClassName("section-content")[0] as HTMLElement;
+
+        // simple fold/unfold system through clicks on the header
+        header.addEventListener("click", (ev) => 
+        {
+            if(node.dataset.folded == "true") {
+                unfold(node, content, instruction);
+            } else {
+                fold(node, content, instruction);
+            }
+        });
+
+        // if we start folded, do a fake click to easily achieve that state
+        const startFolded = node.dataset.folded == "true";
+        if(startFolded) 
+        {
+            fold(node, content, instruction, true);
+        }
+
+    }
+}
+initSettingSections();

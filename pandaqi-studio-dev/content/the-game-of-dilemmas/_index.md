@@ -65,8 +65,9 @@ Three simple steps.
   {{< setting-enum id="setting-itemSize" text="Card Size?" values="small,regular,large" valaskey="true" def="regular" >}}
   {{< setting-checkbox id="setting-includeCards" text="Include Cards?" checked="checked" >}}
   {{< setting-checkbox id="setting-includeTokens" text="Include Tokens?" checked="checked" remark="If you already have these, or plan on using something else, you can disable this." >}}
-  <h3>Packs</h3>
-  {{< setting-checkbox-multiple id="setting-packs" values="base,advanced,expert,extraordinary" keys="Base,Advanced,Expert,Extraordinary" valuesChecked="base" >}}
+  {{< boardgame-settings-section heading="Packs" >}}
+{{< setting-checkbox-multiple id="setting-packs" values="base,advanced,expert,extraordinary" keys="Base,Advanced,Expert,Extraordinary" valuesChecked="base" >}}
+  {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
 <p class="settings-remark"><strong>Which pack(s) should I use!?</strong> The packs mostly exist to break the huge number of possible cards into smaller chunks. There are no big differences. Each pack could be used standalone or mixed with any other packs in a game.</p> 

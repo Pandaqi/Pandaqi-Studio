@@ -73,17 +73,18 @@ Three simple steps.
 <p>Print them, cut them, play with them!</p>
 <p>When in doubt, just leave the options at their default settings.</p>
 
-  {{< boardgame-settings type="game" btn_label="Generate Cards" local_storage="thatsAmorphePicturesConfig" >}}
-    {{< setting-hidden id="setting-gameTitle" text="That's Amorphe: Pictures" >}}
-    {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?"  remark="Turns the material mostly white / grayscale to conserve ink." >}}
-    {{< setting-enum id="setting-wordComplexity" text="Word Complexity?" values="Core,Easy,Medium,Hard,Hardcore" valaskey="true" remark="How hard should the words be?" def="Easy" >}}
-    {{< setting-checkbox id="setting-addActions" text="Add Actions?" remark="Allows the cards to be used with the Actions expansion." checked="checked" >}}
-    {{< setting-checkbox id="setting-includeGeography" text="Include geography?" remark="Adds cities, countries and continents." >}}
-    {{< setting-checkbox id="setting-includeNames" text="Include names?" remark="Adds proper names of famous people, brands, events, etcetera." >}}
-    {{< setting-checkbox id="setting-useAllCategories" text="Use all categories?" remark="Overwrite the options below to include <em>everything</em>." >}}
-    <h3>Categories</h3>
-    {{< setting-checkbox-multiple id="setting-categories" values="anatomy,animals,business,clothes,colors,digital,food,general,holidays,items,military,music,nature,occupations,people,places,science,shapes,sports,time,travel,vehicles" valuesChecked="animals,food,items,places,vehicles" >}}
-  {{< /boardgame-settings >}}
+{{< boardgame-settings type="game" btn_label="Generate Cards" local_storage="thatsAmorphePicturesConfig" >}}
+  {{< setting-hidden id="setting-gameTitle" text="That's Amorphe: Pictures" >}}
+  {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?"  remark="Turns the material mostly white / grayscale to conserve ink." >}}
+  {{< setting-enum id="setting-wordComplexity" text="Word Complexity?" values="Core,Easy,Medium,Hard,Hardcore" valaskey="true" remark="How hard should the words be?" def="Easy" >}}
+  {{< setting-checkbox id="setting-addActions" text="Add Actions?" remark="Allows the cards to be used with the Actions expansion." checked="checked" >}}
+  {{< setting-checkbox id="setting-includeGeography" text="Include geography?" remark="Adds cities, countries and continents." >}}
+  {{< setting-checkbox id="setting-includeNames" text="Include names?" remark="Adds proper names of famous people, brands, events, etcetera." >}}
+  {{< setting-checkbox id="setting-useAllCategories" text="Use all categories?" remark="Overwrite the options below to include <em>everything</em>." >}}
+  {{< boardgame-settings-section heading="Categories" >}}
+{{< setting-checkbox-multiple id="setting-categories" values="anatomy,animals,business,clothes,colors,digital,food,general,holidays,items,military,music,nature,occupations,people,places,science,shapes,sports,time,travel,vehicles" valuesChecked="animals,food,items,places,vehicles" >}}
+  {{< /boardgame-settings-section >}}
+{{< /boardgame-settings >}}
 
 {{% /section-centered %}}
 

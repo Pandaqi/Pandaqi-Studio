@@ -83,13 +83,13 @@ For the words, pick whatever style suits you best.
   {{< setting-enum id="setting-wordComplexity" text="Word Complexity?" values="Core,Easy,Medium,Hard" valaskey="true" remark="How hard should the words be?" def="Core" >}}
   {{< setting-checkbox id="setting-addStartingLines" text="Include Lines?" remark="Already adds a few random lines to the paper" >}}
   {{< setting-checkbox id="setting-useEllipseOutline" text="Use round edge?" remark="Makes the board more circular / organic." >}}
-
-  <h3>Expansions</h3>
-  {{< setting-checkbox id="setting-expansions-sneakySpots" text="Sneaky Spots?" >}}
-  {{< setting-checkbox id="setting-expansions-precisePainters" text="Precise Painters?" >}}
-  {{< setting-checkbox id="setting-expansions-actionAnts" text="Action Ants?" >}}
-  {{< setting-checkbox id="setting-expansions-coopColony" text="Coop Colony?" >}}
-  {{< setting-checkbox id="setting-expansions-antertainmentBreak" text="Antertainment Break?" >}}
+  {{< boardgame-settings-section heading="Expansions" >}}
+{{< setting-checkbox id="setting-expansions-sneakySpots" text="Sneaky Spots?" >}}
+{{< setting-checkbox id="setting-expansions-precisePainters" text="Precise Painters?" >}}
+{{< setting-checkbox id="setting-expansions-actionAnts" text="Action Ants?" >}}
+{{< setting-checkbox id="setting-expansions-coopColony" text="Coop Colony?" >}}
+{{< setting-checkbox id="setting-expansions-antertainmentBreak" text="Antertainment Break?" >}}
+  {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
 <p style="font-size:0.66em; opacity: 0.66;">Not working? Don't worry! At the "Download" link, you can also find PDFs I already generated for you.</p> 
@@ -108,8 +108,9 @@ For the words, pick whatever style suits you best.
   {{< setting-enum id="setting-wordComplexity" text="Word Complexity?" values="Core,Easy,Medium" valaskey="true" remark="How hard should the words be?" def="Core" >}}
   <!-- {{< setting-checkbox id="setting-includeNamesAndGeography" text="Include names?" remark="Adds geography and proper names of people, brands, ..." >}} -->
   {{< setting-checkbox id="setting-expansions-sneakySpots" text="Sneaky Spots?" remark="The interface needs to know if you're using this expansion." >}}
-  <h3>Word Categories</h3>
-  {{< setting-checkbox-multiple id="setting-categories" values="anatomy,animals,clothes,food,items,nature,occupations,places,sports,vehicles" valuesChecked="anatomy,animals,clothes,food,items,nature,occupations,places,sports,vehicles" >}}
+  {{< boardgame-settings-section heading="Word Categories" >}}
+{{< setting-checkbox-multiple id="setting-categories" values="anatomy,animals,clothes,food,items,nature,occupations,places,sports,vehicles" valuesChecked="anatomy,animals,clothes,food,items,nature,occupations,places,sports,vehicles" >}}
+  {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
 {{% /section-centered %}}

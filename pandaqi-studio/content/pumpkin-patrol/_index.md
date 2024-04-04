@@ -65,10 +65,11 @@ Three simple steps.
   {{< setting-checkbox id="setting-includePeopleCards" text="Generate People Cards?" checked="checked" >}}
   {{< setting-checkbox id="setting-includeHandCards" text="Generate Hand Cards?" checked="checked" >}}
   {{< setting-enum id="setting-cardSize" text="Card Size?" values="small,regular,huge" valaskey="true" def="regular" >}}
-  <h3>Cards</h3>
-  {{< setting-enum id="setting-setPeople" text="People Set?" values="starter,beginner,advanced,expert,random" valaskey="true" def="starter" >}}
-  {{< setting-enum id="setting-setDecorations" text="Decoration Set?" values="starter,beginner,random" valaskey="true" def="starter" >}}
-  {{< setting-enum id="setting-setTreats" text="Treat Set?" values="starter,beginner,random" valaskey="true" def="starter" >}}
+  {{< boardgame-settings-section heading="Cards to Include" >}}
+{{< setting-enum id="setting-setPeople" text="People Set?" values="starter,beginner,advanced,expert,random" valaskey="true" def="starter" >}}
+{{< setting-enum id="setting-setDecorations" text="Decoration Set?" values="starter,beginner,random" valaskey="true" def="starter" >}}
+{{< setting-enum id="setting-setTreats" text="Treat Set?" values="starter,beginner,random" valaskey="true" def="starter" >}}
+  {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
 <p class="settings-remark">You can combine the sets in any way and the generator will create a balanced deck. The names "starter", "beginner", and so forth merely give an indication how hard it is to play with or learn this specific set.</p>

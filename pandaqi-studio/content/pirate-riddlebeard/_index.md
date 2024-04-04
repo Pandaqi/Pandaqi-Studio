@@ -74,25 +74,29 @@ Three steps.
 <p>Input your desired settings. Click "start game".</p>
 <p>For your <strong>first game</strong>, just pick your player count and immediately start. Once you get the hang of it, enable all the other fun elements in the settings!</p>
 
-  {{< boardgame-settings type="game" local_storage="pirateRiddlebeardData" >}}
-    {{< setting-seed >}}
-    {{< setting-hidden id="setting-gameTitle" text="Pirate Riddlebeard" >}}
-    {{< setting-playercount min="1" max="6" def="4" >}}
-    {{< setting-checkbox id="setting-premadeGame" text="Create PDF?" remark="Downloads a PDF with a board and hint cards for offline play." >}}
-    <h3 class="settings-heading">Map</h3>
-    {{< setting-checkbox id="setting-allTerrains" text="More Terrains?" remark="Increases number of terrains to six." >}}
-    {{< setting-checkbox id="setting-includeStones" text="Stones?" remark="Adds stones to the map ( + hints about them)." >}}
-    {{< setting-checkbox id="setting-includeRoads" text="Roads?" remark="Adds roads to the map ( + hints about them)." >}}
-    {{< setting-checkbox id="setting-includeLandmarks" text="Landmarks?" remark="Adds landmarks to the map ( + hints about them)." >}}
-    {{< setting-checkbox id="setting-isColored" text="Colored?" remark="Creates a colored and bigger board." >}}
-    <h3 class="settings-heading">Bonus Rules</h3>
-    {{< setting-checkbox id="setting-multiHint" text="Multi Hints?" remark="Players can receive multiple hints" >}}
-    {{< setting-checkbox id="setting-advancedHints" text="Advanced Hints?" remark="Adds many types of hints that are really hard to figure out." >}}
-    {{< setting-checkbox id="setting-expansions-liarsCouncil" text="Liar's Council?" >}}
-    {{< setting-checkbox id="setting-expansions-theLostRiddles" text="The Lost Riddles?" >}}
-    {{< setting-checkbox id="setting-expansions-tinyTreasures" text="Tiny Treasures?" >}}
-    {{< setting-checkbox id="setting-expansions-gamblerOfMyWord" text="Gambler of my Word?" >}}
-  {{< /boardgame-settings >}}
+{{< boardgame-settings type="game" local_storage="pirateRiddlebeardData" >}}
+  {{< setting-seed >}}
+  {{< setting-hidden id="setting-gameTitle" text="Pirate Riddlebeard" >}}
+  {{< setting-playercount min="1" max="6" def="4" >}}
+  {{< setting-checkbox id="setting-premadeGame" text="Create PDF?" remark="Downloads a PDF with a board and hint cards for offline play." >}}
+
+  {{< boardgame-settings-section heading="Map" >}}
+{{< setting-checkbox id="setting-allTerrains" text="More Terrains?" remark="Increases number of terrains to six." >}}
+{{< setting-checkbox id="setting-includeStones" text="Stones?" remark="Adds stones to the map ( + hints about them)." >}}
+{{< setting-checkbox id="setting-includeRoads" text="Roads?" remark="Adds roads to the map ( + hints about them)." >}}
+{{< setting-checkbox id="setting-includeLandmarks" text="Landmarks?" remark="Adds landmarks to the map ( + hints about them)." >}}
+{{< setting-checkbox id="setting-isColored" text="Colored?" remark="Creates a colored and bigger board." >}}
+  {{< /boardgame-settings-section >}}
+
+  {{< boardgame-settings-section heading="Bonus Rules" >}}
+{{< setting-checkbox id="setting-multiHint" text="Multi Hints?" remark="Players can receive multiple hints" >}}
+{{< setting-checkbox id="setting-advancedHints" text="Advanced Hints?" remark="Adds many types of hints that are really hard to figure out." >}}
+{{< setting-checkbox id="setting-expansions-liarsCouncil" text="Liar's Council?" >}}
+{{< setting-checkbox id="setting-expansions-theLostRiddles" text="The Lost Riddles?" >}}
+{{< setting-checkbox id="setting-expansions-tinyTreasures" text="Tiny Treasures?" >}}
+{{< setting-checkbox id="setting-expansions-gamblerOfMyWord" text="Gambler of my Word?" >}}
+  {{< /boardgame-settings-section >}}
+{{< /boardgame-settings >}}
 
 {{% /section-centered %}}
 

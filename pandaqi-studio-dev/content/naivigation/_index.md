@@ -90,16 +90,16 @@ You can also [generate your own material](#material) right on this website. (If 
 	{{< setting-hidden id="setting-gameTitle" text="Naivigation" >}}
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
   {{< setting-enum id="setting-itemSize" text="Card Size?" values="small,regular,large" valaskey="true" def="regular" >}}
-
-  <h3>Core Set</h3>
-  {{< setting-checkbox id="setting-includeInstructionTokens" text="Include Instruction Tokens?" checked="checked" >}}
-  {{< setting-checkbox id="setting-includeVehicleCards" text="Include Vehicle Cards?" checked="checked" >}}
-  {{< setting-checkbox id="setting-includeHealthCards" text="Include Health Cards?" checked="checked" >}}
-
-  <h3>Expansions</h3>
-  {{< setting-checkbox id="setting-includeActionCards" text="Include Action Cards?" >}}
-  {{< setting-checkbox id="setting-includeTimeDeck" text="Include Time Deck?" >}}
-  {{< setting-checkbox id="setting-includeGPSCards" text="Include GPS Cards?" >}}
+  {{< boardgame-settings-section heading="Core Set" >}}
+{{< setting-checkbox id="setting-includeInstructionTokens" text="Include Instruction Tokens?" checked="checked" >}}
+{{< setting-checkbox id="setting-includeVehicleCards" text="Include Vehicle Cards?" checked="checked" >}}
+{{< setting-checkbox id="setting-includeHealthCards" text="Include Health Cards?" checked="checked" >}}
+  {{< /boardgame-settings-section >}}
+  {{< boardgame-settings-section heading="Expansions" >}}
+{{< setting-checkbox id="setting-includeActionCards" text="Include Action Cards?" >}}
+{{< setting-checkbox id="setting-includeTimeDeck" text="Include Time Deck?" >}}
+{{< setting-checkbox id="setting-includeGPSCards" text="Include GPS Cards?" >}}
+  {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
 <p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>

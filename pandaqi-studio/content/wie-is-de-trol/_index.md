@@ -39,7 +39,6 @@ ages: everyone
 
 ---
 
-
 {{% boardgame-intro heading="" %}}
 
 Een spel voor 3&ndash;10 spelers waarbij iedereen zoveel mogelijk geld probeert te verdienen ... behalve de trol. Die probeert alles te laten mislukken, zonder te worden gepakt. Kan jij de trol ontmaskeren?
@@ -95,12 +94,13 @@ En als laatste natuurlijk: medespelers, gezelligheid, een bak chips, en een goed
 	{{< setting-enum id="setting-numRounds" text="Hoeveel rondes?" values="Automatisch,2,3,4,5,6,7,8" >}}
 	{{< setting-enum id="setting-numQuestions" text="Hoeveel vragen per test?" values="4,7,10" keys="1,2,3" def="10" remark="Verlaag het aantal rondes/vragen voor een korter spel. Eén ronde is doorgaans een half uur." >}}
 	{{< setting-checkbox id="setting-firstGame" text="Eerste potje(s)?" remark="De computer kiest alleen de makkelijkste opdrachten die helpen om het spel beter te begrijpen en simpel uit te leggen." >}}
-	<h3>Uitbreidingen</h3>
-	{{< setting-checkbox id="setting-expansions-addertjes" text="Addertjes (onder het gras)?" >}}
-	{{< setting-checkbox id="setting-expansions-eigenschappen" text="Eigenschappen?" >}}
-	{{< setting-checkbox id="setting-expansions-bondjes" text="Bondjes?" >}}
-	{{< setting-checkbox id="setting-expansions-specialeKrachten" text="Speciale Krachten?" >}}
-	{{< setting-checkbox id="setting-expansions-fysiekeOpdrachten" text="Fysieke Opdrachten?" remark="(Deze uitbreiding is wat anders dan de rest en dus nog niet af.)" >}}
+	{{< boardgame-settings-section heading="Uitbreidingen" >}}
+{{< setting-checkbox id="setting-expansions-addertjes" text="Addertjes (onder het gras)?" >}}
+{{< setting-checkbox id="setting-expansions-eigenschappen" text="Eigenschappen?" >}}
+{{< setting-checkbox id="setting-expansions-bondjes" text="Bondjes?" >}}
+{{< setting-checkbox id="setting-expansions-specialeKrachten" text="Speciale Krachten?" >}}
+{{< setting-checkbox id="setting-expansions-fysiekeOpdrachten" text="Fysieke Opdrachten?" remark="(Deze uitbreiding is wat anders dan de rest en dus nog niet af.)" >}}
+  	{{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
 <p style="opacity: 0.5; font-size: 12px;"><em>Opmerking:</em> het spel opent op een nieuwe pagina. Op sommige apparaten denkt hij daarom dat dit een pop-up is en blokkeert deze. Dat is het niet, ik zou nooit pop-ups laten zien.</p>

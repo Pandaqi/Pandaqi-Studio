@@ -98,30 +98,30 @@ Three steps:
 
 {{% section-centered heading="Board Generation" html="true" %}}
   
-  <p>Input your settings below. Click "Generate Board", save the PDF, print it.</p>
-  <p>For your <strong>first game</strong>, just set your player count and tick "first game", that's enough!</p>
+<p>Input your settings below. Click "Generate Board", save the PDF, print it.</p>
+<p>For your <strong>first game</strong>, just set your player count and tick "first game", that's enough!</p>
 
-  {{< boardgame-settings type="board">}}
-    {{< setting-hidden id="setting-gameTitle" text="Unstable Universe" >}}
-    {{< setting-seed >}}
-    {{< setting-playercount min="2" max="9" def="4" >}}
-    {{< setting-checkbox id="setting-firstGame" text="First game(s)?" remark="Everyone gets the same Mission, to simplify learning and teaching the game." >}}
-    {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Removes many decorational elements and turns the board (mostly) grayscale." >}}
-    {{< setting-checkbox id="setting-secretBoard" text="Secret Board?" >}}
-    <h3>Expansions</h3>
-    {{< setting-checkbox id="setting-expansions-nastyNodes" text="Nasty Nodes?" >}}
-    {{< setting-checkbox id="setting-expansions-nodesOfKnowledge" text="Nodes of Knowledge?" >}}
-    {{< setting-checkbox id="setting-expansions-theElectricExpansion" text="The Electric Expansion?" >}}
-    {{< setting-checkbox id="setting-expansions-extremeExpeditions" text="Extreme Expeditions?" >}}
-    {{< setting-checkbox id="setting-expansions-sharpScissors" text="Sharp Scissors?" >}}
-  {{< /boardgame-settings >}}
+{{< boardgame-settings type="board">}}
+  {{< setting-hidden id="setting-gameTitle" text="Unstable Universe" >}}
+  {{< setting-seed >}}
+  {{< setting-playercount min="2" max="9" def="4" >}}
+  {{< setting-checkbox id="setting-firstGame" text="First game(s)?" remark="Everyone gets the same Mission, to simplify learning and teaching the game." >}}
+  {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Removes many decorational elements and turns the board (mostly) grayscale." >}}
+  {{< setting-checkbox id="setting-secretBoard" text="Secret Board?" >}}
+  {{< boardgame-settings-section heading="Expansions" >}}
+{{< setting-checkbox id="setting-expansions-nastyNodes" text="Nasty Nodes?" >}}
+{{< setting-checkbox id="setting-expansions-nodesOfKnowledge" text="Nodes of Knowledge?" >}}
+{{< setting-checkbox id="setting-expansions-theElectricExpansion" text="The Electric Expansion?" >}}
+{{< setting-checkbox id="setting-expansions-extremeExpeditions" text="Extreme Expeditions?" >}}
+{{< setting-checkbox id="setting-expansions-sharpScissors" text="Sharp Scissors?" >}}
+  {{< /boardgame-settings-section >}}
+{{< /boardgame-settings >}}
 
-  <div class="post-settings-remarks">
-    <p><strong>Not working?</strong> Don't worry. Click the "Download" button and you'll also find a folder with already generated boards. Use one of those instead! (Also send me an email with details about what isn't working right.)
-    <p><strong>Secret board?</strong> The "Expeditions" expansion adds nodes that trigger whenever their piece of paper comes loose. If you are <em>able to print double-sided</em>, these nodes will be placed on the <em>backside</em> of the paper. This means the paper actually has secrets that will be revealed during the game! (Do a test print, though.)</p>
-    <p><strong>Tip for Cleanup?</strong> When done, you should have a bunch of puzzle pieces ( = all pieces of paper you cut off). Here's the challenge: try to fit them back together to recreate the original paper! Sounds easier than it is :)</p>
-
-  </div>
+<div class="post-settings-remarks">
+  <p><strong>Not working?</strong> Don't worry. Click the "Download" button and you'll also find a folder with already generated boards. Use one of those instead! (Also send me an email with details about what isn't working right.)
+  <p><strong>Secret board?</strong> The "Expeditions" expansion adds nodes that trigger whenever their piece of paper comes loose. If you are <em>able to print double-sided</em>, these nodes will be placed on the <em>backside</em> of the paper. This means the paper actually has secrets that will be revealed during the game! (Do a test print, though.)</p>
+  <p><strong>Tip for Cleanup?</strong> When done, you should have a bunch of puzzle pieces ( = all pieces of paper you cut off). Here's the challenge: try to fit them back together to recreate the original paper! Sounds easier than it is :)</p>
+</div>
 
 {{% /section-centered %}}
 

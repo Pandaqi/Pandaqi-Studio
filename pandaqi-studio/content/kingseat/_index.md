@@ -65,19 +65,20 @@ Three simple steps.
   {{< setting-checkbox id="setting-highLegibility" text="High Legibility?" remark="Picks a more neutral font for maximum legibility." checked="checked" >}}
   {{< setting-enum id="setting-cardSize" text="Card Size?" values="small,regular,huge" valaskey="true" def="regular" >}}
   {{< setting-enum id="setting-premadePacks" text="Set?" values="none,starter,medium,advanced,complete,random" valaskey="true" def="starter" remark="Pick a predetermined set, or use none and pick your specific princes below!" >}}
-  <h3>Princes</h3>
-  {{< setting-checkbox id="setting-packs-lionsyre" text="Lionsyre?"  >}}
-  {{< setting-checkbox id="setting-packs-slydefox" text="Slydefox?"  >}}
-  {{< setting-checkbox id="setting-packs-woolfhall" text="Woolfhall?"  >}}
-  {{< setting-checkbox id="setting-packs-hornseeker" text="Hornseeker?"  >}}
-  {{< setting-checkbox id="setting-packs-brownbeards" text="Brownbeards?"  >}}
-  {{< setting-checkbox id="setting-packs-monarchrys" text="Monarchrys?"  >}}
-  {{< setting-checkbox id="setting-packs-crassclamps" text="Crassclamps?"  >}}
-  {{< setting-checkbox id="setting-packs-gulliballistas" text="Gulliballistas?"  >}}
-  {{< setting-checkbox id="setting-packs-hardshellHero" text="Hardshell Hero?"  >}}
-  {{< setting-checkbox id="setting-packs-squlofish" text="Squlofish?"  >}}
-  {{< setting-checkbox id="setting-packs-smugwing" text="Smugwing?"  >}}
-  {{< setting-checkbox id="setting-packs-salsaSalamanda" text="Salsa Salamanda?"  >}}
+  {{< boardgame-settings-section heading="Princes" >}}
+{{< setting-checkbox id="setting-packs-lionsyre" text="Lionsyre?" checked="checked" >}}
+{{< setting-checkbox id="setting-packs-slydefox" text="Slydefox?" >}}
+{{< setting-checkbox id="setting-packs-woolfhall" text="Woolfhall?" >}}
+{{< setting-checkbox id="setting-packs-hornseeker" text="Hornseeker?" checked="checked" >}}
+{{< setting-checkbox id="setting-packs-brownbeards" text="Brownbeards?" >}}
+{{< setting-checkbox id="setting-packs-monarchrys" text="Monarchrys?" checked="checked" >}}
+{{< setting-checkbox id="setting-packs-crassclamps" text="Crassclamps?" >}}
+{{< setting-checkbox id="setting-packs-gulliballistas" text="Gulliballistas?" checked="checked" >}}
+{{< setting-checkbox id="setting-packs-hardshellHero" text="Hardshell Hero?" >}}
+{{< setting-checkbox id="setting-packs-squlofish" text="Squlofish?" >}}
+{{< setting-checkbox id="setting-packs-smugwing" text="Smugwing?" >}}
+{{< setting-checkbox id="setting-packs-salsaSalamanda" text="Salsa Salamanda?" >}}
+  {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
 <p class="remark-below-settings">Check the rules to see <strong>how many Princes</strong> are recommended for each player count. Each choice adds ~1 page to print ( = 12 cards for that particular prince).</p> 

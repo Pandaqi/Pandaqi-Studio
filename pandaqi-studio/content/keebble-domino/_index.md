@@ -66,11 +66,11 @@ Three steps.
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Removes most color to preserve ink." >}}
   {{< setting-checkbox id="setting-showLetters" text="Show letters?" remark="Adds a hint on the symbols about what letter they are from each direction." checked="checked" >}}
   {{< setting-checkbox id="setting-bigSize" text="Big Dominoes?" remark="Useful when playing with kids or those with impaired vision." >}}
-
-  <h3>Expansions</h3>
-  {{< setting-checkbox id="setting-expansions-specialCells" text="Supercells?" >}}
-  {{< setting-checkbox id="setting-expansions-wereWalls" text="Werewalls?" >}}
-  {{< setting-checkbox id="setting-expansions-toughLetters" text="Tough Letters?" remark="Adds symbols that are harder to read. Allows more unique letter combinations." >}}
+  {{< boardgame-settings-section heading="Expansions" >}}
+{{< setting-checkbox id="setting-expansions-specialCells" text="Supercells?" >}}
+{{< setting-checkbox id="setting-expansions-wereWalls" text="Werewalls?" >}}
+{{< setting-checkbox id="setting-expansions-toughLetters" text="Tough Letters?" remark="Adds symbols that are harder to read. Allows more unique letter combinations." >}}
+  {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
 {{% /section-centered %}}

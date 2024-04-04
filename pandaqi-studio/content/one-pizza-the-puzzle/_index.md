@@ -105,23 +105,24 @@ Three steps ...
 
 {{% section-centered heading="Board Generation" html="true" anchor="board" %}}
   
-  <p>Input your desired settings. Click "Generate Board", save the PDF, print it.</p>
-  <p>For your <strong>first game</strong>, just set the player count and immediately start.</p>
+<p>Input your desired settings. Click "Generate Board", save the PDF, print it.</p>
+<p>For your <strong>first game</strong>, just set the player count and immediately start.</p>
 
-  {{< boardgame-settings type="board" >}}
-    {{< setting-hidden id="setting-gameTitle" text="One Pizza the Puzzle" >}}
-    {{< setting-seed >}}
-    {{< setting-playercount min="2" max="8" def="4" >}}
-    {{< setting-enum id="setting-boardVariation" text="Variation?" values="None,Small,Medium,Large,Extreme" def="Medium" remark="Higher means more curving streets, irregular building shapes, and distinct areas. Choose whatever you prefer." >}}
-    {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Removes many decorational elements and turns the board (mostly) grayscale." >}}
-    <h3 style="margin-bottom: 0px;">Expansions</h3>
-    {{< setting-checkbox id="setting-expansions-pizzaPolice" text="Pizza Police?" >}}
-    {{< setting-checkbox id="setting-expansions-treacherousTraffic" text="Treacherous Traffic?" >}}
-    {{< setting-checkbox id="setting-expansions-ingeniousIngredients" text="Ingenious Ingredients?" >}}
-    {{< setting-checkbox id="setting-expansions-preposterousPlaces" text="Preposterous Places?" >}}
-  {{< /boardgame-settings >}}
+{{< boardgame-settings type="board" >}}
+  {{< setting-hidden id="setting-gameTitle" text="One Pizza the Puzzle" >}}
+  {{< setting-seed >}}
+  {{< setting-playercount min="2" max="8" def="4" >}}
+  {{< setting-enum id="setting-boardVariation" text="Variation?" values="None,Small,Medium,Large,Extreme" def="Medium" remark="Higher means more curving streets, irregular building shapes, and distinct areas. Choose whatever you prefer." >}}
+  {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Removes many decorational elements and turns the board (mostly) grayscale." >}}
+  {{< boardgame-settings-section heading="Expansions" >}}
+{{< setting-checkbox id="setting-expansions-pizzaPolice" text="Pizza Police?" >}}
+{{< setting-checkbox id="setting-expansions-treacherousTraffic" text="Treacherous Traffic?" >}}
+{{< setting-checkbox id="setting-expansions-ingeniousIngredients" text="Ingenious Ingredients?" >}}
+{{< setting-checkbox id="setting-expansions-preposterousPlaces" text="Preposterous Places?" >}}
+  {{< /boardgame-settings-section >}}
+{{< /boardgame-settings >}}
 
-  <p><strong>Not working?</strong> Don't worry. Click the "Download" button and you'll also find a folder with already generated boards. Use one of those instead! (And send me an email with details about what isn't working.)</p>
+<p><strong>Not working?</strong> Don't worry. Click the "Download" button and you'll also find a folder with already generated boards. Use one of those instead! (And send me an email with details about what isn't working.)</p>
 
 {{% /section-centered %}}
 

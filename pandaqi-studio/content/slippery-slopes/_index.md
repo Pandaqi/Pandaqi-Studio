@@ -65,12 +65,16 @@ Three simple steps.
   {{< setting-enum id="setting-cardSize" text="Card Size?" values="small,regular,huge" valaskey="true" def="regular" >}}
   {{< setting-checkbox id="setting-generateSliders" text="Generate Sliders?" checked="checked" >}}
   {{< setting-checkbox id="setting-generateWords" text="Generate Words?" checked="checked" >}}
-  <h3>Word Settings</h3>
-  {{< setting-enum id="setting-wordComplexity" text="Word Complexity?" values="Core,Easy,Medium" valaskey="true" remark="How hard should the words be?" def="Core" >}}
-  {{< setting-checkbox id="setting-includeNamesAndGeography" text="Include names?" remark="Adds geography and proper names of people, brands, ..." >}}
-  <h3>Expansions</h3>
-  {{< setting-checkbox id="setting-expansions-glidyGifts" text="Glidy Gifts?" remark="Adds actions to help make guessing easier." checked="checked" >}}
-  {{< setting-checkbox id="setting-expansions-crasheryCliffs" text="Crashery Cliffs?" remark="Slight rule changes and more slider types." >}}
+
+  {{< boardgame-settings-section heading="Word Settings" >}}
+{{< setting-enum id="setting-wordComplexity" text="Word Complexity?" values="Core,Easy,Medium" valaskey="true" remark="How hard should the words be?" def="Core" >}}
+{{< setting-checkbox id="setting-includeNamesAndGeography" text="Include names?" remark="Adds geography and proper names of people, brands, ..." >}}
+  {{< /boardgame-settings-section >}}
+
+  {{< boardgame-settings-section heading="Expansions" >}}
+{{< setting-checkbox id="setting-expansions-glidyGifts" text="Glidy Gifts?" remark="Adds actions to help make guessing easier." checked="checked" >}}
+{{< setting-checkbox id="setting-expansions-crasheryCliffs" text="Crashery Cliffs?" remark="Slight rule changes and more slider types." >}}
+  {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
 {{% /section-centered %}}

@@ -21,7 +21,6 @@ bgColorLink: "#601a87"
 textColor: "#e6faff"
 textColorLink: "#edccff"
 
-
 date: 2023-01-01 # 2024-12-12?
 
 categories: ["boardgame"]
@@ -65,8 +64,9 @@ Three simple steps.
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
   {{< setting-enum id="setting-itemSize" text="Card Size?" values="small,regular,large" valaskey="true" def="regular" >}}
   {{< setting-checkbox id="setting-expansions-scoreCards" text="Add Scoreworks?" remark="An expansion that adds cards to randomize how scoring works at the end of the game." >}}
-  <h3>Packs</h3>
-  {{< setting-checkbox-multiple id="setting-packs" values="black,red,orange,yellow,green,turquoise,blue,purple,pink,brown,white" valuesChecked="black,red,yellow,green,blue,brown" >}}
+  {{< boardgame-settings-section heading="Packs" >}}
+{{< setting-checkbox-multiple id="setting-packs" values="black,red,orange,yellow,green,turquoise,blue,purple,pink,brown,white" valuesChecked="black,red,yellow,green,blue,brown" >}}
+  {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
 <p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>

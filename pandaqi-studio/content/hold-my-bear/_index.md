@@ -80,10 +80,12 @@ It's your goal to win _so hard_ that nobody can do the two things above. Have fu
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
   {{< setting-enum id="setting-cardSize" text="Card Size?" values="small,regular,huge" valaskey="true" def="regular" >}}
   {{< setting-checkbox id="setting-addBearIcons" text="Add Bear Icons?" checked="checked" remark="Adds icons on the Bear card to remind you of its abilities." >}}
-  <h3>Animals</h3>
-  {{< setting-checkbox-multiple id="setting-animalsBase" values="bear,ferret,tiger,chicken,dog,cat,hamster,vole" valuesChecked="bear,ferret,tiger,hamster,vole" >}}
-  <h3>Expansion Animals</h3>
-  {{< setting-checkbox-multiple id="setting-animalsExpansion" values="turtle,beaver,badger,giraffe,ape,bat,walrus,fish,bison,kangaroo,rabbit,sheep,squid,aardvark" >}}
+  {{< boardgame-settings-section heading="Animals" >}}
+{{< setting-checkbox-multiple id="setting-animalsBase" values="bear,ferret,tiger,chicken,dog,cat,hamster,vole" valuesChecked="bear,ferret,tiger,hamster,vole" >}}
+  {{< /boardgame-settings-section >}}
+  {{< boardgame-settings-section heading="Expansion Animals" >}}
+{{< setting-checkbox-multiple id="setting-animalsExpansion" values="turtle,beaver,badger,giraffe,ape,bat,walrus,fish,bison,kangaroo,rabbit,sheep,squid,aardvark" >}}
+  {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
 <p class="settings-remark"><strong>Not working?</strong> Don't worry! At the "Download" button, you can also find PDFs I already generated for you.</p>

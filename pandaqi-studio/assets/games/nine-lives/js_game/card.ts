@@ -14,7 +14,7 @@ import ResourceShape from "js/pq_games/layout/resources/resourceShape";
 import bevelCorners from "js/pq_games/tools/geometry/paths/bevelCorners";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
 import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
-import StrokeAlignValue from "js/pq_games/layout/values/strokeAlignValue";
+import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
 import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
 import LayoutEffect from "js/pq_games/layout/effects/layoutEffect";
 import ColorLike from "js/pq_games/layout/color/colorLike";
@@ -263,7 +263,7 @@ export default class Card
             op.fill = new ColorLike("#FFFFFF");
             op.stroke = new ColorLike("#000000");
             op.strokeWidth = strokeWidth;
-            op.strokeAlign = StrokeAlignValue.OUTSIDE;
+            op.strokeAlign = StrokeAlign.OUTSIDE;
             op.translate = center.clone().move(new Point(dims.x, 0));
             await resText.toCanvas(ctx, op);
         }
@@ -319,7 +319,7 @@ export default class Card
             fill: "#FFFFFF",
             stroke: "#000000",
             strokeWidth: strokeWidth,
-            strokeAlign: StrokeAlignValue.OUTSIDE,
+            strokeAlign: StrokeAlign.OUTSIDE,
             pivot: Point.CENTER
         });
         await res.toCanvas(ctx, op);

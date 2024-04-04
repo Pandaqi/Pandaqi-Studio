@@ -65,15 +65,16 @@ The base game is simple enough to play with kids who are learning the alphabet. 
 	{{< setting-hidden id="setting-gameTitle" text="Librarians" >}}
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
   {{< setting-enum id="setting-itemSize" text="Card Size?" values="small,regular,large" valaskey="true" def="regular" >}}
-  <h3>Packs</h3>
-  {{< setting-checkbox id="setting-packs-shelves" text="Book Shelf Cards?" checked="checked" >}}
-  {{< setting-enum id="setting-packs-red" text="Red?" values="horror,detective,true_crime,tragedy" keys="Horror,Detective,True Crime,Tragedy" >}}
-  {{< setting-enum id="setting-packs-green" text="Green?" values="romance,comedy,adventure,self_help" keys="Romance,Comedy,Adventure,Self Help" >}}
-  {{< setting-enum id="setting-packs-blue" text="Blue?" values="thriller,action,travel,mythology" keys="Thriller,Action,Travel,Mythology" >}}
-  {{< setting-enum id="setting-packs-purple" text="Purple?" values="fantasy,scifi,poetry,graphic_novel" keys="Fantasy,Science-Fiction,Poetry,Graphic Novel" >}}
-  {{< setting-enum id="setting-packs-yellow" text="Yellow?" values="biography,science,business,cooking" keys="Biography,Science,Business,Cooking" >}}
-  {{< setting-enum id="setting-packs-black" text="Black?" values="mystery,crime,drama,picture_book" keys="Mystery,Crime,Drama,Picture Book" >}}
-  {{< setting-checkbox id="setting-packs-actions" text="Thrills Expansion?" >}}
+  {{< boardgame-settings-section heading="Packs" >}}
+{{< setting-checkbox id="setting-packs-shelves" text="Book Shelf Cards?" checked="checked" >}}
+{{< setting-enum id="setting-packs-red" text="Red?" values="horror,detective,true_crime,tragedy" keys="Horror,Detective,True Crime,Tragedy" >}}
+{{< setting-enum id="setting-packs-green" text="Green?" values="romance,comedy,adventure,self_help" keys="Romance,Comedy,Adventure,Self Help" >}}
+{{< setting-enum id="setting-packs-blue" text="Blue?" values="thriller,action,travel,mythology" keys="Thriller,Action,Travel,Mythology" >}}
+{{< setting-enum id="setting-packs-purple" text="Purple?" values="fantasy,scifi,poetry,graphic_novel" keys="Fantasy,Science-Fiction,Poetry,Graphic Novel" >}}
+{{< setting-enum id="setting-packs-yellow" text="Yellow?" values="biography,science,business,cooking" keys="Biography,Science,Business,Cooking" >}}
+{{< setting-enum id="setting-packs-black" text="Black?" values="mystery,crime,drama,picture_book" keys="Mystery,Crime,Drama,Picture Book" >}}
+{{< setting-checkbox id="setting-packs-actions" text="Thrills Expansion?" >}}
+  {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
 <p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>

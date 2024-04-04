@@ -100,3 +100,57 @@
 		color: #030E1F;
 	}
 }
+
+
+div.game-settings-section
+{
+	// ensure it spreads the entire width
+	display: block;
+	grid-column: 1 / -1;
+
+	$alpha: 0.33;
+	$alpha-hover: 0.15;
+
+	.section-header
+	{
+		display: block;
+		position: relative;
+
+		margin-top: 0.5em;
+		margin-bottom: 0.5em;
+
+		background-color: rgba(0, 0, 0, $alpha);
+		&.invert-colors
+		{
+			background-color: rgba(255,255,255,$alpha);
+		}
+
+		&:hover
+		{
+			background-color: rgba(0,0,0,$alpha-hover);
+			&.invert-colors { background-color: rgba(255,255,255,$alpha-hover); }
+		}
+
+		padding: 0.5em;
+		padding-left: 0;
+		padding-right: 0;
+		border-radius: 0.25em;
+		cursor: pointer;
+		user-select: none;
+
+		h3,span
+		{
+			padding: 0;
+			margin: 0;
+		}
+
+		span
+		{
+			font-size: 0.775em;
+			opacity: 0.66;
+			position: absolute;
+			right: 0.5em;
+			top: 0.5em;
+		}
+	}
+}

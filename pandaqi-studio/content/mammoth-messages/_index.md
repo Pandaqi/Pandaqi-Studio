@@ -62,14 +62,17 @@ Three simple steps.
 	{{< setting-hidden id="setting-gameTitle" text="Mammoth Messages" >}}
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
   {{< setting-enum id="setting-itemSize" text="Card Size?" values="small,regular,large" valaskey="true" def="regular" >}}
-  <h3>What to generate?</h3>
-  {{< setting-checkbox id="setting-includeCards" text="Include Word Cards?" checked="checked" >}}
-  {{< setting-checkbox id="setting-includeDrawings" text="Include Cave Drawings?" checked="checked" >}}
-  {{< setting-checkbox id="setting-includeTokens" text="Include Choice Tokens?" checked="checked" remark="If you already have these, or plan on using something else, you can disable this." >}}
-  <h3>Word preferences?</h3>
-  {{< setting-checkbox id="setting-includeGeography" text="Include Geography?" >}}
-  {{< setting-checkbox id="setting-includeNames" text="Include Names?" remark="Includes names of popular people, brands, etcetera" >}}
-  {{< setting-checkbox id="setting-includeDifficultWords" text="Include Difficult Words?" remark="Raises the max difficulty of words that can appear." >}}
+  {{< boardgame-settings-section heading="What to generate?" >}}
+{{< setting-checkbox id="setting-includeCards" text="Include Word Cards?" checked="checked" >}}
+{{< setting-checkbox id="setting-includeDrawings" text="Include Cave Drawings?" checked="checked" >}}
+{{< setting-checkbox id="setting-includeTokens" text="Include Choice Tokens?" checked="checked" remark="If you already have these, or plan on using something else, you can disable this." >}}
+  {{< /boardgame-settings-section >}}
+
+  {{< boardgame-settings-section heading="Word preferences?" >}}
+{{< setting-checkbox id="setting-includeGeography" text="Include Geography?" >}}
+{{< setting-checkbox id="setting-includeNames" text="Include Names?" remark="Includes names of popular people, brands, etcetera" >}}
+{{< setting-checkbox id="setting-includeDifficultWords" text="Include Difficult Words?" remark="Raises the max difficulty of words that can appear." >}}
+  {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
 <p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>

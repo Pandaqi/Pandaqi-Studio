@@ -67,8 +67,9 @@ devlog: "/blog/boardgames/photomone-digital-antists/"
   {{< setting-enum id="setting-timerLength" text="Timer Length?" values="30,45,60,90" valaskey="true" remark="How many seconds you have per drawing?" def="45" >}}
   {{< setting-checkbox id="setting-enableTutorial" text="Tutorial?" remark="Explains how to play while taking your first few turns." checked="checked" >}}
   {{< setting-checkbox id="setting-expansions-sneakySpots" text="Sneaky Spots?" remark="Adds dots with special powers." >}}
-  <h3>Word Categories</h3>
-  {{< setting-checkbox-multiple id="setting-categories" values="anatomy,animals,clothes,food,items,nature,occupations,places,sports,vehicles" valuesChecked="anatomy,animals,clothes,food,items,nature,occupations,places,sports,vehicles" >}}
+  {{< boardgame-settings-section heading="Word Categories" >}}
+{{< setting-checkbox-multiple id="setting-categories" values="anatomy,animals,clothes,food,items,nature,occupations,places,sports,vehicles" valuesChecked="anatomy,animals,clothes,food,items,nature,occupations,places,sports,vehicles" >}}
+  {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
 {{% /section-centered %}}
