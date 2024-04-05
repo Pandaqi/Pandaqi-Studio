@@ -23,8 +23,11 @@ extraCSS: true
 
 date: 2021-12-24
 
-categories: ["game"]
-tags: ["desktop", "chaotic", "accessible", "gamejam", "holidays"]
+difficulty: "no-brainer"
+genres: ["action", "party"]
+categories: ["game", "desktop", "game-jam"]
+tags: ["chaos", "survival", "powerups", "map_selection"]
+themes: ["holiday", "colorful"]
 
 downloadLink: "http://pandaqi.itch.io/ho-ho-sombrero/"
 
@@ -33,7 +36,6 @@ multiplayermode: 'cooperative'
 price: 0
 platform: ["windows", "mac", "linux"]
 language: EN
-genre: ["action"]
 playtime: 5
 playercount: [1,2,3,4]
 input: ["controller", "keyboard"]

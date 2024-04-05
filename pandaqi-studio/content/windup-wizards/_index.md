@@ -25,15 +25,17 @@ extraCSS: true
 
 date: 2021-11-30
 
-categories: ["game"]
-tags: ["desktop", "mobile", "web", "gamejam"]
+difficulty: "kids-can-play"
+genres: ["puzzle"]
+categories: ["game", "desktop", "mobile", "game-jam"]
+tags: ["grid", "map", "logic", "campaign"]
+themes: ["3D", "magic", "fantasy"]
 
 downloadLink: "http://pandaqi.itch.io/windup-wizards"
 
 price: 0
 platform: ["windows", "mac", "linux", "web"]
 language: EN
-genre: ["puzzle"]
 playtime: 5
 playercount: [1]
 input: ["controller", "keyboard", "touch"]

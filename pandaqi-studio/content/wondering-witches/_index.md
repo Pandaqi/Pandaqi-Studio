@@ -23,17 +23,18 @@ extraJSBoardInclude: true
 
 date: 2023-02-14 # old publishing date: 2020-04-28
 
-categories: ["boardgame"]
-tags: ["hybrid", "opg"]
+difficulty: "kids-can-play"
+genres: ["family"]
+categories: ["boardgame", "one-paper-game", "hybrid-game"]
+tags: ["cooking", "deduction", "logic"]
+themes: ["magic", "fantasy"]
 
 downloadLink: "https://drive.google.com/open?id=1y4WescX98VLllbV7FqojADUnAr5fc8Vx"
 
 multiplayermode: "cooperative"
 language: EN
-genre: ["logical", "puzzle", "deduction"]
 playtime: 20-60
 playercount: [1,2,3,4,5]
-complexity: low
 ages: everyone
 requirements: "A blank paper!"
 devlog: "/blog/boardgames/wondering-witches/devlog-wondering-witches/"

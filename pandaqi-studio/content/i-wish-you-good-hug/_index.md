@@ -23,8 +23,11 @@ extraCSS: true
 
 date: 2021-07-14
 
-categories: ["game"]
-tags: ["desktop", "mobile", "multiplayer", "one_week_game"]
+difficulty: "simple"
+genres: ["action", "puzzle"]
+categories: ["game", "desktop", "mobile", "local-multiplayer", "one-week-game"]
+tags: ["chaos", "shared-map", "pick-up-and-deliver", "grid", "hot-potato", "procedural-generation", "real-time"]
+themes: ["2D", "relaxing", "vector"]
 
 downloadLink: "http://pandaqi.itch.io/i-wish-you-good-hug"
 
@@ -33,7 +36,6 @@ multiplayermode: 'cooperative'
 price: 0
 platform: ["windows", "mac", "linux", "android"]
 language: EN
-genre: ["casual", "action", "strategy"]
 playtime: 5
 playercount: [1,2,3,4]
 input: ["keyboard", "controller", "touch"]

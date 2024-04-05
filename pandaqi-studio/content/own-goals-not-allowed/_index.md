@@ -23,8 +23,11 @@ extraCSS: true
 
 date: 2022-03-30
 
-categories: ["game"]
-tags: ["desktop", "one_week_game", "chaotic", "accessible", "physics", "soccer", "party_game"]
+difficulty: "no-brainer"
+genres: ["action", "sports"]
+categories: ["game", "desktop", "local-multiplayer", "one-week-game"]
+tags: ["chaos", "physics-based", "powerups", "real-time"]
+themes: ["2D", "top-down", "sports", "textured"]
 
 downloadLink: "http://pandaqi.itch.io/own-goals-not-allowed"
 
@@ -33,7 +36,6 @@ multiplayermode: 'competitive'
 price: 0
 platform: ["windows", "mac", "linux"]
 language: EN
-genre: ["action", "sports", "soccer"]
 playtime: 10
 playercount: [1,2,3,4,5,6]
 input: ["controller", "keyboard"]

@@ -21,8 +21,11 @@ textColorLink: "#282310"
 
 date: 2023-09-18
 
-categories: ["boardgame"]
-tags: ["traditional"]
+difficulty: "no-brainer"
+genres: ["party"]
+categories: ["boardgame", "standard", "tile-game", "spin-off"]
+tags: ["creative", "guessing", "turn-based"]
+themes: ["top-down", "vector"]
 
 extraCSS: true
 
@@ -30,7 +33,7 @@ downloadLink: "https://drive.google.com/drive/folders/1g78Fggawe7LX35DNlYHZJALXq
 
 multiplayermode: "competitive"
 language: EN
-genre: ["party", "drawing", "association", "guessing", "team"]
+genres: ["party", "drawing", "association", "guessing", "team"]
 playtime: 45
 playercount: [2,3,4,5,6,7,8]
 complexity: low

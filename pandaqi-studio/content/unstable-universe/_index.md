@@ -25,17 +25,18 @@ extraJSBoardInclude: true
 
 date: 2020-09-05
 
-categories: ["boardgame"]
-tags: ["hybrid", "opg"]
+difficulty: "no-brainer"
+genres: ["family", "racing"]
+categories: ["boardgame", "one-paper-game"]
+tags: ["cutting", "experimental", "movement"]
+themes: ["space", "nature"]
 
 downloadLink: "https://drive.google.com/drive/folders/1wu61RX3FCPVfmWjDTW7yOoeqhsgfuMLr"
 
 multiplayermode: "competitive"
 language: EN
-genre: ["cutting", "strategy", "territorial", "moving"]
 playtime: 30-60
 playercount: [2,3,4,5,6,7,8,9]
-complexity: low
 ages: everyone
 devlog: "/blog/boardgames/unstable-universe/devlog-unstable-universe/"
 

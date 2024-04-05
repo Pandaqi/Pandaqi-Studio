@@ -35,8 +35,8 @@
 	<!-- Concrete Metadata (player count, multiplayer type, platforms, etc) -->
 	<aside class="concrete-metadata">
 		<h3>Metadata</h3>
-		{{ $data_keys := slice "multiplayertype" "multiplayermode" "price" "platform" "language" "genre" "playtime" "playercount" "input" "ages" "complexity" }}
-		{{ $data_labels := slice "Multiplayer Type" "Multiplayer Mode" "Price" "Platforms" "Languages" "Genres" "Playtime" "Player Count" "Input" "Ages" "Complexity" }}
+		{{ $data_keys := slice "multiplayertype" "multiplayermode" "price" "platform" "language" "genres" "themes" "playtime" "playercount" "input" "ages" "complexity" }}
+		{{ $data_labels := slice "Multiplayer Type" "Multiplayer Mode" "Price" "Platforms" "Languages" "Genres" "Themes" "Playtime" "Player Count" "Input" "Ages" "Complexity" }}
 
 		<!-- NOTE: I use $.Param $val here, because within a "range", apparently the scope (".") is the value being looped over, not the original one -->
 		<!-- NOTE: or $param_val (eq $param_val 0) basically says => ignore any parameters that are empty, EXCEPT those that are the number 0, as those ALSO resolve to false/empty (as in most languages -->
@@ -122,7 +122,7 @@
 			{{ end }}
 
 			{{ with $devlog }}
-				<li>Devlog: <a href="{{ . }}">Go to Devlog</a></li>
+				<li>Devlog: {{ partial "button.html" (dict "href" . "content" "Go to Devlog") }}</li>
 			{{ end }}
 
 			{{ with $blurb }}

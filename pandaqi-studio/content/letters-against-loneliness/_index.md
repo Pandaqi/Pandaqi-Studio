@@ -25,15 +25,17 @@ extraCSS: true
 
 date: 2021-12-03
 
-categories: ["game"]
-tags: ["desktop", "mobile"]
+difficulty: "no-brainer"
+genres: ["puzzle"]
+categories: ["game", "desktop", "mobile"]
+tags: ["grid", "networks"]
+themes: ["pixel-art"]
 
 downloadLink: "http://pandaqi.itch.io/letters-against-loneliness"
 
 price: 0
 platform: ["windows", "android"]
 language: EN
-genre: ["puzzle"]
 playtime: 5
 playercount: [1]
 input: ["mouse", "touch"]

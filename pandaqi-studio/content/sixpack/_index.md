@@ -20,8 +20,11 @@ textColorLink: "#f7fa96"
 
 date: 2023-10-20
 
-categories: ["boardgame"]
-tags: ["traditional"]
+difficulty: "kids-can-play"
+genres: ["party"]
+categories: ["boardgame", "card-game"]
+tags: ["numbers", "simultaneous-turns", "fast-paced", "stacking", "move-through-all", "ladder-climbing"]
+themes: ["pop-art", "retro", "colorful"]
 
 extraCSS: true
 
@@ -29,10 +32,8 @@ downloadLink: "https://drive.google.com/drive/folders/1as4B3n_kxQ9K1jIVtWMI_P5Vn
 
 multiplayermode: "competitive"
 language: EN
-genre: ["card", "numbers", "math", "fast"]
 playtime: 15
 playercount: [2,3,4,5,6]
-complexity: low
 ages: everyone
 devlog: "/blog/boardgames/sixpack/"
 

@@ -23,15 +23,16 @@ textColorLink: "#e0e0e0"
 
 date: 2024-03-26
 
-categories: ["boardgame"]
-tags: ["creative", "guessing", "word"]
+difficulty: "no-brainer"
+genres: ["party"]
+categories: ["boardgame", "standard"]
+tags: ["guessing", "language", "creative", "social"]
+themes: ["prehistoric"]
 
 multiplayermode: "competitive"
 language: EN
-genre: ["card", "party", "social"]
 playtime: 30
 playercount: [2,3,4,5,6,7,8]
-complexity: low
 ages: everyone
 devlog: "/blog/boardgames/mammoth-messages/"
 

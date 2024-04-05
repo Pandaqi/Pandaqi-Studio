@@ -20,8 +20,11 @@ textColorLink: "#132001"
 
 date: 2023-06-20
 
-categories: ["boardgame"]
-tags: ["traditional"]
+difficulty: "simple"
+genres: ["abstract"]
+categories: ["boardgame", "standard"]
+tags: ["domino", "shared-map", "language", "spiritually-inspired"]
+themes: ["colorful", "vector"]
 
 extraCSS: true
 
@@ -29,7 +32,6 @@ downloadLink: "https://drive.google.com/drive/folders/14KGDtFeGMpGRltZorC6shHr3p
 
 multiplayermode: "competitive"
 language: EN
-genre: ["party", "interactive", "word", "domino"]
 playtime: 40
 playercount: [2,3,4,5,6]
 complexity: low

@@ -22,8 +22,11 @@ textColorLink: "#083d42"
 
 date: 2024-03-26
 
-categories: ["boardgame"]
-tags: ["one_paper_game", "opg"]
+difficulty: "no-brainer"
+genres: ["thematic", "family"]
+categories: ["boardgame", "one-paper-game"]
+tags: ["grid", "shared-map", "point-salad", "movement"]
+themes: ["colorful", "nature"]
 
 extraCSS: true
 extraJSBoard: true
@@ -33,7 +36,6 @@ downloadLink: "https://drive.google.com/drive/folders/1kYuSs0w3yKLQBMqBWOlS4ZzGU
 
 multiplayermode: "competitive"
 language: EN
-genre: ["opg", "simple", "quick", "wildlife", "nature", "tactical", "point salad"]
 playtime: 20
 playercount: [2,3,4,5]
 complexity: low

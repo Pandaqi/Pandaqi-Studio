@@ -23,8 +23,11 @@ extraCSS: true
 
 date: 2021-04-26
 
-categories: ["game"]
-tags: ["desktop", "mobile", "multiplayer", "silly", "bakery", "one_week_game"]
+difficulty: "simple"
+genres: ["action", "family", "party"]
+categories: ["game", "desktop", "mobile", "one-week-game", "local-multiplayer"]
+tags: ["chaos", "cooking", "grid", "shared-map", "pick-up-and-deliver", "real-time"]
+themes: ["2D", "food", "humor"]
 
 downloadLink: "http://pandaqi.itch.io/a-recipe-for-disaster/"
 
@@ -33,12 +36,10 @@ multiplayermode: 'cooperative'
 price: 0
 platform: ["windows", "mac", "linux", "android"]
 language: EN
-genre: ["casual", "action"]
 playtime: 5
 playercount: [1,2,3,4]
 input: ["controller", "keyboard", "touch"]
 devlog: "/blog/videogames/one-week-games/devlog-a-recipe-for-disaster/"
-
 ---
 
 {{% embedvideo bg="arfd_logo" vid="https://www.youtube.com/embed/MQ7srCHHXZg" class="limit-width" %}}

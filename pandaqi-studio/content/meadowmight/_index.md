@@ -23,15 +23,16 @@ textColorLink: "#f0c39b"
 
 date: 2024-05-26
 
-categories: ["boardgame"]
-tags: ["animals"]
+difficulty: "kids-can-play"
+genres: ["family"]
+categories: ["boardgame", "tile-game"]
+tags: ["grid", "shared-map", "area-control", "take-that", "high-score"]
+themes: ["nature", "top-down"]
 
 multiplayermode: "competitive"
 language: EN
-genre: ["tile", "high-interaction"]
 playtime: 30
 playercount: [2,3,4,5,6]
-complexity: low
 ages: everyone
 devlog: "/blog/boardgames/meadowmight/"
 

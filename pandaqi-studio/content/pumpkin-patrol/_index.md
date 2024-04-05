@@ -23,20 +23,20 @@ textColorLink: "#ffe1d3"
 
 date: 2024-10-12
 
-categories: ["boardgame"]
-tags: ["holiday", "large-groups"]
+difficulty: "kids-can-play"
+genres: ["family"]
+categories: ["boardgame", "card-game"]
+tags: ["fixed-order", "movement", "hand-management", "high-score", "turn-based", "kill-steal", "modular", "patterns"]
+themes: ["holiday", "monsters"]
 
 multiplayermode: "competitive"
 language: EN
-genre: ["card", "party"]
 playtime: 60
 playercount: [2,3,4,5,6,7]
-complexity: low
 ages: everyone
 devlog: "/blog/boardgames/pumpkin-patrol/"
 
 ---
-
 
 {{% boardgame-intro heading="" %}}
 

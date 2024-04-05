@@ -19,8 +19,11 @@ textColorLink: "#ffe4ea"
 
 date: 2023-08-21
 
-categories: ["game"]
-tags: ["web", "party_game", "spin-off"]
+difficulty: "no-brainer"
+genres: ["party"]
+categories: ["boardgame", "one-paper-game", "hybrid-game", "spin-off"]
+tags: ["drawing", "creative", "guessing", "turn-based"]
+themes: ["top-down", "vector"]
 
 extraCSS: true
 sharedJS: "photomone"
@@ -30,7 +33,7 @@ downloadLink: ""
 
 multiplayermode: "cooperative"
 language: EN
-genre: ["party", "drawing", "association", "guessing"]
+genres: ["party", "drawing", "association", "guessing"]
 playtime: 30
 playercount: [2,3,4,5,6,7,8]
 complexity: low

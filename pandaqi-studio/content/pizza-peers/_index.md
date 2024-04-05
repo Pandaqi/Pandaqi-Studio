@@ -30,8 +30,11 @@ extraCSS: true
 
 date: 2020-07-12
 
-categories: ["game"]
-tags: ["peerful", "smartphone-controlled", "website"]
+difficulty: "simple"
+genres: ["action", "simulation"]
+categories: ["game", "desktop", "smartphone-controlled"]
+tags: ["cooking", "movement", "pick-up-and-deliver"]
+themes: ["food", "pixel-art"]
 
 downloadLink: "https://pizza-peers.herokuapp.com"
 
@@ -40,7 +43,6 @@ multiplayermode: 'cooperative'
 price: 0
 platform: ["windows", "mac", "linux", "android", "iOS"]
 language: EN
-genre: ["casual", "action", "delivering"]
 playtime: 5
 playercount: [1,2,3,4,5,6,7,8,9,10]
 input: ["touch"]

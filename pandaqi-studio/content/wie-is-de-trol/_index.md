@@ -24,17 +24,18 @@ extraCSS: true
 
 date: 2020-09-05
 
-categories: ["boardgame"]
-tags: ["hybrid", "wie is de mol"]
+difficulty: "regular"
+genres: ["thematic"]
+categories: ["boardgame", "hybrid-game", "standard"]
+tags: ["media", "traitor", "player-powers", "bluffing"]
+themes: []
 
 downloadLink: "https://drive.google.com/drive/folders/1u791rNWb82YJme3rEqjjd5k-kWqbzR3t"
 
 multiplayermode: "competitive"
 language: NL
-genre: ["bluffing", "challenges", "traitor"]
 playtime: 60-120
 playercount: [3,4,5,6,7,8,9,10]
-complexity: medium
 ages: everyone
 
 ---

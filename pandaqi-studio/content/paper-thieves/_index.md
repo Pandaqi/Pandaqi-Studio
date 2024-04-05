@@ -25,17 +25,18 @@ extraCSS: true
 
 date: 2020-03-18
 
-categories: ["boardgame"]
-tags: ["opg"]
+difficulty: "no-brainer"
+genres: ["abstract"]
+categories: ["boardgame", "one-paper-game"]
+tags: ["shared-map", "movement"]
+themes: ["vector"]
 
 downloadLink: "https://drive.google.com/open?id=1Dy71DZLHbO76-NAh5r4zEJbmIUNicY7q"
 
 multiplayermode: "competitive"
 language: EN
-genre: ["strategy", "moving"]
 playtime: 30
 playercount: [2,3,4,5,6]
-complexity: easy
 ages: everyone
 
 ---

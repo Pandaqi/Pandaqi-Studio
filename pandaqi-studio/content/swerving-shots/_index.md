@@ -26,17 +26,18 @@ extraCSS: true
 
 date: 2019-09-18
 
-categories: ["boardgame"]
-tags: ["traditional", "duel", "cowboy"]
+difficulty: "simple"
+genres: ["thematic"]
+categories: ["boardgame", "standard", "tile-game"]
+tags: ["battle", "networks", "take-that", "programming"]
+themes: ["top-down", "vector", "wild-west"]
 
 downloadLink: "https://drive.google.com/open?id=1gGXtVCAP-v0ZD5yqrv1osYf0QE9SK4WB"
 
 multiplayermode: "competitive"
 language: ["EN", "NL"]
-genre: ["strategy", "thinkingahead"]
 playtime: 30-60
 playercount: [2,3,4,5,6]
-complexity: low
 ages: everyone
 
 ---

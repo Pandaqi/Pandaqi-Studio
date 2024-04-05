@@ -23,15 +23,16 @@ textColorLink: "#dfccff"
 
 date: 2024-08-25
 
-categories: ["boardgame"]
-tags: ["traditional", "animals", "abilities", "kids", "no-text"]
+difficulty: "kids-can-play"
+genres: ["family"]
+categories: ["boardgame", "card-game"]
+tags: ["textless", "player-powers", "numbers", "hand-management", "ladder-climbing", "catch-the-leader", "move-through-all", "turn-based"]
+themes: ["nature"]
 
 multiplayermode: "competitive"
 language: EN
-genre: ["card", "party"]
 playtime: 30
 playercount: [2,3,4,5,6]
-complexity: low
 ages: everyone
 devlog: "/blog/boardgames/nine-lives/"
 

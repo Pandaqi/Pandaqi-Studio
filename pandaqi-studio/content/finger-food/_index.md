@@ -21,8 +21,11 @@ textColorLink: "#5b2608"
 
 date: 2024-01-26
 
-categories: ["boardgame"]
-tags: ["one_paper_game", "opg"]
+difficulty: "no-brainer"
+genres: ["action", "family", "kids-game"]
+categories: ["boardgame", "one-paper-game"]
+tags: ["cooking", "turn-based", "shared-map", "colorful", "experimental", "fast-paced"]
+themes: ["cartoon", "food"]
 
 extraCSS: true
 extraJSBoard: true
@@ -32,10 +35,8 @@ downloadLink: "https://drive.google.com/drive/folders/101SQ5KBbdwiiYC-2nU-5H7gKo
 
 multiplayermode: "competitive"
 language: EN
-genre: ["opg", "simple", "quick", "travel", "creative", "colorful"]
 playtime: 20
 playercount: [2,3,4,5,6]
-complexity: low
 ages: everyone
 devlog: "/blog/boardgames/finger-food/"
 

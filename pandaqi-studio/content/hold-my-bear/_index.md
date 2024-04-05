@@ -23,12 +23,15 @@ textColorLink: "#e9ceb2"
 
 date: 2024-06-25
 
-categories: ["boardgame"]
-tags: ["animal", "watercolor", "numbers", "deck"]
+difficulty: "simple"
+genres: ["sports"]
+categories: ["boardgame", "card-game"]
+tags: ["numbers", "follow", "modular", "hand-management"]
+themes: ["nature", "watercolor", "sports"]
 
 multiplayermode: "competitive"
 language: EN
-genre: ["card", "party"]
+genres: ["card", "party"]
 playtime: 10
 playercount: [3,4,5,6,7,8]
 complexity: low

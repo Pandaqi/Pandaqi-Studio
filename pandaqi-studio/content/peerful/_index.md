@@ -21,8 +21,11 @@ extraCSS: true
 
 date: 2020-04-29
 
-categories: ["game"]
-tags: ["website", "smartphone-controlled", "multiplayer", "online"]
+difficulty: "kids-can-play"
+genres: ["action"]
+categories: ["game", "desktop", "local-multiplayer", "online-multiplayer", "smartphone-controlled"]
+tags: []
+themes: ["pixel-art"]
 
 collection: true
 

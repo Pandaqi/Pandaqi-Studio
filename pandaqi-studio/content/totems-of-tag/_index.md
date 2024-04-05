@@ -25,8 +25,11 @@ extraCSS: true
 
 date: 2022-08-01
 
-categories: ["game"]
-tags: ["desktop", "multiplayer", "one_week_game"]
+difficulty: "no-brainer"
+genres: ["party", "shooter", "sports"]
+categories: ["game", "desktop", "one-week-game", "local-multiplayer"]
+tags: ["movement", "shared-map", "battle", "map-selection", "powerups"]
+themes: ["vector", "sports", "2D"]
 
 downloadLink: "http://pandaqi.itch.io/totems-of-tag"
 
@@ -35,7 +38,6 @@ multiplayermode: 'competitive'
 price: 0
 platform: ["web", "windows", "mac", "linux"]
 language: EN
-genre: ["casual", "action", "sport"]
 playtime: 5
 playercount: [1,2,3,4]
 input: ["controller", "keyboard"]

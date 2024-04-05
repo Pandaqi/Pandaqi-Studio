@@ -23,15 +23,17 @@ extraCSS: true
 
 date: 2021-12-01
 
-categories: ["game"]
-tags: ["desktop", "mobile"]
+difficulty: "kids-can-play"
+genres: ["puzzle"]
+categories: ["game", "desktop", "mobile"]
+tags: ["movement", "logic", "grid", "turn-based"]
+themes: ["2D", "vector", "lighting", "nature", "top-down"]
 
 downloadLink: "http://pandaqi.itch.io/round-ogre"
 
 price: 8
 platform: ["windows", "mac", "linux", "android"]
 language: EN
-genre: ["puzzle"]
 playtime: 10
 playercount: 1
 input: ["touch", "keyboard", "mouse"]

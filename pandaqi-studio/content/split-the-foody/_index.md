@@ -23,15 +23,17 @@ textColorLink: "#f0d8d5"
 
 date: 2024-05-26
 
-categories: ["boardgame"]
-tags: ["pirate", "bidding", "bluffing", "social"]
+difficulty: "simple"
+genres: ["thematic"]
+categories: ["boardgame", "card-game"]
+tags: ["bidding", "bluffing", "social", "high-score", "numbers"]
+themes: ["pirates"]
 
 multiplayermode: "competitive"
 language: EN
-genre: ["card", "party"]
+genres: ["card", "party"]
 playtime: 30
 playercount: [2,3,4,5,6,7]
-complexity: low
 ages: everyone
 devlog: "/blog/boardgames/split-the-foody/"
 

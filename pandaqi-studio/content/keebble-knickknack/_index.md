@@ -21,8 +21,11 @@ textColorLink: "#a6cff6"
 
 date: 2023-05-20
 
-categories: ["boardgame"]
-tags: ["hybrid"]
+difficulty: "simple"
+genres: ["abstract"]
+categories: ["boardgame", "hybrid-game", "one-paper-game"]
+tags: ["grid", "shared-map", "language", "spiritually-inspired"]
+themes: []
 
 extraCSS: true
 extraJSBoard: true
@@ -32,7 +35,7 @@ downloadLink: "https://drive.google.com/drive/folders/1_hK2ICc9T95hSLAGNO4mvBFmq
 
 multiplayermode: "competitive"
 language: EN
-genre: ["party", "interactive", "word"]
+genres: ["party", "interactive", "word"]
 playtime: 60
 playercount: [2,3,4,5]
 complexity: low

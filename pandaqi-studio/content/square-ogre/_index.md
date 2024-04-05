@@ -23,15 +23,17 @@ extraCSS: true
 
 date: 2021-02-24
 
-categories: ["game"]
-tags: ["desktop", "mobile"]
+difficulty: "kids-can-play"
+genres: ["puzzle"]
+categories: ["game", "desktop", "mobile"]
+tags: ["movement", "logic", "grid", "turn-based"]
+themes: ["2D", "vector", "lighting", "top-down"]
 
 downloadLink: "http://pandaqi.itch.io/square-ogre"
 
 price: 4
 platform: ["windows", "mac", "linux", "android"]
 language: EN
-genre: ["puzzle"]
 playtime: 10
 playercount: 1
 input: ["touch", "keyboard"]

@@ -20,8 +20,11 @@ textColorLink: "#282310"
 
 date: 2023-07-21
 
-categories: ["boardgame"]
-tags: ["hybrid", "opg", "one_paper_game", "traditional"]
+difficulty: "no-brainer"
+genres: ["party"]
+categories: ["boardgame", "one-paper-game", "hybrid-game"]
+tags: ["drawing", "creative", "guessing", "turn-based"]
+themes: ["top-down", "vector"]
 
 extraCSS: true
 extraJSBoard: true
@@ -33,10 +36,9 @@ downloadLink: "https://drive.google.com/drive/folders/1d3b_Zsuor4bz9sVmQIdErx2p5
 
 multiplayermode: "cooperative"
 language: EN
-genre: ["party", "drawing", "association", "guessing"]
+genres: ["party", "drawing", "association", "guessing"]
 playtime: 30
 playercount: [2,3,4,5,6,7,8]
-complexity: low
 ages: everyone
 devlog: "/blog/boardgames/photomone/"
 

@@ -14,13 +14,16 @@
 		{{- end -}}
 		<p class="tagline">{{- .Inner | markdownify -}}</p>
 		<p class="metadata">
-			{{- $data_keys := slice "requirements" "ages" "complexity" "playtime" -}}
+			{{- $data_keys := slice "requirements" "ages" "difficulty" "playtime" -}}
 
 			{{- $full_slice := slice -}}
 			{{- range $key, $val := $data_keys -}}
 				{{- $param_value := ($.Page.Param $val) -}}
 				{{- if $param_value -}}
-					{{- $full_slice = $full_slice | append (printf "%s: %s" ($val | humanize) (string $param_value)) -}}
+					{{- $param_val_sanitized := string $param_value -}}
+					{{- if eq $val "difficulty" -}}{{- $param_val_sanitized = $param_val_sanitized | humanize -}}{{- end -}}
+					{{- if eq $val "playtime" -}}{{- $param_val_sanitized = printf "%s minutes" $param_val_sanitized -}}{{- end -}}
+					{{- $full_slice = $full_slice | append (printf "%s: %s" ($val | humanize) $param_val_sanitized) -}}
 				{{- end -}}
 			{{- end -}}
 

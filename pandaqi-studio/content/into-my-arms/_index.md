@@ -27,8 +27,11 @@ extraCSS: true
 
 date: 2020-01-30
 
-categories: ["game"]
-tags: ["desktop", "mobile", "multiplayer"]
+difficulty: "kids-can-play"
+genres: ["puzzle"]
+categories: ["game", "desktop", "mobile", "local-multiplayer", "game-jam"]
+tags: ["grid", "logic", "map", "creative"]
+themes: ["2D", "relaxing", "isometric"]
 
 downloadLink: "http://pandaqi.itch.io/into-my-arms"
 
@@ -37,7 +40,6 @@ multiplayermode: 'cooperative'
 price: 0
 platform: ["windows", "mac", "linux", "android"]
 language: EN
-genre: ["casual", "puzzle"]
 playtime: 15
 playercount: [1,2]
 input: ["keyboard", "touch"]

@@ -24,17 +24,18 @@ extraJSBoardInclude: true
 
 date: 2020-07-02
 
-categories: ["boardgame"]
-tags: ["hybrid", "opg"]
+difficulty: "simple"
+genres: ["party", "family"]
+categories: ["boardgame", "one-paper-game", "hybrid-game"]
+tags: ["transportation", "movement", "real-time", "fast-paced", "shared-map", "procedural-generation", "campaign", "resource-management"]
+themes: ["vector"]
 
 downloadLink: "https://drive.google.com/drive/folders/1d0eedJEL16SlrI33umvVDxZOgPvqQ25r"
 
 multiplayermode: "competitive"
 language: EN
-genre: ["realtime", "speed", "moving", "strategy"]
 playtime: 20
 playercount: [1,2,3,4,5,6,7,8]
-complexity: low
 ages: everyone
 devlog: "/blog/boardgames/timely-transports/devlog-timely-transports/"
 

@@ -19,8 +19,11 @@ textColorLink: "#eafeff"
 
 date: 2023-03-10
 
-categories: ["boardgame"]
-tags: ["traditional"]
+difficulty: "kids-can-play"
+genres: ["party"]
+categories: ["boardgame", "standard"]
+tags: ["social", "guessing", "language", "drawing", "creative", "sorting", "simultaneous-turns"]
+themes: []
 
 extraCSS: true
 
@@ -28,10 +31,8 @@ downloadLink: "https://drive.google.com/drive/folders/1ovrsGP6oso--ii20P5tOfOsdD
 
 multiplayermode: "cooperative"
 language: EN
-genre: ["party", "social", "drawing", "association", "guessing"]
 playtime: 75
 playercount: [2,3,4,5,6,7,8,9,10]
-complexity: low
 ages: everyone
 devlog: "/blog/boardgames/thats-amorphe-pictures/"
 

@@ -116,7 +116,20 @@ const THEMES:List =
     colorful: { desc: "The game looks colorful and visually rich, instead of toned down or restrained." },
     top_down: { desc: "The perspective of the game is from above, or bird's eye view." },
     relaxing: { desc: "The game is meant for relaxation and destressing, not challenge or skillful play. Also related to Atmospheric or Cute/Cozy games." },
-    mosaic: { desc: "The game looks like a mosaic or something related (stained glass, patchwork, etcetera)." }
+    mosaic: { desc: "The game looks like a mosaic or something related (stained glass, patchwork, tiled, etcetera)." },
+    science: { desc: "The game is themed around one or more major scientific fields (biology, math, physics, chemistry). For example, you try to invent a vaccine for a virus." },
+    cartoon: { desc: "A style characterized by thick black outlines, loose drawings, extreme proportions and silly expressions." },
+    origami: { desc: "A style simulating everything is made from paper, cardboard, or similar materials." },
+    history: { desc: "The game is themed around a period, culture or event from history." },
+    watercolor: { desc: "Uses watercolor, aquarel, hand-painted or similar painting styles." },
+    vector: { desc: "A style emphasized by flat solid blocks of color, with little depth or outlines. Named this way because it's the usual look for any art that comes from a vector illustration program." },
+    sports: { desc: "A visual style or theme reminiscent of sports in any way." },
+    textured: { desc: "A blend between flat colors (usually vector/modern style) and (realistic) textured elements." },
+    side_view: { desc: "The game is viewed perfectly from the side. See also Side Scroller." },
+    lighting: { desc: "The game extensively uses or plays with light and shadow effects." },
+    pop_art: { desc: "A vintage style that emphasizes bright colors, stark contrasts, and busy patterns usually made from dots." },
+    wild_west: { desc: "A game themed around the wild west, cowboys, or anything related." },
+    magic: { desc: "A game involving or themed around magic." },
 }
 
 const TAGS:List =
@@ -161,7 +174,7 @@ const TAGS:List =
     high_score: { desc: "The objective is to reach the highest numerical score. Usually means the entire game rewards you directly with more points." },
     experimental: { desc: "The game subverts genre expectations or experiments with obscure mechanics, taking the great risk of absolute failure ... to potentially reach something more fresh and exciting." },
     action_points: { desc: "Players receive a set amount of general action tokens per turn, which they may spend any way they like on specific actions." },
-    modular: { desc: "The game is built from small components that can be combined in any way to play a particular game. Usually means a modular game board that's always different, or combining different expansion packs for a unique deck." },
+    modular: { desc: "The game is built from small components that can be combined in any way to play a particular game. Usually means a modular game board that's always different or a video game that allows tweaking loads of configuration before a game." },
     single_loser: { desc: "Instead of having a single winner, the game has a single loser (and everyone else wins)." },
     map: { desc: "The game has a map or board of some kind." },
     shared_map: { desc: "Most of the game happens on a shared map or using shared resource, leading to constant high rates of interaction and competition." },
@@ -274,6 +287,12 @@ const TAGS:List =
     metroidvania: { desc: "A blend of Action, Adventure and Platformer. Feature large interconnected maps with areas locked behind skill or progression, and focus on careful minimalist level design and tight controls.", type: GameType.VIDEO },
     beat_em_up: { desc: "The game is an endless cycle of defeating enemies and being rewarded for doing so rapidly and efficiently." },
     construction: { desc: "Players construct towns, buildings, business, empires, whatever. Related to Management, because just building something without managing it won't do much good." },
+
+    game_modes: { desc: "The game offers several unique modes. These usually keep the same material or general idea, but twist the objective and core rules." },
+    map_selection: { desc: "The game offers several different predetermined maps or boards, of which you pick one per game." },
+    powerups: { desc: "The game includes 'powerups' to grab or attain, which grant the player temporary or permanent special abilities." },
+    movement: { desc: "Physically moving from location to location, or some core twist on how you move, is (almost) the entire game." },
+    synergies: { desc: "The game contains many elements you could buy or use, and players are rewarded handsomely for finding the ones that work together ('synergize') in the best way." }
 }
 
 interface ListContainer

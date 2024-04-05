@@ -21,8 +21,11 @@ textColorLink: "#eeb9e3"
 
 date: 2023-02-16
 
-categories: ["boardgame"]
-tags: ["one_paper_game", "opg"]
+difficulty: "kids-can-play"
+genres: ["abstract"]
+categories: ["boardgame", "one-paper-game"]
+tags: ["grid", "shared-map", "language", "spiritually-inspired"]
+themes: []
 
 extraCSS: true
 extraJSBoard: true
@@ -32,7 +35,6 @@ downloadLink: "https://drive.google.com/drive/folders/1JeaAyDSFrnu_j8FeDztXyKyhU
 
 multiplayermode: "competitive"
 language: EN
-genre: ["party", "interactive", "word", "opg"]
 playtime: 20
 playercount: [2,3,4,5,6]
 complexity: low
@@ -40,7 +42,6 @@ ages: everyone
 devlog: "/blog/boardgames/keebble/"
 
 ---
-
 
 {{% boardgame-intro heading="" %}}
 

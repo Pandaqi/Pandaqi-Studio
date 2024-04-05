@@ -18,8 +18,11 @@ textColorLink: "#590808"
 
 date: 2023-02-27
 
-categories: ["boardgame"]
-tags: ["hybrid", "traditional"]
+difficulty: "kids-can-play"
+genres: ["party"]
+categories: ["boardgame", "standard"]
+tags: ["social", "guessing", "language", "sorting", "turn-based"]
+themes: []
 
 extraCSS: true
 
@@ -27,10 +30,8 @@ downloadLink: "https://drive.google.com/drive/folders/1H1gLrHUsju_tnXbKoJYrsGP1s
 
 multiplayermode: "cooperative"
 language: EN
-genre: ["party", "social", "word", "association", "guessing"]
 playtime: 45
 playercount: [2,3,4,5,6,7,8]
-complexity: low
 ages: everyone
 devlog: "/blog/boardgames/thats-amorphe/"
 

@@ -23,20 +23,20 @@ textColorLink: "#edccff"
 
 date: 2024-07-26
 
-categories: ["boardgame"]
-tags: ["medieval", "mosaic", "numbers", "deck"]
+difficulty: "simple"
+genres: ["action", "party"]
+categories: ["boardgame", "card-game"]
+tags: ["simultaneous-turns", "fast-paced", "numbers"]
+themes: ["colorful", "mosaic", "medieval"]
 
 multiplayermode: "competitive"
 language: EN
-genre: ["card", "party"]
 playtime: 20
 playercount: [2,3,4,5,6,7]
-complexity: low
 ages: everyone
 devlog: "/blog/boardgames/cookie-smasher/"
 
 ---
-
 
 {{% boardgame-intro heading="" %}}
 

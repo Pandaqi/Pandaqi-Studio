@@ -22,17 +22,17 @@ extraCSS: true
 
 date: 2022-06-02
 
-categories: ["boardgame"]
-tags: ["hybrid", "opg"]
-
+difficulty: "simple"
+genres: ["puzzle"]
+categories: ["boardgame", "hybrid-game", "one-paper-game"]
+tags: ["deduction", "turn-based", "logic"]
+themes: ["pirate"]
 downloadLink: "https://drive.google.com/drive/folders/1GXtqwg9tsK57zDzmiumtdtlgn3NeAHuF"
 
 multiplayermode: "competitive"
 language: EN
-genre: ["logic", "puzzle", "deduction"]
 playtime: 45
 playercount: [1,2,3,4,5,6]
-complexity: low
 ages: everyone
 devlog: "/blog/boardgames/the-pirate-games/devlog-pirate-riddlebeard/"
 

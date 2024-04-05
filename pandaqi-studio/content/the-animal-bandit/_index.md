@@ -26,17 +26,18 @@ extraCSS: true
 
 date: 2018-11-02
 
-categories: ["boardgame"]
-tags: ["traditional", "animals", "market", "unicorn"]
+difficulty: "simple"
+genres: ["family"]
+categories: ["boardgame", "card-game"]
+tags: ["market", "bluffing", "turn-based"]
+themes: ["nature"]
 
 downloadLink: "https://drive.google.com/open?id=1MHd_tAhJ2YP6pBRPXRZEKKxxZGvunPFx"
 
 multiplayermode: "competitive"
 language: ["EN", "NL"]
-genre: ["strategy", "bluffing", "cardgame"]
 playtime: 20-30
 playercount: [3,4,5,6]
-complexity: low
 ages: everyone
 
 ---

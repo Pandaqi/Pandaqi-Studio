@@ -25,17 +25,18 @@ extraCSS: true
 
 date: 2019-02-24
 
-categories: ["boardgame"]
-tags: ["traditional"]
+difficulty: "simple"
+genres: ["family", "racing"]
+categories: ["boardgame", "tile-game", "card-game"]
+tags: ["grid", "shared-map", "limited-communication", "vehicle-simulation", "tile-placement", "programming"]
+themes: ["vector"]
 
 downloadLink: "https://drive.google.com/open?id=1KYVfdGHwlhRCrBbBwFuwgL5mWycQ8lb3"
 
 multiplayermode: "cooperative"
 language: ["EN", "NL"]
-genre: ["strategy", "tiles", "racing"]
 playtime: 60
 playercount: [2,3,4,5,6,7,8,9,10]
-complexity: easy
 ages: everyone
 
 ---

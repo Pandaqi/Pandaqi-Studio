@@ -23,8 +23,11 @@ extraCSS: true
 
 date: 2020-03-16
 
-categories: ["game"]
-tags: ["mobile", "multiplayer", "creative", "drawing"]
+difficulty: "kids-can-play"
+genres: ["action", "family", "sports"]
+categories: ["game", "mobile", "local-multiplayer"]
+tags: ["shared-map", "score-and-reset", "real-time", "drawing", "creative", "chaos", "game-modes", "powerups"]
+themes: ["2D", "colorful", "top-down"]
 
 downloadLink: "https://play.google.com/store/apps/details?id=com.pandaqi.art_hockey"
 
@@ -33,7 +36,6 @@ multiplayermode: 'competitive'
 price: 0
 platform: ["android"]
 language: EN
-genre: ["casual", "action", "sport"]
 playtime: 5
 playercount: [1,2,3,4]
 input: ["touch", "mouse"]

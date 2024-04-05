@@ -9,7 +9,7 @@ noThumb: true
 
 {{< custom-entry-banner id="0" title="Mail me!" bg="mail_bg" thumb="mail_logo" class="blue" >}}
 
-Send me feedback, feature requests, questions about how/why I made something, proposals for collaborations, you name it. Well, anything except _spam_ of course.
+Send me feedback, feature requests, questions about how I made something, proposals for collaborations, you name it. Well, anything except _spam_ of course.
 
 My email address is: [schoolofpanda@gmail.com](mailto:schoolofpanda@gmail.com)
 
@@ -26,7 +26,7 @@ Because I create (local) multiplayer games, getting feedback and working togethe
 
 {{< custom-entry-banner id="2" title="itch.io" bg="itch_bg" thumb="itch_logo" class="green" >}}
 
-itch.io is the online game marketplace where all my projects can be downloaded and/or purchased!
+This is the trusted online marketplace where all my **video game** projects can be downloaded and/or purchased!
 
 I also regularly give feedback to others, update my games there, and participate in game jams.
 
@@ -36,7 +36,7 @@ I also regularly give feedback to others, update my games there, and participate
 
 {{< custom-entry-banner id="3" title="YouTube" bg="yt_bg" thumb="yt_logo" class="red" >}}
 
-Whenever a new game is published, trailers (and related material) will appear on my YouTube channel. I might also create devlogs, depending on the project.
+Whenever I make a new **video game** that's professional enough, I will make trailers and perhaps devlogs for it. They appear on my YouTube channel. 
 
 <a href="https://www.youtube.com/channel/UCUegxnNkcycM67gvyeD4CEQ" class="btn">Pandaqi - A GameDev Channel</a>
 
@@ -44,15 +44,15 @@ Whenever a new game is published, trailers (and related material) will appear on
 
 {{< custom-entry-banner id="4" title="Other" class="black height-large" >}}
 
-I am a (general) freelance artist in the Netherlands: [Rode Panda - Portfolio](https://rodepanda.com)
+I maintain a blog with **devlogs** about literally all my game projects and updates at [Pandaqi Blog](https://pandaqi.com/blog).
 
-I also write books, create music, design picturebooks and websites, and some more creative stuff.
+The name "Pandaqi" comes from a **tutorial website** I started long ago. It has moved to a new address (a sub domain): [Pandaqi Tutorials](https://pandaqi.com/tutorials)
 
-The name "Pandaqi" comes from a tutorial website I started long ago. It has moved to a new address (a sub domain): [Pandaqi Tutorials](https://pandaqi.com/tutorials)
+I'm a registered **freelance artist** in the Netherlands: [Portfolio](https://rodepanda.com). I also write books, create music, design picturebooks and websites, and some more creative stuff.
 
-Similarly, I blog about what I do at [Pandaqi Blog](https://pandaqi.com/blog).
+To know how to **support** me, visit the [Support Page](/info/support/).
 
-You might also find me on other platforms (Twitter, GameJolt, Discord, etc.) These accounts are rarely checked or updated. I believe in having a strong core platform (my own website + itch.io) and a single communication channel (email), instead of creating and managing accounts all over the place, without really using those websites myself.
+That's all. You might find my name elsewhere, but know the account is not used or maybe not even me.
 
 {{< /custom-entry-banner >}}
 

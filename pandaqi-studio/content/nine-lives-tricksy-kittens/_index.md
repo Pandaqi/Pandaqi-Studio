@@ -23,15 +23,16 @@ textColorLink: "#ffcce7"
 
 date: 2024-09-11
 
-categories: ["boardgame"]
-tags: ["traditional", "animals", "numbers", "abilities"]
+difficulty: "simple"
+genres: ["family"]
+categories: ["boardgame", "card-game"]
+tags: ["numbers", "hand-management", "move-through-all", "turn-based", "player-powers", "trick-taking"]
+themes: ["nature"]
 
 multiplayermode: "competitive"
 language: EN
-genre: ["card", "party", "trick-taking"]
 playtime: 45
 playercount: [3,4,5,6,7,8,9]
-complexity: low
 ages: everyone
 devlog: "/blog/boardgames/nine-lives-tricksy-kittens/"
 

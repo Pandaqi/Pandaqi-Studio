@@ -24,17 +24,18 @@ extraJSBoardInclude: true
 
 date: 2020-08-22
 
-categories: ["boardgame"]
-tags: ["hybrid", "opg"]
+difficulty: "no-brainer"
+genres: ["family"]
+categories: ["boardgame", "one-paper-game", "hybrid-game"]
+tags: ["area-control", "numbers", "point-salad", "logic", "variable-setup", "construction", "synergies", "events", "modular"]
+themes: ["space", "top-down"]
 
 downloadLink: "https://drive.google.com/drive/folders/1_CkFN2QRv_amGofQcfP9RkGQgiZj9HXh"
 
 multiplayermode: "competitive"
 language: EN
-genre: ["strategy", "building", "territorial", "pointsalad"]
 playtime: 30-60
 playercount: [1,2,3,4,5,6,7,8,9]
-complexity: low
 ages: everyone
 devlog: "/blog/boardgames/starry-skylines/devlog-starry-skylines/"
 

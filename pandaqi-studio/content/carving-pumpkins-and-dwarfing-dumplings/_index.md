@@ -3,7 +3,7 @@ type: "single"
 gamepage: true
 
 title: "Carving Pumpkins & Dwarfing Dumplings"
-headerTitle: "Carving Pumpkins & Dwarfing Dumplings | A party game about slicing your friends into smaller and smaller pieces ... "
+headerTitle: "A party game about slicing your friends into smaller and smaller pieces ... "
 blurb: "A party game for 2-8 players about slicing your friends into smaller pieces, or preventing a huge dumpling from meeting the same fate."
 
 headerImg: "carvingpumpkins_banner_bg"
@@ -23,17 +23,19 @@ extraCSS: true
 
 date: 2022-01-27
 
-categories: ["game"]
-tags: ["desktop", "multiplayer", "chaotic", "physics", "slicing", "one_week_game"]
+difficulty: "no_brainer"
+genres: ["action", "family", "party", "fighting"]
+categories: ["game", "desktop", "local-multiplayer"]
+tags: ["battle", "chaos", "physics-based", "player-elimination", "real-time", "shared-map", "game-modes", "modular", "powerups", "map-selection"]
+themes: ["2D", "colorful", "holiday", "top-down"]
 
-downloadLink: "http://pandaqi.itch.io/carving-pumpkins-and-dwarfing-dumplings"
+downloadLink: "http://pandaqi.itch.io/carving-pumpkins-and-dwarfing-dumplings/"
 
 multiplayertype: 'offline'
 multiplayermode: 'competitive'
 price: 8
 platform: ["windows", "mac", "linux"]
 language: EN
-genre: ["casual", "action", "party"]
 playtime: 5
 playercount: [2,3,4,5,6,7,8]
 input: ["controller", "keyboard"]
@@ -97,7 +99,7 @@ Gather your friends or family and carve some pumpkins!
 	<img src="assets/big_slash.png" />
 </div>
 
-{{% video-gallery class="full-width alternate_bg" urls="03-JungleAndTown,04-SwimmingPoolAndBlackouts,05-ForestAndPirate,06-HauntedHouse" %}}
+{{% video-gallery class="full-width alternate_bg" urls="video/03-JungleAndTown,video/04-SwimmingPoolAndBlackouts,video/05-ForestAndPirate,video/06-HauntedHouse" %}}
 
 <div class="big_slash alternate_slash">
 	<img src="assets/big_slash.png" />

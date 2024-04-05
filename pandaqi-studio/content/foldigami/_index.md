@@ -23,8 +23,11 @@ textColorLink: "#083d42"
 
 date: 2023-11-21
 
-categories: ["boardgame"]
-tags: ["one_paper_game", "opg"]
+difficulty: "no-brainer"
+genres: ["action", "family", "kids-game"]
+categories: ["boardgame", "one-paper-game"]
+tags: ["folding", "turn-based", "experimental", "creative", "fast-paced"]
+themes: ["origami", "history"]
 
 extraCSS: true
 extraJSBoard: true
@@ -34,10 +37,8 @@ downloadLink: "https://drive.google.com/drive/folders/17jgCO-P1M1Fqa0T7NKt8nfJxs
 
 multiplayermode: "competitive"
 language: EN
-genre: ["opg", "folding", "creative", "tactical"]
 playtime: 20
 playercount: [2]
-complexity: low
 ages: everyone
 devlog: "/blog/boardgames/foldigami/"
 

@@ -20,8 +20,11 @@ textColorLink: "#582d11"
 
 date: 2022-07-20
 
-categories: ["boardgame"]
-tags: ["hybrid", "opg"]
+difficulty: "simple"
+genres: ["puzzle"]
+categories: ["boardgame", "hybrid-game", "tile-game", "spin-off", "one-paper-game"]
+tags: ["deduction", "turn-based", "logic"]
+themes: ["pirate"]
 
 extraCSS: true
 
@@ -29,10 +32,8 @@ downloadLink: "https://drive.google.com/drive/folders/1BU_ccMrmdtSwBwXPqsV8sVUka
 
 multiplayermode: "competitive"
 language: EN
-genre: ["logic", "puzzle", "deduction"]
 playtime: 40
 playercount: [1,2,3,4,5,6]
-complexity: low
 ages: everyone
 devlog: "/blog/boardgames/the-pirate-games/devlog-pirate-drawingbeard/"
 

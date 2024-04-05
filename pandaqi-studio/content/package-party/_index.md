@@ -23,8 +23,11 @@ extraCSS: true
 
 date: 2019-09-25
 
-categories: ["game"]
-tags: ["desktop", "multiplayer"]
+difficulty: "no-brainer"
+genres: ["action", "puzzle", "party"]
+categories: ["game", "desktop", "local-multiplayer"]
+tags: ["chaos", "physics-based", "powerups", "real-time", "pick-up-and-deliver", "campaign"]
+themes: ["3D"]
 
 downloadLink: "http://pandaqi.itch.io/package-party/"
 
@@ -33,7 +36,6 @@ multiplayermode: 'cooperative'
 price: 0
 platform: ["windows", "mac", "linux"]
 language: EN
-genre: ["casual", "action", "strategy", "puzzle"]
 playtime: 5
 playercount: [1,2,3,4]
 input: ["keyboard", "controller"]

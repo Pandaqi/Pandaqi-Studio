@@ -20,19 +20,19 @@ textColorLink: "#f7fa96"
 
 date: 2023-12-20
 
-categories: ["boardgame"]
-tags: ["traditional"]
+difficulty: "kids-can-play"
+genres: ["thematic"]
+categories: ["boardgame", "waitless", "card-game"]
+tags: ["political", "hidden-roles", "social", "fast-paced"]
+themes: ["medieval"]
 
 extraCSS: true
-
 downloadLink: "https://drive.google.com/drive/folders/1_s3QEOv6rgYcYQc9E4_KXofg6MPi07m8"
 
 multiplayermode: "competitive"
 language: EN
-genre: ["card", "social", "party", "queueing", "fast", "hidden role"]
 playtime: 20
 playercount: [4,5,6,7,8,9,10,11,12]
-complexity: low
 ages: everyone
 devlog: "/blog/boardgames/kingseat/"
 

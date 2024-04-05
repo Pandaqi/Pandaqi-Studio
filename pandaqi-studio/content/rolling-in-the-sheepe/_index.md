@@ -23,8 +23,11 @@ extraCSS: true
 
 date: 2022-01-24
 
-categories: ["game"]
-tags: ["desktop", "one_week_game", "chaotic", "accessible", "physics"]
+difficulty: "kids-can-play"
+genres: ["action", "party", "racing"]
+categories: ["game", "desktop", "one-week-game"]
+tags: ["chaos", "physics-based", "catch-the-leader", "movement", "powerups", "shared-map"]
+themes: ["nature", "colorful", "side-view", "2D"]
 
 downloadLink: "http://pandaqi.itch.io/rolling-in-the-sheepe/"
 
@@ -33,7 +36,6 @@ multiplayermode: 'competitive'
 price: 8
 platform: ["windows", "mac", "linux"]
 language: EN
-genre: ["action", "racing", "party"]
 playtime: 10
 playercount: [1,2,3,4,5,6]
 input: ["controller", "keyboard"]

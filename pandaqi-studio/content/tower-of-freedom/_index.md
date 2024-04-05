@@ -24,8 +24,11 @@ extraCSS: true
 
 date: 2017-07-20
 
-categories: ["game"]
-tags: ["desktop", "multiplayer"]
+difficulty: "simple"
+genres: ["action", "platformer", "strategy"]
+categories: ["game", "desktop", "local-multiplayer"]
+tags: ["construction", "tower-defense", "resource-management", "monsters"]
+themes: ["vector", "side-view", "2D", "lighting"]
 
 downloadLink: "http://pandaqi.itch.io/tower-of-freedom/"
 
@@ -34,7 +37,6 @@ multiplayermode: 'cooperative'
 price: 0
 platform: ["windows", "mac", "linux"]
 language: EN
-genre: ["action", "strategy", "building", "monsters"]
 playtime: 20
 playercount: [1,2]
 input: [keyboard"]

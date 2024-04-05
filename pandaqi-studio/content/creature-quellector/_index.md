@@ -20,8 +20,11 @@ textColorLink: "#edccff"
 
 date: 2024-02-25
 
-categories: ["boardgame"]
-tags: ["queuing game", "waitless game"]
+difficulty: "kids-can-play"
+genres: ["family"]
+categories: ["boardgame", "card-game", "waitless-game"]
+tags: ["set-collecting", "battle", "hidden-score", "modular", "turn-based"]
+themes: ["colorful", "monsters"]
 
 extraCSS: true
 
@@ -29,10 +32,8 @@ downloadLink: "https://drive.google.com/drive/folders/1UyxnFsYPynwQmRD2xbAh7RQyI
 
 multiplayermode: "competitive"
 language: EN
-genre: ["card", "queue", "waitless", "collecting", "deck", "battle"]
 playtime: 20
 playercount: [2,3,4,5,6]
-complexity: low
 ages: everyone
 devlog: "/blog/boardgames/creature-quellector/"
 

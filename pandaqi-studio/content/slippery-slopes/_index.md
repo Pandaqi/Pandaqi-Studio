@@ -20,8 +20,11 @@ textColorLink: "#edccff"
 
 date: 2024-04-25
 
-categories: ["boardgame"]
-tags: ["traditional", "party", "quick", "creativity", "group", "language"]
+difficulty: "no-brainer"
+genres: ["party"]
+categories: ["boardgame", "standard"]
+tags: ["social", "guessing", "sorting", "language", "creative", "limited-communication"]
+themes: ["retro", "colorful"]
 
 extraCSS: true
 
@@ -29,10 +32,8 @@ downloadLink: "https://drive.google.com/drive/folders/1Ewuqw4wDfazKhfhsoZx-QLfkh
 
 multiplayermode: "cooperative"
 language: EN
-genre: ["card", "party", "language", "communication"]
 playtime: 20
 playercount: [2,3,4,5,6,7,8,9,10]
-complexity: low
 ages: everyone
 devlog: "/blog/boardgames/slippery-slopes/"
 

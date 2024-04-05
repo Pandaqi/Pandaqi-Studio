@@ -23,15 +23,16 @@ textColorLink: "#c1f299"
 
 date: 2024-09-11
 
-categories: ["boardgame"]
-tags: ["traditional", "animals", "numbers", "abilities"]
+difficulty: "kids-can-play"
+genres: ["family"]
+categories: ["boardgame", "card-game"]
+tags: ["numbers", "hand-management", "ladder-climbing", "move-through-all", "turn-based", "player-powers"]
+themes: ["nature"]
 
 multiplayermode: "competitive"
 language: EN
-genre: ["card", "party"]
 playtime: 40
 playercount: [2,3,4,5,6]
-complexity: low
 ages: everyone
 devlog: "/blog/boardgames/nine-lives-math-meows/"
 

@@ -9,23 +9,23 @@ noThumb: true
 
 {{< custom-entry-banner id="0" title="Support" class="turquoise height-large" >}}
 
-Being a solo game developer who focuses on a typical "unprofitable" genre (local multiplayer, family-friendly games) ... all support is more than welcome.
+**All support is welcome!** I focus on making as many good games as I can and giving them to everyone for free, even including code. This obviously does not generate income.
 
-It doesn't cost you anything to **give feedback** on my games or directly to me
+It doesn't cost you anything to **give feedback** on my games or directly to me. Even if you hated a game I made, it's more valuable to _let me know_ than to stay silent!
 
 <a href="/info/contact" class="btn">Contact & Platforms</a>
 
-Even if you hated a game I made, it's more valuable to _let me know_ than to stay silent!
-
-It's also free to **share the word**. My games are literally made to buy once then _share_ with your friends, family, colleagues, whatever.
+It's also free to **share the word**. My games are literally made to print (or buy/download) once then _share_ with your friends, family, colleagues, whatever.
 
 {{< /custom-entry-banner >}}
 
 {{< custom-entry-banner id="1" title="Enjoy my projects?" class="green" thumb="projects_icon" >}}
 
-Of course, a fun way to support me is by **buying my work**! Most of it is free with the _option_ to pay. So it's up to you to decide how much you pay.
+The most fun way to support me is by **buying my work**!
 
-Or you can **give me a project** to do as a freelancer. Visit [my portfolio](https://rodepanda.com) to get an idea of my full body of work.
+Or you can **give me a project** to do as [a registered freelance artist in the Netherlands](https://rodepanda.com).
+
+Visit the [TiamoPastoor.com support page](https://tiamopastoor.com/info/support/) for the latest, most complete rundown of support options.
 
 {{< /custom-entry-banner >}}
 

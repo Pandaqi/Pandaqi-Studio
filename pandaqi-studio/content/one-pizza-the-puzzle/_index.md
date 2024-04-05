@@ -28,17 +28,18 @@ extraJSBoardInclude: true
 
 date: 2020-10-25
 
-categories: ["boardgame"]
-tags: ["hybrid", "opg"]
+difficulty: "kids-can-play"
+genres: ["thematic"]
+categories: ["boardgame", "one-paper-game"]
+tags: ["movement", "area-control", "take-that", "cooking", "resource-management", "turn-based"]
+themes: ["food", "vector", "colorful"]
 
 downloadLink: "https://drive.google.com/drive/folders/19oX1xwugq8ArnmKhe8kDO5fuZNPDTfKd"
 
 multiplayermode: "competitive"
 language: EN
-genre: ["action", "territorial", "puzzle"]
 playtime: 45
 playercount: [2,3,4,5,6,7,8]
-complexity: easy
 ages: everyone
 devlog: "/blog/boardgames/one-pizza-the-puzzle/devlog-one-pizza-the-puzzle/"
 

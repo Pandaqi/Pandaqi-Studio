@@ -27,17 +27,18 @@ extraCSS: true
 
 date: 2020-03-22
 
-categories: ["boardgame"]
-tags: ["hybrid", "opg"]
+difficulty: "challenge"
+genres: ["thematic", "simulation"]
+categories: ["boardgame", "one-paper-game", "hybrid-game"]
+tags: ["hidden-movement", "logic", "player-powers", "traitor", "turn-based", "shared-map", "events"]
+themes: ["science", "cartoon"]
 
 downloadLink: "https://drive.google.com/open?id=1bZ0z3L63sfoK-iMKIQFG8yPzU5Efe9b-"
 
 multiplayermode: 'cooperative'
 language: EN
-genre: ["strategy", "traitor"]
 playtime: 90
 playercount: [2,3,4,5,6,7]
-complexity: medium
 ages: everyone
 
 ---

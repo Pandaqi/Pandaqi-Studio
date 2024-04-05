@@ -23,8 +23,11 @@ extraCSS: true
 
 date: 2021-11-26
 
-categories: ["game"]
-tags: ["desktop", "multiplayer", "chaotic", "gamejam"]
+difficulty: "simple"
+genres: ["action", "party", "simulation"]
+categories: ["game", "desktop", "local-multiplayer", "game-jam"]
+tags: ["area-control", "construction", "ladder-climbing", "chaos", "powerups", "map-selection"]
+themes: ["nature"]
 
 downloadLink: "http://pandaqi.itch.io/windowsilk"
 
@@ -33,7 +36,6 @@ multiplayermode: 'competitive'
 price: 0
 platform: ["windows", "mac", "linux", "web"]
 language: EN
-genre: ["casual", "action", "party"]
 playtime: 5
 playercount: [1,2,3,4,5,6]
 input: ["controller", "keyboard"]
