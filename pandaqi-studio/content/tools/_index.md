@@ -50,3 +50,11 @@ Some simple buttons for _randomness_ in your games: flip a coin, throw some dice
 <button class="btn">Go to my randomness tools</button>
 
 {{< /custom-entry-banner >}}
+
+{{< custom-entry-banner id="4" title="Categorizer" class="green" url="categorizer" >}}
+
+Comprehensive lists of game genres, categories, themes and mechanics. Also a tool to randomly get inspired.
+
+<button class="btn">Go to my categorizer tool</button>
+
+{{< /custom-entry-banner >}}

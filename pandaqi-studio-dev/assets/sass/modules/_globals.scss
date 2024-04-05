@@ -1,5 +1,10 @@
-$body-font-stack: 'Raleway', Calibri, Arial, sans-serif;
-$header-font-stack: 'Dosis', Georgia, serif;
+$body-font-raw: "Raleway";
+$body-font-stack: $body-font-raw, Calibri, Arial, sans-serif;
+
+$header-font-raw: "Dosis";
+$header-font-stack: $header-font-raw, Georgia, serif;
+
+$base-fonts: "/assets/fonts/";
 
 $centered-section-width: 720px;
 

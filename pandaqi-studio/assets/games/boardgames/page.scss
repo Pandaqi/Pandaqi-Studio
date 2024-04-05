@@ -207,4 +207,24 @@ p.fullWidthParagraph {
     border-color: #4f4a4c;
 
     color: #E8E8E8;
+
+    a
+    {
+        color: "#DDDDDD";
+        &:hover { color: "#FFFFFF"; }
+    }
+}
+
+a
+{
+    color: "#212121";
+    &:hover { color: "#000000"; }
+}
+
+.copyright-statement
+{
+    opacity:0.66; 
+    font-size:10pt; 
+    line-height: 140%; 
+    padding-bottom: 100px;
 }
