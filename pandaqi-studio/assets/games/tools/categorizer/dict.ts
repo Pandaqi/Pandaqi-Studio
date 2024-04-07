@@ -217,7 +217,7 @@ const TAGS:List =
     grid: { desc: "The map of the game is an orderly grid of separate components. These are usually square tiles, but can be cards, hexagons, etcetera." },
     events: { desc: "Random events are triggered during the game. These are usually optional or an expansion, and provide small tweaks to spice up each round." },
     i_cut_you_choose: { desc: "One player decides which options exist, but other players may pick their preferred option first." },
-    market: { desc: "The game has a shared market where players sell or purchase goods. This usually includes rules about market value, changing prices, and promotes indirect competition." },
+    market: { desc: "The game has a shared market where players sell or purchase goods. This usually includes rules about market value, changing prices, and promotes indirect competition. The simplest implementation would be a shop." },
     domino: { desc: "The game uses domino tiles. (These are great for allowing much freedom but just enough restriction that it becomes a challenge to place things optimally.)" },
     textless: { desc: "The game has no text on the material or screen. (No reading comprehension needed to play.)" },
     crafting: { desc: "Players can combine resources and abilities to craft new items, which are usually more powerful and unlock more options for further crafting." },
