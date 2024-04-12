@@ -36,7 +36,6 @@ const RULES:TileDataDict =
     current_tile: { desc: "My tile is %tile%.", descNeg: "My tile is <b>not</b> %tile%." },
     current_egg: { desc: "My tile has a %egg% egg.", descNeg: "My tile does <b>not</b> have a %egg% egg." },
     current_num_eggs: { desc: "My tile has at least %numegg% <b>eggs</b>.", descNeg: "My tile has at most %numegg% <b>eggs</b>." },
-    current_num_pawns: { desc: "My tile has at least %numpawn% <b>pawns</b>.", descNeg: "My tile has at most %numpawn% <b>pawns</b>." },
     current_side: { desc: "My tile is in the <b>%side% half</b>.", descNeg: "My tile is <b>not</b> in the <b>%side% half</b>." },
     current_egg_diversity: { desc: "My tile has <b>no duplicate</b> eggs", descNeg: "My tile only has eggs of the <b>same type</b>.", prob: 2.5 },
     
@@ -50,9 +49,10 @@ const RULES:TileDataDict =
     special_match: { desc: "My tile matches the rules of <b>all other eggs</b>.", prob: 0.2 },
 
     // this is hard to calculate at a glance, so limit usage
-    dir_tile: { desc: "There's a %tile% tile in the <b>same row or column</b>.", prob: 0.75 },
-    dir_egg: { desc: "There's a %egg% egg in the <b>same row or column</b>.", prob: 0.75 },
-    dir_num_eggs: { desc: "There are at most %numegg% eggs in the <b>same row or column</b>.", descNeg: "There are at least %numegg% eggs in <b>the same row or column</b>.", prob: 0.33 },
+    dir_tile: { desc: "There's a %tile% tile in the <b>same %row%</b>.", descNeg: "There's <b>no</b> %tile% in the <b>same %row%</b>.", prob: 0.33 },
+    dir_egg: { desc: "There's a %egg% egg in the <b>same %row%</b>.", descNeg: "There's <b>no</b> %egg% in the <b>same %row%</b>", prob: 0.33 },
+    dir_num_eggs: { desc: "There are at most %numegg% eggs in the <b>same %row%</b>.", descNeg: "There are at least %numegg% eggs in <b>the same %row%</b>.", prob: 1.0 },
+    dir_num_pawns: { desc: "There are at least %numpawn% <b>pawns</b> in the <b>same %row%</b>.", descNeg: "There are at most %numpawn% <b>pawns</b> in the <b>same %row%</b>.", prob: 1.0 },
 
 }
 

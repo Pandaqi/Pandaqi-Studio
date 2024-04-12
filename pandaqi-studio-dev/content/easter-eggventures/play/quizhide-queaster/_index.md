@@ -30,7 +30,7 @@ tags: ["creative", "guessing", "word"]
 multiplayermode: "cooperative"
 language: EN
 genre: ["card", "party", "social"]
-playtime: 30
+playtime: 60
 playercount: [2,3,4,5,6,7,8]
 complexity: low
 ages: everyone

@@ -41,9 +41,8 @@ export default class TilePicker
         }
     }
 
-    generateRandomSlotRequirement(options) : SlotRequirement[]
+    generateRandomSlotRequirement(type:string, options:Record<string,any>) : SlotRequirement[]
     {
-        const type = getWeighted(options);
         const invert = Math.random() <= CONFIG.generation.requirementNegationProb;
         const data = options[type];
 
@@ -90,7 +89,8 @@ export default class TilePicker
         const numTiles = CONFIG.generation.numMapTiles.base;
         for(let i = 0; i < numTiles; i++)
         {
-            let customData = { slotReq: this.generateRandomSlotRequirement(slotOptions), grid: null };
+            const type = getWeighted(slotOptions);
+            let customData = { slotType: type, slotReq: this.generateRandomSlotRequirement(type, slotOptions), grid: null };
             this.fillTileGrid(customData);
             this.tiles.push(new Tile(TileType.MAP, "", customData));
         }
@@ -123,7 +123,8 @@ export default class TilePicker
         const numTiles = CONFIG.generation.numMapTiles.terrific;
         for(let i = 0; i < numTiles; i++)
         {
-            let customData = { scoringRule: scoringRules[counter], slotReq: this.generateRandomSlotRequirement(slotOptions), grid: null };
+            const type = getWeighted(slotOptions);
+            let customData = { scoringRule: scoringRules[counter], slotReq: this.generateRandomSlotRequirement(type, slotOptions), grid: null, slotType: type };
             this.fillTileGrid(customData);
             this.tiles.push(new Tile(TileType.MAP, "", customData));
             counter = (counter + 1) % scoringRules.length;
@@ -291,8 +292,11 @@ export default class TilePicker
             data.scoringRuleRect = new Rectangle().fromTopLeft(anchor, square);
         }
 
+        // decide on the number of egg slots
+        let numSlots = parseInt( getWeighted(CONFIG.generation.numEggSlotDistribution) );
+        if(REQUIREMENTS[data.slotType].forbidSingleSlot && numSlots == 1) { numSlots = 2; }
+
         // then do a random walk to add the slots
-        const numSlots = CONFIG.generation.numEggSlotBounds.randomInteger();
         const cells = this.randomWalkThroughGrid(grid, numSlots);
         for(const cell of cells)
         {

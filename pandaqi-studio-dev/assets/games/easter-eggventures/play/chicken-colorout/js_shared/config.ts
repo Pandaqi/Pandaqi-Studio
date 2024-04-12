@@ -58,7 +58,14 @@ const CONFIG:Record<string,any> =
         numExtraStarterTiles: 3,
         requirementNegationProb: 0.25,
         requirementNegationFrame: 0, // simply the frame of the red X symbol
-        numEggSlotBounds: new Bounds(2,4),
+        numEggSlotDistribution:
+        {
+            1: { prob: 0.125 },
+            2: { prob: 0.325 },
+            3: { prob: 0.35 },
+            4: { prob: 0.15 },
+            5: { prob: 0.05 },
+        },
         numDecorationBounds: new Bounds(0,2),
         numMapTiles:
         {

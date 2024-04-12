@@ -66,7 +66,7 @@ const CONFIG:Record<string,any> =
         numScoreCards: 20,
         scoringRuleIterationRandomness: new Bounds(-2,6),
         maxValuePerEgg: 4,
-        maxNumEggs: 6, 
+        maxNumEggs: 5, 
         maxNumPlayers: 6,
         defaultFrequencies:
         {

@@ -26,7 +26,7 @@ On your turn, you **move the Seeker** and then **hide an egg**. Both actions are
 
 Moving means you _move_ the Seeker in a straight line to a new tile OR _rotate_ them one quarter turn. 
 
-You may also move them off board to **"explore"**. If so, draw a new tile and place it underneath the Seeker. The map may never grow larger than a 5x5 grid.
+You may also move them off-board to **"explore"**. If so, draw a new tile and place it underneath the Seeker. The map may never grow larger than a 5x5 grid.
 
 Hiding means placing one egg token (of yours) in a free egg slot.
 * You can **never** hide an egg on a tile that the **Seeker is watching**.
@@ -49,7 +49,7 @@ There's no need to memorize these. All of this is public information, so just as
 * **Rainbow Arrow**: Must play a different type than what's already on the neighbor pointed at.
 * **Seeker**: Must play a type of egg that the Seeker can currently see.
 
-@TODO: List them properly, though a rules-table won't work if we need to display both the POSITIVE and NEGATIVE version, right?
+@TODO: List them properly, though a rules-table won't work if we need to display both the POSITIVE and NEGATIVE version, right? MAKE IT WORK.
 
 @TODO: IMAGE EXAMPLE??
 

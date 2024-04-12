@@ -60,13 +60,22 @@ const CONFIG:Record<string,any> =
         defaultFrequencies:
         {
             eggToken: 10,
-            mapTile: 5,
+            mapTile: 4,
             actionTile: 1,
         },
         movementInstructions:
         {
-            gridDims: new Point(5, 3),
-            numValid: new Bounds(1, 4)
+            gridDims: new Point(3, 3),
+            numValid: new Bounds(1, 3)
+        },
+
+        // the available options for dynamic replacement of rule tile strings
+        dynamicOptions:
+        {
+            numEggs: [2,3],
+            numPawns: [2,3],
+            side: ["left", "right", "top", "bottom"],
+            row: ["horizontal row", "vertical column"]
         }
     },
     

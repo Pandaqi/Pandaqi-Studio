@@ -52,15 +52,8 @@ If the Hiders think there are no good eggs for a Player anymore, they can say so
 
 {{% /rules-block %}}
 
-{{% rules-block id="expansions" heading="Expansions" icon="expansion" icontint="red" %}}
-
-Played the base game and ready for more? Check out these expansions!
-
-{{% rules-block heading="??" %}}
-
-@TODO
-
-IDEAS:
+<!--- 
+IDEAS FOR EXPANSIONS:
 * Some obstacles require _two_ players to be in the room to lift them. (These obstacles are already in base material. We can just say "any obstacle that takes more than 2 spaces requires 2 players.")
 * At the end of each round, increase the round counter. Some eggs will now _spoil_: the hiders should remove them from the game. => I keep thinking this is problematic, because the Hiders will forget exactly what or where they are. It's easier if they get a phase after _every round_ (and the eggs are faceup anyway) to check all of them. But is that fun?
   * Maybe it's better if it's a more general rule like "the players pick one egg in a room where they are. It spoils and is removed without scoring."
@@ -68,7 +61,4 @@ IDEAS:
 * Multiple-storied buildings connected with staircases => this is the "garden" expansion that also adds garden tiles. It's recommended to keep rooms and gardens as their own group, instead of randomly alternating them.
 * Special Eggs => when collected, you just take its unique action.
   * Such as giving the Hiders an extra opportunity to check what's underneath what.
-
-{{% /rules-block %}}
-
-{{% /rules-block %}}
+--->

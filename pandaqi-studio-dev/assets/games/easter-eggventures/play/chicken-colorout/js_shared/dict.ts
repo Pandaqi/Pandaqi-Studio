@@ -22,6 +22,7 @@ interface TileGridCell
 
 interface TileCustomData
 {
+    slotType?: string, // original key in REQUIREMENTS dict
     slotReq?: SlotRequirement[],
     slotReqRect?: Rectangle,
     scoringRule?: string,
@@ -90,19 +91,21 @@ interface RequirementData
     multiSpriteDict?: Record<string,any>,
     arrow?: boolean, // whether it needs an arrow around itself
     set?: string,
-    prob?: number
+    prob?: number,
+    forbidSingleSlot?: boolean, // if true, this NEEDS multiple egg slots
 }
 
+const includedEggs = Object.keys(EGGS_SHARED).slice(0,CONFIG.generation.maxNumEggs);
 const REQUIREMENTS:Record<string, RequirementData> =
 {
-    egg: { desc: "Each egg played here must be this type", descNeg: "Each egg played here must NOT be this type.", multiSpriteOptions: Object.keys(EGGS_SHARED).slice(0,CONFIG.generation.maxNumEggs), multiSpriteKey: "eggs", multiSpriteDict: EGGS_SHARED, set: "base", prob: 2.25 },
-    hand: { frame: 1, desc: "Play the type of egg you have the MOST or the LEAST.", descNeg: "You CAN'T play the type of egg you have the MOST or the LEAST.", set: "tiles",prob: 0.75 },
+    egg: { desc: "Each egg played here must be this type", descNeg: "Each egg played here must NOT be this type.", multiSpriteOptions: includedEggs, multiSpriteKey: "eggs", multiSpriteDict: EGGS_SHARED, set: "base", prob: 2.25 },
+    hand: { frame: 1, desc: "Play the type of egg you have the MOST or the LEAST.", descNeg: "You CAN'T play the type of egg you have the MOST or the LEAST.", set: "tiles", prob: 0.75 },
     board: { frame: 2, desc: "Play the type of egg that appears the MOST or the LEAST on the board.", descNeg: "You CAN'T play the type of egg that appears the MOST or the LEAST on the board.", set: "base", prob: 1.0 },
     skull: { frame: 3, desc: "Play any egg that hasn't been played yet this round, but take no action.", descNeg: "Play any egg that has already been played this round, but take no action.", set: "tiles", prob: 1.25 },
-    rainbow: { frame: 4, desc: "Each egg played to this slot must be a different type.", descNeg: "Each egg played to this slot must be the same type.", set: "base", prob: 1.0 },
-    rainbow_arrow: { frame: 4, desc: "Each egg played to this slot must be a type that does NOT exist on the neighbor to which the arrow points.", descNeg: "Each egg played to this slot must be a type that EXISTS on the neighbor to which the arrow points.", arrow: true, set: "base", prob: 1.5 },
+    rainbow: { frame: 4, desc: "Each egg played to this slot must be a different type.", descNeg: "Each egg played to this slot must be the same type.", set: "base", prob: 1.0, forbidSingleSlot: true },
+    rainbow_arrow: { frame: 4, desc: "Each egg played to this slot must be a type that does NOT exist on the neighbor to which the arrow points.", descNeg: "Each egg played to this slot must be a type that EXISTS on the neighbor to which the arrow points.", arrow: true, set: "base", prob: 2.0 },
     pawn_arrow: { frame: 5, desc: "Play any egg here if there's a Pawn on the neighbor to which the arrow points.", descNeg: "Play any egg here if there is NO pawn on the neighbor to which the arrow points.", arrow: true, set: "tiles", prob: 1.25 },
-    seeker: { frame: 6, desc: "Each egg played here must be a type that the Seeker can currently see.", descNeg: "Each egg played here CAN'T be a type that the Seeker can currently see.", set: "base", prob: 1.33 }
+    seeker: { frame: 6, desc: "Each egg played here must be a type that the Seeker can currently see.", descNeg: "Each egg played here CAN'T be a type that the Seeker can currently see.", set: "base", prob: 1.5 }
 }
 
 const ACTIONS:TileDataDict =

@@ -6,7 +6,9 @@ type: "rules"
 
 Place 4 random **Book Shelf** cards in a column on the table. (In the base game, ignore the special power on these cards.)
 
-Give each player 4 cards.
+Give each player 4 **Book Cards**.
+
+@TODO: Simple image of the different card types + setup
 
 {{% remark %}}
 Material can be downloaded from [the website](https://pandaqi.com/librarians/).
@@ -45,6 +47,8 @@ If you create **4 in a row** of the same **genre** (horizontal, vertical, or dia
 * Once used, the power is gone.
 
 Draw back up to the hand limit (which is 4 cards by default).
+
+@TODO: IMAGE
 
 <!--- Original rule said your turn ended instantly upon completing a genre, but that just feels like a useless exception at this point? --->
 
@@ -134,6 +138,8 @@ The following rule is now applied.
 
 In other words, you can "complete an author" just as you can "complete a genre". However, this only applies to authors who _wrote multiple books_. (If they only wrote one book, they have no number behind their name.)
 
+@TODO: IMAGE EXAMPLE
+
 {{% /rules-block %}}
 
 {{% rules-block heading="Story for the Ages" %}}
@@ -143,6 +149,8 @@ The following rule must now be followed.
 
 > When placing a book with a target audience, it must always be **connected** to another book that has the **same target audience**, unless none exists. 
 
+@TODO: IMAGE EXAMPLE
+
 {{% /rules-block %}}
 
 {{% rules-block heading="Song of the Sequels" %}}
@@ -151,6 +159,8 @@ Some of the books represent a series. This means their titles are the same, exce
 The following rule must now be followed.
 
 > Books in the same series must be placed in a **connected, straight line** (row or column) and sorted numerically.
+
+@TODO: IMAGE EXAMPLE
 
 {{% /rules-block %}}
 
@@ -170,6 +180,8 @@ In other words, you can't play a letter on the same letter if the number of such
 EXAMPLE: The left side of the shelf has 3 stacks. The right side has 2 stacks. Then you may not create another stack on the left, as that would imbalance the shelf too much. (You may, of course, add one on the right.)
 
 _If this proves too hard for your group, you can make any of these 3 added rules optional, especially the vertical sorting._
+
+@TODO: IMAGE EXAMPLE
 
 {{% /rules-block %}}
 

@@ -3,7 +3,7 @@ import CONFIG from "../js_shared/config";
 import { ACTION_TILES, MAP_TILES, RULES, SECRET_OBJECTIVES, TileType } from "../js_shared/dict";
 import Tile from "./tile";
 import shuffle from "js/pq_games/tools/random/shuffle";
-import { EGGS_SHARED } from "games/easter-eggventures/js_shared/dictShared";
+import { EGGS_SHARED, TileData, TileDataDict } from "games/easter-eggventures/js_shared/dictShared";
 
 export default class TilePicker
 {
@@ -56,7 +56,7 @@ export default class TilePicker
     {
         if(!CONFIG.sets.base) { return; }
 
-        // @TODO: should/could this be initialized somewhere else?
+        // could be initialized somewhere else, but this is fine too
         const tileOptions = [];
         for(const [key,data] of Object.entries(MAP_TILES))
         {
@@ -74,9 +74,10 @@ export default class TilePicker
         {
             "%tile%": tileOptions,
             "%egg%": eggOptions,
-            "%numegg%": [1,2,3,4],
-            "%numpawn%": [2,3],
-            "%side%": ["left", "right", "top", "bottom"]
+            "%numegg%": CONFIG.generation.dynamicOptions.numEggs,
+            "%numpawn%": CONFIG.generation.dynamicOptions.numPawns,
+            "%side%": CONFIG.generation.dynamicOptions.side,
+            "%row%": CONFIG.generation.dynamicOptions.row,
         }
 
         // first we expand the rule dictionary to all specific rules, all options, all variations
@@ -94,29 +95,30 @@ export default class TilePicker
 
             for(const [tempKey,tempString] of Object.entries(ruleStrings))
             {
-                let options = [];
-                let needle = "";
-    
-                for(const [keyNeedle,dataOptions] of Object.entries(dynamicRules))
-                {
-                    if(!tempString.includes(keyNeedle)) { continue; }
-                    needle = keyNeedle;
-                    options = dataOptions;
-                    break;
-                }
-    
-                const isDynamic = options.length > 0;
-                for(const option of options)
-                {
-                    const obj = Object.assign({}, data);
-                    const tempTempKey = tempKey + "_" + option;
-                    obj.desc = tempString.replace(needle, option);
-                    allRules[tempTempKey] = obj;
-                }
-    
-                if(!isDynamic)
+                const results = this.fillInDynamicData(tempKey, tempString, data, dynamicRules);
+                const isDynamic = (results != null);
+
+                // if not dynamic, just do nothing and set it to the original data
+                if(isDynamic)
                 {
                     allRules[key] = data;
+                    continue;
+                }
+                
+                // this is necessary for types that have TWO dynamic components
+                // (the data2.desc, data2 arguments look weird => but that's because now we don't pick positive/negative anymore, we're stuck with what we already picked which simplifies that)
+                // ugly but it works
+                for(const [key2,data2] of Object.entries(results))
+                {
+                    const results2 = this.fillInDynamicData(key2, data2.desc, data2, dynamicRules);
+                    if(!results2) { continue; }
+                    Object.assign(results, results2);
+                }
+
+                // finally add all the newly generated elements to the rules options
+                for(const [keyFinal, dataFinal] of Object.entries(results))
+                {
+                    allRules[keyFinal] = dataFinal;
                 }
             }
         }
@@ -155,6 +157,33 @@ export default class TilePicker
             this.tiles.push(new Tile(TileType.RULE, ruleKey, customData));
         }
 
+    }
+
+    fillInDynamicData(key:string, str:string, data:TileData, dynamicRules:Record<string,any>) : TileDataDict
+    {
+        let options = [];
+        let needle = "";
+
+        for(const [keyNeedle,dataOptions] of Object.entries(dynamicRules))
+        {
+            if(!str.includes(keyNeedle)) { continue; }
+            needle = keyNeedle;
+            options = dataOptions;
+            break;
+        }
+
+        const nothingChanged = (options.length <= 0);
+        if(nothingChanged) { return null; }
+
+        const results : TileDataDict = {};
+        for(const option of options)
+        {
+            const obj:TileData = Object.assign({}, data);
+            const tempKey = key + "_" + option;
+            obj.desc = str.replace(needle, option);
+            results[tempKey] = obj;
+        }
+        return results;
     }
 
     generateActionTiles()
