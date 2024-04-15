@@ -1,0 +1,52 @@
+@use "sass:map";
+
+$header-font: "gargle";
+$body-font: "gargle";
+$base: "/easter-eggventures/assets/";
+$base-fonts: $base + "fonts/";
+
+$bg-col: #FCFCFC;
+$text-col: #111111;
+
+$col1: red;
+$col2: blue;
+$col3: green;
+
+body {
+    font-family: $body-font;
+    background-color: $bg-col;
+    color: $text-col;
+    font-size: calc(15px + 0.390625vw);
+    line-height: 120%;
+    box-sizing: border-box;
+}
+
+h1, h2, h3, h4 {
+    font-family: $header-font;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'GargleRg-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'GargleRg-Italic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'GargleRg-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+

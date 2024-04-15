@@ -19,6 +19,10 @@ export default (tile:MaterialEaster, vis:MaterialVisualizer, group:ResourceGroup
     const typeTextOffsetY = vis.get("tiles.typeText.edgeOffsetY");
 
     let color = tile.invertColors() ? "#FFFFFF" : "#000000";
+    if(vis.inkFriendly) { color = "#000000"; }
+    let alpha = vis.get("tiles.typeText.alpha");
+    if(vis.inkFriendly) { alpha *= 0.5; }
+    const composite = vis.inkFriendly ? "source-over" : vis.get("tiles.typeText.composite");
 
     for(let i = 0; i < 2; i++)
     {
@@ -31,8 +35,8 @@ export default (tile:MaterialEaster, vis:MaterialVisualizer, group:ResourceGroup
             translate: pos,
             dims: new Point(0.5*vis.size.x, 2*textConfig.size),
             pivot: Point.CENTER,
-            alpha: vis.get("tiles.typeText.alpha"),
-            composite: vis.get("tiles.typeText.composite"),
+            alpha: alpha,
+            composite: composite,
             rotation: (i == 0 ? 0 : Math.PI),
             fill: color
         })

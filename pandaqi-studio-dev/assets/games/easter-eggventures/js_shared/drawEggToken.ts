@@ -9,7 +9,8 @@ export default (tile:MaterialEaster, vis:MaterialVisualizer, group:ResourceGroup
     const res = vis.getResource("eggs");
     const op = new LayoutOperation({
         dims: vis.size,
-        frame: tile.getData().frame
+        frame: tile.getData().frame,
+        effects: vis.inkFriendlyEffect
     })
     group.add(res, op);
 }

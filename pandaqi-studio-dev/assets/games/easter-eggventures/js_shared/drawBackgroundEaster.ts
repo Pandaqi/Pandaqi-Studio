@@ -30,8 +30,11 @@ export default (tile:MaterialEaster, vis:MaterialVisualizer, group:ResourceGroup
         dims: vis.size,
         frame: frame,
         alpha: alpha,
+        effects: vis.inkFriendlyEffect,
     })
     group.add(res, op);
+
+    if(vis.inkFriendly) { return; }
 
     // gradient
     const resMisc = vis.getResource("misc");

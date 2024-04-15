@@ -29,7 +29,7 @@ export default class Tile extends MaterialEaster
     getData() { return MATERIAL[this.type][this.key]; }
     needsText() { return false; }
 
-    async draw(vis)
+    async draw(vis:MaterialVisualizer)
     {
         const ctx = createContext({ size: vis.size });
         const group = new ResourceGroup();
@@ -56,7 +56,8 @@ export default class Tile extends MaterialEaster
         const op = new LayoutOperation({
             translate: new Point(),
             dims: vis.size,
-            frame: data.frame
+            frame: data.frame,
+            effects: vis.inkFriendlyEffect
         });
 
         group.add(res, op);
@@ -78,7 +79,8 @@ export default class Tile extends MaterialEaster
             translate: posFinal,
             dims: vis.get("tiles.rooms.hidingSlotDims"),
             pivot: Point.CENTER,
-            frame: vis.get("tiles.rooms.hidingSlotFrame")
+            frame: vis.get("tiles.rooms.hidingSlotFrame"),
+            effects: vis.inkFriendlyEffect
         });
         group.add(res, op);
     }
@@ -92,7 +94,8 @@ export default class Tile extends MaterialEaster
             translate: vis.center,
             dims: obstacleDims,
             frame: data.frame,
-            pivot: Point.CENTER
+            pivot: Point.CENTER,
+            effects: vis.inkFriendlyEffect
         });
         group.add(res, op);
     }

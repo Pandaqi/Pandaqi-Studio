@@ -1,23 +1,18 @@
+import drawBackgroundEaster from "games/easter-eggventures/js_shared/drawBackgroundEaster";
+import drawIllustrationEaster from "games/easter-eggventures/js_shared/drawIllustrationEaster";
+import drawPawnsEaster from "games/easter-eggventures/js_shared/drawPawnsEaster";
+import drawTextEaster from "games/easter-eggventures/js_shared/drawTextEaster";
+import drawTypeTextEaster from "games/easter-eggventures/js_shared/drawTypeTextEaster";
+import MaterialEaster from "games/easter-eggventures/js_shared/materialEaster";
 import createContext from "js/pq_games/layout/canvas/createContext";
-import fillResourceGroup from "js/pq_games/layout/canvas/fillResourceGroup";
-import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
-import GrayScaleEffect from "js/pq_games/layout/effects/grayScaleEffect";
-import LayoutEffect from "js/pq_games/layout/effects/layoutEffect";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
 import TextConfig, { TextWeight } from "js/pq_games/layout/text/textConfig";
+import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
 import Point from "js/pq_games/tools/geometry/point";
 import { MATERIAL, TYPE_DATA, TileType } from "../js_shared/dict";
-import { MISC_SHARED } from "games/easter-eggventures/js_shared/dictShared";
-import MaterialEaster from "games/easter-eggventures/js_shared/materialEaster";
-import drawBackgroundEaster from "games/easter-eggventures/js_shared/drawBackgroundEaster";
-import drawIllustrationEaster from "games/easter-eggventures/js_shared/drawIllustrationEaster";
-import drawPawnsEaster from "games/easter-eggventures/js_shared/drawPawnsEaster";
-import drawTypeTextEaster from "games/easter-eggventures/js_shared/drawTypeTextEaster";
-import drawTextEaster from "games/easter-eggventures/js_shared/drawTextEaster";
-import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
 
 export default class Tile extends MaterialEaster
 {
@@ -100,12 +95,14 @@ export default class Tile extends MaterialEaster
             const pos = vis.get("tiles.eggNumber.position")
 
             const resText = new ResourceText({ text: text, textConfig: textConfig });
+            const fillColor = vis.inkFriendly ? "#000000" : vis.get("tiles.eggNumber.fillColor");
+            const strokeColor = vis.inkFriendly ? "#FFFFFF" : vis.get("tiles.eggNumber.strokeColor");
             const textOp = new LayoutOperation({
                 translate: pos,
                 dims: textDims,
                 pivot: Point.CENTER,
-                fill: vis.get("tiles.eggNumber.fillColor"),
-                stroke: vis.get("tiles.eggNumber.strokeColor"),
+                fill: fillColor,
+                stroke: strokeColor,
                 strokeWidth: vis.get("tiles.eggNumber.strokeWidth"),
                 strokeAlign: StrokeAlign.OUTSIDE,
                 alpha: vis.get("tiles.eggNumber.alpha"),

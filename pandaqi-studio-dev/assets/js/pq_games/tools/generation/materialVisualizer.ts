@@ -1,6 +1,7 @@
 import ResourceLoader from "js/pq_games/layout/resources/resourceLoader";
 import Configurator from "./configurator";
 import Point from "../geometry/point";
+import GrayScaleEffect from "js/pq_games/layout/effects/grayScaleEffect";
 
 export default class MaterialVisualizer
 {
@@ -11,6 +12,7 @@ export default class MaterialVisualizer
     sizeUnit: number;
     center: Point;
     custom: any;
+    inkFriendlyEffect: GrayScaleEffect[]
 
     constructor(config)
     {
@@ -22,6 +24,7 @@ export default class MaterialVisualizer
         }
 
         this.inkFriendly = config.inkFriendly;
+        this.inkFriendlyEffect = this.inkFriendly ? [new GrayScaleEffect()] : [];
         this.size = config.itemSize ? config.itemSize.clone() : new Point(512, 512);
         
         this.configurator = new Configurator();

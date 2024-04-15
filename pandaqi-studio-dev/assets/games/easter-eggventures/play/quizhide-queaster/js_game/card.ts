@@ -44,6 +44,7 @@ export default class Card
             translate: new Point(),
             frame: this.customData.num,
             dims: vis.size,
+            effects: vis.inkFriendlyEffect
         })
         group.add(res, op);
     }
@@ -76,7 +77,8 @@ export default class Card
                 translate: new Point(pos.x - eggDims.x, pos.y),
                 dims: eggDims,
                 frame: EGGS_SHARED[key].frame,
-                pivot: Point.CENTER
+                pivot: Point.CENTER,
+                effects: vis.inkFriendlyEffect
             })
             group.add(resEggs, opEggs);
 

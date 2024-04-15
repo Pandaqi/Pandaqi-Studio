@@ -1,25 +1,20 @@
+import drawBackgroundEaster from "games/easter-eggventures/js_shared/drawBackgroundEaster";
+import drawEggToken from "games/easter-eggventures/js_shared/drawEggToken";
+import drawPawnsEaster from "games/easter-eggventures/js_shared/drawPawnsEaster";
+import MaterialEaster from "games/easter-eggventures/js_shared/materialEaster";
 import createContext from "js/pq_games/layout/canvas/createContext";
-import fillResourceGroup from "js/pq_games/layout/canvas/fillResourceGroup";
+import Color from "js/pq_games/layout/color/color";
 import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
-import GrayScaleEffect from "js/pq_games/layout/effects/grayScaleEffect";
-import LayoutEffect from "js/pq_games/layout/effects/layoutEffect";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
+import ResourceImage from "js/pq_games/layout/resources/resourceImage";
+import ResourceShape from "js/pq_games/layout/resources/resourceShape";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
 import TextConfig, { TextWeight } from "js/pq_games/layout/text/textConfig";
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
 import Point from "js/pq_games/tools/geometry/point";
-import { MATERIAL, MISC_UNIQUE, TYPE_DATA, TileType } from "../js_shared/dict";
-import { MISC_SHARED } from "games/easter-eggventures/js_shared/dictShared";
-import MaterialEaster from "games/easter-eggventures/js_shared/materialEaster";
-import drawPawnsEaster from "games/easter-eggventures/js_shared/drawPawnsEaster";
-import drawBackgroundEaster from "games/easter-eggventures/js_shared/drawBackgroundEaster";
-import drawIllustrationEaster from "games/easter-eggventures/js_shared/drawIllustrationEaster";
-import drawEggToken from "games/easter-eggventures/js_shared/drawEggToken";
-import ResourceImage from "js/pq_games/layout/resources/resourceImage";
 import Rectangle from "js/pq_games/tools/geometry/rectangle";
-import Color from "js/pq_games/layout/color/color";
-import ResourceShape from "js/pq_games/layout/resources/resourceShape";
+import { MATERIAL, MISC_UNIQUE, TYPE_DATA, TileType } from "../js_shared/dict";
 
 const HELPER_LABELS =
 {
@@ -85,7 +80,8 @@ export default class Tile extends MaterialEaster
             translate: vis.center,
             frame: frame,
             dims: vis.get("tiles.map.iconDims"),
-            pivot: Point.CENTER
+            pivot: Point.CENTER,
+            effects: vis.inkFriendlyEffect
         });
         group.add(res, op);
     }
@@ -98,7 +94,8 @@ export default class Tile extends MaterialEaster
         const op = new LayoutOperation({
             translate: new Point(),
             dims: vis.size,
-            frame: frame
+            frame: frame,
+            effects: vis.inkFriendlyEffect
         })
         group.add(res, op);
 
@@ -114,8 +111,8 @@ export default class Tile extends MaterialEaster
         if(this.type == TileType.ACTION) { positions = [positions[1]]; }
         if(this.type == TileType.OBJECTIVE) { positions = [new Point(vis.center.x, vis.size.y - 1*yOffset)]; }
 
-        const color = this.type == TileType.OBJECTIVE ? "#7F0100" : "#000000";
-        const composite = this.type == TileType.OBJECTIVE ? "source-over" : "overlay";
+        const color = (this.type == TileType.OBJECTIVE && !vis.inkFriendly) ? "#7F0100" : "#000000";
+        const composite = (this.type == TileType.OBJECTIVE || vis.inkFriendly) ? "source-over" : "overlay";
 
         const labels = HELPER_LABELS[this.type].slice();
         for(let i = 0; i < positions.length; i++)
@@ -199,7 +196,7 @@ export default class Tile extends MaterialEaster
         if(this.type == TileType.ACTION)
         {
             const res = vis.getResource("action_tiles");
-            const effects = [glowEffect];
+            const effects = [glowEffect, vis.inkFriendlyEffect].flat();
             const op = new LayoutOperation({
                 translate: vis.get("tiles.action.iconPos"),
                 dims: vis.get("tiles.action.iconDims"),
@@ -214,7 +211,7 @@ export default class Tile extends MaterialEaster
         {
             const res = vis.getResource("misc_unique");
             const frame = MISC_UNIQUE.icon_objective.frame;
-            const effects = [shadowEffect];
+            const effects = [shadowEffect, vis.inkFriendlyEffect].flat();
             const op = new LayoutOperation({
                 translate: vis.get("tiles.objective.iconPos"),
                 dims: vis.get("tiles.objective.iconDims"),
@@ -228,7 +225,7 @@ export default class Tile extends MaterialEaster
         if(this.type == TileType.RULE)
         {
             const res = this.drawMovementGrid(vis);
-            const effects = [shadowEffect];
+            const effects = [shadowEffect, vis.inkFriendlyEffect].flat();
             const op = new LayoutOperation({
                 translate: vis.get("tiles.movementGrid.pos"),
                 dims: vis.get("tiles.movementGrid.dims"),
@@ -248,8 +245,8 @@ export default class Tile extends MaterialEaster
         const text = this.getData().desc;
 
         const pos = this.type == TileType.OBJECTIVE ? vis.get("tiles.objective.textBoxPos") : vis.get("tiles.powerText.textBoxPos");
-        const color = this.type == TileType.OBJECTIVE ? "#000000" : "#FFFFFF";
-        const effects = this.type == TileType.OBJECTIVE ? [] : [shadowEffect];
+        const color = (this.type == TileType.OBJECTIVE && !vis.inkFriendly) ? "#000000" : "#FFFFFF";
+        const effects = (this.type == TileType.OBJECTIVE && !vis.inkFriendly) ? [] : [shadowEffect];
 
         const textRes = new ResourceText({ text: text, textConfig: textConfig });
         const op = new LayoutOperation({

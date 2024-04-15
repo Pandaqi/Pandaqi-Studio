@@ -107,8 +107,7 @@ const CONFIG:any =
                 small: new Point(4,4),
                 regular: new Point(3,3),
                 large: new Point(2,2)
-            },
-            
+            },  
         },
 
         generation:

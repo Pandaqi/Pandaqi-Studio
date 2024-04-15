@@ -30,12 +30,13 @@ export default (tile:MaterialEaster, vis:MaterialVisualizer, group:ResourceGroup
         size: vis.get("tiles.text.fontSize")
     }).alignCenter();
 
+    const textColor = "#000000";
     const resText = new ResourceText({ text: text, textConfig: textConfig });
     const textOp = new LayoutOperation({
         translate: vis.get("tiles.text.translate"),
         dims: vis.get("tiles.text.dims"),
         pivot: Point.CENTER,
-        fill: "#000000",
+        fill: textColor,
     })
 
     group.add(resText, textOp);
