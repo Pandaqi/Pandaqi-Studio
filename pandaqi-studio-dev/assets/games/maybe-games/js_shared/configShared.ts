@@ -1,4 +1,4 @@
-import TextConfig, { TextWeight } from "js/pq_games/layout/text/textConfig";
+import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textConfig";
 import CVal from "js/pq_games/tools/generation/cval";
 import Point from "js/pq_games/tools/geometry/point";
 
@@ -6,25 +6,40 @@ const CONFIG_SHARED =
 {
     fonts:
     {
-        heading: "gargle",
-        body: "gargle"
+        body: "dejavu"
     },
 
     assets:
     {
-        gargle:
+        dejavu:
         {
-            key: "gargle",
-            path: "/easter-eggventures/assets/fonts/GargleRg-Regular.woff2",
+            key: "dejavu",
+            path: "/maybe-games/assets/fonts/DejaVuSansCondensed.woff2",
             useAbsolutePath: true
         },
 
-        gargle_bold:
+        dejavu_bold:
         {
-            key: "gargle",
-            path: "/easter-eggventures/assets/fonts/GargleRg-Bold.woff2",
+            key: "dejavu",
+            path: "/maybe-games/assets/fonts/DejaVuSansCondensed-Bold.woff2",
             useAbsolutePath: true,
             textConfig: new TextConfig({ weight: TextWeight.BOLD })
+        },
+
+        dejavu_italic:
+        {
+            key: "dejavu",
+            path: "/maybe-games/assets/fonts/DejaVuSansCondensed-Oblique.woff2",
+            useAbsolutePath: true,
+            textConfig: new TextConfig({ style: TextStyle.ITALIC })
+        },
+
+        dejavu_bold_italic:
+        {
+            key: "dejavu",
+            path: "/maybe-games/assets/fonts/DejaVuSansCondensed-BoldOblique.woff2",
+            useAbsolutePath: true,
+            textConfig: new TextConfig({ weight: TextWeight.BOLD, style: TextStyle.ITALIC })
         },
     },
 
@@ -32,6 +47,7 @@ const CONFIG_SHARED =
     {
         drawerConfig:
         {
+            autoStroke: true,
             dimsElement: new Point(1, 1.4),
             dims: { 
                 small: new Point(4,4),
@@ -45,6 +61,7 @@ const CONFIG_SHARED =
     {
         drawerConfig:
         {
+            autoStroke: true,
             dimsElement: new Point(1, 1.4),
             dims: { 
                 small: new Point(6,6),

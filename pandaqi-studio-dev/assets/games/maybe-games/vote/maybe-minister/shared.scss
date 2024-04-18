@@ -1,12 +1,12 @@
 // @TODO; for any reused colors or special blocks or whatever for THIS PARTICULAR GAME
 
-$header-font: "trebek";
-$base: "/maybe-games/vote/maybe-missions/assets/";
+$header-font: "blackwood";
+$base: "/maybe-games/vote/maybe-minister/assets/";
 $base-fonts: $base + "fonts/";
 
 @font-face {
     font-family: $header-font;
-    src: url($base-fonts + 'StarTrebek.woff2') format('woff2');
+    src: url($base-fonts + 'BlackwoodCastle.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
     font-display: swap;

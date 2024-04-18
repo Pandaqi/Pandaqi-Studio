@@ -1,10 +1,11 @@
 import shuffle from "js/pq_games/tools/random/shuffle";
 import CONFIG from "../js_shared/config";
-import { CardResourceData, CardType, DYNAMIC_OPTIONS, IdentityCardData, IdentityCardType, MASTER_CARDS, MissionType, PUBLIC_IDENTITIES, RESOURCES, SECRET_IDENTITIES } from "../js_shared/dict";
+import { CardResourceData, CardType, DYNAMIC_OPTIONS, IdentityCardData, IdentityCardType, MASTER_CARDS, MissionType, PUBLIC_IDENTITIES, RANDOM_TEXTS, RESOURCES, SECRET_IDENTITIES } from "../js_shared/dict";
 import Card from "./card";
 import Bounds from "js/pq_games/tools/numbers/bounds";
 import getAllPossibleCombinations from "js/pq_games/tools/collections/getAllPossibleCombinations";
 import getWeighted from "js/pq_games/tools/random/getWeighted";
+import fromArray from "js/pq_games/tools/random/fromArray";
 
 interface IdentityDictSorted
 {
@@ -33,16 +34,23 @@ export default class CardPicker
         const d:CardResourceData = { good: [], bad: [] };
         const maxBadDiff = CONFIG.generation.maxDeviationBadIcons;
 
-        const numIconsGood = CONFIG.generation.numResourceIcons.randomInteger();
+        const numIconsGood = CONFIG.generation.numResourcesPerSide.randomInteger();
         const numIconsBad = new Bounds( Math.max(1, numIconsGood-maxBadDiff), numIconsGood).randomInteger();
 
-        const optionsGood = combos[numIconsGood];
-        if(optionsGood.length <= 0) { combos[numIconsGood] = shuffle(combosBackup[numIconsGood].slice()); }
-
-        const optionsBad = combos[numIconsBad];
-        if(optionsBad.length <= 0) { combos[numIconsBad] = shuffle(combosBackup[numIconsBad].slice()); }
-
+        let optionsGood = combos[numIconsGood];
+        if(optionsGood.length <= 0) 
+        { 
+            optionsGood = shuffle(combosBackup[numIconsGood].slice()); 
+            combos[numIconsGood] = optionsGood;
+        }
         const iconsGood = optionsGood.pop();
+
+        let optionsBad = combos[numIconsBad];
+        if(optionsBad.length <= 0)
+        { 
+            optionsBad = shuffle(combosBackup[numIconsBad].slice()); 
+            combos[numIconsBad] = optionsBad;
+        }
         const iconsBad = optionsBad.pop();
 
         let iconGoodAlreadyCrossedOut = false;
@@ -69,9 +77,9 @@ export default class CardPicker
         if(!CONFIG.sets.base) { return; }
 
         // generate all combos until upper limit
-        const maxNumIcons = CONFIG.generation.maxNumIconsPerSide;
+        const maxNumIcons = CONFIG.generation.numResourcesPerSide.max;
         const resourceOptions = Object.keys(RESOURCES);
-        const combos = [];
+        const combos = [[]];
         for(let i = 1; i <= maxNumIcons; i++)
         {
             combos.push( shuffle(getAllPossibleCombinations(resourceOptions, i)) );
@@ -84,6 +92,7 @@ export default class CardPicker
         {
             const newCard = new Card(CardType.MISSION, MissionType.MISSION);
             newCard.setResources( this.drawRandomResources(combos, combosBackup) );
+            newCard.setRandomText( fromArray(RANDOM_TEXTS) );
             this.cards.push(newCard);
         }
 
@@ -101,14 +110,48 @@ export default class CardPicker
             const newCard = new Card(CardType.MISSION, MissionType.MASTER);
             newCard.setResources( this.drawRandomResources(combos, combosBackup) );
             newCard.setRule(masterRules.pop());
+            newCard.setMasterIcon( CONFIG.generation.masterCardIconsRange.randomInteger() );
             this.cards.push(newCard);
         }
+
+        // DEBUGGING (to check if distribution is somewhat fair)
+        const stats = {};
+        for(const res of Object.keys(RESOURCES))
+        {
+            stats[res] = { freq: 0, normal: 0, cross: 0 };
+        }
+
+        const registerResource = (stats, iconData) => 
+        {
+            const tp = iconData.type;
+            stats[tp].freq++;
+            if(iconData.cross) { stats[tp].cross++; }
+            else { stats[tp].normal++; }
+        }
+
+        for(const card of this.cards)
+        {
+            if(!card.hasResources()) { continue; }
+           
+            const r = card.resources;
+            for(const iconData of r.good)
+            {
+                registerResource(stats, iconData);
+            }
+            
+            for(const iconData of r.bad)
+            {
+                registerResource(stats, iconData);
+            }
+        }
+
+        console.log("== RESOURCE DISTRIBUTION STATS ==");
+        console.log(stats);
     }
 
-    fillDynamicEntry(s:string)
+    fillDynamicEntry(s:string, needles:Record<string, any[]>)
     {
         let foundNeedle = true;
-        const needles = DYNAMIC_OPTIONS;
         while(foundNeedle)
         {
             foundNeedle = false;
@@ -116,8 +159,8 @@ export default class CardPicker
             {
                 if(!s.includes(needle)) { continue; }
                 foundNeedle = true;
-                const options = shuffle(needles[needle].slice());
-                s.replace(needle, options.pop());
+                const options = shuffle(needles[needle]);
+                s = s.replace(needle, options.pop());
             }
         }
         return s;
@@ -129,8 +172,12 @@ export default class CardPicker
         const optionGood = getWeighted(dict.good);
         const optionBad = getWeighted(dict.bad);
 
-        d.good = this.fillDynamicEntry(dict.good[optionGood].desc);
-        d.bad = this.fillDynamicEntry(dict.bad[optionBad].desc);
+        // this SHOULD also make all arrays unique (".slice")
+        // so we can actually .pop() options and prevent duplicates within the same card
+        const replacementOptions = structuredClone(DYNAMIC_OPTIONS); 
+
+        d.good = this.fillDynamicEntry(dict.good[optionGood].desc, replacementOptions);
+        d.bad = this.fillDynamicEntry(dict.bad[optionBad].desc, replacementOptions);
 
         return d;
     }

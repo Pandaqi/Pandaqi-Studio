@@ -1,7 +1,17 @@
 import createContext from "js/pq_games/layout/canvas/createContext";
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
-import { CardPowerData, CardResourceData, CardSubType, CardType } from "../js_shared/dict";
+import { CARD_TEMPLATES, CardPowerData, CardResourceData, CardSubType, CardType, IdentityCardType, MASTER_CARDS, MISC, MissionType, RESOURCES, VoteType } from "../js_shared/dict";
+import Point from "js/pq_games/tools/geometry/point";
+import LayoutOperation from "js/pq_games/layout/layoutOperation";
+import getPositionsCenteredAround from "js/pq_games/tools/geometry/paths/getPositionsCenteredAround";
+import TextConfig from "js/pq_games/layout/text/textConfig";
+import ResourceText from "js/pq_games/layout/resources/resourceText";
+import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
+import Rectangle from "js/pq_games/tools/geometry/rectangle";
+import BlurEffect from "js/pq_games/layout/effects/blurEffect";
+import ResourceShape from "js/pq_games/layout/resources/resourceShape";
+import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
 
 export default class Card
 {
@@ -12,6 +22,9 @@ export default class Card
     resources: CardResourceData;
     powers: CardPowerData;
 
+    randomText: string;
+    masterIconFrame: number;
+
     constructor(t:CardType, s:CardSubType)
     {
         this.type = t;
@@ -21,6 +34,14 @@ export default class Card
     setRule(r:string) { this.rule = r; }
     setResources(d:CardResourceData) { this.resources = d; }
     setPowers(p:CardPowerData) { this.powers = p; }
+    setRandomText(t:string) { this.randomText = t; }
+    setMasterIcon(f:number) { this.masterIconFrame = f; }
+
+    isVote() { return this.type == CardType.VOTE; }
+    hasRandomText() { return this.randomText != undefined; }
+    hasRule() { return this.rule != undefined; }
+    hasResources() { return this.resources != undefined; }
+    hasPowers() { return this.powers != undefined; }
 
     async draw(vis:MaterialVisualizer)
     {
@@ -37,18 +58,225 @@ export default class Card
 
     drawBackground(vis:MaterialVisualizer, group:ResourceGroup)
     {
-        // @TODO: draw any colors/texture/rects needed for background
+        // card template (does most of the heavy lifting)
+        const res = vis.getResource("card_templates");
+        let key = "";
+        if(this.type == CardType.MISSION) {
+            if(this.subType == MissionType.MISSION) { key = "mission"; }
+            else { key = "master"; }
+        } else if(this.type == CardType.IDENTITY) {
+            if(this.subType == IdentityCardType.PRIVATE) { key = "identity_private"; }
+            else { key = "identity_public"; }
+        } else if(this.type == CardType.VOTE) {
+            if(this.subType == VoteType.YES) { key = "vote_yes"; }
+            else { key = "vote_no"; }
+        }
+        const frame = CARD_TEMPLATES[key].frame;
+        const op = new LayoutOperation({
+            translate: new Point(),
+            dims: vis.size,
+            frame: frame,
+            effects: vis.inkFriendlyEffect
+        });
+        group.add(res, op);
     }
 
     drawResources(vis:MaterialVisualizer, group:ResourceGroup)
     {
-        // @TODO: draw icons at top and bottom side
+        if(!this.hasResources()) { return; }
+
+        const offsetY = vis.get("cards.resources.iconOffset").y;
+        const iconDims = vis.get("cards.resources.iconDims");
+
+        const iconOffsetCross = new Point(0, iconDims.y * vis.get("cards.resources.iconCrossOffsetY"));
+        const iconDimsCross = iconDims.clone().scale(vis.get("cards.resources.iconDimsCrossFactor"));
+        const resIcon = vis.getResource("misc");
+
+        const dropShadowEffect = new DropShadowEffect({ blurRadius: vis.get("cards.shared.dropShadowRadius")});
+        const effects = [dropShadowEffect, vis.inkFriendlyEffect].flat();
+
+        for(let i = 0; i < 2; i++)
+        {
+            const type = i == 0 ? "good" : "bad";
+            const resources = this.resources[type];
+            const anchor = new Point(vis.center.x, offsetY);
+            if(type == "bad") { anchor.y = vis.size.y - offsetY; }
+
+            const pos = getPositionsCenteredAround({ 
+                pos: anchor,
+                num: resources.length,
+                dims: iconDims,
+            });
+
+            for(let a = 0; a < pos.length; a++)
+            {
+                const data = resources[a];
+                const tempPos = pos[a];
+                const opIcon = new LayoutOperation({
+                    translate: tempPos,
+                    frame: RESOURCES[data.type].frame,
+                    dims: iconDims,
+                    pivot: Point.CENTER,
+                    effects: effects
+                });
+                group.add(resIcon, opIcon);
+
+                if(!data.cross) { continue; }
+
+                const opCross = new LayoutOperation({
+                    translate: tempPos.clone().add(iconOffsetCross),
+                    dims: iconDimsCross,
+                    frame: MISC.cross.frame,
+                    pivot: Point.CENTER,
+                    effects: effects
+                })
+                group.add(resIcon, opCross);
+            }
+        }
     }
 
     drawSpecial(vis:MaterialVisualizer, group:ResourceGroup)
     {
-        // @TODO: draw whatever is in the middle
-        // Probably IMAGE + RULE for Master cards
-        // And some random "break into vault" and "shoot the guard" texts for any other cards? Or just empty?
+        this.drawRandomText(vis, group);
+        this.drawVoteNumber(vis, group);
+        this.drawRule(vis, group);
+        this.drawPowers(vis, group);
+    }
+
+    drawRandomText(vis:MaterialVisualizer, group:ResourceGroup)
+    {
+        if(!this.hasRandomText()) { return; }
+
+        const textConfig = new TextConfig({
+            font: vis.get("fonts.heading"),
+            size: vis.get("cards.randomText.fontSize"),
+        }).alignCenter();
+
+        const textColor = vis.get("cards.randomText.color");
+        const strokeColor = vis.get("cards.randomText.colorStroke");
+        const dropShadowEffect = new DropShadowEffect({ blurRadius: vis.get("cards.shared.dropShadowRadius")});
+
+        const resText = new ResourceText({ text: this.randomText, textConfig: textConfig });
+        const textBoxDims = new Point(vis.size.x*0.925, vis.size.y);
+        const opText = new LayoutOperation({
+            translate: vis.center,
+            dims: textBoxDims,
+            fill: textColor,
+            stroke: strokeColor,
+            strokeWidth: vis.get("cards.randomText.strokeWidth"),
+            strokeAlign: StrokeAlign.OUTSIDE,
+            pivot: Point.CENTER,
+            effects: [dropShadowEffect]
+        });
+        group.add(resText, opText);
+    }
+
+    drawVoteNumber(vis:MaterialVisualizer, group:ResourceGroup)
+    {
+        if(!this.isVote()) { return; }
+
+        const textConfig = new TextConfig({
+            font: vis.get("fonts.heading"),
+            size: vis.get("votes.number.fontSize"),
+        }).alignCenter();
+
+        const textColor = vis.inkFriendly ? "#000000" : vis.get("votes.number.color");
+        const strokeColor = vis.inkFriendly ? "#FFFFFF" : vis.get("votes.number.colorStroke");
+        const pos = vis.get("votes.number.pos");
+        const dropShadowEffect = new DropShadowEffect({ blurRadius: vis.get("cards.shared.dropShadowRadius")});
+
+        const str = this.num.toString();
+        const resText = new ResourceText({ text: str, textConfig: textConfig });
+        const opText = new LayoutOperation({
+            translate: pos,
+            dims: vis.size,
+            fill: textColor,
+            stroke: strokeColor,
+            strokeWidth: vis.get("votes.number.strokeWidth"),
+            strokeAlign: StrokeAlign.OUTSIDE,
+            pivot: Point.CENTER,
+            effects: [dropShadowEffect]
+        });
+        group.add(resText, opText);
+    }
+
+    drawBlurredRect(pos:Point, dims:Point, blur:number, group:ResourceGroup)
+    {
+        const rect = new Rectangle({ center: pos, extents: dims });
+        const opRect = new LayoutOperation({
+            fill: "#FFFFFF",
+            alpha: 0.9,
+            effects: [new BlurEffect(blur)]
+        })
+        group.add(new ResourceShape(rect), opRect);
+    }
+
+    drawRule(vis:MaterialVisualizer, group:ResourceGroup)
+    {
+        if(!this.hasRule()) { return; }
+        
+        // draw the icon of the thing we're breaking into at the top
+        const resMisc = vis.getResource("misc");
+        const opIcon = new LayoutOperation({
+            translate: vis.get("cards.master.iconPos"),
+            dims: vis.get("cards.master.iconDims"),
+            frame: this.masterIconFrame,
+            pivot: Point.CENTER,
+        });
+        group.add(resMisc, opIcon);
+
+        // then the actual rule slightly below (with rect behind)
+        const rectPos = vis.get("cards.master.rectPos");
+        const rectDims = vis.get("cards.master.rectDims");
+        this.drawBlurredRect(rectPos, rectDims, vis.get("cards.master.rectBlur"), group);
+
+        const textConfig = new TextConfig({
+            font: vis.get("fonts.body"),
+            size: vis.get("cards.master.fontSize"),
+            resLoader: vis.resLoader
+        }).alignCenter();
+
+        const textColor = vis.inkFriendly ? "#FFFFFF" : vis.get("cards.master.textColor");
+        const ruleString = MASTER_CARDS[this.rule].desc;
+        const resText = new ResourceText({ text: ruleString, textConfig: textConfig });
+        const opText = new LayoutOperation({
+            translate: rectPos,
+            dims: rectDims,
+            fill: textColor,
+            pivot: Point.CENTER
+        });
+        group.add(resText, opText);
+    }
+
+    drawPowers(vis:MaterialVisualizer, group:ResourceGroup)
+    {
+        if(!this.hasPowers()) { return; }
+
+        const textConfig = new TextConfig({
+            font: vis.get("fonts.body"),
+            size: vis.get("cards.identity.fontSize"),
+            resLoader: vis.resLoader
+        }).alignCenter();
+
+        const textColor = vis.inkFriendly ? "#000000" : vis.get("cards.identity.textColor");
+        for(let i = 0; i < 2; i++)
+        {
+            const type = (i == 0) ? "good" : "bad";
+            const data = this.powers[type];
+
+            const rectPos = vis.get("cards.identity.rectPos." + type);
+            const rectDims = vis.get("cards.identity.rectDims");
+            this.drawBlurredRect(rectPos, rectDims, vis.get("cards.identity.rectBlur"), group);
+
+            const textDims = new Point(rectDims.x*0.95, rectDims.y);
+            const resText = new ResourceText({ text: data, textConfig: textConfig });
+            const opText = new LayoutOperation({
+                translate: rectPos,
+                dims: textDims,
+                fill: textColor,
+                pivot: Point.CENTER
+            });
+            group.add(resText, opText);
+        }
     }
 }

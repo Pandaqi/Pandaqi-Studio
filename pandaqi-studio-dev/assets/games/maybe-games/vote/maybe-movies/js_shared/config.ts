@@ -1,20 +1,20 @@
-import CONFIG_SHARED from "games/easter-eggventures/js_shared/configShared";
-import Point from "js/pq_games/tools/geometry/point";
+import CONFIG_SHARED from "games/maybe-games/js_shared/configShared";
 import mergeObjects from "js/pq_games/tools/collections/mergeObjects";
-import Bounds from "js/pq_games/tools/numbers/bounds";
 import CVal from "js/pq_games/tools/generation/cval";
+import Point from "js/pq_games/tools/geometry/point";
+import Bounds from "js/pq_games/tools/numbers/bounds";
 
-const CONFIG:Record<string,any> =
+const CONFIG:Record<string,any> = 
 {
     debug:
     {
-        omitFile: false, // @DEBUGGING (should be false)
-        singleDrawPerType: false, // @DEBUGGING (should be false)
+        omitFile: true, // @DEBUGGING (should be false)
+        singleDrawPerType: true, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
-    configKey: "chickenColoroutConfig",
-    fileName: "[Material] Chicken Colorout",
+    configKey: "maybeMoviesConfig",
+    fileName: "[Material] Maybe Movies",
 
     // set through user config on page
     inkFriendly: false,
@@ -23,111 +23,104 @@ const CONFIG:Record<string,any> =
     sets:
     {
         base: true,
-        score: false,
-        pawns: false,
+        breakingChanges: false,
+        blockbusterBudgets: false
+    },
+
+    fonts:
+    {
+        heading: "rialto"
     },
 
     // assets
-    assetsBase: "/easter-eggventures/play/chicken-colorout/assets/",
+    assetsBase: "/maybe-games/vote/maybe-movies/assets/",
     assets:
     {
-        tiles:
+        rialto:
         {
-            path: "tiles.webp",
-            frames: new Point(8,1)
+            key: "rialto",
+            path: "fonts/RialtoNF.woff2"
         },
 
-        requirements:
+        card_templates:
         {
-            path: "requirements.webp",
-            frames: new Point(8,1)
+            path: "card_templates.webp",
+            frames: new Point(4,1)
         },
 
-        misc_unique:
+        misc:
         {
-            path: "misc_unique.webp",
+            path: "misc.webp",
             frames: new Point(8,2)
         },
     },
 
     generation:
     {
-        maxNumEggs: 6,
-        maxNumPlayers: 6,
-        victoryEggsDistribution: { 1: 20, 5: 14, 10: 8 },
-        numExtraStarterTiles: 3,
-        requirementNegationProb: 0.25,
-        requirementNegationFrame: 0, // simply the frame of the red X symbol
-        numEggSlotDistribution:
+        numVoteCards: 60,
+        numChangeCards: 12,
+        numMovieCards: 40,
+        numBlockbusterCards: 16,
+        costIconNumBounds: new Bounds(1,3),
+        costMaxDistBetweenFreqs: 3,
+        profitModifier: new Bounds(0.66, 1.75),
+        profitBounds: new Bounds(2,6),
+        comboNumBounds:
         {
-            1: { prob: 0.125 },
-            2: { prob: 0.325 },
-            3: { prob: 0.35 },
-            4: { prob: 0.15 },
-            5: { prob: 0.05 },
-        },
-        numDecorationBounds: new Bounds(0,2),
-        numMapTiles:
-        {
-            base: 32,
-            terrific: 18
-        },
-        defaultFrequencies:
-        {
-            eggToken: 10,
-        },
-        grid:
-        {
-            dims: new Point(4,4),
-            squaresNeededForText: new Point(2,2)
+            yes: new Bounds(2,4),
+            no: new Bounds(1,2)
         }
     },
-
-    eggs:
+    
+    cards:
     {
-        victory:
+        shared:
         {
-            textPos: new CVal(new Point(0.5, 0.75), "size"),
-            fontSize: new CVal(0.235, "sizeUnit"),
-            textColor: "#000000"
-        }
-    },
-
-    tiles:
-    {
-        starter:
-        {
-            tutorialSize: new CVal(new Point(0.95), "size")
+            dropShadowRadius: new CVal(0.02, "sizeUnit")
         },
 
-        background:
+        movie:
         {
-            randomFrameBounds: new Bounds(0,3),
-            randomPatternFrameBounds: new Bounds(0,3),
-            alpha: 0.2,
-            alphaPattern: 0.08,
-            color: "#79B734"
-        },
-
-        grid:
-        {
-            spriteDimsScaleFactor: 0.9, // relative to the cellSize we end up with
-            gridLines:
+            cost:
             {
-                fillColor: "#000000",
-                alpha: 0.2,
-                width: new CVal(0.0125, "sizeUnit"),
-                composite: "overlay"
-            }
-        },
+                iconOffset: new CVal(new Point(0.0575), "sizeUnit"),
+                iconDims: new CVal(new Point(0.2), "sizeUnit"),
+            },
 
-        scoreText:
-        {
-            fontSize: new CVal(0.06, "sizeUnit"),
-            color: "#000000"
+            profit:
+            {
+                fontSize: new CVal(0.2, "sizeUnit"),
+                textColor: "#143D00"
+            },
+
+            text:
+            {
+                fontSizeSub: new CVal(0.045, "sizeUnit"),
+                fontSize: new CVal(0.1, "sizeUnit"),
+                textPosSub: new CVal(new Point(0.5, 0.375), "size"),
+                textPos: new CVal(new Point(0.5, 0.5), "size")
+            }
         }
     },
+
+    votes:
+    {
+        details:
+        {
+            fontSize: new CVal(0.4, "sizeUnit"),
+            iconDims: new CVal(new Point(0.375), "sizeUnit"),
+            textColors:
+            {
+                yes: "#143D00",
+                no: "#540000",
+                change: "#563300"
+            },
+            textPos: new CVal(new Point(0.325, 0.5), "size"), 
+            iconPos: new CVal(new Point(0.675, 0.5), "size"),
+        }
+    }
 }
 
 mergeObjects(CONFIG, CONFIG_SHARED);
+
 export default CONFIG;

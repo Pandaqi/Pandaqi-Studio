@@ -51,7 +51,7 @@ Click any of the links below to visit a specific game. They are sorted based on 
 
 * [Maybe Missions](/maybe-games/vote/maybe-missions/): propose spy missions and hope enough people want them to succeed---or deviously let them fail to benefit your own secret cover.
 * [Maybe Movies](/maybe-games/vote/maybe-movies/): pitch movie ideas that enough players would like to throw money at, or see your money go down the drain after another flop.
-* [Maybe Minister](/maybe-games/vote/maybe-minister/): propose changes to the law of the land as you try to expand your own power, but you can only do so if the majority of the other political factions agree with the changes and vote YES.
+* [Maybe Minister](/maybe-games/vote/maybe-minister/): propose changes to the law of the land as you try to expand your own power, but you can only do so if the majority of the other political factions agree.
 
 All the games use the same core mechanic: the Maybe Mechanic. A very simple ruleset about a player proposing something and others simultaneously voting YES or NO on it. But they all provide a different theme and a few unique twists, turning them into unique experiences.
 
@@ -65,6 +65,6 @@ Of course, actually developing the idea into finished games was much harder. It 
 
 It also revealed, however, that this core could be dressed up in different ways. It could be taken in different directions, and I've learned over the years to develop those into unique games instead of trying to "cram it all into one game". And that's how we ended up with the small set of Maybe Games. Same simple core, completely different experience based on how it's applied.
 
-@TODO: The fonts used are **??** (headings, decorative text) and **??** (body, longer paragraphs). Both are freely available online. Some generative AI was used for complex illustrations, everything else (idea, rules, code, assets, designs) is entirely mine.
+The font used for the body text (longer paragraphs) in the entire project is **DejaVu Sans**. It is open source, freely available online. Each game has a unique secondary font for short and decorative text. Some generative AI was used for complex illustrations, everything else (idea, rules, code, assets, designs) is entirely mine.
 
 {{% /section-centered %}}

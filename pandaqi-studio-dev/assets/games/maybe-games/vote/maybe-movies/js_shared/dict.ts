@@ -1,175 +1,108 @@
-import { EGGS_SHARED, EggType, TileDataDict } from "games/easter-eggventures/js_shared/dictShared";
-import Bounds from "js/pq_games/tools/numbers/bounds";
-import CONFIG from "./config";
-import Rectangle from "js/pq_games/tools/geometry/rectangle";
-import Point from "js/pq_games/tools/geometry/point";
 
-interface SlotRequirement
+enum CardType
 {
-    texture: string,
-    frame: number,
-    arrow?: number
+    MOVIE = "movie",
+    VOTE = "vote"
 }
 
-interface TileGridCell
+enum MovieType
 {
-    pos?: Point,
-    used?: boolean,
-    type?: string, // req, slot or dec
-    key?: string,
-    index?: number
+    MOVIE = "movie"
 }
 
-interface TileCustomData
+enum VoteType
 {
-    slotType?: string, // original key in REQUIREMENTS dict
-    slotReq?: SlotRequirement[],
-    slotReqRect?: Rectangle,
-    scoringRule?: string,
-    scoringRuleRect?: Rectangle,
-    num?: number,
-    playerNum?: number,
-    grid?: TileGridCell[][]
+    YES = "yes",
+    NO = "no",
+    CHANGE = "change"
 }
 
-enum TileType
+type CardSubType = VoteType | MovieType
+
+interface VoteDetails
 {
-    EGG = "egg",
-    PAWN = "pawn", // this includes the Seeker
-    MAP = "map",
+    icon: string,
+    num: number
 }
 
-const TILES =
+interface MovieDetails
 {
-    log: { frame: 0, size: "small" },
-    rock: { frame: 1, size: "large" },
-    wall: { frame: 2, size: "large" },
-    tree: { frame: 3, size: "large" },
-    grass: { frame: 4, size: "small" },
-    hut: { frame: 5, size: "large" },
-    flower: { frame: 6, size: "small" },
-    gnome: { frame: 7, size: "small" }
+    costIcons: string[],
+    profit: number
 }
 
-const SPECIAL_SCORE_RULES:TileDataDict =
+const CARD_TEMPLATES =
 {
-    // state of tile itself
-    tile_eggs: { desc: "The number of eggs on me, minus 2." },
-    tile_pawns: { desc: "The number of Pawns on me, minus 2." },
-    tile_slots: { desc: "+5 if all slots are now filled, otherwise -5." },
-    tile_types: { desc: "The number of unique egg types, minus 2." }, 
-    tile_types_spec_1: { desc: 'The number of <img id="eggs" frame="0"> or <img id="eggs" frame="3"> eggs, minus 1.' }, // Red or Darkblue
-    tile_types_spec_2: { desc: 'The number of <img id="eggs" frame="1"> or <img id="eggs" frame="2"> eggs, minus 1.' }, // Green or Yellow
-    tile_types_spec_3: { desc: 'The number of <img id="eggs" frame="4"> or <img id="eggs" frame="5"> eggs, minus 1.' }, // Lightblue or Orange
-
-    // state of neighbors
-    nbs_value: { desc: "The score value of my neighbor" },
-    nbs_eggs: { desc: "The number of eggs on my neighbor, minus 2." },
-    nbs_pawns: { desc: "The number of pawns on my neighbor, minus 2." },
-    nbs_slots: { desc: "+5 if all slots of my neighbor are filled, otherwise -5." },
-    nbs_types: { desc: "The number of unique egg types on my neighbor, minus 2." },
-
-    // state of current player
-    player_tokens_most: { desc: "+2 if the type played is the type you have the most, otherwise -2." },
-    player_tokens_least: { desc: "+2 if the type played is the type you have the least, otherwise -2." },
-    player_score_catchup: { desc: "-5 if you are currently the player in the lead, otherwise +5." },
-
-    // state of entire game
-    game_eggs: { desc: "The number of eggs on the map divided by 8." },
-    game_tiles_forbidden: { desc: "The number of tiles the Seeker can see, divided by 3." },
-    game_tiles: { desc: "The number of tiles on the map divided by 5." },
-
+    movie: { frame: 0 },
+    vote_yes: { frame: 1 },
+    vote_no: { frame: 2 },
+    vote_change: { frame: 3 }
 }
 
-interface RequirementData
+// @NOTE: things that were hard to visualize: editing (scissors cutting film strip), visual effects, "marketing"
+const ICONS =
 {
-    frame?: number,
+    money: { frame: 1 },
+    actors: { frame: 2 },
+    script: { frame: 3 },
+    setting: { frame: 4 },
+    camera: { frame: 5 },
+    microphone: { frame: 6 },
+    lights: { frame: 7 },
+    costume: { frame: 8 }, 
+    awards: { frame: 9 },
+    popcorn: { frame: 10 }  
+}
+
+enum TextType
+{
+    GENRE = "genre",
+    SETTING = "setting",
+    CHARACTERS = "characters",
+    THEME = "theme",
+    TIMEPERIOD = "timeperiod"
+}
+
+interface TextData
+{
     desc: string,
-    descNeg: string,
-    multiSpriteOptions?: string[], // if set, it can take multiple icons drawn from this list ( = NOT the same as number of _slots_)
-    multiSpriteKey?: string, // the texture key to use for drawing the multiple sprites
-    multiSpriteDict?: Record<string,any>,
-    arrow?: boolean, // whether it needs an arrow around itself
-    set?: string,
-    prob?: number,
-    forbidSingleSlot?: boolean, // if true, this NEEDS multiple egg slots
+    list: string[],
+    prob?: number
 }
 
-const includedEggs = Object.keys(EGGS_SHARED).slice(0,CONFIG.generation.maxNumEggs);
-const REQUIREMENTS:Record<string, RequirementData> =
+interface TextDetails
 {
-    egg: { desc: "Each egg played here must be this type", descNeg: "Each egg played here must NOT be this type.", multiSpriteOptions: includedEggs, multiSpriteKey: "eggs", multiSpriteDict: EGGS_SHARED, set: "base", prob: 2.25 },
-    hand: { frame: 1, desc: "Play the type of egg you have the MOST or the LEAST.", descNeg: "You CAN'T play the type of egg you have the MOST or the LEAST.", set: "tiles", prob: 0.75 },
-    board: { frame: 2, desc: "Play the type of egg that appears the MOST or the LEAST on the board.", descNeg: "You CAN'T play the type of egg that appears the MOST or the LEAST on the board.", set: "base", prob: 1.0 },
-    skull: { frame: 3, desc: "Play any egg that hasn't been played yet this round, but take no action.", descNeg: "Play any egg that has already been played this round, but take no action.", set: "tiles", prob: 1.25 },
-    rainbow: { frame: 4, desc: "Each egg played to this slot must be a different type.", descNeg: "Each egg played to this slot must be the same type.", set: "base", prob: 1.0, forbidSingleSlot: true },
-    rainbow_arrow: { frame: 4, desc: "Each egg played to this slot must be a type that does NOT exist on the neighbor to which the arrow points.", descNeg: "Each egg played to this slot must be a type that EXISTS on the neighbor to which the arrow points.", arrow: true, set: "base", prob: 2.0 },
-    pawn_arrow: { frame: 5, desc: "Play any egg here if there's a Pawn on the neighbor to which the arrow points.", descNeg: "Play any egg here if there is NO pawn on the neighbor to which the arrow points.", arrow: true, set: "tiles", prob: 1.25 },
-    seeker: { frame: 6, desc: "Each egg played here must be a type that the Seeker can currently see.", descNeg: "Each egg played here CAN'T be a type that the Seeker can currently see.", set: "base", prob: 1.5 }
+    main: string,
+    option: string
 }
 
-const ACTIONS:TileDataDict =
-{
-    [EggType.RED]: { desc: "Teleport/Orient the Seeker in any way." },
-    [EggType.GREEN]: { desc: "Clear up to 2 tiles of all eggs." },
-    [EggType.YELLOW]: { desc: "Swap up to 3 egg tokens with another player." },
-    [EggType.BLUE]: { desc: "Hide another egg, but don't take its action." },
-    [EggType.ORANGE]: { desc: "Rearrange up to 4 map tiles that hold no eggs." },
-    [EggType.CYAN]: { desc: "Take any other action." }
-}
+const GENRES = ["Comedy", "Action", "Adventure", "Romance", "Animation", "Crime", "Documentary", "Thriller", "Drama", "Fantasy", "Science-Fiction", "Horror", "Mystery", "Historical", "Musical", "Western", "War", "Superhero"];
+const SETTINGS = ["City", "Village", "Forest", "Jungle", "Desert", "Mountains", "Countryside", "Beach", "Island", "Space", "Underwater", "Prison", "Hospital", "School", "University", "Office", "Theme Park", "Circus", "Stadium", "Sports Arena", "Military Base", "Haunted House", "Castle", "Subway", "Train Station", "Airport", "Ship", "Parallel Universe", "Fantasy Realm"];
+const CHARACTERS = ["Humans", "Aliens", "Dinosaurs", "Animals", "Robots", "Heroes", "Villains", "Babies", "Children", "Adults", "Elderly", "Teachers", "Lovers", "Underdogs", "Femme Fatales", "Geniuses", "Inventors", "Farmers", "Writers", "Outlaws", "Detectives", "Uninspired", "Reluctant Heroes", "Objects", "Toys", "Vehicles", "Cars", "Computers", "Engineers", "Students", "Bosses", "Artists", "Athletes", "Pets", "Celebrities", "Accountants", "Spies", "Dragon Riders", "Wizards", "Witches", "Superheroes", "Dancers", "Musicians", "Scientists", "Lumberjacks", "Buildings", "Plants", "Trees", "Clouds", "Painters", "Entrepeneurs", "Dumb", "Fighters", "Cooks", "Volunteers", "Programmers", "Doctors", "Nurses", "Retail Workers", "Janitors", "Waiters", "Receptionists", "Police", "Firemen", "Strangers", "Pilots", "Bakers", "Insane", "Astronauts", "Soldiers", "Merchants", "Kings", "Queens", "Princes", "Princesses", "Traitors", "Peasants", "Slaves", "Disabled", "Insomniacs", "Clairvoyant", "Coaches", "Corrupt", "Politicians", "Critics", "Zookeepers", "Serial Killers"];
+const TIMEPERIOD = ["Post-Apocalypse", "Medieval", "Ancient Rome", "Prehistoric", "Ancient Greece", "Modern", "Past", "Future", "Unclear", "19th century", "18th century", "Renaissance", "Victorian Era", "Wild West", "World War I", "World War II", "Great Depression", "Roaring Twenties", "Post-War", "Near Future", "Alternate Past", "Industrial Age", "Information Age", "Bronze Age", "Stone Age", "Iron Age", "Persian Empire", "Byzantine Empire", "French Revolution"];
+const THEMES = ["Handicap", "Betrayal", "Relationship", "Friendship", "Growing Up", "Loss", "Money", "Politics", "Power", "Free Will", "Love", "Redemption", "Personal Identity", "Courage", "Family", "Corruption", "Good / Evil", "Justice", "Revenge", "Hope", "Escape", "Freedom", "Entertainment", "Society", "Nature", "Science", "Education", "Humanity", "Empathy", "Transformation", "Isolation", "Sacrifice", "Legacy", "Forgiveness", "Ethical Dilemmas", "Cultural Identity", "Technology", "Mindfulness", "Inequality", "Dreams", "Reality", "Aging", "Mortality", "War", "Faith", "Ghost Stories", "Expression", "Mythology", "Truth", "Resistance", "Rebellion", "Community", "Exploration", "Discovery", "Philosophy", "Disasters", "Uncertainty", "Talking Animals", "Fairy Tales", "Climate Change", "Zombies", "Trust", "Trauma", "Quest", "Journey", "Incompetence", "Intelligence", "Stealing", "Succession", "Magic", "Deadly Sins", "Illness", "Injury", "Dragons", "Human Nature", "True Events", "Tragedy", "Getting Rich", "Finding Someone", "Learning Skills", "Defeating Villains", "History", "Finding Clues", "Marketing", "Nothing", "Me", "Religion", "Promises", "Hate", "Greed", "Gluttony", "Memory Loss", "Time Travel", "Dignity", "Honor", "Clothing", "Architecture", "Terrorism", "Discrimination", "Gifts", "Revolution", "Food", "Games", "Dating", "Social Media", "Music", "Sports", "Art", "Time"];
 
-const MISC_UNIQUE = 
+const MAIN_TEXTS:Record<TextType, TextData> = 
 {
-    seeker_pawn: { frame: 0 },
-    victory_egg: { frame: 1 },
-    starter_tutorial_0: { frame: 2 }, // displayed on starter tile as-is.
-    slot_arrows: { frame: 3 }, // the arrows used to point to neighbors around slot requirements that need it
-    bg_0: { frame: 4 },
-    bg_1: { frame: 5 },
-    bg_2: { frame: 6 },
-    bg_3: { frame: 7 },
-
-    egg_slot: { frame: 8 },
-    divider: { frame: 9 },
-    starter_tutorial_1: { frame: 10 },
-    starter_tutorial_2: { frame: 11 },
-    starter_tutorial_3: { frame: 12 }
-}
-
-const MATERIAL:Record<TileType, TileDataDict> = 
-{
-    [TileType.EGG]: EGGS_SHARED,
-    [TileType.MAP]: {},
-    [TileType.PAWN]: {},
-}
-
-interface TileTypeData
-{
-    textureKey: string,
-    backgroundKey: string,
-    label: string,
-    color?: string,
-    backgroundRandom?: Bounds // selects one of its frames from the background spritesheet at random 
-}
-
-const TYPE_DATA:Record<TileType, TileTypeData> =
-{
-    [TileType.EGG]: { textureKey: "eggs", backgroundKey: "eggs_backgrounds", label: "Egg Token" },
-    [TileType.MAP]: { textureKey: "tiles", backgroundKey: "", label: "Map Tile" },
-    [TileType.PAWN]: { textureKey: "", backgroundKey: "", label: "Player Pawn" },
+    [TextType.GENRE]: { desc: "The genre is ...", list: GENRES, prob: 0.75 },
+    [TextType.SETTING]: { desc: "The setting is (a) ...", list: SETTINGS },
+    [TextType.CHARACTERS]: { desc: "Where the characters are ...", list: CHARACTERS, prob: 2 },
+    [TextType.TIMEPERIOD]: { desc: "The time period is ...", list: TIMEPERIOD },
+    [TextType.THEME]: { desc: "It's about (a) ...", list: THEMES, prob: 2.5 },
 }
 
 export 
 {
-    TileType,
-    MATERIAL,
-    TYPE_DATA,
-    MISC_UNIQUE,
-    ACTIONS,
-    REQUIREMENTS,
-    SPECIAL_SCORE_RULES,
-    SlotRequirement,
-    TileCustomData,
-    TileGridCell,
-    TILES
-}
+    CardType,
+    CardSubType,
+    VoteType,
+    VoteDetails,
+    MovieType,
+    MovieDetails,
+    CARD_TEMPLATES,
+    ICONS,
+    TextType,
+    TextDetails,
+    MAIN_TEXTS
+};
+

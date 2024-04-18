@@ -3,9 +3,9 @@ type: "single"
 gamepage: true
 boardgame: true
 
-title: "Bunny Bidding"
-headerTitle: "Snatch the best offers containing the one secret egg that scores you points."
-blurb: "Play rounds adding cards to the secret offer and bidding on it. But use your highest value cards wisely, because only ONE type of egg actually scores you points in the end!"
+title: "Maybe Movies"
+headerTitle: "Pitch movie ideas that enough players would like to throw money at."
+blurb: "Pitch movie ideas that enough players would like to throw money at, or see your money go down the drain after another flop."
 
 extraCSS: true
 downloadLink: ""
@@ -39,7 +39,7 @@ ages: everyone
 
 {{% boardgame-intro heading="" %}}
 
-An [Easter Eggventures](/easter-eggventures/) game about winning auctions that contain your secret point-scoring egg, and strategically losing all the others.
+A [Maybe Game](/maybe-games/) about pitching movie ideas that enough players want to throw money at---or want to see flop.
 
 {{% /boardgame-intro %}}
 
@@ -58,14 +58,15 @@ Three simple steps.
 
 <p>Pick your desired settings and click the button! The settings already selected are the "base game" mentioned in the introduction.</p>
 
-{{< boardgame-settings type="game" local_storage="bunnyBiddingConfig" btn_label="Generate Material" >}}
-	{{< setting-hidden id="setting-gameTitle" text="Bunny Bidding" >}}
+{{< boardgame-settings type="game" local_storage="maybeMoviesConfig" btn_label="Generate Material" >}}
+	{{< setting-hidden id="setting-gameTitle" text="Maybe Movies" >}}
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
   {{< setting-enum id="setting-itemSize" text="Card Size?" values="small,regular,large" valaskey="true" def="regular" >}}
-  <h3>Sets</h3>
-  {{< setting-checkbox id="setting-sets-base" text="Base Game?" checked="checked" >}}
-  {{< setting-checkbox id="setting-sets-special" text="Special Eggs?" >}}
-  {{< setting-checkbox id="setting-sets-powers" text="Powers & Handiceggs?" >}}
+  {{< boardgame-settings-section heading="Sets" >}}
+{{< setting-checkbox id="setting-sets-base" text="Base Game?" checked="checked" >}}
+{{< setting-checkbox id="setting-sets-breakingChanges" text="Breaking Changes?" >}}
+{{< setting-checkbox id="setting-sets-blockbusterBudgets" text="Blockbuster Budgets?" >}}
+  {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
 <p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>
@@ -74,8 +75,12 @@ Three simple steps.
 
 {{% section-centered heading="Credits" anchor="credits" %}}
 
-@TODO
+The unique font for this game is **Rialto NF**, freely available online. Some of the illustrations are AI generated. Everything else is entirely mine.
 
-For more information, check out the credits and supporting information from the [Easter Eggventures overview page](/easter-eggventures/).
+This game constantly fought with Maybe Missions for the spot of "simplest" Maybe Game. As I developed them, I regularly found ways to simplify the rules---and then, after testing, realized a different reason for why the rules had to be expanded again! In the end, I think they're roughly equally "simple", just ... different.
+
+To me, this game is most thematically sound and uses the Maybe Mechanic in an elegant way. To others, the spy-themed game has more theme and feels more natural. Try them both and see which one you like best!
+
+For more information, check out the the [Maybe Games overview page](/maybe-games/).
 
 {{% /section-centered %}}

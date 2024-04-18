@@ -3,9 +3,9 @@ type: "single"
 gamepage: true
 boardgame: true
 
-title: "Bunny Bidding"
-headerTitle: "Snatch the best offers containing the one secret egg that scores you points."
-blurb: "Play rounds adding cards to the secret offer and bidding on it. But use your highest value cards wisely, because only ONE type of egg actually scores you points in the end!"
+title: "Maybe Minister"
+headerTitle: "Change the law to expand your power, but do it subtly enough that most players will vote for you."
+blurb: "Propose changes to the law of the land as you try to expand your own power, but you can only do so if the majority of the other political factions agree."
 
 extraCSS: true
 downloadLink: ""
@@ -39,7 +39,7 @@ ages: everyone
 
 {{% boardgame-intro heading="" %}}
 
-An [Easter Eggventures](/easter-eggventures/) game about winning auctions that contain your secret point-scoring egg, and strategically losing all the others.
+A [Maybe Game](/maybe-games/) about changing the law and expanding power. But you can only do so if the other politicians around the table vote the way you need.
 
 {{% /boardgame-intro %}}
 
@@ -58,14 +58,13 @@ Three simple steps.
 
 <p>Pick your desired settings and click the button! The settings already selected are the "base game" mentioned in the introduction.</p>
 
-{{< boardgame-settings type="game" local_storage="bunnyBiddingConfig" btn_label="Generate Material" >}}
-	{{< setting-hidden id="setting-gameTitle" text="Bunny Bidding" >}}
+{{< boardgame-settings type="game" local_storage="maybeMinisterConfig" btn_label="Generate Material" >}}
+	{{< setting-hidden id="setting-gameTitle" text="Maybe Minister" >}}
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
   {{< setting-enum id="setting-itemSize" text="Card Size?" values="small,regular,large" valaskey="true" def="regular" >}}
-  <h3>Sets</h3>
-  {{< setting-checkbox id="setting-sets-base" text="Base Game?" checked="checked" >}}
-  {{< setting-checkbox id="setting-sets-special" text="Special Eggs?" >}}
-  {{< setting-checkbox id="setting-sets-powers" text="Powers & Handiceggs?" >}}
+  {{< boardgame-settings-section heading="Sets" >}}
+{{< setting-checkbox id="setting-sets-base" text="Base Game?" checked="checked" >}}
+  {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
 <p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>
@@ -74,8 +73,14 @@ Three simple steps.
 
 {{% section-centered heading="Credits" anchor="credits" %}}
 
-@TODO
+The unique font for this game is **Blackwood Castle**, freely available online. Some of the illustrations are AI generated. Everything else is entirely mine.
 
-For more information, check out the credits and supporting information from the [Easter Eggventures overview page](/easter-eggventures/).
+This was the latest entry to the project, and I knew from the start it would be the most "strategic" one. A few more rules, a few more mechanics to learn, and the core mechanic (of voting simultaneously on stuff) would allow a more complex game about power and politics.
+
+Being the most complicated one, it was the hardest (and took the longest) to get right. Because people like _deep_ games, but not _complicated_ ones, so I had to search for ways to simplify the rules at all times. 
+
+For most people, I still think it's best to play the games in the order mentioned, trying this one last. If you've played the others, even if it's only a game or two, the rules for this one fall into place naturally.
+
+For more information, check out the the [Maybe Games overview page](/maybe-games/).
 
 {{% /section-centered %}}

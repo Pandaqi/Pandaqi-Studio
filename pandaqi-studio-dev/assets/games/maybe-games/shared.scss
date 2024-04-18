@@ -1,8 +1,8 @@
 @use "sass:map";
 
-$header-font: "gargle";
-$body-font: "gargle";
-$base: "/easter-eggventures/assets/";
+$header-font: "dejavu";
+$body-font: "dejavu";
+$base: "/maybe-games/assets/";
 $base-fonts: $base + "fonts/";
 
 $bg-col: #FCFCFC;
@@ -28,15 +28,7 @@ h1, h2, h3, h4 {
 
 @font-face {
     font-family: $body-font;
-    src: url($base-fonts + 'GargleRg-Regular.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: $body-font;
-    src: url($base-fonts + 'GargleRg-Italic.woff2') format('woff2');
+    src: url($base-fonts + 'DejaVuSansCondensed-Oblique.woff2') format('woff2');
     font-weight: normal;
     font-style: italic;
     font-display: swap;
@@ -44,9 +36,24 @@ h1, h2, h3, h4 {
 
 @font-face {
     font-family: $body-font;
-    src: url($base-fonts + 'GargleRg-Bold.woff2') format('woff2');
+    src: url($base-fonts + 'DejaVuSansCondensed-BoldOblique.woff2') format('woff2');
     font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'DejaVuSansCondensed.woff2') format('woff2');
+    font-weight: normal;
     font-style: normal;
     font-display: swap;
 }
 
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'DejaVuSansCondensed-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
