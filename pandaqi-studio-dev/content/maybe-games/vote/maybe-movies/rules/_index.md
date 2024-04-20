@@ -63,13 +63,7 @@ Any remaining Movie Cards are discarded.
 
 {{% rules-block id="expansions" heading="Expansions" icon="expansion" icontint="red" %}}
 
-Played the base game and ready for more? Or feel like your group needs some tweaks to the game? Check out these variants and expansions.
-
-{{% rules-block heading="Variants" %}}
-
-???
-
-{{% /rules-block %}}
+Played the base game and ready for more? Or feel like your group needs some tweaks to the game? Check out these expansions.
 
 {{% rules-block heading="Trendsetter Tricks" %}}
 
@@ -107,14 +101,17 @@ Optionally, players may improvise a pitch for why their change is amazing and ma
 
 {{% rules-block heading="Blockbuster Budgets" %}}
 
-@TODO: This would add more varied ways to calculate _budget_ and _profit_.
+This expansion includes **Movie Cards** that don't use icons, but display text for the _cost_ and _profit_. This means the value of pitches, and how they can succeed, receives a lot more variation.
 
-For example,
-* Cost = highest/lowest neighbor.
-* Cost = number of YES-votes / number of NO-votes
-* Profit = 0 if the mission has <3 cards, otherwise 3.
-* Profit = equal to number of cards in the mission
-* Profit = equal to the number of times this mission was CHANGED.
+Clarifications:
+* Some texts depend on order. In that case, read the cards from the pitch from left to right, from the perspective of the active player.
+* Some texts might create a tie or multiple options. In that case, the active player picks which one it is.
+
+As always,
+* The top (orange) part shows the _cost_ that must be paid for the pitch to succeed.
+* The bottom (green) part shows _how many votes_ you may draw for this card, if the movie succeeds and it comes time to distribute the profits.
+
+Otherwise, no rules change.
 
 {{% /rules-block %}}
 

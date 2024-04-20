@@ -27,6 +27,7 @@ export default class Card
     isVote() { return this.type == CardType.VOTE; }
 
     setMovieDetails(m:MovieDetails) { this.movieDetails = m; }
+    hasMovieTextDetails() { return this.movieDetails.costText || this.movieDetails.profitText; }
     isMovie() { return this.type == CardType.MOVIE; }
 
     setTextDetails(t:TextDetails) { this.textDetails = t; }
@@ -37,7 +38,7 @@ export default class Card
         const group = new ResourceGroup();
 
         this.drawBackground(vis, group);
-        this.drawMovieIcons(vis, group);
+        this.drawSides(vis, group);
         this.drawVoteDetails(vis, group);
         this.drawCenterText(vis, group);
 
@@ -49,7 +50,11 @@ export default class Card
     {
         const res = vis.getResource("card_templates");
         let key = "";
-        if(this.type == CardType.MOVIE) { key = "movie"; }
+        if(this.type == CardType.MOVIE) 
+        { 
+            key = "movie"; 
+            if(this.hasMovieTextDetails()) { key = "movie_flat"; }
+        }
         else if(this.type == CardType.VOTE)
         {
             if(this.subType == VoteType.YES) { key = "vote_yes"; }
@@ -115,15 +120,16 @@ export default class Card
 
     }
 
-    drawMovieIcons(vis:MaterialVisualizer, group:ResourceGroup)
+    drawSides(vis:MaterialVisualizer, group:ResourceGroup)
     {
         if(!this.isMovie()) { return; }
 
         const dropShadowEffect = new DropShadowEffect({ blurRadius: vis.get("cards.shared.dropShadowRadius")});
         const effects = [dropShadowEffect, vis.inkFriendlyEffect].flat();
 
+        const topSideIcons = (this.movieDetails.costIcons != undefined);
+        const topSideText = !topSideIcons;
 
-        // on top side, just display icons from left to right
         const resMisc = vis.getResource("misc");
         const offsetRaw = vis.get("cards.movie.cost.iconOffset").clone();
         const iconDims = vis.get("cards.movie.cost.iconDims");
@@ -131,58 +137,109 @@ export default class Card
         offsetRaw.add(iconDims.clone().scale(0.5));
 
         const offset = new Point(vis.center.x, offsetRaw.y);
-        const numIcons = this.movieDetails.costIcons.length;
-        const positions = getPositionsCenteredAround({ pos: offset, num: numIcons, dims: new Point(offsetBetweenIcons) });
-        for(let i = 0; i < numIcons; i++)
+        const textBoxDims = vis.get("cards.movie.cost.textBoxDims");
+        const textColorTop = vis.inkFriendly ? "#000000" : vis.get("cards.movie.cost.textColor");
+
+        const dropShadowEffectSubtle = new DropShadowEffect({ blurRadius: vis.get("cards.shared.dropShadowRadius") * 0.4 });
+        const defImgOp = new LayoutOperation({ effects: [dropShadowEffectSubtle] }); 
+
+        const textConfigBody = new TextConfig({
+            font: vis.get("fonts.body"),
+            size: vis.get("cards.movie.cost.fontSize"),
+            resLoader: vis.resLoader,
+            defaultImageOperation: defImgOp
+        }).alignCenter();
+
+        // on top side, just display icons from left to right
+        if(topSideIcons)
         {
-            const icon = this.movieDetails.costIcons[i];
-            const position = positions[i];
-            const op = new LayoutOperation({
-                translate: position, // offset.clone()
-                dims: iconDims,
-                frame: ICONS[icon].frame,
-                pivot: Point.CENTER,
-                effects: effects
-            });
-            group.add(resMisc, op);
+            const numIcons = this.movieDetails.costIcons.length;
+            const positions = getPositionsCenteredAround({ pos: offset, num: numIcons, dims: new Point(offsetBetweenIcons) });
+            for(let i = 0; i < numIcons; i++)
+            {
+                const icon = this.movieDetails.costIcons[i];
+                const position = positions[i];
+                const op = new LayoutOperation({
+                    translate: position, // offset.clone()
+                    dims: iconDims,
+                    frame: ICONS[icon].frame,
+                    pivot: Point.CENTER,
+                    effects: effects
+                });
+                group.add(resMisc, op);
+            }
+
+            // @NOTE: ALTERNATIVE; for display LEFT to RIGHT, do
+            // - const offset = offsetRaw.clone();
+            // - translate = offset.clone();
+            // - offset.add(offsetBetweenIcons); at end of every loop
         }
 
-        // @NOTE: ALTERNATIVE; for display LEFT to RIGHT, do
-        // - const offset = offsetRaw.clone();
-        // - translate = offset.clone();
-        // - offset.add(offsetBetweenIcons); at end of every loop
+        // if it's text instead, just display it centered within that rectangle
+        if(topSideText)
+        {
+            const resText = new ResourceText({ text: this.movieDetails.costText, textConfig: textConfigBody });
+            const opText = new LayoutOperation({
+                translate: offset,
+                dims: textBoxDims,
+                fill: textColorTop,
+                pivot: Point.CENTER
+            });
+            group.add(resText, opText);
+        }
+
+        const bottomSideIcons = (this.movieDetails.profit != undefined);
+        const bottomSideText = !bottomSideIcons;
+        const textColorBottom = vis.inkFriendly ? "#000000" : vis.get("cards.movie.profit.textColor");
+        const offsetBottom = vis.size.clone().sub(offsetRaw);
 
         // on bottom side, just display pile of coins with number before it
         // (this inconsistency is on purpose, to intuitively remind players about the different purpose/usage)
-        const offsetBottom = vis.size.clone().sub(offsetRaw);
-        const opIconPile = new LayoutOperation({
-            translate: offsetBottom.clone(),
-            dims: iconDims,
-            frame: 0,
-            pivot: Point.CENTER,
-            effects: effects
-        })
-        group.add(resMisc, opIconPile);
+        if(bottomSideIcons)
+        {
+            const opIconPile = new LayoutOperation({
+                translate: offsetBottom.clone(),
+                dims: iconDims,
+                frame: 0,
+                pivot: Point.CENTER,
+                effects: effects
+            })
+            group.add(resMisc, opIconPile);
 
-        offsetBottom.sub(offsetBetweenIcons);
+            offsetBottom.sub(offsetBetweenIcons);
 
-        const fontSize = vis.get("cards.movie.profit.fontSize");
-        const textConfig = new TextConfig({
-            font: vis.get("fonts.heading"),
-            size: fontSize
-        }).alignCenter();
+            const fontSize = vis.get("cards.movie.profit.fontSize");
+            const textConfig = new TextConfig({
+                font: vis.get("fonts.heading"),
+                size: fontSize
+            }).alignCenter();
 
-        const str = this.movieDetails.profit.toString();
-        const resText = new ResourceText({ text: str, textConfig: textConfig });
+            const str = this.movieDetails.profit.toString();
+            const resText = new ResourceText({ text: str, textConfig: textConfig });
 
-        const textColor = vis.inkFriendly ? "#000000" : vis.get("cards.movie.profit.textColor");
-        const opText = new LayoutOperation({
-            translate: offsetBottom.clone(),
-            dims: new Point(2*fontSize),
-            fill: textColor,
-            pivot: Point.CENTER
-        })
-        group.add(resText, opText);
+            const opText = new LayoutOperation({
+                translate: offsetBottom.clone(),
+                dims: new Point(2*fontSize),
+                fill: textColorBottom,
+                pivot: Point.CENTER
+            })
+            group.add(resText, opText);
+        }
+
+        // if it's text instead, just display it centered within that rectangle
+        if(bottomSideText)
+        {
+            const offsetBottomCentered = new Point(vis.center.x, offsetBottom.y);
+            const resText = new ResourceText({ text: this.movieDetails.profitText, textConfig: textConfigBody });
+            const opText = new LayoutOperation({
+                translate: offsetBottomCentered,
+                dims: textBoxDims,
+                fill: textColorTop,
+                pivot: Point.CENTER
+            });
+            group.add(resText, opText);
+        }
+        
     }
 
     drawCenterText(vis:MaterialVisualizer, group:ResourceGroup)

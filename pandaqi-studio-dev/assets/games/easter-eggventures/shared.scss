@@ -5,12 +5,8 @@ $body-font: "gargle";
 $base: "/easter-eggventures/assets/";
 $base-fonts: $base + "fonts/";
 
-$bg-col: #FCFCFC;
-$text-col: #111111;
-
-$col1: red;
-$col2: blue;
-$col3: green;
+$bg-col: #FDDB57;
+$text-col: #010101;
 
 body {
     font-family: $body-font;
@@ -23,7 +19,7 @@ body {
 
 h1, h2, h3, h4 {
     font-family: $header-font;
-    font-weight: normal;
+    font-weight: bold;
 }
 
 @font-face {

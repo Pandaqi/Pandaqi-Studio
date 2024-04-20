@@ -13,16 +13,15 @@ downloadLink: ""
 customHeight: "small"
 headerDarkened: true
 
-color: "brown"
+color: "turquoise"
 
-bgColor: "#230e00"
-bgColorLink: "#2d2d2d"
+bgColor: "#002323"
+bgColorLink: "#66CCCC"
 
-textColor: "#fff0e8"
-textColorLink: "#e0e0e0"
+textColor: "#DDFFFF"
+textColorLink: "#002323"
 
-
-date: 2023-01-01 # 2024-12-26
+date: 2025-03-26
 
 categories: ["boardgame"]
 tags: ["creative", "guessing", "word"]
@@ -63,20 +62,25 @@ Three simple steps.
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
   {{< setting-enum id="setting-itemSize" text="Card Size?" values="small,regular,large" valaskey="true" def="regular" >}}
   {{< setting-checkbox id="setting-addTextOnObstacles" text="Add Text On Obstacles?" remark="Obstacle tiles explain their own power, instead of having to remember." checked="checked" >}}
-  <h3>Sets</h3>
-  {{< setting-checkbox id="setting-sets-base" text="Base Game?" checked="checked" >}}
-  {{< setting-checkbox id="setting-sets-specialEggs" text="Special Eggs?" >}}
-  {{< setting-checkbox id="setting-sets-eggstraObstacles" text="Eggstra Obstacles?" >}}
+  {{< boardgame-settings-section heading="Sets" >}}
+{{< setting-checkbox id="setting-sets-base" text="Base Game?" checked="checked" >}}
+{{< setting-checkbox id="setting-sets-specialEggs" text="Special Eggs?" >}}
+{{< setting-checkbox id="setting-sets-eggstraObstacles" text="Eggstra Obstacles?" >}}
+  {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
 <p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>
 
 {{% /section-centered %}}
 
+{{< support >}}
+
 {{% section-centered heading="Credits" anchor="credits" %}}
 
-@TODO
+As stated, this game is part of the Easter Eggventures project. It shares the fonts, style, and origins with all other games in the project. As such, for more information, check out the [Easter Eggventures overview page](/easter-eggventures/).
 
-For more information, check out the credits and supporting information from the [Easter Eggventures overview page](/easter-eggventures/).
+This game is probably the one that worked the fastest: at the very first playtest with others. I only needed to do some minor tweaks and balancing to get the game to its final version. It's perhaps the best and most intuitive "simulation" of a real Egg Hunt out of all the games.
+
+I still didn't put it as the first ("simplest") game, though. Although the rules _are_ simple, you have 3 different possible actions on your turn and 3 action points to use for them. And in my experience, this just takes a bit longer to grasp for people who don't regularly play board games.
 
 {{% /section-centered %}}

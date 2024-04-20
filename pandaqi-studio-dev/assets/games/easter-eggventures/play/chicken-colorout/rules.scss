@@ -1,1 +1,27 @@
-// @use "../../rules.scss" as g;
+@use "../../shared.scss" as g;
+@use "./shared.scss" as g2;
+
+body
+{
+    background-color: g2.$bg-col;
+}
+
+#setup {
+    background-color: g2.$bg-col-light;
+}
+
+#objective {
+    background-color: g2.$col2-light;
+}
+
+#action_play {
+    background-color: g2.$bg-col-light;
+}
+
+#slots {
+    background-color: g2.$col2-light;
+}
+
+#expansions {
+    background-color: g2.$bg-col-light;
+}

@@ -1,11 +1,12 @@
 import shuffle from "js/pq_games/tools/random/shuffle";
 import CONFIG from "../js_shared/config";
-import { CardResourceData, CardType, DYNAMIC_OPTIONS, IdentityCardData, IdentityCardType, MASTER_CARDS, MissionType, PUBLIC_IDENTITIES, RANDOM_TEXTS, RESOURCES, SECRET_IDENTITIES } from "../js_shared/dict";
+import { CardGadgetData, CardResourceData, CardType, DYNAMIC_OPTIONS, GADGET_NAMES, IdentityCardData, IdentityCardType, MASTER_CARDS, MissionType, PUBLIC_IDENTITIES, RANDOM_TEXTS, RESOURCES, SECRET_IDENTITIES, SHOP_REWARDS, ShopType, ShopVibe } from "../js_shared/dict";
 import Card from "./card";
 import Bounds from "js/pq_games/tools/numbers/bounds";
 import getAllPossibleCombinations from "js/pq_games/tools/collections/getAllPossibleCombinations";
 import getWeighted from "js/pq_games/tools/random/getWeighted";
 import fromArray from "js/pq_games/tools/random/fromArray";
+import BalancedFrequencyPickerWithMargin from "js/pq_games/tools/generation/balancedFrequencyPickerWithMargin";
 
 interface IdentityDictSorted
 {
@@ -24,7 +25,7 @@ export default class CardPicker
 
         this.generateBaseCards();
         this.generateIdentityCards();
-        //this.generateGadgetCards();
+        this.generateShopCards();
 
         console.log(this.cards);
     }
@@ -35,7 +36,11 @@ export default class CardPicker
         const maxBadDiff = CONFIG.generation.maxDeviationBadIcons;
 
         const numIconsGood = CONFIG.generation.numResourcesPerSide.randomInteger();
-        const numIconsBad = new Bounds( Math.max(1, numIconsGood-maxBadDiff), numIconsGood).randomInteger();
+
+        const minBad = Math.max(1, numIconsGood-maxBadDiff);
+        //const maxBad = Math.min(CONFIG.generation.maxResourcesRedSide, numIconsGood);
+        const maxBad = Math.max(1, numIconsGood-1); // more forward momentum, less bad stuff, feels nicer
+        const numIconsBad = new Bounds(minBad, maxBad).randomInteger();
 
         let optionsGood = combos[numIconsGood];
         if(optionsGood.length <= 0) 
@@ -210,6 +215,66 @@ export default class CardPicker
             const publicID = new Card(CardType.IDENTITY, IdentityCardType.PUBLIC);
             publicID.setPowers( this.drawRandomIdentityPowers(dictPublic) );
             this.cards.push(publicID);
+        }
+    }
+
+    generateShopCards()
+    {
+        if(!CONFIG.sets.gadgets) { return; }
+
+        // sort the data into GREEN and RED
+        const numCards = CONFIG.generation.numShopCards;
+        const dict = { [ShopVibe.GREEN]: {}, [ShopVibe.RED]: {} };
+        for(const [key,data] of Object.entries(SHOP_REWARDS))
+        {
+            dict[data.vibe][key] = data; 
+        }
+
+        // pre-create list of all green-red shop combinations
+        // we balance the resources used for paying, but otherwise allow pretty much complete randomness
+        const sides:CardGadgetData[] = [];
+        const resourceOptions = Object.keys(RESOURCES);
+        const picker = new BalancedFrequencyPickerWithMargin({
+            options: resourceOptions,
+            maxDist: CONFIG.generation.shopCardsMaxFrequencyDist ?? 3
+        });
+
+        let gadgetNames = [];
+        for(let i = 0; i < numCards; i++)
+        {
+            const numGreen = CONFIG.generation.shopCardsCostBounds.randomInteger();
+            const numRed = CONFIG.generation.shopCardsCostBounds.randomInteger();
+
+            if(gadgetNames.length <= 2)
+            {
+                gadgetNames = GADGET_NAMES.slice();
+                shuffle(gadgetNames);
+            }
+
+            const greenKey = getWeighted(dict[ShopVibe.GREEN]);
+            const greenData = {
+                cost: picker.pickMultiple(numGreen),
+                reward: dict[ShopVibe.GREEN][greenKey].desc,
+                label: gadgetNames.pop()
+            }
+
+            const redKey = getWeighted(dict[ShopVibe.RED]);
+            const redData = {
+                cost: picker.pickMultiple(numRed),
+                reward: dict[ShopVibe.RED][redKey].desc,
+                label: gadgetNames.pop()
+            }
+
+            sides.push({ green: greenData, red: redData });
+        }
+        shuffle(sides);
+
+        // then create the cards, assigning what we already generated
+        for(let i = 0; i < numCards; i++)
+        {
+            const newCard = new Card(CardType.SHOP, ShopType.SHOP);
+            newCard.setGadgets( sides.pop() );
+            this.cards.push(newCard);
         }
     }
 }

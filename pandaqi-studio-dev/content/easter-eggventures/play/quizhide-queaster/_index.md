@@ -15,14 +15,13 @@ headerDarkened: true
 
 color: "brown"
 
-bgColor: "#230e00"
-bgColorLink: "#2d2d2d"
+bgColor: "#231201"
+bgColorLink: "#CC9966"
 
-textColor: "#fff0e8"
-textColorLink: "#e0e0e0"
+textColor: "#FFDFDD"
+textColorLink: "#231201"
 
-
-date: 2023-01-01 # 2024-12-26
+date: 2025-03-26
 
 categories: ["boardgame"]
 tags: ["creative", "guessing", "word"]
@@ -62,19 +61,28 @@ Three simple steps.
 	{{< setting-hidden id="setting-gameTitle" text="Quizhide Queaster" >}}
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
   {{< setting-enum id="setting-itemSize" text="Card Size?" values="small,regular,large" valaskey="true" def="regular" >}}
-  <h3>Sets</h3>
-  {{< setting-checkbox id="setting-sets-base" text="Base Game?" checked="checked" >}}
-  {{< setting-checkbox id="setting-sets-cluesRooms" text="Clues & Rooms?" remark="Simply adds more clue cards and possible room tiles." >}}
+  {{< boardgame-settings-section heading="Sets" >}}
+{{< setting-checkbox id="setting-sets-base" text="Base Game?" checked="checked" >}}
+{{< setting-checkbox id="setting-sets-cluesRooms" text="Clues & Rooms?" remark="Simply adds more clue cards and possible room tiles." >}}
+  {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
 <p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>
 
 {{% /section-centered %}}
 
+{{< support >}}
+
 {{% section-centered heading="Credits" anchor="credits" %}}
 
-@TODO
+As stated, this game is part of the Easter Eggventures project. It shares the fonts, style, and origins with all other games in the project. As such, for more information, check out the [Easter Eggventures overview page](/easter-eggventures/).
 
-For more information, check out the credits and supporting information from the [Easter Eggventures overview page](/easter-eggventures/).
+If you've read that main page, you know this all started with a single idea that just didn't really work. Which then, after brainstorming, turned into _five_ ideas.
+
+Well, this game was that original idea! I tried to somehow simulate an Egg Hunt with a randomized map of rooms. The more I worked on it, though, the more I realized the true challenge of a real-life Egg Hunt can't be replicated with board games. Eggs are hard to find, and it's fun to search for, because the real world is incredibly complex and has physical limitations. In a board game, though? Can't do that.
+
+The idea only worked after a few crucial ideas/realizations, such as adding the Dixit-like dreamy cards, and giving players individual Score Cards so it mattered _who_ found each egg.
+
+Ironically enough, once the idea clicked, it became the simplest of them all. The rules are so short and simple that I almost considered ditching the rulebook entirely and just printing them on a few cards in the material.
 
 {{% /section-centered %}}

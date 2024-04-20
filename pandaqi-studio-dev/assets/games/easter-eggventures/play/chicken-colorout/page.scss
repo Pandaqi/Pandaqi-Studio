@@ -1,1 +1,44 @@
 @use "../../page.scss" as g;
+@use "./shared.scss" as g2;
+
+$bg-color: g2.$bg-col;
+$text-color: g2.$text-col;
+$button-bg: g2.$col1;
+$button-color: #ffd6e9;
+$link-color: g2.$col2;
+$link-color-hover: g2.$col2-hover;
+$settings-color: g2.$col1;
+$cutoff: 920px;
+
+a {
+    color: $link-color; 
+    transition: color 0.3s;
+    font-weight: bold;
+
+    &:hover {
+        color: $link-color-hover;
+    }
+}
+
+.boardgame-intro {
+    .tagline, .metadata {
+        color: $text-color;
+    }
+}
+
+.game-settings
+{
+    background-color: $settings-color;
+}
+
+a.download-btn, a.download-btn:visited, 
+#btn-start-game, #btn-start-game:visited,
+#btn-generate-board, #btn-generate-board:visited {
+    background-color: $button-bg;
+    color: $button-color;
+    
+    &:hover {
+        background-color: $button-color;
+        color: $button-bg;
+    }
+}

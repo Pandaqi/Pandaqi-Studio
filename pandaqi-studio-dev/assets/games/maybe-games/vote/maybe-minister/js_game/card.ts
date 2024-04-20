@@ -3,11 +3,12 @@ import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
-import TextConfig from "js/pq_games/layout/text/textConfig";
+import TextConfig, { TextStyle } from "js/pq_games/layout/text/textConfig";
 import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
 import Point from "js/pq_games/tools/geometry/point";
-import { CARD_TEMPLATES, CardSubType, CardType, SideDetails } from "../js_shared/dict";
+import { CARD_TEMPLATES, CardSubType, CardType, ICONS, MISC, SideDetails } from "../js_shared/dict";
+import getPositionsCenteredAround from "js/pq_games/tools/geometry/paths/getPositionsCenteredAround";
 
 export default class Card
 {
@@ -45,6 +46,7 @@ export default class Card
         this.drawVoteDetails(vis, group);
         this.drawGoodBadSides(vis, group);
         this.drawLawText(vis, group);
+        this.drawVoteStorage(vis, group);
 
         group.toCanvas(ctx);
         return ctx.canvas;
@@ -73,7 +75,7 @@ export default class Card
             size: vis.get("votes.number.fontSize"),
         }).alignCenter();
 
-        const textColor = vis.inkFriendly ? "#000000" : vis.get("votes.number.color");
+        const textColor = vis.inkFriendly ? "#000000" : vis.get("votes.number.textColors." + this.subType);
         const strokeColor = vis.inkFriendly ? "#FFFFFF" : vis.get("votes.number.colorStroke");
         const pos = vis.get("votes.number.pos");
         const dropShadowEffect = new DropShadowEffect({ blurRadius: vis.get("cards.shared.dropShadowRadius")});
@@ -99,8 +101,84 @@ export default class Card
         if(!this.isDecree()) { return; }
         if(!this.hasSideDetails()) { return; }
 
-        // @TODO
+        const resMisc = vis.getResource("misc");
 
+        const offsetY = vis.get("cards.sides.offset").y;
+        const anchors = [
+            new Point(vis.center.x, offsetY),
+            new Point(vis.center.x, vis.size.y - offsetY)
+        ];
+
+        const dropShadowEffect = new DropShadowEffect({ blurRadius: vis.get("cards.shared.dropShadowRadius")});
+        const iconEffects = [dropShadowEffect, vis.inkFriendlyEffect].flat();
+
+        const dropShadowEffectSubtle = new DropShadowEffect({ blurRadius: vis.get("cards.shared.dropShadowRadius") * 0.33 });
+        const defImgOp = new LayoutOperation({ effects: [dropShadowEffectSubtle] }); 
+        
+
+        const textBoxDims = vis.get("cards.sides.textBoxDims");
+        const textConfig = new TextConfig({
+            font: vis.get("fonts.body"),
+            size: vis.get("cards.sides.fontSize"),
+            style: TextStyle.ITALIC,
+            resLoader: vis.resLoader,
+            defaultImageOperation: defImgOp
+        }).alignCenter();
+
+        const iconDims = vis.get("cards.sides.iconDims");
+        const sides = ["good", "bad"];
+       
+        for(let s = 0; s < 2; s++)
+        {
+            const side = sides[s];
+            const data = this.sides[side+"Icons"] ?? this.sides[side+"Text"];
+            
+            const isIcons = Array.isArray(data);
+            const isText = !isIcons;
+
+            const rotation = s == 0 ? 0 : Math.PI;
+            const anchor = anchors[s];
+
+            if(isText) 
+            {
+                const textColor = vis.inkFriendly ? "#000000" : vis.get("cards.sides.textColors." + side);
+
+                const resText = new ResourceText({ text: data, textConfig: textConfig });
+                const opText = new LayoutOperation({
+                    translate: anchor,
+                    dims: textBoxDims,
+                    rotation: rotation,
+                    pivot: Point.CENTER,
+                    fill: textColor,
+                })
+                group.add(resText, opText);
+            } 
+
+            if(isIcons)
+            {
+                const positions = getPositionsCenteredAround({ 
+                    pos: anchor, 
+                    num: data.length,
+                    dims: iconDims.clone().scale(1.05)
+                });
+
+                for(let i = 0; i < positions.length; i++)
+                {
+                    const posTemp = positions[i];
+                    const dataTemp = data[i] == "support" ? MISC.support : ICONS[data[i]];
+                    const opIcon = new LayoutOperation({
+                        translate: posTemp,
+                        dims: iconDims,
+                        rotation: rotation,
+                        pivot: Point.CENTER,
+                        frame: dataTemp.frame,
+                        effects: iconEffects
+                    })
+                    group.add(resMisc, opIcon)
+                }
+            }
+
+        }
     }
 
     drawLawText(vis:MaterialVisualizer, group:ResourceGroup)
@@ -108,6 +186,88 @@ export default class Card
         if(!this.isDecree()) { return; }
         if(!this.hasLaw()) { return; }
 
-        // @TODO
+        const dropShadowEffect = new DropShadowEffect({ blurRadius: vis.get("cards.shared.dropShadowRadius") * 0.45 });
+        const defImgOp = new LayoutOperation({ effects: [dropShadowEffect] }); // @NOTE; adds shadow behind only the images/icons in text, not entire text block
+
+        const textConfig = new TextConfig({
+            font: vis.get("fonts.body"),
+            size: vis.get("cards.laws.fontSize"),
+            style: TextStyle.ITALIC,
+            resLoader: vis.resLoader,
+            defaultImageOperation: defImgOp
+        }).alignCenter();
+
+        const str = this.law;
+        const resText = new ResourceText({ text: str, textConfig: textConfig });
+
+        const textColor = vis.inkFriendly ? "#000000" : vis.get("cards.laws.textColor");
+        const opText = new LayoutOperation({
+            translate: vis.get("cards.laws.pos"),
+            dims: vis.get("cards.laws.textBoxDims"),
+            fill: textColor,
+            pivot: Point.CENTER
+        })
+
+        group.add(resText, opText);
     }
+
+    drawVoteStorage(vis:MaterialVisualizer, group:ResourceGroup)
+    {
+        if(!this.isDecree()) { return; }
+        if(this.hasLaw()) { return; }
+
+        const reducedSize = this.sides.badText || this.sides.goodText;
+        const reducedSizeFactor = 0.735;
+
+        const offsetX = vis.get("cards.voteStorage.offset").x;
+        const positions = [
+            new Point(offsetX, vis.center.y),
+            new Point(vis.size.x - offsetX, vis.center.y)
+        ];
+
+        const resMisc = vis.getResource("misc");
+        const iconDims = vis.get("cards.voteStorage.iconDims").clone();
+        if(reducedSize) { iconDims.scale(reducedSizeFactor); }
+    
+        let fontSize = vis.get("cards.voteStorage.fontSize");
+        if(reducedSize) { fontSize *= reducedSizeFactor; }
+
+        const textConfig = new TextConfig({
+            font: vis.get("fonts.heading"),
+            size: fontSize,
+        }).alignCenter();
+
+        const str = this.voteStorage.toString();
+        const resText = new ResourceText({ text: str, textConfig: textConfig });
+
+        const textColor = vis.inkFriendly ? "#000000" : vis.get("cards.voteStorage.textColor");
+        const dropShadowEffect = new DropShadowEffect({ blurRadius: vis.get("cards.shared.dropShadowRadius")});
+
+        for(let i = 0; i < positions.length; i++)
+        {
+            // the "seal" icon behind the text
+            const pos = positions[i];
+            const rot = i == 0 ? 0 : Math.PI;
+            const opIcon = new LayoutOperation({
+                translate: pos,
+                dims: iconDims,
+                rotation: rot,
+                frame: MISC.vote_storage.frame,
+                pivot: Point.CENTER,
+                effects: [dropShadowEffect]
+            });
+            group.add(resMisc, opIcon);
+
+            // the text itself
+            const opText = new LayoutOperation({
+                translate: pos,
+                dims: iconDims,
+                rotation: rot,
+                fill: textColor,
+                pivot: Point.CENTER
+            })
+            group.add(resText, opText);
+        }
+    }
+
 }

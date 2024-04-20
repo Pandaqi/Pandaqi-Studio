@@ -468,13 +468,24 @@ export default class TextDrawer
         pos.y = line.getCenter().y;
 
         let op = (elem.operation ?? this.cfg.defaultImageOperation) ?? new LayoutOperation();
-        op = op.clone();
+        op = op.clone(true);
         op.translate.move(pos);
         op.pivot = new Point(0, 0.5);
         op.keepTransform = true;
         if(op.dims.isZero()) { op.dims = elem.getSize(); }
 
+        // @DEBUGGING / @TODO
+        // Now I need to manually redo/unset the effects merging, which is ugly and will get out of hand when I also need to reset other stuff.
+        // Find a cleaner approach? Find out why this is even needed?
+        const oldEffects = ctx.filter;
+        if(this.cfg.defaultImageOperation) 
+        { 
+            op.effects = [op.effects, this.cfg.defaultImageOperation.effects].flat(); 
+        }
+
         res.toCanvas(ctx, op);
+
+        ctx.filter = oldEffects;
     }
 
     /*

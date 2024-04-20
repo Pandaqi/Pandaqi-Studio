@@ -1,6 +1,7 @@
 import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textConfig";
 import CVal from "js/pq_games/tools/generation/cval";
 import Point from "js/pq_games/tools/geometry/point";
+import Bounds from "js/pq_games/tools/numbers/bounds";
 
 const CONFIG_SHARED =
 {
@@ -41,6 +42,12 @@ const CONFIG_SHARED =
             useAbsolutePath: true,
             textConfig: new TextConfig({ weight: TextWeight.BOLD, style: TextStyle.ITALIC })
         },
+    },
+
+    rulebook:
+    {
+        cardSize: new Point(375, 525),
+        numPlayerBounds: new Bounds(3,5)
     },
 
     cards:

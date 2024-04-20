@@ -8,7 +8,7 @@ const CONFIG:Record<string,any> =
 {
     debug:
     {
-        omitFile: false, // @DEBUGGING (should be false)
+        omitFile: true, // @DEBUGGING (should be false)
         singleDrawPerType: false, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
@@ -45,7 +45,7 @@ const CONFIG:Record<string,any> =
         card_templates:
         {
             path: "card_templates.webp",
-            frames: new Point(6,1)
+            frames: new Point(7,1)
         },
 
         misc:
@@ -61,20 +61,36 @@ const CONFIG:Record<string,any> =
         numMissionCards: 40,
         numMasterCards: 20,
         numIdentityCardsEach: 18,
+        numShopCards: 20,
+        shopCardsMaxFrequencyDist: 3,
+        shopCardsCostBounds: new Bounds(1,3),
 
         numResourcesPerSide: new Bounds(1,4),
+        maxResourcesRedSide: 3,
         goodIconFlipProb: 0.1,
         badIconFlipProb: 0.1,
         maxDeviationBadIcons: 2,
 
         masterCardIconsRange: new Bounds(5, 19)
     },
+
+    rulebook:
+    {
+        marketSize: 6,
+        numStartingVotesPerPlayer: 10,
+        equalityWinsMission: true
+    },
     
     cards:
     {
         shared:
         {
-            dropShadowRadius: new CVal(0.02, "sizeUnit")
+            dropShadowRadius: new CVal(0.02, "sizeUnit"),
+            textColor:
+            {
+                green: "#002800",
+                red: "#280000",
+            }
         },
 
         resources:
@@ -117,6 +133,17 @@ const CONFIG:Record<string,any> =
             
             fontSize: new CVal(0.0733, "sizeUnit"),
             textColor: "#000000"
+        },
+
+        shop:
+        {
+            labelOffset: new CVal(new Point(0, 0.025), "size"),
+            textOffset: new CVal(new Point(0, 0.28), "size"),
+            fontSizeLabel: new CVal(0.04, "sizeUnit"),
+            fontSize: new CVal(0.058, "sizeUnit"),
+            strokeWidthLabel: new CVal(0.0025, "sizeUnit"),
+            compositeLabel: "overlay",
+            textBoxDims: new CVal(new Point(0.9, 0.5), "size"),
         }
     },
 

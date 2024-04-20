@@ -64,6 +64,9 @@ Three simple steps.
   {{< setting-enum id="setting-itemSize" text="Card Size?" values="small,regular,large" valaskey="true" def="regular" >}}
   {{< boardgame-settings-section heading="Sets" >}}
 {{< setting-checkbox id="setting-sets-base" text="Base Game?" checked="checked" >}}
+{{< setting-checkbox id="setting-sets-abstain" text="Abstain Attacks?" >}}
+{{< setting-checkbox id="setting-sets-undecided" text="Undecided Voters?" >}}
+{{< setting-checkbox id="setting-sets-advanced" text="Advanced Politics?" >}}
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 

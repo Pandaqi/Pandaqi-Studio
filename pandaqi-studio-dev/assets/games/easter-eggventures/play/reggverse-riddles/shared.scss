@@ -1,1 +1,15 @@
 // @TODO; for any reused colors or special blocks or whatever for THIS PARTICULAR GAME
+
+$bg-col: #2e0851;
+$text-col: #FFDDFF;
+
+$col1: #b5043e;
+$col2: #68dca7;
+$col2-hover: #e7fff2;
+$col2-dark: #064924;
+
+body
+{
+    background-color: $bg-col;
+    color: $text-col;
+}

@@ -13,16 +13,15 @@ downloadLink: ""
 customHeight: "small"
 headerDarkened: true
 
-color: "brown"
+color: "yellow"
 
-bgColor: "#230e00"
-bgColorLink: "#2d2d2d"
+bgColor: "#232300"
+bgColorLink: "#CCCC66"
 
-textColor: "#fff0e8"
-textColorLink: "#e0e0e0"
+textColor: "#FFFFDD"
+textColorLink: "#232300"
 
-
-date: 2023-01-01 # 2024-12-26
+date: 2025-03-26
 
 categories: ["boardgame"]
 tags: ["creative", "guessing", "word"]
@@ -48,20 +47,24 @@ Eggventures is a collection of free Easter-themed board games for families and s
 
 This is the **overview page** of the Easter Eggventures. 
 
-Click any of the links below to visit a specific game. They are roughly sorted by how small and simple they are.
+Click any of the links below to visit a specific game. They are roughly sorted by how **simple** I think they are, in terms of short rules and simple concepts to understand.
 
-* [Bunny Bidding](/easter-eggventures/play/bunny-bidding/): snatch the best offers containing the one secret egg that scores you points.
-* [Egghunt Esports](/easter-eggventures/play/egghunt-esports/): find the locations of the best eggs and collect them, but without ever entering the arena or giving that info away to your opponents.
-* [Reggverse Riddles](/easter-eggventures/play/reggverse-riddles/): win the reverse egg hunt by cleverly changing where eggs are hidden just before you decide to look.
+* [Quizhide Queaster](/easter-eggventures/play/quizhide-queaster): one team hides the eggs, the other searches. But communication between them is unfortunately limited to vague, dreamlike illustrations.
+* [Egghunt Esports](/easter-eggventures/play/egghunt-esports/): find the locations of the best eggs and collect them, without ever entering the arena or giving that information to your opponents.
 * [Chicken Colorout](/easter-eggventures/play/chicken-colorout/): be the first to hide all your eggs in an environment filled with kids (or other forces) eager to find them again.
-* [Quizhide Queaster](/easter-eggventures/play/quizhide-queaster): one team hides the eggs, the other searches, but communication between them is unfortunately limited to vague, dreamlike illustrations.
+* [Bunny Bidding](/easter-eggventures/play/bunny-bidding/): snatch the best offers containing the secret eggs that actually score you points.
+* [Reggverse Riddles](/easter-eggventures/play/reggverse-riddles/): win the reverse egg hunt by cleverly changing where eggs are hidden just before you decide to look.
+
+{{% /section-centered %}}
+
+{{% section-centered heading="How are they connected?" %}}
 
 The games are all completely **unique**. They don't share material or rules, and aren't just minor variations of the same idea.
 
 What _do_ they have in common?
-* Themed around Easter. (Usually the idea of an egg hunt with some twists.)
-* Extremely simple rules for easy play with family or parent-kids. (They are mostly meant as a way to spent a holiday together, possibly with non-gamers.)
-* Completely playable by printing its material PDF and cutting the cards/tiles. (Nothing else needed.)
+* Themed around **Easter**. (Usually the idea of an egg hunt with some twists.)
+* Extremely **simple rules** for easy play with family or parent-kids. (They are mostly meant as a way to spent a holiday together, possibly with non-gamers.)
+* Completely playable by **printing its material PDF** and cutting the cards/tiles. (Nothing else needed.)
 
 As always, I design the rules for the base game to be dead simple. This does mean that you should look to the variants and expansions to add more depth and challenge to the games. It's usually a good idea to start introducing those extra elements after your first few games, once everyone is familiar.
 
@@ -77,7 +80,7 @@ I couldn't decide which one to make, so I decided to just try all of them. And, 
 
 I briefly considered sharing more material between games, but the games were too different to accomplish that. Instead, they only share parts of the visual design: fonts, color schemes, egg illustrations.
 
-@TODO: The fonts used are **??** (headings, decorative text) and **??** (body, longer paragraphs). Both are freely available online. Some generative AI was used for complex illustrations, everything else is entirely mine.
+The font used is **Gargle** (both body and heading text), freely available online. Some generative AI was used for complex illustrations, everything else is entirely mine.
 
 For more information, as always, read my [detailed developer diary on Pandaqi Blog](/blog/boardgames/easter-eggventures/).
 

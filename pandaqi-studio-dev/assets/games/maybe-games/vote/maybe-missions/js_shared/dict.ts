@@ -1,3 +1,4 @@
+import toTextDrawerImageStrings from "js/pq_games/tools/text/toTextDrawerImageStrings"
 
 interface CardResource
 {
@@ -11,6 +12,12 @@ interface CardResourceData
     bad: CardResource[]
 }
 
+interface CardGadgetData
+{
+    green: { cost: string[], reward: string, label: string },
+    red: { cost: string[], reward: string, label: string }
+}
+
 interface CardPowerData
 {
     good: string,
@@ -21,10 +28,16 @@ enum CardType
 {
     MISSION,
     IDENTITY,
-    VOTE
+    VOTE,
+    SHOP
 }
 
-type CardSubType = VoteType | IdentityCardType | MissionType
+type CardSubType = VoteType | IdentityCardType | MissionType | ShopType
+
+enum ShopType
+{
+    SHOP = "shop"
+}
 
 enum MissionType
 {
@@ -116,7 +129,7 @@ const MASTER_CARDS:Record<string,MasterCardData> =
     study_master_cards: { desc: "Reveal the <b>top 5 Master Cards</b> in the deck." },
 
     swap_votes: { desc: "<b>Round Start</b>: everyone discards 3 Votes and draws 3 new ones." },
-    flip_card: { desc: "<b>Round Start</b>: everyone rotates 1 of their cards (green side up <-> red side up)." },
+    flip_card: { desc: "<b>Round Start</b>: everyone rotates 1 of their cards (green side <> red side)." },
     reveal_hand_yes: { desc: "<b>Round End</b>: all YES-voters <em>reveal their hand Votes</em>." },
     reveal_hand_no: { desc: "<b>Round End</b>: all NO-voters <em>reveal their hand Votes</em>." },
 
@@ -165,6 +178,60 @@ const RANDOM_TEXTS = [
     "Stay in shadows", "Make our escape", "Draw a map", "Unlock their safe"
 ];
 
+enum ShopVibe
+{
+    GREEN = "green", // these appear on the GREEN side of the shop card
+    RED = "red" // these appear on the RED side of the shop card (they're not bad, they're just slightly less good)
+}
+
+const SHOP_REWARDS =
+{
+    free_mission_card: { desc: "<b>Draw any Mission Card</b> from market. You win it, green side up.", vibe: ShopVibe.GREEN },
+    give_mission_card: { desc: "<b>Draw a random Mission Card</b> for yourself and another player. You win it, green side up.", vibe: ShopVibe.RED },
+
+    free_master_card: { desc: "<b>Draw the top Master Card</b>. You win it, green side up.", vibe: ShopVibe.GREEN },
+    decide_master_card: { desc: "Decide who <b>gets the Master Card</b> this round.", vibe: ShopVibe.RED },
+
+    become_active: { desc: "You become the next <b>active player</b>.", vibe: ShopVibe.GREEN },
+    decide_active: { desc: "You <b>decide</b> who becomes the next <b>active player</b> (excluding yourself).", vibe: ShopVibe.RED },
+
+    remove_votes: { desc: "<b>Ignore (at most) 2 Votes</b> from this round.", vibe: ShopVibe.GREEN },
+    remove_votes_worse: { desc: "<b>Ignore the Vote</b> of your <b>left neighbor</b> this round.", vibe: ShopVibe.RED },
+
+    change_vote_numbers: { desc: "<b>Change</b> the <b>numbers on all Votes</b> to anything you want.", vibe: ShopVibe.GREEN },
+    change_vote_numbers_worse: { desc: "<b>Change</b> the number on your <b>own Vote</b> to anything you want.", vibe: ShopVibe.RED },
+
+    flip_mission_card: { desc: "<b>Flip</b> (at most) 2 Mission Cards of any player.", vibe: ShopVibe.GREEN },
+    flip_mission_card_restricted: { desc: "<b>Flip</b> 1 Mission Card of yours.", vibe: ShopVibe.RED },
+
+    add_proposal: { desc: "<b>Add</b> (at most) 2 cards to the <b>mission</b>, from deck or market.", vibe: ShopVibe.GREEN },
+    add_proposal_restricted: { desc: "<b>Add</b> 1 card to the <b>mission</b> from the market.", vibe: ShopVibe.RED },
+
+    remove_proposal: { desc: "<b>Remove</b> (at most) 3 cards from the <b>mission</b>.", vibe: ShopVibe.GREEN },
+    remove_proposal_restricted: { desc: "<b>Remove</b> 1 card from the <b>mission</b>.", vibe: ShopVibe.RED },
+
+    reveal_votes: { desc: "All other players must <b>reveal their Votes</b> to you.", vibe: ShopVibe.GREEN },
+    reveal_votes_restricted: { desc: "Pick 1 player. They must <b>reveal their Votes</b> to you.", vibe: ShopVibe.RED },
+
+    swap_votes: { desc: "<b>Swap</b> (at most) 3 of your Votes for new ones from the deck.", vibe: ShopVibe.GREEN },
+    draw_votes: { desc: "All players <b>draw 2 more Votes</b> into their hand.", vibe: ShopVibe.RED },
+
+    market_change: { desc: "Permanently <b>change market size</b> by (at most) 2 cards.", vibe: ShopVibe.GREEN },
+    market_change_worse: { desc: "Permanently <b>increase market size</b> by 1 card.", vibe: ShopVibe.RED },
+
+    swap_cards: { desc: "<b>Swap 2 Mission Cards</b> of yours with ones from another player", vibe: ShopVibe.GREEN },
+    swap_cards_restricted: { desc: "<b>Swap a Mission Card</b> of yours with one from another player, with the same side up.", vibe: ShopVibe.RED },
+
+    buy_next_green: { desc: "Draw a <b>new Shop Card</b> and get whatever is on its <b>green side</b>.", vibe: ShopVibe.GREEN },
+    buy_next_red: { desc: "Draw a <b>new Shop Card</b> and get whatever is on its <b>red side</b>.", vibe: ShopVibe.RED },
+
+    buy_vote: { desc: "When buying next round, <b>hold a Vote</b>. Only purchase at SUCCESS. (Redraw 1 Vote afterwards.)", vibe: ShopVibe.RED },
+    buy_vote_all: { desc: "When buying next round, <b>hold a Vote</b>. If SUCCESS, everyone gets the reward.", vibe: ShopVibe.RED },
+}
+
+const GADGET_NAMES = ["Sneaky Spectacles", "Snoopinator 3000", "Cufflink Comms", "Giggling Glasses", "Stealthy Stickers", "Bicycle Bugs", "Lipstick Listener", "Spy Pen", "Jocular Jetpack", "Bisexual Briefcase", "Weather Wig", "Disguise Drone", "Hidden Hat", "Gadget Gloves", "Code Crackilator", "Invisibility Cloak", "Signal Sender", "Eavesdropper X100", "Flying Umbrella", "GPS Giraffe", "Magnetic Monocle", "Laser Lipstick", "Lie Detector", "Walkie-Walkie", "Mini Microphone", "Crow Camera", "Holographic Hat", "Whisper Watch", "Spy Socks", "Super Scanner", "Fake Vault", "Luminous Locket", "Super Suit", "Bubble Blanket", "Gaming Goggles", "Camera Cane", "Wireless Shoes", "Jukebox Jammers", "Fingertip Recorder", "Charming Chameleon", "Hyper Holster", "Gravity Gun", "Nuke Necklace", "Pencil Phone", "Gun Guitar", "Racing Robot"]
+
+
 const CARD_TEMPLATES =
 {
     mission: { frame: 0 },
@@ -172,24 +239,16 @@ const CARD_TEMPLATES =
     identity_private: { frame: 2 },
     identity_public: { frame: 3 },
     vote_yes: { frame: 4 },
-    vote_no: { frame: 5 }
+    vote_no: { frame: 5 },
+    shop: { frame: 6 }
 }
 
 // this is used when doing the dynamic replacements
-// (the resources are ICONS, hence the quick conversion here)
-const DYNAMIC_RESOURCE_LIST = [];
-for(const [key,data] of Object.entries(RESOURCES))
-{
-    const str = '<img id="misc" frame="' + data.frame + '">';
-    DYNAMIC_RESOURCE_LIST.push(str);
-}
-
-
 const DYNAMIC_OPTIONS =
 {
     "%vote%": ["YES", "NO"],
     "%num%": [1,2,3],
-    "%resource%": DYNAMIC_RESOURCE_LIST.slice(),
+    "%resource%": toTextDrawerImageStrings(RESOURCES, "misc"),
     "%comparison%": ["at least", "at most"],
     "%status%": ["SUCCES", "FAIL"],
 }
@@ -214,6 +273,11 @@ export
     RESOURCES,
     RANDOM_TEXTS,
     MISC,
-    CARD_TEMPLATES
+    CARD_TEMPLATES,
+    ShopVibe,
+    ShopType,
+    SHOP_REWARDS,
+    GADGET_NAMES,
+    CardGadgetData
 };
 

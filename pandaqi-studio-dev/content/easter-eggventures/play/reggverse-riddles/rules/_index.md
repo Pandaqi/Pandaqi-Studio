@@ -2,7 +2,7 @@
 type: "rules"
 ---
 
-{{% rules-block id="setup" heading="Setup" icon="setup" icontint="green" %}}
+{{% rules-block id="setup" heading="Setup" icon="setup" icontint="pink" %}}
 
 Place random **Map Tiles** in any reasonable map shape. When unsure, just use a 4x4 grid.
 
@@ -18,13 +18,13 @@ For a shorter game, include fewer unique egg types, or just fewer tokens per egg
 
 {{% /rules-block %}}
 
-{{% rules-block id="objective" heading="Objective" icon="objective" icontint="red" %}}
+{{% rules-block id="objective" heading="Objective" icon="objective" icontint="green" %}}
 
 The game **ends** when all egg piles have run out. The player who scored the **most eggs wins**.
 
 {{% /rules-block %}}
 
-{{% rules-block id="action_play" heading="Gameplay" icon="action" icontint="green" %}}
+{{% rules-block id="action_play" heading="Gameplay" icon="action" icontint="pink" %}}
 
 Begin with the start player, then take clockwise turns until done.
 
@@ -50,11 +50,11 @@ At the **end of your turn**, check the row of rules for each egg type. They tell
 
 Finally, draw your hand back up to 4 tiles.
 
-@TODO: IMAGE EXAMPLE
+@TODO: IMAGE EXAMPLE (might do 2 IMAGES, spread across this text)
 
 {{% /rules-block %}}
 
-{{% rules-block id="expansions" heading="Expansions" icon="expansion" icontint="red" %}}
+{{% rules-block id="expansions" heading="Expansions" icon="expansion" icontint="green" %}}
 
 Played the base game and ready for more? Check out these simple expansions!
 

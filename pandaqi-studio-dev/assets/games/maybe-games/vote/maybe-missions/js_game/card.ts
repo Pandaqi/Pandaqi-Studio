@@ -1,7 +1,7 @@
 import createContext from "js/pq_games/layout/canvas/createContext";
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
-import { CARD_TEMPLATES, CardPowerData, CardResourceData, CardSubType, CardType, IdentityCardType, MASTER_CARDS, MISC, MissionType, RESOURCES, VoteType } from "../js_shared/dict";
+import { CARD_TEMPLATES, CardGadgetData, CardPowerData, CardResourceData, CardSubType, CardType, IdentityCardType, MASTER_CARDS, MISC, MissionType, RESOURCES, VoteType } from "../js_shared/dict";
 import Point from "js/pq_games/tools/geometry/point";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import getPositionsCenteredAround from "js/pq_games/tools/geometry/paths/getPositionsCenteredAround";
@@ -20,6 +20,7 @@ export default class Card
     num: number;
     rule: string;
     resources: CardResourceData;
+    gadgets: CardGadgetData;
     powers: CardPowerData;
 
     randomText: string;
@@ -36,6 +37,7 @@ export default class Card
     setPowers(p:CardPowerData) { this.powers = p; }
     setRandomText(t:string) { this.randomText = t; }
     setMasterIcon(f:number) { this.masterIconFrame = f; }
+    setGadgets(g:CardGadgetData) { this.gadgets = g; }
 
     isVote() { return this.type == CardType.VOTE; }
     hasRandomText() { return this.randomText != undefined; }
@@ -70,7 +72,10 @@ export default class Card
         } else if(this.type == CardType.VOTE) {
             if(this.subType == VoteType.YES) { key = "vote_yes"; }
             else { key = "vote_no"; }
+        } else if(this.type == CardType.SHOP) {
+            key = "shop";
         }
+
         const frame = CARD_TEMPLATES[key].frame;
         const op = new LayoutOperation({
             translate: new Point(),
@@ -99,6 +104,7 @@ export default class Card
         {
             const type = i == 0 ? "good" : "bad";
             const resources = this.resources[type];
+            const rotation = i == 0 ? 0 : Math.PI;
             const anchor = new Point(vis.center.x, offsetY);
             if(type == "bad") { anchor.y = vis.size.y - offsetY; }
 
@@ -117,16 +123,21 @@ export default class Card
                     frame: RESOURCES[data.type].frame,
                     dims: iconDims,
                     pivot: Point.CENTER,
+                    rotation: rotation,
                     effects: effects
                 });
                 group.add(resIcon, opIcon);
 
                 if(!data.cross) { continue; }
 
+                let crossPos = tempPos.clone().sub(iconOffsetCross);
+                if(i == 0) { crossPos = tempPos.clone().add(iconOffsetCross); }
+
                 const opCross = new LayoutOperation({
-                    translate: tempPos.clone().add(iconOffsetCross),
+                    translate: crossPos,
                     dims: iconDimsCross,
                     frame: MISC.cross.frame,
+                    rotation: rotation,
                     pivot: Point.CENTER,
                     effects: effects
                 })
@@ -141,6 +152,7 @@ export default class Card
         this.drawVoteNumber(vis, group);
         this.drawRule(vis, group);
         this.drawPowers(vis, group);
+        this.drawGadgets(vis, group);
     }
 
     drawRandomText(vis:MaterialVisualizer, group:ResourceGroup)
@@ -180,7 +192,8 @@ export default class Card
             size: vis.get("votes.number.fontSize"),
         }).alignCenter();
 
-        const textColor = vis.inkFriendly ? "#000000" : vis.get("votes.number.color");
+        const side = (this.subType == VoteType.YES) ? "green" : "red";
+        const textColor = vis.inkFriendly ? "#000000" : vis.get("cards.shared.textColor." + side);
         const strokeColor = vis.inkFriendly ? "#FFFFFF" : vis.get("votes.number.colorStroke");
         const pos = vis.get("votes.number.pos");
         const dropShadowEffect = new DropShadowEffect({ blurRadius: vis.get("cards.shared.dropShadowRadius")});
@@ -275,6 +288,103 @@ export default class Card
                 dims: textDims,
                 fill: textColor,
                 pivot: Point.CENTER
+            });
+            group.add(resText, opText);
+        }
+    }
+
+    drawGadgets(vis:MaterialVisualizer, group:ResourceGroup)
+    {
+        if(this.type != CardType.SHOP) { return; }
+
+        const resIcon = vis.getResource("misc");
+
+        const offsetY = vis.get("cards.resources.iconOffset").y;
+        const iconDims = vis.get("cards.resources.iconDims");
+
+        const dropShadowEffect = new DropShadowEffect({ blurRadius: vis.get("cards.shared.dropShadowRadius")});
+        const effects = [dropShadowEffect, vis.inkFriendlyEffect].flat();
+
+        const offsetLabelY = vis.get("cards.shop.labelOffset").y;
+
+        const offsetTextY = vis.get("cards.shop.textOffset").y;
+        const textDims = vis.get("cards.shop.textBoxDims");
+        const strokeWidthLabel = vis.get("cards.shop.strokeWidthLabel");
+
+        const textConfig = new TextConfig({
+            font: vis.get("fonts.body"),
+            size: vis.get("cards.shop.fontSize"),
+        }).alignCenter();
+
+        const textConfigLabel = new TextConfig({
+            font: vis.get("fonts.heading"),
+            size: vis.get("cards.shop.fontSizeLabel"),
+        }).alignCenter();
+
+        for(let i = 0; i < 2; i++)
+        {
+            const type = i == 0 ? "green" : "red";
+            const data = this.gadgets[type];
+            const rotation = i == 0 ? 0 : Math.PI;
+
+            const textColor = vis.inkFriendly ? "#000000" : vis.get("cards.shared.textColor." + type);
+            
+            const anchor = new Point(vis.center.x, offsetY);
+            const anchorText = new Point(vis.center.x, offsetTextY);
+            const anchorLabel = new Point(vis.center.x, offsetLabelY);
+            if(type == "red") 
+            { 
+                anchor.y = vis.size.y - anchor.y;
+                anchorText.y = vis.size.y - anchorText.y;
+                anchorLabel.y = vis.size.y - anchorLabel.y;
+            }
+            
+            // draw the gadget name
+            const resTextLabel = new ResourceText({ text: data.label, textConfig: textConfigLabel });
+            const opTextLabel = new LayoutOperation({
+                translate: anchorLabel,
+                dims: textDims,
+                rotation: rotation,
+                fill: textColor,
+                stroke: "#FFFFFF",
+                strokeWidth: strokeWidthLabel,
+                strokeAlign: StrokeAlign.OUTSIDE,
+                composite: vis.get("cards.shop.compositeLabel"),
+                pivot: Point.CENTER
+            });
+            group.add(resTextLabel, opTextLabel);
+
+            // draw the icons = cost of the gadget
+            const positions = getPositionsCenteredAround({ 
+                pos: anchor,
+                num: data.cost.length,
+                dims: iconDims,
+            });
+
+            for(let a = 0; a < positions.length; a++)
+            {
+                const icon = data.cost[a];
+                const pos = positions[a];
+                const opIcon = new LayoutOperation({
+                    translate: pos,
+                    frame: RESOURCES[icon].frame,
+                    dims: iconDims,
+                    pivot: Point.CENTER,
+                    effects: effects,
+                    rotation: rotation
+                });
+                group.add(resIcon, opIcon);
+            }
+
+            // draw the text = actual reward
+            const str = data.reward;
+            const resText = new ResourceText({ text: str, textConfig: textConfig });
+            const opText = new LayoutOperation({
+                translate: anchorText,
+                dims: textDims,
+                rotation: rotation,
+                fill: textColor,
+                pivot: Point.CENTER,
             });
             group.add(resText, opText);
         }

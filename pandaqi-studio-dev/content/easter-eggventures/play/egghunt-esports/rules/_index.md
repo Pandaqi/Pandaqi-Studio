@@ -2,7 +2,7 @@
 type: "rules"
 ---
 
-{{% rules-block id="setup" heading="Setup" icon="setup" icontint="green" %}}
+{{% rules-block id="setup" heading="Setup" icon="setup" icontint="blue" %}}
 
 Pick any reasonable map shape. When in doubt, just create a 6x6 grid.
 * Randomly place the **eggs** _facedown_ in that shape
@@ -10,15 +10,17 @@ Pick any reasonable map shape. When in doubt, just create a 6x6 grid.
 
 Everyone picks their color and its 2 pawns. They place one pawn _above_ the board and one pawn _besides_ it.
 
+@TODO: EXAMPLE IMAGE
+
 {{% /rules-block %}}
 
-{{% rules-block id="objective" heading="Objective" icon="objective" icontint="red" %}}
+{{% rules-block id="objective" heading="Objective" icon="objective" icontint="purple" %}}
 
 The game **ends** as soon as all eggs have been collected _or_ one player is left in the arena. The player with the **highest scoring eggs** wins!
 
 {{% /rules-block %}}
 
-{{% rules-block id="action_play" heading="Gameplay" icon="action" icontint="green" %}}
+{{% rules-block id="action_play" heading="Gameplay" icon="action" icontint="blue" %}}
 
 Begin with the start player, then take clockwise turns until done.
 
@@ -31,7 +33,7 @@ On your turn, take **3 actions**. The possible actions are ...
 * **Collect**: collect the egg underneath your current tile.
   * Your _"current tile"_ is the one location where your two pawns (row and column) intersect.
   * You can always collect tiles with negative points.
-  * Tiles with positive points, however, must be collected in order (per type). (Example: if you already have the Red 4, then you can't collect the Red 3 anymore.)
+  * Tiles with positive points, however, must be collected in order (per type). (Example: already have the Red 4? You can't collect the Red 3 anymore.)
 
 @TODO: IMAGE EXAMPLE
 
@@ -43,7 +45,7 @@ Obstacle tiles may have powers or restrictions on them. Don't forget to read and
 
 {{% /rules-block %}}
 
-{{% rules-block id="expansions" heading="Expansions" icon="expansion" icontint="red" %}}
+{{% rules-block id="expansions" heading="Expansions" icon="expansion" icontint="purple" %}}
 
 Played the base game and ready for more? Check out these simple expansions!
 

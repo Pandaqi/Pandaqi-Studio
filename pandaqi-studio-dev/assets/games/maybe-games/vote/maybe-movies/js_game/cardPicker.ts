@@ -1,10 +1,11 @@
 import getAllPossibleCombinations from "js/pq_games/tools/collections/getAllPossibleCombinations";
 import shuffle from "js/pq_games/tools/random/shuffle";
 import CONFIG from "../js_shared/config";
-import { CardType, ICONS, MAIN_TEXTS, MovieDetails, MovieType, TextDetails } from "../js_shared/dict";
+import { BLOCKBUSTERS, CardType, DYNAMIC_OPTIONS, ICONS, MAIN_TEXTS, MovieDetails, MovieType, TextDetails } from "../js_shared/dict";
 import Card from "./card";
 import getWeighted from "js/pq_games/tools/random/getWeighted";
 import fromArray from "js/pq_games/tools/random/fromArray";
+import BalancedFrequencyPickerWithMargin from "js/pq_games/tools/generation/balancedFrequencyPickerWithMargin";
 
 export default class CardPicker
 {
@@ -120,18 +121,71 @@ export default class CardPicker
         console.log(stats);
     }
 
+    
+    fillDynamicEntry(s:string, needles = DYNAMIC_OPTIONS, resourcePicker:BalancedFrequencyPickerWithMargin = null)
+    {
+        let foundNeedle = true;
+        const hasPicker = resourcePicker != null;
+        while(foundNeedle)
+        {
+            foundNeedle = false;
+            for(const needle of Object.keys(needles))
+            {
+                if(!s.includes(needle)) { continue; }
+                foundNeedle = true;
+
+                if(hasPicker && needle == "%resource%")
+                {
+                    s = s.replace(needle, resourcePicker.pickNext());
+                    continue;
+                }
+                
+                // @NOTE: this does NOT pop the option off the needles, to save me from cloning/slicing that object all the time for no benefit
+                const options = shuffle(needles[needle].slice());
+                s = s.replace(needle, fromArray(options));
+            }
+        }
+        return s;
+    }
+
+    drawBalancedDetailsBlockbuster(pickerCost, pickerProfit) : MovieDetails
+    {
+        const costKey = getWeighted(BLOCKBUSTERS.cost);
+        const costText = this.fillDynamicEntry(BLOCKBUSTERS.cost[costKey].desc, undefined, pickerCost);
+
+        const profitKey = getWeighted(BLOCKBUSTERS.profit);
+        const profitText = this.fillDynamicEntry(BLOCKBUSTERS.profit[profitKey].desc, undefined, pickerProfit);
+
+        return { costText, profitText };
+    }
+
     generateBlockbusterCards()
     {
         if(!CONFIG.sets.blockbusterBudgets) { return; }
 
-        // @TODO => fairly draw/dynamically determine these blockbuster rules, then add to cards
-        // Can only write this code once I actually know all the options for this and what they need
+        const numCards = CONFIG.generation.numBlockbusterCards;
+        const allIconOptions = DYNAMIC_OPTIONS["%resource%"];
+        const pickerCost = new BalancedFrequencyPickerWithMargin({ 
+            options: allIconOptions,
+            maxDist: 1
+        });
+        const pickerProfit = new BalancedFrequencyPickerWithMargin({ 
+            options: allIconOptions,
+            maxDist: 1
+        });
+
+        const details = [];
+        for(let i = 0; i < numCards; i++)
+        {
+            details.push( this.drawBalancedDetailsBlockbuster(pickerCost, pickerProfit) );
+        }
+        shuffle(details);
 
         const mainTexts = {};
-        const num = CONFIG.generation.numBlockbusterCards;
-        for(let i = 0; i < num; i++)
+        for(let i = 0; i < numCards; i++)
         {
             const newCard = new Card(CardType.MOVIE, MovieType.MOVIE);
+            newCard.setMovieDetails( details.pop() );
             newCard.setTextDetails( this.drawRandomTextDetails(mainTexts) );
             this.cards.push(newCard);
         }

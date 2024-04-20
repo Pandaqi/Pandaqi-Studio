@@ -25,11 +25,12 @@ export default class VotePicker
         let counter = 0;
         let number = 1;
         const numbers = [];
+        const maxAbstainNumber = CONFIG.generation.numAbstainCards * 3;
         while(counter < numCards)
         {
             numbers.push(number);
             number++;
-            if(number % 3 == 0) { number++; }
+            if(number % 3 == 0 && number <= maxAbstainNumber) { number++; }
             counter++;
         }
 

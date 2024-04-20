@@ -26,6 +26,8 @@ Of the cards you collected, only the side pointing _up_ ("away from you") counts
 
 {{% rules-block id="action_play" heading="Gameplay" icon="action" icontint="green" %}}
 
+{{< rules-example id="turn" >}}
+
 From start player, take clockwise turns.
 
 On your turn, **prepare a mission**.
@@ -38,25 +40,22 @@ The Master card contains a **rule**. This rule applies to the current round and 
 
 Once the mission is prepared, all players simultaneously **vote**.
 * Stick out your hand with a secret Vote inside, then reveal simultaneously.
-* If the majority voted YES, the mission SUCCEEDS.
-* Otherwise, the mission FAILS.
+* If the majority voted NO, the mission FAILS. Otherwise, it SUCCEEDS.
 
 All YES-voters now take turns collecting a single mission card.
 
-* SUCCESS? Sort turns from low to high (by vote numbers). Place your collected card before you with the green side up. 
-* FAIL? Sort turns from high to low (by vote numbers). Place your collected card before you with the red side up.
+* **SUCCESS?** Sort turns from low to high (by vote numbers). Place your collected card before you with the green side up. 
+* **FAIL?** Sort turns from high to low (by vote numbers). Place your collected card before you with the red side up.
 
-If everyone voted NO, then everyone must collect a mission card and place it with the red side up. (In order of vote number, high to low.)
+The active player always wins the Master Card. (Green side up if SUCCESS, otherwise red side.)
 
-Whatever happens, the active player always wins the Master Card. As usual, if the mission SUCCEEDED the green side points up, otherwise the red side points up.
+Exceptional Round: If **everyone voted NO**, then everyone must collect a mission card and place it with the red side up. (In order of vote number, high to low.) The Master Card is **not** won.
 
 Once done, all Votes are discarded. Next round!
 
 _Remark:_ If the mission cards have run out while picking, any players remaining simply don't collect anything.
 
 @TODO: IMAGE EXAMPLE
-
-@TODO: INTERACTIVE EXAMPLE
 
 {{% /rules-block %}}
 
@@ -96,22 +95,20 @@ When a secret identity talks about icons showing on a card, it's always about a 
 
 {{% rules-block heading="Gadget Shopping" %}}
 
-For this expansion, also use the Shop cards.
+For this expansion, also use the **Shop Cards**.
 
-During setup, pick a random Shop card and place it in clear view of all players.
+During **setup**, pick a random Shop card and place it in clear view of all players.
 
-Before the start of a round, you are allowed to _buy_ from the shop. By paying the resources indicated on the left, you get the corresponding reward on the right. Paying means you discard collected cards showing _at least_ those icons.
+After voting, in ascending order (highest vote -> lowest vote), ask players if they want to **buy** from the shop.
 
-The possible rewards are:
+How?
+* By paying the resources indicated above, you get the corresponding reward on below. 
+* Paying means you discard collected cards totaling to _at least_ those icons.
+* If the mission SUCCEEDS, you can only buy the **green side**. If it FAILS, you can only buy the **red side**.
 
-* Collect the green side of a random Mission Card.
-* Collect a random Master Card
-* Execute action X
+As soon as someone decided to buy, the Shop Card is replaced by a new one. Nobody else can buy anymore this round.
 
-@TODO: Not sure about this one. Feels like we stray away from the VOTING mechanic, which should be the core of EVERYTHING. Like, can't we say ...
-
-* Whenever you want to buy something, everyone votes on it. Your purchase only succeeds if majority votes YES. The token used for this is replaced by drawing a new one (?)
-* Or maybe we can vote on who becomes the next active player? That feels very important to control.
+It's also allowed to put the current shop card **into your proposed mission**. If won by a player, it becomes their personal shop: they can buy from it as long as they have the card. (Replace it with a new general Shop Card.)
 
 @TODO: EXAMPLE IMAGE?
 

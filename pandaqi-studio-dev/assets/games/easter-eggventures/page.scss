@@ -3,18 +3,17 @@
 
 $bg-color: g.$bg-col;
 $text-color: g.$text-col;
-$button-bg: g.$col1;
-$button-color: #27231c;
-$link-color: color.adjust(g.$col2, $lightness: 0%);
-$link-color-hover: color.adjust(g.$col2, $lightness: 15%);
-$settings-color: g.$col3;
+$button-bg: #ff2e60;
+$button-color: #ffd6e9;
+$link-color: #00571b;
+$link-color-hover: #4d4dff;
 $cutoff: 920px;
 
 h1, h2, h3, h4, h5, h6, 
 a.btn, #btn-create-pdf, #btn-generate-board, #btn-start-game,
 input, button, select, option, label {
     font-family: g.$header-font;
-    font-weight: normal;
+    font-weight: bold;  
 }
 
 input, button, select, option, label {
@@ -46,17 +45,11 @@ h3 {
 a {
     color: $link-color; 
     transition: color 0.3s;
+    font-weight: bold;
 
     &:hover {
         color: $link-color-hover;
     }
-}
-
-.game-settings {
-    color: black;
-    background-color: $settings-color;
-
-    .setting-remark { color: black; }
 }
 
 .boardgame-intro {

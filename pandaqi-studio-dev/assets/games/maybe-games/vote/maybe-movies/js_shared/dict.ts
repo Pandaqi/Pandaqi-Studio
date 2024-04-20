@@ -1,3 +1,4 @@
+import toTextDrawerImageStrings from "js/pq_games/tools/text/toTextDrawerImageStrings"
 
 enum CardType
 {
@@ -27,8 +28,10 @@ interface VoteDetails
 
 interface MovieDetails
 {
-    costIcons: string[],
-    profit: number
+    costIcons?: string[],
+    profit?: number,
+    costText?: string,
+    profitText?: string
 }
 
 const CARD_TEMPLATES =
@@ -36,7 +39,8 @@ const CARD_TEMPLATES =
     movie: { frame: 0 },
     vote_yes: { frame: 1 },
     vote_no: { frame: 2 },
-    vote_change: { frame: 3 }
+    vote_change: { frame: 3 },
+    movie_flat: { frame: 4 }, // the movie clapper is flat on both sides, allows more space for special text
 }
 
 // @NOTE: things that were hard to visualize: editing (scissors cutting film strip), visual effects, "marketing"
@@ -91,6 +95,61 @@ const MAIN_TEXTS:Record<TextType, TextData> =
     [TextType.THEME]: { desc: "It's about (a) ...", list: THEMES, prob: 2.5 },
 }
 
+/*
+For example,
+* Cost = highest/lowest neighbor.
+* Cost = number of YES-votes / number of NO-votes
+* Profit = 0 if the pitch has <3 cards, otherwise 3.
+* Profit = equal to number of cards in the pitch
+* Profit = equal to the number of times this pitch was CHANGED.
+*/
+
+const BLOCKBUSTERS =
+{
+    cost:
+    {
+        copycat_most_neighbor: { desc: "Copies the cost of the neighbor with the <b>most icons</b>." },
+        copycat_least_neighbor: { desc: "Copies the cost of the neighbor with the <b>least icons</b>." },
+        num_yes_votes: { desc: "Costs as many %resource% as the <b>number of YES votes</b>." },
+        num_no_votes: { desc: "Costs as many %resource% as the <b>number of NO votes</b>." },
+        pitch_size: { desc: "Costs as many %resource% as the <b>number of cards</b> in the pitch." },
+        pitch_size_conditional: { desc: "Costs 2 %resource%, unless the pitch contains more than 3 cards." },
+        match_cost: { desc: "Costs 3 %resource% only if it matches a Movie Made." },
+        match_no_cost: { desc: "Costs 2 %resource% only if it <b>doesn't</b> match a Movie Made." },
+        wildcard_cost: { desc: "Costs %numlow% of any icon." },
+        wildcard_cost_conditional: { desc: "Costs %numlow% of any icon, unless the pitch contains <b>every possible icon</b>." },
+        unanimous_vote: { desc: "Costs 4 %resource%, unless everyone votes the <b>same</b>." },
+        copycat_most_icon: { desc: "Costs 2 of the icon that occurs the <b>most</b> in this pitch." },
+        copycat_least_icon: { desc: "Costs 2 of the icon that occurs the <b>least</b> in this pitch." },
+        num_changes: { desc: "Costs the <b>number of times</b> the pitch <b>CHANGED</b>." },
+    },
+
+    profit:
+    {
+        copycat_most_neighbor: { desc: "Copies the profit of the neighbor with the <b>highest profit</b>." },
+        copycat_least_neighbor: { desc: "Copies the profit of the neighbor with the <b>smallest profit</b>." },
+        num_yes_votes: { desc: "Yields the <b>number of YES votes</b>." },
+        num_no_votes: { desc: "Yields the <b>number of NO votes</b>." },
+        pitch_size: { desc: "Yields the <b>number of cards</b> in the pitch." },
+        pitch_size_conditional: { desc: "Yields <b>3 Votes</b>, unless the pitch contains fewer than 3 cards." },
+        match_reward: { desc: "Yields <b>4 Votes</b> only if it matches a Movie Made." },
+        match_no_reward: { desc: "Yields <b>3 Votes</b> only if it <b>doesn't</b> match a Movie Made." },
+        wildcard_profit: { desc: "Yields 1, 2 or 3 Votes. Active player decides." },
+        wildcard_profit_conditional: { desc: "Yields 5 votes if the pitch contains <b>every possible icon</b>, 1 otherwise." },
+        unanimous_profit: { desc: "Yields 5 votes, but only if everyone votes the <b>same</b>." },
+        copycat_most: { desc: "Copies the profit of the <b>most expensive</b> card in this pitch." },
+        copycat_least: { desc: "Copies the profit of the <b>least expensive</b> card in this pitch." },
+        num_changes: { desc: "Yields the <b>number of times</b> the pitch <b>CHANGED</b>." }, 
+    }
+}
+
+const DYNAMIC_OPTIONS =
+{
+    "%resource%": toTextDrawerImageStrings(ICONS, "misc"),
+    "%vote%": ["YES", "NO"], // @NOTE: CHANGE vote is from expansion, so not included by default here
+    "%numlow%": [1,2,3],
+}
+
 export 
 {
     CardType,
@@ -103,6 +162,8 @@ export
     ICONS,
     TextType,
     TextDetails,
-    MAIN_TEXTS
+    MAIN_TEXTS,
+    BLOCKBUSTERS,
+    DYNAMIC_OPTIONS
 };
 

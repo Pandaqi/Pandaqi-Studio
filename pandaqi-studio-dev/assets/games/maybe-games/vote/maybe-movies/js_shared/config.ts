@@ -9,7 +9,7 @@ const CONFIG:Record<string,any> =
     debug:
     {
         omitFile: true, // @DEBUGGING (should be false)
-        singleDrawPerType: true, // @DEBUGGING (should be false)
+        singleDrawPerType: false, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
@@ -45,7 +45,7 @@ const CONFIG:Record<string,any> =
         card_templates:
         {
             path: "card_templates.webp",
-            frames: new Point(4,1)
+            frames: new Point(5,1)
         },
 
         misc:
@@ -64,7 +64,7 @@ const CONFIG:Record<string,any> =
         costIconNumBounds: new Bounds(1,3),
         costMaxDistBetweenFreqs: 3,
         profitModifier: new Bounds(0.66, 1.75),
-        profitBounds: new Bounds(2,6),
+        profitBounds: new Bounds(2,5),
         comboNumBounds:
         {
             yes: new Bounds(2,4),
@@ -85,6 +85,9 @@ const CONFIG:Record<string,any> =
             {
                 iconOffset: new CVal(new Point(0.0575), "sizeUnit"),
                 iconDims: new CVal(new Point(0.2), "sizeUnit"),
+                textBoxDims: new CVal(new Point(0.95, 0.4), "size"),
+                fontSize: new CVal(0.07, "sizeUnit"),
+                textColor: "#332211"
             },
 
             profit:

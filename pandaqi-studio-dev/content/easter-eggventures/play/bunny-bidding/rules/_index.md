@@ -2,7 +2,7 @@
 type: "rules"
 ---
 
-{{% rules-block id="setup" heading="Setup" icon="setup" icontint="green" %}}
+{{% rules-block id="setup" heading="Setup" icon="setup" icontint="pink" %}}
 
 Create a deck of all **Goal Tiles**. Shuffle and deal each player 2 in secret.
 
@@ -14,15 +14,15 @@ Pick anyone to be start player.
 
 {{% /rules-block %}}
 
-{{% rules-block id="objective" heading="Objective" icon="objective" icontint="red" %}}
+{{% rules-block id="objective" heading="Objective" icon="objective" icontint="purple" %}}
 
-The game ends once all players are out of cards. 
+The game ends once all players are **out of cards**. 
 
 Each secret egg you collected that matches with your Goal Eggs scores you **+5 points**. Any other egg types you collected score **-1 point** each. The player with the **most points wins**!
 
 {{% /rules-block %}}
 
-{{% rules-block id="action_play" heading="Gameplay" icon="action" icontint="green" %}}
+{{% rules-block id="action_play" heading="Gameplay" icon="action" icontint="pink" %}}
 
 Play happens in rounds. 
 
@@ -45,7 +45,7 @@ Once everyone has taken their turn, figure out who wins this round.
 * The winner collects all offer tiles and becomes start player.
 * All bids that were played _facedown_ go into the hand of the worst bidder. Any other bids are removed.
 
-If you have multiple bid tiles, _sum_ their numbers for your final bid number. If this leads to a tie, randomly but fairly distribute the offer among the tied winners.
+If you have multiple bid tiles, _sum_ their numbers for your final bid number. If this leads to a tie, nobody wins.
 
 Next round!
 
@@ -55,7 +55,7 @@ Next round!
 
 {{% /rules-block %}}
 
-{{% rules-block id="expansions" heading="Expansions" icon="expansion" icontint="red" %}}
+{{% rules-block id="expansions" heading="Expansions" icon="expansion" icontint="purple" %}}
 
 Played the base game and ready for more? Or feel like your group needs some tweaks to the game? Check out these variants and expansions.
 
