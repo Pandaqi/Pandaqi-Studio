@@ -4,7 +4,9 @@ type: "rules"
 
 {{% rules-block id="setup" heading="Setup" icon="setup" icontint="green" %}}
 
-Create a deck of **Votes**: 5 YES and 5 NO per player. Shuffle and deal 10 secret Votes to each player. Place any remaining votes in a faceup draw pool.
+Create a deck of **Votes**: 5 YES and 5 NO per player. Shuffle and deal 10 secret Votes to each player. If someone starts with only Votes of a single type, however rare, deal again.
+
+Place any remaining votes in a faceup draw pool. 
 
 Create a deck of **Movie Cards**. Place 6 of them faceup next to the deck: the market.
 
@@ -24,6 +26,8 @@ During the game, you build a row of **Movies Made**. Each Vote Card you've **won
 
 {{% rules-block id="action_play" heading="Gameplay" icon="action" icontint="green" %}}
 
+{{< rules-example id="turn" >}}
+
 From start player, take clockwise turns.
 
 On your turn, **pitch a movie idea!**
@@ -39,25 +43,26 @@ Once done, everyone **votes simultaneously**.
 * Pick a secret Vote from your hand.
 * One everyone has done so, reveal simultaneously.
 * Sum the votes: every YES has its value added, every NO has its value subtracted.
-* If the votes match the **Budget** (at least), your pitch SUCCEEDS! (The movie is greenlit!)
-* Otherwise, your pitch FAILS.
+* Every 2 icons of the same type can be used as a **wildcard** to match any other icon. (Instead of using them as what they are; you can't do both.) This does not apply to icons of which you have a negative amount, of course.
+
+If the votes match the **Budget** (at least), your pitch SUCCEEDS! (The movie is greenlit!) Otherwise, it FAILS.
 
 Example: The votes were YES-3, YES-5 and NO-2. Their sum is thus 3 + 5 - 2 = 6. The budget for the movie was 5. The pitch SUCCEEDS!
 
 If the movie succeeds,
-* Grab as many Votes as the **Profit**. Use the votes from this round first, then fill up the remaining space from draw pool. <!--- @TODO: Change this rule to "you must fill up the remaining space with Votes that are all the same icon, if possible"?? --->
+* Grab as many Votes as the **Profit**. Use the votes from this round first, then fill up the remaining space from draw pool. 
 * Shuffle and fairly distribute among all YES-voters. 
 * Any leftover Votes---which couldn't be shared fairly---go to the active player.
-* These Votes are **won**. Place them in front of you, don't take them into your hand.
-* Place 2 cards from this movie in the row of Movies Made. <!--- @TODO: 1 card might be fine too here?? --->
+* These Votes are **won**. Place them faceup in front of you; don't take them into your hand.
+* Place 1 card from this movie in the row of Movies Made.
+
+<!--- @TODO: Change the first Profit rule to "you must fill up the remaining space with Votes that are all the same icon, if possible"?? --->
 
 If the movie fails, all NO-voters _win_ their own vote. If _everyone_ voted NO, however, then nobody gets anything back.
 
 Any remaining Movie Cards are discarded.
 
 @TODO: IMAGE EXAMPLE
-
-@TODO: INTERACTIVE EXAMPLE (does that make sense?)
 
 {{% /rules-block %}}
 
@@ -93,7 +98,7 @@ After **voting**, first resolve all CHANGE votes.
 * Sort those players by number on the vote (low to high; CHANGE numbers are unique)
 * Each of them must now _change_ the pitch by adding one of their own Movie Cards and/or removing an existing Movie Card.
 * (Refill your personal Movie Cards as needed.)
-* Once done, everyone takes back their vote _except_ the CHANGE-voters, and you simply vote again on the new pitched Movie.
+* Once done, everyone takes back their vote, while the CHANGE-voters draw a new one from the pool. You simply vote again on the new pitched Movie.
 
 Optionally, players may improvise a pitch for why their change is amazing and makes the movie waaaay better.
 

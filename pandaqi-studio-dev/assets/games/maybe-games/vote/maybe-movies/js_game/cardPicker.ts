@@ -6,6 +6,7 @@ import Card from "./card";
 import getWeighted from "js/pq_games/tools/random/getWeighted";
 import fromArray from "js/pq_games/tools/random/fromArray";
 import BalancedFrequencyPickerWithMargin from "js/pq_games/tools/generation/balancedFrequencyPickerWithMargin";
+import toTextDrawerImageStrings from "js/pq_games/tools/text/toTextDrawerImageStrings";
 
 export default class CardPicker
 {
@@ -38,45 +39,12 @@ export default class CardPicker
         return { main: mainType, option: option };
     }
 
-    drawBalancedIcon(stats:Record<string,number>)
+    drawBalancedDetails(iconPicker: BalancedFrequencyPickerWithMargin, numIcons:number) : MovieDetails
     {
-        const maxDistBetweenFreqs = CONFIG.generation.costMaxDistBetweenFreqs ?? 4;
-
-        // find least used icon
-        let leastUsedIcon = null;
-        let leastUsedFreq = Infinity;
-        for(const icon of Object.keys(ICONS))
-        {
-            const freq = stats[icon] ?? 0;
-            if(freq >= leastUsedFreq) { continue; }
-            leastUsedFreq = freq;
-            leastUsedIcon = icon;
-        }
-
-        // check how bad the situation is
-        // any icons still close to it are still considered as valid options
-        const iconOptions = [];
-        for(const icon of Object.keys(ICONS))
-        {
-            const freq = stats[icon] ?? 0;
-            const dist = Math.abs(freq - leastUsedFreq);
-            if(dist > maxDistBetweenFreqs) { continue; }
-            iconOptions.push(icon);
-        }
-
-        return fromArray(iconOptions);
-    }
-
-    drawBalancedDetails(stats:Record<string, number>) : MovieDetails
-    {
-        let num = CONFIG.generation.costIconNumBounds.randomInteger();
-
         const icons = [];
-        for(let i = 0; i < num; i++)
+        for(let i = 0; i < numIcons; i++)
         {
-            const newIcon = this.drawBalancedIcon(stats);
-            icons.push(newIcon);
-            this.registerDetailStats(stats, newIcon)
+            icons.push( iconPicker.pickNext() );
         }
 
         const profitModifier = CONFIG.generation.profitModifier.random();
@@ -86,10 +54,17 @@ export default class CardPicker
         return { costIcons: icons, profit: profit };
     }
 
-    registerDetailStats(stats:Record<string,number>, icon: string)
+    getIconOptions(setTarget:string = "base")
     {
-        if(!stats[icon]) { stats[icon] = 0; }
-        stats[icon] += 1;
+        const allOptions = Object.keys(ICONS);
+        const arr = [];
+        for(const option of allOptions)
+        {
+            const set = ICONS[option].set;
+            if(set != setTarget) { continue; }
+            arr.push(option);
+        }
+        return arr;
     }
 
     generateBaseCards()
@@ -99,12 +74,31 @@ export default class CardPicker
         const num = CONFIG.generation.numMovieCards;
         const mainTexts = {};
 
+        const iconOptions = this.getIconOptions("base");
+
         // pre-create the array of all movie details (exact icons + profit in one object)
+        const numIconsPerCard = [];
+        const costDist:Record<number,number> = CONFIG.generation.costIconNumDist;
+        for(const [key,freq] of Object.entries(costDist))
+        {
+            const numInstances = Math.ceil(freq * num);
+            for(let i = 0; i < numInstances; i++)
+            {
+                numIconsPerCard.push(parseInt(key));
+            }
+        }
+        shuffle(numIconsPerCard);
+
+        const iconPicker = new BalancedFrequencyPickerWithMargin({
+            options: iconOptions,
+            maxDist: CONFIG.generation.costMaxDistBetweenFreqs ?? 4
+        })
+
         const details = [];
         const stats = {};
         for(let i = 0; i < num; i++)
         {
-            details.push( this.drawBalancedDetails(stats) );
+            details.push( this.drawBalancedDetails(iconPicker, numIconsPerCard.pop()) );
         }
         shuffle(details);
 
@@ -118,7 +112,7 @@ export default class CardPicker
         }
 
         console.log("== (DEBUGGING) CARD STATS ==");
-        console.log(stats);
+        console.log(iconPicker.getStats());
     }
 
     
@@ -162,6 +156,14 @@ export default class CardPicker
     generateBlockbusterCards()
     {
         if(!CONFIG.sets.blockbusterBudgets) { return; }
+
+        const iconOptions = this.getIconOptions("base"); // @TODO: what to do here? do I ever use the other icons I made?
+        const iconOptionsDict = {};
+        for(const option of iconOptions)
+        {
+            iconOptionsDict[option] = ICONS[option];
+        }
+        DYNAMIC_OPTIONS["%resource%"] = toTextDrawerImageStrings(iconOptionsDict, "misc");
 
         const numCards = CONFIG.generation.numBlockbusterCards;
         const allIconOptions = DYNAMIC_OPTIONS["%resource%"];

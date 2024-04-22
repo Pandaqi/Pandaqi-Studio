@@ -28,12 +28,12 @@ The game ends when a player has accrued **25 points (or more)**. They win!
 
 From start player, take clockwise turns. Each turn has three simple phases: _propose_, _vote_ and _collect_.
 
-@TODO: INTERACTIVE EXAMPLE (does that make sense?)
+{{< rules-example id="turn" >}}
 
 {{% rules-block heading="Propose" %}}
 
 On your turn, **make a proposal**.
-* Place 1--5 cards from your hand faceup on the table.
+* Place 2--5 cards from your hand faceup on the table.
 * Only refill your hand (back to 5) when it's empty.
 
 @TODO: EXAMPLE IMAGE (is that even needed??)
@@ -45,11 +45,12 @@ On your turn, **make a proposal**.
 Everyone **votes** on this proposal.
 * From your possible votes---all Votes on cards you've won---secretly pick the one you want.
 * Once done, everyone simultaneously reveals their vote.
-* If the majority voted YES, the proposal is ACCEPTED. Otherwise, it's REJECTED.
+* If the majority voted NO, the proposal is REJECTED. Otherwise, it is ACCEPTED.
 
 If ACCEPTED, all LAW cards become permanent rules in the game. Otherwise, discard them.
 
-Finally, sort all the voters from LOW to HIGH. 
+Finally, sort all the voters 
+* ACCEPTED? Sort from LOW to HIGH (vote numbers). Otherwise, sort HIGH to LOW instead.
 * In that order, everyone takes one card from the proposal. (Cycle until all cards taken.)
 * If ACCEPTED, place that card before you with the green side up. Otherwise, place it red side up.
 
@@ -68,8 +69,8 @@ The term "flipping" a card means rotating it so the other side is up.
 {{% rules-block heading="Collect" %}}
 
 Everyone collects **new votes**. 
-* Sum the number of icons on your SUPPORT cards. If above 0, draw that number of votes.
-* You _may_ discard any other RESOURCE card you own to get +1 vote.
+* Sum the number of icons on your SUPPORT cards. If above 0, draw that number of Votes. If below 0, you lose that number of Votes.
+* You _may_ discard any other RESOURCE card you own to get +2 Votes.
 
 You must always have at least 1 Vote for the next round. As such, if you have no SUPPORT and no RESOURCES, you still collect 1.
 

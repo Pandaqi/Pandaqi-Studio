@@ -34,7 +34,13 @@ interface MovieDetails
     profitText?: string
 }
 
-const CARD_TEMPLATES =
+interface IconData
+{
+    frame: number,
+    set?: string
+}
+
+const CARD_TEMPLATES:Record<string, IconData> =
 {
     movie: { frame: 0 },
     vote_yes: { frame: 1 },
@@ -44,18 +50,20 @@ const CARD_TEMPLATES =
 }
 
 // @NOTE: things that were hard to visualize: editing (scissors cutting film strip), visual effects, "marketing"
-const ICONS =
+// @NOTE: with 6 icons, the chance of a succesful movie is about ~50%
+// (if you removed the Wildcard rule, this only happens at 3 icons! And that was just too few!)
+const ICONS:Record<string, IconData> =
 {
-    money: { frame: 1 },
-    actors: { frame: 2 },
-    script: { frame: 3 },
-    setting: { frame: 4 },
-    camera: { frame: 5 },
-    microphone: { frame: 6 },
-    lights: { frame: 7 },
-    costume: { frame: 8 }, 
-    awards: { frame: 9 },
-    popcorn: { frame: 10 }  
+    money: { frame: 1, set: "base" },
+    actors: { frame: 2, set: "base" },
+    script: { frame: 3, set: "base" },
+    setting: { frame: 4, set: "base" },
+    camera: { frame: 5, set: "base" },
+    microphone: { frame: 6, set: "base" },
+    lights: { frame: 7, set: "??" },
+    costume: { frame: 8, set: "??" }, 
+    awards: { frame: 9, set: "??" },
+    popcorn: { frame: 10, set: "??" }  
 }
 
 enum TextType
@@ -145,7 +153,7 @@ const BLOCKBUSTERS =
 
 const DYNAMIC_OPTIONS =
 {
-    "%resource%": toTextDrawerImageStrings(ICONS, "misc"),
+    "%resource%": null, // is set dynamically based on config
     "%vote%": ["YES", "NO"], // @NOTE: CHANGE vote is from expansion, so not included by default here
     "%numlow%": [1,2,3],
 }

@@ -32,6 +32,21 @@ export default class Card
 
     setTextDetails(t:TextDetails) { this.textDetails = t; }
 
+    getIconsAsList()
+    {
+        let icons = [];
+        if(this.isVote()) {
+            const num = this.voteDetails.num;
+            for(let i = 0; i < num; i++)
+            {
+                icons.push(this.voteDetails.icon);
+            }
+        } else {
+            icons = this.movieDetails.costIcons ?? [];
+        }
+        return icons;
+    }
+
     async draw(vis:MaterialVisualizer)
     {
         const ctx = createContext({ size: vis.size });

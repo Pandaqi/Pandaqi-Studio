@@ -8,7 +8,7 @@ const CONFIG:Record<string,any> =
 {
     debug:
     {
-        omitFile: true, // @DEBUGGING (should be false)
+        omitFile: false, // @DEBUGGING (should be false)
         singleDrawPerType: false, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
@@ -59,17 +59,33 @@ const CONFIG:Record<string,any> =
     {
         numVoteCards: 60,
         numChangeCards: 12,
-        numMovieCards: 40,
+        numMovieCards: 44,
         numBlockbusterCards: 16,
-        costIconNumBounds: new Bounds(1,3),
+        costIconNumDist:
+        {
+            1: 0.6,
+            2: 0.3,
+            3: 0.1
+        },
+
         costMaxDistBetweenFreqs: 3,
         profitModifier: new Bounds(0.66, 1.75),
-        profitBounds: new Bounds(2,5),
+        profitBounds: new Bounds(1,5),
         comboNumBounds:
         {
             yes: new Bounds(2,4),
             no: new Bounds(1,2)
         }
+    },
+
+    rulebook:
+    {
+        marketSize: 6,
+        numStartingVotesPerPlayer: 10,
+        minProposalSize: 1,
+        numCardsToMoviesMade: 1, // should probably always be the same as minProposalSize right?
+        useWildcardSetsRule: true,
+        numIconsNeededForWildcard: 2,
     },
     
     cards:

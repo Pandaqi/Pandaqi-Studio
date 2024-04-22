@@ -1,5 +1,6 @@
 import ResourceLoader from "js/pq_games/layout/resources/resourceLoader"
 import OutputBuilder from "./outputBuilder"
+import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer"
 
 
 interface InteractiveExampleSimulatorParams
@@ -7,8 +8,10 @@ interface InteractiveExampleSimulatorParams
     enabled?: boolean,
     iterations?: number,
     silent?: boolean,
+    showFullGame?: boolean,
     custom?: any,
-    callbackInitStats?: () => Record<string,any>,
+    runParallel?: boolean,
+    callbackInitStats?: () => any,
     callbackFinishStats?: (s:InteractiveExampleSimulator) => void
 }
 
@@ -20,9 +23,13 @@ export default class InteractiveExampleSimulator
     silent: boolean  // prints results by default; silent = true keeps it, well, silent
     outputBuilder: OutputBuilder 
     callback: Function;
-    stats:Record<string,any>;
+    stats:any;
     callbackInitStats: Function;
     callbackFinishStats: Function;
+    pickers: Record<string,any>;
+    visualizer: MaterialVisualizer;
+    showFullGame: boolean;
+    runParallel: boolean;
     custom: any; // for any custom functions or variables we want to tack onto this
 
     constructor(params:InteractiveExampleSimulatorParams = {})
@@ -33,11 +40,24 @@ export default class InteractiveExampleSimulator
         this.callbackInitStats = params.callbackInitStats;
         this.callbackFinishStats = params.callbackFinishStats;
         this.custom = params.custom ?? {};
+        this.showFullGame = params.showFullGame ?? false;
+        this.runParallel = params.runParallel ?? true;
     }
 
     isHeadless() { return this.enabled; }
     setOutputBuilder(o:OutputBuilder) { this.outputBuilder = o; }
     setCallback(c:Function) { this.callback = c; }
+    setPickers(p:Record<string,any>) { this.pickers = p; }
+    getPicker(key:string) { return this.pickers[key]; }
+    setVisualizer(v:MaterialVisualizer) { this.visualizer = v; }
+    getVisualizer() { return this.visualizer; }
+
+    displayFullGame()
+    {
+        if(this.isHeadless()) { return true; }
+        return this.showFullGame;
+    }
+    displaySingleTurn() { return !this.displayFullGame(); }
 
     async loadAssets(resLoader:ResourceLoader)
     {
@@ -53,8 +73,8 @@ export default class InteractiveExampleSimulator
             console.error("Function " + funcName + " doesn't exist on custom simulator object.");
             return;
         }
-        args.unshift(this);
-        this.custom.apply(funcName, args);
+        args.unshift(this); // the simulator itself always passed in as first argument; wanted to keep this context clean
+        this.custom[funcName].apply(this.custom, args);
     }
 
     getIterations() { return this.iterations; }
@@ -74,16 +94,23 @@ export default class InteractiveExampleSimulator
         this.stats = {} 
         if(this.callbackInitStats) { this.stats = this.callbackInitStats(); }
 
-        // remember to make callbacks independent of one another,
-        // so we can make this super fast with parallel generations
-        const promises = [];
-        for(let i = 0; i < this.iterations; i++)
-        {
-            promises.push( this.callback(this) );
+        if(this.runParallel) {
+            // the callbacks themselves, of course, must be entirely independent of one another,
+            // so we can make this super fast with parallel generations
+            const promises = [];
+            for(let i = 0; i < this.iterations; i++)
+            {
+                promises.push( this.callback(this) );
+            }
+            await Promise.all(promises);
+        } else {
+            for(let i = 0; i < this.iterations; i++)
+            {
+                await this.callback(this);
+            }
         }
-        await Promise.all(promises);
 
-        if(this.callbackFinishStats) { this.callbackFinishStats(); }
+        if(this.callbackFinishStats) { this.callbackFinishStats(this); }
         if(!this.silent) { this.report(); }
     }
 
@@ -109,8 +136,22 @@ export default class InteractiveExampleSimulator
         this.output(() => this.outputBuilder.addParagraph(s));
     }
 
-    listImages(images:HTMLImageElement[])
+    printList(s:string[])
     {
-        this.output(() => this.outputBuilder.addFlexList(images));
+        this.output(() => this.outputBuilder.addParagraphList(s));
+    }
+
+    async listImages(object:any, drawFunction = "draw")
+    {
+        if(this.isHeadless()) { return; }
+        if(typeof object[drawFunction] != "function")
+        {
+            console.error("Can't list images from draw function " + drawFunction + " on object", object);
+            return;
+        }
+
+        const images = await object[drawFunction](this.getVisualizer());
+        this.outputBuilder.addFlexList(images);
+        // @TODO: make the flexWrap = wrap just the default on flex list displays
     }
 }

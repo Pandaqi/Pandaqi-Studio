@@ -217,12 +217,12 @@ class Hand
         return score;
     }
 
-    async draw()
+    async draw(vis:MaterialVisualizer)
     {
         const canvases = [];
         for(const card of this.cards)
         {
-            canvases.push(await card.draw(visualizer));
+            canvases.push(await card.draw(vis));
         }
         
         const images = await convertCanvasToImageMultiple(canvases, true);
@@ -273,31 +273,34 @@ class SimulatorCustom
     trackGameEnd(sim:InteractiveExampleSimulator, rounds:number, playerHands:Hand[], playerScores:Hand[])
     {
         const numPlayers = playerScores.length;
+        const stats = sim.getStats();
 
-        this.stats.roundsPlayed += rounds;
-        this.stats.numPlayers += numPlayers;
+        stats.roundsPlayed += rounds;
+        stats.numPlayers += numPlayers;
 
         for(const scoringCards of playerScores)
         {
             const resourceDist = scoringCards.getResourceDistribution();
             for(const [key,freq] of Object.entries(resourceDist))
             {
-                this.registerInDict(this.stats.scoreResourceDistribution, key, freq / numPlayers);
+                this.registerInDict(stats.scoreResourceDistribution, key, freq / numPlayers);
             }
 
             const scoreFinal = scoringCards.getScore();
-            this.registerInDict(this.stats.scoreDistribution, scoreFinal);
+            this.registerInDict(stats.scoreDistribution, scoreFinal);
         }
     }
 
     trackDisaster(sim:InteractiveExampleSimulator, masterCards:Card[], missionCards:Card[])
     {
-        if(masterCards.length <= 0) { this.stats.cardsRanOutMaster++; }
-        if(missionCards.length <= 0) { this.stats.cardsRanOutMission++; }
+        const stats = sim.getStats();
+        if(masterCards.length <= 0) { stats.cardsRanOutMaster++; }
+        if(missionCards.length <= CONFIG.rulebook.marketSize) { stats.cardsRanOutMission++; }
     }
 
     trackResultStats(sim:InteractiveExampleSimulator, playerScores:Hand[])
     {
+        const stats = sim.getStats();
         let totalWon = 0;
 
         const wonCardsContent:Record<string,number> = {};
@@ -320,34 +323,36 @@ class SimulatorCustom
 
         for(const [key,data] of Object.entries(wonCardsContent))
         {
-            this.registerInDict(this.stats.wonCardsContent, key, data / playerScores.length);
+            this.registerInDict(stats.wonCardsContent, key, data / playerScores.length);
         }
 
-        this.stats.wonCardsNum += totalWon / playerScores.length;
+        stats.wonCardsNum += totalWon / playerScores.length;
     }
 
     trackProposalStats(sim:InteractiveExampleSimulator, success:boolean, proposal:Hand, votes:Hand)
     {
-        this.stats.proposalSuccess += success ? 1 : 0;
-        this.stats.proposalAllNegatives += votes.isAllNegatives() ? 1 : 0;
-        this.stats.proposalCardsNum += proposal.count();
+        const stats = sim.getStats();
+        stats.proposalSuccess += success ? 1 : 0;
+        stats.proposalAllNegatives += votes.isAllNegatives() ? 1 : 0;
+        stats.proposalCardsNum += proposal.count();
 
         for(const card of proposal.cards)
         {
             const icons = [card.resources.good, card.resources.bad].flat();
             for(const icon of icons)
             {
-                if(icon.cross) { this.registerInDict(this.stats.proposalContent.bad, icon.type); }
-                else { this.registerInDict(this.stats.proposalContent.good, icon.type); }
+                if(icon.cross) { this.registerInDict(stats.proposalContent.bad, icon.type); }
+                else { this.registerInDict(stats.proposalContent.good, icon.type); }
             }
         }
     }
 
     trackStartingState(sim:InteractiveExampleSimulator, playerHands:Hand[])
     {
+        const stats = sim.getStats();
         for(const hand of playerHands)
         {
-            this.registerInDict(this.stats.voteDiffs, Math.abs(hand.getVoteTypeDiff()), 1);
+            this.registerInDict(stats.voteDiffs, Math.abs(hand.getVoteTypeDiff()), 1);
         }
     }
 }
@@ -356,7 +361,7 @@ async function generate(sim:InteractiveExampleSimulator)
 {
     // prepare all options and settings
     const numPlayers = CONFIG.rulebook.numPlayerBounds.randomInteger();
-    const allCards = cardPicker.get().slice();
+    const allCards = sim.getPicker("card").get().slice();
     const allMissionCards = [];
     const allMasterCards = [];
     for(const card of allCards)
@@ -367,7 +372,7 @@ async function generate(sim:InteractiveExampleSimulator)
     shuffle(allMissionCards);
     shuffle(allMasterCards);
 
-    const allVotes = votePicker.get().slice();
+    const allVotes = sim.getPicker("vote").get().slice();
     const allVotesYes = [];
     const allVotesNo = [];
     for(const vote of allVotes)
@@ -427,7 +432,7 @@ async function generate(sim:InteractiveExampleSimulator)
         sim.print("In this example, assume we are player 1. It's our turn and it's the start of the game. For simplicity's sake, special powers on Master Cards are ignored.");
         sim.print("The <strong>market</strong> contains the following cards:");
         const masterCard = allMasterCards.pop();
-        sim.listImages( await market.draw() );
+        await sim.listImages(market);
 
         // display mission proposal
         sim.print("You use them to propose the <strong>following mission</strong>. You also draw a Master Card and add it.");    
@@ -435,7 +440,7 @@ async function generate(sim:InteractiveExampleSimulator)
         const proposal = new Hand();
         proposal.addCard(masterCard);
         proposal.addCards( market.getRandomMultiple(proposalBounds.randomInteger(), true) );
-        sim.listImages( await proposal.draw() );
+        await sim.listImages(proposal);
         proposal.removeCard(masterCard); // because it can't be DRAWN by any player from now on
 
         // display voting
@@ -445,7 +450,7 @@ async function generate(sim:InteractiveExampleSimulator)
         {
             votes.addCard(hand.popCard());
         }
-        sim.listImages( await votes.draw() );
+        await sim.listImages(votes);
 
         // handle collecting cards after mission is SUCCESS/FAIL
         const missionSuccess = votes.isSuccess();
@@ -512,7 +517,7 @@ async function generate(sim:InteractiveExampleSimulator)
         const activePlayerHasCards = playerScores[activePlayer].count() > 0;
         if(activePlayerHasCards) {
             sim.print("Your scored cards now look as follows:");
-            sim.listImages( await playerScores[activePlayer].draw() );
+            await sim.listImages(playerScores[activePlayer]);
         } else {
             sim.print("And so you end the turn with no cards collected at all.");
         }
@@ -552,7 +557,7 @@ const callbackInitStats = () =>
 
 const callbackFinishStats = (sim:InteractiveExampleSimulator) =>
 {
-    const stats = sim.getStats();
+    const stats:SimulatorStats = sim.getStats();
     const numTurns = stats.roundsPlayed;
     const iters = sim.getIterations();
 
@@ -590,45 +595,19 @@ const callbackFinishStats = (sim:InteractiveExampleSimulator) =>
 }
 
 const SIMULATION_ENABLED = true;
+const SIMULATION_ITERATIONS = 500;
+
 const gen = new InteractiveExampleGenerator({
     id: "turn",
     callback: generate,
     config: CONFIG,
-    itemSize: new Point(CONFIG.ruleBook.cardSize),
+    itemSize: new Point(CONFIG.rulebook.cardSize),
     pickers: { card: CardPicker, vote: VotePicker },
     simulateConfig: {
         enabled: SIMULATION_ENABLED,
-        iterations: 50,
+        iterations: SIMULATION_ITERATIONS,
         callbackInitStats,
         callbackFinishStats,
         custom: new SimulatorCustom()
     }
 })
-
-
-// @TODO: can I streamline this into a reusable InteractiveExampleMaterialLoader or something?
-const e = new InteractiveExample({ id: "turn" });
-e.setButtonText("Give me an example turn!");
-e.setGenerationCallback(generate);
-
-const o = e.getOutputBuilder();
-
-const resLoader = new ResourceLoader({ base: CONFIG.assetsBase });
-resLoader.planLoadMultiple(CONFIG.assets);
-
-CONFIG.resLoader = resLoader;
-CONFIG.itemSize = new Point(CONFIG.rulebook.cardSize);
-const visualizer = new MaterialVisualizer(CONFIG);
-
-const cardPicker = new CardPicker();
-cardPicker.generate();
-
-const votePicker = new VotePicker();
-votePicker.generate();
-
-const SIMULATE = true;
-if(SIMULATE)
-{
-    const simulator = new Simulator(true, 5000);
-    simulator.simulate(generate);
-}

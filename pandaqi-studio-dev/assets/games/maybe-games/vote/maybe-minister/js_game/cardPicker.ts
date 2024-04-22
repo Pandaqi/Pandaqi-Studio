@@ -4,7 +4,7 @@ import fromArray from "js/pq_games/tools/random/fromArray";
 import getWeighted from "js/pq_games/tools/random/getWeighted";
 import shuffle from "js/pq_games/tools/random/shuffle";
 import CONFIG from "../js_shared/config";
-import { CardType, DYNAMIC_OPTIONS, DecreeType, ICONS, IconData, LAWS, LawData, LawType, LawVibe, ResourceVibe, SPECIAL_RESOURCES, SideDetails } from "../js_shared/dict";
+import { CardType, DYNAMIC_OPTIONS, DecreeType, ICONS, IconData, LAWS, LawData, LawDataRaw, LawType, LawVibe, ResourceVibe, SPECIAL_RESOURCES, SideDetails } from "../js_shared/dict";
 import Card from "./card";
 import toTextDrawerImageStrings from "js/pq_games/tools/text/toTextDrawerImageStrings";
 
@@ -123,8 +123,6 @@ export default class CardPicker
             }
         }
 
-        console.log(lawsPerType);
-
         // sort scoring laws based on GOOD/BAD vibe as well (this is an exception, override structure from before)
         const scoringLaws:Record<string, Record<string,LawData>> = structuredClone(lawsPerType[LawType.SCORING]);
         lawsPerType[LawType.SCORING] = { [LawVibe.GOOD]: {}, [LawVibe.BAD]: {} };
@@ -133,8 +131,6 @@ export default class CardPicker
             const vibe = data.vibe;
             lawsPerType[LawType.SCORING][vibe][key] = data;
         }
-
-        console.log(lawsPerType);
 
         // go through all types and select exactly as many laws as needed
         const laws = [];
@@ -163,16 +159,20 @@ export default class CardPicker
                     const whichVibe = i < (percBadVibeLaws*num) ? LawVibe.BAD : LawVibe.GOOD;
                     const whichPicker = (whichVibe == LawVibe.GOOD) ? pickerGoodLaws : pickerBadLaws;
                     const relatedDict = lawsPerType[subType][whichVibe];
-                    const lawData = LAWS[ getWeighted(relatedDict) ].desc;
-                    const randLaw = this.fillDynamicEntry(lawData, DYNAMIC_OPTIONS, whichPicker);
-                    laws.push(randLaw);
+                    const lawKey = getWeighted(relatedDict);
+                    const lawData = LAWS[lawKey].desc;
+                    const obj = this.fillDynamicEntry(lawData, DYNAMIC_OPTIONS, whichPicker);
+                    obj.rawData.key = lawKey;
+                    laws.push(obj);
                     continue;
                 }
 
                 // otherwise, just draw randomly from options, fill in randomly, that's all fine
-                const lawData = LAWS[ getWeighted(lawsPerType[subType]) ].desc;
-                const randLaw = this.fillDynamicEntry(lawData);
-                laws.push(randLaw);
+                const lawKey = getWeighted(lawsPerType[subType]);
+                const lawData = LAWS[lawKey].desc;
+                const obj = this.fillDynamicEntry(lawData);
+                obj.rawData.key = lawKey;
+                laws.push(obj);
             }
         }
         shuffle(laws);
@@ -194,6 +194,7 @@ export default class CardPicker
                     const num1 = supportNumbers.good.pop();
                     const num2 = supportNumbers.bad.pop();
                     newCard.setSides( this.createSidesObject(num1, num2, "support") );
+                    if(num1 == 1) { newCard.setVoteStorage(2); }
                 } else if(subType == DecreeType.RESOURCE) {
                     newCard.setSides( resourceSides.pop() );
                 }
@@ -239,12 +240,12 @@ export default class CardPicker
     drawBalancedSideDetailsSpecial(pickerGood, pickerBad, options) : SideDetails
     {
         const goodKey = getWeighted(options.good);
-        const goodText = this.fillDynamicEntry(options.good[goodKey].desc, DYNAMIC_OPTIONS, pickerGood);
+        const goodObj = this.fillDynamicEntry(options.good[goodKey].desc, DYNAMIC_OPTIONS, pickerGood);
 
         const badKey = getWeighted(options.bad);
-        const badText = this.fillDynamicEntry(options.bad[badKey].desc, DYNAMIC_OPTIONS, pickerBad);
+        const badObj = this.fillDynamicEntry(options.bad[badKey].desc, DYNAMIC_OPTIONS, pickerBad);
 
-        return { goodText, badText };
+        return { goodText: goodObj.resultString, badText: badObj.resultString };
     }
 
     filterLaws(setTarget:string) : Record<string, LawData>
@@ -265,6 +266,12 @@ export default class CardPicker
         
         const hasPicker = resourcePicker != null;
         const resourcesAlreadyPicked = [];
+        const replacements = {};
+
+        const registerReplacement = (key:string, val:any) => {
+            if(!replacements[key]) { replacements[key] = []; }
+            replacements[key].push(val);
+        }
 
         while(foundNeedle)
         {
@@ -272,23 +279,33 @@ export default class CardPicker
             for(const needle of Object.keys(needles))
             {
                 if(!s.includes(needle)) { continue; }
+                
                 foundNeedle = true;
 
                 if(hasPicker && needle == "%resource%")
                 {
                     let elem = resourcePicker.pickNext();
-                    if(resourcesAlreadyPicked.includes(elem)) { elem = resourcePicker.pickAny(); } // @NOTE: to prevent silly duplicates of the same resource in one text/action
+
+                    // @NOTE: to prevent silly duplicates of the same resource in one text/action
+                    if(resourcesAlreadyPicked.includes(elem)) { elem = resourcePicker.pickAny([elem]); } 
+                    
                     s = s.replace(needle, elem);
                     resourcesAlreadyPicked.push(elem);
+                    registerReplacement(needle, elem);
                     continue;
                 }
                 
                 // @NOTE: this does NOT pop the option off the needles, to save me from cloning/slicing that object all the time for no benefit
                 const options = shuffle(needles[needle].slice());
-                s = s.replace(needle, fromArray(options));
+                const randOption = fromArray(options);
+                s = s.replace(needle, randOption);
+                registerReplacement(needle, randOption);
             }
         }
-        return s;
+
+        const resultString = s;
+        const rawData:LawDataRaw = { key: "", replacements: replacements };
+        return { resultString, rawData };
     }
 
     fillArrayWithLeastDuplicates(num:number, options:any[])
@@ -315,15 +332,19 @@ export default class CardPicker
         // dynamically fill in the entries needed
         for(let i = 0; i < laws.length; i++)
         {
-            const lawData = LAWS[laws[i]];
-            laws[i] = this.fillDynamicEntry(lawData.desc);
+            const lawKey = laws[i];
+            const lawData = LAWS[lawKey];
+            const obj = this.fillDynamicEntry(lawData.desc);
+            obj.rawData.key = lawKey;
+            laws[i] = obj;
         }
+        shuffle(laws);
        
         // assign to created cards
         for(let i = 0; i < numCards; i++)
         {
             const newCard = new Card(CardType.DECREE, DecreeType.LAW);
-            newCard.setLaw( laws.pop() );
+            newCard.setLaw(laws.pop());
             this.cards.push(newCard);
         }
     }
@@ -345,9 +366,13 @@ export default class CardPicker
         });
         for(let i = 0; i < laws.length; i++)
         {
-            const lawData = LAWS[laws[i]];
-            laws[i] = this.fillDynamicEntry(lawData.desc, DYNAMIC_OPTIONS, resourcePicker);
+            const lawKey = laws[i];
+            const lawData = LAWS[lawKey];
+            const obj = this.fillDynamicEntry(lawData.desc, DYNAMIC_OPTIONS, resourcePicker);
+            obj.rawData.key = lawKey;
+            laws[i] = obj;
         }
+        shuffle(laws);
         
         // create final law cards according to that
         for(let i = 0; i < numLawCards; i++)

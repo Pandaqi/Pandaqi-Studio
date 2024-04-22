@@ -83,6 +83,12 @@ enum LawVibe
     BAD = "bad"
 }
 
+interface LawDataRaw
+{
+    key: string,
+    replacements: Record<string, any[]>
+}
+
 
 interface LawData
 {
@@ -104,7 +110,7 @@ const LAWS:Record<string, LawData> =
     resource_diversity_penalty: { desc: "Score <b>-3 points</b> if you own at most %numlow% different resource types.", type: LawType.SCORING, vibe: LawVibe.BAD },
     resource_pair_bonus: { desc: "Each pair of %resource% and %resource% is worth <b>+2 points</b>.", type: LawType.SCORING, vibe: LawVibe.GOOD, prob: 3.0 },
     resource_pair_penalty: { desc: "Each pair of %resource% and %resource% is worth <b>-1 point</b>.", type: LawType.SCORING, vibe: LawVibe.BAD, prob: 2.0 },
-    resource_pair_reward: { desc: "Each trio of %resource%, %resource% and %resource% is worth <b>%sign% point</b>.", type: LawType.SCORING, vibe: LawVibe.BAD, prob: 1.5 },
+    resource_trio_reward: { desc: "Each trio of %resource%, %resource% and %resource% is worth <b>%sign% point</b>.", type: LawType.SCORING, vibe: LawVibe.BAD, prob: 1.5 },
     resource_exclusion: { desc: "For each %resource% you own, 1 %resource% of yours is worth <b>0 points</b>.", type: LawType.SCORING, vibe: LawVibe.BAD, prob: 2.0 },
     support_scoring: { desc: "Each <b>Support</b> card is worth <b>+1 point</b>.", type: LawType.SCORING, vibe: LawVibe.GOOD },
     support_total_scoring: { desc: "Each <b>Support</b> card is worth as many points as its number of icons.", type: LawType.SCORING, vibe: LawVibe.GOOD },
@@ -269,6 +275,6 @@ const DYNAMIC_OPTIONS =
 
 
 export {
-    CARD_TEMPLATES, CardSubType, CardType, DYNAMIC_OPTIONS, DecreeType, ICONS, IconData, LAWS, LawData, LawType, LawVibe, MISC, ResourceVibe, SPECIAL_RESOURCES, SideDetails, VoteType
+    CARD_TEMPLATES, CardSubType, CardType, DYNAMIC_OPTIONS, DecreeType, ICONS, IconData, LAWS, LawData, LawType, LawDataRaw, LawVibe, MISC, ResourceVibe, SPECIAL_RESOURCES, SideDetails, VoteType
 }
 

@@ -7,7 +7,7 @@ import TextConfig, { TextStyle } from "js/pq_games/layout/text/textConfig";
 import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
 import Point from "js/pq_games/tools/geometry/point";
-import { CARD_TEMPLATES, CardSubType, CardType, ICONS, MISC, SideDetails } from "../js_shared/dict";
+import { CARD_TEMPLATES, CardSubType, CardType, ICONS, LawDataRaw, MISC, SideDetails } from "../js_shared/dict";
 import getPositionsCenteredAround from "js/pq_games/tools/geometry/paths/getPositionsCenteredAround";
 
 export default class Card
@@ -18,6 +18,7 @@ export default class Card
     voteStorage:number = -1;
     sides: SideDetails;
     law: string = "";
+    lawDataRaw:LawDataRaw;
 
     constructor(t:CardType, s:CardSubType)
     {
@@ -25,8 +26,14 @@ export default class Card
         this.subType = s;
     }
 
-    setLaw(s:string) { this.law = s; }
+    setLaw(obj: { resultString: string, rawData: LawDataRaw }) 
+    { 
+        this.law = obj.resultString; 
+        this.lawDataRaw = obj.rawData; 
+    }
+    
     hasLaw() { return this.law != ""; }
+    getLawData() { return this.lawDataRaw; }
 
     setVoteStorage(n:number) { this.voteStorage = n; }
     setSides(s: SideDetails) { this.sides = s; }
@@ -36,6 +43,16 @@ export default class Card
     hasNumber() { this.num != -1; }
     isVote() { return this.type == CardType.VOTE; }
     isDecree() { return this.type == CardType.DECREE; }
+
+    getSideIfFlipped(flipped = false)
+    {
+        if(!this.sides) { return []; }
+
+        let details = this.sides.goodIcons ?? this.sides.goodText;
+        if(flipped) { details = this.sides.badIcons ?? this.sides.badText; }
+        details = Array.isArray(details) ? details.slice() : details;
+        return details;
+    }
 
     async draw(vis:MaterialVisualizer)
     {

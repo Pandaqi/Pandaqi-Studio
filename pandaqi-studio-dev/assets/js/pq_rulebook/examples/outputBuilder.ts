@@ -61,6 +61,7 @@ export default class OutputBuilder
         cont.style.justifyContent = "center";
         cont.style.alignContent = "center";
         cont.style.gap = "1em";
+        cont.style.flexWrap = "wrap";
 
         for(const node of nodes)
         {

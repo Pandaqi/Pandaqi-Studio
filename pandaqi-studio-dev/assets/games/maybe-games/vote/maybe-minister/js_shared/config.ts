@@ -60,7 +60,7 @@ const CONFIG:Record<string,any> =
 
     generation:
     {
-        numVoteCards: 48,
+        numVoteCards: 50,
         numAbstainCards: 16,
         numAbstainLaws: 12,
 
@@ -72,46 +72,53 @@ const CONFIG:Record<string,any> =
         maxDistBetweenIconFreqs: 2,
         numDecreeCardsPerType:
         {
-            [DecreeType.LAW]: 30,
-            [DecreeType.SUPPORT]: 9,
-            [DecreeType.RESOURCE]: 22
+            [DecreeType.LAW]: 34,
+            [DecreeType.SUPPORT]: 10, // @NOTE; needs to be at least 10 to ensure we have 6 starting cards (Support-1) => find cleaner solution to ensure this?
+            [DecreeType.RESOURCE]: 38
         },
 
         // @NOTE: These distributions are allowed to sum to 1.0 or higher
         // If higher, it just adds more randomness/fuzziness to how the final cards end up 
         maxVoteStorageDistribution:
         {
-            0: 0.1,
-            1: 0.3,
-            2: 0.35,
-            3: 0.175,
-            4: 0.075,
+            0: 0.15,
+            1: 0.6,
+            2: 0.25,
         },
 
         supportNumberDistribution:
         {
             good:
             {
-                1: 0.3,
-                2: 0.4,
-                3: 0.3,
+                1: 0.8,
+                2: 0.2,
             },
 
             bad:
             {
                 1: 0.5, 
-                2: 0.4,
-                3: 0.1
+                2: 0.3,
+                3: 0.2
             }
         },
 
         lawTypeDistribution:
         {
-            [LawType.SCORING]: 0.55,
-            [LawType.VOTING]: 0.3,
-            [LawType.CARDS]: 0.075,
-            [LawType.MISC]: 0.075
+            [LawType.SCORING]: 0.7,
+            [LawType.VOTING]: 0.125,
+            [LawType.CARDS]: 0.125,
+            [LawType.MISC]: 0.05
         }
+    },
+
+    rulebook:
+    {
+        numHandCards: 5,
+        numStartingVotesPerPlayer: 2,
+        minProposalSize: 2, // makes games quicker and reduces our material needs
+        maxProposalSize: 5, // the same as hand size
+        equalityWinsProposal: true,
+        winningPointsTarget: 25,
     },
     
     cards:

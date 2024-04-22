@@ -30,9 +30,15 @@ export default class BalancedFrequencyPickerWithMargin
 
     getStats() { return this.stats; }
 
-    pickAny()
+    pickAny(exclude = [])
     {
-        return fromArray(this.options);
+        const arr = [];
+        for(const elem of this.options)
+        {
+            if(exclude.includes(elem)) { continue; }
+            arr.push(elem);
+        }
+        return fromArray(arr);
     }
 
     pickNext() : string

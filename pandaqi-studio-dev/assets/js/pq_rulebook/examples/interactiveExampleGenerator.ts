@@ -54,21 +54,28 @@ export default class InteractiveExampleGenerator
         const buttonText = p.buttonText ?? "Give me an example turn!";
         const e = new InteractiveExample({ id: id });
         e.setButtonText(buttonText);
-        
-        this.simulator.setOutputBuilder( e.getOutputBuilder() );
 
-        const callback = p.callback; // @TODO: default empty function here? Or just require all params to be set?
-        const callbackRoot = async () =>
+        const callback = p.callback;
+        const callbackRootButton = async () =>
         {
-            await this.simulator.loadAssets(resLoader);
+            await resLoader.loadPlannedResources();
+
+            const sim = new InteractiveExampleSimulator(); // simulation turned OFF by default
+            sim.setPickers(this.pickers);
+            sim.setOutputBuilder(e.getOutputBuilder());
+            sim.setVisualizer(this.visualizer);
+
+            return callback(sim);
+        }
+        e.setGenerationCallback(callbackRootButton);
+
+        // create simulator and its callback (which just doesn't need any visual/printing elements)
+        // if this is enabled, `simulate` will automatically loop and print results (otherwise does nothing)
+        const callbackRootSimulator = async () => {
             return callback(this.simulator);
         }
-
-        e.setGenerationCallback(callbackRoot);
-        this.simulator.setCallback(callbackRoot);
-        
-        // if this is enabled, it will automatically loop and print results
-        // (otherwise it just does nothing)
+        this.simulator.setCallback(callbackRootSimulator);
+        this.simulator.setPickers( this.pickers );
         this.simulator.simulate();
     }
 }

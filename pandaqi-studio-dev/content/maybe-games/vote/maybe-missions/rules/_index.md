@@ -4,7 +4,7 @@ type: "rules"
 
 {{% rules-block id="setup" heading="Setup" icon="setup" icontint="green" %}}
 
-Create a deck containing 5 YES and 5 NO Votes per player. Shuffle and deal each player 10 secret Vote Tokens. (Change these numbers to modify duration of a game.)
+Create a deck containing **5 YES and 5 NO Votes per player**. Shuffle and deal each player 10 secret Vote Tokens. (Change these numbers to modify duration of a game.) If someone starts with only Votes of a single type, however rare, deal again.
 
 Create a deck of Master Cards and a deck of Mission Cards next to it.
 
