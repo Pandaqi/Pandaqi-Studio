@@ -69,13 +69,13 @@ export default class Generator {
         const pdfBuilderConfig = { orientation: PageOrientation.PORTRAIT, debugWithoutFile: CONFIG.debugWithoutFile };
         const pdfBuilder = new PdfBuilder(pdfBuilderConfig);
 
-        const dims = CONFIG.cards.dims[CONFIG.cardSize ?? "regular"];
+        const dims = CONFIG.cards.dims[CONFIG.itemSize ?? "regular"];
 
         const gridConfig = { pdfBuilder: pdfBuilder, dims: dims, dimsElement: CONFIG.cards.dimsElement };
         const gridMapper = new GridMapper(gridConfig);
 
-        const cardSize = gridMapper.getMaxElementSize();
-        CONFIG.cards.size = cardSize.clone();
+        const itemSize = gridMapper.getMaxElementSize();
+        CONFIG.cards.size = itemSize.clone();
 
         CONFIG.resLoader = resLoader;
         CONFIG.pdfBuilder = pdfBuilder;

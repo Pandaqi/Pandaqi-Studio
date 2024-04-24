@@ -89,18 +89,17 @@ En als laatste natuurlijk: medespelers, gezelligheid, een bak chips, en een goed
 <p>Je hoeft het spel maar op één apparaat (computer, tablet, smartphone) te starten.</p>
 <p>Eenmaal begonnen kan je de pagina niet meer verlaten, want dan verlies je alle voortgang. (Het spel zal je ook tegenhouden.)</p>
 	
-{{< boardgame-settings type="game" local_storage="wieIsDeTrolConfig" >}}
-	{{< setting-hidden id="setting-gameTitle" text="Wie is de Trol" >}}
+{{< boardgame-settings type="game" local_storage="wieIsDeTrolConfig" game_title="Wie is de Trol" >}}
 	{{< setting-playercount min="3" max="10" def="4" text="Hoeveel spelers?" >}}
 	{{< setting-enum id="setting-numRounds" text="Hoeveel rondes?" values="Automatisch,2,3,4,5,6,7,8" >}}
 	{{< setting-enum id="setting-numQuestions" text="Hoeveel vragen per test?" values="4,7,10" keys="1,2,3" def="10" remark="Verlaag het aantal rondes/vragen voor een korter spel. Eén ronde is doorgaans een half uur." >}}
 	{{< setting-checkbox id="setting-firstGame" text="Eerste potje(s)?" remark="De computer kiest alleen de makkelijkste opdrachten die helpen om het spel beter te begrijpen en simpel uit te leggen." >}}
 	{{< boardgame-settings-section heading="Uitbreidingen" >}}
-{{< setting-checkbox id="setting-expansions-addertjes" text="Addertjes (onder het gras)?" >}}
-{{< setting-checkbox id="setting-expansions-eigenschappen" text="Eigenschappen?" >}}
-{{< setting-checkbox id="setting-expansions-bondjes" text="Bondjes?" >}}
-{{< setting-checkbox id="setting-expansions-specialeKrachten" text="Speciale Krachten?" >}}
-{{< setting-checkbox id="setting-expansions-fysiekeOpdrachten" text="Fysieke Opdrachten?" remark="(Deze uitbreiding is wat anders dan de rest en dus nog niet af.)" >}}
+		{{< setting-checkbox id="setting-expansions-addertjes" text="Addertjes (onder het gras)?" >}}
+		{{< setting-checkbox id="setting-expansions-eigenschappen" text="Eigenschappen?" >}}
+		{{< setting-checkbox id="setting-expansions-bondjes" text="Bondjes?" >}}
+		{{< setting-checkbox id="setting-expansions-specialeKrachten" text="Speciale Krachten?" >}}
+		{{< setting-checkbox id="setting-expansions-fysiekeOpdrachten" text="Fysieke Opdrachten?" remark="(Deze uitbreiding is wat anders dan de rest en dus nog niet af.)" >}}
   	{{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 

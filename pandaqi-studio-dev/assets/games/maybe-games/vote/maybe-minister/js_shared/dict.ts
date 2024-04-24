@@ -122,7 +122,7 @@ const LAWS:Record<string, LawData> =
     active_player_scoring_penalty: { desc: "The active player gets <b>-2 points</b> for free (that round).", type: LawType.SCORING, vibe: LawVibe.BAD },
 
     // things that change how voting works or how it's handled
-    majority_modify: { desc: "You need <b>%sign% YES vote</b> for majority than usual.", type: LawType.VOTING },
+    majority_modify: { desc: "You need <b>%sign% YES vote</b> than usual for SUCCESS.", type: LawType.VOTING },
     vote_cutoff: { desc: "All <b>%vote% votes</b> below %numhigh% <b>don't count</b>.", type: LawType.VOTING },
     order_invert: { desc: "The <b>order</b> of handling votes is inverted (high to low).", type: LawType.VOTING },
     flip_card_highest: { desc: "If you voted the %extreme% number, <b>flip</b> one card.", type: LawType.VOTING },

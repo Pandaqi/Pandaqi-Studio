@@ -82,13 +82,12 @@ The **campaign** has six scenarios, increasing in difficulty, allowing you to ge
 
 <p>Input your desired settings. Click "start game". It takes you to a new page. Don't start until all players are ready!</p>
 
-  {{< boardgame-settings type="game" local_storage="timelyTransportsConfig" >}}
-    {{< setting-hidden id="setting-gameTitle" text="Timely Transports" >}}
-    {{< setting-playercount min="1" max="8" def="4" id="setting-playerCount" >}}
-    {{< setting-enum id="setting-difficulty" text="Scenario?" values="1. Training Wheels,2. Good Luck,3. Fancy Vehicles,4. Another Upgrade,5. Extraordinary Events,6. Crazy Cargo" keys="Training Wheels,Good Luck,Fancy Vehicles,Another Upgrade,Extraordinary Events,Crazy Cargo" keep-case="true" >}}
-    {{< setting-enum id="setting-playerRank" text="Which player are you?" values="-- ignore --,1st,2nd,3rd,4th,5th,6th,7th,8th" keys="0,1,2,3,4,5,6,7,8" remark="If used, each player must input a unique rank. (Order does not matter.) By knowing which player you are, the game can space out events and sound effects more fairly and evenly." >}}
-    {{< setting-enum id="setting-timeout" text="Add Timeouts?" values="-- ignore --,Every 5 minutes,Every 10 minutes" keys="0,5,10" remark="If some of your players find the game too stressful, include regular timeouts. This gives them some time to breathe and make new plans once in a while." >}}
-  {{< /boardgame-settings >}}
+{{< boardgame-settings type="game" local_storage="timelyTransportsConfig" game_title="Timely Transports" >}}
+  {{< setting-playercount min="1" max="8" def="4" id="setting-playerCount" >}}
+  {{< setting-enum id="setting-difficulty" text="Scenario?" values="1. Training Wheels,2. Good Luck,3. Fancy Vehicles,4. Another Upgrade,5. Extraordinary Events,6. Crazy Cargo" keys="Training Wheels,Good Luck,Fancy Vehicles,Another Upgrade,Extraordinary Events,Crazy Cargo" keep-case="true" >}}
+  {{< setting-enum id="setting-playerRank" text="Which player are you?" values="-- ignore --,1st,2nd,3rd,4th,5th,6th,7th,8th" keys="0,1,2,3,4,5,6,7,8" remark="If used, each player must input a unique rank. (Order does not matter.) By knowing which player you are, the game can space out events and sound effects more fairly and evenly." >}}
+  {{< setting-enum id="setting-timeout" text="Add Timeouts?" values="-- ignore --,Every 5 minutes,Every 10 minutes" keys="0,5,10" remark="If some of your players find the game too stressful, include regular timeouts. This gives them some time to breathe and make new plans once in a while." >}}
+{{< /boardgame-settings >}}
 
 <p style="font-size: 0.75em;"><strong>Remark:</strong> because it opens a new page, your browser might register this as a pop-up. It's not, I <em>never</em> show pop-ups.</p>
 
@@ -96,20 +95,18 @@ The **campaign** has six scenarios, increasing in difficulty, allowing you to ge
 
 {{% section-centered heading="Board" html="true" anchor="board" %}}
   
-  <p>Input your desired settings. Click "generate board" until you get one you like.</p>
-  <p>The "split board" option is highly recommended! It creates a huge board consisting of 4 papers, which allows everyone around a table to easily reach all destinations.</p>
+<p>Input your desired settings. Click "generate board" until you get one you like.</p>
+<p>The "split board" option is highly recommended! It creates a huge board consisting of 4 papers, which allows everyone around a table to easily reach all destinations.</p>
 
-  {{< boardgame-settings type="board" >}}
-    {{< setting-hidden id="setting-gameTitle" text="Timely Transports" >}}
-    {{< setting-playercount min="1" max="8" def="4" >}}
-    {{< setting-enum id="settingBoard-difficulty" text="Scenario?" values="1. Training Wheels,2. Good Luck,3. Fancy Vehicles,4. Another Upgrade,5. Extraordinary Events,6. Crazy Cargo" keys="Training Wheels,Good Luck,Fancy Vehicles,Another Upgrade,Extraordinary Events,Crazy Cargo" keep-case="true" >}}
-    {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Removes many decorative elements and turns the board (mostly) grayscale." >}}
-    {{< setting-checkbox id="settingBoard-splitBoard" text="Split Board?" remark="If disabled, the board is only <em>one</em> piece of paper (instead of four papers that combine into a larger board). Highly recommended to keep this enabled." checked="true" >}}
-    {{< setting-checkbox id="settingBoard-cityBonus" text="Bad City Bonus?" remark="If the computer thinks a capital is worse than the others, it will give it a few bonus points. The owner of this capital gets these for free at the start of the game." >}}
-    {{< setting-checkbox id="settingBoard-rulesReminder" text="Add rules reminder?" checked="true" >}}
-  {{< /boardgame-settings >}}
+{{< boardgame-settings type="board" game_title="Timely Transports" defaults="true" >}}
+  {{< setting-playercount min="1" max="8" def="4" >}}
+  {{< setting-enum id="settingBoard-difficulty" text="Scenario?" values="1. Training Wheels,2. Good Luck,3. Fancy Vehicles,4. Another Upgrade,5. Extraordinary Events,6. Crazy Cargo" keys="Training Wheels,Good Luck,Fancy Vehicles,Another Upgrade,Extraordinary Events,Crazy Cargo" keep-case="true" >}}
+  {{< setting-checkbox id="settingBoard-splitBoard" text="Split Board?" remark="If disabled, the board is only <em>one</em> piece of paper (instead of four papers that combine into a larger board). Highly recommended to keep this enabled." checked="true" >}}
+  {{< setting-checkbox id="settingBoard-cityBonus" text="Bad City Bonus?" remark="If the computer thinks a capital is worse than the others, it will give it a few bonus points. The owner of this capital gets these for free at the start of the game." >}}
+  {{< setting-checkbox id="settingBoard-rulesReminder" text="Add rules reminder?" checked="true" >}}
+{{< /boardgame-settings >}}
 
-  <p style="font-size: 0.75em;"><strong>Not working?</strong> Don't worry. Click the "Download" button and you'll also find already generated boards. Use one of those! (And send me an email with the details of your problem.)</p>
+<p style="font-size: 0.75em;"><strong>Not working?</strong> Don't worry. Click the "Download" button and you'll also find already generated boards. Use one of those! (And send me an email with the details of your problem.)</p>
 
 {{% /section-centered %}}
 

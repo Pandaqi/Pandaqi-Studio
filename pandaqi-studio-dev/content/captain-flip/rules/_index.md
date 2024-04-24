@@ -39,7 +39,7 @@ The most common action allows you to **"score"** a tile. This means you ...
 
 You can also clear the board in a second way. Any time an entire _row_ or _column_ is **faceup**, clear it from the board, and refill with facedown tiles from the deck.
 
-{{< rules-image src="turn.webp" alt="Example of what you do each turn, an what scoring or clearing a row means." >}}
+{{< rules-image src="turn.webp" alt="Example of what you do each turn, and what scoring or clearing a row means." >}}
 
 {{% /rules-block %}}
 

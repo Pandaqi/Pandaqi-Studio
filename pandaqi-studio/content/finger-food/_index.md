@@ -60,15 +60,13 @@ Or click the "Download" button to print one of the PDFs I already generated for 
 
 <p>Input your desired settings and click "generate". Rules are explained on the board itself.</p>
 
-{{< boardgame-settings type="board" local_storage="fingerFoodConfig" >}}
-  {{< setting-hidden id="setting-gameTitle" text="Finger Food" >}}
-  {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale to conserve ink." >}}
+{{< boardgame-settings type="board" local_storage="fingerFoodConfig" game_title="Finger Food" defaults="true" >}}
   {{< setting-checkbox id="setting-includeRules" text="Include Rules?" remark="Only turn off if you're familiar with all the rules." checked="checked" >}}
   {{< boardgame-settings-section heading="Expansions" >}}
-{{< setting-checkbox id="setting-expansions-machines" text="Mighty Machines?" remark="Adds squares with a special action when you pick them." >}}
-{{< setting-checkbox id="setting-expansions-recipeBook" text="Recipe Book?" remark="Adds more ways to score by combining specific ingredients!" >}}
-{{< setting-checkbox id="setting-expansions-money" text="Dining Dollars?" remark="Adds the element of money, causing longer and more tactical games." >}}
-{{< setting-checkbox id="setting-expansions-fixedFingers" text="Fixed Fingers?" remark="Adds restrictions to which finger you're allowed to use for something." >}}
+    {{< setting-checkbox id="setting-expansions-machines" text="Mighty Machines?" remark="Adds squares with a special action when you pick them." >}}
+    {{< setting-checkbox id="setting-expansions-recipeBook" text="Recipe Book?" remark="Adds more ways to score by combining specific ingredients!" >}}
+    {{< setting-checkbox id="setting-expansions-money" text="Dining Dollars?" remark="Adds the element of money, causing longer and more tactical games." >}}
+    {{< setting-checkbox id="setting-expansions-fixedFingers" text="Fixed Fingers?" remark="Adds restrictions to which finger you're allowed to use for something." >}}
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 

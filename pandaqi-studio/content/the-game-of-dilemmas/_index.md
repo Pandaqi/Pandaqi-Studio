@@ -59,14 +59,11 @@ Three simple steps.
 
 <p>Pick your desired settings and click the button! When in doubt, just use the defaults for your first games.</p>
 
-{{< boardgame-settings type="game" local_storage="theGameOfDilemmasConfig" btn_label="Generate Material" >}}
-	{{< setting-hidden id="setting-gameTitle" text="The Game Of Dilemmas" >}}
-  {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
-  {{< setting-enum id="setting-itemSize" text="Card Size?" values="small,regular,large" valaskey="true" def="regular" >}}
+{{< boardgame-settings type="game" local_storage="theGameOfDilemmasConfig" btn_label="Generate Material" game_title="The Game of Dilemmas" defaults="true" >}}
   {{< setting-checkbox id="setting-includeCards" text="Include Cards?" checked="checked" >}}
   {{< setting-checkbox id="setting-includeTokens" text="Include Tokens?" checked="checked" remark="If you already have these, or plan on using something else, you can disable this." >}}
   {{< boardgame-settings-section heading="Packs" >}}
-{{< setting-checkbox-multiple id="setting-packs" values="base,advanced,expert,extraordinary" keys="Base,Advanced,Expert,Extraordinary" valuesChecked="base" >}}
+    {{< setting-checkbox-multiple id="setting-packs" values="base,advanced,expert,extraordinary" keys="Base,Advanced,Expert,Extraordinary" values_checked="base" >}}
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 

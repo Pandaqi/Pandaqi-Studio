@@ -77,8 +77,7 @@ Four simple steps.
 <p>Print them, cut them, play with them!</p>
 <p>When in doubt, just leave the options at their default settings.</p>
 
-{{< boardgame-settings type="game" btn_label="Generate Cards" local_storage="thatsAmorpheConfig" >}}
-  {{< setting-hidden id="setting-gameTitle" text="That's Amorphe" >}}
+{{< boardgame-settings type="game" btn_label="Generate Cards" local_storage="thatsAmorpheConfig" game_title="That's Amorphe" >}}
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?"  remark="Turns the material mostly white / grayscale to conserve ink." >}}
   {{< setting-enum id="setting-wordComplexity" text="Word Complexity?" values="Core,Easy,Medium,Hard,Hardcore" valaskey="true" remark="How hard should the words be?" def="Easy" >}}
   {{< setting-checkbox id="setting-addActions" text="Add Actions?" remark="Allows the cards to be used with the Actions expansion." checked="checked" >}}
@@ -88,7 +87,7 @@ Four simple steps.
   {{< setting-checkbox id="setting-useAllCategories" text="Use all categories?" remark="Overwrite the options below to include <em>everything</em>." >}}
 
   {{< boardgame-settings-section heading="Categories" >}}
-{{< setting-checkbox-multiple id="setting-categories" values="anatomy,animals,business,clothes,colors,digital,food,general,holidays,items,military,music,nature,occupations,people,places,science,shapes,sports,time,travel,vehicles" valuesChecked="animals,food,items,places,vehicles" >}}
+    {{< setting-checkbox-multiple id="setting-categories" values="anatomy,animals,business,clothes,colors,digital,food,general,holidays,items,military,music,nature,occupations,people,places,science,shapes,sports,time,travel,vehicles" values_checked="animals,food,items,places,vehicles" >}}
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 

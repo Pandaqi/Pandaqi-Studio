@@ -13,7 +13,8 @@ const CONFIG =
 
     // set through user config on page
     inkFriendly: false,
-    cardSize: "regular",
+    itemSize: "regular",
+    pageSize: "a4",
     cardSet: "starter",
     textPlacement: "bottom",
 

@@ -1,5 +1,6 @@
 ---
 title: "Subscribe"
+blurb: "How to subscribe and get updates whenever new games, features or projects appear."
 infopage: true
 data: 2015-01-01
 noHeader: true
@@ -18,7 +19,7 @@ After trying many systems and setups, this was the easiest to find for others an
 
 {{< custom-entry-banner id="0" title="Platforms" class="blue" >}}
 
-I still try to push out updates and notifications anywhere else that you might find me. But it might be less regular and less polished---I can only be at so many places at once, and Patreon is the place to be.
+I still try to push out updates and notifications anywhere else that you might find me. It will, however, be less regular and less polished. I can only be at so many places at once, and Patreon is the place to be.
 
 For other questions, platforms or updates, check out
 

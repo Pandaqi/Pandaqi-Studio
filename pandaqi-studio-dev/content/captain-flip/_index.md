@@ -61,11 +61,7 @@ This game is incredibly simple (just flip one tile and take its action) and well
 
 <p>Pick your desired settings and click the button! When in doubt, just use the defaults for your first games.</p>
 
-{{< boardgame-settings type="game" local_storage="captainFlipConfig" btn_label="Generate Material" >}}
-	{{< setting-hidden id="setting-gameTitle" text="Captain Flip" >}}
-  {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
-  {{< setting-enum id="setting-itemSize" text="Card Size?" values="small,regular,large" valaskey="true" def="regular" >}}
-{{< /boardgame-settings >}}
+{{< boardgame-settings type="game" local_storage="captainFlipConfig" btn_label="Generate Material" game_title="Captain Flip" defaults="true" >}}{{< /boardgame-settings >}}
 
 <p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>
 

@@ -60,21 +60,18 @@ Three simple steps.
 
 <p>Input your settings, click the button. A new page opens that generates a nice PDF for you!</p>
 
-{{< boardgame-settings type="game" local_storage="slipperySlopesConfig" btn_label="Generate Material" >}}
-	{{< setting-hidden id="setting-gameTitle" text="Slippery Slopes" >}}
-  {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material grayscale." >}}
-  {{< setting-enum id="setting-cardSize" text="Card Size?" values="small,regular,huge" valaskey="true" def="regular" >}}
+{{< boardgame-settings type="game" local_storage="slipperySlopesConfig" btn_label="Generate Material" game_title="Slippery Slopes" defaults="true" >}}
   {{< setting-checkbox id="setting-generateSliders" text="Generate Sliders?" checked="checked" >}}
   {{< setting-checkbox id="setting-generateWords" text="Generate Words?" checked="checked" >}}
 
   {{< boardgame-settings-section heading="Word Settings" >}}
-{{< setting-enum id="setting-wordComplexity" text="Word Complexity?" values="Core,Easy,Medium" valaskey="true" remark="How hard should the words be?" def="Core" >}}
-{{< setting-checkbox id="setting-includeNamesAndGeography" text="Include names?" remark="Adds geography and proper names of people, brands, ..." >}}
+    {{< setting-enum id="setting-wordComplexity" text="Word Complexity?" values="Core,Easy,Medium" valaskey="true" remark="How hard should the words be?" def="Core" >}}
+    {{< setting-checkbox id="setting-includeNamesAndGeography" text="Include names?" remark="Adds geography and proper names of people, brands, ..." >}}
   {{< /boardgame-settings-section >}}
 
   {{< boardgame-settings-section heading="Expansions" >}}
-{{< setting-checkbox id="setting-expansions-glidyGifts" text="Glidy Gifts?" remark="Adds actions to help make guessing easier." checked="checked" >}}
-{{< setting-checkbox id="setting-expansions-crasheryCliffs" text="Crashery Cliffs?" remark="Slight rule changes and more slider types." >}}
+    {{< setting-checkbox id="setting-expansions-glidyGifts" text="Glidy Gifts?" remark="Adds actions to help make guessing easier." checked="checked" >}}
+    {{< setting-checkbox id="setting-expansions-crasheryCliffs" text="Crashery Cliffs?" remark="Slight rule changes and more slider types." >}}
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 

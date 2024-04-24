@@ -14,11 +14,7 @@ downloadLink: "https://drive.google.com/drive/folders/1XU--sSxY2N6wIsvosMi_4ko9l
 
 {{% section-centered heading="Material" anchor="material" html="true" %}}
 
-{{< boardgame-settings type="game" local_storage="bodyguardConfig" >}}
-	{{< setting-hidden id="setting-gameTitle" text="Bodyguard" >}}
-  {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
-  {{< setting-enum id="setting-cardSize" text="Card Size?" values="small,regular,huge" valaskey="true" def="regular" >}}
-{{< /boardgame-settings >}}
+{{< boardgame-settings type="game" local_storage="bodyguardConfig" game_title="Bodyguard" defaults="true" >}}{{< /boardgame-settings >}}
 
 {{% /section-centered %}}
 

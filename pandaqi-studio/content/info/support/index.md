@@ -1,5 +1,6 @@
 ---
 title: "Support"
+blurb: "The many ways (free or not) you can support me and this website!"
 infopage: true
 data: 2015-01-01
 noHeader: true

@@ -30,14 +30,14 @@ export default class WordCards
 
     setup()
     {
-        const dims = CONFIG.wordCards.dims[CONFIG.cardSize ?? "regular"];
+        const dims = CONFIG.wordCards.dims[CONFIG.itemSize ?? "regular"];
 
         const gridConfig = { pdfBuilder: CONFIG.pdfBuilder, dims: dims, dimsElement: CONFIG.wordCards.dimsElement };
         const gridMapper = new GridMapper(gridConfig);
         this.gridMapper = gridMapper; 
 
-        const cardSize = gridMapper.getMaxElementSize();
-        CONFIG.wordCards.size = cardSize.clone();
+        const itemSize = gridMapper.getMaxElementSize();
+        CONFIG.wordCards.size = itemSize.clone();
     }
     
     pickWords()
@@ -76,8 +76,8 @@ export default class WordCards
 
         const subTextConfig = CONFIG.cards.subTextConfig;
 
-        const cardSize = CONFIG.wordCards.size;
-        const ctx = createContext({ size: cardSize });
+        const itemSize = CONFIG.wordCards.size;
+        const ctx = createContext({ size: itemSize });
         const saturation = CONFIG.inkFriendly ? 0 : CONFIG.wavyRect.saturation;
         const lightness = CONFIG.inkFriendly ? 100 : CONFIG.wavyRect.lightness;
         const colors = equidistantColorsBetweenOpposites(wordsPerCard, saturation, lightness);
@@ -104,7 +104,7 @@ export default class WordCards
             const text = new ResourceText({ text: wordData.getWord(), textConfig: textConfig })
 
             canvOp.translate = new Point(0, blockHeight * a - amp);
-            canvOp.dims = new Point(cardSize.x, blockHeight);
+            canvOp.dims = new Point(itemSize.x, blockHeight);
             canvOp.fill = new ColorLike(textColor);
             await text.toCanvas(ctx, canvOp);
 
@@ -119,7 +119,7 @@ export default class WordCards
         ctx.save();
         ctx.beginPath();
         ctx.strokeStyle = CONFIG.cards.outline.color;
-        ctx.lineWidth = CONFIG.cards.outline.width * cardSize.x;
+        ctx.lineWidth = CONFIG.cards.outline.width * itemSize.x;
         ctx.strokeRect(0, 0, ctx.canvas.width, ctx.canvas.height);
         ctx.restore();
 

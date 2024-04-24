@@ -6,6 +6,6 @@ import CardPicker from "./cardPicker";
 
 const generator = new MaterialGenerator(CONFIG);
 generator.addPipeline("eggs", EggPicker, CONFIG.eggs.drawerConfig);
-generator.addPipeline("tiles", TilePicker, CONFIG.tiles.drawerConfig);
+generator.addPipeline("tiles", TilePicker, CONFIG.tiles.customDrawerConfig);
 generator.addPipeline("cards", CardPicker, CONFIG.cards.drawerConfig);
 generator.start();

@@ -78,19 +78,17 @@ For the words, pick whatever style suits you best.
 
 <p>Input your desired settings and click "generate".</p>
 
-{{< boardgame-settings type="board" local_storage="photomoneConfig" >}}
-  {{< setting-hidden id="setting-gameTitle" text="Photomone" >}}
-  {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly white / grayscale to conserve ink." >}}
+{{< boardgame-settings type="board" local_storage="photomoneConfig" game_title="Photomone" defaults="true" >}}
   {{< setting-checkbox id="setting-printWordsOnPaper" text="Include Words?" remark="Prints random words on the paper itself." >}}
   {{< setting-enum id="setting-wordComplexity" text="Word Complexity?" values="Core,Easy,Medium,Hard" valaskey="true" remark="How hard should the words be?" def="Core" >}}
   {{< setting-checkbox id="setting-addStartingLines" text="Include Lines?" remark="Already adds a few random lines to the paper" >}}
   {{< setting-checkbox id="setting-useEllipseOutline" text="Use round edge?" remark="Makes the board more circular / organic." >}}
   {{< boardgame-settings-section heading="Expansions" >}}
-{{< setting-checkbox id="setting-expansions-sneakySpots" text="Sneaky Spots?" >}}
-{{< setting-checkbox id="setting-expansions-precisePainters" text="Precise Painters?" >}}
-{{< setting-checkbox id="setting-expansions-actionAnts" text="Action Ants?" >}}
-{{< setting-checkbox id="setting-expansions-coopColony" text="Coop Colony?" >}}
-{{< setting-checkbox id="setting-expansions-antertainmentBreak" text="Antertainment Break?" >}}
+    {{< setting-checkbox id="setting-expansions-sneakySpots" text="Sneaky Spots?" >}}
+    {{< setting-checkbox id="setting-expansions-precisePainters" text="Precise Painters?" >}}
+    {{< setting-checkbox id="setting-expansions-actionAnts" text="Action Ants?" >}}
+    {{< setting-checkbox id="setting-expansions-coopColony" text="Coop Colony?" >}}
+    {{< setting-checkbox id="setting-expansions-antertainmentBreak" text="Antertainment Break?" >}}
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
@@ -104,14 +102,13 @@ For the words, pick whatever style suits you best.
 
 <p>Input your settings, click the button. A new page opens with the game interface!</p>
 
-{{< boardgame-settings type="game" local_storage="photomoneConfig" >}}
-	{{< setting-hidden id="setting-gameTitle" text="Photomone" >}}
+{{< boardgame-settings type="game" local_storage="photomoneConfig" game_title="Photomone" >}}
   {{< setting-checkbox id="setting-createPDF" text="Create PDF?" remark="Downloads a PDF with randomly generated word cards" >}}
   {{< setting-enum id="setting-wordComplexity" text="Word Complexity?" values="Core,Easy,Medium" valaskey="true" remark="How hard should the words be?" def="Core" >}}
   <!-- {{< setting-checkbox id="setting-includeNamesAndGeography" text="Include names?" remark="Adds geography and proper names of people, brands, ..." >}} -->
   {{< setting-checkbox id="setting-expansions-sneakySpots" text="Sneaky Spots?" remark="The interface needs to know if you're using this expansion." >}}
   {{< boardgame-settings-section heading="Word Categories" >}}
-{{< setting-checkbox-multiple id="setting-categories" values="anatomy,animals,clothes,food,items,nature,occupations,places,sports,vehicles" valuesChecked="anatomy,animals,clothes,food,items,nature,occupations,places,sports,vehicles" >}}
+{{< setting-checkbox-multiple id="setting-categories" values="anatomy,animals,clothes,food,items,nature,occupations,places,sports,vehicles" values_checked="anatomy,animals,clothes,food,items,nature,occupations,places,sports,vehicles" >}}
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 

@@ -65,16 +65,14 @@ Print and cut it, read the short [playful rules](rules), and you can play!
 
 <p>Pick your desired settings and click the button! The settings already selected are the "core set" mentioned in the introduction.</p>
 
-{{< boardgame-settings type="game" local_storage="naivigationSwervingSpaceshipsConfig" btn_label="Generate Material" >}}
-	{{< setting-hidden id="setting-gameTitle" text="Naivigation: Swerving Spaceships" >}}
-  {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
-  {{< setting-enum id="setting-itemSize" text="Card Size?" values="small,regular,large" valaskey="true" def="regular" >}}
+{{< boardgame-settings type="game" local_storage="naivigationSwervingSpaceshipsConfig" btn_label="Generate Material" game_title="Naivigation: Swerving Spaceships" defaults="true" >}}
   {{< setting-checkbox id="setting-includeMapTiles" text="Include Map Tiles?" checked="checked" >}}
   {{< setting-checkbox id="setting-includeCards" text="Include (Vehicle) Cards?" checked="checked" >}}
-  <h3>Expansions</h3>
-  {{< setting-checkbox id="setting-expansions-shield" text="Shields & Asteroids" >}}
-  {{< setting-checkbox id="setting-expansions-weapons" text="Weapons & Aliens" >}}
-  {{< setting-checkbox id="setting-expansions-trade" text="Trade & Technology" >}}
+  {{< boardgame-settings-section heading="Expansions" >}}
+    {{< setting-checkbox id="setting-expansions-shield" text="Shields & Asteroids" >}}
+    {{< setting-checkbox id="setting-expansions-weapons" text="Weapons & Aliens" >}}
+    {{< setting-checkbox id="setting-expansions-trade" text="Trade & Technology" >}}
+  {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
 <p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>

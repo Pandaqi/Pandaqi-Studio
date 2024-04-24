@@ -66,13 +66,11 @@ You can start completely blank. Or you can use the [board generator](#board) bel
 
 <p>Input your desired settings and click "generate".</p>
 
-  {{< boardgame-settings type="board" local_storage="keebbleKnickKnackConfig" >}}
-    {{< setting-hidden id="setting-gameTitle" text="Keebble: Knickknack" >}}
-    {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly white / grayscale to conserve ink." >}}
-    {{< setting-checkbox id="setting-forPrinting" text="For Printing?" remark="If you want to print this PDF and directly play on that." >}}
-    {{< setting-checkbox id="setting-addWalls" text="Add walls?" checked="checked" remark="Walls are useful on small boards to allow more words." >}}
-    {{< setting-checkbox id="setting-expansions-specialCells" text="Add Supercells?" remark="When playing with the special cells expansion." >}}
-  {{< /boardgame-settings >}}
+{{< boardgame-settings type="board" local_storage="keebbleKnickKnackConfig" game_title="Keebble: Knickknack" defaults="true" >}}
+  {{< setting-checkbox id="setting-forPrinting" text="For Printing?" remark="If you want to print this PDF and directly play on that." >}}
+  {{< setting-checkbox id="setting-addWalls" text="Add walls?" checked="checked" remark="Walls are useful on small boards to allow more words." >}}
+  {{< setting-checkbox id="setting-expansions-specialCells" text="Add Supercells?" remark="When playing with the special cells expansion." >}}
+{{< /boardgame-settings >}}
 
 <p style="font-size:0.66em; opacity: 0.66;">Not working? Don't worry! At the "Download" link, you can also find PDFs I already generated for you.</p> 
 
@@ -82,8 +80,7 @@ You can start completely blank. Or you can use the [board generator](#board) bel
 
 <p>Input your settings, click the button. A new page opens with the game interface!</p>
 
-{{< boardgame-settings type="game" local_storage="keebbleKnickKnackConfig" >}}
-	{{< setting-hidden id="setting-gameTitle" text="Keebble: Knick Knack" >}}
+{{< boardgame-settings type="game" local_storage="keebbleKnickKnackConfig" game_title="Keebble: Knickknack" >}}
   {{< setting-checkbox id="setting-expansions-specialCells" text="Supercells?" >}}
   {{< setting-checkbox id="setting-expansions-ominousOptions" text="Ominous Options?" >}}
   {{< setting-checkbox id="setting-expansions-poignantPowerups" text="Poignant Powerups?" >}}

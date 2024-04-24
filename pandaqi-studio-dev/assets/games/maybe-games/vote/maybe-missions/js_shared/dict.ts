@@ -133,8 +133,8 @@ const MASTER_CARDS:Record<string,MasterCardData> =
     reveal_hand_yes: { desc: "<b>Round End</b>: all YES-voters <em>reveal their hand Votes</em>." },
     reveal_hand_no: { desc: "<b>Round End</b>: all NO-voters <em>reveal their hand Votes</em>." },
 
-    majority_raise: { desc: "This mission needs <b>1 more YES</b> than usual to reach majority." },
-    majority_lower: { desc: "This mission needs <b>1 fewer YES</b> than usual to reach majority." },
+    majority_raise: { desc: "This mission needs <b>1 more YES</b> than usual to <em>SUCCEED</em>." },
+    majority_lower: { desc: "This mission needs <b>1 fewer YES</b> than usual to <em>SUCCEED</em>." },
     invert_order: { desc: "The <b>order</b> for collecting cards after voting is <b>inverted</b>." },
     open_voting: { desc: "<b>A public vote!</b> From active player, vote in clockwise turns, faceup." },
 

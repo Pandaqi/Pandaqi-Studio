@@ -3,7 +3,8 @@ import Point from "js/pq_games/tools/geometry/point";
 const CONFIG = {
     debugWithoutPDF: false, // @DEBUGGING (should be false)
     
-    cardSize: "regular",
+    itemSize: "regular",
+    pageSize: "a4",
     inkFriendly: false,
 
     resLoader: null,
@@ -30,7 +31,7 @@ const CONFIG = {
         dims: { 
             small: new Point(5, 5),
             regular: new Point(4, 4),
-            big: new Point(3, 3)
+            large: new Point(3, 3)
         },
         dimsElement: new Point(1, 1.55),
         size: new Point(),

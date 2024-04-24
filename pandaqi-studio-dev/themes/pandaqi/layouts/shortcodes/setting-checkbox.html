@@ -1,12 +1,6 @@
 {{- $id := .Get "id" -}}
+{{- $remark := .Get "remark" -}}
+{{- $text := .Get "text" -}}
 {{- $checked := "" -}}
-{{- if .Get "checked" -}}
-	{{- $checked = "checked" -}}
-{{- end -}}
-
-<label for="{{- $id -}}">{{- .Get "text" -}} </label>
-<input type="checkbox" name="{{- $id -}}" id="{{- $id -}}" {{- $checked -}}>
-
-{{- with (.Get "remark") -}}
-	<span class="setting-remark">{{- . | safeHTML -}}</span>
-{{- end -}}
+{{- if .Get "checked" -}}{{- $checked = "checked" -}}{{- end -}}
+{{- partial "settings/setting-checkbox.html" (dict "id" $id "checked" $checked "remark" $remark "text" $text) -}}

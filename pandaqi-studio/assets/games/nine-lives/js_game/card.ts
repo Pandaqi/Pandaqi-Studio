@@ -145,8 +145,8 @@ export default class Card
 
         // actual card draw limit
         const numCards = this.data.drawNum;
-        const cardSize = CONFIG.cards.life.cardRectIconSize * extents.y;
-        const cardWidth = CONFIG.cards.life.cardRectIconXSpacing * cardSize;
+        const itemSize = CONFIG.cards.life.cardRectIconSize * extents.y;
+        const cardWidth = CONFIG.cards.life.cardRectIconXSpacing * itemSize;
         const offsetTotal = new Point(-0.5*(numCards - 1)*cardWidth, 0);
         const resCard = vis.resLoader.getResource("misc");
         const frame = MISC.card.frame;
@@ -156,7 +156,7 @@ export default class Card
             const op = new LayoutOperation({
                 frame: frame,
                 translate: pos,
-                dims: new Point(cardSize),
+                dims: new Point(itemSize),
                 pivot: Point.CENTER,
             })
             await resCard.toCanvas(ctx, op);

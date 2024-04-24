@@ -1,0 +1,6 @@
+{{- partial "settings/setting-checkbox.html" (dict "id" "setting-inkFriendly" "text" "Ink Friendly?" "remark" "Turns the material mostly grayscale.") -}}
+{{- if eq .type "game" -}}
+{{- partial "settings/setting-enum.html" (dict "id" "setting-itemSize" "text" "Item Size?" "keys" "small,regular,large" "values" "Small,Regular,Large" "default_option" "Regular") -}}
+{{- end -}}
+{{- partial "settings/setting-enum.html" (dict "id" "setting-pageSize" "text" "Page Size?" "keys" "a4,letter,a5" "values" "A4,Letter,A5" "default_option" "A4") -}}
+

@@ -17,7 +17,7 @@ const CONFIG =
     chosenAnimals: [],
     matchSizeBounds: new Bounds(1,3),
     handSizeBounds: new Bounds(2,5),
-    cardSize: new Point(480, 672),
+    itemSize: new Point(480, 672),
     fontFamily: "Ciscopic",
     maxMovesToDisplay: 4,
 }
@@ -41,7 +41,7 @@ class Card
 
     async draw(small = false)
     {
-        const size = CONFIG.cardSize.clone();
+        const size = CONFIG.itemSize.clone();
         const sizeUnit = Math.min(size.x, size.y);
         const ctx = createContext({ size: size });
 

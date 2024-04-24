@@ -83,8 +83,7 @@ This website handles everything for you. It also shows explanations for all the 
 
 <p>Input your settings below. Press the button to start a game! You'll be taken to a new page.</p>
 
-{{< boardgame-settings type="game" local_storage="starrySkylinesConfig" >}}
-  {{< setting-hidden id="setting-gameTitle" text="Starry Skylines" >}}
+{{< boardgame-settings type="game" local_storage="starrySkylinesConfig" game_title="Starry Skylines" >}}
   {{< setting-playercount min="1" max="8" def="3" >}}
   {{< setting-enum id="setting-planet" text="Planet?" values="Learnth,Uronus,Marsh,Yumpiter,Meercury,Intervenus,Pluto,Naptune" valaskey="true" keep-case="true" >}}
   {{< setting-enum id="setting-manualCombo" text="Play handpicked combination?" values="-- ignore --,Nature,Leadership,Resources,Entertainment,Chaotic" keys=",Nature,Leadership,Resources,Entertainment,Chaotic" remark="Choose a handpicked combination of planets if you want to follow a particular theme. Only use this if you've read the rules for all planets before." >}}
@@ -96,10 +95,8 @@ This website handles everything for you. It also shows explanations for all the 
 
 <p>Input your settings below. Press the button to generate a random board to copy to your paper, or print as a PDF. (You can skip this completely and play with a blank paper.)</p>
 
-{{< boardgame-settings type="board" >}}
-  {{< setting-hidden id="setting-gameTitle" text="Starry Skylines" >}}
+{{< boardgame-settings type="board" game_title="Starry Skylines" defaults="true" >}}
   {{< setting-playercount min="1" max="3" def="3" >}}
-  {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the board grayscale and simplified." >}}
   {{< setting-enum id="setting-planet" text="Planet?" values="Learnth,Uronus,Marsh,Yumpiter,Meercury,Intervenus,Pluto,Naptune" valaskey="true" keep-case="true" >}}
   {{< setting-enum id="setting-manualCombo" text="Play handpicked combination?" values="-- ignore --,Nature,Leadership,Resources,Entertainment,Chaotic" keys=",Nature,Leadership,Resources,Entertainment,Chaotic" >}}
 {{< /boardgame-settings >}}

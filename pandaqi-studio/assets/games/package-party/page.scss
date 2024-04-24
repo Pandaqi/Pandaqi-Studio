@@ -45,7 +45,7 @@ $base-fonts: "fonts/";
 
 
 body {
-    background-image: url(bg_pattern.webp);
+    background-image: url(bg_pattern_wide.webp);
     background-repeat: repeat;
     font-family: $body-font;
     font-size: 20px;
@@ -75,7 +75,7 @@ h2 {
     color: white;
     border-radius:0.5em;
     text-decoration: none;
-    font-family: 'Fredoka One';
+    font-family: $header-font;
 
     transition: background-color 0.5s, color 0.5s;
     box-shadow: 0 0 10px 2px #333;
@@ -105,7 +105,7 @@ section {
         color: white;
         border-radius:0.5em;
         text-decoration: none;
-        font-family: 'Fredoka One';
+        font-family: $header-font;
 
         transition: background-color 0.5s, color 0.5s;
         box-shadow: 0 0 10px 2px #333;

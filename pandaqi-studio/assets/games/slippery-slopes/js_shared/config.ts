@@ -17,7 +17,8 @@ const CONFIG = {
     resLoader: null,
     gridMapper: null,
     pandaqiWords: null,
-    cardSize: "regular",
+    itemSize: "regular",
+    pageSize: "a4",
 
     inkFriendly: false,
     generateWords: false,
@@ -137,7 +138,7 @@ const CONFIG = {
         dims: { 
             small: new Point(4,5),
             regular: new Point(3,4),
-            huge: new Point(2,3)
+            large: new Point(2,3)
         },
         dimsElement: new Point(1, 1),
         size: new Point(),
@@ -161,7 +162,7 @@ const CONFIG = {
         dims: { 
             small: new Point(5,4),
             regular: new Point(4,3),
-            huge: new Point(3,2)
+            large: new Point(3,2)
         },
         dimsElement: new Point(1,2),
         size: new Point(),

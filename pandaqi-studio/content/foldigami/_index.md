@@ -73,13 +73,11 @@ Or click the "Download" button to print one of the PDFs I already generated for 
 
 <p>The boards are designed to print and play immediately. If your printer adds margins ( = white space) around the board, and you don't know how to turn that off, you'll have to <em>cut off</em> those margins before playing. (All squares must be, well, exactly square to allow folding nicely.)</p>
 
-  {{< boardgame-settings type="board" local_storage="foldigamiConfig" >}}
-    {{< setting-hidden id="setting-gameTitle" text="Foldigami" >}}
-    {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly white / grayscale to conserve ink." >}}
-    {{< setting-checkbox id="setting-includeRules" text="Include Rules?" remark="Only turn off if you're familiar with all the rules." checked="checked" >}}
-    {{< setting-enum id="setting-difficulty" text="Difficulty?" values="Easy,Medium,Hard" valaskey="true" def="Easy" remark="Higher difficulties fill more of the board and use more complicated powerups." >}}
-    {{< setting-checkbox id="setting-noRotation" text="Rotate icons identically?" remark="Normally, icons rotate towards the player to whom they belong." >}}
-  {{< /boardgame-settings >}}
+{{< boardgame-settings type="board" local_storage="foldigamiConfig" game_title="Foldigami" defaults="true" >}}
+  {{< setting-checkbox id="setting-includeRules" text="Include Rules?" remark="Only turn off if you're familiar with all the rules." checked="checked" >}}
+  {{< setting-enum id="setting-difficulty" text="Difficulty?" values="Easy,Medium,Hard" valaskey="true" def="Easy" remark="Higher difficulties fill more of the board and use more complicated powerups." >}}
+  {{< setting-checkbox id="setting-noRotation" text="Rotate icons identically?" remark="Normally, icons rotate towards the player to whom they belong." >}}
+{{< /boardgame-settings >}}
 
 <p class="remark-under-settings"><strong>Not working?</strong> Don't worry! At the "Download" link, you can also find PDFs I already generated for you.</p> 
 

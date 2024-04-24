@@ -60,12 +60,12 @@ Congratulations, you've just learned how to play this quick party game! Use the 
 
 <p>Input your settings, click the button. The game opens in a new page and explains itself as you go!</p>
 
-{{< boardgame-settings type="game" local_storage="slipperySlopesTrippyTouchesConfig" >}}
-	{{< setting-hidden id="setting-gameTitle" text="Slippery Slopes: Trippy Touches" >}}
+{{< boardgame-settings type="game" local_storage="slipperySlopesTrippyTouchesConfig" game_title="Slippery Slopes: Trippy Touches" >}}
   {{< setting-enum id="setting-maxTurns" text="How many rounds?" values="5,10,15,20,25" valaskey="true" def="10" >}}
-  <h3>Word Settings</h3>
-  {{< setting-enum id="setting-wordComplexity" text="Word Complexity?" values="Core,Easy,Medium" valaskey="true" remark="How hard should the words be?" def="Core" >}}
-  {{< setting-checkbox id="setting-includeNamesAndGeography" text="Include names?" remark="Adds geography and proper names of people, brands, ..." >}}
+  {{< boardgame-settings-section heading="Word Settings" >}}
+    {{< setting-enum id="setting-wordComplexity" text="Word Complexity?" values="Core,Easy,Medium" valaskey="true" remark="How hard should the words be?" def="Core" >}}
+    {{< setting-checkbox id="setting-includeNamesAndGeography" text="Include names?" remark="Adds geography and proper names of people, brands, ..." >}}
+  {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
 {{% /section-centered %}}

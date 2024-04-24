@@ -1,6 +1,6 @@
 import splitImage from "js/pq_games/layout/canvas/splitImage"
 import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage"
-import PdfBuilder from "../pdf/pdfBuilder"
+import PdfBuilder, { PageFormat } from "../pdf/pdfBuilder"
 import Settings from "./settings"
 // @ts-ignore
 import { Game, CANVAS, WEBGL, Scale } from "../phaser/phaser.esm"
@@ -201,6 +201,7 @@ class OnPageVisualizerClass
 	{
 		if(this.pdfBuilder) { this.pdfBuilder.destroy(); }
 
+		if(cfg.pageSize) { cfg.format = cfg.pageSize as PageFormat; }
 		this.pdfBuilder = new PdfBuilder(cfg);
 		cfg.size = this.pdfBuilder.getFullSize();
 		this.pdfBuilder.connectConfig(cfg);

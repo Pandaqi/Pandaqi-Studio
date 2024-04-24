@@ -65,9 +65,7 @@ If you didn't add rules on the paper itself---or just want more clarification---
 
 <p>Input your desired settings and click "generate".</p>
 
-{{< boardgame-settings type="board" local_storage="kangaruseConfig" >}}
-  {{< setting-hidden id="setting-gameTitle" text="Kangaruse" >}}
-  {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale to conserve ink." >}}
+{{< boardgame-settings type="board" local_storage="kangaruseConfig" game_title="Kangaruse" defaults="true" >}}
   {{< setting-enum id="setting-sideBarType" text="Side Bar?" values="No,Rules,Score" valaskey="true" remark="Add the rules or a score tracker on the paper itself?" def="Rules" >}}
   {{< setting-checkbox id="setting-startingPositions" text="Starting Positions?" remark="Marks a few squares as possible starting positions." >}}
   {{< setting-enum id="setting-boardSize" text="Board Size?" values="Tiny,Small,Regular,Large,Huge" valaskey="true" remark="For a really short or really long game." def="Regular" >}}

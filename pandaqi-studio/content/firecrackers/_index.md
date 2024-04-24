@@ -59,13 +59,10 @@ Three simple steps.
 
 <p>Pick your desired settings and click the button! When in doubt, just use the defaults for your first games.</p>
 
-{{< boardgame-settings type="game" local_storage="firecrackersConfig" btn_label="Generate Material" >}}
-	{{< setting-hidden id="setting-gameTitle" text="Firecrackers" >}}
-  {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
-  {{< setting-enum id="setting-itemSize" text="Card Size?" values="small,regular,large" valaskey="true" def="regular" >}}
+{{< boardgame-settings type="game" local_storage="firecrackersConfig" btn_label="Generate Material" game_title="Firecrackers" defaults="true" >}}
   {{< setting-checkbox id="setting-expansions-scoreCards" text="Add Scoreworks?" remark="An expansion that adds cards to randomize how scoring works at the end of the game." >}}
   {{< boardgame-settings-section heading="Packs" >}}
-{{< setting-checkbox-multiple id="setting-packs" values="black,red,orange,yellow,green,turquoise,blue,purple,pink,brown,white" valuesChecked="black,red,yellow,green,blue,brown" >}}
+    {{< setting-checkbox-multiple id="setting-packs" values="black,red,orange,yellow,green,turquoise,blue,purple,pink,brown,white" values_checked="black,red,yellow,green,blue,brown" >}}
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 

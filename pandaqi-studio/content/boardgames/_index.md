@@ -48,12 +48,12 @@ These games only require you to print _a single sheet of paper_ and find a pen(c
 
 This simplicity is great. You can download, explain, carry, play or pause these games instantly.
 
-Additionally, they are language-independent. Only one person needs to understand English to read the rules, all other files don't have (essential) text.
+Additionally, they are often language-independent (not always). Only one person needs to understand English to read the rules, all other files don't have (essential) text.
 
 {{% /section-centered %}}
 
 <!--- List all in category "opg" -->
-{{< list-in-category-grid key="opg" >}}
+{{< list-in-category-grid type="categories" key="one-paper-game" >}}
 </div>
 
 <div class="colorScheme-green background-pattern">
@@ -72,7 +72,7 @@ Sometimes an offline mode is present or the digital component is optional. But t
 {{% /section-centered %}}
 
 <!--- List all in category "hybrid" -->
-{{< list-in-category-grid key="hybrid" >}}
+{{< list-in-category-grid type="categories" key="hybrid-game" >}}
 </div>
 
 <div class="colorScheme-blue background-pattern">
@@ -88,8 +88,8 @@ Older games are available in multiple languages: Dutch and English. Newer ones a
 
 {{% /section-centered %}}
 
-<!--- List all in category "traditional" -->
-{{< list-in-category-grid key="traditional" >}}
+<!--- List all in category "standard" -->
+{{< list-in-category-grid type="categories" key="standard" >}}
 </div>
 
 <div class="colorScheme-beige background-pattern">

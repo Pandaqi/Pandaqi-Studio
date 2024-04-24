@@ -109,17 +109,15 @@ Three steps ...
 <p>Input your desired settings. Click "Generate Board", save the PDF, print it.</p>
 <p>For your <strong>first game</strong>, just set the player count and immediately start.</p>
 
-{{< boardgame-settings type="board" >}}
-  {{< setting-hidden id="setting-gameTitle" text="One Pizza the Puzzle" >}}
+{{< boardgame-settings type="board" game_title="One Pizza The Puzzle" defaults="true" >}}
   {{< setting-seed >}}
   {{< setting-playercount min="2" max="8" def="4" >}}
   {{< setting-enum id="setting-boardVariation" text="Variation?" values="None,Small,Medium,Large,Extreme" def="Medium" remark="Higher means more curving streets, irregular building shapes, and distinct areas. Choose whatever you prefer." >}}
-  {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Removes many decorational elements and turns the board (mostly) grayscale." >}}
   {{< boardgame-settings-section heading="Expansions" >}}
-{{< setting-checkbox id="setting-expansions-pizzaPolice" text="Pizza Police?" >}}
-{{< setting-checkbox id="setting-expansions-treacherousTraffic" text="Treacherous Traffic?" >}}
-{{< setting-checkbox id="setting-expansions-ingeniousIngredients" text="Ingenious Ingredients?" >}}
-{{< setting-checkbox id="setting-expansions-preposterousPlaces" text="Preposterous Places?" >}}
+    {{< setting-checkbox id="setting-expansions-pizzaPolice" text="Pizza Police?" >}}
+    {{< setting-checkbox id="setting-expansions-treacherousTraffic" text="Treacherous Traffic?" >}}
+    {{< setting-checkbox id="setting-expansions-ingeniousIngredients" text="Ingenious Ingredients?" >}}
+    {{< setting-checkbox id="setting-expansions-preposterousPlaces" text="Preposterous Places?" >}}
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 

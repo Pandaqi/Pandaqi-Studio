@@ -59,14 +59,12 @@ Three simple steps.
 
 <p>Pick your desired settings and click the button! When in doubt, just use the defaults for your first games.</p>
 
-{{< boardgame-settings type="game" local_storage="iBidYouNotConfig" btn_label="Generate Material" >}}
-	{{< setting-hidden id="setting-gameTitle" text="I Bid You Not" >}}
-  {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
-  {{< setting-enum id="setting-itemSize" text="Card Size?" values="small,regular,large" valaskey="true" def="regular" >}}
-  <h3>Sets</h3>
-  {{< setting-checkbox id="setting-sets-base" text="Base Game?" checked="checked" >}}
-  {{< setting-checkbox id="setting-sets-oddInventions" text="Odd Inventions?" >}}
-  {{< setting-checkbox id="setting-sets-doubleDevices" text="Double Devices?" >}}
+{{< boardgame-settings type="game" local_storage="iBidYouNotConfig" btn_label="Generate Material" game_title="I Bid You Not" defaults="true" >}}
+  {{< boardgame-settings-section heading="Sets" >}}
+    {{< setting-checkbox id="setting-sets-base" text="Base Game?" checked="checked" >}}
+    {{< setting-checkbox id="setting-sets-oddInventions" text="Odd Inventions?" >}}
+    {{< setting-checkbox id="setting-sets-doubleDevices" text="Double Devices?" >}}
+  {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
 <p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>

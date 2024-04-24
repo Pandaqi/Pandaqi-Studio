@@ -63,22 +63,35 @@ const CONFIG:Record<string,any> =
     {
         clueCardBoundsBase: new Bounds(0, 43), // the range of frames to use for generating clue cards; so basically stores the usable frames of the spritesheet
         clueCardBoundsExpansion: new Bounds(44, 88-1),
-        numScoreCards: 20,
-        scoringRuleIterationRandomness: new Bounds(-2,6),
-        maxValuePerEgg: 4,
+        numScoreCards: 16,
+        scoringRuleIterationRandomness: new Bounds(-2,3),
+        scoringCardAvgScore: 2,
+        maxValuePerEgg: 3,
         maxNumEggs: 5, 
         maxNumPlayers: 6,
         defaultFrequencies:
         {
             eggToken: 5,
             roomTile: 1,
-            obstacleTile: 5
+            obstacleTile: 4 // there are 7 obstacles, 7 * 4 = 28 = ~25 = eggTokens
         }
     },
 
 
     tiles:
     {
+        customDrawerConfig:
+        {
+            autoStroke: true,
+            dimsElement: new Point(1, 1),
+            dims: 
+            { 
+                small: new Point(4,6),
+                regular: new Point(2,4),
+                large: new Point(1,2)
+            },
+        }, 
+
         objects:
         {
             dims: new CVal(new Point(1.0), "sizeUnit")

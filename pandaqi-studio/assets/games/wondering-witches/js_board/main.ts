@@ -149,7 +149,7 @@ class BoardGeneration extends Scene
 		cfg.gardenBorderColor = "#000000";
 		cfg.specialCellContainer = document.getElementById('special-cell-container');
 
-		cfg.playerColorsHex = ['#800000', '#9a6324', "#008080", "#911EB4", "#808088"];
+		cfg.playerColorsHex = ['#800000', '#9A6324', "#008080", "#911EB4", "#808088"];
 		cfg.fontSize = 16.0 * cfg.graphicsScaleFactor;
 		cfg.textConfig = { 
 			fontFamily: 'Mali', 
@@ -489,37 +489,36 @@ class BoardGeneration extends Scene
 
 		// => player area
 		// (stroke the rectangle; scale slightly inwards for better separation)
-		let playerNum = -1;
-
 		const fontSize = this.cfg.textConfig.fontSize;
 		const textConfig = new TextConfig({
 			font: this.cfg.textConfig.fontFamily,
 			size: fontSize
 		}).alignCenter();
 
+		let playerNum = 0;
 		for(const section of this.cfg.sections)
 		{
 			const rect = section.asRect();
-			const centerX = (rect.x + 0.5*rect.width)
-			const centerY = (rect.y + 0.5*rect.height);
+			const rectSize = rect.getSize();
 
 			// this just slightly shrinks the rectangle because it looks better and avoids doubling edges at borders
 			const edgeOffset = this.cfg.thickLineWidth * 0.5;
-			rect.center = new Point(centerX, centerY);
-			rect.extents = new Point(rect.width - 2*edgeOffset, rect.height - 2*edgeOffset);
+			rect.extents = new Point(rectSize.x - 4*edgeOffset, rectSize.y - 4*edgeOffset);
 
-			playerNum += 1
-
+			const color = this.cfg.playerColorsHex[playerNum];
+			console.log(color);
+			console.log(this.cfg.playerColorsHex);
+			console.log(this.cfg.thickLineWidth);
 			const opRect = new LayoutOperation({
-				stroke: this.cfg.playerColorsHex[playerNum],
+				stroke: color,
 				strokeWidth: this.cfg.thickLineWidth
 			})
 			rectToPhaser(rect, opRect, graphics);
 
 			const str = 'Player ' + (playerNum + 1);
 			const opText = new LayoutOperation({
-				translate: new Point(centerX, centerY),
-				fill: this.cfg.playerColorsHex[playerNum],
+				translate: rect.center,
+				fill: color,
 				dims: new Point(20 * fontSize, 2 * fontSize),
 				pivot: Point.CENTER,
 				stroke: "#FFFFFF",
@@ -529,6 +528,8 @@ class BoardGeneration extends Scene
 			const resText = new ResourceText({ text: str, textConfig: textConfig });
 			this.gen.sprites.push( textToPhaser(resText, opText, this) );
 			// txt.setShadow(0, 0, this.cfg.txtShadowColor, this.cfg.txtShadowSize); => NOT IMPLEMENTED YET BY ME
+
+			playerNum++;
 		}
 	}
 }

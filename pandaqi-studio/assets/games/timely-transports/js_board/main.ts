@@ -150,7 +150,7 @@ class BoardGeneration extends Scene
 
 			numPlayers: config.numPlayers,
 			difficulty: config.difficulty ?? "Training Wheels",
-			printFriendly: config.inkFriendly ?? false,
+			inkFriendly: config.inkFriendly ?? false,
 			splitBoard: config.splitBoard ?? false,
 			cityBonus: config.cityBonus ?? false,
 			rulesReminder: config.rulesReminder ?? false,
@@ -158,7 +158,7 @@ class BoardGeneration extends Scene
 			minPathsRequiredOfEachType: 2
 		}
 
-		this.cfg.bgColor = this.cfg.printFriendly ? "#FFFFFF" : "#333333";
+		this.cfg.bgColor = this.cfg.inkFriendly ? "#FFFFFF" : "#333333";
 
 		// OPTION 1 => fewer cities = longer maximal route length
 		// this.cfg.cityMaxConnectionLength = 50 - this.cfg.numCities;
@@ -986,7 +986,7 @@ class BoardGeneration extends Scene
 				if(cell.isForest) 
 				{
 					const frame = this.checkNeighbourForestFrame(pos);
-					const imageKey = this.cfg.printFriendly ? "forest_printfriendly" : "forest";
+					const imageKey = this.cfg.inkFriendly ? "forest_printfriendly" : "forest";
 					const randSizeChange = Math.random()*8 - 4;
 					const randOffsetChangeX = Math.random()*0.2-0.1, randOffsetChangeY = Math.random()*0.2-0.1;
 					const forestWidth = cs + randSizeChange;
@@ -1007,7 +1007,7 @@ class BoardGeneration extends Scene
 				
 				// if printfriendly, don't draw any colors and use outlines/stripes for sea and stuff
 				// otherwise, just draw the terrain in detail
-				if(this.cfg.printFriendly) 
+				if(this.cfg.inkFriendly) 
 				{
 					if(noiseVal <= waterLine) 
 					{
@@ -1077,7 +1077,7 @@ class BoardGeneration extends Scene
 					let sheetKey
 					if(pathType == PathType.BOAT) {
 						sheetKey = 'searoutes'
-						if(this.cfg.printFriendly) {
+						if(this.cfg.inkFriendly) {
 							sheetKey = 'searoutes_printfriendly'
 						}
 					} else if(pathType == PathType.ROAD) {

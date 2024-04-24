@@ -102,19 +102,17 @@ Three steps:
 <p>Input your settings below. Click "Generate Board", save the PDF, print it.</p>
 <p>For your <strong>first game</strong>, just set your player count and tick "first game", that's enough!</p>
 
-{{< boardgame-settings type="board">}}
-  {{< setting-hidden id="setting-gameTitle" text="Unstable Universe" >}}
+{{< boardgame-settings type="board" game_title="Unstable Universe" defaults="true" >}}
   {{< setting-seed >}}
   {{< setting-playercount min="2" max="9" def="4" >}}
   {{< setting-checkbox id="setting-firstGame" text="First game(s)?" remark="Everyone gets the same Mission, to simplify learning and teaching the game." >}}
-  {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Removes many decorational elements and turns the board (mostly) grayscale." >}}
   {{< setting-checkbox id="setting-secretBoard" text="Secret Board?" >}}
   {{< boardgame-settings-section heading="Expansions" >}}
-{{< setting-checkbox id="setting-expansions-nastyNodes" text="Nasty Nodes?" >}}
-{{< setting-checkbox id="setting-expansions-nodesOfKnowledge" text="Nodes of Knowledge?" >}}
-{{< setting-checkbox id="setting-expansions-theElectricExpansion" text="The Electric Expansion?" >}}
-{{< setting-checkbox id="setting-expansions-extremeExpeditions" text="Extreme Expeditions?" >}}
-{{< setting-checkbox id="setting-expansions-sharpScissors" text="Sharp Scissors?" >}}
+    {{< setting-checkbox id="setting-expansions-nastyNodes" text="Nasty Nodes?" >}}
+    {{< setting-checkbox id="setting-expansions-nodesOfKnowledge" text="Nodes of Knowledge?" >}}
+    {{< setting-checkbox id="setting-expansions-theElectricExpansion" text="The Electric Expansion?" >}}
+    {{< setting-checkbox id="setting-expansions-extremeExpeditions" text="Extreme Expeditions?" >}}
+    {{< setting-checkbox id="setting-expansions-sharpScissors" text="Sharp Scissors?" >}}
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 

@@ -14,11 +14,7 @@ downloadLink: "https://drive.google.com/drive/folders/1ydtMKAUdtozQFcBwwR8VoP9Tr
 
 {{% section-centered heading="Material" anchor="material" html="true" %}}
 
-{{< boardgame-settings type="game" local_storage="arquetectConfig" >}}
-	{{< setting-hidden id="setting-gameTitle" text="Arquetect" >}}
-  {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
-  {{< setting-enum id="setting-cardSize" text="Card Size?" values="small,regular,huge" valaskey="true" def="regular" >}}
-{{< /boardgame-settings >}}
+{{< boardgame-settings type="game" local_storage="arquetectConfig" game_title="Arquetect" defaults="true" >}}{{< /boardgame-settings >}}
 
 {{% /section-centered %}}
 

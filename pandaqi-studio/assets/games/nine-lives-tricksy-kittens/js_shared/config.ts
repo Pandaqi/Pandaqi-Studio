@@ -12,7 +12,8 @@ const CONFIG =
     // set through user config on page
     inkFriendly: false,
     includePowers: true,
-    cardSize: "regular",
+    itemSize: "regular",
+    pageSize: "a4",
     suits: {},
     
     fonts:
@@ -68,7 +69,7 @@ const CONFIG =
         dims: { 
             small: new Point(4,4),
             regular: new Point(3,3),
-            huge: new Point(2,2)
+            large: new Point(2,2)
         },
         dimsElement: new Point(1, 1.4),
         

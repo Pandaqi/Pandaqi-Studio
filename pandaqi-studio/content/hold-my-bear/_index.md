@@ -78,16 +78,13 @@ It's your goal to win _so hard_ that nobody can do the two things above. Have fu
 
 {{% section-centered heading="Material" anchor="material" html="true" %}}
 
-{{< boardgame-settings type="game" local_storage="holdMyBearConfig" btn_label="Generate PDF" >}}
-	{{< setting-hidden id="setting-gameTitle" text="Hold my Bear" >}}
-  {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
-  {{< setting-enum id="setting-cardSize" text="Card Size?" values="small,regular,huge" valaskey="true" def="regular" >}}
+{{< boardgame-settings type="game" local_storage="holdMyBearConfig" btn_label="Generate PDF" game_title="Hold my Bear" defaults="true" >}}
   {{< setting-checkbox id="setting-addBearIcons" text="Add Bear Icons?" checked="checked" remark="Adds icons on the Bear card to remind you of its abilities." >}}
   {{< boardgame-settings-section heading="Animals" >}}
-{{< setting-checkbox-multiple id="setting-animalsBase" values="bear,ferret,tiger,chicken,dog,cat,hamster,vole" valuesChecked="bear,ferret,tiger,hamster,vole" >}}
+    {{< setting-checkbox-multiple id="setting-animalsBase" values="bear,ferret,tiger,chicken,dog,cat,hamster,vole" values_checked="bear,ferret,tiger,hamster,vole" >}}
   {{< /boardgame-settings-section >}}
   {{< boardgame-settings-section heading="Expansion Animals" >}}
-{{< setting-checkbox-multiple id="setting-animalsExpansion" values="turtle,beaver,badger,giraffe,ape,bat,walrus,fish,bison,kangaroo,rabbit,sheep,squid,aardvark" >}}
+    < setting-checkbox-multiple id="setting-animalsExpansion" values="turtle,beaver,badger,giraffe,ape,bat,walrus,fish,bison,kangaroo,rabbit,sheep,squid,aardvark" >}}
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 

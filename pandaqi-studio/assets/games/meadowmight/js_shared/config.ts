@@ -11,7 +11,8 @@ const CONFIG =
 
     // set through user config on page
     inkFriendly: false,
-    cardSize: "regular",
+    itemSize: "regular",
+    pageSize: "a4",
     
     expansions:
     {
@@ -60,7 +61,7 @@ const CONFIG =
         dims: { 
             small: new Point(5,6),
             regular: new Point(4,5),
-            huge: new Point(3,4)
+            large: new Point(3,4)
         },
         dimsElement: new Point(1, 1),
         

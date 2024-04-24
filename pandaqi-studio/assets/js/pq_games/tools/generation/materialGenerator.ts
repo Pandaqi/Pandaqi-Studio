@@ -1,7 +1,7 @@
 import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple";
 import GridMapper from "js/pq_games/layout/gridMapper";
 import ResourceLoader from "js/pq_games/layout/resources/resourceLoader";
-import PdfBuilder, { PageOrientation } from "js/pq_games/pdf/pdfBuilder";
+import PdfBuilder, { PageFormat, PageOrientation } from "js/pq_games/pdf/pdfBuilder";
 import ProgressBar from "js/pq_games/website/progressBar";
 import MaterialVisualizer from "./materialVisualizer";
 
@@ -43,7 +43,7 @@ export default class MaterialGenerator
         this.progressBar = new ProgressBar();
         this.progressBar.setPhases(this.progressBarPhases);
 
-        const pdfBuilderConfig = { orientation: PageOrientation.PORTRAIT, debugWithoutFile: this.config.debug.omitFile };
+        const pdfBuilderConfig = { orientation: this.config.pageOrientation ?? PageOrientation.PORTRAIT, debugWithoutFile: this.config.debug.omitFile, format: this.config.pageSize as PageFormat };
         const pdfBuilder = new PdfBuilder(pdfBuilderConfig);
         this.pdfBuilder = pdfBuilder; 
     }

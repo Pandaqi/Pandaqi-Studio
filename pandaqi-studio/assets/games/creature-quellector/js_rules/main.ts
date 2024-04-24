@@ -9,7 +9,7 @@ const CONFIG =
 {
     types: ["red", "blue", "green", "purple"],
     canvasSize: new Point(960, 540),
-    cardSize: new Point(150, 200),
+    itemSize: new Point(150, 200),
     paddingBetweenCards: 30,
     mainTypeSize: 0.25, // relative to card size
     typeSize: 0.185, // relative to card size
@@ -70,27 +70,27 @@ class Card
 
     draw(ctx:CanvasRenderingContext2D, pos: Point, inverted = false)
     {
-        const cardSizeUnit = Math.min(CONFIG.cardSize.x, CONFIG.cardSize.y);
+        const itemSizeUnit = Math.min(CONFIG.itemSize.x, CONFIG.itemSize.y);
         const invSign = inverted ? -1 : 1;
 
         // actual card frame
-        let topLeft = pos.clone().add(CONFIG.cardSize.clone().scaleFactor(-0.5));
+        let topLeft = pos.clone().add(CONFIG.itemSize.clone().scaleFactor(-0.5));
         ctx.fillStyle = CATEGORIES[this.mainType].colorBG;
-        ctx.fillRect(topLeft.x, topLeft.y, CONFIG.cardSize.x, CONFIG.cardSize.y);
+        ctx.fillRect(topLeft.x, topLeft.y, CONFIG.itemSize.x, CONFIG.itemSize.y);
 
         // main type
         const mainTypePos = pos.clone();
-        mainTypePos.y -= invSign*0.33*cardSizeUnit;
-        const mainTypeSize = CONFIG.mainTypeSize*cardSizeUnit;
+        mainTypePos.y -= invSign*0.33*itemSizeUnit;
+        const mainTypeSize = CONFIG.mainTypeSize*itemSizeUnit;
         ctx.fillStyle = CATEGORIES[this.mainType].color;
         ctx.fillRect(mainTypePos.x - 0.5*mainTypeSize, mainTypePos.y - 0.5*mainTypeSize, mainTypeSize, mainTypeSize);
     
         // individual types
-        const typeSize = CONFIG.typeSize*cardSizeUnit;
+        const typeSize = CONFIG.typeSize*itemSizeUnit;
         const padding = CONFIG.paddingBetweenTypes*typeSize;
         const offsetPerType = Point.RIGHT.clone().scaleFactor(typeSize + padding);
         const typeListPos = pos.clone();
-        typeListPos.y += invSign*0.33*cardSizeUnit;
+        typeListPos.y += invSign*0.33*itemSizeUnit;
         const offset = offsetPerType.clone().scaleFactor(-0.5 * (this.count() - 1));
 
         typeListPos.add(offset);
@@ -268,7 +268,7 @@ class Squad
 
     draw(ctx:CanvasRenderingContext2D, pos:Point, inverted = false)
     {
-        const offsetPerCard = Point.RIGHT.clone().scaleFactor(CONFIG.cardSize.x + CONFIG.paddingBetweenCards);
+        const offsetPerCard = Point.RIGHT.clone().scaleFactor(CONFIG.itemSize.x + CONFIG.paddingBetweenCards);
         const offset = offsetPerCard.clone().scaleFactor(-0.5 * (this.count() - 1));
         pos = pos.clone().add(offset);
         for(const card of this.cards)

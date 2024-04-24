@@ -197,7 +197,7 @@ export default class Card
 
     async drawForRules(cfg)
     {
-        const size = cfg.cardSize.clone();
+        const size = cfg.itemSize.clone();
         const sizeUnit = Math.min(size.x, size.y);
         const ctx = createContext({ size: size });
 

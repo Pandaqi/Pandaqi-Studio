@@ -14,7 +14,8 @@ const CONFIG =
     inkFriendly: false,
     includeLifeCards: true,
     includeNumberCards: true,
-    cardSize: "regular",
+    itemSize: "regular",
+    pageSize: "a4",
     
     fonts:
     {
@@ -78,7 +79,7 @@ const CONFIG =
         dims: { 
             small: new Point(4,4),
             regular: new Point(3,3),
-            huge: new Point(2,2)
+            large: new Point(2,2)
         },
         dimsElement: new Point(1, 1.4),
         size: new Point(),

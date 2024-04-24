@@ -12,7 +12,8 @@ export default
     resLoader: null,
     gridMapper: null,
     pdfBuilder: null,
-    cardSize: "regular",
+    itemSize: "regular",
+    pageSize: "a4",
     inkFriendly: false,
 
     multiType: false,

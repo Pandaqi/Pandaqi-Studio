@@ -60,16 +60,13 @@ Three simple steps.
 
 <p>Input your settings, click the button. A new page will open that generates a nice PDF for you!</p>
 
-{{< boardgame-settings type="game" local_storage="creatureQuellectorConfig" btn_label="Generate Material" >}}
-	{{< setting-hidden id="setting-gameTitle" text="Creature Quellector" >}}
-  {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
-  {{< setting-enum id="setting-cardSize" text="Card Size?" values="small,regular,huge" valaskey="true" def="regular" >}}
+{{< boardgame-settings type="game" local_storage="creatureQuellectorConfig" game_title="Creature Quellector" btn_label="Generate Material" defaults="true" >}}
   {{< setting-checkbox id="setting-multiType" text="Multitype?" remark="An expansion: some icons will become two types at once." >}}
   {{< boardgame-settings-section heading="Elements" >}}
-{{< setting-enum id="setting-elements-red" text="Red" values="fire,electric,star,dragon" valaskey="true" def="fire" >}}
-{{< setting-enum id="setting-elements-blue" text="Blue" values="water,ice,poison,weather" valaskey="true" def="water" >}}
-{{< setting-enum id="setting-elements-green" text="Green" values="earth,grass,rock,bug" valaskey="true" def="earth" >}}
-{{< setting-enum id="setting-elements-purple" text="Purple" values="air,magic,ghost,dark" valaskey="true" def="air" >}}
+    {{< setting-enum id="setting-elements-red" text="Red" values="fire,electric,star,dragon" valaskey="true" def="fire" >}}
+    {{< setting-enum id="setting-elements-blue" text="Blue" values="water,ice,poison,weather" valaskey="true" def="water" >}}
+    {{< setting-enum id="setting-elements-green" text="Green" values="earth,grass,rock,bug" valaskey="true" def="earth" >}}
+    {{< setting-enum id="setting-elements-purple" text="Purple" values="air,magic,ghost,dark" valaskey="true" def="air" >}}
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 

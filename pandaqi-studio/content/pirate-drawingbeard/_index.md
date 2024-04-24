@@ -79,21 +79,20 @@ Three steps.
 <p>Input your desired settings. Click "start game".</p>
 <p>For your <strong>first game</strong>, just input your player count and immediately start. Add the other options when you know the game and want more!</p>
 
-{{< boardgame-settings type="game" local_storage="pirateDrawingbeardConfig" >}}
+{{< boardgame-settings type="game" local_storage="pirateDrawingbeardConfig" game_title="Pirate Drawingbeard" >}}
   {{< setting-seed >}}
-  {{< setting-hidden id="setting-gameTitle" text="Pirate Drawingbeard" >}}
   {{< setting-playercount min="1" max="6" def="4" >}}
   {{< setting-checkbox id="setting-useRealMaterial" text="Use Real Material?" remark="Enable if you're reusing the printed out material sheet." >}}
   {{< setting-checkbox id="setting-createPremadeGame" text="Create PDF?" remark="Downloads a PDF with a board and hint cards for offline play." >}}
   {{< setting-checkbox id="setting-inkFriendly" text="Colored?" remark="Default maps are grayscale to be print friendly. This adds full color." >}}
   {{< setting-checkbox id="setting-fastGeneration" text="Fast Generation?" remark="Produces a game much faster, but can lead to more unfair or chaotic games" >}}
-  {{< boardgame-settings-section heading="Hint" >}}
-{{< setting-checkbox id="setting-expansions-rotation" text="Rotation Hints?" >}}
-{{< setting-checkbox id="setting-expansions-special" text="Special Hints?" >}}
-{{< setting-checkbox id="setting-expansions-symbols" text="Symbol Hints?" >}}
-{{< setting-checkbox id="setting-expansions-networks" text="Network Hints?" remark="Not playable with real/reused material." >}}
-{{< setting-checkbox id="setting-multiHints" text="Multi Hints?" remark="Players receive 1 hint by default. This allows up to 3. Can make generation faster." >}}
-{{< setting-checkbox id="setting-advancedHints" text="Advanced Hints?" remark="Adds many types of hints that are really hard to figure out." >}}
+  {{< boardgame-settings-section heading="Hints" >}}
+    {{< setting-checkbox id="setting-expansions-rotation" text="Rotation Hints?" >}}
+    {{< setting-checkbox id="setting-expansions-special" text="Special Hints?" >}}
+    {{< setting-checkbox id="setting-expansions-symbols" text="Symbol Hints?" >}}
+    {{< setting-checkbox id="setting-expansions-networks" text="Network Hints?" remark="Not playable with real/reused material." >}}
+    {{< setting-checkbox id="setting-multiHints" text="Multi Hints?" remark="Players receive 1 hint by default. This allows up to 3. Can make generation faster." >}}
+    {{< setting-checkbox id="setting-advancedHints" text="Advanced Hints?" remark="Adds many types of hints that are really hard to figure out." >}}
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 

@@ -1,7 +1,7 @@
 import ProgressBar from "js/pq_games/website/progressBar";
 import CONFIG from "../js_shared/config";
 import ResourceLoader from "js/pq_games/layout/resources/resourceLoader";
-import PdfBuilder, { PageOrientation } from "js/pq_games/pdf/pdfBuilder";
+import PdfBuilder, { PageFormat, PageOrientation } from "js/pq_games/pdf/pdfBuilder";
 import GridMapper from "js/pq_games/layout/gridMapper";
 import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple";
 import { CardData, SETS, Type } from "../js_shared/dict";
@@ -82,11 +82,11 @@ export default class Generator
         await resLoader.loadPlannedResources();
         CONFIG.resLoader = resLoader;
 
-        const pdfBuilderConfig = { orientation: PageOrientation.PORTRAIT, debugWithoutFile: CONFIG.debugWithoutFile };
+        const pdfBuilderConfig = { orientation: PageOrientation.PORTRAIT, debugWithoutFile: CONFIG.debugWithoutFile, format: CONFIG.pageSize as PageFormat };
         const pdfBuilder = new PdfBuilder(pdfBuilderConfig);
         this.pdfBuilder = pdfBuilder;
 
-        const dims = CONFIG.cards.dims[CONFIG.cardSize ?? "regular"];
+        const dims = CONFIG.cards.dims[CONFIG.itemSize ?? "regular"];
 
         const gridConfig = { pdfBuilder: pdfBuilder, dims: dims, dimsElement: CONFIG.cards.dimsElement };
         const gridMapper = new GridMapper(gridConfig);

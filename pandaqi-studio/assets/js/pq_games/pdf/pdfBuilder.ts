@@ -12,9 +12,9 @@ enum PageOrientation
 
 enum PageFormat
 {
-    A4 = "A4",
-    A5 = "A5",
-    LETTER = "LETTER"
+    A4 = "a4",
+    A5 = "a5",
+    LETTER = "letter"
 }
 
 interface PdfConfig 

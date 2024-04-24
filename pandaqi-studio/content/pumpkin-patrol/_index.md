@@ -59,16 +59,13 @@ Three simple steps.
 
 <p>Pick your desired settings and click the button! When in doubt, just use the defaults for a first game.</p>
 
-{{< boardgame-settings type="game" local_storage="pumpkinPatrolConfig" btn_label="Generate Material" >}}
-	{{< setting-hidden id="setting-gameTitle" text="Pumpkin Patrol" >}}
-  {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
+{{< boardgame-settings type="game" local_storage="pumpkinPatrolConfig" btn_label="Generate Material" game_title="Pumpkin Patrol" defaults="true" >}}
   {{< setting-checkbox id="setting-includePeopleCards" text="Generate People Cards?" checked="checked" >}}
   {{< setting-checkbox id="setting-includeHandCards" text="Generate Hand Cards?" checked="checked" >}}
-  {{< setting-enum id="setting-cardSize" text="Card Size?" values="small,regular,huge" valaskey="true" def="regular" >}}
   {{< boardgame-settings-section heading="Cards to Include" >}}
-{{< setting-enum id="setting-setPeople" text="People Set?" values="starter,beginner,advanced,expert,random" valaskey="true" def="starter" >}}
-{{< setting-enum id="setting-setDecorations" text="Decoration Set?" values="starter,beginner,random" valaskey="true" def="starter" >}}
-{{< setting-enum id="setting-setTreats" text="Treat Set?" values="starter,beginner,random" valaskey="true" def="starter" >}}
+    {{< setting-enum id="setting-setPeople" text="People Set?" values="starter,beginner,advanced,expert,random" valaskey="true" def="starter" >}}
+    {{< setting-enum id="setting-setDecorations" text="Decoration Set?" values="starter,beginner,random" valaskey="true" def="starter" >}}
+    {{< setting-enum id="setting-setTreats" text="Treat Set?" values="starter,beginner,random" valaskey="true" def="starter" >}}
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 

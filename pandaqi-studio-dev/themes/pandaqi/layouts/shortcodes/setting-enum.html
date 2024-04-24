@@ -1,36 +1,9 @@
 {{- $id := .Get "id" -}}
-{{- $def := or (.Get "def") "" -}}
-{{- $values := split (.Get "values") "," -}}
+{{- $default_option := or (.Get "def") "" -}}
+{{- $values := .Get "values" -}}
 {{- $use_values_as_keys := .Get "valaskey" -}}
-{{- $keys_as_string := .Get "keys" -}}
-
-{{- $keys := slice -}}
-{{- if $keys_as_string -}}
-	{{- $keys = split $keys_as_string "," -}}
-{{- end -}}
-
-{{- $keep_case := (.Get "keep-case") -}}
+{{- $keys := .Get "keys" -}}
+{{- $keep_case := .Get "keep-case" -}}
 {{- $remark := .Get "remark" -}}
-
-<label for="{{- $id -}}">{{- .Get "text" -}} </label>
-<select name="{{- $id -}}" id="{{- $id -}}">
-	{{- range $k, $v := $values -}}
-		{{- $selected := "" -}}
-		{{- if eq $v $def -}}
-			{{- $selected = "selected" -}}
-		{{- end -}}
-		{{- $key := $k -}}
-		{{- if $use_values_as_keys -}}
-			{{- $key = $v | lower -}}
-			{{- if $keep_case -}}{{- $key = $v -}}{{- end -}}
-		{{- end -}}
-		{{- if gt (len $keys) 0 -}}
-			{{- $key = index $keys $k -}}
-		{{- end -}}
-		<option value="{{- $key -}}" {{- $selected -}}>{{- $v -}}</option>
-	{{- end -}}
-</select>
-
-{{- with $remark -}}
-<span class="setting-remark">{{- . | safeHTML -}}</span>
-{{- end -}}
+{{- $text := .Get "text" -}}
+{{- partial "settings/setting-enum.html" (dict "id" $id "default_option" $default_option "remark" $remark "text" $text "values" $values "keys" $keys "use_values_as_keys" $use_values_as_keys  "keep_case" $keep_case) -}}

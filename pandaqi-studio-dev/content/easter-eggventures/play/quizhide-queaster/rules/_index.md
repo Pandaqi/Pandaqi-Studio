@@ -2,24 +2,20 @@
 type: "rules"
 ---
 
-{{% rules-block id="setup" heading="Setup" icon="setup" icontint="green" %}}
+{{% rules-block id="setup" heading="Setup" icon="setup" icontint="orange" %}}
 
-Place 25 **Room Tiles** in any layout. If unsure, just use a 5x5 grid.
+Place 16 **Room Tiles** in any layout. If unsure, just use a 4x4 grid.
 
-Divide the players into two teams: **Hiders** and **Seekers**. It's usually recommended to have a single Hider. 
+Divide the players into two teams: **1 Hider** and the rest are **Seekers**.
 
-First, the Hiders hide their eggs.
+First, the Hider hides their eggs.
 
 * For each empty slot (white shape with colorful stroke) in a room, place a facedown egg.
 * Then cover it up with a faceup obstacle.
 
-Finally, each Hider draws 3 Hint Cards from the deck into their hand.
+Finally, the Hider draws **5 Hint Cards** from the deck into their hand.
 
-Once done, all Seekers place their pawn at random tiles on the map. Finally, they draw a random **Score Card** and place it faceup before them.
-
-{{% remark %}}
-Multiple hiders usually want to discuss, in which case the Seekers will have to leave the room or stuff their ears.
-{{% /remark %}}
+Once done, all Seekers place their pawn on a random tile. Finally, they draw a random **Score Card** and place it faceup before them.
 
 @TODO: IMAGE EXAMPLE
 
@@ -27,12 +23,9 @@ Multiple hiders usually want to discuss, in which case the Seekers will have to 
 
 {{% rules-block id="objective" heading="Objective" icon="objective" icontint="red" %}}
 
-The game **ends** as soon as **all eggs have been found**, or **all players have left the map**.
+The game **ends** as soon as **all players have left the map**.
 
-Each Seeker calculates their **score** by checking the eggs they collected. The point value of each is determined by their Score Card. 
-
-* You can play cooperatively and sum all the scores. The higher, the better!
-* Or you can play competitively: highest score wins.
+Each Seeker calculates their **score** by checking the eggs they collected. The point value of each is determined by their Score Card. **The higher, the better!**
 
 {{% /rules-block %}}
 
@@ -40,17 +33,39 @@ Each Seeker calculates their **score** by checking the eggs they collected. The 
 
 The Seekers take clockwise turns until done. 
 
-On your turn, you first receive one **Clue Card** from a Hider. (After which that Hider draws their hand back up to 3.)
+On your turn, you first receive one **Clue Card** from the Hider. 
+* The Hider may place the Clue Card before you any way they want. (On its own, on top of another, rotated, facedown, ...)
+* Then the Hider draws their hand back up to 5.
 
-Then take one of two possible actions.
-* **Walk**: take at most 3 steps to an adjacent room.
-* **Search**: collect the egg underneath 1 obstacle in your room.
+Now you take 3 actions. The possible actions are ...
+* **Walk**: move your pawn to an adjacent room (not diagonally).
+* **Search**: collect the egg underneath an obstacle in your current room.
 
-If the Hiders think there are no good eggs for a Player anymore, they can say so. The Player leaves the map: they get no more turns until the end of the game.
+For every 3 Clue Cards you receive, however, you must Search at least _once_.
+
+If the Hider thinks there are no good eggs for a Player anymore, they can say so. The Player leaves the map: they get no more turns.
+
+Once every Seeker has received 3 Clue Cards, the Hider may **refresh their memory**. They pick 2 rows or columns and look at all remaining eggs there.
 
 @TODO: IMAGE EXAMPLE
 
 {{% /rules-block %}}
+
+{{% rules-block id="expansions" heading="Expansions & Variants" icon="expansion" icontint="orange" %}}
+
+{{% rules-block heading="Variants" %}}
+
+On **high player counts** (6+ players), you can increase board size (e.g. 5x5) and pick multiple Hiders.
+
+For a **faster game**, you can take simultaneous turns. The Hider simply deals out Clue Cards as they please and players can puzzle and walk around simultaneously.
+
+For a **higher pressure game**, add an extra rule for when the game ends: once every player has received **6 Clue Cards**. (In a 2-player game, make this 9 Clue Cards.)
+
+You can play the game **competitively**. Each player only scores themselves, and highest score wins. In that case, pick an unbiased Hider.
+
+{{% /rules-block %}}
+
+{{% rules-block heading="Spoiled Expansion" %}}
 
 <!--- 
 IDEAS FOR EXPANSIONS:
@@ -61,4 +76,12 @@ IDEAS FOR EXPANSIONS:
 * Multiple-storied buildings connected with staircases => this is the "garden" expansion that also adds garden tiles. It's recommended to keep rooms and gardens as their own group, instead of randomly alternating them.
 * Special Eggs => when collected, you just take its unique action.
   * Such as giving the Hiders an extra opportunity to check what's underneath what.
+  * Something to swap Score Cards?
+  * Early refresher?
+  * Map expansion?
 --->
+
+{{% /rules-block %}}
+
+{{% /rules-block %}}
+

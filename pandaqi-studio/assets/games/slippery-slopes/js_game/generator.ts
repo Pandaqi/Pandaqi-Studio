@@ -1,4 +1,4 @@
-import PdfBuilder, { PageOrientation } from "js/pq_games/pdf/pdfBuilder"
+import PdfBuilder, { PageFormat, PageOrientation } from "js/pq_games/pdf/pdfBuilder"
 import ProgressBar from "js/pq_games/website/progressBar"
 import CONFIG from "../js_shared/config";
 import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple"
@@ -73,7 +73,7 @@ export default class Generator
         const shouldLoadWords = CONFIG.generateWords || CONFIG.expansions.crasheryCliffs;
         CONFIG.pandaqiWords = await loadPandaqiWords(CONFIG, shouldLoadWords);
 
-        const pdfBuilderConfig = { orientation: PageOrientation.PORTRAIT };
+        const pdfBuilderConfig = { orientation: PageOrientation.PORTRAIT, format: CONFIG.pageSize as PageFormat };
         const pdfBuilder = new PdfBuilder(pdfBuilderConfig);
         CONFIG.resLoader = resLoader;
         CONFIG.pdfBuilder = pdfBuilder; 

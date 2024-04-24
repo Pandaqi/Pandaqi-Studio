@@ -61,16 +61,13 @@ The base game can be learned in less than a minute; several small expansions kee
 
 <p>Pick your desired settings and click the button!</p>
 
-{{< boardgame-settings type="game" local_storage="mountainMinersConfig" btn_label="Generate Material" >}}
-	{{< setting-hidden id="setting-gameTitle" text="Mountain Miners" >}}
-  {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
-  {{< setting-enum id="setting-itemSize" text="Card Size?" values="small,regular,large" valaskey="true" def="regular" >}}
-
-  <h3>Tile Sets</h3>
-  {{< setting-checkbox id="setting-sets-base" text="Base Game?" checked="checked" >}}
-  {{< setting-checkbox id="setting-sets-darkTunnels" text="Dark Tunnels?" >}}
-  {{< setting-checkbox id="setting-sets-gemShards" text="Gemshards?" >}}
-  {{< setting-checkbox id="setting-sets-goldenActions" text="Golden Actions?" >}}
+{{< boardgame-settings type="game" local_storage="mountainMinersConfig" btn_label="Generate Material" game_title="Mountain Miners" defaults="true" >}}
+  {{< boardgame-settings-section heading="Sets" >}}
+    {{< setting-checkbox id="setting-sets-base" text="Base Game?" checked="checked" >}}
+    {{< setting-checkbox id="setting-sets-darkTunnels" text="Dark Tunnels?" >}}
+    {{< setting-checkbox id="setting-sets-gemShards" text="Gemshards?" >}}
+    {{< setting-checkbox id="setting-sets-goldenActions" text="Golden Actions?" >}}
+  {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
 <p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>

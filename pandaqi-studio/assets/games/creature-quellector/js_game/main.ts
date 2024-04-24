@@ -1,7 +1,7 @@
 import Pack from "./pack"
 import ResourceLoader from "js/pq_games/layout/resources/resourceLoader"
 import GridMapper from "js/pq_games/layout/gridMapper"
-import PdfBuilder, { PageOrientation } from "js/pq_games/pdf/pdfBuilder"
+import PdfBuilder, { PageFormat, PageOrientation } from "js/pq_games/pdf/pdfBuilder"
 import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple"
 import ProgressBar from "js/pq_games/website/progressBar"
 
@@ -80,11 +80,11 @@ export default class Generator
             await this.createMultiTypeIcons("icons");
         }
 
-        const pdfBuilderConfig = { orientation: PageOrientation.PORTRAIT };
+        const pdfBuilderConfig = { orientation: PageOrientation.PORTRAIT, format: CONFIG.pageSize as PageFormat };
         const pdfBuilder = new PdfBuilder(pdfBuilderConfig);
         CONFIG.pdfBuilder = pdfBuilder;
 
-        const dims = CONFIG.cards.dims[CONFIG.cardSize ?? "regular"];
+        const dims = CONFIG.cards.dims[CONFIG.itemSize ?? "regular"];
 
         const gridConfig = { pdfBuilder: pdfBuilder, dims: dims, dimsElement: CONFIG.cards.dimsElement };
         const gridMapper = new GridMapper(gridConfig);

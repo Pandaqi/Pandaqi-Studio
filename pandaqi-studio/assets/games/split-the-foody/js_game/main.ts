@@ -60,7 +60,7 @@ export default class Generator
         const pdfBuilder = new PdfBuilder(pdfBuilderConfig);
         this.pdfBuilder = pdfBuilder;
 
-        const dims = CONFIG.cards.dims[CONFIG.cardSize ?? "regular"];
+        const dims = CONFIG.cards.dims[CONFIG.itemSize ?? "regular"];
 
         const gridConfig = { pdfBuilder: pdfBuilder, dims: dims, dimsElement: CONFIG.cards.dimsElement };
         const gridMapper = new GridMapper(gridConfig);

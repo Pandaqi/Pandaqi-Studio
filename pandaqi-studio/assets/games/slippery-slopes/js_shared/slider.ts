@@ -48,12 +48,12 @@ export default class Slider
     {
         const colorSteps = CONFIG.sliderCards.numColorSteps;
 
-        const cardSize = customSize ?? CONFIG.sliderCards.size;
-        const ctx = createContext({ size: cardSize });
-        const blockHeight = cardSize.y / colorSteps;
+        const itemSize = customSize ?? CONFIG.sliderCards.size;
+        const ctx = createContext({ size: itemSize });
+        const blockHeight = itemSize.y / colorSteps;
         const amp = CONFIG.wavyRect.amplitude * blockHeight;
         
-        const wavyRectSize = new Point(cardSize.x, blockHeight + 4*amp);
+        const wavyRectSize = new Point(itemSize.x, blockHeight + 4*amp);
         this.wavyRect = createWavyRect(wavyRectSize, amp, CONFIG.wavyRect.frequency, CONFIG.wavyRect.stepSize);
 
         const textConfig = CONFIG.cards.textConfig;
@@ -63,40 +63,40 @@ export default class Slider
         const lightness = CONFIG.inkFriendly ? 100 : CONFIG.wavyRect.lightness;
         const colors = equidistantColorsBetweenOpposites(colorSteps, saturation, lightness);
 
-        this.createOutlineRect(ctx, cardSize);
+        this.createOutlineRect(ctx, itemSize);
         ctx.clip();
 
-        await this.drawBackground(ctx, colors, blockHeight, cardSize);
-        await this.drawCustom(ctx, colors, textConfig, blockHeight, cardSize);
-        await this.drawActionIcons(ctx, colors, blockHeight, cardSize);
+        await this.drawBackground(ctx, colors, blockHeight, itemSize);
+        await this.drawCustom(ctx, colors, textConfig, blockHeight, itemSize);
+        await this.drawActionIcons(ctx, colors, blockHeight, itemSize);
 
-        this.drawOutline(ctx, cardSize);
+        this.drawOutline(ctx, itemSize);
         
         return ctx.canvas;
     }
 
-    createOutlineRect(ctx, cardSize)
+    createOutlineRect(ctx, itemSize)
     {
-        const lw = CONFIG.cards.outline.width * cardSize.x;
-        const radius = CONFIG.cards.outline.radius * cardSize.x;
+        const lw = CONFIG.cards.outline.width * itemSize.x;
+        const radius = CONFIG.cards.outline.radius * itemSize.x;
 
         ctx.roundRect(0.5*lw, 0.5*lw, ctx.canvas.width-lw, ctx.canvas.height-lw, radius);
     }
 
-    drawOutline(ctx, cardSize)
+    drawOutline(ctx, itemSize)
     {
-        const lw = CONFIG.cards.outline.width * cardSize.x;
+        const lw = CONFIG.cards.outline.width * itemSize.x;
 
         ctx.save();
         ctx.beginPath();
         ctx.strokeStyle = CONFIG.cards.outline.color;
         ctx.lineWidth = lw;
-        this.createOutlineRect(ctx, cardSize);
+        this.createOutlineRect(ctx, itemSize);
         ctx.stroke();
         ctx.restore();
     }
 
-    async drawBackground(ctx, colors, blockHeight, cardSize)
+    async drawBackground(ctx, colors, blockHeight, itemSize)
     {
         // draw all color steps
         const amp = CONFIG.wavyRect.amplitude * blockHeight;
@@ -119,18 +119,18 @@ export default class Slider
         if(needsMeter)
         {
             const mdata = CONFIG.sliderCards.meter;
-            const center = cardSize.clone().scaleFactor(0.5);
+            const center = itemSize.clone().scaleFactor(0.5);
             const originalMeterExtents = mdata.extents;
-            const extents = cardSize.clone().scale(originalMeterExtents);
+            const extents = itemSize.clone().scale(originalMeterExtents);
 
             // the actual meter
-            const radius = mdata.borderRadius * cardSize.x;
+            const radius = mdata.borderRadius * itemSize.x;
             this.meterRect = new RectangleRounded({ center: center, extents: extents, radius: radius });
             const meterBG = mdata.backgroundColor;
             const canvOp = new LayoutOperation({
                 fill: meterBG,
                 stroke: "#000000",
-                strokeWidth: mdata.lineWidth * cardSize.x
+                strokeWidth: mdata.lineWidth * itemSize.x
             });
             const res = new ResourceShape({ shape: this.meterRect });
             await res.toCanvas(ctx, canvOp);
@@ -150,16 +150,16 @@ export default class Slider
         }
     }
 
-    async drawCustom(ctx, colors, textConfig, blockHeight, cardSize)
+    async drawCustom(ctx, colors, textConfig, blockHeight, itemSize)
     {
-        if(this.mainType == "property") { await this.drawProperties(ctx, colors, textConfig, blockHeight, cardSize); }
-        else if(this.mainType == "words") { await this.drawWords(ctx, colors, blockHeight, cardSize); }
+        if(this.mainType == "property") { await this.drawProperties(ctx, colors, textConfig, blockHeight, itemSize); }
+        else if(this.mainType == "words") { await this.drawWords(ctx, colors, blockHeight, itemSize); }
         else if(this.mainType == "color") { await this.drawColorRamp(ctx); }
-        else if(this.mainType == "shapes") { await this.drawShapes(ctx, colors, blockHeight, cardSize); }
+        else if(this.mainType == "shapes") { await this.drawShapes(ctx, colors, blockHeight, itemSize); }
     }
 
     // draw text with extremes
-    async drawProperties(ctx, colors:Color[], textConfig, blockHeight, cardSize)
+    async drawProperties(ctx, colors:Color[], textConfig, blockHeight, itemSize)
     {
         const textDarken = CONFIG.cards.textDarkenFactor;
         const extremes = this.getExtremes();
@@ -172,18 +172,18 @@ export default class Slider
             const word = extremes[i];
             const text = new ResourceText({ text: word, textConfig: textConfig })
 
-            const translate = (i == 0) ? new Point() : new Point(0, cardSize.y - blockHeight)
+            const translate = (i == 0) ? new Point() : new Point(0, itemSize.y - blockHeight)
             const canvOp = new LayoutOperation({
                 translate: translate,
                 fill: finalColor,
-                dims: new Point(cardSize.x, blockHeight)
+                dims: new Point(itemSize.x, blockHeight)
             })
             await text.toCanvas(ctx, canvOp);
         }
     }
 
     // draw random words/letters in random fonts
-    async drawWords(ctx, colors, blockHeight, cardSize)
+    async drawWords(ctx, colors, blockHeight, itemSize)
     {
         const textDarken = CONFIG.cards.textDarkenFactor;
         const fonts = []; // @TODO: select random fonts (no duplicates)
@@ -218,7 +218,7 @@ export default class Slider
             const canvOp = new LayoutOperation({
                 translate: translate,
                 fill: finalColor,
-                dims: new Point(cardSize.x, blockHeight)
+                dims: new Point(itemSize.x, blockHeight)
             })
             await res.toCanvas(ctx, canvOp);
         }
@@ -273,7 +273,7 @@ export default class Slider
     }
 
     // draw a random assortment of shapes (some pretty standard, some chaotic random)
-    async drawShapes(ctx, colors, blockHeight, cardSize)
+    async drawShapes(ctx, colors, blockHeight, itemSize)
     {
         const textDarken = CONFIG.cards.textDarkenFactor;
         const randShapeProb = CONFIG.sliderCards.shapes.completelyRandomizeProb;
@@ -306,7 +306,7 @@ export default class Slider
             randShape = new Path({ points: randShape });
             
             const color = colors[i];
-            const translate = new Point(0.5*cardSize.x, (i+0.5) * blockHeight);
+            const translate = new Point(0.5*itemSize.x, (i+0.5) * blockHeight);
             const res = new ResourceShape({ shape: randShape });
             let randRotation = rangeInteger(0,7) * 0.25 * Math.PI;
             if(useRandomShape) { randRotation = 0; }
@@ -320,7 +320,7 @@ export default class Slider
         }
     }
 
-    async drawActionIcons(ctx, colors, blockHeight, cardSize)
+    async drawActionIcons(ctx, colors, blockHeight, itemSize)
     {
         const numActions = this.actions.length;
         if(numActions <= 0) { return; }
@@ -345,7 +345,7 @@ export default class Slider
             const res = CONFIG.resLoader.getResource(CONFIG.actionSpritesheetKey);
             const rectIndex = rectIndices.pop();
 
-            const x = placeLeft ? 0.2 * cardSize.x : 0.8 * cardSize.x;
+            const x = placeLeft ? 0.2 * itemSize.x : 0.8 * itemSize.x;
             const y = (rectIndex + 0.5) * blockHeight
 
             const canvOp = new LayoutOperation({

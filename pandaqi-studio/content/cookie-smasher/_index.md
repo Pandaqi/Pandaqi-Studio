@@ -59,11 +59,8 @@ Three simple steps.
 
 <p>Pick your desired settings and click the button! When in doubt, just use the defaults for a first game.</p>
 
-{{< boardgame-settings type="game" local_storage="cookieSmasherConfig" btn_label="Generate Material" >}}
-	{{< setting-hidden id="setting-gameTitle" text="Cookie Smasher" >}}
-  {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
+{{< boardgame-settings type="game" local_storage="cookieSmasherConfig" btn_label="Generate Material" game_title="Cookie Smasher" defaults="true" >}}
   {{< setting-enum id="setting-cardSet" text="Card Set?" values="starter,beginner,amateur,advanced,expert,random" valaskey="true" def="starter" >}}
-  {{< setting-enum id="setting-cardSize" text="Card Size?" values="small,regular,huge" valaskey="true" def="regular" >}}
   {{< setting-enum id="setting-textPlacement" text="Text Placement?" values="bottom,top" valaskey="true" def="bottom" remark="Text is always mirrored, this just determines which side is the regular one (top/bottom)." >}}
 {{< /boardgame-settings >}}
 
@@ -75,9 +72,7 @@ The fonts used are **Palette Mosaic** and **Pettingill CF**. The first is availa
 
 The website and rules use a slightly different font (**Old Standard**). It is more "regular" and readable, especially on longer paragraphs.
 
-The art was partially generated using AI (specifically DALL-E 3). 
-
-Everything else (idea, code, design, parts of illustrations) is mine.
+The art was partially generated using AI (specifically DALL-E 3). Everything else (idea, code, design, parts of illustrations) is mine.
 
 Fun facts:
 

@@ -33,14 +33,14 @@ export default class SliderCards
 
     setup()
     {
-        const dims = CONFIG.sliderCards.dims[CONFIG.cardSize ?? "regular"];
+        const dims = CONFIG.sliderCards.dims[CONFIG.itemSize ?? "regular"];
 
         const gridConfig = { pdfBuilder: CONFIG.pdfBuilder, dims: dims, dimsElement: CONFIG.sliderCards.dimsElement };
         const gridMapper = new GridMapper(gridConfig);
         this.gridMapper = gridMapper; 
 
-        const cardSize = gridMapper.getMaxElementSize();
-        CONFIG.sliderCards.size = cardSize.clone();
+        const itemSize = gridMapper.getMaxElementSize();
+        CONFIG.sliderCards.size = itemSize.clone();
     }
 
     getRequiredProperties(dict:Record<string,any>)

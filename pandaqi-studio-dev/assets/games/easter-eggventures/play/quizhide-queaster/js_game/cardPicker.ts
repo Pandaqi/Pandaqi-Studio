@@ -70,7 +70,7 @@ export default class CardPicker
 
             const noPositives = stats.positive <= 0;
             const noNegatives = stats.negative <= 0;
-            const tooManyZeroes = stats.zero >= (0.5 * eggTypes.length);
+            const tooManyZeroes = stats.zero >= (0.25 * eggTypes.length);
             return noPositives || noNegatives || tooManyZeroes;
         }
 
@@ -78,18 +78,20 @@ export default class CardPicker
         let counter = 0;
         const typesCopy = eggTypes.slice();
         const maxValuePerEgg = CONFIG.generation.maxValuePerEgg;
+        const avgScore = CONFIG.generation.scoringCardAverageScore;
         while(counter < minNumIterations || invalidRuleset(values))
         {
             if(typesCopy.length <= 2) { break; }
 
             const tempTypes = shuffle(typesCopy.slice());
+            const onlyAdd = counter < avgScore;
 
             // each iteration, we bump one value higher and one value lower
             // (so each score card is always balanced to be 0, if you add all together)
             const rand1 = tempTypes.pop();
             const rand2 = tempTypes.pop();
             values[rand1] += 1;
-            values[rand2] -= 1;
+            if(!onlyAdd) { values[rand2] -= 1; }
 
             // remove values that are already extreme from being changed further
             if(Math.abs(values[rand1]) >= maxValuePerEgg) { typesCopy.splice(typesCopy.indexOf(rand1), 1); }

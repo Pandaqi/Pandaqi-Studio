@@ -1,5 +1,6 @@
 ---
 title: "Contact"
+blurb: "How to contact me and why you might want to do that (or not)."
 infopage: true
 data: 2015-01-01
 noHeader: true

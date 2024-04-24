@@ -86,19 +86,16 @@ You can also [generate your own material](#material) right on this website. (If 
 
 <p>Pick your desired settings and click the button!</p>
 
-{{< boardgame-settings type="game" local_storage="naivigationConfig" btn_label="Generate Material" >}}
-	{{< setting-hidden id="setting-gameTitle" text="Naivigation" >}}
-  {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
-  {{< setting-enum id="setting-itemSize" text="Card Size?" values="small,regular,large" valaskey="true" def="regular" >}}
+{{< boardgame-settings type="game" local_storage="naivigationConfig" btn_label="Generate Material" game_title="Naivigation" defaults="true" >}}
   {{< boardgame-settings-section heading="Core Set" >}}
-{{< setting-checkbox id="setting-includeInstructionTokens" text="Include Instruction Tokens?" checked="checked" >}}
-{{< setting-checkbox id="setting-includeVehicleCards" text="Include Vehicle Cards?" checked="checked" >}}
-{{< setting-checkbox id="setting-includeHealthCards" text="Include Health Cards?" checked="checked" >}}
+    {{< setting-checkbox id="setting-includeInstructionTokens" text="Include Instruction Tokens?" checked="checked" >}}
+    {{< setting-checkbox id="setting-includeVehicleCards" text="Include Vehicle Cards?" checked="checked" >}}
+    {{< setting-checkbox id="setting-includeHealthCards" text="Include Health Cards?" checked="checked" >}}
   {{< /boardgame-settings-section >}}
   {{< boardgame-settings-section heading="Expansions" >}}
-{{< setting-checkbox id="setting-includeActionCards" text="Include Action Cards?" >}}
-{{< setting-checkbox id="setting-includeTimeDeck" text="Include Time Deck?" >}}
-{{< setting-checkbox id="setting-includeGPSCards" text="Include GPS Cards?" >}}
+    {{< setting-checkbox id="setting-includeActionCards" text="Include Action Cards?" >}}
+    {{< setting-checkbox id="setting-includeTimeDeck" text="Include Time Deck?" >}}
+    {{< setting-checkbox id="setting-includeGPSCards" text="Include GPS Cards?" >}}
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 

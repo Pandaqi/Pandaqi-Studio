@@ -57,14 +57,11 @@ Three simple steps.
 
 <p>Pick your desired settings and click the button! The settings already selected are the "base game" mentioned in the introduction.</p>
 
-{{< boardgame-settings type="game" local_storage="reggverseRiddlesConfig" btn_label="Generate Material" >}}
-	{{< setting-hidden id="setting-gameTitle" text="Reggverse Riddles" >}}
-  {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
-  {{< setting-enum id="setting-itemSize" text="Card Size?" values="small,regular,large" valaskey="true" def="regular" >}}
+{{< boardgame-settings type="game" local_storage="reggverseRiddlesConfig" btn_label="Generate Material" game_title="Reggverse Riddles" defaults="true" >}}
   {{< boardgame-settings-section heading="Sets" >}}
-{{< setting-checkbox id="setting-sets-base" text="Base Game?" checked="checked" >}}
-{{< setting-checkbox id="setting-sets-actionTiles" text="Action Tiles?" >}}
-{{< setting-checkbox id="setting-sets-secretObjectives" text="Secret Objectives?" >}}
+    {{< setting-checkbox id="setting-sets-base" text="Base Game?" checked="checked" >}}
+    {{< setting-checkbox id="setting-sets-actionTiles" text="Action Tiles?" >}}
+    {{< setting-checkbox id="setting-sets-secretObjectives" text="Secret Objectives?" >}}
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 

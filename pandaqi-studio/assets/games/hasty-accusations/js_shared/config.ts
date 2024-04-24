@@ -13,7 +13,8 @@ const CONFIG =
 
     // set through user config on page
     inkFriendly: false,
-    cardSize: "regular",
+    itemSize: "regular",
+    pageSize: "a4",
     includeCards: true,
     includeCharacters: true,
     cardSet: "base", // base, advanced, expert
@@ -124,7 +125,7 @@ const CONFIG =
         dims: { 
             small: new Point(4,9),
             regular: new Point(3,7),
-            huge: new Point(2,5)
+            large: new Point(2,5)
         },
         dimsElement: new Point(2, 1),
 
@@ -160,7 +161,7 @@ const CONFIG =
         dims: { 
             small: new Point(4,4),
             regular: new Point(3,3),
-            huge: new Point(2,2)
+            large: new Point(2,2)
         },
         dimsElement: new Point(1, 1.4),
         

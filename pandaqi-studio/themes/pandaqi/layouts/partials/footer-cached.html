@@ -1,4 +1,4 @@
-{{- $all_pages := (where .Site.Pages "Params.gamepage" "eq" true) | shuffle | first 20 -}}
+{{- $all_pages := (where .Site.Pages "Params.gamepage" "eq" true) | shuffle | first 50 -}}
 {{- $list := slice }}
 {{- range $all_pages -}}
     {{- $list = $list | append .RelPermalink -}}

@@ -20,11 +20,11 @@ export default class Visualizer
     inkFriendly: boolean;
     effects: LayoutEffect[];
 
-    constructor(r:ResourceLoader, cardSize:Point, inkFriendly:boolean)
+    constructor(r:ResourceLoader, itemSize:Point, inkFriendly:boolean)
     {
         this.resLoader = r;
         this.inkFriendly = inkFriendly;
-        this.size = cardSize;
+        this.size = itemSize;
         this.sizeUnit = Math.min(this.size.x, this.size.y);
         this.center = this.size.clone().scale(0.5);
         this.effects = [];

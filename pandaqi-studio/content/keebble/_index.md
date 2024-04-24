@@ -64,18 +64,16 @@ You can start completely blank. Or you can use the generator below to get a nice
 
 <p>Input your desired settings and click "generate".</p>
 
-{{< boardgame-settings type="board" local_storage="keebbleConfig" >}}
-  {{< setting-hidden id="setting-gameTitle" text="Keebble" >}}
+{{< boardgame-settings type="board" local_storage="keebbleConfig" game_title="Keebble" defaults="true" >}}
   {{< setting-playercount def="4" min="2" max="6" >}}
-  {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly white / grayscale to conserve ink." >}}
   {{< setting-checkbox id="setting-forPrinting" text="For Printing?" remark="If you want to print this PDF and directly play on that." >}}
   {{< setting-enum id="setting-boardSize" text="Board Size?" values="Small,Medium,Large" valaskey="true" def="Medium" >}}
   {{< setting-checkbox id="setting-addWalls" text="Add walls?" checked="checked" remark="Walls are useful on small boards to allow more words." >}}
   {{< boardgame-settings-section heading="Expansions" >}}
-{{< setting-checkbox id="setting-expansions-specialCells" text="Supercells?" >}}
-{{< setting-checkbox id="setting-expansions-cellDance" text="Celldance?" >}}
-{{< setting-checkbox id="setting-expansions-scrabbleScoring" text="Scrabble Scoring?" >}}
-{{< setting-checkbox id="setting-expansions-tinyBackpacks" text="Tiny Backpacks?" >}}
+    {{< setting-checkbox id="setting-expansions-specialCells" text="Supercells?" >}}
+    {{< setting-checkbox id="setting-expansions-cellDance" text="Celldance?" >}}
+    {{< setting-checkbox id="setting-expansions-scrabbleScoring" text="Scrabble Scoring?" >}}
+    {{< setting-checkbox id="setting-expansions-tinyBackpacks" text="Tiny Backpacks?" >}}
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 

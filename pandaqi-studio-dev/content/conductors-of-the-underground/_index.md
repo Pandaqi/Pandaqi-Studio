@@ -53,17 +53,15 @@ He has asked you to take care of his troubles. The player who wins ( = @TODO OBJ
 
 {{% section-centered heading="Board Generation" html="true" %}}
   
-  <p>Testing, testing, testing ... </p>
-  <p><em>Where is the "player count" setting?</em> You don't need it! Each board can support any player count you want. With fewer players, the rules simply tell you to ignore certain parts of the board.</p>
+<p>Testing, testing, testing ... </p>
+<p><em>Where is the "player count" setting?</em> You don't need it! Each board can support any player count you want. With fewer players, the rules simply tell you to ignore certain parts of the board.</p>
 
-  {{< boardgame-settings type="board" >}}
+{{< boardgame-settings type="board" game_title="Conductors of the Underground" >}}
+  {{< setting-seed >}}
+  {{< setting-enum id="setting-boardType" text="Board type?" values="Simple,Hexagon,Rectangle" valaskey="true" remark="Hexagon boards are more structured and simpler, Rectangle boards are more varied (as there are more options for each route)" >}}
+  {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Removes many decorational elements and turns the board black-and-white." >}}
+{{< /boardgame-settings >}}
 
-    {{< setting-seed >}}
-    {{< setting-enum id="setting-boardType" text="Board type?" values="Simple,Hexagon,Rectangle" valaskey="true" remark="Hexagon boards are more structured and simpler, Rectangle boards are more varied (as there are more options for each route)" >}}
-    {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Removes many decorational elements and turns the board black-and-white." >}}
-
-  {{< /boardgame-settings >}}
-
-  <p>General remarks about the game/digital component go here.</p>
+<p>General remarks about the game/digital component go here.</p>
 
 {{% /section-centered %}}

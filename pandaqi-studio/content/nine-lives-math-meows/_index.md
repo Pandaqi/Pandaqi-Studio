@@ -61,12 +61,9 @@ Three simple steps.
 
 <p>Pick your desired settings and click the button! When in doubt, just use the defaults for your first games.</p>
 
-{{< boardgame-settings type="game" local_storage="nineLivesMathMeowsConfig" btn_label="Generate Material" >}}
-	{{< setting-hidden id="setting-gameTitle" text="Nine Lives: Math Meows" >}}
-  {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
+{{< boardgame-settings type="game" local_storage="nineLivesMathMeowsConfig" btn_label="Generate Material" game_title="Nine Lives: Math Meows" defaults="true" >}}
   {{< setting-checkbox id="setting-includeLifeCards" text="Generate Life Cards?" checked="checked" >}}
   {{< setting-checkbox id="setting-includeNumberCards" text="Generate Number Cards?" checked="checked" >}}
-  {{< setting-enum id="setting-cardSize" text="Card Size?" values="small,regular,huge" valaskey="true" def="regular" >}}
 {{< /boardgame-settings >}}
 
 <p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>
@@ -77,7 +74,7 @@ Three simple steps.
 
 As expected, this game is a spin-off for the original [Nine Lives](https://pandaqi.com/nine-lives).
 
-Interestingly, though, this game was actually the original idea! As I developed it, I noticed it had a bit too many numbers for some people's taste, and realized ways to simplify the game. That's how "Nine Lives" came to life. Eventually, I selected _that_ game as the "original" because of its simplicity and playability for families with young kids.
+Interestingly, though, this game was actually the original idea! As I developed it, I noticed it had a bit too many numbers for some people's taste and realized ways to simplify the game. That's how "Nine Lives" came to life. Eventually, I selected _that_ game as the "original" because of its simplicity and playability for families with young kids.
 
 The fonts used are **Puss in Boots** (headings, fancy text) and **Catcafe** (body text, readable). Both freely available online. Parts of the illustrations were generated with AI. Everything else is mine.
 

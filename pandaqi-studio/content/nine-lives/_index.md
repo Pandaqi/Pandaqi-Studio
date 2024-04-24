@@ -61,13 +61,10 @@ Three simple steps.
 
 <p>Pick your desired settings and click the button! When in doubt, just use the defaults for your first games.</p>
 
-{{< boardgame-settings type="game" local_storage="nineLivesConfig" btn_label="Generate Material" >}}
-	{{< setting-hidden id="setting-gameTitle" text="Nine Lives" >}}
-  {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
+{{< boardgame-settings type="game" local_storage="nineLivesConfig" btn_label="Generate Material" game_title="Nine Lives" defaults="true" >}}
   {{< setting-checkbox id="setting-includeLifeCards" text="Generate Life Cards?" checked="checked" >}}
   {{< setting-checkbox id="setting-includeCatCards" text="Generate Cat Cards?" checked="checked" >}}
   {{< setting-checkbox id="setting-limitedPowers" text="Limited Powers?" checked="checked" remark="Only includes a handful of unique powers, to make playing your first game even easier." >}}
-  {{< setting-enum id="setting-cardSize" text="Card Size?" values="small,regular,huge" valaskey="true" def="regular" >}}
 {{< /boardgame-settings >}}
 
 <p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>

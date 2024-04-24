@@ -59,20 +59,16 @@ Three simple steps.
 
 <p>Pick your desired settings and click the button! When in doubt, just use the defaults for your first games.</p>
 
-{{< boardgame-settings type="game" local_storage="mammothMessagesConfig" btn_label="Generate Material" >}}
-	{{< setting-hidden id="setting-gameTitle" text="Mammoth Messages" >}}
-  {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
-  {{< setting-enum id="setting-itemSize" text="Card Size?" values="small,regular,large" valaskey="true" def="regular" >}}
+{{< boardgame-settings type="game" local_storage="mammothMessagesConfig" btn_label="Generate Material" game_title="Mammoth Messages" defaults="true" >}}
   {{< boardgame-settings-section heading="What to generate?" >}}
-{{< setting-checkbox id="setting-includeCards" text="Include Word Cards?" checked="checked" >}}
-{{< setting-checkbox id="setting-includeDrawings" text="Include Cave Drawings?" checked="checked" >}}
-{{< setting-checkbox id="setting-includeTokens" text="Include Choice Tokens?" checked="checked" remark="If you already have these, or plan on using something else, you can disable this." >}}
+    {{< setting-checkbox id="setting-includeCards" text="Include Word Cards?" checked="checked" >}}
+    {{< setting-checkbox id="setting-includeDrawings" text="Include Cave Drawings?" checked="checked" >}}
+    {{< setting-checkbox id="setting-includeTokens" text="Include Choice Tokens?" checked="checked" remark="If you already have these, or plan on using something else, you can disable this." >}}
   {{< /boardgame-settings-section >}}
-
   {{< boardgame-settings-section heading="Word preferences?" >}}
-{{< setting-checkbox id="setting-includeGeography" text="Include Geography?" >}}
-{{< setting-checkbox id="setting-includeNames" text="Include Names?" remark="Includes names of popular people, brands, etcetera" >}}
-{{< setting-checkbox id="setting-includeDifficultWords" text="Include Difficult Words?" remark="Raises the max difficulty of words that can appear." >}}
+    {{< setting-checkbox id="setting-includeGeography" text="Include Geography?" >}}
+    {{< setting-checkbox id="setting-includeNames" text="Include Names?" remark="Includes names of popular people, brands, etcetera" >}}
+    {{< setting-checkbox id="setting-includeDifficultWords" text="Include Difficult Words?" remark="Raises the max difficulty of words that can appear." >}}
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 

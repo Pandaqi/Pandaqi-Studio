@@ -1,5 +1,6 @@
 ---
 title: "About"
+blurb: "About me, what I do, and what you can expect from this game studio."
 infopage: true
 data: 2015-01-01
 noHeader: true

@@ -78,8 +78,7 @@ Brew your potions wisely ... and you might discover the secret combination.
   
 <p>Input your settings. Click the button. Copy the gardens and ingredients to your paper.</p>
 
-{{< boardgame-settings type="board" >}}
-	{{< setting-hidden id="setting-gameTitle" text="Wondering Witches" >}}
+{{< boardgame-settings type="board" game_title="Wondering Witches" >}}
 	{{< setting-playercount id="setting-numPlayers" min="1" max="4" def="4" >}}
 	{{< setting-checkbox id="setting-supercells" text="Supercells?" remark="Turns some cells into a special one!" >}}
 	{{< setting-checkbox id="setting-pageBack" text="Two-sided?" remark="With expansions enabled, you'll need both sides of the paper (64 cells) to stand a chance!" >}}
@@ -94,8 +93,7 @@ Brew your potions wisely ... and you might discover the secret combination.
 
 <p>Input your settings, click the button. A new page opens with the interface for testing your potions!</p>
 
-{{< boardgame-settings type="game" local_storage="wonderingWitchesConfig" >}}
-	{{< setting-hidden id="setting-gameTitle" text="Wondering Witches" >}}
+{{< boardgame-settings type="game" local_storage="wonderingWitchesConfig" game_title="Wondering Witches" >}}
 	{{< setting-checkbox id="setting-competitive" text="Competitive?" >}}
 	{{< setting-checkbox id="setting-events" text="Events?" checked="checked" >}}
 	{{< setting-checkbox id="setting-freeClue" text="Free Clue?" checked="checked" remark="Start the game with a free (cryptic) hint. Recommended." >}}

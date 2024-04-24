@@ -42,6 +42,7 @@ export default class CardPicker
         const maxBad = Math.max(1, numIconsGood-1); // more forward momentum, less bad stuff, feels nicer
         const numIconsBad = new Bounds(minBad, maxBad).randomInteger();
 
+        // draw a random (but balanced) list of resources for GOOD an BAD side
         let optionsGood = combos[numIconsGood];
         if(optionsGood.length <= 0) 
         { 
@@ -58,19 +59,27 @@ export default class CardPicker
         }
         const iconsBad = optionsBad.pop();
 
+        // by default, GOOD side are all uncrossed, and BAD side are all crossed out
+        // save that data, but with a slight change of a "mutation"
+        // (but mutations are stupid if the icon appears multiple times, because then it's just +1 -1 = 0 sum)
+        // (and we only allow ONE flip per side, otherwise the ENTIRE side might flip which ruins the idea)
         let iconGoodAlreadyCrossedOut = false;
         for(const icon of iconsGood)
         {
-            const crossOut = iconsGood.length > 1 && Math.random() <= CONFIG.generation.goodIconFlipProb && !iconGoodAlreadyCrossedOut;
-            d.good.push( { type: icon, cross: crossOut } );
+            const iconAppearsMultipleTimes = iconsGood.filter((val) => { return val == icon }).length > 1;
+            const crossOut = iconsGood.length > 1 && Math.random() <= CONFIG.generation.goodIconFlipProb && !iconGoodAlreadyCrossedOut && !iconAppearsMultipleTimes;
+
+            d.good.push({ type: icon, cross: crossOut });
             if(crossOut) { iconGoodAlreadyCrossedOut = true; }
         }
 
         let iconBadNotCrossedOutYet = true;
         for(const icon of iconsBad)
         {
-            const crossOut = iconsBad.length <= 1 || Math.random() > CONFIG.generation.badIconFlipProb || iconBadNotCrossedOutYet;
-            d.bad.push( { type: icon, cross: crossOut } );
+            const iconAppearsMultipleTimes = iconsGood.filter((val) => { return val == icon }).length > 1;
+            const crossOut = iconsBad.length <= 1 || Math.random() > CONFIG.generation.badIconFlipProb || iconBadNotCrossedOutYet || iconAppearsMultipleTimes;
+
+            d.bad.push({ type: icon, cross: crossOut });
             if(crossOut) { iconBadNotCrossedOutYet = false; }
         }
 

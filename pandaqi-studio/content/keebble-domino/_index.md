@@ -63,8 +63,7 @@ Three steps.
 
 <p>Input your settings. Click the button. A new page opens and generates your PDF!</p>
 
-{{< boardgame-settings type="game" btn_label="Generate Cards" local_storage="keebbleDominoConfig" >}}
-	{{< setting-hidden id="setting-gameTitle" text="Keebble: Domino" >}}
+{{< boardgame-settings type="game" btn_label="Generate Cards" local_storage="keebbleDominoConfig" game_title="Keebble: Domino" >}}
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Removes most color to preserve ink." >}}
   {{< setting-checkbox id="setting-showLetters" text="Show letters?" remark="Adds a hint on the symbols about what letter they are from each direction." checked="checked" >}}
   {{< setting-checkbox id="setting-bigSize" text="Big Dominoes?" remark="Useful when playing with kids or those with impaired vision." >}}

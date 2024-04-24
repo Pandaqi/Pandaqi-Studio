@@ -64,14 +64,13 @@ devlog: "/blog/boardgames/photomone-digital-antists/"
 
 <p>If unsure, just leave all settings as they are.</p>
 
-{{< boardgame-settings type="game" local_storage="photomoneDigitalAntistsConfig" >}}
-	{{< setting-hidden id="setting-gameTitle" text="Photomone: Digital Antists" >}}
+{{< boardgame-settings type="game" local_storage="photomoneDigitalAntistsConfig" game_title="Photomone: Digital Antists" >}}
   {{< setting-enum id="setting-wordComplexity" text="Word Complexity?" values="Core,Easy,Medium" valaskey="true" remark="How hard should the words be?" def="Core" >}}
   {{< setting-enum id="setting-timerLength" text="Timer Length?" values="30,45,60,90" valaskey="true" remark="How many seconds you have per drawing?" def="45" >}}
   {{< setting-checkbox id="setting-enableTutorial" text="Tutorial?" remark="Explains how to play while taking your first few turns." checked="checked" >}}
   {{< setting-checkbox id="setting-expansions-sneakySpots" text="Sneaky Spots?" remark="Adds dots with special powers." >}}
   {{< boardgame-settings-section heading="Word Categories" >}}
-{{< setting-checkbox-multiple id="setting-categories" values="anatomy,animals,clothes,food,items,nature,occupations,places,sports,vehicles" valuesChecked="anatomy,animals,clothes,food,items,nature,occupations,places,sports,vehicles" >}}
+    {{< setting-checkbox-multiple id="setting-categories" values="anatomy,animals,clothes,food,items,nature,occupations,places,sports,vehicles" values_checked="anatomy,animals,clothes,food,items,nature,occupations,places,sports,vehicles" >}}
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 

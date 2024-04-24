@@ -59,10 +59,7 @@ Three simple steps.
 
 <p>Pick your desired settings and click the button! When in doubt, just use the defaults for your first games.</p>
 
-{{< boardgame-settings type="game" local_storage="meadowMightConfig" btn_label="Generate Material" >}}
-	{{< setting-hidden id="setting-gameTitle" text="Meadowmight" >}}
-  {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the material mostly grayscale." >}}
-  {{< setting-enum id="setting-tileSize" text="Tile Size?" values="small,regular,huge" valaskey="true" def="regular" >}}
+{{< boardgame-settings type="game" local_storage="meadowMightConfig" btn_label="Generate Material" game_title="Meadowmight" defaults="true" >}}
   {{< setting-checkbox id="setting-expansions-wolf" text="Wool Wolves (Expansion)?" remark="Adds four special tiles with unique actions!" >}}
 {{< /boardgame-settings >}}
 

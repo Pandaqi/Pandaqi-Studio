@@ -10,7 +10,7 @@ export default
     pdfBuilder: null,
     resLoader: null,
     gridMapper: null,
-    cardSize: "regular",
+    itemSize: "regular",
     premadePacks: "",
     highLegibility: true,
     packs: [],

@@ -16,12 +16,12 @@ export default class Visualizer
     resLoader: ResourceLoader;
     inkFriendly: boolean;
 
-    constructor(r:ResourceLoader, cardSize:Point, inkFriendly:boolean)
+    constructor(r:ResourceLoader, itemSize:Point, inkFriendly:boolean)
     {
         this.resLoader = r;
         this.inkFriendly = inkFriendly;
-        this.size = cardSize;
-        this.sizeUnit = Math.min(cardSize.x, cardSize.y);
+        this.size = itemSize;
+        this.sizeUnit = Math.min(itemSize.x, itemSize.y);
         this.center = this.size.clone().scale(0.5);
     }
 
