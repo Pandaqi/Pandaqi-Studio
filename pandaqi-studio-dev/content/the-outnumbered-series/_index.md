@@ -8,32 +8,33 @@ headerTitle: "A series of simple card games all about one number."
 blurb: "A series of simple card games that all revolve around one unique number, using it as creatively as possible."
 
 extraCSS: true
-downloadLink: ""
+downloadLink: "https://drive.google.com/drive/folders/1ZOi00XqNZdUMHlVJj0ylx_8vFSA6EPow"
 
 customHeight: "small"
 headerDarkened: true
 
-color: "turquoise"
+color: "blue"
 
-bgColor: "#003401"
-bgColorLink: "#ff1f1f"
+bgColor: "#04052d"
+bgColorLink: "#4CABB9"
 
-textColor: "#f2ffef"
-textColorLink: "#ffe9e9"
+textColor: "#f8ec9d"
+textColorLink: "#002235"
 
-date: 2023-01-01 # 2024-12-26
+date: 2023-10-20
 
-categories: ["boardgame"]
-tags: ["simple", "sea", "animals"]
+difficulty: "kids-can-play"
+genres: ["party"]
+categories: ["boardgame", "card-game"]
+tags: ["numbers", "simultaneous-turns", "fast-paced"]
+themes: []
 
 multiplayermode: "competitive"
 language: EN
-genre: ["tile"]
 playtime: 30
 playercount: [2,3,4,5,6]
-complexity: low
 ages: everyone
-devlog: "/blog/boardgames/the-outnumbered-series/"
+# devlog: "/blog/boardgames/the-outnumbered-series/"
 
 ---
 

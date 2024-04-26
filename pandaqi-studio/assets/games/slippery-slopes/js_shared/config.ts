@@ -34,80 +34,92 @@ const CONFIG = {
     maxWordLength: 11,
     signalManager: null,
 
-    fonts: {
-        special0: {
-            key: "Super Funtime",
+    fonts: 
+    {
+        special0: 
+        {
+            key: "superfuntime",
             url: "fonts/SuperFuntime.woff2",
             crasheryCliffs: false,
         },
 
-        // @TODO: create list of special fonts for the words sliders here (8 of them)
         // slab serif, old-timey
-        special1: {
-            key: "Abril Fatface",
+        special1: 
+        {
+            key: "abril",
             url: "fonts/special/AbrilFatface-Regular.woff2",
             crasheryCliffs: true
         },
 
         // sans-serif
-        special2: {
-            key: "Advent Pro",
+        special2: 
+        {
+            key: "adventpro",
             url: "fonts/special/AdventPro-Bold.woff2",
             crasheryCliffs: true
         },
 
         // serif, book
-        special3: {
-            key: "Alegreya",
+        special3: 
+        {
+            key: "alegreya",
             url: "fonts/special/Alegreya-Italic.woff2",
             crasheryCliffs: true
         },
 
         // handwritten, small-caps
-        special4: {
-            key: "Amatic",
+        special4: 
+        {
+            key: "amatic",
             url: "fonts/special/AmaticSC-Regular.woff2",
             crasheryCliffs: true
         },
 
         // grunge, chaotic
-        special5: {
-            key: "AnuDaw",
+        special5: 
+        {
+            key: "anudaw",
             url: "fonts/special/AnuDawItalic.woff2",
             crasheryCliffs: true
         },
 
         // cursive, curly, handwritten
-        special6: {
-            key: "BlackJack",
+        special6: 
+        {
+            key: "blackJack",
             url: "fonts/special/BlackJack.woff2",
             crasheryCliffs: true
         },
 
         // blackletter, medieval, fantasy
-        special7: {
-            key: "Chomsky",
+        special7: 
+        {
+            key: "chomsky",
             url: "fonts/special/Chomsky.woff2",
             crasheryCliffs: true
         },
 
         // monotype, typewriter
-        special8: {
-            key: "Courier",
+        special8: 
+        {
+            key: "courier",
             url: "fonts/special/CourierNewPS-ItalicMT.woff2",
             crasheryCliffs: true
         },
 
         // display, cursive, thick, swooshy
-        special9: {
-            key: "Pacifico",
+        special9: 
+        {
+            key: "pacifico",
             url: "fonts/special/Pacifico-Regular.woff2",
             crasheryCliffs: true
         }
     },
 
-    assets: {
-        actions: {
+    assets: 
+    {
+        actions: 
+        {
             path: "actions.webp",
             frames: new Point(8, 1)
         },
@@ -135,7 +147,8 @@ const CONFIG = {
     {
         num: 48, // 12 per page on regular settings
         numPerCard: 4,
-        dims: { 
+        dims: 
+        { 
             small: new Point(4,5),
             regular: new Point(3,4),
             large: new Point(2,3)
@@ -156,10 +169,12 @@ const CONFIG = {
             borderRadius: 0.05, // relative to card size x
             lineWidth: 0.01, // relative to card size x
         },
+
         actionIconSize: 0.66, // relative to block height = height of one wavy rectangle step
         actionBGColor: "rgba(255,255,255,1.0)",
         numActionBounds: new Bounds(1,3),
-        dims: { 
+        dims: 
+        { 
             small: new Point(5,4),
             regular: new Point(4,3),
             large: new Point(3,2)
@@ -181,20 +196,24 @@ const CONFIG = {
         textScale: 0.4, // relative to block height
     },
 
-    cards: {
+    cards: 
+    {
         textDarkenFactor: 55,
-        outline: {
+        outline: 
+        {
             color: "#111111",
             width: 0.02,
             radius: 0.1, // relative to card size x 
         },
+
         textConfig: new TextConfig({
-            font: "Super Funtime",
+            font: "superfuntime",
             alignHorizontal: TextAlign.MIDDLE,
             alignVertical: TextAlign.MIDDLE
         }),
+
         subTextConfig: new TextConfig({
-            font: "Super Funtime",
+            font: "superfuntime",
             alignHorizontal: TextAlign.MIDDLE,
             alignVertical: TextAlign.MIDDLE
         })

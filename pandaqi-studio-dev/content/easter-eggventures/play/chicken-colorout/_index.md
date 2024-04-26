@@ -8,7 +8,7 @@ headerTitle: "Be the first to hide all your eggs in an environment filled with k
 blurb: "Be the first to hide all your eggs in an environment filled with kids eager to find them again."
 
 extraCSS: true
-downloadLink: ""
+downloadLink: "https://drive.google.com/drive/folders/1qKnpae5c9UUf1UC2XiAmE01oGXPXsmJC"
 
 customHeight: "small"
 headerDarkened: true

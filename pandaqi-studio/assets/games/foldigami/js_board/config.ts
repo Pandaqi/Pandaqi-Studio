@@ -103,7 +103,7 @@ export default
             color: "#333333"
         },
         font: {
-            family: 'Jockey One',
+            family: "jockey",
             size: 0.3, // relative to cell size
             color: '#000000',
             strokeColor: "#FFFFFF",

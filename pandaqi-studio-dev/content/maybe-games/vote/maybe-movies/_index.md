@@ -8,7 +8,7 @@ headerTitle: "Pitch movie ideas that enough players would like to throw money at
 blurb: "Pitch movie ideas that enough players would like to throw money at, or see your money go down the drain after another flop."
 
 extraCSS: true
-downloadLink: ""
+downloadLink: "https://drive.google.com/drive/folders/1bdI9dMCd9EWE_G8oWUYl0g3h4lU3Hg08"
 
 customHeight: "small"
 headerDarkened: true

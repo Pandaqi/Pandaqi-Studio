@@ -91,7 +91,7 @@ Three steps:
 2. <span style="color:#9e2d41;">Read the rules (one page).</span>
 3. <span style="color:purple;">Grab some pens, scissors and friends.</span>
 
-**Concerned about ink?** Only page 1, 3 and 4 of the rulebook are relevant for the base game. You can also generate "print friendly" boards.
+**Concerned about ink?** Only page 1, 3 and 4 of the rulebook are relevant for the base game. You can also generate "ink friendly" boards.
 
 **Tip for Teaching?** Explain the first page, immediately start playing! Simply place the node list on the table, so players can look up what something does whilst playing.
 

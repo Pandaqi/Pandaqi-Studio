@@ -71,6 +71,7 @@ export default class Generation extends Scene
 	hints: any
 	landmarkCells: {}
 	fixedData: { terrain: string; nature: string; stones: number|string; landmark: string; road: string }
+	fontFamily = "chelsea"
 
 	constructor()
 	{
@@ -3179,12 +3180,12 @@ export default class Generation extends Scene
 		const cardSize = new Point(1038*scale, 1074*scale);
 
 		const textConfig = new TextConfig({
-			font: "Chelsea Market",
+			font: this.fontFamily,
 			size: 16
 		});
 
 		const metadataConfig = new TextConfig({
-			font: "Chelsea Market",
+			font: this.fontFamily,
 			size: 11
 		});
 
@@ -3496,7 +3497,7 @@ export default class Generation extends Scene
 		const fontSize = Math.round(0.0725*cs)
 		const margin = Math.round(0.0275*cs);
 		const textConfig = new TextConfig({
-			font: "Chelsea Market",
+			font: this.fontFamily,
 			size: fontSize,
 		})
 	
@@ -3571,7 +3572,7 @@ export default class Generation extends Scene
 		if(this.cfg.debugging) 
 		{
 			const textConfigDebug = new TextConfig({
-				font: "Chelsea Market",
+				font: this.fontFamily,
 				size: 16
 			});
 

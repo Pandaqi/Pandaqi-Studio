@@ -8,7 +8,7 @@ headerTitle: "A universe of simple party board games about driving one vehicle t
 blurb: "A universe of simple party board games about driving one vehicle together, at the same time, without crashing too much."
 
 extraCSS: true
-downloadLink: ""
+downloadLink: "https://drive.google.com/drive/folders/16g8Bjlk01tTCW7c9qQVd-LzrkwfBM_de"
 
 customHeight: "small"
 headerDarkened: true

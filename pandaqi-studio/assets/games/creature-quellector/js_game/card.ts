@@ -539,7 +539,7 @@ export default class Card
 
         // the text with the name of the creature
         const txtCfg = new TextConfig({
-            font: "Comica Boom",
+            font: CONFIG.fonts.heading,
             size: CONFIG.cards.textSize*this.sizeUnit,
             alignVertical: TextAlign.MIDDLE,
         })
@@ -554,7 +554,7 @@ export default class Card
         // fineprint in the margin
         const fontSize = CONFIG.cards.textSizeFineprint * this.sizeUnit
         const txtCfgSmall = new TextConfig({
-            font: "Cabin",
+            font: CONFIG.fonts.body,
             style: TextStyle.ITALIC,
             alignHorizontal: TextAlign.END,
             size: fontSize,

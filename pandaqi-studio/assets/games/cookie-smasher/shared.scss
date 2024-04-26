@@ -8,7 +8,7 @@ $col2: #92C5BF;
 $col3: #EDB24E;
 
 @font-face {
-    font-family: 'palette';
+    font-family: $header-font;
     src: url($base-fonts + 'PaletteMosaic-Regular.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
@@ -16,7 +16,7 @@ $col3: #EDB24E;
 }
 
 @font-face {
-    font-family: 'pettingill';
+    font-family: $fancy-font;
     src: url($base-fonts + 'PettingillCF-Bold.woff2') format('woff2');
     font-weight: bold;
     font-style: normal;
@@ -24,7 +24,7 @@ $col3: #EDB24E;
 }
 
 @font-face {
-    font-family: 'oldstandard';
+    font-family: $body-font;
     src: url($base-fonts + 'OldStandardTT-Italic.woff2') format('woff2');
     font-weight: normal;
     font-style: italic;
@@ -32,7 +32,7 @@ $col3: #EDB24E;
 }
 
 @font-face {
-    font-family: 'oldstandard';
+    font-family: $body-font;
     src: url($base-fonts + 'OldStandardTT-Regular.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
@@ -40,7 +40,7 @@ $col3: #EDB24E;
 }
 
 @font-face {
-    font-family: 'oldstandard';
+    font-family: $body-font;
     src: url($base-fonts + 'OldStandardTT-Bold.woff2') format('woff2');
     font-weight: bold;
     font-style: normal;

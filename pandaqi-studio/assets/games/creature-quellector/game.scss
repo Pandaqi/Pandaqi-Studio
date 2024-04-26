@@ -1,0 +1,6 @@
+@use "./shared.scss" as g;
+
+body
+{
+    font-family: g.$header-font;
+}

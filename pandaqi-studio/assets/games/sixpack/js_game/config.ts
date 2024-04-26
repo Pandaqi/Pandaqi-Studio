@@ -21,44 +21,57 @@ const CONFIG = {
     numHandsPerPack: 2,
 
     assetsBase: "/sixpack/assets/",
-    font: {
-        key: "LondrinaSolid",
+    font: 
+    {
+        key: "londrina",
         url: "fonts/LondrinaSolid-Black.woff2",
         size: 0.795,
         smallSize: 0.1
     },
-    cards: {
-        dims: { 
+
+    cards: 
+    {
+        dims: 
+        { 
             small: new Point(5, 5),
             regular: new Point(4, 4),
             large: new Point(3, 3)
         },
+
         dimsElement: new Point(1, 1.55),
         size: new Point(),
         bgScale: 0.975,
-        mainNumber: {
+        mainNumber: 
+        {
             bgOffset: 0.032,
             color: "#111111",
             offsetColor: "#88847E",
             strokeColor: "#FEFEFE",
             strokeWidth: 0.01
         },
-        edgeNumber: {
+
+        edgeNumber: 
+        {
             pos: new Point(0.1, 0.1),
             bgOffset: 0.015,
             strokeWidth: 0.005,
             offsetColor: ""
         },
-        hand: {
+
+        hand: 
+        {
             composite: "luminosity",
             pos: new Point(0.5, 0.135),
             size: 0.4
         },
-        type: {
+
+        type: 
+        {
             composite: "luminosity",
             pos: new Point(0.5, 0.835),
             size: 0.33
         },
+        
         outlineColor: "#111111",
         outlineWidth: 0.05,
 

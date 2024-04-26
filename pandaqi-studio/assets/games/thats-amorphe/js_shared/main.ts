@@ -21,6 +21,7 @@ const teamColors = [new Color(0,100,35), new Color(121, 100, 23), new Color(217,
 const borderColor = "#000000";
 const borderWidth = 20;
 const numberFontSize = 80;
+const fontFamily = "ribeye";
 
 const morphCardColors = [
 	new Color(0, 0, 17), new Color(83, 100, 17), new Color(126, 100, 17),
@@ -130,7 +131,7 @@ async function createSpecialMorphCards(params)
 
 		// numbers
 		const textConfig = new TextConfig({
-			font: "Ribeye",
+			font: fontFamily,
 			size: numberFontSize,
 			lineHeight: 0.8,
 			alignHorizontal: TextAlign.MIDDLE,
@@ -225,7 +226,7 @@ async function createMorphCards(params)
 		// numbers
 		const numberSize = (i <= 9) ? numberFontSize : 0.67*numberFontSize;
 		const textConfig = new TextConfig({
-			font: "Ribeye",
+			font: fontFamily,
 			size: numberSize,
 			lineHeight: 0.8,
 			alignHorizontal: TextAlign.MIDDLE,
@@ -250,7 +251,7 @@ async function createMorphCards(params)
 		ctx.textBaseline = "middle";
 		ctx.textAlign = "center";
 		const arrowSize = (i <= 5) ? arrowBaseSize : 0.75*arrowBaseSize;
-		ctx.font = arrowSize + "px Ribeye";
+		ctx.font = arrowSize + "px " + fontFamily;
 
 		const offsetBetweenX = 0.2*arrowSize;
 		const offsetBetweenY = 0.66*arrowSize;
@@ -377,7 +378,7 @@ async function createVoteCards(params)
 				}
 			} else {
 				// text (for colorblind/inkfriendly situations) that tells the color
-				ctx.font = 0.1*baseFontSize + "px Ribeye";
+				ctx.font = 0.1*baseFontSize + "px " + fontFamily;
 				ctx.textAlign = "start";
 				ctx.textBaseline = "top";
 				ctx.fillStyle = "rgba(255,255,255,0.8)";
@@ -394,7 +395,7 @@ async function createVoteCards(params)
 			ctx.globalAlpha = 1.0;
 
 			// big number
-			ctx.font = baseFontSize + "px Ribeye";
+			ctx.font = baseFontSize + "px " + fontFamily;
 			ctx.textAlign = "center";
 			ctx.textBaseline = "middle";
 
@@ -537,7 +538,7 @@ async function createWordCards(params)
 			/*
 			// add reminder of the "-1 penalty" rule => nah that's just messy
 			ctx.textAlign = "center";
-			ctx.font = (baseFontSize * 0.2) + "px Ribeye";
+			ctx.font = (baseFontSize * 0.2) + "px " + fontFamily;
 			ctx.fillStyle = "#000000";
 			ctx.globalAlpha = 0.5;
 			ctx.fillText("-1", reminderPos.x, reminderPos.y);
@@ -555,7 +556,7 @@ async function createWordCards(params)
 		if(Math.random() <= 0.5) { morphNumbers.push(1); morphNumbers.push(9); }
 
 		const textConfig = new TextConfig({
-			font: "Ribeye",
+			font: fontFamily,
 			size: numberFontSize,
 			lineHeight: 1.5,
 			alignHorizontal: TextAlign.MIDDLE,
@@ -680,7 +681,7 @@ async function createWordCards(params)
 export default async function startAmorpheGenerator(params)
 {
 	const resLoader = new ResourceLoader();
-	resLoader.planLoad("ribeye", { key: "Ribeye", path: baseAssetDir + "fonts/Ribeye-Regular.woff2" })
+	resLoader.planLoad(fontFamily, { path: baseAssetDir + "fonts/Ribeye-Regular.woff2" })
 	await resLoader.loadPlannedResources();
 
 	const feedbackHeading = document.getElementById("feedback");

@@ -14,6 +14,7 @@ customHeight: "small-medium"
 fullHeaderImg: "onepizza_header"
 noThumb: true
 
+headerDarkened: true
 color: "yellow"
 
 bgColor: "#FFFFFF"
@@ -98,7 +99,7 @@ Three steps ...
 - Read the rules. (Click "download" to find the PDF.)
 - Grab some pens and some friends. (Use different colors if possible.)
 
-**Concerned about ink?** Only page 1, 2 and 4 of the rulebook are relevant for the base game. There's also an option to create "print friendly" boards.
+**Concerned about ink?** Only page 1, 2 and 4 of the rulebook are relevant for the base game. There's also an option to create "ink friendly" boards.
 
 **Tip for Teaching?** Explain the "Move" action&mdash;it's the core of the game. Explain the "Reset" action whenever someone gets stuck. Then place the ingredient list on the table, so everyone can look up their power when you "Eat" them, and immediately play! 
 

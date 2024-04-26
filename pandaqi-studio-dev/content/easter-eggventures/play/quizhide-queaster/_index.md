@@ -8,7 +8,7 @@ headerTitle: "Win the reverse egg hunt by cleverly changing egg locations just b
 blurb: "Win the reverse egg hunt by cleverly changing where eggs are hidden just before you decide to look."
 
 extraCSS: true
-downloadLink: ""
+downloadLink: "https://drive.google.com/drive/folders/1AAQRgCe5rsNxgsaNKRV8uYlT7MVDY6sT"
 
 customHeight: "small"
 headerDarkened: true

@@ -61,7 +61,7 @@ Three simple steps.
 
 {{< boardgame-settings type="game" btn_label="Create Material" local_storage="kingseatConfig" game_title="Kingseat" defaults="true" >}}
   {{< setting-checkbox id="setting-highLegibility" text="High Legibility?" remark="Picks a more neutral font for maximum legibility." checked="checked" >}}
-  {{< setting-enum id="setting-premadePacks" text="Set?" values="none,starter,medium,advanced,complete,random" valaskey="true" def="starter" remark="Pick a predetermined set, or use none and pick your specific princes below!" >}}
+  {{< setting-enum id="setting-set" text="Set?" values="none,starter,medium,advanced,complete,random" valaskey="true" def="starter" remark="Pick a predetermined set, or use none and pick your specific princes below!" >}}
   {{< boardgame-settings-section heading="Princes" >}}
     {{< setting-checkbox id="setting-packs-lionsyre" text="Lionsyre?" checked="checked" >}}
     {{< setting-checkbox id="setting-packs-slydefox" text="Slydefox?" >}}

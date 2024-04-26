@@ -24,11 +24,11 @@ export default class Generator {
             customPacks.push(type);
         }
 
-        let premadePacks = []; // or "sets"
-        if(userConfig.premadePacks == "random") { premadePacks = randomPacks.slice(0,5); }
-        if(userConfig.premadePacks && (userConfig.premadePacks in SETS)) { premadePacks = SETS[userConfig.premadePacks]; }
+        let set = [];
+        if(userConfig.set == "random") { set = randomPacks.slice(0,5); }
+        if(userConfig.set && (userConfig.set in SETS)) { set = SETS[userConfig.set]; }
 
-        userConfig.packs = customPacks.length > 0 ? customPacks : premadePacks;
+        userConfig.packs = customPacks.length > 0 ? customPacks : set;
         Object.assign(CONFIG, userConfig);
 
         console.log(CONFIG);

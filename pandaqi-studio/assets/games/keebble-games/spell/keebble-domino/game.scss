@@ -1,0 +1,28 @@
+@use "../../shared.scss" as g;
+
+* {
+    box-sizing: border-box;
+}
+
+html, body, main {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-size: 22px;
+    font-family: g.$header-font;
+    background-color: #e580e5;
+    color: #430f4d;
+}
+
+.center-container {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+#feedback {
+    font-size: 48px;
+    text-align: center;
+}

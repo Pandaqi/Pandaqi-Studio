@@ -160,20 +160,23 @@ class BoardGeneration extends Scene
 			peopleColor: "#FA7921",
 			peopleSpriteScale: 0.4,
 			terrainTypes: ['rock', 'river', 'garden'],
-			buildingColors: {
+			buildingColors: 
+			{
 				river: "#6EB4FF",
 				rock: "#D8D8D8",
 				garden: "#63FF7D"
 			},
-			resourceColors: {
+			resourceColors: 
+			{
 				water: "#2B60AD",
 				oxygen: "#29C1B1",
 				electricity: "#FFFF00"
 			},
 			resourceLineWidth: 0.025*minSize,
 			horizontalMarks: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-			fontFamily: 'Montserrat Subrayada',
-			grid: {
+			fontFamily: "subrayada",
+			grid: 
+			{
 				fontSize: Math.round(0.025*minSize),
 				fontColor: "#000000",
 				lineWidth: 0.003*minSize,
@@ -181,7 +184,8 @@ class BoardGeneration extends Scene
 				lineColorGray: 0x999999,
 				textMargin: { x: 0.0125*minSize, y: 0.0125*minSize }
 			},
-			path: {
+			path: 
+			{
 				fontSize: Math.round(0.1*minSize),
 				fontColor: "#000000",
 				strokeColor: "#AAFFAA",

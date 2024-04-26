@@ -8,7 +8,7 @@ headerTitle: "Propose spy missions and hope enough people help you succeed."
 blurb: "Propose spy missions and hope enough people want them to succeed---or deviously let them fail to benefit your own secret cover."
 
 extraCSS: true
-downloadLink: ""
+downloadLink: "https://drive.google.com/drive/folders/1U1HIR6DoWPo3gdoHc7zPQAjNDPMmNgia"
 
 customHeight: "small"
 headerDarkened: true

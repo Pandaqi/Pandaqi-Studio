@@ -126,6 +126,7 @@ export default class Generation extends Scene
 {
 	canvas: HTMLCanvasElement
 	textures: any
+	fontFamily = "chelsea"
 
     constructor()
 	{
@@ -394,7 +395,7 @@ export default class Generation extends Scene
 
 		// display the SEED
 		const textConfig = new TextConfig({
-			font: "Chelsea Market",
+			font: this.fontFamily,
 			size: 11
 		})
 
@@ -478,7 +479,7 @@ export default class Generation extends Scene
 		const resHintCard = resLoader.getResource("hint_cards");
 
 		const textConfig = new TextConfig({
-			font: "Chelsea Market",
+			font: this.fontFamily,
 			size: 11
 		})
 

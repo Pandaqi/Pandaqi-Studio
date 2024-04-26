@@ -8,7 +8,7 @@ headerTitle: "Change the law to expand your power, but do it subtly enough that 
 blurb: "Propose changes to the law of the land as you try to expand your own power, but you can only do so if the majority of the other political factions agree."
 
 extraCSS: true
-downloadLink: ""
+downloadLink: "https://drive.google.com/drive/folders/1PdgCFax2blH6ctznnxCiEX5zZk79jsvK"
 
 customHeight: "small"
 headerDarkened: true

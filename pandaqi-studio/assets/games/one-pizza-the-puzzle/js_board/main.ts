@@ -87,6 +87,8 @@ class BoardGeneration extends Scene
 	TRAFFIC_SIGN_RNG: RandomizerFunction
 	VARIATION_RNG: RandomizerFunction
 
+	fontFamily = "leckerli"
+
 	constructor()
 	{
 		super({ key: sceneKey });
@@ -2025,7 +2027,7 @@ class BoardGeneration extends Scene
 		const fontSize = cs*0.5*0.5;
 		const strokeThickness = 0.15*fontSize;
 		const textConfigSubway = new TextConfig({
-			font: "Leckerli One",
+			font: this.fontFamily,
 			size: fontSize
 		}).alignCenter();
 
@@ -2224,7 +2226,7 @@ class BoardGeneration extends Scene
 
 		const seedFontSize = 16 * (this.canvas.width / 1160.0);
 		const textConfigSeed = new TextConfig({
-			font: "Leckerli One",
+			font: this.fontFamily,
 			size: seedFontSize
 		}).alignCenter();
 		const opTextSeed = new LayoutOperation({
@@ -2365,7 +2367,7 @@ class BoardGeneration extends Scene
 		//const textColor = "#AAAAAA"; => somehow didn't use this one, but want to keep it just in case
 
 		const textConfigGate = new TextConfig({
-			font: "Leckerli One",
+			font: this.fontFamily,
 			size: fontSize
 		}).alignCenter();
 
@@ -2586,7 +2588,7 @@ class BoardGeneration extends Scene
 		const cs = this.cfg.cellSize;
 		const fontSize = 16 * (this.canvas.width / 1160.0);
 		const textConfigPrice = new TextConfig({
-			font: "Leckerli One",
+			font: this.fontFamily,
 			size: fontSize
 		}).alignCenter();
 

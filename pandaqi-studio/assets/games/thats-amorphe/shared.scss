@@ -1,6 +1,7 @@
-$header-font: "Ribeye";
-$body-font: "Lora";
-$base-fonts: "/thats-amorphe/assets/fonts/";
+$header-font: "ribeye";
+$body-font: "lora";
+$base-assets: "/thats-amorphe/assets/";
+$base-fonts: $base-assets + "fonts/";
 
 @font-face {
     font-family: $header-font;

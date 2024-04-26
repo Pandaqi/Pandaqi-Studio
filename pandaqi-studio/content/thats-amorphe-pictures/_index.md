@@ -8,6 +8,7 @@ title: "That's Amorphe: Pictures"
 headerTitle: "A spin-off for That's Amorphe played using drawings"
 blurb: "A party game about changing someone else's drawing into a different thing, then asking others to guess how much you changed it."
 
+headerDarkened: true
 customHeight: "small"
 color: "turquoise"
 
@@ -70,8 +71,7 @@ Three simple steps.
 
 {{% section-centered heading="Word Cards" html="true" anchor="word_cards" %}}
 
-<p>Input your desired settings. The page will generate a PDF file with random word cards.</p>
-<p>Print them, cut them, play with them!</p>
+<p>Input your desired settings. The page will generate a PDF file with random word cards. Print them, cut them, play with them!</p>
 <p>When in doubt, just leave the options at their default settings.</p>
 
 {{< boardgame-settings type="game" btn_label="Generate Cards" local_storage="thatsAmorphePicturesConfig" game_title="That's Amorphe: Pictures" >}}

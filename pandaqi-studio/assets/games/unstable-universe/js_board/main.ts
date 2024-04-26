@@ -1884,12 +1884,12 @@ class BoardGeneration extends Scene
 		const strokeWidth = 0.125 * fontSize;
 
 		const textConfig = new TextConfig({
-			font: "SciFly",
+			font: "scifly",
 			size: fontSize
 		}).alignCenter();
 
 		const textConfigMetadata = new TextConfig({
-			font: "SciFly",
+			font: "scifly",
 			size: smallerFontSize,
 		}).alignCenter();
 

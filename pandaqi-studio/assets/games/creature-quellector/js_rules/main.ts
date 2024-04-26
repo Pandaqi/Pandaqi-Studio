@@ -16,6 +16,11 @@ const CONFIG =
     paddingBetweenTypes: 0.1, // relative to type size
     includeActions: true,
     actionProb: 0.15,
+    fonts:
+    {
+        heading: "comica",
+        body: "cabin"
+    }
 }
 
 type Stats = Record<string,number>
@@ -105,7 +110,7 @@ class Card
             if(isAction)
             {
                 const fontSize = (0.66*typeSize);
-                ctx.font = fontSize + "px 'Comica Boom'";
+                ctx.font = fontSize + "px " + CONFIG.fonts.heading;
                 ctx.textAlign = "center";
                 ctx.fillStyle = "#FFFFFF";
                 ctx.fillText("A", typeListPos.x, typeListPos.y + 0.33*fontSize);

@@ -110,7 +110,7 @@ async function generate()
     }
 
     ctx.textAlign = "center";
-    ctx.font = (0.5*CELL_SIZE) + "px 'Mail Ray Stuff'";
+    ctx.font = (0.5*CELL_SIZE) + "px mailray";
     ctx.fillStyle = "#FFEEDD";
     for(let i = 0; i < numbers.length; i++)
     {

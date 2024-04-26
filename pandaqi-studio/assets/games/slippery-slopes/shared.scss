@@ -1,38 +1,43 @@
+$body-font-raw: "fraunces";
+$header-font-raw: "superfuntime";
+$base-assets: "/slippery-slopes/assets/";
+$base-fonts: $base-assets + "fonts/";
+
 // This is the Fraunces "super-soft" variation, as it fit best with the general theme and other font
 @font-face {
-    font-family: 'Fraunces';
-    src: url('/slippery-slopes/assets/fonts/Fraunces9ptSuperSoft-Italic.woff2') format('woff2');
+    font-family: $body-font-raw;
+    src: url($base-fonts + 'Fraunces9ptSuperSoft-Italic.woff2') format('woff2');
     font-weight: normal;
     font-style: italic;
     font-display: swap;
 }
 
 @font-face {
-    font-family: 'Fraunces';
-    src: url('/slippery-slopes/assets/fonts/Fraunces9ptSuperSoft-Black.woff2') format('woff2');
+    font-family: $body-font-raw;
+    src: url($base-fonts + 'Fraunces9ptSuperSoft-Black.woff2') format('woff2');
     font-weight: 900;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: 'Fraunces';
-    src: url('/slippery-slopes/assets/fonts/Fraunces9ptSuperSoft-Regular.woff2') format('woff2');
+    font-family: $body-font-raw;
+    src: url($base-fonts + 'Fraunces9ptSuperSoft-Regular.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: 'Super Funtime';
-    src: url('/slippery-slopes/assets/fonts/SuperFuntime.woff2') format('woff2');
+    font-family: $header-font-raw;
+    src: url($base-fonts + 'SuperFuntime.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
 }
 
-$header-font: "Super Funtime", serif;
-$body-font: "Fraunces", serif;
+$header-font: $header-font-raw, cursive;
+$body-font: $body-font-raw, Georgia, sans-serif;
 $body-font-size: 18px;
 $body-line-height: 120%;
 $bg-image: url(/slippery-slopes/assets/bg_pattern.webp);

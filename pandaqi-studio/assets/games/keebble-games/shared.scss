@@ -1,0 +1,17 @@
+$font-raw: "arbutus";
+$base-assets: "/keebble-games/assets/";
+$base-fonts: $base-assets + "fonts/";
+
+@font-face {
+    font-family: $font-raw;
+    src: url($base-fonts + "ArbutusSlab-Regular.woff2");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+$header-font: $font-raw, Helvetica, sans-serif;
+$body-font: $font-raw, Georgia, serif;
+$special-cells-url: url(/keebble-games/spell/keebble/assets/special_cells.webp);
+$special-cells-domino-url: url(/keebble-games/spell/keebble-domino/assets/special_cells.webp);
+$knickknack-options-url: url(/keebble-games/spell/keebble-knickknack/assets/option_icons.webp);

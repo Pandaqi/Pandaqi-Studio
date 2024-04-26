@@ -8,32 +8,33 @@ headerTitle: "Games you can play while waiting in line or standing up."
 blurb: "A series of simple games you can play while waiting in line, or standing up, or any other unconventional situation."
 
 extraCSS: true
-downloadLink: ""
+downloadLink: "https://drive.google.com/drive/folders/1xu-YTqi_OCm_WmzhVhGbTQPiu0pc87TG"
 
 customHeight: "small"
 headerDarkened: true
 
 color: "turquoise"
 
-bgColor: "#003401"
-bgColorLink: "#ff1f1f"
+bgColor: "#000511"
+bgColorLink: "#FC8B0D"
 
-textColor: "#f2ffef"
-textColorLink: "#ffe9e9"
+textColor: "#8ECCE7"
+textColorLink: "#2d1801"
 
-date: 2023-01-01 # 2024-12-26
+date: 2024-02-25
 
-categories: ["boardgame"]
-tags: ["simple", "sea", "animals"]
+difficulty: "kids-can-play"
+genres: ["family"]
+categories: ["boardgame", "card-game", "waitless-game"]
+tags: ["set-collecting"]
+themes: ["colorful"]
 
 multiplayermode: "competitive"
 language: EN
-genre: ["tile"]
 playtime: 30
 playercount: [2,3,4,5,6]
-complexity: low
 ages: everyone
-devlog: "/blog/boardgames/waitless-games/"
+# devlog: "/blog/boardgames/waitless-games/"
 
 ---
 
@@ -49,15 +50,16 @@ This is the **overview page** of the Waitless Games.
 
 Click any of the links below to visit a specific game. They aren't sorted in any particular way.
 
-* [Creature Quellector](/waitless-games/play/creature-quellector/): design the best squad of creatures by winning or tactically losing battles against your opponent's hands.
-* @TODO
+* [Creature Quellector](/waitless-games/play/creature-quellector/): design the best squad of _creature cards_ by winning or tactically losing battles against your opponent's hands.
+* [Foldigami](/waitless-games/play/folidgami/): score more points than your opponent by _folding_ and _flipping_ the paper.
+* [Finger Food](/waitless-games/play/finger-food/): bake the highest-scoring recipes by _placing your fingers_ on the right squares, nothing else needed.
   
 All the games are unique: new rules, new art style, new material, new ideas.
 
-Their one thing in common, though, is that they are **"waitless"**. Designed to be played in waiting rooms, queues, rooms without a table or chairs, etcetera.
+Their one thing in common, though, is that they are **"waitless"**. Designed to be played in waiting rooms, queues, rooms without a table or chairs, quick moments of downtime, etcetera.
 
 * You can start or stop them incredibly quickly.
-* Little material and all of it is held in hands at all times.
+* Little material and all of it can be held in hands at all times.
 * Rounds are very fast, often even "simultaneous".
 * You will not look silly or annoy others around you while playing.
 
@@ -69,7 +71,7 @@ _Great! When are new games added?_ Currently, I have ~6 ideas, of which ~2 new o
 
 It is not hard to guess where these ideas came from. Waiting in line at a theme park is never fun---why not play a game? I have, unfortunately, spent a lot of time waiting in the hospital, or living in a situation where a traditional game just can't be played. Is it really that hard to design (board) games you _could_ do in that moment?
 
-And thus the journey started. It started with a game that ended up being simple and good, but not entirely Waitless: it needed too much setup and material for that. (I am talking about _Kingseat_, and have since moved these to the [Throneless Games](/throneless-games/) project.)
+And thus the journey started. It started with a game that ended up being simple and good, but not entirely Waitless: it needed too much setup and material for that. (I am talking about _Kingseat_, and have since moved this category of games to the [Throneless Games](/throneless-games/) project.)
 
 That "failed attempt", however, showed me what I did wrong and how I had to approach these games in a different way. Once I figured that out, the ideas and their feasibility improved. 
 

@@ -1,3 +1,4 @@
+import TextConfig, { TextStyle } from "js/pq_games/layout/text/textConfig"
 import Point from "js/pq_games/tools/geometry/point"
 
 export default 
@@ -26,50 +27,80 @@ export default
 
     alwaysAddMainTypeOnce: false,
 
+    fonts:
+    {
+        heading: "comica",
+        body: "cabin"
+    },
+
     assetsBase: "/creature-quellector/assets/",
     assets: {
-        creatures_1: {
+        creatures_1: 
+        {
             path: "quellector_creatures_1.webp",
-            frames: { x: 8, y: 2 }
-        },
-        creatures_2: {
-            path: "quellector_creatures_2.webp",
-            frames: { x: 8, y: 2 }
-        },
-        creatures_3: {
-            path: "quellector_creatures_3.webp",
-            frames: { x: 8, y: 2 }
-        },
-        backgrounds_1: {
-            path: "quellector_backgrounds_1.webp",
-            frames: { x: 8, y: 2 }
-        },
-        backgrounds_2: {
-            path: "quellector_backgrounds_2.webp",
-            frames: { x: 8, y: 2 }
-        },
-        backgrounds_3: {
-            path: "quellector_backgrounds_3.webp",
-            frames: { x: 8, y: 2 }
-        },
-        icons: {
-            path: "quellector_types.webp",
-            frames: { x: 8, y: 2 }
-        },
-        icons_actions: {
-            path: "quellector_actions.webp",
-            frames: { x: 8, y: 2 }
-        },
-        counter_icon: {
-            path: "counter_icon.webp",
-            frames: { x: 1, y: 1 }
+            frames: new Point(8,2)
         },
 
-        fontHeading: {
-            key: "Comica Boom",
+        creatures_2: 
+        {
+            path: "quellector_creatures_2.webp",
+            frames: new Point(8,2)
+        },
+
+        creatures_3: 
+        {
+            path: "quellector_creatures_3.webp",
+            frames: new Point(8,2)
+        },
+
+        backgrounds_1: 
+        {
+            path: "quellector_backgrounds_1.webp",
+            frames: new Point(8,2)
+        },
+
+        backgrounds_2: 
+        {
+            path: "quellector_backgrounds_2.webp",
+            frames: new Point(8,2)
+        },
+
+        backgrounds_3: 
+        {
+            path: "quellector_backgrounds_3.webp",
+            frames: new Point(8,2)
+        },
+
+        icons: 
+        {
+            path: "quellector_types.webp",
+            frames: new Point(8,2)
+        },
+
+        icons_actions: 
+        {
+            path: "quellector_actions.webp",
+            frames: new Point(8,2)
+        },
+
+        counter_icon: 
+        {
+            path: "counter_icon.webp",
+        },
+
+        comica: 
+        {
             path: "fonts/ComicaBoomRegular.woff2",
             size: 0.1285
         },
+
+        cabin_italic: 
+        {
+            key: "cabin",
+            path: "fonts/Cabin-Italic.woff2",
+            textConfig: new TextConfig({ style: TextStyle.ITALIC }),
+            size: 0.0533
+        }
 
         /*
         fontText: {
@@ -77,13 +108,7 @@ export default
             path: "fonts/BeautifulHumilityRegular.woff2",
             size: 0.063
         },
-        */
-
-        fontDetails: {
-            key: "Cabin-Italic",
-            path: "fonts/Cabin-Italic.woff2",
-            size: 0.0533
-        }
+        */ 
     },
 
     gameplay: {

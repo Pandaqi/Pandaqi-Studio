@@ -279,7 +279,7 @@ export default class Evaluator
     draw(board:Board)
     {
         const textCfg = {
-            fontFamily: "Jockey One",
+            fontFamily: "jockey",
             fontSize: "64px",
             color: "#330000",
             strokeColor: "#ffffff",

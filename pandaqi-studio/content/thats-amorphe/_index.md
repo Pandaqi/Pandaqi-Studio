@@ -7,6 +7,7 @@ title: "That's Amorphe"
 headerTitle: "A party game about what's halfway between a moon and an eye"
 blurb: "A party game about imagining what happens if one thing morphed into another---or guessing what other players mean with their inventions."
 
+headerDarkened: true
 customHeight: "small"
 color: "red"
 

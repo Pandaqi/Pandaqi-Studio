@@ -84,7 +84,7 @@ Three steps.
   {{< setting-playercount min="1" max="6" def="4" >}}
   {{< setting-checkbox id="setting-useRealMaterial" text="Use Real Material?" remark="Enable if you're reusing the printed out material sheet." >}}
   {{< setting-checkbox id="setting-createPremadeGame" text="Create PDF?" remark="Downloads a PDF with a board and hint cards for offline play." >}}
-  {{< setting-checkbox id="setting-inkFriendly" text="Colored?" remark="Default maps are grayscale to be print friendly. This adds full color." >}}
+  {{< setting-checkbox id="setting-inkFriendly" text="Colored?" remark="Default maps are grayscale to be ink friendly. This adds full color." >}}
   {{< setting-checkbox id="setting-fastGeneration" text="Fast Generation?" remark="Produces a game much faster, but can lead to more unfair or chaotic games" >}}
   {{< boardgame-settings-section heading="Hints" >}}
     {{< setting-checkbox id="setting-expansions-rotation" text="Rotation Hints?" >}}

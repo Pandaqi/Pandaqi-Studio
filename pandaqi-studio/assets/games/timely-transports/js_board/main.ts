@@ -1143,7 +1143,7 @@ class BoardGeneration extends Scene
 		const radius = this.cfg.cellSize*0.5*1.5;
 		const textCfg:Record<string,any> = 
 		{
-			fontFamily: 'Rowdies', 
+			fontFamily: 'rowdies', 
 			fontSize: Math.max(radius, 20),
 			color: '#111111', 
 			stroke: '#FFFFFF',
@@ -1157,7 +1157,7 @@ class BoardGeneration extends Scene
 
 		const goodNumberCfg = 
 		{
-			fontFamily: "Rowdies",
+			fontFamily: "rowdies",
 			fontSize: Math.max(radius, 16),
 			color: '#111111',
 			stroke: "#FFFFFF",
@@ -1171,7 +1171,7 @@ class BoardGeneration extends Scene
 
 		const bonusTxtCfg = 
 		{
-			fontFamily: "Rowdies",
+			fontFamily: "rowdies",
 			fontSize: textCfg.fontSize,
 			color: "#66FF66",
 			stroke: "#003300",
@@ -1332,7 +1332,7 @@ class BoardGeneration extends Scene
 		const color = "#FFFFFF"
 
 		const textConfigDetails = new TextConfig({
-			font: "Rowdies",
+			font: "rowdies",
 			size: fontSize,
 		})
 

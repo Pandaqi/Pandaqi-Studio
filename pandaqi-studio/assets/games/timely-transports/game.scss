@@ -57,7 +57,7 @@ body {
 }
 
 .overlay, .global-timer {
-    font-family: 'Rowdies'; 
+    font-family: g.$header-font; 
     font-size: 2em;
     color: #DDDDDD;
     -webkit-text-stroke: 1px #111111;

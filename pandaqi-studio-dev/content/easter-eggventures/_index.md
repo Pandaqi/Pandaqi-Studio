@@ -8,7 +8,7 @@ headerTitle: "A collection of simple Easter-themed board games."
 blurb: "A collection of simple family games to play during Easter (or whenever you crave some egg hunting)."
 
 extraCSS: true
-downloadLink: ""
+downloadLink: "https://drive.google.com/drive/folders/1uplIYqa6FX_Hjx628R0SLTLejVFR0kpL"
 
 customHeight: "small"
 headerDarkened: true

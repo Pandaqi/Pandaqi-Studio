@@ -7,7 +7,7 @@ img.src = "/kingseat/assets/kingseat_icon.webp"
 
 const TOOLS = {
     fontSize: 14,
-    fontFamily: "Brygada",
+    fontFamily: "brygada",
     swapProbability: 0.33,
     kingSeatImage: img
 }

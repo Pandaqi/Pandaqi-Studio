@@ -151,8 +151,9 @@ class BoardGeneration extends Scene
 
 		cfg.playerColorsHex = ['#800000', '#9A6324', "#008080", "#911EB4", "#808088"];
 		cfg.fontSize = 16.0 * cfg.graphicsScaleFactor;
-		cfg.textConfig = { 
-			fontFamily: 'Mali', 
+		cfg.textConfig = 
+		{ 
+			fontFamily: 'mali', 
 			fontSize: cfg.fontSize, 
 		}
 		cfg.txtShadowColor = '#000000BB';

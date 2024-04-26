@@ -83,13 +83,15 @@ By default, this game is completely offline: just download the material once, pr
 
 It is highly recommended, however, to add a timer to rounds. You can use any timer or app, including my own [Pandaqi Timer](https://pandaqi.com/tools/timer) page.
 
+Or you can simply play the completely _digital_ sequel: [Slippery Slopes: Trippy Touches](https://pandaqi.com/slippery-slopes-trippy-touches/). Playable with just one smartphone, rules explained as you go, still the same fun core mechanic.
+
 {{% /section-centered %}}
 
 {{< support >}}
 
 {{% section-centered heading="Credits" %}}
 
-The fonts used are **Frauces** (soft variation) for text and **Super Funtime** for headers. Everything else is mine.
+The fonts used are **Fraunces** (soft variation) for text and **Super Funtime** for headers. Everything else is mine.
 
 This game is a sort of spiritual successor to my [That's Amorphe](https://pandaqi.com/thats-amorphe) games. I came up with the idea just as I was finishing the spin-off ([That's Amorphe Pictures](https://pandaqi.com/thats-amorphe-pictures)), but I had already committed to another project so I couldn't make it back then. 
 
@@ -99,8 +101,6 @@ This game takes the same idea of "communicate secret words/concepts in a vague a
 
 A simple, fast party game for any group!
 
-For more details, as always, read the [devlog](/blog/boardgames/slippery-slopes).
-
-**UPDATE!** This game now also has a completely _digital_ version. Playable with just one smartphone, rules explained as you go, still the same fun core mechanic. Try it at: [Slippery Slopes: Trippy Touches](https://pandaqi.com/slippery-slopes-trippy-touches/).
+For more details, as always, read the [devlog](/blog/boardgames/slippery-slopes/).
 
 {{% /section-centered %}}

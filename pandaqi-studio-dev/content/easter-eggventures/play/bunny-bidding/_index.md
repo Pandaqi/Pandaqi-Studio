@@ -8,7 +8,7 @@ headerTitle: "Snatch the best offers containing the one secret egg that scores y
 blurb: "Play rounds adding cards to the secret offer and bidding on it. But use your highest value cards wisely, because only ONE type of egg actually scores you points in the end!"
 
 extraCSS: true
-downloadLink: ""
+downloadLink: "https://drive.google.com/drive/folders/15E5czi0s4g4Nua22HvMPB3j7DNGgOz0p"
 
 customHeight: "small"
 headerDarkened: true

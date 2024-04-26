@@ -65,7 +65,7 @@ ul {
 a.download-btn, a.download-btn:visited {
     background-color: #F4C095;
     color: #040F0F;
-    font-family: 'Rowdies';
+    font-family: g.$header-font;
 
     &:hover {
         background-color: #040F0F;

@@ -11,63 +11,77 @@ export default
     resLoader: null,
     gridMapper: null,
     itemSize: "regular",
-    premadePacks: "",
+    set: "",
     highLegibility: true,
     packs: [],
 
     assetsBase: "/kingseat/assets/",
-    fonts: {
-        heading: {
-            key: "UniFraktur",
+    fonts: 
+    {
+        heading: 
+        {
+            key: "unifraktur",
             url: "fonts/UnifrakturCook-Bold.woff2",
             size: 0.1285
         },
 
         text: {
-            key: "ModerneFraktur",
+            key: "modernefraktur",
             url: "fonts/ModerneFraktur.woff2",
             size: 0.063
         },
 
         slogan: {
-            key: "Gothic",
+            key: "gothic",
             url: "fonts/GothicUltraOT.woff2",
             size: 0.0533
         },
 
         textLegible: {
-            key: "Brygada",
+            key: "brygada",
             url: "fonts/Brygada1918-Regular.woff2",
             size: 0.057
         }
     },
-    assets: {
-        crests_full: {
+    assets: 
+    {
+        crests_full: 
+        {
             path: "crests_full.webp",
             frames: new Point(12, 1)
         },
-        crests_simple: {
+        crests_simple: 
+        {
             path: "crests_simplified.webp",
             frames: new Point(12, 1)
         },
-        gradient_overlay: {
+
+        gradient_overlay: 
+        {
             path: "gradient_overlay.webp",
             frames: Point.ONE
         },
-        multicolor_bg: {
+
+        multicolor_bg: 
+        {
             path: "multicolor_bg.webp",
             frames: Point.ONE
         },
-        decoration_icons: {
+
+        decoration_icons: 
+        {
             path: "decoration_icons.webp",
             frames: new Point(2,1)
         }
     },
-    cards: {
+
+    cards: 
+    {
         addShadowToSigil: true, // @DEBUGGING; should be TRUE (but is very slow, hence turned off normally)
         maxDarkCardsPerPack: 2,
         percentageWithAction: 1.0,
-        dims: { 
+        dims: 
+        { 
             small: new Point(4,4),
             regular: new Point(3,3),
             huge: new Point(2,2)
@@ -75,9 +89,10 @@ export default
         numPerPack: 12,
         dimsElement: new Point(1, 1.55),
         size: new Point(),
-        outline: {
+        outline: 
+        {
             color: "#111111",
             width: 0.0125,
-        }
+        },
     }
 }

@@ -3,8 +3,8 @@ import Bounds from "js/pq_games/tools/numbers/bounds";
 
 export default 
 {
-    mainFont: "Mail Ray Stuff",
-    bodyFont: "Poppins",
+    mainFont: "mailray",
+    bodyFont: "poppins",
     maxNumPlayers: 5,
     resLoader: null,
 
@@ -35,7 +35,7 @@ export default
         tutorialSpriteHeight: 0.066, // relative to HEIGHT of sidebar
         tutorialTextConfig: 
         { 
-            fontFamily: 'Poppins',
+            fontFamily: 'poppins',
             fontScaleFactor: 0.041,
             color: '#000000',
         },
@@ -43,7 +43,7 @@ export default
         scoreTextAlpha: 0.35,
         scoreTextConfig: 
         { 
-            fontFamily: 'Mail Ray Stuff',
+            fontFamily: "mailray",
             fontSize: null,
             fontScaleFactor: 0.05, // relative to WIDTH of sidebar
             color: '#000000',
@@ -134,7 +134,7 @@ export default
             offsetFromGrid: 0.25,
             scaleFactor: 0.375,
             textConfig: { 
-                fontFamily: 'Mail Ray Stuff',
+                fontFamily: "mailray",
                 fontSize: 16,
                 color: '#332211',
                 stroke: '#FFDDBB',
@@ -166,7 +166,7 @@ export default
         textScaleFactor: 0.35,
         textConfig: 
         { 
-            fontFamily: 'Mail Ray Stuff',
+            fontFamily: "mailray",
             fontScaleFactor: 0.35,
             strokeScaleFactor: 0.1,
             color: '#ffffff',

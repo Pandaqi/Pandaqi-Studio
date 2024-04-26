@@ -6,7 +6,7 @@ const cardDrawConfig = {
     size: { width: 64, height: 96 },
     fontSize: 28,
     handFontSize: 14,
-    fontFamily: "Londrina Solid",
+    fontFamily: "londrina",
     typeColors: {
         blank: "#FFFFFF",
         reverse: "#FFAAAA"

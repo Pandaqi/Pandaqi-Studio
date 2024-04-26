@@ -8,7 +8,7 @@ headerTitle: "A collection of simple board games using the Maybe Mechanic."
 blurb: "A collection of simple board games using the Maybe Mechanic, about voting for or against your friend's proposals at the most strategic times."
 
 extraCSS: true
-downloadLink: ""
+downloadLink: "https://drive.google.com/drive/folders/1PiESe5tpn51F2VzsQLyzUKud6AgdPmVJ"
 
 customHeight: "small"
 headerDarkened: true

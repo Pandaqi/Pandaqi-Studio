@@ -8,7 +8,7 @@ headerTitle: "An egghunt in a mysterious arena where collecting your prize is al
 blurb: "An egghunt in a dangerous arena and competitors stealing precious information about the highest-scoring prizes."
 
 extraCSS: true
-downloadLink: ""
+downloadLink: "https://drive.google.com/drive/folders/18Q6FVPfiGTQK-1UypURV_uMo0-ppZrwV"
 
 customHeight: "small"
 headerDarkened: true

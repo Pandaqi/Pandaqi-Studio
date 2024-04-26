@@ -43,7 +43,7 @@ export default
         moneySpriteScale: 0.66,
 
         moneyTextConfigTiny: {
-            fontFamily: "Cherry Bomb One",
+            fontFamily: "cherrybomb",
             fontScaleFactor: 0.15,
             color: "#003300",
             stroke: "#50FF4B",
@@ -51,7 +51,7 @@ export default
         },
 
         moneyTextConfig: {
-            fontFamily: "Cherry Bomb One",
+            fontFamily: "cherrybomb",
             fontScaleFactor: 0.33,
             color: "#50FF4B",
             stroke: "#000000",
@@ -89,7 +89,7 @@ export default
         marginAroundRecipeBook: 0.02,
 
         textConfig: {
-            fontFamily: "Cherry Bomb One",
+            fontFamily: "cherrybomb",
             fontScaleFactor: 0.33,
             color: "#222222",
             stroke: "#EEEEEE",

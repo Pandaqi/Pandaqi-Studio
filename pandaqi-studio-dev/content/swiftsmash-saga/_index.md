@@ -8,32 +8,33 @@ headerTitle: "A series of games about thinking quickly and smashing the right ca
 blurb: "A series of (party) games about thinking on your feet and swiftly smashing the right card before anyone else."
 
 extraCSS: true
-downloadLink: ""
+downloadLink: "https://drive.google.com/drive/folders/153TCjVAmGbWwDFeXqa-eacGi2taA2PnZ"
 
 customHeight: "small"
 headerDarkened: true
 
-color: "turquoise"
+color: "green"
 
-bgColor: "#003401"
-bgColorLink: "#ff1f1f"
+bgColor: "#2a030a"
+bgColorLink: "#E53152"
 
-textColor: "#f2ffef"
-textColorLink: "#ffe9e9"
+textColor: "#ffe4e9"
+textColorLink: "#ffe7eb"
 
-date: 2023-01-01 # 2024-12-26
+date: 2024-07-26
 
-categories: ["boardgame"]
-tags: ["simple", "sea", "animals"]
+difficulty: "simple"
+genres: ["action", "party"]
+categories: ["boardgame", "card-game"]
+tags: ["simultaneous-turns", "fast-paced", "numbers"]
+themes: []
 
 multiplayermode: "competitive"
 language: EN
-genre: ["tile"]
 playtime: 30
 playercount: [2,3,4,5,6]
-complexity: low
 ages: everyone
-devlog: "/blog/boardgames/throneless-games/"
+# devlog: "/blog/boardgames/swiftsmash-games/"
 
 ---
 
@@ -54,17 +55,17 @@ Click any of the links below to visit a specific game. They are sorted based on 
 * [Smash Sale](/swiftsmash-saga/tap/smash-sale/) => the shopping mall holds a flash sale. All players simultaneously smash the item they want, but you only get one try, so make sure it's actually the one you wanted.
 * [Bodyguard](/swiftsmash-saga/tap/bodyguard/) => the tribe leader fears for assassination. Discover the shooter and the path of their bullets, to smash the danger before anyone else.
 
-These games all have the same core mechanic (the "Swiftsmash Mechanic"): players simultaneously reveal a set of cards. You must quickly read them, follow ever-changing rules and think ahead to find the one card you must smash. Beat the others and you win. Be too slow, or smash the wrong one, and you'll regret it.
+These games all have the same **core mechanic** (the "Swiftsmash Mechanic"). First, players simultaneously reveal cards. You must quickly read them, follow ever-changing rules and think ahead to find the **one card** you must smash. Beat the others and you win. Be too slow, or smash the wrong one, and you'll regret it.
 
-Besides that shared mechanic, these games are completely different. They don't even share fonts, visual styles or any other mechanics.
+Besides that shared mechanic, these games are **completely different**. They don't even share fonts, visual styles or any other mechanics.
 
-_Why doesn't Bodyguard follow the naming pattern!?_ Because it has different modes and some of them are completely unrelated to smashing a card! It's a Swiftsmash game, and also not.
+**Why doesn't Bodyguard follow the naming pattern!?** Because it has different modes and some of them are completely unrelated to smashing a card! It's a Swiftsmash game, and also not.
 
 {{% /section-centered %}}
 
 {{% section-centered heading="Credits" anchor="credits" %}}
 
-This series started with _Cookie Smasher_. As explained in that game's credits, the idea occurred to me as I wrote one of my _Wildebyte Arcades_ books. It has a character called Cookie Clicker, who obviously originates from the video game of the same name. And my brain thought: could you make a _boardgame_ like Cookie Clicker?
+This series started with [Cookie Smasher](/swiftsmash-sage/tap/cookie-smasher/). As explained in that game's credits, the idea occurred to me as I wrote one of my _Wildebyte Arcades_ books. It has a character called Cookie Clicker, who obviously originates from the video game of the same name. And my brain thought: could you make a _boardgame_ like Cookie Clicker?
 
 This slowly evolved into an expanded version that worked much better: "it's not about tapping something (often), it's about tapping _the right thing_ before _anyone else_."
 

@@ -6,10 +6,10 @@ export default class FontLoader {
     {
         // @TODO: dangerous relative links, but works for now
         const fontURL1 = CONFIG.assetsBase + "fonts/Rowdies-Regular.woff2";
-        const fontFile1 = new FontFace("Rowdies", "url(" + fontURL1 + ")");
+        const fontFile1 = new FontFace("rowdies", "url(" + fontURL1 + ")");
 
         const fontURL2 = CONFIG.assetsBase + "fonts/YanoneKaffeesatz-Regular.woff2";
-        const fontFile2 = new FontFace("Yanone Kaffeesatz", "url(" + fontURL2 + ")");
+        const fontFile2 = new FontFace("yanone", "url(" + fontURL2 + ")");
         
         // @ts-ignore
         document.fonts.add(fontFile1);
