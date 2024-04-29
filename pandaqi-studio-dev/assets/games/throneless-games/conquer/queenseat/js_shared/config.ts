@@ -14,6 +14,21 @@ const CONFIG:Record<string,any> =
     fileName: "[Material] Queenseat (Throneless Games)",
 
     assetsBase: "/throneless-games/conquer/queenseat/assets/",
+
+    rulebook:
+    {
+        seatNaming: "Queenseat",
+        leaderNaming: "Queen",
+        endGameTrigger: "noVotes",
+
+        tellerIsLeader: true,
+        discardGoesToPlayer: true,
+        cantVoteMajorityPublic: true,
+        cantVoteMajorityNeighborsOnly: true, // only looks at neighbor public cards when deciding what you can't play
+
+        leaderSwapHasRestrictions: true,
+        winnersGiveAwayCards: true,
+    }
 }
 
 mergeObjects(CONFIG, CONFIG_SHARED);

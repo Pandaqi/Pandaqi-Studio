@@ -6,6 +6,7 @@ boardgame: true
 title: "Keebble: Domino"
 headerTitle: "The word game Keebble, now as a board game"
 blurb: "A party game like Scrabble. A spin-off for Keebble. Played using dominoes and a special font where each letter is ... multiple letters."
+blurbProject: "A 'traditional' game played with dominoes that look like different letters from different sides. Print and cut once, play however often you want."
 
 customHeight: "small"
 headerDarkened: true

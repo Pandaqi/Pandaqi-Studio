@@ -5,7 +5,8 @@ boardgame: true
 
 title: "Creature Quellector"
 headerTitle: "A game you can play while standing in line, about collecting and battling creatures"
-blurb: "Choose your battles wisely and build the strongest hand of magical creatures. A waitless game, playable without table, chairs, or loads of material"
+blurb: "Choose your battles wisely and build the strongest hand of magical creatures. A waitless game, playable without table, chairs, or loads of material."
+blurbProject: "Design the best squad of _creature cards_ by winning or tactically losing battles against your opponent's hands."
 
 customHeight: "large"
 headerDarkened: true

@@ -3,9 +3,10 @@ type: "single"
 gamepage: true
 boardgame: true
 
-title: "Maybe Missions"
-headerTitle: "Propose spy missions and hope enough people help you succeed."
-blurb: "Propose spy missions and hope enough people want them to succeed---or deviously let them fail to benefit your own secret cover."
+title: "Queenseat"
+headerTitle: "Make sure the right Princess ends up on the throne, playable without a table or chairs"
+blurb: "Vote, swap places and use powers to ensure the right Princess ends up on the throne. A game playable without a table or chairs."
+blurbProject: "The best introduction for all ages, using a changing Throne card to keep the game simple but tactical."
 
 extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/16xLqB1wBo_7nwB-YYTBUjGun7cjaJ-0g"
@@ -13,24 +14,26 @@ downloadLink: "https://drive.google.com/drive/folders/16xLqB1wBo_7nwB-YYTBUjGun7
 customHeight: "small"
 headerDarkened: true
 
-color: "brown"
+color: "black"
 
-bgColor: "#230e00"
-bgColorLink: "#2d2d2d"
+bgColor: "#0d0018"
+bgColorLink: "#84060b"
 
-textColor: "#fff0e8"
-textColorLink: "#e0e0e0"
+textColor: "#ecd9ff"
+textColorLink: "#f7fa96"
 
-date: 2023-01-01 # 2024-12-26
+date: 2024-11-12
 
-categories: ["boardgame"]
-tags: ["bidding", "auction", "secret-objective", "holiday"]
+difficulty: "kids-can-play"
+genres: ["thematic"]
+categories: ["boardgame", "waitless", "card-game"]
+tags: ["political", "hidden-roles", "social", "fast-paced"]
+themes: ["medieval"]
 
 multiplayermode: "competitive"
 language: EN
-genre: ["tile", "party"]
-playtime: 30
-playercount: [3,4,5,6]
+playtime: 20
+playercount: [3,4,5,6,7,8,9,10,11,12]
 ages: everyone
 
 ---
@@ -59,23 +62,23 @@ Three simple steps.
 {{< boardgame-settings type="game" btn_label="Create Material" local_storage="queenseatConfig" game_title="Queenseat" defaults="true" >}}
   {{< setting-checkbox id="setting-highLegibility" text="High Legibility?" remark="Picks a more neutral font for maximum legibility." checked="checked" >}}
   {{< setting-enum id="setting-set" text="Set?" values="none,starter,medium,advanced,complete,random" valaskey="true" def="starter" remark="Pick a predetermined set, or use none and pick your specific princes below!" >}}
-  {{< boardgame-settings-section heading="Princes" >}}
-    {{< setting-checkbox id="setting-packs-lionsyre" text="Lionsyre?" checked="checked" >}}
-    {{< setting-checkbox id="setting-packs-slydefox" text="Slydefox?" >}}
-    {{< setting-checkbox id="setting-packs-woolfhall" text="Woolfhall?" >}}
-    {{< setting-checkbox id="setting-packs-hornseeker" text="Hornseeker?" checked="checked" >}}
-    {{< setting-checkbox id="setting-packs-brownbeards" text="Brownbeards?" >}}
-    {{< setting-checkbox id="setting-packs-monarchrys" text="Monarchrys?" checked="checked" >}}
-    {{< setting-checkbox id="setting-packs-crassclamps" text="Crassclamps?" >}}
-    {{< setting-checkbox id="setting-packs-gulliballistas" text="Gulliballistas?" checked="checked" >}}
-    {{< setting-checkbox id="setting-packs-hardshellHero" text="Hardshell Hero?" >}}
-    {{< setting-checkbox id="setting-packs-squlofish" text="Squlofish?" >}}
-    {{< setting-checkbox id="setting-packs-smugwing" text="Smugwing?" >}}
-    {{< setting-checkbox id="setting-packs-salsaSalamanda" text="Salsa Salamanda?" >}}
+  {{< boardgame-settings-section heading="Princesses" >}}
+    {{< setting-checkbox id="setting-packs-stingersHive" text="Stinger's Hive?" checked="checked" >}}
+    {{< setting-checkbox id="setting-packs-gallopingSun" text="Galloping Sun?" >}}
+    {{< setting-checkbox id="setting-packs-trunktrumpets" text="Trunktrumpets?" >}}
+    {{< setting-checkbox id="setting-packs-featherdancer" text="Featherdancer?" checked="checked" >}}
+    {{< setting-checkbox id="setting-packs-whistleyWine" text="Whistley Wine?" >}}
+    {{< setting-checkbox id="setting-packs-edibusEggsnatcher" text="Edibus Eggsnatcher?" checked="checked" >}}
+    {{< setting-checkbox id="setting-packs-fearedFlame" text="Feared Flame?" >}}
+    {{< setting-checkbox id="setting-packs-eyrieFeyle" text="Eyrie Feyle?" checked="checked" >}}
+    {{< setting-checkbox id="setting-packs-chatteredFins" text="Chattered Fins?" >}}
+    {{< setting-checkbox id="setting-packs-galaksea" text="Galaksea?" >}}
+    {{< setting-checkbox id="setting-packs-venomfruit" text="Venomfruit?" >}}
+    {{< setting-checkbox id="setting-packs-colorcoats" text="Colorcoats?" >}}
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
-<p class="remark-below-settings">Check the rules to see <strong>how many Princes</strong> are recommended for each player count. Each choice adds ~1 page to print ( = 12 cards for that particular prince).</p> 
+<p class="remark-below-settings">Check the rules to see <strong>how many Princesses</strong> are recommended for each player count. Each choice adds ~1 page to print.</p> 
 
 <p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>
 
@@ -83,6 +86,12 @@ Three simple steps.
 
 {{% section-centered heading="Credits" anchor="credits" %}}
 
-@TODO
+Check out the main overview page for [Throneless Games](/throneless-games/) for more detailed credits and background.
+
+This game was originally meant to have the "Seatcard" that is now the prominent part of Kaizerseat, and that would have been its only change. When coming back to the idea later, however, I realized this was too little variation. It made all the Throneless Games almost identical, just with different animal illustrations!
+
+Thus I brainstormed longer and found more extreme (and interesting) twists on the core mechanic. For example, the _objective_ changed. Instead of winning if your animal collected the most votes, you win if you're sitting on the throne when the game ends. Despite the core rules staying the same, this new objective obviously changed the feel and actions of the entire game.
+
+This made Queenseat probably the most unique entry in the Throneless Games. To keep it simple, nicely in the second spot based on complexity, the Seatcard idea then moved to Kaizerseat. (Along with some more complicated actions, because Queenseat still has only one _type_ of action.)
 
 {{% /section-centered %}}

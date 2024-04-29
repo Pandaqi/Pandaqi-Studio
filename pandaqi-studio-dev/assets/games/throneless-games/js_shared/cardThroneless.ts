@@ -36,7 +36,8 @@ export default class CardThroneless
     getActionText()
     {
         if(!this.hasAction()) { return ""; }
-        return this.typeData.action;
+        if(this.isDark()) { return this.dark; }
+        return this.typeData.action.text;
     }
 
     // @TODO: this is an iffy system, rewrite to something better before using it too much?
@@ -226,19 +227,21 @@ export default class CardThroneless
         const resRect = new ResourceShape({ shape: rect });
         const rectOp = new LayoutOperation({
             fill: this.isDark() ? "#000000" : "#FFFFFF",
-            alpha: this.isDark() ? 0.5 : 0.8,
-            effects: [new BlurEffect(0.05*maxWidth)]
+            alpha: 0.8,
+            composite: "overlay",
+            effects: [new BlurEffect(0.06*maxWidth)]
         })
 
+        group.add(resRect, rectOp);
         group.add(resRect, rectOp);
 
         // @TODO: print the TYPE of action, if not a regular one (which we get from an OBJECT in the .dark config array)
 
-        const text = this.dark ?? this.typeData.action.text;
+        const text = this.getActionText();
         const fill = this.getColor(this.typeData.action);
         const fontUsed = vis.get("highLegibility") ? "textLegible" : "text";
 
-        const fontSize = vis.get("cards.actionText.fontSize." + fontUsed) * vis.sizeUnit;
+        const fontSize = vis.get("cards.actionText.fontSize." + fontUsed);
         const textConfig = new TextConfig({
             font: vis.get("fonts." + fontUsed),
             size: fontSize,
@@ -266,7 +269,7 @@ export default class CardThroneless
         pos.x = 0.5 * vis.size.x;
 
         const text = '\u201C' + this.typeData.slogan.text + '\u201D'
-        const fontSize = vis.get("fonts.slogan.size") * vis.sizeUnit
+        const fontSize = vis.get("fonts.slogan.size");
         const maxHeight = fontSize
 
         const fill = this.getColor(this.typeData.slogan);

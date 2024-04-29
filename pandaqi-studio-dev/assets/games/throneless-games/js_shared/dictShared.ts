@@ -108,10 +108,7 @@ const PACK_DEFAULT:PackData =
         shadowOffset: new Point(0, 0.015)
     },
 
-    dark: [
-        "Dark Action 1",
-        "Dark Action 2"
-    ],
+    dark: [],
 
     bg: 
     {

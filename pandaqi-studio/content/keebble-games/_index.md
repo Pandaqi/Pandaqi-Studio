@@ -50,9 +50,7 @@ This is the **overview page** for the Keebble Games.
 
 Click any of the links below to visit a specific game. They aren't sorted in any way.
 
-* [Keebble](/keebble-games/spell/keebble/) => the original! A One Paper Game, only needs an empty paper and some pens, plays quickly and simply.
-* [Keebble Knickknack](/keebble-games/spell/keebble-knickknack/) => The same as Keebble, but now digital, played using a single smartphone. This allows more depth, variation, and random setup.
-* [Keebble Domino](/keebble-games/spell/keebble-domino/) => A "traditional" game played with dominoes that look like different letters from different sides. Print and cut once, play however often you want.
+{{< boardgame-project-games-list subdir="spell" >}}
 
 {{% /section-centered %}}
 

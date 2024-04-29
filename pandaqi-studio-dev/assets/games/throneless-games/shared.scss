@@ -3,7 +3,9 @@ $body-font-raw: "brigada";
 $header-font: $header-font-raw, Georgia, serif;
 $body-font: $body-font-raw, Georgia, serif;
 $crests-url: url(crests_full.webp);
-$base-fonts: "fonts/";
+
+$base-assets: "/throneless-games/assets/"; 
+$base-fonts: $base-assets + "fonts/";
 
 $bg-color: #060606;
 $text-color: #FCFCFC;
@@ -32,11 +34,20 @@ $text-color: #FCFCFC;
     font-display: swap;
 }
 
+@font-face {
+    font-family: $body-font-raw;
+    src: url($base-fonts + 'Brygada1918-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+
 body {
     font-family: $body-font;
     background-color: $bg-color;
     color: $text-color;
-    font-size: calc(15px + 0.390625vw);
+    font-size: calc(13px + 0.390625vw);
     line-height: 140%;
     box-sizing: border-box;
 }

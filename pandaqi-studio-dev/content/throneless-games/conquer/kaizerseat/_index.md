@@ -3,9 +3,10 @@ type: "single"
 gamepage: true
 boardgame: true
 
-title: "Maybe Missions"
-headerTitle: "Propose spy missions and hope enough people help you succeed."
-blurb: "Propose spy missions and hope enough people want them to succeed---or deviously let them fail to benefit your own secret cover."
+title: "Kaizerseat"
+headerTitle: "Make sure the right Seeker wins the throne in the most strategical Throneless Game."
+blurb: "Vote, swap places, use powers and backstab to ensure the right Seeker wins the throne. The longest and most strategical Throneless Game."
+blurbProject: "The most complicated version, giving you the deepest gameplay in return."
 
 extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/1XYqoqGmFc2gfgWcIsjDOJG48GQ2qjZGJ"
@@ -13,24 +14,26 @@ downloadLink: "https://drive.google.com/drive/folders/1XYqoqGmFc2gfgWcIsjDOJG48G
 customHeight: "small"
 headerDarkened: true
 
-color: "brown"
+color: "black"
 
-bgColor: "#230e00"
-bgColorLink: "#2d2d2d"
+bgColor: "#0d0018"
+bgColorLink: "#84060b"
 
-textColor: "#fff0e8"
-textColorLink: "#e0e0e0"
+textColor: "#ecd9ff"
+textColorLink: "#f7fa96"
 
-date: 2023-01-01 # 2024-12-26
+date: 2025-11-12
 
-categories: ["boardgame"]
-tags: ["bidding", "auction", "secret-objective", "holiday"]
+difficulty: "simple"
+genres: ["thematic"]
+categories: ["boardgame", "waitless", "card-game"]
+tags: ["political", "hidden-roles", "social", "fast-paced"]
+themes: ["medieval"]
 
 multiplayermode: "competitive"
 language: EN
-genre: ["tile", "party"]
 playtime: 30
-playercount: [3,4,5,6]
+playercount: [3,4,5,6,7,8,9,10,11,12]
 ages: everyone
 
 ---
@@ -59,23 +62,23 @@ Three simple steps.
 {{< boardgame-settings type="game" btn_label="Create Material" local_storage="kaizerseatConfig" game_title="Kaizerseat" defaults="true" >}}
   {{< setting-checkbox id="setting-highLegibility" text="High Legibility?" remark="Picks a more neutral font for maximum legibility." checked="checked" >}}
   {{< setting-enum id="setting-set" text="Set?" values="none,starter,medium,advanced,complete,random" valaskey="true" def="starter" remark="Pick a predetermined set, or use none and pick your specific princes below!" >}}
-  {{< boardgame-settings-section heading="Princes" >}}
-    {{< setting-checkbox id="setting-packs-lionsyre" text="Lionsyre?" checked="checked" >}}
-    {{< setting-checkbox id="setting-packs-slydefox" text="Slydefox?" >}}
-    {{< setting-checkbox id="setting-packs-woolfhall" text="Woolfhall?" >}}
-    {{< setting-checkbox id="setting-packs-hornseeker" text="Hornseeker?" checked="checked" >}}
-    {{< setting-checkbox id="setting-packs-brownbeards" text="Brownbeards?" >}}
-    {{< setting-checkbox id="setting-packs-monarchrys" text="Monarchrys?" checked="checked" >}}
-    {{< setting-checkbox id="setting-packs-crassclamps" text="Crassclamps?" >}}
-    {{< setting-checkbox id="setting-packs-gulliballistas" text="Gulliballistas?" checked="checked" >}}
-    {{< setting-checkbox id="setting-packs-hardshellHero" text="Hardshell Hero?" >}}
-    {{< setting-checkbox id="setting-packs-squlofish" text="Squlofish?" >}}
-    {{< setting-checkbox id="setting-packs-smugwing" text="Smugwing?" >}}
-    {{< setting-checkbox id="setting-packs-salsaSalamanda" text="Salsa Salamanda?" >}}
+  {{< boardgame-settings-section heading="Seekers" >}}
+    {{< setting-checkbox id="setting-packs-solongNecks" text="Solongnecks?" checked="checked" >}}
+    {{< setting-checkbox id="setting-packs-boardomThieves" text="Boardom Thieves?" >}}
+    {{< setting-checkbox id="setting-packs-longswordFins" text="Longsword Fins?" >}}
+    {{< setting-checkbox id="setting-packs-atheneyes" text="Atheneyes?" checked="checked" >}}
+    {{< setting-checkbox id="setting-packs-gallopeers" text="Gallopeers?" >}}
+    {{< setting-checkbox id="setting-packs-candlesticks" text="Candlesticks?" checked="checked" >}}
+    {{< setting-checkbox id="setting-packs-taredtula" text="Taredtula?" >}}
+    {{< setting-checkbox id="setting-packs-sonarAndSons" text="Sonar & Sons?" checked="checked" >}}
+    {{< setting-checkbox id="setting-packs-sirensOfSeatongue" text="Sirens of Seatongue?" >}}
+    {{< setting-checkbox id="setting-packs-cracktapus" text="Cracktapus?" >}}
+    {{< setting-checkbox id="setting-packs-ravenletters" text="Ravenletters?" >}}
+    {{< setting-checkbox id="setting-packs-twistertoots" text="Twistertoots?" >}}
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
-<p class="remark-below-settings">Check the rules to see <strong>how many Princes</strong> are recommended for each player count. Each choice adds ~1 page to print ( = 12 cards for that particular prince).</p> 
+<p class="remark-below-settings">Check the rules to see <strong>how many Seekers</strong> are recommended for each player count. Each choice adds ~1 page to print.</p> 
 
 <p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>
 
@@ -83,6 +86,14 @@ Three simple steps.
 
 {{% section-centered heading="Credits" anchor="credits" %}}
 
-@TODO
+Check out the main overview page for [Throneless Games](/throneless-games/) for more detailed credits and background.
+
+Whenever I create a game, the idea always starts on a sort of middle ground and I usually try to _simplify, simplify, simplify_. I chuck out rules, I discard special actions that sound really cool but take 20 extra words to explain, etcetera.
+
+The result are very simple and streamlined games such as Smallseat and Queenseat.
+
+I have also learned, however, that those nice ideas can be brought back if you set up the game to be a little longer and more complex from the start. It's almost always possible to create one version that players _know_ will take longer to play and has a few more rules to learn, but which gives the coolest actions and deepest strategy in return.
+
+As expected, this became Kaizerseat. About half of it is the result of discarded ideas that I pushed upstream, the other half unique mechanics and actions invented just for this version. For example, it contains a Seatcard that randomizes a few rules per game, and it has _multiple types of actions_. Both were ideas I'd originally given to other games, but which turned out to be slightly too much for those simple versions. So they ended up here!
 
 {{% /section-centered %}}

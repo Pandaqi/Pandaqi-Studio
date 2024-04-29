@@ -6,14 +6,21 @@ const CONFIG:Record<string,any> =
     debug:
     {
         omitFile: true, // @DEBUGGING (should be false)
-        singleDrawPerType: true, // @DEBUGGING (should be false)
-        onlyGenerate: true, // @DEBUGGING (should be false)
+        singleDrawPerType: false, // @DEBUGGING (should be false)
+        onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
     configKey: "kingseatConfig",
     fileName: "[Material] Kingseat (Throneless Games)",
 
     assetsBase: "/throneless-games/conquer/kingseat/assets/",
+
+    rulebook:
+    {
+        seatNaming: "Kingseat",
+        leaderNaming: "King",
+        endGameTrigger: "noVotes",
+    }
 }
 
 mergeObjects(CONFIG, CONFIG_SHARED);

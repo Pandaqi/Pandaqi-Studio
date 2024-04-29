@@ -6,6 +6,7 @@ boardgame: true
 title: "Sixpack"
 headerTitle: "A simple, fast card game about six wonderful cards."
 blurb: "A card game both simple and fast about using your six unique cards as best you can, while predicting how the others will use theirs."
+blurbProject: "Use your 6 cards as best you can to claim the biggest piles, which you do by playing a 1 or a 6 on top at the right time."
 
 customHeight: "small"
 headerDarkened: true

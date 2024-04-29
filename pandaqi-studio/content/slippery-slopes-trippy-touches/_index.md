@@ -40,7 +40,7 @@ devlog: "/blog/boardgames/slippery-slopes/"
 
 <div class="boardgame-intro">
   <div class="big-header-image">
-    <img src="webp/slippery_slopes_trippy_touches_header.webp">
+    <img src="assets/slippery_slopes_trippy_touches_header.webp">
   </div>
 </div>
 

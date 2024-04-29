@@ -14,6 +14,13 @@ const CONFIG:Record<string,any> =
     fileName: "[Material] Kaizerseat (Throneless Games)",
 
     assetsBase: "/throneless-games/conquer/kaizerseat/assets/",
+
+    rulebook:
+    {
+        seatNaming: "Kaizerseat",
+        leaderNaming: "Leader",
+        endGameTrigger: "noVotes",
+    }
 }
 
 mergeObjects(CONFIG, CONFIG_SHARED);

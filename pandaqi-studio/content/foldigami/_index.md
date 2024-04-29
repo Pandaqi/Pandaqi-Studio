@@ -7,6 +7,7 @@ boardgame: true
 title: "Foldigami"
 headerTitle: "A game of wits using only a single paper and nothing else"
 blurb: "A game of wits using only a single paper. Even the rules are on the paper itself, and play happens through folding and rotating."
+blurbProject: "Score more points than your opponent by _folding_ and _flipping_ the paper."
 
 headerThumb: "foldigami_header"
 

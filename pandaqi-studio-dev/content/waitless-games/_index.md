@@ -50,10 +50,8 @@ This is the **overview page** of the Waitless Games.
 
 Click any of the links below to visit a specific game. They aren't sorted in any particular way.
 
-* [Creature Quellector](/waitless-games/play/creature-quellector/): design the best squad of _creature cards_ by winning or tactically losing battles against your opponent's hands.
-* [Foldigami](/waitless-games/play/folidgami/): score more points than your opponent by _folding_ and _flipping_ the paper.
-* [Finger Food](/waitless-games/play/finger-food/): bake the highest-scoring recipes by _placing your fingers_ on the right squares, nothing else needed.
-  
+{{< boardgame-project-games-list subdir="play" >}}
+
 All the games are unique: new rules, new art style, new material, new ideas.
 
 Their one thing in common, though, is that they are **"waitless"**. Designed to be played in waiting rooms, queues, rooms without a table or chairs, quick moments of downtime, etcetera.

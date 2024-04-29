@@ -2,115 +2,139 @@
 type: "rules"
 ---
 
-{{% rules-block id="setup" heading="Setup" icon="setup" icontint="green" %}}
+{{% rules-block id="setup" heading="Setup" icon="setup" icontint="purple" %}}
 
-Create a deck containing **5 YES and 5 NO Votes per player**. Shuffle and deal each player 10 secret Vote Tokens. (Change these numbers to modify duration of a game.) If someone starts with only Votes of a single type, however rare, deal again.
+Pick as many Princesses as the number of players. Add all of them to the deck, shuffle, and deal fairly.
 
-Create a deck of Master Cards and a deck of Mission Cards next to it.
+Pick any player: their position is the **Queenseat** (and whoever sits there is called the **Queen**).
 
-Finally, create the market: 6 faceup Mission Cards in a row.
+Card facing is important in this game. From now on, hand cards that face towards yourself are called **secret cards**. Cards that face away (to the _other players_) are **public cards**.
+
+{{% remark %}}
+You CAN include more animals; this makes the game longer and harder.
+{{% /remark %}}
 
 @TODO: IMAGE EXAMPLE
 
 {{% /rules-block %}}
 
-{{% rules-block id="objective" heading="Objective" icon="objective" icontint="red" %}}
+{{% rules-block id="objective" heading="Objective" icon="objective" icontint="orange" %}}
 
-The game ends once **everyone's Votes have run out**. The player with the **highest score wins**.
-
-Of the cards you collected, only the side pointing _up_ ("away from you") counts. Each resource is worth 1 point. Furthermore,
-* The resource which you have the most counts _double_. 
-* The resource which you have the least does _not count_. (In case of a tie, you pick any one of the options.)
+The game ends once **nobody can Vote anymore**. The player who is at the Queenseat when that happens, wins!
 
 {{% /rules-block %}}
 
-{{% rules-block id="action_play" heading="Gameplay" icon="action" icontint="green" %}}
+{{% rules-block id="action_play" heading="Gameplay" icon="action" icontint="purple" %}}
+
+Gameplay happens in rounds.
+
+Each round,
+* All players pick a **secret card** from their Hand: their Vote.
+* Once done, reveal these votes simultaneously.
+* The Princess with the **most votes** wins.
+* **Tied?** The one closest to Queenseat, going clockwise, wins.
+
+The Queen gets 1 card of choice (as a **public** card). All winning voters may pick who receives their card, which can be themselves (**public**).
+
+For each remaining card, the player must make a choice. Handle this from the Queenseat, in clockwise order again.
+
+* Either execute the **action** on the card.
+* Or **swap places** with another player.
+
+The Queen decides who receives your card (**public**), but they can't pick themselves.
+
+There are, however, two wrinkles.
+
+* You are **not** allowed to vote the type you see the **most** in your neighbor's hands. (Unless you have no choice.)
+* You may only **swap places with the Queen** if they have **fewer** public cards of the **winning type** than you.
+
+That's it! Have fun!
 
 {{< rules-example id="turn" >}}
 
-From start player, take clockwise turns.
-
-On your turn, **prepare a mission**.
-* Reveal the top Master Card from the deck.
-* Then pick cards from the market and place them besides the Master Card.
-* You must choose at least 1 card, and at most as many cards as the number of players.
-* (Refill the market as needed.)
-
-The Master card contains a **rule**. This rule applies to the current round and must be followed.
-
-Once the mission is prepared, all players simultaneously **vote**.
-* Stick out your hand with a secret Vote inside, then reveal simultaneously.
-* If the majority voted NO, the mission FAILS. Otherwise, it SUCCEEDS.
-
-All YES-voters now take turns collecting a single mission card.
-
-* **SUCCESS?** Sort turns from low to high (by vote numbers). Place your collected card before you with the green side up. 
-* **FAIL?** Sort turns from high to low (by vote numbers). Place your collected card before you with the red side up.
-
-The active player always wins the Master Card. (Green side up if SUCCESS, otherwise red side.)
-
-Exceptional Round: If **everyone voted NO**, then everyone must collect a mission card and place it with the red side up. (In order of vote number, high to low.) The Master Card is **not** won.
-
-Once done, all Votes are discarded. Next round!
-
-_Remark:_ If the mission cards have run out while picking, any players remaining simply don't collect anything.
-
 @TODO: IMAGE EXAMPLE
 
 {{% /rules-block %}}
 
-{{% rules-block id="expansions" heading="Expansions" icon="expansion" icontint="red" %}}
+{{% rules-block id="packs" heading="Packs" icon="expansion" icontint="orange" %}}
 
-Played the base game and ready for more? Or feel like your group needs some tweaks to the game? Check out these variants and expansions.
+Below is an overview of all different Princesses in the game. It's roughly sorted based on how difficult the card's actions are to understand.
 
-{{% rules-block heading="Variants" %}}
+It's recommended to **not** include two Animals of **similar color** in the same game. They have similar actions and might make the game monotone.
 
-You can allow Master Cards to be **played** as well. This only applies to collected Master Cards that are positive (green side up).
+The cards **explain themselves**, but the overview below contains clarifications or extra details.
 
-* At any time, before a new round starts, you may place that card next to the Master Card deck.
-* Its rule applies to this round again. (It only _overrides_ the regular Master Card if the rules contradict.)
-* Afterwards, the card is discarded. (It can't be won and doesn't return to you.)
+Whenever you **receive cards** for an action, you may _choose_ whether to make them public or secret. (Unless the action explicitly states what to do, of course.)
 
-<!--- @TODO: This might become a rule of the BASE GAME? Test and check if this ruins simplicity. --->
-To **reduce randomness** ("bad luck of the draw"), you can add the following rule.
+{{% rules-block heading="Stinger's Hive" icon="pack-queenseat-stingersHive" %}}
 
-> If you didn't collect a card this round, you may discard 2 Votes to draw new ones from the deck.
+<div class="prince-info" data-prince="stingersHive"></div>
 
 {{% /rules-block %}}
 
-{{% rules-block heading="Secret Identities" %}}
+{{% rules-block heading="Galloping Sun" icon="pack-queenseat-gallopingSun" %}}
 
-For this expansion, also use the Identity cards. 
-
-During setup, deal each player 1 Public Identity (faceup) and 1 Secret Identity (facedown).
-
-* The Public Identity shows a special ability that only you possess. You must follow it at all times.
-* The Secret Identity shows unique scoring rules that only apply to you. You must follow these when calculating your score at the end, on top of the usual scoring rules.
-
-When a secret identity talks about icons showing on a card, it's always about a collected Mission Card, and only the side that points _up_. 
-
-@TODO: EXAMPLE IMAGE?
+<div class="prince-info" data-prince="gallopingSun"></div>
 
 {{% /rules-block %}}
 
-{{% rules-block heading="Gadget Shopping" %}}
+{{% rules-block heading="Trunktrumpets" icon="pack-queenseat-trunktrumpets" %}}
 
-For this expansion, also use the **Shop Cards**.
+<div class="prince-info" data-prince="trunktrumpets"></div>
 
-During **setup**, pick a random Shop card and place it in clear view of all players.
+{{% /rules-block %}}
 
-After voting, in ascending order (highest vote -> lowest vote), ask players if they want to **buy** from the shop.
+{{% rules-block heading="Featherdancer" icon="pack-queenseat-featherdancer" %}}
 
-How?
-* By paying the resources indicated above, you get the corresponding reward on below. 
-* Paying means you discard collected cards totaling to _at least_ those icons.
-* If the mission SUCCEEDS, you can only buy the **green side**. If it FAILS, you can only buy the **red side**.
+<div class="prince-info" data-prince="featherdancer"></div>
 
-As soon as someone decided to buy, the Shop Card is replaced by a new one. Nobody else can buy anymore this round.
+{{% /rules-block %}}
 
-It's also allowed to put the current shop card **into your proposed mission**. If won by a player, it becomes their personal shop: they can buy from it as long as they have the card. (Replace it with a new general Shop Card.)
+{{% rules-block heading="Whistley Wine" icon="pack-queenseat-whistleyWine" %}}
 
-@TODO: EXAMPLE IMAGE?
+<div class="prince-info" data-prince="whistleyWine"></div>
+
+{{% /rules-block %}}
+
+{{% rules-block heading="Edibus Eggsnatcher" icon="pack-queenseat-edibusEggsnatcher" %}}
+
+<div class="prince-info" data-prince="edibusEggsnatcher"></div>
+
+{{% /rules-block %}}
+
+{{% rules-block heading="Feared Flame" icon="pack-queenseat-fearedFlame" %}}
+
+<div class="prince-info" data-prince="fearedFlame"></div>
+
+{{% /rules-block %}}
+
+{{% rules-block heading="Eyrie Feyle" icon="pack-queenseat-eyrieFeyle" %}}
+
+<div class="prince-info" data-prince="eyrieFeyle"></div>
+
+{{% /rules-block %}}
+
+{{% rules-block heading="Chattered Fins" icon="pack-queenseat-chatteredFins" %}}
+
+<div class="prince-info" data-prince="chatteredFins"></div>
+
+{{% /rules-block %}}
+
+{{% rules-block heading="Galaksea" icon="pack-queenseat-galaksea" %}}
+
+<div class="prince-info" data-prince="galaksea"></div>
+
+{{% /rules-block %}}
+
+{{% rules-block heading="Venomfruit" icon="pack-queenseat-venomfruit" %}}
+
+<div class="prince-info" data-prince="venomfruit"></div>
+
+{{% /rules-block %}}
+
+{{% rules-block heading="Colorcoats" icon="pack-queenseat-colorcoats" %}}
+
+<div class="prince-info" data-prince="colorcoats"></div>
 
 {{% /rules-block %}}
 

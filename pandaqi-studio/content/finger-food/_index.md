@@ -7,6 +7,7 @@ boardgame: true
 title: "Finger Food"
 headerTitle: "A quick game playable with just a paper and your fingers"
 blurb: "A quick game playable with just a single paper. Each turn, place a finger on a new square, to score more points than your opponents before you've used your whole hand."
+blurbProject: "Bake the highest-scoring recipes by _placing your fingers_ on the right squares, nothing else needed."
 
 customHeight: "small"
 headerDarkened: true

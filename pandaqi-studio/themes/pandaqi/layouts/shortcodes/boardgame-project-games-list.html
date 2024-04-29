@@ -1,0 +1,23 @@
+{{- $url := trim .Parent.Page.RelPermalink "/" -}}
+{{- $subdir := or (.Get "subdir") "play" -}}
+{{- $final_dir := printf "content/%s/%s/" $url $subdir -}}
+{{- $pages := where .Site.Pages ".Params.gamepage" true -}}
+
+<div class="project-games-list">
+    <ul>
+{{- range (readDir $final_dir) -}}
+    {{- if .IsDir -}}
+        {{- $path := printf "%s/%s/%s/" $url $subdir .Name -}}
+        {{- $path = replace $path "/" "\\" -}} <!--- Oh fuck off, this is the solution? Differing slash directions in paths? --->
+        {{- $selected_pages := (where $pages ".File.Dir" $path) -}}
+
+        {{- range $selected_pages -}}
+            <li><div class="project-game">
+                {{- $blurb := or .Params.blurbProject .Params.blurb -}}
+                <a href="{{ .RelPermalink }}">{{- .Title -}}</a>:&nbsp;{{- $blurb | markdownify -}}
+            </div></li>
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+    </ul>
+</div>

@@ -42,6 +42,8 @@ export default class InteractiveExampleSimulator
         this.custom = params.custom ?? {};
         this.showFullGame = params.showFullGame ?? false;
         this.runParallel = params.runParallel ?? true;
+        
+        this.openStats();
     }
 
     isHeadless() { return this.enabled; }
@@ -87,12 +89,22 @@ export default class InteractiveExampleSimulator
         this.stats[key] += val;
     }
 
+    openStats()
+    {
+        this.stats = {} 
+        if(this.callbackInitStats) { this.stats = this.callbackInitStats(); }
+    }
+
+    closeStats()
+    {
+        if(this.callbackFinishStats) { this.callbackFinishStats(this); }
+    }
+
     async simulate()
     {
         if(!this.isHeadless()) { return; }
 
-        this.stats = {} 
-        if(this.callbackInitStats) { this.stats = this.callbackInitStats(); }
+        this.openStats();
 
         if(this.runParallel) {
             // the callbacks themselves, of course, must be entirely independent of one another,
@@ -110,7 +122,8 @@ export default class InteractiveExampleSimulator
             }
         }
 
-        if(this.callbackFinishStats) { this.callbackFinishStats(this); }
+        this.closeStats();
+
         if(!this.silent) { this.report(); }
     }
 
@@ -126,6 +139,18 @@ export default class InteractiveExampleSimulator
     {
         if(this.isHeadless()) { return; }
         func(this);
+    }
+
+    async outputAsync(object:any, func = "draw")
+    {
+        if(this.isHeadless()) { return; }
+        if(typeof object[func] != "function")
+        {
+            console.error("Can't output async from function " + func + " on object", object);
+            return;
+        }
+
+        await object[func](this);
     }
 
     //

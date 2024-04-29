@@ -2,115 +2,173 @@
 type: "rules"
 ---
 
-{{% rules-block id="setup" heading="Setup" icon="setup" icontint="green" %}}
+{{% rules-block id="setup" heading="Setup" icon="setup" icontint="purple" %}}
 
-Create a deck containing **5 YES and 5 NO Votes per player**. Shuffle and deal each player 10 secret Vote Tokens. (Change these numbers to modify duration of a game.) If someone starts with only Votes of a single type, however rare, deal again.
+First, prepare the deck and Player hands.
 
-Create a deck of Master Cards and a deck of Mission Cards next to it.
+* Pick as many Seekers as the number of players. Add them all to the deck, shuffle, and deal fairly.
+* From these starting cards, each player sets aside 1 secret card: their **Loyalty**.
 
-Finally, create the market: 6 faceup Mission Cards in a row.
+Then, prepare the special cards.
+
+* Draw a random **Thronecard** and place it open on the table: its special rule will be true for _the entire game_.
+* Also place the deck of **Seatcards** (faceup) on the table.
+
+During the game, you'll track two piles.
+
+* A facedown pile holding all Votes (= **Tell**).
+* A faceup pile holding all discarded cards ( = **Discard**)
+
+Finally, pick a player. Their **position** is the "Kaizerseat" and whoever sits there is called "Leader".
 
 @TODO: IMAGE EXAMPLE
 
 {{% /rules-block %}}
 
-{{% rules-block id="objective" heading="Objective" icon="objective" icontint="red" %}}
+{{% rules-block id="objective" heading="Objective" icon="objective" icontint="orange" %}}
 
-The game ends once **everyone's Votes have run out**. The player with the **highest score wins**.
+The game ends once **nobody can Vote anymore**.
 
-Of the cards you collected, only the side pointing _up_ ("away from you") counts. Each resource is worth 1 point. Furthermore,
-* The resource which you have the most counts _double_. 
-* The resource which you have the least does _not count_. (In case of a tie, you pick any one of the options.)
+Check the votes in the Tell. The Seeker with the most votes wins. Any player whose secret Loyalty matches a winning Seeker **wins the game**!
 
 {{% /rules-block %}}
 
-{{% rules-block id="action_play" heading="Gameplay" icon="action" icontint="green" %}}
+{{% rules-block id="action_play" heading="Gameplay" icon="action" icontint="purple" %}}
+
+Gameplay happens in rounds.
+
+At the start of each round, draw the top card of the Seatcards deck. Its special rule will be true _for this round only_.
+
+The Leader decides this round's direction: _clockwise_ or _counter clockwise_.
+
+Then,
+* All players secretly pick 1 Vote from their hand. Once done, reveal all. 
+* The Seeker with the **most votes** wins.
+* **Tied?** The Seeker closest to the Leader, looking in the _direction_ picked, wins.
+
+All winning cards go into the Tell.
+
+Starting from Kaizerseat, going in the _direction_ picked, handle all remaining cards.
+
+* Trigger the action written on the card.
+* If the action **does nothing**, the player swaps places with another player.
+
+Either way, the card goes into the Discard.
+
+That's it! Next round!
 
 {{< rules-example id="turn" >}}
 
-From start player, take clockwise turns.
-
-On your turn, **prepare a mission**.
-* Reveal the top Master Card from the deck.
-* Then pick cards from the market and place them besides the Master Card.
-* You must choose at least 1 card, and at most as many cards as the number of players.
-* (Refill the market as needed.)
-
-The Master card contains a **rule**. This rule applies to the current round and must be followed.
-
-Once the mission is prepared, all players simultaneously **vote**.
-* Stick out your hand with a secret Vote inside, then reveal simultaneously.
-* If the majority voted NO, the mission FAILS. Otherwise, it SUCCEEDS.
-
-All YES-voters now take turns collecting a single mission card.
-
-* **SUCCESS?** Sort turns from low to high (by vote numbers). Place your collected card before you with the green side up. 
-* **FAIL?** Sort turns from high to low (by vote numbers). Place your collected card before you with the red side up.
-
-The active player always wins the Master Card. (Green side up if SUCCESS, otherwise red side.)
-
-Exceptional Round: If **everyone voted NO**, then everyone must collect a mission card and place it with the red side up. (In order of vote number, high to low.) The Master Card is **not** won.
-
-Once done, all Votes are discarded. Next round!
-
-_Remark:_ If the mission cards have run out while picking, any players remaining simply don't collect anything.
-
 @TODO: IMAGE EXAMPLE
 
 {{% /rules-block %}}
 
-{{% rules-block id="expansions" heading="Expansions" icon="expansion" icontint="red" %}}
+{{% rules-block id="packs" heading="Packs" icon="expansion" icontint="orange" %}}
 
-Played the base game and ready for more? Or feel like your group needs some tweaks to the game? Check out these variants and expansions.
+Below is an overview of all different Seekers in the game. It's roughly sorted based on how difficult the card's actions are to understand.
 
-{{% rules-block heading="Variants" %}}
+It's recommended to **not** include two Seekers of **similar color** in the same game. They have similar actions and might make the game monotone.
 
-You can allow Master Cards to be **played** as well. This only applies to collected Master Cards that are positive (green side up).
+The cards **explain themselves**, but the overview below contains clarifications or extra details.
 
-* At any time, before a new round starts, you may place that card next to the Master Card deck.
-* Its rule applies to this round again. (It only _overrides_ the regular Master Card if the rules contradict.)
-* Afterwards, the card is discarded. (It can't be won and doesn't return to you.)
+There are 5 possible actions that can appear
 
-<!--- @TODO: This might become a rule of the BASE GAME? Test and check if this ruins simplicity. --->
-To **reduce randomness** ("bad luck of the draw"), you can add the following rule.
 
-> If you didn't collect a card this round, you may discard 2 Votes to draw new ones from the deck.
+<!---
+ A player can't change places more than once per round. 
+
+ {{% remark class="right" %}}
+So yes, if a previous player already swapped with you, you must execute the action when your turn comes.
+{{% /remark %}}
+
+Rounds alternate between **public** and **secret**. In public rounds, everything is the same, but ...
+
+* Players vote in turn (starting from Kingseat, clockwise)
+* And simply show their vote publicly
+
+The first round is public.
+--->
+
+<!---
+Some cards have special actions, indicated above the text.
+
+* (@TODO: ICON?) "When played" means you must execute the action when playing the card. 
+* (@TODO: ICON?) "When revealed" means you must execute the action when the card is revealed.
+* (@TODO: ICON?) "When Tell" means the action activates when the Tell is counted at the end of the game.
+
+All of these mean that you **don't** get to swap places, as you've "decided" to execute the action.
+--->
+
+
+{{% rules-block heading="Solongnecks" icon="pack-kaizerseat-solongnecks" %}}
+
+<div class="prince-info" data-prince="solongnecks"></div>
 
 {{% /rules-block %}}
 
-{{% rules-block heading="Secret Identities" %}}
+{{% rules-block heading="Boardom Thieves" icon="pack-kaizerseat-boardomThieves" %}}
 
-For this expansion, also use the Identity cards. 
-
-During setup, deal each player 1 Public Identity (faceup) and 1 Secret Identity (facedown).
-
-* The Public Identity shows a special ability that only you possess. You must follow it at all times.
-* The Secret Identity shows unique scoring rules that only apply to you. You must follow these when calculating your score at the end, on top of the usual scoring rules.
-
-When a secret identity talks about icons showing on a card, it's always about a collected Mission Card, and only the side that points _up_. 
-
-@TODO: EXAMPLE IMAGE?
+<div class="prince-info" data-prince="gallopingSun"></div>
 
 {{% /rules-block %}}
 
-{{% rules-block heading="Gadget Shopping" %}}
+{{% rules-block heading="Longsword Fins" icon="pack-kaizerseat-longswordFins" %}}
 
-For this expansion, also use the **Shop Cards**.
+<div class="prince-info" data-prince="longswordFins"></div>
 
-During **setup**, pick a random Shop card and place it in clear view of all players.
+{{% /rules-block %}}
 
-After voting, in ascending order (highest vote -> lowest vote), ask players if they want to **buy** from the shop.
+{{% rules-block heading="Atheneyes" icon="pack-kaizerseat-atheneyes" %}}
 
-How?
-* By paying the resources indicated above, you get the corresponding reward on below. 
-* Paying means you discard collected cards totaling to _at least_ those icons.
-* If the mission SUCCEEDS, you can only buy the **green side**. If it FAILS, you can only buy the **red side**.
+<div class="prince-info" data-prince="atheneyes"></div>
 
-As soon as someone decided to buy, the Shop Card is replaced by a new one. Nobody else can buy anymore this round.
+{{% /rules-block %}}
 
-It's also allowed to put the current shop card **into your proposed mission**. If won by a player, it becomes their personal shop: they can buy from it as long as they have the card. (Replace it with a new general Shop Card.)
+{{% rules-block heading="Gallopeers" icon="pack-kaizerseat-gallopeers" %}}
 
-@TODO: EXAMPLE IMAGE?
+<div class="prince-info" data-prince="gallopeers"></div>
+
+{{% /rules-block %}}
+
+{{% rules-block heading="Candlesticks" icon="pack-kaizerseat-candlesticks" %}}
+
+<div class="prince-info" data-prince="candlesticks"></div>
+
+{{% /rules-block %}}
+
+{{% rules-block heading="Taredtula" icon="pack-kaizerseat-taredtula" %}}
+
+<div class="prince-info" data-prince="taredtula"></div>
+
+{{% /rules-block %}}
+
+{{% rules-block heading="Sonar & Sons" icon="pack-kaizerseat-sonarAndSons" %}}
+
+<div class="prince-info" data-prince="sonarAndSons"></div>
+
+{{% /rules-block %}}
+
+{{% rules-block heading="Sirens of Seatongue" icon="pack-kaizerseat-sirensOfSeatongue" %}}
+
+<div class="prince-info" data-prince="sirensOfSeatongue"></div>
+
+{{% /rules-block %}}
+
+{{% rules-block heading="Cracktapus" icon="pack-kaizerseat-cracktapus" %}}
+
+<div class="prince-info" data-prince="cracktapus"></div>
+
+{{% /rules-block %}}
+
+{{% rules-block heading="Ravenletters" icon="pack-kaizerseat-ravenletters" %}}
+
+<div class="prince-info" data-prince="ravenletters"></div>
+
+{{% /rules-block %}}
+
+{{% rules-block heading="Twistertoots" icon="pack-kaizerseat-twistertoots" %}}
+
+<div class="prince-info" data-prince="twistertoots"></div>
 
 {{% /rules-block %}}
 

@@ -3,9 +3,10 @@ type: "single"
 gamepage: true
 boardgame: true
 
-title: "Maybe Missions"
-headerTitle: "Propose spy missions and hope enough people help you succeed."
-blurb: "Propose spy missions and hope enough people want them to succeed---or deviously let them fail to benefit your own secret cover."
+title: "Smallseat"
+headerTitle: "Make sure the right Animal gets the throne, playable without a table or chairs"
+blurb: "Vote, swap places and use powers to ensure the right Animal gets the throne. A game playable without a table or chairs."
+blurbProject: "The most simplified and streamlined version, with a visual style more attractive to kids."
 
 extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/1Q5I2VAXnGEC268x5If10e_Gpjed3vDxj"
@@ -13,31 +14,33 @@ downloadLink: "https://drive.google.com/drive/folders/1Q5I2VAXnGEC268x5If10e_Gpj
 customHeight: "small"
 headerDarkened: true
 
-color: "brown"
+color: "black"
 
-bgColor: "#230e00"
-bgColorLink: "#2d2d2d"
+bgColor: "#0d0018"
+bgColorLink: "#84060b"
 
-textColor: "#fff0e8"
-textColorLink: "#e0e0e0"
+textColor: "#ecd9ff"
+textColorLink: "#f7fa96"
 
-date: 2023-01-01 # 2024-12-26
+date: 2024-11-12
 
-categories: ["boardgame"]
-tags: ["bidding", "auction", "secret-objective", "holiday"]
+difficulty: "kids-can-play"
+genres: ["thematic"]
+categories: ["boardgame", "waitless", "card-game"]
+tags: ["political", "hidden-roles", "social", "fast-paced"]
+themes: ["medieval"]
 
 multiplayermode: "competitive"
 language: EN
-genre: ["tile", "party"]
-playtime: 30
-playercount: [3,4,5,6]
+playtime: 20
+playercount: [3,4,5,6,7,8,9,10,11,12]
 ages: everyone
 
 ---
 
 {{% boardgame-intro heading="" %}}
 
-A [Throneless Game](/throneless-games/) about helping your animal win the throne, aimed more at kids.
+A [Throneless Game](/throneless-games/) about helping your Animal win the throne, aimed more at kids.
 
 {{% /boardgame-intro %}}
 
@@ -61,23 +64,23 @@ The cards contain text. However, this text is simple and consistent ( = the same
 {{< boardgame-settings type="game" btn_label="Create Material" local_storage="smallseatConfig" game_title="Smallseat" defaults="true" >}}
   {{< setting-checkbox id="setting-highLegibility" text="High Legibility?" remark="Picks a more neutral font for maximum legibility." checked="checked" >}}
   {{< setting-enum id="setting-set" text="Set?" values="none,starter,medium,advanced,complete,random" valaskey="true" def="starter" remark="Pick a predetermined set, or use none and pick your specific princes below!" >}}
-  {{< boardgame-settings-section heading="Princes" >}}
-    {{< setting-checkbox id="setting-packs-lionsyre" text="Lionsyre?" checked="checked" >}}
-    {{< setting-checkbox id="setting-packs-slydefox" text="Slydefox?" >}}
-    {{< setting-checkbox id="setting-packs-woolfhall" text="Woolfhall?" >}}
-    {{< setting-checkbox id="setting-packs-hornseeker" text="Hornseeker?" checked="checked" >}}
-    {{< setting-checkbox id="setting-packs-brownbeards" text="Brownbeards?" >}}
-    {{< setting-checkbox id="setting-packs-monarchrys" text="Monarchrys?" checked="checked" >}}
-    {{< setting-checkbox id="setting-packs-crassclamps" text="Crassclamps?" >}}
-    {{< setting-checkbox id="setting-packs-gulliballistas" text="Gulliballistas?" checked="checked" >}}
-    {{< setting-checkbox id="setting-packs-hardshellHero" text="Hardshell Hero?" >}}
-    {{< setting-checkbox id="setting-packs-squlofish" text="Squlofish?" >}}
-    {{< setting-checkbox id="setting-packs-smugwing" text="Smugwing?" >}}
-    {{< setting-checkbox id="setting-packs-salsaSalamanda" text="Salsa Salamanda?" >}}
+  {{< boardgame-settings-section heading="Animals" >}}
+    {{< setting-checkbox id="setting-packs-karateChicks" text="Karate Chicks?" checked="checked" >}}
+    {{< setting-checkbox id="setting-packs-pricklypettes" text="Pricklypettes?" >}}
+    {{< setting-checkbox id="setting-packs-sleepersippies" text="Sleepersippies?" >}}
+    {{< setting-checkbox id="setting-packs-chewyCarrots" text="Chewy Carrots?" checked="checked" >}}
+    {{< setting-checkbox id="setting-packs-treeOfHainut" text="Tree of Hainut?" >}}
+    {{< setting-checkbox id="setting-packs-curlysnouts" text="Curlysnouts?" checked="checked" >}}
+    {{< setting-checkbox id="setting-packs-tinybears" text="Tinybears?" >}}
+    {{< setting-checkbox id="setting-packs-purplepaws" text="Purplepaws?" checked="checked" >}}
+    {{< setting-checkbox id="setting-packs-ottermother" text="Ottermother?" >}}
+    {{< setting-checkbox id="setting-packs-sealalater" text="Sealalater?" >}}
+    {{< setting-checkbox id="setting-packs-snufflesniff" text="Snufflesniff?" >}}
+    {{< setting-checkbox id="setting-packs-ponytailors" text="Ponytailors?" >}}
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
-<p class="remark-below-settings">Check the rules to see <strong>how many Princes</strong> are recommended for each player count. Each choice adds ~1 page to print ( = 12 cards for that particular prince).</p> 
+<p class="remark-below-settings">Check the rules to see <strong>how many Animals</strong> are recommended for each player count. Each choice adds ~1 page to print.</p> 
 
 <p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>
 
@@ -85,6 +88,17 @@ The cards contain text. However, this text is simple and consistent ( = the same
 
 {{% section-centered heading="Credits" anchor="credits" %}}
 
-@TODO
+Check out the main overview page for [Throneless Games](/throneless-games/) for more detailed credits and background.
+
+After making the first game ([Kingseat](/throneless-games/conquer/kingseat)), I saw that the idea could really go in two directions. It could be simplified even further, or it could receive a few more mechanics to make it a deeper strategical game. (Kingseat kind of hovered between the two, which is why it's a mid-game of the project.)
+
+Smallseat was that simplest version. I tried, in every possible way, to minimize rules and requirements (material needed, space needed, etcetera). 
+
+So what's different in this version?
+
+* There is no Discard or Vote pile (for which you would need a table or similar). Instead, one _player_ holds the votes cast in their hand, while also playing themselves.
+* Animals have fewer cards that always have the exact same action. (No Dark Actions, no variation, shorter games, easier to remember.)
+* Both of these things simplify setup and gameplay even more, at the slight cost of the action text usually requiring a few more words.
+* The graphic design is cuter and more aimed at kids.
 
 {{% /section-centered %}}

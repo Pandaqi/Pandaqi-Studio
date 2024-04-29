@@ -94,21 +94,6 @@ Remember that Kingseat is a **position**. Whoever sits there, is currently king.
 
 Bluffing, making deals, lying, it's all very much allowed. That's it! Have fun. 
 
-<!---
- A player can't change places more than once per round. 
-
- {{% remark class="right" %}}
-So yes, if a previous player already swapped with you, you must execute the action when your turn comes.
-{{% /remark %}}
-
-Rounds alternate between **public** and **secret**. In public rounds, everything is the same, but ...
-
-* Players vote in turn (starting from Kingseat, clockwise)
-* And simply show their vote publicly
-
-The first round is public.
---->
-
 {{% /rules-block %}}
 
 {{% rules-block id="packs" heading="Packs" class="force-page-break-before" icon="expansion" icontint="orange" %}}
@@ -120,16 +105,6 @@ Do **not** include two Princes of same or similar color in the same game, if pos
 Each Prince has two "Dark cards". Each has a unique action that is often more powerful. They're important for balancing each Prince, but _can_ be left out if so desired.
 
 The cards **explain themselves**. The overview below exists to help you make a decision or clarify potential rule misunderstandings.
-
-<!---
-Some cards have special actions, indicated above the text.
-
-* (@TODO: ICON?) "When played" means you must execute the action when playing the card. 
-* (@TODO: ICON?) "When revealed" means you must execute the action when the card is revealed.
-* (@TODO: ICON?) "When Tell" means the action activates when the Tell is counted at the end of the game.
-
-All of these mean that you **don't** get to swap places, as you've "decided" to execute the action.
---->
 
 {{% rules-block id="lionsyre" heading="Lionsyre" icon="pack-lionsyre" %}}
 

@@ -6,6 +6,7 @@ boardgame: true
 title: "Nine Lives"
 headerTitle: "Don't be the first cat to run out of lives!"
 blurb: "As we all know, cats start with nine lives. And as we all know, playing the wrong cards makes you lose a life ... unless you're willing to bet on it."
+blurbProject: "You're a cat with 9 lives. But blowing up a round with the wrong number makes you lose a life, and you really don't want to be the first to die. (Has several expansions and spin-offs.)"
 
 extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/1WkqwCiMo_ggHSkjPDfKS1fSDENgWjzoh"

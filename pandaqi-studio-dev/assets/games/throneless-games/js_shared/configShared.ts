@@ -1,12 +1,14 @@
+import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textConfig";
 import CVal from "js/pq_games/tools/generation/cval";
 import Point from "js/pq_games/tools/geometry/point";
+import Bounds from "js/pq_games/tools/numbers/bounds";
 
 const CONFIG_SHARED =
 {
     inkFriendly: false,
     itemSize: "regular",
     pageSize: "a4",
-    set: "", // (used to be called premadePacks on Kingseat v1)
+    set: "starter", // (used to be called premadePacks on Kingseat v1)
     packs: [],
     highLegibility: true,
 
@@ -34,32 +36,53 @@ const CONFIG_SHARED =
 
         unifraktur: 
         {
-            url: "/throneless-games/assets/fonts/UnifrakturCook-Bold.woff2",
+            path: "/throneless-games/assets/fonts/UnifrakturCook-Bold.woff2",
             useAbsolutePath: true
         },
 
         modernefraktur: 
         {
-            url: "/throneless-games/assets/fonts/ModerneFraktur.woff2",
+            path: "/throneless-games/assets/fonts/ModerneFraktur.woff2",
             useAbsolutePath: true
         },
 
         gothic: 
         {
-            url: "/throneless-games/assets/fonts/GothicUltraOT.woff2",
+            path: "/throneless-games/assets/fonts/GothicUltraOT.woff2",
             useAbsolutePath: true
         },
 
         brygada: 
         {
-            url: "/throneless-games/assets/fonts/Brygada1918-Regular.woff2",
+            path: "/throneless-games/assets/fonts/Brygada1918-Regular.woff2",
+            useAbsolutePath: true
+        },
+
+        brygada_italic: 
+        {
+            key: "brygada",
+            path: "/throneless-games/assets/fonts/Brygada1918-Italic.woff2",
+            textConfig: new TextConfig({ style: TextStyle.ITALIC }),
+            useAbsolutePath: true
+        },
+
+        brygada_bold: 
+        {
+            key: "brygada",
+            path: "/throneless-games/assets/fonts/Brygada1918-Bold.woff2",
+            textConfig: new TextConfig({ weight: TextWeight.BOLD }),
             useAbsolutePath: true
         },
 
         gradient_overlay: 
         {
             path: "/throneless-games/assets/gradient_overlay.webp",
-            frames: Point.ONE,
+            useAbsolutePath: true
+        },
+
+        kingseat_icon: 
+        {
+            path: "/throneless-games/assets/kingseat_icon.webp",
             useAbsolutePath: true
         },
 
@@ -80,13 +103,23 @@ const CONFIG_SHARED =
 
     generation:
     {
-        numRegularCardsPerPack: 12,
+        numRegularCardsPerPack: 8,
         numDarkCardsPerOption: 1,
+    },
+
+    rulebook:
+    {
+        numPlayerBounds: new Bounds(4,6),
+        itemSize: new Point(375, 525),
+        swapProbability: 0.4,
+
+        roundWinRule: "mostVotes", // "mostVotes" or "longestSequence"
+        roundWinTieBreaker: "distToKingseat",
     },
 
     cards: 
     {
-        addShadowToSigil: true, // @DEBUGGING; should be TRUE (but is very slow, hence turned off normally)
+        addShadowToSigil: true, // @DEBUGGING; should be TRUE (but is very slow, hence turned off if I want to be fast with updates)
         drawerConfig: 
         { 
             autoStroke: true,
@@ -114,7 +147,7 @@ const CONFIG_SHARED =
             fontSize:
             {
                 text: new CVal(0.063, "sizeUnit"),
-                textLegible: new CVal(0.057, "sizeUnit")
+                textLegible: new CVal(0.063, "sizeUnit")
             }
         }
     }

@@ -56,11 +56,13 @@ export default class InteractiveExampleGenerator
         e.setButtonText(buttonText);
 
         const callback = p.callback;
+        const simCfgButton = Object.assign({}, p.simulateConfig);
+        simCfgButton.enabled = false;
         const callbackRootButton = async () =>
         {
             await resLoader.loadPlannedResources();
 
-            const sim = new InteractiveExampleSimulator(); // simulation turned OFF by default
+            const sim = new InteractiveExampleSimulator(simCfgButton); // simulation turned OFF by default
             sim.setPickers(this.pickers);
             sim.setOutputBuilder(e.getOutputBuilder());
             sim.setVisualizer(this.visualizer);

@@ -48,11 +48,10 @@ A series of simple card games that all revolve around one unique number.
 
 This is the **overview page** of The Outnumbered Series.
 
-Click any of the links below to visit a specific game. They are sorted based on number, not complexity or any other metric.
+Click any of the links below to visit a specific game.
 
-* [Sixpack](/the-outnumbered-series/count-to/sixpack/): use your 6 cards as best you can to claim the biggest piles, which you do by playing a 1 or a 6 on top at the right time.
-* [Nine Lives](/the-outnumbered-series/count-to/nine-lives/): you're a cat with 9 lives. But blowing up a round with the wrong number makes you lose a life, and you really don't want to be the first to die. (Has several expansions and spin-offs.)
-  
+{{< boardgame-project-games-list subdir="count-to" >}}
+
 All the games are unique: new rules, new art style, new material, new ideas.
 
 Their one thing in common, though, is the focus on **one specific number**. Everything happens or doesn't happen when you reach that number in some way, and there are barely other rules. This makes the games simple and intuitive, and often without any text on the cards---just low numbers.

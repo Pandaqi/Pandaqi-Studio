@@ -48,12 +48,9 @@ A series of games about secretly collecting the most votes, as the players const
 
 This is the **overview page** of the Throneless Games.
 
-Click any of the links below to visit a specific game. They are sorted based on simplicity.
+Click any of the links below to visit a specific game.
 
-* [Smallseat](/throneless-games/conquer/smallseat/) => the most simplified and streamlined version, with a visual style more attractive to kids.
-* [Queenseat](/throneless-games/conquer/queenseat/) => the best introduction for all ages, using a changing Throne card to keep the game simple but tactical.
-* [Kingseat](/throneless-games/conquer/kingseat/) => the original version, with slightly more complicated setup and Princes.
-* [Kaizerseat](/throneless-games/conquer/kaizerseat/) => the most complicated version, giving you the deepest gameplay in return.
+{{< boardgame-project-games-list subdir="conquer" >}}
 
 {{% /section-centered %}}
 
@@ -61,7 +58,7 @@ Click any of the links below to visit a specific game. They are sorted based on 
 
 These games all have the same core mechanic (the "Throneless Mechanic"): you simultaneously vote every turn, and either your vote is registered OR you swap places with someone.
 
-Besides that, each game includes completely unique mechanics and a different "Princes" to root for. Each Prince is based on a different animal and has a different abilities or winning conditions.
+Besides that, each game includes completely unique mechanics and different "Princes" to root for. Each Prince is based on a different animal and has a different abilities or winning conditions.
 
 These games also share the same visual style, though the specific Prince illustrations are of course always different.
 

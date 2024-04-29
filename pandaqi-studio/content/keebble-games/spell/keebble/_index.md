@@ -7,6 +7,7 @@ boardgame: true
 title: "Keebble"
 headerTitle: "It's scrabble, but better"
 blurb: "A party game like scrabble, played using only a blank piece of paper. It's free, and it's faster."
+blurbProject: "The original! A One Paper Game, only needs an empty paper and some pens, plays quickly and simply."
 
 customHeight: "small"
 headerDarkened: true

@@ -2,115 +2,158 @@
 type: "rules"
 ---
 
-{{% rules-block id="setup" heading="Setup" icon="setup" icontint="green" %}}
+{{% rules-block id="setup" heading="Setup" icon="setup" icontint="purple" %}}
 
-Create a deck containing **5 YES and 5 NO Votes per player**. Shuffle and deal each player 10 secret Vote Tokens. (Change these numbers to modify duration of a game.) If someone starts with only Votes of a single type, however rare, deal again.
+Pick (at least) as many Princes as there are players. Add all their cards to the deck and shuffle. Now deal equally many cards to each player ( = their **Hand**). Any leftover cards are shown and go into the Tell.
 
-Create a deck of Master Cards and a deck of Mission Cards next to it.
+Pick a _position_. This is the "Kingseat". Whoever sits (or stands) there, is the _King_. 
 
-Finally, create the market: 6 faceup Mission Cards in a row.
+{{< rules-image src="starting_setup_1.webp" alt="Example starting setup (for four players)." class="float-right" >}}
 
-@TODO: IMAGE EXAMPLE
+Players exchange some cards to design the Hand they want.
+
+* Each player gives **two Hand cards** to the player on their right (simultaneously).
+* Each player gives **two Hand cards** to the player on their left (simultaneously).
+* Each player picks **one Hand card** and puts it away somewhere safe. This is their secret **Loyalty**
+
+{{< rules-image src="starting_setup_2.webp" alt="Example of last setup step (trade cards, then pick Loyalty)" >}}
+
+Finally, keep two piles of cards during the game.
+
+* A facedown pile of votes (the **Tell**).
+* A faceup pile of discarded cards (the **Discard**)
 
 {{% /rules-block %}}
 
-{{% rules-block id="objective" heading="Objective" icon="objective" icontint="red" %}}
+{{% rules-block id="objective" heading="Objective" icon="objective" icontint="orange" %}}
 
-The game ends once **everyone's Votes have run out**. The player with the **highest score wins**.
+{{< rules-double-view src="objective.webp" alt="Example counting the votes and declaring a winner (at the end)" >}}
 
-Of the cards you collected, only the side pointing _up_ ("away from you") counts. Each resource is worth 1 point. Furthermore,
-* The resource which you have the most counts _double_. 
-* The resource which you have the least does _not count_. (In case of a tie, you pick any one of the options.)
+The game ends when **all players are out of cards**. 
+
+Reveal the **Tell** and count the votes. The Prince with the most votes wins. All players whose secret **Loyalty** matches that Prince, win!
+
+{{< /rules-double-view >}}
 
 {{% /rules-block %}}
 
-{{% rules-block id="action_play" heading="Gameplay" icon="action" icontint="green" %}}
+{{% rules-block id="action_play" heading="Gameplay" icon="action" class="force-page-break-before" icontint="purple" %}}
+
+Rounds are played _simultaneously_. They have two simple phases: **Give Cards** and **Vote**.
+
+**Give Cards**: all players give away 1 card to their neighbor. The direction alternates between left neighbor and right neighbor.
+
+**Vote:** all players secretly pick a card from their Hand: their Vote.
+
+* Once everyone is ready, reveal the cards.
+* The Prince with the **most votes** wins.
+* **Tied?** The one closest to the Kingseat, looking in clockwise order, wins.
+
+All winning cards go into the Tell.
+
+{{< rules-image src="gameplay_1.webp" alt="Example of step 1 of each round: vote, check, add winning votes to Tell." >}}
+
+Now handle all remaining cards. Starting from Kingseat, clockwise, go around the table until all cards are gone. 
+
+Each player has a choice.
+
+* Either **execute the action** on your card.
+* Or **swap places** with another player and **swap 1 Hand card** with them.
+
+Either way, add the card to the Discard.
+
+{{< rules-image src="gameplay_2.webp" alt="Example of step 2 of each round: non-winning players either execute their card action, or swap places." >}}
+
+{{% remark %}}
+Remember that Kingseat is a **position**. Whoever sits there, is currently king. As such, when they swap places, they do not remain king.
+{{% /remark %}}
+
+Bluffing, making deals, lying, it's all very much allowed. That's it! Have fun!
 
 {{< rules-example id="turn" >}}
 
-From start player, take clockwise turns.
+{{% /rules-block %}}
 
-On your turn, **prepare a mission**.
-* Reveal the top Master Card from the deck.
-* Then pick cards from the market and place them besides the Master Card.
-* You must choose at least 1 card, and at most as many cards as the number of players.
-* (Refill the market as needed.)
+{{% rules-block id="packs" heading="Packs" class="force-page-break-before" icon="expansion" icontint="orange" %}}
 
-The Master card contains a **rule**. This rule applies to the current round and must be followed.
+The packs below are _roughly_ in the order recommended. Further down the list, Princes are more complicated or less balanced. For your first game(s), pick the first few Princes.
 
-Once the mission is prepared, all players simultaneously **vote**.
-* Stick out your hand with a secret Vote inside, then reveal simultaneously.
-* If the majority voted NO, the mission FAILS. Otherwise, it SUCCEEDS.
+Do **not** include two Princes of same or similar color in the same game, if possible. Such Princes do similar things and will lead to unbalanced or confusing games if both are included.
 
-All YES-voters now take turns collecting a single mission card.
+Each Prince has two "Dark cards". Each has a unique action that is often more powerful. They're important for balancing each Prince, but _can_ be left out if so desired.
 
-* **SUCCESS?** Sort turns from low to high (by vote numbers). Place your collected card before you with the green side up. 
-* **FAIL?** Sort turns from high to low (by vote numbers). Place your collected card before you with the red side up.
+The cards **explain themselves**. The overview below exists to help you make a decision or clarify potential rule misunderstandings.
 
-The active player always wins the Master Card. (Green side up if SUCCESS, otherwise red side.)
+{{% rules-block id="lionsyre" heading="Lionsyre" icon="pack-kingseat-lionsyre" %}}
 
-Exceptional Round: If **everyone voted NO**, then everyone must collect a mission card and place it with the red side up. (In order of vote number, high to low.) The Master Card is **not** won.
-
-Once done, all Votes are discarded. Next round!
-
-_Remark:_ If the mission cards have run out while picking, any players remaining simply don't collect anything.
-
-@TODO: IMAGE EXAMPLE
+<!-- The JavaScript has a function that reads these and inserts the right content automatically (from dictionary.js) -->
+<div class="prince-info" data-prince="lionsyre"></div>
 
 {{% /rules-block %}}
 
-{{% rules-block id="expansions" heading="Expansions" icon="expansion" icontint="red" %}}
+{{% rules-block id="slydefox" heading="Slydefox" icon="pack-kingseat-slydefox" %}}
 
-Played the base game and ready for more? Or feel like your group needs some tweaks to the game? Check out these variants and expansions.
-
-{{% rules-block heading="Variants" %}}
-
-You can allow Master Cards to be **played** as well. This only applies to collected Master Cards that are positive (green side up).
-
-* At any time, before a new round starts, you may place that card next to the Master Card deck.
-* Its rule applies to this round again. (It only _overrides_ the regular Master Card if the rules contradict.)
-* Afterwards, the card is discarded. (It can't be won and doesn't return to you.)
-
-<!--- @TODO: This might become a rule of the BASE GAME? Test and check if this ruins simplicity. --->
-To **reduce randomness** ("bad luck of the draw"), you can add the following rule.
-
-> If you didn't collect a card this round, you may discard 2 Votes to draw new ones from the deck.
+<div class="prince-info" data-prince="slydefox"></div>
 
 {{% /rules-block %}}
 
-{{% rules-block heading="Secret Identities" %}}
+{{% rules-block id="woolfhall" heading="Woolfhall" icon="pack-kingseat-woolfhall" %}}
 
-For this expansion, also use the Identity cards. 
-
-During setup, deal each player 1 Public Identity (faceup) and 1 Secret Identity (facedown).
-
-* The Public Identity shows a special ability that only you possess. You must follow it at all times.
-* The Secret Identity shows unique scoring rules that only apply to you. You must follow these when calculating your score at the end, on top of the usual scoring rules.
-
-When a secret identity talks about icons showing on a card, it's always about a collected Mission Card, and only the side that points _up_. 
-
-@TODO: EXAMPLE IMAGE?
+<div class="prince-info" data-prince="woolfhall"></div>
 
 {{% /rules-block %}}
 
-{{% rules-block heading="Gadget Shopping" %}}
+{{% rules-block id="hornseeker" heading="Hornseeker" icon="pack-kingseat-hornseeker" %}}
 
-For this expansion, also use the **Shop Cards**.
+<div class="prince-info" data-prince="hornseeker"></div>
 
-During **setup**, pick a random Shop card and place it in clear view of all players.
+{{% /rules-block %}}
 
-After voting, in ascending order (highest vote -> lowest vote), ask players if they want to **buy** from the shop.
+{{% rules-block id="brownbeards" heading="Brownbeards" icon="pack-kingseat-brownbeards" %}}
 
-How?
-* By paying the resources indicated above, you get the corresponding reward on below. 
-* Paying means you discard collected cards totaling to _at least_ those icons.
-* If the mission SUCCEEDS, you can only buy the **green side**. If it FAILS, you can only buy the **red side**.
+<div class="prince-info" data-prince="brownbeards"></div>
 
-As soon as someone decided to buy, the Shop Card is replaced by a new one. Nobody else can buy anymore this round.
+{{% /rules-block %}}
 
-It's also allowed to put the current shop card **into your proposed mission**. If won by a player, it becomes their personal shop: they can buy from it as long as they have the card. (Replace it with a new general Shop Card.)
+{{% rules-block id="monarchrys" heading="Monarchrys" icon="pack-kingseat-monarchrys" %}}
 
-@TODO: EXAMPLE IMAGE?
+<div class="prince-info" data-prince="monarchrys"></div>
+
+{{% /rules-block %}}
+
+{{% rules-block id="crassclamps" heading="Crassclamps" icon="pack-kingseat-crassclamps" %}}
+
+<div class="prince-info" data-prince="crassclamps"></div>
+
+{{% /rules-block %}}
+
+{{% rules-block id="gulliballistas" heading="Gulliballistas" icon="pack-kingseat-gulliballistas" %}}
+
+<div class="prince-info" data-prince="gulliballistas"></div>
+
+{{% /rules-block %}}
+
+{{% rules-block id="hardshellHero" heading="Hardshell Hero" icon="pack-kingseat-hardshellHero" %}}
+
+<div class="prince-info" data-prince="hardshellHero"></div>
+
+{{% /rules-block %}}
+
+{{% rules-block id="squlofish" heading="Squlofish" icon="pack-kingseat-squlofish" %}}
+
+<div class="prince-info" data-prince="squlofish"></div>
+
+{{% /rules-block %}}
+
+{{% rules-block id="smugwing" heading="Smugwing" icon="pack-kingseat-smugwing" %}}
+
+<div class="prince-info" data-prince="smugwing"></div>
+
+{{% /rules-block %}}
+
+{{% rules-block id="salsaSalamanda" heading="Salsa Salamanda" icon="pack-kingseat-salsaSalamanda" %}}
+
+<div class="prince-info" data-prince="salsaSalamanda"></div>
 
 {{% /rules-block %}}
 
