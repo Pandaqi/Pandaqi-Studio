@@ -6,7 +6,9 @@ boardgame: true
 title: "Queenseat"
 headerTitle: "Make sure the right Princess ends up on the throne, playable without a table or chairs"
 blurb: "Vote, swap places and use powers to ensure the right Princess ends up on the throne. A game playable without a table or chairs."
+
 blurbProject: "The best introduction for all ages, using a changing Throne card to keep the game simple but tactical."
+weightProject: 20
 
 extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/16xLqB1wBo_7nwB-YYTBUjGun7cjaJ-0g"

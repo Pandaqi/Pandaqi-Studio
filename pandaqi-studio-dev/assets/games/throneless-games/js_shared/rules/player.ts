@@ -78,7 +78,7 @@ export default class Player
         return arr;
     }
 
-    getValidVote(sim:InteractiveExampleSimulator, mostOccuringTypes:string[], CONFIG:Record<string,any>, remove = false)
+    getValidVote(sim:InteractiveExampleSimulator, typesAllowed:string[], CONFIG:Record<string,any>, remove = false, allowDisobey = false)
     {
         let validVotes = this.getCardsWithFlipped(false); 
         if(CONFIG.rulebook.tellerIsPerson && this.teller) { validVotes = this.cards.slice(); }
@@ -86,13 +86,14 @@ export default class Player
         let numVotesMeansDone = CONFIG.rulebook.numVotesMeansDone ?? 0;
         if(validVotes.length <= numVotesMeansDone) { return null; }
 
-        // @UNIQUE (QUEENSEAT): only picking what you DON'T see the most on other player's hands
-        if(CONFIG.rulebook.cantVoteMajorityPublic)
+        const disobeysRestrictions = allowDisobey && Math.random() <= CONFIG.rulebook.tellerTypeDisobeyProb;
+        const typeRestrictionsApply = typesAllowed.length > 0 && !disobeysRestrictions;
+        if(typeRestrictionsApply)
         {
             const arr = [];
             for(const vote of validVotes)
             {
-                if(mostOccuringTypes.includes(vote.type)) { continue; }
+                if(typesAllowed.includes(vote.type)) { continue; }
                 arr.push(vote);
             }
 
@@ -102,6 +103,11 @@ export default class Player
             } else { 
                 sim.stats.couldNotObeyVoteRestrictions++; 
             }
+        }
+
+        if(disobeysRestrictions)
+        {
+            sim.stats.disobeyedVoteRestrictions++;
         }
 
         const randVote = fromArray(validVotes);
@@ -145,6 +151,15 @@ export default class Player
 
     getName() { return this.name; }
     setName(n:string) { this.name = n; }
+
+    hasAnyOfTypes(types:string[])
+    {
+        for(const c of this.getValidCards())
+        {
+            if(types.includes(c.type)) { return true; }
+        }
+        return false;
+    }
 
     getCardsOfType(tp:string, remove = false)
     {

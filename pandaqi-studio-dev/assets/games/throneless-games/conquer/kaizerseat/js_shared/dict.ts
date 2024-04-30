@@ -1,6 +1,5 @@
-import { PackData } from "games/throneless-games/js_shared/dictShared"
+import { ActionType, PackData } from "games/throneless-games/js_shared/dictShared"
 
-// @TODO: Actions (regular + dark) for each
 const PACKS:Record<string, PackData> =
 {
     solongNecks: 
@@ -18,10 +17,15 @@ const PACKS:Record<string, PackData> =
         
         action: 
         {
-            text: "The next round is played <b>openly</b>, but you and the Queen play their card <b>facedown</b>."
+            text: "The next round is played <b>openly</b>.",
+            type: ActionType.HANDLE
         },
 
-        dark: ["<b>Swap places</b> with the Queen, unless they played the <b>winning type</b>."],
+        dark: [
+            { text: "You become <b>Leader</b> next round; nothing can override that.", type: ActionType.WON },
+            { text: "Pick any card played this round as your <b>new Loyalty</b>.", type: ActionType.HANDLE },
+            { text: "In open rounds, you still <b>vote facedown</b>.", type: ActionType.HIRE },
+        ],
 
         slogan: 
         {
@@ -43,10 +47,15 @@ const PACKS:Record<string, PackData> =
         
         action: 
         {
-            text: "Swap 2 <b>secret cards</b> with another player."
+            text: "If this is the <b>first or last card</b>, swap 1 winning Vote for a Hand card.",
+            type: ActionType.HANDLE
         },
 
-        dark: ["Swap 3 <b>public cards</b> with another player."],
+        dark: [
+            { text: "<b>Swap</b> your Vote for a different one <b>from your Hand</b>.", type: ActionType.REVEAL },
+            { text: "<b>Rearrange</b> the order of up to 3 Votes.", type: ActionType.REVEAL },
+            { text: "You <b>don't swap places</b> when your action does nothing.", type: ActionType.HIRE },
+        ],
 
         slogan: 
         {
@@ -68,10 +77,15 @@ const PACKS:Record<string, PackData> =
         
         action: 
         {
-            text: "All Trunktrumpets trade 1 card with <b>another Trunktrumpet voter</b>. You're <b>alone</b>? <b>Flip</b> 2 Hand cards (secret <> public)."
+            text: "If there are 2 Longsword (or more), they <b>win the round</b>. Otherwise, <b>discard all</b>.",
+            type: ActionType.REVEAL
         },
 
-        dark: ["<b>Steal</b> as many cards from the Queen as the <b>number of Trunktrumpet voters</b>."],
+        dark: [
+            { text: "Worth as many points as the <b>number of Longsword Votes</b> in the Tell.", type: ActionType.TELL },
+            { text: "<b>Swap</b> a Hand card with all other <b>Longsword voters</b>.", type: ActionType.HANDLE },
+            { text: "You <b>can't vote Longsword</b> unless you have no other choice.", type: ActionType.HIRE },
+        ],
 
         slogan: 
         {
@@ -83,6 +97,7 @@ const PACKS:Record<string, PackData> =
     { 
         frame: 3,
         backstory: "The wisest creatures in the forest listen to all, then think a lot and have philosophical discussions. They rarely act or spread information themselves. But with how much wisdom they gather, and how quickly, you'd think they could outwit anyone lurching for the throne.",
+        clarification: "If anyone wants to play a flipped card (which is public information), they must say so and the Vote for that round stops being simultaneous. (Vote in clockwise turns, starting from Kaizerseat.)",
         animal: "Owl",
         colorClass: "White",
 
@@ -93,10 +108,15 @@ const PACKS:Record<string, PackData> =
         
         action: 
         {
-            text: "Tell everyone what you'll <b>vote next round</b>. In return, one player has to <b>reveal their Hand</b> to you."
+            text: "All neighbors <b>flip</b> a card (to face away from them).",
+            type: ActionType.HANDLE
         },
 
-        dark: ["All players <b>reveal</b> which type they have <b>the most OR the least</b> (by secretly showing you a Hand card)."],
+        dark: [
+            { text: "All players state <b>how many cards</b> they have of the <b>type they Voted</b>.", type: ActionType.HANDLE },
+            { text: "All players <b>flip</b> one card (to face away from them), except you.", type: ActionType.WON },
+            { text: "Each round, you may pick one neighbor who <b>must Vote faceup</b> before anyone else.", type: ActionType.HIRE },
+        ],
 
         slogan: 
         {
@@ -108,6 +128,7 @@ const PACKS:Record<string, PackData> =
     { 
         frame: 4,
         backstory: "These stallions think themselves above the petty fighting for the throne. They are a folk that's too proud and honorable for that nonsense. They will accept the throne if everyone else agrees to give it to them, but they will not scheme to take it. Of course, opinions can be easily swayed and friends easily made ...",
+        clarification: "About Dark 3 => Some cards have rules about the entire structure of the game, things all players MUST follow or the game breaks down. The action obviously does not exempt you from those; only from those where it's possible to make an exception for you.",
         animal: "Stallion",
         colorClass: "Brown",
 
@@ -118,10 +139,15 @@ const PACKS:Record<string, PackData> =
         
         action: 
         {
-            text: "<b>Pick a Princess.</b> Both your neighbors state <b>how many</b> such cards they have."
+            text: "<b>Move the Thronecard</b> to another player who did <b>not win</b>.",
+            type: ActionType.HANDLE
         },
 
-        dark: ["For each <b>public Whistley Wine</b> the Queen has, <b>steal</b> 1 card from anyone."],
+        dark: [
+            { text: "<b>Change the Seatcard</b> to the next one from the top of the deck.", type: ActionType.REVEAL },
+            { text: "<b>Change the Thronecard</b> to the next one from the top of the deck. ", type: ActionType.HANDLE },
+            { text: "Any rules from the Seatcard or Thronecard <b>don't apply to you</b> (if possible).", type: ActionType.HIRE },
+        ],
 
         slogan: 
         {
@@ -143,10 +169,15 @@ const PACKS:Record<string, PackData> =
         
         action: 
         {
-            text: "Give this card to the <b>Queen</b> as a <b>public card</b>."
+            text: "<b>Take</b> any card you want <b>from the Discard</b>.",
+            type: ActionType.HANDLE
         },
 
-        dark: ["<b>Name a Princess.</b> The Queen gives you all their cards of that type."],
+        dark: [
+            { text: "All <b>other Candlesticks</b> played this round go <b>into your Hand</b>.", type: ActionType.HANDLE },
+            { text: "If your Hand contains <b>all Seekers</b> in the game, <b>steal</b> 1 card from everyone.", type: ActionType.HANDLE },
+            { text: "<b>Take</b> any card you want <b>from the Tell</b>.", type: ActionType.HANDLE },
+        ],
 
         slogan: 
         {
@@ -158,6 +189,7 @@ const PACKS:Record<string, PackData> =
     { 
         frame: 6,
         backstory: "This large spider, poisonous and merged with other insects you don't want to think about, is feared throughout the world. They crawl over your walls, step over your skin, and slowly catch you in their web. Once caught, you're forced to do whatever they please, no matter how much it goes against your own interests.",
+        clarification: "If you tell another player which type they must (not) vote, and they simply can't comply, then they may simply ignore your command.",
         animal: "Spider",
         colorClass: "Red",
 
@@ -168,10 +200,15 @@ const PACKS:Record<string, PackData> =
         
         action: 
         {
-            text: "<b>Show</b> the Queen a Hand card. They <b>must</b> play this type next round (if possible)."
+            text: "Tell another player what type they <b>must Vote</b> next round.",
+            type: ActionType.HANDLE
         },
 
-        dark: ["Voting restriction is <b>inverted</b> next round. You <b>must</b> vote what you see the <b>least</b> in other player's Hands."],
+        dark: [
+            { text: "<b>Remove</b> up to 2 cards played <b>before you</b> (in this round).", type: ActionType.REVEAL },
+            { text: "<b>Pick a player and name a Seeker.</b> They must honestly answer if they have it, and if so, give it.", type: ActionType.HANDLE },
+            { text: "Each round, tell one of your neighbors which type they're <b>not allowed to Vote</b>.", type: ActionType.HIRE },
+        ],
 
         slogan: 
         {
@@ -193,10 +230,15 @@ const PACKS:Record<string, PackData> =
         
         action: 
         {
-            text: "The Queen <b>flips 2 public cards</b> back to secret."
+            text: "One neighbor shows you what they <b>will vote next round</b>.",
+            type: ActionType.WON
         },
 
-        dark: ["<b>Steal</b> 2 public cards from the Queen, <b>give</b> 1 secret card in return."],
+        dark: [
+            { text: "<b>Steal</b> a <b>hired</b> card from another player.", type: ActionType.HANDLE },
+            { text: "Decide this round's direction: <b>clockwise or counter-clockwise</b>. This overrides anything else.", type: ActionType.REVEAL },
+            { text: "Before each round, you may <b>look</b> at the <b>Tell</b> OR the <b>Leader's Hand</b>.", type: ActionType.HIRE },
+        ],
 
         slogan: 
         {
@@ -210,6 +252,7 @@ const PACKS:Record<string, PackData> =
         backstory: "The sirens distract everyone close enough to hear their beautiful songs. They have limited influence in court, as they cannot leave the water. But even from afar, they can lure powerful people into the sea and make them forget their true purpose.",
         animal: "Mermaid",
         colorClass: "BlueDark",
+        clarification: "About Dark 3 => The final leader simply decides this by naming the type they want to increase in the Tell, at the end of the game.",
 
         name: 
         {
@@ -218,10 +261,15 @@ const PACKS:Record<string, PackData> =
         
         action: 
         {
-            text: "Next round, you may <b>swap</b> places <b>with the Queen</b> even if they won the round."
+            text: "<b>Pick a player</b> next to the Leader. They play a <b>random</b> (blind) card next round.",
+            type: ActionType.HANDLE
         },
 
-        dark: ["Next round, everyone plays a <b>random card</b>."],
+        dark: [
+            { text: "If the Leader is your <b>neighbor</b>, <b>give them 3 cards</b>.", type: ActionType.HANDLE },
+            { text: "The round instantly <b>ends</b>.", type: ActionType.HANDLE },
+            { text: "The <b>final Leader</b> adds 2 Votes to one type in the Tell OR 3 Votes to Sirens.", type: ActionType.TELL },
+        ],
 
         slogan: 
         {
@@ -243,10 +291,15 @@ const PACKS:Record<string, PackData> =
         
         action: 
         {
-            text: "Next round, there are <b>no restrictions</b> on how you may <b>vote</b>."
+            text: "<b>Swap</b> a vote from one neighbor with the <b>top one from the Tell</b>.",
+            type: ActionType.REVEAL
         },
 
-        dark: ["Next round, you may only <b>swap with the Queen</b> if you have <b>fewer</b> of the winning type than them."],
+        dark: [
+            { text: "Worth 4 Votes if the <b>final Leader's Loyalty matches</b> this card, otherwise -4 Votes.", type: ActionType.TELL },
+            { text: "<b>Removes 1 Vote</b> from all other types.", type: ActionType.TELL },
+            { text: "<b>Removes 3 Votes</b> from the <b>highest scoring</b> type in the Tell.", type: ActionType.TELL },
+        ],
 
         slogan: 
         {
@@ -258,6 +311,7 @@ const PACKS:Record<string, PackData> =
     { 
         frame: 10,
         backstory: "These mighty creatures are responsible for all communication in the forest, which mostly happens through paw-written letters. This keeps them busy and gives them a high status. It also gives them endless opportunities to secretly fudge the truth and spread misinformation.",
+        clarification: "Immune means you can't be targeted for actions. This includes being targeted for swapping places.",
         animal: "Raven",
         colorClass: "Green",
 
@@ -268,10 +322,15 @@ const PACKS:Record<string, PackData> =
         
         action: 
         {
-            text: "All <b>non-winning</b> cards this round go to you. (Other Venomfruits can't take this action anymore.)",
+            text: "Both you and the player after you <b>don't need</b> to execute their card or swap places.",
+            type: ActionType.HANDLE
         },
 
-        dark: ["All <b>winning cards</b> this round go to you (instead of the Queen)."],
+        dark: [
+            { text: "You are <b>immune</b> this round.", type: ActionType.REVEAL },
+            { text: "Everyone <b>whose Hand contains Ravenletters</b> must reveal this. They are all <b>immune</b> this round.", type: ActionType.HANDLE },
+            { text: "Each round, you can <b>veto</b> one player who wants to swap places with you.", type: ActionType.HIRE },
+        ],
         
         slogan: 
         {
@@ -293,10 +352,15 @@ const PACKS:Record<string, PackData> =
         
         action: 
         {
-            text: "<b>Freeze</b> all players after you. They <b>can't change</b> their position or Hand anymore this round."
+            text: "<b>Copy the card</b> of the neighbor before you (both type and action).",
+            type: ActionType.REVEAL
         },
 
-        dark: ["<b>Flip all</b> your cards (secret <> public), unless you're the Queen."],
+        dark: [
+            { text: "You're ashamed of losing and <b>don't Vote anything</b> next round.", type: ActionType.HANDLE },
+            { text: "<b>Add 2 Hand cards</b> directly to the Tell.", type: ActionType.WON },
+            { text: "If the Leader did <b>not win</b>, all cards of the type they played <b>also go into the Tell</b>.", type: ActionType.HANDLE },
+        ],
 
         slogan: 
         {
@@ -314,7 +378,73 @@ const SETS =
     complete: Object.keys(PACKS)
 }
 
+const THRONE_CARDS =
+[
+    "<b>Alternate</b> between <em>open</em> and <em>secret</em> rounds. Start with an open round.",
+    "<b>Don't pick a Loyalty.</b> Instead, your <em>last Hand card</em> becomes your Loyalty. (You're out of the game once you have 1 card left, and you can't lose that one for any reason.)",
+    "<b>Don't pick a Loyalty.</b> Instead, the <em>first card</em> you're dealt is your Loyalty.",
+    "Use a <b>fixed hand order</b>. Once you've received your cards and sorted them however you want, never change their order again. You can only Vote with <b>the left-most or right-most card</b>.",
+    "Before each round, all players <b>give 1 card</b> in the opposite direction of the round's direction (simultaneously).",
+    "Before the game starts, all players <b></b>give 2 Hand cards to the right</b> (simultaneously) and <b>2 Hand cards to the left</b> (simultaneously).",
+    "If tied, <b>all types with majority win</b>.",
+    "When you <b>swap places</b> with someone, also <b>swap 1 Hand card</b>.",
+    "Each round, the <b>Leader picks one player</b>: they must vote <em>faceup</em> and <em>before anyone else</em>. ",
+    "Each round, the <b>Leader can VETO a type</b>. You can't vote it (if possible).",
+    "Each round, the <b>Leader names 2 possible types</b>. You must vote one of those (if possible).",
+    "The type with the <b>longest unbroken sequence</b> (in the circle of votes) wins. Tied? Simply use the regular voting rules to resolve it.",
+    "When you <b>lose a round</b> and your <b>action triggers</b>, you always have the option to take the card <b>back into your Hand</b> instead.",
+    "One player <b>starts without cards</b>. All winning Votes go <em>into their hand</em> instead, and they play using those cards. They name a Seeker at the start and <b>win alone</b> if that one ends up winning.",
+    "One player <b>starts without cards</b>. All Discarded cards go <em>into their hand</em> instead, and they play using those cards. They name a Seeker at the start and <b>win alone</b> if that one ends up winning.",
+    "It's <b>forbidden</b> to play the type on <b>top of the Discard pile</b> (unless you have no choice).",
+    "Also keep the Tell <em>faceup</em> (instead of facedown). It's <b>forbidden</b> to play the type at the <b>top of the Tell</b> (unless you have no choice).",
+    "<b>Voting is always open.</b> After each round, losers must <b>flip</b> 1 Hand card to <em>face away from them</em>, while winners may <b>flip</b> 1 Hand card <em>back to face them</em>.",
+    "Include one more Seeker and name them <b>wildcard</b>. They are not themselves---their type is whatever other Seeker (that's in the game) you want it to be.",
+    "The Leader <b>doesn't choose direction</b>. If the Leader <b>won</b> the previous round, go <b>counter clockwise</b>. Otherwise, go <b>clockwise</b>."
+]
+
+
+const SEAT_CARDS =
+[
+    "The direction of this round is <b>counter-clockwise</b>. (The Leader does not choose.)",
+    "This round is played <b>openly</b>. (This overrides anything else.)",
+    "The <b>Leader must VETO</b> one player <em>before voting</em>. The card they play is simply discarded.",
+    "The <b>Leader must VETO</b> one player <em>after voting</em>. The card they played is simply discarded.",
+    "Before the round starts, <b>give 2 cards</b> to the player on your left or right. (Leader decides direction.)",
+    "The <b>Leader votes first</b>, faceup. Everyone else must Vote <b>the same type</b> (if they can).",
+    "All <b>winning players add</b> a secret Hand card to the Tell.",
+    "All <b>winning players remove</b> one card (of their choosing) from the Tell.",
+    "If you <b>swap places</b> with someone, also <b>reveal your Loyalty</b> to each other.",
+    "If you <b>swap places,</b> with someone, also <b>reveal 3 Hand cards</b> to each other.",
+    "The type with the <b>least votes</b> wins this round. If tied, pick the <em>first option</em>.",
+    "The type with the <b>least votes</b> wins this round. If tied, pick the <em>last option</em>.",
+    "If tied, the <b>last type</b> with the most votes wins this round.",
+    "When checking votes and handling cards, start from the player <b>after the Kaizerseat</b>.",
+    "If tied, <b>nobody wins</b> this round.",
+    "The player <b>before Kaizerseat</b> ( = last in order) may <b>look at 2 Votes</b> before making their decision.",
+    "<b>All winners</b> this round must <b>reveal their Loyalty</b> to everyone.",
+    "<b>Nobody may swap</b> places this round. (If your card does nothing, you do nothing.)",
+    "When the round is over, the <b>Leader must swap places</b> with someone else.",
+    "WHEN REVEALED actions <b>don't work</b>.",
+    "WHEN HIRED actions <b>don't work</b>. (They don't become yours when played nor do their powers apply.)",
+    "<b>Handling</b> the remaining cards goes in the <b>opposite direction</b> of checking votes.",
+    "<b>The Leader reveals their entire Hand.</b> Other players must vote one of the <b>types they have</b> (if possible).",
+    "If the <b>Leader wins</b> this round, they <b>steal a HIRED card</b> from another.",
+    "WHEN HANDLED actions only trigger if <b>a neighbor also played one</b>.",
+    "DARK actions <b>don't work</b>.",
+    "If you're the <b>only voter</b> of your type, <b>add</b> your card to the Tell.",
+    "If you're the <b>only voter</b> of your type, <b>take back</b> your card into your Hand.",
+    "The Leader <b>does not Vote</b>.",
+    "The round <b>ends instantly</b> once a single player has <b>swapped places</b>.",
+    "If the winning type has <b>3 cards or more, nobody wins</b> this round.",
+    "If the winning type has <b>2 cards or fewer, nobody wins</b> this round.",
+    "<b>Winning Votes go to Discard</b>; all losing Votes go to the Tell.",
+    "The winning voter <b>closest to Kaizerseat, steals</b> 1 card from all other players.",
+]
+
+
 export {
     PACKS,
-    SETS
+    SETS,
+    THRONE_CARDS,
+    SEAT_CARDS
 }

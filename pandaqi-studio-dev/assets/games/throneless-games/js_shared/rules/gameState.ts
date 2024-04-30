@@ -106,16 +106,48 @@ export default class GameState
         for(const player of this.players)
         {
             let stats = this.getCards(true, [player]);
+
             if(this.config.rulebook.cantVoteMajorityNeighborsOnly)
             {
                 stats = this.getCards(true, [], this.getNeighborsOf(player));
             }
 
             const mostOccurring = this.getMostOccurringTypesFromCards(stats);
+            const tellerCard = this.cardsPlayed.getCardAtIndex( this.getIndexOf(this.getTeller()) );
 
-            const vote = player.getValidVote(sim, mostOccurring, this.config, true);
+            let typesAllowed = [];
+            let allowDisobey = false;
+
+            // @UNIQUE (QUEENSEAT): only picking what you DON'T see the most on other player's hands
+            if(this.config.rulebook.cantVoteMajorityPublic || this.config.rulebook.cantVoteMajorityNeighborsOnly)
+            {
+                typesAllowed = mostOccurring;
+            }
+
+            // @UNIQUE (SMALLSEAT): must follow type played by Teller (if possible)
+            const mustFollowTeller = this.config.rulebook.mustFollowTellerType && player != this.getTeller()
+            if(mustFollowTeller)
+            {
+                typesAllowed = [tellerCard.type];
+                allowDisobey = true;
+            }
+
+            const vote = player.getValidVote(sim, typesAllowed, this.config, true, allowDisobey);
             if(vote) { num++; }
             newRound.addCard(vote);
+
+            // If they had to follow, but decided to disobey, this "costs" a card
+            if(mustFollowTeller)
+            {
+                const didntFollow = vote && !typesAllowed.includes(vote.type);
+                const couldHaveFollowed = player.hasAnyOfTypes(typesAllowed);
+                if(didntFollow && couldHaveFollowed)
+                {
+                    const randomPlayer = this.getRandomPlayer([player]);
+                    const randomCard = player.getRandomCards(1, true);
+                    randomPlayer.addCard(randomCard);
+                }
+            }
         }
         sim.stats.numVotesCast += num;
         this.cardsPlayed = newRound;

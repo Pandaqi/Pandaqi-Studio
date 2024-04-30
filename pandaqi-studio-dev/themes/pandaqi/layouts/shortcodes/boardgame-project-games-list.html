@@ -2,22 +2,23 @@
 {{- $subdir := or (.Get "subdir") "play" -}}
 {{- $final_dir := printf "content/%s/%s/" $url $subdir -}}
 {{- $pages := where .Site.Pages ".Params.gamepage" true -}}
-
-<div class="project-games-list">
-    <ul>
+{{- $final_pages := slice -}}
 {{- range (readDir $final_dir) -}}
     {{- if .IsDir -}}
-        {{- $path := printf "%s/%s/%s/" $url $subdir .Name -}}
-        {{- $path = replace $path "/" "\\" -}} <!--- Oh fuck off, this is the solution? Differing slash directions in paths? --->
-        {{- $selected_pages := (where $pages ".File.Dir" $path) -}}
-
-        {{- range $selected_pages -}}
-            <li><div class="project-game">
-                {{- $blurb := or .Params.blurbProject .Params.blurb -}}
-                <a href="{{ .RelPermalink }}">{{- .Title -}}</a>:&nbsp;{{- $blurb | markdownify -}}
-            </div></li>
-        {{- end -}}
+        {{- $path1 := printf "%s/%s/%s/" $url $subdir .Name -}}
+        {{- $path2 := replace $path1 "/" "\\" -}} <!--- Oh fuck off, this is the solution on some systems? Differing slash directions in paths? --->
+        {{- $selected_pages := union (where $pages ".File.Dir" $path1) (where $pages ".File.Dir" $path2) -}}
+        {{- $final_pages = $final_pages | union $selected_pages -}}
     {{- end -}}
 {{- end -}}
+{{- $final_pages = sort $final_pages ".Params.weightProject" -}}
+<div class="project-games-list">
+    <ul>
+    {{- range $final_pages -}}
+        <li><div class="project-game">
+            {{- $blurb := or .Params.blurbProject .Params.blurb -}}
+            <a href="{{ .RelPermalink }}">{{- .Title -}}</a>:&nbsp;{{- $blurb | markdownify -}}
+        </div></li>
+    {{- end -}}
     </ul>
 </div>

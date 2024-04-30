@@ -6,6 +6,8 @@ title: "Photomone: Digital Antists"
 headerTitle: "A video game spin-off for Photomone"
 blurb: "Communicate words by drawing. But you may only draw straight lines between the dots on your screen, and not all dots are created equal."
 
+weightProject: 20
+
 customHeight: "small"
 headerDarkened: true
 

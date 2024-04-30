@@ -8,6 +8,8 @@ title: "Photomone: Antsassins"
 headerTitle: "A party game about trying to communicate which vague shape belongs to your team"
 blurb: "A party game similar to Codenames. The board has random shapes, and you must somehow communicate which one is yours."
 
+weightProject: 30
+
 customHeight: "small"
 headerDarkened: true
 

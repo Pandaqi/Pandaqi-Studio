@@ -46,7 +46,7 @@ Each round,
 * The Teller votes first by playing a faceup Hand card.
 * Then, all Candidates who have **more than 1 Hand card**, pick a secret card simultaneously.
 * You _must_ play the same type as the Teller, if you can.
-* You can only disobey---and play any vote you want---by giving away one card of yours. This is done _after_ revealing votes.
+* You can only disobey---and play any vote you want---by giving away one card of yours. This payment is done _after_ revealing votes.
 
 When done, reveal all votes.
 * The Animal with the **most votes** wins.

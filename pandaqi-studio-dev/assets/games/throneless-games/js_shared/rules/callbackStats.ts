@@ -17,6 +17,7 @@ const callbackInitStats = () =>
         numSwapsWithLeader: 0,
         couldNotObeyVoteRestrictions: 0,
         couldObeyVoteRestrictions: 0,
+        disobeyedVoteRestrictions: 0, // when done on purpose, even if you could obey
         numWinningCardsDist: 
         {
             0: 0,
@@ -52,7 +53,7 @@ const callbackFinishStats = (sim:InteractiveExampleSimulator) =>
     sim.stats.leaderHandSizeEndAvg = sim.stats.leaderHandSizeEnd / iters;
     sim.stats.couldNotObeyVoteRestrictionsChance = sim.stats.couldNotObeyVoteRestrictions / sim.stats.numVotesCast;
     sim.stats.couldObeyVoteRestrictionsChance = sim.stats.couldObeyVoteRestrictions / sim.stats.numVotesCast;
-
+    sim.stats.disobeyedVoteRestrictionsChance = sim.stats.disobeyedVoteRestrictions / sim.stats.numVotesCast;
 }
 
 export 

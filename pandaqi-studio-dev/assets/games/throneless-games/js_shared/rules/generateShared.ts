@@ -26,7 +26,14 @@ export default async (sim:InteractiveExampleSimulator, CONFIG, PACKS) =>
     let continueTheGame = true;
     while(continueTheGame)
     {
-        // @UNIQUE (SMALLSEAT): Direction decision before round
+
+        // @UNIQUE (KAIZERSEAT): Thronecards and Seatcards
+        if(CONFIG.rulebook.drawThroneCard)
+        {
+            sim.print("A new Seatcard is drawn from this round. (A Thronecard should've already been drawn during setup.)");
+        }
+
+        // @UNIQUE (KAIZERSEAT): Direction decision before round
         let counterClockwise = false;
         if(CONFIG.rulebook.decideDirectionBeforeRound)
         {
@@ -37,9 +44,9 @@ export default async (sim:InteractiveExampleSimulator, CONFIG, PACKS) =>
 
         // vote
         if(CONFIG.rulebook.tellerGoesFirst) {
-            // @UNIQUE (SMALLSEAT): Teller votes first.
-            sim.print("The Teller votes first, publicly.");
-            sim.print("Then all Candidates pick a secret card. Once revealed, the game looks as follows.");
+            // @UNIQUE (SMALLSEAT): Teller votes first. (It's important teller = index 0 in GameState, otherwise they're not first of course.)
+            sim.print("The <strong>Teller votes first</strong>, publicly.");
+            sim.print("Then all <strong>Candidates</strong> pick a secret card. (Remember they must follow the Teller's type if possible, or pay 1 card for the privilege to play anything.) Once revealed, the game looks as follows.");
         } else {
             sim.print("All Players pick a secret card. Once revealed, the game looks as follows.");
         }

@@ -22,10 +22,10 @@ const CONFIG:Record<string,any> =
         endGameTrigger: "lastVotesExceptTeller",
 
         numVotesMeansDone: 1,
-        swapPlacesAlsoSwapsCards: true,
         tellerIsPerson: true,
         tellerGoesFirst: true,
-        decideDirectionBeforeRound: true
+        mustFollowTellerType: true, // @TODO: code this
+        tellerTypeDisobeyProb: 0.25,
     }
 }
 

@@ -20,6 +20,9 @@ const CONFIG:Record<string,any> =
         seatNaming: "Kaizerseat",
         leaderNaming: "Leader",
         endGameTrigger: "noVotes",
+
+        decideDirectionBeforeRound: true,
+        drawThroneCard: true,
     }
 }
 

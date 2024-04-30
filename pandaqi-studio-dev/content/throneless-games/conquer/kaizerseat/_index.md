@@ -6,7 +6,9 @@ boardgame: true
 title: "Kaizerseat"
 headerTitle: "Make sure the right Seeker wins the throne in the most strategical Throneless Game."
 blurb: "Vote, swap places, use powers and backstab to ensure the right Seeker wins the throne. The longest and most strategical Throneless Game."
+
 blurbProject: "The most complicated version, giving you the deepest gameplay in return."
+weightProject: 40
 
 extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/1XYqoqGmFc2gfgWcIsjDOJG48GQ2qjZGJ"

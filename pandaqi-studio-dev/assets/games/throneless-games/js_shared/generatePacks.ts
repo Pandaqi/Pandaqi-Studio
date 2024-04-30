@@ -1,6 +1,6 @@
 import shuffle from "js/pq_games/tools/random/shuffle";
 import CardThroneless from "./cardThroneless";
-import { PackData } from "./dictShared";
+import { CardType, PackData } from "./dictShared";
 
 export default (list:CardThroneless[], config:Record<string,any>, dictPacks:Record<string,PackData>, dictSets:Record<string,string[]>) =>
 {
@@ -33,14 +33,14 @@ export default (list:CardThroneless[], config:Record<string,any>, dictPacks:Reco
         {
             for(let i = 0; i < numDark; i++)
             {
-                const newCard = new CardThroneless(pack, packData, darkOption);
+                const newCard = new CardThroneless(CardType.VOTE, pack, packData, darkOption);
                 list.push(newCard);
             }
         }
 
         for(let i = 0; i < numRegular; i++)
         {
-            const newCard = new CardThroneless(pack, packData);
+            const newCard = new CardThroneless(CardType.VOTE, pack, packData);
             list.push(newCard);
         }
     }

@@ -48,7 +48,7 @@ A series of games about secretly collecting the most votes, as the players const
 
 This is the **overview page** of the Throneless Games.
 
-Click any of the links below to visit a specific game.
+Click any of the links below to visit a specific game. They are sorted based on simplicity.
 
 {{< boardgame-project-games-list subdir="conquer" >}}
 

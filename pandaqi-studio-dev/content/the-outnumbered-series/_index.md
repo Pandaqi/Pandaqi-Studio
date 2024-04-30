@@ -48,7 +48,7 @@ A series of simple card games that all revolve around one unique number.
 
 This is the **overview page** of The Outnumbered Series.
 
-Click any of the links below to visit a specific game.
+Click any of the links below to visit a specific game. They are sorted based on their unique number, not any other metric (such as simplicity).
 
 {{< boardgame-project-games-list subdir="count-to" >}}
 

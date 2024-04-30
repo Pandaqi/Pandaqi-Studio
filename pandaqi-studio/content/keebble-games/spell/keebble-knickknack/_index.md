@@ -7,7 +7,9 @@ boardgame: true
 title: "Keebble: Knickknack"
 headerTitle: "A hybrid version of the word game Keebble"
 blurb: "A party game like Scrabble. A spin-off for Keebble. Played using an empty paper and one phone with internet."
+
 blurbProject: "The same as Keebble, but now digital, played using a single smartphone. This allows more depth, variation, and random setup."
+weightProject: 20
 
 customHeight: "small"
 headerDarkened: true

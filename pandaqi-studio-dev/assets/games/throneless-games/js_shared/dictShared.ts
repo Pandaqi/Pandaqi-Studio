@@ -1,5 +1,27 @@
 import Point from "js/pq_games/tools/geometry/point"
 
+enum CardType
+{
+    VOTE,
+    THRONE,
+    SEAT
+}
+
+enum ActionType
+{
+    HANDLE,
+    REVEAL,
+    WON,
+    TELL,
+    HIRE
+}
+
+interface DarkAction
+{
+    text: string,
+    type: ActionType
+}
+
 interface PackData
 {
     frame: number,
@@ -19,7 +41,7 @@ interface PackData
         shadowOffset?: Point
     },
 
-    dark?: string[],
+    dark?: (string|DarkAction)[],
 
     bg?: 
     {
@@ -45,6 +67,7 @@ interface PackData
     action?: 
     {
         text?: string,
+        type?: ActionType,
         color?: string,
         colorDark?: string,
         offset?: Point,
@@ -393,5 +416,8 @@ export
 {
     PACK_DEFAULT,
     PACK_COLORS,
-    PackData
+    PackData,
+    ActionType,
+    DarkAction,
+    CardType
 }

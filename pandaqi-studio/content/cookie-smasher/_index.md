@@ -6,7 +6,9 @@ boardgame: true
 title: "Cookie Smasher"
 headerTitle: "Smash the poisoned food faster than anyone else to prevent the king's assassination!"
 blurb: "A fast party game about quick thinking and deduction, finding the poisoned food, then smashing it before anyone else."
+
 blurbProject: "The king dines at a mighty feast, but one ingredient is secretly poisoned. Smash it before anyone else to save the king!"
+weightProject: 20
 
 extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/1Vb-cB7KrYaxakv2X2oSmQJdSNg-9T5T_"

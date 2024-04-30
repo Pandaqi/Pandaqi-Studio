@@ -6,7 +6,9 @@ boardgame: true
 title: "Kingseat"
 headerTitle: "Make sure the right Prince wins the throne, playable without a table or chairs"
 blurb: "Vote, swap places and use powers to ensure the right Prince wins the throne. A game playable without a table or chairs."
+
 blurbProject: "The original version, with slightly more complicated setup and Princes."
+weightProject: 30
 
 extraCSS: true
 downloadLink: ""

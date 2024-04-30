@@ -6,7 +6,9 @@ boardgame: true
 title: "Smallseat"
 headerTitle: "Make sure the right Animal gets the throne, playable without a table or chairs"
 blurb: "Vote, swap places and use powers to ensure the right Animal gets the throne. A game playable without a table or chairs."
+
 blurbProject: "The most simplified and streamlined version, with a visual style more attractive to kids."
+weightProject: 10
 
 extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/1Q5I2VAXnGEC268x5If10e_Gpjed3vDxj"

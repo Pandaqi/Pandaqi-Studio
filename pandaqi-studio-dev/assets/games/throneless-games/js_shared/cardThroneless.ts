@@ -14,29 +14,33 @@ import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import fillResourceGroup from "js/pq_games/layout/canvas/fillResourceGroup";
 import Line from "js/pq_games/tools/geometry/line";
 import InvertEffect from "js/pq_games/layout/effects/invertEffect";
+import { CardType, DarkAction } from "./dictShared";
 
 export default class CardThroneless
 {
-    
+    cardType: CardType;   
     type: string;
     typeData: Record<string,any>
-    dark: string; // empty if not a dark action, otherwise the action string itself
+    dark: string|DarkAction; // empty if not a dark action, otherwise the action string itself
     disableAction: boolean
 
-    constructor(type:string, typeData:Record<string,any>, dark = "", disableAction = false)
+    constructor(cardType:CardType, type:string, typeData:Record<string,any>, dark = null)
     {
+        this.cardType = cardType;
         this.type = type ?? "lionsyre";
         this.typeData = typeData ?? {};
         this.dark = dark;
-        this.disableAction = disableAction;
     }
 
     hasAction() { return !this.disableAction && this.typeData.action != undefined; }
-    isDark() { return this.dark != ""; }
+    isDark() { return this.dark != null; }
     getActionText()
     {
         if(!this.hasAction()) { return ""; }
-        if(this.isDark()) { return this.dark; }
+        if(this.isDark()) { 
+            if(typeof this.dark === "string") { return this.dark }
+            return this.dark.text;
+        }
         return this.typeData.action.text;
     }
 

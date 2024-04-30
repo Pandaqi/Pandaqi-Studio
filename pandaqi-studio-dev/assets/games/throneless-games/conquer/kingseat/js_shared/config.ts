@@ -20,6 +20,8 @@ const CONFIG:Record<string,any> =
         seatNaming: "Kingseat",
         leaderNaming: "King",
         endGameTrigger: "noVotes",
+
+        swapPlacesAlsoSwapsCards: true,
     }
 }
 

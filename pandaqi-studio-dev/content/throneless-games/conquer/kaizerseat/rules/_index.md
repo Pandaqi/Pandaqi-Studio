@@ -9,12 +9,12 @@ First, prepare the deck and Player hands.
 * Pick as many Seekers as the number of players. Add them all to the deck, shuffle, and deal fairly.
 * From these starting cards, each player sets aside 1 secret card: their **Loyalty**.
 
-Then, prepare the special cards.
+Then, prepare the special cards. 
 
-* Draw a random **Thronecard** and place it open on the table: its special rule will be true for _the entire game_.
-* Also place the deck of **Seatcards** (faceup) on the table.
+* Place a shuffled deck of **Thronecards** and a deck of **Seatcards** _faceup_ on the table.
+* Draw the top Thronecard: its special rule will be true for _the entire game_.
 
-During the game, you'll track two piles.
+During the game, you'll track two piles. These should be handled by the Leader.
 
 * A facedown pile holding all Votes (= **Tell**).
 * A faceup pile holding all discarded cards ( = **Discard**)
@@ -73,32 +73,11 @@ The cards **explain themselves**, but the overview below contains clarifications
 
 There are 5 possible actions that can appear
 
-
-<!---
- A player can't change places more than once per round. 
-
- {{% remark class="right" %}}
-So yes, if a previous player already swapped with you, you must execute the action when your turn comes.
-{{% /remark %}}
-
-Rounds alternate between **public** and **secret**. In public rounds, everything is the same, but ...
-
-* Players vote in turn (starting from Kingseat, clockwise)
-* And simply show their vote publicly
-
-The first round is public.
---->
-
-<!---
-Some cards have special actions, indicated above the text.
-
-* (@TODO: ICON?) "When played" means you must execute the action when playing the card. 
-* (@TODO: ICON?) "When revealed" means you must execute the action when the card is revealed.
-* (@TODO: ICON?) "When Tell" means the action activates when the Tell is counted at the end of the game.
-
-All of these mean that you **don't** get to swap places, as you've "decided" to execute the action.
---->
-
+* **When revealed:** triggers as soon as the card is shown. (Normally, it's when all the votes are revealed. In open rounds, this is when the card is *played*.) As such, these actions are taken _before_ checking who won.
+* **When handled:** triggers as soon as the card is _handled_ during a round. (This category contains most cards.)
+* **When Tell:** triggers when the card is inside the Tell. (Which influences the Vote count at the end.)
+* **When won:** triggers when the card is part of the winning votes.
+* **When hired**: these cards are placed permanently before you (faceup), granting a recurring special power the rest of the game. (Remember that this only happens if you did _not_ win the round, otherwise the card just goes away into the Tell.)
 
 {{% rules-block heading="Solongnecks" icon="pack-kaizerseat-solongnecks" %}}
 
