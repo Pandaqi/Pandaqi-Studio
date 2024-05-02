@@ -1,7 +1,6 @@
-$header-font: "grenze";
-$body-font: "grenze";
-$special-font: "fleur";
-$base: "/librarians/assets/";
+$header-font: "library";
+$body-font: "bellota";
+$base: "/pyrrameds/assets/";
 $base-fonts: $base + "fonts/";
 
 $bg-col: #111111;
@@ -21,26 +20,12 @@ body {
 
 h1, h2, h3, h4 {
     font-family: $header-font;
-    font-weight: bold;
-
-    &::first-letter {
-        font-family: $special-font;
-        font-size: 1.5em;
-        font-weight: normal;
-    }
-}
-
-@font-face {
-    font-family: $body-font;
-    src: url($base-fonts + 'Grenze-Regular.woff2') format('woff2');
     font-weight: normal;
-    font-style: normal;
-    font-display: swap;
 }
 
 @font-face {
     font-family: $body-font;
-    src: url($base-fonts + 'Grenze-Italic.woff2') format('woff2');
+    src: url($base-fonts + 'Bellota-Italic.woff2') format('woff2');
     font-weight: normal;
     font-style: italic;
     font-display: swap;
@@ -48,19 +33,26 @@ h1, h2, h3, h4 {
 
 @font-face {
     font-family: $body-font;
-    src: url($base-fonts + 'Grenze-Black.woff2') format('woff2');
-    font-weight: 900;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: $special-font;
-    src: url($base-fonts + 'FleurCornerCaps.woff2') format('woff2');
+    src: url($base-fonts + 'Bellota-Regular.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
 }
 
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'Bellota-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $header-font;
+    src: url($base-fonts + 'LIBRARY3AMsoft.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
 
 

@@ -14,7 +14,8 @@ import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import fillResourceGroup from "js/pq_games/layout/canvas/fillResourceGroup";
 import Line from "js/pq_games/tools/geometry/line";
 import InvertEffect from "js/pq_games/layout/effects/invertEffect";
-import { CardType, DarkAction } from "./dictShared";
+import { ActionType, CardType, DarkAction } from "./dictShared";
+import { ACTION_TYPES, CARD_TEMPLATES } from "../conquer/kaizerseat/js_shared/dict";
 
 export default class CardThroneless
 {
@@ -32,16 +33,29 @@ export default class CardThroneless
         this.dark = dark;
     }
 
-    hasAction() { return !this.disableAction && this.typeData.action != undefined; }
+    hasAction() { return !this.disableAction && this.getAction() != null; }
+    getAction()
+    {
+        if(this.isDark())
+        {
+            if(typeof this.dark == "string") { return { text: this.dark, type: ActionType.HANDLE }; }
+            return this.dark;
+        }
+        if(!this.typeData) { return null; }
+        return this.typeData.action;
+    }
+
     isDark() { return this.dark != null; }
     getActionText()
     {
         if(!this.hasAction()) { return ""; }
-        if(this.isDark()) { 
-            if(typeof this.dark === "string") { return this.dark }
-            return this.dark.text;
-        }
-        return this.typeData.action.text;
+        return this.getAction().text;
+    }
+
+    getActionType()
+    {
+        if(!this.hasAction()) { return ActionType.HANDLE; }
+        return this.getAction().type;
     }
 
     // @TODO: this is an iffy system, rewrite to something better before using it too much?
@@ -57,9 +71,18 @@ export default class CardThroneless
         const group = new ResourceGroup();
 
         this.drawBackground(vis, group);
-        this.drawMainPart(vis, group);
-        this.drawEdgePart(vis, group);
-        this.drawGradientOverlay(vis, group);
+
+        if(this.cardType == CardType.VOTE)
+        {
+            this.drawMainPart(vis, group);
+            this.drawEdgePart(vis, group);
+            this.drawGradientOverlay(vis, group);
+        }
+
+        if(this.cardType == CardType.THRONE || this.cardType == CardType.SEAT)
+        {
+            this.drawSpecialText(vis, group);
+        }
 
         group.toCanvas(ctx);
         return ctx.canvas;
@@ -69,8 +92,21 @@ export default class CardThroneless
     // setup + background
     drawBackground(vis:MaterialVisualizer, group:ResourceGroup)
     {
-        fillResourceGroup(vis.size, group, this.getColor(this.typeData.bg));
+        const customCardType = this.cardType != CardType.VOTE;
+        if(customCardType)
+        {
+            const frame = CARD_TEMPLATES[this.cardType].frame;
+            const res = vis.getResource("card_templates");
+            const canvOp = new LayoutOperation({
+                dims: vis.size,
+                frame: frame,
+                effects: vis.inkFriendlyEffect
+            });
+            group.add(res, canvOp);
+            return;
+        }
 
+        fillResourceGroup(vis.size, group, this.getColor(this.typeData.bg));
         if(this.typeData.bg.multicolor)
         {
             fillResourceGroup(vis.size, group, "#000000");
@@ -239,8 +275,6 @@ export default class CardThroneless
         group.add(resRect, rectOp);
         group.add(resRect, rectOp);
 
-        // @TODO: print the TYPE of action, if not a regular one (which we get from an OBJECT in the .dark config array)
-
         const text = this.getActionText();
         const fill = this.getColor(this.typeData.action);
         const fontUsed = vis.get("highLegibility") ? "textLegible" : "text";
@@ -264,6 +298,30 @@ export default class CardThroneless
         group.add(resText, opText);
     }
 
+    drawSpecialText(vis:MaterialVisualizer, group:ResourceGroup)
+    {
+        if(!this.hasAction()) { return; }
+
+        const pos = vis.get("cards.specialText.pos");
+        const text = this.getActionText();
+
+        const fontSize = vis.get("cards.specialText.fontSize");
+        const textConfig = new TextConfig({
+            font: vis.get("fonts.textLegible"),
+            size: fontSize,
+        }).alignCenter();
+
+        const resText = new ResourceText({ text: text, textConfig: textConfig });
+        const opText = new LayoutOperation({
+            translate: pos,
+            dims: vis.get("cards.specialText.textBoxDims"),
+            fill: "#000000",
+            pivot: Point.CENTER
+        })
+
+        group.add(resText, opText);
+    }
+
     drawSlogan(vis:MaterialVisualizer, group:ResourceGroup)
     {
         const offset = this.typeData.slogan.offset.clone().scale(vis.sizeUnit);
@@ -273,29 +331,81 @@ export default class CardThroneless
         pos.x = 0.5 * vis.size.x;
 
         const text = '\u201C' + this.typeData.slogan.text + '\u201D'
-        const fontSize = vis.get("fonts.slogan.size");
+        const fontSize = vis.get("cards.slogan.fontSize");
         const maxHeight = fontSize
 
         const fill = this.getColor(this.typeData.slogan);
         const alpha = this.typeData.slogan.alpha
-        const textConfig = new TextConfig({
-            font: vis.get("fonts.slogan"),
-            size: fontSize,
-            alignHorizontal: TextAlign.MIDDLE,
-            alignVertical: TextAlign.END,
-            lineHeight: 0.875
-        })
 
-        const resText = new ResourceText({ text: text, textConfig: textConfig });
-        const opText = new LayoutOperation({
-            translate: pos,
-            dims: new Point(maxWidth, maxHeight),
-            fill: fill,
-            alpha: alpha,
-            pivot: new Point(0.5, 1.0)
-        })
+        const displayActionType = vis.get("cards.displayActionTypes");
+        const displaySlogan = !displayActionType;
 
-        group.add(resText, opText);
+        if(displayActionType) {
+            const resIcon = vis.getResource("action_types");
+            const actionType = this.getActionType();
+            const actionTypeData = ACTION_TYPES[actionType];
+
+            const fontSize = vis.get("cards.actionType.fontSize");
+            pos.y -= 0.68 * fontSize;
+
+            let tempMaxWidth = 0.8*maxWidth;
+
+            const textConfig = new TextConfig({
+                font: vis.get("fonts.heading"),
+                size: fontSize,
+            }).alignCenter();
+            const resText = new ResourceText({ text: actionTypeData.label, textConfig });
+            const opText = new LayoutOperation({
+                translate: pos,
+                dims: new Point(tempMaxWidth, 2*fontSize),
+                fill: fill,
+                pivot: Point.CENTER,
+                alpha: vis.get("cards.actionType.alpha")
+            });
+            group.add(resText, opText);
+
+            const iconPositions = [
+                pos.clone().sub(new Point(0.5*tempMaxWidth, 0)),
+                pos.clone().add(new Point(0.5*tempMaxWidth, 0))
+            ]
+
+            const glowEffect = new DropShadowEffect({ color: "#FFFFFFCC", blurRadius: 0.33*fontSize });
+
+            for(const pos of iconPositions)
+            {
+                const opIcon = new LayoutOperation({
+                    translate: pos,
+                    dims: new Point(1.075*fontSize),
+                    frame: actionTypeData.frame,
+                    pivot: Point.CENTER,
+                    effects: [glowEffect]
+                })
+                group.add(resIcon, opIcon);
+            }
+        }
+
+        if(displaySlogan) 
+        {
+            const textConfig = new TextConfig({
+                font: vis.get("fonts.slogan"),
+                size: fontSize,
+                alignHorizontal: TextAlign.MIDDLE,
+                alignVertical: TextAlign.END,
+                lineHeight: 0.875
+            })
+    
+            const resText = new ResourceText({ text: text, textConfig: textConfig });
+            const opText = new LayoutOperation({
+                translate: pos,
+                dims: new Point(maxWidth, maxHeight),
+                fill: fill,
+                alpha: alpha,
+                pivot: new Point(0.5, 1.0)
+            })
+    
+            group.add(resText, opText);    
+        }
+
     }
 
     // edges, corners, decoration

@@ -87,7 +87,7 @@ There are 5 possible actions that can appear
 
 {{% rules-block heading="Boardom Thieves" icon="pack-kaizerseat-boardomThieves" %}}
 
-<div class="prince-info" data-prince="gallopingSun"></div>
+<div class="prince-info" data-prince="boardomThieves"></div>
 
 {{% /rules-block %}}
 

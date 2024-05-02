@@ -63,6 +63,8 @@ Three simple steps.
 
 {{< boardgame-settings type="game" btn_label="Create Material" local_storage="kaizerseatConfig" game_title="Kaizerseat" defaults="true" >}}
   {{< setting-checkbox id="setting-highLegibility" text="High Legibility?" remark="Picks a more neutral font for maximum legibility." checked="checked" >}}
+  {{< setting-checkbox id="setting-generateThroneCards" text="Generate Thronecards?" checked="checked" >}}
+  {{< setting-checkbox id="setting-generateSeatCards" text="Generate Seatcards?" checked="checked" >}}
   {{< setting-enum id="setting-set" text="Set?" values="none,starter,medium,advanced,complete,random" valaskey="true" def="starter" remark="Pick a predetermined set, or use none and pick your specific princes below!" >}}
   {{< boardgame-settings-section heading="Seekers" >}}
     {{< setting-checkbox id="setting-packs-solongNecks" text="Solongnecks?" checked="checked" >}}

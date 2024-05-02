@@ -1,3 +1,4 @@
+import { ACTION_TYPES } from "../conquer/kaizerseat/js_shared/dict";
 import { PackData } from "./dictShared";
 
 export default (node:HTMLElement, data:PackData) =>
@@ -74,7 +75,14 @@ export default (node:HTMLElement, data:PackData) =>
         {
             li2 = document.createElement("li");
             ul2.appendChild(li2);
-            li2.innerHTML = "<strong>Dark " + (i+1) + "</strong>: &ldquo;" + data.dark[i] + "&rdquo;";
+
+            const obj = data.dark[i];
+            if(typeof obj === "string") {
+                li2.innerHTML = "<strong>Dark " + (i+1) + "</strong>: &ldquo;" + obj + "&rdquo;";
+            } else {
+                li2.innerHTML = "<strong>Dark " + (i+1) + "</strong> (<em>" + ACTION_TYPES[obj.type].label + "</em>): &ldquo;" + obj.text + "&rdquo;";
+            }
+
         }
     }
 }

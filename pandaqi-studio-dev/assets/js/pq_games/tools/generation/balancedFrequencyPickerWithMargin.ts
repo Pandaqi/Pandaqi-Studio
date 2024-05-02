@@ -5,13 +5,17 @@ interface FrequencyPickerParams
 {
     options?:string[]
     stats?:Record<string,number>,
-    maxDist?:number
+    maxDist?:number,
+    maxDistCustom?:Record<string,number>
+    penaltyCustom?:Record<string,number>
 }
 
 export default class BalancedFrequencyPickerWithMargin
 {
     options:string[]
     maxDist:number
+    maxDistCustom:Record<string,number> // a custom maxDist for certain elements
+    penaltyCustom:Record<string, number> // if set, it "pretends" those types have X more than they have, so they lag behind everything else and are picked in consistently lower numbers
     stats:Record<string,number>
 
     constructor(params:FrequencyPickerParams = {}) 
@@ -19,6 +23,8 @@ export default class BalancedFrequencyPickerWithMargin
         this.options = params.options ?? [];
         this.stats = params.stats ?? {};
         this.maxDist = params.maxDist ?? 1;
+        this.maxDistCustom = params.maxDistCustom ?? {};
+        this.penaltyCustom = params.penaltyCustom ?? {};
     }
 
     clone(deep = true)
@@ -43,30 +49,31 @@ export default class BalancedFrequencyPickerWithMargin
 
     pickNext() : string
     {
-        // find least used icon
-        let leastUsedIcon = null;
+        // find frequency of least used option
+        let leastUsedOption = null;
         let leastUsedFreq = Infinity;
-        for(const icon of this.options)
+        for(const option of this.options)
         {
-            const freq = this.stats[icon] ?? 0;
+            const freq = (this.stats[option] ?? 0) + (this.penaltyCustom[option] ?? 0);
             if(freq >= leastUsedFreq) { continue; }
             leastUsedFreq = freq;
-            leastUsedIcon = icon;
+            leastUsedOption = option;
         }
 
         // check how bad the situation is
-        // any icons still close to it are still considered as valid options
-        const iconOptions = [];
-        for(const icon of this.options)
+        // any options still close to it are still considered as valid options
+        const finalOptions = [];
+        for(const option of this.options)
         {
-            const freq = this.stats[icon] ?? 0;
+            const freq = (this.stats[option] ?? 0) + (this.penaltyCustom[option] ?? 0);
             const dist = Math.abs(freq - leastUsedFreq);
-            if(dist > this.maxDist) { continue; }
-            iconOptions.push(icon);
+            const tempMaxDist = this.maxDistCustom[option] ?? this.maxDist;
+            if(dist > tempMaxDist) { continue; }
+            finalOptions.push(option);
         }
 
         // then just draw a random one from those + register we did that
-        const randOption = fromArray(iconOptions);
+        const randOption = fromArray(finalOptions);
         this.registerStatChange(randOption);
         return randOption;
     }

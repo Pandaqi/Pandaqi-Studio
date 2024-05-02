@@ -175,8 +175,7 @@ export default class InteractiveExampleSimulator
             return;
         }
 
-        const images = await object[drawFunction](this.getVisualizer());
+        const images = await object[drawFunction](this);
         this.outputBuilder.addFlexList(images);
-        // @TODO: make the flexWrap = wrap just the default on flex list displays
     }
 }

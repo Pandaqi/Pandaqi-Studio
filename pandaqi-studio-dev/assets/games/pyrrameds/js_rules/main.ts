@@ -12,9 +12,61 @@ import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanva
 import createContext from "js/pq_games/layout/canvas/createContext";
 import ResourceImage from "js/pq_games/layout/resources/resourceImage";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
+import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
+import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage";
+import ResourceShape from "js/pq_games/layout/resources/resourceShape";
+import Rectangle from "js/pq_games/tools/geometry/rectangle";
 
 type BoardRow = Card[]
 type CardPath = Point[] // might make this an interface with more data attached
+
+const callbackInitStats = () =>
+{
+    return {
+        numTurns: 0,
+        possibleMoves: 0,
+        possiblePatientMoves: 0,
+        possibleMedicineMoves: 0,
+        turnsWithoutPossibleMoves: 0,
+        winnerStartedWithMostlyMedicine: 0,
+        winnerStartedWithMostlyPatients: 0,
+        sizeOfPatientPlayed:
+        {
+            1: 0,
+            2: 0,
+            3: 0,
+            4: 0,
+            5: 0,
+            6: 0
+        },
+        numSwapTurns: 0,
+        numEndlessGames: 0, // it appears to be impossible to win this game, so I just cut it off at some point and register it as an endless game
+    }
+}
+
+const callbackFinishStats = (sim:InteractiveExampleSimulator) =>
+{
+    const s = sim.getStats();
+    const numTurns = s.numTurns;
+    const numIters = sim.getIterations();
+
+    s.numTurnsAvg = s.numTurns / numIters;
+    s.possibleMovesPerTurn = s.possibleMoves / numTurns;
+    s.possiblePatientMovesPerTurn = s.possiblePatientMoves / numTurns;
+    s.possibleMedicineMovesPerTurn = s.possibleMedicineMoves / numTurns;
+    s.numEndlessGamesChance = s.numEndlessGames / numIters;
+    s.turnsWithoutPossibleMovesChance = s.turnsWithoutPossibleMoves / numTurns;
+
+    s.probabilityOfPlayingPatientOfSize = {};
+
+    const data:Record<number, number> = s.sizeOfPatientPlayed;
+    for(const [key,freq] of Object.entries(data))
+    {
+        const compensateForRarity = CONFIG.generation.patientNumNeedsDistribution[parseInt(key)];
+        if(compensateForRarity <= 0.0) { continue; }
+        s.probabilityOfPlayingPatientOfSize[parseInt(key)] = freq / compensateForRarity / numTurns;
+    }
+}
 
 interface Move
 {
@@ -25,6 +77,7 @@ interface Move
 class Board
 {
     rows: BoardRow[]
+    possibleMoves: Move[]
 
     setup(cards:Card[])
     {
@@ -36,7 +89,7 @@ class Board
         {
             this.rows[y] = [];
             if(y == centerRow) { 
-                this.rows[y] = cards; 
+                this.rows[y] = cards.slice(); 
             } else {
                 for(let x = 0; x < cards.length; x++)
                 {
@@ -72,11 +125,13 @@ class Board
         const positions = [];
         for(let y = 0; y < this.rows.length; y++)
         {
+            const rowBounds = this.getRowBounds(new Point(0,y));
             for(let x = 0; x < this.rows[y].length; x++)
             {
                 const pos = new Point(x,y);
+                if(x < rowBounds.min || x > rowBounds.max) { continue; }
                 if(hasCard && !this.hasCardAt(pos)) { continue; }
-                if(this.listHasMatchingPoint(exclude, pos)) { return; } 
+                if(this.listHasMatchingPoint(exclude, pos)) { continue; } 
                 positions.push(pos);
             }
         }
@@ -102,14 +157,15 @@ class Board
 
     isBelowCenter(pos:Point)
     {
-        return pos.y <= this.getCenterY();
+        return pos.y >= this.getCenterY();
     }
 
     getRowOffsetFromLeft(y:number)
     {
         const centerY = this.getCenterY();
         const distToCenterY = Math.abs(y - centerY);
-        return 0.5*distToCenterY;
+        if(distToCenterY % 2 == 1) { return 0.5; }
+        return 0;
     }
 
     getRowBounds(pos:Point)
@@ -118,16 +174,19 @@ class Board
         const distToCenterY = Math.abs(pos.y - centerY);
 
         const leftBound = Math.floor(0.5*distToCenterY);
-        const rightBound = Math.ceil(0.5*distToCenterY);
+        const rightBound = this.rows[0].length - 1 - Math.ceil(0.5*distToCenterY);
 
         return new Bounds(leftBound, rightBound);
     }
 
     getAllNeighborsOf(pos:Point) : Point[]
     {
+        const offsetLeft = Math.round(this.getRowOffsetFromLeft(pos.y));
+
+        // @TODO: not sure if this is correct or needs to be different based on direction
         const offsets = [
-            new Point(1,0), new Point(1,1), new Point(0,1), 
-            new Point(-1,0), new Point()
+            new Point(1,0), new Point(-1 + offsetLeft,1), new Point(0 + offsetLeft,1), 
+            new Point(-1,0), new Point(-1 + offsetLeft,-1), new Point(0 + offsetLeft,-1)
         ];
 
         const nbs = [];
@@ -143,10 +202,12 @@ class Board
     
     getLowerNeighborsOf(pos:Point)
     {
-        let offsets = [ new Point(0,1), new Point(1,1) ];
+        const offsetLeft = Math.round(this.getRowOffsetFromLeft(pos.y));
+
+        let offsets = [ new Point(-1+offsetLeft,1), new Point(0 + offsetLeft,1) ];
         if(this.isBelowCenter(pos))
         {
-            offsets = [ new Point(0,-1), new Point(1,-1) ];
+            offsets = [ new Point(-1+offsetLeft,-1), new Point(0 + offsetLeft,-1) ];
         }
 
         const rowBounds = this.getRowBounds(pos);
@@ -156,6 +217,7 @@ class Board
         {
             const newPos = pos.clone().add(offset);
             if(newPos.x < rowBounds.min || newPos.x > rowBounds.max) { continue; }
+            if(this.outOfBounds(newPos)) { continue; } // @TODO: shouldn't be necessary, right?
             positions.push(newPos);
         }
 
@@ -165,12 +227,14 @@ class Board
     getOpenLocations() : Point[]
     {
         const allPositions = this.getAllPositions();
+
         const arr = [];
         for(const pos of allPositions)
         {
             if(this.hasCardAt(pos)) { continue; }
 
             const neighbors = this.getLowerNeighborsOf(pos);
+
             let hasNeighborWithCard = false;
             for(const nb of neighbors)
             {
@@ -216,19 +280,28 @@ class Board
         if(card.type == CardType.MEDICINE) 
         {
             const nbs = this.getLowerNeighborsOf(pos);
-            if(nbs.length <= 0) { return false; }
+            const nbCards = [];
+            for(const nb of nbs)
+            {
+                if(!this.hasCardAt(nb)) { continue; }
+                nbCards.push(this.getCardAt(nb));
+            }
+
+            if(nbCards.length <= 0) { return false; }
 
             // ... needs to be higher if it's a single neighbor below
-            if(nbs.length == 1)
+            const reqsAsNum = CONFIG.rulebook.reqsOnCardFunctionAsItsNumber;
+            const myNum = card.getNumber();
+            const num1 = nbCards[0].getNumber(reqsAsNum);
+            if(nbCards.length == 1)
             {
-                if(CONFIG.ifSingleNeighborMustBeHigher) { return card.num > this.getCardAt(nbs[0]).num; }
-                return true;
+                if(CONFIG.rulebook.ifSingleNeighborMustBeHigher) { return myNum > num1; }
+                return myNum < num1 || myNum > num1;
             }
 
             // ... otherwise needs to be higher OR lower than both numbers
-            const num1 = this.getCardAt(nbs[0]).num;
-            const num2 = this.getCardAt(nbs[1]).num;
-            return (card.num > num1 && card.num > num2) || (card.num < num1 && card.num < num2);
+            const num2 = nbCards[1].getNumber(reqsAsNum);
+            return (myNum > num1 && myNum > num2) || (myNum < num1 && myNum < num2);
         }
         
         // A PATIENT card ...
@@ -243,7 +316,7 @@ class Board
             for(const path of paths)
             {
                 const types = [];
-                for(const pos of path) { types.push(this.getCardAt(pos).type); }
+                for(const pos of path) { types.push(this.getCardAt(pos).key); }
                 if(!this.listMatches(card.requirements, types)) { continue; }
                 validPaths.push(path);
             }
@@ -321,15 +394,29 @@ class Board
     async draw(sim:InteractiveExampleSimulator)
     {
         const canvSize = CONFIG.rulebook.boardCanvasSize;
-        const ctx = createContext({ size: canvSize });
-        const cardSize = CONFIG.rulebook.itemSizeDisplayed;
+        const ctx = createContext({ size: canvSize, alpha: false });
+        fillCanvas(ctx, "#FFFFFF");
+
+        const maxSizeX = canvSize.x / this.rows[0].length;
+        const maxSizeY = canvSize.y / this.rows.length;
+        const validSizeX = Math.min(maxSizeX, maxSizeY / 1.4)
+        const validSizeY = Math.min(maxSizeX * 1.4, maxSizeY);
+
+        let cardSize = new Point(validSizeX, validSizeX * 1.4);
+        if(validSizeX > validSizeY/1.4)
+        {
+            cardSize = new Point(validSizeY / 1.4, validSizeY);
+        }
 
         // needed to neatly center the entire thing on the canvas
+        const margin = 4;
+        const cardSizeWithMargin = cardSize.clone().sub(new Point(margin));
+        const cardSizePossibleMove = cardSizeWithMargin.clone().sub(new Point(2*margin));
         const pyramidBounds = new Point(
-            this.rows[0].length * cardSize.x,
-            this.rows.length * cardSize.y
+            (this.rows[0].length-0.5) * cardSize.x,
+            (this.rows.length-0.5) * cardSize.y
         )
-        const centeringOffset = canvSize.clone().scale(0.5) + pyramidBounds.clone().scale(0.5);
+        const centeringOffset = canvSize.clone().scale(0.5).sub( pyramidBounds.clone().scale(0.5));
 
         // just loop through grid and draw each card with correct offset (if it exists, of course)
         for(let y = 0; y < this.rows.length; y++)
@@ -337,17 +424,36 @@ class Board
             const offsetX = this.getRowOffsetFromLeft(y);
             for(let x = 0; x < this.rows[y].length; x++)
             {
-                const card = this.getCardAt(new Point(x,y));
-                if(!card) { continue; }
-
+                const pos = new Point(x,y);
+                const card = this.getCardAt(pos);
                 const realPos = new Point((offsetX + x) * cardSize.x, y * cardSize.y);
                 realPos.add(centeringOffset);
+
+                if(!card)
+                {
+                    let isPossibleMove = false;
+                    for(const move of this.possibleMoves)
+                    {
+                        if(move.pos.matches(pos)) { isPossibleMove = true; break; }
+                    }
+
+                    if(isPossibleMove)
+                    {
+                        const rect = new ResourceShape( new Rectangle({ center: realPos, extents: cardSizePossibleMove }) );
+                        const opRect = new LayoutOperation({
+                            fill: "#FFAAAA"
+                        });
+                        rect.toCanvas(ctx, opRect);
+                    }
+
+                    continue; 
+                }
 
                 // draw the resource to the canvas with the settings we just calculated
                 const res = new ResourceImage( await card.drawForRules(sim.getVisualizer()) );
                 const op = new LayoutOperation({
                     translate: realPos,
-                    dims: cardSize,
+                    dims: cardSizeWithMargin,
                     pivot: Point.CENTER
                 })
                 res.toCanvas(ctx, op);
@@ -355,7 +461,9 @@ class Board
         }
 
         // don't forget to actually add the result back into example builder, Tiamo!
-        sim.outputBuilder.addNode(ctx.canvas);
+        const img = await convertCanvasToImage(ctx.canvas);
+        img.style.maxHeight = "none";
+        sim.outputBuilder.addNode(img);
     }
 }
 
@@ -384,6 +492,22 @@ class Player
         return this.cards.splice(idx,1)[0];
     }
 
+    pickMove(validMoves:Move[], board:Board) : Move
+    {
+        const move = fromArray(validMoves);
+        this.removeCard(move.card);
+        board.applyMove(move);
+        return move;
+    }
+
+    swapCards(board:Board)
+    {
+        const pos1 = board.getRandomPosition(true);
+        const pos2 = board.getRandomPosition(true, [pos1]);
+        board.swapCardsAt(pos1, pos2);
+        return [pos1, pos2];
+    }
+
     async draw(sim:InteractiveExampleSimulator)
     {
         const canvases = [];
@@ -398,9 +522,11 @@ class Player
 
 const generate = async (sim:InteractiveExampleSimulator) =>
 {
-    const numPlayers = CONFIG.rulebook.numPlayerBounds.randomInteger();
-    const allCards = shuffle(sim.getPicker("card").get().slice());
-    const startingRowSize = CONFIG.rulebook.startingRowSize;
+    const numPlayers = CONFIG.rulebook.numPlayerBounds.randomInteger() ?? 4;
+    const maxNumCards = CONFIG.rulebook.numCardsInDeck ?? 36;
+    const allCards = shuffle(sim.getPicker("card").get().slice()).splice(0, maxNumCards);
+
+    const startingRowSize = CONFIG.rulebook.startingRowSize ?? 6;
 
     // setup
     const board = new Board();
@@ -415,40 +541,89 @@ const generate = async (sim:InteractiveExampleSimulator) =>
         players.push(p);
     }
 
+    // we keep a copy for tracking some stats about "luck" in starting hands at the end
+    const startingHandsCopy = [];
+    for(const p of players)
+    {
+        startingHandsCopy.push(p.getCards());
+    }
+
+    // if we only display a single turn, "simulate ahead" to get a random board that's already semi-filled
+    if(sim.displaySingleTurn())
+    {
+        const numTurnsAhead = CONFIG.rulebook.preSimulateTurnsBounds.randomInteger();
+        let counter = 0;
+        let player0HasTooManyCards = true;
+        while(player0HasTooManyCards)
+        {
+            const player = players[counter];
+            const validMoves = board.getValidMovesFor(player);
+            if(validMoves.length > 0) {
+                player.pickMove(validMoves, board);
+            } else {
+                player.swapCards(board);
+            }
+            counter = (counter + 1) % numPlayers;
+
+            player0HasTooManyCards = players[0].count() > 5;
+        }
+    }
+
     let continueTheGame = true;
-    let counter = Math.floor(Math.random() * numPlayers);
+    let counter = 0;
+    let winningPlayer : Player = null;
+    const maxTurns = 100;
+    let numTurns = 0;
     while(continueTheGame)
     {
         // PHASE 1) display current state
-        const player = players[counter];
+        const player : Player = players[counter];
+        numTurns++;
+        sim.print("You have these cards in your hands.");
+        await sim.listImages(player, "draw");
 
-        sim.print("The board looks as follows.");
+        const validMoves = board.getValidMovesFor(player);
+        sim.stats.possibleMoves += validMoves.length;
+        if(validMoves.length <= 0) { sim.stats.turnsWithoutPossibleMoves++; }
+
+        let numMedicine = 0;
+        let numPatient = 0;
+        for(const move of validMoves)
+        {
+            if(move.card.type == CardType.MEDICINE) { numMedicine++; }
+            if(move.card.type == CardType.PATIENT) { numPatient++; }
+        }
+        sim.stats.possibleMedicineMoves += numMedicine;
+        sim.stats.possiblePatientMoves += numPatient;
+
+        sim.print("The board looks as follows. You have " + validMoves.length + " possible moves (marked with red rectangles).");
+        board.possibleMoves = validMoves;
         await sim.outputAsync(board, "draw");
 
-        sim.print("You have these cards in your hands.");
-        sim.listImages(player, "draw");
-
         // PHASE 2) decide: play a card or swap 2 cards?
-        const validMoves = board.getValidMovesFor(player);
-        sim.print("You have " + validMoves.length + " possible moves.");
-
         const playCard = validMoves.length > 0;
         if(playCard) {
-            const move = fromArray(validMoves);
-            player.removeCard(move.card);
-            board.applyMove(move);
+            const move = player.pickMove(validMoves, board);
+            sim.print("You decide to play <strong>" + move.card.toRulesString() + "</strong>.");
 
-            sim.print("You decide to play " + move.card + ".");
+            if(move.card.type == CardType.PATIENT) 
+            { 
+                const numReqs = move.card.requirements.length;
+                sim.stats.sizeOfPatientPlayed[numReqs]++; 
+                sim.print("Great! You played a patient with " + numReqs + " requirements. You may ask another player to reveal a card to you that many times.");
+            }
         } else {            
-            const pos1 = board.getRandomPosition(true);
-            const pos2 = board.getRandomPosition(true, [pos1]);
-            board.swapCardsAt(pos1, pos2);
-
-            sim.print("You decide to swap two cards on the board: " + pos1 + " <-> " + pos2 + ".");
+            const positions = player.swapCards(board);
+            const card1 = board.getCardAt(positions[0]);
+            const card2 = board.getCardAt(positions[1]);
+            sim.print("You decide to swap cards.");
+            sim.print("You reveal a hand card to all players that matches one of the cards you swap: <strong>" + card1.toRulesString() + "</strong> <-> <strong>" + card2.toRulesString() + "</strong>.");
+            sim.stats.numSwapTurns++;
         }
 
         // PHASE 3) display the results of that
         sim.print("At the end of your turn, the board looks as follows.");
+        board.possibleMoves = [];
         await sim.outputAsync(board, "draw");
         
         // PHASE 4) check if game should continue
@@ -457,16 +632,36 @@ const generate = async (sim:InteractiveExampleSimulator) =>
         for(const p of players)
         {
             if(p.count() > 0) { continue; }
+            winningPlayer = p;
             continueTheGame = false;
             break;
         }
 
         if(sim.displaySingleTurn()) { continueTheGame = false; }
+        if(numTurns > maxTurns) { continueTheGame = false; sim.stats.numEndlessGames++; numTurns = 0; } // don't register these games as they skew the data
     }
+
+    if(winningPlayer)
+    {
+        const startingHand = startingHandsCopy[winningPlayer.num];
+        const numPerType = { [CardType.MEDICINE]: 0, [CardType.PATIENT]: 0, [CardType.SPECIAL]: 0 };
+        for(const card of startingHand)
+        {
+            numPerType[card.type]++;
+        }
+
+        if(numPerType[CardType.MEDICINE] > numPerType[CardType.PATIENT]) { 
+            sim.stats.winnerStartedWithMostlyMedicine++;
+        } else {
+            sim.stats.winnerStartedWithMostlyPatients++;
+        }
+    }
+
+    sim.stats.numTurns += numTurns;
 }
 
 const SIMULATION_ENABLED = false;
-const SIMULATION_ITERATIONS = 5000;
+const SIMULATION_ITERATIONS = 500;
 const SHOW_FULL_GAME = false;
 
 const gen = new InteractiveExampleGenerator({
@@ -480,7 +675,7 @@ const gen = new InteractiveExampleGenerator({
         enabled: SIMULATION_ENABLED,
         iterations: SIMULATION_ITERATIONS,
         showFullGame: SHOW_FULL_GAME,
-        //callbackInitStats,
-        //callbackFinishStats,
+        callbackInitStats,
+        callbackFinishStats,
     }
 })

@@ -1,8 +1,8 @@
-import { ActionType, PackData } from "games/throneless-games/js_shared/dictShared"
+import { ActionType, CardType, PackData } from "games/throneless-games/js_shared/dictShared"
 
 const PACKS:Record<string, PackData> =
 {
-    solongNecks: 
+    solongnecks: 
     { 
         frame: 0,
         clarification: "An open round means you take turns (starting from Kaizerseat, clockwise) and play your card faceup.",
@@ -236,7 +236,7 @@ const PACKS:Record<string, PackData> =
 
         dark: [
             { text: "<b>Steal</b> a <b>hired</b> card from another player.", type: ActionType.HANDLE },
-            { text: "Decide this round's direction: <b>clockwise or counter-clockwise</b>. This overrides anything else.", type: ActionType.REVEAL },
+            { text: "Decide this round's direction: <b>clockwise or counter clockwise</b>. This overrides anything else.", type: ActionType.REVEAL },
             { text: "Before each round, you may <b>look</b> at the <b>Tell</b> OR the <b>Leader's Hand</b>.", type: ActionType.HIRE },
         ],
 
@@ -256,7 +256,7 @@ const PACKS:Record<string, PackData> =
 
         name: 
         {
-            text: "Sirens of Seatongue",
+            text: "Seatongue Sirens",
         },
         
         action: 
@@ -369,12 +369,11 @@ const PACKS:Record<string, PackData> =
     },
 }
 
-// @TODO
 const SETS =
 {
-    starter: ["pricklypettes", "chewyCarrots", "curlysnouts", "snufflesniff"],
-    medium: ["karateChicks", "treeOfHainut", "sealalater", "ponytailors"],
-    advanced: ["sleepersippies", "tinybears", "purplepaws", "ottermother"],
+    starter: ["boardomThieves", "candlesticks", "sonarAndSons", "twistertoots"],
+    medium: ["solongnecks", "atheneyes", "gallopeers", "sirensOfSeatongue"],
+    advanced: ["longswordFins", "taredtula", "cracktapus", "ravenletters"],
     complete: Object.keys(PACKS)
 }
 
@@ -405,7 +404,7 @@ const THRONE_CARDS =
 
 const SEAT_CARDS =
 [
-    "The direction of this round is <b>counter-clockwise</b>. (The Leader does not choose.)",
+    "The direction of this round is <b>counter clockwise</b>. (The Leader does not choose.)",
     "This round is played <b>openly</b>. (This overrides anything else.)",
     "The <b>Leader must VETO</b> one player <em>before voting</em>. The card they play is simply discarded.",
     "The <b>Leader must VETO</b> one player <em>after voting</em>. The card they played is simply discarded.",
@@ -441,10 +440,27 @@ const SEAT_CARDS =
     "The winning voter <b>closest to Kaizerseat, steals</b> 1 card from all other players.",
 ]
 
+const ACTION_TYPES =
+{
+    [ActionType.HANDLE]: { frame: 0, label: "When Handled" },
+    [ActionType.REVEAL]: { frame: 1, label: "When Revealed" },
+    [ActionType.WON]: { frame: 2, label: "When Won" },
+    [ActionType.TELL]: { frame: 3, label: "When Tell" },
+    [ActionType.HIRE]: { frame: 4, label: "When Hired" },
+}
+
+const CARD_TEMPLATES =
+{
+    [CardType.THRONE]: { frame: 0, label: "Thronecard" },
+    [CardType.SEAT]: { frame: 1, label: "Seatcard" }
+}
+
 
 export {
     PACKS,
     SETS,
     THRONE_CARDS,
-    SEAT_CARDS
+    SEAT_CARDS,
+    ACTION_TYPES,
+    CARD_TEMPLATES
 }

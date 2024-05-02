@@ -266,12 +266,12 @@ class Hand
         return score;
     }
 
-    async draw(vis:MaterialVisualizer)
+    async draw(sim:InteractiveExampleSimulator)
     {
         const canvases = [];
         for(const card of this.cards)
         {
-            canvases.push(await card.draw(vis));
+            canvases.push(await card.draw(sim.getVisualizer()));
         }        
         return await convertCanvasToImageMultiple(canvases, true);
     }

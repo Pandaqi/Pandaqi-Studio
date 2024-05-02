@@ -22,18 +22,24 @@ export default class CardPicker
 
     generateThroneCards()
     {
+        if(!CONFIG.generateThroneCards) { return; }
+
         for(const data of THRONE_CARDS)
         {
-            const newCard = new CardThroneless(CardType.THRONE, "", { text: data });
+            const obj = { action: { text: data } }
+            const newCard = new CardThroneless(CardType.THRONE, "throne", obj);
             this.cards.push(newCard);
         }
     }
 
     generateSeatCards()
     {
+        if(!CONFIG.generateSeatCards) { return; }
+
         for(const data of SEAT_CARDS)
         {
-            const newCard = new CardThroneless(CardType.SEAT, "", { text: data });
+            const obj = { action: { text: data } }
+            const newCard = new CardThroneless(CardType.SEAT, "seat", obj);
             this.cards.push(newCard);
         }
     }
