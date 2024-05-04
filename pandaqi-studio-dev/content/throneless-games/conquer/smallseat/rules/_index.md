@@ -8,8 +8,8 @@ Pick as many unique animals as the number of players. Add all their cards to the
 
 Pick a player: they become the **Teller**. 
 
-* Their position ( = where they sit/stand) is called the **Smallseat**.
-* They publicly call out **one animal** before the game starts. 
+* Their current position ( = where they sit/stand) is called the **Smallseat**.
+* They publicly call out **one Animal** before the game starts. 
 * They start _without cards_, but will receive more and more as the game progresses.
 
 All other players are **Candidates**. Deal the deck to the candidates until empty, as fairly as possible. Any remaining cards go to the Teller.
@@ -22,11 +22,13 @@ During the game, whoever sits at the Smallseat position is called the **Boss**.
 You CAN include more animals; this makes the game longer and harder.
 {{% /remark %}}
 
-@TODO: IMAGE EXAMPLE
+{{< rules-image src="starting_setup.webp" alt="Example of setup for 4 players." >}}
 
 {{% /rules-block %}}
 
 {{% rules-block id="objective" heading="Objective" icon="objective" icontint="orange" %}}
+
+{{< rules-double-view src="objective.webp" alt="Example of counting the votes and declaring a winner (at the end)." >}}
 
 The game ends once **no Candidate can vote anymore**.
 
@@ -35,11 +37,13 @@ Count the **secret cards** in the Teller's hand. The animal that appears **most 
 * If this was the animal that the Teller called out at the start, _they win alone_!
 * Otherwise, each player whose _final card_ is the same as the _winning animal_, wins!
 
+{{< /rules-double-view >}}
+
 {{% /rules-block %}}
 
 {{% rules-block id="action_play" heading="Gameplay" icon="action" icontint="purple" %}}
 
-Gameplay happens in rounds, but each round is played _simultaneously_. 
+Gameplay happens in rounds, played _simultaneously_. 
 
 Each round,
 
@@ -50,13 +54,13 @@ Each round,
 
 When done, reveal all votes.
 * The Animal with the **most votes** wins.
-* **Tied?** The one closest to Smallseat, going in the **direction** picked by the Boss, wins.
+* **Tied?** The one closest to Smallseat, in clockwise direction, wins.
 
-@TODO: IMAGE EXAMPLE
+{{< rules-image src="gameplay_1.webp" alt="Example of voting in a round, then handling who won the vote." >}}
 
 All votes for this winning animal go into the **Teller's hand** (secret).
 
-For each remaining card, the player gets a choice. (Do this from Smallseat again, in the direction picked.)
+For each remaining card, the player gets a choice. (Do this from Smallseat again, clockwise, until all cards are gone.)
 
 * Either **execute** the action on your card,
 * Or **swap places** with another player.
@@ -64,6 +68,12 @@ For each remaining card, the player gets a choice. (Do this from Smallseat again
 Whatever happens, the card played goes into the **Teller's hand** (public).
 
 That's it!
+
+{{% remark %}}
+Remember that Smallseat is a **position**. Whoever sits there, is currently Boss. As such, when they swap places, they do not remain Boss.
+{{% /remark %}}
+
+{{< rules-image src="gameplay_2.webp" alt="Example of handlgint the remaining (non-winning) cards." >}}
 
 {{< rules-example id="turn" >}}
 

@@ -64,6 +64,8 @@ export default class CardPicker
 
     generateContracts(targetSet:string)
     {
+        if(!CONFIG.generateContracts) { return; }
+
         const defFreq = CONFIG.generation.defaultFrequencyContracts[targetSet] ?? 1;
         for(const [key,data] of Object.entries(CONTRACTS))
         {
@@ -98,7 +100,7 @@ export default class CardPicker
         }
     }
 
-    fillInDynamically(s:string)
+    fillInDynamically(s:string) : any[]
     {
         const options = structuredClone(DYNAMIC_OPTIONS);
         const needles = Object.keys(options);
@@ -111,14 +113,18 @@ export default class CardPicker
             {
                 if(!s.includes(needle)) { continue; }
 
+                const position = s.indexOf(needle);
+
                 const randOption = shuffle(options[needle]).pop();
                 s = s.replace(needle, randOption);
-                dynamicDetails.push(randOption);
+                dynamicDetails.push({ idx: position, val: randOption });
                 foundSomething = true;
                 break;
             }
         }
-        return dynamicDetails;
+
+        dynamicDetails.sort((a,b) => { return a.idx - b.idx; })
+        return dynamicDetails.map((a) => a.val); // we only need values, not indices anymore
     }
 
 }

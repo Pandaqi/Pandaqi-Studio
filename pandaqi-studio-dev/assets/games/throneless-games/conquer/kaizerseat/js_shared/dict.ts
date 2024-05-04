@@ -222,6 +222,7 @@ const PACKS:Record<string, PackData> =
         backstory: "This large family of bats, all related in some way or another, navigates political life by sonar. They can hear conversations far away, track shady deals even when they happen in deepest dark, and hang from the Throne Room's ceiling without anyone noticing. Any information gleaned ... is obviously passed on in the family.",
         animal: "Bat",
         colorClass: "Purple",
+        clarification: "About the regular action => The other player is required to follow up on his promised Vote, of course. Unless later actions or rule twists make this impossible (such as losing their final card of the promised type).",
 
         name: 
         {
@@ -236,7 +237,7 @@ const PACKS:Record<string, PackData> =
 
         dark: [
             { text: "<b>Steal</b> a <b>hired</b> card from another player.", type: ActionType.HANDLE },
-            { text: "Decide this round's direction: <b>clockwise or counter clockwise</b>. This overrides anything else.", type: ActionType.REVEAL },
+            { text: "Decide this round's direction: <b>clockwise or counter clockwise</b>. This overrides the Leader's decision.", type: ActionType.REVEAL },
             { text: "Before each round, you may <b>look</b> at the <b>Tell</b> OR the <b>Leader's Hand</b>.", type: ActionType.HIRE },
         ],
 

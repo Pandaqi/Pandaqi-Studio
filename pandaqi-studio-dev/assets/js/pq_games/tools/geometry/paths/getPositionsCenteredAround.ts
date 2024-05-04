@@ -14,6 +14,8 @@ export default (params:Params) =>
     if(num <= 0) { return []; }
 
     const basePos = params.pos ?? new Point();
+    if(num == 1) { return [basePos.clone()]; }
+
     const dims = new Point(params.dims);
     const dir = params.dir ?? Point.RIGHT;
 

@@ -8,7 +8,7 @@ headerTitle: "Build a pyramid of cards that delivers the right medicine to the r
 blurb: "Build a pyramid of cards that delivers the right medicine to the right patients. Do it with everyone else, but finish before anyone else."
 
 extraCSS: true
-downloadLink: ""
+downloadLink: "https://drive.google.com/drive/folders/1CcsMv1m33GWZypAiNYZgkpCh17RQtqW5"
 
 customHeight: "small"
 headerDarkened: true
@@ -21,20 +21,17 @@ bgColorLink: "#ff1f1f"
 textColor: "#f2ffef"
 textColorLink: "#ffe9e9"
 
-
-date: 2023-01-01 # 2024-12-26
+date: 2025-05-26
 
 categories: ["boardgame"]
 tags: ["creative", "guessing", "word"]
 
 multiplayermode: "competitive"
 language: EN
-genre: ["card", "party", "social"]
 playtime: 30
-playercount: [3,4,5,6,7]
-complexity: low
+playercount: [2,3,4,5,6]
 ages: everyone
-devlog: "/blog/boardgames/noble-flood/"
+devlog: "/blog/boardgames/pyrrameds/"
 
 ---
 

@@ -304,12 +304,11 @@ const PACKS:Record<string, PackData> =
     },
 }
 
-// @TODO
 const SETS =
 {
-    starter: ["pricklypettes", "chewyCarrots", "curlysnouts", "snufflesniff"],
-    medium: ["karateChicks", "treeOfHainut", "sealalater", "ponytailors"],
-    advanced: ["sleepersippies", "tinybears", "purplepaws", "ottermother"],
+    starter: ["gallopingSun", "edibusEggsnatcher", "eyrieFeyle", "venomfruit"],
+    medium: ["stingersHive", "featherdancer", "whistleyWine", "galaksea"],
+    advanced: ["trunktrumpets", "fearedFlame", "chatteredFins", "colorcoats"],
     complete: Object.keys(PACKS)
 }
 

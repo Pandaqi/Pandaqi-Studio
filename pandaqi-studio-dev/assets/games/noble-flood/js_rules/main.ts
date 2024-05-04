@@ -37,7 +37,7 @@ const callbackFinishStats = (sim:InteractiveExampleSimulator) =>
     s.winningScoreAvg = s.winningScores / i;
     s.numValidMovesAvg = s.numValidMoves / t;
     s.numCardsPlayedPerTurn = s.numCardsPlayed / t;
-    s.numCardsDiscardedPerTurn = s.numCardsDiscarded / t;
+    s.numCardsDiscardedPerRound = s.numCardsDiscarded / r;
     s.contractSuccessChancePerRound = s.contractSuccessChance / r;
     s.chanceNoContractPerRound = s.chanceNoContract / r;
 
@@ -53,18 +53,27 @@ const callbackFinishStats = (sim:InteractiveExampleSimulator) =>
 
     s.successChancePerContract = {};
     s.proposedPointsPerContract = {};
+    let proposedPointsTotal = 0;
+    let numContracts = 0;
     for(const [key,freq] of Object.entries(sim.stats.numSuccessPerContract as Record<string,number>))
     {
         const chance = freq / sim.stats.numOccurrencesPerContract[key];
         s.successChancePerContract[key] = chance;
-        s.proposedPointsPerContract[key] = clamp(Math.round(lerp(10, 1, chance)), 1, 10);
+
+        const proposedPoints = clamp(Math.round(lerp(10, 1, chance)), 1, 10);
+        s.proposedPointsPerContract[key] = proposedPoints;
+        proposedPointsTotal += proposedPoints;
+        numContracts++;
     }
+
+    s.proposedPointsAvg = proposedPointsTotal / numContracts;
+    s.numContracts = numContracts;
 }
 
 const generate = async (sim:InteractiveExampleSimulator) =>
 {
     const numPlayers = CONFIG.rulebook.numPlayerBounds.randomInteger() ?? 4;
-    const numContractCardsPerRound = numPlayers + (CONFIG.rulebook.surplusContractCards ?? 2);
+    const numContractCardsPerRound = Math.round(numPlayers * (CONFIG.rulebook.surplusContractCardsMultiplier ?? 2));
     const startingRowSize = CONFIG.rulebook.startingRowSize ?? 4;
     const numCardsPerPlayer = CONFIG.rulebook.numCardsPerPlayer ?? 4;
 
@@ -124,6 +133,15 @@ const generate = async (sim:InteractiveExampleSimulator) =>
         const cardsDiscarded = [];
         const curDealer = players[counterGame % numPlayers];
 
+        if(CONFIG.rulebook.validMoves.allowPickingWildcard)
+        {
+            const wc = board.pickRandomWildcard();
+            let str = "number <strong>" + wc.toString() + "</strong>";
+            if(typeof wc === "string") { str = "suit <strong>" + wc + "</strong>"; }
+
+            sim.print("The Dealer picks the " + str + " to be wildcard for placement this round.");
+        }
+
         while(continueTheRound)
         {
             const curPlayer = players[counterRound];
@@ -138,7 +156,7 @@ const generate = async (sim:InteractiveExampleSimulator) =>
             if(curPlayer == curDealer)
             {
                 sim.print("You are Dealer, so you first reveal a facedown card from the map.");
-                // @TODO: write logic for this??
+                // @TODO: write logic for this?? both in numbers and in visualization?
             }
 
             const mustDiscard = validMoves.length <= 0;
@@ -179,11 +197,14 @@ const generate = async (sim:InteractiveExampleSimulator) =>
             await sim.outputAsync(board, "draw");
         }
 
-        // cleanup; give everything back to decks + validate contracts
+        // cleanup; give everything back to decks 
         const allCardsInMap = board.getAllCards();
         cardsRegular.push(...shuffle(allCardsInMap));
         cardsRegular.push(...shuffle(cardsDiscarded));
+        cardsContract.push(...shuffle(contractsDrawn)); // these are the contracts left in the list AFTER drawing by players
 
+        // validate contracts: check which ones succeeded
+        board.enableCache(); // re-using things we already calculated makes this much faster
         let contractSuccesses = 0;
         for(const player of players)
         {
@@ -208,7 +229,7 @@ const generate = async (sim:InteractiveExampleSimulator) =>
         numRounds++;
         counterGame++;
 
-        continueTheGame = cardsContract.length > 0;
+        continueTheGame = cardsContract.length > numContractCardsPerRound;
         if(sim.displaySingleTurn()) { continueTheGame = false; }
     }
 
@@ -236,7 +257,7 @@ const generate = async (sim:InteractiveExampleSimulator) =>
 }
 
 const SIMULATION_ENABLED = true;
-const SIMULATION_ITERATIONS = 500;
+const SIMULATION_ITERATIONS = 100;
 const SHOW_FULL_GAME = false;
 
 const gen = new InteractiveExampleGenerator({

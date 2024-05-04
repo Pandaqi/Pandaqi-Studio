@@ -1,4 +1,5 @@
 import Point from "js/pq_games/tools/geometry/point"
+import { DrawGroup } from "../js_game/drawDynamicContract";
 
 enum CardType
 {
@@ -11,10 +12,62 @@ const NUMBERS = [1,2,3,4,5,6,7,8,9,10,11,12,13];
 const NUMBERS_AS_STRINGS = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
 const SUITS =
 {
-    hearts: { frame: 0 },
-    diamonds: { frame: 1 },
-    clubs: { frame: 2 },
-    spades: { frame: 3 }
+    hearts: { frame: 0, color: "#A30606" },
+    diamonds: { frame: 1, color: "#A30606" },
+    clubs: { frame: 2, color: "#1C1C1C" },
+    spades: { frame: 3, color: "#1C1C1C" }
+}
+
+// How to draw a card's icons; all coordinates relative to center
+const ICON_ARRANGEMENTS = 
+{
+    1: [new Point()],
+    2: [new Point(-1,1), new Point(1,-1)],
+    3: [new Point(-1,1), new Point(), new Point(1,-1)],
+    4: [new Point(-1,-1), new Point(1,-1), new Point(1,1), new Point(-1,1)],
+    5: [new Point(-1,-1), new Point(1,-1), new Point(), new Point(1,1), new Point(-1,1)],
+    6: [new Point(-1,-1), new Point(1,-1), new Point(-1,0), new Point(1,0), new Point(1,1), new Point(-1,1)],
+    7: [
+        new Point(-1,-1), new Point(0,-0.5), new Point(1,-1), 
+        new Point(-1,0), new Point(1,0), 
+        new Point(-1,1), new Point(1,1)
+    ],
+    8: [
+        new Point(-1,-1), new Point(0,-0.5), new Point(1,-1),
+        new Point(-1,0), new Point(1,0), 
+        new Point(-1,1), new Point(0,0.5), new Point(1,1)
+    ],
+    9: [
+        new Point(-1,-1.35), new Point(1,-1.35), 
+        new Point(-1, -0.35), new Point(0,-0.85), new Point(1,-0.35), 
+        new Point(-1,0.35), new Point(1,0.35), 
+        new Point(-1,1.35), new Point(1,1.35)
+    ],
+    10: [
+        new Point(-1,-1.35), new Point(1,-1.35), 
+        new Point(-1, -0.35), new Point(0,-0.85), new Point(1,-0.35), 
+        new Point(-1,0.35), new Point(0,0.85), new Point(1,0.35), 
+        new Point(-1,1.35), new Point(1,1.35)
+    ],
+}
+
+const CARD_TEMPLATES =
+{
+    [CardType.CARD]: { frame: 0 },
+    [CardType.SPECIAL]: { frame: 1 },
+    [CardType.CONTRACT]: { frame: 2 },
+}
+
+const MISC = 
+{
+    banner: { frame: 0 },
+    union_or: { frame: 1 }, // a "/"
+    union_and: { frame: 2 }, // a "+"
+    suit_any_same: { frame: 3 }, // all four suits mashed into one symbol
+    number_any_same: { frame: 4 }, // just a question mark or hashtag, decorated
+    adjacent: { frame: 5 }, // straight double arrow between cards
+    numeric: { frame: 6 }, // a bent arrow over the top---between cards---with a  "+1" over it
+    invert_cross: { frame: 7 }, // a red slash / cross / stop-sign
 }
 
 interface ContractData
@@ -23,80 +76,87 @@ interface ContractData
     desc: string,
     freq?: number,
     set?: string,
-    score?: number
+    score?: number,
+    rule?: string,
+    label?: string,
+    drawDetails?: DrawGroup[]
 }
 
-// General rule for SCORING them
-// - "any" actions are MUCH easier than specific ones
-// - actions that require MORE CARDS to work are generally HARDER
-// - scoring ranges from 1--10
-// - LOW scoring actions have HIGH scoring penalties (to punish you for screwing up something that easy; also to incentivize players to take risks, because high scoring ones thus have LOW penalties).
-
+// @NOTE: scores were filled in after doing 10,000 games simulation. They should be "perfect" for the cards, so none are manually chosen by me anymore.
 const CONTRACTS:Record<string,ContractData> =
 {
     // the base game contracts are very much based on Poker hands
-    // just with that extra dimension (playing on 2D map, more cards) added
-    one_number: { desc: "A card with number %number%.", score: 1 },
-    one_suit: { desc: "A card with suit %suit%.", score: 1 },
+    // just with that extra dimension (playing on 2D map, more cards, adjacency) added
+    one_number: { desc: "A card with <b>number %number%</b>.", score: 2, drawDetails: [new DrawGroup().addCard({ number: 0 })] },
+    one_suit_options_number: { desc: "A card with <b>suit %suit%</b> and <b>number %number%, %number% or %number%</b>.", score: 3, drawDetails: [new DrawGroup().addCard({ suit: 0, number: [1,2,3] })] },
     
-    pair_any: { desc: "Two cards of the same number.", score: 1 },
-    pair_adjacent_any: { desc: "Two cards of the same number adjacent to each other.", score: 3 },
-    pair: { desc: "Two %number%s.", score: 4 },
-    pair_adjacent: { desc: "Two %number%s adjacent to each other.", score: 5 },
+    pair_with_suits_any: { desc: "<b>Two</b> cards of the same number, with suits %suit% and %suit%", score: 3, drawDetails: [new DrawGroup().addCards({ suit: 0, number: -1 }, { suit: 1, number: -1 })] },
+    pair_with_suits_adjacent_any: { desc: "<b>Two</b> cards of the same number <b>adjacent</b> to each other, with suits %suit% and %suit%", score: 7, drawDetails: [new DrawGroup().addCards({ suit: 0, number: -1 }, { suit: 1, number: -1 }).setAdjacent(true)] },
+    pair: { desc: "One of these numbers <b>appears two times: %number% or %number%</b>.", score: 3, drawDetails: [new DrawGroup().addCard({ number: 0 }, 2), new DrawGroup().addCard({ number: 1 }, 2)] },
+    pair_adjacent: { desc: "One of these numbers <b>appears two times, adjacent</b> to each other: <b>%number% or %number%</b>.", score: 7, drawDetails: [new DrawGroup().addCard({ number: 0 }, 2).setAdjacent(true), new DrawGroup().addCard({ number: 1 }, 2).setAdjacent(true)] },
 
-    trio_any: { desc: "Three cards of the same number.", score: 3 },
-    trio_adjacent_any: { desc: "Three cards of the same number are adjacent to each other.", score: 6 },
-    trio: { desc: "Three %number%s.", score: 5 },
+    trio_any: { desc: "<b>Three</b> cards of the same number.", score: 2, drawDetails: [new DrawGroup().addCard({ number: -1 }, 3)] },
+    trio_with_suits_any: { desc: "<b>Three</b> cards of the same number <em>and</em> <b>not with suit %suit%</b>.", score: 6, drawDetails: [new DrawGroup().addCard({ number: -1, suit: 0, suitInvert: true }, 3)] },
+    trio_adjacent_any: { desc: "<b>Three</b> cards of the same number are <b>adjacent</b> to each other.", score: 8, drawDetails: [new DrawGroup().addCard({ number: -1 }, 3).setAdjacent(true)] },
+    trio: { desc: "One of these numbers <b>appears three times: %number%, %number% or %number%</b>.", score: 6, drawDetails: [new DrawGroup().addCard({ number: 0 }, 3), new DrawGroup().addCard({ number: 1 }, 3), new DrawGroup().addCard({ number: 2 }, 3)] },
 
-    pair_double_any: { desc: "Two pairs. (A pair means two cards of the same number.)", score: 3 },
-    pair_double: { desc: "A pair of %number%s and a pair of %number%s.", score: 6 },
-    four_number_any: { desc: "Four cards of the same number.", score: 6 },
-    four_number: { desc: "Four %number%s.", score: 9 }, // @TODO: what to do with these highly specific ones? Provide more options for the numbers/suits? Make them appear less frequently?
-    four_suit_any: { desc: "Four cards of the same suit.", score: 3 },
-    four_suit: { desc: "Four cards of the suit %suit%.", score: 4 },
+    pair_double_with_suits_any: { desc: "<b>Two pairs</b> with suits %suit% and %suit%.", score: 6, drawDetails: [new DrawGroup().addCard({ suit: 0 }, 2), new DrawGroup().addCard({ suit: 1 }, 2)] },
+    pair_double: { desc: "A <b>pair of %number%s</b> <em>and</em> a <b>pair of %number%s</b>.", score: 8, drawDetails: [new DrawGroup().addCard({ number: 0 }, 2), new DrawGroup().addCard({ number: 1 }, 2)] },
+    
+    four_number_any: { desc: "<b>Four</b> cards of the same number.", score: 8, drawDetails: [new DrawGroup().addCard({ number: -1 }, 4)] },
+    four_number: { desc: "One of these numbers <b>appears four times: %number%, %number%, %number% or %number%</b>.", score: 9, drawDetails: [new DrawGroup().addCard({ number: 0 }, 4), new DrawGroup().addCard({ number: 1 }, 4), new DrawGroup().addCard({ number: 2 }, 4), new DrawGroup().addCard({ number: 3 }, 4)] },
+    four_suit_adjacent_any: { desc: "<b>Four</b> cards of the <b>same suit, adjacent</b> to each other.", score: 5, drawDetails: [new DrawGroup().addCard({ suit: -1 }, 4).setAdjacent(true)] },
+    four_suit: { desc: "<b>Four</b> cards of the suit %suit%.", score: 5, drawDetails: [new DrawGroup().addCard({ suit: 0 }, 4)] },
 
-    straight: { desc: "Five cards in numerical order.", score: 3 },
-    straight_adjacent: { desc: "Five cards in numerical order are adjacent to each other.", score: 6 },
-    straight_restricted: { desc: "Five cards in numerical order, which starts lower than (or at) %number%.", score: 6 },
-    flush_any: { desc: "Five cards of the same suit.", score: 5 },
-    flush: { desc: "Five cards of the suit %suit%.", score: 7 },
+    straight: { desc: "<b>Five</b> cards in numerical <b>order</b>.", score: 4, drawDetails: [new DrawGroup().addCardsNumeric(5)] },
+    straight_adjacent: { desc: "<b>Three</b> cards in numerical <b>order</b> are <b>adjacent</b> to each other.", score: 7, drawDetails: [new DrawGroup().addCardsNumeric(3).setAdjacent(true)] },
+    straight_restricted: { desc: "<b>Four</b> cards in numerical <b>order</b>, which starts lower than (or at) %number%.", score: 4, drawDetails: [new DrawGroup().addCardsNumeric(4, { number: 0 })] },
+    flush_any: { desc: "<b>Five</b> cards of the <b>same suit</b>.", score: 3, drawDetails: [new DrawGroup().addCard({ suit: -1 }, 5)] },
+    flush: { desc: "<b>Five</b> cards of the <b>suit %suit%</b>.", score: 7, drawDetails: [new DrawGroup().addCard({ suit: 0}, 5)] },
 
-    full_house: { desc: "A pair ( = two cards of same number) and a trio ( = three cards of the same number)", score: 4 },
-    trio_double_any: { desc: "Two trios. (A trio means three cards of the same number.)", score: 6 },
-    trio_double: { desc: "A trio of %number%s and a trio of %number%s.", score: 9 },
+    full_house_any: { desc: "A <b>pair</b> and a <b>trio</b>.", score: 2, drawDetails: [new DrawGroup().addCard({ number: -1 }, 2).setUnion("and"), new DrawGroup().addCard({ number: -1 }, 3)] },
+    full_house_adjacent: { desc: "A <b>pair</b> and a <b>trio</b>, which are <b>adjacent</b> to each other.", score: 2, drawDetails: [new DrawGroup().addCard({ number: -1 }, 2).setUnion("and").setAdjacent(true), new DrawGroup().addCard({ number: -1 }, 3).setAdjacent(true)] },
+    full_house: { desc: "A <b>pair</b> and a <b>trio</b> from these possible numbers: %number%, %number%, %number%, %number%.", score: 6, drawDetails: [new DrawGroup().addCard({ number: [0,1,2,3] }, 2), new DrawGroup().addCard({ number: [0,1,2,3] }, 3)] },
 
-    straight_flush_any: { desc: "Five cards in numerical order AND of the same suit.", score: 8 },
-    straight_flush: { desc: "Five cards in numerical order AND of suit %suit%.", score: 9 },
-    royal_flush: { desc: "Five cards in numerical order AND of the same suit, ending in the highest number in the game", score: 10 },
+    trio_double_any: { desc: "<b>Two trios</b>.", score: 5, drawDetails: [new DrawGroup().addCard({ number: - 1}, 3).setUnion("and"), new DrawGroup().addCard({ number: -1}, 3)] },
+    trio_double_with_suits_any: { desc: "<b>Two trios</b>, but <b>not with suit %suit%</b>.", score: 9, drawDetails: [new DrawGroup().addCard({ number: -1, suit: 0, suitInvert: true }, 3).setUnion("and"), new DrawGroup().addCard({ number: -1, suit: 0, suitInvert: true }, 3)] },
+    trio_double: { desc: "<b>Two</b> of these numbers <b>appear three times: %number%, %number%, %number% or %number%</b>.", score: 9, drawDetails: [new DrawGroup().addCard({ number: [0,1,2,3] }, 3).setUnion("and"), new DrawGroup().addCard({ number: [0,1,2,3]}, 3)] },
 
-    row_suit_any: { desc: "Three cards of the same suit are in the same row.", score: 3 },
-    row_number_any: { desc: "Three cards with the same number are in the same row.", score: 6 },
-    row_suit: { desc: "Three cards of suit %suit% are in the same row", score: 5 },
-    row_number: { desc: "Three %number%s are in the same row", score: 7 },
+    straight_flush_any: { desc: "<b>Four</b> cards in numerical <b>order</b> <em>and</em> of the <b>same suit</b>.", score: 7, drawDetails: [new DrawGroup().addCardsNumeric(4, { suit: -1 })] },
+    straight_flush_any_adjacent: { desc: "<b>Three</b> cards in numerical <b>order</b> <em>and</em> of the <b>same suit</b>, which are <b>adjacent</b> to each other.", score: 9, drawDetails: [new DrawGroup().addCardsNumeric(3, { suit: -1 }).setAdjacent(true)] },
+    straight_flush: { desc: "<b>Four</b> cards in numerical <b>order</b> <em>and</em> of <b>suit %suit%</b>.", score: 9, drawDetails: [new DrawGroup().addCardsNumeric(4, { suit: 0 })] },
+    royal_flush: { desc: "<b>Three</b> cards in numerical <b>order</b> <em>and</em> of the <b>same suit</b>, ending in the highest number in the game.", score: 8, drawDetails: [new DrawGroup().addCardsNumeric(3, { suit: -1 }, { number: 10 })] }, // @TODO: dynamically select highest number, in case I change that again?
+    //royal_flush_adjacent: { desc: "Five cards in numerical order AND of the same suit, ending in the highest number in the game, which are adjacent to each other.", score: 10 }, => WAY too hard
 
-    variety_suit: { desc: "All suits in the game appear.", score: 2 },
-    variety_suit_adjacent: { desc: "All suits in the game appear adjacent to each other.", score: 4 },
-    variety_number: { desc: "All numbers in the game appear.", score: 6 },
-    variety_row: { desc: "One row contains all suits in the game.", score: 4 },
-    variety_suit_row_lack: { desc: "One row contains only one unique suit.", score: 3 },
-    variety_number_row_lack: { desc: "One row contains only one unique number.", score: 2 },
-    variety_both_row_lack: { desc: "One row contains only cards of the same suit AND the same number.", score: 5 },
+    row_suit_any: { desc: "<b>Three</b> cards of the <b>same suit</b> are in the <em>same row</em>.", score: 2, drawDetails: [new DrawGroup().addCard({ suit: -1 }, 3).setRow(true) ] },
+    row_number_any: { desc: "<b>Three</b> cards with the <b>same number</b> are in the <em>same row</em>.", score: 9, drawDetails: [new DrawGroup().addCard({ number: -1 }, 3).setRow(true)] },
+    row_suit: { desc: "<b>Three</b> cards of <b>suit %suit%</b> are in the <em>same row</em>.", score: 7, drawDetails: [new DrawGroup().addCard({ suit: 0 }, 3).setRow(true)] },
+    row_number: { desc: "<b>Two %number%s</b> are in the <em>same row</em>.", score: 7, drawDetails: [new DrawGroup().addCard({ number: 0}, 2).setRow(true)] },
+
+    variety_suit: { desc: "<b>All suits</b> in the game appear.", score: 2, frame: 0 },
+    variety_suit_adjacent: { desc: "<b>All suits</b> in the game appear <b>adjacent</b> to each other.", score: 5, frame: 1 },
+    variety_number: { desc: "<b>All numbers</b> in the game appear.", score: 8, frame: 2 },
+    variety_row: { desc: "<em>One row</em> contains <b>all suits</b> in the game.", score: 8, frame: 3 },
+    variety_suit_row_lack: { desc: "<em>One row</em> contains only <b>one unique suit</b>.", score: 2, drawDetails: [new DrawGroup().addCard({ suit: -1 }, 3).setRow(true).setUndefinedLength(true)] },
+    variety_number_row_lack: { desc: "<em>One row</em> contains only <b>one unique number</b>.", score: 4, drawDetails: [new DrawGroup().addCard({ number: -1 }, 3).setRow(true).setUndefinedLength(true)] },
+    variety_both_row_lack: { desc: "<em>One row</em> contains only cards of the <b>same suit</b> <em>and</em> the <b>same number</b>.", score: 5, drawDetails: [new DrawGroup().addCard({ suit: -1, number: -1 }, 3).setRow(true).setUndefinedLength(true)] },
 
     // straightShake expansion; the more weird/chaotic/hard to understand contracts
     // @TODO: they also get a permanent power/curse/ability (which helps fulfill them too)
-    number_restriction: { desc: "No number lower than 6 appears.", score: 6, set: "straightShake" },
-    contracts_success: { desc: "All other players FULFILL their contract.", score: 6, set: "straightShake" },
-    contracts_fail: { desc: "At least one other player FAILS their contract.", score: 3, set: "straightShake" },
+    number_restriction: { desc: "<b>No</b> number <b>lower than 6</b> appears.", score: 6, set: "straightShake", frame: 4 },
+    contracts_success: { desc: "<b>All</b> other players <b>fulfill their contract(s)</b>.", score: 6, set: "straightShake", frame: 5 },
+    contracts_fail: { desc: "At least one other player <b>fails a contract</b>.", score: 3, set: "straightShake", frame: 6 },
 
-    variety_number_inverse: { desc: "At most 5 unique numbers appear.", score: 4, set: "straightShake" },
-    variety_suit_inverse: { desc: "At least one suit (in the game) doesn't appear.", score: 6, set: "straightShake" },
+    variety_number_inverse: { desc: "At most <b>five unique numbers</b> appear.", score: 4, set: "straightShake", frame: 7 },
+    variety_suit_inverse: { desc: "At least <b>one suit doesn't appear</b>.", score: 6, set: "straightShake", frame: 8 },
 
-    discard_count_free: { desc: "At least one card has been discarded.", score: 2, set: "straightShake" },
-    discard_count_strict: { desc: "Exactly two cards have been discarded.", score: 6, set: "straightShake" },
-    discard_dealer: { desc: "The Dealer has discarded at least one card.", score: 1, set: "straightShake" },
-    discard_type: { desc: "A card of suit %suit% is on top of the discard pile.", score: 4, set: "straightShake" },
-    discard_number: { desc: "A card with number %number% is on top of the discard pile.", score: 7, set: "straightShake" },
-    discard_complete_fail: { desc: "One player has not played ANY card this round.", score: 7, set: "straightShake" }
+    discard_count_free: { desc: "At least <b>one card</b> has been <b>discarded</b>.", score: 2, set: "straightShake", frame: 9 },
+    discard_count_strict: { desc: "Exactly <b>two cards</b> have been <b>discarded</b>.", score: 6, set: "straightShake", frame: 10 },
+    discard_dealer: { desc: "The <b>Dealer</b> has <b>discarded</b> at least one card.", score: 1, set: "straightShake", frame: 11 },
+    discard_type: { desc: "A card of <b>suit %suit%</b> is on top of the <b>discard pile</b>.", score: 4, set: "straightShake", frame: 12 },
+    discard_number: { desc: "A card with <b>number %number%</b> is on top of the <b>discard pile</b>.", score: 7, set: "straightShake", frame: 13 },
+    discard_complete_fail: { desc: "One player has <b>not played any card</b> this round.", score: 8, set: "straightShake", frame: 14 },
+    contract_switch: { desc: "One other player has <b>switched contract</b> this round.", score: 5, set: "straightShake", frame: 15 }
 }
 
 const DYNAMIC_OPTIONS =
@@ -106,20 +166,25 @@ const DYNAMIC_OPTIONS =
     "%suitImageStrings%": [],
 }
 
+/*
+@TODO: ACTION/RULE TWIST: "The player who has the HIGHEST scoring contract may pick the wildcard this round (after selecting contracts)."
+*/
+
+
 const SPECIAL_CARDS:Record<string,ContractData> = 
 {
-    switch_contract: { frame: 0, desc: "Switch your contract with another player." },
-    ditch_contract: { frame: 1, desc: "Discard your contract." },
-    ditch_contract_other: { frame: 2, desc: "Force another player to discard their contract." },
-    study_hidden: { frame: 3, desc: "Study the facedown cards." },
-    study_hand: { frame: 4, desc: "Study another player's hand." },
-    draw_card: { frame: 5, desc: "Draw an extra card into your hand." },
-    draw_card_all: { frame: 6, desc: "All players draw an extra card." },
-    steal_card: { frame: 7, desc: "Steal 1 card from another player." },
-    play_another_free: { frame: 8, desc: "Play another card, ignoring the placement rules." },
-    play_another_top: { frame: 9, desc: "Play another card on TOP of an existing card." },
-    wildcard_suit: { frame: 10, desc: "Pick a suit. It's now a wildcard: it can represent ANY suit you want." },
-    wildcard_number: { frame: 11, desc: "Pick a number. It's now a wildcard: it can represent ANY number you want." },
+    switch_contract: { frame: 0, label: "Switch", desc: "Switch your contract with another player." },
+    ditch_contract: { frame: 1, label: "No Contract", desc: "Discard your contract." },
+    ditch_contract_other: { frame: 2, label: "No Contract", desc: "Force another player to discard their contract." },
+    study_hidden: { frame: 3, label: "See Hidden", desc: "Study the facedown cards." },
+    study_hand: { frame: 4, label: "See Hand", desc: "Study another player's hand." },
+    draw_card: { frame: 5, label: "Draw Card", desc: "Draw an extra card into your hand." },
+    draw_card_all: { frame: 6, label: "Draw All", desc: "All players draw an extra card." },
+    steal_card: { frame: 7, label: "Steal", desc: "Steal 1 card from another player." },
+    play_another_free: { frame: 8, label: "Play Free", desc: "Play another card, ignoring the placement rules." },
+    play_another_top: { frame: 9, label: "Play Over", desc: "Play another card on TOP of an existing card." },
+    wildcard_suit: { frame: 10, label: "Wild Suit", desc: "Pick a suit. It's now a wildcard: it can represent ANY suit you want." },
+    wildcard_number: { frame: 11, label: "Wild Number", desc: "Pick a number. It's now a wildcard: it can represent ANY number you want." },
 }
 
 export 
@@ -130,5 +195,8 @@ export
     NUMBERS_AS_STRINGS,
     CONTRACTS,
     SPECIAL_CARDS,
-    DYNAMIC_OPTIONS
+    DYNAMIC_OPTIONS,
+    CARD_TEMPLATES,
+    MISC,
+    ICON_ARRANGEMENTS
 }

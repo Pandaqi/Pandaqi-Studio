@@ -4,11 +4,11 @@ type: "rules"
 
 {{% rules-block id="setup" heading="Setup" icon="setup" icontint="purple" %}}
 
+{{< rules-image src="starting_setup_1.webp" alt="Example starting setup (for four players)." class="float-right" >}}
+
 Pick (at least) as many Princes as there are players. Add all their cards to the deck and shuffle. Now deal equally many cards to each player ( = their **Hand**). Any leftover cards are shown and go into the Tell.
 
 Pick a _position_. This is the "Kingseat". Whoever sits (or stands) there, is the _King_. 
-
-{{< rules-image src="starting_setup_1.webp" alt="Example starting setup (for four players)." class="float-right" >}}
 
 Players exchange some cards to design the Hand they want.
 
@@ -41,9 +41,9 @@ Reveal the **Tell** and count the votes. The Prince with the most votes wins. Al
 
 Rounds are played _simultaneously_. They have two simple phases: **Give Cards** and **Vote**.
 
-**Give Cards**: all players give away 1 card to their neighbor. The direction alternates between left neighbor and right neighbor.
+**Give Cards**: all players give away 1 card to their neighbor. The direction alternates between left neighbor and right neighbor (per round).
 
-**Vote:** all players secretly pick a card from their Hand: their Vote.
+**Vote:** all players secretly pick a card from their Hand ( = their Vote).
 
 * Once everyone is ready, reveal the cards.
 * The Prince with the **most votes** wins.
@@ -53,9 +53,7 @@ All winning cards go into the Tell.
 
 {{< rules-image src="gameplay_1.webp" alt="Example of step 1 of each round: vote, check, add winning votes to Tell." >}}
 
-Now handle all remaining cards. Starting from Kingseat, clockwise, go around the table until all cards are gone. 
-
-Each player has a choice.
+For each remaining card, the player gets a choice. (Do this from Kingseat, clockwise, until all cards are gone.)
 
 * Either **execute the action** on your card.
 * Or **swap places** with another player and **swap 1 Hand card** with them.

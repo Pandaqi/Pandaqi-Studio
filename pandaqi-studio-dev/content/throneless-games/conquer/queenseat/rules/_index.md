@@ -4,6 +4,8 @@ type: "rules"
 
 {{% rules-block id="setup" heading="Setup" icon="setup" icontint="purple" %}}
 
+{{< rules-image src="starting_setup_1.webp" alt="Example starting setup (for four players)." class="float-right" >}}
+
 Pick as many Princesses as the number of players. Add all of them to the deck, shuffle, and deal fairly.
 
 Pick any player: their position is the **Queenseat** (and whoever sits there is called the **Queen**).
@@ -14,13 +16,11 @@ Card facing is important in this game. From now on, hand cards that face towards
 You CAN include more animals; this makes the game longer and harder.
 {{% /remark %}}
 
-@TODO: IMAGE EXAMPLE
-
 {{% /rules-block %}}
 
 {{% rules-block id="objective" heading="Objective" icon="objective" icontint="orange" %}}
 
-The game ends once **nobody can Vote anymore**. The player who is at the Queenseat when that happens, wins!
+The game ends once **nobody can Vote anymore**. Whoever **is the Queen** when that happens, **wins**!
 
 {{% /rules-block %}}
 
@@ -36,12 +36,20 @@ Each round,
 
 The Queen gets 1 card of choice (as a **public** card). All winning voters may pick who receives their card, which can be themselves (**public**).
 
-For each remaining card, the player must make a choice. Handle this from the Queenseat, in clockwise order again.
+{{< rules-image src="gameplay_1.webp" alt="Example of voting in a round, then checking who won and handling their cards." >}}
+
+For each remaining card, the player must make a choice. (Handle this from the Queenseat again, in clockwise order, until all cards are gone.)
 
 * Either execute the **action** on the card.
 * Or **swap places** with another player.
 
 The Queen decides who receives your card (**public**), but they can't pick themselves.
+
+{{% remark %}}
+Remember that Queenseat is a **position**. Whoever sits there, is currently Queen. As such, when they swap places, they do not remain Queen.
+{{% /remark %}}
+
+{{< rules-image src="gameplay_2.webp" alt="Example of how to handle the losing votes, both execute/swap and to whom the card is discarded." >}}
 
 There are, however, two wrinkles.
 
@@ -50,9 +58,9 @@ There are, however, two wrinkles.
 
 That's it! Have fun!
 
-{{< rules-example id="turn" >}}
+{{< rules-image src="gameplay_3.webp" alt="Examples of the two rules (for voting and swapping) that are always active." >}}
 
-@TODO: IMAGE EXAMPLE
+{{< rules-example id="turn" >}}
 
 {{% /rules-block %}}
 

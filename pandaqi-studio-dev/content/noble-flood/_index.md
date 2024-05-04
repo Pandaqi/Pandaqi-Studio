@@ -8,7 +8,7 @@ headerTitle: "Score the best possible patterns with your hand of cards or deny o
 blurb: "Score the best possible patterns with your hand of cards or deny others the opportunity. Also playable with standard deck of cards."
 
 extraCSS: true
-downloadLink: ""
+downloadLink: "https://drive.google.com/drive/folders/1qkIw5weWYltavQCp8GJ-TmiT63Pb9sci"
 
 customHeight: "small"
 headerDarkened: true
@@ -21,18 +21,15 @@ bgColorLink: "#ff1f1f"
 textColor: "#f2ffef"
 textColorLink: "#ffe9e9"
 
-
-date: 2023-01-01 # 2024-12-26
+date: 2025-05-26
 
 categories: ["boardgame"]
 tags: ["creative", "guessing", "word"]
 
 multiplayermode: "competitive"
 language: EN
-genre: ["card", "party", "social"]
 playtime: 30
-playercount: [3,4,5,6,7]
-complexity: low
+playercount: [2,3,4,5,6]
 ages: everyone
 devlog: "/blog/boardgames/noble-flood/"
 
@@ -61,6 +58,7 @@ Three simple steps.
 
 {{< boardgame-settings type="game" local_storage="nobleFloodConfig" btn_label="Generate Material" game_title="Noble Flood" defaults="true" >}}
   {{< setting-checkbox id="setting-generatePlayingCards" text="Generate Playing Cards?" checked="checked" remark="If turned off, you can use your own standard card deck to play the game." >}}
+  {{< setting-checkbox id="setting-generateContracts" text="Generate Contracts?" checked="checked" remark="Required to play the game." >}}
   {{< boardgame-settings-section heading="Sets" >}}
     {{< setting-checkbox id="setting-sets-base" text="Base Game?" checked="checked" >}}
     {{< setting-checkbox id="setting-sets-fullFlood" text="Full Flood?" >}}

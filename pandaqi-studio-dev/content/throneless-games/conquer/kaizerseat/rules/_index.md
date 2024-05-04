@@ -21,7 +21,7 @@ During the game, you'll track two piles. These should be handled by the Leader.
 
 Finally, pick a player. Their **position** is the "Kaizerseat" and whoever sits there is called "Leader".
 
-@TODO: IMAGE EXAMPLE
+@TODO: IMAGE EXAMPLE (wide)
 
 {{% /rules-block %}}
 
@@ -30,6 +30,8 @@ Finally, pick a player. Their **position** is the "Kaizerseat" and whoever sits 
 The game ends once **nobody can Vote anymore**.
 
 Check the votes in the Tell. The Seeker with the most votes wins. Any player whose secret Loyalty matches a winning Seeker **wins the game**!
+
+@TODO: IMAGE EXAMPLE (double-view)
 
 {{% /rules-block %}}
 
@@ -48,18 +50,19 @@ Then,
 
 All winning cards go into the Tell.
 
-Starting from Kaizerseat, going in the _direction_ picked, handle all remaining cards.
+@TODO: IMAGE EXAMPLE (the default one of voting + majority winning)
+
+Now handle all remaining cards. (Do so starting from Kaizerseat again, going in the _direction_ picked, until no cards are left.)
 
 * Trigger the action written on the card.
 * If the action **does nothing**, the player swaps places with another player.
-
-Either way, the card goes into the Discard.
+* Add the card to the Discard.
 
 That's it! Next round!
 
-{{< rules-example id="turn" >}}
+@TODO: IMAGE EXAMPLE (the one about handling remaining players; the big difference that they don't have a CHOICE now, so enlarge the _actions_ to make them readable?)
 
-@TODO: IMAGE EXAMPLE
+{{< rules-example id="turn" >}}
 
 {{% /rules-block %}}
 

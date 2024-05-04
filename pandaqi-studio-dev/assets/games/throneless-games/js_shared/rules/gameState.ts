@@ -101,7 +101,9 @@ export default class GameState
     castVotes(sim:InteractiveExampleSimulator)
     {
         const newRound = new Player("votes");
+        this.cardsPlayed = newRound;
 
+        const tellerPlayer = this.getTeller();
         let num = 0;
         for(const player of this.players)
         {
@@ -113,7 +115,7 @@ export default class GameState
             }
 
             const mostOccurring = this.getMostOccurringTypesFromCards(stats);
-            const tellerCard = this.cardsPlayed.getCardAtIndex( this.getIndexOf(this.getTeller()) );
+            const tellerCard = this.cardsPlayed.getCardAtIndex( this.getIndexOf(tellerPlayer) );
 
             let typesAllowed = [];
             let allowDisobey = false;
@@ -125,7 +127,7 @@ export default class GameState
             }
 
             // @UNIQUE (SMALLSEAT): must follow type played by Teller (if possible)
-            const mustFollowTeller = this.config.rulebook.mustFollowTellerType && player != this.getTeller()
+            const mustFollowTeller = this.config.rulebook.mustFollowTellerType && player != tellerPlayer && tellerCard;
             if(mustFollowTeller)
             {
                 typesAllowed = [tellerCard.type];
@@ -150,7 +152,6 @@ export default class GameState
             }
         }
         sim.stats.numVotesCast += num;
-        this.cardsPlayed = newRound;
     }
 
     // Round; Step 2) Find the winner
