@@ -14,8 +14,8 @@ const generateContainer = async (sim:InteractiveExampleSimulator) =>
 
 loadPrinceDataIntoRules(PACKS);
 
-const SIMULATION_ENABLED = true;
-const SIMULATION_ITERATIONS = 5000;
+const SIMULATION_ENABLED = false;
+const SIMULATION_ITERATIONS = 1000;
 const SHOW_FULL_GAME = false;
 
 const gen = new InteractiveExampleGenerator({

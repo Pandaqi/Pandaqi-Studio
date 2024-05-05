@@ -17,11 +17,17 @@ export default class CardPicker
         // prepare the actual suits/numbers/icons we'll include (and reuse in action texts)
         const suitsIncluded = Object.keys(SUITS).slice(0, CONFIG.generation.numSuits);
         DYNAMIC_OPTIONS["%suit%"] = suitsIncluded;
-        DYNAMIC_OPTIONS["%number%"] = NUMBERS.slice(0, CONFIG.generation.numbersUsedPerSuit);
+
+        const numbersIncluded = NUMBERS.slice(0, CONFIG.generation.numbersUsedPerSuit);;
+        DYNAMIC_OPTIONS["%number%"] = numbersIncluded;
 
         const suitInfoDict = {};
         for(const suit of suitsIncluded) { suitInfoDict[suit] = SUITS[suit]; }
         DYNAMIC_OPTIONS["%suitImageStrings%"] = toTextDrawerImageStrings(suitInfoDict, "suits");
+
+        DYNAMIC_OPTIONS["%numberlow%"] = numbersIncluded.slice(0, Math.floor(0.5*numbersIncluded.length));
+        DYNAMIC_OPTIONS["%numberhigh%"] = numbersIncluded.slice(Math.ceil(0.5*numbersIncluded.length));
+        DYNAMIC_OPTIONS["%numbermid%"] = numbersIncluded.slice(Math.floor(0.35*numbersIncluded.length), Math.ceil(0.65*numbersIncluded.length));
 
         // create all the actual cards
         this.generatePlayingCards();
@@ -87,14 +93,28 @@ export default class CardPicker
     {
         if(!CONFIG.sets.fullFlood) { return; }
 
+        const suitsUsed = DYNAMIC_OPTIONS["%suit%"].slice();
+        const numbersUsed = DYNAMIC_OPTIONS["%number%"].slice();
+        const allOptions = [];
+        for(const suit of suitsUsed)
+        {
+            for(const number of numbersUsed)
+            {
+                allOptions.push({ suit, number });
+            }
+        }
+        shuffle(allOptions);
+
         const defFreq = CONFIG.generation.defaultFrequencySpecialCards ?? 1;
         for(const [key,data] of Object.entries(SPECIAL_CARDS))
         {
             const freq = data.freq ?? defFreq;
             for(let i = 0; i < freq; i++)
             {
+                const suitNumData = allOptions.pop();
                 const card = new Card(CardType.SPECIAL);
                 card.setSpecial(key);
+                card.setSuitAndNumber(suitNumData.suit, suitNumData.number);
                 this.cards.push(card);
             }
         }

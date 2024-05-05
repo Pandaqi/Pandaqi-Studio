@@ -6,7 +6,7 @@ const PACKS:Record<string, PackData> =
     karateChicks: 
     { 
         frame: 0,
-        clarification: "As always, if you simply can't vote a matching animal in that next round, ignore this rule.",
+        clarification: "If the Teller <em>is</em> the Boss, the entire Voting restrictions fall away. Nobody needs to follow any of the faceup types played, without penalty.",
         backstory: "These cute chickens deceive everyone and pull them to their cozy hen. Once inside, the victim realizes the yellow puffs have been training for years to become super soldiers. If they want to change the rules, they will forcefully do so.",
         animal: "Chick",
         colorClass: "Yellow",
@@ -18,7 +18,7 @@ const PACKS:Record<string, PackData> =
         
         action: 
         {
-            text: "Next round, the <b>Boss</b> must play a <b>faceup Vote</b> first. Everyone must Vote a <b>matching animal</b>."
+            text: "Next round, the <b>Boss</b> plays a <b>faceup Vote</b> before the Teller. Everyone must Vote <em>that type</em> instead of the Teller's type."
         },
 
         slogan: 
@@ -103,6 +103,7 @@ const PACKS:Record<string, PackData> =
         backstory: "This folk lives around the magical tree of Hainut. It's hard for them to influence the court, for they sleep all of Winter, and are too busy collecting nuts otherwise. But if they manage to make it to the voting, their rain of magical nuts might just drive away potential enemies.",
         animal: "Squirrel",
         colorClass: "Brown",
+        clarification: "The action essentially let's you take back this card and discard a <em>different one</em>, pretending you played that one instead. No, you don't get the action of that second card.",
 
         name: 
         {
@@ -111,7 +112,7 @@ const PACKS:Record<string, PackData> =
         
         action: 
         {
-            text: "<b>Swap</b> this card for another in your <b>Hand</b>. (That is, pretend you played this different Animal instead.)"
+            text: "<b>Swap</b> this card for another in your <b>Hand</b>."
         },
 
         slogan: 
@@ -241,6 +242,7 @@ const PACKS:Record<string, PackData> =
         backstory: "These dogs work for the Forest Police to sniff out any criminals or sneaky creatures wanting the Smallseat for themselves. If any trouble comes close, they will bark, and bite, and guard you. The issue is, of course, that this noise gives them away and makes it near impossible to execute any of their own secret plans.",
         animal: "Dog",
         colorClass: "Green",
+        clarification: "Immune means that nobody can target you for actions, which includes swapping with you.",
 
         name: 
         {
@@ -249,7 +251,7 @@ const PACKS:Record<string, PackData> =
         
         action: 
         {
-            text: "<b>Reveal</b> your entire Hand. You are <b>immune</b>: nobody can swap with you or target you for actions."
+            text: "<b>Reveal</b> your entire Hand. You are <b>immune</b>, for this round and the next."
         },
 
         slogan: 

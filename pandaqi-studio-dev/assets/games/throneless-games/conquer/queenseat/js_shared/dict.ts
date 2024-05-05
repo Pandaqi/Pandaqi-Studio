@@ -17,7 +17,7 @@ const PACKS:Record<string, PackData> =
         
         action: 
         {
-            text: "The next round is played <b>openly</b>, but you and the Queen play their card <b>facedown</b>."
+            text: "The next round is played <b>openly</b>, but you and the Queen play your card <b>facedown</b>."
         },
 
         dark: ["<b>Swap places</b> with the Queen, unless they played the <b>winning type</b>."],
@@ -84,6 +84,7 @@ const PACKS:Record<string, PackData> =
         backstory: "The elegant swans are loved by all, as they dance around the forest and bring beautiful joy to every heart. Of course, for them the creatures will lower their guard and share their biggest secrets, at only the tiniest push. The swans leave with precious knowledge under their wings; none's the wiser.",
         animal: "Swan",
         colorClass: "White",
+        clarification: "Of course, you must follow up on your promise on what you'll vote next round. (Unless later actions made that impossible.)",
 
         name: 
         {
@@ -137,7 +138,7 @@ const PACKS:Record<string, PackData> =
 
         name: 
         {
-            text: "Edibus Eggsnatcher",
+            text: "Eggsnatcher",
         },
         
         action: 
@@ -170,7 +171,7 @@ const PACKS:Record<string, PackData> =
             text: "<b>Show</b> the Queen a Hand card. They <b>must</b> play this type next round (if possible)."
         },
 
-        dark: ["Voting restriction is <b>inverted</b> next round. You <b>must</b> vote what you see the <b>least</b> in other player's Hands."],
+        dark: ["Voting restriction is <b>inverted</b> next round. You <b>must</b> vote what you see the <b>least</b> in your neighbor's Hands."],
 
         slogan: 
         {
@@ -209,6 +210,7 @@ const PACKS:Record<string, PackData> =
         backstory: "The Chattered Fins still believe in the notion that everyone should be king, taking turns, switching every week. Because nobody listens, they've started to forcefully execute this idea whenever possible. When you walk into that throne room, you might not know who sits on that chair---but you know that the Fins had something to do with it.",
         animal: "Dolphin",
         colorClass: "BlueDark",
+        clarification: "This overrides the usual rule that you can only swap with the Queen if you have at least as many public cards of the winning type. If the action is taken, next round you can <em>only</em> swap following this action's rule.",
 
         name: 
         {
@@ -217,7 +219,7 @@ const PACKS:Record<string, PackData> =
         
         action: 
         {
-            text: "Next round, you may <b>swap</b> places <b>with the Queen</b> even if they won the round."
+            text: "Next round, you may only <b>swap with the Queen</b> if you have more public cards of a <b>losing type</b> (that was played) instead."
         },
 
         dark: ["Next round, everyone plays a <b>random card</b>."],
@@ -234,6 +236,7 @@ const PACKS:Record<string, PackData> =
         backstory: "The starfish are an odd bunch. Some creatures believe they aren't even alive, while others believe they must be incredibly clever to live without limbs or eyes. Nobody wil ever know the truth, because when they appear, chaos ensues and nobody remembers what happened or why.",
         animal: "Starfish",
         colorClass: "BlueLight",
+        clarification: "The Dark action overrides the usual rule that you can only swap with the Queen if you have at least as many public cards of the winning type. If the action is taken, next round you can <em>only</em> swap following this action's rule.",
 
         name: 
         {
@@ -242,7 +245,7 @@ const PACKS:Record<string, PackData> =
         
         action: 
         {
-            text: "Next round, there are <b>no restrictions</b> on how you may <b>vote</b>."
+            text: "Next round, there are <b>no restrictions</b> on how you may <b>Vote</b>."
         },
 
         dark: ["Next round, you may only <b>swap with the Queen</b> if you have <b>fewer</b> of the winning type than them."],
@@ -267,10 +270,10 @@ const PACKS:Record<string, PackData> =
         
         action: 
         {
-            text: "All <b>non-winning</b> cards this round go to you. (Other Venomfruits can't take this action anymore.)",
+            text: "All <b>losing Votes</b> this round go to you. (Other Venomfruits can't take this action anymore.)",
         },
 
-        dark: ["All <b>winning cards</b> this round go to you (instead of the Queen)."],
+        dark: ["All <b>winning Votes</b> this round go to you. The Queen doesn't pick a card."],
         
         slogan: 
         {

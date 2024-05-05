@@ -41,7 +41,7 @@ Count the **secret cards** in the Teller's hand. The animal that appears **most 
 
 {{% /rules-block %}}
 
-{{% rules-block id="action_play" heading="Gameplay" icon="action" icontint="purple" %}}
+{{% rules-block id="action_play" heading="Gameplay" icon="action" icontint="purple" class="allow-page-break" %}}
 
 Gameplay happens in rounds, played _simultaneously_. 
 
@@ -79,7 +79,7 @@ Remember that Smallseat is a **position**. Whoever sits there, is currently Boss
 
 {{% /rules-block %}}
 
-{{% rules-block id="packs" heading="Packs" icon="expansion" icontint="orange" %}}
+{{% rules-block id="packs" heading="Packs" icon="expansion" icontint="orange" class="allow-page-break" %}}
 
 Below is an overview of all different Animals in the game. It's roughly sorted based on how difficult the card's actions are to understand.
 

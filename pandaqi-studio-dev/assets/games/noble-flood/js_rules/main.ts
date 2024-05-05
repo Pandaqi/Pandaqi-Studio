@@ -146,18 +146,17 @@ const generate = async (sim:InteractiveExampleSimulator) =>
         {
             const curPlayer = players[counterRound];
             
-            sim.print("It's <strong>Player " + (curPlayer.num + 1) + "'s</strong> turn.");
-            sim.print("You have these cards in your hands.");
+            sim.print("It's <strong>Player " + (curPlayer.num + 1) + "'s</strong> turn. This is their hand.");
             await sim.listImages(curPlayer, "draw");
-
-            const validMoves = board.getValidMovesFor(curPlayer);
-            sim.stats.numValidMoves += validMoves.length;
 
             if(curPlayer == curDealer)
             {
-                sim.print("You are Dealer, so you first reveal a facedown card from the map.");
-                // @TODO: write logic for this?? both in numbers and in visualization?
+                sim.print("They're Dealer, so they first reveal a facedown card from the map.");
+                board.flipFacedownCard();
             }
+
+            const validMoves = board.getValidMovesFor(curPlayer);
+            sim.stats.numValidMoves += validMoves.length;
 
             const mustDiscard = validMoves.length <= 0;
             const canPlay = !mustDiscard;
@@ -165,7 +164,7 @@ const generate = async (sim:InteractiveExampleSimulator) =>
             {
                 const card = curPlayer.removeCardRandom();
                 cardsDiscarded.push(card);
-                sim.print("You have no valid moves. You reveal and discard a card.");
+                sim.print("They have <strong>no valid moves</strong>. They reveal and discard a card.");
 
                 sim.stats.numCardsDiscarded++;
             }
@@ -176,7 +175,7 @@ const generate = async (sim:InteractiveExampleSimulator) =>
                 board.doMove(randMove);
                 curPlayer.removeCard(randMove.card);
 
-                sim.print("You have " + validMoves.length + " valid moves. You decide to play <strong>" + randMove.card.toRulesString() + "</strong>.");
+                sim.print("They have <strong>" + validMoves.length + " valid moves</strong>. They decide to play <strong>" + randMove.card.toRulesString() + "</strong>.");
 
                 sim.stats.numCardsPlayed++;
             }
@@ -193,8 +192,16 @@ const generate = async (sim:InteractiveExampleSimulator) =>
             }
             continueTheRound = playersStillHaveCards;
 
-            sim.print("At the end of your turn, the board looks as follows.");
-            await sim.outputAsync(board, "draw");
+            const boardChanged = canPlay;
+            if(boardChanged)
+            {
+                board.possibleMoves = validMoves;
+                sim.print("At the end of their turn, the board looks as follows. (Other possible moves marked with light gray rectangles.)");
+                await sim.outputAsync(board, "draw");
+                board.possibleMoves = null;
+            }
+
+            sim.print("<hr/>");
         }
 
         // cleanup; give everything back to decks 
@@ -202,6 +209,8 @@ const generate = async (sim:InteractiveExampleSimulator) =>
         cardsRegular.push(...shuffle(allCardsInMap));
         cardsRegular.push(...shuffle(cardsDiscarded));
         cardsContract.push(...shuffle(contractsDrawn)); // these are the contracts left in the list AFTER drawing by players
+
+        sim.print("Everyone is out of cards. The round is over! Check which contracts succeeded and which failed, then play the next round!");
 
         // validate contracts: check which ones succeeded
         board.enableCache(); // re-using things we already calculated makes this much faster
@@ -256,7 +265,7 @@ const generate = async (sim:InteractiveExampleSimulator) =>
     }
 }
 
-const SIMULATION_ENABLED = true;
+const SIMULATION_ENABLED = false;
 const SIMULATION_ITERATIONS = 100;
 const SHOW_FULL_GAME = false;
 

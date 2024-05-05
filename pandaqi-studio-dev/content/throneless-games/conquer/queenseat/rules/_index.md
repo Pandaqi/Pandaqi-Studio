@@ -24,7 +24,7 @@ The game ends once **nobody can Vote anymore**. Whoever **is the Queen** when th
 
 {{% /rules-block %}}
 
-{{% rules-block id="action_play" heading="Gameplay" icon="action" icontint="purple" %}}
+{{% rules-block id="action_play" heading="Gameplay" icon="action" icontint="purple" class="allow-page-break" %}}
 
 Gameplay happens in rounds.
 
@@ -64,7 +64,7 @@ That's it! Have fun!
 
 {{% /rules-block %}}
 
-{{% rules-block id="packs" heading="Packs" icon="expansion" icontint="orange" %}}
+{{% rules-block id="packs" heading="Packs" icon="expansion" icontint="orange" class="allow-page-break" %}}
 
 Below is an overview of all different Princesses in the game. It's roughly sorted based on how difficult the card's actions are to understand.
 
@@ -74,73 +74,73 @@ The cards **explain themselves**, but the overview below contains clarifications
 
 Whenever you **receive cards** for an action, you may _choose_ whether to make them public or secret. (Unless the action explicitly states what to do, of course.)
 
-{{% rules-block heading="Stinger's Hive" icon="pack-queenseat-stingersHive" %}}
+{{% rules-block heading="Stinger's Hive" icon="pack-queenseat-stingersHive" class="allow-page-break" %}}
 
 <div class="prince-info" data-prince="stingersHive"></div>
 
 {{% /rules-block %}}
 
-{{% rules-block heading="Galloping Sun" icon="pack-queenseat-gallopingSun" %}}
+{{% rules-block heading="Galloping Sun" icon="pack-queenseat-gallopingSun" class="allow-page-break" %}}
 
 <div class="prince-info" data-prince="gallopingSun"></div>
 
 {{% /rules-block %}}
 
-{{% rules-block heading="Trunktrumpets" icon="pack-queenseat-trunktrumpets" %}}
+{{% rules-block heading="Trunktrumpets" icon="pack-queenseat-trunktrumpets" class="allow-page-break" %}}
 
 <div class="prince-info" data-prince="trunktrumpets"></div>
 
 {{% /rules-block %}}
 
-{{% rules-block heading="Featherdancer" icon="pack-queenseat-featherdancer" %}}
+{{% rules-block heading="Featherdancer" icon="pack-queenseat-featherdancer" class="allow-page-break" %}}
 
 <div class="prince-info" data-prince="featherdancer"></div>
 
 {{% /rules-block %}}
 
-{{% rules-block heading="Whistley Wine" icon="pack-queenseat-whistleyWine" %}}
+{{% rules-block heading="Whistley Wine" icon="pack-queenseat-whistleyWine" class="allow-page-break" %}}
 
 <div class="prince-info" data-prince="whistleyWine"></div>
 
 {{% /rules-block %}}
 
-{{% rules-block heading="Edibus Eggsnatcher" icon="pack-queenseat-edibusEggsnatcher" %}}
+{{% rules-block heading="Edibus Eggsnatcher" icon="pack-queenseat-edibusEggsnatcher" class="allow-page-break" %}}
 
 <div class="prince-info" data-prince="edibusEggsnatcher"></div>
 
 {{% /rules-block %}}
 
-{{% rules-block heading="Feared Flame" icon="pack-queenseat-fearedFlame" %}}
+{{% rules-block heading="Feared Flame" icon="pack-queenseat-fearedFlame" class="allow-page-break" %}}
 
 <div class="prince-info" data-prince="fearedFlame"></div>
 
 {{% /rules-block %}}
 
-{{% rules-block heading="Eyrie Feyle" icon="pack-queenseat-eyrieFeyle" %}}
+{{% rules-block heading="Eyrie Feyle" icon="pack-queenseat-eyrieFeyle" class="allow-page-break" %}}
 
 <div class="prince-info" data-prince="eyrieFeyle"></div>
 
 {{% /rules-block %}}
 
-{{% rules-block heading="Chattered Fins" icon="pack-queenseat-chatteredFins" %}}
+{{% rules-block heading="Chattered Fins" icon="pack-queenseat-chatteredFins" class="allow-page-break" %}}
 
 <div class="prince-info" data-prince="chatteredFins"></div>
 
 {{% /rules-block %}}
 
-{{% rules-block heading="Galaksea" icon="pack-queenseat-galaksea" %}}
+{{% rules-block heading="Galaksea" icon="pack-queenseat-galaksea" class="allow-page-break" %}}
 
 <div class="prince-info" data-prince="galaksea"></div>
 
 {{% /rules-block %}}
 
-{{% rules-block heading="Venomfruit" icon="pack-queenseat-venomfruit" %}}
+{{% rules-block heading="Venomfruit" icon="pack-queenseat-venomfruit" class="allow-page-break" %}}
 
 <div class="prince-info" data-prince="venomfruit"></div>
 
 {{% /rules-block %}}
 
-{{% rules-block heading="Colorcoats" icon="pack-queenseat-colorcoats" %}}
+{{% rules-block heading="Colorcoats" icon="pack-queenseat-colorcoats" class="allow-page-break" %}}
 
 <div class="prince-info" data-prince="colorcoats"></div>
 

@@ -103,7 +103,7 @@ const CONFIG_SHARED =
 
     generation:
     {
-        numRegularCardsPerPack: 8,
+        numRegularCardsPerPack: 9,
         numDarkCardsPerOption: 1,
     },
 

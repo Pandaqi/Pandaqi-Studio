@@ -7,7 +7,7 @@ const CONFIG:any =
 {
     debug:
     {
-        omitFile: true, // @DEBUGGING (should be false)
+        omitFile: false, // @DEBUGGING (should be false)
         singleDrawPerType: false, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
@@ -91,15 +91,15 @@ const CONFIG:any =
         misc:
         {
             path: "misc.webp",
-            frames: new Point(8,1)
+            frames: new Point(11,1)
         },
     },
 
     rulebook:
     {
-        numPlayerBounds: new Bounds(3,6),
+        numPlayerBounds: new Bounds(3,4), // for SIMULATION it's probably better to do = new Bounds(3,6),
         startingRowSize: 3,
-        boardCanvasSize: new Point(720, 500),
+        boardCanvasSize: new Point(1440, 1000),
         numCardsPerPlayer: 3,
         surplusContractCardsMultiplier: 2,
         itemSize: new Point(750, 1050),
@@ -137,6 +137,7 @@ const CONFIG:any =
     {
         drawerConfig:
         {
+            autoStroke: true,
             dimsElement: new Point(1, 1.4),
             dims: { 
                 small: new Point(4,4),
@@ -173,8 +174,8 @@ const CONFIG:any =
         action:
         {
             textBoxPos: new CVal(new Point(0.5), "size"),
-            textBoxDims: new CVal(new Point(0.8, 0.33), "size"),
-            fontSize: new CVal(0.1, "sizeUnit")
+            textBoxDims: new CVal(new Point(0.8, 0.375), "size"),
+            fontSize: new CVal(0.0745, "sizeUnit")
         },
 
         contract:
@@ -184,8 +185,8 @@ const CONFIG:any =
             fontSize: new CVal(0.071, "sizeUnit"),
             textBoxPos: new CVal(new Point(0.5, 0.8), "size"),
             textBoxDims: new CVal(new Point(0.9, 0.3), "size"),
-            textBoxPosAlt: new CVal(new Point(0.5, 0.7), "size"),
-            textBoxDimsAlt: new CVal(new Point(0.9, 0.3), "size"),
+            textBoxPosAlt: new CVal(new Point(0.5, 0.66), "size"),
+            textBoxDimsAlt: new CVal(new Point(0.9, 0.25), "size"),
 
             illustration:
             {
@@ -195,9 +196,9 @@ const CONFIG:any =
 
             rule:
             {
-                scaleFactor: 0.33,
-                textBoxPos: new CVal(new Point(0.5, 0.9), "size"),
-                textBoxDims: new CVal(new Point(0.5, 0.175), "size")
+                scaleFactor: 0.675,
+                textBoxPos: new CVal(new Point(0.5, 0.885), "size"),
+                textBoxDims: new CVal(new Point(0.875, 0.15), "size")
             },
 
             score:
@@ -222,23 +223,23 @@ const CONFIG:any =
                 itemSize: new Point(750, 1050),
                 strokeWidth: new CVal(0.066, "cards.contractDraw.card.itemSizeUnit"),
 
-                suitPos: new CVal(new Point(0.5, 0.66), "cards.contractDraw.card.itemSize"),
+                suitPos: new CVal(new Point(0.5, 0.725), "cards.contractDraw.card.itemSize"),
                 suitDims: new CVal(new Point(0.45), "cards.contractDraw.card.itemSizeUnit"),
 
                 fontSize: new CVal(0.5, "cards.contractDraw.card.itemSizeUnit"),
-                numberPos: new CVal(new Point(0.5, 0.33), "cards.contractDraw.card.itemSize"),
+                numberPos: new CVal(new Point(0.5, 0.275), "cards.contractDraw.card.itemSize"),
                 numberDims: new CVal(new Point(0.5), "cards.contractDraw.card.itemSizeUnit"),
 
                 iconDims:
                 {
-                    adjacency: new CVal(new Point(0.25), "cards.contractDraw.card.itemSizeUnit"),
-                    numeric: new CVal(new Point(0.25), "cards.contractDraw.card.itemSizeUnit"),
+                    betweenCard: 0.45,
+                    overSet: 0.7,
                 }
             },
 
             iconDims:
             {
-                union: new CVal(new Point(0.3), "cards.contractDraw.itemSize"),
+                union: new CVal(new Point(0.166), "cards.contractDraw.itemSize"),
             },
 
             shadow:

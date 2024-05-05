@@ -72,6 +72,12 @@ All players check if their contracts have been met.
 The "wildcard" from the Dealer only **applies to placement, not scoring.**
 {{% /remark %}}
 
+Finally, a few clarifications on terminology in the contracts:
+
+* A "row" is any row (horizontal line of cards) or column (vertical line of cards) in the map.
+* "Adjacent" means the cards are horizontally or vertically next to each other. (You can create a "path" through the map, jumping from card to card, that passes this set of cards precisely.)
+* "Numerical order" means each card is exactly one number higher than the previous.
+
 The Dealer moves one player clockwise. Next round!
 
 @TODO: EXAMPLE IMAGE (of final game scoring, more useful)

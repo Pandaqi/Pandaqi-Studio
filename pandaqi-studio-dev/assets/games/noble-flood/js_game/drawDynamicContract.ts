@@ -18,6 +18,7 @@ interface DrawCard
 {
     number?: number|number[], // a number of -1 means it must be the same within the group, if not set it means numbers can be ANY
     numberInvert?: boolean
+    numberAbsolute?: boolean // use the actual number given, it is NOT an index into the dynamicDetails array
     suit?: number|number[], // a suit of -1 means it must be the same within the group, if not set it means suits can be ANY
     suitInvert?: boolean
 }
@@ -46,7 +47,6 @@ class DrawGroup
         return this;
     }
 
-    // @TODO: this just fails because the numbers put in are sometimes REFERENCES (to dynDetails) and sometimes ABSOLUTE (like, highest card = 10) => do I try to fix this, or just make all numeric visualizations more vague?
     addCardsNumeric(repeat = 1, startCard:DrawCard = {}, endCard:DrawCard = {})
     {
         const fixedSuit = startCard.suit ?? endCard.suit;
@@ -54,16 +54,34 @@ class DrawGroup
         if(Array.isArray(fixedNum)) { fixedNum = fixedNum[0]; } // mostly to make typescript happy
 
         let fixedNumDir = startCard.number != undefined ? 1 : -1;
+        const numIsAbsolute = startCard.numberAbsolute ?? endCard.numberAbsolute;
 
         for(let i = 0; i < repeat; i++)
         {
             const card:DrawCard = {};
-            if(fixedSuit) { card.suit = fixedSuit; }
-            if(fixedNum) { 
+            if(fixedSuit != null) { card.suit = fixedSuit; }
+
+            // these are dynamic numbers ( = indices into dynamicDetails array), so we can only copy the specific index set, not create a nice "series" like below
+            if(fixedNum != null) 
+            { 
+                const copyStartingNumber = (fixedNum == startCard.number && i == 0);
+                const copyEndingNumber = (fixedNum == endCard.number && i == (repeat-1));
+                if(copyStartingNumber || copyEndingNumber)
+                {
+                    card.number = fixedNum; 
+                }
+                
+            }
+
+            // if we set absolute numbers, we can actually create a nice sequence with fixed numbers
+            if(numIsAbsolute)
+            {
                 let cardNum = fixedNum + i;
                 if(fixedNumDir == -1) { cardNum = fixedNum - (repeat - i - 1); }
-                card.number = cardNum; 
+                card.number = cardNum;
+                card.numberAbsolute = true;
             }
+
             this.addCard(card);
         }
 
@@ -125,8 +143,13 @@ const drawCardForContract = (vis:MaterialVisualizer, card:DrawCard, dynDetails:D
 
             if(card.suitInvert)
             {
-                const opInvert = op.clone();
-                opInvert.frame = MISC.invert_cross.frame;
+                const opInvert = new LayoutOperation({
+                    translate: positions[i],
+                    dims: dims.clone().scale(1.25),
+                    frame: MISC.invert_cross.frame,
+                    alpha: 0.85,
+                    pivot: Point.CENTER
+                });
                 group.add(resMisc, opInvert);
             }
         }
@@ -138,13 +161,16 @@ const drawCardForContract = (vis:MaterialVisualizer, card:DrawCard, dynDetails:D
     {
         let numbers = Array.isArray(card.number) ? card.number : [card.number];
 
+        const maxNumberScaleFactor = 2.175;
+        const scaleFactor = (1.0 / Math.min(numbers.length, maxNumberScaleFactor));
+
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
-            size: vis.get("cards.contractDraw.card.fontSize") * (1.0 / numbers.length)
+            size: vis.get("cards.contractDraw.card.fontSize") * scaleFactor
         }).alignCenter();
 
         const anchor = vis.get("cards.contractDraw.card.numberPos");
-        const dims = vis.get("cards.contractDraw.card.numberDims").clone().scale(1.0 / numbers.length);
+        const dims = vis.get("cards.contractDraw.card.numberDims").clone().scale(scaleFactor);
         const positions = getPositionsCenteredAround({ pos: anchor, num: numbers.length, dims: dims })
         
         for(let i = 0; i < numbers.length; i++)
@@ -158,13 +184,19 @@ const drawCardForContract = (vis:MaterialVisualizer, card:DrawCard, dynDetails:D
                 pivot: Point.CENTER
             });
 
+            let finalNumber = number;
+            if(!card.numberAbsolute) 
+            {
+                finalNumber = dynDetails[number];
+            }
+
             if(mustBeSame) {
                 op.frame = MISC.number_any_same.frame;
                 group.add(resMisc, op);
             } else {
                 op.fill = new ColorLike(suitColor ?? "#000000");
 
-                const str = NUMBERS_AS_STRINGS[ dynDetails[number] - 1];
+                const str = NUMBERS_AS_STRINGS[finalNumber - 1];
                 const resText = new ResourceText({ text: str, textConfig });
                 group.add(resText, op);
             }
@@ -177,8 +209,6 @@ const drawCardForContract = (vis:MaterialVisualizer, card:DrawCard, dynDetails:D
             }
         }
     }
-
-    console.log(group);
 
     group.toCanvas(ctx);
     return new ResourceImage(ctx.canvas);
@@ -194,8 +224,8 @@ export default (vis: MaterialVisualizer, drawDetails:DrawDetails, dynDetails:Dyn
     const canvSize = vis.get("cards.contractDraw.itemSize");
 
     const unionDims = vis.get("cards.contractDraw.iconDims.union");
-    const adjacencyIconDims = vis.get("cards.contractDraw.card.iconDims.adjacency");
-    const numericOrderIconDims = vis.get("cards.contractDraw.card.iconDims.numericOrder")
+    const betweenCardIconDimsRaw = vis.get("cards.contractDraw.card.iconDims.betweenCard");
+    const overSetIconDimsRaw = vis.get("cards.contractDraw.card.iconDims.overSet");
 
     const layoutDir = numGroups <= 2 ? "horizontal" : "vertical";
     const marginBetweenGroups = layoutDir == "horizontal" ? 0.5*unionDims.x : 0.25*unionDims.y;
@@ -272,6 +302,32 @@ export default (vis: MaterialVisualizer, drawDetails:DrawDetails, dynDetails:Dyn
             dims: cardDims.clone().scale(new Point(1.0 - cardOverlap, 1))
         });
 
+        const cardDimsUnit = Math.min(cardDims.x, cardDims.y);
+        const betweenCardIconDims = new Point(betweenCardIconDimsRaw * cardDimsUnit);
+        const overSetIconDims = new Point(overSetIconDimsRaw * cardDimsUnit);
+
+        // if the set length is "undecided / whatever you want" (mostly for ROW contracts),
+        // draw fades on the sides (BEHIND the cards looks much better)
+        const drawLengthFades = drawGroup.undefinedLength;
+        if(drawLengthFades)
+        {
+            const fadeDims = new Point(cardDims.y);
+            const opFadeLeft = new LayoutOperation({
+                translate: new Point(-0.5*groupDims.x + 0.225*fadeDims.x, 0),
+                dims: fadeDims,
+                frame: MISC.undefined_length_1.frame,
+                alpha: 0.66,
+                flipX: true,
+                pivot: Point.CENTER
+            });
+            group.add(resMisc, opFadeLeft);
+
+            const opFadeRight = opFadeLeft.clone(true);
+            opFadeRight.translate = opFadeRight.translate.clone().scaleX(-1);
+            opFadeRight.flipX = false;
+            group.add(resMisc, opFadeRight);
+        }
+
         let secondLayerOperations = [];
         for(let i = 0; i < numCards; i++)
         {
@@ -300,13 +356,21 @@ export default (vis: MaterialVisualizer, drawDetails:DrawDetails, dynDetails:Dyn
             const notFinalCard = i < (numCards - 1);
             if(notFinalCard)
             {
-                const betweenPos = pos.clone().add(positions[i+1]).scale(0.5);
+                const betweenPosAdjacent = pos.clone().add(new Point(0.5*cardDims.x - cardOverlap*cardDims.x, 0));
+                const betweenPosNumeric = betweenPosAdjacent.clone();
+                const hasBoth = drawGroup.adjacent && drawGroup.numeric; 
+                const offset = new Point(0, 0.2*cardDims.y);
+                if(hasBoth)
+                {
+                    betweenPosAdjacent.sub(offset);
+                    betweenPosNumeric.add(offset);
+                }
 
                 if(drawGroup.adjacent)
                 {
                     const op = new LayoutOperation({
-                        translate: betweenPos,
-                        dims: adjacencyIconDims,
+                        translate: betweenPosAdjacent,
+                        dims: betweenCardIconDims,
                         frame: MISC.adjacent.frame,
                         pivot: Point.CENTER
                     });
@@ -316,8 +380,8 @@ export default (vis: MaterialVisualizer, drawDetails:DrawDetails, dynDetails:Dyn
                 if(drawGroup.numeric)
                 {
                     const op = new LayoutOperation({
-                        translate: betweenPos,
-                        dims: numericOrderIconDims,
+                        translate: betweenPosNumeric,
+                        dims: betweenCardIconDims,
                         frame: MISC.numeric.frame,
                         pivot: Point.CENTER
                     });
@@ -332,8 +396,18 @@ export default (vis: MaterialVisualizer, drawDetails:DrawDetails, dynDetails:Dyn
             group.add(resMisc, op);
         }
 
-        // @TODO: draw ROW indicators. (What are they? What is it?)
-        // @TODO: draw the fades for undefined length
+        // draw the row indicator above the entire group
+        const drawRowIcon = drawGroup.row;
+        if(drawRowIcon)
+        {
+            const opRow = new LayoutOperation({
+                translate: new Point(0, -0.5*cardDims.y),
+                dims: overSetIconDims,
+                frame: MISC.same_row.frame,
+                pivot: Point.CENTER
+            });
+            group.add(resMisc, opRow);
+        }
 
         // add this entire group as child of main one
         const anchorPos = positionsGlobal[i]; 
@@ -347,12 +421,14 @@ export default (vis: MaterialVisualizer, drawDetails:DrawDetails, dynDetails:Dyn
         const drawUnion = i < (numGroups-1); 
         if(drawUnion)
         {
-            const nextAnchorPos = positions[i+1];
+            const nextAnchorPos = positionsGlobal[i+1];
             const data = MISC["union_" + drawGroup.union]
             const unionOp = new LayoutOperation({
                 translate: anchorPos.clone().add(nextAnchorPos).scale(0.5),
                 dims: unionDims,
-                frame: data.frame
+                frame: data.frame,
+                pivot: Point.CENTER,
+                rotation: layoutDir == "horizontal" ? 0 : 0.5*Math.PI
             })
             groupGlobal.add(resMisc, unionOp);
         }

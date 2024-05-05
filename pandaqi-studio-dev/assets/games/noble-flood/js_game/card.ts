@@ -148,6 +148,9 @@ export default class Card
         //
         // then create the correct arrangement for them in the middle
         //
+        const drawArrangement = !this.specialKey;
+        if(!drawArrangement) { return; }
+
         const arrangement = ICON_ARRANGEMENTS[this.number];
         const anchorPos = vis.center.clone();
         let iconDimsCenter = vis.get("cards.suitNumber.iconDimsCenter");
@@ -191,7 +194,8 @@ export default class Card
         // draw the actual text
         const textConfig = new TextConfig({
             font: vis.get("fonts.body"),
-            size: vis.get("cards.action.fontSize")
+            size: vis.get("cards.action.fontSize"),
+            style: TextStyle.ITALIC,
         }).alignCenter();
 
         const resText = new ResourceText({ text: actionData.desc, textConfig });
@@ -288,6 +292,7 @@ export default class Card
 
         const pos = contractHasRule ? vis.get("cards.contract.textBoxPosAlt") : vis.get("cards.contract.textBoxPos");
         const dims = contractHasRule ? vis.get("cards.contract.textBoxDimsAlt") : vis.get("cards.contract.textBoxDims");
+        let offsetFromBanner = contractHasRule ? 0.066 : 0.1;
 
         this.drawBlurredRect(group, pos, dims, rectBlur, rectAlpha);
 
@@ -295,7 +300,7 @@ export default class Card
         const str = this.fillInDynamically(contractData.desc, dynDetails);
         const resText = new ResourceText({ text: str, textConfig })
         const opText = new LayoutOperation({
-            translate: pos.clone().add(new Point(0, 0.1*bannerDims.y)),
+            translate: pos.clone().add(new Point(0, offsetFromBanner*bannerDims.y)),
             dims,
             fill: "#000000",
             pivot: Point.CENTER
@@ -317,9 +322,9 @@ export default class Card
 
             this.drawBlurredRect(group, posRule, dimsRule, rectBlur, rectAlpha);
 
-            const resText = new ResourceText({ text: contractData.rule, textConfig })
+            const resText = new ResourceText({ text: contractData.rule, textConfig: textConfigRule })
             const opText = new LayoutOperation({
-                translate: posRule.clone().add(new Point(0, 0.1*bannerDims.y*scaleFactor)),
+                translate: posRule.clone().add(new Point(0, offsetFromBanner*bannerDims.y*scaleFactor)),
                 dims: dimsRule,
                 fill: "#000000",
                 pivot: Point.CENTER
@@ -380,6 +385,12 @@ export default class Card
                 rep = DYNAMIC_OPTIONS["%suitImageStrings%"][idx];
             }
 
+            // numbers are replaced by their STRING equivalent (mostly needed for 1 = Ace)
+            if(needle == "%number%")
+            {
+                rep = NUMBERS_AS_STRINGS[rep - 1];
+            }
+
             s = s.replace(needle, rep);
         }
 
@@ -391,10 +402,13 @@ export default class Card
         const contractData = CONTRACTS[this.contractKey];
 
         const hasStaticImage = contractData.frame || !contractData.drawDetails;
+        const dims = vis.get("cards.contract.illustration.dims").clone();
+        if(contractData.rule) { dims.scale(0.9); }
+        
         let res;
         const op = new LayoutOperation({
             translate: vis.get("cards.contract.illustration.pos"),
-            dims: vis.get("cards.contract.illustration.dims"),
+            dims: dims,
             pivot: Point.CENTER
         })
 

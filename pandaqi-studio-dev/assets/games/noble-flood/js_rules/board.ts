@@ -10,6 +10,8 @@ import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage
 import CONFIG from "../js_shared/config";
 import { DYNAMIC_OPTIONS } from "../js_shared/dict";
 import fromArray from "js/pq_games/tools/random/fromArray";
+import ResourceShape from "js/pq_games/layout/resources/resourceShape";
+import Rectangle from "js/pq_games/tools/geometry/rectangle";
 
 const NBS = [Point.RIGHT, Point.DOWN, Point.LEFT, Point.UP];
 
@@ -26,16 +28,19 @@ interface AggregateCardData
     suitFreqs:Record<string,number>,
     numberFreqs:Record<number, number>,
     suitsUnique?:string[],
-    numbersUnique?:number[]
+    numbersUnique?:number[],
+    allNeighborsFacedown?:boolean
 }
 
 export default class Board
 {
     map: Card[][]
+    cardsFlipped: number[] = [] // a list of (flat) positions of all cards that are facedown
     cache: Record<string,any> = {}
     useCache: boolean = false
     suitWildcard: string;
     numberWildcard: number;
+    possibleMoves: Move[] = null;
 
     createGrid(size:Point)
     {
@@ -79,6 +84,19 @@ export default class Board
         }; 
     }
 
+    getIndexAsPosition(idx:number)
+    {
+        return new Point(
+            idx % this.map.length,
+            Math.floor(idx / this.map.length),
+        )
+    }
+
+    getPositionAsIndex(pos:Point)
+    {
+        return pos.x + this.map.length * pos.y;
+    }
+
     addStartingCards(cards:Card[])
     {
         const offsetX = Math.floor(0.5*(this.map.length - cards.length));
@@ -89,10 +107,25 @@ export default class Board
         {
             const pos = new Point(offsetX + counter, offsetY);
             this.addCard(pos, card);
+            this.flipFaceupCard(pos);
             counter++;
         }
     }
 
+    flipFaceupCard(pos:Point)
+    {
+        if(this.cardIsFacedown(pos)) { return; }
+        this.cardsFlipped.push(this.getPositionAsIndex(pos));
+    }
+
+    flipFacedownCard()
+    {
+        if(this.cardsFlipped.length <= 0) { return; }
+        const pos = this.getIndexAsPosition( this.cardsFlipped.shift() );
+        return this.getCard(pos);
+    }
+
+    cardIsFacedown(pos:Point) { return this.cardsFlipped.includes(this.getPositionAsIndex(pos)); }
     hasCardAt(pos:Point) { return this.getCard(pos) != null; }
     getCard(pos:Point)
     {
@@ -180,11 +213,13 @@ export default class Board
     {
         const nbs = this.getNeighborPositionsOf(pos);
         const data = this.createNewAggregateData();
+        data.allNeighborsFacedown = true;
         for(const nb of nbs)
         {
             if(!this.hasCardAt(nb)) { continue; }
             const card = this.getCard(nb);
             this.trackCardInAggregateData(data, card);
+            if(!this.cardIsFacedown(nb)) { data.allNeighborsFacedown = false; }
         }
         this.finishAggregateData(data);
         return data;
@@ -220,6 +255,9 @@ export default class Board
             const nbData = this.getNeighborData(pos);
             const hasNoNeighbor = nbData.suits.length <= 0;
             if(hasNoNeighbor) { continue; }
+
+            // facedown neighbors are obviously unknown, so can't play card if that's only adjacent one
+            if(nbData.allNeighborsFacedown) { continue; }
 
             // check the suit situation
             let matchingSuits = false;
@@ -565,6 +603,16 @@ export default class Board
         return false;
     }
 
+    isPossibleMove(pos:Point)
+    {
+        if(!this.possibleMoves) { return false; }
+        for(const move of this.possibleMoves)
+        {
+            if(move.pos.matches(pos)) { return true; }
+        }
+        return false;
+    }
+
     async draw(sim:InteractiveExampleSimulator)
     {
         const canvSize = CONFIG.rulebook.boardCanvasSize;
@@ -574,7 +622,8 @@ export default class Board
         const sizeY = canvSize.y / this.map[0].length;
         const sizeX = sizeY / 1.4;
         const cardSize = new Point(sizeX, sizeY);
-        const cardSizeWithMargin = cardSize.clone().sub(new Point(4));
+        const cardSizeWithMargin = cardSize.clone().sub(new Point(10));
+        const cardSizePossibleMove = cardSizeWithMargin.clone().sub(new Point(32));
 
         const mapBounds = new Point(sizeX * this.map.length, sizeY * this.map[0].length);
 
@@ -588,10 +637,28 @@ export default class Board
             {
                 const pos = new Point(x,y);
                 const card = this.getCard(pos);
-                if(!card) { continue; }
 
                 const realPos = new Point(x * cardSize.x, y * cardSize.y);
                 realPos.add(centeringOffset);
+
+                const isPossibleMove = this.isPossibleMove(pos);
+                if(isPossibleMove)
+                {
+                    const resRect = new ResourceShape( new Rectangle({ center: realPos, extents: cardSizePossibleMove }) );
+                    const opRect = new LayoutOperation({ fill: "#DFEFDF" });
+                    resRect.toCanvas(ctx, opRect);
+                }
+
+                if(!card) { continue; }
+
+                const isFacedown = this.cardIsFacedown(pos);
+                if(isFacedown)
+                {
+                    const resRect = new ResourceShape( new Rectangle({ center: realPos, extents: cardSizeWithMargin }) );
+                    const opRect = new LayoutOperation({ fill: "#CCCCCC", stroke: "#1C1C1C", strokeWidth: 2 });
+                    resRect.toCanvas(ctx, opRect);
+                    continue;
+                }
 
                 // draw the resource to the canvas with the settings we just calculated
                 const res = new ResourceImage( await card.drawForRules(sim.getVisualizer()) );

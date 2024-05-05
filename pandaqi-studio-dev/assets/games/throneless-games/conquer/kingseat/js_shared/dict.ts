@@ -68,14 +68,14 @@ const PACKS:Record<string, PackData> =
             text: "Woolfhall",
         },
         action: {
-            text: "<b>Pick a Prince.</b> All Woolfhall voters <b>must vote this</b> next round. You're the only one? <b>All</b> must vote this."
+            text: "<b>Pick a Prince.</b> All Woolfhall voters <b>must vote this</b> next round. You're alone? <b>All</b> must vote this."
         },
         slogan: {
             text: "Spoilshare, howl moon, brothercare, rulers soon.",
         },
         dark: [
-            "All non-Woolfhall voters show you their Loyalty.",
-            "Count the number of Woolfhall voters. Each of them adds that many secret Hand cards to the Tell."
+            "All <b>non-Woolfhall voters</b> show you their <b>Loyalty</b>.",
+            "Count the <b>number of Woolfhall voters</b>. Each of them adds that many secret Hand cards <b>to the Tell</b>."
         ],
         edges: {
             lineScale: new Point(0.735, 0.78)
@@ -100,7 +100,7 @@ const PACKS:Record<string, PackData> =
         },
         dark: [
             "<b>Look</b> at the <b>Loyalty</b> of another.",
-            "<b>Show</b> everyone your secret <b>Loyalty</b>. You can only avoid this if you're currently King."
+            "<b>Show</b> everyone your secret <b>Loyalty</b>. You become King next round; nothing can stop that."
         ],
         edges: {
             lineScale: new Point(0.72, 0.785)
@@ -111,7 +111,7 @@ const PACKS:Record<string, PackData> =
     { 
         frame: 4,
         clarification: "<p>To <strong>undo</strong> a round means everyone takes their card back into their Hand, and you play the round again.</p>",
-        backstory: "An ancient order, wise and calm, but also slow to act and not with the times. You won't find them maKing aggressive moves or bold claims. They will consistently do slightly better moves than you, chipping away at whatever strength you might have, until the path towards their victory cannot be avoided.",
+        backstory: "An ancient order, wise and calm, but also slow to act and not with the times. You won't find them making aggressive moves or bold claims. They will consistently do slightly better moves than you, chipping away at whatever strength you might have, until the path towards their victory cannot be avoided.",
         animal: "Bear",
         colorClass: "Brown",
         name: {
@@ -238,22 +238,22 @@ const PACKS:Record<string, PackData> =
 
     squlofish: { 
         frame: 9,
-        clarification: "<p>As the card states, the “action” part is the action you can choose to execute. The “tell” part is true if the card is inside the Tell. (In other words, regular Squlofish votes always count for two.)</p><p>About Dark 2: if there's a tie for the player with the most Squlofish cards, all of them must Discard.</p>",
-        backstory: "Their power, quite clearly, comes from their numbers. Individually, these are tiny fish, without a mind for strategy or a body for intimidation. But together? They can overwhelm anyone without breaKing a sweat—because fish cannot sweat.",
+        clarification: "<p>The action is stealing cards and optional (as usual). Squlofish, however, are <em>always</em> worth 2 votes each when counting the Tell at the end.</p><p>About Dark 2: if there's a tie for the player with the most Squlofish cards, all tied players must Discard.</p>",
+        backstory: "Their power, quite clearly, comes from their numbers. Individually, these are tiny fish, without a mind for strategy or a body for intimidation. But together? They can overwhelm anyone without breaking a sweat—because fish cannot sweat.",
         animal: "Fish",
         colorClass: "BlueLight",
         name: {
             text: "Squlofish",
         },
         action: {
-            text: "<b>Action?</b> <b>Steal</b> all Squlofish cards from another player.\n\n<b>In the Tell?</b> It counts for <b>2 votes</b>."
+            text: "<b>Steal</b> all Squlofish cards from another player. Inside the Tell, each Squlofish counts for <b>2 votes</b>."
         },
         slogan: {
             text: "Swim. Swim. SHARK. Swim. Swim. ",
         },
         dark: [
             "<b>Discard</b> one Hand card to <b>remove 3 Squlofish</b> votes from the Tell.",
-            "Everyone says <b>how many Squlofish</b> cards their Hand has. The player with the <b>most</b> must Discard one."
+            "Everyone says <b>how many Squlofish</b> they have. The player with the <b>most</b> must Discard one."
         ],
         edges: {
             lineScale: new Point(0.725, 0.815)
@@ -263,7 +263,7 @@ const PACKS:Record<string, PackData> =
     smugwing: 
     { 
         frame: 10,
-        clarification: "<p>About the regular action: “immune” means that nobody can do an action that targets you (steal, swap, trade, whatever). They can't even <em>attempt</em> it. If the action forces them to target you, the action fails.</p><p>About Dark 2: as always, if someone doesn't <em>have</em> a Smugwing card, they just don't give you anything.</p>",
+        clarification: "<p>“Immune” means that nobody can do an action that targets you (steal, swap, trade, whatever). If an action forces them to target you, the action fails.</p><p>About Dark 2: if someone doesn't <em>have</em> a Smugwing card, they just don't give you anything.</p>",
         backstory: "The Smugwings aren't subtle about their intentions: they want power. Because they want more gold for the treasure they guard. The issue is that they don't need to be subtle: they're fire-spitting dragons. If they don't want something to happen, it will not happen.",
         animal: "Dragon",
         colorClass: "Green",
@@ -271,14 +271,14 @@ const PACKS:Record<string, PackData> =
             text: "Smugwing",
         },
         action: {
-            text: "Next round, you're <b>immune</b> to any actions aimed at you, but <b>may not vote</b>."
+            text: "Next round, you're <b>immune</b>, but <b>may not vote</b>."
         },
         slogan: {
             text: "Protect your gold. Destroy everything else.",
         },
         dark: [
             "The <b>winning votes</b> go to the <b>Discard</b>, instead of the Tell.",
-            "Everyone that voted the <b>winning</b> team, gives you a Smugwing card."
+            "Everyone that voted the <b>winning</b> Prince, gives you a Smugwing card."
         ],
         edges: {
             lineScale: new Point(0.715, 0.825)
@@ -288,7 +288,6 @@ const PACKS:Record<string, PackData> =
     salsaSalamanda: 
     { 
         frame: 11,
-        clarification: null,
         backstory: "The salamanders are infamous for their ability to change colors. They might use it to suddenly disappear into their environment, which the King finds acceptable. What they do NOT find acceptable, is their ability to change their Loyalty midway through the election.",
         animal: "Salamander",
         colorClass: "Multicolor",

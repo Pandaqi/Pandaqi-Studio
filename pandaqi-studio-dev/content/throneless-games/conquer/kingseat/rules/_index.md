@@ -37,7 +37,7 @@ Reveal the **Tell** and count the votes. The Prince with the most votes wins. Al
 
 {{% /rules-block %}}
 
-{{% rules-block id="action_play" heading="Gameplay" icon="action" class="force-page-break-before" icontint="purple" %}}
+{{% rules-block id="action_play" heading="Gameplay" icon="action" class="allow-page-break" %}}
 
 Rounds are played _simultaneously_. They have two simple phases: **Give Cards** and **Vote**.
 
@@ -72,7 +72,7 @@ Bluffing, making deals, lying, it's all very much allowed. That's it! Have fun!
 
 {{% /rules-block %}}
 
-{{% rules-block id="packs" heading="Packs" class="force-page-break-before" icon="expansion" icontint="orange" %}}
+{{% rules-block id="packs" heading="Packs" icon="expansion" icontint="orange" class="allow-page-break" %}}
 
 The packs below are _roughly_ in the order recommended. Further down the list, Princes are more complicated or less balanced. For your first game(s), pick the first few Princes.
 
@@ -82,74 +82,74 @@ Each Prince has two "Dark cards". Each has a unique action that is often more po
 
 The cards **explain themselves**. The overview below exists to help you make a decision or clarify potential rule misunderstandings.
 
-{{% rules-block id="lionsyre" heading="Lionsyre" icon="pack-kingseat-lionsyre" %}}
+{{% rules-block id="lionsyre" heading="Lionsyre" icon="pack-kingseat-lionsyre" class="allow-page-break" %}}
 
 <!-- The JavaScript has a function that reads these and inserts the right content automatically (from dictionary.js) -->
 <div class="prince-info" data-prince="lionsyre"></div>
 
 {{% /rules-block %}}
 
-{{% rules-block id="slydefox" heading="Slydefox" icon="pack-kingseat-slydefox" %}}
+{{% rules-block id="slydefox" heading="Slydefox" icon="pack-kingseat-slydefox" class="allow-page-break" %}}
 
 <div class="prince-info" data-prince="slydefox"></div>
 
 {{% /rules-block %}}
 
-{{% rules-block id="woolfhall" heading="Woolfhall" icon="pack-kingseat-woolfhall" %}}
+{{% rules-block id="woolfhall" heading="Woolfhall" icon="pack-kingseat-woolfhall" class="allow-page-break" %}}
 
 <div class="prince-info" data-prince="woolfhall"></div>
 
 {{% /rules-block %}}
 
-{{% rules-block id="hornseeker" heading="Hornseeker" icon="pack-kingseat-hornseeker" %}}
+{{% rules-block id="hornseeker" heading="Hornseeker" icon="pack-kingseat-hornseeker" class="allow-page-break" %}}
 
 <div class="prince-info" data-prince="hornseeker"></div>
 
 {{% /rules-block %}}
 
-{{% rules-block id="brownbeards" heading="Brownbeards" icon="pack-kingseat-brownbeards" %}}
+{{% rules-block id="brownbeards" heading="Brownbeards" icon="pack-kingseat-brownbeards" class="allow-page-break" %}}
 
 <div class="prince-info" data-prince="brownbeards"></div>
 
 {{% /rules-block %}}
 
-{{% rules-block id="monarchrys" heading="Monarchrys" icon="pack-kingseat-monarchrys" %}}
+{{% rules-block id="monarchrys" heading="Monarchrys" icon="pack-kingseat-monarchrys" class="allow-page-break" %}}
 
 <div class="prince-info" data-prince="monarchrys"></div>
 
 {{% /rules-block %}}
 
-{{% rules-block id="crassclamps" heading="Crassclamps" icon="pack-kingseat-crassclamps" %}}
+{{% rules-block id="crassclamps" heading="Crassclamps" icon="pack-kingseat-crassclamps" class="allow-page-break" %}}
 
 <div class="prince-info" data-prince="crassclamps"></div>
 
 {{% /rules-block %}}
 
-{{% rules-block id="gulliballistas" heading="Gulliballistas" icon="pack-kingseat-gulliballistas" %}}
+{{% rules-block id="gulliballistas" heading="Gulliballistas" icon="pack-kingseat-gulliballistas" class="allow-page-break" %}}
 
 <div class="prince-info" data-prince="gulliballistas"></div>
 
 {{% /rules-block %}}
 
-{{% rules-block id="hardshellHero" heading="Hardshell Hero" icon="pack-kingseat-hardshellHero" %}}
+{{% rules-block id="hardshellHero" heading="Hardshell Hero" icon="pack-kingseat-hardshellHero" class="allow-page-break" %}}
 
 <div class="prince-info" data-prince="hardshellHero"></div>
 
 {{% /rules-block %}}
 
-{{% rules-block id="squlofish" heading="Squlofish" icon="pack-kingseat-squlofish" %}}
+{{% rules-block id="squlofish" heading="Squlofish" icon="pack-kingseat-squlofish" class="allow-page-break" %}}
 
 <div class="prince-info" data-prince="squlofish"></div>
 
 {{% /rules-block %}}
 
-{{% rules-block id="smugwing" heading="Smugwing" icon="pack-kingseat-smugwing" %}}
+{{% rules-block id="smugwing" heading="Smugwing" icon="pack-kingseat-smugwing" class="allow-page-break" %}}
 
 <div class="prince-info" data-prince="smugwing"></div>
 
 {{% /rules-block %}}
 
-{{% rules-block id="salsaSalamanda" heading="Salsa Salamanda" icon="pack-kingseat-salsaSalamanda" %}}
+{{% rules-block id="salsaSalamanda" heading="Salsa Salamanda" icon="pack-kingseat-salsaSalamanda" class="allow-page-break" %}}
 
 <div class="prince-info" data-prince="salsaSalamanda"></div>
 

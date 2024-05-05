@@ -29,16 +29,19 @@ export default (list:CardThroneless[], config:Record<string,any>, dictPacks:Reco
 
         const darkData = packData.dark ?? [];
 
+        let numDarkCards = 0;
         for(const darkOption of darkData)
         {
             for(let i = 0; i < numDark; i++)
             {
                 const newCard = new CardThroneless(CardType.VOTE, pack, packData, darkOption);
                 list.push(newCard);
+                numDarkCards++;
             }
         }
 
-        for(let i = 0; i < numRegular; i++)
+        let numRegularLeft = numRegular - numDarkCards;
+        for(let i = 0; i < numRegularLeft; i++)
         {
             const newCard = new CardThroneless(CardType.VOTE, pack, packData);
             list.push(newCard);

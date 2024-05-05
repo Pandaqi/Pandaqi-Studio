@@ -28,14 +28,14 @@ date: 2024-11-12
 
 difficulty: "kids-can-play"
 genres: ["thematic"]
-categories: ["boardgame", "waitless", "card-game"]
-tags: ["political", "hidden-roles", "social", "fast-paced"]
+categories: ["boardgame", "waitless-game", "card-game"]
+tags: ["political", "hidden-roles", "social", "fast-paced", "king-of-the-hill"]
 themes: ["medieval"]
 
 multiplayermode: "competitive"
 language: EN
 playtime: 20
-playercount: [3,4,5,6,7,8,9,10,11,12]
+playercount: [4,5,6,7,8,9,10]
 ages: everyone
 
 ---

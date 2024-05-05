@@ -28,14 +28,14 @@ date: 2025-11-12
 
 difficulty: "simple"
 genres: ["thematic"]
-categories: ["boardgame", "waitless", "card-game"]
+categories: ["boardgame", "card-game"]
 tags: ["political", "hidden-roles", "social", "fast-paced"]
 themes: ["medieval"]
 
 multiplayermode: "competitive"
 language: EN
 playtime: 30
-playercount: [3,4,5,6,7,8,9,10,11,12]
+playercount: [4,5,6,7,8,9,10]
 ages: everyone
 
 ---

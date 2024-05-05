@@ -16,6 +16,7 @@ import Line from "js/pq_games/tools/geometry/line";
 import InvertEffect from "js/pq_games/layout/effects/invertEffect";
 import { ActionType, CardType, DarkAction } from "./dictShared";
 import { ACTION_TYPES, CARD_TEMPLATES } from "../conquer/kaizerseat/js_shared/dict";
+import LayoutEffect from "js/pq_games/layout/effects/layoutEffect";
 
 export default class CardThroneless
 {
@@ -106,7 +107,10 @@ export default class CardThroneless
             return;
         }
 
-        fillResourceGroup(vis.size, group, this.getColor(this.typeData.bg));
+        const bgColor = vis.inkFriendly ? "#FFFFFF" : this.getColor(this.typeData.bg);
+
+        fillResourceGroup(vis.size, group, bgColor);
+
         if(this.typeData.bg.multicolor)
         {
             fillResourceGroup(vis.size, group, "#000000");
@@ -117,7 +121,8 @@ export default class CardThroneless
                 translate: vis.center,
                 dims: vis.size,
                 pivot: Point.CENTER,
-                alpha: alpha
+                alpha: alpha,
+                effects: vis.inkFriendlyEffect
             });
             group.add(res, canvOp);
         }
@@ -134,7 +139,8 @@ export default class CardThroneless
             translate: pos,
             dims: new Point(iconSize),
             pivot: Point.CENTER,
-            alpha: alpha
+            alpha: alpha,
+            effects: vis.inkFriendlyEffect
         })
         group.add(res, canvOp);
     }
@@ -157,7 +163,7 @@ export default class CardThroneless
         const iconSize = vis.sizeUnit*scaleFactor;
 
         const res = vis.getResource("crests_full");
-        const effects = [];
+        const effects:LayoutEffect[] = vis.inkFriendlyEffect.slice();
         if(vis.get("cards.addShadowToSigil"))
         {
             const blurRadius = this.typeData.sigil.shadowBlur * vis.sizeUnit;
@@ -231,18 +237,20 @@ export default class CardThroneless
         })
         const text = this.typeData.name.text;
         const resText = new ResourceText({ text: text, textConfig: textConfig });
+        const bottomColor = vis.inkFriendly ? "#CCCCCC" : this.getColor(this.typeData.name, "colorBottom")
         const opText = new LayoutOperation({
             translate: pos.clone().add(shadowOffset),
-            dims: new Point(vis.size.x, fontSize),
-            fill: this.getColor(this.typeData.name, "colorBottom"),
+            dims: new Point(vis.size.x, 2*fontSize),
+            fill: bottomColor,
             pivot: Point.CENTER
         })
 
         group.add(resText, opText);
 
+        const topColor = vis.inkFriendly ? "#111111" : this.getColor(this.typeData.name, "colorTop");
         const opTextCopy = opText.clone(true);
         opTextCopy.translate = pos;
-        opTextCopy.fill = new ColorLike(this.getColor(this.typeData.name, "colorTop"));
+        opTextCopy.fill = new ColorLike(topColor);
 
         group.add(resText, opTextCopy);
     }
@@ -265,10 +273,11 @@ export default class CardThroneless
         const rectExtents = new Point(maxWidth*1.1, maxHeight + sloganHeight);
         const rect = new Rectangle({ center: new Point(pos.x, pos.y+0.5*sloganHeight), extents: rectExtents });
         const resRect = new ResourceShape({ shape: rect });
+        const composite = vis.inkFriendly ? "source-over" : "overlay";
         const rectOp = new LayoutOperation({
             fill: this.isDark() ? "#000000" : "#FFFFFF",
             alpha: 0.8,
-            composite: "overlay",
+            composite: composite,
             effects: [new BlurEffect(0.06*maxWidth)]
         })
 
@@ -332,7 +341,7 @@ export default class CardThroneless
 
         const text = '\u201C' + this.typeData.slogan.text + '\u201D'
         const fontSize = vis.get("cards.slogan.fontSize");
-        const maxHeight = fontSize
+        const maxHeight = 2.5*fontSize
 
         const fill = this.getColor(this.typeData.slogan);
         const alpha = this.typeData.slogan.alpha
