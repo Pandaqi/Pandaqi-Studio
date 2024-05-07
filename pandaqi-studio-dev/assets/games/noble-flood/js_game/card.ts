@@ -404,6 +404,7 @@ export default class Card
         const hasStaticImage = contractData.frame || !contractData.drawDetails;
         const dims = vis.get("cards.contract.illustration.dims").clone();
         if(contractData.rule) { dims.scale(0.9); }
+        if(hasStaticImage) { dims.scale(0.85); }
         
         let res;
         const op = new LayoutOperation({
@@ -415,11 +416,20 @@ export default class Card
         if(hasStaticImage) {
             res = vis.getResource("custom_illustrations");
             op.frame = contractData.frame ?? 0;
+            op.translate = op.translate.clone().sub(new Point(0, 0.115*op.dims.y));
+
+            const shadowEnabled = vis.get("cards.contractDraw.shadow.enabled");
+            const shadowEffects = shadowEnabled ? [new DropShadowEffect({ 
+                offset: vis.get("cards.contractDraw.shadow.offset"),
+                color: vis.get("cards.contractDraw.shadow.color"),
+                blurRadius: vis.get("cards.contractDraw.shadow.blur"),
+            })] : [];
+            op.effects = shadowEffects;
         } else {
             res = drawDynamicContract(vis, contractData.drawDetails, this.dynamicDetails);
 
-            // @NOTE: nasty exception, but saw no better way to make vertical layouts look just as good/centered on these cards
-            const isVerticalLayout = contractData.drawDetails.length >= 3;
+            // @NOTE: nasty exception, but saw no better way to make certain (vertical) layouts look just as good/centered on these cards
+            const isVerticalLayout = contractData.drawDetails && contractData.drawDetails.length >= 3;
             if(isVerticalLayout)
             {
                 op.translate = op.translate.clone().sub(new Point(0, 0.05*op.dims.y));

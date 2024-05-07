@@ -31,6 +31,7 @@ class DrawGroup
     row = false; // cards must be in the same row
     undefinedLength = false; // if true, adds dots/fades at the edges to indicate any length will do
     numeric = false; // if true, adds little symbols between cards to indicate they need to be ascending numeric order
+    discard = false; // if true, adds a symbol to indicate these cards are on top of the discard pile
 
     addCard(card:DrawCard, repeat = 1)
     {
@@ -93,6 +94,7 @@ class DrawGroup
     setUnion(u:string) { this.union = u; return this; }
     setRow(r:boolean) { this.row = r; return this; }
     setUndefinedLength(ul:boolean) { this.undefinedLength = ul; return this; }
+    setDiscard(d:boolean) { this.discard = d; return this; }
 }
 
 const drawCardForContract = (vis:MaterialVisualizer, card:DrawCard, dynDetails:DynamicDetails) : ResourceImage =>
@@ -242,9 +244,11 @@ export default (vis: MaterialVisualizer, drawDetails:DrawDetails, dynDetails:Dyn
     const resMisc = vis.getResource("misc");
 
     let maxGroupSize = 0;
+    let hasDiscardIcons = false;
     for(const group of drawDetails)
     {
         maxGroupSize = Math.max(group.cards.length, maxGroupSize);
+        if(group.discard) { hasDiscardIcons = true; }
     }
 
     const cardOverlap = 0.35;
@@ -258,6 +262,8 @@ export default (vis: MaterialVisualizer, drawDetails:DrawDetails, dynDetails:Dyn
         maxCardSizeInGroup = groupDims.y;
         cardDims = new Point(maxCardSizeInGroup / 1.4, maxCardSizeInGroup);
     }
+
+    if(hasDiscardIcons) { cardDims.scale(0.85); } // we need extra space for that
 
 
     const ctx = createContext({ size: canvSize });
@@ -341,6 +347,18 @@ export default (vis: MaterialVisualizer, drawDetails:DrawDetails, dynDetails:Dyn
                 const shadowRectPos = pos.clone().sub(new Point(shadowRectOffset*cardDims.x, 0));
                 const resRect = new ResourceShape( new Rectangle({ center: shadowRectPos, extents: cardDims }));
                 group.add(resRect, opShadowRect);
+            }
+
+            // draw the discard icon above each individual card (if needed)
+            if(drawGroup.discard)
+            {
+                const opDiscard = new LayoutOperation({
+                    translate: new Point(0, -0.6*cardDims.y),
+                    dims: new Point(cardDims.x),
+                    frame: MISC.discard_pile.frame,
+                    pivot: Point.CENTER
+                });
+                group.add(resMisc, opDiscard);
             }
             
             // draw the actual card

@@ -91,7 +91,7 @@ const CONFIG:any =
         misc:
         {
             path: "misc.webp",
-            frames: new Point(11,1)
+            frames: new Point(12,1)
         },
     },
 

@@ -1,0 +1,80 @@
+$header-font: "getronde";
+$body-font: "ibmplex";
+$special-font: "trollhunter";
+$base: "/feed-the-beast/assets/";
+$base-fonts: $base + "fonts/";
+
+$bg-col: #111111;
+$text-col: #FCFCFC;
+
+$col1: #E5B80B;
+$col2: #7B4B94;
+
+body {
+    font-family: $body-font;
+    background-color: $bg-col;
+    color: $text-col;
+    font-size: calc(14px + 0.390625vw);
+    line-height: 140%;
+    box-sizing: border-box;
+}
+
+h1, h2, h3, h4 {
+    font-family: $header-font;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: $header-font;
+    src: url($base-fonts + 'GETRONDE.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'IBMPlexSerif-BoldItalic.woff2') format('woff2');
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'IBMPlexSerif-Italic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'IBMPlexSerif.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'IBMPlexSerif-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $special-font;
+    src: url($base-fonts + 'Trollhunters.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+
+
+
+
+

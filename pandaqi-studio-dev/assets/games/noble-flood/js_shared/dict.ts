@@ -71,6 +71,7 @@ const MISC =
     same_row: { frame: 8 }, // a few cards aligned horizontally, to be displayed below entire set
     undefined_length_1: { frame: 9 }, // option 1 for undefined length: fade out
     undefined_length_2: { frame: 10 }, // option 2 for undefined length: dot dot dot
+    discard_pile: { frame: 11 }, // a pile rectangle + discard arrow
 }
 
 interface ContractData
@@ -142,27 +143,32 @@ const CONTRACTS:Record<string,ContractData> =
     //
     // straightShake expansion; the more weird/chaotic/hard to understand contracts
     //
-    royal_flush_adjacent: { desc: "<b>Three</b> cards in <b>order</b> <em>and</em> of <b>same suit</b>, adjacent, ending in highest number.", score: 10, drawDetails: [new DrawGroup().addCardsNumeric(3, { suit: -1 }, { number: 10, numberAbsolute: true }).setAdjacent(true)], rule: "You must name a <b>second wildcard</b> (suit / number) for this round.", set: "straightShake" },
+    royal_flush_adjacent: { desc: "<b>Three</b> cards in <b>order</b> <em>and</em> of <b>same suit</b>, adjacent, ending in highest number.", score: 9, drawDetails: [new DrawGroup().addCardsNumeric(3, { suit: -1 }, { number: 10, numberAbsolute: true }).setAdjacent(true)], rule: "You must name a <b>second wildcard</b> (suit / number) for this round.", set: "straightShake" },
 
     one_suit_options_number_double: { desc: "Two cards with <b>suit %suit%</b> and <b>number %number%, %number% or %number%</b>.", score: 6, drawDetails: [new DrawGroup().addCard({ suit: 0, number: [1,2,3] }, 2)], rule: "<b>Study</b> all facedown cards before the round starts. You may swap any of them for a new card (once).", set: "straightShake" },
+
+    discard_type: { desc: "A card of <b>suit %suit%</b> is on top of the <b>discard pile</b>.", score: 4, set: "straightShake", rule: "Discarded this suit? Instantly play another card <b>ignoring placement rules</b>.", drawDetails: [new DrawGroup().addCard({ suit: 0 }).setDiscard(true)] },
+    discard_number: { desc: "A card with <b>number %number%</b> is on top of the <b>discard pile</b>.", score: 8, set: "straightShake", rule: "Discarded this number? Instantly play another card <b>ignoring placement rules</b>.", drawDetails: [new DrawGroup().addCard({ number: 0 }).setDiscard(true)] },
 
     variety_suit: { desc: "<b>All suits</b> in the game appear.", score: 2, frame: 0, rule: "If this round has a <b>wildcard suit</b>, it doesn't apply to you.", set: "straightShake" },
     variety_suit_adjacent: { desc: "<b>All suits</b> in the game appear, <b>adjacent</b> to each other.", score: 5, frame: 1, rule: "You may also place a card if its <b>number</b> is at most <b>1 away</b> from all neighbors.", set: "straightShake" },
     variety_number: { desc: "<b>All numbers</b> in the game appear.", score: 8, frame: 2, rule: "If this round has a <b>wildcard number</b>, it doesn't apply to you.", set: "straightShake" },
-    variety_row: { desc: "<em>One row</em> contains <b>all suits</b> in the game.", score: 8, frame: 3, rule: "Whenever a <b>new suit</b> enters the game, trade 1 card with another player.", set: "straightShake" },
+    variety_row: { desc: "<em>One row</em> contains <b>all suits</b> in the game.", score: 7, frame: 3, rule: "Whenever a <b>new suit</b> enters the game, trade 1 card with another player.", set: "straightShake" },
 
     number_restriction: { desc: "<b>No</b> number <b>lower than 3</b> appears.", score: 6, set: "straightShake", frame: 4, rule: "You and 1 other player <b>can't play</b> numbers lower than 3 this round." },
-    contracts_success: { desc: "<b>All</b> other players <b>fulfill their contract(s)</b>.", score: 6, set: "straightShake", frame: 5, rule: "You must pick 2 contracts this round (if possible)." },
-    contracts_fail: { desc: "At least one other player <b>fails a contract</b>.", score: 3, set: "straightShake", frame: 6, rule: "If the <b>Dealer fails</b> a contract, you also fail all your contracts." },
+    contracts_success: { desc: "<b>All</b> other players <b>fulfill their contract(s)</b>.", score: 5, set: "straightShake", frame: 5, rule: "You must pick 2 contracts this round (if possible)." },
+    contracts_fail: { desc: "At least one other player <b>fails a contract</b>.", score: 4, set: "straightShake", frame: 6, rule: "If the <b>Dealer fails</b> a contract, you also fail all your contracts." },
 
-    variety_number_inverse: { desc: "At most <b>five unique numbers</b> appear.", score: 4, set: "straightShake", frame: 7, rule: "Whenever a <b>new number</b> appears, you may look at another player's hand." },
-    variety_suit_inverse: { desc: "At least <b>one suit doesn't appear</b>.", score: 6, set: "straightShake", frame: 8, rule: "As soon as all suits <b>do</b> appear, the <b>wildcard</b> of this round disappears." },
+    variety_number_inverse: { desc: "At most <b>five unique numbers</b> appear.", score: 5, set: "straightShake", frame: 7, rule: "Whenever a <b>new number</b> appears, you may look at another player's hand." },
+    variety_suit_inverse: { desc: "At least <b>one suit doesn't appear</b>.", score: 7, set: "straightShake", frame: 8, rule: "As soon as all suits <b>do</b> appear, the <b>wildcard</b> of this round disappears." },
 
     discard_count_free: { desc: "At least <b>one card</b> has been <b>discarded</b>.", score: 2, set: "straightShake", frame: 9, rule: "When the final facedown card is revealed, <b>nobody may play</b> that number anymore." },
     discard_count_strict: { desc: "Exactly <b>two cards</b> have been <b>discarded</b>.", score: 6, set: "straightShake", frame: 10, rule: "You may play cards <b>on top</b> of other cards." },
-    discard_dealer: { desc: "The <b>Dealer</b> has <b>discarded</b> at least one card.", score: 1, set: "straightShake", frame: 11, rule: "Whenever the <b>Dealer discards</b>, all players receive an <b>extra card</b>." },
-    discard_type: { desc: "A card of <b>suit %suit%</b> is on top of the <b>discard pile</b>.", score: 4, set: "straightShake", frame: 12, rule: "If you discard a card with this suit, instantly play another card <b>ignoring placement rules</b>." },
-    discard_number: { desc: "A card with <b>number %number%</b> is on top of the <b>discard pile</b>.", score: 7, set: "straightShake", frame: 13, rule: "If you discard a card with this number, instantly play another card <b>ignoring placement rules</b>." },
+    discard_dealer: { desc: "The <b>Dealer</b> has <b>discarded</b> at least one card.", score: 3, set: "straightShake", frame: 11, rule: "Whenever the <b>Dealer discards</b>, all players receive an <b>extra card</b>." },
+
+    contract_success_dealer: { desc: "The <b>Dealer fulfills</b> all their <b>contracts</b>. (Dealer can't pick this.)", score: 4, set: "straightShake", rule: "Whoever picked the <b>highest scoring contract</b> determines wildcard this round.", frame: 12 },
+    variety_number_inverse_row: { desc: "<em>One row</b> contains at least <b>4 unique numbers</b>.", score: 5, set: "straightShake", rule: "Whoever picked the <b>lowest scoring contract</b>, discards 1 card.", frame: 13 },
+
     discard_complete_fail: { desc: "One player has <b>not played any card</b> this round.", score: 8, set: "straightShake", frame: 14, rule: "<b>Nobody may play</b> the suit or number of the first revealed (facedown) card." },
     contract_switch: { desc: "One player has <b>switched contract</b> this round.", score: 5, set: "straightShake", frame: 15, rule: "You're <b>not allowed</b> to switch contracts." }
 }
