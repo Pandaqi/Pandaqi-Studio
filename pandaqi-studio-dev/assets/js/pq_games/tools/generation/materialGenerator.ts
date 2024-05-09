@@ -102,7 +102,7 @@ export default class MaterialGenerator
 
         const assetsToLoad = this.filterAssets(this.config.assets);
         const resLoader = new ResourceLoader({ base: this.config.assetsBase });
-        if(!this.config.debug.onlyGenerate) { resLoader.planLoadMultiple(assetsToLoad); }
+        if(!this.config.debug.onlyGenerate) { resLoader.planLoadMultiple(assetsToLoad, this.config); }
         await resLoader.loadPlannedResources();
         
         this.resLoader = resLoader; 

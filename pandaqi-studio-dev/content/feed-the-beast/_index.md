@@ -57,10 +57,10 @@ Three simple steps.
 <p>Pick your desired settings and click the button! When in doubt, just use the defaults for your first games.</p>
 
 {{< boardgame-settings type="game" local_storage="feedTheBeastConfig" btn_label="Generate Material" game_title="Feed the Beast" defaults="true" >}}
-  {{< setting-checkbox id="setting-allowMultiFoodRecipes" text="Add multi food recipes?" checked="checked" remark="Makes the game slightly harder but also faster and more strategic (usually)." >}}
+  {{< setting-checkbox id="setting-allowMultiFoodRecipes" text="Add multi food menus?" checked="checked" remark="Makes the game slightly harder but also faster and more strategic (usually)." >}}
   {{< boardgame-settings-section heading="Sets" >}}
     {{< setting-checkbox id="setting-sets-foodTokens" text="Food Tokens?" checked="checked" >}}
-    {{< setting-checkbox id="setting-sets-recipeCards" text="Recipe Cards?" checked="checked" >}}
+    {{< setting-checkbox id="setting-sets-recipeCards" text="Menu Cards?" checked="checked" >}}
     {{< setting-checkbox id="setting-sets-baseBeasts" text="Beasts (Base)?" checked="checked" >}}
     {{< setting-checkbox id="setting-sets-advancedBeasts" text="Beasts (Advanced)?" >}}
     {{< setting-checkbox id="setting-sets-saveThePrincess" text="Save the Princess?" >}}

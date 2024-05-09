@@ -318,9 +318,14 @@ export default class ResourceImage extends Resource
         return num < this.frames.length && this.frames[num];
     }
 
+    missingFrames()
+    {
+        return this.frames.length < this.frameDims.x*this.frameDims.y;
+    }
+
     getImageFrame(num:number, desiredSize:Point = null) : DrawableData
     {
-        const frameNotCached = !this.hasFrameInCache(num);
+        const frameNotCached = !this.hasFrameInCache(num) || this.missingFrames();
         if(frameNotCached)
         {
             const data = this.getFrameData(num);

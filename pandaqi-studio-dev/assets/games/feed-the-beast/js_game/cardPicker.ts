@@ -1,14 +1,17 @@
 import BalancedFrequencyPickerWithMargin from "js/pq_games/tools/generation/balancedFrequencyPickerWithMargin";
 import shuffle from "js/pq_games/tools/random/shuffle";
 import CONFIG from "../js_shared/config";
-import { ACTIONS, FOOD, MaterialType, Recipe, VICTIMS } from "../js_shared/dict";
+import { ACTIONS, FOOD, MaterialType, Recipe, RecipeList, RecipeRewardType, VICTIMS } from "../js_shared/dict";
 import Card from "./card";
 import getWeighted from "js/pq_games/tools/random/getWeighted";
+import fromArray from "js/pq_games/tools/random/fromArray";
 
 interface RecipeData
 {
     total: number,
-    multi: number
+    multi: number,
+    textRewards: number,
+    foodRewards: number
 }
 
 export default class CardPicker
@@ -57,7 +60,7 @@ export default class CardPicker
         }
 
         // give unique cards their higher tier foods
-        const recipeData:RecipeData = { total: 0, multi: 0 };
+        const recipeData:RecipeData = { total: 0, multi: 0, foodRewards: 0, textRewards: 0 };
         for(let i = 1; i < pickers.length; i++)
         {
             shuffle(arr);
@@ -90,10 +93,23 @@ export default class CardPicker
             for(const recipe of recipes)
             {
                 const recipeValue = this.countRecipeValue(recipe);
-                const suitableActions = this.getActionsOfValue(recipeValue, actionsAlreadyPicked);
-                const finalAction = getWeighted(suitableActions);
-                actionsAlreadyPicked.push(finalAction);
-                recipe.reward = finalAction;
+                const foodToExclude = recipe.cost[0];
+                const suitableActions = this.getActionsOfValue(recipeValue, [actionsAlreadyPicked, foodToExclude].flat());
+                if(Array.isArray(suitableActions)) {
+                    recipe.reward = {
+                        type: RecipeRewardType.FOOD,
+                        food: [suitableActions]
+                    }
+                    recipeData.foodRewards++;
+                } else {
+                    const finalAction = getWeighted(suitableActions);
+                    actionsAlreadyPicked.push(finalAction);
+                    recipe.reward = {
+                        type: RecipeRewardType.TEXT,
+                        desc: finalAction
+                    };
+                    recipeData.textRewards++;
+                }
             }
         }
 
@@ -106,48 +122,76 @@ export default class CardPicker
         // @DEBUGGING: some statistics and summaries to help myself
         console.log(pickers);
         console.log("PERCENTAGE MULTI RECIPES:" + ((recipeData.multi / recipeData.total) * 100) + "%");
+        console.log("TEXT / FOOD REWARDS: " + recipeData.textRewards + " / " + recipeData.foodRewards);
     }
 
-    createMultiFoodRecipe(pickers:BalancedFrequencyPickerWithMargin[], maxTier:number, recipeData:RecipeData, customProb:number = -1)
+    createMultiFoodRecipe(pickers:BalancedFrequencyPickerWithMargin[], maxTier:number, recipeData:RecipeData, customProb:number = -1) : RecipeList
     {
         recipeData.total++;
 
         const recipe = [pickers[maxTier].pickNext()];
-        if(!CONFIG.allowMultiFoodRecipes) { return recipe; }
+        if(!CONFIG.allowMultiFoodRecipes) { return [recipe]; }
 
         let prob = CONFIG.generation.multiFoodRecipeProbPerTier[maxTier];
         if(customProb >= 0) { prob = customProb; }
 
         const roomForMoreMulti = (recipeData.multi / recipeData.total) < CONFIG.generation.multiFoodMaxPercentage;
         const shouldCreateMulti = Math.random() <= prob && roomForMoreMulti;
-        if(!shouldCreateMulti) { return recipe; }
+        if(!shouldCreateMulti) { return [recipe]; }
 
-        const targetRecipeLength = CONFIG.generation.multiFoodRecipeBounds.randomInteger();
+        const targetRecipeLength = (Math.random() <= CONFIG.generation.multiFoodRecipeLengthThreeProb) ? 3 : 2;
         const maxRecipeValue = CONFIG.generation.maxRecipeValue;
         while(recipe.length < targetRecipeLength)
         {
             const pickerToUse = Math.floor(Math.random() * maxTier);
             recipe.push(pickers[pickerToUse].pickNext());
-            const value = this.countRecipeValue({ cost: recipe, reward: null });
+            const value = this.countRecipeValue({ cost: [recipe], reward: null });
             if(value >= maxRecipeValue) { break; }
         }
 
         if(recipe.length > 1) { recipeData.multi++; }
-        return recipe;
+        return [recipe];
     }
 
     countRecipeValue(recipe:Recipe)
     {
-        let num = 0;
-        for(const foodType of recipe.cost)
+        let costIcons = recipe.cost;
+        let totalNum = 0;
+        for(const option of costIcons)
         {
-            num += (FOOD[foodType].value ?? 1);
+            let num = 0;
+            for(const foodType of option)
+            {
+                num += (FOOD[foodType].value ?? 1);
+            } 
+            totalNum += num;
         }
-        return num;
+        const avgNum = totalNum / costIcons.length;
+        return avgNum;
     }
 
     getActionsOfValue(val:number, exclude:string[] = [])
     {
+        const giveFoodReward = Math.random() <= CONFIG.generation.foodRewardProb;
+        const foodRewardError = CONFIG.generation.foodRewardErrorBounds;
+        if(giveFoodReward)
+        {
+            const validFoods = [];
+            for(const [key,data] of Object.entries(FOOD))
+            {
+                if(exclude.includes(key)) { continue; }
+                if(data.value < val + foodRewardError.min) { continue; } // too bad a reward; more a penalty
+                if(data.value > (val + foodRewardError.max)) { continue; } // too big of a reward
+                validFoods.push(key);
+            }
+
+            // we can find nothing if value is too high for any single food token reward
+            if(validFoods.length > 0)
+            {
+                return [fromArray(validFoods)];
+            }
+        }
+
         const maxActionValueError = CONFIG.generation.maxActionValueError;
         const dict = {};
         const dictBackup = {};
@@ -173,7 +217,9 @@ export default class CardPicker
             const freq = defFreq ?? data.freq;
             for(let i = 0; i < freq; i++)
             {
-                this.cards.push(new Card(MaterialType.VICTIM, key));
+                const newCard = new Card(MaterialType.VICTIM, key);
+                newCard.decideDynamicDetails();
+                this.cards.push(newCard);
             }
         }
     }
