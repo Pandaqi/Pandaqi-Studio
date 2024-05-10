@@ -1,23 +1,19 @@
 import createContext from "js/pq_games/layout/canvas/createContext";
 import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
-import BlurEffect from "js/pq_games/layout/effects/blurEffect";
-import TintEffect from "js/pq_games/layout/effects/tintEffect";
+import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
-import ResourceShape from "js/pq_games/layout/resources/resourceShape";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
 import TextConfig, { TextAlign, TextStyle } from "js/pq_games/layout/text/textConfig";
+import drawBlurryRectangle from "js/pq_games/layout/tools/drawBlurryRectangle";
+import AlignValue from "js/pq_games/layout/values/alignValue";
+import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
-import Circle from "js/pq_games/tools/geometry/circle";
 import getPositionsCenteredAround from "js/pq_games/tools/geometry/paths/getPositionsCenteredAround";
 import Point from "js/pq_games/tools/geometry/point";
-import Rectangle from "js/pq_games/tools/geometry/rectangle";
-import { ACTIONS, BEASTS, CARD_TEMPLATES, FOOD, MISC, MaterialType, Recipe, RecipeList, RecipeReward, RecipeRewardType, VICTIMS } from "../js_shared/dict";
-import drawBlurryRectangle from "js/pq_games/layout/tools/drawBlurryRectangle";
-import toTextDrawerImageStrings from "js/pq_games/tools/text/toTextDrawerImageStrings";
 import fromArray from "js/pq_games/tools/random/fromArray";
-import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
-import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
+import toTextDrawerImageStrings from "js/pq_games/tools/text/toTextDrawerImageStrings";
+import { ACTIONS, BEASTS, CARD_TEMPLATES, FOOD, MISC, MaterialType, Recipe, RecipeList, RecipeReward, RecipeRewardType, VICTIMS } from "../js_shared/dict";
 
 export default class Card
 {
@@ -52,7 +48,10 @@ export default class Card
 
         if(!vis.custom)
         {
-            vis.custom = { glowEffect: [new DropShadowEffect({ color: "#FFFFFF", blur: 0.01*vis.sizeUnit })] }
+            vis.custom = { 
+                glowEffect: [new DropShadowEffect({ color: "#FFFFFF", blur: 0.01*vis.sizeUnit })],
+                shadowEffect: [new DropShadowEffect({ color: "#000000", blur: 0.005*vis.sizeUnit })]
+            }
         }
 
         if(this.type == MaterialType.FOOD) {
@@ -76,65 +75,14 @@ export default class Card
     drawFoodToken(vis:MaterialVisualizer, group:ResourceGroup)
     {
         const foodData = FOOD[this.key];
-
-        // draw the food illustration, clipped to be inside circle
-        const circle = new Circle({ center: vis.center, radius: 0.475 * vis.sizeUnit });
         const opIllu = new LayoutOperation({
             translate: vis.center,
             dims: vis.get("foodTokens.iconDims"),
-            clip: circle,
+            frame: foodData.frame,
             pivot: Point.CENTER
         });
         const resIllu = vis.getResource("food");
         group.add(resIllu, opIllu);
-
-        // draw the tinted border on top
-        const resMisc = vis.getResource("misc");
-        const opBorder = new LayoutOperation({
-            translate: vis.center,
-            dims: vis.size,
-            frame: MISC.food_circle.frame,
-            pivot: Point.CENTER,
-            effects: [new TintEffect(foodData.col)]
-        });
-        group.add(resMisc, opBorder);
-
-        // place dots around the edges to signal food tier
-        const dotRadius = vis.get("foodTokens.tierDotRadius");
-        const circleRadius = vis.get("foodTokens.circleRadius");
-        const dotTier = new ResourceShape( new Circle({ center: new Point(), radius: dotRadius }) );
-        for(let i = 0; i < 4; i++)
-        {
-            const ang = i * 0.5 * Math.PI;
-            const numDots = (foodData.tier ?? 0) + 1;
-            const positions = getPositionsCenteredAround({
-                pos: new Point(),
-                num: numDots,
-                dims: new Point(dotRadius*2),
-                dir: Point.DOWN
-            })
-            
-            // assemble into group first (centered around (0,0), downward, for right angle)
-            const groupDots = new ResourceGroup();
-            for(const pos of positions)
-            {
-                const opTier = new LayoutOperation({
-                    translate: pos,
-                    fill: "#000000",
-                    composite: "overlay"
-                });
-                groupDots.add(dotTier, opTier);
-            }
-
-            // then place that entire group at the right position, right rotation
-            const groupDotsOp = new LayoutOperation({
-                translate: vis.center.clone().add(new Point(Math.cos(ang), Math.sin(ang)).scale(circleRadius)),
-                rotation: ang,
-                pivot: Point.CENTER
-            })
-
-            group.add(groupDots, groupDotsOp);
-        }
     }
 
     drawBeast(vis:MaterialVisualizer, group:ResourceGroup)
@@ -146,7 +94,8 @@ export default class Card
         const resBeasts = vis.getResource("beasts");
         const opBeast = new LayoutOperation({
             dims: vis.size,
-            frame: beastData.frame
+            frame: beastData.frame,
+            effects: vis.inkFriendlyEffect
         })
         group.add(resBeasts, opBeast);
 
@@ -171,7 +120,7 @@ export default class Card
             frame: MISC.name_plaque.frame,
             dims: plaqueDims,
             pivot: Point.CENTER,
-            effects: vis.custom.glowEffect
+            effects: [vis.custom.glowEffect, vis.inkFriendlyEffect].flat()
         })
         group.add(resMisc, opPlaque);
 
@@ -239,13 +188,14 @@ export default class Card
                 drawBlurryRectangle({ pos: pos, color: "#000000", blur: blurRadius, dims: rectDims }, group);
 
                 // actual text
-                const str = "<b><col hex=\"" + highlightColor + "\">" + dataKey.toUpperCase() + ":</col></b>" + beastData[dataKey];
+                const str = "<b><col hex=\"" + highlightColor + "\">" + dataKey.toUpperCase() + ":</col></b> " + beastData[dataKey];
                 const resText = new ResourceText({ text: str, textConfig });
                 const opText = new LayoutOperation({
                     translate: pos,
                     dims: rectDims,
                     fill: "#FFFFFF",
-                    pivot: Point.CENTER
+                    pivot: Point.CENTER,
+                    dimsAuto: true
                 });
                 group.add(resText, opText);
             }
@@ -278,7 +228,7 @@ export default class Card
                 frame: MISC["modal_" + dataKey].frame,
                 dims: modalDims,
                 pivot: Point.CENTER,
-                effects: vis.custom.glowEffect
+                effects: [vis.custom.glowEffect, vis.inkFriendlyEffect].flat()
             });
             group.add(resMisc, opModal);
 
@@ -307,6 +257,7 @@ export default class Card
             }
 
             const menuYOffset = vis.get("beasts.modal.menuIconOffsetY")*modalDims.y
+            const menuYOffsetText = vis.get("beasts.modal.menuTextOffsetY")*modalDims.y;
             if(dataKey == "menu")
             {
                 const subGroup = this.visualizeRecipe(vis, data.cost, vis.get("beasts.modal.menuIconDims"), textBoxDims.x);
@@ -315,7 +266,7 @@ export default class Card
                 });
                 group.add(subGroup, op);
 
-                textPos.add(new Point(0, menuYOffset)); // move text downward as well to make space
+                textPos.add(new Point(0, menuYOffsetText)); // move text downward as well to make space
             }
 
             const isIconModal = (dataKey == "menu") && data.reward.type == RecipeRewardType.FOOD;
@@ -346,36 +297,44 @@ export default class Card
         }
     }
 
-    visualizeRecipe(vis:MaterialVisualizer, iconList:RecipeList, iconDims:Point, maxWidth:number = -1) : ResourceGroup
+    visualizeRecipe(vis:MaterialVisualizer, iconList:RecipeList, iconDims:Point, maxWidth:number = -1, align = AlignValue.MIDDLE) : ResourceGroup
     {
         const overlap = 0.3;
         let totalSizeX = 0;
-        for(const option of iconList)
+        let marginBetweenGroups = 0.66 * iconDims.x;
+        for(let i = 0; i < iconList.length; i++)
         {
-            totalSizeX += (1.0-overlap)*option.length*iconDims.x;
+            const option = iconList[i];
+            const extraMargin = (i < iconList.length - 1) ? marginBetweenGroups : 0; // to spread the groups out and allow the OR icon to be visible
+            totalSizeX += (1.0-overlap)*option.length*iconDims.x + extraMargin;
         }
 
         const scaleFactor = maxWidth <= 0 ? 1.0 : Math.min(maxWidth / totalSizeX, 1.0);
         iconDims = iconDims.clone();
         iconDims.scale(scaleFactor);
+        marginBetweenGroups *= scaleFactor;
 
         let groupSizes = [];
-        console.log(iconList);
-        for(const option of iconList)
+        for(let i = 0; i < iconList.length; i++)
         {
-            groupSizes.push(new Point((1.0 - overlap)*option.length*iconDims.x, iconDims.y));
+            const option = iconList[i];
+            const extraMargin = (iconList.length > 1) ? marginBetweenGroups : 0;
+            groupSizes.push(new Point((1.0 - overlap)*option.length*iconDims.x + extraMargin, iconDims.y));
         }
 
         const groupGlobal = new ResourceGroup();
         const positionsGlobal = getPositionsCenteredAround({
             pos: new Point(),
             num: iconList.length,
-            dims: groupSizes // these are of dynamic lengths, but should still be centered nicely by this function
+            dims: groupSizes, // these are of dynamic lengths, but should still be centered nicely by this function
+            align: align,
         });
 
         const resFood = vis.getResource("food");
         const resMisc = vis.getResource("misc");
 
+        const allRawPositions = [];
+        const delayedOrIcons = [];
         for(let i = 0; i < iconList.length; i++)
         {
             const option = iconList[i];
@@ -386,18 +345,20 @@ export default class Card
             const positions = getPositionsCenteredAround({
                 pos: new Point(),
                 num: num,
-                dims: iconDimsWithOverlap
+                dims: iconDimsWithOverlap,
+                align: align
             })
     
-            // @TODO: some shadow on overlap between sprites, for nice separation?
             for(let a = 0; a < positions.length; a++)
             {
                 const op = new LayoutOperation({
                     translate: positions[a],
                     dims: iconDims,
                     frame: FOOD[ option[a] ].frame,
-                    pivot: Point.CENTER
+                    pivot: Point.CENTER,
+                    effects: vis.custom.shadowEffect
                 })
+                allRawPositions.push(positionsGlobal[i].clone().add(positions[a]));
                 group.add(resFood, op);
             }
 
@@ -411,15 +372,22 @@ export default class Card
             const isLastOne = i >= (iconList.length - 1)
             if(!isLastOne)
             {
-                const posBetween = positionsGlobal[i].clone().add(positionsGlobal[i+1].clone()).scale(0.5);
-                const opDivider = new LayoutOperation({
-                    translate: posBetween,
-                    dims: iconDims,
-                    frame: MISC.recipe_or_divider.frame,
-                    pivot: Point.CENTER
-                })
-                groupGlobal.add(resMisc, opDivider)
+                const lastPosRegistered = allRawPositions.length - 1;
+                delayedOrIcons.push([lastPosRegistered, lastPosRegistered+1]);
             }
+        }
+
+        // the "/" (OR) icons should be on top of everything to clearly indicate it's an OR relationship
+        for(const iconIndices of delayedOrIcons)
+        {
+            const posBetween = allRawPositions[iconIndices[0]].clone().add(allRawPositions[iconIndices[1]]).scale(0.5);
+            const opDivider = new LayoutOperation({
+                translate: posBetween,
+                dims: iconDims,
+                frame: MISC.recipe_or_divider.frame,
+                pivot: Point.CENTER
+            })
+            groupGlobal.add(resMisc, opDivider)
         }
 
         return groupGlobal;
@@ -427,7 +395,6 @@ export default class Card
 
     drawBackground(vis:MaterialVisualizer, group:ResourceGroup)
     {
-
         // the victim goes BEHIND the card template, as it's someone "behind bars"
         if(this.type == MaterialType.VICTIM)
         {
@@ -436,7 +403,8 @@ export default class Card
                 translate: vis.get("cards.victims.illuPos"),
                 dims: vis.get("cards.victims.illuDims"),
                 frame: VICTIMS[this.key].frame,
-                pivot: Point.CENTER
+                pivot: Point.CENTER,
+                effects: vis.inkFriendlyEffect
             });
             group.add(resVictim, opVictim);
         }
@@ -448,7 +416,8 @@ export default class Card
         const resTemplate = vis.getResource("card_templates");
         const opTemplate = new LayoutOperation({
             dims: vis.size,
-            frame: templateData.frame
+            frame: templateData.frame,
+            effects: vis.inkFriendlyEffect
         });
         group.add(resTemplate, opTemplate);
     }
@@ -527,21 +496,28 @@ export default class Card
             })
             subGroup.add(resMisc, opFrame);
 
-            const costGroupDims = new Point(numRecipes*maxIconDims.x, maxIconDims.y);
-            const costGroupPos = new Point(-1.0*spaceXPerRecipe + 0.5*costGroupDims.x + 0.75*maxIconDims.x, 0); // this aligns it to left with some margin from edge
+            // @TODO: hardcoded is ugly, but I didn't plan ahead and return the actual dimensions from visualizeRecipe, so meh
+            const numIngs = r.cost[0].length;
+            let leftOffset = 0.6*maxIconDims.x;
+            if(numIngs == 2) { leftOffset = 0.5*maxIconDims.x; }
+            if(numIngs == 3) { leftOffset = 0.35*maxIconDims.x; }
+
+            const costGroupPos = new Point(-0.5*spaceXPerRecipe + leftOffset, 0);
+            const maxSpaceForCost = 0.33 * spaceXPerRecipe;
+            const connectorOffset = numIngs <= 1 ? new Point(0.66*maxIconDims.x, 0) : new Point(maxSpaceForCost, 0);
 
             // visualize some CONNECTING ELEMENT (behind the cost + reward)
             // (this slightly sticks out to the right, but is also slightly behind the icons, hence the fiddling with the numbers here)
             const opConnector = new LayoutOperation({
-                translate: costGroupPos.clone().add(new Point(0.5*costGroupDims.x - 1.2*maxIconDims.x, 0)),
-                dims: new Point(0.6*maxIconDims.x),
-                pivot: Point.CENTER,
+                translate: costGroupPos.clone().add(connectorOffset),
+                dims: new Point(0.435*maxIconDims.x),
+                pivot: new Point(1,0.5),
                 frame: MISC.arrow.frame
             })
             subGroup.add(resMisc, opConnector);
 
             // visualize the COST ( = food token icons)
-            const costGroup = this.visualizeRecipe(vis, r.cost, maxIconDims);
+            const costGroup = this.visualizeRecipe(vis, r.cost, maxIconDims, maxSpaceForCost, AlignValue.START);
             const costOp = new LayoutOperation({
                 translate: costGroupPos
             })
@@ -570,7 +546,7 @@ export default class Card
 
             if(isIconReward)
             {
-                const groupRewardIcons = this.visualizeRecipe(vis, r.reward.food, maxIconDims);
+                const groupRewardIcons = this.visualizeRecipe(vis, r.reward.food, maxIconDims, maxSpaceForCost);
                 const opReward = new LayoutOperation({
                     translate: textBoxPos,
                 });
@@ -628,4 +604,71 @@ export default class Card
 
         return str;
     }
+
+    
+    /*
+    drawFoodTokenV1(vis:MaterialVisualizer, group:ResourceGroup)
+    {
+        const foodData = FOOD[this.key];
+
+        // draw the food illustration, clipped to be inside circle
+        const circle = new Circle({ center: vis.center, radius: 0.475 * vis.sizeUnit });
+        const opIllu = new LayoutOperation({
+            translate: vis.center,
+            dims: vis.get("foodTokens.iconDims"),
+            clip: circle,
+            pivot: Point.CENTER
+        });
+        const resIllu = vis.getResource("food");
+        group.add(resIllu, opIllu);
+
+        // draw the tinted border on top
+        const resMisc = vis.getResource("misc");
+        const opBorder = new LayoutOperation({
+            translate: vis.center,
+            dims: vis.size,
+            frame: MISC.food_circle.frame,
+            pivot: Point.CENTER,
+            effects: [new TintEffect(foodData.col)]
+        });
+        group.add(resMisc, opBorder);
+
+        // place dots around the edges to signal food tier
+        const dotRadius = vis.get("foodTokens.tierDotRadius");
+        const circleRadius = vis.get("foodTokens.circleRadius");
+        const dotTier = new ResourceShape( new Circle({ center: new Point(), radius: dotRadius }) );
+        for(let i = 0; i < 4; i++)
+        {
+            const ang = i * 0.5 * Math.PI;
+            const numDots = (foodData.tier ?? 0) + 1;
+            const positions = getPositionsCenteredAround({
+                pos: new Point(),
+                num: numDots,
+                dims: new Point(dotRadius*2),
+                dir: Point.DOWN
+            })
+            
+            // assemble into group first (centered around (0,0), downward, for right angle)
+            const groupDots = new ResourceGroup();
+            for(const pos of positions)
+            {
+                const opTier = new LayoutOperation({
+                    translate: pos,
+                    fill: "#000000",
+                    composite: "overlay"
+                });
+                groupDots.add(dotTier, opTier);
+            }
+
+            // then place that entire group at the right position, right rotation
+            const groupDotsOp = new LayoutOperation({
+                translate: vis.center.clone().add(new Point(Math.cos(ang), Math.sin(ang)).scale(circleRadius)),
+                rotation: ang,
+                pivot: Point.CENTER
+            })
+
+            group.add(groupDots, groupDotsOp);
+        }
+    }
+    */
 }

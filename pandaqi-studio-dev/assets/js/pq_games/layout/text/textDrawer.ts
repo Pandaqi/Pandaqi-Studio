@@ -171,13 +171,19 @@ export default class TextDrawer
 
     measureText() : Dims
     {
-        if(this.textBlockDims) { return this.textBlockDims; }
+        if(this.textBlockDims) { return this.textBlockDims.clone(); }
 
         const canv = document.createElement("canvas");
         canv.width = 2048;
         canv.height = 2048;
         this.toCanvas(canv);
-        return this.textBlockDims;
+        return this.textBlockDims.clone();
+    }
+
+    snapDimsToActualSize()
+    {
+        const actualSize = this.textBlockDims.getSize();
+        this.dims = new Dims(0, 0, actualSize.x, actualSize.y);
     }
 
     // Parsing has two stages
@@ -273,14 +279,15 @@ export default class TextDrawer
 
     getTextMetrics(ctx:CanvasRenderingContext2D, textParsed:TextChunk[])
     {
-        const alreadyCalculated = this.lines && this.textDims;
+        // @DEBUGGING
+        /*const alreadyCalculated = this.lines && this.textDims;
         if(alreadyCalculated) 
         { 
             const textDims = this.textDims;
             const lines = this.lines;
             console.log(textDims, lines);
             return { textDims, lines } 
-        }
+        }*/
 
         const xStart = this.dims.position.x;
         const yStart = this.dims.position.y;
@@ -408,9 +415,6 @@ export default class TextDrawer
         this.textBlockDims = textDims.clone().move(new Point(0, lines[0].getPosition().y));
         this.lines = lines;
 
-        console.log("ORIGINAL");
-        console.log(this);
-
         return { textDims, lines };
     }
 
@@ -422,7 +426,7 @@ export default class TextDrawer
 
         for(const line of lines)
         {
-            let pos = line.getPosition().clone();
+            let pos = line.getPosition();
 
             for(const elem of line.getChunks())
             {
@@ -548,14 +552,14 @@ export default class TextDrawer
 
         // Text box
         ctx.lineWidth = 3
-        ctx.strokeStyle = '#00AA00'
+        ctx.strokeStyle = '#00FF00'
         ctx.strokeRect(
             this.dims.position.x, this.dims.position.y, 
             this.dims.size.x, this.dims.size.y
         )
 
         ctx.lineWidth = 2
-        ctx.strokeStyle = '#000000'
+        ctx.strokeStyle = '#FF0000'
         ctx.strokeRect(
             this.textBlockDims.position.x, this.textBlockDims.position.y, 
             this.textBlockDims.size.x, this.textBlockDims.size.y

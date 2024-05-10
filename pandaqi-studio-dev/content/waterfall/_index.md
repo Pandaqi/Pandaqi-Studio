@@ -57,12 +57,11 @@ Three simple steps.
 <p>Pick your desired settings and click the button! When in doubt, just use the defaults for your first games.</p>
 
 {{< boardgame-settings type="game" local_storage="waterfallConfig" btn_label="Generate Material" game_title="Waterfall" defaults="true" >}}
+  {{< setting-checkbox id="setting-useIconsForDefaultActions" text="Use Icons for Common Actions?" remark="Some actions are 90% of the game; represent those with an icon instead of English text." >}}
   {{< boardgame-settings-section heading="Sets" >}}
-    {{< setting-checkbox id="setting-sets-foodTokens" text="Food Tokens?" checked="checked" >}}
-    {{< setting-checkbox id="setting-sets-recipeCards" text="Recipe Cards?" checked="checked" >}}
-    {{< setting-checkbox id="setting-sets-baseBeasts" text="Beasts (Base)?" checked="checked" >}}
-    {{< setting-checkbox id="setting-sets-advancedBeasts" text="Beasts (Advanced)?" >}}
-    {{< setting-checkbox id="setting-sets-saveThePrincess" text="Save the Princess?" >}}
+    {{< setting-checkbox id="setting-sets-pawns" text="Player Pawns?" checked="checked" >}}
+    {{< setting-checkbox id="setting-sets-base" text="Base Tiles?" checked="checked" >}}
+    {{< setting-checkbox id="setting-sets-gates" text="Gated Tiles?">}}
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 

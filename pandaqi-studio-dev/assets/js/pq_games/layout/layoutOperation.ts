@@ -247,13 +247,14 @@ export default class LayoutOperation
             if(!this.tempTextDrawer)
             {
                 this.tempTextDrawer = (this.resource as ResourceText).createTextDrawer(dims);
-                this.tempTextDrawer.debug = true;
+                //this.tempTextDrawer.debug = true; // @DEBUGGING
             }
 
             if(this.dimsAuto)
             {
                 dims = this.tempTextDrawer.measureText().getSize().clone();
                 dims.add(new Point(1,1)); // to prevent silly rounding errors making text boxes JUUUST too small
+                this.tempTextDrawer.snapDimsToActualSize();
             }
         }
 
@@ -273,7 +274,11 @@ export default class LayoutOperation
         trans.rotate(this.rotation);
         trans.scale(finalScale);
 
-        const offset = this.pivot.clone().negate().scale(dims);
+        const pivot = this.pivot.clone();
+        if(this.flipX) { pivot.x = 1.0 - pivot.x; }
+        if(this.flipY) { pivot.y = 1.0 - pivot.y; }
+
+        const offset = pivot.negate().scale(dims);
         trans.translate(offset);
         // @TODO: enable once I've checked it works correctly => trans.skew(this.skew);
         return trans;

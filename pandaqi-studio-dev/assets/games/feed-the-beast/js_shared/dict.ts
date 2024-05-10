@@ -253,7 +253,7 @@ const BEASTS:Record<string, GeneralData> =
         // this is very harsh, so use other rules to limit number of wrong food
         fury: "You are turned into a statue and must skip 2 turns.",
         fail: "If <b>all</b> players are currently a statue, I win.",
-        rule: "During gameplay, the food(s) played most often are considered <b>wrong</b>. The food(s) played least often are <b>never</b> wrong (if not on Menu, they just do nothing).",
+        rule: "During gameplay, the food(s) played <i>most often</i> are considered <b>wrong</b>.\n\nhe food(s) played <i>least often</i> are <b>never</b> wrong. (If not on Menu, they just do nothing.)",
         state:
         { 
             labels: { on: "Slithering", off: "Frozen" },
@@ -325,7 +325,7 @@ const BEASTS:Record<string, GeneralData> =
 
         fury: "Draw 2 tokens of the type you just played.",
         fail: "When I have 10 Head Tokens, I win.",
-        rule: "During setup, you start with only 3 Tier 1 food (of the same type). During gameplay, whenever you pay Tier 1 food, you must draw 2 more from the supply.",
+        rule: "During setup, you start with only 3 Tier 1 food (of the same type).\n\nDuring gameplay, whenever you pay Tier 1 food, you must draw 2 more from the supply.",
         state:
         { 
             labels: { on: "Attacking", off: "Regrowing" },
@@ -465,8 +465,8 @@ const BEASTS:Record<string, GeneralData> =
         tier: 2,
         set: "advancedBeasts",
 
-        fury: "You are squashed and must skip 2 turns.", // @TODO: change
-        rule: "You win the game when all remaining food tokens you have are of types played. (If tied, continue playing.) If you run out of tokens (before this happens), draw 5 new Tier 1 tokens.",
+        fury: "Draw 2 more tokens of a food that is currently wrong.",
+        rule: "You <b>win</b> the game if all food tokens you have <b>are of types played</b>. (If tied, continue playing.)\n\nIf you <b>run out</b> of tokens, draw 5 new Tier 1 tokens.",
         state:
         { 
             labels: { on: "Waiting", off: "Wailing" },
@@ -491,7 +491,7 @@ const BEASTS:Record<string, GeneralData> =
 
         fury: "You must pay my menu this turn or the next (if possible).",
         fail: "When the supply of all tokens in a Tier runs out, I win.",
-        rule: "If possible, you must pay a food token that hasn't been played already. No food may appear more than 3 times on me. When I reset, my State changes too.",
+        rule: "If possible, you must pay a food token that <b>hasn't been played</b> already. <b>No food</b> may appear <b>more than 3 times</b> on me.\n\nWhen I <b>reset</b>, my State changes too.",
         state:
         { 
             labels: { on: "Sculpting", off: "Hardening" },
@@ -515,7 +515,7 @@ const BEASTS:Record<string, GeneralData> =
         set: "advancedBeasts",
 
         fury: "Draw 2 Tier 1 tokens. Direction of play reverses.", 
-        rule: "During setup, players <b>choose</b> their Tier 1 tokens (one by one, clockwise turns). When upgrading food, you upgrade to a <b>random</b> one of the next tier.",
+        rule: "During setup, players <b>choose</b> their Tier 1 tokens (one by one, clockwise turns).\n\nWhen upgrading food, you upgrade to a <b>random</b> one of the next tier.",
         state:
         { 
             labels: { on: "Prancing", off: "Soaring" },
@@ -563,7 +563,7 @@ const BEASTS:Record<string, GeneralData> =
 
         fury: "I haunt you! Until you play valid food, draw a token at the start of each turn.",
         fail: "If I store more than 25 tokens, I win.",
-        rule: "I never reset. You can always pay any Tier 2 token to discard 2 tokens from my storage, or a Tier 3 token to discard 5 and/or give those 5 to other players.",
+        rule: "<b>I never reset.</b> You can always pay any Tier 2 token to discard 2 tokens from me.\n\nOr you can pay a Tier 3 token to discard 3 tokens from me and give 3 to other players.",
         state:
         { 
             labels: { on: "Haunting", off: "Being Dead" },
@@ -588,7 +588,7 @@ const BEASTS:Record<string, GeneralData> =
 
         fury: "Either draw 1 token OR change State at the cost of skipping next turn.",
         fail: "If I hold <b>all</b> possible food types, I win.",
-        rule: "My maximum storage is equal to the number of unique food types on me, times two.",
+        rule: "My maximum <b>storage</b> is equal to the <b>twice the number of unique food</b> types on me.",
         state:
         { 
             labels: { on: "Spending", off: "Stealing" },
@@ -613,7 +613,7 @@ const BEASTS:Record<string, GeneralData> =
 
         fury: "Take 2 tokens from me into your hand.",
         fail: "If I have no food on me, I win.",
-        rule: "During setup, start with 5 tokens already one me. When I reset, only discard half my food. Also, the food in player's hands is <b>facedown</b> (secret) the entire game.",
+        rule: "During setup, <b>start with 5 tokens</b> already one me. When I <b>reset</b>, only discard half my food.\n\n The food in player's hands is <b>facedown</b> (secret) the entire game.",
         state:
         { 
             labels: { on: "Protecting", off: "Destroying" },
@@ -638,7 +638,7 @@ const BEASTS:Record<string, GeneralData> =
         set: "advancedBeasts",
 
         fury: "Draw 2 more tokens of the type you just paid.", 
-        rule: "I can store 14 tokens before needing a reset. If you can pay all recipes on a Menu card, you can do so in a single turn, but only take 1 of the actions.",
+        rule: "I can <b>store 14 tokens</b> before needing a reset.\n\nIf you can pay <b>all recipes</b> on a Menu card, you may do so in a single turn, but only take 1 of the actions.",
         state:
         { 
             labels: { on: "Barking", off: "Biting" },
@@ -664,7 +664,7 @@ const BEASTS:Record<string, GeneralData> =
 
         fury: "You get all food played.", 
         fail: "If nobody has paid me correct food for an entire round, I win.",
-        rule: "Play without Menu market. When I reset, simply draw the top card of the deck. Also, higher tier foods don't count as wildcards (for lower tier foods).",
+        rule: "<b>Play without Menu market.</b> When I reset, simply draw the top card of the deck.\n\nHigher tier foods <b>don't count as wildcards</b> (for lower tier foods).",
         state:
         { 
             labels: { on: "Bullying", off: "Pestering" },
@@ -729,7 +729,7 @@ const ACTIONS:Record<string, GeneralData> =
     play_another_menu: { desc: "Play another token which <b>matches the beast's MENU</b>.", value: 2.0 },
     play_another_beast: { desc: "Play another token that <b>matches</b> one already played.", value: 2.0 },
     play_another: { desc: "Play another token.", value: 2.5 },
-    change_direction: { desc: "Flip the direction of play (clockwise or not).", value: 1.75 },
+    change_direction: { desc: "Flip the <b>direction</b> of play (clockwise or not).", value: 1.75 },
 
     // related to influencing / forcing other players
     force_token: { desc: "<b>Force</b> a player to <b>play a specific food</b> next turn.", value: 1.25, prob: 2.5 },

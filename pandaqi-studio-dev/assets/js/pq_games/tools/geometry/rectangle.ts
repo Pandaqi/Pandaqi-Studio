@@ -1,3 +1,4 @@
+import Bounds from "../numbers/bounds"
 import Dims from "./dims"
 import Path from "./paths/path"
 import Point from "./point"
@@ -178,5 +179,12 @@ export default class Rectangle extends Shape
     {
         this.extents.scale(s);
         return this;
+    }
+
+    getRandomPositionInside()
+    {
+        const x = this.center.x + new Bounds(-1,1).random() * 0.5 * this.extents.x;
+        const y = this.center.y + new Bounds(-1,1).random() * 0.5 * this.extents.y;
+        return new Point(x,y);
     }
 }

@@ -157,4 +157,10 @@ export default class Line extends Shape
             line.start.x+vec2.x, line.start.y+vec2.y, line.end.x-vec2.x, line.end.y-vec2.y
         )
     }
+    
+    getRandomPositionInside(scale = 1.0) : Point
+    {
+        const tempLine = this.clone(true).scale(new Point(scale));
+        return tempLine.start.clone().add(tempLine.vector().scale(Math.random()));
+    }
 }

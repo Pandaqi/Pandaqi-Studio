@@ -1,3 +1,4 @@
+import AlignValue from "js/pq_games/layout/values/alignValue";
 import Point from "../point";
 
 interface Params
@@ -6,6 +7,7 @@ interface Params
     num?: number,
     dims: Point[]|Point|number,
     dir?: Point,
+    align?: AlignValue
 }
 
 export default (params:Params) =>
@@ -17,12 +19,14 @@ export default (params:Params) =>
     if(num == 1) { return [basePos.clone()]; }
 
     const dir = params.dir ?? Point.RIGHT;
+    const align = params.align ?? AlignValue.MIDDLE;
 
     let dims = params.dims;
     if(typeof dims === "number") { dims = new Point(dims); }
     const dimsDynamic : Point[] = Array.isArray(dims) ? dims : [];
     const nonUniformDims = dimsDynamic.length > 0;
 
+    // @TODO: find a clean way to merge the uniform and non-uniform code?
     if(nonUniformDims)
     {
         let totalOffset = new Point();
@@ -30,10 +34,13 @@ export default (params:Params) =>
         {
             totalOffset.add(dims[i]);
         }
-        totalOffset.sub(dimsDynamic[0].clone().scale(0.5));
-        totalOffset.sub(dimsDynamic[dimsDynamic.length-1].clone().scale(0.5));
-        totalOffset.scale(0.5);
         totalOffset.negate();
+
+        if(align == AlignValue.START) { totalOffset.scale(0.0); }
+        else if(align == AlignValue.MIDDLE) { totalOffset.scale(0.5); }
+        else if(align == AlignValue.END) { totalOffset.scale(1.0); }
+
+        totalOffset.add(dimsDynamic[0].clone().scale(0.5));
 
         const positions = [];
         let lastPos = basePos.clone().move(dir.clone().scale(totalOffset));
@@ -52,7 +59,12 @@ export default (params:Params) =>
 
     if((dims as Point).isZero()) { return []; }
 
-    const totalOffset = dir.clone().scaleFactor(-0.5*(num - 1)).scale(dims);
+    const totalOffset = dir.clone().scaleFactor(num - 1).scale(dims).negate();
+    
+    if(align == AlignValue.START) { totalOffset.scale(0.0); }
+    else if(align == AlignValue.MIDDLE) { totalOffset.scale(0.5); }
+    else if(align == AlignValue.END) { totalOffset.scale(1.0); }
+
     const positions = [];
     for(let i = 0; i < num; i++)
     {

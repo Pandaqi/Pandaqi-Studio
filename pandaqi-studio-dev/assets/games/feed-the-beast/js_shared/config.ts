@@ -143,9 +143,9 @@ const CONFIG:any =
         maxActionValueError: 0.75,
         defaultFoodFrequenciesPerTier:
         {
-            0: 10,
-            1: 5,
-            2: 3
+            0: 13, // 5 * 13 = 65
+            1: 6, // 3 * 6 = 18
+            2: 4 // 2 * 4 = 8
         },
         defaultVictimFrequency: 1,
     },
@@ -162,9 +162,9 @@ const CONFIG:any =
             },  
         },
 
-        iconDims: new CVal(new Point(0.85), "sizeUnit"),
-        circleRadius: new CVal(new Point(0.45), "sizeUnit"),
-        tierDotRadius: new CVal(new Point(0.05), "sizeUnit")
+        iconDims: new CVal(new Point(0.975), "sizeUnit"),
+        //circleRadius: new CVal(new Point(0.45), "sizeUnit"),
+        //tierDotRadius: new CVal(new Point(0.05), "sizeUnit")
     },
 
     beasts:
@@ -204,16 +204,17 @@ const CONFIG:any =
             stateTextStrokeWidth: new CVal(0.0025, "sizeUnit"),
             anchorPos: new CVal(new Point(0.5, 0.805), "size"),
             textColor: "#FFFFFF",
-            menuIconOffsetY: 0.1,
+            menuIconOffsetY: 0.066,
+            menuTextOffsetY: 0.133,
             menuIconDims: new CVal(new Point(0.06), "sizeUnit")
         },
 
         modalOptional:
         {
-            dims: new CVal(new Point(0.33, 0.25), "size"),
-            blurRadius: new CVal(0.01, "sizeUnit"),
-            offsetFromEdge: new CVal(new Point(0.33, 0.2), "size"),
-            highlightColor: "#FF0000"
+            dims: new CVal(new Point(0.29, 0.11), "size"),
+            blurRadius: new CVal(0.015, "sizeUnit"),
+            offsetFromEdge: new CVal(new Point(0.175, 0.075), "size"),
+            highlightColor: "#FF7777"
         }
     },
 
