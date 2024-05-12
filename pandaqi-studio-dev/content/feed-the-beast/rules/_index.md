@@ -47,7 +47,9 @@ Every beast has the following properties.
 * **State:** every beast can flip between two states (e.g. sleeping/awake). When you get a "state" reward, it flips to the other one.
 * **Menu:** a single recipe that is true for the entire game.
 
-At the top, you can see the beast's "level": higher means more difficult to play.
+At the top, you can see the beast's "level": higher means more difficult to play. 
+
+If you find it hard to remember the beast's state, use the Sun/Moon token. (Faceup means the beast is in the first state, facedown means they're in the other. They always start in the first state mentioned.)
 
 @TODO: IMAGE of BEAST CARD SKELETON
 

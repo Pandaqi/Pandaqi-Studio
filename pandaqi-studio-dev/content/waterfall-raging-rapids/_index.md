@@ -48,9 +48,9 @@ Three simple steps.
 * Download the base game PDF. (Download > Files > Base Set.)
 * Print, cut, play!
 
-This game is _textless_ and incredibly _simple_ in its rules. It is suitable for kids, families, any group. 
+This game is uses text for the action on tiles, which means some English reading comprehension is required. It also adds a few more rules and variations, making it a more complicated (but "deeper") version of the original.
 
-For a slightly heavier version of this idea (with way more actions, written on the tiles), visit the spin-off [Waterfall: Raging Rapids](/waterfall-raging-rapids/). 
+If you want a very simple, textless, more casual game, check out the original [Waterfall](/waterfall/) game!  
 
 **Want more?** You can also [generate your own material](#material) right on this website!
 
@@ -61,9 +61,12 @@ For a slightly heavier version of this idea (with way more actions, written on t
 <p>Pick your desired settings and click the button! When in doubt, just use the defaults for your first games.</p>
 
 {{< boardgame-settings type="game" local_storage="waterfallConfig" btn_label="Generate Material" game_title="Waterfall" defaults="true" >}}
+  {{< setting-checkbox id="setting-useIconsForDefaultActions" text="Use Icons for Common Actions?" remark="Some actions are 90% of the game; represent those with an icon instead of English text." >}}
+  {{< setting-checkbox id="setting-useConditionalActions" text="Allow Conditional Actions?" remark="Slightly harder to understand, but allow more depth and variety." >}}
   {{< boardgame-settings-section heading="Sets" >}}
     {{< setting-checkbox id="setting-sets-pawns" text="Player Pawns?" checked="checked" >}}
     {{< setting-checkbox id="setting-sets-base" text="Base Tiles?" checked="checked" >}}
+    {{< setting-checkbox id="setting-sets-gates" text="Gated Tiles?" remark="Harder to understand and play with, but allow more depth and variety." >}}
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
@@ -73,14 +76,8 @@ For a slightly heavier version of this idea (with way more actions, written on t
 
 {{% section-centered heading="Credits" anchor="credits" %}}
 
-The fonts used are **Avrile Serif** (body, longer paragraphs, very readable) and **Merienda** (headings, short phrases, more curvy). Some generative AI was used for the action illustrations. Everything else is entirely mine.
+This was actually the "original version" of my Waterfall game idea. After working on it, however, I realized how to make it simpler and remove all text. (This almost always happens and is why iteration is the magic word when trying to create _anything_.) That is why there are _two_ Waterfall games which I developed and released in parallel.
 
-This idea was cheekily called _"Decision Trees: The Game"_ for the longest time. That reveals how it started. I was looking into adding automatically generated decision trees to my rulebooks (because they are a _great_ help to new players for certain games), and suddenly realized that those trees kind of look like boards ... on which you can move around by following the connections ...
-
-A few minutes later, I'd written down the first idea for "Waterfall". You simply fall down, getting a choice between LEFT or RIGHT every time, and the specific path you take obviously determines your actions and rewards. For more interactivity and challenge, other pawns _block_ paths if they stop on tiles.
-
-The first version of this idea, as usual, was slightly more complicated (and text-heavy) than I'd like. I ended up renaming that original version to [Waterfall: Raging Rapids](/waterfall-raging-rapids/) and publishing it as a slightly "heavier" spin-off.
-
-Also as usual, though, _after_ making something you realize the exact ways in which you can make it _better_ next time. And so I created a second version, which is the game you're visiting right now: _Waterfall_. A simpler, more streamlined, and textless version that better fits my original vision for the idea.
+As such, for more background information or details, visit the [Waterfall](/waterfall/) project page.
 
 {{% /section-centered %}}

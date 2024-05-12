@@ -74,6 +74,16 @@ export default class Card
 
     drawFoodToken(vis:MaterialVisualizer, group:ResourceGroup)
     {
+        if(this.key == "beastState")
+        {
+            const opStateToken = new LayoutOperation({
+                dims: vis.size,
+                frame: MISC.beast_state.frame
+            })
+            group.add(vis.getResource("misc"), opStateToken);
+            return;
+        }
+
         const foodData = FOOD[this.key];
         const opIllu = new LayoutOperation({
             translate: vis.center,

@@ -4,9 +4,11 @@ type: "rules"
 
 {{% rules-block id="setup" heading="Setup" icon="setup" icontint="green" %}}
 
-Pick one of the **starter tiles** (marked with X) and place it faceup in the center of the table.
+Place any tile with the **add** (+) action facup on the table: this is the start of the waterfall.
 
-Deal all players **X tiles** and **1 Pawn**. The remaining tiles become the facedown draw pile.
+Give all players **4 tiles** and **1 Pawn**. Everyone places the pawn above the waterfall.
+
+The remaining tiles become the facedown draw pile.
 
 @TODO: SETUP IMAGE
 
@@ -14,7 +16,7 @@ Deal all players **X tiles** and **1 Pawn**. The remaining tiles become the face
 
 {{% rules-block id="objective" heading="Objective" icon="objective" icontint="red" %}}
 
-The game **ends** when when the waterfall **contains 15(+) cards**. 
+The game **ends** when when the waterfall **contains 20(+) cards**. 
 
 Players sum the points on their scored tiles: **highest score wins!**
 
@@ -24,14 +26,17 @@ Players sum the points on their scored tiles: **highest score wins!**
 
 From start player, take clockwise turns until the game ends.
 
-On your turn, place your pawn at the top of the waterfall and **fall down!**
+On your turn, you first **play cards** and then **fall down the waterfall**.
 
-For every tile you pass on your way,
-* Execute its action (if it has one)
-* Then pick your next tile by following one of its paths that move _downward_.
+**PLAY**: Play as many hand cards as you want. 
+
+* Sum the _numbers_ on them. That is how many spaces you're allowed to fall.
+* If you have **no** cards in hand, always move 1 space.
+
+**FALL**: For every space you move, pick one of the tiles _below_ your current tile. Go there and execute its action.
+
 * You **can't** enter a tile that contains another player. You may only share a tile if, otherwise, getting stuck would block _all possible paths_ through the waterfall.
-
-Your turn ends once you exit the waterfall or can't move further. (If you get stuck, leave your pawn where it is until your next turn.)
+* If you exit the waterfall (at the bottom), reset to the top and your turn is over. (Any remaining moves are discarded.)
 
 @TODO: EXAMPLE IMAGE
 
@@ -41,45 +46,26 @@ Your turn ends once you exit the waterfall or can't move further. (If you get st
 
 {{% rules-block id="actions" heading="Actions" icon="action" icontint="green" %}}
 
-Everything in this game happens by executing a tile's action (when you fall through it). 
+Everything in this game happens by executing a tile's action (when you visit it).
 
-The main actions are ADD, DRAW and SCORE. Others are explained on the tile itself.
+The main actions are ADD, DRAW and SCORE. They get a bit more explanation; all other actions are simple one-liners that can be found in the table below.
 
 When you do an **ADD** action,
-* Place a tile from your hand in the waterfall. 
-* It must be adjacent to an existing tile, and not overlap anything.
-* All the **water paths** must match.
-
-@TODO: IMAGE EXAMPLE
+* Place a tile from your hand in the waterfall, which is a _pyramid_ shape.
+* There must be a **water path** leading into the tile. (Which happens automatically if you follow the pyramid shape.)
 
 The **DRAW** action allows drawing cards from the top of the facedown deck, into your hand.
 
 The **SCORE** action works as follows.
-* Check the _gemstones_ that are on this tile.
-* Pick a **tile from your hand** that has a _matching gemstone_.
-* Place that tile facedown in your score pile. It's point value (the golden star) scores at the end of the game.
-* If you have no matching tile (or don't want to score it), this does nothing.
+* Check the _gemstones_ that you visited thus far (when falling down).
+* Pick a **tile from your hand** that has a _matching gemstone_. (If none exists, just do nothing.)
+* Place that tile facedown in your score pile. It's _number_ scores you points at the end of the game.
+* When you take a SCORE action, your _path_ **resets**. (Pretend you didn't visit all tiles visited so far, which obviously influences what tiles you may score from now.)
 
-@TODO: IMAGE EXAMPLE
+@TODO: IMAGE EXAMPLES
+
+@TODO: RULES TABLE with ALL ACTIONS
 
 That's it! Have fun!
-
-{{% /rules-block %}}
-
-{{% rules-block id="expansions" heading="Expansions & Variants" icon="expansion" icontint="yellow" %}}
-
-Played the game a few times and ready for more challenge? You're in the right place! Try any of the expansions below.
-
-{{% rules-block heading="Droplets with Demands" %}}
-
-This expansion adds tiles with a "condition" on them. Based on your path so far, this limits if you're allowed to visit the tile _or_ how to execute its action.
-
-{{% /rules-block %}}
-
-{{% rules-block heading="Crowdy Currents" %}}
-
-This expansion adds tiles that allow multiple players on them and/or provide special actions related to pawns.
-
-{{% /rules-block %}}
 
 {{% /rules-block %}}

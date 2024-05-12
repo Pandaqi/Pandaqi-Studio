@@ -107,7 +107,7 @@ const BEASTS:Record<string, GeneralData> =
         tier: 0,
         set: "baseBeasts",
 
-        rule: "If 3 players in a row pay me the wrong food, I <b>reset</b> and start <b>Flying</b>.",
+        rule: "If <i>3 players in a row</i> pay me the <b>wrong food</b>, I <b>reset</b> and start <b>Flying</b>.",
         state:
         { 
             labels: { on: "Grounded", off: "Flying" },
@@ -118,7 +118,7 @@ const BEASTS:Record<string, GeneralData> =
             cost: [["lamb"]],
             reward: { 
                 type: RecipeRewardType.TEXT,
-                desc: "Add a second Menu card. (It goes away on the next reset.)"
+                desc: "<b>Add</b> a second <i>Menu</i>. (It goes away on the next reset.)"
             }
         }
     },
@@ -130,7 +130,7 @@ const BEASTS:Record<string, GeneralData> =
         tier: 1,
         set: "baseBeasts",
 
-        rule: "If your turn leads me to store <b>all foods of one Tier</b>, <b>you discard</b> 1 token while <b>everyone else draws</b> 1 token of that Tier.",
+        rule: "If your turn leads me to have <i>all foods of one Tier</i>, <b>you discard</b> 1 token while <b>everyone else draws</b> 1 token of that Tier.",
         state:
         { 
             labels: { on: "Swimming", off: "Attacking" },
@@ -142,7 +142,7 @@ const BEASTS:Record<string, GeneralData> =
             cost: [["bread", "bread"], ["apple", "apple"], ["mushroom", "berries"]],
             reward: { 
                 type: RecipeRewardType.TEXT,
-                desc: "Draw 1 Fish token OR change my State."
+                desc: "<b>Draw</b> 1 Fish token <i>or</i> <b>change State</b>."
             }
         }
     },
@@ -154,18 +154,18 @@ const BEASTS:Record<string, GeneralData> =
         tier: 1,
         set: "baseBeasts",
 
-        rule: "I <b>reset</b> faster: when I have 6 food on me OR 3 food of the same type.",
+        rule: "I <b>reset</b> faster: when I have 6 food on me <i>or</i> 3 food of the same type.",
         state:
         { 
             labels: { on: "Regular", off: "On Fire" },
-            desc: "If <b>Regular</b>, nobody may play wrong food ( = skip your turn).\n\nIf <b>On Fire</b>, everyone may play 2 food on their turn."
+            desc: "If <b>Regular</b>, nobody may play <i>wrong food</i> ( = skip your turn).\n\nIf <b>On Fire</b>, everyone may <i>play 2 food</i> on their turn."
         },
         menu: 
         {
             cost: [["lamb"]],
             reward: { 
                 type: RecipeRewardType.TEXT,
-                desc: "Play 1 more food token for <b>any reward</b> on the current Menu card."
+                desc: "<b>Play 1 more</b> food token for <b>any reward</b> on the current Menu card."
             }
         }
     },
@@ -177,19 +177,19 @@ const BEASTS:Record<string, GeneralData> =
         tier: 1,
         set: "baseBeasts",
 
-        rule: "If I store 3(+) food of the same type, feed me <b>twice</b> on your turn.",
+        rule: "If I store <i>3(+) food of the same type</i>, feed me <b>twice</b> on your turn.",
         state:
         { 
             labels: { on: "Hibernating", off: "Roaming" },
             // the idea is that Yeti "comes to get his own food" if he's roaming, hence you lose a random token
-            desc: "If <b>Hibernating</b>, you can't pay my personal Menu.\n\nIf <b>Roaming</b>, pay me <b>random</b> food on your turn."
+            desc: "If <b>Hibernating</b>, you <b>can't</b> pay my personal Menu.\n\nIf <b>Roaming</b>, pay me <b>random</b> food on your turn."
         },
         menu: 
         {
             cost: [["nectar"], ["pie", "pie"]],
             reward: { 
                 type: RecipeRewardType.TEXT,
-                desc: "<b>Reset</b> me, then <b>place 2</b> tokens on me. Other players <b>must</b> play one of those types (if possible) until the next reset."
+                desc: "<b>Reset</b> me. Then <b>place 2</b> tokens on me. Other players <b>must</b> play one of those types (if possible) until the next reset."
             }
         }
     },
@@ -201,20 +201,20 @@ const BEASTS:Record<string, GeneralData> =
         tier: 2,
         set: "advancedBeasts",
 
-        fury: "Downgrade one of your tokens. If not possible, draw 2 more Tier 1 foods.",
-        fail: "If I have 5 Maze Tokens, I escape the maze and win.",
-        rule: "During setup, pick two Tier 1 foods: they should now be considered Tier 2 (and players don't start with them). Also make Human the only Tier 3 food.",
+        fury: "<b>Downgrade</b> one of your tokens. If not possible, <b>draw 2</b> Tier 1 foods.",
+        fail: "If I have <b>5 Maze Tokens</b>, I escape the maze and win.",
+        rule: "During setup, <b>pick two Tier 1 foods</b>: they are now <i>considered Tier 2</i>.\n\nAlso make Human the <b>only</b> Tier 3 food.",
         state:
         { 
             labels: { on: "Escaping", off: "Charging" },
-            desc: "If <b>Escaping</b>, place a random food token to the side every time I <b>reset</b>: a Maze Token.\n\nIf <b>Charging</b>, I reset as soon as someone pays the wrong food."
+            desc: "If <b>Escaping</b>, place a random food token to the side every time I <b>reset</b>: a <i>Maze Token</i>.\n\nIf <b>Charging</b>, I reset as soon as someone pays the <i>wrong food</i>."
         },
         menu: 
         {
             cost: [["bread", "bread"], ["candy", "candy"], ["human"]],
             reward: { 
                 type: RecipeRewardType.TEXT,
-                desc: "Remove 3 Maze Tokens. Give each one to a player (which can be yourself)."
+                desc: "<b>Remove</b> 3 Maze Tokens. Give each one to a player (which can be yourself)."
             }
         } 
     },
@@ -230,14 +230,14 @@ const BEASTS:Record<string, GeneralData> =
         state:
         { 
             labels: { on: "Man", off: "Wolf" },
-            desc: "If <b>Man</b>, I won't eat any food above Tier 1.\n\nIf <b>Wolf</b>, I only eat food above Tier 1."
+            desc: "If <b>Man</b>, I <b>won't</b> eat any food <i>above</i> Tier 1.\n\nIf <b>Wolf</b>, I <b>only</b> eat food <i>above</i> Tier 1."
         },
         menu: 
         {
             cost: [["bread", "berries"], ["lamb"], ["human"]],
             reward: { 
                 type: RecipeRewardType.TEXT,
-                desc: "Upgrade or downgrade up to 3 tokens."
+                desc: "<b>Upgrade</b> or <b>downgrade</b> at most 3 tokens."
             }
         }
 
@@ -251,20 +251,20 @@ const BEASTS:Record<string, GeneralData> =
         set: "advancedBeasts",
 
         // this is very harsh, so use other rules to limit number of wrong food
-        fury: "You are turned into a statue and must skip 2 turns.",
-        fail: "If <b>all</b> players are currently a statue, I win.",
+        fury: "You are turned into a Statue and must <b>skip 2 turns</b>.",
+        fail: "If <b>all</b> players are currently a <i>Statue</i>, I win.",
         rule: "During gameplay, the food(s) played <i>most often</i> are considered <b>wrong</b>.\n\nhe food(s) played <i>least often</i> are <b>never</b> wrong. (If not on Menu, they just do nothing.)",
         state:
         { 
             labels: { on: "Slithering", off: "Frozen" },
-            desc: "If <b>Slithering</b>, steal 1 token from another player after your turn.\n\nIf <b>Frozen</b>, I don't reset and my Menu can't change."
+            desc: "If <b>Slithering</b>, <i>steal</i> 1 token from another player after your turn.\n\nIf <b>Frozen</b>, I <i>don't reset</i> and <i>don't switch Menu</i>."
         },
         menu: 
         {
             cost: [["lamb", "pie", "candy"]],
             reward: { 
                 type: RecipeRewardType.TEXT,
-                desc: "Discard 3 tokens that would currently be considered <b>wrong</b>."
+                desc: "<b>Discard</b> 3 tokens that would currently be considered <b>wrong</b>."
             }
         } 
     },
@@ -276,18 +276,18 @@ const BEASTS:Record<string, GeneralData> =
         tier: 0,
         set: "baseBeasts",
 
-        rule: "Higher Tier foods only act as wildcards (for lower tiers) if I already have one of that type.",
+        rule: "Higher Tier foods only <b>act as wildcards</b> (for lower tiers) if I <i>already have one of that type</i>.",
         state:
         { 
             labels: { on: "Guarding", off: "Chasing" },
-            desc: "If <b>Guarding</b>, I can store 16 tokens (before I reset).\n\nIf <b>Chasing</b>, I can only store 6."
+            desc: "If <b>Guarding</b>, I can store <b>15 tokens</b> (before I reset).\n\nIf <b>Chasing</b>, I can only store <b>5 tokens</b>."
         },
         menu: 
         {
             cost: [["mushroom", "fish", "berries"], ["bread", "apple"]],
             reward: { 
                 type: RecipeRewardType.TEXT,
-                desc: "Draw a Tier 2 food."
+                desc: "<b>Draw</b> a Tier 2 food."
             }
         }
     },
@@ -303,7 +303,7 @@ const BEASTS:Record<string, GeneralData> =
         state:
         { 
             labels: { on: "Regular", off: "Magic" },
-            desc: "If <b>Magic</b>, paying the wrong food has no penalty."
+            desc: "If <b>Magic</b>, paying the wrong food has <i>no penalty</i>."
         },
         menu: 
         {
@@ -323,20 +323,20 @@ const BEASTS:Record<string, GeneralData> =
         tier: 3,
         set: "advancedBeasts",
 
-        fury: "Draw 2 tokens of the type you just played.",
-        fail: "When I have 10 Head Tokens, I win.",
-        rule: "During setup, you start with only 3 Tier 1 food (of the same type).\n\nDuring gameplay, whenever you pay Tier 1 food, you must draw 2 more from the supply.",
+        fury: "<b>Draw 2 tokens</b> of the type you just played.",
+        fail: "When I have <b>10 Head Tokens</b>, I win.",
+        rule: "During setup, you start with <b>only 3 Tier 1 food</b> (of the same type).\n\nDuring gameplay, whenever you <b>pay Tier 1 food</b>, you must <b>draw 2 more</b> from the supply.",
         state:
         { 
             labels: { on: "Attacking", off: "Regrowing" },
-            desc: "When I switch to <b>Regrowing</b>, place any food token off to the side: a Head Token. My rule doesn't apply in this state."
+            desc: "When I switch to <b>Regrowing</b>, place any food token off to the side: a <i>Head Token</i>. My <b>rule doesn't apply</b> in this Regrowing state."
         },
         menu: 
         {
             cost: [["bread", "bread"], ["apple", "apple"], ["berries", "berries"], ["lamb", "lamb"], ["pie", "pie"]],
             reward: { 
                 type: RecipeRewardType.TEXT,
-                desc: "Draw back 1 token of the type you paid. Also change State."
+                desc: "<b>Draw</b> back 1 token of the type you paid. Also <b>change State</b>."
             }
         }
     }, 
@@ -348,7 +348,7 @@ const BEASTS:Record<string, GeneralData> =
         tier: 1,
         set: "baseBeasts",
 
-        rule: "You can't pay me wrong food the normal way. Instead, when you pay a correct recipe, you may also slip in 1 wrong food.",
+        rule: "<b>I don't accept wrong food normally.</b> Instead, when you pay a <i>correct recipe</i>, you may also <i>slip in 1 extra wrong food</i>.",
         state:
         { 
             labels: { on: "Asking", off: "Answering" },
@@ -371,18 +371,18 @@ const BEASTS:Record<string, GeneralData> =
         tier: 1,
         set: "baseBeasts",
 
-        rule: "During setup, all players also get 1 <b>human</b> and 2 <b>lamb</b> tokens.",
+        rule: "During setup, all players also get 1 <b>Human</b> and 2 <b>Lamb</b> tokens.",
         state:
         { 
             labels: { on: "Eating", off: "Punching" },
-            desc: "If <b>Eating</b>, all Tier 1 food can be paid without penalty.\n\nIf <b>Punching</b>, anybody who pays wrong food has to <b>skip a turn</b> AND <b>draw</b> a new token."
+            desc: "If <b>Eating</b>, all Tier 1 food can be paid <i>without penalty</i>.\n\nIf <b>Punching</b>, anybody who pays wrong food has to <b>skip a turn</b> <i>and</i> <b>draw</b> a new token."
         },
         menu: 
         {
             cost: [["human"], ["lamb", "lamb"]],
             reward: { 
                 type: RecipeRewardType.TEXT,
-                desc: "You may re-pay this menu as many times as you want in a single turn."
+                desc: "You may <b>re-pay</b> this Menu <i>however often you want</i> in a single turn."
             }
         }
     },
@@ -398,14 +398,14 @@ const BEASTS:Record<string, GeneralData> =
         state:
         { 
             labels: { on: "Aboveground", off: "Underground" },
-            desc: "If <b>Underground</b>, you can pay me anything but get no reward or penalty.\n\nWhen I reset, I go back to <b>Aboveground</b>."
+            desc: "If <b>Underground</b>, you can <b>pay me anything</b> but get <i>no reward or penalty</i>.\n\nWhen I reset, I go back to <b>Aboveground</b>."
         },
         menu: 
         {
             cost: [["candy", "candy"]],
             reward: { 
                 type: RecipeRewardType.TEXT,
-                desc: "Discard 4 food tokens."
+                desc: "<b>Discard</b> 4 food tokens."
             }
         }
     },
@@ -417,20 +417,20 @@ const BEASTS:Record<string, GeneralData> =
         tier: 2,
         set: "advancedBeasts",
 
-        fury: "You lose all food of your highest Tier, unless that is Tier 1.",
+        fury: "You <b>lose all food</b> of your <i>highest Tier</i>, unless that is Tier 1.",
         // the idea is that the cyclops only has one eye and can't see this option
-        rule: "Whenever the Menu card changes, the active player picks one recipe. It's considered <b>wrong</b>.",
+        rule: "Whenever the <i>Menu changes</i>, the active player picks <i>one recipe</i> on it. It's considered <b>wrong</b> anyway.",
         state:
         { 
             labels: { on: "Eye Open", off: "Eye Shut" },
-            desc: "If <b>Eye Shut</b>, you must pay your tokens facedown and may <b>lie</b>. Other players may challenge you, and if they're right about lying, draw 4 tokens as penalty."
+            desc: "If <b>Eye Shut</b>, you must pay your tokens <i>facedown</i> and may <b>lie</b>. Other players may <i>challenge</i> you, and if they're right about lying, draw 4 tokens as penalty."
         },
         menu: 
         {
             cost: [["human"], ["lamb", "nectar"]],
             reward: { 
                 type: RecipeRewardType.TEXT,
-                desc: "Switch the Menu card and pick one recipe. It is the <b>only</b> one that's not wrong."
+                desc: "<b>Switch</b> the Menu card and <i>pick one recipe</i>. It is the <b>only</b> one that's <i>not wrong</i>."
             }
         }
     },
@@ -442,7 +442,7 @@ const BEASTS:Record<string, GeneralData> =
         tier: 0,
         set: "baseBeasts",
 
-        rule: "If possible, you must pay the same food as the player before you.",
+        rule: "Always pay the <b>same food</b> as the <b>player before you</b> (if possible)",
         state:
         { 
             labels: { on: "Still", off: "Walking" },
@@ -453,7 +453,7 @@ const BEASTS:Record<string, GeneralData> =
             cost: [["lamb", "lamb"]],
             reward: { 
                 type: RecipeRewardType.TEXT,
-                desc: "Pick a food. Give <b>all</b> your tokens of that type to other players."
+                desc: "<b>Pick a food.</b> Give <b>all</b> your tokens of that type to <i>other players</i>."
             }
         }
     },
@@ -465,19 +465,19 @@ const BEASTS:Record<string, GeneralData> =
         tier: 2,
         set: "advancedBeasts",
 
-        fury: "Draw 2 more tokens of a food that is currently wrong.",
+        fury: "<b>Draw 2 tokens</b> of a food that is <i>currently wrong</i>.",
         rule: "You <b>win</b> the game if all food tokens you have <b>are of types played</b>. (If tied, continue playing.)\n\nIf you <b>run out</b> of tokens, draw 5 new Tier 1 tokens.",
         state:
         { 
             labels: { on: "Waiting", off: "Wailing" },
-            desc: "If <b>Waiting</b>, if the previous player paid wrong food, you may take your turn twice.\n\nIf <b>Wailing</b>, I can store at most 4 tokens."
+            desc: "If <b>Waiting</b>, if the previous player paid wrong food, you may take your turn <i>twice</i>.\n\nIf <b>Wailing</b>, I can store <i>only 4 tokens</i>."
         },
         menu: 
         {
             cost: [["fish", "fish", "fish"], ["nectar"]],
             reward: { 
                 type: RecipeRewardType.TEXT,
-                desc: "Give all other players a token of choice (from supply)."
+                desc: "<b>Give</b> all other players a token of choice (from <i>supply</i>)."
             }
         }
     },
@@ -489,20 +489,20 @@ const BEASTS:Record<string, GeneralData> =
         tier: 3,
         set: "advancedBeasts",
 
-        fury: "You must pay my menu this turn or the next (if possible).",
-        fail: "When the supply of all tokens in a Tier runs out, I win.",
+        fury: "You must <b>pay my menu</b> this turn or the next (if possible).",
+        fail: "When the <b>supply</b> of all tokens in a Tier <b>runs out</b>, I win.",
         rule: "If possible, you must pay a food token that <b>hasn't been played</b> already. <b>No food</b> may appear <b>more than 3 times</b> on me.\n\nWhen I <b>reset</b>, my State changes too.",
         state:
         { 
             labels: { on: "Sculpting", off: "Hardening" },
-            desc: "If <b>Sculpting</b>, you may change the Menu every turn (for free).\n\nIf <b>Hardening</b>, the Menu and food stored <b>can't change</b>. (Food played is immediately discarded.)"
+            desc: "If <b>Sculpting</b>, you may <i>change the Menu</i> every turn (for free).\n\nIf <b>Hardening</b>, the Menu and food stored <b>can't change</b>. (Food played is immediately discarded.)"
         },
         menu: 
         {
             cost: [["apple", "apple", "apple"], ["lamb", "lamb"], ["pie", "pie"], ["candy", "candy"], ["nectar"]],
             reward: { 
                 type: RecipeRewardType.TEXT,
-                desc: "If you paid multiple tokens, draw any Tier 1 food. Otherwise, you get nothing."
+                desc: "If you paid <i>multiple tokens</i>, <b>draw</b> any Tier 1 food. Otherwise, you get nothing."
             }
         }
     },
@@ -514,19 +514,19 @@ const BEASTS:Record<string, GeneralData> =
         tier: 2,
         set: "advancedBeasts",
 
-        fury: "Draw 2 Tier 1 tokens. Direction of play reverses.", 
+        fury: "<b>Draw</b> 2 Tier 1 tokens. Direction of play <b>reverses</b>.", 
         rule: "During setup, players <b>choose</b> their Tier 1 tokens (one by one, clockwise turns).\n\nWhen upgrading food, you upgrade to a <b>random</b> one of the next tier.",
         state:
         { 
             labels: { on: "Prancing", off: "Soaring" },
-            desc: "If <b>Soaring</b>, tell the player after you what they should play. They may only ignore the request if I'm empty or they pay my personal menu."
+            desc: "If <b>Soaring</b>, tell the <i>player after you</i> what they should play. They may only <b>ignore</b> the request if <i>I'm empty</i> or they <i>pay my personal Menu</i>."
         },
         menu: 
         {
             cost: [["pie"], ["candy"]],
             reward: { 
                 type: RecipeRewardType.TEXT,
-                desc: "All other players draw 1 food token from me. (Clockwise turns, starting from you.)"
+                desc: "All other players <b>draw</b> 1 food token from <i>me</i>. (Clockwise turns, starting from you.)"
             }
         }
     },
@@ -538,18 +538,18 @@ const BEASTS:Record<string, GeneralData> =
         tier: 0,
         set: "baseBeasts",
 
-        rule: "Whenever I change State, everyone may swap 2 food tokens.",
+        rule: "Whenever I <b>change State</b>, everyone may <b>swap 2 food tokens</b>.",
         state:
         { 
             labels: { on: "Underwater", off: "Surfaced" },
-            desc: "If <b>Surfaced</b>, you can't give me food already played."
+            desc: "If <b>Surfaced</b>, you <b>can't</b> give me food <i>already played</i>."
         },
         menu: 
         {
             cost: [["nectar"]],
             reward: { 
                 type: RecipeRewardType.TEXT,
-                desc: "Discard 2 tokens. I go <b>Underwater</b> and never change State again."
+                desc: "<b>Discard</b> 2 tokens. I go <b>Underwater</b> and never change State again."
             }
         }
     },
@@ -561,20 +561,20 @@ const BEASTS:Record<string, GeneralData> =
         tier: 3,
         set: "advancedBeasts",
 
-        fury: "I haunt you! Until you play valid food, draw a token at the start of each turn.",
-        fail: "If I store more than 25 tokens, I win.",
-        rule: "<b>I never reset.</b> You can always pay any Tier 2 token to discard 2 tokens from me.\n\nOr you can pay a Tier 3 token to discard 3 tokens from me and give 3 to other players.",
+        fury: "I haunt you! <i>Until you play valid food,</i> <b>draw</b> a token at the start of each turn.",
+        fail: "If I store <b>more than 25 tokens</b>, I win.",
+        rule: "<b>I never reset.</b> You can always pay <i>any Tier 2 token</i> to discard 2 tokens from me.\n\nOr you can pay <i>any Tier 3 token</i> to discard 3 tokens from me and give 3 to other players.",
         state:
         { 
             labels: { on: "Haunting", off: "Being Dead" },
-            desc: "If <b>Being Dead</b>, playing wrong food has no penalty, but I also can't switch to another beast."
+            desc: "If <b>Being Dead</b>, playing wrong food has <i>no penalty</i>, but I also <i>can't switch</i> to another beast."
         },
         menu: 
         {
             cost: [["lamb", "pie", "candy"], ["nectar", "nectar"]],
             reward: { 
                 type: RecipeRewardType.TEXT,
-                desc: "Switch to a completely different beast! (My state and food are lost.)"
+                desc: "<b>Switch</b> to a completely different beast! (My state and food are lost.)"
             }
         }
     },
@@ -586,13 +586,13 @@ const BEASTS:Record<string, GeneralData> =
         tier: 3,
         set: "advancedBeasts",
 
-        fury: "Either draw 1 token OR change State at the cost of skipping next turn.",
+        fury: "Either <b>draw</b> 1 token <i>or</i> <b>change State</b> at the cost of skipping next turn.",
         fail: "If I hold <b>all</b> possible food types, I win.",
         rule: "My maximum <b>storage</b> is equal to the <b>twice the number of unique food</b> types on me.",
         state:
         { 
             labels: { on: "Spending", off: "Stealing" },
-            desc: "If <b>Spending</b>, any food from players with more than 5 tokens is wrong.\n\nIf <b>Stealing</b>, any food from players with fewer than 5 tokens is wrong."
+            desc: "If <b>Spending</b>, any food from players with <i>more</i> than 5 tokens is <i>wrong</i>.\n\nIf <b>Stealing</b>, any food from players with <i>fewer</i> than 5 tokens is <i>wrong</i>."
         },
         menu: 
         {
@@ -611,9 +611,9 @@ const BEASTS:Record<string, GeneralData> =
         tier: 3,
         set: "advancedBeasts",
 
-        fury: "Take 2 tokens from me into your hand.",
-        fail: "If I have no food on me, I win.",
-        rule: "During setup, <b>start with 5 tokens</b> already one me. When I <b>reset</b>, only discard half my food.\n\n The food in player's hands is <b>facedown</b> (secret) the entire game.",
+        fury: "<b>Draw</b> 2 tokens from <i>me</i>.",
+        fail: "If I have <b>no food on me</b>, I win.",
+        rule: "During setup, <b>start with 5 tokens</b> already one me. When I <b>reset</b>, only discard <i>half</i> my food.\n\n The food in player's hands is <b>facedown</b> (secret) the entire game.",
         state:
         { 
             labels: { on: "Protecting", off: "Destroying" },
@@ -624,7 +624,7 @@ const BEASTS:Record<string, GeneralData> =
             cost: [["bread"], ["berries"], ["pie"]],
             reward: { 
                 type: RecipeRewardType.TEXT,
-                desc: "Switch my State to anything. Tell another player what token to play next turn (if they have it)."
+                desc: "<b>Change State</b> to anything. Tell another player what token to play next turn (if they have it)."
             }
         }
     
@@ -637,19 +637,19 @@ const BEASTS:Record<string, GeneralData> =
         tier: 2,
         set: "advancedBeasts",
 
-        fury: "Draw 2 more tokens of the type you just paid.", 
-        rule: "I can <b>store 14 tokens</b> before needing a reset.\n\nIf you can pay <b>all recipes</b> on a Menu card, you may do so in a single turn, but only take 1 of the actions.",
+        fury: "<b>Draw</b> 2 more tokens of the <i>type you just paid</i>.", 
+        rule: "I can <b>store 14 tokens</b> before needing a reset.\n\nIf you can pay <b>all recipes</b> on a Menu card, you may do so in a single turn, but only take <i>1 of its actions</i>.",
         state:
         { 
             labels: { on: "Barking", off: "Biting" },
-            desc: "If <b>Barking</b>, you can only play a type already on me (unless I'm empty).\n\nIf <b>Biting</b>, remove 2 tokens from me after every turn."
+            desc: "If <b>Barking</b>, you can only play a <i>type already on me</i> (unless I'm empty).\n\nIf <b>Biting</b>, <i>remove 2 tokens</i> from me after every turn."
         },
         menu: 
         {
             cost: [["nectar"], ["candy"]],
             reward: { 
                 type: RecipeRewardType.TEXT,
-                desc: "Pay all recipes on the Menu card <b>and</b> take all actions."
+                desc: "<b>Pay all</b> recipes on the Menu card <i>and</i> take <b>all actions</b>."
             }
         }
     },
@@ -662,20 +662,20 @@ const BEASTS:Record<string, GeneralData> =
         tier: 3, 
         set: "advancedBeasts",
 
-        fury: "You get all food played.", 
-        fail: "If nobody has paid me correct food for an entire round, I win.",
-        rule: "<b>Play without Menu market.</b> When I reset, simply draw the top card of the deck.\n\nHigher tier foods <b>don't count as wildcards</b> (for lower tier foods).",
+        fury: "Draw <b>all food played</b>.", 
+        fail: "If <b>nobody</b> has paid me <b>correct food</b> for an entire round, I win.",
+        rule: "<b>Play without Menu market.</b> When I <i>reset</i>, simply draw the top card of the deck.\n\nHigher tier foods <b>don't count as wildcards</b> (for lower tier foods).",
         state:
         { 
             labels: { on: "Bullying", off: "Pestering" },
-            desc: "If <b>Bullying</b>, only the first option of each Menu correct.\n\nIf <b>Pestering</b>, only the last option of each Menu is correct."
+            desc: "If <b>Bullying</b>, only the <i>first</i> option of each Menu correct.\n\nIf <b>Pestering</b>, only the <i>last</i> option of each Menu is correct."
         },
         menu: 
         {
             cost: [["mushroom"], ["mushroom", "pie"], ["mushroom", "pie", "nectar"]],
             reward: { 
                 type: RecipeRewardType.TEXT,
-                desc: "Swap at most 4 tokens for others from any origin (the supply, other players, or me)."
+                desc: "<b>Swap</b> at most 4 tokens for others from <b>any origin</b> (<i>supply, other players, or me</i>)."
             }
         }
     
@@ -764,7 +764,8 @@ const MISC =
     modal_menu: { frame: 5 },
     name_plaque: { frame: 6 },
     recipe_or_divider: { frame: 7 },
-    recipe_frame: { frame: 8 }
+    recipe_frame: { frame: 8 },
+    beast_state: { frame: 9 }
 }
 
 export {

@@ -7,7 +7,7 @@ const CONFIG:any =
 {
     debug:
     {
-        omitFile: true, // @DEBUGGING (should be false)
+        omitFile: false, // @DEBUGGING (should be false)
         singleDrawPerType: false, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
@@ -19,14 +19,11 @@ const CONFIG:any =
     inkFriendly: false,
     itemSize: "regular",
     pageSize: "a4",
-
-    useIconsForDefaultActions: false,
     
     sets:
     {
         pawns: true,
         base: true,
-        gates: false,
     },
 
     fonts:
@@ -76,10 +73,10 @@ const CONFIG:any =
             frames: new Point(6,1)
         },
 
-        decoration:
+        actions:
         {
-            path: "decoration.webp",
-            frames: new Point(8,2)
+            path: "actions.webp",
+            frames: new Point(8,1)
         },
 
         misc:
@@ -96,16 +93,9 @@ const CONFIG:any =
 
     generation:
     {
-        numBaseTiles: 36,
-        numGateTiles: 15,
-
+        numBaseTiles: 44,
         numPawnFrames: 3,
         bgDirtTextureBounds: new Bounds(0,3),
-        gemstonesPerTileBounds: new Bounds(1,3),
-        numGemstonesMultiplierBounds: new Bounds(1,3),
-        maxGemstonesPerTile: 8,
-        minGemstonesPerTile: 3,
-
         scoreDistribution:
         {
             1: 0.15,
@@ -114,31 +104,6 @@ const CONFIG:any =
             4: 0.2,
             5: 0.05
         },
-
-        numInputsOutputsDistribution:
-        {
-            input:
-            {
-                1: 0.75,
-                2: 0.25
-            },
-
-            output:
-            {
-                1: 0.25,
-                2: 0.72
-            }
-        },
-
-        randomDecorationProbability: 0.65,
-        boulderDecorationProbability: 0.5,
-        boulderDoubleProbability: 0.66,
-        decorationFrameBounds: new Bounds(0,3),
-        
-        // relative to width/height; 
-        // anything OUTSIDE is room for gemstones, anything INSIDE is action text + score
-        innerRectangleSize: 0.7, 
-        gemstoneRectangleSize: 0.885
     },
 
     tiles:
@@ -155,50 +120,35 @@ const CONFIG:any =
             }, 
         },
 
+        shared:
+        {
+            shadow:
+            {
+                color: "#FFFFFF",
+                blur: new CVal(0.02, "sizeUnit")
+            }
+        },
+
         score:
         {
-            fontSize: new CVal(0.135, "sizeUnit"),
-            pos: new CVal(new Point(0.5, 0.125), "sizeUnit"),
+            fontSize: new CVal(0.16, "sizeUnit"),
+            pos: new CVal(new Point(0.85, 0.265), "sizeUnit"),
             textColor: "#372B00",
             strokeColor: "#FFFFFF",
-            strokeWidth: new CVal(0.1, "tiles.score.fontSize"),
+            strokeWidth: new CVal(0.08, "tiles.score.fontSize"),
         },
 
         action:
         {
-            fontSize: new CVal(0.086, "sizeUnit"),
-            textColor: "#FFEEEE",
-            textBoxDims: new CVal(new Point(0.66, 0.66), "size"),
-            textBoxDimsWithGate: new CVal(new Point(0.8, 0.4), "size"),
-            pos: new CVal(new Point(0.5), "size"),
-            posWithGate: new CVal(new Point(0.5, 0.35), "size"),
-        },
-
-        gate:
-        {
-            fontSize: new CVal(0.04, "sizeUnit"),
-            textColor: "#110000",
-            textBoxDims: new CVal(new Point(0.8, 0.35), "size"),
-            pos: new CVal(new Point(0.5, 0.75), "size")
+            pos: new CVal(new Point(0.5, 0.825), "size"),
+            dims: new CVal(new Point(0.3), "sizeUnit")
         },
 
         gemstones:
         {
-            iconDims: new CVal(new Point(0.07), "sizeUnit")
+            pos: new CVal(new Point(0.15, 0.265), "sizeUnit"),
+            dims: new CVal(new Point(0.18), "sizeUnit"), // should be close to "score.fontSize", but higher
         },
-
-        decoration:
-        {
-            iconDims: new CVal(new Point(0.1), "sizeUnit"),
-            iconDimsBoulder: new CVal(new Point(0.12), "sizeUnit"),
-            boulderOffset: new CVal(0.0375, "sizeUnit")
-        },
-
-        water:
-        {
-            fillColor: "#B1FEEF",
-            circleRadius: new CVal(0.0335, "sizeUnit"), // should be same or close to decoration.boulderOffset
-        }
     },
 }
 
