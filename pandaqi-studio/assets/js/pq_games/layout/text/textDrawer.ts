@@ -1,20 +1,18 @@
-import { TextConfig, TextAlign, TextWeight, TextStyle, TextVariant } from "./textConfig"
 import Dims from "js/pq_games/tools/geometry/dims"
 import Point from "js/pq_games/tools/geometry/point"
-import ResourceImage, { CanvasLike } from "../resources/resourceImage"
 import LayoutOperation from "../layoutOperation"
+import { CanvasLike } from "../resources/resourceImage"
 import StrokeAlign from "../values/strokeAlign"
-import { TextChunk, TextChunkBreak, TextChunkImage, TextChunkStyle, TextChunkText } from "./textChunk"
-import ResourceLoader from "../resources/resourceLoader"
 import LineData from "./lineData"
-import TransformationMatrix from "../tools/transformationMatrix"
+import { TextChunk, TextChunkBreak, TextChunkImage, TextChunkStyle, TextChunkText } from "./textChunk"
+import { TextAlign, TextConfig, TextStyle, TextVariant, TextWeight } from "./textConfig"
 
 const parseTextString = (text:string, config) =>
 {
     // line breaks, bold, italic, images
     // @TODO: case changes (uppercase, lowercase)
     // @TODO: <sup> and <sub> (for supertext and subtext) => just draw it smaller and offset
-    const regex = /\n|<b>|<\/b>|<em>|<\/em>|<sc>|<\/sc>|<img id="(.+?)" frame="(.+?)">|<size num="(.+?)">|<\size>|<font id="(.+?)">|<\/font>|<col hex="(.+?)">|<\/col>/g; 
+    const regex = /\n|<b>|<\/b>|<em>|<\/em>|<i>|<\/i>|<sc>|<\/sc>|<img id="(.+?)" frame="(.+?)">|<size num="(.+?)">|<\/size>|<font id="(.+?)">|<\/font>|<col hex="(.+?)">|<\/col>/g; 
     let tempText = text;
     let chunks = [];
     let match;
@@ -39,8 +37,8 @@ const parseTextString = (text:string, config) =>
         let newChunk;
         if(key == "<b>") { newChunk = new TextChunkStyle("weight", TextWeight.BOLD); }
         else if(key == "</b>") { newChunk = new TextChunkStyle("weight"); }
-        else if(key == "<em>") { newChunk = new TextChunkStyle("style", TextStyle.ITALIC); }
-        else if(key == "</em>") { newChunk = new TextChunkStyle("style"); }
+        else if(key == "<em>" || key == "<i>") { newChunk = new TextChunkStyle("style", TextStyle.ITALIC); }
+        else if(key == "</em>" || key == "</i>") { newChunk = new TextChunkStyle("style"); }
         else if(key == "<sc>") { newChunk = new TextChunkStyle("variant", TextVariant.SMALLCAPS); }
         else if(key == "</sc>") { newChunk = new TextChunkStyle("variant"); }
         else if(key == "\n") { newChunk = new TextChunkBreak(); }
@@ -143,14 +141,17 @@ const getRawTextFromChunks = (list:TextChunk[]) =>
     return str;
 }
 
+const HAIR_SPACE = '\u200a'
+
 export default class TextDrawer
 {
-    HAIR_SPACE = '\u200a'
-
     text:string|TextChunk[]
+    textParsed:TextChunk[]
+    lines:LineData[]
     dims:Dims
     cfg:TextConfig
-    textBlockDims:Dims
+    textDims:Dims // raw text size
+    textBlockDims:Dims // outer bounds of the text block + position of it
     debug: boolean
 
     constructor(text:string|TextChunk[], dims:Dims, cfg:TextConfig)
@@ -160,13 +161,29 @@ export default class TextDrawer
         this.cfg = cfg;
     }
 
+    invalidate()
+    {
+        this.textParsed = null;
+        this.lines = null;
+        this.textDims = null;
+        this.textBlockDims = null;
+    }
+
     measureText() : Dims
     {
+        if(this.textBlockDims) { return this.textBlockDims.clone(); }
+
         const canv = document.createElement("canvas");
         canv.width = 2048;
         canv.height = 2048;
         this.toCanvas(canv);
-        return this.textBlockDims;
+        return this.textBlockDims.clone();
+    }
+
+    snapDimsToActualSize()
+    {
+        const actualSize = this.textBlockDims.getSize();
+        this.dims = new Dims(0, 0, actualSize.x, actualSize.y);
     }
 
     // Parsing has two stages
@@ -174,6 +191,8 @@ export default class TextDrawer
     // - When we have our chunks, add line breaks wherever needed for wrapping
     parseText(ctx:CanvasRenderingContext2D, text:string|TextChunk[])
     {
+        if(this.textParsed) { return this.textParsed; }
+
         const boxWidth = this.dims.size.x;
 
         let input : TextChunk[];
@@ -243,7 +262,8 @@ export default class TextDrawer
 
             const fitsOnLine = (newLineWidth <= boxWidth);
             if(elem instanceof TextChunkStyle) { elem.updateTextConfig(style); style.applyToCanvas(ctx); }
-            if(elem instanceof TextChunkBreak || !fitsOnLine) { 
+            if(elem instanceof TextChunkBreak || !fitsOnLine) 
+            { 
                 if(!fitsOnLine) { output.push(new TextChunkBreak()); }
                 curLine = []; 
                 curLineWidth = elemWidth;
@@ -253,11 +273,22 @@ export default class TextDrawer
             output.push(elem);
         }
 
+        this.textParsed = output;
         return output;
     }
 
     getTextMetrics(ctx:CanvasRenderingContext2D, textParsed:TextChunk[])
     {
+        // @DEBUGGING
+        /*const alreadyCalculated = this.lines && this.textDims;
+        if(alreadyCalculated) 
+        { 
+            const textDims = this.textDims;
+            const lines = this.lines;
+            console.log(textDims, lines);
+            return { textDims, lines } 
+        }*/
+
         const xStart = this.dims.position.x;
         const yStart = this.dims.position.y;
         const boxWidth = this.dims.size.x;
@@ -289,7 +320,8 @@ export default class TextDrawer
                 continue;
             }
 
-            if(elem instanceof TextChunkStyle) { 
+            if(elem instanceof TextChunkStyle) 
+            { 
                 elem.updateTextConfig(style); 
                 style.applyToCanvas(ctx);
             }
@@ -327,7 +359,20 @@ export default class TextDrawer
             textDims.setSize(new Point(textDims.size.x, simpleHeight));
         }
 
+        const realWidth = textDims.size.x;
         const realHeight = textDims.size.y;
+
+        const tooHigh = (realHeight > boxHeight);
+        if(tooHigh)
+        {
+            console.error("Textbox overflows on Y-axis!", boxHeight, realHeight, this.text);
+        }
+
+        const tooWide = (realWidth > boxWidth);
+        if(tooWide)
+        {
+            console.error("Textbox overflows on X-axis!", boxWidth, realWidth, this.text);
+        }
 
         //
         // third, use all that information for proper aligning
@@ -366,9 +411,11 @@ export default class TextDrawer
 
         // save the resulting dimensions
         // we should already be absolutely certain about them here, so this is also a correctness test
+        this.textDims = textDims.clone();
         this.textBlockDims = textDims.clone().move(new Point(0, lines[0].getPosition().y));
+        this.lines = lines;
 
-        return { textDims,lines };
+        return { textDims, lines };
     }
 
     drawText(ctx:CanvasRenderingContext2D, op:LayoutOperation, lines:LineData[])
@@ -405,7 +452,10 @@ export default class TextDrawer
         if(!hasVisibleText(this.text)) { return; }
 
         const ctx = (canv instanceof HTMLCanvasElement) ? canv.getContext("2d") : canv;
-        ctx.save();
+        const oldTextAlign = ctx.textAlign;
+        const oldBaseline = ctx.textBaseline;
+
+        // setting then unsetting at the end is cheaper than a save/restore canvas stack thing
         ctx.textAlign = "left";
         ctx.textBaseline = "alphabetic";
 
@@ -415,7 +465,9 @@ export default class TextDrawer
         this.drawText(ctx, op, lines);
 
         this.debugDraw(ctx);
-        ctx.restore();
+
+        ctx.textAlign = oldTextAlign;
+        ctx.textBaseline = oldBaseline;
     }
 
     fillAndStrokeText(ctx:CanvasRenderingContext2D, txt:string, pos:Point, op:LayoutOperation)
@@ -451,13 +503,24 @@ export default class TextDrawer
         pos.y = line.getCenter().y;
 
         let op = (elem.operation ?? this.cfg.defaultImageOperation) ?? new LayoutOperation();
-        op = op.clone();
+        op = op.clone(true);
         op.translate.move(pos);
         op.pivot = new Point(0, 0.5);
         op.keepTransform = true;
         if(op.dims.isZero()) { op.dims = elem.getSize(); }
 
+        // @DEBUGGING / @TODO
+        // Now I need to manually redo/unset the effects merging, which is ugly and will get out of hand when I also need to reset other stuff.
+        // Find a cleaner approach? Find out why this is even needed?
+        const oldEffects = ctx.filter;
+        if(this.cfg.defaultImageOperation) 
+        { 
+            op.effects = [op.effects, this.cfg.defaultImageOperation.effects].flat(); 
+        }
+
         res.toCanvas(ctx, op);
+
+        ctx.filter = oldEffects;
     }
 
     /*
@@ -489,14 +552,14 @@ export default class TextDrawer
 
         // Text box
         ctx.lineWidth = 3
-        ctx.strokeStyle = '#00AA00'
+        ctx.strokeStyle = '#00FF00'
         ctx.strokeRect(
             this.dims.position.x, this.dims.position.y, 
             this.dims.size.x, this.dims.size.y
         )
 
         ctx.lineWidth = 2
-        ctx.strokeStyle = '#000000'
+        ctx.strokeStyle = '#FF0000'
         ctx.strokeRect(
             this.textBlockDims.position.x, this.textBlockDims.position.y, 
             this.textBlockDims.size.x, this.textBlockDims.size.y
@@ -534,7 +597,7 @@ export default class TextDrawer
         const nbSpacesMinimum = Math.floor(nbSpacesToInsert / nbSpaces)
         let extraSpaces = nbSpacesToInsert - nbSpaces * nbSpacesMinimum
 
-        const spaceChar = this.HAIR_SPACE;
+        const spaceChar = HAIR_SPACE;
         let spaces = [].fill(spaceChar, 0, nbSpacesMinimum);
         let spacesString = spaces.join('')
 

@@ -1,3 +1,10 @@
 # Auto detect text files and perform LF normalization
-* text=auto
-* text eol=lf
+* text=auto eol=lf
+# Just to make sure Git doesn't corrupt these again thinking they're text files
+*.webp binary
+*.png binary
+*.jpg binary
+*.woff2 binary
+*.woff binary
+*.ttf binary
+*.otf binary

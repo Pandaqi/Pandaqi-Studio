@@ -1,0 +1,50 @@
+
+$header-font: "cutedino";
+$body-font: "edusa";
+$base: "/waitless-games/assets/";
+$base-fonts: $base + "fonts/";
+
+$bg-col: #8ECCE7;
+$text-col: #000511;
+
+$col1: #FC8B0D;
+$col1-inv: #2d1801;
+$col2: #03391f;
+
+body {
+    font-family: $body-font;
+    background-color: $bg-col;
+    color: $text-col;
+    font-size: calc(18px + 0.390625vw);
+    box-sizing: border-box;
+}
+
+h1, h2, h3, h4 {
+    font-family: $header-font;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: $header-font;
+    src: url($base-fonts + 'CuteDino.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'EduSABeginner-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'EduSABeginner-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+

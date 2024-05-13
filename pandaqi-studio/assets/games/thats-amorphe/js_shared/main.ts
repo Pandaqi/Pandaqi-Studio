@@ -1,18 +1,18 @@
-import Color from "js/pq_games/layout/color/color"
-import GridMapper from "js/pq_games/layout/gridMapper"
-import PdfBuilder, { PageOrientation } from "js/pq_games/pdf/pdfBuilder"
-import { ICONS, ICONS_SPECIAL, ICONS_PICTURES } from "./dict"
-import createContext from "js/pq_games/layout/canvas/createContext"
-import ResourceLoader from "js/pq_games/layout/resources/resourceLoader"
 import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple"
-import PandaqiWords from "js/pq_words/main"
-import ResourceImage, { CanvasDrawableLike } from "js/pq_games/layout/resources/resourceImage"
-import LayoutOperation from "js/pq_games/layout/layoutOperation"
-import TintEffect from "js/pq_games/layout/effects/tintEffect"
-import Point from "js/pq_games/tools/geometry/point"
-import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig"
-import ResourceText from "js/pq_games/layout/resources/resourceText"
+import createContext from "js/pq_games/layout/canvas/createContext"
+import Color from "js/pq_games/layout/color/color"
 import ColorLike from "js/pq_games/layout/color/colorLike"
+import TintEffect from "js/pq_games/layout/effects/tintEffect"
+import GridMapper from "js/pq_games/layout/gridMapper"
+import LayoutOperation from "js/pq_games/layout/layoutOperation"
+import ResourceImage from "js/pq_games/layout/resources/resourceImage"
+import ResourceLoader from "js/pq_games/layout/resources/resourceLoader"
+import ResourceText from "js/pq_games/layout/resources/resourceText"
+import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig"
+import PdfBuilder, { PageOrientation } from "js/pq_games/pdf/pdfBuilder"
+import Point from "js/pq_games/tools/geometry/point"
+import PandaqiWords from "js/pq_words/main"
+import { ICONS, ICONS_PICTURES, ICONS_SPECIAL } from "./dict"
 
 const baseAssetDir = '/thats-amorphe/assets/'
 const pageLayoutDims = new Point(3, 4);
@@ -204,7 +204,7 @@ async function createMorphCards(params)
 		// cloudy symbols
 		ctx.globalAlpha = 0.2;
 		
-		let cloudyData = new CanvasDrawableLike(resLoader.getResource("bubbly_cloud"));
+		let cloudyData = new ResourceImage(resLoader.getResource("bubbly_cloud"));
 		if(invert) {
 			const eff = new TintEffect({ color: "#000000" });
 			await eff.applyToImage(cloudyData);

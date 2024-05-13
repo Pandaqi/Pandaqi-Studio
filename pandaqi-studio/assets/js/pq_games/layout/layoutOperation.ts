@@ -1,6 +1,6 @@
 import Point from "js/pq_games/tools/geometry/point"
 import LayoutEffect from "./effects/layoutEffect"
-import ResourceImage, { CanvasDrawableLike, CanvasLike } from "js/pq_games/layout/resources/resourceImage"
+import ResourceImage, { CanvasLike } from "js/pq_games/layout/resources/resourceImage"
 import Resource, { ElementLike } from "./resources/resource"
 import ResourceShape from "./resources/resourceShape"
 import ResourceText from "./resources/resourceText"
@@ -18,6 +18,7 @@ import rotatePath from "../tools/geometry/transform/rotatePath"
 import movePath from "../tools/geometry/transform/movePath"
 import TransformationMatrix from "./tools/transformationMatrix"
 import EffectsOperation from "./effects/effectsOperation"
+import TextDrawer from "./text/textDrawer"
 
 type ResourceLike = ResourceImage|ResourceShape|ResourceText|ResourceBox|ResourceGroup
 
@@ -39,6 +40,7 @@ interface LayoutOperationParams
     composite?:GlobalCompositeOperation,
 
     dims?:Point,
+    dimsAuto?: boolean, // automatically extracts dimensions from what it's given; most useful for text (as those dims are varying and unknown)
     ratio?:Point,
     keepRatio?: boolean,
     size?:Point,
@@ -71,6 +73,7 @@ export default class LayoutOperation
     composite : GlobalCompositeOperation
 
     dims : Point
+    dimsAuto : boolean
     ratio : Point
     keepRatio : boolean
     pivot : Point
@@ -93,11 +96,14 @@ export default class LayoutOperation
     strokeAlign: StrokeAlign
     strokeType: string
 
+    tempTextDrawer:TextDrawer
+
     constructor(params:LayoutOperationParams = {})
     {
         this.translate = params.translate ?? new Point();
         this.rotation = params.rotation ?? 0;
         this.dims = (params.dims ?? params.size) ?? new Point();
+        this.dimsAuto = params.dimsAuto ?? false;
         this.ratio = params.ratio ?? new Point(1,1);
         this.keepRatio = params.keepRatio ?? false;
         this.scale = params.scale ?? new Point(1,1);
@@ -218,6 +224,7 @@ export default class LayoutOperation
     {
         let dims = this.dims.clone();
         let translate = this.translate.clone();
+        
         if(this.isShape())
         {
             const dimsObject = calculateBoundingBox((this.resource as ResourceShape).shape.toPath())
@@ -233,6 +240,22 @@ export default class LayoutOperation
             const givenAxis = dims.y <= 0 ? "y" : "x";
             const calcAxis = givenAxis == "x" ? "y" : "x";
             dims[calcAxis] = (givenAxis == "x") ? dims[givenAxis] / ratio : dims[givenAxis] * ratio;
+        }
+
+        if(this.isText())
+        {
+            if(!this.tempTextDrawer)
+            {
+                this.tempTextDrawer = (this.resource as ResourceText).createTextDrawer(dims);
+                //this.tempTextDrawer.debug = true; // @DEBUGGING
+            }
+
+            if(this.dimsAuto)
+            {
+                dims = this.tempTextDrawer.measureText().getSize().clone();
+                dims.add(new Point(1,1)); // to prevent silly rounding errors making text boxes JUUUST too small
+                this.tempTextDrawer.snapDimsToActualSize();
+            }
         }
 
         translate.round();
@@ -251,7 +274,11 @@ export default class LayoutOperation
         trans.rotate(this.rotation);
         trans.scale(finalScale);
 
-        const offset = this.pivot.clone().negate().scale(dims);
+        const pivot = this.pivot.clone();
+        if(this.flipX) { pivot.x = 1.0 - pivot.x; }
+        if(this.flipY) { pivot.y = 1.0 - pivot.y; }
+
+        const offset = pivot.negate().scale(dims);
         trans.translate(offset);
         // @TODO: enable once I've checked it works correctly => trans.skew(this.skew);
         return trans;
@@ -309,17 +336,15 @@ export default class LayoutOperation
             this.applyFillAndStrokeToPath(ctxTemp, path);
         }
 
-        // @TODO: not sure if text is positioned correctly/not cut-off now with the ctxTemp switch?
         else if(this.isText())
         {
-            const drawer = (this.resource as ResourceText).createTextDrawer(dims);
-            drawer.toCanvas(ctxTemp, this);
+            this.tempTextDrawer.toCanvas(ctxTemp, this);
         }
 
         else if(this.isImage())
         { 
             // apply the effects that require an actual image to manipulate
-            let frameResource:CanvasDrawableLike = (this.resource as ResourceImage).getImageFrameAsDrawable(this.frame, dims.clone());
+            let frameResource:ResourceImage = (this.resource as ResourceImage).getImageFrameAsResource(this.frame, dims.clone());
             frameResource = effOp.applyToDrawable(frameResource);
 
             const box = new Dims(new Point(), dims.clone());

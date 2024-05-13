@@ -1,0 +1,70 @@
+$header-font: "puss";
+$body-font: "catcafe";
+$base-assets: "/the-outnumbered-series/count-to/nine-lives/assets/";
+$base-fonts: $base-assets + "fonts/";
+
+$bg-image-url: url($base-assets + "bg_cat_outline.webp");
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'catcafe.woff2') format('woff2');
+    font-weight: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $header-font;
+    src: url($base-fonts + 'puss.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+body {
+    font-family: $body-font;
+    color: #212121;
+    background-color: #FCFCFC;
+    font-size: 20px;
+    line-height: 130%;
+}
+
+h1, h2, h3, h4 {
+    font-family: $header-font;
+    //font-weight: normal;
+}
+
+h1, h2, h3, h4, h5, h6, 
+a.btn, #btn-create-pdf, #btn-generate-board, #btn-start-game,
+input, button, select, option, label {
+    font-family: $header-font;
+    font-weight: normal;
+}
+
+input, button, select, option, label {
+    font-family: $body-font;
+    //font-size: 1.175em;
+}
+
+.bg-cats {
+    position: fixed;
+    left: -30%;
+    right: -30%;
+    top: -33%;
+    bottom: -33%;
+    background-image: $bg-image-url;
+    background-size: 5%;
+    opacity: 0.066;
+    transform: rotate(-30deg);
+    z-index: -10;
+}
+
+$col1-dark: #649C1C;
+$col2-dark: #2A89C8;
+$col3-dark: #E68241;
+$col4-dark: #735CA5;
+
+$col1: #cef996;
+$col2: #b3ddf9;
+$col3: #ffdfc9;
+$col4: #ddceff;
+

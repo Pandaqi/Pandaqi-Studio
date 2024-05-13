@@ -1,4 +1,4 @@
-import { CanvasDrawableLike } from "../resources/resourceImage"
+import ResourceImage from "../resources/resourceImage"
 import createContext from "../canvas/createContext"
 import LayoutEffect from "./layoutEffect";
 import Color from "../color/color";
@@ -29,7 +29,7 @@ export default class TintEffect extends LayoutEffect
         return new TintEffect({ color: this.color });
     }
 
-    applyToImage(drawable:CanvasDrawableLike)
+    applyToImage(drawable:ResourceImage)
     {
         // first, we get a mask just with the tint color
         const contextParams = { size: drawable.getSize(), alpha: true }
@@ -45,7 +45,7 @@ export default class TintEffect extends LayoutEffect
         ctx2.globalCompositeOperation = "multiply";
         ctx2.drawImage(ctx.canvas, 0, 0);
 
-        return new CanvasDrawableLike(ctx2.canvas);
+        return new ResourceImage(ctx2.canvas);
     }
 
     applyToHTML(div:HTMLElement, effOp = new EffectsOperation())

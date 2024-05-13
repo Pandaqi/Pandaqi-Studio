@@ -1,4 +1,4 @@
-import { CanvasDrawableLike } from "../resources/resourceImage"
+import ResourceImage from "../resources/resourceImage"
 import createContext from "../canvas/createContext"
 import LayoutEffect from "./layoutEffect";
 import Color from "../color/color";
@@ -19,7 +19,7 @@ export default class ColorOverlayEffect extends LayoutEffect
         return new ColorOverlayEffect(deep ? this.color.clone() : this.color);
     }
 
-    applyToImage(drawable:CanvasDrawableLike)
+    applyToImage(drawable:ResourceImage)
     {
         // we draw the image
         const contextParams = { size: drawable.getSize(), alpha: true }
@@ -31,7 +31,7 @@ export default class ColorOverlayEffect extends LayoutEffect
         ctx.fillStyle = this.color.toString();
         ctx.fillRect(0, 0, contextParams.size.x, contextParams.size.y);
 
-        return new CanvasDrawableLike(ctx.canvas);
+        return new ResourceImage(ctx.canvas);
     }
 
     applyToHTML(div:HTMLElement, effOp = new EffectsOperation())

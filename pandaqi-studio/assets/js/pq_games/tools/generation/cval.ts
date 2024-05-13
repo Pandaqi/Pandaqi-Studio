@@ -25,6 +25,9 @@ export default class CVal
         const values = Array.isArray(this.val) ? this.val : [this.val];
         const results = [];
 
+        const inputsHavePoint = inputs.filter((x) => { return x instanceof Point }).length > 0;
+        const inputsHaveNumber = inputs.filter((x) => { return typeof x === "number" }).length > 0;
+
         // @NOTE: any type of class or object must currently be handled separately (as we don't know what multiplication MEANS for it)
         for(const value of values)
         {
@@ -40,8 +43,8 @@ export default class CVal
             const isString = typeof this.val === "string";
             if(isString) { /* @TODO? */ }
 
-            const isPoint = value instanceof Point;    
-            const isNumber = typeof value === "number";
+            const isPoint = value instanceof Point || inputsHavePoint;    
+            const isNumber = (typeof value === "number" || inputsHaveNumber) && !isPoint;
             if(isNumber || isPoint)
             {
                 let tempVal = new Point(value);

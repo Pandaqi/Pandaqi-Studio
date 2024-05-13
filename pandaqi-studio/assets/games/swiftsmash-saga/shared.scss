@@ -1,0 +1,51 @@
+
+$header-font: "bluebook";
+$body-font: "domine";
+$base: "/swiftsmash-saga/assets/";
+$base-fonts: $base + "fonts/";
+
+$bg-col: #C9EECF;
+$text-col: #021f06;
+
+$col1: #E53152;
+$col1-inv: #ffe7eb;
+$col2: #055916;
+
+body {
+    font-family: $body-font;
+    background-color: $bg-col;
+    color: $text-col;
+    font-size: calc(13px + 0.390625vw);
+    line-height: 140%;
+    box-sizing: border-box;
+}
+
+h1, h2, h3, h4 {
+    font-family: $header-font;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'Domine-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'Domine-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $header-font;
+    src: url($base-fonts + 'BlueBook.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+

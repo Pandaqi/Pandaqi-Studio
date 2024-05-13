@@ -12,6 +12,7 @@ import createContext from "../canvas/createContext"
 
 type ImageLike = HTMLImageElement|ResourceImage|ResourceGradient|ResourcePattern
 type CanvasLike = HTMLCanvasElement|CanvasRenderingContext2D
+type DrawableData = HTMLImageElement|HTMLCanvasElement;
 type FrameSet = HTMLImageElement[];
 
 interface FrameData {
@@ -23,25 +24,6 @@ interface FrameData {
     height: number
 }
 
-class CanvasDrawableLike
-{
-    val: ResourceImage|HTMLCanvasElement|HTMLImageElement
-
-    constructor(val) { this.val = val }
-    getImage()
-    {
-        if(this.val instanceof ResourceImage) { return this.val.getImage(); }
-        return this.val;
-    }
-
-    getSize()
-    {
-        if(this.val instanceof ResourceImage) { return this.val.size; }
-        if(this.val instanceof HTMLImageElement) { return new Point(this.val.naturalWidth, this.val.naturalHeight); }
-        return new Point(this.val.width, this.val.height);
-    }
-}
-
 interface ResourceImageParams
 {
     numThumbnails?: number,
@@ -49,21 +31,22 @@ interface ResourceImageParams
     uniqueKey?: string,
 }
 
-export { ResourceImage, ImageLike, CanvasLike, CanvasDrawableLike }
+export { ResourceImage, ImageLike, CanvasLike }
 export default class ResourceImage extends Resource
 {
     img : HTMLImageElement;
+    canv : HTMLCanvasElement;
     size : Point; // can't be set from outside, calculated internally
     frameDims : Point;
     frameSize : Point;
     frame: number;
-    frames : HTMLImageElement[];
+    frames : (DrawableData)[];
 
     thumbnails: FrameSet[];
     numThumbnails : number; // how many smaller thumbnails we should cache for each frame (e.g. a 1024x1024 also saves a 512x512 if set to 1)
     uniqueKey:string
 
-    constructor(imageData : HTMLImageElement = null, params:ResourceImageParams = {})
+    constructor(imageData : DrawableData = null, params:ResourceImageParams = {})
     {
         super()
 
@@ -73,7 +56,7 @@ export default class ResourceImage extends Resource
         this.frameDims = new Point();
         this.uniqueKey = params.uniqueKey;
 
-        if(imageData) { this.fromRawImage(imageData, params); }
+        if(imageData) { this.fromRawDrawable(imageData, params); }
     }
     
     clone(deep = false) : ResourceImage
@@ -83,10 +66,14 @@ export default class ResourceImage extends Resource
         return img;
     }
 
+    isImageElement() { return this.img instanceof HTMLImageElement; }
+    isCanvasElement() { return this.canv instanceof HTMLCanvasElement; }
+    hasDrawableData() { return this.isImageElement() || this.isCanvasElement(); }
+
     /* The `to` functions */
     toCanvas(canv:CanvasLike = null, op:LayoutOperation = new LayoutOperation())
     {
-        if(op.dims.length() <= 0.003) { op.dims = this.size.clone(); }
+        if(op.dims.isZero()) { op.dims = this.size.clone(); }
         op.resource = this;
         op.frame = op.frame ?? this.frame;
         return op.applyToCanvas(canv);
@@ -105,36 +92,49 @@ export default class ResourceImage extends Resource
     async toSVG(op:LayoutOperation = new LayoutOperation())
     {
         const elem = document.createElementNS(null, "image");
-        elem.setAttribute("href", this.getImage().src);
+        elem.setAttribute("href", this.getSRCString());
         return await op.applyToSVG(elem);
     }
 
     // for getting a new ResourceImage with result after operation applied
+    // @TODO: does this even WORK!??
     async toResourceImage(op = new LayoutOperation())
     {
-        const canv = await this.toCanvas();
-        const img = await convertCanvasToImage(canv);
-        const resImg = new ResourceImage(img);
-        return resImg;
+        return new ResourceImage(this.toCanvas(null, op));
+    }
+
+    // @TODO: like above, also apply the operation??
+    toResourceImageCanvas() : ResourceImage
+    {
+        const res = this.clone();
+        if(!this.isCanvasElement())
+        {
+            const ctx = createContext({ size: this.size });
+            ctx.drawImage(this.getImage(), 0, 0);
+            res.fromRawDrawable(ctx.canvas);
+        }
+        return res;
     }
 
     /* The `from` functions */
     fromResourceImage(r:ResourceImage, deep = false)
     {
-        this.img = r.img;
+        this.fromRawDrawable(r.getImage());
         this.size = deep ? r.size.clone() : r.size;
         this.frameDims = deep ? r.frameDims.clone() : r.frameDims;
         this.frames = deep ? r.frames.slice() : r.frames;
         this.refreshSize();
     }
 
-    fromRawImage(img:HTMLImageElement, params:any = {})
+    fromRawDrawable(img:DrawableData, params:any = {})
     {
-        this.img = img;
+        if(img instanceof HTMLImageElement) { this.img = img; this.canv = null; }
+        else if(img instanceof HTMLCanvasElement) { this.canv = img; this.img = null; }
         this.frameDims = new Point(params.frames ?? new Point(1,1));
-        this.frames = [this.img];
+        this.frames = [this.getImage()];
         this.refreshSize();
     }
+
 
     // @TODO
     async fromPattern(p:ResourcePattern)
@@ -152,7 +152,7 @@ export default class ResourceImage extends Resource
     {
         const resLoader = new ResourceLoader();
         resLoader.planLoad("svg_embedded_image", { path: elem.href });
-        resLoader.loadPlannedResources();
+        await resLoader.loadPlannedResources();
         const imgRes = resLoader.getResource("svg_embedded_image");
         this.fromResourceImage(imgRes);
     }
@@ -174,10 +174,12 @@ export default class ResourceImage extends Resource
     /* Helpers & Tools */
     refreshSize()
     {
-        if(!(this.img instanceof HTMLImageElement)) { return; }
+        if(!this.hasDrawableData()) { return; }
 
-        this.size = new Point().setXY(this.img.naturalWidth, this.img.naturalHeight);
-        this.frameSize = new Point().setXY(
+        if(this.isImageElement()) { this.size = new Point(this.img.naturalWidth, this.img.naturalHeight); }
+        else if(this.isCanvasElement()) { this.size = new Point(this.canv.width, this.canv.height); }
+
+        this.frameSize = new Point(
             this.size.x / this.frameDims.x,
             this.size.y / this.frameDims.y
         )
@@ -214,7 +216,8 @@ export default class ResourceImage extends Resource
                 canvases[t] = ctx.canvas;
             }
 
-            this.thumbnails[i] = await convertCanvasToImageMultiple(canvases, true);
+            if(this.isCanvasElement()) { this.thumbnails[i] = canvases; }
+            else if(this.isImageElement()) { this.thumbnails[i] = await convertCanvasToImageMultiple(canvases, true); }
         }
     }
 
@@ -229,7 +232,7 @@ export default class ResourceImage extends Resource
             {
                 const frame = x + y*this.frameDims.x;
                 const data = this.getFrameData(frame);
-                const size = new Point(data.width, data.height );
+                const size = new Point(data.width, data.height);
 
                 const ctx = createContext({ size: size });
                 ctx.drawImage(
@@ -241,9 +244,15 @@ export default class ResourceImage extends Resource
             }
         }
 
-        this.frames = await convertCanvasToImageMultiple(canvases, true);
+        if(this.isCanvasElement()) { this.frames = canvases; }
+        else if(this.isImageElement()) { this.frames = await convertCanvasToImageMultiple(canvases, true); }
 
         await this.cacheThumbnails();
+    }
+
+    uncacheFrames()
+    {
+        this.frames = [];
     }
 
     getFrameData(frm:number = 0) : FrameData
@@ -263,12 +272,18 @@ export default class ResourceImage extends Resource
         }
     }
 
-    getCSSUrl() : string
+    getSRCString() : string
     {
-        return "url(" + this.img.src + ")";
+        if(this.isCanvasElement()) { return (this.getImage() as HTMLCanvasElement).toDataURL(); }
+        else if(this.isImageElement()) { return (this.getImage() as HTMLImageElement).src; }
     }
 
-    // Ratio is always X:Y (so 2 means twice as WIDE as it is TALL)
+    getCSSUrl() : string
+    {
+        return "url(" + this.getSRCString() + ")";
+    }
+
+    // Ratio is always X:Y (so 2 means twice as WIDE as it is TALL, as it's 2:1)
     getRatio() : number
     {
         return this.frameSize.x / this.frameSize.y
@@ -282,14 +297,14 @@ export default class ResourceImage extends Resource
         return size;
     }
 
-    getImage() : HTMLImageElement 
-    { 
-        return this.img; 
+    getSize() : Point
+    {
+        return this.size.clone();
     }
 
-    getImageFrameAsDrawable(num: number, desiredSize:Point = null)
-    {
-        return new CanvasDrawableLike(this.getImageFrame(num, desiredSize));
+    getImage() : DrawableData
+    { 
+        return this.img ?? this.canv;
     }
 
     getImageFrameAsResource(num:number, desiredSize:Point = null) : ResourceImage
@@ -298,8 +313,32 @@ export default class ResourceImage extends Resource
         return new ResourceImage(img);
     }
 
-    getImageFrame(num:number, desiredSize:Point = null) : HTMLImageElement
+    hasFrameInCache(num:number) 
+    { 
+        return num < this.frames.length && this.frames[num];
+    }
+
+    missingFrames()
     {
+        return this.frames.length < this.frameDims.x*this.frameDims.y;
+    }
+
+    getImageFrame(num:number, desiredSize:Point = null) : DrawableData
+    {
+        const frameNotCached = !this.hasFrameInCache(num) || this.missingFrames();
+        if(frameNotCached)
+        {
+            const data = this.getFrameData(num);
+            const canv = document.createElement("canvas");
+            canv.width = data.width;
+            canv.height = data.height;
+            const ctx = canv.getContext("2d");
+            ctx.drawImage(this.getImage(),
+                data.x, data.y, data.width, data.height, 
+                0, 0, canv.width, canv.height);
+            return ctx.canvas;
+        }
+
         const maxSize = this.frameDims.clone();
         let thumbIndex = 0;
         if(desiredSize)
@@ -340,13 +379,14 @@ export default class ResourceImage extends Resource
         return this;
     }
 
-    swapImage(img:HTMLImageElement)
+    // @TODO: this was updated without testing, if games broke that use it, check the culprit here first
+    swapImage(img:DrawableData)
     {
-        this.img = img;
+        this.fromRawDrawable(img);
         return this;
     }
 
-    async addFrame(img:HTMLImageElement)
+    async addFrame(img:DrawableData)
     {
         this.frames.push(img);
         this.frameDims.x += 1;
@@ -355,7 +395,7 @@ export default class ResourceImage extends Resource
         await this.cacheThumbnails([this.countFrames()]);
     }
 
-    async addFrames(imgs:HTMLImageElement[])
+    async addFrames(imgs:DrawableData[])
     {
         for(const img of imgs)
         {
@@ -363,32 +403,33 @@ export default class ResourceImage extends Resource
         }
     }
 
-    async swapFrame(idx:number, img:HTMLImageElement)
+    async swapFrame(idx:number, img:DrawableData)
     {
         this.frames[idx] = img;
         await this.cacheThumbnails([idx]);
         return this;
     }
 
-    async swapFrames(newFrames:HTMLImageElement[])
+    async swapFrames(newFrames:DrawableData[])
     {
         if(newFrames.length != this.frames.length) { return console.error("Can't swap frames if number of them doesn't match"); }
         this.frames = newFrames.slice();
         await this.cacheThumbnails();
         return this;
     }
-
+    
     // @NOTE: not truly unique if you load the same image multiple times, but why'd you do that?
     setUniqueKey(k:string)
     {
         this.uniqueKey = k;
     }
 
+    // @TODO: Not the best approach for canvases (as their data url will mostly start with the same characters), but not sure I'll ever need that anyway
     getUniqueKey() : string
     {
         if(this.uniqueKey) { return this.uniqueKey; }
 
-        const src = this.img.src;
+        const src = this.getSRCString();
         const srcSplit = src.split("/");
         const fileName = srcSplit[srcSplit.length-1];
         const srcName = fileName.split(".")[0];
@@ -396,6 +437,4 @@ export default class ResourceImage extends Resource
         const srcTrunc = srcName.slice(0, Math.min(srcName.length, maxLength));
         return srcTrunc
     }
-    
-    
 }

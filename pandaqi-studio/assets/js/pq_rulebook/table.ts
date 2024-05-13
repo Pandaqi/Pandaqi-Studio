@@ -12,7 +12,8 @@ interface RulesTableParams
 {
     sheetURL?: string
     sheetWidth?: number
-    base?: string
+    base?: string,
+    class?: string
 }
 
 const convertDictToRulesTableHTML = (dict:Record<string,any>, props:Record<string,string>, params:RulesTableParams = {}) =>
@@ -46,6 +47,7 @@ const convertRulesTableDictToHTML = (dict:Record<string,RulesEntryData>, params:
     const table = document.createElement("section");
     table.classList.add("rules-table");
     cont.appendChild(table);
+    if(params.class) { table.classList.add(params.class); }
 
     const uiHint = document.createElement("div");
     uiHint.classList.add("ui-hint");
@@ -60,6 +62,7 @@ const convertRulesTableDictToHTML = (dict:Record<string,RulesEntryData>, params:
     {
         const entry = document.createElement("div");
         entry.classList.add("rules-table-entry", "rules-table-entry-clicked");
+        if(params.class) { entry.classList.add(params.class); }
         table.appendChild(entry);
 
         const iconCont = document.createElement("div");

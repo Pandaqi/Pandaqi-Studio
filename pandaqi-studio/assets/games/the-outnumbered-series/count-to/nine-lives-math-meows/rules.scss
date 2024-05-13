@@ -1,0 +1,23 @@
+@use "../nine-lives/shared.scss";
+@use "./shared.scss" as g;
+@use "sass:color";
+
+#setup {
+    background-color: g.$col1;
+}
+
+#objective {
+    background-color: g.$col2;
+}
+
+#action_play {
+    background-color: g.$col3;
+}
+
+#lives {
+    background-color: g.$col4;
+}
+
+#expansions {
+    background-color: g.$col1;
+}

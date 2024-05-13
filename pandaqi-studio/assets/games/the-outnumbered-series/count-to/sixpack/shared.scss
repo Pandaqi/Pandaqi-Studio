@@ -1,0 +1,33 @@
+
+$font-raw: "londrina";
+$base-assets: "/the-outnumbered-series/count-to/sixpack/assets/";
+$base-fonts: $base-assets + "fonts/";
+
+@font-face {
+    font-family: $font-raw;
+    src: url($base-fonts + 'LondrinaSolid-Light.woff2') format('woff2');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $font-raw;
+    src: url($base-fonts + 'LondrinaSolid-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $font-raw;
+    src: url($base-fonts + 'LondrinaSolid-Black.woff2') format('woff2');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+$header-font: $font-raw, Helvetica, sans-serif;
+$body-font: $font-raw, Helvetica, sans-serif;
+$bg-pattern-url: url(bg_pattern.webp);
+$types-url: url(card_types.webp);

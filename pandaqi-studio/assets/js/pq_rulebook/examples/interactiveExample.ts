@@ -15,6 +15,7 @@ export default class InteractiveExample
     generateButton: HTMLButtonElement;
     closeButton: HTMLButtonElement;
     generateCallback: Function;
+    busy:boolean;
     
     constructor(config:Record<string,any>)
     {
@@ -23,6 +24,7 @@ export default class InteractiveExample
         this.className = "rules-example";
         this.names = ["Anna", "Bella", "Chris", "Dennis", "Erik", "Frank", "Gini", "Harry", "Ingrid", "James", "Kayla", "Lily"];
         this.buttonText = "Give me an example turn!"
+        this.busy = false;
 
         this.findCorrespondingHTML();
         this.createHTML();
@@ -60,9 +62,21 @@ export default class InteractiveExample
         this.generateButton = btn;
         this.setButtonText(this.buttonText);
         btn.addEventListener("click", async () => {
+            if(this.busy) { return; }
             this.reset();
+            
+            this.busy = true;
+            btn.disabled = true;
+            btn.style.opacity = "0.75";
+            btn.innerHTML = "Generating ...";
+
             await this.generateCallback();
+
             this.closeButton.style.display = "block";
+            this.busy = false;
+            btn.disabled = false;
+            btn.style.opacity = "1.0";
+            btn.innerHTML = this.buttonText;
         });
 
         const closeBtn = document.createElement("button");
@@ -71,6 +85,7 @@ export default class InteractiveExample
         closeBtn.innerHTML = "X";
         closeBtn.classList.add("example-close-button");
         closeBtn.addEventListener("click", (ev) => {
+            if(this.busy) { return; }
             this.reset();
         }) 
     }

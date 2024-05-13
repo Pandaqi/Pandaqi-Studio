@@ -55,10 +55,31 @@ export default class ResourceLoader
         }
     }
 
-    planLoadMultiple(dict:Record<string,any>)
+    getStringPathIntoDict(paths:string[], config:Record<string,any>)
+    {
+        for(const pathString of paths)
+        {
+            const path = pathString.split(".");
+            let val = config;
+            for(const elem of path)
+            {
+                val = val[elem];
+                if(val == undefined) { break; }
+            }
+            if(val) { return true; }
+        }
+        return false;
+    }
+
+    planLoadMultiple(dict:Record<string,any>, config:Record<string,any> = {})
     {
         for(const [id,data] of Object.entries(dict))
         {
+            if(data.loadIf)
+            {
+                const val = this.getStringPathIntoDict(data.loadIf, config);
+                if(!val) { continue; }
+            }
             this.planLoad(id, data);
         }
     }
@@ -152,7 +173,7 @@ export default class ResourceLoader
     async cacheLoadedImage(id:string, params:any, img:HTMLImageElement)
     {
         const res = new ResourceImage(img, params);
-        await res.cacheFrames();
+        if(!params.disableCaching) { await res.cacheFrames(); }
         this.resourcesLoaded[id] = res;
     }
 

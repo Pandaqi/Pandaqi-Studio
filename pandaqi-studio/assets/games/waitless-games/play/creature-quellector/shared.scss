@@ -1,0 +1,51 @@
+
+$header-font-raw: "comica";
+$body-font-raw: "cabin";
+$base-assets: "/waitless-games/play/creature-quellector/assets/";
+$base-fonts: $base-assets + "fonts/";
+
+$header-font: $header-font-raw, Georgia, serif;
+$body-font: $body-font-raw, Helvetica, sans-serif;
+$actions-with-bg-url: url(/waitless-games/play/creature-quellector/rules/quellector_actions_with_bg.webp);
+
+
+h1, h2, h3, h4, h5, h6, 
+a.btn, #btn-create-pdf, #btn-generate-board, #btn-start-game,
+input, button, select, option, label {
+    font-family: $header-font;
+    font-weight: normal;
+}
+
+body {
+    font-family: $body-font;
+    background-color: #999;
+    font-size: 19px;
+    background-size: 100%;
+    color: #333;
+    line-height: 140%;
+}
+
+@font-face {
+    font-family: $header-font-raw;
+    src: url($base-fonts + "ComicaBoomRegular.woff2") format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font-raw;
+    src: url($base-fonts + "Cabin-Regular.woff2") format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font-raw;
+    src: url($base-fonts + "Cabin-Italic.woff2") format('woff2');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+

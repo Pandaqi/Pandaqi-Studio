@@ -1,0 +1,49 @@
+
+$header-font: "dmserifdisplay";
+$body-font: "varela";
+$base: "/the-outnumbered-series/assets/";
+$base-fonts: $base + "fonts/";
+
+$bg-col: #091d4d;
+$text-col: #f8ec9d;
+
+$col1: #4CABB9;
+$col2: #f89e38;
+
+body {
+    font-family: $body-font;
+    background-color: $bg-col;
+    color: $text-col;
+    font-size: calc(15px + 0.390625vw);
+    line-height: 120%;
+    box-sizing: border-box;
+}
+
+h1, h2, h3, h4 {
+    font-family: $header-font;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'VarelaRound-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $header-font;
+    src: url($base-fonts + 'DMSerifDisplay-Italic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $header-font;
+    src: url($base-fonts + 'DMSerifDisplay-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}

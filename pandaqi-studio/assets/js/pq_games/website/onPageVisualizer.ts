@@ -190,7 +190,7 @@ class OnPageVisualizerClass
 		// repeat the draw, but calling a different visualization function ("createSecretBoard")
 		// @NOTE: hide the secret board after creating it
 		if(this.gameConfig.secretBoard) {
-			if(!scene.createdSecretBoard) { await scene.createSecretBoard(); return; } 
+			if(!scene.createdSecretBoard) { scene.createSecretBoard(); return; } 
 			img.style.display = 'none'; 
 		} 
 

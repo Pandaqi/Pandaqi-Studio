@@ -1,3 +1,4 @@
+import Bounds from "../numbers/bounds"
 import Dims from "./dims"
 import Path from "./paths/path"
 import Point from "./point"
@@ -120,6 +121,11 @@ export default class Rectangle extends Shape
         return this.center.clone().add(offset);
     }
 
+    getCenter()
+    {
+        return this.center.clone();
+    }
+
     getSize()
     {
         return this.extents.clone();
@@ -151,8 +157,34 @@ export default class Rectangle extends Shape
         return this;
     }
 
+    shrink(ds:number|Point)
+    {
+        ds = new Point(ds);
+        return this.grow(ds.clone().negate());
+    }
+
     move(dm:number|Point)
     {
         this.center.move(new Point(dm));
+        return this;
+    }
+
+    scaleCenter(s:number|Point)
+    {
+        this.center.scale(s);
+        return this;
+    }
+
+    scale(s:number|Point)
+    {
+        this.extents.scale(s);
+        return this;
+    }
+
+    getRandomPositionInside()
+    {
+        const x = this.center.x + new Bounds(-1,1).random() * 0.5 * this.extents.x;
+        const y = this.center.y + new Bounds(-1,1).random() * 0.5 * this.extents.y;
+        return new Point(x,y);
     }
 }

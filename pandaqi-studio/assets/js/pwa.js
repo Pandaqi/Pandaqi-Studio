@@ -5,7 +5,7 @@
 // @SOURCE: https://adactio.com/journal/13540
 // @SOURCE (with slightly advanced functionality): https://2018.ampersandconf.com/serviceworker.js
 
-const cacheName = 'files-v3';
+const cacheName = 'files-v4';
 
 addEventListener('install', (ev) => { console.log('PWA installing ... '); });
 

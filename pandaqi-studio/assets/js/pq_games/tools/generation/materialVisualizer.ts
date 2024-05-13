@@ -1,14 +1,18 @@
 import ResourceLoader from "js/pq_games/layout/resources/resourceLoader";
 import Configurator from "./configurator";
 import Point from "../geometry/point";
+import GrayScaleEffect from "js/pq_games/layout/effects/grayScaleEffect";
 
 export default class MaterialVisualizer
 {
     configurator: Configurator
     resLoader: ResourceLoader
     inkFriendly: boolean
-    size: Point
+    size: Point;
+    sizeUnit: number;
+    center: Point;
     custom: any;
+    inkFriendlyEffect: GrayScaleEffect[]
 
     constructor(config)
     {
@@ -20,16 +24,20 @@ export default class MaterialVisualizer
         }
 
         this.inkFriendly = config.inkFriendly;
+        this.inkFriendlyEffect = this.inkFriendly ? [new GrayScaleEffect()] : [];
         this.size = config.itemSize ? config.itemSize.clone() : new Point(512, 512);
         
         this.configurator = new Configurator();
         this.configurator.addExceptions(["resLoader", "drawerConfig", "gameTitle", "fileName", "localstorage", "debug"]);
 
+        this.sizeUnit = Math.min(this.size.x, this.size.y);
+        this.center = this.size.clone().scale(0.5);
+
         // this is just for very easy access through the configurator later; must come first though to ensure we have it for everything else
         this.configurator.calculate({
             size: this.size,
-            sizeUnit: Math.min(this.size.x, this.size.y),
-            center: this.size.clone().scale(0.5),
+            sizeUnit: this.sizeUnit,
+            center: this.center,
             inkFriendly: this.inkFriendly
         })
         this.configurator.calculate(config);
@@ -43,5 +51,10 @@ export default class MaterialVisualizer
     get(s:string|string[])
     {
         return this.configurator.get(s);
+    }
+
+    getResource(s:string)
+    {
+        return this.resLoader.getResource(s);
     }
 }

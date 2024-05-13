@@ -5,6 +5,8 @@ interface NewContextParams
 {
     alpha?:boolean
     willReadFrequently?:boolean
+    desynchronized?: boolean
+    antialias?: boolean
     width?:number
     height?:number
     size?:Point
@@ -15,6 +17,8 @@ export default (params:NewContextParams = {}) : CanvasRenderingContext2D =>
     const contextParams = { 
         willReadFrequently: true,
         alpha: true,
+        desynchronized: true,
+        antialias: true
     };
     Object.assign(contextParams, params);
     const ctx = createCanvas(params).getContext("2d", contextParams) as CanvasRenderingContext2D;
