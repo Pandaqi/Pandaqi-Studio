@@ -8,3 +8,8 @@
 *.woff binary
 *.ttf binary
 *.otf binary
+*.mp3 binary
+*.ogg binary
+*.wav binary
+*.mp4 binary
+*.webm binary

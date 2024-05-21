@@ -1,14 +1,14 @@
 import OnPageVisualizer from "js/pq_games/website/onPageVisualizer"
+import ResourceLoader from "js/pq_games/layout/resources/resourceLoader"
+import { PDF_DPI } from "js/pq_games/pdf/main"
 // @ts-ignore
 import { Scene } from "js/pq_games/phaser/phaser.esm"
-import BoardState from "./boardState"
-import BoardDisplay from "./boardDisplay"
-import Evaluator from "./evaluator"
-import CONFIG from "./config"
-import ResourceLoader from "js/pq_games/layout/resources/resourceLoader"
 import resourceLoaderToPhaser from "js/pq_games/phaser/resourceLoaderToPhaser"
 import setDefaultPhaserSettings from "js/pq_games/phaser/setDefaultPhaserSettings"
-import { getDPIScalar } from "js/pq_games/pdf/main"
+import BoardDisplay from "./boardDisplay"
+import BoardState from "./boardState"
+import CONFIG from "./config"
+import Evaluator from "./evaluator"
 
 const sceneKey = "boardGeneration"
 const resLoader = new ResourceLoader({ base: CONFIG.assetsBase });
@@ -59,7 +59,7 @@ class BoardGeneration extends Scene
             CONFIG.generation.numBlockTypesOverride = 8; // all of them (wildWinds is also turned on to include gray routes)
             CONFIG.generation.maxBlocksPerRouteOverride = 6; // base game obviously allows route lengths 1--6
 
-            CONFIG.blockSizeOverride = CONFIG.realBlockSizeMM * getDPIScalar(); // millimeters to pixels at correct resolution
+            CONFIG.blockSizeOverride = CONFIG.realBlockSizeMM * PDF_DPI; // millimeters to pixels at correct resolution
             CONFIG.numBlocksXOverride = Math.floor(this.canvas.width / CONFIG.blockSizeOverride);
 
             const tooLittleSpace = (CONFIG.boardSize == "large" || CONFIG.boardSize == "huge") && CONFIG.splitDims == "1x1";

@@ -21,7 +21,8 @@ import Color from "js/pq_games/layout/color/color";
 
 // @NOTE: the bookData.ts file is saved PER BOOK in their folder, so I can just copy-paste it into here to get all the book info
 
-const CREATE_PDF = false;
+const CREATE_PDF_FOR_AMAZON = true;
+const REMOVE_BACK_LOGO_FOR_D2D = true;
 
 let resLoader:ResourceLoader;
 
@@ -61,6 +62,11 @@ const convertToBinary = (input:number) =>
 const convertInchesToPixels = (input:Point) =>
 {
     return input.clone().scale(300).ceil();
+}
+
+const convertPixelsToInches = (input:Point) =>
+{
+    return input.clone().div(300);
 }
 
 const getSpineSizePixels = (target:string) =>
@@ -327,14 +333,18 @@ const drawTitleText = (size: Point, layer: string, group: ResourceGroup, titleTe
     }
 }
 
-const createBack = (size:Point, center:Point) =>
+const createBack = (size:Point, center:Point, target:string) =>
 {
     const group = new ResourceGroup();
     const diskData = DISKS[BOOK_DATA.disk];
 
     drawBackgroundRect(size, group);
     drawElectricityLines(size, center, group);
-    drawWildebyteBadge(size, center, group);
+
+    if(!(REMOVE_BACK_LOGO_FOR_D2D && target == "d2d"))
+    {
+        drawWildebyteBadge(size, center, group);
+    }
 
     const restartText = diskData.texts.restart.replace("%num%", "#" + BOOK_DATA.index);
     const sections = structuredClone(diskData.back.sections);
@@ -547,10 +557,11 @@ const createPrintWraparound = async (target:string) =>
     const pageSize = getPageSizePixels(target);
     const bleedSize = convertInchesToPixels(new Point(TARGETS[target].bleed));
     const centerBack = new Point(bleedSize.x + 0.5 * (pageSize.x - bleedSize.x), 0.5 * pageSize.y);
-    const resBack = createBack(pageSize, centerBack);
+    const resBack = createBack(pageSize, centerBack, target);
     group.add(resBack);
 
-    const spineSize = getSpineSizePixels(target)
+    const spineSize = getSpineSizePixels(target);
+    console.log("Calculated Spine Size (for target " + target + ") is", spineSize);
     const centerSpine = spineSize.clone().scale(0.5);
     const resSpine = createSpine(spineSize, centerSpine);
     const opSpine = new LayoutOperation({ translate: new Point(pageSize.x, 0) });
@@ -571,20 +582,20 @@ const createPrintWraparound = async (target:string) =>
     document.body.appendChild(img);
 
     // also create a PDF automatically
-    downloadPDF(img);
+    downloadPDF(img, target);
 }
 
-const downloadPDF = (img:HTMLImageElement) =>
+const downloadPDF = (img:HTMLImageElement, target:string) =>
 {
-    if(!CREATE_PDF) { return; }
+    if(target != "amazon") { return; }
+    if(!CREATE_PDF_FOR_AMAZON) { return; }
 
-    const fileName = "Wildebyte Print Wraparound (" + BOOK_DATA.name + ")";
-    const size = new Point(img.naturalWidth, img.naturalHeight);
+    const fileName = "Print Wraparound for Target " + target + " (" + BOOK_DATA.name + ")";
+    const size = convertPixelsToInches( new Point(img.naturalWidth, img.naturalHeight) );
     const pdfConfig = {
-        unit: 'px',
+        unit: 'in',
         orientation: "landscape",
         format: [size.x, size.y],
-        hotfixes: ["px_scaling"]
     }
 
     const doc = new jsPDF(pdfConfig);

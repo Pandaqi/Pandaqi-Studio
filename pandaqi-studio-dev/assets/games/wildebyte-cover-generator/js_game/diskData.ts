@@ -80,7 +80,7 @@ const DISKS =
             composite: "overlay",
             smallTextOffsetY: -0.35, // ~badgeSizeY, anchor from center
             bigTextOffsetY: 0.225, // ~badgeSizeY, anchor from center
-            choiceStoryOffsetY: 0.35, // ~badgeSizeY, anchor from center
+            choiceStoryOffsetY: 0.366, // ~badgeSizeY, anchor from center
         },
 
         framing:
