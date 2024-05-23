@@ -35,6 +35,19 @@ export default class Card
         this.recipes.push({ cost: cost, reward: action });
     }
 
+    getTier()
+    {
+        return this.getData().tier ?? 0;
+    }
+
+    getData()
+    {
+        if(this.type == MaterialType.BEAST) { return BEASTS[this.key]; }
+        else if(this.type == MaterialType.FOOD) { return FOOD[this.key]; }
+        else if(this.type == MaterialType.VICTIM) { return VICTIMS[this.key]; }
+        return {};
+    }
+
     async drawForRules(vis:MaterialVisualizer)
     {
         return this.draw(vis);
@@ -494,7 +507,7 @@ export default class Card
         for(let i = 0; i < numRecipes; i++)
         {
             const r = this.recipes[i];
-            const maxIconDims = new Point(vis.get("cards.menu.spaceYPerRecipe")* spaceYPerRecipe);
+            const maxIconDims = new Point(vis.get("cards.menu.spaceYPerRecipe") * spaceYPerRecipe);
             const subGroup = new ResourceGroup();
 
             // some FRAMING around/behind each option
@@ -574,6 +587,7 @@ export default class Card
     decideDynamicDetails()
     {
         if(this.type != MaterialType.VICTIM) { return; }
+        
         const data = VICTIMS[this.key];
         if(!data.dynamic) { return; }
 

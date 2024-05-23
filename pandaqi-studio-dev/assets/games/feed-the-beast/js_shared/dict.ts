@@ -46,7 +46,10 @@ interface GeneralData
     set?: string,
     desc?: string,
     label?: string,
-    dynamic?: boolean
+    dynamic?: boolean,
+
+    min?: number,
+    max?: number
 
     // monster properties
     rule?: string,
@@ -211,6 +214,7 @@ const BEASTS:Record<string, GeneralData> =
         },
         menu: 
         {
+            // used to be HUMAN
             cost: [["bread", "bread"], ["candy", "candy"], ["human"]],
             reward: { 
                 type: RecipeRewardType.TEXT,
@@ -234,6 +238,7 @@ const BEASTS:Record<string, GeneralData> =
         },
         menu: 
         {
+            // used to be HUMAN
             cost: [["bread", "berries"], ["lamb"], ["human"]],
             reward: { 
                 type: RecipeRewardType.TEXT,
@@ -371,6 +376,7 @@ const BEASTS:Record<string, GeneralData> =
         tier: 1,
         set: "baseBeasts",
 
+        // used to be HUMAN
         rule: "During setup, all players also get 1 <b>Human</b> and 2 <b>Lamb</b> tokens.",
         state:
         { 
@@ -379,6 +385,7 @@ const BEASTS:Record<string, GeneralData> =
         },
         menu: 
         {
+            // used to be HUMAN
             cost: [["human"], ["lamb", "lamb"]],
             reward: { 
                 type: RecipeRewardType.TEXT,
@@ -427,6 +434,7 @@ const BEASTS:Record<string, GeneralData> =
         },
         menu: 
         {
+            // used to be HUMAN
             cost: [["human"], ["lamb", "nectar"]],
             reward: { 
                 type: RecipeRewardType.TEXT,
@@ -705,47 +713,45 @@ const VICTIMS:Record<string, GeneralData> =
 const ACTIONS:Record<string, GeneralData> =
 {
     // related to recipes / menus
-    empty_beast: { desc: "<b>Empty</b> the beast.", value: 1.0 },
-    recipe_study: { desc: "<b>Study</b> the top 5 cards of the Menu deck; return them in any order.", value: 1.5 },
-    recipe_switch: { desc: "<b>Switch</b> the Menu.", value: 2.0, prob: 3.0 },
-    recipe_switch_and_empty: { desc: "<b>Empty</b> the beast and <b>switch</b> the Menu.", value: 2.5 },
-    recipe_market: { desc: "<b>Discard</b> the entire Menu market and <b>refill</b> from deck.", value: 1.5 },
-    recipe_pick: { desc: "<b>Switch</b> the Menu to <b>any</b> card inside the deck.", value: 3.0 },
+    recipe_switch: { desc: "<b>Switch</b> the Menu.", value: 1.33, prob: 6.0, min: 8 },
+    empty_beast: { desc: "<b>Empty</b> the beast.", value: 1.75, prob: 0.33, max: 1 },
+    recipe_switch_and_empty: { desc: "<b>Reset</b> the beast.", value: 2.0, prob: 1.75 },
+    recipe_study: { desc: "<b>Study</b> the top 6 cards of the Menu deck; return them in any order.", value: 2.0 },
+    recipe_market: { desc: "<b>Replace</b> the market. Then <b>Switch</b> Menu.", value: 2.5, prob: 1.5 },
+    // recipe_pick: { desc: "<b>Switch</b> the Menu to <b>any</b> card inside the deck.", value: 3.0 }, => with how easily the menu may switch, this just isn't worth it
 
     // related to tokens
-    swap_token_supply: { desc: "<b>Swap</b> 1 food token with supply.", value: 0.75 },
-    swap_token_player: { desc: "<b>Swap</b> 2 food tokens with another player.", value: 2.0 },
-    swap_token_beast: { desc: "<b>Swap</b> 2 food tokens with the beast.", value: 1.5 },
-    upgrade_token: { desc: "<b>Upgrade</b> 1 food token.", value: 1.0, prob: 3.0 },
-    steal_token: { desc: "<b>Steal</b> 2 food tokens from other players.", value: 1.0 },
-    discard_token_restricted: { desc: "<b>Discard</b> 1 food token that's not been played yet.", value: 2.0 },
-    discard_token: { desc: "<b>Discard</b> 2 food tokens.", value: 3.0 },
-    upgrade_token_super: { desc: "<b>Upgrade</b> 2 food tokens to one from the highest tier.", value: 3.0 },
-    token_hide: { desc: "<b>Hide</b> your tokens (flip them facedown).", value: 2.0 },
+    swap_token: { desc: "<b>Swap</b> 1 food with supply, player or beast.", value: 1.0, prob: 2.0 },
+    //upgrade_token: { desc: "<b>Upgrade</b> 2 food OR <b>draw</b> 1 of the <b>highest Tier</b>.", value: 1.0, prob: 3.5 },
+    upgrade_token_super: { desc: "<b>Upgrade</b> 3 food to the highest tier.", value: 3.0, prob: 0.66, max: 1 },
+    steal_token: { desc: "<b>Steal</b> 2 food from other players.", value: 2.0, prob: 0.5, max: 1 },
+    token_hide: { desc: "<b>Hide</b> your food (flip them facedown).", value: 2.5, prob: 0.5, max: 1 },
 
     // related to playing / taking your turn
-    play_wrong: { desc: "Play another wrong food <b>without</b> taking its penalty.", value: 1.5 },
-    play_another_restricted: { desc: "Play another token, but <b>don't</b> take its action.", value: 1.5, prob: 3.0 },
-    play_another_menu: { desc: "Play another token which <b>matches the beast's MENU</b>.", value: 2.0 },
-    play_another_beast: { desc: "Play another token that <b>matches</b> one already played.", value: 2.0 },
-    play_another: { desc: "Play another token.", value: 2.5 },
-    change_direction: { desc: "Flip the <b>direction</b> of play (clockwise or not).", value: 1.75 },
+    // play_wrong: { desc: "Play a wrong food (<b>without</b> taking its penalty).", value: 1.25, prob: 1.0 },
+    discard_token_restricted_1: { desc: "<b>Play</b> another food that has akready been played.", value: 1.25, prob: 1.5 },
+    discard_token_restricted_2: { desc: "<b>Play</b> another food that's <b>not</b> been played.", value: 1.25, prob: 1.5 },
+    play_another_majority: { desc: "<b>Play</b> another food of which you have the <b>most</b> or the <b>least</b>.", value: 1.25, prob: 1.5 },
+    // play_another_restricted: { desc: "Play another food.", value: 2.0, prob: 1.5 },
+    play_another_menu: { desc: "Pay the <b>beast's Menu</b> again and get its reward.", value: 2.0, prob: 0.75, max: 1 },
+    play_another: { desc: "Play another food and take its action.", value: 2.5 },
+    discard_token: { desc: "<b>Play</b> another 3 food.", value: 3.0, prob: 0.7, max: 1 },
 
     // related to influencing / forcing other players
-    force_token: { desc: "<b>Force</b> a player to <b>play a specific food</b> next turn.", value: 1.25, prob: 2.5 },
-    forbid_token: { desc: "<b>Forbid</b> a player from <b>playing a specific food</b> next turn.", value: 0.75 },
-    force_skip: { desc: "<b>Force</b> a player to <b>skip</b> their next turn.", value: 2.0 },
-    force_switch_recipe: { desc: "<b>Pick another player</b>. They must <b>switch</b> the Menu on their next turn.", value: 1.25 },
-    force_wrong: { desc: "<b>Force</b> a player to play a <b>wrong food</b> next turn.", value: 1.5 },
-    force_draw: { desc: "All other players must <b>draw 1 extra token</b>.", value: 3.0 },
+    force_token: { desc: "<b>Force</b> a player to <b>play a specific food</b> next turn.", value: 1.25, prob: 2.0, min: 5 },
+    forbid_token: { desc: "<b>Forbid</b> all players from <b>playing a specific food</b> next turn.", value: 1.75, prob: 2.0 },
+    force_skip: { desc: "<b>Force</b> 2 players to <b>skip</b> their next turn.", value: 2.0, prob: 2.0, max: 2 },
+    // force_switch_recipe: { desc: "<b>Pick a player</b>. They <b>switch</b> Menu start of next turn.", value: 1.25 }, => I want more recipe switching, but this is not the way
+    //force_wrong: { desc: "<b>Force</b> a player to play a <b>wrong food</b> next turn.", value: 1.75, prob: 2.0 }, => same as force_token but with less strategy or interest
+    force_draw: { desc: "All other players must <b>draw a Tier 1 food</b>.", value: 3.0, prob: 0.5, max: 1 },
 
     // related to beast state or core rules
-    state_change: { desc: "<b>Flip</b> the beast's <b>State</b>.", value: 1.5, prob: 4.0 },
-    state_change_any: { desc: "<b>Change</b> the beast's <b>State</b> to whatever you want.", value: 2.0 },
-    play_another_stateless: { desc: "Play another token <b>ignoring</b> the beast's State or Rule.", value: 2.5 },
-    state_lock: { desc: "Until your next turn, the beast's State <b>can't be changed.</b>", value: 1.0 },
-    recipe_lock: { desc: "Until your next turn, the beast's Menu <b>can't be switched.</b>", value: 1.75 },
-
+    state_change: { desc: "<b>Flip</b> the beast's <b>State</b>.", value: 1.25, prob: 6.0, min: 8 },
+    // state_change_any: { desc: "<b>Change</b> the beast's <b>State</b> to whatever you want.", value: 2.0 }, => not interesting or unique enough
+    play_another_stateless: { desc: "Play another food <b>ignoring</b> all rules of the Beast.", value: 3.0, prob: 0.35, max: 1 },
+    state_lock: { desc: "Until your next turn, the beast's State <b>can't be changed.</b>", value: 1.0, prob: 0.75, max: 1 },
+    recipe_lock: { desc: "Until your next turn, the Menu <b>can't be switched.</b>", value: 2.0, prob: 0.5, max: 1 },
+    change_direction: { desc: "Flip the <b>direction</b> of play (clockwise or not).", value: 1.0, prob: 0.75, max: 2 },
 }
 
 const CARD_TEMPLATES = 
@@ -780,6 +786,7 @@ export {
     RecipeRewardType,
     SubRecipe,
     RecipeList,
-    MISC
+    MISC,
+    GeneralData
 };
 

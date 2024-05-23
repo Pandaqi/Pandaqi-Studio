@@ -17,7 +17,7 @@ Create a deck of **Menu cards**, shuffle, and place 1 next to the beast. Place 4
 
 {{% rules-block id="objective" heading="Objective" icon="objective" icontint="red" %}}
 
-The game ends when a player is **out of food tokens**. They win!
+The game ends when, at the end of their turn, a player is **out of food tokens**. They win!
 
 {{% /rules-block %}}
 
@@ -28,14 +28,18 @@ From start player, take clockwise turns until the game ends.
 On your turn, **feed the beast!**
 
 * Place one of your food tokens on the beast.
-* If your payment is part of the Menu, you get the reward listed.
-* If not, you paid the wrong food and anger the beast. Either draw a new food token (Tier 1) OR skip your next turn.
+* If your payment is part of the Menu, you get a choice: either **take the reward** listed OR **upgrade** a food token of yours.
+* If not, you paid the wrong food and anger the beast. **Downgrade** a food and draw a new Tier 1 food from the supply.
 
-Higher tier foods can **substitute for ANY lower tier** food. For example, if you want to pay Bread for something (Tier 1), you can also pay Pie instead (Tier 2).
+"Upgrade" means you trade that food for one that's exactly 1 Tier higher. As expected, "Downgrade" means trading food for one exactly 1 Tier lower.
 
-Once the beast has **10 food tokens** (or more), it **resets**. The active player swaps the Menu for a new one from the market, then clears all food from the beast. (Refill the market as needed.)
+Higher tier foods can **substitute for ANY lower tier** food. For example, if you want to pay Bread for something (Tier 1), you can also pay any Tier 2 food instead (such as Pie).
+
+Once the beast has **10 food tokens** (or more), it **resets**. The active player swaps the Menu for a new one from the market, then clears all food from the beast (back to the supply). Refill the market as needed.
 
 That's it! Have fun!
+
+{{< rules-example id="turn" >}}
 
 {{% /rules-block %}}
 
@@ -55,8 +59,9 @@ If you find it hard to remember the beast's state, use the Sun/Moon token. (Face
 
 Actions explain themselves. Below are some exceptions that didn't fit within the text.
 
-* "Swapping Tokens": you must always swap for a token of the same tier (or lower).
-* "Upgrade": this means you trade one of your food tokens for one that's exactly 1 Tier higher.
+* If an action is simply not possible for you to execute, do nothing. 
+* If an action allows you to play one (or more) extra tokens on your turn, you **don't** take their corresponding action. (Only the more expensive actions state that you _do_ get the action as well.)
+* It can happen that all your tokens are forbidden. In that case, skip your turn and pay no food. (This has no penalty as you did not pay "wrong food"---you paid nothing at all!)
 * When an action mentions "food played" or a beast mentions "food stored on me", it refers to the food tokens that currently sit on top of the beast tile. (The ones that are removed when the beast "resets".)
 
 @TODO: IMAGE??

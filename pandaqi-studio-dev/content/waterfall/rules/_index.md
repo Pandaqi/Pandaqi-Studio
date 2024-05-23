@@ -16,7 +16,7 @@ The remaining tiles become the facedown draw pile.
 
 {{% rules-block id="objective" heading="Objective" icon="objective" icontint="red" %}}
 
-The game **ends** when when the waterfall **contains 20(+) cards**. 
+The game **ends** when when the waterfall **contains 20(+) cards**. (Or in the rare case where the deck is empty; all tiles are either inside the waterfall or scored.)
 
 Players sum the points on their scored tiles: **highest score wins!**
 
@@ -31,12 +31,16 @@ On your turn, you first **play cards** and then **fall down the waterfall**.
 **PLAY**: Play as many hand cards as you want. 
 
 * Sum the _numbers_ on them. That is how many spaces you're allowed to fall.
-* If you have **no** cards in hand, always move 1 space.
+* If you have **no** tile in hand, move a single space and draw a tile.
 
-**FALL**: For every space you move, pick one of the tiles _below_ your current tile. Go there and execute its action.
+**FALL**: For every space you move, pick one of the positions _below_ your current tile (down left or down right).
 
-* You **can't** enter a tile that contains another player. You may only share a tile if, otherwise, getting stuck would block _all possible paths_ through the waterfall.
-* If you exit the waterfall (at the bottom), reset to the top and your turn is over. (Any remaining moves are discarded.)
+* It has a tile? Execute its action!
+* It's empty? You've exited the waterfall. Reset to the top; your turn is over.
+
+You **can't** enter a tile that contains another player, _unless_ both your options are blocked.
+
+{{< rules-example id="turn" >}}
 
 @TODO: EXAMPLE IMAGE
 
@@ -52,15 +56,14 @@ The main actions are ADD, DRAW and SCORE. They get a bit more explanation; all o
 
 When you do an **ADD** action,
 * Place a tile from your hand in the waterfall, which is a _pyramid_ shape.
-* There must be a **water path** leading into the tile. (Which happens automatically if you follow the pyramid shape.)
+* Adjacent to an existing tile.
 
-The **DRAW** action allows drawing cards from the top of the facedown deck, into your hand.
+The **DRAW** action allows 3 drawing cards from the top of the facedown deck, into your hand. If the deck runs out, shuffle the discarded tiles and make it the new deck.
 
-The **SCORE** action works as follows.
-* Check the _gemstones_ that you visited thus far (when falling down).
+The **SCORE** action works as follows. You may score at most _two_ tiles this way (with one SCORE action).
+* Check the _gemstones_ that you visited thus far (when falling down this turn).
 * Pick a **tile from your hand** that has a _matching gemstone_. (If none exists, just do nothing.)
-* Place that tile facedown in your score pile. It's _number_ scores you points at the end of the game.
-* When you take a SCORE action, your _path_ **resets**. (Pretend you didn't visit all tiles visited so far, which obviously influences what tiles you may score from now.)
+* Place that tile facedown in your score pile. Its _number_ scores you points at the end of the game.
 
 @TODO: IMAGE EXAMPLES
 

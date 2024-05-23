@@ -1,7 +1,7 @@
 import BalancedFrequencyPickerWithMargin from "js/pq_games/tools/generation/balancedFrequencyPickerWithMargin";
 import shuffle from "js/pq_games/tools/random/shuffle";
 import CONFIG from "../js_shared/config";
-import { ACTIONS, FOOD, MaterialType, Recipe, RecipeList, RecipeRewardType, VICTIMS } from "../js_shared/dict";
+import { ACTIONS, FOOD, GeneralData, MaterialType, Recipe, RecipeList, RecipeRewardType, VICTIMS } from "../js_shared/dict";
 import Card from "./card";
 import getWeighted from "js/pq_games/tools/random/getWeighted";
 import fromArray from "js/pq_games/tools/random/fromArray";
@@ -86,6 +86,8 @@ export default class CardPicker
         }
         
         // assign fitting actions to all cards (based on cost)
+        let actionFreqs = {};
+        const availableActions = structuredClone(ACTIONS);
         for(const card of arr)
         {
             const recipes = card.getRecipes();
@@ -94,7 +96,7 @@ export default class CardPicker
             {
                 const recipeValue = this.countRecipeValue(recipe);
                 const foodToExclude = recipe.cost[0];
-                const suitableActions = this.getActionsOfValue(recipeValue, [actionsAlreadyPicked, foodToExclude].flat());
+                const suitableActions = this.getActionsOfValue(recipeValue, availableActions, [actionsAlreadyPicked, foodToExclude].flat());
                 if(Array.isArray(suitableActions)) {
                     recipe.reward = {
                         type: RecipeRewardType.FOOD,
@@ -102,7 +104,40 @@ export default class CardPicker
                     }
                     recipeData.foodRewards++;
                 } else {
-                    const finalAction = getWeighted(suitableActions);
+
+                    // ensure actions appear at least a minimum number of times
+                    const actionKeys = Object.keys(suitableActions);
+                    let finalAction = null;
+                    const actionsBelowMinFreq = [];
+                    for(const actionKey of actionKeys)
+                    {
+                        const freq = actionFreqs[actionKey] ?? 0;
+                        const minFreq = availableActions[actionKey].min ?? 1;
+                        if(freq >= minFreq) { continue; }
+                        actionsBelowMinFreq.push(actionKey);
+                    }
+
+                    if(actionsBelowMinFreq.length > 0)
+                    {
+                        finalAction = fromArray(actionsBelowMinFreq);
+                    }
+
+                    // only if that doesn't matter, draw randomly
+                    if(!finalAction)
+                    {
+                        finalAction = getWeighted(suitableActions);
+                    }
+
+                    if(!actionFreqs[finalAction]) { actionFreqs[finalAction] = 0; }
+                    actionFreqs[finalAction]++;
+
+                    // and remove actions once they've appeared their maximum number of times
+                    const maxFreq = availableActions[finalAction].max ?? Infinity;
+                    if(actionFreqs[finalAction] >= maxFreq)
+                    {
+                        delete availableActions[finalAction];
+                    }
+
                     actionsAlreadyPicked.push(finalAction);
                     recipe.reward = {
                         type: RecipeRewardType.TEXT,
@@ -123,6 +158,7 @@ export default class CardPicker
         console.log(pickers);
         console.log("PERCENTAGE MULTI RECIPES:" + ((recipeData.multi / recipeData.total) * 100) + "%");
         console.log("TEXT / FOOD REWARDS: " + recipeData.textRewards + " / " + recipeData.foodRewards);
+        console.log("FREQS PER ACTION TYPE", actionFreqs);
     }
 
     createMultiFoodRecipe(pickers:BalancedFrequencyPickerWithMargin[], maxTier:number, recipeData:RecipeData, customProb:number = -1) : RecipeList
@@ -170,7 +206,7 @@ export default class CardPicker
         return avgNum;
     }
 
-    getActionsOfValue(val:number, exclude:string[] = [])
+    getActionsOfValue(val:number, availableActions:Record<string, GeneralData>, exclude:string[] = [])
     {
         const giveFoodReward = Math.random() <= CONFIG.generation.foodRewardProb;
         const foodRewardError = CONFIG.generation.foodRewardErrorBounds;
@@ -195,10 +231,10 @@ export default class CardPicker
         const maxActionValueError = CONFIG.generation.maxActionValueError;
         const dict = {};
         const dictBackup = {};
-        for(const [key,data] of Object.entries(ACTIONS))
+        for(const [key,data] of Object.entries(availableActions))
         {
             if(exclude.includes(key)) { continue; }
-            if(data.value >= val) { dictBackup[key] = data; }
+            dictBackup[key] = data;
             if(Math.abs(data.value - val) > maxActionValueError) { continue; }
             dict[key] = data;
         }

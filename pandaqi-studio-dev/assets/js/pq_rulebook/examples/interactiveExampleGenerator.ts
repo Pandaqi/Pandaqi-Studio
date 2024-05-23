@@ -33,7 +33,7 @@ export default class InteractiveExampleGenerator
         // prepare settings and visualizer based on that
         this.config = p.config ?? {};
         const resLoader = new ResourceLoader({ base: this.config.assetsBase });
-        resLoader.planLoadMultiple(this.config.assets);
+        resLoader.planLoadMultiple(this.config.assets, this.config);
 
         this.config.resLoader = resLoader;
         this.config.itemSize = p.itemSize ?? new Point(512,512);

@@ -88,7 +88,21 @@ const CONFIG:any =
 
     rulebook:
     {
-        
+        itemSize: new Point(512, 512),
+
+        numPlayers: new Bounds(3,5),
+        numStartingTiles: 5,
+        numTurnsPreGenerate: new Bounds(2,10),
+        maxWaterfallSizeForWin: 20, 
+        maxWaterfallHeight: 6, // 6 = 21 max, so perhaps 7 has more freedom here
+        leapFrogUseProb: 0.75,
+        dontBlockIfBothPathsBlocked: true, // @DEBUGGING: testing a less strict rule
+        numTilesPerDrawAction: 3,
+        numTilesPerScoreAction: 2,
+        preferStayingOnBoardProb: 0.95,
+        drawTileIfHandEmpty: true,
+        resetPathAfterScoring: false,
+        endGameIfDeckEmpty: true
     },
 
     generation:
@@ -98,10 +112,10 @@ const CONFIG:any =
         bgDirtTextureBounds: new Bounds(0,3),
         scoreDistribution:
         {
-            1: 0.15,
+            1: 0.05,
             2: 0.25,
-            3: 0.35,
-            4: 0.2,
+            3: 0.4,
+            4: 0.25,
             5: 0.05
         },
     },

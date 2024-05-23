@@ -38,12 +38,12 @@ const GEMSTONES:Record<string, GeneralData> =
 const ACTIONS:Record<string, GeneralData> = 
 {
     add: { frame: 0, desc: "<b>Add</b> a tile to the waterfall.", prob: 1.5, min: 5 },
-    draw: { frame: 1, desc: "<b>Draw</b> a tile (into your hand).", prob: 1.5, min: 5 },
-    score: { frame: 2, desc: "<b>Score</b> a tile. (It must have a gemstone that's also on the path you've taken so far.)", prob: 1.5, min: 5 },
-    remove: { frame: 3, desc: "<b>Remove</b> a tile from the waterfall.", prob: 0.45 },
+    draw: { frame: 1, desc: "<b>Draw</b> 3 tiles (into your hand).", prob: 2.0, min: 8 },
+    score: { frame: 2, desc: "<b>Score</b> 2 tiles. (With a matching gemstone on the path taken so far.)", prob: 1.75, min: 8 },
+    remove: { frame: 3, desc: "<b>Remove</b> a tile from the waterfall. (Waterfall must stay connected!)", prob: 0.45 },
     swap: { frame: 4, desc: "<b>Swap</b> two tiles in the waterfall." },
-    leapfrog: { frame: 5, desc: "You may <b>jump</b> over a tile OR <b>share</b> a tile with a pawn once." },
-    pawn: { frame: 6, desc: "<b>Move</b> a pawn to amother tile." },
+    leapfrog: { frame: 5, desc: "This turn, once, you may <b>jump</b> over a tile OR <b>share</b> a tile with a pawn." },
+    pawn: { frame: 6, desc: "<b>Move</b> a pawn to another tile." },
     wildcard: { frame: 7, desc: "Take <b>any other action</b> that's in the path you've taken." }
 }
 
@@ -59,11 +59,22 @@ const MISC =
     card_template: { frame: 7 }
 }
 
+const PAWNS =
+{
+    0: { color: "#FF837F", label: "Red" },
+    1: { color: "#FF6EC3", label: "Pink" },
+    2: { color: "#A9D7F0", label: "Blue" },
+    3: { color: "#DB8BFE", label: "Purple" },
+    4: { color: "#9DFE75", label: "Green" },
+    5: { color: "#FFA76A", label: "Orange" },
+}
+
 export {
     TileType,
     ACTIONS,
     MISC,
     GEMSTONES,
-    WaterFlow
+    WaterFlow,
+    PAWNS
 };
 

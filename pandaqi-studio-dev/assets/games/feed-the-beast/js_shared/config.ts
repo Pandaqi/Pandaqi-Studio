@@ -8,7 +8,7 @@ const CONFIG:any =
     debug:
     {
         omitFile: true, // @DEBUGGING (should be false)
-        singleDrawPerType: true, // @DEBUGGING (should be false)
+        singleDrawPerType: false, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
@@ -116,17 +116,24 @@ const CONFIG:any =
 
     rulebook:
     {
-        
+        numPlayers: new Bounds(3,5),
+        numStartingTokens: 10,
+        maxStartingTokenTier: 0,
+        pickGoodFoodProb: 1.0,
+        wrongFoodSkipTurnProb: 0.5,
+        defaultBeastMaxStorage: 10,
+        menuMarketSize: 4,
+        pickRewardOverUpgradeProb: 0.5
     },
 
     generation:
     {
-        numRecipeCards: 32,
+        numRecipeCards: 18,
         maxRecipesPerCard: 3, // can exceed this, but that's a rare random event and not the rule
         maxRecipeValue: 3,
         foodRewardProb: 0.175, // the probability the reward for a recipe is just BETTER food tokens
-        foodRewardErrorBounds: new Bounds(0.0, 1.5),
-        multiFoodRecipeLengthThreeProb: 0.275, // multi-food recipes are only 2 or 3 tokens; 3 is less likely
+        foodRewardErrorBounds: new Bounds(0.0, 1.5), // heavily lean towards much more valuable/upgraded food in return
+        multiFoodRecipeLengthThreeProb: 0.15, // multi-food recipes are only 2 or 3 tokens; 3 is less likely
         multiFoodMaxPercentage: 0.25,
         multiFoodRecipeProbPerTier:
         {
@@ -137,15 +144,15 @@ const CONFIG:any =
         foodTierDistribution:
         {
             0: 1.0,
-            1: 0.4,
-            2: 0.175
+            1: 0.5,
+            2: 0.25
         },
         maxActionValueError: 0.75,
         defaultFoodFrequenciesPerTier:
         {
-            0: 13, // 5 * 13 = 65
-            1: 6, // 3 * 6 = 18
-            2: 4 // 2 * 4 = 8
+            0: 15, // 5 * 15 = 75
+            1: 12, // 3 * 12 = 36
+            2: 8 // 2 * 8 = 16
         },
         defaultVictimFrequency: 1,
     },

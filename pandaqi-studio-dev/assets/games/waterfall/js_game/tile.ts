@@ -29,6 +29,11 @@ export default class Tile
     setAction(a:string) { this.keyAction = a; }
     setGemstone(g:string) { this.gemstone = g; }
 
+    getAsString()
+    {
+        return "(SCORE = " + this.score + " / GEM = " + this.gemstone + " / ACTION = " + this.keyAction + ")";
+    }
+
     async drawForRules(vis:MaterialVisualizer)
     {
         return this.draw(vis);
