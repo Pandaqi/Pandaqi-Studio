@@ -8,18 +8,18 @@ headerTitle: "Fall down the waterfall as best you can to collect the highest-sco
 blurb: "Fall down the waterfall as best you can, while lengthening the waterfall as you play, to collect the highest-scoring gemstones along the way."
 
 extraCSS: true
-downloadLink: ""
+downloadLink: "https://drive.google.com/drive/folders/1vMuxpb1QiOHnb2tmGOcu50q0xkyRcE9i"
 
 customHeight: "small"
 headerDarkened: true
 
-color: "purple"
+color: "turquoise"
 
-bgColor: "#003401"
-bgColorLink: "#ff1f1f"
+bgColor: "#145052"
+bgColorLink: "#a4cc5e"
 
-textColor: "#f2ffef"
-textColorLink: "#ffe9e9"
+textColor: "#f2f2ff"
+textColorLink: "#00551e"
 
 date: 2025-05-26
 

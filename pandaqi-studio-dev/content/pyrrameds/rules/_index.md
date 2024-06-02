@@ -2,15 +2,20 @@
 type: "rules"
 ---
 
-{{% rules-block id="setup" heading="Setup" icon="setup" icontint="green" %}}
+{{% rules-block id="setup" heading="Setup" icon="setup" icontint="blue" %}}
 
-Separate the deck into MEDICINE and PATIENTS. Deal each player 2 of each type.
+{{% rules-double-view src="setup.webp" alt="Example setup for 3 players." %}}
+
+Separate the deck into **MEDICINE** and **PATIENTS**. Deal each player 2 of each type.
 
 Then combine all cards into one deck.
 
-* Place a row of 6 cards in the middle of the table. 
+* Place a **row of 6 cards** in the middle of the table. 
 * Fairly deal the remaining cards over all players.
-* (Any leftover cards are shown and discarded.)
+
+Any leftover cards are shown and discarded.
+
+{{% /rules-double-view %}}
 
 {{% /rules-block %}}
 
@@ -20,7 +25,7 @@ The game **ends** as soon as a player's hand is empty. **They win.**
 
 {{% /rules-block %}}
 
-{{% rules-block id="action_play" heading="Gameplay" icon="action" icontint="green" %}}
+{{% rules-block id="action_play" heading="Gameplay" icon="action" icontint="blue" %}}
 
 From start player, take clockwise turns until done. On your turn, either **PLACE** or **SWAP**. 
 
@@ -28,19 +33,19 @@ From start player, take clockwise turns until done. On your turn, either **PLACE
 
 {{% rules-block heading="Place" %}}
 
-Placement happens following "pyramid" (or "staircase") rules, both _above_ and _below_ the starting row.
+**Placement** happens following **pyramid** rules (or "staircase"), both _above_ and _below_ the starting row.
 
 * Place cards _between_ those from the previous layer.
 * Each layer contains one fewer card than the previous one.
 
-@TODO: EXAMPLE IMAGE
+{{< rules-image src="action_place.webp" alt="Example of how to resolve a Place action, differentiating MEDICINE and PATIENT cards." >}}
 
-A MEDICINE card can only be placed if the numbers are right.
+A **MEDICINE** card can only be placed if the numbers are right.
 
 * Check the cards on the previous layer that "support" this card. (There must be 1 or 2. You can't place a card disconnected from the previous layer.)
 * Your number must be _higher than all_ or _lower than all_.
 
-A PATIENT card can only be placed if ... 
+A **PATIENT** card can only be placed if ... 
 
 * There is a path through the pyramid, starting from the patient card
 * Which passes through all required medicine (for this patient); nothing more and nothing less.
@@ -54,7 +59,9 @@ Playing a patient is hard! And so you are rewarded.
 
 {{% rules-block heading="Swap" %}}
 
-Swap two cards that are already in the pyramid. 
+{{% rules-double-view src="action_swap.webp" alt="Example of how to do a Swap action." %}}
+
+**Swap** two cards that are already in the pyramid. 
 
 Some restrictions, however, apply.
 
@@ -62,13 +69,13 @@ Some restrictions, however, apply.
 * If it's a patient, you can only swap cards of types they want.
 * If it's medicine, one of the swapped cards must be of that type.
 
-@TODO: EXAMPLE IMAGE
+{{% /rules-double-view %}}
 
 {{% /rules-block %}}
 
 {{% /rules-block %}}
 
-{{% rules-block id="expansions" heading="Expansions" icon="expansion" icontint="yellow" %}}
+{{% rules-block id="expansions" heading="Expansions" icon="expansion" icontint="red" %}}
 
 Played the game a few times and ready for more challenge? You're in the right place! Try any of the expansions below.
 
@@ -84,7 +91,7 @@ Their placement rules are the same as for medicine. Once placed, they instantly 
 
 This expansion adds more **unique medicine and patients.**
 
-It also adds **wildcards** (numbers, medicine, requirements that can be _any_ type you want).
+It also adds **wildcards** (numbers, medicine, requirements that can be _any_ type you want). These are always represented by question marks (**?**).
 
 Because of the increased deck size, also increase the starting row to 8 cards.
 

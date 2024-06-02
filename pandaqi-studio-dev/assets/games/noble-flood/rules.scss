@@ -1,29 +1,27 @@
 @use "./shared.scss" as g;
 @use "sass:color";
 
-body {
-    color: #111111;
-}
-
-$light-yellow: color.adjust(g.$col1, $lightness: 10%);
-$light-purple: color.adjust(g.$col2, $lightness: 30%);
+$light-blue: color.adjust(g.$col1, $lightness: 10%);
+$light-pink: color.adjust(g.$bg-col, $lightness: -5%);
 
 #setup {
-    background-color: $light-yellow;
+    background-color: $light-blue;
 }
 
 #objective {
-    background-color: $light-purple;
+    background-color: $light-pink;
 }
 
 #action_play {
-    background-color: $light-yellow;
-}
-
-#scoring {
-    background-color: $light-purple;
+    background-color: $light-blue;
 }
 
 #expansions {
-    background-color: $light-yellow;
+    background-color: $light-pink;
+}
+
+blockquote
+{
+    border-left: 0.25rem solid black;
+    padding-left: 0.25rem;
 }

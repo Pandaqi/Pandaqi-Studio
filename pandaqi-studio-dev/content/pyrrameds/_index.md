@@ -13,13 +13,13 @@ downloadLink: "https://drive.google.com/drive/folders/1CcsMv1m33GWZypAiNYZgkpCh1
 customHeight: "small"
 headerDarkened: true
 
-color: "purple"
+color: "yellow"
 
-bgColor: "#003401"
-bgColorLink: "#ff1f1f"
+bgColor: "#503000"
+bgColorLink: "#b8dcce"
 
-textColor: "#f2ffef"
-textColorLink: "#ffe9e9"
+textColor: "#ffeedd"
+textColorLink: "#112233"
 
 date: 2025-05-26
 

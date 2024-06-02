@@ -3,18 +3,18 @@ $body-font: "bellota";
 $base: "/pyrrameds/assets/";
 $base-fonts: $base + "fonts/";
 
-$bg-col: #111111;
-$text-col: #FCFCFC;
+$bg-col: #fff5a6;
+$text-col: #212121;
 
-$col1: #E5B80B;
-$col2: #7B4B94;
+$col1: #b8dcce;
+$col2: #c0832d;
 
 body {
     font-family: $body-font;
     background-color: $bg-col;
     color: $text-col;
     font-size: calc(15px + 0.390625vw);
-    line-height: 120%;
+    line-height: 140%;
     box-sizing: border-box;
 }
 

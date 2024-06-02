@@ -6,7 +6,7 @@ body {
 }
 
 $light-yellow: color.adjust(g.$col1, $lightness: 10%);
-$light-purple: color.adjust(g.$col2, $lightness: 30%);
+$light-purple: color.adjust(g.$col2, $lightness: 34%);
 
 #setup {
     background-color: $light-yellow;
@@ -20,7 +20,7 @@ $light-purple: color.adjust(g.$col2, $lightness: 30%);
     background-color: $light-yellow;
 }
 
-#scoring {
+#beasts {
     background-color: $light-purple;
 }
 

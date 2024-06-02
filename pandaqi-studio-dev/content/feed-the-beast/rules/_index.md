@@ -2,7 +2,9 @@
 type: "rules"
 ---
 
-{{% rules-block id="setup" heading="Setup" icon="setup" icontint="green" %}}
+{{% rules-block id="setup" heading="Setup" icon="setup" icontint="yellow" %}}
+
+{{% rules-double-view src="setup.webp" alt="How to quickly setup any game of Feed the Beast." %}}
 
 Select all the **Tier 1 Food** tokens (showing a single dot on each side). Shuffle and deal each player 10.
 
@@ -10,18 +12,17 @@ Pick any **beast** and place it faceup in the center of the table. (For a first 
 
 Create a deck of **Menu cards**, shuffle, and place 1 next to the beast. Place 4 more faceup menus in a row: this is the "market".
 
-@TODO: SETUP IMAGE, mostly to explain the food tiers + menu market and such
- => * Food is categorized into "tiers". A food's tier is represented by the number of dots on the edge: higher is "more valuable". You start with only basic food, but can purchase better ones as the game goes on.
+{{% /rules-double-view %}}
 
 {{% /rules-block %}}
 
-{{% rules-block id="objective" heading="Objective" icon="objective" icontint="red" %}}
+{{% rules-block id="objective" heading="Objective" icon="objective" icontint="purple" %}}
 
 The game ends when, at the end of their turn, a player is **out of food tokens**. They win!
 
 {{% /rules-block %}}
 
-{{% rules-block id="action_play" heading="Gameplay" icon="action" icontint="green" %}}
+{{% rules-block id="action_play" heading="Gameplay" icon="action" icontint="yellow" %}}
 
 From start player, take clockwise turns until the game ends.
 
@@ -29,7 +30,7 @@ On your turn, **feed the beast!**
 
 * Place one of your food tokens on the beast.
 * If your payment is part of the Menu, you get a choice: either **take the reward** listed OR **upgrade** a food token of yours.
-* If not, you paid the wrong food and anger the beast. **Downgrade** a food and draw a new Tier 1 food from the supply.
+* If not, you paid the wrong food and anger the beast. **Downgrade** a food AND draw a new Tier 1 food from the supply.
 
 "Upgrade" means you trade that food for one that's exactly 1 Tier higher. As expected, "Downgrade" means trading food for one exactly 1 Tier lower.
 
@@ -39,11 +40,15 @@ Once the beast has **10 food tokens** (or more), it **resets**. The active playe
 
 That's it! Have fun!
 
+{{< rules-image src="gameplay.webp" alt="Example of a single turn: pay the beast, get reward/penalty, reset Beast if full." >}}
+
 {{< rules-example id="turn" >}}
 
 {{% /rules-block %}}
 
-{{% rules-block id="beasts" heading="Beasts & Actions" icon="action" icontint="green" %}}
+{{% rules-block id="beasts" heading="Beasts & Actions" icon="action" icontint="purple" %}}
+
+{{% rules-double-view src="beast_skeleton.webp" alt="Pointing out the different parts of every Beast card and what they mean." %}}
 
 Every beast has the following properties.
 
@@ -55,7 +60,7 @@ At the top, you can see the beast's "level": higher means more difficult to play
 
 If you find it hard to remember the beast's state, use the Sun/Moon token. (Faceup means the beast is in the first state, facedown means they're in the other. They always start in the first state mentioned.)
 
-@TODO: IMAGE of BEAST CARD SKELETON
+{{% /rules-double-view %}}
 
 Actions explain themselves. Below are some exceptions that didn't fit within the text.
 
@@ -63,8 +68,6 @@ Actions explain themselves. Below are some exceptions that didn't fit within the
 * If an action allows you to play one (or more) extra tokens on your turn, you **don't** take their corresponding action. (Only the more expensive actions state that you _do_ get the action as well.)
 * It can happen that all your tokens are forbidden. In that case, skip your turn and pay no food. (This has no penalty as you did not pay "wrong food"---you paid nothing at all!)
 * When an action mentions "food played" or a beast mentions "food stored on me", it refers to the food tokens that currently sit on top of the beast tile. (The ones that are removed when the beast "resets".)
-
-@TODO: IMAGE??
 
 {{% /rules-block %}}
 
@@ -77,8 +80,7 @@ Played the game a few times and ready for more challenge? You're in the right pl
 If turned on, the material will print menus that sometimes require _multiple_ food tokens. 
 
 * This means you must pay that exact combination, at the same time, to get the reward (once).
-* Because of the higher cost, the rewards are usually very high.
-* To balance this, it has the same penalty as paying wrong food: either **draw a Tier 1 food** (from the supply) or **skip your next turn**.
+* This is both a benefit (losing more tokens at once) and a downside (you need to have that exact set of tokens)
 
 This doesn't apply to "wrong food". Paying the wrong food always happens one token at a time (and enrages the beast).
 
@@ -99,6 +101,8 @@ These are simply beasts that are harder to play or understand. They can have **t
 
 {{% rules-block heading="Save the Princess" %}}
 
+{{% rules-double-view src="victim_skeleton.webp" alt="What a Victim Card looks like and what it means." %}}
+
 This expansion requires adding new material: the **victim cards**.
 
 During setup, create a deck of victims, shuffle, and place 4 of these next to the beast.
@@ -110,6 +114,14 @@ A victim is "freed" from the beast whenever a player ...
 * OR for an entire round, **everyone played valid food**
 
 The player who freed them, takes one card and places it before them. Their rule now applies until the end of the game. (This is _required_, which means you sometimes get victims that don't help you.)
+
+Finally, refill the victim row from the deck.
+
+{{% remark %}}
+Most of my board games have some random generation and are regularly updated, which is why the exact images in the rulebook might match anything in your material. This is perfectly normal!
+{{% /remark %}}
+
+{{% /rules-double-view %}}
 
 {{% /rules-block %}}
 

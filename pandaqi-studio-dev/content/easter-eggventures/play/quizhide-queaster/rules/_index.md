@@ -13,11 +13,11 @@ First, the Hider hides their eggs.
 * For each empty slot (white shape with colorful stroke) in a room, place a facedown egg.
 * Then cover it up with a faceup obstacle.
 
-Finally, the Hider draws **5 Hint Cards** from the deck into their hand.
+Finally, the Hider draws **5 Clue Cards** from the deck into their hand.
 
 Once done, all Seekers place their pawn on a random tile. Finally, they draw a random **Score Card** and place it faceup before them.
 
-@TODO: IMAGE EXAMPLE
+{{< rules-image src="setup.webp" alt="Example of default game setup." >}}
 
 {{% /rules-block %}}
 
@@ -37,17 +37,19 @@ On your turn, you first receive one **Clue Card** from the Hider.
 * The Hider may place the Clue Card before you any way they want. (On its own, on top of another, rotated, facedown, ...)
 * Then the Hider draws their hand back up to 5.
 
+Of course, the goal of the Hider is to provide Clues as to _where_ eggs may be hidden that will score you the most points.
+
 Now you take 3 actions. The possible actions are ...
 * **Walk**: move your pawn to an adjacent room (not diagonally).
 * **Search**: collect the egg underneath an obstacle in your current room.
 
-For every 3 Clue Cards you receive, however, you must Search at least _once_.
+{{< rules-image src="gameplay.webp" alt="Example of a single Seeker turn (and how it might impact scoring at the end)." >}}
+
+For every 3 Clue Cards you receive, however, you must have Searched at least _once_.
 
 If the Hider thinks there are no good eggs for a Player anymore, they can say so. The Player leaves the map: they get no more turns.
 
 Once every Seeker has received 3 Clue Cards, the Hider may **refresh their memory**. They pick 2 rows or columns and look at all remaining eggs there.
-
-@TODO: IMAGE EXAMPLE
 
 {{% /rules-block %}}
 

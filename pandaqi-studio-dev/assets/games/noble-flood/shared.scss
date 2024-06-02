@@ -4,18 +4,18 @@ $special-font: "rechtman";
 $base: "/noble-flood/assets/";
 $base-fonts: $base + "fonts/";
 
-$bg-col: #111111;
-$text-col: #FCFCFC;
+$bg-col: #fee2f2;
+$text-col: #211010;
 
-$col1: #E5B80B;
-$col2: #7B4B94;
+$col1: #80e2bb;
+$col2: #4a1961;
 
 body {
     font-family: $body-font;
     background-color: $bg-col;
     color: $text-col;
     font-size: calc(15px + 0.390625vw);
-    line-height: 120%;
+    line-height: 150%;
     box-sizing: border-box;
 }
 

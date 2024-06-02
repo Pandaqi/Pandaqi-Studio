@@ -20,10 +20,12 @@ $light-purple: color.adjust(g.$col2, $lightness: 30%);
     background-color: $light-yellow;
 }
 
-#scoring {
+#expansions {
     background-color: $light-purple;
 }
 
-#expansions {
-    background-color: $light-yellow;
+blockquote
+{
+    border-left: 0.25rem solid black;
+    padding-left: 0.25rem;
 }

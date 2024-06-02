@@ -8,18 +8,18 @@ headerTitle: "Keep the beast satisfied with your food offerings, but be the firs
 blurb: "Keep the beast satisfied with your strategic offerings of apples, pie or bread. Be the first to get rid of your entire food storage."
 
 extraCSS: true
-downloadLink: ""
+downloadLink: "https://drive.google.com/drive/folders/1iuOlI1iYqptXn3HZQYIu0x7qy_jmb2aZ"
 
 customHeight: "small"
 headerDarkened: true
 
-color: "purple"
+color: "black"
 
 bgColor: "#003401"
-bgColorLink: "#ff1f1f"
+bgColorLink: "#113322"
 
 textColor: "#f2ffef"
-textColorLink: "#ffe9e9"
+textColorLink: "#99EE99"
 
 date: 2025-05-26
 

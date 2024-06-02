@@ -104,8 +104,8 @@ const CONTRACTS:Record<string,ContractData> =
     trio_adjacent_any: { desc: "<b>Three</b> cards of the same number are <b>adjacent</b>.", score: 8, drawDetails: [new DrawGroup().addCard({ number: -1 }, 3).setAdjacent(true)] },
     trio: { desc: "One of these numbers <b>appears three times: %number%, %number% or %number%</b>.", score: 6, drawDetails: [new DrawGroup().addCard({ number: 0 }, 3), new DrawGroup().addCard({ number: 1 }, 3), new DrawGroup().addCard({ number: 2 }, 3)] },
 
-    pair_double_with_suits_any: { desc: "<b>Two pairs</b> with suits %suit% and %suit%.", score: 6, drawDetails: [new DrawGroup().addCard({ suit: 0 }, 2), new DrawGroup().addCard({ suit: 1 }, 2)] },
-    pair_double: { desc: "A <b>pair of %number%s</b> <em>and</em> a <b>pair of %number%s</b>.", score: 8, drawDetails: [new DrawGroup().addCard({ number: 0 }, 2), new DrawGroup().addCard({ number: 1 }, 2)] },
+    pair_double_with_suits_any: { desc: "<b>Two pairs</b> with suits %suit% and %suit%.", score: 6, drawDetails: [new DrawGroup().addCard({ suit: 0 }, 2).setUnion("and"), new DrawGroup().addCard({ suit: 1 }, 2)] },
+    pair_double: { desc: "A <b>pair of %number%s</b> <em>and</em> a <b>pair of %number%s</b>.", score: 8, drawDetails: [new DrawGroup().addCard({ number: 0 }, 2).setUnion("and"), new DrawGroup().addCard({ number: 1 }, 2)] },
     
     four_number_any: { desc: "<b>Four</b> cards of the same number.", score: 8, drawDetails: [new DrawGroup().addCard({ number: -1 }, 4)] },
     four_number: { desc: "One of these numbers <b>appears four times: %number%, %number%, %number% or %number%</b>.", score: 9, drawDetails: [new DrawGroup().addCard({ number: 0 }, 4), new DrawGroup().addCard({ number: 1 }, 4), new DrawGroup().addCard({ number: 2 }, 4), new DrawGroup().addCard({ number: 3 }, 4)] },

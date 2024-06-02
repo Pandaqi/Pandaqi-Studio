@@ -15,11 +15,11 @@ headerDarkened: true
 
 color: "purple"
 
-bgColor: "#003401"
-bgColorLink: "#ff1f1f"
+bgColor: "#6a1941"
+bgColorLink: "#80e2bb"
 
-textColor: "#f2ffef"
-textColorLink: "#ffe9e9"
+textColor: "#ffeeee"
+textColorLink: "#206255"
 
 date: 2025-05-26
 

@@ -38,7 +38,7 @@ Now take clockwise turns from the Dealer picking contracts. Continue until all p
 * Everyone else **may** pick one on their turn.
 * When you're satisfied with your contract(s), say "pass" and you get no more turns this phase.
 
-@TODO: EXAMPLE IMAGE
+{{< rules-image src="action_deal.webp" alt="Example of the DEAL phase: lay out cards, pick wildcard, pick contracts." >}}
 
 {{% /rules-block %}}
 
@@ -58,7 +58,7 @@ There are a few exceptions to this.
 * The maximum map size is 5 by 5 cards.
 * If you can't legally play a card, reveal a card from your hand and discard it.
 
-@TODO: EXAMPLE IMAGE
+{{< rules-image src="action_play.webp" alt="Example of the PLAY phase: play valid cards (depending on neighbors), or discard if you can't." >}}
 
 {{% /rules-block %}}
 
@@ -80,7 +80,7 @@ Finally, a few clarifications on terminology in the contracts:
 
 The Dealer moves one player clockwise. Next round!
 
-@TODO: EXAMPLE IMAGE (of final game scoring, more useful)
+{{< rules-image src="action_score.webp" alt="Example of the SCORE phase: what exactly is meant by some of the harder contracts, and how this impacts scoring (at the end)." >}}
 
 {{% /rules-block %}}
 

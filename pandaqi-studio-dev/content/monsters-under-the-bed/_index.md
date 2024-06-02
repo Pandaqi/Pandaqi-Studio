@@ -26,8 +26,7 @@ categories: ["game"]
 tags: []
 ---
 
-{{% headerimage img="monsters_header" class="limit-width" %}}
-
+<!--- monsters_header image was here --->
 {{% section-centered class="intro-text" %}}
 
 Grab helpful monsters, avoid the bad ones, cooperate, react, jump, dodge, communicate, puzzle, dream!

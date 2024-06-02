@@ -5,8 +5,8 @@ $bg-color: g.$bg-col;
 $text-color: g.$text-col;
 $button-bg: g.$col1;
 $button-color: #27231c;
-$link-color: color.adjust(g.$col2, $lightness: 30%);
-$link-color-hover: color.adjust(g.$col2, $lightness: 50%);
+$link-color: g.$col2;
+$link-color-hover: color.adjust(g.$col2, $lightness: -20%);
 $settings-color: g.$col1;
 $cutoff: 920px;
 
