@@ -9,6 +9,7 @@ enum TileType
 interface GeneralData
 {
     frame?: number,
+    label?: string,
     desc?: string,
     freq?: number,
     prob?: number,
@@ -37,14 +38,14 @@ const GEMSTONES:Record<string, GeneralData> =
 
 const ACTIONS:Record<string, GeneralData> = 
 {
-    add: { frame: 0, desc: "<b>Add</b> a tile to the waterfall.", prob: 1.5, min: 5 },
-    draw: { frame: 1, desc: "<b>Draw</b> 3 tiles (into your hand).", prob: 2.0, min: 8 },
-    score: { frame: 2, desc: "<b>Score</b> 2 tiles. (With a matching gemstone on the path taken so far.)", prob: 1.75, min: 8 },
-    remove: { frame: 3, desc: "<b>Remove</b> a tile from the waterfall. (Waterfall must stay connected!)", prob: 0.45 },
-    swap: { frame: 4, desc: "<b>Swap</b> two tiles in the waterfall." },
-    leapfrog: { frame: 5, desc: "This turn, once, you may <b>jump</b> over a tile OR <b>share</b> a tile with a pawn." },
-    pawn: { frame: 6, desc: "<b>Move</b> a pawn to another tile." },
-    wildcard: { frame: 7, desc: "Take <b>any other action</b> that's in the path you've taken." }
+    add: { frame: 0, label: "Add", desc: "<b>Add</b> a tile to the waterfall.", prob: 1.5, min: 5 },
+    draw: { frame: 1, label: "Draw", desc: "<b>Draw</b> 3 tiles (into your hand).", prob: 2.0, min: 8 },
+    score: { frame: 2, label: "Score", desc: "<b>Score</b> 2 tiles. (With a matching gemstone on the path taken so far.)", prob: 1.75, min: 8 },
+    remove: { frame: 3, label: "Remove", desc: "<b>Remove</b> a tile from the waterfall. (Waterfall must stay connected!)", prob: 0.45 },
+    swap: { frame: 4, label: "Swap", desc: "<b>Swap</b> two tiles in the waterfall." },
+    leapfrog: { frame: 5, label: "Leapfrog", desc: "Once this turn, <b>jump</b> over a tile OR <b>share</b> a tile with a pawn." },
+    pawn: { frame: 6, label: "Pawn", desc: "<b>Move</b> a pawn to another tile." },
+    wildcard: { frame: 7, label: "Wildcard", desc: "Take <b>any other action</b> that's in the path you've taken." }
 }
 
 const MISC =
@@ -75,6 +76,7 @@ export {
     MISC,
     GEMSTONES,
     WaterFlow,
+    GeneralData,
     PAWNS
 };
 

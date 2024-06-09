@@ -1,0 +1,42 @@
+@use "../../shared.scss" as g;
+@use "./shared.scss" as g2;
+
+body
+{
+    background-color: g2.$bg-col;
+    color: #FBFBFB;
+}
+
+#setup {
+    background-color: g2.$col1;
+}
+
+#objective {
+    background-color: g2.$col2-dark;
+}
+
+#action_play {
+    background-color: g2.$col1;
+}
+
+#expansions {
+    background-color: g2.$col2-dark;
+}
+
+.remark {
+    color: white;
+    opacity: 0.66;
+}
+
+.rulebook-simple-view {
+    .remark {
+        color: black;
+        opacity: 1.0;
+    }
+}
+
+.rules-foldable > .heading-container .heading {
+    h2, h3 {
+        color: rgba(255,255,255,0.95);
+    }
+}

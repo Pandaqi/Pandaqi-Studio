@@ -67,7 +67,7 @@ The **SCORE** action works as follows. You may score at most _two_ tiles this wa
 * Pick a **tile from your hand** that has a _matching gemstone_. (If none exists, just do nothing.)
 * Place that tile facedown in your score pile. Its _number_ scores you points at the end of the game.
 
-@TODO: RULES TABLE with ALL ACTIONS
+<div id="rules-table-actions"></div>
 
 That's it! Have fun!
 

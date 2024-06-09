@@ -222,7 +222,7 @@ article, section {
 }
 
 section {
-    break-inside: avoid;
+    break-inside: auto !important;
 }
 
 #simpleViewButton, #printButton

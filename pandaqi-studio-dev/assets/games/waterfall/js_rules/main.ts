@@ -7,7 +7,8 @@ import CONFIG from "../js_shared/config";
 import Board, { GameState } from "./board";
 import Hand from "./hand";
 import Tile from "../js_game/tile";
-import { PAWNS } from "../js_shared/dict";
+import { ACTIONS, GeneralData, PAWNS } from "../js_shared/dict";
+import { convertDictToRulesTableHTML } from "js/pq_rulebook/table";
 
 const callbackInitStats = () =>
 {
@@ -204,3 +205,13 @@ const gen = new InteractiveExampleGenerator({
         callbackFinishStats,
     }
 })
+
+
+// auto-display all requirement options and descriptions inside rulebook
+const rtConversion = { heading: "label", desc: "desc" };
+const rtParams = { sheetURL: CONFIG.assets.actions.path, base: CONFIG.assetsBase, sheetWidth: 8, class: null };
+const nodeBase = convertDictToRulesTableHTML(ACTIONS, rtConversion, rtParams);
+document.getElementById("rules-table-actions").appendChild(nodeBase);
+
+// @ts-ignore
+if(window.PQ_RULEBOOK) { window.PQ_RULEBOOK.refreshRulesTables(); }
