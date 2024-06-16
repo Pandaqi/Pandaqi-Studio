@@ -1,0 +1,35 @@
+// @TODO; for any reused colors or special blocks or whatever for THIS PARTICULAR GAME
+
+$header-font: "rialto";
+$base: "/maybe-games/vote/maybe-movies/assets/";
+$base-fonts: $base + "fonts/";
+
+$col1: #77ca55;
+$col2: #ff9830;
+
+body {
+    background-color: $col1;
+}
+
+.game-settings, a.btn.download-btn, button#btn-start-game {
+    background-color: $col2;
+    filter: drop-shadow(0 0 5px #333333);
+}
+
+a {
+    color: #136003;
+}
+
+@font-face {
+    font-family: $header-font;
+    src: url($base-fonts + 'RialtoNF.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+h1, h2, h3, h4, h5, h6, 
+a.btn, #btn-create-pdf, #btn-generate-board, #btn-start-game,
+input, button, select, option, label {
+    font-family: $header-font;
+}
