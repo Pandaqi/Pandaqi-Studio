@@ -18,6 +18,7 @@ export default <T>(obj:Record<string,T>, key = "prob", RNG = Math.random) : stri
     shuffle(typesList); // to prevent order accidentally playing ANY role
     while(runningSum < targetRand)
     {
+        if(counter >= typesList.length) { console.error("getWeighted => loop extended beyond list of types, must be wrong input"); break; }
         const newElem = typesList[counter];
         counter++;
 

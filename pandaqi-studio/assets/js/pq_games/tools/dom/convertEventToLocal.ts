@@ -1,6 +1,6 @@
 import Point from "../geometry/point";
 
-export default (ev:PointerEvent|TouchEvent, node:HTMLElement) =>
+export default (ev:MouseEvent|TouchEvent, node:HTMLElement) =>
 {
     const p = new Point();
     const offset = node.getBoundingClientRect();
@@ -12,7 +12,7 @@ export default (ev:PointerEvent|TouchEvent, node:HTMLElement) =>
         p.move(new Point({ x: touch.clientX, y: touch.clientY }));
     }
     
-    if(ev instanceof PointerEvent) 
+    if(ev instanceof MouseEvent) 
     {
         p.move(new Point({ x: ev.clientX, y: ev.clientY }));
     } 
