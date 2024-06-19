@@ -1,8 +1,8 @@
-import { getDPIScalar } from "js/pq_games/pdf/main"
+import { PAGE_FORMATS, convertMillimetersToPixels, convertPixelsToInches } from "js/pq_games/pdf/main";
+import { readSplitDims } from "../layout/canvas/splitImage";
+import Point from "../tools/geometry/point";
 // @ts-ignore
 import { jsPDF } from "./jspdf";
-import Point from "../tools/geometry/point";
-import { readSplitDims } from "../layout/canvas/splitImage";
 
 enum PageOrientation 
 {
@@ -34,18 +34,16 @@ interface PdfBuilderConfig
     orientation?: PageOrientation,
     splitBoard?: boolean
     splitDims?: Point,
-    format?: PageFormat
+
+    // @TODO: this is duplicate because older projects constantly confused the names and used both interchangeably :/
+    // Need to update to just pageSize everywhere at some point
+    format?: PageFormat,
+    pageSize?: PageFormat,
     jsPDF?:any,
     debugWithoutFile?: boolean
 }
 
-const PAGE_FORMATS = {
-    [PageFormat.A4]: new Point(297, 210),
-    [PageFormat.A5]: new Point(210, 148),
-    [PageFormat.LETTER]: new Point(297, 216) 
-}
-
-export { PageOrientation, PdfBuilder, PdfConfig, PdfBuilderConfig, PageFormat }
+export { PageFormat, PageOrientation, PdfBuilder, PdfBuilderConfig, PdfConfig };
 export default class PdfBuilder 
 {
     jsPDF : jsPDF
@@ -53,7 +51,7 @@ export default class PdfBuilder
     buttonConfig : Record<string,any>
     orientation : PageOrientation
     buttonClickHandler : (this: HTMLButtonElement, ev: MouseEvent) => any
-    size : Point
+    size : Point // defined in PIXELS
     format: PageFormat
     splitDims: Point
 
@@ -73,7 +71,7 @@ export default class PdfBuilder
         this.buttonConfig = {};
         this.debugWithoutFile = cfg.debugWithoutFile ?? false;
         this.orientation = cfg.orientation ?? PageOrientation.LANDSCAPE;
-        this.format = (cfg.format as PageFormat) ?? PageFormat.A4;
+        this.format = cfg.format ?? cfg.pageSize ?? PageFormat.A4;
         this.splitDims = new Point(1,1);
         this.size = this.calculatePageSize(cfg);
         this.buttonClickHandler = this.onPDFButtonClicked.bind(this);
@@ -156,19 +154,14 @@ export default class PdfBuilder
 
     calculatePageSize(cfg:Record<string,any> = {}) : Point
     {
-        const scaleFactor = getDPIScalar();
         const splitDims = readSplitDims(cfg.splitDims, cfg.splitBoard) ?? new Point(1,1);
         this.splitDims = splitDims;
+        
         const pageFormatSize = PAGE_FORMATS[this.format];
+        const dims = convertMillimetersToPixels(pageFormatSize.clone().scale(splitDims));
 
-        const longSide = Math.ceil(scaleFactor*pageFormatSize.x*splitDims.x);
-        const shortSide = Math.ceil(scaleFactor*pageFormatSize.y*splitDims.y);
-
-        if(this.orientation == PageOrientation.LANDSCAPE) { 
-            return new Point(longSide, shortSide);
-        } else {
-            return new Point(shortSide, longSide);
-        }
+        if(this.orientation == PageOrientation.LANDSCAPE) { return dims.clone(); }
+        return new Point(dims.y, dims.x);
     }
 
     getFullSize() : Point
@@ -190,14 +183,17 @@ export default class PdfBuilder
         if(cfg.customFileName) { fileName = cfg.customFileName + ".pdf"; }
 
         const pageSize = this.getSinglePageSize();
+        const pageSizeInches = convertPixelsToInches(pageSize);
 
+        // @NOTE: If you use unit: "px" (and the hotfix), the PDF is FUNCTIONALLY the same
+        // However, many programs will interpret it wrong and scale it wrong when using the pixel dimensions
+        // Defining it with inches makes sure PDF readers all understand it's a high-resolution (300 DPI) image, while size is identical
         return {
-            orientation: this.orientation, // @TODO: not doing anything right now, because FORMAT determines the actual format!
-            unit: 'px',
-            format: [pageSize.x, pageSize.y],
+            unit: 'in',
+            format: [pageSizeInches.x, pageSizeInches.y],
             fileName: fileName,
-            userUnit: 1.0, // 300 DPI => didn't work like I thought it would, remove?
-            hotfixes: ["px_scaling"]
+            orientation: this.orientation, // @TODO: not doing anything right now, because FORMAT determines the actual format!
+            //hotfixes: ["px_scaling"]
         }
     }
 
@@ -205,7 +201,8 @@ export default class PdfBuilder
     {
         if(this.debugWithoutFile)
         {
-            for(const img of this.images) { 
+            for(const img of this.images) 
+            { 
                 img.style.maxWidth = "100%";
                 document.body.appendChild(img);
             }
@@ -218,14 +215,16 @@ export default class PdfBuilder
         //const height = doc.internal.pageSize.getHeight();
 
         const pageSize = this.getSinglePageSize();
+        const pageSizeInches = convertPixelsToInches(pageSize);
 
         // This simply places images, one per page, and creates a _new_ page each time after the first one
         // DOC: addImage(imageData, format, x, y, width, height, alias, compression, rotation)
         // compression values = NONE, FAST, MEDIUM, SLOW
         // NONE creates 100+ mb files, so don't use that
-        for(var i = 0; i < this.images.length; i++) {
+        for(var i = 0; i < this.images.length; i++) 
+        {
             if(i > 0) { doc.addPage(); }
-            doc.addImage(this.images[i], 'png', 0, 0, pageSize.x, pageSize.y, undefined, 'MEDIUM');
+            doc.addImage(this.images[i], 'png', 0, 0, pageSizeInches.x, pageSizeInches.y, undefined, 'MEDIUM');
         }
 
         doc.save(pdfConfig.fileName);

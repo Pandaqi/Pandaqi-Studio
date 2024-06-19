@@ -1,0 +1,123 @@
+@use "sass:map";
+@use "sass:math";
+@use "../../shared.scss" as g;
+
+$main-color: #346899;
+$inv-color: #7c2b6b;
+$inv-color-dark: #3b052f;
+$tagline-bg: #c47ab4;
+$cutoff: 900px;
+$btn-text-color: #FFFFFF;
+$btn-text-color-hover: #f9d2ff;
+
+a {
+    color: $main-color; 
+    &:hover {
+        color: $inv-color-dark;
+    }
+}
+
+.game-settings {
+    background-color: $main-color;
+}
+
+a.download-btn, a.download-btn:visited, 
+#btn-start-game, #btn-start-game:visited,
+#btn-generate-board, #btn-generate-board:visited {
+    background-color: $main-color;
+    color: $btn-text-color;
+    
+    &:hover {
+        background-color: $inv-color;
+        color: $btn-text-color-hover;
+    }
+}
+
+
+@media all and (max-width: $cutoff) 
+{
+    .tagline {
+        background-color: $tagline-bg;
+        a {
+            color: black;
+        }
+    }
+}
+
+//
+// Rules
+//
+$icons: (
+    "start": 0,
+    "double-word": 1,
+    "triple-word": 2,
+    "double-letter": 3,
+    "triple-letter": 4,
+    "big-ask": 5,
+    "thief": 6,
+    "destroyer": 7,
+    "go-again": 8,
+    "garbage": 9,
+    "blockade": 10,
+    "collector": 11
+);
+
+@each $name, $frame in $icons {
+    $col: $frame % 8;
+    $row: 0;
+    @if $frame >= 8 {
+        $row: 1;
+    }
+
+    .icon-#{$name} {
+        background-image: g.$special-cells-url;
+        background-size: 800%;
+        background-position-x: -$col * 100%;
+        background-position-y: -$row * 100%;
+        margin: auto;
+    }
+}
+
+/* custom (option) icons */
+$option-icons: (
+    "letter": 0,
+    "wall": 1,
+    "start": 2,
+    "points": 3,
+    "cell": 4,
+    "swap": 5,
+    "destroy": 6,
+    "po_letter": 7,
+    "po_word": 8,
+    "po_straight": 9,
+    "po_connect": 10,
+    "po_clear": 11,
+    "empty_backpack": 12,
+    "points_standalone": 13
+);
+
+@each $name, $frame in $option-icons {
+
+    .rules-icon-option-#{$name}, .icon-option-#{$name} {
+        background-image: g.$knickknack-options-url;
+        background-size: cover;
+        background-position-x: -$frame * 100%;
+    }
+}
+
+
+/* Headings */
+$colors: (
+    "setup": #d9ffa9,
+    "objective": #68fed3,
+    "expansions": #bebef6,
+    "action_play": #ffb6df,
+    "action_scoring": #ffd68f,
+    "options": #f8cca6
+);
+
+@each $name, $color in $colors {
+    ##{$name} {
+        background-color: $color;
+    }
+}

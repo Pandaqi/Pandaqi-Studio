@@ -34,3 +34,67 @@ $base-fonts: "/square-ogre/assets/fonts/";
     font-display: swap;
 }
 
+body {
+    background-image: url(squareogre_bwebp);
+    background-repeat: repeat-y;
+    background-position: center;
+    background-color: #070110;
+    background-size: 100%;
+    font-family: $body-font, sans-serif;
+    color: #FCFCFC;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    font-family: $header-font, cursive;
+    font-weight: normal;
+}
+
+.limit-width, .image-as-heading img, section .center {
+    max-width: 900px;
+    margin: auto;
+}
+
+img[src$='#float'] { 
+    max-width: 300px;
+    float:left;
+}
+
+.image-as-heading {
+    max-width: 100%;
+    margin-top: 40px;
+    margin-bottom: -50px;
+    text-align: center;
+
+    img {
+        width: 100%;
+    }
+}
+
+h1 {
+    text-align: center;
+    color: #FCFCFC;
+}
+
+.buy-link, main a {
+    background-color: #6BB73E;
+    color: rgba(0,0,0,0.75);
+    font-family: $header-font, cursive;
+    max-width: 100%;
+
+    &:hover {
+        background-color: #944FC0;
+        color: rgba(255,255,255,0.75);
+    }
+}
+
+main a {
+    display:block;
+    margin: auto;
+    margin-top: 20px;
+
+    width: auto;
+    max-width: 400px;
+    font-size: 24px;
+    border-radius: 0.5em;
+    text-decoration: none;
+}

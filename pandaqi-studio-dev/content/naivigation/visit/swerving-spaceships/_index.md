@@ -1,5 +1,5 @@
 ---
-type: "single"
+type: "gamepage"
 gamepage: true
 boardgame: true
 
@@ -7,21 +7,13 @@ title: "Swerving Spaceships"
 headerTitle: "Swerving Spaceships | A Naivigation game about steering a single spaceship together"
 blurb: "A Naivigation game about steering a single spaceship together, visiting planets and dodging asteroids."
 
-extraCSS: true
 downloadLink: ""
 
 # @TODO: removed links for headers and stuff for now, as it can't be found by the system
 
-customHeight: "small"
-headerDarkened: true
 
 color: "brown"
 
-bgColor: "#230e00"
-bgColorLink: "#2d2d2d"
-
-textColor: "#fff0e8"
-textColorLink: "#e0e0e0"
 
 
 date: 2023-01-01 # 2024-12-26

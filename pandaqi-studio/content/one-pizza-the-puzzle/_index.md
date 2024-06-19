@@ -1,6 +1,5 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "One Pizza the Puzzle"
@@ -8,23 +7,15 @@ headerTitle: "Deliver one pizza before anyone else without crossing paths"
 blurb: "A One Paper Game for 2–8 players about running your own pizza business. A raging rivalry, however, makes it impossible to cross paths with other pizza couriers without causing huge problems ..."
 
 longblurb: "A game about sending pizza couriers all over town and cutting off other players. Because, obviously, you are not allowed to cross other lines drawn on the board."
+blurbShort: "A [One Paper Game](/boardgames#one-paper-games) for 2--8 players about running your own pizza business, but a raging rivalry forbids crossing paths with other pizza couriers."
 
 customHeight: "small-medium"
 
 fullHeaderImg: "onepizza_header"
 noThumb: true
 
-headerDarkened: true
 color: "yellow"
 
-bgColor: "#FFFFFF"
-bgColorLink: "#36369B"
-
-textColor: "brown"
-textColorLink: "#CDCDE3"
-
-extraCSS: true
-extraJSBoard: true
 extraJSBoardInclude: true
 
 date: 2020-10-25
@@ -46,11 +37,7 @@ devlog: "/blog/boardgames/one-pizza-the-puzzle/devlog-one-pizza-the-puzzle/"
 
 ---
 
-{{% boardgame-intro heading="" img="onepizza_header" %}}
-
-A [One Paper Game](/boardgames#one-paper-games) for 2&ndash;8 players about running your own pizza business, but a raging rivalry forbids crossing paths with other pizza couriers.
-
-{{% /boardgame-intro %}}
+{{% boardgame-intro /%}}
 
 <div class="limit-width">
 {{< video url="video/onepizza_explanation_gif" controls="controls" >}}
@@ -105,10 +92,7 @@ Three steps ...
 
 {{% /section-centered %}}
 
-{{% section-centered heading="Board Generation" html="true" anchor="board" %}}
-  
-<p>Input your desired settings. Click "Generate Board", save the PDF, print it.</p>
-<p>For your <strong>first game</strong>, just set the player count and immediately start.</p>
+{{% boardgame-settings-container type="board" %}}
 
 {{< boardgame-settings type="board" game_title="One Pizza The Puzzle" defaults="true" >}}
   {{< setting-seed >}}
@@ -122,9 +106,7 @@ Three steps ...
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
-<p><strong>Not working?</strong> Don't worry. Click the "Download" button and you'll also find a folder with already generated boards. Use one of those instead! (And send me an email with details about what isn't working.)</p>
-
-{{% /section-centered %}}
+{{% /boardgame-settings-container %}}
 
 {{< support >}}
 

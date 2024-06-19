@@ -34,7 +34,11 @@ interface PdfBuilderConfig
     orientation?: PageOrientation,
     splitBoard?: boolean
     splitDims?: Point,
-    format?: PageFormat
+
+    // @TODO: this is duplicate because older projects constantly confused the names and used both interchangeably :/
+    // Need to update to just pageSize everywhere at some point
+    format?: PageFormat,
+    pageSize?: PageFormat,
     jsPDF?:any,
     debugWithoutFile?: boolean
 }
@@ -67,7 +71,7 @@ export default class PdfBuilder
         this.buttonConfig = {};
         this.debugWithoutFile = cfg.debugWithoutFile ?? false;
         this.orientation = cfg.orientation ?? PageOrientation.LANDSCAPE;
-        this.format = (cfg.format as PageFormat) ?? PageFormat.A4;
+        this.format = cfg.format ?? cfg.pageSize ?? PageFormat.A4;
         this.splitDims = new Point(1,1);
         this.size = this.calculatePageSize(cfg);
         this.buttonClickHandler = this.onPDFButtonClicked.bind(this);

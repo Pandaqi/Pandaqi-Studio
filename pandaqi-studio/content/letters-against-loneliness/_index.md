@@ -1,6 +1,5 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 
 title: "Letters Against Loneliness"
 headerTitle: "Place post offices to send letters to the people across the puzzle map"
@@ -9,19 +8,12 @@ blurb: "Place post offices to send letters to the people. A simple puzzle to bri
 headerImg: "letters_bg"
 headerThumb: "letters_header"
 
-customHeight: "small"
 
-bgColor: "#ADF1D8"
-bgColorLink: "pink"
-
-textColor: "#012013"
-textColorLink: "#641624"
 
 entryBannerNonTextClasses: "no-shadow"
 
 color: "turquoise"
 
-extraCSS: true
 
 date: 2021-12-03
 

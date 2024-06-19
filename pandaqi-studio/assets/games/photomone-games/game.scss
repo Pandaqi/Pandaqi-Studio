@@ -1,5 +1,6 @@
 @use "./shared.scss" as g;
 
+// @NOTE: this is kept a separate stylesheet because it has many clashing styles that I wouldn't want in the rulebook or page.
 * {
     box-sizing: border-box;
 }
@@ -14,11 +15,13 @@ body, html {
 body {
     font-family: g.$body-font;
     background-color: #5F5449;
+    color: #111111;
 }
 
 h1,h2,h3,h4,h5,h6,button,input {
     font-family: g.$header-font;
     text-align: center;
+    color: #111111;
     margin-top: 0;
     margin-bottom: 0;
     font-weight: normal;

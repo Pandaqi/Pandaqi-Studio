@@ -10,13 +10,13 @@
 
 	img {
 		max-width: 100%;
-		width: auto;
+		width: 100%;
 		height: auto;
 	}
 
 	&.rounded {
 		.video-over-header {
-			border-radius: 6px;
+			border-radius: 0.25rem;
 		}
 	}
 
@@ -32,8 +32,8 @@
 	.video-over-header, .video-no-header {
 		
 		margin: auto;	
-		border: 5px solid #6BB73E;
-		box-shadow: #202 0 0 10px 2px;
+		border: 0.25rem solid #6BB73E;
+		box-shadow: #202 0 0 0.5rem 0.2rem;
 	
 		.video-container {
 			position: relative;

@@ -13,6 +13,7 @@ import Rectangle from "js/pq_games/tools/geometry/rectangle";
 import BlurEffect from "js/pq_games/layout/effects/blurEffect";
 import ResourceShape from "js/pq_games/layout/resources/resourceShape";
 import TintEffect from "js/pq_games/layout/effects/tintEffect";
+import MaskEffect from "js/pq_games/layout/effects/maskEffect";
 
 export default class Card
 {
@@ -157,12 +158,23 @@ export default class Card
 
         // and we get the overlay rect that discolors the whole thing
         const colorData = this.getColorData();
-        const overlayOp = op.clone(true);
-        overlayOp.frame = vis.get("cards.background.overlay.frame");
+        const overlayOp = this.getMaskOperation(vis);
         overlayOp.composite = vis.get("cards.background.overlay.composite");
         overlayOp.alpha = vis.get("cards.background.overlay.alpha");
         overlayOp.effects = [new TintEffect(colorData.main)];
         group.add(res, overlayOp);
+    }
+
+    getMaskOperation(vis:MaterialVisualizer) : LayoutOperation
+    {
+        return new LayoutOperation({
+            translate: vis.center.clone(),
+            dims: vis.get("cards.background.dims"),
+            frame: vis.get("cards.background.overlay.frame"),
+            pivot: Point.CENTER,
+            composite: vis.get("cards.background.overlay.composite"),
+            alpha: vis.get("cards.background.overlay.alpha")
+        })
     }
 
     drawBlurredRect(vis:MaterialVisualizer, group:ResourceGroup, pos:Point, dims:Point, color:string = "#FFFFFF", composite:GlobalCompositeOperation = "source-over")
@@ -259,18 +271,26 @@ export default class Card
         
         const resMisc = vis.getResource("misc");
         const resGenreIcons = vis.getResource("genres");
+
+        const maskResource = vis.getResource("covers");
         
         for(let i = 0; i < corners.length; i++)
         {
             const posRect = cornersNoOffset[i].clone().add(bookCoverOffset);
             const posIcon = corners[i].clone().add(bookCoverOffset);
 
+            // This SHOULD make sure the edges are clipped to make sure it neatly stays on the book
+            // @TODO: might be offset slightly wrong or scaled wrong, have to test
+            const maskOperation = this.getMaskOperation(vis);
+            const maskEffect = new MaskEffect({ resource: maskResource, operation: maskOperation });
+
             const opRect = new LayoutOperation({
                 translate: posRect,
                 composite: vis.get("cards.genre.compositeRect"),
                 dims: vis.get("cards.genre.dimsRect"),
                 frame: MISC.rect_rounded.frame,
-                pivot: Point.CENTER
+                pivot: Point.CENTER,
+                effects: [maskEffect]
             });
             group.add(resMisc, opRect);
 
@@ -278,7 +298,8 @@ export default class Card
                 translate: posIcon,
                 dims: vis.get("cards.genre.dimsIcon"),
                 frame: genreData.frame,
-                pivot: Point.CENTER
+                pivot: Point.CENTER,
+                effects: [maskEffect]
             })
             group.add(resGenreIcons, opIcon);
         }

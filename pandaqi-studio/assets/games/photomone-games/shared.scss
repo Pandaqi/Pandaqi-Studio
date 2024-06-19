@@ -4,6 +4,13 @@ $body-font-raw: "proza";
 $base-assets: "/photomone-games/assets/";
 $base-fonts: $base-assets + "fonts/";
 
+$bg-color: #5F5449;
+$game-color: #51D6FF;
+$board-color: #CB9CF2;
+$link-color: #EE4266;
+$text-color: #efe3d6;
+$yellow-highlight: #FFD23F;
+
 @font-face {
     font-family: $body-font-raw;
     src: url($base-fonts + 'ProzaLibre-Medium.woff2') format('woff2');
@@ -38,7 +45,6 @@ $base-fonts: $base-assets + "fonts/";
 
 $header-font: $header-font-raw, cursive;
 $body-font: $body-font-raw, serif;
-$cutoff: 900px;
 
 $border-image-url: url(/photomone-games/assets/photomone_border_image.webp);
 $photomone-types-url: url(/photomone-games/draw/photomone/assets/point_types.webp);
@@ -47,22 +53,9 @@ $photomone-digital-types-url: url(/photomone-games/draw/photomone-digital-antist
 $photomone-antsassins-almost-actions-url: url(/photomone-games/draw/photomone-antsassins/assets/almost_actions.webp);
 $photomone-antsassins-bg-pattern-url: url(/photomone-games/draw/photomone-antsassins/assets/bg_pattern.webp);
 
-@media all and (max-width: $cutoff) 
-{
-    .tagline {
-        padding: 1em;
-        border-radius: 1em;
-    }
-
-    .game-settings {
-        font-size: 12px;
-    }
-
-    body {
-        background-image: none;
-    }
-}
-
+//
+// SHARED WIDGETS
+//
 .photomone-update-block, .photomone-link-block {
     border-style: solid;
     border-image-slice: 64 64 64 64;
@@ -134,8 +127,6 @@ $photomone-antsassins-bg-pattern-url: url(/photomone-games/draw/photomone-antsas
     }
 }
 
-
-
 .photomone-canvas {
     .word-container {
         display: flex;
@@ -163,7 +154,7 @@ $photomone-antsassins-bg-pattern-url: url(/photomone-games/draw/photomone-antsas
         }
 
         .word {
-            font-size: 4rem;
+            font-size: 2.5rem;
             text-align: center;
 
             @media all and (max-width: 700px)
@@ -171,6 +162,10 @@ $photomone-antsassins-bg-pattern-url: url(/photomone-games/draw/photomone-antsas
                 font-size: 2rem;
             }
         }
+    }
+
+    img {
+        width: auto;
     }
 
     .ui {
@@ -189,5 +184,85 @@ $photomone-antsassins-bg-pattern-url: url(/photomone-games/draw/photomone-antsas
                 font-size: 0.75em;
             }
         }
+    }
+}
+
+//
+// PAGE
+//
+h1, h2, h3, h4, h5, h6, 
+a.btn, #btn-create-pdf, #btn-generate-board, #btn-start-game,
+input, button, select, option, label {
+    font-family: $header-font;
+    font-weight: normal;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    color: $yellow-highlight;
+}
+
+body {
+    font-family: $body-font;
+    background-color: $bg-color;
+    color: $text-color;
+}
+
+.game-settings {
+    background-color: $game-color;
+    color: #0a4c60;
+
+    h3 { color: #0a4c60; }
+    .setting-remark { color: rgba(0,0,0,0.5); }
+}
+
+#btn-start-game, #btn-start-game:visited {
+    background-color: $game-color;
+    color: #0a4c60;
+    margin-top: 0.5em;
+
+    &:hover {
+        background-color: #0a4c60;
+        color: $game-color;
+    }
+}
+
+.board-game-settings {
+    background-color: $board-color;
+    color: #491476;
+
+    h3 { color: #491476; }
+    .setting-remark { color: rgba(0,0,0,0.5); }
+}
+
+#btn-generate-board, #btn-generate-board:visited {
+    background-color: $board-color;
+    color: #491476;
+    margin-top: 0.5em;
+
+    &:hover {
+        background-color: #491476;
+        color: $board-color;
+    }
+}
+
+a.download-btn, a.download-btn:visited {
+    color: #360303;
+    background-color: $link-color;
+    &:hover {
+        color: $link-color;
+        background-color: #360303;
+    }
+}
+
+a {
+    color: $yellow-highlight;
+    &:hover {
+        color: #fff2c8;
+    }
+}
+
+.boardgame-intro {
+    .tagline {
+        color: $text-color;
     }
 }

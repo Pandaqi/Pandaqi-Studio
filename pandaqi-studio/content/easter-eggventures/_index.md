@@ -1,25 +1,15 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "Easter Eggventures"
 headerTitle: "A collection of simple Easter-themed board games."
 blurb: "A collection of simple family games to play during Easter (or whenever you crave some egg hunting)."
+blurbShort: "Eggventures is a collection of free Easter-themed board games for families and simple egg hunting fun."
 
-extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/1uplIYqa6FX_Hjx628R0SLTLejVFR0kpL"
 
-customHeight: "small"
-headerDarkened: true
-
 color: "yellow"
-
-bgColor: "#232300"
-bgColorLink: "#CCCC66"
-
-textColor: "#FFFFDD"
-textColorLink: "#232300"
 
 date: 2025-03-26
 
@@ -37,11 +27,7 @@ devlog: "/blog/boardgames/easter-eggventures/"
 
 ---
 
-{{% boardgame-intro heading="" %}}
-
-Eggventures is a collection of free Easter-themed board games for families and simple egg hunting fun.
-
-{{% /boardgame-intro %}}
+{{% boardgame-intro /%}}
 
 {{% section-centered heading="What's this?" %}}
 
@@ -49,11 +35,7 @@ This is the **overview page** of the Easter Eggventures.
 
 Click any of the links below to visit a specific game. They are roughly sorted by how **simple** I think they are, in terms of short rules and simple concepts to understand.
 
-* [Quizhide Queaster](/easter-eggventures/play/quizhide-queaster): one team hides the eggs, the other searches. But communication between them is unfortunately limited to vague, dreamlike illustrations.
-* [Egghunt Esports](/easter-eggventures/play/egghunt-esports/): find the locations of the best eggs and collect them, without ever entering the arena or giving that information to your opponents.
-* [Chicken Colorout](/easter-eggventures/play/chicken-colorout/): be the first to hide all your eggs in an environment filled with kids (or other forces) eager to find them again.
-* [Bunny Bidding](/easter-eggventures/play/bunny-bidding/): snatch the best offers containing the secret eggs that actually score you points.
-* [Reggverse Riddles](/easter-eggventures/play/reggverse-riddles/): win the reverse egg hunt by cleverly changing where eggs are hidden just before you decide to look.
+{{< boardgame-project-games-list subdir="play" >}}
 
 {{% /section-centered %}}
 

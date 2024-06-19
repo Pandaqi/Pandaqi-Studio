@@ -1,5 +1,5 @@
 ---
-type: "single"
+type: "gamepage"
 gamepage: true
 boardgame: true
 
@@ -7,19 +7,11 @@ title: "Sleighwell"
 headerTitle: "Santa needs help delivering presents in a town that constantly changes."
 blurb: "A cooperative game about placing houses and presents such that the sleigh can fulfill all wishes, with a dash of reindeer road and pine tree obstacles."
 
-extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/11q1JvlufY06QORspG35SfAKQU4JakWhS"
 
-customHeight: "small"
-headerDarkened: true
 
 color: "white"
 
-bgColor: "#014556"
-bgColorLink: "#601a87"
-
-textColor: "#e6faff"
-textColorLink: "#edccff"
 
 
 date: 2023-01-01 # 2024-07-25?

@@ -1,6 +1,5 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 
 title: "A Recipe For Disaster"
 headerTitle: "Baking breads by throwing hats ..."
@@ -9,17 +8,7 @@ blurb: "Baking breads by throwing hats. Chaotic co-op game for 1-4 players tryin
 headerImg: "arfd_pattern"
 headerThumb: "arfd_logo"
 
-customHeight: "small"
-
-bgColor: "#BBFFBB"
-bgColorLink: "#012d01"
-
-textColor: "#012d01"
-textColorLink: "#7CFF86"
-
 color: "green"
-
-extraCSS: true
 
 date: 2021-04-26
 

@@ -1,0 +1,95 @@
+$header-font: "scifly";
+$body-font: "scifly";
+$base-fonts: "fonts/";
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'scifly.woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+body {
+    font-family: $body-font;
+    background-color: #C2DDF7;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: $header-font;
+}
+
+.review-container {
+    padding: 1rem;
+    max-width: 1280px;
+    margin: auto;
+}
+
+.boardgame-intro {
+    .big-header-image {
+        filter: none;
+
+        img {
+            border-bottom: 0.5rem solid  #3d6de3;
+        }
+    }
+
+    .text {
+        margin-top: -10vw;
+        background-color: #C2DDF7;
+        position: relative;
+        border-top: 0.5rem solid #3d6de3;
+        border-radius: 0.5em;
+    }
+}
+
+strong {
+    color: #9e2d41;
+}
+
+a.link {
+    color: #248232;
+    border-bottom: 2px solid;
+    text-decoration: none;
+    transition: color 0.3s, background-color 0.3s;
+
+    &:hover {
+        color: #E33D3D;
+    }
+}
+
+a.btn, a.btn:visited, button.btn {
+    font-family: $header-font;
+}
+
+.game-settings {
+    background-color: #154558;
+}
+
+#btn-generate-board {
+    font-family: $header-font;
+}
+
+#btn-create-pdf {
+    font-weight: 900;
+    font-family: $header-font, sans-serif;
+    font-size: 24pt;
+    background-color: #FF6666;
+    color: #fcfffc;
+    transition: background-color .3s,color .3s;
+
+    &:hover {
+        background-color: #FFAAAA;
+        color: #111111;
+    }
+}
+
+a.download-btn, a.download-btn:visited {
+    background-color: #154558;
+    color: white;
+}
+
+a.download-btn:hover {
+    background-color: #FEAB97;
+    color: black;
+}

@@ -1,28 +1,20 @@
+@use "sass:color";
 
 $header-font: "dmserifdisplay";
 $body-font: "varela";
 $base: "/the-outnumbered-series/assets/";
 $base-fonts: $base + "fonts/";
 
-$bg-col: #091d4d;
-$text-col: #f8ec9d;
+$bg-color: #091d4d;
+$text-color: #f8ec9d;
 
 $col1: #4CABB9;
 $col2: #f89e38;
 
-body {
-    font-family: $body-font;
-    background-color: $bg-col;
-    color: $text-col;
-    font-size: calc(15px + 0.390625vw);
-    line-height: 120%;
-    box-sizing: border-box;
-}
-
-h1, h2, h3, h4 {
-    font-family: $header-font;
-    font-weight: normal;
-}
+$button-bg: $col1;
+$button-color: $bg-color;
+$link-color: color.adjust($col2, $lightness: 0%);
+$link-color-hover: color.adjust($col2, $lightness: 15%);
 
 @font-face {
     font-family: $body-font;
@@ -46,4 +38,47 @@ h1, h2, h3, h4 {
     font-weight: normal;
     font-style: normal;
     font-display: swap;
+}
+
+body {
+    font-family: $body-font;
+    background-color: $bg-color;
+    color: $text-color;
+}
+
+h1, h2, h3, h4, h5, h6, 
+a.btn, #btn-create-pdf, #btn-generate-board, #btn-start-game,
+input, button, select, option, label {
+    font-family: $header-font;
+    font-weight: bold;
+}
+
+input, button, select, option, label {
+    font-family: $body-font;
+}
+
+a {
+    color: $link-color; 
+
+    &:hover {
+        color: $link-color-hover;
+    }
+}
+
+.boardgame-intro {
+    .tagline, .metadata {
+        color: $text-color;
+    }
+}
+
+a.download-btn, a.download-btn:visited, 
+#btn-start-game, #btn-start-game:visited,
+#btn-generate-board, #btn-generate-board:visited {
+    background-color: $button-bg;
+    color: $button-color;
+    
+    &:hover {
+        background-color: $button-color;
+        color: $button-bg;
+    }
 }

@@ -1,25 +1,16 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "Waitless Games"
 headerTitle: "Games you can play while waiting in line or standing up."
 blurb: "A series of simple games you can play while waiting in line, or standing up, or any other unconventional situation."
 
-extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/1xu-YTqi_OCm_WmzhVhGbTQPiu0pc87TG"
 
-customHeight: "small"
-headerDarkened: true
 
 color: "turquoise"
 
-bgColor: "#000511"
-bgColorLink: "#FC8B0D"
-
-textColor: "#8ECCE7"
-textColorLink: "#2d1801"
 
 date: 2024-02-25
 
@@ -38,11 +29,7 @@ ages: everyone
 
 ---
 
-{{% boardgame-intro heading="" %}}
-
-A series of simple games you can play while waiting in line, or standing up, or any other unconventional situation.
-
-{{% /boardgame-intro %}}
+{{% boardgame-intro /%}}
 
 {{% section-centered heading="What's this?" %}}
 

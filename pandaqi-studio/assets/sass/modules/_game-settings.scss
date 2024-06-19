@@ -1,8 +1,11 @@
-#phaser-container {
+@use "./globals" as g;
+
+#phaser-container 
+{
 	text-align: center;
 
 	img {
-		box-shadow: 0 0 5px #333;
+		box-shadow: 0 0 0.33rem #333;
 	}
 }
 
@@ -10,9 +13,10 @@
 	text-align: center;
 	margin: auto;
 	display: block;
-	padding: 20px;
-	background-color: #143109;
-	border-radius: 5px;
+	padding: 1.25rem;
+	background-color: #434343;
+	filter: drop-shadow(0 0 0.25rem #333);
+	border-radius: 0.25rem;
 	color: white;
     width: 100%;
 
@@ -21,16 +25,16 @@
 		grid-template-columns: auto auto;
 		align-content: center;
 		justify-content: space-between;
-		grid-gap: 15px;
+		grid-gap: 1.0rem;
 
 		text-align: left;
 	}
 
 	.setting-remark {
 		color: rgba(255,255,255,0.5);
-		font-size: 12pt;
+		font-size: 0.8rem;
 		grid-column: 1 / 3;
-		margin-top: -10px;
+		margin-top: -0.5rem;
 	}
 
     input {
@@ -44,11 +48,11 @@
 
 	select {
 		font-family: inherit; 
-		padding: 10px;
+		padding: 0.5rem;
 		background-color: rgba(0,0,0,0.5);
 		color: white;
 		border: none;
-		border-radius: 5px;
+		border-radius: 0.25rem;
 		box-sizing: border-box;
 	}
 
@@ -69,25 +73,26 @@
 #btn-generate-board, #btn-create-pdf, #btn-start-game  {
 	font-weight: 900;
 
-	font-size: 24pt;
+	font-size: 2.0rem;
 
-	background-color: #248232;
-	padding: 20px;
-	margin: 10px;
+	background-color: #686868;
+	padding: 1.66rem;
+	margin: 0.5rem;
 
 	color: #FCFFFC;
 
-	border-radius: 10px;
+	border-radius: 0.5rem;
 	box-sizing: border-box;
 	display: inline-block;
 
 	transition: background-color 0.3s, color 0.3s;
 
 	border-color: transparent;
+	filter: drop-shadow(0 0 0.25rem #333);
 
 	&:hover {
-		background-color: #D25757;
-		color: #040F0F;
+		background-color: g.$default-color-light;
+		color: g.$default-color-dark;
 		cursor: pointer;
 	}
 }
@@ -101,6 +106,10 @@
 	}
 }
 
+.setting-remark {
+    font-size: 0.75rem; 
+    opacity: 0.75;
+}
 
 div.game-settings-section
 {

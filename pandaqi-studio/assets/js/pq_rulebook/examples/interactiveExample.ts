@@ -2,6 +2,14 @@ import OutputBuilder from "./outputBuilder"
 import Random from "js/pq_games/tools/random/main"
 import RulesSettings from "./rulesSettings";
 
+interface InteractiveExampleParams
+{
+    id: string,
+    buttonText?: string,
+    className?: string,
+}
+
+export { InteractiveExampleParams }
 export default class InteractiveExample 
 {
     id: string;
@@ -17,18 +25,20 @@ export default class InteractiveExample
     generateCallback: Function;
     busy:boolean;
     
-    constructor(config:Record<string,any>)
+    constructor(config:InteractiveExampleParams)
     {
         this.id = config.id;
-
-        this.className = "rules-example";
-        this.names = ["Anna", "Bella", "Chris", "Dennis", "Erik", "Frank", "Gini", "Harry", "Ingrid", "James", "Kayla", "Lily"];
-        this.buttonText = "Give me an example turn!"
         this.busy = false;
+
+        this.className = config.className ?? "rules-example";
+        this.names = ["Anna", "Bella", "Chris", "Dennis", "Erik", "Frank", "Gini", "Harry", "Ingrid", "James", "Kayla", "Lily"];
+        
+        this.buttonText = config.buttonText ?? "Give me an example turn!"
 
         this.findCorrespondingHTML();
         this.createHTML();
 
+        this.setButtonText();
         this.outputBuilder = new OutputBuilder(this.contentNode);
     }
 
@@ -61,7 +71,8 @@ export default class InteractiveExample
         this.uiNode.appendChild(btn);
         this.generateButton = btn;
         this.setButtonText(this.buttonText);
-        btn.addEventListener("click", async () => {
+        btn.addEventListener("click", async () => 
+        {
             if(this.busy) { return; }
             this.reset();
             
@@ -84,18 +95,19 @@ export default class InteractiveExample
         this.closeButton = closeBtn;
         closeBtn.innerHTML = "X";
         closeBtn.classList.add("example-close-button");
-        closeBtn.addEventListener("click", (ev) => {
+        closeBtn.addEventListener("click", (ev) => 
+        {
             if(this.busy) { return; }
             this.reset();
         }) 
     }
 
-    setGenerationCallback(func)
+    setGenerationCallback(func:Function)
     {
         this.generateCallback = func;
     }
 
-    setButtonText(txt)
+    setButtonText(txt:string = this.buttonText)
     {
         this.buttonText = txt;
         this.generateButton.innerHTML = this.buttonText;

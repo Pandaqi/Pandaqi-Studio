@@ -1,25 +1,16 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "Keebble Games"
 headerTitle: "A series of word games inspired by Scrabble, but also completely different."
 blurb: "A series of word games inspired by Scrabble, but also completely different."
 
-extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/1uetb7g-4GW5yp_bwQyozFr_ktS2uU_ul"
 
-customHeight: "small"
-headerDarkened: true
 
 color: "purple"
 
-bgColor: "#c0e1ff"
-bgColorLink: "#7c2b6b"
-
-textColor: "#01201c"
-textColorLink: "#eeb9e3"
 
 date: 2023-02-16
 
@@ -38,11 +29,7 @@ devlog: "/blog/boardgames/keebble/"
 
 ---
 
-{{% boardgame-intro heading="" %}}
-
-A series of word games inspired by Scrabble, but also completely different.
-
-{{% /boardgame-intro %}}
+{{% boardgame-intro /%}}
 
 {{% section-centered heading="What's this?" %}}
 

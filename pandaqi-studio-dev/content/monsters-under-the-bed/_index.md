@@ -7,18 +7,11 @@ title: "Monsters under the Bed"
 headerTitle: "Monsters under the Bed -- Local coop on a smartphone"
 blurb: "??"
 
-customHeight: "small"
 
-bgColor: "#FFDDBB"
-bgColorLink: "#007607"
-
-textColor: "#510103"
-textColorLink: "#7CFF86"
 
 buttonColor: "#7CFF86"
 
 googleFonts: "https://fonts.googleapis.com/css2?family=Ibarra+Real+Nova:ital,wght@0,400;0,700;1,400;1,700&display=swap"
-extraCSS: true
 
 date: 2021-04-29
 

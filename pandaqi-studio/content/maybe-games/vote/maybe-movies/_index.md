@@ -1,25 +1,18 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "Maybe Movies"
 headerTitle: "Pitch movie ideas that enough players would like to throw money at."
 blurb: "Pitch movie ideas that enough players would like to throw money at, or see your money go down the drain after another flop."
+blurbShort: "A [Maybe Game](/maybe-games/) about pitching movie ideas that enough players want to throw money at---or want to see flop."
 
-extraCSS: true
+blurbProject: "Pitch movie ideas that enough players would like to throw money at, or see your money go down the drain after another flop."
+weightProject: 10
+
 downloadLink: "https://drive.google.com/drive/folders/1bdI9dMCd9EWE_G8oWUYl0g3h4lU3Hg08"
 
-customHeight: "small"
-headerDarkened: true
-
 color: "green"
-
-bgColor: "#230e00"
-bgColorLink: "#2d2d2d"
-
-textColor: "#fff0e8"
-textColorLink: "#e0e0e0"
 
 date: 2025-04-26
 
@@ -34,26 +27,11 @@ ages: everyone
 
 ---
 
-{{% boardgame-intro heading="" %}}
+{{% boardgame-intro /%}}
 
-A [Maybe Game](/maybe-games/) about pitching movie ideas that enough players want to throw money at---or want to see flop.
+{{% boardgame-instructions /%}}
 
-{{% /boardgame-intro %}}
-
-{{% section-centered heading="What do I need?" %}}
-
-Three simple steps.
-* Read the short [playful rules](rules).
-* Download the base game PDF. (Download > Files > Base Game.)
-* Print, cut, play!
-
-**Want more?** You can also [generate your own material](#material) right on this website, to suit your specific needs.
-
-{{% /section-centered %}}
-
-{{% section-centered heading="Material" anchor="material" html="true" %}}
-
-<p>Pick your desired settings and click the button! The settings already selected are the "base game" mentioned in the introduction.</p>
+{{% boardgame-settings-container type="material" %}}
 
 {{< boardgame-settings type="game" local_storage="maybeMoviesConfig" btn_label="Generate Material" game_title="Maybe Movies" defaults="true" >}}
   {{< boardgame-settings-section heading="Sets" >}}
@@ -63,9 +41,7 @@ Three simple steps.
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
-<p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>
-
-{{% /section-centered %}}
+{{% /boardgame-settings-container %}}
 
 {{% section-centered heading="Credits" anchor="credits" %}}
 

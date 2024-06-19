@@ -1,22 +1,13 @@
 ---
-type: "single"
-draft: false
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "That's Amorphe: Pictures"
 headerTitle: "A spin-off for That's Amorphe played using drawings"
 blurb: "A party game about changing someone else's drawing into a different thing, then asking others to guess how much you changed it."
+blurbShort: "You receive a drawing of a cat. You have to change it into a farmer with just three lines. Others need to guess what on earth you did. A spin-off of [That's Amorphe](/thats-amorphe)."
 
-headerDarkened: true
-customHeight: "small"
 color: "turquoise"
-
-bgColor: "#eafeff"
-bgColorLink: "#1b5458"
-
-textColor: "#021e20"
-textColorLink: "#eafeff"
 
 date: 2023-03-10
 
@@ -25,8 +16,6 @@ genres: ["party"]
 categories: ["boardgame", "standard"]
 tags: ["social", "guessing", "language", "drawing", "creative", "sorting", "simultaneous-turns"]
 themes: []
-
-extraCSS: true
 
 downloadLink: "https://drive.google.com/drive/folders/1ovrsGP6oso--ii20P5tOfOsdDVRWzz0r"
 
@@ -39,11 +28,7 @@ devlog: "/blog/boardgames/thats-amorphe-pictures/"
 
 ---
 
-{{% boardgame-intro heading="" %}}
-
-You receive a drawing of a cat. You have to change it into a farmer with just three lines. Others need to guess what on earth you did. A spin-off of [That's Amorphe](https://pandaqi.com/thats-amorphe).
-
-{{% /boardgame-intro %}}
+{{% boardgame-intro /%}}
 
 {{% section-centered heading="What's the idea?" %}}
 Each round, you're teamed up (randomly) in pairs. You draw a word from your card, then give it to your teammate.
@@ -65,14 +50,11 @@ Three simple steps.
 
 **Competitive?** The game can be played cooperatively _and_ competitively. For the second mode, however, you need one extra page of material (see "vote tokens").
 
-**Want more?** This website can generate [new word cards](#word_cards) for you!
+**Want more?** This website can generate [new word cards](#material) for you!
 
 {{% /section-centered %}}
 
-{{% section-centered heading="Word Cards" html="true" anchor="word_cards" %}}
-
-<p>Input your desired settings. The page will generate a PDF file with random word cards. Print them, cut them, play with them!</p>
-<p>When in doubt, just leave the options at their default settings.</p>
+{{% boardgame-settings-container type="material" %}}
 
 {{< boardgame-settings type="game" btn_label="Generate Cards" local_storage="thatsAmorphePicturesConfig" game_title="That's Amorphe: Pictures" >}}
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?"  remark="Turns the material mostly white / grayscale to conserve ink." >}}
@@ -86,7 +68,7 @@ Three simple steps.
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
-{{% /section-centered %}}
+{{% /boardgame-settings-container %}}
 
 {{% section-centered heading="Timer" %}}
 

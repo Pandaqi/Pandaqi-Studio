@@ -1,3 +1,5 @@
+@use "sass:color";
+
 $header-font: "puss";
 $body-font: "catcafe";
 $base-assets: "/the-outnumbered-series/count-to/nine-lives/assets/";
@@ -20,29 +22,39 @@ $bg-image-url: url($base-assets + "bg_cat_outline.webp");
     font-display: swap;
 }
 
+$col1-dark: #649C1C;
+$col2-dark: #2A89C8;
+$col3-dark: #E68241;
+$col4-dark: #735CA5;
+
+$col1: #cef996;
+$col2: #b3ddf9;
+$col3: #ffdfc9;
+$col4: #ddceff;
+
+$bg-color: #FCFCFC;
+$text-color: #212121;
+$button-bg: $col2;
+$button-color: #27231c;
+$link-color: color.adjust($col3, $lightness: -50%);
+$link-color-hover: color.adjust($col3, $lightness: -30%);
+$settings-color: $col1;
+
 body {
     font-family: $body-font;
-    color: #212121;
-    background-color: #FCFCFC;
-    font-size: 20px;
-    line-height: 130%;
-}
-
-h1, h2, h3, h4 {
-    font-family: $header-font;
-    //font-weight: normal;
+    background-color: $bg-color;
+    background-size: 100%;
+    color: $text-color;
 }
 
 h1, h2, h3, h4, h5, h6, 
-a.btn, #btn-create-pdf, #btn-generate-board, #btn-start-game,
-input, button, select, option, label {
+a.btn, #btn-create-pdf, #btn-generate-board, #btn-start-game {
     font-family: $header-font;
     font-weight: normal;
 }
 
 input, button, select, option, label {
     font-family: $body-font;
-    //font-size: 1.175em;
 }
 
 .bg-cats {
@@ -58,13 +70,52 @@ input, button, select, option, label {
     z-index: -10;
 }
 
-$col1-dark: #649C1C;
-$col2-dark: #2A89C8;
-$col3-dark: #E68241;
-$col4-dark: #735CA5;
+a {
+    color: $link-color; 
+    &:hover {
+        color: $link-color-hover;
+    }
+}
 
-$col1: #cef996;
-$col2: #b3ddf9;
-$col3: #ffdfc9;
-$col4: #ddceff;
+.game-settings {
+    color: black;
+    background-color: $settings-color;
+    .setting-remark { color: black; }
+}
 
+.boardgame-intro {
+    .tagline, .metadata {
+        color: $text-color;
+    }
+}
+
+a.download-btn, a.download-btn:visited, 
+#btn-start-game, #btn-start-game:visited,
+#btn-generate-board, #btn-generate-board:visited {
+    background-color: $button-bg;
+    color: $button-color;
+    
+    &:hover {
+        background-color: $button-color;
+        color: $button-bg;
+    }
+}
+
+//
+// Rules
+// 
+#setup {
+    background-color: $col1;
+}
+
+#objective {
+    background-color: $col2;
+}
+
+#action_play {
+    background-color: $col3;
+}
+
+#lives {
+    background-color: $col4;
+}

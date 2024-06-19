@@ -1,22 +1,14 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "Pirate Drawingbeard"
 headerTitle: "Unravel cryptic drawings to find the secret treasures"
 blurb: "1-6 pirates try to discover the secret (drawn) hints of the other players, to find the treasure before the others"
-
-customHeight: "small"
-headerDarkened: true
+blurbShort: "Discover the treasure by figuring out what secret visual clues the other players are holding!"
 
 color: "blue"
 
-bgColor: "#b2f6ff"
-bgColorLink: "#ff8f20"
-
-textColor: "#01202b"
-textColorLink: "#582d11"
 
 date: 2022-07-20
 
@@ -26,7 +18,6 @@ categories: ["boardgame", "hybrid-game", "tile-game", "spin-off", "one-paper-gam
 tags: ["deduction", "turn-based", "logic"]
 themes: ["pirate"]
 
-extraCSS: true
 
 downloadLink: "https://drive.google.com/drive/folders/1BU_ccMrmdtSwBwXPqsV8sVUkaZR1Jdjp"
 
@@ -40,11 +31,7 @@ devlog: "/blog/boardgames/the-pirate-games/devlog-pirate-drawingbeard/"
 ---
 
 
-{{% boardgame-intro heading="" %}}
-
-Discover the treasure by figuring out what secret visual clues the other players are holding!
-
-{{% /boardgame-intro %}}
+{{% boardgame-intro /%}}
 
 <!-- Introduction + explanation text -->
 {{% section-centered heading="What's the idea?" %}}
@@ -74,10 +61,7 @@ Three steps.
 
 {{% /section-centered %}}
 
-{{% section-centered heading="Game" html="true" anchor="game" %}}
-
-<p>Input your desired settings. Click "start game".</p>
-<p>For your <strong>first game</strong>, just input your player count and immediately start. Add the other options when you know the game and want more!</p>
+{{% boardgame-settings-container type="game" %}}
 
 {{< boardgame-settings type="game" local_storage="pirateDrawingbeardConfig" game_title="Pirate Drawingbeard" >}}
   {{< setting-seed >}}
@@ -96,7 +80,7 @@ Three steps.
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
-{{% /section-centered %}}
+{{% /boardgame-settings-container %}}
 
 {{< support >}}
 

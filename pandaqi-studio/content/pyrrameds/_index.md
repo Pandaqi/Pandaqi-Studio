@@ -1,25 +1,17 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "Pyrrameds"
 headerTitle: "Build a pyramid of cards that delivers the right medicine to the right patients."
 blurb: "Build a pyramid of cards that delivers the right medicine to the right patients. Do it with everyone else, but finish before anyone else."
+blurbShort: "Build a pyramid of cards that delivers the right medicine to the right patients."
 
-extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/1qkIw5weWYltavQCp8GJ-TmiT63Pb9sci"
 
-customHeight: "small"
-headerDarkened: true
 
 color: "yellow"
 
-bgColor: "#503000"
-bgColorLink: "#b8dcce"
-
-textColor: "#ffeedd"
-textColorLink: "#112233"
 
 date: 2025-05-26
 
@@ -35,26 +27,11 @@ devlog: "/blog/boardgames/pyrrameds/"
 
 ---
 
-{{% boardgame-intro heading="" %}}
+{{% boardgame-intro /%}}
 
-Build a pyramid of cards that delivers the right medicine to the right patients.
+{{% boardgame-instructions /%}}
 
-{{% /boardgame-intro %}}
-
-{{% section-centered heading="What do I need?" %}}
-
-Three simple steps.
-* Read the short [playful rules](rules).
-* Download the base game PDF. (Download > Files > Base Set.)
-* Print, cut, play!
-
-**Want more?** You can also [generate your own material](#material) right on this website!
-
-{{% /section-centered %}}
-
-{{% section-centered heading="Material" anchor="material" html="true" %}}
-
-<p>Pick your desired settings and click the button! When in doubt, just use the defaults for your first games.</p>
+{{% boardgame-settings-container type="material" %}}
 
 {{< boardgame-settings type="game" local_storage="pyrramedsConfig" btn_label="Generate Material" game_title="Pyrrameds" defaults="true" >}}
   {{< boardgame-settings-section heading="Sets" >}}
@@ -64,9 +41,7 @@ Three simple steps.
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
-<p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>
-
-{{% /section-centered %}}
+{{% /boardgame-settings-container %}}
 
 {{% section-centered heading="Credits" anchor="credits" %}}
 

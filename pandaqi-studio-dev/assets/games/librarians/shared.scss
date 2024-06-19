@@ -1,34 +1,19 @@
+@use "sass:color";
+
+//
+// Main/Shared Fonts + Colors
+//
 $header-font: "grenze";
 $body-font: "grenze";
 $special-font: "fleur";
 $base: "/librarians/assets/";
 $base-fonts: $base + "fonts/";
 
-$bg-col: #111111;
-$text-col: #FCFCFC;
+$bg-color: #111111;
+$text-color: #FCFCFC;
 
 $col1: #E5B80B;
 $col2: #7B4B94;
-
-body {
-    font-family: $body-font;
-    background-color: $bg-col;
-    color: $text-col;
-    font-size: calc(15px + 0.390625vw);
-    line-height: 120%;
-    box-sizing: border-box;
-}
-
-h1, h2, h3, h4 {
-    font-family: $header-font;
-    font-weight: bold;
-
-    &::first-letter {
-        font-family: $special-font;
-        font-size: 1.5em;
-        font-weight: normal;
-    }
-}
 
 @font-face {
     font-family: $body-font;
@@ -62,5 +47,96 @@ h1, h2, h3, h4 {
     font-display: swap;
 }
 
+body {
+    font-family: $body-font;
+    background-color: $bg-color;
+    color: $text-color;
+}
 
+h1, h2, h3, h4 {
+    font-family: $header-font;
 
+    &::first-letter {
+        font-family: $special-font;
+        font-size: 1.5em;
+        font-weight: normal;
+    }
+}
+
+//
+// Page
+//
+$button-bg: $col1;
+$button-color: #27231c;
+$link-color: color.adjust($col2, $lightness: 30%);
+$link-color-hover: color.adjust($col2, $lightness: 50%);
+$settings-color: $col1;
+
+h1, h2, h3, h4, h5, h6, 
+a.btn, #btn-create-pdf, #btn-generate-board, #btn-start-game,
+input, button, select, option, label {
+    font-family: $header-font;
+}
+
+input, button, select, option, label {
+    font-family: $body-font;
+}
+
+a {
+    color: $link-color; 
+
+    &:hover {
+        color: $link-color-hover;
+    }
+}
+
+.game-settings {
+    color: black;
+    background-color: $settings-color;
+
+    .setting-remark { color: black; }
+}
+
+.boardgame-intro {
+    .tagline, .metadata {
+        color: $text-color;
+    }
+}
+
+a.download-btn, a.download-btn:visited, 
+#btn-start-game, #btn-start-game:visited,
+#btn-generate-board, #btn-generate-board:visited {
+    background-color: $button-bg;
+    color: $button-color;
+    
+    &:hover {
+        background-color: $button-color;
+        color: $button-bg;
+    }
+}
+
+//
+// Rulebook
+//
+$light-yellow: color.adjust($col1, $lightness: 10%);
+$light-purple: color.adjust($col2, $lightness: 30%);
+
+#setup {
+    background-color: $light-yellow;
+}
+
+#objective {
+    background-color: $light-purple;
+}
+
+#action_play {
+    background-color: $light-yellow;
+}
+
+#scoring {
+    background-color: $light-purple;
+}
+
+#expansions {
+    background-color: $light-yellow;
+}

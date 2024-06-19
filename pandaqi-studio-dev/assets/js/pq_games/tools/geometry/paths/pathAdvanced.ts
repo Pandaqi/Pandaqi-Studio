@@ -25,15 +25,15 @@ export default class PathAdvanced extends Shape
         this.close = p.close ?? false;
     }
 
-    convertToPathPoints(points:any[]) : PointPath[]
+    convertToPathPoints(points:Point[]|PointPath[]) : PointPath[]
     {
-        if(points.length <= 0) { return points; }
-        if(points[0] instanceof PointPath) { return points; }
+        if(points.length <= 0) { return []; }
+        if(points[0] instanceof PointPath) { return points as PointPath[]; }
         const arr = [];
         for(let i = 0; i < points.length; i++)
         {
             const command = (i == 0) ? PathCommand.START : PathCommand.LINE; 
-            const p = new PointPath({ point: points[i], command: command });
+            const p = new PointPath({ point: points[i] as Point, command: command });
             arr.push(p);
         }
         return arr;

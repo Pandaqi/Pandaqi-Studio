@@ -1,5 +1,6 @@
 {{- $class := .Get "class" -}}
 {{- $context := $.Page -}}
+{{- $tagline := or .Inner (or $context.Params.blurbShort $context.Params.blurb) -}}
 <section class="boardgame-intro {{ $class }}">
 	<div class="big-header-image">
 		{{- $img := or (.Get "img") (partial "func/get-game-header.html" $context) -}}
@@ -9,10 +10,10 @@
 	</div>
 	<div class="center text">
 		{{- $heading := .Get "heading" -}}
-		{{- if $heading -}}
-			<h1>{{- $heading -}}</h1>
+		{{- with $heading -}}
+			<h1>{{- . -}}</h1>
 		{{- end -}}
-		<p class="tagline">{{- .Inner | markdownify -}}</p>
+		<p class="tagline">{{- $tagline | markdownify -}}</p>
 		<p class="metadata">
 			{{- $data_keys := slice "requirements" "ages" "difficulty" "playtime" -}}
 

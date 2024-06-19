@@ -1,27 +1,17 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "Waterfall"
 headerTitle: "Fall down the waterfall as best you can to collect the highest-scoring gemstones along the way."
 blurb: "Fall down the waterfall as best you can, while lengthening the waterfall as you play, to collect the highest-scoring gemstones along the way."
+blurbShort: "Fall down the waterfall as best you can to collect the highest-scoring gemstones along the way."
 
-extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/1vMuxpb1QiOHnb2tmGOcu50q0xkyRcE9i"
-
-customHeight: "small"
-headerDarkened: true
 
 color: "turquoise"
 
-bgColor: "#145052"
-bgColorLink: "#a4cc5e"
-
-textColor: "#f2f2ff"
-textColorLink: "#00551e"
-
-date: 2025-05-26
+date: 2025-08-26
 
 categories: ["boardgame"]
 tags: ["creative", "guessing", "word"]
@@ -35,30 +25,15 @@ devlog: "/blog/boardgames/waterfall/"
 
 ---
 
-{{% boardgame-intro heading="" %}}
+{{% boardgame-intro /%}}
 
-Fall down the waterfall as best you can to collect the highest-scoring gemstones along the way.
-
-{{% /boardgame-intro %}}
-
-{{% section-centered heading="What do I need?" %}}
-
-Three simple steps.
-* Read the short [playful rules](rules).
-* Download the base game PDF. (Download > Files > Base Set.)
-* Print, cut, play!
-
+{{% boardgame-instructions %}}
 This game is _textless_ and incredibly _simple_ in its rules. It is suitable for kids, families, any group. 
 
-For a slightly heavier version of this idea (with way more actions, written on the tiles), visit the spin-off [Waterfall: Raging Rapids](/waterfall-raging-rapids/). 
+For a heavier version of this idea (with way more actions, written on the tiles), visit the spin-off [Waterfall: Raging Rapids](/waterfall-raging-rapids/). 
+{{% /boardgame-instructions %}}
 
-**Want more?** You can also [generate your own material](#material) right on this website!
-
-{{% /section-centered %}}
-
-{{% section-centered heading="Material" anchor="material" html="true" %}}
-
-<p>Pick your desired settings and click the button! When in doubt, just use the defaults for your first games.</p>
+{{% boardgame-settings-container type="material" %}}
 
 {{< boardgame-settings type="game" local_storage="waterfallConfig" btn_label="Generate Material" game_title="Waterfall" defaults="true" >}}
   {{< boardgame-settings-section heading="Sets" >}}
@@ -67,9 +42,7 @@ For a slightly heavier version of this idea (with way more actions, written on t
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
-<p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>
-
-{{% /section-centered %}}
+{{% /boardgame-settings-container %}}
 
 {{% section-centered heading="Credits" anchor="credits" %}}
 

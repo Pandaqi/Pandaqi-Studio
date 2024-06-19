@@ -1,6 +1,5 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 
 title: "Square Ogre"
 headerTitle: "Wanted to see the world ... "
@@ -13,13 +12,7 @@ customHeight: "large"
 
 color: "darkblue"
 
-bgColor: "#396096"
-bgColorLink: "#AA77C5"
 
-textColor: "white"
-textColorLink: "#660080"
-
-extraCSS: true
 
 date: 2021-02-24
 

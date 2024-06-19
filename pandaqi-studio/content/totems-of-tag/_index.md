@@ -1,6 +1,5 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 
 title: "Totems of Tag"
 headerTitle: "Dodgeball for 2-4 players, with many twists"
@@ -13,15 +12,9 @@ customHeight: "medium"
 
 color: "green"
 
-bgColor: "transparent"
-bgColorLink: "#704103"
-
-textColor: "#B00D5D"
-textColorLink: "#F5C92B"
 
 buttonColor: "#7CFF86"
 
-extraCSS: true
 
 date: 2022-08-01
 

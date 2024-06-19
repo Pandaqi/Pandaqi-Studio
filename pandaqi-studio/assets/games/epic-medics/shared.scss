@@ -43,3 +43,76 @@ $base-fonts: "fonts/";
     font-display: swap;
 }
 
+body {
+    font-family: $body-font;
+    background-color: #97acff;
+    color: #111111;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: $header-font;
+}
+
+.board-image {
+    margin: auto;
+    max-width: 720px;
+}
+
+.bigQuestion {
+    text-align:center;
+    font-size: 2.0rem;
+    font-weight: bold;
+    margin-top: 3.0rem;
+    margin-bottom: 0;
+}
+
+.bigQuestionButtons {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.bigQuestionButtons div {
+    display: block;
+    text-align:center;
+}
+
+a.btn, a.btn:visited {
+    font-family: $header-font;
+    background-color: #536ACC;
+    color: black;
+    border-radius: 0.5rem;
+}
+
+a.btn:hover {
+    background-color: rgb(0, 0, 100);
+    color: rgb(175, 175, 255);
+}
+
+a.download-btn, a.download-btn:visited, a.event-btn, a.event-btn:visited {
+    background-color: #540003;
+    color: #FF8687;
+}
+
+a.download-btn:hover, a.event-btn:hover {
+    background-color: #FF8687;
+    color: #540003;
+}
+
+.boardgame-intro {
+    .big-header-image {
+        margin-bottom:-7.5vw;
+    }
+}
+
+.game-settings, #btn-start-game {
+    background-color: rgba(0,0,0,0.66);
+    font-family: $header-font;
+}
+
+@media all and (max-width: 600px) {
+    .bigQuestionButtons div {
+        min-width: 100%;
+    }
+}

@@ -1,0 +1,63 @@
+$header-font: "Chewy";
+$body-font: "Open Sans Condensed";
+$base-fonts: "fonts/"; 
+
+@font-face {
+    font-family: $header-font;
+    src: url($base-fonts + 'Chewy-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'OpenSans-CondensedBold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+body {
+    background-image: url(arfd_pattern_full.webp);
+    background-repeat: repeat-y;
+    background-position: center;
+    background-size: 100%;
+    font-family: $body-font, sans-serif;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    font-family: $header-font, cursive;
+}
+
+h1, h2 {
+    text-align: center;
+    font-size:52px;
+    margin-bottom: 10px;
+    margin-top: 40px;
+}
+
+.buy-link, a {
+    font-family: $header-font;
+    font-size: 36px;
+
+    display: block;
+    max-width: 500px;
+    margin: auto;
+    padding: 20px;
+    background-color: #6BB73E;
+    color: #1B2E0F;
+    text-align: center;
+
+    text-decoration: none;
+    border-radius: 10px;
+
+    &:hover {
+        background-color: #944FC0;
+        color: rgba(255,255,255,0.75);
+    }
+
+    @media all and (max-width: 500px) {
+        font-size:20px;
+    }
+}

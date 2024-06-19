@@ -1,0 +1,107 @@
+$header-font-raw: "jockey";
+$header-font: $header-font-raw, serif;
+$body-font-raw: "figtree";
+$body-font: $body-font-raw, sans-serif;
+$base-fonts: "fonts/";
+
+$bg-color: #18393E;
+$text-color: #FCFCFC;
+$main-color: #7c2b6b;
+$button-bg: #FCC038;
+$button-color: #212121;
+$link-color: #b2da55;
+$link-color-hover: #d8f398;
+$settings-color: #a51921;
+$cutoff: 920px;
+
+@font-face {
+    font-family: $header-font-raw;
+    src: url($base-fonts + 'JockeyOne-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font-raw;
+    src: url($base-fonts + 'Figtree-Black.woff2') format('woff2');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font-raw;
+    src: url($base-fonts + 'Figtree-Italic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font-raw;
+    src: url($base-fonts + 'Figtree-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+// Color scheme: 
+// DARKBLUE: #18393E
+// MIDBLUE: #438593
+// RED: #a51921;   #CF363F
+// YELLOW: #FCC038
+
+h1, h2, h3, h4, h5, h6, 
+a.btn, #btn-create-pdf, #btn-generate-board, #btn-start-game,
+input, button, select, option, label {
+    font-family: $header-font;
+}
+
+body {
+    font-family: $body-font;
+    background-color: $bg-color;
+    color: $text-color;
+    background-size: 100%;
+    background-image: url(foldigami_background.webp);
+
+    @media all and (max-width: $cutoff)
+    {
+        background-image: none;
+    }
+}
+
+.divider-image {
+    max-width: $cutoff;
+    margin: auto;
+    margin-top: 3em;
+}
+
+a {
+    color: $link-color; 
+    &:hover {
+        color: $link-color-hover;
+    }
+}
+
+.game-settings {
+    background-color: $settings-color;
+}
+
+.boardgame-intro {
+    .tagline, .metadata {
+        color: #FCFCFC;
+    }
+}
+
+a.download-btn, a.download-btn:visited, 
+#btn-start-game, #btn-start-game:visited,
+#btn-generate-board, #btn-generate-board:visited {
+    background-color: $button-bg;
+    color: $button-color;
+    
+    &:hover {
+        background-color: $button-color;
+        color: $button-bg;
+    }
+}

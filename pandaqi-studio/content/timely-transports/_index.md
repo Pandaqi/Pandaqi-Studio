@@ -1,25 +1,17 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "Timely Transports"
 headerTitle: "The first ever hybrid between boardgames and computer games"
 blurb: "The first ever hybrid board+smartphone game for 1–8 players about transporting exotic goods across the jungle!"
+blurbShort: "A hybrid board+smartphone game for 1–8 players about transporting exotic goods across the jungle."
 
 noThumb: true
 customHeight: "small-medium"
 
 color: "green"
 
-bgColor: "#FFDDBB"
-bgColorLink: "brown"
-
-textColor: "#2B3B2A"
-textColorLink: "#FFCCAA"
-
-extraCSS: true
-extraJSBoard: true
 extraJSBoardInclude: true
 
 date: 2020-07-02
@@ -42,11 +34,7 @@ devlog: "/blog/boardgames/timely-transports/devlog-timely-transports/"
 ---
 
 
-{{% boardgame-intro heading="" img="timelytransports_header_faded" %}}
-
-A hybrid board+smartphone game for 1&ndash;8 players about transporting exotic goods across the jungle.
-
-{{% /boardgame-intro %}}
+{{% boardgame-intro img="timelytransports_header_faded" /%}}
 
 <!-- Introduction + explanation text -->
 {{% section-centered heading="What do I do?" %}}
@@ -78,9 +66,7 @@ The **campaign** has six scenarios, increasing in difficulty, allowing you to ge
 
 {{% /section-centered %}}
 
-{{% section-centered heading="Game" html="true" anchor="game" %}}
-
-<p>Input your desired settings. Click "start game". It takes you to a new page. Don't start until all players are ready!</p>
+{{% boardgame-settings-container type="game" remarks="**Don't** tap to start on your device until all players are ready!, Because it opens a new page, your browser might register this as a pop-up. It's not, I would never show pop-ups." %}}
 
 {{< boardgame-settings type="game" local_storage="timelyTransportsConfig" game_title="Timely Transports" >}}
   {{< setting-playercount min="1" max="8" def="4" id="setting-playerCount" >}}
@@ -89,14 +75,9 @@ The **campaign** has six scenarios, increasing in difficulty, allowing you to ge
   {{< setting-enum id="setting-timeout" text="Add Timeouts?" values="-- ignore --,Every 5 minutes,Every 10 minutes" keys="0,5,10" remark="If some of your players find the game too stressful, include regular timeouts. This gives them some time to breathe and make new plans once in a while." >}}
 {{< /boardgame-settings >}}
 
-<p style="font-size: 0.75em;"><strong>Remark:</strong> because it opens a new page, your browser might register this as a pop-up. It's not, I <em>never</em> show pop-ups.</p>
+{{% /boardgame-settings-container %}}
 
-{{% /section-centered %}}
-
-{{% section-centered heading="Board" html="true" anchor="board" %}}
-  
-<p>Input your desired settings. Click "generate board" until you get one you like.</p>
-<p>The "split board" option is highly recommended! It creates a huge board consisting of 4 papers, which allows everyone around a table to easily reach all destinations.</p>
+{{% boardgame-settings-container type="board" remarks="The **split board** option is highly recommended! It creates a huge board consisting of 4 papers, which allows everyone around a table to easily reach all destinations." %}}
 
 {{< boardgame-settings type="board" game_title="Timely Transports" defaults="true" >}}
   {{< setting-playercount min="1" max="8" def="4" >}}
@@ -106,9 +87,7 @@ The **campaign** has six scenarios, increasing in difficulty, allowing you to ge
   {{< setting-checkbox id="settingBoard-rulesReminder" text="Add rules reminder?" checked="true" >}}
 {{< /boardgame-settings >}}
 
-<p style="font-size: 0.75em;"><strong>Not working?</strong> Don't worry. Click the "Download" button and you'll also find already generated boards. Use one of those! (And send me an email with the details of your problem.)</p>
-
-{{% /section-centered %}}
+{{% /boardgame-settings-container %}}
 
 {{< support >}}
 

@@ -1,12 +1,11 @@
 ---
-type: "single"
+type: "gamepage"
 gamepage: true
 boardgame: true
 
 title: "Dev Test"
 headerTitle: "Dev Test | Testing Environment"
 
-extraCSS: true
 
 ---
 

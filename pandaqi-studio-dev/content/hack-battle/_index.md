@@ -9,18 +9,11 @@ blurb: "Crack a network of wires and logic gates to find the password faster tha
 headerImg: "banner_bg"
 headerThumb: "banner_thumb"
 
-customHeight: "small"
 
-bgColor: "#740e0e"
-bgColorLink: "#70e2c1"
-
-textColor: "#ffd3d3"
-textColorLink: "#053328"
 
 color: "turquoise"
 
 googleFonts: "https://fonts.googleapis.com/css2?family=Nova+Flat&display=swap"
-extraCSS: true
 
 date: 2022-03-30
 

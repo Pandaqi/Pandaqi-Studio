@@ -1,4 +1,4 @@
-export default (a:any[], b:any[]) =>
+export default <T>(a:T[], b:T[]) =>
 {
     if(a.length != b.length) { return false; }
     b = b.slice();

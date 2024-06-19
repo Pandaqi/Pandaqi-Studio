@@ -2,7 +2,7 @@ $header-font-raw: "subrayada";
 $header-font: $header-font-raw, sans-serif;
 $body-font-raw: "titillium";
 $body-font: $body-font-raw, sans-serif;
-$bg-pattern-url: url(starryskylines_bg.webp);
+$bg-pattern-url: url(starryskylines_bwebp);
 $base-fonts: "fonts/";
 
 @font-face {
@@ -43,4 +43,87 @@ $base-fonts: "fonts/";
     font-weight: normal;
     font-style: normal;
     font-display: swap;
+}
+
+body {
+    font-family: $body-font;
+    color: #FCFFFC;
+    background-color: #040F0F;
+    background-image: $bg-pattern-url;
+    background-size: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: $header-font;
+}
+
+h2 {
+    text-align: center;
+}
+
+.boardgame-intro {
+    .tagline, .metadata {
+        color: #FCFFFC;
+    } 
+
+    .big-header-image {
+        filter: none;
+    }
+}
+
+a {
+    color: #E8D33F;
+}
+
+a.btn, a.btn:visited {
+    font-family: $header-font;
+    background-color: #248232;
+    color: #FCFFFC;
+
+    &:hover {
+        background-color: rgb(0, 0, 100);
+        color: rgb(175, 175, 255);
+    }
+}
+
+a.download-btn, a.download-btn:visited {
+    background-color: #F4C095;
+    color: #040F0F;
+    font-size: 20pt;
+
+    &:hover {
+        background-color: #040F0F;
+        color: #F4C095;
+    }
+}
+
+.explanation-gif {
+    img {
+        background-color: white;
+    }
+}
+
+.big-header-image {
+    -webkit-mask-image: -webkit-linear-gradient(top, white, white 90%, transparent);
+    mask-image: linear-gradient(to bottom, white, white 90%, transparent);
+}
+
+.game-settings {
+    background-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 5px #FCFFFC;
+}
+
+#btn-start-game, #btn-generate-board, #btn-create-pdf {
+    font-family: $header-font;
+    background-color: #248232;
+    color: #FCFFFC;
+
+    &:hover {
+        background-color: #F4C095;
+        color: #040F0F;
+    }
+}
+
+#btn-create-pdf {
+    background-color: #1d3c6c;
 }

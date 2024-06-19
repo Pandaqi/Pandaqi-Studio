@@ -1,26 +1,16 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "Nine Lives: Tricksy Kittens"
 headerTitle: "Be the first cat to achieve your nine lives!"
 blurb: "A trick-taking game about getting your nine lives before anybody else, by placing smart bets on the right cats."
+
 weightProject: 92
 
-extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/1FxdHCEaLdaSrGDIrCx5yZHMx6P07_Ios"
 
-customHeight: "small"
-headerDarkened: true
-
 color: "white"
-
-bgColor: "#161616"
-bgColorLink: "#871a45"
-
-textColor: "#f7f7f7"
-textColorLink: "#ffcce7"
 
 date: 2024-09-11
 
@@ -41,26 +31,11 @@ devlog: "/blog/boardgames/the-outnumbered-series/nine-lives-tricksy-kittens/"
 
 <div class="bg-cats"></div>
 
-{{% boardgame-intro heading="" class="no-shadow" %}}
+{{% boardgame-intro /%}}
 
-A trick-taking game about getting your nine lives before anybody else, by placing smart bets on the right cats.
+{{% boardgame-instructions /%}}
 
-{{% /boardgame-intro %}}
-
-{{% section-centered heading="What do I need?" %}}
-
-Three simple steps.
-* Read the short [playful rules](rules).
-* Download the base game PDF. (Download > Files > Starter Set.)
-* Print, cut, play!
-
-**Want more?** You can also [generate your own material](#material) right on this website!
-
-{{% /section-centered %}}
-
-{{% section-centered heading="Material" anchor="material" html="true" %}}
-
-<p>Pick your desired settings and click the button! When in doubt, just use the defaults for your first games.</p>
+{{% boardgame-settings-container type="material" remarks="As stated in the rules, you need 1 suit per player. Each suit is only 9 cards (1 page in regular size), so when unsure, just include all of them." %}}
 
 {{< boardgame-settings type="game" local_storage="nineLivesTricksyKittensConfig" btn_label="Generate Material" game_title="Nine Lives: Tricksy Kittens" defaults="true" >}}
   {{< setting-checkbox id="setting-includePowers" text="Include Powers?" checked="checked" remark="Remove them if you're sure you never want to play with them." >}}
@@ -69,11 +44,7 @@ Three simple steps.
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
-<p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>
-
-<p class="settings-remark">As stated in the rules, you need 1 suit per player. Each suit is only 9 cards (1 page in regular size), so when unsure, just include all of them.</p>
-
-{{% /section-centered %}}
+{{% /boardgame-settings-container %}}
 
 {{% section-centered heading="Credits" anchor="credits" %}}
 

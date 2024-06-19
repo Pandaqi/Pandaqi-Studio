@@ -1,28 +1,18 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "Swerving Shots"
 headerTitle: "A wild duel of strategic shots"
 blurb: "You're cowboys shooting bullets simultaneously, which means collisions might occur, which means you might just shoot yourself."
 longblurb: "You're dueling cowboys ... but everyone shoots simultaneously and their bullets must follow the paths you created.<br/><br/>Collisions might occur. And that means you might just shoot yourself."
+blurbShort: "A game for 2--6 cowboys about shooting bullets at the same time ... with all the (un)expected consequences. Now including two expansions!"
 deprecated: true
 
 noHeader: true
 headerThumb: "swervingshots_header" 
 
-customHeight: "small"
-
 color: "orange"
-
-bgColor: "transparent"
-bgColorLink: "#5D6ABC"
-
-textColor: "#BD257B"
-textColorLink: "#EEEEFF"
-
-extraCSS: true
 
 date: 2019-09-18
 
@@ -42,15 +32,7 @@ ages: everyone
 
 ---
 
-{{% boardgame-intro heading="" img="swervingshots_header" %}}
-
-A game for 2&ndash;6 cowboys about shooting bullets at the same time ... with all the (un)expected consequences. Now including two expansions!
-
-{{% /boardgame-intro %}}
-
-<div class="board-image">
-	{{< figure url="swervingshots_board" alt="Example game board (during play, prototype stage)" >}}
-</div>
+{{% boardgame-intro /%}}
 
 {{% section-centered heading="Planned updates" %}}
 

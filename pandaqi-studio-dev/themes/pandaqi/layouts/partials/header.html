@@ -1,9 +1,10 @@
 {{ $all_colors := .Site.Params.all_colors }}
 {{ $color_scheme := or .Params.color (index ($all_colors | shuffle) 0) }}
 {{ $deprecated := or .Params.deprecated false }}
+{{ $is_game_page := eq .Type "gamepage" }}
 
 <header class="{{ $color_scheme }}">
-	{{ if not .Params.gamepage }}
+	{{ if not $is_game_page }}
 		{{ $slogans := .Site.Params.slogans }}
 
 		<nav>

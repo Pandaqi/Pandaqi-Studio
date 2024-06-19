@@ -1,12 +1,36 @@
 import PandaqiPhaser from "js/pq_games/website/onPageVisualizer"
-import { PageOrientation } from "js/pq_games/pdf/pdfBuilder"
+import { PageFormat, PageOrientation } from "js/pq_games/pdf/pdfBuilder"
+import Point from "../tools/geometry/point"
 
+interface SettingsConfig
+{
+	localstorage?: string,
+	singleClick?: boolean,
+	stayOnPage?: boolean,
+	targetURL?: string,
+
+	seed?: string,
+	numPlayers?: number,
+	inkFriendly?: boolean,
+	orientation?: PageOrientation,
+	gameTitle?: string,
+
+	secretBoard?: boolean,
+	pageSize?: PageFormat,
+	size?: Point,
+
+	// these are used/set automatically by the Phaser system as it loads, otherwise not used I think?
+	canvas?: HTMLCanvasElement,
+	bgColor?: string
+}
+
+export { SettingsConfig }
 class SettingsClass
 {
-	gameButtonCallback : (this: HTMLButtonElement, ev: any) => void
+	gameButtonCallback : (this: HTMLButtonElement, ev: MouseEvent) => void
 	startGameBtn : HTMLButtonElement
 
-	boardButtonCallback : (this: HTMLButtonElement, ev: any) => void
+	boardButtonCallback : (this: HTMLButtonElement, ev: MouseEvent) => void
 	generateBoardBtn : HTMLButtonElement
 
 	init()
@@ -26,7 +50,7 @@ class SettingsClass
 		this.startGameBtn.addEventListener('click', this.gameButtonCallback);
 	}
 
-	onGameButtonClicked(ev:any)
+	onGameButtonClicked(ev:MouseEvent)
 	{
 		ev.preventDefault();
 		ev.stopPropagation();
@@ -51,12 +75,13 @@ class SettingsClass
 		this.boardButtonCallback = this.onBoardButtonClicked.bind(this);
 		const generateBoardBtn = this.getGenerateBoardButton();
 		if(!generateBoardBtn) { return; }
+		
 		this.generateBoardBtn = generateBoardBtn;
 		if(clean) { generateBoardBtn.onclick = null; }
 		generateBoardBtn.addEventListener("click", this.boardButtonCallback);
 	}
 
-	onBoardButtonClicked(ev:any)
+	onBoardButtonClicked(ev:MouseEvent)
 	{
 		const gameConfig = this.readFrom(this.generateBoardBtn);
 		console.log("gameConfig", gameConfig);
@@ -87,7 +112,7 @@ class SettingsClass
 	// Why does it exist? To keep the id unique on the page
 	// What comes after "setting-" is the actual name being used in the config passed on
 	// And if there are multiple things (setting-expansions-blabla), then the third is used and put into the group "expansions"
-	addToConfig(cfg:Record<string,any>, id:string, val:any)
+	addToConfig(cfg:SettingsConfig, id:string, val:any)
 	{
 		const idSplit = id.split("-");
 		if(idSplit.length == 3) {
@@ -102,7 +127,7 @@ class SettingsClass
 	}
 
 	// override some crucial settings if not provided
-	addDefaultParams(cfg : Record<string,any> = {})
+	addDefaultParams(cfg:SettingsConfig = {})
 	{
 		const randomSeedLength = Math.floor(Math.random() * 6) + 3;
 		const randomSeed = Math.random().toString(36).replace(/[^a-z]+/g, '').slice(0, randomSeedLength);
@@ -133,7 +158,7 @@ class SettingsClass
 		return null;
 	}
 
-	readFrom(startNode:HTMLElement) : Record<string,any>
+	readFrom(startNode:HTMLElement) : SettingsConfig
 	{
 		const container = this.bubbleUpFrom(startNode);
 		if(!container) { return {}; }
@@ -141,20 +166,20 @@ class SettingsClass
 		const inputs = Array.from(container.getElementsByTagName("input"));
 		const selects = Array.from(container.getElementsByTagName("select"))
 
-		const allInputs : any[] = [].concat(inputs).concat(selects);
+		const allInputs : (HTMLInputElement|HTMLSelectElement)[] = [inputs,selects].flat();
 
-		let cfg : Record<string,any> = {};
+		let cfg:SettingsConfig = {};
 		for(const input of allInputs)
 		{
 			let val : boolean|string = input.value;
-			if(input.type == "checkbox") { val = input.checked; }
+			if(input instanceof HTMLInputElement && input.type == "checkbox") { val = input.checked; }
 			this.addToConfig(cfg, input.id, val);
 		}
 
 		cfg.localstorage = container.dataset.localstorage;
 		cfg.targetURL = container.dataset.targeturl;
-		cfg.stayOnPage = container.dataset.stayonpage;
-		cfg.singleClick = container.dataset.singleclick;
+		cfg.stayOnPage = !!container.dataset.stayonpage;
+		cfg.singleClick = !!container.dataset.singleclick;
 		console.log(cfg);
 		return cfg;
 	}

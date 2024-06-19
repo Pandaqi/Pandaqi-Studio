@@ -1,5 +1,5 @@
 ---
-type: "single"
+type: "gamepage"
 draft: true 
 
 gamepage: true
@@ -9,18 +9,11 @@ title: "Conductors of the Underground"
 headerTitle: "Fix the transit mess in Hades' underworld"
 blurb: "Lala vlavla"
 
-customHeight: "small"
 
-bgColor: "#FFDDBB"
-bgColorLink: "brown"
-
-textColor: "#2B3B2A"
-textColorLink: "#FFCCAA"
 buttonColor: "#7C593B"
 
 googleFonts: "https://fonts.googleapis.com/css2?family=Secular+One&family=Manrope:wght@300;500;800&display=swap"
 
-extraCSS: true
 extraJS: true
 
 date: 2021-04-29

@@ -1,27 +1,17 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "Maybe Games"
 headerTitle: "A collection of simple board games using the Maybe Mechanic."
 blurb: "A collection of simple board games using the Maybe Mechanic, about voting for or against your friend's proposals at the most strategic times."
+blurbShort: "_Maybe Games_ is collection of simple board games about voting YES or NO all the time to collect the highest score for yourself."
 
-extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/1PiESe5tpn51F2VzsQLyzUKud6AgdPmVJ"
-
-customHeight: "small"
-headerDarkened: true
 
 color: "red"
 
-bgColor: "#230e00"
-bgColorLink: "#2d2d2d"
-
-textColor: "#fff0e8"
-textColorLink: "#e0e0e0"
-
-date: 2023-01-01 # 2024-12-26
+date: 2025-04-26
 
 categories: ["boardgame"]
 tags: ["creative", "guessing", "word"]
@@ -37,21 +27,15 @@ devlog: "/blog/boardgames/maybe-games/"
 
 ---
 
-{{% boardgame-intro heading="" %}}
-
-_Maybe Games_ is collection of simple board games about voting YES or NO all the time to collect the highest score for yourself.
-
-{{% /boardgame-intro %}}
+{{% boardgame-intro /%}}
 
 {{% section-centered heading="What's this?" %}}
 
 This is the **overview page** of the Maybe Games. 
 
-Click any of the links below to visit a specific game. They are sorted based on how simply they are to learn and play, according to my experiences.
+Click any of the links below to visit a specific game. They are sorted based on how simple they are to learn and play, according to my experiences.
 
-* [Maybe Movies](/maybe-games/vote/maybe-movies/): pitch movie ideas that enough players would like to throw money at, or see your money go down the drain after another flop.
-* [Maybe Missions](/maybe-games/vote/maybe-missions/): propose spy missions and hope enough people want them to succeed---or deviously let them fail to benefit your own secret cover.
-* [Maybe Minister](/maybe-games/vote/maybe-minister/): propose changes to the law of the land as you try to expand your own power, but you can only do so if the majority of the other political factions agree.
+{{< boardgame-project-games-list subdir="vote" >}}
 
 All the games use the same core mechanic: the Maybe Mechanic. A very simple ruleset about a player proposing something and others simultaneously voting YES or NO on it. This means rules are simple, you're always doing something, and it's highly interactive. All games, however, provide varied themes and a few unique twists that make the experience completely different.
 

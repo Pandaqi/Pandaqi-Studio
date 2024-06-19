@@ -1,14 +1,14 @@
 import fromArray from "../random/fromArray";
 import FloodFiller from "./floodFiller";
 
-class FloodFillerTreeNode
+class FloodFillerTreeNode<T>
 {
-    floodFiller:FloodFiller
-    parent:FloodFillerTreeNode
-    children:FloodFillerTreeNode[]
+    floodFiller:FloodFiller<T>
+    parent:FloodFillerTreeNode<T>
+    children:FloodFillerTreeNode<T>[]
     metadata:Record<string,any>
 
-    constructor(f)
+    constructor(f:FloodFiller<T>)
     {
         this.floodFiller = f;
         this.children = [];
@@ -34,7 +34,7 @@ class FloodFillerTreeNode
         f.setParent(this);
     }
 
-    getNeighborsToNode(n:FloodFillerTreeNode)
+    getNeighborsToNode(n:FloodFillerTreeNode<T>)
     {
         const ourElems = this.floodFiller.get();
         const nbElems = n.floodFiller.getAllValidNeighbors();
@@ -49,9 +49,9 @@ class FloodFillerTreeNode
 }
 
 export { FloodFillerTree, FloodFillerTreeNode }
-export default class FloodFillerTree
+export default class FloodFillerTree<T>
 {
-    root: FloodFillerTreeNode
+    root: FloodFillerTreeNode<T>
 
     constructor() {}
 
@@ -60,7 +60,7 @@ export default class FloodFillerTree
     grow(floodParams)
     {
         let assigned = [];
-        let curParent : FloodFillerTreeNode = null;
+        let curParent : FloodFillerTreeNode<T> = null;
 
         const forbiddenOriginal = floodParams.forbidden;
 
@@ -89,7 +89,7 @@ export default class FloodFillerTree
             floodParams.forbidden = forbidden;
 
             // perform a flood fill on the currently set start element
-            const f = new FloodFiller();
+            const f : FloodFiller<T> = new FloodFiller();
             const list = f.grow(floodParams);
             for(const elem of list)
             {
@@ -114,7 +114,7 @@ export default class FloodFillerTree
         this.root = curParent;
     }
 
-    getAllValidNeighbors(assigned:any[], f:FloodFiller)
+    getAllValidNeighbors(assigned:any[], f:FloodFiller<T>) : T[]
     {
         const arr = [];
         const nbs = f.getAllValidNeighbors(f.get());

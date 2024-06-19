@@ -1,27 +1,17 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "Sleighwell"
-headerTitle: "Sleighwell | Santa needs help delivering presents in a town that constantly changes."
+headerTitle: "Santa needs help delivering presents in a town that constantly changes."
 blurb: "A cooperative game about placing houses and presents such that the sleigh can fulfill all wishes, with a dash of reindeer road and pine tree obstacles."
+blurbShort: "Santa needs help delivering presents in a town that constantly changes."
 
-extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/11q1JvlufY06QORspG35SfAKQU4JakWhS"
 
-headerThumb: "sleighwell_favicon"
-
 customHeight: "large"
-headerDarkened: true
 
 color: "white"
-
-bgColor: "#09163e"
-bgColorLink: "#601a87"
-
-textColor: "#e6faff"
-textColorLink: "#edccff"
 
 date: 2024-12-12
 
@@ -40,34 +30,17 @@ devlog: "/blog/boardgames/sleighwell/"
 
 ---
 
-{{% boardgame-intro heading="" %}}
+{{% boardgame-intro /%}}
 
-Santa needs help delivering presents in a town that constantly changes.
+{{% boardgame-instructions /%}}
 
-{{% /boardgame-intro %}}
-
-{{% section-centered heading="What do I need?" %}}
-
-Three simple steps.
-* Read the extremely short [playful rules](rules).
-* Download the base game PDF. (Download > Files > Base Game.)
-* Print, cut, play!
-
-**Want more?** You can also [generate your own material](#material) right on this website!
-
-{{% /section-centered %}}
-
-{{% section-centered heading="Material" anchor="material" html="true" %}}
-
-<p>Pick your desired settings and click the button! When in doubt, just use the defaults for your first games.</p>
+{{% boardgame-settings-container type="material" %}}
 
 {{< boardgame-settings type="game" local_storage="sleighwellConfig" btn_label="Generate Material" game_title="Sleighwell" defaults="true" >}}
   {{< setting-enum id="setting-set" text="Set?" values="Base Game,Reindeer Way,Tough Trees" keys="baseGame,reindeerWay,toughTrees" def="regular" remark="The other sets are expansions and require you to already have the base game." >}}
 {{< /boardgame-settings >}}
 
-<p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>
-
-{{% /section-centered %}}
+{{% /boardgame-settings-container %}}
 
 {{< support >}}
 
@@ -80,7 +53,5 @@ Obviously, this game started a few months before Christmas. I'd already created 
 After a week of half-baked not-so-great ideas, this one came along. I instantly tested it against myself (with a paper prototype) and confirmed it had potential. A few days later, Sleighwell existed.
 
 A simple game that simulates Santa's job quite well, while being _cooperative_ (always great for families or large groups) and having surprising _depth_. The teach is one minute. Turns are five seconds. Ideal for a family game!
-
-For more information, as always, read my [detailed developer diary on Pandaqi Blog](/blog/boardgames/sleighwell).
 
 {{% /section-centered %}}

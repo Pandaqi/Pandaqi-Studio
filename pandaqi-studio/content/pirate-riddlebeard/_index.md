@@ -1,24 +1,15 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "Pirate Riddlebeard"
 headerTitle: "Be the first to find the secret location of the treasure!"
 blurb: "A One Paper Game for 1-6 pirates about discovering all the secret hints leading to the treasure."
 
-customHeight: "small"
-headerDarkened: true
 
 color: "purple"
 
-bgColor: "#072707"
-bgColorLink: "#be44c5"
 
-textColor: "#e2fce9"
-textColorLink: "#1a0428"
-
-extraCSS: true
 
 date: 2022-06-02
 
@@ -39,11 +30,7 @@ devlog: "/blog/boardgames/the-pirate-games/devlog-pirate-riddlebeard/"
 ---
 
 
-{{% boardgame-intro heading="" %}}
-
-A [One Paper Game](/boardgames#one-paper-games) for 1&ndash;6 pirates who each own a part of the secret riddle pointing towards a great treasure.
-
-{{% /boardgame-intro %}}
+{{% boardgame-intro /%}}
 
 <!-- Introduction + explanation text -->
 {{% section-centered heading="What's the idea?" %}}
@@ -69,10 +56,7 @@ Three steps.
 
 {{% /section-centered %}}
 
-{{% section-centered heading="Game" html="true" anchor="game" %}}
-
-<p>Input your desired settings. Click "start game".</p>
-<p>For your <strong>first game</strong>, just pick your player count and immediately start. Once you get the hang of it, enable all the other fun elements in the settings!</p>
+{{% boardgame-settings-container type="game" %}}
 
 {{< boardgame-settings type="game" local_storage="pirateRiddlebeardData" game_title="Pirate Riddlebeard" >}}
   {{< setting-seed >}}
@@ -97,7 +81,7 @@ Three steps.
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
-{{% /section-centered %}}
+{{% /boardgame-settings-container %}}
 
 {{< support >}}
 

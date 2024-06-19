@@ -2,6 +2,9 @@ import Resource from "./resource"
 import ResourceImage from "./resourceImage"
 import ResourceFont from "./resourceFont"
 import TextConfig from "../text/textConfig"
+import Point from "js/pq_games/tools/geometry/point"
+import { ResourceLike } from "../layoutOperation"
+import ResourceText from "./resourceText"
 
 interface ResourceLoaderParams
 {
@@ -10,13 +13,21 @@ interface ResourceLoaderParams
 
 interface ResourceLoadParams
 {
-    path: string
+    path?: string
     id?: string
     key?: string
     textConfig?: TextConfig,
     useAbsolutePath?: boolean // default is false = relative path, potentially from base
+    inkfriendly?: boolean, // default = false
+    loadIf?: string[], // only if these specific paths in config evaluate to TRUE, load this asset
+    disableCaching?: boolean
+
+    numThumbnails?: number,
+    frames?: Point,
+    uniqueKey?: string,
 }
 
+export { ResourceLoaderParams, ResourceLoadParams }
 export default class ResourceLoader 
 {
 
@@ -38,7 +49,7 @@ export default class ResourceLoader
         if(this.base.slice(-1) != "/") { this.base += "/"; }
     }
 
-    planLoad(id:string, params:any = {})
+    planLoad(id:string, params:ResourceLoadParams = {})
     {
         if(!params.path) { return console.error("Can't load resource without path."); }
         const resourceAlreadyLoaded = this.resourcesQueued[id] || this.resourcesLoaded[id];
@@ -71,7 +82,7 @@ export default class ResourceLoader
         return false;
     }
 
-    planLoadMultiple(dict:Record<string,any>, config:Record<string,any> = {})
+    planLoadMultiple(dict:Record<string,ResourceLoadParams>, config:Record<string,any> = {})
     {
         for(const [id,data] of Object.entries(dict))
         {
@@ -162,7 +173,7 @@ export default class ResourceLoader
         }
     }
 
-    cacheLoadedFont(id:string, params:any, f:FontFace)
+    cacheLoadedFont(id:string, params:ResourceLoadParams, f:FontFace)
     {
         // @ts-ignore
         document.fonts.add(f);
@@ -170,7 +181,7 @@ export default class ResourceLoader
         this.resourcesLoaded[id] = res;
     }
 
-    async cacheLoadedImage(id:string, params:any, img:HTMLImageElement)
+    async cacheLoadedImage(id:string, params:ResourceLoadParams, img:HTMLImageElement)
     {
         const res = new ResourceImage(img, params);
         if(!params.disableCaching) { await res.cacheFrames(); }
@@ -181,7 +192,7 @@ export default class ResourceLoader
     {
         let res = this.resourcesLoaded[id];
         if(!res) { return null; }
-        if(copy) { res = res.clone(); }
+        if(copy) { res = res.clone(true); }
         return res;
     }
 }

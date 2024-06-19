@@ -1,7 +1,7 @@
 {{- $url := trim .Parent.Page.RelPermalink "/" -}}
 {{- $subdir := or (.Get "subdir") "play" -}}
 {{- $final_dir := printf "content/%s/%s/" $url $subdir -}}
-{{- $pages := where .Site.Pages ".Params.gamepage" true -}}
+{{- $pages := where .Site.Pages "Type" "gamepage" -}}
 {{- $final_pages := slice -}}
 {{- range (readDir $final_dir) -}}
     {{- if .IsDir -}}

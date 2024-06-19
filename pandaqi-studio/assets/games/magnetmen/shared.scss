@@ -1,13 +1,21 @@
+@use "sass:color";
+
 $header-font: "vina";
 $body-font: "urbanist";
 $base-fonts: "fonts/";
 
-$bg-col: #020823;
-$text-col: #FCFCFC;
+$bg-color: #020823;
+$text-color: #FCFCFC;
 
 $col1: #96baf9;
 $col2: #f9b3c4;
 $col3: #dfdfdf;
+
+$button-bg: $col2;
+$button-color: #1e1c27;
+$link-color: color.adjust($col3, $lightness: -5%);
+$link-color-hover: color.adjust($col3, $lightness: 15%);
+$settings-color: $col1;
 
 @font-face {
     font-family: $body-font;
@@ -41,3 +49,73 @@ $col3: #dfdfdf;
     font-display: swap;
 }
 
+h1, h2, h3, h4, h5, h6, 
+a.btn, #btn-create-pdf, #btn-generate-board, #btn-start-game,
+input, button, select, option, label {
+    font-family: $header-font;
+    font-weight: normal;
+}
+
+body {
+    font-family: $body-font;
+    background-color: $bg-color;
+    color: $text-color;
+}
+
+a {
+    color: $link-color; 
+    &:hover {
+        color: $link-color-hover;
+    }
+}
+
+.game-settings {
+    color: black;
+    background-color: $settings-color;
+    .setting-remark { color: black; }
+}
+
+.boardgame-intro {
+    .tagline, .metadata {
+        color: $text-color;
+    }
+}
+
+a.download-btn, a.download-btn:visited, 
+#btn-start-game, #btn-start-game:visited,
+#btn-generate-board, #btn-generate-board:visited {
+    background-color: $button-bg;
+    color: $button-color;
+    
+    &:hover {
+        background-color: $button-color;
+        color: $button-bg;
+    }
+}
+
+//
+// Rules
+//
+.rulebook {
+    color: #111111;
+}
+
+#setup {
+    background-color: $col1;
+}
+
+#objective {
+    background-color: $col2;
+}
+
+#gameplay {
+    background-color: $col3;
+}
+
+#advanced {
+    background-color: $col2;
+}
+
+#magnetmen {
+    background-color: $col1;
+}

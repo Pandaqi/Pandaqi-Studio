@@ -1,8 +1,8 @@
 import shuffle from "./shuffle";
 
-const shuffleAll = (val:Record<string,any>, RNG = Math.random) =>
+const shuffleAll = <T>(val:T, RNG = Math.random) : T =>
 {
-    if(!Object.keys(val)) { console.error("Can't shuffle (all) this value", val); return; }
+    if(!Object.keys(val)) { console.error("Can't shuffle (all) this value", val); return val; }
 
     for(const [key,data] of Object.entries(val))
     {

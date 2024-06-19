@@ -1,12 +1,11 @@
 ---
-type: "single"
+type: "gamepage"
 gamepage: true
 boardgame: true
 
 title: "Wildebyte Cover Generator"
 headerTitle: "Automatic generator of Wildebyte covers, setting correct size and texts"
 
-extraCSS: true
 
 ---
 

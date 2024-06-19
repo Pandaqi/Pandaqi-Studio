@@ -26,7 +26,7 @@ export default class OutputBuilder
         return s;
     }
 
-    addParagraph(txt: any)
+    addParagraph(txt:string)
     {
         return this.addNode(this.createParagraph(txt));
     }
@@ -37,7 +37,7 @@ export default class OutputBuilder
         return this.node;
     }
 
-    addParagraphList(txts: any, numbered = false)
+    addParagraphList(txts: string[], numbered = false)
     {
         const nodes = []
         for(const txt of txts)
@@ -47,12 +47,12 @@ export default class OutputBuilder
         return this.addNodeList(nodes, numbered);
     }
 
-    addParagraphListNumbered(txts: any)
+    addParagraphListNumbered(txts: string[])
     {
         return this.addParagraphList(txts, true);
     }
 
-    addFlexList(nodes: any[])
+    addFlexList(nodes: HTMLElement[])
     {
         const cont = document.createElement("div");
         this.node.appendChild(cont);
@@ -70,7 +70,7 @@ export default class OutputBuilder
         return cont;
     }
 
-    addNodeList(nodes: any[], numbered = false)
+    addNodeList(nodes: HTMLElement[], numbered = false)
     {
         let listNode: HTMLUListElement
         if(numbered) { listNode = document.createElement("ol"); }

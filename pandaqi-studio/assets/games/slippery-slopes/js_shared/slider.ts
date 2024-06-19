@@ -22,6 +22,7 @@ import Dims from "js/pq_games/tools/geometry/dims";
 import fitPath from "js/pq_games/tools/geometry/paths/fitPath";
 import RectangleRounded from "js/pq_games/tools/geometry/rectangleRounded";
 import getWeighted from "js/pq_games/tools/random/getWeighted";
+import ResourceImage from "js/pq_games/layout/resources/resourceImage";
 
 export default class Slider
 {
@@ -44,19 +45,20 @@ export default class Slider
         this.subType = getWeighted(PROPERTIES);
     }
 
-    async draw(customSize:Point = null)
+    async draw(customSize:Point = null) : Promise<HTMLCanvasElement>
     {
         const colorSteps = CONFIG.sliderCards.numColorSteps;
 
         const itemSize = customSize ?? CONFIG.sliderCards.size;
         const ctx = createContext({ size: itemSize });
+
         const blockHeight = itemSize.y / colorSteps;
         const amp = CONFIG.wavyRect.amplitude * blockHeight;
         
         const wavyRectSize = new Point(itemSize.x, blockHeight + 4*amp);
         this.wavyRect = createWavyRect(wavyRectSize, amp, CONFIG.wavyRect.frequency, CONFIG.wavyRect.stepSize);
 
-        const textConfig = CONFIG.cards.textConfig;
+        const textConfig = CONFIG.cards.textConfig.clone();
         textConfig.size = CONFIG.sliderCards.textScale * blockHeight;
 
         const saturation = CONFIG.inkFriendly ? 0 : CONFIG.wavyRect.saturation;
@@ -64,26 +66,26 @@ export default class Slider
         const colors = equidistantColorsBetweenOpposites(colorSteps, saturation, lightness);
 
         this.createOutlineRect(ctx, itemSize);
-        ctx.clip();
+        ctx.clip(); // uses the path we just created above
 
-        await this.drawBackground(ctx, colors, blockHeight, itemSize);
-        await this.drawCustom(ctx, colors, textConfig, blockHeight, itemSize);
-        await this.drawActionIcons(ctx, colors, blockHeight, itemSize);
-
-        this.drawOutline(ctx, itemSize);
+        this.drawBackground(ctx, colors, blockHeight, itemSize);
         
+        this.drawCustom(ctx, colors, textConfig, blockHeight, itemSize);
+        this.drawActionIcons(ctx, colors, blockHeight, itemSize);
+        this.drawOutline(ctx, itemSize);
+
         return ctx.canvas;
     }
 
-    createOutlineRect(ctx, itemSize)
+    createOutlineRect(ctx:CanvasRenderingContext2D, itemSize:Point)
     {
         const lw = CONFIG.cards.outline.width * itemSize.x;
         const radius = CONFIG.cards.outline.radius * itemSize.x;
 
-        ctx.roundRect(0.5*lw, 0.5*lw, ctx.canvas.width-lw, ctx.canvas.height-lw, radius);
+        ctx.roundRect(0.5*lw, 0.5*lw, itemSize.x-lw, itemSize.y-lw, radius);
     }
 
-    drawOutline(ctx, itemSize)
+    drawOutline(ctx:CanvasRenderingContext2D, itemSize:Point)
     {
         const lw = CONFIG.cards.outline.width * itemSize.x;
 
@@ -96,7 +98,7 @@ export default class Slider
         ctx.restore();
     }
 
-    async drawBackground(ctx, colors, blockHeight, itemSize)
+    drawBackground(ctx:CanvasRenderingContext2D, colors:Color[], blockHeight:number, itemSize:Point)
     {
         // draw all color steps
         const amp = CONFIG.wavyRect.amplitude * blockHeight;
@@ -110,7 +112,7 @@ export default class Slider
                 stroke: "#000000",
                 strokeWidth: 1,
             });
-            await this.wavyRect.toCanvas(ctx, canvOp);
+            this.wavyRect.toCanvas(ctx, canvOp);
         }
 
         const needsMeter = this.getMainData().needsMeter;
@@ -133,7 +135,7 @@ export default class Slider
                 strokeWidth: mdata.lineWidth * itemSize.x
             });
             const res = new ResourceShape({ shape: this.meterRect });
-            await res.toCanvas(ctx, canvOp);
+            res.toCanvas(ctx, canvOp);
 
             // tiny lines of a grid for more precision/decoration
             const numLines = 32;
@@ -144,22 +146,22 @@ export default class Slider
             const linePos = new Point(center.x, center.y - 0.5*extents.y);
             for(let i = 0; i < numLines; i++)
             {
-                await drawRectangle(ctx, { center: linePos, extents: lineExtents }, lineParams);
+                drawRectangle(ctx, { center: linePos, extents: lineExtents }, lineParams);
                 linePos.y += distBetweenLines;
             }
         }
     }
 
-    async drawCustom(ctx, colors, textConfig, blockHeight, itemSize)
+    drawCustom(ctx:CanvasRenderingContext2D, colors:Color[], textConfig:TextConfig, blockHeight:number, itemSize:Point)
     {
-        if(this.mainType == "property") { await this.drawProperties(ctx, colors, textConfig, blockHeight, itemSize); }
-        else if(this.mainType == "words") { await this.drawWords(ctx, colors, blockHeight, itemSize); }
-        else if(this.mainType == "color") { await this.drawColorRamp(ctx); }
-        else if(this.mainType == "shapes") { await this.drawShapes(ctx, colors, blockHeight, itemSize); }
+        if(this.mainType == "property") { this.drawProperties(ctx, colors, textConfig, blockHeight, itemSize); }
+        else if(this.mainType == "words") { this.drawWords(ctx, colors, blockHeight, itemSize); }
+        else if(this.mainType == "color") { this.drawColorRamp(ctx); }
+        else if(this.mainType == "shapes") { this.drawShapes(ctx, colors, blockHeight, itemSize); }
     }
 
     // draw text with extremes
-    async drawProperties(ctx, colors:Color[], textConfig, blockHeight, itemSize)
+    drawProperties(ctx:CanvasRenderingContext2D, colors:Color[], textConfig:TextConfig, blockHeight:number, itemSize:Point)
     {
         const textDarken = CONFIG.cards.textDarkenFactor;
         const extremes = this.getExtremes();
@@ -178,15 +180,15 @@ export default class Slider
                 fill: finalColor,
                 dims: new Point(itemSize.x, blockHeight)
             })
-            await text.toCanvas(ctx, canvOp);
+            text.toCanvas(ctx, canvOp);
         }
     }
 
     // draw random words/letters in random fonts
-    async drawWords(ctx, colors, blockHeight, itemSize)
+    drawWords(ctx:CanvasRenderingContext2D, colors:Color[], blockHeight:number, itemSize:Point)
     {
         const textDarken = CONFIG.cards.textDarkenFactor;
-        const fonts = []; // @TODO: select random fonts (no duplicates)
+        const fonts = [];
         for(let i = 0; i < CONFIG.numSpecialFonts; i++)
         {
             fonts.push(i);
@@ -220,11 +222,11 @@ export default class Slider
                 fill: finalColor,
                 dims: new Point(itemSize.x, blockHeight)
             })
-            await res.toCanvas(ctx, canvOp);
+            res.toCanvas(ctx, canvOp);
         }
     }
 
-    getRandomWord()
+    getRandomWord() : string
     {
         const useRealWord = Math.random() <= CONFIG.sliderCards.words.useRealWordProb;
         if(useRealWord) 
@@ -242,13 +244,13 @@ export default class Slider
         return arr.join("");
     }
 
-    getRandomLetter()
+    getRandomLetter() : string
     {
         return String.fromCharCode(97 + Math.floor(Math.random() * 26));
     }
 
     // just draw the full color wheel from top to bottom
-    async drawColorRamp(ctx)
+    drawColorRamp(ctx:CanvasRenderingContext2D)
     {
         const stepSize = 3.0;
         const steps = this.meterRect.extents.y / stepSize;
@@ -265,7 +267,7 @@ export default class Slider
         {
             const hue = i * hueStep;
             const color = new Color(hue, 100, 50);
-            await drawRectangle(ctx, { center: pos, extents: stepExtents }, { fill: color })
+            drawRectangle(ctx, { center: pos, extents: stepExtents }, { fill: color })
             pos.y += stepExtents.y;
         }
 
@@ -273,7 +275,7 @@ export default class Slider
     }
 
     // draw a random assortment of shapes (some pretty standard, some chaotic random)
-    async drawShapes(ctx, colors, blockHeight, itemSize)
+    drawShapes(ctx:CanvasRenderingContext2D, colors:Color[], blockHeight:number, itemSize:Point)
     {
         const textDarken = CONFIG.cards.textDarkenFactor;
         const randShapeProb = CONFIG.sliderCards.shapes.completelyRandomizeProb;
@@ -316,11 +318,11 @@ export default class Slider
                 fill: color.darken(textDarken),
                 rotation: randRotation
             })
-            await res.toCanvas(ctx, canvOp);
+            res.toCanvas(ctx, canvOp);
         }
     }
 
-    async drawActionIcons(ctx, colors, blockHeight, itemSize)
+    drawActionIcons(ctx:CanvasRenderingContext2D, colors:Color[], blockHeight:number, itemSize:Point)
     {
         const numActions = this.actions.length;
         if(numActions <= 0) { return; }
@@ -342,7 +344,7 @@ export default class Slider
         for(let i = 0; i < numActions; i++)
         {
             const actionKey = this.actions[i];
-            const res = CONFIG.resLoader.getResource(CONFIG.actionSpritesheetKey);
+            const res = CONFIG.resLoader.getResource(CONFIG.actionSpritesheetKey) as ResourceImage;
             const rectIndex = rectIndices.pop();
 
             const x = placeLeft ? 0.2 * itemSize.x : 0.8 * itemSize.x;
@@ -374,7 +376,7 @@ export default class Slider
             ctx.restore();
 
             placeLeft = !placeLeft;
-            await res.toCanvas(ctx, canvOp);
+            res.toCanvas(ctx, canvOp);
         }
     }
 

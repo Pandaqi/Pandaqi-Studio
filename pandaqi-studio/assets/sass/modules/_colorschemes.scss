@@ -33,6 +33,8 @@ $colorschemes: (
         color:  map.get($info, "bg");
         background-color:  map.get($info, "col");
     }
+
+
 }
 
 @mixin inverted-colorscheme($info: ()) {
@@ -53,7 +55,32 @@ $colorschemes: (
     }
 }
 
-.entry-banner, .metadata-container, header, .metadata-divider {
+@mixin banner-colorscheme($info: ()) 
+{
+	background-color: map.get($info, "col");
+	color: #EDEDED;
+
+	a {
+		color: #EDEDED;
+	}
+
+	div.btn {
+        color: map.get($info, "col") !important;
+        background-color:  map.get($info, "bg") !important;
+		border-color: map.get($info, "col") !important;
+    }
+}
+
+.entry-banner {
+	@each $name, $color in $colorschemes {
+		&.#{$name} {
+			@include banner-colorscheme($color);
+		}
+	}
+}
+
+// @NOTE: the CUSTOM entry banners still use the regular color scheme, because they have no background blurry thing
+.metadata-container, header, .metadata-divider, .entry-banner-custom {
 	@each $name, $color in $colorschemes {
 		&.#{$name} {
 			@include colorscheme($color);

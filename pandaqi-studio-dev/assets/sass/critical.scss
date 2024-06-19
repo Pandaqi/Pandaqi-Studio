@@ -15,11 +15,23 @@ body, html {
 	padding: 0;
 	margin: 0;
 	font-family: g.$body-font-stack;
+	font-size: calc(15px + 0.390625vw);
+    line-height: 1.4em;
+}
+
+a {
+	transition: color 0.3s;
+}
+
+p, li {
+	a {
+		font-weight: bold;
+	}
 }
 
 img {
 	max-width: 100%;
-	width: auto;
+	width: 100%;
 	height: auto;
 	display: block;
 }
@@ -34,10 +46,34 @@ video {
 h1, h2, h3, h4, h5, h6 {
 	font-family: g.$header-font-stack;
 	line-height: 100%;
+
+	font-weight: 800;
+
+	text-decoration: 0.1rem wavy underline;
+	text-decoration-skip-ink: none;
+}
+
+.general-page, .info-page
+{
+	h1, h2, h3, h4, h5, h6 {
+		text-transform: uppercase;
+	}
 }
 
 h1 {
 	font-size: 4vw;
+}
+
+h2 {
+    font-size: 2.5em;
+    margin-top: 1.5em;
+    margin-bottom: -0.25em;
+}
+
+h3 { 
+    font-size: 1.25em;
+    margin-top: 1.25em;
+    margin-bottom: -0.25em;
 }
 
 /* Metadata */
@@ -49,6 +85,10 @@ footer {
 
 	content-visibility: auto;
 	contain-intrinsic-size: 500px;
+	
+	button {
+		font-weight: bold;
+	}
 }
 
 .footer-divider {
@@ -60,13 +100,18 @@ footer {
 
 		display: block;
 		height: 130px;
-		margin-top: -20px;
-		margin-bottom: -110px;
+		margin-top: -1rem;
+		margin-bottom: -5.5rem;
 	}
 }
 
 /* Header */
 header {
+	
+	button {
+		font-weight: bold;
+	}
+
 	.hovering-gotobottom-btn {
 		position: absolute;
 		right: 0;
@@ -101,7 +146,7 @@ header {
 		margin: auto;
 		margin-top: 2.0rem;
 		border-radius: 0.5rem;
-		filter: drop-shadow(0 0 10px black);
+		filter: drop-shadow(0 0 0.6rem black);
 	}
 }
 
@@ -109,7 +154,7 @@ header {
 section {
 
 	.center {
-		padding: 0px 15px;
+		padding: 0 1rem;
 		max-width: g.$centered-section-width;
 		margin: auto;
 	}
@@ -127,12 +172,12 @@ section {
 	}
 }
 
-.float-left { float: left; margin-right: 20px; }
-.float-right { float: right; margin-left: 20px; }
+.float-left { float: left; margin-right: 1rem; }
+.float-right { float: right; margin-left: 1rem; }
 
 .limit-width {
 	max-width: g.$centered-section-width;
-	padding: 15px;
+	padding: 1.0rem;
 	margin: auto;
 }
 
@@ -145,7 +190,7 @@ section {
 
 		.text-side, .non-text-side {
 			width: 100%;
-			padding: 15px;
+			padding: 1.0rem;
 		}
 
 		.non-text-side {

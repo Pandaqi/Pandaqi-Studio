@@ -1,28 +1,20 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "Cookie Smasher"
 headerTitle: "Smash the poisoned food faster than anyone else to prevent the king's assassination!"
 blurb: "A fast party game about quick thinking and deduction, finding the poisoned food, then smashing it before anyone else."
+blurbShort: "Smash the poisoned food faster than anyone else to prevent the king's assassination!"
 
 blurbProject: "The king dines at a mighty feast, but one ingredient is secretly poisoned. Smash it before anyone else to save the king!"
 weightProject: 20
 
-extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/1Vb-cB7KrYaxakv2X2oSmQJdSNg-9T5T_"
 
-customHeight: "small"
-headerDarkened: true
 
 color: "white"
 
-bgColor: "#014556"
-bgColorLink: "#601a87"
-
-textColor: "#e6faff"
-textColorLink: "#edccff"
 
 date: 2024-07-26
 
@@ -41,33 +33,18 @@ devlog: "/blog/boardgames/swiftsmash-saga/cookie-smasher/"
 
 ---
 
-{{% boardgame-intro heading="" %}}
+{{% boardgame-intro /%}}
 
-Smash the poisoned food faster than anyone else to prevent the king's assassination!
+{{% boardgame-instructions /%}}
 
-{{% /boardgame-intro %}}
-
-{{% section-centered heading="What do I need?" %}}
-
-Three simple steps.
-* Read the short [playful rules](rules).
-* Download the base game PDF. (Download > Files > Starter.)
-* Print, cut, play!
-
-**Want more?** You can also [generate your own material](#material) right on this website! Pick the set you like (or "random") and press the button.
-
-{{% /section-centered %}}
-
-{{% section-centered heading="Material" anchor="material" html="true" %}}
-
-<p>Pick your desired settings and click the button! When in doubt, just use the defaults for a first game.</p>
+{{% boardgame-settings-container type="material" %}}
 
 {{< boardgame-settings type="game" local_storage="cookieSmasherConfig" btn_label="Generate Material" game_title="Cookie Smasher" defaults="true" >}}
   {{< setting-enum id="setting-cardSet" text="Card Set?" values="starter,beginner,amateur,advanced,expert,random" valaskey="true" def="starter" >}}
   {{< setting-enum id="setting-textPlacement" text="Text Placement?" values="bottom,top" valaskey="true" def="bottom" remark="Text is always mirrored, this just determines which side is the regular one (top/bottom)." >}}
 {{< /boardgame-settings >}}
 
-{{% /section-centered %}}
+{{% /boardgame-settings-container %}}
 
 {{% section-centered heading="Credits" anchor="credits" %}}
 
@@ -95,7 +72,5 @@ As I wrote a scene with them, my brain thought: "couldn't I do something similar
 Before I knew it, the idea of cookies was entrenched in the rules and illustrations. Getting rid of it felt boring and hurt my soul. The name also stayed because it's a good description of the game: you smash the right card to win, and Cookies are the right card very often. (As they are automatically "poisoned" when nothing else is.)
 
 (Unless you play the later, more advanced card sets. Here's a quick strategy tip for those reading this: _eggs_ is the most probable card to be poisoned, while _pear_ and _cinnamon_ are the least probable. I asked the computer to simulate a million games, that's how I know for sure.)
-
-For more information, as always, read my [detailed devlog on Pandaqi Blog](/blog/boardgames/swiftsmash-saga/cookie-smasher/).
 
 {{% /section-centered %}}

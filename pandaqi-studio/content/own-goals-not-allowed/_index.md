@@ -1,6 +1,5 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 
 title: "Own Goals Not Allowed"
 headerTitle: "1-6 players play soccer ... on multiple fields simultaneously"
@@ -9,17 +8,10 @@ blurb: "1-6 players play soccer on multiple fields at the same time. Accidentall
 headerImg: "banner_bg"
 headerThumb: "banner_thumb"
 
-customHeight: "small"
 
-bgColor: "#054e05"
-bgColorLink: "#e2df70"
-
-textColor: "#c1ffc2"
-textColorLink: "#2e3305"
 
 color: "green"
 
-extraCSS: true
 
 date: 2022-03-30
 

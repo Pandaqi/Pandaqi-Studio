@@ -1,22 +1,14 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "Slippery Slopes: Trippy Touches"
 headerTitle: "A spin-off of Slippery Slopes, completely playable on one mobile phone."
 blurb: "It's Slippery Slopes, but now playable on one mobile phone!"
 
-customHeight: "small"
-headerDarkened: true
 
 color: "red"
 
-bgColor: "#014556"
-bgColorLink: "#601a87"
-
-textColor: "#e6faff"
-textColorLink: "#edccff"
 
 date: 2024-04-25
 
@@ -26,7 +18,6 @@ categories: ["game", "spin-off"]
 tags: ["social", "guessing", "sorting", "language", "creative", "limited-communication"]
 themes: ["retro", "colorful"]
 
-extraCSS: true
 customJS: ["external"]
 
 multiplayermode: "cooperative"

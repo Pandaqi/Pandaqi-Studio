@@ -1,27 +1,18 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "The Mist"
 headerTitle: "Explore an area covered in mist and discover the right path"
 blurb: "A Mist covers the world. Each area might be a warm fire, or a trap, or a portal---you decide, but do so wisely."
+blurbShort: "A [One Paper Game](/boardgames#one_paper_games) about exploring a world where each square is multiple things at once---until you step onto it."
 
-extraCSS: true
-extraJSBoard: true
 extraJSBoardInclude: true
 downloadLink: "https://drive.google.com/drive/folders/1yy2JZhtm1iiTvff9o3kyOf0sXtMQjF_f" # already updated!
 
 customHeight: "large"
-headerDarkened: true
 
 color: "brown"
-
-bgColor: "#09162f"
-bgColorLink: "#204208"
-
-textColor: "#e6faff"
-textColorLink: "#e5fb9e"
 
 date: 2025-01-26
 
@@ -40,25 +31,11 @@ devlog: "/blog/boardgames/the-mist/"
 
 ---
 
-{{% boardgame-intro heading="" %}}
+{{% boardgame-intro /%}}
 
-A [One Paper Game](/boardgames#one_paper_games) about exploring a world where each square is multiple things at once---until you step onto it.
+{{% boardgame-instructions ruleless="true" /%}}
 
-{{% /boardgame-intro %}}
-
-{{% section-centered heading="How to play?" %}}
-
-[Generate](#board) a paper below. Or click the "Download" button and pick any _one_ PDF I already generated for you.
-
-Print and play! 
-
-The rules are so simple, they're on the paper itself. (If you still want a reference or more clarification, check the [rules](rules) page.)
-
-{{% /section-centered %}}
-
-{{% section-centered heading="Board" anchor="board" html="true" %}}
-
-<p>Input your settings, press the button, and download the PDF with your unique world!</p>
+{{% boardgame-settings-container type="board" %}}
 
 {{< boardgame-settings type="board" local_storage="theMistConfig" game_title="The Mist" defaults="true" >}}
   {{< setting-checkbox id="setting-includeRules" text="Include Rules?" checked="checked" remark="Only disable this if you know all the rules by heart." >}}
@@ -70,9 +47,7 @@ The rules are so simple, they're on the paper itself. (If you still want a refer
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
-<p class="settings-remark"><strong>Not working?</strong> Don't worry! At the "download" button you can find loads of premade boards I already generated for you. (Also, send me an email about what isn't working.)</p>
-
-{{% /section-centered %}}
+{{% /boardgame-settings-container %}}
 
 {{< support >}}
 
@@ -89,7 +64,5 @@ Yet the core idea behind those rules allows a _lot_ of strategy, play styles, an
 While obviously not on the same level as Chess or Go, I do compare its general feel to those games.
 
 I sometimes feel like those games aren't so much "designed" as that they are "found". This feels like a game that was always there, I just found it and hopefully executed it well enough :)
-
-Want more details? Check out the [devlog](/blog/boardgames/the-mist).
 
 {{% /section-centered %}}

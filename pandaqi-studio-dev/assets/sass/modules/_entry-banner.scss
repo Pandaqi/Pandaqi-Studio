@@ -14,17 +14,12 @@ $large: 49;
 .entry-banner {
 	overflow: hidden;
 	background-color: white;
+	font-size: 0.75rem;
+	line-height: 1.4em;
 
-	/*.image-gradient-overlay {
-		position: absolute;
-		left: 0;
-		right: 0;
-		top: 0;
-		bottom: 0;
-		background: linear-gradient(180deg, rgba(30,30,30,0.2) 0%, rgba(30,30,30,0.0) 5%);
-
-		transition: background 0.5s;
-	}*/
+	h1 {
+		font-size: 2.5rem;
+	}
 
 	&.height-small {
 		height: $small + 0vw;
@@ -52,8 +47,9 @@ $large: 49;
 		}
 	}
 	
-	@media all and (max-width: g.$cutoff2) {
-		margin-top: calc(-15px);
+	@media all and (max-width: g.$cutoff1) 
+	{
+		margin-top: -1.5rem;
 
 		.bg-image {
 			transform: scale(3);
@@ -69,12 +65,12 @@ $large: 49;
 
 		&.height-medium {
 			height: 2 * $medium + 0vw;
-			margin-top: calc(-22.5px);
+			margin-top: -1.5rem;
 		}
 
 		&.height-large {
 			height: 2 * $large + 0vw;
-			margin-top: calc(-30px);
+			margin-top: -2.0rem;
 		}
 
 		&.entry-banner-custom {
@@ -85,15 +81,22 @@ $large: 49;
 			}
 
 			&.height-medium {
-				margin-top: calc(-17.5px + 1vw);
+				margin-top: calc(-1.0rem + 1vw);
 			}
 
 			&.height-large {
-				margin-top: calc(-20px + 1vw);
+				margin-top: calc(-1.25rem + 1vw);
 			}
 
 			img {
 				display: none;
+			}
+		}
+
+		@media all and (max-width: g.$cutoff2)
+		{
+			h1 {
+				font-size: 1.5em;
 			}
 		}
 	}
@@ -101,7 +104,7 @@ $large: 49;
 	a:hover {
 		.btn {
 			filter: brightness(130%);
-			box-shadow: 0 0 10px 0 var(--bgcolor);
+			box-shadow: 0 0 0.5rem 0 #000000;
 		}
 
 		.bg-image {
@@ -125,9 +128,8 @@ $large: 49;
 
 	.bg-image {
 		transition: transform 0.5s;
-	}
-
-	.darkened {
+		
+		// auto-darken the background
 		img {
 			filter: brightness(50%);
 		}
@@ -148,8 +150,8 @@ $large: 49;
 
 		.non-text-side {
 			max-width: 600px;
-			filter: drop-shadow(0 0 3px #333);
-			padding: 10px;
+			filter: drop-shadow(0 0 0.1rem #333);
+			padding: 0.5rem;
 
 			&.no-shadow {
 				filter: none !important;
@@ -157,7 +159,7 @@ $large: 49;
 
 			img {
 				max-height: 22vw;
-				border-radius: 10px;
+				border-radius: 0.5rem;
 				transition: transform 0.5s;
 			}
 
@@ -174,38 +176,32 @@ $large: 49;
 			width: 100%;
 			max-width: 400px;
 			position: relative;
-			font-size: 20px;
-			padding: 20px;
+			padding: 1.0rem;
 
 			&.custom {
-				font-size: max(1.35vw, 14px);
 				max-width: 600px;
 			}
 
 			h1,h2,h3,h4,h5,h6 {
-				margin-top: 0px;
-				margin-bottom: 0px;
+				margin-top: 0;
+				margin-bottom: 0;
 			}
 
 			@media all and (max-width: g.$cutoff1) {
-				font-size: 14px;
-
 				&.custom {
 					max-width: 100%;
 				}
 			}
 
 			.btn {
-				border-radius: .5em;
+				border-radius: 0.5em;
 				font-family: g.$header-font-stack;
-				font-size: 20px;
 
-				padding: 7px 20px;
+				padding: 0.5rem 1.0rem;
 
 				width: 100%;
 
-				border: 2px solid gray;
-				border-color: var(--bordercolor);
+				border: 0.125rem solid gray;
 
 				cursor: pointer;
 				display: block;
@@ -213,8 +209,8 @@ $large: 49;
 				text-transform: uppercase;
 				font-weight: 800;
 
-				background: var(--bgcolor);
-				color: var(--textcolor);
+				background: #333333;
+				color: #EEEEEE;
 				transition: background .5s,color .5s,border-color .5s,box-shadow .5s,filter .5s,opacity .5s;
 
 				@media all and (max-width: g.$cutoff2) {
@@ -223,7 +219,7 @@ $large: 49;
 			}
 
 			&::before {
-				background: var(--blurcolor);
+				background: #000000;
 				opacity: 0.75;
 				content: "";
 				position: absolute;
@@ -232,9 +228,15 @@ $large: 49;
 				top: 0;
 				bottom: 0;
 				z-index: -1;
-				filter: blur(20px);
+				filter: blur(1.0rem);
 				pointer-events: none;
 				border-radius: 3em;
+			}
+
+			&.custom {
+				&::before {
+					display: none;
+				}
 			}
 		}
 	}
@@ -242,6 +244,26 @@ $large: 49;
 
 .entry-banner-custom > a {
 	text-decoration: none !important;
+}
+
+.entry-banner-tags-container {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	font-size: 0.66em;
+	margin-top: 0.5em;
+	gap: 0.3em;
+
+	.entry-banner-tag {
+		display: inline-block;
+		background-color: rgba(255,255,255,0.85);
+		color: #212121;
+		border-radius: 0.25em;
+		padding-left: 0.25em;
+		padding-right: 0.25em;
+		padding-top: 0.1em;
+		padding-bottom: 0.1em;
+	}
 }
 
 

@@ -1,5 +1,5 @@
 ---
-type: "single"
+type: "gamepage"
 gamepage: true
 boardgame: true
 
@@ -7,19 +7,11 @@ title: "Naivigation"
 headerTitle: "A universe of simple party board games about driving one vehicle together."
 blurb: "A universe of simple party board games about driving one vehicle together, at the same time, without crashing too much."
 
-extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/16g8Bjlk01tTCW7c9qQVd-LzrkwfBM_de"
 
-customHeight: "small"
-headerDarkened: true
 
 color: "brown"
 
-bgColor: "#230e00"
-bgColorLink: "#2d2d2d"
-
-textColor: "#fff0e8"
-textColorLink: "#e0e0e0"
 
 
 date: 2023-01-01 # 2024-12-26

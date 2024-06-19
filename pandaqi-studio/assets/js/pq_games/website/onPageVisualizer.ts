@@ -1,7 +1,7 @@
 import splitImage from "js/pq_games/layout/canvas/splitImage"
 import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage"
 import PdfBuilder, { PageFormat } from "../pdf/pdfBuilder"
-import Settings from "./settings"
+import Settings, { SettingsConfig } from "./settings"
 // @ts-ignore
 import { Game, CANVAS, WEBGL, Scale } from "../phaser/phaser.esm"
 import Point from "../tools/geometry/point"
@@ -25,20 +25,20 @@ class OnPageVisualizerClass
 	phaserGame = null
 	canvas: HTMLCanvasElement
 
-	gameConfig : Record<string, any>
-	pdfBuilder : PdfBuilder
-	generationClass : any
+	gameConfig: SettingsConfig
+	pdfBuilder: PdfBuilder
+	generationClass: any
 	generationKey = "boardGeneration"
 	renderer = "canvas"
 	backend = "phaser"
 	collection = false
 
-	getcontainer() : HTMLElement
+	getContainer() : HTMLElement
 	{
 		return document.getElementById('phaser-container');
 	}
 
-	getConfig() : Record<string, any>
+	getConfig() : SettingsConfig
 	{
 		return this.gameConfig
 	}
@@ -74,7 +74,7 @@ class OnPageVisualizerClass
 		if(this.phaserGame) { this.phaserGame.destroy(true); }
 		this.pdfBuilder.onConversionDone();
 		
-		const cont = this.getcontainer();
+		const cont = this.getContainer();
 		if(cont) { cont.scrollIntoView({behavior: "smooth", block: "start"}); }
 
 		const btn : HTMLButtonElement = Settings.getGenerateBoardButton();
@@ -84,9 +84,9 @@ class OnPageVisualizerClass
 		btn.innerHTML = 'Regenerate';
 	}
 
-	start(cfg:Record<any,any>) 
+	start(cfg:SettingsConfig) 
 	{
-		const container = this.getcontainer();
+		const container = this.getContainer();
 		if(!container) { return console.error("Can't start Phaser without container."); }
 
 		this.gameConfig = cfg;
@@ -108,7 +108,7 @@ class OnPageVisualizerClass
 					mode: Scale.FIT,
 				},
 
-				backgroundColor: cfg.bgColor || '#FFFFFF',
+				backgroundColor: cfg.bgColor ?? '#FFFFFF',
 				parent: 'phaser-container',
 				scene: [generationClass],
 			}
@@ -148,7 +148,7 @@ class OnPageVisualizerClass
 	{
 		if(!this.pdfBuilder) { console.error("Can't convert canvas to image. No PDF builder!"); return; }
 
-		const container = this.getcontainer();
+		const container = this.getContainer();
 		container.style.overflow = "visible";
 		
 		let img;
@@ -201,7 +201,6 @@ class OnPageVisualizerClass
 	{
 		if(this.pdfBuilder) { this.pdfBuilder.destroy(); }
 
-		if(cfg.pageSize) { cfg.format = cfg.pageSize as PageFormat; }
 		this.pdfBuilder = new PdfBuilder(cfg);
 		cfg.size = this.pdfBuilder.getFullSize();
 		this.pdfBuilder.connectConfig(cfg);

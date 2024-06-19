@@ -31,3 +31,148 @@ $header-font: $font-raw, Helvetica, sans-serif;
 $body-font: $font-raw, Helvetica, sans-serif;
 $bg-pattern-url: url(bg_pattern.webp);
 $types-url: url(card_types.webp);
+
+$bg-color: #3c005d;
+$game-color: #93cfe1;
+$game-text-color: #0a4c60;
+$link-color: #FFD23F;
+$link-color-hover: #fff2c8;
+$download-link-bg: #ff48a3;
+$download-link-color: #33041b;
+$text-color: #efe3d6;
+$heading-color: #ff48a3;
+
+h1, h2, h3, h4, h5, h6, 
+a.btn, #btn-create-pdf, #btn-generate-board, #btn-start-game,
+input, button, select, option, label {
+    font-family: $header-font;
+    font-weight: normal;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    color: $heading-color;
+}
+
+.metadata-container {
+    h1,h2,h3,h4,h5,h6 {
+        color: #250425;
+    }
+}
+
+body {
+    font-family: $body-font;
+    background-color: $bg-color;
+
+    color: $text-color;
+    font-weight: 300;
+    letter-spacing: 1px;
+
+    background-size: 100%;
+    background-image: $bg-pattern-url;
+    background-size: contain;
+    background-repeat: repeat-y;
+}
+
+.game-settings {
+    background-color: $game-color;
+    color: $game-text-color;
+
+    h3 { color: $game-text-color; }
+    .setting-remark { color: rgba(0,0,0,0.5); }
+}
+
+#btn-start-game, #btn-start-game:visited {
+    background-color: #0a4c60;
+    color: #93cfe1;
+    &:hover {
+        background-color: #93cfe1;
+        color: #0a4c60;
+    }
+}
+
+a.download-btn, a.download-btn:visited {
+    color: $download-link-color;
+    background-color: $download-link-bg;
+    &:hover {
+        color: $download-link-bg;
+        background-color: $download-link-color;
+    }
+}
+
+a {
+    color: $link-color;
+    &:hover {
+        color: $link-color-hover;
+    }
+}
+
+.boardgame-intro {
+    .tagline, .metadata {
+        color: $text-color;
+    }
+
+    &.no-shadow .big-header-image {
+        filter: none;    
+    }
+}
+
+//
+// Rules
+//
+$icons: (
+    "blank": 0,
+    "reverse": 1,
+    "seethrough": 2,
+    "takeback": 3,
+    "secondHand": 4,
+    "bitingHand": 5,
+    "sheriff": 6,
+    "sticky": 7,
+    "noSuperheroes": 8,
+    "carousel": 9,
+    "superNumbers": 10,
+    "pileDriver": 11,
+    "copycat": 12,
+    "lateArrival": 13,
+    "calculator": 14,
+    "veto": 15
+);
+
+@each $name, $frame in $icons {
+    $col: $frame % 8;
+    $row: 0;
+    @if $frame >= 8 {
+        $row: 1;
+    }
+
+    .rules-icon-pack-#{$name} {
+        background-image: $types-url;
+        background-size: 800%;
+        background-position-x: -$col * 100%;
+        background-position-y: -$row * 100%;
+        margin: auto;
+    }
+}
+
+#setup {
+    background-color: #ff71b7;
+    a { color: #af0080; }
+    a:hover { color: #4a0036; }
+}
+
+#objective {
+    background-color: #3c005d;
+    color: #DCDCDC;
+}
+
+#action_play {
+    background-color:  #93cfe1;
+}
+
+#packs {
+    background-color: #ffd23f;
+}
+
+.rulebook {
+    color: #111111;
+}

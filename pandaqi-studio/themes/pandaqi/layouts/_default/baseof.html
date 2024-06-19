@@ -2,12 +2,15 @@
 <html>
     {{ block "head" . }}{{- partial "head.html" . -}}{{ end }}
 
-    {{ $col := or .Params.color "default" }}
-    <body>
+    {{ $class := "general-page" }}
+    {{ if eq .Type "gamepage" }}{{ $class = "game-page" }}{{ end }}
+    {{ if eq .Type "infopage" }}{{ $class = "info-page" }}{{ end }}
+
+    <body class="{{ $class }}">
         {{ block "header" . }}
             {{- partial "header.html" . -}}
         {{ end }}
-        
+
         <main>
             {{- block "main" . }}{{- end }}
         </main>

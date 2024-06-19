@@ -1,4 +1,6 @@
-export default (key:string, res:Record<string,any>, game) =>
+import { ResourceLoadParams } from "../layout/resources/resourceLoader";
+
+export default (key:string, res:ResourceLoadParams, game) =>
 {
     const path = res.path;
     const sheetData = {

@@ -1,29 +1,17 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "Epic Medics"
 headerTitle: "Epic Medics | A boardgame about fighting viruses"
 blurb: "Oh no, a terrible pandemic is raging across the country! Will you be the heroic medics ... or will you play the virus?"
+blurbShort: "A cooperative [boardgames#one-paper-games](One Paper Game) for 2--7 players about fighting an uncontrollable pandemic."
 
 fullHeaderImg: "epicmedics_header"
 headerImg: "epicmedics_bg"
 noThumb: true
 
-customHeight: "small"
-
 color: "pink"
-
-bgColor: "#FFDDBB"
-bgColorLink: "#5741D4"
-
-textColor: "#510103"
-textColorLink: "#FFCCFF"
-
-entryBannerNonTextClasses: "no-shadow"
-
-extraCSS: true
 
 date: 2020-03-22
 
@@ -43,11 +31,7 @@ ages: everyone
 
 ---
 
-{{% boardgame-intro heading="" img="epicmedics_header" %}}
-
-A cooperative <a href="/boardgames#one-paper-games" style="color:#540003;">One Paper Game</a> for 2&ndash;7 players about fighting an uncontrollable pandemic</p>
-
-{{% /boardgame-intro %}}
+{{% boardgame-intro /%}}
 
 <section>
 	<p class="bigQuestion">Who will you be?</p>
@@ -70,6 +54,7 @@ A cooperative <a href="/boardgames#one-paper-games" style="color:#540003;">One P
 </div>
 
 <a name="team-medic"></a>
+
 {{% section-centered heading="Team Medics" class="background-alternate" %}}
 
 Your job is to discover the vaccine and keep the virus from spreading too much.

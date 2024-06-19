@@ -1,5 +1,5 @@
 ---
-type: "single"
+type: "gamepage"
 gamepage: true
 boardgame: true
 
@@ -7,7 +7,6 @@ title: "Pub Quiz"
 headerTitle: "Pub Quiz | Test."
 blurb: "Pub Quiz | Test."
 
-extraCSS: true
 # downloadLink: "https://drive.google.com/drive/folders/1JD-LWnPoX3yXfQM8jXdlh4vsZvdMOzQQ"
 
 ---

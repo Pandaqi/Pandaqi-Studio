@@ -7,18 +7,11 @@ title: "Clouds & Babies"
 headerTitle: "Clouds & Babies - Companion websites "
 blurb: "??"
 
-customHeight: "small"
 
-bgColor: "#FFDDBB"
-bgColorLink: "#007607"
-
-textColor: "#510103"
-textColorLink: "#7CFF86"
 
 buttonColor: "#7CFF86"
 
 googleFonts: "https://fonts.googleapis.com/css2?family=Cookie&display=swap"
-extraCSS: true
 
 date: 2021-04-29
 

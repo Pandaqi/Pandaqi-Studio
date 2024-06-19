@@ -14,28 +14,26 @@ function prepareFullPath(path:Point[])
     path.push(extraPointAfter);
 }
 
-function createSegments(params:Record<string,any>) : CatmullRomSegment[]
+function createSegments(params:SmoothPathParams) : CatmullRomSegment[]
 {
     const segments = [];
     const path = params.path;
     for(let i = 1; i < (path.length-2); i++)
     {
-        const curPoints = {
+        const curPoints:CatmullRomParams = {
             p0: path[i-1],
             p1: path[i],
             p2: path[i+1],
             p3: path[i+2]
         }
-        Object.assign(params, curPoints);
-
-        const s = new CatmullRomSegment(params);
+        const s = new CatmullRomSegment(curPoints);
         segments.push(s);
     }
 
     return segments;
 }
 
-function getPointsFromSegments(params:Record<string,any>, segments:CatmullRomSegment[])
+function getPointsFromSegments(params:SmoothPathParams, segments:CatmullRomSegment[])
 {
     const res = params.resolution;
     const list = [];
@@ -47,6 +45,16 @@ function getPointsFromSegments(params:Record<string,any>, segments:CatmullRomSeg
     return list.flat();
 }
 
+interface CatmullRomParams
+{
+    p0:Point,
+    p1:Point,
+    p2:Point,
+    p3:Point,
+    alpha?: number,
+    tension?: number
+}
+
 class CatmullRomSegment
 {
     a:Point
@@ -54,8 +62,12 @@ class CatmullRomSegment
     c:Point
     d:Point
 
-    constructor(params:Record<string,any> = {}) { this.prepareConstants(params); }
-    prepareConstants(params:Record<string,any>)
+    constructor(params:CatmullRomParams)
+    { 
+        this.prepareConstants(params); 
+    }
+
+    prepareConstants(params:CatmullRomParams)
     {
         const p0 = params.p0;
         const p1 = params.p1;
@@ -129,7 +141,7 @@ class CatmullRomSegment
 
 interface SmoothPathParams
 {
-    path: PathLike
+    path: Point[]
     tension?: number
     resolution?: number
     variant?: string

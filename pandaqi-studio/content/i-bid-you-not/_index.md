@@ -1,28 +1,17 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "I Bid You Not"
 headerTitle: "Sweeten the deal and be the highest bidder---or sour the deal and run away."
 blurb: "Take turns either adding items to the offer or declaring an auction. But once the auction is over, you might not be happy with how much you paid for what you got."
+blurbShort: "Sweeten the deal and be the highest bidder---or sour the deal and run away."
 
-extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/17wUGca1wpZq7EFj3XV7zTPL_Q774X4lN"
-
-customHeight: "small"
-headerDarkened: true
 
 color: "purple"
 
-bgColor: "#003401"
-bgColorLink: "#ff1f1f"
-
-textColor: "#f2ffef"
-textColorLink: "#ffe9e9"
-
-
-date: 2023-01-01 # 2024-12-26
+date: 2025-02-26
 
 categories: ["boardgame"]
 tags: ["simple", "auction", "bidding"]
@@ -38,26 +27,11 @@ devlog: "/blog/boardgames/i-bid-you-not/"
 
 ---
 
-{{% boardgame-intro heading="" %}}
+{{% boardgame-intro /%}}
 
-Sweeten the deal and be the highest bidder---or sour the deal and run away.
+{{% boardgame-instructions /%}}
 
-{{% /boardgame-intro %}}
-
-{{% section-centered heading="What do I need?" %}}
-
-Three simple steps.
-* Read the short [playful rules](rules).
-* Download the base game PDF. (Download > Files > Base Pack.)
-* Print, cut, play!
-
-**Want more?** You can also [generate your own material](#material) right on this website!
-
-{{% /section-centered %}}
-
-{{% section-centered heading="Material" anchor="material" html="true" %}}
-
-<p>Pick your desired settings and click the button! When in doubt, just use the defaults for your first games.</p>
+{{% boardgame-settings-container type="material" %}}
 
 {{< boardgame-settings type="game" local_storage="iBidYouNotConfig" btn_label="Generate Material" game_title="I Bid You Not" defaults="true" >}}
   {{< boardgame-settings-section heading="Sets" >}}
@@ -67,9 +41,7 @@ Three simple steps.
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
-<p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>
-
-{{% /section-centered %}}
+{{% /boardgame-settings-container %}}
 
 {{% section-centered heading="Credits" anchor="credits" %}}
 
@@ -88,7 +60,5 @@ It also had the usual issue of number-based games where higher number are just "
 All of that combined into the simplest bidding game I can imagine, with as much strategy and variety as possible.
 
 The fonts used are **Digitalt** (header, thick) and **Inter Tight** (body, paragraphs), both freely available for commercial use. Some imagery was generated with AI. Everything else (code, rules, idea, assets, etcetera) is entirely mine.
-
-For more information, as always, read my [detailed developer diary on Pandaqi Blog](/blog/boardgames/i-bid-you-not/).
 
 {{% /section-centered %}}

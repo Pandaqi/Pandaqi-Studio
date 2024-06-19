@@ -1,25 +1,18 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "Starry Skylines"
 headerTitle: "Build your new city in space, together"
 blurb: "You are all simultaneously building a city in space. On the same planet. And no, this is not a cooperative game."
+blurbShort: "A [One Paper Game](/boardgames#one-paper-games) for 1--9 players about simultaneously building a city in space."
 
 noThumb: true
 customHeight: "small-medium"
 
 color: "black"
 
-bgColor: "#BBFFDD"
-bgColorLink: "brown"
 
-textColor: "#1A2225"
-textColorLink: "#FFCCAA"
-
-extraCSS: true
-extraJSBoard: true
 extraJSBoardInclude: true
 
 date: 2020-08-22
@@ -41,11 +34,7 @@ devlog: "/blog/boardgames/starry-skylines/devlog-starry-skylines/"
 
 ---
 
-{{% boardgame-intro heading="" %}}
-
-A [One Paper Game](/boardgames#one-paper-games) for 1&ndash;9 players about simultaneously building a city in space.</p>
-
-{{% /boardgame-intro %}}
+{{% boardgame-intro /%}}
 
 <div class="limit-width explanation-gif">
   {{< video url="video/starryskylines_explanation_gif" controls="controls" >}}
@@ -79,9 +68,7 @@ This website handles everything for you. It also shows explanations for all the 
 
 {{% /section-centered %}}
 
-{{% section-centered heading="Game" html="true" anchor="game" %}}
-
-<p>Input your settings below. Press the button to start a game! You'll be taken to a new page.</p>
+{{% boardgame-settings-container type="game" %}}
 
 {{< boardgame-settings type="game" local_storage="starrySkylinesConfig" game_title="Starry Skylines" >}}
   {{< setting-playercount min="1" max="8" def="3" >}}
@@ -89,11 +76,9 @@ This website handles everything for you. It also shows explanations for all the 
   {{< setting-enum id="setting-manualCombo" text="Play handpicked combination?" values="-- ignore --,Nature,Leadership,Resources,Entertainment,Chaotic" keys=",Nature,Leadership,Resources,Entertainment,Chaotic" remark="Choose a handpicked combination of planets if you want to follow a particular theme. Only use this if you've read the rules for all planets before." >}}
 {{< /boardgame-settings >}}
 
-{{% /section-centered %}}
+{{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Board" html="true" anchor="board" %}}
-
-<p>Input your settings below. Press the button to generate a random board to copy to your paper, or print as a PDF. (You can skip this completely and play with a blank paper.)</p>
+{{% boardgame-settings-container type="board" remarks="**Only 3 players maximum?** Nope! As stated in the rules, each _paper_ has a maximum of 3 players. So, for example, with 5 players you play on _two_ papers. Copy this same starting setup to all." %}}
 
 {{< boardgame-settings type="board" game_title="Starry Skylines" defaults="true" >}}
   {{< setting-playercount min="1" max="3" def="3" >}}
@@ -101,9 +86,7 @@ This website handles everything for you. It also shows explanations for all the 
   {{< setting-enum id="setting-manualCombo" text="Play handpicked combination?" values="-- ignore --,Nature,Leadership,Resources,Entertainment,Chaotic" keys=",Nature,Leadership,Resources,Entertainment,Chaotic" >}}
 {{< /boardgame-settings >}}
 
-<p style="opacity:0.75; font-size: 0.75em;"><strong>Only 3 players maximum?</strong> Nope! As stated in the rules, each <em>paper</em> has a maximum of 3 players. So, for example, with 5 players you play on <em>two</em> papers. Copy this same starting setup to all.</p>
-
-{{% /section-centered %}}
+{{% /boardgame-settings-container %}}
 
 {{< support >}}
 

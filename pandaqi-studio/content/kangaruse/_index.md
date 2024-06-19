@@ -1,24 +1,13 @@
 ---
-draft: false
-type: "single"
-
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "Kangaruse"
 headerTitle: "Jumping has never been so tactical and treacherous"
 blurb: "Jumping has never been so tactical and treacherous. Hop along the smartest route to collect the most points before your opponents stamped the whole brushland to dust."
-
-customHeight: "small"
-headerDarkened: true
+blurbShort: "Hop along the smartest route to collect points and powers---before your opponents blocked all your desired jumps."
 
 color: "brown"
-
-bgColor: "#083d08"
-bgColorLink: "#9ce4eb"
-
-textColor: "#cdfff9"
-textColorLink: "#083d42"
 
 date: 2024-03-26
 
@@ -28,8 +17,6 @@ categories: ["boardgame", "one-paper-game"]
 tags: ["grid", "shared-map", "point-salad", "movement"]
 themes: ["colorful", "nature"]
 
-extraCSS: true
-extraJSBoard: true
 extraJSBoardInclude: true
 
 downloadLink: "https://drive.google.com/drive/folders/1kYuSs0w3yKLQBMqBWOlS4ZzGUY32vrHB"
@@ -44,12 +31,7 @@ devlog: "/blog/boardgames/kangaruse/"
 
 ---
 
-
-{{% boardgame-intro heading="" %}}
-
-Hop along the smartest route to collect points and powers---before your opponents blocked all your desired jumps.
-
-{{% /boardgame-intro %}}
+{{% boardgame-intro /%}}
 
 {{% section-centered heading="page/page_heading_1" asimage="true" %}}
 
@@ -72,7 +54,7 @@ If you didn't add rules on the paper itself---or just want more clarification---
   {{< setting-checkbox id="setting-simplifiedIcons" text="Simplified Icons?" remark="Uses simple icons for all types, instead of realistic illustrations." >}}
 {{< /boardgame-settings >}}
 
-<p class="remark-under-settings"><strong>Not working?</strong> Don't worry! At the "Download" link, you can also find PDFs I already generated for you.</p> 
+<p class="settings-remark"><strong>Not working?</strong> Don't worry! At the "Download" link, you can also find PDFs I already generated for you.</p> 
 
 {{% /section-centered %}}
 
@@ -87,8 +69,6 @@ This idea started when I woke up one morning and had this pressing thought about
 This might be the simplest One Paper Game I ever made, while having a lot of depth and a theme that makes total sense. 
 
 That was a good morning.
-
-Want more details? Check out the [devlog](/blog/boardgames/kangaruse).
 
 Below is a quick image (from my cheap phone) of one early test game we played.
 

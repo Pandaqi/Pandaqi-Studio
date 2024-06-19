@@ -1,3 +1,5 @@
+@use "sass:color";
+
 $header-font: "palette";
 $body-font: "oldstandard";
 $fancy-font: "pettingill";
@@ -7,6 +9,14 @@ $base-fonts: $base-assets + "fonts/";
 $col1: #DD92EC;
 $col2: #92C5BF;
 $col3: #EDB24E;
+
+$bg-color: #FCFCFC;
+$text-color: #212121;
+$button-bg: $col2;
+$button-color: #27231c;
+$link-color: color.adjust($col3, $lightness: -50%);
+$link-color-hover: color.adjust($col3, $lightness: -30%);
+$settings-color: $col1;
 
 @font-face {
     font-family: $header-font;
@@ -46,4 +56,79 @@ $col3: #EDB24E;
     font-weight: bold;
     font-style: normal;
     font-display: swap;
+}
+
+
+body {
+    font-family: $body-font;
+    background-color: $bg-color;
+    color: $text-color;
+}
+
+
+h1, h2, h3, h4, h5, h6, 
+a.btn, #btn-create-pdf, #btn-generate-board, #btn-start-game {
+    font-family: $header-font;
+    font-weight: normal;
+}
+
+input, button, select, option, label {
+    font-family: $body-font;
+}
+
+a {
+    color: $link-color; 
+    &:hover {
+        color: $link-color-hover;
+    }
+}
+
+.game-settings {
+    color: black;
+    background-color: $settings-color;
+    .setting-remark { color: black; }
+}
+
+.boardgame-intro {
+    .tagline, .metadata {
+        color: $text-color;
+    }
+}
+
+a.download-btn, a.download-btn:visited, 
+#btn-start-game, #btn-start-game:visited,
+#btn-generate-board, #btn-generate-board:visited {
+    background-color: $button-bg;
+    color: $button-color;
+    
+    &:hover {
+        background-color: $button-color;
+        color: $button-bg;
+    }
+}
+
+//
+// Rules
+//
+$a: color.adjust($col1, $lightness: 15%);
+$b: color.adjust($col2, $lightness: 15%);
+
+#setup {
+    background-color: $a;
+}
+
+#objective {
+    background-color: $b;
+}
+
+#action_play {
+    background-color: $a;
+}
+
+#finding_the_poison {
+    background-color: $b;
+}
+
+#variants {
+    background-color: $a;
 }

@@ -37,7 +37,7 @@ Reveal the **Tell** and count the votes. The Prince with the most votes wins. Al
 
 {{% /rules-block %}}
 
-{{% rules-block id="action_play" heading="Gameplay" icon="action" class="allow-page-break" %}}
+{{% rules-block id="action_play" heading="Gameplay" icon="action" class="allow-page-break" icontint="purple" %}}
 
 Rounds are played _simultaneously_. They have two simple phases: **Give Cards** and **Vote**.
 

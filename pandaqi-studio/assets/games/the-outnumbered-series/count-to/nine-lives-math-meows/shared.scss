@@ -1,3 +1,6 @@
+@use "sass:color";
+@use "../nine-lives/shared.scss";
+
 $col1-dark: #1B7900;
 $col2-dark: #1E41AA;
 $col3-dark: #AA1E2B;
@@ -7,3 +10,58 @@ $col1: #a7ed94;
 $col2: #bbcbff;
 $col3: #ffc1c7;
 $col4: #dbdbdb;
+
+$button-bg: $col2;
+$button-color: #27231c;
+$link-color: color.adjust($col3, $lightness: -50%);
+$link-color-hover: color.adjust($col3, $lightness: -30%);
+$settings-color: $col1;
+
+a {
+    color: $link-color; 
+    &:hover {
+        color: $link-color-hover;
+    }
+}
+
+.game-settings {
+    color: black;
+    background-color: $settings-color;
+    .setting-remark { color: black; }
+}
+
+a.download-btn, a.download-btn:visited, 
+#btn-start-game, #btn-start-game:visited,
+#btn-generate-board, #btn-generate-board:visited {
+    background-color: $button-bg;
+    color: $button-color;
+    
+    &:hover {
+        background-color: $button-color;
+        color: $button-bg;
+    }
+}
+
+//
+// Rules
+//
+
+#setup {
+    background-color: $col1;
+}
+
+#objective {
+    background-color: $col2;
+}
+
+#action_play {
+    background-color: $col3;
+}
+
+#lives {
+    background-color: $col4;
+}
+
+#expansions {
+    background-color: $col1;
+}

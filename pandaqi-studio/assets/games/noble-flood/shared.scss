@@ -1,28 +1,22 @@
+@use "sass:color";
+
 $header-font: "romespalace";
 $body-font: "cardo";
 $special-font: "rechtman";
 $base: "/noble-flood/assets/";
 $base-fonts: $base + "fonts/";
 
-$bg-col: #fee2f2;
-$text-col: #211010;
+$bg-color: #fee2f2;
+$text-color: #211010;
 
 $col1: #80e2bb;
 $col2: #4a1961;
 
-body {
-    font-family: $body-font;
-    background-color: $bg-col;
-    color: $text-col;
-    font-size: calc(15px + 0.390625vw);
-    line-height: 150%;
-    box-sizing: border-box;
-}
-
-h1, h2, h3, h4 {
-    font-family: $header-font;
-    font-weight: normal;
-}
+$button-bg: $col1;
+$button-color: #27231c;
+$link-color: color.adjust($col2, $lightness: 30%);
+$link-color-hover: color.adjust($col2, $lightness: 50%);
+$settings-color: $col1;
 
 @font-face {
     font-family: $body-font;
@@ -65,6 +59,79 @@ h1, h2, h3, h4 {
 }
 
 
+body {
+    font-family: $body-font;
+    background-color: $bg-color;
+    color: $text-color;
+}
 
+h1, h2, h3, h4 {
+    font-family: $header-font;
+    font-weight: normal;
+}
 
+h1, h2, h3, h4, h5, h6, 
+a.btn, #btn-create-pdf, #btn-generate-board, #btn-start-game,
+input, button, select, option, label {
+    font-family: $header-font;
+    font-weight: normal;
+}
 
+a {
+    color: $link-color; 
+    &:hover {
+        color: $link-color-hover;
+    }
+}
+
+.game-settings {
+    color: black;
+    background-color: $settings-color;
+    .setting-remark { color: black; }
+}
+
+.boardgame-intro {
+    .tagline, .metadata {
+        color: $text-color;
+    }
+}
+
+a.download-btn, a.download-btn:visited, 
+#btn-start-game, #btn-start-game:visited,
+#btn-generate-board, #btn-generate-board:visited {
+    background-color: $button-bg;
+    color: $button-color;
+    
+    &:hover {
+        background-color: $button-color;
+        color: $button-bg;
+    }
+}
+
+//
+// Rules
+//
+$light-blue: color.adjust($col1, $lightness: 10%);
+$light-pink: color.adjust($bg-color, $lightness: -5%);
+
+#setup {
+    background-color: $light-blue;
+}
+
+#objective {
+    background-color: $light-pink;
+}
+
+#action_play {
+    background-color: $light-blue;
+}
+
+#expansions {
+    background-color: $light-pink;
+}
+
+blockquote
+{
+    border-left: 0.25rem solid black;
+    padding-left: 0.25rem;
+}

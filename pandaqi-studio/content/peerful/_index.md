@@ -1,23 +1,12 @@
 ---
 draft: true
-type: "single"
-gamepage: true
+type: "gamepage"
 
 title: "The Peerful Project"
 headerTitle: "Smartphone-Controlled Multiplayer Games"
 blurb: "Start the game on your computer, control it with your smartphone. Easy local multiplayer for groups small and large."
 
-customHeight: "small"
-
 color: "pink"
-
-bgColor: "#FFBBDD"
-bgColorLink: "#00764f"
-
-textColor: "#51012a"
-textColorLink: "#7CFFAF"
-
-extraCSS: true
 
 date: 2020-04-29
 

@@ -1,7 +1,7 @@
 import shuffle from "./shuffle"
 import getTotalForKey from "./getTotalForKey"
 
-export default (obj:Record<string,any>, key = "prob", RNG = Math.random) : string =>
+export default <T>(obj:Record<string,T>, key = "prob", RNG = Math.random) : string =>
 {
     const isArray = Array.isArray(obj);
     const typesObject = obj;

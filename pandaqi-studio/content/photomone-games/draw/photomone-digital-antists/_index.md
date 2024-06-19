@@ -1,6 +1,5 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 
 title: "Photomone: Digital Antists"
 headerTitle: "A video game spin-off for Photomone"
@@ -8,16 +7,9 @@ blurb: "Communicate words by drawing. But you may only draw straight lines betwe
 
 weightProject: 20
 
-customHeight: "small"
-headerDarkened: true
 
 color: "brown"
 
-bgColor: "#ffeba2"
-bgColorLink: "#ee4266"
-
-textColor: "#362a03"
-textColorLink: "#ffe4ea"
 
 date: 2023-08-21
 
@@ -27,7 +19,6 @@ categories: ["boardgame", "one-paper-game", "hybrid-game", "spin-off"]
 tags: ["drawing", "creative", "guessing", "turn-based"]
 themes: ["top-down", "vector"]
 
-extraCSS: true
 sharedJS: "photomone-games"
 sharedJSInclude: true
 

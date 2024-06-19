@@ -1,23 +1,18 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "Creature Quellector"
 headerTitle: "A game you can play while standing in line, about collecting and battling creatures"
 blurb: "Choose your battles wisely and build the strongest hand of magical creatures. A waitless game, playable without table, chairs, or loads of material."
+blurbShort: "Pick your battles wisely to design the best squad of cute creatures."
+
 blurbProject: "Design the best squad of _creature cards_ by winning or tactically losing battles against your opponent's hands."
 
 customHeight: "large"
-headerDarkened: true
 
 color: "brown"
 
-bgColor: "#014556"
-bgColorLink: "#601a87"
-
-textColor: "#e6faff"
-textColorLink: "#edccff"
 
 date: 2024-02-25
 
@@ -27,7 +22,6 @@ categories: ["boardgame", "card-game", "waitless-game"]
 tags: ["set-collecting", "battle", "hidden-score", "modular", "turn-based"]
 themes: ["colorful", "monsters"]
 
-extraCSS: true
 
 downloadLink: "https://drive.google.com/drive/folders/1UyxnFsYPynwQmRD2xbAh7RQyIC7yYAJi"
 
@@ -40,26 +34,13 @@ devlog: "/blog/boardgames/waitless-games/creature-quellector/"
 
 ---
 
-{{% boardgame-intro heading="" %}}
+{{% boardgame-intro /%}}
 
-Pick your battles wisely to design the best squad of cute creatures.
+{{% boardgame-instructions %}}
+Any single PDF is fine, actually. Pick the one with the four elements or colors you like the most!
+{{% /boardgame-instructions %}}
 
-{{% /boardgame-intro %}}
-
-{{% section-centered heading="What do I need?" %}}
-
-Three simple steps.
-* Read the short [playful rules](rules).
-* Download any _one_ material PDF (Download > Files > Sets > any file).
-* Print it, cut it, play!
-
-**Want more?** You can also [generate your own material](#material) right on this website! For each element, pick the type you like the most.
-
-{{% /section-centered %}}
-
-{{% section-centered heading="Material" anchor="material" html="true" %}}
-
-<p>Input your settings, click the button. A new page will open that generates a nice PDF for you!</p>
+{{% boardgame-settings-container type="material" remarks="**Creature names** are randomly generated from a huge list of words and phrases. This means there might be 'unfortunate' combinations to some people, such as 'childkill', which I just can't prevent. I hope we can all see the humor in silly random names!" %}}
 
 {{< boardgame-settings type="game" local_storage="creatureQuellectorConfig" game_title="Creature Quellector" btn_label="Generate Material" defaults="true" >}}
   {{< setting-checkbox id="setting-multiType" text="Multitype?" remark="An expansion: some icons will become two types at once." >}}
@@ -71,11 +52,7 @@ Three simple steps.
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
-<p class="setting-remark"><strong>Not working?</strong> Don't worry! At the "Download" link, you can also find valid PDFs with material already created!</p> 
-
-<p class="setting-remark"><strong>Creature names</strong> are randomly generated from a huge list of words and phrases. This means there might be "unfortunate" combinations to some people, such as "childkill", which I just can't prevent. I hope we can all see the humor in silly random names!
-
-{{% /section-centered %}}
+{{% /boardgame-settings-container %}}
 
 {{% section-centered heading="Waitless Games?" %}}
 

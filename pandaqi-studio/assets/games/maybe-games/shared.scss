@@ -1,34 +1,15 @@
-@use "sass:map";
+@use "sass:color";
 
 $header-font: "dejavu";
 $body-font: "dejavu";
 $base: "/maybe-games/assets/";
 $base-fonts: $base + "fonts/";
 
-$bg-col: #FCFCFC;
-$text-col: #111111;
+$bg-color: #FCFCFC;
+$text-color: #111111;
 
-$col1: red;
-$col2: blue;
-$col3: green;
-
-body {
-    font-family: $body-font;
-    background-color: #ffe4e4;
-    color: $text-col;
-    font-size: calc(13px + 0.390625vw);
-    line-height: 120%;
-    box-sizing: border-box;
-}
-
-h1, h2, h3, h4 {
-    font-family: $header-font;
-    font-weight: bold;
-}
-
-a {
-    font-weight: bold;
-}
+$link-color: #212121;
+$link-color-hover: #aa2222;
 
 @font-face {
     font-family: $body-font;
@@ -60,4 +41,48 @@ a {
     font-weight: bold;
     font-style: normal;
     font-display: swap;
+}
+
+body {
+    font-family: $body-font;
+    background-color: $bg-color;
+    color: $text-color;
+    font-size: calc(13px + 0.390625vw);
+}
+
+a {
+    font-weight: bold;
+}
+
+h1, h2, h3, h4, h5, h6, 
+a.btn, #btn-create-pdf, #btn-generate-board, #btn-start-game {
+    font-family: $header-font;
+    font-weight: bold;
+}
+
+input, button, select, option, label {
+    font-family: $body-font;
+}
+
+a {
+    color: $link-color; 
+    &:hover {
+        color: $link-color-hover;
+    }
+}
+
+.boardgame-intro {
+    .tagline, .metadata {
+        color: $text-color;
+    }
+}
+
+a.download-btn, a.download-btn:visited {
+    background-color: #FCFCFC;
+    color: #212121;
+    
+    &:hover {
+        background-color: #212121;
+        color: #FCFCFC;
+    }
 }

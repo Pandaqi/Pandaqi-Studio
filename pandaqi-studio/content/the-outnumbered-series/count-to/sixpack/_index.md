@@ -1,24 +1,18 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "Sixpack"
 headerTitle: "A simple, fast card game about six wonderful cards."
 blurb: "A card game both simple and fast about using your six unique cards as best you can, while predicting how the others will use theirs."
+blurbShort: "You get six cards. Play them well, but don't be the first to play them all."
+
 blurbProject: "Use your 6 cards as best you can to claim the biggest piles, which you do by playing a 1 or a 6 on top at the right time."
 weightProject: 60
 
-customHeight: "small"
-headerDarkened: true
 
 color: "purple"
 
-bgColor: "#0d0018"
-bgColorLink: "#84060b"
-
-textColor: "#ecd9ff"
-textColorLink: "#f7fa96"
 
 date: 2023-10-20
 
@@ -28,7 +22,6 @@ categories: ["boardgame", "card-game"]
 tags: ["numbers", "simultaneous-turns", "fast-paced", "stacking", "move-through-all", "ladder-climbing"]
 themes: ["pop-art", "retro", "colorful"]
 
-extraCSS: true
 
 downloadLink: "https://drive.google.com/drive/folders/1as4B3n_kxQ9K1jIVtWMI_P5VnAjbXRP1"
 
@@ -41,26 +34,11 @@ devlog: "/blog/boardgames/the-outnumbered-series/sixpack/"
 
 ---
 
-{{% boardgame-intro heading="" class="no-shadow" %}}
+{{% boardgame-intro /%}}
 
-You get six cards. Play them well, but don't be the first to play them all.
+{{% boardgame-instructions /%}}
 
-{{% /boardgame-intro %}}
-
-{{% section-centered heading="What do I need?" %}}
-
-Three simple steps.
-* Read the short [playful rules](rules).
-* Download **one** material PDF to print. ("Download" > Files > Essential Pack)
-* Print, cut, play!
-
-**Want more (customization)?** You can also [generate your own material](#material) right on this website! Pick the packs you want and enjoy.
-
-{{% /section-centered %}}
-
-{{% section-centered heading="Material" anchor="material" html="true" %}}
-
-<p>Input your settings, click the button. A new page will open that generates a nice PDF for you!</p>
+{{% boardgame-settings-container type="material" remarks="**Reminder!** You always need (at least) one more pack than the number of players." %}}
 
 {{< boardgame-settings type="game" local_storage="sixpackConfig" btn_label="Generate Material" game_title="Sixpack" defaults="true" >}}
   {{< setting-checkbox id="setting-randomizePacks" text="Randomize Packs?" remark="Ignores the settings below and just selects random packs." >}}
@@ -84,11 +62,7 @@ Three simple steps.
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
-<p style="font-size:0.66em; opacity: 0.66;"><strong>Reminder!</strong> You always need (at least) one more pack than the number of players.</p> 
-
-<p style="font-size:0.66em; opacity: 0.66;"><strong>Not working?</strong> Don't worry! At the "Download" link, you can also find valid PDFs with material!</p> 
-
-{{% /section-centered %}}
+{{% /boardgame-settings-container %}}
 
 {{< support >}}
 
@@ -99,7 +73,5 @@ The font used is **Londrina Solid** (freely available at Google Fonts). All othe
 This game was inspired by a play session of the game "Take 5". (In the Netherlands, confusingly, this is the _original_ version of the game, published under the name of the _new_ and radically different version.) I thought the game was strong, yet simple and easy to pick up. Naturally, I wanted to try my own hand at such a card game (with numbers and sequences).
 
 Because the rules are so simple, I could spend most of the time on the art and visuals of the cards. The end result is probably my nicest game in terms of graphics and rules!
-
-For a detailed diary about the game, check out the [devlog](/blog/boardgames/the-outnumbered-series/sixpack).
 
 {{% /section-centered %}}

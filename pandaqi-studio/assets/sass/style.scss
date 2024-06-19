@@ -3,16 +3,21 @@
 @use "modules/icons.scss";
 @use "modules/clipping.scss";
 @use "modules/entry-banner.scss";
+
 @use "modules/footer.scss";
+@use "modules/footer-narrow.scss";
+
 @use "modules/header.scss";
+
+@use "modules/embedvideo.scss";
+@use "modules/screenshot-gallery.scss";
+@use "modules/game-settings.scss";
+@use "modules/metadata.scss";
+@use "modules/download-btn.scss";
+@use "modules/boardgame-intro.scss";
+@use "modules/reviews.scss";
+@use "modules/buylink";
+
 @use "modules/pagination.scss";
 @use "modules/donation-buttons.scss";
 @use "modules/blocks.scss";
-
-h1,h2,h3,h4,h5,h6 {
-    font-weight: 800;
-	text-transform: uppercase;
-
-	text-decoration: 1pt wavy underline;
-	text-decoration-skip-ink: none;
-}

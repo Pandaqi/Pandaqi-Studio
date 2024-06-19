@@ -1,7 +1,5 @@
 import PandaqiWords from "./main"
 
-// This is just the simple dictionary tool on my website I created in an hour
-// @SOURCE: https://pandaqi.com/tools/dictionary/
 const inp = document.getElementById('input-word') as HTMLInputElement;
 const btn = document.getElementById("check-btn") as HTMLButtonElement;
 const results = document.getElementById("lookup-result") as HTMLElement;
@@ -64,6 +62,3 @@ btn.addEventListener("click", async (ev) => {
 
     setTimeout(() => performSearch(wordSanitized), 10);
 });
-
-// @ts-ignore
-window.PQ_WORDS = pqWords;

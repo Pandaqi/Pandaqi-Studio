@@ -6,19 +6,19 @@ header {
 	position: relative;
 
 	nav {
-		margin-top: -16px; /* necessary for some reason, probably because entry banners take margin of 15px at top  */
+		margin-top: -1rem; /* necessary for some reason, probably because entry banners take margin of 15px at top  */
 
-		padding: max(3vw, 30px);
-		padding-top: 30px;
+		padding: max(3vw, 1.5rem);
+		padding-top: 1.5rem;
 
 		ul {
 			display: flex;
 			align-content: center;
 			align-items: center;
 			flex-wrap: nowrap;
-			gap: 10px;
-			margin: 0px;
-			padding: 0px;
+			gap: 0.5rem;
+			margin: 0;
+			padding: 0;
 
 			button {
 				font-family: "Dosis" !important;
@@ -29,9 +29,10 @@ header {
 			}
 
 			.slogan {
-				font-size: 11px;
+				font-size: 0.66em;
 				font-style: italic;
 				opacity: 0.75;
+				line-height: 1.2em;
 				white-space: break-spaces !important;
 			}
 
@@ -40,7 +41,7 @@ header {
 				display: inline-block;
 				text-align: center;
 
-				font-size: 32px;
+				font-size: 1.5em;
 			}
 
 			li {
@@ -52,12 +53,12 @@ header {
 
 				
 		@media all and (max-width: g.$cutoff2) {
-			padding-left: 10px;
-			padding-right: 10px;
+			padding-left: 0.5rem;
+			padding-right: 0.5rem;
 
 			ul {
 				.outspacer {
-					font-size: 20px;
+					font-size: 1.25rem;
 					white-space: break-spaces;
 				}
 

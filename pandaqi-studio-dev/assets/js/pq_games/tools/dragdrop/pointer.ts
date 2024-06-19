@@ -2,11 +2,11 @@ import Point from "js/pq_games/tools/geometry/point"
 
 class PointerEvent
 {
-    originalEvent:any
+    originalEvent:PointerEvent
     posGlobal:Point
     posLocal:Point
 
-    constructor(ev:any, posGlobal:Point, posLocal:Point)
+    constructor(ev:PointerEvent, posGlobal:Point, posLocal:Point)
     {
         this.originalEvent = ev;
         this.posGlobal = posGlobal;

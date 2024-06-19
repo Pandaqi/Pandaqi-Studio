@@ -1,25 +1,18 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "Keebble: Domino"
 headerTitle: "The word game Keebble, now as a board game"
 blurb: "A party game like Scrabble. A spin-off for Keebble. Played using dominoes and a special font where each letter is ... multiple letters."
+blurbShort: "A word game like Scrabble, but played using letters that change when viewed from different directions. A domino-based entry in the [Keebble Games](/keebble-games/)"
 
 blurbProject: "A 'traditional' game played with dominoes that look like different letters from different sides. Print and cut once, play however often you want."
 weightProject: 30
 
-customHeight: "small"
-headerDarkened: true
 
 color: "green"
 
-bgColor: "#34032d"
-bgColorLink: "#94d23e"
-
-textColor: "#ecc6e5"
-textColorLink: "#132001"
 
 date: 2023-06-20
 
@@ -29,7 +22,6 @@ categories: ["boardgame", "standard"]
 tags: ["domino", "shared-map", "language", "spiritually-inspired"]
 themes: ["colorful", "vector"]
 
-extraCSS: true
 
 downloadLink: "https://drive.google.com/drive/folders/14KGDtFeGMpGRltZorC6shHr3pYXGk5MQ"
 
@@ -44,27 +36,11 @@ devlog: "/blog/boardgames/keebble-domino/"
 ---
 
 
-{{% boardgame-intro heading="" %}}
+{{% boardgame-intro /%}}
 
-A word game like Scrabble, but played using letters that change when viewed from different directions. A domino-based entry in the [Keebble Games](/keebble-games/)
+{{% boardgame-instructions /%}}
 
-{{% /boardgame-intro %}}
-
-{{% section-centered heading="What do I need?" %}}
-
-Three steps.
-* Read the [playful rules](rules). 
-* Click the "Download" button and pick any **one** PDF with the material (4 pages)
-* Download, print and cut it. Play!
-
-**Want more?** Use the [domino generator](#material) below to generate a new PDF with completely new dominoes to play with!
-
-{{% /section-centered %}}
-
-
-{{% section-centered heading="Random Dominoes" anchor="material" html="true" %}}
-
-<p>Input your settings. Click the button. A new page opens and generates your PDF!</p>
+{{% boardgame-settings-container type="material" %}}
 
 {{< boardgame-settings type="game" btn_label="Generate Cards" local_storage="keebbleDominoConfig" game_title="Keebble: Domino" >}}
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Removes most color to preserve ink." >}}
@@ -77,7 +53,7 @@ Three steps.
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
-{{% /section-centered %}}
+{{% /boardgame-settings-container %}}
 
 {{% section-centered heading="That's not a word!" %}}
 

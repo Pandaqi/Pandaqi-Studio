@@ -10,15 +10,9 @@ blurb: "2-6 players try to discover the kingdom that satisfies everyone's secret
 fullHeaderImg: "timelytransports_header_faded"
 headerImg: "timelytransports_header_faded"
 
-customHeight: "small"
 
 color: "green"
 
-bgColor: "#FFDDBB"
-bgColorLink: "brown"
-
-textColor: "#2B3B2A"
-textColorLink: "#FFCCAA"
 
 googleFonts: "https://fonts.googleapis.com/css2?family=Chelsea+Market&display=swap"
 

@@ -1,6 +1,5 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 
 title: "Ho Ho Sombrero"
 headerTitle: "Keep eggs from hitting the ground and breaking ... with sombreros"
@@ -9,17 +8,10 @@ blurb: "Help Santa Claus keep presents in eggcelent condition by catching them o
 headerImg: "sombrero_bg"
 headerThumb: "sombrero_thumb"
 
-customHeight: "small"
 
-bgColor: "#dcff60"
-bgColorLink: "#6f31d6"
-
-textColor: "#042707"
-textColorLink: "#e5b5fb"
 
 color: "purple"
 
-extraCSS: true
 
 date: 2021-12-24
 

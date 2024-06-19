@@ -1,6 +1,5 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 
 title: "Pizza Peers"
 headerTitle: "Tasty Local Multiplayer"
@@ -14,19 +13,12 @@ longblurb: "<p>Grab ingredients, create tasty combinations, bake until they're j
 fullHeaderImg: "pizzapeers_header"
 headerImg: "pizzapeers_header"
 headerThumb: "pizzapeers_logo"
-headerDarkened: true
 
 color: "white"
 
 customHeight: "medium"
 
-bgColor: "#EEDDCC"
-bgColorLink: "#FEBB35"
 
-textColor: "#400001"
-textColorLink: "#332211"
-
-extraCSS: true
 
 date: 2020-07-12
 

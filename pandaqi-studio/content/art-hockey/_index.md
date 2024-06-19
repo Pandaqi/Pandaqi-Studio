@@ -1,6 +1,5 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 
 title: "Art Hockey"
 headerTitle: "Multiplayer Drawing Sport (Android Game)"
@@ -11,15 +10,8 @@ headerThumb: "arthockey_logo"
 
 color: "red"
 
-customHeight: "small"
 
-bgColor: "#FFDDBB"
-bgColorLink: "#760007"
 
-textColor: "#510103"
-textColorLink: "#FF7C86"
-
-extraCSS: true
 
 date: 2020-03-16
 

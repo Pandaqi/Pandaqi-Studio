@@ -1,28 +1,29 @@
 import Point from "js/pq_games/tools/geometry/point";
 import LayoutEffect from "./layoutEffect";
 import EffectsOperation from "./effectsOperation";
+import { ColorLikeValue } from "../color/colorLike";
 
 interface DropShadowParams
 {
     blur?:number,
     size?:number, // legacy support
     blurRadius?:number // legacy support
-    color?:string,
+    color?:ColorLikeValue|string,
     offset?:Point
 }
 
 export default class DropShadowEffect extends LayoutEffect
 {
-    blurRadius: any;
-    color: any;
-    offset: any;
+    blurRadius: number;
+    color: ColorLikeValue|string;
+    offset: Point;
     
     constructor(params:DropShadowParams = {})
     {
         super(params);
 
         this.blurRadius = ((params.size ?? params.blur) ?? params.blurRadius) ?? 0;
-        this.color = params.color ?? "black";
+        this.color = params.color ?? "#000000";
         this.offset = params.offset ?? new Point();
     }
 

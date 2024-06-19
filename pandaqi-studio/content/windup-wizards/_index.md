@@ -1,6 +1,5 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 
 title: "Windup Wizards"
 headerTitle: "Use windup toys to solve puzzles and make bunnies magically disappear"
@@ -9,19 +8,12 @@ blurb: "Blackout bunnies chewed through the electric cables. Only one thing can 
 headerImg: "windup_wizards_bg"
 headerThumb: "windup_wizards_logo_compressed"
 
-customHeight: "small"
 
-bgColor: "#ADF1D8"
-bgColorLink: "#DA2C38"
-
-textColor: "#012013"
-textColorLink: "#F4B4B8"
 
 entryBannerNonTextClasses: "no-shadow"
 
 color: "turquoise"
 
-extraCSS: true
 
 date: 2021-11-30
 

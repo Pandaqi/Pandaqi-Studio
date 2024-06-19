@@ -1,6 +1,5 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 
 title: "I Wish You Good Hug"
 headerTitle: "Help create a teddy bear topia"
@@ -11,15 +10,8 @@ headerThumb: "goodhug_logo"
 
 color: "green"
 
-customHeight: "small"
 
-bgColor: "#AAFFAA"
-bgColorLink: "#007607"
 
-textColor: "#562C09"
-textColorLink: "#7CFF86"
-
-extraCSS: true
 
 date: 2021-07-14
 

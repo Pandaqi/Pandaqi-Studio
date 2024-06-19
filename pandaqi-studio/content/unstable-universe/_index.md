@@ -1,26 +1,16 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "Unstable Universe"
 headerTitle: "The only boardgame where you're allowed to cut the paper into pieces"
 blurb: "The only boardgame where you're allowed to cut the board into pieces, especially when you are losing."
+blurbShort: "The only game in which you're allowed to cut the paper into pieces, especially when you are losing. A [One Paper Game](/boardgames#one-paper-games) for 2--9 players."
 
-headerDarkened: true
-
-customHeight: "small"
 
 color: "blue"
 
-bgColor: "#CEFFE3"
-bgColorLink: "#2a3da5"
 
-textColor: "#2A3A3B"
-textColorLink: "#C4BCFD"
-
-extraCSS: true
-extraJSBoard: true
 extraJSBoardInclude: true
 
 date: 2020-09-05
@@ -43,11 +33,7 @@ devlog: "/blog/boardgames/unstable-universe/devlog-unstable-universe/"
 ---
 
 
-{{% boardgame-intro heading="" %}}
-
-The only game in which you're allowed to cut the paper into pieces, especially when you are losing. A [One Paper Game](/boardgames#one-paper-games) for 2&ndash;9 players.
-
-{{% /boardgame-intro %}}
+{{% boardgame-intro /%}}
 
 <div class="limit-width">
 {{< video url="video/unstableuniverse_explanation_gif" controls="controls" >}}
@@ -97,15 +83,12 @@ Three steps:
 
 {{% /section-centered %}}
 
-{{% section-centered heading="Board Generation" html="true" %}}
+{{% boardgame-settings-container type="material" remarks="**Secret board?** The _Expeditions_ expansion adds nodes that trigger whenever their piece of paper comes loose. If you are _able to print double-sided_, these nodes will be placed on the _backside_ of the paper. This means the paper actually has secrets that will be revealed during the game! (Do a test print, though.), **Tip for Cleanup?** When done, you should have a bunch of puzzle pieces ( = all pieces of paper you cut off). Here's the challenge: try to fit them back together to recreate the original paper! Sounds easier than it is :)" %}}
   
-<p>Input your settings below. Click "Generate Board", save the PDF, print it.</p>
-<p>For your <strong>first game</strong>, just set your player count and tick "first game", that's enough!</p>
-
 {{< boardgame-settings type="board" game_title="Unstable Universe" defaults="true" >}}
   {{< setting-seed >}}
   {{< setting-playercount min="2" max="9" def="4" >}}
-  {{< setting-checkbox id="setting-firstGame" text="First game(s)?" remark="Everyone gets the same Mission, to simplify learning and teaching the game." >}}
+  {{< setting-checkbox id="setting-firstGame" text="First game(s)?" remark="Everyone gets the same Mission, to simplify learning and teaching the game." checked="checked" >}}
   {{< setting-checkbox id="setting-secretBoard" text="Secret Board?" >}}
   {{< boardgame-settings-section heading="Expansions" >}}
     {{< setting-checkbox id="setting-expansions-nastyNodes" text="Nasty Nodes?" >}}
@@ -116,13 +99,7 @@ Three steps:
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
-<div class="post-settings-remarks">
-  <p><strong>Not working?</strong> Don't worry. Click the "Download" button and you'll also find a folder with already generated boards. Use one of those instead! (Also send me an email with details about what isn't working right.)
-  <p><strong>Secret board?</strong> The "Expeditions" expansion adds nodes that trigger whenever their piece of paper comes loose. If you are <em>able to print double-sided</em>, these nodes will be placed on the <em>backside</em> of the paper. This means the paper actually has secrets that will be revealed during the game! (Do a test print, though.)</p>
-  <p><strong>Tip for Cleanup?</strong> When done, you should have a bunch of puzzle pieces ( = all pieces of paper you cut off). Here's the challenge: try to fit them back together to recreate the original paper! Sounds easier than it is :)</p>
-</div>
-
-{{% /section-centered %}}
+{{% /boardgame-settings-container %}}
 
 {{< support >}}
 

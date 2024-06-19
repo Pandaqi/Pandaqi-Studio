@@ -1,6 +1,5 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 
 title: "Carving Pumpkins & Dwarfing Dumplings"
 headerTitle: "A party game about slicing your friends into smaller and smaller pieces ... "
@@ -11,15 +10,9 @@ headerThumb: "carvingpumpkins_logo"
 
 customHeight: "medium"
 
-bgColor: "#B14422"
-bgColorLink: "#004BAD"
-
-textColor: "#ffd1c0"
-textColorLink: "#DBEDFF"
 
 color: "brown"
 
-extraCSS: true
 
 date: 2022-01-27
 

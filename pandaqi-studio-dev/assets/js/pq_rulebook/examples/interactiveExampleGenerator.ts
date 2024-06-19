@@ -51,9 +51,7 @@ export default class InteractiveExampleGenerator
 
         // create actual button and its callback
         const id = p.id ?? "turn";
-        const buttonText = p.buttonText ?? "Give me an example turn!";
-        const e = new InteractiveExample({ id: id });
-        e.setButtonText(buttonText);
+        const e = new InteractiveExample({ id: id, buttonText: p.buttonText });
 
         const callback = p.callback;
         const simCfgButton = Object.assign({}, p.simulateConfig);

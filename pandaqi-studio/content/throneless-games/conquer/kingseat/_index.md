@@ -1,28 +1,18 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "Kingseat"
 headerTitle: "Make sure the right Prince wins the throne, playable without a table or chairs"
 blurb: "Vote, swap places and use powers to ensure the right Prince wins the throne. A game playable without a table or chairs."
+blurbShort: "A [Throneless Game](/throneless-games/) game about helping your animal win the throne, aimed more at kids."
 
 blurbProject: "The original version, with slightly more complicated setup and Princes."
 weightProject: 30
 
-extraCSS: true
 downloadLink: ""
 
-customHeight: "small"
-headerDarkened: true
-
 color: "black"
-
-bgColor: "#0d0018"
-bgColorLink: "#84060b"
-
-textColor: "#ecd9ff"
-textColorLink: "#f7fa96"
 
 date: 2023-11-12
 
@@ -40,26 +30,11 @@ ages: everyone
 
 ---
 
-{{% boardgame-intro heading="" %}}
+{{% boardgame-intro /%}}
 
-A [Throneless Game](/throneless-games/) game about helping your animal win the throne, aimed more at kids.
+{{% boardgame-instructions /%}}
 
-{{% /boardgame-intro %}}
-
-{{% section-centered heading="What do I need?" %}}
-
-Three simple steps.
-* Read the short [playful rules](rules).
-* Download the base game PDF. (Download > Files > Base Game.)
-* Print, cut, play!
-
-**Want more?** You can also [generate your own material](#material) right on this website, to suit your specific needs.
-
-{{% /section-centered %}}
-
-{{% section-centered heading="Material" anchor="material" html="true" %}}
-
-<p>Input your settings, click the button. A new page will open that generates a nice PDF for you!</p>
+{{% boardgame-settings-container type="material" remarks="Check the rules to see **how many Princes** are recommended for each player count. Each choice adds ~1 page to print." %}}
 
 {{< boardgame-settings type="game" btn_label="Create Material" local_storage="kingseatConfig" game_title="Kingseat" defaults="true" >}}
   {{< setting-checkbox id="setting-highLegibility" text="High Legibility?" remark="Picks a more neutral font for maximum legibility." checked="checked" >}}
@@ -80,11 +55,7 @@ Three simple steps.
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
-<p class="remark-below-settings">Check the rules to see <strong>how many Princes</strong> are recommended for each player count. Each choice adds ~1 page to print.</p> 
-
-<p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>
-
-{{% /section-centered %}}
+{{% /boardgame-settings-container %}}
 
 {{% section-centered heading="Credits" anchor="credits" %}}
 

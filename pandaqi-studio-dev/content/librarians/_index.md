@@ -1,5 +1,5 @@
 ---
-type: "single"
+type: "gamepage"
 gamepage: true
 boardgame: true
 
@@ -7,22 +7,11 @@ title: "Librarians"
 headerTitle: "Fill the book shelves in the correct order without communication."
 blurb: "Silence in the library! Work together to fill bookshelves in alphabetical order, but without any communication."
 
-extraCSS: true
-downloadLink: "https://drive.google.com/drive/folders/1oXsEhIbOgYbdzvjnbK0XVSkOymGM8KxX" # already updated!
-
-customHeight: "small"
-headerDarkened: true
+downloadLink: "https://drive.google.com/drive/folders/1oXsEhIbOgYbdzvjnbK0XVSkOymGM8KxX"
 
 color: "purple"
 
-bgColor: "#003401"
-bgColorLink: "#ff1f1f"
-
-textColor: "#f2ffef"
-textColorLink: "#ffe9e9"
-
-
-date: 2023-01-01 # 2024-12-26
+date: 2025-01-12
 
 categories: ["boardgame"]
 tags: ["creative", "guessing", "word"]
@@ -38,30 +27,15 @@ devlog: "/blog/boardgames/librarians/"
 
 ---
 
-{{% boardgame-intro heading="" %}}
+{{% boardgame-intro /%}}
 
-Silence in the library! Work together to fill bookshelves in alphabetical order, but without any communication.
-
-{{% /boardgame-intro %}}
-
-{{% section-centered heading="What do I need?" %}}
-
-Three simple steps.
-* Read the short [playful rules](rules).
-* Download the base game PDF. (Download > Files > Base Pack.)
-* Print, cut, play!
-
+{{% boardgame-instructions %}}
 The base game is simple enough to play with kids who are learning the alphabet. Adding the extra levels turns this into a challenging puzzle for the whole group.
+{{% /boardgame-instructions %}}
 
-**Want more?** You can also [generate your own material](#material) right on this website!
+{{% boardgame-settings-container type="material" %}}
 
-{{% /section-centered %}}
-
-{{% section-centered heading="Material" anchor="material" html="true" %}}
-
-<p>Pick your desired settings and click the button! When in doubt, just use the defaults for your first games.</p>
-
-{{< boardgame-settings type="game" local_storage="librariansConfig" btn_label="Generate Material" game_title="Librarians" defaults="true" >}}
+{{< boardgame-settings type="game" local_storage="librariansConfig" btn_label="Generate Material" game_title="Librarians" defaults="true">}}
   {{< boardgame-settings-section heading="Packs" >}}
     {{< setting-checkbox id="setting-packs-shelves" text="Book Shelf Cards?" checked="checked" >}}
     {{< setting-enum id="setting-packs-red" text="Red?" values="horror,detective,true_crime,tragedy" keys="Horror,Detective,True Crime,Tragedy" >}}
@@ -74,16 +48,10 @@ The base game is simple enough to play with kids who are learning the alphabet. 
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
-<p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>
-
-<p class="settings-remark">As stated in the rulebook, you should play with each color included once. But within each color you have 4 options that you can swap out as you like, if you've printed the material. When unsure, just pick the base set from the "Download" button.</p>
-
-{{% /section-centered %}}
+{{% /boardgame-settings-container %}}
 
 {{% section-centered heading="Credits" anchor="credits" %}}
 
 @TODO
-
-For more information, as always, read my [detailed developer diary on Pandaqi Blog](/blog/boardgames/librarians/).
 
 {{% /section-centered %}}

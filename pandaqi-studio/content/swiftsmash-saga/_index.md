@@ -1,25 +1,16 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "Swiftsmash Saga"
 headerTitle: "A series of games about thinking quickly and smashing the right card before anyone else."
 blurb: "A series of (party) games about thinking on your feet and swiftly smashing the right card before anyone else."
 
-extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/153TCjVAmGbWwDFeXqa-eacGi2taA2PnZ"
 
-customHeight: "small"
-headerDarkened: true
 
 color: "green"
 
-bgColor: "#2a030a"
-bgColorLink: "#E53152"
-
-textColor: "#ffe4e9"
-textColorLink: "#ffe7eb"
 
 date: 2024-07-26
 
@@ -38,11 +29,7 @@ ages: everyone
 
 ---
 
-{{% boardgame-intro heading="" %}}
-
-A series of (party) games about thinking on your feet and swiftly smashing the right card before anyone else.
-
-{{% /boardgame-intro %}}
+{{% boardgame-intro /%}}
 
 {{% section-centered heading="What's this?" %}}
 
@@ -66,7 +53,7 @@ Besides that shared mechanic, these games are **completely different**. They don
 
 {{% section-centered heading="Credits" anchor="credits" %}}
 
-This series started with [Cookie Smasher](/swiftsmash-sage/tap/cookie-smasher/). As explained in that game's credits, the idea occurred to me as I wrote one of my _Wildebyte Arcades_ books. It has a character called Cookie Clicker, who obviously originates from the video game of the same name. And my brain thought: could you make a _boardgame_ like Cookie Clicker?
+This series started with [Cookie Smasher](/swiftsmash-saga/tap/cookie-smasher/). As explained in that game's credits, the idea occurred to me as I wrote one of my _Wildebyte Arcades_ books. It has a character called Cookie Clicker, who obviously originates from the video game of the same name. And my brain thought: could you make a _boardgame_ like Cookie Clicker?
 
 This slowly evolved into an expanded version that worked much better: "it's not about tapping something (often), it's about tapping _the right thing_ before _anyone else_."
 

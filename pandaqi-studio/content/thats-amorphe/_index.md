@@ -1,21 +1,14 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "That's Amorphe"
 headerTitle: "A party game about what's halfway between a moon and an eye"
 blurb: "A party game about imagining what happens if one thing morphed into another---or guessing what other players mean with their inventions."
+blurbShort: "What happens when you morph a cat halfway into a house? And what if you do it _a little bit_? A party game about inventing things and then asking others to guess what on earth you meant."
 
-headerDarkened: true
-customHeight: "small"
 color: "red"
 
-bgColor: "#ffe4e0"
-bgColorLink: "#ff6b6b"
-
-textColor: "#1a0202"
-textColorLink: "#590808"
 
 date: 2023-02-27
 
@@ -25,7 +18,6 @@ categories: ["boardgame", "standard"]
 tags: ["social", "guessing", "language", "sorting", "turn-based"]
 themes: []
 
-extraCSS: true
 
 downloadLink: "https://drive.google.com/drive/folders/1H1gLrHUsju_tnXbKoJYrsGP1sHRNG-6_"
 
@@ -38,11 +30,7 @@ devlog: "/blog/boardgames/thats-amorphe/"
 
 ---
 
-{{% boardgame-intro heading="" %}}
-
-What happens when you morph a cat halfway into a house? And what if you do it _a little bit_? A party game about inventing things and then asking others to guess what on earth you meant.
-
-{{% /boardgame-intro %}}
+{{% boardgame-intro /%}}
 
 <!-- Introduction + explanation text -->
 {{% section-centered heading="What's the idea?" %}}
@@ -68,15 +56,11 @@ Four simple steps.
 * Download the PDF with "morph cards" (1 page)---print it.
 * Read the rules (2 pages) and have fun!
 
-**Want more?** This website can generate [random word cards](#word_cards) for you! You know, if you've played the game fifty times and want some variation.
+**Want more?** This website can generate [random word cards](#material) for you! You know, if you've played the game fifty times and want some variation.
 
 {{% /section-centered %}}
 
-{{% section-centered heading="Word Cards" html="true" anchor="word_cards" %}}
-
-<p>Input your desired settings. The page will generate a PDF file with random word cards.</p>
-<p>Print them, cut them, play with them!</p>
-<p>When in doubt, just leave the options at their default settings.</p>
+{{% boardgame-settings-container type="material" %}}
 
 {{< boardgame-settings type="game" btn_label="Generate Cards" local_storage="thatsAmorpheConfig" game_title="That's Amorphe" >}}
   {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?"  remark="Turns the material mostly white / grayscale to conserve ink." >}}
@@ -86,13 +70,12 @@ Four simple steps.
   {{< setting-checkbox id="setting-includeGeography" text="Include geography?" remark="Adds cities, countries and continents." >}}
   {{< setting-checkbox id="setting-includeNames" text="Include names?" remark="Adds proper names of famous people, brands, events, etcetera." >}}
   {{< setting-checkbox id="setting-useAllCategories" text="Use all categories?" remark="Overwrite the options below to include <em>everything</em>." >}}
-
   {{< boardgame-settings-section heading="Categories" >}}
     {{< setting-checkbox-multiple id="setting-categories" values="anatomy,animals,business,clothes,colors,digital,food,general,holidays,items,military,music,nature,occupations,people,places,science,shapes,sports,time,travel,vehicles" values_checked="animals,food,items,places,vehicles" >}}
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
-{{% /section-centered %}}
+{{% /boardgame-settings-container %}}
 
 {{% section-centered heading="Taking too long?" %}}
 

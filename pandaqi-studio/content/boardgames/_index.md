@@ -1,6 +1,5 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 
 title: "Boardgames"
 headerTitle: "Boardgames | Free Print 'n Play titles"
@@ -10,13 +9,7 @@ customHeight: "medium"
 
 color: "blue"
 
-bgColor: "#E6E4FF"
-bgColorLink: "#03034f"
 
-textColor: "#03034f"
-textColorLink: "#E6E4FF"
-
-extraCSS: true
 
 date: 2021-04-29
 

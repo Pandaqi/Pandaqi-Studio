@@ -8,15 +8,9 @@ blurb: "1-6 players move around wild arenas trying to boink their opponents off 
 
 customHeight: "large"
 
-bgColor: "#d11f88"
-bgColorLink: "#6aff74"
-
-textColor: "#ffb3f2"
-textColorLink: "#05330b"
 
 color: "purple"
 
-extraCSS: true
 
 date: 2022-04-07
 

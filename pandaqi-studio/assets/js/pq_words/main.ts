@@ -2,27 +2,6 @@ import WordMetadata from "./wordMetadata";
 import WordData from "./wordData";
 import WordDataList from "./wordDataList";
 
-const CATEGORIES =
-{
-    geography: ["cities", "countries", "locations", "planets"],
-    names: ["business", "clothes", "creative_gaming", "creative_visual", "creative_writing", "digital", "food", "holidays", "items_appliances", "music", "people", "religion", "science", "sports", "travel", "vehicles", "general"],
-    nouns: ["anatomy", "animals", "animals_birds", "animals_farm", "animals_insects", "animals_pets", "business", "clothes", "colors", "continents", "creative_gaming", "creative_visual", "creative_writing", "digital", "events", "food", "food_beverages", "food_fruit", "food_sweets", "general", "holidays", "items", "items_appliances", "items_furniture", "items_household", "items_substances", "items_tools", "items_toys", "military", "music", "music_theory", "nature", "nature_weather", "occupations", "people", "places", "places_architecture", "places_inside",  "religion", "science", "science_chemistry", "science_physics", "shapes", "sports", "time", "travel", "vehicles"],
-    adverbs: ["certainty", "conjunctive", "degree", "frequency", "interrogative", "manner", "place", "relative", "time"],
-    adjectives: ["age", "article", "character", "color", "comparative", "demonstrative", "difference", "distributive", "emotions", "material", "numbers", "opinion", "origin", "possessive", "predeterminer", "quantifier", "ranking", "shape", "size", "superlative", "technology","temperature" ],
-    verbs: ["auxiliary", "basic", "dynamic", "intransitive", "linking", "movement", "phrasal", "stative", "transitive", "communication", "feelings"],
-    pronouns: ["pronouns"],
-    prepositions: ["movement", "place", "time"]
-}
-
-const ALL_CATEGORIES = new Set();
-for(const [key,data] of Object.entries(CATEGORIES))
-{
-    for(const val of data)
-    {
-        ALL_CATEGORIES.add(val);
-    }
-}
-
 interface Query 
 {
     cat?:string
@@ -43,22 +22,26 @@ interface LoadParams
     useAllSubcat?: boolean;
     typeExceptions?: string[];
     categoryExceptions?: string[];
+    wordExceptions?: string[];
+    wordFilters?: string[];
     method?: string;
     minWordLength?:number
     maxWordLength?:number
 }
 
-class PandaqiWords {
+class PandaqiWords 
+{
 
     jsonCache:Record<string,any> = {}
     txtCache:Record<string,any> = {}
     list:WordData[] = []
     
-    allCategories = Array.from(ALL_CATEGORIES) as string[]
+    allCategories =  
+    ["anatomy", "animals", "animals_birds", "animals_farm", "animals_insects", "animals_pets", "business", "cities", "clothes", "colors", "continents", "countries", "creative_gaming", "creative_visual", "creative_writing", "digital", "events", "food", "food_beverages", "food_fruit", "food_sweets", "general", "holidays", "items", "items_appliances", "items_furniture", "items_household", "items_substances", "items_tools", "items_toys", "locations", "military", "music", "music_theory", "nature", "nature_weather", "occupations", "people", "places", "places_architecture", "places_inside", "planets", "religion", "science", "science_chemistry", "science_physics", "shapes", "sports", "time", "travel", "vehicles"]
     defaultCategories = ["animals", "food", "places", "items"]
     allLevels = ["core", "easy", "medium", "hard", "hardcore"]
     defaultLevel = ["easy"]
-    allTypes = ["nouns", "geography", "names", "adjectives", "verbs", "adverbs", "pronouns", "prepositions"]
+    allTypes = ["nouns", "geography", "names", "adjectives", "verbs", "adverbs"]
     defaultType = ["nouns"]
 
     defSubcat = "general"
@@ -77,10 +60,10 @@ class PandaqiWords {
     }
 
     // @NOTE: Can print this directly to the console with something like
-    // PQ_WORDS.getWordCount().then((res) => console.log(res));
+    // PQ_WORDS.getTotalWordCount().then((res) => console.log(res));
     async getWordCount(allWords = true)
     {
-        if(allWords) { await this.loadWithParams({ useAll: true, method: "json" }); }
+        if(allWords) { await this.loadWithParams({ "useAll": true, "method": "json" }); }
         return this.recursiveWordCount(this.jsonCache);
     }
 
@@ -349,7 +332,7 @@ class PandaqiWords {
         return { success: false, matches: matches }
     }
 
-    getRandomMultiple(num = 10, remove = false)
+    getRandomMultiple(num = 10, remove = false) : WordData[]
     {
         const arr = [];
         for(let i = 0; i < num; i++)
@@ -361,7 +344,7 @@ class PandaqiWords {
         return arr;
     }
 
-    getRandom(remove = false)
+    getRandom(remove = false) : WordData
     {
         if(this.list.length <= 0) { return null; }
 
@@ -371,7 +354,7 @@ class PandaqiWords {
         return val;
     }
 
-    getAllSubcategories(cat)
+    getAllSubcategories(cat) : string[]
     {
         const arr = [];
         for(const otherCat of this.allCategories)
@@ -385,7 +368,7 @@ class PandaqiWords {
 
     async loadAll()
     {
-        await this.loadWithParams({ useAll: true, method: "txt" });
+        await this.loadWithParams({ "useAll": true, "method": "txt" });
     }
 
     async loadWithParams(params:LoadParams = {})
@@ -399,14 +382,13 @@ class PandaqiWords {
             params.types = this.allTypes;
             params.levels = this.allLevels;
             params.categories = this.allCategories;
-            params.useAllSubcat = true;
         }
 
-        params.minWordLength = params.minWordLength || 0;
-        params.maxWordLength = params.maxWordLength || 50;
+        params.minWordLength = params.minWordLength ?? 0;
+        params.maxWordLength = params.maxWordLength ?? 50;
 
-        const types = params.types || this.defaultType;
-        const levels = params.levels || this.defaultLevel;
+        const types = params.types ?? this.defaultType;
+        const levels = params.levels ?? this.defaultLevel;
         if(params.useAllLevelsBelow)
         {
             const idx = this.allLevels.indexOf(params.levels[0]);
@@ -433,8 +415,8 @@ class PandaqiWords {
             }
         }
 
-        const typeExceptions = params.typeExceptions || [];
-        const categoryExceptions = params.categoryExceptions || [];
+        const typeExceptions = params.typeExceptions ?? [];
+        const categoryExceptions = params.categoryExceptions ?? [];
 
         // generate the list of all combinations (level, type, cat, ...) we want to have
         const queryList = [];
@@ -443,16 +425,9 @@ class PandaqiWords {
             const isTypeException = (type in typeExceptions);
             if(isTypeException) { continue; }
 
-            const relevantCategories = [];
-            for(const cat of categories)
-            {
-                if(!CATEGORIES[type].includes(cat)) { continue; }
-                relevantCategories.push(cat);
-            }
-
             for(const level of levels)
             {
-                for(const cat of relevantCategories)
+                for(const cat of categories)
                 {
                     let mainCat = cat, subCat = this.defSubcat;
                     if(cat.includes("_"))
@@ -470,13 +445,19 @@ class PandaqiWords {
         }
 
         // then simply get that list using the preferred method
-        const method = params.method || "json";
+        const method = params.method ?? "json";
 
         if(method == "json"){
             await this.loadJsonWithQueries(path, queryList, params);
         } else if(method == "txt") {
             await this.loadTxtWithQueries(path, queryList, params);
         }
+
+        const wordExceptions = params.wordExceptions ?? [];
+        this.excludeWords(wordExceptions);
+
+        const wordFilter = params.wordFilters ?? [];
+        this.filterWords(wordFilter);
     }
 
     async loadJsonWithQueries(path:string, queryList:Query[], params:LoadParams)
@@ -513,23 +494,17 @@ class PandaqiWords {
         this.constructListFromKeys(keys, params);
     }
 
-    async fileExists(url:string) 
+    fileExists(url:string) 
     {
-        const req = new XMLHttpRequest();
-        return new Promise((resolve, reject) => {
-            req.open('HEAD', url);
-            req.onerror = () => { resolve(false); }
-            req.onload = () => {
-                resolve(req.status !== 404);
-            };
-            req.send();
-        });        
+        var req = new XMLHttpRequest();
+        req.open('HEAD', url, false);
+        req.send();
+        return req.status !== 404;
     }
 
     parseTxtFile(data:string)
     {
-        const arr = data.split(/[\r\n]+/);
-        // this just filters out any empty lines (or too-short-words)
+        const arr = data.replaceAll("\r", "").split("\n");
         for(let i = arr.length-1; i >= 0; i--)
         {
             if(arr[i].length >= 2) { continue; }
@@ -538,19 +513,18 @@ class PandaqiWords {
         return arr;
     }
 
-    async loadTxtFile(filePath:string, wordData:WordDataList)
+    loadTxtFile(filePath:string, wordData:WordDataList)
     {   
         console.log("Checking file at ", filePath);
 
-        const fileExists = await this.fileExists(filePath);
-        if(!fileExists) { return Promise.resolve(); }
+        if(!this.fileExists(filePath)) { return Promise.resolve(); }
 
         const that = this;
         return new Promise((resolve, reject) => {
             const xhr = new XMLHttpRequest();
             xhr.open('GET', filePath);
 
-            xhr.onerror = () => { resolve(false); }
+            xhr.onerror = (ev) => { resolve(false); }
             xhr.onloadend = () => {
                 if(xhr.status == 404) { resolve(false); return; }
                 if(xhr.status == 200) {
@@ -566,7 +540,7 @@ class PandaqiWords {
     }
 
     // @IMPROV: slightly duplicate code compared to loadTxtFile; is it necessary to generalize/merge that?
-    async loadJsonFile(filePath:string)
+    async loadJsonFile(filePath)
     {
         const that = this;
         return new Promise((resolve, reject) => {
@@ -605,6 +579,43 @@ class PandaqiWords {
             arr.push(cat);
         }
         return arr.join(joiner);
+    }
+
+    getIndexOfWord(word:string)
+    {
+        for(let i = 0; i < this.list.length; i++)
+        {
+            if(this.list[i].getWord() != word) { continue; }
+            return i;
+        }
+        return -1;
+    }
+
+    removeWordAtIndex(i:number)
+    {
+        this.list.splice(i, 1);
+    }
+
+    excludeWords(list:string[])
+    {
+        if(list.length <= 0) { return; }
+        for(const elem of list)
+        {
+            const idx = this.getIndexOfWord(elem);
+            if(idx < 0) { continue; }
+            this.removeWordAtIndex(idx);
+        }
+    }
+
+    // only KEEP the ones from the list; not sure when I'd use this, but hey
+    filterWords(list:string[])
+    {
+        if(list.length <= 0) { return; }
+        for(let i = this.list.length - 1; i >= 0; i--)
+        {
+            if(list.includes(this.list[i].getWord())) { continue; }
+            this.removeWordAtIndex(i);
+        }
     }
 }
 

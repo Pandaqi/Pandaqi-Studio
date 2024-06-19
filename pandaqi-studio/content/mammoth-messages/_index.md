@@ -1,25 +1,16 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "Mammoth Messages"
 headerTitle: "Communicate words using only barebones cave drawings"
 blurb: "Give message. They guess. Only cave drawings. Nothing else. More guess is more good. Party game. Hum."
 
-extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/1lFWm9gEBEFxKMeDMy_fucT5xcDac4KsC"
 
-customHeight: "small"
-headerDarkened: true
 
 color: "brown"
 
-bgColor: "#230e00"
-bgColorLink: "#2d2d2d"
-
-textColor: "#fff0e8"
-textColorLink: "#e0e0e0"
 
 date: 2024-03-26
 
@@ -38,26 +29,11 @@ devlog: "/blog/boardgames/mammoth-messages/"
 
 ---
 
-{{% boardgame-intro heading="" %}}
+{{% boardgame-intro /%}}
 
-Give message. They guess. Only cave drawings. Nothing else. More guess is more good. Party game. Hum.
+{{% boardgame-instructions /%}}
 
-{{% /boardgame-intro %}}
-
-{{% section-centered heading="What do I need?" %}}
-
-Three simple steps.
-* Read the ultra-short [playful rules](rules).
-* Download the base game PDF. (Download > Files > Base Pack.)
-* Print, cut, play!
-
-**Want more?** You can also [generate your own material](#material) right on this website!
-
-{{% /section-centered %}}
-
-{{% section-centered heading="Material" anchor="material" html="true" %}}
-
-<p>Pick your desired settings and click the button! When in doubt, just use the defaults for your first games.</p>
+{{% boardgame-settings-container type="material" remark="The material for this game is heavy to generate. Please use a computer (not a phone) and give it a few minutes!" %}}
 
 {{< boardgame-settings type="game" local_storage="mammothMessagesConfig" btn_label="Generate Material" game_title="Mammoth Messages" defaults="true" >}}
   {{< boardgame-settings-section heading="What to generate?" >}}
@@ -72,11 +48,7 @@ Three simple steps.
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
-<p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>
-
-<p class="settings-remark">The material for this game is heavy to generate. Please use a computer (not a phone, for example) and give it a few minutes!</p>
-
-{{% /section-centered %}}
+{{% /boardgame-settings-container %}}
 
 {{< support >}}
 
@@ -93,7 +65,5 @@ The key word here is simplicity. Anybody can play this game within 30 seconds. I
 You also might wonder "aren't some of these cave drawings a little too modern?" Well, while writing and researching my Saga of Life stories (about human history and origins of life), I repeatedly realized that just because they could not _write_ doesn't mean they didn't have clothes, tools, games, etcetera. We might have invented the knitting needle before any other tool. Dice, and what could possibly be betting chips, have been found on very old archeological sites. 
 
 Their understanding of the world, their _spoken_ language, might have been on par with ours. Because why wouldn't it be? The prehistoric times lasted waaay longer than our modern times. They actually lived in nature and had to use and understand it every day. Science even shows they were healthier and more creative than modern day humans in some respects.
-
-For more information, as always, read my [detailed developer diary on Pandaqi Blog](/blog/boardgames/mammoth-messages/).
 
 {{% /section-centered %}}

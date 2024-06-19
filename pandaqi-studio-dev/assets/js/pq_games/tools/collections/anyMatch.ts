@@ -1,4 +1,4 @@
-export default (a:any[], b:any[]) =>
+export default <T>(a:T[], b:T[]) : boolean =>
 {
     for(const elemA of a)
     {

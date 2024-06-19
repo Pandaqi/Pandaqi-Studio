@@ -93,10 +93,11 @@ $min-remark-print-width: $max-print-width;
     position: running(runningFooter);
 }
 
-body {
+body 
+{
     background-color: #FCFCFC;
-    font-size: 16px;
-    line-height: 125%;
+    font-size: calc(15px + 0.390625vw);
+    line-height: 1.35em; 
 
     @media print 
     {
@@ -122,9 +123,6 @@ ul, ol {
     margin-top: -0.85em;
     margin-bottom: 1.5em;
 }
-
-
-
 
 
 //
@@ -207,6 +205,7 @@ p {
 
 article, section {
     position: relative;
+    display: block;
 }
 
 .allow-page-break {
@@ -222,12 +221,13 @@ article, section {
 }
 
 section {
-    break-inside: avoid;
+    break-inside: auto !important;
 }
 
 #simpleViewButton, #printButton
 {
     cursor:pointer;
+    background-color: white;
     
     @media print {
         display: none;
@@ -273,7 +273,7 @@ header {
         font-size: 0.66em;
     
         h1 {
-            font-size: 1.0rem;
+            font-size: 1rem;
             color: white;
             padding: 1rem;
             text-align: center;
@@ -327,14 +327,14 @@ header {
         border: none;
         font-size: 1.0em;
         border-radius: 0.5em;
-        filter: drop-shadow(0 0 2px #333);
+        filter: drop-shadow(0 0 0.1rem #333);
         cursor: pointer;
         transition: background 0.3s, color 0.3s, filter 0.3s;
 
         &:hover {
             background: #ffe8be;
             color: #2b1402;
-            filter: drop-shadow(0 0 5px #212121);
+            filter: drop-shadow(0 0 0.25rem #212121);
         }
     }
 
@@ -349,7 +349,7 @@ header {
     }
 
     img {
-        filter: drop-shadow(0 0 5px black);
+        filter: drop-shadow(0 0 0.25rem black);
         max-width: 100%;
         max-height: 16vw;
     }
@@ -394,11 +394,6 @@ picture {
             float: none;
             max-width: 100%;
         }
-    }
-
-    
-    &.drop-shadow {
-        filter: drop-shadow(1px 2px 4px #444);
     }
 }
 
@@ -514,21 +509,19 @@ section[data-folded="true"]
 .remark {
 
     background-color: rgba(0,0,0,0.2);
-    padding: 0.5em;
-    border-radius: 0.5em;
-    font-size: 0.75em;
-    line-height: 120%;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    font-size: 0.75rem;
+    line-height: 1.4em;
     color: rgba(0,0,0,0.8);
     font-style: italic;
     margin-bottom: 1em; // because the paragraphs inside won't add it
-
-
 
     &::before {
         content: "Remark: ";
         display: inline-block;
         font-weight: bold;
-        margin-right: 0.5em;
+        margin-right: 0.5rem;
     }
 
     p {
@@ -572,7 +565,7 @@ section[data-folded="true"]
         transition: background-color 0.15s, box-shadow 0.15s;
 
         &.top-level-heading {
-            box-shadow: 0 4px 6px rgba(0,0,0,0.5);
+            box-shadow: 0 0.25rem 0.25rem rgba(0,0,0,0.5);
         }
 
         &.mid-level-heading {
@@ -583,7 +576,7 @@ section[data-folded="true"]
 
         &:hover {
             background-color: white;
-            box-shadow: 0 0 5px black;
+            box-shadow: 0 0 0.25rem black;
         }
 
         background-color: rgba(0,0,0,0.15);
@@ -624,7 +617,7 @@ section[data-folded="true"]
         }
 
         &[data-folded="true"] {
-            padding: 0px;
+            padding: 0;
         }
 
         overflow-y: hidden;

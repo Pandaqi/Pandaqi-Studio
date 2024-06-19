@@ -26,25 +26,24 @@ export default class SliderInteractive
 
     async setup(customSize:Point = null)
     {
-        this.canvas = await this.createNewCanvas(customSize);
-        this.node.appendChild(this.canvas);
-        this.attachEventsToCanvas();
+        await this.reload(customSize);
         this.setupDragger();
         this.setupReplaceButton();
     }
 
-    async createNewCanvas(customSize:Point = null)
-    {
-        return await this.slider.draw(customSize);
-    }
-
-    async reload()
+    async reload(customSize:Point = null)
     {
         this.slider.reload();
+        
+        if(!customSize && this.canvas) { customSize = new Point(this.canvas.width, this.canvas.height); }
+        
+        const newCanvas = await this.slider.draw(customSize); 
+        if(this.canvas) {
+            this.node.replaceChild(newCanvas, this.canvas);
+        } else {
+            this.node.appendChild(newCanvas);
+        }
 
-        const customSize = new Point(this.canvas.width, this.canvas.height);
-        const newCanvas = await this.createNewCanvas(customSize);
-        this.node.replaceChild(newCanvas, this.canvas);
         this.canvas = newCanvas;
         this.attachEventsToCanvas();
         this.signals.dispatchEvent("replaced");

@@ -19,23 +19,23 @@
         padding: 0;
 
         display: flex;
-        gap: 10px;
+        gap: 0.5rem;
         justify-content: center;
 
         @media all and (max-width: g.$cutoff2) {
-            margin-top: 20px;
+            margin-top: 1rem;
         }
 
         li {
             list-style-type: none;
 
             a {
-                padding: 20px;
+                padding: 1.25rem;
                 background-color: #032924;
                 color: #74fdeb;
                 text-decoration: none;
                 font-family: "Dosis";
-                font-size: 24px;
+                font-size: 1.5rem;
                 font-weight:bold;
 
                 transition: background-color 0.3s, color 0.3s, filter 0.3s, transform 0.3s;
@@ -43,13 +43,8 @@
                 &:hover {
                     background-color: pink;
                     color: rgb(66, 7, 17);
-                    filter: drop-shadow(0 0 10px black);
+                    filter: drop-shadow(0 0 0.35rem black);
                     transform: scale(1.2);
-                }
-
-                @media all and (max-width: g.$cutoff2) {
-                    font-size: 16px;
-                    padding: 10px;
                 }
             }
             

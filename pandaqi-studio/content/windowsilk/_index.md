@@ -1,6 +1,5 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 
 title: "Windowsilk"
 headerTitle: "A party game for 1-6 spiders about eating or being eaten"
@@ -9,17 +8,10 @@ blurb: "1-6 spiders compete to eat more bugs than the others, growing and changi
 headerImg: "windowsilk_bg"
 headerThumb: "windowsilk_header_transparent"
 
-customHeight: "small"
 
-bgColor: "#FFF1ED"
-bgColorLink: "#285324"
-
-textColor: "#1a2d0f"
-textColorLink: "#A9FF8A"
 
 color: "yellow"
 
-extraCSS: true
 
 date: 2021-11-26
 

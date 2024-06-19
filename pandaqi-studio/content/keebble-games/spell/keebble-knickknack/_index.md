@@ -1,26 +1,18 @@
 ---
-type: "single"
-draft: false
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "Keebble: Knickknack"
 headerTitle: "A hybrid version of the word game Keebble"
 blurb: "A party game like Scrabble. A spin-off for Keebble. Played using an empty paper and one phone with internet."
+blurbShort: "A word game like Scrabble, but faster, simpler and more exciting. A hybrid (board game + video game) version of the [Keebble Games](/keebble-games/) idea."
 
 blurbProject: "The same as Keebble, but now digital, played using a single smartphone. This allows more depth, variation, and random setup."
 weightProject: 20
 
-customHeight: "small"
-headerDarkened: true
 
 color: "blue"
 
-bgColor: "#e5ffc1"
-bgColorLink: "#00223f"
-
-textColor: "#001e00"
-textColorLink: "#a6cff6"
 
 date: 2023-05-20
 
@@ -30,8 +22,6 @@ categories: ["boardgame", "hybrid-game", "one-paper-game"]
 tags: ["grid", "shared-map", "language", "spiritually-inspired"]
 themes: []
 
-extraCSS: true
-extraJSBoard: true
 extraJSBoardInclude: true
 
 downloadLink: "https://drive.google.com/drive/folders/1_hK2ICc9T95hSLAGNO4mvBFmqpvrq_15"
@@ -48,11 +38,7 @@ devlog: "/blog/boardgames/keebble-knickknack/"
 ---
 
 
-{{% boardgame-intro heading="" %}}
-
-A word game like Scrabble, but faster, simpler and more exciting. A hybrid (board game + video game) version of the [Keebble Games](/keebble-games/) idea.
-
-{{% /boardgame-intro %}}
+{{% boardgame-intro /%}}
 
 {{% section-centered heading="What do I need?" %}}
 
@@ -65,9 +51,7 @@ You can start completely blank. Or you can use the [board generator](#board) bel
 
 {{% /section-centered %}}
 
-{{% section-centered heading="Board" html="true" anchor="board" %}}
-
-<p>Input your desired settings and click "generate".</p>
+{{% boardgame-settings-container type="board" %}}
 
 {{< boardgame-settings type="board" local_storage="keebbleKnickKnackConfig" game_title="Keebble: Knickknack" defaults="true" >}}
   {{< setting-checkbox id="setting-forPrinting" text="For Printing?" remark="If you want to print this PDF and directly play on that." >}}
@@ -75,9 +59,7 @@ You can start completely blank. Or you can use the [board generator](#board) bel
   {{< setting-checkbox id="setting-expansions-specialCells" text="Add Supercells?" remark="When playing with the special cells expansion." >}}
 {{< /boardgame-settings >}}
 
-<p style="font-size:0.66em; opacity: 0.66;">Not working? Don't worry! At the "Download" link, you can also find PDFs I already generated for you.</p> 
-
-{{% /section-centered %}}
+{{% /boardgame-settings-container %}}
 
 {{% section-centered heading="Game" anchor="game" html="true" %}}
 

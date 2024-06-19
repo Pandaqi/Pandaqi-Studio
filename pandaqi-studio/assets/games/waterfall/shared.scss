@@ -1,27 +1,15 @@
+@use "sass:color";
+
 $header-font: "merienda";
 $body-font: "avrile";
 $base: "/waterfall/assets/";
 $base-fonts: $base + "fonts/";
 
-$bg-col: #95e6ee;
-$text-col: #111111;
+$bg-color: #95e6ee;
+$text-color: #111111;
 
 $col1: #a4cc5e;
 $col2: #7b470d;
-
-body {
-    font-family: $body-font;
-    background-color: $bg-col;
-    color: $text-col;
-    font-size: calc(13px + 0.390625vw);
-    line-height: 130%;
-    box-sizing: border-box;
-}
-
-h1, h2, h3, h4 {
-    font-family: $header-font;
-    font-weight: 900;
-}
 
 @font-face {
     font-family: $body-font;
@@ -69,4 +57,81 @@ h1, h2, h3, h4 {
     font-weight: 900;
     font-style: normal;
     font-display: swap;
+}
+
+body {
+    font-family: $body-font;
+    background-color: $bg-color;
+    color: $text-color;
+    font-size: calc(13px + 0.390625vw);
+}
+
+h1, h2, h3, h4, h5, h6, 
+a.btn, #btn-create-pdf, #btn-generate-board, #btn-start-game,
+input, button, select, option, label {
+    font-family: $header-font;
+    font-weight: 900;
+}
+
+$button-bg: $col1;
+$button-color: #27231c;
+$link-color: color.adjust($col2);
+$link-color-hover: color.adjust($col2, $lightness: 8%);
+$settings-color: $col1;
+
+input, button, select, option, label {
+    font-family: $body-font;
+}
+
+a {
+    color: $link-color; 
+    &:hover {
+        color: $link-color-hover;
+    }
+}
+
+.game-settings {
+    color: black;
+    background-color: $settings-color;
+    .setting-remark { color: black; }
+}
+
+.boardgame-intro {
+    .tagline, .metadata {
+        color: $text-color;
+    }
+}
+
+a.download-btn, a.download-btn:visited, 
+#btn-start-game, #btn-start-game:visited,
+#btn-generate-board, #btn-generate-board:visited {
+    background-color: $button-bg;
+    color: $button-color;
+    
+    &:hover {
+        background-color: $button-color;
+        color: $button-bg;
+    }
+}
+
+//
+// Rules
+//
+$light-yellow: color.adjust($col1, $lightness: 10%);
+$light-purple: color.adjust($col2, $lightness: 40%);
+
+#setup {
+    background-color: $light-yellow;
+}
+
+#objective {
+    background-color: $light-purple;
+}
+
+#action_play {
+    background-color: $light-yellow;
+}
+
+#actions {
+    background-color: $light-purple;
 }

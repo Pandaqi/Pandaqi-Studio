@@ -34,7 +34,7 @@ class PandaqiWords
 
     jsonCache:Record<string,any> = {}
     txtCache:Record<string,any> = {}
-    list:WordData[] = [] // @TODO might be wrong type
+    list:WordData[] = []
     
     allCategories =  
     ["anatomy", "animals", "animals_birds", "animals_farm", "animals_insects", "animals_pets", "business", "cities", "clothes", "colors", "continents", "countries", "creative_gaming", "creative_visual", "creative_writing", "digital", "events", "food", "food_beverages", "food_fruit", "food_sweets", "general", "holidays", "items", "items_appliances", "items_furniture", "items_household", "items_substances", "items_tools", "items_toys", "locations", "military", "music", "music_theory", "nature", "nature_weather", "occupations", "people", "places", "places_architecture", "places_inside", "planets", "religion", "science", "science_chemistry", "science_physics", "shapes", "sports", "time", "travel", "vehicles"]

@@ -4,8 +4,8 @@
 	<!-- order is important; infopages should be at the BACK -->
 	<!-- For some reason, it only has trouble selecting all .md pages on the homepage?? -->
 	{{ if .IsHome }}
-		{{ $range1 := (where .Site.Pages "Params.infopage" "eq" true) }}
-		{{ $range2 := (where .Site.Pages "Params.gamepage" "eq" true) }}
+		{{ $range1 := (where .Site.Pages "Type" "infopage") }}
+		{{ $range2 := (where .Site.Pages "Type" "gamepage") }}
 		{{ $range := $range1 | union $range2 }}
 		{{- $paginator := .Paginate $range -}}
 	{{ end }}

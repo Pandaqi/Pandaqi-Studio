@@ -1,5 +1,5 @@
 ---
-type: "single"
+type: "gamepage"
 gamepage: true
 boardgame: true
 
@@ -7,7 +7,6 @@ title: "Bodyguard"
 headerTitle: "Bodyguard | Discover if the emperor is in danger, and how to save them, before anyone else. Then do it again."
 blurb: "Discover if the emperor is in danger, and how to save them, before anyone else. Then do it again."
 
-extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/1XU--sSxY2N6wIsvosMi_4ko9lV1X3TGI"
 
 ---

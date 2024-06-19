@@ -1,22 +1,14 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "Slippery Slopes"
 headerTitle: "A party game about communicating words by grading them on funky scales."
 blurb: "A party game about conveying words by grading them on funky scales. How do you communicate PIZZA when you only have hot-cold, heavy-light and dry-wet?"
-
-customHeight: "small"
-headerDarkened: true
+blurbShort: "A party game about communicating words by grading them on funky scales."
 
 color: "red"
 
-bgColor: "#014556"
-bgColorLink: "#601a87"
-
-textColor: "#e6faff"
-textColorLink: "#edccff"
 
 date: 2024-04-25
 
@@ -26,7 +18,6 @@ categories: ["boardgame", "standard"]
 tags: ["social", "guessing", "sorting", "language", "creative", "limited-communication"]
 themes: ["retro", "colorful"]
 
-extraCSS: true
 
 downloadLink: "https://drive.google.com/drive/folders/1Ewuqw4wDfazKhfhsoZx-QLfkhGGiiJqM"
 
@@ -39,26 +30,11 @@ devlog: "/blog/boardgames/slippery-slopes/"
 
 ---
 
-{{% boardgame-intro heading="" class="no-shadow" %}}
+{{% boardgame-intro /%}}
 
-A party game about communicating words by grading them on funky scales.
+{{% boardgame-instructions /%}}
 
-{{% /boardgame-intro %}}
-
-{{% section-centered heading="What do I need?" %}}
-
-Three simple steps.
-* Read the short [playful rules](rules).
-* Download any (single) PDF. (Download > Files > Starter Pack.)
-* Print it, cut it, play!
-
-**Want more?** You can also [generate your own material](#material) right on this website! Or check the other file bundles at the download folder.
-
-{{% /section-centered %}}
-
-{{% section-centered heading="Material" anchor="material" html="true" %}}
-
-<p>Input your settings, click the button. A new page opens that generates a nice PDF for you!</p>
+{{% boardgame-settings-container type="material" %}}
 
 {{< boardgame-settings type="game" local_storage="slipperySlopesConfig" btn_label="Generate Material" game_title="Slippery Slopes" defaults="true" >}}
   {{< setting-checkbox id="setting-generateSliders" text="Generate Sliders?" checked="checked" >}}
@@ -75,7 +51,7 @@ Three simple steps.
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
-{{% /section-centered %}}
+{{% /boardgame-settings-container %}}
 
 {{% section-centered heading="Using your Phone" %}}
 
@@ -100,7 +76,5 @@ Additionally, I ran into some problems I didn't know how to solve yet. Any creat
 This game takes the same idea of "communicate secret words/concepts in a vague and fun way", but puts a more precise and focused spin on it this time. The rules are even shorter and players who need a bit more certainty (instead of relying on creativity and inspiration) can find it in this game.
 
 A simple, fast party game for any group!
-
-For more details, as always, read the [devlog](/blog/boardgames/slippery-slopes/).
 
 {{% /section-centered %}}

@@ -1,25 +1,15 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "Hold my Bear"
 headerTitle: "Play with more skill, or play a different sport altogether, but beware treacherous bears"
 blurb: "Beat your opponents at the Unbearable Games, either by being more skillful ... or changing the sport being played altogether. A fast and loose card game for any situation."
+blurbShort: "Beat your opponents at the Unbearable Games, either by being more skillful ... or changing the sport being played altogether."
 
-extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/1JD-LWnPoX3yXfQM8jXdlh4vsZvdMOzQQ"
 
-customHeight: "small"
-headerDarkened: true
-
 color: "brown"
-
-bgColor: "#100e02"
-bgColorLink: "#5d2804"
-
-textColor: "#ffddc7"
-textColorLink: "#e9ceb2"
 
 date: 2024-06-25
 
@@ -40,22 +30,9 @@ devlog: "/blog/boardgames/hold-my-bear/"
 
 ---
 
-{{% boardgame-intro heading="" %}}
+{{% boardgame-intro /%}}
 
-Beat your opponents at the Unbearable Games, either by being more skillful ... or changing the sport being played altogether.
-
-{{% /boardgame-intro %}}
-
-{{% section-centered heading="What do I need?" %}}
-
-Three simple steps.
-* Read the short [playful rules](rules).
-* Download the base game PDF. (Download > Files > Base Game.)
-* Print it, cut it, play!
-
-**Want more?** You can also [generate your own material](#material) right on this website! Pick the animals you like (or don't have yet) and assemble your own deck.
-
-{{% /section-centered %}}
+{{% boardgame-instructions /%}}
 
 {{% section-centered heading="Unbearable Games" %}}
 
@@ -76,7 +53,7 @@ It's your goal to win _so hard_ that nobody can do the two things above. Have fu
 
 {{% /section-centered %}}
 
-{{% section-centered heading="Material" anchor="material" html="true" %}}
+{{% boardgame-settings-container type="material" remarks="**Help! What do I need?** For most player counts, the default values (1 bear + 4 animals) are fine. With more players, you can add the other animals. If you're up for a bigger challenge, add expansion animals (one at a time)." %}}
 
 {{< boardgame-settings type="game" local_storage="holdMyBearConfig" btn_label="Generate PDF" game_title="Hold my Bear" defaults="true" >}}
   {{< setting-checkbox id="setting-addBearIcons" text="Add Bear Icons?" checked="checked" remark="Adds icons on the Bear card to remind you of its abilities." >}}
@@ -88,11 +65,7 @@ It's your goal to win _so hard_ that nobody can do the two things above. Have fu
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
-<p class="settings-remark"><strong>Not working?</strong> Don't worry! At the "Download" button, you can also find PDFs I already generated for you.</p>
-
-<p class="settings-remark"><strong>Help! What do I need?</strong> For most player counts, the default values (1 bear + 4 animals) are fine. With more players, you can add the other animals. If you're up for a bigger challenge, add expansion animals (one at a time).</p>
-
-{{% /section-centered %}}
+{{% /boardgame-settings-container %}}
 
 {{% section-centered heading="Credits" %}}
 
@@ -107,8 +80,6 @@ This game started with the idea "what if there was a card game in which you some
 I combined this with some other ideas, such as the simple game loop of "on your turn, play a valid move OR give away cards". And of course a bad pun on "Hold my Beer!" 
 
 Until I ended up with this simple game that has surprising depth.
-
-For a more detailed article about the whole development process, [read the devlog for this game](/blog/boardgames/hold-my-bear/).
 
 {{% /section-centered %}}
 

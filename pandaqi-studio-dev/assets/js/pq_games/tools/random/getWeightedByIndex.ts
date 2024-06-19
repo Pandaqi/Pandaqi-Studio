@@ -2,9 +2,10 @@ import Bounds from "../numbers/bounds";
 import lerp from "../numbers/lerp";
 import getWeighted from "./getWeighted";
 
-export default (arr:any[], desc = false, squish = 1.0) : number =>
+export default <T>(arr:T[], desc = false, squish = 1.0) : number =>
 {
-    const dict = {};
+    const dict : Record<number, { prob:number }> = {};
+    
     let bounds = new Bounds(1.0, squish*arr.length);
     bounds.sortAsc();
 

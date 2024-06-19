@@ -1,0 +1,35 @@
+{{- $heading := or (.Get "heading") "What do I need?" -}}
+{{- $extra_content := or .InnerDeindent "" -}}
+{{- $traditional := or (.Get "traditional") false -}}
+{{- $fixed := or (.Get "fixed") false -}}
+{{- $ruleless := or (.Get "ruleless") false -}}
+{{- $context := $.Page -}}
+<section class="boardgame-instructions">
+	<div class="center">
+		<h2>{{ $heading }}</h2>
+		<p>Three simple steps.</p>
+		<ul>
+            {{- if $traditional -}}
+            <li>Read the short rulebook. (Download > Rules)</li>
+            {{- end -}}
+			{{- if $ruleless -}}
+			<li>The rules are so simple, they're on the material itself! (If you still want a reference or more clarification, check the <a href="rules">rules</a>.)</li>
+			{{- end -}}
+			{{- if and (not $traditional) (not $ruleless) -}}
+			<li>Read the short <a href="rules">playful rules</a>.</li>
+            {{- end -}}
+			<li>Download any <em>single</em> PDF with the base game material. (Download > Files > "1 - Base Set.pdf")</li>
+			<li>Print, cut, play!</li>
+		</ul>
+        {{- if not $fixed -}}
+		<p>
+			<strong>Want more?</strong> You can also <a href="#material">generate your own material</a> right on this website!
+		</p>
+        {{- end -}}
+		{{- with $extra_content -}}
+		<div>
+			{{- . | markdownify -}}
+		</div>
+		{{- end -}}
+	</div>
+</section>

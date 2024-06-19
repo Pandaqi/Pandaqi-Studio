@@ -3,9 +3,9 @@ class RulesSection
     node: HTMLElement;
     root: boolean;
     hierarchy: number[];
-    contentContainer: any;
+    contentContainer: HTMLElement;
     arrow: HTMLElement;
-    subsections: any[];
+    subsections: RulesSection[];
     contentHeight: number;
     header: HTMLElement;
     counter: HTMLElement;
@@ -34,21 +34,21 @@ class RulesSection
 
     isRoot() { return this.root; }
 
-    setZIndexFromHierarchy(h: string | any[])
+    setZIndexFromHierarchy(h:number[])
     {
         let sum = 0;
         for(let i = 0; i < h.length; i++) { sum += h[i]; }
         this.node.style.zIndex = (1000 - sum).toString();
     }
 
-    toCounterString(h: string | any[])
+    toCounterString(h:number[])
     {
         let arr = [];
         for(let i = 0; i < h.length; i++) { arr.push(h[i]+1); }
         return arr.join(".");
     }
 
-    getIndentFromHierarchy(h: string | any[])
+    getIndentFromHierarchy(h:number[])
     {
         return h.length + 1; // first heading is h1, not h0, hence +1
     }
@@ -140,7 +140,7 @@ class RulesSection
 
     setupContent()
     {
-        this.contentContainer = this.node.getElementsByClassName("content-container")[0];
+        this.contentContainer = this.node.getElementsByClassName("content-container")[0] as HTMLElement;
         this.contentHeight = this.contentContainer.offsetHeight;
         this.contentContainer.style.height = "0px";
     }
@@ -221,14 +221,14 @@ class RulesSection
         setTimeout(() => { that.contentContainer.style.height = newHeight }, duration);
     }
 
-    travelHierarchy(curNode: any)
+    travelHierarchy(curNode:HTMLElement)
     {
         const sections = this.findAllParentSectionNodes(curNode);
         const numHeadings = sections.length + 1; // the H1 is always above us
         return numHeadings;
     }
 
-    findAllParentSectionNodes(curNode: { classList: { contains: (arg0: string) => any; }; parentElement: any; })
+    findAllParentSectionNodes(curNode:HTMLElement)
     {
         const arr = [];
         while(curNode)
@@ -239,13 +239,7 @@ class RulesSection
         return arr;
     }
 
-    findParentSection(curNode: any)
-    {
-        const arr = this.findAllParentSectionNodes(curNode);
-        const sectionNode = arr[0];
-    }
-
-    findSectionContainingNode(node: any, recurse = false)
+    findSectionContainingNode(node: HTMLElement, recurse = false)
     {
         const sections = [];
         if(!this.subsections) { return sections; }
@@ -259,7 +253,7 @@ class RulesSection
         return sections.flat();
     }
 
-    unfoldEverythingAbove(node: Element)
+    unfoldEverythingAbove(node: HTMLElement)
     {
         const arr = this.findSectionContainingNode(node, true);
         for(const section of arr)

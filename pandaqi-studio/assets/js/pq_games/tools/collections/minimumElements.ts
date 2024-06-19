@@ -1,9 +1,9 @@
 import minimumValue from "./minimumValue";
 
-export default (list:any[], filter:Function = (a) => a) =>
+export default <T>(list:T[], filter:Function = (a:T) => a) =>
 {
-    const maxVal = minimumValue(list, filter);
-    const arr = [];
+    const maxVal:T = minimumValue(list, filter);
+    const arr:T[] = [];
     for(const elem of list)
     {
         if(!filter(elem) == maxVal) { continue; }

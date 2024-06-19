@@ -1,29 +1,21 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 
 title: "Into My Arms"
 headerTitle: "Cute puzzling for 1-2 players on mobile"
 blurb: "A 1-2 player puzzle game about love, faith and a witch who might be the hero of the story."
 
-customHeight: "small"
 
 color: "blue"
 
 headerImg: "intomyarms_bg"
 headerThumb: "intomyarms_header"
 
-bgColor: "#BBDDFF"
-bgColorLink: "#DC2B2B"
-
-textColor: "#10104E"
-textColorLink: "#FFBBBB"
 
 entryBannerNonTextClasses: "no-shadow"
 
 buttonColor: "#7CFF86"
 
-extraCSS: true
 
 date: 2020-01-30
 

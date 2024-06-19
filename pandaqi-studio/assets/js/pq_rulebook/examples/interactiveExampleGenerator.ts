@@ -33,7 +33,7 @@ export default class InteractiveExampleGenerator
         // prepare settings and visualizer based on that
         this.config = p.config ?? {};
         const resLoader = new ResourceLoader({ base: this.config.assetsBase });
-        resLoader.planLoadMultiple(this.config.assets);
+        resLoader.planLoadMultiple(this.config.assets, this.config);
 
         this.config.resLoader = resLoader;
         this.config.itemSize = p.itemSize ?? new Point(512,512);
@@ -51,9 +51,7 @@ export default class InteractiveExampleGenerator
 
         // create actual button and its callback
         const id = p.id ?? "turn";
-        const buttonText = p.buttonText ?? "Give me an example turn!";
-        const e = new InteractiveExample({ id: id });
-        e.setButtonText(buttonText);
+        const e = new InteractiveExample({ id: id, buttonText: p.buttonText });
 
         const callback = p.callback;
         const simCfgButton = Object.assign({}, p.simulateConfig);

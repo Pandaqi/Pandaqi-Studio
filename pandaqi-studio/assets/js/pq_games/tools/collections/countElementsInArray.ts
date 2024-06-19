@@ -1,8 +1,9 @@
-export default (arr:any[]) : Record<string, number> =>
+export default <T>(arr:T[]) : Record<string, number> =>
 {
-    const counts = arr.reduce((a, c) => {
-        a[c] = (a[c] || 0) + 1;
-        return a;
-    }, {});
+    const counts:Record<string, number> = {};
+    for(const elem of arr)
+    {
+        counts[elem as string] = (counts[elem as string] ?? 0) + 1;
+    }
     return counts;
 }

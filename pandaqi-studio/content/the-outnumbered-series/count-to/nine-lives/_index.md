@@ -1,27 +1,18 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "Nine Lives"
 headerTitle: "Don't be the first cat to run out of lives!"
 blurb: "As we all know, cats start with nine lives. And as we all know, playing the wrong cards makes you lose a life ... unless you're willing to bet on it."
+blurbShort: "A simple and fast card game about losing your nine lives less quickly than all the other players."
+
 blurbProject: "You're a cat with 9 lives. But blowing up a round with the wrong number makes you lose a life, and you really don't want to be the first to die. (Has several expansions and spin-offs.)"
 weightProject: 90
 
-extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/1WkqwCiMo_ggHSkjPDfKS1fSDENgWjzoh"
 
-customHeight: "small"
-headerDarkened: true
-
 color: "white"
-
-bgColor: "#161616"
-bgColorLink: "#3e1a87"
-
-textColor: "#f7f7f7"
-textColorLink: "#dfccff"
 
 date: 2024-08-25
 
@@ -42,26 +33,11 @@ devlog: "/blog/boardgames/the-outnumbered-series/nine-lives/"
 
 <div class="bg-cats"></div>
 
-{{% boardgame-intro heading="" class="no-shadow" %}}
+{{% boardgame-intro /%}}
 
-A simple and fast card game about losing your nine lives less quickly than all the other players.
+{{% boardgame-instructions /%}}
 
-{{% /boardgame-intro %}}
-
-{{% section-centered heading="What do I need?" %}}
-
-Three simple steps.
-* Read the short [playful rules](rules).
-* Download the base game PDF. (Download > Files > Starter Set.)
-* Print, cut, play!
-
-**Want more?** You can also [generate your own material](#material) right on this website!
-
-{{% /section-centered %}}
-
-{{% section-centered heading="Material" anchor="material" html="true" %}}
-
-<p>Pick your desired settings and click the button! When in doubt, just use the defaults for your first games.</p>
+{{% boardgame-settings-container type="material" %}}
 
 {{< boardgame-settings type="game" local_storage="nineLivesConfig" btn_label="Generate Material" game_title="Nine Lives" defaults="true" >}}
   {{< setting-checkbox id="setting-includeLifeCards" text="Generate Life Cards?" checked="checked" >}}
@@ -69,9 +45,7 @@ Three simple steps.
   {{< setting-checkbox id="setting-limitedPowers" text="Limited Powers?" checked="checked" remark="Only includes a handful of unique powers, to make playing your first game even easier." >}}
 {{< /boardgame-settings >}}
 
-<p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>
-
-{{% /section-centered %}}
+{{% /boardgame-settings-container %}}
 
 {{% section-centered heading="Credits" anchor="credits" %}}
 

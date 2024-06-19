@@ -1,26 +1,18 @@
 ---
-type: "single"
+type: "gamepage"
 
-gamepage: true
 boardgame: true
 
 title: "Foldigami"
 headerTitle: "A game of wits using only a single paper and nothing else"
 blurb: "A game of wits using only a single paper. Even the rules are on the paper itself, and play happens through folding and rotating."
+blurbShort: "A game as tough as chess, played using only a paper and nothing else."
+
 blurbProject: "Score more points than your opponent by _folding_ and _flipping_ the paper."
 
 headerThumb: "foldigami_header"
 
-customHeight: "small"
-headerDarkened: true
-
 color: "green"
-
-bgColor: "#083d08"
-bgColorLink: "#9ce4eb"
-
-textColor: "#cdfff9"
-textColorLink: "#083d42"
 
 date: 2023-11-21
 
@@ -30,8 +22,6 @@ categories: ["boardgame", "one-paper-game"]
 tags: ["folding", "turn-based", "experimental", "creative", "fast-paced"]
 themes: ["origami", "history"]
 
-extraCSS: true
-extraJSBoard: true
 extraJSBoardInclude: true
 
 downloadLink: "https://drive.google.com/drive/folders/17jgCO-P1M1Fqa0T7NKt8nfJxslF2TDMB"
@@ -46,11 +36,7 @@ devlog: "/blog/boardgames/waitless-games/foldigami/"
 ---
 
 
-{{% boardgame-intro heading="" %}}
-
-A game as tough as chess, played using only a paper and nothing else.
-
-{{% /boardgame-intro %}}
+{{% boardgame-intro /%}}
 
 <div class="divider-image">
   <img src="assets/page/banner_divider.webp">

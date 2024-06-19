@@ -1,27 +1,16 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "Magnetmen"
 headerTitle: "Score the most points before everyone repels you"
 blurb: "The Magnetmen are magical robots, scoring points left and right. The only issue? The more you use them, the more spaces from which you're repelled."
+blurbShort: "A [One Paper Game](/boardgames#one_paper_games) about scoring points before the Magnetmen repel you from the entire board!"
 
-extraCSS: true
-extraJSBoard: true
 extraJSBoardInclude: true
 downloadLink: "https://drive.google.com/drive/folders/1IWl4VH_Ai7e6BQM6PE4dY3YUfkDn2zQj" # already updated!
 
-customHeight: "small"
-headerDarkened: true
-
 color: "blue"
-
-bgColor: "#022e4a"
-bgColorLink: "#010305"
-
-textColor: "#c9ddff"
-textColorLink: "#c9ddff"
 
 date: 2025-01-26
 
@@ -40,25 +29,11 @@ devlog: "/blog/boardgames/magnetmen/"
 
 ---
 
-{{% boardgame-intro heading="" %}}
+{{% boardgame-intro /%}}
 
-A [One Paper Game](/boardgames#one_paper_games) about scoring points before the Magnetmen repel you from the entire board!
+{{% boardgame-instructions ruleless="true" /%}}
 
-{{% /boardgame-intro %}}
-
-{{% section-centered heading="How to play?" %}}
-
-[Generate](#board) a paper below. Or click the "Download" button and pick any _one_ PDF I already generated for you.
-
-Print and play! 
-
-The rules are so simple, they're on the paper itself. (If you still want a reference or more clarification, check the [rules](rules) page.)
-
-{{% /section-centered %}}
-
-{{% section-centered heading="Board" anchor="board" html="true" %}}
-
-<p>Input your settings, press the button, and download the PDF with your unique world!</p>
+{{% boardgame-settings-container type="board" %}}
 
 {{< boardgame-settings type="board" local_storage="magnetmenConfig" game_title="Magnetmen" defaults="true" >}}
   {{< setting-checkbox id="setting-includeRules" text="Include Rules?" checked="checked" remark="Only disable if you've printed the rulebook or know them by heart." >}}
@@ -70,9 +45,7 @@ The rules are so simple, they're on the paper itself. (If you still want a refer
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
-<p class="settings-remark"><strong>Not working?</strong> Don't worry! At the "download" button you can find loads of premade boards I already generated for you. (Also, send me an email about what isn't working.)</p>
-
-{{% /section-centered %}}
+{{% /boardgame-settings-container %}}
 
 {{< support >}}
 
@@ -91,7 +64,5 @@ I sought ways to get a fun and challenging game, while the rules are so simple t
 Magnetmen was the first attempt. (Some other OPG games with that same idea are coming soon.)
 
 To be honest, this game is so small and simple that I pretty casually worked on it in between much larger projects. The game was done within a few days. It almost feels like it just dropped into my lap. And yet, it works _great_, even better than I could've hoped for.
-
-Want more details? Check out the [devlog](/blog/boardgames/magnetmen).
 
 {{% /section-centered %}}

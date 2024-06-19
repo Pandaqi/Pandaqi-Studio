@@ -7,25 +7,25 @@
 
 	display: flex;
 	justify-content: center;
-	gap: 15px;
+	gap: 1.0rem;
 
 	&.overlay-buy-link {
 		z-index: 10; 
 		position: relative; 
-		margin-bottom: 80px;
+		margin-bottom: 4.0rem;
 		margin-top: -5vw !important;
 	}
 
 	.buy-link {
-		margin-top: 0px;
+		margin-top: 0;
 		display: inline-block;
-		padding: 20px;
+		padding: 1.0rem;
 		border-radius:0.5em;
 		text-decoration: none;
 		font-weight: 900;
 
 		transition: background-color 0.5s, color 0.5s;
-		box-shadow: 0 0 10px 2px black;
+		box-shadow: 0 0 0.5rem 0.2rem black;
 	}
 
 	.platform-metadata {

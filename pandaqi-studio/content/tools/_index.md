@@ -1,7 +1,7 @@
 ---
-type: "single"
+type: "gamepage"
 title: "Tools"
-infopage: true
+type: "infopage"
 
 noHeader: true
 noThumb: true
@@ -9,7 +9,6 @@ noThumb: true
 headerTitle: "Pandaqi Tools | Always useful when playing a game"
 blurb: "Pandaqi Tools | Always useful when playing a game."
 
-customHeight: "small"
 color: "black"
 
 date: 2015-01-01

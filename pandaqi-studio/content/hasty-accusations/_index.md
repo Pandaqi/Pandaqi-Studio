@@ -1,25 +1,17 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "Hasty Accusations"
 headerTitle: "Ensure your character survives the murder investigation, but do it in secret"
 blurb: "Everybody is investigating the same murder and pointing fingers every which way. Secret fingers. With secret actions. And you don't want too many targeting your hidden role."
+blurbShort: "Ensure your character survives the murder investigation, but do it in secret."
 
-extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/1rpuM28gjwNK5-sSxLlJj0HYrXq8mgZkr" # already updated!
 
-customHeight: "small"
-headerDarkened: true
 
 color: "black"
 
-bgColor: "#33050a"
-bgColorLink: "#b31034"
-
-textColor: "#fff1f1"
-textColorLink: "#ffc3c3"
 
 date: 2025-01-12
 
@@ -37,26 +29,11 @@ devlog: "/blog/boardgames/hasty-accusations/"
 
 ---
 
-{{% boardgame-intro heading="" %}}
+{{% boardgame-intro /%}}
 
-Ensure your character survives the murder investigation, but do it in secret.
+{{% boardgame-instructions /%}}
 
-{{% /boardgame-intro %}}
-
-{{% section-centered heading="What do I need?" %}}
-
-Three simple steps.
-* Read the short [playful rules](rules).
-* Download the base game PDF. (Download > Files > Base Set.)
-* Print, cut, play!
-
-**Want more?** You can also [generate your own material](#material) right on this website!
-
-{{% /section-centered %}}
-
-{{% section-centered heading="Material" anchor="material" html="true" %}}
-
-<p>Pick your desired settings and click the button! When in doubt, just use the defaults for your first games.</p>
+{{% boardgame-settings-container type="material" %}}
 
 {{< boardgame-settings type="game" local_storage="hastyAccusationsConfig" btn_label="Generate Material" game_title="Hasty Accusations" defaults="true" >}}
   {{< setting-checkbox id="setting-includeCards" text="Include Cards?" checked="checked" remark="Generates the action cards with which you play." >}}
@@ -64,9 +41,7 @@ Three simple steps.
   {{< setting-enum id="setting-cardSet" text="Which set?" values="Base Game,Advanced Detective,Expert Investigator" keys="base,advanced,expert" def="base" >}}
 {{< /boardgame-settings >}}
 
-<p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>
-
-{{% /section-centered %}}
+{{% /boardgame-settings-container %}}
 
 {{% section-centered heading="Credits & Remarks" anchor="credits" %}}
 
@@ -81,8 +56,6 @@ Of course, actually creating and testing the game changed it in so many ways tha
 (I call it a "loupe" because "magnifying glass" was just too long to put on the cards and in the rulebook. This synonym is quite common in my own language, but I've learned most English speakers wouldn't use it often.)
 
 But, as always, all those changes made the game much better.
-
-For more information, as always, read my [detailed developer diary on Pandaqi Blog](/blog/boardgames/hasty-accusations).
 
 {{% /section-centered %}}
 

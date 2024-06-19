@@ -3,9 +3,9 @@ import ResourceShape from "../../resources/resourceShape";
 import Shape from "js/pq_games/tools/geometry/shape";
 
 // @NOTE: all these are just convenience functions to remove some boilerplate/customization when I don't need it
-export default async (ctx:CanvasRenderingContext2D, shape:Shape, layoutParams) =>
+export default (ctx:CanvasRenderingContext2D, shape:Shape, layoutParams) =>
 {
     const res = new ResourceShape({ shape: shape });
     const canvOp = new LayoutOperation(layoutParams);
-    await res.toCanvas(ctx, canvOp);
+    res.toCanvas(ctx, canvOp);
 }

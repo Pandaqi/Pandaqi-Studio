@@ -6,7 +6,7 @@ export default class SignalManager
 {
     // This node does nothing, but it allows us to tap into DOM for events
     node:HTMLDivElement;
-    listeners: Record<string, any[]>
+    listeners: Record<string, Function[]>
 
     constructor()
     {
@@ -20,14 +20,14 @@ export default class SignalManager
         this.node.dispatchEvent(ev);
     }
 
-    subscribe(type:string, callback:(ev) => any)
+    subscribe(type:string, callback:(ev) => void)
     {
         ensureDictionaryEntry(this.listeners, type, []);
         this.listeners[type].push(callback);
         this.node.addEventListener(type, callback);
     }
 
-    unsubscribe(type:string, callback:(ev) => any)
+    unsubscribe(type:string, callback:(ev) => void)
     {
         const idx = this.listeners[type].indexOf(callback);
         if(idx < 0)

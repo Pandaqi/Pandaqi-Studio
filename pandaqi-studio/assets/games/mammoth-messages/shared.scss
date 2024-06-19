@@ -4,12 +4,15 @@ $header-font: "boblox";
 $body-font: "averia";
 $base-fonts: "fonts/";
 
-$bg-col: #59200d;
-$text-col: #ffefe9;
+$bg-color: #59200d;
+$text-color: #ffefe9;
 
 $col1: #eeff82;
 $col2: #ffb895;
 $col3:  #ff8989;
+
+$button-bg: $col1;
+$button-color: #111111;
 
 @font-face {
     font-family: $body-font;
@@ -41,4 +44,67 @@ $col3:  #ff8989;
     font-weight: normal;
     font-style: normal;
     font-display: swap;
+}
+
+body {
+    font-family: $body-font;
+    background-color: $bg-color;
+    color: $text-color;
+}
+
+h1, h2, h3, h4, h5, h6, 
+a.btn, #btn-create-pdf, #btn-generate-board, #btn-start-game
+{
+    font-family: $header-font;
+    font-weight: normal;
+}
+
+input, button, select, option, label {
+    font-family: $body-font;
+}
+
+a {
+    color: $text-color; 
+}
+
+.boardgame-intro {
+    .tagline, .metadata {
+        color: $text-color;
+    }
+}
+
+a.download-btn, a.download-btn:visited, 
+#btn-start-game, #btn-start-game:visited,
+#btn-generate-board, #btn-generate-board:visited {
+    background-color: $button-bg;
+    color: $button-color;
+    
+    &:hover {
+        background-color: $button-color;
+        color: $button-bg;
+    }
+}
+
+
+//
+// Rules
+//
+.rulebook {
+    color: #111111;
+}
+
+#setup {
+    background-color: $col1;
+}
+
+#objective {
+    background-color: $col2;
+}
+
+#action_play {
+    background-color: $col1;
+}
+
+#variants {
+    background-color: $col2;
 }

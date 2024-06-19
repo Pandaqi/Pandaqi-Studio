@@ -8,19 +8,12 @@ title: "Proof of Loch Ness"
 headerTitle: "Proof of Loch Ness &mdash; Tracking mythical monsters that might not even exist"
 blurb: "??"
 
-customHeight: "small"
 
-bgColor: "#FFDDBB"
-bgColorLink: "#007607"
-
-textColor: "#510103"
-textColorLink: "#7CFF86"
 
 buttonColor: "#7CFF86"
 
 googleFonts: "https://fonts.googleapis.com/css2?family=Ravi+Prakash&family=Roboto+Condensed:ital,wght@0,400;0,700;1,400;1,700&display=swap"
 
-extraCSS: true
 
 date: 2021-04-29
 

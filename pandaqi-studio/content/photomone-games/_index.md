@@ -1,25 +1,17 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "Photomone Games"
 headerTitle: "A series of games about communicating words by connecting dots or weirder methods."
 blurb: "A series of games about communicating words by connecting dots or weirder methods."
+blurbShort: "A series of (party) games about communicating words by connecting dots, or weirder methods, because you're ants."
 
-extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/1VlrZ32F-gLcPyBJzRPVzZOv0M2ZNq5Rn"
 
-customHeight: "small"
-headerDarkened: true
 
 color: "brown"
 
-bgColor: "#ffc48a"
-bgColorLink: "#ffd340"
-
-textColor: "#302a24"
-textColorLink: "#282310"
 
 date: 2023-07-21
 
@@ -38,11 +30,7 @@ devlog: "/blog/boardgames/photomone/"
 
 ---
 
-{{% boardgame-intro heading="" %}}
-
-A series of (party) games about communicating words by connecting dots, or weirder methods, because you're ants.
-
-{{% /boardgame-intro %}}
+{{% boardgame-intro /%}}
 
 {{% section-centered heading="What's this?" %}}
 

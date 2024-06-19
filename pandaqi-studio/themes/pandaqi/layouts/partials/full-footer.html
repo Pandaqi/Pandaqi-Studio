@@ -31,7 +31,7 @@
 		<div style="text-align: center;">
 			{{ partial "button.html" (dict "content" "Random Project" "buttonID" "randProjBtn") }}
 
-			{{ $latest_proj := (index (where .Site.Pages "Params.gamepage" "eq" true) 0).RelPermalink }}
+			{{ $latest_proj := (index (where .Site.Pages "Type" "gamepage") 0).RelPermalink }}
 			{{ partial "button.html" (dict "href" $latest_proj "content" "Latest Project") }}
 		</div>
 	</aside>

@@ -1,5 +1,5 @@
 ---
-type: "single"
+type: "gamepage"
 gamepage: true
 boardgame: true
 
@@ -7,8 +7,6 @@ title: "Risky Biscuits"
 headerTitle: "A game of world domination, now playable with just paper and a pen."
 blurb: "Infiltrate enemy territories, spy on them, use magical artefacts, and dominate the world."
 
-extraCSS: true
-extraJSBoard: true
 extraJSBoardInclude: true
 downloadLink: "https://drive.google.com/drive/folders/16Zhb_Ze5ijQTEWXIizQsO1SAh1xNXU9p"
 

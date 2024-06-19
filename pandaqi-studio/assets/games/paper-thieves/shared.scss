@@ -1,0 +1,59 @@
+$header-font: "baloo";
+$body-font: "baloo";
+$base-fonts: "fonts/";
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'Baloo2-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'Baloo2-ExtraBold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+body {
+    font-family: $body-font, cursive;
+    background-color: #1A1D33;
+    color: white;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: $header-font, cursive;
+}
+
+.board-image {
+    max-width:960px;
+    margin:auto;
+    padding: 20px;
+}
+
+.boardgame-intro {
+    .tagline, .metadata {
+        color: white;
+    } 
+}
+
+a {
+    color: rgb(211, 206, 255);
+    &:hover {
+        color: #FB3640;
+    }
+}
+
+a.download-btn, a.download-btn:visited {
+    background-color: #FB3640;
+    color: white;
+    font-family: $body-font;
+
+    &:hover {
+        background-color: rgb(255, 106, 100);
+        color: rgba(0,0,0,0.75);
+    }
+}

@@ -1,14 +1,14 @@
 import elem from "./elem";
 
-export default (data:any[]) =>
+export default <T>(data:T[][]) =>
 {
     const table = elem("table");
-    for(const elem of data)
+    for(const element of data)
     {
         const tr = elem("tr");
-        for(const val of elem)
+        for(const val of element)
         {
-            const td = elem("td", undefined, val);
+            const td = elem("td", undefined, val.toString());
             tr.appendChild(td);
         }
         table.appendChild(tr);

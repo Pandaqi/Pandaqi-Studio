@@ -11,13 +11,7 @@ customHeight: "large"
 
 color: "beige"
 
-bgColor: "transparent"
-bgColorLink: "#FF982A"
 
-textColor: "#092b09"
-textColorLink: "black"
-
-extraCSS: true
 
 date: 2021-10-30
 

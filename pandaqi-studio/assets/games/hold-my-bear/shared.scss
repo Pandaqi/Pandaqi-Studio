@@ -4,6 +4,14 @@ $fancy-font: "ciscopic";
 
 $base-fonts: "fonts/"; 
 
+$bg-color: #2e1806;
+$text-color: #fae9d2;
+$button-bg: #FCC038;
+$button-color: #27231c;
+$link-color: #f7ab71;
+$link-color-hover: #fbdbc2;
+$settings-color: #7b1e42;
+
 @font-face {
     font-family: 'Merriweather';
     src: url($base-fonts + "Merriweather-Black.woff2") format('woff2');
@@ -42,4 +50,75 @@ $base-fonts: "fonts/";
     font-weight: normal;
     font-style: normal;
     font-display: swap;
+}
+
+body {
+    font-family: $body-font;
+    background-color: $bg-color;
+    background-size: 100%;
+    color: $text-color;
+}
+
+h1, h2, h3, h4, h5, h6, 
+a.btn, #btn-create-pdf, #btn-generate-board, #btn-start-game,
+input, button, select, option, label {
+    font-family: $header-font;
+    font-weight: normal;
+}
+
+input, button, select, option, label {
+    font-family: $body-font;
+}
+
+a {
+    color: $link-color; 
+    &:hover {
+        color: $link-color-hover;
+    }
+}
+
+.game-settings {
+    background-color: $settings-color;
+}
+
+.boardgame-intro {
+    .tagline, .metadata {
+        color: $text-color;
+    }
+}
+
+a.download-btn, a.download-btn:visited, 
+#btn-start-game, #btn-start-game:visited,
+#btn-generate-board, #btn-generate-board:visited {
+    background-color: $button-bg;
+    color: $button-color;
+    
+    &:hover {
+        background-color: $button-color;
+        color: $button-bg;
+    }
+}
+
+//
+// Rules
+//
+#setup {
+    background-color: #a1fbab;
+}
+
+#objective {
+    background-color: #7b1e42;
+    color: #FFDDDD;
+}
+
+#action_play {
+    background-color: #f1aa77;
+}
+
+#bears {
+    background-color: #f4e29f;
+}
+
+#expansion {
+    background-color: #adf4d3;
 }

@@ -1,25 +1,17 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 
 title: "Package Party"
 headerTitle: "Local multiplayer for everyone about delivering packages"
 blurb: 'A local multiplayer ("couch co-op") game about delivering packages in the weirdest way possible'
 
-customHeight: "small"
 
 color: "beige"
 
 headerImg: "bg_pattern_wide"
 headerThumb: "packageparty_header"
 
-bgColor: "transparent"
-bgColorLink: "#F38C1D"
 
-textColor: "#510103"
-textColorLink: "#AE380D"
-
-extraCSS: true
 
 date: 2019-09-25
 

@@ -126,7 +126,7 @@ export default class ResourceImage extends Resource
         this.refreshSize();
     }
 
-    fromRawDrawable(img:DrawableData, params:any = {})
+    fromRawDrawable(img:DrawableData, params:ResourceImageParams = {})
     {
         if(img instanceof HTMLImageElement) { this.img = img; this.canv = null; }
         else if(img instanceof HTMLCanvasElement) { this.canv = img; this.img = null; }
@@ -151,6 +151,7 @@ export default class ResourceImage extends Resource
     async fromSVG(elem:SVGImageElement)
     {
         const resLoader = new ResourceLoader();
+        // @ts-ignore
         resLoader.planLoad("svg_embedded_image", { path: elem.href });
         await resLoader.loadPlannedResources();
         const imgRes = resLoader.getResource("svg_embedded_image");

@@ -1,5 +1,5 @@
 ---
-type: "single"
+type: "gamepage"
 draft: true
 
 gamepage: true
@@ -10,18 +10,11 @@ slug: "bread-and-plunder"
 headerTitle: "Bread & Plunder -- the adventure of space pirates using a bakery to cover up their crimes"
 blurb: "Lala vlavla"
 
-customHeight: "small"
 
-bgColor: "#FFDDBB"
-bgColorLink: "brown"
-
-textColor: "#2B3B2A"
-textColorLink: "#FFCCAA"
 buttonColor: "#7C593B"
 
 googleFonts: "https://fonts.googleapis.com/css2?family=Acme&family=Rajdhani:wght@300;500;700&display=swap"
 
-extraCSS: true
 extraJS: true
 
 date: 2021-04-29

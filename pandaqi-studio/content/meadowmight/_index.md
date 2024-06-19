@@ -1,25 +1,15 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "Meadowmight"
 headerTitle: "Claim the biggest meadow in this war of the wool"
 blurb: "Build a meadow and fill it with sheep, but beware other players stomping into your peaceful grasslands and fencing off the wrong parts!"
+blurbShort: "Claim the biggest meadow in this war of the wool."
 
-extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/1mdYwronNojq_L3I9vTkGdCVhVsnpiruT"
 
-customHeight: "small"
-headerDarkened: true
-
 color: "green"
-
-bgColor: "#1f2902"
-bgColorLink: "#5b360c"
-
-textColor: "#e6ffe8"
-textColorLink: "#f0c39b"
 
 date: 2024-05-26
 
@@ -38,34 +28,17 @@ devlog: "/blog/boardgames/meadowmight/"
 
 ---
 
-{{% boardgame-intro heading="" %}}
+{{% boardgame-intro /%}}
 
-Claim the biggest meadow in this war of the wool.
+{{% boardgame-instructions /%}}
 
-{{% /boardgame-intro %}}
-
-{{% section-centered heading="What do I need?" %}}
-
-Three simple steps.
-* Read the short [playful rules](rules).
-* Download the base game PDF. (Download > Files > Base Game.)
-* Print, cut, play!
-
-**Want more?** You can also [generate your own material](#material) right on this website!
-
-{{% /section-centered %}}
-
-{{% section-centered heading="Material" anchor="material" html="true" %}}
-
-<p>Pick your desired settings and click the button! When in doubt, just use the defaults for your first games.</p>
+{{% boardgame-settings-container type="material" %}}
 
 {{< boardgame-settings type="game" local_storage="meadowMightConfig" btn_label="Generate Material" game_title="Meadowmight" defaults="true" >}}
   {{< setting-checkbox id="setting-expansions-wolf" text="Wool Wolves (Expansion)?" remark="Adds four special tiles with unique actions!" >}}
 {{< /boardgame-settings >}}
 
-<p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>
-
-{{% /section-centered %}}
+{{% /boardgame-settings-container %}}
 
 {{% section-centered heading="Credits" anchor="credits" %}}
 
@@ -74,7 +47,5 @@ This game doesn't have an interesting (or complicated) origin, for a change. I w
 The words "deceptively cute" are certainly applicable. The game is simple, light and looks warm and fuzzy. But while playing, you'll notice it's exceptionally cutthroat and mean. My body of work can pretty much be summarized as "player interaction---the game", so I'm okay with this contrast and actually think it's quite funny.
 
 The fonts used are **Sheep** (by MJType) and **PajamaPants** (by Sarah Weber). Some images were generated with AI, but not all, because it _really_ doesn't understand top-down perspective on many things. Everything else is mine.
-
-For more information, as always, read my [detailed developer diary on Pandaqi Blog](/blog/boardgames/meadowmight).
 
 {{% /section-centered %}}

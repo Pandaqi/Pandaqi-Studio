@@ -1,4 +1,5 @@
-// @TODO; for any reused colors or special blocks or whatever for THIS PARTICULAR GAME
+@use "sass:color";
+@use "../../shared.scss" as g;
 
 $header-font: "rialto";
 $base: "/maybe-games/vote/maybe-movies/assets/";
@@ -32,4 +33,26 @@ h1, h2, h3, h4, h5, h6,
 a.btn, #btn-create-pdf, #btn-generate-board, #btn-start-game,
 input, button, select, option, label {
     font-family: $header-font;
+}
+
+//
+// Rules
+//
+$light-blue: color.adjust($col1, $lightness: 10%);
+$light-pink: color.adjust($col2, $lightness: 10%);
+
+#setup {
+    background-color: $light-blue;
+}
+
+#objective {
+    background-color: $light-pink;
+}
+
+#action_play {
+    background-color: $light-blue;
+}
+
+#expansions {
+    background-color: $light-pink;
 }

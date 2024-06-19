@@ -1,6 +1,6 @@
 {{ $counter := .Scratch.Get "counter" }}
 
-{{ $height_append := or .Params.customHeight "medium" }}
+{{ $height_append := or .Params.customHeight "small" }}
 
 {{ $all_colors := .Site.Params.all_colors }}
 {{ $color_scheme := .Params.color }}
@@ -16,36 +16,37 @@
 	{{ $reversed = "reversed" }}
 {{ end }}
 
-{{ $extra_classes := "" }}
-{{ if .Params.headerDarkened }}
-	{{ $extra_classes = add $extra_classes " darkened" }}
-{{ end }}
-
 {{ $header_url := partial "func/get-game-header.html" . }}
 {{ $thumb_url := partial "func/get-game-thumb.html" . }}
 
 {{ $non_text_classes := .Params.entryBannerNonTextClasses }}
 {{ $text_classes := .Params.entryBannerTextClasses }}
 
-{{ $link_text := "Go to game page" }}
-{{ if not .Params.gamepage }}
-	{{ $link_text = "Go to page" }}
-{{ end }}
+{{ $link_text := "Visit page!" }}
+
+{{ $metadata := partial "func/get-game-metadata.html" . }}
 
 <section class="clipped entry-banner {{ $height }} {{ $color_scheme }}">
 	<a href="{{ .RelPermalink }}">
 		{{ if $header_url }}
-			<div class="bg-image {{ $extra_classes }}">
+			<div class="bg-image">
 				<div class="image-gradient-overlay"></div>
 				{{ partial "show-image.html" (dict "context" . "img_url" $header_url) }}
 			</div>
 		{{ end }}
 
-		<div class="horizontal-flex {{ $reversed }}" style='color:{{ .Params.textColor }};'>
-			<div class="text-side {{ $text_classes }}" style='--blurcolor: {{ .Params.bgColor }}'>
-				<h1 style='color:{{ .Params.textColor }};'>{{ .Title }}</h1>
+		<div class="horizontal-flex {{ $reversed }}">
+			<div class="text-side {{ $text_classes }}">
+				<h1>{{ .Title }}</h1>
+				{{ if gt (len $metadata) 0 }}
+				<div class="entry-banner-tags-container">
+					{{ range $metadata }}
+						<div class="entry-banner-tag">{{ . }}</div>
+					{{ end }}
+				</div>
+				{{ end }}
 				<p>{{ .Params.blurb }}</p>
-				<div class="btn" style="--bgcolor: {{ .Params.bgColorLink }}; --textcolor: {{ .Params.textColorLink }}">
+				<div class="btn">
 					{{ $link_text }}
 				</div>
 			</div>

@@ -1,3 +1,4 @@
+@use "sass:map";
 
 $header-font-raw: "comica";
 $body-font-raw: "cabin";
@@ -6,8 +7,7 @@ $base-fonts: $base-assets + "fonts/";
 
 $header-font: $header-font-raw, Georgia, serif;
 $body-font: $body-font-raw, Helvetica, sans-serif;
-$actions-with-bg-url: url(/waitless-games/play/creature-quellector/rules/quellector_actions_with_bg.webp);
-
+$actions-with-bg-url: url(/waitless-games/play/creature-quellector/rules/quellector_actions_with_bwebp);
 
 h1, h2, h3, h4, h5, h6, 
 a.btn, #btn-create-pdf, #btn-generate-board, #btn-start-game,
@@ -19,10 +19,8 @@ input, button, select, option, label {
 body {
     font-family: $body-font;
     background-color: #999;
-    font-size: 19px;
     background-size: 100%;
     color: #333;
-    line-height: 140%;
 }
 
 @font-face {
@@ -49,3 +47,124 @@ body {
     font-display: swap;
 }
 
+//
+// Page(s)
+// 
+.metadata-container .metadata 
+{
+    h2, h3, p {
+        color: rgba(255,200,155,0.75);
+    }
+}
+
+$themes: (
+    "red": ("bg": #fdb4b4, "text": #200000, "dark": #9c0606, "light": #FFD2D2),
+    "blue": ("bg": #9eeafd, "text": #001216, "dark": #04627a, "light": #D6FEFA ),
+    "green": ("bg": #bdfcad, "text": #051700, "dark": #1e7209, "light": #E8FFDF),
+    "purple": ("bg": #ebc1ff, "text": #160021, "dark": #5d0984, "light": #F2E3FF )
+);
+
+@each $name, $data in $themes 
+{
+    .theme-#{$name} {
+        background-color: map.get($data, "bg");
+        color: map.get($data, "text");
+
+        h1,h2,h3,h4,h5,h6 
+        {
+            color: map.get($data, "dark");
+        }
+
+        .game-settings {
+            background-color: map.get($data, "dark");
+            color: map.get($data, "light");
+            h3 { color: map.get($data, "light"); }
+        }
+
+        #btn-start-game, #btn-start-game:visited, a.download-btn, a.download-btn:visited {
+            background-color: map.get($data, "dark");
+            color: map.get($data, "light");
+            margin-top: 0.5em;
+        
+            &:hover {
+                background-color: map.get($data, "light");
+                color: map.get($data, "dark");
+            }
+        }
+        
+
+        .boardgame-intro {
+            .tagline, .metadata {
+                color: map.get($data, "text");
+            }
+        }
+        
+        a {
+            color: rgba(0,0,0,0.9);
+            transition: color 0.2s;
+            &:hover {
+                color: rgba(0,0,0,0.66);
+            }
+        }
+    }
+}
+
+
+//
+// Rules
+//
+$icons: (
+    "red-fire": 0,
+    "red-electric": 1,
+    "red-star": 2,
+    "red-dragon": 3,
+    "blue-water": 4,
+    "blue-ice": 5,
+    "blue-poison": 6,
+    "blue-weather": 7,
+    "green-earth": 8,
+    "green-grass": 9,
+    "green-rock": 10,
+    "green-bug": 11,
+    "purple-air": 12,
+    "purple-magic": 13,
+    "purple-ghost": 14,
+    "purple-dark": 15,
+);
+$max-frames: 8;
+
+@each $name, $frame in $icons {
+    $col: $frame % $max-frames;
+    $row: 0;
+    @if $frame >= $max-frames {
+        $row: 1;
+    }
+
+    .icon-#{$name} {
+        background-image: $actions-with-bg-url;
+        background-size: 800%;
+        background-position-x: -$col * 100%;
+        background-position-y: -$row * 100%;
+        margin: auto;
+    }
+}
+
+#setup {
+    background-color: #ff9b9b;
+}
+
+#objective {
+    background-color: #67d6f2;
+}
+
+#action_play {
+    background-color: #a4f091; //  #23ac01;
+}
+
+#squads {
+    background-color: #d486f7; // #bb55ea;
+}
+
+#types {
+    background-color: #eebd89;
+}

@@ -1,27 +1,16 @@
 ---
-type: "single"
-draft: false
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "Keebble"
 headerTitle: "It's scrabble, but better"
 blurb: "A party game like scrabble, played using only a blank piece of paper. It's free, and it's faster."
+blurbShort: "A word game that can be played with a blank piece of paper and a pen. Like Scrabble, but it doesn't take three hours and a big board."
 
 blurbProject: "The original! A One Paper Game, only needs an empty paper and some pens, plays quickly and simply."
 weightProject: 10
 
-
-customHeight: "small"
-headerDarkened: true
-
 color: "purple"
-
-bgColor: "#c0e1ff"
-bgColorLink: "#7c2b6b"
-
-textColor: "#01201c"
-textColorLink: "#eeb9e3"
 
 date: 2023-02-16
 
@@ -31,8 +20,6 @@ categories: ["boardgame", "one-paper-game"]
 tags: ["grid", "shared-map", "language", "spiritually-inspired"]
 themes: []
 
-extraCSS: true
-extraJSBoard: true
 extraJSBoardInclude: true
 
 downloadLink: "https://drive.google.com/drive/folders/1JeaAyDSFrnu_j8FeDztXyKyhUlNMPoKe"
@@ -46,11 +33,7 @@ devlog: "/blog/boardgames/keebble/"
 
 ---
 
-{{% boardgame-intro heading="" %}}
-
-A word game that can be played with a blank piece of paper and a pen. Like Scrabble, but it doesn't take three hours and a big board.
-
-{{% /boardgame-intro %}}
+{{% boardgame-intro /%}}
 
 {{% section-centered heading="What do I need?" %}}
 
@@ -63,9 +46,7 @@ You can start completely blank. Or you can use the generator below to get a nice
 
 {{% /section-centered %}}
 
-{{% section-centered heading="Board" html="true" anchor="board" %}}
-
-<p>Input your desired settings and click "generate".</p>
+{{% boardgame-settings-container type="board" %}}
 
 {{< boardgame-settings type="board" local_storage="keebbleConfig" game_title="Keebble" defaults="true" >}}
   {{< setting-playercount def="4" min="2" max="6" >}}
@@ -80,9 +61,7 @@ You can start completely blank. Or you can use the generator below to get a nice
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
-<p style="font-size:0.66em; opacity: 0.66;">Not working? Don't worry! At the "Download" link, you can also find PDFs I already generated for you.</p> 
-
-{{% /section-centered %}}
+{{% /boardgame-settings-container %}}
 
 {{% section-centered heading="That's not a word!" %}}
 

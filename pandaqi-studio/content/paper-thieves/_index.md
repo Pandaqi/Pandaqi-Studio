@@ -1,27 +1,17 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "Paper Thieves"
 headerTitle: "Paper Thieves | Steal or get stolen"
 blurb: "Steal enough treasures and flee the city, before the police catches you!"
+blurbShort: "A [One Paper Game](/boardgames#one-paper-games) for 2–6 players about stealing treasures from real-life locations ... or your fellow players."
 deprecated: true
 
 fullHeaderImg: "paperthieves_header"
 headerThumb: "paperthieves_header"
 
 color: "darkblue"
-
-customHeight: "small"
-
-bgColor: "#200c66"
-bgColorLink: "#e4d8ff"
-
-textColor: "#e4d8ff"
-textColorLink: "#200c66"
-
-extraCSS: true
 
 date: 2020-03-18
 
@@ -41,9 +31,7 @@ ages: everyone
 
 ---
 
-{{% boardgame-intro heading="" img="paperthieves_header" class="board-image" %}}
-A [One Paper Game](/boardgames#one-paper-games) for 2–6 players about stealing treasures from real-life locations ... or your fellow players.
-{{% /boardgame-intro %}}
+{{% boardgame-intro class="board-image" /%}}
 
 <div class="board-image">
 	{{< figure url="paperthieves_board" alt="Example game board (Map: Amsterdam)" >}}

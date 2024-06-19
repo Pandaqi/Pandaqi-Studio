@@ -1,25 +1,15 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "Noble Flood"
 headerTitle: "Score the best possible patterns with your hand of cards or deny others the opportunity."
 blurb: "Score the best possible patterns with your hand of cards or deny others the opportunity. Also playable with standard deck of cards."
+blurbShort: "Score the best possible patterns with your hand of cards or deny others the opportunity."
 
-extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/1CcsMv1m33GWZypAiNYZgkpCh17RQtqW5"
 
-customHeight: "small"
-headerDarkened: true
-
 color: "purple"
-
-bgColor: "#6a1941"
-bgColorLink: "#80e2bb"
-
-textColor: "#ffeeee"
-textColorLink: "#206255"
 
 date: 2025-05-26
 
@@ -35,26 +25,11 @@ devlog: "/blog/boardgames/noble-flood/"
 
 ---
 
-{{% boardgame-intro heading="" %}}
+{{% boardgame-intro /%}}
 
-Score the best possible patterns with your hand of cards or deny others the opportunity.
+{{% boardgame-instructions /%}}
 
-{{% /boardgame-intro %}}
-
-{{% section-centered heading="What do I need?" %}}
-
-Three simple steps.
-* Read the short [playful rules](rules).
-* Download the base game PDF. (Download > Files > Base Set.)
-* Print, cut, play!
-
-**Want more?** You can also [generate your own material](#material) right on this website!
-
-{{% /section-centered %}}
-
-{{% section-centered heading="Material" anchor="material" html="true" %}}
-
-<p>Pick your desired settings and click the button! When in doubt, just use the defaults for your first games.</p>
+{{% boardgame-settings-container type="material" %}}
 
 {{< boardgame-settings type="game" local_storage="nobleFloodConfig" btn_label="Generate Material" game_title="Noble Flood" defaults="true" >}}
   {{< setting-checkbox id="setting-generatePlayingCards" text="Generate Playing Cards?" checked="checked" remark="If turned off, you can use your own standard card deck to play the game." >}}
@@ -66,9 +41,7 @@ Three simple steps.
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
-<p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>
-
-{{% /section-centered %}}
+{{% /boardgame-settings-container %}}
 
 {{% section-centered heading="Credits" anchor="credits" %}}
 

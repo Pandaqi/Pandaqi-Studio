@@ -8,7 +8,7 @@
     <title>{{ .Title }} | Pandaqi Tools</title>
 
     <!-- Load the specific CSS for all tools (very minimal and self-contained) -->
-    {{ $res := resources.Get "/games/tools/page.scss" }}
+    {{ $res := resources.Get "/games/tools/shared.scss" }}
     {{ $output_name := "style.tools.css" }}
     {{ $options := (dict "targetPath" $output_name "outputStyle" "compressed" "enableSourceMap" (not hugo.IsProduction) "transpiler" "dartsass") }}
     {{ $style := $res | resources.ToCSS $options | minify }} 

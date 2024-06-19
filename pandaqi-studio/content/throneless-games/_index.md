@@ -1,25 +1,15 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "Throneless Games"
 headerTitle: "A series of games about winning seats and changing seats."
 blurb: "A series of games about secretly collecting the most votes for your Prince, as the players constantly change seats to get to the throne."
+blurbShort: "A series of games about secretly collecting the most votes, as the players constantly change seats to get to the elusive throne."
 
-extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/1uCbO2Mri8ITnz6-jIBJV5qUHmgGdfYr5"
 
-customHeight: "small"
-headerDarkened: true
-
 color: "black"
-
-bgColor: "#0d0018"
-bgColorLink: "#84060b"
-
-textColor: "#ecd9ff"
-textColorLink: "#f7fa96"
 
 date: 2023-12-20
 
@@ -38,11 +28,7 @@ ages: everyone
 
 ---
 
-{{% boardgame-intro heading="" %}}
-
-A series of games about secretly collecting the most votes, as the players constantly change seats to get to the elusive throne.
-
-{{% /boardgame-intro %}}
+{{% boardgame-intro /%}}
 
 {{% section-centered heading="What's this?" icon="page/icon_requirements" %}}
 

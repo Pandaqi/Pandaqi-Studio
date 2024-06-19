@@ -1,26 +1,18 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "Wie is de Trol?"
 headerTitle: "Een bordspel geïnspireerd door Wie is de Mol?"
 blurb: "(Dutch only) Probeer in uitdagende opdrachten zoveel mogelijk geld te verdienen ... tenzij je de trol bent, die alles stiekem moet laten mislukken."
 longblurb: "Iedereen probeert in uitdagende opdrachten zoveel mogelijk geld te verdienen ... behalve de trol. Die probeert alles te laten mislukken, zonder te worden gepakt. Kan jij de trol ontmaskeren?<br><br><em>(This game is only available in Dutch, as it's based on a popular Dutch TV show.)</em>"
-
-headerDarkened: true
+blurbShort: "Een spel voor 3--10 spelers waarbij iedereen zoveel mogelijk geld probeert te verdienen ... behalve de trol. Die probeert alles te laten mislukken, zonder te worden gepakt. Kan jij de trol ontmaskeren?"
 
 customHeight: "small-medium"
 
 color: "white"
 
-bgColor: "#FFDDBB"
-bgColorLink: "brown"
 
-textColor: "#2B3B2A"
-textColorLink: "#FFCCAA"
-
-extraCSS: true
 
 date: 2020-09-05
 
@@ -40,11 +32,7 @@ ages: everyone
 
 ---
 
-{{% boardgame-intro heading="" %}}
-
-Een spel voor 3&ndash;10 spelers waarbij iedereen zoveel mogelijk geld probeert te verdienen ... behalve de trol. Die probeert alles te laten mislukken, zonder te worden gepakt. Kan jij de trol ontmaskeren?
-
-{{% /boardgame-intro %}}
+{{% boardgame-intro /%}}
 
 {{% section-centered heading="Hoe werkt het?" unfold="true" %}}
 

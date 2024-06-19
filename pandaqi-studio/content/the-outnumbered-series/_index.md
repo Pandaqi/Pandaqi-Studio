@@ -1,25 +1,15 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "The Outnumbered Series"
 headerTitle: "A series of simple card games all about one number."
 blurb: "A series of simple card games that all revolve around one unique number, using it as creatively as possible."
+blurbShort: "A series of simple card games that all revolve around one unique number."
 
-extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/1ZOi00XqNZdUMHlVJj0ylx_8vFSA6EPow"
 
-customHeight: "small"
-headerDarkened: true
-
 color: "blue"
-
-bgColor: "#04052d"
-bgColorLink: "#4CABB9"
-
-textColor: "#f8ec9d"
-textColorLink: "#002235"
 
 date: 2023-10-20
 
@@ -38,11 +28,7 @@ ages: everyone
 
 ---
 
-{{% boardgame-intro heading="" %}}
-
-A series of simple card games that all revolve around one unique number.
-
-{{% /boardgame-intro %}}
+{{% boardgame-intro /%}}
 
 {{% section-centered heading="What's this?" %}}
 

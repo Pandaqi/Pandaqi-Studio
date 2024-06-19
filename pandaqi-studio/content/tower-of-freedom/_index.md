@@ -1,6 +1,5 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 
 title: "Tower of Freedom"
 headerTitle: "Build a tower together, find your freedom"
@@ -11,16 +10,9 @@ color: "brown"
 
 headerImg: "tof_header"
 headerThumb: "favicon"
-headerDarkened: true
 
-bgColor: "#FFDDBB"
-bgColorLink: "brown"
-
-textColor: "#2B3B2A"
-textColorLink: "#FFCCAA"
 buttonColor: "#7C593B"
 
-extraCSS: true
 
 date: 2017-07-20
 

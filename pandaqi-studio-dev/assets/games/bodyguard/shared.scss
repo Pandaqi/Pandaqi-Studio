@@ -2,6 +2,15 @@ $header-font: "palette";
 $body-font: "pettingill";
 $base-fonts: "fonts/";
 
+$bg-color: #98bb45;
+$text-color: #0d440c;
+$button-bg: #FCC038;
+$button-color: #27231c;
+$link-color: #3b4f0e;
+$link-color-hover: #5d7a1a;
+$settings-color: #8c3f13;
+
+
 @font-face {
     font-family: 'palette';
     src: url($base-fonts + 'PaletteMosaic-Regular.woff2') format('woff2');
@@ -16,4 +25,51 @@ $base-fonts: "fonts/";
     font-weight: bold;
     font-style: normal;
     font-display: swap;
+}
+
+body {
+    font-family: $body-font;
+    background-color: #999;
+    color: #333;
+}
+
+h1, h2, h3, h4, h5, h6, 
+a.btn, #btn-create-pdf, #btn-generate-board, #btn-start-game,
+input, button, select, option, label {
+    font-family: $header-font;
+    font-weight: normal;
+}
+
+input, button, select, option, label {
+    font-family: $body-font;
+}
+
+a {
+    color: $link-color; 
+
+    &:hover {
+        color: $link-color-hover;
+    }
+}
+
+.game-settings {
+    background-color: $settings-color;
+}
+
+.boardgame-intro {
+    .tagline, .metadata {
+        color: $text-color;
+    }
+}
+
+a.download-btn, a.download-btn:visited, 
+#btn-start-game, #btn-start-game:visited,
+#btn-generate-board, #btn-generate-board:visited {
+    background-color: $button-bg;
+    color: $button-color;
+    
+    &:hover {
+        background-color: $button-color;
+        color: $button-bg;
+    }
 }

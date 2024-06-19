@@ -1,5 +1,5 @@
 // @SOURCE: https://stackoverflow.com/questions/25582882/javascript-math-random-normal-distribution-gaussian-bell-curve
-export default (mean:number, std:number) =>
+export default (mean:number, std:number) : number =>
 {
     const u = 1 - Math.random(); // Converting [0,1) to (0,1]
     const v = Math.random();

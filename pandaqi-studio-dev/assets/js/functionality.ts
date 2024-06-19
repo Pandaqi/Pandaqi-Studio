@@ -7,7 +7,8 @@ Settings.initGame();
 /* Basic navigation (go to bottom, go to top, random) */
 const bottomBtn = document.getElementById('gotoBottomBtn') as HTMLButtonElement
 
-if(bottomBtn) {
+if(bottomBtn) 
+{
     bottomBtn.addEventListener('click', (ev) => {
         ev.preventDefault();
         ev.stopPropagation();
@@ -26,7 +27,8 @@ if(bottomBtn) {
 
 const topBtn = document.getElementById('gotoTopBtn') as HTMLButtonElement
 
-if(topBtn) {
+if(topBtn) 
+{
     topBtn.addEventListener('click', (ev) => {
         ev.preventDefault();
         ev.stopPropagation();
@@ -38,15 +40,18 @@ if(topBtn) {
 
 const randBtn = document.getElementById('randProjBtn') as HTMLButtonElement
 
-if(randBtn) {
+if(randBtn) 
+{
     randBtn.addEventListener('click', (ev) => {
         ev.preventDefault();
         ev.stopPropagation();
 
         const metadataNode = document.getElementById("hidden-hugo-metadata");
         if(!metadataNode) { console.error("Can't find hidden Hugo metadata node on page!", metadataNode); }
+        
         const listString = metadataNode.dataset.pages;
         if(!listString) { console.log("Can't find list of random pages (from Hugo metadata node)", listString); }
+        
         const listArray = listString.split(",");
         const randURL = listArray[Math.floor(Math.random() * listArray.length)];
         window.location.href = randURL;

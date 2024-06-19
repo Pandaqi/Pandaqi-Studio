@@ -1,15 +1,74 @@
 // @TODO; for any reused colors or special blocks or whatever for THIS PARTICULAR GAME
 
-$bg-col: #FFABCB;
-$text-col: "#020000";
+@use "../../shared.scss";
+
+$bg-color: #FFABCB;
+$text-color: "#020000";
 
 $col1: #b5043e;
 $col1-light: #ffc7d9;
 $col2: #4d24a4;
 $col2-light: #e1d3ff;
 
+$button-bg: $col1;
+$button-color: #ffd6e9;
+$link-color: $col2;
+$link-color-hover: purple;
+$settings-color: $col1;
+
 body
 {
-    background-color: $bg-col;
-    color: $text-col;
+    background-color: $bg-color;
+    color: $text-color;
+}
+
+a {
+    color: $link-color; 
+    font-weight: bold;
+
+    &:hover {
+        color: $link-color-hover;
+    }
+}
+
+.boardgame-intro {
+    .tagline, .metadata {
+        color: $text-color;
+    }
+}
+
+.game-settings
+{
+    background-color: $settings-color;
+}
+
+a.download-btn, a.download-btn:visited, 
+#btn-start-game, #btn-start-game:visited,
+#btn-generate-board, #btn-generate-board:visited {
+    background-color: $button-bg;
+    color: $button-color;
+    
+    &:hover {
+        background-color: $button-color;
+        color: $button-bg;
+    }
+}
+
+//
+// Rules
+//
+#setup {
+    background-color: $col1-light;
+}
+
+#objective {
+    background-color: $col2-light;
+}
+
+#action_play {
+    background-color: $col1-light;
+}
+
+#expansions {
+    background-color: $col2-light;
 }

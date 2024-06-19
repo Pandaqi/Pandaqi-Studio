@@ -1,13 +1,10 @@
-.boardgame-intro {
+.boardgame-intro 
+{
     .big-header-image {
         max-width:100%; 
         margin: auto; 
-        filter:drop-shadow(0 0 10px black);
+        filter:drop-shadow(0 0 0.4rem #121212);
         pointer-events:none;
-    }
-
-    .no-shadow {
-        filter: none;
     }
 
     .tagline, .metadata {
@@ -19,8 +16,13 @@
         text-align: center;
     } 
 
-    .metadata {
-        font-size:12pt; 
+    .tagline {
+        font-size: 1.25rem;
+    }
+
+    .metadata 
+    {
+        font-size: 0.85rem;
         opacity: 0.5;
     }
 

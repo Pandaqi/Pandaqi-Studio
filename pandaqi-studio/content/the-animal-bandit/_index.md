@@ -1,28 +1,18 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "The Animal Bandit"
 headerTitle: "A game about smuggling unicorns and fooling friends"
 blurb: "Tiny card game in which everyone has a single objective: smuggle the fabulous unicorn out of the city."
+blurbShort: "A game for 3--6 smugglers desperate to get that unicorn out of the city."
 deprecated: true
 
 fullHeaderImg: "animalbandit_bg"
 headerImg: "animalbandit_bg"
 noThumb: true
 
-customHeight: "small"
-
 color: "red"
-
-bgColor: "#FFDDBB"
-bgColorLink: "#B6C7C9"
-
-textColor: "#510103"
-textColorLink: "#333333"
-
-extraCSS: true
 
 date: 2018-11-02
 
@@ -42,15 +32,7 @@ ages: everyone
 
 ---
 
-{{% boardgame-intro heading="The Animal Bandit" img="animalbandit_bg" %}}
-
-A game for 3&ndash;6 smugglers desperate to get that unicorn out of the city.
-
-{{% /boardgame-intro %}}
-
-<div class="board-image">
-	{{< figure url="animalbandit_inplay" alt="A Game of Animal Bandit in action!" >}}
-</div>
+{{% boardgame-intro heading="The Animal Bandit" /%}}
 
 {{% section-centered heading="About this game" %}}
 

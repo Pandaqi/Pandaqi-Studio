@@ -1,0 +1,34 @@
+@use "../thats-amorphe/shared.scss" as g;
+
+$bg-color: #b4f9ff;
+$btn-bg-color: #0b3a3e;
+$btn-text-color: #EEEEFF;
+$btn-hover-bg-color: #f64b64;
+$btn-hover-text-color: #3d0911;
+
+body {
+    background-color: $bg-color;
+}
+
+a {
+    color: $btn-bg-color; 
+    &:hover {
+        color: $btn-hover-text-color;
+    }
+}
+
+.game-settings {
+    background-color: $btn-bg-color;
+    color: $btn-text-color;
+}
+
+a.download-btn, a.download-btn:visited, #btn-start-game, #btn-start-game:visited {
+    background-color: $btn-bg-color;
+    color: $btn-text-color;
+}
+
+a.download-btn:hover, #btn-start-game:hover {
+    background-color: $btn-hover-bg-color;
+    color: $btn-hover-text-color;
+    box-shadow: 0 0 10px #333;
+}

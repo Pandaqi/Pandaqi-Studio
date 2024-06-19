@@ -1,7 +1,7 @@
 ---
 title: "Subscribe"
 blurb: "How to subscribe and get updates whenever new games, features or projects appear."
-infopage: true
+type: "infopage"
 data: 2015-01-01
 noHeader: true
 noThumb: true

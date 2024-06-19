@@ -1,5 +1,5 @@
 ---
-type: "single"
+type: "gamepage"
 gamepage: true
 boardgame: true
 
@@ -7,19 +7,11 @@ title: "Waterfall"
 headerTitle: "Fall down the waterfall as best you can to collect the highest-scoring gemstones along the way."
 blurb: "Fall down the waterfall as best you can, while lengthening the waterfall as you play, to collect the highest-scoring gemstones along the way."
 
-extraCSS: true
 downloadLink: ""
 
-customHeight: "small"
-headerDarkened: true
 
 color: "purple"
 
-bgColor: "#003401"
-bgColorLink: "#ff1f1f"
-
-textColor: "#f2ffef"
-textColorLink: "#ffe9e9"
 
 date: 2025-05-26
 

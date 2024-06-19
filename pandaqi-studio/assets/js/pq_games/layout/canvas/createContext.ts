@@ -5,7 +5,6 @@ interface NewContextParams
 {
     alpha?:boolean
     willReadFrequently?:boolean
-    desynchronized?: boolean
     antialias?: boolean
     width?:number
     height?:number
@@ -17,7 +16,6 @@ export default (params:NewContextParams = {}) : CanvasRenderingContext2D =>
     const contextParams = { 
         willReadFrequently: true,
         alpha: true,
-        desynchronized: true,
         antialias: true
     };
     Object.assign(contextParams, params);

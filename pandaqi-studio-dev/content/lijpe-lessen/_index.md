@@ -8,18 +8,11 @@ title: "Lijpe Lessen"
 headerTitle: "Lijpe Lessen &mdash; improviseer jezelf door de middelbare school"
 blurb: "??"
 
-customHeight: "small"
 
-bgColor: "#FFDDBB"
-bgColorLink: "#007607"
-
-textColor: "#510103"
-textColorLink: "#7CFF86"
 
 buttonColor: "#7CFF86"
 
 googleFonts: "https://fonts.googleapis.com/css2?family=Grandstander:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
-extraCSS: true
 
 date: 2021-04-29
 

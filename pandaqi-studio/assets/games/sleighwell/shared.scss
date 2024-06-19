@@ -1,13 +1,22 @@
+@use "sass:color";
+
 $header-font: "grace";
 $body-font: "roboto";
 $base-fonts: "fonts/";
 
-$bg-col: #8ab1ef;
-$text-col: #111111;
+$bg-color: #8ab1ef;
+$text-color: #111111;
+
 $col1: #ff9898;
 $col2: #58faf7;
 $col3: #ca95ff;
 $col4: #9edb95;
+
+$button-bg: $col2;
+$button-color: #27231c;
+$link-color: color.adjust($col3, $lightness: -60%);
+$link-color-hover: color.adjust($col3, $lightness: -40%);
+$settings-color: $col1;
 
 @font-face {
     font-family: $header-font;
@@ -31,3 +40,72 @@ $col4: #9edb95;
     font-style: normal;
     font-display: swap;
 }
+
+body {
+    font-family: $body-font;
+    background-color: $bg-color;
+    color: $text-color;
+    background-image: url("bg_pattern.webp");
+    background-size: 50%;
+}
+
+h1, h2, h3, h4, h5, h6, 
+a.btn, #btn-create-pdf, #btn-generate-board, #btn-start-game,
+input, button, select, option, label {
+    font-family: $header-font;
+    font-weight: normal;
+}
+
+input, button, select, option, label {
+    font-family: $body-font;
+}
+
+a {
+    color: $link-color; 
+    &:hover {
+        color: $link-color-hover;
+    }
+}
+
+.game-settings {
+    color: black;
+    background-color: $settings-color;
+    .setting-remark { color: black; }
+}
+
+.boardgame-intro {
+    .tagline, .metadata {
+        color: $text-color;
+    }
+}
+
+a.download-btn, a.download-btn:visited, 
+#btn-start-game, #btn-start-game:visited,
+#btn-generate-board, #btn-generate-board:visited {
+    background-color: $button-bg;
+    color: $button-color;
+    
+    &:hover {
+        background-color: $button-color;
+        color: $button-bg;
+    }
+}
+
+//
+// Rules
+//
+#setup {
+    background-color: $col1;
+}
+
+#objective {
+    background-color: $col2;
+}
+
+#action_play {
+    background-color: $col3;
+} 
+
+#expansion {
+    background-color: $col4;
+} 

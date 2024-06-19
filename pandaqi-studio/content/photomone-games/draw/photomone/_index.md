@@ -1,24 +1,17 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "Photomone"
 headerTitle: "A party game about drawing secret words like an ant"
 blurb: "A drawing party game. But you're ants leaving pheromone trails, so drawing just became a lot harder and a lot more fun."
+blurbShort: "A party game about drawing secret words. But you're an ant, so you can only draw using your pheromone trail."
 
 weightProject: 10
 
-customHeight: "small"
-headerDarkened: true
 
 color: "brown"
 
-bgColor: "#ffc48a"
-bgColorLink: "#ffd340"
-
-textColor: "#302a24"
-textColorLink: "#282310"
 
 date: 2023-07-21
 
@@ -28,8 +21,6 @@ categories: ["boardgame", "one-paper-game", "hybrid-game"]
 tags: ["drawing", "creative", "guessing", "turn-based"]
 themes: ["top-down", "vector"]
 
-extraCSS: true
-extraJSBoard: true
 extraJSBoardInclude: true
 sharedJS: "photomone-games"
 sharedJSInclude: true
@@ -46,11 +37,7 @@ devlog: "/blog/boardgames/photomone/"
 ---
 
 
-{{% boardgame-intro heading="" class="no-shadow" %}}
-
-A party game about drawing secret words. But you're an ant, so you can only draw using your pheromone trail.
-
-{{% /boardgame-intro %}}
+{{% boardgame-intro class="no-shadow" /%}}
 
 {{% section-centered html="true" %}}
 
@@ -75,9 +62,7 @@ For the words, pick whatever style suits you best.
 
 {{% /section-centered %}}
 
-{{% section-centered heading="Board" html="true" anchor="board" %}}
-
-<p>Input your desired settings and click "generate".</p>
+{{% boardgame-settings-container type="board" remarks="For most game modes, using _core_ (or _easy_) words is ideal. With words printed on the board, however, the game becomes much easier and it's recommended to allow much harder words!" %}}
 
 {{< boardgame-settings type="board" local_storage="photomoneConfig" game_title="Photomone" defaults="true" >}}
   {{< setting-checkbox id="setting-printWordsOnPaper" text="Include Words?" remark="Prints random words on the paper itself." >}}
@@ -93,27 +78,20 @@ For the words, pick whatever style suits you best.
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
-<p style="font-size:0.66em; opacity: 0.66;">Not working? Don't worry! At the "Download" link, you can also find PDFs I already generated for you.</p> 
+{{% /boardgame-settings-container %}}
 
-<p style="font-size:0.66em; opacity: 0.66;">For most game modes, using "core" (or "easy") words is ideal. With words printed on the board, however, the game becomes much easier and it's recommended to allow much harder words!</p> 
-
-{{% /section-centered %}}
-
-{{% section-centered heading="Game" anchor="game" html="true" %}}
-
-<p>Input your settings, click the button. A new page opens with the game interface!</p>
+{{% boardgame-settings-container type="game" %}}
 
 {{< boardgame-settings type="game" local_storage="photomoneConfig" game_title="Photomone" >}}
   {{< setting-checkbox id="setting-createPDF" text="Create PDF?" remark="Downloads a PDF with randomly generated word cards" >}}
   {{< setting-enum id="setting-wordComplexity" text="Word Complexity?" values="Core,Easy,Medium" valaskey="true" remark="How hard should the words be?" def="Core" >}}
-  <!-- {{< setting-checkbox id="setting-includeNamesAndGeography" text="Include names?" remark="Adds geography and proper names of people, brands, ..." >}} -->
   {{< setting-checkbox id="setting-expansions-sneakySpots" text="Sneaky Spots?" remark="The interface needs to know if you're using this expansion." >}}
   {{< boardgame-settings-section heading="Word Categories" >}}
 {{< setting-checkbox-multiple id="setting-categories" values="anatomy,animals,clothes,food,items,nature,occupations,places,sports,vehicles" values_checked="anatomy,animals,clothes,food,items,nature,occupations,places,sports,vehicles" >}}
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
-{{% /section-centered %}}
+{{% /boardgame-settings-container %}}
 
 {{< support >}}
 

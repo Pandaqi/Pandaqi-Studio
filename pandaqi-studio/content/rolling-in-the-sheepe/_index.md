@@ -1,6 +1,5 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 
 title: "Rolling in the Sheepe"
 headerTitle: "1-6 sheep compete to roll over the finish line first | Rollable shape not required"
@@ -9,17 +8,10 @@ blurb: "1-6 sheep compete to roll to the finish first, with many treacherous obs
 headerImg: "banner_bg"
 headerThumb: "banner_thumb"
 
-customHeight: "small"
 
-bgColor: "#ffffff"
-bgColorLink: "#3adaad"
-
-textColor: "#292929"
-textColorLink: "#00261b"
 
 color: "green"
 
-extraCSS: true
 
 date: 2022-01-24
 

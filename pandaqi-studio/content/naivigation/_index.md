@@ -1,27 +1,17 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "Naivigation"
 headerTitle: "A cooperative and chaotic race to the finish"
 blurb: "A boardgame about steering a single car ... together."
 longblurb: "Race to the finish ... with all players steering the same car at the same time!"
+blurbShort: "Everyone steers the same car. Will you make it to the finish?"
+
 deprecated: true
-
-customHeight: "small"
-
 noThumb: true
 
 color: "turquoise"
-
-bgColor: "#3578A1"
-bgColorLink: "#E13926"
-
-textColor: "white"
-textColorLink: "#FFDDDD"
-
-extraCSS: true
 
 date: 2019-02-24
 
@@ -41,17 +31,11 @@ ages: everyone
 
 ---
 
-{{% boardgame-intro heading="" %}}
+<!--- A cooperative game for 2&ndash;10 players about guessing the actions of your fellow players, creating a solid plan without saying anything ... and then failing to execute that plan and driving your car into a lake. --->
 
-Everyone steers the same car. Will you make it to the finish?
+{{% boardgame-intro /%}}
 
-A cooperative game for 2&ndash;10 players about guessing the actions of your fellow players, creating a solid plan without saying anything ... and then failing to execute that plan and driving your car into a lake.
-
-{{% /boardgame-intro %}}
-
-<h2 class="purpleCategory">What do I need?</h2>
-
-{{% section-centered heading="" %}}
+{{% section-centered heading="What do I need?" %}}
 
 This game is "print 'n play", which means you can play it for free by taking these simple steps:
 1. Click the "Download" button to go to my Google Drive folder.
@@ -64,9 +48,7 @@ Each game I create has been thoroughly playtested and designed as professionally
 
 {{% /section-centered %}}
 
-<h2 class="blueCategory">How does it work?</h2>
-
-{{% section-centered heading="" %}}
+{{% section-centered heading="How does it work?" %}}
 
 Reach the finish line _before_ destroying the car. 
 
@@ -76,9 +58,7 @@ Magic happens! Reveal all the instructions and execute them, moving the car over
 
 {{% /section-centered %}}
 
-<h2 class="redCategory">Expansions &amp; Updates</h2>
-
-{{% section-centered heading="" %}}
+{{% section-centered heading="Expansions &amp; Updates" %}}
 
 This game has been enjoyed immensely by my groups. 
 

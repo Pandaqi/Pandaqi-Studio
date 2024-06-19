@@ -1,24 +1,16 @@
 ---
-type: "single"
+type: "gamepage"
 
-gamepage: true
 boardgame: true
 
 title: "Finger Food"
 headerTitle: "A quick game playable with just a paper and your fingers"
 blurb: "A quick game playable with just a single paper. Each turn, place a finger on a new square, to score more points than your opponents before you've used your whole hand."
+blurbShort: "Place your fingers on the best squares and score more pie points than your opponents! Playable with just a single paper, nothing else needed."
+
 blurbProject: "Bake the highest-scoring recipes by _placing your fingers_ on the right squares, nothing else needed."
 
-customHeight: "small"
-headerDarkened: true
-
 color: "pink"
-
-bgColor: "#613700"
-bgColorLink: "#ffbc8b"
-
-textColor: "#ffded3"
-textColorLink: "#5b2608"
 
 date: 2024-01-26
 
@@ -28,8 +20,6 @@ categories: ["boardgame", "one-paper-game"]
 tags: ["cooking", "turn-based", "shared-map", "colorful", "experimental", "fast-paced"]
 themes: ["cartoon", "food"]
 
-extraCSS: true
-extraJSBoard: true
 extraJSBoardInclude: true
 
 downloadLink: "https://drive.google.com/drive/folders/101SQ5KBbdwiiYC-2nU-5H7gKoTnqhXZE"
@@ -43,11 +33,7 @@ devlog: "/blog/boardgames/waitless-games/finger-food/"
 
 ---
 
-{{% boardgame-intro heading="" %}}
-
-Place your fingers on the best squares and score more pie points than your opponents! Playable with just a single paper, nothing else needed.
-
-{{% /boardgame-intro %}}
+{{% boardgame-intro /%}}
 
 {{% section-centered heading="What do I need?" icon="page/finger_food_hand.webp" %}}
 

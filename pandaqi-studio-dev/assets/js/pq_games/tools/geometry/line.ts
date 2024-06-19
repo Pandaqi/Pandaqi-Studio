@@ -83,7 +83,7 @@ export default class Line extends Shape
         console.error("Can't get other point on ", this, " because point given ", p, " isn't a member in the first place");
         return null;
     }
-    setPoints(start: any, end: any)
+    setPoints(start: Point, end: Point)
     {
         this.setStart(start);
         this.setEnd(end);

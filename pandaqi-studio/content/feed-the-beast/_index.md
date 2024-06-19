@@ -1,27 +1,17 @@
 ---
-type: "single"
-gamepage: true
+type: "gamepage"
 boardgame: true
 
 title: "Feed the Beast"
 headerTitle: "Keep the beast satisfied with your food offerings, but be the first to get rid of the entire feast."
 blurb: "Keep the beast satisfied with your strategic offerings of apples, pie or bread. Be the first to get rid of your entire food storage."
+blurbShort: "Oh, the dragon wants candy now? It will only release the princess for a slice of pie? Time to prepare the right dinner that wins me the game!"
 
-extraCSS: true
 downloadLink: "https://drive.google.com/drive/folders/1iuOlI1iYqptXn3HZQYIu0x7qy_jmb2aZ"
-
-customHeight: "small"
-headerDarkened: true
 
 color: "black"
 
-bgColor: "#003401"
-bgColorLink: "#113322"
-
-textColor: "#f2ffef"
-textColorLink: "#99EE99"
-
-date: 2025-05-26
+date: 2025-08-26
 
 categories: ["boardgame"]
 tags: ["creative", "guessing", "word"]
@@ -35,26 +25,11 @@ devlog: "/blog/boardgames/feed-the-beast/"
 
 ---
 
-{{% boardgame-intro heading="" %}}
+{{% boardgame-intro /%}}
 
-Oh, the dragon wants candy now? It will only release the princess for a slice of pie? Time to prepare the right dinner that wins me the game!
+{{% boardgame-instructions /%}}
 
-{{% /boardgame-intro %}}
-
-{{% section-centered heading="What do I need?" %}}
-
-Three simple steps.
-* Read the short [playful rules](rules).
-* Download the base game PDF. (Download > Files > Base Set.)
-* Print, cut, play!
-
-**Want more?** You can also [generate your own material](#material) right on this website!
-
-{{% /section-centered %}}
-
-{{% section-centered heading="Material" anchor="material" html="true" %}}
-
-<p>Pick your desired settings and click the button! When in doubt, just use the defaults for your first games.</p>
+{{% boardgame-settings-container type="material" %}}
 
 {{< boardgame-settings type="game" local_storage="feedTheBeastConfig" btn_label="Generate Material" game_title="Feed the Beast" defaults="true" >}}
   {{< setting-checkbox id="setting-allowMultiFoodRecipes" text="Add multi food menus?" checked="checked" remark="Makes the game slightly harder but also faster and more strategic (usually)." >}}
@@ -67,9 +42,7 @@ Three simple steps.
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
-<p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>
-
-{{% /section-centered %}}
+{{% /boardgame-settings-container %}}
 
 {{% section-centered heading="Credits" anchor="credits" %}}
 

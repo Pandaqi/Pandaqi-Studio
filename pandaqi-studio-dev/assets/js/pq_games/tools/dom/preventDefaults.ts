@@ -1,4 +1,4 @@
-export default (ev:any) =>
+export default (ev:Event) =>
 {
     if(!ev) { return false; }
     ev.stopPropagation(); 
