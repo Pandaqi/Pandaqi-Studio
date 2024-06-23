@@ -13,8 +13,11 @@ color: "turquoise"
 
 date: 2025-08-26
 
-categories: ["boardgame"]
-tags: ["creative", "guessing", "word"]
+difficulty: "no-brainer"
+categories: ["boardgame", "tile-game", "pawn-game"]
+genre: ["family", "thematic"]
+tags: ["shared-map", "high-score", "fast-paced", "movement"]
+themes: ["nature", "sea"]
 
 multiplayermode: "competitive"
 language: EN

@@ -1,21 +1,7 @@
 @use "sass:map";
 @use "sass:list";
+@use "./globals" as g;
 
-$colorschemes: (
-	"red":      ( "col": rgb(50,0,0),        "bg": rgb(255,150,150), "dark": rgb(100,0,0)),
-	"blue":     ( "col": rgb(0,0,50),        "bg": rgb(150,150,250), "dark": white),
-	"green":    ( "col": rgb(0,50,0),        "bg": rgb(150,250,150), "dark": white),
-	"yellow":   ( "col": #3b2c02,            "bg": #fae196,          "dark": #6d5e48),
-	"orange":   ( "col": #332211,            "bg": #FFB897),
-	"turquoise": ( "col": #033d32,            "bg": #96facb),
-	"beige":    ( "col": rgb(77, 77, 11),    "bg": beige),
-	"purple":   ( "col": rgb(37, 4, 37),     "bg": #d670f0 ),
-	"pink":     ( "col": rgb(77, 12, 23),    "bg": pink),
-	"darkblue": ( "col": rgb(150,150,250),   "bg": rgb(0,0,50)),
-	"brown":    ( "col": rgb(243, 171, 138), "bg": rgb(75, 36, 11)), 
-	"white":    ( "col": #333,              "bg": #EEE),
-	"black":    ( "col": #EEE,              "bg": #333)
-);
 
 @mixin colorscheme($info: ()) {
 	background-color: map.get($info, "bg");
@@ -71,17 +57,9 @@ $colorschemes: (
     }
 }
 
-.entry-banner {
-	@each $name, $color in $colorschemes {
-		&.#{$name} {
-			@include banner-colorscheme($color);
-		}
-	}
-}
-
 // @NOTE: the CUSTOM entry banners still use the regular color scheme, because they have no background blurry thing
-.metadata-container, header, .metadata-divider, .entry-banner-custom {
-	@each $name, $color in $colorschemes {
+.metadata-container, header, .metadata-divider {
+	@each $name, $color in g.$colorschemes {
 		&.#{$name} {
 			@include colorscheme($color);
 		}
@@ -89,7 +67,7 @@ $colorschemes: (
 }
 
 footer, .footer-divider {
-    @each $name, $color in $colorschemes {
+    @each $name, $color in g.$colorschemes {
 		&.#{$name} {
 			@include inverted-colorscheme($color);
 		}

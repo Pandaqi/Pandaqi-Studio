@@ -13,15 +13,16 @@ color: "purple"
 
 date: 2025-02-26
 
-categories: ["boardgame"]
-tags: ["simple", "auction", "bidding"]
+difficulty: "simple"
+categories: ["boardgame", "tile-game"]
+genre: ["family"]
+tags: ["numbers", "bidding", "auction"]
+themes: ["cartoon"]
 
 multiplayermode: "competitive"
 language: EN
-genre: ["tile"]
 playtime: 45
 playercount: [3,4,5,6]
-complexity: low
 ages: everyone
 devlog: "/blog/boardgames/i-bid-you-not/"
 

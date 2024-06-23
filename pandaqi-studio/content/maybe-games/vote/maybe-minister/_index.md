@@ -16,8 +16,11 @@ color: "brown"
 
 date: 2026-04-26
 
-categories: ["boardgame"]
-tags: ["bidding", "auction", "secret-objective", "holiday"]
+difficulty: "regular"
+categories: ["boardgame", "card-game"]
+genre: ["family", "thematic"]
+tags: ["voting", "income", "simultaneous-turns", "political"]
+themes: []
 
 multiplayermode: "competitive"
 language: EN

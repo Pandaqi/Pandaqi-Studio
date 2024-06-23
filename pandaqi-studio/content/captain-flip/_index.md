@@ -13,15 +13,16 @@ color: "turquoise"
 
 date: 2025-02-26
 
-categories: ["boardgame"]
-tags: ["simple", "sea", "animals"]
+difficulty: "kids-can-play"
+categories: ["boardgame", "tile-game"]
+genre: ["family"]
+tags: ["logic", "memory"]
+themes: ["sea", "animals", "monsters"]
 
 multiplayermode: "competitive"
 language: EN
-genre: ["tile"]
 playtime: 30
 playercount: [2,3,4,5,6]
-complexity: low
 ages: everyone
 devlog: "/blog/boardgames/captain-flip/"
 

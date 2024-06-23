@@ -16,15 +16,16 @@ color: "brown"
 
 date: 2025-03-26
 
-categories: ["boardgame"]
-tags: ["creative", "guessing", "word"]
+difficulty: "no-brainer"
+categories: ["boardgame", "tile-game"]
+genre: ["family", "party"]
+tags: ["shared-map", "creative", "limited-communication", "guessing"]
+themes: ["colorful", "holiday"]
 
 multiplayermode: "cooperative"
 language: EN
-genre: ["card", "party", "social"]
 playtime: 60
 playercount: [2,3,4,5,6,7,8]
-complexity: low
 ages: everyone
 
 ---

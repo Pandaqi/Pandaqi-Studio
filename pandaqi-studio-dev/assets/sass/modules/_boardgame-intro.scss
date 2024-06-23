@@ -30,3 +30,13 @@
         text-align: center;
     }
 }
+
+body.invert 
+{
+    .boardgame-intro 
+    {
+        .tagline, .metadata {
+            color: #FCFCFC;
+        }
+    }
+}

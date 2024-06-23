@@ -17,10 +17,16 @@ body, html {
 	font-family: g.$body-font-stack;
 	font-size: calc(15px + 0.390625vw);
     line-height: 1.4em;
+	background-color: #FCFCFC;
+	color: #101010;
 }
 
 a {
 	transition: color 0.3s;
+	color: g.$default-color-dark;
+	&:hover {
+		color: #111111;
+	}
 }
 
 p, li {
@@ -241,4 +247,15 @@ video {
 	background-color:white;
 }
 
+// Inversion default parameter for easy black-bg, white-text instead
+body.invert {
+	background-color: #111111;
+	color: #FCFCFC;
 
+	a:not(.btn) {
+		color: g.$default-color-light;
+		&:hover {
+			color: white;
+		}
+	}
+}

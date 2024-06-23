@@ -16,8 +16,11 @@ color: "yellow"
 
 date: 2025-04-26
 
-categories: ["boardgame"]
-tags: ["bidding", "auction", "secret-objective", "holiday"]
+difficulty: "simple"
+categories: ["boardgame", "card-game"]
+genre: ["family", "thematic"]
+tags: ["voting", "simultaneous-turns", "move-through-all"]
+themes: ["espionage"]
 
 multiplayermode: "competitive"
 language: EN

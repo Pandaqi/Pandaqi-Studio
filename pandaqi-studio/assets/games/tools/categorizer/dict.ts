@@ -100,6 +100,8 @@ const THEMES:List =
     low_poly: { desc: "Style that uses 3D models with extremely low resolution, in which elements are textured with single colors from a controlled palette." },
     isometric: { desc: "Style in which you view everything from an isometric perspective, typically sideways and skewed." },
     nature: { desc: "The game has a strong nature theme, showing plants and animals and maybe using their real life properties as mechanics." },
+    animals: { desc: "The game involves animals or non-human beings." },
+    sea: { desc: "The game involves oceans, water, waterfalls, lakes, maybe even ships or pirates" },
     fantasy: { desc: "The game has a fantastical theme, usually involving magic and invented races." },
     humor: { desc: "The game does not take itself seriously and is filled with silly and unexpected elements." },
     medieval: { desc: "The game is set in the medieval time period." },
@@ -130,6 +132,8 @@ const THEMES:List =
     pop_art: { desc: "A vintage style that emphasizes bright colors, stark contrasts, and busy patterns usually made from dots." },
     wild_west: { desc: "A game themed around the wild west, cowboys, or anything related." },
     magic: { desc: "A game involving or themed around magic." },
+    hollywood: { desc: "A game about movies, TV, movie culture, general media or celibrities, etcetera." },
+    espionage: { desc: "The game is themed around spies, secrecy, stealth, hidden identities." }
 }
 
 const TAGS:List =
@@ -292,7 +296,8 @@ const TAGS:List =
     map_selection: { desc: "The game offers several different predetermined maps or boards, of which you pick one per game." },
     powerups: { desc: "The game includes 'powerups' to grab or attain, which grant the player temporary or permanent special abilities." },
     movement: { desc: "Physically moving from location to location, or some core twist on how you move, is (almost) the entire game." },
-    synergies: { desc: "The game contains many elements you could buy or use, and players are rewarded handsomely for finding the ones that work together ('synergize') in the best way." }
+    synergies: { desc: "The game contains many elements you could buy or use, and players are rewarded handsomely for finding the ones that work together ('synergize') in the best way." },
+    voting: { desc: "The game has a mechanism that involves voting. (All or some players submit yes/no votes somehow to make something happen or not.)" },
 }
 
 interface ListContainer

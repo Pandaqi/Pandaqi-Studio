@@ -16,15 +16,16 @@ color: "pink"
 
 date: 2025-03-26
 
-categories: ["boardgame"]
-tags: ["bidding", "auction", "secret-objective", "holiday"]
+difficulty: "simple"
+categories: ["boardgame", "tile-game"]
+genre: ["family"]
+tags: ["bidding", "auction", "secret-objective", "numbers", "simultaneous-turns"]
+themes: ["colorful", "holiday"]
 
 multiplayermode: "competitive"
 language: EN
-genre: ["tile", "party"]
 playtime: 30
 playercount: [3,4,5,6]
-complexity: low
 ages: everyone
 
 ---

@@ -16,15 +16,16 @@ color: "purple"
 
 date: 2025-03-26
 
-categories: ["boardgame"]
-tags: ["creative", "guessing", "word"]
+difficulty: "simple"
+categories: ["boardgame", "tile-game"]
+genre: ["family"]
+tags: ["shared-map", "movement", "logic"]
+themes: ["colorful", "holiday"]
 
 multiplayermode: "competitive"
 language: EN
-genre: ["card", "party", "social"]
 playtime: 30
 playercount: [2,3,4,5,6,7,8]
-complexity: low
 ages: everyone
 
 ---

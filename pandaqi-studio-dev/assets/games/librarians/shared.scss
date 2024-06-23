@@ -47,15 +47,16 @@ $col2: #7B4B94;
     font-display: swap;
 }
 
+//
+// Page
+//
 body {
     font-family: $body-font;
     background-color: $bg-color;
     color: $text-color;
 }
 
-h1, h2, h3, h4 {
-    font-family: $header-font;
-
+h1, h2, h3, h4, h5, h6 {
     &::first-letter {
         font-family: $special-font;
         font-size: 1.5em;
@@ -63,49 +64,45 @@ h1, h2, h3, h4 {
     }
 }
 
-//
-// Page
-//
 $button-bg: $col1;
 $button-color: #27231c;
 $link-color: color.adjust($col2, $lightness: 30%);
 $link-color-hover: color.adjust($col2, $lightness: 50%);
 $settings-color: $col1;
 
-h1, h2, h3, h4, h5, h6, 
-a.btn, #btn-create-pdf, #btn-generate-board, #btn-start-game,
-input, button, select, option, label {
+h1, h2, h3, h4, h5, h6, .btn-custom
+{
     font-family: $header-font;
 }
 
-input, button, select, option, label {
+input, button, select, option, label 
+{
     font-family: $body-font;
 }
 
-a {
+a 
+{
     color: $link-color; 
-
     &:hover {
         color: $link-color-hover;
     }
 }
 
-.game-settings {
-    color: black;
+.game-settings 
+{
     background-color: $settings-color;
-
-    .setting-remark { color: black; }
 }
 
-.boardgame-intro {
-    .tagline, .metadata {
+.boardgame-intro 
+{
+    .tagline, .metadata 
+    {
         color: $text-color;
     }
 }
 
-a.download-btn, a.download-btn:visited, 
-#btn-start-game, #btn-start-game:visited,
-#btn-generate-board, #btn-generate-board:visited {
+.btn-custom
+{
     background-color: $button-bg;
     color: $button-color;
     
@@ -113,30 +110,4 @@ a.download-btn, a.download-btn:visited,
         background-color: $button-color;
         color: $button-bg;
     }
-}
-
-//
-// Rulebook
-//
-$light-yellow: color.adjust($col1, $lightness: 10%);
-$light-purple: color.adjust($col2, $lightness: 30%);
-
-#setup {
-    background-color: $light-yellow;
-}
-
-#objective {
-    background-color: $light-purple;
-}
-
-#action_play {
-    background-color: $light-yellow;
-}
-
-#scoring {
-    background-color: $light-purple;
-}
-
-#expansions {
-    background-color: $light-yellow;
 }

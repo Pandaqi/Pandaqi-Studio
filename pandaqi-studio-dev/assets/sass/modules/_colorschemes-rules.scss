@@ -1,0 +1,27 @@
+@use "sass:map";
+@use "sass:list";
+@use "./globals" as g;
+
+
+//
+// Default rulebook color schemes
+//
+
+// even sections (always the same slightly off-white)
+.rules-foldable.top-level:nth-child(2n) 
+{
+    background-color: #EEEEEE;
+    color: #111111;
+}
+
+// odd sections (depend on overall project color)
+@each $key, $color-data in g.$colorschemes 
+{
+    .#{$key} 
+    {
+        .rules-foldable.top-level:nth-child(2n+1) {
+            color: #111111;
+            background-color: map.get($color-data, "bg-rules");
+        }
+    }
+}

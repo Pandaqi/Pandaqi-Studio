@@ -20,14 +20,14 @@
 	{{- $def_btn_label := "Generate Board" -}}
 	{{- $btn_label = or $btn_label $def_btn_label -}}
 <div style="text-align: center;">
-	<button id="btn-generate-board">{{- $btn_label -}}</button>
-	<button id="btn-create-pdf" style="display:none;">Download PDF</button>
+	<button class="btn btn-custom" id="btn-generate-board">{{- $btn_label -}}</button>
+	<button class="btn btn-custom" id="btn-create-pdf" style="display:none;">Download PDF</button>
 </div>
 <div id="phaser-container"></div>
 {{- else if eq $type "game" -}}
 	{{- $def_btn_label := "Start game" -}}
 	{{- $btn_label = or $btn_label $def_btn_label -}}
 <div style="text-align: center;">
-	<button id="btn-start-game">{{- $btn_label -}}</button>
+	<button class="btn btn-custom" id="btn-start-game">{{- $btn_label -}}</button>
 </div>
 {{- end -}}

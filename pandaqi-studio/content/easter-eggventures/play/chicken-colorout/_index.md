@@ -12,21 +12,20 @@ weightProject: 30
 
 downloadLink: "https://drive.google.com/drive/folders/1qKnpae5c9UUf1UC2XiAmE01oGXPXsmJC"
 
-
 color: "green"
-
 
 date: 2025-03-26
 
-categories: ["boardgame"]
-tags: ["strategy"]
+difficulty: "kids-can-play"
+categories: ["boardgame", "tile-game"]
+genre: ["family"]
+tags: ["shared-map", "move-through-all"]
+themes: ["colorful", "holiday"]
 
 multiplayermode: "competitive"
 language: EN
-genre: ["tile"]
 playtime: 30
 playercount: [2,3,4,5,6]
-complexity: low
 ages: everyone
 
 ---

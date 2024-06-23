@@ -24,7 +24,9 @@ function createSegments(params:SmoothPathParams) : CatmullRomSegment[]
             p0: path[i-1],
             p1: path[i],
             p2: path[i+1],
-            p3: path[i+2]
+            p3: path[i+2],
+            alpha: params.alpha,
+            tension: params.tension
         }
         const s = new CatmullRomSegment(curPoints);
         segments.push(s);
@@ -73,8 +75,8 @@ class CatmullRomSegment
         const p1 = params.p1;
         const p2 = params.p2;
         const p3 = params.p3;
-        const alpha = params.alpha;
-        const tau = (1.0 - params.tension);
+        const alpha = params.alpha ?? 0.5;
+        const tau = (1.0 - params.tension) ?? 0.5;
 
         /*
             @SOURCE: https://qroph.github.io/2018/07/30/smooth-paths-using-catmull-rom-splines.html
@@ -167,6 +169,8 @@ export default function smoothPath(params:SmoothPathParams)
     params.alpha = alpha;
 
     prepareFullPath(path);
+    params.path = path;
+    
     const segments = createSegments(params);
     const points = getPointsFromSegments(params, segments);
     return points;

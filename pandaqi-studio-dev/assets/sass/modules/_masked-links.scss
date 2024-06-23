@@ -1,4 +1,4 @@
-@use "modules/globals.scss" as g;
+@use "./globals.scss" as g;
 
 @mixin icon($offset:0) {
     mask-position-x: $offset;

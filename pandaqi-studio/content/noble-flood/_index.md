@@ -13,8 +13,11 @@ color: "purple"
 
 date: 2025-05-26
 
-categories: ["boardgame"]
-tags: ["creative", "guessing", "word"]
+difficulty: "simple"
+categories: ["boardgame", "card-game"]
+genre: ["family"]
+tags: ["contracts", "shared-map", "high-score"]
+themes: []
 
 multiplayermode: "competitive"
 language: EN

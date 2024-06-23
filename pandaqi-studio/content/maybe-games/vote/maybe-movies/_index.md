@@ -16,8 +16,11 @@ color: "green"
 
 date: 2025-04-26
 
-categories: ["boardgame"]
-tags: ["bidding", "auction", "secret-objective", "holiday"]
+difficulty: "kids-can-play"
+categories: ["boardgame", "card-game"]
+genre: ["family", "thematic"]
+tags: ["voting", "income", "media", "simultaneous-turns", "move-through-all"]
+themes: ["hollywood"]
 
 multiplayermode: "competitive"
 language: EN

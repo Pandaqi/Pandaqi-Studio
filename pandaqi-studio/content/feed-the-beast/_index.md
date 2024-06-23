@@ -13,8 +13,11 @@ color: "black"
 
 date: 2025-08-26
 
-categories: ["boardgame"]
-tags: ["creative", "guessing", "word"]
+difficulty: "kids-can-play"
+categories: ["boardgame", "standard"]
+genre: ["family", "thematic"]
+tags: ["variable-setup", "move-through-all", "map-selection"]
+themes: ["monsters", "mythology", "fantasy"]
 
 multiplayermode: "competitive"
 language: EN

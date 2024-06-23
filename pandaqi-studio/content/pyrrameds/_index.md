@@ -9,14 +9,15 @@ blurbShort: "Build a pyramid of cards that delivers the right medicine to the ri
 
 downloadLink: "https://drive.google.com/drive/folders/1qkIw5weWYltavQCp8GJ-TmiT63Pb9sci"
 
-
 color: "yellow"
-
 
 date: 2025-05-26
 
-categories: ["boardgame"]
-tags: ["creative", "guessing", "word"]
+difficulty: "kids-can-play"
+categories: ["boardgame", "card-game"]
+genre: ["family"]
+tags: ["numbers", "patterns", "shared-map", "networks", "move-through-all"]
+themes: ["animals"]
 
 multiplayermode: "competitive"
 language: EN

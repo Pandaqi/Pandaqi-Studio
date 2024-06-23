@@ -98,7 +98,7 @@ export default class Rulebook
             ev.preventDefault();
 
             const href = anchor.getAttribute('href')
-            const node = document.querySelector(href);
+            const node = document.querySelector(href) as HTMLElement;
             this.rootSection.unfoldEverythingAbove(node);
             setTimeout(() => { node.scrollIntoView({ behavior: 'smooth', block: "start" }); }, 300);
             return false;

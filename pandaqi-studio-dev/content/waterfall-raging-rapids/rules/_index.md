@@ -2,7 +2,7 @@
 type: "rules"
 ---
 
-{{% rules-block id="setup" heading="Setup" icon="setup" icontint="green" %}}
+{{% rules-block id="setup" heading="Setup" icon="setup" %}}
 
 Pick one of the **starter tiles** (marked with X) and place it faceup in the center of the table.
 
@@ -12,7 +12,7 @@ Deal all players **X tiles** and **1 Pawn**. The remaining tiles become the face
 
 {{% /rules-block %}}
 
-{{% rules-block id="objective" heading="Objective" icon="objective" icontint="red" %}}
+{{% rules-block id="objective" heading="Objective" icon="objective" %}}
 
 The game **ends** when when the waterfall **contains 20(+) cards**. 
 
@@ -20,7 +20,7 @@ Players sum the points on their scored tiles: **highest score wins!**
 
 {{% /rules-block %}}
 
-{{% rules-block id="action_play" heading="Gameplay" icon="action" icontint="green" %}}
+{{% rules-block id="action_play" heading="Gameplay" icon="action" %}}
 
 From start player, take clockwise turns until the game ends.
 
@@ -39,7 +39,7 @@ Your turn ends once you exit the waterfall or can't move further. (If you get st
 
 {{% /rules-block %}}
 
-{{% rules-block id="actions" heading="Actions" icon="action" icontint="green" %}}
+{{% rules-block id="actions" heading="Actions" icon="action" %}}
 
 Everything in this game happens by executing a tile's action (when you fall through it). 
 
@@ -66,7 +66,7 @@ That's it! Have fun!
 
 {{% /rules-block %}}
 
-{{% rules-block id="expansions" heading="Expansions & Variants" icon="expansion" icontint="yellow" %}}
+{{% rules-block id="expansions" heading="Expansions & Variants" icon="expansion" %}}
 
 Played the game a few times and ready for more challenge? You're in the right place! Try any of the expansions below.
 

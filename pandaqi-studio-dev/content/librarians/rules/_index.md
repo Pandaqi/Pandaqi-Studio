@@ -2,7 +2,7 @@
 type: "rules"
 ---
 
-{{% rules-block id="setup" heading="Setup" icon="setup" icontint="green" %}}
+{{% rules-block id="setup" heading="Setup" icon="setup" %}}
 
 Place 4 random **Book Shelf** cards in a column on the table. (In the base game, ignore the special power on these cards.)
 
@@ -16,13 +16,13 @@ Material can be downloaded from [the website](https://pandaqi.com/librarians/).
 
 {{% /rules-block %}}
 
-{{% rules-block id="objective" heading="Objective" icon="objective" icontint="red" %}}
+{{% rules-block id="objective" heading="Objective" icon="objective" %}}
 
 If you manage to play _all_ the cards, you **win the game**! Otherwise, the game ends if somebody **can't play a card**. The fewer cards you have left, the better you did.
 
 {{% /rules-block %}}
 
-{{% rules-block id="action_play" heading="Gameplay" icon="action" icontint="green" %}}
+{{% rules-block id="action_play" heading="Gameplay" icon="action" %}}
 
 Begin with the start player, then take clockwise turns until done.
 
@@ -54,7 +54,7 @@ Draw back up to the hand limit (which is 4 cards by default).
 
 {{% /rules-block %}}
 
-{{% rules-block id="genres" heading="Genres" icon="expansion" icontint="red" %}}
+{{% rules-block id="genres" heading="Genres" icon="expansion" %}}
 
 There are 6 different colors in the game. Each represents a general type of special power. For each game, you simply pick **one** option per color.
 
@@ -125,7 +125,7 @@ This color has weird, unique, special, disrupting powers
 
 {{% /rules-block %}}
 
-{{% rules-block id="expansions" heading="Expansions & Variants" icon="expansion" icontint="red" %}}
+{{% rules-block id="expansions" heading="Expansions & Variants" icon="expansion" %}}
 
 All the expansions below can be played with the base material, except for the last one.
 

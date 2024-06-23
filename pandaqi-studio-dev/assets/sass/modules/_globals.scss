@@ -17,3 +17,23 @@ $num-masks: 8;
 
 $default-color-light: #cedcff;
 $default-color-dark: #04050f;
+
+$default-bg-light: rgb(255, 241, 197);
+$default-bg-dark: rgb(121, 74, 19);
+$default-bg-text: #210101;
+
+$colorschemes: (
+	"red":      ( "col": rgb(50,0,0),        "bg": rgb(255,150,150), "bg-rules": rgb(255, 202, 202), "dark": rgb(100,0,0)),
+	"blue":     ( "col": rgb(0,0,50),        "bg": rgb(150,150,250), "bg-rules": rgb(224, 224, 255), "dark": white),
+	"green":    ( "col": rgb(0,50,0),        "bg": rgb(150,250,150), "bg-rules": rgb(213, 255, 213), "dark": white),
+	"yellow":   ( "col": #3b2c02,            "bg": #fae196,          "bg-rules": #ffefc1, "dark": #6d5e48),
+	"orange":   ( "col": #332211,            "bg": #FFB897,          "bg-rules": #ffd2bc ),
+	"turquoise": ( "col": #033d32,            "bg": #96facb,         "bg-rules": #d1ffe9),
+	"beige":    ( "col": rgb(77, 77, 11),    "bg": beige,            "bg-rules": beige),
+	"purple":   ( "col": rgb(37, 4, 37),     "bg": #d670f0,          "bg-rules": #f6d3ff),
+	"pink":     ( "col": rgb(77, 12, 23),    "bg": pink,             "bg-rules": rgb(255, 202, 211)),
+	"darkblue": ( "col": rgb(150,150,250),   "bg": rgb(0,0,50),      "bg-rules": rgb(230, 230, 255)),
+	"brown":    ( "col": rgb(243, 171, 138), "bg": rgb(75, 36, 11),  "bg-rules": rgb(255, 228, 211)), 
+	"white":    ( "col": #333,               "bg": #EEE,             "bg-rules": #eaeaea),
+	"black":    ( "col": #EEE,               "bg": #333,             "bg-rules": #eaeaea)
+);
