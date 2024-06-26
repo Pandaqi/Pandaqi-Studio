@@ -14,7 +14,16 @@ timeout = "60s" # slow pc :/
       unsafe = true
       hardWraps = false
 
+[permalinks]
+  post = "/:slug/"
+
+[build]
+  noJSConfigInAssets = true
+
 [params]
+  simpleBanners = false
+  heroImage = true
+
   title       = "Pandaqi"
   subtitle    = "Indie Game Developer"
 
@@ -28,9 +37,6 @@ timeout = "60s" # slow pc :/
   num_masks   = 8
   all_colors  = ["red", "blue", "green", "yellow", "orange", "turquoise", "beige", "purple", "pink", "darkblue", "brown", "white", "black"]
   slogans     = ["No, the game will not have online multiplayer", "Creating local multiplayer games until someone tells me to stop", "Creator of friendships, destroyer of friendships", "Couch co-op for everyone (who has a couch)", "Helping gamers and non-gamers connect", "Different games for a different experience"]
-
-[permalinks]
-  post = "/:slug/"
 
 [taxonomies]
   category = 'categories'
@@ -47,8 +53,7 @@ timeout = "60s" # slow pc :/
   ages = 'ages'
   price = 'price'
 
-[build]
-  noJSConfigInAssets = true
+
 
 
 

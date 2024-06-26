@@ -1,8 +1,10 @@
-<nav>
+{{ $class := "games-list" }}
+{{ if .Site.Params.simpleBanners }}{{ $class = "games-list-simple" }}{{ end }}
+
+<nav class="{{ $class }}">
 	{{ $counter := 0 }}
 
-	<!-- order is important; infopages should be at the BACK -->
-	<!-- For some reason, it only has trouble selecting all .md pages on the homepage?? -->
+	<!-- @NOTE: Order is important; infopages should be at the BACK -->
 	{{ if .IsHome }}
 		{{ $range1 := (where .Site.Pages "Type" "infopage") }}
 		{{ $range2 := (where .Site.Pages "Type" "gamepage") }}
@@ -13,6 +15,10 @@
 	{{ range .Paginator.Pages }}
 		{{ $counter = add $counter 1 }}
 		{{ .Scratch.Set "counter" $counter }}
-		{{ partial "entry-banner.html" . }}
+		{{ if .Site.Params.simpleBanners }}
+			{{ partial "entry-banner-simple.html" . }}
+		{{ else }}
+			{{ partial "entry-banner.html" . }}
+		{{ end }}
 	{{ end }}
 </nav>

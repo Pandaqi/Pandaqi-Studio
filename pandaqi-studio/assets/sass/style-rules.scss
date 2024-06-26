@@ -1,4 +1,6 @@
-@use "sass:map" as map;
+@use "sass:map";
+@use "sass:list";
+@use "./modules/colorschemes-rules";
 
 $max-content-width: 700px;
 $max-print-width: 500px;
@@ -14,6 +16,7 @@ $remark-print-padding: 5px;
 
 $min-remark-screen-width: $max-content-width + 2*$remark-screen-width;
 $min-remark-print-width: $max-print-width;
+
 
 /* Mixins */
 @mixin remark-in-side-margin($w, $p)
@@ -49,6 +52,7 @@ $min-remark-print-width: $max-print-width;
 }
 
 @mixin tint-icon($hue) {
+    mix-blend-mode: initial;
     filter: sepia(100%) saturate(500%) brightness(100%) hue-rotate(#{$hue}deg) drop-shadow(0 0 2px #222);
 }
 
@@ -176,6 +180,14 @@ $tint: (
     "red": 300,
     "orange": 330
 );
+
+
+.rules-icon
+{
+    mix-blend-mode: overlay;
+    filter: drop-shadow(2px 4px 6px black);
+}
+
 
 @each $name, $data in $tint
 {
@@ -907,3 +919,4 @@ $rules-table-size-print: 0.75*$rules-table-icon-size;
         background-color: rgba(255,255,255,0.75);
     }
 }
+

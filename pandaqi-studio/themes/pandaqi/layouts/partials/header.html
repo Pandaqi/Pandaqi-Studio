@@ -4,7 +4,13 @@
 {{ $is_game_page := eq .Type "gamepage" }}
 
 <header class="{{ $color_scheme }}">
-	{{ if not $is_game_page }}
+	{{ $display_hero_header := and .IsHome .Site.Params.heroImage }}
+	{{ if $display_hero_header }}
+		<img src="/theme/webp/pandaqi_hero_image.webp" />
+	{{ end }}
+
+	{{ $display_regular_header := and (not $is_game_page) (not $display_hero_header) }}
+	{{ if $display_regular_header }}
 		{{ $slogans := .Site.Params.slogans }}
 
 		<nav>
@@ -28,7 +34,10 @@
 				</li>
 			</ul>
 		</nav>
-	{{ else }}
+	{{ end }}
+
+	{{ $display_minimal_header := and (not $display_hero_header) (not $display_regular_header) }}
+	{{ if $display_minimal_header }}
 		<button class="hovering-gotobottom-btn" id="gotoBottomBtn"><span class="icon hoverable gotobottom"></span></button>
 	{{ end }}
 </header>

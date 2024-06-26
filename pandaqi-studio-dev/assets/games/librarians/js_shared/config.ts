@@ -59,7 +59,7 @@ const CONFIG:any =
         grenze_italic:
         {
             key: "grenze",
-            path: "fonts/Grenze-Black.woff2",
+            path: "fonts/Grenze-Italic.woff2",
             textConfig: new TextConfig({ style: TextStyle.ITALIC })
         },
 

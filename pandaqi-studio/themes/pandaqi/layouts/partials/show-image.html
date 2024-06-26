@@ -2,11 +2,7 @@
 {{- $alt := or .alt ($img_url | humanize) -}}
 {{- $class := or .class "" -}}
 {{- $url := partial "func/get-valid-image-url.html" (dict "context" .context "img_url" $img_url) -}}
-{{- if not $url -}}
-<picture class="{{ $class }}">
-	Sorry, the picture {{ $img_url }} can't be found!
-</picture>
-{{- else -}}
+{{- if $url -}}
 	{{- $img := imageConfig (add "content" $url) -}}
 <picture class="{{ $class }}">
 	<img 

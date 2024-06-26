@@ -20,7 +20,9 @@ timeout = "60s" # slow pc :/
   noJSConfigInAssets = true
 
 [params]
-  simpleBanners = true
+  simpleBanners = false
+  heroImage = true
+
   title       = "Pandaqi"
   subtitle    = "Indie Game Developer"
 

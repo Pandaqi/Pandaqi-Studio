@@ -3,13 +3,30 @@
 
 /* NOTE: This only indiates some specific elements, like the button styling or blurred background */
 /* More critical elements (which indicate size, for example) are loaded in critical.scss */
-@use "modules/globals.scss" as g;
+@use "./globals.scss" as g;
+@use "./colorschemes" as c;
 
 $default-margin: 2;
 $small: 29;
 $small-medium: 34;
 $medium: 39;
 $large: 49;
+
+.entry-banner {
+	@each $name, $color in g.$colorschemes {
+		&.#{$name} {
+			@include c.banner-colorscheme($color);
+		}
+	}
+}
+
+.entry-banner-custom {
+	@each $name, $color in g.$colorschemes {
+		&.#{$name} {
+			@include c.colorscheme($color);
+		}
+	}
+}
 
 .entry-banner {
 	overflow: hidden;
@@ -196,6 +213,7 @@ $large: 49;
 			.btn {
 				border-radius: 0.5em;
 				font-family: g.$header-font-stack;
+				font-size: 1em;
 
 				padding: 0.5rem 1.0rem;
 

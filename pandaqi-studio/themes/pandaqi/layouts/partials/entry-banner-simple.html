@@ -1,0 +1,30 @@
+{{ $header_url := partial "func/get-game-header.html" . }}
+{{ $title := .Title }}
+{{ $metadata := partial "func/get-game-metadata.html" . }}
+{{ $link_text := "Visit page!" }}
+{{ $content := .Params.blurb }}
+{{ $color_scheme := .Params.color }}
+
+<section class="entry-banner-simple {{ $color_scheme }}">
+	<a href="{{ .RelPermalink }}">
+		{{ if $header_url }}
+			<div class="bg-image">
+				<div class="image-gradient-overlay"></div>
+				{{ partial "show-image.html" (dict "context" . "img_url" $header_url) }}
+			</div>
+		{{ end }}
+
+        <h2>{{ $title }}</h2>
+        {{ if gt (len $metadata) 0 }}
+        <div class="entry-banner-tags-container">
+            {{ range $metadata }}
+                <div class="entry-banner-tag">{{ . }}</div>
+            {{ end }}
+        </div>
+        {{ end }}
+        <p>{{ $content }}</p>
+        <div class="btn">
+            {{ $link_text }}
+        </div>
+	</a>
+</section>

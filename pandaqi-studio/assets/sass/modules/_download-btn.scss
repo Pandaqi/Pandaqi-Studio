@@ -1,46 +1,31 @@
 @use "./globals" as g;
 
-a, button 
-{
-    &.btn, &.btn:visited {
-        font-size: 2.5rem;
-        text-decoration: none;
-        padding: 1.5rem;
-        margin: 0.66rem;
-        line-height: 1.2em;
-        border-radius: 0.5rem;
-        box-sizing: border-box;
-        display: inline-block;
-    
-        background-color: g.$default-color-light;
-		color: g.$default-color-dark;
-    
-        transition: background-color 0.3s, color 0.3s;
+.btn {
+    font-size: 2.5rem;
+    text-decoration: none;
+    padding: 1.5rem;
+    margin: 0.66rem;
+    border-radius: 0.5rem;
+    line-height: 1.2em;
+    box-sizing: border-box;
+    display: inline-block;
+    font-family: g.$header-font-stack;
 
-        &:hover {
-            cursor: pointer;
-            background-color: g.$default-color-dark;
-            color: g.$default-color-light;
-        }
+    background-color: g.$default-color-light;
+    color: g.$default-color-dark;
 
-        filter: drop-shadow(0 0 0.25rem #333);
+    transition: background-color 0.3s, color 0.3s;
+
+    &:hover {
+        cursor: pointer;
+        background-color: g.$default-color-dark;
+        color: g.$default-color-light;
     }
 
-    &.download-btn, &.download-btn:visited {
-        margin: auto;
-        display: inline-block;
-        font-size: 2.5rem;
-        filter: drop-shadow(0 0 0.25rem #333);
+    filter: drop-shadow(0 0 0.25rem #333);
+}
 
-        background-color: g.$default-color-light;
-		color: g.$default-color-dark;
-
-        &:hover {
-            cursor: pointer;
-            background-color: g.$default-color-dark;
-            color: g.$default-color-light;
-        }
-    }
-
-    
+.download-btn {
+    margin: auto;
+    font-size: 2.5rem;
 }

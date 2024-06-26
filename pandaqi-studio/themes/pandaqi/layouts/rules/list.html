@@ -9,9 +9,9 @@
     <title>{{ .Parent.Title }} | Rules | Pandaqi Games</title>
 
     <!-- General CSS for rulebooks -->
-    {{ $options := (dict "targetPath" "/css/style-rules.css" "outputStyle" "compressed" "enableSourceMap" (not hugo.IsProduction)) }}
-    {{ $rules_style := resources.Get "/sass/style-rules.scss" | resources.ToCSS $options }}
-    <link rel="stylesheet" type="text/css" href="{{ $rules_style.RelPermalink }}" />
+    {{ $options := (dict "targetPath" "/css/style-rules.css" "outputStyle" "compressed" "enableSourceMap" (not hugo.IsProduction)  "transpiler" "dartsass") }}
+    {{ $rules_style := resources.Get "/sass/style-rules.scss" | resources.ToCSS $options | minify }}
+    <link rel="stylesheet" type="text/css" href="{{ $rules_style.RelPermalink }}" /> 
 
     <!-- Unique CSS for this rulebook -->
     {{ partial "load-assets.html" (dict "context" . "ext" "css" "type" "rules" "include" true) }}
@@ -57,7 +57,8 @@
 {{ end }}
         
 {{- define "main" -}}
-<article class="rulebook">
+{{ $color := .Parent.Params.color }}
+<article class="rulebook {{ $color }}">
     {{ .Content }}
 </article>
 {{- end -}}

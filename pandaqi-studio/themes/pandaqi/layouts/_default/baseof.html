@@ -6,7 +6,10 @@
     {{ if eq .Type "gamepage" }}{{ $class = "game-page" }}{{ end }}
     {{ if eq .Type "infopage" }}{{ $class = "info-page" }}{{ end }}
 
-    <body class="{{ $class }}">
+    {{ $class_invert := "" }}
+    {{ if .Params.invert }}{{ $class_invert = "invert" }}{{ end }}
+
+    <body class="{{ $class }} {{ $class_invert }}">
         {{ block "header" . }}
             {{- partial "header.html" . -}}
         {{ end }}

@@ -1,0 +1,86 @@
+@use "sass:map";
+@use "sass:list";
+@use "./globals" as g;
+
+$min-item-width: 20em;
+
+.games-list-simple {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    grid-template-columns: repeat(auto-fit, minmax($min-item-width, 1fr));
+    gap: 1.5em;
+    margin: 1.5em;
+}
+
+.entry-banner-simple
+{
+    margin: 0;
+    padding: 1.5em;
+    border-radius: 0.5em;
+    height: auto;
+    color: #111111;
+    background-color: #EEEEEE;
+    transition: transform 0.3s, filter 0.3s;
+    cursor: pointer;
+    
+    &:hover {
+        filter: brightness(115%) drop-shadow(0 0 5px black);
+        transform: scale(1.04);
+    }
+
+    a {
+        text-decoration: none;
+    }
+    
+    h2 {
+        margin: 0;
+        text-align: center;
+    }
+
+    .entry-banner-tags-container {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        font-size: 0.66em;
+        margin-top: 0.5em;
+        gap: 0.3em;
+    
+        .entry-banner-tag {
+            display: inline-block;
+            background-color: rgba(255,255,255,0.85);
+            color: #212121;
+            border-radius: 0.25em;
+            padding-left: 0.25em;
+            padding-right: 0.25em;
+            padding-top: 0.1em;
+            padding-bottom: 0.1em;
+        }
+    }
+
+    div.btn {
+        width: 100%;
+        text-align: center;
+        font-size: 1em;
+        margin: 0;
+        padding: 0.5em;
+    }
+    
+}
+
+.entry-banner-simple
+{
+    @each $key, $color-data in g.$colorschemes 
+    {
+        &.#{$key} 
+        {
+            background-color: map.get($color-data, "bg-rules");
+
+            div.btn {
+                color: map.get($color-data, "col") !important;
+                background-color:  map.get($color-data, "bg") !important;
+                border-color: map.get($color-data, "col") !important;
+            }
+        }
+    }
+}

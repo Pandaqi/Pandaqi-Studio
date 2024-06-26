@@ -1,23 +1,24 @@
-@use "modules/colorschemes.scss";
-@use "modules/masked-links.scss";
-@use "modules/icons.scss";
-@use "modules/clipping.scss";
-@use "modules/entry-banner.scss";
+@use "./modules/colorschemes.scss";
+@use "./modules/masked-links.scss";
+@use "./modules/icons.scss";
+@use "./modules/clipping.scss";
+@use "./modules/entry-banner.scss";
+@use "./modules/entry-banner-simple.scss";
 
-@use "modules/footer.scss";
-@use "modules/footer-narrow.scss";
+@use "./modules/footer.scss";
+@use "./modules/footer-narrow.scss";
 
-@use "modules/header.scss";
+@use "./modules/header.scss";
 
-@use "modules/embedvideo.scss";
-@use "modules/screenshot-gallery.scss";
-@use "modules/game-settings.scss";
-@use "modules/metadata.scss";
-@use "modules/download-btn.scss";
-@use "modules/boardgame-intro.scss";
-@use "modules/reviews.scss";
-@use "modules/buylink";
+@use "./modules/download-btn.scss";
+@use "./modules/embedvideo.scss";
+@use "./modules/screenshot-gallery.scss";
+@use "./modules/game-settings.scss";
+@use "./modules/metadata.scss";
+@use "./modules/boardgame-intro.scss";
+@use "./modules/reviews.scss";
+@use "./modules/buylink";
 
-@use "modules/pagination.scss";
-@use "modules/donation-buttons.scss";
-@use "modules/blocks.scss";
+@use "./modules/pagination.scss";
+@use "./modules/donation-buttons.scss";
+@use "./modules/blocks.scss";
