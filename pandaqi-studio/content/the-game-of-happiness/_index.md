@@ -36,7 +36,7 @@ devlog: "/blog/boardgames/the-game-of-happiness/"
 **Don't want to print stuff?** You can also play the game digitally on a single smartphone. Go to [material](#material) on a device and check "Load Digital Game".
 {{% /boardgame-instructions %}}
 
-{{% boardgame-settings-container type="material" remarks="**Which pack(s) should I use!?** The base, advanced, expert and silly packs contain ~10 new cards for each category. They are the largest and most diverse. They get slightly more _complex_ (in order of the list), but you should mostly see this as a way to break the game into more manageable files to print and cut., The other packs add cards within one particular category, such as Superpowers: cards proposing a fun dilemma through a superpower with a drawback. They are usually much smaller and should just be shuffled into the category cards you already have." %}}
+{{% boardgame-settings-container type="material" remarks="**Which pack(s) should I use!?** The base, advanced, expert and silly packs contain ~10 new cards for each category. They are the largest and most diverse. They get slightly more _complex_ (in order of the list), but you should mostly see this as a way to break the game into more manageable files to print and cut.||The other packs add cards within one particular category, such as Superpowers: cards proposing a fun dilemma through a superpower with a drawback. They are usually much smaller and should just be shuffled into the category cards you already have." %}}
 
 {{< boardgame-settings type="game" local_storage="theGameOfHappinessConfig" btn_label="Generate Material" game_title="The Game of Happiness" defaults="true" >}}
   {{< setting-checkbox id="setting-includeCards" text="Include Cards?" checked="checked" >}}

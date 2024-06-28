@@ -75,7 +75,7 @@ There are two scorable items: **Stalls** and **Attractions**.
 * Stalls only score when **adjacent to any path**. It scores whatever it says.
 * Attractions only score when connected to a regular path through a **queue**. It scores the **length of its queue** multiplied by its **score factor**.
 
-There's one special type of path: **tunnel**. It connects to any other path of the same _type_ in the same _row or column_. (As such, this is a way to connect paths or make them longer without being adjacent.)
+There's one special type of path: **tunnel**. It connects to any other path in the same _row or column_. (As such, this is a way to connect paths or make them longer without being adjacent.)
 
 Scorable items might have **requirements** (mostly in the expansions). If not met, they don't score anything.
 

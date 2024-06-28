@@ -6,7 +6,7 @@ title: "The Domino Diaries"
 headerTitle: "A series of games about placing domino tiles."
 blurb: "A series of games about placing domino tiles to shape your dream world---or simply the one that scores you the most points."
 
-downloadLink: ""
+downloadLink: "https://drive.google.com/drive/folders/1lxKWuSj0hlggY0Nx1_jQsNr0yqjfhoHb"
 
 color: "green"
 
@@ -23,7 +23,7 @@ language: EN
 playtime: 30
 playercount: [2,3,4,5,6]
 ages: everyone
-# devlog: "/blog/boardgames/swiftsmash-games/"
+devlog: "/blog/boardgames/the-domino-diaries/"
 
 ---
 

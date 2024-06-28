@@ -46,11 +46,14 @@ $base-fonts: $base + "fonts/";
 
 body {
     font-family: $body-font;
+    font-size: calc(12px + 0.390625vw);
 }
 
 h1, h2, h3, h4, h5, h6, .btn-custom
 {
     font-family: $header-font;
+    font-size: 3rem;
+    font-weight: normal;
 }
 
 input, button, select, option, label 

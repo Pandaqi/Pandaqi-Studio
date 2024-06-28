@@ -12,7 +12,7 @@
 {{- end -}}
 
 {{- $anchor := $type -}}
-{{- $remarks := split (or (.Get "remarks") "") "," }}
+{{- $remarks := split (or (.Get "remarks") "") "||" }}
 
 {{- $context := $.Page -}}
 

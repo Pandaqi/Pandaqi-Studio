@@ -106,6 +106,7 @@ export default class DominoPicker
             const d = new Domino(DominoType.REGULAR);
             d.setTerrains(terrains.pop(), terrains.pop());
             d.setDinosaurs(dinosaurs.pop(), dinosaurs.pop());
+            d.setSet(set);
             this.dominoes.push(d);
         }
     }

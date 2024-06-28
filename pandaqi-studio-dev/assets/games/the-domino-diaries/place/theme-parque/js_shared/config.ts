@@ -3,14 +3,15 @@ import CVal from "js/pq_games/tools/generation/cval"
 import Point from "js/pq_games/tools/geometry/point"
 import Bounds from "js/pq_games/tools/numbers/bounds"
 import { PathType } from "./dict"
+import Color from "js/pq_games/layout/color/color"
 
 const CONFIG:any = 
 {
     debug:
     {
-        omitFile: true, // @DEBUGGING (should be false)
-        singleDrawPerType: true, // @DEBUGGING (should be false)
-        onlyGenerate: true, // @DEBUGGING (should be false)
+        omitFile: false, // @DEBUGGING (should be false)
+        singleDrawPerType: false, // @DEBUGGING (should be false)
+        onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
     configKey: "themeParqueConfig",
@@ -59,9 +60,59 @@ const CONFIG:any =
             textConfig: new TextConfig({ style: TextStyle.ITALIC })
         },
 
+        besley_bold_italic:
+        {
+            key: "besley",
+            path: "fonts/Besley-BlackItalic.woff2",
+            textConfig: new TextConfig({ weight: TextWeight.BOLD, style: TextStyle.ITALIC })
+        },
+
         wildride:
         {
             path: "fonts/WildRide.woff2",
+        },
+
+        pawns:
+        {
+            path: "pawns.webp",
+            frames: new Point(6,1),
+            loadIf: ["sets.pawns"],
+            disableCaching: true
+        },
+
+        attractions:
+        {
+            path: "attractions.webp",
+            frames: new Point(4,3),
+            disableCaching: true
+        },
+
+        decorations:
+        {
+            path: "decorations.webp",
+            frames: new Point(4,3),
+            disableCaching: true
+        },
+
+        stalls:
+        {
+            path: "stalls.webp",
+            frames: new Point(4,3),
+            disableCaching: true
+        },
+
+        paths:
+        {
+            path: "paths.webp",
+            frames: new Point(5,3),
+            disableCaching: true
+        },
+
+        misc:
+        {
+            path: "misc.webp",
+            frames: new Point(6,1),
+            disableCaching: true
         },
     },
 
@@ -82,13 +133,15 @@ const CONFIG:any =
             rollercoasters: 22,
         },
 
+        emptyPathValue: 0.1, // most attractions are 2--3, lower = appears MORE
+
         frequencies:
         {
             pathType:
             {
-                [PathType.REGULAR]: 0.575,
-                [PathType.QUEUE1]: 0.3,
-                [PathType.QUEUE2]: 0.125
+                [PathType.REGULAR]: 0.5,
+                [PathType.QUEUE1]: 0.325,
+                [PathType.QUEUE2]: 0.175
             }
         }
     },
@@ -97,14 +150,48 @@ const CONFIG:any =
     {
         drawerConfig:
         {
-            dimsElement: new Point(1,2),
+            dimsElement: new Point(1, 2),
             dims: { 
-                small: new Point(6,8),
-                regular: new Point(4,6),
-                large: new Point(3,5)
+                small: new Point(8,6),
+                regular: new Point(6,4),
+                large: new Point(5,3)
             },  
             autoStroke: true
         },
+
+        bg:
+        {
+            baseColor: new Color("#4FD34B"), // #2FB32B
+            randomizationBounds: new Bounds(-8, 8),
+            dotTextureAlpha: 0.15,
+            dotTextureComposite: "overlay",
+            gradientAlpha: 0.4,
+            gradientComposite: "source-over"
+        },
+
+        text:
+        {
+            fontSize: new CVal(0.065, "sizeUnit")
+        },
+
+        score:
+        {
+            dims: new CVal(new Point(0.3), "sizeUnit"),
+            fontSize: new CVal(0.2, "sizeUnit"),
+            textColor: "#000000",
+            strokeColor: "#FFFFFF",
+            strokeWidth: new CVal(0.045, "dominoes.score.fontSize")
+        },
+
+        main:
+        {
+            dims: new CVal(new Point(0.8), "sizeUnit")
+        },
+
+        paths:
+        {
+            tunnelDims: new CVal(new Point(0.66), "sizeUnit")
+        }
     },
 }
 

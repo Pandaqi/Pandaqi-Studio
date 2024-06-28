@@ -55,6 +55,8 @@ export default class DominoPicker
 
     generateDominoes(set:string)
     {
+        if(!CONFIG.sets[set]) { return; }
+
         const numDominoes = CONFIG.generation.numDominoes[set];
         const numSquares = numDominoes * 2;
 
@@ -63,18 +65,18 @@ export default class DominoPicker
         Object.assign(fullDict, DECORATIONS);
         Object.assign(fullDict, STALLS);
 
-        const availableAttractions = this.filterBySet(ATTRACTIONS, "base");
-        const availableDecorations = this.filterBySet(DECORATIONS, "base");
-        const availableStalls = this.filterBySet(STALLS, "base");
+        const availableAttractions = this.filterBySet(ATTRACTIONS, set);
+        const availableDecorations = this.filterBySet(DECORATIONS, set);
+        const availableStalls = this.filterBySet(STALLS, set);
         const fullAvailable = [availableAttractions, availableDecorations, availableStalls].flat();
 
-        const emptyPathValue = 0.1; // the number of empty path tiles we want
+        const emptyPathValue = CONFIG.generation.emptyPathValue; // the number of empty path tiles we want
 
         // calculate total numbers, so we can get accurate percentages for all
-        let totalValue = emptyPathValue;
+        let totalValue = (1.0 / emptyPathValue);
         for(const elem of fullAvailable)
         {
-            totalValue += fullDict[elem].value ?? 1;
+            totalValue += 1.0 / (fullDict[elem].value ?? 1);
         }
         const percentageMultiplier = (1.0 / totalValue);
 
@@ -97,6 +99,7 @@ export default class DominoPicker
             for(let i = 0; i < freq; i++)
             {
                 const ds = new DominoSide(type);
+                ds.setKey(elem);
                 options.push(ds);
             }
         }
@@ -107,7 +110,7 @@ export default class DominoPicker
         let totalEmptyPathValue = 0;
         for(const [key,data] of Object.entries(PATHS))
         {
-            totalEmptyPathValue += data.value ?? 1;
+            totalEmptyPathValue += 1.0 / (data.value ?? 1);
         }
         const emptyPathPercentageMultiplier = (1.0 / totalEmptyPathValue);
 
@@ -115,11 +118,11 @@ export default class DominoPicker
         for(const [keyPath,data] of Object.entries(PATHS))
         {
             const perc = 1.0 / (data.value ?? 1) * emptyPathPercentageMultiplier;
-            const freqTotal = Math.ceil(perc * freqEmptyPath);
+            const freqTotal = Math.round(perc * freqEmptyPath);
 
             for(const [keyType,percType] of Object.entries(freqDist))
             {
-                const freqType = Math.ceil(percType * freqTotal);
+                const freqType = Math.round(percType * freqTotal);
                 for(let i = 0; i < freqType; i++)
                 {
                     const ds = new DominoSide(ItemType.PATH);
@@ -131,31 +134,41 @@ export default class DominoPicker
         }
         shuffle(options);
 
+        console.log(options.slice());
+        console.log(options.length);
+        console.log(numSquares);
+
         // randomly place them on the dominoes, making sure first and second element match
         for(let i = 0; i < numDominoes; i++)
         {
             const d = new Domino(DominoType.REGULAR);
+            this.dominoes.push(d);
+            d.setSet(set);
+
             const sideA = options.pop();
             const sideB = options.pop();
 
             // trying rotation both ways should resolve any issues with closed/open, because EVERY path is open at some side (even deadends)
             const hasOpenSideAtBottom = sideA.isOpenAt(1);
+            const hasOpenSideAtTop = sideB.isOpenAt(3);
             const mustMatch = sideA.hasPathLike() && sideB.hasPathLike();
-            if(hasOpenSideAtBottom && mustMatch)
+            if((hasOpenSideAtBottom || hasOpenSideAtTop) && mustMatch)
             {
+                sideA.rotateUntilOpenAt(1);
                 sideB.rotateUntilOpenAt(3);
             }
 
-            const hasOpenSideAtTop = sideA.isOpenAt(3);
-            if(hasOpenSideAtTop && mustMatch)
-            {
-                sideA.rotateUntilOpenAt(1);
-            }
-
             // we can't connect an attraction and a regular path
+            const oneSideCompletelyClosed = sideA.isCompletelyClosed() || sideB.isCompletelyClosed();
+
+            // we want a few more dominoes to not match, even if they COULD, for more variety
+            const oneSideCompletelyOpen = sideA.isCompletelyOpen() || sideB.isCompletelyOpen();
+            const twoPaths = (sideA.hasPathLike() && sideB.hasPathLike());
+            const randomNonMatchPaths = Math.random() <= 0.25 && (twoPaths && !oneSideCompletelyClosed && !oneSideCompletelyOpen);
+
             const attractionAndNonQueuePath = (sideA.type == ItemType.ATTRACTION || sideB.type == ItemType.ATTRACTION) && (sideA.typePath == PathType.REGULAR || sideB.typePath == PathType.REGULAR);
             const wrongQueueTypes = (sideA.isQueue() && sideB.isQueue()) && (sideA.typePath != sideB.typePath);
-            const mustNotMatch = attractionAndNonQueuePath || wrongQueueTypes;
+            const mustNotMatch = attractionAndNonQueuePath || wrongQueueTypes || oneSideCompletelyClosed || randomNonMatchPaths;
             if(mustNotMatch)
             {
                 sideA.rotateUntilClosedAt(1);
@@ -164,7 +177,6 @@ export default class DominoPicker
 
             d.setSides(sideA, sideB);
         }
-
 
     }
 }

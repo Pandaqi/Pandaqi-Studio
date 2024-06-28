@@ -66,7 +66,7 @@ The **campaign** has six scenarios, increasing in difficulty, allowing you to ge
 
 {{% /section-centered %}}
 
-{{% boardgame-settings-container type="game" remarks="**Don't** tap to start on your device until all players are ready!, Because it opens a new page, your browser might register this as a pop-up. It's not, I would never show pop-ups." %}}
+{{% boardgame-settings-container type="game" remarks="**Don't** tap to start on your device until all players are ready!||Because it opens a new page, your browser might register this as a pop-up. It's not, I would never show pop-ups." %}}
 
 {{< boardgame-settings type="game" local_storage="timelyTransportsConfig" game_title="Timely Transports" >}}
   {{< setting-playercount min="1" max="8" def="4" id="setting-playerCount" >}}

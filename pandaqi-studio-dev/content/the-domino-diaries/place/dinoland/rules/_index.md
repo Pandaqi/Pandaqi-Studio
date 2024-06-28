@@ -4,7 +4,7 @@ type: "rules"
 
 {{% rules-block heading="Setup" icon="setup" %}}
 
-Create the **Asteroid Deck:** pick 20 random asteroid tiles, shuffle, and place faceup on the table.
+Create the **Asteroid Deck:** pick 10 tiles (6 regular, 4 Egg Hatch), shuffle, and place faceup on the table.
 
 Create a **Domino Deck:** grab all Domino tiles, shuffle, and place facedown on the table.
 
@@ -13,6 +13,8 @@ Deal every player a hand of **4 dominoes**. Each player also picks a **color** a
 Finally, prepare the map.
 * Place a random domino in the center of the table.
 * Place one **Asteroid Crosshairs** tile to its left, and one above it.
+
+@TODO: IMAGE EXAMPLE
 
 {{% /rules-block %}}
 
@@ -32,25 +34,24 @@ On your turn, simply **play a domino from your hand** (and then refill your hand
 
 Only two restrictions apply: the domino must be adjacent to the current map and can't overlap anything.
 
+{{% remark %}}
 If needed, simply move the Asteroid Crosshairs backward to make space for the growing map.
+{{% /remark %}}
 
-@TODO: IMAGE EXAMPLE
+Then take the action of each dinosaur on the tile (if it has one).
 
-Dominoes can show one or more icons.
-
-* **Asteroid:** discard the top card of the Asteroid Deck.
-* **Arrow:** move the Asteroid Crosshairs in the direction indicated (from your perspective). Yes, this depends on the orientation you choose for your tile!
-
-@TODO: Put all actions on the DINOSAUR types instead?? Would allow giving players a handy overview, would give a reason (in base game) for differentiating them, simplify rules, etcetera
+* **Brachiosaurus**: look at the next 5 Asteroid Tiles.
+* **Triceratops**: move the Asteroid Crosshairs in the direction indicated by the arrow (from your perspective). If it moves off the map, it wraps around to the other side.
+* **Velociraptor**: discard the top card of the asteroid deck.
 
 @TODO: IMAGE EXAMPLE?
 
 There is one special type of asteroid tile: the **Egg Hatcher**. When revealed, 
 
 * Find all claimed eggs. (The domino shows an egg and has a player pawn on it.)
-* For each one, its owner must now hatch the egg.
-* This means they place a domino from their hand _on top_ of the egg, which must show a dinosaur in the spot where the egg previously was.
-* If this is impossible, nothing happens.
+* For each one, its owner must now hatch the egg. (Do so in clockwise order, starting from the current active player.)
+* This means they place a domino from their hand _on top_ of the egg, which must show a dinosaur in the spot where the egg previously was. Then they take the corresponding action, as usual.
+* If it's _possible_, you _must hatch_. Otherwise, nothing happens.
 
 @TODO: IMAGE EXAMPLE
 
@@ -86,10 +87,15 @@ When the Asteroid Deck runs out, the asteroid crashes into your map.
 
 VARIANT: Change the number of cards in the Asteroid Deck for a longer/shorter game.
 
-EXPANSION: More dominoes, which add these icons (+ one more terrain type?)
-* **Eye**: look at the next 5 Asteroid Tiles.
-* **Hand**: replace your entire hand with new ones from deck.
+VARIANT: Something about herbivores and carnivores not being allowed in the same Area?
+* HERBIVORES = Brachiosaurus, Stegosaurus, Triceratops
+* CARNIVORES = Velociraptor
 
+EXPANSION:
+* Adds two more terrain types. One of them is the "wildcard" and represents _any terrain_ (or "all of them at the same time").
+* Adds two more dinosaurs.
+  * STEGOSAURUS = look at another player's hand OR replace your entire hand with new dominoes from the deck
+  * WILDCARD = represents any dinosaur type you want
 
 {{% /rules-block %}}
 

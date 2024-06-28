@@ -32,7 +32,7 @@ devlog: "/blog/boardgames/the-game-of-dilemmas/"
 
 {{% boardgame-instructions /%}}
 
-{{% boardgame-settings-container type="material" remarks="**Which pack(s) should I use!?** The packs mostly exist to break the huge number of possible cards into smaller chunks. There are no big differences. Each pack could be used standalone or mixed with any other packs in a game.,Except for the **extraordinary** pack! It contains more adult content, not suitable for every group. (It's also much smaller, so needs to be shuffled into existing packs.)" %}}
+{{% boardgame-settings-container type="material" remarks="**Which pack(s) should I use!?** The packs mostly exist to break the huge number of possible cards into smaller chunks. There are no big differences. Each pack could be used standalone or mixed with any other packs in a game.||Except for the **extraordinary** pack! It contains more adult content, not suitable for every group. (It's also much smaller, so needs to be shuffled into existing packs.)" %}}
 
 {{< boardgame-settings type="game" local_storage="theGameOfDilemmasConfig" btn_label="Generate Material" game_title="The Game of Dilemmas" defaults="true" >}}
   {{< setting-checkbox id="setting-includeCards" text="Include Cards?" checked="checked" >}}

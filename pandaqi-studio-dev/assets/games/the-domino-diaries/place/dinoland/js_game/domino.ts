@@ -4,12 +4,18 @@ import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
 import { DinoType, DominoType, TerrainType } from "../js_shared/dict";
 import DominoSide from "./dominoSide";
+import LayoutOperation from "js/pq_games/layout/layoutOperation";
+import Point from "js/pq_games/tools/geometry/point";
+import CONFIG from "../js_shared/config";
+import ResourceText from "js/pq_games/layout/resources/resourceText";
+import TextConfig from "js/pq_games/layout/text/textConfig";
 
 export default class Domino
 {
     type:DominoType;
     pawnIndex:number = -1; // just a quick hack to also reuse this class for drawing the pawns/claim cubes
     sides:{ top:DominoSide, bottom:DominoSide }
+    set:string;
 
     constructor(type:DominoType)
     {
@@ -34,16 +40,77 @@ export default class Domino
         this.sides.bottom.setDinosaur(b)
     }
 
+    setSet(s:string)
+    {
+        this.set = s;
+    }
+
     async draw(vis:MaterialVisualizer)
     {
         const ctx = createContext({ size: vis.size });
-        fillCanvas(ctx, "#FFFFFF");
+        const bgColor = vis.inkFriendly ? "#FFFFFF" : CONFIG.dominoes.bgColor;
+        fillCanvas(ctx, bgColor);
+
         const group = new ResourceGroup();
 
-        // @TODO
+        if(this.type == DominoType.PAWN) {
+            this.drawPawn(vis, group);
+        } else if(this.type == DominoType.REGULAR) {
+            const opTop = new LayoutOperation({
+                translate: new Point(vis.center.x, 0.25*vis.size.y),
+                pivot: Point.CENTER
+            });
+            group.add(this.sides.top.draw(vis), opTop);
+
+            const opBottom = new LayoutOperation({
+                translate: new Point(vis.center.x, 0.75*vis.size.y),
+                pivot: Point.CENTER
+            })
+            group.add(this.sides.bottom.draw(vis), opBottom);
+
+            // to help people quickly sort out base game / expansion
+            if(this.set == "expansion")
+            {
+                const text = "E";
+                const textConfig = new TextConfig({
+                    font: vis.get("fonts.heading"),
+                    size: vis.get("dominoes.setText.size")
+                })
+                const resText = new ResourceText({ text, textConfig });
+                const opText = new LayoutOperation({
+                    translate: new Point(1.33*textConfig.size), 
+                    pivot: Point.CENTER,
+                    fill: "#442200",
+                    alpha: 0.5,
+                    dims: new Point(2*textConfig.size)
+                });
+                group.add(resText, opText);
+            }
+        }
 
         group.toCanvas(ctx);
         return ctx.canvas;
+    }
+
+    drawPawn(vis:MaterialVisualizer, group:ResourceGroup)
+    {
+        const res = vis.getResource("pawns");
+        const dims = new Point(vis.sizeUnit);
+        
+        const opTop = new LayoutOperation({
+            translate: new Point(vis.size.x, vis.center.y),
+            frame: this.pawnIndex,
+            dims: dims,
+            rotation: Math.PI
+        });
+        group.add(res, opTop);
+
+        const opBottom = new LayoutOperation({
+            translate: new Point(0, vis.center.y),
+            frame: this.pawnIndex,
+            dims: dims
+        });
+        group.add(res, opBottom);
     }
 
 }
