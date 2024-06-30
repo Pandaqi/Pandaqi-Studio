@@ -69,15 +69,15 @@ In these rules,
 * **Nearby** refers to all 8 neighbors (horizontally, vertically, diagonally)
 * **Adjacent** refers to only the usual 4 of them (horizontally and vertically)
 
-There are two types of **paths**: regular and queue.
+Tiles come in 4 varieties.
+* **Paths**: regular, queue1 and queue2.
+* **Decoration**: modifies their surroundings. (These are reasily recognizable because they have _no_ number in the top-left, because they never score themselves!)
+* **Attractions**: only score when connected to a regular path through a **queue**. It scores the **length of its longest queue** multiplied by its **score factor**.
+* **Stalls**: only score when **adjacent to any path**. It scores whatever it says.
 
-There are two scorable items: **Stalls** and **Attractions**.
-* Stalls only score when **adjacent to any path**. It scores whatever it says.
-* Attractions only score when connected to a regular path through a **queue**. It scores the **length of its queue** multiplied by its **score factor**.
+As you see, only Attractions and Stalls are "scorable items". They might have **requirements** (text starting with "If"): if not met, they don't score anything.
 
-There's one special type of path: **tunnel**. It connects to any other path in the same _row or column_. (As such, this is a way to connect paths or make them longer without being adjacent.)
-
-Scorable items might have **requirements** (mostly in the expansions). If not met, they don't score anything.
+Finally, some deadend paths have a special icon: **tunnel**. It connects to any other path in the same _row or column_. (As such, this is a way to connect paths or make them longer without being adjacent.)
 
 @TODO: EXAMPLE IMAGE
 
@@ -109,15 +109,16 @@ This adds a few more attractions, decoration and stalls. These are the slightly 
 
 This adds **rollercoasters** to the game! Rollercoasters are attractions that must be created from _multiple_ parts.
 
-The possible rollercoaster parts are: Station, Straight, Bend
+The possible rollercoaster parts are: Station, Straight, Bend, Tunnel.
+
+* Every **Station** tile can be claimed by a Pawn. Yes, a single rollercoaster with multiple stations can be claimed _multiple times_ (by different players).
+* **Rollercoaster parts must match**. If a tile has an open-ended rollercoaster track, you can _only_ play tiles adjacent to it that continue the rollercoaster track properly. Any other placement is illegal.
+* **Queues must be connected to stations.** You can't attach a path to any other coaster part.
+* **Tunnels continue the coaster from another tunnel.** That tunnel, however, must be _nearby_ or in the _same row or column_.
 
 A rollercoaster only scores points if it has at least one station and it is a loop (it comes back to where it started).
 
-> Rollercoaster Score = 2 x "length of rollercoaster" x "length of queue"
-
-Every **Station** tile can be claimed by a Pawn. This means that rollercoasters are the only attraction that can be claimed _multiple times_ (by different players).
-
-When it comes to tile placement, **rollercoaster parts must match**. If a tile has an open-ended rollercoaster track, you can _only_ play tiles adjacent to it that continue the rollercoaster track properly. Any other placement is illegal.
+> **Rollercoaster Score** = 2 x "length of rollercoaster" x "length of queue"
 
 @TODO: IMAGE EXAMPLE
 

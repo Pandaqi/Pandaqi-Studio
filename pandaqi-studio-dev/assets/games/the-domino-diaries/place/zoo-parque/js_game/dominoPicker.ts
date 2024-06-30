@@ -20,9 +20,57 @@ export default class DominoPicker
         const dominoExpansions = ["base", "strong", "wildlife", "utilities"]
         for(const exp of dominoExpansions)
         {
-            if(!CONFIG.sets[exp]) { continue; }
             this.generateDominoes(exp);
         }
+
+        console.log("[Debug] Statistics for general configuration");
+        const animalsPerSet = {};
+        const terrainsPerSet = {};
+        for(const exp of dominoExpansions)
+        {
+            animalsPerSet[exp] = [];
+            terrainsPerSet[exp] = [];
+            for(const [key,data] of Object.entries(ANIMALS))
+            {
+                if(!data.sets.includes(exp)) { continue; }
+                animalsPerSet[exp].push(key);
+            }
+
+            for(const [key,data] of Object.entries(TERRAINS))
+            {
+                if(!data.sets.includes(exp)) { continue; }
+                terrainsPerSet[exp].push(key);
+            }
+        }
+        console.log(animalsPerSet);
+        console.log(terrainsPerSet);
+
+
+        console.log("[Debug] Statistics for this specific generation");
+        const sidesPerType = {};
+        const sidesPerKey = {};
+        const terrainStats = {};
+        const fenceStats = {};
+        for(const domino of this.dominoes)
+        {
+            if(domino.type != DominoType.REGULAR) { continue; }
+            
+            for(const side of domino.getSidesAsArray())
+            {
+                sidesPerType[side.type] = (sidesPerType[side.type] ?? 0) + 1;
+                sidesPerKey[side.key] = (sidesPerKey[side.key] ?? 0) + 1;
+                terrainStats[side.terrain] = (terrainStats[side.terrain] ?? 0) + 1;
+                
+                for(let i = 0; i < 4; i++)
+                {
+                    fenceStats[side.fences[i]] = (fenceStats[side.fences[i]] ?? 0) + 1;
+                }
+            }
+        }
+        console.log(sidesPerType);
+        console.log(sidesPerKey);
+        console.log(terrainStats);
+        console.log(fenceStats);
 
         console.log(this.dominoes);
     }
@@ -60,6 +108,17 @@ export default class DominoPicker
 
         const numDominoes = CONFIG.generation.numDominoes[set];
         const numSquares = numDominoes * 2;
+
+        // add the required entrance tile with just open paths everywhere
+        if(set == "base")
+        {
+            const entranceDomino = new Domino(DominoType.REGULAR);
+            entranceDomino.entrance = true;
+             
+            const side = new DominoSide(ItemType.PATH);
+            entranceDomino.setSides(side, side);
+            this.dominoes.push(entranceDomino);
+        }
 
         // determine what's available
         const availableAnimals = this.filterBySet(ANIMALS, set);
@@ -101,13 +160,15 @@ export default class DominoPicker
 
         // draw exactly as many things needed (that should NOT have a terrain behind them)
         const numSquaresWithoutTerrain = 2*numAllWithoutTerrain + numHalfWithoutTerrain;
-        const availableOptionsWithoutTerrain = [availableAnimals, availableObjects].flat();
-        const sidesWithoutTerrain = this.assignSidesFollowingDistribution(numSquaresWithoutTerrain, availableOptionsWithoutTerrain);
+        const availableOptionsWithoutTerrain = [availableAnimals, availableObjects, "empty"].flat();
+        const customProbabilities1 = { "empty": 0.735 };
+        const sidesWithoutTerrain = this.assignSidesFollowingDistribution(numSquaresWithoutTerrain, availableOptionsWithoutTerrain, customProbabilities1);
 
         // draw exactly as many things needed (that SHOULD have a terrain behind them)
         const numSquaresWithTerrain = 2*numAllWithTerrain + numHalfWithoutTerrain;
         const availableOptionsWithTerrain = [availableAnimals, availableStalls, availableObjects, "empty", "path"].flat();
-        const sidesWithTerrain = this.assignSidesFollowingDistribution(numSquaresWithTerrain, availableOptionsWithTerrain);
+        const customProbabilities2 = { [ItemType.ANIMAL]: 0.275, [ItemType.OBJECT]: 0.75 } // make animals far less likely in this situation, we want MOST of them without background
+        const sidesWithTerrain = this.assignSidesFollowingDistribution(numSquaresWithTerrain, availableOptionsWithTerrain, customProbabilities2);
 
         // assign the fences
         for(const side of sidesWithoutTerrain)
@@ -151,10 +212,16 @@ export default class DominoPicker
             // give animals their preferred terrain, even if already used "too often" (because we have no choice, the animal needs it!)
             if(side.type == ItemType.ANIMAL)
             {
-                const prefTerrains = side.getTypeData().terrains;
-                const randTerrain : TerrainType = fromArray(prefTerrains);
-                side.setTerrain(randTerrain);
-                terrainFreqs[randTerrain]--;
+                const prefTerrains : TerrainType[] = shuffle(side.getTypeData().terrains.slice());
+                for(const prefTerrain of prefTerrains)
+                {
+                    if(prefTerrain in terrainFreqs)
+                    {
+                        side.setTerrain(prefTerrain);
+                        terrainFreqs[prefTerrain]--;
+                        break;
+                    }
+                }
             }
 
             // give anything else a random terrain that is not "exhausted" yet
@@ -171,10 +238,10 @@ export default class DominoPicker
             }
         }
 
-
         // randomly assign the options to dominoes
         // (but stick to our predefined numbers of all-empty, half-terrain, all-terrain)
-        for(let i = 0; i < numDominoes; i++)
+        // @NOTE: We OVERDRAW, because we generate slightly too many things (due to rounding and not being able to add "half an animal" and stuff), but the balance/difference is too important to just throw away the remainder
+        for(let i = 0; i < 2*numDominoes; i++)
         {
             const d = new Domino(DominoType.REGULAR);
             let sideA:DominoSide, sideB:DominoSide;
@@ -185,9 +252,42 @@ export default class DominoPicker
             } else if(i < (numAllWithoutTerrain + numHalfWithoutTerrain)) {
                 sideA = sidesWithTerrain.pop();
                 sideB = sidesWithoutTerrain.pop();
-            } else {
+            } else if(i < numDominoes) {
                 sideA = sidesWithTerrain.pop();
                 sideB = sidesWithTerrain.pop();
+            } else {
+                sideA = sidesWithoutTerrain.pop() ?? sidesWithTerrain.pop();
+                sideB = sidesWithoutTerrain.pop() ?? sidesWithTerrain.pop();
+                if(!sideA || !sideB) { break; }
+            }
+
+            // tiny modifications to look better
+            // if one side is a path and the other is not a stall, add a fence (looks better + more useful in practice)
+            const oneSidePathOtherNotStall = (sideA.type == ItemType.PATH && sideB.type != ItemType.STALL) || (sideA.type != ItemType.STALL && sideB.type == ItemType.PATH);
+            const oneSideNonPathOtherStall = (sideA.type == ItemType.STALL && sideB.type != ItemType.PATH) || (sideA.type != ItemType.PATH && sideB.type == ItemType.STALL);
+            const carnivoreAndHerbivore = sideA.isAnimal() && sideB.isAnimal() && (sideA.getAnimalDiet() != sideB.getAnimalDiet());
+            const solitaryAndHerd = sideA.isAnimal() && sideB.isAnimal() && (sideA.getAnimalSocial() != sideB.getAnimalSocial());
+
+            const forceClosed = oneSidePathOtherNotStall || oneSideNonPathOtherStall || carnivoreAndHerbivore || solitaryAndHerd;
+            if(forceClosed)
+            {
+                if(!sideA.hasFences() && !sideB.hasFences())
+                {
+                    sideA.setFences(1, "fence_weak");
+                }
+
+                sideA.rotateFencesUntilClosedAt(1);
+                sideB.rotateFencesUntilClosedAt(3);
+            }
+
+            // if both sides have a fence in the middle, remove one of them (the weakest, if possible)
+            const bothHaveMiddleFence = !sideA.isOpenAt(1) && !sideB.isOpenAt(3);
+            if(bothHaveMiddleFence)
+            {
+                let weakSide = sideA;
+                let removeIndex = 1;
+                if(sideA.fenceType == "fence_strong" && sideB.fenceType == "fence_weak") { weakSide = sideB; removeIndex = 3; }
+                weakSide.removeFenceAt(removeIndex);
             }
 
             d.setSides(sideA, sideB);
@@ -197,7 +297,7 @@ export default class DominoPicker
 
     }
 
-    assignSidesFollowingDistribution(numSquares:number, options:string[]) : DominoSide[]
+    assignSidesFollowingDistribution(numSquares:number, options:string[], customProbs:Record<string,number> = {}) : DominoSide[]
     {
         const getTypeOf = (key:string) =>
         {
@@ -212,7 +312,8 @@ export default class DominoPicker
         let totalValue = 0;
         for(const option of options)
         {
-            totalValue += 1.0 / (ITEMS[getTypeOf(option)][option].value ?? 1);
+            const optionType = getTypeOf(option);
+            totalValue += 1.0 / (ITEMS[getTypeOf(option)][option].value ?? 1) * (customProbs[optionType] ?? 1.0);
         }
         const percentageMultiplier = 1.0 / totalValue;
 
@@ -220,7 +321,7 @@ export default class DominoPicker
         for(const option of options)
         {
             const optionType = getTypeOf(option);
-            const perc = 1.0 / (ITEMS[getTypeOf(option)][option].value ?? 1.0) * percentageMultiplier;
+            const perc = 1.0 / (ITEMS[getTypeOf(option)][option].value ?? 1.0) * (customProbs[optionType] ?? 1.0) * percentageMultiplier;
             const freq = Math.ceil(perc * numSquares);
             for(let i = 0; i < freq; i++)
             {

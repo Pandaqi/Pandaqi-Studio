@@ -86,9 +86,6 @@ h3 {
 .game-settings {
     background-color: $game-color;
     color: $game-text-color;
-
-    h3 { color: $game-text-color; }
-    .setting-remark { color: rgba(0,0,0,0.5); }
 }
 
 #btn-start-game, #btn-start-game:visited {

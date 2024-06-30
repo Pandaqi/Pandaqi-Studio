@@ -4,7 +4,7 @@ type: "rules"
 
 {{% rules-block heading="Setup" icon="setup" %}}
 
-For each Animal in the game, place its **Animal Tile** on the table. It contains details about each animal. Don't worry, most of it is _not_ used in the base game, but becomes more and more important in the expansions!
+For each Animal in the game, place its **Passport** on the table. It contains details about each animal. Don't worry, most of it is _not_ used in the base game, but becomes more and more important in the expansions!
 
 Place the **Entrance Tile** in the center of the table. 
 
@@ -33,24 +33,27 @@ First, two definitions.
 * An **Exhibit** is a group of connected areas that is completely **enclosed** (fences on all sides). 
 
 {{% remark %}}
-Yes, an exhibit can contain different terrains or be claimed by multiple players.
+Yes, a single exhibit can contain different terrains, animals or players.
 {{% /remark %}}
 
 {{% rules-block heading="Play" %}}
 
-Place **1 or 2 dominoes**.
+Place **1 or 2 dominoes**. If you can't place anything, put 2 dominoes from your hand back into the deck (randomly).
 
-Dominoes come in two flavors: _with terrain_ ( = BOTTOM) and _without terrain_ ( = TOP).
+Dominoes come in two flavors. If at least one part of the domino has _no background_ ( = no terrain), it is a "TOP" tile. Otherwise, it's a "BOTTOM" tile.
 
 * BOTTOM: Must be placed adjacent to the current map. It **can't** overlap an existing domino.
 * TOP: **Must overlap** an existing domino.
 
-When placing animals, there is only one rule: they must be placed on one of their **preferred terrains** (see their details tile).
+Only two placement rules apply.
+
+* When placing animals, they must be placed on one of their **preferred terrains** (see their Passport).
+* Once an Area is claimed by a player, **only they** are allowed to overlap it (and thus change some part of it).
 
 Whenever someone **finishes an exhibit**, a **Feed Phase** triggers.
 * Check all **claimed exhibits** that contain at least one animal. Its owner(s) must feed the animals inside!
 * You do so by _discarding_ a domino that shows Food from inside the Exhibit. (You always discard only 1 food, regardless of how many animals there are.)
-* If you **can't** feed them, _discard_ a domino showing an animal inside the Exhibit.
+* If you **can't** feed them, _discard_ the domino showing the most animals inside the Exhibit.
 * If this exhibit has multiple players inside, they discuss and choose what they want to do. If no decision can be reached, the player who has the biggest area chooses, then the player closest to the one who triggered the feed phase.
 
 @TODO: IMAGE EXAMPLE
@@ -80,6 +83,7 @@ At the end of the game, each player scores the Exhibits they claimed.
 * Determine the largest Area ( = the terrain type that occurs most often). Count how many tiles it has.
 * Count how many animals are inside the entire Exhibit.
 * Exhibit Score = #tiles x #animals
+* Your score is _doubled_ if all animals inside the Exhibit are of the same type.
 
 @TODO: EXAMPLE IMAGE
 
@@ -89,47 +93,45 @@ At the end of the game, each player scores the Exhibits they claimed.
 
 Played the base game and ready for more? Or want to tweak it a little to fit your group? Check out these variants and expansions!
 
-<!---
-ANIMAL TILE:
-
-* Herbivore or carnivore?
-* What is their preferred terrain?
-* Superstrength (or not)?
-* How much food do they need?
-* Solitary or Herd?
-* Some funny backstory or fact about them
-
---->
-
 {{% rules-block heading="Strong Species" %}}
 
-This expansion adds 1 new animal (Lion) and 1 extra type of fence ("Strong Fence").
+This expansion adds a few more animals and a new terrain.
 
-All animals with the **Superstrength** ability can only be enclosed by _strong fences_. If you use the regular fence, their entire exhibit is considered invalid.
+It uses a new detail from the Animal Passport: **strong**.
+
+> All animals that are **strong** can only be enclosed by _strong fences_. The regular fence simply does nothing for an area that contains a strong animal.
 
 {{% /rules-block %}}
 
 {{% rules-block heading="Wildlife Wishes" %}}
 
-@TODO: Add a few more special tiles and possible wishes/improvements for animals? (Such as Toys, more specific decoration, etcetera)
+This expansion adds a few more animals, a new terrain, and **objects** (such as toys for the animals).
 
-It also uses a few more details from the Animal Tile:
+It also uses a few more details from the Animal Passport:
 
 * You **can't** mix Herbivores and Carnivores within the same Area or Exhibit.
 * You **can't** mix Solitary and Herd animals in the same Area or Exhibit.
-* An Area or Exhibit that contains only Herd animals can be claimed by multiple players.
+* An Area that contains only Herd animals can be claimed by as many players as the number of unique animal types inside.
 
 {{% /rules-block %}}
 
 {{% rules-block heading="Unnatural Utilities" %}}
 
-This expansion adds stalls or utilities. These modify the value or possibilities in their area.
+This expansion adds a few more animals, a new terrain, and **stalls** (or "utilities"). These modify the value or possibilities in their area.
 
-Some of them allow you to get more food/skirt your food responsibilities.
+The amount of **food** you must pay during the "Feed Phase" changes. 
 
-This allows the following rule:
+* Sum the **food** requirements of all animals inside.
+* Divide by 4. (Round the number.)
+* That's how many Food icons must be discarded for this exhibit.
 
-* The amount of **food** you must pay during the "Feed Phase" changes: sum the food requirements of all animals inside, round down. That's how many Food icons must be discarded.
+It also enables **animal powers**. 
+
+* Some animals have a power written on their passport. By default, the power triggers once, at the moment this animal is _played_.
+* (If it triggers at some other moment, this is stated.)
+* These powers are only **activated** once a **research lab** has been played. (Before that moment, ignore powers entirely.)
+
+Finally, it adds **Extinct Animals** (a stamp on their Passport). You **can't play** an extinct animal until a research lab has been played.
 
 @TODO
 

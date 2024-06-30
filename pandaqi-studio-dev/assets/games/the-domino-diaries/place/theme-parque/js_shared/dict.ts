@@ -18,16 +18,8 @@ enum PathType
     REGULAR = "regular",
     QUEUE1 = "queue1",
     QUEUE2 = "queue2",
-    ATTRACTION = "attraction"
+    COASTER = "coaster"
 }
-
-enum CoasterType
-{
-    STATION = "station",
-    STRAIGHT = "straight",
-    CURVE = "curve"
-}
-
 
 // Attractions are your biggest scorers, but they depend on their queue length (and if it's finished)
 // value = its point value (or an indication/guess towards it), 
@@ -40,13 +32,13 @@ const ATTRACTIONS =
     wooden_coaster: { frame: 3, desc: "If <b>2 Decoration</b> nearby.", value: 4, set: "base" },
 
     ferris_wheel: { frame: 4, desc: "Can be <b>claimed twice</b>.", value: 1, set: "wishneyland" },
-    teacups: { frame: 5, desc: "If queue <b>longer than 3</b> parts.", value: 2, set: "wishneyland" }, // spiral slide? bumper cars?
+    spiral_slide: { frame: 5, desc: "If queue <b>longer than 3</b> parts.", value: 2, set: "wishneyland" },
     launch_tower: { frame: 6, desc: "If nearest scorable item is <b>more than 4 parts away</b>.", value: 3, set: "wishneyland" },
-    river_rapids: { frame: 7, desc: "If <b>Queue Rare</b> is used.", value: 4, set: "wishneyland" },
+    bumper_cars: { frame: 7, desc: "If <b>Queue Rare</b> is used.", value: 4, set: "wishneyland" }, // river rapids? teacups?
 
     haunted_house: { frame: 8, desc: "<b>Must be claimed</b> when placed.", value: 1, set: "unibearsal" },
     wave_swinger: { frame: 9, desc: "If queue <b>shorter than 3</b> parts", value: 2, set: "unibearsal" },
-    enterprise: { frame: 10, desc: "@TODO", value: 3, set: "unibearsal" },
+    playground: { frame: 10, desc: "If connected to <b>Entrance</b> through a regular path.", value: 3, set: "unibearsal" },
     steel_coaster: { frame: 11, desc: "If <b>3(+) decorations adjacent</b> to its queue.", value: 4, set: "unibearsal" },
 }
 
@@ -98,12 +90,21 @@ const PATHS =
     all: { frame: 4, sides: [true, true, true, true], value: 4 }
 }
 
+const COASTER_PARTS =
+{
+    station: { frame: 15, sides: [true, false, true, false], value: 2 },
+    straight: { frame: 16, sides: [true, false, true, false], value: 1 },
+    corner: { frame: 17, sides: [true, true, false, false], value: 1 },
+    tunnel: { frame: 18, sides: [false, false, true, false], value: 2.5 }
+}
+
 const MISC =
 {
     score_star: { frame: 0 },
     tunnel: { frame: 1 },
     bg_dot_texture: { frame: 2 },
-    bg_gradient: { frame: 3 }
+    bg_gradient: { frame: 3 },
+    entrance: { frame: 4 }
 }
 
 const ITEMS =
@@ -123,8 +124,8 @@ export
     PATHS,
     PATHS_ORDER,
     ITEMS,
+    COASTER_PARTS,
     ItemType,
     DominoType,
     PathType,
-    CoasterType
 }

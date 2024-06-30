@@ -1,6 +1,6 @@
 import shuffle from "js/pq_games/tools/random/shuffle";
 import CONFIG from "../js_shared/config";
-import { ATTRACTIONS, DECORATIONS, DominoType, ITEMS, ItemType, PATHS, PathType, STALLS } from "../js_shared/dict";
+import { ATTRACTIONS, COASTER_PARTS, DECORATIONS, DominoType, ITEMS, ItemType, PATHS, PathType, STALLS } from "../js_shared/dict";
 import Domino from "./domino";
 import DominoSide from "./dominoSide";
 
@@ -16,7 +16,7 @@ export default class DominoPicker
 
         this.generatePawns();
 
-        const dominoExpansions = ["base", "wishneyland", "unibearsal"]
+        const dominoExpansions = ["base", "wishneyland", "unibearsal", "rollercoasters"]
         for(const exp of dominoExpansions)
         {
             if(!CONFIG.sets[exp]) { continue; }
@@ -59,6 +59,20 @@ export default class DominoPicker
 
         const numDominoes = CONFIG.generation.numDominoes[set];
         const numSquares = numDominoes * 2;
+        const useCoasters = (set == "rollercoasters");
+
+        // add the required entrance tile with just open paths everywhere
+        if(set == "base")
+        {
+            const entranceDomino = new Domino(DominoType.REGULAR);
+            entranceDomino.entrance = true;
+             
+            const side = new DominoSide(ItemType.PATH);
+            side.setPathType(PathType.REGULAR);
+            side.setPathKey("all");
+            entranceDomino.setSides(side, side);
+            this.dominoes.push(entranceDomino);
+        }
 
         const fullDict = {};
         Object.assign(fullDict, ATTRACTIONS);
@@ -71,9 +85,12 @@ export default class DominoPicker
         const fullAvailable = [availableAttractions, availableDecorations, availableStalls].flat();
 
         const emptyPathValue = CONFIG.generation.emptyPathValue; // the number of empty path tiles we want
+        const coasterPartValue = useCoasters ? CONFIG.generation.coasterPartValue : -1;
 
         // calculate total numbers, so we can get accurate percentages for all
         let totalValue = (1.0 / emptyPathValue);
+        if(coasterPartValue > 0) { totalValue += (1.0 / coasterPartValue); }
+
         for(const elem of fullAvailable)
         {
             totalValue += 1.0 / (fullDict[elem].value ?? 1);
@@ -107,31 +124,16 @@ export default class DominoPicker
         // all the empty paths
         const percEmptyPath = 1.0 / emptyPathValue * percentageMultiplier;
         const freqEmptyPath = Math.ceil(percEmptyPath * numSquares);
-        let totalEmptyPathValue = 0;
-        for(const [key,data] of Object.entries(PATHS))
-        {
-            totalEmptyPathValue += 1.0 / (data.value ?? 1);
-        }
-        const emptyPathPercentageMultiplier = (1.0 / totalEmptyPathValue);
+        this.addAllPathsFrom(freqEmptyPath, CONFIG.generation.frequencies.pathType, PATHS, options);
 
-        const freqDist:Record<PathType,number> = CONFIG.generation.frequencies.pathType;
-        for(const [keyPath,data] of Object.entries(PATHS))
+        // all rollercoaster parts
+        if(useCoasters)
         {
-            const perc = 1.0 / (data.value ?? 1) * emptyPathPercentageMultiplier;
-            const freqTotal = Math.round(perc * freqEmptyPath);
-
-            for(const [keyType,percType] of Object.entries(freqDist))
-            {
-                const freqType = Math.round(percType * freqTotal);
-                for(let i = 0; i < freqType; i++)
-                {
-                    const ds = new DominoSide(ItemType.PATH);
-                    ds.setPathType(keyType as PathType);
-                    ds.setPathKey(keyPath);
-                    options.push(ds);
-                }
-            }
+            const percCoasterPart = 1.0 / coasterPartValue * percentageMultiplier;
+            const freqCoasterPart = Math.ceil(percCoasterPart * numSquares);
+            this.addAllPathsFrom(freqCoasterPart, CONFIG.generation.frequencies.coasterPart, COASTER_PARTS, options);
         }
+
         shuffle(options);
 
         console.log(options.slice());
@@ -139,7 +141,9 @@ export default class DominoPicker
         console.log(numSquares);
 
         // randomly place them on the dominoes, making sure first and second element match
-        for(let i = 0; i < numDominoes; i++)
+        // @NOTE: Like Zoo Parque, the balance/frequencies of all elements are too different and too important to just ignore any leftovers/remainder,
+        // so we overdraw until we've exhausted all our options (which slightly exceeds the number of dominoes set in config)
+        for(let i = 0; i < 1.5*numDominoes; i++)
         {
             const d = new Domino(DominoType.REGULAR);
             this.dominoes.push(d);
@@ -147,11 +151,12 @@ export default class DominoPicker
 
             const sideA = options.pop();
             const sideB = options.pop();
+            if(!sideA || !sideB) { break; }
 
             // trying rotation both ways should resolve any issues with closed/open, because EVERY path is open at some side (even deadends)
             const hasOpenSideAtBottom = sideA.isOpenAt(1);
             const hasOpenSideAtTop = sideB.isOpenAt(3);
-            const mustMatch = sideA.hasPathLike() && sideB.hasPathLike();
+            const mustMatch = sideA.hasPath() && sideB.hasPath();
             if((hasOpenSideAtBottom || hasOpenSideAtTop) && mustMatch)
             {
                 sideA.rotateUntilOpenAt(1);
@@ -163,12 +168,13 @@ export default class DominoPicker
 
             // we want a few more dominoes to not match, even if they COULD, for more variety
             const oneSideCompletelyOpen = sideA.isCompletelyOpen() || sideB.isCompletelyOpen();
-            const twoPaths = (sideA.hasPathLike() && sideB.hasPathLike());
+            const twoPaths = (sideA.hasPath() && sideB.hasPath());
             const randomNonMatchPaths = Math.random() <= 0.25 && (twoPaths && !oneSideCompletelyClosed && !oneSideCompletelyOpen);
 
-            const attractionAndNonQueuePath = (sideA.type == ItemType.ATTRACTION || sideB.type == ItemType.ATTRACTION) && (sideA.typePath == PathType.REGULAR || sideB.typePath == PathType.REGULAR);
+            const attractionAndNonQueuePath = [sideA.type, sideB.type].includes(ItemType.ATTRACTION) && [sideA.typePath, sideB.typePath].includes(PathType.REGULAR);
+            const coasterPartAndSomethingElse = (sideA.isCoaster() || sideB.isCoaster()) && (sideA.typePath != sideB.typePath);
             const wrongQueueTypes = (sideA.isQueue() && sideB.isQueue()) && (sideA.typePath != sideB.typePath);
-            const mustNotMatch = attractionAndNonQueuePath || wrongQueueTypes || oneSideCompletelyClosed || randomNonMatchPaths;
+            const mustNotMatch = attractionAndNonQueuePath || wrongQueueTypes || oneSideCompletelyClosed || randomNonMatchPaths || coasterPartAndSomethingElse;
             if(mustNotMatch)
             {
                 sideA.rotateUntilClosedAt(1);
@@ -178,5 +184,33 @@ export default class DominoPicker
             d.setSides(sideA, sideB);
         }
 
+    }
+
+    addAllPathsFrom(numTotal:number, freqDist:Record<PathType,number>, dict:Record<string,any>, list:DominoSide[])
+    { 
+        let totalEmptyPathValue = 0;
+        for(const [key,data] of Object.entries(dict))
+        {
+            totalEmptyPathValue += 1.0 / (data.value ?? 1);
+        }
+        const emptyPathPercentageMultiplier = (1.0 / totalEmptyPathValue);
+
+        for(const [keyPath,data] of Object.entries(dict))
+        {
+            const perc = 1.0 / (data.value ?? 1) * emptyPathPercentageMultiplier;
+            const freqTotal = Math.round(perc * numTotal);
+
+            for(const [keyType,percType] of Object.entries(freqDist))
+            {
+                const freqType = Math.round(percType * freqTotal);
+                for(let i = 0; i < freqType; i++)
+                {
+                    const ds = new DominoSide(ItemType.PATH);
+                    ds.setPathType(keyType as PathType);
+                    ds.setPathKey(keyPath);
+                    list.push(ds);
+                }
+            }
+        }
     }
 }

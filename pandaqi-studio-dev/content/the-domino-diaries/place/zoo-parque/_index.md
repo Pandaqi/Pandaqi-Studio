@@ -18,7 +18,7 @@ date: 2025-01-12
 categories: ["boardgame"]
 tags: ["creative", "guessing", "word"]
 
-multiplayermode: "cooperative"
+multiplayermode: ["cooperative", "competitive"]
 language: EN
 playtime: 30
 playercount: [3,4,5,6,7]
@@ -37,7 +37,7 @@ devlog: "/blog/boardgames/the-domino-diaries/zoo-parque/"
   {{< boardgame-settings-section heading="Sets" >}}
     {{< setting-checkbox id="setting-sets-pawns" text="Pawns?" checked="checked" >}}
     {{< setting-checkbox id="setting-sets-base" text="Base?" checked="checked" >}}
-    {{< setting-checkbox id="setting-sets-detail" text="Animal Detail Tiles?" checked="checked" >}}
+    {{< setting-checkbox id="setting-sets-passports" text="Animal Passports?" checked="checked" >}}
     {{< setting-checkbox id="setting-sets-strong" text="Strong Species?" >}}
     {{< setting-checkbox id="setting-sets-wildlife" text="Wildlife Wishes?" >}}
     {{< setting-checkbox id="setting-sets-utilities" text="Unnatural Utilities?" >}}

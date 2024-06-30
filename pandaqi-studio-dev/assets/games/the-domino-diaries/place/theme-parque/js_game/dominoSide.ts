@@ -1,19 +1,17 @@
-import fromArray from "js/pq_games/tools/random/fromArray";
-import { CoasterType, ITEMS, ItemType, MISC, PATHS, PATHS_ORDER, PathType } from "../js_shared/dict";
-import CONFIG from "../js_shared/config";
+import Color from "js/pq_games/layout/color/color";
+import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
+import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
+import ResourceShape from "js/pq_games/layout/resources/resourceShape";
+import ResourceText from "js/pq_games/layout/resources/resourceText";
+import TextConfig, { TextStyle } from "js/pq_games/layout/text/textConfig";
+import drawBlurryRectangle from "js/pq_games/layout/tools/drawBlurryRectangle";
+import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
 import Point from "js/pq_games/tools/geometry/point";
-import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
-import drawBlurryRectangle from "js/pq_games/layout/tools/drawBlurryRectangle";
-import TextConfig, { TextStyle } from "js/pq_games/layout/text/textConfig";
-import ResourceText from "js/pq_games/layout/resources/resourceText";
-import fillResourceGroup from "js/pq_games/layout/canvas/fillResourceGroup";
-import ResourceShape from "js/pq_games/layout/resources/resourceShape";
 import Rectangle from "js/pq_games/tools/geometry/rectangle";
-import Color from "js/pq_games/layout/color/color";
-import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
+import CONFIG from "../js_shared/config";
+import { COASTER_PARTS, ITEMS, ItemType, MISC, PATHS, PATHS_ORDER, PathType } from "../js_shared/dict";
 
 export default class DominoSide
 {
@@ -21,7 +19,6 @@ export default class DominoSide
     typePath:PathType;
     key:string;
     keyPath:string;
-    typeCoaster:CoasterType;
     rotation:number; // integer; 0-4; 0 = right, 1 = down, 2 = left, 3 = up
 
     constructor(it:ItemType)
@@ -40,12 +37,17 @@ export default class DominoSide
         this.key = k;
     }
 
+    getPathData()
+    {
+        return this.isCoaster() ? COASTER_PARTS[this.keyPath] : PATHS[this.keyPath];
+    }
+
     isOpenAt(rot:number)
     {
         if(this.isCompletelyClosed()) { return false; }
         if(this.isCompletelyOpen()) { return true; }
 
-        const pathData = PATHS[this.keyPath];
+        const pathData = this.getPathData();
         if(!pathData) { return false; }
 
         const sides = pathData.sides;
@@ -55,7 +57,7 @@ export default class DominoSide
 
     isCompletelyOpen()
     {
-        const pathData = PATHS[this.keyPath];
+        const pathData = this.getPathData();
         if(!pathData)
         {
             if(this.type == ItemType.ATTRACTION) { return true; }
@@ -71,7 +73,7 @@ export default class DominoSide
 
     rotate(dr = 1)
     {
-        this.rotation = (this.rotation + dr) % 4;
+        this.rotation = (this.rotation + dr + 4) % 4;
     }
 
     rotateUntilOpenAt(rot:number)
@@ -92,9 +94,9 @@ export default class DominoSide
         }
     }
 
-    hasPathLike()
+    hasPath()
     {
-        return this.typePath || this.typeCoaster;
+        return this.typePath != undefined;
     }
 
     setPathKey(k:string)
@@ -105,6 +107,11 @@ export default class DominoSide
     setPathType(t:PathType)
     {
         this.typePath = t;
+    }
+
+    isCoaster()
+    {
+        return this.typePath == PathType.COASTER;
     }
 
     isQueue()
@@ -177,13 +184,19 @@ export default class DominoSide
 
     drawPath(vis:MaterialVisualizer, group:ResourceGroup)
     {
-        if(!this.hasPathLike()) { return; }
+        if(!this.hasPath()) { return; }
 
-        // the actual path
-        const frameBase = PATHS_ORDER.indexOf(this.typePath);
-        const numPathVariations = Object.keys(PATHS).length;
-        const frameOffset = PATHS[this.keyPath].frame;
-        const frame = frameBase * numPathVariations + frameOffset;
+        // the actual path (regular, queue, or coaster part)
+        let frame = -1;
+        if(this.typePath == PathType.COASTER) {
+            frame = COASTER_PARTS[this.keyPath].frame;
+        } else {
+            const frameBase = PATHS_ORDER.indexOf(this.typePath);
+            const numPathVariations = Object.keys(PATHS).length;
+            const frameOffset = PATHS[this.keyPath].frame;
+            frame = frameBase * numPathVariations + frameOffset;
+        }
+
         const rotation = this.rotation * 0.5 * Math.PI;
 
         const res = vis.getResource("paths");

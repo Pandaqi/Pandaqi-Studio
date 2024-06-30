@@ -2,7 +2,7 @@ import createContext from "js/pq_games/layout/canvas/createContext";
 import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
-import { DominoType } from "../js_shared/dict";
+import { DominoType, MISC } from "../js_shared/dict";
 import DominoSide from "./dominoSide";
 import TextConfig from "js/pq_games/layout/text/textConfig";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
@@ -14,6 +14,7 @@ export default class Domino
     type:DominoType;
     pawnIndex:number = -1; // just a quick hack to also reuse this class for drawing the pawns/claim cubes
     sides:{ top:DominoSide, bottom:DominoSide }
+    entrance: boolean = false;
     set:string;
 
     constructor(type:DominoType)
@@ -49,6 +50,7 @@ export default class Domino
         } else if(this.type == DominoType.REGULAR) {
             this.drawBothParts(vis, group);
             this.drawSetIndicator(vis, group);
+            this.drawEntrance(vis, group);
         }
 
         group.toCanvas(ctx);
@@ -95,7 +97,12 @@ export default class Domino
     {
         if(this.set == "base") { return; }
 
-        const text = this.set; // @TODO: convert set into a short unique identifier
+        let setID = "B";
+        if(this.set == "wishneyland") { setID = "W"; }
+        else if(this.set == "unibearsal") { setID = "U"; }
+        else if(this.set == "rollercoasters") { setID = "R"; }
+
+        const text = setID;
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("dominoes.setText.size")
@@ -104,11 +111,25 @@ export default class Domino
         const opText = new LayoutOperation({
             translate: new Point(1.33*textConfig.size), 
             pivot: Point.CENTER,
-            fill: "#442200",
-            alpha: 0.5,
+            fill: "#FFFFFF",
+            alpha: 0.75,
             dims: new Point(2*textConfig.size)
         });
         group.add(resText, opText);
+    }
+
+    drawEntrance(vis:MaterialVisualizer, group:ResourceGroup)
+    {
+        if(!this.entrance) { return; }
+
+        const res = vis.getResource("misc");
+        const op = new LayoutOperation({
+            frame: MISC.entrance.frame,
+            translate: new Point(vis.center.x, 0.25*vis.size.y),
+            dims: vis.get("dominoes.entrance.dims"),
+            pivot: Point.CENTER
+        });
+        group.add(res, op);
     }
 
 }

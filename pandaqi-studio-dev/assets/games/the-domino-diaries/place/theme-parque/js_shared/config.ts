@@ -9,7 +9,7 @@ const CONFIG:any =
 {
     debug:
     {
-        omitFile: false, // @DEBUGGING (should be false)
+        omitFile: true, // @DEBUGGING (should be false)
         singleDrawPerType: false, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
@@ -104,7 +104,7 @@ const CONFIG:any =
         paths:
         {
             path: "paths.webp",
-            frames: new Point(5,3),
+            frames: new Point(5,4),
             disableCaching: true
         },
 
@@ -128,12 +128,13 @@ const CONFIG:any =
         numDominoes:
         {
             base: 44,
-            wishneyland: 22,
-            unibearsal: 22,
-            rollercoasters: 22,
+            wishneyland: 24,
+            unibearsal: 24,
+            rollercoasters: 30,
         },
 
         emptyPathValue: 0.1, // most attractions are 2--3, lower = appears MORE
+        coasterPartValue: 0.05, // these are only combined with paths in their expansion, so they should overcrowd those by having a lower value
 
         frequencies:
         {
@@ -142,6 +143,11 @@ const CONFIG:any =
                 [PathType.REGULAR]: 0.5,
                 [PathType.QUEUE1]: 0.325,
                 [PathType.QUEUE2]: 0.175
+            },
+
+            coasterPart:
+            {
+                [PathType.COASTER]: 1.0
             }
         }
     },
@@ -183,6 +189,11 @@ const CONFIG:any =
             strokeWidth: new CVal(0.045, "dominoes.score.fontSize")
         },
 
+        entrance:
+        {
+            dims: new CVal(new Point(0.75), "sizeUnit")
+        },
+
         main:
         {
             dims: new CVal(new Point(0.8), "sizeUnit")
@@ -191,6 +202,11 @@ const CONFIG:any =
         paths:
         {
             tunnelDims: new CVal(new Point(0.66), "sizeUnit")
+        },
+
+        setText:
+        {
+            fontSize: new CVal(0.065, "sizeUnit")
         }
     },
 }

@@ -18,7 +18,7 @@ date: 2025-01-12
 categories: ["boardgame"]
 tags: ["creative", "guessing", "word"]
 
-multiplayermode: "cooperative"
+multiplayermode: ["cooperative", "competitive"]
 language: EN
 playtime: 30
 playercount: [3,4,5,6,7]

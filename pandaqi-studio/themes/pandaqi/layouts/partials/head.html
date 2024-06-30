@@ -28,7 +28,7 @@
 
     <!-- Favicon (use default one on regular pages, unique one for game pages) -->
     {{ $favicon := .Site.Params.favicon | absURL }}
-    {{ if .Params.gamePage }} 
+    {{ eq .Type "gamepage" }} 
         {{ $favicon = partial "func/get-game-favicon.html" . }}
     {{ end }}
 

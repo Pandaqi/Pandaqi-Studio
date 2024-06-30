@@ -41,7 +41,7 @@ If needed, simply move the Asteroid Crosshairs backward to make space for the gr
 Then take the action of each dinosaur on the tile (if it has one).
 
 * **Brachiosaurus**: look at the next 5 Asteroid Tiles.
-* **Triceratops**: move the Asteroid Crosshairs in the direction indicated by the arrow (from your perspective). If it moves off the map, it wraps around to the other side.
+* **Triceratops**: move the Asteroid Crosshairs in the direction indicated by the arrow. If it moves off the map, it wraps around to the other side.
 * **Velociraptor**: discard the top card of the asteroid deck.
 
 @TODO: IMAGE EXAMPLE?
@@ -76,7 +76,7 @@ When playing competitively, each player has an individual score. In that case, y
 When the Asteroid Deck runs out, the asteroid crashes into your map.
 
 * It hits the location where both its crosshairs meet.
-* That square and all neighboring squares (a 3x3 radius around it) are "destroyed".
+* That square and all 8 neighboring squares (horizontal, vertical and diagonal) are "destroyed".
 * If a square is destroyed, its entire **Area** (see [scoring](#scoring)) must be ignored when scoring.
 
 @TODO: IMAGE EXAMPLE
@@ -85,17 +85,31 @@ When the Asteroid Deck runs out, the asteroid crashes into your map.
 
 {{% rules-block heading="Variants & Expansions" icon="expansion" %}}
 
-VARIANT: Change the number of cards in the Asteroid Deck for a longer/shorter game.
+Played the base game and ready for more? Or looking to tweak the game to fit your playing group better? Check out these variants and expansions!
 
-VARIANT: Something about herbivores and carnivores not being allowed in the same Area?
-* HERBIVORES = Brachiosaurus, Stegosaurus, Triceratops
-* CARNIVORES = Velociraptor
+{{% rules-block heading="Variants" %}}
 
-EXPANSION:
-* Adds two more terrain types. One of them is the "wildcard" and represents _any terrain_ (or "all of them at the same time").
-* Adds two more dinosaurs.
-  * STEGOSAURUS = look at another player's hand OR replace your entire hand with new dominoes from the deck
-  * WILDCARD = represents any dinosaur type you want
+**Variant (simpler):** remove all dominoes that show an Egg, and don't include any Egg Hatch asteroid tiles. The entire egg-hatching mechanic is simply excluded from the game.
+
+**Variant (duration):** to change the duration of the game, change the size of the Asteroid Deck. (As expected, bigger deck = longer game.)
+
+**Variant (harder):** don't allow Herbivores and Carnivores to be in the same Area! 
+* All dinosaurs in this game are Herbivores, except the Velociraptor (which brings the Asteroid closer). 
+* This also restricts what the Wildcard Dinosaur (from the expansion) can be. That is, if you place a wildcard in an area with only Herbivores, then you can only make it be a Herbivore type. (And if inside an area with only Carnivores, it can only be a Velociraptor.)
+
+**Variant (even harder):** don't allow more than 1 type of Dinosaur in the same Area!
+
+{{% /rules-block %}}
+
+{{% rules-block heading="Expansion" %}}
+
+This expansion adds two more terrain types: desert and wildcard (which can be _any terrain_, or rather "all of them at the same time").
+
+It also adds two more dinosaurs.
+* **Stegosaurus** = look at another player's hand OR replace your entire hand with new dominoes from the deck
+* **Wildcard** = represents any dinosaur type you want
+
+{{% /rules-block %}}
 
 {{% /rules-block %}}
 

@@ -10,7 +10,7 @@ export default class TilePicker
     get() { return this.tiles.slice(); }
     async generate()
     {
-        if(!CONFIG.sets.detail) { return; }
+        if(!CONFIG.sets.passports) { return; }
 
         this.tiles = [];
         

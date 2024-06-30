@@ -15,7 +15,7 @@
 </div>
 
 <footer class="clipped {{ $color_scheme }}">
-	{{ if .Params.gamePage }}
+	{{ if eq .Type "gamepage" }}
 		<!-- Show narrow footer, easy styling -->
 		{{ partial "narrow-footer.html" . }}
 	{{ else }}
