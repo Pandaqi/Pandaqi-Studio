@@ -1,6 +1,7 @@
 import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textConfig"
-import CVal from "js/pq_games/tools/generation/cval"
 import Point from "js/pq_games/tools/geometry/point"
+import { FloorType } from "./dict"
+import CVal from "js/pq_games/tools/generation/cval"
 
 const CONFIG:any = 
 {
@@ -11,8 +12,8 @@ const CONFIG:any =
         onlyGenerate: true, // @DEBUGGING (should be false)
     },
 
-    configKey: "zooParqueConfig",
-    fileName: "[Material] Zoo Parque",
+    configKey: "highriseHominoConfig",
+    fileName: "[Material] Highrise Homino",
 
     // set through user config on page
     inkFriendly: false,
@@ -21,60 +22,79 @@ const CONFIG:any =
 
     fonts:
     {
-        heading: "ceviche",
-        body: "noticia",
+        heading: "grolear",
+        body: "kanit",
     },
 
     sets:
     {
-        pawns: true,
         base: true,
-        detail: true,
-        strong: false,
-        wildlife: false,
-        utilities: false,
+        roomService: false,
+        walletWatchers: false,
+        usefulUtilities: false,
+        happyHousing: false,
     },
 
     // assets
-    assetsBase: "/the-domino-diaries/place/zoo-parque/assets/",
+    assetsBase: "/the-domino-diaries/place/highrise-homino/assets/",
     assets:
     {
-        noticia:
+        kanit:
         {
-            path: "fonts/NoticiaText-Regular.woff2",
+            path: "fonts/Kanit-Regular.woff2",
         },
 
-        noticia_bold:
+        kanit_bold:
         {
-            key: "besley",
-            path: "fonts/NoticiaText-Bold.woff2",
+            key: "kanit",
+            path: "fonts/Kanit-Black.woff2",
             textConfig: new TextConfig({ weight: TextWeight.BOLD })
         },
 
-        noticia_italic:
+        kanit_italic:
         {
-            key: "besley",
-            path: "fonts/NoticiaText-Italic.woff2",
+            key: "kanit",
+            path: "fonts/Kanit-Italic.woff2",
             textConfig: new TextConfig({ style: TextStyle.ITALIC })
         },
 
-        ceviche:
+        kanit_bold_italic:
         {
-            path: "fonts/CevicheOne-Regular.woff2",
+            key: "kanit",
+            path: "fonts/Kanit-BlackItalic.woff2",
+            textConfig: new TextConfig({ style: TextStyle.ITALIC })
         },
 
-        pawns:
+        grolear:
         {
-            path: "pawns.webp",
-            frames: new Point(6,1),
-            loadIf: ["sets.pawns"],
+            path: "fonts/groLEAR.woff2",
+        },
+
+        wishes:
+        {
+            path: "wishes.webp",
+            frames: new Point(4,2),
+            disableCaching: true
+        },
+
+        objects:
+        {
+            path: "objects.webp",
+            frames: new Point(4,4),
+            disableCaching: true
+        },
+
+        tenants:
+        {
+            path: "tenants.webp",
+            frames: new Point(4,4),
             disableCaching: true
         },
 
         misc:
         {
             path: "misc.webp",
-            frames: new Point(4,1),
+            frames: new Point(4,2),
             disableCaching: true
         },
     },
@@ -86,31 +106,62 @@ const CONFIG:any =
 
     generation:
     {
-        numUniquePawns: 5,
-        numPawnsPerPlayer: 4,
         numDominoes:
         {
-            base: 50,
+            base: 40,
+            roomService: 20,
+            walletWatchers: 20,
+            usefulUtilities: 20,
+            happyHousing: 20,
         },
 
-        percAllWithoutTerrain: 0.3,
-        percHalfWithoutTerrain: 0.2,
-        percAllWithTerrain: 0.5,
-
-        fenceNumDistribution:
+        numTenants:
         {
-            0: 0.15,
-            1: 0.3,
-            2: 0.3,
-            3: 0.2,
+            base: 20,
+            roomService: 10,
+            walletWatchers: 10,
+            usefulUtilities: 10,
+            happyHousing: 10
+        },
+
+        emptyTileProb: 7.5,
+
+        doorPercentage: 0.25,
+        wallDist:
+        {
+            0: 0.1,
+            1: 0.25,
+            2: 0.35,
+            3: 0.25,
             4: 0.05
         },
-
-        fenceTypeDistribution:
+        
+        floorDist:
         {
-            fence_weak: 0.6,
-            fence_strong: 0.4
-        }
+            [FloorType.WOOD]: 0.6,
+            [FloorType.CONCRETE]: 0.25,
+            [FloorType.CARPET]: 0.15
+        },
+
+        wishPercentageInverted: 0.2,
+        wishNumDist:
+        {
+            1: 0.25,
+            2: 0.35,
+            3: 0.25,
+            4: 0.15
+        },
+
+        score:
+        {
+            wishMultiplier: 2.5,
+            wishInverseMultiplier: 0.33,
+            propertyValue:
+            {
+                construction: 1.0,
+                wallet: 2.0
+            }
+        },
     },
 
     dominoes:
@@ -126,29 +177,67 @@ const CONFIG:any =
             autoStroke: true
         },
 
-        main:
+        setText:
         {
-            dims: new CVal(new Point(0.75), "sizeUnit")
+            size: new CVal(0.03, "sizeUnit"),
+            color: "#111111",
+            alpha: 0.5
         },
 
-        text:
+        walls:
         {
-            fontSize: new CVal(0.065, "sizeUnit")
+            dims: new CVal(new Point(1.0), "sizeUnit")
+        },
+
+        object:
+        {
+            main:
+            {
+                dims: new CVal(new Point(0.75), "sizeUnit")
+            }
+        },
+
+        tenant:
+        {
+            main:
+            {
+                dims: new CVal(new Point(0.5), "sizeUnit")
+            },
+
+            score:
+            {
+                dims: new CVal(new Point(0.2), "sizeUnit"),
+                fontSize: new CVal(0.08, "sizeUnit"),
+                textColor: "#111111"
+            },
+
+            detailsYHeight: new CVal(0.3, "sizeUnit"), // remember this is all relative to origin (0,0) in center of domino side
+
+            props:
+            {
+                dims: new CVal(new Point(0.15), "sizeUnit"),
+                xPositions:
+                {
+                    1: [0.25],
+                    2: [0.25, 0.75],
+                    3: [0.15, 0.325, 0.75],
+                    4: [0.15, 0.325, 0.675, 0.85]
+                }
+            },
+
+            wishes:
+            {
+                dims: new CVal(new Point(0.15), "sizeUnit"),
+                number:
+                {
+                    fontSize: new CVal(0.025, "sizeUnit"),
+                    pos: new CVal(new Point(-0.2, -0.2), "sizeUnit"),
+                    textColor: "#FFFFFF",
+                    strokeColor: "#111111",
+                    strokeWidth: new CVal(0.1, "dominoes.wishes.number.fontSize")
+                }
+            },
         }
-    },
-
-    tiles:
-    {
-        drawerConfig:
-        {
-            dimsElement: new Point(2, 1),
-            dims: { 
-                small: new Point(3,5),
-                regular: new Point(2,3),
-                large: new Point(1,2)
-            },  
-            autoStroke: true
-        },
     },
 }
 

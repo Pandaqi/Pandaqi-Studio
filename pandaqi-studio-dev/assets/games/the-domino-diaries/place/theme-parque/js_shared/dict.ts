@@ -100,11 +100,14 @@ const COASTER_PARTS =
 
 const MISC =
 {
-    score_star: { frame: 0 },
+    score_star_attraction: { frame: 0 },
     tunnel: { frame: 1 },
     bg_dot_texture: { frame: 2 },
     bg_gradient: { frame: 3 },
-    entrance: { frame: 4 }
+    entrance: { frame: 4 },
+    score_star_stall: { frame: 5 },
+    type_icon_attraction: { frame: 6 },
+    type_icon_stall: { frame: 7 }
 }
 
 const ITEMS =

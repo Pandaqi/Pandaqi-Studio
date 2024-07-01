@@ -147,6 +147,11 @@ MY PRETTY CLEAN APPROACH (from the devlog):
   * That means calculating your apartment's price should be easy and lead to _low numbers_.
   * But this only applies to those who have the "WALLET" property showing. Others don't care about price, otherwise it's far too hard.
 * During the Attract Phase, any tenant will re-check their price requirements. If you have the wrong price, the Tenant walks to any player to whom you're connected.
+* At the end of the game, the final price/value of your floor is ADDED to your total score.
+
+> The PRICE of your floor is the _smaller_ of these two numbers: your largest ROOM or the number of UNIQUE ICONS.
+
+
 
 @IDEA: Basic Utilities => gas, water, electricity.
 * If you place such a box on your floor, you get that utility _if_ another player to whom you're connected has it.

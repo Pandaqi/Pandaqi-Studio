@@ -12,7 +12,6 @@ import Point from "js/pq_games/tools/geometry/point";
 export default class Domino
 {
     type:DominoType;
-    pawnIndex:number = -1; // just a quick hack to also reuse this class for drawing the pawns/claim cubes
     sides:{ top:DominoSide, bottom:DominoSide }
     set:string;
 
@@ -20,11 +19,6 @@ export default class Domino
     {
         this.type = type;
         this.sides = { top: null, bottom: null };
-    }
-
-    setPawnIndex(i:number)
-    {
-        this.pawnIndex = i;
     }
 
     setSides(a:DominoSide, b:DominoSide)
@@ -44,42 +38,24 @@ export default class Domino
         fillCanvas(ctx, "#FFFFFF");
         const group = new ResourceGroup();
 
-        if(this.type == DominoType.PAWN) {
-            this.drawPawn(vis, group);
-        } else if(this.type == DominoType.REGULAR) {
+        if(this.type == DominoType.REGULAR || this.type == DominoType.TENANT) {
             this.drawBothParts(vis, group);
-            this.drawSetIndicator(vis, group);
+        } else if(this.type == DominoType.MISSION) {
+            this.drawMission(vis, group);
         }
+
+        this.drawSetIndicator(vis, group);
 
         group.toCanvas(ctx);
         return ctx.canvas;
     }
 
-    drawPawn(vis:MaterialVisualizer, group:ResourceGroup)
-    {
-        const res = vis.getResource("pawns");
-        const dims = new Point(vis.sizeUnit);
-        
-        const opTop = new LayoutOperation({
-            translate: new Point(vis.size.x, vis.center.y),
-            frame: this.pawnIndex,
-            dims: dims,
-            rotation: Math.PI
-        });
-        group.add(res, opTop);
-
-        const opBottom = new LayoutOperation({
-            translate: new Point(0, vis.center.y),
-            frame: this.pawnIndex,
-            dims: dims
-        });
-        group.add(res, opBottom);
-    }
-
     drawBothParts(vis:MaterialVisualizer, group:ResourceGroup)
     {
+        const topRotation = (this.type == DominoType.TENANT) ? Math.PI : 0;
         const opTop = new LayoutOperation({
             translate: new Point(vis.center.x, 0.25*vis.size.y),
+            rotation: topRotation,
             pivot: Point.CENTER
         });
         group.add(this.sides.top.draw(vis), opTop);
@@ -89,13 +65,24 @@ export default class Domino
             pivot: Point.CENTER
         })
         group.add(this.sides.bottom.draw(vis), opBottom);
+
+        const opTopNonRotated = opTop.clone(true);
+        opTopNonRotated.rotation = 0;
+
+        group.add(this.sides.top.drawWalls(vis), opTopNonRotated);
+        group.add(this.sides.bottom.drawWalls(vis), opBottom);
+    }
+
+    drawMission(vis:MaterialVisualizer, group:ResourceGroup)
+    {
+        // @TODO
     }
 
     drawSetIndicator(vis:MaterialVisualizer, group:ResourceGroup)
     {
-        if(this.set == "base") { return; }
+        if(this.set == "base" || !this.set) { return; }
 
-        const text = this.set; // @TODO: convert set into a short unique identifier
+        const text = this.set.slice(0,1).toUpperCase();
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("dominoes.setText.size")
@@ -104,8 +91,8 @@ export default class Domino
         const opText = new LayoutOperation({
             translate: new Point(1.33*textConfig.size), 
             pivot: Point.CENTER,
-            fill: "#442200",
-            alpha: 0.5,
+            fill: vis.get("dominoes.setText.color"),
+            alpha: vis.get("dominoes.setText.alpha"),
             dims: new Point(2*textConfig.size)
         });
         group.add(resText, opText);

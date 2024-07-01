@@ -35,12 +35,11 @@ devlog: "/blog/boardgames/the-domino-diaries/highrise-homino/"
 
 {{< boardgame-settings type="game" local_storage="highriseHominoConfig" btn_label="Generate Material" game_title="Highrise Homino" defaults="true">}}
   {{< boardgame-settings-section heading="Sets" >}}
-    {{< setting-checkbox id="setting-sets-pawns" text="Pawns?" checked="checked" >}}
     {{< setting-checkbox id="setting-sets-base" text="Base?" checked="checked" >}}
-    {{< setting-checkbox id="setting-sets-detail" text="Animal Detail Tiles?" checked="checked" >}}
-    {{< setting-checkbox id="setting-sets-strong" text="Strong Species?" >}}
-    {{< setting-checkbox id="setting-sets-wildlife" text="Wildlife Wishes?" >}}
-    {{< setting-checkbox id="setting-sets-utilities" text="Unnatural Utilities?" >}}
+    {{< setting-checkbox id="setting-sets-roomService" text="Room Service?" >}}
+    {{< setting-checkbox id="setting-sets-walletWatchers" text="Wallet Watchers?" >}}
+    {{< setting-checkbox id="setting-sets-usefulUtilities" text="Useful Utilities?" >}}
+    {{< setting-checkbox id="setting-sets-happyHousing" text="Happy Housing?" >}}
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 

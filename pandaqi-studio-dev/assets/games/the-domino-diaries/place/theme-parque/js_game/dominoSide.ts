@@ -134,6 +134,11 @@ export default class DominoSide
         return this.keyPath == "deadend";
     }
 
+    getResourceKey()
+    {
+        return this.type + "s";
+    }
+
     draw(vis:MaterialVisualizer) : ResourceGroup
     {
         const group = new ResourceGroup();
@@ -230,14 +235,9 @@ export default class DominoSide
     {
         if(!this.hasMainElement()) { return; }
 
-        // @TODO: a cleaner DRY way for this
-        let resourceKey = "";
-        if(this.type == ItemType.ATTRACTION) { resourceKey = "attractions"; }
-        else if(this.type == ItemType.DECORATION) { resourceKey = "decorations"; }
-        else if(this.type == ItemType.STALL) { resourceKey = "stalls"; }
-
+        // the actual main icon
         const data = this.getTypeData();
-        const res = vis.getResource(resourceKey);
+        const res = vis.getResource(this.getResourceKey());
         const glowEffect = new DropShadowEffect({ color: "#FFFFFF", blurRadius: 0.025*vis.sizeUnit })
         const op = new LayoutOperation({
             frame: data.frame,
@@ -253,21 +253,31 @@ export default class DominoSide
         const data = this.getTypeData();
         const partHeight = 0.5*vis.size.y;
 
-        // @TODO: draw some indication of the item TYPE? (Stall/Decoration/Attraction) That seems most useful in practice
-        
         // score value/factor
         if(this.isScorableItem())
         {
             // the background star/icon
             const res = vis.getResource("misc");
             const starDims = vis.get("dominoes.score.dims");
+            const frame = MISC["score_star_" + this.type].frame ?? 0;
             const op = new LayoutOperation({
                 translate: new Point(-0.5*vis.size.x, -0.5*partHeight).add(starDims.clone().scale(0.66)),
-                frame: MISC.score_star.frame,
+                frame: frame,
                 dims: starDims,
                 pivot: Point.CENTER
             });
             group.add(res, op);
+
+            // the type indicator
+            const typeIconScaleFactor = 0.5;
+            const typeIconDims = starDims.clone().scale(typeIconScaleFactor);
+            const opType = new LayoutOperation({
+                translate: new Point(0.5*vis.size.x, -0.5*partHeight).add(typeIconDims.clone().scale(0.66 * typeIconScaleFactor)),
+                frame: MISC["type_icon_" + this.type].frame,
+                dims: typeIconDims,
+                pivot: Point.CENTER,
+            })
+            group.add(res, opType);
 
             // the actual text with the value
             let text = data.value.toString();
