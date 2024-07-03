@@ -9,7 +9,7 @@ const CONFIG:any =
 {
     debug:
     {
-        omitFile: true, // @DEBUGGING (should be false)
+        omitFile: false, // @DEBUGGING (should be false)
         singleDrawPerType: false, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
@@ -111,7 +111,7 @@ const CONFIG:any =
         misc:
         {
             path: "misc.webp",
-            frames: new Point(6,1),
+            frames: new Point(8,1),
             disableCaching: true
         },
     },

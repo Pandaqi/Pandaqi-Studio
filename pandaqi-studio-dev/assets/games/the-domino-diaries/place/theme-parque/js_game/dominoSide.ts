@@ -259,9 +259,10 @@ export default class DominoSide
             // the background star/icon
             const res = vis.getResource("misc");
             const starDims = vis.get("dominoes.score.dims");
+            const starIconOffset = starDims.clone().scale(0.66);
             const frame = MISC["score_star_" + this.type].frame ?? 0;
             const op = new LayoutOperation({
-                translate: new Point(-0.5*vis.size.x, -0.5*partHeight).add(starDims.clone().scale(0.66)),
+                translate: new Point(-0.5*vis.size.x, -0.5*partHeight).add(starIconOffset),
                 frame: frame,
                 dims: starDims,
                 pivot: Point.CENTER
@@ -269,13 +270,15 @@ export default class DominoSide
             group.add(res, op);
 
             // the type indicator
-            const typeIconScaleFactor = 0.5;
+            const typeIconScaleFactor = 0.45;
             const typeIconDims = starDims.clone().scale(typeIconScaleFactor);
+            const typeIconOffset = new Point(0.66*starIconOffset.x, starIconOffset.y);
             const opType = new LayoutOperation({
-                translate: new Point(0.5*vis.size.x, -0.5*partHeight).add(typeIconDims.clone().scale(0.66 * typeIconScaleFactor)),
+                translate: new Point(0.5*vis.size.x, -0.5*partHeight).add(new Point(-typeIconOffset.x, typeIconOffset.y)),
                 frame: MISC["type_icon_" + this.type].frame,
                 dims: typeIconDims,
                 pivot: Point.CENTER,
+                alpha: 0.85
             })
             group.add(res, opType);
 

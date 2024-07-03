@@ -145,13 +145,13 @@ export default class DominoPicker
         // so we overdraw until we've exhausted all our options (which slightly exceeds the number of dominoes set in config)
         for(let i = 0; i < 1.5*numDominoes; i++)
         {
-            const d = new Domino(DominoType.REGULAR);
-            this.dominoes.push(d);
-            d.setSet(set);
-
             const sideA = options.pop();
             const sideB = options.pop();
             if(!sideA || !sideB) { break; }
+
+            const d = new Domino(DominoType.REGULAR);
+            this.dominoes.push(d);
+            d.setSet(set);
 
             // trying rotation both ways should resolve any issues with closed/open, because EVERY path is open at some side (even deadends)
             const hasOpenSideAtBottom = sideA.isOpenAt(1);

@@ -2,23 +2,32 @@ import createContext from "js/pq_games/layout/canvas/createContext";
 import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
-import { DominoType } from "../js_shared/dict";
+import { DominoType, MISSIONS, MissionType } from "../js_shared/dict";
 import DominoSide from "./dominoSide";
-import TextConfig from "js/pq_games/layout/text/textConfig";
+import TextConfig, { TextStyle } from "js/pq_games/layout/text/textConfig";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import Point from "js/pq_games/tools/geometry/point";
+import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
 
 export default class Domino
 {
     type:DominoType;
     sides:{ top:DominoSide, bottom:DominoSide }
+    missionType: MissionType;
+    missionKey:string;
     set:string;
 
     constructor(type:DominoType)
     {
         this.type = type;
         this.sides = { top: null, bottom: null };
+    }
+
+    setMission(mt:MissionType, key: string)
+    {
+        this.missionType = mt;
+        this.missionKey = key;
     }
 
     setSides(a:DominoSide, b:DominoSide)
@@ -66,16 +75,63 @@ export default class Domino
         })
         group.add(this.sides.bottom.draw(vis), opBottom);
 
-        const opTopNonRotated = opTop.clone(true);
-        opTopNonRotated.rotation = 0;
-
-        group.add(this.sides.top.drawWalls(vis), opTopNonRotated);
+        group.add(this.sides.top.drawWalls(vis), opTop);
         group.add(this.sides.bottom.drawWalls(vis), opBottom);
     }
 
     drawMission(vis:MaterialVisualizer, group:ResourceGroup)
     {
-        // @TODO
+        // the general background template
+        const res = vis.getResource("mission_tiles");
+        const frame = this.missionType == MissionType.GOAL ? 0 : 1;
+        const op = new LayoutOperation({
+            dims: vis.size,
+            frame: frame
+        });
+        group.add(res, op);
+
+        // specific task text
+        const data = MISSIONS[this.missionKey];
+        const textConfig = new TextConfig({
+            font: vis.get("fonts.body"),
+            size: vis.get("missions.fontSize"),
+            style: TextStyle.ITALIC
+        })
+        const resTextTask = new ResourceText({ text: data.descTask, textConfig: textConfig });
+        const textDims = vis.get("missions.textBoxDims");
+        const opTextTask = new LayoutOperation({
+            translate: vis.get("missions.taskTextPos"),
+            dims: textDims,
+            fill: "#121212"
+        })
+        group.add(resTextTask, opTextTask);
+
+        // specific reward text
+        const defText = this.missionType == MissionType.GOAL ? "No extra reward." : "No extra penalty."
+        const resTextReward = new ResourceText({ text: data.descReward ?? defText, textConfig: textConfig });
+        const opTextReward = new LayoutOperation({
+            translate: vis.get("missions.rewardTextPos"),
+            dims: textDims,
+            fill: "#121212"
+        });
+        group.add(resTextReward, opTextReward);
+
+        // the specific set this one belongs to
+        const textConfigSet = new TextConfig({
+            font: vis.get("fonts.heading"),
+            size: vis.get("missions.fontSizeSet")
+        }).alignCenter();
+
+        const setText = "Set: " + (data.set ?? "Base");
+        const resTextSet = new ResourceText({ text: setText, textConfig: textConfigSet });
+        const opTextSet = new LayoutOperation({
+            translate: vis.get("missions.setTextPos"),
+            dims: textDims,
+            fill: "#121212",
+            alpha: vis.get("missions.setTextAlpha"),
+            pivot: Point.CENTER
+        });
+        group.add(resTextSet, opTextSet);
     }
 
     drawSetIndicator(vis:MaterialVisualizer, group:ResourceGroup)
@@ -93,6 +149,9 @@ export default class Domino
             pivot: Point.CENTER,
             fill: vis.get("dominoes.setText.color"),
             alpha: vis.get("dominoes.setText.alpha"),
+            stroke: vis.get("dominoes.setText.strokeColor"),
+            strokeWidth: vis.get("dominoes.setText.strokeWidth"),
+            strokeAlign: StrokeAlign.OUTSIDE,
             dims: new Point(2*textConfig.size)
         });
         group.add(resText, opText);

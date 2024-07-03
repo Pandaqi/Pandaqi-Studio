@@ -16,13 +16,13 @@ Draw 6 room tiles from the deck and also place them faceup on the table: that is
 
 {{% rules-block heading="Objective" icon="objective" %}}
 
-The game ends as soon as either the Tenant or Room deck is empty. Players sum the value of all Tenants they have
+The game **ends** as soon as either the Tenant Deck or Room Deck is **empty**. Players sum the value of all Tenants they have (and any special tiles that tell you they score points). **Highest score wins!**
 
 {{% /rules-block %}}
 
 {{% rules-block heading="Gameplay" icon="action" %}}
 
-Gameplay happens in _rounds_. Each round, players take clockwise Turns. Once done, execute on Attract Phase.
+Gameplay happens in _rounds_. Each round, players take clockwise **Turns**. Once done, execute one **Attract** Phase.
 
 {{% rules-block heading="Turn" %}}
 
@@ -31,11 +31,14 @@ On your turn, grab 1 domino from the Market, and place it in your map.
 The placement rules are simple.
 
 * It needs to connect to an existing domino and can't overlap.
-* Walls need to match. Floors also need to match, unless there's a wall between them.
+* Floors need to match (unless there's a wall/door between them).
+* You can't connect a door and a wall.
 
 You may also _destroy_ as much of your personal map as you want, as long as your map is _connected_ (no loose parts) by the end of your turn. The destroyed tiles are discarded permanently. This is called **Construction Work** and can have other consequences (such as guests leaving).
 
-See [Tiles](#tiles) for details about what every icon or tile type means.
+See [Objects](#objects) for details about what every icon on a domino means.
+
+@TODO: EXAMPLE IMAGE
 
 {{% /rules-block %}}
 
@@ -50,57 +53,41 @@ First, determine what floor every player is on.
 Now, in that order, players **attract a Tenant**.
 
 * Pick 1 Tenant from the Guests.
-* You may only pick Tenants of whom you fulfill their [requirements](#guests).
-* Crucially, when fulfilling requirements, you can also count the dominoes of other players to whom you're "connected". By default, you are connected to everyone _on the same floor as you_.
+* You may only pick Tenants of whom you fulfill their [wishes](#guests).
+* Crucially, when fulfilling wishes, you **also** count the dominoes of other players to whom you're "connected" as your own. By default, you are connected to everyone _on the same floor as you_. Special icons (such as the elevator) can change this.
 * Place the tenant somewhere on your map.
 
-Once done, refill the Guests market, and play the next round.
+Once done, refill the Guests and the Market, and play the next round.
+
+@TODO: EXAMPLE IMAGE
 
 {{% /rules-block %}}
 
 {{% /rules-block %}}
 
-{{% rules-block id="tiles" heading="Tiles" icon="score" %}}
+{{% rules-block id="objects" heading="Objects" icon="score" %}}
 
-Below is a list of the different tiles that might appear.
+In the base game, there are only a few objects with a special power. (All other objects are useful for attracting guests, but otherwise do nothing special.)
 
-* **Staircase (up/down)**: you are now connected to the first player(s) below/above you.
-* **Elevator**: you are now connected to everyone else that has an elevator.
-* **Sofa**: ??
-* **Bed**: ??
-* **Toilet**: ??
-* **Pool**: ??
-* **Bar**: ??
-* **Game Room**: ??
+@TODO: RULES TABLE
 
-(These tiles are part of Guest wishes. But they also often provide score benefits or modifiers on their own.)
+The expansions add far more objects with special powers. If you enabled the "add text" option (which is the default), these explanations will just be printed on the tiles and they explain themselves.
 
 {{% /rules-block %}}
 
-{{% rules-block id="guests" heading="Guests & Requirements" icon="score" %}}
+{{% rules-block id="guests" heading="Guests & Wishes" icon="score" %}}
 
-Guests have two sides: one side shows their PROPERTIES, the other their WISHES/REQUIREMENTS. (If you want, you can fold the tenants down the middle so they become actual pawns you can place. But this is not required, of course.)
+Guests have two sides: one side shows their SCORE (on the star icon), the other their WISHES. 
 
+{{% remark %}}
+If you want, you can fold the tenants down the middle so they become actual pawns you can place.
+{{% /remark %}}
 
-Guests can have certain _properties_:
+Their wish icons follow a few simple rules.
 
-* **Value**: how much they score at the end. => Can I make this DYNAMIC in some expansions, such as "I am worth the number of toilets you have"
-* **Price**: the maximum price they're willing to pay. => @TODO: Provide an easy way to attach a price to your entire map
-* **Construction**: you can't attract them if you did Construction this turn. Additionally, they will leave if you do Construction during your turn.
-
-
-Below is a list of the different wishes a guest might have.
-
-* **Size**: you need to have at least this much space ( = this many dominoes/rectangles/living space)
-* **Floor**: you must be at least on this floor to attract them. (Probably too difficult to make them wander, seeing how often floors change.)
-* **Tenants**: you need to have at most this many tenants
-* **Rooms**: you need to have at least this many rooms
-* **Utilities/Items**: you need to have this utility/item. (Sometimes there's a number next to it that says how many times you need to have the utility)
-* **Floor Type**: you need at least a room with this floor. (Also Walls/Windows?) => Maybe FLOOR TYPE is the general background for each Tenant?
-
-
-
-
+* Most wishes are regular icons you'd also see on the tiles. You must have _at least one_ of that object somewhere in your map (to attract that tenant).
+* If there's a number as well, it means you need to have at least _that many_ of the object. (The number is left out if it's simply 1.)
+* A red cross through a wish means it's inverted: you should _not_ have that object. (If there's a number, it means you must have strictly FEWER of the object than the number.)
 
 @TODO: EXAMPLE IMAGE
 
@@ -110,58 +97,102 @@ Below is a list of the different wishes a guest might have.
 
 Played the base game and ready for more? Or want to tweak it a little to fit your group? Check out these variants and expansions!
 
-@IDEA (for cooperative play, mostly): a SHARED responsibility for the entire building.
-* **YES! IDEA!** These are also simply dominoes, but they're really special ones. 
-  * For example, a "power generator" domino. It can only be placed if a very specific requirement is met. Once placed, though, it provides power to the _entire building_.
-  * Similarly, a "janitor" domino. Once placed, the entire building becomes cleaner, which helps pass certain checks. => Maybe your final building only wins if you have "4 star cleanliness = 4 janitors"
-* Maybe general goal cards that you need to meet before the game is over.
-* More general actions/tenants that do sweeping changes across the entire building. For example:
+It's recommended to try the expansions once you understand the base game, and to try them in the order listed.
 
-MY PRETTY CLEAN APPROACH (from the devlog):
-* During the game, you draw dominoes with goals and threats.
-  * Such as "_all_ tenants find a place this round" or "the entire building needs 3 pools by the end of the game"
-  * Or "an inspector is coming, make sure there is no mess in the entire building or the game ends"
-  * Or "every player needs a room with a wooden floor" or "every player needs a room of at least size 6"
-* These dominoes also provide _rewards_ if completed, which always aid _cooperative play_. For example, if you meet a challenge, the domino might grant someone the power to move 1 Tenant freely each round. Or that domino might hold a "power generator" that can power the entire building.
-* **QUESTION:** Can I then REUSE this system in competitive play too? The first to fulfill the current goal / fail to the current threat gets the reward / penalty.
+All the expansions add a third type of wall: **windows**. Their rule is simple: nothing can be placed at the other side of a window. (Windows must be at the "outside" of the building.)
 
+The expansions also talk about tenants **"leaving"**. This simply means that they go to another player to whom you're connected. (If you're connected to multiple players, you _choose_ to which one the leaving tenant goes.)
 
+{{% rules-block id="roomService" heading="Room Service" %}}
 
-@IDEA: Obviously, Tenants can also NOT want something, in which case there's a red cross through the icon
+From now on, it becomes important to create **Rooms**.
 
-@IDEA: Interacting Tenants? "For every tenant of type X that also lives on this floor, I am worth -1."
+> A "room" is any enclosed space (walls on all sides) with at least one door.
 
+Why? Because guests can now have **Special Wishes**. The table below explains what each icon means.
 
-@IDEA: Special Offers =>
-* Any remaining one-time, really special ideas for items on dominoes that I have. 
-* Which combines with ...
-* IDEA: WANDERING TENANTS: These can be attracted again _every attract phase_. However, once they are on a floor (attracted by _someone_ already), you use their second set of requirements / their requirements for moving DOUBLE. => And then maybe some special one-time tile/event that can attract tenants anyway
+@TODO: RULES TABLE
 
-@IDEA: Rooms =>
-* A "room" is any enclosed space (walls on all sides) with at least one door.
-* GUESTS require certain #rooms, type rooms, etcetera.
-* Some items only work (or not) inside certain finished rooms.
+Finally, this expansion adds a property to some tenants: **Construction**. If this icon shows (next to their star), 
 
-@IDEA: Price =>
-* Introduces the idea of things having a price and guests having a min/max they can pay. => THIS PRICE = THE SCORE
-  * That means calculating your apartment's price should be easy and lead to _low numbers_.
-  * But this only applies to those who have the "WALLET" property showing. Others don't care about price, otherwise it's far too hard.
-* During the Attract Phase, any tenant will re-check their price requirements. If you have the wrong price, the Tenant walks to any player to whom you're connected.
-* At the end of the game, the final price/value of your floor is ADDED to your total score.
+* You can't attract this tenant if you did Construction this turn. 
+* Additionally, they will _leave_ if you do Construction during your turn.
 
-> The PRICE of your floor is the _smaller_ of these two numbers: your largest ROOM or the number of UNIQUE ICONS.
+{{% /rules-block %}}
 
+{{% rules-block id="walletWatchers" heading="Wallet Watchers" %}}
 
+This expansion adds another property to some tenants: **Wallet**. If this icon shows, 
 
-@IDEA: Basic Utilities => gas, water, electricity.
-* If you place such a box on your floor, you get that utility _if_ another player to whom you're connected has it.
-* If you are the lowest floor, you always get it.
-* GUESTS obviously WISH for these things.
-* Some ITEMS on dominoes can only be placed (or only score/work) if you HAVE these things.
+* They can only be attracted if they can actually pay to live with you.
+* Their score = the maximum price they're willing to pay.
+* The current price of your map is the _smaller_ of these two numbers: your LARGEST ROOM or the number of UNIQUE ICONS.
+* During the Attract Phase, they will re-check their price requirements. If you have the wrong price now, this Tenant _leaves_.
 
+At the **end of the game**, the final **price** of your map is ADDED to your total score.
 
+Finally, this expansion also adds a few more Special Wishes.
 
+@TODO: RULES TABLE
 
+{{% /rules-block %}}
+
+{{% rules-block id="usefulUtilities" heading="Useful Utilities" %}}
+
+This expansion adds some basic utilities: Power ("electricity"), Water and Wi-Fi ("internet").
+
+From now on, guests will _wish_ for these things. See the added Special Wishes below.
+
+@TODO: RULES TABLE
+
+How do you get it?
+
+* Special "generator" icons appear on the dominoes.
+* If you place such a generator in your map, you get the utility _if_ you have "access" to it.
+* You have access if a player on the floor _below you_ has the utility. (In a sense, the wires/pipes go _up_ through the building and you must connect to the network below you.)
+* If there is no player below you---that is, you are the lowest floor---then you always have access to it.
+
+@TODO: the generator icons => I need a list with all the added TILES/OBJECTS anyway for each expansion too ...
+
+{{% /rules-block %}}
+
+{{% rules-block id="happyHousing" heading="Happy Housing" %}}
+
+This expansion adds some more Special Wishes and Objects (again).
+
+@TODO: RULES TABLE(S)
+
+It also adds a new property: **Wandering** (@TODO: Inline Icon). If a tenant shows this icon,
+
+* You can attract it by satisfying just _one_ of its wishes.
+* Every Attract Phase, however, you must check this tenant again. If a player connected to you satisfies _all its wishes_, it _leaves_ and goes to them.
+
+{{% /rules-block %}}
+
+{{% rules-block id="livingTogether" heading="Living Together" %}}
+
+This expansion makes it possible (or simply more fun and challenging) to play the game completely _cooperatively_.
+
+You'll be working together to achieve goals for your entire skyscraper, for which you're rewarded with unique tiles and objects to place in your map. But you'll also be threatened, such as by quality inspection, and you must collectively pass these checks.
+
+During **setup**, create two decks: **Goal Dominoes** and **Threat Dominoes**. Remove any dominoes from a set that you're _not_ using this game.
+
+Keep three faceup Goal Dominoes at all times, and one faceup Threat domino (drawn from these decks). 
+
+Also deal every player their own **Goal Domino**. It is not allowed to communicate your personal (secret) goal in any way. Your actions and choices will have to reveal it to the others.
+
+During **gameplay**,
+
+* Whenever a goal is achieved, give that domino to a player. They now place it in their map and get its reward. (This domino is considered as having "all floor types" and "no walls", allowing you to place it anywhere.)
+* Whenever a threat is not defended, place the card faceup on the table. If it has a penalty, it triggers now. **If you have 3 failed threats, you lose immediately.**
+
+During the Attract Phase, check whether goals are achieved or threats not defended. Unachieved goals simply stay where they are. Defended threats are discarded and replaced by a new one from the deck.
+
+Unless stated otherwise, goals refer to a _single floor_. (If it's your secret personal goal, then it obviously refers to _your personal map_ only.)
+
+When the **game is over**, you win if all personal goals have been reached. Your score is the combined score of all the individual maps---higher is better!
+
+{{% /rules-block %}}
 
 {{% /rules-block %}}
 

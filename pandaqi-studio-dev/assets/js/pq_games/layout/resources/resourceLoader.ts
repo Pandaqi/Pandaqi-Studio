@@ -20,6 +20,7 @@ interface ResourceLoadParams
     useAbsolutePath?: boolean // default is false = relative path, potentially from base
     inkfriendly?: boolean, // default = false
     loadIf?: string[], // only if these specific paths in config evaluate to TRUE, load this asset
+    loadInSequence?: boolean, // parallel loading is default, but that can break on Chrome + old system + lots of stuff to load
     disableCaching?: boolean
 
     numThumbnails?: number,
@@ -102,11 +103,15 @@ export default class ResourceLoader
         const promises = [];
         for(const [id, params] of Object.entries(this.resourcesQueued))
         {
-            promises.push(this.loadResource(id, params));
+            if(params.loadInSequence) {
+                await this.loadResource(id, params);
+            } else {
+                promises.push(this.loadResource(id, params));                
+            }
         }
 
         this.resourcesQueued = {};
-        await Promise.all(promises);
+        if(promises.length > 0) { await Promise.all(promises); }
     }
 
     getExtension(path:string) : string

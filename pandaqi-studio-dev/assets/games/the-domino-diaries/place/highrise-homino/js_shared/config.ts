@@ -7,9 +7,9 @@ const CONFIG:any =
 {
     debug:
     {
-        omitFile: true, // @DEBUGGING (should be false)
-        singleDrawPerType: true, // @DEBUGGING (should be false)
-        onlyGenerate: true, // @DEBUGGING (should be false)
+        omitFile: false, // @DEBUGGING (should be false)
+        singleDrawPerType: false, // @DEBUGGING (should be false)
+        onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
     configKey: "highriseHominoConfig",
@@ -33,6 +33,7 @@ const CONFIG:any =
         walletWatchers: false,
         usefulUtilities: false,
         happyHousing: false,
+        livingTogether: false,
     },
 
     // assets
@@ -62,7 +63,7 @@ const CONFIG:any =
         {
             key: "kanit",
             path: "fonts/Kanit-BlackItalic.woff2",
-            textConfig: new TextConfig({ style: TextStyle.ITALIC })
+            textConfig: new TextConfig({ style: TextStyle.ITALIC, weight: TextWeight.BOLD })
         },
 
         grolear:
@@ -73,28 +74,37 @@ const CONFIG:any =
         wishes:
         {
             path: "wishes.webp",
-            frames: new Point(4,2),
+            frames: new Point(4,4),
             disableCaching: true
+        },
+
+        mission_tiles:
+        {
+            path: "mission_tiles.webp",
+            frames: new Point(2,1),
+            disableCaching: true,
         },
 
         objects:
         {
             path: "objects.webp",
-            frames: new Point(4,4),
-            disableCaching: true
+            frames: new Point(4,5),
+            disableCaching: true,
+            loadInSequence: true
         },
 
         tenants:
         {
             path: "tenants.webp",
             frames: new Point(4,4),
-            disableCaching: true
+            disableCaching: true,
+            loadInSequence: true
         },
 
         misc:
         {
             path: "misc.webp",
-            frames: new Point(4,2),
+            frames: new Point(4,4),
             disableCaching: true
         },
     },
@@ -108,48 +118,50 @@ const CONFIG:any =
     {
         numDominoes:
         {
-            base: 40,
-            roomService: 20,
-            walletWatchers: 20,
-            usefulUtilities: 20,
-            happyHousing: 20,
+            base: 48,
+            roomService: 26,
+            walletWatchers: 26,
+            usefulUtilities: 26,
+            happyHousing: 26,
+            livingTogether: 0,
         },
 
         numTenants:
         {
-            base: 20,
-            roomService: 10,
-            walletWatchers: 10,
-            usefulUtilities: 10,
-            happyHousing: 10
+            base: 24,
+            roomService: 18,
+            walletWatchers: 18,
+            usefulUtilities: 18,
+            happyHousing: 18,
+            livingTogether: 0,
         },
 
-        emptyTileProb: 7.5,
+        emptyTileProb: 10.0,
 
         doorPercentage: 0.25,
+        windowPercentage: 0.125,
         wallDist:
         {
-            0: 0.1,
-            1: 0.25,
+            0: 0.05,
+            1: 0.3,
             2: 0.35,
-            3: 0.25,
-            4: 0.05
+            3: 0.3,
         },
         
         floorDist:
         {
-            [FloorType.WOOD]: 0.6,
-            [FloorType.CONCRETE]: 0.25,
-            [FloorType.CARPET]: 0.15
+            [FloorType.WOOD]: 0.45,
+            [FloorType.CONCRETE]: 0.325,
+            [FloorType.CARPET]: 0.225
         },
 
-        wishPercentageInverted: 0.2,
+        wishPercentageInverted: 0.33,
+        maxWishNumber: 9,
         wishNumDist:
         {
             1: 0.25,
-            2: 0.35,
-            3: 0.25,
-            4: 0.15
+            2: 0.4,
+            3: 0.35,
         },
 
         score:
@@ -179,9 +191,11 @@ const CONFIG:any =
 
         setText:
         {
-            size: new CVal(0.03, "sizeUnit"),
+            size: new CVal(0.0575, "sizeUnit"),
             color: "#111111",
-            alpha: 0.5
+            strokeColor: "#EEEEEE",
+            strokeWidth: new CVal(0.2, "dominoes.setText.size"),
+            alpha: 0.85
         },
 
         walls:
@@ -193,7 +207,7 @@ const CONFIG:any =
         {
             main:
             {
-                dims: new CVal(new Point(0.75), "sizeUnit")
+                dims: new CVal(new Point(0.7), "sizeUnit")
             }
         },
 
@@ -201,13 +215,13 @@ const CONFIG:any =
         {
             main:
             {
-                dims: new CVal(new Point(0.5), "sizeUnit")
+                dims: new CVal(new Point(0.625), "sizeUnit")
             },
 
             score:
             {
-                dims: new CVal(new Point(0.2), "sizeUnit"),
-                fontSize: new CVal(0.08, "sizeUnit"),
+                dims: new CVal(new Point(0.4), "sizeUnit"),
+                fontSize: new CVal(0.16, "sizeUnit"),
                 textColor: "#111111"
             },
 
@@ -215,30 +229,39 @@ const CONFIG:any =
 
             props:
             {
-                dims: new CVal(new Point(0.15), "sizeUnit"),
+                dims: new CVal(new Point(0.3), "sizeUnit"),
                 xPositions:
                 {
-                    1: [0.25],
-                    2: [0.25, 0.75],
-                    3: [0.15, 0.325, 0.75],
-                    4: [0.15, 0.325, 0.675, 0.85]
+                    1: [0.175],
+                    2: [0.175, 0.825],
                 }
             },
 
             wishes:
             {
-                dims: new CVal(new Point(0.15), "sizeUnit"),
+                dims: new CVal(new Point(0.3), "sizeUnit"),
                 number:
                 {
-                    fontSize: new CVal(0.025, "sizeUnit"),
-                    pos: new CVal(new Point(-0.2, -0.2), "sizeUnit"),
+                    fontSize: new CVal(0.165, "sizeUnit"),
+                    pos: new CVal(new Point(0, -0.4), "dominoes.tenant.wishes.dims"),
                     textColor: "#FFFFFF",
                     strokeColor: "#111111",
-                    strokeWidth: new CVal(0.1, "dominoes.wishes.number.fontSize")
+                    strokeWidth: new CVal(0.1, "dominoes.tenant.wishes.number.fontSize")
                 }
             },
         }
     },
+
+    missions:
+    {
+        fontSize: new CVal(0.0775, "sizeUnit"),
+        textBoxDims: new CVal(new Point(0.85, 0.3), "size"),
+        taskTextPos: new CVal(new Point(0.0725, 0.3), "size"),
+        rewardTextPos: new CVal(new Point(0.0725, 0.685), "size"),
+        fontSizeSet: new CVal(0.0585, "sizeUnit"),
+        setTextPos: new CVal(new Point(0.5, 0.95), "size"),
+        setTextAlpha: 0.5,
+    }
 }
 
 export default CONFIG

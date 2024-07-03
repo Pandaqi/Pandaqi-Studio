@@ -38,10 +38,54 @@ export default class DominoSide
         if(this.type == ItemType.OBJECT) { return OBJECTS[this.key]; }
         return TENANTS[this.key];
     }
+
+    getTypeString()
+    {
+        if(this.type == ItemType.OBJECT) { return "object"; }
+        if(this.hasTenant()) { return "tenant"; }
+        return "misc";
+    }
     
+    getResourceKey()
+    {
+        return this.getTypeString() + "s";
+    }
+
     setWishes(w:TenantWish[])
     {
-        this.wishes = w;
+        this.wishes = w.slice();
+    }
+
+    cleanUpWishes()
+    {
+        // sort the wishes 
+        // (for consistent order of display, which is clean)
+        // but also to make the next bit faster (we can just look ahead and once the type changes we know there are no more duplicates)
+        this.wishes.sort((a,b) => a.getKeyID().localeCompare(b.getKeyID()));
+
+        // @EXCEPTION: if we happen to add multiple wishes of the same type, just combine them into one (raising its number to get functionally identical list)
+        for(let i = 0; i < this.wishes.length; i++)
+        {
+            const curWish = this.wishes[i];
+            let nextWish = this.wishes[i+1];
+            while(nextWish && curWish.getKeyID() == nextWish.getKeyID())
+            {
+                curWish.changeNumber(nextWish.num);
+                curWish.invert = (curWish.invert || nextWish.invert);
+                this.wishes.splice(i+1, 1);
+                nextWish = this.wishes[i+1];
+            }
+        }
+
+        // @EXCEPTION: don't want ALL wishes to be negative, as that is often uninteresting/too easy
+        let allWishesInverted = true;
+        for(const wish of this.wishes)
+        {
+            if(!wish.invert) { allWishesInverted = false; break; }
+        }
+        if(allWishesInverted) { this.wishes[0].invert = false; }
+
+        
     }
 
     setScore(s:number)
@@ -70,6 +114,11 @@ export default class DominoSide
     isDoorAt(idx:number)
     {
         return this.getWallAt(idx) == "door";
+    }
+
+    isWindowAt(idx:number)
+    {
+        return this.getWallAt(idx) == "window";
     }
 
     removeWallAt(idx:number)
@@ -116,7 +165,7 @@ export default class DominoSide
         return false;
     }
 
-    setWalls(num:number, door:boolean)
+    setWalls(num:number, door:boolean, window:boolean)
     {
         const arr = [];
         for(let i = 0; i < 4; i++)
@@ -124,12 +173,11 @@ export default class DominoSide
             let val = "";
             if(i < num) { val = "wall"; }
             if(door && i <= 0) { val = "door"; }
+            if(window && i >= 3) { val = "window"; }
             arr.push(val);
         }
         shuffle(arr);
         this.walls = arr;
-
-        console.log(arr);
     }
 
     draw(vis:MaterialVisualizer) : ResourceGroup
@@ -166,7 +214,8 @@ export default class DominoSide
                 frame: MISC.tenant_bg.frame,
                 dims: new Point(vis.sizeUnit),
                 pivot: Point.CENTER,
-                rotation: Math.floor(Math.random() * 4) * 0.5 * Math.PI
+                rotation: Math.floor(Math.random() * 4) * 0.5 * Math.PI,
+                alpha: Math.random()*0.35 + 0.35
             });
             group.add(resBG, opBG);
         }
@@ -179,12 +228,14 @@ export default class DominoSide
         const data = this.getTypeData();
 
         // the main, centered, big illustration of the tile
-        const resourceKey = this.type + "s";
+        const resourceKey = this.getResourceKey();
         const resMain = vis.getResource(resourceKey);
-        const dims = vis.get("dominoes." + this.type + ".main.dims");
+        const dims = vis.get("dominoes." + this.getTypeString()  + ".main.dims");
+        const effects = [new DropShadowEffect({ color: "#FFFFFF", blurRadius: 0.0375*dims.x }), vis.inkFriendlyEffect].flat();
         const opMain = new LayoutOperation({
             frame: data.frame,
             dims: dims,
+            effects: effects,
             pivot: Point.CENTER
         })
         group.add(resMain, opMain);
@@ -203,12 +254,16 @@ export default class DominoSide
         // fixed tenant properties (only score is unique, depends on wishes)
         if(this.type == ItemType.TENANTPROP)
         {
+            const tenantPropsDims = vis.get("dominoes.tenant.props.dims");
+            const effects = [new DropShadowEffect({ color: "#000000", blurRadius: 0.025*tenantPropsDims.x }), vis.inkFriendlyEffect].flat();
+
             // a big centered star + tenant score
             const scoreDims = vis.get("dominoes.tenant.score.dims");
             const opStar = new LayoutOperation({
                 translate: new Point(0, tenantDetailsY),
                 dims: scoreDims,
                 frame: MISC.score_star.frame,
+                effects: effects,
                 pivot: Point.CENTER
             });
             group.add(resMisc, opStar);
@@ -221,7 +276,7 @@ export default class DominoSide
     
             const resText = new ResourceText({ text: this.score.toString(), textConfig });
             const opText = new LayoutOperation({
-                translate: opStar.translate, 
+                translate: new Point(0, tenantDetailsY), 
                 pivot: Point.CENTER,
                 fill: vis.get("dominoes.tenant.score.textColor"),
                 dims: scoreDims
@@ -230,7 +285,8 @@ export default class DominoSide
 
             // the properties are _around_ it (alternating left/right)
             const propsEnabled = [];
-            for(const [key,enabled] of Object.entries(this.getTypeData().props))
+            const propsDict = this.getTypeData().props ?? {};
+            for(const [key,enabled] of Object.entries(propsDict))
             {
                 if(!enabled) { continue; }
                 propsEnabled.push(key);
@@ -239,16 +295,16 @@ export default class DominoSide
 
             if(numPropsToShow > 0)
             {
-
                 propsEnabled.sort((a,b) => a.localeCompare(b));
 
-                const positions = vis.get("dominoes.tenant.props.xPosititions")[numPropsToShow];
+                const positions = CONFIG.dominoes.tenant.props.xPositions[numPropsToShow];
                 for(let i = 0; i < numPropsToShow; i++)
                 {
                     const opProp = new LayoutOperation({
-                        translate: new Point(positions[i] * vis.size.x, tenantDetailsY),
-                        dims: vis.get("dominoes.tenant.props.dims"),
-                        frame: MISC["property_" + propsEnabled[i]],
+                        translate: new Point((positions[i] - 0.5) * vis.size.x, tenantDetailsY),
+                        dims: tenantPropsDims,
+                        frame: MISC["property_" + propsEnabled[i]].frame,
+                        effects: effects,
                         pivot: Point.CENTER
                     })
                     group.add(resMisc, opProp)
@@ -260,7 +316,7 @@ export default class DominoSide
         if(this.type == ItemType.TENANTWISH)
         {
             const numWishes = this.wishes.length;
-            const anchor = new Point(vis.center.x, tenantDetailsY);
+            const anchor = new Point(0, tenantDetailsY);
             const wishDims = vis.get("dominoes.tenant.wishes.dims");
             const positions = getPositionsCenteredAround({ pos: anchor, dims: wishDims, num: numWishes });
 
@@ -300,7 +356,7 @@ export default class DominoSide
         }
     }
 
-    drawWalls(vis:MaterialVisualizer)
+    drawWalls(vis:MaterialVisualizer) : ResourceGroup
     {
         const groupFences = new ResourceGroup();
         if(!this.hasWalls()) { return groupFences; }
@@ -315,7 +371,7 @@ export default class DominoSide
             const elem = this.getWallAt(i);
             if(elem == "") { continue; }
 
-            let frame = (elem == "door") ? MISC.wall_door.frame : MISC.wall.frame;
+            const frame = MISC["wall_" + elem].frame;
 
             const offset = FENCE_OFFSETS[i].clone().scale(0.5 * partSize.x);
             const op = new LayoutOperation({

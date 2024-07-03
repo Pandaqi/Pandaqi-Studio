@@ -13,10 +13,7 @@ downloadLink: "https://drive.google.com/drive/folders/196ze4dYzEq7uW4gFh032UkQB3
 
 color: "orange"
 
-date: 2025-01-12
-
-categories: ["boardgame"]
-tags: ["creative", "guessing", "word"]
+date: 2025-06-26
 
 multiplayermode: ["cooperative", "competitive"]
 language: EN

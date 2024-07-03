@@ -1,15 +1,13 @@
-import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
-import CONFIG from "../js_shared/config";
-import { COLORS, FloorType, GeneralData, MISC, OBJECTS, TENANTS, UtilityType, WISHES, WishType } from "../js_shared/dict";
-import Point from "js/pq_games/tools/geometry/point";
-import fromArray from "js/pq_games/tools/random/fromArray";
-import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
+import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import TextConfig from "js/pq_games/layout/text/textConfig";
+import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
+import TextConfig from "js/pq_games/layout/text/textConfig";
 import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
-import Circle from "js/pq_games/tools/geometry/circle";
-import ResourceShape from "js/pq_games/layout/resources/resourceShape";
+import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
+import Point from "js/pq_games/tools/geometry/point";
+import CONFIG from "../js_shared/config";
+import { GeneralData, MISC, OBJECTS, TENANTS, WISHES, WishType } from "../js_shared/dict";
 
 export default class TenantWish
 {
@@ -33,6 +31,13 @@ export default class TenantWish
         else if(this.type == WishType.SPECIAL) { return WISHES[this.key]; }
     }
 
+    getKeyID()
+    {
+        let str = this.key;
+        if(this.subKey) { return str + "_" + this.subKey; }
+        return str;
+    }
+
     getScore()
     {
         const rawVal = 1.0 / (this.getData().prob ?? 1.0);
@@ -52,19 +57,16 @@ export default class TenantWish
         return this.getData().subKey;
     }
 
+    changeNumber(n:number)
+    {
+        this.num = Math.max(Math.min(this.num + n, CONFIG.generation.maxWishNumber), 1);
+    }
+
     draw(vis:MaterialVisualizer, dims:Point) : ResourceGroup
     {
         const group = new ResourceGroup();
 
         let resourceKey = "", frame = -1;
-
-        // a background circle for readability
-        // (baked-in icons already have this circle; this is for the dynamic icons that would otherwise just be a floating icon)
-        // (it also neatly clips anything that is too square, such as the floor type icons)
-        const circ = new Circle({ radius: Math.min(dims.x, dims.y) });
-        const bgColor = COLORS[this.getData().color].light ?? "#EEEEEE";
-        const circOp = new LayoutOperation({ fill: bgColor });
-        group.add(new ResourceShape(circ), circOp);
 
         // decide the main icon
         if(this.type == WishType.OBJECT)
@@ -91,19 +93,26 @@ export default class TenantWish
                 frame = MISC["utility_" + this.subKey].frame;
             }
 
-            if(this.key == "tenant")
+            if(this.key == "tenants")
             {
                 resourceKey = "tenants";
                 frame = TENANTS[this.subKey].frame;
             }
+
+            if(this.key == "num_windows")
+            {
+                resourceKey = "misc";
+                frame = MISC.wall_window.frame;
+            }
         }
 
         const resMain = vis.getResource(resourceKey);
+        const eff = new DropShadowEffect({ color: "#000000", blurRadius: 0.025*dims.x });
         const opMain = new LayoutOperation({
             dims: dims,
             pivot: Point.CENTER,
+            effects: [eff, vis.inkFriendlyEffect].flat(),
             frame: frame,
-            clip: circ
         });
         group.add(resMain, opMain);
 
@@ -112,17 +121,17 @@ export default class TenantWish
         {
             const textConfig = new TextConfig({
                 font: vis.get("fonts.heading"),
-                size: vis.get("dominoes.wishes.number.fontSize"),
+                size: vis.get("dominoes.tenant.wishes.number.fontSize"),
             }).alignCenter();
     
             const resText = new ResourceText({ text: this.num.toString(), textConfig });
             const opText = new LayoutOperation({
-                translate: vis.get("dominoes.wishes.number.pos"), 
+                translate: vis.get("dominoes.tenant.wishes.number.pos"), 
                 dims: dims,
                 pivot: Point.CENTER,
-                fill: vis.get("dominoes.wishes.number.textColor"),
-                stroke: vis.get("dominoes.wishes.number.strokeColor"),
-                strokeWidth: vis.get("dominoes.wishes.number.strokeWidth"),
+                fill: vis.get("dominoes.tenant.wishes.number.textColor"),
+                stroke: vis.get("dominoes.tenant.wishes.number.strokeColor"),
+                strokeWidth: vis.get("dominoes.tenant.wishes.number.strokeWidth"),
                 strokeAlign: StrokeAlign.OUTSIDE
             });
             group.add(resText, opText);

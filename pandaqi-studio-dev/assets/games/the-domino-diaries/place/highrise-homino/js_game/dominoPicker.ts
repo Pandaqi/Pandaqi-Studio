@@ -1,6 +1,6 @@
 import shuffle from "js/pq_games/tools/random/shuffle";
 import CONFIG from "../js_shared/config";
-import { DominoType, FloorType, ItemType, OBJECTS, TENANTS, TenantProperties, UtilityType, WISHES, WishType } from "../js_shared/dict";
+import { DominoType, FloorType, ItemType, MISSIONS, OBJECTS, TENANTS, TenantProperties, UtilityType, WISHES, WishType } from "../js_shared/dict";
 import Domino from "./domino";
 import DominoSide from "./dominoSide";
 import TenantWish from "./tenantWish";
@@ -51,6 +51,8 @@ export default class DominoPicker
     generateRegularDominoes(set:string)
     {
         const numDominoes = CONFIG.generation.numDominoes[set] ?? CONFIG.generation.numDominoes.base;
+        if(numDominoes <= 0) { return; }
+
         const numSquares = numDominoes * 2;
 
         // pre-determine all the items ( + the empty ones WITHOUT items)
@@ -99,16 +101,19 @@ export default class DominoPicker
         }
         shuffle(numWallsOptions);
 
-        console.log(numWallsOptions.slice());
-
-        // pre-determine the doors
+        // pre-determine the doors + windows
         const doorOptions = [];
+        const windowOptions = [];
         const numDoors = Math.ceil(CONFIG.generation.doorPercentage * numSquaresActual);
+        const addWindows = (set != "base");
+        const numWindows = addWindows ? Math.ceil(CONFIG.generation.windowPercentage * numSquaresActual) : 0;
         for(let i = 0; i < numSquaresActual; i++)
         {
             doorOptions.push(i < numDoors);
+            windowOptions.push(i < numWindows);
         }
         shuffle(doorOptions);
+        shuffle(windowOptions);
 
         // pre-determine floor types
         const floorOptions = [];
@@ -126,11 +131,9 @@ export default class DominoPicker
         // assign metadata (walls, doors, floorOptions)
         for(const option of options)
         {
-            option.setWalls(numWallsOptions.pop(), doorOptions.pop());
+            option.setWalls(numWallsOptions.pop(), doorOptions.pop(), windowOptions.pop());
             option.setFloor(floorOptions.pop());
         }
-
-        console.log(numWallsOptions.slice());
 
         // randomly assign the options to dominoes
         for(let i = 0; i < 2 * numDominoes; i++)
@@ -147,12 +150,17 @@ export default class DominoPicker
             {
                 if(!sideA.hasWalls() && !sideB.hasWalls())
                 {
-                    sideA.setWalls(1, false);
+                    sideA.setWalls(1, false, false);
                 }
 
                 sideA.rotateWallsUntilClosedAt(1);
                 sideB.rotateWallsUntilClosedAt(3);
             }
+
+            // no window allowed at middle
+            // (there can only be 1 window at most to any tile, so just rotating away is fine as a solution)
+            if(sideA.isWindowAt(1)) { sideA.rotateWalls(1); }
+            if(sideB.isWindowAt(3)) { sideB.rotateWalls(1); }
 
             // no double wall in middle; if door and no door, prefer the door
             const cleanUpMiddle = (sideA.isClosedAt(1) && sideB.isClosedAt(3));
@@ -172,6 +180,8 @@ export default class DominoPicker
     generateTenants(set:string)
     {
         const numTenants = CONFIG.generation.numTenants[set] ?? CONFIG.generation.numTenants.base;
+        if(numTenants <= 0) { return; }
+
         const availableTenants = this.filterBySet(TENANTS, set);
 
         // determine exactly how many wishes we need
@@ -233,6 +243,9 @@ export default class DominoPicker
         }
         shuffle(wishOptions);
 
+        const wishOptionsBackup = wishOptions.slice();
+        shuffle(wishOptionsBackup);
+
         // create list of the tenant illustrations (the actual persons from the dict) to use
         let totalProbTenants = 0;
         for(const option of availableTenants)
@@ -262,22 +275,20 @@ export default class DominoPicker
             const numTenantsToCreate = Math.ceil(perc*numTenants);
             for(let i = 0; i < numTenantsToCreate; i++)
             {
-                const tenantKey = tenantKeys.pop();
+                const tenantKey = tenantKeys.pop() ?? fromArray(availableTenants);
                 const tenantData = TENANTS[tenantKey];
-                const wishes = wishOptions.splice(0, numWishesInt);
+                let wishes = wishOptions.splice(0, numWishesInt);
+
+                // because exact numbers are not certain, we might exceed the wishes list and need to draw from backup
+                if(wishes.length <= 0)
+                {
+                    wishes = wishOptionsBackup.splice(Math.floor(Math.random() * (wishOptionsBackup.length - numWishesInt)), numWishesInt);
+                }
 
                 const d = new Domino(DominoType.TENANT);
                 const dsWish = new DominoSide(ItemType.TENANTWISH, tenantKey);
-
-                // @EXCEPTION: don't want ALL wishes to be negative, as that is often uninteresting/too easy
-                let allWishesInverted = true;
-                for(const wish of wishes)
-                {
-                    if(!wish.invert) { allWishesInverted = false; break; }
-                }
-                if(allWishesInverted) { wishes[0].invert = false; }
-
                 dsWish.setWishes(wishes);
+                dsWish.cleanUpWishes();
 
                 const dsProp = new DominoSide(ItemType.TENANTPROP, tenantKey);
 
@@ -310,6 +321,13 @@ export default class DominoPicker
 
     generateMissions(set:string)
     {
-        // @TODO: might never do
+        if(set != "livingTogether") { return; }
+
+        for(const [key,data] of Object.entries(MISSIONS))
+        {
+            const d = new Domino(DominoType.MISSION);
+            d.setMission(data.type, key);
+            this.dominoes.push(d);
+        }
     }
 }

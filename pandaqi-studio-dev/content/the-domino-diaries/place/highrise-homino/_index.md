@@ -13,10 +13,7 @@ downloadLink: "https://drive.google.com/drive/folders/13k6JEZKAqR5WlvXLPevKTAaEK
 
 color: "blue"
 
-date: 2025-01-12
-
-categories: ["boardgame"]
-tags: ["creative", "guessing", "word"]
+date: 2025-06-26
 
 multiplayermode: ["cooperative", "competitive"]
 language: EN
@@ -40,6 +37,7 @@ devlog: "/blog/boardgames/the-domino-diaries/highrise-homino/"
     {{< setting-checkbox id="setting-sets-walletWatchers" text="Wallet Watchers?" >}}
     {{< setting-checkbox id="setting-sets-usefulUtilities" text="Useful Utilities?" >}}
     {{< setting-checkbox id="setting-sets-happyHousing" text="Happy Housing?" >}}
+    {{< setting-checkbox id="setting-sets-livingTogether" text="Living Together?" remark="Extra material that makes the game more fun and engaging when played purely cooperatively" >}}
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 

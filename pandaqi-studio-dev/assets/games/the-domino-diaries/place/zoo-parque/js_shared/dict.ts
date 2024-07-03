@@ -43,7 +43,7 @@ enum AnimalType
     CAMEL = "camel",
     KANGAROO = "kangaroo",
     REDPANDA = "redpanda",
-    HIPPO = "hippo",
+    OTTER = "otter", // sea otter
     DINO = "dino"
 }
 
@@ -80,6 +80,8 @@ interface AnimalDetailData
 // => The "wildlife" expansion focuses on Water and Desert
 // => The "utilities" animals all support TerrainType.WILDCARD (though this is not DISPLAYED on their passport, of course)
 
+// OLD FUNFACT + POWER for HIPPO: funFact: "Hippos produce their own sunblock, can hold their breath for 5 minutes, and know friend from foe by smelling poop.", power: "<b>Permanent</b>: <b>can't</b> be placed adjacent to an Object or Stall."
+
 const ANIMALS:Record<AnimalType, AnimalDetailData> =
 {
     [AnimalType.LION]: { frame: 0, value: 1, strong: true, food: 2, diet: AnimalDiet.CARNI, social: AnimalSocial.HERD, terrains: [TerrainType.DESERT, TerrainType.GRASS], sets: ["base", "strong"], funFact: "Lions are the only cats to live in groups. Which is surprising, because their roar is loud enough to be heard 8 km away.", power: "Any adjacent animals that are not Lions are <b>removed</b>." },
@@ -90,13 +92,13 @@ const ANIMALS:Record<AnimalType, AnimalDetailData> =
     [AnimalType.GIRAFFE]: { frame: 5, value: 1, food: 1, diet: AnimalDiet.HERBI, social: AnimalSocial.HERD, terrains: [TerrainType.GRASS, TerrainType.DESERT], sets: ["base","wildlife"], funFact: "A giraffe's patches are like fingerprints and help recognize each other. They also sleep standing up.", power: "<b>When Played</b>: <b>Move</b> one domino that's not overlapped." },
     [AnimalType.ELEPHANT]: { frame: 6, value: 1, strong: true, food: 3, diet: AnimalDiet.HERBI, social: AnimalSocial.HERD, terrains: [TerrainType.GRASS, TerrainType.DESERT], sets: ["base", "strong"], funFact: "Elephants are the largest living land animal and talk through vibrations. Their trunks contain thousands of muscles.", power: "<b>Rotate</b> one domino that has at least one <b>strong fence</b> on it." },
     [AnimalType.BEAR]: { frame: 7, value: 1, food: 2, diet: AnimalDiet.CARNI, social: AnimalSocial.SOLITARY, terrains: [TerrainType.JUNGLE], sets: ["base", "utilities", TerrainType.WILDCARD], funFact: "Brown bears might look like they are slow or always hibernating. But they can actually run fast, swim, and even climb trees.", power: "You may play another domino with <b>water</b> or a <b>tree</b> for free (if you can)." },
-    [AnimalType.CROCODILE]: { frame: 8, value: 1, food: 2, diet: AnimalDiet.CARNI, social: AnimalSocial.SOLITARY, terrains: [TerrainType.DESERT, TerrainType.WATER], sets: ["base", "wildlife"], funFact: "Crocodiles can regenerate their teeth. They're one of the most ancient species that is still alive.", power: "<b>Remove</b> one domino." },
+    [AnimalType.CROCODILE]: { frame: 8, value: 1, strong: true, food: 2, diet: AnimalDiet.CARNI, social: AnimalSocial.SOLITARY, terrains: [TerrainType.DESERT, TerrainType.WATER], sets: ["base", "strong"], funFact: "Crocodiles can regenerate their teeth. They're one of the most ancient species that is still alive.", power: "<b>Remove</b> one domino." },
     [AnimalType.OKAPI]: { frame: 9, value: 1, food: 1, diet: AnimalDiet.HERBI, social: AnimalSocial.HERD, terrains: [TerrainType.GRASS, TerrainType.JUNGLE, TerrainType.TUNDRA, TerrainType.DESERT, TerrainType.WILDCARD], sets: ["base", "utilities"], funFact: "Okapis look like deer, but are family of the Giraffe. They talk in a secret language humans can't hear.", power: "<b>Permanent</b>: Okapi must always be placed adjacent to each other (if possible)." },
     [AnimalType.LEMUR]: { frame: 10, value: 1, food: 1, diet: AnimalDiet.HERBI, social: AnimalSocial.HERD, terrains: [TerrainType.JUNGLE, TerrainType.WILDCARD], sets: ["utilities", "base"], funFact: "Lemurs love sunbathing and doing yoga. When traveling, they hold up their tails like a flag for others to follow.", power: "<b>Permanent</b>: any domino that touches or overlaps a Lemur must match Terrain or Animal (if possible)." },
     [AnimalType.CAMEL]: { frame: 11, value: 1, food: 1, diet: AnimalDiet.HERBI, social: AnimalSocial.HERD, terrains: [TerrainType.DESERT], sets: ["wildlife"], funFact: "Camels are born without their humps. They store water in their blood and their milk is incredibly nutritious.", power: "<b>Permanent:</b> <b>can't</b> be placed adjacent to Water or an animal that prefers Water." },
     [AnimalType.KANGAROO]: { frame: 12, value: 1, strong: true, food: 2, diet: AnimalDiet.HERBI, social: AnimalSocial.HERD, terrains: [TerrainType.GRASS, TerrainType.DESERT], sets: ["strong"], funFact: "Kangaroos are left-handed and a group is called a Mob. A fitting name, considering they drown their enemies.", power: "All players give 3 tiles to the player on their left or right (your choice)." },
     [AnimalType.REDPANDA]: { frame: 13, value: 1, food: 1, diet: AnimalDiet.CARNI, social: AnimalSocial.SOLITARY, terrains: [TerrainType.GRASS, TerrainType.JUNGLE, TerrainType.WILDCARD], sets: ["utilities", "base"], funFact: "Red pandas were the first panda to be discovered. They mainly eat bamboo and sleep 2/3 of the day.", power: "<b>When Scoring</b>: only scores if their exhibit has an odd size ( = number of squares)." },
-    [AnimalType.HIPPO]: { frame: 14, value: 3, strong: true, food: 1, diet: AnimalDiet.HERBI, social: AnimalSocial.HERD, terrains: [TerrainType.WATER, TerrainType.JUNGLE], sets: ["wildlife", "strong"], funFact: "Hippos produce their own sunblock, can hold their breath for 5 minutes, and know friend from foe by smelling poop.", power: "<b>Permanent</b>: <b>can't</b> be placed adjacent to an Object or Stall." },
+    [AnimalType.OTTER]: { frame: 14, value: 2, food: 1, diet: AnimalDiet.CARNI, social: AnimalSocial.HERD, terrains: [TerrainType.WATER, TerrainType.TUNDRA, TerrainType.JUNGLE], sets: ["wildlife"], funFact: "Sea otters have the thickest fur of any animal and are called a keystone species: they are critical to any ecosystem they're in.", power: "<b>Permanent</b>: <b>can't</b> be placed adjacent to an Object or Stall." },
     [AnimalType.DINO]: { frame: 15, value: 1, strong: true, food: 3, diet: AnimalDiet.CARNI, social: AnimalSocial.HERD, terrains: [TerrainType.GRASS, TerrainType.TUNDRA, TerrainType.DESERT, TerrainType.WILDCARD], sets: ["utilities"], extinct: true, funFact: "Dinosaurs were vastly more intelligent and social than many believe. To be expected; they had 100 million years to figure it out!", power: "Execute the power of any other animal currently on the map." }
 }
 
