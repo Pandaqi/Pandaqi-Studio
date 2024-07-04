@@ -11,8 +11,8 @@ const CONFIG:any =
         onlyGenerate: true, // @DEBUGGING (should be false)
     },
 
-    configKey: "zooParqueConfig",
-    fileName: "[Material] Zoo Parque",
+    configKey: "dominoDynastyConfig",
+    fileName: "[Material] Domino Dynasty",
 
     // set through user config on page
     inkFriendly: false,
@@ -21,60 +21,74 @@ const CONFIG:any =
 
     fonts:
     {
-        heading: "ceviche",
-        body: "noticia",
+        heading: "dumbledor",
+        body: "caslon",
     },
 
     sets:
     {
-        pawns: true,
+        roles: true,
         base: true,
-        detail: true,
-        strong: false,
-        wildlife: false,
-        utilities: false,
+        proximity: false,
+        direction: false,
+        machine: false,
+        goblin: false
     },
 
     // assets
-    assetsBase: "/the-domino-diaries/place/zoo-parque/assets/",
+    assetsBase: "/the-domino-diaries/place/domino-dynasty/assets/",
     assets:
     {
-        noticia:
+        caslon:
         {
-            path: "fonts/NoticiaText-Regular.woff2",
+            path: "fonts/LibreCaslonText-Regular.woff2",
         },
 
-        noticia_bold:
+        caslon_bold:
         {
             key: "besley",
-            path: "fonts/NoticiaText-Bold.woff2",
+            path: "fonts/LibreCaslonText-Bold.woff2",
             textConfig: new TextConfig({ weight: TextWeight.BOLD })
         },
 
-        noticia_italic:
+        caslon_italic:
         {
             key: "besley",
-            path: "fonts/NoticiaText-Italic.woff2",
+            path: "fonts/LibreCaslonText-Italic.woff2",
             textConfig: new TextConfig({ style: TextStyle.ITALIC })
         },
 
-        ceviche:
+        dumbledor:
         {
-            path: "fonts/CevicheOne-Regular.woff2",
+            path: "fonts/Dumbledor1.woff2",
         },
 
-        pawns:
+        // contains both background terrains and all path variations (normal + directed)
+        terrains:
         {
-            path: "pawns.webp",
+            path: "terrains.webp",
+            frames: new Point(5,3)
+        },
+
+        icons:
+        {
+            path: "icons.webp",
+            frames: new Point(6,4),
+            disableCaching: true
+        },
+
+        // contains the backgrounds for ROLE + MISSION cards
+        templates:
+        {
+            path: "templates.webp",
             frames: new Point(6,1),
-            loadIf: ["sets.pawns"],
             disableCaching: true
         },
 
         misc:
         {
             path: "misc.webp",
-            frames: new Point(4,1),
+            frames: new Point(4,4),
             disableCaching: true
         },
     },
@@ -86,30 +100,47 @@ const CONFIG:any =
 
     generation:
     {
-        numUniquePawns: 5,
-        numPawnsPerPlayer: 4,
+        numStartingDominoesPerPlayer: 2,
         numDominoes:
         {
-            base: 50,
+            base: 44,
+            proximity: 22,
+            direction: 16,
+            machine: 22,
+            goblin: 16,
         },
 
-        percAllWithoutTerrain: 0.3,
-        percHalfWithoutTerrain: 0.2,
-        percAllWithTerrain: 0.5,
-
-        fenceNumDistribution:
+        numMissions:
         {
-            0: 0.15,
-            1: 0.3,
-            2: 0.3,
-            3: 0.2,
-            4: 0.05
+            base: 26,
+            proximity: 14,
+            direction: 10,
+            machine: 14,
+            goblin: 14
         },
 
-        fenceTypeDistribution:
+        percMissionRewards: 0.33,
+        percMissionPenalties: 0.33,
+        percMissionShush: 0.33,
+
+        targetMissionValue: 3,
+        targetMissionMaxError: 1,
+
+        numMissionReqsDist:
         {
-            fence_weak: 0.6,
-            fence_strong: 0.4
+            1: 0.25,
+            2: 0.5,
+            3: 0.25
+        },
+
+        pathPercentageDirected: 0.33,
+        pathDist:
+        {
+            deadend: 0.15,
+            straight: 0.25,
+            corner: 0.25,
+            tsplit: 0.2,
+            all: 0.15
         }
     },
 
@@ -126,29 +157,8 @@ const CONFIG:any =
             autoStroke: true
         },
 
-        main:
-        {
-            dims: new CVal(new Point(0.75), "sizeUnit")
-        },
-
-        text:
-        {
-            fontSize: new CVal(0.065, "sizeUnit")
-        }
-    },
-
-    tiles:
-    {
-        drawerConfig:
-        {
-            dimsElement: new Point(2, 1),
-            dims: { 
-                small: new Point(3,5),
-                regular: new Point(2,3),
-                large: new Point(1,2)
-            },  
-            autoStroke: true
-        },
+        missionTemplateFrame: 5, // 0-4 are for the 5 player roles
+        eventTemplateFrame: 6,
     },
 }
 

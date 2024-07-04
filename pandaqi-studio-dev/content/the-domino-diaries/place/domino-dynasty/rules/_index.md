@@ -4,13 +4,11 @@ type: "rules"
 
 {{% rules-block heading="Setup" icon="setup" %}}
 
-For each Animal in the game, place its **Animal Tile** on the table. It contains details about each animal. Don't worry, most of it is _not_ used in the base game, but becomes more and more important in the expansions!
+Create a deck with all **Role** dominoes. Shuffle and deal each player 1 Role. Once revealed, also give each player their corresponding **Starting Dominoes**. (It shows their role icon and unique terrain, and is marked "Starting Domino").
 
-Place the **Entrance Tile** in the center of the table. 
+Start the **Shared Map** in the center of the table by combining the Starting Dominoes of all players.
 
-Shuffle the deck and hand each player 6 Tiles. Each player also picks a color and receives all its Pawns.
-
-Finally, place 6 Tiles faceup next to the deck: this is the **market**.
+All players also start their individual map by placing their second Starting Domino before them.
 
 @TODO: EXAMPLE IMAGE
 
@@ -18,40 +16,21 @@ Finally, place 6 Tiles faceup next to the deck: this is the **market**.
 
 {{% rules-block heading="Objective" icon="objective" %}}
 
-The game ends as soon as **all dominoes have been placed**. Everyone scores their claimed exhibits. **Highest score wins!**
+The game **ends** when one player is forced to **leave the empire**. All players score themselves, even the one who left. **Highest score wins!**
+
+This game is a mix between cooperative and competitive by default. If you want to play fully _cooperatively_, check out that variant at the end.
 
 {{% /rules-block %}}
 
 {{% rules-block heading="Gameplay" icon="action" %}}
 
-From start player, take clockwise turns until done. 
+Play happens in rounds. Each round has three steps: DRAW, PLACE, and REPORT.
 
-Each turn has three simple steps (in this order): PLAY, CLAIM, DRAW.
+{{% rules-block heading="Draw" %}}
 
-First, two definitions.
-* An **Area** is any group of connected tiles of the same terrain. (Paths are excluded; they're always considered "different terrain" than their neighbors.)
-* An **Exhibit** is a group of connected areas that is completely **enclosed** (fences on all sides). 
+Draw 2 times as many dominoes as there are players (from the deck). Place them faceup in a row on the table. This is the **Domino Market** (for this round).
 
-{{% remark %}}
-Yes, an exhibit can contain different terrains or be claimed by multiple players.
-{{% /remark %}}
-
-{{% rules-block heading="Play" %}}
-
-Place **1 or 2 dominoes**.
-
-Dominoes come in two flavors: _with terrain_ ( = BOTTOM) and _without terrain_ ( = TOP).
-
-* BOTTOM: Must be placed adjacent to the current map. It **can't** overlap an existing domino.
-* TOP: **Must overlap** an existing domino.
-
-When placing animals, there is only one rule: they must be placed on one of their **preferred terrains** (see their details tile).
-
-Whenever someone **finishes an exhibit**, a **Feed Phase** triggers.
-* Check all **claimed exhibits** that contain at least one animal. Its owner(s) must feed the animals inside!
-* You do so by _discarding_ a domino that shows Food from inside the Exhibit. (You always discard only 1 food, regardless of how many animals there are.)
-* If you **can't** feed them, _discard_ a domino showing an animal inside the Exhibit.
-* If this exhibit has multiple players inside, they discuss and choose what they want to do. If no decision can be reached, the player who has the biggest area chooses, then the player closest to the one who triggered the feed phase.
+Each player also receives a new **Mission Domino**.
 
 @TODO: IMAGE EXAMPLE
 
@@ -59,27 +38,65 @@ Whenever someone **finishes an exhibit**, a **Feed Phase** triggers.
 
 {{% rules-block heading="Claim" %}}
 
-You **may** claim an Area by placing your Pawn on it. Each Area can only be claimed once.
+From start player, take clockwise turns until the Domino Market is empty.
 
-@TODO: IMAGE EXAMPLE?
+On your turn, **pick 1 domino** (from the market) and **place it**.
+
+* You may place it either in your individual map or the shared map.
+* It must attach to the existing map (and not overlap). All maps have a maximum size of 8x8.
+* On your individual map: paths must match, terrain does not.
+* On the shared map: paths don't need to match, terrain must.
+* Crucially, if an icon is present on a Role card, **only that player** may handle dominoes showing that icon.
+
+Picking and placing a domino is _required_. You may only do nothing if you _can't_ use any of the remaining dominoes.
 
 {{% /rules-block %}}
 
-{{% rules-block heading="Draw" %}}
+{{% rules-block heading="Report" %}}
 
-Finally, draw tiles from the market until your hand is full again. Refill the market from the deck as needed.
+Take turns in the order of the _role numbers_. (Low to high; every role has a unique number.)
+
+First, you execute the **Report** action of your Role. This can give rewards or penalties depending on how well you did personally.
+
+Every player checks if their **Mission Domino** is fulfilled. If not, they place the domino facedown before them.
+
+> If a player has 3 facedown Goals ( = 3 failed rounds), they are disowned and must leave the family.
+
+The strength you need to have (in certain areas) is always _dynamic_. It depends on the current state of the board, which allows missions to grow in difficulty as our map also grows. If a mission shows _the same icon_ multiple times, you must only satisfy the _highest number_ of those options. 
+
+Some missions also give a reward for succeeding or penalty for failing.
 
 {{% /rules-block %}}
 
 {{% /rules-block %}}
 
-{{% rules-block id="scoring" heading="Scoring" icon="score" %}}
+{{% rules-block id="scoring" heading="Scoring & Pathing" icon="score" %}}
 
-At the end of the game, each player scores the Exhibits they claimed.
+In this game, the _scores_ and _pathing_ of each Player's map are the most important parts. 
 
-* Determine the largest Area ( = the terrain type that occurs most often). Count how many tiles it has.
-* Count how many animals are inside the entire Exhibit.
-* Exhibit Score = #tiles x #animals
+Why? Because only **Capital icons** actually do something. The other icons _modify_ what the Capital does if they're on a path connected to it.
+
+The score of every player _is_ their Role's strength. For example, if the Brother of Warfare has a map that scores 8, then the current strength of your empire's military is 8.
+
+Calculating your score has three steps.
+* Find all your Capital icons (which will be your Role Icon + the Neutral Icon) on your individual map. Each of them is worth +1 by default.
+* Check any paths attached to it. Icons on that path _modify_ the score of that icon, such as doubling it. Any Role icon on the path "stops" the path. (That is, if the path continues after it, imagine it's a brand new path starting from zero.)
+* Finally, _multiply_ the score of your individual map by the size of your **Province** on the shared map.
+  * Your Province is the group of tiles attached to your Starting Domino, with the same terrain.
+  * You can grow it as well by building _paths_ to other patches on the shared map with this terrain.
+
+{{% remark %}}
+In a way, your individual maps are "zoomed-in" versions of your spot in the shared map.
+{{% /remark %}}
+
+FOR EXAMPLE: Say you are Brother of Warfare. 
+
+* Your individual map has one Military icon: +1.
+* You have two People modifiers connected to it: +3.
+* Your province on the shared map has size 4: your score is now 3*4 = 12.
+* As such, this round players have **a military strength of 12** at their disposal (for completing Goals or the Report phase)
+  * If one player needs 6 to defend against a threat, and another needs 6 as well, then great! You have enough.
+  * If they both need 8, though, you don't have enough to give them both. In those cases, _you_ decide who gets whatever you can give.
 
 @TODO: EXAMPLE IMAGE
 
@@ -89,49 +106,74 @@ At the end of the game, each player scores the Exhibits they claimed.
 
 Played the base game and ready for more? Or want to tweak it a little to fit your group? Check out these variants and expansions!
 
-<!---
-ANIMAL TILE:
+{{% rules-block heading="Variant" %}}
 
-* Herbivore or carnivore?
-* What is their preferred terrain?
-* Superstrength (or not)?
-* How much food do they need?
-* Solitary or Herd?
-* Some funny backstory or fact about them
+**For a completely cooperative game:** most of the game stays the same. Only the following changes need to be made.
 
---->
+* Some mission cards have the **secret** symbol (@TODO: inline icon). This means the Mission must be kept _secret_. You may discuss and strategize together, but not outright communicate this exact Mission.
+* You **lose** if the game ends before you were able to complete 4 Missions per player. (For example: in a 4-player game, you lose if someone leaves the empire before completing 16 missions in total.)
+* Otherwise, you **win**. Your final score is the strength of the _weakest_ player; higher is obviously better.
 
-{{% rules-block heading="Strong Species" %}}
+**For an even more tactical game:** also count the shared map when determining your score/strength! The full formula becomes:
+* Check your Role's Capital icons on both your individual and shared map.
+* Multiply the _sum_ of that by your Province size, divided by 2.
 
-This expansion adds 1 new animal (Lion) and 1 extra type of fence ("Strong Fence").
-
-All animals with the **Superstrength** ability can only be enclosed by _strong fences_. If you use the regular fence, their entire exhibit is considered invalid.
+**For a more chaotic game:** start your individual map _empty_. Your score can never go below 1. (So your strength, at the start of the game, is 1.)
 
 {{% /rules-block %}}
 
-{{% rules-block heading="Wildlife Wishes" %}}
+{{% rules-block heading="Goblin Grandma" %}}
 
-@TODO: Add a few more special tiles and possible wishes/improvements for animals? (Such as Toys, more specific decoration, etcetera)
+This expansion makes external threats (from Goblins) more immediate and powerful.
 
-It also uses a few more details from the Animal Tile:
+It introduces the **Corrupter Icon** (@TODO: INLINE ICON). This can be used by any player.
 
-* You **can't** mix Herbivores and Carnivores within the same Area or Exhibit.
-* You **can't** mix Solitary and Herd animals in the same Area or Exhibit.
-* An Area or Exhibit that contains only Herd animals can be claimed by multiple players.
+> All People icons attached to a Corrupter (via a path) become Goblins instead.
+
+This number of Goblins is used in missions to scale their threat.
+
+It also introduces missions with the **"Attack" penalty**. An Attack means the following.
+
+* Find all **open-ended paths** in your map. (Paths that lead nowhere, pointing out of your map.)
+* Goblins attack all those locations! Remove each domino which has one or more open-ended paths from your map.
+
+@TODO: EXAMPLE IMAGE
 
 {{% /rules-block %}}
 
-{{% rules-block heading="Unnatural Utilities" %}}
+{{% rules-block heading="Proximity Papa" %}}
 
-This expansion adds stalls or utilities. These modify the value or possibilities in their area.
+This expansion adds more icons that can appear on tiles, all of which have "proximity" powers. That is, they change score or only do something depending on the icons/paths _around_ them or _close to them_.
 
-Some of them allow you to get more food/skirt your food responsibilities.
+This expansion also adds **Events**.
+* During setup, create a deck of all Event dominoes. Shuffle and place facedown.
+* At the start of each round, reveal the top Event. It has a power or rules change that applies to this entire round.
 
-This allows the following rule:
+{{% /rules-block %}}
 
-* The amount of **food** you must pay during the "Feed Phase" changes: sum the food requirements of all animals inside, round down. That's how many Food icons must be discarded.
+{{% rules-block heading="Directional Daddy" %}}
 
-@TODO
+* Paths now get arrows (sometimes), and you may only count the path insofar as it consistently points TO the icon
+* Threats from outside (goblins?) can now have a direction, such as "we hit from the LEFT side of the shared map" or something?
+
+{{% /rules-block %}}
+
+{{% rules-block heading="Machine Mama" %}}
+
+This is about connecting paths/"engines" between players.
+
+> You can only give/receive stuff from players if there's a path between THEIR ICON and YOUR ICON on the shared map.
+
+> You can "lend" your power to another player to whom you're connected _once_ per round. (That is, they can handle your icon and/or execute your Report power too.)
+
+IDEAS:
+
+* Anything your individual map can provide, goes to _your area_ only (by default). Others need to build paths to you.
+* You actually make BINDING agreements? => All players get some dominoes for their role, and they can give them out/exchange them like "a favor for a favor". And you can cash in that favor at any later moment.
+* The general idea of THREATS and GOALS (from dominoes drawn) seems too useful to ignore. Why?
+  * It gives players a reason to help _another player/role_ grow (on the shared map), because they need it to be strong to weather a storm or meet a goal.
+
+
 
 {{% /rules-block %}}
 

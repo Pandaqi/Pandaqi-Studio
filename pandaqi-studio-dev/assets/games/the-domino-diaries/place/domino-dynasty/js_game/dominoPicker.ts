@@ -1,9 +1,10 @@
-import fromArray from "js/pq_games/tools/random/fromArray";
+import shuffle from "js/pq_games/tools/random/shuffle";
 import CONFIG from "../js_shared/config";
-import { ANIMALS, DominoType, ITEMS, ItemType, OBJECTS, STALLS, TERRAINS, TerrainType } from "../js_shared/dict";
+import { DominoType, EVENTS, GeneralData, ICONS, MISSION_PENALTIES, MISSION_REWARDS, MISSION_SCALARS, MISSION_TEXTS, ROLES, TERRAINS } from "../js_shared/dict";
 import Domino from "./domino";
 import DominoSide from "./dominoSide";
-import shuffle from "js/pq_games/tools/random/shuffle";
+import MissionRequirement from "./missionRequirement";
+import fromArray from "js/pq_games/tools/random/fromArray";
 
 export default class DominoPicker
 {
@@ -15,13 +16,13 @@ export default class DominoPicker
     {
         this.dominoes = [];
 
-        this.generatePawns();
+        this.generateRoleTiles();
+        this.generateEventTiles();
 
-        const dominoExpansions = ["base", "strong", "wildlife", "utilities"]
-        for(const exp of dominoExpansions)
+        const allSets = Object.keys(CONFIG.sets);
+        for(const set of allSets)
         {
-            if(!CONFIG.sets[exp]) { continue; }
-            this.generateDominoes(exp);
+            this.generateDominoes(set);
         }
 
         console.log(this.dominoes);
@@ -39,18 +40,44 @@ export default class DominoPicker
         return arr;
     }
 
-    generatePawns()
+    generateRoleTiles()
     {
-        if(!CONFIG.sets.pawns) { return; }
+        if(!CONFIG.sets.roles) { return; }
 
-        for(let i = 0; i < CONFIG.generation.numUniquePawns; i++)
+        const numStartingDominoes = CONFIG.generation.numStartingDominoesPerPlayer ?? 1;
+        for(const [key,data] of Object.entries(ROLES))
         {
-            for(let j = 0; j < CONFIG.generation.numPawnsPerPlayer; j++)
+            // the actual role tile
+            const d = new Domino(DominoType.ROLE);
+            d.setKey(key);
+            this.dominoes.push(d);
+
+            // the unique starting domino
+            for(let i = 0; i < numStartingDominoes; i++)
             {
-                const d = new Domino(DominoType.PAWN);
-                d.setPawnIndex(i);
-                this.dominoes.push(d);
+                const d2 = new Domino(DominoType.REGULAR);
+                const dsTop = new DominoSide();
+                dsTop.setTerrain(data.terrain);
+                dsTop.setIcon(key);
+
+                const dsBottom = new DominoSide();
+                dsBottom.setTerrain(data.terrain);
+
+                d2.setSides(dsTop, dsBottom);
+                d2.setSet("startingDomino");
             }
+        }
+    }
+
+    generateEventTiles()
+    {
+        if(!CONFIG.sets.proximity) { return; }
+
+        for(const [key,data] of Object.entries(EVENTS))
+        {
+            const d = new Domino(DominoType.EVENT);
+            d.setKey(key);
+            this.dominoes.push(d);
         }
     }
 
@@ -58,136 +85,218 @@ export default class DominoPicker
     {
         if(!CONFIG.sets[set]) { return; }
 
-        const numDominoes = CONFIG.generation.numDominoes[set];
+        this.generateRegularDominoes(set);
+        this.generateMissionDominoes(set);
+    }
+
+    generateMissionDominoes(set:string)
+    {
+        const numDominoes = CONFIG.generation.numMissions ?? 0;
+        if(numDominoes <= 0) { return; }
+
+        const availableMissionIcons = [];
+        for(const [key,data] of Object.entries(ICONS))
+        {
+            if(!data.missionIcon) { continue; }
+            availableMissionIcons.push(key);
+        }
+
+        const availableScalars = this.filterBySet(MISSION_SCALARS, set);
+        const availableRewards = this.filterBySet(MISSION_REWARDS, set);
+        const availablePenalties = this.filterBySet(MISSION_PENALTIES, set);
+
+        const numReqsDist:Record<number, number> = CONFIG.genertion.numMissionReqsDist;
+        let totalReqsNeeded = 0;
+        for(const [num,perc] of Object.entries(numReqsDist))
+        {
+            totalReqsNeeded += parseInt(num) * Math.ceil(perc*numDominoes);
+        }
+
+        // predetermine properties and scalars => combined into requirements
+        const allScalars = this.assignDynamicallyWeighted(availableScalars, MISSION_SCALARS, totalReqsNeeded);
+        const allMissionIcons = this.assignDynamicallyWeighted(availableMissionIcons, ICONS, totalReqsNeeded);
+        const numReqs = Math.min(allScalars.length, allMissionIcons.length);
+        const requirementOptions = [];
+        for(let i = 0; i < numReqs; i++)
+        {
+            requirementOptions.push( new MissionRequirement(allMissionIcons.pop(), allScalars.pop()) );
+        }
+        shuffle(requirementOptions);
+
+        const allShush = [];
+        const numShush = Math.round(CONFIG.generation.percMissionShush * numDominoes);
+        for(let i = 0; i < numDominoes; i++)
+        {
+            allShush.push(i < numShush);
+        }
+        shuffle(allShush);
+
+        // predetermine rewards and penalties
+        // (these are not dynamically generated)
+        const numRewards = Math.round(CONFIG.generation.percMissionRewards * numDominoes);
+        const allRewards = this.assignDynamicallyWeighted(availableRewards, MISSION_REWARDS, numRewards);
+
+        const numPenalties = Math.round(CONFIG.generation.percMissionPenalties * numDominoes);
+        const allPenalties = this.assignDynamicallyWeighted(availablePenalties, MISSION_PENALTIES, numPenalties);
+
+        const allRewardsOrPenalties = [];
+        for(let i = 0; i < numDominoes; i++)
+        {
+            let obj = "";
+            if(i < numRewards) { obj = allRewards.pop(); }
+            else if(i < numRewards + numPenalties) { obj = allPenalties.pop(); }
+            allRewardsOrPenalties.push(obj);
+        }
+        shuffle(allRewardsOrPenalties);
+
+        // now fill in the exact requirements for each
+        const allRequirements = [];
+        for(const [num,perc] of Object.entries(numReqsDist))
+        {
+            const freq = Math.ceil(perc*numDominoes);
+            const numInt = parseInt(num);
+            for(let i = 0; i < freq; i++)
+            {
+                allRequirements.push(requirementOptions.slice(0, numInt));
+            }
+        }
+        shuffle(allRequirements);
+
+        for(let i = 0; i < numDominoes; i++)
+        {
+            const d = new Domino(DominoType.MISSION);
+            d.setMissionRequirements(allRequirements.pop());
+            d.setMissionConsequence(allRewardsOrPenalties.pop());
+            d.cleanUpMission();
+            d.setMissionText(this.getBestFlavorTextFor(d));
+            d.setMissionShush(allShush.pop());
+            d.setSet(set);
+        }
+    }
+
+    getBestFlavorTextFor(d:Domino)
+    {
+        // get a clean list of types used for domino mission
+        const iconsUsed = [];
+        for(const req of d.missionRequirements)
+        {
+            const type = req.icon;
+            if(iconsUsed.includes(type)) { continue; }
+            iconsUsed.push(type);
+        }
+
+        // get matches sorted by relevance
+        let highestNumMatches = 0;
+        const textsWithMatchNum = [];
+        for(const [key,data] of Object.entries(MISSION_TEXTS))
+        {
+            // can't possibly match if we don't have enough to match everything
+            if(data.matches.length > iconsUsed.length) { continue; }
+
+            let numMatches = 0;
+            let matchesCopy = data.matches.slice();
+            for(const iconUsed of iconsUsed)
+            {
+                if(!matchesCopy.includes(iconUsed)) { continue; }
+                numMatches++;
+                matchesCopy.splice(matchesCopy.indexOf(iconUsed), 1);
+            }
+            highestNumMatches = Math.max(highestNumMatches, numMatches);
+            textsWithMatchNum.push({ key: key, numMatches: numMatches });
+        }
+
+        // filter out only the first set ( = highest matching)
+        textsWithMatchNum.sort((a,b) => b.numMatches - a.numMatches);
+        const options = [];
+        for(const textObj of textsWithMatchNum)
+        {
+            if(textObj.numMatches < highestNumMatches) { break; }
+            options.push(textObj.key);
+        }
+
+        // return a random one from those options
+        return fromArray(options);
+    }
+
+    generateRegularDominoes(set:string)
+    {
+        const numDominoes = CONFIG.generation.numDominoes[set] ?? 0;
+        if(numDominoes <= 0) { return; }
+
         const numSquares = numDominoes * 2;
 
-        // determine what's available
-        const availableAnimals = this.filterBySet(ANIMALS, set);
-        const availableStalls = this.filterBySet(STALLS, set);
-        const availableObjects = this.filterBySet(OBJECTS, set);
-        const availableTerrains = this.filterBySet(TERRAINS, set);
-        const availableFences = ["fence_weak", "fence_strong"]; // it's far easier for code + game balance if both types of fences are simply present in all material
-
-        // pre-determine fences list
-        const fenceOptions = []; // this is the number of fences (rotated/arranged randomly upon drawing)
-        const fenceNumDist: Record<number, number> = CONFIG.generation.fenceNumDistribution;
-        for(const [key,perc] of Object.entries(fenceNumDist))
+        // determine path distributions (type = number of openings, and directed or not)
+        const allPaths = [];
+        const pathDist:Record<string, number> = CONFIG.generation.pathDist;
+        for(const [key,perc] of Object.entries(pathDist))
         {
             const freq = Math.ceil(perc * numSquares);
             for(let i = 0; i < freq; i++)
             {
-                fenceOptions.push(parseInt(key));
+                allPaths.push(key);
             }
         }
+        shuffle(allPaths);
 
-        const fenceTypes = []; // whether it's a weak or strong fence
-        const fenceTypeDist: Record<number, number> = CONFIG.generation.fenceTypeDistribution;
-        for(const fenceType of availableFences)
+        const allPathDirections = [];
+        const numDirectedPaths = CONFIG.sets.direction ? Math.round(CONFIG.generation.pathPercentageDirected * allPaths.length) : 0;
+        for(let i = 0; i < allPaths.length; i++)
         {
-            const freq = Math.ceil(fenceTypeDist[fenceType] * numSquares);
-            for(let i = 0; i < freq; i++)
-            {
-                fenceTypes.push(fenceType);
-            }
+            allPathDirections.push(i < numDirectedPaths);
         }
-        shuffle(fenceOptions);
-        shuffle(fenceTypes);
+        shuffle(allPathDirections);
 
-        // pre-determine lists with everything in the right quantity
-        // the most important thing here is that there's a correct balance between BOTTOM / TOP tiles, so that's the thing we fix on specific values first
-        const numAllWithoutTerrain = Math.ceil(CONFIG.generation.percAllWithoutTerrain * numDominoes);
-        const numHalfWithoutTerrain = Math.ceil(CONFIG.generation.percHalfWithoutTerrain * numDominoes);
-        const numAllWithTerrain = Math.ceil(CONFIG.generation.percAllWithTerrain * numDominoes);
+        // determine terrain distributions (already shuffled)
+        const allTerrains = this.assignDynamicallyWeighted(Object.keys(TERRAINS), TERRAINS, numSquares);
 
-        // draw exactly as many things needed (that should NOT have a terrain behind them)
-        const numSquaresWithoutTerrain = 2*numAllWithoutTerrain + numHalfWithoutTerrain;
-        const availableOptionsWithoutTerrain = [availableAnimals, availableObjects].flat();
-        const sidesWithoutTerrain = this.assignSidesFollowingDistribution(numSquaresWithoutTerrain, availableOptionsWithoutTerrain);
+        const availableIcons = this.filterBySet(ICONS, set);
+        const allIcons = this.assignDynamicallyWeighted(availableIcons, ICONS, numSquares);
 
-        // draw exactly as many things needed (that SHOULD have a terrain behind them)
-        const numSquaresWithTerrain = 2*numAllWithTerrain + numHalfWithoutTerrain;
-        const availableOptionsWithTerrain = [availableAnimals, availableStalls, availableObjects, "empty", "path"].flat();
-        const sidesWithTerrain = this.assignSidesFollowingDistribution(numSquaresWithTerrain, availableOptionsWithTerrain);
-
-        // assign the fences
-        for(const side of sidesWithoutTerrain)
+        const options : DominoSide[] = [];
+        for(const icon of allIcons)
         {
-            side.setFences(fenceOptions.pop(), fenceTypes.pop());
+            const ds = new DominoSide();
+            ds.setTerrain(allTerrains.pop());
+            ds.setPath(allPaths.pop(), allPathDirections.pop());
+            ds.setIcon(icon);
+            options.push(ds);
         }
-
-        for(const side of sidesWithTerrain)
-        {
-            side.setFences(fenceOptions.pop(), fenceTypes.pop());
-        }
-
-        // assigning the terrains is a bit of a difficult one
-        // because some have fixed terrains (such as animals who can only be on their preferred terrain) and some don't
-        // hence the many steps below
-        const terrainFreqs = {};
-
-        let numCustomTerrainsNeeded = 0;
-        for(const side of sidesWithTerrain)
-        {
-            if(side.needsPathBackground()) { continue; }
-            numCustomTerrainsNeeded++;
-        }
-
-        let totalTerrainValue = 0;
-        for(const terrainType of availableTerrains)
-        {
-            totalTerrainValue += 1.0 / (TERRAINS[terrainType].value ?? 1.0);
-        }
-        const terrainPercentageMultiplier = (1.0 / totalTerrainValue);
-
-        for(const terrainType of availableTerrains)
-        {
-            terrainFreqs[terrainType] = Math.ceil(1.0 / (TERRAINS[terrainType].value ?? 1.0) * terrainPercentageMultiplier * numCustomTerrainsNeeded);
-        }
-
-        for(const side of sidesWithTerrain)
-        {
-            if(side.needsPathBackground()) { continue; }
-
-            // give animals their preferred terrain, even if already used "too often" (because we have no choice, the animal needs it!)
-            if(side.type == ItemType.ANIMAL)
-            {
-                const prefTerrains = side.getTypeData().terrains;
-                const randTerrain : TerrainType = fromArray(prefTerrains);
-                side.setTerrain(randTerrain);
-                terrainFreqs[randTerrain]--;
-            }
-
-            // give anything else a random terrain that is not "exhausted" yet
-            if(side.type == ItemType.EMPTY || side.type == ItemType.OBJECT)
-            {
-                const options : string[] = shuffle(Object.keys(terrainFreqs));
-                for(const option of options)
-                {
-                    if(terrainFreqs[option] <= 0) { continue; }
-                    side.setTerrain(option as TerrainType);
-                    terrainFreqs[option]--;
-                    break;
-                }
-            }
-        }
-
+        shuffle(options);
 
         // randomly assign the options to dominoes
-        // (but stick to our predefined numbers of all-empty, half-terrain, all-terrain)
-        for(let i = 0; i < numDominoes; i++)
+        for(let i = 0; i < 1.5*numDominoes; i++)
         {
             const d = new Domino(DominoType.REGULAR);
-            let sideA:DominoSide, sideB:DominoSide;
+            const sideA = options.pop();
+            let sideB = options.pop();
+            if(!sideA || !sideB) { break; }
 
-            if(i < numAllWithoutTerrain) {
-                sideA = sidesWithoutTerrain.pop();
-                sideB = sidesWithoutTerrain.pop();
-            } else if(i < (numAllWithoutTerrain + numHalfWithoutTerrain)) {
-                sideA = sidesWithTerrain.pop();
-                sideB = sidesWithoutTerrain.pop();
-            } else {
-                sideA = sidesWithTerrain.pop();
-                sideB = sidesWithTerrain.pop();
+            // we can't have two different "role icons" on the same tile
+            // if that happens, turn the other icon empty, but add the original back to the list to make sure distributions still work out
+            // @NOTE: this is a fuzzy algorithm, but it should be exceedingly rare that this creates anything close to trouble
+            const twoRoleIconsSameDomino = (sideA.hasIcon() && sideB.hasIcon()) && (sideA.isRoleIcon() && sideB.isRoleIcon() && sideA.key != sideB.key);
+            if(twoRoleIconsSameDomino)
+            {
+                const randIndex = Math.floor(Math.random() * options.length);
+                options.splice(randIndex, 0, sideB);
+                sideB = sideB.clone();
+                sideB.setIcon("empty");
+            }
+
+            // the usual fixes to make sure dominoes follow the placement rules on their own
+            const mustMatch = (sideA.hasPathAt(1) != sideB.hasPathAt(3));
+            if(mustMatch)
+            {
+                sideA.rotateUntilPathAt(1);
+                sideB.rotateUntilPathAt(3);
+            }
+        
+            // but also keep some where the paths do not link up on the domino itself
+            const mustNotMatch = Math.random() <= CONFIG.generation.pathNonMatchProb && !(sideA.isCompletelyOpen() || sideB.isCompletelyOpen());
+            if(mustNotMatch)
+            {
+                sideA.rotateUntilNoPathAt(1);
+                sideB.rotateUntilNoPathAt(3);
             }
 
             d.setSides(sideA, sideB);
@@ -197,35 +306,22 @@ export default class DominoPicker
 
     }
 
-    assignSidesFollowingDistribution(numSquares:number, options:string[]) : DominoSide[]
+    assignDynamicallyWeighted(list:string[], dict:Record<string,GeneralData>, num:number)
     {
-        const getTypeOf = (key:string) =>
+        let total = 0.0;
+        for(const key of list)
         {
-            if(key == "empty") { return ItemType.EMPTY; }
-            else if(key == "path") { return ItemType.PATH; }
-            else if(ANIMALS[key]) { return ItemType.ANIMAL; }
-            else if(STALLS[key]) { return ItemType.STALL; }
-            else if(OBJECTS[key]) { return ItemType.OBJECT; }
-            return ItemType.EMPTY;
+            total += (dict[key].prob ?? 1.0);
         }
+        const percMult = 1.0 / total;
 
-        let totalValue = 0;
-        for(const option of options)
+        const arr = [];
+        for(const key of list)
         {
-            totalValue += 1.0 / (ITEMS[getTypeOf(option)][option].value ?? 1);
-        }
-        const percentageMultiplier = 1.0 / totalValue;
-
-        const arr : DominoSide[] = [];
-        for(const option of options)
-        {
-            const optionType = getTypeOf(option);
-            const perc = 1.0 / (ITEMS[getTypeOf(option)][option].value ?? 1.0) * percentageMultiplier;
-            const freq = Math.ceil(perc * numSquares);
+            const freq = Math.ceil((list[key].prob ?? 1.0) * percMult * num);
             for(let i = 0; i < freq; i++)
             {
-                const ds = new DominoSide(optionType, option);
-                arr.push(ds);
+                arr.push(key);
             }
         }
         shuffle(arr);
