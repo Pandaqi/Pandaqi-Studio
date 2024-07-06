@@ -2,15 +2,16 @@ import createContext from "js/pq_games/layout/canvas/createContext";
 import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
-import { DominoType, ROLES } from "../js_shared/dict";
+import { DominoType, EVENTS, MISC, MISSION_PENALTIES, MISSION_REWARDS, MISSION_TEXTS, ROLES } from "../js_shared/dict";
 import DominoSide from "./dominoSide";
-import TextConfig from "js/pq_games/layout/text/textConfig";
+import TextConfig, { TextStyle } from "js/pq_games/layout/text/textConfig";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import Point from "js/pq_games/tools/geometry/point";
 import CONFIG from "../js_shared/config";
 import MissionRequirement from "./missionRequirement";
 import fromArray from "js/pq_games/tools/random/fromArray";
+import drawBlurryRectangle from "js/pq_games/layout/tools/drawBlurryRectangle";
 
 export default class Domino
 {
@@ -34,6 +35,7 @@ export default class Domino
         this.missionRequirements = r.slice();
     }
 
+    hasMissionConsequence() { return this.missionConsequence != undefined && this.missionConsequence != ""; }
     setMissionConsequence(c:string)
     {
         this.missionConsequence = c;
@@ -69,7 +71,21 @@ export default class Domino
     {
         // the usual alphabetic sorting for consistent order
         this.missionRequirements.sort((a,b) => a.getID().localeCompare(b.getID()));
-        
+
+        // @EXCEPTION: if we happen to add multiple IDENTICAL requirements (same icon _and_ same scalar), 
+        // just combine them into one
+        // (at this point, all numbers are 1, so no number trickery needed)
+        for(let i = 0; i < this.missionRequirements.length; i++)
+        {
+            const curWish = this.missionRequirements[i];
+            let nextWish = this.missionRequirements[i+1];
+            while(nextWish && curWish.getGeneralID() == nextWish.getGeneralID())
+            {
+                this.missionRequirements.splice(i+1, 1);
+                nextWish = this.missionRequirements[i+1];
+            }
+        }
+
         // balance missions by doubling/halving the impact of elements until we're close
         // this is just a ballpark estimate thing, doesn't need to be exact
         const maxTries = 10;
@@ -125,17 +141,14 @@ export default class Domino
     drawRole(vis:MaterialVisualizer, group:ResourceGroup)
     {
         // background template
+        // actually, this is everything, decided to just bake it in there
         const res = vis.getResource("templates");
         const op = new LayoutOperation({
             dims: vis.size,
             frame: ROLES[this.key].frame,
+            effects: vis.inkFriendlyEffect
         });
         group.add(res, op);
-
-        // @TODO: unique ICON + TERRAIN
-        // @TODO: number
-        // @TODO: power
-        // @TODO: reportPhase
     }
 
     drawMission(vis:MaterialVisualizer, group:ResourceGroup)
@@ -145,24 +158,127 @@ export default class Domino
         const op = new LayoutOperation({
             dims: vis.size,
             frame: CONFIG.dominoes.missionTemplateFrame, 
+            effects: vis.inkFriendlyEffect
         });
         group.add(res, op);
 
-        // @TODO: the specific requirements
-        // @TODO: optional penalty/reward
+        // flavor text at the top
+        const textConfig = new TextConfig({
+            font: vis.get("fonts.body"),
+            size: vis.get("dominoes.mission.fontSize"),
+            lineHeight: 1.05,
+            style: TextStyle.ITALIC
+        });
+        const resText = new ResourceText({ text: MISSION_TEXTS[this.missionText].desc, textConfig: textConfig });
+        const opText = new LayoutOperation({
+            translate: vis.get("dominoes.mission.posFlavorText"),
+            dims: vis.get("dominoes.mission.dimsFlavorText"),
+            fill: "#121212"
+        });
+        group.add(resText, opText);
+
+        // the list of specific requirements below that
+        const anchor = vis.get("dominoes.mission.requirements.pos").clone();
+        const dims = vis.get("dominoes.mission.requirements.dims");
+        for(const req of this.missionRequirements)
+        {
+            req.draw(vis, group, anchor);
+            anchor.y += dims.y * 1.125;
+        }
+
+        // optional penalty/reward
+        if(this.hasMissionConsequence())
+        {
+            const resHeader = vis.getResource("misc");
+            const headerKey = MISSION_REWARDS[this.missionConsequence] ? "mission_reward" : "mission_penalty";
+
+            const rectParams = { pos: vis.get("dominoes.mission.consequence.posText"), dims: vis.get("dominoes.mission.consequence.dimsText"), color: "#FFFFFF", alpha: 0.85 };
+            drawBlurryRectangle(rectParams, group);
+
+            const opHeader = new LayoutOperation({
+                translate: vis.get("dominoes.mission.consequence.posHeader"),
+                dims: vis.get("dominoes.mission.consequence.dimsHeader"),
+                pivot: Point.CENTER,
+                frame: MISC[headerKey].frame,
+                effects: vis.inkFriendlyEffect
+            })
+            group.add(resHeader, opHeader);
+
+            // the actual penalty text
+            let text = headerKey == "mission_reward" ? MISSION_REWARDS[this.missionConsequence].desc : MISSION_PENALTIES[this.missionConsequence].desc;
+            text = text.replaceAll("%neutral%", "Neutral strength");
+            
+            const textConfigConseq = new TextConfig({
+                font: vis.get("fonts.body"),
+                size: vis.get("dominoes.mission.fontSize"),
+                lineHeight: 1.05,
+                style: TextStyle.ITALIC
+            }).alignCenter();
+            const resText = new ResourceText({ text: text, textConfig: textConfigConseq });
+            const opText = new LayoutOperation({
+                translate: vis.get("dominoes.mission.consequence.posText"),
+                dims: vis.get("dominoes.mission.consequence.dimsText"),
+                fill: "#121212",
+                pivot: Point.CENTER
+            });
+            group.add(resText, opText);
+        }
+
+        // optional shush icon (for secret missions in cooperative play)
+        if(this.missionShush)
+        {
+            const res = vis.getResource("misc");
+            const op = new LayoutOperation({
+                translate: vis.get("dominoes.mission.shushIcon.pos"),
+                dims: vis.get("dominoes.mission.shushIcon.dims"),
+                frame: MISC.shush.frame,
+                pivot: Point.CENTER
+            })
+            group.add(res, op);
+        }
     }
 
     drawEvent(vis:MaterialVisualizer, group:ResourceGroup)
     {
+        const data = EVENTS[this.key];
+
+        // background template
         const res = vis.getResource("templates");
         const op = new LayoutOperation({
             dims: vis.size,
             frame: CONFIG.dominoes.eventTemplateFrame, 
+            effects: vis.inkFriendlyEffect
         });
         group.add(res, op);
 
-        // @TODO: event name
-        // @TODO: event text
+        // event name
+        const textConfigHeader = new TextConfig({
+            font: vis.get("fonts.heading"),
+            size: vis.get("dominoes.events.fontSizeHeader"),
+            lineHeight: 1.05
+        }).alignCenter();
+        const resTextHeader = new ResourceText({ text: data.label, textConfig: textConfigHeader });
+        const opTextHeader = new LayoutOperation({
+            translate: vis.get("dominoes.events.posHeader"),
+            dims: new Point(0.85*vis.size.x, 0.5*vis.size.y),
+            fill: "#121212",
+            pivot: Point.CENTER
+        });
+        group.add(resTextHeader, opTextHeader);
+
+        // event text
+        const textConfigBody = new TextConfig({
+            font: vis.get("fonts.body"),
+            size: vis.get("dominoes.events.fontSizeBody"),
+        }).alignCenter();
+        const resTextBody = new ResourceText({ text: data.desc, textConfig: textConfigBody });
+        const opTextBody = new LayoutOperation({
+            translate: vis.get("dominoes.events.posBody"),
+            dims: new Point(0.85*vis.size.x, 0.5*vis.size.y),
+            fill: "#121212",
+            pivot: Point.CENTER
+        });
+        group.add(resTextBody, opTextBody);
     }
 
     drawBothParts(vis:MaterialVisualizer, group:ResourceGroup)
@@ -195,8 +311,8 @@ export default class Domino
         const opText = new LayoutOperation({
             translate: new Point(1.33*textConfig.size), 
             pivot: Point.CENTER,
-            fill: "#121212",
-            alpha: 0.75,
+            fill: this.set == "startingDomino" ? "#FFFFFF" : vis.get("dominoes.setText.color"),
+            alpha: vis.get("dominoes.setText.alpha"),
             dims: new Point(2*textConfig.size)
         });
 
@@ -205,7 +321,8 @@ export default class Domino
         if(this.set == "startingDomino")
         {
             textConfig.alignCenter();
-            opText.translate = new Point(vis.center.x, 0.9*vis.size.y);
+            textConfig.size *= 1.33;
+            opText.translate = new Point(vis.center.x, 0.966*vis.size.y);
             opText.dims = new Point(vis.size.x, 0.1*vis.size.y);
         }
 

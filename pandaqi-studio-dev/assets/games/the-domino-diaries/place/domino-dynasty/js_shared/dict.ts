@@ -52,33 +52,33 @@ interface GeneralData
 
 const ICONS:Record<string, GeneralData> =
 {
-    empty: { frame: -1, prob: 4.0, sets: ["base", "proximity", "direction", "machine"] },
-    [RoleType.WARFARE]: { frame: 0, desc: "Gives \"Brother of Warfare\" +1 Military.", mainIcon: true, missionIcon: true, sets: ["base", "proximity", "direction", "machine"] },
-    [RoleType.MONEY]: { frame: 1, desc: "Gives \"Sister of Coin\" +1 Money.", mainIcon: true, missionIcon: true,sets: ["base", "proximity", "direction", "machine"] },
-    [RoleType.INFRA]: { frame: 2, desc: "Gives \"Uncle of Infrastructure\" +1 Roads.", mainIcon: true, missionIcon: true,sets: ["base", "proximity", "direction", "machine"] },
-    [RoleType.HOUSING]: { frame: 3, desc: "Gives \"Sibling of Space\" +1 Housing.", mainIcon: true, missionIcon: true,sets: ["base", "proximity", "direction", "machine"] },
-    [RoleType.GOODS]: { frame: 4, desc: "Gives \"Aunt of Produce\" +1 Goods.", mainIcon: true, missionIcon: true, sets: ["base", "proximity", "direction", "machine"] },
+    empty: { frame: -1, prob: 4.5, sets: ["base", "proximity", "direction", "machine"] },
+    [RoleType.WARFARE]: { frame: 0, prob: 0.66, desc: "Gives \"Brother of Warfare\" +1 Military.", mainIcon: true, missionIcon: true, sets: ["base", "proximity", "direction", "machine"] },
+    [RoleType.MONEY]: { frame: 1, prob: 0.66, desc: "Gives \"Sister of Coin\" +1 Money.", mainIcon: true, missionIcon: true,sets: ["base", "proximity", "direction", "machine"] },
+    [RoleType.INFRA]: { frame: 2, prob: 0.66, desc: "Gives \"Uncle of Infrastructure\" +1 Roads.", mainIcon: true, missionIcon: true,sets: ["base", "proximity", "direction", "machine"] },
+    [RoleType.HOUSING]: { frame: 3, prob: 0.66, desc: "Gives \"Sibling of Space\" +1 Housing.", mainIcon: true, missionIcon: true,sets: ["base", "proximity", "direction", "machine"] },
+    [RoleType.GOODS]: { frame: 4, prob: 0.66, desc: "Gives \"Aunt of Produce\" +1 Goods.", mainIcon: true, missionIcon: true, sets: ["base", "proximity", "direction", "machine"] },
 
     person: { frame: 5, prob: 4.0, desc: "Adds +1 to its Capital.", type: IconType.GOOD, sets: ["base", "proximity", "direction", "machine"] },
     wildcard: { frame: 6, prob: 0.5, desc: "Becomes a Role Icon of your type.", type: IconType.GOOD, mainIcon: true, sets: ["goblin", "machine"] },
     corrupter: { frame: 7, prob: 2.0, desc: "All attached people become Goblins.", type: IconType.BAD, mainIcon: true, sets: ["goblin"] },
-    neutral: { frame: 8, desc: "Usable by anone, appears in Missions.", type: IconType.GOOD, mainIcon: true, sets: ["base", "machine"] },
-    magician: { frame: 9, prob: 0.5, desc: "Doubles its Capital <b>if</b> all adjacent terrains match.", type: IconType.GOOD, sets: ["base", "direction"] },
-    knife: { frame: 10, desc: "Halves its Capital (round down).", type: IconType.BAD, sets: ["base", "goblin"] },
+    neutral: { frame: 8, desc: "Neutral Capital.", type: IconType.GOOD, mainIcon: true, sets: ["base", "machine"] },
+    magician: { frame: 9, prob: 0.5, desc: "Doubles its Capital <b>if</b> all other adjacent terrains match.", type: IconType.GOOD, sets: ["base", "direction"] },
+    knife: { frame: 10, desc: "Halves its Capital.", type: IconType.BAD, sets: ["base", "goblin"] },
     thief: { frame: 11, desc: "Undo all modifiers that came before me on the path.", type: IconType.BAD, sets: ["base", "direction"] },
-    veto: { frame: 12, desc: "This path can't contain/end in any of the icons shown.", type: IconType.BAD, sets: ["direction"] }, 
-    allin: { frame: 13, desc: "The value from this path can't be distributed over multiple players.", type: IconType.BAD, sets: ["machine"] },
-    selfish: { frame: 14, desc: "The value from this path can only be used by yourself.", type: IconType.BAD, sets: ["machine"] },
+    veto: { frame: 12, prob: 0.5, desc: "This path can't contain any icons shown on the shared map.", type: IconType.BAD, sets: ["direction"] }, 
+    allin: { frame: 13, desc: "The strength from this path can't be shared over multiple players.", type: IconType.BAD, sets: ["machine"] },
+    selfish: { frame: 14, desc: "The strength from this path can only be used by yourself.", type: IconType.BAD, sets: ["machine"] },
     hole: { frame: 15, desc: "All adjacent icons on the same path are to be ignored.", type: IconType.BAD, sets: ["base"] },
     calculator: { frame: 16, prob: 0.5, desc: "Adds the length of this path to its Capital.", type: IconType.GOOD, sets: ["direction"] },
 
     area_spell: { frame: 17, desc: "Adds +1 to an adjacent Capital.", type: IconType.GOOD, sets: ["proximity"] },
-    people_pleaser: { frame: 18, desc: "Turns any People in the same row/column into 2 People.", type: IconType.GOOD, sets: ["proximity"] },
+    people_pleaser: { frame: 18, desc: "Doubles any People in the same row/column.", type: IconType.GOOD, sets: ["proximity"] },
     bomb: { frame: 19, desc: "All adjacent icons are to be ignored.", type: IconType.BAD, sets: ["proximity"] },
-    village: { frame: 20, desc: "Becomes a Role Icon of your type <b>if</b> there's a different icon on all 4 sides.", type: IconType.GOOD, sets: ["proximity"] },
+    village: { frame: 20, desc: "I'm your Role Icon <b>if</b> all my neighbors are different.", type: IconType.GOOD, sets: ["proximity"] },
     sniper: { frame: 21, desc: "No Capital can be placed in the same row/column as me.", type: IconType.BAD, sets: ["proximity"] },
-    aeronaut: { frame: 22, desc: "Scores +4 if within 3 tiles of a Capital.", sets: ["proximity"] },
-    builder: { frame: 23, desc: "Restarts any adjacent path. (Forget what came before, pretend started afresh going forward.)", sets: ["proximity"] }
+    aeronaut: { frame: 22, prob: 0.5, desc: "Scores +4 if within 3 tiles of a Capital.", sets: ["proximity"] },
+    builder: { frame: 23, desc: "Restarts any adjacent path.", sets: ["proximity"] }
 
 }
 
@@ -102,33 +102,35 @@ const PATHS:Record<string,GeneralData> =
 
 const ROLES:Record<string, GeneralData> =
 {
-    [RoleType.WARFARE]: { frame: 0, label: "Brother of Warfare", num: 0, terrain: TerrainType.LAVA, power: "Once per round, you may <b>remove</b> a Domino from a previous round.", reportPhase: "" },
-    [RoleType.MONEY]: { frame: 1, label: "Sister of Coin", num: 1, terrain: TerrainType.DESERT, power: "Each round, you draw 2 Missions and pick which one you want.", reportPhase: "" },
+    [RoleType.WARFARE]: { frame: 0, label: "Brother of Warfare", num: 0, terrain: TerrainType.LAVA, power: "Once per round, you may <b>remove</b> a Domino from a previous round.", reportPhase: "You must decide who gets your strength right now." },
+    [RoleType.MONEY]: { frame: 1, label: "Sister of Coin", num: 1, terrain: TerrainType.DESERT, power: "Each round, you draw 2 Missions and pick which one you want.", reportPhase: "If you didn't add to the shared map, you can't use your own strength." },
     [RoleType.INFRA]: { frame: 2, label: "Uncle of Infrastructure", num: 2, terrain: TerrainType.STONE, power: "Once per round, you may place a <b>mismatched</b> Domino (wrong paths/terrains).", reportPhase: "" },
-    [RoleType.HOUSING]: { frame: 3, label: "Sibling of Space", num: 3, terrain: TerrainType.PLAINS, power: "Once per round, you may <b>rotate</b> or <b>move</b> a Domino.", reportPhase: "" },
-    [RoleType.GOODS]: { frame: 4, label: "Aunt of Goods", num: 4, terrain: TerrainType.GRASS, power: "Once per round, you may <b>draw 2 dominoes</b> or none at all.", reportPhase: "" }
+    [RoleType.HOUSING]: { frame: 3, label: "Sibling of Space", num: 3, terrain: TerrainType.PLAINS, power: "Once per round, you may <b>rotate</b> or <b>move</b> a Domino.", reportPhase: "If you placed 0 dominoes this round, you score 0." },
+    [RoleType.GOODS]: { frame: 4, label: "Aunt of Goods", num: 4, terrain: TerrainType.GRASS, power: "Once per round, you may <b>draw 2 dominoes</b> or none at all.", reportPhase: "If you mismatched terrains or paths, your score is halved." }
 }
 
 const MISSION_SCALARS:Record<string, GeneralData> =
 {
-    num_people: { frame: 0, desc: "# people icons", value: 1.0, sets: ["base", "proximity", "direction"] },
+    num_people: { frame: 0, desc: "# people", value: 1.0, sets: ["base", "proximity", "direction"] },
     missions_achieved: { frame: 1, desc: "# missions achieved", value: 0.5, sets: ["base", "proximity"] },
     missons_failed: { frame: 2, desc: "# missions failed", value: 0.33, sets: ["base", "proximity"] },
-    longest_side: { frame: 3, desc: "longest side of a map", value: 1.0, sets: ["base", "goblin"] },
-    longest_path: { frame: 4, desc: "longest path on a map", value: 1.0, sets: ["base", "direction"] },
-    neutral_icons: { frame: 5, desc: "neutral strength", value: 2.0, sets: ["base", "machine"] },
-    players_connected: { frame: 6, desc: "# players connected on shared map", value: 0.33, sets: ["machine"] },
+    longest_side: { frame: 3, desc: "longest map side", value: 1.0, sets: ["base", "goblin"] },
+    longest_path: { frame: 4, desc: "longest path", value: 1.0, sets: ["base", "direction"] },
+    neutral_icons: { frame: 5, desc: "Neutral strength", value: 2.0, sets: ["base", "machine"] },
+    players_connected: { frame: 6, desc: "# players connected", value: 0.33, sets: ["machine"] }, // @TODO: explain it's about players connected on the shared map? Add extra little "explanations" to these things anyway?
     largest_province: { frame: 7, desc: "largest Province", value: 1.5, sets: ["base", "proximity"] },
     goblin_icons: { frame: 8, desc: "goblin power", value: 2.0, sets: ["goblin"] },
     open_ends: { frame: 9, desc: "# open-ended paths", value: 1.5, sets: ["goblin", "direction"] },
-    num_capital_routes: { frame: 10, desc: "# paths between two Capital icons", value: 1.0, sets: ["base"] },
+    num_capital_routes: { frame: 10, desc: "# paths between Capitals", value: 1.0, sets: ["machine"] },
+    num_capitals: { frame: 11, desc: "# Capitals", value: 1.0, prob: 2, sets: ["base"] },
 }
 
-// The "%neutral%" is replaced by something like "neutral strength"
+// The "%neutral%" is replaced by something like "neutral strength" dynamically
 const MISSION_REWARDS:Record<string, GeneralData> = 
 {
     draw: { desc: "Draw 3 Dominoes from the deck, place 1 for free.", sets: ["base"] },
     draw_dynamic: { desc: "Draw as many dominoes from deck as your %neutral% (and place them).", sets: ["base"] },
+    overlap: { desc: "Next round, you may <b>overlap</b> existing dominoes when placing new ones.", sets: ["base"] },
     rearrange: { desc: "Move up to 3 Dominoes in your map to a different place.", sets: ["base"] },
     rearrange_dynamic: { desc: "You may rearrange as many Dominoes (in your map) as your %neutral%", sets: ["base", "proximity"] },
     rotate: { desc: "Rotate 1 Domino in your map, ignoring placement rules.", sets: ["base"] },
@@ -164,42 +166,44 @@ const MISSION_PENALTIES:Record<string, GeneralData> =
 
 const MISSION_TEXTS:Record<string, GeneralData> =
 {
-    military: { desc: "An enemy stands at our borders, ready for war. To defend the empire, make sure you have ...", matches: [RoleType.WARFARE] },
-    money: { desc: "A natural disaster has destroyed our factories and farms. To repair this, make sure you have ...", matches: [RoleType.MONEY] },
-    infra: { desc: "You produced a new best-selling product. To transport it quickly to all corners of the empire, make sure you have ...", matches: [RoleType.INFRA] },
-    housing: { desc: "A large group of immigrants has arrived in our lands. To ensure their basic needs are met, make sure you have ...", matches: [RoleType.HOUSING] },
-    goods: { desc: "A foreign entity wants to trade with us, willing to pay handsomely for goods they can't produce themselves. To succesfully trade, make sure you have ...", matches: [RoleType.GOODS] },
+    military: { desc: "An enemy stands at our borders, ready for war. We must defend the empire.", matches: [RoleType.WARFARE] },
+    money: { desc: "A natural disaster has destroyed our factories and farms, which we must repair.", matches: [RoleType.MONEY] },
+    infra: { desc: "You produced a new best-selling product and need to transport it quickly to all corners of the empire.", matches: [RoleType.INFRA] },
+    housing: { desc: "A large group of immigrants has arrived in our lands. Ensure their basic needs are met.", matches: [RoleType.HOUSING] },
+    goods: { desc: "A foreign entity wants to trade with us, willing to pay handsomely for goods they can't produce themselves.", matches: [RoleType.GOODS] },
 
-    military_money: { desc: "An agreement with other countries dictates we spend 5% of our capital and civilians on our army. To comply, make sure you have ...", matches: [RoleType.WARFARE, RoleType.MONEY] },
-    military_infra: { desc: "To properly defend against threats of goblins, we must build tanks and have good roads leading to our border. To achieve this, make sure you have ...", matches: [RoleType.WARFARE, RoleType.INFRA] },
-    military_housing: { desc: "Many soldiers have warned us that our homes lack bunkers in case the enemy attacks from the air. To prevent such a shameful loss, make sure you have ...", matches: [RoleType.WARFARE, RoleType.HOUSING] },
-    military_goods: { desc: "Our army is pitiful, entirely without weapons and ammunition! To prevent being overrun by another country, make sure you have ...", matches: [RoleType.WARFARE, RoleType.GOODS] },
+    military_money: { desc: "An agreement with other countries dictates we spend 5% of our capital and civilians on our army.", matches: [RoleType.WARFARE, RoleType.MONEY] },
+    military_infra: { desc: "To properly defend against threats of goblins, we must build tanks and have good roads leading to our border.", matches: [RoleType.WARFARE, RoleType.INFRA] },
+    military_housing: { desc: "Many soldiers have warned us that our homes lack bunkers in case the enemy attacks from the air. We must remedy this!", matches: [RoleType.WARFARE, RoleType.HOUSING] },
+    military_goods: { desc: "Our army is pitiful, entirely without weapons and ammunition! Solve this at once.", matches: [RoleType.WARFARE, RoleType.GOODS] },
 
-    money_infra: { desc: "To attract the most tourists this summer, we are looking to build a new airport and spend on advertising. Make sure you have ...", matches: [RoleType.MONEY, RoleType.INFRA] },
-    money_housing: { desc: "Our family is ashamed of you! Our houses are so bad that we need to repair them all and PAY our civilians to live in them! Make sure you have ...", matches: [RoleType.MONEY, RoleType.HOUSING] },
-    money_goods: { desc: "We need a new chain of stores to sell modern technology. We'll first need to invest a lot of money in researching that technology though! Make sure you have ...", matches: [RoleType.MONEY, RoleType.GOODS] },
+    money_infra: { desc: "To attract the most tourists this summer, we are looking to build a new airport and spend on advertising.", matches: [RoleType.MONEY, RoleType.INFRA] },
+    money_housing: { desc: "Our family is ashamed of you! Our houses are so bad that we need to repair them all and PAY our civilians to live in them!", matches: [RoleType.MONEY, RoleType.HOUSING] },
+    money_goods: { desc: "We need a new chain of stores to sell modern technology. We'll first need to invest a lot of money in researching that technology though!", matches: [RoleType.MONEY, RoleType.GOODS] },
 
-    infra_housing: { desc: "Our empire's designated court artist has devised a ludicrous plan to build a railway station inside a skyscraper. To satisfy him, make sure you have ...", matches: [RoleType.INFRA, RoleType.HOUSING] },
-    infra_goods: { desc: "To connect our largest capitals, we need to build an advanced bridge made out of material only one factory can produce. To not let the bridge collapse, make sure you have ...", matches: [RoleType.INFRA, RoleType.GOODS] },
+    infra_housing: { desc: "Our empire's designated court artist has devised a ludicrous plan to build a railway station inside a skyscraper.", matches: [RoleType.INFRA, RoleType.HOUSING] },
+    infra_goods: { desc: "To connect our largest capitals, we need to build an advanced bridge made out of material only one factory can produce.", matches: [RoleType.INFRA, RoleType.GOODS] },
 
-    housing_goods: { desc: "We're producing so many products that we lack the space to store them all! To prevent throwing valuable goods onto the streets, make sure you have ...", matches: [RoleType.HOUSING, RoleType.GOODS] },
+    housing_goods: { desc: "We're producing so many products that we lack the space to store them all! We must quickly build storages.", matches: [RoleType.HOUSING, RoleType.GOODS] },
 
-    military_money_infra: { desc: "Our advisors insist on executing a large training operation to make sure the army is prepared for future wars. Make sure you have ...", matches: [RoleType.WARFARE, RoleType.MONEY, RoleType.INFRA] },
-    money_infra_housing: { desc: "All our cities are full! We need to quickly invest in an entirely new city and road network, or risk people sleeping in the dirt. Make sure you have ...", matches: [RoleType.MONEY, RoleType.INFRA, RoleType.HOUSING] },
-    infra_housing_goods: { desc: "Due to a growing demand for our delicious food offerings, we need to build storages and a tram line inside our capital. To avoid losing all our profit and customers, make sure you have ...", matches: [RoleType.INFRA, RoleType.HOUSING, RoleType.GOODS] },
-    military_infra_goods: { desc: "We discovered a new island! Obviously, we need to immediately conquer it, place an airport, and sell our stuff to the natives. Make sure you have ...", matches: [RoleType.WARFARE, RoleType.INFRA, RoleType.GOODS] },
-    money_housing_goods: { desc: "To solve our housing crisis, we decide to pour money into inventing foldable homes you can buy in a box. To make this a reality instead of a shameful expense, make sure you have ...", matches: [RoleType.MONEY, RoleType.HOUSING, RoleType.GOODS] },
-    military_money_housing: { desc: "We are looking to attack our treacherous neighbor, but don't want to harm any civilians. To pay them to leave and find a new home, make sure you have ...", matches: [RoleType.WARFARE, RoleType.MONEY, RoleType.HOUSING] },
+    military_money_infra: { desc: "Our advisors insist on executing a large training operation to make sure the army is prepared for future wars.", matches: [RoleType.WARFARE, RoleType.MONEY, RoleType.INFRA] },
+    money_infra_housing: { desc: "All our cities are full! We need to quickly invest in an entirely new city and road network, or risk people sleeping in the dirt.", matches: [RoleType.MONEY, RoleType.INFRA, RoleType.HOUSING] },
+    infra_housing_goods: { desc: "Due to growing demand for our delicious food offerings, we must build storages and a tram line inside our capital.", matches: [RoleType.INFRA, RoleType.HOUSING, RoleType.GOODS] },
+    military_infra_goods: { desc: "We discovered a new island! Obviously, we need to immediately conquer it, place an airport, and sell our stuff to the natives.", matches: [RoleType.WARFARE, RoleType.INFRA, RoleType.GOODS] },
+    money_housing_goods: { desc: "To solve our housing crisis, we decide to pour money into inventing foldable homes you can buy in a box.", matches: [RoleType.MONEY, RoleType.HOUSING, RoleType.GOODS] },
+    military_money_housing: { desc: "We are looking to attack our treacherous neighbor, but don't want to harm any civilians. Pay them to leave to safer homes.", matches: [RoleType.WARFARE, RoleType.MONEY, RoleType.HOUSING] },
 }
 
 const EVENTS:Record<string, GeneralData> = 
 {
-    lala: { label: "Lala", desc: "Lala" }
+    disaster: { label: "A Terrible Storm", desc: "A storm has ravaged our empire last night! In Role order, each player removes 1 Domino from the shared map." }
 }
 
 const MISC =
 {
-    
+    shush: { frame: 0 },
+    mission_reward: { frame: 1 },
+    mission_penalty: { frame: 2 }
 }
 
 export

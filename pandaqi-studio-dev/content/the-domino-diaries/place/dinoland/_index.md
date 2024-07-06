@@ -15,10 +15,16 @@ color: "orange"
 
 date: 2025-06-26
 
+difficulty: "no-brainer"
+genres: ["family", "thematic"]
+categories: ["boardgame", "tile-game"]
+tags: ["bias", "domino", "shared-map", "matching", "area-control", "ownership", "textless", "turn-based", "high-score"]
+themes: ["cartoon", "animals", "nature", "textured", "prehistoric", "history"]
+
 multiplayermode: ["cooperative", "competitive"]
 language: EN
-playtime: 30
-playercount: [3,4,5,6,7]
+playtime: 20
+playercount: [2,3,4,5]
 ages: everyone
 devlog: "/blog/boardgames/the-domino-diaries/dinoland/"
 

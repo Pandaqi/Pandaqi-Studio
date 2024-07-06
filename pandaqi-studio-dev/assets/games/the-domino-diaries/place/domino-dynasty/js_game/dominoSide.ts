@@ -53,8 +53,9 @@ export default class DominoSide
         this.key = k;
     }
 
-    isRoleIcon()
+    isCapital()
     {
+        if(!this.hasIcon()) { return false; }
         return this.getTypeData().mainIcon;
     }
 
@@ -146,11 +147,12 @@ export default class DominoSide
     {
         if(!this.hasIcon()) { return; }
 
-        const res = vis.getResource("objects");
-        const shadowEffect = new DropShadowEffect({ color: "#000000", blurRadius: 0.05*vis.sizeUnit });
+        const res = vis.getResource("icons");
+        const shadowEffect = new DropShadowEffect({ color: "#FFFFFF", blurRadius: 0.05*vis.sizeUnit });
+        const dims = this.isCapital() ? vis.get("dominoes.main.dimsCapital") : vis.get("dominoes.main.dims");
         const op = new LayoutOperation({
             frame: this.getTypeData().frame,
-            dims: vis.get("dominoes.main.dims"),
+            dims: dims,
             effects: [shadowEffect, vis.inkFriendlyEffect].flat(),
             pivot: Point.CENTER,
         })
@@ -166,20 +168,20 @@ export default class DominoSide
         const partHeight = 0.5*vis.size.y;
         const textPos = new Point(0, 0.33*partHeight);
         const textDims = new Point(0.9*vis.size.x, 0.275*partHeight);
-        const rectParams = { pos: textPos, dims: textDims, color: "#111111", alpha: 0.75 };
+        const rectParams = { pos: textPos, dims: textDims, color: vis.get("dominoes.powerText.rectColor"), alpha: vis.get("dominoes.powerText.rectAlpha") };
         drawBlurryRectangle(rectParams, group);
 
         const text = data.desc;
         const textConfig = new TextConfig({
             font: vis.get("fonts.body"),
-            size: vis.get("dominoes.text.fontSize"),
+            size: vis.get("dominoes.powerText.fontSize"),
         }).alignCenter();
 
         const resText = new ResourceText({ text, textConfig });
         const opText = new LayoutOperation({
             translate: textPos, 
             pivot: Point.CENTER,
-            fill: "#FFEEEE",
+            fill: vis.get("dominoes.powerText.color"),
             dims: new Point(0.9*textDims.x, textDims.y)
         });
         group.add(resText, opText);

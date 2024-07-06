@@ -15,10 +15,16 @@ color: "green"
 
 date: 2025-06-26
 
+difficulty: "kids-can-play"
+genres: ["family", "thematic"]
+categories: ["boardgame", "tile-game"]
+tags: ["domino", "shared-map", "matching", "turn-based", "market", "ownership", "high-score", "networks"]
+themes: ["cartoon", "colorful"]
+
 multiplayermode: ["cooperative", "competitive"]
 language: EN
 playtime: 30
-playercount: [3,4,5,6,7]
+playercount: [2,3,4,5]
 ages: everyone
 devlog: "/blog/boardgames/the-domino-diaries/theme-parque/"
 

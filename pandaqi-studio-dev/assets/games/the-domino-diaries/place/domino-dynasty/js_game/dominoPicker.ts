@@ -58,13 +58,17 @@ export default class DominoPicker
                 const d2 = new Domino(DominoType.REGULAR);
                 const dsTop = new DominoSide();
                 dsTop.setTerrain(data.terrain);
+                dsTop.setPath("all", false);
                 dsTop.setIcon(key);
 
                 const dsBottom = new DominoSide();
                 dsBottom.setTerrain(data.terrain);
+                dsBottom.setPath("all", false);
+                dsBottom.setIcon("empty");
 
                 d2.setSides(dsTop, dsBottom);
                 d2.setSet("startingDomino");
+                this.dominoes.push(d2);
             }
         }
     }
@@ -91,7 +95,7 @@ export default class DominoPicker
 
     generateMissionDominoes(set:string)
     {
-        const numDominoes = CONFIG.generation.numMissions ?? 0;
+        const numDominoes = CONFIG.generation.numMissions[set] ?? 0;
         if(numDominoes <= 0) { return; }
 
         const availableMissionIcons = [];
@@ -100,12 +104,13 @@ export default class DominoPicker
             if(!data.missionIcon) { continue; }
             availableMissionIcons.push(key);
         }
+        console.log(availableMissionIcons);
 
         const availableScalars = this.filterBySet(MISSION_SCALARS, set);
         const availableRewards = this.filterBySet(MISSION_REWARDS, set);
         const availablePenalties = this.filterBySet(MISSION_PENALTIES, set);
 
-        const numReqsDist:Record<number, number> = CONFIG.genertion.numMissionReqsDist;
+        const numReqsDist:Record<number, number> = CONFIG.generation.numMissionReqsDist;
         let totalReqsNeeded = 0;
         for(const [num,perc] of Object.entries(numReqsDist))
         {
@@ -157,7 +162,7 @@ export default class DominoPicker
             const numInt = parseInt(num);
             for(let i = 0; i < freq; i++)
             {
-                allRequirements.push(requirementOptions.slice(0, numInt));
+                allRequirements.push(requirementOptions.splice(0, numInt));
             }
         }
         shuffle(allRequirements);
@@ -171,6 +176,7 @@ export default class DominoPicker
             d.setMissionText(this.getBestFlavorTextFor(d));
             d.setMissionShush(allShush.pop());
             d.setSet(set);
+            this.dominoes.push(d);
         }
     }
 
@@ -228,6 +234,7 @@ export default class DominoPicker
         // determine path distributions (type = number of openings, and directed or not)
         const allPaths = [];
         const pathDist:Record<string, number> = CONFIG.generation.pathDist;
+        const possiblePathKeys = Object.keys(CONFIG.generation.pathDist);
         for(const [key,perc] of Object.entries(pathDist))
         {
             const freq = Math.ceil(perc * numSquares);
@@ -247,7 +254,8 @@ export default class DominoPicker
         shuffle(allPathDirections);
 
         // determine terrain distributions (already shuffled)
-        const allTerrains = this.assignDynamicallyWeighted(Object.keys(TERRAINS), TERRAINS, numSquares);
+        const possibleTerrainKeys = Object.keys(TERRAINS);
+        const allTerrains = this.assignDynamicallyWeighted(possibleTerrainKeys, TERRAINS, numSquares);
 
         const availableIcons = this.filterBySet(ICONS, set);
         const allIcons = this.assignDynamicallyWeighted(availableIcons, ICONS, numSquares);
@@ -256,8 +264,8 @@ export default class DominoPicker
         for(const icon of allIcons)
         {
             const ds = new DominoSide();
-            ds.setTerrain(allTerrains.pop());
-            ds.setPath(allPaths.pop(), allPathDirections.pop());
+            ds.setTerrain(allTerrains.pop() ?? fromArray(possibleTerrainKeys));
+            ds.setPath(allPaths.pop() ?? fromArray(possiblePathKeys), allPathDirections.pop() ?? false);
             ds.setIcon(icon);
             options.push(ds);
         }
@@ -274,8 +282,8 @@ export default class DominoPicker
             // we can't have two different "role icons" on the same tile
             // if that happens, turn the other icon empty, but add the original back to the list to make sure distributions still work out
             // @NOTE: this is a fuzzy algorithm, but it should be exceedingly rare that this creates anything close to trouble
-            const twoRoleIconsSameDomino = (sideA.hasIcon() && sideB.hasIcon()) && (sideA.isRoleIcon() && sideB.isRoleIcon() && sideA.key != sideB.key);
-            if(twoRoleIconsSameDomino)
+            const twoCapitalsSameDomino = sideA.isCapital() && sideB.isCapital();
+            if(twoCapitalsSameDomino)
             {
                 const randIndex = Math.floor(Math.random() * options.length);
                 options.splice(randIndex, 0, sideB);
@@ -318,7 +326,7 @@ export default class DominoPicker
         const arr = [];
         for(const key of list)
         {
-            const freq = Math.ceil((list[key].prob ?? 1.0) * percMult * num);
+            const freq = Math.ceil((dict[key].prob ?? 1.0) * percMult * num);
             for(let i = 0; i < freq; i++)
             {
                 arr.push(key);

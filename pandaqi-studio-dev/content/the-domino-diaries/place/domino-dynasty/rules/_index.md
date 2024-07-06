@@ -6,7 +6,7 @@ type: "rules"
 
 Create a deck with all **Role** dominoes. Shuffle and deal each player 1 Role. Once revealed, also give each player their corresponding **Starting Dominoes**. (It shows their role icon and unique terrain, and is marked "Starting Domino").
 
-Start the **Shared Map** in the center of the table by combining the Starting Dominoes of all players.
+Start the **Shared Map** in the center of the table by combining the Starting Dominoes of _all Roles_ (even those not in the current game) however you like.
 
 All players also start their individual map by placing their second Starting Domino before them.
 
@@ -44,11 +44,16 @@ On your turn, **pick 1 domino** (from the market) and **place it**.
 
 * You may place it either in your individual map or the shared map.
 * It must attach to the existing map (and not overlap). All maps have a maximum size of 8x8.
-* On your individual map: paths must match, terrain does not.
-* On the shared map: paths don't need to match, terrain must.
+* On your **individual map**: paths must match, terrain does not.
+* On the **shared map**: terrains must match, paths do not.
 * Crucially, if an icon is present on a Role card, **only that player** may handle dominoes showing that icon.
 
 Picking and placing a domino is _required_. You may only do nothing if you _can't_ use any of the remaining dominoes.
+
+@TODO: IMAGE EXAMPLE
+* Should point out the simple "place adjacent, no overlap, holes are fine, max 8x8 size" rule
+* Should point out what are paths, what are terrains, and what matching means.
+* Should point out which dominoes a certain player may or may not handle.
 
 {{% /rules-block %}}
 
@@ -66,6 +71,10 @@ The strength you need to have (in certain areas) is always _dynamic_. It depends
 
 Some missions also give a reward for succeeding or penalty for failing.
 
+@TODO: IMAGE EXAMPLE
+* Should point out what "open-ended path" means.
+* Should point out the simple ways to count if you completed a mission or not.
+
 {{% /rules-block %}}
 
 {{% /rules-block %}}
@@ -76,18 +85,26 @@ In this game, the _scores_ and _pathing_ of each Player's map are the most impor
 
 Why? Because only **Capital icons** actually do something. The other icons _modify_ what the Capital does if they're on a path connected to it.
 
+A Capital icon is bigger and marked by castle icons on all 4 sides. In the base game, the only Capitals are the Role Icons and the white Neutral icon.
+
 The score of every player _is_ their Role's strength. For example, if the Brother of Warfare has a map that scores 8, then the current strength of your empire's military is 8.
 
 Calculating your score has three steps.
-* Find all your Capital icons (which will be your Role Icon + the Neutral Icon) on your individual map. Each of them is worth +1 by default.
-* Check any paths attached to it. Icons on that path _modify_ the score of that icon, such as doubling it. Any Role icon on the path "stops" the path. (That is, if the path continues after it, imagine it's a brand new path starting from zero.)
+* Find all Capital icons on your individual map. Each of them is worth +1 by default.
+* Check any paths attached to it. Icons on that path _modify_ the score of that icon, such as doubling it. Any Capital on the path "restarts" the path. (That is, if the path continues after it, imagine it's a brand new path starting from zero.)
 * Finally, _multiply_ the score of your individual map by the size of your **Province** on the shared map.
-  * Your Province is the group of tiles attached to your Starting Domino, with the same terrain.
-  * You can grow it as well by building _paths_ to other patches on the shared map with this terrain.
+  * Your Province is the group of tiles with your Role's terrain attached to your Starting Domino.
+  * You can grow it as well by building _paths_ to other patches on the shared map with your Role's terrain.
 
 {{% remark %}}
 In a way, your individual maps are "zoomed-in" versions of your spot in the shared map.
 {{% /remark %}}
+
+As such, you need each other to complete missions, and their numbers are always about _all the maps (combined)_. If your mission requires 5 Military, then you must make sure the Brother of Warfare actually produces at least that amount. If you have enough Military for everyone, great! If not, the owning Role decides how to distribute the strength they have.
+
+@TODO: EXAMPLE IMAGE
+
+
 
 FOR EXAMPLE: Say you are Brother of Warfare. 
 
@@ -97,8 +114,6 @@ FOR EXAMPLE: Say you are Brother of Warfare.
 * As such, this round players have **a military strength of 12** at their disposal (for completing Goals or the Report phase)
   * If one player needs 6 to defend against a threat, and another needs 6 as well, then great! You have enough.
   * If they both need 8, though, you don't have enough to give them both. In those cases, _you_ decide who gets whatever you can give.
-
-@TODO: EXAMPLE IMAGE
 
 {{% /rules-block %}}
 
@@ -110,7 +125,7 @@ Played the base game and ready for more? Or want to tweak it a little to fit you
 
 **For a completely cooperative game:** most of the game stays the same. Only the following changes need to be made.
 
-* Some mission cards have the **secret** symbol (@TODO: inline icon). This means the Mission must be kept _secret_. You may discuss and strategize together, but not outright communicate this exact Mission.
+* Some mission cards have the **secret eye** (@TODO: INLINE ICON). This means the Mission must be kept _secret_. You may discuss and strategize together, but not outright communicate this exact Mission.
 * You **lose** if the game ends before you were able to complete 4 Missions per player. (For example: in a 4-player game, you lose if someone leaves the empire before completing 16 missions in total.)
 * Otherwise, you **win**. Your final score is the strength of the _weakest_ player; higher is obviously better.
 
@@ -153,27 +168,25 @@ This expansion also adds **Events**.
 
 {{% rules-block heading="Directional Daddy" %}}
 
-* Paths now get arrows (sometimes), and you may only count the path insofar as it consistently points TO the icon
-* Threats from outside (goblins?) can now have a direction, such as "we hit from the LEFT side of the shared map" or something?
+This expansion adds paths with arrows (sometimes). 
+
+> When following a path, if you hit a directional path that points AWAY from the icon, stop there.
+
+In other words, you can only count paths connected to Capitals insofar as they consistently point _to_ the Capital. (And if they have no arrows, consider that they point both ways.)
 
 {{% /rules-block %}}
 
 {{% rules-block heading="Machine Mama" %}}
 
-This is about connecting paths/"engines" between players.
+This expansion is about connecting _players_ and using the individual maps to feed into a bigger engine (or "machine").
 
-> You can only give/receive stuff from players if there's a path between THEIR ICON and YOUR ICON on the shared map.
+It introduces a few new icons and missions (as usual), but also introduces a few big and crucial rule changes.
 
-> You can "lend" your power to another player to whom you're connected _once_ per round. (That is, they can handle your icon and/or execute your Report power too.)
-
-IDEAS:
-
-* Anything your individual map can provide, goes to _your area_ only (by default). Others need to build paths to you.
-* You actually make BINDING agreements? => All players get some dominoes for their role, and they can give them out/exchange them like "a favor for a favor". And you can cash in that favor at any later moment.
-* The general idea of THREATS and GOALS (from dominoes drawn) seems too useful to ignore. Why?
-  * It gives players a reason to help _another player/role_ grow (on the shared map), because they need it to be strong to weather a storm or meet a goal.
-
-
+* You can only share your strength freely with another player if you are **connected on the shared map**. (That is, there must be a path between a Capital in _your Province_ and a Capital in _their Province_.)
+* If unconnected, you can still share your strength with someone, but that is the **only player** with whom you may share it (this round).
+* You may choose to give your _power_ or your _role icon_ to another player this round. 
+  * Only players to whom you're connected (on the shared map) can borrow it.
+  * This means _you_ can't use your own power or handle dominoes with your own icon anymore, but the player who borrowed it can.
 
 {{% /rules-block %}}
 

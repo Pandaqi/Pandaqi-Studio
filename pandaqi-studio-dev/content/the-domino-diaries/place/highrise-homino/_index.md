@@ -15,10 +15,16 @@ color: "blue"
 
 date: 2025-06-26
 
+difficulty: "simple"
+genres: ["family", "thematic"]
+categories: ["boardgame", "tile-game"]
+tags: ["domino", "map", "matching", "turn-based", "market", "sorting", "high-score", "contracts"]
+themes: ["cartoon", "top-down", "colorful"]
+
 multiplayermode: ["cooperative", "competitive"]
 language: EN
-playtime: 30
-playercount: [3,4,5,6,7]
+playtime: 60
+playercount: [2,3,4,5]
 ages: everyone
 devlog: "/blog/boardgames/the-domino-diaries/highrise-homino/"
 

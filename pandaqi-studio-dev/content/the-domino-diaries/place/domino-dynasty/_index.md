@@ -15,10 +15,16 @@ color: "purple"
 
 date: 2025-06-26
 
+difficulty: "regular"
+genres: ["thematic", "strategy"]
+categories: ["boardgame", "tile-game"]
+tags: ["domino", "shared-map", "map", "matching", "roles", "networks", "turn-based", "contracts", "construction", "numbers", "asymmetric", "player-powers", "political", "high-score", "alliances"]
+themes: ["medieval"]
+
 multiplayermode: ["cooperative", "competitive"]
 language: EN
-playtime: 30
-playercount: [3,4,5,6,7]
+playtime: 90
+playercount: [2,3,4,5]
 ages: everyone
 devlog: "/blog/boardgames/the-domino-diaries/domino-dynasty/"
 
@@ -31,13 +37,14 @@ devlog: "/blog/boardgames/the-domino-diaries/domino-dynasty/"
 {{% boardgame-settings-container type="material" %}}
 
 {{< boardgame-settings type="game" local_storage="dominoDynastyConfig" btn_label="Generate Material" game_title="Domino Dynasty" defaults="true">}}
+  {{< setting-checkbox id="setting-addText" text="Add Text?" checked="checked" remark="Adds text that explains what a tile does on the tile itself." >}}
   {{< boardgame-settings-section heading="Sets" >}}
-    {{< setting-checkbox id="setting-sets-pawns" text="Pawns?" checked="checked" >}}
+    {{< setting-checkbox id="setting-sets-roles" text="Role Tiles?" checked="checked" >}}
     {{< setting-checkbox id="setting-sets-base" text="Base?" checked="checked" >}}
-    {{< setting-checkbox id="setting-sets-detail" text="Animal Detail Tiles?" checked="checked" >}}
-    {{< setting-checkbox id="setting-sets-strong" text="Strong Species?" >}}
-    {{< setting-checkbox id="setting-sets-wildlife" text="Wildlife Wishes?" >}}
-    {{< setting-checkbox id="setting-sets-utilities" text="Unnatural Utilities?" >}}
+    {{< setting-checkbox id="setting-sets-goblin" text="Goblin Grandma?" >}}
+    {{< setting-checkbox id="setting-sets-proximity" text="Proximity Papa?" >}}
+    {{< setting-checkbox id="setting-sets-direction" text="Direction Daddy?" >}}
+    {{< setting-checkbox id="setting-sets-machine" text="Machine Mama?" >}}
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 

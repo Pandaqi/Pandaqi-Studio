@@ -15,10 +15,16 @@ color: "brown"
 
 date: 2025-06-26
 
+difficulty: "kids-can-play"
+genres: ["family", "thematic"]
+categories: ["boardgame", "tile-game"]
+tags: ["domino", "shared-map", "matching", "turn-based", "ownership", "high-score", "enclosure", "educational"]
+themes: ["animals", "nature", "top-down", "colorful"]
+
 multiplayermode: ["cooperative", "competitive"]
 language: EN
-playtime: 30
-playercount: [3,4,5,6,7]
+playtime: 45
+playercount: [2,3,4,5]
 ages: everyone
 devlog: "/blog/boardgames/the-domino-diaries/zoo-parque/"
 

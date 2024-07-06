@@ -1,25 +1,13 @@
 @use "sass:color";
 
-$header-font: "bluebook";
-$body-font: "domine";
-$base: "/swiftsmash-saga/assets/";
+$header-font: "domino";
+$body-font: "space";
+$base: "/the-domino-diaries/assets/";
 $base-fonts: $base + "fonts/";
-
-$bg-color: #C9EECF;
-$text-color: #021f06;
-
-$col1: #E53152;
-$col1-inv: #ffe7eb;
-$col2: #055916;
-
-$button-bg: $col1;
-$button-color: $col1-inv;
-$link-color: color.adjust($col2, $lightness: 0%);
-$link-color-hover: color.adjust($col2, $lightness: 15%);
 
 @font-face {
     font-family: $body-font;
-    src: url($base-fonts + 'Domine-Bold.woff2') format('woff2');
+    src: url($base-fonts + 'SpaceGrotesk-Bold.woff2') format('woff2');
     font-weight: bold;
     font-style: normal;
     font-display: swap;
@@ -27,7 +15,7 @@ $link-color-hover: color.adjust($col2, $lightness: 15%);
 
 @font-face {
     font-family: $body-font;
-    src: url($base-fonts + 'Domine-Regular.woff2') format('woff2');
+    src: url($base-fonts + 'SpaceGrotesk-Regular.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -35,7 +23,7 @@ $link-color-hover: color.adjust($col2, $lightness: 15%);
 
 @font-face {
     font-family: $header-font;
-    src: url($base-fonts + 'BlueBook.woff2') format('woff2');
+    src: url($base-fonts + 'Domino-Regular.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -43,15 +31,9 @@ $link-color-hover: color.adjust($col2, $lightness: 15%);
 
 body {
     font-family: $body-font;
-    background-color: $bg-color;
-    color: $text-color;
-    font-size: calc(13px + 0.390625vw);
-    line-height: 140%;
 }
 
-h1, h2, h3, h4, h5, h6, 
-a.btn, #btn-create-pdf, #btn-generate-board, #btn-start-game,
-input, button, select, option, label {
+h1, h2, h3, h4, h5, h6, .btn-custom {
     font-family: $header-font;
     font-weight: normal;
 }
@@ -59,31 +41,3 @@ input, button, select, option, label {
 input, button, select, option, label {
     font-family: $body-font;
 }
-
-
-a {
-    color: $link-color; 
-
-    &:hover {
-        color: $link-color-hover;
-    }
-}
-
-.boardgame-intro {
-    .tagline, .metadata {
-        color: $text-color;
-    }
-}
-
-a.download-btn, a.download-btn:visited, 
-#btn-start-game, #btn-start-game:visited,
-#btn-generate-board, #btn-generate-board:visited {
-    background-color: $button-bg;
-    color: $button-color;
-    
-    &:hover {
-        background-color: $button-color;
-        color: $button-bg;
-    }
-}
-

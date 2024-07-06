@@ -6,9 +6,9 @@ const CONFIG:any =
 {
     debug:
     {
-        omitFile: true, // @DEBUGGING (should be false)
-        singleDrawPerType: true, // @DEBUGGING (should be false)
-        onlyGenerate: true, // @DEBUGGING (should be false)
+        omitFile: false, // @DEBUGGING (should be false)
+        singleDrawPerType: false, // @DEBUGGING (should be false)
+        onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
     configKey: "dominoDynastyConfig",
@@ -77,18 +77,18 @@ const CONFIG:any =
             disableCaching: true
         },
 
-        // contains the backgrounds for ROLE + MISSION cards
+        // contains the backgrounds for ROLE + MISSION + EVENT tiles
         templates:
         {
             path: "templates.webp",
-            frames: new Point(6,1),
+            frames: new Point(7,1),
             disableCaching: true
         },
 
         misc:
         {
             path: "misc.webp",
-            frames: new Point(4,4),
+            frames: new Point(4,1),
             disableCaching: true
         },
     },
@@ -123,7 +123,7 @@ const CONFIG:any =
         percMissionPenalties: 0.33,
         percMissionShush: 0.33,
 
-        targetMissionValue: 3,
+        targetMissionValue: 2.5,
         targetMissionMaxError: 1,
 
         numMissionReqsDist:
@@ -150,15 +150,76 @@ const CONFIG:any =
         {
             dimsElement: new Point(1, 2),
             dims: { 
-                small: new Point(8,6),
-                regular: new Point(6,4),
-                large: new Point(5,3)
+                small: new Point(7,5),
+                regular: new Point(5,3),
+                large: new Point(4,2)
             },  
             autoStroke: true
         },
 
         missionTemplateFrame: 5, // 0-4 are for the 5 player roles
         eventTemplateFrame: 6,
+
+        main:
+        {
+            dims: new CVal(new Point(0.65), "sizeUnit"),
+            dimsCapital: new CVal(new Point(0.975), "sizeUnit")
+        },
+
+        mission:
+        {
+            fontSize: new CVal(0.062, "sizeUnit"),
+            posFlavorText: new CVal(new Point(0.075, 0.175), "size"),
+            dimsFlavorText: new CVal(new Point(0.835, 0.5), "size"),
+
+            requirements:
+            {
+                pos: new CVal(new Point(0.5, 0.48), "size"),
+                dims: new CVal(new Point(0.195), "sizeUnit"), // this is PER icon/requirement
+
+                posIcon: new CVal(new Point(-0.38, 0), "size"), // this is RELATIVE to (0,0) in center of requirement row
+                posText: new CVal(new Point(0.45, 0), "size"),
+                fontSize: new CVal(0.07, "sizeUnit")
+            },
+
+            consequence:
+            {
+                posHeader: new CVal(new Point(0.5, 0.8), "size"),
+                posText: new CVal(new Point(0.5, 0.885), "size"),
+                dimsText: new CVal(new Point(0.835, 0.185), "size"),
+                dimsHeader: new CVal(new Point(0.35), "sizeUnit"),
+            },
+
+            shushIcon:
+            {
+                pos: new CVal(new Point(0.9, 0.14), "size"),
+                dims: new CVal(new Point(0.175), "sizeUnit")
+            }
+        },
+
+        events:
+        {
+            fontSizeHeader: new CVal(0.135, "sizeUnit"),
+            posHeader: new CVal(new Point(0.5, 0.33), "size"),
+            fontSizeBody: new CVal(0.075, "sizeUnit"),
+            posBody: new CVal(new Point(0.5, 0.6), "size")
+        },
+
+        setText:
+        {
+            size: new CVal(0.075, "sizeUnit"),
+            color: "#121212",
+            alpha: 0.75
+        },
+
+        powerText:
+        {
+            fontSize: new CVal(0.0645, "sizeUnit"),
+            color: "#FEFEFE",
+            rectColor: "#121212",
+            rectAlpha: 0.7   
+        }
+
     },
 }
 

@@ -182,9 +182,9 @@ const CONFIG:any =
         {
             dimsElement: new Point(1, 2),
             dims: { 
-                small: new Point(8,6),
-                regular: new Point(6,4),
-                large: new Point(5,3)
+                small: new Point(7,5),
+                regular: new Point(5,3),
+                large: new Point(4,2)
             },  
             autoStroke: true
         },
@@ -201,6 +201,11 @@ const CONFIG:any =
         walls:
         {
             dims: new CVal(new Point(1.0), "sizeUnit")
+        },
+
+        text:
+        {
+            fontSize: new CVal(0.05825, "sizeUnit")
         },
 
         object:
