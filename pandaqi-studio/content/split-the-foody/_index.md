@@ -15,7 +15,7 @@ date: 2024-05-26
 
 difficulty: "simple"
 genres: ["thematic"]
-categories: ["boardgame", "card-game"]
+categories: ["boardgame", "card-game", "standard"]
 tags: ["bidding", "bluffing", "social", "high-score", "numbers"]
 themes: ["pirates"]
 

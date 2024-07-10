@@ -14,7 +14,7 @@ color: "purple"
 date: 2025-05-26
 
 difficulty: "simple"
-categories: ["boardgame", "card-game"]
+categories: ["boardgame", "card-game", "standard"]
 genre: ["family"]
 tags: ["contracts", "shared-map", "high-score"]
 themes: []

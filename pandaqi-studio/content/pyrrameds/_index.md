@@ -14,7 +14,7 @@ color: "yellow"
 date: 2025-05-26
 
 difficulty: "kids-can-play"
-categories: ["boardgame", "card-game"]
+categories: ["boardgame", "card-game", "standard"]
 genre: ["family"]
 tags: ["numbers", "patterns", "shared-map", "networks", "move-through-all"]
 themes: ["animals"]

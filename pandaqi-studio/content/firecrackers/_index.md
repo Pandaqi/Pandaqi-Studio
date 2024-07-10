@@ -15,7 +15,7 @@ date: 2024-12-12
 
 difficulty: "kids-can-play"
 genres: ["thematic", "family", "party"]
-categories: ["boardgame", "card-game"]
+categories: ["boardgame", "card-game", "standard"]
 tags: ["push-your-luck", "deck-building", "hot-potato", "numbers", "market"]
 themes: ["colorful", "holiday"]
 

@@ -18,7 +18,7 @@ date: 2023-11-12
 
 difficulty: "simple"
 genres: ["thematic"]
-categories: ["boardgame", "card-game"]
+categories: ["boardgame", "card-game", "standard"]
 tags: ["political", "hidden-roles", "social", "fast-paced"]
 themes: ["medieval"]
 

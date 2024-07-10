@@ -16,7 +16,7 @@ date: 2024-09-11
 
 difficulty: "simple"
 genres: ["family"]
-categories: ["boardgame", "card-game"]
+categories: ["boardgame", "card-game", "standard"]
 tags: ["numbers", "hand-management", "move-through-all", "turn-based", "player-powers", "trick-taking"]
 themes: ["nature"]
 

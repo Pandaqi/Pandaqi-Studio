@@ -17,7 +17,7 @@ color: "turquoise"
 date: 2025-03-26
 
 difficulty: "kids-can-play"
-categories: ["boardgame", "tile-game", "pawn-game"]
+categories: ["boardgame", "tile-game", "pawn-game", "standard"]
 genre: ["family"]
 tags: ["shared-map", "set-collection", "movement"]
 themes: ["colorful", "holiday"]

@@ -18,7 +18,7 @@ date: 2024-02-25
 
 difficulty: "kids-can-play"
 genres: ["family"]
-categories: ["boardgame", "card-game", "waitless-game"]
+categories: ["boardgame", "card-game", "waitless-game", "standard"]
 tags: ["set-collecting", "battle", "hidden-score", "modular", "turn-based"]
 themes: ["colorful", "monsters"]
 

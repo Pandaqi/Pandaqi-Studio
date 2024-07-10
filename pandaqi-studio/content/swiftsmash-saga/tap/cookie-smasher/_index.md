@@ -20,7 +20,7 @@ date: 2024-07-26
 
 difficulty: "simple"
 genres: ["action", "party"]
-categories: ["boardgame", "card-game"]
+categories: ["boardgame", "card-game", "standard"]
 tags: ["simultaneous-turns", "fast-paced", "numbers"]
 themes: ["colorful", "mosaic", "medieval"]
 

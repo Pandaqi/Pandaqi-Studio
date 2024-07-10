@@ -17,7 +17,7 @@ color: "green"
 date: 2025-04-26
 
 difficulty: "kids-can-play"
-categories: ["boardgame", "card-game"]
+categories: ["boardgame", "card-game", "standard"]
 genre: ["family", "thematic"]
 tags: ["voting", "income", "media", "simultaneous-turns", "move-through-all"]
 themes: ["hollywood"]

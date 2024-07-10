@@ -18,7 +18,7 @@ date: 2023-10-20
 
 difficulty: "kids-can-play"
 genres: ["party"]
-categories: ["boardgame", "card-game"]
+categories: ["boardgame", "card-game", "standard"]
 tags: ["numbers", "simultaneous-turns", "fast-paced", "stacking", "move-through-all", "ladder-climbing"]
 themes: ["pop-art", "retro", "colorful"]
 

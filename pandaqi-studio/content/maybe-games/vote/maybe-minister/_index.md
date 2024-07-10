@@ -17,7 +17,7 @@ color: "brown"
 date: 2026-04-26
 
 difficulty: "regular"
-categories: ["boardgame", "card-game"]
+categories: ["boardgame", "card-game", "standard"]
 genre: ["family", "thematic"]
 tags: ["voting", "income", "simultaneous-turns", "political"]
 themes: []

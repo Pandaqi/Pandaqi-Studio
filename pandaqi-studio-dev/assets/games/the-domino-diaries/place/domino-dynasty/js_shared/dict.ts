@@ -196,7 +196,43 @@ const MISSION_TEXTS:Record<string, GeneralData> =
 
 const EVENTS:Record<string, GeneralData> = 
 {
-    disaster: { label: "A Terrible Storm", desc: "A storm has ravaged our empire last night! In Role order, each player removes 1 Domino from the shared map." }
+    storm_remove: { label: "Terrible Storms", desc: "A storm visited our empire last night! In Role order, each player <b>removes</b> 1 Domino from the shared map." },
+    floods_punish: { label: "Forceful Floods", desc: "A flood has ravaged our lands! This round, nobody has their Role power, and everyone must <b>remove</b> 2 Dominoes from their map." },
+    earthquake_rotate: { label: "Earthquake", desc: "An earthquake shook all parts of our lands! In Role order, each player must <b>rotate</b> 1 Domino on their map."  },
+    snow_overlap: { label: "Snowfalls", desc: "A month of consistent snowfall has covered our lands! This round, any Domino you place must <b>overlap</b> existing ones." },
+    designer_match: { label: "A Designer Visits", desc: "A master architect visited our empire and told us everything was ugly. This round, you must <b>match</b> both paths and terrains, always." },
+    path_restriction: { label: "Weathered Roads", desc: "Our roads are in terrible condition. This round, only the first 5 steps on a path (attached to a Capital) count." },
+    breakthrough_draw_more: { label: "Science Breakthrough", desc: "New technology has shown us how to build much faster! This round, draw twice as many dominoes (for the Market) as usual." },
+    elections_rearrange: { label: "Local Elections", desc: "Our insane little brother called for local elections and changed leadership everywhere. In Role order, each player <b>rearranges</b> 3 Dominoes on their own map." },
+    border_dispute: { label: "Border Dispute I", desc: "Awaiting the redrawing of our borders, this round, no map can grow larger than 5x5." },
+    border_dispute_alt: { label: "Border Dispute II", desc: "There's been uncertainty about the sharing of territory. This round, nobody may grow their Province, and their size is considered halved when scoring." },
+
+    penalty_break: { label: "Penalty Mercy", desc: "The family council is in a good and merciful mood. This round, you don't get the penalty for failing a mission." },
+    reward_break: { label: "Rusty Rewards", desc: "The family council is in a bad and perfectionist mood. This round, you don't get the reward for achieving a mission." },
+    mission_soften: { label: "Good Times", desc: "Our empire prospers and can relax a little. This round, choose 1 element of your Mission Task that you can ignore." },
+    mission_harden: { label: "Strict Regime", desc: "Recent laxness in our employees has caused mistakes! This round, all Missions receive this Penalty: \"Remove 3 dominoes from your map.\"" },
+    mission_swap: { label: "Political Power", desc: "One of our family members has grown so powerful they're sneakily avoiding their duties! At round's end, the player with the highest score may swap their Mission with someone else." },
+    better_bonds: { label: "Better Bonds", desc: "A recent party has done our family's relationships a world of good! This round, everyone may handle all dominoes, even those with the wrong Capital." },
+    terrible_bonds: { label: "Terrible Bonds", desc: "A major fallout within the family has soured relationships! This round, discard any dominoes showing the Icon or Terrain of Roles that aren't in the game." },
+    capital_punishment: { label: "Capital Punishment", desc: "Concerned voices are rising in our family about members accruing too much power. This round, the player(s) with the most Capitals do nothing at all." },
+    holding_hands: { label: "Holding Hands", desc: "Some siblings have realized we're stronger together---what an invention! This round, all players that are connected to another on the shared map, add +4 to their strength." },
+    man_of_the_people: { label: "Man of the People", desc: "Our folk has increasingly started to prefer a single member of our family. This round, only the player who has the most People is allowed to place new ones." },
+    reverse_order: { label: "Reverse Round", desc: "As a national joke holiday, we've decided to take turns in counter-clockwise order, and do the Report phase in high->low Role order." },
+
+    military_break: { label: "Goblin Alliance", desc: "We negotiated a great peace with the goblins! The Brother of Warfare does not draw a Mission this round." },
+    money_break: { label: "Forgotten Treasure", desc: "Our grandfather found a treasure in his backyard! The Sister of Coin does not draw a Mission this round." },
+    infra_break: { label: "Sturdy Trains", desc: "To everyone's surprise, there's nothing wrong with our railways. The Uncle of Infrastructure does not draw a Mission this round." },
+    housing_break: { label: "Highrise Homes", desc: "Our largest skyscraper ever has finally finished building! The Sibling of Space does not draw a Mission this round." },
+    goods_break: { label: "Drop in Droplets", desc: "Thanks to colder weather, we don't need to produce as much fresh water as before! The Aunt of Produce does not draw a Mission this round." },
+    neutral_break: { label: "Nuanced Views", desc: "More and more family members have become less extreme and more nuanced in their views. This round, Neutral strength is doubled." },
+
+    military_punish: { label: "Goblin Infiltration", desc: "Goblins have infiltrated our empire and laid waste to important structures! This round, Military strength is <b>halved</b>." },
+    money_punish: { label: "Plague of Thieves", desc: "Thieves have been stealing from our royal treasure and we just can't find them. This round, Money strength is <b>halved</b>." },
+    infra_punish: { label: "Asteroid Impact", desc: "An asteroid fell from the sky and slammed into our highways. This round, Roads strength is <b>halved</b>." },
+    housing_punish: { label: "Collapsed Building", desc: "A block of buildings mysteriously collapsed. This round, Housing strength is <b>halved</b>." },
+    goods_punish: { label: "Spoiled Fruit", desc: "Several large shipments of food have completely spoiled. This round, Goods strength is <b>halved</b>." },
+    neutral_punish: { label: "Take a Stance", desc: "Our people now want us to be more opinionated on important empire matters. This round, Neutral strength is 0." },
+
 }
 
 const MISC =

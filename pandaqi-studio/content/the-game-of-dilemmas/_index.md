@@ -15,7 +15,7 @@ date: 2024-12-26
 
 difficulty: "no-brainer"
 genres: ["family", "party"]
-categories: ["boardgame", "card-game"]
+categories: ["boardgame", "card-game", "standard"]
 tags: ["social", "emotional", "guessing", "sorting", "creative"]
 themes: ["colorful"]
 

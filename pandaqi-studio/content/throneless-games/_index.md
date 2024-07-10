@@ -15,7 +15,7 @@ date: 2023-12-20
 
 difficulty: "kids-can-play"
 genres: ["thematic"]
-categories: ["boardgame", "waitless", "card-game"]
+categories: ["boardgame", "waitless-game", "card-game", "standard"]
 tags: ["political", "hidden-roles", "social", "fast-paced"]
 themes: ["medieval"]
 

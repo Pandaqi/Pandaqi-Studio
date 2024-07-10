@@ -18,7 +18,7 @@ date: 2024-08-25
 
 difficulty: "kids-can-play"
 genres: ["family"]
-categories: ["boardgame", "card-game"]
+categories: ["boardgame", "card-game", "standard"]
 tags: ["textless", "player-powers", "numbers", "hand-management", "ladder-climbing", "catch-the-leader", "move-through-all", "turn-based"]
 themes: ["nature"]
 

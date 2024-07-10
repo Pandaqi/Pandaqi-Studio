@@ -14,7 +14,7 @@ color: "purple"
 date: 2025-02-26
 
 difficulty: "simple"
-categories: ["boardgame", "tile-game"]
+categories: ["boardgame", "tile-game", "standard"]
 genre: ["family"]
 tags: ["numbers", "bidding", "auction"]
 themes: ["cartoon"]

@@ -19,7 +19,7 @@ date: 2024-09-11
 
 difficulty: "kids-can-play"
 genres: ["family"]
-categories: ["boardgame", "card-game"]
+categories: ["boardgame", "card-game", "standard"]
 tags: ["numbers", "hand-management", "ladder-climbing", "move-through-all", "turn-based", "player-powers"]
 themes: ["nature"]
 

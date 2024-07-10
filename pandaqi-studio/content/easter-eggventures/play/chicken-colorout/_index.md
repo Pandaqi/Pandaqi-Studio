@@ -17,7 +17,7 @@ color: "green"
 date: 2025-03-26
 
 difficulty: "kids-can-play"
-categories: ["boardgame", "tile-game"]
+categories: ["boardgame", "tile-game", "standard"]
 genre: ["family"]
 tags: ["shared-map", "move-through-all"]
 themes: ["colorful", "holiday"]

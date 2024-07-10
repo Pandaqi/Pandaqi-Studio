@@ -13,15 +13,16 @@ color: "yellow"
 
 date: 2025-03-26
 
-categories: ["boardgame"]
-tags: ["creative", "guessing", "word"]
+difficulty: "kids-can-play"
+categories: ["boardgame", "tile-game", "card-game", "standard"]
+genre: ["family", "thematic"]
+tags: []
+themes: ["colorful", "holiday"]
 
 multiplayermode: "competitive"
 language: EN
-genre: ["card", "party", "social"]
 playtime: 30
-playercount: [2,3,4,5,6,7,8]
-complexity: low
+playercount: [2,3,4,5,6]
 ages: everyone
 devlog: "/blog/boardgames/easter-eggventures/"
 

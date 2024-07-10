@@ -15,7 +15,7 @@ date: 2024-05-26
 
 difficulty: "kids-can-play"
 genres: ["family"]
-categories: ["boardgame", "tile-game"]
+categories: ["boardgame", "tile-game", "standard"]
 tags: ["grid", "shared-map", "area-control", "take-that", "high-score"]
 themes: ["nature", "top-down"]
 

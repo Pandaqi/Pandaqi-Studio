@@ -9,8 +9,6 @@ customHeight: "medium"
 
 color: "blue"
 
-
-
 date: 2021-04-29
 
 categories: ["boardgame"]

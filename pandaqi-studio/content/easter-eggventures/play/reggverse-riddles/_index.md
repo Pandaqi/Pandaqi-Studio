@@ -17,7 +17,7 @@ color: "purple"
 date: 2025-03-26
 
 difficulty: "simple"
-categories: ["boardgame", "tile-game"]
+categories: ["boardgame", "tile-game", "standard"]
 genre: ["family"]
 tags: ["shared-map", "movement", "logic"]
 themes: ["colorful", "holiday"]

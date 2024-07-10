@@ -123,11 +123,6 @@ h3 {
     font-size: 1.0em;
 }
 
-ul, ol {
-    margin-top: -0.85em;
-    margin-bottom: 1.5em;
-}
-
 
 //
 // Icons
@@ -213,6 +208,23 @@ body {
 p {
     orphans: 2;
     widows: 2;
+}
+
+a, a:visited {
+    color: #212155;
+    transition: color 0.25s;
+    &:hover {
+        color: #DCDCFF;
+    }
+}
+
+.game-title {
+    a, a:visited {
+        color: #DCDCFF;
+        &:hover {
+            color: white;
+        }
+    }
 }
 
 article, section {
@@ -854,6 +866,13 @@ $rules-table-size-print: 0.75*$rules-table-icon-size;
     @media print {
         display: none;
     }
+}
+
+blockquote
+{
+    border-left: 0.25em solid #323232;
+    padding-left: 0.25em;
+    font-style: italic;
 }
 
 @media screen

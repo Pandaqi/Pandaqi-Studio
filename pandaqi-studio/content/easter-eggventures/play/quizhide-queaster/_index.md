@@ -17,7 +17,7 @@ color: "brown"
 date: 2025-03-26
 
 difficulty: "no-brainer"
-categories: ["boardgame", "tile-game"]
+categories: ["boardgame", "tile-game", "standard"]
 genre: ["family", "party"]
 tags: ["shared-map", "creative", "limited-communication", "guessing"]
 themes: ["colorful", "holiday"]

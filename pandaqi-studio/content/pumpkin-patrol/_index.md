@@ -17,7 +17,7 @@ date: 2024-10-12
 
 difficulty: "kids-can-play"
 genres: ["family"]
-categories: ["boardgame", "card-game"]
+categories: ["boardgame", "card-game", "standard"]
 tags: ["fixed-order", "movement", "hand-management", "high-score", "turn-based", "kill-steal", "modular", "patterns"]
 themes: ["holiday", "monsters"]
 

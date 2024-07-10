@@ -14,7 +14,7 @@ color: "turquoise"
 date: 2025-02-26
 
 difficulty: "kids-can-play"
-categories: ["boardgame", "tile-game"]
+categories: ["boardgame", "tile-game", "standard"]
 genre: ["family"]
 tags: ["logic", "memory"]
 themes: ["sea", "animals", "monsters"]
@@ -32,6 +32,8 @@ devlog: "/blog/boardgames/captain-flip/"
 
 {{% boardgame-instructions %}}
 This game is incredibly simple (just flip one tile and take its action) and well-suited for families and kids. This does require text on the tiles, however, which means players need some knowledge of the English language.
+
+**DISCLAIMER:** There is another (quite successful and recent) boardgame called "Captain Flip" too. This is _not_ that game---the name similarity is a coincidence. I had finished development of my own game and page before it came out, otherwise I would have changed the name to literally anything else. Pretend this game has always been called "Memorybeard" or something. (I usually finish these games _far_ before publicly releasing them, so don't trust the release date.)
 {{% /boardgame-instructions %}}
 
 {{% boardgame-settings-container type="material" remarks="**What about expansions?** You can play all expansions and variants using the same minimalist base material!" %}}

@@ -17,7 +17,7 @@ date: 2024-12-12
 
 difficulty: "kids-can-play"
 genres: ["family"]
-categories: ["boardgame", "tile-game"]
+categories: ["boardgame", "tile-game", "standard"]
 tags: ["shared-map", "movement", "numbers", "logic"]
 themes: ["holidays"]
 

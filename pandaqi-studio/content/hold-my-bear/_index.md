@@ -15,7 +15,7 @@ date: 2024-06-25
 
 difficulty: "simple"
 genres: ["sports"]
-categories: ["boardgame", "card-game"]
+categories: ["boardgame", "card-game", "standard"]
 tags: ["numbers", "follow", "modular", "hand-management"]
 themes: ["nature", "watercolor", "sports"]
 

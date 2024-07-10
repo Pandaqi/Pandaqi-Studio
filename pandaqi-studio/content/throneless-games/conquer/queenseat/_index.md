@@ -20,7 +20,7 @@ date: 2024-11-12
 
 difficulty: "kids-can-play"
 genres: ["thematic"]
-categories: ["boardgame", "waitless-game", "card-game"]
+categories: ["boardgame", "waitless-game", "card-game", "standard"]
 tags: ["political", "hidden-roles", "social", "fast-paced", "king-of-the-hill"]
 themes: ["medieval"]
 

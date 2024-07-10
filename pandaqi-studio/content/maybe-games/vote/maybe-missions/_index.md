@@ -17,7 +17,7 @@ color: "yellow"
 date: 2025-04-26
 
 difficulty: "simple"
-categories: ["boardgame", "card-game"]
+categories: ["boardgame", "card-game", "standard"]
 genre: ["family", "thematic"]
 tags: ["voting", "simultaneous-turns", "move-through-all"]
 themes: ["espionage"]

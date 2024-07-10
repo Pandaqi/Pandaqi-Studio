@@ -17,7 +17,7 @@ date: 2025-01-12
 
 difficulty: "simple"
 genres: ["thematic"]
-categories: ["boardgame", "card-game"]
+categories: ["boardgame", "card-game", "standard"]
 tags: ["hidden-roles", "detective", "fixed-order", "player-elimination"]
 
 multiplayermode: "competitive"

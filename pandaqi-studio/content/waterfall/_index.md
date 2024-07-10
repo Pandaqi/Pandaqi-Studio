@@ -14,7 +14,7 @@ color: "turquoise"
 date: 2025-08-26
 
 difficulty: "no-brainer"
-categories: ["boardgame", "tile-game", "pawn-game"]
+categories: ["boardgame", "tile-game", "pawn-game", "standard"]
 genre: ["family", "thematic"]
 tags: ["shared-map", "high-score", "fast-paced", "movement"]
 themes: ["nature", "sea"]

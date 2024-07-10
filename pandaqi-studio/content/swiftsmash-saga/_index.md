@@ -8,15 +8,13 @@ blurb: "A series of (party) games about thinking on your feet and swiftly smashi
 
 downloadLink: "https://drive.google.com/drive/folders/153TCjVAmGbWwDFeXqa-eacGi2taA2PnZ"
 
-
 color: "green"
-
 
 date: 2024-07-26
 
 difficulty: "simple"
 genres: ["action", "party"]
-categories: ["boardgame", "card-game"]
+categories: ["boardgame", "card-game", "standard"]
 tags: ["simultaneous-turns", "fast-paced", "numbers"]
 themes: []
 

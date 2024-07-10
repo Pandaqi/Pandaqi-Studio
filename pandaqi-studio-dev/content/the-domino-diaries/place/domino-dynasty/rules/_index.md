@@ -16,9 +16,13 @@ All players also start their individual map by placing their second Starting Dom
 
 {{% rules-block heading="Objective" icon="objective" %}}
 
-The game **ends** when one player is forced to **leave the empire**. All players score themselves, even the one who left. **Highest score wins!**
+This game is a mix of cooperative and competitive by default, but you still need to choose if you play as a group (cooperative) or against each other (competitive). These rules explain the cooperative version first; at Variants, you can read the small changes to make it competitive.
 
-This game is a mix between cooperative and competitive by default. If you want to play fully _cooperatively_, check out that variant at the end.
+You **lose** the game once a single player has failed **3 Missions**.
+
+You **win** the game if you manage to complete **4 Missions per player** before that happens. (For example, in a 3-player game, this means completing 3x4 = 12 Missions to win.)
+
+Your final score is the strength of the _weakest_ player. Higher is obviously better!
 
 {{% /rules-block %}}
 
@@ -30,7 +34,9 @@ Play happens in rounds. Each round has three steps: DRAW, PLACE, and REPORT.
 
 Draw 2 times as many dominoes as there are players (from the deck). Place them faceup in a row on the table. This is the **Domino Market** (for this round).
 
-Each player also receives a new **Mission Domino**.
+Each player also receives a new **Mission Domino**. 
+
+Some Missions have the **secret eye** (@TODO: INLINE ICON.) This means the Mission must be kept _secret_. You may discuss and strategize together, but not outright communicate this exact Mission.
 
 @TODO: IMAGE EXAMPLE
 
@@ -50,6 +56,8 @@ On your turn, **pick 1 domino** (from the market) and **place it**.
 
 Picking and placing a domino is _required_. You may only do nothing if you _can't_ use any of the remaining dominoes.
 
+Don't forget to check the unique **Power** of your role during gameplay and use it to your advantage!
+
 @TODO: IMAGE EXAMPLE
 * Should point out the simple "place adjacent, no overlap, holes are fine, max 8x8 size" rule
 * Should point out what are paths, what are terrains, and what matching means.
@@ -61,8 +69,6 @@ Picking and placing a domino is _required_. You may only do nothing if you _can'
 
 Take turns in the order of the _role numbers_. (Low to high; every role has a unique number.)
 
-First, you execute the **Report** action of your Role. This can give rewards or penalties depending on how well you did personally.
-
 Every player checks if their **Mission Domino** is fulfilled. If not, they place the domino facedown before them.
 
 > If a player has 3 facedown Goals ( = 3 failed rounds), they are disowned and must leave the family.
@@ -70,6 +76,10 @@ Every player checks if their **Mission Domino** is fulfilled. If not, they place
 The strength you need to have (in certain areas) is always _dynamic_. It depends on the current state of the board, which allows missions to grow in difficulty as our map also grows. If a mission shows _the same icon_ multiple times, you must only satisfy the _highest number_ of those options. 
 
 Some missions also give a reward for succeeding or penalty for failing.
+
+{{% remark %}}
+The "Report" power of your role is OPTIONAL and can be ignored.
+{{% /remark %}}
 
 @TODO: IMAGE EXAMPLE
 * Should point out what "open-ended path" means.
@@ -123,11 +133,13 @@ Played the base game and ready for more? Or want to tweak it a little to fit you
 
 {{% rules-block heading="Variant" %}}
 
-**For a completely cooperative game:** most of the game stays the same. Only the following changes need to be made.
+**For even more diversity in roles:** when the Report phase starts, check the **Report** action of your Role! This punishes bad behavior or placement (or rewards cooperative behavior and good placement).
 
-* Some mission cards have the **secret eye** (@TODO: INLINE ICON). This means the Mission must be kept _secret_. You may discuss and strategize together, but not outright communicate this exact Mission.
-* You **lose** if the game ends before you were able to complete 4 Missions per player. (For example: in a 4-player game, you lose if someone leaves the empire before completing 16 missions in total.)
-* Otherwise, you **win**. Your final score is the strength of the _weakest_ player; higher is obviously better.
+**For a COMPETITIVE game:** most of the game stays the same. Only the following changes need to be made.
+
+* The game **ends** as soon as one player must **leave the empire** ( = they have 3 failed missions).
+* All players score themselves. The player who left, however has a -8 penalty on their strength. **Highest score wins!**
+* All Missions are _public_. (Ignore the secret eye.)
 
 **For an even more tactical game:** also count the shared map when determining your score/strength! The full formula becomes:
 * Check your Role's Capital icons on both your individual and shared map.

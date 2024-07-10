@@ -16,7 +16,7 @@ date: 2024-11-12
 
 difficulty: "kids-can-play"
 genres: ["family"]
-categories: ["boardgame", "tile-game"]
+categories: ["boardgame", "tile-game", "standard"]
 tags: ["set-collection", "shared-map", "fixed-order", "high-score", "mining", "orientation"]
 themes: ["fantasy"]
 

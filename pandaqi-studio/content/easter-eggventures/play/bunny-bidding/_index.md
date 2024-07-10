@@ -17,7 +17,7 @@ color: "pink"
 date: 2025-03-26
 
 difficulty: "simple"
-categories: ["boardgame", "tile-game"]
+categories: ["boardgame", "tile-game", "standard"]
 genre: ["family"]
 tags: ["bidding", "auction", "secret-objective", "numbers", "simultaneous-turns"]
 themes: ["colorful", "holiday"]
