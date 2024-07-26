@@ -1,7 +1,8 @@
 import shuffle from "js/pq_games/tools/random/shuffle";
 import CONFIG from "../js_shared/config";
-import { DINOS, DominoType, TERRAINS } from "../js_shared/dict";
+import { ASTEROID_TILES, DINOS, DominoType, IMPACT_TILES, TERRAINS } from "../js_shared/dict";
 import Domino from "./domino";
+import fromArray from "js/pq_games/tools/random/fromArray";
 
 export default class DominoPicker
 {
@@ -16,6 +17,8 @@ export default class DominoPicker
         this.generatePawns();
         this.generateBaseDominoes();
         this.generateExpansionDominoes();
+        this.generateImpactTiles();
+        this.generateAsteroidTiles();
 
         console.log(this.dominoes);
     }
@@ -51,6 +54,21 @@ export default class DominoPicker
     {
         if(!CONFIG.sets.base) { return; }
         this.generateDominoes("base");
+
+        // generate the base asteroid (normal + egg hatch) and crosshair tiles
+        const num = CONFIG.generation.numAsteroidTilesBase;
+        const numEgg = Math.round(CONFIG.generation.fractionEggHatcher * num);
+        for(let i = 0; i < num; i++)
+        {
+            const key = (i < numEgg) ? "egghatch" : "regular";
+            this.dominoes.push( new Domino(DominoType.ASTEROID, key) );
+        }
+
+        const numCrosshairs = 2;
+        for(let i = 0; i < numCrosshairs; i++)
+        {
+            this.dominoes.push( new Domino(DominoType.ASTEROID) );
+        }
     }
 
     generateExpansionDominoes()
@@ -107,6 +125,41 @@ export default class DominoPicker
             d.setTerrains(terrains.pop(), terrains.pop());
             d.setDinosaurs(dinosaurs.pop(), dinosaurs.pop());
             d.setSet(set);
+            this.dominoes.push(d);
+        }
+    }
+
+    generateImpactTiles()
+    {
+        if(!CONFIG.sets.impact) { return; }
+
+        for(const [key,data] of Object.entries(IMPACT_TILES))
+        {
+            const d = new Domino(DominoType.IMPACT, key);
+            this.dominoes.push(d);
+        }
+    }
+
+    generateAsteroidTiles()
+    {
+        if(!CONFIG.sets.asteroid) { return; }
+
+        const num = CONFIG.generation.numAsteroidTiles;
+        const multiOptions = [];
+        const finalOptions = Object.keys(ASTEROID_TILES);
+        for(const [key,data] of Object.entries(ASTEROID_TILES))
+        {
+            if(data.multi) { multiOptions.push(key); }
+        }
+
+        while(finalOptions.length < num)
+        {
+            finalOptions.push(fromArray(multiOptions));
+        }
+
+        for(const option of finalOptions)
+        {
+            const d = new Domino(DominoType.ASTEROID, option);
             this.dominoes.push(d);
         }
     }

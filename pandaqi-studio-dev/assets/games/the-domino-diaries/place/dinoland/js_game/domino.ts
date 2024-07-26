@@ -2,7 +2,7 @@ import createContext from "js/pq_games/layout/canvas/createContext";
 import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
-import { DinoType, DominoType, TerrainType } from "../js_shared/dict";
+import { ASTEROID_TILES, DinoType, DominoType, IMPACT_TILES, MISC, TerrainType } from "../js_shared/dict";
 import DominoSide from "./dominoSide";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import Point from "js/pq_games/tools/geometry/point";
@@ -15,11 +15,13 @@ export default class Domino
     type:DominoType;
     pawnIndex:number = -1; // just a quick hack to also reuse this class for drawing the pawns/claim cubes
     sides:{ top:DominoSide, bottom:DominoSide }
+    key:string; // only used on special dominoes to index into dictionary and get data
     set:string;
 
-    constructor(type:DominoType)
+    constructor(type:DominoType, key:string = "")
     {
         this.type = type;
+        this.key = key;
         this.sides = { top: new DominoSide(), bottom: new DominoSide() };
     }
 
@@ -48,13 +50,19 @@ export default class Domino
     async draw(vis:MaterialVisualizer)
     {
         const ctx = createContext({ size: vis.size });
-        const bgColor = vis.inkFriendly ? "#FFFFFF" : CONFIG.dominoes.bgColor;
+
+        let bgColor = CONFIG.dominoes.bgColor;
+        if(this.type == DominoType.ASTEROID) { bgColor = CONFIG.dominoes.bgColorAsteroid; }
+        else if(this.type == DominoType.IMPACT) { bgColor = CONFIG.dominoes.bgColorImpact; }
+        if(vis.inkFriendly) { bgColor = "#FFFFFF"; }
         fillCanvas(ctx, bgColor);
 
         const group = new ResourceGroup();
 
         if(this.type == DominoType.PAWN) {
             this.drawPawn(vis, group);
+        } else if(this.type == DominoType.IMPACT) {
+            this.drawImpactTile(vis, group);
         } else if(this.type == DominoType.REGULAR) {
             const opTop = new LayoutOperation({
                 translate: new Point(vis.center.x, 0.25*vis.size.y),
@@ -67,25 +75,9 @@ export default class Domino
                 pivot: Point.CENTER
             })
             group.add(this.sides.bottom.draw(vis), opBottom);
-
-            // to help people quickly sort out base game / expansion
-            if(this.set == "expansion")
-            {
-                const text = "E";
-                const textConfig = new TextConfig({
-                    font: vis.get("fonts.heading"),
-                    size: vis.get("dominoes.setText.size")
-                })
-                const resText = new ResourceText({ text, textConfig });
-                const opText = new LayoutOperation({
-                    translate: new Point(1.33*textConfig.size), 
-                    pivot: Point.CENTER,
-                    fill: "#442200",
-                    alpha: 0.5,
-                    dims: new Point(2*textConfig.size)
-                });
-                group.add(resText, opText);
-            }
+            this.drawSetText(vis, group);
+        } else {
+            this.drawAsteroidTile(vis, group);
         }
 
         group.toCanvas(ctx);
@@ -111,6 +103,100 @@ export default class Domino
             dims: dims
         });
         group.add(res, opBottom);
+    }
+
+    // to help people quickly sort out base game / expansion
+    drawSetText(vis:MaterialVisualizer, group:ResourceGroup)
+    {
+        if(this.set != "expansion") { return; }
+
+        const text = "E";
+        const textConfig = new TextConfig({
+            font: vis.get("fonts.heading"),
+            size: vis.get("dominoes.setText.size")
+        })
+        const resText = new ResourceText({ text, textConfig });
+        const opText = new LayoutOperation({
+            translate: new Point(1.33*textConfig.size), 
+            pivot: Point.CENTER,
+            fill: "#442200",
+            alpha: 0.5,
+            dims: new Point(2*textConfig.size)
+        });
+        group.add(resText, opText);
+    }
+    
+    drawImpactTile(vis:MaterialVisualizer, group:ResourceGroup)
+    {
+        const data = IMPACT_TILES[this.key];
+
+        // the sprite visualizing how the impact works
+        const res = vis.getResource("impact_tiles");
+        const op = new LayoutOperation({
+            translate: new Point(vis.center.x, 0.25*vis.size.y),
+            frame: data.frame,
+            dims: vis.get("dominoes.impact.dims"),
+            pivot: Point.CENTER
+        })
+        group.add(res, op);
+
+        // any extra text to explain it / tweak rules
+        const text = data.desc;
+        const textConfig = new TextConfig({
+            font: vis.get("fonts.body"),
+            size: vis.get("dominoes.impact.fontSize")
+        }).alignCenter();
+
+        const resText = new ResourceText({ text, textConfig });
+        const opText = new LayoutOperation({
+            translate: new Point(vis.center.x, 0.75*vis.size.y), 
+            pivot: Point.CENTER,
+            fill: "#FCFCFC",
+            dims: new Point(vis.size.x, 0.5*vis.size.y)
+        });
+        group.add(resText, opText);
+    }
+
+    drawAsteroidTile(vis:MaterialVisualizer, group:ResourceGroup)
+    {
+        // determine the specific graphic to display
+        const resMisc = vis.getResource("misc");
+        let res = vis.getResource("asteroid_tiles");
+        let data = ASTEROID_TILES[this.key];
+
+        if(!data)
+        {
+            res = resMisc;
+            data = MISC["asteroid_" + this.key];
+        }
+
+        const op = new LayoutOperation({
+            translate: new Point(vis.center.x, 0.25*vis.size.y),
+            dims: vis.get("dominoes.asteroid.dims"),
+            frame: data.frame,
+            pivot: Point.CENTER
+        })
+        group.add(res, op);
+
+        // any extra text to explain it / tweak rules
+        const text = data.desc;
+        if(text)
+        {
+            const textConfig = new TextConfig({
+                font: vis.get("fonts.body"),
+                size: vis.get("dominoes.asteroid.fontSize")
+            }).alignCenter();
+    
+            const resText = new ResourceText({ text, textConfig });
+            const opText = new LayoutOperation({
+                translate: new Point(vis.center.x, 0.75*vis.size.y), 
+                pivot: Point.CENTER,
+                fill: "#FCFCFC",
+                dims: new Point(vis.size.x, 0.5*vis.size.y)
+            });
+            group.add(resText, opText);
+        }
+
     }
 
 }

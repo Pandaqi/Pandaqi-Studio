@@ -31,6 +31,8 @@ const CONFIG:any =
         pawns: true,
         base: true,
         expansion: false,
+        impact: false,
+        asteroid: false
     },
 
     // assets
@@ -42,7 +44,7 @@ const CONFIG:any =
             key: "tinos",
             path: "fonts/Tinos-Italic.woff2",
             textConfig: new TextConfig({ style: TextStyle.ITALIC }),
-            loadIf: ["addText"]
+            loadIf: ["addText", "sets.impact"]
         },
 
         cutedino:
@@ -54,13 +56,31 @@ const CONFIG:any =
         dinosaurs:
         {
             path: "dinosaurs.webp",
-            frames: new Point(6,1)
+            frames: new Point(6,1),
+            loadIf: ["sets.base", "sets.expansion"]
         },
 
         terrains:
         {
             path: "terrains.webp",
-            frames: new Point(6,1)
+            frames: new Point(6,1),
+            loadIf: ["sets.base", "sets.expansion"]
+        },
+
+        // @NOTE: the BASE asteroid images (regular, egghatch, crosshair) are on the MISC spritesheet
+        // To prevent me from having to load this entire image when I don't need 99% of it; this is just the sprites needed for the expansion
+        asteroid_tiles:
+        {
+            path: "asteroid_tiles.webp",
+            frames: new Point(4,4),
+            loadIf: ["sets.asteroid"]
+        },
+
+        impact_tiles:
+        {
+            path: "impact_tiles.webp",
+            frames: new Point(4,4),
+            loadIf: ["sets.impact"]
         },
 
         pawns:
@@ -86,8 +106,11 @@ const CONFIG:any =
     {
         numUniquePawns: 6,
         numPawnsPerPlayer: 3,
-        numAsteroidTiles: 18,
+        
+        numAsteroidTilesBase: 15,
         fractionEggHatcher: 0.33,
+
+        numAsteroidTiles: 20,
         
         numDominoes:
         {
@@ -109,10 +132,10 @@ const CONFIG:any =
                 },
                 dinosaur:
                 {
-                    [DinoType.EGG]: 0.2,
-                    [DinoType.TRI]: 0.3,
+                    [DinoType.EGG]: 0.24,
+                    [DinoType.TRI]: 0.33,
                     [DinoType.BRACHIO]: 0.1,
-                    [DinoType.VELO]: 0.4
+                    [DinoType.VELO]: 0.33
                 }
             },
 
@@ -154,6 +177,9 @@ const CONFIG:any =
         },
 
         bgColor: "#FFEFCF",
+        bgColorAsteroid: "#405E93",
+        bgColorImpact: "#732058",
+
         dino:
         {
             dims: new CVal(new Point(0.8), "sizeUnit"),
@@ -167,22 +193,20 @@ const CONFIG:any =
         setText:
         {
             size: new CVal(0.05, "sizeUnit")
+        },
+
+        impact:
+        {
+            dims: new CVal(new Point(0.8), "sizeUnit"),
+            fontSize: new CVal(0.07, "sizeUnit")
+        },
+
+        asteroid:
+        {
+            dims: new CVal(new Point(0.8), "sizeUnit"),
+            fontSize: new CVal(0.07, "sizeUnit")
         }
     },
-
-    tiles:
-    {
-        drawerConfig:
-        {
-            dimsElement: new Point(1,1),
-            dims: { 
-                small: new Point(5,6),
-                regular: new Point(4,5),
-                large: new Point(3,4)
-            },  
-            autoStroke: true
-        }
-    }
 }
 
 export default CONFIG

@@ -41,7 +41,9 @@ devlog: "/blog/boardgames/the-domino-diaries/dinoland/"
   {{< boardgame-settings-section heading="Sets" >}}
     {{< setting-checkbox id="setting-sets-pawns" text="Pawns?" checked="checked" >}}
     {{< setting-checkbox id="setting-sets-base" text="Base?" checked="checked" >}}
-    {{< setting-checkbox id="setting-sets-expansion" text="Expansion?" >}}
+    {{< setting-checkbox id="setting-sets-expansion" text="Expansion?" remark="A general expansion with more terrains and dinosaurs." >}}
+    {{< setting-checkbox id="setting-sets-impact" text="Impact Cards?" remark="Adds cards that randomize how the asteroid impact works for your game." >}}
+    {{< setting-checkbox id="setting-sets-asteroid" text="Special Asteroids?" remark="Adds special Asteroid Tiles for random events and actions." >}}
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
