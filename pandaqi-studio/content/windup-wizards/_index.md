@@ -25,7 +25,7 @@ themes: ["3D", "magic", "fantasy"]
 
 downloadLink: "http://pandaqi.itch.io/windup-wizards"
 
-price: 0
+price: 2
 platform: ["windows", "mac", "linux", "web"]
 language: EN
 playtime: 5
@@ -38,8 +38,7 @@ devlog: "/blog/videogames/game-jams/devlog-windup-wizards/"
 {{% embedvideo bg="windup_wizards_header" vid="https://www.youtube.com/embed/WMB_kvQn-og" class="limit-width extra-top-offset" %}}
 
 {{< buylink-container class="limit-width" >}}
-{{< buylink url="http://pandaqi.itch.io/windup-wizards" platforms="windows,mac,linux,android" text="Desktop" >}} 
-{{< buylink url="https://play.google.com/store/apps/details?id=com.pandaqi.windup_wizards" platforms="android" text="Mobile" >}} 
+{{< buylink url="http://pandaqi.itch.io/windup-wizards" platforms="windows,mac,linux,android" text="Buy (&euro;2)" >}} 
 {{< /buylink-container >}}
 
 {{% section-centered heading="" class="intro-text" %}}

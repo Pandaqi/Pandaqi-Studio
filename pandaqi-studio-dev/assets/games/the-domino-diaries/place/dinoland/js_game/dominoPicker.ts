@@ -67,7 +67,7 @@ export default class DominoPicker
         const numCrosshairs = 2;
         for(let i = 0; i < numCrosshairs; i++)
         {
-            this.dominoes.push( new Domino(DominoType.ASTEROID) );
+            this.dominoes.push( new Domino(DominoType.ASTEROID, "crosshair") );
         }
     }
 

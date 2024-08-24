@@ -25,7 +25,7 @@ downloadLink: "http://pandaqi.itch.io/windowsilk"
 
 multiplayertype: 'offline'
 multiplayermode: 'competitive'
-price: 0
+price: 2
 platform: ["windows", "mac", "linux", "web"]
 language: EN
 playtime: 5
@@ -38,7 +38,7 @@ devlog: "/blog/videogames/game-jams/devlog-windowsilk/"
 {{% embedvideo bg="windowsilk_header_transparent" vid="https://www.youtube.com/embed/AUpIi8ksarQ" class="limit-width" col="#A31119" %}}
 
 {{< buylink-container class="limit-width" >}}
-{{< buylink url="http://pandaqi.itch.io/windowsilk" platforms="windows,mac,linux" text="Play!" >}} 
+{{< buylink url="http://pandaqi.itch.io/windowsilk" platforms="windows,mac,linux" text="Buy (&euro;2)" >}} 
 {{< /buylink-container >}}
 
 {{% section-centered %}}

@@ -21,7 +21,7 @@ downloadLink: "http://pandaqi.itch.io/bellyboinkers/"
 
 multiplayertype: 'offline'
 multiplayermode: 'competitive'
-price: 10
+price: 5
 platform: ["windows", "mac", "linux"]
 language: EN
 genre: ["action", "party_game"]
@@ -35,10 +35,10 @@ input: ["controller", "keyboard"]
 
 {{% buylink-container class="limit-width" %}}
 	{{< buylink url="http://pandaqi.itch.io/bellyboinkers" platforms="windows,mac,linux" >}} 
-		Buy (&euro;10)
+		Buy (&euro;5)
 	{{< /buylink >}}
 	{{< buylink url="http://pandaqi.itch.io/bellyboinkers" platforms="windows,mac,linux" >}} 
-		Try (free demo)
+		Try (Free Demo)
 	{{< /buylink >}}
 {{% /buylink-container %}}
 

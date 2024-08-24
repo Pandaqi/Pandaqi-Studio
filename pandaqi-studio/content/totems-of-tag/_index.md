@@ -28,7 +28,7 @@ downloadLink: "http://pandaqi.itch.io/totems-of-tag"
 
 multiplayertype: 'offline'
 multiplayermode: 'competitive'
-price: 0
+price: 2
 platform: ["web", "windows", "mac", "linux"]
 language: EN
 playtime: 5

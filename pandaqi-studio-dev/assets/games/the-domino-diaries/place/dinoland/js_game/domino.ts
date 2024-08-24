@@ -136,6 +136,7 @@ export default class Domino
             translate: new Point(vis.center.x, 0.25*vis.size.y),
             frame: data.frame,
             dims: vis.get("dominoes.impact.dims"),
+            effects: vis.inkFriendlyEffect,
             pivot: Point.CENTER
         })
         group.add(res, op);
@@ -147,12 +148,13 @@ export default class Domino
             size: vis.get("dominoes.impact.fontSize")
         }).alignCenter();
 
+        const textColor = vis.inkFriendly ? "#111111" : "#FCFCFC";
         const resText = new ResourceText({ text, textConfig });
         const opText = new LayoutOperation({
             translate: new Point(vis.center.x, 0.75*vis.size.y), 
             pivot: Point.CENTER,
-            fill: "#FCFCFC",
-            dims: new Point(vis.size.x, 0.5*vis.size.y)
+            fill: textColor,
+            dims: new Point(0.925*vis.size.x, 0.5*vis.size.y)
         });
         group.add(resText, opText);
     }
@@ -174,6 +176,7 @@ export default class Domino
             translate: new Point(vis.center.x, 0.25*vis.size.y),
             dims: vis.get("dominoes.asteroid.dims"),
             frame: data.frame,
+            effects: vis.inkFriendlyEffect,
             pivot: Point.CENTER
         })
         group.add(res, op);
@@ -182,6 +185,7 @@ export default class Domino
         const text = data.desc;
         if(text)
         {
+            const textColor = vis.inkFriendly ? "#111111" : "#FCFCFC";
             const textConfig = new TextConfig({
                 font: vis.get("fonts.body"),
                 size: vis.get("dominoes.asteroid.fontSize")
@@ -191,8 +195,8 @@ export default class Domino
             const opText = new LayoutOperation({
                 translate: new Point(vis.center.x, 0.75*vis.size.y), 
                 pivot: Point.CENTER,
-                fill: "#FCFCFC",
-                dims: new Point(vis.size.x, 0.5*vis.size.y)
+                fill: textColor,
+                dims: new Point(0.925*vis.size.x, 0.5*vis.size.y)
             });
             group.add(resText, opText);
         }

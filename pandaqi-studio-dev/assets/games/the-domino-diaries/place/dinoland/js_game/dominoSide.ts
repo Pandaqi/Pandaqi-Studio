@@ -22,6 +22,7 @@ export default class DominoSide
     {
         const group = new ResourceGroup();
 
+        const disableTerrain = vis.inkFriendly && this.terrain == TerrainType.LAVA;
         const resTerrain = vis.getResource("terrains");
         const randRotation = Math.floor(Math.random() * 4) * 0.5 * Math.PI;
         const opTerrain = new LayoutOperation({
@@ -30,7 +31,12 @@ export default class DominoSide
             rotation: randRotation,
             pivot: Point.CENTER
         });
-        group.add(resTerrain, opTerrain);
+        
+        if(!disableTerrain)
+        {
+            group.add(resTerrain, opTerrain);
+        }
+        
 
         if(this.hasDinosaur())
         {
@@ -73,7 +79,6 @@ export default class DominoSide
                 const textConfig = new TextConfig({
                     font: vis.get("fonts.body"),
                     size: vis.get("dominoes.dino.fontSize"),
-                    style: TextStyle.ITALIC
                 }).alignCenter();
 
                 const resText = new ResourceText({ text, textConfig });

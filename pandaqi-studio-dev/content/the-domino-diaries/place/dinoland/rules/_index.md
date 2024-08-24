@@ -4,6 +4,8 @@ type: "rules"
 
 {{% rules-block heading="Setup" icon="setup" %}}
 
+{{% rules-double-view src="setup.webp" alt="Visual examples of how to set up the game." %}}
+
 Create the **Asteroid Deck:** pick 10 Asteroid Tiles (6 regular, 4 Egg Hatch), shuffle, and place faceup on the table.
 
 Create a **Domino Deck:** grab all Domino tiles, shuffle, and place facedown on the table.
@@ -14,7 +16,7 @@ Finally, prepare the map.
 * Place a random domino in the center of the table.
 * Place one **Asteroid Crosshairs** tile to its left, and one above it, pointing to it.
 
-@TODO: IMAGE EXAMPLE
+{{% /rules-double-view %}}
 
 {{% /rules-block %}}
 
@@ -44,7 +46,7 @@ Then take the action of each dinosaur on the tile (if it has one).
 * **Triceratops**: move the Asteroid Crosshairs in the direction indicated by the arrow. If it moves off the map, it wraps around to the other side.
 * **Velociraptor**: discard the top card of the asteroid deck.
 
-@TODO: IMAGE EXAMPLE?
+{{< rules-image src="gameplay_play.webp" alt="Example of how to play a single turn." >}}
 
 There is one special type of asteroid tile: the **Egg Hatcher**. When revealed, 
 
@@ -53,11 +55,13 @@ There is one special type of asteroid tile: the **Egg Hatcher**. When revealed,
 * This means they place a domino from their hand _on top_ of the egg, which must show a dinosaur in the spot where the egg previously was. It is _optional_ to take the corresponding dinosaur action.
 * If it's _possible_, you _must hatch_. Otherwise, nothing happens.
 
-@TODO: IMAGE EXAMPLE
+{{< rules-image src="gameplay_egghatch.webp" alt="Example of how to execute the Egghatch rule (when that icon appears on an Asteroid Tile)." >}}
 
 {{% /rules-block %}}
 
 {{% rules-block id="scoring" heading="Scoring" icon="score" %}}
+
+{{% rules-double-view src="scoring.webp" alt="Example of how to determine your score at the end." %}}
 
 Let's define an **Area** as the largest possible group of connected tiles with the same terrain.
 
@@ -67,7 +71,7 @@ Each player only scores Areas that they have claimed ( = one of their Pawns is i
 
 It can happen that Areas _merge_ over time: two Areas that used to be separate, and were claimed, are connected at some point. This is fine! All owners score that Area, but any eggs inside will never hatch.
 
-@TODO: IMAGE EXAMPLE
+{{% /rules-double-view %}}
 
 {{% /rules-block %}}
 
@@ -80,7 +84,7 @@ When the Asteroid Deck runs out, the asteroid crashes into your map.
 * (The map does _not_ wrap like the crosshairs, which makes checking the impact far simpler.)
 * If a square is destroyed, its entire **Area** (see [scoring](#scoring)) must be ignored when scoring.
 
-@TODO: IMAGE EXAMPLE
+{{< rules-image src="gameplay_impact.webp" alt="Example of how to calculate the impact of the asteroid (disabling tiles for score) at the end." >}}
 
 {{% /rules-block %}}
 
@@ -112,11 +116,15 @@ The "simpler" variants are great for a first game with very young kids, because 
 
 {{% rules-block heading="Expansion" %}}
 
+{{% rules-double-view src="expansion.webp" alt="Visuals for the newly added terrains and dinosaurs in this expansion." %}}
+
 This expansion adds two more terrain types: desert and wildcard (which can be _any terrain_, or rather "all of them at the same time").
 
 It also adds two more dinosaurs.
 * **Stegosaurus** = look at another player's hand OR replace your entire hand with new dominoes from the deck
 * **Wildcard** = represents any dinosaur type you want
+
+{{% /rules-double-view %}}
 
 {{% /rules-block %}}
 

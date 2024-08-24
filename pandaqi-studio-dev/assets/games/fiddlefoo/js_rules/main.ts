@@ -1,6 +1,5 @@
 import InteractiveExampleGenerator from "js/pq_rulebook/examples/interactiveExampleGenerator";
 import InteractiveExampleSimulator from "js/pq_rulebook/examples/interactiveExampleSimulator";
-import TilePicker from "../js_game/tilePicker";
 import CONFIG from "../js_shared/config";
 
 const callbackInitStats = () =>
@@ -28,7 +27,7 @@ const gen = new InteractiveExampleGenerator({
     callback: generate,
     config: CONFIG,
     itemSize: CONFIG.rulebook.itemSize,
-    pickers: { tile: TilePicker },
+    pickers: {},
     simulateConfig: {
         enabled: SIMULATION_ENABLED,
         iterations: SIMULATION_ITERATIONS,

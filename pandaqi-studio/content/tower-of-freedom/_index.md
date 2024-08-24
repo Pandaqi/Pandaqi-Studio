@@ -26,19 +26,19 @@ downloadLink: "http://pandaqi.itch.io/tower-of-freedom/"
 
 multiplayertype: 'offline'
 multiplayermode: 'cooperative'
-price: 0
+price: 1
 platform: ["windows", "mac", "linux"]
 language: EN
 playtime: 20
 playercount: [1,2]
-input: [keyboard"]
+input: ["keyboard"]
 
 ---
 
 {{% embedvideo bg="tof_header" vid="https://www.youtube.com/embed/rRJRZrNZp1E" class="darkened" %}}
 
 {{< buylink-container class="overlay-buy-link text" >}}
-{{< buylink url="http://pandaqi.itch.io/tower-of-freedom" platforms="windows,mac,linux" text="Download Tower of Freedom" >}} 
+{{< buylink url="http://pandaqi.itch.io/tower-of-freedom" platforms="windows,mac,linux" text="Buy (&euro;1)" >}} 
 {{< /buylink-container >}}
 
 {{% section-centered heading="What's this?" class="alternateColor text" %}}

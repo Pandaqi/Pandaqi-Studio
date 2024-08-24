@@ -18,7 +18,7 @@ Create a deck from all remaining cards.
 
 The game ends when a player is **out of cards**. The number of **music notes** left in your hand represent your _negative points_.
 
-It's recommended to play a few games in a row, keeping track of score. The player with the _least_ negative score at the end wins!
+It's recommended to play a few games in a row, keeping track of score. The player with the best score at the end ( = _least_ negative score) wins!
 
 {{% /rules-block %}}
 
@@ -50,18 +50,16 @@ If you created multiple pairs, pick the one with the **largest range**.
 
 Now all the other players _may_ throw any hand cards at you that match one of the following criteria. They do so while yelling "Fiddlefoo, a penalty card for you!" ;)
 
-* That card is the same _color_ and its number is inside the _range_.
-* The _number of music notes_ on that card is equal to the _distance_. If they choose this option, they may only give you 1 card this turn.
+* Either that card is the same _color_ and its number is inside the _range_.
+* Or the _number of music notes_ on that card is equal to the _distance_. If they choose this option, they may only give you 1 card this turn.
 
-If the **distance** you created is larger than 3, however, you're safe. Nobody may throw anything at you. But you must draw 1 card from the deck.
+If the **distance** you created is larger than 3, however, you're safe. Nobody may throw anything at you, but you must draw 1 card from the deck.
 
 Take all cards received into your hand.
 
-If you end your turn without any cards, the game ends (and you win).
+If you end your turn without any cards, the game ends (and you win). Have fun!
 
 @TODO: EXAMPLE IMAGE
-
-{{% /rules-block %}}
 
 {{% /rules-block %}}
 
@@ -97,9 +95,15 @@ What changes?
 
 This expansion adds extra material: cards that also contain _special actions_. 
 
-Such actions can trigger **when paired** (they are part of a Pair created this turn). **when thrown** (at another player) or **when drawn** (from the deck).
+Such actions can trigger ...
+* **When paired** (they are part of a Pair created this turn)
+* **When thrown** (at another player)
+* **When drawn** (from the deck)
+* or **When Scored** (at the end of the game)
 
 They usually allow you to do something you _really want to do_ but can't following the regular rules. Less likely, they are penalties or restrictions to obey.
+
+It's recommended to include just _some_ of them---perhaps the one you like the most!---as all of them at the same time is very overwhelming.
 
 @TODO: EXAMPLE IMAGE
 

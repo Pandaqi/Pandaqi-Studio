@@ -25,7 +25,7 @@ downloadLink: "http://pandaqi.itch.io/i-wish-you-good-hug"
 
 multiplayertype: 'offline'
 multiplayermode: 'cooperative'
-price: 0
+price: 2
 platform: ["windows", "mac", "linux", "android"]
 language: EN
 playtime: 5
@@ -38,8 +38,7 @@ devlog: "/blog/videogames/one-week-games/devlog-i-wish-you-good-hug/"
 {{% embedvideo bg="goodhug_header" vid="https://www.youtube.com/embed/9Qwpho6_8uc" %}}
 
 {{< buylink-container class="limit-width" >}}
-{{< buylink url="http://pandaqi.itch.io/i-wish-you-good-hug" platforms="windows,mac,linux,android"  text="Download" >}} 
-{{< buylink url="https://play.google.com/store/apps/details?id=com.pandaqi.i_wish_you_good_hug" platforms="android" text="Play Store" >}} 
+{{< buylink url="http://pandaqi.itch.io/i-wish-you-good-hug" platforms="windows,mac,linux,android"  text="Buy (&euro;2)" >}} 
 {{< /buylink-container >}}
 
 {{% section-centered heading="" %}}

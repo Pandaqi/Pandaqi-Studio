@@ -11,8 +11,6 @@ customHeight: "large"
 
 color: "beige"
 
-
-
 date: 2021-10-30
 
 categories: ["game"]
@@ -20,7 +18,7 @@ tags: ["desktop", "multiplayer"]
 
 multiplayertype: 'offline'
 multiplayermode: 'competitive'
-price: 8
+price: 5
 platform: ["windows", "mac", "linux"]
 language: EN
 genre: ["casual", "action"]
@@ -35,11 +33,11 @@ devlog: "/blog/videogames/devlog-company-of-the-tackling-tourists/"
 
 {{% buylink-container class="limit-width" %}}
 	{{< buylink url="http://pandaqi.itch.io/company-of-the-tackling-tourists" platforms="windows,mac,linux" >}} 
-		Buy (&euro;7.99)
+		Buy (&euro;5)
 	{{< /buylink >}}
 
 	{{< buylink url="http://pandaqi.itch.io/company-of-the-tackling-tourists" platforms="windows,mac,linux" >}} 
-		Download (free demo)
+		Try (Free Demo)
 	{{< /buylink >}}
 {{% /buylink-container %}}
 

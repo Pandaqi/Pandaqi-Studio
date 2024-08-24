@@ -21,7 +21,7 @@ categories: ["game", "mobile", "local-multiplayer"]
 tags: ["shared-map", "score-and-reset", "real-time", "drawing", "creative", "chaos", "game-modes", "powerups"]
 themes: ["2D", "colorful", "top-down"]
 
-downloadLink: "https://play.google.com/store/apps/details?id=com.pandaqi.art_hockey"
+downloadLink: "https://pandaqi.itch.io/art-hockey/"
 
 multiplayertype: 'offline'
 multiplayermode: 'competitive'
@@ -39,7 +39,7 @@ input: ["touch", "mouse"]
 {{% embedvideo bg="arthockey_logo" vid="https://www.youtube.com/embed/EnU19uRTz_M" class="limit-width" col="#FFAAAA" %}}
 
 <section>
-	<a href="https://play.google.com/store/apps/details?id=com.pandaqi.art_hockey" id="playStoreDownloadButton"></a>
+	<a href="https://pandaqi.itch.io/art-hockey/" id="playStoreDownloadButton"></a>
 </section>
 
 {{% section-centered heading="" %}}

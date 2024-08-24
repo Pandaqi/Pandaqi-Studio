@@ -7,9 +7,9 @@ const CONFIG:any =
 {
     debug:
     {
-        omitFile: true, // @DEBUGGING (should be false)
-        singleDrawPerType: true, // @DEBUGGING (should be false)
-        onlyGenerate: true, // @DEBUGGING (should be false)
+        omitFile: false, // @DEBUGGING (should be false)
+        singleDrawPerType: false, // @DEBUGGING (should be false)
+        onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
     configKey: "fiddlefooConfig",
@@ -60,10 +60,22 @@ const CONFIG:any =
             path: "fonts/Casanova.woff2",
         },
 
+        templates:
+        {
+            path: "templates.webp",
+            frames: new Point(4,1)
+        },
+
+        special_cards:
+        {
+            path: "special_cards.webp",
+            frames: new Point(6,4)
+        },
+
         misc:
         {
             path: "misc.webp",
-            frames: new Point(4,2)
+            frames: new Point(6,1)
         },
     },
 
@@ -75,16 +87,17 @@ const CONFIG:any =
     generation:
     {
         defaultMaxNumOnCard: 16,
+        noteBounds: new Bounds(1,4),
         numCardsPerColor:
         {
+            yellow: 16,
             red: 16,
-            green: 16,
             blue: 16,
             purple: 6
         }
     },
 
-    tiles:
+    cards:
     {
         drawerConfig:
         {
@@ -97,6 +110,46 @@ const CONFIG:any =
                 large: new Point(2,2)
             }, 
         },
+
+        numbers:
+        {
+            offset: new CVal(new Point(0.125, 0.125), "sizeUnit"),
+            textColor: "#030303",
+            fontSize: new CVal(0.185, "sizeUnit")
+        },
+
+        numberCenter:
+        {
+            textPos: new CVal(new Point(0.5), "size"),
+            fontSize: new CVal(0.5, "sizeUnit"),
+            strokeColor: "#FDFDFD",
+            strokeWidth: new CVal(0.02, "sizeUnit"),
+        },
+
+        typeWritten:
+        {
+            offset: new CVal(new Point(0, 0.1), "size"),
+            fontSize: new CVal(0.055, "sizeUnit"),
+        },
+
+        special:
+        {
+            iconPos: new CVal(new Point(0.5, 0.225), "size"),
+            iconDims: new CVal(new Point(0.43), "sizeUnit"),
+            iconBGDims: new CVal(new Point(0.485), "sizeUnit"),
+
+            fontSize: new CVal(0.05, "sizeUnit"),
+            textPos: new CVal(new Point(0.5, 0.765), "size"),
+            textDims: new CVal(new Point(0.645, 0.4), "sizeUnit"),
+            textColor: "#030303"
+        },
+
+        notes:
+        {
+            noteSize: new CVal(new Point(0.1), "sizeUnit"),
+            lineOffset: new CVal(0.025, "sizeUnit"),
+            offsetGroup: new CVal(new Point(0.16, 0), "size"),
+        }
     },
 }
 

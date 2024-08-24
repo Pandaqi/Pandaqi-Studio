@@ -3,6 +3,7 @@ import CONFIG from "../js_shared/config";
 import { SPECIAL_CARDS } from "../js_shared/dict";
 import Card from "./card";
 import lerp from "js/pq_games/tools/numbers/lerp";
+import clamp from "js/pq_games/tools/numbers/clamp";
 
 export default class CardPicker
 {
@@ -24,7 +25,8 @@ export default class CardPicker
                 {
                     const factor = i / (num - 1); // this means that no matter how many cards the color has, its NUMBERS will still be spread out across that range evenly
                     const finalNum = lerp(1, maxNum, factor);
-                    this.cards.push(new Card(color, finalNum));
+                    const numNotes = this.getNotesForNumber(finalNum);
+                    this.cards.push(new Card(color, finalNum, "", numNotes));
                 }
             }
         }
@@ -55,10 +57,21 @@ export default class CardPicker
 
             for(const [key,data] of Object.entries(SPECIAL_CARDS))
             {
-                this.cards.push(new Card(finalColors.pop(), finalNumbers.pop(), key));
+                const finalNum = finalNumbers.pop();
+                const numNotes = this.getNotesForNumber(finalNum);
+                this.cards.push(new Card(finalColors.pop(), finalNum, key, numNotes));
             }
         }
 
         console.log(this.cards);
+    }
+
+    getNotesForNumber(num:number)
+    {
+        const middleNum = 0.5 * (1 + CONFIG.generation.defaultMaxNumOnCard);
+        const fractionRaw = 1.0 - Math.abs( num - middleNum ) / (middleNum - 1);
+        const randomness = (Math.random() - 0.5) * 0.2;
+        const fraction = clamp(fractionRaw + randomness, 0.0, 1.0);
+        return Math.round( CONFIG.generation.noteBounds.lerp(fraction) );
     }
 }

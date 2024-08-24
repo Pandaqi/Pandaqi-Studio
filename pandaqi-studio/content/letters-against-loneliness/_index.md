@@ -25,7 +25,7 @@ themes: ["pixel-art"]
 
 downloadLink: "http://pandaqi.itch.io/letters-against-loneliness"
 
-price: 0
+price: 4
 platform: ["windows", "android"]
 language: EN
 playtime: 5
@@ -37,8 +37,7 @@ input: ["mouse", "touch"]
 {{% embedvideo bg="letters_header" vid="https://www.youtube.com/embed/RFmb-sz5Ox0" class="limit-width" %}}
 
 {{< buylink-container class="limit-width" >}}
-{{< buylink url="http://pandaqi.itch.io/letters-against-loneliness" platforms="windows" text="Download" >}} 
-{{< buylink url="https://play.google.com/store/apps/details?id=com.pandaqi.letters_against_loneliness" platforms="android" text="Play Store" >}} 
+{{< buylink url="http://pandaqi.itch.io/letters-against-loneliness" platforms="windows,android" text="Buy (&euro;4)" >}} 
 {{< /buylink-container >}}
 
 {{% section-centered heading="" class="intro-text" %}}

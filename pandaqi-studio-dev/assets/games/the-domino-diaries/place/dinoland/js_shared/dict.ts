@@ -80,20 +80,20 @@ const IMPACT_TILES:Record<string, GeneralData> =
 {
     regular: { frame: 0, desc: "Destroy target and its 8 neighbors." },
     single: { frame: 1, desc: "Destroy all Areas with same color as target." },
-    longest_row: { frame: 2, desc: "Destroys all squares in the longest row (of the two that the Crosshairs point at)." }, // just show both row and column (coming from crosshairs); in longest you highlight the LONGER one, in shortest you highlight the SHORTER one
-    shortest_row: { frame: 3, desc: "Destroys all squares in the shortest row (of the two that the Crosshairs point at)."},
-    regular_wrap: { frame: 4, desc: "Destroy target and its 8 neighbors, including wrapping around the map. (If you go off the map one side, return on the opposite side.)" },
+    longest_row: { frame: 2, desc: "Destroys all squares in the longest row pointed at." }, // just show both row and column (coming from crosshairs); in longest you highlight the LONGER one, in shortest you highlight the SHORTER one
+    shortest_row: { frame: 3, desc: "Destroys all squares in the shortest row pointed at."},
+    regular_wrap: { frame: 4, desc: "Destroy target and its 8 neighbors, including wrapping around the map." },
     radius_double: { frame: 5, desc: "Destroy all squares within a distance of 2 of target." },
     radius_double_kind: { frame: 6, desc: "Destroy all squares within a distance of 2 of target, but not diagonally." },
-    radius_double_noarea: { frame: 7, desc: "Destroy all squares within a distance of 2 of target. Destroying a single square, however, does NOT destroy its entire area." },
-    single_dino: { frame: 8, desc: "Destroy all squares with the same (lack of) dinosaur as target. (Destroying a single square, however, does NOT destroy its entire area.)" },
+    radius_double_noarea: { frame: 7, desc: "Destroy all squares within a distance of 2 of target; don't destroy their attached area." },
+    single_dino: { frame: 8, desc: "Destroy all squares with the same (lack of) dinosaur as target; don't destroy their attached area." },
     regular_kind: { frame: 9, desc: "Destroy target and its 8 neighbors, but not diagonally." },
-    random_shape_0: { frame: 10, desc: "Destroy these squares. (The tooth indicates the position of the asteroid target.)" }, // these are just some locations around the target in some pattern, which is easier to visualize than to describe
-    random_shape_1: { frame: 11, desc: "Destroy these squares. (The tooth indicates the position of the asteroid target.)" },
-    random_shape_2: { frame: 12, desc: "Destroy these squares. (The tooth indicates the position of the asteroid target.)" },
-    random_shape_3: { frame: 13, desc: "Destroy these squares. (The tooth indicates the position of the asteroid target.)" },
-    random_shape_5: { frame: 14, desc: "Destroy these squares. (The tooth indicates the position of the asteroid target.)" },
-    regular_limit: { frame: 15, desc: "Destroy target and its 8 neighbors. Areas are only fully destroyed, however, if the asteroid hits multiple spaces inside them." }
+    random_shape_0: { frame: 10, desc: "Destroy these squares." }, // these are just some locations around the target in some pattern, which is easier to visualize than to describe
+    random_shape_1: { frame: 11, desc: "Destroy these squares." },
+    random_shape_2: { frame: 12, desc: "Destroy these squares." },
+    random_shape_3: { frame: 13, desc: "Destroy these squares." },
+    random_shape_5: { frame: 14, desc: "Destroy these squares." },
+    regular_limit: { frame: 15, desc: "Destroy target and its 8 neighbors. Only destroy entire areas if 3(+) spaces inside are hit." }
 }
 
 const MISC:Record<string, GeneralData> =

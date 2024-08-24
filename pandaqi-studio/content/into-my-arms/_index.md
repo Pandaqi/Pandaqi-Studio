@@ -29,7 +29,7 @@ downloadLink: "http://pandaqi.itch.io/into-my-arms"
 
 multiplayertype: 'offline'
 multiplayermode: 'cooperative'
-price: 0
+price: 4
 platform: ["windows", "mac", "linux", "android"]
 language: EN
 playtime: 15
@@ -41,8 +41,7 @@ input: ["keyboard", "touch"]
 {{% embedvideo bg="intomyarms_header" vid="https://www.youtube.com/embed/L3HQCfPT7n8" class="limit-width" col="#002277" %}}
 
 {{< buylink-container class="text" >}}
-{{< buylink url="http://pandaqi.itch.io/into-my-arms" platforms="windows,mac,linux" text="Download" >}}
-{{< buylink url="https://play.google.com/store/apps/details?id=com.pandaqi.intomyarms" platforms="android" text="Download" >}} 
+{{< buylink url="http://pandaqi.itch.io/into-my-arms" platforms="windows,mac,linux" text="Buy (&euro;4)" >}}
 {{< /buylink-container >}}
 
 {{% section-flex media="video/intomyarms_video" video="true" class="limit-width reversed" %}}

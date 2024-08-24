@@ -1,15 +1,14 @@
-import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textConfig"
+import TextConfig, { TextStyle } from "js/pq_games/layout/text/textConfig"
 import CVal from "js/pq_games/tools/generation/cval"
 import Point from "js/pq_games/tools/geometry/point"
-import Bounds from "js/pq_games/tools/numbers/bounds"
 
 const CONFIG:any = 
 {
     debug:
     {
-        omitFile: true, // @DEBUGGING (should be false)
-        singleDrawPerType: true, // @DEBUGGING (should be false)
-        onlyGenerate: true, // @DEBUGGING (should be false)
+        omitFile: false, // @DEBUGGING (should be false)
+        singleDrawPerType: false, // @DEBUGGING (should be false)
+        onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
     configKey: "deathByDigitsConfig",
@@ -47,10 +46,22 @@ const CONFIG:any =
             path: "fonts/Requiem.woff2",
         },
 
-        misc:
+        card_templates:
         {
-            path: "misc.webp",
-            frames: new Point(4,2)
+            path: "card_templates.webp",
+            frames: new Point(3,1)
+        },
+
+        expansion_icons:
+        {
+            path: "expansion_icons.webp",
+            frames: new Point(6,1)
+        },
+
+        number_icons:
+        {
+            path: "number_icons.webp",
+            frames: new Point(6,4)
         },
     },
 
@@ -79,6 +90,41 @@ const CONFIG:any =
                 large: new Point(2,2)
             }, 
         },
+
+        colors:
+        {
+            darkenFactor: 50,
+        },
+
+        numbers:
+        {
+            offset: new CVal(new Point(0.133, 0.133), "sizeUnit"),
+            fontSize: new CVal(0.165, "sizeUnit"),
+            minusSignScaleFactor: 0.775,
+        },
+
+        numberCenter:
+        {
+            textPos: new CVal(new Point(0.5), "size"),
+            textPosSpecial: new CVal(new Point(0.5, 0.375), "size"),
+            fontSize: new CVal(0.4, "sizeUnit"),
+            fontSizeSpecial: new CVal(0.275, "sizeUnit")
+        },
+
+        icons:
+        {
+            offsetFromNumber: new CVal(new Point(-0.0115, 0.2), "sizeUnit"),
+            dims: new CVal(new Point(0.125), "sizeUnit"),
+        },
+
+        special:
+        {
+            iconOffset: new CVal(new Point(0.275), "sizeUnit"),
+            iconDims: new CVal(new Point(0.2), "sizeUnit"),
+            textPos: new CVal(new Point(0.5, 0.6), "size"),
+            textDims: new CVal(new Point(0.55, 0.35), "size"),
+            fontSize: new CVal(0.06, "sizeUnit"),
+        }
     },
 }
 

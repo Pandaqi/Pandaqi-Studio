@@ -25,7 +25,7 @@ downloadLink: "http://pandaqi.itch.io/own-goals-not-allowed"
 
 multiplayertype: 'offline'
 multiplayermode: 'competitive'
-price: 0
+price: 1
 platform: ["windows", "mac", "linux"]
 language: EN
 playtime: 10
@@ -38,7 +38,7 @@ devlog: "/blog/videogames/one-week-games/devlog-own-goals-not-allowed/"
 {{% embedvideo bg="banner_wide" vid="https://www.youtube.com/embed/o5YTcyDlT70" class="limit-width" %}}
 
 {{< buylink-container class="limit-width" >}}
-{{< buylink url="http://pandaqi.itch.io/own-goals-not-allowed" platforms="windows,mac,linux"  text="Download" >}} 
+{{< buylink url="http://pandaqi.itch.io/own-goals-not-allowed" platforms="windows,mac,linux"  text="Buy (&euro;1)" >}} 
 {{< /buylink-container >}}
 
 {{% section-centered %}}
@@ -47,7 +47,7 @@ devlog: "/blog/videogames/one-week-games/devlog-own-goals-not-allowed/"
 
 Accidentally own goaled somewhere? You'll have to live with the consequences ...
 
-This game was made as a "weekend project"! It's finished and fun, but obviously not the same quality and size as my other (paid) releases.
+This game was intended as a short side-project! It's finished and fun, but obviously not the same quality and size as my other (paid) releases.
 
 {{% /section-centered %}}
 

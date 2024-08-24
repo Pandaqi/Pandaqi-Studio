@@ -22,7 +22,7 @@ downloadLink: "http://pandaqi.itch.io/a-recipe-for-disaster/"
 
 multiplayertype: 'offline'
 multiplayermode: 'cooperative'
-price: 0
+price: 2
 platform: ["windows", "mac", "linux", "android"]
 language: EN
 playtime: 5
@@ -35,8 +35,7 @@ devlog: "/blog/videogames/one-week-games/devlog-a-recipe-for-disaster/"
 
 {{< buylink-container class="limit-width" >}}
 {{< buylink url="https://poki.com/en/g/a-recipe-for-disaster" platforms="web" image="/svg/poki_badge_dark.svg" class="poki-badge" text="Play (free; web)" >}}
-{{< buylink url="http://pandaqi.itch.io/a-recipe-for-disaster" platforms="windows,mac,linux" text="Buy" >}}
-{{< buylink url="https://play.google.com/store/apps/details?id=com.pandaqi.a_recipe_for_disaster" platforms="android" text="Play Store" >}}
+{{< buylink url="http://pandaqi.itch.io/a-recipe-for-disaster" platforms="windows,mac,linux" text="Buy (&euro;2)" >}}
 {{< /buylink-container >}}
 
 {{% section-centered heading="" %}}

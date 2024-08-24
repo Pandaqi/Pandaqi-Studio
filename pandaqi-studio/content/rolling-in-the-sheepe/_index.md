@@ -25,7 +25,7 @@ downloadLink: "http://pandaqi.itch.io/rolling-in-the-sheepe/"
 
 multiplayertype: 'offline'
 multiplayermode: 'competitive'
-price: 8
+price: 5
 platform: ["windows", "mac", "linux"]
 language: EN
 playtime: 10
@@ -38,7 +38,8 @@ devlog: "/blog/videogames/one-week-games/devlog-rolling-in-the-sheepe/"
 {{% embedvideo bg="banner_wide" vid="https://www.youtube.com/embed/OorjwESxxZ4" class="limit-width extra-top-offset" %}}
 
 {{< buylink-container class="limit-width" >}}
-{{< buylink url="http://pandaqi.itch.io/rolling-in-the-sheepe" platforms="windows,mac,linux" text="Buy / Try" >}} 
+{{< buylink url="http://pandaqi.itch.io/rolling-in-the-sheepe" platforms="windows,mac,linux" text="Buy (&euro;5)" >}} 
+{{< buylink url="http://pandaqi.itch.io/rolling-in-the-sheepe" platforms="windows,mac,linux" text="Demo (Free)" >}} 
 {{< /buylink-container >}}
 
 {{% section-centered heading="" %}}

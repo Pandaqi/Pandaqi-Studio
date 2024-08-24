@@ -1,4 +1,3 @@
-import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textConfig"
 import CVal from "js/pq_games/tools/generation/cval"
 import Point from "js/pq_games/tools/geometry/point"
 import { DinoType, TerrainType } from "./dict"
@@ -43,8 +42,6 @@ const CONFIG:any =
         {
             key: "tinos",
             path: "fonts/Tinos-Italic.woff2",
-            textConfig: new TextConfig({ style: TextStyle.ITALIC }),
-            loadIf: ["addText", "sets.impact"]
         },
 
         cutedino:
@@ -198,13 +195,13 @@ const CONFIG:any =
         impact:
         {
             dims: new CVal(new Point(0.8), "sizeUnit"),
-            fontSize: new CVal(0.07, "sizeUnit")
+            fontSize: new CVal(0.12, "sizeUnit")
         },
 
         asteroid:
         {
             dims: new CVal(new Point(0.8), "sizeUnit"),
-            fontSize: new CVal(0.07, "sizeUnit")
+            fontSize: new CVal(0.12, "sizeUnit")
         }
     },
 }

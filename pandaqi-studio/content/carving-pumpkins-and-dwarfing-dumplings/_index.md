@@ -10,9 +10,7 @@ headerThumb: "carvingpumpkins_logo"
 
 customHeight: "medium"
 
-
 color: "brown"
-
 
 date: 2022-01-27
 
@@ -26,7 +24,7 @@ downloadLink: "http://pandaqi.itch.io/carving-pumpkins-and-dwarfing-dumplings/"
 
 multiplayertype: 'offline'
 multiplayermode: 'competitive'
-price: 8
+price: 5
 platform: ["windows", "mac", "linux"]
 language: EN
 playtime: 5
@@ -39,7 +37,7 @@ devlog: "/blog/videogames/one-week-games/devlog-carving-pumpkins-and-dwarfing-du
 {{% embedvideo bg="carvingpumpkins_header" vid="https://www.youtube.com/embed/4eBCYBOjo-0" class="limit-width extra-top-offset" col="#a20000" %}}
 
 {{< buylink-container class="limit-width" >}}
-{{< buylink url="http://pandaqi.itch.io/carving-pumpkins-and-dwarfing-dumplings" platforms="windows,mac,linux" text="Buy (&euro;8)" >}} 
+{{< buylink url="http://pandaqi.itch.io/carving-pumpkins-and-dwarfing-dumplings" platforms="windows,mac,linux" text="Buy (&euro;5)" >}} 
 {{< buylink url="http://pandaqi.itch.io/carving-pumpkins-and-dwarfing-dumplings" platforms="windows,mac,linux" class="try-link" text="Demo (free)" >}} 
 {{< /buylink-container >}}
 
