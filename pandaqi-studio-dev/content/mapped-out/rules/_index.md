@@ -6,7 +6,7 @@ type: "rules"
 
 Create a deck of **Movement Cards** and a pile of **Map Tiles**.
 
-* Each player receives **10 random movement cards**. Place these cards in a row before you, facedown, without looking.
+* Each player receives **8 random movement cards**. Place these cards in a row before you, facedown, without looking.
 * Each player also receives a **pawn** and **5 map tiles** to take into their hand.
 
 Place the **starting tile** in the center, with all player's Pawns on top.
@@ -35,7 +35,7 @@ Take clockwise turns until done. On your turn, **play a map tile**.
 There are three possible place actions. Note that these actions can be applied to your _own_ Movement Cards .. or someone else's.
 
 * REVEAL (@TODO: ICON = card faded, bent arrow, card revealed + number): reveal a Movement Card at the _position_ indicated. (If this card is already revealed, do nothing.)
-* SWAP (@TODO: ICON = arrows left/right): swap two Movement Cards
+* SWAP (@TODO: ICON = arrows left/right + number): swap the movement card at the position indicated with another.
 * STUDY (@TODO: ICON = eye + number): secretly look at as many Movement Cards as the number indicated.
 
 Finally, draw a new map tile from the deck into your hand.

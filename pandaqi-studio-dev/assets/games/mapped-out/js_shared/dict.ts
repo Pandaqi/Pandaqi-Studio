@@ -43,8 +43,8 @@ interface GeneralData
 
 const TILE_ACTIONS:Record<TileAction, GeneralData> =
 {
-    [TileAction.REVEAL]: { frame: 0, desc: "Reveal a card at position indicated.", maxNum: 10 }, // it modulates the action number to be between 0-(maxNum-1)
-    [TileAction.SWAP]: { frame: 1, desc: "Make two movement cards change places.", maxNum: 1 },
+    [TileAction.REVEAL]: { frame: 0, desc: "Reveal a card at position indicated.", maxNum: 8 }, // it modulates the action number to be between 0-(maxNum-1)
+    [TileAction.SWAP]: { frame: 1, desc: "Swap the movement card at the position indicated with another.", maxNum: 8 },
     [TileAction.STUDY]: { frame: 3, desc: "Secretly look at the number of movement cards indicated.", maxNum: 3 }
 }
 
