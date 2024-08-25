@@ -1,6 +1,5 @@
-import equidistantColors from "js/pq_games/layout/color/equidistantColors";
 import CONFIG from "../js_shared/config";
-import { EXPANSION } from "../js_shared/dict";
+import { BID_CARDS, CardType, Suit } from "../js_shared/dict";
 import Card from "./card";
 
 export default class CardPicker
@@ -12,24 +11,65 @@ export default class CardPicker
     {
         this.cards = [];
         
-        // base game cards
-        const uniqueNums = CONFIG.generation.maxNumber - CONFIG.generation.minNumber + 1;
-        const colors = equidistantColors(uniqueNums, 87, 87);
-        for(let i = 0; i < uniqueNums; i++)
-        {
-            const num = CONFIG.generation.minNumber + i;
-            for(let a = 0; a < CONFIG.generation.numCardsPerNumber; a++)
-            {
-                this.cards.push(new Card(num, "", colors[i]));
-            }
-        }
-
-        // expansion cards
-        for(const [key,data] of Object.entries(EXPANSION))
-        {
-            this.cards.push(new Card(data.num, key));
-        }
+        this.generateBaseGame();
+        this.generateBiddingCards();
+        this.generateExpansion();
 
         console.log(this.cards);
+    }
+
+    generateBaseGame()
+    {
+        if(!CONFIG.sets.base) { return; }
+
+        // generate the number cards
+        const numbers = CONFIG.generation.numberBounds.asList();
+        const suits = Object.values(Suit);
+        for(const suit of suits)
+        {
+            for(const num of numbers)
+            {
+                const newCard = new Card(CardType.REGULAR, num);
+                newCard.suit = suit as Suit;
+                this.cards.push(newCard);
+            }
+        }
+    }
+
+    generateBiddingCards()
+    {
+        if(!CONFIG.sets.biddingCards) { return; }
+
+        // generate the bid cards
+        for(const [key,data] of Object.entries(BID_CARDS))
+        {
+            if(data.bonusBid) { continue; }
+            this.cards.push(new Card(CardType.BID, 0, key));
+        }
+
+        // add bid tokens
+        for(let i = 0; i < CONFIG.generation.maxNumHandCards; i++)
+        {
+            this.cards.push(new Card(CardType.TOKEN, (i+1)));
+        }
+    }
+
+    generateExpansion()
+    {
+        if(!CONFIG.sets.expansion) { return; }
+
+        // add bonus bids
+        for(const [key,data] of Object.entries(BID_CARDS))
+        {
+            if(!data.bonusBid) { continue; }
+            this.cards.push(new Card(CardType.BID, 0, key));
+        }
+
+        // add bid token 10s
+        for(let i = 0; i < CONFIG.generation.numBidTokensExpansion; i++)
+        {
+            this.cards.push(new Card(CardType.TOKEN, 10));
+        }
+
     }
 }

@@ -45,6 +45,8 @@ devlog: "/blog/boardgames/bidding-blocks/"
 
 The fonts used are **Vadamecum** (headings) and **Josefin Slab** (body). Everything else is mine.
 
+**This game can be played with a standard deck of cards.** Just read the rules and use numbers 1--10 of a standard deck. Decide which of the suits (hearts, spades, clubs, diamonds) maps to which of the suits in the game (floors, walls, stairs, roofs). And you're good to go!
+
 This idea is a kind of "twin" of [Six of Sparrows](/six-of-sparrows/). The two were originally one, merged idea, which I split when I realized that would be far better and simpler to play.
 
 That original idea came to me when I stumbled upon an older classic card game called Tichu. In it, players receive their cards "staggered": first you get X cards, then you may bid, then you get the rest of your cards. If you bid early, of course, you're rewarded with far more points---but it's risky, without knowing the other half of your cards!

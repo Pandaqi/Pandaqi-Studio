@@ -104,12 +104,11 @@ This phase now continues until all players have completed their entire movement.
 
 {{% rules-block heading="Lands Unknown" %}}
 
-This expansion adds more possible **Map Tiles**.
+This expansion adds more possible **Map Tiles**. They can have the following types of actions.
 
-* Negative points / Negative effects / Raw points
-* Islands => trying to move here will fail; you simply don't move. => Everything else is just **clear water tiles** (on all sides).
-* Could be map-changers (you teleport, you take a tunnel, you return to start, you remove one tile at will, etcetera)
-* Stuff that only scores in very specific SETS / COMBINATIONS
+* **On Play**: the action triggers when you play the map tile during your turn (adding it to the map).
+* **On Visit**: the action triggers when you visit the map tile while moving (with your pawn).
+* **On Score**: the special rule applies when determining how much you score for this tile.
 
 @TODO: EXAMPLE IMAGE?
 
@@ -119,13 +118,7 @@ This expansion adds more possible **Map Tiles**.
 
 This expansion adds more possible **Movement Cards**.
 
-* NEW MOVEMENT: Teleport / Jump
-* NEW MOVEMENT: Go to closest tile of type "X" / that shows "Y"
-
 It also adds Movement Cards with an action. This action triggers _when revealed_. (Not when following the movement in the later phase.)
-
-* Could be path-changers (ignore your next card, remove one card at random, etcetera) => so we DO need a pawn for each player to make executing this phase much easier
-* Could be that you literally score that card if its movement matches landing on a certain tile. (For example, the movement card is scored if you land on a tile with fish A or B.)
 
 @TODO: EXAMPLE IMAGE?
 

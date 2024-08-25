@@ -1,4 +1,5 @@
 import Point from "js/pq_games/tools/geometry/point"
+import Bounds from "js/pq_games/tools/numbers/bounds"
 
 const CONFIG:any = 
 {
@@ -50,7 +51,7 @@ const CONFIG:any =
 
     generation:
     {
-
+        numberBounds: new Bounds(1,10),
     },
 
     cards:

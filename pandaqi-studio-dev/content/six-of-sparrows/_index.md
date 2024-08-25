@@ -37,6 +37,7 @@ devlog: "/blog/boardgames/six-of-sparrows/"
 {{< boardgame-settings type="game" local_storage="sixOfSparrowsConfig" btn_label="Generate Material" game_title="Six of Sparrows" defaults="true">}}
   {{< boardgame-settings-section heading="Sets" >}}
     {{< setting-checkbox id="setting-sets-base" text="Base?" checked="checked" >}}
+    {{< setting-checkbox id="setting-sets-biddingCards" text="Bidding Cards?" checked="checked" >}}
     {{< setting-checkbox id="setting-sets-expansion" text="Expansion?" >}}
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
@@ -46,6 +47,8 @@ devlog: "/blog/boardgames/six-of-sparrows/"
 {{% section-centered heading="Credits" anchor="credits" %}}
 
 The fonts used are **Sancreek** (headings) and **Sedan** (body text). Everything else is mine.
+
+**This game can be played with a standard deck of cards.** If you do, you only need to download and print the **Bidding Cards** set. Select the cards 1--10 from your standard deck and decide which suit maps to which (bird) suit in this game. And you're good to go!
 
 This idea is a kind of "twin" of [Bidding Blocks](/bidding-blocks/). Visit that page for a bit more backstory and credits.
 

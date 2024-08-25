@@ -51,7 +51,7 @@ Repeat the following cycle until all players are out of cards.
   * Whoever played the _highest number_ of the _type_ that the Dealer played, wins the challenge.
 * If **in-turn**, players go clockwise playing their card one after another. You may only play a card that fits _on top of_ the card of the previous player.
   * The Dealer, who starts each challenge, can play anything they want.
-  * To fit "on top of" a card, it must be of a _higher type_ (e.g. roof is higher than wall) or _higher number_.
+  * To fit "on top of" a card, it must be of a _higher type_ (e.g. roof is higher than wall) or _higher number_. (Every card states which types are below it.)
   * This continues until someone can't or doesn't want to play a card.
   * Whoever played the final card, wins this challenge. 
 

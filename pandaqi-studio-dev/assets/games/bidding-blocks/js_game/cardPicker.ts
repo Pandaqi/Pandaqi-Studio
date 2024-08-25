@@ -1,6 +1,5 @@
-import equidistantColors from "js/pq_games/layout/color/equidistantColors";
 import CONFIG from "../js_shared/config";
-import { EXPANSION } from "../js_shared/dict";
+import { Suit } from "../js_shared/dict";
 import Card from "./card";
 
 export default class CardPicker
@@ -12,22 +11,14 @@ export default class CardPicker
     {
         this.cards = [];
         
-        // base game cards
-        const uniqueNums = CONFIG.generation.maxNumber - CONFIG.generation.minNumber + 1;
-        const colors = equidistantColors(uniqueNums, 87, 87);
-        for(let i = 0; i < uniqueNums; i++)
+        const numbers = CONFIG.generation.numberBounds.asList();
+        const suits = Object.values(Suit);
+        for(const suit of suits)
         {
-            const num = CONFIG.generation.minNumber + i;
-            for(let a = 0; a < CONFIG.generation.numCardsPerNumber; a++)
+            for(const num of numbers)
             {
-                this.cards.push(new Card(num, "", colors[i]));
+                this.cards.push(new Card(suit as Suit, num));
             }
-        }
-
-        // expansion cards
-        for(const [key,data] of Object.entries(EXPANSION))
-        {
-            this.cards.push(new Card(data.num, key));
         }
 
         console.log(this.cards);

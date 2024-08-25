@@ -1,6 +1,6 @@
-import equidistantColors from "js/pq_games/layout/color/equidistantColors";
+import fromArray from "js/pq_games/tools/random/fromArray";
 import CONFIG from "../js_shared/config";
-import { EXPANSION } from "../js_shared/dict";
+import { CardMovement, CardType, MOVEMENT_SPECIAL } from "../js_shared/dict";
 import Card from "./card";
 
 export default class CardPicker
@@ -12,24 +12,51 @@ export default class CardPicker
     {
         this.cards = [];
         
-        // base game cards
-        const uniqueNums = CONFIG.generation.maxNumber - CONFIG.generation.minNumber + 1;
-        const colors = equidistantColors(uniqueNums, 87, 87);
-        for(let i = 0; i < uniqueNums; i++)
-        {
-            const num = CONFIG.generation.minNumber + i;
-            for(let a = 0; a < CONFIG.generation.numCardsPerNumber; a++)
-            {
-                this.cards.push(new Card(num, "", colors[i]));
-            }
-        }
-
-        // expansion cards
-        for(const [key,data] of Object.entries(EXPANSION))
-        {
-            this.cards.push(new Card(data.num, key));
-        }
+        this.generateBaseCards();
+        this.generateUnclearInstructions();
 
         console.log(this.cards);
+    }
+
+    generateBaseCards()
+    {
+        if(!CONFIG.sets.base) { return; }
+
+        this.generateMovementCards(CONFIG.generation.movementCardNumBase, CONFIG.generation.movementCardDistBase);
+        this.generatePawns();
+    }
+
+    generateUnclearInstructions()
+    {
+        if(!CONFIG.sets.unclearInstructions) { return; }
+
+        this.generateMovementCards(CONFIG.generation.movementCardNumUnclear, CONFIG.generation.movementCardDistUnclear, true);
+    }
+
+    generateMovementCards(targetNum:number, dist:Record<CardMovement, number>, addSpecial:boolean = false)
+    {
+        const possibleActions = Object.keys(MOVEMENT_SPECIAL);
+        for(const [key,freqRaw] of Object.entries(dist))
+        {
+            const freq = Math.ceil(freqRaw * targetNum);
+            for(let i = 0; i < freq; i++)
+            {
+                const newCard = new Card(CardType.MOVEMENT);
+                newCard.typeMovement = key as CardMovement;
+                newCard.specialAction = addSpecial ? fromArray(possibleActions) : "";
+                this.cards.push(newCard);
+            }
+        }
+    }
+
+    generatePawns()
+    {
+        // @NOTE: two pawns per card, hence 3
+        for(let i = 0; i < 3; i++)
+        {
+            const newCard = new Card(CardType.PAWN);
+            newCard.pawnIndex = i;
+            this.cards.push(newCard);
+        }
     }
 }
