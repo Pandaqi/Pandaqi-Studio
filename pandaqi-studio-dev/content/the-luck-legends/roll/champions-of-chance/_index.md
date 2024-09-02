@@ -6,7 +6,7 @@ title: "Champions of Chance"
 headerTitle: "Battle your custom dice against those of other players and hope the odds are in your favor."
 blurb: "Battle your custom dice against those of other players and hope the odds are in your favor."
 
-weightProject: 20
+weightProject: 10
 
 downloadLink: "https://drive.google.com/drive/folders/1AESN6T9GAYg2ZTSzneAAiSdEQbMHXWsV"
 

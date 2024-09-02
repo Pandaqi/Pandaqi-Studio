@@ -1,5 +1,6 @@
 import Point from "js/pq_games/tools/geometry/point"
 import { AnimalType } from "./dict"
+import CVal from "js/pq_games/tools/generation/cval"
 
 const CONFIG:any = 
 {
@@ -45,10 +46,22 @@ const CONFIG:any =
             loadIf: ["sets.expansion"]
         },
 
+        card_templates:
+        {
+            path: "card_templates.webp",
+            frames: new Point(3,1)
+        },
+
+        animals:
+        {
+            path: "animals.webp",
+            frames: new Point(5,1)
+        },
+
         misc:
         {
             path: "misc.webp",
-            frames: new Point(6,1)
+            frames: new Point(4,2)
         },
     },
 
@@ -110,6 +123,42 @@ const CONFIG:any =
                 large: new Point(2,2)
             }, 
         },
+
+        zooBackgroundColor: "#197714",
+        animalBackgroundColor: "#cc7020",
+        backgroundTextureAlpha: 0.5,
+
+        cycle:
+        {
+            startingAngle: 0,
+            pos: new CVal(new Point(0.5), "size"),
+            dims: new CVal(new Point(0.5), "sizeUnit"),
+            animalRadius: new CVal(0.4, "sizeUnit"), // should be slightly smaller than dims
+            iconDims: new CVal(new Point(0.2), "sizeUnit"),
+            peopleIconDims: new CVal(new Point(0.2), "sizeUnit")
+        },
+
+        score:
+        {
+            fontSize: new CVal(0.15, "sizeUnit"),
+            textBoxPos: new CVal(new Point(0.75, 0.2), "size"),
+            textColor: "#023d00"
+        },
+
+        power:
+        {
+            textBoxPos: new CVal(new Point(0.5, 0.75), "size"),
+            textBoxDims: new CVal(new Point(0.75, 0.2), "size"),
+            textDims: new CVal(new Point(0.65, 0.15), "size"), // should be slightly smaller than textBoxDims
+            fontSize: new CVal(0.1, "sizeUnit"),
+            textColor: "#FFFFFF"
+        },
+
+        animal:
+        {
+            iconPos: new CVal(new Point(0.5), "size"),
+            iconDims: new CVal(new Point(0.5), "size")
+        }
     },
 }
 

@@ -1,3 +1,5 @@
+import Point from "js/pq_games/tools/geometry/point"
+
 enum CardType
 {
     REGULAR,
@@ -19,7 +21,10 @@ interface GeneralData
     desc?: string,
     label?: string,
     bonusBid?: boolean,
-    score?: number
+    score?: number,
+    inkFriendlyHide?: boolean,
+    noOverlay?: boolean,
+    tint?: string
 }
 
 const BID_CARDS:Record<string, GeneralData> =
@@ -69,12 +74,54 @@ const BID_CARDS:Record<string, GeneralData> =
 
 const MISC:Record<string, GeneralData> =
 {
-
+    [Suit.SPARROW]: { frame: 0, tint: "#489347" },
+    [Suit.PARROT]: { frame: 1, tint: "#ad0000" },
+    [Suit.EAGLE]: { frame: 2, tint: "#323cdf" },
+    [Suit.CHICKEN]: { frame: 3, tint: "#777519" },
+    bonus_bid: { frame: 4 }
 }
+
+const TEMPLATES:Record<string, GeneralData> =
+{
+    regular: { frame: 0, inkFriendlyHide: true },
+    bid: { frame: 1, inkFriendlyHide: false, noOverlay: true },
+    token: { frame: 2, inkFriendlyHide: false },
+    overlay: { frame: 3 }
+}
+
+const NUMBER_INDICES = 
+[
+    new Point(-1,-1), new Point(0,-1), new Point(1,-1), // 3rd row (0-2)
+    new Point(-1,-0.66), new Point(0, -0.66), new Point(1, -0.66), // 2nd row (3-5)
+    new Point(-1,-0.33), new Point(0, -0.33), new Point(1, -0.33), // 1st row (6-8)
+    new Point(-1, 0), new Point(0,0), new Point(1,0), // 0th row = center line of card (9-11)
+    new Point(-1, 0.33), new Point(0,  0.33), new Point(1,  0.33), // 1st row (12-14)
+    new Point(-1, 0.66), new Point(0,  0.66), new Point(1,  0.66), // 2nd row (15-17)
+    new Point(-1, 1), new Point(0, 1), new Point(1, 1), // 3rd row (18-20)
+]
+
+const NUMBER_ARRANGEMENTS =
+[
+    [],
+    [10],
+    [1, 19],
+    [1, 10, 19],
+    [0, 2, 18, 20],
+    [0, 2, 10, 18, 20],
+    [0, 2, 9, 11, 18, 20],
+    [0, 2, 4, 9, 11, 18, 20],
+    [0, 2, 4, 9, 11, 16, 18, 20],
+    [0, 2, 6, 8, 10, 12, 14, 18, 20],
+    [0, 2, 4, 6, 8, 12, 14, 16, 18, 20],
+]
+
 
 export {
     Suit,
     CardType,
     MISC,
-    BID_CARDS
+    TEMPLATES,
+    BID_CARDS,
+    NUMBER_INDICES,
+    NUMBER_ARRANGEMENTS
 };

@@ -6,7 +6,7 @@ title: "Lucky Lions"
 headerTitle: "Create more attractive zoos than others, but the animals that come out might be a bit ... random."
 blurb: "Create more attractive zoos than others, but the animals that come out might be a bit ... random."
 
-weightProject: 10
+weightProject: 20
 
 downloadLink: "https://drive.google.com/drive/folders/1plpmBaxsa6Qez87puJDpXHiCsU0nwK6Q"
 

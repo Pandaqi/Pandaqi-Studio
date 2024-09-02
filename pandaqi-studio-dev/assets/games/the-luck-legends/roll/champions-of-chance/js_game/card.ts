@@ -2,7 +2,15 @@ import createContext from "js/pq_games/layout/canvas/createContext";
 import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
-import { SPECIAL_CARDS } from "../js_shared/dict";
+import { MISC, SPECIAL_CARDS } from "../js_shared/dict";
+import LayoutOperation from "js/pq_games/layout/layoutOperation";
+import TintEffect from "js/pq_games/layout/effects/tintEffect";
+import getRectangleCornersWithOffset from "js/pq_games/tools/geometry/paths/getRectangleCornersWithOffset";
+import ResourceText from "js/pq_games/layout/resources/resourceText";
+import TextConfig from "js/pq_games/layout/text/textConfig";
+import Point from "js/pq_games/tools/geometry/point";
+import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
+import getPositionsCenteredAround from "js/pq_games/tools/geometry/paths/getPositionsCenteredAround";
 
 export default class Card
 {
@@ -17,9 +25,31 @@ export default class Card
         this.key = key;
     }
 
+    isSpecial()
+    {
+        return this.key != "";
+    }
+
     getData()
     {
+        return MISC[this.num];
+    }
+
+    getSpecialData()
+    {
+        if(!this.isSpecial) { return {}; }
         return SPECIAL_CARDS[this.key] ?? {};
+    }
+
+    getTintColor(vis:MaterialVisualizer)
+    {
+        if(vis.inkFriendly) { return "#111111"; }
+        return this.getData().tint;
+    }
+
+    hasIcons()
+    {
+        return this.numIcons <= 0;
     }
 
     async draw(vis:MaterialVisualizer)
@@ -39,29 +69,136 @@ export default class Card
 
     drawBackground(vis:MaterialVisualizer, group:ResourceGroup)
     {
-        // @TODO: just some simple template and decorations
+        const keySuffix = this.isSpecial() ? "_special" : "_regular";
+        const resTemp = vis.getResource("card_templates");
+        const opBG = new LayoutOperation({
+            dims: vis.size,
+            frame: MISC["bg" + keySuffix].frame
+        });
+        group.add(resTemp, opBG);
+
+        if(!vis.inkFriendly)
+        {
+            const opTint = new LayoutOperation({
+                dims: vis.size,
+                frame: MISC["tint" + keySuffix].frame,
+                effects: [new TintEffect()]
+            });
+            group.add(resTemp, opTint)
+        }
     }
 
     drawNumbers(vis:MaterialVisualizer, group:ResourceGroup)
     {
-        // @TODO: draw numbers in corner + big number in center
+        // numbers in corners
+        const positions = getRectangleCornersWithOffset(vis.size, vis.get("cards.numbers.offset"));
+        const textConfig = new TextConfig({
+            font: vis.get("fonts.heading"),
+            size: vis.get("cards.numbers.fontSize")
+        }).alignCenter();
+        const resText = new ResourceText({ text: this.num.toString(), textConfig: textConfig });
+        for(let i = 0; i < 2; i++)
+        {
+            const pos = positions[i*2];
+            const opNumber = new LayoutOperation({
+                translate: pos,
+                dims: new Point(2.0 * textConfig.size),
+                pivot: Point.CENTER,
+                fill: this.getTintColor(vis)
+            });
+            group.add(resText, opNumber);
+        }
+
+        // number in center
+        const resMisc = vis.getResource("misc");
+        const centerIconDims = vis.get("cards.numbers.centerDims");
+        const shadowEffect = new DropShadowEffect({ color: "#000000", blurRadius: 0.1*centerIconDims.x });
+        const opCenterNumber = new LayoutOperation({
+            translate: vis.get("cards.numbers.centerPos"),
+            dims: centerIconDims,
+            pivot: Point.CENTER,
+            frame: this.getData().frame,
+            effects: [shadowEffect, vis.inkFriendlyEffect].flat()
+        })
+        group.add(resMisc, opCenterNumber);
+
+        // number in written text below that
+        const textConfigWritten = new TextConfig({
+            font: vis.get("fonts.heading"),
+            size: vis.get("cards.numbers.writtenFontSize")
+        }).alignCenter();
+        const resTextWritten = new ResourceText({ text: this.getData().label, textConfig: textConfigWritten });
+        const opTextWritten = new LayoutOperation({
+            translate: vis.get("cards.numbers.writtenPos"),
+            dims: new Point(8.0 * textConfigWritten.size),
+            pivot: Point.CENTER,
+            fill: this.getTintColor(vis)
+        })
+        group.add(resTextWritten, opTextWritten);
     }
 
     drawIcons(vis:MaterialVisualizer, group:ResourceGroup)
     {
-        if(this.numIcons <= 0) { return; }
-        // @TODO: draw the dice icon `numIcons` times, centered around center
+        if(!this.hasIcons()) { return; }
+
+        const edgeOffset = vis.get("cards.icons.offset");
+        const iconDims = vis.get("cards.icons.dims");
+
+        const anchorPositions = [
+            new Point(edgeOffset.x, vis.size.y - edgeOffset.y),
+            new Point(vis.size.x - edgeOffset.x, edgeOffset.y)
+        ]
+
+        const resMisc = vis.getResource("misc");
+
+        for(let i = 0; i < anchorPositions.length; i++)
+        {
+            const anchorPos = anchorPositions[i];
+            const isTopRightSide = i == 1;
+            const shouldDisplayCupInstead = isTopRightSide && this.isSpecial();
+            if(shouldDisplayCupInstead)
+            {
+                const opIcon = new LayoutOperation({
+                    translate: anchorPos,
+                    dims: iconDims,
+                    frame: MISC.cup_icon.frame,
+                    rotation: (-0.075 + 1.5*Math.random()) * 2 * Math.PI
+                });
+                group.add(resMisc, opIcon);
+                continue;
+            }
+
+            const positions = getPositionsCenteredAround({ pos: anchorPos, dims: iconDims, num: this.numIcons, dir: Point.DOWN });
+            for(const pos of positions)
+            {
+                const opIcon = new LayoutOperation({
+                    translate: pos,
+                    dims: iconDims,
+                    flipY: isTopRightSide,
+                    frame: MISC.dice_icon.frame,
+                })
+                group.add(resMisc, opIcon);
+            }
+        }
+        
     }
 
     drawSpecial(vis:MaterialVisualizer, group:ResourceGroup)
     {
+        if(!this.isSpecial()) { return; }
+
         const data = this.getData();
-        if(!data) { return; }
-
-        // @TODO: show icon + text for our special type
+        const textConfig = new TextConfig({
+            font: vis.get("fonts.body"),
+            size: vis.get("cards.power.fontSize")
+        }).alignCenter();
+        const resText = new ResourceText({ text: data.desc, textConfig: textConfig });
+        const opText = new LayoutOperation({
+            translate: vis.get("cards.power.textPos"),
+            dims: vis.get("cards.power.textBoxDims"),
+            fill: vis.get("cards.power.textColor"),
+            pivot: Point.CENTER
+        })
+        group.add(resText, opText);
     }
-
-
-    
-
 }

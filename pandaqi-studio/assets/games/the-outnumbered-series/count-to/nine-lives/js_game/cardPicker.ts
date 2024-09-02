@@ -11,10 +11,15 @@ import rangeInteger from "js/pq_games/tools/random/rangeInteger";
 
 export default class CardPicker
 {
-    cards: Card[]
+    cards: Card[] = []
 
     constructor() {}
     get() { return this.cards; }
+
+    isEmpty()
+    {
+        return !this.cards || this.cards.length <= 0;
+    }
 
     generate()
     {

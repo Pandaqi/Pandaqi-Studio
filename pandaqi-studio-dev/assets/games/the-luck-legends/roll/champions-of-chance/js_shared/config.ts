@@ -1,3 +1,4 @@
+import CVal from "js/pq_games/tools/generation/cval"
 import Point from "js/pq_games/tools/geometry/point"
 import Bounds from "js/pq_games/tools/numbers/bounds"
 
@@ -44,10 +45,16 @@ const CONFIG:any =
             loadIf: ["sets.expansion"]
         },
 
+        card_templates:
+        {
+            path: "card_templates.webp",
+            frames: new Point(4,1)
+        },
+
         misc:
         {
             path: "misc.webp",
-            frames: new Point(6,1)
+            frames: new Point(8,1)
         },
     },
 
@@ -91,6 +98,30 @@ const CONFIG:any =
                 large: new Point(2,2)
             }, 
         },
+
+        numbers:
+        {
+            offset: new CVal(new Point(0.1), "sizeUnit"),
+            fontSize: new CVal(0.3, "sizeUnit"),
+            centerPos: new CVal(new Point(0.5), "size"),
+            centerDims: new CVal(new Point(0.4), "sizeUnit"),
+            writtenPos: new CVal(new Point(0.5, 0.7), "size"),
+            writtenFontSize: new CVal(0.15, "sizeUnit"),
+        },
+
+        power:
+        {
+            fontSize: new CVal(0.1, "sizeUnit"),
+            textPos: new CVal(new Point(0.5, 0.75), "size"),
+            textBoxDims: new CVal(new Point(0.66, 0.175), "size"),
+            textColor: "#101010"
+        },
+
+        icons:
+        {
+            offset: new CVal(new Point(0.1, 0.3), "size"),
+            dims: new CVal(new Point(0.1), "size")
+        }
     },
 }
 

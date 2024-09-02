@@ -1,15 +1,15 @@
+import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple";
+import ResourceLoader from "js/pq_games/layout/resources/resourceLoader";
+import Point from "js/pq_games/tools/geometry/point";
 import rangeInteger from "js/pq_games/tools/random/rangeInteger";
 import shuffle from "js/pq_games/tools/random/shuffle";
-import InteractiveExample from "js/pq_rulebook/examples/interactiveExample"
+import InteractiveExample from "js/pq_rulebook/examples/interactiveExample";
+import { convertDictToRulesTableHTML } from "js/pq_rulebook/table";
 import Card from "../js_game/card";
-import Point from "js/pq_games/tools/geometry/point";
 import CardPicker from "../js_game/cardPicker";
 import Visualizer from "../js_game/visualizer";
 import CONFIG from "../js_shared/config";
-import ResourceLoader from "js/pq_games/layout/resources/resourceLoader";
-import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple";
 import { POWERS } from "../js_shared/dict";
-import RulesTable, { convertDictToRulesTableDict, convertDictToRulesTableHTML } from "js/pq_rulebook/table";
 
 class Hand
 {
@@ -112,7 +112,7 @@ async function generate()
 {
     await resLoader.loadPlannedResources();
 
-    if(cardPicker.cards.length <= 0)
+    if(cardPicker.isEmpty())
     {
         cardPicker.generate();
         cardPicker.removeCardsBelow(3); // this is just to make sure we have a variety of possible situations with only a few cards in each example
