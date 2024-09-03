@@ -63,7 +63,7 @@ To make the game **more unpredictable**, give players 6 random cards at the star
 
 This expansion adds a tiny bit of extra material: Wildcards. 
 
-During **setup**: after dealing your starting cards, players swap one of them (secretly) for a wildcard.
+During **setup**: after dealing your starting cards, players swap one of them (secretly) for a wildcard. Keep all remaining wildcards in a single faceup pile.
 
 During **gameplay**: a wildcard represents the _number_ of your guess. For example, if you guessed "3 5's", then any wildcard rolled will _also_ be a 5.
 
@@ -87,9 +87,9 @@ Additionally, you can now **bid** on _how many Power Cards_ you think there are.
 * You can always raise a bid by bidding on Power Cards ...
 * As long as the number of them is _lower_ than both numbers from the previous guess.
 
-For example, if someone bid "4 2's" then you can say "X Power Cards", as long as X is 2 or lower.
+For example, if someone bid "5 3's" then you can say "X Power Cards", as long as X is 2 or lower.
 
-The extra higher numbers are included because some of the powers **add an extra number**. (If triggered, all players still in play simply add 1 card of the next highest number to their deck, as long as the material lasts.)
+The extra higher numbers are included because some of the powers **add an extra number**. If triggered, all players still in play add 1 card of the next highest number to their deck, as long as the material lasts.
 
 @TODO: IMAGE EXAMPLE
 

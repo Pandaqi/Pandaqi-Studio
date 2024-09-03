@@ -7,9 +7,9 @@ headerTitle: "Guess how often certain numbers appear or bluff your way through i
 
 weightProject: 15
 
-downloadLink: "@TODO"
+downloadLink: "https://drive.google.com/drive/folders/1phiHNNnl6Vl028o8I-Fmm7l3xZTXoUK9"
 
-color: "orange"
+color: "blue"
 
 date: 2025-11-26
 
@@ -46,7 +46,7 @@ devlog: "/blog/boardgames/the-luck-legends/a-little-white-die/"
 
 {{% section-centered heading="Credits" anchor="credits" %}}
 
-The fonts used are **XX** (headings) and **YY** (body text). Everything else is mine.
+The font used is **Rum Raisin** (both headings and body text). Everything else is mine.
 
 I think the game _Liar's Dice_ is very good. It's extremely simple, anyone can play and have a chance at winning, and it's just a great entry for people into gaming (or to play with large groups at a party).
 

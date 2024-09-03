@@ -22,9 +22,9 @@ The game ends as soon as somebody has only 3 cards left. Rank players based on h
 
 Gameplay happens in simultaneous rounds.
 
-First, all players divide their deck into **3 decks** ("3 dice") as fairly as possible, without looking.
+First, all players divide their deck into **3 decks** ("3 dice") as fairly as possible, without looking. If playing with 3 players or fewer, everyone creates **4 decks** instead.
 
-Then, everyone simultaneously rolls their 3 dice. That is, shuffle every pile and secretly look at the card on top.
+Then, everyone simultaneously rolls their dice. That is, shuffle every pile and secretly look at the card on top.
 
 @TODO: EXAMPLE IMAGE
 
@@ -60,7 +60,7 @@ Played the base game and ready for more? Or looking to tweak the game to fit you
 
 To make the game **even more tactical**, add a fourth element to your guess. This element is optional.
 
-> State the **specific** suit or number for your combo. For _numeric_ guesses, state just one of the numbers inside the interval.
+> State the **specific** number or color for your combo. For _numeric_ guesses, state just one of the numbers inside the interval.
 
 For example, "3 cards of Red", or "4 cards with the number 9", or "5 cards in numeric order including the number 6."
 
@@ -70,7 +70,7 @@ A specific guess is **always higher** than a vague one (without this fourth elem
 So yes, once somebody goes specific, you can never go back to vague!
 {{% /remark %}}
 
-If the previous guess was also specific, the usual rules apply: your number (for how many of them) must simply be higher. FOr example, "3 Cards with Number 2" is higher than "2 Cards of Blue".
+If the previous guess was also specific, the usual rules apply: your number (for how many of them) must simply be higher. For example, "3 Cards with Number 2" is higher than "2 Cards of Blue".
 
 {{% /rules-block %}}
 
@@ -111,7 +111,7 @@ These cards show a unique **combo** (that you would never be able to guess other
 * When you do, explain the combo and state its unique value.
 * Other guesses are only **higher** if ...
   * They're also a Power Card with a **higher value**.
-  * Or the **number of cards** in your guess is higher than the stated combo value.
+  * Or the **number of cards** is higher than the previously stated combo value.
 
 For example, 
 * A power card might say "two pairs". That is, two numbers that appear two times. And say the value of that card is 3.

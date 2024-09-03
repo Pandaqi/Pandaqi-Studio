@@ -42,7 +42,7 @@ That's it!
 
 {{% /rules-block %}}
 
-{{% rules-block heading="Contracts" %}}
+{{% rules-block heading="Contracts" id="contracts" %}}
 
 @TODO: EXAMPLE IMAGE (with card skeleton)
 

@@ -4,12 +4,13 @@ boardgame: true
 
 title: "Deceptidice"
 headerTitle: "Bank on riskier and riskier combinations appearing on the secret dice, or call your neighbor's bluff."
+blurb: "Bank on riskier and riskier combinations appearing on the secret dice, or call your neighbor's bluff."
 
 weightProject: 35
 
-downloadLink: "@TODO"
+downloadLink: "https://drive.google.com/drive/folders/11ELawc0hyiDkflmzuKTKb94sOzccwPXw"
 
-color: "orange"
+color: "blue"
 
 date: 2025-11-26
 
@@ -46,7 +47,7 @@ devlog: "/blog/boardgames/the-luck-legends/deceptidice/"
 
 {{% section-centered heading="Credits" anchor="credits" %}}
 
-The fonts used are **XX** (headings) and **YY** (body text). Everything else is mine.
+The fonts used are **Brasspounder** (headings; multiple variations) and **Caslon Antique** (body text). Everything else is mine.
 
 This idea spun off from an earlier Luck Legends game called _A Little White Die_. Both are based on the famous classic _Liar's Dice_. That other game is the most basic, simplest version of it. This game takes it into a more unique direction by combining bluffing and secret dice rolls with combinations that score higher and higher. Similar to poker hands, but simpler and more creative.
 

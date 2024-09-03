@@ -4,12 +4,13 @@ boardgame: true
 
 title: "Chaos Contract"
 headerTitle: "Enter Chaos Contracts with other lost souls and place the difference between major rewards and huge curses on a single dice roll."
+blurb: "Enter Chaos Contracts with other lost souls and place the difference between major rewards and huge curses on a single dice roll."
 
 weightProject: 30
 
-downloadLink: "@TODO"
+downloadLink: "https://drive.google.com/drive/folders/1uw-nB4F36NqM6XUbVqXUyemRKPAwjDLJ"
 
-color: "orange"
+color: "purple"
 
 date: 2025-11-26
 
@@ -46,7 +47,7 @@ devlog: "/blog/boardgames/the-luck-legends/chaos-contract/"
 
 {{% section-centered heading="Credits" anchor="credits" %}}
 
-The fonts used are **XX** (headings) and **YY** (body text). Everything else is mine.
+The fonts used are **Celexa** (headings) and **Quixotte** (body text). Everything else is mine.
 
 @TODO
 

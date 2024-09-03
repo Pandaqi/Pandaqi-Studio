@@ -31,10 +31,12 @@ Once those piles are created, place them in pairs (one against one) on the table
 For every pair, from left to right, 
 
 * **Roll the dice**. Shuffle the two piles and reveal the top cards.
-* Some cards have special actions. Handle those now. (If they require a choice, its player makes that choice now.)
-* Check who won this battle. 
+* Some cards have **special actions**. Handle those now: attacker first, defender second.
+  * If they require a choice, its player makes that choice now.
+* **Check who won** this battle. 
   * If one card is _strong_ against the other, it wins.
-  * If the cards are the same _or_ none is strong/weak against the other, both players win.
+  * If both are _strong_ against each other, nobody wins.
+  * Otherwise, both players win.
 
 This continues until all battles have been fought. Then, both players get their spoils of war.
 
@@ -46,37 +48,6 @@ For all cards grabbed, decide if you want to take them into your hand or discard
 {{% remark %}}
 Yes, you should wait with grabbing your spoils until the _war is over_. Because special powers can still change things at any time.
 {{% /remark %}}
-
-POSSIBLE ACTIONS:
-
-* The **dragon** allows a re-roll (at most once). => a re-roll of just this battle, or any single one of your choosing? A re-roll of just _you_ or both you and the opponent?
-* The **tiger** is effectively a coin toss => it means you toss the card into the air; if it lands faceup, you win, facedown, the opponent wins.
-* "Remove all weaknesses from card X" (only you? Or opponent too? Both are interesting ...)
-* "The opponent loses every battle where both players played the same card."
-* CHOICE: "You _may_ retreat from the next battle; skip over it and pretend it's not part of this war."
-* CHOICE: "You _may_ lose this battle to pretend you won an earlier one."
-* CHOICE: "You _may_ lose this battle to add this card as a weakness to all opponent cards."
-* CHOICE: "Swap two of your cards that have already been revealed."
-* CHOICE: "You _may_ lose this battle to remove the bonus for winning the entire war."
-* CHOICE: "Change the bonus for winning the entire war: either 0, 2, 3 or 4 entire piles."
-* CHOICE: "Pick a card type. From now on, any such card you reveal has no weaknesses."
-* CHOICE: "Pick a card type. From now on, any such card you reveal cannot lose a battle."
-* CHOICE: "Always loses. Reroll another battle."
-* CHOICE: "Take 1 or 2 unrevealed cards from your dice back into your hand."
-* CHOICE: "You _may_ give this pile to your opponent to stop the war right now, declaring no winner."
-* CHOICE: "You _may_ give this card to the opponent to restart the entire war." (perhaps too slow/cyclic?)
-* CHOICE: "Force the opponent to merge two piles and re-roll. (You always win the battle against an empty spot.)"
-
-@TODO: Bring it back to just 10 animals, which also makes the weaknesses manageable.
-
-
-INTERESTING CARDS:
-* Ones that will always LOSE, but give you an action during the battle (or afterwards)
-* Ones that will always WIN, but give you some big curse during the battle (or afterwards)
-* => We might need ones that can DRAW from the deck too?
-
-
-
 
 @TODO: EXAMPLE IMAGE
 
@@ -90,9 +61,24 @@ Played the base game and ready for more? Or looking to tweak the game to fit you
 
 For a **deeper and more tactical game**, change the rules for who wins the game.
 
-* The number of **weaknesses** on a card is its _value_ (in victory points). 
+* The number of **strengths** on a card is its _value in negative points_. (For example, an animal with 3 strengths is worth -3.)
 * At the end of the game, every player sums the points of every card in their hand. 
-* Highest score wins!
+* Highest score wins! (That is, the _least negative_ score.)
+
+{{% /rules-block %}}
+
+{{% rules-block heading="Expansion: More Animals!" %}}
+
+This expansion adds more animals with their unique strengths and powers.
+
+Terminology clarifications:
+
+* **"Earlier battles"** refers to all battles _before_ this card's position in the row.
+* **"Later battles"** refers to all battles _after_ this card's position in the row. (Which are yet to come and should be unrevealed at this time.)
+* A **reroll**, by default, just means rolling your specific dice for one battle again. If it means something else---such as _both_ players rolling---this is clearly stated.
+* To **lose on purpose**, means you declare _before revealing a battle_ that "I concede this battle!". You still reveal, but no actions trigger and the opponent simply wins that battle.
+* To **destroy** a card means to permanently discard it, out of the game.
+* To **draw** a card means to draw blind from the top of the draw pile and take into your hand/deck.
 
 {{% /rules-block %}}
 
@@ -141,7 +127,9 @@ How to use them?
 * Place it faceup in the position of the first pile (_instead_ of creating a pile for it).
 * Its rule will be true for the entire war that follows. (This is usually a restriction on what can be played or done.)
 
-In battle, such a card will _always lose_.
+In battle, such a card will _always lose_. 
+
+This has only one exception. Some Roosters start with _"Rooster Change:"_. The action described afterwards is applied to any Rooster revealed later in the war (through a regular roll). In a sense, the Dawn card can change how all Roosters (from both you and the opponent) fight the rest of the war.
 
 @TODO: IMAGE EXAMPLE
 

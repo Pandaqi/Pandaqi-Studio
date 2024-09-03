@@ -16,7 +16,7 @@
     <ul>
     {{- range $final_pages -}}
         <li><div class="project-game">
-            {{- $blurb := or .Params.blurbProject .Params.blurb -}}
+            {{- $blurb := or (or .Params.blurbProject .Params.blurb) .Params.headerTitle -}}
             <a href="{{ .RelPermalink }}">{{- .Title -}}</a>:&nbsp;{{- $blurb | markdownify -}}
         </div></li>
     {{- end -}}

@@ -1,0 +1,27 @@
+
+$header-font: "rumraisin";
+$body-font: "rumraisin";
+$base: "/the-luck-legends/roll/a-little-white-die/assets/";
+$base-fonts: $base + "fonts/";
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'RumRaisin-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+body {
+    font-family: $body-font;
+}
+
+h1, h2, h3, h4, h5, h6, .btn-custom
+{
+    font-family: $header-font;
+}
+
+input, button, select, option, label 
+{
+    font-family: $body-font;
+}

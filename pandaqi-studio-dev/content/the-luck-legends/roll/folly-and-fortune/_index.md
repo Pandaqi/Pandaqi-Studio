@@ -4,12 +4,13 @@ boardgame: true
 
 title: "Folly & Fortune"
 headerTitle: "Stop re-rolling your dice before fortune turns into folly ... if you can resist the temptation for larger attacks."
+blurb: "Stop re-rolling your dice before fortune turns into folly ... if you can resist the temptation for larger attacks."
 
 weightProject: 25
 
-downloadLink: "@TODO"
+downloadLink: "https://drive.google.com/drive/folders/1chjXiPxGk8ydViL-6O7BosN_-2nRBmNS"
 
-color: "orange"
+color: "pink"
 
 date: 2025-11-26
 

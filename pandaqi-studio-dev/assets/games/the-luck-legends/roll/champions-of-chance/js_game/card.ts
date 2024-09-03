@@ -37,7 +37,7 @@ export default class Card
 
     getSpecialData()
     {
-        if(!this.isSpecial) { return {}; }
+        if(!this.isSpecial()) { return {}; }
         return SPECIAL_CARDS[this.key] ?? {};
     }
 
