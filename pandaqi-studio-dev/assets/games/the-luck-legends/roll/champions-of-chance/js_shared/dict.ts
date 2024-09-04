@@ -9,7 +9,7 @@ interface GeneralData
 
 const SPECIAL_CARDS:Record<string,GeneralData> =
 {
-    invert: { frame: 0, desc: "<b>Inverts</b> the challenge. (Lowest <-> Highest.)" },
+    invert: { frame: 0, desc: "<b>Inverts</b> the challenge. (Lowest <> Highest.)" },
     tiebreak: { frame: 1, desc: "If it's a <b>tie</b>, <i>you win</i> and <i>your opponent loses</i>." },
     steal: { frame: 2, desc: "<b>Steal</b> one card of choice from <i>the opponent's die</i>." },
     beggar: { frame: 3, desc: "If the <i>opponent</i> rolled a <i>1 or 6</i>, <b>you win</b>." },

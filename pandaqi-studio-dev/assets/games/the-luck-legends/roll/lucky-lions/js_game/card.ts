@@ -93,23 +93,25 @@ export default class Card
         // the all-important cycle + animals on it
         const resMisc = vis.getResource("misc");
         const resAnimal = vis.getResource("animals");
+
+        // the cycle itself
+        const startingAngle = vis.get("cards.cycle.startingAngle");
+        const num = Math.max(this.cycle.length, 2);
+        const frame = MISC["cycle_" + num].frame;
+        const circleCenter = vis.get("cards.cycle.pos");
+        const opCycle = new LayoutOperation({
+            translate: circleCenter,
+            dims: vis.get("cards.cycle.dims"),
+            rotation: startingAngle,
+            frame: frame,
+            pivot: Point.CENTER,
+            effects: vis.inkFriendlyEffect,
+            alpha: data.hideCycle ? 0.2 : 1.0,
+        })
+        group.add(resMisc, opCycle);
+
         if(!data.hideCycle)
         {  
-            // the cycle itself
-            const startingAngle = vis.get("cards.cycle.startingAngle");
-            const num = this.cycle.length;
-            const frame = MISC["cycle_" + num].frame;
-            const circleCenter = vis.get("cards.cycle.pos");
-            const opCycle = new LayoutOperation({
-                translate: circleCenter,
-                dims: vis.get("cards.cycle.dims"),
-                rotation: startingAngle,
-                frame: frame,
-                pivot: Point.CENTER,
-                effects: [new InvertEffect(), vis.inkFriendlyEffect].flat()
-            })
-            group.add(resMisc, opCycle);
-
             // the animals within it
             const radius = vis.get("cards.cycle.animalRadius");
             const iconDims = vis.get("cards.cycle.iconDims");
@@ -118,30 +120,31 @@ export default class Card
             for(let i = 0; i < num; i++)
             {
                 const angle = startingAngle + (i/num) * 2 * Math.PI;
-                const pos = new Point(Math.cos(angle) * radius, Math.sin(angle) * radius);
+                const circleOffset = new Point(Math.cos(angle) * radius, Math.sin(angle) * radius);
+                const pos = circleCenter.clone().add( circleOffset );
                 const opAnimal = new LayoutOperation({
                     translate: pos,
                     dims: iconDims,
-                    rotation: angle,
+                    rotation: vis.get("cards.cycle.rotateAnimals") ? angle : 0,
                     frame: ANIMALS[this.cycle[i]].frame,
                     pivot: Point.CENTER,
                     effects: [vis.inkFriendlyEffect, glowEffect].flat()
                 })
                 group.add(resAnimal, opAnimal);
             }
+        }
 
-            // the people icon
-            if(this.peopleIcon)
-            {
-                const opPeople = new LayoutOperation({
-                    translate: circleCenter,
-                    dims: vis.get("cards.cycle.peopleIconDims"),
-                    pivot: Point.CENTER,
-                    frame: MISC.people_icon.frame,
-                    effects: vis.inkFriendlyEffect
-                });
-                group.add(resMisc, opPeople);
-            }
+        // the people icon
+        if(this.peopleIcon)
+        {
+            const opPeople = new LayoutOperation({
+                translate: circleCenter,
+                dims: vis.get("cards.cycle.peopleIconDims"),
+                pivot: Point.CENTER,
+                frame: MISC.people_icon.frame,
+                effects: vis.inkFriendlyEffect
+            });
+            group.add(resMisc, opPeople);
         }
 
         // score
@@ -225,7 +228,7 @@ export default class Card
                 translate: vis.get("cards.power.textBoxPos"),
                 dims: vis.get("cards.power.textBoxDims"),
                 pivot: Point.CENTER,
-                frame: MISC.textbox_zoo.frame,
+                frame: MISC.textbox_animal.frame,
                 effects: vis.inkFriendlyEffect
             });
             group.add(resMisc, opTextBox);
@@ -239,7 +242,7 @@ export default class Card
                 translate: vis.get("cards.power.textBoxPos"),
                 dims: vis.get("cards.power.textBoxDims"),
                 pivot: Point.CENTER,
-                fill: vis.inkFriendly ? "#FFFFFF" : vis.get("cards.power.textColor")
+                fill: vis.inkFriendly ? "#FFFFFF" : "#000000"
             });
             group.add(resText, opText);
         } 
@@ -255,7 +258,8 @@ export default class Card
             flipY: Math.random() <= 0.5,
             pivot: Point.CENTER,
             composite: "overlay",
-            alpha: vis.get("cards.backgroundTextureAlpha")
+            alpha: vis.get("cards.backgroundTextureAlpha"),
+            frame: TEMPLATES.texture.frame,
         })
         group.add(resTemp, opTex);
     }

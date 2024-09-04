@@ -1,4 +1,5 @@
 import Point from "js/pq_games/tools/geometry/point"
+import { ContractType } from "./dict"
 
 const CONFIG:any = 
 {
@@ -63,7 +64,62 @@ const CONFIG:any =
 
     generation:
     {
+        contractsNumDefault: 30,
+        contractsNumPerSet:
+        {
+            base: 40,
+            lost: 20
+        },
+        
+        contractTypesDefault: [ContractType.REGULAR],
+        contractTypesPerSet:
+        {
+            base: [ContractType.REGULAR],
+            lost: [ContractType.FORCED, ContractType.BATTLE]
+        },
 
+        // these are the regular dice/number cards, not contracts
+        cardsNumDefault: 40,
+        cardsNumPerSet:
+        {
+            base: 40,
+            devilish: 20
+        },
+
+        cardsPossibleDefault: [1,2,3,4,5,6],
+        cardsPossiblePerSet:
+        {
+            base: [1,2,3,4,5,6],
+            devilish: [-1,0,1,2,3,4,5,6,7,8],
+        },
+
+        actionPercentageDefault: 0.35,
+        actionPercentagePerSet:
+        {
+            base: 0.35,
+            devilish: 0.75
+        },
+
+        wildCardPercentage: 0.15,
+        duoNumberPercentage: 0.25,
+
+        contractResultTypeDist:
+        {
+            "score": 0.4,
+            "card": 0.6
+        },
+
+        contractRewardDist:
+        {
+            1: 0.65,
+            2: 0.35,
+        },
+
+        contractPenaltyDist:
+        {
+            1: 0.8,
+            2: 0.2,
+        }
     },
 
     cards:

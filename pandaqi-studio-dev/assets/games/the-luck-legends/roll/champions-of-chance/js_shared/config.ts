@@ -1,3 +1,4 @@
+import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textConfig"
 import CVal from "js/pq_games/tools/generation/cval"
 import Point from "js/pq_games/tools/geometry/point"
 import Bounds from "js/pq_games/tools/numbers/bounds"
@@ -6,9 +7,9 @@ const CONFIG:any =
 {
     debug:
     {
-        omitFile: true, // @DEBUGGING (should be false)
-        singleDrawPerType: true, // @DEBUGGING (should be false)
-        onlyGenerate: true, // @DEBUGGING (should be false)
+        omitFile: false, // @DEBUGGING (should be false)
+        singleDrawPerType: false, // @DEBUGGING (should be false)
+        onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
     configKey: "championsOfChanceConfig",
@@ -37,6 +38,20 @@ const CONFIG:any =
         nunito:
         {
             path: "fonts/NunitoSans10pt-Regular.woff2",
+        },
+
+        nunito_italic:
+        {
+            key: "nunito",
+            path: "fonts/NunitoSans10pt-Italic.woff2",
+            textConfig: new TextConfig({ style: TextStyle.ITALIC })
+        },
+
+        nunito_bold:
+        {
+            key: "nunito",
+            path: "fonts/NunitoSans10pt-Black.woff2",
+            textConfig: new TextConfig({ weight: TextWeight.BOLD })
         },
 
         luckiest:
@@ -69,20 +84,20 @@ const CONFIG:any =
         maxNum: 6,
         numCardsPerNumber: 6,
 
-        numIconsMin: 1,
+        numIconsMin: 2,
         numIconsMax: 4,
         numIconsRandomness: new Bounds(-1.5, 1.5),
         numIconsPerNumber:
         {
-            1: 1,
-            2: 2,
+            1: 2,
+            2: 3,
             3: 4,
             4: 4,
             5: 3,
-            6: 1
+            6: 2
         },
 
-        numCardsWacky: 15,
+        numCardsWacky: 18,
     },
 
     cards:
@@ -99,28 +114,33 @@ const CONFIG:any =
             }, 
         },
 
+        bg:
+        {
+            alpha: 0.15,
+        },
+
         numbers:
         {
-            offset: new CVal(new Point(0.1), "sizeUnit"),
-            fontSize: new CVal(0.3, "sizeUnit"),
+            offset: new CVal(new Point(0.1, 0.13), "sizeUnit"),
+            fontSize: new CVal(0.225, "sizeUnit"),
             centerPos: new CVal(new Point(0.5), "size"),
             centerDims: new CVal(new Point(0.4), "sizeUnit"),
-            writtenPos: new CVal(new Point(0.5, 0.7), "size"),
-            writtenFontSize: new CVal(0.15, "sizeUnit"),
+            writtenPos: new CVal(new Point(0.5, 0.68), "size"),
+            writtenFontSize: new CVal(0.12, "sizeUnit"),
         },
 
         power:
         {
-            fontSize: new CVal(0.1, "sizeUnit"),
-            textPos: new CVal(new Point(0.5, 0.75), "size"),
-            textBoxDims: new CVal(new Point(0.66, 0.175), "size"),
+            fontSize: new CVal(0.05075, "sizeUnit"),
+            textPos: new CVal(new Point(0.5, 0.815), "size"),
+            textBoxDims: new CVal(new Point(0.475, 0.175), "size"),
             textColor: "#101010"
         },
 
         icons:
         {
-            offset: new CVal(new Point(0.1, 0.3), "size"),
-            dims: new CVal(new Point(0.1), "size")
+            offset: new CVal(new Point(0.1, 0.195), "size"),
+            dims: new CVal(new Point(0.1), "sizeUnit")
         }
     },
 }

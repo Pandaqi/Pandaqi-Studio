@@ -82,12 +82,12 @@ export default class Card
     drawNumbers(vis:MaterialVisualizer, group:ResourceGroup)
     {
         // draw the numbers themselves first
-        // @TODO: SCALE DOWN THE DOUBLE DIGITS?
         const positions = getRectangleCornersWithOffset(vis.size, vis.get("cards.numbers.offset"));
+        const scaleDown = this.num >= 10 ? vis.get("cards.numbers.doubleDigitsScaleDown") : 1.0;
 
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
-            size: vis.get("cards.numbers.fontSize")
+            size: vis.get("cards.numbers.fontSize") * scaleDown
         }).alignCenter();
         const resText = new ResourceText({ text: this.num.toString(), textConfig: textConfig });
 

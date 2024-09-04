@@ -2,54 +2,53 @@ import createContext from "js/pq_games/layout/canvas/createContext";
 import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
-import { MISC, SPECIAL_CARDS } from "../js_shared/dict";
-import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import TintEffect from "js/pq_games/layout/effects/tintEffect";
-import getRectangleCornersWithOffset from "js/pq_games/tools/geometry/paths/getRectangleCornersWithOffset";
-import ResourceText from "js/pq_games/layout/resources/resourceText";
-import TextConfig from "js/pq_games/layout/text/textConfig";
-import Point from "js/pq_games/tools/geometry/point";
-import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
-import getPositionsCenteredAround from "js/pq_games/tools/geometry/paths/getPositionsCenteredAround";
+import { CARD_ACTIONS, CardType } from "../js_shared/dict";
+import Contract from "./contracts/contract";
+import fromArray from "js/pq_games/tools/random/fromArray";
 
 export default class Card
 {
-    num:number;
-    numIcons:number;
-    key:string; // only used for special cards/actions
+    type: CardType
+    contract: Contract
+    num: number = -1;
+    action: string = "";
+    actionText: string = "";
+    specialType:string = ""; // only for wildcard / duo dice cards
 
-    constructor(num:number, numIcons:number, key:string = "")
+    constructor(type:CardType)
     {
-        this.num = num;
-        this.numIcons = numIcons;
-        this.key = key;
+        this.type = type;
     }
 
-    isSpecial()
+    setContract(c:Contract) { this.contract = c; }
+    setDiceData(n:number, a:string)
     {
-        return this.key != "";
+        this.num = n;
+        this.action = a;
+        
+        if(this.hasAction())
+        {
+            let str = CARD_ACTIONS[this.action].desc; 
+            str = str.replace("%numlow%", fromArray([1,2]).toString());
+            str = str.replace("%numhigh%", fromArray([5,6]).toString());
+            str = str.replace("%rank%", fromArray(["lowest", "highest"]));
+            this.actionText = str;
+        }
     }
 
-    getData()
+    hasAction()
     {
-        return MISC[this.num];
+        return this.action != "";
     }
 
-    getSpecialData()
+    setSpecialType(st:string)
     {
-        if(!this.isSpecial) { return {}; }
-        return SPECIAL_CARDS[this.key] ?? {};
+        this.specialType = st;
     }
 
-    getTintColor(vis:MaterialVisualizer)
+    isSpecialType()
     {
-        if(vis.inkFriendly) { return "#111111"; }
-        return this.getData().tint;
-    }
-
-    hasIcons()
-    {
-        return this.numIcons <= 0;
+        return this.specialType != "";
     }
 
     async draw(vis:MaterialVisualizer)
@@ -58,147 +57,49 @@ export default class Card
         fillCanvas(ctx, "#FFFFFF");
 
         const group = new ResourceGroup();
-        this.drawBackground(vis, group);
-        this.drawNumbers(vis, group);
-        this.drawIcons(vis, group);
-        this.drawSpecial(vis, group);
+        if(this.type == CardType.DICE) {
+            this.drawBackground(vis, group);
+            this.drawNumbers(vis, group);
+            this.drawAction(vis, group);
+        } else if(this.type == CardType.CONTRACT) {
+            this.drawContract(vis, group);
+        }
 
         group.toCanvas(ctx);
         return ctx.canvas;
     }
 
+    getOtherNumber()
+    {
+        const options = [1,2,3,4,5,6]
+        options.splice(options.indexOf(this.num), 1);
+        return fromArray(options);
+    }
+
     drawBackground(vis:MaterialVisualizer, group:ResourceGroup)
     {
-        const keySuffix = this.isSpecial() ? "_special" : "_regular";
-        const resTemp = vis.getResource("card_templates");
-        const opBG = new LayoutOperation({
-            dims: vis.size,
-            frame: MISC["bg" + keySuffix].frame
-        });
-        group.add(resTemp, opBG);
-
-        if(!vis.inkFriendly)
-        {
-            const opTint = new LayoutOperation({
-                dims: vis.size,
-                frame: MISC["tint" + keySuffix].frame,
-                effects: [new TintEffect()]
-            });
-            group.add(resTemp, opTint)
-        }
+        // @TODO
     }
 
     drawNumbers(vis:MaterialVisualizer, group:ResourceGroup)
     {
-        // numbers in corners
-        const positions = getRectangleCornersWithOffset(vis.size, vis.get("cards.numbers.offset"));
-        const textConfig = new TextConfig({
-            font: vis.get("fonts.heading"),
-            size: vis.get("cards.numbers.fontSize")
-        }).alignCenter();
-        const resText = new ResourceText({ text: this.num.toString(), textConfig: textConfig });
-        for(let i = 0; i < 2; i++)
-        {
-            const pos = positions[i*2];
-            const opNumber = new LayoutOperation({
-                translate: pos,
-                dims: new Point(2.0 * textConfig.size),
-                pivot: Point.CENTER,
-                fill: this.getTintColor(vis)
-            });
-            group.add(resText, opNumber);
-        }
-
-        // number in center
-        const resMisc = vis.getResource("misc");
-        const centerIconDims = vis.get("cards.numbers.centerDims");
-        const shadowEffect = new DropShadowEffect({ color: "#000000", blurRadius: 0.1*centerIconDims.x });
-        const opCenterNumber = new LayoutOperation({
-            translate: vis.get("cards.numbers.centerPos"),
-            dims: centerIconDims,
-            pivot: Point.CENTER,
-            frame: this.getData().frame,
-            effects: [shadowEffect, vis.inkFriendlyEffect].flat()
-        })
-        group.add(resMisc, opCenterNumber);
-
-        // number in written text below that
-        const textConfigWritten = new TextConfig({
-            font: vis.get("fonts.heading"),
-            size: vis.get("cards.numbers.writtenFontSize")
-        }).alignCenter();
-        const resTextWritten = new ResourceText({ text: this.getData().label, textConfig: textConfigWritten });
-        const opTextWritten = new LayoutOperation({
-            translate: vis.get("cards.numbers.writtenPos"),
-            dims: new Point(8.0 * textConfigWritten.size),
-            pivot: Point.CENTER,
-            fill: this.getTintColor(vis)
-        })
-        group.add(resTextWritten, opTextWritten);
+        // @TODO   
+        // If specialType == wildcard, draw no numbers but a general "wildcard" icon or question mark
+        // If specialType == duo, switch half the numbers for a `const numB = this.getOtherNumber()` and display some duo icon
     }
 
-    drawIcons(vis:MaterialVisualizer, group:ResourceGroup)
+    drawAction(vis:MaterialVisualizer, group:ResourceGroup)
     {
-        if(!this.hasIcons()) { return; }
-
-        const edgeOffset = vis.get("cards.icons.offset");
-        const iconDims = vis.get("cards.icons.dims");
-
-        const anchorPositions = [
-            new Point(edgeOffset.x, vis.size.y - edgeOffset.y),
-            new Point(vis.size.x - edgeOffset.x, edgeOffset.y)
-        ]
-
-        const resMisc = vis.getResource("misc");
-
-        for(let i = 0; i < anchorPositions.length; i++)
-        {
-            const anchorPos = anchorPositions[i];
-            const isTopRightSide = i == 1;
-            const shouldDisplayCupInstead = isTopRightSide && this.isSpecial();
-            if(shouldDisplayCupInstead)
-            {
-                const opIcon = new LayoutOperation({
-                    translate: anchorPos,
-                    dims: iconDims,
-                    frame: MISC.cup_icon.frame,
-                    rotation: (-0.075 + 1.5*Math.random()) * 2 * Math.PI
-                });
-                group.add(resMisc, opIcon);
-                continue;
-            }
-
-            const positions = getPositionsCenteredAround({ pos: anchorPos, dims: iconDims, num: this.numIcons, dir: Point.DOWN });
-            for(const pos of positions)
-            {
-                const opIcon = new LayoutOperation({
-                    translate: pos,
-                    dims: iconDims,
-                    flipY: isTopRightSide,
-                    frame: MISC.dice_icon.frame,
-                })
-                group.add(resMisc, opIcon);
-            }
-        }
-        
+        if(this.isSpecialType()) { return; }
+        // @TODO => use `this.actionText`; it has the final string with values dynamically filled in
     }
 
-    drawSpecial(vis:MaterialVisualizer, group:ResourceGroup)
+    drawContract(vis:MaterialVisualizer, group:ResourceGroup)
     {
-        if(!this.isSpecial()) { return; }
-
-        const data = this.getData();
-        const textConfig = new TextConfig({
-            font: vis.get("fonts.body"),
-            size: vis.get("cards.power.fontSize")
-        }).alignCenter();
-        const resText = new ResourceText({ text: data.desc, textConfig: textConfig });
-        const opText = new LayoutOperation({
-            translate: vis.get("cards.power.textPos"),
-            dims: vis.get("cards.power.textBoxDims"),
-            fill: vis.get("cards.power.textColor"),
-            pivot: Point.CENTER
-        })
-        group.add(resText, opText);
+        // @TODO => we can simply get all final strings from `contract.property.toString()`
+        // @TODO: display stars = difficulty of contract (use `contract.getStars()`)
+        // @TODO: display BATTLE or FORCED, if needed
+            // If FORCED, display contract.minTurnout
+        // @TODO: display reward/penalty (green/red zone top/bottom?) using `contract.rewards` and `contract.penalties` arrays
     }
 }

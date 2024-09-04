@@ -8,11 +8,11 @@ enum CardType
 // the actual background/decorations on cards is a dark green/brown vibe
 enum AnimalType
 {
-    LION = "lion", // yellow
-    FOX = "fox", // orange-brown-red
-    PANDA = "panda", // black-white
-    FLAMINGO = "flamingo", // pink-purple
-    DOLPHIN = "dolphin", // turquoise-blue
+    LION = "Lion", // yellow
+    FOX = "Fox", // orange-brown-red
+    PANDA = "Panda", // black-white
+    FLAMINGO = "Flamingo", // pink-purple
+    DOLPHIN = "Dolphin", // turquoise-blue
 }
 
 interface GeneralData
@@ -26,21 +26,21 @@ interface GeneralData
 
 const ZOO_CARDS:Record<string, GeneralData> = 
 {
-    autowin: { desc: "<b>%animal% always wins</b>, everything else is a tie.", hideCycle: true },
-    autolose: { desc: "<b>%animal% always loses</b>, everything else is a tie.", hideCycle: true },
+    autowin: { desc: "<b>%animal% always wins</b>. Everything else is a tie.", hideCycle: true },
+    autolose: { desc: "<b>%animal% always loses</b>. Everything else is a tie.", hideCycle: true },
     player_exclude: { desc: "Pick one player who does <b>not</b> get to roll.", requirePeople: true },
-    extra_rule: { desc: "<b>%animal% > Animal %animal%</b>. If those two exact animals are played, this rule determines who wins.", forbidPeople: true },
-    die_split: { desc: "Only use <b>%cyclesize% cards</b> for your die. (Temporarily set your other cards aside while rolling.)" },
-    double_roll: { desc: "All battlers roll <b>twice</b>, in-turn, and pick <i>which of the two outcomes</i> they want to keep." }
+    extra_rule: { desc: "<b>%animal% beats %animal%</b> if only those animals are played.", forbidPeople: true },
+    die_split: { desc: "Only use <b>%cyclesize% cards</b> for your die. (Temporarily set aside your other cards.)" },
+    double_roll: { desc: "All battlers roll <b>twice</b> and pick <i>one of the results</i> as final." }
 }
 
 const ANIMALS:Record<AnimalType, GeneralData> =
 {
     [AnimalType.LION]: { frame: 0, desc: "In case of a <b>tie</b>, I always <i>win</i>." },
-    [AnimalType.FOX]: { frame: 1, desc: "You may request a <b>re-roll</b>. (The fox ability can only trigger <i>once</i> per battle.)" },
-    [AnimalType.PANDA]: { frame: 2, desc: "If I'm <b>not on the Zoo Card</b>, <i>switch</i> to a different Zoo Card; re-roll." },
+    [AnimalType.FOX]: { frame: 1, desc: "You may <b>reroll</b>.\n(Foxes can be used only <i>once</i> per battle.)" },
+    [AnimalType.PANDA]: { frame: 2, desc: "If I'm <b>not on the Zoo Card</b>, <i>switch</i> to a different Zoo." },
     [AnimalType.FLAMINGO]: { frame: 3, desc: "In case of a <b>tie</b>, I always <i>lose</i>." },
-    [AnimalType.DOLPHIN]: { frame: 4, desc: "<b>Nobody wins or loses</b> this battle. <i>Discard</i> this card and <i>draw</i> a new one from deck." },
+    [AnimalType.DOLPHIN]: { frame: 4, desc: "<b>Nobody wins nor loses</b>.\n<i>Discard</i> me; <i>Draw</i> a new card." },
 }
 
 const MISC:Record<string, GeneralData> = 

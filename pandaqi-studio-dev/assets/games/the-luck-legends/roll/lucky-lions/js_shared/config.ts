@@ -1,14 +1,15 @@
 import Point from "js/pq_games/tools/geometry/point"
 import { AnimalType } from "./dict"
 import CVal from "js/pq_games/tools/generation/cval"
+import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textConfig"
 
 const CONFIG:any = 
 {
     debug:
     {
-        omitFile: true, // @DEBUGGING (should be false)
-        singleDrawPerType: true, // @DEBUGGING (should be false)
-        onlyGenerate: true, // @DEBUGGING (should be false)
+        omitFile: false, // @DEBUGGING (should be false)
+        singleDrawPerType: false, // @DEBUGGING (should be false)
+        onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
     configKey: "luckyLionsConfig",
@@ -38,6 +39,20 @@ const CONFIG:any =
         berylium:
         {
             path: "fonts/Berylium-Regular.woff2",
+        },
+
+        berylium_italic:
+        {
+            key: "berylium",
+            path: "fonts/Berylium-Italic.woff2",
+            textConfig: new TextConfig({ style: TextStyle.ITALIC })
+        },
+
+        berylium_bold:
+        {
+            key: "berylium",
+            path: "fonts/Berylium-Bold.woff2",
+            textConfig: new TextConfig({ weight: TextWeight.BOLD })
         },
 
         bamboo:
@@ -132,32 +147,33 @@ const CONFIG:any =
         {
             startingAngle: 0,
             pos: new CVal(new Point(0.5), "size"),
-            dims: new CVal(new Point(0.5), "sizeUnit"),
-            animalRadius: new CVal(0.4, "sizeUnit"), // should be slightly smaller than dims
-            iconDims: new CVal(new Point(0.2), "sizeUnit"),
-            peopleIconDims: new CVal(new Point(0.2), "sizeUnit")
+            dims: new CVal(new Point(0.75), "sizeUnit"),
+            animalRadius: new CVal(0.3, "sizeUnit"), // should be slightly smaller than 0.5*dims
+            iconDims: new CVal(new Point(0.175), "sizeUnit"),
+            peopleIconDims: new CVal(new Point(0.2), "sizeUnit"),
+            rotateAnimals: false,
         },
 
         score:
         {
-            fontSize: new CVal(0.15, "sizeUnit"),
-            textBoxPos: new CVal(new Point(0.75, 0.2), "size"),
+            fontSize: new CVal(0.13, "sizeUnit"),
+            textBoxPos: new CVal(new Point(0.795, 0.1375), "size"),
             textColor: "#023d00"
         },
 
         power:
         {
-            textBoxPos: new CVal(new Point(0.5, 0.75), "size"),
-            textBoxDims: new CVal(new Point(0.75, 0.2), "size"),
-            textDims: new CVal(new Point(0.65, 0.15), "size"), // should be slightly smaller than textBoxDims
-            fontSize: new CVal(0.1, "sizeUnit"),
+            textBoxPos: new CVal(new Point(0.5, 0.85), "size"),
+            textBoxDims: new CVal(new Point(0.85), "sizeUnit"),
+            textDims: new CVal(new Point(0.75, 0.25), "size"), // should be slightly smaller than textBoxDims
+            fontSize: new CVal(0.05, "sizeUnit"),
             textColor: "#FFFFFF"
         },
 
         animal:
         {
             iconPos: new CVal(new Point(0.5), "size"),
-            iconDims: new CVal(new Point(0.5), "size")
+            iconDims: new CVal(new Point(0.5), "sizeUnit")
         }
     },
 }

@@ -2,7 +2,7 @@ import createContext from "js/pq_games/layout/canvas/createContext";
 import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
-import { MISC, SPECIAL_CARDS } from "../js_shared/dict";
+import { MISC, SPECIAL_CARDS, TEMPLATES } from "../js_shared/dict";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import TintEffect from "js/pq_games/layout/effects/tintEffect";
 import getRectangleCornersWithOffset from "js/pq_games/tools/geometry/paths/getRectangleCornersWithOffset";
@@ -49,7 +49,7 @@ export default class Card
 
     hasIcons()
     {
-        return this.numIcons <= 0;
+        return this.numIcons > 0;
     }
 
     async draw(vis:MaterialVisualizer)
@@ -73,7 +73,8 @@ export default class Card
         const resTemp = vis.getResource("card_templates");
         const opBG = new LayoutOperation({
             dims: vis.size,
-            frame: MISC["bg" + keySuffix].frame
+            frame: TEMPLATES["bg" + keySuffix].frame,
+            alpha: vis.get("cards.bg.alpha")
         });
         group.add(resTemp, opBG);
 
@@ -81,8 +82,8 @@ export default class Card
         {
             const opTint = new LayoutOperation({
                 dims: vis.size,
-                frame: MISC["tint" + keySuffix].frame,
-                effects: [new TintEffect()]
+                frame: TEMPLATES["tint" + keySuffix].frame,
+                effects: [new TintEffect(this.getTintColor(vis))]
             });
             group.add(resTemp, opTint)
         }
@@ -112,7 +113,7 @@ export default class Card
         // number in center
         const resMisc = vis.getResource("misc");
         const centerIconDims = vis.get("cards.numbers.centerDims");
-        const shadowEffect = new DropShadowEffect({ color: "#000000", blurRadius: 0.1*centerIconDims.x });
+        const shadowEffect = new DropShadowEffect({ color: "#000000", blurRadius: 0.025*centerIconDims.x });
         const opCenterNumber = new LayoutOperation({
             translate: vis.get("cards.numbers.centerPos"),
             dims: centerIconDims,
@@ -149,6 +150,7 @@ export default class Card
             new Point(vis.size.x - edgeOffset.x, edgeOffset.y)
         ]
 
+        const shadowEffect = new DropShadowEffect({ color: "#333333", blurRadius: 0.04*iconDims.x });
         const resMisc = vis.getResource("misc");
 
         for(let i = 0; i < anchorPositions.length; i++)
@@ -162,7 +164,9 @@ export default class Card
                     translate: anchorPos,
                     dims: iconDims,
                     frame: MISC.cup_icon.frame,
-                    rotation: (-0.075 + 1.5*Math.random()) * 2 * Math.PI
+                    rotation: (-0.075 + 0.15*Math.random()) * 2 * Math.PI,
+                    pivot: Point.CENTER,
+                    effects: [shadowEffect, vis.inkFriendlyEffect].flat()
                 });
                 group.add(resMisc, opIcon);
                 continue;
@@ -176,6 +180,8 @@ export default class Card
                     dims: iconDims,
                     flipY: isTopRightSide,
                     frame: MISC.dice_icon.frame,
+                    pivot: Point.CENTER,
+                    effects: [shadowEffect]
                 })
                 group.add(resMisc, opIcon);
             }
@@ -187,7 +193,7 @@ export default class Card
     {
         if(!this.isSpecial()) { return; }
 
-        const data = this.getData();
+        const data = this.getSpecialData();
         const textConfig = new TextConfig({
             font: vis.get("fonts.body"),
             size: vis.get("cards.power.fontSize")

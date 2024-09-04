@@ -79,7 +79,41 @@ const CONFIG:any =
 
     generation:
     {
+        numCardsDefault: 30,
+        numCardsPerSet:
+        {
+            base: 48,
+            zoo: 36,
+        },
 
+        strengthDistDefault:
+        {
+            3: 0.5,
+            4: 0.5
+        },
+
+        strengthDistPerSet:
+        {
+            base:
+            {
+                1: 0.15,
+                2: 0.15,
+                3: 0.25,
+                4: 0.35,
+                5: 0.1
+            },
+
+            zoo:
+            {
+                1: 0.1,
+                2: 0.2,
+                3: 0.3,
+                4: 0.3,
+                5: 0.1,
+            }
+        },
+
+        numCommunicationCards: 9,
     },
 
     cards:

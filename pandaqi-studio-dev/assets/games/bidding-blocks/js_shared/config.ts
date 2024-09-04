@@ -6,9 +6,9 @@ const CONFIG:any =
 {
     debug:
     {
-        omitFile: true, // @DEBUGGING (should be false)
-        singleDrawPerType: true, // @DEBUGGING (should be false)
-        onlyGenerate: true, // @DEBUGGING (should be false)
+        omitFile: false, // @DEBUGGING (should be false)
+        singleDrawPerType: false, // @DEBUGGING (should be false)
+        onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
     configKey: "biddingBlocksConfig",
@@ -41,7 +41,7 @@ const CONFIG:any =
 
         vadamecum:
         {
-            path: "fonts/Vadamecum-Regular.woff2",
+            path: "fonts/Vademecum-Regular.woff2",
         },
 
         card_templates:
@@ -84,25 +84,26 @@ const CONFIG:any =
         main:
         {
             pos: new CVal(new Point(0.5), "size"),
-            dims: new CVal(new Point(0.8), "sizeUnit"),
+            dims: new CVal(new Point(0.92), "sizeUnit"),
         },
 
         fitsOnTop:
         {
-            pos: new CVal(new Point(0.5, 0.15), "size"),
-            dims: new CVal(new Point(0.25), "sizeUnit")
+            pos: new CVal(new Point(0.5, 0.115), "size"),
+            dims: new CVal(new Point(0.235), "sizeUnit")
         },
 
         numbers:
         {
-            fontSize: new CVal(0.2, "sizeUnit"),
-            offset: new CVal(new Point(0.1), "sizeUnit")
+            fontSize: new CVal(0.175, "sizeUnit"),
+            offset: new CVal(new Point(0.1, 0.135), "sizeUnit"),
+            doubleDigitsScaleDown: 0.775,
         },
 
         suitIcons:
         {
-            offset: new CVal(new Point(0.2, 0.15), "sizeUnit"), // should fit perfectly in this background circles
-            dims: new CVal(new Point(0.1), "sizeUnit")
+            offset: new CVal(new Point(0.27, 0.17), "sizeUnit"), // should fit perfectly in this background circles
+            dims: new CVal(new Point(0.0775), "sizeUnit")
         }
     },
 }

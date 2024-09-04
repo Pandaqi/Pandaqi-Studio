@@ -88,13 +88,15 @@ const CONFIG:any =
         defHealth: 2,
         numHealthPerNumber:
         {
+            "-1": 6,
             0: 6,
             1: 5,
             2: 4,
             3: 3,
             4: 3,
             5: 2,
-            6: 1
+            6: 1,
+            7: 0
         },
         numHealthRandomness: new Bounds(-1,1),
         numHealthReductionUnseen: -2,

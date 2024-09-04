@@ -1,8 +1,7 @@
-import Bounds from "js/pq_games/tools/numbers/bounds";
-import CONFIG from "../js_shared/config";
-import Card from "./card";
-import { SPECIAL_CARDS } from "../js_shared/dict";
 import shuffle from "js/pq_games/tools/random/shuffle";
+import CONFIG from "../js_shared/config";
+import { AnimalType, DAWN_ACTIONS, MOVES, MovesDictionary, ROOSTER_CHANGES } from "../js_shared/dict";
+import Card from "./card";
 
 export default class CardPicker
 {
@@ -13,62 +12,111 @@ export default class CardPicker
     {
         this.cards = [];
 
-        this.generateBaseCards();
-        this.generateWackyNumbers();
+        this.generateBase();
+        this.generateZoo();
+        this.generateFightTogether();
+        this.generateDawnDojo();
 
         console.log(this.cards);
     }
 
-    generateBaseCards()
-    {
-        if(!CONFIG.sets.base) { return; }
 
-        for(let i = CONFIG.generation.minNum; i <= CONFIG.generation.maxNum; i++)
+    filterBySet(dict:MovesDictionary, set:string)
+    {
+        return Object.keys(dict).filter((key) => (dict[key].set ?? "base") == set);
+    }
+
+    generateBalancedAnimals(set:string)
+    {
+        // get basic data (number of cards and available elements)
+        const num = CONFIG.generation.numCardsPerSet[set] ?? CONFIG.generation.numCardsDefault;
+        const animals = this.filterBySet(MOVES, set);
+        const animalsFinal = [];
+        while(animalsFinal.length < num)
         {
-            for(let a = 0; a < CONFIG.generation.numCardsPerNumber; a++)
+            animalsFinal.push(...shuffle(animals));
+        }
+
+        // ignore the animals that want no strengths, to not mess up the distributions
+        let numThatNeedStrengths = 0;
+        for(let i = 0; i < num; i++)
+        {
+            if(MOVES[animalsFinal[i]].strengthless) { continue; }
+            numThatNeedStrengths += 1;
+        }
+
+        // calculate distribution of strengths on the fly
+        const numStrengthsFinal = [];
+        const strengthDist:Record<number,number> = CONFIG.generation.strengthDistPerSet[set] ?? CONFIG.generation.strengthDistDefault;
+        let totalStrengthsNeeded = 0;
+        for(const [numStrengths,freqRaw] of Object.entries(strengthDist))
+        {
+            const freq = Math.ceil(freqRaw * numThatNeedStrengths) * parseInt(numStrengths);
+            totalStrengthsNeeded += freq;
+            for(let i = 0; i < freq; i++)
             {
-                const numIcons = this.getNumIconsFromNumber(i);
-                this.cards.push(new Card(i, numIcons));
+                numStrengthsFinal.push(numStrengths);
             }
         }
-    }
+        shuffle(numStrengthsFinal);
 
-    generateWackyNumbers()
-    {
-        if(!CONFIG.sets.wackyNumbers) { return; }
-        
-        const numCards = CONFIG.generation.numCardsWacky;
-        const bounds = new Bounds(CONFIG.generation.minNum, CONFIG.generation.maxNum);
-        
-        const numbersPossible = bounds.asList();
-        const allNumbers = [];
-        while(allNumbers.length < numCards)
+        // assign to the animals!
+        const specificStrengthsFinal = [];
+        while(specificStrengthsFinal.length < totalStrengthsNeeded)
         {
-            allNumbers.push(...numbersPossible);
+            specificStrengthsFinal.push(...animals); // don't shuffle here, as that might mean people select duplicates when lsicing laer
         }
-        shuffle(allNumbers);
 
-        const typesPossible = Object.keys(SPECIAL_CARDS);
-        const allTypes = [];
-        while(allTypes.length < numCards)
+        const strengthsPerAnimal:Record<string,AnimalType[]> = {};
+        const animalsRandomOrder = shuffle(animals.slice());
+        for(const animal of animalsRandomOrder)
         {
-            allTypes.push(...typesPossible);
+            if(MOVES[animal].strengthless) { strengthsPerAnimal[animal] = []; continue; }
+            strengthsPerAnimal[animal] = specificStrengthsFinal.splice(0, numStrengthsFinal.pop());
         }
-        shuffle(allTypes);
 
-        for(let i = 0; i < numCards; i++)
+        // create the final cards
+        for(const animal of animalsFinal)
         {
-            const randNum = allNumbers.pop();
-            const numIcons = this.getNumIconsFromNumber(randNum);
-            const type = allTypes.pop();
-            this.cards.push(new Card(randNum, numIcons, type));
+            const newCard = new Card(animal, strengthsPerAnimal[animal]);
+            this.cards.push(newCard);
         }
     }
 
-    getNumIconsFromNumber(num:number)
+    generateBase()
     {
-        const numIconsRaw = CONFIG.generation.numIconsPerNumber[num];
-        const numIconsRandomness = CONFIG.generation.numIconsRandomness.random();
-        return Math.max(Math.min( Math.round(numIconsRaw + numIconsRandomness), CONFIG.generation.numIconsMax), CONFIG.generation.numIconsMin);
+        if(!CONFIG.sets.base) { return; }
+        this.generateBalancedAnimals("base");
+    }
+
+    generateZoo()
+    {
+        if(!CONFIG.sets.zooOfMoves) { return; }
+        this.generateBalancedAnimals("zoo");
+    }
+
+    generateFightTogether()
+    {
+        if(!CONFIG.sets.fightTogether) { return; }
+        
+        for(let i = 0; i < CONFIG.generation.numCommunicationCards; i++)
+        {
+            this.cards.push(new Card(AnimalType.PARROT));
+        }
+    }
+
+    generateDawnDojo()
+    {
+        if(!CONFIG.sets.dawnDojo) { return; }
+
+        const randOrderActions = shuffle(Object.keys(DAWN_ACTIONS));
+        const randOrderChanges = shuffle(Object.keys(ROOSTER_CHANGES));
+
+        while(randOrderActions.length > 0 && randOrderChanges.length > 0)
+        {
+            const key1 = randOrderActions.pop();
+            const key2 = randOrderChanges.pop();
+            this.cards.push(new Card(AnimalType.ROOSTER, [], key1, key2));
+        }
     }
 }

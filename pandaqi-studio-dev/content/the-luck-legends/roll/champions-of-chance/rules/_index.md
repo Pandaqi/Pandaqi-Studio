@@ -49,7 +49,7 @@ Played the base game and ready for more? Or looking to tweak the game to fit you
 
 {{% rules-block heading="Variants" %}}
 
-@TODO
+This game currently has no official variants.
 
 {{% /rules-block %}}
 

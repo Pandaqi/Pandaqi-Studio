@@ -6,6 +6,8 @@ type: "rules"
 
 Deal all players a random deck of **6 cards**. Place all remaining cards to the side as a facedown draw pile.
 
+For your first game, just follow the simple base rules. Once familiar with the rules, however, I recommend using the [Simulwars](#simulwars) variant so that players can fight simultaneously instead of waiting for their turn.
+
 @TODO: EXAMPLE IMAGE
 
 {{% /rules-block %}}
@@ -23,6 +25,7 @@ From start player, take clockwise turns. On your turn you always **wage war** ag
 * Pick another player to fight.
 * Say a **number**. That's how many piles (or "dice") both fighters must create out of their deck. 
 * Every pile must have at least 2 cards, and you can't pick a number you or your opponent can't legally follow.
+* When done, shuffle your piles well.
 
 Once those piles are created, place them in pairs (one against one) on the table, in two rows. Every single pair is called a "battle"; the entire turn is called a "war".
 
@@ -30,13 +33,13 @@ Once those piles are created, place them in pairs (one against one) on the table
 
 For every pair, from left to right, 
 
-* **Roll the dice**. Shuffle the two piles and reveal the top cards.
+* **Roll the dice**. That is, simply reveal the top cards.
 * Some cards have **special actions**. Handle those now: attacker first, defender second.
   * If they require a choice, its player makes that choice now.
 * **Check who won** this battle. 
   * If one card is _strong_ against the other, it wins.
-  * If both are _strong_ against each other, nobody wins.
-  * Otherwise, both players win.
+  * If both are _strong_ against each other, both players win.
+  * Otherwise, nobody wins.
 
 This continues until all battles have been fought. Then, both players get their spoils of war.
 
@@ -45,9 +48,9 @@ This continues until all battles have been fought. Then, both players get their 
 
 For all cards grabbed, decide if you want to take them into your hand or discard them.
 
-{{% remark %}}
-Yes, you should wait with grabbing your spoils until the _war is over_. Because special powers can still change things at any time.
-{{% /remark %}}
+_Beware!_ Wait with grabbing your spoils until the _war is definitely over_. Actions are executed immediately, yes, but later actions might still change how the war ends or what you get in the end.
+
+That's it! Have fun!
 
 @TODO: EXAMPLE IMAGE
 
@@ -57,6 +60,20 @@ Yes, you should wait with grabbing your spoils until the _war is over_. Because 
 
 Played the base game and ready for more? Or looking to tweak the game to fit your playing group better? Check out these variants and expansions!
 
+{{% rules-block heading="Variant: Simulwars" id="simulwars" %}}
+
+Instead of waging wars between 2 players at a time, everyone wages their war _simultaneously_. Each round,
+
+* In clockwise order (from current start player) ...
+* Everyone simply picks an opponent that isn't in a war yet ...
+* Until _all players_ are in a war. 
+
+Now your players have been divided into pairs, and they can just wage war at the same time! No need to wait.
+
+If you have an **odd** number of players, the start player of a round does not join a war. Instead, they might arbiter if others are waging their war legally.
+
+{{% /rules-block %}}
+
 {{% rules-block heading="Variant: Highscore" %}}
 
 For a **deeper and more tactical game**, change the rules for who wins the game.
@@ -64,6 +81,10 @@ For a **deeper and more tactical game**, change the rules for who wins the game.
 * The number of **strengths** on a card is its _value in negative points_. (For example, an animal with 3 strengths is worth -3.)
 * At the end of the game, every player sums the points of every card in their hand. 
 * Highest score wins! (That is, the _least negative_ score.)
+
+Or alternatively, also for a **more tactical game**, add this little extra rule.
+
+> Once per war, if your card has an action, you can decide _not_ to execute it. If so, look at the top cards of an upcoming battle and reshuffle your die if wanted.
 
 {{% /rules-block %}}
 
@@ -73,7 +94,7 @@ This expansion adds more animals with their unique strengths and powers.
 
 Terminology clarifications:
 
-* **"Earlier battles"** refers to all battles _before_ this card's position in the row.
+* **"Earlier battles"** refers to all battles _before_ this card's position in the row. If this is the very first card, such a power always **does nothing** (as there haven't been any battles yet).
 * **"Later battles"** refers to all battles _after_ this card's position in the row. (Which are yet to come and should be unrevealed at this time.)
 * A **reroll**, by default, just means rolling your specific dice for one battle again. If it means something else---such as _both_ players rolling---this is clearly stated.
 * To **lose on purpose**, means you declare _before revealing a battle_ that "I concede this battle!". You still reveal, but no actions trigger and the opponent simply wins that battle.
@@ -84,7 +105,7 @@ Terminology clarifications:
 
 {{% rules-block heading="Expansion: Fight Together" %}}
 
-In this expansion, all players are involved in every single war. (This might be a good idea if players find it hard to stay engaged when it's not their turn to wage a war.)
+In this expansion, all players are involved in every single war (just like the _Simulwars_ variant). The difference, though, is that this expansion works in _teams_ and also allows an odd number of players to be active at all times.
 
 During **setup**, break the players into two teams as fairly as possible: A and B.
 

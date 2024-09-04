@@ -6,12 +6,12 @@ const CONFIG:any =
 {
     debug:
     {
-        omitFile: true, // @DEBUGGING (should be false)
-        singleDrawPerType: true, // @DEBUGGING (should be false)
-        onlyGenerate: true, // @DEBUGGING (should be false)
+        omitFile: false, // @DEBUGGING (should be false)
+        singleDrawPerType: false, // @DEBUGGING (should be false)
+        onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
-    configKey: "Six of Sparrows",
+    configKey: "sixOfSparrowsConfig",
     fileName: "[Material] Six of Sparrows",
 
     // set through user config on page
@@ -61,7 +61,8 @@ const CONFIG:any =
         bid_icons:
         {
             path: "bid_icons.webp",
-            frames: new Point(8,4)
+            frames: new Point(8,4),
+            disableCaching: true
         },
     },
 
@@ -93,37 +94,43 @@ const CONFIG:any =
 
         regular:
         {
-            numberOffset: new CVal(new Point(0.1), "sizeUnit"),
-            fontSize: new CVal(0.2, "sizeUnit"),
-            suitIconArrangeScalar: new CVal(new Point(0.35, 0.45), "size"),
-            suitIconDims: new CVal(new Point(0.2), "sizeUnit")
+            numberOffset: new CVal(new Point(0.085, 0.125), "sizeUnit"),
+            fontSize: new CVal(0.185, "sizeUnit"),
+            suitIconArrangeScalar: new CVal(new Point(0.21, 0.35), "size"),
+            suitIconDims: new CVal(new Point(0.2), "sizeUnit"),
+            doubleDigitsScaleDown: 0.775
+        },
+
+        overlay:
+        {
+            alpha: 0.5
         },
 
         bid:
         {
             icon:
             {
-                pos: new CVal(new Point(0.5, 0.4), "size"),
-                dims: new CVal(new Point(0.8), "sizeUnit")
+                pos: new CVal(new Point(0.5, 0.415), "size"),
+                dims: new CVal(new Point(0.69), "sizeUnit")
             },
 
             score: 
             {
-                fontSize: new CVal(0.1, "sizeUnit"),
-                pos: new CVal(new Point(0.75, 0.15), "size")
+                fontSize: new CVal(0.08, "sizeUnit"),
+                pos: new CVal(new Point(0.81, 0.115), "size")
             },
 
             bonus:
             {
-                pos: new CVal(new Point(0.25, 0.15), "size"),
-                dims: new CVal(new Point(0.1), "sizeUnit")
+                pos: new CVal(new Point(0.22, 0.115), "size"),
+                dims: new CVal(new Point(0.2), "sizeUnit")
             },
 
             textBox:
             {
                 pos: new CVal(new Point(0.5, 0.8), "size"),
-                dims: new CVal(new Point(0.75, 0.25), "size"),
-                fontSize: new CVal(0.1, "sizeUnit")
+                dims: new CVal(new Point(0.875, 0.25), "size"),
+                fontSize: new CVal(0.069, "sizeUnit")
             }
         },
 
@@ -135,9 +142,9 @@ const CONFIG:any =
 
             small:
             {
-                anchor: new CVal(new Point(0.5, 0.2), "size"),
-                offset: new CVal(new Point(0.25, 0), "sizeUnit"),
-                fontSize: new CVal(0.1, "sizeUnit")
+                anchor: new CVal(new Point(0.5, 0.115), "size"),
+                offset: new CVal(new Point(0.35, 0), "sizeUnit"),
+                fontSize: new CVal(0.08, "sizeUnit")
             }
         }
 

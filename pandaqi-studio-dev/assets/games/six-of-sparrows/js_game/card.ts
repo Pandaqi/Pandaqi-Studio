@@ -8,6 +8,7 @@ import TextConfig from "js/pq_games/layout/text/textConfig";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
 import Point from "js/pq_games/tools/geometry/point";
 import getRectangleCornersWithOffset from "js/pq_games/tools/geometry/paths/getRectangleCornersWithOffset";
+import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
 
 export default class Card
 {
@@ -83,9 +84,10 @@ export default class Card
         // the numbers in the corners
         // @TODO: SCALE DOWN DOUBLE DIGITS?
         const positions = getRectangleCornersWithOffset(vis.size, vis.get("cards.regular.numberOffset"));
+        const scaleDown = this.num >= 10 ? vis.get("cards.regular.doubleDigitsScaleDown") : 1.0;
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
-            size: vis.get("cards.regular.fontSize")
+            size: vis.get("cards.regular.fontSize") * scaleDown
         }).alignCenter();
         const resText = new ResourceText({ text: this.num.toString(), textConfig: textConfig });
 
@@ -103,7 +105,7 @@ export default class Card
         // the suits neatly arranged
         const iconDims = vis.get("cards.regular.suitIconDims");
         const resMisc = vis.getResource("misc");
-        const scalar = vis.getResource("cards.regular.suitIconArrangeScalar");
+        const scalar = vis.get("cards.regular.suitIconArrangeScalar");
         const arrangementIndices = NUMBER_ARRANGEMENTS[this.num];
         for(let i = 0; i < this.num; i++)
         {
@@ -170,6 +172,7 @@ export default class Card
             translate: vis.get("cards.bid.textBox.pos"),
             dims: vis.get("cards.bid.textBox.dims"),
             pivot: Point.CENTER,
+            effects: [new DropShadowEffect({ color: "#FFFFFF", blurRadius: 0.3 * textConfig.size })],
             fill: "#000000"
         });
         group.add(resText, opText);
@@ -183,8 +186,8 @@ export default class Card
             size: vis.get("cards.token.small.fontSize")
         }).alignCenter();
         const resTextSmall = new ResourceText({ text: this.num.toString(), textConfig: textConfigSmall });
-        const anchorSmall = vis.get("cards.tokens.small.anchor")
-        const offsetSmall = vis.get("cards.tokens.small.offset");
+        const anchorSmall = vis.get("cards.token.small.anchor")
+        const offsetSmall = vis.get("cards.token.small.offset");
         const positions = [
             anchorSmall.clone().sub(offsetSmall),
             anchorSmall.clone().add(offsetSmall)
@@ -229,7 +232,7 @@ export default class Card
             flipX: Math.random() <= 0.5,
             flipY: Math.random() <= 0.5,
             composite: "overlay",
-            alpha: vis.get("overlay.alpha")
+            alpha: vis.get("cards.overlay.alpha")
         })
         group.add(resTemp, opBG);
     }
