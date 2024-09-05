@@ -23,10 +23,14 @@ The game ends when a player is **out of cards**. That player wins!
 On your turn, you do a **battle**.
 
 * Pick the **opponent**: any other player.
-* The opponent picks a **number**: anything between 1 and 6. Both battlers make their die as large as the _number_ stated. 
+* The opponent picks a **number**: anything between 2 and 6. Both battlers make their die as large as the _number_ stated. 
 * Finally, you pick the **challenge**: either _lowest_ or _highest_.
 
-_What does it mean to make your "die as large as X"?_ For example, if the opponent said "3", then both players only select 3 cards from their deck as their "die" this round. If you can't meet the number, simply use your entire deck.
+_What does it mean to make your "die as large as X"?_ For example, if the opponent said "3", then both players only select 3 cards from their deck as their "die" this round. You may see and choose the cards you select. 
+
+{{% remark %}}
+If you can't meet the number, simply use your entire deck.
+{{% /remark %}}
 
 Both battlers "roll their die": shuffle the selected cards and reveal one at random.
 
@@ -41,6 +45,8 @@ That's all! Have fun!
 
 @TODO: EXAMPLE IMAGE
 
+{{< rules-example id="turn" >}}
+
 {{% /rules-block %}}
 
 {{% rules-block heading="Variants & Expansions" icon="expansion" %}}
@@ -49,7 +55,9 @@ Played the base game and ready for more? Or looking to tweak the game to fit you
 
 {{% rules-block heading="Variants" %}}
 
-This game currently has no official variants.
+To make the game **harder and more random**, make creating your die **blind**. Players can't pick and choose the cards they select.
+
+For a softer version of that, make picking _blind_, but allow players to _see_ their final die before picking the challenge (and rolling).
 
 {{% /rules-block %}}
 

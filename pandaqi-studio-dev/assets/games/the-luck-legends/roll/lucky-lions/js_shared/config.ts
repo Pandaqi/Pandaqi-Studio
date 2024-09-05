@@ -2,6 +2,7 @@ import Point from "js/pq_games/tools/geometry/point"
 import { AnimalType } from "./dict"
 import CVal from "js/pq_games/tools/generation/cval"
 import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textConfig"
+import Bounds from "js/pq_games/tools/numbers/bounds"
 
 const CONFIG:any = 
 {
@@ -82,7 +83,11 @@ const CONFIG:any =
 
     rulebook:
     {
-
+        numPlayerBounds: new Bounds(2,5),
+        numCardsPerPlayer: 6,
+        itemSize: new Point(375, 525),
+        zooMarketSize: 3,
+        numPointsToWin: 10,
     },
 
     generation:
@@ -100,7 +105,7 @@ const CONFIG:any =
 
         peopleIconPercentage: 0.25,
 
-        zooCardsNumBase: 20,
+        zooCardsNumBase: 26,
         zooCycleNumFreqsBase:
         {
             2: 0.05,
@@ -109,7 +114,7 @@ const CONFIG:any =
             5: 0.25,
         },
 
-        zooCardsNumBusy: 10,
+        zooCardsNumBusy: 13,
         zooCycleNumFreqsBusy:
         {
             3: 0.15,

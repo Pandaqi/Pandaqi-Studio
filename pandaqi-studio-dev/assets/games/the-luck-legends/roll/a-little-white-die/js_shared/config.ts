@@ -40,7 +40,7 @@ const CONFIG:any =
             path: "fonts/RumRaisin-Regular.woff2",
         },
 
-        card_templates:
+        /*card_templates:
         {
             path: "card_templates.webp",
             frames: new Point(4,1)
@@ -50,12 +50,21 @@ const CONFIG:any =
         {
             path: "misc.webp",
             frames: new Point(8,1)
-        },
+        },*/
     },
 
     rulebook:
     {
+        numPlayerBounds: new Bounds(2,5),
+        numCardsPerPlayer: 6,
+        itemSize: new Point(375, 525),
 
+        startingCardsArePerfectDice: true,
+        startingCardsAreRandom: false,
+
+        keepGuessingProb: 0.735,
+        minTurnsBeforeChallenge: 2,
+        maxTurnsBeforeChallenge: 10
     },
 
     generation:

@@ -31,6 +31,11 @@ export default class Card
         return this.getSuitData().tint;
     }
 
+    toString()
+    {
+        return "<b>" + this.num  + " / " + this.suit + "</b>";
+    }
+
     async draw(vis:MaterialVisualizer)
     {
         const ctx = createContext({ size: vis.size });

@@ -31,6 +31,29 @@ export default class Card
         return POWER_CARDS[this.key] ?? {};
     }
 
+    async drawForRules(vis:MaterialVisualizer)
+    {
+        const ctx = createContext({ size: vis.size });
+        fillCanvas(ctx, "#FFFFFF");
+       
+        const group = new ResourceGroup();
+        const textConfig = new TextConfig({
+            font: vis.get("fonts.heading"),
+            size: 256
+        }).alignCenter();
+        const resText = new ResourceText({ text: this.num.toString(), textConfig: textConfig });
+        const opText = new LayoutOperation({
+            translate: vis.center,
+            dims: new Point(2.0 * textConfig.size),
+            fill: "#010101",
+            pivot: Point.CENTER,
+        })
+        group.add(resText, opText);
+
+        group.toCanvas(ctx);
+        return ctx.canvas;
+    }
+
     async draw(vis:MaterialVisualizer)
     {
         const ctx = createContext({ size: vis.size });
@@ -53,6 +76,18 @@ export default class Card
     drawNumbers(vis:MaterialVisualizer, group:ResourceGroup)
     {
         // @TODO
+        const textConfig = new TextConfig({
+            font: vis.get("fonts.heading"),
+            size: 256
+        }).alignCenter();
+        const resText = new ResourceText({ text: this.num.toString(), textConfig: textConfig });
+        const opText = new LayoutOperation({
+            translate: vis.center,
+            dims: new Point(2.0 * textConfig.size),
+            fill: "#010101",
+            pivot: Point.CENTER,
+        })
+        group.add(resText, opText);
     }
 
     drawPower(vis:MaterialVisualizer, group:ResourceGroup)

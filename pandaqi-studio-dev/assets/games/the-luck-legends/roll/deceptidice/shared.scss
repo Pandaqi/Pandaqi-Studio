@@ -22,7 +22,7 @@ $base-fonts: $base + "fonts/";
 
 @font-face {
     font-family: $body-font;
-    src: url($base-fonts + 'CaslonAntique.woff2') format('woff2');
+    src: url($base-fonts + 'CaslonAntique-Regular.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -54,6 +54,7 @@ $base-fonts: $base + "fonts/";
 
 body {
     font-family: $body-font;
+    font-size: calc(17px + .390625vw);
 }
 
 h1, h2, h3, h4, h5, h6, .btn-custom

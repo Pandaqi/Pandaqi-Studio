@@ -54,7 +54,7 @@ That original idea came to me when I stumbled upon an older classic card game ca
 I continued developing that idea, streamlining how scoring works, adding some more spice, until I ended up with a strong---if somewhat convoluted---idea. That's when I split it into two. 
 
 * Bidding Blocks is all about _interaction between players_, while Six of Sparrows is more _individualized pattern matching_.
-* Bidding Blocks is very simple to learn if you have _any_ experience with classic card games or trick-taking games. If not, Six of Sparrows might be easier to try first.
+* Bidding Blocks is very simple to learn if you have _any_ experience with classic card games or trick-taking games. If not, Six of Sparrows is easier to try first.
 
 Pick whichever one you like best!
 

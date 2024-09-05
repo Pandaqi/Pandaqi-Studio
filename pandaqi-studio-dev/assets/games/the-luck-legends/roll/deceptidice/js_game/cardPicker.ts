@@ -1,5 +1,5 @@
 import CONFIG from "../js_shared/config";
-import { SPECIAL_BIDS, Suit } from "../js_shared/dict";
+import { SPECIAL_BIDS, SUITS, Suit } from "../js_shared/dict";
 import Card from "./card";
 
 export default class CardPicker
@@ -23,11 +23,15 @@ export default class CardPicker
         if(!CONFIG.sets.base) { return; }
 
         const numBounds = CONFIG.generation.baseCardsPerSuit;
-        for(const suit of Object.values(Suit))
+        const numCopies = CONFIG.generation.baseCopiesPerSuit;
+        for(const suit of Object.keys(SUITS))
         {
-            for(let i = numBounds.min; i <= numBounds.max; i++)
+            for(let a = 0; a < numCopies; a++)
             {
-                this.cards.push(new Card(i, suit));
+                for(let i = numBounds.min; i <= numBounds.max; i++)
+                {
+                    this.cards.push(new Card(i, suit as Suit));
+                }
             }
         }
     }

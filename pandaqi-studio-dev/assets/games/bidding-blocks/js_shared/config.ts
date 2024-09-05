@@ -59,7 +59,17 @@ const CONFIG:any =
 
     rulebook:
     {
-        
+        numPlayerBounds: new Bounds(3,5),
+        numCardsPerPlayer: 8,
+        itemSize: new Point(375, 525),
+
+        bidNumWinsBounds: new Bounds(1,4),
+        bidHandSizeBounds: new Bounds(3,8),
+
+        simulTurnProb: 0.35,
+        dontGiveUpProb: 0.875,
+        minTurnsPerChallenge: 2,
+        maxTurnsPerChallenge: 8,
     },
 
     generation:

@@ -10,7 +10,7 @@ import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer"
 import getPositionsCenteredAround from "js/pq_games/tools/geometry/paths/getPositionsCenteredAround";
 import getRectangleCornersWithOffset from "js/pq_games/tools/geometry/paths/getRectangleCornersWithOffset";
 import Point from "js/pq_games/tools/geometry/point";
-import { MISC, SPECIAL_BIDS, Suit } from "../js_shared/dict";
+import { MISC, SPECIAL_BIDS, SUITS, Suit } from "../js_shared/dict";
 
 export default class Card
 {
@@ -34,6 +34,30 @@ export default class Card
     {
         if(!this.key) { return {}; }
         return SPECIAL_BIDS[this.key] ?? {};
+    }
+
+    // @TODO: draw SUIT too
+    async drawForRules(vis:MaterialVisualizer)
+    {
+        const ctx = createContext({ size: vis.size });
+        fillCanvas(ctx, SUITS[this.suit].tint);
+       
+        const group = new ResourceGroup();
+        const textConfig = new TextConfig({
+            font: vis.get("fonts.heading"),
+            size: 256
+        }).alignCenter();
+        const resText = new ResourceText({ text: this.num.toString(), textConfig: textConfig });
+        const opText = new LayoutOperation({
+            translate: vis.center,
+            dims: new Point(2.0 * textConfig.size),
+            fill: "#010101",
+            pivot: Point.CENTER,
+        })
+        group.add(resText, opText);
+
+        group.toCanvas(ctx);
+        return ctx.canvas;
     }
 
     async draw(vis:MaterialVisualizer)

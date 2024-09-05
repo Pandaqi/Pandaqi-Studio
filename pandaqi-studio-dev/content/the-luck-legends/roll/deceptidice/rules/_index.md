@@ -6,7 +6,9 @@ type: "rules"
 
 Deal all players a random deck of **9 Cards**. Keep the remaining cards to the side as a facedown draw pile.
 
-Pick anyone to be the start player ("Liar").
+Playing with lots of players (6--8)? Start everyone with **6 Cards** instead.
+
+Pick anyone to be the **start player** ("Liar").
 
 @TODO: EXAMPLE IMAGE
 
@@ -14,15 +16,21 @@ Pick anyone to be the start player ("Liar").
 
 {{% rules-block heading="Objective" icon="objective" %}}
 
-The game ends as soon as somebody has only 3 cards left. Rank players based on how many cards they have left; more is better.
+The game **ends** as soon as somebody has **only 3 cards left**. Rank players based on how many cards they have left; **more is better**.
 
 {{% /rules-block %}}
 
 {{% rules-block heading="Gameplay" icon="action" %}}
 
+{{< rules-example id="turn" >}}
+
 Gameplay happens in simultaneous rounds.
 
-First, all players divide their deck into **3 decks** ("3 dice") as fairly as possible, without looking. If playing with 3 players or fewer, everyone creates **4 decks** instead.
+First, all players divide their deck into **3 decks** ("3 dice") as fairly as possible, without looking. 
+
+{{% remark %}}
+Playing with few players (2--3)? Have each player create **4 decks** instead.
+{{% /remark %}}
 
 Then, everyone simultaneously rolls their dice. That is, shuffle every pile and secretly look at the card on top.
 
@@ -30,21 +38,29 @@ Then, everyone simultaneously rolls their dice. That is, shuffle every pile and 
 
 Starting from the Liar, in clockwise turns, players must now **guess** what's on the table. This includes _all_ dice, not just their own.
 
-A guess has three elements.
+A guess has two required elements.
 
-* You say _how many_ cards are in your combo.
-* You say whether your combo looks at _numbers_ or _colors_.
-* You say whether they're the _same_ or in _order_ (only available for numbers).
+* NUMBER: You say _how many_ cards are in your combo.
+* TARGET: You say a specific _number_ or _color_.
 
-For example, a guess might be "2 cards of the same color", or "3 cards in numeric order", or "4 cards of the same number".
+For example, a guess might be "3 cards with number 9" or "4 cards with color Red".
 
-Crucially, you must always **guess higher** than the previous player. This means your first number---how many cards---must be higher. The other two properties can be whatever you need.
+You _may_ modify your guess with a third element, depending on the TARGET you chose.
+
+* Target a _number_? Then you may say "**at most** TARGET". For example: "3 cards with _at most_ number 9."
+* Target a _color_? Then you may say "**without** TARGET". For example: "4 cards _without_ Red."
+
+{{% remark %}}
+For an introductory game with new players, you can leave out this third element completely.
+{{% /remark %}}
+
+Crucially, you must always **guess higher** than the previous player. This means your NUMBER---how many cards---must be higher. The other properties can be whatever you need.
 
 If you don't want to do that, you **challenge** the previous guess and call their bluff.
 * Reveal all the top cards of all the dice. Check if the previous guess was correct: _at least_ their guessed combo must appear on the table.
 * If so, you were wrong and **you lose**. If not, then your challenge was correct, and the **player before you loses**. 
 
-The loser of a round **discards** one of their cards (faceup).
+The loser of a round **discards** one of their dice (faceup).
 
 They become the new Liar. Play the next round!
 
@@ -56,27 +72,49 @@ They become the new Liar. Play the next round!
 
 Played the base game and ready for more? Or looking to tweak the game to fit your playing group better? Check out these variants and expansions!
 
-{{% rules-block heading="Variant: Extra Deception" %}}
+{{% rules-block heading="Variant: Straights" %}}
 
-To make the game **even more tactical**, add a fourth element to your guess. This element is optional.
+This variant adds another **option for guessing**: straights. A straight is a set of numbers _in numeric order_ (without gaps or skips).
 
-> State the **specific** number or color for your combo. For _numeric_ guesses, state just one of the numbers inside the interval.
+* NUMBER: Say _how many_ cards are in your straight (as usual)
+* ELEMENT: Then state _one_ specific number inside the interval.
 
-For example, "3 cards of Red", or "4 cards with the number 9", or "5 cards in numeric order including the number 6."
+For example, such a guess might be "5 cards in numeric order, including the number 3."
 
-A specific guess is **always higher** than a vague one (without this fourth element). For example, "3 Cards with Number 2" is higher than "6 Cards of the same Number".
+When is a straight higher than another guess? 
 
-{{% remark %}}
-So yes, once somebody goes specific, you can never go back to vague!
-{{% /remark %}}
+> If at least one of the numbers you said (NUMBER or ELEMENT) is higher than the NUMBER of the previous guess.
 
-If the previous guess was also specific, the usual rules apply: your number (for how many of them) must simply be higher. For example, "3 Cards with Number 2" is higher than "2 Cards of Blue".
+@TODO: IMAGE EXAMPLE
+
+{{% /rules-block %}}
+
+{{% rules-block heading="Variant: Vague Guesses" %}}
+
+This variants adds another **option for guessing**: vague guesses. Instead of stating the _specific_ color or number, you just say "of the same color" or "of the same number".
+
+For example, "3 cards of the same number" or "4 cards of the same color".
+
+When is a vague guess higher than another guess? 
+
+* If the other guess is _vague_ too, then the usual rule applies (higher NUMBER)
+* If the other guess is _specific_, then your NUMBER must be at least _double_ the previous NUMBER.
+
+For example, the previous guess was "3 Cards with a 9". Then you can only guess "X Cards of the same number" if X is at least 6.
+
+This "conversion" also works in reverse. 
+
+> If you make a _specific_ guess, whereas the previous guess was _vague_, your guess only needs to be higher than _half_ the previous number.
+
+For example, the previous guess was "6 Cards of the same number". Then you may do a specific guess like "4 Cards with a 9" and it's considered higher. (Because 4 is higher than 6/2 = 3.)
+
+@TODO: IMAGE EXAMPLE
 
 {{% /rules-block %}}
 
 {{% rules-block heading="Variants" %}}
 
-To actually **use all possible cards** (instead of just the once with which players start), add the following rule:
+To actually **use all possible cards** (instead of just the ones with which players start), add the following rule:
 
 > The **losing player** of a round _may_ also **swap** one of their cards with one from the draw pile. 
 

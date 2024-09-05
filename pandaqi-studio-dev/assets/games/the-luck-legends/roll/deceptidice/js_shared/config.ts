@@ -1,6 +1,7 @@
 import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textConfig"
 import Point from "js/pq_games/tools/geometry/point"
 import Bounds from "js/pq_games/tools/numbers/bounds"
+import { SUITS } from "./dict"
 
 const CONFIG:any = 
 {
@@ -59,7 +60,7 @@ const CONFIG:any =
             path: "fonts/Brasspounder.woff2", // @TODO: or use SC variant?
         },
 
-        card_templates:
+        /*card_templates:
         {
             path: "card_templates.webp",
             frames: new Point(4,1)
@@ -69,17 +70,36 @@ const CONFIG:any =
         {
             path: "misc.webp",
             frames: new Point(8,1)
-        },
+        },*/
     },
 
     rulebook:
     {
+        numPlayerBounds: new Bounds(2,5),
+        numCardsPerPlayer: 9,
+        itemSize: new Point(375, 525),
 
+        numDicePerPlayer:
+        {
+            2: 4,
+            3: 4,
+            4: 3,
+            5: 3,
+            6: 3,
+        },
+
+        keepGuessingProb: 0.66,
+        minTurnsBeforeChallenge: 2,
+        maxTurnsBeforeChallenge: 10,
+
+        cardsLeftForLoss: 3, // if you have this many cards left (or fewer), you lose the game
     },
 
     generation:
     {
-        baseCardsPerSuit: new Bounds(1,9),
+        numSuits: Object.keys(SUITS).length,
+        baseCardsPerSuit: new Bounds(1,6),
+        baseCopiesPerSuit: 2,
         wildCardsNum: 7,
     },
 

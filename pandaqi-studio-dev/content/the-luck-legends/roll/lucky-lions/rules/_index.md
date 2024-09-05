@@ -35,6 +35,8 @@ That's it, have fun!
 
 @TODO: EXAMPLE IMAGE
 
+{{< rules-example id="turn" >}}
+
 {{% /rules-block %}}
 
 {{% rules-block id="zoo_cards" heading="Zoo Cards" icon="score" %}}
@@ -43,9 +45,11 @@ A Zoo Card states how **valuable** animals are this turn. It also shows a **numb
 
 This information is like "rock, paper, scissors": one animal is better than another, is better than another, and so forth.
 
-To know who wins a battle, find who played the best animal: the number of arrows between your animal and the opponent's animal is _larger_ than the other way around.
+To know who wins a battle, find who played **the best animal**: 
 
-Sometimes, this cycle does not include all animals. All missing animals are considered equal in value, and less valuable than all included animals.
+> Your animal is "better" if the **distance** (number of arrows) between your animal and the opponent's animal is **larger** than the other way around.
+
+Sometimes, this cycle does not include all animals. All **missing animals** are considered _equal in value_, but _less valuable_ than all included animals.
 
 @TODO: EXAMPLE IMAGE
 
@@ -61,7 +65,8 @@ To make the game **less random**, use the "no shuffle" variant.
 
 * You only shuffle your die at the start of the game.
 * When "rolling" your die, simply grab the top card.
-* If you ever get your card back, or a new card, place it at the bottom.
+* If you ever get your card back (after rolling but losing) place it at the bottom.
+* When you reach **5 points** or **draw a new card** (possible with expansions), shuffle once more.
 
 {{% /rules-block %}}
 

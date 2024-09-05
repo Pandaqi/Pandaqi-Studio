@@ -263,4 +263,15 @@ export default class Card
         })
         group.add(resTemp, opTex);
     }
+
+    getDistanceBetween(a:AnimalType, b:AnimalType)
+    {
+        let idxA = this.cycle.indexOf(a);
+        let idxB = this.cycle.indexOf(b);
+        if(idxA < 0) { return 0; }
+        if(idxB < 0) { return this.cycle.length; } // just some high number to say "if other one isn't present on cycle, I awlays"
+
+        if(idxA < idxB) { return idxB - idxA; }
+        return idxB + this.cycle.length - idxA;
+    }
 }

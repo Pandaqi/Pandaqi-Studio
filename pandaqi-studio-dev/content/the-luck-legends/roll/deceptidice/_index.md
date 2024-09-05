@@ -23,7 +23,7 @@ themes: ["cartoon", "animals", "nature", "textured", "prehistoric", "history"]
 multiplayermode: ["cooperative", "competitive"]
 language: EN
 playtime: 20
-playercount: [2,3,4,5]
+playercount: [2,3,4,5,6,7,8]
 ages: everyone
 devlog: "/blog/boardgames/the-luck-legends/deceptidice/"
 
@@ -53,7 +53,7 @@ This idea spun off from an earlier Luck Legends game called _A Little White Die_
 
 I basically developed it side-by-side with its twin game, knowing that merging the ideas would just be a convoluted mess. On their own, these are two simple but really effective games!
 
-After playing 1 or 2 games, I highly recommend playing with the "Extra Deception" variant. It adds a ton of extra tactics and interesting guesses, but I moved it out of the base game to keep your first game as simple as possible.
+After playing 1 or 2 games, I highly recommend playing with some of the variants or expansions. I kept the base game dead simple: barely half a page of rules, little material. This makes it extremely easy to teach and play, but also too simplistic on (many) repeat plays, which is why you can spice it up with the expansions!
 
 <!--- 
 ALTERNATE NAMES: "Fortune Favors the Fire" (because alliteration and fire sounds like liar) or "Fortune Favors the Fibber" or "Fibber's Fortune" or "Truth & Dice" 

@@ -6,6 +6,7 @@ enum Suit
     GREEN = "green",
     PURPLE = "purple",
     YELLOW = "yellow",
+    TURQUOISE = "turquoise",
     BLACK = "black"
 }
 
@@ -15,13 +16,16 @@ interface GeneralData
     desc?: string,
     label?: string,
     value?: number, // for the unique values/ids of the special bids
+    tint?: string,
 }
+
+type GeneralDict = Record<string,GeneralData>;
 
 // @NOTE: In a 3-player game, there will only be 12 dice results (4 per player x 3) anyway. In a 2-player game, only 8! 
 // - As such, any bids that require near 12 cards OR have a value above that are practically useless anyway. I've only used these for "unicorns": hail maries that are your last risky bet if needed.
 // - Also, we skipped the "quintet" (5 of a kind) just to conserve space and not make the list too long.
 // - The bids are arranged to have a nice pattern where the number (say 2 pairs) usually matches the value in some multiple (2); don't accidentally reorder and ruin this!
-const SPECIAL_BIDS:Record<string,GeneralData> =
+const SPECIAL_BIDS:GeneralDict =
 {
     two_pairs: { frame: 0, value: 2, label: "Two Pairs", desc: "<b>Two numbers</b> appear <b>two times</b> each." },
     two_trios: { frame: 1, value: 3, label: "Two Trios", desc: "<b>Two numbers</b> appear <b>three times</b> each." },
@@ -38,7 +42,20 @@ const SPECIAL_BIDS:Record<string,GeneralData> =
     unicorn_number: { frame: 12, value: 14, label: "Unicorn Math", desc: "Name the <b>exact numbers</b> (and their quantities) rolled." },
 }
 
-const MISC:Record<string, GeneralData> =
+// @TODO: Use the fact that there can be DUPLICATE numbers now? For some special bid or something?
+
+const SUITS:GeneralDict =
+{
+    [Suit.RED]: { tint: "#FF0000" },
+    [Suit.BLUE]: { tint: "#0000FF" },
+    [Suit.GREEN]: { tint: "#00FF00" },
+    [Suit.PURPLE]: { tint: "#FF00FF" },
+    //[Suit.YELLOW]: { tint: "#FFFF00" },
+    //[Suit.TURQUOISE]: { tint: "#00FFFF" },
+    //[Suit.BLACK]: { tint: "#AAAAAA" }
+}
+
+const MISC:GeneralDict =
 {
 
 }
@@ -48,4 +65,6 @@ export
     MISC,
     Suit,
     SPECIAL_BIDS,
+    SUITS,
+    GeneralDict
 }

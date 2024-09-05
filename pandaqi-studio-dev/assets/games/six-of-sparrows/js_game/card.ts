@@ -121,6 +121,11 @@ export default class Card
         }
     }
 
+    getValue()
+    {
+        return this.getBidData().score ?? 0;
+    }
+
     drawBidCard(vis:MaterialVisualizer, group:ResourceGroup)
     {
         const data = this.getBidData();
