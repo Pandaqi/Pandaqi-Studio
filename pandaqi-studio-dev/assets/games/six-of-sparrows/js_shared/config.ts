@@ -68,7 +68,7 @@ const CONFIG:any =
 
     rulebook:
     {
-        numPlayerBounds: new Bounds(2,5),
+        numPlayerBounds: new Bounds(2,4),
         numCardsPerPlayer: 6,
         itemSize: new Point(375, 525),
         bidProb: 0.45,

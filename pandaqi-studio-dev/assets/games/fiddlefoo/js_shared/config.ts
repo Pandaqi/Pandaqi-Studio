@@ -23,7 +23,7 @@ const CONFIG:any =
     sets:
     {
         base: true,
-        expansion: true,
+        expansion: false,
     },
 
     fonts:
@@ -81,7 +81,14 @@ const CONFIG:any =
 
     rulebook:
     {
-        
+        numPlayerBounds: new Bounds(2,4),
+        numCardsPerPlayer: 8,
+        itemSize: new Point(375, 525),
+        maxBoardSize: new Point(8,8),
+        preMoveNumBounds: new Bounds(5,12),
+        boardCanvasSize: new Point(1024, 1024),
+        throwCardProb: 0.9,
+        throwCardMaxNum: 5,
     },
 
     generation:

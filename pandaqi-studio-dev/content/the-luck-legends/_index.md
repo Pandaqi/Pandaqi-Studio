@@ -8,14 +8,14 @@ blurb: "A series of games where you roll dice, create custom dice, the map is ma
 
 downloadLink: "https://drive.google.com/drive/folders/1Dp3anjWLbrJVVznUVE14vxCiezfk6VXu"
 
-color: "green"
+color: "brown"
 
 date: 2025-11-26
 
-difficulty: "simple"
-genres: ["family", "thematic", "strategy"]
-categories: ["boardgame", "tile-game"]
-tags: ["domino"]
+difficulty: "no-brainer"
+genres: ["family", "thematic", "abstract", "strategy"]
+categories: ["boardgame", "card-game"]
+tags: ["chance", "dice", "casino", "turn-based", "numbers"]
 themes: []
 
 multiplayermode: ["competitive", "cooperative"]

@@ -133,7 +133,8 @@ const THEMES:List =
     wild_west: { desc: "A game themed around the wild west, cowboys, or anything related." },
     magic: { desc: "A game involving or themed around magic." },
     hollywood: { desc: "A game about movies, TV, movie culture, general media or celibrities, etcetera." },
-    espionage: { desc: "The game is themed around spies, secrecy, stealth, hidden identities." }
+    espionage: { desc: "The game is themed around spies, secrecy, stealth, hidden identities." },
+    music: { desc: "The game involves music, musical instruments, songs, audio, etcetera." }
 }
 
 const TAGS:List =

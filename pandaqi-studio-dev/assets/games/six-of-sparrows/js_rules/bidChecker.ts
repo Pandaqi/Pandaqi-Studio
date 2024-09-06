@@ -1,6 +1,7 @@
 import Card from "../js_game/card";
 import { Suit } from "../js_shared/dict";
 import Hand from "./hand";
+import Player from "./player";
 import Sequence from "./sequence";
 
 interface BidCheckerData
@@ -12,9 +13,32 @@ interface BidCheckerData
 
 export default class BidChecker
 {
-    check(bidCard:Card, cardsPlayed:Hand, extraData:BidCheckerData) : boolean
+    check(bidCardKey:string, player:Player, players:Player[], tableHand:Hand) : boolean
     {
-        return this[bidCard.key](cardsPlayed, extraData);
+        const totalHand = new Hand();
+        totalHand.addHand(tableHand);
+        totalHand.addHand(player.hand);
+
+        const playerHandsWithoutMe : Hand[] = [];
+        for(const p of players)
+        {
+            if(p == player) { continue; }
+            playerHandsWithoutMe.push(player.hand);
+        }
+
+        const extraData = {
+            tableHand: tableHand,
+            myHand: player.hand,
+            otherHands: playerHandsWithoutMe
+        }
+
+        return this.isSuccess(bidCardKey, totalHand, extraData);
+    }
+
+    isSuccess(bidCardKey:string, cardsPlayed:Hand, extraData:BidCheckerData) : boolean
+    {
+        if(!this[bidCardKey]) { return false; }
+        return this[bidCardKey](cardsPlayed, extraData);
     }
 
     countSameNumbers(c:Hand, setSize:number) : number
@@ -33,7 +57,7 @@ export default class BidChecker
     {
         const freqs = c.getSuitFreqs();
         let sum = 0;
-        for(const [num, freq] of Object.entries(freqs))
+        for(const [suit, freq] of Object.entries(freqs))
         {
             if(freq < setSize) { continue; }
             sum++;
@@ -182,12 +206,12 @@ export default class BidChecker
 
     flush_mid(c:Hand) : boolean
     {
-        return this.countSameSuits(c, 6) >= 1;
+        return this.countSameSuits(c, 5) >= 1;
     }
 
     flush_long(c:Hand) : boolean
     {
-        return this.countSameSuits(c, 8) >= 1;
+        return this.countSameSuits(c, 7) >= 1;
     }
 
     full_house_regular(c:Hand) : boolean
@@ -207,7 +231,7 @@ export default class BidChecker
 
     full_house_extreme(c:Hand) : boolean
     {
-        return this.countSameNumbers(c, 2) >= 3 && this.countSameNumbers(c,3) >= 1;
+        return this.countSameNumbers(c, 2) >= 3 && this.countSameNumbers(c,3) >= 2;
     }
 
     straight_short(c:Hand) : boolean
@@ -247,27 +271,35 @@ export default class BidChecker
 
     high_card(c:Hand, d:BidCheckerData) : boolean
     {
-        return this.getExtreme([d.myHand], "highest") >= this.getExtreme(d.otherHands, "highest");
+        return this.getExtreme([d.myHand], "highest") > this.getExtreme(d.otherHands, "highest");
     }
 
     low_card(c:Hand, d:BidCheckerData) : boolean
     {
-        return this.getExtreme([d.myHand], "lowest") >= this.getExtreme(d.otherHands, "lowest");
+        return this.getExtreme([d.myHand], "lowest") < this.getExtreme(d.otherHands, "lowest");
     }
 
     no_duplicates(c:Hand, d:BidCheckerData) : boolean
     {
-        const tableTypes = d.tableHand.getNumberTypes();
-        for(const type of d.myHand.getNumberTypes())
+        const myTypes = d.myHand.getNumberTypes();
+        return myTypes.length >= d.myHand.count();
+        /* const tableTypes = d.tableHand.getNumberTypes();
+        for(const type of myTypes)
         {
             if(tableTypes.includes(type)) { return false; }
         }
-        return true;
+        return true;*/
     }
 
     flush_hand(c:Hand, d:BidCheckerData) : boolean
     {
-        return d.myHand.getSuitTypes().length <= 1;
+        const myTypes = d.myHand.getSuitTypes();
+        const tableTypes = d.tableHand.getSuitTypes();
+        for(const type of tableTypes)
+        {
+            if(!myTypes.includes(type)) { return false;}
+        }
+        return true;
     }
 
     majority_sparrows(c:Hand, d:BidCheckerData) : boolean

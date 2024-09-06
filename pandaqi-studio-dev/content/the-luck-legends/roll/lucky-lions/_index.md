@@ -10,20 +10,20 @@ weightProject: 20
 
 downloadLink: "https://drive.google.com/drive/folders/1plpmBaxsa6Qez87puJDpXHiCsU0nwK6Q"
 
-color: "orange"
+color: "green"
 
 date: 2025-11-26
 
 difficulty: "no-brainer"
 genres: ["family", "thematic"]
-categories: ["boardgame", "tile-game"]
-tags: ["bias", "domino", "shared-map", "matching", "area-control", "ownership", "textless", "turn-based", "high-score"]
-themes: ["cartoon", "animals", "nature", "textured", "prehistoric", "history"]
+categories: ["boardgame", "card-game"]
+tags: ["chance", "dice", "battle", "turn-based", "numbers", "fast-paced", "high-score", "textless", "move-through-all"]
+themes: ["animals", "nature"]
 
-multiplayermode: ["cooperative", "competitive"]
+multiplayermode: "competitive"
 language: EN
 playtime: 20
-playercount: [2,3,4,5]
+playercount: [3,4,5,6]
 ages: everyone
 devlog: "/blog/boardgames/the-luck-legends/lucky-lions/"
 

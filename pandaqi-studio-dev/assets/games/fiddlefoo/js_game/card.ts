@@ -29,6 +29,11 @@ export default class Card
         this.numNotes = nn;
     }
 
+    toString()
+    {
+        return "<i>" + this.num + " of " + this.color + "</i>";
+    }
+
     async drawForRules(vis:MaterialVisualizer)
     {
         return this.draw(vis);

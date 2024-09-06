@@ -126,6 +126,11 @@ export default class Card
         return this.getBidData().score ?? 0;
     }
 
+    getLabel()
+    {
+        return this.getBidData().label ?? "NO_LABEL";
+    }
+
     drawBidCard(vis:MaterialVisualizer, group:ResourceGroup)
     {
         const data = this.getBidData();

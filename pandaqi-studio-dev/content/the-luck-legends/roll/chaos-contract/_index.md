@@ -14,15 +14,15 @@ color: "purple"
 
 date: 2025-11-26
 
-difficulty: "no-brainer"
+difficulty: "simple"
 genres: ["family", "thematic"]
-categories: ["boardgame", "tile-game"]
-tags: ["bias", "domino", "shared-map", "matching", "area-control", "ownership", "textless", "turn-based", "high-score"]
-themes: ["cartoon", "animals", "nature", "textured", "prehistoric", "history"]
+categories: ["boardgame", "card-game"]
+tags: ["chance", "dice", "contracts", "turn-based", "numbers", "high-score"]
+themes: ["mythology"]
 
 multiplayermode: ["cooperative", "competitive"]
 language: EN
-playtime: 20
+playtime: 30
 playercount: [2,3,4,5]
 ages: everyone
 devlog: "/blog/boardgames/the-luck-legends/chaos-contract/"
@@ -49,6 +49,10 @@ devlog: "/blog/boardgames/the-luck-legends/chaos-contract/"
 
 The fonts used are **Celexa** (headings) and **Quixotte** (body text). Everything else is mine.
 
-@TODO
+This idea was originally one of the first Luck Legends games. I still believe it's one of the simplest when it comes to core rules, but the issue was that those _contract_ cards require _text to explain the contract_. Even if very simple, that still requires the players to be old enough to read (in English). Understanding how likely you are to pass a challenge, together or not, is another matter that younger players probably will not get.
+
+That's why I eventually moved this game a bit further into the project. I created code to randomly generate a set of varied and balanced contracts, so if you press that button (instead of downloading my premade PDF), you get a completely unique game every time!
+
+And as I worked more on it, the title _Chaos Contract_ came to me, and the theme slowly shifted to something like "making a deal with the devil". Every turn, you try to succeed at some improbable challenge by rolling dice, and you'll often take other players with you in the fall---or success, of course.
 
 {{% /section-centered %}}

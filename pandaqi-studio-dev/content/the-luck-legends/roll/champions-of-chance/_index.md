@@ -10,20 +10,20 @@ weightProject: 10
 
 downloadLink: "https://drive.google.com/drive/folders/1AESN6T9GAYg2ZTSzneAAiSdEQbMHXWsV"
 
-color: "orange"
+color: "yellow"
 
 date: 2025-06-26
 
 difficulty: "no-brainer"
-genres: ["family", "thematic"]
-categories: ["boardgame", "tile-game"]
-tags: ["bias", "domino", "shared-map", "matching", "area-control", "ownership", "textless", "turn-based", "high-score"]
-themes: ["cartoon", "animals", "nature", "textured", "prehistoric", "history"]
+genres: ["family", "abstract"]
+categories: ["boardgame", "card-game"]
+tags: ["chance", "dice", "battle", "turn-based", "numbers", "fast-paced", "textless", "move-through-all"]
+themes: ["cartoon", "colorful"]
 
-multiplayermode: ["cooperative", "competitive"]
+multiplayermode: "competitive"
 language: EN
 playtime: 20
-playercount: [2,3,4,5]
+playercount: [3,4,5,6]
 ages: everyone
 devlog: "/blog/boardgames/the-luck-legends/champions-of-chance/"
 

@@ -62,11 +62,9 @@ Every Bid Token number only appears once for this reason.
 
 Once all cards have been given, players score themselves.
 
-* If you can **achieve the pattern** on your bid, by _combining your cards and the faceup cards on the table_, you get its **point value**.
-* If you **fail to achieve** your bid, you get its point value as **minus points**.
+* If you can **achieve the pattern** on your bid, by _combining your cards and the faceup cards on the table_, you get its **point value** divided by the **number on your Bid Token** (rounded).
+* If you **fail to achieve** your bid, you get **-10 points**.
 * If you hadn't claimed any bid, nothing happens. 
-
-Your final score is then **divided by the number on your Bid Token** (rounded).
 
 FOR EXAMPLE: 
 * You currently have 3 cards in your hand.
@@ -90,8 +88,12 @@ Below are the changes made to the original rules.
 
 During the **preparing** phase,
 
-* There are two "BONUS BIDS" that must _always_ be included: _win all_ and _win none_. (This is marked in the top left of the card.)
+* There are three "BONUS BIDS" that must _always_ be included. (This is marked in the top left of the card.)
 * Don't shuffle them into the deck; they're simply always available, every round, on top of the regular bids.
+* These bonus bids are extra scores you can get, _before division_. Failing them has the usual penalty of -10 points.
+  * _Win All_: you get this if your score for this round is higher than anyone else.
+  * _Win None_: you get this if your cards don't match any of the bid cards (either from players or still in the market).
+  * _Match Together_: instead of combining with the cards on the table, you pick another player with whom you combine your cards (_before_ everyone reveals what they have).
 
 During the **dealing phase**, 
 

@@ -14,16 +14,16 @@ color: "red"
 
 date: 2025-11-26
 
-difficulty: "no-brainer"
+difficulty: "kids-can-play"
 genres: ["family", "thematic"]
-categories: ["boardgame", "tile-game"]
-tags: ["bias", "domino", "shared-map", "matching", "area-control", "ownership", "textless", "turn-based", "high-score"]
-themes: ["cartoon", "animals", "nature", "textured", "prehistoric", "history"]
+categories: ["boardgame", "card-game"]
+tags: ["chance", "dice", "battle", "auto-battler", "hand-management"]
+themes: ["humor", "vector", "textured", "animals"]
 
 multiplayermode: ["cooperative", "competitive"]
 language: EN
-playtime: 20
-playercount: [2,3,4,5]
+playtime: 30
+playercount: [2,3,4,5,6]
 ages: everyone
 devlog: "/blog/boardgames/the-luck-legends/tossing-tiger-rolling-dragon/"
 

@@ -6,22 +6,22 @@ title: "Bidding Blocks"
 headerTitle: "Play tricks building a house together, but let the house crumble when it favors your risky bid."
 blurb: "Play tricks building a house together, but let the house crumble when it favors your risky bid."
 
-color: "orange"
+color: "blue"
 
 downloadLink: "https://drive.google.com/drive/folders/1Tcw0OHh5wn-li1w0AGjbX4mGM7zPUcZe"
 
 date: 2026-01-26
 
-difficulty: "no-brainer"
+difficulty: "simple"
 genres: ["family", "thematic"]
-categories: ["boardgame", "tile-game"]
-tags: ["bias", "domino", "shared-map", "matching", "area-control", "ownership", "textless", "turn-based", "high-score"]
-themes: ["cartoon", "animals", "nature", "textured", "prehistoric", "history"]
+categories: ["boardgame", "card-game"]
+tags: ["matching", "trick-taking", "turn-based", "high-score", "score-and-reset"]
+themes: []
 
-multiplayermode: ["cooperative", "competitive"]
+multiplayermode: "competitive"
 language: EN
-playtime: 20
-playercount: [2,3,4,5,6]
+playtime: 30
+playercount: [3,4,5,6]
 ages: everyone
 devlog: "/blog/boardgames/bidding-blocks/"
 

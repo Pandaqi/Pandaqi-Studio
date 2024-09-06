@@ -6,21 +6,21 @@ title: "Mapped Out"
 headerTitle: "Design the treasure map to make the most of the random route you were given at the start."
 blurb: "Design the treasure map to make the most of the random route you were given at the start."
 
-color: "orange"
+color: "turquoise"
 
 downloadLink: "https://drive.google.com/drive/folders/1_jKU6uzGmq2h1d1IVBt3R_kadOrny3vB"
 
 date: 2026-01-26
 
-difficulty: "no-brainer"
-genres: ["family", "thematic"]
-categories: ["boardgame", "tile-game"]
-tags: ["bias", "domino", "shared-map", "matching", "area-control", "ownership", "textless", "turn-based", "high-score"]
-themes: ["cartoon", "animals", "nature", "textured", "prehistoric", "history"]
+difficulty: "kids-can-play"
+genres: ["family", "thematic", "adventure"]
+categories: ["boardgame", "tile-game", "standard"]
+tags: ["fixed-order", "shared-map", "grid", "turn-based", "guessing", "bias", "variable-setup", "orientation", "set-collection", "high-score"]
+themes: ["sea"]
 
-multiplayermode: ["cooperative", "competitive"]
+multiplayermode: "competitive"
 language: EN
-playtime: 20
+playtime: 30
 playercount: [2,3,4,5]
 ages: everyone
 devlog: "/blog/boardgames/mapped-out/"

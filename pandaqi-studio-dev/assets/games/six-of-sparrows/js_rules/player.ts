@@ -26,28 +26,11 @@ export default class Player
     {
         if(!this.hasBid()) { return; }
 
-        const totalHand = new Hand();
-        totalHand.addHand(tableHand);
-        totalHand.addHand(this.hand);
-
-        const playerHandsWithoutMe : Hand[] = [];
-        for(const player of players)
-        {
-            if(player == this) { continue; }
-            playerHandsWithoutMe.push(player.hand);
-        }
-
-        const extraData = {
-            tableHand: tableHand,
-            myHand: this.hand,
-            otherHands: playerHandsWithoutMe
-        }
-
-        const success = new BidChecker().check(this.bid.bidCard, totalHand, extraData);
+        const success = new BidChecker().check(this.bid.bidCard.key, this, players, tableHand);
         this.bid.success = success;
 
         let score = Math.round(this.bid.bidCard.getValue() / this.bid.handSize);
-        if(!success) { score *= -1; }
+        if(!success) { score = -10; }
         this.score = score;
     }
 }

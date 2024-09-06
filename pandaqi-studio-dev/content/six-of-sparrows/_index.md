@@ -7,19 +7,19 @@ headerTitle: "Create patterns using your cards, while bidding early is risky but
 blurb: "Create card patterns, but the earlier you state which pattern you'll complete (without seeing all your cards), the more points you get."
 blurbShort: "Create card patterns where early blind bids multiply your points---if you manage to actually complete them."
 
-color: "orange"
+color: "brown"
 
 downloadLink: "https://drive.google.com/drive/folders/1njaLYJ2YF_hRqz94qi8inNJCzSUB5doM"
 
 date: 2026-01-26
 
-difficulty: "no-brainer"
-genres: ["family", "thematic"]
-categories: ["boardgame", "tile-game"]
-tags: ["bias", "domino", "shared-map", "matching", "area-control", "ownership", "textless", "turn-based", "high-score"]
-themes: ["cartoon", "animals", "nature", "textured", "prehistoric", "history"]
+difficulty: "kids-can-play"
+genres: ["family"]
+categories: ["boardgame", "card-game"]
+tags: ["score-and-reset", "contracts", "patterns", "bidding", "high-score"]
+themes: ["textured"]
 
-multiplayermode: ["cooperative", "competitive"]
+multiplayermode: "competitive"
 language: EN
 playtime: 20
 playercount: [2,3,4,5]

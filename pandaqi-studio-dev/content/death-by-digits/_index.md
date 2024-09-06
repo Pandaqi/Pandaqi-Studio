@@ -13,10 +13,11 @@ invert: true
 
 date: 2025-01-12
 
-complexity: "kids-can-play"
-categories: ["boardgame"]
-tags: ["creative", "guessing", "word"]
-genre: ["card", "party", "social"]
+difficulty: "kids-can-play"
+categories: ["boardgame", "card-game"]
+genre: ["family"]
+tags: ["deduction", "detective", "memory", "numbers", "patterns", "textless", "turn-based", "guessing", "variable-setup"]
+themes: ["textured", "espionage"]
 
 multiplayermode: "competitive"
 language: EN

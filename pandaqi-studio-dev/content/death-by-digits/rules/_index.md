@@ -13,11 +13,13 @@ Then,
 
 In these rules, the **"Midnumber"** is defined as the middle number of your deck: X divided by 2, rounded.
 
-@TODO: EXAMPLE IMAGE (with correct numbers for 3/4 players?)
+{{< rules-image src="setup.webp" alt="Example game setup for 3 players." >}}
 
 {{% /rules-block %}}
 
 {{% rules-block id="objective" heading="Objective" icon="objective" %}}
+
+{{% rules-double-view src="objective.webp" alt="Visualization of how to end and win the game." split="leftheavy" %}}
 
 At the end of your turn, you may say "I know the solution!" 
 
@@ -25,7 +27,7 @@ State the missing numbers that are the **Murder** (order is irrelevant), then ch
 * If you're right, you win!
 * If you're wrong, the game continues, but without you.
 
-@TODO: EXAMPLE IMAGE?? (yeah, just to make sure people get the idea)
+{{% /rules-double-view %}}
 
 {{% /rules-block %}}
 
@@ -39,26 +41,33 @@ If you're ever out of cards, immediately take any 3 cards from Evidence into you
 
 {{% rules-block heading="Guess" %}}
 
-Pick another player. Guess the _lowest_ or _highest_ card in their hand. If you're right, they give that card to you.
+{{% rules-double-view src="gameplay_guess.webp" alt="Example of the guessing action; guessing and potentially getting a player's highest or lowest card." split="leftheavy" %}}
 
-@TODO: EXAMPLE IMAGE
+This action is the simplest, but don't underestimate its power.
+
+* Pick another player. 
+* Guess the _lowest_ or _highest_ card in their hand. 
+
+If you're right, they give that card to you. If not, they simply say you're wrong and nothing happens.
+
+{{% /rules-double-view %}}
 
 {{% /rules-block %}}
 
 {{% rules-block heading="Play" %}}
 
 Play a set of 1, 2 or 3 cards faceup to Evidence.
-* **1 card?** Steal 3 random cards from other players. If someone has the same number, however, they MAY reveal it and say "Stop!" This prevents you from stealing anything, but it must be called _before_ you state from which player(s) you want to steal.
+* **1 card?** Steal 3 random cards from other players. If someone has the same number, however, they MAY reveal it and say "Stop!" This prevents you from stealing anything. It must be called _before_ you state your victim(s).
 * **2 cards?** If they combine to the "Midnumber" (if the numbers are added or subtracted), take 2 cards from Evidence.
 * **3 cards?** If they're three of a kind ( = "all of the same number"), look at 1 of the murder cards.
 
-@TODO: EXAMPLE IMAGE
+{{< rules-image src="gameplay_combo.webp" alt="Examples of the three possible combos (1 card, 2 card, 3 cards) you can play." >}}
 
 {{% /rules-block %}}
 
 {{% /rules-block %}}
 
-{{% rules-block id="expansions" heading="Expansions & Variants" icon="expansion" %}}
+{{% rules-block id="expansions" heading="Expansions" icon="expansion" %}}
 
 All variants and expansions can be played with the exact same base material.
 

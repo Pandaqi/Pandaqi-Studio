@@ -8,16 +8,17 @@ blurb: "Get rid of your cards without allowing others to throw their music at yo
 
 downloadLink: "https://drive.google.com/drive/folders/1fRQWyYs7Vi9pX8ArL0zFN87Q-b7G3eIf"
 
-color: "green"
+color: "yellow"
 
 date: 2025-01-12
 
-complexity: "kids-can-play"
-categories: ["boardgame"] # at least "score-and-reset" thingy
-tags: ["creative", "guessing", "word"]
-genre: ["card", "party", "social"]
+difficulty: "kids-can-play"
+categories: ["boardgame", "card-game"]
+genre: ["family", "abstract"]
+tags: ["shared-map", "grid", "turn-based", "score-and-reset", "numbers"]
+themes: ["colorful", "music"]
 
-multiplayermode: "competitive"
+multiplayermode: ["competitive", "cooperative"]
 language: EN
 playtime: 30
 playercount: [2,3,4,5,6]

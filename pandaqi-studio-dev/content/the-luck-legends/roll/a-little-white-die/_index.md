@@ -9,20 +9,20 @@ weightProject: 15
 
 downloadLink: "https://drive.google.com/drive/folders/1phiHNNnl6Vl028o8I-Fmm7l3xZTXoUK9"
 
-color: "blue"
+color: "black"
 
 date: 2025-11-26
 
-difficulty: "no-brainer"
-genres: ["family", "thematic"]
-categories: ["boardgame", "tile-game"]
-tags: ["bias", "domino", "shared-map", "matching", "area-control", "ownership", "textless", "turn-based", "high-score"]
-themes: ["cartoon", "animals", "nature", "textured", "prehistoric", "history"]
+difficulty: "kids-can-play"
+genres: ["family", "abstract"]
+categories: ["boardgame", "card-game"]
+tags: ["chance", "dice", "turn-based", "bidding", "bluffing", "guessing", "numbers", "fast-paced", "single-loser"]
+themes: ["vector"]
 
-multiplayermode: ["cooperative", "competitive"]
+multiplayermode: "competitive"
 language: EN
-playtime: 20
-playercount: [2,3,4,5]
+playtime: 30
+playercount: [2,3,4,5,6]
 ages: everyone
 devlog: "/blog/boardgames/the-luck-legends/a-little-white-die/"
 

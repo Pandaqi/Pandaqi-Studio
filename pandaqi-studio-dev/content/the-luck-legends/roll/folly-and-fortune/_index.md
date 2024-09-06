@@ -14,16 +14,16 @@ color: "pink"
 
 date: 2025-11-26
 
-difficulty: "no-brainer"
-genres: ["family", "thematic"]
-categories: ["boardgame", "tile-game"]
-tags: ["bias", "domino", "shared-map", "matching", "area-control", "ownership", "textless", "turn-based", "high-score"]
-themes: ["cartoon", "animals", "nature", "textured", "prehistoric", "history"]
+difficulty: "kids-can-play"
+genres: ["family", "abstract"]
+categories: ["boardgame", "card-game"]
+tags: ["chance", "dice", "battle", "turn-based", "numbers", "push-your-luck", "high-score"]
+themes: ["humor", "cartoon"]
 
-multiplayermode: ["cooperative", "competitive"]
+multiplayermode: "competitive"
 language: EN
-playtime: 20
-playercount: [2,3,4,5]
+playtime: 30
+playercount: [2,3,4,5,6]
 ages: everyone
 devlog: "/blog/boardgames/the-luck-legends/folly-and-fortune/"
 
@@ -46,8 +46,12 @@ devlog: "/blog/boardgames/the-luck-legends/folly-and-fortune/"
 
 {{% section-centered heading="Credits" anchor="credits" %}}
 
-The fonts used are **XX** (headings) and **YY** (body text). Everything else is mine.
+The fonts used are **Antique No14** (headings) and **Goodfish** (body text). Everything else is mine.
 
-@TODO
+As I wrote down all my different ideas for the Luck Legends, one idea read: "What if your dice started big, but they shrank every turn because the thing you rolled became permanent?" Initially, I found it hard to create a game around that. If the dice are very big (at the start), then the game is very random. And when the dice are small (near the end), they stop being dice as you're certain about what comes out!
+
+Until I looked at it the other way around. I came up with the core mechanic of this game---you may reroll your die for every card before you, but must apply the power on the next card then. This allowed rerolls, removing too much randomness and giving you interesting choices, something close to "push your luck". At the same time, rolling the die was different every time because of the special powers that grew as the game progressed.
+
+Once I had the name (_Folly & Fortune_), this pushed the game into a direction of silly and wacky graphics. And that's the game you can play now!
 
 {{% /section-centered %}}

@@ -10,19 +10,19 @@ weightProject: 35
 
 downloadLink: "https://drive.google.com/drive/folders/11ELawc0hyiDkflmzuKTKb94sOzccwPXw"
 
-color: "blue"
+color: "purple"
 
 date: 2025-11-26
 
-difficulty: "no-brainer"
+difficulty: "simple"
 genres: ["family", "thematic"]
-categories: ["boardgame", "tile-game"]
-tags: ["bias", "domino", "shared-map", "matching", "area-control", "ownership", "textless", "turn-based", "high-score"]
-themes: ["cartoon", "animals", "nature", "textured", "prehistoric", "history"]
+categories: ["boardgame", "card-game"]
+tags: ["chance", "dice", "bidding", "bluffing", "turn-based", "numbers", "patterns", "single-loser"]
+themes: ["dystopian"]
 
-multiplayermode: ["cooperative", "competitive"]
+multiplayermode: "competitive"
 language: EN
-playtime: 20
+playtime: 30
 playercount: [2,3,4,5,6,7,8]
 ages: everyone
 devlog: "/blog/boardgames/the-luck-legends/deceptidice/"

@@ -4,13 +4,15 @@ type: "rules"
 
 {{% rules-block id="setup" heading="Setup" icon="setup" %}}
 
+{{% rules-double-view src="setup.webp" split="leftheavy" %}}
+
 Place 1 random card of each color in a 2x2 square on the table. This is the start of the (shared) **Map**.
 
 Create a deck from all remaining cards.
-* Deal each player 8 cards (to take into their hand).
+* Deal each player **8 cards** (to take into their hand).
 * Place the rest as a facedown draw pile to the side.
 
-@TODO: EXAMPLE IMAGE (also tiny card anatomy that points out music notes and type symbol?)
+{{% /rules-double-view %}}
 
 {{% /rules-block %}}
 
@@ -24,11 +26,13 @@ It's recommended to play a few games in a row, keeping track of score. The playe
 
 {{% rules-block id="action_play" heading="Gameplay" icon="action" %}}
 
+{{< rules-example id="turn" >}}
+
 From start player, take clockwise turns until done.
 
 On your turn, **add 1 hand card to the Map**.
 
-* The card has to be in the **same row or column** as another card of the same _color_.
+* The card has to be in the **same row** (horizontal or vertical) as another card of the same _color_.
 * The card **can't be adjacent** to a card of the same _color_.
 
 {{% remark %}}
@@ -40,26 +44,26 @@ By doing so, you'll have created a "Pair": your new card and the older one of th
 There are two important properties of such a Pair.
 
 * Its **range**: all the numbers between its _lowest_ number and its _highest_ number. (For example, a 2-6 Pair has a range that includes 3, 4, and 5.)
-* Its **distance**: how many other cards are in-between the two cards on the map.
+* Its **distance**: how many spaces are in-between the two cards on the map.
 
 {{% remark %}}
-If you created multiple pairs, pick the one with the **largest range**.
+If you created multiple pairs, pick the one with the **largest range**. No, distance doesn't matter.
 {{% /remark %}}
 
-@TODO: EXAMPLE IMAGE
+{{< rules-image src="gameplay_pair.webp" alt="Example of valid card placement and the pair you create from it." >}}
 
-Now all the other players _may_ throw any hand cards at you that match one of the following criteria. They do so while yelling "Fiddlefoo, a penalty card for you!" ;)
+Now all the other players _may_ **throw hand cards at you** that match one of the following criteria. They do so while yelling "Fiddlefoo, a penalty card for you!" ;)
 
 * Either that card is the same _color_ and its number is inside the _range_.
 * Or the _number of music notes_ on that card is equal to the _distance_. If they choose this option, they may only give you 1 card this turn.
 
-If the **distance** you created is larger than 3, however, you're safe. Nobody may throw anything at you, but you must draw 1 card from the deck.
+If the **distance** you created is larger than 3, however, you do a "Safe Song"! Nobody may throw anything at you, but you must draw 1 card from the deck.
 
 Take all cards received into your hand.
 
 If you end your turn without any cards, the game ends (and you win). Have fun!
 
-@TODO: EXAMPLE IMAGE
+{{< rules-image src="gameplay_penalty.webp" alt="Example of penalty cards others may throw at you for making a certain pair." >}}
 
 {{% /rules-block %}}
 
@@ -87,11 +91,13 @@ What changes?
 * Instead of throwing a card at another player, you may also decide to _add_ it to such a pile. You may only do so, however, if your number is higher than the current number at the top of the pile.
 * The game ends when _all_ players have emptied their hand except one. You **win** if every faceup pile (next to the board) contains exactly 10 music notes.
 
-@TODO: EXAMPLE IMAGE
+{{< rules-image src="variant_cooperative.webp" alt="Example of how to setup and play the cooperative variant (with slight modifications to base game)." >}}
 
 {{% /rules-block %}}
 
 {{% rules-block heading="Expansion: Talkytoot" %}}
+
+{{% rules-double-view src="setup.webp" split="leftheavy" %}}
 
 This expansion adds extra material: cards that also contain _special actions_. 
 
@@ -105,7 +111,7 @@ They usually allow you to do something you _really want to do_ but can't followi
 
 It's recommended to include just _some_ of them---perhaps the one you like the most!---as all of them at the same time is very overwhelming.
 
-@TODO: EXAMPLE IMAGE
+{{% /rules-double-view %}}
 
 {{% /rules-block %}}
 
