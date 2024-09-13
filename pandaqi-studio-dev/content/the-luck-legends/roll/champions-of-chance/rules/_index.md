@@ -4,11 +4,13 @@ type: "rules"
 
 {{% rules-block heading="Setup" icon="setup" %}}
 
+{{% rules-double-view src="setup.webp" alt="Example of how to setup a game, and what is meant by your cards being your die." split="leftheavy" %}}
+
 Everyone receives a random set of **6 cards**. (These are numbered 1--6.) This deck is your **"die"**.
 
 Place the remaining cards as a facedown draw pile.
 
-@TODO: EXAMPLE IMAGE
+{{% /rules-double-view %}}
 
 {{% /rules-block %}}
 
@@ -19,6 +21,8 @@ The game ends when a player is **out of cards**. That player wins!
 {{% /rules-block %}}
 
 {{% rules-block heading="Gameplay" icon="action" %}}
+
+{{< rules-example id="turn" >}}
 
 On your turn, you do a **battle**.
 
@@ -43,9 +47,7 @@ If it's a **tie**, both players discard 1 card of choice and draw a new one from
 
 That's all! Have fun!
 
-@TODO: EXAMPLE IMAGE
-
-{{< rules-example id="turn" >}}
+{{< rules-image src="gameplay_play.webp" alt="Example of how to play a turn: picking a battle and resolving it." >}}
 
 {{% /rules-block %}}
 
@@ -76,21 +78,15 @@ The following **objective** rules change.
 * The game ends as soon as all players but one are out of cards. 
 * Each player determines their score: count all dice icons in their faceup pile. Highest number wins!
 
-VARIANT: In case of a tie, check the number of dice icons on the cards, and apply the challenge to those? (Would require pretty major randomization on those icons, which is probably not great.)
+<!--- VARIANT: In case of a tie, check the number of dice icons on the cards, and apply the challenge to those? (Would require pretty major randomization on those icons, which is probably not great.) --->
 
-@TODO: EXAMPLE IMAGE
+{{< rules-image src="expansion_victory_dice.webp" alt="Example of how to count and use dice icons for this expansion." >}}
 
 {{% /rules-block %}}
 
 {{% rules-block heading="Wacky Numbers" %}}
 
-This introduces cards with a **special action** besides having a number. These actions trigger when the battle is over and you're checking who won, unless stated otherwise.
-
-* INVERT: Inverts the challenge. (Lowest <-> highest.)
-* TIEBREAK: If it's a tie, you win and the other player loses.
-* STEAL: Steal one card of choice from the selected cards of the opponent.
-* BEGGAR: If the other player rolled a 1 or 6, you win.
-* NUMBERLESS: Nothing happens after the battle, but this card is discarded.
+This introduces cards with a **special action** (written on the card). These actions trigger when the battle is over and you're checking who won, unless stated otherwise.
 
 In situations where both players "win" or both "lose" because of special actions, it's considered a **tie**.
 

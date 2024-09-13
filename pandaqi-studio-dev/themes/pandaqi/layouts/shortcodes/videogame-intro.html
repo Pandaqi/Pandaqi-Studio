@@ -1,0 +1,10 @@
+{{- $class := .Get "class" -}}
+{{- $context := $.Page -}}
+<section class="boardgame-intro {{ $class }}">
+	<div class="big-header-image">
+		{{- $img := or (.Get "img") (partial "func/get-game-header.html" $context) -}}
+		{{- if $img -}}
+			{{- partial "show-image.html" (dict "context" $context "img_url" $img) -}}
+		{{- end -}}
+	</div>
+</section>

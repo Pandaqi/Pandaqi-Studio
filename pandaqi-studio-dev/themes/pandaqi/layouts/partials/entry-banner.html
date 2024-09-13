@@ -23,6 +23,7 @@
 {{ $text_classes := .Params.entryBannerTextClasses }}
 
 {{ $link_text := "Visit page!" }}
+{{ $blurb_text := or (or .Params.blurb .Params.headerTitle) "This is a mysterious game without a description ..." }}
 
 {{ $metadata := partial "func/get-game-metadata.html" . }}
 
@@ -45,7 +46,7 @@
 					{{ end }}
 				</div>
 				{{ end }}
-				<p>{{ .Params.blurb }}</p>
+				<p>{{- $blurb_text -}}</p>
 				<div class="btn">
 					{{ $link_text }}
 				</div>

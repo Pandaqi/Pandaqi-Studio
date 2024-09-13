@@ -17,7 +17,7 @@ const POWER_CARDS:Record<string,GeneralData> =
     reveal_other: { frame: 5, desc: "Force a player to <b>reveal</b> two of their dice." },
     reveal_self: { frame: 6, desc: "<b>Reveal</b> all your dice to <b>skip your turn</b>." },
     no_bid: { frame: 7, desc: "You <b>don't</b> need to guess higher than the previous player, only <b>equal</b>." },
-    lower_bid: { frame: 7, desc: "You must guess <b>lower</b> than the previous guess." },
+    lower_bid: { frame: 8, desc: "You must guess <b>lower</b> than the previous guess." },
     exact_bid: { frame: 9, desc: "From now on, a guess is only correct if it matches <b>exactly</b>." },
     loss_reduction: { frame: 10, desc: "This round's loser only <b>loses 1 card</b>, not an entire die." },
     reroll_all: { frame: 11, desc: "<b>Everyone rerolls all</b> of their dice." },

@@ -97,6 +97,7 @@
 	{{ $download_link := .Params.downloadLink }}
 	{{ $requirements := .Params.requirements }}
 	{{ $devlog := .Params.devlog }}
+	{{ $source_code := .Params.sourcecode }}
 	{{ $blurb := .Params.blurb }}
 	{{ $title := .Params.Title }}
 
@@ -123,6 +124,10 @@
 
 			{{ with $devlog }}
 				<li>Devlog: {{ partial "button.html" (dict "href" . "content" "Go to Devlog") }}</li>
+			{{ end }}
+
+			{{ with $source_code }}
+				<li>Source Code: {{ partial "button.html" (dict "href" . "content" "Read Source Code") }}</li>
 			{{ end }}
 
 			{{ with $blurb }}

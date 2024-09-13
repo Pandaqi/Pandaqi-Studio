@@ -15,6 +15,7 @@ enum ContractType
 interface GeneralData
 {
     frame?: number,
+    label?: string,
     desc?: string,
     descBattle?: string,
     prob?: number, // 1.0 by default
@@ -120,36 +121,36 @@ const DYNAMIC_REPLACEMENTS:Record<string,any[]> =
 const CARD_ACTIONS:GeneralDict =
 {
     // base game
-    reroll_forced: { desc: "Another Soul <b>must reroll</b> once." },
-    add: { desc: "<b>Add %numlow%</b> to every value rolled so far", prob: 2 },
-    subtract: { desc: "<b>Subtract %numlow%</b> from every value rolled so far", prob: 2 },
-    ignore_icon: { desc: "<b>Ignore 1 icon</b> from the reward <b>or</b> penalty of this contract.", prob: 0.33 },
-    double: { desc: "<b>Double</b> one number already rolled.", prob: 1.5 },
-    remove: { desc: "<b>Remove</b> one number already rolled. (It becomes 0 and actionless.)", prob: 1.5 },
-    swap: { desc: "<b>Swap</b> 1 card from your die with another Soul." },
-    disable_special: { desc: "<b>Disable</b> the special modification on the <b>contract</b> (if it has any)" },
-    clamp: { desc: "I'm equal to the <b>%rank% number</b> rolled so far." },
-    stars: { desc: "I'm equal to <b>2 x number of stars</b> on the contract." },
-    reroll_back: { desc: "On reroll, your previous result is put back into your deck (and thus forgotten)." },
+    reroll_forced: { label: "Forced Reroll", desc: "Another Soul <b>must reroll</b> once." },
+    add: { label: "Add", desc: "<b>Add %numlow%</b> to every value rolled so far", prob: 2 },
+    subtract: { label: "Subtract", desc: "<b>Subtract %numlow%</b> from every value rolled so far", prob: 2 },
+    ignore_icon: { label: "Ignore Icon", desc: "<b>Ignore 1 icon</b> from the reward <b>or</b> penalty of this contract.", prob: 0.33 },
+    double: { label: "Double", desc: "<b>Double</b> one number already rolled.", prob: 1.5 },
+    remove: { label: "Remove", desc: "<b>Remove</b> one number already rolled. (It becomes 0 and actionless.)", prob: 1.5 },
+    swap: { label: "Swap", desc: "<b>Swap</b> 1 card from your die with another Soul." },
+    disable_special: { label: "Disable Special", desc: "<b>Disable</b> the special modification on the <b>contract</b> (if it has any)" },
+    clamp: { label: "Chameleon", desc: "I'm equal to the <b>%rank% number</b> rolled so far." },
+    stars: { label: "Star Counter", desc: "I'm equal to <b>2 x number of stars</b> on the contract." },
+    reroll_back: { label: "Reroll Return", desc: "On reroll, your previous result is put back into your deck (and thus forgotten)." },
 
     // expansion
-    insta_fail: { desc: "If another Soul rolls a %numlow% (or lower), the contract instantly <b>fails</b>.", prob: 0.33, sets: ["devilish"] },
-    insta_win: { desc: "If another Soul rolls a %numhigh% (or higher), the contract instantly <b>succeeds</b>.", prob: 0.33, sets: ["devilish"] },
-    soul_add: { desc: "For every Soul, <b>add %numlow%</b> to every value rolled from now on.", sets: ["devilish"], prob: 1.5 },
-    soul_remove: { desc: "For every soul, <b>subtract %numlow%</b> from every value rolled from now on.", sets: ["devilish"], prob: 1.5 },
-    count_rolls: { desc: "I'm equal to <b>how many times</b> players have <b>rolled</b> so far.", sets: ["devilish"], prob: 2 },
-    no_duplicates: { desc: "If anybody rolls the <b>same</b> number as me, I'm <b>removed</b>. (I become 0 and actionless.)", sets: ["devilish"], prob: 2 },
-    attendance_bonus: { desc: "If the Turnout is equal to <b>all players</b>, this card is any number <b>between 1 and 10</b> (you choose).", sets: ["devilish"] },
-    die_manipulation: { desc: "Pick another Soul. <b>Add or Remove</b> 1 card from their die.", sets: ["devilish"] },
-    random_roll: { desc: "Draw the <b>top card</b> from the deck and pretend you rolled that. Keep it afterward.", sets: ["devilish"] },
-    ignore_icon_super: { desc: "<b>Ignore 1 icon</b> from both reward <b>and</b> penalty of this contract.", sets: ["devilish"] },
-    contract_switch: { desc: "If multiple Souls roll the <b>same number</b>, <b>switch</b> the contract for a different one.", sets: ["devilish"], prob: 0.5 },
-    insta_win_soft: { desc: "<b>Instantly succeed</b> the contract, but the reward isn't scaled with Turnout.", sets: ["devilish"], prob: 0.33 },
-    insta_fail_soft: { desc: "<b>Instantly fail</b> the contract, but take no penalty.", sets: ["devilish"], prob: 0.33 },
-    number_cond: { desc: "Only <b>count this result</b> (at the end) if another roll has the <b>same number</b>.", sets: ["devilish"] },
-    reroll_optional: { desc: "Another Soul <b>may reroll</b> once.", sets: ["devilish"] },
-    reroll_mega: { desc: "Other Souls are allowed to reroll their result, but <b>at most 2 times</b> (for the whole group, this contract).", sets: ["devilish"], prob: 0.5 },
-    diebreak: { desc: "Other Souls are allowed to use only a <b>part</b> of their die, but at least 2 cards.", sets: ["devilish"], prob: 0.5 }
+    insta_fail: { label: "Instant Fail", desc: "If another Soul rolls a %numlow% (or lower), the contract instantly <b>fails</b>.", prob: 0.33, sets: ["devilish"] },
+    insta_win: { label: "Instant Success", desc: "If another Soul rolls a %numhigh% (or higher), the contract instantly <b>succeeds</b>.", prob: 0.33, sets: ["devilish"] },
+    soul_add: { label: "Soul Add", desc: "For every Soul, <b>add %numlow%</b> to every value rolled from now on.", sets: ["devilish"], prob: 1.5 },
+    soul_remove: { label: "Soul Subtract", desc: "For every soul, <b>subtract %numlow%</b> from every value rolled from now on.", sets: ["devilish"], prob: 1.5 },
+    count_rolls: { label: "Roll Counter", desc: "I'm equal to <b>how many times</b> players have <b>rolled</b> so far.", sets: ["devilish"], prob: 2 },
+    no_duplicates: { label: "No Duplicates", desc: "If anybody rolls the <b>same</b> number as me, I'm <b>removed</b>. (I become 0 and actionless.)", sets: ["devilish"], prob: 2 },
+    attendance_bonus: { label: "Attendance", desc: "If the Turnout is equal to <b>all players</b>, this card is any number <b>between 1 and 10</b> (you choose).", sets: ["devilish"] },
+    die_manipulation: { label: "Die Manipulator", desc: "Pick another Soul. <b>Add or Remove</b> 1 card from their die.", sets: ["devilish"] },
+    random_roll: { label: "Reroll Random", desc: "Draw the <b>top card</b> from the deck and pretend you rolled that. Keep it afterward.", sets: ["devilish"] },
+    ignore_icon_super: { label: "Ignore Icon+", desc: "<b>Ignore 1 icon</b> from both reward <b>and</b> penalty of this contract.", sets: ["devilish"] },
+    contract_switch: { label: "Contract Switch", desc: "If multiple Souls roll the <b>same number</b>, <b>switch</b> the contract for a different one.", sets: ["devilish"], prob: 0.5 },
+    insta_win_soft: { label: "Cursed Success", desc: "<b>Instantly succeed</b> the contract, but the reward isn't scaled with Turnout.", sets: ["devilish"], prob: 0.33 },
+    insta_fail_soft: { label: "Soft Fail", desc: "<b>Instantly fail</b> the contract, but take no penalty.", sets: ["devilish"], prob: 0.33 },
+    number_cond: { label: "Conditional", desc: "Only <b>count this result</b> (at the end) if another roll has the <b>same number</b>.", sets: ["devilish"] },
+    reroll_optional: { label: "Maybe Reroll", desc: "Another Soul <b>may reroll</b> once.", sets: ["devilish"] },
+    reroll_mega: { label: "Mega Reroll", desc: "Other Souls are allowed to reroll their result, but <b>at most 2 times</b> (for the whole group, this contract).", sets: ["devilish"], prob: 0.5 },
+    diebreak: { label: "Diebreak", desc: "Other Souls are allowed to use only a <b>part</b> of their die, but at least 2 cards.", sets: ["devilish"], prob: 0.5 }
 }
 
 /*

@@ -47,7 +47,7 @@ For example, a guess might be "3 cards with number 9" or "4 cards with color Red
 
 You _may_ modify your guess with a third element, depending on the TARGET you chose.
 
-* Target a _number_? Then you may say "**at most** TARGET". For example: "3 cards with _at most_ number 9."
+* Target a _number_? Then you may say "**less than** TARGET". For example: "3 cards with a number _less than_ 9."
 * Target a _color_? Then you may say "**without** TARGET". For example: "4 cards _without_ Red."
 
 {{% remark %}}
@@ -141,9 +141,9 @@ These cards always match the current guess that's being challenged.
 
 {{% rules-block heading="Power Cards" %}}
 
-This expansion adds more material: Power Cards.
+This expansion adds more material: Power Cards. These cards have **no** suit or number.
 
-These cards show a unique **combo** (that you would never be able to guess otherwise).
+Instead, these cards show a unique **combo** (that you would never be able to guess otherwise).
 
 * If you roll this card, you're allowed to guess this specific combo.
 * When you do, explain the combo and state its unique value.

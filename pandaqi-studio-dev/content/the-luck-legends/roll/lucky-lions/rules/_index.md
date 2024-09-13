@@ -4,11 +4,13 @@ type: "rules"
 
 {{% rules-block heading="Setup" icon="setup" %}}
 
+{{% rules-double-view src="setup.webp" alt="Example of how to setup a game and the different kinds of material." split="leftheavy" %}}
+
 Create a deck of **Zoo Cards**. Place the top 3 cards faceup on the table.
 
 Deal all players 6 random **Animal Cards**. This is their "die". Place the remaining cards as a facedown draw pile.
 
-@TODO: EXAMPLE IMAGE (just to know what's zoo cards and what's animal cards)
+{{% /rules-double-view %}}
 
 {{% /rules-block %}}
 
@@ -19,6 +21,8 @@ The game ends as soon as a player has **scored 10(+) points**. They win!
 {{% /rules-block %}}
 
 {{% rules-block heading="Gameplay" icon="action" %}}
+
+{{< rules-example id="turn" >}}
 
 On your turn, 
 
@@ -33,13 +37,13 @@ In case of a **tie**, one battler must discard a card and the other wins the Zoo
 
 That's it, have fun!
 
-@TODO: EXAMPLE IMAGE
-
-{{< rules-example id="turn" >}}
+{{< rules-image src="gameplay_play.webp" alt="Example of how to play a general turn: pick a battle, roll, resolve winner." >}}
 
 {{% /rules-block %}}
 
 {{% rules-block id="zoo_cards" heading="Zoo Cards" icon="score" %}}
+
+{{% rules-double-view src="zoo_cards.webp" alt="The different parts of a Zoo Card and how to use its cycle to find the best animal in a battle." split="leftheavy" %}}
 
 A Zoo Card states how **valuable** animals are this turn. It also shows a **number**: how many points it's worth.
 
@@ -51,7 +55,7 @@ To know who wins a battle, find who played **the best animal**:
 
 Sometimes, this cycle does not include all animals. All **missing animals** are considered _equal in value_, but _less valuable_ than all included animals.
 
-@TODO: EXAMPLE IMAGE
+{{% /rules-double-view %}}
 
 {{% /rules-block %}}
 
@@ -72,6 +76,8 @@ To make the game **less random**, use the "no shuffle" variant.
 
 {{% rules-block heading="Busy Zoo" %}}
 
+{{% rules-double-view src="expansion_busy_zoo.webp" alt="Example of a battle between many different players (in a Busy Zoo)" %}}
+
 This expansion adds new material: Zoo Cards with special requirements (on top of the usual cycle).
 
 Some Zoo Cards include the "people icon". If you choose this card,
@@ -79,15 +85,9 @@ Some Zoo Cards include the "people icon". If you choose this card,
 * **All** players roll their die. 
 * As usual, the winner is the animal with the _largest_ gap between themselves and the next animal in the cycle.
 
-For example: 
-
-* A < B < C < D < A
-* Player 1 and 2 both play A. Player 3 plays D.
-* Player 3 has 0 empty spaces above them, while 1 and 2 have 2. So those two players tie for victory.
-
 If there are 2 winners, the "tie" rules apply but only to them. If there are 3(+) winners, some of them simply get nothing, at the active player's discretion.
 
-@TODO: IMAGE EXAMPLE
+{{% /rules-double-view %}}
 
 {{% /rules-block %}}
 

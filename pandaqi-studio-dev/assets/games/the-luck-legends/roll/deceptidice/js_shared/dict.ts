@@ -32,17 +32,16 @@ const SPECIAL_BIDS:GeneralDict =
     three_pairs: { frame: 2, value: 4, label: "Three Pairs", desc: "<b>Three numbers</b> appear <b>two times</b> each." },
     full_house: { frame: 3, value: 5, label: "Full House", desc: "<b>One number</b> appears twice, <b>another number</b> appears thrice." },
     three_trios: { frame: 4, value: 6, label: "Three Trios", desc: "<b>Three numbers</b> appear <b>three times</b> each." },
-    full_mansion: { frame: 5, value: 7, label: "Full Mansion", desc: "<b>One number</b> appears thrice, <b>another number</b> appears five times." },
+    full_mansion: { frame: 5, value: 7, label: "Full Mansion", desc: "<b>One number</b> appears thrice, <b>another number</b> appears four times." },
     two_quatros: { frame: 6, value: 8, label: "Two Quatros", desc: "<b>Two numbers</b> appear <b>four times</b> each." },
-    straight_flush: { frame: 7, value: 9, label: "Straight Flush", desc: "<b>Four cards</b> of the same <i>color</i> <b>and</b> <i>in numeric order</i>." },
-    three_quatros: { frame: 8, value: 10, label: "Three Quatros", desc: "<b>Three numbers</b> appear <b>four times</b> each." },
-    straight_ocean: { frame: 9, value: 11, label: "Straight Ocean", desc: "<b>Six cards</b> of the same <i>color</i> <b>and</b> <i>in numeric order</i>." },
-    two_sextets: { frame: 10, value: 12, label: "Two Sextets", desc: "<b>Two numbers</b> appear <b>six times</b> each." },
-    unicorn_rainbow: { frame: 11, value: 13, label: "Unicorn Rainbow", desc: "Name the <b>exact colors</b> (and their quantities) rolled." },
-    unicorn_number: { frame: 12, value: 14, label: "Unicorn Math", desc: "Name the <b>exact numbers</b> (and their quantities) rolled." },
+    straight_flush: { frame: 7, value: 10, label: "Straight Flush", desc: "<b>Three cards</b> of the same <i>color</i> <b>and</b> <i>in numeric order</i>." },
+    straight_sea: { frame: 8, value: 12, label: "Straight Sea", desc: "<b>Four cards</b> of the same <i>color</i> <b>and</b> <i>in numeric order</i>." },
+    full_estate: { frame: 10, value: 15, label: "Full Estate", desc: "<b>One number</b> appears four times, <b>another number>/b appears five times." },
+    straight_ocean: { frame: 9, value: 17, label: "Straight Ocean", desc: "<b>Five cards</b> of the same <i>color</i> <b>and</b> <i>in numeric order</i>." },
+    unicorn: { frame: 11, value: 20, label: "Unicorn", desc: "Name the <b>exact colors</b> <i>or</i> <b>exact numbers</b> (and their quantities) rolled." },
 }
 
-// @TODO: Use the fact that there can be DUPLICATE numbers now? For some special bid or something?
+// @TODO: Use the fact that there can be DUPLICATE CARDS now (there are multiple Red 2's, for example)? For some special bid or something?
 
 const SUITS:GeneralDict =
 {

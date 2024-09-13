@@ -78,8 +78,6 @@ That's what this game is :)
 {{% section-centered heading="Feedback & More" %}}
 Any **feedback** (at [schoolofpanda@gmail.com](mailto:schoolofpanda@gmail.com)) is more than welcome!
 
-I've written a devlog about the whole process: [Ho Ho Sombrero (devlog)](/blog/videogames/game-jams/devlog-ho-ho-sombrero)
-
 This game was made using Godot (game engine), Blender (3D modelling), Affinity Designer (drawing and design), and Studio One (music). Fonts used are _Kavoon_ and _Bitter_, both available at Google Fonts. 
 
 {{% /section-centered %}}

@@ -99,13 +99,14 @@ export default class Card
         const num = Math.max(this.cycle.length, 2);
         const frame = MISC["cycle_" + num].frame;
         const circleCenter = vis.get("cards.cycle.pos");
+        const invertEffect = vis.inkFriendly ? new InvertEffect() : [];
         const opCycle = new LayoutOperation({
             translate: circleCenter,
             dims: vis.get("cards.cycle.dims"),
             rotation: startingAngle,
             frame: frame,
             pivot: Point.CENTER,
-            effects: vis.inkFriendlyEffect,
+            effects: [vis.inkFriendlyEffect, invertEffect].flat(),
             alpha: data.hideCycle ? 0.2 : 1.0,
         })
         group.add(resMisc, opCycle);
@@ -115,7 +116,7 @@ export default class Card
             // the animals within it
             const radius = vis.get("cards.cycle.animalRadius");
             const iconDims = vis.get("cards.cycle.iconDims");
-            const glowEffect = new DropShadowEffect({ color: "#FFFFFF", blurRadius: 0.1*iconDims.x });
+            const glowEffect = vis.inkFriendly ? [] : new DropShadowEffect({ color: "#FFFFFF", blurRadius: 0.1*iconDims.x });
 
             for(let i = 0; i < num; i++)
             {
@@ -210,7 +211,7 @@ export default class Card
         // the animal itself
         const resAnimal = vis.getResource("animals");
         const iconDims = vis.get("cards.animal.iconDims");
-        const shadowEffect = new DropShadowEffect({ color: "#000000", blurRadius: 0.1*iconDims.x });
+        const shadowEffect = vis.inkFriendly ? [] : new DropShadowEffect({ color: "#000000", blurRadius: 0.1*iconDims.x });
         const opAnimal = new LayoutOperation({
             translate: vis.get("cards.animal.iconPos"),
             dims: iconDims,

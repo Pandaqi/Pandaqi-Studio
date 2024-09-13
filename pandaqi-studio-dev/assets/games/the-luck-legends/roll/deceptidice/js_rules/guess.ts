@@ -99,12 +99,12 @@ export default class Guess
             {
                 freq = 0;
 
-                // the "at most NUMBER" modifier
+                // the "less than NUMBER" modifier (used to be "at most")
                 if(this.target == GuessTarget.NUMBER) 
                 {
                     for(const type of types)
                     {
-                        if(type > targetValue) { continue; }
+                        if(type >= targetValue) { continue; }
                         freq += freqs[type];
                     }
                 }
@@ -192,7 +192,7 @@ export default class Guess
         let strConnector = "with the"
         if(this.modifier)
         {
-            if(this.target == GuessTarget.NUMBER) { strConnector = "with at most the"; }
+            if(this.target == GuessTarget.NUMBER) { strConnector = "with a number less than the"; }
             else if(this.target == GuessTarget.COLOR) { strConnector = "without the"; }
         }
 
