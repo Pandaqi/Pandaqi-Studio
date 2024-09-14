@@ -1,9 +1,15 @@
 import createContext from "js/pq_games/layout/canvas/createContext";
 import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
+import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
 import fromArray from "js/pq_games/tools/random/fromArray";
-import { ACTIONS, ACTION_PREFIXES, ACTION_REPLACEMENTS, ActionType } from "../js_shared/dict";
+import { ACTIONS, ACTION_PREFIXES, ACTION_REPLACEMENTS, ActionType, MISC, NUMBERS_WRITTEN } from "../js_shared/dict";
+import Point from "js/pq_games/tools/geometry/point";
+import TextConfig from "js/pq_games/layout/text/textConfig";
+import ResourceText from "js/pq_games/layout/resources/resourceText";
+import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
+import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
 
 export default class Card
 {
@@ -22,6 +28,11 @@ export default class Card
         this.keys = keys;
 
         this.fillInDynamicStrings();
+    }
+
+    isUnseen()
+    {
+        return this.actions.length > 1;
     }
 
     fillInDynamicStrings()
@@ -45,7 +56,12 @@ export default class Card
 
     getFullActionString()
     {
-        return this.actions.join("\n\n");
+        return this.actions.join("\n");
+    }
+
+    getShadowEffect(vis:MaterialVisualizer)
+    {
+        return new DropShadowEffect({ color: "#000000", offset: vis.get("cards.shared.shadowOffset") });
     }
 
     async draw(vis:MaterialVisualizer)
@@ -64,21 +80,207 @@ export default class Card
 
     drawBackground(vis:MaterialVisualizer, group:ResourceGroup)
     {
-        // @TODO: draw background
-        // @TODO: draw subtle arrow on left or right side (depending on `arrowRight`)
+        // the scribbly background texture
+        const res = vis.getResource("card_templates");
+        const op = new LayoutOperation({
+            dims: vis.size
+        })
+        group.add(res, op);
+
+        // the arrow (only used in variant/expansion) at left or right
+        const arrowPos = this.arrowRight ? vis.get("cards.power.shieldPos") : vis.get("cards.power.unseenPos");
+        const arrowDims = vis.get("cards.arrow.dims");
+        const opArrow = new LayoutOperation({
+            translate: arrowPos,
+            rotation: this.arrowRight ? 0 : Math.PI,
+            dims: arrowDims,
+            pivot: Point.CENTER,
+            frame: MISC.arrow.frame,
+            composite: vis.get("cards.arrow.composite"),
+            alpha: vis.get("cards.arrow.alpha")
+        });
+        const resMisc = vis.getResource("misc");
+        group.add(resMisc, opArrow);
     }
 
     drawNumbers(vis:MaterialVisualizer, group:ResourceGroup)
     {
-        // @TODO: draw number of card + health of card (on opposite side, vertically or horizontally)
-        
+        const resMisc = vis.getResource("misc");
+        const offset = vis.get("cards.numbers.boxOffset");
+        const dims = vis.get("cards.numbers.boxDims");
+        const strokeWidth = vis.get("cards.numbers.strokeWidth");
+
+        const textConfig = new TextConfig({
+            font: vis.get("fonts.heading"),
+            size: vis.get("cards.numbers.fontSize")
+        }).alignCenter();
+
+        // number box + number
+        const opNumberBox = new LayoutOperation({
+            translate: offset,
+            dims: dims,
+            pivot: Point.CENTER,
+            frame: MISC.number_box.frame,
+            effects: [vis.inkFriendlyEffect, this.getShadowEffect(vis)].flat()
+        })
+        group.add(resMisc, opNumberBox);
+
+        const resTextNumber = new ResourceText({ text: this.num.toString(), textConfig: textConfig });
+        const opTextNumber = new LayoutOperation({
+            translate: opNumberBox.translate,
+            dims: dims,
+            pivot: Point.CENTER,
+            fill: "#FFFFFF",
+            stroke: "#222222",
+            strokeWidth: strokeWidth,
+            strokeAlign: StrokeAlign.OUTSIDE
+        })
+        group.add(resTextNumber, opTextNumber);
+
+        // health box + number
+        const opHealthBox = new LayoutOperation({
+            translate: new Point(vis.size.x - offset.x, offset.y),
+            dims: dims,
+            pivot: Point.CENTER,
+            frame: MISC.health_box.frame,
+        })
+        group.add(resMisc, opHealthBox);
+
+        const resTextHealth = new ResourceText({ text: this.num.toString(), textConfig: textConfig });
+        const opTextHealth = new LayoutOperation({
+            translate: opHealthBox.translate,
+            dims: dims,
+            pivot: Point.CENTER,
+            fill: "#FFFFFF",
+            stroke: "#222222",
+            strokeWidth: strokeWidth,
+            strokeAlign: StrokeAlign.OUTSIDE,
+            effects: [vis.inkFriendlyEffect, this.getShadowEffect(vis)].flat()
+        })
+        group.add(resTextHealth, opTextHealth);
+
+        // draw main number
+        const textConfigMain = new TextConfig({
+            font: vis.get("fonts.heading"),
+            size: vis.get("cards.mainNumber.fontSize")
+        }).alignCenter();
+
+        const resText= new ResourceText({ text: this.num.toString(), textConfig: textConfigMain });
+        const opText = new LayoutOperation({
+            translate: vis.get("cards.mainNumber.pos"),
+            dims: new Point(1.5 * textConfigMain.size),
+            pivot: Point.CENTER,
+            fill: "#000000",
+            stroke: "#FFFFFF",
+            strokeWidth: strokeWidth,
+            strokeAlign: StrokeAlign.OUTSIDE
+        })
+        group.add(resText, opText);
+
+        // draw it written out too
+        if(vis.get("cards.mainNumber.addWrittenVersion"))
+        {
+            // the line below it
+            const opLine = new LayoutOperation({
+                translate: vis.get("cards.mainNumber.written.linePos"),
+                dims: vis.get("cards.mainNumber.written.lineDims"),
+                frame: MISC.stripes.frame,
+                pivot: Point.CENTER,
+                alpha: vis.get("cards.mainNumber.written.lineAlpha")
+            });
+            group.add(resMisc, opLine);
+
+            // the written text
+            const textConfigWritten = new TextConfig({
+                font: vis.get("fonts.body"),
+                size: vis.get("cards.mainNumber.written.fontSize")
+            }).alignCenter();
+            const resTextWritten = new ResourceText({ text: NUMBERS_WRITTEN[this.num], textConfig: textConfigWritten });
+            const opTextWritten = new LayoutOperation({
+                translate: vis.get("cards.mainNumber.written.pos"),
+                dims: new Point(1.5 * textConfigWritten.size),
+                pivot: Point.CENTER,
+                fill: "#000000",
+            })
+            group.add(resTextWritten, opTextWritten);
+        }
     }
 
     drawSpecial(vis:MaterialVisualizer, group:ResourceGroup)
     {
         const action = this.getFullActionString();
-        
-        // @TODO: print action string + display unique icon for it (if I even do that/it fits)
-        // @TODO: draw a shield marker + add "(Rotate sideways to remember this.)" if `shield` true
+
+        // the box to outline text
+        const resMisc = vis.getResource("misc");
+        const opBox = new LayoutOperation({
+            translate: vis.get("cards.power.textPos"),
+            dims: vis.get("cards.power.textBoxDims"),
+            pivot: Point.CENTER,
+            frame: MISC.power_box.frame,
+            effects: [vis.inkFriendlyEffect, this.getShadowEffect(vis)].flat()
+        });
+        group.add(resMisc, opBox);
+
+        // the actual power text
+        const textConfig = new TextConfig({
+            font: vis.get("fonts.body"),
+            size: vis.get("cards.power.fontSize")
+        }).alignCenter();
+
+        const resText = new ResourceText({ text: action, textConfig: textConfig});
+        const opText = new LayoutOperation({
+            translate: vis.get("cards.power.textPos"),
+            dims: vis.get("cards.power.textDims"),
+            pivot: Point.CENTER,
+            fill: "#000000",
+        })
+        group.add(resText, opText);
+
+        // the icons for the actions
+        // (just duplicate the same one if we have a single action; otherwise use both different ones)
+        const actionsCopy = this.actions.slice();
+        if(actionsCopy.length <= 1) { actionsCopy.push(actionsCopy[0]); }
+        const resActions = vis.getResource("actions");
+        const actionOffset = vis.get("cards.power.iconOffset");
+        const iconDims = vis.get("cards.power.iconDims");
+        const positions = [
+            actionOffset,
+            new Point(vis.size.x - actionOffset.x, actionOffset.y)
+        ]
+
+        for(let i = 0; i < positions.length; i++)
+        {
+            const data = ACTIONS[actionsCopy[i]];
+            const opIcon = new LayoutOperation({
+                translate: positions[i],
+                dims: iconDims,
+                frame: data.frame,
+                pivot: Point.CENTER,
+                alpha: vis.get("cards.power.iconAlpha")
+            });
+            group.add(resActions, opIcon);
+        }
+
+        if(this.shield)
+        {
+            const opShield = new LayoutOperation({
+                translate: vis.get("cards.power.shieldPos"),
+                dims: iconDims,
+                frame: MISC.shield_icon.frame,
+                pivot: Point.CENTER
+            });
+            group.add(resMisc, opShield);
+        }
+
+        if(this.isUnseen())
+        {
+            const opEye = new LayoutOperation({
+                translate: vis.get("cards.power.unseenPos"),
+                dims: iconDims,
+                frame: MISC.unseen_icon.frame,
+                pivot: Point.CENTER
+            });
+            group.add(resMisc, opEye);
+        }
     }
 }

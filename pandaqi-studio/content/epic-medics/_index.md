@@ -5,7 +5,7 @@ boardgame: true
 title: "Epic Medics"
 headerTitle: "Epic Medics | A boardgame about fighting viruses"
 blurb: "Oh no, a terrible pandemic is raging across the country! Will you be the heroic medics ... or will you play the virus?"
-blurbShort: "A cooperative [boardgames#one-paper-games](One Paper Game) for 2--7 players about fighting an uncontrollable pandemic."
+blurbShort: "A cooperative [One Paper Game](boardgames#one-paper-games) for 2--7 players about fighting an uncontrollable pandemic."
 
 fullHeaderImg: "epicmedics_header"
 headerImg: "epicmedics_bg"

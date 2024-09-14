@@ -33,6 +33,8 @@ interface GeneralData
     frame?: number,
     desc?: string,
     label?: string,
+    color?: string,
+    dark?: boolean,
     set?: string, // "base" by default
     type?: ActionType, // NONE by default
     strengthless?: boolean,
@@ -43,33 +45,33 @@ const MOVES:MovesDictionary =
 {
     // base game
     // it has the simplest actions and many without action at all
-    [AnimalType.TIGER]: { frame: 0, label: "Tossing Tiger", desc: "<b>Toss</b> me into the air. I land <b>faceup</b>? You win. <b>Facedown</b>? Opponent wins.", type: ActionType.AUTO, strengthless: true },
-    [AnimalType.DRAGON]: { frame: 1, label: "Rolling Dragon", desc: "<b>Reroll</b> this battle or an earlier one.", type: ActionType.CHOICE },
-    [AnimalType.MANTIS]: { frame: 2, label: "Midjab Mantis", desc: "", type: ActionType.NONE },
-    [AnimalType.CRANE]: { frame: 3, label: "Crouching Crane", desc: "", type: ActionType.NONE },
-    [AnimalType.MONKEY]: { frame: 4, label: "Megakick Monkey", desc: "<b>Look at</b> both dice from a <b>later battle</b>.", type: ActionType.NONE },
-    [AnimalType.PANDA]: { frame: 5, label: "Pushing Panda", desc: "All <b>earlier animals</b> of yours are <b>strengths</b> of mine.", type: ActionType.NONE, strengthless: true },
-    [AnimalType.TURTLE]: { frame: 6, label: "Trickstomp Turtle", desc: "<b>Disable</b> the action on the opponent's card.", type: ActionType.AUTO },
-    [AnimalType.LEOPARD]: { frame: 7, label: "Lunging Leopard", desc: "<b>Swap</b> two of your piles (revealed or not).", type: ActionType.CHOICE },
+    [AnimalType.TIGER]: { frame: 0, label: "Tossing Tiger", desc: "<b>Toss</b> me into the air. I land <b>faceup</b>? You win. <b>Facedown</b>? Opponent wins.", type: ActionType.AUTO, strengthless: true, color: "#f48230" },
+    [AnimalType.DRAGON]: { frame: 1, label: "Rolling Dragon", desc: "<b>Reroll</b> this battle or an earlier one.", type: ActionType.CHOICE, color: "#e7184c", dark: true },
+    [AnimalType.MANTIS]: { frame: 2, label: "Midjab Mantis", desc: "", type: ActionType.NONE, color: "#3db44c", dark: true },
+    [AnimalType.CRANE]: { frame: 3, label: "Crouching Crane", desc: "", type: ActionType.NONE, color: "#43d4f5" },
+    [AnimalType.MONKEY]: { frame: 4, label: "Megakick Monkey", desc: "<b>Look at</b> both dice from a <b>later battle</b>.", type: ActionType.NONE, color: "#9b6324", dark: true },
+    [AnimalType.PANDA]: { frame: 5, label: "Pushing Panda", desc: "All <b>earlier animals</b> of yours are <b>strengths</b> of mine.", type: ActionType.NONE, strengthless: true, color: "#222222", dark: true },
+    [AnimalType.TURTLE]: { frame: 6, label: "Trickstomp Turtle", desc: "<b>Disable</b> the action on the opponent's card.", type: ActionType.AUTO, color: "#4362d7", dark: true },
+    [AnimalType.LEOPARD]: { frame: 7, label: "Lunging Leopard", desc: "<b>Swap</b> two of your piles (revealed or not).", type: ActionType.CHOICE, color: "#dcbdff" },
 
     // expansion
     // most of these actions allow manipulating a battle to be about something OTHER than strengths => this allows the base game and expansion animals to interact
-    [AnimalType.SNAKE]: { frame: 8, label: "Swinging Snake", desc: "<b>Lost all</b> earlier battles? I always lose. <b>Won all</b> earlier battles? I always win.", set: "zoo", type: ActionType.AUTO },
-    [AnimalType.PEACOCK]: { frame: 9, label: "Pirouette Peacock", desc: "If the next battle has <b>no single winner</b>, <b>you are</b> the single winner.", set: "zoo", type: ActionType.AUTO },
-    [AnimalType.BULL]: { frame: 10, label: "Bashing Bull", desc: "<b>Destroy</b> a card from an earlier battle.", set: "zoo", type: ActionType.CHOICE },
-    [AnimalType.REDPANDA]: { frame: 11, label: "Rearpunch RedPanda", desc: "If my opponent is <b>strong</b> against me, <b>draw</b> one card from the deck <i>OR</i> an earlier battle.", set: "zoo", type: ActionType.CHOICE },
-    [AnimalType.CHAMELEON]: { frame: 12, label: "Crabbing Chameleon", desc: "<b>Copy</b> the action from a card in the previous battle.", set: "zoo", type: ActionType.AUTO },
-    [AnimalType.HORSE]: { frame: 13, label: "Highkick Horse", desc: "If you've rolled all my strengths in earlier battles, I am strong against <b>everyone</b>.", set: "zoo", type: ActionType.AUTO },
-    [AnimalType.UNICORN]: { frame: 14, label: "Undercut Unicorn", desc: "If all your earlier animals are <b>different</b>, add my type as a <b>strength</b> to your later animals.", set: "zoo", type: ActionType.AUTO },
-    [AnimalType.FROG]: { frame: 15, label: "Feinting Frog", desc: "If anyone rolled me in an <b>earlier battle</b>, I always <b>lose</b>.", set: "zoo", type: ActionType.AUTO },
+    [AnimalType.SNAKE]: { frame: 8, label: "Swinging Snake", desc: "<b>Lost all</b> earlier battles? I always lose. <b>Won all</b> earlier battles? I always win.", set: "zoo", type: ActionType.AUTO, color: "#fee119" },
+    [AnimalType.PEACOCK]: { frame: 9, label: "Pirouette Peacock", desc: "If the next battle has <b>no single winner</b>, <b>you are</b> the single winner.", set: "zoo", type: ActionType.AUTO, color: "#f031e6", dark: true },
+    [AnimalType.BULL]: { frame: 10, label: "Bashing Bull", desc: "<b>Destroy</b> a card from an earlier battle.", set: "zoo", type: ActionType.CHOICE, color: "#45998f", dark: true },
+    [AnimalType.REDPANDA]: { frame: 11, label: "Rearpunch RedPanda", desc: "If my opponent is <b>strong</b> against me, <b>draw</b> one card from the deck <i>OR</i> an earlier battle.", set: "zoo", type: ActionType.CHOICE, color: "#800000", dark: true },
+    [AnimalType.CHAMELEON]: { frame: 12, label: "Crabbing Chameleon", desc: "<b>Copy</b> the action from a card in the previous battle.", set: "zoo", type: ActionType.AUTO, color: "#911eb4", dark: true },
+    [AnimalType.HORSE]: { frame: 13, label: "Highkick Horse", desc: "If you've rolled all my strengths in earlier battles, I am strong against <b>everyone</b>.", set: "zoo", type: ActionType.AUTO, color: "#fffac7" },
+    [AnimalType.UNICORN]: { frame: 14, label: "Undercut Unicorn", desc: "If all your earlier animals are <b>different</b>, add my type as a <b>strength</b> to your later animals.", set: "zoo", type: ActionType.AUTO, color: "#fbbed5" },
+    [AnimalType.FROG]: { frame: 15, label: "Feinting Frog", desc: "If anyone rolled me in an <b>earlier battle</b>, I always <b>lose</b>.", set: "zoo", type: ActionType.AUTO, color: "#bfef44" },
 
     // dawndojo
     // this is always on the rooster, but there's a separate list of all possible texts/content it can have
-    [AnimalType.ROOSTER]: { frame: 16, label: "Roaring Rooster", desc: "", set: "dawnDojo" },
+    [AnimalType.ROOSTER]: { frame: 16, label: "Roaring Rooster", desc: "", set: "dawnDojo", color: "#aaffc2" },
 
     // fightTogether
     // just has the single "communication" card
-    [AnimalType.PARROT]: { frame: 17, label: "Blabbering Bird", desc: "Until the next battle is started, players on my team may freely <b>communicate</b>.", set: "fightTogether" }
+    [AnimalType.PARROT]: { frame: 17, label: "Blabbering Bird", desc: "Until the next battle is started, players on my team may freely <b>communicate</b>.", set: "fightTogether", color: "#ffffff" }
 }
 
 const DAWN_ACTIONS:Record<string,GeneralData> =
@@ -120,12 +122,26 @@ DEPRECATED (at least for the standard animals):
 
 const MISC:Record<string, GeneralData> =
 {
+    heading_box: { frame: 0 },
+    text_box: { frame: 1 },
+    strength_circle: { frame: 2 },
+    sun_icon: { frame: 3 }
+}
 
+const TEMPLATES:Record<string,GeneralData> =
+{
+    bamboo: { frame: 0 },
+    patterns: { frame: 1 },
+    texture: { frame: 2 },
+    outline: { frame: 3 },
+    spiral: { frame: 4 },
+    cherry_blossom: { frame: 5 }
 }
 
 export 
 {
     MISC,
+    TEMPLATES,
     MOVES,
     DAWN_ACTIONS,
     ROOSTER_CHANGES,

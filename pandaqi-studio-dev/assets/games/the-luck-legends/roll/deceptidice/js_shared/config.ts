@@ -2,6 +2,7 @@ import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textC
 import Point from "js/pq_games/tools/geometry/point"
 import Bounds from "js/pq_games/tools/numbers/bounds"
 import { SUITS } from "./dict"
+import CVal from "js/pq_games/tools/generation/cval"
 
 const CONFIG:any = 
 {
@@ -60,17 +61,23 @@ const CONFIG:any =
             path: "fonts/Brasspounder.woff2", // @TODO: or use SC variant?
         },
 
-        /*card_templates:
+        card_templates:
         {
             path: "card_templates.webp",
-            frames: new Point(4,1)
+            frames: new Point(3,1)
+        },
+
+        bids:
+        {
+            path: "bids.webp",
+            frames: new Point(4,3)
         },
 
         misc:
         {
             path: "misc.webp",
-            frames: new Point(8,1)
-        },*/
+            frames: new Point(4,2)
+        },
     },
 
     rulebook:
@@ -116,6 +123,49 @@ const CONFIG:any =
                 large: new Point(2,2)
             }, 
         },
+
+        bg:
+        {
+            outlineAlpha: 0.4,
+        },
+
+        wildcard:
+        {
+            tint: "#787878",
+            drawAllSuits: true,
+        },
+
+        numbers:
+        {
+            offset: new CVal(new Point(0.1), "sizeUnit"),
+            boxDims: new CVal(new Point(0.1), "sizeUnit"),
+            fontSize: new CVal(0.1, "sizeUnit")
+        },
+
+        mainNumber:
+        {
+            circleDims: new CVal(new Point(0.5), "sizeUnit"), // this is only the inner circle, not the numbers
+            circleRadius: new CVal(0.66, "sizeUnit"),
+            fontSize: new CVal(0.25, "sizeUnit"),
+            shadowOffset: new CVal(0.1, "cards.mainNumber.fontSize")
+        },
+
+        bids:
+        {
+            headingOffset: new CVal(new Point(0.2, 0.1), "size"),
+            fontSizeHeading: new CVal(0.1, "sizeUnit"),
+            headingDims: new CVal(new Point(1.0, 0.1), "size"),
+            iconPos: new CVal(new Point(0.5, 0.3), "size"),
+            iconDims: new CVal(new Point(0.4), "sizeUnit"),
+            fontSize: new CVal(0.06, "sizeUnit"),
+            textPos: new CVal(new Point(0.5, 0.6), "size"),
+            textDims: new CVal(new Point(0.8, 0.4), "size")
+        },
+
+        overlay:
+        {
+            alpha: 0.2
+        }
     },
 }
 

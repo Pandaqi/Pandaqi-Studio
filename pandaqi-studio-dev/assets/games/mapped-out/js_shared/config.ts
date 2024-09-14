@@ -1,5 +1,7 @@
 import Point from "js/pq_games/tools/geometry/point"
 import { CardMovement, TileAction } from "./dict"
+import CVal from "js/pq_games/tools/generation/cval"
+import Bounds from "js/pq_games/tools/numbers/bounds"
 
 const CONFIG:any = 
 {
@@ -43,6 +45,30 @@ const CONFIG:any =
         vanillawhale:
         {
             path: "fonts/VanillaWhale-Regular.woff2",
+        },
+
+        card_templates:
+        {
+            path: "card_templates.webp",
+            frames: new Point(2,1)
+        },
+
+        tile_templates:
+        {
+            path: "tile_templates.webp",
+            frames: new Point(2,1)
+        },
+
+        misc:
+        {
+            path: "misc.webp",
+            frames: new Point(4,4)
+        },
+
+        movements:
+        {
+            path: "movements.webp",
+            frames: new Point(4,5)
         },
 
     },
@@ -123,6 +149,45 @@ const CONFIG:any =
                 large: new Point(2,2)
             }, 
         },
+
+        sonar:
+        {
+            templatePos: new CVal(new Point(0.5, 0.35), "size"),
+            templateDims: new CVal(new Point(0.75), "sizeUnit"),
+            pos: new CVal(new Point(0.5, 0.35), "size"), // equal or close to templatePos
+            dims: new CVal(new Point(0.75), "sizeUnit"), // equal or close to templateDims
+        },
+
+        heading:
+        {
+            pos: new CVal(new Point(0.5, 0.66), "size"),
+            fontSize: new CVal(0.15, "sizeUnit"),
+        },
+
+        icons:
+        {
+            offset: new CVal(new Point(0.4, 0), "sizeUnit"),
+            dims: new CVal(new Point(0.1), "sizeUnit")
+        },
+
+        headingAction:
+        {
+            offset: new CVal(new Point(0, 0.1), "size"),
+            fontSize: new CVal(0.08, "sizeUnit")
+        },
+
+        matchAction:
+        {
+            pos: new CVal(new Point(0.75, 0.4), "size"),
+            dims: new CVal(new Point(0.25), "sizeUnit")
+        },
+
+        text:
+        {
+            fontSize: new CVal(0.07, "sizeUnit"),
+            pos: new CVal(new Point(0.5, 0.75), "size"),
+            dims: new CVal(new Point(0.8, 0.3), "size")
+        }
     },
 
     tiles:
@@ -138,6 +203,35 @@ const CONFIG:any =
                 large: new Point(2,3)
             },
         }, 
+
+        fishes:
+        {
+            angleSubdivisions: 8,
+            dims: new CVal(new Point(0.2), "sizeUnit"),
+            radiusBounds: new Bounds(0.4, 0.6),
+        },
+
+        actions:
+        {
+            fontSize: new CVal(0.1, "sizeUnit"),
+            boxDims: new CVal(new Point(0.3), "sizeUnit"),
+            iconDims: new CVal(new Point(0.15), "sizeUnit"),
+            textStrokeWidth: new CVal(0.075, "tiles.actions.fontSize")
+        },
+
+        heading:
+        {
+            fontSize: new CVal(0.15, "sizeUnit"),
+            offsetRegular: new CVal(new Point(0, 0.075), "sizeUnit"),
+            offsetSpecial: new CVal(new Point(0, 0.3), "sizeUnit"),
+        },
+
+        text:
+        {
+            fontSize: new CVal(0.07, "sizeUnit"),
+            pos: new CVal(new Point(0.5), "size"),
+            dims: new CVal(new Point(0.8, 0.35), "size")
+        }
     }
 }
 

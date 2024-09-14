@@ -16,11 +16,16 @@ interface GeneralData
     shield?: boolean, // if true, this is a shield card, which means we add an automatic icon and "rotate sideways to remember"
 }
 
+const NUMBERS_WRITTEN = 
+[
+    "Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"
+]
+
 const ACTION_PREFIXES:Record<ActionType, string> = 
 {
-    [ActionType.STOPPED]: "IF STOPPED",
-    [ActionType.PASSED]: "IF PASSED",
-    [ActionType.UNSEEN]: "IF UNSEEN"
+    [ActionType.STOPPED]: "<col hex=\"#ff4645\">If Stopped</col>",
+    [ActionType.PASSED]: "<col hex=\"#955a16\">If Passed</col>",
+    [ActionType.UNSEEN]: "<col hex=\"#6b2eae\">If Unseen</col>"
 }
 
 const ACTION_REPLACEMENTS:Record<string,any> =
@@ -83,7 +88,13 @@ const ACTIONS:Record<string,GeneralData> =
 
 const MISC:Record<string, GeneralData> =
 {
-
+    number_box: { frame: 0 },
+    health_box: { frame: 1 },
+    power_box: { frame: 2 },
+    stripes: { frame: 3 },
+    shield_icon: { frame: 4 },
+    unseen_icon: { frame: 5 },
+    arrow: { frame: 6 }
 }
 
 export 
@@ -92,6 +103,7 @@ export
     ACTIONS,
     ACTION_REPLACEMENTS,
     ACTION_PREFIXES,
+    NUMBERS_WRITTEN,
     ActionType,
     GeneralData
 }

@@ -17,6 +17,7 @@ interface GeneralData
     label?: string,
     value?: number, // for the unique values/ids of the special bids
     tint?: string,
+    tintLight?: string,
 }
 
 type GeneralDict = Record<string,GeneralData>;
@@ -45,18 +46,26 @@ const SPECIAL_BIDS:GeneralDict =
 
 const SUITS:GeneralDict =
 {
-    [Suit.RED]: { tint: "#FF0000" },
-    [Suit.BLUE]: { tint: "#0000FF" },
-    [Suit.GREEN]: { tint: "#00FF00" },
-    [Suit.PURPLE]: { tint: "#FF00FF" },
+    [Suit.PURPLE]: { frame: 4, tint: "#5e00bb", tintLight: "#5e00bb" },
+    [Suit.RED]: { frame: 5, tint: "#bb0000", tintLight: "#bb0000" },
+    [Suit.GREEN]: { frame: 6,  tint: "#0e8400", tintLight: "#0e8400" },
+    [Suit.TURQUOISE]: { frame: 7, tint: "#007084", tintLight: "#8eb6c0" },
     //[Suit.YELLOW]: { tint: "#FFFF00" },
     //[Suit.TURQUOISE]: { tint: "#00FFFF" },
     //[Suit.BLACK]: { tint: "#AAAAAA" }
 }
 
+const TEMPLATES:GeneralDict =
+{
+    outline: { frame: 0, },
+    outline_inner: { frame: 1 },
+    texture_overlay: { frame: 2 }
+}
+
 const MISC:GeneralDict =
 {
-
+    centerCircle: { frame: 2 },
+    numberBox: { frame: 1 }
 }
 
 export 
@@ -65,5 +74,6 @@ export
     Suit,
     SPECIAL_BIDS,
     SUITS,
+    TEMPLATES,
     GeneralDict
 }

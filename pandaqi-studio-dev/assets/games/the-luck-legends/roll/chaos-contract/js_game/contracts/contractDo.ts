@@ -19,8 +19,8 @@ export default class ContractDo extends ContractPart
     getFinalString()
     {
         let strMod = CONTRACT_DO_MOD[this.mod].desc;
-        if(strMod.length > 0) { strMod = " " + strMod; }
-        return CONTRACT_DO_WHO[this.who].desc + " roll " + CONTRACT_DO_FREQ[this.frequency].desc + strMod + ".";
+        if(strMod.length > 0) { strMod = " <col hex=\"#78a9b0\">" + strMod + "</col>"; }
+        return "<col hex=\"#91b6fe\">" + CONTRACT_DO_WHO[this.who].desc + "</col> roll <col hex=\"#cf5cfd\">" + CONTRACT_DO_FREQ[this.frequency].desc + "</col>" + strMod + ".";
     }
 
     getDifficulty()

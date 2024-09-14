@@ -75,6 +75,11 @@ const CONFIG =
         }
     },
 
+    rulebook:
+    {
+        itemSize: new Point(480, 672)
+    },
+
     // how to draw/layout cards (mostly visually)
     cards:
     {

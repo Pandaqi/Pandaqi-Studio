@@ -1,4 +1,5 @@
 import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textConfig"
+import CVal from "js/pq_games/tools/generation/cval"
 import Point from "js/pq_games/tools/geometry/point"
 
 const CONFIG:any = 
@@ -62,13 +63,25 @@ const CONFIG:any =
         card_templates:
         {
             path: "card_templates.webp",
-            frames: new Point(4,1)
+            frames: new Point(6,1)
+        },
+
+        animals:
+        {
+            path: "animals.webp",
+            frames: new Point(4,5)
+        },
+
+        animals_simplified:
+        {
+            path: "animals_simplified.webp",
+            frames: new Point(4,5)
         },
 
         misc:
         {
             path: "misc.webp",
-            frames: new Point(8,1)
+            frames: new Point(4,2)
         },
     },
 
@@ -129,6 +142,50 @@ const CONFIG:any =
                 large: new Point(2,2)
             }, 
         },
+
+        bg:
+        {
+            bambooAlpha: 0.5,
+            patternsAlpha: 1.0,
+            textureAlpha: 0.5,
+            outlineAlpha: 1.0,
+            spiralAlpha: 0.14,
+            blossomAlpha: 0.1
+        },
+
+        main:
+        {
+            useSimplified: false,
+            pos: new CVal(new Point(0.5, 0.4), "size"),
+            dims: new CVal(new Point(0.5), "sizeUnit"),
+            shadowBlur: new CVal(0.05, "sizeUnit"),
+        },
+
+        strengths:
+        {
+            useSimplified: false,
+            iconDims: new CVal(new Point(0.15), "sizeUnit"),
+            iconAnimalDims: new CVal(new Point(0.1), "sizeUnit"),
+            anchorPos: new CVal(new Point(0.5, 0.15), "size"),
+            placeAtBottom: true,
+            shadowBlur: new CVal(0.01, "sizeUnit")
+        },
+
+        action:
+        {
+            heading:
+            {
+                fontSize: new CVal(0.15, "sizeUnit"),
+                pos: new CVal(new Point(0.5, 0.5), "size"),
+                dims: new CVal(new Point(0.8), "size"),
+                posRooster: new CVal(new Point(0.5, 0.9), "size"),
+            },
+
+            fontSize: new CVal(0.1, "sizeUnit"),
+            pos: new CVal(new Point(0.5, 0.75), "size"),
+            posRooster: new CVal(new Point(0.5, 0.45), "size"), // for the EXTRA box on rooster cards
+            dims: new CVal(new Point(0.8), "size")
+        }
     },
 }
 

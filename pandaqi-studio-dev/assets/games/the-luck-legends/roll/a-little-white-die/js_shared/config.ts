@@ -40,17 +40,17 @@ const CONFIG:any =
             path: "fonts/RumRaisin-Regular.woff2",
         },
 
-        /*card_templates:
+        powers:
         {
-            path: "card_templates.webp",
-            frames: new Point(4,1)
+            path: "powers.webp",
+            frames: new Point(4,4)
         },
 
         misc:
         {
             path: "misc.webp",
-            frames: new Point(8,1)
-        },*/
+            frames: new Point(8,2)
+        },
     },
 
     rulebook:
@@ -92,6 +92,34 @@ const CONFIG:any =
                 large: new Point(2,2)
             }, 
         },
+
+        bg:
+        {
+            alpha: 0.1
+        },
+
+        mainNumber:
+        {
+            fontSize: new CVal(new Point(0.2), "sizeUnit"),
+            offset: new CVal(new Point(0, 0.33), "size"),
+            shadowOffset: new CVal(0.1, "cards.mainNumber.fontSize"),
+            strokeDarken: 50,
+            strokeWidth: new CVal(0.1, "cards.mainNumber.fontSize")
+        },
+
+        numbers:
+        {
+            wackyBoxDims: new CVal(new Point(0.2), "sizeUnit"),
+            offsetFromCenter: new CVal(new Point(0.3, 0.3), "size")
+        },
+
+        power:
+        {
+            iconDims: new CVal(new Point(0.2), "sizeUnit"),
+            shadowOffset: new CVal(0.1, "cards.power.iconDims"),
+            textBoxDims: new CVal(new Point(0.7), "sizeUnit"),
+            textDims: new CVal(new Point(0.65, 0.4), "size")
+        }
     },
 }
 

@@ -1,9 +1,11 @@
+import Point from "js/pq_games/tools/geometry/point"
 
 interface GeneralData
 {
     frame?: number,
     desc?: string,
     freq?: number,
+    tint?: string,
 }
 
 // Aiming for 18 of these cards, as that fits perfectly on 2 A4 pages.
@@ -27,13 +29,54 @@ const POWER_CARDS:Record<string,GeneralData> =
     discard: { frame: 15, desc: "<b>Discard</b> the top card of any one die." }
 }
 
+const WILDCARD_DATA:GeneralData = { frame: -1, desc: "Wildcard!\nRepresents any number from any guess." }
+
 const MISC:Record<string, GeneralData> =
 {
-
+    dice_1: { frame: 0, tint: "#ff4141" },
+    dice_2: { frame: 1, tint: "#ffb800" },
+    dice_3: { frame: 2, tint: "#3bd900" },
+    dice_4: { frame: 3, tint: "#00c0c5" },
+    dice_5: { frame: 4, tint: "#8eb4ff" },
+    dice_6: { frame: 5, tint: "#e073ff" },
+    text_box: { frame: 6 },
+    bg: { frame: 7 },
+    wacky_box_1: { frame: 8 },
+    wacky_box_2: { frame: 9 },
+    wacky_box_3: { frame: 10 },
+    wacky_box_4: { frame: 11 },
 }
+
+const DICE_ARRANGEMENTS = [
+    [],
+    [4],
+    [0,8],
+    [0,4,8],
+    [0,2,6,8],
+    [0,2,4,6,8],
+    [0,2,3,5,6,8],
+    [0,2,3,4,5,6,8],
+    [0,1,2,3,5,6,7,8],
+    [0,1,2,3,4,5,6,7,8]
+]
+
+const DICE_POSITIONS = [
+    new Point(-1,-1), // 0-2
+    new Point(0,-1),
+    new Point(1,-1),
+    new Point(-1,0), // 3-5
+    new Point(0,0),
+    new Point(1,0),
+    new Point(-1,1), // 6-8
+    new Point(0,1),
+    new Point(1,1)
+]
 
 export 
 {
     MISC,
     POWER_CARDS,
+    DICE_POSITIONS,
+    DICE_ARRANGEMENTS,
+    WILDCARD_DATA
 }

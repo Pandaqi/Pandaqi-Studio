@@ -83,9 +83,13 @@ This expansion adds more types of powers on cards.
 
 * **IF STOPPED** triggers only if you stopped here (and didn't keep rolling). All cards in the base game are this type by default.
 * **IF PASSED** triggers as soon as you decide to keep rolling after this one and _stays_ on future rolls.
-* **IF UNSEEN** triggers at the end of your turn if you never reached this card at all. (This is usually combined with a second effect of another type.)
+* **IF UNSEEN** triggers at the end of your turn if you never reached this card at all. This is always combined with a second effect of another type.
 
 @TODO: IMAGE EXAMPLE
+
+The _Unseen_ cards have an eye icon on them to make sure you don't forget them.
+
+This expansion also adds _Shield_ cards (with a shield icon). When used, their protective effect is true until your next turn. It's recommended to _rotate the card sideways_ to remember this.
 
 {{% /rules-block %}}
 

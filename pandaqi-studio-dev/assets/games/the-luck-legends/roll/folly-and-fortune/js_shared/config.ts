@@ -62,13 +62,19 @@ const CONFIG:any =
         card_templates:
         {
             path: "card_templates.webp",
-            frames: new Point(4,1)
+            frames: new Point(1,1)
+        },
+
+        actions:
+        {
+            path: "actions.webp",
+            frames: new Point(8,5)
         },
 
         misc:
         {
             path: "misc.webp",
-            frames: new Point(8,1)
+            frames: new Point(4,2)
         },
     },
 
@@ -118,28 +124,53 @@ const CONFIG:any =
             }, 
         },
 
+        shared:
+        {
+            shadowOffset: new CVal(0.05, "sizeUnit")
+        },
+
         numbers:
         {
-            offset: new CVal(new Point(0.1), "sizeUnit"),
-            fontSize: new CVal(0.3, "sizeUnit"),
-            centerPos: new CVal(new Point(0.5), "size"),
-            centerDims: new CVal(new Point(0.4), "sizeUnit"),
-            writtenPos: new CVal(new Point(0.5, 0.7), "size"),
-            writtenFontSize: new CVal(0.15, "sizeUnit"),
+            boxOffset: new CVal(new Point(0.1), "sizeUnit"),
+            boxDims: new CVal(new Point(0.15), "sizeUnit"),
+            fontSize: new CVal(0.15, "sizeUnit"),
+            strokeWidth: new CVal(0.05, "cards.numbers.strokeWidth"),
+        },
+
+        mainNumber:
+        {
+            fontSize: new CVal(0.33, "sizeUnit"),
+            pos: new CVal(new Point(0.5, 0.4), "size"),
+            addWrittenVersion: true,
+            written:
+            {
+                linePos: new CVal(new Point(0.5, 0.125), "size"),
+                lineDims: new CVal(new Point(0.3), "sizeUnit"),
+                lineAlpha: 0.66,
+                fontSize: new CVal(0.075, "sizeUnit"),
+                pos: new CVal(new Point(0.5, 0.1), "size")
+            }
         },
 
         power:
         {
-            fontSize: new CVal(0.1, "sizeUnit"),
-            textPos: new CVal(new Point(0.5, 0.75), "size"),
-            textBoxDims: new CVal(new Point(0.66, 0.175), "size"),
-            textColor: "#101010"
+            fontSize: new CVal(0.075, "sizeUnit"),
+            textDims: new CVal(new Point(0.8, 0.2), "size"),
+            textBoxDims: new CVal(new Point(0.9), "size"),
+
+            iconOffset: new CVal(new Point(0.1, 0.3), "size"),
+            iconDims: new CVal(new Point(0.1), "sizeUnit"),
+            iconAlpha: 0.75,
+
+            shieldPos: new CVal(new Point(0.9, 0.5), "size"),
+            unseenPos: new CVal(new Point(0.1, 0.5), "size")
         },
 
-        icons:
+        arrow:
         {
-            offset: new CVal(new Point(0.1, 0.3), "size"),
-            dims: new CVal(new Point(0.1), "size")
+            dims: new CVal(new Point(0.1), "sizeUnit"), // probably just the same as power.iconDims
+            composite: "overlay",
+            alpha: 1.0
         }
     },
 }

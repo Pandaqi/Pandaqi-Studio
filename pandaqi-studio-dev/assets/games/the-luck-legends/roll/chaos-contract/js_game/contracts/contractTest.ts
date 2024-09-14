@@ -49,16 +49,16 @@ export default class ContractTest extends ContractPart
     getFinalStringRegular()
     {
         let strNum = CONTRACT_TEST_NUMBER[this.number].desc;
-        if(strNum.length > 0) { strNum = " " + strNum; }
-        return CONTRACT_TEST_WHAT[this.what].desc + " must be " + CONTRACT_TEST_COMPARE[this.compare].desc + strNum  + ".";
+        if(strNum.length > 0) { strNum = " <col hex=\"#8661de\">" + strNum + "</col>"; }
+        return "<col hex=\"#a66a4f\">" + CONTRACT_TEST_WHAT[this.what].desc + "</b> must be <col hex=\"#ca5353\">" + CONTRACT_TEST_COMPARE[this.compare].desc + "</col>" + strNum  + ".";
     }
 
     getFinalStringBattle()
     {
         const isLoop = (this.contract.do.frequency == "loop");
-        const stringWhat = CONTRACT_TEST_WHAT[this.what].descBattle;
-        const stringCompare = CONTRACT_TEST_COMPARE[this.compare].desc;
-        const stringThreshold = CONTRACT_TEST_NUMBER[this.number].desc;
+        const stringWhat = "<col hex=\"#a66a4f\">" + CONTRACT_TEST_WHAT[this.what].descBattle + "</col>";
+        const stringCompare = "<col hex=\"#ca5353\">" + CONTRACT_TEST_COMPARE[this.compare].desc + "</col>";
+        const stringThreshold = "<col hex=\"#8661de\">" + CONTRACT_TEST_NUMBER[this.number].desc + "</col>";
 
         if(isLoop) { return "You win if " + stringWhat.toLowerCase() + " " + stringCompare + " that of the previous player."; }
         return stringWhat + " " + stringCompare + " " + stringThreshold; 

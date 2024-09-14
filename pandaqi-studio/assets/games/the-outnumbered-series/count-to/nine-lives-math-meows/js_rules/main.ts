@@ -1,15 +1,15 @@
+import ResourceLoader from "js/pq_games/layout/resources/resourceLoader";
+import anyMatch from "js/pq_games/tools/collections/anyMatch";
+import getAllPossibleCombinationsRaw from "js/pq_games/tools/collections/getAllPossibleCombinationsRaw";
 import numberRange from "js/pq_games/tools/collections/numberRange";
+import fromArray from "js/pq_games/tools/random/fromArray";
 import rangeInteger from "js/pq_games/tools/random/rangeInteger";
 import shuffle from "js/pq_games/tools/random/shuffle";
-import InteractiveExample from "js/pq_rulebook/examples/interactiveExample"
+import InteractiveExample from "js/pq_rulebook/examples/interactiveExample";
 import Card from "../js_game/card";
-import { SUITS, Type } from "../js_shared/dict";
-import fromArray from "js/pq_games/tools/random/fromArray";
-import getAllPossibleCombinationsRaw from "js/pq_games/tools/collections/getAllPossibleCombinationsRaw";
-import anyMatch from "js/pq_games/tools/collections/anyMatch";
-import Point from "js/pq_games/tools/geometry/point";
 import Visualizer from "../js_game/visualizer";
-import ResourceLoader from "js/pq_games/layout/resources/resourceLoader";
+import CONFIG from "../js_shared/config";
+import { SUITS, Type } from "../js_shared/dict";
 
 
 class Hand
@@ -242,4 +242,4 @@ e.setGenerationCallback(generate);
 const o = e.getOutputBuilder();
 
 const resLoader = new ResourceLoader();
-const visualizer = new Visualizer(resLoader, new Point(600, 480), false);
+const visualizer = new Visualizer(resLoader, CONFIG.rulebook.itemSize, false);

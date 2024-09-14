@@ -16,6 +16,7 @@ interface GeneralData
 {
     frame?: number,
     label?: string,
+    color?: string,
     desc?: string,
     descBattle?: string,
     prob?: number, // 1.0 by default
@@ -30,6 +31,20 @@ interface GeneralData
     diffScaleNumber?: number, // 0 by default; an extra difficulty factor based on the NUMBER randomly selected in the contractPart
 }
 type GeneralDict = Record<string, GeneralData>
+
+const NUMBERS:GeneralDict = 
+{
+    "-1": { color: "#b394ff", label: "Minus One" },
+    0: { color: "#7997ff", label: "Zero" },
+    1: { color: "#9fdfff", label: "One" },
+    2: { color: "#71e4c6", label: "Two" },
+    3: { color: "#9ad85d", label: "Three" },
+    4: { color: "#c9e272", label: "Four" },
+    5: { color: "#fff79f", label: "Five" },
+    6: { color: "#f7af79", label: "Six" },
+    7: { color: "#fc9996", label: "Seven" },
+    8: { color: "#f279ff", label: "Eight" },
+}
 
 const CONTRACT_DO_WHO:GeneralDict =
 {
@@ -159,9 +174,25 @@ DEPRECATED: The "Swap Card" penalty/reward. Too much hassle to explain and intro
 
 */
 
+const TEMPLATES:GeneralDict =
+{
+    texture: { frame: 0 },
+    gradient: { frame: 1 },
+    outline: { frame: 2 },
+    texture_wildcard: { frame: 3 },
+    contract: { frame: 4 }
+}
+
 const MISC:GeneralDict =
 {
-
+    card_reward: { frame: 0 },
+    card_penalty: { frame: 1 },
+    score_reward: { frame: 2 },
+    score_penalty: { frame: 3 },
+    star: { frame: 4 },
+    battle_icon: { frame: 5 },
+    forced_icon: { frame: 6 },
+    wildcard_icon: { frame: 7 }
 }
 
 export 
@@ -176,6 +207,8 @@ export
     CONTRACT_SPECIAL,
     DYNAMIC_REPLACEMENTS,
     CARD_ACTIONS,
+    TEMPLATES,
+    NUMBERS,
     CardType,
     ContractType,
     GeneralDict
