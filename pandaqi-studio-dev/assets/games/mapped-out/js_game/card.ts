@@ -3,7 +3,7 @@ import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
-import TextConfig from "js/pq_games/layout/text/textConfig";
+import TextConfig, { TextStyle } from "js/pq_games/layout/text/textConfig";
 import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
 import getRectangleCornersWithOffset from "js/pq_games/tools/geometry/paths/getRectangleCornersWithOffset";
@@ -11,6 +11,7 @@ import Point from "js/pq_games/tools/geometry/point";
 import fromArray from "js/pq_games/tools/random/fromArray";
 import shuffle from "js/pq_games/tools/random/shuffle";
 import { CardMovement, CardType, FishType, MAP_SPECIAL, MISC, MOVEMENT_CARDS, MOVEMENT_SPECIAL, TILE_ACTIONS, TileAction } from "../js_shared/dict";
+import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
 
 export default class Card
 {
@@ -30,7 +31,7 @@ export default class Card
 
     hasSpecialAction()
     {
-        return this.specialAction != "";
+        return this.specialAction != "" && this.specialAction != "regular";
     }
 
     async draw(vis:MaterialVisualizer)
@@ -150,7 +151,7 @@ export default class Card
                 font: vis.get("fonts.heading"),
                 size: vis.get("cards.headingAction.fontSize")
             }).alignCenter();
-            const resTextAction = new ResourceText({ text: movementData.label, textConfig: textConfigAction });
+            const resTextAction = new ResourceText({ text: MOVEMENT_SPECIAL[this.specialAction].label, textConfig: textConfigAction });
             const opTextAction = new LayoutOperation({
                 translate: headingPos.clone().sub(offset),
                 dims: new Point(vis.size.x, 2.0*textConfigHeading.size),
@@ -177,7 +178,8 @@ export default class Card
         // the action explaining text
         const textConfig = new TextConfig({
             font: vis.get("fonts.body"),
-            size: vis.get("cards.text.fontSize")
+            size: vis.get("cards.text.fontSize"),
+            style: TextStyle.ITALIC
         }).alignCenter();
         const specialData = MOVEMENT_SPECIAL[this.specialAction] ?? {};
         const text = this.hasSpecialAction() ? specialData.desc : movementData.desc;
@@ -214,18 +216,20 @@ export default class Card
         }
         shuffle(anglesAvailable);
 
-        const fishDims = vis.get("tiles.fishes.dims");
+        const fishDims = this.hasSpecialAction() ? vis.get("tiles.fishes.dimsSpecial") : vis.get("tiles.fishes.dims");
+        const fishRadiusBounds = this.hasSpecialAction() ? vis.get("tiles.fishes.radiusBoundsSpecial") : vis.get("tiles.fishes.radiusBounds");
+        const glowEffect = new DropShadowEffect({ color: "#FFFFFF", blurRadius: 0.1*fishDims.x });
         for(const fish of this.fishes)
         {
             const angleRaw = anglesAvailable.pop();
-            const angle = (angleRaw + Math.random()*0.75) * (2.0 * Math.PI / numAngles);
-            const randRadius = vis.get("tiles.fishes.radiusBounds").random() * vis.size.x;
-            const pos = new Point(Math.cos(angle), Math.sin(angle)).scaleFactor(randRadius);
+            const angle = (angleRaw + Math.random()*0.5) * (2.0 * Math.PI / numAngles);
+            const randRadius = fishRadiusBounds.random() * vis.size.x;
+            const pos = vis.center.clone().add( new Point(Math.cos(angle), Math.sin(angle)).scaleFactor(randRadius) );
 
             // the fish outline
             const opOutline = new LayoutOperation({
                 translate: pos,
-                dims: fishDims.clone().scale(1.02),
+                dims: fishDims.clone().scale(1.035),
                 pivot: Point.CENTER,
                 rotation: angle + 0.5 * Math.PI,
                 frame: MISC[fish].frame + 4,
@@ -240,7 +244,7 @@ export default class Card
                 pivot: Point.CENTER,
                 rotation: angle + 0.5 * Math.PI,
                 frame: MISC[fish].frame,
-                effects: vis.inkFriendlyEffect,
+                effects: [vis.inkFriendlyEffect, glowEffect].flat(),
             })
             group.add(resMisc, opFish);
         }
@@ -279,8 +283,10 @@ export default class Card
             group.add(resMisc, opCornerIcon);
 
             // number
+            // @NOTE: the number is offset a bit to fall exactly on the first card in every icon; in the center it's a bit confusing/ugly
+            const numberOffset = new Point(0.2*opCornerIcon.dims.x,0).rotate(opCornerIcon.rotation);
             const opTextAction = new LayoutOperation({
-                translate: opCornerIcon.translate,
+                translate: opCornerIcon.translate.clone().sub(numberOffset),
                 dims: new Point(2.0 * textConfigAction.size),
                 pivot: Point.CENTER,
                 rotation: opCornerIcon.rotation,
@@ -294,7 +300,11 @@ export default class Card
 
         // draw the headings (one normal, one upside down)
         const tileActionData = TILE_ACTIONS[this.tileAction] ?? {};
-        const middleText = tileActionData.label + " " + (this.tileActionNum + 1);
+        let middleText = tileActionData.label + " " + (this.tileActionNum + 1);
+        if(this.hasSpecialAction())
+        {
+            middleText = MAP_SPECIAL[this.specialAction].label;
+        }
 
         const textConfigHeading = new TextConfig({
             font: vis.get("fonts.heading"),
@@ -303,7 +313,7 @@ export default class Card
         const resTextHeading = new ResourceText({ text: middleText, textConfig: textConfigHeading });
 
         const offset = this.hasSpecialAction() ? vis.get("tiles.heading.offsetSpecial") : vis.get("tiles.heading.offsetRegular");
-        const headingColor = this.hasSpecialAction() ? "#28529c" : "#57a1a7";
+        const headingColor = this.hasSpecialAction() ? "#16416a" : "#57a1a7";
         const positions = [
             vis.center.clone().sub(offset),
             vis.center.clone().add(offset)
@@ -313,6 +323,7 @@ export default class Card
         {
             const opTextHeading = new LayoutOperation({
                 translate: positions[i],
+                dims: vis.size,
                 rotation: (i == 0) ? 0 : Math.PI,
                 pivot: Point.CENTER,
                 fill: vis.inkFriendly ? "#888888" : headingColor
@@ -325,7 +336,8 @@ export default class Card
         {
             const textConfig = new TextConfig({
                 font: vis.get("fonts.body"),
-                size: vis.get("tiles.text.fontSize")
+                size: vis.get("tiles.text.fontSize"),
+                style: TextStyle.ITALIC
             }).alignCenter();
             
             const specialData = MAP_SPECIAL[this.specialAction] ?? {};
@@ -336,8 +348,8 @@ export default class Card
 
             const resText = new ResourceText({ text: str, textConfig: textConfig });
             const opText = new LayoutOperation({
-                translate: vis.get("cards.text.pos"),
-                dims: vis.get("cards.text.dims"),
+                translate: vis.get("tiles.text.pos"),
+                dims: vis.get("tiles.text.dims"),
                 pivot: Point.CENTER,
                 fill: "#000000"
             })

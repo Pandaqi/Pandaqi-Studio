@@ -81,8 +81,10 @@ export default class Card
 
         const res = vis.getResource("misc");
         const op = new LayoutOperation({
-            dims: vis.size,
+            translate: vis.center,
+            dims: new Point(1.75*vis.sizeUnit),
             alpha: vis.get("cards.bg.alpha"),
+            pivot: Point.CENTER,
             frame: MISC.bg.frame
         });
         group.add(res, op);
@@ -103,30 +105,33 @@ export default class Card
     {
         // draw the main number(s) in the center
         const tintColor = this.getTintColor(vis);
+        const needsSmall = this.num >= 8;
+        const fontSize = needsSmall ? vis.get("cards.mainNumber.fontSizeSmall") : vis.get("cards.mainNumber.fontSize");
         const textConfig = new TextConfig({
             font: vis.get("fonts.heading"),
-            size: vis.get("cards.mainNumber.fontSize")
+            size: fontSize,
         }).alignCenter();
         const txt = this.wildCard ? "?" : this.num.toString();
         const resText = new ResourceText({ text: txt, textConfig: textConfig });
         
-        const offsetMainNum = vis.get("cards.mainNumber.offset");
-        const positions = [vis.center.clone().add(offsetMainNum)];
+        const offsetMainNum = needsSmall ? vis.get("cards.mainNumber.offsetSmall") : vis.get("cards.mainNumber.offset");
+        const positions = [vis.center.clone().sub(offsetMainNum)];
         if(!this.hasPower())
         {
-            positions.push(vis.center.clone().sub(offsetMainNum));
+            positions.push(vis.center.clone().add(offsetMainNum));
         }
 
+        const strokeColor = new Color(tintColor).darken(vis.get("cards.mainNumber.strokeDarken"));
         for(let i = 0; i < positions.length; i++)
         {
             const shadowDir = (i == 0) ? 1 : -1;
-            const shadowEffect = new DropShadowEffect({ color: "#000000", offset: vis.get("cards.mainNumber.shadowOffset").clone().scaleFactor(shadowDir) });
+            const shadowEffect = new DropShadowEffect({ color: "#00000088", offset: vis.get("cards.mainNumber.shadowOffset").clone().scaleFactor(shadowDir) });
             const opText = new LayoutOperation({
                 translate: positions[i],
                 dims: new Point(2.0 * textConfig.size),
                 rotation: (shadowDir == 1) ? 0 : Math.PI,
                 fill: tintColor,
-                stroke: new Color(tintColor).darken(vis.get("cards.mainNumber.strokeDarken")),
+                stroke: strokeColor,
                 strokeWidth: vis.get("cards.mainNumber.strokeWidth"),
                 strokeAlign: StrokeAlign.OUTSIDE,
                 pivot: Point.CENTER,
@@ -145,9 +150,11 @@ export default class Card
         for(let i = 0; i < arrangement.length; i++)
         {
             // @EXCEPTION: wildcard has all numbers, colored, in 6-arrangement
+            let num = this.num;
             if(this.wildCard)
             {
-                tintEffect = new TintEffect(this.getTintColor(vis, (i+1)));
+                num = (i+1);
+                tintEffect = new TintEffect(this.getTintColor(vis, num));
             }
 
             // first the box behind it
@@ -167,8 +174,8 @@ export default class Card
             // then the actual dots of the dice
             const opDots = new LayoutOperation({
                 translate: pos,
-                dims: boxDims,
-                frame: MISC["dice_" + this.num].frame,
+                dims: vis.get("cards.numbers.wackyBoxDotDims"),
+                frame: MISC["dice_" + num].frame,
                 pivot: Point.CENTER,
             })
             group.add(res, opDots);
@@ -205,7 +212,7 @@ export default class Card
             positions[1].add(new Point(0, boxDims.y));
         }
 
-        const shadowEffect = new DropShadowEffect({ color: "#000000", offset: vis.get("cards.power.shadowOffset") });
+        //const shadowEffect = new DropShadowEffect({ color: "#000000BB", offset: vis.get("cards.power.shadowOffset") });
         for(let i = 0; i < positions.length; i++)
         {
             const opPowerIcon = new LayoutOperation({
@@ -213,13 +220,13 @@ export default class Card
                 dims: vis.get("cards.power.iconDims"),
                 frame: data.frame,
                 pivot: Point.CENTER,
-                effects: [vis.inkFriendlyEffect, shadowEffect].flat()
+                effects: vis.inkFriendlyEffect
             });
             group.add(resPowers, opPowerIcon);
         }
 
         // draw text box + power text at lower position
-        const offsetMainNum = vis.get("cards.mainNumber.offset");
+        const offsetMainNum = vis.get("cards.power.offset");
         const position = vis.center.clone().add(offsetMainNum);
 
         const resMisc = vis.getResource("misc");

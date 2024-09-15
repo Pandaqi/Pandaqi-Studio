@@ -2,14 +2,15 @@ import Point from "js/pq_games/tools/geometry/point"
 import { CardMovement, TileAction } from "./dict"
 import CVal from "js/pq_games/tools/generation/cval"
 import Bounds from "js/pq_games/tools/numbers/bounds"
+import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textConfig"
 
 const CONFIG:any = 
 {
     debug:
     {
-        omitFile: true, // @DEBUGGING (should be false)
-        singleDrawPerType: true, // @DEBUGGING (should be false)
-        onlyGenerate: true, // @DEBUGGING (should be false)
+        omitFile: false, // @DEBUGGING (should be false)
+        singleDrawPerType: false, // @DEBUGGING (should be false)
+        onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
     configKey: "mappedOutConfig",
@@ -40,6 +41,20 @@ const CONFIG:any =
         sourceserif:
         {
             path: "fonts/SourceSerif418pt-Regular.woff2",
+        },
+
+        sourceserif_italic:
+        {
+            key: "sourceserif",
+            path: "fonts/SourceSerif418pt-Italic.woff2",
+            textConfig: new TextConfig({ style: TextStyle.ITALIC })
+        },
+
+        sourceserif_italic_bold:
+        {
+            key: "sourceserif",
+            path: "fonts/SourceSerif418pt-BlackItalic.woff2",
+            textConfig: new TextConfig({ style: TextStyle.ITALIC, weight: TextWeight.BOLD })
         },
 
         vanillawhale:
@@ -80,7 +95,7 @@ const CONFIG:any =
 
     generation:
     {
-        movementCardNumBase: 60, 
+        movementCardNumBase: 40, 
         movementCardDistBase:
         {
             [CardMovement.LEFT]: 0.2,
@@ -91,22 +106,27 @@ const CONFIG:any =
             [CardMovement.NOTHING]: 0.1,
         },
 
-        movementCardNumUnclear: 20, 
+        movementCardNumUnclear: 23, 
         movementCardDistUnclear:
         {
-            [CardMovement.TELEPORT]: 0.25,
-            [CardMovement.MATCH]: 0.45,
-            [CardMovement.COPY]: 0.2,
+            [CardMovement.LEFT]: 0.1,
+            [CardMovement.RIGHT]: 0.1,
+            [CardMovement.UP]: 0.1,
+            [CardMovement.DOWN]: 0.1,
+            [CardMovement.ANY]: 0.2,
+            [CardMovement.TELEPORT]: 0.1,
+            [CardMovement.MATCH]: 0.1,
+            [CardMovement.COPY]: 0.1,
             [CardMovement.INVERT]: 0.1,
         },
 
-        mapTilesNumBase: 50,
+        mapTilesNumBase: 42,
         mapTilesDistBase:
         {
             regular: 1.0
         },
 
-        mapTilesNumLands: 20,
+        mapTilesNumLands: 18,
         mapTilesDistLands:
         {
             island: 0.3,
@@ -153,39 +173,39 @@ const CONFIG:any =
         sonar:
         {
             templatePos: new CVal(new Point(0.5, 0.35), "size"),
-            templateDims: new CVal(new Point(0.75), "sizeUnit"),
+            templateDims: new CVal(new Point(0.725), "sizeUnit"),
             pos: new CVal(new Point(0.5, 0.35), "size"), // equal or close to templatePos
-            dims: new CVal(new Point(0.75), "sizeUnit"), // equal or close to templateDims
+            dims: new CVal(new Point(0.725), "sizeUnit"), // equal or close to templateDims
         },
 
         heading:
         {
-            pos: new CVal(new Point(0.5, 0.66), "size"),
-            fontSize: new CVal(0.15, "sizeUnit"),
+            pos: new CVal(new Point(0.5, 0.695), "size"),
+            fontSize: new CVal(0.1, "sizeUnit"),
         },
 
         icons:
         {
-            offset: new CVal(new Point(0.4, 0), "sizeUnit"),
+            offset: new CVal(new Point(0.08, 0), "sizeUnit"),
             dims: new CVal(new Point(0.1), "sizeUnit")
         },
 
         headingAction:
         {
-            offset: new CVal(new Point(0, 0.1), "size"),
-            fontSize: new CVal(0.08, "sizeUnit")
+            offset: new CVal(new Point(0, 0.055), "size"),
+            fontSize: new CVal(0.055, "sizeUnit")
         },
 
         matchAction:
         {
-            pos: new CVal(new Point(0.75, 0.4), "size"),
-            dims: new CVal(new Point(0.25), "sizeUnit")
+            pos: new CVal(new Point(0.755, 0.35), "size"),
+            dims: new CVal(new Point(0.165), "sizeUnit")
         },
 
         text:
         {
-            fontSize: new CVal(0.07, "sizeUnit"),
-            pos: new CVal(new Point(0.5, 0.75), "size"),
+            fontSize: new CVal(0.065, "sizeUnit"),
+            pos: new CVal(new Point(0.5, 0.83), "size"),
             dims: new CVal(new Point(0.8, 0.3), "size")
         }
     },
@@ -207,30 +227,35 @@ const CONFIG:any =
         fishes:
         {
             angleSubdivisions: 8,
-            dims: new CVal(new Point(0.2), "sizeUnit"),
-            radiusBounds: new Bounds(0.4, 0.6),
+            dims: new CVal(new Point(0.25), "sizeUnit"),
+            dimsSpecial: new CVal(new Point(0.15), "sizeUnit"),
+            radiusBounds: new Bounds(0.25, 0.35),
+            radiusBoundsSpecial: new Bounds(0.325, 0.425)
         },
 
         actions:
         {
-            fontSize: new CVal(0.1, "sizeUnit"),
-            boxDims: new CVal(new Point(0.3), "sizeUnit"),
-            iconDims: new CVal(new Point(0.15), "sizeUnit"),
-            textStrokeWidth: new CVal(0.075, "tiles.actions.fontSize")
+            fontSize: new CVal(0.07, "sizeUnit"),
+            boxDims: new CVal(new Point(0.36), "sizeUnit"),
+            iconDims: new CVal(new Point(0.135), "sizeUnit"),
+            textStrokeWidth: new CVal(0.075, "tiles.actions.fontSize"),
+
+            offset: new CVal(new Point(0.2), "sizeUnit"),
+            offsetIcons: new CVal(new Point(0.11), "sizeUnit")
         },
 
         heading:
         {
-            fontSize: new CVal(0.15, "sizeUnit"),
-            offsetRegular: new CVal(new Point(0, 0.075), "sizeUnit"),
-            offsetSpecial: new CVal(new Point(0, 0.3), "sizeUnit"),
+            fontSize: new CVal(0.08, "sizeUnit"),
+            offsetRegular: new CVal(new Point(0, 0.0475), "sizeUnit"),
+            offsetSpecial: new CVal(new Point(0, 0.225), "sizeUnit"),
         },
 
         text:
         {
-            fontSize: new CVal(0.07, "sizeUnit"),
+            fontSize: new CVal(0.055, "sizeUnit"),
             pos: new CVal(new Point(0.5), "size"),
-            dims: new CVal(new Point(0.8, 0.35), "size")
+            dims: new CVal(new Point(0.45, 0.35), "size")
         }
     }
 }

@@ -57,12 +57,12 @@ const MOVES:MovesDictionary =
     // expansion
     // most of these actions allow manipulating a battle to be about something OTHER than strengths => this allows the base game and expansion animals to interact
     [AnimalType.SNAKE]: { frame: 8, label: "Swinging Snake", desc: "<b>Lost all</b> earlier battles? I always lose. <b>Won all</b> earlier battles? I always win.", set: "zoo", type: ActionType.AUTO, color: "#fee119" },
-    [AnimalType.PEACOCK]: { frame: 9, label: "Pirouette Peacock", desc: "If the next battle has <b>no single winner</b>, <b>you are</b> the single winner.", set: "zoo", type: ActionType.AUTO, color: "#f031e6", dark: true },
+    [AnimalType.PEACOCK]: { frame: 9, label: "Pirouette Peacock", desc: "If the next battle has <b>no single winner</b>, <b>you are</b> the single winner.", set: "zoo", type: ActionType.AUTO, color: "#f031e6" },
     [AnimalType.BULL]: { frame: 10, label: "Bashing Bull", desc: "<b>Destroy</b> a card from an earlier battle.", set: "zoo", type: ActionType.CHOICE, color: "#45998f", dark: true },
-    [AnimalType.REDPANDA]: { frame: 11, label: "Rearpunch RedPanda", desc: "If my opponent is <b>strong</b> against me, <b>draw</b> one card from the deck <i>OR</i> an earlier battle.", set: "zoo", type: ActionType.CHOICE, color: "#800000", dark: true },
+    [AnimalType.REDPANDA]: { frame: 11, label: "Rearpunch RedPanda", desc: "If my opponent is <b>strong</b> against me, <b>draw</b> 1 card from deck <i>or</i> an earlier battle.", set: "zoo", type: ActionType.CHOICE, color: "#800000", dark: true },
     [AnimalType.CHAMELEON]: { frame: 12, label: "Crabbing Chameleon", desc: "<b>Copy</b> the action from a card in the previous battle.", set: "zoo", type: ActionType.AUTO, color: "#911eb4", dark: true },
     [AnimalType.HORSE]: { frame: 13, label: "Highkick Horse", desc: "If you've rolled all my strengths in earlier battles, I am strong against <b>everyone</b>.", set: "zoo", type: ActionType.AUTO, color: "#fffac7" },
-    [AnimalType.UNICORN]: { frame: 14, label: "Undercut Unicorn", desc: "If all your earlier animals are <b>different</b>, add my type as a <b>strength</b> to your later animals.", set: "zoo", type: ActionType.AUTO, color: "#fbbed5" },
+    [AnimalType.UNICORN]: { frame: 14, label: "Undercut Unicorn", desc: "All earlier animals are <b>different</b>? I'm a <b>strength</b> for your later animals.", set: "zoo", type: ActionType.AUTO, color: "#fbbed5" },
     [AnimalType.FROG]: { frame: 15, label: "Feinting Frog", desc: "If anyone rolled me in an <b>earlier battle</b>, I always <b>lose</b>.", set: "zoo", type: ActionType.AUTO, color: "#bfef44" },
 
     // dawndojo

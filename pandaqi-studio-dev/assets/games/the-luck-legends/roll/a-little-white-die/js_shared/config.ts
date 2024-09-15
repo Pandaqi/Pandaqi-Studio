@@ -6,9 +6,9 @@ const CONFIG:any =
 {
     debug:
     {
-        omitFile: true, // @DEBUGGING (should be false)
-        singleDrawPerType: true, // @DEBUGGING (should be false)
-        onlyGenerate: true, // @DEBUGGING (should be false)
+        omitFile: false, // @DEBUGGING (should be false)
+        singleDrawPerType: false, // @DEBUGGING (should be false)
+        onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
     configKey: "aLittleWhiteDieConfig",
@@ -75,8 +75,9 @@ const CONFIG:any =
         wildCardsNum: 9, 
 
         powerCardFreqDefault: 1,
+        maxPowerCards: 12,
         powerNumbers: new Bounds(7,9),
-        powerCardsPerNumber: 6,
+        powerCardsPerNumber: 4,
     },
 
     cards:
@@ -95,29 +96,34 @@ const CONFIG:any =
 
         bg:
         {
-            alpha: 0.1
+            alpha: 1.0
         },
 
         mainNumber:
         {
-            fontSize: new CVal(new Point(0.2), "sizeUnit"),
-            offset: new CVal(new Point(0, 0.33), "size"),
-            shadowOffset: new CVal(0.1, "cards.mainNumber.fontSize"),
-            strokeDarken: 50,
-            strokeWidth: new CVal(0.1, "cards.mainNumber.fontSize")
+            fontSize: new CVal(0.5, "sizeUnit"),
+            fontSizeSmall: new CVal(0.35, "sizeUnit"),
+            offset: new CVal(new Point(0, 0.275), "size"),
+            offsetSmall: new CVal(new Point(0,0.2), "size"),
+            shadowOffset: new CVal(new Point(0,0.03), "cards.mainNumber.fontSize"),
+            strokeDarken: 60,
+            strokeWidth: new CVal(0.0175, "cards.mainNumber.fontSize")
         },
 
         numbers:
         {
             wackyBoxDims: new CVal(new Point(0.2), "sizeUnit"),
-            offsetFromCenter: new CVal(new Point(0.3, 0.3), "size")
+            wackyBoxDotDims: new CVal(new Point(0.15), "sizeUnit"),
+            offsetFromCenter: new CVal(new Point(0.35, 0.4), "size"),
         },
 
         power:
         {
-            iconDims: new CVal(new Point(0.2), "sizeUnit"),
-            shadowOffset: new CVal(0.1, "cards.power.iconDims"),
-            textBoxDims: new CVal(new Point(0.7), "sizeUnit"),
+            offset: new CVal(new Point(0, 0.2), "size"),
+            fontSize: new CVal(0.06, "sizeUnit"),
+            iconDims: new CVal(new Point(0.175), "sizeUnit"),
+            shadowOffset: new CVal(0.06, "cards.power.iconDims"),
+            textBoxDims: new CVal(new Point(0.72), "sizeUnit"),
             textDims: new CVal(new Point(0.65, 0.4), "size")
         }
     },

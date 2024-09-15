@@ -12,6 +12,8 @@ import TextConfig from "js/pq_games/layout/text/textConfig";
 import getPositionsCenteredAround from "js/pq_games/tools/geometry/paths/getPositionsCenteredAround";
 import ResourceShape from "js/pq_games/layout/resources/resourceShape";
 import Circle from "js/pq_games/tools/geometry/circle";
+import Rectangle from "js/pq_games/tools/geometry/rectangle";
+import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
 
 export default class Card
 {
@@ -36,6 +38,12 @@ export default class Card
     getActionData()
     {
         return this.getData();
+    }
+
+    hasAction()
+    {
+        if(this.isRooster()) { return true; }
+        return this.getActionData().desc != "";
     }
 
     getRoosterActionData()
@@ -67,13 +75,13 @@ export default class Card
     async draw(vis:MaterialVisualizer)
     {
         const ctx = createContext({ size: vis.size });
-        fillCanvas(ctx, this.getTintColor(vis));
+        fillCanvas(ctx, "#FFFFFF");
 
         const group = new ResourceGroup();
         this.drawBackground(vis, group);
         this.drawMain(vis, group);
-        this.drawStrengths(vis, group);
         this.drawAction(vis, group);
+        this.drawStrengths(vis, group);
 
         group.toCanvas(ctx);
         return ctx.canvas;
@@ -81,8 +89,28 @@ export default class Card
 
     drawBackground(vis:MaterialVisualizer, group:ResourceGroup)
     {
-        // the bamboo at the bottom
         const resTemp = vis.getResource("card_templates");
+        if(vis.inkFriendly)
+        {
+            const opOutline = new LayoutOperation({
+                dims: vis.size,
+                frame: TEMPLATES.outline.frame,
+                alpha: 0.66,
+                effects: [new InvertEffect()]
+            })
+            group.add(resTemp, opOutline);
+            return;
+        }
+
+        // the colored bg rect
+        // (don't do this with fillCanvas, as then overlay effects and stuff don't work, because it's considered a different canvas/group)
+        const rect = new ResourceShape(new Rectangle().fromTopLeft(new Point(), vis.size));
+        const opRect = new LayoutOperation({
+            fill: this.getTintColor(vis)
+        });
+        group.add(rect, opRect);
+
+        // the bamboo at the bottom
         const opBamboo = new LayoutOperation({
             dims: vis.size,
             composite: "multiply",
@@ -111,7 +139,7 @@ export default class Card
         group.add(resTemp, opTexture);
 
         // border outline
-        const outlineEffects = this.isDark() ? [new InvertEffect()] : [];
+        const outlineEffects = this.isDark() ? [] : [new InvertEffect()];
         const opOutline = new LayoutOperation({
             dims: vis.size,
             composite: "overlay",
@@ -152,6 +180,7 @@ export default class Card
             translate: vis.get("cards.main.pos"),
             dims: vis.get("cards.main.dims"),
             pivot: Point.CENTER,
+            frame: this.getData().frame,
             effects: [vis.inkFriendlyEffect, shadowEffect].flat()
         })
         group.add(res, op);
@@ -161,6 +190,7 @@ export default class Card
     {
         if(this.strengths.length <= 0) { return; }
 
+        // some preparation numbers
         const textureKey = vis.get("cards.strengths.useSimplified") ? "animals_simplified" : "animals";
         const res = vis.getResource(textureKey);
         const resMisc = vis.getResource("misc");
@@ -168,19 +198,41 @@ export default class Card
         const dims = vis.get("cards.strengths.iconDims");
         const dimsAnimal = vis.get("cards.strengths.iconAnimalDims");
         const anchorOffset = vis.get("cards.strengths.anchorPos");
+        const textOffset = vis.get("cards.strengths.textPos");
         let anchorPos = anchorOffset;
+        let textPos = textOffset;
         if(vis.get("cards.strengths.placeAtBottom"))
         {
-            anchorPos = new Point(anchorOffset.x, vis.size.y - anchorOffset.y)
+            anchorPos = new Point(anchorOffset.x, vis.size.y - anchorOffset.y);
+            textPos = new Point(textOffset.x, vis.size.y - textOffset.y);
         }
 
+        // the small text label stating these are your strengths
+        const textConfigHeading = new TextConfig({
+            font: vis.get("fonts.heading"),
+            size: vis.get("cards.strengths.fontSize")
+        }).alignCenter();
+        const resTextHeading = new ResourceText({ text: "strengths", textConfig: textConfigHeading });
+        const opTextHeading = new LayoutOperation({
+            translate: textPos,
+            dims: new Point(vis.size.x, 2.0*textConfigHeading.size),
+            pivot: Point.CENTER,
+            fill: "#FFFFFF",
+            stroke: "#000000",
+            strokeWidth: 0.1*textConfigHeading.size,
+            strokeAlign: StrokeAlign.OUTSIDE
+        })
+        group.add(resTextHeading, opTextHeading);
+
+        // the actual list of strengths
         const positions = getPositionsCenteredAround({
             pos: anchorPos,
             dims: dims,
             num: this.strengths.length
         })
 
-        const effects = this.isDark() ? [] : [new InvertEffect()];
+        const shadowEffectBox = new DropShadowEffect({ color: "#000000", blur: vis.get("cards.strengths.shadowBlur") });
+        const effects = this.isDark() ? [shadowEffectBox] : [new InvertEffect(), shadowEffectBox];
         for(let i = 0; i < positions.length; i++)
         {
             const pos = positions[i];
@@ -206,13 +258,15 @@ export default class Card
             group.add(resMisc, opBox);
 
             // the animal itself
-            const shadowColor = this.isDark() ? "#000000" : "#FFFFFF";
+            const shadowColor = this.isDark(this.strengths[i]) ? "#000000" : "#FFFFFF";
             const shadowEffect = new DropShadowEffect({ color: shadowColor, blurRadius: vis.get("cards.strengths.shadowBlur") }); 
 
             const opAnimal = new LayoutOperation({
                 translate: pos,
                 dims: dimsAnimal,
-                effects: [vis.inkFriendlyEffect, shadowEffect].flat()
+                frame: MOVES[this.strengths[i]].frame,
+                effects: [vis.inkFriendlyEffect, shadowEffect].flat(),
+                pivot: Point.CENTER
             });
             group.add(res, opAnimal);
         }
@@ -231,7 +285,9 @@ export default class Card
             translate: posHeading,
             dims: vis.get("cards.action.heading.dims"),
             frame: MISC.heading_box.frame,
-            effects: effectsHeading
+            effects: effectsHeading,
+            alpha: vis.inkFriendly ? 0.8 : 1.0,
+            pivot: Point.CENTER
         })
         group.add(resMisc, opHeadingBox);
 
@@ -239,7 +295,7 @@ export default class Card
             font: vis.get("fonts.heading"),
             size: vis.get("cards.action.heading.fontSize")
         }).alignCenter();
-        const resTextHeading = new ResourceText({ text: this.animal, textConfig: textConfigHeading });
+        const resTextHeading = new ResourceText({ text: data.label, textConfig: textConfigHeading });
         const opTextHeading = new LayoutOperation({
             translate: opHeadingBox.translate,
             dims: opHeadingBox.dims,
@@ -248,32 +304,39 @@ export default class Card
         })
         group.add(resTextHeading, opTextHeading);
 
-        // add action (box + text)
-        const effects = this.isDark() ? [new InvertEffect()] : []; // precisely inverse from heading
-        const textColor = this.isDark() ? "#FFFFFF" : "#000000";
-        const opBox = new LayoutOperation({
-            translate: vis.get("cards.action.pos"),
-            dims: vis.get("cards.action.dims"),
-            frame: MISC.text_box.frame,
-            effects: effects,
-            composite: "overlay"
-        })
-        group.add(resMisc, opBox);
+        const fontSize = this.isRooster() ? vis.get("cards.action.fontSizeRooster") : vis.get("cards.action.fontSize");
+        if(this.hasAction())
+        {
+            // add action (box + text)
+            const effects = this.isDark() ? [new InvertEffect()] : []; // precisely inverse from heading
+            const textColor = this.isDark() ? "#FFFFFF" : "#000000";
+            const opBox = new LayoutOperation({
+                translate: vis.get("cards.action.pos"),
+                dims: vis.get("cards.action.dims"),
+                frame: MISC.text_box.frame,
+                effects: effects,
+                composite: "overlay",
+                alpha: vis.inkFriendly ? 0.8 : 1.0,
+                pivot: Point.CENTER
+            })
+            group.add(resMisc, opBox);
 
-        const textConfig = new TextConfig({
-            font: vis.get("fonts.body"),
-            size: vis.get("cards.action.fontSize")
-        }).alignCenter();
+            const textConfig = new TextConfig({
+                font: vis.get("fonts.body"),
+                size: fontSize
+            }).alignCenter();
 
-        const strMain = this.isRooster() ? this.getRoosterActionData().overall.desc : data.desc;
-        const resText = new ResourceText({ text: strMain, textConfig: textConfig });
-        const opText = new LayoutOperation({
-            translate: opBox.translate,
-            dims: opBox.dims,
-            pivot: Point.CENTER,
-            fill: textColor
-        })
-        group.add(resText, opText);
+            const strMain = this.isRooster() ? this.getRoosterActionData().overall.desc : data.desc;
+            const resText = new ResourceText({ text: strMain, textConfig: textConfig });
+            const opText = new LayoutOperation({
+                translate: vis.get("cards.action.posText"),
+                dims: vis.get("cards.action.textDims"),
+                pivot: Point.CENTER,
+                fill: textColor
+            })
+            group.add(resText, opText);
+        }
+
 
         // on Rooster cards, we push the HEADING to the bottom of the card
         // so we have space for two action texts above it
@@ -288,29 +351,30 @@ export default class Card
                 dims: vis.get("cards.action.dims"),
                 frame: MISC.text_box.frame,
                 effects: effects,
+                pivot: Point.CENTER,
                 composite: "overlay"
             })
             group.add(resMisc, opBox);
 
             const textConfig = new TextConfig({
                 font: vis.get("fonts.body"),
-                size: vis.get("cards.action.fontSize")
+                size: fontSize
             }).alignCenter();
 
-            const strSub = "<i>Rooster Change</i>:" + this.getRoosterActionData().action.desc;
+            const strSub = "<i>Rooster Change</i>: " + this.getRoosterActionData().action.desc;
             const resText = new ResourceText({ text: strSub, textConfig: textConfig });
             const opText = new LayoutOperation({
-                translate: opBox.translate,
-                dims: opBox.dims,
+                translate: vis.get("cards.action.textPosRooster"),
+                dims: vis.get("cards.action.textDims"),
                 pivot: Point.CENTER,
-                fill: textColor
+                fill: textColor,
             })
             group.add(resText, opText);
 
             // place dawn icon to the side of heading
             const opDawnIcon = new LayoutOperation({
-                translate: new Point(0.1*vis.size.x, posHeading.y),
-                dims: new Point(textConfigHeading.size),
+                translate: new Point(0.15*vis.size.x, posHeading.y),
+                dims: new Point(1.5*textConfigHeading.size),
                 pivot: Point.CENTER,
                 frame: MISC.sun_icon.frame,
             })

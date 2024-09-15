@@ -46,6 +46,8 @@ export default class CardPicker
 
     generateContracts(set:string)
     {
+        const numContracts = CONFIG.generation.contractsNumPerSet[set] ?? CONFIG.generation.contractsNumDefault;
+
         // prepare the rewards/penalties in a balanced way
         const rewardNums = [];
         let totalRewards = 0;
@@ -53,7 +55,7 @@ export default class CardPicker
         let dist:Record<number, number> = CONFIG.generation.contractRewardDist;
         for(const [num,freqRaw] of Object.entries(dist))
         {
-            const freq = Math.ceil(freqRaw * parseInt(num));
+            const freq = Math.ceil(freqRaw * parseInt(num) * numContracts);
             totalRewards += freq;
             for(let i = 0; i < freq; i++)
             {
@@ -68,7 +70,7 @@ export default class CardPicker
         dist = CONFIG.generation.contractPenaltyDist;
         for(const [num,freqRaw] of Object.entries(dist))
         {
-            const freq = Math.ceil(freqRaw * parseInt(num));
+            const freq = Math.ceil(freqRaw * parseInt(num) * numContracts);
             totalPenalties += freq;
             for(let i = 0; i < freq; i++)
             {
@@ -91,9 +93,9 @@ export default class CardPicker
         shuffle(penalties);
 
         // then actually create them
-        const num = CONFIG.generation.contractsNumPerSet[set] ?? CONFIG.generation.contractsNumDefault;
+        
         const possibleTypes = CONFIG.generation.contractTypesPerSet[set] ?? CONFIG.generation.contractTypesDefault;
-        for(let i = 0; i < num; i++)
+        for(let i = 0; i < numContracts; i++)
         {
             let c:Contract
             do {
@@ -102,8 +104,6 @@ export default class CardPicker
 
             const newCard = new Card(CardType.CONTRACT);
             newCard.setContract(c);
-
-            console.log(c.toString(), c.getStars());
 
             const reward = rewards.splice(0, rewardNums.pop());
             const penalty = penalties.splice(0, penaltyNums.pop());

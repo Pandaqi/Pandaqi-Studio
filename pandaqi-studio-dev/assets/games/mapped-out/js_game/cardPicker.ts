@@ -1,6 +1,6 @@
 import fromArray from "js/pq_games/tools/random/fromArray";
 import CONFIG from "../js_shared/config";
-import { CardMovement, CardType, MOVEMENT_SPECIAL } from "../js_shared/dict";
+import { CardMovement, CardType, MOVEMENT_CARDS, MOVEMENT_SPECIAL } from "../js_shared/dict";
 import Card from "./card";
 
 export default class CardPicker
@@ -23,7 +23,6 @@ export default class CardPicker
         if(!CONFIG.sets.base) { return; }
 
         this.generateMovementCards(CONFIG.generation.movementCardNumBase, CONFIG.generation.movementCardDistBase);
-        this.generatePawns();
     }
 
     generateUnclearInstructions()
@@ -39,24 +38,14 @@ export default class CardPicker
         for(const [key,freqRaw] of Object.entries(dist))
         {
             const freq = Math.ceil(freqRaw * targetNum);
+            const data = MOVEMENT_CARDS[key];
             for(let i = 0; i < freq; i++)
             {
                 const newCard = new Card(CardType.MOVEMENT);
                 newCard.typeMovement = key as CardMovement;
-                newCard.specialAction = addSpecial ? fromArray(possibleActions) : "";
+                newCard.specialAction = (addSpecial && data.canHaveSpecial) ? fromArray(possibleActions) : "";
                 this.cards.push(newCard);
             }
-        }
-    }
-
-    generatePawns()
-    {
-        // @NOTE: two pawns per card, hence 3
-        for(let i = 0; i < 3; i++)
-        {
-            const newCard = new Card(CardType.PAWN);
-            newCard.pawnIndex = i;
-            this.cards.push(newCard);
         }
     }
 }

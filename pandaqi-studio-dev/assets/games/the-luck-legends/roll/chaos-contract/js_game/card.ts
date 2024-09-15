@@ -17,6 +17,7 @@ import Point from "js/pq_games/tools/geometry/point";
 import getRectangleCornersWithOffset from "js/pq_games/tools/geometry/paths/getRectangleCornersWithOffset";
 import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
 import getPositionsCenteredAround from "js/pq_games/tools/geometry/paths/getPositionsCenteredAround";
+import GlowEffect from "js/pq_games/layout/effects/glowEffect";
 
 export default class Card
 {
@@ -95,7 +96,7 @@ export default class Card
     async draw(vis:MaterialVisualizer)
     {
         const ctx = createContext({ size: vis.size });
-        fillCanvas(ctx, this.getBackgroundColor(vis));
+        fillCanvas(ctx, "#FFFFFF");
 
         const group = new ResourceGroup();
         if(this.type == CardType.DICE) {
@@ -120,27 +121,36 @@ export default class Card
 
     drawBackground(vis:MaterialVisualizer, group:ResourceGroup)
     {
-        // the main texture
         const resTemp = vis.getResource("card_templates");
-        const opTexture = new LayoutOperation({
-            dims: vis.size,
-            frame: this.isWildCard() ? TEMPLATES.texture_wildcard.frame : TEMPLATES.texture.frame,
-            composite: this.isWildCard() ? "luminosity" : "overlay",
-            alpha: vis.get("cards.bg.textureAlpha")
-        })
-        group.add(resTemp, opTexture);
-
-        // subtle gradient
-        if(!this.isWildCard())
+        if(!vis.inkFriendly)
         {
-            const opGrad = new LayoutOperation({
-                dims: vis.size,
-                frame: TEMPLATES.gradient.frame,
-                composite: "overlay"
+            // the main texture
+            const rect = new ResourceShape(new Rectangle().fromTopLeft(new Point(), vis.size));
+            const opRect = new LayoutOperation({
+                fill: this.getBackgroundColor(vis)
             });
-            group.add(resTemp, opGrad);
-        }
+            group.add(rect, opRect);
 
+            const opTexture = new LayoutOperation({
+                dims: vis.size,
+                frame: this.isWildCard() ? TEMPLATES.texture_wildcard.frame : TEMPLATES.texture.frame,
+                composite: this.isWildCard() ? "luminosity" : "overlay",
+                alpha: vis.get("cards.bg.textureAlpha")
+            })
+            group.add(resTemp, opTexture);
+
+            // subtle gradient
+            if(!this.isWildCard())
+            {
+                const opGrad = new LayoutOperation({
+                    dims: vis.size,
+                    frame: TEMPLATES.gradient.frame,
+                    composite: "overlay"
+                });
+                group.add(resTemp, opGrad);
+            }
+        }
+        
         // outline (tinted)
         const col = this.getTintColor(vis);
         const opOutline = new LayoutOperation({
@@ -200,8 +210,8 @@ export default class Card
             size: fontSize
         }).alignCenter();
 
-        const shadowColor = this.isWildCard() ? "#000000" : "#FFFFFF";
-        const mainEffects = [new DropShadowEffect({ color: shadowColor, blurRadius: vis.get("cards.mainNumber.glowBlur") })]
+        const shadowColor = this.isWildCard() ? "#000000" : "#ffffff";
+        const mainEffects = vis.inkFriendly ? [] : [new GlowEffect({ color: shadowColor, blur: vis.get("cards.mainNumber.glowBlur") })]
 
         const anchorPos = vis.get("cards.mainNumber.pos");
         let positionsMain = [anchorPos]; 
@@ -216,7 +226,7 @@ export default class Card
 
         for(let i = 0; i < positionsMain.length; i++)
         {
-            const resText = new ResourceText({ text: numbers[i], textConfig: textConfig });
+            const resText = new ResourceText({ text: numbers[i], textConfig: textConfigMain });
             const opText = new LayoutOperation({
                 translate: positionsMain[i],
                 dims: new Point(2.0 * textConfigMain.size),
@@ -234,27 +244,32 @@ export default class Card
             font: vis.get("fonts.body"),
             size: vis.get("cards.metadata.fontSize")
         }).alignCenter();
+        const textColor = (this.isWildCard() && !vis.inkFriendly) ? "#FFFFFF" : "#000000";
 
         // create a subgroup with the right text and distances
         const subGroup = new ResourceGroup();
         
-        const resTextNum = new ResourceText({ text: this.getNumberData().label, textConfig: textConfig });
+        const label = this.isWildCard() ? "Wildcard" : this.getNumberData().label;
+        const resTextNum = new ResourceText({ text: label, textConfig: textConfig });
         const opTextNum = new LayoutOperation({
             translate: vis.get("cards.metadata.numberPos"), // this is relative to center of subgroup, not card
             dims: new Point(vis.size.x, 2.0 * textConfig.size),
             pivot: Point.CENTER,
-            fill: "#000000"
+            fill: textColor
         })
         subGroup.add(resTextNum, opTextNum);
 
-        const resTextAction = new ResourceText({ text: CARD_ACTIONS[this.action].label, textConfig: textConfig });
-        const opTextAction = new LayoutOperation({
-            translate: vis.get("cards.metadata.actionPos"),
-            dims: new Point(vis.size.x, 2.0 * textConfig.size),
-            pivot: Point.CENTER,
-            fill: "#000000"
-        })
-        subGroup.add(resTextAction, opTextAction);
+        if(this.hasAction())
+        {
+            const resTextAction = new ResourceText({ text: CARD_ACTIONS[this.action].label, textConfig: textConfig });
+            const opTextAction = new LayoutOperation({
+                translate: vis.get("cards.metadata.actionPos"),
+                dims: new Point(vis.size.x, 2.0 * textConfig.size),
+                pivot: Point.CENTER,
+                fill: textColor
+            })
+            subGroup.add(resTextAction, opTextAction);
+        }
 
         // then add this subgroup twice, rotated along edge of card
         const op1 = new LayoutOperation({
@@ -272,19 +287,23 @@ export default class Card
 
     drawAction(vis:MaterialVisualizer, group:ResourceGroup)
     {
-        if(this.isSpecialType()) { return; }
+        if(!this.hasAction()) { return; }
 
         // draw blurry rectangle behind text (for contrast)
-        const resRect = new ResourceShape(new Rectangle({ 
-            center: vis.get("cards.action.textBoxPos"),
-            extents: vis.get("cards.action.textBoxDims")
-        }));
-        const opRect = new LayoutOperation({
-            fill: "#000000",
-            composite: "color-burn",
-            effects: [new BlurEffect(vis.get("cards.action.textBoxBlur"))]
-        })
-        group.add(resRect, opRect);
+        if(!vis.inkFriendly)
+        {
+            const resRect = new ResourceShape(new Rectangle({ 
+                center: vis.get("cards.action.textBoxPos"),
+                extents: vis.get("cards.action.textBoxDims")
+            }));
+            const opRect = new LayoutOperation({
+                fill: "#000000",
+                composite: this.isWildCard() ? "luminosity" : "color-burn",
+                effects: [new BlurEffect(vis.get("cards.action.textBoxBlur"))],
+                alpha: this.isWildCard() ? 0.66 : 0.5
+            })
+            group.add(resRect, opRect);
+        }
 
         // draw the actual text
         const textConfig = new TextConfig({
@@ -296,7 +315,8 @@ export default class Card
             translate: vis.get("cards.action.textBoxPos"),
             dims: vis.get("cards.action.textDims"),
             pivot: Point.CENTER,
-            fill: vis.get("cards.action.textColor")
+            fill: vis.inkFriendly ? "#111111" : vis.get("cards.action.textColor"),
+            effects: [new GlowEffect({ color: "#ffffff77", blur: 0.5*vis.get("cards.mainNumber.glowBlur") })]
         })
         group.add(resText, opText);
     }
@@ -307,7 +327,8 @@ export default class Card
         const resTemp = vis.getResource("card_templates");
         const opTemp = new LayoutOperation({
             dims: vis.size,
-            frame: TEMPLATES.contract.frame
+            frame: TEMPLATES.contract.frame,
+            effects: vis.inkFriendlyEffect
         });
         group.add(resTemp, opTemp);
 
@@ -316,8 +337,6 @@ export default class Card
             size: vis.get("cards.contract.fontSize")
         }).alignCenter();
         const textDims = vis.get("cards.contract.textDims");
-
-        // @TODO: draw written number + action name on the edges => new function for that?
 
         // display the three main parts of a contract
         const positions = [
@@ -409,7 +428,7 @@ export default class Card
         }
 
         // display turnout icon
-        if(this.contract.type == ContractType.BATTLE)
+        if(this.contract.type == ContractType.FORCED)
         {
             const posTurnout = getPositionsCenteredAround({
                 pos: vis.get("cards.contract.turnoutIconPos"),
@@ -423,7 +442,7 @@ export default class Card
                     translate: pos,
                     dims: starDims,
                     pivot: Point.CENTER,
-                    frame: MISC.turnout_icon.frame,
+                    frame: MISC.forced_icon.frame,
                     alpha: starAlpha,
                 });
                 group.add(resMisc, opTurnoutIcon);

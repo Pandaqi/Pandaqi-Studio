@@ -6,9 +6,9 @@ const CONFIG:any =
 {
     debug:
     {
-        omitFile: true, // @DEBUGGING (should be false)
-        singleDrawPerType: true, // @DEBUGGING (should be false)
-        onlyGenerate: true, // @DEBUGGING (should be false)
+        omitFile: false, // @DEBUGGING (should be false)
+        singleDrawPerType: false, // @DEBUGGING (should be false)
+        onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
     configKey: "chaosContractConfig",
@@ -65,10 +65,10 @@ const CONFIG:any =
 
     generation:
     {
-        contractsNumDefault: 30,
+        contractsNumDefault: 32,
         contractsNumPerSet:
         {
-            base: 40,
+            base: 32,
             lost: 20
         },
         
@@ -80,11 +80,11 @@ const CONFIG:any =
         },
 
         // these are the regular dice/number cards, not contracts
-        cardsNumDefault: 40,
+        cardsNumDefault: 32,
         cardsNumPerSet:
         {
-            base: 40,
-            devilish: 20
+            base: 32,
+            devilish: 28
         },
 
         cardsPossibleDefault: [1,2,3,4,5,6],
@@ -101,8 +101,8 @@ const CONFIG:any =
             devilish: 0.75
         },
 
-        wildCardPercentage: 0.15,
-        duoNumberPercentage: 0.25,
+        wildcardPercentage: 0.225,
+        duoNumberPercentage: 0.33,
 
         contractResultTypeDist:
         {
@@ -150,69 +150,69 @@ const CONFIG:any =
 
         outline:
         {
-            darken: 66
+            darken: 45
         },
 
         numbers:
         {
-            fontSize: new CVal(0.1, "sizeUnit"),
-            offset: new CVal(new Point(0.1), "sizeUnit")
+            fontSize: new CVal(0.15, "sizeUnit"),
+            offset: new CVal(new Point(0.075, 0.1), "sizeUnit")
         },
 
         mainNumber:
         {
-            fontSize: new CVal(0.25, "sizeUnit"),
+            fontSize: new CVal(0.6, "sizeUnit"),
             pos: new CVal(new Point(0.5, 0.33), "size"),
-            glowBlur: new CVal(0.1, "cards.mainNumber.fontSize")
+            glowBlur: new CVal(0.05, "cards.mainNumber.fontSize")
         },
 
         action:
         {
-            fontSize: new CVal(0.08, "sizeUnit"),
+            fontSize: new CVal(0.0735, "sizeUnit"),
             textColor: "#FFFFFF",
             textBoxPos: new CVal(new Point(0.5, 0.75), "size"),
             textBoxDims: new CVal(new Point(0.8, 0.25), "size"),
-            textDims: new CVal(new Point(0.7, 0.2), "size"),
-            textBoxBlur: new CVal(0.15, "cards.action.fontSize")
+            textDims: new CVal(new Point(0.7, 0.33), "size"),
+            textBoxBlur: new CVal(0.35, "cards.action.fontSize")
         },
 
         metadata:
         {
-            fontSize: new CVal(0.06, "sizeUnit"),
-            numberPos: new CVal(new Point(-0.33, 0), "sizeUnit") ,
-            actionPos: new CVal(new Point(0.33, 0), "sizeUnit"),
-            anchorPos1: new CVal(new Point(0.1, 0.5), "size"),
-            anchorPos2: new CVal(new Point(0.9, 0.5), "size"), // x-pos here must be 1.0-anchorPos1.x
+            fontSize: new CVal(0.05, "sizeUnit"),
+            numberPos: new CVal(new Point(-0.3, 0), "sizeUnit") ,
+            actionPos: new CVal(new Point(0.3, 0), "sizeUnit"),
+            anchorPos1: new CVal(new Point(0.066, 0.5), "size"),
+            anchorPos2: new CVal(new Point(0.94, 0.5), "size"), // x-pos here must be 1.0-anchorPos1.x
         },
 
         contract:
         {
-            fontSize: new CVal(0.08, "sizeUnit"),
-            textDims: new CVal(new Point(0.75, 0.33), "size"),
+            fontSize: new CVal(0.07, "sizeUnit"),
+            textDims: new CVal(new Point(0.725, 0.33), "size"),
 
             sections:
             {
-                posDo: new CVal(new Point(0.6, 0.33), "size"),
-                posTest: new CVal(new Point(0.6, 0.55), "size"),
-                posSpecial: new CVal(new Point(0.6, 0.75), "size"),
+                posDo: new CVal(new Point(0.6, 0.225), "size"),
+                posTest: new CVal(new Point(0.6, 0.575), "size"),
+                posSpecial: new CVal(new Point(0.6, 0.8475), "size"),
             },
 
             rewards:
             {
-                posReward: new CVal(new Point(0.075, 0.33), "size"),
-                posPenalty: new CVal(new Point(0.075, 0.66), "size"),
+                posReward: new CVal(new Point(0.065, 0.25), "size"),
+                posPenalty: new CVal(new Point(0.065, 0.75), "size"),
                 iconDims: new CVal(new Point(0.1), "sizeUnit")
             },
 
             stars:
             {
                 dims: new CVal(new Point(0.05), "sizeUnit"),
-                pos: new CVal(new Point(0.25, 0.15), "size"),
-                alpha: 0.75
+                pos: new CVal(new Point(0.2, 0.125), "size"),
+                alpha: 0.66
             },
 
-            turnoutIconPos: new CVal(new Point(0.25, 0.35), "size"), // x-pos of this must be equal to stars-x
-            battleIconPos: new CVal(new Point(0.25, 0.65), "size"), // x-pos of this must be equal to stars-x
+            turnoutIconPos: new CVal(new Point(0.2, 0.385), "size"), // x-pos of this must be equal to stars-x
+            battleIconPos: new CVal(new Point(0.2, 0.615), "size"), // x-pos of this must be equal to stars-x
         }
 
 

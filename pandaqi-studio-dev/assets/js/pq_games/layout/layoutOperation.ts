@@ -379,6 +379,7 @@ export default class LayoutOperation
         ctx.filter = effOp.getFilterString();
         ctx.globalCompositeOperation = this.composite;
         ctx.globalAlpha = this.alpha;
+        effOp.setShadowProperties(ctx);
         if(this.clip) { ctx.clip(this.clip.toPath2D()); }
 
         // @TODO: this is entirely untested and needs to be worked on

@@ -87,6 +87,12 @@ Finally, the loser of a round _may_ decide to swap another card for a wildcard (
 
 This expansion adds more material: Power Cards and numbers greater than 6.
 
+During setup, create piles (of regular and power cards combined) per number (1 through 6), then give each player 1 of each. This ensures power cards are in the game, but they're distributed randomly and you don't know who has them.
+
+{{% remark %}}
+It's fine to only include a few power cards---not all---if your group thinks there are too many special actions.
+{{% /remark %}}
+
 How do Power Cards work?
 
 * On your turn to guess, if you rolled a power card, you _may_ trigger its action. (Each card can only be triggered once per round.)
@@ -100,11 +106,11 @@ Additionally, you can now **guess** _how many Power Cards_ you think there are.
 For example, 
 
 * Say the previous player guessed "Number 3 appears 6 times". 
-* The highest number in that bid is 6. 
-* Divided by 2, it's 3. 
+* The highest number in that bid is 6. Divided by 2, it's 3. 
 * As such, you can guess "X Power Cards", as long as X is greater than 3.
 
-The extra high numbers are included because some of the powers **add an extra number**. If triggered, all players still in play add 1 card of the next highest number to their deck, as long as the material lasts.
+The extra high numbers are included because some of the powers **add an extra number**. If triggered, all players still in play add 1 card of the next highest number to their deck. If there aren't enough cards for all players, the active player (who triggered this action) decides who gets the extra card.
+
 
 @TODO: IMAGE EXAMPLE
 

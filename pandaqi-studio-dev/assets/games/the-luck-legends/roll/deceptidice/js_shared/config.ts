@@ -8,9 +8,9 @@ const CONFIG:any =
 {
     debug:
     {
-        omitFile: true, // @DEBUGGING (should be false)
-        singleDrawPerType: true, // @DEBUGGING (should be false)
-        onlyGenerate: true, // @DEBUGGING (should be false)
+        omitFile: false, // @DEBUGGING (should be false)
+        singleDrawPerType: false, // @DEBUGGING (should be false)
+        onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
     configKey: "deceptidiceConfig",
@@ -137,28 +137,32 @@ const CONFIG:any =
 
         numbers:
         {
-            offset: new CVal(new Point(0.1), "sizeUnit"),
-            boxDims: new CVal(new Point(0.1), "sizeUnit"),
-            fontSize: new CVal(0.1, "sizeUnit")
+            offset: new CVal(new Point(0.13, 0.14), "sizeUnit"),
+            boxDims: new CVal(new Point(0.2), "sizeUnit"),
+            suitDims: new CVal(new Point(0.15), "sizeUnit"),
+            fontSize: new CVal(0.15, "sizeUnit")
         },
 
         mainNumber:
         {
             circleDims: new CVal(new Point(0.5), "sizeUnit"), // this is only the inner circle, not the numbers
-            circleRadius: new CVal(0.66, "sizeUnit"),
-            fontSize: new CVal(0.25, "sizeUnit"),
-            shadowOffset: new CVal(0.1, "cards.mainNumber.fontSize")
+            circleRadius: new CVal(0.341, "sizeUnit"), // this is the numbers
+            fontSize: new CVal(0.275, "sizeUnit"),
+            shadowOffset: new CVal(new Point(0, 0.033), "cards.mainNumber.fontSize")
         },
 
         bids:
         {
-            headingOffset: new CVal(new Point(0.2, 0.1), "size"),
+            bgColor: "#787878",
+            tintColor: "#ffffff",
+
+            headingOffset: new CVal(new Point(0.575, 0.1), "size"),
             fontSizeHeading: new CVal(0.1, "sizeUnit"),
             headingDims: new CVal(new Point(1.0, 0.1), "size"),
-            iconPos: new CVal(new Point(0.5, 0.3), "size"),
-            iconDims: new CVal(new Point(0.4), "sizeUnit"),
-            fontSize: new CVal(0.06, "sizeUnit"),
-            textPos: new CVal(new Point(0.5, 0.6), "size"),
+            iconPos: new CVal(new Point(0.5, 0.375), "size"),
+            iconDims: new CVal(new Point(0.475), "sizeUnit"),
+            fontSize: new CVal(0.0785, "sizeUnit"),
+            textPos: new CVal(new Point(0.5, 0.7), "size"),
             textDims: new CVal(new Point(0.8, 0.4), "size")
         },
 

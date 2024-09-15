@@ -6,9 +6,9 @@ const CONFIG:any =
 {
     debug:
     {
-        omitFile: true, // @DEBUGGING (should be false)
-        singleDrawPerType: true, // @DEBUGGING (should be false)
-        onlyGenerate: true, // @DEBUGGING (should be false)
+        omitFile: false, // @DEBUGGING (should be false)
+        singleDrawPerType: false, // @DEBUGGING (should be false)
+        onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
     configKey: "tossingTigerRollingDragonConfig",
@@ -156,35 +156,42 @@ const CONFIG:any =
         main:
         {
             useSimplified: false,
-            pos: new CVal(new Point(0.5, 0.4), "size"),
-            dims: new CVal(new Point(0.5), "sizeUnit"),
-            shadowBlur: new CVal(0.05, "sizeUnit"),
+            pos: new CVal(new Point(0.5, 0.285), "size"),
+            dims: new CVal(new Point(0.65), "sizeUnit"),
+            shadowBlur: new CVal(0.01, "sizeUnit"),
         },
 
         strengths:
         {
-            useSimplified: false,
-            iconDims: new CVal(new Point(0.15), "sizeUnit"),
-            iconAnimalDims: new CVal(new Point(0.1), "sizeUnit"),
-            anchorPos: new CVal(new Point(0.5, 0.15), "size"),
+            useSimplified: true,
+            iconDims: new CVal(new Point(0.17), "sizeUnit"),
+            iconAnimalDims: new CVal(new Point(0.08), "sizeUnit"),
+            anchorPos: new CVal(new Point(0.5, 0.1), "size"),
             placeAtBottom: true,
-            shadowBlur: new CVal(0.01, "sizeUnit")
+            shadowBlur: new CVal(0.0075, "sizeUnit"),
+
+            fontSize: new CVal(0.038, "sizeUnit"),
+            textPos: new CVal(new Point(0.5, 0.02), "size")
         },
 
         action:
         {
             heading:
             {
-                fontSize: new CVal(0.15, "sizeUnit"),
-                pos: new CVal(new Point(0.5, 0.5), "size"),
-                dims: new CVal(new Point(0.8), "size"),
-                posRooster: new CVal(new Point(0.5, 0.9), "size"),
+                fontSize: new CVal(0.08, "sizeUnit"),
+                pos: new CVal(new Point(0.5, 0.6), "size"),
+                dims: new CVal(new Point(0.85), "sizeUnit"),
+                posRooster: new CVal(new Point(0.5, 0.92), "size"),
             },
 
-            fontSize: new CVal(0.1, "sizeUnit"),
-            pos: new CVal(new Point(0.5, 0.75), "size"),
-            posRooster: new CVal(new Point(0.5, 0.45), "size"), // for the EXTRA box on rooster cards
-            dims: new CVal(new Point(0.8), "size")
+            fontSize: new CVal(0.0615, "sizeUnit"),
+            fontSizeRooster: new CVal(0.05, "sizeUnit"),
+            pos: new CVal(new Point(0.5, 0.73), "size"),
+            posText: new CVal(new Point(0.5, 0.75), "size"),
+            posRooster: new CVal(new Point(0.5, 0.52), "size"), // for the EXTRA box on rooster cards
+            textPosRooster: new CVal(new Point(0.5, 0.532), "size"),
+            dims: new CVal(new Point(0.9), "sizeUnit"),
+            textDims: new CVal(new Point(0.775), "sizeUnit")
         }
     },
 }

@@ -15,8 +15,8 @@ export default class Card
 {
     num:number;
     health:number;
-    keys:string[];
-    actions:string[];
+    keys:string[]; // these are the original KEYS for the actions
+    actions:string[]; // these are the FINAL STRINGS
     shield:boolean;
     arrowRight:boolean;
 
@@ -40,6 +40,8 @@ export default class Card
         this.actions = [];
         for(const key of this.keys)
         {
+            if(key == "no_action") { this.actions.push(""); continue; }
+
             const data = ACTIONS[key];
             let desc = data.desc;
             for(const [needle,options] of Object.entries(ACTION_REPLACEMENTS))
@@ -48,7 +50,7 @@ export default class Card
             }
 
             const prefix = ACTION_PREFIXES[data.type ?? ActionType.STOPPED];
-            this.actions.push("<b>" + prefix + "</b>: " + desc);
+            this.actions.push("<b>" + prefix + "</b> " + desc);
 
             if(data.shield) { this.shield = true; }
         }
@@ -61,7 +63,8 @@ export default class Card
 
     getShadowEffect(vis:MaterialVisualizer)
     {
-        return new DropShadowEffect({ color: "#000000", offset: vis.get("cards.shared.shadowOffset") });
+        if(vis.inkFriendly) { return []; }
+        return new DropShadowEffect({ color: "#999999", offset: vis.get("cards.shared.shadowOffset") });
     }
 
     async draw(vis:MaterialVisualizer)
@@ -81,26 +84,34 @@ export default class Card
     drawBackground(vis:MaterialVisualizer, group:ResourceGroup)
     {
         // the scribbly background texture
-        const res = vis.getResource("card_templates");
-        const op = new LayoutOperation({
-            dims: vis.size
-        })
-        group.add(res, op);
+        if(!vis.inkFriendly)
+        {
+            const res = vis.getResource("card_templates");
+            const op = new LayoutOperation({
+                dims: vis.size,
+                alpha: vis.get("cards.bg.alpha")
+            })
+            group.add(res, op);
+        }
 
         // the arrow (only used in variant/expansion) at left or right
-        const arrowPos = this.arrowRight ? vis.get("cards.power.shieldPos") : vis.get("cards.power.unseenPos");
-        const arrowDims = vis.get("cards.arrow.dims");
-        const opArrow = new LayoutOperation({
-            translate: arrowPos,
-            rotation: this.arrowRight ? 0 : Math.PI,
-            dims: arrowDims,
-            pivot: Point.CENTER,
-            frame: MISC.arrow.frame,
-            composite: vis.get("cards.arrow.composite"),
-            alpha: vis.get("cards.arrow.alpha")
-        });
-        const resMisc = vis.getResource("misc");
-        group.add(resMisc, opArrow);
+        const placeArrow = !this.shield && !this.isUnseen();
+        if(placeArrow)
+        {
+            const arrowPos = this.arrowRight ? vis.get("cards.power.shieldPos") : vis.get("cards.power.unseenPos");
+            const arrowDims = vis.get("cards.arrow.dims");
+            const opArrow = new LayoutOperation({
+                translate: arrowPos,
+                rotation: this.arrowRight ? 0 : Math.PI,
+                dims: arrowDims,
+                pivot: Point.CENTER,
+                frame: MISC.arrow.frame,
+                composite: vis.get("cards.arrow.composite"),
+                alpha: vis.get("cards.arrow.alpha")
+            });
+            const resMisc = vis.getResource("misc");
+            group.add(resMisc, opArrow);
+        }
     }
 
     drawNumbers(vis:MaterialVisualizer, group:ResourceGroup)
@@ -116,6 +127,7 @@ export default class Card
         }).alignCenter();
 
         // number box + number
+        const textInBoxOffset = vis.get("cards.numbers.textInBoxOffset");
         const opNumberBox = new LayoutOperation({
             translate: offset,
             dims: dims,
@@ -127,7 +139,7 @@ export default class Card
 
         const resTextNumber = new ResourceText({ text: this.num.toString(), textConfig: textConfig });
         const opTextNumber = new LayoutOperation({
-            translate: opNumberBox.translate,
+            translate: opNumberBox.translate.clone().sub(textInBoxOffset),
             dims: dims,
             pivot: Point.CENTER,
             fill: "#FFFFFF",
@@ -143,19 +155,19 @@ export default class Card
             dims: dims,
             pivot: Point.CENTER,
             frame: MISC.health_box.frame,
+            effects: [vis.inkFriendlyEffect, this.getShadowEffect(vis)].flat()
         })
         group.add(resMisc, opHealthBox);
 
-        const resTextHealth = new ResourceText({ text: this.num.toString(), textConfig: textConfig });
+        const resTextHealth = new ResourceText({ text: this.health.toString(), textConfig: textConfig });
         const opTextHealth = new LayoutOperation({
-            translate: opHealthBox.translate,
+            translate: opHealthBox.translate.clone().add(new Point(textInBoxOffset.x, -textInBoxOffset.y)),
             dims: dims,
             pivot: Point.CENTER,
             fill: "#FFFFFF",
             stroke: "#222222",
             strokeWidth: strokeWidth,
             strokeAlign: StrokeAlign.OUTSIDE,
-            effects: [vis.inkFriendlyEffect, this.getShadowEffect(vis)].flat()
         })
         group.add(resTextHealth, opTextHealth);
 
@@ -165,14 +177,14 @@ export default class Card
             size: vis.get("cards.mainNumber.fontSize")
         }).alignCenter();
 
-        const resText= new ResourceText({ text: this.num.toString(), textConfig: textConfigMain });
+        const resText = new ResourceText({ text: this.num.toString(), textConfig: textConfigMain });
         const opText = new LayoutOperation({
             translate: vis.get("cards.mainNumber.pos"),
             dims: new Point(1.5 * textConfigMain.size),
             pivot: Point.CENTER,
             fill: "#000000",
             stroke: "#FFFFFF",
-            strokeWidth: strokeWidth,
+            strokeWidth: vis.get("cards.mainNumber.strokeWidth"),
             strokeAlign: StrokeAlign.OUTSIDE
         })
         group.add(resText, opText);
@@ -195,10 +207,10 @@ export default class Card
                 font: vis.get("fonts.body"),
                 size: vis.get("cards.mainNumber.written.fontSize")
             }).alignCenter();
-            const resTextWritten = new ResourceText({ text: NUMBERS_WRITTEN[this.num], textConfig: textConfigWritten });
+            const resTextWritten = new ResourceText({ text: NUMBERS_WRITTEN[this.num+1], textConfig: textConfigWritten });
             const opTextWritten = new LayoutOperation({
                 translate: vis.get("cards.mainNumber.written.pos"),
-                dims: new Point(1.5 * textConfigWritten.size),
+                dims: new Point(vis.size.x, 1.5 * textConfigWritten.size),
                 pivot: Point.CENTER,
                 fill: "#000000",
             })
@@ -238,7 +250,7 @@ export default class Card
 
         // the icons for the actions
         // (just duplicate the same one if we have a single action; otherwise use both different ones)
-        const actionsCopy = this.actions.slice();
+        const actionsCopy = this.keys.slice();
         if(actionsCopy.length <= 1) { actionsCopy.push(actionsCopy[0]); }
         const resActions = vis.getResource("actions");
         const actionOffset = vis.get("cards.power.iconOffset");

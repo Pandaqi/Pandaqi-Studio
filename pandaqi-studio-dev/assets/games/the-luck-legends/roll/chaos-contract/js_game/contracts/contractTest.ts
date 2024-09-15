@@ -50,7 +50,7 @@ export default class ContractTest extends ContractPart
     {
         let strNum = CONTRACT_TEST_NUMBER[this.number].desc;
         if(strNum.length > 0) { strNum = " <col hex=\"#8661de\">" + strNum + "</col>"; }
-        return "<col hex=\"#a66a4f\">" + CONTRACT_TEST_WHAT[this.what].desc + "</b> must be <col hex=\"#ca5353\">" + CONTRACT_TEST_COMPARE[this.compare].desc + "</col>" + strNum  + ".";
+        return "<col hex=\"#a66a4f\">" + CONTRACT_TEST_WHAT[this.what].desc + "</col> must be <col hex=\"#ca5353\">" + CONTRACT_TEST_COMPARE[this.compare].desc + "</col>" + strNum  + ".";
     }
 
     getFinalStringBattle()

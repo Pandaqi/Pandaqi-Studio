@@ -73,7 +73,8 @@ For an even **tougher** game,
 For a **slightly different** game,
 * Notice that all the cards show an _arrow_ pointing left or right. In this variant, that arrow becomes important!
 * At the end of your turn, when adding a card to your row, the **arrow of the card where you stopped** determines where you must add it.
-* (If the arrow points left, add the final roll result to the left of your row. If it points right, add to the right.)
+* In other words: If the arrow points left, add the final roll result to the left of your row. If it points right, add to the right.
+* (Some special cards from expansions don't have this arrow. In that case, place the card at any end you want, as per the usual rules.)
 
 {{% /rules-block %}}
 
@@ -81,9 +82,9 @@ For a **slightly different** game,
 
 This expansion adds more types of powers on cards.
 
-* **IF STOPPED** triggers only if you stopped here (and didn't keep rolling). All cards in the base game are this type by default.
-* **IF PASSED** triggers as soon as you decide to keep rolling after this one and _stays_ on future rolls.
-* **IF UNSEEN** triggers at the end of your turn if you never reached this card at all. This is always combined with a second effect of another type.
+* **Stopped?** triggers only if you stopped here (and didn't keep rolling). All cards in the base game are this type by default.
+* **Passed?** triggers as soon as you decide to keep rolling after this one and _stays_ on future rolls.
+* **Unseen?** triggers at the end of your turn if you never reached this card at all. This is always combined with a second effect of another type.
 
 @TODO: IMAGE EXAMPLE
 

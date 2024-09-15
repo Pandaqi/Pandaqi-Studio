@@ -45,6 +45,9 @@ const MISC:Record<string, GeneralData> =
     wacky_box_2: { frame: 9 },
     wacky_box_3: { frame: 10 },
     wacky_box_4: { frame: 11 },
+    dice_7: { frame: 12, tint: "#ff8773" },
+    dice_8: { frame: 13, tint: "#ddeb5e" },
+    dice_9: { frame: 14, tint: "#ab73ff" }
 }
 
 const DICE_ARRANGEMENTS = [

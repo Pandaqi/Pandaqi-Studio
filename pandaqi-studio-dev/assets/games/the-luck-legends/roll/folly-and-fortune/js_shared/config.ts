@@ -7,9 +7,9 @@ const CONFIG:any =
 {
     debug:
     {
-        omitFile: true, // @DEBUGGING (should be false)
-        singleDrawPerType: true, // @DEBUGGING (should be false)
-        onlyGenerate: true, // @DEBUGGING (should be false)
+        omitFile: false, // @DEBUGGING (should be false)
+        singleDrawPerType: false, // @DEBUGGING (should be false)
+        onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
     configKey: "follyAndFortuneConfig",
@@ -126,41 +126,49 @@ const CONFIG:any =
 
         shared:
         {
-            shadowOffset: new CVal(0.05, "sizeUnit")
+            shadowOffset: new CVal(new Point(0, 0.01), "sizeUnit")
+        },
+
+        bg:
+        {
+            alpha: 0.1
         },
 
         numbers:
         {
-            boxOffset: new CVal(new Point(0.1), "sizeUnit"),
-            boxDims: new CVal(new Point(0.15), "sizeUnit"),
-            fontSize: new CVal(0.15, "sizeUnit"),
-            strokeWidth: new CVal(0.05, "cards.numbers.strokeWidth"),
+            boxOffset: new CVal(new Point(0.16, 0.1725), "sizeUnit"),
+            boxDims: new CVal(new Point(0.325), "sizeUnit"),
+            fontSize: new CVal(0.175, "sizeUnit"),
+            strokeWidth: new CVal(0.05, "cards.numbers.fontSize"),
+            textInBoxOffset: new CVal(new Point(0.03), "sizeUnit")
         },
 
         mainNumber:
         {
-            fontSize: new CVal(0.33, "sizeUnit"),
-            pos: new CVal(new Point(0.5, 0.4), "size"),
+            fontSize: new CVal(0.6, "sizeUnit"),
+            strokeWidth: new CVal(0.04, "cards.mainNumber.fontSize"),
+            pos: new CVal(new Point(0.5, 0.35), "size"),
             addWrittenVersion: true,
             written:
             {
                 linePos: new CVal(new Point(0.5, 0.125), "size"),
-                lineDims: new CVal(new Point(0.3), "sizeUnit"),
-                lineAlpha: 0.66,
-                fontSize: new CVal(0.075, "sizeUnit"),
-                pos: new CVal(new Point(0.5, 0.1), "size")
+                lineDims: new CVal(new Point(0.2), "sizeUnit"),
+                lineAlpha: 0.5,
+                fontSize: new CVal(0.058, "sizeUnit"),
+                pos: new CVal(new Point(0.5, 0.09), "size")
             }
         },
 
         power:
         {
-            fontSize: new CVal(0.075, "sizeUnit"),
-            textDims: new CVal(new Point(0.8, 0.2), "size"),
-            textBoxDims: new CVal(new Point(0.9), "size"),
+            textPos: new CVal(new Point(0.5, 0.77), "size"),
+            fontSize: new CVal(0.0575, "sizeUnit"),
+            textDims: new CVal(new Point(0.7, 0.33), "size"),
+            textBoxDims: new CVal(new Point(1.0), "sizeUnit"),
 
-            iconOffset: new CVal(new Point(0.1, 0.3), "size"),
-            iconDims: new CVal(new Point(0.1), "sizeUnit"),
-            iconAlpha: 0.75,
+            iconOffset: new CVal(new Point(0.1, 0.2975), "size"),
+            iconDims: new CVal(new Point(0.125), "sizeUnit"),
+            iconAlpha: 0.825,
 
             shieldPos: new CVal(new Point(0.9, 0.5), "size"),
             unseenPos: new CVal(new Point(0.1, 0.5), "size")
@@ -170,7 +178,7 @@ const CONFIG:any =
         {
             dims: new CVal(new Point(0.1), "sizeUnit"), // probably just the same as power.iconDims
             composite: "overlay",
-            alpha: 1.0
+            alpha: 0.5
         }
     },
 }

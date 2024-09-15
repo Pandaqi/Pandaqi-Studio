@@ -1,19 +1,18 @@
 import createContext from "js/pq_games/layout/canvas/createContext";
 import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
 import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
+import InvertEffect from "js/pq_games/layout/effects/invertEffect";
 import TintEffect from "js/pq_games/layout/effects/tintEffect";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
+import ResourceShape from "js/pq_games/layout/resources/resourceShape";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
 import TextConfig from "js/pq_games/layout/text/textConfig";
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
-import getPositionsCenteredAround from "js/pq_games/tools/geometry/paths/getPositionsCenteredAround";
 import getRectangleCornersWithOffset from "js/pq_games/tools/geometry/paths/getRectangleCornersWithOffset";
 import Point from "js/pq_games/tools/geometry/point";
-import { MISC, SPECIAL_BIDS, SUITS, Suit, TEMPLATES } from "../js_shared/dict";
-import InvertEffect from "js/pq_games/layout/effects/invertEffect";
 import Rectangle from "js/pq_games/tools/geometry/rectangle";
-import ResourceShape from "js/pq_games/layout/resources/resourceShape";
+import { MISC, SPECIAL_BIDS, SUITS, Suit, TEMPLATES } from "../js_shared/dict";
 
 export default class Card
 {
@@ -30,7 +29,7 @@ export default class Card
 
     isWildCard()
     {
-        return this.num <= 0;
+        return this.num <= 0 && !this.hasSpecialPower();
     }
 
     getSpecialData()
@@ -49,15 +48,19 @@ export default class Card
         return SUITS[suit] ?? {};
     }
 
-    getTintColor(vis:MaterialVisualizer, suit = this.suit)
+    getTintColor(vis:MaterialVisualizer, suit = this.suit, ignoreWildcard = false)
     {
-        if(this.isWildCard()) { return vis.get("cards.wildcard.tint"); }
-        return vis.inkFriendly ? "#FFFFFF" : this.getSuitData(suit).tint;
+        if(vis.inkFriendly) { return "#FFFFFF"; }
+        if(this.hasSpecialPower()) { return vis.get("cards.bids.bgColor"); }
+        if(this.isWildCard() && !ignoreWildcard) { return vis.get("cards.wildcard.tint"); }
+        return this.getSuitData(suit).tint;
     }
 
     getTintColorLight(vis:MaterialVisualizer)
     {
-        if(this.isWildCard() || vis.inkFriendly) { return "#FFFFFF"; }
+        if(vis.inkFriendly) { return "#000000"; }
+        if(this.hasSpecialPower()) { return vis.get("cards.bids.tintColor"); }
+        if(this.isWildCard()) { return "#FFFFFF"; }
         return this.getSuitData().tintLight;
     }
 
@@ -112,12 +115,14 @@ export default class Card
             let counter = 0;
             for(const key of Object.keys(SUITS))
             {
+                
                 const opRect = new LayoutOperation({
                     translate: new Point(0, yOffset*counter),
-                    fill: this.getTintColor(vis, key as Suit)
+                    fill: this.getTintColor(vis, key as Suit, true)
                 })
                 counter++;
                 group.add(rect, opRect);
+                console.log(rect, opRect);
             }
         }
 
@@ -141,6 +146,7 @@ export default class Card
     {
         const positions = getRectangleCornersWithOffset(vis.size, vis.get("cards.numbers.offset"));
         const boxDims = vis.get("cards.numbers.boxDims");
+        const suitDims = vis.get("cards.numbers.suitDims");
         const resMisc = vis.getResource("misc");
         const tintEffect = new TintEffect(this.getTintColor(vis));
 
@@ -148,7 +154,12 @@ export default class Card
             font: vis.get("fonts.heading"),
             size: vis.get("cards.numbers.fontSize")
         }).alignCenter();
-        const txt = this.isWildCard() ? "?" : this.num.toString();
+        let txt = this.isWildCard() ? "?" : this.num.toString();
+        if(this.hasSpecialPower())
+        {
+            txt = this.getSpecialData().value.toString();
+        }
+
         const resText = new ResourceText({ text: txt, textConfig: textConfig });
 
         for(let i = 0; i < positions.length; i++)
@@ -161,20 +172,22 @@ export default class Card
             const drawAllSuits = (this.isWildCard() && isSuit) && vis.get("cards.wildcard.drawAllSuits");
             let suitsToDraw:string[] = [this.suit];
             if(drawAllSuits) { suitsToDraw = Object.keys(SUITS); }
+            const drawDir = i <= 1 ? -1 : 1;
 
             const anchorPos = positions[i];
             for(let s = 0; s < suitsToDraw.length; s++)
             {
                 const opMain = new LayoutOperation({
-                    translate: anchorPos.clone().add(new Point(boxDims.x * s, 0)),
-                    dims: boxDims,
+                    translate: anchorPos.clone().add(new Point(drawDir * suitDims.x * s * 1.1, 0)),
+                    dims: isSuit ? suitDims : boxDims,
                     rotation: (i <= 1) ? 0 : Math.PI,
                     pivot: Point.CENTER,
-                    frame: isSuit ? this.getSuitData(suitsToDraw[s] as Suit).frame : MISC.numberBox.frame
+                    frame: isSuit ? this.getSuitData(suitsToDraw[s] as Suit).frame : MISC.number_box.frame,
                 });
 
-                const needsTint = !isSuit || (isSuit && vis.inkFriendly);
+                const needsTint = !isSuit;
                 if(needsTint) { opMain.effects = [tintEffect]; }
+                if(isSuit && vis.inkFriendly) { opMain.effects = [new InvertEffect()]; }
                 group.add(resMisc, opMain);
             }
 
@@ -184,6 +197,7 @@ export default class Card
                 const opText = new LayoutOperation({
                     translate: anchorPos,
                     dims: new Point(3.0 * textConfig.size),
+                    rotation: (i <= 1) ? 0 : Math.PI,
                     pivot: Point.CENTER,
                     fill: this.getTintColorLight(vis)
                 });
@@ -201,7 +215,9 @@ export default class Card
         const opCircle = new LayoutOperation({
             translate: vis.center,
             dims: vis.get("cards.mainNumber.circleDims"),
-            frame: MISC.centerCircle.frame,
+            frame: MISC.center_circle.frame,
+            rotation: Math.floor(Math.random() * 4) * 0.5 * Math.PI,
+            pivot: Point.CENTER
         });
         group.add(resMisc, opCircle);
 
@@ -214,6 +230,7 @@ export default class Card
         const offset = vis.get("cards.mainNumber.circleRadius");
 
         const groupNums = new ResourceGroup();
+        const groupNumsShadow = new ResourceGroup();
         for(let i = 0; i < 8; i++)
         {
             const angle = (i/8.0) * 2 * Math.PI;
@@ -221,7 +238,7 @@ export default class Card
             const circleIndex = (i + 2) % 8; // the circle starts changing alpha from TOP to BOTTOM
             const circleFraction = Math.abs(circleIndex - 4) / 4.0; // so this calculates distance and lerps alpha accordingly
             const circleAlpha = 0.2 + circleFraction*(1.0 - 0.2);
-            const txt = this.isWildCard() ? (i+1).toString() : this.num.toString();
+            const txt = this.isWildCard() ? (circleIndex+1).toString() : this.num.toString();
             const resText = new ResourceText({ text: txt, textConfig: textConfig });
             const opText = new LayoutOperation({
                 translate: circlePos,
@@ -233,9 +250,23 @@ export default class Card
                 alpha: circleAlpha,
             })
             groupNums.add(resText, opText);
+
+            const opTextShadow = opText.clone();
+            opTextShadow.setFill("#000000");
+            groupNumsShadow.add(resText, opTextShadow);
         }
-        const shadowEffect = new DropShadowEffect({ color: "#000000", offset: vis.get("cards.mainNumber.shadowOffset") });
-        const opGroup = new LayoutOperation({ translate: vis.center, effects: [shadowEffect] })
+
+        if(!vis.inkFriendly)
+        {
+            const off = vis.get("cards.mainNumber.shadowOffset");
+            const opGroupShadow = new LayoutOperation({ 
+                translate: vis.center.clone().add(off),
+                composite: "overlay" 
+            });
+            group.add(groupNumsShadow, opGroupShadow);
+        }
+
+        const opGroup = new LayoutOperation({ translate: vis.center })
         group.add(groupNums, opGroup);
     }
 
@@ -259,6 +290,7 @@ export default class Card
                 font: vis.get("fonts.heading"),
                 size: vis.get("cards.bids.fontSizeHeading")
             }).alignCenter();
+            const shadowEffect = new DropShadowEffect({ color: "#000000", offset: new Point(0,0.05).scale(textConfigHeading.size) })
             const resTextHeading = new ResourceText({ text: "Power Card", textConfig: textConfigHeading });
             const opTextHeading = new LayoutOperation({
                 translate: headingPositions[i],
@@ -266,6 +298,7 @@ export default class Card
                 rotation: (i == 0) ? 0 : Math.PI,
                 pivot: Point.CENTER,
                 fill: vis.inkFriendly ? "#000000" : "#FFFFFF",
+                effects: [shadowEffect]
             });
             group.add(resTextHeading, opTextHeading);
         }
@@ -277,7 +310,8 @@ export default class Card
             translate: vis.get("cards.bids.iconPos"),
             dims: vis.get("cards.bids.iconDims"),
             pivot: Point.CENTER,
-            effects: effects
+            effects: effects,
+            frame: data.frame
         });
         group.add(resIcon, opIcon);
 
@@ -298,6 +332,8 @@ export default class Card
 
     drawOverlay(vis:MaterialVisualizer, group:ResourceGroup)
     {
+        if(vis.inkFriendly) { return; }
+
         const res = vis.getResource("card_templates");
         const op = new LayoutOperation({
             dims: vis.size,

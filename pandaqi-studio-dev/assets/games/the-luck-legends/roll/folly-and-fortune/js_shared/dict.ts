@@ -18,14 +18,14 @@ interface GeneralData
 
 const NUMBERS_WRITTEN = 
 [
-    "Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"
+    "Minus One", "Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"
 ]
 
 const ACTION_PREFIXES:Record<ActionType, string> = 
 {
-    [ActionType.STOPPED]: "<col hex=\"#ff4645\">If Stopped</col>",
-    [ActionType.PASSED]: "<col hex=\"#955a16\">If Passed</col>",
-    [ActionType.UNSEEN]: "<col hex=\"#6b2eae\">If Unseen</col>"
+    [ActionType.STOPPED]: "<col hex=\"#ff4645\">Stopped?</col>",
+    [ActionType.PASSED]: "<col hex=\"#955a16\">Passed?</col>",
+    [ActionType.UNSEEN]: "<col hex=\"#6b2eae\">Unseen?</col>"
 }
 
 const ACTION_REPLACEMENTS:Record<string,any> =

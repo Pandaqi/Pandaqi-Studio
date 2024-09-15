@@ -37,7 +37,7 @@ const SPECIAL_BIDS:GeneralDict =
     two_quatros: { frame: 6, value: 8, label: "Two Quatros", desc: "<b>Two numbers</b> appear <b>four times</b> each." },
     straight_flush: { frame: 7, value: 10, label: "Straight Flush", desc: "<b>Three cards</b> of the same <i>color</i> <b>and</b> <i>in numeric order</i>." },
     straight_sea: { frame: 8, value: 12, label: "Straight Sea", desc: "<b>Four cards</b> of the same <i>color</i> <b>and</b> <i>in numeric order</i>." },
-    full_estate: { frame: 10, value: 15, label: "Full Estate", desc: "<b>One number</b> appears four times, <b>another number>/b appears five times." },
+    full_estate: { frame: 10, value: 15, label: "Full Estate", desc: "<b>One number</b> appears four times, <b>another number</b> appears five times." },
     straight_ocean: { frame: 9, value: 17, label: "Straight Ocean", desc: "<b>Five cards</b> of the same <i>color</i> <b>and</b> <i>in numeric order</i>." },
     unicorn: { frame: 11, value: 20, label: "Unicorn", desc: "Name the <b>exact colors</b> <i>or</i> <b>exact numbers</b> (and their quantities) rolled." },
 }
@@ -46,10 +46,10 @@ const SPECIAL_BIDS:GeneralDict =
 
 const SUITS:GeneralDict =
 {
-    [Suit.PURPLE]: { frame: 4, tint: "#5e00bb", tintLight: "#5e00bb" },
-    [Suit.RED]: { frame: 5, tint: "#bb0000", tintLight: "#bb0000" },
-    [Suit.GREEN]: { frame: 6,  tint: "#0e8400", tintLight: "#0e8400" },
-    [Suit.TURQUOISE]: { frame: 7, tint: "#007084", tintLight: "#8eb6c0" },
+    [Suit.PURPLE]: { frame: 4, tint: "#5e00bb", tintLight: "#ead5ff" },
+    [Suit.RED]: { frame: 5, tint: "#bb0000", tintLight: "#ffd9d9" },
+    [Suit.GREEN]: { frame: 6,  tint: "#0e8400", tintLight: "#d7ffd1" },
+    [Suit.TURQUOISE]: { frame: 7, tint: "#007084", tintLight: "#aee6e0" },
     //[Suit.YELLOW]: { tint: "#FFFF00" },
     //[Suit.TURQUOISE]: { tint: "#00FFFF" },
     //[Suit.BLACK]: { tint: "#AAAAAA" }
@@ -64,8 +64,8 @@ const TEMPLATES:GeneralDict =
 
 const MISC:GeneralDict =
 {
-    centerCircle: { frame: 2 },
-    numberBox: { frame: 1 }
+    center_circle: { frame: 0 },
+    number_box: { frame: 1 }
 }
 
 export 

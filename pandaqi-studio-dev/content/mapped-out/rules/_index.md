@@ -9,7 +9,7 @@ Create a deck of **Movement Cards** and a pile of **Map Tiles**.
 * Each player receives **8 random movement cards**. Place these cards in a row before you, facedown, without looking.
 * Each player also receives a **pawn** and **5 map tiles** to take into their hand.
 
-Place the **starting tile** in the center, with all player's Pawns on top.
+Place a random **starting tile** in the center, with all player's Pawns on top.
 
 @TODO: EXAMPLE IMAGE
 
@@ -17,26 +17,26 @@ Place the **starting tile** in the center, with all player's Pawns on top.
 
 {{% rules-block heading="Objective" icon="objective" %}}
 
-The game ends when all pawns have moved their entire path ( = execute their movement cards from left to right). Calculate your score from the tiles on the map that you visited---highest score wins!
+The game ends when all pawns **have moved their entire path** ( = executed their movement cards from left to right). Calculate your score from the tiles you visited---**highest score wins**!
 
 {{% /rules-block %}}
 
 {{% rules-block heading="Gameplay" icon="action" %}}
 
-The overall game has two "parts": **create the map** and **walk over it**.
+The overall game has two phases: **create the map** and **walk over it**.
 
 {{% rules-block heading="Create the Map" %}}
 
 Take clockwise turns until done. On your turn, **play a map tile**.
 
-* Add the tile from your hand to the shared map on the table. (There are no other rules to placement; paths don't need to match in the base game.)
+* Add the tile from your hand to the shared map on the table.
 * Every tile also has a "place action" that triggers now.
 
-There are three possible place actions. Note that these actions can be applied to your _own_ Movement Cards .. or someone else's.
+There are three possible place actions. Note that these actions can be applied to your _own_ Movement Cards ...  or someone else's.
 
-* REVEAL (@TODO: ICON = card faded, bent arrow, card revealed + number): reveal a Movement Card at the _position_ indicated. (If this card is already revealed, do nothing.)
-* SWAP (@TODO: ICON = arrows left/right + number): swap the movement card at the position indicated with another.
-* STUDY (@TODO: ICON = eye + number): secretly look at as many Movement Cards as the number indicated.
+* REVEAL (@TODO: ICON): reveal a Movement Card at the _position_ indicated. (If this card is already revealed, do nothing.)
+* SWAP (@TODO: ICON): swap the movement card at the position indicated with another.
+* STUDY (@TODO: ICON): secretly look at as many Movement Cards as the number indicated.
 
 Finally, draw a new map tile from the deck into your hand.
 
@@ -98,7 +98,7 @@ This phase now continues until all players have completed their entire movement.
 
 @TODO: EXAMPLE IMAGE
 
-@IDEA: In certain situations, you can execute your instructions "so far". This will lock in that movement and give you more certainty about where you are for the rest of it. => This basically requires this expansion to be active, so players already have that framework for "movement happen one-at-a-time, not in a big chunk at the end"
+<!--- DISCARDED @IDEA: In certain situations, you can execute your instructions "so far". This will lock in that movement and give you more certainty about where you are for the rest of it. => This basically requires this expansion to be active, so players already have that framework for "movement happen one-at-a-time, not in a big chunk at the end" --->
 
 {{% /rules-block %}}
 
@@ -118,7 +118,10 @@ This expansion adds more possible **Map Tiles**. They can have the following typ
 
 This expansion adds more possible **Movement Cards**.
 
-It also adds Movement Cards with an action. This action triggers _when revealed_. (Not when following the movement in the later phase.)
+It also adds Movement Cards with an action. 
+
+* This action triggers _when revealed_. (Not when following the movement in the later phase.)
+* This action is only present on the simplest move cards (left/right/up/down/any), and replaces the usual text explaining how that card works.
 
 @TODO: EXAMPLE IMAGE?
 

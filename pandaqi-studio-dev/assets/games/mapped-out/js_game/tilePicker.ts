@@ -13,10 +13,24 @@ export default class TilePicker
     {
         this.cards = [];
         
+        this.generatePawns();
         this.generateBaseTiles();
         this.generateLandsUnknown();
 
         console.log(this.cards);
+    }
+
+    generatePawns()
+    {
+        if(!CONFIG.sets.base) { return; }
+
+        // @NOTE: two pawns per card, hence 3
+        for(let i = 0; i < 3; i++)
+        {
+            const newCard = new Card(CardType.PAWN);
+            newCard.pawnIndex = i;
+            this.cards.push(newCard);
+        }
     }
 
     generateBaseTiles()
@@ -77,6 +91,18 @@ export default class TilePicker
         shuffle(tileActions);
         shuffle(tileActionNumbers);
 
+        // prepare the special actions too
+        const specialActions = [];
+        for(const [action,freqRaw] of Object.entries(dist))
+        {
+            const freq = Math.ceil(freqRaw * numTiles);
+            for(let i = 0; i < freq; i++)
+            {
+                specialActions.push(action);
+            }
+        }
+        shuffle(specialActions);
+
         // plug it all in
         for(let i = 0; i < numTiles; i++)
         {
@@ -86,6 +112,7 @@ export default class TilePicker
             newTile.fishes = fishes.splice(0, numFishes);
             newTile.tileAction = tileAction;
             newTile.tileActionNum = tileActionNumbers.pop() % TILE_ACTIONS[tileAction].maxNum
+            newTile.specialAction = specialActions.pop();
             this.cards.push(newTile);
         }
     }
