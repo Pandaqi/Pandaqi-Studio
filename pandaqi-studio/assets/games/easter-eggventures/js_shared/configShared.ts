@@ -53,7 +53,6 @@ const CONFIG_SHARED =
             path: "/easter-eggventures/assets/images/pawns.webp",
             useAbsolutePath: true,
             frames: new Point(8,1),
-            disableCaching: true
         },
     },
 

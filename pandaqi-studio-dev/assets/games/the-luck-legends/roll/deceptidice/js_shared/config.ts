@@ -3,6 +3,7 @@ import Point from "js/pq_games/tools/geometry/point"
 import Bounds from "js/pq_games/tools/numbers/bounds"
 import { SUITS } from "./dict"
 import CVal from "js/pq_games/tools/generation/cval"
+import autoLoadFontCSS from "js/pq_games/website/autoLoadFontCSS"
 
 const CONFIG:any = 
 {
@@ -40,20 +41,23 @@ const CONFIG:any =
         caslon:
         {
             path: "fonts/CaslonAntique-Regular.woff2",
+            loadIf: ["sets.powerCards"]
         },
 
         caslon_italic:
         {
             key: "caslon",
             path: "fonts/CaslonAntique-Italic.woff2",
-            textConfig: new TextConfig({ style: TextStyle.ITALIC })
+            textConfig: new TextConfig({ style: TextStyle.ITALIC }),
+            loadIf: ["sets.powerCards"]
         },
 
         caslon_bold:
         {
             key: "caslon",
             path: "fonts/CaslonAntique-Bold.woff2",
-            textConfig: new TextConfig({ weight: TextWeight.BOLD })
+            textConfig: new TextConfig({ weight: TextWeight.BOLD }),
+            loadIf: ["sets.powerCards"]
         },
 
         brasspounder:
@@ -70,7 +74,8 @@ const CONFIG:any =
         bids:
         {
             path: "bids.webp",
-            frames: new Point(4,3)
+            frames: new Point(4,3),
+            loadIf: ["sets.powerCards"]
         },
 
         misc:
@@ -172,5 +177,7 @@ const CONFIG:any =
         }
     },
 }
+
+autoLoadFontCSS(CONFIG);
 
 export default CONFIG

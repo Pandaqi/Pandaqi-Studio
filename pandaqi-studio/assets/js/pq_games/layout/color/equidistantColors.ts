@@ -7,8 +7,9 @@ export default (num:number = 1, s:number = 100, l:number = 100, a:number = 1) : 
     const arr = [];
     for(let i = 0; i < num; i++)
     {
-        const hue = start + i*offset;
-        arr.push(new Color(hue, s, l, a));
+        const hue = (start + i*offset);
+        const hueClamped = (hue/360.0 - Math.floor(hue / 360.0)) * 360.0;
+        arr.push(new Color(hueClamped, s, l, a));
     }
     return arr;
 }

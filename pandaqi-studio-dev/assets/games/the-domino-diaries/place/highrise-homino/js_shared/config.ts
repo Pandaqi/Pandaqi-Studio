@@ -75,21 +75,18 @@ const CONFIG:any =
         {
             path: "wishes.webp",
             frames: new Point(4,4),
-            disableCaching: true
         },
 
         mission_tiles:
         {
             path: "mission_tiles.webp",
             frames: new Point(2,1),
-            disableCaching: true,
         },
 
         objects:
         {
             path: "objects.webp",
             frames: new Point(4,5),
-            disableCaching: true,
             loadInSequence: true
         },
 
@@ -97,7 +94,6 @@ const CONFIG:any =
         {
             path: "tenants.webp",
             frames: new Point(4,4),
-            disableCaching: true,
             loadInSequence: true
         },
 
@@ -105,7 +101,6 @@ const CONFIG:any =
         {
             path: "misc.webp",
             frames: new Point(4,4),
-            disableCaching: true
         },
     },
 

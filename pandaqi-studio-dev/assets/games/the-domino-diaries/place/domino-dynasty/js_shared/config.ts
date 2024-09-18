@@ -74,7 +74,6 @@ const CONFIG:any =
         {
             path: "icons.webp",
             frames: new Point(6,4),
-            disableCaching: true
         },
 
         // contains the backgrounds for ROLE + MISSION + EVENT tiles
@@ -82,14 +81,12 @@ const CONFIG:any =
         {
             path: "templates.webp",
             frames: new Point(7,1),
-            disableCaching: true
         },
 
         misc:
         {
             path: "misc.webp",
             frames: new Point(4,1),
-            disableCaching: true
         },
     },
 

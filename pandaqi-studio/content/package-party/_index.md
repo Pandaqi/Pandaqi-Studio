@@ -37,7 +37,7 @@ input: ["keyboard", "controller"]
 {{% embedvideo vid="https://www.youtube.com/embed/Fcyjk8app9w" class="limit-width" full-size="true" %}}
 
 {{< buylink-container class="text" >}}
-{{< buylink url="http://pandaqi.itch.io/package-party" platforms="windows,mac,linux" text="Buy (&euro;5) or Try (free demo)" >}}
+{{< buylink url="http://pandaqi.itch.io/package-party" platforms="windows,mac,linux" text="Buy (&euro;5) or Try (free demo)" />}}
 {{< /buylink-container >}}
 
 {{% section-flex media="video/packageparty_1" video="true" class="limit-width" %}}

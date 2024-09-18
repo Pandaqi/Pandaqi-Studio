@@ -15,7 +15,7 @@ date: 2026-01-26
 
 difficulty: "kids-can-play"
 genres: ["family"]
-categories: ["boardgame", "card-game"]
+categories: ["boardgame", "card-game", "standard"]
 tags: ["score-and-reset", "contracts", "patterns", "bidding", "high-score"]
 themes: ["textured"]
 

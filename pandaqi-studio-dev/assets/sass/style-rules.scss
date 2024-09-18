@@ -1,14 +1,15 @@
 @use "sass:map";
 @use "sass:list";
-@use "./modules/colorschemes-rules";
+@use "modules/colorschemes";
+@use "modules/globals.scss" as g;
 
 $max-content-width: 700px;
 $max-print-width: 500px;
 $double-view-breakpoint: $max-content-width;
 $img-max-width: 0.5*($max-content-width - 100px);
 $img-max-height: 300px;
-$bottom-padding: 2rem;
-$side-padding: 2rem;
+$bottom-padding: 2em;
+$side-padding: 2em;
 $remark-screen-width: 140px;
 $remark-print-width: 80px;
 $remark-screen-padding: 15px;
@@ -99,9 +100,13 @@ $min-remark-print-width: $max-print-width;
 
 body 
 {
+    --header-font: #{g.$header-font-stack};
+	--body-font: #{g.$body-font-stack};
+
     background-color: #FCFCFC;
-    font-size: calc(15px + 0.390625vw);
+    font-size: calc(var(--font-size-base) + 0.390625vw);
     line-height: 1.35em; 
+    font-family: var(--body-font);
 
     @media print 
     {
@@ -110,12 +115,17 @@ body
     }
 }
 
+h1,h2,h3,h4,h5,h6 {
+    font-weight: normal;
+    font-family: var(--header-font);
+}
+
 h1 {
     font-size: 3.5em;
 }
 
 h2 {
-    font-size: 2.0em;
+    font-size: 1.75em;
     string-set: title content(text);
 }
 
@@ -211,16 +221,16 @@ p {
 }
 
 a, a:visited {
-    color: #212155;
-    transition: color 0.25s;
+    color: var(--palette-color);
+    transition: color 0.2s;
     &:hover {
-        color: #DCDCFF;
+        color: #000000;
     }
 }
 
 .game-title {
     a, a:visited {
-        color: #DCDCFF;
+        color: var(--palette-bg);
         &:hover {
             color: white;
         }
@@ -297,9 +307,9 @@ header {
         font-size: 0.66em;
     
         h1 {
-            font-size: 1rem;
+            font-size: 1em;
             color: white;
-            padding: 1rem;
+            padding: 1em;
             text-align: center;
             margin: 0;
         }
@@ -332,8 +342,8 @@ header {
         width: 100%;
         display: flex;
         flex-wrap: wrap;
-        gap: 0.5rem;
-        padding: 0.5rem;
+        gap: 0.5em;
+        padding: 0.5em;
     }
 
     .rules-setting-entry {
@@ -351,14 +361,14 @@ header {
         border: none;
         font-size: 1.0em;
         border-radius: 0.5em;
-        filter: drop-shadow(0 0 0.1rem #333);
+        filter: drop-shadow(0 0 0.075em #333);
         cursor: pointer;
         transition: background 0.3s, color 0.3s, filter 0.3s;
 
         &:hover {
             background: #ffe8be;
             color: #2b1402;
-            filter: drop-shadow(0 0 0.25rem #212121);
+            filter: drop-shadow(0 0 0.15em #212121);
         }
     }
 
@@ -373,9 +383,9 @@ header {
     }
 
     img {
-        filter: drop-shadow(0 0 0.25rem black);
+        filter: drop-shadow(0 0 0.15em black);
         max-width: 100%;
-        max-height: 16vw;
+        max-height: min(16vw, 8em);
     }
 
     @media print {
@@ -412,7 +422,7 @@ picture {
 
     &.float-left, &.float-right {
         max-width: $img-max-width;
-        margin-left: 0.5rem;
+        margin-left: 0.5em;
 
         @media screen and (max-width: $double-view-breakpoint) {
             float: none;
@@ -430,7 +440,7 @@ picture {
     display: none;
     background-color: rgba(255,255,255,0.9);
     z-index: 10000;
-    padding: 2.0em;
+    padding: 1.75em;
     cursor: pointer;
 
     justify-content: center;
@@ -533,9 +543,9 @@ section[data-folded="true"]
 .remark {
 
     background-color: rgba(0,0,0,0.2);
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-    font-size: 0.75rem;
+    padding: 0.5em;
+    border-radius: 0.5em;
+    font-size: 0.75em;
     line-height: 1.4em;
     color: rgba(0,0,0,0.8);
     font-style: italic;
@@ -545,7 +555,7 @@ section[data-folded="true"]
         content: "Remark: ";
         display: inline-block;
         font-weight: bold;
-        margin-right: 0.5rem;
+        margin-right: 0.5em;
     }
 
     p {
@@ -578,7 +588,7 @@ section[data-folded="true"]
 
     & > .heading-container {
         margin: 0;
-        padding: 1rem;
+        padding: 1em;
 
         break-after: avoid;
 
@@ -589,18 +599,18 @@ section[data-folded="true"]
         transition: background-color 0.15s, box-shadow 0.15s;
 
         &.top-level-heading {
-            box-shadow: 0 0.25rem 0.25rem rgba(0,0,0,0.5);
+            box-shadow: 0 0.25em 0.25em rgba(0,0,0,0.5);
         }
 
         &.mid-level-heading {
-            margin-top: 0.5rem;
-            margin-bottom: 0.5rem;
-            padding: 1rem;
+            margin-top: 0.5em;
+            margin-bottom: 0.5em;
+            padding: 1em;
         }
 
         &:hover {
             background-color: white;
-            box-shadow: 0 0 0.25rem black;
+            box-shadow: 0 0 0.25em black;
         }
 
         background-color: rgba(0,0,0,0.15);
@@ -618,7 +628,7 @@ section[data-folded="true"]
             .arrow {
                 transform: rotate(90deg);
                 font-family: inherit;
-                font-size: 2.5rem;
+                font-size: 2.5em;
             }
     
             h1, h2, h3, h4 {
@@ -632,7 +642,7 @@ section[data-folded="true"]
     .content-container {
         &[data-folded="false"] {
             &.top-level-container {
-                padding: 0rem $side-padding $bottom-padding $side-padding;
+                padding: 0em$side-padding $bottom-padding $side-padding;
 
                 > .content {
                     position: relative;
@@ -663,6 +673,19 @@ section[data-folded="true"]
     }
 
 }
+
+// even sections (always the same slightly off-white)
+.rules-foldable.top-level:nth-child(2n) 
+{
+    background-color: #EEEEEE;
+    color: #111111;
+}
+
+.rules-foldable.top-level:nth-child(2n+1) {
+    color: #111111;
+    background-color: var(--palette-bg-rules);
+}
+
 
 // 
 // This styles a regular, _actual table_
@@ -720,7 +743,7 @@ table {
             .heading-container
             {
                 background-color: #212121;
-                border-radius: 0.5rem;
+                border-radius: 0.5em;
                 color: white;
             }
         }
@@ -776,7 +799,7 @@ $rules-table-size-print: 0.75*$rules-table-icon-size;
 
         .icon-container {
             background-color: rgba(0,0,0,0.2);
-            border-radius: 1rem;
+            border-radius: 1em;
             cursor: pointer;
             box-shadow: 0 0.25em 0.25em black;
             transition: background-color 0.3s, transform 0.3s, box-shadow;
@@ -926,7 +949,7 @@ blockquote
                 padding: 0.5em;
                 margin: 0;
                 margin-bottom: -0.5em;
-                margin-top: 2rem;
+                margin-top: 2em;
 
                 page-break-inside: avoid;
                 break-inside: avoid;

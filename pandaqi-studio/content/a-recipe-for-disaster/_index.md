@@ -34,8 +34,8 @@ devlog: "/blog/videogames/one-week-games/devlog-a-recipe-for-disaster/"
 {{% embedvideo bg="arfd_logo" vid="https://www.youtube.com/embed/MQ7srCHHXZg" class="limit-width" %}}
 
 {{< buylink-container class="limit-width" >}}
-{{< buylink url="https://poki.com/en/g/a-recipe-for-disaster" platforms="web" image="/svg/poki_badge_dark.svg" class="poki-badge" text="Play (free; web)" >}}
-{{< buylink url="http://pandaqi.itch.io/a-recipe-for-disaster" platforms="windows,mac,linux" text="Buy (&euro;2)" >}}
+{{< buylink url="https://poki.com/en/g/a-recipe-for-disaster" platforms="web" image="/svg/poki_badge_dark.svg" class="poki-badge" text="Play (free; web)" />}}
+{{< buylink url="http://pandaqi.itch.io/a-recipe-for-disaster" platforms="windows,mac,linux" text="Buy (&euro;2)" />}}
 {{< /buylink-container >}}
 
 {{% section-centered heading="" %}}

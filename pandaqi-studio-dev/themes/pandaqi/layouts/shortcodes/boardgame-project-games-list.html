@@ -2,6 +2,8 @@
 {{- $subdir := or (.Get "subdir") "play" -}}
 {{- $final_dir := printf "content/%s/%s/" $url $subdir -}}
 {{- $pages := where .Site.Pages "Type" "gamepage" -}}
+{{- $display_type := or (.Get "display") "grid" -}} <!--- GRID or LIST --->
+{{- $color := or (.Get "color") "" -}}
 {{- $final_pages := slice -}}
 {{- range (readDir $final_dir) -}}
     {{- if .IsDir -}}
@@ -12,13 +14,27 @@
     {{- end -}}
 {{- end -}}
 {{- $final_pages = sort $final_pages ".Params.weightProject" -}}
-<div class="project-games-list">
-    <ul>
+<div class="games-collection-list">
+    <ul class="games-collection-{{- $display_type -}}">
     {{- range $final_pages -}}
-        <li><div class="project-game">
-            {{- $blurb := or (or .Params.blurbProject .Params.blurb) .Params.headerTitle -}}
-            <a href="{{ .RelPermalink }}">{{- .Title -}}</a>:&nbsp;{{- $blurb | markdownify -}}
-        </div></li>
+        {{- $blurb := or (or .Params.blurbProject .Params.blurb) .Params.headerTitle -}}
+        {{ $header_url := partial "func/get-game-header.html" . }}
+        {{- if eq $display_type "list" -}}
+<li><div class="games-collection-project">
+<a href="{{ .RelPermalink }}">{{- .Title -}}</a>:&nbsp;{{- $blurb | markdownify -}}
+</div></li>
+        {{- end -}}
+        {{- if eq $display_type "grid" -}}
+<li {{ with $color -}}style="background-color:{{- . -}};"{{- end -}}><a href="{{ .RelPermalink }}"><div class="games-collection-project">
+{{- if $header_url -}}
+<div class="bg-image">
+{{ partial "show-image.html" (dict "context" . "img_url" $header_url) }}
+</div>
+{{- end -}}
+<h3>{{- .Title -}}</h3>
+<p>{{- $blurb | markdownify -}}</p>
+</div></a></li>
+        {{- end -}}
     {{- end -}}
     </ul>
 </div>

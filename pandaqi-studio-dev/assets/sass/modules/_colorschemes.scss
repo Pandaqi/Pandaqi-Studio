@@ -3,73 +3,74 @@
 @use "./globals" as g;
 
 
-@mixin colorscheme($info: ()) {
-	background-color: map.get($info, "bg");
-	color: map.get($info, "col");
-
-	h1 {
-		color: map.get($info, "col");
-	}
-
-	a {
-		color: map.get($info, "col");
-	}
-
-    a.masked-link, button.masked-link {
-        color:  map.get($info, "bg");
-        background-color:  map.get($info, "col");
-    }
-
-
-}
-
-@mixin inverted-colorscheme($info: ()) {
-	background-color: map.get($info, "col");
-	color: map.get($info, "bg");
-
-	h1 {
-		color: map.get($info, "bg");
-	}
-
-	a {
-		color: map.get($info, "bg");
-	}
-
-    a.masked-link, button.masked-link {
-        color:  map.get($info, "col");
-        background-color:  map.get($info, "bg");
-    }
-}
-
-@mixin banner-colorscheme($info: ()) 
+@each $name, $color in g.$colorschemes 
 {
-	background-color: map.get($info, "col");
-	color: #EDEDED;
+	.#{$name} 
+	{
+		--palette-bg: #{map.get($color, "bg")};
+		--palette-color: #{map.get($color, "col")};
+		--palette-bg-rules: #{map.get($color, "bg-rules")};
+		--palette-white: #EDEDED;
+		--palette-black: #111111;
+	}
+}
+
+
+@mixin colorscheme() 
+{
+	background-color: var(--palette-bg);
+	color: var(--palette-color);
+
+	h1 {
+		color: var(--palette-color);
+	}
 
 	a {
-		color: #EDEDED;
+		color: var(--palette-bg);
+	}
+
+    a.masked-link, button.masked-link {
+        color: var(--palette-bg);
+        background-color:  var(--palette-color);
+    }
+}
+
+@mixin inverted-colorscheme() {
+	background-color: var(--palette-color);
+	color: var(--palette-bg);
+
+	h1 {
+		color: var(--palette-bg);
+	}
+
+	a {
+		color: var(--palette-bg);
+	}
+
+    a.masked-link, button.masked-link {
+        color: var(--palette-color);
+        background-color: var(--palette-bg);
+    }
+}
+
+@mixin banner-colorscheme() 
+{
+	background-color: var(--palette-color);
+	color: var(--palette-white);
+
+	a {
+		color: var(--palette-white);
 	}
 
 	div.btn {
-        color: map.get($info, "col") !important;
-        background-color:  map.get($info, "bg") !important;
-		border-color: map.get($info, "col") !important;
+        color: var(--palette-color) !important;
+        background-color: var(--palette-bg) !important;
+		border-color: var(--palette-color) !important;
     }
 }
 
 // @NOTE: the CUSTOM entry banners still use the regular color scheme, because they have no background blurry thing
 .metadata-container, header, .metadata-divider {
-	@each $name, $color in g.$colorschemes {
-		&.#{$name} {
-			@include colorscheme($color);
-		}
-	}
+	@include colorscheme();
 }
 
-footer, .footer-divider {
-    @each $name, $color in g.$colorschemes {
-		&.#{$name} {
-			@include inverted-colorscheme($color);
-		}
-	}
-}

@@ -70,7 +70,6 @@ const CONFIG:any =
         {
             path: "bid_icons.webp",
             frames: new Point(8,4),
-            disableCaching: true
         },
     },
 

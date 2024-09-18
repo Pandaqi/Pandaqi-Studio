@@ -22,7 +22,7 @@ Finally, prepare the map.
 
 {{% rules-block heading="Objective" icon="objective" %}}
 
-The game ends when the **Asteroid Deck runs out**. Check the [impact of the asteroid](#asteroid), then calculate the [final scores](#scoring).
+The game ends when the **Asteroid Deck runs out** ( = all its cards have been revealed). Check the [impact of the asteroid](#asteroid), then calculate the [final scores](#scoring).
 
 If playing **cooperative**, higher is better. If playing **competitive**, highest score wins.
 
@@ -42,9 +42,9 @@ If needed, simply move the Asteroid Crosshairs backward to make space for the gr
 
 Then take the action of each dinosaur on the tile (if it has one).
 
-* **Brachiosaurus**: look at the next 5 Asteroid Tiles.
 * **Triceratops**: move the Asteroid Crosshairs in the direction indicated by the arrow. If it moves off the map, it wraps around to the other side.
-* **Velociraptor**: discard the top card of the asteroid deck.
+* **Velociraptor**: reveal the top card of the asteroid deck.
+* **Brachiosaurus**: look at the next 5 Asteroid Tiles.
 
 {{< rules-image src="gameplay_play.webp" alt="Example of how to play a single turn." >}}
 
@@ -143,8 +143,8 @@ This card tells you **how** to handle the Asteroid Impact at the end of the game
 This expansion adds many more Asteroid Cards with special actions on them.
 
 * During Setup, swap any regular Asteroid Tiles for _random ones_ from this expansion.
-* During Gameplay, whenever you discard such a tile, execute its action!
-* If the action must be done by someone, this is always the player who discarded the tile.
+* During Gameplay, whenever you reveal such a tile, execute its action!
+* If the action must be done by someone, this is always the player who revealed the tile.
 
 {{% /rules-block %}}
 

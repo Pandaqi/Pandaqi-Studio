@@ -1,0 +1,29 @@
+{{ define "head" }}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="icon"  type="image/png" href="favicon.png">
+    
+    <title>{{ .Title }} | Pandaqi Tools</title>
+
+    <!-- Load the specific CSS for all tools (very minimal and self-contained) -->
+    {{ $res := resources.Get "/games/tools/shared.scss" }}
+    {{ $output_name := "style.tools.css" }}
+    {{ $options := (dict "targetPath" $output_name "outputStyle" "compressed" "enableSourceMap" (not hugo.IsProduction) "transpiler" "dartsass") }}
+    {{ $style := $res | resources.ToCSS $options | minify }} 
+    <link rel="stylesheet" type="text/css" href="{{ $style.RelPermalink }}" />
+</head>
+{{ end }}
+
+{{- define "header" -}}
+<!-- -->
+{{- end -}}
+        
+{{- define "main" -}}
+{{ .Content }}
+{{- end -}}
+
+{{- define "footer" -}}
+<!-- -->
+{{- end -}}

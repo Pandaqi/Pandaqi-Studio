@@ -19,6 +19,7 @@ import movePath from "../tools/geometry/transform/movePath"
 import TransformationMatrix from "./tools/transformationMatrix"
 import EffectsOperation from "./effects/effectsOperation"
 import TextDrawer from "./text/textDrawer"
+import Path from "../tools/geometry/paths/path"
 
 type ResourceLike = ResourceImage|ResourceShape|ResourceText|ResourceBox|ResourceGroup
 
@@ -50,6 +51,7 @@ interface LayoutOperationParams
     flipY?:boolean,
 
     clip?:Shape,
+    clipRelative?: boolean,
     mask?:ResourceImage,
 
     resource?:ResourceLike,
@@ -77,10 +79,12 @@ export default class LayoutOperation
     ratio : Point
     keepRatio : boolean
     pivot : Point
+    pivotOffset : Point // final calculated offset because of pivot
     flipX : boolean
     flipY : boolean
 
     clip: Shape
+    clipRelative : boolean
     mask: ResourceImage
 
     resource : ResourceLike
@@ -118,6 +122,7 @@ export default class LayoutOperation
         this.composite = params.composite ?? "source-over";
 
         this.clip = params.clip ?? null;
+        this.clipRelative = params.clipRelative ?? false;
         this.resource = params.resource ?? null;
         this.mask = params.mask ?? null;
         this.effects = params.effects ?? [];
@@ -279,6 +284,7 @@ export default class LayoutOperation
         if(this.flipY) { pivot.y = 1.0 - pivot.y; }
 
         const offset = pivot.negate().scale(dims);
+        this.pivotOffset = offset;
         trans.translate(offset);
         // @TODO: enable once I've checked it works correctly => trans.skew(this.skew);
         return trans;
@@ -380,7 +386,26 @@ export default class LayoutOperation
         ctx.globalCompositeOperation = this.composite;
         ctx.globalAlpha = this.alpha;
         effOp.setShadowProperties(ctx);
-        if(this.clip) { ctx.clip(this.clip.toPath2D()); }
+
+        // `clipRelative` means it just retains the original offset/scale/rotation of the thing when calculating clip path (my original, flawed, accidental approach)
+        // otherwise, it's `clipAbsolute` which offsets the clip to consider its coordinates as absolute positions
+        if(this.clip) 
+        { 
+            let points = this.clip.toPath();
+            
+            // get our current transform => then undo pivot to get true top-left => then invert to UNDO that and make our clip path absolute
+            if(!this.clipRelative) 
+            { 
+                const transInv = new TransformationMatrix().fromContext(ctx);
+                transInv.translate(this.pivotOffset.clone().negate());
+                transInv.invert();
+                points = transInv.applyToArray(points); 
+            }
+
+            // this necessitates converting any shape to a slightly more expensive path, but it can't be helped
+            const path = new Path(points).toPath2D();
+            ctx.clip(path); 
+        }
 
         // @TODO: this is entirely untested and needs to be worked on
         // (also preferably put into its own function + executed BEFORE making changes to ctx?)

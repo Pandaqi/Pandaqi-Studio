@@ -38,7 +38,7 @@ devlog: "/blog/videogames/game-jams/devlog-ho-ho-sombrero/"
 {{% embedvideo bg="sombrero_header" vid="https://www.youtube.com/embed/WMB_kvQn-og" class="limit-width" %}}
 
 {{< buylink-container class="limit-width" >}}
-{{< buylink url="http://pandaqi.itch.io/ho-ho-sombrero" platforms="windows,mac,linux" text="Download" >}} 
+{{< buylink url="http://pandaqi.itch.io/ho-ho-sombrero" platforms="windows,mac,linux" text="Download" />}} 
 {{< /buylink-container >}}
 
 {{% section-centered heading="" %}}

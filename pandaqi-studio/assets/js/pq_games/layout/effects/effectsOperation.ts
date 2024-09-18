@@ -1,5 +1,5 @@
 import { ElementLike } from "../resources/resource";
-import { CanvasDrawableLike } from "../resources/resourceImage";
+import ResourceImage from "../resources/resourceImage";
 import LayoutEffect from "./layoutEffect";
 
 export default class EffectsOperation
@@ -39,7 +39,7 @@ export default class EffectsOperation
         return ctx;
     }
 
-    applyToDrawable(drawable:CanvasDrawableLike)
+    applyToDrawable(drawable:ResourceImage)
     {
         if(this.isEmpty()) { return drawable; } 
         for(const effect of this.effects)
@@ -79,5 +79,18 @@ export default class EffectsOperation
     getFilterString()
     {
         return this.filters.length <= 0 ? "none" : this.filters.join(" ");
+    }
+
+    setShadowProperties(ctx:CanvasRenderingContext2D)
+    {
+        ctx.shadowBlur = 0;
+        ctx.shadowColor = "#000000";
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
+
+        for(const effect of this.effects)
+        {
+            effect.applyShadow(ctx);
+        }
     }
 }

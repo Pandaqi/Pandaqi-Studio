@@ -23,4 +23,5 @@
 
 {{ define "footer" }}
     {{ partial "load-assets.html" (dict "context" . "ext" "js" "type" "game" "include" true) }}
+    {{ partial "load-fonts-auto.html" (dict "context" . "type" "game") }}
 {{ end }}

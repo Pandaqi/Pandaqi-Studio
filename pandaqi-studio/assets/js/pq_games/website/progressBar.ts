@@ -34,7 +34,6 @@ export default class ProgressBar
         div.style.justifyContent = "center";
         div.style.alignItems = "center";
         div.style.alignContent = "center";
-        div.style.fontFamily = "Georgia";
 
         const subdiv = document.createElement("div");
         div.appendChild(subdiv);

@@ -2,6 +2,7 @@ import Point from "js/pq_games/tools/geometry/point";
 import isZero from "js/pq_games/tools/numbers/isZero";
 
 // @SOURCE (basically just shows what HTML5 canvas does behind the scenes): https://github.com/simonsarris/Canvas-tutorials/blob/master/transform.js
+// @SOURCE (copy some more functions of this one, as it's nice): https://github.com/leeoniya/transformation-matrix-js/blob/master/src/matrix.js
 
 // @NOTE: I don't use the DOMMatrix natively, just a simple number array
 // because I don't want to rely on that API always staying the same (or not doing funny business)
@@ -35,6 +36,19 @@ export default class TransformationMatrix
     applyToContext(ctx:CanvasRenderingContext2D)
     {
         ctx.setTransform(this.m[0], this.m[1], this.m[2], this.m[3], this.m[4], this.m[5]);
+    }
+
+    applyToPoint(p:Point) 
+    {
+		return new Point(
+			p.x * this.m[0] + p.y * this.m[2] + this.m[4],
+			p.x * this.m[1] + p.y * this.m[3] + this.m[5]
+        );
+	}
+
+    applyToArray(points:Point[])
+    {
+        return points.map((x) => this.applyToPoint(x));
     }
 
     setIdentity()
@@ -116,4 +130,26 @@ export default class TransformationMatrix
 
         return this;
     }
+
+    invert() 
+    {
+		const a = this.m[0],
+			b = this.m[1],
+			c = this.m[2],
+			d = this.m[3],
+			e = this.m[4],
+			f = this.m[5],
+			dt = (a * d - b * c);
+        
+        this.m = [
+            d / dt,
+            -b / dt,
+            -c / dt,
+            a / dt,
+            (c * f - d * e) / dt,
+            -(a * f - b * e) / dt
+        ]
+
+		return this;
+	}
 }

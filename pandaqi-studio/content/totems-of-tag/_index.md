@@ -41,8 +41,8 @@ devlog: "/blog/videogames/one-week-games/devlog-totems-of-tag/"
 {{% embedvideo bg="totemsoftag_narrow_header" vid="https://www.youtube.com/embed/KSz3iXlhZ8k" class="limit-width" %}}
 
 {{< buylink-container class="limit-width" >}}
-{{< buylink url="https://poki.com/en/g/totems-of-tag" platforms="web" image="/svg/poki_badge_dark.svg" class="poki-badge" text="Play (free; web)" >}} 
-{{< buylink url="http://pandaqi.itch.io/totems-of-tag" platforms="windows,mac,linux" text="Buy" >}} 
+{{< buylink url="https://poki.com/en/g/totems-of-tag" platforms="web" image="/svg/poki_badge_dark.svg" class="poki-badge" text="Play (free; web)" />}} 
+{{< buylink url="http://pandaqi.itch.io/totems-of-tag" platforms="windows,mac,linux" text="Buy" />}} 
 {{< /buylink-container >}}
 
 {{% section-centered %}}

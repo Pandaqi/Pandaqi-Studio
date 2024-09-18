@@ -1,10 +1,9 @@
 
 
-
 /* 
 
 OLD CODE for "retry X times until image successfully decodes"
-Was a bad idea anyway, not needed anymore with cleaner code and better cashing
+Was a bad idea anyway, not needed anymore with cleaner code and better caching
 
 
 const RETRY_INTERVAL = 500;

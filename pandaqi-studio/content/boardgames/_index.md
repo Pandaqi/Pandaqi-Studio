@@ -2,8 +2,8 @@
 type: "gamepage"
 
 title: "Boardgames"
-headerTitle: "Boardgames | Free Print 'n Play titles"
-blurb: "An overview page for all my boardgames: Traditional, One Paper Games, and Hybrid Games"
+headerTitle: "Free Print-n-Play titles"
+blurb: "An overview page for the (most common categories of) boardgames I made."
 
 customHeight: "medium"
 
@@ -20,13 +20,32 @@ collection: true
 		<h1>Boardgames</h1>
 		<p class="fullWidthParagraph">Welcome to my collection of free "Print & Play" boardgames!</p>
 		<p class="fullWidthParagraph">
+			<a class="btn" href="#traditional">Traditional</a>
 			<a class="btn" href="#one-paper-games">One Paper Games</a>
 			<a class="btn" href="#hybrid">Hybrid</a>
-			<a class="btn" href="#traditional">Traditional</a>
 			<a class="btn" href="#explanation">How does it work?</a> 
 		</p>
 	</div>
 </section>
+
+<div class="colorScheme-blue background-pattern">
+	<div class="underline-image">
+{{< figure url="boardgames_games" alt="Traditional Games logo">}}
+	</div>
+
+{{% section-centered heading="Traditional Games" anchor="traditional"  %}}
+
+These are my "regular" boardgames. They are more similar to the typical boardgame. (Unlike my _Hybrid_ games that add a digital element, or my _One Paper Games_ that you play by writing on paper.)
+
+Because it's print-n-play, I mostly create card games, tile games and simple party games. Though with a bit of imagination I've been able to craft many different types of printable games. 
+
+This is by far the largest category of games on this website. If unfamiliar with my work, these games are more "safe" to try first, because they're less "experimental".
+
+{{% /section-centered %}}
+
+<!--- List all in category "standard" -->
+{{< list-in-category-grid type="categories" key="standard" >}}
+</div>
 
 <div class="colorScheme-beige background-pattern">
 	<div class="underline-image">
@@ -38,8 +57,6 @@ collection: true
 These games only require you to print _a single sheet of paper_ and find a pen(cil) somewhere! (Sometimes even a blank paper is enough!)
 
 This simplicity is great. You can download, explain, carry, play or pause these games instantly.
-
-Additionally, they are often language-independent (not always). Only one person needs to understand English to read the rules, all other files don't have (essential) text.
 
 {{% /section-centered %}}
 
@@ -64,23 +81,6 @@ Sometimes an offline mode is present or the digital component is optional. But t
 
 <!--- List all in category "hybrid" -->
 {{< list-in-category-grid type="categories" key="hybrid-game" >}}
-</div>
-
-<div class="colorScheme-blue background-pattern">
-	<div class="underline-image">
-{{< figure url="boardgames_games" alt="Traditional Games logo">}}
-	</div>
-
-{{% section-centered heading="Traditional Games" anchor="traditional"  %}}
-
-These are my "regular" boardgames. They are more similar to the typical boardgame, unlike my _hybrid_ games that add a digital element.
-
-Older games are available in multiple languages: Dutch and English. Newer ones are completely English.
-
-{{% /section-centered %}}
-
-<!--- List all in category "standard" -->
-{{< list-in-category-grid type="categories" key="standard" >}}
 </div>
 
 <div class="colorScheme-beige background-pattern">

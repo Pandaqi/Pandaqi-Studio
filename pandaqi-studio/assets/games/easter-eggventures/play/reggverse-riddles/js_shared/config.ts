@@ -42,7 +42,6 @@ const CONFIG:Record<string,any> =
         {
             path: "map_tiles.webp",
             frames: new Point(8,1),
-            disableCaching: true
         },
 
         misc_unique:

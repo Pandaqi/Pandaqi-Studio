@@ -47,7 +47,7 @@
     <div class="game-title">
         <span class="metadata-creator">by Pandaqi</span>
         <span class="metadata-duration">{{ $duration }} minutes</span>
-        <h1>{{ $title }} (Rules)</h1>
+        <h1><a href="{{ .Parent.RelPermalink }}">{{ $title }} (Rules)</a></h1>
         <span class="metadata-playercount">{{ $player_count_min }}-{{ $player_count_max }} players</span>
         <!--- <span class="metadata-genres">{{ $genres_str }}</span> --->
         <button id="simpleViewButton" title="Toggle Simple View">⚪</button>

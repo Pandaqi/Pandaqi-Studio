@@ -1,6 +1,7 @@
 import Point from "js/pq_games/tools/geometry/point"
 import { ContractType } from "./dict"
 import CVal from "js/pq_games/tools/generation/cval"
+import autoLoadFontCSS from "js/pq_games/website/autoLoadFontCSS";
 
 const CONFIG:any = 
 {
@@ -218,5 +219,7 @@ const CONFIG:any =
 
     },
 }
+
+autoLoadFontCSS(CONFIG);
 
 export default CONFIG

@@ -1,6 +1,7 @@
-import CVal from "js/pq_games/tools/generation/cval"
-import Point from "js/pq_games/tools/geometry/point"
-import Bounds from "js/pq_games/tools/numbers/bounds"
+import CVal from "js/pq_games/tools/generation/cval";
+import Point from "js/pq_games/tools/geometry/point";
+import Bounds from "js/pq_games/tools/numbers/bounds";
+import autoLoadFontCSS from "js/pq_games/website/autoLoadFontCSS";
 
 const CONFIG:any = 
 {
@@ -43,7 +44,8 @@ const CONFIG:any =
         powers:
         {
             path: "powers.webp",
-            frames: new Point(4,4)
+            frames: new Point(4,4),
+            loadIf: ["sets.powerCards"]
         },
 
         misc:
@@ -128,5 +130,7 @@ const CONFIG:any =
         }
     },
 }
+
+autoLoadFontCSS(CONFIG);
 
 export default CONFIG

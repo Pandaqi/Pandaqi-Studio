@@ -34,14 +34,12 @@ const CONFIG:Record<string,any> =
         {
             path: "clue_cards.webp",
             frames: new Point(11,8),
-            disableCaching: true
         },
 
         rooms:
         {
             path: "rooms.webp",
             frames: new Point(8,6),
-            disableCaching: true
         },
 
         // @NOTE: some of these frames have been hijacked for misc sprites; had to do that because my broken laptop can't handle loading more individual asset files

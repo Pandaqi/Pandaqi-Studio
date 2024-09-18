@@ -1,5 +1,5 @@
-import TextConfig, { TextStyle } from "js/pq_games/layout/text/textConfig"
-import Point from "js/pq_games/tools/geometry/point"
+import Point from "js/pq_games/tools/geometry/point";
+import autoLoadFontCSS from "js/pq_games/website/autoLoadFontCSS";
 
 const CONFIG:any = 
 {
@@ -77,5 +77,7 @@ const CONFIG:any =
         },
     },
 }
+
+autoLoadFontCSS(CONFIG);
 
 export default CONFIG

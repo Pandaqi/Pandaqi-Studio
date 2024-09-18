@@ -50,11 +50,13 @@ Only two placement rules apply.
 * When placing animals, they must be placed on one of their **preferred terrains** (see their Passport).
 * Once an Area is claimed by a player, **only they** are allowed to overlap it (and thus change some part of it).
 
+@TODO: IMAGE EXAMPLE
+
 Whenever someone **finishes an exhibit**, a **Feed Phase** triggers.
 * Check all **claimed exhibits** that contain at least one animal. Its owner(s) must feed the animals inside!
 * You do so by _discarding_ a domino that shows Food from inside the Exhibit. (You always discard only 1 food, regardless of how many animals there are.)
 * If you **can't** feed them, _discard_ the domino showing the most animals inside the Exhibit.
-* If this exhibit has multiple players inside, they discuss and choose what they want to do. If no decision can be reached, the player who has the biggest area chooses, then the player closest to the one who triggered the feed phase.
+* If this exhibit has multiple players inside, they may discuss what to do. In the end, though, the player closest to the one who triggered the feed phase has the final say.
 
 @TODO: IMAGE EXAMPLE
 

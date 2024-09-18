@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="index, follow">
 
+    <!-- RSS Feed -->
+    {{ with .OutputFormats.Get "rss" -}}
+        {{ printf `<link rel=%q type=%q href=%q title=%q>` .Rel .MediaType.Type .Permalink site.Title | safeHTML }}
+    {{ end }}
+
     <!-- OpenGraph Tags included, only on articles -->
     {{ if .Summary }}
 	    <meta property="og:type" content="article" />

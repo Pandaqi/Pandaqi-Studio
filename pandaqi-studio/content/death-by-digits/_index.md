@@ -14,7 +14,7 @@ invert: true
 date: 2025-01-12
 
 difficulty: "kids-can-play"
-categories: ["boardgame", "card-game"]
+categories: ["boardgame", "card-game", "standard"]
 genre: ["family"]
 tags: ["deduction", "detective", "memory", "numbers", "patterns", "textless", "turn-based", "guessing", "variable-setup"]
 themes: ["textured", "espionage"]

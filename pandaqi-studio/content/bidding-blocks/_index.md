@@ -13,7 +13,7 @@ downloadLink: "https://drive.google.com/drive/folders/1Tcw0OHh5wn-li1w0AGjbX4mGM
 date: 2026-01-26
 
 difficulty: "simple"
-genres: ["family", "thematic"]
+genres: ["family", "thematic", "standard"]
 categories: ["boardgame", "card-game"]
 tags: ["matching", "trick-taking", "turn-based", "high-score", "score-and-reset"]
 themes: []

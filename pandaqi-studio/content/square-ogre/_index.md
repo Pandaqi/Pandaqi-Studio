@@ -36,8 +36,8 @@ input: ["touch", "keyboard"]
 {{% embedvideo bg="squareogre_logo" vid="https://youtube.com/embed/wbbFJdYkwZ4" class="limit-width extra-top-offset" %}}
 
 {{< buylink-container class="limit-width" >}}
-{{< buylink url="http://pandaqi.itch.io/square-ogre" platforms="windows,mac,linux,android" text="Buy (&euro;3.99)" >}} 
-{{< buylink url="https://play.google.com/store/apps/details?id=com.pandaqi.square_ogre" platforms="android" text="Try for free" >}} 
+{{< buylink url="http://pandaqi.itch.io/square-ogre" platforms="windows,mac,linux,android" text="Buy (&euro;3.99)" />}} 
+{{< buylink url="https://play.google.com/store/apps/details?id=com.pandaqi.square_ogre" platforms="android" text="Try for free" />}} 
 {{< /buylink-container >}}
 
 <!-- Section 1: A Puzzler for Everyone -->

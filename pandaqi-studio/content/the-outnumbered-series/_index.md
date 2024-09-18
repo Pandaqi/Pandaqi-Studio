@@ -36,7 +36,7 @@ This is the **overview page** of The Outnumbered Series.
 
 Click any of the links below to visit a specific game. They are sorted based on their unique number, not any other metric (such as simplicity).
 
-{{< boardgame-project-games-list subdir="count-to" >}}
+{{< boardgame-project-games-list subdir="count-to" color="#1d3a81" >}}
 
 All the games are unique: new rules, new art style, new material, new ideas.
 

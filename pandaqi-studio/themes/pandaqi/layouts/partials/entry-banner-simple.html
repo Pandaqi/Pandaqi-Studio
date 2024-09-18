@@ -2,7 +2,7 @@
 {{ $title := .Title }}
 {{ $metadata := partial "func/get-game-metadata.html" . }}
 {{ $link_text := "Visit page!" }}
-{{ $content := .Params.blurb }}
+{{ $blurb_text := or (or .Params.blurb .Params.headerTitle) "This is a mysterious game without a description ..." }}
 {{ $color_scheme := .Params.color }}
 
 <section class="entry-banner-simple {{ $color_scheme }}">
@@ -22,7 +22,7 @@
             {{ end }}
         </div>
         {{ end }}
-        <p>{{ $content }}</p>
+        <p>{{- $blurb_text -}}</p>
         <div class="btn">
             {{ $link_text }}
         </div>

@@ -20,7 +20,8 @@ interface ResourceLoadParams
     useAbsolutePath?: boolean // default is false = relative path, potentially from base
     inkfriendly?: boolean, // default = false
     loadIf?: string[], // only if these specific paths in config evaluate to TRUE, load this asset
-    disableCaching?: boolean
+    loadInSequence?: boolean, // parallel loading is default, but that can break on Chrome + old system + lots of stuff to load
+    enableCaching?: boolean, // creates a separate cached image for every frame; only useful if we have a spritesheet that the generator draws from aaall the time
 
     numThumbnails?: number,
     frames?: Point,
@@ -39,6 +40,9 @@ export default class ResourceLoader
     resourcesQueued : Record<string, ResourceLoadParams>
     resourcesLoaded : Record<string, Resource>
     base: string
+
+    loadInSequence = false
+    onResourceLoaded = (txt:string) => {}
 
     constructor(params:ResourceLoaderParams = {})
     {
@@ -102,11 +106,15 @@ export default class ResourceLoader
         const promises = [];
         for(const [id, params] of Object.entries(this.resourcesQueued))
         {
-            promises.push(this.loadResource(id, params));
+            if(params.loadInSequence || this.loadInSequence) {
+                await this.loadResource(id, params);
+            } else {
+                promises.push(this.loadResource(id, params));                
+            }
         }
 
         this.resourcesQueued = {};
-        await Promise.all(promises);
+        if(promises.length > 0) { await Promise.all(promises); }
     }
 
     getExtension(path:string) : string
@@ -156,12 +164,16 @@ export default class ResourceLoader
 
         const key = (params.id ?? params.key) ?? id;
 
+        const pathSplit = path.split("/");
+        const fileName = pathSplit[pathSplit.length - 1];
+
         if(this.isImage(path))
         {
             const img = new Image();
             img.src = params.path;
             await img.decode();
             await this.cacheLoadedImage(key, params, img);
+            this.onResourceLoaded("Image (" + fileName + ")");
         }
 
         if(this.isFont(path))
@@ -169,8 +181,10 @@ export default class ResourceLoader
             const textConfig = params.textConfig ? params.textConfig.getFontFaceDescriptors() : {};
             const fontFile = new FontFace(key, "url('" + params.path + "')", textConfig);
             const f = await fontFile.load()
-            this.cacheLoadedFont(key, params, f)
+            this.cacheLoadedFont(key, params, f);
+            this.onResourceLoaded("Font (" + fileName + ")");
         }
+        
     }
 
     cacheLoadedFont(id:string, params:ResourceLoadParams, f:FontFace)
@@ -184,7 +198,7 @@ export default class ResourceLoader
     async cacheLoadedImage(id:string, params:ResourceLoadParams, img:HTMLImageElement)
     {
         const res = new ResourceImage(img, params);
-        if(!params.disableCaching) { await res.cacheFrames(); }
+        if(params.enableCaching) { await res.cacheFrames(); }
         this.resourcesLoaded[id] = res;
     }
 

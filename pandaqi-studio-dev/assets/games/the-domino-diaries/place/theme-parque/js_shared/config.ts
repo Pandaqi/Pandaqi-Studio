@@ -77,42 +77,36 @@ const CONFIG:any =
             path: "pawns.webp",
             frames: new Point(6,1),
             loadIf: ["sets.pawns"],
-            disableCaching: true
         },
 
         attractions:
         {
             path: "attractions.webp",
             frames: new Point(4,3),
-            disableCaching: true
         },
 
         decorations:
         {
             path: "decorations.webp",
             frames: new Point(4,3),
-            disableCaching: true
         },
 
         stalls:
         {
             path: "stalls.webp",
             frames: new Point(4,3),
-            disableCaching: true
         },
 
         paths:
         {
             path: "paths.webp",
             frames: new Point(5,4),
-            disableCaching: true
         },
 
         misc:
         {
             path: "misc.webp",
             frames: new Point(8,1),
-            disableCaching: true
         },
     },
 

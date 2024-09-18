@@ -1,20 +1,17 @@
 
-{{ $all_colors := .Site.Params.all_colors }}
-{{ $color_scheme := or .Params.color (index ($all_colors | shuffle) 0) }}
-
 {{ if and (not .Params.collection) (eq .Type "gamepage") }}
-	<div class="metadata-divider clipped {{ $color_scheme }}"></div>
-	<section class="metadata-container clipped {{ $color_scheme }}">
+	<div class="metadata-divider clipped"></div>
+	<section class="metadata-container clipped">
 		{{ partial "metadata.html" . }}
 	</section>
 {{ end }}
 
 <!-- On narrow screens, a "fake divider" is created and put on top of the footer -->
 <!-- Because the footer itself gets very long, using "mask-image" on that results on very ugly HUGE waves -->
-<div class="footer-divider clipped {{ $color_scheme }}">
+<div class="footer-divider clipped">
 </div>
 
-<footer class="clipped {{ $color_scheme }}">
+<footer class="clipped">
 	{{ if eq .Type "gamepage" }}
 		<!-- Show narrow footer, easy styling -->
 		{{ partial "narrow-footer.html" . }}
@@ -46,6 +43,9 @@
 <!-- Default JS needed (for making basic functionality work, like picking random projects) -->
 {{ $default_js := resources.Get "/js/functionality.ts" | js.Build "/js/lib-functionality.js" | minify }}
 <script async defer src="{{ $default_js.RelPermalink }}"></script>
+
+<!--- CUSTOM JS: Auto-Load Fonts --->
+{{ partial "load-fonts-auto.html" (dict "context" . "type" "page") }}
 
 <!--- CUSTOM JS: Shared --->
 {{ if .Params.sharedJS }}

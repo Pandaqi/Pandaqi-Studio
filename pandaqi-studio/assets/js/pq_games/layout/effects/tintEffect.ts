@@ -16,8 +16,9 @@ export default class TintEffect extends LayoutEffect
     color: Color
     from: Color
 
-    constructor(params:TintEffectParams|string = {})
+    constructor(params:TintEffectParams|string|Color = {})
     {
+        if(params instanceof Color) { params = { color: params}; }
         if(typeof params !== "object") { params = { color: params }; }
         super(params);
         this.color = new Color(params.color ?? "#FFFFFF");

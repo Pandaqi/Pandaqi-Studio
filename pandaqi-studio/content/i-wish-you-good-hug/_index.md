@@ -38,7 +38,7 @@ devlog: "/blog/videogames/one-week-games/devlog-i-wish-you-good-hug/"
 {{% embedvideo bg="goodhug_header" vid="https://www.youtube.com/embed/9Qwpho6_8uc" %}}
 
 {{< buylink-container class="limit-width" >}}
-{{< buylink url="http://pandaqi.itch.io/i-wish-you-good-hug" platforms="windows,mac,linux,android"  text="Buy (&euro;2)" >}} 
+{{< buylink url="http://pandaqi.itch.io/i-wish-you-good-hug" platforms="windows,mac,linux,android"  text="Buy (&euro;2)" />}} 
 {{< /buylink-container >}}
 
 {{% section-centered heading="" %}}

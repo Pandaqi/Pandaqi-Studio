@@ -45,6 +45,7 @@ const DISKS =
             posY: 0.1431,
             fontSize: 225,
             lineHeight: 1.0,
+            lineHeightLowerCase: 0.8,
             textColor: "#000000",
             textColorOverlay: "#2B2B2B",
             strokeWidth: 12,

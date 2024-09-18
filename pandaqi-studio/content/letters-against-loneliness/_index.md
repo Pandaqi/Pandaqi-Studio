@@ -37,7 +37,7 @@ input: ["mouse", "touch"]
 {{% embedvideo bg="letters_header" vid="https://www.youtube.com/embed/RFmb-sz5Ox0" class="limit-width" %}}
 
 {{< buylink-container class="limit-width" >}}
-{{< buylink url="http://pandaqi.itch.io/letters-against-loneliness" platforms="windows,android" text="Buy (&euro;4)" >}} 
+{{< buylink url="http://pandaqi.itch.io/letters-against-loneliness" platforms="windows,android" text="Buy (&euro;4)" />}} 
 {{< /buylink-container >}}
 
 {{% section-centered heading="" class="intro-text" %}}
@@ -69,7 +69,5 @@ Each world introduces one new element (a new person, a new tile, anything) to gr
 The simple objective and simple rule stay the same for the whole game, making it accessible to anyone. 
 
 But once people with specific wishes appear, and the terrain turns into mountains, forests and buildings, finding the solution requires quite the Eureka!
-
-Letters Against Loneliness has been Featured on [MyAppFree](https://app.myappfree.com/). Get MyAppFree to discover more offers and sales!
 
 {{% /section-centered %}}

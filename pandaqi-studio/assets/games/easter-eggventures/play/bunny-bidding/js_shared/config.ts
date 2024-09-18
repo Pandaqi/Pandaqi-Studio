@@ -35,7 +35,6 @@ const CONFIG:Record<string,any> =
             path: "powers.webp",
             frames: new Point(8,2),
             loadIf: ["sets.powers"],
-            disableCaching: true
         },
         
         actions:
@@ -43,7 +42,6 @@ const CONFIG:Record<string,any> =
             path: "actions.webp",
             frames: new Point(10,2),
             loadIf: ["sets.special"],
-            disableCaching: true
         }
     },
 

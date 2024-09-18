@@ -1,5 +1,6 @@
 import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textConfig"
 import Point from "js/pq_games/tools/geometry/point"
+import autoLoadFontCSS from "js/pq_games/website/autoLoadFontCSS";
 
 const CONFIG:any = 
 {
@@ -34,7 +35,7 @@ const CONFIG:any =
     },
 
     // assets
-    assetsBase: "/teamturns/assets/",
+    assetsBase: "/swiftsmash-saga/tap/booksmack/assets/",
     assets:
     {
         
@@ -95,5 +96,7 @@ const CONFIG:any =
         },
     },
 }
+
+autoLoadFontCSS(CONFIG);
 
 export default CONFIG

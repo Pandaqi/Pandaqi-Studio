@@ -4,6 +4,18 @@ import ResourceLoader from "js/pq_games/layout/resources/resourceLoader";
 import PdfBuilder, { PageFormat, PageOrientation } from "js/pq_games/pdf/pdfBuilder";
 import ProgressBar from "js/pq_games/website/progressBar";
 import MaterialVisualizer from "./materialVisualizer";
+import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage";
+
+const DEFAULT_BATCH_SIZE = 10;
+const GIVE_FEEDBACK = true;
+const sleep = (timeout:number) => new Promise(r => setTimeout(r, timeout))
+
+interface MaterialDrawCall
+{
+    item: any,
+    drawer: GridMapper,
+    visualizer: MaterialVisualizer
+}
 
 //
 // Default debug config settings are
@@ -26,7 +38,7 @@ export default class MaterialGenerator
     drawers: Record<string,GridMapper>;
 
     filterAssets: Function = (dict) => { return dict; }
-    progressBarPhases:string[] = ["Loading Assets", "Creating Cards", "Preparing PDF", "Done!"]
+    progressBarPhases:string[] = ["Loading Assets", "Creating Cards", "Drawing Cards", "Preparing PDF", "Done!"]
     visualizerClass: any;
     visualizerClassCustom: any;
 
@@ -99,9 +111,17 @@ export default class MaterialGenerator
     async loadAssets()
     {
         this.progressBar.gotoNextPhase();
+        await this.letDomUpdate();
 
         const assetsToLoad = this.filterAssets(this.config.assets);
         const resLoader = new ResourceLoader({ base: this.config.assetsBase });
+        
+        if(GIVE_FEEDBACK)
+        {
+            //resLoader.loadInSequence = true;
+            resLoader.onResourceLoaded = (txt:string) => { this.progressBar.setInfo(txt); };
+        }
+
         if(!this.config.debug.onlyGenerate) { resLoader.planLoadMultiple(assetsToLoad, this.config); }
         await resLoader.loadPlannedResources();
         
@@ -111,6 +131,8 @@ export default class MaterialGenerator
     async createCards()
     {
         this.progressBar.gotoNextPhase();
+        await this.letDomUpdate();
+
         for(const generator of Object.values(this.generators))
         {
             await generator.generate();
@@ -121,9 +143,14 @@ export default class MaterialGenerator
     {
         if(this.config.debug.onlyGenerate) { return; }
 
+        this.progressBar.gotoNextPhase();
+        await this.letDomUpdate();
+
         const itemsOfType = {};
 
+        // collect all items (and the visualizer for them), but don't draw them yet
         // @NOTE: so far, drawers are always just GridMappers, though that might generalize in the future
+        const drawCalls:MaterialDrawCall[] = [];
         for(const [id,drawer] of Object.entries(this.drawers))
         {
             const items = this.generators[id].get();
@@ -133,9 +160,6 @@ export default class MaterialGenerator
 
             const visualizer = new this.visualizerClass(this.config);
             if(this.visualizerClassCustom) { visualizer.setCustomObject(new this.visualizerClassCustom()); }
-    
-            // cards handle drawing themselves
-            const promises = [];
             for(const item of items)
             {
                 const type = item.type ?? "default";
@@ -143,11 +167,33 @@ export default class MaterialGenerator
                 itemsOfType[type].push(item);
                 if(this.config.debug.singleDrawPerType && itemsOfType[type].length > 1) { continue; }
     
-                promises.push(item.draw(visualizer));
+                drawCalls.push({ item: item, drawer: drawer, visualizer: visualizer });
             }
-    
+        }
+
+        // because we draw them in small batches to prevent overloading the browser
+        // (and give intermittent feedback to user)
+        let batchSize = this.config.generationBatchSize ?? DEFAULT_BATCH_SIZE;
+        if(batchSize <= 0 || this.config.generationNoBatching) { batchSize = drawCalls.length; }
+        const numBatches = Math.ceil(drawCalls.length / batchSize);
+        for(let i = 0; i < numBatches; i++)
+        {
+            const infoText = "Drawing batch " + (i+1) + " / " + numBatches;
+            console.log(infoText);
+            this.progressBar.setInfo(infoText);
+
+            const promises = [];
+            const drawCallsInBatch = drawCalls.splice(0, batchSize);
+            for(const drawCall of drawCallsInBatch)
+            {
+                // cards handle drawing themselves
+                promises.push(drawCall.item.draw(drawCall.visualizer));
+            }
+
+            await this.letDomUpdate();
+
             const canvases = await Promise.all(promises);
-            drawer.addElements(canvases.flat());
+            drawCallsInBatch[0].drawer.addElements(canvases.flat());
         }
     }
 
@@ -159,11 +205,38 @@ export default class MaterialGenerator
 
         for(const drawer of Object.values(this.drawers))
         {
-            const images = await convertCanvasToImageMultiple(drawer.getCanvases());
-            this.pdfBuilder.addImages(images);
+            if(GIVE_FEEDBACK) {
+                
+                const canvases = drawer.getCanvases();
+                const numPages = canvases.length;
+                for(let i = 0; i < numPages; i++)
+                {
+                    const infoText = "Adding page " + (i+1) + " / " + numPages + " to PDF";
+                    console.log(infoText);
+
+                    this.progressBar.setInfo(infoText);
+                    await sleep(33);
+
+                    const image = await convertCanvasToImage(canvases[i]);
+                    this.pdfBuilder.addImage(image);
+                }
+
+            } else {
+                const images = await convertCanvasToImageMultiple(drawer.getCanvases());
+                this.pdfBuilder.addImages(images);
+            }
         }
+
+        this.progressBar.setInfo("Compressing PDF (final step).");
+        await sleep(33);
 
         const pdfConfig = { customFileName: this.config.fileName }
         this.pdfBuilder.downloadPDF(pdfConfig);
+    }
+
+    async letDomUpdate()
+    {
+        if(!GIVE_FEEDBACK) { return Promise.resolve('No delay!'); }
+        return sleep(33);
     }
 }

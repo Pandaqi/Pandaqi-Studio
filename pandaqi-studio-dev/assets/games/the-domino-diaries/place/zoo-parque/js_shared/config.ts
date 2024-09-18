@@ -75,41 +75,35 @@ const CONFIG:any =
             path: "pawns.webp",
             frames: new Point(6,1),
             loadIf: ["sets.pawns"],
-            disableCaching: true
         },
 
         animals:
         {
             path: "animals.webp",
             frames: new Point(4,4),
-            disableCaching: true
         },
 
         terrains:
         {
             path: "terrains.webp",
             frames: new Point(6,1),
-            disableCaching: true
         },
 
         objects:
         {
             path: "objects.webp",
             frames: new Point(4,2),
-            disableCaching: true
         },
 
         stalls:
         {
             path: "stalls.webp",
             frames: new Point(4,2),
-            disableCaching: true
         },
 
         animal_passport:
         {
             path: "animal_passport.webp",
-            disableCaching: true,
             loadIf: ["sets.passports"]
         },
 
@@ -117,7 +111,6 @@ const CONFIG:any =
         {
             path: "misc.webp",
             frames: new Point(6,1),
-            disableCaching: true
         },
     },
 

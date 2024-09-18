@@ -36,7 +36,7 @@ This is the **overview page** of the Throneless Games.
 
 Click any of the links below to visit a specific game. They are sorted based on simplicity.
 
-{{< boardgame-project-games-list subdir="conquer" >}}
+{{< boardgame-project-games-list subdir="conquer" color="#220c4e" >}}
 
 {{% /section-centered %}}
 

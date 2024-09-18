@@ -36,7 +36,6 @@ const CONFIG:Record<string,any> =
             path: "special_eggs.webp",
             frames: new Point(8,2),
             loadIf: ["sets.specialEggs"],
-            disableCaching: true
         },
 
         obstacles:
@@ -44,7 +43,6 @@ const CONFIG:Record<string,any> =
             path: "obstacles.webp",
             frames: new Point(10,2),
             loadIf: ["sets.eggstraObstacles", "sets.base"],
-            disableCaching: true
         },
     },
 

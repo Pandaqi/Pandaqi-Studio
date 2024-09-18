@@ -1,0 +1,47 @@
+$min-item-width: 10rem;
+
+.games-collection-grid {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    grid-template-columns: repeat(auto-fit, minmax($min-item-width, 1fr));
+    gap: 0.5em;
+    margin: 0.5em;
+    padding: 0;
+    font-size: 0.75em;
+    line-height: 1.2em;
+
+    a {
+        text-decoration: none;
+    }
+
+    h3 {
+        text-decoration: none;
+        text-align: center;
+    }
+
+    a:visited {
+        color: currentcolor;
+    }
+
+    li {
+        margin: 0;
+        padding: 0.5em;
+        list-style-type: none;
+        background-color: #e5ddd6;
+        border-radius: 0.33em;
+
+        a {
+            font-weight: normal;
+        }
+
+        transition: filter 0.2s, transform 0.2s;
+
+        &:hover 
+        {
+            filter: drop-shadow(0 0 5px black);
+            transform: scale(1.025);
+            background-color: #fff5f3;
+        }
+    }
+}

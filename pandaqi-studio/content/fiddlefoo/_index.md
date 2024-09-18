@@ -13,7 +13,7 @@ color: "yellow"
 date: 2025-01-12
 
 difficulty: "kids-can-play"
-categories: ["boardgame", "card-game"]
+categories: ["boardgame", "card-game", "standard"]
 genre: ["family", "abstract"]
 tags: ["shared-map", "grid", "turn-based", "score-and-reset", "numbers"]
 themes: ["colorful", "music"]

@@ -10,12 +10,12 @@ $mask-size: (g.$num-masks * 100 + 0%) 100%;
 
 .masked-link {
     display: inline-block;
-    font-size: 0.75rem;
+    font-size: 1em;
     text-decoration: none;
     
-    padding: 0;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
+    padding: 0.25em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
 
     mask-image: $mask-url;
     -webkit-mask-image: $mask-url;
@@ -28,12 +28,12 @@ $mask-size: (g.$num-masks * 100 + 0%) 100%;
     transform: rotate(var(--rotation));
 
     &:hover {
-        filter:  drop-shadow(0 0 1.75rem black) hue-rotate(-120deg);
+        filter:  drop-shadow(0 0 1.45em black) hue-rotate(-120deg);
         transform: rotate(0deg) scale(1.1);
     }
 
     &.category-link, &.tag-link, &.big-mask {
-        padding: 1rem;
+        padding: 1em;
     }
 
     

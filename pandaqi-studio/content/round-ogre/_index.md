@@ -36,8 +36,8 @@ input: ["touch", "keyboard", "mouse"]
 {{% embedvideo bg="roundogre_logo_wide" vid="https://youtube.com/embed/oPflIMz4kys" class="limit-width extra-top-offset" %}}
 
 {{< buylink-container class="limit-width" >}}
-{{< buylink url="http://pandaqi.itch.io/round-ogre" platforms="windows,mac,linux,android" text="Buy (&euro;7.99)" >}} 		
-{{< buylink url="https://play.google.com/store/apps/details?id=com.pandaqi.round_ogre" platforms="android" text="Try for free" >}} 
+{{< buylink url="http://pandaqi.itch.io/round-ogre" platforms="windows,mac,linux,android" text="Buy (&euro;7.99)" />}} 		
+{{< buylink url="https://play.google.com/store/apps/details?id=com.pandaqi.round_ogre" platforms="android" text="Try for free" />}} 
 {{< /buylink-container >}}
 
 <!-- Section 1: Seeing possibilities -->

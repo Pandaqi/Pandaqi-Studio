@@ -52,8 +52,6 @@ These games all have the same **core mechanic** (the "Swiftsmash Mechanic"). Fir
 
 Besides that shared mechanic, these games are **completely different**. They don't even share fonts, visual styles or any other mechanics.
 
-**Why doesn't Bodyguard follow the naming pattern!?** Because it has different modes and some of them are completely unrelated to smashing a card! It's a Swiftsmash game, and also not.
-
 {{% /section-centered %}}
 
 {{% section-centered heading="Credits" anchor="credits" %}}

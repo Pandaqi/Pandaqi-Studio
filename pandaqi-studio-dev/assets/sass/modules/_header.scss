@@ -1,22 +1,24 @@
 @use "globals.scss" as g;
+@use "./colorschemes" as c;
 
 header {
+	@include c.colorscheme();
 
 	font-family: "Dosis";
 	position: relative;
 
 	nav {
-		margin-top: -1rem; /* necessary for some reason, probably because entry banners take margin of 15px at top  */
+		margin-top: -1em; /* necessary for some reason, probably because entry banners take margin of 15px at top  */
 
-		padding: max(3vw, 1.5rem);
-		padding-top: 1.5rem;
+		padding: max(3vw, 1.5em);
+		padding-top: 1.5em;
 
 		ul {
 			display: flex;
 			align-content: center;
 			align-items: center;
 			flex-wrap: nowrap;
-			gap: 0.5rem;
+			gap: 0.5em;
 			margin: 0;
 			padding: 0;
 
@@ -53,12 +55,12 @@ header {
 
 				
 		@media all and (max-width: g.$cutoff2) {
-			padding-left: 0.5rem;
-			padding-right: 0.5rem;
+			padding-left: 0.5em;
+			padding-right: 0.5em;
 
 			ul {
 				.outspacer {
-					font-size: 1.25rem;
+					font-size: 1.25em;
 					white-space: break-spaces;
 				}
 

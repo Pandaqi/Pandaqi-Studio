@@ -1,8 +1,12 @@
+@use "./colorschemes" as c;
+
 footer {
-	padding: 1rem;
-	padding-top: 3rem;
-	padding-bottom: 3rem;
-	margin-top: -1rem;
+	@include c.inverted-colorscheme();
+
+	padding: 1em;
+	padding-top: 3em;
+	padding-bottom: 3em;
+	margin-top: -1em;
 	
 	.narrow-flex {
 		display: flex;
@@ -26,7 +30,7 @@ footer {
 				}
 
 				.masked-link {
-					padding: 1.0rem;
+					padding: 1.0em;
 				}
 			}
 		}

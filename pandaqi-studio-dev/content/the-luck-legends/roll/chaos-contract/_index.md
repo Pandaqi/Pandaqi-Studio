@@ -11,6 +11,7 @@ weightProject: 30
 downloadLink: "https://drive.google.com/drive/folders/1uw-nB4F36NqM6XUbVqXUyemRKPAwjDLJ"
 
 color: "purple"
+fontSizeBase: 17
 
 date: 2025-11-26
 

@@ -53,7 +53,7 @@ In other words, want to try it? We recommend ...
 
 {{% section-centered heading="Journey through the Universe" %}}
 
-@TODO: Turn this into nice images/banners instead of text.
+@TODO: Turn this into nice images/banners instead of text. => Put these games into SEPARATE subfolders! One folder for the big, main games (`visit`) and one for the smaller spinoffs (`swing-by`)
 
 Below is a list of all major games, roughly sorted by difficulty.
 

@@ -6,6 +6,7 @@ title: "Puzzle Species"
 headerTitle: "Combine multiple puzzle-shaped creatures into one that's stronger than the sum of its parts---and use it to confuse the opponent's puzzles."
 
 color: "green"
+autoLoadFontCSS: true
 
 downloadLink: "https://drive.google.com/drive/folders/1CP4ZDKvPHK4Qg17SSLgmMR8NBmfXmAbY"
 

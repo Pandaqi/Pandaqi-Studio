@@ -39,7 +39,9 @@ Click any of the links below to visit a specific game. They are roughly sorted b
 
 The core mechanic of these games is the fun and time-tested **domino tile**. You'll be placing tiles in a shared map, or in your own little worlds, trying to shape a unique world that scores you the most points or does what you need to win.
 
-Some people only know the word "domino" from its origin: chunky white tiles with dots on both sides showing numbers 1--6 (like dice), and you simply had to match the numbers. I use it in the way that games like _Kingdomino_ have used it. A **domino** is simply a **rectangular tile that has two different sides**, and the core idea of the game is to **combine these dominoes** in your own little map, in such a way that you score the most points. (By matching colors, combining paths, creating areas of the same terrain, etcetera.)
+Some people only know the word "domino" from its origin: chunky white tiles with dots on both sides showing numbers 1--6 (like dice), and you simply had to match the numbers. I use it in the way that games like _Kingdomino_ have used it. 
+
+A **domino** is simply a **rectangular tile that has two different sides**, and the core idea of the game is to **combine these dominoes** in your own little map, in such a way that you score the most points. (By matching colors, combining paths, creating areas of the same terrain, etcetera.)
 
 Besides that shared mechanic, the games are completely different and truly unique.
 

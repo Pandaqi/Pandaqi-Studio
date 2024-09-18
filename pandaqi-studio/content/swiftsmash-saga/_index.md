@@ -35,17 +35,11 @@ This is the **overview page** of the Swiftsmash Saga.
 
 Click any of the links below to visit a specific game. They are roughly sorted based on simplicity.
 
-{{< boardgame-project-games-list subdir="tap" >}}
-
-<!--- SMACKSHAPES weightProject=10 blurbProject = smash the shape that appears the most! This version is textless, simplest and most suitable for young children. -->
-<!--- SMASH SALE weightProject=30 blurbProject = the shopping mall holds a flash sale. All players simultaneously smash the item they want, but you only get one try, so make sure it's actually the one you wanted. --->
-<!--- BODYGUARD weightProject=40 blurbProject = the tribe leader fears for assassination. Discover the shooter and the path of their bullets, to smash the danger before anyone else. --->
+{{< boardgame-project-games-list subdir="tap" color="#98e3a4" >}}
 
 These games all have the same **core mechanic** (the "Swiftsmash Mechanic"). First, players simultaneously reveal cards. You must quickly read them, follow ever-changing rules and think ahead to find the **one card** you must smash. Beat the others and you win. Be too slow, or smash the wrong one, and you'll regret it.
 
 Besides that shared mechanic, these games are **completely different**. They don't even share fonts, visual styles or any other mechanics.
-
-**Why doesn't Bodyguard follow the naming pattern!?** Because it has different modes and some of them are completely unrelated to smashing a card! It's a Swiftsmash game, and also not.
 
 {{% /section-centered %}}
 

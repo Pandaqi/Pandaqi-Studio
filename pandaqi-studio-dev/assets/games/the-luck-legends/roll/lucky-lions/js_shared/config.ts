@@ -3,6 +3,7 @@ import { AnimalType } from "./dict"
 import CVal from "js/pq_games/tools/generation/cval"
 import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textConfig"
 import Bounds from "js/pq_games/tools/numbers/bounds"
+import autoLoadFontCSS from "js/pq_games/website/autoLoadFontCSS"
 
 const CONFIG:any = 
 {
@@ -40,20 +41,24 @@ const CONFIG:any =
         berylium:
         {
             path: "fonts/Berylium-Regular.woff2",
+            loadIf: ["sets.busyZoo", "sets.wildAnimals"]
         },
 
         berylium_italic:
         {
             key: "berylium",
             path: "fonts/Berylium-Italic.woff2",
-            textConfig: new TextConfig({ style: TextStyle.ITALIC })
+            textConfig: new TextConfig({ style: TextStyle.ITALIC }),
+            loadIf: ["sets.busyZoo", "sets.wildAnimals"]
+
         },
 
         berylium_bold:
         {
             key: "berylium",
             path: "fonts/Berylium-Bold.woff2",
-            textConfig: new TextConfig({ weight: TextWeight.BOLD })
+            textConfig: new TextConfig({ weight: TextWeight.BOLD }),
+            loadIf: ["sets.busyZoo", "sets.wildAnimals"]
         },
 
         bamboo:
@@ -182,5 +187,7 @@ const CONFIG:any =
         }
     },
 }
+
+autoLoadFontCSS(CONFIG);
 
 export default CONFIG

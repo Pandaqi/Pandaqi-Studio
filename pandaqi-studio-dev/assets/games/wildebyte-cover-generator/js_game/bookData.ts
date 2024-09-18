@@ -1,10 +1,11 @@
 export default
 {
-    name: "Uptopia Falls",
+    name: "Secrets of Sweettooth",
     disk: "handheld",
-    index: 4,
-    blurb: "Wildebyte falls into a new game—literally. They must climb out by playing the game, jumping higher and higher, until they reach the top. But every level has new secrets, while a single fall means they have to start all over.",
-    numPages: 196,
-    choiceStory: true,
+    index: 5,
+    blurb: "Hated by all the games, Wildebyte longs for safety in the game of Pirate Sweettooth. Fighting to become his friend, and find a way to Gamewalk together, they discover a horrible secret and must make a choice that's the opposite of sweet.",
+    numPages: 211,
+    choiceStory: false,
+    framePaintingOffset: 0.0375,
     forcedSpineSize: null
 }

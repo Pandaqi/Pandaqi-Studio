@@ -83,7 +83,6 @@ const CONFIG:any =
             path: "beasts.webp",
             frames: new Point(4,6),
             loadIf: ["sets.baseBeasts", "sets.advancedBeasts"],
-            disableCaching: true
         },
 
         food:
@@ -97,7 +96,6 @@ const CONFIG:any =
             path: "victims.webp",
             frames: new Point(8,2),
             loadIf: ["sets.saveThePrincess"],
-            disableCaching: true
         },
 
         card_templates:

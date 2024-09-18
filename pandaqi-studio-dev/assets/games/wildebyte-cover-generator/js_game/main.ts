@@ -34,15 +34,16 @@ const insertLineBreaks = (str:string) =>
 
 const convertToSmallCaps = (str:string, fontSize:number) =>
 {
-    str = str.toUpperCase();
-
     const capSize = Math.ceil(fontSize * 1.215);
     const words = str.split(" ");
     const newWords = [];
     for(const word of words)
     {
-        const firstLetter = '<size num="' + capSize + '">' + word.slice(0, 1) + '</size>';
-        const remainder = word.slice(1);
+        const firstLetterRaw = word.slice(0,1);
+        const isCapitalized = firstLetterRaw.toLowerCase() != firstLetterRaw;
+        let firstLetter = '<size num="' + capSize + '">' + firstLetterRaw.toUpperCase() + '</size>';
+        if(!isCapitalized) { firstLetter = firstLetterRaw.toUpperCase(); }
+        const remainder = word.slice(1).toUpperCase();
         newWords.push(firstLetter + remainder);
     }
     return newWords.join(" ");
@@ -481,19 +482,23 @@ const createFront = (size:Point, center: Point) =>
 
     // the unique full_painting again, but now at forefront, locked inside framing graphic
     const resFraming = resLoader.getResource("framing_graphic");
+    const framingOffset = BOOK_DATA.framePaintingOffset ?? 0;
     const framingPos = new Point(center.x, diskData.framing.yPos * size.y);
+    const framingPosPainting = framingPos.clone().add(new Point(0, framingOffset*size.y));
     const idealPaintingDims = resFraming.getSize().clone().scale(diskData.framing.fullPaintingScaleFactor);
     const paintingDims = new Point(idealPaintingDims.y * bgPainting.getRatio(), idealPaintingDims.y);
+    const framingImageSize = resFraming.getSize();
     const paintingOp = new LayoutOperation({
-        translate: framingPos,
+        translate: framingPosPainting,
         dims: paintingDims,
-        pivot: Point.CENTER
+        pivot: Point.CENTER,
+        clip: new Rectangle().fromTopLeft(framingPos, framingImageSize),
     })
     group.add(bgPainting, paintingOp);
 
     const framingOp = new LayoutOperation({
         translate: framingPos,
-        dims: resFraming.getSize(),
+        dims: framingImageSize,
         pivot: Point.CENTER
     });
     group.add(resFraming, framingOp);
@@ -510,6 +515,7 @@ const createFront = (size:Point, center: Point) =>
     const posTitle = new Point(center.x, diskData.titleText.posY * size.y);
     const titleFontSize = diskData.titleText.fontSize;
     const lineHeight = diskData.titleText.lineHeight;
+    const lineHeightLowerCase = diskData.titleText.lineHeightLowerCase;
 
     const titleTexts = BOOK_DATA.name.split(" ");
     const titlePositions = [];
@@ -517,7 +523,10 @@ const createFront = (size:Point, center: Point) =>
     {
         titleTexts[i] = convertToSmallCaps(titleTexts[i], titleFontSize);
         titlePositions[i] = posTitle.clone();
-        posTitle.add(new Point(0, lineHeight*titleFontSize))
+
+        const isCapitalized = titleTexts[i].includes("</size>");
+        const lh = isCapitalized ? lineHeight : lineHeightLowerCase;
+        posTitle.add(new Point(0, lh*titleFontSize))
     }
 
     const titleTextLayers = ["overlay", "shadow", "front"];
@@ -536,7 +545,8 @@ const createFront = (size:Point, center: Point) =>
 
 const createStandaloneCover = async () =>
 {
-    const pageSize = convertInchesToPixels(PAGE_SIZE);
+    //const pageSize = convertInchesToPixels(PAGE_SIZE);
+    const pageSize = convertInchesToPixels(getPageSize("amazon"));
     const ctx = createContext({ size: pageSize });
     const center = pageSize.clone().scale(0.5);
     const resFront = createFront(pageSize, center);

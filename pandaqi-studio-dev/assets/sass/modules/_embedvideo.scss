@@ -16,7 +16,7 @@
 
 	&.rounded {
 		.video-over-header {
-			border-radius: 0.25rem;
+			border-radius: 0.25em;
 		}
 	}
 
@@ -32,8 +32,8 @@
 	.video-over-header, .video-no-header {
 		
 		margin: auto;	
-		border: 0.25rem solid #6BB73E;
-		box-shadow: #202 0 0 0.5rem 0.2rem;
+		border: 0.25em solid #6BB73E;
+		box-shadow: #202 0 0 0.5em 0.2em;
 	
 		.video-container {
 			position: relative;
