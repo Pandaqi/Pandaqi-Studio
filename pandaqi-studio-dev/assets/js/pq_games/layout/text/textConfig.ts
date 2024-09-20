@@ -32,8 +32,8 @@ interface TextConfigParams
 {
     size?: number
     fontSize?: number
-    font?: string|ResourceFont
-    fontFamily?: string|ResourceFont
+    font?: string
+    fontFamily?: string
     align?: TextAlign
     alignHorizontal?: TextAlign
     alignVertical?: TextAlign
@@ -57,21 +57,21 @@ export { TextConfig, TextAlign, TextStyle, TextWeight, TextVariant }
 export default class TextConfig
 {
     color: ColorLike
-    size: number
-    font: string|ResourceFont
-    alignHorizontal: TextAlign
-    alignVertical: TextAlign
-    lineHeight: number
-    style: TextStyle
-    weight: TextWeight
-    variant: TextVariant
+    size: number;
+    font: string;
+    alignHorizontal: TextAlign;
+    alignVertical: TextAlign;
+    lineHeight: number;
+    style: TextStyle;
+    weight: TextWeight;
+    variant: TextVariant;
 
     defaultImageOperation: LayoutOperation;
     resLoader: ResourceLoader;
     useDynamicLineHeight: boolean;
     useSimpleDims: boolean;
     heightToSizeRatio: number;
-    history: Record<string,any>
+    history: Record<string,any>;
 
     constructor(params:TextConfigParams = {})
     {
@@ -136,7 +136,7 @@ export default class TextConfig
 
     getNameString() : string
     {
-        if(this.font instanceof ResourceFont) { return this.font.name; }
+        //if(this.font instanceof ResourceFont) { return this.font.name; }
         return this.font;
     }
 
@@ -219,7 +219,7 @@ export default class TextConfig
     alignCenter() { this.alignHorizontal = TextAlign.MIDDLE; this.alignVertical = TextAlign.MIDDLE; return this; }
     alignTopLeft() { this.alignHorizontal = TextAlign.START; this.alignVertical = TextAlign.START; return this; }
     alignBottomRight() { this.alignHorizontal = TextAlign.END; this.alignVertical = TextAlign.END; return this; }
-    setLoader(r:ResourceLoader) { this.resLoader = r; return this; }
+    setLoader(r) { this.resLoader = r; return this; }
     resetFormatting()
     {
         this.style = TextStyle.NORMAL;

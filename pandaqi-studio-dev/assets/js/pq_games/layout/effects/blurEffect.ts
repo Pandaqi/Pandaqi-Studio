@@ -2,8 +2,6 @@ import Point from "js/pq_games/tools/geometry/point";
 import LayoutEffect from "./layoutEffect";
 import EffectsOperation from "./effectsOperation";
 
-import { KawaseBlurFilter } from "../../pixi/pixi-filters.mjs";
-
 export default class BlurEffect extends LayoutEffect
 {
     blur:number;
@@ -29,9 +27,9 @@ export default class BlurEffect extends LayoutEffect
         effOp.addFilter(this.createFilterString());
     }
 
-    applyToPixi(effOp = new EffectsOperation(), obj)
+    applyToPixi(filtersConstructor, effOp = new EffectsOperation(), obj)
     {
-        effOp.addFilterPixi(new KawaseBlurFilter({
+        effOp.addFilterPixi(new filtersConstructor.KawaseBlurFilter({
             strength: this.blur
         }));
     }

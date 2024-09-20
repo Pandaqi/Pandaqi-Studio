@@ -1,5 +1,6 @@
+import RendererPandaqi from "js/pq_games/layout/renderers/rendererPandaqi";
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
-import BoardVisualizer, { VisualizerRenderer } from "js/pq_games/website/boardVisualizer";
+import BoardVisualizer from "js/pq_games/website/boardVisualizer";
 
 export default class BoardGenerator
 {
@@ -17,12 +18,12 @@ export default class BoardGenerator
 
     profile: boolean;
 
-	constructor(cfg:Record<string,any>) 
+	constructor(cfg:Record<string,any>, rendererInstance = null) 
     {
         this.config = cfg;
         const assetsToLoad = this.filterAssets(this.config.assets);
         this.config.assets = assetsToLoad;
-        const renderer = cfg.renderer ?? VisualizerRenderer.PIXI;
+        const renderer = rendererInstance ?? new RendererPandaqi();
         this.visualizer = new BoardVisualizer({ config: this.config, scene: this, renderer: renderer });
     }
 
@@ -65,6 +66,6 @@ export default class BoardGenerator
     async draw(board)
     {
         const boardDraw = new this.drawerClass();
-        this.groupFinal = await boardDraw.draw(this.canvas, board);
+        this.groupFinal = await boardDraw.draw(this.visualizer, board);
     }    
 }

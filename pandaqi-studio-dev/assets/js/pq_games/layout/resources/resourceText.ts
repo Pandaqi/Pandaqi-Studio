@@ -1,11 +1,11 @@
+import Dims from "js/pq_games/tools/geometry/dims";
 import Point from "js/pq_games/tools/geometry/point";
 import LayoutOperation from "../layoutOperation";
+import RendererPandaqi from "../renderers/rendererPandaqi";
 import TextConfig from "../text/textConfig";
 import TextDrawer from "../text/textDrawer";
-import Resource from "./resource"
+import Resource from "./resource";
 import { CanvasLike } from "./resourceImage";
-import Dims from "js/pq_games/tools/geometry/dims";
-import { Sprite, Texture } from "js/pq_games/pixi/pixi.mjs";
 
 interface ResourceTextParams
 {
@@ -48,18 +48,24 @@ export default class ResourceText extends Resource
         return op.applyToPixi(app, parent);
     }
 
-    getPixiObject(op:LayoutOperation)
+    getPixiObject(helpers)
     {
+        const operation : LayoutOperation = helpers.layoutOperation.clone();
+        operation.renderer = new RendererPandaqi(); // only that renderer actuall does rich text => @TODO: find cleaner approach?
+
         const canv = document.createElement("canvas");
-        const size = op.tempTextDrawer.dims.getSize();
+        const size = operation.tempTextDrawer.dims.getSize();
         canv.width = size.x;
         canv.height = size.y;
 
+        const ctx = canv.getContext("2d");
+        operation.setFillAndStrokeOnContext(ctx);
+
         // @TODO: should probably mess around with settings here for proper positioning/no cutoff, or do I already do that?
         // => The `.dims` object from above should already have the right size + be positioned at (0,0), is that enough?
-        op.tempTextDrawer.toCanvas(canv, op);
+        operation.tempTextDrawer.toCanvas(canv, operation);
 
-        return new Sprite(Texture.from(canv));
+        return new helpers.sprite(helpers.texture.from(canv));
     }
 
     async createPixiObject() {}

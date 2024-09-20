@@ -1,27 +1,27 @@
-import Point from "js/pq_games/tools/geometry/point";
-import BoardState from "./boardState";
-import CONFIG from "../js_shared/config";
-import Rectangle from "js/pq_games/tools/geometry/rectangle";
-import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
-import ResourceText from "js/pq_games/layout/resources/resourceText";
-import RectangleRounded from "js/pq_games/tools/geometry/rectangleRounded";
+import fillResourceGroup from "js/pq_games/layout/canvas/fillResourceGroup";
 import Color from "js/pq_games/layout/color/color";
-import Circle from "js/pq_games/tools/geometry/circle";
-import rangeInteger from "js/pq_games/tools/random/rangeInteger";
-import ResourceShape from "js/pq_games/layout/resources/resourceShape";
-import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
-import closePath from "js/pq_games/tools/geometry/paths/closePath";
-import Path from "js/pq_games/tools/geometry/paths/path";
-import { COLORS, MISC } from "../js_shared/dict";
-import getPositionsCenteredAround from "js/pq_games/tools/geometry/paths/getPositionsCenteredAround";
 import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
-import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import GrayScaleEffect from "js/pq_games/layout/effects/grayScaleEffect";
 import LayoutEffect from "js/pq_games/layout/effects/layoutEffect";
-import Cell from "./cell";
+import LayoutOperation from "js/pq_games/layout/layoutOperation";
+import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
+import ResourceShape from "js/pq_games/layout/resources/resourceShape";
+import ResourceText from "js/pq_games/layout/resources/resourceText";
+import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
+import Circle from "js/pq_games/tools/geometry/circle";
+import closePath from "js/pq_games/tools/geometry/paths/closePath";
+import getPositionsCenteredAround from "js/pq_games/tools/geometry/paths/getPositionsCenteredAround";
+import Path from "js/pq_games/tools/geometry/paths/path";
+import Point from "js/pq_games/tools/geometry/point";
+import Rectangle from "js/pq_games/tools/geometry/rectangle";
+import RectangleRounded from "js/pq_games/tools/geometry/rectangleRounded";
 import fromArray from "js/pq_games/tools/random/fromArray";
-import fillResourceGroup from "js/pq_games/layout/canvas/fillResourceGroup";
+import rangeInteger from "js/pq_games/tools/random/rangeInteger";
+import BoardVisualizer from "js/pq_games/website/boardVisualizer";
+import CONFIG from "../js_shared/config";
+import { COLORS, MISC } from "../js_shared/dict";
+import BoardState from "./boardState";
+import Cell from "./cell";
 
 // Takes in a BoardState, draws it
 export default class BoardDraw
@@ -44,18 +44,18 @@ export default class BoardDraw
     showTypeMetadata: boolean;
     defaultEffects: LayoutEffect[];
 
-    async draw(canvas:any, bs:BoardState)
+    async draw(vis:BoardVisualizer, bs:BoardState)
     {
-        const drawGroup = this.prepare(canvas, bs);
+        const drawGroup = this.prepare(vis, bs);
         this.drawBackground(drawGroup);
         this.drawBoard(drawGroup, bs);
         this.drawSidebar(drawGroup, bs);
         return drawGroup;
     }
 
-    prepare(canvas:any, bs:BoardState)
+    prepare(vis:BoardVisualizer, bs:BoardState)
     {
-        const fullSize = new Point(canvas.width, canvas.height);
+        const fullSize = vis.getSize();
         const fullSizeUnit = Math.min(fullSize.x, fullSize.y);
         const edgeMargin = CONFIG.draw.edgeMargin.clone().scale(fullSizeUnit);
 

@@ -4,7 +4,6 @@ import LayoutEffect from "./layoutEffect";
 import Color from "../color/color";
 import Point from "js/pq_games/tools/geometry/point";
 import EffectsOperation from "./effectsOperation";
-import { OutlineFilter } from "js/pq_games/pixi/pixi-filters.mjs";
 
 interface OutlineEffectParams
 {
@@ -91,9 +90,9 @@ export default class OutlineEffect extends LayoutEffect
         return new Point(this.thickness);
     }
 
-    applyToPixi(effOp = new EffectsOperation(), obj)
+    applyToPixi(filtersConstructor, effOp = new EffectsOperation(), obj)
     {
-        effOp.addFilterPixi(new OutlineFilter({
+        effOp.addFilterPixi(new filtersConstructor.OutlineFilter({
             alpha: this.color.a,
             color: this.color.toHEXNumber(),
             knockout: false,

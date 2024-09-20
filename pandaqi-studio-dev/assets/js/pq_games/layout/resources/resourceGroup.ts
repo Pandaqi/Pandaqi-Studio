@@ -1,5 +1,4 @@
 import LayoutOperation, { ResourceLike } from "../layoutOperation";
-import TransformationMatrix from "../tools/transformationMatrix";
 import Resource from "./resource";
 import { CanvasLike } from "./resourceImage";
 
@@ -14,28 +13,22 @@ class LayoutCombo
         this.operation = op;
     }
 
-    toCanvas(ctx:CanvasLike, trans = new TransformationMatrix())
+    toCanvas(ctx:CanvasLike, parentOperation = new LayoutOperation())
     {
-        this.operation.transformParent = trans;
+        this.operation.parentOperation = parentOperation;
+        this.operation.renderer = parentOperation.renderer;
         this.resource.toCanvas(ctx, this.operation);
     }
 
-    toPixi(app, parent)
+    toPixi(app, parent, parentOperation = new LayoutOperation())
     {
+        this.operation.parentOperation = parentOperation;
+        this.operation.renderer = parentOperation.renderer;
         return this.resource.toPixi(app, parent, this.operation);
-    }
-
-    getBoundingBox()
-    {
-        const oldResource = this.operation.resource;
-        this.operation.resource = this.resource;
-        const bounds = this.operation.getBoundingBox();
-        this.operation.resource = oldResource;
-        return bounds;
     }
 }
 
-export { ResourceGroup, LayoutCombo }
+export { LayoutCombo, ResourceGroup };
 export default class ResourceGroup extends Resource
 {
     combos: LayoutCombo[]

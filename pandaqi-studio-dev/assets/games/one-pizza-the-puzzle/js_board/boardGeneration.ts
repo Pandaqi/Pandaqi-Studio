@@ -94,7 +94,6 @@ export default class BoardGeneration extends Scene
 	// user-input settings should be passed through config
 	async create(config:Record<string,any>) 
 	{
-
         await resourceLoaderToPhaser(config.visualizer.resLoader, this);
 
 		this.cfg = {}

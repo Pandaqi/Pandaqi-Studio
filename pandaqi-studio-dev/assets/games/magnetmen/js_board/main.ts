@@ -4,8 +4,9 @@ import BoardDraw from "./boardDraw"
 import Evaluator from "./evaluator"
 import { SETS } from "../js_shared/dict"
 import BoardGenerator from "js/pq_games/tools/generation/boardGenerator"
+import RendererPixi from "js/pq_games/layout/renderers/rendererPixi"
 
-const generator = new BoardGenerator(CONFIG);
+const generator = new BoardGenerator(CONFIG, new RendererPixi());
 generator.profile = true; // @DEBUGGING
 generator.drawerClass = BoardDraw;
 generator.evaluatorClass = Evaluator;

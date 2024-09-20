@@ -22,6 +22,7 @@ interface SettingsConfig
 
 	// passed into the board class by boardVisualizer itself
 	visualizer?: BoardVisualizer,
+	renderClass?: any,
 
 	// these are used/set automatically by the Phaser system as it loads, otherwise not used I think?
 	canvas?: HTMLCanvasElement,

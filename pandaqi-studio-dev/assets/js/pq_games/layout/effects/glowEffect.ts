@@ -1,9 +1,7 @@
 import Point from "js/pq_games/tools/geometry/point";
-import LayoutEffect from "./layoutEffect";
-import EffectsOperation from "./effectsOperation";
-import { ColorLikeValue } from "../color/colorLike";
-import { GlowFilter } from "js/pq_games/pixi/pixi-filters.mjs";
 import Color from "../color/color";
+import EffectsOperation from "./effectsOperation";
+import LayoutEffect from "./layoutEffect";
 
 interface GlowParams
 {
@@ -53,9 +51,9 @@ export default class GlowEffect extends LayoutEffect
         effOp.addFilter(this.createFilterString());
     }
 
-    applyToPixi(effOp = new EffectsOperation(), obj)
+    applyToPixi(filtersConstructor, effOp = new EffectsOperation(), obj)
     {
-        effOp.addFilterPixi(new GlowFilter({
+        effOp.addFilterPixi(new filtersConstructor.GlowFilter({
             alpha: this.color.a,
             color: this.color.toHEXNumber(),
             distance: this.offset.length(),

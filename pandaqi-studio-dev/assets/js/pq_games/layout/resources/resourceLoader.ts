@@ -1,14 +1,14 @@
 import Point from "js/pq_games/tools/geometry/point"
+import Renderer from "../renderers/renderer"
+import RendererPandaqi from "../renderers/rendererPandaqi"
 import TextConfig from "../text/textConfig"
 import Resource from "./resource"
 import ResourceFont from "./resourceFont"
-import ResourceImage from "./resourceImage"
-import { VisualizerRenderer } from "js/pq_games/website/boardVisualizer"
 
 interface ResourceLoaderParams
 {
     base?:string,
-    renderer?: VisualizerRenderer
+    renderer?: Renderer
 }
 
 
@@ -41,7 +41,7 @@ export default class ResourceLoader
     resourcesQueued : Record<string, ResourceLoadParams>
     resourcesLoaded : Record<string, Resource>
     base: string
-    renderer : VisualizerRenderer;
+    renderer : Renderer;
 
     loadInSequence = false
     onResourceLoaded = (txt:string) => {}
@@ -50,7 +50,7 @@ export default class ResourceLoader
     {
         this.resourcesQueued = {};
         this.resourcesLoaded = {};
-        this.renderer = params.renderer ?? VisualizerRenderer.PANDAQI;
+        this.renderer = params.renderer ?? new RendererPandaqi();
 
         this.base = params.base ?? "";
         if(this.base.slice(-1) != "/") { this.base += "/"; }
@@ -199,12 +199,7 @@ export default class ResourceLoader
 
     async cacheLoadedImage(id:string, params:ResourceLoadParams, img:HTMLImageElement)
     {
-        if(this.renderer == VisualizerRenderer.PANDAQI) { await img.decode(); }
-
-        const res = new ResourceImage(img, params);
-        if(params.enableCaching) { await res.cacheFrames(); }
-        if(this.renderer == VisualizerRenderer.PIXI) { await res.createPixiObject(); }
-        this.resourcesLoaded[id] = res;
+        this.resourcesLoaded[id] = await this.renderer.cacheLoadedImage(img, params);
     }
 
     getResource(id:string, copy:boolean = false) : any

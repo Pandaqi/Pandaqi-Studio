@@ -13,9 +13,9 @@ $min-item-width: 12em;
     font-size: 0.75em;
     line-height: 1.2em;
 
-
     li {
-        @include c.colorscheme();
+        color: var(--palette-color);
+        background-color: var(--palette-bg);
 
         margin: 0;
         list-style-type: none;
@@ -30,7 +30,7 @@ $min-item-width: 12em;
             text-decoration: none;
             margin: 1em;
             display: block;
-            color: var(--palette-link);
+            color: var(--palette-color);
         }
 
         transition: filter 0.2s, transform 0.2s;

@@ -1,10 +1,10 @@
-import ResourceLoader from "js/pq_games/layout/resources/resourceLoader";
-import Configurator from "./configurator";
-import Point from "../geometry/point";
 import GrayScaleEffect from "js/pq_games/layout/effects/grayScaleEffect";
-import { VisualizerRenderer } from "js/pq_games/website/boardVisualizer";
-import createCanvas from "js/pq_games/layout/canvas/createCanvas";
+import Renderer from "js/pq_games/layout/renderers/renderer";
+import RendererPandaqi from "js/pq_games/layout/renderers/rendererPandaqi";
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
+import ResourceLoader from "js/pq_games/layout/resources/resourceLoader";
+import Point from "../geometry/point";
+import Configurator from "./configurator";
 
 export default class MaterialVisualizer
 {
@@ -17,13 +17,13 @@ export default class MaterialVisualizer
     custom: any;
     inkFriendlyEffect: GrayScaleEffect[]
 
-    renderer: VisualizerRenderer;
+    renderer: Renderer;
     rendererInstance:any;
     groupFinal: ResourceGroup
 
     constructor(config)
     {
-        this.renderer = config.renderer ?? VisualizerRenderer.PANDAQI;
+        this.renderer = config.renderer ?? new RendererPandaqi();
 
         this.resLoader = config.resLoader;
         if(!this.resLoader)
@@ -72,41 +72,8 @@ export default class MaterialVisualizer
         return new ResourceGroup();
     }
 
-    // @NOTE: This is actually way slower if we create a new renderer for every card/material item
-    // And we CAN'T reuse the same renderer, as it will draw to the same canvas, and so asynchronous cards will mess up each other's drawing
-    /*async createRendererIfNeeded()
-    {
-        if(this.renderer != VisualizerRenderer.PIXI) { return; }
-        if(this.rendererInstance) { return; }
-        
-        this.rendererInstance = new WebGPURenderer();
-        await this.rendererInstance.init({ 
-            width: this.size.x, height: this.size.y, 
-            backgroundColor: 0xFFFFFF,
-            //antialias: true,
-            useBackBuffer: true,
-        });
-    }*/
-
     async finishDraw(group:ResourceGroup) : Promise<HTMLCanvasElement>
     {
-        //await this.createRendererIfNeeded();
-
-        let canv:HTMLCanvasElement;
-        if(this.renderer == VisualizerRenderer.PANDAQI)
-        {
-            canv = createCanvas({ size: this.size });
-            group.toCanvas(canv);
-        }
-
-        /*if(this.renderer == VisualizerRenderer.PIXI)
-        {
-            const appRoot = new Container();
-			group.toPixi(this.rendererInstance, appRoot);
-			this.rendererInstance.render(appRoot);
-			canv = this.rendererInstance.canvas;
-        }*/
-
-        return canv;
+        return this.renderer.finishDraw({ size: this.size, group: group });
     }
 }

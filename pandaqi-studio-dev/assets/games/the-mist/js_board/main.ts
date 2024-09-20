@@ -4,8 +4,9 @@ import BoardDraw from "./boardDraw"
 import BoardGen from "./boardGen"
 import Evaluator from "./evaluator"
 import BoardGenerator from "js/pq_games/tools/generation/boardGenerator" // @NOTE: if we place this earlier, it has a cyclic reference and it doesn't build the JS => can we FIX THAT permanently?
+import RendererPixi from "js/pq_games/layout/renderers/rendererPixi"
 
-const generator = new BoardGenerator(CONFIG);
+const generator = new BoardGenerator(CONFIG, new RendererPixi());
 generator.drawerClass = BoardDraw;
 generator.evaluatorClass = Evaluator;
 generator.generatorClass = BoardGen;

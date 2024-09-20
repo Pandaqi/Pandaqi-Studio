@@ -55,7 +55,7 @@ export default class TintEffect extends LayoutEffect
         effOp.addFilters(filters);
     }
 
-    applyToPixi(effOp = new EffectsOperation(), obj)
+    applyToPixi(filtersConstructor, effOp = new EffectsOperation(), obj)
     {
         obj.tint = this.color.toHEXNumber();
     }

@@ -1,4 +1,3 @@
-import { GrayscaleFilter } from "js/pq_games/pixi/pixi-filters.mjs";
 import EffectsOperation from "./effectsOperation";
 import LayoutEffect from "./layoutEffect";
 
@@ -28,9 +27,9 @@ export default class GrayScaleEffect extends LayoutEffect
         effOp.addFilter(this.createFilterString());
     }
 
-    applyToPixi(effOp = new EffectsOperation(), obj)
+    applyToPixi(filtersConstructor, effOp = new EffectsOperation(), obj)
     {
-        effOp.addFilterPixi(new GrayscaleFilter());
+        effOp.addFilterPixi(new filtersConstructor.GrayscaleFilter());
     }
 
     createFilterString()

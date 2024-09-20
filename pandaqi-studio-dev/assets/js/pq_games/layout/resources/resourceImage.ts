@@ -1,18 +1,17 @@
-import LayoutOperation from "js/pq_games/layout/layoutOperation"
-import Resource from "./resource"
-import Point from "js/pq_games/tools/geometry/point"
-import ResourceGradient from "./resourceGradient"
-import ResourcePattern from "./resourcePattern"
 import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage"
 import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple"
+import LayoutOperation from "js/pq_games/layout/layoutOperation"
+import Point from "js/pq_games/tools/geometry/point"
+import Resource from "./resource"
+//import ResourceGradient from "./resourceGradient"
+//import ResourcePattern from "./resourcePattern"
 
+import getPixiAtlasData from "js/pq_games/pixi/getPixiAtlasData"
+import createContext from "../canvas/createContext"
 import ResourceLoader from "./resourceLoader"
 import ResourceText from "./resourceText"
-import createContext from "../canvas/createContext"
-import { Assets, Sprite, Spritesheet } from "js/pq_games/pixi/pixi.mjs"
-import getPixiAtlasData from "js/pq_games/pixi/getPixiAtlasData"
 
-type ImageLike = HTMLImageElement|ResourceImage|ResourceGradient|ResourcePattern
+type ImageLike = HTMLImageElement|ResourceImage//|ResourceGradient|ResourcePattern
 type CanvasLike = HTMLCanvasElement|CanvasRenderingContext2D
 type DrawableData = HTMLImageElement|HTMLCanvasElement;
 type FrameSet = HTMLImageElement[];
@@ -33,7 +32,7 @@ interface ResourceImageParams
     uniqueKey?: string,
 }
 
-export { ResourceImage, ImageLike, CanvasLike }
+export { CanvasLike, ImageLike, ResourceImage }
 export default class ResourceImage extends Resource
 {
     img : HTMLImageElement;
@@ -113,31 +112,31 @@ export default class ResourceImage extends Resource
         return await op.applyToPixi(app, parent);
     }
 
-    getPixiObject(frame = 0) 
+    getPixiObject(frame:number, spriteConstructor = null) 
     { 
         if(this.isSingleFrame()) { return this.pixiObject; }
-        return this.getImageFrameAsPixiObject(frame); 
+        return this.getImageFrameAsPixiObject(frame, spriteConstructor); 
     }
 
-    async createPixiObject()
+    async createPixiObject(helpers:Record<string,any> = {})
     {
         const filePath = this.getSRCString();
-        const tex = await Assets.load(filePath);
+        const tex = await helpers.assets.load(filePath);
         if(this.isSingleFrame())
         {
-            this.pixiObject = Sprite.from(tex);
+            this.pixiObject = helpers.sprite.from(tex);
             return;
         }
 
         const atlasData = getPixiAtlasData(this);
-        const spritesheet = new Spritesheet(tex, atlasData);
+        const spritesheet = new helpers.spritesheet(tex, atlasData);
         await spritesheet.parse();
         this.pixiObject = spritesheet;
     }
 
-    getImageFrameAsPixiObject(frame = 0)
+    getImageFrameAsPixiObject(frame:number, spriteConstructor)
     {   
-        return Sprite.from(this.pixiObject.textures["frame_" + frame]);
+        return spriteConstructor.from(this.pixiObject.textures["frame_" + frame]);
     }
 
     // for getting a new ResourceImage with result after operation applied
@@ -177,19 +176,6 @@ export default class ResourceImage extends Resource
         this.frameDims = new Point(params.frames ?? new Point(1,1));
         this.frames = [this.getImage()];
         this.refreshSize();
-    }
-
-
-    // @TODO
-    async fromPattern(p:ResourcePattern)
-    {
-        return new ResourceImage();
-    }
-
-    // @TODO
-    async fromGradient(g:ResourceGradient)
-    {
-        return new ResourceImage();
     }
 
     async fromSVG(elem:SVGImageElement)

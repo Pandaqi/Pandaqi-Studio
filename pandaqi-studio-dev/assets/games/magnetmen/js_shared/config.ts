@@ -7,7 +7,6 @@ const CONFIG =
     configKey: "magnetmenConfig",
     fileName: "[Board] Magnetmen",
     resLoader: null,
-    useWEBGL: false,
     allTypes: {},
     beginnerMode: true,
 

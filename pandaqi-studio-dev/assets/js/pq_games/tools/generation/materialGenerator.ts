@@ -6,7 +6,8 @@ import ProgressBar from "js/pq_games/website/progressBar";
 import MaterialVisualizer from "./materialVisualizer";
 import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage";
 import { PageFormat, PageOrientation } from "js/pq_games/pdf/pdfEnums";
-import { VisualizerRenderer } from "js/pq_games/website/boardVisualizer";
+import Renderer from "js/pq_games/layout/renderers/renderer";
+import RendererPandaqi from "js/pq_games/layout/renderers/rendererPandaqi";
 
 const DEFAULT_BATCH_SIZE = 10;
 const GIVE_FEEDBACK = true;
@@ -36,16 +37,20 @@ export default class MaterialGenerator
     pdfBuilder: PdfBuilder;
     resLoader: ResourceLoader;
 
-    renderer: VisualizerRenderer;
+    renderer: Renderer;
     generators: Record<string,any>;
     drawers: Record<string,GridMapper>;
+
+    batchSize: number;
 
     filterAssets: Function = (dict) => { return dict; }
     progressBarPhases:string[] = ["Loading Assets", "Creating Cards", "Drawing Cards", "Preparing PDF", "Done!"]
     visualizerClass: any;
     visualizerClassCustom: any;
 
-    constructor(CONFIG)
+    profile: boolean;
+
+    constructor(CONFIG, renderer = null)
     {
         this.config = CONFIG;
         this.setupConfig(CONFIG);
@@ -53,8 +58,11 @@ export default class MaterialGenerator
         this.generators = {};
         this.drawers = {};
 
-        this.renderer = CONFIG.renderer ?? VisualizerRenderer.PANDAQI;
+        this.renderer = renderer ?? new RendererPandaqi();
         this.visualizerClass = MaterialVisualizer;
+
+        this.batchSize = this.renderer.customBatchSize ?? this.config.generationBatchSize;
+        this.profile = this.config.generationProfile ?? false;
 
         this.progressBar = new ProgressBar();
         this.progressBar.setPhases(this.progressBarPhases);
@@ -105,11 +113,14 @@ export default class MaterialGenerator
 
     async start()
     {
+        const startTime = Date.now();
         await this.loadAssets();
         await this.createCards();
         await this.drawCards();
         await this.downloadPDF();
         this.progressBar.gotoNextPhase();
+        const endTime = Date.now();
+        if(this.profile) { console.log("Generation Time = ", endTime - startTime); }
     }
 
     async loadAssets()
@@ -178,7 +189,7 @@ export default class MaterialGenerator
 
         // because we draw them in small batches to prevent overloading the browser
         // (and give intermittent feedback to user)
-        let batchSize = this.config.generationBatchSize ?? DEFAULT_BATCH_SIZE;
+        let batchSize = this.batchSize ?? DEFAULT_BATCH_SIZE;
         if(batchSize <= 0 || this.config.generationNoBatching) { batchSize = drawCalls.length; }
         const numBatches = Math.ceil(drawCalls.length / batchSize);
         for(let i = 0; i < numBatches; i++)
@@ -186,6 +197,7 @@ export default class MaterialGenerator
             const infoText = "Drawing batch " + (i+1) + " / " + numBatches;
             console.log(infoText);
             this.progressBar.setInfo(infoText);
+            await this.letDomUpdate();
 
             const promises = [];
             const drawCallsInBatch = drawCalls.splice(0, batchSize);
@@ -194,8 +206,6 @@ export default class MaterialGenerator
                 // cards handle drawing themselves
                 promises.push(drawCall.item.draw(drawCall.visualizer));
             }
-
-            await this.letDomUpdate();
 
             const canvases = await Promise.all(promises);
             drawCallsInBatch[0].drawer.addElements(canvases.flat());

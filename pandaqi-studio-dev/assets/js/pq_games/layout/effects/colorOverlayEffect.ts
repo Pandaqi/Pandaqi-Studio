@@ -3,7 +3,6 @@ import createContext from "../canvas/createContext"
 import LayoutEffect from "./layoutEffect";
 import Color from "../color/color";
 import EffectsOperation from "./effectsOperation";
-import { ColorOverlayFilter } from "js/pq_games/pixi/pixi-filters.mjs";
 
 export default class ColorOverlayEffect extends LayoutEffect
 {
@@ -40,10 +39,10 @@ export default class ColorOverlayEffect extends LayoutEffect
         // @TODO: Currently not implemented! Don't see how!
     }
 
-    applyToPixi(effOp = new EffectsOperation(), obj)
+    applyToPixi(filtersConstructor, effOp = new EffectsOperation(), obj)
     {
         const col = new Color(this.color);
-        effOp.addFilterPixi(new ColorOverlayFilter({
+        effOp.addFilterPixi(new filtersConstructor.ColorOverlayFilter({
             alpha: col.a,
             color: col.toHEXNumber(),
         }));

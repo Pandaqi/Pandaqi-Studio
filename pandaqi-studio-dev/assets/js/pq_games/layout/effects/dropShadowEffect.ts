@@ -1,9 +1,6 @@
 import Point from "js/pq_games/tools/geometry/point";
 import LayoutEffect from "./layoutEffect";
 import EffectsOperation from "./effectsOperation";
-import { ColorLikeValue } from "../color/colorLike";
-
-import { DropShadowFilter } from "../../pixi/pixi-filters.mjs";
 import Color from "../color/color";
 
 interface DropShadowParams
@@ -51,16 +48,15 @@ export default class DropShadowEffect extends LayoutEffect
         effOp.addFilter(this.createFilterString());
     }
 
-    applyToPixi(effOp = new EffectsOperation(), obj)
+    applyToPixi(filtersConstructor, effOp = new EffectsOperation(), obj)
     {
-        const filter = new DropShadowFilter({
+        effOp.addFilterPixi(new filtersConstructor.DropShadowFilter({
             alpha: this.color.a,
             color: this.color.toHEXNumber(),
             blur: this.blurRadius,
             offset: this.offset,
             quality: 8
-        });
-        effOp.addFilterPixi(filter);
+        }));
     }
 
     createFilterString()
