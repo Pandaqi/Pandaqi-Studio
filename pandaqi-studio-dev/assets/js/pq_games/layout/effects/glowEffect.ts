@@ -2,20 +2,22 @@ import Point from "js/pq_games/tools/geometry/point";
 import LayoutEffect from "./layoutEffect";
 import EffectsOperation from "./effectsOperation";
 import { ColorLikeValue } from "../color/colorLike";
+import { GlowFilter } from "js/pq_games/pixi/pixi-filters.mjs";
+import Color from "../color/color";
 
 interface GlowParams
 {
     blur?:number,
     size?:number, // legacy support
     blurRadius?:number // legacy support
-    color?:ColorLikeValue|string,
+    color?:Color|string,
     offset?:Point
 }
 
 export default class GlowEffect extends LayoutEffect
 {
     blurRadius: number;
-    color: ColorLikeValue|string;
+    color: Color;
     offset: Point;
     
     constructor(params:GlowParams = {})
@@ -23,7 +25,7 @@ export default class GlowEffect extends LayoutEffect
         super(params);
 
         this.blurRadius = ((params.size ?? params.blur) ?? params.blurRadius) ?? 0;
-        this.color = params.color ?? "#FFFFFF";
+        this.color = new Color(params.color ?? "#FFFFFF");
         this.offset = params.offset ?? new Point();
     }
 
@@ -49,6 +51,19 @@ export default class GlowEffect extends LayoutEffect
     applyToHTML(div:HTMLDivElement, effOp = new EffectsOperation())
     {
         effOp.addFilter(this.createFilterString());
+    }
+
+    applyToPixi(effOp = new EffectsOperation(), obj)
+    {
+        effOp.addFilterPixi(new GlowFilter({
+            alpha: this.color.a,
+            color: this.color.toHEXNumber(),
+            distance: this.offset.length(),
+            innerStrength: 0,
+            knockout: false,
+            outerStrength: this.blurRadius,
+            quality: 0.3
+        }));
     }
 
     createFilterString()

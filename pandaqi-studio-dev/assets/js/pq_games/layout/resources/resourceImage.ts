@@ -9,6 +9,8 @@ import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanva
 import ResourceLoader from "./resourceLoader"
 import ResourceText from "./resourceText"
 import createContext from "../canvas/createContext"
+import { Assets, Sprite, Spritesheet } from "js/pq_games/pixi/pixi.mjs"
+import getPixiAtlasData from "js/pq_games/pixi/getPixiAtlasData"
 
 type ImageLike = HTMLImageElement|ResourceImage|ResourceGradient|ResourcePattern
 type CanvasLike = HTMLCanvasElement|CanvasRenderingContext2D
@@ -45,6 +47,7 @@ export default class ResourceImage extends Resource
     thumbnails: FrameSet[];
     numThumbnails : number; // how many smaller thumbnails we should cache for each frame (e.g. a 1024x1024 also saves a 512x512 if set to 1)
     uniqueKey:string
+    pixiObject:any;
 
     constructor(imageData : DrawableData = null, params:ResourceImageParams = {})
     {
@@ -108,6 +111,33 @@ export default class ResourceImage extends Resource
         op.resource = this;
         op.frame = op.frame ?? this.frame;
         return await op.applyToPixi(app, parent);
+    }
+
+    getPixiObject(frame = 0) 
+    { 
+        if(this.isSingleFrame()) { return this.pixiObject; }
+        return this.getImageFrameAsPixiObject(frame); 
+    }
+
+    async createPixiObject()
+    {
+        const filePath = this.getSRCString();
+        const tex = await Assets.load(filePath);
+        if(this.isSingleFrame())
+        {
+            this.pixiObject = Sprite.from(tex);
+            return;
+        }
+
+        const atlasData = getPixiAtlasData(this);
+        const spritesheet = new Spritesheet(tex, atlasData);
+        await spritesheet.parse();
+        this.pixiObject = spritesheet;
+    }
+
+    getImageFrameAsPixiObject(frame = 0)
+    {   
+        return Sprite.from(this.pixiObject.textures["frame_" + frame]);
     }
 
     // for getting a new ResourceImage with result after operation applied

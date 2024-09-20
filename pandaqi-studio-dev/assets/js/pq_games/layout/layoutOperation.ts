@@ -21,9 +21,8 @@ import EffectsOperation from "./effects/effectsOperation"
 import TextDrawer from "./text/textDrawer"
 import Path from "../tools/geometry/paths/path"
 
-import { Sprite, Assets, Container, Spritesheet, Graphics, Texture } from "../pixi/pixi.mjs";
+import { Container, Graphics } from "../pixi/pixi.mjs";
 import convertCompositeToPixiBlendMode from "../pixi/convertCompositeToPixiBlendMode"
-import getPixiAtlasData from "../pixi/getPixiAtlasData"
 
 type ResourceLike = ResourceImage|ResourceShape|ResourceText|ResourceBox|ResourceGroup
 
@@ -524,58 +523,38 @@ export default class LayoutOperation
 
     async applyToPixi(app, parent)
     {
+        // @NOTE: keep this around because it's needed to set the tempTextDrawer initially => I should find a WAY CLEANER system to initialize that if needed + autoDims it
         const [translate, dims] = this.getFinalDimensions();
-
-        // since Pixi v8, only containers can have children, nothing else
-        // as such, everything is created as child of a container
-        const cont = new Container();
-        let obj:any = cont;
-
-        // add the actual object => @NOTE: if no app is set, it means we'll be a child of someone and we DON'T need to do this
-        // (and return so parents can add it)
-        const parentObject = parent ?? app.stage;
-        parentObject.addChild(cont);
 
         // if it's a group, just call all children to do what they want, 
         // then add them back to us in the end
+        let obj:any;
+        let shouldAddObject = true;
         if(this.resource instanceof ResourceGroup)
         {
+            obj = new Container();
+            parent.addChild(obj);
+            shouldAddObject = false;
+
             const combos = (this.resource as ResourceGroup).combos;
             for(const combo of combos)
             {
-                combo.toPixi(app, cont);
+                combo.toPixi(app, obj);
             }
         }
 
         // create the base object depending on resource
         // (if a group, it creates no extra object and just modifies the container)
+        // IMAGES
         if(this.resource instanceof ResourceImage)
         {
-            const filePath = this.resource.getSRCString();
-            const tex = await Assets.load(filePath);
-
-            if(this.resource.isSingleFrame()) {
-                obj = Sprite.from(filePath);
-            } else {
-                const atlasData = getPixiAtlasData(this.resource);
-                const spritesheet = new Spritesheet(tex, atlasData); // @TODO: instead, we should create ONE Sprite/Spritesheet for the ResourceImage and then keep reusing that
-                await spritesheet.parse();
-                obj = Sprite.from(spritesheet.textures["key" + this.frame]);
-                
-            }
-
-            const fullFrameDims = this.resource.frameSize.clone();
-            const scale = this.dims.clone().div(fullFrameDims);
-            obj.scale.set(scale.x, scale.y);
-            obj.height = this.dims.y;
+            obj = this.resource.getPixiObject(this.frame);
         }
 
+        // SHAPES / GEOMETRY
         if(this.resource instanceof ResourceShape)
         {
-            // @TODO: converting everything to full paths is potentially costly; write custom function for each shape to do take shortcuts where possible?
-            // @NOTE: YES we want that anyway, because a CIRCLE (for example) will be bad/angular this way
-            const pathPoints = this.resource.shape.toPath(); // don't need to convert as Point is an object with {x,y}, which PIXI accepts
-            obj = new Graphics({}).poly(pathPoints, false);
+            obj = this.resource.getPixiObject(Graphics);
 
             if(this.hasFill()) 
             { 
@@ -591,28 +570,24 @@ export default class LayoutOperation
             }
         }
 
+        // TEXT (draws on-the-fly to an offscreen canvas, then just returns that as a Sprite)
         if(this.resource instanceof ResourceText)
         {
-            console.log("Should draw text to offscreen canvas and then give as final image to PIXI!");
-            
-            const canv = document.createElement("canvas");
-            canv.width = dims.x;
-            canv.height = dims.y;
-            console.log(dims);
-            console.log(this.tempTextDrawer);
-
-            // @TODO: should probably mess around with settings here
-            this.tempTextDrawer.toCanvas(canv, this);
-
-            const tex = Texture.from(canv);
-            obj = new Sprite(tex);
+            obj = this.resource.getPixiObject(this);
         }
-        
-        if(obj != cont)
+
+        if(shouldAddObject)
         {
-            cont.addChild(obj);
+            parent.addChild(obj);
         }
-        
+
+        this.applyToPixiObjectProperties(obj);
+    }
+
+    applyToPixiObjectProperties(obj)
+    {
+        const [translate, dims] = this.getFinalDimensions();
+
         //
         // set all the GENERAL PROPERTIES (which should exist on all/most DisplayObjects)
         //
@@ -624,6 +599,12 @@ export default class LayoutOperation
         obj.tint = 0xFFFFFF; // @TODO: add tint as default option of layoutOperation?
         obj.blendMode = convertCompositeToPixiBlendMode(this.composite);
         obj.alpha = this.alpha;
+
+        if(this.resource instanceof ResourceImage)
+        {
+            const scale = this.dims.clone().div(this.resource.frameSize);
+            obj.scale.set(scale.x, scale.y);
+        }
 
         obj.scale.x *= this.flipX ? -1 : 1;
         obj.scale.y *= this.flipY ? -1 : 1;
@@ -638,32 +619,29 @@ export default class LayoutOperation
         // obj.skew => wants the skew factor in radians, while I have a POINT?
 
         //
-        // apply all EFFECTS
-        // @TODO: support them all
-        //
-        const effOp = new EffectsOperation();
-        for(const effect of this.effects)
-        {
-            effect.applyToPixi(effOp);
-        }
-        obj.filters = effOp.filtersPixi;
-
-        //
         // MASKING (either through graphics object or sprite)
         //
         let mask;
         if(this.clip) {
             mask = new Graphics({}).poly(this.clip.toPath(), false);
         } else if(this.mask) {
-            const filePath = this.mask.getSRCString();
-            await Assets.load(filePath);
-            mask = Sprite.from(filePath);
+            mask = this.mask.getPixiObject();
         }
 
         if(mask)
         {
             obj.mask = mask;
         }
+
+        //
+        // apply all EFFECTS
+        //
+        const effOp = new EffectsOperation();
+        for(const effect of this.effects)
+        {
+            effect.applyToPixi(effOp, obj); // some effects do something directly on object
+        }
+        obj.filters = effOp.filtersPixi;
     }
 
     hasFill() { return !this.fill.isTransparent(); }

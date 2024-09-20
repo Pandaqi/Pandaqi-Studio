@@ -1,0 +1,119 @@
+@use "sass:color";
+
+$header-font: "vina";
+$body-font: "urbanist";
+$base-fonts: "fonts/";
+
+$bg-color: #020823;
+$text-color: #FCFCFC;
+
+$col1: #96baf9;
+$col2: #f9b3c4;
+$col3: #dfdfdf;
+
+$button-bg: $col2;
+$button-color: #1e1c27;
+$link-color: color.adjust($col3, $lightness: -5%);
+$link-color-hover: color.adjust($col3, $lightness: 15%);
+$settings-color: $col1;
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'Urbanist-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'Urbanist-Italic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $body-font;
+    src: url($base-fonts + 'Urbanist-Black.woff2') format('woff2');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: $header-font;
+    src: url($base-fonts + 'VinaSans-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+h1, h2, h3, h4, h5, h6, 
+a.btn, #btn-create-pdf, #btn-generate-board, #btn-start-game,
+input, button, select, option, label {
+    font-family: $header-font;
+    font-weight: normal;
+}
+
+body {
+    font-family: $body-font;
+    background-color: $bg-color;
+    color: $text-color;
+}
+
+a {
+    color: $link-color; 
+    &:hover {
+        color: $link-color-hover;
+    }
+}
+
+.game-settings {
+    background-color: $settings-color;
+}
+
+.boardgame-intro {
+    .tagline, .metadata {
+        color: $text-color;
+    }
+}
+
+a.download-btn, a.download-btn:visited, 
+#btn-start-game, #btn-start-game:visited,
+#btn-generate-board, #btn-generate-board:visited {
+    background-color: $button-bg;
+    color: $button-color;
+    
+    &:hover {
+        background-color: $button-color;
+        color: $button-bg;
+    }
+}
+
+//
+// Rules
+//
+.rulebook {
+    color: #111111;
+}
+
+#setup {
+    background-color: $col1;
+}
+
+#objective {
+    background-color: $col2;
+}
+
+#gameplay {
+    background-color: $col3;
+}
+
+#advanced {
+    background-color: $col2;
+}
+
+#magnetmen {
+    background-color: $col1;
+}

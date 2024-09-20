@@ -1,3 +1,4 @@
+import { ColorMatrixFilter } from "js/pq_games/pixi/pixi.mjs";
 import EffectsOperation from "./effectsOperation";
 import LayoutEffect from "./layoutEffect";
 
@@ -26,6 +27,13 @@ export default class InvertEffect extends LayoutEffect
     createFilterString()
     {
         return "invert()";
+    }
+
+    applyToPixi(effOp = new EffectsOperation(), obj)
+    {
+        const eff = new ColorMatrixFilter();
+        eff.negative(false);
+        effOp.addFilterPixi(eff);
     }
     
 }

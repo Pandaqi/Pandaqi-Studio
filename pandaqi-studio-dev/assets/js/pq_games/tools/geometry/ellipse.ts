@@ -37,6 +37,11 @@ export default class Ellipse extends Shape
         );
     }
 
+    createPixiObject(graphicsConstructor)
+    {
+        return new graphicsConstructor({}).ellipse(this.center.x, this.center.y, this.radius.x, this.radius.y);
+    }
+
     toPath(resolution = 32)
     {
         const path : Point[] = [];

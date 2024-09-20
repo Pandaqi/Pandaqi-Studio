@@ -1,4 +1,5 @@
-import BoardVisualizer from "js/pq_games/website/boardVisualizer";
+import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
+import BoardVisualizer, { VisualizerRenderer } from "js/pq_games/website/boardVisualizer";
 
 export default class BoardGenerator
 {
@@ -12,22 +13,34 @@ export default class BoardGenerator
     visualizer:BoardVisualizer
 
     canvas: HTMLCanvasElement
+    groupFinal: ResourceGroup
+
+    profile: boolean;
 
 	constructor(cfg:Record<string,any>) 
     {
         this.config = cfg;
         const assetsToLoad = this.filterAssets(this.config.assets);
         this.config.assets = assetsToLoad;
-        this.visualizer = new BoardVisualizer({ config: this.config, scene: this, backend: "raw" });
+        const renderer = cfg.renderer ?? VisualizerRenderer.PIXI;
+        this.visualizer = new BoardVisualizer({ config: this.config, scene: this, renderer: renderer });
     }
 
     async create(userConfig:Record<string,any>) 
     {
+        const startTime = Date.now(); 
+
         this.setup(userConfig);
 
         const board = await this.generate();
         await this.draw(board);
-        this.visualizer.convertCanvasToImage(this);
+        await this.visualizer.convertCanvasToImage(this);
+
+        const endTime = Date.now();
+        if(this.profile)
+        {
+            console.log("Generation Time (ms) = ", Math.floor(endTime - startTime));
+        }
     }
 
     setup(userConfig:Record<string,any>)
@@ -52,6 +65,6 @@ export default class BoardGenerator
     async draw(board)
     {
         const boardDraw = new this.drawerClass();
-        await boardDraw.draw(this.canvas, board);
+        this.groupFinal = await boardDraw.draw(this.canvas, board);
     }    
 }

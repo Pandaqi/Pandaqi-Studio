@@ -14,7 +14,7 @@ export default (res:ResourceImage) =>
 
     for(let i = 0; i < res.countFrames(); i++)
     {
-        const key = "key" + i;
+        const key = "frame_" + i;
         const frameData = res.getFrameData(i);
         data.frames[key] = {
             frame: { x: frameData.x, y: frameData.y, w: frameData.width, h: frameData.height },

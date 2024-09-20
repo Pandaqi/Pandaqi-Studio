@@ -6,14 +6,13 @@ import GridMapper from "js/pq_games/layout/gridMapper";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import ResourceImage from "js/pq_games/layout/resources/resourceImage";
-import ResourceLoader from "js/pq_games/layout/resources/resourceLoader";
+import ResourceLoader, { ResourceLoaderRenderer } from "js/pq_games/layout/resources/resourceLoader";
 import ResourceShape from "js/pq_games/layout/resources/resourceShape";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
 import TextConfig from "js/pq_games/layout/text/textConfig";
-import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
 import PdfBuilder from "js/pq_games/pdf/pdfBuilder";
 import { PageOrientation } from "js/pq_games/pdf/pdfEnums";
-import { Application } from "js/pq_games/pixi/pixi.mjs";
+import { Container, WebGPURenderer } from "js/pq_games/pixi/pixi.mjs";
 import Circle from "js/pq_games/tools/geometry/circle";
 import Point from "js/pq_games/tools/geometry/point";
 import Rectangle from "js/pq_games/tools/geometry/rectangle";
@@ -21,7 +20,7 @@ import Rectangle from "js/pq_games/tools/geometry/rectangle";
 const TEST_ASSETS = {
     creatures_1: {
         path: "/dev-test/assets/quellector_creatures_1.webp",
-        frames: { x: 8, y: 2 }
+        frames: new Point(8,2)
     },
     font: {
         key: "Comica Boom",
@@ -31,7 +30,7 @@ const TEST_ASSETS = {
 
     misc: {
         path: "/naivigation/assets/misc.webp",
-        //frames: new Point(2,1)
+        frames: new Point(5,1)
     }
 }
 
@@ -148,17 +147,26 @@ const testCompositeOperation = async (canv, resLoader) =>
 
 const testPixiImages = async () =>
 {
-    const app = new Application();
-    await app.init({ 
-        width: 640, height: 360, 
+    // create PIXI app/renderer
+    const renderer = new WebGPURenderer();
+    await renderer.init({ 
+        width: 1280, height: 720, 
         backgroundColor: 0xAAFFFF,
-        antialias: true,
+        //antialias: true,
         useBackBuffer: true,
-    })
-    document.body.appendChild(app.canvas);
+    });
+    document.body.appendChild(renderer.canvas);
 
-    const res = new ResourceImage().fromPath(TEST_ASSETS.misc.path, { frames: new Point(5,1) });
+    // load all assets
+    const resLoader = new ResourceLoader({ renderer: ResourceLoaderRenderer.PIXI });
+    for(const [key,data] of Object.entries(TEST_ASSETS))
+    {
+        resLoader.planLoad(key, data);
+    }
+    await resLoader.loadPlannedResources();
 
+    // place test image
+    const res = resLoader.getResource("misc");
     const op = new LayoutOperation({
         translate: new Point(80,80),
         rotation: 0.2*Math.PI,
@@ -166,6 +174,7 @@ const testPixiImages = async () =>
         pivot: Point.CENTER
     });
 
+    // place test graphics
     const resRect = new ResourceShape(new Rectangle().fromTopLeft(new Point(), new Point(500,50)));
     const opRect = new LayoutOperation({
         fill: "#FF0000",
@@ -173,23 +182,26 @@ const testPixiImages = async () =>
         composite: "multiply"
     })
 
+    // place test text
     const textConfig = new TextConfig({
-        font: "Georgia",
-        size: 16
+        font: TEST_ASSETS.font.key,
+        size: 32
     });
     const resText = new ResourceText({ text: "Ik ben <b>Tiamo Pastoor</b>. Wie <i>ben jij</i>?", textConfig: textConfig });
     const opText = new LayoutOperation({
-        translate: new Point(100,100),
-        dims: new Point(100, 300),
+        translate: new Point(300,300),
+        dims: new Point(300, 300),
         fill: "#000000",
-        alpha: 0.5
     })
     
     const group = new ResourceGroup();
     group.add(res, op);
     group.add(resRect, opRect);
     group.add(resText, opText);
-    group.toPixi(app, null);
+
+    const appRoot = new Container();
+    group.toPixi(renderer, appRoot);
+    renderer.render(appRoot);
 }
 
 const runTests = async () =>

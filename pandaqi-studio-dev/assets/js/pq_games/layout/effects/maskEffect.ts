@@ -46,4 +46,12 @@ export default class MaskEffect extends LayoutEffect
     {
         div.style.maskImage = this.resource.getCSSUrl();
     }
+
+    applyToPixi(effOp = new EffectsOperation(), obj)
+    {
+        const maskSprite = this.resource.getPixiObject();
+        this.operation.resource = this.resource;
+        this.operation.applyToPixiObjectProperties(maskSprite);
+        obj.mask = maskSprite;
+    }
 }

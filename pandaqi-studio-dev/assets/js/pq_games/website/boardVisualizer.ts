@@ -5,17 +5,17 @@ import { SettingsConfig } from "./settings"
 import createCanvas from "../layout/canvas/createCanvas"
 import ResourceLoader from "../layout/resources/resourceLoader"
 // @ts-ignore
-import { CANVAS, Game, Scale, WEBGL } from "../phaser/phaser.esm"
+import { CANVAS, Game, Scale } from "../phaser/phaser.esm"
 import Point from "../tools/geometry/point"
 import ProgressBar from "./progressBar"
+import { Container, WebGPURenderer } from "../pixi/pixi.mjs"
 
 interface VisualizerParams
 {
 	scene:any,
 	config:Record<string,any>,
 	configKey?: string, // overrides the default configKey read from config
-	renderer?:string,
-	backend?:string // phaser or raw
+	renderer?:VisualizerRenderer
 }
 
 interface CanvasToImageParams
@@ -23,6 +23,14 @@ interface CanvasToImageParams
 	splitDims?: Point|string
 }
 
+enum VisualizerRenderer
+{
+	PHASER = "phaser",
+	PANDAQI = "pandaqi",
+	PIXI = "pixi",
+}
+
+export { VisualizerRenderer }
 export default class BoardVisualizer
 {
 	phaserGame = null
@@ -32,8 +40,8 @@ export default class BoardVisualizer
 	gameConfig: SettingsConfig
 	pdfBuilder: PdfBuilder
 	generationClass: any
-	renderer:string
-	backend:string
+	renderer:VisualizerRenderer
+	rendererInstance:any // only used by PIXI; the actual renderer class that must do stuff
 	collection = false
 
 	containerInput:HTMLElement
@@ -46,8 +54,7 @@ export default class BoardVisualizer
 	{
 		this.config = params.config ?? {};
 		this.generationClass = params.scene;
-		this.renderer = params.renderer ?? "canvas";
-		this.backend = params.backend ?? "phaser";
+		this.renderer = params.renderer ?? VisualizerRenderer.PANDAQI;
 		
 		const configKey = (params.configKey ?? this.config.configKey) ?? "pandaqiGeneralConfig";
 		this.gameConfig = JSON.parse(window.localStorage.getItem(configKey) ?? "{}");
@@ -86,7 +93,7 @@ export default class BoardVisualizer
 		this.progBar.setPhases(["Generating", "Creating PDF", "Done!"]);
 		this.progBar.changeVerticalAlign("start");
 
-		this.resLoader = new ResourceLoader({ base: this.config.assetsBase });
+		this.resLoader = new ResourceLoader({ base: this.config.assetsBase, renderer: this.renderer });
 		this.resLoader.planLoadMultiple(this.config.assets);
 
 		this.start();
@@ -131,14 +138,13 @@ export default class BoardVisualizer
 		this.containerInput.innerHTML = '';
 		this.containerInput.style.display = "block";
 
-		if(this.backend == "phaser")
+		if(this.renderer == VisualizerRenderer.PHASER)
 		{
 			// @ts-ignore
 			const generationClass = this.generationClass ?? window.BoardGeneration;
-			const renderer = this.renderer == "webgl" ? WEBGL : CANVAS;
 
-			var phaserConfig = {
-				type: renderer,
+			const phaserConfig = {
+				type: CANVAS,
 				width: this.gameConfig.size.x,
 				height: this.gameConfig.size.y,
 				scale: {
@@ -156,12 +162,31 @@ export default class BoardVisualizer
 			// @ts-ignore
 			window.GAME = this.phaserGame; 
 		}
-		else if(this.backend == "raw")
+
+		if(this.renderer == VisualizerRenderer.PANDAQI)
 		{
 			const canvas = createCanvas({ size: this.gameConfig.size, alpha: false });
 			// container.appendChild(canvas); => not necessary
 			this.canvas = canvas;
 			this.gameConfig.canvas = canvas;
+
+			setTimeout(() => {
+				this.generationClass.create(this.gameConfig);
+			}, 33);	
+		}
+
+		if(this.renderer == VisualizerRenderer.PIXI)
+		{
+			const renderer = new WebGPURenderer();
+			await renderer.init({ 
+				width: this.gameConfig.size.x, height: this.gameConfig.size.y, 
+				backgroundColor: 0xFFFFFF,
+				//antialias: true,
+				useBackBuffer: true,
+			});
+			this.rendererInstance = renderer;
+			this.canvas = renderer.canvas;
+			this.gameConfig.canvas = this.canvas;
 
 			setTimeout(() => {
 				this.generationClass.create(this.gameConfig);
@@ -176,28 +201,38 @@ export default class BoardVisualizer
 		if(!this.pdfBuilder) { console.error("Can't convert canvas to image. No PDF builder!"); return; }
 		
 		let img;
-		if(this.backend == "phaser")
+
+		// the scene is the phaser scene object
+		if(this.renderer == VisualizerRenderer.PHASER)
 		{
 			const canv = this.containerInput.firstChild as HTMLCanvasElement;
+			await new Promise((r) => setTimeout(r, 100)); // must wait a bit to ensure Phaser canvas is actually redrawn
+			img = await convertCanvasToImage(canv) as HTMLImageElement;
 
-			// must wait a bit to ensure Phaser canvas is actually redrawn
-			await new Promise((r) => setTimeout(r, 100));
-	
-			// convert (this depends on renderer used)
-			if(this.renderer == "webgl")
-			{
-				img = await new Promise((resolve) => {
+			/* WEBGL rendering
+			img = await new Promise((resolve) => {
 					scene.renderer.snapshot(image =>
 					{
 						resolve(image);
 					});
 				})
-			} else if(this.renderer == "canvas") {
-				img = await convertCanvasToImage(canv) as HTMLImageElement;
-			}
+			*/
 		}
-		else if(this.backend == "raw")
+
+		// the scene is the BoardGenerator (and its final tree is in `.finalGroup`)
+		if(this.renderer == VisualizerRenderer.PANDAQI)
 		{
+			console.log(scene);
+			scene.groupFinal.toCanvas(this.canvas);
+			img = await convertCanvasToImage(this.canvas);
+		}
+
+		// the scene is the BoardGenerator
+		if(this.renderer == VisualizerRenderer.PIXI)
+		{
+			const appRoot = new Container();
+			scene.groupFinal.toPixi(this.rendererInstance, appRoot);
+			this.rendererInstance.render(appRoot); // this insta-draws all queued operations
 			img = await convertCanvasToImage(this.canvas);
 		}
 

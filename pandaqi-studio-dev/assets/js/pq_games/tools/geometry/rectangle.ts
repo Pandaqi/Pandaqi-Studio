@@ -38,6 +38,13 @@ export default class Rectangle extends Shape
         );
     }
 
+    createPixiObject(graphicsConstructor)
+    {
+        const tl = this.getTopLeft();
+        const size = this.getSize();
+        return new graphicsConstructor({}).rect(tl.x, tl.y, size.x, size.y);
+    }
+
     toPath()
     {
         return [

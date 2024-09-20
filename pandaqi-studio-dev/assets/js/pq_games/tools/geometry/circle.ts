@@ -36,6 +36,11 @@ export default class Circle extends Shape
         );
     }
 
+    createPixiObject(graphicsConstructor)
+    {
+        return new graphicsConstructor({}).circle(this.center.x, this.center.y, this.radius);
+    }
+
     toPath2D() 
     {
         const p = new Path2D();

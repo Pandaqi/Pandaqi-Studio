@@ -6,6 +6,7 @@ import ProgressBar from "js/pq_games/website/progressBar";
 import MaterialVisualizer from "./materialVisualizer";
 import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage";
 import { PageFormat, PageOrientation } from "js/pq_games/pdf/pdfEnums";
+import { VisualizerRenderer } from "js/pq_games/website/boardVisualizer";
 
 const DEFAULT_BATCH_SIZE = 10;
 const GIVE_FEEDBACK = true;
@@ -35,6 +36,7 @@ export default class MaterialGenerator
     pdfBuilder: PdfBuilder;
     resLoader: ResourceLoader;
 
+    renderer: VisualizerRenderer;
     generators: Record<string,any>;
     drawers: Record<string,GridMapper>;
 
@@ -51,6 +53,7 @@ export default class MaterialGenerator
         this.generators = {};
         this.drawers = {};
 
+        this.renderer = CONFIG.renderer ?? VisualizerRenderer.PANDAQI;
         this.visualizerClass = MaterialVisualizer;
 
         this.progressBar = new ProgressBar();
@@ -115,7 +118,7 @@ export default class MaterialGenerator
         await this.letDomUpdate();
 
         const assetsToLoad = this.filterAssets(this.config.assets);
-        const resLoader = new ResourceLoader({ base: this.config.assetsBase });
+        const resLoader = new ResourceLoader({ base: this.config.assetsBase, renderer: this.renderer });
         
         if(GIVE_FEEDBACK)
         {
@@ -158,6 +161,7 @@ export default class MaterialGenerator
             const itemSize = drawer.getMaxElementSize();
             this.config.resLoader = this.resLoader;
             this.config.itemSize = itemSize;
+            this.config.renderer = this.renderer;
 
             const visualizer = new this.visualizerClass(this.config);
             if(this.visualizerClassCustom) { visualizer.setCustomObject(new this.visualizerClassCustom()); }

@@ -63,16 +63,11 @@ export default class Card
 
     async draw(vis:MaterialVisualizer)
     {
-        const ctx = createContext({ size: vis.size });
-        fillCanvas(ctx, "#FFFFFF");
-
-        const group = new ResourceGroup();
+        const group = vis.prepareDraw();
         this.drawBackground(vis, group);
         this.drawNumbers(vis, group);
         this.drawPower(vis, group);
-
-        group.toCanvas(ctx);
-        return ctx.canvas;
+        return await vis.finishDraw(group);
     }
 
     drawBackground(vis:MaterialVisualizer, group:ResourceGroup)

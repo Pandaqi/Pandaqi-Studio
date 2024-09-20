@@ -94,6 +94,11 @@ export default class Triangle extends Shape
         return new Dims().fromPoints(this.toPath());
     }
 
+    createPixiObject(graphicsConstructor)
+    {
+        return new graphicsConstructor({}).poly(this.points, false);
+    }
+
     toPath()
     {
         return this.points.slice();

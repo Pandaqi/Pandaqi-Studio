@@ -5,6 +5,7 @@ import TextDrawer from "../text/textDrawer";
 import Resource from "./resource"
 import { CanvasLike } from "./resourceImage";
 import Dims from "js/pq_games/tools/geometry/dims";
+import { Sprite, Texture } from "js/pq_games/pixi/pixi.mjs";
 
 interface ResourceTextParams
 {
@@ -46,6 +47,22 @@ export default class ResourceText extends Resource
         op.resource = this;
         return op.applyToPixi(app, parent);
     }
+
+    getPixiObject(op:LayoutOperation)
+    {
+        const canv = document.createElement("canvas");
+        const size = op.tempTextDrawer.dims.getSize();
+        canv.width = size.x;
+        canv.height = size.y;
+
+        // @TODO: should probably mess around with settings here for proper positioning/no cutoff, or do I already do that?
+        // => The `.dims` object from above should already have the right size + be positioned at (0,0), is that enough?
+        op.tempTextDrawer.toCanvas(canv, op);
+
+        return new Sprite(Texture.from(canv));
+    }
+
+    async createPixiObject() {}
 
     async toHTML(op:LayoutOperation = null)
     {
