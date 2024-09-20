@@ -221,7 +221,7 @@ p {
 }
 
 a, a:visited {
-    color: var(--palette-color);
+    color: var(--palette-link);
     transition: color 0.2s;
     &:hover {
         color: #000000;
@@ -230,7 +230,7 @@ a, a:visited {
 
 .game-title {
     a, a:visited {
-        color: var(--palette-bg);
+        color: var(--palette-white);
         &:hover {
             color: white;
         }
@@ -619,6 +619,8 @@ section[data-folded="true"]
             
             margin: auto;
             max-width: $max-content-width;
+
+            color: var(--palette-color-rules);
             
             display: flex;
             justify-content: space-between;

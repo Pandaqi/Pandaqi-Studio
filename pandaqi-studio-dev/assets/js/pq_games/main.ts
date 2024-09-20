@@ -1,5 +1,5 @@
 import PDF from "./pdf/main";
-import PHASER from "./website/onPageVisualizer";
+import PHASER from "./website/boardVisualizer";
 import SETTINGS from "./website/settings";
 import TOOLS from "./tools/main";
 import Color from "./layout/color/color";

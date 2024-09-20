@@ -12,6 +12,16 @@
 		--palette-bg-rules: #{map.get($color, "bg-rules")};
 		--palette-white: #EDEDED;
 		--palette-black: #111111;
+
+		@if(map.get($color, "invert")) {
+			--palette-link: #{map.get($color, "bg")};
+			--palette-link-invert: #{map.get($color, "col")};
+			--palette-color-rules: #{map.get($color, "bg")};
+		} @else {
+			--palette-link: #{map.get($color, "col")};
+			--palette-link-invert: #{map.get($color, "bg")};
+			--palette-color-rules: #{map.get($color, "col")};
+		}
 	}
 }
 

@@ -3,6 +3,9 @@ import LayoutEffect from "./layoutEffect";
 import EffectsOperation from "./effectsOperation";
 import { ColorLikeValue } from "../color/colorLike";
 
+import { DropShadowFilter } from "../../pixi/pixi-filters.mjs";
+import Color from "../color/color";
+
 interface DropShadowParams
 {
     blur?:number,
@@ -33,7 +36,7 @@ export default class DropShadowEffect extends LayoutEffect
         const eff = new DropShadowEffect({
             blur: this.blurRadius,
             color: this.color,
-            offset: off
+            offset: off,
         });
         return eff;
     }
@@ -46,6 +49,19 @@ export default class DropShadowEffect extends LayoutEffect
     applyToHTML(div:HTMLDivElement, effOp = new EffectsOperation())
     {
         effOp.addFilter(this.createFilterString());
+    }
+
+    applyToPixi(effOp = new EffectsOperation())
+    {
+        const col = new Color(this.color);
+        const filter = new DropShadowFilter({
+            alpha: col.a,
+            color: col.toHEXNumber(),
+            blur: this.blurRadius,
+            offset: this.offset,
+            quality: 8
+        });
+        effOp.addFilterPixi(filter);
     }
 
     createFilterString()

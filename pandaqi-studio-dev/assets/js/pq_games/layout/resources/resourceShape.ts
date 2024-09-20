@@ -33,6 +33,12 @@ export default class ResourceShape extends Resource
         return op.applyToCanvas(canv);
     }
 
+    async toPixi(app, parent, op = new LayoutOperation())
+    {
+        op.resource = this;
+        return op.applyToPixi(app, parent);
+    }
+
     async toHTML(op = new LayoutOperation())
     {
         // @DEBUGGING

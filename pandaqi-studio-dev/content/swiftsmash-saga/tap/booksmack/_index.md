@@ -48,7 +48,7 @@ The base game has only two rules and no text on cards. It's ideal for little kid
 
 {{% section-centered heading="Credits" anchor="credits" %}}
 
-The fonts used are **Abril Fatface** (headings) and **Whackadoo** (body text). Everything else is mine.
+The fonts used are **Abril Fatface** (headings) and **Andika** (body text). Everything else is mine.
 
 I'm not sure how this idea came to me, but I'm glad it did. I guess I was just brainstorming possible entries into the _SwiftSmash Saga_ (games about quickly "smashing" or "tapping" the right card), and then it suddenly occured to me that the _alphabet_ has an implicit order. 
 

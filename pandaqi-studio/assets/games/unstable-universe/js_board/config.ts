@@ -2,9 +2,15 @@ import Point from "js/pq_games/tools/geometry/point";
 
 const CONFIG =
 {
+    configKey: "unstableUniverseConfig",
     assetsBase: "/unstable-universe/assets/",
     assets:
     {
+        scifly:
+        {
+            path: "fonts/scifly.woff2"
+        },
+
         fault_line:
         {
             path: "fault_line.png"

@@ -3,7 +3,8 @@ import { TERRAINS, TERRAIN_DATA, NATURE, STONES, QUADRANTS, LANDMARKS, ROADS, HI
 import seedRandom from "js/pq_games/tools/random/seedrandom"
 // @ts-ignore
 import { Scene, GameObjects } from "js/pq_games/phaser/phaser.esm"
-import PdfBuilder, { PageOrientation } from "js/pq_games/pdf/pdfBuilder"
+import PdfBuilder from "js/pq_games/pdf/pdfBuilder";
+import { PageOrientation } from "js/pq_games/pdf/pdfEnums";
 import Point from "js/pq_games/tools/geometry/point"
 import setDefaultPhaserSettings from "js/pq_games/phaser/setDefaultPhaserSettings"
 import resourceLoaderToPhaser from "js/pq_games/phaser/resourceLoaderToPhaser"

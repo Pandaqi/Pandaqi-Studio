@@ -7,11 +7,7 @@ headerTitle: "The only boardgame where you're allowed to cut the paper into piec
 blurb: "The only boardgame where you're allowed to cut the board into pieces, especially when you are losing."
 blurbShort: "The only game in which you're allowed to cut the paper into pieces, especially when you are losing. A [One Paper Game](/boardgames#one-paper-games) for 2--9 players."
 
-
 color: "blue"
-
-
-extraJSBoardInclude: true
 
 date: 2020-09-05
 
@@ -29,7 +25,6 @@ playtime: 30-60
 playercount: [2,3,4,5,6,7,8,9]
 ages: everyone
 devlog: "/blog/boardgames/unstable-universe/devlog-unstable-universe/"
-
 ---
 
 
@@ -85,7 +80,7 @@ Three steps:
 
 {{% boardgame-settings-container type="material" remarks="**Secret board?** The _Expeditions_ expansion adds nodes that trigger whenever their piece of paper comes loose. If you are _able to print double-sided_, these nodes will be placed on the _backside_ of the paper. This means the paper actually has secrets that will be revealed during the game! (Do a test print, though.)||**Tip for Cleanup?** When done, you should have a bunch of puzzle pieces ( = all pieces of paper you cut off). Here's the challenge: try to fit them back together to recreate the original paper! Sounds easier than it is :)" %}}
   
-{{< boardgame-settings type="board" game_title="Unstable Universe" defaults="true" >}}
+{{< boardgame-settings type="board" game_title="Unstable Universe" local_storage="unstableUniverseConfig" defaults="true" >}}
   {{< setting-seed >}}
   {{< setting-playercount min="2" max="9" def="4" >}}
   {{< setting-checkbox id="setting-firstGame" text="First game(s)?" remark="Everyone gets the same Mission, to simplify learning and teaching the game." checked="checked" >}}

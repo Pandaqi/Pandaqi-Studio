@@ -1,36 +1,33 @@
+import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage";
 import createContext from "js/pq_games/layout/canvas/createContext";
-import { COLORS, CardData, TYPES, Type } from "../js_shared/dict";
-import CONFIG from "../js_shared/config";
-import strokeCanvas from "js/pq_games/layout/canvas/strokeCanvas";
-import Point from "js/pq_games/tools/geometry/point";
 import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
+import strokeCanvas from "js/pq_games/layout/canvas/strokeCanvas";
+import Color from "js/pq_games/layout/color/color";
+import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
+import GrayScaleEffect from "js/pq_games/layout/effects/grayScaleEffect";
+import TintEffect from "js/pq_games/layout/effects/tintEffect";
+import LayoutNode from "js/pq_games/layout/layoutNode";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import ResourceImage from "js/pq_games/layout/resources/resourceImage";
-import GrayScaleEffect from "js/pq_games/layout/effects/grayScaleEffect";
-import rangeInteger from "js/pq_games/tools/random/rangeInteger";
-import fromArray from "js/pq_games/tools/random/fromArray";
-import LayoutNode from "js/pq_games/layout/layoutNode";
-import TwoAxisValue from "js/pq_games/layout/values/twoAxisValue";
-import { FlowDir, FlowType } from "js/pq_games/layout/values/aggregators/flowInput";
+import ResourceShape from "js/pq_games/layout/resources/resourceShape";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
 import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
-import DisplayValue from "js/pq_games/layout/values/displayValue";
-import TintEffect from "js/pq_games/layout/effects/tintEffect";
-import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
-import subdividePath from "js/pq_games/tools/geometry/paths/subdividePath";
-import WonkyRectangle from "./wonkyRectangle";
-import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage";
+import { FlowDir, FlowType } from "js/pq_games/layout/values/aggregators/flowInput";
 import AlignValue from "js/pq_games/layout/values/alignValue";
 import AnchorValue from "js/pq_games/layout/values/anchorValue";
-import ColorLike from "js/pq_games/layout/color/colorLike";
-import Color from "js/pq_games/layout/color/color";
-import Path from "js/pq_games/tools/geometry/paths/path";
-import ResourceShape from "js/pq_games/layout/resources/resourceShape";
-import calculateCenter from "js/pq_games/tools/geometry/paths/calculateCenter";
-import calculateBoundingBox from "js/pq_games/tools/geometry/paths/calculateBoundingBox";
-import movePath from "js/pq_games/tools/geometry/transform/movePath";
+import DisplayValue from "js/pq_games/layout/values/displayValue";
+import TwoAxisValue from "js/pq_games/layout/values/twoAxisValue";
 import Line from "js/pq_games/tools/geometry/line";
+import calculateBoundingBox from "js/pq_games/tools/geometry/paths/calculateBoundingBox";
+import calculateCenter from "js/pq_games/tools/geometry/paths/calculateCenter";
+import Path from "js/pq_games/tools/geometry/paths/path";
+import Point from "js/pq_games/tools/geometry/point";
 import Rectangle from "js/pq_games/tools/geometry/rectangle";
+import movePath from "js/pq_games/tools/geometry/transform/movePath";
+import fromArray from "js/pq_games/tools/random/fromArray";
+import CONFIG from "../js_shared/config";
+import { COLORS, CardData, TYPES, Type } from "../js_shared/dict";
+import WonkyRectangle from "./wonkyRectangle";
 
 export default class Card
 {
@@ -471,7 +468,7 @@ export default class Card
             if(rotation == 0) { translate.add(new Point(0, 0.5*fontSizeNumber)); }
             else { translate.add(new Point(0, -0.5*fontSizeNumber)); }
 
-            const rect = new Rectangle({ extents: new Point(fontSizeNumber, 0.166*fontSizeNumber) });
+            const rect = new Rectangle({ extents: new Point(0.8*fontSizeNumber, 0.12*fontSizeNumber) });
             const underlineRes = new ResourceShape(rect);
             const underlineOp = new LayoutOperation({
                 translate: translate,
@@ -569,7 +566,7 @@ export default class Card
             lineHeight: CONFIG.cards.power.lineHeight
         })
 
-        const typeIconSize = CONFIG.cards.power.inlineIconHeight * textConfig.size;
+        const typeIconSize = CONFIG.cards.power.inlineIconHeight * textConfig.size;``
 
         // the description is split into parts (regular text, number text, image icon)
         // so we can render each as an individual node

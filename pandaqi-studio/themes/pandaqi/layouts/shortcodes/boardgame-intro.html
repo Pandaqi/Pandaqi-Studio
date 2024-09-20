@@ -1,6 +1,6 @@
 {{- $class := .Get "class" -}}
 {{- $context := $.Page -}}
-{{- $tagline := or .Inner (or $context.Params.blurbShort $context.Params.blurb) -}}
+{{- $tagline := or .Inner (or (or $context.Params.blurbShort $context.Params.blurb) $context.Params.headerTitle) -}}
 <section class="boardgame-intro {{ $class }}">
 	<div class="big-header-image">
 		{{- $img := or (.Get "img") (partial "func/get-game-header.html" $context) -}}

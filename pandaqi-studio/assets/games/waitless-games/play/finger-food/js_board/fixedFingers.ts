@@ -1,6 +1,8 @@
 import Point from "js/pq_games/tools/geometry/point";
 import BoardDisplay from "./boardDisplay";
 import CONFIG from "./config";
+import LayoutOperation from "js/pq_games/layout/layoutOperation";
+import imageToPhaser from "js/pq_games/phaser/imageToPhaser";
 
 export default class FixedFingers
 {
@@ -14,24 +16,29 @@ export default class FixedFingers
     display(boardDisplay:BoardDisplay, pos:Point, height:number = 128)
     {
         const game = boardDisplay.game
-        const size = CONFIG.fixedFingers.handScale * height
+        const size = CONFIG.fixedFingers.handScale * height;
 
         // hand background
-        const sprite = game.add.sprite(pos.x, pos.y, "fixed_fingers_spritesheet");
-        sprite.setFrame(5);
-        sprite.setOrigin(0.5);
-        sprite.displayWidth = size;
-        sprite.displayHeight = size
+        const res = CONFIG.visualizer.resLoader.getResource("fixed_fingers_spritesheet");
+        const opSprite = new LayoutOperation({
+            translate: pos,
+            dims: new Point(size),
+            frame: 5,
+            pivot: Point.CENTER
+        })
+        const sprite = imageToPhaser(res, opSprite, game);
 
         // overlay the mask of each finger
         // (number in array = frame)
         for(const finger of this.fixedFingers)
         {
-            const sprite = game.add.sprite(pos.x, pos.y, "fixed_fingers_spritesheet");
-            sprite.setFrame(finger);
-            sprite.setOrigin(0.5);
-            sprite.displayWidth = size;
-            sprite.displayHeight = size;
+            const opFinger = new LayoutOperation({
+                translate: pos,
+                dims: new Point(size),
+                frame: finger,
+                pivot: Point.CENTER,
+            })
+            const spriteFinger = imageToPhaser(res, opFinger, game);
         }
     }
 }

@@ -40,37 +40,43 @@ export default
         creatures_1: 
         {
             path: "quellector_creatures_1.webp",
-            frames: new Point(8,2)
+            frames: new Point(8,2),
+            enableCaching: true,
         },
 
         creatures_2: 
         {
             path: "quellector_creatures_2.webp",
-            frames: new Point(8,2)
+            frames: new Point(8,2),
+            enableCaching: true,
         },
 
         creatures_3: 
         {
             path: "quellector_creatures_3.webp",
-            frames: new Point(8,2)
+            frames: new Point(8,2),
+            enableCaching: true,
         },
 
         backgrounds_1: 
         {
             path: "quellector_backgrounds_1.webp",
-            frames: new Point(8,2)
+            frames: new Point(8,2),
+            enableCaching: true,
         },
 
         backgrounds_2: 
         {
             path: "quellector_backgrounds_2.webp",
-            frames: new Point(8,2)
+            frames: new Point(8,2),
+            enableCaching: true,
         },
 
         backgrounds_3: 
         {
             path: "quellector_backgrounds_3.webp",
-            frames: new Point(8,2)
+            frames: new Point(8,2),
+            enableCaching: true,
         },
 
         icons: 

@@ -12,7 +12,6 @@
         max-width: 550px;
         margin-left: auto;
         margin-right: auto;
-        color: #0D0106;
         text-align: center;
     } 
 
@@ -28,15 +27,5 @@
 
     .download-btn-container {
         text-align: center;
-    }
-}
-
-body.invert 
-{
-    .boardgame-intro 
-    {
-        .tagline, .metadata {
-            color: #FCFCFC;
-        }
     }
 }

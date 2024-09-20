@@ -1,9 +1,7 @@
-{{ $all_colors := .Site.Params.all_colors }}
-{{ $color_scheme := or .Params.color (index ($all_colors | shuffle) 0) }}
 {{ $deprecated := or .Params.deprecated false }}
 {{ $is_game_page := eq .Type "gamepage" }}
 
-<header class="{{ $color_scheme }}">
+<header>
 	{{ $display_hero_header := and .IsHome .Site.Params.heroImage }}
 	{{ if $display_hero_header }}
 		<img src="/theme/webp/pandaqi_hero_image.webp" />

@@ -1,5 +1,5 @@
 import Point from "../tools/geometry/point";
-import { PageFormat } from "./pdfBuilder";
+import { PageFormat } from "./pdfEnums";
 
 const PDF_DPI = 300.0;
 const MM_PER_INCH = 25.4;

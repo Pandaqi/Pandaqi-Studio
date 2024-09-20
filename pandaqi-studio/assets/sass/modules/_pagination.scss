@@ -1,8 +1,8 @@
 @use "./globals.scss" as g;
 
 .page-navigation {
-    background-color: #1EA896;
-    color: #032924;
+    --palette-color: #032924;
+    --palette-bg: #1EA896;
 
     text-align: center;
 
@@ -19,23 +19,23 @@
         padding: 0;
 
         display: flex;
-        gap: 0.5rem;
+        gap: 0.5em;
         justify-content: center;
 
         @media all and (max-width: g.$cutoff2) {
-            margin-top: 1rem;
+            margin-top: 1em;
         }
 
         li {
             list-style-type: none;
 
             a {
-                padding: 1.25rem;
+                padding: 1.25em;
                 background-color: #032924;
                 color: #74fdeb;
                 text-decoration: none;
                 font-family: "Dosis";
-                font-size: 1.5rem;
+                font-size: 1.5em;
                 font-weight:bold;
 
                 transition: background-color 0.3s, color 0.3s, filter 0.3s, transform 0.3s;
@@ -43,7 +43,7 @@
                 &:hover {
                     background-color: pink;
                     color: rgb(66, 7, 17);
-                    filter: drop-shadow(0 0 0.35rem black);
+                    filter: drop-shadow(0 0 0.225em black);
                     transform: scale(1.2);
                 }
             }

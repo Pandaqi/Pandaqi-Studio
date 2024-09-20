@@ -1,5 +1,4 @@
-import ResourceLoader from "js/pq_games/layout/resources/resourceLoader";
-import OnPageVisualizer from "js/pq_games/website/onPageVisualizer";
+import BoardVisualizer from "js/pq_games/website/boardVisualizer";
 
 export default class BoardGenerator
 {
@@ -8,35 +7,33 @@ export default class BoardGenerator
     evaluatorClass: any
     generatorClass: any
     drawerClass: any
-    resLoader:ResourceLoader
+
     config:Record<string,any>
+    visualizer:BoardVisualizer
 
     canvas: HTMLCanvasElement
 
-	constructor(CONFIG) 
+	constructor(cfg:Record<string,any>) 
     {
-        this.config = CONFIG;
-        this.resLoader = new ResourceLoader({ base: CONFIG.assetsBase });
-        OnPageVisualizer.linkTo({ scene: this, key: "boardGeneration", backend: "raw" });
+        this.config = cfg;
+        const assetsToLoad = this.filterAssets(this.config.assets);
+        this.config.assets = assetsToLoad;
+        this.visualizer = new BoardVisualizer({ config: this.config, scene: this, backend: "raw" });
     }
 
     async create(userConfig:Record<string,any>) 
     {
         this.setup(userConfig);
 
-        const assetsToLoad = this.filterAssets(this.config.assets);
-        this.resLoader.planLoadMultiple(assetsToLoad);        
-        await this.resLoader.loadPlannedResources();
-
         const board = await this.generate();
         await this.draw(board);
-        OnPageVisualizer.convertCanvasToImage(this);
+        this.visualizer.convertCanvasToImage(this);
     }
 
     setup(userConfig:Record<string,any>)
     {
         Object.assign(this.config, userConfig);
-        this.config.resLoader = this.resLoader; // save resource loader on config for use elsewhere; @TODO: not the cleanest approach
+        this.config.resLoader = this.visualizer.resLoader; // save resource loader on config for use elsewhere; @TODO: not the cleanest approach
         this.canvas = userConfig.canvas; // OnPageVisualizer creates the canvas and passes this through
         this.setupFunction(this.config);
     }

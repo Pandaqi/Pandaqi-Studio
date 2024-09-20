@@ -52,7 +52,7 @@ class Collection
         {
             const frame = SETS.base[icon].frame;
             const img = resLoader.getResource("base").getImageFrameAsResource(frame);
-            images.push(img.getImage().cloneNode(true));
+            images.push(img.toHTMLElement());
         }
         return images;
     }

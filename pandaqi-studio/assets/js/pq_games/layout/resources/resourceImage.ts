@@ -79,14 +79,20 @@ export default class ResourceImage extends Resource
         return op.applyToCanvas(canv);
     }
 
+    toHTMLElement(frame = 0)
+    {
+        const img = document.createElement("img");
+        img.src = this.getImageFrameAsResource(frame).getSRCString();
+        return img;
+    }
+
     async toHTML(op:LayoutOperation = new LayoutOperation())
     {
         const frame = op.frame ?? 0;
-        const node = this.getImageFrame(frame).cloneNode() as HTMLImageElement;
-        node.style.width = "100%";
-        node.style.height = "100%";
-        
-        return await op.applyToHTML(node);
+        const img =  this.toHTMLElement(frame);
+        img.style.width = "100%";
+        img.style.height = "100%";
+        return await op.applyToHTML(img);
     }
 
     async toSVG(op:LayoutOperation = new LayoutOperation())
@@ -364,9 +370,14 @@ export default class ResourceImage extends Resource
         return this.countFrames() == 1;
     }
 
+    countFramesRaw() : number
+    {
+        return frames.length;
+    }
+
     countFrames() : number
     {
-        return this.frames.length;
+        return this.frameDims.x * this.frameDims.y;
     }
 
     getFrame() : number

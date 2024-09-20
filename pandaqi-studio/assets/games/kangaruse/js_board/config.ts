@@ -1,12 +1,50 @@
 import Point from "js/pq_games/tools/geometry/point";
 import Bounds from "js/pq_games/tools/numbers/bounds";
 
-export default 
+const CONFIG = 
 {
+    configKey: "kangaruseConfig",
+    assetsBase: "/kangaruse/assets/",
+    assets:
+    {
+        mailray:
+        {
+            path: "fonts/MailRayStuff-Regular.woff2"
+        },
+
+        poppins:
+        {
+            path: "fonts/Poppins-Regular.woff2"
+        },
+
+        general_spritesheet:
+        {
+            path: "general_spritesheet.webp",
+            frames: new Point(8,1),
+        },
+
+        cell_types:
+        {
+            path: "cell_types.webp",
+            frames: new Point(8,4),
+        },
+
+        cell_types_simplified:
+        {
+            path: "cell_types_simplified.webp",
+            frames: new Point(8,4),
+        },
+
+        sidebar_tutorial:
+        {
+            path: "sidebar_tutorial.webp",
+        }
+    },
+
     mainFont: "mailray",
     bodyFont: "poppins",
     maxNumPlayers: 5,
-    resLoader: null,
+    visualizer: null,
 
     minScoreTypes: 2,
     maxScoreTypes: 3,
@@ -183,3 +221,5 @@ export default
         maxRiverCells: 0.166 // percentage of total # cells
     }
 }
+
+export default CONFIG

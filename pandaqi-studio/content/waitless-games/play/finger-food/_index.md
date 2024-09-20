@@ -20,8 +20,6 @@ categories: ["boardgame", "one-paper-game"]
 tags: ["cooking", "turn-based", "shared-map", "colorful", "experimental", "fast-paced"]
 themes: ["cartoon", "food"]
 
-extraJSBoardInclude: true
-
 downloadLink: "https://drive.google.com/drive/folders/101SQ5KBbdwiiYC-2nU-5H7gKoTnqhXZE"
 
 multiplayermode: "competitive"
@@ -30,7 +28,6 @@ playtime: 20
 playercount: [2,3,4,5,6]
 ages: everyone
 devlog: "/blog/boardgames/waitless-games/finger-food/"
-
 ---
 
 {{% boardgame-intro /%}}

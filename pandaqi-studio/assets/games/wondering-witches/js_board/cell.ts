@@ -10,9 +10,9 @@ export default class Cell
 	x: number;
 	y: number;
 	garden: Cell[];
-	ingredient: string;
-	type: string;
-	ingredientName: string;
+	ingredient: number = -1;
+	ingredientName: string = "";
+	type: string = "";
 	
 	constructor(section: Section, x: number, y: number)
 	{
@@ -20,22 +20,20 @@ export default class Cell
 		this.x = x;
 		this.y = y;
 		this.garden = null;
-		this.ingredient = null;
-		this.type = null;
 	}
 
 	isEmpty()
 	{
-		return this.ingredient == null && this.type == null
+		return this.ingredientName == "" && this.type == ""
 	}
 
-	getCenterPos()
+	getCenterPos() : Point
 	{
 		const size = this.section.getCellSize();
-		return {
-			x: (this.x + 0.5) * size.x,
-			y: (this.y + 0.5) * size.y
-		}
+		return new Point(
+			(this.x + 0.5) * size.x,
+			(this.y + 0.5) * size.y
+		)
 	}
 
 	asRect() : Rectangle
@@ -56,7 +54,7 @@ export default class Cell
 		return SPECIAL_CELLS[this.getType()].frame;
 	}
 
-	setIngredient(i: string) { this.ingredient = i; this.ingredientName = Object.keys(INGREDIENTS)[i]; }
+	setIngredient(i: number) { this.ingredient = i; this.ingredientName = Object.keys(INGREDIENTS)[i]; }
 	getIngredient() { return this.ingredient; }
 	getIngredientAsFrame() {
 		return INGREDIENTS[this.ingredientName];

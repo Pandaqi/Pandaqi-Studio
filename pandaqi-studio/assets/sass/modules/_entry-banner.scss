@@ -13,29 +13,21 @@ $medium: 39;
 $large: 49;
 
 .entry-banner {
-	@each $name, $color in g.$colorschemes {
-		&.#{$name} {
-			@include c.banner-colorscheme($color);
-		}
-	}
+	@include c.banner-colorscheme();
 }
 
+// @NOTE: the CUSTOM entry banners still use the regular color scheme, because they have no background blurry thing
 .entry-banner-custom {
-	@each $name, $color in g.$colorschemes {
-		&.#{$name} {
-			@include c.colorscheme($color);
-		}
-	}
+	@include c.colorscheme();
 }
 
 .entry-banner {
 	overflow: hidden;
-	background-color: white;
-	font-size: 0.75rem;
+	font-size: 0.75em;
 	line-height: 1.4em;
 
 	h1 {
-		font-size: 2.5rem;
+		font-size: 3.0em;
 	}
 
 	&.height-small {
@@ -66,7 +58,7 @@ $large: 49;
 	
 	@media all and (max-width: g.$cutoff1) 
 	{
-		margin-top: -1.5rem;
+		margin-top: -1.5em;
 
 		.bg-image {
 			transform: scale(3);
@@ -82,12 +74,12 @@ $large: 49;
 
 		&.height-medium {
 			height: 2 * $medium + 0vw;
-			margin-top: -1.5rem;
+			margin-top: -1.5em;
 		}
 
 		&.height-large {
 			height: 2 * $large + 0vw;
-			margin-top: -2.0rem;
+			margin-top: -1.75em;
 		}
 
 		&.entry-banner-custom {
@@ -98,11 +90,11 @@ $large: 49;
 			}
 
 			&.height-medium {
-				margin-top: calc(-1.0rem + 1vw);
+				margin-top: calc(-1.0em + 1vw);
 			}
 
 			&.height-large {
-				margin-top: calc(-1.25rem + 1vw);
+				margin-top: calc(-1.25em + 1vw);
 			}
 
 			img {
@@ -121,7 +113,7 @@ $large: 49;
 	a:hover {
 		.btn {
 			filter: brightness(130%);
-			box-shadow: 0 0 0.5rem 0 #000000;
+			box-shadow: 0 0 0.5em 0 #000000;
 		}
 
 		.bg-image {
@@ -167,8 +159,8 @@ $large: 49;
 
 		.non-text-side {
 			max-width: 600px;
-			filter: drop-shadow(0 0 0.1rem #333);
-			padding: 0.5rem;
+			filter: drop-shadow(0 0 0.075em #333);
+			padding: 0.5em;
 
 			&.no-shadow {
 				filter: none !important;
@@ -176,7 +168,7 @@ $large: 49;
 
 			img {
 				max-height: 22vw;
-				border-radius: 0.5rem;
+				border-radius: 0.5em;
 				transition: transform 0.5s;
 			}
 
@@ -193,7 +185,7 @@ $large: 49;
 			width: 100%;
 			max-width: 400px;
 			position: relative;
-			padding: 1.0rem;
+			padding: 1.0em;
 
 			&.custom {
 				max-width: 600px;
@@ -215,11 +207,12 @@ $large: 49;
 				font-family: g.$header-font-stack;
 				font-size: 1em;
 
-				padding: 0.5rem 1.0rem;
+				padding: 0.5em1.0em;
+				margin: 0;
 
 				width: 100%;
 
-				border: 0.125rem solid gray;
+				border: 0.125em solid gray;
 
 				cursor: pointer;
 				display: block;
@@ -246,7 +239,7 @@ $large: 49;
 				top: 0;
 				bottom: 0;
 				z-index: -1;
-				filter: blur(1.0rem);
+				filter: blur(1.0em);
 				pointer-events: none;
 				border-radius: 3em;
 			}

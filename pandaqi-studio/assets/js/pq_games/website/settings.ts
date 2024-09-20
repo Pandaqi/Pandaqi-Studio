@@ -1,6 +1,6 @@
-import PandaqiPhaser from "js/pq_games/website/onPageVisualizer"
-import { PageFormat, PageOrientation } from "js/pq_games/pdf/pdfBuilder"
+import BoardVisualizer from "js/pq_games/website/boardVisualizer"
 import Point from "../tools/geometry/point"
+import { PageFormat, PageOrientation } from "../pdf/pdfEnums"
 
 interface SettingsConfig
 {
@@ -10,6 +10,7 @@ interface SettingsConfig
 	targetURL?: string,
 
 	seed?: string,
+	useRandomSeed?: boolean, // to remember we're using random seeds for re-generations
 	numPlayers?: number,
 	inkFriendly?: boolean,
 	orientation?: PageOrientation,
@@ -19,12 +20,15 @@ interface SettingsConfig
 	pageSize?: PageFormat,
 	size?: Point,
 
+	// passed into the board class by boardVisualizer itself
+	visualizer?: BoardVisualizer,
+
 	// these are used/set automatically by the Phaser system as it loads, otherwise not used I think?
 	canvas?: HTMLCanvasElement,
 	bgColor?: string
 }
 
-export { SettingsConfig }
+export type { SettingsConfig }
 class SettingsClass
 {
 	gameButtonCallback : (this: HTMLButtonElement, ev: MouseEvent) => void
@@ -37,6 +41,52 @@ class SettingsClass
 	{
 		this.initGame();
 		this.initBoard();
+		this.initSections();
+	}
+
+	// Fold/Unfold for setting sections => at some point, functionality like this should receive its own .ts file!!!
+	initSections()
+	{
+		const nodes = Array.from(document.getElementsByClassName("game-settings-section")) as HTMLElement[];
+
+		const fold = (node, content, instruction, forced = false) =>
+		{
+			if(!forced) { node.dataset.folded = "true"; }
+			content.style.display = "none";
+			instruction.innerHTML = "(Click to unfold.)";
+		}
+
+		const unfold = (node, content, instruction, forced = false) =>
+		{
+			if(!forced) { node.dataset.folded = "false"; }
+			content.style.display = "grid";
+			instruction.innerHTML = "(Click to fold.)";
+		}
+
+		for(const node of nodes)
+		{
+			const header = node.getElementsByClassName("section-header")[0] as HTMLElement;
+			const instruction = header.getElementsByClassName("section-instruction")[0] as HTMLElement;
+			const content = node.getElementsByClassName("section-content")[0] as HTMLElement;
+
+			// simple fold/unfold system through clicks on the header
+			header.addEventListener("click", (ev) => 
+			{
+				if(node.dataset.folded == "true") {
+					unfold(node, content, instruction);
+				} else {
+					fold(node, content, instruction);
+				}
+			});
+
+			// if we start folded, do a fake click to easily achieve that state
+			const startFolded = node.dataset.folded == "true";
+			if(startFolded) 
+			{
+				fold(node, content, instruction, true);
+			}
+
+		}
 	}
 
 	// This is for GAMES (hybrid/interactive)
@@ -83,14 +133,15 @@ class SettingsClass
 
 	onBoardButtonClicked(ev:MouseEvent)
 	{
-		const gameConfig = this.readFrom(this.generateBoardBtn);
-		console.log("gameConfig", gameConfig);
-		this.addDefaultParams(gameConfig);
-		setTimeout(() => { PandaqiPhaser.start(gameConfig); }, 50);
-
 		ev.preventDefault();
 		ev.stopPropagation();
-		return false;
+
+		const cfg = this.readFrom(this.generateBoardBtn);
+		this.addDefaultParams(cfg);
+		window.localStorage.setItem(cfg.localstorage, JSON.stringify(cfg));
+
+		const URL = cfg.targetURL ?? "board";
+		return window.open(URL, "_blank");
 	}
 
 	getStartGameButton() : HTMLButtonElement
@@ -101,11 +152,6 @@ class SettingsClass
 	getGenerateBoardButton() : HTMLButtonElement
 	{
 		return document.getElementById('btn-generate-board') as HTMLButtonElement;
-	}
-
-	getCreatePDFButton() : HTMLButtonElement
-	{
-		return document.getElementById('btn-create-pdf') as HTMLButtonElement;
 	}
 
 	// @NOTE: The first part of an input id is literally IGNORED (it's usually setting-, but can be settingBoard- sometimes)
@@ -129,10 +175,8 @@ class SettingsClass
 	// override some crucial settings if not provided
 	addDefaultParams(cfg:SettingsConfig = {})
 	{
-		const randomSeedLength = Math.floor(Math.random() * 6) + 3;
-		const randomSeed = Math.random().toString(36).replace(/[^a-z]+/g, '').slice(0, randomSeedLength);
 		const defaultParams = {
-			seed: randomSeed,
+			useRandomSeed: !cfg.seed,
 			numPlayers: 4,
 			inkFriendly: false,
 			orientation: PageOrientation.LANDSCAPE,

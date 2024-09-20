@@ -12,8 +12,6 @@ customHeight: "small-medium"
 
 color: "green"
 
-extraJSBoardInclude: true
-
 date: 2020-07-02
 
 difficulty: "simple"
@@ -79,7 +77,7 @@ The **campaign** has six scenarios, increasing in difficulty, allowing you to ge
 
 {{% boardgame-settings-container type="board" remarks="The **split board** option is highly recommended! It creates a huge board consisting of 4 papers, which allows everyone around a table to easily reach all destinations." %}}
 
-{{< boardgame-settings type="board" game_title="Timely Transports" defaults="true" >}}
+{{< boardgame-settings type="board" local_storage="timelyTransportsConfig" game_title="Timely Transports" defaults="true" >}}
   {{< setting-playercount min="1" max="8" def="4" >}}
   {{< setting-enum id="settingBoard-difficulty" text="Scenario?" values="1. Training Wheels,2. Good Luck,3. Fancy Vehicles,4. Another Upgrade,5. Extraordinary Events,6. Crazy Cargo" keys="Training Wheels,Good Luck,Fancy Vehicles,Another Upgrade,Extraordinary Events,Crazy Cargo" keep-case="true" >}}
   {{< setting-checkbox id="settingBoard-splitBoard" text="Split Board?" remark="If disabled, the board is only <em>one</em> piece of paper (instead of four papers that combine into a larger board). Highly recommended to keep this enabled." checked="true" >}}

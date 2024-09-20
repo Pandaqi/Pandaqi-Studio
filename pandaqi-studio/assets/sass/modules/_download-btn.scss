@@ -1,31 +1,32 @@
 @use "./globals" as g;
 
 .btn {
-    font-size: 2.5rem;
+    font-size: 2.5em;
     text-decoration: none;
-    padding: 1.5rem;
-    margin: 0.66rem;
-    border-radius: 0.5rem;
+    font-weight: normal;
+    padding: 1em;
+    margin: 0.66em;
+    border-radius: 0.3em;
     line-height: 1.2em;
     box-sizing: border-box;
     display: inline-block;
     font-family: g.$header-font-stack;
 
-    background-color: g.$default-color-light;
-    color: g.$default-color-dark;
+    background-color: var(--palette-bg);
+    color: var(--palette-color);
 
     transition: background-color 0.3s, color 0.3s;
 
     &:hover {
         cursor: pointer;
-        background-color: g.$default-color-dark;
-        color: g.$default-color-light;
+        background-color: var(--palette-color);
+        color: var(--palette-bg);
     }
 
-    filter: drop-shadow(0 0 0.25rem #333);
+    filter: drop-shadow(0 0 0.15em #333);
 }
 
 .download-btn {
     margin: auto;
-    font-size: 2.5rem;
+    font-size: 2.5em;
 }

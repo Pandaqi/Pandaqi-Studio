@@ -17,6 +17,11 @@ export default class Resource
     { 
         return document.createElement("canvas"); 
     }
+
+    async toPixi(app, parent, op:LayoutOperation = new LayoutOperation())
+    {
+        
+    }
     
     async toHTML(op:LayoutOperation = null) : Promise<ElementLike> 
     { 

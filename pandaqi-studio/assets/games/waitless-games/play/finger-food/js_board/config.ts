@@ -1,8 +1,61 @@
 import Point from "js/pq_games/tools/geometry/point";
 import Bounds from "js/pq_games/tools/numbers/bounds";
 
-export default 
+const CONFIG =
 {
+    visualizer: null,
+    configKey: "fingerFoodConfig",
+    assetsBase: "/waitless-games/play/finger-food/assets/",
+    assets:
+    {
+        cherrybomb:
+        {
+            path: "fonts/CherryBombOne-Regular.woff2"
+        },
+
+        tutorials_spritesheet:
+        {
+            path: "tutorials_spritesheet.webp",
+            frames: new Point(6,1)
+        },
+
+        custom_spritesheet:
+        {
+            path: "custom_spritesheet.webp",
+            frames: new Point(8,1)
+        },
+
+        fixed_fingers_spritesheet:
+        {
+            path: "fixed_fingers_spritesheet.webp",
+            frames: new Point(6,1)
+        },
+
+        ingredient_tuts:
+        {
+            path: "ingredient_tuts.webp",
+            frames: new Point(8,3)
+        },
+
+        ingredient_spritesheet:
+        {
+            path: "ingredient_spritesheet.webp",
+            frames: new Point(8,3)
+        },
+
+        machine_spritesheet:
+        {
+            path: "machine_spritesheet.webp",
+            frames: new Point(8,3)
+        },
+
+        machine_tuts:
+        {
+            path: "machine_tuts.webp",
+            frames: new Point(8,3)
+        },
+    },
+
     inkFriendly: false,
     includeRules: true,
     expansions: 
@@ -27,13 +80,13 @@ export default
             lines: 
             {
                 width: 0.05, // fraction of CellSizeUnit
-                color: 0xFFFFFF,
+                color: "#FFFFFF",
                 alpha: 0.66
             },
             linesInkfriendly: 
             {
                 width: 0.025,
-                color: 0x333333,
+                color: "#333333",
                 alpha: 1.0
             }
             
@@ -41,7 +94,7 @@ export default
         outerEdge: 
         {
             lineWidth: 0.02,
-            lineColor: 0x333333,
+            lineColor: "#333333",
             lineAlpha: 1.0
         },
         iconScale: 0.75,
@@ -121,3 +174,5 @@ export default
         handScale: 0.35, // relative to entire height of the "extra data frame"
     }
 }
+
+export default CONFIG;

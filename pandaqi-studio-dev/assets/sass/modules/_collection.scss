@@ -24,16 +24,13 @@ $min-item-width: 12em;
         h3 {
             text-align: center;
         }
-    
-        a:visited {
-            color: currentcolor;
-        }
 
         a {
             font-weight: normal;
             text-decoration: none;
             margin: 1em;
             display: block;
+            color: var(--palette-link);
         }
 
         transition: filter 0.2s, transform 0.2s;
@@ -42,8 +39,11 @@ $min-item-width: 12em;
         {
             filter: drop-shadow(0 0 5px black);
             transform: scale(1.025);
-            color: var(--palette-bg);
             background-color:  var(--palette-color);
+
+            a {
+                color: var(--palette-bg);
+            }
         }
     }
 }

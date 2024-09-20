@@ -77,32 +77,38 @@
 	opacity: 0.8;
 }
 
-.btn-custom 
+// the body is just for extra specificity in selection
+body
 {
-	font-size: 1.75em;
-
-	font-family: var(--header-font);
-	background-color: var(--palette-bg);
-	padding: 1em;
-	margin: 0.5em;
-
-	color: var(--palette-color);
-
-	border-radius: 0.3em;
-	box-sizing: border-box;
-	display: inline-block;
-
-	transition: background-color 0.3s, color 0.3s;
-
-	border-color: transparent;
-	filter: drop-shadow(0 0 0.15em #333);
-
-	&:hover {
-		background-color: var(--palette-color);
-		color: var(--palette-bg);
-		cursor: pointer;
+	.btn-custom 
+	{
+		font-size: 1.75em;
+	
+		color: var(--palette-color);
+	
+		font-family: var(--header-font);
+		background-color: var(--palette-bg);
+		padding: 1em;
+		margin: 0.5em;
+	
+		border-radius: 0.3em;
+		box-sizing: border-box;
+		display: inline-block;
+	
+		transition: background-color 0.3s, color 0.3s;
+	
+		border-color: transparent;
+		filter: drop-shadow(0 0 0.15em #333);
+	
+		&:hover {
+			background-color: var(--palette-color);
+			color: var(--palette-bg);
+			cursor: pointer;
+		}
 	}
+	
 }
+
 
 div.game-settings-section
 {

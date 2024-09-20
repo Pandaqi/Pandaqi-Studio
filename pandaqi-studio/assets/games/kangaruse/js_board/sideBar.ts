@@ -56,7 +56,7 @@ export default class SideBar
 
         this.anchorPos.move(this.padding);
 
-        const res = CONFIG.resLoader.getResource("sidebar_tutorial");
+        const res = CONFIG.visualizer.resLoader.getResource("sidebar_tutorial");
         const tutRatio = (1067.0/895);
         const tutSizeX = this.dimensions.x - 2*this.padding;
         const tutSizeY = tutRatio * tutSizeX;
@@ -85,7 +85,7 @@ export default class SideBar
         );
 
         const tutorialWidth = tutorialHeight;
-        const res = CONFIG.resLoader.getResource("general_spritesheet");
+        const res = CONFIG.visualizer.resLoader.getResource("general_spritesheet");
         const op = new LayoutOperation({
             translate: pos,
             dims: new Point(tutorialHeight),
@@ -94,7 +94,7 @@ export default class SideBar
         });
         imageToPhaser(res, op, boardDisplay.game);
 
-        const resIcon = CONFIG.resLoader.getResource(CONFIG.cellTexture);
+        const resIcon = CONFIG.visualizer.resLoader.getResource(CONFIG.cellTexture);
         const frame = CELLS[type].frame;
         const iconSize = 0.5*tutorialHeight;
         const opIcon = new LayoutOperation({
@@ -152,7 +152,7 @@ export default class SideBar
         const xPosHeader = this.anchorPos.x + 0.5*this.dimensions.x;
         const posHeader = new Point(xPosHeader, yPosHeader);
         const dimsHeader = new Point(0.5 * this.dimensions.x);
-        const resGeneral = CONFIG.resLoader.getResource("general_spritesheet");
+        const resGeneral = CONFIG.visualizer.resLoader.getResource("general_spritesheet");
         const opHeader = new LayoutOperation({
             translate: posHeader,
             dims: dimsHeader,
@@ -195,7 +195,7 @@ export default class SideBar
             pathToPhaser(pathRounded, opRect, boardDisplay.graphics);
             
             // the type being scored
-            const resIcon = CONFIG.resLoader.getResource(CONFIG.cellTexture);
+            const resIcon = CONFIG.visualizer.resLoader.getResource(CONFIG.cellTexture);
             const opIcon = new LayoutOperation({
                 translate: new Point(xPos, this.anchorPos.y),
                 frame: CELLS[type].frame,

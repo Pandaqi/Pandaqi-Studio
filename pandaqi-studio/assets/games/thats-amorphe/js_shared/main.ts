@@ -9,7 +9,8 @@ import ResourceImage from "js/pq_games/layout/resources/resourceImage"
 import ResourceLoader from "js/pq_games/layout/resources/resourceLoader"
 import ResourceText from "js/pq_games/layout/resources/resourceText"
 import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig"
-import PdfBuilder, { PageOrientation } from "js/pq_games/pdf/pdfBuilder"
+import PdfBuilder from "js/pq_games/pdf/pdfBuilder";
+import { PageOrientation } from "js/pq_games/pdf/pdfEnums";
 import Point from "js/pq_games/tools/geometry/point"
 import PandaqiWords from "js/pq_words/main"
 import { ICONS, ICONS_PICTURES, ICONS_SPECIAL } from "./dict"

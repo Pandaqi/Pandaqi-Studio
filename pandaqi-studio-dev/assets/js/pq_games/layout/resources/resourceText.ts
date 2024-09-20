@@ -40,6 +40,13 @@ export default class ResourceText extends Resource
         return canv;
     }
 
+    // @TODO
+    async toPixi(app, parent, op = new LayoutOperation())
+    {
+        op.resource = this;
+        return op.applyToPixi(app, parent);
+    }
+
     async toHTML(op:LayoutOperation = null)
     {
         const textNode = document.createElement("span");

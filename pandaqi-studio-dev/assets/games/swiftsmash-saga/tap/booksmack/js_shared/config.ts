@@ -22,7 +22,7 @@ const CONFIG:any =
     fonts:
     {
         heading: "abril",
-        body: "whackadoo",
+        body: "andika",
     },
 
     sets:
@@ -38,7 +38,7 @@ const CONFIG:any =
     assetsBase: "/swiftsmash-saga/tap/booksmack/assets/",
     assets:
     {
-        
+        /*
         whackadoo:
         {
             path: "fonts/Whackadoo.woff2",
@@ -55,6 +55,33 @@ const CONFIG:any =
         {
             key: "whackadoo",
             path: "fonts/WhackadooUpper.woff2",
+            textConfig: new TextConfig({ style: TextStyle.ITALIC, weight: TextWeight.BOLD })
+        },
+        */
+        
+        andika:
+        {
+            path: "fonts/Andika.woff2",
+        },
+
+        andika_italic:
+        {
+            key: "whackadoo",
+            path: "fonts/Andika-Italic.woff2",
+            textConfig: new TextConfig({ style: TextStyle.ITALIC })
+        },
+
+        andika_bold:
+        {
+            key: "whackadoo",
+            path: "fonts/Andika-Bold.woff2",
+            textConfig: new TextConfig({ weight: TextWeight.BOLD })
+        },
+
+        andika_bold_italic:
+        {
+            key: "whackadoo",
+            path: "fonts/Andika-BoldItalic.woff2",
             textConfig: new TextConfig({ style: TextStyle.ITALIC, weight: TextWeight.BOLD })
         },
 

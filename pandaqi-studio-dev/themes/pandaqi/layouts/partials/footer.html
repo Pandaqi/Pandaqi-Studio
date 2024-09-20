@@ -33,7 +33,7 @@
 {{ $style := slice }}
 
 {{ $options := (dict "targetPath" "style.css" "outputStyle" "compressed" "transpiler" "dartsass") }}
-{{ $style = resources.Get "sass/style.scss" | resources.ToCSS $options }}
+{{ $style = resources.Get "sass/style.scss" | resources.ToCSS $options | minify }}
 
 <link rel="stylesheet" type="text/css" href="{{ $style.RelPermalink }}">
 

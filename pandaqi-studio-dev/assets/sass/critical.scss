@@ -24,29 +24,45 @@ body, html {
 	color: #101010;
 }
 
+.simpleMode
+{
+	font-family: var(--body-font) !important;
+	h1,h2,h3,h4,h5,h6 
+	{
+		font-family: var(--header-font) !important;
+		font-weight: bold !important;
+	}
+
+	a
+	{
+		font-weight: bold !important;
+	}
+}
+
 // Inversion default parameter for easy black-bg, white-text instead
-body.invert {
+.invert, .darkMode 
+{
 	background-color: var(--palette-black);
 	color: var(--palette-white);
 
-	a:not(.btn) {
-		color: var(--palette-bg);
-		&:hover {
-			color: var(--palette-white);
-		}
+	a
+	{
+		color: var(--palette-link-invert);
+		&:hover { color: var(--palette-white); }
 	}
+
 }
 
 a {
 	transition: color 0.3s;
-	color: var(--palette-color);
-	&:hover {
-		color: var(--palette-black);
-	}
+	color: var(--palette-link);
+	&:hover { color: var(--palette-black); }
 }
 
-p, li {
-	a {
+p, li 
+{
+	a 
+	{
 		font-weight: bold;
 	}
 }

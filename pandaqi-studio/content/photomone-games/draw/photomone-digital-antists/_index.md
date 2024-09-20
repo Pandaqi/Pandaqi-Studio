@@ -7,9 +7,7 @@ blurb: "Communicate words by drawing. But you may only draw straight lines betwe
 
 weightProject: 20
 
-
 color: "brown"
-
 
 date: 2023-08-21
 
@@ -36,14 +34,14 @@ devlog: "/blog/boardgames/photomone-digital-antists/"
 <script>window.configStringToUse = window.localStorage.photomoneDigitalAntistsConfig;</script>
 <!-- <div style="margin-top: min(3vw, 2em);"> -->
 
-<div style="margin-bottom: -23vw; position: relative; z-index: -1; opacity: 0.9;">
+<div style="margin-bottom: -23vw; position: relative; z-index: 0; opacity: 0.9;">
   <img src="assets/photomone_digital_antists_header.webp">
 </div>
 
 <div style="max-width: 720px; margin: auto; padding: 1em;">
 <!-- <h2 style="text-align: center; filter: drop-shadow(0 0 4px black);">Try it!</h2> -->
 
-<p style="background-color: rgba(0,0,0,0.86); border-radius: 0.5em; padding: 0.5em;;">Use this demo to instantly try Photomone (and if it works on your device). Once you're ready to start an actual game, scroll down to <a href="#game">the game</a>.</p>
+<p style="background-color: rgba(0,0,0,0.86); border-radius: 0.5em; padding: 0.5em; z-index: 5; position: relative;">Use this demo to instantly try Photomone (and if it works on your device). Once you're ready to start an actual game, scroll down to <a href="#game">the game</a>.</p>
 
 <div class="photomone-canvas" data-addui="true" data-pointradiusfactor="0.02" data-pointboundsmin="50" data-pointboundsmax="100" data-linewidthfactor="0.015" data-noexpansions="true" data-transparentbackground="false" style="filter: drop-shadow(0 0 12px #222);"></div>
 

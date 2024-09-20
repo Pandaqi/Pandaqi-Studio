@@ -1,16 +1,14 @@
-import BalancedDictionaryPicker from "js/pq_games/tools/generation/balancedDictionaryPicker";
-import BoardState from "./boardState";
-import { SETS } from "../js_shared/dict";
-import CONFIG from "../js_shared/config";
-import Point from "js/pq_games/tools/geometry/point";
-import Cell from "./cell";
-import shuffle from "js/pq_games/tools/random/shuffle";
 import numberRange from "js/pq_games/tools/collections/numberRange";
-import fromArray from "js/pq_games/tools/random/fromArray";
-import assignGridNeighbors, { GridNeighborType } from "js/pq_games/tools/graphs/assignGridNeighbors";
+import BalancedDictionaryPicker from "js/pq_games/tools/generation/balancedDictionaryPicker";
 import FloodFiller from "js/pq_games/tools/generation/floodFiller";
+import Point from "js/pq_games/tools/geometry/point";
+import assignGridNeighbors, { GridNeighborType } from "js/pq_games/tools/graphs/assignGridNeighbors";
 import Bounds from "js/pq_games/tools/numbers/bounds";
-import rangeInteger from "js/pq_games/tools/random/rangeInteger";
+import fromArray from "js/pq_games/tools/random/fromArray";
+import shuffle from "js/pq_games/tools/random/shuffle";
+import CONFIG from "../js_shared/config";
+import BoardState from "./boardState";
+import Cell from "./cell";
 
 // Generates a balanced board, then spits out a BoardState object holding it
 export default class BoardGen

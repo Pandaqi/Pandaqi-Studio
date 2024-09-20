@@ -11,9 +11,6 @@ customHeight: "small-medium"
 
 color: "purple"
 
-
-extraJSBoardInclude: true
-
 date: 2023-02-14 # old publishing date: 2020-04-28
 
 difficulty: "kids-can-play"
@@ -31,7 +28,6 @@ playercount: [1,2,3,4,5]
 ages: everyone
 requirements: "A blank paper!"
 devlog: "/blog/boardgames/wondering-witches/devlog-wondering-witches/"
-
 ---
 
 {{% boardgame-intro /%}}
@@ -67,13 +63,12 @@ Brew your potions wisely ... and you might discover the secret combination.
   
 <p>Input your settings. Click the button. Copy the gardens and ingredients to your paper.</p>
 
-{{< boardgame-settings type="board" game_title="Wondering Witches" >}}
+{{< boardgame-settings type="board" local_storage="wonderingWitchesConfig" game_title="Wondering Witches" >}}
 	{{< setting-playercount id="setting-numPlayers" min="1" max="4" def="4" >}}
 	{{< setting-checkbox id="setting-supercells" text="Supercells?" remark="Turns some cells into a special one!" >}}
 	{{< setting-checkbox id="setting-pageBack" text="Two-sided?" remark="With expansions enabled, you'll need both sides of the paper (64 cells) to stand a chance!" >}}
 {{< /boardgame-settings >}}
 
-<span id="special-cell-container"></span>
 <p style="font-size:0.5em;opacity:0.66;">The generator isn't working? Don't worry! The "Download" button also gives you PDFs with valid boards! (And a colorized game board, if you don't like blank papers.)</p>
 
 {{% /section-centered %}}

@@ -21,6 +21,7 @@ export default class LayoutEffect
     applyToCanvas(canv:CanvasLike, effOp:EffectsOperation) { }
     applyToCanvasPost(source:CanvasLike) : CanvasRenderingContext2D { return null; }
     applyToHTML(div:ElementLike, effOp:EffectsOperation) { }
+    applyToPixi(effOp = new EffectsOperation()) {}
     applyToSVG(elem:ElementLike) { }
     applyShadow(canv:CanvasLike) { }
     clone(deep = false) : LayoutEffect { return new LayoutEffect(); }

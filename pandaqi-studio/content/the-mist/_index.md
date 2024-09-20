@@ -7,8 +7,7 @@ headerTitle: "Explore an area covered in mist and discover the right path"
 blurb: "A Mist covers the world. Each area might be a warm fire, or a trap, or a portal---you decide, but do so wisely."
 blurbShort: "A [One Paper Game](/boardgames#one_paper_games) about exploring a world where each square is multiple things at once---until you step onto it."
 
-extraJSBoardInclude: true
-downloadLink: "https://drive.google.com/drive/folders/1yy2JZhtm1iiTvff9o3kyOf0sXtMQjF_f" # already updated!
+downloadLink: "https://drive.google.com/drive/folders/1yy2JZhtm1iiTvff9o3kyOf0sXtMQjF_f"
 
 customHeight: "large"
 

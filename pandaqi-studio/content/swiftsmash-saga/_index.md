@@ -35,7 +35,7 @@ This is the **overview page** of the Swiftsmash Saga.
 
 Click any of the links below to visit a specific game. They are roughly sorted based on simplicity.
 
-{{< boardgame-project-games-list subdir="tap" color="#98e3a4" >}}
+{{< boardgame-project-games-list subdir="tap" >}}
 
 These games all have the same **core mechanic** (the "Swiftsmash Mechanic"). First, players simultaneously reveal cards. You must quickly read them, follow ever-changing rules and think ahead to find the **one card** you must smash. Beat the others and you win. Be too slow, or smash the wrong one, and you'll regret it.
 

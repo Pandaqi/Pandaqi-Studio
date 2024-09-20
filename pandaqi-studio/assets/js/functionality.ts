@@ -1,8 +1,51 @@
 import Settings from "js/pq_games/website/settings"
+import LocalStorage from "./pq_games/website/localStorage";
 
-/* Attach event to game settings interfaces */
-// @TODO: should probably be moved to cleaner system? Somewhere else?
-Settings.initGame();
+/* Attach events/references to game settings interfaces */
+Settings.init();
+
+// Handle dark/light mode and simple mode
+const data = new LocalStorage();
+const darkModeBtn = document.getElementById("darkModeBtn");
+const isDarkNow = data.get("darkMode") ?? false;
+if(isDarkNow) { document.body.classList.add("darkMode"); }
+
+if(darkModeBtn)
+{
+    darkModeBtn.innerHTML = isDarkNow ? "Light Mode?" : "Dark Mode?";
+    darkModeBtn.addEventListener("click", (ev) => {
+        data.write("darkMode", !isDarkNow);
+        window.location.reload();
+    });
+}
+
+const simpleModeBtn = document.getElementById("simpleModeBtn");
+const isSimpleNow = data.get("simpleMode") ?? false;
+if(isSimpleNow) 
+{ 
+    const clippedSections = Array.from(document.getElementsByClassName("clipped")) as HTMLElement[];
+    for(const elem of clippedSections)
+    {
+        elem.classList.remove("clipped");
+    }
+
+    const maskedLinks = Array.from(document.getElementsByClassName("masked-link")) as HTMLElement[];
+    for(const elem of maskedLinks)
+    {
+        elem.style.setProperty("--rotation", "0deg");
+    }
+
+    document.body.classList.add("simpleMode"); 
+}
+
+if(simpleModeBtn)
+{
+    simpleModeBtn.innerHTML = isSimpleNow ? "Detailed Mode?" : "Simple Mode?";
+    simpleModeBtn.addEventListener("click", (ev) => {
+        data.write("simpleMode", !isSimpleNow);
+        window.location.reload();
+    });
+}
 
 /* Basic navigation (go to bottom, go to top, random) */
 const bottomBtn = document.getElementById('gotoBottomBtn') as HTMLButtonElement
@@ -79,48 +122,3 @@ if(unfoldBtn && unfoldElem)
     });
 }
 
-// Fold/Unfold for setting sections => at some point, functionality like this should receive its own .ts file!!!
-const initSettingSections = () =>
-{
-    const nodes = Array.from(document.getElementsByClassName("game-settings-section")) as HTMLElement[];
-
-    const fold = (node, content, instruction, forced = false) =>
-    {
-        if(!forced) { node.dataset.folded = "true"; }
-        content.style.display = "none";
-        instruction.innerHTML = "(Click to unfold.)";
-    }
-
-    const unfold = (node, content, instruction, forced = false) =>
-    {
-        if(!forced) { node.dataset.folded = "false"; }
-        content.style.display = "grid";
-        instruction.innerHTML = "(Click to fold.)";
-    }
-
-    for(const node of nodes)
-    {
-        const header = node.getElementsByClassName("section-header")[0] as HTMLElement;
-        const instruction = header.getElementsByClassName("section-instruction")[0] as HTMLElement;
-        const content = node.getElementsByClassName("section-content")[0] as HTMLElement;
-
-        // simple fold/unfold system through clicks on the header
-        header.addEventListener("click", (ev) => 
-        {
-            if(node.dataset.folded == "true") {
-                unfold(node, content, instruction);
-            } else {
-                fold(node, content, instruction);
-            }
-        });
-
-        // if we start folded, do a fake click to easily achieve that state
-        const startFolded = node.dataset.folded == "true";
-        if(startFolded) 
-        {
-            fold(node, content, instruction, true);
-        }
-
-    }
-}
-initSettingSections();

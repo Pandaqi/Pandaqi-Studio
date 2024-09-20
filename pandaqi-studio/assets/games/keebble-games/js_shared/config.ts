@@ -1,14 +1,14 @@
 import Point from "js/pq_games/tools/geometry/point";
 import { KEEBBLE_TYPES, KEEBBLE_LETTER_VALUES } from "./dict"
 
-export default 
+const CONFIG =
 {
     inkFriendly: false,
     playerColors: [],
     letterDictionary: {},
     numPlayers: 4,
     addWalls: false,
-    resLoader: null,
+    visualizer: null,
 
     expansions:
     {
@@ -17,9 +17,16 @@ export default
         tinyBackpacks: false
     },
 
+    configKey: "keebbleConfig",
     assetsBase: "/keebble-games/spell/keebble/assets/",
     assets:
     {
+        arbutus:
+        {
+            path: "/keebble-games/assets/fonts/ArbutusSlab-Regular.woff2",
+            useAbsolutePath: true,
+        },
+
         special_cells:
         {
             path: "special_cells.webp",
@@ -77,3 +84,5 @@ export default
     letterTextStrokeConfig: null,
     handTextConfig: null,
 };
+
+export default CONFIG;

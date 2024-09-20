@@ -1,10 +1,11 @@
 import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple";
 import GridMapper from "js/pq_games/layout/gridMapper";
 import ResourceLoader from "js/pq_games/layout/resources/resourceLoader";
-import PdfBuilder, { PageFormat, PageOrientation } from "js/pq_games/pdf/pdfBuilder";
+import PdfBuilder from "js/pq_games/pdf/pdfBuilder";
 import ProgressBar from "js/pq_games/website/progressBar";
 import MaterialVisualizer from "./materialVisualizer";
 import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage";
+import { PageFormat, PageOrientation } from "js/pq_games/pdf/pdfEnums";
 
 const DEFAULT_BATCH_SIZE = 10;
 const GIVE_FEEDBACK = true;

@@ -137,7 +137,7 @@ export default class Pack
 
         const allTypes = Object.values(CONFIG.elements);
         allTypes.splice(allTypes.indexOf(icon.type), 1);
-        return Random.fromArray(allTypes);
+        return Random.fromArray(allTypes) as string;
     }
 
     drawRandomIconBalanced(stats:TypeStats) : ElementIcon

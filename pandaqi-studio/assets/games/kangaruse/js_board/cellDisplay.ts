@@ -67,7 +67,7 @@ export default class CellDisplay
 
     createWritingSpace(dims:Point, corner:string)
     {
-        const res = CONFIG.resLoader.getResource("general_spritesheet");
+        const res = CONFIG.visualizer.resLoader.getResource("general_spritesheet");
         const alpha = this.showWritingSpace() ? 1.0 : 0.0;
         const pos = this.placeAtCorner(dims, corner);
         const op = new LayoutOperation({
@@ -85,7 +85,7 @@ export default class CellDisplay
         if(!this.showType()) { return null; }
 
         const frame = CELLS[this.cell.type].frame;
-        const res = CONFIG.resLoader.getResource(CONFIG.cellTexture);
+        const res = CONFIG.visualizer.resLoader.getResource(CONFIG.cellTexture);
         const pos = this.placeAtCorner(dims, corner);
         const op = new LayoutOperation({
             translate: pos,

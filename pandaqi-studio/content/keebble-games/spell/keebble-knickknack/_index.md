@@ -10,9 +10,7 @@ blurbShort: "A word game like Scrabble, but faster, simpler and more exciting. A
 blurbProject: "The same as Keebble, but now digital, played using a single smartphone. This allows more depth, variation, and random setup."
 weightProject: 20
 
-
 color: "blue"
-
 
 date: 2023-05-20
 
@@ -21,8 +19,6 @@ genres: ["abstract"]
 categories: ["boardgame", "hybrid-game", "one-paper-game"]
 tags: ["grid", "shared-map", "language", "spiritually-inspired"]
 themes: []
-
-extraJSBoardInclude: true
 
 downloadLink: "https://drive.google.com/drive/folders/1_hK2ICc9T95hSLAGNO4mvBFmqpvrq_15"
 

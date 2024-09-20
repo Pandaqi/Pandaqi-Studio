@@ -2,7 +2,8 @@ import { REAL_LETTER_FREQS, LETTERS, CELLS, KEEBBLE_LETTER_VALUES } from "./dict
 import Random from "js/pq_games/tools/random/main"
 import Domino from "./domino"
 import Visualizer from "./visualizer"
-import PdfBuilder, { PageOrientation } from "js/pq_games/pdf/pdfBuilder"
+import PdfBuilder from "js/pq_games/pdf/pdfBuilder";
+import { PageOrientation } from "js/pq_games/pdf/pdfEnums";
 import GridMapper from "js/pq_games/layout/gridMapper"
 import ResourceLoader from "js/pq_games/layout/resources/resourceLoader"
 import Point from "js/pq_games/tools/geometry/point"

@@ -216,7 +216,7 @@ export default class BoardDisplay
         const rot = dirInt * 0.5 * Math.PI;
 
         const size = CONFIG.board.dirs.scaleFactor * this.cellSizeUnit;
-        const res = CONFIG.resLoader.getResource("general_spritesheet");
+        const res = CONFIG.visualizer.resLoader.getResource("general_spritesheet");
         const op = new LayoutOperation({
             translate: pos,
             rotation: rot,

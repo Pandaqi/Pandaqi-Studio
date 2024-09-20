@@ -2,9 +2,15 @@ import Point from "js/pq_games/tools/geometry/point"
 
 const CONFIG = 
 {
+    configKey: "timelyTransportsConfig",
     assetsBase: "/timely-transports/assets/",
     assets:
     {
+        rowdies:
+        {
+            path: "fonts/Rowdies-Regular.woff2"
+        },
+
         inbetween_space:
         {
             path: "inbetween_space.png"

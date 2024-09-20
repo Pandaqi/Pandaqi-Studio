@@ -73,20 +73,26 @@ export default class ResourceImage extends Resource
     /* The `to` functions */
     toCanvas(canv:CanvasLike = null, op:LayoutOperation = new LayoutOperation())
     {
-        if(op.dims.isZero()) { op.dims = this.size.clone(); }
+        if(op.dims.isZero()) { op.dims = this.getSize(); }
         op.resource = this;
         op.frame = op.frame ?? this.frame;
         return op.applyToCanvas(canv);
     }
 
+    toHTMLElement(frame = 0)
+    {
+        const img = document.createElement("img");
+        img.src = this.getImageFrameAsResource(frame).getSRCString();
+        return img;
+    }
+
     async toHTML(op:LayoutOperation = new LayoutOperation())
     {
         const frame = op.frame ?? 0;
-        const node = this.getImageFrame(frame).cloneNode() as HTMLImageElement;
-        node.style.width = "100%";
-        node.style.height = "100%";
-        
-        return await op.applyToHTML(node);
+        const img =  this.toHTMLElement(frame);
+        img.style.width = "100%";
+        img.style.height = "100%";
+        return await op.applyToHTML(img);
     }
 
     async toSVG(op:LayoutOperation = new LayoutOperation())
@@ -94,6 +100,14 @@ export default class ResourceImage extends Resource
         const elem = document.createElementNS(null, "image");
         elem.setAttribute("href", this.getSRCString());
         return await op.applyToSVG(elem);
+    }
+
+    async toPixi(app, parent, op:LayoutOperation = new LayoutOperation())
+    {
+        if(op.dims.isZero()) { op.dims = this.getSize(); }
+        op.resource = this;
+        op.frame = op.frame ?? this.frame;
+        return await op.applyToPixi(app, parent);
     }
 
     // for getting a new ResourceImage with result after operation applied
@@ -163,6 +177,14 @@ export default class ResourceImage extends Resource
         this.img = await convertCanvasToImage(canv);
         this.refreshSize();
         await this.cacheFrames();
+        return this;
+    }
+
+    fromPath(path:string, params:ResourceImageParams = {})
+    {
+        const img = document.createElement("img");
+        img.src = path;
+        this.fromRawDrawable(img, params);
         return this;
     }
 
@@ -256,6 +278,7 @@ export default class ResourceImage extends Resource
         this.frames = [];
     }
 
+
     getFrameData(frm:number = 0) : FrameData
     {
         const frameVec = new Point().setXY(
@@ -300,6 +323,7 @@ export default class ResourceImage extends Resource
 
     getSize() : Point
     {
+        if(!(this.size instanceof Point)) { this.refreshSize(); }
         return this.size.clone();
     }
 
@@ -364,9 +388,14 @@ export default class ResourceImage extends Resource
         return this.countFrames() == 1;
     }
 
+    countFramesRaw() : number
+    {
+        return frames.length;
+    }
+
     countFrames() : number
     {
-        return this.frames.length;
+        return this.frameDims.x * this.frameDims.y;
     }
 
     getFrame() : number

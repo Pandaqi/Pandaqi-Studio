@@ -9,9 +9,7 @@ blurbShort: "A party game about drawing secret words. But you're an ant, so you 
 
 weightProject: 10
 
-
 color: "brown"
-
 
 date: 2023-07-21
 
@@ -21,7 +19,6 @@ categories: ["boardgame", "one-paper-game", "hybrid-game"]
 tags: ["drawing", "creative", "guessing", "turn-based"]
 themes: ["top-down", "vector"]
 
-extraJSBoardInclude: true
 sharedJS: "photomone-games"
 sharedJSInclude: true
 
@@ -33,9 +30,7 @@ playtime: 30
 playercount: [2,3,4,5,6,7,8]
 ages: everyone
 devlog: "/blog/boardgames/photomone/"
-
 ---
-
 
 {{% boardgame-intro class="no-shadow" /%}}
 

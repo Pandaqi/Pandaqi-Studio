@@ -1,4 +1,5 @@
-import PdfBuilder, { PageFormat, PageOrientation } from "js/pq_games/pdf/pdfBuilder"
+import PdfBuilder from "js/pq_games/pdf/pdfBuilder";
+import { PageFormat, PageOrientation } from "js/pq_games/pdf/pdfEnums";
 import ProgressBar from "js/pq_games/website/progressBar"
 import CONFIG from "../js_shared/config";
 import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple"

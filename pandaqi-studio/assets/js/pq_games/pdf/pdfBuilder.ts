@@ -3,21 +3,7 @@ import { readSplitDims } from "../layout/canvas/splitImage";
 import Point from "../tools/geometry/point";
 // @ts-ignore
 import { jsPDF } from "./jspdf";
-
-enum PageOrientation 
-{
-    PORTRAIT,
-    LANDSCAPE
-}
-
-// It's crucial these strings are lowercase like this
-// Because they are hardcoded in the dropdowns for game settings (setting-pageSize)
-enum PageFormat
-{
-    A4 = "a4",
-    A5 = "a5",
-    LETTER = "Letter"
-}
+import { PageFormat, PageOrientation } from "./pdfEnums";
 
 interface PdfConfig 
 {
@@ -43,7 +29,7 @@ interface PdfBuilderConfig
     debugWithoutFile?: boolean
 }
 
-export { PageFormat, PageOrientation, PdfBuilder, PdfBuilderConfig, PdfConfig };
+export { PdfBuilder, PdfBuilderConfig, PdfConfig };
 export default class PdfBuilder 
 {
     jsPDF : jsPDF

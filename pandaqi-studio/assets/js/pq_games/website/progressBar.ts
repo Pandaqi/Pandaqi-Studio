@@ -45,6 +45,8 @@ export default class ProgressBar
         header.classList.add("progress-bar-header");
         this.headerNode = header;
         header.style.textAlign = "center";
+        header.style.fontFamily = "var(--header-font)";
+        header.style.marginBottom = "0";
 
         const extraInfo = document.createElement("p");
         subdiv.appendChild(extraInfo);
@@ -52,8 +54,15 @@ export default class ProgressBar
         this.infoNode = extraInfo;
         extraInfo.style.textAlign = "center";
         extraInfo.style.opacity = "0.66";
+        extraInfo.style.margin = "0";
+        extraInfo.style.fontFamily = "var(--body-font)";
 
         return div;
+    }
+
+    changeVerticalAlign(v:string)
+    {
+        this.node.style.alignItems = v;
     }
 
     gotoNextPhase() 

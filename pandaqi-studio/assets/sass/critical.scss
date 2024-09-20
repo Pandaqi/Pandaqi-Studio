@@ -11,26 +11,58 @@
 }
 
 body, html {
+	--header-font: #{g.$header-font-stack};
+	--body-font: #{g.$body-font-stack};
+
 	overflow-x: hidden;
 	padding: 0;
 	margin: 0;
-	font-family: g.$body-font-stack;
-	font-size: calc(15px + 0.390625vw);
+	font-family: var(--body-font);
+	font-size: calc(var(--font-size-base) + 0.390625vw);
     line-height: 1.4em;
 	background-color: #FCFCFC;
 	color: #101010;
 }
 
-a {
-	transition: color 0.3s;
-	color: g.$default-color-dark;
-	&:hover {
-		color: #111111;
+.simpleMode
+{
+	font-family: var(--body-font) !important;
+	h1,h2,h3,h4,h5,h6 
+	{
+		font-family: var(--header-font) !important;
+		font-weight: bold !important;
+	}
+
+	a
+	{
+		font-weight: bold !important;
 	}
 }
 
-p, li {
-	a {
+// Inversion default parameter for easy black-bg, white-text instead
+.invert, .darkMode 
+{
+	background-color: var(--palette-black);
+	color: var(--palette-white);
+
+	a
+	{
+		color: var(--palette-link-invert);
+		&:hover { color: var(--palette-white); }
+	}
+
+}
+
+a {
+	transition: color 0.3s;
+	color: var(--palette-link);
+	&:hover { color: var(--palette-black); }
+}
+
+p, li 
+{
+	a 
+	{
 		font-weight: bold;
 	}
 }
@@ -50,19 +82,19 @@ video {
 
 /* Headings */
 h1, h2, h3, h4, h5, h6 {
-	font-family: g.$header-font-stack;
+	font-family: var(--header-font);
 	line-height: 100%;
-
-	font-weight: 800;
-
-	text-decoration: 0.1rem wavy underline;
-	text-decoration-skip-ink: none;
+	font-weight: normal;
 }
 
 .general-page, .info-page
 {
 	h1, h2, h3, h4, h5, h6 {
 		text-transform: uppercase;
+		font-weight: 800;
+
+		text-decoration: 0.05em wavy underline;
+		text-decoration-skip-ink: none;
 	}
 }
 
@@ -106,8 +138,8 @@ footer {
 
 		display: block;
 		height: 130px;
-		margin-top: -1rem;
-		margin-bottom: -5.5rem;
+		margin-top: -1em;
+		margin-bottom: -5.5em;
 	}
 }
 
@@ -148,11 +180,11 @@ header {
 		background-color: rgb(210, 212, 253);
 		color: black;
 		max-width: 500px;
-		padding: 1.0rem;
+		padding: 1.0em;
 		margin: auto;
-		margin-top: 2.0rem;
-		border-radius: 0.5rem;
-		filter: drop-shadow(0 0 0.6rem black);
+		margin-top: 1.75em;
+		border-radius: 0.5em;
+		filter: drop-shadow(0 0 0.4em black);
 	}
 }
 
@@ -160,7 +192,7 @@ header {
 section {
 
 	.center {
-		padding: 0 1rem;
+		padding: 0 1em;
 		max-width: g.$centered-section-width;
 		margin: auto;
 	}
@@ -178,12 +210,12 @@ section {
 	}
 }
 
-.float-left { float: left; margin-right: 1rem; }
-.float-right { float: right; margin-left: 1rem; }
+.float-left { float: left; margin-right: 1em; }
+.float-right { float: right; margin-left: 1em; }
 
 .limit-width {
 	max-width: g.$centered-section-width;
-	padding: 1.0rem;
+	padding: 1.0em;
 	margin: auto;
 }
 
@@ -196,7 +228,7 @@ section {
 
 		.text-side, .non-text-side {
 			width: 100%;
-			padding: 1.0rem;
+			padding: 1.0em;
 		}
 
 		.non-text-side {
@@ -247,15 +279,6 @@ video {
 	background-color:white;
 }
 
-// Inversion default parameter for easy black-bg, white-text instead
-body.invert {
-	background-color: #111111;
-	color: #FCFCFC;
-
-	a:not(.btn) {
-		color: g.$default-color-light;
-		&:hover {
-			color: white;
-		}
-	}
+input, button, select, option, label {
+	font-family: var(--body-font);
 }

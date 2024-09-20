@@ -529,7 +529,7 @@ export default class Board
                 frame = 0;
             }
 
-            const resSprite = CONFIG.resLoader.getResource(textureKey); // @TODO: re-figure out how to load resources myself and get them
+            const resSprite = CONFIG.visualizer.resLoader.getResource(textureKey); // @TODO: re-figure out how to load resources myself and get them
             const opSprite = new LayoutOperation({
                 translate: center,
                 frame: frame,
@@ -551,7 +551,7 @@ export default class Board
                 );
                 const pos = anchorPos.clone().add(offset);
 
-                const resSprite = CONFIG.resLoader.getResource(CONFIG.teams.textureKey);
+                const resSprite = CONFIG.visualizer.resLoader.getResource(CONFIG.teams.textureKey);
                 const opSprite = new LayoutOperation({
                     translate: pos,
                     dims: new Point(teamIconScale),
@@ -570,7 +570,7 @@ export default class Board
                 if(tutorialType in CONFIG.typeDict) { frame = CONFIG.typeDict[tutorialType].tutFrame; }
                 else { frame = TUTORIAL_DATA[tutorialType].frame; }
 
-                const resTut = CONFIG.resLoader.getResource(CONFIG.tutorial.textureKey);
+                const resTut = CONFIG.visualizer.resLoader.getResource(CONFIG.tutorial.textureKey);
                 const opTut = new LayoutOperation({
                     translate: center,
                     dims: new Point(iconSize * CONFIG.board.tutScale),

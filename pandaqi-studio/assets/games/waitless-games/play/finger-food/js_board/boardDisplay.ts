@@ -1,14 +1,22 @@
+import Color from "js/pq_games/layout/color/color"
+import LayoutOperation from "js/pq_games/layout/layoutOperation"
+import imageToPhaser from "js/pq_games/phaser/imageToPhaser"
 // @ts-ignore
-import { Geom, Display, GameObjects } from "js/pq_games/phaser/phaser.esm"
+import { Display, GameObjects } from "js/pq_games/phaser/phaser.esm"
+import { pathToPhaser, rectToPhaser } from "js/pq_games/phaser/shapeToPhaser"
+import Path from "js/pq_games/tools/geometry/paths/path"
+import smoothPath from "js/pq_games/tools/geometry/paths/smoothPath"
 import Point from "js/pq_games/tools/geometry/point"
 import PointGraph from "js/pq_games/tools/geometry/pointGraph"
-import smoothPath from "js/pq_games/tools/geometry/paths/smoothPath"
-import { CUSTOM } from "./dictionary"
+import Rectangle from "js/pq_games/tools/geometry/rectangle"
 import BoardState from "./boardState"
 import CONFIG from "./config"
+import { CUSTOM } from "./dictionary"
 import FixedFingers from "./fixedFingers"
 import RecipeBook from "./recipeBook"
-import Color from "js/pq_games/layout/color/color"
+import TextConfig from "js/pq_games/layout/text/textConfig"
+import ResourceText from "js/pq_games/layout/resources/resourceText"
+import textToPhaser from "js/pq_games/phaser/textToPhaser"
 
 interface Lines {
     x: Point[][],
@@ -54,11 +62,11 @@ export default class BoardDisplay
         const lines = this.createGridLines();
         const linesRandomized = this.randomizeGridLines(lines);
         const linesSmoothed = this.smoothLines(linesRandomized);
-        const polygons = this.fillInCells(linesSmoothed);
+        this.fillInCells(linesSmoothed);
         this.strokeLines(linesSmoothed);
 
         // draws the custom images or properties of each cell
-        this.displayCells(polygons);
+        this.displayCells();
         this.displayRecipeBook(board.recipeBook);
 
         // finishing touches
@@ -209,14 +217,18 @@ export default class BoardDisplay
         const lineWidth = data.width * this.cellSizeUnit;
         const lineColor = data.color;
         const lineAlpha = data.alpha;
-        graphics.lineStyle(lineWidth, lineColor, lineAlpha);
+
+        const opLine = new LayoutOperation({
+            stroke: lineColor, // @TODO: update all colors to string hexes again
+            strokeWidth: lineWidth,
+            alpha: lineAlpha
+        });
 
         for(const linesAxis of Object.values(lines))
         {
             for(const line of linesAxis)
             {
-                const lineObject = new Geom.Polygon(line);
-                graphics.strokePoints(lineObject.points);
+                pathToPhaser(new Path(line), opLine, graphics);
             }
         }
     }
@@ -224,41 +236,39 @@ export default class BoardDisplay
     fillInCells(lines:Lines)
     {
         const graphics = this.game.add.graphics();
+
         let smoothingResolution = CONFIG.board.smoothingResolution;
         if(!CONFIG.board.useWobblyLines) { smoothingResolution = 1; }
 
         const distBetweenAnchors = smoothingResolution * this.resolutionPerCell;
 
-        const polygons = [];
-
         for(let x = 0; x < this.dims.x; x++)
         {
-            polygons[x] = [];
-
             for(let y = 0; y < this.dims.y; y++)
             {
                 const cell = this.board.getCellAt(new Point().setXY(x,y));
-                let backgroundColor = new Color(cell.getColor()).toHEXNumber();
-                if(CONFIG.inkFriendly) { backgroundColor = 0xFFFFFF; }
+                let backgroundColor = new Color(cell.getColor());
+                if(CONFIG.inkFriendly) { backgroundColor = Color.WHITE; }
 
                 const set1 = this.getLineChunk(lines.x[y], x*distBetweenAnchors, (x+1)*distBetweenAnchors);
                 const set2 = this.getLineChunk(lines.y[x+1], y*distBetweenAnchors, (y+1)*distBetweenAnchors);
                 const set3 = this.getLineChunk(lines.x[y+1], (x+1)*distBetweenAnchors, x*distBetweenAnchors);
                 const set4 = this.getLineChunk(lines.y[x], (y+1)*distBetweenAnchors, y*distBetweenAnchors);
 
+                const opFill = new LayoutOperation({
+                    fill: backgroundColor
+                })
+
                 graphics.fillStyle(backgroundColor);
 
                 const points = [set1, set2, set3, set4].flat();
-                const polygon = new Geom.Polygon(points);
-                graphics.fillPoints(polygon.points, true);
-
-                polygons.push(polygon);
-                cell.polygon = polygon.points;
+                pathToPhaser(new Path(points), opFill, graphics);
+                cell.polygon = points;
             }
         }
     }
 
-    displayCells(polygons:any)
+    displayCells()
     {
         for(let x = 0; x < this.dims.x; x++)
         {
@@ -279,29 +289,34 @@ export default class BoardDisplay
         const realPos = this.convertGridPointToRealPoint(point);
         const centerPos = realPos.clone().add(new Point().setXY(0.5*w, 0.5*h));
 
+        const resCustom = CONFIG.visualizer.resLoader.getResource("custom_spritesheet");
+
         // tutorials get a custom square frame to mark them as such
         if(cell.isTutorial())
         {
-            const bgSprite = this.game.add.sprite(centerPos.x, centerPos.y, "custom_spritesheet");
-            bgSprite.setFrame(CUSTOM.tutorialBG.frame);
-            bgSprite.setOrigin(0.5, 0.5);
-            bgSprite.displayWidth = w;
-            bgSprite.displayHeight = h;
+            const opBG = new LayoutOperation({
+                translate: centerPos,
+                dims: new Point(w,h),
+                frame: CUSTOM.tutorialBG.frame,
+                pivot: Point.CENTER,
+            })
+            const bgSprite = imageToPhaser(resCustom, opBG, this.game);
 
             // then a custom image (matching frame from spritesheet) with the actual explanation
             let textureKey = "tutorials_spritesheet";
             let needsTutIcon = false;
             if(cell.mainType == "ingredient" || cell.mainType == "machine") {
-                textureKey = cell.mainType + "_tutorials_spritesheet";
+                textureKey = cell.mainType + "_tuts";
                 needsTutIcon = true;
             }
 
-            let tutSprite = this.game.add.sprite(centerPos.x, centerPos.y, textureKey);
-            tutSprite.setFrame(data.frame);
-
-            tutSprite.setOrigin(0.5, 0.5);
-            tutSprite.displayWidth = w;
-            tutSprite.displayHeight = h;
+            const opTut = new LayoutOperation({
+                translate: centerPos,
+                dims: new Point(w,h),
+                frame: data.frame,
+                pivot: Point.CENTER
+            })
+            const tutSprite = imageToPhaser(CONFIG.visualizer.resLoader.getResource(textureKey), opTut, this.game);
 
             if(needsTutIcon)
             {
@@ -316,11 +331,14 @@ export default class BoardDisplay
                 ]
                 for(let i = 0; i < 2; i++)
                 {
-                    const tutIcon = this.game.add.sprite(positions[i].x, positions[i].y, cell.mainType + "_spritesheet")
-                    tutIcon.setFrame(data.frame);
-                    tutIcon.setOrigin(0.5);
-                    tutIcon.displayWidth = tutIconSize;
-                    tutIcon.displayHeight = tutIconSize;
+                    const opTutIcon = new LayoutOperation({
+                        translate: positions[i],
+                        dims: new Point(tutIconSize),
+                        frame: data.frame,
+                        pivot: Point.CENTER,
+                    });
+                    const iconKey = cell.mainType + "_spritesheet";
+                    const tutIcon = imageToPhaser(CONFIG.visualizer.resLoader.getResource(iconKey), opTutIcon, this.game);
                     tutIcon.preFX.addGlow(0xFFFFFF, 0.25*tutIcon.displayWidth, 0, false);
                 }
             }
@@ -330,11 +348,11 @@ export default class BoardDisplay
         }
 
         const backgroundPatternScaleUp = 1.175;
+
+        // @TODO: find a replacement for this (+ preFX/postFX?) once I switch to loose coupling with Phaser
         const backgroundMaskGraphics = new GameObjects.Graphics(this.game);
         backgroundMaskGraphics.fillStyle(0x000000);
         backgroundMaskGraphics.fillPoints(cell.polygon, true);
-
-        // @TODO: find a replacement for this (+ preFX/postFX?) once I switch to loose coupling with Phaser
         const backgroundMask = new Display.Masks.GeometryMask(this.game, backgroundMaskGraphics);
 
         // ingredients / machines display their custom sprite big in the center
@@ -342,20 +360,27 @@ export default class BoardDisplay
         {
             if(cell.mainType == "machine")
             {
-                const bg = this.game.add.sprite(centerPos.x, centerPos.y, "custom_spritesheet");
-                bg.setFrame(CUSTOM.machineBG.frame);
-                bg.setOrigin(0.5);
-                bg.displayWidth = backgroundPatternScaleUp * w;
-                bg.displayHeight = backgroundPatternScaleUp * h;
+                const opBG = new LayoutOperation({
+                    translate: centerPos,
+                    dims: new Point(backgroundPatternScaleUp * w, backgroundPatternScaleUp * h),
+                    frame: CUSTOM.machineBG.frame,
+                    pivot: Point.CENTER,
+                })
+
+                const bg = imageToPhaser(resCustom, opBG, this.game);
                 bg.setMask(backgroundMask);
             }
 
             const iconScale = CONFIG.board.iconScale;
-            const sprite = this.game.add.sprite(centerPos.x, centerPos.y, cell.mainType + "_spritesheet");
-            sprite.setFrame(data.frame);
-            sprite.setOrigin(0.5, 0.5);
-            sprite.displayWidth = iconScale * w;
-            sprite.displayHeight = iconScale * h;
+            const opSprite = new LayoutOperation({
+                translate: centerPos,
+                dims: new Point(iconScale * w, iconScale * h),
+                frame: data.frame,
+                pivot: Point.CENTER
+            })
+
+            const resSprite = CONFIG.visualizer.resLoader.getResource(cell.mainType + "_spritesheet");
+            const sprite = imageToPhaser(resSprite, opSprite, this.game);
 
             const shadowOffset = -0.01*sprite.displayWidth;
             const shadowDecay = 0.075;
@@ -366,37 +391,53 @@ export default class BoardDisplay
             // if they have extra data (money number or fixed fingers) ...
             if(cell.hasExtraData())
             {
-                // display the background frame
-                const extraFrameScale = CONFIG.board.extraFrameScale;
-                const extraFrame = this.game.add.sprite(centerPos.x, realPos.y + 0.75*h, "custom_spritesheet");
-                extraFrame.setOrigin(0.5, 0.5);
-                extraFrame.displayWidth = extraFrameScale * w;
-                extraFrame.displayHeight = extraFrameScale * h;
-
                 const displayMoney = cell.hasNum();
                 const displayFixedFingers = cell.hasFixedFingers() && CONFIG.expansions.fixedFingers;
                 const contentPos = realPos.clone().move(new Point(0.35*w, 0.75*h));
+
+                const extraFrameScale = CONFIG.board.extraFrameScale;
+                const frameNum = displayMoney ? CUSTOM.moneyFrame.frame : CUSTOM.fingerFrame.frame;
+                const opFrame = new LayoutOperation({
+                    translate: new Point(centerPos.x, realPos.y + 0.75*h),
+                    dims: new Point(extraFrameScale * w, extraFrameScale * h),
+                    frame: frameNum,
+                    pivot: Point.CENTER
+                })
+
+                // display the background frame
+                const extraFrame = imageToPhaser(resCustom, opFrame, this.game);
+
+                // display what's on top
                 if(displayMoney)
                 {
-                    extraFrame.setFrame(CUSTOM.moneyFrame.frame);
+                    const txcfg:any = CONFIG.board.moneyTextConfigTiny;
+                    const fontSize = (txcfg.fontScaleFactor * this.cellSizeUnit);
 
-                    const textConfig:any = CONFIG.board.moneyTextConfigTiny;
-                    const fontSize = (textConfig.fontScaleFactor * this.cellSizeUnit);
-                    textConfig.fontSize = fontSize + "px";
-                    textConfig.strokeThickness = fontSize * 0.1;
+                    const textConfig = new TextConfig({
+                        font: txcfg.fontFamily,
+                        size: fontSize
+                    }).alignCenter();
+
+                    const opText = new LayoutOperation({
+                        translate: contentPos,
+                        dims: new Point(2*textConfig.size),
+                        fill: txcfg.color,
+                        stroke: txcfg.stroke,
+                        strokeWidth: fontSize * 0.1,
+                        pivot: Point.CENTER
+                    })
 
                     const num = cell.getNum();
-                    const text = this.game.add.text(contentPos.x, contentPos.y, num.toString(), textConfig);
-                    text.setOrigin(0.5);
+                    const resText = new ResourceText({ text: num.toString(), textConfig: textConfig });
+                    textToPhaser(resText, opText, this.game);
                 }
                 else if(displayFixedFingers)
                 {
-                    extraFrame.setFrame(CUSTOM.fingerFrame.frame);
-                    
                     const f = new FixedFingers(cell.getFixedFingers());
                     const handPos = contentPos.clone();
                     const handHeight = extraFrame.displayHeight;
                     handPos.x = centerPos.x;
+                    // @TODO: dive into this function and loosely couple it too
                     f.display(this, handPos, handHeight);
                 }
 
@@ -407,29 +448,43 @@ export default class BoardDisplay
         // money displays its icon (at the top) and text (at the bottom)
         if(cell.mainType == "money")
         {
-            const bg = this.game.add.sprite(centerPos.x, centerPos.y, "custom_spritesheet");
-            bg.setFrame(CUSTOM.moneyBG.frame);
-            bg.setOrigin(0.5);
-            bg.displayWidth = backgroundPatternScaleUp * w;
-            bg.displayHeight = backgroundPatternScaleUp * h;
+            const opBG = new LayoutOperation({
+                translate: centerPos,
+                dims: new Point(backgroundPatternScaleUp * w, backgroundPatternScaleUp * h),
+                pivot: Point.CENTER,
+                frame: CUSTOM.moneyBG.frame
+            })
+            const bg = imageToPhaser(resCustom, opBG, this.game);
             bg.setMask(backgroundMask);
 
             const moneySpriteScale = CONFIG.board.moneySpriteScale;
-            const moneySprite = this.game.add.sprite(centerPos.x, realPos.y + 0.5*h, "custom_spritesheet");
-            moneySprite.setFrame(CUSTOM.moneyIcon.frame);
-            moneySprite.setOrigin(0.5, 0.5);
-            moneySprite.displayWidth = moneySpriteScale * w;
-            moneySprite.displayHeight = moneySpriteScale * h;
+            const opMoney = new LayoutOperation({
+                translate: new Point(centerPos.x, realPos.y + 0.5 * h),
+                dims: new Point(moneySpriteScale * w, moneySpriteScale * h),
+                pivot: Point.CENTER,
+                frame: CUSTOM.moneyIcon.frame,
+            })
+            const moneySprite = imageToPhaser(resCustom, opMoney, this.game);
 
-            const textConfig:any = CONFIG.board.moneyTextConfig;
-            const fontSize = (textConfig.fontScaleFactor * this.cellSizeUnit);
-            textConfig.fontSize = fontSize + "px";
-            textConfig.strokeThickness = fontSize * 0.1;
+            const txcfg:any = CONFIG.board.moneyTextConfig;
+            const fontSize = (txcfg.fontScaleFactor * this.cellSizeUnit);
+            const textConfig = new TextConfig({
+                font: txcfg.fontFamily,
+                size: fontSize
+            }).alignCenter();
+
+            const opText = new LayoutOperation({
+                translate: new Point(centerPos.x, realPos.y + 0.7*h),
+                dims: new Point(2*textConfig.size),
+                fill: txcfg.color,
+                stroke: txcfg.stroke,
+                strokeWidth: fontSize * 0.1,
+                pivot: Point.CENTER
+            })
 
             const num = cell.getNum();
-            const text = this.game.add.text(centerPos.x, realPos.y + 0.7*h, num.toString(), textConfig);
-            text.setOrigin(0.5, 0.5);
-
+            const resText = new ResourceText({ text: num.toString(), textConfig: textConfig });
+            textToPhaser(resText, opText, this.game);
             return;
         }
     }
@@ -468,9 +523,13 @@ export default class BoardDisplay
         const lineAlpha = CONFIG.board.outerEdge.lineAlpha;
 
         const graphics = this.game.add.graphics();
-        graphics.lineStyle(lineWidth, lineColor, lineAlpha);
-        const rect = new Geom.Rectangle(this.outerMargin.x, this.outerMargin.y, this.boardDimensions.x, this.boardDimensions.y);
-        graphics.strokeRectShape(rect);
+        const opRect = new LayoutOperation({
+            stroke: lineColor,
+            strokeWidth: lineWidth,
+            alpha: lineAlpha
+        })
+        const resRect = new Rectangle().fromTopLeft(this.outerMargin, this.boardDimensions);
+        rectToPhaser(resRect, opRect, graphics);
     }
 
     hasOuterMargin()

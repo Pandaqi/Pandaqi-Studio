@@ -30,6 +30,13 @@ export default class ColorLike
         return this.val.toCanvasStyle(ctx);
     }
 
+    // @TODO: any other values don't make sense for toNumber, right?
+    toNumber()
+    {
+        if(this.val instanceof Color) { return this.val.toHEXNumber(); }
+        return 16777215;
+    }
+
     isTransparent()
     {
         return this.val.isTransparent();

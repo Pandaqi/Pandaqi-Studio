@@ -1,4 +1,4 @@
-import OnPageVisualizer from "js/pq_games/website/onPageVisualizer"
+import OnPageVisualizer from "js/pq_games/website/boardVisualizer"
 // @ts-ignore
 import { Scene } from "js/pq_games/phaser/phaser.esm"
 import Board from "./board"

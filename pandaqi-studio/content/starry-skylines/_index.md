@@ -12,9 +12,6 @@ customHeight: "small-medium"
 
 color: "black"
 
-
-extraJSBoardInclude: true
-
 date: 2020-08-22
 
 difficulty: "no-brainer"
@@ -31,7 +28,6 @@ playtime: 30-60
 playercount: [1,2,3,4,5,6,7,8,9]
 ages: everyone
 devlog: "/blog/boardgames/starry-skylines/devlog-starry-skylines/"
-
 ---
 
 {{% boardgame-intro /%}}
@@ -80,7 +76,7 @@ This website handles everything for you. It also shows explanations for all the 
 
 {{% boardgame-settings-container type="board" remarks="**Only 3 players maximum?** Nope! As stated in the rules, each _paper_ has a maximum of 3 players. So, for example, with 5 players you play on _two_ papers. Copy this same starting setup to all." %}}
 
-{{< boardgame-settings type="board" game_title="Starry Skylines" defaults="true" >}}
+{{< boardgame-settings type="board" local_storage="starrySkylinesConfig" game_title="Starry Skylines" defaults="true" >}}
   {{< setting-playercount min="1" max="3" def="3" >}}
   {{< setting-enum id="setting-planet" text="Planet?" values="Learnth,Uronus,Marsh,Yumpiter,Meercury,Intervenus,Pluto,Naptune" valaskey="true" keep-case="true" >}}
   {{< setting-enum id="setting-manualCombo" text="Play handpicked combination?" values="-- ignore --,Nature,Leadership,Resources,Entertainment,Chaotic" keys=",Nature,Leadership,Resources,Entertainment,Chaotic" >}}

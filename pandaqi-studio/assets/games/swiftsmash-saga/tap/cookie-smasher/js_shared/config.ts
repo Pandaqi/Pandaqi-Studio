@@ -58,35 +58,35 @@ const CONFIG =
         {
             path: "starter.webp",
             frames: new Point(5,2),
-            cardSet: true
+            cardSet: true,
         },
 
         beginner:
         {
             path: "beginner.webp",
             frames: new Point(5,2),
-            cardSet: true
+            cardSet: true,
         },
 
         amateur:
         {
             path: "amateur.webp",
             frames: new Point(5,2),
-            cardSet: true
+            cardSet: true,
         },
 
         advanced:
         {
             path: "advanced.webp",
             frames: new Point(5,2),
-            cardSet: true
+            cardSet: true,
         },
 
         expert:
         {
             path: "expert.webp",
             frames: new Point(5,2),
-            cardSet: true
+            cardSet: true,
         }
 
     },

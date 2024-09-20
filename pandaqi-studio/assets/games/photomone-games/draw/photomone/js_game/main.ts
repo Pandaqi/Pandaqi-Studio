@@ -1,4 +1,5 @@
-import { PdfBuilder, PageOrientation } from "js/pq_games/pdf/pdfBuilder"
+import PdfBuilder from "js/pq_games/pdf/pdfBuilder";
+import { PageOrientation } from "js/pq_games/pdf/pdfEnums";
 import GridMapper from "js/pq_games/layout/gridMapper"
 import ResourceLoader from "js/pq_games/layout/resources/resourceLoader"
 import createContext from "js/pq_games/layout/canvas/createContext"

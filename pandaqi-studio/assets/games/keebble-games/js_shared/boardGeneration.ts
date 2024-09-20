@@ -2,9 +2,8 @@ import Cell from "./cell"
 import Edge from "./edge"
 import { KEEBBLE_TYPES } from "./dict"
 import CONFIG from "./config"
-import OnPageVisualizer from "js/pq_games/website/onPageVisualizer"
 // @ts-ignore
-import { Scene, Geom } from "js/pq_games/phaser/phaser.esm"
+import { Scene } from "js/pq_games/phaser/phaser.esm"
 import Point from "js/pq_games/tools/geometry/point"
 import Color from "js/pq_games/layout/color/color"
 import setDefaultPhaserSettings from "js/pq_games/phaser/setDefaultPhaserSettings"
@@ -29,11 +28,6 @@ interface GenerationData
 	cells?: Cell[][]
 }
 
-const sceneKey = "boardGeneration"
-const resLoader = new ResourceLoader({ base: CONFIG.assetsBase });
-resLoader.planLoadMultiple(CONFIG.assets);
-CONFIG.resLoader = resLoader;
-
 export { BoardGeneration, sceneKey }
 export default class BoardGeneration extends Scene
 {
@@ -46,7 +40,7 @@ export default class BoardGeneration extends Scene
 
 	constructor()
 	{
-		super({ key: sceneKey });
+		super({ key: "boardGeneration" });
 	}
 
 	preload() 
@@ -56,13 +50,12 @@ export default class BoardGeneration extends Scene
 
 	async create(userConfig:Record<string,any>) 
 	{
-		await resLoader.loadPlannedResources();
-        await resourceLoaderToPhaser(resLoader, this);
+        await resourceLoaderToPhaser(userConfig.visualizer.resLoader, this);
 
 		this.setup(userConfig)
 		this.generate()
 		this.visualize();
-		OnPageVisualizer.convertCanvasToImage(this);
+		userConfig.visualizer.convertCanvasToImage(this);
 	}
 
 	setup(userConfig:Record<string,any>)
@@ -690,7 +683,7 @@ export default class BoardGeneration extends Scene
 		if(!c.getType()) { return; }
 		
 		const pixelPos = this.toCenteredPixelPos(c.getPos());
-		const resSpecial = CONFIG.resLoader.getResource("special_cells");
+		const resSpecial = CONFIG.visualizer.resLoader.getResource("special_cells");
 		const op = new LayoutOperation({
 			translate: pixelPos,
 			dims: new Point(CONFIG.spriteSize),
@@ -704,7 +697,7 @@ export default class BoardGeneration extends Scene
 
 	visualizeWalls()
 	{
-		const resSpecial = CONFIG.resLoader.getResource("special_cells");
+		const resSpecial = CONFIG.visualizer.resLoader.getResource("special_cells");
 
 		for(const wall of this.gen.walls)
 		{

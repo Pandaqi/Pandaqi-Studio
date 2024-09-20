@@ -1,7 +1,8 @@
 import Pack from "./pack"
 import ResourceLoader from "js/pq_games/layout/resources/resourceLoader"
 import GridMapper from "js/pq_games/layout/gridMapper"
-import PdfBuilder, { PageFormat, PageOrientation } from "js/pq_games/pdf/pdfBuilder"
+import PdfBuilder from "js/pq_games/pdf/pdfBuilder";
+import { PageFormat, PageOrientation } from "js/pq_games/pdf/pdfEnums";
 import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple"
 import ProgressBar from "js/pq_games/website/progressBar"
 

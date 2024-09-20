@@ -17,8 +17,6 @@ categories: ["boardgame", "one-paper-game"]
 tags: ["grid", "shared-map", "point-salad", "movement"]
 themes: ["colorful", "nature"]
 
-extraJSBoardInclude: true
-
 downloadLink: "https://drive.google.com/drive/folders/1kYuSs0w3yKLQBMqBWOlS4ZzGUY32vrHB"
 
 multiplayermode: "competitive"

@@ -40,7 +40,7 @@ There are three possible place actions. Note that these actions can be applied t
 
 Finally, draw a new map tile from the deck into your hand.
 
-This phase ends as soon as one player has **revealed all their movement cards**.
+This phase ends as soon as one player has **revealed all their movement cards**. (Or, in rare cases, when **all tiles have been played**.)
 
 @TODO: EXAMPLE IMAGE
 

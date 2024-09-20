@@ -1,13 +1,13 @@
 import ProgressBar from "js/pq_games/website/progressBar";
 import CONFIG from "../js_shared/config";
 import ResourceLoader from "js/pq_games/layout/resources/resourceLoader";
-import PdfBuilder, { PageOrientation } from "js/pq_games/pdf/pdfBuilder";
+import PdfBuilder from "js/pq_games/pdf/pdfBuilder";
 import GridMapper from "js/pq_games/layout/gridMapper";
 import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple";
 import Pack from "./pack";
 import { CardData, SETS } from "../js_shared/dict";
-import fromArray from "js/pq_games/tools/random/fromArray";
 import createRandomSet from "../js_shared/createRandomSet";
+import { PageOrientation } from "js/pq_games/pdf/pdfEnums";
 
 export default class Generator
 {

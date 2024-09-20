@@ -1,7 +1,8 @@
 import Pack from "./pack"
 import { PACKS } from "./dict"
 import GridMapper from "js/pq_games/layout/gridMapper"
-import PdfBuilder, { PageOrientation } from "js/pq_games/pdf/pdfBuilder"
+import PdfBuilder from "js/pq_games/pdf/pdfBuilder";
+import { PageOrientation } from "js/pq_games/pdf/pdfEnums";
 import ProgressBar from "js/pq_games/website/progressBar"
 import Random from "js/pq_games/tools/random/main"
 

@@ -12,9 +12,15 @@ const PHOTOMONE_BASE_PARAMS = {
     WORDS: null,
     RESOURCE_LOADER: null,
 
+    configKey: "photomoneConfig",
     assetsBase: "/photomone-games/assets/",
     assets:
     {
+        geldotica:
+        {
+            path: "fonts/GelDoticaLowerCaseThick.woff2"
+        },
+
         point_types:
         {
             path: "/photomone-games/draw/photomone/assets/point_types.webp",

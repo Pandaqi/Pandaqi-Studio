@@ -8,9 +8,15 @@ import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import ResourceImage from "js/pq_games/layout/resources/resourceImage";
 import ResourceLoader from "js/pq_games/layout/resources/resourceLoader";
 import ResourceShape from "js/pq_games/layout/resources/resourceShape";
-import PdfBuilder, { PageOrientation } from "js/pq_games/pdf/pdfBuilder";
+import ResourceText from "js/pq_games/layout/resources/resourceText";
+import TextConfig from "js/pq_games/layout/text/textConfig";
+import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
+import PdfBuilder from "js/pq_games/pdf/pdfBuilder";
+import { PageOrientation } from "js/pq_games/pdf/pdfEnums";
+import { Application } from "js/pq_games/pixi/pixi.mjs";
 import Circle from "js/pq_games/tools/geometry/circle";
 import Point from "js/pq_games/tools/geometry/point";
+import Rectangle from "js/pq_games/tools/geometry/rectangle";
 
 const TEST_ASSETS = {
     creatures_1: {
@@ -140,24 +146,67 @@ const testCompositeOperation = async (canv, resLoader) =>
     group.toCanvas(canv);
 }
 
+const testPixiImages = async () =>
+{
+    const app = new Application();
+    await app.init({ 
+        width: 640, height: 360, 
+        backgroundColor: 0xAAFFFF,
+        antialias: true,
+        useBackBuffer: true,
+    })
+    document.body.appendChild(app.canvas);
+
+    const res = new ResourceImage().fromPath(TEST_ASSETS.misc.path, { frames: new Point(5,1) });
+
+    const op = new LayoutOperation({
+        translate: new Point(80,80),
+        rotation: 0.2*Math.PI,
+        dims: new Point(200,200),
+        pivot: Point.CENTER
+    });
+
+    const resRect = new ResourceShape(new Rectangle().fromTopLeft(new Point(), new Point(500,50)));
+    const opRect = new LayoutOperation({
+        fill: "#FF0000",
+        //effects: [ new DropShadowEffect({ color: "#333333", blur: 2 }) ],
+        composite: "multiply"
+    })
+
+    const textConfig = new TextConfig({
+        font: "Georgia",
+        size: 16
+    });
+    const resText = new ResourceText({ text: "Ik ben <b>Tiamo Pastoor</b>. Wie <i>ben jij</i>?", textConfig: textConfig });
+    const opText = new LayoutOperation({
+        translate: new Point(100,100),
+        dims: new Point(100, 300),
+        fill: "#000000",
+        alpha: 0.5
+    })
+    
+    const group = new ResourceGroup();
+    group.add(res, op);
+    group.add(resRect, opRect);
+    group.add(resText, opText);
+    group.toPixi(app, null);
+}
+
 const runTests = async () =>
 {
-    const resLoader = await testAssetLoading();
+    //const resLoader = await testAssetLoading();
     //const pdfBuilder = testPDFBuilder();
     //const gridMapper = testGridMapper(pdfBuilder);
     
     //const size = gridMapper.getMaxElementSize();
     //const canv = createCanvas({ size: size })
 
-    const canv = createCanvas({ size: new Point(512, 512) });
+    //const canv = createCanvas({ size: new Point(512, 512) });
     //await testSingleImage(canv, resLoader);
     //await testGroups(canv, resLoader);
+    //document.body.appendChild(canv);
 
-    testCompositeOperation(canv, resLoader);
-
-    canv.style.outline = "5px solid red";
-
-    document.body.appendChild(canv);
+    testPixiImages();
 }
 
 runTests();

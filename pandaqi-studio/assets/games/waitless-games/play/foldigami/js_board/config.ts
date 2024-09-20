@@ -1,6 +1,6 @@
 import Point from "js/pq_games/tools/geometry/point";
 
-export default 
+const CONFIG =
 {
     typeDict: {}, // to be filled by type sustem; ugly method, saw no better way when converting to TypeScript
     difficulty: "easy",
@@ -9,9 +9,15 @@ export default
     noRotation: false,
     resLoader: null,
 
+    configKey: "foldigamiConfig",
     assetsBase: "/waitless-games/play/foldigami/assets/",
     assets:
     {
+        jockey:
+        {
+            path: "fonts/JockeyOne-Regular.woff2"
+        },
+
         types: 
         {
             path: "types.webp",
@@ -121,3 +127,5 @@ export default
         }
     }
 }
+
+export default CONFIG

@@ -1,4 +1,5 @@
-import PdfBuilder, { PageOrientation } from "js/pq_games/pdf/pdfBuilder";
+import PdfBuilder from "js/pq_games/pdf/pdfBuilder";
+import { PageOrientation } from "js/pq_games/pdf/pdfEnums";
 import HintVisualizer from "./hintVisualizer"
 import Hints from "./hints"
 import Map from "./map"

@@ -20,6 +20,11 @@ class LayoutCombo
         this.resource.toCanvas(ctx, this.operation);
     }
 
+    toPixi(app, parent)
+    {
+        return this.resource.toPixi(app, parent, this.operation);
+    }
+
     getBoundingBox()
     {
         const oldResource = this.operation.resource;
@@ -60,5 +65,11 @@ export default class ResourceGroup extends Resource
     {
         op.resource = this;
         return op.applyToCanvas(ctx);
+    }
+
+    toPixi(app, parent, op = new LayoutOperation())
+    {
+        op.resource = this;
+        return op.applyToPixi(app, parent);
     }
 }

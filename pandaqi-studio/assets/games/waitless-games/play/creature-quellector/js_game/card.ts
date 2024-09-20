@@ -234,13 +234,6 @@ export default class Card
         })
 
         res.toCanvas(ctx, canvOp);
-
-        // @DEBUGGING
-        const tempCanv = document.createElement("canvas");
-        tempCanv.width = ctx.canvas.width;
-        tempCanv.height = ctx.canvas.height;
-        tempCanv.getContext("2d").drawImage(ctx.canvas, 0, 0);
-        document.body.appendChild(tempCanv);
     }
 
     drawHeader()

@@ -8,7 +8,7 @@ blurb: "A series of games about placing domino tiles to shape your dream world--
 
 downloadLink: "https://drive.google.com/drive/folders/1lxKWuSj0hlggY0Nx1_jQsNr0yqjfhoHb"
 
-color: "green"
+color: "blue"
 
 date: 2025-06-26
 

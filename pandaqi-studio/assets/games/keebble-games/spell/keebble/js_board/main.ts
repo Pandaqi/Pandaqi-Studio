@@ -1,4 +1,5 @@
-import { BoardGeneration, sceneKey } from "games/keebble-games/js_shared/boardGeneration";
-import OnPageVisualizer from "js/pq_games/website/onPageVisualizer"
+import { BoardGeneration } from "games/keebble-games/js_shared/boardGeneration";
+import CONFIG from "games/keebble-games/js_shared/config";
+import BoardVisualizer from "js/pq_games/website/boardVisualizer";
 
-OnPageVisualizer.linkTo({ scene: BoardGeneration, key: sceneKey, backend: "phaser" });
+const vis = new BoardVisualizer({ config: CONFIG, scene: BoardGeneration, backend: "phaser" });
