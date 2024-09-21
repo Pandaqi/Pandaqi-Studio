@@ -10,6 +10,7 @@ import rangeInteger from "js/pq_games/tools/random/rangeInteger";
 import Line from "js/pq_games/tools/geometry/line";
 import range from "js/pq_games/tools/random/range";
 import Bounds from "js/pq_games/tools/numbers/bounds";
+import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 
 export default class WonkyRectangle
 {
@@ -143,7 +144,7 @@ export default class WonkyRectangle
         return arr;
     }
 
-    async draw(ctx, color:string)
+    draw(group:ResourceGroup, color:string)
     {
         // the main box
         const path = new Path({ points: this.points });
@@ -151,13 +152,13 @@ export default class WonkyRectangle
         const op = new LayoutOperation({
             fill: color,
         })
-        await res.toCanvas(ctx, op);
+        group.add(res, op);
 
         // the random triangles around it
         for(const triangle of this.triangles)
         {
             const res = new ResourceShape({ shape: triangle });
-            await res.toCanvas(ctx, op);
+            group.add(res, op);
         }
     }
 }

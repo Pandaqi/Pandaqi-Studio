@@ -16,4 +16,5 @@ export default class Shape
     toPathString() : string { return ""; }
     toPathRounded(radius:number|number[]) { return roundPath(this.toPath(), radius); }
     toCSSPath() : string { return 'path("' + this.toPathString() + '")'; }
+    createPixiObject(graphicsConstructor) {}
 }

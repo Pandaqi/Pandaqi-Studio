@@ -1,18 +1,18 @@
-import { GENERAL, CELLS, COLOR_GROUPS } from "../js_shared/dictionary"
-import CONFIG from "./config"
-import Point from "js/pq_games/tools/geometry/point";
-import BoardDisplay from "./boardDisplay"
-import BoardState from "./boardState"
 import Color from "js/pq_games/layout/color/color";
-import Rectangle from "js/pq_games/tools/geometry/rectangle";
+import LayoutOperation from "js/pq_games/layout/layoutOperation";
+import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
+import ResourceShape from "js/pq_games/layout/resources/resourceShape";
+import ResourceText from "js/pq_games/layout/resources/resourceText";
+import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
+import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer";
 import Path from "js/pq_games/tools/geometry/paths/path";
 import roundPath from "js/pq_games/tools/geometry/paths/roundPath";
-import { pathToPhaser } from "js/pq_games/phaser/shapeToPhaser";
-import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import imageToPhaser from "js/pq_games/phaser/imageToPhaser";
-import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
-import ResourceText from "js/pq_games/layout/resources/resourceText";
-import textToPhaser from "js/pq_games/phaser/textToPhaser";
+import Point from "js/pq_games/tools/geometry/point";
+import Rectangle from "js/pq_games/tools/geometry/rectangle";
+import { CELLS, COLOR_GROUPS, GENERAL } from "../js_shared/dictionary";
+import BoardDisplay from "./boardDisplay";
+import BoardState from "./boardState";
+import CONFIG from "./config";
 
 export default class SideBar
 {
@@ -33,13 +33,16 @@ export default class SideBar
         );
 
         this.padding = CONFIG.sideBar.padding * this.dimensions.x;
-
-        this.drawBackground(boardDisplay);
-        this.drawTutorials(boardDisplay, boardState);
-        this.drawScoreSheets(boardDisplay);
     }
 
-    drawBackground(boardDisplay:BoardDisplay)
+    draw(vis: BoardVisualizer, group:ResourceGroup, boardDisplay:BoardDisplay, boardState:BoardState)
+    {
+        this.drawBackground(vis, group, boardDisplay);
+        this.drawTutorials(vis, group, boardDisplay, boardState);
+        this.drawScoreSheets(vis, group, boardDisplay);
+    }
+
+    drawBackground(vis: BoardVisualizer, group:ResourceGroup, boardDisplay:BoardDisplay)
     {
         const borderRadius = CONFIG.sideBar.borderRadius * this.dimensions.x;
         const col = CONFIG.inkFriendly ? "#EDEDED" : CONFIG.sideBar.backgroundColor;
@@ -47,16 +50,16 @@ export default class SideBar
         const op = new LayoutOperation({ fill: col });
         const rectPath = new Rectangle().fromTopLeft(this.anchorPos, this.dimensions);
         const pathRounded = new Path( roundPath(rectPath, borderRadius) );
-        pathToPhaser(pathRounded, op, boardDisplay.graphics);
+        group.add(new ResourceShape(pathRounded), op);
     }
 
-    drawTutorials(boardDisplay:BoardDisplay, boardState:BoardState)
+    drawTutorials(vis: BoardVisualizer, group:ResourceGroup, boardDisplay:BoardDisplay, boardState:BoardState)
     {
         if(CONFIG.sideBarType != "rules") { return; }
 
         this.anchorPos.move(this.padding);
 
-        const res = CONFIG.visualizer.resLoader.getResource("sidebar_tutorial");
+        const res = vis.getResource("sidebar_tutorial");
         const tutRatio = (1067.0/895);
         const tutSizeX = this.dimensions.x - 2*this.padding;
         const tutSizeY = tutRatio * tutSizeX;
@@ -65,7 +68,7 @@ export default class SideBar
             pivot: new Point(),
             dims: new Point(tutSizeX, tutSizeY)
         })
-        imageToPhaser(res, op, boardDisplay.game);
+        group.add(res, op);
 
         this.anchorPos.y += tutSizeY;
 
@@ -73,11 +76,11 @@ export default class SideBar
         const tutorialHeight = CONFIG.sideBar.tutorialSpriteHeight * this.dimensions.y;
         for(const type of types)
         {
-            this.drawTutorial(boardDisplay, tutorialHeight, type);
+            this.drawTutorial(vis, group, boardDisplay, tutorialHeight, type);
         }
     }
 
-    drawTutorial(boardDisplay:BoardDisplay, tutorialHeight:number, type:string)
+    drawTutorial(vis: BoardVisualizer, group:ResourceGroup, boardDisplay:BoardDisplay, tutorialHeight:number, type:string)
     {
         const pos = new Point().setXY(
             this.anchorPos.x + 0.5*tutorialHeight, 
@@ -85,16 +88,16 @@ export default class SideBar
         );
 
         const tutorialWidth = tutorialHeight;
-        const res = CONFIG.visualizer.resLoader.getResource("general_spritesheet");
+        const res = vis.getResource("general_spritesheet");
         const op = new LayoutOperation({
             translate: pos,
             dims: new Point(tutorialHeight),
             frame: GENERAL.tutorialIcon.frame,
             pivot: Point.CENTER
         });
-        imageToPhaser(res, op, boardDisplay.game);
+        group.add(res, op);
 
-        const resIcon = CONFIG.visualizer.resLoader.getResource(CONFIG.cellTexture);
+        const resIcon = vis.getResource(CONFIG.cellTexture);
         const frame = CELLS[type].frame;
         const iconSize = 0.5*tutorialHeight;
         const opIcon = new LayoutOperation({
@@ -103,8 +106,7 @@ export default class SideBar
             frame: frame,
             pivot: Point.CENTER
         });
-        imageToPhaser(resIcon, opIcon, boardDisplay.game);
-
+        group.add(resIcon, opIcon);
 
         const gapBetween = 0.05*this.dimensions.x;
         const leftoverWidth = this.dimensions.x - tutorialWidth - gapBetween - 2*this.padding;
@@ -128,23 +130,23 @@ export default class SideBar
             pivot: new Point(0, 0.5)
         })
         const resText = new ResourceText({ text: explanation, textConfig: textConfig });
-        textToPhaser(resText, opText, boardDisplay.game);
+        group.add(resText, opText);
 
         this.anchorPos.y += tutorialHeight;
     }
 
-    drawScoreSheets(boardDisplay:BoardDisplay)
+    drawScoreSheets(vis: BoardVisualizer, group:ResourceGroup, boardDisplay:BoardDisplay)
     {
         if(CONFIG.sideBarType != "score") { return; }
 
         const maxNumPlayers = CONFIG.maxNumPlayers;
         for(let i = 0; i < maxNumPlayers; i++)
         {
-            this.drawScoreSheet(boardDisplay);
+            this.drawScoreSheet(vis, group, boardDisplay);
         }
     }
 
-    drawScoreSheet(boardDisplay:BoardDisplay)
+    drawScoreSheet(vis: BoardVisualizer, group:ResourceGroup, boardDisplay:BoardDisplay)
     {
         this.anchorPos.y += this.padding;
 
@@ -152,14 +154,14 @@ export default class SideBar
         const xPosHeader = this.anchorPos.x + 0.5*this.dimensions.x;
         const posHeader = new Point(xPosHeader, yPosHeader);
         const dimsHeader = new Point(0.5 * this.dimensions.x);
-        const resGeneral = CONFIG.visualizer.resLoader.getResource("general_spritesheet");
+        const resGeneral = vis.getResource("general_spritesheet");
         const opHeader = new LayoutOperation({
             translate: posHeader,
             dims: dimsHeader,
             frame: GENERAL.header.frame,
             pivot: Point.CENTER
         });
-        imageToPhaser(resGeneral, opHeader, boardDisplay.game);
+        group.add(resGeneral, opHeader);
         
         this.anchorPos.y += 0.25*dimsHeader.y;
 
@@ -192,16 +194,16 @@ export default class SideBar
             const rectSize = new Point(this.dimensions.x-this.padding, iconSize+4);
             const rectPath = new Rectangle().fromTopLeft(rectPos, rectSize).toPath();
             const pathRounded = new Path( roundPath(rectPath, borderRadius) );
-            pathToPhaser(pathRounded, opRect, boardDisplay.graphics);
+            group.add(new ResourceShape(pathRounded), opRect);
             
             // the type being scored
-            const resIcon = CONFIG.visualizer.resLoader.getResource(CONFIG.cellTexture);
+            const resIcon = vis.getResource(CONFIG.cellTexture);
             const opIcon = new LayoutOperation({
                 translate: new Point(xPos, this.anchorPos.y),
                 frame: CELLS[type].frame,
                 dims: new Point(iconSize)
             });
-            imageToPhaser(resIcon, opIcon, boardDisplay.game);
+            group.add(resIcon, opIcon);
 
             // the empty spaces for doing so
             for(let i = 0; i < 10; i++)
@@ -213,7 +215,7 @@ export default class SideBar
                     frame: GENERAL.writingSpace.frame,
                     dims: new Point(iconSize)
                 });
-                imageToPhaser(resGeneral, opBox, boardDisplay.game);
+                group.add(resGeneral, opBox);
 
                 let value = null;
                 if(type == "chests") { value = i * 5; }
@@ -230,7 +232,7 @@ export default class SideBar
                         alpha: alpha
                     });
                     const resText = new ResourceText({ text: value.toString(), textConfig: textConfig });
-                    textToPhaser(resText, opText, boardDisplay.game);
+                    group.add(resText, opText);
                 }
             }
 

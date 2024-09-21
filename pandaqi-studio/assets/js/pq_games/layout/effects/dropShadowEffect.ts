@@ -1,21 +1,21 @@
 import Point from "js/pq_games/tools/geometry/point";
 import LayoutEffect from "./layoutEffect";
 import EffectsOperation from "./effectsOperation";
-import { ColorLikeValue } from "../color/colorLike";
+import Color from "../color/color";
 
 interface DropShadowParams
 {
     blur?:number,
     size?:number, // legacy support
     blurRadius?:number // legacy support
-    color?:ColorLikeValue|string,
+    color?:Color|string,
     offset?:Point
 }
 
 export default class DropShadowEffect extends LayoutEffect
 {
     blurRadius: number;
-    color: ColorLikeValue|string;
+    color: Color;
     offset: Point;
     
     constructor(params:DropShadowParams = {})
@@ -23,7 +23,7 @@ export default class DropShadowEffect extends LayoutEffect
         super(params);
 
         this.blurRadius = ((params.size ?? params.blur) ?? params.blurRadius) ?? 0;
-        this.color = params.color ?? "#000000";
+        this.color = new Color(params.color ?? "#000000");
         this.offset = params.offset ?? new Point();
     }
 
@@ -33,7 +33,7 @@ export default class DropShadowEffect extends LayoutEffect
         const eff = new DropShadowEffect({
             blur: this.blurRadius,
             color: this.color,
-            offset: off
+            offset: off,
         });
         return eff;
     }
@@ -46,6 +46,17 @@ export default class DropShadowEffect extends LayoutEffect
     applyToHTML(div:HTMLDivElement, effOp = new EffectsOperation())
     {
         effOp.addFilter(this.createFilterString());
+    }
+
+    applyToPixi(filtersConstructor, effOp = new EffectsOperation(), obj)
+    {
+        effOp.addFilterPixi(new filtersConstructor.DropShadowFilter({
+            alpha: this.color.a,
+            color: this.color.toHEXNumber(),
+            blur: this.blurRadius,
+            offset: this.offset,
+            quality: 8
+        }));
     }
 
     createFilterString()

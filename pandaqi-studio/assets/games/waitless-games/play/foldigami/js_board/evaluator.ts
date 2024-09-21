@@ -1,6 +1,12 @@
+import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer";
 import Board from "./board";
 import BoardState from "./boardState";
 import CONFIG from "./config"
+import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
+import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
+import ResourceText from "js/pq_games/layout/resources/resourceText";
+import LayoutOperation from "js/pq_games/layout/layoutOperation";
+import Point from "js/pq_games/tools/geometry/point";
 
 export default class Evaluator
 {
@@ -276,48 +282,29 @@ export default class Evaluator
         return score;
     }
 
-    draw(board:Board)
+    draw(vis:BoardVisualizer, group:ResourceGroup, board:Board)
     {
-        const textCfg = {
-            fontFamily: "jockey",
-            fontSize: "64px",
-            color: "#330000",
-            strokeColor: "#ffffff",
-            strokeThickness: 12,
-            align: "left"
-        }
-
-        const cells = this.state.getGridFlat();
-        if(CONFIG.evaluator.debug)
-        {
-            console.log("[DEBUG] Scores");
-            console.log(this.scores);
-
-            for(const c of cells)
-            {
-                const score = c.getScore();
-                if(score == null) { continue; }
-    
-                const rect = board.getRectForCell(c);
-                const pos = rect.getTopLeft();
-                const scoreText = this.game.add.text(pos.x, pos.y, score.toString(), textCfg);
-                const teamText = this.game.add.text(pos.x + 70, pos.y, c.getTeam(), textCfg);
-            }
-        }
-
         const fontCfg = CONFIG.evaluator.font;
         const cs = board.cellSizeSquare;
-        textCfg.fontSize = fontCfg.size * cs + "px"
-        textCfg.color = fontCfg.color;
-        textCfg.strokeColor = fontCfg.strokeColor;
-        textCfg.strokeThickness = fontCfg.strokeThickness;
-        textCfg.align = "right";
 
         const txt = "Start dragons: " + this.scores.join(", ");
         const margin = fontCfg.margin * cs;
         const textX = this.game.canvas.width - margin;
         const textY = this.game.canvas.height - margin;
-        const scoreText = this.game.add.text(textX, textY, txt, textCfg);
-        scoreText.setOrigin(1.0, 1.0);
+
+        const textConfig = new TextConfig({
+            font: "jockey",
+            size: (fontCfg.size * cs),
+            alignHorizontal: TextAlign.END
+        });
+        const resText = new ResourceText({ text: txt, textConfig: textConfig });
+        const opText = new LayoutOperation({
+            translate: new Point(textX, textY),
+            fill: fontCfg.color,
+            stroke: fontCfg.strokeColor,
+            strokeWidth: fontCfg.strokeThickness,
+            pivot: new Point(1,1)
+        })
+        group.add(resText, opText);
     }
 }

@@ -3,6 +3,7 @@ import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer"
 import Point from "js/pq_games/tools/geometry/point"
 import InteractiveExample from "./interactiveExample"
 import InteractiveExampleSimulator, { InteractiveExampleSimulatorParams } from "./interactiveExampleSimulator"
+import RulesSettings from "./rulesSettings"
 
 interface InteractiveExampleGeneratorParams
 {
@@ -12,6 +13,7 @@ interface InteractiveExampleGeneratorParams
     config?: Record<string,any>,
     itemSize?: Point,
     pickers?: Record<string, any>,
+    settings?: RulesSettings,
     callback: Function
 }
 
@@ -23,6 +25,7 @@ export default class InteractiveExampleGenerator
     pickers: Record<string, any>
     visualizer: MaterialVisualizer
     simulator: InteractiveExampleSimulator
+    settings: RulesSettings
 
     constructor(p:InteractiveExampleGeneratorParams)
     {
@@ -52,6 +55,13 @@ export default class InteractiveExampleGenerator
         // create actual button and its callback
         const id = p.id ?? "turn";
         const e = new InteractiveExample({ id: id, buttonText: p.buttonText });
+        
+        if(p.settings)
+        {
+            this.settings = p.settings;
+            this.simulator.settings = this.settings;
+            e.attachSettings(p.settings);
+        }
 
         const callback = p.callback;
         const simCfgButton = Object.assign({}, p.simulateConfig);

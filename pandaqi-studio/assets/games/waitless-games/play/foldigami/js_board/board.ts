@@ -1,18 +1,18 @@
-import Random from "js/pq_games/tools/random/main"
-import Point from "js/pq_games/tools/geometry/point"
-import Cell from "./cell"
-import { TUTORIAL_DATA } from "./dict"
-import BoardState from "./boardState"
-import CONFIG from "./config"
 import Color from "js/pq_games/layout/color/color"
 import LayoutOperation from "js/pq_games/layout/layoutOperation"
-import imageToPhaser from "js/pq_games/phaser/imageToPhaser"
-import Line from "js/pq_games/tools/geometry/line"
-import Rectangle from "js/pq_games/tools/geometry/rectangle"
-import { lineToPhaser, rectToPhaser } from "js/pq_games/phaser/shapeToPhaser"
+import ResourceGroup from "js/pq_games/layout/resources/resourceGroup"
+import ResourceShape from "js/pq_games/layout/resources/resourceShape"
 import ResourceText from "js/pq_games/layout/resources/resourceText"
-import textToPhaser from "js/pq_games/phaser/textToPhaser"
 import TextConfig from "js/pq_games/layout/text/textConfig"
+import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer"
+import Line from "js/pq_games/tools/geometry/line"
+import Point from "js/pq_games/tools/geometry/point"
+import Rectangle from "js/pq_games/tools/geometry/rectangle"
+import Random from "js/pq_games/tools/random/main"
+import BoardState from "./boardState"
+import Cell from "./cell"
+import CONFIG from "./config"
+import { TUTORIAL_DATA } from "./dict"
 
 export default class Board
 {
@@ -293,11 +293,11 @@ export default class Board
         this.generationSuccess = true;
     }
 
-    draw()
+    draw(vis:BoardVisualizer, group:ResourceGroup)
     {
-        this.drawGrid();
-        this.drawIcons();
-        this.drawOutline();
+        this.drawGrid(vis, group);
+        this.drawIcons(vis, group);
+        this.drawOutline(vis, group);
     }
 
     convertGridToRealPos(cell:Cell)
@@ -367,9 +367,8 @@ export default class Board
         return new Rectangle().fromTopLeft(pos, size);
     }
 
-    drawGrid()
+    drawGrid(vis:BoardVisualizer, group:ResourceGroup)
     {
-        const graphics = this.game.add.graphics();
         const cells = this.state.getGridFlat();
         const inkFriendly = CONFIG.inkFriendly;
 
@@ -393,20 +392,20 @@ export default class Board
                 fill: baseColObject,
                 alpha: alpha
             });
-            rectToPhaser(rect, op, graphics);
+            group.add(new ResourceShape(rect), op);
         }
 
         // vertical lines
         const dims = CONFIG.board.dims;
         for(let x = 1; x < dims.x; x++)
         {
-            this.drawLineVertical(graphics, x, dims);
+            this.drawLineVertical(group, x, dims);
         }
 
         // horizontal lines
         for(let y = 1; y < dims.y; y++)
         {
-            this.drawLineHorizontal(graphics, y, dims);
+            this.drawLineHorizontal(group, y, dims);
         }
 
         // dotted lines halfway squares
@@ -415,35 +414,35 @@ export default class Board
         {
             for(let x = 0; x < dims.x; x++)
             {
-                this.drawLineVertical(graphics, x + 0.5, dims, true)
+                this.drawLineVertical(group, x + 0.5, dims, true)
             }
 
             for(let y = 0; y < dims.y; y++)
             {
-                this.drawLineHorizontal(graphics, y + 0.5, dims, true);
+                this.drawLineHorizontal(group, y + 0.5, dims, true);
             }
         }
     }
 
-    drawLineVertical(graphics, x, dims, dotted = false)
+    drawLineVertical(group, x, dims, dotted = false)
     {
         const pos1 = this.convertGridToRealPos(new Point().fromXY(x, 0));
         const pos2 = this.convertGridToRealPos(new Point().fromXY(x, dims.y));
-        this.drawLineBetween(graphics, pos1, pos2, dotted);
+        this.drawLineBetween(group, pos1, pos2, dotted);
     }
 
-    drawLineHorizontal(graphics, y, dims, dotted = false)
+    drawLineHorizontal(group, y, dims, dotted = false)
     {
         const pos1 = this.convertGridToRealPos(new Point().fromXY(0, y));
         const pos2 = this.convertGridToRealPos(new Point().fromXY(dims.x, y));
-        this.drawLineBetween(graphics, pos1, pos2, dotted);
+        this.drawLineBetween(group, pos1, pos2, dotted);
     }
 
-    drawLineBetween(graphics, pos1, pos2, dotted = false)
+    drawLineBetween(group, pos1, pos2, dotted = false)
     {
         if(dotted)
         {
-            return this.drawDottedLineBetween(graphics, pos1, pos2);
+            return this.drawDottedLineBetween(group, pos1, pos2);
         }
 
         const line = new Line(pos1, pos2);
@@ -453,10 +452,10 @@ export default class Board
             stroke: gridParams.lineColor,
             strokeWidth: lineWidth
         });
-        lineToPhaser(line, op, graphics);
+        group.add(new ResourceShape(line), op);
     }
 
-    drawDottedLineBetween(graphics, pos1, pos2)
+    drawDottedLineBetween(group, pos1, pos2)
     {
         const vector = pos1.vecTo(pos2);
         const vectorNorm = vector.clone().normalize();
@@ -493,11 +492,11 @@ export default class Board
             if(currentlyAtGap) { continue; }
 
             const line = new Line(prevPos, curPos);
-            lineToPhaser(line, op, graphics);
+            group.add(new ResourceShape(line), op);
         }
     }
 
-    drawIcons()
+    drawIcons(vis:BoardVisualizer, group:ResourceGroup)
     {
         const cells = this.state.getGridFlat();
         const inkFriendly = CONFIG.inkFriendly;
@@ -529,7 +528,7 @@ export default class Board
                 frame = 0;
             }
 
-            const resSprite = CONFIG.visualizer.resLoader.getResource(textureKey); // @TODO: re-figure out how to load resources myself and get them
+            const resSprite = vis.getResource(textureKey); // @TODO: re-figure out how to load resources myself and get them
             const opSprite = new LayoutOperation({
                 translate: center,
                 frame: frame,
@@ -537,7 +536,7 @@ export default class Board
                 rotation: rot,
                 pivot: Point.CENTER
             });
-            imageToPhaser(resSprite, opSprite, this.game);
+            group.add(resSprite, opSprite);
 
             const hasTeam = c.hasTeam();
             if(hasTeam)
@@ -551,7 +550,7 @@ export default class Board
                 );
                 const pos = anchorPos.clone().add(offset);
 
-                const resSprite = CONFIG.visualizer.resLoader.getResource(CONFIG.teams.textureKey);
+                const resSprite = vis.getResource(CONFIG.teams.textureKey);
                 const opSprite = new LayoutOperation({
                     translate: pos,
                     dims: new Point(teamIconScale),
@@ -559,7 +558,7 @@ export default class Board
                     frame: c.getTeam(),
                     pivot: Point.CENTER
                 })
-                imageToPhaser(resSprite, opSprite, this.game);
+                group.add(resSprite, opSprite);
             }
 
             if(hasTutorial) 
@@ -570,7 +569,7 @@ export default class Board
                 if(tutorialType in CONFIG.typeDict) { frame = CONFIG.typeDict[tutorialType].tutFrame; }
                 else { frame = TUTORIAL_DATA[tutorialType].frame; }
 
-                const resTut = CONFIG.visualizer.resLoader.getResource(CONFIG.tutorial.textureKey);
+                const resTut = vis.getResource(CONFIG.tutorial.textureKey);
                 const opTut = new LayoutOperation({
                     translate: center,
                     dims: new Point(iconSize * CONFIG.board.tutScale),
@@ -578,7 +577,7 @@ export default class Board
                     rotation: rot,
                     pivot: Point.CENTER
                 });
-                imageToPhaser(resTut, opTut, this.game);
+                group.add(resTut, opTut);
             }
 
             const hasValue = c.hasValue();
@@ -595,14 +594,13 @@ export default class Board
                     stroke: fontCfg.strokeColor,
                     strokeWidth: (fontCfg.strokeWidth * this.cellSizeSquare)
                 });
-                textToPhaser(resText, opText, this.game);
+                group.add(resText, opText);
             }
         }
     }
 
-    drawOutline()
+    drawOutline(vis:BoardVisualizer, group:ResourceGroup)
     {
-        const graphics = this.game.add.graphics();
         const lineWidth = CONFIG.board.outline.width * this.cellSizeSquare;
         const lineColor = CONFIG.board.outline.color ?? "#000000";
 
@@ -610,6 +608,6 @@ export default class Board
             stroke: lineColor,
             strokeWidth: lineWidth
         });
-        rectToPhaser(this.rect, op, graphics);
+        group.add(new ResourceShape(this.rect), op);
     }
 }

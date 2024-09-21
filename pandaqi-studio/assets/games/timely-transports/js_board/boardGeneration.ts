@@ -1,23 +1,17 @@
-import { CITY_NAMES, PLAYERCOUNT_TO_CITYCOUNT, PLAYER_COLORS, GOODS, DIFFICULTY_LEVELS, JUNGLE_NAME_TEMPLATES, COOL_WORD_TEMPLATES, PathType, TerrainType } from "../js_shared/dict"
+import { CITY_NAMES, COOL_WORD_TEMPLATES, DIFFICULTY_LEVELS, GOODS, JUNGLE_NAME_TEMPLATES, PLAYERCOUNT_TO_CITYCOUNT, PLAYER_COLORS, PathType, TerrainType } from "../js_shared/dict"
 import calculateRoute from "./pathfinder"
 // @ts-ignore
 import { noise } from "./perlin"
-// @ts-ignore
-import { Scene } from "js/pq_games/phaser/phaser.esm"
-import Point from "js/pq_games/tools/geometry/point"
-import Line from "js/pq_games/tools/geometry/line"
-import CONFIG from "../js_shared/config"
-import ResourceLoader from "js/pq_games/layout/resources/resourceLoader"
-import resourceLoaderToPhaser from "js/pq_games/phaser/resourceLoaderToPhaser"
-import setDefaultPhaserSettings from "js/pq_games/phaser/setDefaultPhaserSettings"
 import LayoutOperation from "js/pq_games/layout/layoutOperation"
-import imageToPhaser from "js/pq_games/phaser/imageToPhaser"
-import Rectangle from "js/pq_games/tools/geometry/rectangle"
-import { lineToPhaser, rectToPhaser } from "js/pq_games/phaser/shapeToPhaser"
-import shuffle from "js/pq_games/tools/random/shuffle"
-import textToPhaser from "js/pq_games/phaser/textToPhaser"
+import ResourceGroup from "js/pq_games/layout/resources/resourceGroup"
+import ResourceShape from "js/pq_games/layout/resources/resourceShape"
 import ResourceText from "js/pq_games/layout/resources/resourceText"
 import TextConfig from "js/pq_games/layout/text/textConfig"
+import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer"
+import Line from "js/pq_games/tools/geometry/line"
+import Point from "js/pq_games/tools/geometry/point"
+import Rectangle from "js/pq_games/tools/geometry/rectangle"
+import shuffle from "js/pq_games/tools/random/shuffle"
 
 interface CityData
 {
@@ -81,9 +75,8 @@ interface ConnectionQueryData
 	hasBend: boolean
 }
 
-export default class BoardGeneration extends Scene
+export default class BoardGeneration
 {
-	canvas: HTMLCanvasElement
 	cfg: Record<string,any>
 	generationFail: boolean
 	terrain: CellData[][]
@@ -95,37 +88,34 @@ export default class BoardGeneration extends Scene
 	numCitiesInGroup: Record<number, number>
 	goodsDict: Record<string, any>
 
-	constructor()
-	{
-		super({ key: "boardGeneration" });
-	}
-
-	preload() 
-	{
-		setDefaultPhaserSettings(this); 
-	}
-
 	// user-input settings should be passed through config
-	async create(config:Record<string,any>) 
+	async draw(vis:BoardVisualizer) : Promise<ResourceGroup[]>
 	{
-        await resourceLoaderToPhaser(config.visualizer.resLoader, this);
+		this.setup(vis);
+		this.generateBoard();
+		return this.visualizeGame(vis);
+	}
 
+	setup(vis:BoardVisualizer)
+	{
 		const jungleName = this.getRandomJungleName();
 
-		const canvasWidth = this.canvas.width;
+		const canvasWidth = vis.size.x;
 		const scaleFactorDPI = (canvasWidth/1160.0);
-		config.numPlayers = parseInt(config.playerCount);
+
+		const userConfig = vis.config;
+		userConfig.numPlayers = parseInt(userConfig.playerCount);
+		userConfig.splitDims = userConfig.splitBoard ? new Point(2,2) : null; // @TODO: is this the way??
 
 		this.cfg = 
 		{
-			visualizer: config.visualizer, // ugly but needed because this game didn't just copy config but manually cloned stuff :/
 			seed: jungleName,
 			jungleName: jungleName,
 
-			w: this.canvas.width,
-			h: this.canvas.height,
+			w: userConfig.size.x,
+			h: userConfig.size.y,
 
-			numCities: PLAYERCOUNT_TO_CITYCOUNT[config.numPlayers] ?? 10,
+			numCities: PLAYERCOUNT_TO_CITYCOUNT[userConfig.numPlayers] ?? 10,
 			cellSize: 20,
 			noiseZoom: 99.9578372,
 
@@ -143,12 +133,12 @@ export default class BoardGeneration extends Scene
 
 			landCityProbability: 0.35,
 
-			numPlayers: config.numPlayers,
-			difficulty: config.difficulty ?? "Training Wheels",
-			inkFriendly: config.inkFriendly ?? false,
-			splitBoard: config.splitBoard ?? false,
-			cityBonus: config.cityBonus ?? false,
-			rulesReminder: config.rulesReminder ?? false,
+			numPlayers: userConfig.numPlayers,
+			difficulty: userConfig.difficulty ?? "Training Wheels",
+			inkFriendly: userConfig.inkFriendly ?? false,
+			splitBoard: userConfig.splitBoard ?? false,
+			cityBonus: userConfig.cityBonus ?? false,
+			rulesReminder: userConfig.rulesReminder ?? false,
 
 			minPathsRequiredOfEachType: 2
 		}
@@ -194,13 +184,6 @@ export default class BoardGeneration extends Scene
 		this.cfg.oY = (this.cfg.h - this.cfg.heightInCells*this.cfg.cellSize) * 0.5;
 
 		console.log(this.cfg);
-
-		// create the board
-		this.generateBoard();
-
-		// convert board into image
-		const splitDims = this.cfg.splitBoard ? new Point(2,2) : null; 
-		this.cfg.visualizer.convertCanvasToImage(this, { splitDims: splitDims });
 	}
 
 	generateBoard() 
@@ -231,11 +214,7 @@ export default class BoardGeneration extends Scene
 
 			this.determineCityDesires();
 			this.determineCapitalValues();
-
-			
 		}
-
-		this.visualizeGame();
 	}
 
 	createNoise() 
@@ -938,10 +917,10 @@ export default class BoardGeneration extends Scene
 		return true;
 	}
 
-	visualizeGame() 
+	visualizeGame(vis:BoardVisualizer) 
 	{
 		// @ts-ignore
-		const graphics = this.add.graphics();
+		const group = new ResourceGroup();
 
 		const oX = this.cfg.oX;
 		const oY = this.cfg.oY;
@@ -986,7 +965,7 @@ export default class BoardGeneration extends Scene
 					const randOffsetChangeX = Math.random()*0.2-0.1, randOffsetChangeY = Math.random()*0.2-0.1;
 					const forestWidth = cs + randSizeChange;
 
-					const res = this.cfg.visualizer.resLoader.getResource(imageKey);
+					const res = vis.getResource(imageKey);
 					const rectPos = rect.getTopLeft();
 					const op = new LayoutOperation({
 						translate: new Point(rectPos.x + 0.5*cs, rectPos.y + 0.5*cs),
@@ -994,10 +973,9 @@ export default class BoardGeneration extends Scene
 						pivot: new Point(0.5 + randOffsetChangeX, 1.0 + randOffsetChangeY),
 						flipX: Math.random() <= 0.5,
 						frame: frame,
-						depth: y // @TODO: implement this property 
+						depth: y
 					});
-
-					imageToPhaser(res, op, this);
+					group.add(res, op);
 				}
 				
 				// if printfriendly, don't draw any colors and use outlines/stripes for sea and stuff
@@ -1006,18 +984,18 @@ export default class BoardGeneration extends Scene
 				{
 					if(noiseVal <= waterLine) 
 					{
-						const res = this.cfg.visualizer.resLoader.getResource("seaprintfriendly");
+						const res = vis.getResource("seaprintfriendly");
 						const op = new LayoutOperation({
 							translate: rect.getTopLeft(),
 							dims: new Point(cs),
 							alpha: 0.5,
 							depth: y - 0.51,
 						})
-						imageToPhaser(res, op, this);
+						group.add(res, op);
 					}
 				} else {
 					const opRect = new LayoutOperation({ fill: terrainColor });
-					rectToPhaser(rect, opRect, graphics);
+					group.add(new ResourceShape(rect), opRect);
 				}
 				
 				// we also perform a sweep over all the paths to remove ugly connections
@@ -1044,7 +1022,7 @@ export default class BoardGeneration extends Scene
 			const start = new Point(oX + e.start.x*cs, oY + e.start.y*cs);
 			const end = new Point(oX + e.end.x*cs, oY + e.end.y*cs)
 			const line = new Line(start, end);
-			lineToPhaser(line, opWaterEdge, graphics);
+			group.add(new ResourceShape(line), opWaterEdge);
 		}
 
 		// connections (between cities)
@@ -1081,7 +1059,7 @@ export default class BoardGeneration extends Scene
 						sheetKey = 'railroutes'
 					}
 
-					const resRoad = this.cfg.visualizer.resLoader.getResource(sheetKey);
+					const resRoad = vis.getResource(sheetKey);
 					const opRoad = new LayoutOperation({
 						translate: new Point(oX + (x+0.5)*cs, oY + (y+0.5)*cs),
 						dims: new Point(cs),
@@ -1090,7 +1068,7 @@ export default class BoardGeneration extends Scene
 						rotation: spriteRotation * 0.5 * Math.PI,
 						depth: y
 					});
-					imageToPhaser(resRoad, opRoad, this);
+					group.add(resRoad, opRoad);
 
 					if(curCell.halfwayPointOfPath) 
 					{
@@ -1118,14 +1096,14 @@ export default class BoardGeneration extends Scene
 
 						if(shouldPlaceSprite) 
 						{
-							const res = this.cfg.visualizer.resLoader.getResource("inbetween_space");
+							const res = vis.getResource("inbetween_space");
 							const op = new LayoutOperation({
 								translate: opRoad.translate.clone(),
 								dims: new Point(this.cfg.cellSize*0.75),
 								pivot: Point.CENTER,
 								depth: y + 0.5
 							});
-							imageToPhaser(res, op, this);
+							group.add(res, op);
 						}
 					}
 
@@ -1200,10 +1178,10 @@ export default class BoardGeneration extends Scene
 			
 			let res;
 			if(c.capital == null) {
-				res = this.cfg.visualizer.resLoader.getResource("city");
+				res = vis.getResource("city");
 				opText.setFill("#111111");
 			} else {
-				res = this.cfg.visualizer.resLoader.getResource("cities");
+				res = vis.getResource("cities");
 				const newColor = PLAYER_COLORS[c.capital];
 				opText.setFill(newColor);
 				opSprite.frame = c.capital;
@@ -1213,7 +1191,7 @@ export default class BoardGeneration extends Scene
 					opText.setStroke('#111111');
 				}
 			}
-			imageToPhaser(res, opSprite, this);
+			group.add(res, opSprite);
 
 			// display name of city BELOW it
 			const yOffset = -6
@@ -1222,7 +1200,7 @@ export default class BoardGeneration extends Scene
 			opTextCity.depth = 10000;
 
 			const resTextCity = new ResourceText({ text: CITY_NAMES[i], textConfig: textConfig });
-			const txt = textToPhaser(resTextCity, opTextCity, this);
+			group.add(resTextCity, opTextCity); // txt
 
 			// display wanted goods
 			let wg = c.wantedGoods;
@@ -1235,7 +1213,7 @@ export default class BoardGeneration extends Scene
 				const value = good.value;
 
 				const pos = new Point(xPos + (-wg.length*0.5 + g + 0.5)*iconSize, yPos - 2*radius);
-				const resGood = this.cfg.visualizer.resLoader.getResource("goods");
+				const resGood = vis.getResource("goods");
 				const opGood = new LayoutOperation({
 					translate: pos,
 					dims: new Point(2*radius),
@@ -1243,7 +1221,7 @@ export default class BoardGeneration extends Scene
 					depth: 10000 + 1,
 					pivot: Point.CENTER	
 				})
-				imageToPhaser(resGood, opGood, this);
+				group.add(resGood, opGood);
 
 				const opText = new LayoutOperation({
 					translate: pos.clone().add(new Point(0, 0.33*iconSize)),
@@ -1255,14 +1233,14 @@ export default class BoardGeneration extends Scene
 				})
 
 				const resText = new ResourceText({ text: value.toString(), textConfig: textConfigGoodNumber });
-				textToPhaser(resText, opText, this);
+				group.add(resText, opText);
 			}
 
 			// Airport is indicated by underline (with arrow pattern) to city name!
 			if(c.airport) 
 			{
-				const pos1 = txt.getBottomLeft()
-				const pos2 = txt.getBottomRight()
+				const pos1 = new Point(opTextCity.translate.x - 0.5*textConfig.size, opTextCity.translate.y + 0.5*textConfig.size);
+				const pos2 = new Point(opTextCity.translate.x + 0.5*textConfig.size, opTextCity.translate.y + 0.5*textConfig.size);
 				const thickness = Math.max(radius*0.5, 8)
 				const yOffset = -5;
 
@@ -1280,11 +1258,11 @@ export default class BoardGeneration extends Scene
 				const graphicsAirport = this.add.graphics();
 				graphicsAirport.depth = 10000 + 1;
 				const opRect = new LayoutOperation({ fill: "#FF6666" });
-				rectToPhaser(rect, opRect, graphicsAirport);
+				group.add(new ResourceShape(rect), opRect);
 
 				// this repeats a tiny texture several times (horizontally) to mimic what used to be a Phaser native tileSprite
 				// @TODO: this is probably not centered/positioned correctly anymore
-				const resAirplaneTexture = this.cfg.visualizer.resLoader.getResource("airplane_tile_sprite");
+				const resAirplaneTexture = vis.getResource("airplane_tile_sprite");
 				for(let i = 0; i < numRepeats; i++)
 				{
 					const opAirplaneTexture = new LayoutOperation({
@@ -1293,7 +1271,7 @@ export default class BoardGeneration extends Scene
 						depth: graphicsAirport.depth + 1
 					});
 					posStart.x += sizePerRepeat.x;
-					imageToPhaser(resAirplaneTexture, opAirplaneTexture, this);
+					group.add(resAirplaneTexture, opAirplaneTexture);
 				}
 			}
 
@@ -1313,7 +1291,7 @@ export default class BoardGeneration extends Scene
 						stroke: bonusTxtCfg.stroke,
 						strokeWidth: bonusTxtCfg.strokeThickness
 					})
-					textToPhaser(resText, opText, this);
+					group.add(resText, opText);
 				}
 			}
 		}
@@ -1338,40 +1316,36 @@ export default class BoardGeneration extends Scene
 			depth: 20000
 		});
 		const resText = new ResourceText({ text: jungleNameString, textConfig: textConfigDetails });
-		const txt1 = textToPhaser(resText, opTextDetails, this);
+		group.add(resText, opTextDetails); // txt1
 
 		let playerTextString = this.cfg.numPlayers + ' Player'
 		if(this.cfg.numPlayers > 1) { playerTextString += 's'; }
 
 		opTextDetails.translate.y += fontSize;
 		const resText2 = new ResourceText({ text: playerTextString, textConfig: textConfigDetails });
-		const txt2 = textToPhaser(resText2, opTextDetails, this);
+		group.add(resText2, opTextDetails); // txt2
 
 		opTextDetails.translate.y += fontSize;
 		const diffString = this.cfg.difficulty.toString();
 		const resText3 = new ResourceText({ text: diffString, textConfig: textConfigDetails });
-		const txt3 = textToPhaser(resText3, opTextDetails, this);
+		group.add(resText3, opTextDetails); // txt3
 
 		// a rectangle behind the text, to make it legible (and look a bit like a map legend)
-		// @TODO: this heavily depends on Phaser's text object and functions => rewrite some day to be truly decoupled
-		const maxWidth = Math.max(txt1.getRightCenter().x, txt3.getRightCenter().x) - margin;
-		const maxHeight = txt3.getBottomRight().y - (txt1.getTopLeft().y - 0.5*margin) + 0.5*margin;
+		// @TODO: this used to be exact calculations using Phaser's functions to get text dims; now it's just a rough estimation
+		const maxWidth = 15*textConfigDetails.size;
+		const maxHeight = 10*textConfigDetails.size;
 
-		const rectPos = new Point(txt1.getLeftCenter().x - 0.5*margin, txt1.getTopLeft().y - 0.5*margin);
+		const rectPos = new Point(margin);
 		const rectSize = new Point(maxWidth + margin, maxHeight + margin);
 		const rect = new Rectangle().fromTopLeft(rectPos, rectSize);
 
-		// @ts-ignore
-		const overlayGraphics = this.add.graphics();
-		overlayGraphics.depth = 20000 - 1;
-		overlayGraphics.alpha = 0.75;
-		const op = new LayoutOperation({ fill: "#000000" });
-		rectToPhaser(rect, op, overlayGraphics);
-
+		const op = new LayoutOperation({ fill: "#000000", depth: 20000-1, alpha: 0.75 });
+		group.add(new ResourceShape(rect), op);
+	
 		// display a RULE REMINDER underneath it
 		if(this.cfg.rulesReminder) 
 		{
-			const res = this.cfg.visualizer.resLoader.getResource("rules_overview");
+			const res = vis.getResource("rules_overview");
 			const ratio = 675.0 / 833;
 			const sizeX = maxWidth + margin;
 			const op = new LayoutOperation({
@@ -1379,8 +1353,10 @@ export default class BoardGeneration extends Scene
 				dims: new Point(sizeX, sizeX / ratio),
 				depth: 20000 - 1,
 			});
-			imageToPhaser(res, op, this);
+			group.add(res, op);
 		}
+
+		return [group];
 	}
 
 	getRandomJungleName() 

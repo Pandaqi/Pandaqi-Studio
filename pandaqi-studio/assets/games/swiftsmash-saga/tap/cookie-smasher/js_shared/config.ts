@@ -98,16 +98,25 @@ const CONFIG =
         defaultCardFrequency: 3,
     },
 
+    rulebook:
+    {
+        itemSize: new Point(480, 672)
+    },
+
     // how to draw/layout cards (mostly visually)
     cards:
     {
-        dims: { 
-            small: new Point(4,4),
-            regular: new Point(3,3),
-            huge: new Point(2,2)
+        drawerConfig:
+        {
+            autoStroke: true,
+            dimsElement: new Point(1, 1.4),
+            dims: 
+            { 
+                small: new Point(4,4),
+                regular: new Point(3,3),
+                large: new Point(2,2)
+            }, 
         },
-        dimsElement: new Point(1, 1.4),
-        size: new Point(),
 
         wonkyRect:
         {

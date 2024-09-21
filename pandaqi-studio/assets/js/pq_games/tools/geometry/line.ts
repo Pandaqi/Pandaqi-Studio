@@ -36,6 +36,11 @@ export default class Line extends Shape
         this.end = end ?? new Point();
     }
 
+    createPixiObject(graphicsConstructor)
+    {
+        return new graphicsConstructor({}).moveTo(this.start.x, this.start.y).lineTo(this.end.x, this.end.y);
+    }
+
     toPath() { return [this.start, this.end]; }
     toPath2D() 
     { 

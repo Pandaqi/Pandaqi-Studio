@@ -67,7 +67,7 @@ export default class ProgressBar
 
     gotoNextPhase() 
     { 
-        this.curPhase = Math.min((this.curPhase + 1), this.phases.length);
+        this.curPhase = Math.min((this.curPhase + 1), this.phases.length - 1);
         this.update();
     }
 

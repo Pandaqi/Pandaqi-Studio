@@ -1,4 +1,4 @@
-import OnPageVisualizer from "js/pq_games/website/boardVisualizer"
+import OnPageVisualizer from "js/pq_games/tools/generation/boardVisualizer"
 import ResourceLoader from "js/pq_games/layout/resources/resourceLoader"
 import { PDF_DPI } from "js/pq_games/pdf/main"
 // @ts-ignore

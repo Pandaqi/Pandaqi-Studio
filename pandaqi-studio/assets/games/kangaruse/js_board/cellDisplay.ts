@@ -1,19 +1,19 @@
-import { CELLS, GENERAL, COLOR_GROUPS, CORNER_OFFSETS } from "../js_shared/dictionary"
-import CONFIG from "./config"
-import Point from "js/pq_games/tools/geometry/point";
-import Random from "js/pq_games/tools/random/main";
-import Cell from "./cell"
-import BoardDisplay from "./boardDisplay"
 import Color from "js/pq_games/layout/color/color";
-import imageToPhaser from "js/pq_games/phaser/imageToPhaser";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import Rectangle from "js/pq_games/tools/geometry/rectangle";
-import TextConfig from "js/pq_games/layout/text/textConfig";
+import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
+import ResourceShape from "js/pq_games/layout/resources/resourceShape";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
-import textToPhaser from "js/pq_games/phaser/textToPhaser";
-import { pathToPhaser, rectToPhaser } from "js/pq_games/phaser/shapeToPhaser";
-import roundPath from "js/pq_games/tools/geometry/paths/roundPath";
+import TextConfig from "js/pq_games/layout/text/textConfig";
+import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer";
 import Path from "js/pq_games/tools/geometry/paths/path";
+import roundPath from "js/pq_games/tools/geometry/paths/roundPath";
+import Point from "js/pq_games/tools/geometry/point";
+import Rectangle from "js/pq_games/tools/geometry/rectangle";
+import Random from "js/pq_games/tools/random/main";
+import { CELLS, COLOR_GROUPS, CORNER_OFFSETS, GENERAL } from "../js_shared/dictionary";
+import BoardDisplay from "./boardDisplay";
+import Cell from "./cell";
+import CONFIG from "./config";
 
 export default class CellDisplay
 {
@@ -36,7 +36,7 @@ export default class CellDisplay
         return this.boardDisplay.convertToRealUnits(pos);
     }
 
-    createNumText(corner: string)
+    createNumText(vis: BoardVisualizer, group:ResourceGroup, corner: string)
     {
         if(!this.showNum()) { return null; }
 
@@ -62,12 +62,12 @@ export default class CellDisplay
         });
 
         const resText = new ResourceText({ text: str, textConfig: textConfig });
-        return textToPhaser(resText, opText, this.boardDisplay.game);
+        group.add(resText, opText);
     }
 
-    createWritingSpace(dims:Point, corner:string)
+    createWritingSpace(vis: BoardVisualizer, group:ResourceGroup, dims:Point, corner:string)
     {
-        const res = CONFIG.visualizer.resLoader.getResource("general_spritesheet");
+        const res = vis.getResource("general_spritesheet");
         const alpha = this.showWritingSpace() ? 1.0 : 0.0;
         const pos = this.placeAtCorner(dims, corner);
         const op = new LayoutOperation({
@@ -77,15 +77,15 @@ export default class CellDisplay
             frame: GENERAL.writingSpace.frame,
             alpha: alpha
         });
-        return imageToPhaser(res, op, this.boardDisplay.game);
+        group.add(res, op);
     }
 
-    createTypeIcon(dims:Point, corner:string)
+    createTypeIcon(vis: BoardVisualizer, group:ResourceGroup, dims:Point, corner:string)
     {
         if(!this.showType()) { return null; }
 
         const frame = CELLS[this.cell.type].frame;
-        const res = CONFIG.visualizer.resLoader.getResource(CONFIG.cellTexture);
+        const res = vis.getResource(CONFIG.cellTexture);
         const pos = this.placeAtCorner(dims, corner);
         const op = new LayoutOperation({
             translate: pos,
@@ -94,8 +94,8 @@ export default class CellDisplay
             flipX: (Math.random() <= 0.5),
             frame: frame
         });
-
-        return imageToPhaser(res, op, this.boardDisplay.game);
+        group.add(res, op);
+        return true;
     }
 
     placeAtCorner(dims:Point, corner:string) : Point
@@ -126,15 +126,15 @@ export default class CellDisplay
         return new Color( COLOR_GROUPS[this.getColorGroup()] );
     }
 
-    draw(boardDisplay:BoardDisplay)
+    draw(vis: BoardVisualizer, group:ResourceGroup, boardDisplay:BoardDisplay)
     {
         this.boardDisplay = boardDisplay;
 
-        this.drawSquare();
-        this.drawInnerConfiguration();
+        this.drawSquare(vis, group);
+        this.drawInnerConfiguration(vis, group);
     }
 
-    drawSquare()
+    drawSquare(vis: BoardVisualizer, group:ResourceGroup)
     {
         const size = this.boardDisplay.cellSize
         const rect = new Rectangle({ center: this.getRealPosition(), extents: size });
@@ -164,7 +164,7 @@ export default class CellDisplay
             const op = new LayoutOperation({ fill: finalColor });
             const rectPath = new Rectangle().fromTopLeft(pos, sizeScaled).toPath();
             const pathRounded = new Path( roundPath(rectPath, borderRadius) );
-            pathToPhaser(pathRounded, op, this.boardDisplay.graphics);
+            group.add(new ResourceShape(pathRounded), op);
         }
 
         if(this.showBorder())
@@ -176,11 +176,11 @@ export default class CellDisplay
                 stroke: col,
                 strokeWidth: lineWidth
             })
-            rectToPhaser(rect, op, this.boardDisplay.graphics);
+            group.add(new ResourceShape(rect), op);
         }
     }
 
-    drawInnerConfiguration()
+    drawInnerConfiguration(vis: BoardVisualizer, group:ResourceGroup)
     {
         const data = CONFIG.board.cellDisplay;
         const csu = this.boardDisplay.cellSizeUnit;
@@ -188,7 +188,7 @@ export default class CellDisplay
 
         // place icon that reveals cell type
         const iconSize = new Point(data.icon.scale * csu);
-        const icon = this.createTypeIcon(iconSize, data.icon.corner);
+        const icon = this.createTypeIcon(vis, group, iconSize, data.icon.corner);
         if(icon) { multiPosition = CELLS[this.cell.getType()].multiPosition; }
 
         // place the space for writing your symbol/marking where you've been
@@ -206,11 +206,11 @@ export default class CellDisplay
             for(const corner of corners)
             {
                 const dims = new Point(data.space.scale * csu);
-                this.createWritingSpace(dims, corner);
+                this.createWritingSpace(vis, group, dims, corner);
             }
         }
 
         // add a number on top (only used by score at the moment)
-        this.createNumText(data.text.corner);
+        this.createNumText(vis, group, data.text.corner);
     }
 }

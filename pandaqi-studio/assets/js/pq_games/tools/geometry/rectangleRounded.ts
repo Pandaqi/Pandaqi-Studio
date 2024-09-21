@@ -30,6 +30,13 @@ export default class RectangleRounded extends Rectangle
         return new RectangleRounded({ center: c, extents: e, radius: this.radius });
     }
 
+    createPixiObject(graphicsConstructor)
+    {
+        const tl = this.getTopLeft();
+        const size = this.getSize();
+        return new graphicsConstructor({}).roundRect(tl.x, tl.y, size.x, size.y, this.radius);
+    }
+
     toPath()
     {
         return roundPath(super.toPath(), this.radius, true); // @NOTE: third parameter is for CLOSING the path

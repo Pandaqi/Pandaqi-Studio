@@ -78,13 +78,12 @@ Three steps:
 
 {{% /section-centered %}}
 
-{{% boardgame-settings-container type="material" remarks="**Secret board?** The _Expeditions_ expansion adds nodes that trigger whenever their piece of paper comes loose. If you are _able to print double-sided_, these nodes will be placed on the _backside_ of the paper. This means the paper actually has secrets that will be revealed during the game! (Do a test print, though.)||**Tip for Cleanup?** When done, you should have a bunch of puzzle pieces ( = all pieces of paper you cut off). Here's the challenge: try to fit them back together to recreate the original paper! Sounds easier than it is :)" %}}
+{{% boardgame-settings-container type="material" remarks="**Tip for Cleanup?** When done, you should have a bunch of puzzle pieces ( = all pieces of paper you cut off). Here's the challenge: try to fit them back together to recreate the original paper! Sounds easier than it is :)" %}}
   
 {{< boardgame-settings type="board" game_title="Unstable Universe" local_storage="unstableUniverseConfig" defaults="true" >}}
   {{< setting-seed >}}
   {{< setting-playercount min="2" max="9" def="4" >}}
   {{< setting-checkbox id="setting-firstGame" text="First game(s)?" remark="Everyone gets the same Mission, to simplify learning and teaching the game." checked="checked" >}}
-  {{< setting-checkbox id="setting-secretBoard" text="Secret Board?" >}}
   {{< boardgame-settings-section heading="Expansions" >}}
     {{< setting-checkbox id="setting-expansions-nastyNodes" text="Nasty Nodes?" >}}
     {{< setting-checkbox id="setting-expansions-nodesOfKnowledge" text="Nodes of Knowledge?" >}}

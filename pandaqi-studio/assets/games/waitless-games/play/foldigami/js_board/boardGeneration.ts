@@ -1,43 +1,30 @@
-// @ts-ignore
-import { Scene } from "js/pq_games/phaser/phaser.esm"
-import resourceLoaderToPhaser from "js/pq_games/phaser/resourceLoaderToPhaser"
-import setDefaultPhaserSettings from "js/pq_games/phaser/setDefaultPhaserSettings"
+import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer"
 import Board from "./board"
 import CONFIG from "./config"
 import Evaluator from "./evaluator"
 import Types from "./types"
+import ResourceGroup from "js/pq_games/layout/resources/resourceGroup"
 
-export default class BoardGeneration extends Scene
+export default class BoardGeneration
 {
     board: Board
     evaluator: Evaluator
     canvas: HTMLCanvasElement
     types:Types
 
-	constructor()
-	{
-		super({ key: "boardGeneration" });
-	}
-
-    preload() 
+    async draw(vis:BoardVisualizer) 
     {
-        setDefaultPhaserSettings(this); 
-    }
-
-    async create(userConfig:Record<string,any>) 
-    {
-        await resourceLoaderToPhaser(userConfig.visualizer.resLoader, this);
-
-        this.setup(userConfig)
+        Object.assign(CONFIG, vis.config);
+        this.setup();
         await this.generate();
-        this.draw();
-        userConfig.visualizer.convertCanvasToImage(this);
+        const group = new ResourceGroup();
+        this.board.draw(vis, group);
+        this.evaluator.draw(vis, group, this.board);
+        return [group];
     }
 
-    setup(userConfig:Record<string,any>)
+    setup()
     {
-        Object.assign(CONFIG, userConfig);
-
         this.types = new Types(this);
         this.board = new Board(this);
         this.evaluator = new Evaluator(this);
@@ -50,11 +37,5 @@ export default class BoardGeneration extends Scene
             this.board.generate();
             validBoard = this.evaluator.evaluate(this.board);
         } while(!validBoard);
-    }
-
-    draw()
-    {
-        this.board.draw();
-        this.evaluator.draw(this.board);
-    }    
+    } 
 }

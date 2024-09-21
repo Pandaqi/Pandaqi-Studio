@@ -46,4 +46,13 @@ export default class MaskEffect extends LayoutEffect
     {
         div.style.maskImage = this.resource.getCSSUrl();
     }
+
+    // @TODO: fix this shit in a clean way; maybe have effects handled by REnderer individually too? Or is that overkill?
+    applyToPixi(filtersConstructor, effOp = new EffectsOperation(), obj)
+    {
+        const maskSprite = this.resource.getPixiObject();
+        this.operation.resource = this.resource;
+        this.operation.renderer.applyToPixiObjectProperties(maskSprite);
+        obj.mask = maskSprite;
+    }
 }

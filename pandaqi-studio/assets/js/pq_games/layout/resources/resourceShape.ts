@@ -12,6 +12,7 @@ interface ResourceShapeParams
 export default class ResourceShape extends Resource
 {
     shape: Shape
+    pixiObject: any
 
     constructor(params:ResourceShapeParams|Shape = {})
     {
@@ -54,5 +55,17 @@ export default class ResourceShape extends Resource
     async toSVG(op = new LayoutOperation())
     {
         return await op.applyToSVG(this.shape.toSVG());
+    }
+
+    async toPixi(app, parent, op = new LayoutOperation())
+    {
+        op.resource = this;
+        return op.applyToPixi(app, parent);
+    }
+
+    getPixiObject(graphicsConstructor) 
+    { 
+        if(!this.pixiObject) { this.pixiObject = this.shape.createPixiObject(graphicsConstructor); }
+        return this.pixiObject;
     }
 }

@@ -45,3 +45,4 @@ generator.setupFunction = (config) =>
     config.inSimpleMode = setsIncluded.length <= 1 && setsIncluded.includes("base");
     console.log(allPowers);
 }
+generator.start();

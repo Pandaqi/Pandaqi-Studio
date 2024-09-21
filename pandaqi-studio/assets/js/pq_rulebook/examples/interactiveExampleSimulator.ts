@@ -1,7 +1,7 @@
 import ResourceLoader from "js/pq_games/layout/resources/resourceLoader"
 import OutputBuilder from "./outputBuilder"
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer"
-
+import RulesSettings from "./rulesSettings"
 
 interface InteractiveExampleSimulatorParams
 {
@@ -30,6 +30,7 @@ export default class InteractiveExampleSimulator
     visualizer: MaterialVisualizer;
     showFullGame: boolean;
     runParallel: boolean;
+    settings: RulesSettings;
     custom: any; // for any custom functions or variables we want to tack onto this
 
     constructor(params:InteractiveExampleSimulatorParams = {})

@@ -1,7 +1,10 @@
-import ResourceLoader from "js/pq_games/layout/resources/resourceLoader";
-import Configurator from "./configurator";
-import Point from "../geometry/point";
 import GrayScaleEffect from "js/pq_games/layout/effects/grayScaleEffect";
+import Renderer from "js/pq_games/layout/renderers/renderer";
+import RendererPandaqi from "js/pq_games/layout/renderers/rendererPandaqi";
+import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
+import ResourceLoader from "js/pq_games/layout/resources/resourceLoader";
+import Point from "../geometry/point";
+import Configurator from "./configurator";
 
 export default class MaterialVisualizer
 {
@@ -14,12 +17,18 @@ export default class MaterialVisualizer
     custom: any;
     inkFriendlyEffect: GrayScaleEffect[]
 
+    renderer: Renderer;
+    rendererInstance:any;
+    groupFinal: ResourceGroup
+
     constructor(config)
     {
+        this.renderer = config.renderer ?? new RendererPandaqi();
+
         this.resLoader = config.resLoader;
         if(!this.resLoader)
         {
-            this.resLoader = new ResourceLoader({ base: config.assetsBase });
+            this.resLoader = new ResourceLoader({ base: config.assetsBase, renderer: this.renderer });
             this.resLoader.planLoadMultiple(config.assets ?? {});
         }
 
@@ -56,5 +65,15 @@ export default class MaterialVisualizer
     getResource(s:string)
     {
         return this.resLoader.getResource(s);
+    }
+
+    prepareDraw() : ResourceGroup
+    {
+        return new ResourceGroup();
+    }
+
+    async finishDraw(group:ResourceGroup) : Promise<HTMLCanvasElement>
+    {
+        return this.renderer.finishDraw({ size: this.size, group: group });
     }
 }

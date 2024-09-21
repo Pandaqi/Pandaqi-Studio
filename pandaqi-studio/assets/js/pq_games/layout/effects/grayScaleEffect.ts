@@ -27,6 +27,11 @@ export default class GrayScaleEffect extends LayoutEffect
         effOp.addFilter(this.createFilterString());
     }
 
+    applyToPixi(filtersConstructor, effOp = new EffectsOperation(), obj)
+    {
+        effOp.addFilterPixi(new filtersConstructor.GrayscaleFilter());
+    }
+
     createFilterString()
     {
         return "grayscale(" + this.intensity + ")";

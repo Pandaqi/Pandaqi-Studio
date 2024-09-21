@@ -11,12 +11,6 @@ import Player from "./player";
 import { BID_CARDS, CardType } from "../js_shared/dict";
 import BidChecker from "./bidChecker";
 
-enum ChallengeType
-{
-    SIMUL = "together",
-    TURN = "turn-based"
-}
-
 const callbackInitStats = () =>
 {
     return {

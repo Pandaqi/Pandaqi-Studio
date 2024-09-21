@@ -1,25 +1,20 @@
 import Cell from "./cell"
-import Edge from "./edge"
-import { KEEBBLE_TYPES } from "./dict"
 import CONFIG from "./config"
-// @ts-ignore
-import { Scene } from "js/pq_games/phaser/phaser.esm"
-import Point from "js/pq_games/tools/geometry/point"
+import { KEEBBLE_TYPES } from "./dict"
+import Edge from "./edge"
 import Color from "js/pq_games/layout/color/color"
-import setDefaultPhaserSettings from "js/pq_games/phaser/setDefaultPhaserSettings"
-import ResourceLoader from "js/pq_games/layout/resources/resourceLoader"
-import resourceLoaderToPhaser from "js/pq_games/phaser/resourceLoaderToPhaser"
-import Rectangle from "js/pq_games/tools/geometry/rectangle"
-import LayoutOperation from "js/pq_games/layout/layoutOperation"
-import { lineToPhaser, rectToPhaser } from "js/pq_games/phaser/shapeToPhaser"
-import Line from "js/pq_games/tools/geometry/line"
-import imageToPhaser from "js/pq_games/phaser/imageToPhaser"
-import shuffle from "js/pq_games/tools/random/shuffle"
-import getWeighted from "js/pq_games/tools/random/getWeighted"
-import TextConfig from "js/pq_games/layout/text/textConfig"
-import textToPhaser from "js/pq_games/phaser/textToPhaser"
-import ResourceText from "js/pq_games/layout/resources/resourceText"
 import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect"
+import LayoutOperation from "js/pq_games/layout/layoutOperation"
+import ResourceGroup from "js/pq_games/layout/resources/resourceGroup"
+import ResourceShape from "js/pq_games/layout/resources/resourceShape"
+import ResourceText from "js/pq_games/layout/resources/resourceText"
+import TextConfig from "js/pq_games/layout/text/textConfig"
+import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer"
+import Line from "js/pq_games/tools/geometry/line"
+import Point from "js/pq_games/tools/geometry/point"
+import Rectangle from "js/pq_games/tools/geometry/rectangle"
+import getWeighted from "js/pq_games/tools/random/getWeighted"
+import shuffle from "js/pq_games/tools/random/shuffle"
 
 interface GenerationData
 {
@@ -28,38 +23,23 @@ interface GenerationData
 	cells?: Cell[][]
 }
 
-export { BoardGeneration, sceneKey }
-export default class BoardGeneration extends Scene
+export default class BoardGeneration
 {
-	canvas: HTMLCanvasElement
 	cfg: Record<string,any>
 	gen: GenerationData
-	graphics: any
 	playerColors: Color[]
 	baseCellBackgroundHue: number
 
-	constructor()
+	async draw(vis:BoardVisualizer) : Promise<ResourceGroup[]>
 	{
-		super({ key: "boardGeneration" });
-	}
-
-	preload() 
-	{
-		setDefaultPhaserSettings(this); 
-	}
-
-	async create(userConfig:Record<string,any>) 
-	{
-        await resourceLoaderToPhaser(userConfig.visualizer.resLoader, this);
-
-		this.setup(userConfig)
+		this.setup(vis)
 		this.generate()
-		this.visualize();
-		userConfig.visualizer.convertCanvasToImage(this);
+		return this.visualize(vis);
 	}
 
-	setup(userConfig:Record<string,any>)
+	setup(vis:BoardVisualizer)
 	{
+		const userConfig = vis.config;
 		userConfig.numPlayers = parseInt(userConfig.playerCount);
 		Object.assign(CONFIG, userConfig);
 
@@ -94,8 +74,8 @@ export default class BoardGeneration extends Scene
 
 		cfg.totalNumCells = cfg.numCellsX * cfg.numCellsY;
 
-		cfg.cellSizeX = this.canvas.width / cfg.numCellsX;
-		cfg.cellSizeY = this.canvas.height / cfg.numCellsY;
+		cfg.cellSizeX = vis.size.x / cfg.numCellsX;
+		cfg.cellSizeY = vis.size.y / cfg.numCellsY;
 		cfg.cellSize = new Point(cfg.cellSizeX, cfg.cellSizeY);
 		cfg.cellSizeUnit = Math.min(cfg.cellSizeX, cfg.cellSizeY);
 
@@ -419,16 +399,17 @@ export default class BoardGeneration extends Scene
 		}
 	}
 
-	visualize()
+	visualize(vis:BoardVisualizer)
 	{
-		// @ts-ignore
-		this.graphics = this.add.graphics();
+		const group = new ResourceGroup();
+
 		this.baseCellBackgroundHue = Math.random() * 360;
 
-		this.visualizeBackground();
-		this.visualizeGrid();
-		this.visualizeCells();
-		this.visualizeWalls();
+		this.visualizeBackground(vis, group);
+		this.visualizeGrid(vis, group);
+		this.visualizeCells(vis, group);
+		this.visualizeWalls(vis, group);
+		return [group];
 	}
 
 	cellToRect(c:Cell, randomness = 0) : Rectangle
@@ -461,7 +442,7 @@ export default class BoardGeneration extends Scene
 		return new Color(hue, 30, 80);
 	}
 
-	visualizeBackground()
+	visualizeBackground(vis:BoardVisualizer, group:ResourceGroup)
 	{
 		if(CONFIG.inkFriendly) { return; }
 
@@ -469,11 +450,11 @@ export default class BoardGeneration extends Scene
 		shuffle(cells);
 		const rand = CONFIG.baseCellBackgroundRandomness * CONFIG.cellSizeUnit;
 
-		const bgRect = new Rectangle().fromTopLeft(new Point(), new Point(this.canvas.width, this.canvas.height));
+		const bgRect = new Rectangle().fromTopLeft(new Point(), vis.size);
 		const op = new LayoutOperation({
 			fill: this.getCellBackgroundColor()
 		});
-		rectToPhaser(bgRect, op, this.graphics);
+		group.add(new ResourceShape(bgRect), op);
 		
 		for(const cell of cells)
 		{
@@ -482,11 +463,11 @@ export default class BoardGeneration extends Scene
 			const op = new LayoutOperation({
 				fill: col
 			})
-			rectToPhaser(rect, op, this.graphics);
+			group.add(new ResourceShape(rect), op);
 		}
 	}
 
-	visualizeGrid()
+	visualizeGrid(vis:BoardVisualizer, group:ResourceGroup)
 	{
 		// vertical lines
 		const lw = CONFIG.lineWidth;
@@ -501,16 +482,16 @@ export default class BoardGeneration extends Scene
 		for(let x = 1; x < CONFIG.numCellsX; x++)
 		{
 			const xPixels = x * CONFIG.cellSizeX;
-			const line = new Line(new Point(xPixels, 0), new Point(xPixels, this.canvas.height));
-			lineToPhaser(line, op, this.graphics);
+			const line = new Line(new Point(xPixels, 0), new Point(xPixels, vis.size.y));
+			group.add(new ResourceShape(line), op);
 		}
 
 		// horizontal lines
 		for(let y = 1; y < CONFIG.numCellsY; y++)
 		{
 			const yPixels = y * CONFIG.cellSizeY;
-			const line = new Line(new Point(0, yPixels), new Point(this.canvas.width, yPixels));
-			lineToPhaser(line, op, this.graphics);
+			const line = new Line(new Point(0, yPixels), new Point(vis.size.x, yPixels));
+			group.add(new ResourceShape(line), op);
 		}
 	}
 
@@ -532,7 +513,7 @@ export default class BoardGeneration extends Scene
 		);
 	}
 
-	visualizeCells()
+	visualizeCells(vis:BoardVisualizer, group:ResourceGroup)
 	{
 		const cells = this.gen.cellsFlat.slice();
 
@@ -540,9 +521,9 @@ export default class BoardGeneration extends Scene
 		{
 			const c = cells.pop();
 
-			this.visualizeLetter(c);
-			this.visualizeHand(c);
-			this.visualizeType(c);
+			this.visualizeLetter(vis, group, c);
+			this.visualizeHand(vis, group, c);
+			this.visualizeType(vis, group, c);
 		}
 	}
 
@@ -562,7 +543,7 @@ export default class BoardGeneration extends Scene
 		);
 	}
 
-	visualizeLetter(c:Cell)
+	visualizeLetter(vis:BoardVisualizer, group:ResourceGroup, c:Cell)
 	{
 		if(!c.getLetter()) { return; }
 		const pixelPos = this.toCenteredPixelPos(c.getPos());
@@ -580,8 +561,7 @@ export default class BoardGeneration extends Scene
 			strokeWidth: 24, // trying to match the thickness of the sprite strokes
 			effects: [new DropShadowEffect({ offset: randOffset, color: "#00000099", blurRadius: 5 })]
 		})
-		textToPhaser(resText, op, this);
-
+		group.add(resText, op);
 
 		if(CONFIG.showLetterValues)
 		{
@@ -593,11 +573,11 @@ export default class BoardGeneration extends Scene
 				fill: "#000000",
 				pivot: Point.CENTER
 			})
-			textToPhaser(resText, op, this);
+			group.add(resText, op);
 		}
 	}
 
-	visualizeHand(c:Cell)
+	visualizeHand(vis:BoardVisualizer, group:ResourceGroup, c:Cell)
 	{
 		if(!c.hasHand()) { return; }
 
@@ -627,7 +607,7 @@ export default class BoardGeneration extends Scene
 			{
 				const pixelX = startPos.x + cellX * x;
 				const line = new Line(new Point(pixelX, startPos.y), new Point(pixelX, startPos.y + CONFIG.cellSize.y));
-				lineToPhaser(line, op, this.graphics);
+				group.add(new ResourceShape(line), op);
 			}
 
 			// horizontal lines
@@ -635,7 +615,7 @@ export default class BoardGeneration extends Scene
 			{
 				const pixelY = startPos.y + cellY * y;
 				const line = new Line(new Point(startPos.x, pixelY), new Point(startPos.x + CONFIG.cellSizeX, pixelY));
-				lineToPhaser(line, op, this.graphics);
+				group.add(new ResourceShape(line), op);
 			}
 		}
 
@@ -659,7 +639,7 @@ export default class BoardGeneration extends Scene
 					pivot: Point.CENTER,
 					fill: "#000000"
 				})
-				textToPhaser(resText, op, this);
+				group.add(resText, op);
 			}
 
 			return;
@@ -675,15 +655,15 @@ export default class BoardGeneration extends Scene
 			pivot: Point.CENTER,
 			fill: "#000000"
 		});
-		textToPhaser(resText, op, this);
+		group.add(resText, op);
 	}
 
-	visualizeType(c:Cell)
+	visualizeType(vis:BoardVisualizer, group:ResourceGroup, c:Cell)
 	{
 		if(!c.getType()) { return; }
 		
 		const pixelPos = this.toCenteredPixelPos(c.getPos());
-		const resSpecial = CONFIG.visualizer.resLoader.getResource("special_cells");
+		const resSpecial = vis.getResource("special_cells");
 		const op = new LayoutOperation({
 			translate: pixelPos,
 			dims: new Point(CONFIG.spriteSize),
@@ -691,13 +671,12 @@ export default class BoardGeneration extends Scene
 			alpha: CONFIG.spriteAlpha,
 			frame: this.getFrameForType(c.getType())
 		});
-
-		imageToPhaser(resSpecial, op, this);
+		group.add(resSpecial, op);
 	}
 
-	visualizeWalls()
+	visualizeWalls(vis:BoardVisualizer, group:ResourceGroup)
 	{
-		const resSpecial = CONFIG.visualizer.resLoader.getResource("special_cells");
+		const resSpecial = vis.getResource("special_cells");
 
 		for(const wall of this.gen.walls)
 		{
@@ -709,7 +688,7 @@ export default class BoardGeneration extends Scene
 				frame: KEEBBLE_TYPES.wall.frame,
 				pivot: Point.CENTER
 			});
-			imageToPhaser(resSpecial, op, this);
+			group.add(resSpecial, op);
 		}
 	}
 }

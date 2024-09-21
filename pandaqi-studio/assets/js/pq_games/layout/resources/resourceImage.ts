@@ -1,16 +1,17 @@
-import LayoutOperation from "js/pq_games/layout/layoutOperation"
-import Resource from "./resource"
-import Point from "js/pq_games/tools/geometry/point"
-import ResourceGradient from "./resourceGradient"
-import ResourcePattern from "./resourcePattern"
 import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage"
 import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple"
+import LayoutOperation from "js/pq_games/layout/layoutOperation"
+import Point from "js/pq_games/tools/geometry/point"
+import Resource from "./resource"
+//import ResourceGradient from "./resourceGradient"
+//import ResourcePattern from "./resourcePattern"
 
+import getPixiAtlasData from "js/pq_games/pixi/getPixiAtlasData"
+import createContext from "../canvas/createContext"
 import ResourceLoader from "./resourceLoader"
 import ResourceText from "./resourceText"
-import createContext from "../canvas/createContext"
 
-type ImageLike = HTMLImageElement|ResourceImage|ResourceGradient|ResourcePattern
+type ImageLike = HTMLImageElement|ResourceImage//|ResourceGradient|ResourcePattern
 type CanvasLike = HTMLCanvasElement|CanvasRenderingContext2D
 type DrawableData = HTMLImageElement|HTMLCanvasElement;
 type FrameSet = HTMLImageElement[];
@@ -31,7 +32,7 @@ interface ResourceImageParams
     uniqueKey?: string,
 }
 
-export { ResourceImage, ImageLike, CanvasLike }
+export { CanvasLike, ImageLike, ResourceImage }
 export default class ResourceImage extends Resource
 {
     img : HTMLImageElement;
@@ -45,6 +46,7 @@ export default class ResourceImage extends Resource
     thumbnails: FrameSet[];
     numThumbnails : number; // how many smaller thumbnails we should cache for each frame (e.g. a 1024x1024 also saves a 512x512 if set to 1)
     uniqueKey:string
+    pixiObject:any;
 
     constructor(imageData : DrawableData = null, params:ResourceImageParams = {})
     {
@@ -73,7 +75,7 @@ export default class ResourceImage extends Resource
     /* The `to` functions */
     toCanvas(canv:CanvasLike = null, op:LayoutOperation = new LayoutOperation())
     {
-        if(op.dims.isZero()) { op.dims = this.size.clone(); }
+        if(op.dims.isZero()) { op.dims = this.getSize(); }
         op.resource = this;
         op.frame = op.frame ?? this.frame;
         return op.applyToCanvas(canv);
@@ -100,6 +102,41 @@ export default class ResourceImage extends Resource
         const elem = document.createElementNS(null, "image");
         elem.setAttribute("href", this.getSRCString());
         return await op.applyToSVG(elem);
+    }
+
+    async toPixi(app, parent, op:LayoutOperation = new LayoutOperation())
+    {
+        if(op.dims.isZero()) { op.dims = this.getSize(); }
+        op.resource = this;
+        op.frame = op.frame ?? this.frame;
+        return await op.applyToPixi(app, parent);
+    }
+
+    getPixiObject(frame:number, spriteConstructor = null) 
+    { 
+        if(this.isSingleFrame()) { return this.pixiObject; }
+        return this.getImageFrameAsPixiObject(frame, spriteConstructor); 
+    }
+
+    async createPixiObject(helpers:Record<string,any> = {})
+    {
+        const filePath = this.getSRCString();
+        const tex = await helpers.assets.load(filePath);
+        if(this.isSingleFrame())
+        {
+            this.pixiObject = helpers.sprite.from(tex);
+            return;
+        }
+
+        const atlasData = getPixiAtlasData(this);
+        const spritesheet = new helpers.spritesheet(tex, atlasData);
+        await spritesheet.parse();
+        this.pixiObject = spritesheet;
+    }
+
+    getImageFrameAsPixiObject(frame:number, spriteConstructor)
+    {   
+        return spriteConstructor.from(this.pixiObject.textures["frame_" + frame]);
     }
 
     // for getting a new ResourceImage with result after operation applied
@@ -141,19 +178,6 @@ export default class ResourceImage extends Resource
         this.refreshSize();
     }
 
-
-    // @TODO
-    async fromPattern(p:ResourcePattern)
-    {
-        return new ResourceImage();
-    }
-
-    // @TODO
-    async fromGradient(g:ResourceGradient)
-    {
-        return new ResourceImage();
-    }
-
     async fromSVG(elem:SVGImageElement)
     {
         const resLoader = new ResourceLoader();
@@ -169,6 +193,14 @@ export default class ResourceImage extends Resource
         this.img = await convertCanvasToImage(canv);
         this.refreshSize();
         await this.cacheFrames();
+        return this;
+    }
+
+    fromPath(path:string, params:ResourceImageParams = {})
+    {
+        const img = document.createElement("img");
+        img.src = path;
+        this.fromRawDrawable(img, params);
         return this;
     }
 
@@ -262,6 +294,7 @@ export default class ResourceImage extends Resource
         this.frames = [];
     }
 
+
     getFrameData(frm:number = 0) : FrameData
     {
         const frameVec = new Point().setXY(
@@ -306,6 +339,7 @@ export default class ResourceImage extends Resource
 
     getSize() : Point
     {
+        if(!(this.size instanceof Point)) { this.refreshSize(); }
         return this.size.clone();
     }
 

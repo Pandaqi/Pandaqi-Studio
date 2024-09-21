@@ -1,4 +1,4 @@
-import BoardVisualizer from "js/pq_games/website/boardVisualizer"
+import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer"
 import Point from "../tools/geometry/point"
 import { PageFormat, PageOrientation } from "../pdf/pdfEnums"
 

@@ -34,6 +34,11 @@ export default class Path extends Shape
         if(this.close) { points.push(points[0]); }
         return points;
     }
+    
+    createPixiObject(graphicsConstructor)
+    {
+        return new graphicsConstructor({}).poly(this.points, this.close);
+    }
 
     toPath2D() : Path2D
     {

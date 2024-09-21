@@ -27,6 +27,13 @@ export default class BlurEffect extends LayoutEffect
         effOp.addFilter(this.createFilterString());
     }
 
+    applyToPixi(filtersConstructor, effOp = new EffectsOperation(), obj)
+    {
+        effOp.addFilterPixi(new filtersConstructor.KawaseBlurFilter({
+            strength: this.blur
+        }));
+    }
+
     createFilterString()
     {
         return "blur(" + this.blur + "px)";

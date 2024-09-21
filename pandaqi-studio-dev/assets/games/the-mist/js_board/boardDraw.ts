@@ -17,7 +17,7 @@ import Rectangle from "js/pq_games/tools/geometry/rectangle";
 import RectangleRounded from "js/pq_games/tools/geometry/rectangleRounded";
 import fromArray from "js/pq_games/tools/random/fromArray";
 import rangeInteger from "js/pq_games/tools/random/rangeInteger";
-import BoardVisualizer from "js/pq_games/website/boardVisualizer";
+import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer";
 import CONFIG from "../js_shared/config";
 import { COLORS, MISC } from "../js_shared/dict";
 import BoardState from "./boardState";
@@ -46,16 +46,16 @@ export default class BoardDraw
 
     async draw(vis:BoardVisualizer, bs:BoardState)
     {
-        const drawGroup = this.prepare(vis, bs);
-        this.drawBackground(drawGroup);
-        this.drawBoard(drawGroup, bs);
-        this.drawSidebar(drawGroup, bs);
-        return drawGroup;
+        const group = this.prepare(vis, bs);
+        this.drawBackground(vis, group);
+        this.drawBoard(vis, group, bs);
+        this.drawSidebar(vis, group, bs);
+        return [group];
     }
 
     prepare(vis:BoardVisualizer, bs:BoardState)
     {
-        const fullSize = vis.getSize();
+        const fullSize = vis.size;
         const fullSizeUnit = Math.min(fullSize.x, fullSize.y);
         const edgeMargin = CONFIG.draw.edgeMargin.clone().scale(fullSizeUnit);
 
@@ -96,14 +96,14 @@ export default class BoardDraw
         return drawGroup
     }
 
-    async drawBackground(group:ResourceGroup)
+    async drawBackground(vis:BoardVisualizer, group:ResourceGroup)
     {
         const bgColor = CONFIG.inkFriendly ? "#FFFFFF" : CONFIG.draw.bgColor;
         fillResourceGroup(this.fullSize, group, bgColor);
 
         if(!CONFIG.inkFriendly)
         {
-            const resBG = CONFIG.resLoader.getResource("bg_map");
+            const resBG = vis.getResource("bg_map");
             const opBG = new LayoutOperation({
                 translate: this.fullSize.clone().scale(0.5),
                 dims: this.fullSize.clone().scale(CONFIG.draw.bg.mapScale),
@@ -120,7 +120,7 @@ export default class BoardDraw
         return this.originBoard.clone().add( pos.clone().scale(this.cellSize) );
     }
 
-    async drawBoard(group:ResourceGroup, bs:BoardState)
+    async drawBoard(vis:BoardVisualizer, group:ResourceGroup, bs:BoardState)
     {
         const bgColorLightness = CONFIG.draw.cells.bgColorLightness;
         const bgColorDarken = CONFIG.draw.cells.bgColorDarken;
@@ -191,7 +191,7 @@ export default class BoardDraw
                 const path = new Path({points:triangle});
                 group.add(new ResourceShape(path), triangleOp);
 
-                const icon = CONFIG.resLoader.getResource(iconData.textureKey);
+                const icon = vis.getResource(iconData.textureKey);
                 const rotation = counter * 0.5 * Math.PI;
                 const pos = posCenter.clone().move(positions[counter]);
                 iconOp.frame = iconData.frame;
@@ -228,7 +228,7 @@ export default class BoardDraw
             strokeWidth: strokeMult * cellStrokeWidth,
         }) 
 
-        const resMisc = CONFIG.resLoader.getResource("misc");
+        const resMisc = vis.getResource("misc");
         for(const cell of bs.startingPositions)
         {
             const pos = this.convertGridPosToRealPos(cell.pos);
@@ -273,12 +273,12 @@ export default class BoardDraw
         return fromArray(possibleSides);
     }
 
-    async drawSidebar(group:ResourceGroup, bs:BoardState)
+    async drawSidebar(vis:BoardVisualizer, group:ResourceGroup, bs:BoardState)
     {
         if(!CONFIG.includeRules) { return; }
 
         // tutorial image at the top
-        const tut = CONFIG.resLoader.getResource("sidebar");
+        const tut = vis.getResource("sidebar");
         const tutWidth = this.sidebarSize.x;
         const tutDims = new Point(tutWidth, CONFIG.draw.sidebar.tutImageRatio * tutWidth);
         const frame = CONFIG.inSimpleMode ? 0 : 1;
@@ -292,7 +292,7 @@ export default class BoardDraw
         group.add(tut, tutOp);
 
         // specific types explained below that
-        const resMisc = CONFIG.resLoader.getResource("misc");
+        const resMisc = vis.getResource("misc");
         const uniqueTypes = bs.uniqueTypes;
         const ySpaceLeft = this.sidebarSize.y - tutDims.y;
         const maxYSpacePerItem = ySpaceLeft / uniqueTypes.length;
@@ -313,7 +313,7 @@ export default class BoardDraw
             lineHeight: CONFIG.draw.sidebar.lineHeight,
             alignHorizontal: TextAlign.START,
             alignVertical: TextAlign.MIDDLE ,
-            resLoader: CONFIG.resLoader   
+            resLoader: vis.resLoader
         })
 
         const rectOp = new LayoutOperation({
@@ -327,7 +327,7 @@ export default class BoardDraw
         {
             // draw the icon
             const data = CONFIG.allTypes[type];
-            const icon = CONFIG.resLoader.getResource(data.textureKey);
+            const icon = vis.getResource(data.textureKey);
             const iconPos = pos.clone().move(new Point(iconDims).scale(0.5));
             iconPos.x += xPadding;
             const iconOp = new LayoutOperation({

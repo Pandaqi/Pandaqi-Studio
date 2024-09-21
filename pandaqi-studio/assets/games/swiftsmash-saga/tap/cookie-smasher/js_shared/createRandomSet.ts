@@ -1,7 +1,6 @@
-import fromArray from "js/pq_games/tools/random/fromArray";
+import shuffle from "js/pq_games/tools/random/shuffle";
 import CONFIG from "./config";
 import { CardData, SETS } from "./dict";
-import shuffle from "js/pq_games/tools/random/shuffle";
 
 export default (size = CONFIG.generation.randomSetSize) => 
 {

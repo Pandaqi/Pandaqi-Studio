@@ -1,57 +1,28 @@
-// @ts-ignore
-import { Scene } from "js/pq_games/phaser/phaser.esm"
+import LayoutOperation from "js/pq_games/layout/layoutOperation"
+import ResourceGroup from "js/pq_games/layout/resources/resourceGroup"
+import ResourceShape from "js/pq_games/layout/resources/resourceShape"
+import ResourceText from "js/pq_games/layout/resources/resourceText"
+import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig"
+import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer"
+import Circle from "js/pq_games/tools/geometry/circle"
+import Line from "js/pq_games/tools/geometry/line"
+import Point from "js/pq_games/tools/geometry/point"
+import Rectangle from "js/pq_games/tools/geometry/rectangle"
+import PHOTOMONE_BASE_PARAMS from "../../../js_shared/config"
 import Map from "../../../js_shared/map"
 import { MapVisualizer, VisResult } from "../../../js_shared/mapVisualizer"
 import WordsPhotomone from "../../../js_shared/wordsPhotomone"
-import PHOTOMONE_BASE_PARAMS from "../../../js_shared/config"
-import resourceLoaderToPhaser from "js/pq_games/phaser/resourceLoaderToPhaser"
-import setDefaultPhaserSettings from "js/pq_games/phaser/setDefaultPhaserSettings"
-import { circleToPhaser, lineToPhaser, rectToPhaser } from "js/pq_games/phaser/shapeToPhaser"
-import LayoutOperation from "js/pq_games/layout/layoutOperation"
-import Rectangle from "js/pq_games/tools/geometry/rectangle"
-import Line from "js/pq_games/tools/geometry/line"
-import Circle from "js/pq_games/tools/geometry/circle"
-import Point from "js/pq_games/tools/geometry/point"
-import imageToPhaser from "js/pq_games/phaser/imageToPhaser"
-import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig"
-import ResourceText from "js/pq_games/layout/resources/resourceText"
-import textToPhaser from "js/pq_games/phaser/textToPhaser"
 
-export default class BoardGeneration extends Scene
+export default class BoardGeneration
 {
     cfg:Record<string,any>
-    canvas:HTMLCanvasElement
-
     map:Map
-    objects:any[]
-    graphics:any
 
-	constructor()
-	{
-		super({ key: "boardGeneration" });
-	}
-
-    preload() 
-    {
-        setDefaultPhaserSettings(this);
-    }
-
-    async create(userConfig:Record<string,any>) 
+    async draw(vis:BoardVisualizer) : Promise<ResourceGroup[]>
     {;
-        const resLoader = userConfig.visualizer.resLoader;
-        PHOTOMONE_BASE_PARAMS.RESOURCE_LOADER = resLoader; // we do this so that the DRAWING class (that does all the drawing; this one does none of it) can access the correct resLoader
-        await resourceLoaderToPhaser(resLoader, this);
-
-        this.setup(userConfig)
+        this.setup(vis);
         await this.generate();
-        this.visualize();
-        if(this.cfg.createImage) { userConfig.visualizer.convertCanvasToImage(this); }
-    }
-
-    smoothPoints()
-    {
-        this.map.smoothPoints();
-        this.visualize();
+        return this.visualize(vis);
     }
 
     preparePointTypes(cfg)
@@ -66,15 +37,16 @@ export default class BoardGeneration extends Scene
         return newDict;
     }
 
-    setup(userConfig:Record<string, any>)
+    setup(vis:BoardVisualizer)
     {
+        const userConfig = vis.config;
         this.cfg = Object.assign({}, PHOTOMONE_BASE_PARAMS);
         Object.assign(this.cfg, userConfig);
 
         this.cfg.pointTypesDictionary = this.cfg.pointTypesDictionaries.photomone;
         this.cfg.pointTypes = this.preparePointTypes(this.cfg);
-        this.cfg.width = this.canvas.width;
-        this.cfg.height = this.canvas.height;
+        this.cfg.width = vis.size.x;
+        this.cfg.height = vis.size.y;
 
         this.cfg.debugSmoothing = false; // @DEBUGGING (should be false)
         if(this.cfg.debugSmoothing) { this.cfg.smoothSteps = 1; }
@@ -101,28 +73,14 @@ export default class BoardGeneration extends Scene
         this.map.generate();
     }
 
-    clearVisualization()
+    visualize(vis:BoardVisualizer)
     {
-        if(this.graphics) { this.graphics.destroy(); }
-        // @ts-ignore
-        this.graphics = this.add.graphics();
-
-        if(!this.objects || !this.objects.length) { return; }
-        for(const object of this.objects)
-        {
-            object.destroy();
-        }
-    }
-
-    visualize()
-    {
-        this.clearVisualization();
+        const group = new ResourceGroup();
 
         const visualizerObject = new MapVisualizer(this.map);
-        const vis : VisResult = visualizerObject.getVisualization(this.cfg);
-        const objects = [];
+        const visRes : VisResult = visualizerObject.getVisualization(this.cfg);
 
-        for(const rect of vis.rects)
+        for(const rect of visRes.rects)
         {
             console.log(rect);
 
@@ -131,10 +89,10 @@ export default class BoardGeneration extends Scene
                 fill: rect.color,
                 alpha: rect.alpha ?? 1
             })
-            objects.push( rectToPhaser(rectObj, op, this.graphics) );
+            group.add(new ResourceShape(rectObj), op);
         }
 
-        for(const line of vis.lines)
+        for(const line of visRes.lines)
         {
             const lineObj = new Line(line.p1, line.p2);
             const op = new LayoutOperation({
@@ -142,19 +100,19 @@ export default class BoardGeneration extends Scene
                 strokeWidth: line.width,
                 alpha: line.alpha,
             })
-            objects.push( lineToPhaser(lineObj, op, this.graphics) );
+            group.add(new ResourceShape(lineObj), op);
         }
 
-        for(const circ of vis.circles)
+        for(const circ of visRes.circles)
         {
             const circObj = new Circle({ center: circ.p, radius: circ.radius });
             const op = new LayoutOperation({
                 fill: circ.color
             });
-            objects.push( circleToPhaser(circObj, op, this.graphics) );
+            group.add(new ResourceShape(circObj), op);
         }
 
-        for(const sprite of vis.sprites)
+        for(const sprite of visRes.sprites)
         {
             const resSprite = PHOTOMONE_BASE_PARAMS.RESOURCE_LOADER.getResource(sprite.textureKey);
             const opSprite = new LayoutOperation({
@@ -164,10 +122,10 @@ export default class BoardGeneration extends Scene
                 frame: sprite.frame ?? 0,
                 pivot: Point.CENTER
             })
-            objects.push( imageToPhaser(resSprite, opSprite, this) );
+            group.add(resSprite, opSprite);
         }
 
-        for(const text of vis.text)
+        for(const text of visRes.text)
         {
             let originX = 0;
             let originY = 0;
@@ -177,7 +135,7 @@ export default class BoardGeneration extends Scene
 
             const op = new LayoutOperation({
                 translate: text.p,
-                dims: new Point(0.5*this.canvas.height, 2*text.fontSize),
+                dims: new Point(0.5*vis.size.y, 2*text.fontSize),
                 fill: text.color ?? "#000000",
                 stroke: text.stroke ?? "#FFFFFF",
                 strokeWidth: text.strokeWidth ?? 0,
@@ -195,13 +153,13 @@ export default class BoardGeneration extends Scene
             })
 
             const resText = new ResourceText({ text: text.text, textConfig: textConfig });
-            objects.push( textToPhaser(resText, op, this) );
+            group.add(resText, op);
         }
 
         // draw target food on top of everything
         // @NOTE: There is _no_ check whether there's a point underneath this
         // We can still do this: get the bounding box, check if any points intersect, just delete those---but nah
-        const minSize = Math.min(this.canvas.width, this.canvas.height);
+        const minSize = vis.sizeUnit;
         const spriteSize = 0.033*minSize;
         const fontSize = 0.5*spriteSize;
         const edgeMargin = 0.33*spriteSize;
@@ -215,15 +173,15 @@ export default class BoardGeneration extends Scene
             fill: "#EEEEEE",
             alpha: 1.0
         })
-        rectToPhaser(rect, op, this.graphics);
+        group.add(new ResourceShape(rect), op);
 
-        const resPoints = PHOTOMONE_BASE_PARAMS.RESOURCE_LOADER.getResource("icon_points");
+        const resPoints = vis.getResource("icon_points");
         const opPoints = new LayoutOperation({
             translate: new Point(xOffset, yOffset),
             dims: new Point(spriteSize),
             pivot: Point.CENTER
         });
-        objects.push( imageToPhaser(resPoints, opPoints, this) );
+        group.add(resPoints, opPoints);
 
         const textConfig = new TextConfig({
             font: "geldotica",
@@ -239,8 +197,8 @@ export default class BoardGeneration extends Scene
             fill: "#000000",
         })
         const resText = new ResourceText({ text: textString, textConfig: textConfig });
-        objects.push( textToPhaser(resText, opText, this) );
+        group.add(resText, opText);
 
-        this.objects = objects;
+        return [group];
     }
 }

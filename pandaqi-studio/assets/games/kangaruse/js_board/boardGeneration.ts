@@ -6,37 +6,24 @@ import BoardDisplay from "./boardDisplay"
 import BoardState from "./boardState"
 import CONFIG from "./config"
 import Evaluator from "./evaluator"
+import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer"
+import ResourceGroup from "js/pq_games/layout/resources/resourceGroup"
 
-export default class BoardGeneration extends Scene
+export default class BoardGeneration
 {
-
     evaluator:Evaluator
     board:BoardState
-    canvas:HTMLCanvasElement
 
-	constructor()
-	{
-		super({ key: "boardGeneration" });
-	}
-
-    preload() 
+    async draw(vis:BoardVisualizer) 
     {
-        setDefaultPhaserSettings(this);
-    }
-
-    async create(userConfig:Record<string,any>) 
-    {
-        await resourceLoaderToPhaser(userConfig.visualizer.resLoader, this);
-
-        this.setup(userConfig)
+        Object.assign(CONFIG, vis.config);
+        this.setup()
         await this.generate();
-        this.draw();
-        userConfig.visualizer.convertCanvasToImage(this);
+        return this.visualize(vis);
     }
 
-    setup(userConfig:Record<string,any>)
+    setup()
     {
-        Object.assign(CONFIG, userConfig);
         this.evaluator = new Evaluator();
 
         let cellTexture = "cell_types";
@@ -51,9 +38,11 @@ export default class BoardGeneration extends Scene
         } while(!this.evaluator.isValid(this.board));
     }
 
-    draw()
+    visualize(vis:BoardVisualizer)
     {
         const visualizer = new BoardDisplay(this);
-        visualizer.draw(this.board);
+        const group = new ResourceGroup();
+        visualizer.draw(vis, group, this.board);
+        return [group];
     }    
 }

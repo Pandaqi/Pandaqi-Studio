@@ -6,6 +6,7 @@ export default class EffectsOperation
 {
     effects:LayoutEffect[];
     filters: string[];
+    filtersPixi: any[];
 
     constructor(eff = [])
     {
@@ -17,6 +18,7 @@ export default class EffectsOperation
     resetData()
     {
         this.filters = [];
+        this.filtersPixi = [];
     }
 
     applyToCanvasPre(ctx:CanvasRenderingContext2D)
@@ -57,6 +59,11 @@ export default class EffectsOperation
             effect.applyToHTML(node, this);
         }
         return node;
+    }
+
+    addFilterPixi(fp)
+    {
+        this.filtersPixi.push(fp);
     }
 
     addFilters(fs:string[])

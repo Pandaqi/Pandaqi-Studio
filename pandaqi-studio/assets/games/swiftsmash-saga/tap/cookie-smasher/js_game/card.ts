@@ -1,22 +1,17 @@
 import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage";
 import createContext from "js/pq_games/layout/canvas/createContext";
 import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
-import strokeCanvas from "js/pq_games/layout/canvas/strokeCanvas";
-import Color from "js/pq_games/layout/color/color";
+import fillResourceGroup from "js/pq_games/layout/canvas/fillResourceGroup";
 import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
 import GrayScaleEffect from "js/pq_games/layout/effects/grayScaleEffect";
 import TintEffect from "js/pq_games/layout/effects/tintEffect";
-import LayoutNode from "js/pq_games/layout/layoutNode";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
+import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import ResourceImage from "js/pq_games/layout/resources/resourceImage";
 import ResourceShape from "js/pq_games/layout/resources/resourceShape";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
 import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
-import { FlowDir, FlowType } from "js/pq_games/layout/values/aggregators/flowInput";
-import AlignValue from "js/pq_games/layout/values/alignValue";
-import AnchorValue from "js/pq_games/layout/values/anchorValue";
-import DisplayValue from "js/pq_games/layout/values/displayValue";
-import TwoAxisValue from "js/pq_games/layout/values/twoAxisValue";
+import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
 import Line from "js/pq_games/tools/geometry/line";
 import calculateBoundingBox from "js/pq_games/tools/geometry/paths/calculateBoundingBox";
 import calculateCenter from "js/pq_games/tools/geometry/paths/calculateCenter";
@@ -25,7 +20,6 @@ import Point from "js/pq_games/tools/geometry/point";
 import Rectangle from "js/pq_games/tools/geometry/rectangle";
 import movePath from "js/pq_games/tools/geometry/transform/movePath";
 import fromArray from "js/pq_games/tools/random/fromArray";
-import CONFIG from "../js_shared/config";
 import { COLORS, CardData, TYPES, Type } from "../js_shared/dict";
 import WonkyRectangle from "./wonkyRectangle";
 
@@ -37,11 +31,6 @@ export default class Card
     desc: string;
     safe: boolean;
     didSomething: boolean; // to track if safe food actually had an influence
-
-    ctx: CanvasRenderingContext2D;
-    size: Point;
-    sizeUnit: number;
-    colorMain: string;
 
     poisoned: boolean;
 
@@ -58,13 +47,13 @@ export default class Card
         this.data = data;
     }
 
-    fill()
+    fill(possibleTypes, possibleNumbers)
     {
         this.safe = this.data.safe;
         this.type = this.data.type;
 
         this.fillNumber();
-        this.fillDescription();
+        this.fillDescription(possibleTypes, possibleNumbers);
     }
 
     fillNumber()
@@ -80,7 +69,7 @@ export default class Card
         this.num = num;
     }
 
-    fillDescription()
+    fillDescription(possibleTypes, possibleNumbers)
     {
         let desc = this.data.desc;
         const types = [];
@@ -93,8 +82,8 @@ export default class Card
         {
             const displayType = Math.random() <= 0.5;
             let val;
-            if(displayType) { val = this.getRandomType(types); types.push(val); }
-            else { val = this.getRandomNumber(numbers); numbers.push(val); }
+            if(displayType) { val = this.getRandomType(types, possibleTypes); types.push(val); }
+            else { val = this.getRandomNumber(numbers, possibleNumbers); numbers.push(val); }
             any.push(val);
             desc = desc.replace(needle, this.toDescString(val));
         }
@@ -103,9 +92,8 @@ export default class Card
         needle = "%type%";
         while(desc.includes(needle))
         {
-            const type = this.getRandomType(types);
+            const type = this.getRandomType(types, possibleTypes);
             types.push(type);
-            //const typeString = ; => replace string by image of icon, or is that done during draw?
             desc = desc.replace(needle, this.toDescString(type));
         }
 
@@ -164,7 +152,7 @@ export default class Card
         this.num += dn;
     }
 
-    getRandomNumber(exclude = [], list = CONFIG.possibleNumbers)
+    getRandomNumber(exclude = [], list)
     {
         let num = list.slice();
         exclude = exclude.slice();
@@ -178,9 +166,9 @@ export default class Card
         return fromArray(num);
     }
 
-    getRandomType(exclude = [], list = CONFIG.possibleTypes)
+    getRandomType(exclude = [], list)
     {
-        const types = CONFIG.possibleTypes.slice();
+        const types = list.slice();
         exclude = exclude.slice();
         exclude.push(this.type); // never pick our main type for custom types
         for(const elem of exclude)
@@ -192,73 +180,75 @@ export default class Card
         return fromArray(types);
     }
 
-    async drawForRules(cfg)
+    async drawForRules(vis:MaterialVisualizer)
     {
-        const size = cfg.itemSize.clone();
-        const sizeUnit = Math.min(size.x, size.y);
-        const ctx = createContext({ size: size });
+        const ctx = createContext({ size: vis.size });
+        fillCanvas(ctx, this.getColor());
 
-        const colorMain = COLORS[ cfg.possibleCards[this.food].color ];
+        const fontSize = 0.2*vis.sizeUnit;
+        const textConfigMain = new TextConfig({
+            font: vis.get("fonts.heading"),
+            size: fontSize,
+        }).alignCenter();
 
-        // background + stroke
-        ctx.fillStyle = colorMain;
-        ctx.fillRect(0, 0, size.x, size.y);
-
-        ctx.strokeStyle = "#000000";
-        ctx.lineWidth = 20;
-        ctx.strokeRect(0, 0, size.x, size.y);
-
-        // text
-        const fontSize = 0.2*sizeUnit;
-        ctx.textAlign = "center";
-        ctx.font = fontSize + "px " + cfg.fontFamily;
-        ctx.fillStyle = "#000000";
+        const textPos = new Point(0.5*vis.size.x, 0.5*vis.size.y + 0.33*fontSize);
+        const opMain = new LayoutOperation({
+            translate: textPos,
+            fill: "#000000",
+        });
 
         // > main food
-        const textPos = new Point(0.5*size.x, 0.5*size.y + 0.33*fontSize);
-        ctx.fillText(this.food, textPos.x, textPos.y);
+        const resTextFood = new ResourceText({ text: this.food, textConfig: textConfigMain });
+        resTextFood.toCanvas(ctx, opMain);
 
         // > numbers
-        const numberOffset = 0.1*sizeUnit;
+        const numberOffset = 0.1*vis.sizeUnit;
         const extraY = 0.66 * fontSize;
         const positions = [
-            new Point(numberOffset, numberOffset),
-            new Point(size.x-numberOffset, numberOffset)
+            new Point(numberOffset, numberOffset + extraY),
+            new Point(vis.size.x-numberOffset, numberOffset + extraY)
         ]
 
         for(const pos of positions)
         {
-            ctx.fillText(this.num.toString(), pos.x, pos.y + extraY);
+            const op = new LayoutOperation({
+                translate: pos,
+                fill: "#000000",
+            });
+            const res = new ResourceText({ text: this.num.toString(), textConfig: textConfigMain });
+            res.toCanvas(ctx, op);
         }
 
         // > type
-        const typePos = new Point(0.5*size.x, numberOffset);
-        ctx.fillText(this.type, typePos.x, typePos.y + extraY);
+        const typePos = new Point(0.5*vis.size.x, numberOffset);
+        const opType = new LayoutOperation({
+            translate: new Point(typePos.x, typePos.y + extraY),
+            fill: "#000000"
+        })
+        const resTextType = new ResourceText({ text: this.type, textConfig: textConfigMain });
+        resTextType.toCanvas(ctx, opType);
 
         // desc
         const descFontSize = 0.66 * fontSize;
         const textConfig = new TextConfig({
-            font: cfg.fontFamily,
+            font: vis.get("fonts.heading"),
             size: descFontSize,
-            alignHorizontal: TextAlign.MIDDLE,
-            alignVertical: TextAlign.MIDDLE,
             lineHeight: 1.1
-        })
+        }).alignCenter();
 
         let desc = this.desc;
-        // @ts-ignore
         desc = desc.replaceAll("$", "");
 
         const res = new ResourceText({ text: desc, textConfig: textConfig });
-        const descPos = new Point(0.5*size.x, 0.75*size.y);
-        const descDims = new Point(0.9*size.x, 0.4*size.y);
+        const descPos = new Point(0.5*vis.size.x, 0.75*vis.size.y);
+        const descDims = new Point(0.9*vis.size.x, 0.4*vis.size.y);
         const op = new LayoutOperation({
             translate: descPos,
             dims: descDims,
             pivot: new Point(0.5),
             fill: "#000000"
         })
-        await res.toCanvas(ctx, op);
+        res.toCanvas(ctx, op);
 
         // turn the whole thing into an image
         const img = await convertCanvasToImage(ctx.canvas);
@@ -266,88 +256,67 @@ export default class Card
         return img;
     }
 
-    getData() { return CONFIG.possibleCards[this.food]; }
-    getCanvas() { return this.ctx.canvas; }
-    async draw()
+    getColor() { return COLORS[ this.data.color ]; }
+    async draw(vis:MaterialVisualizer)
     {
-        const size = CONFIG.cards.size;
-        const ctx = createContext({ size: size });
-        this.ctx = ctx;
-        this.size = size;
-        this.sizeUnit = Math.min(size.x, size.y);
-        this.colorMain = COLORS[this.data.color];
-
-        this.drawBackground();
-        await this.drawMainIllustration();
-        await this.drawPower();
-        await this.drawMetaData();
-        this.drawOutline();
-
-        return this.getCanvas();
+        const group = vis.prepareDraw();
+        fillResourceGroup(vis.size, group, vis.get("cards.bg.color"));
+        this.drawMainIllustration(vis, group);
+        this.drawPower(vis, group);
+        this.drawMetaData(vis, group);
+        return await vis.finishDraw(group);
     }
 
-    drawBackground()
-    {
-        const bgColor = CONFIG.cards.bg.color;
-        fillCanvas(this.ctx, bgColor);
-    }
-
-    drawOutline()
-    {
-        const outlineSize = CONFIG.cards.outline.size * this.sizeUnit;
-        strokeCanvas(this.ctx, CONFIG.cards.outline.color, outlineSize);
-    }
-
-    async drawMainIllustration()
+    drawMainIllustration(vis:MaterialVisualizer, group: ResourceGroup)
     {
         // draw the random cutout background box
-        const bgSize = CONFIG.cards.illustration.bgSize.clone().scaleFactor(this.sizeUnit);
-        const bgCenter = this.size.clone().scaleFactor(0.5);
+        const bgSize = vis.get("cards.illustration.bgSize").clone().scaleFactor(vis.sizeUnit);
+        const bgCenter = vis.size.clone().scaleFactor(0.5);
         const rect = new WonkyRectangle(bgCenter, bgSize);
-        const rectColor = CONFIG.inkFriendly ? COLORS.grayLight : this.colorMain;
+        const rectColor = vis.inkFriendly ? COLORS.grayLight : this.getColor();
         rect.generate();
-        await rect.draw(this.ctx, rectColor);
+        rect.draw(group, rectColor);
 
         // draw the actual image
-        const res : ResourceImage = CONFIG.resLoader.getResource(this.data.textureKey);
-        const spriteSize = CONFIG.cards.illustration.sizeFactor * this.sizeUnit;
+        const res : ResourceImage = vis.resLoader.getResource(this.data.textureKey);
+        const spriteSize = vis.get("cards.illustration.sizeFactor") * vis.sizeUnit;
         const frame = this.data.frame;
         const effects = [];
-        if(CONFIG.inkFriendly) { effects.push(new GrayScaleEffect()); }
-        if(CONFIG.cards.illustration.addShadow)
+        if(vis.inkFriendly) { effects.push(new GrayScaleEffect()); }
+        if(vis.get("cards.illustration.addShadow"))
         {
-            const rad = CONFIG.cards.illustration.shadowRadius * spriteSize;
-            const offset = CONFIG.cards.illustration.shadowOffset.clone().scaleFactor(spriteSize);
+            const rad = vis.get("cards.illustration.shadowRadius") * spriteSize;
+            const offset = vis.get("cards.illustration.shadowOffset").clone().scaleFactor(spriteSize);
             effects.push(new DropShadowEffect({ blurRadius: rad, offset: offset }));
         }
 
         const op = new LayoutOperation({
             frame: frame,
-            translate: this.size.clone().scaleFactor(0.5),
+            translate: vis.size.clone().scaleFactor(0.5),
             dims: new Point(spriteSize),
             pivot: new Point(0.5),
             effects: effects
         })
-        await res.toCanvas(this.ctx, op);
+        group.add(res, op);
     }
 
-    async drawMetaData()
+    drawMetaData(vis:MaterialVisualizer, group: ResourceGroup)
     {
-        await this.drawMetaDataSingle();
-        await this.drawMetaDataSingle(Math.PI);
+        this.drawMetaDataSingle(vis, group);
+        this.drawMetaDataSingle(vis, group, Math.PI);
     }
 
-    async drawMetaDataSingle(rotation = 0)
+    drawMetaDataSingle(vis:MaterialVisualizer, group: ResourceGroup, rotation = 0)
     {
         // draw main trapezium
-        let anchorX = (rotation == 0) ? 0 : this.size.x;
+        let anchorX = (rotation == 0) ? 0 : vis.size.x;
         let dirX = (rotation == 0) ? 1 : -1;
 
-        const pos = new Point(anchorX, 0.5*this.size.y);
-        const mainIconSize = CONFIG.cards.illustration.bgSize;
-        const trapHeight = CONFIG.cards.icons.trapeziumHeight;
-        const trapSize = new Point(0.5 * (1.0 - mainIconSize.x - CONFIG.cards.icons.gapToIllustration), trapHeight).scaleFactor(this.sizeUnit);
-        const shrinkFactor = CONFIG.cards.icons.trapeziumShortSideShrinkFactor;
+        const pos = new Point(anchorX, 0.5*vis.size.y);
+        const mainIconSize = vis.get("cards.illustration.bgSize");
+        const trapHeight = vis.get("cards.icons.trapeziumHeight");
+        const trapSize = new Point(0.5 * (1.0 - mainIconSize.x - vis.get("cards.icons.gapToIllustration")), trapHeight).scaleFactor(vis.sizeUnit);
+        const shrinkFactor = vis.get("cards.icons.trapeziumShortSideShrinkFactor");
         const path = [
             new Point(pos.x, pos.y - 0.5*trapSize.y),
             new Point(pos.x + dirX * trapSize.x, pos.y - 0.5*trapSize.y*shrinkFactor),
@@ -362,11 +331,11 @@ export default class Card
             new Point(pos.x + trapSize.x, pos.y - 0.5*trapSize.y*shrinkFactor)
         ).angle();
 
-        const trapFill = CONFIG.inkFriendly ? COLORS.grayLight : this.colorMain;
+        const trapFill = vis.inkFriendly ? COLORS.grayLight : this.getColor();
         const trapOp = new LayoutOperation({
             fill: trapFill
         })
-        await trapezium.toCanvas(this.ctx, trapOp);
+        group.add(trapezium, trapOp);
 
         // draw corner rectangly-things with type icon rotated properly
         // @NOTE: this is MESSY but I see no better way for this precise shape/arrangement
@@ -374,9 +343,9 @@ export default class Card
         const triOp = new LayoutOperation({
             fill: typeColor
         })
-        const iconEffects = [ new TintEffect({ color: CONFIG.cards.bg.color }) ];
-        const gapIconToTrap = 0.01 * this.sizeUnit;
-        const offsetIntoCardEdge = 0.035 * this.sizeUnit;
+        const iconEffects = [ new TintEffect({ color: vis.get("cards.bg.color") }) ];
+        const gapIconToTrap = 0.01 * vis.sizeUnit;
+        const offsetIntoCardEdge = 0.035 * vis.sizeUnit;
         const pointyEndOvershoot = 1.5;
         const iconScaleFactor = 0.45;
         for(let i = 0; i < 2; i++)
@@ -409,7 +378,7 @@ export default class Card
             points = movePath(points, vec.scaleFactor(offsetIntoCardEdge));
             
             const triangle = new ResourceShape({ shape: new Path({ points: points })});
-            await triangle.toCanvas(this.ctx, triOp);
+            group.add(triangle, triOp);
 
             const midPoint = calculateCenter(points);
             midPoint.x = trapHalfLine.x; // to align it with trapezium stuff
@@ -430,7 +399,7 @@ export default class Card
                 if(flipY && !flipX) { iconRotation *= -1; }
             }
 
-            const res = CONFIG.resLoader.getResource("types");
+            const res = vis.resLoader.getResource("types");
             const iconOp = new LayoutOperation({
                 frame: iconFrame,
                 translate: midPoint,
@@ -441,7 +410,7 @@ export default class Card
                 rotation: iconRotation,
                 effects: iconEffects
             })    
-            await res.toCanvas(this.ctx, iconOp);
+            group.add(res, iconOp);
         }
         
         // draw number + card name
@@ -451,16 +420,15 @@ export default class Card
         let positions = [numberPos, namePos];
 
         // draw number
-        const fontSizeNumber = CONFIG.cards.icons.fontSizeNumber * this.sizeUnit;
+        const fontSizeNumber = vis.get("cards.icons.fontSizeNumber") * vis.sizeUnit;
         const textConfigNumber = new TextConfig({
-            font: CONFIG.fonts.body,
+            font: vis.get("fonts.body"),
             size: fontSizeNumber,
             alignHorizontal: TextAlign.MIDDLE,
             alignVertical: TextAlign.MIDDLE
         })
 
         // @NOTE: after playtest, added line below 6 and 9 to differentiate them properly
-        // @TODO: Untested! (added in a rush)
         const addUnderline = (this.num == 6 || this.num == 9);
         if(addUnderline)
         {
@@ -474,7 +442,7 @@ export default class Card
                 translate: translate,
                 fill: "#000000",
             })
-            await underlineRes.toCanvas(this.ctx, underlineOp);
+            group.add(underlineRes, underlineOp);
         }
 
         const cardNumber = new ResourceText({ text: this.num.toString(), textConfig: textConfigNumber });
@@ -486,12 +454,12 @@ export default class Card
             pivot: new Point(0.5),
             dims: textDims,
         })
-        await cardNumber.toCanvas(this.ctx, numOp);
+        group.add(cardNumber, numOp);
 
         // draw card name
-        const fontSizeName = CONFIG.cards.icons.fontSizeName * this.sizeUnit;
+        const fontSizeName = vis.get("cards.icons.fontSizeName") * vis.sizeUnit;
         const textConfigName = new TextConfig({
-            font: CONFIG.fonts.heading,
+            font: vis.get("fonts.heading"),
             size: fontSizeName,
             alignHorizontal: TextAlign.MIDDLE,
             alignVertical: TextAlign.MIDDLE
@@ -504,119 +472,94 @@ export default class Card
             pivot: new Point(0.5),
             dims: textDims
         })
-        await cardName.toCanvas(this.ctx, nameOp);
+        group.add(cardName, nameOp);
     }
 
-    async drawPower()
+    drawPower(vis:MaterialVisualizer, group: ResourceGroup)
     {
-        await this.drawPowerToCanvas();
-        await this.drawPowerToCanvas(Math.PI);
+        this.drawPowerToCanvas(vis, group, 0);
+        this.drawPowerToCanvas(vis, group, 1);
     }
     
-    async drawPowerToCanvas(rotation = 0)
+    drawPowerToCanvas(vis:MaterialVisualizer, group: ResourceGroup, id = 0)
     {
-        // use my layout system to create flex container
-        // (needed to easily support images inside text)
-        const root = new LayoutNode({
-            size: this.size.clone(),
-            rotation: rotation,
-        })
+        const anchorOffset = 0.33*vis.size.y;
+        const rotation = id == 0 ? 0 : Math.PI;
+        const positions = [
+            new Point(vis.center.x, anchorOffset),
+            new Point(vis.center.y, vis.size.y - anchorOffset)
+        ];
 
         // @NOTE: added after playtest that revealed text at bottom might be obscured by fingers and thus be annoying
-        const anchor = CONFIG.textPlacement == "top" ? AnchorValue.TOP_LEFT : AnchorValue.BOTTOM_LEFT;
-
-        const contHeight = 0.275*this.size.y;
-        const gap = CONFIG.cards.power.gapIconAndText * this.sizeUnit;
-        const padding = CONFIG.cards.power.padding * this.sizeUnit;
-        const flex = new LayoutNode({
-            size: new Point(this.size.x, contHeight),
-            dir: FlowDir.HORIZONTAL,
-            gap: gap,
-            flow: FlowType.GRID,
-            alignFlow: AlignValue.SPACE_EVENLY,
-            alignStack: AlignValue.MIDDLE,
-            anchor: anchor,
-            padding: padding
-        })
-        root.addChild(flex);
-
-        const iconRes = CONFIG.resLoader.getResource("misc");
-        const frame = this.data.safe ? 1 : 0;
-        const imgHeight = CONFIG.cards.power.iconHeight * contHeight;
-        const iconEffects = [];
-        if(CONFIG.inkFriendly) { iconEffects.push(new GrayScaleEffect()); }
-        const icon = new LayoutNode({
-            resource: iconRes,
-            size: new Point(imgHeight),
-            frame: frame,
-            shrink: 0,
-            effects: iconEffects
-        })
-        flex.addChild(icon);
-
-        const textCont = new LayoutNode({
-            size: new TwoAxisValue().setAuto(),
-        });
-        flex.addChild(textCont);
-
-        // @TODO: optimization to just create this ONCE and re-use everywhere
-        const textConfig = new TextConfig({
-            font: CONFIG.fonts.body,
-            size: CONFIG.cards.power.fontSize * this.sizeUnit,
-            lineHeight: CONFIG.cards.power.lineHeight
-        })
-
-        const typeIconSize = CONFIG.cards.power.inlineIconHeight * textConfig.size;``
-
-        // the description is split into parts (regular text, number text, image icon)
-        // so we can render each as an individual node
-        const descSplit = this.desc.split("$");
-        for(const str of descSplit)
+        if(vis.get("textPlacement") == "bottom")
         {
-            const isNumber = !isNaN(parseInt(str)); // @TODO: add unique styling to numbers?
-            const isImage = !isNumber;
-            const isType = CONFIG.possibleTypes.includes(str);
-            const isFood = Object.keys(CONFIG.possibleCards).includes(str);
-            const isSafe = (str == "safe");
-            const isPoisoned = (str == "poisoned"); // not sure if I want to use symbol for that, might be confusing
-
-            let res;
-            const effects = [];
-            if(isType) {
-                const frame = TYPES[str].frame;
-                const tintCol = COLORS[TYPES[str].color];
-                res = (CONFIG.resLoader.getResource("types") as ResourceImage).getImageFrameAsResource(frame);
-                effects.push( new TintEffect({ color: tintCol }) );
-            } else if(isFood) {
-                const data = CONFIG.possibleCards[str];
-                const frame = data.frame;
-                res = CONFIG.resLoader.getResource(data.textureKey).getImageFrameAsResource(frame);
-            } else if(isSafe) {
-                res = CONFIG.resLoader.getResource("misc").getImageFrameAsResource(1);                
-            } else {
-                res = new ResourceText({ text: str, textConfig: textConfig });
-            }
-
-            let fill = Color.TRANSPARENT;
-            let size = new TwoAxisValue(typeIconSize, typeIconSize);
-
-            if(res instanceof ResourceText) 
-            { 
-                fill = Color.BLACK; 
-                size = new TwoAxisValue().setAuto();
-            }
-
-            const node = new LayoutNode({
-                resource: res,
-                display: DisplayValue.INLINE,
-                effects: effects,
-                size: size,
-                fill: fill
-            })
-
-            textCont.addChild(node);
+            id = (id + 1) % 2;
         }
 
-        await root.toCanvas(this.ctx);
+        // prepare a sub container (and already add it)
+        const subGroup = new ResourceGroup();
+        const subGroupOp = new LayoutOperation({
+            translate: positions[id],
+            rotation: rotation,
+        });
+        group.add(subGroup, subGroupOp);
+
+        // draw the main icon (dangerous/safe)
+        const contHeight = 0.275*vis.size.y;
+        const iconRes = vis.resLoader.getResource("misc");
+        const frame = this.data.safe ? 1 : 0;
+        const imgHeight = vis.get("cards.power.iconHeight") * contHeight;
+        const iconOp = new LayoutOperation({
+            translate: new Point(-vis.center.x + 0.5*contHeight), // all of this is centered around (0,0) middle of subGroup
+            dims: new Point(imgHeight),
+            frame: frame,
+            effects: vis.inkFriendlyEffect
+        })
+        subGroup.add(iconRes, iconOp);
+
+        // draw the explanatory text
+        const textConfig = new TextConfig({
+            font: vis.get("fonts.body"),
+            size: vis.get("cards.power.fontSize") * vis.sizeUnit,
+            lineHeight: vis.get("cards.power.lineHeight"),
+            resLoader: vis.resLoader
+        }).alignCenter();
+
+        const textOp = new LayoutOperation({
+            translate: new Point(0.5*contHeight, 0),
+            dims: new Point(vis.size.x - contHeight, contHeight),
+            fill: "#000000",
+            pivot: Point.CENTER
+        });
+
+        // fill the images in the text with their actual icons
+        // @NOTE: The things that need to be set dynamically are "%x%" => once we know their final value, they're saved as "$x$", so the string we're workin with now should ONLY have dollar signs with definite values inside
+        const descSplit = this.desc.split("$");
+        const descOutput = [];
+        for(let str of descSplit)
+        {
+            const isType = vis.get("possibleTypes").includes(str);
+            const isFood = Object.keys(vis.get("possibleCards")).includes(str);
+            const isSafe = (str == "safe");
+            
+            if(isType) {
+                const frame = TYPES[str].frame;
+                str = '<img id="types" frame="' + frame + '">';
+                // I decided to just bake the tint into the icons, cheaper and simpler
+                //const tintCol = COLORS[TYPES[str].color];
+                //effects.push( new TintEffect({ color: tintCol }) );
+            } else if(isFood) {
+                const data = vis.get("possibleCards")[str];
+                str = '<img id="' + data.textureKey + '" frame="'+ data.frame + '">';
+            } else if(isSafe) {
+                str = '<img id="misc" frame="1">';
+            }
+
+            descOutput.push(str);
+        }
+
+        const textFinal = descOutput.join("");
+        const resText = new ResourceText({ text: textFinal, textConfig: textConfig });
+        subGroup.add(resText, textOp);
     }
 }

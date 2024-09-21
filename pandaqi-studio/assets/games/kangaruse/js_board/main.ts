@@ -1,6 +1,9 @@
-import BoardVisualizer, { VisualizerRenderer } from "js/pq_games/website/boardVisualizer";
+import RendererPixi from "js/pq_games/layout/renderers/rendererPixi";
+import BoardGenerator from "js/pq_games/tools/generation/boardGenerator";
 import BoardGeneration from "./boardGeneration";
 import CONFIG from "./config";
 
-const vis = new BoardVisualizer({ config: CONFIG, scene: BoardGeneration, renderer: VisualizerRenderer.PHASER });
+const gen = new BoardGenerator(CONFIG, new RendererPixi());
+gen.drawerClass = BoardGeneration;
+gen.start();
 

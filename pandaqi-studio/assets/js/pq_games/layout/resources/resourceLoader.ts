@@ -1,15 +1,16 @@
-import Resource from "./resource"
-import ResourceImage from "./resourceImage"
-import ResourceFont from "./resourceFont"
-import TextConfig from "../text/textConfig"
 import Point from "js/pq_games/tools/geometry/point"
-import { ResourceLike } from "../layoutOperation"
-import ResourceText from "./resourceText"
+import Renderer from "../renderers/renderer"
+import RendererPandaqi from "../renderers/rendererPandaqi"
+import TextConfig from "../text/textConfig"
+import Resource from "./resource"
+import ResourceFont from "./resourceFont"
 
 interface ResourceLoaderParams
 {
-    base?:string
+    base?:string,
+    renderer?: Renderer
 }
+
 
 interface ResourceLoadParams
 {
@@ -28,7 +29,7 @@ interface ResourceLoadParams
     uniqueKey?: string,
 }
 
-export { ResourceLoaderParams, ResourceLoadParams }
+export { ResourceLoadParams, ResourceLoaderParams }
 export default class ResourceLoader 
 {
 
@@ -40,6 +41,7 @@ export default class ResourceLoader
     resourcesQueued : Record<string, ResourceLoadParams>
     resourcesLoaded : Record<string, Resource>
     base: string
+    renderer : Renderer;
 
     loadInSequence = false
     onResourceLoaded = (txt:string) => {}
@@ -48,6 +50,7 @@ export default class ResourceLoader
     {
         this.resourcesQueued = {};
         this.resourcesLoaded = {};
+        this.renderer = params.renderer ?? new RendererPandaqi();
 
         this.base = params.base ?? "";
         if(this.base.slice(-1) != "/") { this.base += "/"; }
@@ -171,7 +174,6 @@ export default class ResourceLoader
         {
             const img = new Image();
             img.src = params.path;
-            await img.decode();
             await this.cacheLoadedImage(key, params, img);
             this.onResourceLoaded("Image (" + fileName + ")");
         }
@@ -197,9 +199,7 @@ export default class ResourceLoader
 
     async cacheLoadedImage(id:string, params:ResourceLoadParams, img:HTMLImageElement)
     {
-        const res = new ResourceImage(img, params);
-        if(params.enableCaching) { await res.cacheFrames(); }
-        this.resourcesLoaded[id] = res;
+        this.resourcesLoaded[id] = await this.renderer.cacheLoadedImage(img, params);
     }
 
     getResource(id:string, copy:boolean = false) : any

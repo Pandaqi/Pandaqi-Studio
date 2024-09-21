@@ -89,4 +89,15 @@ export default class OutlineEffect extends LayoutEffect
     {
         return new Point(this.thickness);
     }
+
+    applyToPixi(filtersConstructor, effOp = new EffectsOperation(), obj)
+    {
+        effOp.addFilterPixi(new filtersConstructor.OutlineFilter({
+            alpha: this.color.a,
+            color: this.color.toHEXNumber(),
+            knockout: false,
+            quality: 0.3,
+            thickness: this.thickness
+        }));
+    }
 }

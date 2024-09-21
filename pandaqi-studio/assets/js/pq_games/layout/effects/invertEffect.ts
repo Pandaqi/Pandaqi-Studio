@@ -27,5 +27,12 @@ export default class InvertEffect extends LayoutEffect
     {
         return "invert()";
     }
+
+    applyToPixi(filtersConstructor, effOp = new EffectsOperation(), obj)
+    {
+        const eff = new filtersConstructor.ColorMatrixFilter();
+        eff.negative(false);
+        effOp.addFilterPixi(eff);
+    }
     
 }

@@ -1,15 +1,9 @@
 import { SPECIAL_BUILDINGS, SPECIAL_INGREDIENTS, TRAFFIC_SIGNS } from "./dictionary";
+import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer";
 import Color from "js/pq_games/layout/color/color";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
 import TextConfig from "js/pq_games/layout/text/textConfig";
-import imageToPhaser from "js/pq_games/phaser/imageToPhaser";
-// @ts-ignore
-import { Scene } from "js/pq_games/phaser/phaser.esm";
-import resourceLoaderToPhaser from "js/pq_games/phaser/resourceLoaderToPhaser";
-import setDefaultPhaserSettings from "js/pq_games/phaser/setDefaultPhaserSettings";
-import { lineToPhaser, rectToPhaser } from "js/pq_games/phaser/shapeToPhaser";
-import textToPhaser from "js/pq_games/phaser/textToPhaser";
 import Line from "js/pq_games/tools/geometry/line";
 import Point from "js/pq_games/tools/geometry/point";
 import Rectangle from "js/pq_games/tools/geometry/rectangle";
@@ -19,6 +13,9 @@ import shuffle from "js/pq_games/tools/random/shuffle";
 import Building from "./building";
 import Cell, { Order } from "./cell";
 import Obstacle from "./obstacle";
+import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
+import ResourceShape from "js/pq_games/layout/resources/resourceShape";
+import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
 
 type RandomizerFunction = () => number;
 type TrafficSign = { pos: Point, type: string, side: number, ind: number };
@@ -37,7 +34,7 @@ const DIRECTIONS = [
 
 type Border = Point[]
 
-export default class BoardGeneration extends Scene
+export default class BoardGeneration
 {
 	canvas: HTMLCanvasElement
 	cfg: Record<string,any>
@@ -81,34 +78,23 @@ export default class BoardGeneration extends Scene
 
 	fontFamily = "leckerli"
 
-	constructor()
-	{
-		super({ key: "boardGeneration" });
-	}
-
-	preload() 
-	{
-		setDefaultPhaserSettings(this); 
-	}
-
 	// user-input settings should be passed through config
-	async create(config:Record<string,any>) 
+	async draw(vis:BoardVisualizer)
 	{
-        await resourceLoaderToPhaser(config.visualizer.resLoader, this);
-
 		this.cfg = {}
-		Object.assign(this.cfg, config);
+		Object.assign(this.cfg, vis.config);
 
+		this.cfg.visualizer = vis;
 		this.cfg.numPlayers = parseInt(this.cfg.playerCount);
 
 		// number of cells along width of the paper
 		this.cfg.resX = 10 + Math.floor(this.cfg.numPlayers*1.5);
 
 		// ... determines grid cell size
-		this.cfg.cellSize = this.canvas.width / this.cfg.resX;
+		this.cfg.cellSize = this.cfg.size.x / this.cfg.resX;
 
 		// ... determines resolution along height of paper
-		this.cfg.resY = Math.floor(this.canvas.height / this.cfg.cellSize);
+		this.cfg.resY = Math.floor(this.cfg.size.y / this.cfg.cellSize);
 
 		//
 		// purely visual settings
@@ -175,9 +161,7 @@ export default class BoardGeneration extends Scene
 
 		//this.cfg.numPizzaPolice = 1 + Math.floor(this.cfg.resX / 6.0)
 
-		this.generateBoard();
-
-		config.visualizer.convertCanvasToImage(this);
+		return this.generateBoard();
 	}
 
 	generateBoard() 
@@ -237,11 +221,12 @@ export default class BoardGeneration extends Scene
 
 		// if Preposterous Places enabled, swap some buildings and decorations with special types
 		if(this.cfg.expansions.preposterousPlaces) {
-			this.placeSpecialBuildings();
+			this.placeSpecialBuildings(); // @TODO: I completely removed this function somehow! Did I ever use it in the first place? Check Git history.
 		}
 
 		// visualize the whole thing
-		this.visualizeGame();
+		const group = this.visualizeGame();
+		return [group];
 	}
 
 	createGrid() 
@@ -1966,28 +1951,22 @@ export default class BoardGeneration extends Scene
 		}
 	}
 
-	placeSpecialBuildings() 
-	{
-		// @TODO: Find all decorations. Replace small groups (1-3) with random buildings, large groups with PLAZAS
-		//  => This means the "border detection"/"group detection" must happen before this ... but also again afterward?
-
-		// @TODO: Add some more decorations + functional sprites to the road squares that do cool stuff
-	}
-
 	visualizeGame() 
 	{
-		// @ts-ignore
-		const roadGraphics = this.add.graphics();
-		// @ts-ignore
-		const gridGraphics = this.add.graphics();
-		// @ts-ignore
-		const shadowGraphics = this.add.graphics();
-		// @ts-ignore
-		const buildingGraphics = this.add.graphics();
-		buildingGraphics.depth = 10;
-		// @ts-ignore
-		const overlayGraphics = this.add.graphics();
-		overlayGraphics.depth = 19;
+		// prepare all layers/containers
+		const group = new ResourceGroup();
+		const roadGroup = new ResourceGroup();
+		group.add(roadGroup);
+		const gridGroup = new ResourceGroup();
+		group.add(gridGroup);
+		const shadowGroup = new ResourceGroup();
+		group.add(shadowGroup);
+		const buildingGroup = new ResourceGroup();
+		// buildingGraphics.depth = 10;
+		group.add(buildingGroup);
+		const overlayGroup = new ResourceGroup();
+		group.add(overlayGroup);
+		// overlayGraphics.depth = 19;
 
 		const cs = this.cfg.cellSize
 
@@ -1995,24 +1974,21 @@ export default class BoardGeneration extends Scene
 		// Draw some nice grid lines
 		// We go _half resolution_ here, to give each square 4 quadrants
 		//
-
-		const strokeCol = new Color("#000000");
-		strokeCol.a = 0.2;
 		const opLine = new LayoutOperation({
-			stroke: strokeCol,
+			stroke: "#00000044",
 			strokeWidth: 2
 		})
 
 		for(let x = 0; x < this.cfg.resX; x += 0.5) 
 		{
-			const line = new Line(new Point(x*cs,0), new Point(x*cs, this.cfg.resY*cs));
-			lineToPhaser(line, opLine, gridGraphics);
+			const line = new ResourceShape(new Line(new Point(x*cs,0), new Point(x*cs, this.cfg.resY*cs)));
+			gridGroup.add(line, opLine);
 		}
 
 		for(let y = 0; y < this.cfg.resY; y += 0.5) 
 		{
-			const line = new Line(new Point(0, y*cs), new Point(this.cfg.resX*cs, y*cs));
-			lineToPhaser(line, opLine, gridGraphics);
+			const line = new ResourceShape(new Line(new Point(0, y*cs), new Point(this.cfg.resX*cs, y*cs)));
+			gridGroup.add(line, opLine);
 		}
 
 		const fontSize = cs*0.5*0.5;
@@ -2038,7 +2014,7 @@ export default class BoardGeneration extends Scene
 				if(obj.type == 'road') 
 				{
 					let orient = this.getOrientationFromNeighbours(pos);
-					const resRoad = this.cfg.visualizer.resLoader.getResource("roadmarks");
+					const resRoad = this.cfg.visualizer.getResource("roadmarks");
 					const opRoad = new LayoutOperation({
 						translate: new Point(posRect.x+0.5*cs, posRect.y+0.5*cs),
 						dims: new Point(cs),
@@ -2047,10 +2023,10 @@ export default class BoardGeneration extends Scene
 						frame: orient.frame,
 						rotation: orient.rotation
 					})
-					imageToPhaser(resRoad, opRoad, this);
+					group.add(resRoad, opRoad);
 
 					const opRect = new LayoutOperation({ fill: color });
-					rectToPhaser(rect, opRect, roadGraphics);
+					roadGroup.add(new ResourceShape(rect), opRect);
 
 					// If this has a subway, place its sprite
 					const margin = this.cfg.borderWidth
@@ -2059,7 +2035,7 @@ export default class BoardGeneration extends Scene
 						const subwayPos = this.getSquarePositionOnCell(pos, obj.subway.positionIndex, true);
 						const subwayPosReal = new Point(subwayPos.x*cs, subwayPos.y*cs);
 
-						const resDec = this.cfg.visualizer.resLoader.getResource("decorations");
+						const resDec = this.cfg.visualizer.getResource("decorations");
 						const opDec = new LayoutOperation({
 							translate: subwayPosReal,
 							dims: new Point((0.5-margin)*cs),
@@ -2067,7 +2043,7 @@ export default class BoardGeneration extends Scene
 							pivot: Point.CENTER,
 							depth: 5
 						})
-						imageToPhaser(resDec, opDec, this);
+						group.add(resDec, opDec);
 
 						const str = (obj.subway.counter + 1).toString();
 						const opTextSubway = new LayoutOperation({
@@ -2077,19 +2053,20 @@ export default class BoardGeneration extends Scene
 							depth: 6,
 							fill: "#FFFFFF",
 							stroke: "#6C0003",
-							strokeWidth: strokeThickness
+							strokeWidth: strokeThickness,
+							strokeAlign: StrokeAlign.OUTSIDE
 						})
 						const resTextSubway = new ResourceText({ text: str, textConfig: textConfigSubway });
-						textToPhaser(resTextSubway, opTextSubway, this);
+						group.add(resTextSubway, opTextSubway);
 					}
 
-					if(obj.hasEntrance()) { this.visualizeEntrance(obj, roadGraphics) }
+					if(obj.hasEntrance()) { this.visualizeEntrance(group, obj, roadGroup) }
 
 					if(obj.hasPolice()) 
 					{
 						console.log("PLACING POLICE");
 						const policePos = this.getSquarePositionOnCell(new Point(x,y), obj.police.positionIndex, true);
-						const resPolice = this.cfg.visualizer.resLoader.getResource("general_icons");
+						const resPolice = this.cfg.visualizer.getResource("general_icons");
 						const opPolice = new LayoutOperation({
 							translate: new Point(policePos.x*cs, policePos.y*cs),
 							dims: new Point((0.5-margin)*cs),
@@ -2097,7 +2074,7 @@ export default class BoardGeneration extends Scene
 							frame: 1,
 							depth: 5
 						});
-						imageToPhaser(resPolice, opPolice, this);
+						group.add(resPolice, opPolice);
 					}
 
 
@@ -2121,7 +2098,7 @@ export default class BoardGeneration extends Scene
 					if(this.cfg.inkFriendly) { color = "#FFFFFF"; }
 
 					const opRect = new LayoutOperation({ fill: color });
-					rectToPhaser(rect, opRect, buildingGraphics);
+					buildingGroup.add(new ResourceShape(rect), opRect);
 
 					// draw the ingredient icon on all cells within the building
 					// or, if it's a special building, draw its special icon
@@ -2140,13 +2117,13 @@ export default class BoardGeneration extends Scene
 								frame: buildingObj.ingredient
 							})
 
-							let resSprite = this.cfg.visualizer.resLoader.getResource("ingredients");
+							let resSprite = this.cfg.visualizer.getResource("ingredients");
 							if(buildingObj.type != "ingredient")
 							{
-								resSprite = this.cfg.visualizer.resLoader.getResource("special_buildings");
+								resSprite = this.cfg.visualizer.getResource("special_buildings");
 								opSprite.frame = SPECIAL_BUILDINGS[buildingObj.special].iconFrame
 							}
-							imageToPhaser(resSprite, opSprite, this);
+							group.add(resSprite, opSprite);
 						}
 					}
 
@@ -2161,7 +2138,7 @@ export default class BoardGeneration extends Scene
 						shadowRect.move(shadowOffset);
 
 						const opShadow = new LayoutOperation({ fill: shadowCol });
-						rectToPhaser(shadowRect, opShadow, shadowGraphics);
+						shadowGroup.add(new ResourceShape(shadowRect), opShadow);
 					}
 				}
 
@@ -2183,19 +2160,19 @@ export default class BoardGeneration extends Scene
 			{
 				// b is an ARRAY [startCorner, endCorner], where each corner is a Point
 				const line = new Line(new Point(b[0].x * cs, b[0].y * cs), new Point(b[1].x * cs, b[1].y * cs));
-				lineToPhaser(line, opLineBorder, buildingGraphics);
+				buildingGroup.add(new ResourceShape(line), opLineBorder);
 			}
 		}
 
 		//
 		// Draw decorations (hedges & roundabouts)
 		//
-		this.visualizeDecorations(buildingGraphics, overlayGraphics);
+		this.visualizeDecorations(group, buildingGroup, overlayGroup);
 
 		//
 		// Draw orders (on buildings that have them)
 		//
-		this.visualizeOrders();
+		this.visualizeOrders(group);
 
 		//
 		// Draw bank icon on the bank
@@ -2205,7 +2182,7 @@ export default class BoardGeneration extends Scene
 		const randTile = obj.cell;
 		const randNeighbour = obj.buildingCellsAround[Math.floor(this.RANDOM_DRAW_RNG() * obj.buildingCellsAround.length)]
 
-		const resGeneral = this.cfg.visualizer.resLoader.getResource("general_icons");
+		const resGeneral = this.cfg.visualizer.getResource("general_icons");
 		const opBank = new LayoutOperation({
 			translate: new Point((randTile.x+0.5)*cs, (randTile.y+0.5)*cs),
 			frame: 0,
@@ -2213,9 +2190,9 @@ export default class BoardGeneration extends Scene
 			pivot: Point.CENTER,
 			depth: 15
 		});
-		imageToPhaser(resGeneral, opBank, this);
+		group.add(resGeneral, opBank);
 
-		const seedFontSize = 16 * (this.canvas.width / 1160.0);
+		const seedFontSize = 16 * (this.cfg.size.x / 1160.0);
 		const textConfigSeed = new TextConfig({
 			font: this.fontFamily,
 			size: seedFontSize
@@ -2228,12 +2205,12 @@ export default class BoardGeneration extends Scene
 			depth: 15
 		})
 		const resTextSeed = new ResourceText({ text: this.cfg.seed, textConfig: textConfigSeed });
-		textToPhaser(resTextSeed, opTextSeed, this);
+		group.add(resTextSeed, opTextSeed);
 
 		//
 		// Draw traffic signs
 		//
-		this.visualizeTrafficSigns();
+		this.visualizeTrafficSigns(group);
 
 		//
 		// Draw movement shapes
@@ -2251,12 +2228,12 @@ export default class BoardGeneration extends Scene
 			fill: "#FFCCCC",
 			stroke: "#330000",
 			strokeWidth: this.cfg.borderWidth*cs
-		});;
-		rectToPhaser(rect, opBGRect, overlayGraphics);
+		});
+		overlayGroup.add(new ResourceShape(rect), opBGRect);
 
 		// Draw shapes individually
 		let moveShapeSize = new Point(0.8*cs);
-		const resShapes = this.cfg.visualizer.resLoader.getResource("shapes");
+		const resShapes = this.cfg.visualizer.getResource("shapes");
 		for(let i = 0; i < this.shapes.length; i++) 
 		{
 			const row = Math.floor(i / this.cfg.shapeRectSize.x)
@@ -2270,11 +2247,11 @@ export default class BoardGeneration extends Scene
 				frame: this.shapes[i],
 				depth: 20
 			})
-			imageToPhaser(resShapes, opShape, this);
+			group.add(resShapes, opShape);
 		}
 
 		// draw hint about picking UNIQUE shapes
-		const resHint = this.cfg.visualizer.resLoader.getResource("unique_shapes_hint");
+		const resHint = this.cfg.visualizer.getResource("unique_shapes_hint");
 		const hintMargin = 4;
 		const posHint = new Point(rectStartReal.x + 0.5*rect.getSize().x, rectStartReal.y + rect.getSize().y - hintMargin);
 		const hintX = 0.6*moveShapeSize.x;
@@ -2285,14 +2262,12 @@ export default class BoardGeneration extends Scene
 			depth: 22,
 			alpha: 0.66
 		});
-		imageToPhaser(resHint, opHint, this);
+		group.add(resHint, opHint);
 
-		//
-		// @TODO: Some extra filters and modifications if inkFriendly is on?
-		//
+		return group;
 	}
 
-	visualizeEntrance(obj:Cell, roadGraphics:any) 
+	visualizeEntrance(group:ResourceGroup, obj:Cell, roadGroup:ResourceGroup) 
 	{
 		const cs = this.cfg.cellSize;
 		const specialPlacesEnabled = this.cfg.expansions.preposterousPlaces;
@@ -2317,10 +2292,10 @@ export default class BoardGeneration extends Scene
 		if((connectedBuilding.type == 'bank' || connectedBuilding.type == 'reserved') && !specialPlacesEnabled) { return; }
 
 		const opEntrance = new LayoutOperation({ fill: color });
-		rectToPhaser(rectEntrance, opEntrance, roadGraphics);
+		roadGroup.add(new ResourceShape(rectEntrance), opEntrance);
 
-		const resGeneral = this.cfg.visualizer.resLoader.getResource("general_icons");
-		const resIng = this.cfg.visualizer.resLoader.getResource("ingredients");
+		const resGeneral = this.cfg.visualizer.getResource("general_icons");
+		const resIng = this.cfg.visualizer.getResource("ingredients");
 		const opSprite = new LayoutOperation({
 			translate: new Point(rectPos.x + 0.5*rectSize.x, rectPos.y + 0.5*rectSize.y),
 			dims: new Point(rectSize.x * this.cfg.ingredientSpriteScale),
@@ -2345,16 +2320,16 @@ export default class BoardGeneration extends Scene
 		}
 
 		// finally, if some sprite was selected, actually create it
-		if(resFinal) { imageToPhaser(resFinal, opSprite, this); }
+		if(resFinal) { group.add(resFinal, opSprite); }
 	}
 
-	visualizeTrafficSigns() 
+	visualizeTrafficSigns(group:ResourceGroup) 
 	{
 		if(!this.trafficSigns) { return; }
 
 		const cs = this.cfg.cellSize;
 
-		const fontSize = 20 * (this.canvas.width / 1160.0);
+		const fontSize = 20 * (this.cfg.size.x / 1160.0);
 		//const textColor = "#AAAAAA"; => somehow didn't use this one, but want to keep it just in case
 
 		const textConfigGate = new TextConfig({
@@ -2362,7 +2337,7 @@ export default class BoardGeneration extends Scene
 			size: fontSize
 		}).alignCenter();
 
-		const resTrafficSigns = this.cfg.visualizer.resLoader.getResource("traffic_signs");
+		const resTrafficSigns = this.cfg.visualizer.getResource("traffic_signs");
 
 		for(let i = 0; i < this.trafficSigns.length; i++) 
 		{
@@ -2386,7 +2361,7 @@ export default class BoardGeneration extends Scene
 					rotation: obj.side * 0.5 * Math.PI,
 					depth: 5
 				});
-				imageToPhaser(resTrafficSigns, opGate, this);
+				group.add(resTrafficSigns, opGate);
 
 				if(obj.type == 'Line Gate') {
 					// Place low number inside
@@ -2404,7 +2379,7 @@ export default class BoardGeneration extends Scene
 						depth: 6,
 						fill: "#2D0B37"
 					})
-					textToPhaser(resText, opText, this);
+					group.add(resText, opText);
 
 				} else if(obj.type == 'Ingredient Gate' || obj.type == 'Smuggler Gate') {
 					// Place random ingredient inside
@@ -2413,7 +2388,7 @@ export default class BoardGeneration extends Scene
 						randIngredient = this.specialIngredientsIncluded[Math.floor(this.TRAFFIC_SIGN_RNG()*this.specialIngredientsIncluded.length)];
 					}
 
-					const resIng = this.cfg.visualizer.resLoader.getResource("ingredients");
+					const resIng = this.cfg.visualizer.getResource("ingredients");
 					const opIng = new LayoutOperation({
 						translate: posReal,
 						dims: new Point(0.35*cs),
@@ -2421,12 +2396,12 @@ export default class BoardGeneration extends Scene
 						pivot: Point.CENTER,
 						depth: 6
 					})
-					imageToPhaser(resIng, opIng, this);
+					group.add(resIng, opIng);
 
 					// If smuggler, add (small, randomly rotated) cross icon on top
 					if(obj.type == 'Smuggler Gate') 
 					{
-						const resGeneral = this.cfg.visualizer.resLoader.getResource("general_icons");
+						const resGeneral = this.cfg.visualizer.getResource("general_icons");
 						const opGate = new LayoutOperation({
 							translate: new Point(posReal.x + 0.075*cs, posReal.y - 0.075*cs),
 							dims: new Point(0.2*cs),
@@ -2435,7 +2410,7 @@ export default class BoardGeneration extends Scene
 							rotation: Math.random()*0.5*Math.PI - 0.25*Math.PI,
 							depth: 7
 						})
-						imageToPhaser(resGeneral, opGate, this);
+						group.add(resGeneral, opGate);
 					}
 
 
@@ -2456,7 +2431,7 @@ export default class BoardGeneration extends Scene
 						pivot: Point.CENTER,
 						depth: 6
 					})
-					textToPhaser(resText, opText, this);
+					group.add(resText, opText);
 				}
 
 			// NOT A GATE; just a regular sign, display inside the designated square
@@ -2473,17 +2448,17 @@ export default class BoardGeneration extends Scene
 					depth: 5,
 					alpha: 0.75
 				})
-				imageToPhaser(resTrafficSigns, op, this);
+				group.add(resTrafficSigns, op);
 			}
 
 		}
 	}
 
-	visualizeDecorations(buildingGraphics:any, overlayGraphics:any) 
+	visualizeDecorations(group:ResourceGroup, buildingGroup:ResourceGroup, overlayGroup:ResourceGroup) 
 	{
 		const cs = this.cfg.cellSize;
 
-		const resDecs = this.cfg.visualizer.resLoader.getResource("decorations");
+		const resDecs = this.cfg.visualizer.getResource("decorations");
 
 		let DECORATION_RNG = seedRandom(this.cfg.seed + "-decorations");
 		let numRoundaboutDecorations = 4;
@@ -2505,13 +2480,13 @@ export default class BoardGeneration extends Scene
 					rotation: o.rotation,
 					depth: 15
 				})
-				imageToPhaser(resDecs, opHedge, this);
+				group.add(resDecs, opHedge);
 
 				const opLine = new LayoutOperation({
 					stroke: "#006600",
 					strokeWidth: this.cfg.borderWidth*cs
 				});
-				lineToPhaser(line, opLine, buildingGraphics);
+				buildingGroup.add(new ResourceShape(line), opLine);
 			
 			} else if(o.type == 'roundabout') {
 
@@ -2531,7 +2506,7 @@ export default class BoardGeneration extends Scene
 				let resFinal = resDecs;
 				if(o.specialBuilding != null) {
 					const buildingType = o.specialBuilding
-					resFinal = this.cfg.visualizer.resLoader.getResource("special_buildings");
+					resFinal = this.cfg.visualizer.getResource("special_buildings");
 					opRoundabout.frame = SPECIAL_BUILDINGS[buildingType].iconFrame;
 					opRoundabout.dims = new Point(this.cfg.ingredientSpriteScale * cs);
 					color = SPECIAL_BUILDINGS[buildingType].color;
@@ -2545,7 +2520,7 @@ export default class BoardGeneration extends Scene
 					color = "#9EFB7B";
 					strokeColor = "#0E5E00";
 				}
-				imageToPhaser(resFinal, opRoundabout, this);
+				group.add(resFinal, opRoundabout);
 
 				// ink-friendly maps get a WHITE background and LIGHTGRAY border on decorations
 				// otherwise we get a LIGHT GREEN + DARK GREEN combo
@@ -2557,7 +2532,7 @@ export default class BoardGeneration extends Scene
 				}
 
 				const opRect = new LayoutOperation({ fill: fillColor });
-				rectToPhaser(rect, opRect, overlayGraphics);
+				overlayGroup.add(new ResourceShape(rect), opRect);
 
 				const opLineBorder = new LayoutOperation({
 					stroke: stroke,
@@ -2568,16 +2543,16 @@ export default class BoardGeneration extends Scene
 				for(const border of o.borders) 
 				{
 					const line = new Line(border.start.clone().scale(cs), border.end.clone().scale(cs));
-					lineToPhaser(line, opLineBorder, overlayGraphics);
+					overlayGroup.add(new ResourceShape(line), opLineBorder);
 				}
 			}
 		}
 	}
 
-	visualizeOrders() 
+	visualizeOrders(group:ResourceGroup) 
 	{
 		const cs = this.cfg.cellSize;
-		const fontSize = 16 * (this.canvas.width / 1160.0);
+		const fontSize = 16 * (this.cfg.size.x / 1160.0);
 		const textConfigPrice = new TextConfig({
 			font: this.fontFamily,
 			size: fontSize
@@ -2585,8 +2560,8 @@ export default class BoardGeneration extends Scene
 
 		this.cfg.bankBuilding = null;
 
-		const resCrust = this.cfg.visualizer.resLoader.getResource("crust");
-		const resIng = this.cfg.visualizer.resLoader.getResource("ingredients");
+		const resCrust = this.cfg.visualizer.getResource("crust");
+		const resIng = this.cfg.visualizer.getResource("ingredients");
 
 		let DRAW_RNG = seedRandom(this.cfg.seed + '-drawStuff')
 		for(let i = 0; i < this.buildings.length; i++) 
@@ -2615,7 +2590,7 @@ export default class BoardGeneration extends Scene
 					depth: 15,
 					frame: ingNumber + 1
 				})
-				imageToPhaser(resCrust, op, this);
+				group.add(resCrust, op);
 			}
 
 			// generate sprites for the sideDishes as well
@@ -2629,7 +2604,7 @@ export default class BoardGeneration extends Scene
 					pivot: Point.CENTER,
 					depth: 15
 				})
-				imageToPhaser(resIng, op, this);
+				group.add(resIng, op);
 			}
 
 			// place a price tag underneath
@@ -2665,10 +2640,10 @@ export default class BoardGeneration extends Scene
 				depth: 15
 			})
 			const resTextPrice = new ResourceText({ text: "$" + price, textConfig: textConfigPrice });
-			textToPhaser(resTextPrice, opTextPrice, this);
+			group.add(resTextPrice, opTextPrice);
 
 			// place a courier icon underneath THAT (to remind players they get a new courier for delivering)
-			const resCourier = this.cfg.visualizer.resLoader.getResource("general_icons");
+			const resCourier = this.cfg.visualizer.getResource("general_icons");
 			const opCourier = new LayoutOperation({
 				translate: new Point(posText.x, posText.y + 8 - 0.13*cs),
 				dims: new Point(0.5*cs),
@@ -2676,7 +2651,7 @@ export default class BoardGeneration extends Scene
 				frame: 4,
 				depth: 15
 			})
-			imageToPhaser(resCourier, opCourier, this);
+			group.add(resCourier, opCourier);
 		}
 	}
 
@@ -2724,5 +2699,10 @@ export default class BoardGeneration extends Scene
 	getRandom(list:Record<string,any>)
 	{
 		return getWeighted(list, "prob", this.RANDOM_DRAW_RNG);
+	}
+
+	placeSpecialBuildings()
+	{
+		// @TODO
 	}
 }

@@ -1,39 +1,33 @@
 // @ts-ignore
-import { Scene } from "js/pq_games/phaser/phaser.esm"
-import ResourceLoader from "js/pq_games/layout/resources/resourceLoader"
-import CONFIG from "./config"
-import setDefaultPhaserSettings from "js/pq_games/phaser/setDefaultPhaserSettings"
-import resourceLoaderToPhaser from "js/pq_games/phaser/resourceLoaderToPhaser"
-import getWeighted from "js/pq_games/tools/random/getWeighted"
-import shuffle from "js/pq_games/tools/random/shuffle"
-import Point from "js/pq_games/tools/geometry/point"
-import GraphNode from "./graphNode"
-import Obstacle from "./obstacle"
-import GraphElement from "./graphElement"
-import Line from "js/pq_games/tools/geometry/line"
-import Circle from "js/pq_games/tools/geometry/circle"
-import LayoutOperation from "js/pq_games/layout/layoutOperation"
 import Color from "js/pq_games/layout/color/color"
-import Path from "js/pq_games/tools/geometry/paths/path"
-import { circleToPhaser, lineToPhaser, pathToPhaser, rectToPhaser } from "js/pq_games/phaser/shapeToPhaser"
-import Rectangle from "js/pq_games/tools/geometry/rectangle"
-import imageToPhaser from "js/pq_games/phaser/imageToPhaser"
+import LayoutOperation from "js/pq_games/layout/layoutOperation"
+import ResourceGroup from "js/pq_games/layout/resources/resourceGroup"
+import ResourceShape from "js/pq_games/layout/resources/resourceShape"
 import ResourceText from "js/pq_games/layout/resources/resourceText"
-import textToPhaser from "js/pq_games/phaser/textToPhaser"
 import TextConfig from "js/pq_games/layout/text/textConfig"
-import seedRandom from "js/pq_games/tools/random/seedrandom";
+import imageToPhaser from "js/pq_games/phaser/imageToPhaser"
+import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer"
+import Circle from "js/pq_games/tools/geometry/circle"
+import Line from "js/pq_games/tools/geometry/line"
+import Path from "js/pq_games/tools/geometry/paths/path"
+import Point from "js/pq_games/tools/geometry/point"
+import Rectangle from "js/pq_games/tools/geometry/rectangle"
+import getWeighted from "js/pq_games/tools/random/getWeighted"
+import seedRandom from "js/pq_games/tools/random/seedrandom"
+import shuffle from "js/pq_games/tools/random/shuffle"
 import {
+	EXPEDITION_NODES_DICT,
+	LANDMARKS,
+	MISSION_NODES_DICT,
+	NATURAL_RESOURCES,
+	NODES_DICT,
 	NODE_ACTION_TYPES,
 	NODE_CATEGORIES,
-	NODES_DICT,
-	MISSION_NODES_DICT,
-	EXPEDITION_NODES_DICT,
-	TINY_NODES,
-	LANDMARKS,
-	NATURAL_RESOURCES
+	TINY_NODES
 } from "./dictionary"
-
-
+import GraphElement from "./graphElement"
+import GraphNode from "./graphNode"
+import Obstacle from "./obstacle"
 
 const DEBUG_FILL_AREAS = false;
 const ENERGETIC_NODES = ['Oil', 'Fire', 'Wood', 'Sun', 'Moon', 'Wind', 'Biomass', 'Electricity', 'Battery'];
@@ -63,9 +57,8 @@ interface EdgePointData
 }
 
 export type { PowerDot }
-export default class BoardGeneration extends Scene
+export default class BoardGeneration
 {
-	canvas: HTMLCanvasElement
 	cfg: Record<string,any>
 	map: GraphElement[][][]
 	centerNode: GraphNode
@@ -81,9 +74,7 @@ export default class BoardGeneration extends Scene
 	areas: Area[]
 	suitableAreas: AreaObject[]
 	expeditionNodes: ExpeditionNode[]
-	createdSecretBoard: boolean
 	currentIteration: number
-	finalVisualization: boolean
 	connectionsToDraw: Line[]
 
 	mainGraphics: any
@@ -92,25 +83,20 @@ export default class BoardGeneration extends Scene
 	foregroundGroup: any
 	iteratingTimer: any
 
-	constructor()
-	{
-		super({ key: "boardGeneration" });
-	}
-
-	preload() 
-	{
-		setDefaultPhaserSettings(this); 
-	}
-
 	// user-input settings should be passed through config
-	async create(config:Record<string,any>) 
+	async draw(vis:BoardVisualizer) : Promise<ResourceGroup[]>
 	{
-        await resourceLoaderToPhaser(config.visualizer.resLoader, this);
+		this.setup(vis)
+		this.generateBoard();
+		return this.finishGeneration(vis);
+	}
 
+	setup(vis:BoardVisualizer)
+	{
 		this.cfg = {}		
-		Object.assign(this.cfg, config);
+		Object.assign(this.cfg, vis.config);
 
-		const canvasWidth = this.canvas.width;
+		const canvasWidth = vis.size.x;
 		const scaleFactorDPI = (canvasWidth/1160.0); // this was a one-time crutch needed to rescale all values when I switched to modern system; should be removed one day and replaced with the actual correct values for all config stuff
 		const baseRes = new Point(10,7);
 		
@@ -124,8 +110,8 @@ export default class BoardGeneration extends Scene
 		this.cfg.resolutionX += extraResolution[this.cfg.numPlayers];
 		
 		this.cfg.resolutionY = Math.floor((210/297.0) * this.cfg.resolutionX); // number of points across the height of the paper
-		this.cfg.cellSizeX = this.canvas.width / this.cfg.resolutionX;
-		this.cfg.cellSizeY = this.canvas.height / this.cfg.resolutionY;
+		this.cfg.cellSizeX = vis.size.x / this.cfg.resolutionX;
+		this.cfg.cellSizeY = vis.size.y / this.cfg.resolutionY;
 
 		// on higher player counts, there are more nodes, so the min/max settings on nodes need to be scaled UPWARDS to stay correct
 		// calculate number of extra nodes we received, divide by how many nodes are in the set on average
@@ -158,7 +144,6 @@ export default class BoardGeneration extends Scene
 		this.centerNode = null;
 		this.curSequence = 0;
 
-		this.createdSecretBoard = false;
 		this.lists = 
 		{ 
 			nodes: {},
@@ -167,8 +152,6 @@ export default class BoardGeneration extends Scene
 		}
 
 		console.log(this.cfg);
-
-		this.generateBoard();
 	}
 
 	generateBoard() 
@@ -176,35 +159,11 @@ export default class BoardGeneration extends Scene
 		this.placePoints();
 		this.placeObstacles();
 
-		// for debugging, it helps if I see what's going on each relaxing iteration
 		this.currentIteration = 0;
-		this.finalVisualization = false;
-
-		const ths = this;
-		const callbackFunction = this.finishGeneration.bind(this);
-		const maxIterations = this.cfg.maxIterations;
-		let stopRelaxing = false;
-
-		// @TODO/@BUG: it seems like this timer isn't stopped, even though 
-		// finishGeneration calls this.iteratingTimer.remove()
-		// maybe the API changed?
-		// (Fixed it for now with the stopRelaxing boolean)
-
-		// @ts-ignore
-		this.iteratingTimer = this.time.addEvent({
-			delay: 3,
-			callback() {
-				if(stopRelaxing) { return; }
-				ths.relaxPoints();
-				ths.visualizeGame();
-
-				const generationDone = (ths.currentIteration >= maxIterations);
-				if(!generationDone) { return; }
-				callbackFunction();
-				stopRelaxing = true;
-			},
-			loop: true
-		})
+		for(let i = 0; i < this.cfg.maxIterations; i++)
+		{
+			this.relaxPoints();
+		}
 	}
 
 	finalizePointTypes() 
@@ -852,12 +811,10 @@ export default class BoardGeneration extends Scene
 		}
 	}
 
-	finishGeneration() 
+	finishGeneration(vis:BoardVisualizer) 
 	{
+		const group = new ResourceGroup();
 		console.log("FINISHING GENERATION");
-
-		this.iteratingTimer.remove();
-		this.finalVisualization = true;
 
 		// create connections between all points
 		this.pushPointsToEdge();
@@ -901,8 +858,8 @@ export default class BoardGeneration extends Scene
 
 		// finally, visualize the whole thing we created
 		// and convert to a static image
-		this.visualizeGame();
-		this.cfg.visualizer.convertCanvasToImage(this);
+		this.visualizeGame(vis, group);
+		return [group];
 	}
 
 	orderEdgesByAngle() 
@@ -1780,60 +1737,49 @@ export default class BoardGeneration extends Scene
 		return inside;
 	}
 
-	visualizeGame() 
+	// This USED TO BE a partial visualization (only core features, no details) for speed and snapshots while relaxing
+	// Now there are no snapshots and this is just a one-time draw of the whole thing
+	visualizeGame(vis:BoardVisualizer, group:ResourceGroup) 
 	{
-		if(this.mainGraphics != null) {
-			this.visibilityGraphics.destroy();
-			this.mainGraphics.destroy();
-		}
-
 		const RNG = seedRandom(this.cfg.seed + '-visualization')
 
-		// visualize all points (correct place + radius + color/type)
-		// @ts-ignore
-		const backgroundGroup = this.add.group();
-		backgroundGroup.depth = 0;
+		const backgroundGroup = new ResourceGroup();
+		group.add(backgroundGroup, new LayoutOperation({ depth: 0 }));
 
-		// @ts-ignore
-		const visibilityGraphics = this.add.graphics();
-		visibilityGraphics.depth = 1
+		const visibilityGroup = new ResourceGroup();
+		group.add(visibilityGroup, new LayoutOperation({ depth: 1 }));
 
-		// @ts-ignore
-		const graphics = this.add.graphics()
-		graphics.depth = 2;
+		const graphicsGroup = new ResourceGroup();
+		group.add(graphicsGroup, new LayoutOperation({ depth: 2 }));
 
-		// @ts-ignore
-		const foregroundGroup = this.add.group();
-		foregroundGroup.depth = 3;
+		const foregroundGroup = new ResourceGroup();
+		group.add(foregroundGroup, new LayoutOperation({ depth: 3 }));
 
-		const w = this.canvas.width, h = this.canvas.height
+		const w = vis.size.x, h = vis.size.y
 		const csX = this.cfg.cellSizeX, csY = this.cfg.cellSizeY, cs = Math.min(csX, csY)
 		const radius = this.cfg.nodeRadius
 
 		//
 		// draw the quadrant lines across the board
 		//
-		const resFaultLine = this.cfg.visualizer.resLoader.getResource("fault_line");
+		const resFaultLine = vis.getResource("fault_line");
 
-		if(this.finalVisualization) 
-		{
-			const opHoriz = new LayoutOperation({
-				translate: new Point(0, this.centerNode.y * csY),
-				dims: new Point(w, 50*3),
-				alpha: 0.5,
-				pivot: new Point(0, 0.5)
-			})
-			imageToPhaser(resFaultLine, opHoriz, this);
+		const opHoriz = new LayoutOperation({
+			translate: new Point(0, this.centerNode.y * csY),
+			dims: new Point(w, 50*3),
+			alpha: 0.5,
+			pivot: new Point(0, 0.5)
+		})
+		group.add(resFaultLine, opHoriz);
 
-			const opVert = new LayoutOperation({
-				translate: new Point(this.centerNode.x * csX, 0),
-				dims: new Point(h, 50*3), // @TODO: very uncertain about these fault line dims settings
-				alpha: 0.5,
-				pivot: new Point(0, 0.5),
-				rotation: 0.5*Math.PI
-			})
-			imageToPhaser(resFaultLine, opVert, this);
-		}
+		const opVert = new LayoutOperation({
+			translate: new Point(this.centerNode.x * csX, 0),
+			dims: new Point(h, 50*3), // @TODO: very uncertain about these fault line dims settings
+			alpha: 0.5,
+			pivot: new Point(0, 0.5),
+			rotation: 0.5*Math.PI
+		})
+		group.add(resFaultLine, opVert);
 
 		//
 		// draw all connections (that need to be drawn)
@@ -1848,14 +1794,14 @@ export default class BoardGeneration extends Scene
 		for(const conn of this.connectionsToDraw) 
 		{
 			const line = new Line(conn.start.clone().scale(new Point(csX,csY)), conn.end.clone().scale(new Point(csX,csY)));
-			lineToPhaser(line, opConnLine, graphics);
+			graphicsGroup.add(new ResourceShape(line), opConnLine);
 		}
 
 		// draw natural resources
 		// (these go BEFORE power dots and nodes, because it's more important that those are visible, than that natural resources are)
 		if(this.naturalResources) 
 		{
-			const resNatRes = this.cfg.visualizer.resLoader.getResource("natural_resources");
+			const resNatRes = vis.getResource("natural_resources");
 
 			for(const nr of this.naturalResources) 
 			{
@@ -1867,8 +1813,7 @@ export default class BoardGeneration extends Scene
 					rotation: this.getRandomRotation(),
 					alpha: this.cfg.naturalResourceAlpha
 				})
-				const sprite = imageToPhaser(resNatRes, op, this);
-				backgroundGroup.add(sprite, true);
+				backgroundGroup.add(resNatRes, op);
 			}
 		}
 
@@ -1896,10 +1841,7 @@ export default class BoardGeneration extends Scene
 				color = missionNodeList[p.type].color ?? "#FF0000";
 				lightColor = missionNodeList[p.type].lightColor ?? "#FFAAAA";
 			} else if(p.nodeType == 'Regular') {
-				nodeCategory = 'Center'
-				if(this.finalVisualization) {
-					nodeCategory = this.lists.nodes[p.type].category;
-				}
+				nodeCategory = this.lists.nodes[p.type].category;
 
 				//color = NODES[p.type].color ?? "#0000FF";
 				color = NODE_CATEGORIES[nodeCategory].color ?? "#FF0000";
@@ -1915,16 +1857,17 @@ export default class BoardGeneration extends Scene
 			}
 
 			// Start nodes are rectangular, all other nodes are circular
-			let obj:Rectangle|Circle = null, sprite = null, spriteOutline = null;
+			let obj:Rectangle|Circle = null;
 			const powerDotRadius = this.cfg.powerDotRadius;
 
 			const outlineMarginFactor = 1.2
 			const objectCenter = this.getRealPos(p);
 			const opObj = new LayoutOperation({ fill: lightColor });
+			let spriteRotation = 0;
 
-			const resMissionNodes = this.cfg.visualizer.resLoader.getResource("mission_nodes");
-			const resRegularNodes = this.cfg.visualizer.resLoader.getResource("regular_nodes");
-			const resOutlines = this.cfg.visualizer.resLoader.getResource("node_outlines");
+			const resMissionNodes = vis.getResource("mission_nodes");
+			const resRegularNodes = vis.getResource("regular_nodes");
+			const resOutlines = vis.getResource("node_outlines");
 
 			if(p.nodeType == 'Mission') 
 			{
@@ -1933,145 +1876,134 @@ export default class BoardGeneration extends Scene
 				const rectPos = new Point(p.x * csX - halfSize, p.y * csY - halfSize);
 				obj = new Rectangle().fromTopLeft(rectPos, new Point(halfSize * 2));
 
-				if(this.finalVisualization) 
+				const opMissionNode = new LayoutOperation({
+					translate: this.getRealPos(p),
+					dims: new Point(halfSize),
+					pivot: Point.CENTER,
+					frame: missionNodeList[p.type].iconFrame,
+					depth: 3
+				})
+				foregroundGroup.add(resMissionNodes, opMissionNode);
+
+				const opOutline = new LayoutOperation({
+					translate: opMissionNode.translate.clone(),
+					dims: new Point(2*halfSize*outlineMarginFactor),
+					pivot: Point.CENTER,
+					frame: 4 + Math.floor(Math.random() * 4),
+					depth: 3
+				})
+
+				foregroundGroup.add(resOutlines, opOutline);
+
+				// edge points need their sprites pushed to the side, otherwise they are not completely visible
+				// when staticX and staticY are true, it's a corner node => use a hack: calculate the angle towards the center node and use that.
+				if(p.edgePoint) 
 				{
-					const opMissionNode = new LayoutOperation({
-						translate: this.getRealPos(p),
-						dims: new Point(halfSize),
-						pivot: Point.CENTER,
-						frame: missionNodeList[p.type].iconFrame,
-						depth: 3
-					})
-					sprite = imageToPhaser(resMissionNodes, opMissionNode, this);
-					foregroundGroup.add(sprite, true);
+					let averageAngle = 0;
 
-					const opOutline = new LayoutOperation({
-						translate: opMissionNode.translate.clone(),
-						dims: new Point(2*halfSize*outlineMarginFactor),
-						pivot: Point.CENTER,
-						frame: 4 + Math.floor(Math.random() * 4),
-						depth: 3
-					})
-
-					spriteOutline = imageToPhaser(resOutlines, opOutline, this);
-					foregroundGroup.add(spriteOutline, true);
-
-					// edge points need their sprites pushed to the side, otherwise they are not completely visible
-					// when staticX and staticY are true, it's a corner node => use a hack: calculate the angle towards the center node and use that.
-					// @TODO: if I ever turn this game to my own non-Phaser system entirely, these parts of the code need to be turned around => decided BEFORE drawing the thing
-					if(p.edgePoint) 
+					for(const rawAngle of p.whichEdges)
 					{
-						let averageAngle = 0;
+						let angle = rawAngle * 0.5 * Math.PI;
+						averageAngle += angle / p.whichEdges.length;
 
-						for(const rawAngle of p.whichEdges)
-						{
-							let angle = rawAngle * 0.5 * Math.PI;
-							averageAngle += angle / p.whichEdges.length;
+						opMissionNode.translate.x += 0.5*opMissionNode.dims.x * Math.cos(angle);
+						opMissionNode.translate.y += 0.5*opMissionNode.dims.x * Math.sin(angle);
 
-							sprite.x += 0.5*sprite.displayWidth * Math.cos(angle);
-							sprite.y += 0.5*sprite.displayHeight * Math.sin(angle);
+						// shove the rectangle slightly off the side, to make it stand out and give the icon some room
+						obj.center.x += 10 * Math.cos(angle);
+						obj.center.y += 10 * Math.sin(angle);
 
-							// shove the rectangle slightly off the side, to make it stand out and give the icon some room
-							obj.center.x += 10 * Math.cos(angle);
-							obj.center.y += 10 * Math.sin(angle);
+						objectCenter.x += 10 * Math.cos(angle);
+						objectCenter.y += 10 * Math.sin(angle);
 
-							objectCenter.x += 10 * Math.cos(angle);
-							objectCenter.y += 10 * Math.sin(angle);
+						opOutline.translate.x += 10 * Math.cos(angle);
+						opOutline.translate.y += 10 * Math.sin(angle);
 
-							spriteOutline.x += 10 * Math.cos(angle);
-							spriteOutline.y += 10 * Math.sin(angle);
-
-						}
-
-						sprite.rotation = averageAngle + 0.5 * Math.PI; // the icon drawings have their center at 0.5PI angle, instead of pointing to the right
 					}
+
+					opMissionNode.rotation = averageAngle + 0.5 * Math.PI; // the icon drawings have their center at 0.5PI angle, instead of pointing to the right
 				}
 
-				rectToPhaser(obj, opObj, graphics);
+				spriteRotation = opMissionNode.rotation;
+				graphicsGroup.add(new ResourceShape(obj), opObj);
 
 			} else if(p.nodeType == 'Regular') {
 
 				obj = new Circle({ center: this.getRealPos(p), radius: radius * cs });
 
-				if(this.finalVisualization) 
+				const opRegular = new LayoutOperation({
+					translate: this.getRealPos(p),
+					dims: new Point(radius*cs),
+					pivot: Point.CENTER,
+					frame: this.lists.nodes[p.type].iconFrame,
+					depth: 3,
+					rotation: this.getRandomRotation()
+				})
+
+				foregroundGroup.add(resRegularNodes, opRegular);
+
+				const opOutline = new LayoutOperation({
+					translate: opRegular.translate.clone(),
+					dims: new Point(2*radius*cs*outlineMarginFactor),
+					pivot: Point.CENTER,
+					depth: 3,
+					rotation: this.getRandomRotation(),
+				})
+
+				// frame 8 and 9 are two different outlines to mark a node as special
+				// the center node gets the seed
+				// (@NOTE (21-02-2023): the energy expansion adds an energy number, but that's correctly handled elsewhere in the code)
+				let frameOutline = Math.floor(Math.random() * 4);
+				if(p.type == 'Center') 
 				{
-					const opRegular = new LayoutOperation({
-						translate: this.getRealPos(p),
-						dims: new Point(radius*cs),
+					frameOutline = 8;
+
+					const offset = this.cfg.seedTextOffset;
+
+					const opTextMetadata = new LayoutOperation({
+						translate: new Point(opRegular.translate.x, opRegular.translate.y + opRegular.dims.y * 0.5 + offset),
 						pivot: Point.CENTER,
-						frame: this.lists.nodes[p.type].iconFrame,
-						depth: 3,
-						rotation: this.getRandomRotation()
+						fill: "#555555",
+						dims: new Point(15,2).scale(textConfigMetadata.size),
+						depth: 4
 					})
-
-					sprite = imageToPhaser(resRegularNodes, opRegular, this);
-					foregroundGroup.add(sprite, true);
-
-					const opOutline = new LayoutOperation({
-						translate: opRegular.translate.clone(),
-						dims: new Point(2*radius*cs*outlineMarginFactor),
-						pivot: Point.CENTER,
-						depth: 3,
-						rotation: this.getRandomRotation(),
-					})
-
-					// frame 8 and 9 are two different outlines to mark a node as special
-					// the center node gets the seed
-					// (@NOTE (21-02-2023): the energy expansion adds an energy number, but that's correctly handled elsewhere in the code)
-					let frameOutline = Math.floor(Math.random() * 4);
-					if(p.type == 'Center') 
-					{
-						frameOutline = 8;
-
-						const offset = this.cfg.seedTextOffset;
-
-						const opTextMetadata = new LayoutOperation({
-							translate: new Point(sprite.x, sprite.y + sprite.displayHeight * 0.5 + offset),
-							pivot: Point.CENTER,
-							fill: "#555555",
-							dims: new Point(15,2).scale(textConfigMetadata.size),
-							depth: 4
-						})
-						const resTextMetadata = new ResourceText({ text: this.cfg.seed, textConfig: textConfigMetadata });
-						const txt = textToPhaser(resTextMetadata, opTextMetadata, this);
-						foregroundGroup.add(txt, true);
-					}
-
-					opOutline.frame = frameOutline;
-					spriteOutline = imageToPhaser(resOutlines, opOutline, this);
-					foregroundGroup.add(spriteOutline, true)
-
-					if(p.edgePoint) 
-					{
-						let averageAngle = 0;
-						for(const angleRaw of p.whichEdges) 
-						{
-							const angle = angleRaw * 0.5 * Math.PI;
-							averageAngle += angle / p.whichEdges.length;
-
-							sprite.x += 0.5*sprite.displayWidth * Math.cos(angle)
-							sprite.y += 0.5*sprite.displayHeight * Math.sin(angle);
-
-							// there's less room on edge (circular) nodes, so just scale down the icon (for now)
-							sprite.displayWidth *= 0.75;
-							sprite.displayHeight *= 0.75;
-
-							// shove the circle slightly off the side, to make it stand out and give the icon some room
-							obj.center.x += 10 * Math.cos(angle);
-							obj.center.y += 10 * Math.sin(angle);
-
-							objectCenter.x += 10 * Math.cos(angle);
-							objectCenter.y += 10 * Math.sin(angle);
-
-							spriteOutline.x += 10 * Math.cos(angle);
-							spriteOutline.y += 10 * Math.sin(angle);
-						}
-
-						sprite.rotation = averageAngle + 0.5 * Math.PI;
-					}
+					const resTextMetadata = new ResourceText({ text: this.cfg.seed, textConfig: textConfigMetadata });
+					foregroundGroup.add(resTextMetadata, opTextMetadata);
 				}
 
-				circleToPhaser(obj, opObj, graphics);
+				opOutline.frame = frameOutline;
+				foregroundGroup.add(resOutlines, opOutline);
+
+				if(p.edgePoint) 
+				{
+					let averageAngle = 0;
+					for(const angleRaw of p.whichEdges) 
+					{
+						const angle = angleRaw * 0.5 * Math.PI;
+						averageAngle += angle / p.whichEdges.length;
+
+						opRegular.translate.x += 0.5*opRegular.dims.x * Math.cos(angle)
+						opRegular.translate.y += 0.5*opRegular.dims.x * Math.sin(angle);
+
+						// there's less room on edge (circular) nodes, so just scale down the icon (for now)
+						opRegular.dims.scale(0.75);
+
+						// shove the circle slightly off the side, to make it stand out and give the icon some room
+						obj.center.x += 10 * Math.cos(angle);
+						obj.center.y += 10 * Math.sin(angle);
+
+						objectCenter.x += 10 * Math.cos(angle);
+						objectCenter.y += 10 * Math.sin(angle);
+
+						opOutline.translate.x += 10 * Math.cos(angle);
+						opOutline.translate.y += 10 * Math.sin(angle);
+					}
+
+					opRegular.rotation = averageAngle + 0.5 * Math.PI;
+				}
+
+				spriteRotation = opRegular.rotation;
+				graphicsGroup.add(new ResourceShape(obj), opObj);
 			}
 
 			const opCirc = new LayoutOperation({
@@ -2084,94 +2016,89 @@ export default class BoardGeneration extends Scene
 			{
 				const center = new Point(objectCenter.x + pd.x * radius * cs, objectCenter.y + pd.y * radius * cs);
 				const circ = new Circle({ center: center, radius: powerDotRadius });
-				circleToPhaser(circ, opCirc, visibilityGraphics);
+				visibilityGroup.add(new ResourceShape(circ), opCirc);
 			}
 
 			// Only on final visualization, determine and draw any texts (otherwise too heavy to redraw each frame)
-			if(this.finalVisualization) 
+			const resDayNight = vis.getResource("daynight_icons");
+
+			if(p.nodeType == 'Regular' && this.lists.nodes[p.type].needsNumber) 
 			{
-				const resDayNight = this.cfg.visualizer.resLoader.getResource("daynight_icons");
+				// Calculate distance from this center to edge, and the maximum distance
+				const distToCenter = this.dist(p, this.centerNode);
+				const maxDist = this.maxDistanceToEdge(this.centerNode);
 
-				if(p.nodeType == 'Regular' && this.lists.nodes[p.type].needsNumber) 
+				// Determine how many nodes there are that you NEED to pass this node
+				const numNodesOfType = this.getNumNodesOfType(this.lists.nodes[p.type].typeNeeded) * Math.min(2.0 / this.cfg.numPlayers, 0.5);
+
+				// Combine that to get a percentage of the total needed, depending on distance to center node
+				const centerMultiplier = (1.0 - (distToCenter / maxDist))*numNodesOfType;
+
+				const randNum = Math.max( Math.round(centerMultiplier + 0.5 - RNG()), 1);
+				const str = randNum.toString();
+				const opText = new LayoutOperation({
+					translate: obj.center,
+					pivot: Point.CENTER,
+					rotation: spriteRotation,
+					depth: 4,
+					fill: '#FFFFFF',
+					stroke: "#010101",
+					strokeWidth: strokeWidth,
+					dims: new Point(2*textConfig.size)
+				})
+
+				const resText = new ResourceText({ text: str, textConfig: textConfig });
+				foregroundGroup.add(resText, opText);
+			}
+
+			
+			if(p.type == 'Center') 
+			{
+				// only in the Nodes of knowledge expansion does the center node get day/night icons around it
+				if(this.cfg.expansions.nodesOfKnowledge) 
 				{
-					// Calculate distance from this center to edge, and the maximum distance
-					const distToCenter = this.dist(p, this.centerNode);
-					const maxDist = this.maxDistanceToEdge(this.centerNode);
+					const margin = 0.03
 
-					// Determine how many nodes there are that you NEED to pass this node
-					const numNodesOfType = this.getNumNodesOfType(this.lists.nodes[p.type].typeNeeded) * Math.min(2.0 / this.cfg.numPlayers, 0.5);
+					const pos1 = new Point(obj.center.x - (radius+margin)*cs, obj.center.y - (radius+margin)*cs);
+					const pos2 = new Point(obj.center.x + (radius+margin)*cs, obj.center.y + (radius+margin)*cs);
+					const dims = new Point(0.6*radius*cs);
 
-					// Combine that to get a percentage of the total needed, depending on distance to center node
-					const centerMultiplier = (1.0 - (distToCenter / maxDist))*numNodesOfType;
-
-					const randNum = Math.max( Math.round(centerMultiplier + 0.5 - RNG()), 1);
-					const str = randNum.toString();
-					const opText = new LayoutOperation({
-						translate: obj.center,
-						pivot: Point.CENTER,
-						rotation: sprite.rotation,
-						depth: 4,
-						fill: '#FFFFFF',
-						stroke: "#010101",
-						strokeWidth: strokeWidth,
-						dims: new Point(2*textConfig.size)
+					const op1 = new LayoutOperation({
+						translate: pos1,
+						dims: dims,
+						frame: 0,
+						pivot: Point.CENTER
 					})
+					group.add(resDayNight, op1);
 
-					const resText = new ResourceText({ text: str, textConfig: textConfig });
-					const txt = textToPhaser(resText, opText, this);
-					foregroundGroup.add(txt, true);
+					const op2 = new LayoutOperation({
+						translate: pos2,
+						dims: dims,
+						frame: 1,
+						pivot: Point.CENTER
+					})
+					group.add(resDayNight, op2);
 				}
 
-				
-				if(p.type == 'Center') 
+
+				// only in the Electric Expansion, does the center node get a number
+				if(this.cfg.expansions.theElectricExpansion) 
 				{
-					// only in the Nodes of knowledge expansion does the center node get day/night icons around it
-					if(this.cfg.expansions.nodesOfKnowledge) 
-					{
-						const margin = 0.03
+					let numEnergeticNodes = this.getNumEnergeticNodes();
+					let finalNum = Math.floor(0.66 * numEnergeticNodes / this.cfg.numPlayers);
 
-						const pos1 = new Point(obj.center.x - (radius+margin)*cs, obj.center.y - (radius+margin)*cs);
-						const pos2 = new Point(obj.center.x + (radius+margin)*cs, obj.center.y + (radius+margin)*cs);
-						const dims = new Point(0.6*radius*cs);
-
-						const op1 = new LayoutOperation({
-							translate: pos1,
-							dims: dims,
-							frame: 0,
-							pivot: Point.CENTER
-						})
-						imageToPhaser(resDayNight, op1, this);
-
-						const op2 = new LayoutOperation({
-							translate: pos2,
-							dims: dims,
-							frame: 1,
-							pivot: Point.CENTER
-						})
-						imageToPhaser(resDayNight, op2, this);
-					}
-
-
-					// only in the Electric Expansion, does the center node get a number
-					if(this.cfg.expansions.theElectricExpansion) 
-					{
-						let numEnergeticNodes = this.getNumEnergeticNodes();
-						let finalNum = Math.floor(0.66 * numEnergeticNodes / this.cfg.numPlayers);
-
-						const opTextElec = new LayoutOperation({
-							translate: obj.center,
-							pivot: Point.CENTER,
-							rotation: sprite.rotation,
-							depth: 4,
-							dims: new Point(2*textConfig.size),
-							fill: "#FFFFFF",
-							stroke: "#010101",
-							strokeWidth: strokeWidth,
-						});
-						const resTextElec = new ResourceText({ text: finalNum.toString(), textConfig: textConfig });
-						const txt = textToPhaser(resTextElec, opTextElec, this);
-						foregroundGroup.add(txt, true);
-					}
+					const opTextElec = new LayoutOperation({
+						translate: obj.center,
+						pivot: Point.CENTER,
+						rotation: spriteRotation,
+						depth: 4,
+						dims: new Point(2*textConfig.size),
+						fill: "#FFFFFF",
+						stroke: "#010101",
+						strokeWidth: strokeWidth,
+					});
+					const resTextElec = new ResourceText({ text: finalNum.toString(), textConfig: textConfig });
+					foregroundGroup.add(resTextElec, opTextElec);
 				}
 			}
 		}
@@ -2181,7 +2108,7 @@ export default class BoardGeneration extends Scene
 		{
 			const IP_RNG = seedRandom(this.cfg.seed + "-intermediaryPoints");
 
-			const resTinyNodes = this.cfg.visualizer.resLoader.getResource("tiny_nodes");
+			const resTinyNodes = vis.getResource("tiny_nodes");
 			const iPointSize = new Point(radius * cs * 0.25 * 2);
 			for(const iPoint of this.intermediaryPoints) 
 			{
@@ -2199,9 +2126,7 @@ export default class BoardGeneration extends Scene
 					rotation: angle,
 					depth: 3
 				});
-
-				const obj = imageToPhaser(resTinyNodes, op, this);
-				foregroundGroup.add(obj, true);
+				foregroundGroup.add(resTinyNodes, op);
 			}
 		}
 
@@ -2210,13 +2135,14 @@ export default class BoardGeneration extends Scene
 		{
 			const expeditionNodeRadius = 0.25 * cs;
 			const expeditionSlotRadius = 0.4*expeditionNodeRadius
-			const resExpeditionNodes = this.cfg.visualizer.resLoader.getResource("expedition_nodes");
-			const resOutlines = this.cfg.visualizer.resLoader.getResource("node_outlines");
+			const resExpeditionNodes = vis.getResource("expedition_nodes");
+			const resOutlines = vis.getResource("node_outlines");
 
 			for(const n of this.expeditionNodes) 
 			{
 				let center = n.center, s = n.slots;
 
+				// show default expedition node sprite (the compass/navigator icon)
 				const op = new LayoutOperation({
 					translate: this.getRealPos(center),
 					frame: 0,
@@ -2225,9 +2151,7 @@ export default class BoardGeneration extends Scene
 					rotation: this.getRandomRotation()
 				});
 
-				// show default expedition node sprite (the compass/navigator icon)
-				const sprite = imageToPhaser(resExpeditionNodes, op, this);
-				backgroundGroup.add(sprite, true);
+				backgroundGroup.add(resExpeditionNodes, op);
 
 				// add locations onto which players can move (to join the expedition)
 				let cols = Math.min(s, 2), rows = Math.ceil(s / cols)
@@ -2251,7 +2175,7 @@ export default class BoardGeneration extends Scene
 					);
 
 					const circ = new Circle({ center: new Point(xPos + scatter.x, yPos + scatter.y), radius: expeditionSlotRadius });
-					circleToPhaser(circ, opCirc, graphics);
+					graphicsGroup.add(new ResourceShape(circ), opCirc);
 
 					const op = new LayoutOperation({
 						translate: circ.center,
@@ -2262,10 +2186,8 @@ export default class BoardGeneration extends Scene
 						depth: 3
 					});
 
-					const slotSprite = imageToPhaser(resOutlines, op, this);
-					foregroundGroup.add(slotSprite, true);
+					foregroundGroup.add(resOutlines, op);
 				}
-				
 			}
 		}
 
@@ -2273,7 +2195,7 @@ export default class BoardGeneration extends Scene
 		if(this.landmarks) 
 		{
 			const landmarkRadius = new Point(0.5 * cs);
-			const resLandmarks = this.cfg.visualizer.resLoader.getResource("landmarks");
+			const resLandmarks = vis.getResource("landmarks");
 
 			for(const lm of this.landmarks) 
 			{
@@ -2285,8 +2207,7 @@ export default class BoardGeneration extends Scene
 					dims: landmarkRadius,
 					pivot: Point.CENTER
 				})
-				const sprite = imageToPhaser(resLandmarks, op, this);
-				backgroundGroup.add(sprite, true);
+				backgroundGroup.add(resLandmarks, op);
 			}
 		}
 
@@ -2314,7 +2235,7 @@ export default class BoardGeneration extends Scene
 				}
 
 				const path = new Path(pointsList);
-				pathToPhaser(path, opPath, graphics);
+				graphicsGroup.add(new ResourceShape(path), opPath);
 
 				const opTextAreaNum = new LayoutOperation({
 					translate: this.getRealPos(center),
@@ -2327,15 +2248,9 @@ export default class BoardGeneration extends Scene
 				})
 
 				const resTextAreaNum = new ResourceText({ text: i.toString(), textConfig: textConfig });
-				const txt = textToPhaser(resTextAreaNum, opTextAreaNum, this);
-				foregroundGroup.add(txt, true);
+				foregroundGroup.add(resTextAreaNum, opTextAreaNum);
 			}
 		}
-
-		this.visibilityGraphics = visibilityGraphics;
-		this.mainGraphics = graphics;
-		this.backgroundGroup = backgroundGroup;
-		this.foregroundGroup = foregroundGroup;
 	}
 
 	dist(a:GraphNode, b:GraphNode) 
@@ -2391,54 +2306,6 @@ export default class BoardGeneration extends Scene
 	outOfBounds(pos:Point) 
 	{
 		return (pos.x < 0 || pos.x > this.cfg.resolutionX || pos.y < 0 || pos.y > this.cfg.resolutionY);
-	}
-
-	async createSecretBoard() 
-	{
-		// clear the whole board
-		this.mainGraphics.destroy();
-		this.visibilityGraphics.destroy();
-
-		// custom code to quickly remove ALL children in the whole GAME
-		// @ts-ignore
-		let ch = this.children.list
-		for(let i = ch.length - 1; i >= 0; i--) {
-			ch[i].destroy();
-		}
-		
-		this.foregroundGroup.clear();
-		this.backgroundGroup.clear();
-
-		// draw expedition node icons at the same locations as original expedition nodes
-		let expeditionNodeRadius = 0.25 * Math.min(this.cfg.cellSizeX, this.cfg.cellSizeY);
-
-		const resExpedition = this.cfg.visualizer.resLoader.getResource("expedition_nodes");
-
-		if(this.expeditionNodes) 
-		{
-			for(const n of this.expeditionNodes) 
-			{
-				const center = n.center
-				const type = n.type;
-
-				// show the expedition sprite (center of area, otherwise randomly rotated and stuff)
-				// NOTE: These are MIRRORED on the Y-axis ( = flipped on the long edge)
-				const pos = new Point(center.x*this.cfg.cellSizeX, (this.cfg.resolutionY-center.y)*this.cfg.cellSizeY);
-				const op = new LayoutOperation({
-					translate: pos,
-					dims: new Point(2.0 * expeditionNodeRadius),
-					pivot: Point.CENTER,
-					rotation: this.getRandomRotation(),
-					frame: this.lists.expeditionNodes[type].iconFrame
-				});
-				const img = imageToPhaser(resExpedition, op, this);
-				this.foregroundGroup.add(img, true);
-			}
-		}
-
-		// call convertCanvasToImage() again => it should add this image as well, then destroy the whole game
-		this.createdSecretBoard = true;
-		await this.cfg.visualizer.convertCanvasToImage(this);
 	}
 
 	getRealPos(pos:{ x: number, y: number }) : Point

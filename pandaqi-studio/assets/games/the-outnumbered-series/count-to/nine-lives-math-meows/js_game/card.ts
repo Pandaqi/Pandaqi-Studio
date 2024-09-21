@@ -1,28 +1,22 @@
+import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage";
 import createContext from "js/pq_games/layout/canvas/createContext";
-import { CATS, MISC, SUITS, Type } from "../js_shared/dict";
-import CONFIG from "../js_shared/config";
-import strokeCanvas from "js/pq_games/layout/canvas/strokeCanvas";
-import Point from "js/pq_games/tools/geometry/point";
-import Visualizer from "./visualizer";
-import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
+import strokeCanvas from "js/pq_games/layout/canvas/strokeCanvas";
+import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
+import GrayScaleEffect from "js/pq_games/layout/effects/grayScaleEffect";
+import LayoutOperation from "js/pq_games/layout/layoutOperation";
+import ResourceShape from "js/pq_games/layout/resources/resourceShape";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
 import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
-import movePath from "js/pq_games/tools/geometry/transform/movePath";
-import Path from "js/pq_games/tools/geometry/paths/path";
-import ResourceShape from "js/pq_games/layout/resources/resourceShape";
-import Rectangle from "js/pq_games/tools/geometry/rectangle";
 import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
-import LayoutNode from "js/pq_games/layout/layoutNode";
-import { FlowDir, FlowType } from "js/pq_games/layout/values/aggregators/flowInput";
-import AlignValue from "js/pq_games/layout/values/alignValue";
-import TwoAxisValue from "js/pq_games/layout/values/twoAxisValue";
-import FourSideValue from "js/pq_games/layout/values/fourSideValue";
-import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
-import ResourceImage from "js/pq_games/layout/resources/resourceImage";
-import GrayScaleEffect from "js/pq_games/layout/effects/grayScaleEffect";
 import bevelCorners from "js/pq_games/tools/geometry/paths/bevelCorners";
-import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage";
+import Path from "js/pq_games/tools/geometry/paths/path";
+import Point from "js/pq_games/tools/geometry/point";
+import Rectangle from "js/pq_games/tools/geometry/rectangle";
+import movePath from "js/pq_games/tools/geometry/transform/movePath";
+import CONFIG from "../js_shared/config";
+import { CATS, MISC, SUITS, Type } from "../js_shared/dict";
+import Visualizer from "./visualizer";
 
 export default class Card
 {
@@ -278,8 +272,8 @@ export default class Card
         const textConfig = new TextConfig({
             font: CONFIG.fonts.body,
             size: fontSize,
-            alignHorizontal: TextAlign.MIDDLE
-        })
+            resLoader: vis.resLoader
+        }).alignCenter();
 
         // some small vector magic to create a rectangle with the corners cut/beveled
         const yPos = CONFIG.cards.power.yPos * vis.size.y;
@@ -313,53 +307,29 @@ export default class Card
         await resShape.toCanvas(ctx, opRect);
 
         // then put the actual text inside it
-        const root = new LayoutNode({
-            size: vis.size
-        })
+        const opText = new LayoutOperation({
+            translate: new Point(0.5*(vis.size.x-rectSize.x), pos.y-0.5*rectSize.y),
+            dims: rectSize,
+            pivot: Point.CENTER,
+            fill: "#000000"
+        });
 
-        const textContainer = new LayoutNode({
-            pos: new Point(0.5*(vis.size.x-rectSize.x), pos.y-0.5*rectSize.y),
-            size: rectSize,
-            padding: new FourSideValue(0.5*fontSize),
-            flow: FlowType.GRID,
-            dir: FlowDir.HORIZONTAL,
-            alignFlow: AlignValue.MIDDLE,
-            alignStack: AlignValue.MIDDLE,
-            alignContent: AlignValue.MIDDLE,
-            wrap: true
-        })
-        root.addChild(textContainer);
-
-        let desc = this.data.desc.split(" ");
+        const desc = this.data.desc.split(" ");
         const suitNames = Object.keys(SUITS);
-        const marginVal = new FourSideValue(0, 0.25*fontSize, 0, 0);
-        for(const word of desc)
+        const descOutput = [];
+        for(let word of desc)
         {
             const isIcon = suitNames.includes(word);
-
-            if(isIcon) {
-                const res = (vis.resLoader.getResource("suits") as ResourceImage).getImageFrameAsResource(SUITS[word].frame);
-                const iconNode = new LayoutNode({
-                    resource: res,
-                    size: new Point(1.5*fontSize),
-                    margin: marginVal,
-                    shrink: 0
-                })
-                textContainer.addChild(iconNode);
-            } else {
-                const resText = new ResourceText({ text: word, textConfig: textConfig });
-                const textNode = new LayoutNode({
-                    resource: resText,
-                    size: new TwoAxisValue().setAuto(),
-                    fill: "#000000",
-                    margin: marginVal
-                })
-                textContainer.addChild(textNode);
+            if(isIcon) 
+            {
+                word = '<img id="suits" frame="' + SUITS[word].frame + '">';
             }
+            descOutput.push(word);
         }
 
-        await root.toCanvas(ctx);
-
+        const descFinal = descOutput.join(" ");
+        const resText = new ResourceText({ text: descFinal, textConfig: textConfig });
+        await resText.toCanvas(ctx, opText);
     }
 
     //
@@ -379,9 +349,7 @@ export default class Card
         const textConfig = new TextConfig({
             font: CONFIG.fonts.heading,
             size: fontSize,
-            alignHorizontal: TextAlign.MIDDLE,
-            alignVertical: TextAlign.MIDDLE
-        })
+        }).alignCenter();
 
         const strokeWidth = CONFIG.cards.sharedStrokeWidth * vis.sizeUnit;
         const shadowOffset = new Point(CONFIG.cards.sharedShadowOffset * vis.sizeUnit);

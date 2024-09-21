@@ -1,35 +1,23 @@
-import Point from "js/pq_games/tools/geometry/point"
-import CONFIG from "./config"
 import createContext from "js/pq_games/layout/canvas/createContext"
-
-import LayoutNode from "js/pq_games/layout/layoutNode"
-import AnchorValue from "js/pq_games/layout/values/anchorValue"
-
-import TwoAxisValue from "js/pq_games/layout/values/twoAxisValue"
-import { SizeValue, SizeType } from "js/pq_games/layout/values/sizeValue"
-import StrokeValue from "js/pq_games/layout/values/strokeValue"
-import FourSideValue from "js/pq_games/layout/values/fourSideValue"
-
-import { ELEMENTS, CATEGORIES } from "../js_shared/dict"
-
-import { TextConfig, TextAlign, TextStyle } from "js/pq_games/layout/text/textConfig"
-import AlignValue from "js/pq_games/layout/values/alignValue"
-import { FlowDir, FlowType } from "js/pq_games/layout/values/aggregators/flowInput"
-import ElementIcon from "./elementIcon"
+import fillCanvas from "js/pq_games/layout/canvas/fillCanvas"
 import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect"
-import CanvasEffect from "js/pq_games/layout/effects/layoutEffect"
-import CanvasOperation from "js/pq_games/layout/layoutOperation"
-import ResourceImage from "js/pq_games/layout/resources/resourceImage"
-import rangeInteger from "js/pq_games/tools/random/rangeInteger"
-import fromArray from "js/pq_games/tools/random/fromArray"
-import PlacementValue from "js/pq_games/layout/values/placementValue"
-import ResourceText from "js/pq_games/layout/resources/resourceText"
-import ResourceShape from "js/pq_games/layout/resources/resourceShape"
-import Path from "js/pq_games/tools/geometry/paths/path"
 import GrayScaleEffect from "js/pq_games/layout/effects/grayScaleEffect"
-import ResourceGradient, { GradientType } from "js/pq_games/layout/resources/resourceGradient"
-import ColorStop from "js/pq_games/layout/color/colorStop"
-import Color from "js/pq_games/layout/color/color"
+import CanvasEffect from "js/pq_games/layout/effects/layoutEffect"
+import LayoutOperation from "js/pq_games/layout/layoutOperation"
+import ResourceImage from "js/pq_games/layout/resources/resourceImage"
+import ResourceShape from "js/pq_games/layout/resources/resourceShape"
+import ResourceText from "js/pq_games/layout/resources/resourceText"
+import { TextAlign, TextConfig } from "js/pq_games/layout/text/textConfig"
+import FourSideValue from "js/pq_games/layout/values/fourSideValue"
+import getPositionsCenteredAround from "js/pq_games/tools/geometry/paths/getPositionsCenteredAround"
+import Path from "js/pq_games/tools/geometry/paths/path"
+import Point from "js/pq_games/tools/geometry/point"
+import Rectangle from "js/pq_games/tools/geometry/rectangle"
+import fromArray from "js/pq_games/tools/random/fromArray"
+import rangeInteger from "js/pq_games/tools/random/rangeInteger"
+import { CATEGORIES, ELEMENTS } from "../js_shared/dict"
+import CONFIG from "./config"
+import ElementIcon from "./elementIcon"
 
 export default class Card 
 {
@@ -37,17 +25,15 @@ export default class Card
     mainType: ElementIcon
 
     ctx : CanvasRenderingContext2D
-    dims : Point
+    size : Point
     sizeUnit : number
     center : Point
-    mainNode : LayoutNode
 
     cornerIconSize:number
     creatureSpritesheet: string
     backgroundSpritesheet: string
     iconSpritesheet: string
 
-    imageLayoutNode: LayoutNode
     strokeWidth: number
     strokeColor: string
     iconEffectsMain: CanvasEffect[]
@@ -69,16 +55,11 @@ export default class Card
     async draw() : Promise<HTMLCanvasElement>
     {
         const ctx = this.setup();
-
         this.drawBackground(ctx);
-        this.drawHeader();
-        this.drawBanner();
-        this.drawContent();
-        this.drawFooter();
-
-        await this.mainNode.toCanvas(ctx);
-        this.drawCustomPost(ctx);
-        
+        this.drawHeader(ctx);
+        this.drawBanner(ctx);
+        this.drawContent(ctx);
+        this.drawFooter(ctx);
         return ctx.canvas;
     }
 
@@ -104,8 +85,8 @@ export default class Card
         const dims = CONFIG.cards.size;
         const ctx = createContext({ size: dims });
 
-        this.dims = dims.clone();
-        this.sizeUnit = Math.min(this.dims.x, this.dims.y);
+        this.size = dims.clone();
+        this.sizeUnit = Math.min(this.size.x, this.size.y);
         this.center = new Point().fromXY(0.5*dims.x, 0.5*dims.y);
 
         this.cornerIconSize = 0.12*this.sizeUnit;
@@ -118,11 +99,6 @@ export default class Card
         this.creatureName = this.getCreatureName();
 
         this.rootPadding = 0.0425*this.sizeUnit;
-
-        const params = { 
-            size: new TwoAxisValue().fromPoint(this.dims),
-            padding: new FourSideValue(this.rootPadding),
-        };
 
         this.creatureFlipX = Math.random() <= 0.5;
         this.iconBorderRadius = new FourSideValue(0.025*this.sizeUnit);
@@ -137,7 +113,6 @@ export default class Card
             })
         ];
 
-        this.mainNode = new LayoutNode(params);
         return ctx;
     }
 
@@ -216,16 +191,14 @@ export default class Card
     drawBackground(ctx)
     {
         const color = CONFIG.inkFriendly ? "#FFFFFF" : CONFIG.cards.backgroundColors[this.getMainIconElementType()];
-
-        ctx.fillStyle = color;
-        ctx.fillRect(0, 0, this.dims.x, this.dims.y);
+        fillCanvas(ctx, color);
 
         if(CONFIG.inkFriendly) { return; }
 
         const size = this.sizeUnit * CONFIG.cards.backgroundScale;
         const res = CONFIG.resLoader.getResource(this.creatureSpritesheet);
-        const canvOp = new CanvasOperation({
-            translate: this.dims.clone().scale(0.5),
+        const canvOp = new LayoutOperation({
+            translate: this.size.clone().scale(0.5),
             dims: new Point(size),
             frame: this.getCardBackgroundFrame(),
             pivot: Point.CENTER,
@@ -236,123 +209,70 @@ export default class Card
         res.toCanvas(ctx, canvOp);
     }
 
-    drawHeader()
+    drawHeader(ctx)
     {
-        // actual image of creature
-        const contSize = new TwoAxisValue().setBlock();
         const contHeight = 0.6*this.sizeUnit;
-        contSize.y = new SizeValue(contHeight);
-
-        const clipPath = this.getClipPath(new Point(this.dims.x, contHeight));
-        const imageLayoutNode = new LayoutNode({
-            size: contSize,
-            clip: clipPath
-        });
-        this.imageLayoutNode = imageLayoutNode;
-        this.mainNode.addChild(imageLayoutNode);
-
-        const effects = [];
-        if(CONFIG.inkFriendly)
-        {
-            effects.push(new GrayScaleEffect())
-        }
+        const clipPath = this.getClipPath(new Point(this.size.x, contHeight));
+        const effects = CONFIG.inkFriendly ? [new GrayScaleEffect()] : [];
 
         // background environment image
         const backgroundImageSize = new Point(contHeight, contHeight).scaleFactor(1.7);
-        const bgResource = CONFIG.resLoader.getResource(this.backgroundSpritesheet);
-        const bgLayoutNode = new LayoutNode({ 
-            resource: bgResource,
+        const resBG = CONFIG.resLoader.getResource(this.backgroundSpritesheet);
+        const posBG = new Point(0.5*this.size.x, 0.33*this.size.y); // @TODO: should reposition so the bottom aligns with bottom clip path
+        const opBG = new LayoutOperation({
+            translate: posBG,
+            dims: backgroundImageSize,
             frame: this.getBackgroundFrame(),
-            size: backgroundImageSize,
-            anchor: AnchorValue.BOTTOM_CENTER,
-            ghost: true,
             effects: effects,
-            flipX: Math.random() <= 0.5
+            flipX: Math.random() <= 0.5,
+            clip: clipPath,
+            pivot: new Point(0.5, 1)
         });
-        imageLayoutNode.addChild(bgLayoutNode);
-
-        // a little gradient to help focus the image and make the creature fit better
-        const gradientResource = new ResourceGradient({ type: GradientType.RADIAL, start: backgroundImageSize.clone().scaleFactor(0.5) });
-        const gradientAlpha = 0.3;
-        gradientResource.addStop(new ColorStop({ pos: 0, color: new Color(0,0,0,0) }));
-        gradientResource.addStop(new ColorStop({ pos: 1, color: new Color(0,0,0,gradientAlpha)}));
-
-        const gradientLayoutNode = new LayoutNode({
-            resource: gradientResource,
-            size: backgroundImageSize,
-            anchor: AnchorValue.CENTER_CENTER,
-            ghost: true
-        })
-        imageLayoutNode.addChild(gradientLayoutNode);
+        resBG.toCanvas(ctx, opBG);
 
         // actual creature (smaller)
         const creatureImageSize = new Point(contHeight, contHeight).scaleFactor(0.8);
-        const creatureResource = CONFIG.resLoader.getResource(this.creatureSpritesheet);
-        const creatureLayoutNode = new LayoutNode({ 
-            resource: creatureResource,
+        const resCreature = CONFIG.resLoader.getResource(this.creatureSpritesheet);
+        const posCreature = new Point(0.5*this.size.x, 0.33*this.size.y);
+        const opCreature = new LayoutOperation({
+            translate: posCreature,
+            dims: creatureImageSize,
             frame: this.getMainFrame(),
-            size: creatureImageSize,
-            anchor: AnchorValue.CENTER_CENTER,
-            ghost: true,
-            effects: effects,
-            flipX: this.creatureFlipX
-        });
-        imageLayoutNode.addChild(creatureLayoutNode);
+            pivot: Point.CENTER,
+            effects: effects
+        })
+        resCreature.toCanvas(ctx, opCreature);
 
         // Icon top-right
-        const iconEffects = this.iconEffectsMain;
-
-        const iconResource = CONFIG.resLoader.getResource(this.iconSpritesheet);
-        const iconLayoutNode = new LayoutNode({
-            resource: iconResource,
-            frame: this.getIconFrame(this.getMainIcon()),
-            size: new TwoAxisValue().fromSingle(this.cornerIconSize),
-            borderRadius: this.iconBorderRadius,
-            effects: iconEffects,
-            anchor: AnchorValue.TOP_RIGHT
-        })
-        this.mainNode.addChild(iconLayoutNode);
+        const cornerPos = new Point(this.size.x - 0.66*this.cornerIconSize, 0.66*this.cornerIconSize);
+        this.drawCornerIcon(ctx, cornerPos);
 
         // Icon reminder list (of what's on the card, overlays image)
-        const iconReminderSize = 0.725*this.cornerIconSize;
-        const iconReminderPadding = 0.25*iconReminderSize;
-        const iconReminderGap = 0.5*iconReminderPadding;
-        const iconReminderRadius = new FourSideValue(0.5*this.iconBorderRadius.top.get());
-        const listSize = new TwoAxisValue().setFreeGrow();
-        const iconReminders = new LayoutNode({
-            anchor: AnchorValue.BOTTOM_RIGHT,
-            padding: iconReminderPadding,
-            size: listSize,
-            dir: FlowDir.VERTICAL,
-            gap: iconReminderGap,
-            flow: FlowType.GRID
-        })
-        imageLayoutNode.addChild(iconReminders);
-
-        for(const type of this.typeList)
+        const remAnchor = new Point(0.88*this.size.x, 0.2*this.size.y);
+        const iconReminderSize = new Point(0.725*this.cornerIconSize);
+        const remPositions = getPositionsCenteredAround({ pos: remAnchor, dims: iconReminderSize, num: this.typeList.length, dir: Point.DOWN });
+        for(let i = 0; i < remPositions.length; i++)
         {
-            const cont = new LayoutNode({
-                resource: this.getIconResource(type),
+            const type = this.typeList[i];
+            const resIcon = this.getIconResource(type);
+            const opIcon = new LayoutOperation({
+                translate: remPositions[i],
+                dims: iconReminderSize,
                 frame: this.getIconFrame(type),
-                size: new TwoAxisValue().fromSingle(iconReminderSize),
-                stroke: new StrokeValue(0.5*this.strokeWidth, this.getIconColorDark(type)),
-                borderRadius: iconReminderRadius,
+                stroke: this.getIconColorDark(type),
+                strokeWidth: 0.5*this.strokeWidth
             })
-            iconReminders.addChild(cont);
+            resIcon.toCanvas(ctx, opIcon);
         }
 
-        // we draw our clip path as an IMAGE, so it fits right into this pipeline at the right moment
-        const clipPathForStroke = this.getClipPath(new Point(this.dims.x, contHeight), new Point(this.rootPadding));
-        const clipPathResource = new ResourceShape({ shape: clipPathForStroke });
-        const clipPathVisible = new LayoutNode({
-            resource: clipPathResource,
-            dims: new Point(this.dims.x, contHeight+3*this.rootPadding),
-            size: new TwoAxisValue().setAuto(),
-            placement: PlacementValue.ABSOLUTE,
-            pos: new Point(0.5),
-            stroke: new StrokeValue(this.strokeWidth, this.strokeColor),
-        })
-        this.mainNode.addChild(clipPathVisible);
+        // draw our clip path on top of everything
+        const clipPathForStroke = this.getClipPath(new Point(this.size.x, contHeight), new Point(this.rootPadding));
+        const resPath = new ResourceShape(clipPathForStroke);
+        const opPath = new LayoutOperation({
+            stroke: this.strokeColor,
+            strokeWidth: this.strokeWidth
+        });
+        resPath.toCanvas(ctx, opPath);
     }
 
     getElementOnCycle(change:number = 1) : ElementIcon
@@ -363,221 +283,99 @@ export default class Card
         return new ElementIcon(list[idx], false);
     }
 
-    drawBanner()
+    drawBanner(ctx)
     {
-        const bannerHeight = 0.2*this.sizeUnit;
-        const bannerLayoutNode = new LayoutNode({
-            size: new TwoAxisValue(new SizeValue(1.0, SizeType.PARENT), bannerHeight),
-            flow: FlowType.GRID,
-            dir: FlowDir.HORIZONTAL,
-            alignFlow: AlignValue.MIDDLE,
-            alignStack: AlignValue.MIDDLE
-        })
-        this.mainNode.addChild(bannerLayoutNode);
-
         const iconResource = CONFIG.resLoader.getResource(this.iconSpritesheet);
         const counterSize = this.cornerIconSize;
         const mainIconSize = 3.0*counterSize;
 
-        const useCounterRules = CONFIG.enableOldCounterRules;
-
-        const mainIconEffects = [
-            new DropShadowEffect({ 
-                offset: this.dropShadowOffset.clone().scaleFactor(2.5),
-                color: this.getIconColorDark(this.getMainIcon()),
-            })
-        ]
-
-        const mainIcon = new LayoutNode({
-            resource: iconResource,
+        // @TODO: IGNORED NOW => this.iconBorderRadius
+        const op = new LayoutOperation({
+            translate: new Point(0.5*this.size.x, 0.5*this.size.y),
+            dims: new Point(mainIconSize),
             frame: this.getIconFrame(this.getMainIcon()),
-            borderRadius: this.iconBorderRadius,
-            size: new TwoAxisValue().fromSingle(mainIconSize),
-            effects: mainIconEffects,
-            shrink: 0
+            effects: [
+                new DropShadowEffect({ 
+                    offset: this.dropShadowOffset.clone().scaleFactor(2.5),
+                    color: this.getIconColorDark(this.getMainIcon()),
+                })
+            ]
         })
-
-        let counteredBy, counterIcon, weCounter;
-        if(useCounterRules)
-        {
-            const iconEffects1 = [
-                new DropShadowEffect({ 
-                    offset: this.dropShadowOffset,
-                    color: this.getIconColorDark(this.getElementOnCycle(-1)),
-                })
-            ];
-    
-            counteredBy = new LayoutNode({
-                resource: iconResource,
-                frame: this.getIconFrame(this.getElementOnCycle(-1)),
-                size: new TwoAxisValue().fromSingle(counterSize),
-                borderRadius: this.iconBorderRadius,
-                effects: iconEffects1,
-                shrink: 0
-            })
-    
-            const counterIconResource = CONFIG.resLoader.getResource("counter_icon");
-            const counterParams = {   
-                resource: counterIconResource,
-                frame: 0,
-                size: new TwoAxisValue().setAuto()
-            }
-            counterIcon = new LayoutNode(counterParams);
-    
-    
-            const iconEffects2 = [
-                new DropShadowEffect({ 
-                    offset: this.dropShadowOffset,
-                    color: this.getIconColorDark(this.getElementOnCycle(+1)),
-                })
-            ];
-            weCounter = new LayoutNode({
-                resource: iconResource,
-                frame: this.getIconFrame(this.getElementOnCycle(+1)),
-                borderRadius: this.iconBorderRadius,
-                size: new TwoAxisValue().fromSingle(counterSize),
-                effects: iconEffects2,
-                shrink: 0
-            })
-        }
-
-        if(useCounterRules)
-        {
-            bannerLayoutNode.addChild(counteredBy);
-            bannerLayoutNode.addChild(counterIcon);
-        }
-
-        bannerLayoutNode.addChild(mainIcon);
-
-        if(useCounterRules)
-        {
-            bannerLayoutNode.addChild(counterIcon.clone());
-            bannerLayoutNode.addChild(weCounter);
-        }
-
+        iconResource.toCanvas(ctx, op);
     }
 
-    drawContent()
+    // The main body of the card: the icons of this creature
+    drawContent(ctx)
     {
-        // The main body of the card: the icons of this creature
-        const padding = 0.05*this.sizeUnit
-        const gap = padding;
-        const offsetTop = 0.165*this.sizeUnit;
-        const icons = new LayoutNode({
-            padding: padding,
-            size: new TwoAxisValue().setBlock(),
-            margin: new FourSideValue(offsetTop,0,0,0),
-            dir: FlowDir.HORIZONTAL,
-            alignFlow: AlignValue.MIDDLE,
-            gap: gap,
-            flow: FlowType.GRID
-        })
-        this.mainNode.addChild(icons);
-
-        const iconSize = 0.1725*this.sizeUnit;
-        for(const type of this.typeList)
+        const anchor = new Point(0.5*this.size.x, 0.75*this.size.y);
+        const iconSize = new Point(0.1725*this.sizeUnit);
+        const positions = getPositionsCenteredAround({ pos: anchor, dims: iconSize, num: this.typeList.length });
+        for(let i = 0; i < positions.length; i++)
         {
-            const iconEffects = [
-                new DropShadowEffect({ 
-                    offset: this.dropShadowOffset,
-                    color: this.getIconColorDark(type),
-                })
-            ];
-
-            const cont = new LayoutNode({
-                resource: this.getIconResource(type),
+            const type = this.typeList[i];
+            const resIcon = this.getIconResource(type);
+            const opIcon = new LayoutOperation({
+                translate: positions[i],
+                dims: iconSize,
                 frame: this.getIconFrame(type),
-                borderRadius: this.iconBorderRadius,
-                size: new TwoAxisValue().fromSingle(iconSize),
-                effects: iconEffects,
-                shrink: 0,
+                effects: [
+                    new DropShadowEffect({ 
+                        offset: this.dropShadowOffset,
+                        color: this.getIconColorDark(type),
+                    })
+                ]
             })
-            icons.addChild(cont);
+            resIcon.toCanvas(ctx, opIcon);
         }
     }
 
-    drawFooter()
+    drawCornerIcon(ctx, pos)
     {
+        const resIcon = CONFIG.resLoader.getResource(this.iconSpritesheet);
+        const opIcon = new LayoutOperation({
+            translate: pos,
+            dims: new Point(this.cornerIconSize),
+            frame: this.getIconFrame(this.getMainIcon()),
+            effects: this.iconEffectsMain,
+            pivot: Point.CENTER
+        });
+        resIcon.toCanvas(ctx, opIcon);
+    }
+
+    drawFooter(ctx)
+    {
+        const footerY = 0.8*this.size.y;
+        const textBoxDims = new Point(0.8*this.size.x, 0.15*this.size.y);
         const footerGap = 0.175*this.cornerIconSize;
-        const footer = new LayoutNode({
-            anchor: AnchorValue.BOTTOM_LEFT,
-            flow: FlowType.GRID,
-            dir: FlowDir.HORIZONTAL,
-            alignFlow: AlignValue.START,
-            alignStack: AlignValue.STRETCH,
-            size: new TwoAxisValue().setBlock(),
-            gap: footerGap,
-        })
-        this.mainNode.addChild(footer);
+        const textBoxAnchor = new Point(this.cornerIconSize + footerGap, footerY);
+        const iconPos = new Point(0.66*this.cornerIconSize, footerY + 0.5 * this.cornerIconSize); 
 
         // icon again in bottom left
-        const iconResource = CONFIG.resLoader.getResource(this.iconSpritesheet);
-        const iconLayoutNode = new LayoutNode({
-            resource: iconResource,
-            frame: this.getIconFrame(this.getMainIcon()),
-            borderRadius: this.iconBorderRadius,
-            size: new TwoAxisValue().fromSingle(this.cornerIconSize),
-            effects: this.iconEffectsMain,
-            shrink: 0 // to prevent changing its size because of full width text box
-        })
-        footer.addChild(iconLayoutNode);
+        this.drawCornerIcon(ctx, iconPos)
 
-        const textContainer = new LayoutNode({
-            size: new TwoAxisValue().setFullSize(),
+        // the box behind the text
+        const rect = new ResourceShape(new Rectangle().fromTopLeft(textBoxAnchor, textBoxDims));
+        const opRect = new LayoutOperation({
             fill: "#FFFFFF",
-            borderRadius: this.iconBorderRadius,
-            stroke: new StrokeValue(this.strokeWidth, this.strokeColor),
-            padding: new FourSideValue(0,0,0,10)
-        })
-
-        footer.addChild(textContainer);
+            stroke: this.strokeColor,
+            strokeWidth: this.strokeWidth
+        });
+        rect.toCanvas(ctx, opRect);
 
         // the text with the name of the creature
-        const txtCfg = new TextConfig({
+        const textConfig = new TextConfig({
             font: CONFIG.fonts.heading,
             size: CONFIG.cards.textSize*this.sizeUnit,
             alignVertical: TextAlign.MIDDLE,
         })
-        const textRes = new ResourceText({ text: this.creatureName, textConfig: txtCfg })
-        const textBox = new LayoutNode({
-            resource: textRes,
-            size: new TwoAxisValue().setFullSize(),
-            fill: Color.BLACK
-        })
-        textContainer.addChild(textBox);
-        
-        // fineprint in the margin
-        const fontSize = CONFIG.cards.textSizeFineprint * this.sizeUnit
-        const txtCfgSmall = new TextConfig({
-            font: CONFIG.fonts.body,
-            style: TextStyle.ITALIC,
-            alignHorizontal: TextAlign.END,
-            size: fontSize,
-        })
-        const textResSmall = new ResourceText({ text: this.getFinePrintText(), textConfig: txtCfgSmall });
-        const fineprintText = new LayoutNode({
-            resource: textResSmall,
-            size: new TwoAxisValue().setBlock(),
-            margin: new FourSideValue(0,0,-(fontSize+3),0),
-            anchor: AnchorValue.BOTTOM_LEFT,
-            text: this.getFinePrintText(),
-            alpha: 0.66,
-            fill: Color.BLACK
-        })
-        this.mainNode.addChild(fineprintText)
 
-    }
-
-    getFinePrintText() : string
-    {
-        const div = " · "
-        const arr = [
-            "🦄 Creature Quellector ©", 
-            this.getMainIconElementType(), 
-            this.getMainIcon().type, 
-            this.creatureName
-        ]
-        return arr.join(div);
+        const resText = new ResourceText({ text: this.creatureName, textConfig: textConfig })
+        const opText = new LayoutOperation({
+            translate: new Point(),
+            dims: textBoxDims,
+            fill: "#000000"
+        });
+        resText.toCanvas(ctx, opText);
     }
 
     getCreatureName() : string
@@ -613,15 +411,6 @@ export default class Card
         if(Math.random() <= 0.075) { joiner = "-"; }
 
         return parts.join(joiner);
-    }
-
-    // thick card outline
-    drawCustomPost(ctx)
-    {
-        const col = CONFIG.inkFriendly ? CONFIG.cards.outline.colorInkFriendly : CONFIG.cards.outline.color;
-        ctx.strokeStyle = col;
-        ctx.lineWidth = CONFIG.cards.outline.width * this.sizeUnit;
-        ctx.strokeRect(0, 0, this.dims.x, this.dims.y);
     }
 
     getClipPath(size:Point, offset:Point = new Point()) : Path

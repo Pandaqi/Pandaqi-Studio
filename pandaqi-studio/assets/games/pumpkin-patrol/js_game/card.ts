@@ -1,28 +1,24 @@
 import createContext from "js/pq_games/layout/canvas/createContext";
-import { COLORS, MISC, SET_ORDER, Type } from "../js_shared/dict";
-import CONFIG from "../js_shared/config";
-import strokeCanvas from "js/pq_games/layout/canvas/strokeCanvas";
-import Point from "js/pq_games/tools/geometry/point";
 import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
-import SideData from "./sideData";
-import ResourceGradient, { GradientType } from "js/pq_games/layout/resources/resourceGradient";
-import ColorStop from "js/pq_games/layout/color/colorStop";
-import LayoutOperation from "js/pq_games/layout/layoutOperation";
+import strokeCanvas from "js/pq_games/layout/canvas/strokeCanvas";
 import Color from "js/pq_games/layout/color/color";
-import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
-import ResourceText from "js/pq_games/layout/resources/resourceText";
+import ColorStop from "js/pq_games/layout/color/colorStop";
 import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
-import ResourceShape from "js/pq_games/layout/resources/resourceShape";
 import TintEffect from "js/pq_games/layout/effects/tintEffect";
-import LayoutNode from "js/pq_games/layout/layoutNode";
-import TwoAxisValue from "js/pq_games/layout/values/twoAxisValue";
-import Path from "js/pq_games/tools/geometry/paths/path";
-import { FlowDir, FlowType } from "js/pq_games/layout/values/aggregators/flowInput";
-import AlignValue from "js/pq_games/layout/values/alignValue";
-import movePath from "js/pq_games/tools/geometry/transform/movePath";
+import LayoutOperation from "js/pq_games/layout/layoutOperation";
+import ResourceGradient, { GradientType } from "js/pq_games/layout/resources/resourceGradient";
+import ResourceShape from "js/pq_games/layout/resources/resourceShape";
+import ResourceText from "js/pq_games/layout/resources/resourceText";
+import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
 import Line from "js/pq_games/tools/geometry/line";
+import getPositionsCenteredAround from "js/pq_games/tools/geometry/paths/getPositionsCenteredAround";
+import Path from "js/pq_games/tools/geometry/paths/path";
+import Point from "js/pq_games/tools/geometry/point";
+import movePath from "js/pq_games/tools/geometry/transform/movePath";
+import CONFIG from "../js_shared/config";
+import { COLORS, MISC, Type } from "../js_shared/dict";
 import RequirementData from "./requirementData";
-import FourSideValue from "js/pq_games/layout/values/fourSideValue";
+import SideData from "./sideData";
 import Visualizer from "./visualizer";
 
 export default class Card
@@ -35,7 +31,6 @@ export default class Card
     sides: SideData[]; // for a hand card, top (0) and bottom (1)
 
     colorMain: string;
-    rootNode: LayoutNode;
 
     constructor(type:Type)
     {
@@ -239,10 +234,6 @@ export default class Card
 
     async drawPersonDetails(vis:Visualizer, ctx)
     {
-        this.rootNode = new LayoutNode({
-            size: vis.size.clone()
-        })
-
         // draw purple background (underneath main illustration, all the way to bottom)
         const cardBGColor = vis.inkFriendly ? "#FFFFFF" : CONFIG.cards.details.bgs.power;
         const anchorY = CONFIG.cards.bgPerson.size * vis.size.y;
@@ -304,9 +295,6 @@ export default class Card
             alpha: alpha
         })
         await resText.toCanvas(ctx, op);
-
-        // finally, place all the stuff generated through the layout system on the canvas
-        await this.rootNode.toCanvas(ctx);
     }
 
     async drawDetailsRectangle(vis:Visualizer, ctx, anchorY: number, size:Point, effs, side:string, prop:string)
@@ -331,20 +319,14 @@ export default class Card
         const content = this[prop];
         content.sort(); // sort by type, looks cleaner than random order
 
-        const containerNode = new LayoutNode({
-            pos: op.translate,
-            size: new TwoAxisValue(size.x, size.y),
-            flow: FlowType.GRID,
-            dir: FlowDir.HORIZONTAL,
-            alignFlow: AlignValue.MIDDLE,
-            alignStack: AlignValue.MIDDLE,
-        })
-        this.rootNode.addChild(containerNode);
-
-        // @TODO: display different special requirements
         const imageHeight = 0.8*size.y;
-        const imageSize = new TwoAxisValue(imageHeight, imageHeight);
+        const imageSize = new Point(imageHeight, imageHeight);
         const iconEffects = [ new DropShadowEffect({ blurRadius: CONFIG.cards.details.iconShadowSize*imageHeight }) ];
+
+        // @NOTE: we have to gather all info in advance and then draw because of the wildly different WIDTHS that things can be
+        const dims : Point[] = [];
+        const operations = [];
+        const resources = [];
 
         if(content.atMost)
         {
@@ -352,18 +334,19 @@ export default class Card
             const textConfig = new TextConfig({
                 font: CONFIG.fonts.heading,
                 size: fontSize,
-            });
+            }).alignCenter();
 
+            const textDims = imageSize.clone().scale(4); // rough estimation for how large it should be
             const color = vis.inkFriendly ? "#000000" : CONFIG.cards.details.rectTextColor;
-            const text = new ResourceText({ text: "at most", textConfig: textConfig });
-            const node = new LayoutNode({
+            const resText = new ResourceText({ text: "at most", textConfig: textConfig });
+            const opText = new LayoutOperation({
+                dims: textDims,
                 fill: color,
-                resource: text,
-                size: new TwoAxisValue().setAuto(),
-                shrink: 0,
-                padding: new FourSideValue(0, 0.25*fontSize, 0, 0)
-            })
-            containerNode.addChild(node);
+                pivot: Point.CENTER
+            });
+            dims.push(textDims);
+            operations.push(opText);
+            resources.push(resText);
         }
 
         for(const elem of content.get())
@@ -378,15 +361,23 @@ export default class Card
             else if(specialType) { frame = MISC[elem].frame; }
             else { frame = data.frame; }
 
-            const res = vis.resLoader.getResource(resKey).getImageFrameAsResource(frame);
-
-            const node = new LayoutNode({
-                resource: res,
-                size: imageSize,
-                shrink: 0,
+            const resIcon = vis.resLoader.getResource(resKey).getImageFrameAsResource(frame);
+            const opIcon = new LayoutOperation({
+                dims: imageSize,
+                pivot: Point.CENTER,
                 effects: iconEffects
             })
-            containerNode.addChild(node);
+            dims.push(imageSize);
+            operations.push(opIcon);
+            resources.push(resIcon);
+        }
+
+        const anchorPos = op.translate.clone();
+        const positions = getPositionsCenteredAround({ pos: anchorPos, dims: dims, num: dims.length });
+        for(let i = 0; i < positions.length; i++)
+        {
+            operations[i].translate = positions[i];
+            resources[i].toCanvas(ctx, operations[i]);
         }
     }
 

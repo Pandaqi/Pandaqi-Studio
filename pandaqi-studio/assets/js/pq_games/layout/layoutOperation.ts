@@ -1,25 +1,25 @@
-import Point from "js/pq_games/tools/geometry/point"
-import LayoutEffect from "./effects/layoutEffect"
 import ResourceImage, { CanvasLike } from "js/pq_games/layout/resources/resourceImage"
+import Point from "js/pq_games/tools/geometry/point"
+import Dims from "../tools/geometry/dims"
+import calculateBoundingBox from "../tools/geometry/paths/calculateBoundingBox"
+import Rectangle from "../tools/geometry/rectangle"
+import Shape from "../tools/geometry/shape"
+import movePath from "../tools/geometry/transform/movePath"
+import rotatePath from "../tools/geometry/transform/rotatePath"
+import isZero from "../tools/numbers/isZero"
+import ColorLike, { ColorLikeValue } from "./color/colorLike"
+import LayoutEffect from "./effects/layoutEffect"
 import Resource, { ElementLike } from "./resources/resource"
+import ResourceBox from "./resources/resourceBox"
+import ResourceGroup from "./resources/resourceGroup"
 import ResourceShape from "./resources/resourceShape"
 import ResourceText from "./resources/resourceText"
-import Shape from "../tools/geometry/shape"
-import Dims from "../tools/geometry/dims"
-import isZero from "../tools/numbers/isZero"
-import ResourceBox from "./resources/resourceBox"
-import ColorLike, { ColorLikeValue } from "./color/colorLike"
-import createContext from "./canvas/createContext"
-import StrokeAlign from "./values/strokeAlign"
-import calculateBoundingBox from "../tools/geometry/paths/calculateBoundingBox"
-import ResourceGroup from "./resources/resourceGroup"
-import Rectangle from "../tools/geometry/rectangle"
-import rotatePath from "../tools/geometry/transform/rotatePath"
-import movePath from "../tools/geometry/transform/movePath"
-import TransformationMatrix from "./tools/transformationMatrix"
-import EffectsOperation from "./effects/effectsOperation"
 import TextDrawer from "./text/textDrawer"
-import Path from "../tools/geometry/paths/path"
+import TransformationMatrix from "./tools/transformationMatrix"
+import StrokeAlign from "./values/strokeAlign"
+
+import Renderer from "./renderers/renderer"
+import RendererPandaqi from "./renderers/rendererPandaqi"
 
 type ResourceLike = ResourceImage|ResourceShape|ResourceText|ResourceBox|ResourceGroup
 
@@ -58,7 +58,8 @@ interface LayoutOperationParams
     effects?:LayoutEffect[],
 
     frame?:number,
-    transformParent?: TransformationMatrix,
+    parentOperation?: LayoutOperation,
+    renderer?: Renderer,
     keepTransform?: boolean
 }
 
@@ -66,8 +67,10 @@ export { LayoutOperation, ResourceLike }
 export default class LayoutOperation
 {
     translate : Point
+    translateResult : Point // set dynamically on every apply
     rotation : number
     scale : Point
+    scaleResult : Point // set dynamically on every apply
     skew : Point
     depth : number
 
@@ -76,6 +79,7 @@ export default class LayoutOperation
 
     dims : Point
     dimsAuto : boolean
+    dimsResult : Point // set dynamically on every apply
     ratio : Point
     keepRatio : boolean
     pivot : Point
@@ -91,7 +95,10 @@ export default class LayoutOperation
     effects : LayoutEffect[]
     
     frame: number // frame of image (spritesheets)
+    transformResult: TransformationMatrix // set dynamically on every apply
     transformParent: TransformationMatrix
+    parentOperation: LayoutOperation
+    renderer: Renderer
     keepTransform: boolean
 
     fill: ColorLike
@@ -112,7 +119,7 @@ export default class LayoutOperation
         this.keepRatio = params.keepRatio ?? false;
         this.scale = params.scale ?? new Point(1,1);
         this.skew = params.skew ?? new Point();
-        this.depth = params.depth ?? 0.0; // @TODO: currently only used by generated boards in Phaser; might allow re-ordering stuff within my system later, then this will actually be used
+        this.depth = params.depth ?? 0.0; // @TODO: not supported by RendererPandaqi
         this.alpha = params.alpha ?? 1.0;
 
         this.pivot = params.pivot ?? new Point();
@@ -133,7 +140,9 @@ export default class LayoutOperation
         this.strokeType = params.strokeType ?? "solid";
         this.strokeAlign = params.strokeAlign ?? StrokeAlign.MIDDLE;
 
-        this.transformParent = params.transformParent ?? null;
+        this.parentOperation = params.parentOperation ?? null;
+        this.transformParent = this.parentOperation ? this.parentOperation.transformResult.clone() : new TransformationMatrix();
+        this.renderer = params.renderer ?? (this.parentOperation ? this.parentOperation.renderer : new RendererPandaqi());
         this.keepTransform = params.keepTransform ?? false;
     }
 
@@ -173,68 +182,20 @@ export default class LayoutOperation
         this.effects.splice(this.effects.indexOf(fx), 1);
     }
 
-    // @TODO: this (probably) all works, but PERFORMANCE is becoming a real issue here.
-    getBoundingBox() : Dims
-    {
-        if(!this.resource) { return new Dims(); }
-        
-        const isGroup = this.resource instanceof ResourceGroup;
-        if(!isGroup) { return this.getBoundingBoxRaw(); }
-
-        const dims = new Dims();
-        const layoutCombos = (this.resource as ResourceGroup).combos;
-        for(const elem of layoutCombos)
-        {
-            dims.takeIntoAccount(elem.getBoundingBox());
-        }
-        return dims;
-    }
-
-    getBoundingBoxRaw()
-    {
-        const [translate, dims] = this.getFinalDimensions(true);
-        const dimsScaled = dims.scale(this.scale);
-        const rect = new Rectangle().fromTopLeft(new Point(), dimsScaled);
-        const pivotOffset = this.pivot.clone().scale(dimsScaled).negate();
-        rect.move(pivotOffset);
-        rect.grow(this.scale.clone().scale(this.strokeWidth));
-
-        let extraSize = new Point();
-        for(const effect of this.effects)
-        {
-            const effectExtra = effect.getExtraSizeAdded();
-            extraSize.x = Math.max(extraSize.x, effectExtra.x);
-            extraSize.y = Math.max(extraSize.y, effectExtra.y);
-        }
-        rect.grow(extraSize);
-
-        const path = movePath( rotatePath(rect, this.rotation, new Point()), translate);
-        const dimsObject = new Dims();
-        for(const point of path)
-        {
-            dimsObject.takePointIntoAccount(point);
-        }
-        return dimsObject;
-    }
-
-    getFinalScale() : Point
-    {
-        const scale = this.scale.clone();
-        if(this.flipX) { scale.x *= -1; }
-        if(this.flipY) { scale.y *= -1; }
-        return scale;
-    }
-
-    getFinalDimensions(moveToOrigin = false)
+    calculateResultProperties()
     {
         let dims = this.dims.clone();
         let translate = this.translate.clone();
+        let scale = this.scale.clone();
+
+        if(this.flipX) { scale.x *= -1; }
+        if(this.flipY) { scale.y *= -1; }
         
         if(this.isShape())
         {
             const dimsObject = calculateBoundingBox((this.resource as ResourceShape).shape.toPath())
             dims = dimsObject.size;
-            if(moveToOrigin) { translate.move(dimsObject.topLeft); }
+            //if(moveToOrigin) { translate.move(dimsObject.topLeft); }
         }
 
         if(this.keepRatio && this.isImage())
@@ -266,24 +227,24 @@ export default class LayoutOperation
         translate.round();
         dims.round();
 
-        return [translate, dims];
+        this.translateResult = translate;
+        this.dimsResult = dims;
+        this.scaleResult = scale;
+        this.transformResult = this.calculateTransformationMatrix();
     }
 
-    getTransformationMatrix()
+    calculateTransformationMatrix()
     {
-        const [translate, dims] = this.getFinalDimensions();
-        const finalScale = this.getFinalScale();
-
-        const trans = this.transformParent ? this.transformParent : new TransformationMatrix();
-        trans.translate(translate); 
+        const trans = this.transformParent;
+        trans.translate(this.translateResult); 
         trans.rotate(this.rotation);
-        trans.scale(finalScale);
+        trans.scale(this.scaleResult);
 
         const pivot = this.pivot.clone();
         if(this.flipX) { pivot.x = 1.0 - pivot.x; }
         if(this.flipY) { pivot.y = 1.0 - pivot.y; }
 
-        const offset = pivot.negate().scale(dims);
+        const offset = pivot.negate().scale(this.dimsResult);
         this.pivotOffset = offset;
         trans.translate(offset);
         // @TODO: enable once I've checked it works correctly => trans.skew(this.skew);
@@ -296,133 +257,56 @@ export default class LayoutOperation
     isShape() { return this.resource instanceof ResourceShape; }
 
     applyToCanvas(canv:CanvasLike = null) : HTMLCanvasElement
-    {        
-        let ctx = (canv instanceof HTMLCanvasElement) ? canv.getContext("2d") : canv;
-        if(!ctx) { ctx = createContext({ size: this.dims }); } // @TODO: how to control this size better?
-        
-        // @TODO: OPTIMIZATION => don't create the temporary canvas if we don't need it
-        // (Though that is rare; would only apply to stuff with only a transform + fill/stroke and nothing else)
+    {   
+        this.calculateResultProperties();
+        return this.renderer.applyOperationToCanvas(this, canv);
+    }
 
-        // we create a temporary canvas to do everything we want
-        // once done, at the end, we stamp that onto the real one (with the right effects, alpha, etcetera set)
-        const ctxTemp = createContext({ size: new Point(ctx.canvas.width, ctx.canvas.height) });
-        const [translate, dims] = this.getFinalDimensions();
+    async applyToHTML(node:ElementLike, res:Resource = null)
+    {
+        this.calculateResultProperties();
+        return this.renderer.applyOperationToHTML(this, node, res);
+    }
 
-        // we make sure we're drawing at the right position right away
-        // (which includes bubbling up the tree to take our parent's transform into account)
-        const trans = this.getTransformationMatrix();
-        trans.applyToContext(ctxTemp);
+    // @TODO: write the same thing as Canvas/HTML, but now using SVG's built-in filters and clipping and stuff
+    // => I will probably remove all traces of SVG support in the future, don't bother with this
+    async applyToSVG(elem:ElementLike)
+    {
+        elem.setAttribute("fill", this.fill.toCSS());
+        elem.setAttribute("stroke", this.stroke.toCSS());
+        elem.setAttribute("stroke-width", this.strokeWidth.toString());
+        return elem;
+    }
 
-        // some effects merely require setting something on the canvas
-        const effOp = new EffectsOperation(this.effects);
-        effOp.applyToCanvasPre(ctx);
+    async applyToPixi(app, parent)
+    {
+        this.calculateResultProperties();
+        return this.renderer.applyOperationToPixi(this, app, parent);
+    }
 
-        ctxTemp.fillStyle = this.fill.toCanvasStyle(ctxTemp);
-        ctxTemp.strokeStyle = this.stroke.toCanvasStyle(ctxTemp);
+    hasFill() { return !this.fill.isTransparent(); }
+    hasStroke() { return !this.stroke.isTransparent() && !isZero(this.strokeWidth); }
+
+    /* Handy functions to quickly get operations I usually want */
+    setFill(c:string|ColorLikeValue) { this.fill = new ColorLike(c); return this; }
+    setStroke(s:string|ColorLikeValue) { this.stroke = new ColorLike(s); return this; }
+    setFillAndStroke(c:string|ColorLikeValue, s:string|ColorLikeValue) { this.setFill(c); this.setStroke(s); return this; }
+    setOuterStroke(s:string|ColorLikeValue, w:number)
+    {
+        this.setStroke(s);
+        this.strokeWidth = w;
+        this.strokeAlign = StrokeAlign.OUTSIDE;
+        return this;
+    }
+
+    setFillAndStrokeOnContext(ctx:CanvasRenderingContext2D)
+    {
+        ctx.fillStyle = this.fill.toCanvasStyle(ctx);
+        ctx.strokeStyle = this.stroke.toCanvasStyle(ctx);
 
         let lineWidth = Math.round(this.strokeWidth);
         if(this.strokeAlign != StrokeAlign.MIDDLE) { lineWidth *= 2; }
-        ctxTemp.lineWidth = lineWidth;
-
-        if(this.isGroup())
-        {
-            const combos = (this.resource as ResourceGroup).combos;
-            for(const combo of combos)
-            {
-                combo.toCanvas(ctxTemp, trans.clone());
-            }
-        }
-
-        else if(this.isShape())
-        {
-            // @TODO: if I find an easy/clean way to move this path to the ORIGIN,
-            // I can remove the exception "moveToOrigin" for getFinalDimensions
-            // (It's ugly now that positional data is locked inside the shape to be drawn)
-            let path = (this.resource as ResourceShape).shape.toPath2D();
-            this.applyFillAndStrokeToPath(ctxTemp, path);
-        }
-
-        else if(this.isText())
-        {
-            this.tempTextDrawer.toCanvas(ctxTemp, this);
-        }
-
-        else if(this.isImage())
-        { 
-            // apply the effects that require an actual image to manipulate
-            let frameResource:ResourceImage = (this.resource as ResourceImage).getImageFrameAsResource(this.frame, dims.clone());
-            frameResource = effOp.applyToDrawable(frameResource);
-
-            const box = new Dims(new Point(), dims.clone());
-            const boxPath = box.toPath2D();
-
-            const drawImageCallback = () =>
-            {
-                ctxTemp.drawImage(
-                    frameResource.getImage(), 
-                    box.position.x, box.position.y, box.size.x, box.size.y
-                );
-            }
-
-            this.applyFillAndStrokeToPath(ctxTemp, boxPath, drawImageCallback);
-        }
-
-        const ctxFinal = effOp.applyToCanvasPost(ctxTemp);
-
-        // SAVE/RESTORE is extremely expensive and error prone (if you forget one even once),
-        // so limit it to only when really needed
-        const needsStateManagement = this.clip;
-        if(needsStateManagement) { ctx.save(); }
-
-        // @NOTE: this is necessary if we're subgroups in a tree, as then the context given to us will have some transform from the parent
-        // The keepTransform flag is for special exceptions such as TextDrawer that blend images + text
-        // (Maybe I need to find something cleaner for that one day)
-        if(!this.keepTransform) 
-        {
-            ctx.resetTransform();
-        }
-
-        ctx.filter = effOp.getFilterString();
-        ctx.globalCompositeOperation = this.composite;
-        ctx.globalAlpha = this.alpha;
-        effOp.setShadowProperties(ctx);
-
-        // `clipRelative` means it just retains the original offset/scale/rotation of the thing when calculating clip path (my original, flawed, accidental approach)
-        // otherwise, it's `clipAbsolute` which offsets the clip to consider its coordinates as absolute positions
-        if(this.clip) 
-        { 
-            let points = this.clip.toPath();
-            
-            // get our current transform => then undo pivot to get true top-left => then invert to UNDO that and make our clip path absolute
-            if(!this.clipRelative) 
-            { 
-                const transInv = new TransformationMatrix().fromContext(ctx);
-                transInv.translate(this.pivotOffset.clone().negate());
-                transInv.invert();
-                points = transInv.applyToArray(points); 
-            }
-
-            // this necessitates converting any shape to a slightly more expensive path, but it can't be helped
-            const path = new Path(points).toPath2D();
-            ctx.clip(path); 
-        }
-
-        // @TODO: this is entirely untested and needs to be worked on
-        // (also preferably put into its own function + executed BEFORE making changes to ctx?)
-        if(this.mask)
-        {
-            const maskData = this.mask.getFrameData();
-            ctx.drawImage(
-                this.mask.getImage(),
-                0, 0, maskData.width, maskData.height,
-                0, 0, dims.x, dims.y)
-            ctx.globalCompositeOperation = "source-in";
-        }
-
-        ctx.drawImage(ctxFinal.canvas, 0, 0);
-
-        if(needsStateManagement) { ctx.restore(); }
-        return ctx.canvas;
+        ctx.lineWidth = lineWidth;
     }
 
     applyFillAndStrokeToPath(ctx:CanvasRenderingContext2D, path:Path2D, callback:Function = null)
@@ -443,94 +327,6 @@ export default class LayoutOperation
         }
 
         if(clipStroke) { ctx.restore(); }
-    }
-
-    async applyToHTML(node:ElementLike, res:Resource = null)
-    {
-        const textMode = res instanceof ResourceText;
-        const svgMode = node instanceof SVGSVGElement;
-        if(svgMode) { return node; } // svg is just a wrapper for the specific shape inside; operation is already applied to THAT
-
-        // misc basic properties
-        node.style.opacity = this.alpha.toString();
-        if(textMode) { node.style.color = this.fill.toCSS(); }
-        else { node.style.backgroundColor = this.fill.toCSS(); }
-
-        if(textMode) {
-            node.style.stroke = this.stroke.toString();
-            node.style.strokeWidth = this.strokeWidth + "px";
-        } else {
-            if(this.strokeWidth > 0) { node.style.borderStyle = this.strokeType; }
-            node.style.borderWidth = this.strokeWidth + "px";
-            node.style.borderColor = this.stroke.toCSS();
-        }
-
-        // clip and mask
-        if(this.clip)
-        {
-            node.style.clipPath = this.clip.toCSSPath();
-        }
-
-        // @TODO: how to handle the other mask properties? A Mask sub-class?
-        if(this.mask)
-        {
-            node.style.maskImage = this.mask.getCSSUrl();
-        }
-
-        // all the transform stuff
-        const transforms = []
-        if(this.rotation != 0) 
-        { 
-            transforms.push("rotate(" + this.rotation + "rad)"); 
-        }
-
-        if(this.translate.length() > 0) 
-        { 
-            transforms.push("translate(" + this.translate.x + ", " + this.translate.y + ")");
-        }
-
-        const scale = this.getFinalScale();
-        if(scale.x != 1 || scale.y != 1)
-        {
-            transforms.push("scale(" + scale.x + ", " + scale.y + ")");
-        }
-
-        if(transforms.length > 0)
-        {
-            node.style.transform += " " + transforms.join(" ");
-        }
-
-        // all the filter stuff to make special things happen
-        const effOp = new EffectsOperation(this.effects);
-        effOp.applyToHTML(node);
-
-        node.style.filter = effOp.getFilterString();
-
-        return node;
-    }
-
-    // @TODO: write the same thing as Canvas/HTML, but now using SVG's built-in filters and clipping and stuff
-    async applyToSVG(elem:ElementLike)
-    {
-        elem.setAttribute("fill", this.fill.toCSS());
-        elem.setAttribute("stroke", this.stroke.toCSS());
-        elem.setAttribute("stroke-width", this.strokeWidth.toString());
-        return elem;
-    }
-
-    hasFill() { return !this.fill.isTransparent(); }
-    hasStroke() { return !this.stroke.isTransparent() && !isZero(this.strokeWidth); }
-
-    /* Handy functions to quickly get operations I usually want */
-    setFill(c:string|ColorLikeValue) { this.fill = new ColorLike(c); return this; }
-    setStroke(s:string|ColorLikeValue) { this.stroke = new ColorLike(s); return this; }
-    setFillAndStroke(c:string|ColorLikeValue, s:string|ColorLikeValue) { this.setFill(c); this.setStroke(s); return this; }
-    setOuterStroke(s:string|ColorLikeValue, w:number)
-    {
-        this.setStroke(s);
-        this.strokeWidth = w;
-        this.strokeAlign = StrokeAlign.OUTSIDE;
-        return this;
     }
 
     setPivotCenter() { this.pivot = Point.CENTER; return this; }

@@ -8,6 +8,7 @@ interface PolygonParams
     center?:Point
     radius?:number
     corners?:number
+    rotation?:number
 }
 
 export { Polygon, PolygonParams }
@@ -16,6 +17,7 @@ export default class Polygon extends Shape
     center:Point
     radius:number
     corners:number
+    rotation: number
 
     constructor(h:PolygonParams = {})
     {
@@ -23,11 +25,17 @@ export default class Polygon extends Shape
         this.center = h.center ?? new Point();
         this.radius = h.radius ?? 0.5;
         this.corners = h.corners ?? 6;
+        this.rotation = h.rotation ?? 0;
     }
 
     getDimensions()
     {
         return new Dims().fromPoints(this.toPath());
+    }
+
+    createPixiObject(graphicsConstructor)
+    {
+        return new graphicsConstructor({}).regularPoly(this.center.x, this.center.y, this.radius, this.corners, this.rotation);
     }
 
     toPath()
@@ -36,7 +44,7 @@ export default class Polygon extends Shape
         const num = this.corners;
         for(let i = 0; i < num; i++)
         {
-            const ang = i * (2*Math.PI) / num;
+            const ang = i * (2*Math.PI) / num + this.rotation;
             const point = new Point(
                 this.center.x + Math.cos(ang) * this.radius,
                 this.center.y + Math.sin(ang) * this.radius

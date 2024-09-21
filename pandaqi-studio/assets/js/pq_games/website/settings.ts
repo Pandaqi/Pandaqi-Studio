@@ -1,4 +1,4 @@
-import BoardVisualizer from "js/pq_games/website/boardVisualizer"
+import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer"
 import Point from "../tools/geometry/point"
 import { PageFormat, PageOrientation } from "../pdf/pdfEnums"
 
@@ -22,6 +22,7 @@ interface SettingsConfig
 
 	// passed into the board class by boardVisualizer itself
 	visualizer?: BoardVisualizer,
+	renderClass?: any,
 
 	// these are used/set automatically by the Phaser system as it loads, otherwise not used I think?
 	canvas?: HTMLCanvasElement,

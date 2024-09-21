@@ -1,5 +1,8 @@
-import { BoardGeneration } from "games/keebble-games/js_shared/boardGeneration";
+import BoardGeneration from "games/keebble-games/js_shared/boardGeneration";
 import CONFIG from "games/keebble-games/js_shared/config";
-import BoardVisualizer, { VisualizerRenderer } from "js/pq_games/website/boardVisualizer";
+import RendererPixi from "js/pq_games/layout/renderers/rendererPixi";
+import BoardGenerator from "js/pq_games/tools/generation/boardGenerator";
 
-const vis = new BoardVisualizer({ config: CONFIG, scene: BoardGeneration, renderer: VisualizerRenderer.PHASER });
+const gen = new BoardGenerator(CONFIG, new RendererPixi());
+gen.drawerClass = BoardGeneration;
+gen.start();
