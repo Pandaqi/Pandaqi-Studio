@@ -1,23 +1,19 @@
-import Point from "js/pq_games/tools/geometry/point";
-import BoardState from "./boardState";
-import CONFIG from "../js_shared/config";
-import { rectToPhaserObject } from "js/pq_games/phaser/shapeToPhaserObject";
-import Rectangle from "js/pq_games/tools/geometry/rectangle";
-import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import imageToPhaser from "js/pq_games/phaser/imageToPhaser";
-import getPositionsCenteredAround from "js/pq_games/tools/geometry/paths/getPositionsCenteredAround";
-import textToPhaser from "js/pq_games/phaser/textToPhaser";
-import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
-import ResourceText from "js/pq_games/layout/resources/resourceText";
-import RectangleRounded from "js/pq_games/tools/geometry/rectangleRounded";
-import shapeToPhaser from "js/pq_games/phaser/shapeToPhaser";
-import GrayScaleEffect from "js/pq_games/layout/effects/grayScaleEffect";
+import fillResourceGroup from "js/pq_games/layout/canvas/fillResourceGroup";
 import Color from "js/pq_games/layout/color/color";
-import ResourceShape from "js/pq_games/layout/resources/resourceShape";
+import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
-import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
+import ResourceShape from "js/pq_games/layout/resources/resourceShape";
+import ResourceText from "js/pq_games/layout/resources/resourceText";
+import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
+import getPositionsCenteredAround from "js/pq_games/tools/geometry/paths/getPositionsCenteredAround";
+import Point from "js/pq_games/tools/geometry/point";
+import Rectangle from "js/pq_games/tools/geometry/rectangle";
+import RectangleRounded from "js/pq_games/tools/geometry/rectangleRounded";
 import fromArray from "js/pq_games/tools/random/fromArray";
+import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer";
+import CONFIG from "../js_shared/config";
 import { MISC } from "../js_shared/dict";
+import BoardState from "./boardState";
 
 // Takes in a BoardState, draws it
 export default class BoardDraw
@@ -38,18 +34,18 @@ export default class BoardDraw
     cellSizeUnit: number;
     fullSize: Point;
 
-    async draw(canvas:HTMLCanvasElement, bs:BoardState)
+    async draw(vis:BoardVisualizer, bs:BoardState)
     {
-        const group = this.prepare(canvas, bs);
-        this.drawBackground(canvas, bs);
-        this.drawBoard(group, bs);
-        this.drawSidebar(group, bs);
-        await group.toCanvas(canvas);
+        const group = this.prepare(vis, bs);
+        this.drawBackground(group);
+        this.drawBoard(vis, group, bs);
+        this.drawSidebar(vis, group, bs);
+        return [group];
     }
 
-    prepare(canvas:HTMLCanvasElement, bs:BoardState)
+    prepare(vis:BoardVisualizer, bs:BoardState)
     {
-        const fullSize = new Point(canvas.width, canvas.height);
+        const fullSize = vis.size;
         const fullSizeUnit = Math.min(fullSize.x, fullSize.y);
         const edgeMargin = CONFIG.draw.edgeMargin.clone().scale(fullSizeUnit);
 
@@ -83,14 +79,13 @@ export default class BoardDraw
         this.cellSizeHalf = this.cellSize.clone().scale(0.5);
         this.cellSizeUnit = Math.min(this.cellSize.x, this.cellSize.y);
 
-        const group = new ResourceGroup();
-        return group;
+        return new ResourceGroup();
     }
 
-    drawBackground(canv:HTMLCanvasElement, bs)
+    drawBackground(group:ResourceGroup)
     {
         const bgColor = CONFIG.inkFriendly ? "#FFFFFF" : CONFIG.draw.bgColor;
-        fillCanvas(canv, bgColor);
+        fillResourceGroup(this.fullSize, group, bgColor);
     }
 
     convertGridPosToRealPos(pos:Point)
@@ -98,9 +93,8 @@ export default class BoardDraw
         return this.originGrid.clone().add( pos.clone().scale(this.cellSize) );
     }
 
-    drawBoard(group:ResourceGroup, bs:BoardState)
+    drawBoard(vis:BoardVisualizer, group:ResourceGroup, bs:BoardState)
     {
-
         // draw the inventories
         const invStrokeWidth = CONFIG.draw.inventories.strokeWidth * this.cellSizeUnit;
         const inventoryCenters = [
@@ -162,7 +156,7 @@ export default class BoardDraw
             group.add(new ResourceShape(rect), rectOp);
 
             const iconData = CONFIG.allTypes[cell.type];
-            const icon = CONFIG.resLoader.getResource(iconData.textureKey);
+            const icon = vis.getResource(iconData.textureKey);
             const iconDims = new Point(CONFIG.draw.cells.iconSize * this.cellSizeUnit);
             const iconOp = new LayoutOperation({
                 frame: iconData.frame,
@@ -174,7 +168,7 @@ export default class BoardDraw
         }
 
         // draw slight decoration on top
-        const cornerRes = CONFIG.resLoader.getResource("misc");
+        const cornerRes = vis.getResource("misc");
         const frame = MISC.corner_magnet.frame;
         const corners = [
             this.originGrid.clone(),
@@ -201,12 +195,12 @@ export default class BoardDraw
         }
     }
 
-    drawSidebar(group:ResourceGroup, bs:BoardState)
+    drawSidebar(vis:BoardVisualizer, group:ResourceGroup, bs:BoardState)
     {
         if(!CONFIG.includeRules) { return; }
 
         // tutorial image at the top
-        const tut = CONFIG.resLoader.getResource("sidebar");
+        const tut = vis.getResource("sidebar");
         const tutWidth = this.sidebarSize.x;
         const tutDims = new Point(tutWidth, CONFIG.draw.sidebar.tutImageRatio * tutWidth);
         const frame = CONFIG.beginnerMode ? 0 : 1;
@@ -239,7 +233,7 @@ export default class BoardDraw
             lineHeight: CONFIG.draw.sidebar.lineHeight,
             alignHorizontal: TextAlign.START,
             alignVertical: TextAlign.MIDDLE,
-            resLoader: CONFIG.resLoader  
+            resLoader: vis.resLoader
         })
 
         const rectOp = new LayoutOperation({
@@ -253,7 +247,7 @@ export default class BoardDraw
         {
             // draw the icon
             const data = CONFIG.allTypes[type];
-            const icon = CONFIG.resLoader.getResource(data.textureKey);
+            const icon = vis.getResource(data.textureKey);
             const iconPos = pos.clone().move(new Point(iconDims).scale(0.5));
             iconPos.x += xPadding;
             const iconOp = new LayoutOperation({
@@ -268,7 +262,7 @@ export default class BoardDraw
             group.add(icon, iconOp);
 
             // draw the simplified icon on top
-            const iconSimple = CONFIG.resLoader.getResource(data.textureKey + "_simplified");
+            const iconSimple = vis.getResource(data.textureKey + "_simplified");
             const iconSimplePos = iconPos.clone().move(new Point(iconDims).scale(-0.4));
             const iconSimpleOp = new LayoutOperation({
                 frame: data.frame,

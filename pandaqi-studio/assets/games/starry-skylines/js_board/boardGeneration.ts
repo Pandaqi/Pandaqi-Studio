@@ -226,7 +226,7 @@ export default class BoardGeneration
 			const randSize = (Math.random()*0.5 + 0.5)*this.cfg.minSizeCell;
 			const randRot = Math.random()*2*Math.PI;
 
-			const res = vis.resLoader.getResource("flower_icon");
+			const res = vis.getResource("flower_icon");
 			const op = new LayoutOperation({
 				translate: new Point(randX, randY),
 				pivot: Point.CENTER,
@@ -243,7 +243,7 @@ export default class BoardGeneration
 	visualizeStartingPositions(vis:BoardVisualizer, group:ResourceGroup)
 	{
 		const inkFriendly = this.cfg.inkFriendly;
-		const res = vis.resLoader.getResource("StartingPositionIcon");
+		const res = vis.getResource("StartingPositionIcon");
 
 		for(let i = 0; i < this.startingPositions.length; i++) 
 		{
@@ -307,7 +307,7 @@ export default class BoardGeneration
 				group.add(new ResourceShape(backgroundCircle), opCircle);
 
 				const textureKey = this.capitalize(randPerson) + "Icon";
-				const res = vis.resLoader.getResource(textureKey);
+				const res = vis.getResource(textureKey);
 				const op = new LayoutOperation({
 					translate: new Point(x,y),
 					pivot: Point.CENTER,
@@ -319,15 +319,6 @@ export default class BoardGeneration
 				const terrainTypes = this.cfg.terrainTypes;
 				const randType = terrainTypes[Math.floor(Math.random() * terrainTypes.length)]
 
-				const textureKey = this.capitalize(randType) + 'Icon';
-				const res = vis.resLoader.getResource(textureKey);
-				const op = new LayoutOperation({
-					translate: new Point(x,y),
-					dims: new Point(this.cfg.minSizeCell),
-					pivot: Point.CENTER
-				})
-				group.add(res, op);
-
 				if(!inkFriendly)
 				{
 					const color = this.cfg.buildingColors[randType];
@@ -338,6 +329,15 @@ export default class BoardGeneration
 					})
 					group.add(new ResourceShape(bgRect), opRect);
 				}
+
+				const textureKey = this.capitalize(randType) + 'Icon';
+				const res = vis.getResource(textureKey);
+				const op = new LayoutOperation({
+					translate: new Point(x,y),
+					dims: new Point(this.cfg.minSizeCell),
+					pivot: Point.CENTER
+				})
+				group.add(res, op);
 			
 			} else if(t == "resource") {
 				const randResource = this.getRandom(this.cfg.lists.resources);
@@ -366,7 +366,7 @@ export default class BoardGeneration
 				const spriteSize = 0.95*lw;
 
 				const textureKey = this.capitalize(randResource) + 'Icon'; // @TODO: ugh now I need to CAPITALIZE this shit
-				const res = vis.resLoader.getResource(textureKey);
+				const res = vis.getResource(textureKey);
 				const op = new LayoutOperation({
 					translate: new Point(avgX, avgY),
 					dims: new Point(spriteSize),
@@ -375,7 +375,7 @@ export default class BoardGeneration
 				group.add(res, op);
 			}
 		}
-		group.add(lineGroup);
+		group.add(lineGroup, new LayoutOperation({ depth: 100 }));
 	}
 
 	// draw the GRID lines (both vertical and horizontal)
@@ -446,7 +446,7 @@ export default class BoardGeneration
 		let x = vis.size.x - 0.5*spriteSize - margin;
 		let y = vis.size.y - 0.5*spriteSize - margin;
 
-		const res = vis.resLoader.getResource("starry_planets");
+		const res = vis.getResource("starry_planets");
 
 		for(const planet of this.cfg.planetSet)
 		{

@@ -28,6 +28,7 @@ import {
 import GraphElement from "./graphElement"
 import GraphNode from "./graphNode"
 import Obstacle from "./obstacle"
+import StrokeAlign from "js/pq_games/layout/values/strokeAlign"
 
 const DEBUG_FILL_AREAS = false;
 const ENERGETIC_NODES = ['Oil', 'Fire', 'Wood', 'Sun', 'Moon', 'Wind', 'Biomass', 'Electricity', 'Battery'];
@@ -2044,6 +2045,7 @@ export default class BoardGeneration
 					fill: '#FFFFFF',
 					stroke: "#010101",
 					strokeWidth: strokeWidth,
+					strokeAlign: StrokeAlign.OUTSIDE,
 					dims: new Point(2*textConfig.size)
 				})
 
@@ -2096,6 +2098,7 @@ export default class BoardGeneration
 						fill: "#FFFFFF",
 						stroke: "#010101",
 						strokeWidth: strokeWidth,
+						strokeAlign: StrokeAlign.OUTSIDE
 					});
 					const resTextElec = new ResourceText({ text: finalNum.toString(), textConfig: textConfig });
 					foregroundGroup.add(resTextElec, opTextElec);
@@ -2245,6 +2248,7 @@ export default class BoardGeneration
 					fill: "#FFFFFF",
 					stroke: "#010101",
 					strokeWidth: strokeWidth,
+					strokeAlign: StrokeAlign.OUTSIDE
 				})
 
 				const resTextAreaNum = new ResourceText({ text: i.toString(), textConfig: textConfig });

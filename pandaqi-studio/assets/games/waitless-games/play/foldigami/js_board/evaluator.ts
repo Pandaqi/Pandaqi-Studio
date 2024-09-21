@@ -7,6 +7,7 @@ import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import Point from "js/pq_games/tools/geometry/point";
+import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
 
 export default class Evaluator
 {
@@ -289,21 +290,24 @@ export default class Evaluator
 
         const txt = "Start dragons: " + this.scores.join(", ");
         const margin = fontCfg.margin * cs;
-        const textX = this.game.canvas.width - margin;
-        const textY = this.game.canvas.height - margin;
+        const textX = vis.size.x - margin;
+        const textY = vis.size.y - margin;
 
         const textConfig = new TextConfig({
             font: "jockey",
             size: (fontCfg.size * cs),
-            alignHorizontal: TextAlign.END
+            alignHorizontal: TextAlign.END,
+            alignVertical: TextAlign.END
         });
         const resText = new ResourceText({ text: txt, textConfig: textConfig });
         const opText = new LayoutOperation({
             translate: new Point(textX, textY),
             fill: fontCfg.color,
+            dims: new Point(10*textConfig.size),
             stroke: fontCfg.strokeColor,
             strokeWidth: fontCfg.strokeThickness,
-            pivot: new Point(1,1)
+            pivot: new Point(1,1),
+            strokeAlign: StrokeAlign.OUTSIDE
         })
         group.add(resText, opText);
     }

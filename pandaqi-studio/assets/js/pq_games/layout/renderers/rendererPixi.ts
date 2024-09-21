@@ -170,7 +170,7 @@ export default class RendererPixi extends Renderer
         // MASKING (either through graphics object or sprite)
         //
         if(op.clip) {
-            obj.mask = new Graphics({}).poly(op.clip.toPath(), false);
+            obj.mask = new Graphics({}).poly(op.clip.toPath(), false).fill(0xFFFFFF);
         } else if(op.mask) {
             obj.mask = op.mask.getPixiObject(0, Sprite);
         }

@@ -1,26 +1,27 @@
-import Point from "js/pq_games/tools/geometry/point";
-import BoardState from "./boardState";
-import CONFIG from "../js_shared/config";
-import Rectangle from "js/pq_games/tools/geometry/rectangle";
-import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
-import ResourceText from "js/pq_games/layout/resources/resourceText";
-import RectangleRounded from "js/pq_games/tools/geometry/rectangleRounded";
+import fillResourceGroup from "js/pq_games/layout/canvas/fillResourceGroup";
 import Color from "js/pq_games/layout/color/color";
-import Circle from "js/pq_games/tools/geometry/circle";
-import rangeInteger from "js/pq_games/tools/random/rangeInteger";
-import ResourceShape from "js/pq_games/layout/resources/resourceShape";
-import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
-import closePath from "js/pq_games/tools/geometry/paths/closePath";
-import Path from "js/pq_games/tools/geometry/paths/path";
-import { COLORS, MISC } from "../js_shared/dict";
-import getPositionsCenteredAround from "js/pq_games/tools/geometry/paths/getPositionsCenteredAround";
 import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
-import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import GrayScaleEffect from "js/pq_games/layout/effects/grayScaleEffect";
 import LayoutEffect from "js/pq_games/layout/effects/layoutEffect";
-import Cell from "./cell";
+import LayoutOperation from "js/pq_games/layout/layoutOperation";
+import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
+import ResourceShape from "js/pq_games/layout/resources/resourceShape";
+import ResourceText from "js/pq_games/layout/resources/resourceText";
+import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
+import Circle from "js/pq_games/tools/geometry/circle";
+import closePath from "js/pq_games/tools/geometry/paths/closePath";
+import getPositionsCenteredAround from "js/pq_games/tools/geometry/paths/getPositionsCenteredAround";
+import Path from "js/pq_games/tools/geometry/paths/path";
+import Point from "js/pq_games/tools/geometry/point";
+import Rectangle from "js/pq_games/tools/geometry/rectangle";
+import RectangleRounded from "js/pq_games/tools/geometry/rectangleRounded";
 import fromArray from "js/pq_games/tools/random/fromArray";
+import rangeInteger from "js/pq_games/tools/random/rangeInteger";
+import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer";
+import CONFIG from "../js_shared/config";
+import { COLORS, MISC } from "../js_shared/dict";
+import BoardState from "./boardState";
+import Cell from "./cell";
 
 // Takes in a BoardState, draws it
 export default class BoardDraw
@@ -43,19 +44,18 @@ export default class BoardDraw
     showTypeMetadata: boolean;
     defaultEffects: LayoutEffect[];
 
-    async draw(canvas:any, bs:BoardState)
+    async draw(vis:BoardVisualizer, bs:BoardState)
     {
-        const drawGroup = this.prepare(canvas, bs);
-        this.drawBackground(canvas, bs);
-        this.drawBoard(drawGroup, bs);
-        this.drawSidebar(drawGroup, bs);
-
-        await drawGroup.toCanvas(canvas);
+        const group = this.prepare(vis, bs);
+        this.drawBackground(vis, group);
+        this.drawBoard(vis, group, bs);
+        this.drawSidebar(vis, group, bs);
+        return [group];
     }
 
-    prepare(canvas:any, bs:BoardState)
+    prepare(vis:BoardVisualizer, bs:BoardState)
     {
-        const fullSize = new Point(canvas.width, canvas.height);
+        const fullSize = vis.size;
         const fullSizeUnit = Math.min(fullSize.x, fullSize.y);
         const edgeMargin = CONFIG.draw.edgeMargin.clone().scale(fullSizeUnit);
 
@@ -96,14 +96,14 @@ export default class BoardDraw
         return drawGroup
     }
 
-    async drawBackground(canv:HTMLCanvasElement, bs)
+    async drawBackground(vis:BoardVisualizer, group:ResourceGroup)
     {
         const bgColor = CONFIG.inkFriendly ? "#FFFFFF" : CONFIG.draw.bgColor;
-        fillCanvas(canv, bgColor);
+        fillResourceGroup(this.fullSize, group, bgColor);
 
         if(!CONFIG.inkFriendly)
         {
-            const resBG = CONFIG.resLoader.getResource("bg_map");
+            const resBG = vis.getResource("bg_map");
             const opBG = new LayoutOperation({
                 translate: this.fullSize.clone().scale(0.5),
                 dims: this.fullSize.clone().scale(CONFIG.draw.bg.mapScale),
@@ -111,7 +111,7 @@ export default class BoardDraw
                 pivot: Point.CENTER,
                 //composite: "color-burn"
             })
-            await resBG.toCanvas(canv, opBG);
+            group.add(resBG, opBG);
         }
     }
 
@@ -120,7 +120,7 @@ export default class BoardDraw
         return this.originBoard.clone().add( pos.clone().scale(this.cellSize) );
     }
 
-    async drawBoard(group:ResourceGroup, bs:BoardState)
+    async drawBoard(vis:BoardVisualizer, group:ResourceGroup, bs:BoardState)
     {
         const bgColorLightness = CONFIG.draw.cells.bgColorLightness;
         const bgColorDarken = CONFIG.draw.cells.bgColorDarken;
@@ -191,7 +191,7 @@ export default class BoardDraw
                 const path = new Path({points:triangle});
                 group.add(new ResourceShape(path), triangleOp);
 
-                const icon = CONFIG.resLoader.getResource(iconData.textureKey);
+                const icon = vis.getResource(iconData.textureKey);
                 const rotation = counter * 0.5 * Math.PI;
                 const pos = posCenter.clone().move(positions[counter]);
                 iconOp.frame = iconData.frame;
@@ -228,7 +228,7 @@ export default class BoardDraw
             strokeWidth: strokeMult * cellStrokeWidth,
         }) 
 
-        const resMisc = CONFIG.resLoader.getResource("misc");
+        const resMisc = vis.getResource("misc");
         for(const cell of bs.startingPositions)
         {
             const pos = this.convertGridPosToRealPos(cell.pos);
@@ -273,12 +273,12 @@ export default class BoardDraw
         return fromArray(possibleSides);
     }
 
-    async drawSidebar(group:ResourceGroup, bs:BoardState)
+    async drawSidebar(vis:BoardVisualizer, group:ResourceGroup, bs:BoardState)
     {
         if(!CONFIG.includeRules) { return; }
 
         // tutorial image at the top
-        const tut = CONFIG.resLoader.getResource("sidebar");
+        const tut = vis.getResource("sidebar");
         const tutWidth = this.sidebarSize.x;
         const tutDims = new Point(tutWidth, CONFIG.draw.sidebar.tutImageRatio * tutWidth);
         const frame = CONFIG.inSimpleMode ? 0 : 1;
@@ -292,7 +292,7 @@ export default class BoardDraw
         group.add(tut, tutOp);
 
         // specific types explained below that
-        const resMisc = CONFIG.resLoader.getResource("misc");
+        const resMisc = vis.getResource("misc");
         const uniqueTypes = bs.uniqueTypes;
         const ySpaceLeft = this.sidebarSize.y - tutDims.y;
         const maxYSpacePerItem = ySpaceLeft / uniqueTypes.length;
@@ -313,7 +313,7 @@ export default class BoardDraw
             lineHeight: CONFIG.draw.sidebar.lineHeight,
             alignHorizontal: TextAlign.START,
             alignVertical: TextAlign.MIDDLE ,
-            resLoader: CONFIG.resLoader   
+            resLoader: vis.resLoader
         })
 
         const rectOp = new LayoutOperation({
@@ -327,7 +327,7 @@ export default class BoardDraw
         {
             // draw the icon
             const data = CONFIG.allTypes[type];
-            const icon = CONFIG.resLoader.getResource(data.textureKey);
+            const icon = vis.getResource(data.textureKey);
             const iconPos = pos.clone().move(new Point(iconDims).scale(0.5));
             iconPos.x += xPadding;
             const iconOp = new LayoutOperation({

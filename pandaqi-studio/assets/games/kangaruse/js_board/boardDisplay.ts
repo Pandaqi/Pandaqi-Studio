@@ -1,23 +1,19 @@
-import CellDisplay from "./cellDisplay"
-import Point from "js/pq_games/tools/geometry/point";
-import smoothPath from "js/pq_games/tools/geometry/paths/smoothPath"
-import { GENERAL } from "../js_shared/dictionary"
-import CONFIG from "./config"
-import SideBar from "./sideBar"
-import BoardState from "./boardState"
-import Rectangle from "js/pq_games/tools/geometry/rectangle";
-import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import { pathToPhaser, rectToPhaser } from "js/pq_games/phaser/shapeToPhaser";
-import Color from "js/pq_games/layout/color/color";
-import Path from "js/pq_games/tools/geometry/paths/path";
-import imageToPhaser from "js/pq_games/phaser/imageToPhaser";
-import TextConfig from "js/pq_games/layout/text/textConfig";
-import ResourceText from "js/pq_games/layout/resources/resourceText";
-import textToPhaser from "js/pq_games/phaser/textToPhaser";
-import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer";
-import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import fillResourceGroup from "js/pq_games/layout/canvas/fillResourceGroup";
+import Color from "js/pq_games/layout/color/color";
+import LayoutOperation from "js/pq_games/layout/layoutOperation";
+import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import ResourceShape from "js/pq_games/layout/resources/resourceShape";
+import ResourceText from "js/pq_games/layout/resources/resourceText";
+import TextConfig from "js/pq_games/layout/text/textConfig";
+import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer";
+import Path from "js/pq_games/tools/geometry/paths/path";
+import smoothPath from "js/pq_games/tools/geometry/paths/smoothPath";
+import Point from "js/pq_games/tools/geometry/point";
+import { GENERAL } from "../js_shared/dictionary";
+import BoardState from "./boardState";
+import CellDisplay from "./cellDisplay";
+import CONFIG from "./config";
+import SideBar from "./sideBar";
 
 export default class BoardDisplay
 {
@@ -39,7 +35,7 @@ export default class BoardDisplay
 	{
 		this.game = game;
 
-        this.originalPaperDimensions = new Point(this.game.canvas.width, this.game.canvas.height);
+        this.originalPaperDimensions = game.visualizer.size;
         this.paperDimensions = this.originalPaperDimensions.clone();
 
         if(this.needSideBar())
@@ -83,8 +79,6 @@ export default class BoardDisplay
         );
         this.cellSizeUnit = Math.min(this.cellSize.x, this.cellSize.y);
 
-        this.graphics = this.game.add.graphics();
-
         const colBG = CONFIG.inkFriendly ? "#FFFFFF" : CONFIG.board.backgroundColor;
         fillResourceGroup(vis.size, group, colBG);
 
@@ -106,7 +100,8 @@ export default class BoardDisplay
         colorMod.a = alpha;
         const opPath = new LayoutOperation({
             stroke: colorMod,
-            strokeWidth: lw
+            strokeWidth: lw,
+            depth: 100
         })
 
         for(const river of rivers)

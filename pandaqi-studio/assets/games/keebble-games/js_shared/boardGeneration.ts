@@ -9,6 +9,7 @@ import ResourceGroup from "js/pq_games/layout/resources/resourceGroup"
 import ResourceShape from "js/pq_games/layout/resources/resourceShape"
 import ResourceText from "js/pq_games/layout/resources/resourceText"
 import TextConfig from "js/pq_games/layout/text/textConfig"
+import StrokeAlign from "js/pq_games/layout/values/strokeAlign"
 import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer"
 import Line from "js/pq_games/tools/geometry/line"
 import Point from "js/pq_games/tools/geometry/point"
@@ -558,8 +559,9 @@ export default class BoardGeneration
 			pivot: Point.CENTER,
 			fill: "#FFFFFF",
 			stroke: "#000000",
-			strokeWidth: 24, // trying to match the thickness of the sprite strokes
-			effects: [new DropShadowEffect({ offset: randOffset, color: "#00000099", blurRadius: 5 })]
+			strokeWidth: 12, // trying to match the thickness of the sprite strokes
+			strokeAlign: StrokeAlign.OUTSIDE,
+			effects: [new DropShadowEffect({ offset: randOffset.scale(0.5), color: "#00000099", blur: 0 })]
 		})
 		group.add(resText, op);
 

@@ -1,9 +1,12 @@
 import Color from "js/pq_games/layout/color/color"
 import LayoutOperation from "js/pq_games/layout/layoutOperation"
-import imageToPhaser from "js/pq_games/phaser/imageToPhaser"
-// @ts-ignore
-import { Display, GameObjects } from "js/pq_games/phaser/phaser.esm"
-import { pathToPhaser, rectToPhaser } from "js/pq_games/phaser/shapeToPhaser"
+import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect"
+import GlowEffect from "js/pq_games/layout/effects/glowEffect"
+import ResourceGroup from "js/pq_games/layout/resources/resourceGroup"
+import ResourceShape from "js/pq_games/layout/resources/resourceShape"
+import ResourceText from "js/pq_games/layout/resources/resourceText"
+import TextConfig from "js/pq_games/layout/text/textConfig"
+import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer"
 import Path from "js/pq_games/tools/geometry/paths/path"
 import smoothPath from "js/pq_games/tools/geometry/paths/smoothPath"
 import Point from "js/pq_games/tools/geometry/point"
@@ -14,9 +17,7 @@ import CONFIG from "./config"
 import { CUSTOM } from "./dictionary"
 import FixedFingers from "./fixedFingers"
 import RecipeBook from "./recipeBook"
-import TextConfig from "js/pq_games/layout/text/textConfig"
-import ResourceText from "js/pq_games/layout/resources/resourceText"
-import textToPhaser from "js/pq_games/phaser/textToPhaser"
+import StrokeAlign from "js/pq_games/layout/values/strokeAlign"
 
 interface Lines {
     x: Point[][],
@@ -41,41 +42,45 @@ export default class BoardDisplay
 		this.game = game;
         this.resolutionPerCell = CONFIG.board.resolutionPerCell;
 
-        this.paperDimensions = new Point({ x: this.game.canvas.width, y: this.game.canvas.height });
+        this.paperDimensions = game.visualizer.size;
 
         const outerMarginFactor = CONFIG.board.outerMarginFactor;
-        this.outerMargin = new Point({ x: this.paperDimensions.x * outerMarginFactor.x, y: this.paperDimensions.y * outerMarginFactor.y });
-        this.boardDimensions = new Point({ x: this.paperDimensions.x - 2*this.outerMargin.x, y: this.paperDimensions.y - 2*this.outerMargin.y });
+        this.outerMargin = new Point(this.paperDimensions.x * outerMarginFactor.x, this.paperDimensions.y * outerMarginFactor.y);
+        this.boardDimensions = new Point(this.paperDimensions.x - 2*this.outerMargin.x, this.paperDimensions.y - 2*this.outerMargin.y);
 	}
 
-    draw(board:BoardState)
+    draw(vis:BoardVisualizer, board:BoardState) : ResourceGroup[]
     {        
+        const group = new ResourceGroup();
+
         this.board = board;
         this.dims = board.getDimensions();
-        this.cellSize = new Point({ 
-            x: this.boardDimensions.x / this.dims.x, 
-            y: this.boardDimensions.y / this.dims.y 
-        });
+        this.cellSize = new Point(
+            this.boardDimensions.x / this.dims.x, 
+            this.boardDimensions.y / this.dims.y 
+        );
         this.cellSizeUnit = Math.min(this.cellSize.x, this.cellSize.y);
 
         // draws the grid and fills in the squares
         const lines = this.createGridLines();
         const linesRandomized = this.randomizeGridLines(lines);
         const linesSmoothed = this.smoothLines(linesRandomized);
-        this.fillInCells(linesSmoothed);
-        this.strokeLines(linesSmoothed);
+        this.fillInCells(vis, group, linesSmoothed);
+        this.strokeLines(vis, group, linesSmoothed);
 
         // draws the custom images or properties of each cell
-        this.displayCells();
-        this.displayRecipeBook(board.recipeBook);
+        this.displayCells(vis, group);
+        this.displayRecipeBook(vis, group, board.recipeBook);
 
         // finishing touches
-        this.drawBoardEdge();
+        this.drawBoardEdge(vis, group);
+
+        return [group];
     }
 
     createGridLines()
     {
-        const offsetPerStep = new Point({ x: this.cellSize.x / this.resolutionPerCell, y: this.cellSize.y / this.resolutionPerCell });
+        const offsetPerStep = new Point(this.cellSize.x / this.resolutionPerCell, this.cellSize.y / this.resolutionPerCell);
         const lines:Lines = { 
             x: this.createSubdividedLines("x", this.dims, this.resolutionPerCell, offsetPerStep),
             y: this.createSubdividedLines("y", this.dims, this.resolutionPerCell, offsetPerStep)
@@ -209,9 +214,8 @@ export default class BoardDisplay
         return newLines;
     }
 
-    strokeLines(lines:Lines)
+    strokeLines(vis:BoardVisualizer, group:ResourceGroup, lines:Lines)
     {
-        const graphics = this.game.add.graphics();
         const data = CONFIG.inkFriendly ? CONFIG.board.grid.linesInkfriendly : CONFIG.board.grid.lines;
 
         const lineWidth = data.width * this.cellSizeUnit;
@@ -228,15 +232,13 @@ export default class BoardDisplay
         {
             for(const line of linesAxis)
             {
-                pathToPhaser(new Path(line), opLine, graphics);
+                group.add(new ResourceShape(new Path(line)), opLine);
             }
         }
     }
 
-    fillInCells(lines:Lines)
+    fillInCells(vis:BoardVisualizer, group:ResourceGroup, lines:Lines)
     {
-        const graphics = this.game.add.graphics();
-
         let smoothingResolution = CONFIG.board.smoothingResolution;
         if(!CONFIG.board.useWobblyLines) { smoothingResolution = 1; }
 
@@ -259,27 +261,25 @@ export default class BoardDisplay
                     fill: backgroundColor
                 })
 
-                graphics.fillStyle(backgroundColor);
-
                 const points = [set1, set2, set3, set4].flat();
-                pathToPhaser(new Path(points), opFill, graphics);
+                group.add(new ResourceShape(new Path(points)), opFill);
                 cell.polygon = points;
             }
         }
     }
 
-    displayCells()
+    displayCells(vis:BoardVisualizer, group:ResourceGroup,)
     {
         for(let x = 0; x < this.dims.x; x++)
         {
             for(let y = 0; y < this.dims.y; y++)
             {
-                this.displayCell(new Point().setXY(x,y));                
+                this.displayCell(vis, group, new Point(x,y));                
             }
         }
     }
 
-    displayCell(point:Point)
+    displayCell(vis:BoardVisualizer, group:ResourceGroup, point:Point)
     {
         const cell = this.board.getCellAt(point);
         const data = cell.getTypeData();
@@ -289,7 +289,7 @@ export default class BoardDisplay
         const realPos = this.convertGridPointToRealPoint(point);
         const centerPos = realPos.clone().add(new Point().setXY(0.5*w, 0.5*h));
 
-        const resCustom = CONFIG.visualizer.resLoader.getResource("custom_spritesheet");
+        const resCustom = vis.getResource("custom_spritesheet");
 
         // tutorials get a custom square frame to mark them as such
         if(cell.isTutorial())
@@ -300,7 +300,7 @@ export default class BoardDisplay
                 frame: CUSTOM.tutorialBG.frame,
                 pivot: Point.CENTER,
             })
-            const bgSprite = imageToPhaser(resCustom, opBG, this.game);
+            group.add(resCustom, opBG);
 
             // then a custom image (matching frame from spritesheet) with the actual explanation
             let textureKey = "tutorials_spritesheet";
@@ -310,13 +310,14 @@ export default class BoardDisplay
                 needsTutIcon = true;
             }
 
+            const resTut = vis.getResource(textureKey);
             const opTut = new LayoutOperation({
                 translate: centerPos,
                 dims: new Point(w,h),
                 frame: data.frame,
                 pivot: Point.CENTER
             })
-            const tutSprite = imageToPhaser(CONFIG.visualizer.resLoader.getResource(textureKey), opTut, this.game);
+            group.add(resTut, opTut);
 
             if(needsTutIcon)
             {
@@ -336,24 +337,19 @@ export default class BoardDisplay
                         dims: new Point(tutIconSize),
                         frame: data.frame,
                         pivot: Point.CENTER,
+                        effects: [new GlowEffect({ color: "#FFFFFF", blur: 0.25 * tutIconSize })]
                     });
                     const iconKey = cell.mainType + "_spritesheet";
-                    const tutIcon = imageToPhaser(CONFIG.visualizer.resLoader.getResource(iconKey), opTutIcon, this.game);
-                    tutIcon.preFX.addGlow(0xFFFFFF, 0.25*tutIcon.displayWidth, 0, false);
+                    const resTut = vis.getResource(iconKey);
+                    group.add(resTut, opTutIcon);
                 }
             }
-
 
             return;
         }
 
         const backgroundPatternScaleUp = 1.175;
-
-        // @TODO: find a replacement for this (+ preFX/postFX?) once I switch to loose coupling with Phaser
-        const backgroundMaskGraphics = new GameObjects.Graphics(this.game);
-        backgroundMaskGraphics.fillStyle(0x000000);
-        backgroundMaskGraphics.fillPoints(cell.polygon, true);
-        const backgroundMask = new Display.Masks.GeometryMask(this.game, backgroundMaskGraphics);
+        const backgroundMask = new Path(cell.polygon);
 
         // ingredients / machines display their custom sprite big in the center
         if(cell.mainType == "ingredient" || cell.mainType == "machine")
@@ -365,28 +361,23 @@ export default class BoardDisplay
                     dims: new Point(backgroundPatternScaleUp * w, backgroundPatternScaleUp * h),
                     frame: CUSTOM.machineBG.frame,
                     pivot: Point.CENTER,
+                    clip: backgroundMask
                 })
-
-                const bg = imageToPhaser(resCustom, opBG, this.game);
-                bg.setMask(backgroundMask);
+                group.add(resCustom, opBG);
             }
 
             const iconScale = CONFIG.board.iconScale;
+            const spriteSize = new Point(iconScale * w, iconScale * h);
             const opSprite = new LayoutOperation({
                 translate: centerPos,
-                dims: new Point(iconScale * w, iconScale * h),
+                dims: spriteSize,
                 frame: data.frame,
-                pivot: Point.CENTER
+                pivot: Point.CENTER,
+                effects: [new DropShadowEffect({ color: "#000000", blur: 0.01 * spriteSize.x }) ]
             })
 
-            const resSprite = CONFIG.visualizer.resLoader.getResource(cell.mainType + "_spritesheet");
-            const sprite = imageToPhaser(resSprite, opSprite, this.game);
-
-            const shadowOffset = -0.01*sprite.displayWidth;
-            const shadowDecay = 0.075;
-            const shadowPower = 1.0;
-            const shadowColor = 0x000000;
-            sprite.preFX.addShadow(shadowOffset, shadowOffset, shadowDecay, shadowPower, shadowColor);
+            const resSprite = vis.getResource(cell.mainType + "_spritesheet");
+            group.add(resSprite, opSprite);
 
             // if they have extra data (money number or fixed fingers) ...
             if(cell.hasExtraData())
@@ -405,7 +396,7 @@ export default class BoardDisplay
                 })
 
                 // display the background frame
-                const extraFrame = imageToPhaser(resCustom, opFrame, this.game);
+                group.add(resCustom, opFrame);
 
                 // display what's on top
                 if(displayMoney)
@@ -424,21 +415,22 @@ export default class BoardDisplay
                         fill: txcfg.color,
                         stroke: txcfg.stroke,
                         strokeWidth: fontSize * 0.1,
+                        strokeAlign: StrokeAlign.OUTSIDE,
                         pivot: Point.CENTER
                     })
 
                     const num = cell.getNum();
                     const resText = new ResourceText({ text: num.toString(), textConfig: textConfig });
-                    textToPhaser(resText, opText, this.game);
+                    group.add(resText, opText);
                 }
                 else if(displayFixedFingers)
                 {
                     const f = new FixedFingers(cell.getFixedFingers());
                     const handPos = contentPos.clone();
-                    const handHeight = extraFrame.displayHeight;
+                    const handHeight = opFrame.dims.y;
                     handPos.x = centerPos.x;
                     // @TODO: dive into this function and loosely couple it too
-                    f.display(this, handPos, handHeight);
+                    f.display(vis, group, this, handPos, handHeight);
                 }
 
             }
@@ -452,10 +444,10 @@ export default class BoardDisplay
                 translate: centerPos,
                 dims: new Point(backgroundPatternScaleUp * w, backgroundPatternScaleUp * h),
                 pivot: Point.CENTER,
-                frame: CUSTOM.moneyBG.frame
+                frame: CUSTOM.moneyBG.frame,
+                clip: backgroundMask
             })
-            const bg = imageToPhaser(resCustom, opBG, this.game);
-            bg.setMask(backgroundMask);
+            group.add(resCustom, opBG);
 
             const moneySpriteScale = CONFIG.board.moneySpriteScale;
             const opMoney = new LayoutOperation({
@@ -464,7 +456,7 @@ export default class BoardDisplay
                 pivot: Point.CENTER,
                 frame: CUSTOM.moneyIcon.frame,
             })
-            const moneySprite = imageToPhaser(resCustom, opMoney, this.game);
+            group.add(resCustom, opMoney);
 
             const txcfg:any = CONFIG.board.moneyTextConfig;
             const fontSize = (txcfg.fontScaleFactor * this.cellSizeUnit);
@@ -479,12 +471,13 @@ export default class BoardDisplay
                 fill: txcfg.color,
                 stroke: txcfg.stroke,
                 strokeWidth: fontSize * 0.1,
+                strokeAlign: StrokeAlign.OUTSIDE,
                 pivot: Point.CENTER
             })
 
             const num = cell.getNum();
             const resText = new ResourceText({ text: num.toString(), textConfig: textConfig });
-            textToPhaser(resText, opText, this.game);
+            group.add(resText, opText);
             return;
         }
     }
@@ -508,13 +501,13 @@ export default class BoardDisplay
         return chunk;
     }
 
-    displayRecipeBook(rb:RecipeBook)
+    displayRecipeBook(vis:BoardVisualizer, group:ResourceGroup, rb:RecipeBook)
     {
         if(!rb) { return; }
-        rb.display(this);
+        rb.display(vis, group, this);
     }
 
-    drawBoardEdge()
+    drawBoardEdge(vis:BoardVisualizer, group:ResourceGroup)
     {
         if(!this.hasOuterMargin()) { return; }
 
@@ -522,14 +515,13 @@ export default class BoardDisplay
         const lineColor = CONFIG.board.outerEdge.lineColor;
         const lineAlpha = CONFIG.board.outerEdge.lineAlpha;
 
-        const graphics = this.game.add.graphics();
         const opRect = new LayoutOperation({
             stroke: lineColor,
             strokeWidth: lineWidth,
             alpha: lineAlpha
         })
         const resRect = new Rectangle().fromTopLeft(this.outerMargin, this.boardDimensions);
-        rectToPhaser(resRect, opRect, graphics);
+        group.add(new ResourceShape(resRect), opRect);
     }
 
     hasOuterMargin()

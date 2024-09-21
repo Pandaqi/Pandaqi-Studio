@@ -20,7 +20,7 @@ import Point from "js/pq_games/tools/geometry/point";
 import Rectangle from "js/pq_games/tools/geometry/rectangle";
 import movePath from "js/pq_games/tools/geometry/transform/movePath";
 import fromArray from "js/pq_games/tools/random/fromArray";
-import { COLORS, CardData, TYPES, Type } from "../js_shared/dict";
+import { COLORS, CardData, SETS, TYPES, Type } from "../js_shared/dict";
 import WonkyRectangle from "./wonkyRectangle";
 
 export default class Card
@@ -187,14 +187,16 @@ export default class Card
 
         const fontSize = 0.2*vis.sizeUnit;
         const textConfigMain = new TextConfig({
-            font: vis.get("fonts.heading"),
+            font: vis.get("fonts.body"),
             size: fontSize,
         }).alignCenter();
 
         const textPos = new Point(0.5*vis.size.x, 0.5*vis.size.y + 0.33*fontSize);
         const opMain = new LayoutOperation({
             translate: textPos,
+            dims: vis.size,
             fill: "#000000",
+            pivot: Point.CENTER,
         });
 
         // > main food
@@ -203,17 +205,18 @@ export default class Card
 
         // > numbers
         const numberOffset = 0.1*vis.sizeUnit;
-        const extraY = 0.66 * fontSize;
         const positions = [
-            new Point(numberOffset, numberOffset + extraY),
-            new Point(vis.size.x-numberOffset, numberOffset + extraY)
+            new Point(numberOffset, numberOffset),
+            new Point(vis.size.x-numberOffset, numberOffset)
         ]
 
         for(const pos of positions)
         {
             const op = new LayoutOperation({
                 translate: pos,
+                dims: vis.size,
                 fill: "#000000",
+                pivot: Point.CENTER,
             });
             const res = new ResourceText({ text: this.num.toString(), textConfig: textConfigMain });
             res.toCanvas(ctx, op);
@@ -222,8 +225,10 @@ export default class Card
         // > type
         const typePos = new Point(0.5*vis.size.x, numberOffset);
         const opType = new LayoutOperation({
-            translate: new Point(typePos.x, typePos.y + extraY),
-            fill: "#000000"
+            translate: new Point(typePos.x, typePos.y),
+            dims: vis.size,
+            fill: "#000000",
+            pivot: Point.CENTER,
         })
         const resTextType = new ResourceText({ text: this.type, textConfig: textConfigMain });
         resTextType.toCanvas(ctx, opType);
@@ -231,7 +236,7 @@ export default class Card
         // desc
         const descFontSize = 0.66 * fontSize;
         const textConfig = new TextConfig({
-            font: vis.get("fonts.heading"),
+            font: vis.get("fonts.body"),
             size: descFontSize,
             lineHeight: 1.1
         }).alignCenter();
@@ -245,8 +250,8 @@ export default class Card
         const op = new LayoutOperation({
             translate: descPos,
             dims: descDims,
-            pivot: new Point(0.5),
-            fill: "#000000"
+            pivot: Point.CENTER,
+            fill: "#000000",
         })
         res.toCanvas(ctx, op);
 
@@ -483,11 +488,11 @@ export default class Card
     
     drawPowerToCanvas(vis:MaterialVisualizer, group: ResourceGroup, id = 0)
     {
-        const anchorOffset = 0.33*vis.size.y;
+        const anchorOffset = 0.125*vis.size.y;
         const rotation = id == 0 ? 0 : Math.PI;
         const positions = [
             new Point(vis.center.x, anchorOffset),
-            new Point(vis.center.y, vis.size.y - anchorOffset)
+            new Point(vis.center.x, vis.size.y - anchorOffset)
         ];
 
         // @NOTE: added after playtest that revealed text at bottom might be obscured by fingers and thus be annoying
@@ -501,6 +506,7 @@ export default class Card
         const subGroupOp = new LayoutOperation({
             translate: positions[id],
             rotation: rotation,
+            pivot: Point.CENTER
         });
         group.add(subGroup, subGroupOp);
 
@@ -510,10 +516,11 @@ export default class Card
         const frame = this.data.safe ? 1 : 0;
         const imgHeight = vis.get("cards.power.iconHeight") * contHeight;
         const iconOp = new LayoutOperation({
-            translate: new Point(-vis.center.x + 0.5*contHeight), // all of this is centered around (0,0) middle of subGroup
+            translate: new Point(-0.66*vis.center.x, 0), // all of this is centered around (0,0) middle of subGroup
             dims: new Point(imgHeight),
             frame: frame,
-            effects: vis.inkFriendlyEffect
+            effects: vis.inkFriendlyEffect,
+            pivot: Point.CENTER
         })
         subGroup.add(iconRes, iconOp);
 
@@ -526,8 +533,8 @@ export default class Card
         }).alignCenter();
 
         const textOp = new LayoutOperation({
-            translate: new Point(0.5*contHeight, 0),
-            dims: new Point(vis.size.x - contHeight, contHeight),
+            translate: new Point(0.25*vis.center.x, 0),
+            dims: new Point(0.66*vis.size.x, 2*contHeight),
             fill: "#000000",
             pivot: Point.CENTER
         });
@@ -539,17 +546,17 @@ export default class Card
         for(let str of descSplit)
         {
             const isType = vis.get("possibleTypes").includes(str);
-            const isFood = Object.keys(vis.get("possibleCards")).includes(str);
+            const isFood = vis.get("possibleCards").includes(str);
             const isSafe = (str == "safe");
             
             if(isType) {
                 const frame = TYPES[str].frame;
-                str = '<img id="types" frame="' + frame + '">';
+                str = '<img id="types_tinted" frame="' + frame + '">';
                 // I decided to just bake the tint into the icons, cheaper and simpler
                 //const tintCol = COLORS[TYPES[str].color];
                 //effects.push( new TintEffect({ color: tintCol }) );
             } else if(isFood) {
-                const data = vis.get("possibleCards")[str];
+                const data = this.getDataForFood(str);
                 str = '<img id="' + data.textureKey + '" frame="'+ data.frame + '">';
             } else if(isSafe) {
                 str = '<img id="misc" frame="1">';
@@ -561,5 +568,20 @@ export default class Card
         const textFinal = descOutput.join("");
         const resText = new ResourceText({ text: textFinal, textConfig: textConfig });
         subGroup.add(resText, textOp);
+    }
+
+    // @NOTE: bit inefficient, but it's fine for the ~5 lookups (max) we'll get
+    getDataForFood(keyTarget:string)
+    {
+        for(const [set, setData] of Object.entries(SETS))
+        {  
+            for(const [key,data] of Object.entries(setData))
+            {
+                if(key == keyTarget)
+                {
+                    return data;
+                }
+            }
+        }
     }
 }

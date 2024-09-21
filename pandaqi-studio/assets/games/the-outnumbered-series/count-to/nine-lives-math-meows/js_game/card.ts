@@ -43,7 +43,7 @@ export default class Card
         fillCanvas(ctx, bgColor);
 
         // the number
-        await this.drawBigNumber(vis, ctx);
+        this.drawBigNumber(vis, ctx);
 
         // finish it off
         this.drawOutline(vis, ctx);
@@ -56,12 +56,12 @@ export default class Card
     {
         const ctx = createContext({ size: vis.size });
 
-        await this.drawBackground(vis, ctx);
+        this.drawBackground(vis, ctx);
 
         if(this.type == Type.LIFE) {
-            await this.drawLifeCard(vis,ctx);
+            this.drawLifeCard(vis,ctx);
         } else {
-            await this.drawNumberCard(vis, ctx);
+            this.drawNumberCard(vis, ctx);
         }
 
         this.drawOutline(vis, ctx);
@@ -71,11 +71,11 @@ export default class Card
     //
     // > LIFE CARDS
     //
-    async drawLifeCard(vis:Visualizer, ctx)
+    drawLifeCard(vis:Visualizer, ctx)
     {
-        await this.drawCatIllustration(vis, ctx);
-        await this.drawPowerText(vis, ctx);
-        await this.drawLivesHeart(vis, ctx);
+        this.drawCatIllustration(vis, ctx);
+        this.drawPowerText(vis, ctx);
+        this.drawLivesHeart(vis, ctx);
     }
 
     isRuleReminder()
@@ -83,7 +83,7 @@ export default class Card
         return CONFIG.generation.numberCards.highestCardIsRuleReminder && this.num >= 9;
     }
 
-    async drawCatIllustration(vis:Visualizer, ctx)
+    drawCatIllustration(vis:Visualizer, ctx)
     {
         // actual illustration
         const res = vis.resLoader.getResource("cats");
@@ -103,7 +103,7 @@ export default class Card
             alpha: alpha,
             effects: catEffects
         })
-        await res.toCanvas(ctx, op);
+        res.toCanvas(ctx, op);
 
         // rule reminder on top, if enabled
         if(this.isRuleReminder())
@@ -112,7 +112,7 @@ export default class Card
             op.frame = MISC.rulesReminder.frame;
             op.alpha = 1.0;
             op.dims = op.dims.clone().scaleFactor(CONFIG.cards.cat.rulesReminderScale);
-            await res.toCanvas(ctx, op);
+            res.toCanvas(ctx, op);
         }
 
         // two small rectangles to make transition to bottom look better
@@ -129,11 +129,11 @@ export default class Card
             strokeWidth: strokeWidth,
             alpha: CONFIG.cards.cat.extraRectAlpha
         })
-        await resAbove.toCanvas(ctx, opAbove);
+        resAbove.toCanvas(ctx, opAbove);
 
         const posBelow = bottomEdge.clone().move(new Point(0, 0.5*extraRectHeight));
         opAbove.translate = posBelow;
-        await resAbove.toCanvas(ctx, opAbove);
+        resAbove.toCanvas(ctx, opAbove);
 
         // the cat's name
         const fontSize = CONFIG.cards.cat.fontSize * vis.sizeUnit;
@@ -160,14 +160,14 @@ export default class Card
             pivot: new Point(0.5),
             effects: effects
         })
-        await textRes.toCanvas(ctx, textOp);
+        textRes.toCanvas(ctx, textOp);
 
         textOp.rotation = 0.5*Math.PI;
         textOp.translate.x = vis.size.x - offsetInward;
-        await textRes.toCanvas(ctx, textOp);
+        textRes.toCanvas(ctx, textOp);
     }
 
-    async drawLivesHeart(vis:Visualizer, ctx)
+    drawLivesHeart(vis:Visualizer, ctx)
     {
         // first icon in background
         const resIcon = vis.resLoader.getResource("misc");
@@ -186,7 +186,7 @@ export default class Card
             effects: effects
         })
 
-        await resIcon.toCanvas(ctx, opIcon);
+        resIcon.toCanvas(ctx, opIcon);
 
         // then text on top
         const strokeWidth = CONFIG.cards.sharedStrokeWidth * vis.sizeUnit;
@@ -217,7 +217,7 @@ export default class Card
         })
 
         const res = new ResourceText({ text: this.num.toString(), textConfig: textConfig });
-        await res.toCanvas(ctx, op);
+        res.toCanvas(ctx, op);
 
         const sideOffset = CONFIG.cards.lives.handIconSideOffset * vis.size.x;
         const topOffset = 0; // not needed anymore, right?
@@ -242,7 +242,7 @@ export default class Card
                 flipX: (i == 1),
             })
 
-            await resHand.toCanvas(ctx, handOp);
+            resHand.toCanvas(ctx, handOp);
 
             // hand limit number
             const limit = CONFIG.generation.lifeCards.handLimits[this.num-1];
@@ -259,12 +259,12 @@ export default class Card
                 strokeWidth: strokeWidth,
                 strokeAlign: StrokeAlign.OUTSIDE
             })
-            await resHandText.toCanvas(ctx, handTextOp);
+            resHandText.toCanvas(ctx, handTextOp);
         }
         
     }
 
-    async drawPowerText(vis:Visualizer, ctx)
+    drawPowerText(vis:Visualizer, ctx)
     {
         if(this.isRuleReminder() || !this.power) { return; }
 
@@ -304,11 +304,11 @@ export default class Card
         const points = movePath(rectCut, pos);
         const path = new Path({ points: points, close: true });
         const resShape = new ResourceShape({ shape: path });
-        await resShape.toCanvas(ctx, opRect);
+        resShape.toCanvas(ctx, opRect);
 
         // then put the actual text inside it
         const opText = new LayoutOperation({
-            translate: new Point(0.5*(vis.size.x-rectSize.x), pos.y-0.5*rectSize.y),
+            translate: new Point(vis.center.x, pos.y),
             dims: rectSize,
             pivot: Point.CENTER,
             fill: "#000000"
@@ -329,20 +329,20 @@ export default class Card
 
         const descFinal = descOutput.join(" ");
         const resText = new ResourceText({ text: descFinal, textConfig: textConfig });
-        await resText.toCanvas(ctx, opText);
+        resText.toCanvas(ctx, opText);
     }
 
     //
     // > NUMBER cards 
     //
-    async drawNumberCard(vis:Visualizer, ctx)
+    drawNumberCard(vis:Visualizer, ctx)
     {
-        await this.drawNumbers(vis, ctx);
-        await this.drawSuits(vis, ctx);
-        await this.drawMainPart(vis, ctx);
+        this.drawNumbers(vis, ctx);
+        this.drawSuits(vis, ctx);
+        this.drawMainPart(vis, ctx);
     }
 
-    async drawBigNumber(vis:Visualizer, ctx)
+    drawBigNumber(vis:Visualizer, ctx)
     {
         // the number
         const fontSize = CONFIG.cards.numbers.fontSizeBig * vis.sizeUnit;
@@ -369,12 +369,12 @@ export default class Card
         })
 
         const res = new ResourceText({ text: this.num.toString(), textConfig: textConfig });
-        await res.toCanvas(ctx, op);
+        res.toCanvas(ctx, op);
 
         return op;
     }
 
-    async drawMainPart(vis:Visualizer, ctx)
+    drawMainPart(vis:Visualizer, ctx)
     {
         const center = vis.size.clone().scaleFactor(0.5);
 
@@ -390,9 +390,9 @@ export default class Card
             alpha: CONFIG.cards.suits.bigSuitAlpha
         })
 
-        await resIcon.toCanvas(ctx, opIcon);
+        resIcon.toCanvas(ctx, opIcon);
 
-        const op = await this.drawBigNumber(vis, ctx);
+        const op = this.drawBigNumber(vis, ctx);
 
         const is6or9 = (this.num == 6 || this.num == 9);
         const needsLine = is6or9
@@ -410,11 +410,11 @@ export default class Card
         op.translate = new Point();
         op.dims = new Point();
         op.pivot = new Point();
-        await resLine.toCanvas(ctx, op);
+        resLine.toCanvas(ctx, op);
         
     }
 
-    async drawNumbers(vis:Visualizer, ctx)
+    drawNumbers(vis:Visualizer, ctx)
     {
         const edges = [
             new Point(0.5*vis.size.x, 0),
@@ -457,11 +457,11 @@ export default class Card
                 strokeAlign: StrokeAlign.OUTSIDE,
                 rotation: rot
             });
-            await res.toCanvas(ctx, op);
+            res.toCanvas(ctx, op);
         }
     }
 
-    async drawSuits(vis:Visualizer, ctx)
+    drawSuits(vis:Visualizer, ctx)
     {
         const corners = [
             new Point(),
@@ -498,14 +498,14 @@ export default class Card
                 rotation: rot,
                 effects: effects
             })
-            await res.toCanvas(ctx, op);
+            res.toCanvas(ctx, op);
         }
     }
 
     //
     // > SHARED
     //
-    async drawBackground(vis:Visualizer, ctx)
+    drawBackground(vis:Visualizer, ctx)
     {
         let color = this.data.color;
         if(this.type == Type.LIFE) { color = CATS[this.cat].color; }
@@ -523,7 +523,7 @@ export default class Card
             rotation: CONFIG.cards.bgCats.patternRotation,
             pivot: new Point(0.5)
         })
-        await vis.patternCat.toCanvas(ctx, op);
+        vis.patternCat.toCanvas(ctx, op);
     }
 
     drawOutline(vis, ctx)

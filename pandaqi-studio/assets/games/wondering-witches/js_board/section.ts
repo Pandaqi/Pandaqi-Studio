@@ -57,7 +57,7 @@ export default class Section
 		return this.grid;
 	}
 
-	getTilesFlat(onlyEmpty = false)
+	getTilesFlat(onlyEmpty = false) : Cell[]
 	{
 		const arr = this.grid.flat();
 		for(let i = arr.length-1; i >= 0; i--)
@@ -67,5 +67,14 @@ export default class Section
 			}
 		}
 		return arr;
+	}
+
+	clear()
+	{
+		const arr = this.getTilesFlat();
+		for(const cell of arr)
+		{
+			cell.clear();
+		}
 	}
 }

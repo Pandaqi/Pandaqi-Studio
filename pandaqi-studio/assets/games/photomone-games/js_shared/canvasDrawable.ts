@@ -6,6 +6,8 @@ import Line from "./line";
 import LayoutOperation from "js/pq_games/layout/layoutOperation"
 import PointNonPhotomone from "js/pq_games/tools/geometry/point";
 import Point from "./point";
+import TextConfig from "js/pq_games/layout/text/textConfig";
+import ResourceText from "js/pq_games/layout/resources/resourceText";
 
 export default class CanvasDrawable 
 {
@@ -356,78 +358,71 @@ export default class CanvasDrawable
         const ctx = this.getContext();
         for(const rect of vis.rects)
         {
-            ctx.save();
             ctx.fillStyle = rect.color.toString();
             ctx.fillRect(rect.p.x, rect.p.y, rect.size.x, rect.size.y);
-            ctx.restore();
         }
 
         for(const line of vis.lines)
         {
-            ctx.save();
             ctx.strokeStyle = line.color.toString();
             ctx.lineWidth = line.width;
 
             ctx.beginPath();
             ctx.moveTo(line.p1.x, line.p1.y);
             ctx.lineTo(line.p2.x, line.p2.y);
+            ctx.closePath();
             ctx.stroke();
-            ctx.restore();
         }
 
         for(const circ of vis.circles)
         {
-            ctx.save();
             ctx.fillStyle = circ.color.toString();
-            ctx.shadowBlur = circ.shadow;
 
             ctx.beginPath();
             ctx.arc(circ.p.x, circ.p.y, circ.radius, 0, 2*Math.PI, false);
+            ctx.closePath();
             ctx.fill();
-            ctx.restore();
         }
 
         for(const text of vis.text)
         {
-            ctx.save();
-            if(!text.font) { text.font = text.fontSize + " " + text.fontFamily; }
-            ctx.font = text.font;
-            ctx.textBaseline = text.textBaseline || "middle";
-            ctx.textAlign = text.textAlign || "left";
-            ctx.translate(text.p.x, text.p.y);
-            ctx.rotate(text.rotation || 0);
-
+            // a circle behind the text is cheaper and clearer than stroke in this case
             if(text.stroke)
             {
-                // @NOTE: found out that adding a circle behind it is cleaner/prettier than stroking text
-                /*ctx.strokeStyle = text.stroke;
-                ctx.lineWidth = text.strokeWidth;
-                ctx.strokeText(text.text, 0, 0);*/
-
                 ctx.fillStyle = text.stroke;
+                ctx.translate(text.p.x, text.p.y);
                 ctx.beginPath();
                 ctx.arc(0, 0, text.strokeWidth*1.33, 0, 2*Math.PI, false);
+                ctx.closePath();
                 ctx.fill();
             }
 
-            ctx.fillStyle = text.color;
-            ctx.fillText(text.text, 0, 0);
-            ctx.restore();
+            const textConfig = new TextConfig({
+                font: text.fontFamily,
+                size: text.fontSize,
+            }).alignCenter();
+
+            const opText = new LayoutOperation({
+                translate: new PointNonPhotomone(text.p),
+                rotation: text.rotation ?? 0,
+                dims: new PointNonPhotomone(2*textConfig.size),
+                fill: text.color,
+                pivot: PointNonPhotomone.CENTER
+            })
+            const resText = new ResourceText({ text: text.text, textConfig: textConfig });
+            resText.toCanvas(ctx, opText);
         }
 
         for(const sprite of vis.sprites)
         {
-            ctx.save();
-
             const res = this.params.RESOURCE_LOADER.getResource(sprite.textureKey);
             const canvOp = new LayoutOperation({ 
                 frame: sprite.frame,
                 dims: new PointNonPhotomone(sprite.size),
-                translate: sprite.p,
-                pivot: new PointNonPhotomone(0.5)
+                translate: new PointNonPhotomone(sprite.p),
+                pivot: PointNonPhotomone.CENTER
             })
             res.toCanvas(ctx, canvOp);
-            ctx.restore();
         }
     }
 

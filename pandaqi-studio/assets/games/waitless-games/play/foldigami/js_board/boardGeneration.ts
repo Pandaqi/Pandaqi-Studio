@@ -9,13 +9,12 @@ export default class BoardGeneration
 {
     board: Board
     evaluator: Evaluator
-    canvas: HTMLCanvasElement
     types:Types
 
     async draw(vis:BoardVisualizer) 
     {
         Object.assign(CONFIG, vis.config);
-        this.setup();
+        this.setup(vis);
         await this.generate();
         const group = new ResourceGroup();
         this.board.draw(vis, group);
@@ -23,10 +22,10 @@ export default class BoardGeneration
         return [group];
     }
 
-    setup()
+    setup(vis:BoardVisualizer)
     {
         this.types = new Types(this);
-        this.board = new Board(this);
+        this.board = new Board(vis, this);
         this.evaluator = new Evaluator(this);
     }
 

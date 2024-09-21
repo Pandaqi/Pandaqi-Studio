@@ -114,7 +114,7 @@ export default class ResourceImage extends Resource
 
     getPixiObject(frame:number, spriteConstructor = null) 
     { 
-        if(this.isSingleFrame()) { return this.pixiObject; }
+        if(this.isSingleFrame()) { return spriteConstructor.from(this.pixiObject); }
         return this.getImageFrameAsPixiObject(frame, spriteConstructor); 
     }
 
@@ -124,7 +124,7 @@ export default class ResourceImage extends Resource
         const tex = await helpers.assets.load(filePath);
         if(this.isSingleFrame())
         {
-            this.pixiObject = helpers.sprite.from(tex);
+            this.pixiObject = tex;
             return;
         }
 

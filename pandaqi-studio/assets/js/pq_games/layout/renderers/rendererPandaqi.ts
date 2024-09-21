@@ -1,19 +1,18 @@
 import Dims from "js/pq_games/tools/geometry/dims";
 import Path from "js/pq_games/tools/geometry/paths/path";
+import Point from "js/pq_games/tools/geometry/point";
 import createCanvas from "../canvas/createCanvas";
 import createContext from "../canvas/createContext";
 import EffectsOperation from "../effects/effectsOperation";
 import LayoutOperation from "../layoutOperation";
+import Resource, { ElementLike } from "../resources/resource";
 import ResourceGroup from "../resources/resourceGroup";
 import ResourceImage, { CanvasLike } from "../resources/resourceImage";
 import { ResourceLoadParams } from "../resources/resourceLoader";
 import ResourceShape from "../resources/resourceShape";
-import TransformationMatrix from "../tools/transformationMatrix";
-import StrokeAlign from "../values/strokeAlign";
-import Renderer, { RendererDrawFinishParams } from "./renderer";
-import Point from "js/pq_games/tools/geometry/point";
-import Resource, { ElementLike } from "../resources/resource";
 import ResourceText from "../resources/resourceText";
+import TransformationMatrix from "../tools/transformationMatrix";
+import Renderer, { RendererDrawFinishParams } from "./renderer";
 
 export default class RendererPandaqi extends Renderer
 {
@@ -132,7 +131,7 @@ export default class RendererPandaqi extends Renderer
             if(!op.clipRelative) 
             { 
                 const transInv = new TransformationMatrix().fromContext(ctx);
-                transInv.translate(op.pivotOffset.clone().negate());
+                //transInv.translate(op.pivotOffset.clone().negate());
                 transInv.invert();
                 points = transInv.applyToArray(points); 
             }

@@ -212,13 +212,13 @@ export default class Card
     drawHeader(ctx)
     {
         const contHeight = 0.6*this.sizeUnit;
-        const clipPath = this.getClipPath(new Point(this.size.x, contHeight));
+        const clipPath = this.getClipPath(new Point(this.size.x, contHeight), new Point(this.rootPadding));
         const effects = CONFIG.inkFriendly ? [new GrayScaleEffect()] : [];
 
         // background environment image
-        const backgroundImageSize = new Point(contHeight, contHeight).scaleFactor(1.7);
+        const backgroundImageSize = new Point(contHeight*1.7);
         const resBG = CONFIG.resLoader.getResource(this.backgroundSpritesheet);
-        const posBG = new Point(0.5*this.size.x, 0.33*this.size.y); // @TODO: should reposition so the bottom aligns with bottom clip path
+        const posBG = new Point(0.5*this.size.x, 0.4275*this.size.y); // @TODO: should reposition so the bottom aligns with bottom clip path
         const opBG = new LayoutOperation({
             translate: posBG,
             dims: backgroundImageSize,
@@ -233,7 +233,7 @@ export default class Card
         // actual creature (smaller)
         const creatureImageSize = new Point(contHeight, contHeight).scaleFactor(0.8);
         const resCreature = CONFIG.resLoader.getResource(this.creatureSpritesheet);
-        const posCreature = new Point(0.5*this.size.x, 0.33*this.size.y);
+        const posCreature = new Point(0.5*this.size.x, 0.25*this.size.y);
         const opCreature = new LayoutOperation({
             translate: posCreature,
             dims: creatureImageSize,
@@ -244,13 +244,13 @@ export default class Card
         resCreature.toCanvas(ctx, opCreature);
 
         // Icon top-right
-        const cornerPos = new Point(this.size.x - 0.66*this.cornerIconSize, 0.66*this.cornerIconSize);
+        const cornerPos = new Point(this.size.x - 0.8*this.cornerIconSize, 0.8*this.cornerIconSize);
         this.drawCornerIcon(ctx, cornerPos);
 
         // Icon reminder list (of what's on the card, overlays image)
-        const remAnchor = new Point(0.88*this.size.x, 0.2*this.size.y);
+        const remAnchor = new Point(0.85*this.size.x, 0.24*this.size.y);
         const iconReminderSize = new Point(0.725*this.cornerIconSize);
-        const remPositions = getPositionsCenteredAround({ pos: remAnchor, dims: iconReminderSize, num: this.typeList.length, dir: Point.DOWN });
+        const remPositions = getPositionsCenteredAround({ pos: remAnchor, dims: iconReminderSize.clone().scale(1.2), num: this.typeList.length, dir: Point.DOWN });
         for(let i = 0; i < remPositions.length; i++)
         {
             const type = this.typeList[i];
@@ -287,13 +287,14 @@ export default class Card
     {
         const iconResource = CONFIG.resLoader.getResource(this.iconSpritesheet);
         const counterSize = this.cornerIconSize;
-        const mainIconSize = 3.0*counterSize;
+        const mainIconSize = 2.5*counterSize;
 
         // @TODO: IGNORED NOW => this.iconBorderRadius
         const op = new LayoutOperation({
-            translate: new Point(0.5*this.size.x, 0.5*this.size.y),
+            translate: new Point(0.5*this.size.x, 0.425*this.size.y),
             dims: new Point(mainIconSize),
             frame: this.getIconFrame(this.getMainIcon()),
+            pivot: Point.CENTER,
             effects: [
                 new DropShadowEffect({ 
                     offset: this.dropShadowOffset.clone().scaleFactor(2.5),
@@ -307,9 +308,9 @@ export default class Card
     // The main body of the card: the icons of this creature
     drawContent(ctx)
     {
-        const anchor = new Point(0.5*this.size.x, 0.75*this.size.y);
+        const anchor = new Point(0.5*this.size.x, 0.7*this.size.y);
         const iconSize = new Point(0.1725*this.sizeUnit);
-        const positions = getPositionsCenteredAround({ pos: anchor, dims: iconSize, num: this.typeList.length });
+        const positions = getPositionsCenteredAround({ pos: anchor, dims: iconSize.clone().scale(1.15), num: this.typeList.length });
         for(let i = 0; i < positions.length; i++)
         {
             const type = this.typeList[i];
@@ -318,6 +319,7 @@ export default class Card
                 translate: positions[i],
                 dims: iconSize,
                 frame: this.getIconFrame(type),
+                pivot: Point.CENTER,
                 effects: [
                     new DropShadowEffect({ 
                         offset: this.dropShadowOffset,
@@ -344,36 +346,37 @@ export default class Card
 
     drawFooter(ctx)
     {
-        const footerY = 0.8*this.size.y;
-        const textBoxDims = new Point(0.8*this.size.x, 0.15*this.size.y);
-        const footerGap = 0.175*this.cornerIconSize;
-        const textBoxAnchor = new Point(this.cornerIconSize + footerGap, footerY);
-        const iconPos = new Point(0.66*this.cornerIconSize, footerY + 0.5 * this.cornerIconSize); 
-
+        const footerY = 0.875*this.size.y;
+        const textBoxDims = new Point(0.775*this.size.x, 0.1*this.size.y);
+        const footerGap = 0.66*this.cornerIconSize;
+        const iconPos = new Point(0.8*this.cornerIconSize, footerY + 0.6 * this.cornerIconSize); 
+        const textBoxAnchor = new Point(iconPos.x + footerGap, footerY);
+        
         // icon again in bottom left
         this.drawCornerIcon(ctx, iconPos)
 
         // the box behind the text
-        const rect = new ResourceShape(new Rectangle().fromTopLeft(textBoxAnchor, textBoxDims));
+        const rect = new Rectangle().fromTopLeft(textBoxAnchor, textBoxDims);
+        const rectRes = new ResourceShape(rect);
         const opRect = new LayoutOperation({
             fill: "#FFFFFF",
             stroke: this.strokeColor,
             strokeWidth: this.strokeWidth
         });
-        rect.toCanvas(ctx, opRect);
+        rectRes.toCanvas(ctx, opRect);
 
         // the text with the name of the creature
         const textConfig = new TextConfig({
             font: CONFIG.fonts.heading,
             size: CONFIG.cards.textSize*this.sizeUnit,
-            alignVertical: TextAlign.MIDDLE,
-        })
+        }).alignCenter();
 
         const resText = new ResourceText({ text: this.creatureName, textConfig: textConfig })
         const opText = new LayoutOperation({
-            translate: new Point(),
+            translate: rect.getCenter(),
             dims: textBoxDims,
-            fill: "#000000"
+            fill: "#000000",
+            pivot: Point.CENTER
         });
         resText.toCanvas(ctx, opText);
     }
@@ -415,15 +418,15 @@ export default class Card
 
     getClipPath(size:Point, offset:Point = new Point()) : Path
     {
-        var margin = this.cornerIconSize*1.25;
-        var p = this.rootPadding;
-        var points = [
-            new Point().setXY(0, 0),
-            new Point().setXY(size.x - 2*p - margin, 0),
-            new Point().setXY(size.x - 2*p - margin, margin),
-            new Point().setXY(size.x - 2*p, margin),
-            new Point().setXY(size.x - 2*p, size.y),
-            new Point().setXY(0, size.y)
+        const margin = this.cornerIconSize*1.25;
+        const p = this.rootPadding;
+        const points = [
+            new Point(0, 0),
+            new Point(size.x - 2*p - margin, 0),
+            new Point(size.x - 2*p - margin, margin),
+            new Point(size.x - 2*p, margin),
+            new Point(size.x - 2*p, size.y),
+            new Point(0, size.y)
         ]
 
         for(const point of points)

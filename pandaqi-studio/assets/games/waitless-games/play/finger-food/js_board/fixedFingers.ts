@@ -1,8 +1,9 @@
+import LayoutOperation from "js/pq_games/layout/layoutOperation";
+import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
+import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer";
 import Point from "js/pq_games/tools/geometry/point";
 import BoardDisplay from "./boardDisplay";
 import CONFIG from "./config";
-import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import imageToPhaser from "js/pq_games/phaser/imageToPhaser";
 
 export default class FixedFingers
 {
@@ -13,20 +14,19 @@ export default class FixedFingers
         this.fixedFingers = f;
     }
 
-    display(boardDisplay:BoardDisplay, pos:Point, height:number = 128)
+    display(vis:BoardVisualizer, group:ResourceGroup, boardDisplay:BoardDisplay, pos:Point, height:number = 128)
     {
-        const game = boardDisplay.game
         const size = CONFIG.fixedFingers.handScale * height;
 
         // hand background
-        const res = CONFIG.visualizer.resLoader.getResource("fixed_fingers_spritesheet");
+        const res = vis.getResource("fixed_fingers_spritesheet");
         const opSprite = new LayoutOperation({
             translate: pos,
             dims: new Point(size),
             frame: 5,
             pivot: Point.CENTER
         })
-        const sprite = imageToPhaser(res, opSprite, game);
+        group.add(res, opSprite);
 
         // overlay the mask of each finger
         // (number in array = frame)
@@ -38,7 +38,7 @@ export default class FixedFingers
                 frame: finger,
                 pivot: Point.CENTER,
             })
-            const spriteFinger = imageToPhaser(res, opFinger, game);
+            group.add(res, opFinger);
         }
     }
 }

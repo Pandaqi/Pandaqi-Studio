@@ -36,6 +36,13 @@ export default class Point
         return this;
     }
 
+    round()
+    {
+        this.x = Math.round(this.x);
+        this.y = Math.round(this.y);
+        return this;
+    }
+
     add(p:Point) { return this.move(p); } // @NOTE: some of these are just aliases because I was stupid enough to mix two different Point classes (the Photomone one---this one---and the general one)
     move(p:Point)
     {

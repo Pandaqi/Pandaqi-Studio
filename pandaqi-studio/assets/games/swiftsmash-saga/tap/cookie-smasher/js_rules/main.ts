@@ -69,7 +69,7 @@ const generate = async (sim:InteractiveExampleSimulator) =>
     const numCards = rangeInteger(4,6);
     sim.print("These cards were played. (Imagine they're in a circle. The first card is from the king.)");
     const round = new Round().addCards(allCards.splice(0, numCards));
-    sim.listImages(round, "draw");
+    await sim.listImages(round, "draw");
 
     const cardsTrue = round.getTrueCards();
     if(cardsTrue.length <= 0) { sim.print("No card is true. Smash your own card!"); return; }
@@ -80,7 +80,7 @@ const generate = async (sim:InteractiveExampleSimulator) =>
     if(duplicateNumbers) { str += " (If numbers are duplicate, only the first is evaluated.)"; }
     sim.print(str);
     const roundTrue = new Round().addCards(cardsTrue);
-    sim.listImages(roundTrue, "draw");
+    await  sim.listImages(roundTrue, "draw");
 
     if(cardsTrue.length == 1) { sim.print("Smash that card to win the round!"); return; }
 
@@ -88,7 +88,7 @@ const generate = async (sim:InteractiveExampleSimulator) =>
     const cardsHighest = round.getHighest(cardsTrue);
     const roundHighest = new Round().addCards(cardsHighest);
     sim.print("Multiple are true, so search for the highest number:");
-    sim.listImages(roundHighest, "draw");
+    await sim.listImages(roundHighest, "draw");
     sim.print("Smash that card to win the round!");
 
     // > update the simulation

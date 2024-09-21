@@ -28,11 +28,11 @@ export default class CardPicker
 
         // actually create them
         CONFIG.possibleTypes = [];
-        CONFIG.possibleCards = {};
+        CONFIG.possibleCards = [];
         CONFIG.possibleNumbers = [];
         for(const [key,data] of Object.entries(dict))
         {
-            CONFIG.possibleCards[key] = data;
+            if(!CONFIG.possibleCards.includes(key)) { CONFIG.possibleCards.push(key); }
             if(!CONFIG.possibleTypes.includes(data.type)) { CONFIG.possibleTypes.push(data.type); }
             if(!CONFIG.possibleNumbers.includes(data.num)) { CONFIG.possibleNumbers.push(data.num); }
         }

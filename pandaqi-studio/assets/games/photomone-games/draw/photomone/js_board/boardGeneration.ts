@@ -12,6 +12,7 @@ import PHOTOMONE_BASE_PARAMS from "../../../js_shared/config"
 import Map from "../../../js_shared/map"
 import { MapVisualizer, VisResult } from "../../../js_shared/mapVisualizer"
 import WordsPhotomone from "../../../js_shared/wordsPhotomone"
+import StrokeAlign from "js/pq_games/layout/values/strokeAlign"
 
 export default class BoardGeneration
 {
@@ -59,8 +60,6 @@ export default class BoardGeneration
         this.cfg.startingLinePointRadius = (this.cfg.pointRadiusFactor + 0.025)*minSize; // a small margin because it looks better
 
         this.cfg.createImage = !this.cfg.debugSmoothing;
-
-        console.log(this.cfg);
     }
 
     async generate()
@@ -69,7 +68,6 @@ export default class BoardGeneration
         await WORDS.prepare(this.cfg);
         this.cfg.WORDS = WORDS;
         this.map = new Map(this.cfg);
-        console.log(this.cfg);
         this.map.generate();
     }
 
@@ -82,8 +80,6 @@ export default class BoardGeneration
 
         for(const rect of visRes.rects)
         {
-            console.log(rect);
-
             const rectObj = new Rectangle({ center: new Point(rect.p.x, rect.p.y), extents: new Point(rect.size.x, rect.size.y) });
             const op = new LayoutOperation({
                 fill: rect.color,
@@ -114,9 +110,9 @@ export default class BoardGeneration
 
         for(const sprite of visRes.sprites)
         {
-            const resSprite = PHOTOMONE_BASE_PARAMS.RESOURCE_LOADER.getResource(sprite.textureKey);
+            const resSprite = vis.getResource(sprite.textureKey);
             const opSprite = new LayoutOperation({
-                translate: sprite.p,
+                translate: new Point(sprite.p),
                 rotation: sprite.rotation ?? 0,
                 dims: new Point(sprite.size),
                 frame: sprite.frame ?? 0,
@@ -134,17 +130,16 @@ export default class BoardGeneration
             const pivot = new Point(originX, originY);
 
             const op = new LayoutOperation({
-                translate: text.p,
+                translate: new Point(text.p),
                 dims: new Point(0.5*vis.size.y, 2*text.fontSize),
                 fill: text.color ?? "#000000",
                 stroke: text.stroke ?? "#FFFFFF",
                 strokeWidth: text.strokeWidth ?? 0,
+                strokeAlign: StrokeAlign.OUTSIDE,
                 rotation: text.rotation ?? 0,
                 pivot: pivot
             })
-
-            // @TODO: alignment is good now thanks to Phaser magic I don't really understand
-            // if we ever move to my own raw system, reevaluate the pivot + alignment of these things
+            
             const textConfig = new TextConfig({
                 font: text.fontFamily,
                 size: text.fontSize ?? 12,
@@ -152,7 +147,7 @@ export default class BoardGeneration
                 alignVertical: originY == 0 ? TextAlign.START : TextAlign.MIDDLE           
             })
 
-            const resText = new ResourceText({ text: text.text, textConfig: textConfig });
+            const resText = new ResourceText({ text: text.text.toString(), textConfig: textConfig });
             group.add(resText, op);
         }
 
@@ -164,7 +159,8 @@ export default class BoardGeneration
         const fontSize = 0.5*spriteSize;
         const edgeMargin = 0.33*spriteSize;
         const yHeightFactor = 0.66
-        const xOffset = edgeMargin + spriteSize, yOffset = edgeMargin + (1.0 - 0.5*yHeightFactor) * spriteSize
+        const xOffset = edgeMargin + spriteSize;
+        const yOffset = edgeMargin + (1.0 - 0.5*yHeightFactor) * spriteSize
 
         const rectAnchor = new Point((xOffset + 1.5*xOffset)*0.5, yOffset);
         const rectSize = new Point(spriteSize*3, (1 + yHeightFactor)*spriteSize);
@@ -186,15 +182,14 @@ export default class BoardGeneration
         const textConfig = new TextConfig({
             font: "geldotica",
             size: fontSize,
-            alignHorizontal: TextAlign.START,
-            alignVertical: TextAlign.MIDDLE
-        })
+        }).alignCenter();
 
         const textString = this.map.getObjectiveScore().toString();
         const opText = new LayoutOperation({
-            translate: new Point(1.5*xOffset, yOffset),
-            dims: new Point(rect.getSize()),
+            translate: new Point(xOffset + 2*textConfig.size, yOffset),
+            dims: new Point(4*textConfig.size),
             fill: "#000000",
+            pivot: Point.CENTER
         })
         const resText = new ResourceText({ text: textString, textConfig: textConfig });
         group.add(resText, opText);

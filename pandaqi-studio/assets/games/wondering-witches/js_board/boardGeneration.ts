@@ -1,26 +1,21 @@
-import { INGREDIENTS, SPECIAL_CELLS } from "../js_shared/dict"
+import { SPECIAL_CELLS } from "../js_shared/dict"
 import Section from "./section"
-// @ts-ignore
-import { Scene } from "js/pq_games/phaser/phaser.esm"
+import Color from "js/pq_games/layout/color/color"
+import LayoutOperation from "js/pq_games/layout/layoutOperation"
+import ResourceGroup from "js/pq_games/layout/resources/resourceGroup"
+import ResourceShape from "js/pq_games/layout/resources/resourceShape"
+import ResourceText from "js/pq_games/layout/resources/resourceText"
+import TextConfig from "js/pq_games/layout/text/textConfig"
+import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer"
+import Circle from "js/pq_games/tools/geometry/circle"
+import Line from "js/pq_games/tools/geometry/line"
 import Point from "js/pq_games/tools/geometry/point"
-import ResourceLoader from "js/pq_games/layout/resources/resourceLoader"
-import setDefaultPhaserSettings from "js/pq_games/phaser/setDefaultPhaserSettings"
-import resourceLoaderToPhaser from "js/pq_games/phaser/resourceLoaderToPhaser"
 import shuffle from "js/pq_games/tools/random/shuffle"
 import Cell from "./cell"
-import LayoutOperation from "js/pq_games/layout/layoutOperation"
-import imageToPhaser from "js/pq_games/phaser/imageToPhaser"
-import ResourceText from "js/pq_games/layout/resources/resourceText"
-import textToPhaser from "js/pq_games/phaser/textToPhaser"
-import TextConfig from "js/pq_games/layout/text/textConfig"
-import Line from "js/pq_games/tools/geometry/line"
-import { circleToPhaser, lineToPhaser, rectToPhaser } from "js/pq_games/phaser/shapeToPhaser"
-import Circle from "js/pq_games/tools/geometry/circle"
-import Color from "js/pq_games/layout/color/color"
+import StrokeAlign from "js/pq_games/layout/values/strokeAlign"
 
 interface GenData
 {
-	graphics: any
 	sprites: any[]
 	gardens: Garden[]
 	ingredients: Cell[]
@@ -30,45 +25,32 @@ interface GenData
 
 type Garden = Cell[]
 
-export default class BoardGeneration extends Scene
+export default class BoardGeneration
 {
-	canvas:HTMLCanvasElement
 	cfg:Record<string,any>
 	gen:GenData
 	
-	constructor()
+	async draw(vis:BoardVisualizer) : Promise<ResourceGroup[]>
 	{
-		super({ key: "boardGeneration" });
-	}
-
-	preload() 
-	{
-		setDefaultPhaserSettings(this); 
-	}
-
-	async create(userConfig: any) 
-	{
-        await resourceLoaderToPhaser(userConfig.visualizer.resLoader, this);
-
-		userConfig.visualizer.startCollection();
-
-		this.createConfig(userConfig);
-		this.generateBoard();
-		this.visualize();
+		this.createConfig(vis);
 		
-		await userConfig.visualizer.convertCanvasToImage(this);
-
-		if(!this.cfg.pageBack) { userConfig.visualizer.endCollection(); return; }
+		const groups = [];
 
 		this.generateBoard();
-		this.visualize();
+		groups.push(this.visualize(vis));
+		
+		if(this.cfg.pageBack)
+		{
+			this.generateBoard();
+			groups.push(this.visualize(vis));
+		}
 
-		await userConfig.visualizer.convertCanvasToImage(this);
-		userConfig.visualizer.endCollection();
+		return groups;
 	}
 
-	createConfig(userConfig:Record<string,any>)
+	createConfig(vis:BoardVisualizer)
 	{
+		const userConfig = vis.config;
 		const cfg : Record<string,any> = {};
 		userConfig.numPlayers = parseInt(userConfig.numPlayers);
 		Object.assign(cfg, userConfig);
@@ -101,8 +83,8 @@ export default class BoardGeneration extends Scene
 		cfg.minGardensOfPotionLength = 2; // how many gardens should exist (at least) that can contain the final potion
 		cfg.useBackPage = userConfig.pageBack;
 
-		cfg.fullWidth = this.canvas.width;
-		cfg.fullHeight = this.canvas.height;
+		cfg.fullWidth = vis.size.x;
+		cfg.fullHeight = vis.size.y;
 
 		cfg.lineWidth = 3 * cfg.graphicsScaleFactor;
 		cfg.tinyLineWidth = Math.floor(0.5*cfg.lineWidth);
@@ -149,7 +131,6 @@ export default class BoardGeneration extends Scene
 	{
 		this.gen = 
 		{
-			graphics: null,
 			sprites: [],
 			gardens: [],
 			ingredients: [],
@@ -166,6 +147,7 @@ export default class BoardGeneration extends Scene
 
 	fillSection(section:Section) 
 	{	
+		section.clear();
 		this.growGardens(section);
 		this.placeIngredients(section);
 		this.placeSpecialCells(section);
@@ -281,38 +263,25 @@ export default class BoardGeneration extends Scene
 		}
 	}
 
-	visualize() 
+	visualize(vis:BoardVisualizer) : ResourceGroup
 	{
-		this.clearVisualization();
-
-		// @ts-ignore
-		const graphics = this.add.graphics();
-		this.gen.graphics = graphics;
-
-		this.visualizeGardens(graphics);
-		this.visualizeGrid(graphics);
-		this.visualizeGardenBorders(graphics);
-		this.visualizeIngredients(graphics);
-		this.visualizeSpecialCells(graphics);
+		const group = new ResourceGroup();
+		this.visualizeGardens(vis, group);
+		this.visualizeGrid(vis, group);
+		this.visualizeGardenBorders(vis, group);
+		this.visualizeIngredients(vis, group);
+		this.visualizeSpecialCells(vis, group);
+		return group;
 	}
 
-	clearVisualization()
-	{
-		if(this.gen.graphics) { this.gen.graphics.destroy(true); }
-		for(const sprite of this.gen.sprites)
-		{
-			sprite.destroy(true);
-		}
-	}
-
-	paintGarden(graphics:any, garden:Garden, idx: number)
+	paintGarden(vis:BoardVisualizer, group:ResourceGroup, garden:Garden, idx: number)
 	{
 		for(const cell of garden) 
 		{
 			const rect = cell.asRect();
 			const color = this.cfg.gardenColors[idx % this.cfg.gardenColors.length];
 			const op = new LayoutOperation({ fill: color });
-			rectToPhaser(rect, op, graphics);
+			group.add(new ResourceShape(rect), op);
 		}
 	}
 
@@ -347,17 +316,17 @@ export default class BoardGeneration extends Scene
 		}
 	}
 
-	visualizeGardens(graphics:any)
+	visualizeGardens(vis:BoardVisualizer, group:ResourceGroup)
 	{
 		let idx = -1;
 		for(const garden of this.gen.gardens)
 		{
 			idx++;
-			this.paintGarden(graphics, garden, idx);
+			this.paintGarden(vis, group, garden, idx);
 		}
 	}
 
-	visualizeGardenBorders(graphics:any)
+	visualizeGardenBorders(vis:BoardVisualizer, group:ResourceGroup)
 	{
 		
 		const borders : Line[] = [];
@@ -373,15 +342,15 @@ export default class BoardGeneration extends Scene
 
 		for(const border of borders) 
 		{
-			lineToPhaser(border, opLine, graphics);
+			group.add(new ResourceShape(border), opLine);
 		}
 	}
 
-	visualizeIngredients(graphics:any)
+	visualizeIngredients(vis:BoardVisualizer, group:ResourceGroup)
 	{
 		const spriteSize = this.cfg.spriteSize;
 
-		const res = this.cfg.visualizer.resLoader.getResource("ingredient_spritesheet");
+		const res = vis.getResource("ingredient_spritesheet");
 
 		const opDot = new LayoutOperation({
 			fill: "#000000"
@@ -398,20 +367,20 @@ export default class BoardGeneration extends Scene
 				pivot: Point.CENTER,
 				frame: ingFrame
 			});
-			this.gen.sprites.push( imageToPhaser(res, op, this) );
+			group.add(res, op);
 
 			const circleCenter = new Point(center.x + 0.35*spriteSize, center.y);
 			const seedsDot = new Circle({ center: circleCenter, radius: 0.05*spriteSize });
-			circleToPhaser(seedsDot, opDot, graphics);
+			group.add(new ResourceShape(seedsDot), opDot);
 		}
 	}
 
-	visualizeSpecialCells(_graphics: any)
+	visualizeSpecialCells(vis:BoardVisualizer, group:ResourceGroup)
 	{
 		let typesUsed : Set<string> = new Set();
 		const spriteSize = this.cfg.spriteSize;
 
-		const res = this.cfg.visualizer.resLoader.getResource("special_cell_spritesheet");
+		const res = vis.getResource("special_cell_spritesheet");
 
 		for(const cell of this.gen.specialCells) 
 		{
@@ -424,7 +393,7 @@ export default class BoardGeneration extends Scene
 				pivot: Point.CENTER,
 				frame: typeFrame
 			})
-			this.gen.sprites.push( imageToPhaser(res, op, this) );
+			group.add(res, op);
 			typesUsed.add(cell.type);
 		}
 
@@ -448,7 +417,7 @@ export default class BoardGeneration extends Scene
 	//  - https://graphicdesign.stackexchange.com/questions/3682/where-can-i-find-a-large-palette-set-of-contrasting-colors-for-coloring-many-d
 	//  - https://sashat.me/2017/01/11/list-of-20-simple-distinct-colors/
 	//
-	visualizeGrid(graphics:any)
+	visualizeGrid(vis:BoardVisualizer, group:ResourceGroup)
 	{
 		const color = new Color(this.cfg.gridColor);
 		color.a = this.cfg.gridAlpha;
@@ -462,7 +431,7 @@ export default class BoardGeneration extends Scene
 		{
 			const xPos = x*this.cfg.rectWidth;
 			const l = new Line(new Point(xPos, 0), new Point(xPos, this.cfg.fullHeight));
-			lineToPhaser(l, opLine, graphics);
+			group.add(new ResourceShape(l), opLine);
 		}
 
 		// => horizontal
@@ -470,7 +439,7 @@ export default class BoardGeneration extends Scene
 		{
 			const yPos = y*this.cfg.rectHeight;
 			const l = new Line(new Point(0, yPos), new Point(this.cfg.fullWidth, yPos));
-			lineToPhaser(l, opLine, graphics);
+			group.add(new ResourceShape(l), opLine);
 		}
 
 		// => player area
@@ -492,14 +461,11 @@ export default class BoardGeneration extends Scene
 			rect.extents = new Point(rectSize.x - 4*edgeOffset, rectSize.y - 4*edgeOffset);
 
 			const color = this.cfg.playerColorsHex[playerNum];
-			console.log(color);
-			console.log(this.cfg.playerColorsHex);
-			console.log(this.cfg.thickLineWidth);
 			const opRect = new LayoutOperation({
 				stroke: color,
 				strokeWidth: this.cfg.thickLineWidth
 			})
-			rectToPhaser(rect, opRect, graphics);
+			group.add(new ResourceShape(rect), opRect);
 
 			const str = 'Player ' + (playerNum + 1);
 			const opText = new LayoutOperation({
@@ -508,13 +474,13 @@ export default class BoardGeneration extends Scene
 				dims: new Point(20 * fontSize, 2 * fontSize),
 				pivot: Point.CENTER,
 				stroke: "#FFFFFF",
-				strokeWidth: this.cfg.fontSize / 4.0
+				strokeWidth: this.cfg.fontSize / 10.0,
+				strokeAlign: StrokeAlign.OUTSIDE,
+				depth: 1000
 			})
 
 			const resText = new ResourceText({ text: str, textConfig: textConfig });
-			this.gen.sprites.push( textToPhaser(resText, opText, this) );
-			// txt.setShadow(0, 0, this.cfg.txtShadowColor, this.cfg.txtShadowSize); => NOT IMPLEMENTED YET BY ME
-
+			group.add(resText, opText);
 			playerNum++;
 		}
 	}

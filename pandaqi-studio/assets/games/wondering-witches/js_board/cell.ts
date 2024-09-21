@@ -22,6 +22,14 @@ export default class Cell
 		this.garden = null;
 	}
 
+	clear()
+	{
+		this.garden = null;
+		this.ingredient = -1;
+		this.ingredientName = "";
+		this.type = "";
+	}
+
 	isEmpty()
 	{
 		return this.ingredientName == "" && this.type == ""

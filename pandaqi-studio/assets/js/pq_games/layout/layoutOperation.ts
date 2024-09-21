@@ -96,7 +96,6 @@ export default class LayoutOperation
     
     frame: number // frame of image (spritesheets)
     transformResult: TransformationMatrix // set dynamically on every apply
-    transformParent: TransformationMatrix
     parentOperation: LayoutOperation
     renderer: Renderer
     keepTransform: boolean
@@ -141,7 +140,6 @@ export default class LayoutOperation
         this.strokeAlign = params.strokeAlign ?? StrokeAlign.MIDDLE;
 
         this.parentOperation = params.parentOperation ?? null;
-        this.transformParent = this.parentOperation ? this.parentOperation.transformResult.clone() : new TransformationMatrix();
         this.renderer = params.renderer ?? (this.parentOperation ? this.parentOperation.renderer : new RendererPandaqi());
         this.keepTransform = params.keepTransform ?? false;
     }
@@ -235,7 +233,7 @@ export default class LayoutOperation
 
     calculateTransformationMatrix()
     {
-        const trans = this.transformParent;
+        const trans = this.parentOperation ? this.parentOperation.transformResult.clone() : new TransformationMatrix();
         trans.translate(this.translateResult); 
         trans.rotate(this.rotation);
         trans.scale(this.scaleResult);

@@ -13,6 +13,7 @@ import BoardState from "./boardState"
 import Cell from "./cell"
 import CONFIG from "./config"
 import { TUTORIAL_DATA } from "./dict"
+import StrokeAlign from "js/pq_games/layout/values/strokeAlign"
 
 export default class Board
 {
@@ -26,22 +27,22 @@ export default class Board
     generationSuccess: boolean
     state: BoardState
 
-    constructor(game:any)
+    constructor(vis:BoardVisualizer, game:any)
     {
         this.game = game;
-        this.setupOuterRectangle();
+        this.setupOuterRectangle(vis);
     }
 
     getOuterRectangle() { return this.outerRect; }
-    setupOuterRectangle()
+    setupOuterRectangle(vis:BoardVisualizer)
     {
-        const size = this.game.canvas;
-        const minSize = Math.min(size.width, size.height);
+        const size = vis.size;
+        const minSize = Math.min(size.x, size.y);
         const margin = new Point(CONFIG.board.outerMargin.x * minSize, CONFIG.board.outerMargin.y * minSize);
         this.outerMargin = margin;
 
-        const maxWidth = size.width;
-        const maxHeight = size.height;
+        const maxWidth = size.x;
+        const maxHeight = size.y;
         const squareSize = Math.min(maxWidth, maxHeight);
         let finalSize = new Point(maxWidth, maxHeight);
         let finalPos = new Point();
@@ -51,7 +52,7 @@ export default class Board
             finalSize = new Point(squareSize);
         }
 
-        if(CONFIG.board.position == "right") { finalPos.x = size.width - finalSize.x; }
+        if(CONFIG.board.position == "right") { finalPos.x = size.x - finalSize.x; }
 
         this.outerRect = new Rectangle().fromTopLeft(finalPos, finalSize);
         this.rect = new Rectangle().fromTopLeft(finalPos.clone().add(margin), finalSize.clone().sub(margin.clone().scale(2)));
@@ -592,7 +593,8 @@ export default class Board
                     rotation: rot,
                     fill: fontCfg.color,
                     stroke: fontCfg.strokeColor,
-                    strokeWidth: (fontCfg.strokeWidth * this.cellSizeSquare)
+                    strokeWidth: (fontCfg.strokeWidth * this.cellSizeSquare),
+                    strokeAlign: StrokeAlign.OUTSIDE
                 });
                 group.add(resText, opText);
             }

@@ -25,9 +25,7 @@ export default class PhotomoneGame
         const gameTitle = params.gameTitle || "photomone";
 
         let configString = window.localStorage.photomoneConfig;
-        if(gameTitle == "photomoneDigital") { 
-            configString = window.localStorage.photomoneDigitalAntistsConfig; 
-        }
+        if(gameTitle == "photomoneDigital") { configString = window.localStorage.photomoneDigitalAntistsConfig; }
     
         let config = Object.assign({}, PHOTOMONE_BASE_PARAMS);
         let userConfig = JSON.parse(configString || "{}");
@@ -37,12 +35,14 @@ export default class PhotomoneGame
         config.pointTypes = this.preparePointTypes(config);
         config.pointSpritePath = config.pointSpritePaths[gameTitle];
         config.pointSpriteFrames = config.pointSpriteFrameSets[gameTitle];
+        config.printWordsOnPaper = false;
         
         config.WORDS = new WordsPhotomone();
         await config.WORDS.prepare(config);
     
-        config.RESOURCE_LOADER = new ResourceLoader();
-        config.RESOURCE_LOADER.planLoad("point_types", { path: config.pointSpritePath, frames: config.pointSpriteFrames });
+        config.RESOURCE_LOADER = new ResourceLoader({ base: config.assetsBase });
+        config.RESOURCE_LOADER.planLoad("point_types", { path: config.pointSpritePath, frames: config.pointSpriteFrames, useAbsolutePath: true });
+        config.RESOURCE_LOADER.planLoadMultiple(config.assets);
         await config.RESOURCE_LOADER.loadPlannedResources();
         
         const canvasNodes = Array.from(document.getElementsByClassName("photomone-canvas"));

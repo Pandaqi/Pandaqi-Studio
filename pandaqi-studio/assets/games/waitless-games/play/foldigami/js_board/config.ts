@@ -113,7 +113,7 @@ const CONFIG =
             size: 0.3, // relative to cell size
             color: '#000000',
             strokeColor: "#FFFFFF",
-            strokeWidth: 0.05, // relative to cell size
+            strokeWidth: 0.025, // relative to cell size
         }
     },
 

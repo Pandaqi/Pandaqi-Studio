@@ -12,7 +12,7 @@ export { Path, PathParams }
 export default class Path extends Shape
 {
     points: Point[]
-    close: boolean
+    close: boolean = false
 
     constructor(p:PathLike|PathParams = {})
     {

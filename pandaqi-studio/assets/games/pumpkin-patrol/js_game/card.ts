@@ -20,6 +20,7 @@ import { COLORS, MISC, Type } from "../js_shared/dict";
 import RequirementData from "./requirementData";
 import SideData from "./sideData";
 import Visualizer from "./visualizer";
+import Rectangle from "js/pq_games/tools/geometry/rectangle";
 
 export default class Card
 {
@@ -48,11 +49,6 @@ export default class Card
     setSides(a,b) { this.sides = [a,b]; }
     setPerson(p) { this.person = p; }
 
-    async drawForRules(cfg)
-    {
-        // @TODO
-    }
-
     getData()
     {
         if(this.person) { return CONFIG.allCards[this.person]; }
@@ -77,9 +73,9 @@ export default class Card
         const ctx = createContext({ size: vis.size });
 
         if(this.type == Type.PERSON) {
-            await this.drawPerson(vis, ctx);
+            this.drawPerson(vis, ctx);
         } else {
-            await this.drawHandCard(vis, ctx);
+            this.drawHandCard(vis, ctx);
         }
 
         this.drawOutline(vis, ctx);
@@ -90,14 +86,14 @@ export default class Card
     //
     // > PERSON CARDS
     //
-    async drawPerson(vis:Visualizer, ctx)
+    drawPerson(vis:Visualizer, ctx)
     {
-        await this.drawPersonBackground(vis, ctx);
-        await this.drawPersonIllustration(vis, ctx);
-        await this.drawPersonDetails(vis, ctx);
+        this.drawPersonBackground(vis, ctx);
+        this.drawPersonIllustration(vis, ctx);
+        this.drawPersonDetails(vis, ctx);
     }
 
-    async drawPersonBackground(vis:Visualizer, ctx)
+    drawPersonBackground(vis:Visualizer, ctx)
     {
         // purple background (whole card)
         const bgColor = vis.inkFriendly ? "#FFFFFF" : CONFIG.cards.bgPerson.color;
@@ -121,7 +117,7 @@ export default class Card
             alpha: gradientAlpha,
             pivot: new Point(0.5)
         })
-        await res.toCanvas(ctx, op);
+        res.toCanvas(ctx, op);
 
         // beam of light (top block)
         const beam = vis.resLoader.getResource("misc");
@@ -137,10 +133,10 @@ export default class Card
             frame: frame,
             effects: vis.effects
         })
-        await beam.toCanvas(ctx, beamOp);
+        beam.toCanvas(ctx, beamOp);
     }
 
-    async drawPersonIllustration(vis:Visualizer, ctx)
+    drawPersonIllustration(vis:Visualizer, ctx)
     {
         // draw main illustration (on top of light beam)
         const data = this.getData();
@@ -157,7 +153,7 @@ export default class Card
             pivot: new Point(0.5, 1),
             effects: vis.effects,
         })
-        await res.toCanvas(ctx, op);
+        res.toCanvas(ctx, op);
 
         // draw score star + score text
         const resStar = vis.resLoader.getResource("misc");
@@ -173,7 +169,7 @@ export default class Card
             pivot: new Point(0.5),
             effects: starEffects
         })
-        await resStar.toCanvas(ctx, starOp);
+        resStar.toCanvas(ctx, starOp);
 
         let fontSizeScore = CONFIG.cards.score.textSize * vis.sizeUnit;
         const doubleDigits = this.score >= 10;
@@ -194,7 +190,7 @@ export default class Card
         })
 
         const scoreRes = new ResourceText({ text: this.score.toString(), textConfig: textConfig });
-        await scoreRes.toCanvas(ctx, starTextOp);
+        scoreRes.toCanvas(ctx, starTextOp);
 
         // draw person name left + right (rotated, white)
         const fontSizeName = CONFIG.cards.namePerson.size * vis.sizeUnit;
@@ -226,21 +222,20 @@ export default class Card
                 alpha: textAlpha,
                 pivot: new Point(0.5)
             })
-            await res.toCanvas(ctx, op);
+            res.toCanvas(ctx, op);
         }
 
-        await this.drawSetID(vis, ctx);
+        this.drawSetID(vis, ctx);
     }
 
-    async drawPersonDetails(vis:Visualizer, ctx)
+    drawPersonDetails(vis:Visualizer, ctx)
     {
         // draw purple background (underneath main illustration, all the way to bottom)
         const cardBGColor = vis.inkFriendly ? "#FFFFFF" : CONFIG.cards.details.bgs.power;
         const anchorY = CONFIG.cards.bgPerson.size * vis.size.y;
-        ctx.save();
-        ctx.fillStyle = cardBGColor;
-        ctx.fillRect(0, anchorY, vis.size.x, vis.size.y);
-        ctx.restore();
+        const rect = new ResourceShape(new Rectangle().fromTopLeft(new Point(0,anchorY), vis.size));
+        const rectOp = new LayoutOperation({ fill: cardBGColor });
+        rect.toCanvas(ctx, rectOp);
 
         // determine values for wonky rectangles
         const powerRectFraction = CONFIG.cards.details.powerRectFraction;
@@ -255,10 +250,10 @@ export default class Card
         const elongation = CONFIG.cards.details.wonkyRectElongation * vis.sizeUnit;
 
         // > TREAT FIRST (treat icon right + requirements middle) (comes first for correct overlap + shadow)        
-        await this.drawDetailsRectangle(vis, ctx, anchorY + baseRectSize.y + elongation, baseRectSize, rectEffects, "right", "treats");
+        this.drawDetailsRectangle(vis, ctx, anchorY + baseRectSize.y + elongation, baseRectSize, rectEffects, "right", "treats");
 
         // > DECORATION second (flipped horizontally, otherwise identical)
-        await this.drawDetailsRectangle(vis, ctx, anchorY, baseRectSize, rectEffects, "left", "decorations")
+        this.drawDetailsRectangle(vis, ctx, anchorY, baseRectSize, rectEffects, "left", "decorations")
 
         // draw the power data at the bottom
         // (just a faded tagline if no power, otherwise heart icon + strong power text)
@@ -276,7 +271,7 @@ export default class Card
             alpha = CONFIG.cards.details.power.alphaNoPower;
         } else {
             fontSize = CONFIG.cards.details.power.fontSize * vis.sizeUnit;
-            await this.drawDetailsIcon(vis, ctx, powerMidY, CONFIG.cards.details.iconHeight*baseRectSize.y, "left", "power");
+            this.drawDetailsIcon(vis, ctx, powerMidY, CONFIG.cards.details.iconHeight*baseRectSize.y, "left", "power");
         }
         
         const textConfig = new TextConfig({
@@ -294,10 +289,10 @@ export default class Card
             pivot: new Point(0.5),
             alpha: alpha
         })
-        await resText.toCanvas(ctx, op);
+        resText.toCanvas(ctx, op);
     }
 
-    async drawDetailsRectangle(vis:Visualizer, ctx, anchorY: number, size:Point, effs, side:string, prop:string)
+    drawDetailsRectangle(vis:Visualizer, ctx, anchorY: number, size:Point, effs, side:string, prop:string)
     {
         // background rect shape
         const rect = this.getWonkyRectangle(vis, size, side);
@@ -308,12 +303,12 @@ export default class Card
             fill: colorBG,
             effects: effs
         })
-        await res.toCanvas(ctx, op);
+        res.toCanvas(ctx, op);
 
         // type icon
         const iconY = op.translate.y + 0.5*size.y;
         const iconSize = CONFIG.cards.details.iconHeight*size.y;
-        await this.drawDetailsIcon(vis, ctx, iconY, iconSize, side, prop);
+        this.drawDetailsIcon(vis, ctx, iconY, iconSize, side, prop);
 
         // actual content
         const content = this[prop];
@@ -373,7 +368,7 @@ export default class Card
         }
 
         const anchorPos = op.translate.clone();
-        const positions = getPositionsCenteredAround({ pos: anchorPos, dims: dims, num: dims.length });
+        const positions = getPositionsCenteredAround({ pos: new Point(0.5*vis.size.x, iconY), dims: dims, num: dims.length });
         for(let i = 0; i < positions.length; i++)
         {
             operations[i].translate = positions[i];
@@ -381,7 +376,7 @@ export default class Card
         }
     }
 
-    async drawDetailsIcon(vis:Visualizer, ctx, y:number, iconSize:number, side:string, prop:string)
+    drawDetailsIcon(vis:Visualizer, ctx, y:number, iconSize:number, side:string, prop:string)
     {
         // type icon
         const icon = vis.resLoader.getResource("misc");
@@ -398,7 +393,7 @@ export default class Card
             pivot: new Point(0.5),
             effects: iconEffects
         });
-        await icon.toCanvas(ctx, iconOp);
+        icon.toCanvas(ctx, iconOp);
     }
 
     getWonkyRectangle(vis:Visualizer, size:Point, side:string)
@@ -428,16 +423,16 @@ export default class Card
     //
     // > HAND cards 
     //
-    async drawHandCard(vis:Visualizer, ctx)
+    drawHandCard(vis:Visualizer, ctx)
     {
         // draw the two sides independently, one simply rotated by PI
-        await this.drawHandSide(vis, ctx, "top");
-        await this.drawHandSide(vis, ctx, "bottom");
+        this.drawHandSide(vis, ctx, "top");
+        this.drawHandSide(vis, ctx, "bottom");
 
-        await this.drawSetID(vis, ctx);
+        this.drawSetID(vis, ctx);
     }
 
-    async drawHandSide(vis:Visualizer, ctx, side:string)
+    drawHandSide(vis:Visualizer, ctx, side:string)
     {
         const sideData = this.sides[side == "top" ? 0 : 1];
         const rot = (side == "top") ? 0 : Math.PI;
@@ -483,7 +478,7 @@ export default class Card
             fill: color,
         })
         const bgRes = new ResourceShape({ shape: bgShape });
-        await bgRes.toCanvas(ctx, op);
+        bgRes.toCanvas(ctx, op);
 
         // draw icon pattern
         const patternRot = rot + ang;
@@ -501,7 +496,7 @@ export default class Card
                 alpha: patternAlpha,
                 pivot: new Point(0.5)
             })
-            await patternRes.toCanvas(ctx, patternOp);
+            patternRes.toCanvas(ctx, patternOp);
             
             ctx.restore();
         }
@@ -514,7 +509,7 @@ export default class Card
             strokeWidth: CONFIG.cards.bgHand.slantedLineWidth * vis.sizeUnit,
             stroke: lineColor
         })
-        await resLine.toCanvas(ctx, lineOp);
+        resLine.toCanvas(ctx, lineOp);
 
         // draw actual icons (resized and changed position to fit their number)
         let positions = [];
@@ -545,7 +540,7 @@ export default class Card
                 pivot: new Point(0.5),
                 effects: effects
             })
-            await res.toCanvas(ctx, op);
+            res.toCanvas(ctx, op);
         }
 
         // add text for type along slanted line
@@ -569,11 +564,11 @@ export default class Card
         })
         const textToDisplay = subType.toLowerCase();
         const textRes = new ResourceText({ text: textToDisplay, textConfig: textConfig });
-        await textRes.toCanvas(ctx, textOp);
+        textRes.toCanvas(ctx, textOp);
     }
 
     // shared functions for both card types below
-    async drawSetID(vis:Visualizer, ctx)
+    drawSetID(vis:Visualizer, ctx)
     {
         // @TODO: this seems to break when I set alignHorizontal to anything else???
         const fontSizeID = CONFIG.cards.setID.size * vis.sizeUnit;
@@ -591,13 +586,13 @@ export default class Card
         const op = new LayoutOperation({
             fill: col,
             translate: offset,
-            dims: new Point(0.15*vis.size.x, fontSizeID),
+            dims: new Point(8.0*vis.size.x, 2.0*fontSizeID),
             alpha: CONFIG.cards.setID.alpha,
             pivot: new Point(0.5)
         })
 
         const resID = new ResourceText({ text: ID, textConfig: textConfig });
-        await resID.toCanvas(ctx, op);
+        resID.toCanvas(ctx, op);
     }
 
     drawOutline(vis:Visualizer, ctx)

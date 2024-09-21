@@ -7,6 +7,7 @@ import ResourceGroup from "js/pq_games/layout/resources/resourceGroup"
 import ResourceShape from "js/pq_games/layout/resources/resourceShape"
 import ResourceText from "js/pq_games/layout/resources/resourceText"
 import TextConfig from "js/pq_games/layout/text/textConfig"
+import StrokeAlign from "js/pq_games/layout/values/strokeAlign"
 import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer"
 import Line from "js/pq_games/tools/geometry/line"
 import Point from "js/pq_games/tools/geometry/point"
@@ -1165,6 +1166,7 @@ export default class BoardGeneration
 				fill: textCfg.color,
 				stroke: textCfg.stroke,
 				strokeWidth: textCfg.strokeThickness,
+				strokeAlign: StrokeAlign.OUTSIDE,
 				dims: new Point(10,2).scale(textConfig.size),
 				pivot: Point.CENTER
 			});
@@ -1228,8 +1230,10 @@ export default class BoardGeneration
 					fill: goodNumberCfg.color,
 					stroke: goodNumberCfg.stroke,
 					strokeWidth: goodNumberCfg.strokeThickness,
+					strokeAlign: StrokeAlign.OUTSIDE,
 					dims: new Point(5*radius),
-					depth: 10000 + 1
+					depth: 10000 + 1,
+					pivot: Point.CENTER
 				})
 
 				const resText = new ResourceText({ text: value.toString(), textConfig: textConfigGoodNumber });
@@ -1310,30 +1314,34 @@ export default class BoardGeneration
 		})
 
 		const jungleNameString = '"' + this.cfg.jungleName + '"';
-		const opTextDetails = new LayoutOperation({
-			translate: new Point(oX + margin, oY + margin),
+		const anchorPos = new Point(oX + margin, oY + margin);
+		const opTextDetails1 = new LayoutOperation({
+			translate: anchorPos,
+			dims: new Point(15*textConfigDetails.size, 2*textConfigDetails.size),
 			fill: color,
 			depth: 20000
 		});
 		const resText = new ResourceText({ text: jungleNameString, textConfig: textConfigDetails });
-		group.add(resText, opTextDetails); // txt1
+		group.add(resText, opTextDetails1); // txt1
 
 		let playerTextString = this.cfg.numPlayers + ' Player'
 		if(this.cfg.numPlayers > 1) { playerTextString += 's'; }
 
-		opTextDetails.translate.y += fontSize;
+		const opTextDetails2 = opTextDetails1.clone();
+		opTextDetails2.translate = anchorPos.clone().add(new Point(0, fontSize));
 		const resText2 = new ResourceText({ text: playerTextString, textConfig: textConfigDetails });
-		group.add(resText2, opTextDetails); // txt2
+		group.add(resText2, opTextDetails2); // txt2
 
-		opTextDetails.translate.y += fontSize;
+		const opTextDetails3 = opTextDetails1.clone();
+		opTextDetails3.translate = anchorPos.clone().add(new Point(0, 2*fontSize));
 		const diffString = this.cfg.difficulty.toString();
 		const resText3 = new ResourceText({ text: diffString, textConfig: textConfigDetails });
-		group.add(resText3, opTextDetails); // txt3
+		group.add(resText3, opTextDetails3); // txt3
 
 		// a rectangle behind the text, to make it legible (and look a bit like a map legend)
 		// @TODO: this used to be exact calculations using Phaser's functions to get text dims; now it's just a rough estimation
-		const maxWidth = 15*textConfigDetails.size;
-		const maxHeight = 10*textConfigDetails.size;
+		const maxWidth = 10*textConfigDetails.size;
+		const maxHeight = 5*textConfigDetails.size;
 
 		const rectPos = new Point(margin);
 		const rectSize = new Point(maxWidth + margin, maxHeight + margin);

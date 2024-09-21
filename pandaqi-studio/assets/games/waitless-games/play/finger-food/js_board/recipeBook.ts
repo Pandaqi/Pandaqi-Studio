@@ -1,13 +1,19 @@
+import LayoutOperation from "js/pq_games/layout/layoutOperation";
+import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
+import ResourceText from "js/pq_games/layout/resources/resourceText";
+import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
+import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer";
+import Point from "js/pq_games/tools/geometry/point";
+import getWeighted from "js/pq_games/tools/random/getWeighted";
 import rangeInteger from "js/pq_games/tools/random/rangeInteger";
+import shuffle from "js/pq_games/tools/random/shuffle";
+import BoardDisplay from "./boardDisplay";
 import Cell from "./cell";
+import CONFIG from "./config";
+import { CUSTOM } from "./dictionary";
 import Type from "./type";
 import TypeManager from "./typeManager";
-import CONFIG from "./config";
-import shuffle from "js/pq_games/tools/random/shuffle";
-import getWeighted from "js/pq_games/tools/random/getWeighted";
-import Point from "js/pq_games/tools/geometry/point";
-import BoardDisplay from "./boardDisplay";
-import { CUSTOM } from "./dictionary";
+import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
 
 class Recipe
 {
@@ -60,9 +66,8 @@ class Recipe
     setScore(n:number) { this.value = n; }
     count() { return this.elements.length; }
 
-    display(boardDisplay:BoardDisplay, pos:Point, size:number)
+    display(vis:BoardVisualizer, group:ResourceGroup, boardDisplay:BoardDisplay, pos:Point, size:number)
     {
-
         // sort elements alphabetically so the same types are shown as groups next to each other
         this.elements.sort((a,b) => {
             return a.subType.localeCompare(b.subType);
@@ -73,25 +78,40 @@ class Recipe
 
         const spriteSize = size;
         const padding = CONFIG.recipes.paddingWithinRecipe * boardDisplay.cellSizeUnit;
-        const game = boardDisplay.game;
+        const anchorPos = pos.clone();
         for(const elem of this.elements)
         {
-            const sprite = game.add.sprite(pos.x, pos.y, elem.mainType + "_spritesheet");
-            sprite.setFrame(elem.getData().frame);
-            sprite.setOrigin(0, 0.5);
-            sprite.displayWidth = spriteSize;
-            sprite.displayHeight = spriteSize;
-            pos.x += spriteSize + padding;
+            const res = vis.getResource(elem.mainType + "_spritesheet");
+            const op = new LayoutOperation({
+                translate: anchorPos.clone(),
+                dims: new Point(spriteSize),
+                frame: elem.getData().frame,
+                pivot: new Point(0, 0.5)
+            });
+            anchorPos.x += spriteSize + padding;
+            group.add(res, op);
         }
 
-        const textConfig:any = CONFIG.recipes.textConfig;
-        const fontSize = size;
-        textConfig.fontSize = fontSize + "px";
-        textConfig.strokeThickness = fontSize * 0.1;
+        const txcfg = CONFIG.recipes.textConfig;
+        const textConfig = new TextConfig({
+            font: txcfg.fontFamily,
+            size: size,
+            alignHorizontal: TextAlign.END,
+            alignVertical: TextAlign.MIDDLE,
+        })
 
         const textValue = "= " + score;
-        const text = game.add.text(pos.x, pos.y, textValue, textConfig);
-        text.setOrigin(0, 0.5);
+        const resText = new ResourceText({ text: textValue, textConfig: textConfig });
+        const opText = new LayoutOperation({
+            translate: pos,
+            dims: new Point(5.5*spriteSize, 2*spriteSize),
+            fill: txcfg.color,
+            stroke: txcfg.stroke,
+            strokeWidth: 0.1 * textConfig.size,
+            strokeAlign: StrokeAlign.OUTSIDE,
+            pivot: new Point(0, 0.5)
+        })
+        group.add(resText, opText);
     }
 }
 
@@ -188,17 +208,19 @@ export default class RecipeBook
         }
     }
 
-    display(boardDisplay : BoardDisplay)
+    display(vis: BoardVisualizer, group: ResourceGroup, boardDisplay : BoardDisplay)
     {
-
         const dims = this.getAvailableDimensions(boardDisplay);
 
         // display some background, looks better and prevents grid lines going through us
-        const bg = boardDisplay.game.add.sprite(dims.center.x, dims.center.y, "custom_spritesheet");
-        bg.setFrame(CUSTOM.tutorialBG.frame);
-        bg.displayWidth = dims.size.x;
-        bg.displayHeight = bg.displayWidth;
-
+        const resBG = vis.resLoader.getResource("custom_spritesheet");
+        const opBG = new LayoutOperation({
+            translate: dims.center,
+            dims: new Point(dims.size.x),
+            frame: CUSTOM.tutorialBG.frame,
+            pivot: Point.CENTER
+        });
+        group.add(resBG, opBG);
 
         // now just display each recipe one by one
         let longestRecipe = 0;
@@ -222,7 +244,7 @@ export default class RecipeBook
         for(const recipe of this.recipes)
         {
             const pos = anchor.clone();
-            recipe.display(boardDisplay, pos, size);
+            recipe.display(vis, group, boardDisplay, pos, size);
             anchor.y += size + padding;
         }
 

@@ -21,6 +21,11 @@ const PHOTOMONE_BASE_PARAMS = {
             path: "fonts/GelDoticaLowerCaseThick.woff2"
         },
 
+        proza:
+        {
+            path: "fonts/ProzaLibre-Medium.woff2"
+        },
+
         point_types:
         {
             path: "/photomone-games/draw/photomone/assets/point_types.webp",

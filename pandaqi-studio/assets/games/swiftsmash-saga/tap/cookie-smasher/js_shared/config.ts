@@ -4,12 +4,12 @@ import { TYPES } from "./dict"
 
 const CONFIG = 
 {
-    debugWithoutFile: false, // @DEBUGGING (should be false)
-    debugSinglePack: false, // @DEBUGGING (should be false)
+    debug: {
+        omitFile: false, // @DEBUGGING (should be false)
+    },
 
     configKey: "cookieSmasherConfig",
     fileName: "[Material] Cookie Smasher",
-    resLoader: null,
 
     // set through user config on page
     inkFriendly: false,
@@ -20,7 +20,7 @@ const CONFIG =
 
     possibleNumbers: [1,2,3,4,5,6,7,8,9],
     possibleTypes: Object.keys(TYPES),
-    possibleCards: {}, // automatically filled with allowed cards during generation
+    possibleCards: [], // automatically filled with allowed cards during generation
 
     fonts:
     {
@@ -45,6 +45,12 @@ const CONFIG =
         types:
         {
             path: "types.webp",
+            frames: new Point(5,1)
+        },
+
+        types_tinted:
+        {
+            path: "types_tinted.webp",
             frames: new Point(5,1)
         },
 

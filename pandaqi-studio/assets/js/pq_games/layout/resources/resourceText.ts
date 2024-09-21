@@ -51,7 +51,7 @@ export default class ResourceText extends Resource
     getPixiObject(helpers)
     {
         const operation : LayoutOperation = helpers.layoutOperation.clone();
-        operation.renderer = new RendererPandaqi(); // only that renderer actuall does rich text => @TODO: find cleaner approach?
+        operation.renderer = new RendererPandaqi(); // only that renderer actually does rich text => @TODO: find cleaner approach?
 
         const canv = document.createElement("canvas");
         const size = operation.tempTextDrawer.dims.getSize();
@@ -61,8 +61,7 @@ export default class ResourceText extends Resource
         const ctx = canv.getContext("2d");
         operation.setFillAndStrokeOnContext(ctx);
 
-        // @TODO: should probably mess around with settings here for proper positioning/no cutoff, or do I already do that?
-        // => The `.dims` object from above should already have the right size + be positioned at (0,0), is that enough?
+        // @TODO: should probably create a new tempTextDrawer every time, to prevent weird issues with re-use or overwriting if we use the same LayoutOperation base for multiple things 
         operation.tempTextDrawer.toCanvas(canv, operation);
 
         return new helpers.sprite(helpers.texture.from(canv));

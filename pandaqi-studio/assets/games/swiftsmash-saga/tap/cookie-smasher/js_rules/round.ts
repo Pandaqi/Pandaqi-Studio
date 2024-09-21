@@ -4,6 +4,7 @@ import CONFIG from "../js_shared/config";
 import PowerChecker from "./powerChecker";
 import { getIndexOfProp } from "./queries";
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
+import InteractiveExampleSimulator from "js/pq_rulebook/examples/interactiveExampleSimulator";
 
 export default class Round
 {
@@ -20,12 +21,12 @@ export default class Round
     addCard(c:Card) { this.cards.push(c); return this; }
     addCards(cards:Card[]) { for(const card of cards) { this.addCard(card); } return this; }
 
-    async draw(vis:MaterialVisualizer)
+    async draw(sim:InteractiveExampleSimulator)
     {
         const arr = [];
         for(const card of this.cards)
         {
-            arr.push(card.drawForRules(vis));
+            arr.push(card.drawForRules(sim.visualizer));
         }
         return await Promise.all(arr);
     }

@@ -1,6 +1,7 @@
 import Point from "js/pq_games/tools/geometry/point"
 import Bounds from "js/pq_games/tools/numbers/bounds"
 import { ActionType } from "./dict"
+import TextConfig, { TextWeight } from "js/pq_games/layout/text/textConfig"
 
 const CONFIG = 
 {
@@ -47,6 +48,14 @@ const CONFIG =
         {
             path: "fonts/Inika.woff2",
             set: false
+        },
+
+        inika_bold:
+        {
+            key: "inika",
+            path: "fonts/Inika-Bold.woff2",
+            set: false,
+            textConfig: new TextConfig({ weight: TextWeight.BOLD }),
         },
 
         bg_map:

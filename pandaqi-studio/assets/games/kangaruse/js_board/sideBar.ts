@@ -64,7 +64,7 @@ export default class SideBar
         const tutSizeX = this.dimensions.x - 2*this.padding;
         const tutSizeY = tutRatio * tutSizeX;
         const op = new LayoutOperation({
-            translate: this.anchorPos,
+            translate: this.anchorPos.clone(),
             pivot: new Point(),
             dims: new Point(tutSizeX, tutSizeY)
         })

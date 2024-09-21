@@ -1,4 +1,4 @@
-import TextConfig, { TextWeight } from "js/pq_games/layout/text/textConfig"
+import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textConfig"
 import Point from "js/pq_games/tools/geometry/point"
 import Bounds from "js/pq_games/tools/numbers/bounds"
 
@@ -7,7 +7,6 @@ const CONFIG =
     configKey: "magnetmenConfig",
     fileName: "[Board] Magnetmen",
     resLoader: null,
-    useWEBGL: false,
     allTypes: {},
     beginnerMode: true,
 
@@ -55,6 +54,14 @@ const CONFIG =
             key: "urbanist",
             path: "fonts/Urbanist-Black.woff2",
             textConfig: new TextConfig({ weight: TextWeight.BOLD }),
+            set: false
+        },
+
+        urbanist_italic:
+        {
+            key: "urbanist",
+            path: "fonts/Urbanist-Italic.woff2",
+            textConfig: new TextConfig({ style: TextStyle.ITALIC }),
             set: false
         },
 

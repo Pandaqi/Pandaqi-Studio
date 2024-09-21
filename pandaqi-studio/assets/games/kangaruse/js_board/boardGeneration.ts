@@ -1,21 +1,19 @@
-// @ts-ignore
-import { Scene } from "js/pq_games/phaser/phaser.esm"
-import resourceLoaderToPhaser from "js/pq_games/phaser/resourceLoaderToPhaser"
-import setDefaultPhaserSettings from "js/pq_games/phaser/setDefaultPhaserSettings"
+import ResourceGroup from "js/pq_games/layout/resources/resourceGroup"
+import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer"
 import BoardDisplay from "./boardDisplay"
 import BoardState from "./boardState"
 import CONFIG from "./config"
 import Evaluator from "./evaluator"
-import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer"
-import ResourceGroup from "js/pq_games/layout/resources/resourceGroup"
 
 export default class BoardGeneration
 {
     evaluator:Evaluator
     board:BoardState
+    visualizer:BoardVisualizer
 
     async draw(vis:BoardVisualizer) 
     {
+        this.visualizer = vis;
         Object.assign(CONFIG, vis.config);
         this.setup()
         await this.generate();

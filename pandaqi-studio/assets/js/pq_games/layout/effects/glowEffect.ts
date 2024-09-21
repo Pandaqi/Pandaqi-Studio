@@ -56,10 +56,10 @@ export default class GlowEffect extends LayoutEffect
         effOp.addFilterPixi(new filtersConstructor.GlowFilter({
             alpha: this.color.a,
             color: this.color.toHEXNumber(),
-            distance: this.offset.length(),
+            distance: this.blurRadius, // this.offset.length()
             innerStrength: 0,
             knockout: false,
-            outerStrength: this.blurRadius,
+            //outerStrength: this.blurRadius,
             quality: 0.3
         }));
     }

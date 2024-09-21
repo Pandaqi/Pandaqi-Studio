@@ -75,7 +75,8 @@ export default class CellDisplay
             dims: dims,
             pivot: Point.CENTER,
             frame: GENERAL.writingSpace.frame,
-            alpha: alpha
+            alpha: alpha,
+            depth: 1000
         });
         group.add(res, op);
     }
@@ -170,11 +171,10 @@ export default class CellDisplay
         if(this.showBorder())
         {
             const lineWidth = strokeData.width * this.boardDisplay.cellSizeUnit;
-            const col = new Color(strokeData.color);
-            col.a = strokeData.alpha;
             const op = new LayoutOperation({
-                stroke: col,
-                strokeWidth: lineWidth
+                stroke: strokeData.color,
+                strokeWidth: lineWidth,
+                alpha: strokeData.alpha
             })
             group.add(new ResourceShape(rect), op);
         }
