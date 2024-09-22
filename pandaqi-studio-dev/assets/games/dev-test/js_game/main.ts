@@ -1,3 +1,3 @@
-import * as PIXIFilters from "js/pq_games/pixi/pixi-filters.mjs";
+import profileRendering from "./profileRendering";
 
-new PIXIFilters.GlowFilter({});
+profileRendering();

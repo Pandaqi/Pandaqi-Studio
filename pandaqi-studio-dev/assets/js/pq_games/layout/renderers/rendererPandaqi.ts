@@ -1,19 +1,18 @@
 import Dims from "js/pq_games/tools/geometry/dims";
 import Path from "js/pq_games/tools/geometry/paths/path";
+import Point from "js/pq_games/tools/geometry/point";
 import createCanvas from "../canvas/createCanvas";
 import createContext from "../canvas/createContext";
 import EffectsOperation from "../effects/effectsOperation";
 import LayoutOperation from "../layoutOperation";
+import Resource, { ElementLike } from "../resources/resource";
 import ResourceGroup from "../resources/resourceGroup";
 import ResourceImage, { CanvasLike } from "../resources/resourceImage";
 import { ResourceLoadParams } from "../resources/resourceLoader";
 import ResourceShape from "../resources/resourceShape";
-import TransformationMatrix from "../tools/transformationMatrix";
-import StrokeAlign from "../values/strokeAlign";
-import Renderer, { RendererDrawFinishParams } from "./renderer";
-import Point from "js/pq_games/tools/geometry/point";
-import Resource, { ElementLike } from "../resources/resource";
 import ResourceText from "../resources/resourceText";
+import TransformationMatrix from "../tools/transformationMatrix";
+import Renderer, { RendererDrawFinishParams } from "./renderer";
 
 export default class RendererPandaqi extends Renderer
 {
@@ -41,27 +40,78 @@ export default class RendererPandaqi extends Renderer
     applyOperationToCanvas(op:LayoutOperation, canv:CanvasLike)
     {
         let ctx = (canv instanceof HTMLCanvasElement) ? canv.getContext("2d") : canv;
-        if(!ctx) { ctx = createContext({ size: op.size }); } // @TODO: how to control this size better?
+        if(!ctx) { ctx = createContext({ size: op.size }); }
+
+        const effOp = new EffectsOperation(op.effects);
         
-        // @TODO: OPTIMIZATION => don't create the temporary canvas if we don't need it
+        // HUGE OPTIMIZATION => don't create the temporary canvas if we don't need it
         // (Though that is rare; would only apply to stuff with only a transform + fill/stroke and nothing else)
+        const needsTemporaryCanvas = effOp.needsTemporaryCanvas() || op.isGroup();
 
         // we create a temporary canvas to do everything we want
         // once done, at the end, we stamp that onto the real one (with the right effects, alpha, etcetera set)
-        const ctxTemp = createContext({ size: new Point(ctx.canvas.width, ctx.canvas.height) });
+        const ctxTemp = needsTemporaryCanvas ? createContext({ size: new Point(ctx.canvas.width, ctx.canvas.height) }) : ctx;
         const size = op.sizeResult;
 
+        // @NOTE: this is necessary if we're subgroups in a tree, as then the context given to us will have some transform from the parent
+        // The keepTransform flag is for special exceptions such as TextDrawer that blend _inline_ images + text
+        if(!op.keepTransform) 
+        {
+            ctx.resetTransform();
+        }
+
         // we make sure we're drawing at the right position right away
-        // (which includes bubbling up the tree to take our parent's transform into account)
         const trans = op.transformResult;
         trans.applyToContext(ctxTemp);
 
         // some effects merely require setting something on the canvas
-        const effOp = new EffectsOperation(op.effects);
         effOp.applyToCanvasPre(ctx);
 
+        // the bulk of canvas properties to set
         op.setFillAndStrokeOnContext(ctxTemp);
 
+        ctx.filter = effOp.getFilterString();
+        ctx.globalCompositeOperation = op.composite;
+        ctx.globalAlpha = op.alpha;
+        effOp.setShadowProperties(ctx);
+
+        // @TODO: this is entirely untested and needs to be worked on
+        // (also preferably put into its own function? Same as clip?)
+        if(op.mask)
+        {
+            const maskData = op.mask.getFrameData();
+            ctx.drawImage(
+                op.mask.getImage(),
+                0, 0, maskData.width, maskData.height,
+                0, 0, size.x, size.y)
+            ctx.globalCompositeOperation = "source-in";
+        }
+
+        // SAVE/RESTORE is extremely expensive and error prone (if you forget one even once); so limit it to only when really needed
+        const needsStateManagement = op.clip;
+        if(needsStateManagement) { ctx.save(); }
+
+        // `clipRelative` means it just retains the original offset/scale/rotation of the thing when calculating clip path (my original, flawed, accidental approach)
+        // otherwise, it's `clipAbsolute` which offsets the clip to consider its coordinates as absolute positions
+        if(op.clip) 
+        { 
+            let points = op.clip.toPath();
+            
+            // get our current transform => then undo pivot to get true top-left => then invert to UNDO that and make our clip path absolute
+            if(!op.clipRelative) 
+            { 
+                const transInv = new TransformationMatrix().fromContext(ctx);
+                // transInv.translate(op.pivotOffset.clone().negate()); // @TODO: No, this is often wrong, figure out the actual way! Or maybe we should clip on the TEMPORARY canvas instead?
+                transInv.invert();
+                points = transInv.applyToArray(points); 
+            }
+
+            // this necessitates converting any shape to a slightly more expensive path, but it can't be helped
+            const path = new Path(points).toPath2D();
+            ctx.clip(path); 
+        }
+
+        // now prepare/draw the actual resource onto it
         if(op.isGroup())
         {
             const combos = (op.resource as ResourceGroup).combos;
@@ -104,57 +154,11 @@ export default class RendererPandaqi extends Renderer
 
         const ctxFinal = effOp.applyToCanvasPost(ctxTemp);
 
-        // SAVE/RESTORE is extremely expensive and error prone (if you forget one even once),
-        // so limit it to only when really needed
-        const needsStateManagement = op.clip;
-        if(needsStateManagement) { ctx.save(); }
-
-        // @NOTE: this is necessary if we're subgroups in a tree, as then the context given to us will have some transform from the parent
-        // The keepTransform flag is for special exceptions such as TextDrawer that blend images + text
-        // (Maybe I need to find something cleaner for that one day)
-        if(!op.keepTransform) 
+        // only draw something extra if we actually have a temporary canvas to draw
+        if(needsTemporaryCanvas)
         {
-            ctx.resetTransform();
+            ctx.drawImage(ctxFinal.canvas, 0, 0);
         }
-
-        ctx.filter = effOp.getFilterString();
-        ctx.globalCompositeOperation = op.composite;
-        ctx.globalAlpha = op.alpha;
-        effOp.setShadowProperties(ctx);
-
-        // `clipRelative` means it just retains the original offset/scale/rotation of the thing when calculating clip path (my original, flawed, accidental approach)
-        // otherwise, it's `clipAbsolute` which offsets the clip to consider its coordinates as absolute positions
-        if(op.clip) 
-        { 
-            let points = op.clip.toPath();
-            
-            // get our current transform => then undo pivot to get true top-left => then invert to UNDO that and make our clip path absolute
-            if(!op.clipRelative) 
-            { 
-                const transInv = new TransformationMatrix().fromContext(ctx);
-                // transInv.translate(op.pivotOffset.clone().negate()); // @TODO: No, this is often wrong, figure out the actual way! Or maybe we should clip on the TEMPORARY canvas instead?
-                transInv.invert();
-                points = transInv.applyToArray(points); 
-            }
-
-            // this necessitates converting any shape to a slightly more expensive path, but it can't be helped
-            const path = new Path(points).toPath2D();
-            ctx.clip(path); 
-        }
-
-        // @TODO: this is entirely untested and needs to be worked on
-        // (also preferably put into its own function + executed BEFORE making changes to ctx?)
-        if(op.mask)
-        {
-            const maskData = op.mask.getFrameData();
-            ctx.drawImage(
-                op.mask.getImage(),
-                0, 0, maskData.width, maskData.height,
-                0, 0, size.x, size.y)
-            ctx.globalCompositeOperation = "source-in";
-        }
-
-        ctx.drawImage(ctxFinal.canvas, 0, 0);
 
         if(needsStateManagement) { ctx.restore(); }
         return ctx.canvas;

@@ -174,7 +174,7 @@ export default class ResourceImage extends Resource
         if(img instanceof HTMLImageElement) { this.img = img; this.canv = null; }
         else if(img instanceof HTMLCanvasElement) { this.canv = img; this.img = null; }
         this.frameDims = new Point(params.frames ?? new Point(1,1));
-        this.frames = [this.getImage()];
+        this.frames = this.isSingleFrame() ? [this.getImage()] : [];
         this.refreshSize();
     }
 
@@ -366,9 +366,11 @@ export default class ResourceImage extends Resource
 
     getImageFrame(num:number, desiredSize:Point = null) : DrawableData
     {
-        const frameNotCached = !this.hasFrameInCache(num) || this.missingFrames();
+        // @TODO: I changed the default behavior (it only sets this.frames = [img] if it's a single frame, otherwise it starts empty) => THIS MIGHT CAUSE TROUBLE WITH SOME GAMES, BE WARY OF THAT (but it's absolutely the right behavior and I should've used that from the start)
+        const frameNotCached = !this.hasFrameInCache(num);
         if(frameNotCached)
         {
+            // cut it out on the fly
             const data = this.getFrameData(num);
             const canv = document.createElement("canvas");
             canv.width = data.width;
@@ -377,6 +379,11 @@ export default class ResourceImage extends Resource
             ctx.drawImage(this.getImage(),
                 data.x, data.y, data.width, data.height, 
                 0, 0, canv.width, canv.height);
+
+            // resize frames array to hold it
+            const newLength = Math.max(this.frames.length, num + 1);
+            this.frames.length = newLength; // cheapest way to resize
+            this.frames[num] = ctx.canvas;
             return ctx.canvas;
         }
 

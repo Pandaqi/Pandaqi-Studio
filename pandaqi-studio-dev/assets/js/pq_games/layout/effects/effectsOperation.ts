@@ -95,9 +95,21 @@ export default class EffectsOperation
         ctx.shadowOffsetX = 0;
         ctx.shadowOffsetY = 0;
 
+        if(this.isEmpty()) { return; }
         for(const effect of this.effects)
         {
             effect.applyShadow(ctx);
         }
+    }
+
+    // @TODO: this is extremely conservative; many effects do not need a temporary canvas at all
+    needsTemporaryCanvas()
+    {
+        if(this.isEmpty()) { return false; }
+        for(const effect of this.effects)
+        {
+            if(effect.needsTemporaryCanvas()) { return true; }
+        }
+        return false;
     }
 }

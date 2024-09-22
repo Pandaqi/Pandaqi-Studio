@@ -307,19 +307,22 @@ export default class LayoutOperation
 
     applyFillAndStrokeToPath(ctx:CanvasRenderingContext2D, path:Path2D, callback:Function = null)
     {
-        const strokeBeforeFill = this.strokeAlign == StrokeAlign.OUTSIDE;
-        const clipStroke = this.strokeAlign == StrokeAlign.INSIDE;
+        const hasFill = this.hasFill();
+        const hasStroke = this.hasStroke();
+
+        const strokeBeforeFill = this.strokeAlign == StrokeAlign.OUTSIDE && hasStroke;
+        const clipStroke = this.strokeAlign == StrokeAlign.INSIDE && hasStroke;
 
         if(clipStroke) { ctx.save(); ctx.clip(path); }
 
         if(strokeBeforeFill) {
-            ctx.stroke(path);
-            ctx.fill(path);
+            if(hasStroke) { ctx.stroke(path); }
+            if(hasFill) { ctx.fill(path); }
             if(callback) { callback(); }
         } else {
-            ctx.fill(path);
+            if(hasFill) { ctx.fill(path); }
             if(callback) { callback(); }
-            ctx.stroke(path);
+            if(hasStroke) { ctx.stroke(path); }
         }
 
         if(clipStroke) { ctx.restore(); }
