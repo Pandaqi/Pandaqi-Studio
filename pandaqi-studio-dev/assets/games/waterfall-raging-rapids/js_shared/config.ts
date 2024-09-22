@@ -154,8 +154,8 @@ const CONFIG:any =
         drawerConfig:
         {
             autoStroke: true,
-            dimsElement: new Point(1, 1),
-            dims: 
+            sizeElement: new Point(1, 1),
+            size: 
             { 
                 small: new Point(5,7),
                 regular: new Point(3,5),

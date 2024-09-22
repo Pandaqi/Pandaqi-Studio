@@ -254,8 +254,8 @@ export default class DecisionNodeTree
         // draw the text
         const resText = this.getTextResource(params);
         const opText = new LayoutOperation({
-            translate: new Point(this.x + offset.x, this.y + 0.5*this.heightNeeded + offset.y),
-            dims: new Point(this.boxWidth, this.boxHeight),
+            pos: new Point(this.x + offset.x, this.y + 0.5*this.heightNeeded + offset.y),
+            size: new Point(this.boxWidth, this.boxHeight),
             fill: "#000000",
             pivot: new Point(0.5),
         })

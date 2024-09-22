@@ -144,7 +144,7 @@ export default class Domino
         // actually, this is everything, decided to just bake it in there
         const res = vis.getResource("templates");
         const op = new LayoutOperation({
-            dims: vis.size,
+            size: vis.size,
             frame: ROLES[this.key].frame,
             effects: vis.inkFriendlyEffect
         });
@@ -156,7 +156,7 @@ export default class Domino
         // background template
         const res = vis.getResource("templates");
         const op = new LayoutOperation({
-            dims: vis.size,
+            size: vis.size,
             frame: CONFIG.dominoes.missionTemplateFrame, 
             effects: vis.inkFriendlyEffect
         });
@@ -171,19 +171,19 @@ export default class Domino
         });
         const resText = new ResourceText({ text: MISSION_TEXTS[this.missionText].desc, textConfig: textConfig });
         const opText = new LayoutOperation({
-            translate: vis.get("dominoes.mission.posFlavorText"),
-            dims: vis.get("dominoes.mission.dimsFlavorText"),
+            pos: vis.get("dominoes.mission.posFlavorText"),
+            size: vis.get("dominoes.mission.sizeFlavorText"),
             fill: "#121212"
         });
         group.add(resText, opText);
 
         // the list of specific requirements below that
         const anchor = vis.get("dominoes.mission.requirements.pos").clone();
-        const dims = vis.get("dominoes.mission.requirements.dims");
+        const size = vis.get("dominoes.mission.requirements.size");
         for(const req of this.missionRequirements)
         {
             req.draw(vis, group, anchor);
-            anchor.y += dims.y * 1.125;
+            anchor.y += size.y * 1.125;
         }
 
         // optional penalty/reward
@@ -192,12 +192,12 @@ export default class Domino
             const resHeader = vis.getResource("misc");
             const headerKey = MISSION_REWARDS[this.missionConsequence] ? "mission_reward" : "mission_penalty";
 
-            const rectParams = { pos: vis.get("dominoes.mission.consequence.posText"), dims: vis.get("dominoes.mission.consequence.dimsText"), color: "#FFFFFF", alpha: 0.85 };
+            const rectParams = { pos: vis.get("dominoes.mission.consequence.posText"), size: vis.get("dominoes.mission.consequence.sizeText"), color: "#FFFFFF", alpha: 0.85 };
             drawBlurryRectangle(rectParams, group);
 
             const opHeader = new LayoutOperation({
-                translate: vis.get("dominoes.mission.consequence.posHeader"),
-                dims: vis.get("dominoes.mission.consequence.dimsHeader"),
+                pos: vis.get("dominoes.mission.consequence.posHeader"),
+                size: vis.get("dominoes.mission.consequence.sizeHeader"),
                 pivot: Point.CENTER,
                 frame: MISC[headerKey].frame,
                 effects: vis.inkFriendlyEffect
@@ -216,8 +216,8 @@ export default class Domino
             }).alignCenter();
             const resText = new ResourceText({ text: text, textConfig: textConfigConseq });
             const opText = new LayoutOperation({
-                translate: vis.get("dominoes.mission.consequence.posText"),
-                dims: vis.get("dominoes.mission.consequence.dimsText"),
+                pos: vis.get("dominoes.mission.consequence.posText"),
+                size: vis.get("dominoes.mission.consequence.sizeText"),
                 fill: "#121212",
                 pivot: Point.CENTER
             });
@@ -229,8 +229,8 @@ export default class Domino
         {
             const res = vis.getResource("misc");
             const op = new LayoutOperation({
-                translate: vis.get("dominoes.mission.shushIcon.pos"),
-                dims: vis.get("dominoes.mission.shushIcon.dims"),
+                pos: vis.get("dominoes.mission.shushIcon.pos"),
+                size: vis.get("dominoes.mission.shushIcon.size"),
                 frame: MISC.shush.frame,
                 pivot: Point.CENTER
             })
@@ -245,7 +245,7 @@ export default class Domino
         // background template
         const res = vis.getResource("templates");
         const op = new LayoutOperation({
-            dims: vis.size,
+            size: vis.size,
             frame: CONFIG.dominoes.eventTemplateFrame, 
             effects: vis.inkFriendlyEffect
         });
@@ -259,8 +259,8 @@ export default class Domino
         }).alignCenter();
         const resTextHeader = new ResourceText({ text: data.label, textConfig: textConfigHeader });
         const opTextHeader = new LayoutOperation({
-            translate: vis.get("dominoes.events.posHeader"),
-            dims: new Point(0.85*vis.size.x, 0.5*vis.size.y),
+            pos: vis.get("dominoes.events.posHeader"),
+            size: new Point(0.85*vis.size.x, 0.5*vis.size.y),
             fill: "#121212",
             pivot: Point.CENTER
         });
@@ -273,8 +273,8 @@ export default class Domino
         }).alignCenter();
         const resTextBody = new ResourceText({ text: data.desc, textConfig: textConfigBody });
         const opTextBody = new LayoutOperation({
-            translate: vis.get("dominoes.events.posBody"),
-            dims: new Point(0.85*vis.size.x, 0.5*vis.size.y),
+            pos: vis.get("dominoes.events.posBody"),
+            size: new Point(0.85*vis.size.x, 0.5*vis.size.y),
             fill: "#121212",
             pivot: Point.CENTER
         });
@@ -284,13 +284,13 @@ export default class Domino
     drawBothParts(vis:MaterialVisualizer, group:ResourceGroup)
     {
         const opTop = new LayoutOperation({
-            translate: new Point(vis.center.x, 0.25*vis.size.y),
+            pos: new Point(vis.center.x, 0.25*vis.size.y),
             pivot: Point.CENTER
         });
         group.add(this.sides.top.draw(vis), opTop);
 
         const opBottom = new LayoutOperation({
-            translate: new Point(vis.center.x, 0.75*vis.size.y),
+            pos: new Point(vis.center.x, 0.75*vis.size.y),
             pivot: Point.CENTER
         })
         group.add(this.sides.bottom.draw(vis), opBottom);
@@ -309,11 +309,11 @@ export default class Domino
         })
         const resText = new ResourceText({ text: ID, textConfig: textConfig });
         const opText = new LayoutOperation({
-            translate: new Point(1.33*textConfig.size), 
+            pos: new Point(1.33*textConfig.size), 
             pivot: Point.CENTER,
             fill: this.set == "startingDomino" ? "#FFFFFF" : vis.get("dominoes.setText.color"),
             alpha: vis.get("dominoes.setText.alpha"),
-            dims: new Point(2*textConfig.size)
+            size: new Point(2*textConfig.size)
         });
 
         // @NOTE: I double-use this code to mark the starting domino as well
@@ -322,8 +322,8 @@ export default class Domino
         {
             textConfig.alignCenter();
             textConfig.size *= 1.33;
-            opText.translate = new Point(vis.center.x, 0.966*vis.size.y);
-            opText.dims = new Point(vis.size.x, 0.1*vis.size.y);
+            opText.pos = new Point(vis.center.x, 0.966*vis.size.y);
+            opText.size = new Point(vis.size.x, 0.1*vis.size.y);
         }
 
         group.add(resText, opText);

@@ -66,9 +66,9 @@ export default class Tile
 
         const res = vis.getResource("misc");
         const resOp = new LayoutOperation({
-            translate: vis.center,
+            pos: vis.center,
             frame: MISC.arrow.frame,
-            dims: vis.get("tiles.icon.dims"),
+            size: vis.get("tiles.icon.size"),
             pivot: Point.CENTER,
             effects: effects
         })
@@ -83,7 +83,7 @@ export default class Tile
         const randBG = rangeInteger(1, vis.get("tiles.generation.numBackgrounds"));
         const frame = MISC["bg_" + randBG].frame;
         const resOp = new LayoutOperation({
-            dims: vis.size,
+            size: vis.size,
             frame: frame,
             alpha: vis.get("tiles.background.textureAlpha")
         })
@@ -105,7 +105,7 @@ export default class Tile
         let rectCounter = 0;
         let numRects = NUM_RECTS_PER_KEY[this.keys.length];
 
-        const iconDims = vis.get("tiles.icon.dims").clone();
+        const iconDims = vis.get("tiles.icon.size").clone();
         const res = vis.getResource("tiles");
         const isMultiIcon = this.keys.length > 1;
         if(isMultiIcon) { iconDims.scale(0.5); }
@@ -145,7 +145,7 @@ export default class Tile
 
             // color in the sections
             const midPoint = new Point();
-            let rotation = 0; // we rotate the icons so the tile looks completely normal in _diamond_ orientation
+            let rot = 0; // we rotate the icons so the tile looks completely normal in _diamond_ orientation
             for(let i = 0; i < numRects; i++)
             {
                 const anchorPos = rectPositions[rectCounter];
@@ -153,16 +153,16 @@ export default class Tile
                 group.add(rect, rectOp);
                 rectCounter++;
                 midPoint.add( anchorPos.clone().add(rectSize.clone().scale(0.5)) );
-                rotation += rectCounter * 0.5 * Math.PI - 0.25*Math.PI;
+                rot += rectCounter * 0.5 * Math.PI - 0.25*Math.PI;
             }
             midPoint.scale(1.0 / numRects);
-            rotation /= numRects;
+            rot /= numRects;
 
             // then add the icon at the midpoint of those sections
             const resOp = new LayoutOperation({
-                translate: midPoint,
-                dims: iconDims,
-                rotation: rotation,
+                pos: midPoint,
+                size: iconDims,
+                rot: rot,
                 frame: tileData.frame,
                 pivot: Point.CENTER,
                 effects: effects
@@ -175,10 +175,10 @@ export default class Tile
                 const text = tileData.points == 0 ? "?" : tileData.points.toString();
                 const resText = new ResourceText({ text: text, textConfig: textConfig });
                 const textOp = new LayoutOperation({
-                    translate: midPoint,
-                    dims: iconDims,
+                    pos: midPoint,
+                    size: iconDims,
                     pivot: Point.CENTER,
-                    rotation: rotation,
+                    rot: rot,
                     fill: vis.get("tiles.gemstones.textFillColor"),
                     stroke: vis.get("tiles.gemstones.textStrokeColor"),
                     strokeWidth: vis.get("tiles.gemstones.strokeWidth"),
@@ -197,7 +197,7 @@ export default class Tile
 
         // draw all dividing lines we assembled
         const lineOp = new LayoutOperation({
-            translate: vis.center,
+            pos: vis.center,
             stroke: vis.get("tiles.background.stroke"),
             strokeWidth: vis.get("tiles.background.strokeWidth"),
         })

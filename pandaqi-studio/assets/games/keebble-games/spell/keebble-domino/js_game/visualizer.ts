@@ -135,12 +135,12 @@ export default class Visualizer
 
                 const blockResource = res.getResource("decorations");
                 const canvOp = new LayoutOperation({
-                    translate: params.center,
-                    rotation: i*0.5*Math.PI,
+                    pos: params.center,
+                    rot: i*0.5*Math.PI,
                     effects: [
                         new TintEffect({ color: col.toString() }),
                     ],
-                    dims: new Point(partSize),
+                    size: new Point(partSize),
                     alpha: 0.66,
                     pivot: new Point(0.5)
                 });
@@ -155,9 +155,9 @@ export default class Visualizer
             const bgResource = res.getResource("decorations");
             const canvOp = new LayoutOperation({
                 frame: 1,
-                translate: params.center,
-                rotation: randRotationBG,
-                dims: new Point(partSize),
+                pos: params.center,
+                rot: randRotationBG,
+                size: new Point(partSize),
                 alpha: params.background.alpha,
                 composite: params.background.composite,
                 pivot: new Point(0.5)
@@ -184,12 +184,12 @@ export default class Visualizer
             const decorationResource = res.getResource("decorations") as ResourceImage;
             const canvOp = new LayoutOperation({
                 frame: randBGFrame,
-                translate: params.center.clone(),
-                rotation: randRotationInnerSquare,
+                pos: params.center.clone(),
+                rot: randRotationInnerSquare,
                 effects: [
                     new TintEffect({ color: innerSquareColor }),
                 ],
-                dims: new Point(squareSize),
+                size: new Point(squareSize),
                 pivot: new Point(0.5)
             })
             await decorationResource.toCanvas(ctx, canvOp);
@@ -248,9 +248,9 @@ export default class Visualizer
                 const wallResource = res.getResource("cell");
                 const canvOp = new LayoutOperation({
                     frame: 9,
-                    translate: new Point(posX, posY),
-                    rotation: wallRotation,
-                    dims: new Point(squareSize),
+                    pos: new Point(posX, posY),
+                    rot: wallRotation,
+                    size: new Point(squareSize),
                     pivot: new Point(0.5)
                 })
 
@@ -267,7 +267,7 @@ export default class Visualizer
                 const textString = letters[offsetIndex] + "";
 
                 ctx.save();
-                ctx.translate(textX, textY);
+                ctx.pos(textX, textY);
                 ctx.rotate(i * 0.5 * Math.PI);
 
                 ctx.font = params.letterValues.fontSize + "px " + fontFamily;
@@ -294,13 +294,13 @@ export default class Visualizer
             const symbolResource = res.getResource(part.getType()) as ResourceImage;
             const canvOp = new LayoutOperation({
                 frame: dict[part.getValue()].frame,
-                translate: params.center,
-                rotation: randRotation,
+                pos: params.center,
+                rot: randRotation,
                 pivot: new Point(0.5),
                 effects: [
                     new TintEffect({ color: symbolColor }),
                 ],
-                dims: new Point(sizeMax)
+                size: new Point(sizeMax)
             });
             await symbolResource.toCanvas(ctx, canvOp);
         }

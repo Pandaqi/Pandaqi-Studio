@@ -58,7 +58,7 @@ export default class TilePicker
             const options = shuffle(data.multiSpriteOptions.slice());
             for(let i = 0; i < num; i++)
             {
-                const option = options.pop();
+                const option = options.pop() as string;
                 list.push({ texture: data.multiSpriteKey, frame: data.multiSpriteDict[option].frame });
             }
         } else {
@@ -248,12 +248,12 @@ export default class TilePicker
     fillTileGrid(data:TileCustomData)
     {
         // initialize the grid
-        const dims = CONFIG.generation.grid.dims;
+        const size = CONFIG.generation.grid.size;
         const grid = [];
-        for(let x = 0; x < dims.x; x++)
+        for(let x = 0; x < size.x; x++)
         {
             grid[x] = [];
-            for(let y = 0; y < dims.y; y++)
+            for(let y = 0; y < size.y; y++)
             {
                 grid[x][y] = { pos: new Point(x,y), used: false, type: "" };
             }

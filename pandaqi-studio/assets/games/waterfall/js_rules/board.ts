@@ -499,7 +499,7 @@ export default class Board
 
         const drawPawns = (indices:number[], pos:Point) =>
         {
-            const positions = getPositionsCenteredAround({ pos: pos, dims: new Point(1.0*pawnRadius), num: indices.length });
+            const positions = getPositionsCenteredAround({ pos: pos, size: new Point(1.0*pawnRadius), num: indices.length });
             for(let i = 0; i < positions.length; i++)
             {
                 drawPawn(indices[i], positions[i]);
@@ -521,8 +521,8 @@ export default class Board
                 {
                     const resTile = new ResourceImage(await this.getTile(posGrid).drawForRules(sim.getVisualizer()));
                     const opTile = new LayoutOperation({
-                        translate: posReal,
-                        dims: new Point(tileSize)
+                        pos: posReal,
+                        size: new Point(tileSize)
                     })
                     group.add(resTile, opTile);
 
@@ -543,7 +543,7 @@ export default class Board
         }
 
         const groupOp = new LayoutOperation({
-            translate: new Point(0.5*canvSize.x - 0.5*tileSize, 0)
+            pos: new Point(0.5*canvSize.x - 0.5*tileSize, 0)
         })
         group.toCanvas(ctx, groupOp);
         const img = await convertCanvasToImage(ctx.canvas);

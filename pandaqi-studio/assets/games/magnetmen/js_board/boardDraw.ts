@@ -75,7 +75,7 @@ export default class BoardDraw
         this.inventorySize = inventorySize;
         this.sidebarSize = sidebarSize;
 
-        this.cellSize = gridSize.clone().div(bs.dims);
+        this.cellSize = gridSize.clone().div(bs.size);
         this.cellSizeHalf = this.cellSize.clone().scale(0.5);
         this.cellSizeUnit = Math.min(this.cellSize.x, this.cellSize.y);
 
@@ -113,7 +113,7 @@ export default class BoardDraw
             const positions = getPositionsCenteredAround({
                 pos: inventoryCenters[i],
                 num: numInventorySlots,
-                dims: slotDimsTemp,
+                size: slotDimsTemp,
                 dir: inventoryDir
             })
 
@@ -121,7 +121,7 @@ export default class BoardDraw
             {
                 const rect = new Rectangle({ center: new Point(), extents: slotDimsTemp });
                 const rectOp = new LayoutOperation({
-                    translate: pos,
+                    pos: pos,
                     fill: "#FFFFFF",
                     stroke: "#000000",
                     strokeWidth: invStrokeWidth,
@@ -148,7 +148,7 @@ export default class BoardDraw
 
             const rect = new Rectangle({ center: new Point(), extents: this.cellSize });
             const rectOp = new LayoutOperation({
-                translate: posCenter,
+                pos: posCenter,
                 fill: col,
                 stroke: "#000000",
                 strokeWidth: cellStrokeWidth,
@@ -160,8 +160,8 @@ export default class BoardDraw
             const iconDims = new Point(CONFIG.draw.cells.iconSize * this.cellSizeUnit);
             const iconOp = new LayoutOperation({
                 frame: iconData.frame,
-                translate: posCenter,
-                dims: iconDims,
+                pos: posCenter,
+                size: iconDims,
                 pivot: Point.CENTER
             })
             group.add(icon, iconOp);
@@ -176,19 +176,19 @@ export default class BoardDraw
             new Point(this.originGrid.x + this.gridSize.x, this.originGrid.y + this.gridSize.y),
             new Point(this.originGrid.x, this.originGrid.y + this.gridSize.y)
         ]
-        const dims = new Point(0.7 * this.cellSizeUnit);
+        const size = new Point(0.7 * this.cellSizeUnit);
 
         for(let i = 0; i < corners.length; i++)
         {
             const rot = 0.5 * Math.PI * i;
             let offset = new Point(-1,-1).rotate(rot);
-            const pos = corners[i].move(offset.scale(-0.3725 * dims.x));
+            const pos = corners[i].move(offset.scale(-0.3725 * size.x));
 
             const cornerOp = new LayoutOperation({
                 frame: frame,
-                translate: pos,
-                rotation: rot,
-                dims: dims,
+                pos: pos,
+                rot: rot,
+                size: size,
                 pivot: Point.CENTER
             });
             group.add(cornerRes, cornerOp);
@@ -206,8 +206,8 @@ export default class BoardDraw
         const frame = CONFIG.beginnerMode ? 0 : 1;
         const tutOp = new LayoutOperation({
             frame: frame,
-            translate: this.originSidebar,
-            dims: tutDims
+            pos: this.originSidebar,
+            size: tutDims
         })
         group.add(tut, tutOp);
 
@@ -252,8 +252,8 @@ export default class BoardDraw
             iconPos.x += xPadding;
             const iconOp = new LayoutOperation({
                 frame: data.frame,
-                translate: iconPos,
-                dims: iconDimsWithPadding,
+                pos: iconPos,
+                size: iconDimsWithPadding,
                 pivot: Point.CENTER
             })
 
@@ -266,8 +266,8 @@ export default class BoardDraw
             const iconSimplePos = iconPos.clone().move(new Point(iconDims).scale(-0.4));
             const iconSimpleOp = new LayoutOperation({
                 frame: data.frame,
-                translate: iconSimplePos,
-                dims: iconSimpleDims,
+                pos: iconSimplePos,
+                size: iconSimpleDims,
                 pivot: Point.CENTER,
             })
 
@@ -286,8 +286,8 @@ export default class BoardDraw
 
             const textOp = new LayoutOperation({
                 fill: "#000000",
-                dims: innerTextDims,
-                translate: innerTextPos,
+                size: innerTextDims,
+                pos: innerTextPos,
                 pivot: new Point(0, 0.5)
             })
 

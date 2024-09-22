@@ -83,8 +83,8 @@ class Recipe
         {
             const res = vis.getResource(elem.mainType + "_spritesheet");
             const op = new LayoutOperation({
-                translate: anchorPos.clone(),
-                dims: new Point(spriteSize),
+                pos: anchorPos.clone(),
+                size: new Point(spriteSize),
                 frame: elem.getData().frame,
                 pivot: new Point(0, 0.5)
             });
@@ -103,8 +103,8 @@ class Recipe
         const textValue = "= " + score;
         const resText = new ResourceText({ text: textValue, textConfig: textConfig });
         const opText = new LayoutOperation({
-            translate: pos,
-            dims: new Point(5.5*spriteSize, 2*spriteSize),
+            pos: pos,
+            size: new Point(5.5*spriteSize, 2*spriteSize),
             fill: txcfg.color,
             stroke: txcfg.stroke,
             strokeWidth: 0.1 * textConfig.size,
@@ -210,13 +210,13 @@ export default class RecipeBook
 
     display(vis: BoardVisualizer, group: ResourceGroup, boardDisplay : BoardDisplay)
     {
-        const dims = this.getAvailableDimensions(boardDisplay);
+        const sizeTotal = this.getAvailableDimensions(boardDisplay);
 
         // display some background, looks better and prevents grid lines going through us
         const resBG = vis.resLoader.getResource("custom_spritesheet");
         const opBG = new LayoutOperation({
-            translate: dims.center,
-            dims: new Point(dims.size.x),
+            pos: sizeTotal.center,
+            size: new Point(sizeTotal.size.x),
             frame: CUSTOM.tutorialBG.frame,
             pivot: Point.CENTER
         });
@@ -233,13 +233,13 @@ export default class RecipeBook
 
         const margin = CONFIG.recipes.marginAroundRecipeBook*boardDisplay.cellSizeUnit;
         const padding = CONFIG.recipes.paddingBetweenRecipes*boardDisplay.cellSizeUnit;
-        const maxRecipeHeight = ((dims.size.y-2*margin) / this.recipes.length) - padding;
-        const maxRecipeWidth = ((dims.size.x-2*margin) / longestRecipe) - padding;
+        const maxRecipeHeight = ((sizeTotal.size.y-2*margin) / this.recipes.length) - padding;
+        const maxRecipeWidth = ((sizeTotal.size.x-2*margin) / longestRecipe) - padding;
         const size = Math.min(maxRecipeWidth, maxRecipeHeight); 
         const offsetY = 0.5 * (this.recipes.length-1) * (size + padding);
         const offsetX = 0.5*(longestRecipe - 1) * (size + padding);
 
-        let anchor = dims.center.clone().sub(new Point(offsetX, offsetY));
+        let anchor = sizeTotal.center.clone().sub(new Point(offsetX, offsetY));
 
         for(const recipe of this.recipes)
         {

@@ -147,14 +147,13 @@ const CONFIG = {
     {
         num: 48, // 12 per page on regular settings
         numPerCard: 4,
-        dims: 
+        size: 
         { 
             small: new Point(4,5),
             regular: new Point(3,4),
             large: new Point(2,3)
         },
-        dimsElement: new Point(1, 1),
-        size: new Point(),
+        sizeElement: new Point(1, 1),
         textScale: 0.5, // relative to block height 
     },
 
@@ -173,14 +172,13 @@ const CONFIG = {
         actionIconSize: 0.66, // relative to block height = height of one wavy rectangle step
         actionBGColor: "rgba(255,255,255,1.0)",
         numActionBounds: new Bounds(1,3),
-        dims: 
+        size: 
         { 
             small: new Point(5,4),
             regular: new Point(4,3),
             large: new Point(3,2)
         },
-        dimsElement: new Point(1,2),
-        size: new Point(),
+        sizeElement: new Point(1,2),
 
         words:
         {

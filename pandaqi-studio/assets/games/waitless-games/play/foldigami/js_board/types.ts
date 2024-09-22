@@ -218,7 +218,7 @@ export default class Types
         }
 
         // some generation parameters (for types) change based on other user-input settings
-        // In this case: if we place no tutorials, still place some SCROLLS because we need their "rotation" mechanic still
+        // In this case: if we place no tutorials, still place some SCROLLS because we need their "rot" mechanic still
         // And a good benchmark is the number of types included
         const placeTutorials = CONFIG.includeRules;
         if(!placeTutorials)

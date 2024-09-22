@@ -53,7 +53,7 @@ export default class Card
         // fill background with the word card template
         const res = vis.resLoader.getResource("word_card_template");
         const resOp = new LayoutOperation({
-            dims: vis.size,
+            size: vis.size,
             effects: vis.effects
         });
         group.add(res, resOp);
@@ -74,9 +74,9 @@ export default class Card
             const randPos = new Point(range(0, vis.size.x), range(0, vis.size.y));
             const textOp = new LayoutOperation({
                 fill: CONFIG.cards.secretMessages.textColor,
-                translate: randPos,
-                dims: new Point(3 * vis.size.y, 1.5 * fontSize),
-                rotation: randRot,
+                pos: randPos,
+                size: new Point(3 * vis.size.y, 1.5 * fontSize),
+                rot: randRot,
                 pivot: Point.CENTER,
                 composite: "color-burn",
                 alpha: CONFIG.cards.secretMessages.alpha
@@ -138,8 +138,8 @@ export default class Card
             // tinted clay square + pattern (read from cache)
             const resBlockOp = new LayoutOperation({
                 frame: colorData.frame,
-                translate: new Point(xPos, yPos),
-                dims: iconDims,
+                pos: new Point(xPos, yPos),
+                size: iconDims,
                 pivot: Point.CENTER,
                 effects: vis.dropShadowEffects
             })
@@ -147,8 +147,8 @@ export default class Card
             
             // color shape on opposite side for clarity
             const colorShapeMirrorOp = new LayoutOperation({
-                translate: new Point(xPosOpposite, yPos),
-                dims: iconDims.clone().scale(CONFIG.cards.words.iconSymbolDims).scale(0.75),
+                pos: new Point(xPosOpposite, yPos),
+                size: iconDims.clone().scale(CONFIG.cards.words.iconSymbolDims).scale(0.75),
                 frame: colorData.frame,
                 alpha: 0.75,
                 composite: "color-burn",
@@ -161,8 +161,8 @@ export default class Card
             const numberText = new ResourceText({ text: num, textConfig: textConfigNumber });
             const numberTextOp = new LayoutOperation({
                 fill: "#FFFFFF",
-                translate: new Point(xPos, yPos),
-                dims: iconDims,
+                pos: new Point(xPos, yPos),
+                size: iconDims,
                 pivot: Point.CENTER,
                 effects: vis.dropShadowEffects
             });
@@ -175,9 +175,9 @@ export default class Card
             const resText = new ResourceText({ text: word, textConfig: cfg });
             const textColor = vis.inkFriendly ? "#FFFFFF" : colorData.colorText;
             const textOp = new LayoutOperation({
-                translate: new Point(xPosText, yPos),
+                pos: new Point(xPosText, yPos),
                 fill: textColor,
-                dims: new Point(vis.size.x - xPosText*2, 1.5*fontSize),
+                size: new Point(vis.size.x - xPosText*2, 1.5*fontSize),
                 stroke: "#000000",
                 strokeWidth: strokeWidth,
                 strokeAlign: StrokeAlign.OUTSIDE,
@@ -193,8 +193,8 @@ export default class Card
             {
                 const dividerLineOp = new LayoutOperation({
                     frame: MISC.divider.frame,
-                    translate: new Point(vis.center.x, yPos + 0.5 * distBetweenWords),
-                    dims: dividerDims,
+                    pos: new Point(vis.center.x, yPos + 0.5 * distBetweenWords),
+                    size: dividerDims,
                     flipX: i % 2 == 1,
                     composite: "overlay",
                     alpha: dividerAlpha,

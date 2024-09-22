@@ -65,11 +65,11 @@ const CELL_TYPES:Record<string,CellTypeData> =
     tiger2: { tutFrame: 20, needsTeam: true, num: { min: 1, max: 5 }, type: "score", difficulty: "medium", score: 1, usesBlankSquares: true, prob: 1.2 },
     
     spy: { needsTeam: true, num: { min: 1, max: 4 }, type: "board", skipEval: true, difficulty: "medium", prob: 1 },
-    bird: { value: { min: 1, max: 3 }, type: "rotation", allowAllRotations: true, dirDecidesTeam: true, prob: 1.75 },
-    tortoise: { value: { min: 1, max: 3 }, type: "rotation", prob: 1.33 },
+    bird: { value: { min: 1, max: 3 }, type: "rot", allowAllRotations: true, dirDecidesTeam: true, prob: 1.75 },
+    tortoise: { value: { min: 1, max: 3 }, type: "rot", prob: 1.33 },
     
-    bear1: { type: "rotation", needsSpy: true, difficulty: "hard", prob: 0.1 },
-    bear2: { tutFrame: 18, type: "rotation", needsSpy: true, difficulty: "hard", usesBlankSquares: true, prob: 0.75 },
+    bear1: { type: "rot", needsSpy: true, difficulty: "hard", prob: 0.1 },
+    bear2: { tutFrame: 18, type: "rot", needsSpy: true, difficulty: "hard", usesBlankSquares: true, prob: 0.75 },
     
     joker1: { needsTeam: true, value: { min: 1, max: 4 }, type: "board", skipEval: true, prob: 0.5 },
     joker2: { tutFrame: 22, needsTeam: true, value: { min: 1, max: 4 }, type: "score", prob: 0.25 },

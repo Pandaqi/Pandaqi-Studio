@@ -132,7 +132,7 @@ export default class Card
             group.add(rect, opRect);
 
             const opTexture = new LayoutOperation({
-                dims: vis.size,
+                size: vis.size,
                 frame: this.isWildCard() ? TEMPLATES.texture_wildcard.frame : TEMPLATES.texture.frame,
                 composite: this.isWildCard() ? "luminosity" : "overlay",
                 alpha: vis.get("cards.bg.textureAlpha")
@@ -143,7 +143,7 @@ export default class Card
             if(!this.isWildCard())
             {
                 const opGrad = new LayoutOperation({
-                    dims: vis.size,
+                    size: vis.size,
                     frame: TEMPLATES.gradient.frame,
                     composite: "overlay"
                 });
@@ -154,7 +154,7 @@ export default class Card
         // outline (tinted)
         const col = this.getTintColor(vis);
         const opOutline = new LayoutOperation({
-            dims: vis.size,
+            size: vis.size,
             frame: TEMPLATES.outline.frame,
             effects: [new TintEffect(col)]
         })
@@ -189,9 +189,9 @@ export default class Card
 
             const resText = new ResourceText({ text: numberText, textConfig: textConfig });
             const opText = new LayoutOperation({
-                translate: positions[i],
-                dims: new Point(2.0 * textConfig.size),
-                rotation: (i <= 1) ? 0 : Math.PI,
+                pos: positions[i],
+                size: new Point(2.0 * textConfig.size),
+                rot: (i <= 1) ? 0 : Math.PI,
                 pivot: Point.CENTER,
                 fill: textColor
             });
@@ -228,8 +228,8 @@ export default class Card
         {
             const resText = new ResourceText({ text: numbers[i], textConfig: textConfigMain });
             const opText = new LayoutOperation({
-                translate: positionsMain[i],
-                dims: new Point(2.0 * textConfigMain.size),
+                pos: positionsMain[i],
+                size: new Point(2.0 * textConfigMain.size),
                 pivot: Point.CENTER,
                 fill: textColor,
                 effects: mainEffects
@@ -252,8 +252,8 @@ export default class Card
         const label = this.isWildCard() ? "Wildcard" : this.getNumberData().label;
         const resTextNum = new ResourceText({ text: label, textConfig: textConfig });
         const opTextNum = new LayoutOperation({
-            translate: vis.get("cards.metadata.numberPos"), // this is relative to center of subgroup, not card
-            dims: new Point(vis.size.x, 2.0 * textConfig.size),
+            pos: vis.get("cards.metadata.numberPos"), // this is relative to center of subgroup, not card
+            size: new Point(vis.size.x, 2.0 * textConfig.size),
             pivot: Point.CENTER,
             fill: textColor
         })
@@ -263,8 +263,8 @@ export default class Card
         {
             const resTextAction = new ResourceText({ text: CARD_ACTIONS[this.action].label, textConfig: textConfig });
             const opTextAction = new LayoutOperation({
-                translate: vis.get("cards.metadata.actionPos"),
-                dims: new Point(vis.size.x, 2.0 * textConfig.size),
+                pos: vis.get("cards.metadata.actionPos"),
+                size: new Point(vis.size.x, 2.0 * textConfig.size),
                 pivot: Point.CENTER,
                 fill: textColor
             })
@@ -273,14 +273,14 @@ export default class Card
 
         // then add this subgroup twice, rotated along edge of card
         const op1 = new LayoutOperation({
-            translate: vis.get("cards.metadata.anchorPos1"),
-            rotation: -0.5*Math.PI
+            pos: vis.get("cards.metadata.anchorPos1"),
+            rot: -0.5*Math.PI
         })
         group.add(subGroup, op1);
 
         const op2 = new LayoutOperation({
-            translate: vis.get("cards.metadata.anchorPos2"),
-            rotation: 0.5*Math.PI
+            pos: vis.get("cards.metadata.anchorPos2"),
+            rot: 0.5*Math.PI
         })
         group.add(subGroup, op2);
     }
@@ -312,8 +312,8 @@ export default class Card
         }).alignCenter();
         const resText = new ResourceText({ text: this.actionText, textConfig: textConfig });
         const opText = new LayoutOperation({
-            translate: vis.get("cards.action.textBoxPos"),
-            dims: vis.get("cards.action.textDims"),
+            pos: vis.get("cards.action.textBoxPos"),
+            size: vis.get("cards.action.textDims"),
             pivot: Point.CENTER,
             fill: vis.inkFriendly ? "#111111" : vis.get("cards.action.textColor"),
             effects: [new GlowEffect({ color: "#ffffff77", blur: 0.5*vis.get("cards.mainNumber.glowBlur") })]
@@ -326,7 +326,7 @@ export default class Card
         // display background
         const resTemp = vis.getResource("card_templates");
         const opTemp = new LayoutOperation({
-            dims: vis.size,
+            size: vis.size,
             frame: TEMPLATES.contract.frame,
             effects: vis.inkFriendlyEffect
         });
@@ -355,8 +355,8 @@ export default class Card
         {
             const resText = new ResourceText({ text: texts[i], textConfig: textConfig });
             const opText = new LayoutOperation({
-                translate: positions[i],
-                dims: textDims,
+                pos: positions[i],
+                size: textDims,
                 pivot: Point.CENTER,
                 fill: "#000000"
             })
@@ -369,7 +369,7 @@ export default class Card
             vis.get("cards.contract.rewards.posPenalty")
         ]
 
-        const dimsRews = vis.get("cards.contract.rewards.iconDims")
+        const sizeRews = vis.get("cards.contract.rewards.iconDims")
         const content = [this.contract.rewards, this.contract.penalties]
         const keyStrings = ["reward", "penalty"];
 
@@ -378,35 +378,35 @@ export default class Card
         {
             const ct = content[i];
             const ks = keyStrings[i];
-            const subpos = getPositionsCenteredAround({ pos: posRews[i], dims: dimsRews, num: ct.length, dir: Point.DOWN });
+            const subpos = getPositionsCenteredAround({ pos: posRews[i], size: sizeRews, num: ct.length, dir: Point.DOWN });
             for(let a = 0; a < subpos.length; a++)
             {
                 const randRot = (Math.random() - 0.5) * 0.125 * Math.PI;
                 const opIcon = new LayoutOperation({
-                    translate: subpos[a],
-                    dims: dimsRews,
+                    pos: subpos[a],
+                    size: sizeRews,
                     pivot: Point.CENTER,
                     frame: MISC[ct[a] + "_" + ks].frame,
-                    rotation: randRot
+                    rot: randRot
                 });
                 group.add(resMisc, opIcon);
             }
         }
 
         // display stars
-        const starDims = vis.get("cards.contract.stars.dims");
+        const starDims = vis.get("cards.contract.stars.size");
         const starAlpha = vis.get("cards.contracts.stars.alpha");
         const posStars = getPositionsCenteredAround({
             pos: vis.get("cards.contract.stars.pos"),
-            dims: starDims,
+            size: starDims,
             num: this.contract.getStars(),
             dir: Point.DOWN
         });
         for(const posStar of posStars)
         {
             const opStar = new LayoutOperation({
-                translate: posStar,
-                dims: starDims,
+                pos: posStar,
+                size: starDims,
                 pivot: Point.CENTER,
                 frame: MISC.star.frame,
                 alpha: starAlpha,
@@ -418,8 +418,8 @@ export default class Card
         if(this.contract.type == ContractType.BATTLE)
         {
             const opBattleIcon = new LayoutOperation({
-                translate: vis.get("cards.contract.battleIconPos"),
-                dims: starDims,
+                pos: vis.get("cards.contract.battleIconPos"),
+                size: starDims,
                 pivot: Point.CENTER,
                 frame: MISC.battle_icon.frame,
                 alpha: starAlpha,
@@ -432,15 +432,15 @@ export default class Card
         {
             const posTurnout = getPositionsCenteredAround({
                 pos: vis.get("cards.contract.turnoutIconPos"),
-                dims: starDims,
+                size: starDims,
                 num: this.contract.minTurnout,
                 dir: Point.DOWN
             });
             for(const pos of posTurnout)
             {
                 const opTurnoutIcon = new LayoutOperation({
-                    translate: pos,
-                    dims: starDims,
+                    pos: pos,
+                    size: starDims,
                     pivot: Point.CENTER,
                     frame: MISC.forced_icon.frame,
                     alpha: starAlpha,

@@ -15,7 +15,7 @@ export { PathAdvanced, PathAdvancedParams }
 export default class PathAdvanced extends Shape
 {
     points: PointPath[]
-    close: boolean
+    close: boolean = false
 
     constructor(p:PathAdvancedParams = {})
     {
@@ -121,6 +121,11 @@ export default class PathAdvanced extends Shape
         const elem = document.createElementNS(svgNS, 'path');
         elem.setAttribute("d", this.toPathString());
         return elem;
+    }
+
+    createPixiObject(graphicsConstructor)
+    {
+        return new graphicsConstructor({}).poly(this.toPath(), this.close ?? false);
     }
 
     reverse()

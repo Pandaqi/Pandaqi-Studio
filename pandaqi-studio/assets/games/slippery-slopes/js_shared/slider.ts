@@ -45,11 +45,10 @@ export default class Slider
         this.subType = getWeighted(PROPERTIES);
     }
 
-    async draw(customSize:Point = null) : Promise<HTMLCanvasElement>
+    async draw(itemSize:Point) : Promise<HTMLCanvasElement>
     {
         const colorSteps = CONFIG.sliderCards.numColorSteps;
 
-        const itemSize = customSize ?? CONFIG.sliderCards.size;
         const ctx = createContext({ size: itemSize });
 
         const blockHeight = itemSize.y / colorSteps;
@@ -107,7 +106,7 @@ export default class Slider
             const color = colors[a];
             const topOffset = a == 0 ? -2*amp : 0;
             const canvOp = new LayoutOperation({
-                translate: new Point(0, blockHeight*a + topOffset),
+                pos: new Point(0, blockHeight*a + topOffset),
                 fill: color,
                 stroke: "#000000",
                 strokeWidth: 1,
@@ -176,9 +175,9 @@ export default class Slider
 
             const translate = (i == 0) ? new Point() : new Point(0, itemSize.y - blockHeight)
             const canvOp = new LayoutOperation({
-                translate: translate,
+                pos: translate,
                 fill: finalColor,
-                dims: new Point(itemSize.x, blockHeight)
+                size: new Point(itemSize.x, blockHeight)
             })
             text.toCanvas(ctx, canvOp);
         }
@@ -218,9 +217,9 @@ export default class Slider
             const translate = new Point(0, i * blockHeight - 0.5*amp);
             const res = new ResourceText({ text: word, textConfig: tempTextCfg })
             const canvOp = new LayoutOperation({
-                translate: translate,
+                pos: translate,
                 fill: finalColor,
-                dims: new Point(itemSize.x, blockHeight)
+                size: new Point(itemSize.x, blockHeight)
             })
             res.toCanvas(ctx, canvOp);
         }
@@ -314,9 +313,9 @@ export default class Slider
             if(useRandomShape) { randRotation = 0; }
 
             const canvOp = new LayoutOperation({
-                translate: translate,
+                pos: translate,
                 fill: color.darken(textDarken),
-                rotation: randRotation
+                rot: randRotation
             })
             res.toCanvas(ctx, canvOp);
         }
@@ -352,8 +351,8 @@ export default class Slider
 
             const canvOp = new LayoutOperation({
                 frame: ACTIONS[actionKey].frame,
-                translate: new Point(x,y),
-                dims: actionIconSize,
+                pos: new Point(x,y),
+                size: actionIconSize,
                 pivot: Point.CENTER
             })
 
@@ -367,7 +366,7 @@ export default class Slider
             ctx.save();
             ctx.beginPath();
             ctx.roundRect(
-                canvOp.translate.x - 0.5*bgRectDims.x, canvOp.translate.y - 0.5*bgRectDims.y,
+                canvOp.pos.x - 0.5*bgRectDims.x, canvOp.pos.y - 0.5*bgRectDims.y,
                 bgRectDims.x, bgRectDims.y, 
                 bgRectRadius);
             ctx.fillStyle = actionBGColor;

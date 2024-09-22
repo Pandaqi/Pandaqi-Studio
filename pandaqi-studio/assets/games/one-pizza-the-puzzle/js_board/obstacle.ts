@@ -8,7 +8,7 @@ export default class Obstacle
     center = new Point()
     line:Line
     specialBuilding:string
-    rotation:number
+    rot:number
 
     setType(t:string)
     {
@@ -22,7 +22,7 @@ export default class Obstacle
 
     setRotation(r:number)
     {
-        this.rotation = r;
+        this.rot = r;
     }
 
     setLine(l:Line)

@@ -59,9 +59,9 @@ const testPDFBuilder = () =>
 
 const testGridMapper = (pdfBuilder) =>
 {
-    const dims = new Point(3,3);
+    const size = new Point(3,3);
 
-    const gridConfig = { pdfBuilder: pdfBuilder, dims: dims };
+    const gridConfig = { pdfBuilder: pdfBuilder, size: size };
     const gridMapper = new GridMapper(gridConfig);
     console.log("== Grid Mapper Created");
     console.log(gridMapper);
@@ -72,9 +72,9 @@ const testSingleImage = async (canv, resLoader) =>
 {
     const res = resLoader.getResource("creatures_1") as ResourceImage;
     const spriteParams = {
-        translate: new Point(256, 256),
-        dims: new Point(150),
-        rotation: 0.25*Math.PI,
+        pos: new Point(256, 256),
+        size: new Point(150),
+        rot: 0.25*Math.PI,
         pivot: Point.CENTER,
         frame: 9,
     }
@@ -97,7 +97,7 @@ const testGroups = async (canv, resLoader) =>
 {
     const res = resLoader.getResource("creatures_1") as ResourceImage;
     const resOp = new LayoutOperation({
-        dims: new Point(150),
+        size: new Point(150),
         pivot: Point.CENTER,
         frame: 9,
     });
@@ -112,8 +112,8 @@ const testGroups = async (canv, resLoader) =>
     group.add(resCenter, resCenterOp);
 
     const groupOp = new LayoutOperation({
-        translate: new Point(128, 128),
-        rotation: -0.25 * Math.PI
+        pos: new Point(128, 128),
+        rot: -0.25 * Math.PI
     })
     console.log(groupOp);
     console.log("Drawing Group with subgroups");
@@ -134,7 +134,7 @@ const testCompositeOperation = async (canv, resLoader) =>
 
     const res = resLoader.getResource("misc") as ResourceImage;
     const canvOp = new LayoutOperation({
-        dims: new Point(512,256),
+        size: new Point(512,256),
         composite: "overlay"
     });
 
@@ -162,9 +162,9 @@ const testPixiImages = async () =>
     // place test image
     const res = resLoader.getResource("misc");
     const op = new LayoutOperation({
-        translate: new Point(80,80),
-        rotation: 0.2*Math.PI,
-        dims: new Point(200,200),
+        pos: new Point(80,80),
+        rot: 0.2*Math.PI,
+        size: new Point(200,200),
         pivot: Point.CENTER
     });
 
@@ -183,8 +183,8 @@ const testPixiImages = async () =>
     });
     const resText = new ResourceText({ text: "Ik ben <b>Tiamo Pastoor</b>. Wie <i>ben jij</i>?", textConfig: textConfig });
     const opText = new LayoutOperation({
-        translate: new Point(300,300),
-        dims: new Point(300, 300),
+        pos: new Point(300,300),
+        size: new Point(300, 300),
         fill: "#000000",
     })
     

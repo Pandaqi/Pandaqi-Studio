@@ -74,8 +74,8 @@ const CONFIG:any =
         drawerConfig:
         {
             autoStroke: true,
-            dimsElement: new Point(1, 1),
-            dims: 
+            sizeElement: new Point(1, 1),
+            size: 
             { 
                 small: new Point(5,7),
                 regular: new Point(3,5),
@@ -99,7 +99,7 @@ const CONFIG:any =
 
         icon:
         {
-            dims: new CVal(new Point(0.725), "sizeUnit"),
+            size: new CVal(new Point(0.725), "sizeUnit"),
             dropShadowBlur: new CVal(0.025, "sizeUnit")
         },
 

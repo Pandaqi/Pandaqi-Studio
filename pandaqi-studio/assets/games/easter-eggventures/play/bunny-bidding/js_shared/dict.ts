@@ -70,12 +70,12 @@ interface TileTypeData
     label: string,
     color?: string,
     backgroundRandom?: Bounds // selects one of its frames from the background spritesheet at random 
-    rotationRandom?: Bounds // will rotate illustration to random value within bounds
+    rotRandom?: Bounds // will rotate illustration to random value within bounds
 }
 
 const TYPE_DATA:Record<TileType, TileTypeData> = 
 {
-    [TileType.REGULAR]: { textureKey: "eggs", backgroundKey: "eggs_backgrounds", label: "Regular Egg", rotationRandom: new Bounds(-0.066*Math.PI, 0.066*Math.PI) },
+    [TileType.REGULAR]: { textureKey: "eggs", backgroundKey: "eggs_backgrounds", label: "Regular Egg", rotRandom: new Bounds(-0.066*Math.PI, 0.066*Math.PI) },
     [TileType.SPECIAL]: { textureKey: "actions", backgroundKey: "misc", backgroundRandom: new Bounds(0,3), color: "#469990", label: "Special Egg" }, // color = teal
     [TileType.GOAL]: { textureKey: "eggs", backgroundKey: "eggs_backgrounds", label: "Goal Egg" },
     [TileType.POWER]: { textureKey: "powers", backgroundKey: "misc", backgroundRandom: new Bounds(0,3), color: "#DCBEFF", label: "Eggstra Power" }, // color = lavender 

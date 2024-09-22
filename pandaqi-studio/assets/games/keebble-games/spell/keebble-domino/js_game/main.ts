@@ -40,7 +40,7 @@ export default class Generator {
         }
 
         const customCardDims = new Point(2, 1); // { x: 1380, y: 690 };
-        const gridConfig = { pdfBuilder: pdfBuilder, dims: customPageLayoutDims, dimsElement: customCardDims };
+        const gridConfig = { pdfBuilder: pdfBuilder, size: customPageLayoutDims, sizeElement: customCardDims };
         const gridMapper = new GridMapper(gridConfig);
 
         const cardSize = gridMapper.getMaxElementSize();

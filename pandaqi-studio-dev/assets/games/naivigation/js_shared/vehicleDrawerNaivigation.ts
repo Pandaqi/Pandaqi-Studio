@@ -15,9 +15,9 @@ const drawHelpers = (vis, group, tile) =>
     // a guiding sprite behind it to clearly show what's the front and stuff
     const resGuides = vis.getResource("misc_shared");
     const opGuides = new LayoutOperation({
-        translate: vis.center,
+        pos: vis.center,
         frame: MISC.vehicle_guides.frame,
-        dims: vis.get("tiles.general.vehicle.dimsGuides"),
+        size: vis.get("tiles.general.vehicle.sizeGuides"),
         pivot: Point.CENTER
     })
     group.add(resGuides, opGuides)
@@ -32,9 +32,9 @@ const drawVehicle = (vis, group, tile) =>
     const res = vis.getResource("map_tiles");
     const frame = typeData.frame + tile.customData.num;
     const op = new LayoutOperation({
-        translate: vis.center,
+        pos: vis.center,
         frame: frame,
-        dims: vis.get("tiles.general.vehicle.dims"),
+        size: vis.get("tiles.general.vehicle.size"),
         pivot: Point.CENTER
     });
     group.add(res, op);

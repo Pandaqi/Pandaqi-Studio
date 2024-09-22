@@ -28,7 +28,7 @@ interface MaterialDrawCall
 //
 // Besides that
 // itemSize => determines general size for drawing, input on general settings
-// dims + dimsElement => specific settings for gridMapper, given when adding this particular drawer to the pipeline
+// size + sizeElement => specific settings for gridMapper, given when adding this particular drawer to the pipeline
 //
 export default class MaterialGenerator
 {
@@ -97,9 +97,9 @@ export default class MaterialGenerator
 
     addDrawer(id:string, drawerConfig:Record<string,any>)
     {
-        const dims = drawerConfig.dims[this.config.itemSize ?? "regular"];
+        const size = drawerConfig.size[this.config.itemSize ?? "regular"];
         const autoStroke = drawerConfig.autoStroke ?? false;
-        const gridConfig = { pdfBuilder: this.pdfBuilder, dims: dims, dimsElement: drawerConfig.dimsElement, autoStroke: autoStroke };
+        const gridConfig = { pdfBuilder: this.pdfBuilder, size: size, sizeElement: drawerConfig.sizeElement, autoStroke: autoStroke };
         const gridMapper = new GridMapper(gridConfig);
         this.drawers[id] = gridMapper;
     }
@@ -108,6 +108,7 @@ export default class MaterialGenerator
     {
         const userConfig = JSON.parse(window.localStorage[CONFIG.configKey] ?? "{}");
         Object.assign(CONFIG, userConfig);
+        if(!this.config.debug) { this.config.debug = {}; } // legacy support for older games who don't set these options
         console.log(CONFIG);
     }
 

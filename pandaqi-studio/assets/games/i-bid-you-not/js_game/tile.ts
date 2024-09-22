@@ -77,8 +77,8 @@ export default class Tile
         // draw audience
         const resMisc = vis.getResource("misc");
         const opAudience = new LayoutOperation({
-            translate: vis.get("tiles.audience.pos"),
-            dims: vis.get("tiles.audience.dims"),
+            pos: vis.get("tiles.audience.pos"),
+            size: vis.get("tiles.audience.size"),
             frame: MISC.audience.frame,
             alpha: vis.get("tiles.audience.alpha")
         });
@@ -103,8 +103,8 @@ export default class Tile
 
         // draw the base podium
         const opPodium = new LayoutOperation({
-            translate: vis.get("tiles.podium.pos"),
-            dims: vis.get("tiles.podium.dims"),
+            pos: vis.get("tiles.podium.pos"),
+            size: vis.get("tiles.podium.size"),
             frame: MISC.podium.frame,
             pivot: Point.CENTER,
             effects: vis.inkFriendlyEffect
@@ -112,12 +112,12 @@ export default class Tile
         group.add(resMisc, opPodium)
 
         // draw type illustration on top
-        const spriteDims = vis.get("tiles.type.dims");
+        const spriteDims = vis.get("tiles.type.size");
         const spritePos = vis.get("tiles.type.pos");
 
         const opSprite = new LayoutOperation({
-            translate: spritePos,
-            dims: spriteDims,
+            pos: spritePos,
+            size: spriteDims,
             frame: typeData.frame,
             pivot: Point.CENTER,
             effects: vis.inkFriendlyEffect
@@ -131,8 +131,8 @@ export default class Tile
         }).alignCenter();
         const resNameText = new ResourceText({ text: this.getTypeData().label, textConfig: textConfig });
         const opNameText = new LayoutOperation({
-            translate: vis.get("tiles.label.pos"),
-            dims: vis.get("tiles.label.dims"),
+            pos: vis.get("tiles.label.pos"),
+            size: vis.get("tiles.label.size"),
             fill: vis.get("tiles.label.textColor"),
             pivot: Point.CENTER
         });
@@ -143,20 +143,20 @@ export default class Tile
         const relPos = tagData.pos.clone().sub(new Point(512, 512)).div(new Point(1024, 1024))
         const finalPos = spritePos.clone().add( relPos.scale(spriteDims) );
         const shouldFlip = tagData.flip;
-        let rotation = vis.get("tiles.priceTag.rotationBounds").random();
-        if(shouldFlip) { rotation += Math.PI; }
+        let rot = vis.get("tiles.priceTag.rotBounds").random();
+        if(shouldFlip) { rot += Math.PI; }
 
         const op = new LayoutOperation({
-            translate: finalPos,
-            dims: vis.get("tiles.priceTag.dims"),
+            pos: finalPos,
+            size: vis.get("tiles.priceTag.size"),
             frame: MISC.price_tag.frame,
             pivot: new Point(0, 0.5),
             flipY: shouldFlip,
-            rotation: rotation
+            rot: rot
         })
         group.add(resMisc, op);
 
-        // draws the actual price text (about midway the price tag sprite, at correct rotation)
+        // draws the actual price text (about midway the price tag sprite, at correct rot)
         const textConfigPrice = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("tiles.priceTag.fontSize")
@@ -164,7 +164,7 @@ export default class Tile
         const priceText = "$" + this.price.toString();
 
         const priceOffset = new Point(1,0).scale( vis.get("tiles.priceTag.offset") );
-        priceOffset.rotate(rotation);
+        priceOffset.rotate(rot);
         const priceTagPos = finalPos.clone().add(priceOffset);
 
         let rotComp = vis.get("tiles.priceTag.textRotationCompensation");
@@ -172,13 +172,13 @@ export default class Tile
 
         const resPrice = new ResourceText({ text: priceText, textConfig: textConfigPrice  });
         const opPrice = new LayoutOperation({
-            translate: priceTagPos,
-            dims: vis.get("tiles.priceTag.dims"),
+            pos: priceTagPos,
+            size: vis.get("tiles.priceTag.size"),
             fill: vis.get("tiles.priceTag.textColor"),
             pivot: Point.CENTER,
             flipX: shouldFlip,
             flipY: shouldFlip,
-            rotation: rotation + rotComp
+            rot: rot + rotComp
         });
         group.add(resPrice, opPrice);
 
@@ -206,11 +206,11 @@ export default class Tile
             {
                 const angle = spritePos.clone().sub(pos).angle();
                 const op = new LayoutOperation({
-                    translate: pos,
-                    dims: vis.get("tiles.spotlight.dims"),
+                    pos: pos,
+                    size: vis.get("tiles.spotlight.size"),
                     frame: MISC.spotlight.frame,
                     pivot: new Point(0, 0.5),
-                    rotation: angle,
+                    rot: angle,
                     alpha: vis.get("tiles.spotlight.alpha"),
                     composite: vis.get("tiles.spotlight.composite")
                 });
@@ -241,8 +241,8 @@ export default class Tile
 
             const pos = corners[i];
             const op = new LayoutOperation({
-                translate: pos,
-                dims: starDims,
+                pos: pos,
+                size: starDims,
                 frame: MISC.number_star.frame,
                 pivot: Point.CENTER,
                 effects: effects
@@ -251,8 +251,8 @@ export default class Tile
             group.add(resMisc, op);
 
             const opText = new LayoutOperation({
-                translate: pos,
-                dims: starDims,
+                pos: pos,
+                size: starDims,
                 pivot: Point.CENTER,
                 fill: vis.get("tiles.numbers.textColor"),
                 stroke: vis.get("tiles.numbers.strokeColor"),
@@ -274,8 +274,8 @@ export default class Tile
         }).alignCenter();
         const resText = new ResourceText({ text: this.action, textConfig: textConfig });
         const opText = new LayoutOperation({
-            translate: vis.get("tiles.action.pos"),
-            dims: vis.get("tiles.action.dims"),
+            pos: vis.get("tiles.action.pos"),
+            size: vis.get("tiles.action.size"),
             fill: vis.get("tiles.action.textColor"),
             pivot: Point.CENTER
         });

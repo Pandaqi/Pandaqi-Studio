@@ -75,7 +75,7 @@ export default class ResourceImage extends Resource
     /* The `to` functions */
     toCanvas(canv:CanvasLike = null, op:LayoutOperation = new LayoutOperation())
     {
-        if(op.dims.isZero()) { op.dims = this.getSize(); }
+        if(op.size.isZero()) { op.size = this.getSize(); }
         op.resource = this;
         op.frame = op.frame ?? this.frame;
         return op.applyToCanvas(canv);
@@ -106,7 +106,7 @@ export default class ResourceImage extends Resource
 
     async toPixi(app, parent, op:LayoutOperation = new LayoutOperation())
     {
-        if(op.dims.isZero()) { op.dims = this.getSize(); }
+        if(op.size.isZero()) { op.size = this.getSize(); }
         op.resource = this;
         op.frame = op.frame ?? this.frame;
         return await op.applyToPixi(app, parent);

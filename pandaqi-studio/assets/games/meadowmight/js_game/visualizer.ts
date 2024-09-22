@@ -1,11 +1,8 @@
-import CONFIG from "../js_shared/config";
+import GrayScaleEffect from "js/pq_games/layout/effects/grayScaleEffect";
+import LayoutEffect from "js/pq_games/layout/effects/layoutEffect";
 import ResourceImage from "js/pq_games/layout/resources/resourceImage";
-import patternizeGrid from "js/pq_games/layout/patterns/patternizeGrid";
 import ResourceLoader from "js/pq_games/layout/resources/resourceLoader";
 import Point from "js/pq_games/tools/geometry/point";
-import GrayScaleEffect from "js/pq_games/layout/effects/grayScaleEffect";
-import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
-import LayoutEffect from "js/pq_games/layout/effects/layoutEffect";
 
 export default class Visualizer
 {

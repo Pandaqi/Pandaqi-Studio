@@ -98,8 +98,8 @@ export default class Tile extends MaterialEaster
             const fillColor = vis.inkFriendly ? "#000000" : vis.get("tiles.eggNumber.fillColor");
             const strokeColor = vis.inkFriendly ? "#FFFFFF" : vis.get("tiles.eggNumber.strokeColor");
             const textOp = new LayoutOperation({
-                translate: pos,
-                dims: textDims,
+                pos: pos,
+                size: textDims,
                 pivot: Point.CENTER,
                 fill: fillColor,
                 stroke: strokeColor,

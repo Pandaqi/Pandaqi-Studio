@@ -50,8 +50,8 @@ export default class Card
         }).alignCenter();
         const resText = new ResourceText({ text: this.num.toString(), textConfig: textConfig });
         const opText = new LayoutOperation({
-            translate: vis.center,
-            dims: new Point(2.0 * textConfig.size),
+            pos: vis.center,
+            size: new Point(2.0 * textConfig.size),
             fill: "#010101",
             pivot: Point.CENTER,
         })
@@ -76,8 +76,8 @@ export default class Card
 
         const res = vis.getResource("misc");
         const op = new LayoutOperation({
-            translate: vis.center,
-            dims: new Point(1.75*vis.sizeUnit),
+            pos: vis.center,
+            size: new Point(1.75*vis.sizeUnit),
             alpha: vis.get("cards.bg.alpha"),
             pivot: Point.CENTER,
             frame: MISC.bg.frame
@@ -122,9 +122,9 @@ export default class Card
             const shadowDir = (i == 0) ? 1 : -1;
             const shadowEffect = new DropShadowEffect({ color: "#00000088", offset: vis.get("cards.mainNumber.shadowOffset").clone().scaleFactor(shadowDir) });
             const opText = new LayoutOperation({
-                translate: positions[i],
-                dims: new Point(2.0 * textConfig.size),
-                rotation: (shadowDir == 1) ? 0 : Math.PI,
+                pos: positions[i],
+                size: new Point(2.0 * textConfig.size),
+                rot: (shadowDir == 1) ? 0 : Math.PI,
                 fill: tintColor,
                 stroke: strokeColor,
                 strokeWidth: vis.get("cards.mainNumber.strokeWidth"),
@@ -157,9 +157,9 @@ export default class Card
             const randBox = new Bounds(1,4).randomInteger();
             const pos = vis.center.clone().add( DICE_POSITIONS[index].clone().scale(offset) );
             const opBox = new LayoutOperation({
-                translate: pos,
-                dims: boxDims,
-                rotation: Math.floor(Math.random() * 4) * 0.5 * Math.PI,
+                pos: pos,
+                size: boxDims,
+                rot: Math.floor(Math.random() * 4) * 0.5 * Math.PI,
                 frame: MISC["wacky_box_" + randBox].frame,
                 effects: [tintEffect],
                 pivot: Point.CENTER,
@@ -168,8 +168,8 @@ export default class Card
 
             // then the actual dots of the dice
             const opDots = new LayoutOperation({
-                translate: pos,
-                dims: vis.get("cards.numbers.wackyBoxDotDims"),
+                pos: pos,
+                size: vis.get("cards.numbers.wackyBoxDotDims"),
                 frame: MISC["dice_" + num].frame,
                 pivot: Point.CENTER,
             })
@@ -211,8 +211,8 @@ export default class Card
         for(let i = 0; i < positions.length; i++)
         {
             const opPowerIcon = new LayoutOperation({
-                translate: positions[i],
-                dims: vis.get("cards.power.iconDims"),
+                pos: positions[i],
+                size: vis.get("cards.power.iconDims"),
                 frame: data.frame,
                 pivot: Point.CENTER,
                 effects: vis.inkFriendlyEffect
@@ -226,8 +226,8 @@ export default class Card
 
         const resMisc = vis.getResource("misc");
         const opBox = new LayoutOperation({
-            translate: position,
-            dims: vis.get("cards.power.textBoxDims"),
+            pos: position,
+            size: vis.get("cards.power.textBoxDims"),
             pivot: Point.CENTER,
             frame: MISC.text_box.frame,
             effects: [new TintEffect(tintColor)]
@@ -240,8 +240,8 @@ export default class Card
         }).alignCenter();
         const resText = new ResourceText({ text: data.desc, textConfig: textConfig });
         const opText = new LayoutOperation({
-            translate: position,
-            dims: vis.get("cards.power.textDims"),
+            pos: position,
+            size: vis.get("cards.power.textDims"),
             pivot: Point.CENTER,
             fill: "#FFFFFF"
         })

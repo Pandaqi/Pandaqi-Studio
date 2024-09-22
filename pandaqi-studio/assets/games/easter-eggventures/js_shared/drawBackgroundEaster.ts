@@ -27,7 +27,7 @@ export default (tile:MaterialEaster, vis:MaterialVisualizer, group:ResourceGroup
     }
 
     const op = new LayoutOperation({
-        dims: vis.size,
+        size: vis.size,
         frame: frame,
         alpha: alpha,
         effects: vis.inkFriendlyEffect,
@@ -39,7 +39,7 @@ export default (tile:MaterialEaster, vis:MaterialVisualizer, group:ResourceGroup
     // gradient
     const resMisc = vis.getResource("misc");
     const opGrad = new LayoutOperation({
-        dims: vis.size,
+        size: vis.size,
         frame: MISC_SHARED.gradient.frame,
         alpha: vis.get("tiles.bg.gradientAlpha")
     });
@@ -47,8 +47,8 @@ export default (tile:MaterialEaster, vis:MaterialVisualizer, group:ResourceGroup
 
     // light rays
     const opRays = new LayoutOperation({
-        translate: vis.center,
-        dims: vis.size,
+        pos: vis.center,
+        size: vis.size,
         frame: MISC_SHARED.lightrays.frame,
         pivot: Point.CENTER,
         alpha: vis.get("tiles.bg.lightraysAlpha"),

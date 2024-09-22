@@ -56,8 +56,8 @@ export default class Card
 
         const strokeWidth = 0.05*cfg.size.x;
         const textOp = new LayoutOperation({
-            dims: cfg.size,
-            translate: cfg.size.clone().scale(0.5),
+            size: cfg.size,
+            pos: cfg.size.clone().scale(0.5),
             pivot: Point.CENTER,
             fill: textCol,
             stroke: foreCol,
@@ -138,9 +138,9 @@ export default class Card
         const titlePos = new Point(vis.center.x, CONFIG.cards.scoreRule.yPosTitle * vis.size.y);
         const titleDims = new Point(vis.size.x, 2*titleFontSize);
         const opTitle = new LayoutOperation({
-            translate: titlePos,
+            pos: titlePos,
             fill: "#FEFEFE",
-            dims: titleDims,
+            size: titleDims,
             pivot: Point.CENTER,
         })
 
@@ -166,9 +166,9 @@ export default class Card
         })
         const resText = new ResourceText({ text: text, textConfig: textConfig });
         const opText = new LayoutOperation({
-            translate: textPos,
+            pos: textPos,
             fill: "#212121",
-            dims: textDims,
+            size: textDims,
             pivot: Point.CENTER
         })
 
@@ -227,8 +227,8 @@ export default class Card
         })
         const resText = new ResourceText({ text: "Cost", textConfig: textConfig });
         const textOp = new LayoutOperation({
-            translate: anchorPosCost,
-            dims: rectDims,
+            pos: anchorPosCost,
+            size: rectDims,
             fill: CONFIG.cards.coins.textColor,
             alpha: CONFIG.cards.coins.textAlpha,
             stroke: "#000000",
@@ -241,20 +241,20 @@ export default class Card
         // draw actual coins
         const cost = this.getPurchaseCost();
         const coinDims = new Point(CONFIG.cards.coins.scale * vis.sizeUnit);
-        const positions = getPositionsCenteredAround({ pos: anchorPos, num: cost, dims: coinDims, dir: Point.RIGHT });
+        const positions = getPositionsCenteredAround({ pos: anchorPos, num: cost, size: coinDims, dir: Point.RIGHT });
         const coinDimsDisplayed = coinDims.clone().scale(CONFIG.cards.coins.displayDownScale);
 
         const res = vis.resLoader.getResource("misc");
         const frame = MISC.coin.frame;
         const op = new LayoutOperation({
-            dims: coinDimsDisplayed,
+            size: coinDimsDisplayed,
             frame: frame,
             pivot: Point.CENTER,
         })
 
         for(const pos of positions)
         {
-            op.translate = pos;
+            op.pos = pos;
             group.add(res, op.clone());
         }
     }
@@ -279,8 +279,8 @@ export default class Card
             }
         }
 
-        const dimsBig = new Point(3 * CONFIG.cards.corners.starScaleBig * vis.sizeUnit);
-        const dimsSmall = new Point(3 * CONFIG.cards.corners.starScaleSmall * vis.sizeUnit);
+        const sizeBig = new Point(3 * CONFIG.cards.corners.starScaleBig * vis.sizeUnit);
+        const sizeSmall = new Point(3 * CONFIG.cards.corners.starScaleSmall * vis.sizeUnit);
 
         const fontSizeBig = CONFIG.cards.corners.fontSizeBig * vis.sizeUnit;
         const fontSizeSmall = CONFIG.cards.corners.fontSizeSmall * vis.sizeUnit;
@@ -303,10 +303,10 @@ export default class Card
 
             const rot = (i <= 1 || !isAction) ? 0 : Math.PI;
             const pos = isBig ? positionsBig[i] : positionsSmall[i];
-            const dims = isBig ? dimsBig : dimsSmall;
+            const size = isBig ? sizeBig : sizeSmall;
             const fontSize = isBig ? fontSizeBig : fontSizeSmall;
 
-            const starShape = new Star({ center: pos, radiusOutside: dims.x, radiusInside: 0.66*dims.x, rotation: rot - 0.5*Math.PI });
+            const starShape = new Star({ center: pos, radiusOutside: size.x, radiusInside: 0.66*size.x, rotation: rot - 0.5*Math.PI });
             const resStar = new ResourceShape(starShape);
             const starColor = isBig ? colorMid : colorDark; // @TODO: probably some in-between color?
 
@@ -329,8 +329,8 @@ export default class Card
             const effects = isBig ? vis.effects : [];
 
             const opText = new LayoutOperation({
-                translate: pos.clone().move(posOffset),
-                dims: dims,
+                pos: pos.clone().move(posOffset),
+                size: size,
                 pivot: Point.CENTER,
                 fill: textColor,
                 stroke: textStrokeColor,
@@ -346,12 +346,12 @@ export default class Card
     drawMainIllustration(vis:Visualizer, group)
     {
         const pos = new Point(vis.center.x, CONFIG.cards.illustration.yPos * vis.size.y);
-        let dims = new Point(CONFIG.cards.illustration.scale * vis.sizeUnit);
+        let size = new Point(CONFIG.cards.illustration.scale * vis.sizeUnit);
 
         if(this.hasAction())
         {
             pos.y = CONFIG.cards.illustration.yPosAction * vis.size.y;
-            dims = dims.clone().scale(CONFIG.cards.illustration.actionScaleDown);
+            size = size.clone().scale(CONFIG.cards.illustration.actionScaleDown);
         }
 
         let frame = this.getTypeData().frame;
@@ -362,11 +362,11 @@ export default class Card
         const alphaBG = CONFIG.cards.illustration.bgAlpha;
         const composite = CONFIG.cards.illustration.bgComposite;
         const frameBG = rangeInteger(0,3);
-        const dimsBG = dims.clone().scale(CONFIG.cards.illustration.bgScale);
+        const sizeBG = size.clone().scale(CONFIG.cards.illustration.bgScale);
         const opBG = new LayoutOperation({
             frame: frameBG,
-            translate: pos,
-            dims: dimsBG,
+            pos: pos,
+            size: sizeBG,
             pivot: Point.CENTER,
             alpha: alphaBG,
             // @ts-ignore
@@ -379,8 +379,8 @@ export default class Card
         const effects = vis.inkFriendly ? vis.effectsGrayscaleOnly : [];
         const op = new LayoutOperation({
             frame: frame,
-            translate: pos,
-            dims: dims,
+            pos: pos,
+            size: size,
             pivot: Point.CENTER,
             effects: effects,
         })
@@ -430,9 +430,9 @@ export default class Card
         const effectsTitle = [new DropShadowEffect({ blurRadius: CONFIG.cards.action.titleGlowRadius * titleFontSize, color: CONFIG.cards.action.titleGlowColor })]
 
         const opTitle = new LayoutOperation({
-            translate: titlePos,
+            pos: titlePos,
             fill: colorLight,
-            dims: titleDims,
+            size: titleDims,
             pivot: Point.CENTER,
             //stroke: colorDark,
             //strokeWidth: strokeWidth,
@@ -464,9 +464,9 @@ export default class Card
         })
         const resText = new ResourceText({ text: text, textConfig: textConfig });
         const opText = new LayoutOperation({
-            translate: textPos,
+            pos: textPos,
             fill: colorDark,
-            dims: textDims,
+            size: textDims,
             pivot: Point.CENTER
         })
 

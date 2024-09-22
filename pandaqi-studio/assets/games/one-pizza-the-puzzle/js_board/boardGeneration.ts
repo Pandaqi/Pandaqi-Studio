@@ -792,10 +792,10 @@ export default class BoardGeneration
 	getOrientationFromNeighbours(pos:Point) 
 	{
 		// Get how many roads we are neighbouring, and which ones exactly => turn into binary number
-		// Depending on the number, use a different rotation/frame
+		// Depending on the number, use a different rot/frame
 		let binary = 0;
 		let obj = this.getCell(pos)
-		let returnObj = { rotation: 0, frame: 0 };
+		let returnObj = { rot: 0, frame: 0 };
 
 		for(let i = 0; i < 4; i++) 
 		{
@@ -819,7 +819,7 @@ export default class BoardGeneration
 			if(!DIRECTIONS[i].includes(binary)) { continue; }
 
 			returnObj.frame = i;
-			returnObj.rotation = DIRECTIONS[i].indexOf(binary) * 0.5 * Math.PI;
+			returnObj.rot = DIRECTIONS[i].indexOf(binary) * 0.5 * Math.PI;
 			break;
 		}
 
@@ -2016,12 +2016,12 @@ export default class BoardGeneration
 					let orient = this.getOrientationFromNeighbours(pos);
 					const resRoad = this.cfg.visualizer.getResource("roadmarks");
 					const opRoad = new LayoutOperation({
-						translate: new Point(posRect.x+0.5*cs, posRect.y+0.5*cs),
-						dims: new Point(cs),
+						pos: new Point(posRect.x+0.5*cs, posRect.y+0.5*cs),
+						size: new Point(cs),
 						pivot: Point.CENTER,
 						alpha: 0.75,
 						frame: orient.frame,
-						rotation: orient.rotation
+						rot: orient.rot
 					})
 					group.add(resRoad, opRoad);
 
@@ -2037,8 +2037,8 @@ export default class BoardGeneration
 
 						const resDec = this.cfg.visualizer.getResource("decorations");
 						const opDec = new LayoutOperation({
-							translate: subwayPosReal,
-							dims: new Point((0.5-margin)*cs),
+							pos: subwayPosReal,
+							size: new Point((0.5-margin)*cs),
 							frame: 1,
 							pivot: Point.CENTER,
 							depth: 5
@@ -2047,8 +2047,8 @@ export default class BoardGeneration
 
 						const str = (obj.subway.counter + 1).toString();
 						const opTextSubway = new LayoutOperation({
-							translate: subwayPosReal,
-							dims: new Point(cs),
+							pos: subwayPosReal,
+							size: new Point(cs),
 							pivot: Point.CENTER,
 							depth: 6,
 							fill: "#FFFFFF",
@@ -2068,8 +2068,8 @@ export default class BoardGeneration
 						const policePos = this.getSquarePositionOnCell(new Point(x,y), obj.police.positionIndex, true);
 						const resPolice = this.cfg.visualizer.getResource("general_icons");
 						const opPolice = new LayoutOperation({
-							translate: new Point(policePos.x*cs, policePos.y*cs),
-							dims: new Point((0.5-margin)*cs),
+							pos: new Point(policePos.x*cs, policePos.y*cs),
+							size: new Point((0.5-margin)*cs),
 							pivot: Point.CENTER,
 							frame: 1,
 							depth: 5
@@ -2110,8 +2110,8 @@ export default class BoardGeneration
 						if(!this.cfg.inkFriendly || isCenterCell) 
 						{
 							const opSprite = new LayoutOperation({
-								translate: new Point(posRect.x+0.5*cs, posRect.y+0.5*cs),
-								dims: new Point(cs * this.cfg.ingredientSpriteScale),
+								pos: new Point(posRect.x+0.5*cs, posRect.y+0.5*cs),
+								size: new Point(cs * this.cfg.ingredientSpriteScale),
 								pivot: Point.CENTER,
 								depth: 15,
 								frame: buildingObj.ingredient
@@ -2184,9 +2184,9 @@ export default class BoardGeneration
 
 		const resGeneral = this.cfg.visualizer.getResource("general_icons");
 		const opBank = new LayoutOperation({
-			translate: new Point((randTile.x+0.5)*cs, (randTile.y+0.5)*cs),
+			pos: new Point((randTile.x+0.5)*cs, (randTile.y+0.5)*cs),
 			frame: 0,
-			dims: new Point(cs * this.cfg.ingredientSpriteScale),
+			size: new Point(cs * this.cfg.ingredientSpriteScale),
 			pivot: Point.CENTER,
 			depth: 15
 		});
@@ -2198,8 +2198,8 @@ export default class BoardGeneration
 			size: seedFontSize
 		}).alignCenter();
 		const opTextSeed = new LayoutOperation({
-			translate: new Point((randNeighbour.x + 0.5)*cs, (randNeighbour.y + 0.5)*cs),
-			dims: new Point(cs),
+			pos: new Point((randNeighbour.x + 0.5)*cs, (randNeighbour.y + 0.5)*cs),
+			size: new Point(cs),
 			pivot: Point.CENTER,
 			fill: "#AAAAAA",
 			depth: 15
@@ -2241,8 +2241,8 @@ export default class BoardGeneration
 			const pos = new Point((rectStart.x+0.5+col)*cs, (rectStart.y + 0.5+row)*cs);
 
 			const opShape = new LayoutOperation({
-				translate: pos,
-				dims: moveShapeSize,
+				pos: pos,
+				size: moveShapeSize,
 				pivot: Point.CENTER,
 				frame: this.shapes[i],
 				depth: 20
@@ -2256,8 +2256,8 @@ export default class BoardGeneration
 		const posHint = new Point(rectStartReal.x + 0.5*rect.getSize().x, rectStartReal.y + rect.getSize().y - hintMargin);
 		const hintX = 0.6*moveShapeSize.x;
 		const opHint = new LayoutOperation({
-			translate: posHint,
-			dims: new Point(hintX, (160.0/400.0) * hintX),
+			pos: posHint,
+			size: new Point(hintX, (160.0/400.0) * hintX),
 			pivot: new Point(0.5, 1),
 			depth: 22,
 			alpha: 0.66
@@ -2297,8 +2297,8 @@ export default class BoardGeneration
 		const resGeneral = this.cfg.visualizer.getResource("general_icons");
 		const resIng = this.cfg.visualizer.getResource("ingredients");
 		const opSprite = new LayoutOperation({
-			translate: new Point(rectPos.x + 0.5*rectSize.x, rectPos.y + 0.5*rectSize.y),
-			dims: new Point(rectSize.x * this.cfg.ingredientSpriteScale),
+			pos: new Point(rectPos.x + 0.5*rectSize.x, rectPos.y + 0.5*rectSize.y),
+			size: new Point(rectSize.x * this.cfg.ingredientSpriteScale),
 			pivot: Point.CENTER,
 			alpha: 0.75
 		})
@@ -2354,11 +2354,11 @@ export default class BoardGeneration
 
 				const posReal = new Point(pos.x*cs, pos.y*cs);
 				const opGate = new LayoutOperation({
-					translate: posReal,
-					dims: new Point(cs),
+					pos: posReal,
+					size: new Point(cs),
 					pivot: Point.CENTER,
 					frame: dictObj.iconFrame,
-					rotation: obj.side * 0.5 * Math.PI,
+					rot: obj.side * 0.5 * Math.PI,
 					depth: 5
 				});
 				group.add(resTrafficSigns, opGate);
@@ -2373,8 +2373,8 @@ export default class BoardGeneration
 
 					const resText = new ResourceText({ text: str, textConfig: textConfigGate });
 					const opText = new LayoutOperation({
-						translate: posReal,
-						dims: new Point(3*textConfigGate.size),
+						pos: posReal,
+						size: new Point(3*textConfigGate.size),
 						pivot: Point.CENTER,
 						depth: 6,
 						fill: "#2D0B37"
@@ -2390,8 +2390,8 @@ export default class BoardGeneration
 
 					const resIng = this.cfg.visualizer.getResource("ingredients");
 					const opIng = new LayoutOperation({
-						translate: posReal,
-						dims: new Point(0.35*cs),
+						pos: posReal,
+						size: new Point(0.35*cs),
 						frame: randIngredient,
 						pivot: Point.CENTER,
 						depth: 6
@@ -2403,11 +2403,11 @@ export default class BoardGeneration
 					{
 						const resGeneral = this.cfg.visualizer.getResource("general_icons");
 						const opGate = new LayoutOperation({
-							translate: new Point(posReal.x + 0.075*cs, posReal.y - 0.075*cs),
-							dims: new Point(0.2*cs),
+							pos: new Point(posReal.x + 0.075*cs, posReal.y - 0.075*cs),
+							size: new Point(0.2*cs),
 							frame: 2,
 							pivot: Point.CENTER,
-							rotation: Math.random()*0.5*Math.PI - 0.25*Math.PI,
+							rot: Math.random()*0.5*Math.PI - 0.25*Math.PI,
 							depth: 7
 						})
 						group.add(resGeneral, opGate);
@@ -2425,8 +2425,8 @@ export default class BoardGeneration
 
 					const resText = new ResourceText({ text: str, textConfig: textConfigGate });
 					const opText = new LayoutOperation({
-						translate: posReal,
-						dims: new Point(3*textConfigGate.size),
+						pos: posReal,
+						size: new Point(3*textConfigGate.size),
 						fill: "#166332",
 						pivot: Point.CENTER,
 						depth: 6
@@ -2441,8 +2441,8 @@ export default class BoardGeneration
 				const posReal = new Point(pos.x*cs, pos.y*cs); // @TODO: I should just replace AAAALL of these calls with one .toRealPosition() function
 
 				const op = new LayoutOperation({
-					translate: posReal,
-					dims: new Point((0.5-margin)*cs),
+					pos: posReal,
+					size: new Point((0.5-margin)*cs),
 					pivot: Point.CENTER,
 					frame: dictObj.iconFrame,
 					depth: 5,
@@ -2473,11 +2473,11 @@ export default class BoardGeneration
 				const line = new Line(new Point(h.start.x*cs, h.start.y*cs), new Point(h.end.x*cs, h.end.y*cs));
 
 				const opHedge = new LayoutOperation({
-					translate: line.start,
-					dims: new Point(cs),
+					pos: line.start,
+					size: new Point(cs),
 					frame: 0,
 					pivot: new Point(0, 0.5),
-					rotation: o.rotation,
+					rot: o.rot,
 					depth: 15
 				})
 				group.add(resDecs, opHedge);
@@ -2495,7 +2495,7 @@ export default class BoardGeneration
 				const rect = new Rectangle().fromTopLeft(rectPos, rectSize);
 
 				const opRoundabout = new LayoutOperation({
-					translate: new Point(o.center.x*cs, o.center.y*cs),
+					pos: new Point(o.center.x*cs, o.center.y*cs),
 					pivot: Point.CENTER,
 					depth: 20
 				});
@@ -2508,7 +2508,7 @@ export default class BoardGeneration
 					const buildingType = o.specialBuilding
 					resFinal = this.cfg.visualizer.getResource("special_buildings");
 					opRoundabout.frame = SPECIAL_BUILDINGS[buildingType].iconFrame;
-					opRoundabout.dims = new Point(this.cfg.ingredientSpriteScale * cs);
+					opRoundabout.size = new Point(this.cfg.ingredientSpriteScale * cs);
 					color = SPECIAL_BUILDINGS[buildingType].color;
 					strokeColor = "#000000";
 
@@ -2516,7 +2516,7 @@ export default class BoardGeneration
 					if(buildingType == 'Plaza') { opRoundabout.alpha = 0.55; }
 				} else {
 					opRoundabout.frame = Math.floor(DECORATION_RNG() * numRoundaboutDecorations) + 2;
-					opRoundabout.dims = new Point(cs);
+					opRoundabout.size = new Point(cs);
 					color = "#9EFB7B";
 					strokeColor = "#0E5E00";
 				}
@@ -2584,8 +2584,8 @@ export default class BoardGeneration
 			for(const ingNumber of order) 
 			{
 				const op = new LayoutOperation({
-					translate: midPoint,
-					dims: new Point(this.cfg.ingredientSpriteScale * cs),
+					pos: midPoint,
+					size: new Point(this.cfg.ingredientSpriteScale * cs),
 					pivot: Point.CENTER,
 					depth: 15,
 					frame: ingNumber + 1
@@ -2598,9 +2598,9 @@ export default class BoardGeneration
 			{
 				let data = SPECIAL_INGREDIENTS[b.sideDishes[sd]];
 				const op = new LayoutOperation({
-					translate: midPoint.clone().add(data.iconOffset.clone().scale(cs)),
+					pos: midPoint.clone().add(data.iconOffset.clone().scale(cs)),
 					frame: data.iconFrame,
-					dims: new Point(0.4*cs),
+					size: new Point(0.4*cs),
 					pivot: Point.CENTER,
 					depth: 15
 				})
@@ -2633,8 +2633,8 @@ export default class BoardGeneration
 			const randNeighbourCell = buildingCellsAround[Math.floor(DRAW_RNG() * buildingCellsAround.length)];
 			const posText = new Point((randNeighbourCell.x + 0.5) * cs, (randNeighbourCell.y + 0.5) * cs);
 			const opTextPrice = new LayoutOperation({
-				translate: posText,
-				dims: new Point(cs),
+				pos: posText,
+				size: new Point(cs),
 				pivot: Point.CENTER,
 				fill: "#003636",
 				depth: 15
@@ -2645,8 +2645,8 @@ export default class BoardGeneration
 			// place a courier icon underneath THAT (to remind players they get a new courier for delivering)
 			const resCourier = this.cfg.visualizer.getResource("general_icons");
 			const opCourier = new LayoutOperation({
-				translate: new Point(posText.x, posText.y + 8 - 0.13*cs),
-				dims: new Point(0.5*cs),
+				pos: new Point(posText.x, posText.y + 8 - 0.13*cs),
+				size: new Point(0.5*cs),
 				pivot: new Point(0.5, 0),
 				frame: 4,
 				depth: 15

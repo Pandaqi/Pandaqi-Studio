@@ -63,14 +63,14 @@ export default class Domino
     {
         const topRotation = (this.type == DominoType.TENANT) ? Math.PI : 0;
         const opTop = new LayoutOperation({
-            translate: new Point(vis.center.x, 0.25*vis.size.y),
-            rotation: topRotation,
+            pos: new Point(vis.center.x, 0.25*vis.size.y),
+            rot: topRotation,
             pivot: Point.CENTER
         });
         group.add(this.sides.top.draw(vis), opTop);
 
         const opBottom = new LayoutOperation({
-            translate: new Point(vis.center.x, 0.75*vis.size.y),
+            pos: new Point(vis.center.x, 0.75*vis.size.y),
             pivot: Point.CENTER
         })
         group.add(this.sides.bottom.draw(vis), opBottom);
@@ -85,7 +85,7 @@ export default class Domino
         const res = vis.getResource("mission_tiles");
         const frame = this.missionType == MissionType.GOAL ? 0 : 1;
         const op = new LayoutOperation({
-            dims: vis.size,
+            size: vis.size,
             frame: frame
         });
         group.add(res, op);
@@ -100,8 +100,8 @@ export default class Domino
         const resTextTask = new ResourceText({ text: data.descTask, textConfig: textConfig });
         const textDims = vis.get("missions.textBoxDims");
         const opTextTask = new LayoutOperation({
-            translate: vis.get("missions.taskTextPos"),
-            dims: textDims,
+            pos: vis.get("missions.taskTextPos"),
+            size: textDims,
             fill: "#121212"
         })
         group.add(resTextTask, opTextTask);
@@ -110,8 +110,8 @@ export default class Domino
         const defText = this.missionType == MissionType.GOAL ? "No extra reward." : "No extra penalty."
         const resTextReward = new ResourceText({ text: data.descReward ?? defText, textConfig: textConfig });
         const opTextReward = new LayoutOperation({
-            translate: vis.get("missions.rewardTextPos"),
-            dims: textDims,
+            pos: vis.get("missions.rewardTextPos"),
+            size: textDims,
             fill: "#121212"
         });
         group.add(resTextReward, opTextReward);
@@ -125,8 +125,8 @@ export default class Domino
         const setText = "Set: " + (data.set ?? "Base");
         const resTextSet = new ResourceText({ text: setText, textConfig: textConfigSet });
         const opTextSet = new LayoutOperation({
-            translate: vis.get("missions.setTextPos"),
-            dims: textDims,
+            pos: vis.get("missions.setTextPos"),
+            size: textDims,
             fill: "#121212",
             alpha: vis.get("missions.setTextAlpha"),
             pivot: Point.CENTER
@@ -145,14 +145,14 @@ export default class Domino
         })
         const resText = new ResourceText({ text, textConfig });
         const opText = new LayoutOperation({
-            translate: new Point(1.33*textConfig.size), 
+            pos: new Point(1.33*textConfig.size), 
             pivot: Point.CENTER,
             fill: vis.get("dominoes.setText.color"),
             alpha: vis.get("dominoes.setText.alpha"),
             stroke: vis.get("dominoes.setText.strokeColor"),
             strokeWidth: vis.get("dominoes.setText.strokeWidth"),
             strokeAlign: StrokeAlign.OUTSIDE,
-            dims: new Point(2*textConfig.size)
+            size: new Point(2*textConfig.size)
         });
         group.add(resText, opText);
     }

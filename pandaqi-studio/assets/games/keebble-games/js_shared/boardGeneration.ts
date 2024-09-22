@@ -554,8 +554,8 @@ export default class BoardGeneration
 		const resText = new ResourceText({ text: letter, textConfig: CONFIG.letterTextConfig });
 		const textDims = new Point(3*CONFIG.letterTextConfig.size);
 		const op = new LayoutOperation({
-			translate: pixelPos,
-			dims: textDims,
+			pos: pixelPos,
+			size: textDims,
 			pivot: Point.CENTER,
 			fill: "#FFFFFF",
 			stroke: "#000000",
@@ -571,7 +571,7 @@ export default class BoardGeneration
 			const posBottomRight = this.toPixelPos(c.getPos().add(new Point(0.85)));
 			const resText = new ResourceText({ text: txt, textConfig: CONFIG.handTextConfig });
 			const op = new LayoutOperation({
-				translate: posBottomRight,
+				pos: posBottomRight,
 				fill: "#000000",
 				pivot: Point.CENTER
 			})
@@ -636,8 +636,8 @@ export default class BoardGeneration
 
 				const resText = new ResourceText({ text: hand[i], textConfig: CONFIG.handTextConfig });
 				const op = new LayoutOperation({
-					translate: pixelPos,
-					dims: textDims,
+					pos: pixelPos,
+					size: textDims,
 					pivot: Point.CENTER,
 					fill: "#000000"
 				})
@@ -652,8 +652,8 @@ export default class BoardGeneration
 		const txt = c.getHandAsText();
 		const resText = new ResourceText({ text: txt, textConfig: CONFIG.handTextConfig });
 		const op = new LayoutOperation({
-			translate: pixelPos,
-			dims: textDims,
+			pos: pixelPos,
+			size: textDims,
 			pivot: Point.CENTER,
 			fill: "#000000"
 		});
@@ -667,8 +667,8 @@ export default class BoardGeneration
 		const pixelPos = this.toCenteredPixelPos(c.getPos());
 		const resSpecial = vis.getResource("special_cells");
 		const op = new LayoutOperation({
-			translate: pixelPos,
-			dims: new Point(CONFIG.spriteSize),
+			pos: pixelPos,
+			size: new Point(CONFIG.spriteSize),
 			pivot: Point.CENTER,
 			alpha: CONFIG.spriteAlpha,
 			frame: this.getFrameForType(c.getType())
@@ -684,9 +684,9 @@ export default class BoardGeneration
 		{
 			const pixelPos = this.edgeToCenterPos(wall);
 			const op = new LayoutOperation({
-				translate: pixelPos,
-				dims: new Point(CONFIG.spriteSize),
-				rotation: wall.getRotation(),
+				pos: pixelPos,
+				size: new Point(CONFIG.spriteSize),
+				rot: wall.getRotation(),
 				frame: KEEBBLE_TYPES.wall.frame,
 				pivot: Point.CENTER
 			});

@@ -82,12 +82,12 @@ export default class Card
 
     setup()
     {
-        const dims = CONFIG.cards.size;
-        const ctx = createContext({ size: dims });
+        const size = CONFIG.cards.sizeResult;
+        const ctx = createContext({ size: size });
 
-        this.size = dims.clone();
+        this.size = size.clone();
         this.sizeUnit = Math.min(this.size.x, this.size.y);
-        this.center = new Point().fromXY(0.5*dims.x, 0.5*dims.y);
+        this.center = new Point().fromXY(0.5*size.x, 0.5*size.y);
 
         this.cornerIconSize = 0.12*this.sizeUnit;
         this.creatureSpritesheetNum = rangeInteger(0,2);
@@ -198,8 +198,8 @@ export default class Card
         const size = this.sizeUnit * CONFIG.cards.backgroundScale;
         const res = CONFIG.resLoader.getResource(this.creatureSpritesheet);
         const canvOp = new LayoutOperation({
-            translate: this.size.clone().scale(0.5),
-            dims: new Point(size),
+            pos: this.size.clone().scale(0.5),
+            size: new Point(size),
             frame: this.getCardBackgroundFrame(),
             pivot: Point.CENTER,
             alpha: CONFIG.cards.backgroundAlpha,
@@ -220,8 +220,8 @@ export default class Card
         const resBG = CONFIG.resLoader.getResource(this.backgroundSpritesheet);
         const posBG = new Point(0.5*this.size.x, 0.4275*this.size.y); // @TODO: should reposition so the bottom aligns with bottom clip path
         const opBG = new LayoutOperation({
-            translate: posBG,
-            dims: backgroundImageSize,
+            pos: posBG,
+            size: backgroundImageSize,
             frame: this.getBackgroundFrame(),
             effects: effects,
             flipX: Math.random() <= 0.5,
@@ -235,8 +235,8 @@ export default class Card
         const resCreature = CONFIG.resLoader.getResource(this.creatureSpritesheet);
         const posCreature = new Point(0.5*this.size.x, 0.25*this.size.y);
         const opCreature = new LayoutOperation({
-            translate: posCreature,
-            dims: creatureImageSize,
+            pos: posCreature,
+            size: creatureImageSize,
             frame: this.getMainFrame(),
             pivot: Point.CENTER,
             effects: effects
@@ -250,14 +250,14 @@ export default class Card
         // Icon reminder list (of what's on the card, overlays image)
         const remAnchor = new Point(0.85*this.size.x, 0.24*this.size.y);
         const iconReminderSize = new Point(0.725*this.cornerIconSize);
-        const remPositions = getPositionsCenteredAround({ pos: remAnchor, dims: iconReminderSize.clone().scale(1.2), num: this.typeList.length, dir: Point.DOWN });
+        const remPositions = getPositionsCenteredAround({ pos: remAnchor, size: iconReminderSize.clone().scale(1.2), num: this.typeList.length, dir: Point.DOWN });
         for(let i = 0; i < remPositions.length; i++)
         {
             const type = this.typeList[i];
             const resIcon = this.getIconResource(type);
             const opIcon = new LayoutOperation({
-                translate: remPositions[i],
-                dims: iconReminderSize,
+                pos: remPositions[i],
+                size: iconReminderSize,
                 frame: this.getIconFrame(type),
                 stroke: this.getIconColorDark(type),
                 strokeWidth: 0.5*this.strokeWidth
@@ -291,8 +291,8 @@ export default class Card
 
         // @TODO: IGNORED NOW => this.iconBorderRadius
         const op = new LayoutOperation({
-            translate: new Point(0.5*this.size.x, 0.425*this.size.y),
-            dims: new Point(mainIconSize),
+            pos: new Point(0.5*this.size.x, 0.425*this.size.y),
+            size: new Point(mainIconSize),
             frame: this.getIconFrame(this.getMainIcon()),
             pivot: Point.CENTER,
             effects: [
@@ -310,14 +310,14 @@ export default class Card
     {
         const anchor = new Point(0.5*this.size.x, 0.7*this.size.y);
         const iconSize = new Point(0.1725*this.sizeUnit);
-        const positions = getPositionsCenteredAround({ pos: anchor, dims: iconSize.clone().scale(1.15), num: this.typeList.length });
+        const positions = getPositionsCenteredAround({ pos: anchor, size: iconSize.clone().scale(1.15), num: this.typeList.length });
         for(let i = 0; i < positions.length; i++)
         {
             const type = this.typeList[i];
             const resIcon = this.getIconResource(type);
             const opIcon = new LayoutOperation({
-                translate: positions[i],
-                dims: iconSize,
+                pos: positions[i],
+                size: iconSize,
                 frame: this.getIconFrame(type),
                 pivot: Point.CENTER,
                 effects: [
@@ -335,8 +335,8 @@ export default class Card
     {
         const resIcon = CONFIG.resLoader.getResource(this.iconSpritesheet);
         const opIcon = new LayoutOperation({
-            translate: pos,
-            dims: new Point(this.cornerIconSize),
+            pos: pos,
+            size: new Point(this.cornerIconSize),
             frame: this.getIconFrame(this.getMainIcon()),
             effects: this.iconEffectsMain,
             pivot: Point.CENTER
@@ -373,8 +373,8 @@ export default class Card
 
         const resText = new ResourceText({ text: this.creatureName, textConfig: textConfig })
         const opText = new LayoutOperation({
-            translate: rect.getCenter(),
-            dims: textBoxDims,
+            pos: rect.getCenter(),
+            size: textBoxDims,
             fill: "#000000",
             pivot: Point.CENTER
         });

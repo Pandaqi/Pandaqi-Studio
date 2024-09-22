@@ -14,7 +14,7 @@ body {
     display: none;
 }
 
-#interface-container, #game-images-container {
+#interface-container, #game-canvases-container {
     position: absolute;
     left: 0;
     right: 0;
@@ -65,13 +65,13 @@ button:hover, select:hover {
     color: white;
 }
 
-#game-images-container {
+#game-canvases-container {
     justify-content: center;
     align-items: center;
     align-content: center;
 }
 
-#game-images-container img {
+#game-canvases-container img {
     max-width: 100%;
     max-height: 100%;
 }

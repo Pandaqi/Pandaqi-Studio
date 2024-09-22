@@ -42,7 +42,7 @@ export default class Visualizer
 
     async createSidePattern(subType:Type)
     {
-        const patternSize = CONFIG.cards.bgHand.patternExtraMargin * CONFIG.cards.size.x;
+        const patternSize = CONFIG.cards.bgHand.patternExtraMargin * this.size.x;
         const num = CONFIG.cards.bgHand.patternNumIcons;
         const distBetweenIcons = patternSize / num;
         const iconSize = CONFIG.cards.bgHand.patternIconSize * distBetweenIcons;
@@ -57,8 +57,8 @@ export default class Visualizer
                 const frame = subType == Type.TREAT ? MISC.treats.frame : MISC.decorations.frame;
                 const op = new LayoutOperation({
                     frame: frame,
-                    translate: pos,
-                    dims: new Point(iconSize),
+                    pos: pos,
+                    size: new Point(iconSize),
                     pivot: new Point(0.5)
                 })
                 await res.toCanvas(ctx, op);

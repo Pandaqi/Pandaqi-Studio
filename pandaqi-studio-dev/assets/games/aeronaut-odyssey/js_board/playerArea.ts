@@ -4,25 +4,25 @@ import Rectangle from "js/pq_games/tools/geometry/rectangle";
 export default class PlayerArea
 {
     rect: Rectangle;
-    rotation: number;
+    rot: number;
     anchor: Point;
     size: Point;
 
     constructor(areaData)
     {
         this.anchor = areaData.anchor;
-        this.rotation = areaData.rotation;
+        this.rot = areaData.rot;
         this.size = areaData.size;
 
         const rect = new Rectangle().fromTopLeft(this.anchor, this.size);
-        rect.rotateFromPivot(new Point(0, 0.5), this.rotation);
+        rect.rotateFromPivot(new Point(0, 0.5), this.rot);
         this.rect = rect;
     }
 
-    getRotation() { return this.rotation; }
+    getRotation() { return this.rot; }
     getRectangle() { return this.rect; }
     getVec()
     {
-        return new Point().fromAngle(this.rotation * 0.5 * Math.PI).round();
+        return new Point().fromAngle(this.rot * 0.5 * Math.PI).round();
     }
 }

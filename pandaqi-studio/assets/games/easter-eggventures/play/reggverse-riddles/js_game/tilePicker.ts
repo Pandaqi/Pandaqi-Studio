@@ -149,7 +149,7 @@ export default class TilePicker
             const opts = shuffle(allMovementOptions.slice());
             const num = CONFIG.generation.movementInstructions.numValid.randomInteger();
             return {
-                dims: gridDims,
+                size: gridDims,
                 valid: opts.slice(0, num)
             }
         }

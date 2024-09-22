@@ -19,12 +19,12 @@ const layoutOperationToObject = (obj, op:LayoutOperation) =>
         }
     }
 
-    obj.x += op.translate.x;
-    obj.y += op.translate.y;
+    obj.x += op.pos.x;
+    obj.y += op.pos.y;
 
     obj.setOrigin(op.pivot.x, op.pivot.y);
     if(op.hasDepth()) { obj.setDepth(op.depth) };
-    obj.setRotation(op.rotation);
+    obj.setRotation(op.rot);
 }
 
 const layoutOperationToGraphics = (graphics, op:LayoutOperation) =>

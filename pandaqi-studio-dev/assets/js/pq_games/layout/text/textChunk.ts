@@ -79,16 +79,16 @@ class TextChunkImage extends TextChunk
     }
 
     isVisible() { return true; }
-    setDims(dims:Point)
+    setDims(size:Point)
     {
         if(!this.operation) { this.operation = new LayoutOperation(); }
-        this.operation.dims = dims;
+        this.operation.size = size;
     }
 
     getSize()
     {
         if(!this.operation) { return null; }
-        return this.operation.dims.clone();
+        return this.operation.size.clone();
     }
 }
 

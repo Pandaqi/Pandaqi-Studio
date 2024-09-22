@@ -5,7 +5,7 @@ export default class Cell
     x: number;
     y: number;
     type: string;
-    rotation: number;
+    rot: number;
     tutorial: string;
     team: number;
     value: number;
@@ -13,12 +13,12 @@ export default class Cell
     spies: number[];
     score: number;
 
-    constructor(x = 0, y = 0, type = null, rotation = 0)
+    constructor(x = 0, y = 0, type = null, rot = 0)
     {
         this.x = x;
         this.y = y;
         this.type = type;
-        this.rotation = rotation;
+        this.rot = rot;
         this.tutorial = null;
         this.team = null;
         this.value = null;
@@ -48,8 +48,8 @@ export default class Cell
     getTutorial() { return this.tutorial; }
     hasTutorial() { return this.tutorial != null; }
 
-    setRotation(r) { this.rotation = r; }
-    getRotation() { return this.rotation; }
+    setRotation(r) { this.rot = r; }
+    getRotation() { return this.rot; }
 
     hasTeam() { return this.team != null; }
     setTeam(t) { this.team = t; }

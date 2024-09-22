@@ -212,7 +212,7 @@ class MapClass
 		{
 			let cell = this.mapList[i];
 
-			cell.rotation = Math.floor(Config.rng.map() * 4);
+			cell.rot = Math.floor(Config.rng.map() * 4);
 
 			// type comes last, otherwise the "continue" screws things up
 			let alreadyHasType = (cell.type != '');
@@ -476,7 +476,7 @@ class MapClass
 
 	cellPointsTo(a:Cell, b:Cell)
 	{
-		let dir = this.getDirFromRotation(a.rotation);
+		let dir = this.getDirFromRotation(a.rot);
 		let pos = new Point(a.x, a.y);
 
 		while(true)
@@ -779,7 +779,7 @@ class MapClass
 		{
 			arr.push( this.convertToStringPos(list[i]) );
 		}
-		return list;
+		return arr;
 	}
 
 	testTileSwap(tileA:Cell, tileB:Cell)

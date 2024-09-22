@@ -18,11 +18,18 @@ export default class ResourceText extends Resource
     text:string
     textConfig:TextConfig
 
-    constructor(params:ResourceTextParams = {})
+    constructor(params:ResourceTextParams|string = {}, cfg:TextConfig = null)
     {
         super()
 
-        this.text = params.text ?? "";
+        if(typeof params == "string")
+        {
+            this.text = params;
+            this.textConfig = cfg ?? new TextConfig();
+            return;
+        }
+
+        this.text = params.text.toString() ?? "";
         this.textConfig = params.textConfig ?? new TextConfig();
     }
     
@@ -103,8 +110,8 @@ export default class ResourceText extends Resource
     @TODO: need to find an alternative for how LayoutNodes give their position and dims to children
     Probably by setting it on that LayoutOperation then passing that into the `toCanvas` called on children 
     
-    this.operation.translate = this.getGlobalPosition().add(this.boxOutput.getTopAnchor());
-    this.operation.dims = this.boxOutput.getUsableSize();
+    this.operation.pos = this.getGlobalPosition().add(this.boxOutput.getTopAnchor());
+    this.operation.size = this.boxOutput.getUsableSize();
     */
 
     /*

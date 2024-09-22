@@ -36,7 +36,7 @@ export default class Trajectories
         this.num = numTrajectories;
 
         const offsetFromCorner = CONFIG.generation.calculatedTrajectoryRectOffset ?? new Point(0.125, 0.125);
-        const fullPageDims = this.boardState.dims;
+        const fullPageDims = this.boardState.size;
         const anchor = fullPageDims.clone().sub(offsetFromCorner);
 
         const rect = new Rectangle().fromBottomRight(anchor, size);

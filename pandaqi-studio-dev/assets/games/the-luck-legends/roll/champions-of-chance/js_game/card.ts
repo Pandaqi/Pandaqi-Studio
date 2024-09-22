@@ -72,7 +72,7 @@ export default class Card
         const keySuffix = this.isSpecial() ? "_special" : "_regular";
         const resTemp = vis.getResource("card_templates");
         const opBG = new LayoutOperation({
-            dims: vis.size,
+            size: vis.size,
             frame: TEMPLATES["bg" + keySuffix].frame,
             alpha: vis.get("cards.bg.alpha")
         });
@@ -81,7 +81,7 @@ export default class Card
         if(!vis.inkFriendly)
         {
             const opTint = new LayoutOperation({
-                dims: vis.size,
+                size: vis.size,
                 frame: TEMPLATES["tint" + keySuffix].frame,
                 effects: [new TintEffect(this.getTintColor(vis))]
             });
@@ -102,8 +102,8 @@ export default class Card
         {
             const pos = positions[i*2];
             const opNumber = new LayoutOperation({
-                translate: pos,
-                dims: new Point(2.0 * textConfig.size),
+                pos: pos,
+                size: new Point(2.0 * textConfig.size),
                 pivot: Point.CENTER,
                 fill: this.getTintColor(vis)
             });
@@ -115,8 +115,8 @@ export default class Card
         const centerIconDims = vis.get("cards.numbers.centerDims");
         const shadowEffect = new DropShadowEffect({ color: "#000000", blurRadius: 0.025*centerIconDims.x });
         const opCenterNumber = new LayoutOperation({
-            translate: vis.get("cards.numbers.centerPos"),
-            dims: centerIconDims,
+            pos: vis.get("cards.numbers.centerPos"),
+            size: centerIconDims,
             pivot: Point.CENTER,
             frame: this.getData().frame,
             effects: [shadowEffect, vis.inkFriendlyEffect].flat()
@@ -130,8 +130,8 @@ export default class Card
         }).alignCenter();
         const resTextWritten = new ResourceText({ text: this.getData().label, textConfig: textConfigWritten });
         const opTextWritten = new LayoutOperation({
-            translate: vis.get("cards.numbers.writtenPos"),
-            dims: new Point(8.0 * textConfigWritten.size),
+            pos: vis.get("cards.numbers.writtenPos"),
+            size: new Point(8.0 * textConfigWritten.size),
             pivot: Point.CENTER,
             fill: this.getTintColor(vis)
         })
@@ -143,7 +143,7 @@ export default class Card
         if(!this.hasIcons()) { return; }
 
         const edgeOffset = vis.get("cards.icons.offset");
-        const iconDims = vis.get("cards.icons.dims");
+        const iconDims = vis.get("cards.icons.size");
 
         const anchorPositions = [
             new Point(edgeOffset.x, vis.size.y - edgeOffset.y),
@@ -161,10 +161,10 @@ export default class Card
             if(shouldDisplayCupInstead)
             {
                 const opIcon = new LayoutOperation({
-                    translate: anchorPos,
-                    dims: iconDims,
+                    pos: anchorPos,
+                    size: iconDims,
                     frame: MISC.cup_icon.frame,
-                    rotation: (-0.075 + 0.15*Math.random()) * 2 * Math.PI,
+                    rot: (-0.075 + 0.15*Math.random()) * 2 * Math.PI,
                     pivot: Point.CENTER,
                     effects: [shadowEffect, vis.inkFriendlyEffect].flat()
                 });
@@ -172,12 +172,12 @@ export default class Card
                 continue;
             }
 
-            const positions = getPositionsCenteredAround({ pos: anchorPos, dims: iconDims, num: this.numIcons, dir: Point.DOWN });
+            const positions = getPositionsCenteredAround({ pos: anchorPos, size: iconDims, num: this.numIcons, dir: Point.DOWN });
             for(const pos of positions)
             {
                 const opIcon = new LayoutOperation({
-                    translate: pos,
-                    dims: iconDims,
+                    pos: pos,
+                    size: iconDims,
                     flipY: isTopRightSide,
                     frame: MISC.dice_icon.frame,
                     pivot: Point.CENTER,
@@ -200,8 +200,8 @@ export default class Card
         }).alignCenter();
         const resText = new ResourceText({ text: data.desc, textConfig: textConfig });
         const opText = new LayoutOperation({
-            translate: vis.get("cards.power.textPos"),
-            dims: vis.get("cards.power.textBoxDims"),
+            pos: vis.get("cards.power.textPos"),
+            size: vis.get("cards.power.textBoxDims"),
             fill: vis.get("cards.power.textColor"),
             pivot: Point.CENTER
         })

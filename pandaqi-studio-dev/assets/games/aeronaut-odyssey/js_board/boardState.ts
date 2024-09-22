@@ -19,7 +19,7 @@ export default class BoardState
     points: PointGraph[]
     failed: boolean
 
-    dims: Point
+    size: Point
     generator: Generator;
     forbiddenAreas: ForbiddenAreas;
     playerAreas: PlayerAreas;
@@ -41,7 +41,7 @@ export default class BoardState
         const blocksX = CONFIG.numBlocksXOverride ?? Math.ceil(CONFIG.generation.numBlocksFullWidth * blocksFactor);
         const blocksY = blocksX / CONFIG.generation.pageRatio;
         
-        this.dims = new Point(blocksX, blocksY);
+        this.size = new Point(blocksX, blocksY);
         this.trajectories = new Trajectories(this);
         this.playerAreas = new PlayerAreas(this);
         this.forbiddenAreas = new ForbiddenAreas();

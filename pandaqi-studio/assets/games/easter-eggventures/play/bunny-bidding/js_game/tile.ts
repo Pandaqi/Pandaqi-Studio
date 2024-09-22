@@ -80,14 +80,14 @@ export default class Tile extends MaterialEaster
             const corners = getRectangleCornersWithOffset(vis.size, offset);
             const textDims = new Point(3*fontSize, 2*fontSize);
 
-            const dimsSprite = vis.get("tiles.eggNumber.spriteDims");
+            const sizeSprite = vis.get("tiles.eggNumber.spriteDims");
 
             for(let i = 0; i < corners.length; i++)
             {
                 if(this.needsText() && i >= 2) { break; } // with text at bottom only the top gets egg numbers
                 
                 const pos = corners[i];
-                const rotation = i < 2 ? 0 : Math.PI;
+                const rot = i < 2 ? 0 : Math.PI;
                 const flipX = i % 2 == 1;
                 
                 // egg sprite behind it
@@ -97,11 +97,11 @@ export default class Tile extends MaterialEaster
 
                 const posSprite = pos.clone().add(offset);
                 const spriteOp = new LayoutOperation({
-                    translate: posSprite,
-                    dims: dimsSprite,
+                    pos: posSprite,
+                    size: sizeSprite,
                     frame: MISC_SHARED.number_bg.frame,
                     pivot: Point.CENTER,
-                    rotation: rotation,
+                    rot: rot,
                     flipX: flipX
                 });
                 group.add(resMisc, spriteOp);
@@ -109,9 +109,9 @@ export default class Tile extends MaterialEaster
                 // the actual number
                 const resText = new ResourceText({ text: text, textConfig: textConfig });
                 const textOp = new LayoutOperation({
-                    translate: pos,
-                    rotation: rotation,
-                    dims: textDims,
+                    pos: pos,
+                    rot: rot,
+                    size: textDims,
                     pivot: Point.CENTER,
                     fill: "#000000"
                 })

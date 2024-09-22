@@ -73,7 +73,7 @@ export default class Card
         const alpha = vis.inkFriendly ? 0.66 : 1.0;
         const resTemp = vis.getResource("card_templates");
         const opBG = new LayoutOperation({
-            dims: vis.size,
+            size: vis.size,
             frame: templateData.frame,
             alpha: alpha,
             effects: vis.inkFriendlyEffect,
@@ -96,8 +96,8 @@ export default class Card
         for(let i = 0; i < 2; i++)
         {
             const opText = new LayoutOperation({
-                translate: positions[i*2], // we skip the top right and bottom left corner
-                dims: new Point(2.0 * textConfig.size),
+                pos: positions[i*2], // we skip the top right and bottom left corner
+                size: new Point(2.0 * textConfig.size),
                 pivot: Point.CENTER,
                 fill: this.getTintColor(vis)
             });
@@ -114,8 +114,8 @@ export default class Card
             const offset = NUMBER_INDICES[ arrangementIndices[i] ].clone().scale(scalar);
             const pos = vis.center.clone().add( offset );
             const opSuit = new LayoutOperation({
-                translate: pos,
-                dims: iconDims,
+                pos: pos,
+                size: iconDims,
                 pivot: Point.CENTER,
                 frame: MISC[this.suit].frame,
                 effects: vis.inkFriendlyEffect,
@@ -145,8 +145,8 @@ export default class Card
         }).alignCenter();
         const resTextScore = new ResourceText({ text: data.score.toString(), textConfig: textConfigScore });
         const opTextScore = new LayoutOperation({
-            translate: vis.get("cards.bid.score.pos"),
-            dims: new Point(4.0 * textConfigScore.size),
+            pos: vis.get("cards.bid.score.pos"),
+            size: new Point(4.0 * textConfigScore.size),
             pivot: Point.CENTER,
             fill: "#FFFFFF"
         });
@@ -157,8 +157,8 @@ export default class Card
         {
             const resMisc = vis.getResource("misc");
             const opBonusBid = new LayoutOperation({
-                translate: vis.get("cards.bid.bonus.pos"),
-                dims: vis.get("cards.bid.bonus.dims"),
+                pos: vis.get("cards.bid.bonus.pos"),
+                size: vis.get("cards.bid.bonus.size"),
                 pivot: Point.CENTER,
                 frame: MISC.bonus_bid.frame,
             })
@@ -168,8 +168,8 @@ export default class Card
         // the unique icon visualizing what the bid does
         const resIcon = vis.getResource("bid_icons");
         const opIcon = new LayoutOperation({
-            translate: vis.get("cards.bid.icon.pos"),
-            dims: vis.get("cards.bid.icon.dims"),
+            pos: vis.get("cards.bid.icon.pos"),
+            size: vis.get("cards.bid.icon.size"),
             pivot: Point.CENTER,
             frame: data.frame,
             effects: vis.inkFriendlyEffect
@@ -183,8 +183,8 @@ export default class Card
         }).alignCenter();
         const resText = new ResourceText({ text: data.desc, textConfig: textConfig });
         const opText = new LayoutOperation({
-            translate: vis.get("cards.bid.textBox.pos"),
-            dims: vis.get("cards.bid.textBox.dims"),
+            pos: vis.get("cards.bid.textBox.pos"),
+            size: vis.get("cards.bid.textBox.size"),
             pivot: Point.CENTER,
             effects: [new DropShadowEffect({ color: "#FFFFFF", blurRadius: 0.3 * textConfig.size })],
             fill: "#000000"
@@ -210,8 +210,8 @@ export default class Card
         for(const pos of positions)
         {
             const opTextSmall = new LayoutOperation({
-                translate: pos,
-                dims: new Point(2.0*textConfigSmall.size),
+                pos: pos,
+                size: new Point(2.0*textConfigSmall.size),
                 pivot: Point.CENTER,
                 fill: "#FFFFFF"
             })
@@ -225,8 +225,8 @@ export default class Card
         }).alignCenter();
         const resText = new ResourceText({ text: this.num.toString(), textConfig: textConfig });
         const opText = new LayoutOperation({
-            translate: vis.get("cards.token.pos"),
-            dims: vis.size,
+            pos: vis.get("cards.token.pos"),
+            size: vis.size,
             pivot: Point.CENTER,
             fill: vis.inkFriendly ? "#111111" : vis.get("cards.token.fontColor")
         });
@@ -242,7 +242,7 @@ export default class Card
 
         const resTemp = vis.getResource("card_templates");
         const opBG = new LayoutOperation({
-            dims: vis.size,
+            size: vis.size,
             frame: TEMPLATES.overlay.frame,
             effects: vis.inkFriendlyEffect,
             flipX: Math.random() <= 0.5,

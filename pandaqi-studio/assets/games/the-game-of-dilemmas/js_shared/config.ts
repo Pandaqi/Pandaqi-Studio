@@ -82,8 +82,8 @@ const CONFIG =
     {
         drawerConfig:
         {
-            dimsElement: new Point(1, 1.4),
-            dims: 
+            sizeElement: new Point(1, 1.4),
+            size: 
             { 
                 small: new Point(5,5),
                 regular: new Point(4,4),
@@ -93,8 +93,8 @@ const CONFIG =
 
         tokenConfig:
         {
-            dimsElement: new Point(1,1),
-            dims: 
+            sizeElement: new Point(1,1),
+            size: 
             {
                 small: new Point(8,10),
                 regular: new Point(6,8),
@@ -121,7 +121,7 @@ const CONFIG =
             fontSize: { large: 0.125, medium: 0.105, small: 0.09 }, // ~sizeUnit
             fontSizeCutoffs: { large: 65, medium: 105, small: 145 },
             yPos: 0.433, // ~sizeY
-            dims: new Point(0.91, 0.8), // ~size
+            size: new Point(0.91, 0.8), // ~size
             negativeCardPrefix: "... but "
         },
 

@@ -87,13 +87,13 @@ export default class Generator
         const pdfBuilder = new PdfBuilder(pdfBuilderConfig);
         this.pdfBuilder = pdfBuilder;
 
-        const dims = CONFIG.cards.dims[CONFIG.itemSize ?? "regular"];
+        const size = CONFIG.cards.size[CONFIG.itemSize ?? "regular"];
 
-        const gridConfig = { pdfBuilder: pdfBuilder, dims: dims, dimsElement: CONFIG.cards.dimsElement };
+        const gridConfig = { pdfBuilder: pdfBuilder, size: size, sizeElement: CONFIG.cards.sizeElement };
         const gridMapper = new GridMapper(gridConfig);
         this.gridMapper = gridMapper;     
 
-        CONFIG.cards.size = gridMapper.getMaxElementSize();
+        CONFIG.cards.sizeResult = gridMapper.getMaxElementSize();
     }
 
     createCards() : Card[]
@@ -111,7 +111,7 @@ export default class Generator
         if(CONFIG.debugOnlyGenerate) { return; }
 
         // merely caches some default values (such as bg patterns) for much faster generation
-        const visualizer = new Visualizer({ resLoader: CONFIG.resLoader, inkFriendly: CONFIG.inkFriendly, size: this.gridMapper.getMaxElementSize() });
+        const visualizer = new Visualizer({ resLoader: CONFIG.resLoader, inkFriendly: CONFIG.inkFriendly, size: CONFIG.cards.sizeResult });
         await visualizer.prepare();
 
         // cards handle drawing themselves

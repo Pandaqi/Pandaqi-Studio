@@ -50,7 +50,7 @@ export default class Tile
         const frameVariation = rangeInteger(0,3);
         const frame = this.getFrame("grass", frameVariation);
         const op = new LayoutOperation({
-            dims: vis.size,
+            size: vis.size,
             frame: frame
         })
 
@@ -64,10 +64,10 @@ export default class Tile
         const res = vis.resLoader.getResource("assets");
         const frameVariation = this.useUniqueFences() ? 0 : rangeInteger(1,2);
         const frame = this.getFrame("fence", frameVariation);
-        const dims = vis.size.clone().scale(CONFIG.tiles.fences.scale[frameVariation]);
+        const size = vis.size.clone().scale(CONFIG.tiles.fences.scale[frameVariation]);
         const edgeOffset = CONFIG.tiles.fences.edgeOffset[frameVariation] * vis.sizeUnit;
         const op = new LayoutOperation({
-            dims: dims,
+            size: size,
             frame: frame,
             pivot: Point.CENTER,
             effects: vis.effects,
@@ -84,8 +84,8 @@ export default class Tile
         {
             if(!fenceData[i]) { continue; }
 
-            op.translate = positions[i];
-            op.rotation = i * 0.5 * Math.PI;
+            op.pos = positions[i];
+            op.rot = i * 0.5 * Math.PI;
 
             // this keeps their shaded side semi-consistent
             op.flipX = (i == 1 || i == 2);
@@ -113,30 +113,30 @@ export default class Tile
         }
 
         let positions = [vis.center];
-        let dims = new Point(CONFIG.tiles.sheep.scale * vis.sizeUnit);
+        let size = new Point(CONFIG.tiles.sheep.scale * vis.sizeUnit);
         if(numIllustrations == 2) {
-            dims.scale(0.5);
+            size.scale(0.5);
             positions = [
-                vis.center.clone().sub(dims),
-                vis.center.clone().add(dims)
+                vis.center.clone().sub(size),
+                vis.center.clone().add(size)
             ]
         } else if(numIllustrations == 3) {
             positions = [
-                vis.center.clone().sub(new Point(2*dims.x, 2*dims.y)),
-                vis.center.clone().add(new Point(0, 2*dims.y)),
-                vis.center.clone().add(new Point(2*dims.x, 0))
+                vis.center.clone().sub(new Point(2*size.x, 2*size.y)),
+                vis.center.clone().add(new Point(0, 2*size.y)),
+                vis.center.clone().add(new Point(2*size.x, 0))
             ];
-            dims.scale(0.33);
+            size.scale(0.33);
         }
 
         for(let i = 0; i < numIllustrations; i++)
         {
-            const rotation = rangeInteger(0,8)*(Math.PI*2/8);
+            const rot = rangeInteger(0,8)*(Math.PI*2/8);
             const op = new LayoutOperation({
                 frame: frame,
-                translate: positions[i],
-                dims: dims,
-                rotation: rotation,
+                pos: positions[i],
+                size: size,
+                rot: rot,
                 pivot: Point.CENTER,
                 effects: vis.effects
             })

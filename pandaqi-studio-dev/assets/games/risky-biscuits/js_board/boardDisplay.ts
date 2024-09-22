@@ -275,7 +275,7 @@ export default class BoardDisplay
             const res = new ResourceText({ text: scoreText, textConfig: textConfig });
             const textOp = new LayoutOperation({
                 fill: Color.WHITE,
-                translate: textPos
+                pos: textPos
             })
             textToPhaser(res, textOp, this.game);
 

@@ -162,8 +162,8 @@ const CONFIG:any =
         drawerConfig:
         {
             autoStroke: true,
-            dimsElement: new Point(1, 1.4),
-            dims: 
+            sizeElement: new Point(1, 1.4),
+            size: 
             { 
                 small: new Point(4,4),
                 regular: new Point(3,3),
@@ -176,7 +176,7 @@ const CONFIG:any =
             templatePos: new CVal(new Point(0.5, 0.35), "size"),
             templateDims: new CVal(new Point(0.725), "sizeUnit"),
             pos: new CVal(new Point(0.5, 0.35), "size"), // equal or close to templatePos
-            dims: new CVal(new Point(0.725), "sizeUnit"), // equal or close to templateDims
+            size: new CVal(new Point(0.725), "sizeUnit"), // equal or close to templateDims
         },
 
         heading:
@@ -188,7 +188,7 @@ const CONFIG:any =
         icons:
         {
             offset: new CVal(new Point(0.08, 0), "sizeUnit"),
-            dims: new CVal(new Point(0.1), "sizeUnit")
+            size: new CVal(new Point(0.1), "sizeUnit")
         },
 
         headingAction:
@@ -200,14 +200,14 @@ const CONFIG:any =
         matchAction:
         {
             pos: new CVal(new Point(0.755, 0.35), "size"),
-            dims: new CVal(new Point(0.165), "sizeUnit")
+            size: new CVal(new Point(0.165), "sizeUnit")
         },
 
         text:
         {
             fontSize: new CVal(0.065, "sizeUnit"),
             pos: new CVal(new Point(0.5, 0.83), "size"),
-            dims: new CVal(new Point(0.8, 0.3), "size")
+            size: new CVal(new Point(0.8, 0.3), "size")
         }
     },
 
@@ -216,8 +216,8 @@ const CONFIG:any =
         drawerConfig:
         {
             autoStroke: true,
-            dimsElement: new Point(1, 1),
-            dims: 
+            sizeElement: new Point(1, 1),
+            size: 
             { 
                 small: new Point(5,7),
                 regular: new Point(3,5),
@@ -228,8 +228,8 @@ const CONFIG:any =
         fishes:
         {
             angleSubdivisions: 8,
-            dims: new CVal(new Point(0.25), "sizeUnit"),
-            dimsSpecial: new CVal(new Point(0.15), "sizeUnit"),
+            size: new CVal(new Point(0.25), "sizeUnit"),
+            sizeSpecial: new CVal(new Point(0.15), "sizeUnit"),
             radiusBounds: new Bounds(0.25, 0.35),
             radiusBoundsSpecial: new Bounds(0.325, 0.425)
         },
@@ -256,7 +256,7 @@ const CONFIG:any =
         {
             fontSize: new CVal(0.055, "sizeUnit"),
             pos: new CVal(new Point(0.5), "size"),
-            dims: new CVal(new Point(0.45, 0.35), "size")
+            size: new CVal(new Point(0.45, 0.35), "size")
         }
     }
 }

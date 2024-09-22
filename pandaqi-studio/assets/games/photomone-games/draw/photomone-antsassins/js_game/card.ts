@@ -42,7 +42,7 @@ export default class Card
 
     setupCanvas()
     {
-        const size = CONFIG.cards.size;
+        const size = CONFIG.cards.sizeResult;
         this.size = new Point(size.x, size.y);
         this.sizeSquare = Math.min(size.x, size.y);
         this.ctx = createContext({ width: size.x, height: size.y, alpha: true, willReadFrequently: false });
@@ -419,8 +419,8 @@ export default class Card
                 const res = CONFIG.resLoader.getResource("almostActions");
                 const canvOp = new LayoutOperation({
                     frame: ALMOST_ACTIONS[cell.getAction()].frame,
-                    translate: new PointNonPhotomone(centerPos.x, centerPos.y),
-                    dims: new PointNonPhotomone(spriteSize),
+                    pos: new PointNonPhotomone(centerPos.x, centerPos.y),
+                    size: new PointNonPhotomone(spriteSize),
                     pivot: new PointNonPhotomone(0.5)
                 })
                 await res.toCanvas(ctx, canvOp);

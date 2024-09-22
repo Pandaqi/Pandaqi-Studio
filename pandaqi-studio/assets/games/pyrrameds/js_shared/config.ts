@@ -130,8 +130,8 @@ const CONFIG:any =
         drawerConfig:
         {
             autoStroke: true,
-            dimsElement: new Point(1, 1.4),
-            dims: { 
+            sizeElement: new Point(1, 1.4),
+            size: { 
                 small: new Point(4,4),
                 regular: new Point(3,3),
                 large: new Point(2,2)
@@ -165,8 +165,8 @@ const CONFIG:any =
             illustration:
             {
                 pos: new CVal(new Point(0.17, 0.37), "size"), // should match number.pos on Y-axis
-                dimsCircle: new CVal(new Point(0.275), "sizeUnit"),
-                dimsIcon: new CVal(new Point(0.21), "sizeUnit")
+                sizeCircle: new CVal(new Point(0.275), "sizeUnit"),
+                sizeIcon: new CVal(new Point(0.21), "sizeUnit")
             }
         },
 

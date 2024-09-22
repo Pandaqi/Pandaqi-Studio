@@ -175,8 +175,8 @@ const CONFIG:any =
     {
         drawerConfig:
         {
-            dimsElement: new Point(1, 2),
-            dims: { 
+            sizeElement: new Point(1, 2),
+            size: { 
                 small: new Point(7,5),
                 regular: new Point(5,3),
                 large: new Point(4,2)
@@ -195,7 +195,7 @@ const CONFIG:any =
 
         walls:
         {
-            dims: new CVal(new Point(1.0), "sizeUnit")
+            size: new CVal(new Point(1.0), "sizeUnit")
         },
 
         text:
@@ -207,7 +207,7 @@ const CONFIG:any =
         {
             main:
             {
-                dims: new CVal(new Point(0.7), "sizeUnit")
+                size: new CVal(new Point(0.7), "sizeUnit")
             }
         },
 
@@ -215,12 +215,12 @@ const CONFIG:any =
         {
             main:
             {
-                dims: new CVal(new Point(0.625), "sizeUnit")
+                size: new CVal(new Point(0.625), "sizeUnit")
             },
 
             score:
             {
-                dims: new CVal(new Point(0.4), "sizeUnit"),
+                size: new CVal(new Point(0.4), "sizeUnit"),
                 fontSize: new CVal(0.16, "sizeUnit"),
                 textColor: "#111111"
             },
@@ -229,7 +229,7 @@ const CONFIG:any =
 
             props:
             {
-                dims: new CVal(new Point(0.3), "sizeUnit"),
+                size: new CVal(new Point(0.3), "sizeUnit"),
                 xPositions:
                 {
                     1: [0.175],
@@ -239,11 +239,11 @@ const CONFIG:any =
 
             wishes:
             {
-                dims: new CVal(new Point(0.3), "sizeUnit"),
+                size: new CVal(new Point(0.3), "sizeUnit"),
                 number:
                 {
                     fontSize: new CVal(0.165, "sizeUnit"),
-                    pos: new CVal(new Point(0, -0.4), "dominoes.tenant.wishes.dims"),
+                    pos: new CVal(new Point(0, -0.4), "dominoes.tenant.wishes.size"),
                     textColor: "#FFFFFF",
                     strokeColor: "#111111",
                     strokeWidth: new CVal(0.1, "dominoes.tenant.wishes.number.fontSize")

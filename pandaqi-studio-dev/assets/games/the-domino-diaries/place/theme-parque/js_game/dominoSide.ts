@@ -19,12 +19,12 @@ export default class DominoSide
     typePath:PathType;
     key:string;
     keyPath:string;
-    rotation:number; // integer; 0-4; 0 = right, 1 = down, 2 = left, 3 = up
+    rot:number; // integer; 0-4; 0 = right, 1 = down, 2 = left, 3 = up
 
     constructor(it:ItemType)
     {
         this.type = it;
-        this.rotation = Math.floor(Math.random() * 4);
+        this.rot = Math.floor(Math.random() * 4);
     }
 
     getTypeData()
@@ -51,7 +51,7 @@ export default class DominoSide
         if(!pathData) { return false; }
 
         const sides = pathData.sides;
-        const rotOffset = ((rot - this.rotation) + 4) % 4;
+        const rotOffset = ((rot - this.rot) + 4) % 4;
         return sides[rotOffset];
     }
 
@@ -73,7 +73,7 @@ export default class DominoSide
 
     rotate(dr = 1)
     {
-        this.rotation = (this.rotation + dr + 4) % 4;
+        this.rot = (this.rot + dr + 4) % 4;
     }
 
     rotateUntilOpenAt(rot:number)
@@ -167,22 +167,22 @@ export default class DominoSide
         const resMisc = vis.getResource("misc");
         const opDotTexture = new LayoutOperation({
             frame: MISC.bg_dot_texture.frame,
-            dims: partSize,
+            size: partSize,
             pivot: Point.CENTER,
             alpha: vis.get("dominoes.bg.dotTextureAlpha"),
             composite: vis.get("dominoes.bg.dotTextureComposite"),
-            rotation: Math.floor(Math.random() * 4) * 0.5 * Math.PI
+            rot: Math.floor(Math.random() * 4) * 0.5 * Math.PI
         })
         group.add(resMisc, opDotTexture);
 
         // the gradient (darker at sides; main element highlighted at center)
         const opGradient = new LayoutOperation({
             frame: MISC.bg_gradient.frame,
-            dims: partSize,
+            size: partSize,
             pivot: Point.CENTER,
             alpha: vis.get("dominoes.bg.gradientAlpha"),
             composite: vis.get("dominoes.bg.gradientComposite"),
-            rotation: Math.floor(Math.random() * 4) * 0.5 * Math.PI
+            rot: Math.floor(Math.random() * 4) * 0.5 * Math.PI
         })
         group.add(resMisc, opGradient);
     }
@@ -202,15 +202,15 @@ export default class DominoSide
             frame = frameBase * numPathVariations + frameOffset;
         }
 
-        const rotation = this.rotation * 0.5 * Math.PI;
+        const rotation = this.rot * 0.5 * Math.PI;
 
         const res = vis.getResource("paths");
         const op = new LayoutOperation({
             frame: frame,
-            dims: new Point(vis.sizeUnit),
+            size: new Point(vis.sizeUnit),
             pivot: Point.CENTER,
             effects: vis.inkFriendlyEffect,
-            rotation: rotation
+            rot: rotation
         });
         group.add(res, op);
 
@@ -219,13 +219,13 @@ export default class DominoSide
         {
             const resTunnel = vis.getResource("misc");
             const glowEffect = new DropShadowEffect({ color: "#FFFFFF", blurRadius: 0.025*vis.sizeUnit })
-            const rotation = (this.rotation - 1) * 0.5 * Math.PI;
+            const rotation = (this.rot - 1) * 0.5 * Math.PI;
             const opTunnel = new LayoutOperation({
                 frame: MISC.tunnel.frame,
-                dims: vis.get("dominoes.paths.tunnelDims"),
+                size: vis.get("dominoes.paths.tunnelDims"),
                 effects: [glowEffect, vis.inkFriendlyEffect].flat(),
                 pivot: Point.CENTER,
-                rotation: rotation
+                rot: rotation
             });
             group.add(resTunnel, opTunnel);
         }
@@ -241,7 +241,7 @@ export default class DominoSide
         const glowEffect = new DropShadowEffect({ color: "#FFFFFF", blurRadius: 0.025*vis.sizeUnit })
         const op = new LayoutOperation({
             frame: data.frame,
-            dims: vis.get("dominoes.main.dims"),
+            size: vis.get("dominoes.main.size"),
             effects: [glowEffect, vis.inkFriendlyEffect].flat(),
             pivot: Point.CENTER
         });
@@ -258,13 +258,13 @@ export default class DominoSide
         {
             // the background star/icon
             const res = vis.getResource("misc");
-            const starDims = vis.get("dominoes.score.dims");
+            const starDims = vis.get("dominoes.score.size");
             const starIconOffset = starDims.clone().scale(0.66);
             const frame = MISC["score_star_" + this.type].frame ?? 0;
             const op = new LayoutOperation({
-                translate: new Point(-0.5*vis.size.x, -0.5*partHeight).add(starIconOffset),
+                pos: new Point(-0.5*vis.size.x, -0.5*partHeight).add(starIconOffset),
                 frame: frame,
-                dims: starDims,
+                size: starDims,
                 pivot: Point.CENTER
             });
             group.add(res, op);
@@ -274,9 +274,9 @@ export default class DominoSide
             const typeIconDims = starDims.clone().scale(typeIconScaleFactor);
             const typeIconOffset = new Point(0.66*starIconOffset.x, starIconOffset.y);
             const opType = new LayoutOperation({
-                translate: new Point(0.5*vis.size.x, -0.5*partHeight).add(new Point(-typeIconOffset.x, typeIconOffset.y)),
+                pos: new Point(0.5*vis.size.x, -0.5*partHeight).add(new Point(-typeIconOffset.x, typeIconOffset.y)),
                 frame: MISC["type_icon_" + this.type].frame,
-                dims: typeIconDims,
+                size: typeIconDims,
                 pivot: Point.CENTER,
                 alpha: 0.85
             })
@@ -294,13 +294,13 @@ export default class DominoSide
     
             const resText = new ResourceText({ text, textConfig });
             const opText = new LayoutOperation({
-                translate: op.translate.clone(), 
+                pos: op.pos.clone(), 
                 pivot: Point.CENTER,
                 fill: vis.get("dominoes.score.textColor"),
                 stroke: vis.get("dominoes.score.strokeColor"),
                 strokeWidth: vis.get("dominoes.score.strokeWidth"),
                 strokeAlign: StrokeAlign.OUTSIDE,
-                dims: new Point(2*textConfig.size),
+                size: new Point(2*textConfig.size),
             });
             group.add(resText, opText);
         }
@@ -310,7 +310,7 @@ export default class DominoSide
         {
             const textPos = new Point(0, 0.33*partHeight);
             const textDims = new Point(0.9*vis.size.x, 0.275*partHeight);
-            const rectParams = { pos: textPos, dims: textDims, color: "#111111", alpha: 0.75 };
+            const rectParams = { pos: textPos, size: textDims, color: "#111111", alpha: 0.75 };
             drawBlurryRectangle(rectParams, group);
     
             const text = data.desc;
@@ -322,10 +322,10 @@ export default class DominoSide
     
             const resText = new ResourceText({ text, textConfig });
             const opText = new LayoutOperation({
-                translate: textPos, 
+                pos: textPos, 
                 pivot: Point.CENTER,
                 fill: "#FFEEEE",
-                dims: new Point(0.9*textDims.x, textDims.y)
+                size: new Point(0.9*textDims.x, textDims.y)
             });
             group.add(resText, opText);
         }

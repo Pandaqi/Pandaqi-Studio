@@ -5,7 +5,7 @@ export default class BoardState
 {
     grid: Cell[][]
     cells: Cell[]
-    dims: Point;
+    size: Point;
     uniqueTypes: string[];
 
     fromGrid(grid:Cell[][])
@@ -18,7 +18,7 @@ export default class BoardState
 
     refresh()
     {
-        this.dims = new Point(this.grid.length, this.grid[0].length);
+        this.size = new Point(this.grid.length, this.grid[0].length);
         
         const types : Set<string> = new Set();
         for(const cell of this.cells)

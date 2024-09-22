@@ -100,10 +100,11 @@ export default class Configurator
             }
 
             // or go deeper into the object
-            const isClassInstance = this.isClassInstance(data);
+            const isClassInstance = this.isClassInstance(data) && !this.isForbiddenEntry(data);
             const isRawObject = typeof data === "object" && !isClassInstance;
             if(isRawObject)
             {
+                this.set(pathNew, data); // also save the original object as well, so we can access the WHOLE thing as well as the PARTS
                 this.calculate(data, pathNew);
                 continue;
             }
@@ -111,6 +112,12 @@ export default class Configurator
             // otherwise assume this is a raw value, save and do not touch
             this.set(pathNew, data);
         }
+    }
+
+    isForbiddenEntry(data)
+    {
+        if(typeof data != "object") { return false; }
+        return data.configuratorForbiddenEntry ?? false;
     }
 
     isClassInstance(data)

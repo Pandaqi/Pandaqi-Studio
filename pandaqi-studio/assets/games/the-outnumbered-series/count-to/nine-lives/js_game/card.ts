@@ -87,12 +87,12 @@ export default class Card
         const res = vis.resLoader.getResource("misc");
         const frame = MISC.heart_life.frame;
         const pos = new Point(0.5*vis.size.x, CONFIG.cards.life.heartPosY * vis.size.y);
-        const dims = new Point(CONFIG.cards.life.heartSize * vis.sizeUnit);
+        const size = new Point(CONFIG.cards.life.heartSize * vis.sizeUnit);
         const effects = vis.inkFriendly ? [new GrayScaleEffect()] : [];
         const op = new LayoutOperation({
             frame: frame,
-            translate: pos,
-            dims: dims,
+            pos: pos,
+            size: size,
             pivot: Point.CENTER,
             effects: effects
         })
@@ -102,8 +102,8 @@ export default class Card
 
     async drawCornerHearts(vis:Visualizer, ctx)
     {
-        const dims = new Point(CONFIG.cards.life.heartCornerSize * vis.sizeUnit);
-        const offset = dims.clone().scaleFactor(0.5).scaleFactor(CONFIG.cards.life.heartCornerOffset);
+        const size = new Point(CONFIG.cards.life.heartCornerSize * vis.sizeUnit);
+        const offset = size.clone().scaleFactor(0.5).scaleFactor(CONFIG.cards.life.heartCornerOffset);
         const positions = getRectangleCornersWithOffset(vis.size, offset);
         const res = vis.resLoader.getResource("misc");
         const frame = MISC.heart.frame;
@@ -113,9 +113,9 @@ export default class Card
             const rot = (i <= 1) ? 0 : Math.PI;
             const op = new LayoutOperation({
                 frame: frame,
-                translate: pos,
-                dims: dims,
-                rotation: rot,
+                pos: pos,
+                size: size,
+                rot: rot,
                 pivot: Point.CENTER,
                 effects: vis.effects,
             })
@@ -155,8 +155,8 @@ export default class Card
             const pos = center.clone().move(offsetTotal).move(new Point(cardWidth, 0).scaleFactor(i));
             const op = new LayoutOperation({
                 frame: frame,
-                translate: pos,
-                dims: new Point(itemSize),
+                pos: pos,
+                size: new Point(itemSize),
                 pivot: Point.CENTER,
             })
             await resCard.toCanvas(ctx, op);
@@ -167,10 +167,10 @@ export default class Card
     {
         const isCustomPower = this.data.reqs && this.data.reqs.length > 0;
         const center = vis.size.clone().scale(0.5);
-        const dims = new Point(CONFIG.cards.powers.iconSize * vis.sizeUnit);
+        const size = new Point(CONFIG.cards.powers.iconSize * vis.sizeUnit);
         const powerEffects = vis.effects.slice();
 
-        const glowBlur = CONFIG.cards.powers.glowAroundIcons.blur * dims.x;
+        const glowBlur = CONFIG.cards.powers.glowAroundIcons.blur * size.x;
         const glowColor = CONFIG.cards.powers.glowAroundIcons.color;
         if(glowBlur > 0.001)
         {
@@ -179,14 +179,14 @@ export default class Card
         }
 
         if(isCustomPower) {
-            await this.drawCustomPower(vis, ctx, center, dims, powerEffects);
+            await this.drawCustomPower(vis, ctx, center, size, powerEffects);
         } else {
             const res = vis.resLoader.getResource("powers");
             const frame = this.data.frame;
             const op = new LayoutOperation({
                 frame: frame,
-                translate: center,
-                dims: dims,
+                pos: center,
+                size: size,
                 pivot: Point.CENTER,
                 effects: powerEffects,
             })
@@ -194,17 +194,17 @@ export default class Card
         }
     }
 
-    async drawCustomPower(vis:Visualizer, ctx:CanvasRenderingContext2D, center:Point, dims:Point, powerEffects:LayoutEffect[])
+    async drawCustomPower(vis:Visualizer, ctx:CanvasRenderingContext2D, center:Point, size:Point, powerEffects:LayoutEffect[])
     {
         const res = vis.resLoader.getResource("cats");
         const resMisc = vis.resLoader.getResource("misc");
-        const posLeft = center.clone().move(new Point(-0.5*dims.x, 0));
-        const posRight = center.clone().move(new Point(0.5*dims.x, 0));
+        const posLeft = center.clone().move(new Point(-0.5*size.x, 0));
+        const posRight = center.clone().move(new Point(0.5*size.x, 0));
         const strokeWidth = CONFIG.cards.powers.textStrokeWidth * vis.sizeUnit;
 
         const op = new LayoutOperation({
-            translate: new Point(),
-            dims: dims, 
+            pos: new Point(),
+            size: size, 
             frame: 0,
             pivot: Point.CENTER,
             effects: powerEffects,
@@ -214,30 +214,30 @@ export default class Card
 
         if(powerSubtype == "shapeshift")
         {
-            dims = dims.scale(CONFIG.cards.powers.shapeshift.iconSize);
+            size = size.scale(CONFIG.cards.powers.shapeshift.iconSize);
 
             const frame0 = CATS[this.data.reqs[0]].frame;
             const frame1 = MISC.arrow.frame;
             const frame2 = CATS[this.data.reqs[1]].frame;
-            const pos = center.clone().move(new Point(-dims.x, 0));
+            const pos = center.clone().move(new Point(-size.x, 0));
 
             op.frame = frame0;
-            op.translate = pos;
+            op.pos = pos;
             await res.toCanvas(ctx, op);
 
             op.frame = frame1;
-            op.translate = center.clone();
+            op.pos = center.clone();
             await resMisc.toCanvas(ctx, op);
 
             op.frame = frame2;
-            op.translate = center.clone().move(new Point(dims.x, 0));
+            op.pos = center.clone().move(new Point(size.x, 0));
             await res.toCanvas(ctx, op);
         }
         else if(powerSubtype == "numbershift")
         {
-            dims = dims.scale(CONFIG.cards.powers.numbershift.iconSize);
+            size = size.scale(CONFIG.cards.powers.numbershift.iconSize);
 
-            const fontSize = dims.x;
+            const fontSize = size.x;
             const textConfig = new TextConfig({
                 font: CONFIG.fonts.heading,
                 size: fontSize,
@@ -248,14 +248,14 @@ export default class Card
             const frame0 = CATS[this.data.reqs[0]].frame;
             const frame1 = MISC.arrow.frame;
             const numberText = this.data.reqs[1].toString();
-            const pos = center.clone().move(new Point(-dims.x, 0));
+            const pos = center.clone().move(new Point(-size.x, 0));
 
             op.frame = frame0;
-            op.translate = pos;
+            op.pos = pos;
             await res.toCanvas(ctx, op);
 
             op.frame = frame1;
-            op.translate = center.clone();
+            op.pos = center.clone();
             await resMisc.toCanvas(ctx, op);
 
             const resText = new ResourceText({ text: numberText, textConfig: textConfig });
@@ -264,37 +264,37 @@ export default class Card
             op.stroke = new ColorLike("#000000");
             op.strokeWidth = strokeWidth;
             op.strokeAlign = StrokeAlign.OUTSIDE;
-            op.translate = center.clone().move(new Point(dims.x, 0));
+            op.pos = center.clone().move(new Point(size.x, 0));
             await resText.toCanvas(ctx, op);
         }
         else if(powerSubtype == "ignore")
         {
             op.frame = MISC.ignore.frame;
-            op.translate = posLeft;
+            op.pos = posLeft;
             await resMisc.toCanvas(ctx, op);
 
             op.frame = CATS[this.data.reqs[0]].frame;
-            op.translate = posRight;
+            op.pos = posRight;
             await res.toCanvas(ctx, op);
         }
         else if(powerSubtype == "forbid")
         {
             op.frame = MISC.cross.frame;
-            op.translate = posLeft;
+            op.pos = posLeft;
             await resMisc.toCanvas(ctx, op);
 
             op.frame = CATS[this.data.reqs[0]].frame;
-            op.translate = posRight;
+            op.pos = posRight;
             await res.toCanvas(ctx, op);
         }
         else if(powerSubtype == "plus")
         {
             op.frame = CATS[this.data.reqs[0]].frame;
-            op.translate = posLeft;
+            op.pos = posLeft;
             await res.toCanvas(ctx, op);
 
             op.frame = MISC.plus.frame;
-            op.translate = posRight;
+            op.pos = posRight;
             await resMisc.toCanvas(ctx, op);
         }
     }
@@ -314,8 +314,8 @@ export default class Card
         const pos = new Point(0.5*vis.size.x, 0.5*vis.size.y + offset);
         const strokeWidth = CONFIG.cards.life.textStrokeWidth * vis.sizeUnit;
         const op = new LayoutOperation({
-            translate: pos,
-            dims: new Point(vis.size.x, fontSize),
+            pos: pos,
+            size: new Point(vis.size.x, fontSize),
             fill: "#FFFFFF",
             stroke: "#000000",
             strokeWidth: strokeWidth,
@@ -327,7 +327,7 @@ export default class Card
         textConfig.size *= CONFIG.cards.life.lifeCardFontSizeFactor;
         const resLife = new ResourceText({ text: "Life Card", textConfig });
         op.alpha = CONFIG.cards.life.lifeCardTextAlpha;
-        op.translate = pos.clone().move(new Point(0, fontSize*1.2));
+        op.pos = pos.clone().move(new Point(0, fontSize*1.2));
         await resLife.toCanvas(ctx, op);
     }
 
@@ -346,7 +346,7 @@ export default class Card
         const positions = CONFIG.cards.cats.positions[numIcons];
         const res = vis.resLoader.getResource("cats");
 
-        const dims = new Point(CONFIG.cards.cats.iconSize * vis.sizeUnit);
+        const size = new Point(CONFIG.cards.cats.iconSize * vis.sizeUnit);
         const center = vis.size.clone().scale(0.5);
         const posOffset = CONFIG.cards.cats.positionOffset;
         const posOffsetAbsolute = vis.size.clone().scaleFactor(0.5 * posOffset);
@@ -357,8 +357,8 @@ export default class Card
             const cat = this.cats[i];
             const frame = CATS[cat].frame;
             const op = new LayoutOperation({
-                translate: pos,
-                dims: dims,
+                pos: pos,
+                size: size,
                 frame: frame,
                 pivot: Point.CENTER,
                 effects: vis.effects,
@@ -400,10 +400,10 @@ export default class Card
                 const frame = CATS[this.cats[a]].frame + 1;
                 const op = new LayoutOperation({
                     frame: frame,
-                    translate: pos,
-                    dims: new Point(iconSize),
+                    pos: pos,
+                    size: new Point(iconSize),
                     pivot: new Point(0.5),
-                    rotation: rot,
+                    rot: rot,
                     effects: vis.effects,
                 })
                 await res.toCanvas(ctx, op);
@@ -446,9 +446,9 @@ export default class Card
         const rot = (this.type == Type.CAT) ? CONFIG.cards.bgCats.patternRotation : CONFIG.cards.bgHearts.patternRotation;
         const center = vis.size.clone().scaleFactor(0.5);
         const op = new LayoutOperation({
-            translate: center,
+            pos: center,
             alpha: alpha,
-            rotation: rot,
+            rot: rot,
             pivot: new Point(0.5)
         })
         await pattern.toCanvas(ctx, op);

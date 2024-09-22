@@ -76,8 +76,8 @@ export default class Card
         }).alignCenter();
         const resText = new ResourceText({ text: this.num.toString(), textConfig: textConfig });
         const opText = new LayoutOperation({
-            translate: vis.center,
-            dims: new Point(2.0 * textConfig.size),
+            pos: vis.center,
+            size: new Point(2.0 * textConfig.size),
             fill: "#FCFCFC",
             pivot: Point.CENTER,
         })
@@ -117,7 +117,7 @@ export default class Card
             {
                 
                 const opRect = new LayoutOperation({
-                    translate: new Point(0, yOffset*counter),
+                    pos: new Point(0, yOffset*counter),
                     fill: this.getTintColor(vis, key as Suit, true)
                 })
                 counter++;
@@ -128,7 +128,7 @@ export default class Card
 
         const res = vis.getResource("card_templates");
         const opOutlineInner = new LayoutOperation({
-            dims: vis.size,
+            size: vis.size,
             frame: TEMPLATES.outline_inner.frame,
             composite: "overlay",
             alpha: vis.get("cards.bg.outlineAlpha")
@@ -136,7 +136,7 @@ export default class Card
         group.add(res, opOutlineInner);
 
         const opOutline = new LayoutOperation({
-            dims: vis.size,
+            size: vis.size,
             frame: TEMPLATES.outline.frame
         });
         group.add(res, opOutline);
@@ -178,9 +178,9 @@ export default class Card
             for(let s = 0; s < suitsToDraw.length; s++)
             {
                 const opMain = new LayoutOperation({
-                    translate: anchorPos.clone().add(new Point(drawDir * suitDims.x * s * 1.1, 0)),
-                    dims: isSuit ? suitDims : boxDims,
-                    rotation: (i <= 1) ? 0 : Math.PI,
+                    pos: anchorPos.clone().add(new Point(drawDir * suitDims.x * s * 1.1, 0)),
+                    size: isSuit ? suitDims : boxDims,
+                    rot: (i <= 1) ? 0 : Math.PI,
                     pivot: Point.CENTER,
                     frame: isSuit ? this.getSuitData(suitsToDraw[s] as Suit).frame : MISC.number_box.frame,
                 });
@@ -195,9 +195,9 @@ export default class Card
             if(!isSuit)
             {
                 const opText = new LayoutOperation({
-                    translate: anchorPos,
-                    dims: new Point(3.0 * textConfig.size),
-                    rotation: (i <= 1) ? 0 : Math.PI,
+                    pos: anchorPos,
+                    size: new Point(3.0 * textConfig.size),
+                    rot: (i <= 1) ? 0 : Math.PI,
                     pivot: Point.CENTER,
                     fill: this.getTintColorLight(vis)
                 });
@@ -213,10 +213,10 @@ export default class Card
         // the circle in the middle that the numbers revolve around
         const resMisc = vis.getResource("misc");
         const opCircle = new LayoutOperation({
-            translate: vis.center,
-            dims: vis.get("cards.mainNumber.circleDims"),
+            pos: vis.center,
+            size: vis.get("cards.mainNumber.circleDims"),
             frame: MISC.center_circle.frame,
-            rotation: Math.floor(Math.random() * 4) * 0.5 * Math.PI,
+            rot: Math.floor(Math.random() * 4) * 0.5 * Math.PI,
             pivot: Point.CENTER
         });
         group.add(resMisc, opCircle);
@@ -241,9 +241,9 @@ export default class Card
             const txt = this.isWildCard() ? (circleIndex+1).toString() : this.num.toString();
             const resText = new ResourceText({ text: txt, textConfig: textConfig });
             const opText = new LayoutOperation({
-                translate: circlePos,
-                rotation: angle + 0.5*Math.PI,
-                dims: new Point(2.0*textConfig.size),
+                pos: circlePos,
+                rot: angle + 0.5*Math.PI,
+                size: new Point(2.0*textConfig.size),
                 pivot: Point.CENTER,
                 fill: this.getTintColorLight(vis),
                 composite: this.isWildCard() ? "overlay" : "source-over", // source-over is default drawing mode of canvas
@@ -260,13 +260,13 @@ export default class Card
         {
             const off = vis.get("cards.mainNumber.shadowOffset");
             const opGroupShadow = new LayoutOperation({ 
-                translate: vis.center.clone().add(off),
+                pos: vis.center.clone().add(off),
                 composite: "overlay" 
             });
             group.add(groupNumsShadow, opGroupShadow);
         }
 
-        const opGroup = new LayoutOperation({ translate: vis.center })
+        const opGroup = new LayoutOperation({ pos: vis.center })
         group.add(groupNums, opGroup);
     }
 
@@ -293,9 +293,9 @@ export default class Card
             const shadowEffect = new DropShadowEffect({ color: "#000000", offset: new Point(0,0.05).scale(textConfigHeading.size) })
             const resTextHeading = new ResourceText({ text: "Power Card", textConfig: textConfigHeading });
             const opTextHeading = new LayoutOperation({
-                translate: headingPositions[i],
-                dims: vis.get("cards.bids.headingDims"),
-                rotation: (i == 0) ? 0 : Math.PI,
+                pos: headingPositions[i],
+                size: vis.get("cards.bids.headingDims"),
+                rot: (i == 0) ? 0 : Math.PI,
                 pivot: Point.CENTER,
                 fill: vis.inkFriendly ? "#000000" : "#FFFFFF",
                 effects: [shadowEffect]
@@ -307,8 +307,8 @@ export default class Card
         const resIcon = vis.getResource("bids");
         const effects = vis.inkFriendly ? [new InvertEffect()] : []
         const opIcon = new LayoutOperation({
-            translate: vis.get("cards.bids.iconPos"),
-            dims: vis.get("cards.bids.iconDims"),
+            pos: vis.get("cards.bids.iconPos"),
+            size: vis.get("cards.bids.iconDims"),
             pivot: Point.CENTER,
             effects: effects,
             frame: data.frame
@@ -322,8 +322,8 @@ export default class Card
         }).alignCenter();
         const resText = new ResourceText({ text: data.desc, textConfig: textConfig });
         const opText = new LayoutOperation({
-            translate: vis.get("cards.bids.textPos"),
-            dims: vis.get("cards.bids.textDims"),
+            pos: vis.get("cards.bids.textPos"),
+            size: vis.get("cards.bids.textDims"),
             pivot: Point.CENTER,
             fill: vis.inkFriendly ? "#000000" : "#FFFFFF",
         });
@@ -336,7 +336,7 @@ export default class Card
 
         const res = vis.getResource("card_templates");
         const op = new LayoutOperation({
-            dims: vis.size,
+            size: vis.size,
             frame: TEMPLATES.texture_overlay.frame,
             composite: "overlay",
             alpha: vis.get("cards.overlay.alpha")

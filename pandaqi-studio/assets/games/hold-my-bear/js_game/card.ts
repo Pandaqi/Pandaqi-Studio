@@ -34,7 +34,7 @@ export default class Card
     getCanvas() { return this.ctx.canvas; }
     async draw()
     {
-        const size = CONFIG.cards.size;
+        const size = CONFIG.cards.sizeResult;
         const ctx = createContext({ size: size });
         this.ctx = ctx;
         this.size = size;
@@ -60,8 +60,8 @@ export default class Card
 
         const res = CONFIG.resLoader.getResource("bg");
         const op = new LayoutOperation({
-            translate: this.size.clone().scale(0.5),
-            dims: this.size,
+            pos: this.size.clone().scale(0.5),
+            size: this.size,
             pivot: new Point(0.5)
         })
 
@@ -97,11 +97,11 @@ export default class Card
             const randDims = new Point(CONFIG.cards.illustration.splatDimsBounds.random() * this.sizeUnit);
 
             const op = new LayoutOperation({
-                translate: randPos,
-                dims: randDims,
+                pos: randPos,
+                size: randDims,
                 alpha: randAlpha,
                 pivot: new Point(0.5),
-                rotation: randRotation,
+                rot: randRotation,
                 frame: frame
             })
             await resSplat.toCanvas(this.ctx, op);
@@ -119,8 +119,8 @@ export default class Card
 
         const op = new LayoutOperation({
             frame: frame,
-            translate: this.size.clone().scaleFactor(0.5),
-            dims: new Point(spriteSize),
+            pos: this.size.clone().scaleFactor(0.5),
+            size: new Point(spriteSize),
             pivot: new Point(0.5),
             effects: effects
         })
@@ -176,8 +176,8 @@ export default class Card
 
             const op = new LayoutOperation({
                 pivot: new Point(0.5),
-                translate: pos,
-                dims: new Point(iconSize),
+                pos: pos,
+                size: new Point(iconSize),
                 effects: effects,
                 frame: this.data.frame,
                 flipX: i >= 2,
@@ -187,8 +187,8 @@ export default class Card
             // no matter what it is, there needs to be some watercolor decoration behind it
             const bgOp = new LayoutOperation({
                 pivot: new Point(0.5),
-                translate: bgPositions[i],
-                dims: new Point(bgSize),
+                pos: bgPositions[i],
+                size: new Point(bgSize),
                 frame: 0,
                 flipX: (i == 1 || i == 2),
                 flipY: i >= 2
@@ -201,7 +201,7 @@ export default class Card
             {
                 res = new ResourceText({ text: this.num.toString(), textConfig: textConfig });
                 op.fill = new ColorLike(textColor);
-                op.dims = op.dims.clone().scaleFactor(1.5); // text might exceed boundaries, so give ourselves a little extra space
+                op.size = op.size.clone().scaleFactor(1.5); // text might exceed boundaries, so give ourselves a little extra space
 
                 const effects = [];
                 if(CONFIG.cards.icons.textShadow)
@@ -228,16 +228,16 @@ export default class Card
         const yPos = CONFIG.cards.bearIcons.yPos * this.size.y;
         const xPos = 0.5 * this.size.x;
         const pos = new Point(xPos, yPos);
-        const dims = new Point(CONFIG.cards.bearIcons.size * this.sizeUnit);
-        const positions = getPositionsCenteredAround({ pos: pos, num: 4, dir: Point.RIGHT, dims: dims });
+        const size = new Point(CONFIG.cards.bearIcons.size * this.sizeUnit);
+        const positions = getPositionsCenteredAround({ pos: pos, num: 4, dir: Point.RIGHT, size: size });
         const res = CONFIG.resLoader.getResource("bear_icons");
-        const dimsWithPadding = dims.clone().scale(1.0 - CONFIG.cards.bearIcons.padding);
+        const sizeWithPadding = size.clone().scale(1.0 - CONFIG.cards.bearIcons.padding);
         for(let i = 0; i < 4; i++)
         {
             const op = new LayoutOperation({
                 frame: i,
-                translate: positions[i],
-                dims: dimsWithPadding,
+                pos: positions[i],
+                size: sizeWithPadding,
                 pivot: Point.CENTER
             })
             await res.toCanvas(this.ctx, op);
@@ -257,13 +257,13 @@ export default class Card
 
         const ratio = 1 / 4;
         const width = CONFIG.cards.power.width * this.size.x;
-        const dims = new Point(width, width * ratio);
+        const size = new Point(width, width * ratio);
 
         // the background for legibility
         const res = CONFIG.resLoader.getResource("bg_power");
         const op = new LayoutOperation({
-            translate: pos,
-            dims: dims,
+            pos: pos,
+            size: size,
             pivot: new Point(0.5)
         })
 
@@ -288,7 +288,7 @@ export default class Card
         const textToDisplay = prefix + ": " + desc;
         const text = new ResourceText({ text: textToDisplay, textConfig: textConfig });
         op.fill = new ColorLike("#FFFFFF");
-        op.dims.x *= CONFIG.cards.power.textBoxSidePadding; // a little padding around the text
+        op.size.x *= CONFIG.cards.power.textBoxSidePadding; // a little padding around the text
         await text.toCanvas(this.ctx, op);
     }
 }

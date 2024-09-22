@@ -116,8 +116,8 @@ const CONFIG:any =
         drawerConfig:
         {
             autoStroke: true,
-            dimsElement: new Point(1, 1.4),
-            dims: 
+            sizeElement: new Point(1, 1.4),
+            size: 
             { 
                 small: new Point(4,4),
                 regular: new Point(3,3),
@@ -177,7 +177,7 @@ const CONFIG:any =
 
         arrow:
         {
-            dims: new CVal(new Point(0.1), "sizeUnit"), // probably just the same as power.iconDims
+            size: new CVal(new Point(0.1), "sizeUnit"), // probably just the same as power.iconDims
             composite: "overlay",
             alpha: 0.5
         }

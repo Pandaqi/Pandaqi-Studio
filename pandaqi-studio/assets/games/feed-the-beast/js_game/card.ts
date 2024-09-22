@@ -90,7 +90,7 @@ export default class Card
         if(this.key == "beastState")
         {
             const opStateToken = new LayoutOperation({
-                dims: vis.size,
+                size: vis.size,
                 frame: MISC.beast_state.frame,
                 effects: vis.inkFriendlyEffect
             })
@@ -100,8 +100,8 @@ export default class Card
 
         const foodData = FOOD[this.key];
         const opIllu = new LayoutOperation({
-            translate: vis.center,
-            dims: vis.get("foodTokens.iconDims"),
+            pos: vis.center,
+            size: vis.get("foodTokens.iconDims"),
             frame: foodData.frame,
             pivot: Point.CENTER,
             effects: vis.inkFriendlyEffect
@@ -119,7 +119,7 @@ export default class Card
         const resBeasts = vis.getResource("beasts");
         const alpha = vis.inkFriendly ? 0.75 : 1.0;
         const opBeast = new LayoutOperation({
-            dims: vis.size,
+            size: vis.size,
             frame: beastData.frame,
             effects: vis.inkFriendlyEffect,
             alpha: alpha
@@ -129,8 +129,8 @@ export default class Card
         // the white-line borders on top of everything
         // (slightly scaled down because of black autoStroke on edges)
         const opBorders = new LayoutOperation({
-            translate: vis.center,
-            dims: vis.size.clone().scale(0.99),
+            pos: vis.center,
+            size: vis.size.clone().scale(0.99),
             frame: MISC.beast_frame.frame,
             alpha: 0.75,
             pivot: Point.CENTER,
@@ -141,11 +141,11 @@ export default class Card
         group.add(resMisc, opBorders);
 
         // the beast name + level (on top of plaque)
-        const plaqueDims = vis.get("beasts.name.dimsPlaque");
+        const plaqueDims = vis.get("beasts.name.sizePlaque");
         const opPlaque = new LayoutOperation({
-            translate: vis.get("beasts.name.posPlaque"),
+            pos: vis.get("beasts.name.posPlaque"),
             frame: MISC.name_plaque.frame,
-            dims: plaqueDims,
+            size: plaqueDims,
             pivot: Point.CENTER,
             effects: [vis.custom.glowEffect, vis.inkFriendlyEffect].flat()
         })
@@ -156,8 +156,8 @@ export default class Card
             size: vis.get("beasts.name.fontSize")
         }).alignCenter();
         const opName = new LayoutOperation({
-            translate: vis.get("beasts.name.pos"),
-            dims: plaqueDims,
+            pos: vis.get("beasts.name.pos"),
+            size: plaqueDims,
             fill: "#FFFFFF",
             stroke: "#000000",
             strokeWidth: vis.get("beasts.name.strokeWidth"),
@@ -173,8 +173,8 @@ export default class Card
         }).alignCenter();
         const resTextDetails = new ResourceText({ text: "Level " + ((beastData.tier ?? 0) + 1), textConfig: textConfigDetails });
         const opTextDetails = new LayoutOperation({
-            translate: vis.get("beasts.name.posLevel"),
-            dims: plaqueDims,
+            pos: vis.get("beasts.name.posLevel"),
+            size: plaqueDims,
             fill: "#FFFFFF",
             stroke: "#000000",
             strokeWidth: vis.get("beasts.name.strokeWidthLevel"),
@@ -194,7 +194,7 @@ export default class Card
         // add special data if available
         if(beastData.fury || beastData.fail)
         {
-            const rectDims = vis.get("beasts.modalOptional.dims");
+            const rectDims = vis.get("beasts.modalOptional.size");
             const blurRadius = vis.get("beasts.modalOptional.blurRadius");
             const highlightColor = vis.inkFriendly ? "#FFFFFF" : vis.get("beasts.modalOptional.highlightColor");
 
@@ -212,31 +212,31 @@ export default class Card
 
                 // black rect behind it
                 const pos = positions[i];
-                drawBlurryRectangle({ pos: pos, color: "#000000", blur: blurRadius, dims: rectDims }, group);
+                drawBlurryRectangle({ pos: pos, color: "#000000", blur: blurRadius, size: rectDims }, group);
 
                 // actual text
                 const str = "<b><col hex=\"" + highlightColor + "\">" + dataKey.toUpperCase() + ":</col></b> " + beastData[dataKey];
                 const resText = new ResourceText({ text: str, textConfig });
                 const opText = new LayoutOperation({
-                    translate: pos,
-                    dims: rectDims,
+                    pos: pos,
+                    size: rectDims,
                     fill: "#FFFFFF",
                     pivot: Point.CENTER,
-                    dimsAuto: true
+                    sizeAuto: true
                 });
                 group.add(resText, opText);
             }
         }
 
         // print the major frames/modals with the beast data
-        const modalDims = vis.get("beasts.modal.dims");
-        const modalDimsPositioning = vis.get("beasts.modal.dimsForPositioning");
+        const modalDims = vis.get("beasts.modal.size");
+        const modalDimsPositioning = vis.get("beasts.modal.sizeForPositioning");
         const modalPos = vis.get("beasts.modal.anchorPos");
         const textBoxDims = vis.get("beasts.modal.textBoxDims");
         const positions = getPositionsCenteredAround({
             pos: modalPos,
             num: 3,
-            dims: modalDimsPositioning
+            size: modalDimsPositioning
         })
 
         const dataKeys = ["rule", "state", "menu"];
@@ -251,9 +251,9 @@ export default class Card
 
             // the frame around/behind it
             const opModal = new LayoutOperation({
-                translate: pos,
+                pos: pos,
                 frame: MISC["modal_" + dataKey].frame,
-                dims: modalDims,
+                size: modalDims,
                 pivot: Point.CENTER,
                 effects: [vis.custom.glowEffect, vis.inkFriendlyEffect].flat()
             });
@@ -271,8 +271,8 @@ export default class Card
                 const str = data.labels.on + "/" + data.labels.off; 
                 const resTextDetails = new ResourceText({ text: str, textConfig: textConfigDetails });
                 const opTextDetails = new LayoutOperation({
-                    translate: pos.clone().sub(new Point(0, vis.get("beasts.modal.stateTextOffsetFromCenter")*modalDims.y)),
-                    dims: modalDims,
+                    pos: pos.clone().sub(new Point(0, vis.get("beasts.modal.stateTextOffsetFromCenter")*modalDims.y)),
+                    size: modalDims,
                     pivot: Point.CENTER,
                     fill: "#000000",
                     stroke: "#FFFFFF",
@@ -289,7 +289,7 @@ export default class Card
             {
                 const subGroup = this.visualizeRecipe(vis, data.cost, vis.get("beasts.modal.menuIconDims"), textBoxDims.x);
                 const op = new LayoutOperation({
-                    translate: pos.clone().sub(new Point(0, menuYOffset)),
+                    pos: pos.clone().sub(new Point(0, menuYOffset)),
                 });
                 group.add(subGroup, op);
 
@@ -302,7 +302,7 @@ export default class Card
             {
                 const subGroup = this.visualizeRecipe(vis, data.reward.food, vis.get("beasts.modal.menuIconDims"), textBoxDims.x);
                 const op = new LayoutOperation({
-                    translate: textPos,
+                    pos: textPos,
                 });
                 group.add(subGroup, op);
             }
@@ -312,11 +312,11 @@ export default class Card
                 // the text on top
                 const resText = new ResourceText({ text: str, textConfig });
                 const opText = new LayoutOperation({
-                    translate: textPos,
-                    dims: textBoxDims,
+                    pos: textPos,
+                    size: textBoxDims,
                     pivot: Point.CENTER,
                     fill: vis.get("beasts.modal.textColor"),
-                    dimsAuto: true,
+                    sizeAuto: true,
                 })
                 group.add(resText, opText);
             }
@@ -353,7 +353,7 @@ export default class Card
         const positionsGlobal = getPositionsCenteredAround({
             pos: new Point(),
             num: iconList.length,
-            dims: groupSizes, // these are of dynamic lengths, but should still be centered nicely by this function
+            size: groupSizes, // these are of dynamic lengths, but should still be centered nicely by this function
             align: align,
         });
 
@@ -372,15 +372,15 @@ export default class Card
             const positions = getPositionsCenteredAround({
                 pos: new Point(),
                 num: num,
-                dims: iconDimsWithOverlap,
+                size: iconDimsWithOverlap,
                 align: align
             })
     
             for(let a = 0; a < positions.length; a++)
             {
                 const op = new LayoutOperation({
-                    translate: positions[a],
-                    dims: iconDims,
+                    pos: positions[a],
+                    size: iconDims,
                     frame: FOOD[ option[a] ].frame,
                     pivot: Point.CENTER,
                     effects: [vis.custom.shadowEffect, vis.inkFriendlyEffect].flat()
@@ -391,7 +391,7 @@ export default class Card
 
             // add this to the overall group
             const opGroup = new LayoutOperation({
-                translate: positionsGlobal[i]
+                pos: positionsGlobal[i]
             })
             groupGlobal.add(group, opGroup);
 
@@ -409,8 +409,8 @@ export default class Card
         {
             const posBetween = allRawPositions[iconIndices[0]].clone().add(allRawPositions[iconIndices[1]]).scale(0.5);
             const opDivider = new LayoutOperation({
-                translate: posBetween,
-                dims: iconDims,
+                pos: posBetween,
+                size: iconDims,
                 frame: MISC.recipe_or_divider.frame,
                 pivot: Point.CENTER
             })
@@ -427,8 +427,8 @@ export default class Card
         {
             const resVictim = vis.getResource("victims");
             const opVictim = new LayoutOperation({
-                translate: vis.get("cards.victims.illuPos"),
-                dims: vis.get("cards.victims.illuDims"),
+                pos: vis.get("cards.victims.illuPos"),
+                size: vis.get("cards.victims.illuDims"),
                 frame: VICTIMS[this.key].frame,
                 pivot: Point.CENTER,
                 effects: vis.inkFriendlyEffect
@@ -442,7 +442,7 @@ export default class Card
 
         const resTemplate = vis.getResource("card_templates");
         const opTemplate = new LayoutOperation({
-            dims: vis.size,
+            size: vis.size,
             frame: templateData.frame,
             effects: vis.inkFriendlyEffect
         });
@@ -461,8 +461,8 @@ export default class Card
 
         const resTextDetails = new ResourceText({ text: victimData.label, textConfig: textConfigName });
         const opTextDetails = new LayoutOperation({
-            translate: vis.get("cards.victims.posName"),
-            dims: new Point(vis.size.x, 2*textConfigName.size),
+            pos: vis.get("cards.victims.posName"),
+            size: new Point(vis.size.x, 2*textConfigName.size),
             fill: "#000000",
             stroke: "#FFFFFF",
             strokeWidth: vis.get("cards.victims.strokeWidthName"),
@@ -482,8 +482,8 @@ export default class Card
         const str = this.fillInDynamicDetails(victimData.desc);
         const resText = new ResourceText({ text: str, textConfig });
         const opText = new LayoutOperation({
-            translate: vis.get("cards.victims.pos"),
-            dims: vis.get("cards.victims.textBoxDims"),
+            pos: vis.get("cards.victims.pos"),
+            size: vis.get("cards.victims.textBoxDims"),
             fill: "#FFFFFF",
             pivot: Point.CENTER
         });
@@ -516,8 +516,8 @@ export default class Card
 
             // some FRAMING around/behind each option
             const opFrame = new LayoutOperation({
-                translate: new Point(),
-                dims: new Point(spaceXPerRecipe), // this image is 1x1 square, so need to "squarify" it
+                pos: new Point(),
+                size: new Point(spaceXPerRecipe), // this image is 1x1 square, so need to "squarify" it
                 frame: MISC.recipe_frame.frame,
                 pivot: Point.CENTER
             })
@@ -536,8 +536,8 @@ export default class Card
             // visualize some CONNECTING ELEMENT (behind the cost + reward)
             // (this slightly sticks out to the right, but is also slightly behind the icons, hence the fiddling with the numbers here)
             const opConnector = new LayoutOperation({
-                translate: costGroupPos.clone().add(connectorOffset),
-                dims: new Point(0.435*maxIconDims.x),
+                pos: costGroupPos.clone().add(connectorOffset),
+                size: new Point(0.435*maxIconDims.x),
                 pivot: new Point(1,0.5),
                 frame: MISC.arrow.frame
             })
@@ -546,7 +546,7 @@ export default class Card
             // visualize the COST ( = food token icons)
             const costGroup = this.visualizeRecipe(vis, r.cost, maxIconDims, maxSpaceForCost, AlignValue.START);
             const costOp = new LayoutOperation({
-                translate: costGroupPos
+                pos: costGroupPos
             })
             subGroup.add(costGroup, costOp);
 
@@ -563,8 +563,8 @@ export default class Card
 
                 const resText = new ResourceText({ text: str as string, textConfig });
                 const opText = new LayoutOperation({
-                    translate: textBoxPos,
-                    dims: textBoxDims,
+                    pos: textBoxPos,
+                    size: textBoxDims,
                     fill: "#000000",
                     pivot: Point.CENTER
                 });
@@ -575,14 +575,14 @@ export default class Card
             {
                 const groupRewardIcons = this.visualizeRecipe(vis, r.reward.food, maxIconDims, maxSpaceForCost);
                 const opReward = new LayoutOperation({
-                    translate: textBoxPos,
+                    pos: textBoxPos,
                 });
                 subGroup.add(groupRewardIcons, opReward);
             }
 
             // add the whole thing to the overall list
             const opRecipe = new LayoutOperation({
-                translate: new Point(vis.center.x, listTop.y + spaceYPerRecipe * (i + 0.5))
+                pos: new Point(vis.center.x, listTop.y + spaceYPerRecipe * (i + 0.5))
             });
             group.add(subGroup, opRecipe);
         }
@@ -642,8 +642,8 @@ export default class Card
         // draw the food illustration, clipped to be inside circle
         const circle = new Circle({ center: vis.center, radius: 0.475 * vis.sizeUnit });
         const opIllu = new LayoutOperation({
-            translate: vis.center,
-            dims: vis.get("foodTokens.iconDims"),
+            pos: vis.center,
+            size: vis.get("foodTokens.iconDims"),
             clip: circle,
             pivot: Point.CENTER
         });
@@ -653,8 +653,8 @@ export default class Card
         // draw the tinted border on top
         const resMisc = vis.getResource("misc");
         const opBorder = new LayoutOperation({
-            translate: vis.center,
-            dims: vis.size,
+            pos: vis.center,
+            size: vis.size,
             frame: MISC.food_circle.frame,
             pivot: Point.CENTER,
             effects: [new TintEffect(foodData.col)]
@@ -672,7 +672,7 @@ export default class Card
             const positions = getPositionsCenteredAround({
                 pos: new Point(),
                 num: numDots,
-                dims: new Point(dotRadius*2),
+                size: new Point(dotRadius*2),
                 dir: Point.DOWN
             })
             
@@ -681,17 +681,17 @@ export default class Card
             for(const pos of positions)
             {
                 const opTier = new LayoutOperation({
-                    translate: pos,
+                    pos: pos,
                     fill: "#000000",
                     composite: "overlay"
                 });
                 groupDots.add(dotTier, opTier);
             }
 
-            // then place that entire group at the right position, right rotation
+            // then place that entire group at the right position, right rot
             const groupDotsOp = new LayoutOperation({
-                translate: vis.center.clone().add(new Point(Math.cos(ang), Math.sin(ang)).scale(circleRadius)),
-                rotation: ang,
+                pos: vis.center.clone().add(new Point(Math.cos(ang), Math.sin(ang)).scale(circleRadius)),
+                rot: ang,
                 pivot: Point.CENTER
             })
 

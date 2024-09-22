@@ -56,7 +56,7 @@ export default class Tile
     {
         const resMisc = vis.getResource("misc");
         const opWave = new LayoutOperation({
-            translate: new Point(),
+            pos: new Point(),
             size: vis.size,
             frame: MISC.wave_bg.frame,
         })
@@ -92,8 +92,8 @@ export default class Tile
         const typeData = TYPES[this.type];
         const resType = vis.getResource("tile_types");
         const opType = new LayoutOperation({
-            translate: vis.center,
-            dims: vis.get("tiles.type.dims"),
+            pos: vis.center,
+            size: vis.get("tiles.type.size"),
             pivot: Point.CENTER,
             frame: typeData.frame,
             effects: [vis.custom.shadowEffect, vis.inkFriendlyEffect].flat()
@@ -130,14 +130,14 @@ export default class Tile
             const pos = positions[i];
             const rot = i == 0 ? 0 : Math.PI;
             const opText = new LayoutOperation({
-                translate: pos,
-                dims: new Point(2*textConfig.size),
+                pos: pos,
+                size: new Point(2*textConfig.size),
                 pivot: Point.CENTER,
                 fill: vis.get("tiles.type.textColor"),
                 stroke: vis.get("tiles.type.textStrokeColor"),
                 strokeWidth: vis.get("tiles.type.textStrokeWidth"),
                 strokeAlign: StrokeAlign.OUTSIDE,
-                rotation: rot,
+                rot: rot,
                 effects: [vis.custom.shadowEffect]
             })
             group.add(resText, opText);
@@ -148,7 +148,7 @@ export default class Tile
                 let dotOffset = new Point(fontSize).scale(0.2);
                 if(typeData.points < 0) { dotOffset.add(new Point(0.125*fontSize, 0)); }
                 if(i == 1) { dotOffset.negate(); }
-                opCircleTemp.translate = pos.clone().add(dotOffset);
+                opCircleTemp.pos = pos.clone().add(dotOffset);
                 group.add(resCircle, opCircleTemp);
             }
         }
@@ -160,7 +160,7 @@ export default class Tile
 
         const resMisc = vis.getResource("misc");
         
-        // @NOTE: we calculate everything according to the icon dims ( = "full size we can take up")
+        // @NOTE: we calculate everything according to the icon size ( = "full size we can take up")
         // but the actual icon is displayed at a scaled down size, so we get whitespace/padding between it and text/edges
         const spriteDims = vis.get("tiles.action.iconDims");
         const realSpriteDims = spriteDims.clone().scale(vis.get("tiles.action.iconScaleFactor"));
@@ -189,8 +189,8 @@ export default class Tile
 
             // the action type icon
             const opMisc = new LayoutOperation({
-                translate: pos,
-                dims: realSpriteDims,
+                pos: pos,
+                size: realSpriteDims,
                 pivot: Point.CENTER,
                 frame: MISC[type + "_icon"].frame,
                 effects: [vis.custom.shadowEffect, vis.inkFriendlyEffect].flat()
@@ -201,8 +201,8 @@ export default class Tile
             const resText = new ResourceText({ text: data.desc, textConfig: textConfig });
             const textBoxDims = new Point(availableWidth - spriteDims.x, spriteDims.y);
             const opText = new LayoutOperation({
-                translate: pos.clone().add(new Point(0.5*realSpriteDims.x + 0.5*textBoxDims.x, 0)),
-                dims: textBoxDims,
+                pos: pos.clone().add(new Point(0.5*realSpriteDims.x + 0.5*textBoxDims.x, 0)),
+                size: textBoxDims,
                 pivot: Point.CENTER,
                 fill: textColor
             });
@@ -214,8 +214,8 @@ export default class Tile
     {
         const resCol = vis.getResource("patterns");
         const opCol = new LayoutOperation({
-            translate: new Point(),
-            dims: vis.size,
+            pos: new Point(),
+            size: vis.size,
             frame: COLORS[this.color].frame
         })
         group.add(resCol, opCol);

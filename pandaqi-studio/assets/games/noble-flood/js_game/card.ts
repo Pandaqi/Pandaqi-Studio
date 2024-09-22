@@ -87,7 +87,7 @@ export default class Card
         const alpha = vis.inkFriendly ? 0.5 : 1.0;
 
         const opTemplate = new LayoutOperation({
-            dims: vis.size,
+            size: vis.size,
             frame: templateData.frame,
             alpha: alpha,
             effects: vis.inkFriendlyEffect
@@ -130,10 +130,10 @@ export default class Card
 
             // place the number
             const opText = new LayoutOperation({
-                translate: pos,
-                dims: iconDims.clone().scale(2),
+                pos: pos,
+                size: iconDims.clone().scale(2),
                 fill: textColor,
-                rotation: rot,
+                rot: rot,
                 pivot: Point.CENTER
             })
             group.add(resText, opText);
@@ -141,10 +141,10 @@ export default class Card
             // place the suit icon below
             const posIcon = pos.clone().add(new Point(0, dir * offsetBetweenTextAndIcon));
             const opIcon = new LayoutOperation({
-                translate: posIcon,
-                dims: iconDims,
+                pos: posIcon,
+                size: iconDims,
                 frame: suitFrame,
-                rotation: rot,
+                rot: rot,
                 pivot: Point.CENTER,
                 effects: vis.inkFriendlyEffect
             });
@@ -182,8 +182,8 @@ export default class Card
         for(const pos of finalPositions)
         {
             const opIcon = new LayoutOperation({
-                translate: pos,
-                dims: iconDimsCenter,
+                pos: pos,
+                size: iconDimsCenter,
                 pivot: Point.CENTER,
                 frame: suitFrame,
                 effects
@@ -207,14 +207,14 @@ export default class Card
 
         const resText = new ResourceText({ text: actionData.desc, textConfig });
         const opText = new LayoutOperation({
-            translate: vis.get("cards.action.textBoxPos"),
-            dims: vis.get("cards.action.textBoxDims"),
+            pos: vis.get("cards.action.textBoxPos"),
+            size: vis.get("cards.action.textBoxDims"),
             fill: "#000000",
             pivot: Point.CENTER
         });
         group.add(resText, opText);
 
-        this.addBannerToBox(vis, group, opText.translate.clone(), opText.dims.clone(), actionData.label)
+        this.addBannerToBox(vis, group, opText.pos.clone(), opText.size.clone(), actionData.label)
     }
 
     addBannerToBox(vis: MaterialVisualizer, group:ResourceGroup, boxCenter:Point, boxSize:Point, txt:string, scaleFactor = 1.0)
@@ -225,8 +225,8 @@ export default class Card
         const bannerDims = vis.get("cards.shared.bannerDims").clone().scale(scaleFactor);
 
         const opBanner = new LayoutOperation({
-            translate: bannerPos,
-            dims: bannerDims,
+            pos: bannerPos,
+            size: bannerDims,
             frame: MISC.banner.frame,
             pivot: Point.CENTER
         });
@@ -240,8 +240,8 @@ export default class Card
 
         const resTextAction = new ResourceText({ text: txt, textConfig: textConfigAction });
         const opTextAction = new LayoutOperation({
-            translate: bannerPos,
-            dims: bannerDims,
+            pos: bannerPos,
+            size: bannerDims,
             fill: "#FFFFFF",
             pivot: Point.CENTER
         });
@@ -279,8 +279,8 @@ export default class Card
             const resText = new ResourceText({ text: scores[i].toString(), textConfig: textConfigScore });
             const textColor = vis.inkFriendly ? "#FFFFFF" : vis.get("cards.contract.score.textColor." + side);
             const opText = new LayoutOperation({
-                translate: pos,
-                dims: new Point(textConfigScore.size*4),
+                pos: pos,
+                size: new Point(textConfigScore.size*4),
                 fill: textColor,
                 pivot: Point.CENTER
             })
@@ -298,23 +298,23 @@ export default class Card
         }).alignCenter();
 
         const pos = contractHasRule ? vis.get("cards.contract.textBoxPosAlt") : vis.get("cards.contract.textBoxPos");
-        const dims = contractHasRule ? vis.get("cards.contract.textBoxDimsAlt") : vis.get("cards.contract.textBoxDims");
+        const size = contractHasRule ? vis.get("cards.contract.textBoxDimsAlt") : vis.get("cards.contract.textBoxDims");
         let offsetFromBanner = contractHasRule ? 0.066 : 0.1;
 
-        this.drawBlurredRect(group, pos, dims, rectBlur, rectAlpha);
+        this.drawBlurredRect(group, pos, size, rectBlur, rectAlpha);
 
         const bannerDims = vis.get("cards.shared.bannerDims").clone();
         const str = this.fillInDynamically(contractData.desc, dynDetails);
         const resText = new ResourceText({ text: str, textConfig })
         const opText = new LayoutOperation({
-            translate: pos.clone().add(new Point(0, offsetFromBanner*bannerDims.y)),
-            dims,
+            pos: pos.clone().add(new Point(0, offsetFromBanner*bannerDims.y)),
+            size,
             fill: "#000000",
             pivot: Point.CENTER
         });
         group.add(resText, opText);
 
-        this.addBannerToBox(vis, group, pos, dims, "CONTRACT");
+        this.addBannerToBox(vis, group, pos, size, "CONTRACT");
 
         // draw the special rule text, if enabled
         if(contractHasRule)
@@ -325,27 +325,27 @@ export default class Card
             textConfigRule.style = TextStyle.ITALIC; // let's use that really nice italic font for the unique rules then; they should have no italic formatting inside themselves
 
             const posRule = vis.get("cards.contract.rule.textBoxPos");
-            const dimsRule = vis.get("cards.contract.rule.textBoxDims");
+            const sizeRule = vis.get("cards.contract.rule.textBoxDims");
 
-            this.drawBlurredRect(group, posRule, dimsRule, rectBlur, rectAlpha);
+            this.drawBlurredRect(group, posRule, sizeRule, rectBlur, rectAlpha);
 
             const resText = new ResourceText({ text: contractData.rule, textConfig: textConfigRule })
             const opText = new LayoutOperation({
-                translate: posRule.clone().add(new Point(0, offsetFromBanner*bannerDims.y*scaleFactor)),
-                dims: dimsRule,
+                pos: posRule.clone().add(new Point(0, offsetFromBanner*bannerDims.y*scaleFactor)),
+                size: sizeRule,
                 fill: "#000000",
                 pivot: Point.CENTER
             });
             group.add(resText, opText);
 
-            this.addBannerToBox(vis, group, posRule, dimsRule, "RULE", scaleFactor);
+            this.addBannerToBox(vis, group, posRule, sizeRule, "RULE", scaleFactor);
         }
     }
 
     // @TODO: should probably make this a core function of PQ GAMES
-    drawBlurredRect(group:ResourceGroup, pos:Point, dims:Point, blur:number, alpha:number)
+    drawBlurredRect(group:ResourceGroup, pos:Point, size:Point, blur:number, alpha:number)
     {
-        const rect = new Rectangle({ center: pos, extents: dims });
+        const rect = new Rectangle({ center: pos, extents: size });
         const opRect = new LayoutOperation({
             fill: "#FFFFFF",
             alpha: 0.9,
@@ -409,14 +409,14 @@ export default class Card
         const contractData = CONTRACTS[this.contractKey];
 
         const hasStaticImage = contractData.frame || !contractData.drawDetails;
-        const dims = vis.get("cards.contract.illustration.dims").clone();
-        if(contractData.rule) { dims.scale(0.9); }
-        if(hasStaticImage) { dims.scale(0.85); }
+        const size = vis.get("cards.contract.illustration.size").clone();
+        if(contractData.rule) { size.scale(0.9); }
+        if(hasStaticImage) { size.scale(0.85); }
         
         let res;
         const op = new LayoutOperation({
-            translate: vis.get("cards.contract.illustration.pos"),
-            dims: dims,
+            pos: vis.get("cards.contract.illustration.pos"),
+            size: size,
             pivot: Point.CENTER,
             effects: vis.inkFriendlyEffect
         })
@@ -424,7 +424,7 @@ export default class Card
         if(hasStaticImage) {
             res = vis.getResource("custom_illustrations");
             op.frame = contractData.frame ?? 0;
-            op.translate = op.translate.clone().sub(new Point(0, 0.115*op.dims.y));
+            op.pos = op.pos.clone().sub(new Point(0, 0.115*op.size.y));
 
             const shadowEnabled = vis.get("cards.contractDraw.shadow.enabled");
             const shadowEffects = shadowEnabled ? [new DropShadowEffect({ 
@@ -440,7 +440,7 @@ export default class Card
             const isVerticalLayout = contractData.drawDetails && contractData.drawDetails.length >= 3;
             if(isVerticalLayout)
             {
-                op.translate = op.translate.clone().sub(new Point(0, 0.05*op.dims.y));
+                op.pos = op.pos.clone().sub(new Point(0, 0.05*op.size.y));
             }
         }
 

@@ -138,7 +138,7 @@ const CONFIG =
             
         },
 
-        dimsPerSize: 
+        sizePerSize: 
         {
             tiny: new Point(6, 5),
             small: new Point(8, 6),

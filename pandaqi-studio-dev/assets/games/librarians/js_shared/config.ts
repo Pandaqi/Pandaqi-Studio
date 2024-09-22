@@ -102,8 +102,8 @@ const CONFIG:any =
     {
         drawerConfig:
         {
-            dimsElement: new Point(1, 1.4),
-            dims: { 
+            sizeElement: new Point(1, 1.4),
+            size: { 
                 small: new Point(4,4),
                 regular: new Point(3,3),
                 large: new Point(2,2)
@@ -133,16 +133,16 @@ const CONFIG:any =
         {
             fontSize: new CVal(0.075, "sizeUnit"),
             offsetY: 0.35,
-            dims: new CVal(new Point(0.75, 0.25), "size"),
+            size: new CVal(new Point(0.75, 0.25), "size"),
             helpNumbersAlpha: 0.75,
             helpNumbersColor: "#000000"
         },
 
         background:
         {
-            dims: new CVal(new Point(0.875), "size"),
-            dimsOverlayRelative: new Point(0.9, 0.9), // "usable" size of book relative to calculated dims
-            spineWidthRelative: 0.2, // width of the book spine relative to calculated dims.x
+            size: new CVal(new Point(0.875), "size"),
+            sizeOverlayRelative: new Point(0.9, 0.9), // "usable" size of book relative to calculated size
+            spineWidthRelative: 0.2, // width of the book spine relative to calculated size.x
 
             cover:
             {
@@ -160,8 +160,8 @@ const CONFIG:any =
         genre:
         {
             compositeRect: "overlay",
-            dimsIcon: new CVal(new Point(0.05), "sizeUnit"),
-            dimsRect: new CVal(new Point(0.1), "sizeUnit"),
+            sizeIcon: new CVal(new Point(0.05), "sizeUnit"),
+            sizeRect: new CVal(new Point(0.1), "sizeUnit"),
             textColor: "#000000",
             textComposite: "overlay",
             fontSize: new CVal(new Point(0.125), "sizeUnit"),
@@ -173,15 +173,15 @@ const CONFIG:any =
             arrow:
             {
                 pos: new CVal(new Point(0.5, 0.33), "size"),
-                dims: new CVal(new Point(0.4), "sizeUnit"),
-                dimsVertical: new CVal(new Point(0.15), "sizeUnit"),
-                dimsRect: new CVal(new Point(0.75, 0.4), "size"),
+                size: new CVal(new Point(0.4), "sizeUnit"),
+                sizeVertical: new CVal(new Point(0.15), "sizeUnit"),
+                sizeRect: new CVal(new Point(0.75, 0.4), "size"),
             },
 
             text:
             {
                 pos: new CVal(new Point(0.5, 0.66), "size"),
-                dims: new CVal(new Point(0.75, 0.4), "size"),
+                size: new CVal(new Point(0.75, 0.4), "size"),
                 color: "#000000",
                 fontSize: new CVal(0.075, "sizeUnit")
             }
@@ -198,9 +198,9 @@ const CONFIG:any =
         action:
         {
             offsetY: 0.6,
-            dimsY: 0.35,
+            sizeY: 0.35,
             fontSize: new CVal(0.066, "sizeUnit"),
-            dimsIcon: new CVal(new Point(0.1), "sizeUnit"),
+            sizeIcon: new CVal(new Point(0.1), "sizeUnit"),
         }
 
     },

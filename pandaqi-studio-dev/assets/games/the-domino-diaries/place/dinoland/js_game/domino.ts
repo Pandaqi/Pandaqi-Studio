@@ -65,13 +65,13 @@ export default class Domino
             this.drawImpactTile(vis, group);
         } else if(this.type == DominoType.REGULAR) {
             const opTop = new LayoutOperation({
-                translate: new Point(vis.center.x, 0.25*vis.size.y),
+                pos: new Point(vis.center.x, 0.25*vis.size.y),
                 pivot: Point.CENTER
             });
             group.add(this.sides.top.draw(vis), opTop);
 
             const opBottom = new LayoutOperation({
-                translate: new Point(vis.center.x, 0.75*vis.size.y),
+                pos: new Point(vis.center.x, 0.75*vis.size.y),
                 pivot: Point.CENTER
             })
             group.add(this.sides.bottom.draw(vis), opBottom);
@@ -87,20 +87,20 @@ export default class Domino
     drawPawn(vis:MaterialVisualizer, group:ResourceGroup)
     {
         const res = vis.getResource("pawns");
-        const dims = new Point(vis.sizeUnit);
+        const size = new Point(vis.sizeUnit);
         
         const opTop = new LayoutOperation({
-            translate: new Point(vis.size.x, vis.center.y),
+            pos: new Point(vis.size.x, vis.center.y),
             frame: this.pawnIndex,
-            dims: dims,
-            rotation: Math.PI
+            size: size,
+            rot: Math.PI
         });
         group.add(res, opTop);
 
         const opBottom = new LayoutOperation({
-            translate: new Point(0, vis.center.y),
+            pos: new Point(0, vis.center.y),
             frame: this.pawnIndex,
-            dims: dims
+            size: size
         });
         group.add(res, opBottom);
     }
@@ -117,11 +117,11 @@ export default class Domino
         })
         const resText = new ResourceText({ text, textConfig });
         const opText = new LayoutOperation({
-            translate: new Point(1.33*textConfig.size), 
+            pos: new Point(1.33*textConfig.size), 
             pivot: Point.CENTER,
             fill: "#442200",
             alpha: 0.5,
-            dims: new Point(2*textConfig.size)
+            size: new Point(2*textConfig.size)
         });
         group.add(resText, opText);
     }
@@ -133,9 +133,9 @@ export default class Domino
         // the sprite visualizing how the impact works
         const res = vis.getResource("impact_tiles");
         const op = new LayoutOperation({
-            translate: new Point(vis.center.x, 0.25*vis.size.y),
+            pos: new Point(vis.center.x, 0.25*vis.size.y),
             frame: data.frame,
-            dims: vis.get("dominoes.impact.dims"),
+            size: vis.get("dominoes.impact.size"),
             effects: vis.inkFriendlyEffect,
             pivot: Point.CENTER
         })
@@ -151,10 +151,10 @@ export default class Domino
         const textColor = vis.inkFriendly ? "#111111" : "#FCFCFC";
         const resText = new ResourceText({ text, textConfig });
         const opText = new LayoutOperation({
-            translate: new Point(vis.center.x, 0.75*vis.size.y), 
+            pos: new Point(vis.center.x, 0.75*vis.size.y), 
             pivot: Point.CENTER,
             fill: textColor,
-            dims: new Point(0.925*vis.size.x, 0.5*vis.size.y)
+            size: new Point(0.925*vis.size.x, 0.5*vis.size.y)
         });
         group.add(resText, opText);
     }
@@ -173,8 +173,8 @@ export default class Domino
         }
 
         const op = new LayoutOperation({
-            translate: new Point(vis.center.x, 0.25*vis.size.y),
-            dims: vis.get("dominoes.asteroid.dims"),
+            pos: new Point(vis.center.x, 0.25*vis.size.y),
+            size: vis.get("dominoes.asteroid.size"),
             frame: data.frame,
             effects: vis.inkFriendlyEffect,
             pivot: Point.CENTER
@@ -193,10 +193,10 @@ export default class Domino
     
             const resText = new ResourceText({ text, textConfig });
             const opText = new LayoutOperation({
-                translate: new Point(vis.center.x, 0.75*vis.size.y), 
+                pos: new Point(vis.center.x, 0.75*vis.size.y), 
                 pivot: Point.CENTER,
                 fill: textColor,
-                dims: new Point(0.925*vis.size.x, 0.5*vis.size.y)
+                size: new Point(0.925*vis.size.x, 0.5*vis.size.y)
             });
             group.add(resText, opText);
         }

@@ -62,10 +62,10 @@ export default class Card
         const res = vis.getResource("card_templates");
         const opTexture = new LayoutOperation({
             size: vis.size.clone().scale(1.66),
-            translate: vis.center,
+            pos: vis.center,
             frame: 2,
             pivot: Point.CENTER,
-            rotation: Math.random() * 2 * Math.PI,
+            rot: Math.random() * 2 * Math.PI,
         })
         group.add(res, opTexture);
 
@@ -134,9 +134,9 @@ export default class Card
         for(let i = 0; i < 2; i++)
         {
             const opText = new LayoutOperation({
-                translate: positions[i * 2],
-                rotation: i * Math.PI,
-                dims: textDims,
+                pos: positions[i * 2],
+                rot: i * Math.PI,
+                size: textDims,
                 fill: fontColor,
                 pivot: Point.CENTER
             })
@@ -157,8 +157,8 @@ export default class Card
         const resTextBig = new ResourceText({ text: numDisplay, textConfig: textConfigBig });
         const posBig = this.isExpansionCard() ? vis.get("cards.numberCenter.textPosSpecial") : vis.get("cards.numberCenter.textPos");
         const opTextBig = new LayoutOperation({
-            translate: posBig,
-            dims: vis.size,
+            pos: posBig,
+            size: vis.size,
             fill: fontColor,
             pivot: Point.CENTER
         })
@@ -172,9 +172,9 @@ export default class Card
         {
             const dir = i == 0 ? 1 : -1;
             const opIcon = new LayoutOperation({
-                translate: positions[i * 2].clone().add(iconOffset.clone().scale(dir)),
-                rotation: i * Math.PI,
-                dims: vis.get("cards.icons.dims"),
+                pos: positions[i * 2].clone().add(iconOffset.clone().scale(dir)),
+                rot: i * Math.PI,
+                size: vis.get("cards.icons.size"),
                 frame: iconFrame,
                 pivot: Point.CENTER
             })
@@ -198,10 +198,10 @@ export default class Card
         for(let i = 0; i < 2; i++)
         {
             const opIcon = new LayoutOperation({
-                translate: positions[1 + i * 2],
+                pos: positions[1 + i * 2],
                 frame: EXPANSION[this.key].frame,
-                dims: vis.get("cards.special.iconDims"),
-                rotation: i * Math.PI,
+                size: vis.get("cards.special.iconDims"),
+                rot: i * Math.PI,
                 effects: vis.inkFriendlyEffect,
                 pivot: Point.CENTER
             })
@@ -210,7 +210,7 @@ export default class Card
 
         // add the text explaining the card below middle number
         const pos = vis.get("cards.special.textPos");
-        const dims = vis.get("cards.special.textDims");
+        const size = vis.get("cards.special.textDims");
 
         const textConfig = new TextConfig({
             font: vis.get("fonts.body"),
@@ -219,9 +219,9 @@ export default class Card
 
         const resText = new ResourceText({ text: this.getActionText(), textConfig: textConfig });
         const opText = new LayoutOperation({
-            translate: pos,
+            pos: pos,
             fill: this.getColorDarkenedMore(vis),
-            dims: dims,
+            size: size,
             pivot: Point.CENTER,
         })
         group.add(resText, opText);

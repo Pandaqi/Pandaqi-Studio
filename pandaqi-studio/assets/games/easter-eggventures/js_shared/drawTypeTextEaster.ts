@@ -32,12 +32,12 @@ export default (tile:MaterialEaster, vis:MaterialVisualizer, group:ResourceGroup
         const pos = new Point(vis.center.x, yPos);
 
         const op = new LayoutOperation({
-            translate: pos,
-            dims: new Point(0.5*vis.size.x, 2*textConfig.size),
+            pos: pos,
+            size: new Point(0.5*vis.size.x, 2*textConfig.size),
             pivot: Point.CENTER,
             alpha: alpha,
             composite: composite,
-            rotation: (i == 0 ? 0 : Math.PI),
+            rot: (i == 0 ? 0 : Math.PI),
             fill: color
         })
         group.add(resTypeText, op);

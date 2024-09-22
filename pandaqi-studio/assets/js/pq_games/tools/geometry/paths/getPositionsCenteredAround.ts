@@ -5,7 +5,7 @@ interface Params
 {
     pos?: Point,
     num?: number,
-    dims: Point[]|Point|number,
+    size: Point[]|Point|number,
     dir?: Point,
     align?: AlignValue
 }
@@ -21,7 +21,7 @@ export default (params:Params) =>
     const dir = params.dir ?? Point.RIGHT;
     const align = params.align ?? AlignValue.MIDDLE;
 
-    let dims = params.dims;
+    let dims = params.size;
     if(typeof dims === "number") { dims = new Point(dims); }
     const dimsDynamic : Point[] = Array.isArray(dims) ? dims : [];
     const nonUniformDims = dimsDynamic.length > 0;

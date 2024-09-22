@@ -22,7 +22,7 @@ export default class Cell
     networkPoison = false // used when generating to forbid any new connections to network on a tile
 
     type = ""
-    rotation = 0
+    rot = 0
     symbols = [null, null, null] // first slot is always our rotation arrow, so always false, so don't even consider it
 
     botPositive = false // caches the bots answer to tiles

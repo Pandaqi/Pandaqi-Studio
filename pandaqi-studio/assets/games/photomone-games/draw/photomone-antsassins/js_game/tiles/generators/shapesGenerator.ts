@@ -1,5 +1,7 @@
+import fromArray from "js/pq_games/tools/random/fromArray";
+import rangeInteger from "js/pq_games/tools/random/rangeInteger";
+import shuffle from "js/pq_games/tools/random/shuffle";
 import Point from "../../shapes/point"
-import Random from "js/pq_games/tools/random/main"
 
 class Shape
 {
@@ -40,7 +42,7 @@ export default class PhotomoneGenerator
     {
         const possibleShapeTypes = config.shapes.possibleShapeTypes || ["rectangle", "circle", "triangle"];
         const possibleLocations = config.gridPoints.slice();
-        Random.shuffle(possibleLocations);
+        shuffle(possibleLocations);
 
         const numRots = config.shapes.numUniqueRotations;
         const possibleRotations = [];
@@ -62,18 +64,18 @@ export default class PhotomoneGenerator
         const possibleColors = config.shapes.colors.slice();
 
         const numBounds = config.shapes.numShapes;
-        const numShapes = Random.rangeInteger(numBounds.min, numBounds.max);
+        const numShapes = rangeInteger(numBounds.min, numBounds.max);
         let finalShapes = [];
 
         const params = {
             types: possibleShapeTypes,
             locations: possibleLocations,
-            rotations: possibleRotations,
+            rots: possibleRotations,
             radii: possibleRadii,
             colors: possibleColors
         }
 
-        Random.shuffle(params.colors)
+        shuffle(params.colors)
 
         const bgColor = params.colors.pop();
         const bgPoints = this.getShapePoints({ numCorners: 4, radius: 1000 });
@@ -91,7 +93,7 @@ export default class PhotomoneGenerator
 
     placeShapeGroup(params)
     {
-        const color = Random.fromArray(params.colors);
+        const color : string = fromArray(params.colors);
         const group = [];
         const groupPoints = [];
         let keepGrowing = true;
@@ -104,7 +106,7 @@ export default class PhotomoneGenerator
             edgePositions.push(loc);
         }
 
-        let curPos = Random.fromArray(edgePositions);
+        let curPos = fromArray(edgePositions);
 
         // @TODO: remove all points visited, or allow points to be used multiple times?
         const maxGroupSize = 7;
@@ -112,8 +114,8 @@ export default class PhotomoneGenerator
         while(keepGrowing)
         {
             // place the current shape
-            const shapeType = Random.fromArray(params.types);
-            const rotation = Random.fromArray(params.rotations);
+            const shapeType = fromArray(params.types);
+            const rot = fromArray(params.rots);
 
             // start with biggest radius, go smaller and smaller as we go
             const radiusIndexFactor = 1.0 - (group.length / maxGroupSize);
@@ -129,7 +131,7 @@ export default class PhotomoneGenerator
                 numCorners: numCorners,
                 pos: curPos,
                 radius: radius,
-                rotation: rotation
+                rot: rot
             }
             const points = this.getShapePoints(shapeParams);
             const shape = new Shape(points, color);
@@ -141,7 +143,7 @@ export default class PhotomoneGenerator
 
             const nbs = this.getGrowingNeighbors(groupPoints, params);
             if(nbs.length <= 0) { break; }
-            curPos = Random.fromArray(nbs);
+            curPos = fromArray(nbs);
 
             keepGrowing = Math.random() <= 1.0 / group.length;
             if(group.length < minGroupSize) { keepGrowing = true; }
@@ -173,7 +175,7 @@ export default class PhotomoneGenerator
         let numCorners = params.numCorners || 4;
         let pos = params.pos || new Point(0,0);
         let radius = params.radius || 10;
-        let angle = params.rotation || 0;
+        let angle = params.rot || 0;
         let angleOffset = 2*Math.PI / numCorners;
         let arr = [];
         for(let i = 0; i < numCorners; i++)

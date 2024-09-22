@@ -67,7 +67,7 @@ async function createSpecialMorphCards(params)
 	const config = { orientation: PageOrientation.PORTRAIT };
 	const pdfBuilder = new PdfBuilder(config);
 
-	const gridConfig = { pdfBuilder: pdfBuilder, dims: pageLayoutDims };
+	const gridConfig = { pdfBuilder: pdfBuilder, size: pageLayoutDims };
 	const gridMapper = new GridMapper(gridConfig);
 	const cardSize = gridMapper.getMaxElementSizeAsSquare();
 
@@ -121,8 +121,8 @@ async function createSpecialMorphCards(params)
 		const resize = iconData.resize || 1.0;
 		const iconParams = {
 			frame: iconData.frame, 
-			translate: new Point(0.5*cardSize.x, 0.5*cardSize.x), 
-			dims: new Point(0.55*centerBubblySize.x*resize, 0.55*centerBubblySize.y*resize),
+			pos: new Point(0.5*cardSize.x, 0.5*cardSize.x), 
+			size: new Point(0.55*centerBubblySize.x*resize, 0.55*centerBubblySize.y*resize),
 			pivot: new Point(0.5)
 		}
 
@@ -141,8 +141,8 @@ async function createSpecialMorphCards(params)
 
 		let numberOffset = new Point(75, 90 + 0.5*numberFontSize); // @TODO: might be incorrect after TextDrawer switch
 		const textOp = new LayoutOperation({
-			translate: numberOffset,
-			dims: new Point(0.25*cardSize.x, numberFontSize*2),
+			pos: numberOffset,
+			size: new Point(0.25*cardSize.x, numberFontSize*2),
 			fill: contrastColor,
 			pivot: Point.CENTER
 		});
@@ -155,7 +155,7 @@ async function createSpecialMorphCards(params)
 		if(isDualNumber) { secondNumberText = secondRandNum + "+"; }
 
 		textRes.text = secondNumberText;
-		textOp.translate = new Point(cardSize.x - numberOffset.x, cardSize.y - 30);
+		textOp.pos = new Point(cardSize.x - numberOffset.x, cardSize.y - 30);
 		await textRes.toCanvas(ctx)
 
 		// thick border
@@ -181,7 +181,7 @@ async function createMorphCards(params)
 	const config = { orientation: PageOrientation.PORTRAIT };
 	const pdfBuilder = new PdfBuilder(config);
 
-	const gridConfig = { pdfBuilder: pdfBuilder, dims: pageLayoutDims };
+	const gridConfig = { pdfBuilder: pdfBuilder, size: pageLayoutDims };
 	const gridMapper = new GridMapper(gridConfig);
 	const cardSize = gridMapper.getMaxElementSizeAsSquare();
 
@@ -235,8 +235,8 @@ async function createMorphCards(params)
 		})
 
 		const textOp = new LayoutOperation({
-			translate: new Point(50, 60 + 0.5 * numberSize), // @TODO: might be incorrect after TextDrawer switch
-			dims: new Point(0.25*cardSize.x, numberSize*2),
+			pos: new Point(50, 60 + 0.5 * numberSize), // @TODO: might be incorrect after TextDrawer switch
+			size: new Point(0.25*cardSize.x, numberSize*2),
 			fill: contrastColor,
 			pivot: Point.CENTER
 		});
@@ -244,7 +244,7 @@ async function createMorphCards(params)
 		const textRes = new ResourceText({ text: numberText, textConfig: textConfig });
 		await textRes.toCanvas(ctx, textOp);
 
-		textOp.translate = new Point(cardSize.x - textOp.translate.x, cardSize.y - 30); // @TODO: might be incorrect after TextDrawer switch
+		textOp.pos = new Point(cardSize.x - textOp.pos.x, cardSize.y - 30); // @TODO: might be incorrect after TextDrawer switch
 		await textRes.toCanvas(ctx, textOp);
 
 		// arrows
@@ -301,7 +301,7 @@ async function createVoteCards(params)
 	const pdfBuilder = new PdfBuilder(config);
 
 	const customPageLayoutDims = new Point(5, 6);
-	const gridConfig = { pdfBuilder: pdfBuilder, dims: customPageLayoutDims };
+	const gridConfig = { pdfBuilder: pdfBuilder, size: customPageLayoutDims };
 	const gridMapper = new GridMapper(gridConfig);
 
 	const cardSize = gridMapper.getMaxElementSizeAsSquare();
@@ -427,7 +427,7 @@ async function createWordCards(params)
 	const config = { orientation: PageOrientation.PORTRAIT, varyWordCount: false };
 	const pdfBuilder = new PdfBuilder(config);
 
-	const gridConfig = { pdfBuilder: pdfBuilder, dims: pageLayoutDims };
+	const gridConfig = { pdfBuilder: pdfBuilder, size: pageLayoutDims };
 	const gridMapper = new GridMapper(gridConfig);
 
 	// Categories are a "multi checkbox" => an object with all keys and then false/true behind them
@@ -466,7 +466,7 @@ async function createWordCards(params)
 	await pandaqiWords.loadWithParams(wordParams);
 	
 	const wordsPerCard = 4;
-	const cardsPerPage = gridConfig.dims.x * gridConfig.dims.y;
+	const cardsPerPage = gridConfig.size.x * gridConfig.size.y;
 	const numPages = 4;
 	const numWordsNeeded = wordsPerCard * cardsPerPage * numPages; 
 	const wordList = pandaqiWords.getRandomMultiple(numWordsNeeded, true);
@@ -524,13 +524,13 @@ async function createWordCards(params)
 			const resize = iconData.resize || 1.0;
 			const iconParams = {
 				frame: iconData.frame, 
-				translate: new Point(0.5*cardSize.x, 0.5*cardSize.x), 
-				dims: new Point(0.3*cardSize.x*resize, 0.3*cardSize.x*resize),
+				pos: new Point(0.5*cardSize.x, 0.5*cardSize.x), 
+				size: new Point(0.3*cardSize.x*resize, 0.3*cardSize.x*resize),
 				pivot: new Point(0.5)
 			}
 
-			const reminderPos = iconParams.translate.clone();
-			reminderPos.y += 0.5*iconParams.dims.x*(1.0 / resize);
+			const reminderPos = iconParams.pos.clone();
+			reminderPos.y += 0.5*iconParams.size.x*(1.0 / resize);
 
 			const iconResource = resLoader.getResource(iconKey) as ResourceImage;
 			const canvOp = new LayoutOperation(iconParams);
@@ -582,10 +582,10 @@ async function createWordCards(params)
 			const visualAngle = angle-0.5*Math.PI;
 
 			const textOp = new LayoutOperation({
-				dims: new Point(0.75*cardSize.x, 2*numberFontSize),
+				size: new Point(0.75*cardSize.x, 2*numberFontSize),
 				pivot: Point.CENTER,
-				translate: basePos,
-				rotation: visualAngle
+				pos: basePos,
+				rot: visualAngle
 			});
 
 			let fontSize = baseFontSize - (baseFontSize*0.3)*(wordData.getWord().length/7);
@@ -603,7 +603,7 @@ async function createWordCards(params)
 				const numberText = number + "";
 
 				const numberPos = center.clone().add(offset.clone().scale(numberOffsetFromCenter*cardSize.x));
-				textOp.translate = numberPos;
+				textOp.pos = numberPos;
 				textRes.text = numberText;
 
 				if(params.addCircleBehindNumber) {
@@ -627,7 +627,7 @@ async function createWordCards(params)
 			textConfig.size = fontSize;
 			textRes.text = wordData.getWord();
 			textOp.fill = new ColorLike(ink ? "#000000" : textColors[i]);
-			textOp.translate = basePos;
+			textOp.pos = basePos;
 
 			textRes.toCanvas(ctx, textOp);
 			
@@ -640,7 +640,7 @@ async function createWordCards(params)
 				textOp.alpha = 0.6;
 				textRes.text = subcatText;
 				const subCatPos = center.clone().add(offset.clone().scale(wordOffsetFromCenter*cardSize.x-0.7*fontSize));
-				textOp.translate = subCatPos;
+				textOp.pos = subCatPos;
 				textRes.toCanvas(ctx, textOp);
 			}
 		}

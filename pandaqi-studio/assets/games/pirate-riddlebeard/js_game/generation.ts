@@ -1,55 +1,26 @@
-import Interface from "./interface"
-import { TERRAINS, TERRAIN_DATA, NATURE, STONES, QUADRANTS, LANDMARKS, ROADS, HINT_ICONS, LISTS, HINTS, alphabet } from "./dictionary"
-import seedRandom from "js/pq_games/tools/random/seedrandom"
-// @ts-ignore
-import { Scene, GameObjects } from "js/pq_games/phaser/phaser.esm"
+import seedRandom from "js/pq_games/tools/random/seedrandom";
+import { HINTS, HINT_ICONS, LANDMARKS, LISTS, NATURE, QUADRANTS, ROADS, STONES, TERRAINS, TERRAIN_DATA, alphabet } from "./dictionary";
+import Interface from "./interface";
+import Color from "js/pq_games/layout/color/color";
+import LayoutOperation from "js/pq_games/layout/layoutOperation";
+import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
+import ResourceShape from "js/pq_games/layout/resources/resourceShape";
+import ResourceText from "js/pq_games/layout/resources/resourceText";
+import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
+import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
 import PdfBuilder from "js/pq_games/pdf/pdfBuilder";
 import { PageOrientation } from "js/pq_games/pdf/pdfEnums";
-import Point from "js/pq_games/tools/geometry/point"
-import setDefaultPhaserSettings from "js/pq_games/phaser/setDefaultPhaserSettings"
-import resourceLoaderToPhaser from "js/pq_games/phaser/resourceLoaderToPhaser"
-import ResourceLoader from "js/pq_games/layout/resources/resourceLoader"
-import Rectangle from "js/pq_games/tools/geometry/rectangle"
-import LayoutOperation from "js/pq_games/layout/layoutOperation"
-import { lineToPhaser, rectToPhaser } from "js/pq_games/phaser/shapeToPhaser"
-import Color from "js/pq_games/layout/color/color"
-import Line from "js/pq_games/tools/geometry/line"
-import imageToPhaser from "js/pq_games/phaser/imageToPhaser"
-import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig"
-import ResourceText from "js/pq_games/layout/resources/resourceText"
-import textToPhaser from "js/pq_games/phaser/textToPhaser"
-import Cell from "./cell"
+import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer";
+import Line from "js/pq_games/tools/geometry/line";
+import Point from "js/pq_games/tools/geometry/point";
+import Rectangle from "js/pq_games/tools/geometry/rectangle";
+import Cell from "./cell";
 
 type Hint = { final_text?: string, html_text?: string }
 
-const assetsBase = '/pirate-riddlebeard/assets/';
-const assets =
+export default class BoardGeneration
 {
-	elements:
-	{
-		path: "elements.png",
-		frames: new Point(8,8),
-	},
-
-	icons:
-	{
-		path: "icons.png",
-		frames: new Point(8,4),
-	},
-
-	hint_card:
-	{
-		path: "hint_card.png"
-	}
-}
-
-const sceneKey = "generation";
-const resLoader = new ResourceLoader({ base: assetsBase });
-resLoader.planLoadMultiple(assets);
-
-export default class Generation extends Scene
-{
-	canvas: HTMLCanvasElement
+	visualizer: BoardVisualizer
 	cfg: Record<string,any>
 	AVAILABLE_HINTS: any
 	hintsGenerationFail: boolean
@@ -74,22 +45,17 @@ export default class Generation extends Scene
 	fixedData: { terrain: string; nature: string; stones: number|string; landmark: string; road: string }
 	fontFamily = "chelsea"
 
-	constructor()
+    async start(vis:BoardVisualizer) 
 	{
-		super({ key: sceneKey });
-	}
+		await vis.resLoader.loadPlannedResources();
 
-    preload() 
-	{
-		setDefaultPhaserSettings(this);
-    }
+		this.visualizer = vis;
+    	this.generateConfiguration(vis.config);
 
-    async create(config:Record<string,any>) 
-	{
-		await resLoader.loadPlannedResources();
-        await resourceLoaderToPhaser(resLoader, this);
-
-    	this.generateConfiguration(config);
+		const div = document.createElement("div");
+		div.id = "game-canvases-container";
+		const container = document.getElementsByTagName("main")[0];
+		container.insertBefore(div, container.firstChild);
 
     	let algo = 'forward';
     	if(Math.random() <= 0.1) { algo = 'backward'; }
@@ -139,7 +105,8 @@ export default class Generation extends Scene
 			let foundSolution = false;
 			console.log("(Re)trying hint generation")
 
-	    	while(this.hintsGenerationFail && this.hintGenerationTries < this.maxHintGenerationTries) {
+	    	while(this.hintsGenerationFail && this.hintGenerationTries < this.maxHintGenerationTries) 
+			{
 	    		this.hintGenerationTries += 1;
 	    		this.hintsGenerationFail = false;
 
@@ -169,14 +136,11 @@ export default class Generation extends Scene
 		interval = setInterval(mainGenerationAction.bind(this), timeout);
 	}
 
-	finishCreation()
+	async finishCreation()
 	{
 		this.addLiarsCouncilHints();
 	    this.addTinyTreasuresHints();
 	    this.calculateBotbeardInformation();
-
-		this.visualizeGame();
-		this.convertCanvasToImage();
 
 		let shortstring = this.convertToStringCoordinates(this.treasure); 
 		let longstring = "(x = " + (this.treasure.x+1) + ", y = " + (this.treasure.y+1) + ")"
@@ -191,19 +155,68 @@ export default class Generation extends Scene
 			hintsPerPlayer: this.hintsPerPlayer,
 			tilesLeftPerPlayer: this.tilesLeftPerPlayer,
 			allLocationsAsStrings: this.getAllLocationsAsStrings(),
-			botData: {
+			botData: 
+			{
 				categories: this.botHintCategories
 			}
 		}
 		Object.assign(config, this.cfg);
 
-		if(this.cfg.premadeGame)
-		{
-			this.createPreMadeGame();
-		}
-
+		// @NOTE: still add/start UI even on premade game, to give feedback about that process to user!
 		const ui = new Interface(config);
 		ui.start();
+
+		if(this.cfg.premadeGame) {
+			this.visualizePremadeGame();
+		} else {
+			this.visualizeHybridGame();
+		}
+	}
+
+	async visualizePremadeGame()
+	{
+		// create actual images
+		const groupMap = this.visualizeGame();
+		const groupHints = this.visualizeHintCards();
+		const imgMap = await this.visualizer.finishDraw(groupMap);
+		const imgHints = await this.visualizer.finishDraw(groupHints);
+
+		// download as PDF
+		const pdfImages = [imgMap, imgHints].flat();
+		const pdfBuilder = new PdfBuilder({ orientation: PageOrientation.LANDSCAPE });
+		for(const img of pdfImages)
+		{
+			pdfBuilder.addImage(img);
+		}
+
+		const pdfParams = { customFileName: "[Pirate Riddlebeard] Premade Game" };
+		pdfBuilder.downloadPDF(pdfParams);
+	}
+
+	async visualizeHybridGame()
+	{
+		// create actual images
+		const groupMap = this.visualizeGame();
+		const groupSolution = this.visualizeTreasureOnly();
+		const imgMap = await this.visualizer.finishDraw(groupMap);
+		const imgSolution = await this.visualizer.finishDraw(groupSolution);
+
+		// add to page
+		const gameImagesContainer = document.getElementById("game-canvases-container");
+		const div1 = document.createElement("div");
+		div1.id = 'mainMap';
+		div1.classList.add('mapImageContainer');
+		gameImagesContainer.appendChild(div1);
+
+		const div2 = document.createElement("div");
+		div2.id = 'solutionMap';
+		div2.classList.add('mapImageContainer');
+		div2.style.display = "none";
+		gameImagesContainer.appendChild(div2);
+
+		div1.appendChild(imgMap[0]);
+		div2.appendChild(imgSolution[0]);
+		gameImagesContainer.style.display = 'none';
 	}
 
 	calculateBotbeardInformation()
@@ -516,8 +529,8 @@ export default class Generation extends Scene
     		useInterface: true, //@DEBUGGING (should be true)
     		inkFriendly: true,
 
-    		pixelwidth: this.canvas.width,
-    		pixelheight: this.canvas.height,
+    		pixelwidth: this.visualizer.size.x,
+    		pixelheight: this.visualizer.size.y,
     		width: 8,
     		height: 4,
 
@@ -3151,29 +3164,28 @@ export default class Generation extends Scene
 	/*
 		VISUALIZATION
 	*/
-	clearBoard()
-	{
-		// @ts-ignore
-		let allSprites = this.children.list.filter(x => x instanceof GameObjects.Sprite);
-		allSprites.forEach(x => x.destroy());
-
-		// @ts-ignore
-		let allGraphics = this.children.list.filter(x => x instanceof GameObjects.Graphics);
-		allGraphics.forEach(x => x.destroy());
-
-		// @ts-ignore
-		let allText = this.children.list.filter(x => x instanceof GameObjects.Text);
-		allText.forEach(x => x.destroy());
-	}
-
 	visualizeTreasureOnly() 
 	{
-		this.clearBoard();
-		this.showTreasureRectangle();
+		const group = new ResourceGroup();
+		let loc = this.treasure;
+
+		let fX = this.cfg.oX + loc.x*this.cfg.cellSize;
+		let fY = this.cfg.oY + loc.y*this.cfg.cellSize;
+
+		const rect = new Rectangle().fromTopLeft(new Point(fX, fY), new Point(this.cfg.cellSize));
+		const op = new LayoutOperation({
+			stroke: "#FF0000",
+			strokeWidth: 10,
+			alpha: 1.0
+		});
+		group.add(new ResourceShape(rect), op);
+		return group;
 	}
 
 	visualizeHintCards()
 	{
+		const group = new ResourceGroup();
+
 		const cardMargin = new Point(20, 20);
 		const margin = new Point(30, 80);
 		const metadataMargin = new Point(150, 37)
@@ -3194,26 +3206,23 @@ export default class Generation extends Scene
 		const gridHeight = this.cfg.height * cellSize;
 		const extraGridMargin = new Point(3, 30); // just to center it nicely on the card
 
-		// @ts-ignore
-		const graphics = this.add.graphics();
-
 		const lineWidth = 2;
 		const alpha = 0.4;
-		const lineColorStroke = new Color(0,0,0,alpha);
-		const lineColorFill = new Color(0,0,0,alpha);
+		const lineColorStroke = "#000000";
+		const lineColorFill = "#000000";
 
 		const opLine = new LayoutOperation({
 			stroke: lineColorStroke,
-			strokeWidth: lineWidth
+			strokeWidth: lineWidth,
+			alpha: alpha
 		});
 
 		const opRect = new LayoutOperation({
 			fill: lineColorFill,
+			alpha: alpha
 		})
 
-		let txt:any;
-
-		const resHintCard = resLoader.getResource("hint_card");
+		const resHintCard = this.visualizer.getResource("hint_card");
 
 		for(let i = 0; i < this.cfg.playerCount; i++)
 		{
@@ -3223,20 +3232,20 @@ export default class Generation extends Scene
 			// create card background
 			const posHintCard = new Point(cardMargin.x + row*cardSize.x, cardMargin.y + col*cardSize.y);
 			const opHintCard = new LayoutOperation({
-				translate: posHintCard,
-				dims: cardSize
+				pos: posHintCard,
+				size: cardSize
 			});
-			imageToPhaser(resHintCard, opHintCard, this);
+			group.add(resHintCard, opHintCard);
 
 			// add metadata (player number, seed, etcetera) in header
 			const metadata = "(player " + (i+1) + "; " + this.cfg.seed + ")";
 			const resMetadataText = new ResourceText({ text: metadata, textConfig: metadataConfig });			
 			const opMetadataText = new LayoutOperation({
-				translate: new Point(posHintCard.x + metadataMargin.x, posHintCard.y + metadataMargin.y),
+				pos: new Point(posHintCard.x + metadataMargin.x, posHintCard.y + metadataMargin.y),
 				fill: "#111111",
-				dims: new Point(cardSize.x - margin.x*2, cardSize.y)
+				size: new Point(cardSize.x - margin.x*2, cardSize.y)
 			})
-			textToPhaser(resMetadataText, opMetadataText, this);
+			group.add(resMetadataText, opMetadataText);
 
 			// generate the full string to place on top of the card
 			const hints = this.hintsPerPlayer[i];
@@ -3250,16 +3259,18 @@ export default class Generation extends Scene
 			// actually place the hint string
 			const resText = new ResourceText({ text: hintString, textConfig: textConfig });
 			const opText = new LayoutOperation({
-				translate: new Point(posHintCard.x + margin.x, posHintCard.y + margin.y),
+				pos: new Point(posHintCard.x + margin.x, posHintCard.y + margin.y),
 				fill: "#111111",
 				stroke: "#FFFFFF",
 				strokeWidth: 1,
-				dims: new Point(cardSize.x - margin.x*2, cardSize.y)
+				strokeAlign: StrokeAlign.OUTSIDE,
+				size: new Point(cardSize.x - margin.x*2, cardSize.y)
 			})
-			txt = textToPhaser(resText, opText, this);
+			group.add(resText,opText); // txt
 
 			// create the hint grid
-			const heightLeftForGrid = cardSize.y - margin.y - cardMargin.y - txt.getBounds().height - extraGridMargin.y;
+			const textHeight = textConfig.size * 5; // @TODO: this is just a rough guess; I should really add utility functions to get the final (true) dims/boundaries of a text block ...
+			const heightLeftForGrid = cardSize.y - margin.y - cardMargin.y - textHeight - extraGridMargin.y;
 			const multiplier = Math.min((heightLeftForGrid/gridHeight), 1);
 			const gridPos = new Point( 
 				posHintCard.x + margin.x + extraGridMargin.x,
@@ -3270,13 +3281,13 @@ export default class Generation extends Scene
 			for(let x = 1; x < this.cfg.width; x++)
 			{
 				const line = new Line(new Point(gridPos.x + x*cs, gridPos.y), new Point(gridPos.x + x * cs, gridPos.y + (this.cfg.height*cs)));
-				lineToPhaser(line, opLine, graphics);
+				group.add(new ResourceShape(line), opLine);
 			}
 
 			for(let y = 1; y < this.cfg.height; y++)
 			{
 				const line = new Line(new Point(gridPos.x, gridPos.y + y * cs), new Point(gridPos.x + (this.cfg.width*cs), gridPos.y + y*cs));
-				lineToPhaser(line, opLine, graphics);
+				group.add(new ResourceShape(line), opLine);
 			}
 
 			let tiles = this.tilesLeftPerPlayer[i];
@@ -3287,13 +3298,11 @@ export default class Generation extends Scene
 			{
 				const tile = tiles[t];
 				const rect = new Rectangle().fromTopLeft(new Point(gridPos.x + tile.x * cs, gridPos.y + tile.y * cs), new Point(cs));
-				rectToPhaser(rect, opRect, graphics);
+				group.add(new ResourceShape(rect), opRect);
 			}
-
 		}
 
-		// @ts-ignore
-		this.children.bringToTop(graphics);
+		return group;
 	}
 
 	// Basically, we create a new list with all locations ...
@@ -3328,21 +3337,20 @@ export default class Generation extends Scene
 
 	visualizeGame() 
 	{
-		// @ts-ignore
-		const graphics = this.add.graphics();
+		const group = new ResourceGroup();
 
 		const bgRect = new Rectangle().fromTopLeft(new Point(), new Point(this.cfg.pixelWidth, this.cfg.pixelHeight));
 		const opRect = new LayoutOperation({
 			fill: "#FFFFFF"
 		});
-		rectToPhaser(bgRect, opRect, graphics);
+		group.add(new ResourceShape(bgRect), opRect);
 
 		const oX = this.cfg.oX;
 		const oY = this.cfg.oY;
 		const cs = this.cfg.cellSize;
 		const inkFriendly = this.cfg.inkFriendly;
 
-		const resIcons = resLoader.getResource("icons");
+		const resIcons = this.visualizer.getResource("icons");
 
 		for(let x = 0; x < this.cfg.width; x++) 
 		{
@@ -3358,17 +3366,17 @@ export default class Generation extends Scene
 				if(inkFriendly) {
 					let frame = TERRAINS.indexOf(terrain);
 					const op = new LayoutOperation({
-						translate: spritePos,
-						dims: new Point(cs),
+						pos: spritePos,
+						size: new Point(cs),
 						frame: frame,
 						pivot: Point.CENTER
 					})
-					imageToPhaser(resIcons, op, this);
+					group.add(resIcons, op);
 				} else {
 					const opRect = new LayoutOperation({
 						fill: TERRAIN_DATA[terrain].color
 					});
-					rectToPhaser(rect, opRect, graphics);
+					group.add(new ResourceShape(rect), opRect);
 				}
 				
 				// stone sprites must be shown UNDERNEATH nature sprites, hence they are created first
@@ -3388,18 +3396,18 @@ export default class Generation extends Scene
 					if(inkFriendly) { positions = [1,2,3]; }
 					this.shuffle(positions);
 
-					const resStones = resLoader.getResource(key);
+					const resStones = this.visualizer.getResource(key);
 
 					for(let s = 0; s < stones; s++)
 					{
 						const op = new LayoutOperation({
-							translate: spritePos,
-							dims: new Point(cs),
+							pos: spritePos,
+							size: new Point(cs),
 							pivot: Point.CENTER,
-							rotation: (positions[s] * 0.5 * Math.PI),
+							rot: (positions[s] * 0.5 * Math.PI),
 							frame: frame
 						})
-						imageToPhaser(resStones, op, this);
+						group.add(resStones, op);
 					}
 					
 				}
@@ -3417,7 +3425,7 @@ export default class Generation extends Scene
 					if(nature == 'flower') { frame = 8; }
 					frame += terrainOffset;
 
-					const resNature = resLoader.getResource( inkFriendly ? "icons" : "elements" );
+					const resNature = this.visualizer.getResource( inkFriendly ? "icons" : "elements" );
 					
 					if(inkFriendly) {
 						let iconFrame = 8;
@@ -3426,13 +3434,13 @@ export default class Generation extends Scene
 					}
 
 					const op = new LayoutOperation({
-						translate: spritePos,
+						pos: spritePos,
 						frame: frame,
-						dims: new Point(cs * natureScale),
+						size: new Point(cs * natureScale),
 						pivot: Point.CENTER,
-						rotation: (Math.floor(this.cfg.rng.map()*4) * 0.5 * Math.PI)
+						rot: (Math.floor(this.cfg.rng.map()*4) * 0.5 * Math.PI)
 					});
-					imageToPhaser(resNature, op, this);
+					group.add(resNature, op);
 				}
 
 				// road
@@ -3448,17 +3456,17 @@ export default class Generation extends Scene
 					if(road == 'dead end') { frame = 40; iconFrame = 13; }
 					frame += terrainIndex;
 
-					const resRoad = resLoader.getResource( inkFriendly ? "icons" : "elements" );
+					const resRoad = this.visualizer.getResource( inkFriendly ? "icons" : "elements" );
 					if(inkFriendly) { frame = iconFrame; }
 
 					const op = new LayoutOperation({
-						translate: spritePos,
-						dims: new Point(roadScale * cs),
+						pos: spritePos,
+						size: new Point(roadScale * cs),
 						pivot: Point.CENTER,
-						rotation: (cell.roadOrient * 0.5 * Math.PI),
+						rot: (cell.roadOrient * 0.5 * Math.PI),
 						frame: frame
 					})
-					imageToPhaser(resRoad, op, this);
+					group.add(resRoad, op);
 				}
 
 				// landmarks
@@ -3470,25 +3478,22 @@ export default class Generation extends Scene
 					let frame = 48 + LANDMARKS.indexOf(landmark);
 					let iconFrame = 16 + LANDMARKS.indexOf(landmark);
 
-					const resLandmark = resLoader.getResource( inkFriendly ? "icons" : "elements" );
+					const resLandmark = this.visualizer.getResource( inkFriendly ? "icons" : "elements" );
 					if(inkFriendly) { frame = iconFrame; }
 					const op = new LayoutOperation({
-						translate: spritePos,
-						dims: new Point(cs * landmarkScale),
+						pos: spritePos,
+						size: new Point(cs * landmarkScale),
 						frame: frame,
 						pivot: Point.CENTER,
-						rotation: Math.floor(this.cfg.rng.map()*4) * 0.5 * Math.PI
+						rot: Math.floor(this.cfg.rng.map()*4) * 0.5 * Math.PI
 					});
 
-					imageToPhaser(resLandmark, op, this);
+					group.add(resLandmark, op);
 				}
 			}
 		}
 
 		// draw divider lines to clearly separate tiles
-		// @ts-ignore
-		const topGraphics = this.add.graphics();
-
 		const gridLineWidth = Math.round(0.015*this.cfg.cellSize);
 		const opTop = new LayoutOperation({
 			stroke: "#000000",
@@ -3506,43 +3511,44 @@ export default class Generation extends Scene
 			fill: "#111111",
 			stroke: "#FFFFFF",
 			strokeWidth: 1,
-			dims: new Point(6*fontSize, 1.5*fontSize)
+			strokeAlign: StrokeAlign.OUTSIDE,
+			size: new Point(6*fontSize, 1.5*fontSize)
 		});
 
 		for(let x = 0; x <= this.cfg.width; x++) 
 		{
 			const line = new Line(new Point(oX + x*cs, oY + 0), new Point(oX + x*cs, oY + this.cfg.height*cs));
-			lineToPhaser(line, opTop, topGraphics);
+			group.add(new ResourceShape(line), opTop);
 
 			if(x == this.cfg.width) { continue; }
 
 			const opTextTemp = opText.clone();
-			opTextTemp.translate = new Point(oX + (x+0.5)*cs, oY + margin);
+			opTextTemp.pos = new Point(oX + (x+0.5)*cs, oY + margin);
 			opTextTemp.pivot = new Point(0.5, 0);
 			const resText = new ResourceText({ text: alphabet[x], textConfig: textConfig });
-			textToPhaser(resText, opTextTemp, this);
+			group.add(resText, opTextTemp);
 		}
 
 		for(let y = 0; y <= this.cfg.height; y++) 
 		{
 			const line = new Line(new Point(oX + 0, oY + y*cs), new Point(oX + this.cfg.width*cs, oY + y*cs));
-			lineToPhaser(line, opTop, topGraphics);
+			group.add(new ResourceShape(line), opTop);
 
 			if(y == this.cfg.height) { continue; }
 
 			const opTextTemp = opText.clone();
-			opTextTemp.translate = new Point(oX + margin, oY + (y+0.5)*cs);
+			opTextTemp.pos = new Point(oX + margin, oY + (y+0.5)*cs);
 			opTextTemp.pivot = new Point(0, 0.5);
 			const resText = new ResourceText({ text: (y+1).toString(), textConfig: textConfig });
-			textToPhaser(resText, opTextTemp, this);
+			group.add(resText, opTextTemp);
 		}
 
 		// display the map seed (underneath the A in the upper left square)
 		textConfig.alignHorizontal = TextAlign.MIDDLE;
 		const resText = new ResourceText({ text: this.cfg.seed, textConfig: textConfig });
-		opText.translate = new Point(oX + 0.5*cs + margin, oY + margin + 12);
+		opText.pos = new Point(oX + 0.5*cs + margin, oY + margin + 12);
 		opText.pivot = new Point(0.5, 0);
-		textToPhaser(resText, opText, this);
+		group.add(resText, opText);
 
 		// draw a divider between squares with a different terrain
 		// (helps a ton with clarity)
@@ -3559,13 +3565,13 @@ export default class Generation extends Scene
 			if(!this.outOfBounds(posBelow) && tiles[i].terrain != this.map[posBelow.x][posBelow.y].terrain)
 			{
 				const line = new Line(new Point(oX + posBelow.x*cs, oY + posBelow.y*cs), new Point(oX + (posBelow.x+1)*cs, oY + posBelow.y*cs));
-				lineToPhaser(line, opTopDivider, topGraphics);
+				group.add(new ResourceShape(line), opTopDivider);
 			}
 
 			if(!this.outOfBounds(posRight) && tiles[i].terrain != this.map[posRight.x][posRight.y].terrain)
 			{
 				const line = new Line(new Point(oX + posRight.x*cs, oY + posRight.y*cs), new Point(oX + posRight.x*cs, oY + (posRight.y+1)*cs));
-				lineToPhaser(line, opTopDivider, topGraphics);
+				group.add(new ResourceShape(line), opTopDivider);
 			}
 		}
 
@@ -3586,44 +3592,22 @@ export default class Generation extends Scene
 				{
 					const str = this.hints[category][i].final_text;
 					const op = new LayoutOperation({
-						translate: new Point(oX + margin, oY + margin + counter*lineHeight),
+						pos: new Point(oX + margin, oY + margin + counter*lineHeight),
 						fill: "#111111",
 						stroke: "#FFFFFF",
 						strokeWidth: 5,
-						dims: new Point(0.5*this.canvas.width), // just a random big text box size
+						size: new Point(0.5*this.cfg.pixelWidth), // just a random big text box size
+						depth: 1000,
 					})		
 
 					const resText = new ResourceText({ text: str, textConfig: textConfigDebug });
-					textToPhaser(resText, op, this);
-					// @NOTE: I have no equivalent for this in my own system; maybe there SHOULD be? => txt.depth = 10000;
+					group.add(resText, op);
 					counter += 1;
 				}
 			}
 		}
 
-		// highlight the location (only when debugging)
-		if(this.cfg.debugging)
-		{
-			this.showTreasureRectangle();
-		}
-	}
-
-	showTreasureRectangle()
-	{
-		// @ts-ignore
-		let graphics = this.add.graphics();
-		let loc = this.treasure;
-
-		let fX = this.cfg.oX + loc.x*this.cfg.cellSize;
-		let fY = this.cfg.oY + loc.y*this.cfg.cellSize;
-
-		const rect = new Rectangle().fromTopLeft(new Point(fX, fY), new Point(this.cfg.cellSize));
-		const op = new LayoutOperation({
-			stroke: "#FF0000",
-			strokeWidth: 10,
-			alpha: 1.0
-		});
-		rectToPhaser(rect, op, graphics);
+		return group;
 	}
 
 	/*
@@ -3942,144 +3926,5 @@ export default class Generation extends Scene
 	outOfBounds(pos:Point) 
 	{
 		return (pos.x < 0 || pos.x >= this.cfg.width || pos.y < 0 || pos.y >= this.cfg.height);
-	}
-
-	/* Converts canvas into image */
-	// Why? 
-	//  - So I can delete the phaser game, which eats battery and resources on phones
-	//  - So I can just save two images: one of the map, one of the treasure location and easily display them when the player wants
-	//  - So players can save the map and print it, if they want
-
-	convertCanvasToImage() 
-	{
-		if(!this.cfg.useInterface) { return; }
-
-		let ths = this;
-		const phaser = document.getElementById('phaser-container')!;
-		const cfg = this.cfg;
-
-		// First save the whole map
-		// @ts-ignore
-		ths.time.addEvent({
-		    delay: 200,
-		    loop: false,
-		    callback() {
-		        const canv = phaser.firstChild  as HTMLCanvasElement;
-
-				const img = new Image();
-				img.src = canv.toDataURL();
-
-				// When done, save just the overlay with the solution
-				img.addEventListener('load', () => {
-					cfg.finalMap = img;
-
-					ths.visualizeTreasureOnly();
-
-					// @ts-ignore
-					ths.time.addEvent({
-						delay: 200,
-						loop: false,
-						callback() {
-							let canv = phaser.firstChild as HTMLCanvasElement;
-
-							let img2 = new Image();
-							img2.src = canv.toDataURL();
-
-							img2.addEventListener('load', function() {
-								cfg.solutionMap = img2;
-
-								// @ts-ignore
-								window.GAME.destroy(true);
-
-								phaser.innerHTML = '';
-
-								let div1 = document.createElement("div");
-								div1.id = 'mainMap';
-								div1.classList.add('mapImageContainer');
-								phaser.appendChild(div1);
-
-								let div2 = document.createElement("div");
-								div2.id = 'solutionMap';
-								div2.classList.add('mapImageContainer');
-								div2.style.display = "none";
-								phaser.appendChild(div2);
-
-								div1.appendChild(img);
-								div2.appendChild(img2);
-								phaser.style.display = 'none';
-
-							})
-						},
-					});
-				});
-		    }
-		})
-	}
-
-	/* 
-		Creates a "premade game"
-		 -> Creates a PDF
-		 -> First page is the board
-		 -> Second page creates hint cards + the right hints on top of them
-	 */
-	createPreMadeGame()
-	{
-		let ths = this;
-		const phaser = document.getElementById('phaser-container')!;
-		const pdfImages : HTMLImageElement[] = [];
-
-		// Save an image of the whole map
-		// @ts-ignore
-		ths.time.addEvent({
-		    delay: 200,
-		    loop: false,
-		    callback() {
-		        const canv = phaser.firstChild as HTMLCanvasElement;
-				const img = new Image();
-				img.src = canv.toDataURL();
-				img.addEventListener('load', () => {
-					pdfImages.push(img);
-					ths.createHintCards(pdfImages);
-				});
-			}
-		});
-	}
-
-	createHintCards(pdfImages)
-	{
-		this.clearBoard();
-		this.visualizeHintCards();
-
-		let phaser = document.getElementById('phaser-container')!;
-		let ths = this;
-		
-		// Save an image of these hint cards
-		// @ts-ignore
-		ths.time.addEvent({
-		    delay: 200,
-		    loop: false,
-		    callback() {
-		        let canv = phaser.firstChild as HTMLCanvasElement;
-				let img = new Image();
-				img.src = canv.toDataURL();
-				img.addEventListener('load', () => {
-					pdfImages.push(img);
-					ths.clearBoard();
-					ths.createPDF(pdfImages);
-				});
-			}
-		});
-	}
-
-	createPDF(pdfImages:HTMLImageElement[])
-	{
-		const pdfBuilder = new PdfBuilder({ orientation: PageOrientation.LANDSCAPE });
-		for(const img of pdfImages)
-		{
-			pdfBuilder.addImage(img);
-		}
-
-		const pdfParams = { customFileName: "[Pirate Riddlebeard] Premade Game" };
-		pdfBuilder.downloadPDF(pdfParams);
 	}
 }

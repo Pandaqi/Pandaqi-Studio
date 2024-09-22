@@ -119,7 +119,7 @@ export default class BoardDisplay
         this.outerMargin = new Point(CONFIG.display.outerMargin * canvUnit);
         this.boardSize = new Point(canvSize.x - 2*this.outerMargin.x, canvSize.y - 2*this.outerMargin.y);
 
-        const blockX = CONFIG.blockSizeOverride ?? this.boardSize.x / board.dims.x;
+        const blockX = CONFIG.blockSizeOverride ?? this.boardSize.x / board.size.x;
         const blockY = CONFIG.generation.blockHeightRelativeToWidth*blockX;
         this.blockSize = new Point(blockX, blockY);
         
@@ -200,7 +200,7 @@ export default class BoardDisplay
         const text = new ResourceText({ text: name, textConfig: textCfg });
         const textOp = new LayoutOperation({
             fill: "#FFFFFF",
-            translate: circ.center
+            pos: circ.center
         })
         textToPhaser(text, textOp, this.game);
     }
@@ -292,7 +292,7 @@ export default class BoardDisplay
                 stroke: "#000000",
                 strokeWidth: routeStrokeWidth,
                 pivot: new Point(0.5),
-                rotation: rot
+                rot: rot
             })
 
             const rect = new Rectangle({ center: pos, extents: blockSize });
@@ -342,11 +342,11 @@ export default class BoardDisplay
             const imgPos = CONFIG.useRealMaterial ? positions[1] : positions[0];
             const iconSize = CONFIG.display.blocks.iconSize * Math.min(subdivLength, blockSize.y);
             const iconOp = new LayoutOperation({
-                translate: imgPos,
+                pos: imgPos,
                 pivot: new Point(0.5),
-                dims: new Point(iconSize),
+                size: new Point(iconSize),
                 frame: this.getFrameForType(type),
-                rotation: rotAlwaysUp,
+                rot: rotAlwaysUp,
             })
             imageToPhaser(img, iconOp, this.game);
 
@@ -355,7 +355,7 @@ export default class BoardDisplay
             if(bonus)
             {
                 const bonusSprite = CONFIG.resLoader.getResource("bonus_icons")
-                iconOp.translate = positions[1];
+                iconOp.pos = positions[1];
                 iconOp.effects = [];
 
                 imageToPhaser(bonusSprite, iconOp, this.game);
@@ -369,12 +369,12 @@ export default class BoardDisplay
                 const writingSpaceSize = new Point(subdivLength, blockSize.y).scaleFactor(CONFIG.display.blocks.writingSpaceScale);
                 const writingRect = new Rectangle({ center: new Point(), extents: writingSpaceSize });
                 const writingOp = new LayoutOperation({
-                    translate: positions[2],
+                    pos: positions[2],
                     fill: "#FFFFFF",
                     stroke: "#000000",
                     strokeWidth: writingSpaceStrokeWidth,
                     pivot: new Point(0.5),
-                    rotation: rot
+                    rot: rot
                 })
                 rectToPhaserObject(writingRect, writingOp, this.game);
             }
@@ -514,7 +514,7 @@ export default class BoardDisplay
         const textRes = new ResourceText({ text: text, textConfig: textConfig });
         const textOp = new LayoutOperation({
             fill: "#000000",
-            translate: pos
+            pos: pos
         })
         textToPhaser(textRes, textOp, this.game);
     }
@@ -545,8 +545,8 @@ export default class BoardDisplay
         }
 
         const op = new LayoutOperation({
-            translate: pos,
-            dims: size.clone(),
+            pos: pos,
+            size: size.clone(),
             pivot: new Point(0.5),
             frame: BONUSES[bonusType].frame,
         })
@@ -554,7 +554,7 @@ export default class BoardDisplay
         const numberTypes = ["points", "balloons", "inventory", "swap", "abilitySteal"];
         if(spaceIndex == 0 && numberTypes.includes(bonusType)) {
             text = traj.bonusNumber + "";
-            op.dims.x *= 2; // to prevent text wrapping because narrow width on double digits
+            op.size.x *= 2; // to prevent text wrapping because narrow width on double digits
         } else {
             // if balloons, use the block_icons spritesheet instead, 
             // with a randomly selected frame (that is IN the game!)

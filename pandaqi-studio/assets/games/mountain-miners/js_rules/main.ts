@@ -15,26 +15,26 @@ import { TILES, TileData } from "../js_shared/dict";
 class Board
 {
     grid: Tile[][]
-    dims: Point
-    arrowIndex: number // quarter rotations; e.g. 1 = 0.5 PI = at right corner
+    size: Point
+    arrowIndex: number // quarter rots; e.g. 1 = 0.5 PI = at right corner
     randBoardRotation: number; // same
 
-    constructor(dims:Point) 
+    constructor(size:Point) 
     {
-        this.dims = dims;
+        this.size = size;
         this.randBoardRotation = rangeInteger(0,3);
     }
 
     fillRandom(options:Tile[])
     {
-        const center = this.dims.clone().scale(0.5).floor();
+        const center = this.size.clone().scale(0.5).floor();
         const maxDistFromCenter = (center.x + center.y)*2;
 
         this.grid = [];
-        for(let x = 0; x < this.dims.x; x++)
+        for(let x = 0; x < this.size.x; x++)
         {
             this.grid[x] = [];
-            for(let y = 0; y < this.dims.y; y++)
+            for(let y = 0; y < this.size.y; y++)
             {
                 const distFromCenter = Math.abs(y - center.y) + Math.abs(x - center.x);
                 const shouldFill = Math.random() <= 1.0 - distFromCenter/maxDistFromCenter;
@@ -75,9 +75,9 @@ class Board
         const startCells = 
         [
             new Point(),
-            new Point(this.dims.x-1,0),
-            new Point(this.dims.x-1, this.dims.y-1),
-            new Point(0, this.dims.y-1),
+            new Point(this.size.x-1,0),
+            new Point(this.size.x-1, this.size.y-1),
+            new Point(0, this.size.y-1),
         ]
 
         let curCell : Point = startCells[flooredRotation];
@@ -104,7 +104,7 @@ class Board
 
     outOfBounds(pos:Point) : boolean
     {
-        return pos.x < 0 || pos.x >= this.dims.x || pos.y < 0 || pos.y >= this.dims.y;
+        return pos.x < 0 || pos.x >= this.size.x || pos.y < 0 || pos.y >= this.size.y;
     }
 
     getCells() { return this.grid.flat(); }
@@ -126,15 +126,15 @@ class Board
     async draw(highlightedTiles:Tile[] = []) : Promise<HTMLImageElement>
     {
         const tileSize = CONFIG.rulebook.tileSize;
-        const mapSize = this.dims.clone().scale(tileSize);
+        const mapSize = this.size.clone().scale(tileSize);
 
         const rot = (this.arrowIndex + this.randBoardRotation) % 4;
         const extraYSpaceNeeded = (rot == 0 || rot == 2) ? 6 : 3;
         const extraXSpaceNeeded = (rot == 1 || rot == 3) ? 6 : 3;
 
-        const fullSize = this.dims.clone().add(new Point(extraXSpaceNeeded,extraYSpaceNeeded)).scale(tileSize); // add extra margin for arrow tile
+        const fullSize = this.size.clone().add(new Point(extraXSpaceNeeded,extraYSpaceNeeded)).scale(tileSize); // add extra margin for arrow tile
         const ctx = createContext({ size: fullSize });
-        const cdims = new Point(this.dims.x-1, this.dims.y-1).scale(0.5);
+        const csize = new Point(this.size.x-1, this.size.y-1).scale(0.5);
 
         // prepare canvas so stuff is drawn in center and like a diamond shape
         ctx.translate(0.5*fullSize.x, 0.5 * fullSize.y);
@@ -146,13 +146,13 @@ class Board
         const ARROW_POSITIONS = 
         [
             new Point(-1,-1),
-            new Point(cdims.x, -1 - off),
-            new Point(this.dims.x,-1),
-            new Point(this.dims.x + off, cdims.y),
-            new Point(this.dims.x, this.dims.y),
-            new Point(cdims.x, this.dims.y + off),
-            new Point(-1, this.dims.y),
-            new Point(-1 - off, cdims.y)
+            new Point(csize.x, -1 - off),
+            new Point(this.size.x,-1),
+            new Point(this.size.x + off, csize.y),
+            new Point(this.size.x, this.size.y),
+            new Point(csize.x, this.size.y + off),
+            new Point(-1, this.size.y),
+            new Point(-1 - off, csize.y)
         ]
 
         const arrowTile = new Tile("arrow");

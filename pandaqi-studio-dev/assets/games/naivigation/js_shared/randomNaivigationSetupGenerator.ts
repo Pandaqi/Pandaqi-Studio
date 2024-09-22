@@ -17,7 +17,7 @@ interface TileData
 {
     tile: MaterialNaivigation
     position: Point,
-    rotation: number,
+    rot: number,
     collectible: boolean
 }
 
@@ -104,7 +104,7 @@ export default class RandomNaivigationSetupGenerator
                 grid[x][y] = {
                     tile: null,
                     position: new Point(x,y),
-                    rotation: 0,
+                    rot: 0,
                     collectible: (y == collectibleIndex)
                 }
             }
@@ -131,7 +131,7 @@ export default class RandomNaivigationSetupGenerator
                 const tileData = this.validPlacementCallback(cell, grid, tiles);
                 if(!tileData) { invalidBoard = true; break; }
                 cell.tile = tileData.tile;
-                cell.rotation = tileData.rotation ?? rangeInteger(0,3);
+                cell.rot = tileData.rot ?? rangeInteger(0,3);
                 tiles.splice(tiles.indexOf(tileData.tile), 1);
             }
         }
@@ -147,7 +147,7 @@ export default class RandomNaivigationSetupGenerator
         this.playerTokenData = { 
             tile: startingCell,
             position: finalPick.position,
-            rotation: startingRotation,
+            rot: startingRotation,
             collectible: false
         }
 
@@ -169,9 +169,9 @@ export default class RandomNaivigationSetupGenerator
             const canv = await this.drawItem(cell.tile);
             const resCell = new ResourceImage(canv);
             const cellOp = new LayoutOperation({
-                translate: realPos,
-                dims: new Point(TILE_SIZE),
-                rotation: cell.rotation * 0.5 * Math.PI,
+                pos: realPos,
+                size: new Point(TILE_SIZE),
+                rot: cell.rot * 0.5 * Math.PI,
                 pivot: Point.CENTER
             })
             group.add(resCell, cellOp);
@@ -181,9 +181,9 @@ export default class RandomNaivigationSetupGenerator
                 const canvToken = await this.drawItem(this.playerToken);
                 const resToken = new ResourceImage(canvToken);
                 const tokenOp = new LayoutOperation({
-                    translate: realPos,
-                    dims: new Point(PLAYER_TOKEN_SIZE),
-                    rotation: this.playerTokenData.rotation * 0.5 * Math.PI,
+                    pos: realPos,
+                    size: new Point(PLAYER_TOKEN_SIZE),
+                    rot: this.playerTokenData.rot * 0.5 * Math.PI,
                     pivot: Point.CENTER
                 });
                 group.add(resToken, tokenOp);

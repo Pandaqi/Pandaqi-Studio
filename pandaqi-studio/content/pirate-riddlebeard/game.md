@@ -2,8 +2,6 @@
 type: "game"
 ---
 
-<div id="phaser-container"></div>
-
 <div id="interfaceContainer">
     <div id="interface">
         <p>Generating Game ...<p>

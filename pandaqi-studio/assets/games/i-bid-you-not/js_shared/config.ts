@@ -76,8 +76,8 @@ const CONFIG:any =
         drawerConfig:
         {
             autoStroke: true,
-            dimsElement: new Point(1, 1),
-            dims: 
+            sizeElement: new Point(1, 1),
+            size: 
             { 
                 small: new Point(5,7),
                 regular: new Point(3,5),
@@ -117,18 +117,18 @@ const CONFIG:any =
         podium:
         {
             pos: new CVal(new Point(0.5, 0.585), "size"),
-            dims: new CVal(new Point(1.0), "sizeUnit"),
+            size: new CVal(new Point(1.0), "sizeUnit"),
         },
 
         type:
         {
             pos: new CVal(new Point(0.5, 0.3), "size"),
-            dims: new CVal(new Point(0.475), "sizeUnit")
+            size: new CVal(new Point(0.475), "sizeUnit")
         },
 
         spotlight:
         {
-            dims: new CVal(new Point(0.55), "sizeUnit"),
+            size: new CVal(new Point(0.55), "sizeUnit"),
             alpha: 0.5,
             composite: "overlay",
             numBounds: new Bounds(1,3)
@@ -137,7 +137,7 @@ const CONFIG:any =
         action:
         {
             pos: new CVal(new Point(0.5, 0.83), "size"),
-            dims: new CVal(new Point(0.9, 0.4), "size"),
+            size: new CVal(new Point(0.9, 0.4), "size"),
             fontSize: new CVal(0.0575, "sizeUnit"),
             textColor: "#000000",
             rectPosY: new CVal(0.66, "sizeUnit"),
@@ -149,8 +149,8 @@ const CONFIG:any =
 
         priceTag:
         {
-            rotationBounds: new Bounds(-0.2 * Math.PI, 0.2 * Math.PI),
-            dims: new CVal(new Point(0.25), "sizeUnit"),
+            rotBounds: new Bounds(-0.2 * Math.PI, 0.2 * Math.PI),
+            size: new CVal(new Point(0.25), "sizeUnit"),
             textColor: "#000000",
             fontSize: new CVal(0.075, "sizeUnit"), // @NOTE: probably same or close to label fontSize
             offset: new CVal(0.1525, "sizeUnit"),
@@ -160,7 +160,7 @@ const CONFIG:any =
         label:
         {
             pos: new CVal(new Point(0.5, 0.616), "size"),
-            dims: new CVal(new Point(0.75, 0.1), "size"),
+            size: new CVal(new Point(0.75, 0.1), "size"),
             fontSize: new CVal(0.075, "sizeUnit"),
             textColor: "#000000"
         },
@@ -168,7 +168,7 @@ const CONFIG:any =
         audience:
         {
             pos: new CVal(new Point(), "size"),
-            dims: new CVal(new Point(1.0), "size"),
+            size: new CVal(new Point(1.0), "size"),
             alpha: 0.5
         }
 

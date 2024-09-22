@@ -362,8 +362,8 @@ export default class BoardGeneration
 			const ingFrame = cell.getIngredientAsFrame();
 
 			const op = new LayoutOperation({
-				translate: center,
-				dims: new Point(spriteSize),
+				pos: center,
+				size: new Point(spriteSize),
 				pivot: Point.CENTER,
 				frame: ingFrame
 			});
@@ -388,8 +388,8 @@ export default class BoardGeneration
 			const typeFrame = cell.getTypeAsFrame();
 
 			const op = new LayoutOperation({
-				translate: center,
-				dims: new Point(spriteSize),
+				pos: center,
+				size: new Point(spriteSize),
 				pivot: Point.CENTER,
 				frame: typeFrame
 			})
@@ -469,9 +469,9 @@ export default class BoardGeneration
 
 			const str = 'Player ' + (playerNum + 1);
 			const opText = new LayoutOperation({
-				translate: rect.center,
+				pos: rect.center,
 				fill: color,
-				dims: new Point(20 * fontSize, 2 * fontSize),
+				size: new Point(20 * fontSize, 2 * fontSize),
 				pivot: Point.CENTER,
 				stroke: "#FFFFFF",
 				strokeWidth: this.cfg.fontSize / 10.0,

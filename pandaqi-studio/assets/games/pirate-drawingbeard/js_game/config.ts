@@ -1,9 +1,110 @@
 import { TILE_DICT, DISCRETE_LISTS } from "./dictionary" 
 import Random from "js/pq_games/tools/random/main"
+import Point from "js/pq_games/tools/geometry/point";
 
-export default 
+const CONFIG =  
 {
+	configKey: "pirateDrawingbeardConfig",
+	size: new Point(297*3.8, 210*3.8),
+
+	assetsBase: "/pirate-drawingbeard/assets/",
+	assets:
+	{
+		tile_types:
+		{
+			path: "tile_types.webp",
+			frames: new Point(8,2)
+		},
+	
+		tile_types_inkfriendly:
+		{
+			path: "tile_types_inkfriendly.webp",
+			frames: new Point(8,2)
+		},
+	
+		symbols:
+		{
+			path: "symbols.webp",
+			frames: new Point(4,1)
+		},
+	
+		symbols_inkfriendly:
+		{
+			path: "symbols_inkfriendly.webp",
+			frames: new Point(4,1)
+		},
+	
+		hint_cards:
+		{
+			path: "hint_cards.webp",
+			frames: new Point(2,1)
+		},
+	
+		// @NOTE: the assets below are ALSO used by hint visualizer, but they grab it through the phaser instance---this will BREAK DOWN once I remove the Phaser dependency entirely!!!
+		// @TODO: ALSO, once we switch to my own system, I can just apply my GrayScale filter and remove all the inkfriendly shenanigans!!!
+		hint_base:
+		{
+			path: "hint_base.webp",
+			frames: new Point(8,8)
+		},
+	
+		hint_base_inkfriendly:
+		{
+			path: "hint_base_inkfriendly.webp",
+			frames: new Point(8,8)
+		},
+	
+		hint_tile_type:
+		{
+			path: "hint_tile_type.webp",
+			frames: new Point(8,2)
+		},
+	
+		hint_tile_type_inkfriendly:
+		{
+			path: "hint_tile_type_inkfriendly.webp",
+			frames: new Point(8,2)
+		},
+	
+		hint_quadrant:
+		{
+			path: "hint_quadrant.webp",
+			frames: new Point(4,1)
+		},
+	
+		hint_quadrant_inkfriendly:
+		{
+			path: "hint_quadrant_inkfriendly.webp",
+			frames: new Point(4,1)
+		},
+	
+		hint_bearings:
+		{
+			path: "hint_bearings.webp",
+			frames: new Point(4,1)
+		},
+	
+		hint_bearings_inkfriendly:
+		{
+			path: "hint_bearings_inkfriendly.webp",
+			frames: new Point(4,1)
+		},
+	
+		hint_symbols:
+		{
+			path: "hint_symbols.webp",
+			frames: new Point(4,1)
+		},
+	
+		hint_symbols_inkfriendly:
+		{
+			path: "hint_symbols_inkfriendly.webp",
+			frames: new Point(4,1)
+		},
+	},
+
 	seed: '',
+	fontFamily: "chelsea",
 	playerCount: 4,
 	addBot: false,
 	numGens: 0,
@@ -44,7 +145,7 @@ export default
 	expansions: {
 		symbols: false,
 		networks: false,
-		rotation: false,
+		rot: false,
 		special: false
 	},
 	alphabet: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
@@ -54,7 +155,7 @@ export default
 
 	initialize(game:any, config:Record<string,any> = {})
 	{
-		var savedData = window.localStorage.pirateDrawingbeardConfig;
+		var savedData = window.localStorage.getItem(config.configKey);
 		var parsedData:Record<string,any> = {};
 		if(savedData) { parsedData = JSON.parse(savedData); }
 
@@ -63,11 +164,11 @@ export default
 		this.addBot = (this.playerCount <= 2);
 		if(this.addBot) { this.playerCount += 1; }
 
-		this.pixelwidth = game.canvas.width
-    	this.pixelheight = game.canvas.height
+		this.pixelwidth = game.visualizer.size.x;
+    	this.pixelheight = game.visualizer.size.y;
 
 		this.expansions = {
-			rotation: parsedData.expansions.rotation ?? false,
+			rot: parsedData.expansions.rot ?? false,
 			networks: parsedData.expansions.networks ?? false,
 			symbols: parsedData.expansions.symbols ?? false,
 			special: parsedData.expansions.special ?? false,
@@ -125,6 +226,12 @@ export default
 		this.rng.map = Random.seedRandom(finalSeed + "-map");
 		this.rng.hints = Random.seedRandom(finalSeed + "-hints-" + randomSeed);
 		this.rng.actions = Random.seedRandom(finalSeed + "-actions");
+	},
 
-	}
+	getImageIDFromHint(hint)
+	{
+		return hint.id + "_" + hint.numericID;
+	},
 };
+
+export default CONFIG;

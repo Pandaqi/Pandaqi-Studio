@@ -111,11 +111,11 @@ export default class AnchorTool
         if(endX) { wrapper.style.left = "100%"; }
         if(endY) { wrapper.style.top = "100%"; }
 
-        const translate = new Point();
-        if(centerX) { translate.x = -50 }
-        if(centerY) { translate.y = -50 }
-        if(endX) { translate.x = -100 }
-        if(endY) { translate.y = -100 }
-        wrapper.style.transform = "translate(" + translate.x + "%, " + translate.y + "%)";
+        const translation = new Point();
+        if(centerX) { translation.x = -50 }
+        if(centerY) { translation.y = -50 }
+        if(endX) { translation.x = -100 }
+        if(endY) { translation.y = -100 }
+        wrapper.style.transform = "translate(" + translation.x + "%, " + translation.y + "%)";
     }
 }

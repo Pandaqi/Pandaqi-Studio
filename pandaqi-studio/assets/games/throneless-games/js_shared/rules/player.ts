@@ -136,7 +136,7 @@ export default class Player
         return this.cards[idx];
     }
 
-    getRandomCards(num:number, remove = false)
+    getRandomCards(num:number, remove = false) : CardThroneless[]
     {
         const options = shuffle(this.cards.slice());
         const arr = [];
@@ -205,8 +205,8 @@ export default class Player
         {
             const cardCanvas = new ResourceImage( await params.cardToShow.draw(sim.getVisualizer()) );
             const cardOp = new LayoutOperation({
-                translate: params.pos,
-                dims: params.dims,
+                pos: params.pos,
+                size: params.size,
                 pivot: Point.CENTER,
             });
             group.add(cardCanvas, cardOp);
@@ -214,8 +214,8 @@ export default class Player
 
         const resText = new ResourceText({ text: this.name, textConfig: params.textConfig });
         const opText = new LayoutOperation({
-            translate: params.pos.clone().add(new Point(0, 0.6*params.dims.y)),
-            dims: new Point(params.dims.x*5, params.dims.y),
+            pos: params.pos.clone().add(new Point(0, 0.6*params.size.y)),
+            size: new Point(params.size.x*5, params.size.y),
             fill: "#000000",
             pivot: Point.CENTER
         })
@@ -223,12 +223,12 @@ export default class Player
 
         if(params.drawSeat)
         {
-            const pos = opText.translate.clone().add(new Point(0.65*params.dims.x, 0));
-            const dims = new Point(0.45*params.dims.x);
+            const pos = opText.pos.clone().add(new Point(0.65*params.size.x, 0));
+            const size = new Point(0.45*params.size.x);
             const res = sim.getVisualizer().getResource("kingseat_icon");
             const op = new LayoutOperation({
-                translate: pos,
-                dims: dims,
+                pos: pos,
+                size: size,
                 pivot: Point.CENTER
             });
             group.add(res, op);

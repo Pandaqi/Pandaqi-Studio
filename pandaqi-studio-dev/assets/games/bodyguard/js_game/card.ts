@@ -138,8 +138,8 @@ export default class Card
         const descPos = new Point(0.5*size.x, 0.75*size.y);
         const descDims = new Point(0.9*size.x, 0.4*size.y);
         const op = new LayoutOperation({
-            translate: descPos,
-            dims: descDims,
+            pos: descPos,
+            size: descDims,
             pivot: new Point(0.5),
             fill: "#000000"
         })

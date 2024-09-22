@@ -123,9 +123,9 @@ export default class DominoSide
         const resTerrain = vis.getResource("terrains");
         const opTerrain = new LayoutOperation({
             frame: TERRAINS[this.terrain].frame,
-            dims: partSize,
+            size: partSize,
             pivot: Point.CENTER,
-            rotation: randRotation
+            rot: randRotation
         });
         group.add(resTerrain, opTerrain);
 
@@ -135,9 +135,9 @@ export default class DominoSide
         const frame = PATHS[this.pathKey].frame + frameOffset;
         const opPath = new LayoutOperation({
             frame: frame,
-            dims: partSize,
+            size: partSize,
             pivot: Point.CENTER,
-            rotation: this.pathRotation * 0.5 * Math.PI
+            rot: this.pathRotation * 0.5 * Math.PI
         });
         group.add(resPath, opPath);
 
@@ -149,10 +149,10 @@ export default class DominoSide
 
         const res = vis.getResource("icons");
         const shadowEffect = new DropShadowEffect({ color: "#FFFFFF", blurRadius: 0.05*vis.sizeUnit });
-        const dims = this.isCapital() ? vis.get("dominoes.main.dimsCapital") : vis.get("dominoes.main.dims");
+        const size = this.isCapital() ? vis.get("dominoes.main.sizeCapital") : vis.get("dominoes.main.size");
         const op = new LayoutOperation({
             frame: this.getTypeData().frame,
-            dims: dims,
+            size: size,
             effects: [shadowEffect, vis.inkFriendlyEffect].flat(),
             pivot: Point.CENTER,
         })
@@ -168,7 +168,7 @@ export default class DominoSide
         const partHeight = 0.5*vis.size.y;
         const textPos = new Point(0, 0.33*partHeight);
         const textDims = new Point(0.9*vis.size.x, 0.275*partHeight);
-        const rectParams = { pos: textPos, dims: textDims, color: vis.get("dominoes.powerText.rectColor"), alpha: vis.get("dominoes.powerText.rectAlpha") };
+        const rectParams = { pos: textPos, size: textDims, color: vis.get("dominoes.powerText.rectColor"), alpha: vis.get("dominoes.powerText.rectAlpha") };
         drawBlurryRectangle(rectParams, group);
 
         const text = data.desc;
@@ -179,10 +179,10 @@ export default class DominoSide
 
         const resText = new ResourceText({ text, textConfig });
         const opText = new LayoutOperation({
-            translate: textPos, 
+            pos: textPos, 
             pivot: Point.CENTER,
             fill: vis.get("dominoes.powerText.color"),
-            dims: new Point(0.9*textDims.x, textDims.y)
+            size: new Point(0.9*textDims.x, textDims.y)
         });
         group.add(resText, opText);
  

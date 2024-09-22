@@ -77,9 +77,9 @@ export default class Tile extends MaterialEaster
         const res = vis.getResource(this.getTypeData().textureKey);
         const frame = this.getData().frame;
         const op = new LayoutOperation({
-            translate: vis.center,
+            pos: vis.center,
             frame: frame,
-            dims: vis.get("tiles.map.iconDims"),
+            size: vis.get("tiles.map.iconDims"),
             pivot: Point.CENTER,
             effects: vis.inkFriendlyEffect
         });
@@ -92,8 +92,8 @@ export default class Tile extends MaterialEaster
         const res = vis.getResource("misc_unique");
         const frame = (this.type == TileType.OBJECTIVE) ? MISC_UNIQUE.bg_objective.frame : MISC_UNIQUE.bg.frame;
         const op = new LayoutOperation({
-            translate: new Point(),
-            dims: vis.size,
+            pos: new Point(),
+            size: vis.size,
             frame: frame,
             effects: vis.inkFriendlyEffect
         })
@@ -121,9 +121,9 @@ export default class Tile extends MaterialEaster
             const label = labels[i];
             const textRes = new ResourceText({ text: label, textConfig: textConfig });
             const textOp = new LayoutOperation({
-                translate: pos,
+                pos: pos,
                 pivot: Point.CENTER,
-                dims: new Point(0.5*vis.size.x, 2*textConfig.size),
+                size: new Point(0.5*vis.size.x, 2*textConfig.size),
                 fill: color,
                 composite: composite
             })
@@ -137,7 +137,7 @@ export default class Tile extends MaterialEaster
         const group = new ResourceGroup();
 
         const data = this.customData.movement;
-        const gridDims = data.dims;
+        const gridDims = data.size;
         const validSpaces = data.valid;
         const rectOuterSize = Math.min(vis.size.x / gridDims.x, vis.size.y / gridDims.y);
         const rectInnerSize = new Point(0.9 * rectOuterSize);
@@ -174,8 +174,8 @@ export default class Tile extends MaterialEaster
                 // the icon to help colorblind
                 const iconFrame = isCenter ? MISC_UNIQUE.pawn.frame : (isValid ? MISC_UNIQUE.checkmark.frame : MISC_UNIQUE.cross.frame);
                 const opIcon = new LayoutOperation({
-                    translate: pos,
-                    dims: rectInnerSize.clone().scale(0.825),
+                    pos: pos,
+                    size: rectInnerSize.clone().scale(0.825),
                     frame: iconFrame,
                     pivot: Point.CENTER
                 })
@@ -198,8 +198,8 @@ export default class Tile extends MaterialEaster
             const res = vis.getResource("action_tiles");
             const effects = [glowEffect, vis.inkFriendlyEffect].flat();
             const op = new LayoutOperation({
-                translate: vis.get("tiles.action.iconPos"),
-                dims: vis.get("tiles.action.iconDims"),
+                pos: vis.get("tiles.action.iconPos"),
+                size: vis.get("tiles.action.iconDims"),
                 frame: this.getData().frame,
                 pivot: Point.CENTER,
                 effects: effects
@@ -213,8 +213,8 @@ export default class Tile extends MaterialEaster
             const frame = MISC_UNIQUE.icon_objective.frame;
             const effects = [shadowEffect, vis.inkFriendlyEffect].flat();
             const op = new LayoutOperation({
-                translate: vis.get("tiles.objective.iconPos"),
-                dims: vis.get("tiles.objective.iconDims"),
+                pos: vis.get("tiles.objective.iconPos"),
+                size: vis.get("tiles.objective.iconDims"),
                 frame: frame,
                 pivot: Point.CENTER,
                 effects: effects
@@ -227,8 +227,8 @@ export default class Tile extends MaterialEaster
             const res = this.drawMovementGrid(vis);
             const effects = [shadowEffect, vis.inkFriendlyEffect].flat();
             const op = new LayoutOperation({
-                translate: vis.get("tiles.movementGrid.pos"),
-                dims: vis.get("tiles.movementGrid.dims"),
+                pos: vis.get("tiles.movementGrid.pos"),
+                size: vis.get("tiles.movementGrid.size"),
                 pivot: Point.CENTER,
                 effects: effects
             });
@@ -250,8 +250,8 @@ export default class Tile extends MaterialEaster
 
         const textRes = new ResourceText({ text: text, textConfig: textConfig });
         const op = new LayoutOperation({
-            translate: pos,
-            dims: vis.get("tiles.powerText.textBoxDims"),
+            pos: pos,
+            size: vis.get("tiles.powerText.textBoxDims"),
             pivot: Point.CENTER,
             effects: effects,
             fill: color

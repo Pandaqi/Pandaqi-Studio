@@ -56,7 +56,7 @@ export default class Card
 
         const resTemp = vis.getResource("card_templates");
         const opBG = new LayoutOperation({
-            dims: vis.size,
+            size: vis.size,
             frame: this.getSuitData().frame
         });
         group.add(resTemp, opBG);
@@ -67,8 +67,8 @@ export default class Card
         // the main illustration (of suit)
         const resMisc = vis.getResource("misc");
         const opIllustration = new LayoutOperation({
-            translate: vis.get("cards.main.pos"),
-            dims: vis.get("cards.main.dims"),
+            pos: vis.get("cards.main.pos"),
+            size: vis.get("cards.main.size"),
             frame: this.getSuitData().frame,
             pivot: Point.CENTER,
             effects: vis.inkFriendlyEffect
@@ -77,8 +77,8 @@ export default class Card
 
         // the "fits on top of" graphic
         const opFits = new LayoutOperation({
-            translate: vis.get("cards.fitsOnTop.pos"),
-            dims: vis.get("cards.fitsOnTop.dims"),
+            pos: vis.get("cards.fitsOnTop.pos"),
+            size: vis.get("cards.fitsOnTop.size"),
             frame: this.getSuitData().frame + 2 * 4,
             pivot: Point.CENTER,
             effects: vis.inkFriendlyEffect
@@ -101,8 +101,8 @@ export default class Card
         for(const pos of positions)
         {
             const opNumber = new LayoutOperation({
-                translate: pos,
-                dims: new Point(2.0 * textConfig.size),
+                pos: pos,
+                size: new Point(2.0 * textConfig.size),
                 pivot: Point.CENTER,
                 fill: this.getTintColor(vis)
             });
@@ -116,10 +116,10 @@ export default class Card
         {
             const pos = positionsSuits[i];
             const opNumber = new LayoutOperation({
-                translate: pos,
+                pos: pos,
                 flipX: (i == 1 || i == 2),
                 flipY: i >= 2,
-                dims: vis.get("cards.suitIcons.dims"),
+                size: vis.get("cards.suitIcons.size"),
                 frame: this.getSuitData().frame + 4,
                 pivot: Point.CENTER,
                 effects: vis.inkFriendlyEffect

@@ -228,10 +228,10 @@ export default class BoardGeneration
 
 			const res = vis.getResource("flower_icon");
 			const op = new LayoutOperation({
-				translate: new Point(randX, randY),
+				pos: new Point(randX, randY),
 				pivot: Point.CENTER,
-				dims: new Point(randSize),
-				rotation: randRot,
+				size: new Point(randSize),
+				rot: randRot,
 				alpha: 0.05
 			})
 			group.add(res, op);
@@ -258,8 +258,8 @@ export default class BoardGeneration
 			}
 
 			const op = new LayoutOperation({
-				translate: rect.center.clone(),
-				dims: new Point(this.cfg.minSizeCell),
+				pos: rect.center.clone(),
+				size: new Point(this.cfg.minSizeCell),
 				pivot: Point.CENTER,
 				frame: i,
 			})
@@ -288,8 +288,8 @@ export default class BoardGeneration
 				const randNum = Math.floor(Math.random() * 15) + 1
 				const resText = new ResourceText({ text: randNum.toString(), textConfig: textConfig });
 				const opText = new LayoutOperation({
-					translate: new Point(x,y),
-					dims: new Point(2*textConfig.size),
+					pos: new Point(x,y),
+					size: new Point(2*textConfig.size),
 					fill: this.cfg.path.fontColor,
 					stroke: inkFriendly ? this.cfg.path.strokeColorGray : this.cfg.path.strokeColor,
 					strokeWidth: this.cfg.path.strokeWidth,
@@ -309,9 +309,9 @@ export default class BoardGeneration
 				const textureKey = this.capitalize(randPerson) + "Icon";
 				const res = vis.getResource(textureKey);
 				const op = new LayoutOperation({
-					translate: new Point(x,y),
+					pos: new Point(x,y),
 					pivot: Point.CENTER,
-					dims: new Point(spriteSize)
+					size: new Point(spriteSize)
 				})
 				group.add(res, op);
 			
@@ -333,8 +333,8 @@ export default class BoardGeneration
 				const textureKey = this.capitalize(randType) + 'Icon';
 				const res = vis.getResource(textureKey);
 				const op = new LayoutOperation({
-					translate: new Point(x,y),
-					dims: new Point(this.cfg.minSizeCell),
+					pos: new Point(x,y),
+					size: new Point(this.cfg.minSizeCell),
 					pivot: Point.CENTER
 				})
 				group.add(res, op);
@@ -368,8 +368,8 @@ export default class BoardGeneration
 				const textureKey = this.capitalize(randResource) + 'Icon'; // @TODO: ugh now I need to CAPITALIZE this shit
 				const res = vis.getResource(textureKey);
 				const op = new LayoutOperation({
-					translate: new Point(avgX, avgY),
-					dims: new Point(spriteSize),
+					pos: new Point(avgX, avgY),
+					size: new Point(spriteSize),
 					pivot: Point.CENTER
 				})
 				group.add(res, op);
@@ -408,8 +408,8 @@ export default class BoardGeneration
 			const str = this.cfg.horizontalMarks.at(i);
 			const resText = new ResourceText({ text: str, textConfig: textConfig });
 			const opText = new LayoutOperation({
-				translate: new Point(finalX, finalY),
-				dims: new Point(2*textConfig.size),
+				pos: new Point(finalX, finalY),
+				size: new Point(2*textConfig.size),
 				fill: this.cfg.grid.fontColor,
 				pivot: Point.CENTER
 			})
@@ -430,8 +430,8 @@ export default class BoardGeneration
 			const str = (i + 1).toString();
 			const resText = new ResourceText({ text: str, textConfig: textConfig });
 			const opText = new LayoutOperation({
-				translate: new Point(finalX, finalY),
-				dims: new Point(2*textConfig.size),
+				pos: new Point(finalX, finalY),
+				size: new Point(2*textConfig.size),
 				fill: this.cfg.grid.fontColor,
 				pivot: Point.CENTER
 			})
@@ -452,8 +452,8 @@ export default class BoardGeneration
 		{
 			const frame = PLANET_MAP[planet];
 			const op = new LayoutOperation({
-				translate: new Point(x,y),
-				dims: new Point(spriteSize),
+				pos: new Point(x,y),
+				size: new Point(spriteSize),
 				pivot: Point.CENTER,
 				frame: frame
 			})

@@ -1,16 +1,14 @@
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
+import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import ResourceShape from "js/pq_games/layout/resources/resourceShape";
+import Line from "js/pq_games/tools/geometry/line";
 import Path from "js/pq_games/tools/geometry/paths/path";
 import subdividePath from "js/pq_games/tools/geometry/paths/subdividePath";
-import Point from "js/pq_games/tools/geometry/point"
+import Point from "js/pq_games/tools/geometry/point";
 import movePath from "js/pq_games/tools/geometry/transform/movePath";
-import CONFIG from "../js_shared/config";
-import calculateBoundingBox from "js/pq_games/tools/geometry/paths/calculateBoundingBox";
-import rangeInteger from "js/pq_games/tools/random/rangeInteger";
-import Line from "js/pq_games/tools/geometry/line";
 import range from "js/pq_games/tools/random/range";
-import Bounds from "js/pq_games/tools/numbers/bounds";
-import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
+import rangeInteger from "js/pq_games/tools/random/rangeInteger";
+import CONFIG from "../js_shared/config";
 
 export default class WonkyRectangle
 {

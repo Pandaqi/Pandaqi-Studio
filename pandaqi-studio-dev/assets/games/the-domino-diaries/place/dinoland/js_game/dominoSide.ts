@@ -27,8 +27,8 @@ export default class DominoSide
         const randRotation = Math.floor(Math.random() * 4) * 0.5 * Math.PI;
         const opTerrain = new LayoutOperation({
             frame: TERRAINS[this.terrain].frame,
-            dims: new Point(vis.sizeUnit),
-            rotation: randRotation,
+            size: new Point(vis.sizeUnit),
+            rot: randRotation,
             pivot: Point.CENTER
         });
         
@@ -48,9 +48,9 @@ export default class DominoSide
             const opDino = new LayoutOperation({
                 frame: dinoData.frame,
                 pivot: Point.CENTER,
-                dims: vis.get("dominoes.dino.dims"),
+                size: vis.get("dominoes.dino.size"),
                 effects: [shadow, vis.inkFriendlyEffect].flat(),
-                rotation: wiggleRotation
+                rot: wiggleRotation
             })
             group.add(resDino, opDino);
 
@@ -60,8 +60,8 @@ export default class DominoSide
                 const opArrow = new LayoutOperation({
                     frame: MISC.arrow.frame,
                     pivot: Point.CENTER,
-                    dims: vis.get("dominoes.dino.dimsArrow"),
-                    rotation: randRotation,
+                    size: vis.get("dominoes.dino.sizeArrow"),
+                    rot: randRotation,
                     alpha: 0.85
                 })
                 group.add(resMisc, opArrow);
@@ -72,7 +72,7 @@ export default class DominoSide
             {
                 const textPos = new Point(0, 0.33*partHeight);
                 const textDims = new Point(0.9*vis.size.x, 0.275*partHeight);
-                const rectParams = { pos: textPos, dims: textDims, color: "#110000", alpha: 0.75 };
+                const rectParams = { pos: textPos, size: textDims, color: "#110000", alpha: 0.75 };
                 drawBlurryRectangle(rectParams, group);
 
                 const text = dinoData.desc;
@@ -83,10 +83,10 @@ export default class DominoSide
 
                 const resText = new ResourceText({ text, textConfig });
                 const opText = new LayoutOperation({
-                    translate: textPos, 
+                    pos: textPos, 
                     pivot: Point.CENTER,
                     fill: "#FFEEEE",
-                    dims: new Point(0.9*textDims.x, textDims.y)
+                    size: new Point(0.9*textDims.x, textDims.y)
                 });
                 group.add(resText, opText);
             }

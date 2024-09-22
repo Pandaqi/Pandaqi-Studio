@@ -1,11 +1,7 @@
 import ResourceImage, { CanvasLike } from "js/pq_games/layout/resources/resourceImage"
 import Point from "js/pq_games/tools/geometry/point"
-import Dims from "../tools/geometry/dims"
 import calculateBoundingBox from "../tools/geometry/paths/calculateBoundingBox"
-import Rectangle from "../tools/geometry/rectangle"
 import Shape from "../tools/geometry/shape"
-import movePath from "../tools/geometry/transform/movePath"
-import rotatePath from "../tools/geometry/transform/rotatePath"
 import isZero from "../tools/numbers/isZero"
 import ColorLike, { ColorLikeValue } from "./color/colorLike"
 import LayoutEffect from "./effects/layoutEffect"
@@ -31,7 +27,9 @@ interface LayoutOperationParams
     strokeType?:string,
     strokeAlign?:StrokeAlign,
 
-    translate?: Point,
+    pos?: Point,
+    position?: Point,
+    rot?:number,
     rotation?:number,
     scale?:Point,
     skew?:Point,
@@ -40,11 +38,11 @@ interface LayoutOperationParams
     alpha?:number,
     composite?:GlobalCompositeOperation,
 
+    size?:Point,
     dims?:Point,
-    dimsAuto?: boolean, // automatically extracts dimensions from what it's given; most useful for text (as those dims are varying and unknown)
+    sizeAuto?: boolean, // automatically extracts dimensions from what it's given; most useful for text (as those dims are varying and unknown)
     ratio?:Point,
     keepRatio?: boolean,
-    size?:Point,
 
     pivot?:Point,
     flipX?:boolean,
@@ -66,9 +64,9 @@ interface LayoutOperationParams
 export { LayoutOperation, ResourceLike }
 export default class LayoutOperation
 {
-    translate : Point
-    translateResult : Point // set dynamically on every apply
-    rotation : number
+    pos : Point
+    posResult : Point // set dynamically on every apply
+    rot : number
     scale : Point
     scaleResult : Point // set dynamically on every apply
     skew : Point
@@ -77,9 +75,9 @@ export default class LayoutOperation
     alpha : number
     composite : GlobalCompositeOperation
 
-    dims : Point
-    dimsAuto : boolean
-    dimsResult : Point // set dynamically on every apply
+    size : Point
+    sizeAuto : boolean
+    sizeResult : Point // set dynamically on every apply
     ratio : Point
     keepRatio : boolean
     pivot : Point
@@ -96,7 +94,6 @@ export default class LayoutOperation
     
     frame: number // frame of image (spritesheets)
     transformResult: TransformationMatrix // set dynamically on every apply
-    transformParent: TransformationMatrix
     parentOperation: LayoutOperation
     renderer: Renderer
     keepTransform: boolean
@@ -111,10 +108,10 @@ export default class LayoutOperation
 
     constructor(params:LayoutOperationParams = {})
     {
-        this.translate = params.translate ?? new Point();
-        this.rotation = params.rotation ?? 0;
-        this.dims = (params.dims ?? params.size) ?? new Point();
-        this.dimsAuto = params.dimsAuto ?? false;
+        this.pos = (params.pos ?? params.position) ?? new Point();
+        this.rot = (params.rot ?? params.rotation) ?? 0;
+        this.size = (params.size ?? params.dims) ?? new Point();
+        this.sizeAuto = params.sizeAuto ?? false;
         this.ratio = params.ratio ?? new Point(1,1);
         this.keepRatio = params.keepRatio ?? false;
         this.scale = params.scale ?? new Point(1,1);
@@ -141,7 +138,6 @@ export default class LayoutOperation
         this.strokeAlign = params.strokeAlign ?? StrokeAlign.MIDDLE;
 
         this.parentOperation = params.parentOperation ?? null;
-        this.transformParent = this.parentOperation ? this.parentOperation.transformResult.clone() : new TransformationMatrix();
         this.renderer = params.renderer ?? (this.parentOperation ? this.parentOperation.renderer : new RendererPandaqi());
         this.keepTransform = params.keepTransform ?? false;
     }
@@ -184,8 +180,8 @@ export default class LayoutOperation
 
     calculateResultProperties()
     {
-        let dims = this.dims.clone();
-        let translate = this.translate.clone();
+        let size = this.size.clone();
+        let pos = this.pos.clone();
         let scale = this.scale.clone();
 
         if(this.flipX) { scale.x *= -1; }
@@ -194,7 +190,7 @@ export default class LayoutOperation
         if(this.isShape())
         {
             const dimsObject = calculateBoundingBox((this.resource as ResourceShape).shape.toPath())
-            dims = dimsObject.size;
+            size = dimsObject.size;
             //if(moveToOrigin) { translate.move(dimsObject.topLeft); }
         }
 
@@ -203,48 +199,48 @@ export default class LayoutOperation
             // @TODO: does ratio make sense for any other resource type than image?
             const ratio = this.resource instanceof ResourceImage ? this.resource.getRatio() : (this.ratio.x / this.ratio.y);
 
-            const givenAxis = dims.y <= 0 ? "y" : "x";
+            const givenAxis = size.y <= 0 ? "y" : "x";
             const calcAxis = givenAxis == "x" ? "y" : "x";
-            dims[calcAxis] = (givenAxis == "x") ? dims[givenAxis] / ratio : dims[givenAxis] * ratio;
+            size[calcAxis] = (givenAxis == "x") ? size[givenAxis] / ratio : size[givenAxis] * ratio;
         }
 
         if(this.isText())
         {
             if(!this.tempTextDrawer)
             {
-                this.tempTextDrawer = (this.resource as ResourceText).createTextDrawer(dims);
+                this.tempTextDrawer = (this.resource as ResourceText).createTextDrawer(size);
                 //this.tempTextDrawer.debug = true; // @DEBUGGING
             }
 
-            if(this.dimsAuto)
+            if(this.sizeAuto)
             {
-                dims = this.tempTextDrawer.measureText().getSize().clone();
-                dims.add(new Point(1,1)); // to prevent silly rounding errors making text boxes JUUUST too small
+                size = this.tempTextDrawer.measureText().getSize().clone();
+                size.add(new Point(1,1)); // to prevent silly rounding errors making text boxes JUUUST too small
                 this.tempTextDrawer.snapDimsToActualSize();
             }
         }
 
-        translate.round();
-        dims.round();
+        pos.round();
+        size.round();
 
-        this.translateResult = translate;
-        this.dimsResult = dims;
+        this.posResult = pos;
+        this.sizeResult = size;
         this.scaleResult = scale;
         this.transformResult = this.calculateTransformationMatrix();
     }
 
     calculateTransformationMatrix()
     {
-        const trans = this.transformParent;
-        trans.translate(this.translateResult); 
-        trans.rotate(this.rotation);
+        const trans = this.parentOperation ? this.parentOperation.transformResult.clone() : new TransformationMatrix();
+        trans.translate(this.posResult); 
+        trans.rotate(this.rot);
         trans.scale(this.scaleResult);
 
         const pivot = this.pivot.clone();
         if(this.flipX) { pivot.x = 1.0 - pivot.x; }
         if(this.flipY) { pivot.y = 1.0 - pivot.y; }
 
-        const offset = pivot.negate().scale(this.dimsResult);
+        const offset = pivot.negate().scale(this.sizeResult);
         this.pivotOffset = offset;
         trans.translate(offset);
         // @TODO: enable once I've checked it works correctly => trans.skew(this.skew);

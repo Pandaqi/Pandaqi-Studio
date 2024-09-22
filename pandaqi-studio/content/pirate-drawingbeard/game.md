@@ -2,14 +2,6 @@
 type: "game"
 ---
 
-<div id="phaser-container">
-</div>
-
-<div id="game-images-container">
-    <div id="game-images">
-    </div>
-</div>
-
 <div id="debugging-container">
     <div id="debugging">
         <p>Debug Tools ...</p>

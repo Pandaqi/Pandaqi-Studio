@@ -172,7 +172,7 @@ export default class BoardGenerator
 		{
 			this.containerOutput.style.display = "grid";
 			const numColumns = images.length <= 4 ? 2 : 3;
-			const str = [].fill("auto", 0, numColumns).join(" ");
+			const str = new Array(numColumns).fill("auto").join(" ");
 			this.containerOutput.style.gridTemplateColumns = str;
 		}
     }

@@ -41,9 +41,9 @@ export default class Card
         const typeData = this.getTypeData();
         const res = vis.getResource(typeData.textureKey);
         const op = new LayoutOperation({
-            translate: new Point(),
+            pos: new Point(),
             frame: this.customData.num,
-            dims: vis.size,
+            size: vis.size,
             effects: vis.inkFriendlyEffect
         })
         group.add(res, op);
@@ -74,8 +74,8 @@ export default class Card
 
             // the egg illustration
             const opEggs = new LayoutOperation({
-                translate: new Point(pos.x - eggDims.x, pos.y),
-                dims: eggDims,
+                pos: new Point(pos.x - eggDims.x, pos.y),
+                size: eggDims,
                 frame: EGGS_SHARED[key].frame,
                 pivot: Point.CENTER,
                 effects: vis.inkFriendlyEffect
@@ -86,8 +86,8 @@ export default class Card
             const text = "= " + freq;
             const resText = new ResourceText({ text: text, textConfig: textConfig });
             const opText = new LayoutOperation({
-                translate: pos,
-                dims: textDims,
+                pos: pos,
+                size: textDims,
                 pivot: new Point(0, 0.5),
                 fill: "#000000"
             });

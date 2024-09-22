@@ -79,8 +79,8 @@ export default class Card
 
         const frame = CARD_TEMPLATES[key].frame;
         const op = new LayoutOperation({
-            translate: new Point(),
-            dims: vis.size,
+            pos: new Point(),
+            size: vis.size,
             frame: frame,
             effects: vis.inkFriendlyEffect
         });
@@ -110,8 +110,8 @@ export default class Card
     
             const textColor = vis.inkFriendly ? "#000000" : vis.get("votes.details.textColors." + this.subType);
             const opText = new LayoutOperation({
-                translate: pos,
-                dims: new Point(2*fontSize),
+                pos: pos,
+                size: new Point(2*fontSize),
                 fill: textColor,
                 pivot: Point.CENTER
             })
@@ -124,8 +124,8 @@ export default class Card
             const pos = singleElement ? vis.center.clone() : vis.get("votes.details.iconPos");
             const resIcon = vis.getResource("misc");
             const opIcon = new LayoutOperation({
-                translate: pos,
-                dims: vis.get("votes.details.iconDims"),
+                pos: pos,
+                size: vis.get("votes.details.iconDims"),
                 frame: ICONS[this.voteDetails.icon].frame,
                 pivot: Point.CENTER,
                 effects: effects
@@ -169,14 +169,14 @@ export default class Card
         if(topSideIcons)
         {
             const numIcons = this.movieDetails.costIcons.length;
-            const positions = getPositionsCenteredAround({ pos: offset, num: numIcons, dims: new Point(offsetBetweenIcons) });
+            const positions = getPositionsCenteredAround({ pos: offset, num: numIcons, size: new Point(offsetBetweenIcons) });
             for(let i = 0; i < numIcons; i++)
             {
                 const icon = this.movieDetails.costIcons[i];
                 const position = positions[i];
                 const op = new LayoutOperation({
-                    translate: position, // offset.clone()
-                    dims: iconDims,
+                    pos: position, // offset.clone()
+                    size: iconDims,
                     frame: ICONS[icon].frame,
                     pivot: Point.CENTER,
                     effects: effects
@@ -195,8 +195,8 @@ export default class Card
         {
             const resText = new ResourceText({ text: this.movieDetails.costText, textConfig: textConfigBody });
             const opText = new LayoutOperation({
-                translate: offset,
-                dims: textBoxDims,
+                pos: offset,
+                size: textBoxDims,
                 fill: textColorTop,
                 pivot: Point.CENTER
             });
@@ -213,8 +213,8 @@ export default class Card
         if(bottomSideIcons)
         {
             const opIconPile = new LayoutOperation({
-                translate: offsetBottom.clone(),
-                dims: iconDims,
+                pos: offsetBottom.clone(),
+                size: iconDims,
                 frame: 0,
                 pivot: Point.CENTER,
                 effects: effects
@@ -233,8 +233,8 @@ export default class Card
             const resText = new ResourceText({ text: str, textConfig: textConfig });
 
             const opText = new LayoutOperation({
-                translate: offsetBottom.clone(),
-                dims: new Point(2*fontSize),
+                pos: offsetBottom.clone(),
+                size: new Point(2*fontSize),
                 fill: textColorBottom,
                 pivot: Point.CENTER
             })
@@ -247,8 +247,8 @@ export default class Card
             const offsetBottomCentered = new Point(vis.center.x, offsetBottom.y);
             const resText = new ResourceText({ text: this.movieDetails.profitText, textConfig: textConfigBody });
             const opText = new LayoutOperation({
-                translate: offsetBottomCentered,
-                dims: textBoxDims,
+                pos: offsetBottomCentered,
+                size: textBoxDims,
                 fill: textColorTop,
                 pivot: Point.CENTER
             });
@@ -273,8 +273,8 @@ export default class Card
         const strSub = MAIN_TEXTS[this.textDetails.main].desc;
         const resTextSub = new ResourceText({ text: strSub, textConfig: textConfigSub });
         const opTextSub = new LayoutOperation({
-            translate: vis.get("cards.movie.text.textPosSub"),
-            dims: new Point(vis.size.x, 2*fontSizeSub),
+            pos: vis.get("cards.movie.text.textPosSub"),
+            size: new Point(vis.size.x, 2*fontSizeSub),
             fill: textColor,
             pivot: Point.CENTER
         });
@@ -291,8 +291,8 @@ export default class Card
         const str = this.textDetails.option.toUpperCase();
         const resText = new ResourceText({ text: str, textConfig: textConfig });
         const opText = new LayoutOperation({
-            translate: vis.get("cards.movie.text.textPos"),
-            dims: new Point(vis.size.x, 2*fontSize),
+            pos: vis.get("cards.movie.text.textPos"),
+            size: new Point(vis.size.x, 2*fontSize),
             fill: textColor,
             pivot: Point.CENTER
         });

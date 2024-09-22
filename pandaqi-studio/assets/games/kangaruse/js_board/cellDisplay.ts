@@ -44,8 +44,8 @@ export default class CellDisplay
         const fontSize = (txtCfg.fontScaleFactor * this.boardDisplay.cellSizeUnit);
         const strokeThickness = (txtCfg.strokeScaleFactor * fontSize);
 
-        const dims = new Point(2*fontSize);
-        const pos = this.placeAtCorner(dims, corner);
+        const size = new Point(2*fontSize);
+        const pos = this.placeAtCorner(size, corner);
 
         const str = this.cell.getNum().toString();
         const textConfig = new TextConfig({
@@ -53,8 +53,8 @@ export default class CellDisplay
             size: fontSize
         }).alignCenter();
         const opText = new LayoutOperation({
-            translate: pos,
-            dims: dims,
+            pos: pos,
+            size: size,
             pivot: Point.CENTER,
             fill: txtCfg.color,
             stroke: txtCfg.stroke,
@@ -65,14 +65,14 @@ export default class CellDisplay
         group.add(resText, opText);
     }
 
-    createWritingSpace(vis: BoardVisualizer, group:ResourceGroup, dims:Point, corner:string)
+    createWritingSpace(vis: BoardVisualizer, group:ResourceGroup, size:Point, corner:string)
     {
         const res = vis.getResource("general_spritesheet");
         const alpha = this.showWritingSpace() ? 1.0 : 0.0;
-        const pos = this.placeAtCorner(dims, corner);
+        const pos = this.placeAtCorner(size, corner);
         const op = new LayoutOperation({
-            translate: pos,
-            dims: dims,
+            pos: pos,
+            size: size,
             pivot: Point.CENTER,
             frame: GENERAL.writingSpace.frame,
             alpha: alpha,
@@ -81,17 +81,17 @@ export default class CellDisplay
         group.add(res, op);
     }
 
-    createTypeIcon(vis: BoardVisualizer, group:ResourceGroup, dims:Point, corner:string)
+    createTypeIcon(vis: BoardVisualizer, group:ResourceGroup, size:Point, corner:string)
     {
         if(!this.showType()) { return null; }
 
         const frame = CELLS[this.cell.type].frame;
         const res = vis.getResource(CONFIG.cellTexture);
-        const pos = this.placeAtCorner(dims, corner);
+        const pos = this.placeAtCorner(size, corner);
         const op = new LayoutOperation({
-            translate: pos,
+            pos: pos,
             pivot: Point.CENTER,
-            dims: dims,
+            size: size,
             flipX: (Math.random() <= 0.5),
             frame: frame
         });
@@ -99,7 +99,7 @@ export default class CellDisplay
         return true;
     }
 
-    placeAtCorner(dims:Point, corner:string) : Point
+    placeAtCorner(size:Point, corner:string) : Point
     {
         const centerPos = this.getRealPosition();
 
@@ -108,8 +108,8 @@ export default class CellDisplay
         const margin = CONFIG.board.cellDisplay.cornerMargin * csu;
 
         const cornerOffset = CORNER_OFFSETS[corner].clone();
-        const offsetX = cornerOffset.x * 0.5 * (cs.x - dims.x - margin);
-        const offsetY = cornerOffset.y * 0.5 * (cs.y - dims.y - margin);
+        const offsetX = cornerOffset.x * 0.5 * (cs.x - size.x - margin);
+        const offsetY = cornerOffset.y * 0.5 * (cs.y - size.y - margin);
 
         const offsetVec = new Point().setXY(offsetX, offsetY);
         const offsetPos = centerPos.move(offsetVec);
@@ -205,8 +205,8 @@ export default class CellDisplay
 
             for(const corner of corners)
             {
-                const dims = new Point(data.space.scale * csu);
-                this.createWritingSpace(vis, group, dims, corner);
+                const size = new Point(data.space.scale * csu);
+                this.createWritingSpace(vis, group, size, corner);
             }
         }
 

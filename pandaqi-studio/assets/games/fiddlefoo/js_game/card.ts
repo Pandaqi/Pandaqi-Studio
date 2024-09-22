@@ -98,9 +98,9 @@ export default class Card
             const pos = positions[i];
             const rot = i < 2 ? 0 : Math.PI;
             const opText = new LayoutOperation({
-                translate: pos,
-                rotation: rot,
-                dims: textDims,
+                pos: pos,
+                rot: rot,
+                size: textDims,
                 fill: textColor,
                 pivot: Point.CENTER
             })
@@ -116,8 +116,8 @@ export default class Card
         const resTextBig = new ResourceText({ text: this.num.toString(), textConfig: textConfigBig });
         const shadowEffect = new DropShadowEffect({ color: "#000000", blur: 0.05*textConfigBig.size });
         const opTextBig = new LayoutOperation({
-            translate: vis.get("cards.numberCenter.textPos"),
-            dims: vis.size,
+            pos: vis.get("cards.numberCenter.textPos"),
+            size: vis.size,
             fill: textColor,
             stroke: vis.get("cards.numberCenter.strokeColor"),
             strokeWidth: vis.get("cards.numberCenter.strokeWidth"),
@@ -142,11 +142,11 @@ export default class Card
         for(let i = 0; i < 2; i++)
         {
             const opTextWritten = new LayoutOperation({
-                translate: positionsWritten[i],
-                rotation: i <= 0 ? 0 : Math.PI,
+                pos: positionsWritten[i],
+                rot: i <= 0 ? 0 : Math.PI,
                 pivot: Point.CENTER,
                 fill: "#000000",
-                dims: new Point(vis.size.x, 2*textConfigWritten.size),
+                size: new Point(vis.size.x, 2*textConfigWritten.size),
                 composite: "overlay"
             })
             group.add(resTextWritten, opTextWritten);
@@ -162,7 +162,7 @@ export default class Card
         const positions = getPositionsCenteredAround({ 
             pos: Point.ZERO,
             num: this.numNotes,
-            dims: noteSize
+            size: noteSize
         })
 
         // create the group of notes (randomly placed on sheet music line)
@@ -172,8 +172,8 @@ export default class Card
         {
             const randYOffset = Math.floor(Math.random() * 3) * lineOffset;
             const opNote = new LayoutOperation({
-                translate: positions[i].add(new Point(0, -randYOffset)),
-                dims: noteSize,
+                pos: positions[i].add(new Point(0, -randYOffset)),
+                size: noteSize,
                 frame: noteFrame,
                 effects: [glowEffect],
                 pivot: new Point(0.5, 1.0)
@@ -190,8 +190,8 @@ export default class Card
         for(let i = 0; i < 2; i++)
         {
             const opGroup = new LayoutOperation({
-                translate: positionsGroups[i],
-                rotation: i <= 0 ? -0.5*Math.PI : 0.5*Math.PI,
+                pos: positionsGroups[i],
+                rot: i <= 0 ? -0.5*Math.PI : 0.5*Math.PI,
             });
             group.add(groupNotes, opGroup);
         }
@@ -208,8 +208,8 @@ export default class Card
         // @TODO: Shadow behind it?
         const resBG = vis.getResource("misc");
         const opBG = new LayoutOperation({
-            translate: vis.get("cards.special.iconPos"),
-            dims: vis.get("cards.special.iconBGDims"),
+            pos: vis.get("cards.special.iconPos"),
+            size: vis.get("cards.special.iconBGDims"),
             frame: TEMPLATES.special_bg.frame,
             pivot: Point.CENTER
         })
@@ -217,8 +217,8 @@ export default class Card
 
         const resIcon = vis.getResource("special_cards");
         const opIcon = new LayoutOperation({
-            translate:vis.get("cards.special.iconPos"),
-            dims: vis.get("cards.special.iconDims"),
+            pos:vis.get("cards.special.iconPos"),
+            size: vis.get("cards.special.iconDims"),
             frame: data.frame,
             effects: vis.inkFriendlyEffect,
             pivot: Point.CENTER
@@ -236,8 +236,8 @@ export default class Card
         }).alignCenter();
         const resText = new ResourceText({ text: desc, textConfig: textConfig });
         const opText = new LayoutOperation({
-            translate: vis.get("cards.special.textPos"),
-            dims: vis.get("cards.special.textDims"),
+            pos: vis.get("cards.special.textPos"),
+            size: vis.get("cards.special.textDims"),
             fill: vis.get("cards.special.textColor"),
             pivot: Point.CENTER
         })

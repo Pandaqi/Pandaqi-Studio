@@ -18,11 +18,18 @@ export default class ResourceText extends Resource
     text:string
     textConfig:TextConfig
 
-    constructor(params:ResourceTextParams = {})
+    constructor(params:ResourceTextParams|string = {}, cfg:TextConfig = null)
     {
         super()
 
-        this.text = params.text ?? "";
+        if(typeof params == "string")
+        {
+            this.text = params;
+            this.textConfig = cfg ?? new TextConfig();
+            return;
+        }
+
+        this.text = params.text.toString() ?? "";
         this.textConfig = params.textConfig ?? new TextConfig();
     }
     
@@ -51,7 +58,7 @@ export default class ResourceText extends Resource
     getPixiObject(helpers)
     {
         const operation : LayoutOperation = helpers.layoutOperation.clone();
-        operation.renderer = new RendererPandaqi(); // only that renderer actually does rich text => @TODO: find cleaner approach?
+        operation.renderer = new RendererPandaqi(); // only that renderer actuall does rich text => @TODO: find cleaner approach?
 
         const canv = document.createElement("canvas");
         const size = operation.tempTextDrawer.dims.getSize();
@@ -61,7 +68,8 @@ export default class ResourceText extends Resource
         const ctx = canv.getContext("2d");
         operation.setFillAndStrokeOnContext(ctx);
 
-        // @TODO: should probably create a new tempTextDrawer every time, to prevent weird issues with re-use or overwriting if we use the same LayoutOperation base for multiple things 
+        // @TODO: should probably mess around with settings here for proper positioning/no cutoff, or do I already do that?
+        // => The `.dims` object from above should already have the right size + be positioned at (0,0), is that enough?
         operation.tempTextDrawer.toCanvas(canv, operation);
 
         return new helpers.sprite(helpers.texture.from(canv));
@@ -102,8 +110,8 @@ export default class ResourceText extends Resource
     @TODO: need to find an alternative for how LayoutNodes give their position and dims to children
     Probably by setting it on that LayoutOperation then passing that into the `toCanvas` called on children 
     
-    this.operation.translate = this.getGlobalPosition().add(this.boxOutput.getTopAnchor());
-    this.operation.dims = this.boxOutput.getUsableSize();
+    this.operation.pos = this.getGlobalPosition().add(this.boxOutput.getTopAnchor());
+    this.operation.size = this.boxOutput.getUsableSize();
     */
 
     /*

@@ -99,7 +99,7 @@ export default class CardThroneless
             const frame = CARD_TEMPLATES[this.cardType].frame;
             const res = vis.getResource("card_templates");
             const canvOp = new LayoutOperation({
-                dims: vis.size,
+                size: vis.size,
                 frame: frame,
                 effects: vis.inkFriendlyEffect
             });
@@ -118,8 +118,8 @@ export default class CardThroneless
             const alpha = this.isDark() ? 0.25 : 1.0;
             const res = vis.getResource("multicolor_bg");
             const canvOp = new LayoutOperation({
-                translate: vis.center,
-                dims: vis.size,
+                pos: vis.center,
+                size: vis.size,
                 pivot: Point.CENTER,
                 alpha: alpha,
                 effects: vis.inkFriendlyEffect
@@ -136,8 +136,8 @@ export default class CardThroneless
         const res = vis.getResource("crests_full");
         const canvOp = new LayoutOperation({
             frame: this.typeData.frame,
-            translate: pos,
-            dims: new Point(iconSize),
+            pos: pos,
+            size: new Point(iconSize),
             pivot: Point.CENTER,
             alpha: alpha,
             effects: vis.inkFriendlyEffect
@@ -173,8 +173,8 @@ export default class CardThroneless
 
         const canvOp = new LayoutOperation({
             frame: this.typeData.frame,
-            translate: pos,
-            dims: new Point(iconSize),
+            pos: pos,
+            size: new Point(iconSize),
             pivot: Point.CENTER,
             effects: effects
         });
@@ -198,9 +198,9 @@ export default class CardThroneless
 
         const res = vis.getResource("decoration_icons");
         const canvOp = new LayoutOperation({
-            translate: sepPos,
+            pos: sepPos,
             frame: sepFrame,
-            dims: new Point(iconSize),
+            size: new Point(iconSize),
             pivot: Point.CENTER,
             effects: effects
         });
@@ -239,8 +239,8 @@ export default class CardThroneless
         const resText = new ResourceText({ text: text, textConfig: textConfig });
         const bottomColor = vis.inkFriendly ? "#CCCCCC" : this.getColor(this.typeData.name, "colorBottom")
         const opText = new LayoutOperation({
-            translate: pos.clone().add(shadowOffset),
-            dims: new Point(vis.size.x, 2*fontSize),
+            pos: pos.clone().add(shadowOffset),
+            size: new Point(vis.size.x, 2*fontSize),
             fill: bottomColor,
             pivot: Point.CENTER
         })
@@ -249,7 +249,7 @@ export default class CardThroneless
 
         const topColor = vis.inkFriendly ? "#111111" : this.getColor(this.typeData.name, "colorTop");
         const opTextCopy = opText.clone(true);
-        opTextCopy.translate = pos;
+        opTextCopy.pos = pos;
         opTextCopy.fill = new ColorLike(topColor);
 
         group.add(resText, opTextCopy);
@@ -298,8 +298,8 @@ export default class CardThroneless
 
         const resText = new ResourceText({ text: text, textConfig: textConfig });
         const opText = new LayoutOperation({
-            translate: pos,
-            dims: new Point(maxWidth, maxHeight),
+            pos: pos,
+            size: new Point(maxWidth, maxHeight),
             fill: fill,
             pivot: Point.CENTER
         })
@@ -322,8 +322,8 @@ export default class CardThroneless
 
         const resText = new ResourceText({ text: text, textConfig: textConfig });
         const opText = new LayoutOperation({
-            translate: pos,
-            dims: vis.get("cards.specialText.textBoxDims"),
+            pos: pos,
+            size: vis.get("cards.specialText.textBoxDims"),
             fill: "#000000",
             pivot: Point.CENTER
         })
@@ -365,8 +365,8 @@ export default class CardThroneless
             }).alignCenter();
             const resText = new ResourceText({ text: actionTypeData.label, textConfig });
             const opText = new LayoutOperation({
-                translate: pos,
-                dims: new Point(tempMaxWidth, 2*fontSize),
+                pos: pos,
+                size: new Point(tempMaxWidth, 2*fontSize),
                 fill: fill,
                 pivot: Point.CENTER,
                 alpha: vis.get("cards.actionType.alpha")
@@ -383,8 +383,8 @@ export default class CardThroneless
             for(const pos of iconPositions)
             {
                 const opIcon = new LayoutOperation({
-                    translate: pos,
-                    dims: new Point(1.075*fontSize),
+                    pos: pos,
+                    size: new Point(1.075*fontSize),
                     frame: actionTypeData.frame,
                     pivot: Point.CENTER,
                     effects: [glowEffect]
@@ -405,8 +405,8 @@ export default class CardThroneless
     
             const resText = new ResourceText({ text: text, textConfig: textConfig });
             const opText = new LayoutOperation({
-                translate: pos,
-                dims: new Point(maxWidth, maxHeight),
+                pos: pos,
+                size: new Point(maxWidth, maxHeight),
                 fill: fill,
                 alpha: alpha,
                 pivot: new Point(0.5, 1.0)
@@ -505,9 +505,9 @@ export default class CardThroneless
             const pos = corners[i].add(totalOffset);
 
             const canvOp = new LayoutOperation({
-                translate: pos,
+                pos: pos,
                 frame: this.typeData.frame,
-                dims: new Point(iconSize),
+                size: new Point(iconSize),
                 flipX: data[i].flipX,
                 flipY: data[i].flipY,
                 effects: effects,
@@ -524,8 +524,8 @@ export default class CardThroneless
     {
         const res = vis.getResource("gradient_overlay");
         const canvOp = new LayoutOperation({
-            translate: vis.center,
-            dims: vis.size,
+            pos: vis.center,
+            size: vis.size,
             pivot: Point.CENTER
         })
         group.add(res, canvOp);

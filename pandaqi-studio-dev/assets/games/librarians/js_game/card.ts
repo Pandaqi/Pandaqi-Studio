@@ -38,9 +38,9 @@ export default class Card
 
     getBookDimensions(vis:MaterialVisualizer)
     {
-        const backgroundDims = vis.get("cards.background.dims");
+        const backgroundDims = vis.get("cards.background.size");
         const offsetBook = new Point(0.5 * (vis.size.x - backgroundDims.x), 0.5 * (vis.size.y - backgroundDims.y));
-        const sizeBook = vis.get("cards.background.dimsOverlayRelative").clone().scale(backgroundDims);
+        const sizeBook = vis.get("cards.background.sizeOverlayRelative").clone().scale(backgroundDims);
         const rectBook = new Rectangle().fromTopLeft(offsetBook, sizeBook);
 
         const spineWidth = vis.get("cards.background.spineWidthRelative") * backgroundDims.x;
@@ -140,8 +140,8 @@ export default class Card
         const res = vis.getResource("covers");
         const frame = (this.type == CardType.BOOK) ? 0 : 1;
         const op = new LayoutOperation({
-            translate: vis.center,
-            dims: vis.get("cards.background.dims"),
+            pos: vis.center,
+            size: vis.get("cards.background.size"),
             frame: frame,
             pivot: Point.CENTER
         })
@@ -168,8 +168,8 @@ export default class Card
     getMaskOperation(vis:MaterialVisualizer) : LayoutOperation
     {
         return new LayoutOperation({
-            translate: vis.center.clone(),
-            dims: vis.get("cards.background.dims"),
+            pos: vis.center.clone(),
+            size: vis.get("cards.background.size"),
             frame: vis.get("cards.background.overlay.frame"),
             pivot: Point.CENTER,
             composite: vis.get("cards.background.overlay.composite"),
@@ -177,10 +177,10 @@ export default class Card
         })
     }
 
-    drawBlurredRect(vis:MaterialVisualizer, group:ResourceGroup, pos:Point, dims:Point, color:string = "#FFFFFF", composite:GlobalCompositeOperation = "source-over")
+    drawBlurredRect(vis:MaterialVisualizer, group:ResourceGroup, pos:Point, size:Point, color:string = "#FFFFFF", composite:GlobalCompositeOperation = "source-over")
     {
         const blur = vis.get("cards.shared.rectBlur");
-        const rect = new Rectangle({ center: pos, extents: dims });
+        const rect = new Rectangle({ center: pos, extents: size });
         const blurEffect = new BlurEffect(blur);
         const res = new ResourceShape(rect);
         const op = new LayoutOperation({
@@ -196,12 +196,12 @@ export default class Card
         // the main arrow + black blurred rect behind
         const resMisc = vis.getResource("misc");
         const arrowPos = vis.get("cards.bookShelf.arrow.pos");
-        const arrowRectDims = vis.get("cards.bookShelf.arrow.dimsRect");
+        const arrowRectDims = vis.get("cards.bookShelf.arrow.sizeRect");
 
         this.drawBlurredRect(vis, group, arrowPos, arrowRectDims, "#000000");
         const opArrow = new LayoutOperation({
-            translate: arrowPos,
-            dims: vis.get("cards.bookShelf.arrow.dims"),
+            pos: arrowPos,
+            size: vis.get("cards.bookShelf.arrow.size"),
             frame: MISC.bookshelf_arrow.frame,
             flipX: Math.random() <= 0.5,
             pivot: Point.CENTER
@@ -210,7 +210,7 @@ export default class Card
 
         // the main text + white blurred rect behind
         const textPos = vis.get("cards.bookShelf.text.pos");
-        const textDims = vis.get("cards.bookShelf.text.dims");
+        const textDims = vis.get("cards.bookShelf.text.size");
         this.drawBlurredRect(vis, group, textPos, textDims, "#FFFFFF");
 
         const actionText = this.getActionData().desc;
@@ -220,15 +220,15 @@ export default class Card
         }).alignCenter();
         const resText = new ResourceText({ text: actionText, textConfig: textConfig });
         const opText = new LayoutOperation({
-            translate: textPos,
-            dims: textDims,
+            pos: textPos,
+            size: textDims,
             fill: vis.get("cards.bookShelf.text.color"),
             pivot: Point.CENTER
         });
         group.add(resText, opText);
 
         // the vertical arrows on top, at the left/right edges
-        const arrowVertDims = vis.get("cards.bookShelf.arrow.dimsVertical");
+        const arrowVertDims = vis.get("cards.bookShelf.arrow.sizeVertical");
         const positions = [
             new Point(textPos.x - 0.5*textDims.x, textPos.y + 0.5*textDims.y - 0.5*arrowVertDims.y),
             new Point(textPos.x + 0.5*textDims.x, textPos.y + 0.5*textDims.y - 0.5*arrowVertDims.y)
@@ -236,10 +236,10 @@ export default class Card
         for(const pos of positions)
         {
             const op = new LayoutOperation({
-                translate: pos,
-                dims: arrowVertDims,
+                pos: pos,
+                size: arrowVertDims,
                 frame: MISC.bookshelf_arrow.frame,
-                rotation: 0.5*Math.PI,
+                rot: 0.5*Math.PI,
                 pivot: Point.CENTER
             });
             group.add(resMisc, op);
@@ -285,9 +285,9 @@ export default class Card
             const maskEffect = new MaskEffect({ resource: maskResource, operation: maskOperation });
 
             const opRect = new LayoutOperation({
-                translate: posRect,
+                pos: posRect,
                 composite: vis.get("cards.genre.compositeRect"),
-                dims: vis.get("cards.genre.dimsRect"),
+                size: vis.get("cards.genre.sizeRect"),
                 frame: MISC.rect_rounded.frame,
                 pivot: Point.CENTER,
                 effects: [maskEffect]
@@ -295,8 +295,8 @@ export default class Card
             group.add(resMisc, opRect);
 
             const opIcon = new LayoutOperation({
-                translate: posIcon,
-                dims: vis.get("cards.genre.dimsIcon"),
+                pos: posIcon,
+                size: vis.get("cards.genre.sizeIcon"),
                 frame: genreData.frame,
                 pivot: Point.CENTER,
                 effects: [maskEffect]
@@ -323,8 +323,8 @@ export default class Card
         for(const pos of positions)
         {
             const opText = new LayoutOperation({
-                translate: pos,
-                dims: new Point(bookCoverSize.x, 2*fontSize),
+                pos: pos,
+                size: new Point(bookCoverSize.x, 2*fontSize),
                 pivot: Point.CENTER,
                 fill: vis.get("cards.genre.textColor"),
                 composite: vis.get("cards.genre.textComposite") 
@@ -359,11 +359,11 @@ export default class Card
         const resIcon = vis.getResource("misc");
         const edgeMargin = vis.get("cards.metadata.edgeMargin");
         const posIcon = new Point(rectSpine.center.x, rectSpine.getTopLeft().y + edgeMargin);
-        const dimsIcon = vis.get("cards.metadata.dimsIcon");
+        const sizeIcon = vis.get("cards.metadata.sizeIcon");
         const compositeIcon = vis.get("cards.metadata.compositeIcon");
         const opIconAuthor = new LayoutOperation({
-            translate: posIcon,
-            dims: dimsIcon,
+            pos: posIcon,
+            size: sizeIcon,
             frame: MISC.author_icon.frame,
             composite: compositeIcon,
             pivot: Point.CENTER
@@ -373,19 +373,19 @@ export default class Card
         // author text (anchored top, after icon)
         const resTextAuthor = new ResourceText({ text: author, textConfig: textConfigAuthor });
         const opTextAuthor = new LayoutOperation({
-            translate: posIcon.clone().add(new Point(0, 0.5*dimsIcon.x)),
+            pos: posIcon.clone().add(new Point(0, 0.5*sizeIcon.x)),
             pivot: new Point(0, 0.5),
             fill: textColor,
             alpha: textAlpha,
-            rotation: rotation
+            rot: rotation
         })
         group.add(resTextAuthor, opTextAuthor)
 
         // age/target audience icon (anchored bottom)
         const posIconBottom = new Point(rectSpine.center.x, rectSpine.getBottomLeft().y - edgeMargin); 
         const opIconAge = new LayoutOperation({
-            translate: posIconBottom,
-            dims: dimsIcon,
+            pos: posIconBottom,
+            size: sizeIcon,
             frame: MISC.age_icon.frame,
             composite: compositeIcon,
             pivot: Point.CENTER
@@ -396,11 +396,11 @@ export default class Card
         const targetAudienceText = "<em>" + this.getTargetAudience() + "</em>";
         const resTextAge = new ResourceText({ text: targetAudienceText, textConfig: textConfigAge });
         const opTextAge = new LayoutOperation({
-            translate: posIconBottom.clone().add(new Point(0, -0.5*dimsIcon.x)),
+            pos: posIconBottom.clone().add(new Point(0, -0.5*sizeIcon.x)),
             pivot: new Point(1, 0.5),
             fill: textColor,
             alpha: textAlpha,
-            rotation: rotation
+            rot: rotation
         });
         group.add(resTextAge, opTextAge);
     }
@@ -425,8 +425,8 @@ export default class Card
         }).alignCenter();
         const resTextDropCap = new ResourceText({ text: initial, textConfig: textConfigDropCap });
         const opDropCap = new LayoutOperation({
-            translate: dropCapPos,
-            dims: new Point(2.0 * dropCapSize),
+            pos: dropCapPos,
+            size: new Point(2.0 * dropCapSize),
             pivot: Point.CENTER,
             fill: colorData.dark
         });
@@ -451,8 +451,8 @@ export default class Card
             for(const pos of positions)
             {
                 const opNumber = new LayoutOperation({
-                    translate: pos,
-                    dims: new Point(1.5*textConfig.size),
+                    pos: pos,
+                    size: new Point(1.5*textConfig.size),
                     pivot: Point.CENTER,
                     fill: vis.get("cards.title.helpNumbersColor"),
                     alpha: vis.get("cards.title.helpNumbersAlpha")
@@ -464,14 +464,14 @@ export default class Card
         // the actual spelled out title below
         const titleOffsetY = vis.get("cards.title.offsetY") * rectInner.getSize().y;
         const titlePos = new Point(rectInner.center.x, rectInner.getTopLeft().y + titleOffsetY);
-        const titleDims = vis.get("cards.title.dims");
+        const titleDims = vis.get("cards.title.size");
         this.drawBlurredRect(vis, group, titlePos, titleDims, "#FFFFFF", "overlay");
 
         const titleText = "<em>" + title + "</em>";
         const resText = new ResourceText({ text: titleText, textConfig: textConfig });
         const op = new LayoutOperation({
-            translate: titlePos,
-            dims: titleDims,
+            pos: titlePos,
+            size: titleDims,
             pivot: Point.CENTER,
             fill: colorData.dark,
         });
@@ -489,19 +489,19 @@ export default class Card
 
         // blurred rect behind it all 
         const offsetY = vis.get("cards.action.offsetY") * rectInner.getSize().y;
-        const dimsY = vis.get("cards.action.dimsY") * rectInner.getSize().y;
+        const sizeY = vis.get("cards.action.sizeY") * rectInner.getSize().y;
         const actionPos = new Point(rectInner.center.x, rectInner.getTopLeft().y + offsetY);
-        const actionDims = new Point(rectInner.extents.x, dimsY);
+        const actionDims = new Point(rectInner.extents.x, sizeY);
         this.drawBlurredRect(vis, group, actionPos, actionDims, "#FFFFFF", "overlay");
 
         // "header" of action
         // > first the icon (on the left)
         const resIcon = vis.getResource("actions");
-        const dimsIcon = vis.get("cards.action.dimsIcon");
-        const posHeader = actionPos.clone().add(new Point(-0.5*actionDims.x + 0.5*dimsIcon.x, -0.5*actionDims.y + 0.5*dimsIcon.y));        
+        const sizeIcon = vis.get("cards.action.sizeIcon");
+        const posHeader = actionPos.clone().add(new Point(-0.5*actionDims.x + 0.5*sizeIcon.x, -0.5*actionDims.y + 0.5*sizeIcon.y));        
         const opIcon = new LayoutOperation({
-            translate: posHeader,
-            dims: dimsIcon,
+            pos: posHeader,
+            size: sizeIcon,
             frame: actionData.frame
         });
         group.add(resIcon, opIcon);
@@ -514,8 +514,8 @@ export default class Card
         const textLabel = "<b>" + actionData.label + "</b>"
         const resTextTitle = new ResourceText({ text: textLabel, textConfig: textConfig });
         const opTextTitle = new LayoutOperation({
-            translate: posHeader.clone().add(0.5 * (actionDims.x - dimsIcon.x)),
-            dims: actionDims,
+            pos: posHeader.clone().add(0.5 * (actionDims.x - sizeIcon.x)),
+            size: actionDims,
             pivot: Point.CENTER,
             fill: colorData.dark,
         });
@@ -528,8 +528,8 @@ export default class Card
             const actionExplanation = "<em>" + actionData.desc + "</em>";
             const resTextAction = new ResourceText({ text: actionExplanation, textConfig: textConfig });
             const opTextAction = new LayoutOperation({
-                translate: actionPos.clone().add(new Point(0, 0.5 * dimsIcon.y)),
-                dims: actionDims,
+                pos: actionPos.clone().add(new Point(0, 0.5 * sizeIcon.y)),
+                size: actionDims,
                 pivot: Point.CENTER,
                 fill: colorData.dark
             });

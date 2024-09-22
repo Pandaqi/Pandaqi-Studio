@@ -30,21 +30,21 @@ export default class CodeCards {
 
     setupGridMapper()
     {
-        const gridConfig = { pdfBuilder: CONFIG.pdfBuilder, dims: CONFIG.cards.dims };
+        const gridConfig = { pdfBuilder: CONFIG.pdfBuilder, size: CONFIG.cards.size };
         this.gridMapper = new GridMapper(gridConfig);
 
         const numPages = CONFIG.cards.numPages;
-        const tilesPerPage = CONFIG.cards.dims.x * CONFIG.cards.dims.y;
+        const tilesPerPage = CONFIG.cards.size.x * CONFIG.cards.size.y;
         this.cardsToGenerate = numPages * tilesPerPage;
 
         let size = this.gridMapper.getMaxElementSizeAsSquare().x;
-        CONFIG.cards.size = new Point(0.5 * size, 0.5 * size);
+        CONFIG.cards.sizeResult = new Point(0.5 * size, 0.5 * size);
     }
 
-    async setupPatterns()
+    setupPatterns()
     {
         const resolution = 3;
-        const size = CONFIG.cards.size;
+        const size = CONFIG.cards.sizeResult;
         const minSize = size.x;
         const centerPos = new Point(0.5*size.x, 0.5*size.y);
         const stepSize = minSize / resolution;
@@ -74,13 +74,13 @@ export default class CodeCards {
                 stroke: CONFIG.cards.patternData.team0,
                 strokeWidth: strokeWidth
             })
-            await resLine.toCanvas(ctx0, canvOp);
+            resLine.toCanvas(ctx0, canvOp);
 
             canvOp.stroke = new ColorLike(new Color(CONFIG.cards.patternData.antsassin));
-            await resLine.toCanvas(ctxAntsassin, canvOp);
+            resLine.toCanvas(ctxAntsassin, canvOp);
 
             resLine.shape = lineInverted;
-            await resLine.toCanvas(ctxAntsassin, canvOp);
+            resLine.toCanvas(ctxAntsassin, canvOp);
         }
 
         // dots for team1
@@ -95,7 +95,7 @@ export default class CodeCards {
                 const canvOp = new LayoutOperation({
                     fill: CONFIG.cards.patternData.team1,
                 })
-                await res.toCanvas(ctx1, canvOp);
+                res.toCanvas(ctx1, canvOp);
             }
         }
 
@@ -112,7 +112,7 @@ export default class CodeCards {
                 const canvOp = new LayoutOperation({
                     fill: CONFIG.cards.patternData.team2,
                 })
-                await res.toCanvas(ctx2, canvOp);
+                res.toCanvas(ctx2, canvOp);
             }
         }
 
@@ -127,7 +127,7 @@ export default class CodeCards {
                 stroke: CONFIG.cards.patternData.team3,
                 strokeWidth: team3LineWidth
             })
-            await res.toCanvas(ctx3, canvOp);
+            res.toCanvas(ctx3, canvOp);
         }
 
         // save all of those canvases

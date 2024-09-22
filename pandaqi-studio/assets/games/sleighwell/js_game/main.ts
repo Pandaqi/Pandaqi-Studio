@@ -53,9 +53,9 @@ export default class Generator
         const pdfBuilder = new PdfBuilder(pdfBuilderConfig);
         this.pdfBuilder = pdfBuilder;
 
-        const dims = CONFIG.tiles.dims[CONFIG.itemSize ?? "regular"];
+        const size = CONFIG.tiles.size[CONFIG.itemSize ?? "regular"];
 
-        const gridConfig = { pdfBuilder: pdfBuilder, dims: dims, dimsElement: CONFIG.tiles.dimsElement };
+        const gridConfig = { pdfBuilder: pdfBuilder, size: size, sizeElement: CONFIG.tiles.sizeElement };
         const gridMapper = new GridMapper(gridConfig);
         this.gridMapper = gridMapper;     
     }
@@ -81,9 +81,10 @@ export default class Generator
         const cardsOfType = {};
         for(const card of cards)
         {
-            if(!cardsOfType[card.type]) { cardsOfType[card.type] = []; }
-            cardsOfType[card.type].push(card);
-            if(CONFIG.debugSingleCard && cardsOfType[card.type].length > 1) { continue; }
+            const tp = card.getFirstType();
+            if(!cardsOfType[tp]) { cardsOfType[tp] = []; }
+            cardsOfType[tp].push(card);
+            if(CONFIG.debugSingleCard && cardsOfType[tp].length > 1) { continue; }
 
             promises.push(card.draw(visualizer));
         }

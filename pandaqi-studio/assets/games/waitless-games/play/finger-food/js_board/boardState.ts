@@ -31,11 +31,11 @@ export default class BoardState
     createGrid()
     {
         this.grid = [];
-        const dims = CONFIG.board.dims;
-        for(let x = 0; x < dims.x; x++)
+        const size = CONFIG.board.size;
+        for(let x = 0; x < size.x; x++)
         {
             this.grid[x] = [];
-            for(let y = 0; y < dims.y; y++)
+            for(let y = 0; y < size.y; y++)
             {
                 this.grid[x][y] = new Cell(x,y);
             }
@@ -72,18 +72,18 @@ export default class BoardState
 
     outOfBounds(point:Point)
     {
-        const dims = this.getDimensions();
-        return (point.x < 0 || point.x >= dims.x) || (point.y < 0 || point.y >= dims.y);
+        const size = this.getDimensions();
+        return (point.x < 0 || point.x >= size.x) || (point.y < 0 || point.y >= size.y);
     }
 
     // if it fails, it will return an empty array
     // otherwise, it returns the cells that were reserved/changed
-    reserveSpace(anchorCell:Cell, dims:Point)
+    reserveSpace(anchorCell:Cell, size:Point)
     {
         const cellsReserved : Cell[] = [];
-        for(let x = 0; x < dims.x; x++)
+        for(let x = 0; x < size.x; x++)
         {
-            for(let y = 0; y < dims.y; y++)
+            for(let y = 0; y < size.y; y++)
             {
                 const point = new Point().setXY(anchorCell.x + x, anchorCell.y + y);
                 const cell = this.getCellAt(point);
@@ -111,8 +111,8 @@ export default class BoardState
         const b = new RecipeBook();
         this.recipeBook = b;
         
-        const dims = this.getDimensions();
-        const anchorCell = this.getCellAt(new Point(dims.x - 2, dims.y - 2));
+        const size = this.getDimensions();
+        const anchorCell = this.getCellAt(new Point(size.x - 2, size.y - 2));
         const recipeBookSize = new Point(2,2);
         
         const cellsReserved = this.reserveSpace(anchorCell, recipeBookSize);

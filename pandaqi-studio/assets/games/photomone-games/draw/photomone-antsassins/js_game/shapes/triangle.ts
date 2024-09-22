@@ -125,18 +125,18 @@ export default class Triangle
         return arr;
     }
 
-    getLineIndex(p, dims)
+    getLineIndex(p, size)
     {
         const topEdge = p.y == 0;
-        const bottomEdge = p.y == (dims.y-1)
+        const bottomEdge = p.y == (size.y-1)
         if(topEdge && this.pointyTop) { return 0; }
         if(bottomEdge && !this.pointyTop) { return 0; }
         if(topEdge || bottomEdge)
         {
-            return p.x % (dims.x - 1); 
+            return p.x % (size.x - 1); 
         }
 
-        return p.y % (dims.y - 1);
+        return p.y % (size.y - 1);
     }
 
     // @SOURCE (simplified): https://stackoverflow.com/questions/20248076/how-do-i-check-if-a-point-is-inside-a-triangle-on-the-line-is-ok-too

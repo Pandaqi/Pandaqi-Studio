@@ -46,7 +46,7 @@ export default class Token
 
         const resOp = new LayoutOperation({
             frame: frame,
-            translate: vis.center,
+            pos: vis.center,
             size: iconDims,
             effects: vis.effects,
             pivot: Point.CENTER

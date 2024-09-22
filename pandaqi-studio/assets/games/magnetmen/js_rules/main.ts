@@ -60,12 +60,12 @@ class Collection
 
 class Board
 {
-    dims: Point
+    size: Point
     grid: Cell[][]
 
     constructor(size:number, options:string[])
     {
-        this.dims = new Point(size, size);
+        this.size = new Point(size, size);
 
         const arr:Cell[][] = [];
         for(let x = 0; x < size; x++)
@@ -98,14 +98,14 @@ class Board
     {
         const canvSize = new Point(720, 720);
         const ctx = createContext({ size: canvSize, alpha: false });
-        const cellSize = canvSize.clone().div(this.dims);
+        const cellSize = canvSize.clone().div(this.size);
         const res = resLoader.getResource("base");
 
         console.log(this.grid);
 
-        for(let x = 0; x < this.dims.x; x++)
+        for(let x = 0; x < this.size.x; x++)
         {
-            for(let y = 0; y < this.dims.y; y++)
+            for(let y = 0; y < this.size.y; y++)
             {
 
                 const cell = this.grid[x][y];
@@ -118,7 +118,7 @@ class Board
                 const rect = new Rectangle({ center: new Point(), extents: cellSize });
                 const bgColor = isValidMove ? "#AAFFAA" : "#FFFFFF";
                 const rectOp = new LayoutOperation({
-                    translate: pos,
+                    pos: pos,
                     stroke: "#000000",
                     strokeWidth: 4,
                     fill: bgColor
@@ -129,8 +129,8 @@ class Board
                 const iconAlpha = isValidMove ? 1.0 : 0.66;
                 const op = new LayoutOperation({
                     frame: SETS.base[cell.type].frame,
-                    translate: posCenter,
-                    dims: cellSize,
+                    pos: posCenter,
+                    size: cellSize,
                     pivot: Point.CENTER,
                     alpha: iconAlpha
                 })
@@ -145,8 +145,8 @@ class Board
                         const lineOp = new LayoutOperation({
                             stroke: "#444444",
                             strokeWidth: 8,
-                            translate: posCenter,
-                            rotation: i == 0 ? 0 : 0.5*Math.PI
+                            pos: posCenter,
+                            rot: i == 0 ? 0 : 0.5*Math.PI
                         })
     
                         await new ResourceShape(line).toCanvas(ctx, lineOp);

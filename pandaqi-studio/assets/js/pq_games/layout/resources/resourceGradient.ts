@@ -79,13 +79,13 @@ export default class ResourceGradient extends Resource
     // (the gradient simply becomes the fill)
     toCanvas(canv:CanvasLike = null, op:LayoutOperation = new LayoutOperation())
     {
-        let dims = op.dims.clone();
-        if(canv && dims.isZero()) { 
+        let size = op.size.clone();
+        if(canv && size.isZero()) { 
             if(canv instanceof CanvasRenderingContext2D) { canv = canv.canvas; }
-            dims = new Point(canv.width, canv.height); 
+            size = new Point(canv.width, canv.height); 
         }
 
-        const rect = new Rectangle().fromTopLeft(new Point(), dims);
+        const rect = new Rectangle().fromTopLeft(new Point(), size);
         const shp = new ResourceShape({ shape: rect });
 
         op.resource = shp;

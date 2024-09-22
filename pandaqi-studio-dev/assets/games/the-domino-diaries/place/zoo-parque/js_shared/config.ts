@@ -155,8 +155,8 @@ const CONFIG:any =
     {
         drawerConfig:
         {
-            dimsElement: new Point(1, 2),
-            dims: { 
+            sizeElement: new Point(1, 2),
+            size: { 
                 small: new Point(7,5),
                 regular: new Point(5,3),
                 large: new Point(4,2)
@@ -167,24 +167,24 @@ const CONFIG:any =
         bg:
         {
             color: "#FFEFCF",
-            dimsTerrain: new CVal(new Point(0.9), "sizeUnit"),
+            sizeTerrain: new CVal(new Point(0.9), "sizeUnit"),
             terrainShadowSize: new CVal(0.01, "sizeUnit"),
         },
 
         main:
         {
-            dims: new CVal(new Point(0.66), "sizeUnit"),
+            size: new CVal(new Point(0.66), "sizeUnit"),
             shadowSize: new CVal(0.02, "sizeUnit"),
         },
 
         fences:
         {
-            dims: new CVal(new Point(0.75), "sizeUnit")
+            size: new CVal(new Point(0.75), "sizeUnit")
         },
 
         entrance:
         {
-            dims: new CVal(new Point(0.8), "sizeUnit")
+            size: new CVal(new Point(0.8), "sizeUnit")
         },
 
         text:
@@ -202,8 +202,8 @@ const CONFIG:any =
     {
         drawerConfig:
         {
-            dimsElement: new Point(2, 1),
-            dims: { 
+            sizeElement: new Point(2, 1),
+            size: { 
                 small: new Point(2,5),
                 regular: new Point(1,4),
                 large: new Point(1,2)
@@ -214,47 +214,47 @@ const CONFIG:any =
         animal:
         {
             pos: new CVal(new Point(0.22, 0.5), "size"),
-            dims: new CVal(new Point(0.435), "sizeUnit")
+            size: new CVal(new Point(0.435), "sizeUnit")
         },
 
         extinct:
         {
             pos: new CVal(new Point(0.275, 0.325), "size"),
-            dims: new CVal(new Point(0.2), "sizeUnit")
+            size: new CVal(new Point(0.2), "sizeUnit")
         },
 
         funFact:
         {
             pos: new CVal(new Point(0.225, 0.815), "size"),
-            dims: new CVal(new Point(0.225, 0.45), "size"),
+            size: new CVal(new Point(0.225, 0.45), "size"),
             fontSize: new CVal(0.033, "sizeUnit")
         },
 
         terrains:
         {
             posAnchor: new CVal(new Point(0.615, 0.38), "size"),
-            dims: new CVal(new Point(0.1225), "sizeUnit"),
+            size: new CVal(new Point(0.1225), "sizeUnit"),
             shadowBlur: new CVal(0.005, "sizeUnit")
         },
 
         food:
         {
             pos: new CVal(new Point(0.815, 0.2875), "size"),
-            dims: new CVal(new Point(0.4, 0.2), "sizeUnit"),
+            size: new CVal(new Point(0.4, 0.2), "sizeUnit"),
             fontSize: new CVal(0.0475, "sizeUnit")
         },
 
         power:
         {
             pos: new CVal(new Point(0.51, 0.735), "size"),
-            dims: new CVal(new Point(0.285, 0.3), "size"),
+            size: new CVal(new Point(0.285, 0.3), "size"),
             fontSize: new CVal(0.033, "sizeUnit")
         },
 
         // these are all the specific positions of the checkmarks, hardcoded for speed and simplicity
         checkmarks:
         {
-            dims: new CVal(new Point(0.075), "sizeUnit"),
+            size: new CVal(new Point(0.075), "sizeUnit"),
             strong: new CVal(new Point(0.4415, 0.2875 - 0.025), "size"),
             herbivore: new CVal(new Point(0.4415, 0.51), "size"),
             carnivore: new CVal(new Point(0.65, 0.51), "size"),

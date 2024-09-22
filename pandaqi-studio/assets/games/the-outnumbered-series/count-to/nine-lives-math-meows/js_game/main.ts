@@ -56,11 +56,13 @@ export default class Generator
         const pdfBuilder = new PdfBuilder(pdfBuilderConfig);
         this.pdfBuilder = pdfBuilder;
 
-        const dims = CONFIG.cards.dims[CONFIG.itemSize ?? "regular"];
+        const size = CONFIG.cards.size[CONFIG.itemSize ?? "regular"];
 
-        const gridConfig = { pdfBuilder: pdfBuilder, dims: dims, dimsElement: CONFIG.cards.dimsElement };
+        const gridConfig = { pdfBuilder: pdfBuilder, size: size, sizeElement: CONFIG.cards.sizeElement };
         const gridMapper = new GridMapper(gridConfig);
         this.gridMapper = gridMapper;     
+
+        CONFIG.cards.sizeResult = this.gridMapper.getMaxElementSize();
     }
 
     createCards() : Card[]
@@ -77,7 +79,7 @@ export default class Generator
     {
         if(CONFIG.debugOnlyGenerate) { return; }
 
-        const visualizer = new Visualizer(this.resLoader, this.gridMapper.getMaxElementSize(), CONFIG.inkFriendly);
+        const visualizer = new Visualizer(this.resLoader, CONFIG.cards.sizeResult, CONFIG.inkFriendly);
         await visualizer.prepare();
 
         // cards handle drawing themselves

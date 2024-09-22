@@ -119,8 +119,8 @@ const drawElectricityLines = (size: Point, center: Point, group:ResourceGroup) =
     const diskData = DISKS[BOOK_DATA.disk];
     const res = resLoader.getResource("electric_lines");
     const op = new LayoutOperation({
-        translate: center,
-        dims: size,
+        pos: center,
+        size: size,
         alpha: diskData.electricityLines.alpha,
         composite: diskData.electricityLines.composite,
         pivot: Point.CENTER
@@ -137,8 +137,8 @@ const drawWildebyteBadge = (size: Point, center: Point, group: ResourceGroup) =>
     const res = resLoader.getResource("wildebyte_badge");
     const badgeSize = res.getSize();
     const op = new LayoutOperation({
-        translate: pos,
-        dims: badgeSize,
+        pos: pos,
+        size: badgeSize,
         pivot: Point.CENTER
     })
     group.add(res, op);
@@ -152,8 +152,8 @@ const drawWildebyteBadge = (size: Point, center: Point, group: ResourceGroup) =>
     const textSmall = "Book #" + BOOK_DATA.index;
     const resTextSmall = new ResourceText({ text: textSmall, textConfig: textConfigSmall });
     const opTextSmall = new LayoutOperation({
-        translate: new Point(pos.x, pos.y + diskData.badge.smallTextOffsetY*res.getSize().y),
-        dims: new Point(badgeSize.x, 1.5*textConfigSmall.size),
+        pos: new Point(pos.x, pos.y + diskData.badge.smallTextOffsetY*res.getSize().y),
+        size: new Point(badgeSize.x, 1.5*textConfigSmall.size),
         pivot: Point.CENTER,
         fill: diskData.badge.smallTextColor,
         composite: diskData.badge.composite
@@ -170,8 +170,8 @@ const drawWildebyteBadge = (size: Point, center: Point, group: ResourceGroup) =>
     const textBig = convertToBinary(BOOK_DATA.index - 1);
     const resTextBig = new ResourceText({ text: textBig, textConfig: textConfigBig });
     const opTextBig = new LayoutOperation({
-        translate: new Point(pos.x, pos.y + diskData.badge.bigTextOffsetY*res.getSize().y),
-        dims: new Point(badgeSize.x, 1.5*textConfigBig.size),
+        pos: new Point(pos.x, pos.y + diskData.badge.bigTextOffsetY*res.getSize().y),
+        size: new Point(badgeSize.x, 1.5*textConfigBig.size),
         pivot: Point.CENTER,
         fill: diskData.badge.bigTextColor,
         composite: diskData.badge.composite
@@ -183,8 +183,8 @@ const drawWildebyteBadge = (size: Point, center: Point, group: ResourceGroup) =>
     {
         const resChoice = resLoader.getResource("choice_story");
         const opChoice = new LayoutOperation({
-            translate: new Point(pos.x, pos.y + diskData.badge.choiceStoryOffsetY*res.getSize().y),
-            dims: resChoice.getSize(),
+            pos: new Point(pos.x, pos.y + diskData.badge.choiceStoryOffsetY*res.getSize().y),
+            size: resChoice.getSize(),
             pivot: Point.CENTER
         })
         group.add(resChoice, opChoice)
@@ -195,8 +195,8 @@ const drawTopGradient = (size: Point, group: ResourceGroup) =>
 {
     const res = resLoader.getResource("overlay_gradient");
     const op = new LayoutOperation({
-        translate: new Point(),
-        dims: size,
+        pos: new Point(),
+        size: size,
         alpha: DISKS[BOOK_DATA.disk].overlayGradient.alpha
     })
     group.add(res, op);
@@ -213,8 +213,8 @@ const drawBackSection = (sectionData, size: Point, pos:Point, index:number, grou
     const resHeading = resLoader.getResource("back_heading");
     const headingSize = resHeading.getSize();
     const opHeading = new LayoutOperation({
-        translate: pos,
-        dims: headingSize,
+        pos: pos,
+        size: headingSize,
         pivot: Point.CENTER,
         flipX: (index % 2 == 0) && diskData.back.alternateFlipHeadings
     });
@@ -228,8 +228,8 @@ const drawBackSection = (sectionData, size: Point, pos:Point, index:number, grou
 
     const resHeadingText = new ResourceText({ text: sectionData.title, textConfig: textConfigHeading });
     const opHeadingText = new LayoutOperation({
-        translate: pos,
-        dims: headingSize,
+        pos: pos,
+        size: headingSize,
         pivot: Point.CENTER,
         fill: diskData.back.textColor,
         stroke: diskData.back.textStrokeColor,
@@ -254,8 +254,8 @@ const drawBackSection = (sectionData, size: Point, pos:Point, index:number, grou
     const textBoxDims = diskData.back.textBoxDims.clone().scale(size);
     const resText = new ResourceText({ text: sectionData.text, textConfig: textConfig });
     const opText = new LayoutOperation({
-        translate: new Point(pos.x, pos.y + 0.6*resHeading.getSize().y),
-        dims: textBoxDims,
+        pos: new Point(pos.x, pos.y + 0.6*resHeading.getSize().y),
+        size: textBoxDims,
         fill: diskData.back.textColor,
         pivot: new Point(0.5, 0)
     })
@@ -291,8 +291,8 @@ const drawTitleText = (size: Point, layer: string, group: ResourceGroup, titleTe
         const strokeColor = addGradient ? diskData.titleText.strokeColor : Color.TRANSPARENT;
         const strokeWidth = addGradient ? diskData.titleText.strokeWidth : 0;
         const opTitleText = new LayoutOperation({
-            translate: pos,
-            dims: textBoxDims,
+            pos: pos,
+            size: textBoxDims,
             fill: fillColor,
             stroke: strokeColor,
             strokeWidth: strokeWidth,
@@ -307,8 +307,8 @@ const drawTitleText = (size: Point, layer: string, group: ResourceGroup, titleTe
         {
             const ctx = createContext({ size: textBoxDims });
             const opTextCopy = new LayoutOperation({
-                translate: textBoxDims.clone().scale(0.5),
-                dims: textBoxDims,
+                pos: textBoxDims.clone().scale(0.5),
+                size: textBoxDims,
                 fill: "#000000",
                 pivot: Point.CENTER
             });
@@ -324,8 +324,8 @@ const drawTitleText = (size: Point, layer: string, group: ResourceGroup, titleTe
 
             const res = new ResourceImage(ctx.canvas);
             const op = new LayoutOperation({
-                translate: pos,
-                dims: textBoxDims,
+                pos: pos,
+                size: textBoxDims,
                 pivot: new Point(0.5, 0),
             });
             group.add(res, op);
@@ -381,8 +381,8 @@ const createSpine = (size:Point, center: Point) =>
     // @NOTE: it retains its size (larger than any spine will ever be) to prevent any ugly stretching
     const resBg = resLoader.getResource("spine_background");
     const opBg = new LayoutOperation({
-        translate: center,
-        dims: resBg.getSize(),
+        pos: center,
+        size: resBg.getSize(),
         pivot: Point.CENTER
     });
     group.add(resBg, opBg);
@@ -392,9 +392,9 @@ const createSpine = (size:Point, center: Point) =>
     const posIcon = new Point(center.x, diskData.spine.iconEdgeOffset * size.y);
     const iconSize = diskData.spine.iconSize; // just use consistent icon size for all books; scaling per book will be wonky
     const opIcon = new LayoutOperation({
-        translate: posIcon,
-        dims: iconSize,
-        rotation: spineRot,
+        pos: posIcon,
+        size: iconSize,
+        rot: spineRot,
         pivot: Point.CENTER,
         effects: [glowEffect]
     })
@@ -411,14 +411,14 @@ const createSpine = (size:Point, center: Point) =>
     const resTextTitle = new ResourceText({ text: bookTitle, textConfig: textConfigTitle });
     const marginIconToText = 1.0*iconSize.x;
     const opTextTitle = new LayoutOperation({
-        translate: new Point(posIcon.x, posIcon.y + marginIconToText),
-        dims: new Point(0.5*size.y, 1.5*textConfigTitle.size),
+        pos: new Point(posIcon.x, posIcon.y + marginIconToText),
+        size: new Point(0.5*size.y, 1.5*textConfigTitle.size),
         fill: diskData.spine.textColor,
         stroke: diskData.spine.strokeColor,
         strokeWidth: diskData.spine.strokeWidth,
         strokeAlign: StrokeAlign.OUTSIDE,
         pivot: new Point(0, 0.5),
-        rotation: spineRot,
+        rot: spineRot,
         effects: [glowEffect]
     });
     group.add(resTextTitle, opTextTitle);
@@ -431,14 +431,14 @@ const createSpine = (size:Point, center: Point) =>
     const authorText = convertToSmallCaps("Tiamo Pastoor", textConfigAuthor.size);
     const resTextAuthor = new ResourceText({ text: authorText, textConfig: textConfigAuthor });
     const opTextAuthor = new LayoutOperation({
-        translate: new Point(posIcon.x, size.y - posIcon.y - marginIconToText),
-        dims: new Point(0.5*size.y, 1.5*textConfigAuthor.size),
+        pos: new Point(posIcon.x, size.y - posIcon.y - marginIconToText),
+        size: new Point(0.5*size.y, 1.5*textConfigAuthor.size),
         fill: diskData.spine.textColor,
         stroke: diskData.spine.strokeColor,
         strokeWidth: diskData.spine.strokeWidth,
         strokeAlign: StrokeAlign.OUTSIDE,
         pivot: new Point(1, 0.5),
-        rotation: spineRot,
+        rot: spineRot,
         alpha: diskData.spine.authorAlpha,
         effects: [glowEffect]
     });
@@ -448,9 +448,9 @@ const createSpine = (size:Point, center: Point) =>
     const resWBIcon = resLoader.getResource("wildebyte_logo_simplified");
     const posWBIcon = new Point(center.x, size.y - diskData.spine.iconEdgeOffset * size.y);
     const opWBIcon = new LayoutOperation({
-        translate: posWBIcon,
-        dims: iconSize,
-        rotation: spineRot,
+        pos: posWBIcon,
+        size: iconSize,
+        rot: spineRot,
         pivot: Point.CENTER,
         effects: [glowEffect]
     })
@@ -471,8 +471,8 @@ const createFront = (size:Point, center: Point) =>
     // the unique full_painting for this book (as background)
     const bgPainting = resLoader.getResource("full_painting") as ResourceImage;
     const bgPaintingOp = new LayoutOperation({
-        translate: center,
-        dims: bgPainting.getSize(),
+        pos: center,
+        size: bgPainting.getSize(),
         alpha: diskData.bg.paintingAlpha,
         pivot: Point.CENTER
     });
@@ -489,16 +489,16 @@ const createFront = (size:Point, center: Point) =>
     const paintingDims = new Point(idealPaintingDims.y * bgPainting.getRatio(), idealPaintingDims.y);
     const framingImageSize = resFraming.getSize();
     const paintingOp = new LayoutOperation({
-        translate: framingPosPainting,
-        dims: paintingDims,
+        pos: framingPosPainting,
+        size: paintingDims,
         pivot: Point.CENTER,
         clip: new Rectangle().fromTopLeft(framingPos, framingImageSize),
     })
     group.add(bgPainting, paintingOp);
 
     const framingOp = new LayoutOperation({
-        translate: framingPos,
-        dims: framingImageSize,
+        pos: framingPos,
+        size: framingImageSize,
         pivot: Point.CENTER
     });
     group.add(resFraming, framingOp);
@@ -506,8 +506,8 @@ const createFront = (size:Point, center: Point) =>
     // the metadata graphic (which is entirely fixed per disk, so just one simple image)
     const resMetadata = resLoader.getResource("metadata");
     const opMetadata = new LayoutOperation({
-        translate: new Point(center.x, diskData.metadata.yPos * size.y),
-        dims: resMetadata.getSize(),
+        pos: new Point(center.x, diskData.metadata.yPos * size.y),
+        size: resMetadata.getSize(),
         pivot: Point.CENTER
     });
     group.add(resMetadata, opMetadata);
@@ -574,12 +574,12 @@ const createPrintWraparound = async (target:string) =>
     console.log("Calculated Spine Size (for target " + target + ") is", spineSize);
     const centerSpine = spineSize.clone().scale(0.5);
     const resSpine = createSpine(spineSize, centerSpine);
-    const opSpine = new LayoutOperation({ translate: new Point(pageSize.x, 0) });
+    const opSpine = new LayoutOperation({ pos: new Point(pageSize.x, 0) });
     group.add(resSpine, opSpine);
 
     const centerFront = new Point(0.5 * (pageSize.x - bleedSize.x), 0.5 * pageSize.y);
     const resFront = createFront(pageSize, centerFront);
-    const opFront = new LayoutOperation({ translate: new Point(pageSize.x + spineSize.x, 0) });
+    const opFront = new LayoutOperation({ pos: new Point(pageSize.x + spineSize.x, 0) });
     group.add(resFront, opFront);
 
     // actually draw the entire thing we prepared

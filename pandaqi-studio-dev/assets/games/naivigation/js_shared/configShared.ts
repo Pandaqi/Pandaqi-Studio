@@ -88,8 +88,8 @@ const CONFIG_NAIVIGATION_SHARED =
         drawerConfig:
         {
             autoStroke: true,
-            dimsElement: new Point(1, 1.4),
-            dims: 
+            sizeElement: new Point(1, 1.4),
+            size: 
             { 
                 small: new Point(4,4),
                 regular: new Point(3,3),
@@ -104,7 +104,7 @@ const CONFIG_NAIVIGATION_SHARED =
 
         background:
         {
-            dims: new CVal(new Point(1.2), "sizeUnit"),
+            size: new CVal(new Point(1.2), "sizeUnit"),
             blobAlpha: 0.15,
             patternAlpha: 0.25
         },
@@ -138,7 +138,7 @@ const CONFIG_NAIVIGATION_SHARED =
 
             gameIcon:
             {
-                dims: new CVal(new Point(0.12), "sizeUnit"),
+                size: new CVal(new Point(0.12), "sizeUnit"),
                 posDefault: new CVal(new Point(0.5, 0.6), "size"),
                 edgeOffsetFactor: 0.66,
                 glowBlur: new CVal(0.1 * 0.12, "sizeUnit")
@@ -175,8 +175,8 @@ const CONFIG_NAIVIGATION_SHARED =
         drawerConfig:
         {
             autoStroke: true,
-            dimsElement: new Point(1, 1),
-            dims: 
+            sizeElement: new Point(1, 1),
+            size: 
             { 
                 small: new Point(5,7),
                 regular: new Point(3,5),
@@ -202,8 +202,8 @@ const CONFIG_NAIVIGATION_SHARED =
 
             vehicle:
             {
-                dims: new CVal(new Point(0.4), "sizeUnit"),
-                dimsGuides: new CVal(new Point(0.6), "sizeUnit")
+                size: new CVal(new Point(0.4), "sizeUnit"),
+                sizeGuides: new CVal(new Point(0.6), "sizeUnit")
             }
         },
 

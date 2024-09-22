@@ -34,9 +34,9 @@ export default class Tile extends MaterialNaivigation
         // a guiding sprite behind it to clearly show what's the front and stuff
         const resGuides = vis.getResource("misc_shared");
         const opGuides = new LayoutOperation({
-            translate: vis.center,
+            pos: vis.center,
             frame: MISC_SHARED.vehicle_guides.frame,
-            dims: vis.get("tiles.general.vehicle.dimsGuides"),
+            size: vis.get("tiles.general.vehicle.sizeGuides"),
             pivot: Point.CENTER
         })
         group.add(resGuides, opGuides)
@@ -45,9 +45,9 @@ export default class Tile extends MaterialNaivigation
         const res = vis.getResource("map_tiles");
         const frame = MAP_TILES.vehicle_0.frame + this.customData.num;
         const op = new LayoutOperation({
-            translate: vis.center,
+            pos: vis.center,
             frame: frame,
-            dims: vis.get("tiles.general.vehicle.dims"),
+            size: vis.get("tiles.general.vehicle.size"),
             pivot: Point.CENTER
         });
         group.add(res, op);
@@ -66,10 +66,10 @@ export default class Tile extends MaterialNaivigation
         for(let i = 0; i < numStars; i++)
         {
             const op = new LayoutOperation({
-                translate: new Point(Math.random(), Math.random()).scale(vis.size),
+                pos: new Point(Math.random(), Math.random()).scale(vis.size),
                 frame: starFrame,
-                dims: baseStarDims.clone().scale(vis.get("tiles.map.stars.dimsRand").random()),
-                rotation: Math.random() * 2 * Math.PI,
+                size: baseStarDims.clone().scale(vis.get("tiles.map.stars.sizeRand").random()),
+                rot: Math.random() * 2 * Math.PI,
                 pivot: Point.CENTER,
                 alpha: vis.get("tiles.map.stars.alphaBounds").random()
             })
@@ -85,10 +85,10 @@ export default class Tile extends MaterialNaivigation
         const randRot = rangeInteger(0,3)*0.5*Math.PI;
         const eff = new DropShadowEffect({ color: "#FFFFFF", blurRadius: vis.get("tiles.map.glowRadius") })
         const op = new LayoutOperation({
-            translate: randPos,
+            pos: randPos,
             frame: data.frame,
-            dims: vis.get("tiles.map.iconDims"),
-            rotation: randRot,
+            size: vis.get("tiles.map.iconDims"),
+            rot: randRot,
             effects: [eff],
             pivot: Point.CENTER
         });
@@ -103,10 +103,10 @@ export default class Tile extends MaterialNaivigation
         {
             const randVehicleRot = rangeInteger(0,8)*0.25*Math.PI;
             const vehicleOp = new LayoutOperation({
-                translate: randPos,
+                pos: randPos,
                 frame: MAP_TILES.vehicle_0.frame,
-                dims: vis.get("tiles.map.vehicleIconDims"),
-                rotation: randVehicleRot,
+                size: vis.get("tiles.map.vehicleIconDims"),
+                rot: randVehicleRot,
                 alpha: vis.get("tiles.map.vehicleIconAlpha"),
                 composite: vis.get("tiles.map.vehicleComposite"),
                 effects: [new DropShadowEffect({ color: "#000000", blurRadius: vis.get("tiles.map.vehicleShadowBlur" )})],
@@ -120,17 +120,17 @@ export default class Tile extends MaterialNaivigation
             for(const corner of corners)
             {
                 const op = vehicleOp.clone();
-                op.translate = corner;
-                op.dims = vehicleDimsSmall;
+                op.pos = corner;
+                op.size = vehicleDimsSmall;
                 op.effects = [];
                 group.add(res, op);
             }
 
             const resIcon = vis.getResource("misc_shared");
             const iconOp = new LayoutOperation({
-                translate: topCenterPos,
+                pos: topCenterPos,
                 frame: MISC_SHARED.collectible_icon.frame,
-                dims: extraIconSize,
+                size: extraIconSize,
                 pivot: Point.CENTER
             })
             group.add(resIcon, iconOp);
@@ -141,9 +141,9 @@ export default class Tile extends MaterialNaivigation
         {
             const resIcon = vis.getResource("misc_shared");
             const iconOp = new LayoutOperation({
-                translate: topCenterPos,
+                pos: topCenterPos,
                 frame: MISC_SHARED.starting_icon.frame,
-                dims: extraIconSize,
+                size: extraIconSize,
                 pivot: Point.CENTER
             })
             group.add(resIcon, iconOp);
@@ -155,8 +155,8 @@ export default class Tile extends MaterialNaivigation
             const resMisc = vis.getResource("misc");
             const frame = MISC.resource_0.frame + this.customData.resourceType;
             const resOp = new LayoutOperation({
-                translate: vis.get("tiles.map.resources.position"),
-                dims: vis.get("tiles.map.resources.dims"),
+                pos: vis.get("tiles.map.resources.position"),
+                size: vis.get("tiles.map.resources.size"),
                 frame: frame,
                 pivot: Point.CENTER
             })

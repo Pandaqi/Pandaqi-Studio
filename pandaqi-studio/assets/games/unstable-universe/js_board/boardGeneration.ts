@@ -1,11 +1,10 @@
-// @ts-ignore
 import Color from "js/pq_games/layout/color/color"
 import LayoutOperation from "js/pq_games/layout/layoutOperation"
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup"
 import ResourceShape from "js/pq_games/layout/resources/resourceShape"
 import ResourceText from "js/pq_games/layout/resources/resourceText"
 import TextConfig from "js/pq_games/layout/text/textConfig"
-import imageToPhaser from "js/pq_games/phaser/imageToPhaser"
+import StrokeAlign from "js/pq_games/layout/values/strokeAlign"
 import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer"
 import Circle from "js/pq_games/tools/geometry/circle"
 import Line from "js/pq_games/tools/geometry/line"
@@ -28,7 +27,6 @@ import {
 import GraphElement from "./graphElement"
 import GraphNode from "./graphNode"
 import Obstacle from "./obstacle"
-import StrokeAlign from "js/pq_games/layout/values/strokeAlign"
 
 const DEBUG_FILL_AREAS = false;
 const ENERGETIC_NODES = ['Oil', 'Fire', 'Wood', 'Sun', 'Moon', 'Wind', 'Biomass', 'Electricity', 'Battery'];
@@ -1766,19 +1764,19 @@ export default class BoardGeneration
 		const resFaultLine = vis.getResource("fault_line");
 
 		const opHoriz = new LayoutOperation({
-			translate: new Point(0, this.centerNode.y * csY),
-			dims: new Point(w, 50*3),
+			pos: new Point(0, this.centerNode.y * csY),
+			size: new Point(w, 50*3),
 			alpha: 0.5,
 			pivot: new Point(0, 0.5)
 		})
 		group.add(resFaultLine, opHoriz);
 
 		const opVert = new LayoutOperation({
-			translate: new Point(this.centerNode.x * csX, 0),
-			dims: new Point(h, 50*3), // @TODO: very uncertain about these fault line dims settings
+			pos: new Point(this.centerNode.x * csX, 0),
+			size: new Point(h, 50*3), // @TODO: very uncertain about these fault line size settings
 			alpha: 0.5,
 			pivot: new Point(0, 0.5),
-			rotation: 0.5*Math.PI
+			rot: 0.5*Math.PI
 		})
 		group.add(resFaultLine, opVert);
 
@@ -1807,11 +1805,11 @@ export default class BoardGeneration
 			for(const nr of this.naturalResources) 
 			{
 				const op = new LayoutOperation({
-					translate: this.getRealPos(nr),
-					dims: new Point(2*this.cfg.naturalResourceRadius*cs),
+					pos: this.getRealPos(nr),
+					size: new Point(2*this.cfg.naturalResourceRadius*cs),
 					pivot: Point.CENTER,
 					frame: NATURAL_RESOURCES[nr.type].iconFrame,
-					rotation: this.getRandomRotation(),
+					rot: this.getRandomRotation(),
 					alpha: this.cfg.naturalResourceAlpha
 				})
 				backgroundGroup.add(resNatRes, op);
@@ -1878,8 +1876,8 @@ export default class BoardGeneration
 				obj = new Rectangle().fromTopLeft(rectPos, new Point(halfSize * 2));
 
 				const opMissionNode = new LayoutOperation({
-					translate: this.getRealPos(p),
-					dims: new Point(halfSize),
+					pos: this.getRealPos(p),
+					size: new Point(halfSize),
 					pivot: Point.CENTER,
 					frame: missionNodeList[p.type].iconFrame,
 					depth: 3
@@ -1887,8 +1885,8 @@ export default class BoardGeneration
 				foregroundGroup.add(resMissionNodes, opMissionNode);
 
 				const opOutline = new LayoutOperation({
-					translate: opMissionNode.translate.clone(),
-					dims: new Point(2*halfSize*outlineMarginFactor),
+					pos: opMissionNode.pos.clone(),
+					size: new Point(2*halfSize*outlineMarginFactor),
 					pivot: Point.CENTER,
 					frame: 4 + Math.floor(Math.random() * 4),
 					depth: 3
@@ -1907,8 +1905,8 @@ export default class BoardGeneration
 						let angle = rawAngle * 0.5 * Math.PI;
 						averageAngle += angle / p.whichEdges.length;
 
-						opMissionNode.translate.x += 0.5*opMissionNode.dims.x * Math.cos(angle);
-						opMissionNode.translate.y += 0.5*opMissionNode.dims.x * Math.sin(angle);
+						opMissionNode.pos.x += 0.5*opMissionNode.size.x * Math.cos(angle);
+						opMissionNode.pos.y += 0.5*opMissionNode.size.x * Math.sin(angle);
 
 						// shove the rectangle slightly off the side, to make it stand out and give the icon some room
 						obj.center.x += 10 * Math.cos(angle);
@@ -1917,15 +1915,15 @@ export default class BoardGeneration
 						objectCenter.x += 10 * Math.cos(angle);
 						objectCenter.y += 10 * Math.sin(angle);
 
-						opOutline.translate.x += 10 * Math.cos(angle);
-						opOutline.translate.y += 10 * Math.sin(angle);
+						opOutline.pos.x += 10 * Math.cos(angle);
+						opOutline.pos.y += 10 * Math.sin(angle);
 
 					}
 
-					opMissionNode.rotation = averageAngle + 0.5 * Math.PI; // the icon drawings have their center at 0.5PI angle, instead of pointing to the right
+					opMissionNode.rot = averageAngle + 0.5 * Math.PI; // the icon drawings have their center at 0.5PI angle, instead of pointing to the right
 				}
 
-				spriteRotation = opMissionNode.rotation;
+				spriteRotation = opMissionNode.rot;
 				graphicsGroup.add(new ResourceShape(obj), opObj);
 
 			} else if(p.nodeType == 'Regular') {
@@ -1933,22 +1931,22 @@ export default class BoardGeneration
 				obj = new Circle({ center: this.getRealPos(p), radius: radius * cs });
 
 				const opRegular = new LayoutOperation({
-					translate: this.getRealPos(p),
-					dims: new Point(radius*cs),
+					pos: this.getRealPos(p),
+					size: new Point(radius*cs),
 					pivot: Point.CENTER,
 					frame: this.lists.nodes[p.type].iconFrame,
 					depth: 3,
-					rotation: this.getRandomRotation()
+					rot: this.getRandomRotation()
 				})
 
 				foregroundGroup.add(resRegularNodes, opRegular);
 
 				const opOutline = new LayoutOperation({
-					translate: opRegular.translate.clone(),
-					dims: new Point(2*radius*cs*outlineMarginFactor),
+					pos: opRegular.pos.clone(),
+					size: new Point(2*radius*cs*outlineMarginFactor),
 					pivot: Point.CENTER,
 					depth: 3,
-					rotation: this.getRandomRotation(),
+					rot: this.getRandomRotation(),
 				})
 
 				// frame 8 and 9 are two different outlines to mark a node as special
@@ -1962,10 +1960,10 @@ export default class BoardGeneration
 					const offset = this.cfg.seedTextOffset;
 
 					const opTextMetadata = new LayoutOperation({
-						translate: new Point(opRegular.translate.x, opRegular.translate.y + opRegular.dims.y * 0.5 + offset),
+						pos: new Point(opRegular.pos.x, opRegular.pos.y + opRegular.size.y * 0.5 + offset),
 						pivot: Point.CENTER,
 						fill: "#555555",
-						dims: new Point(15,2).scale(textConfigMetadata.size),
+						size: new Point(15,2).scale(textConfigMetadata.size),
 						depth: 4
 					})
 					const resTextMetadata = new ResourceText({ text: this.cfg.seed, textConfig: textConfigMetadata });
@@ -1983,11 +1981,11 @@ export default class BoardGeneration
 						const angle = angleRaw * 0.5 * Math.PI;
 						averageAngle += angle / p.whichEdges.length;
 
-						opRegular.translate.x += 0.5*opRegular.dims.x * Math.cos(angle)
-						opRegular.translate.y += 0.5*opRegular.dims.x * Math.sin(angle);
+						opRegular.pos.x += 0.5*opRegular.size.x * Math.cos(angle)
+						opRegular.pos.y += 0.5*opRegular.size.x * Math.sin(angle);
 
 						// there's less room on edge (circular) nodes, so just scale down the icon (for now)
-						opRegular.dims.scale(0.75);
+						opRegular.size.scale(0.75);
 
 						// shove the circle slightly off the side, to make it stand out and give the icon some room
 						obj.center.x += 10 * Math.cos(angle);
@@ -1996,14 +1994,14 @@ export default class BoardGeneration
 						objectCenter.x += 10 * Math.cos(angle);
 						objectCenter.y += 10 * Math.sin(angle);
 
-						opOutline.translate.x += 10 * Math.cos(angle);
-						opOutline.translate.y += 10 * Math.sin(angle);
+						opOutline.pos.x += 10 * Math.cos(angle);
+						opOutline.pos.y += 10 * Math.sin(angle);
 					}
 
-					opRegular.rotation = averageAngle + 0.5 * Math.PI;
+					opRegular.rot = averageAngle + 0.5 * Math.PI;
 				}
 
-				spriteRotation = opRegular.rotation;
+				spriteRotation = opRegular.rot;
 				graphicsGroup.add(new ResourceShape(obj), opObj);
 			}
 
@@ -2038,15 +2036,15 @@ export default class BoardGeneration
 				const randNum = Math.max( Math.round(centerMultiplier + 0.5 - RNG()), 1);
 				const str = randNum.toString();
 				const opText = new LayoutOperation({
-					translate: obj.center,
+					pos: obj.center,
 					pivot: Point.CENTER,
-					rotation: spriteRotation,
+					rot: spriteRotation,
 					depth: 4,
 					fill: '#FFFFFF',
 					stroke: "#010101",
 					strokeWidth: strokeWidth,
 					strokeAlign: StrokeAlign.OUTSIDE,
-					dims: new Point(2*textConfig.size)
+					size: new Point(2*textConfig.size)
 				})
 
 				const resText = new ResourceText({ text: str, textConfig: textConfig });
@@ -2063,19 +2061,19 @@ export default class BoardGeneration
 
 					const pos1 = new Point(obj.center.x - (radius+margin)*cs, obj.center.y - (radius+margin)*cs);
 					const pos2 = new Point(obj.center.x + (radius+margin)*cs, obj.center.y + (radius+margin)*cs);
-					const dims = new Point(0.6*radius*cs);
+					const size = new Point(0.6*radius*cs);
 
 					const op1 = new LayoutOperation({
-						translate: pos1,
-						dims: dims,
+						pos: pos1,
+						size: size,
 						frame: 0,
 						pivot: Point.CENTER
 					})
 					group.add(resDayNight, op1);
 
 					const op2 = new LayoutOperation({
-						translate: pos2,
-						dims: dims,
+						pos: pos2,
+						size: size,
 						frame: 1,
 						pivot: Point.CENTER
 					})
@@ -2090,11 +2088,11 @@ export default class BoardGeneration
 					let finalNum = Math.floor(0.66 * numEnergeticNodes / this.cfg.numPlayers);
 
 					const opTextElec = new LayoutOperation({
-						translate: obj.center,
+						pos: obj.center,
 						pivot: Point.CENTER,
-						rotation: spriteRotation,
+						rot: spriteRotation,
 						depth: 4,
-						dims: new Point(2*textConfig.size),
+						size: new Point(2*textConfig.size),
 						fill: "#FFFFFF",
 						stroke: "#010101",
 						strokeWidth: strokeWidth,
@@ -2122,11 +2120,11 @@ export default class BoardGeneration
 				if(type == 'triangle' && IP_RNG() <= 0.5) { angle += Math.PI; }
 
 				const op = new LayoutOperation({
-					translate: pos,
-					dims: iPointSize,
+					pos: pos,
+					size: iPointSize,
 					pivot: Point.CENTER,
 					frame: TINY_NODES[type].iconFrame,
-					rotation: angle,
+					rot: angle,
 					depth: 3
 				});
 				foregroundGroup.add(resTinyNodes, op);
@@ -2147,11 +2145,11 @@ export default class BoardGeneration
 
 				// show default expedition node sprite (the compass/navigator icon)
 				const op = new LayoutOperation({
-					translate: this.getRealPos(center),
+					pos: this.getRealPos(center),
 					frame: 0,
-					dims: new Point(expeditionNodeRadius * 2.0),
+					size: new Point(expeditionNodeRadius * 2.0),
 					pivot: Point.CENTER,
-					rotation: this.getRandomRotation()
+					rot: this.getRandomRotation()
 				});
 
 				backgroundGroup.add(resExpeditionNodes, op);
@@ -2181,11 +2179,11 @@ export default class BoardGeneration
 					graphicsGroup.add(new ResourceShape(circ), opCirc);
 
 					const op = new LayoutOperation({
-						translate: circ.center,
-						dims: new Point(2*expeditionSlotRadius),
+						pos: circ.center,
+						size: new Point(2*expeditionSlotRadius),
 						frame: Math.floor(Math.random() * 4),
 						pivot: Point.CENTER,
-						rotation: this.getRandomRotation(),
+						rot: this.getRandomRotation(),
 						depth: 3
 					});
 
@@ -2205,9 +2203,9 @@ export default class BoardGeneration
 				let center = lm.center;
 
 				const op = new LayoutOperation({
-					translate: this.getRealPos(center),
+					pos: this.getRealPos(center),
 					frame: LANDMARKS[lm.type].iconFrame,
-					dims: landmarkRadius,
+					size: landmarkRadius,
 					pivot: Point.CENTER
 				})
 				backgroundGroup.add(resLandmarks, op);
@@ -2241,10 +2239,10 @@ export default class BoardGeneration
 				graphicsGroup.add(new ResourceShape(path), opPath);
 
 				const opTextAreaNum = new LayoutOperation({
-					translate: this.getRealPos(center),
+					pos: this.getRealPos(center),
 					pivot: Point.CENTER,
 					depth: 4,
-					dims: new Point(2*textConfig.size),
+					size: new Point(2*textConfig.size),
 					fill: "#FFFFFF",
 					stroke: "#010101",
 					strokeWidth: strokeWidth,

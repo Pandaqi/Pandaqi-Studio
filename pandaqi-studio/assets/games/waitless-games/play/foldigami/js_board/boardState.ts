@@ -21,12 +21,12 @@ export default class BoardState
     createGrid()
     {
         const grid = [];
-        const dims = CONFIG.board.dims;
-        this.size = dims;
-        for(let x = 0; x < dims.x; x++)
+        const size = CONFIG.board.size;
+        this.size = size;
+        for(let x = 0; x < size.x; x++)
         {
             grid[x] = [];
-            for(let y = 0; y < dims.y; y++)
+            for(let y = 0; y < size.y; y++)
             {
                 const c = new Cell(x, y);
                 c.setEdge(this.isEdgeCell(c));
@@ -42,12 +42,12 @@ export default class BoardState
     cloneGrid(grid:Cell[][])
     {
         const newGrid = [];
-        const dims = new Point(grid.length, grid[0].length);
-        this.size = dims;
-        for(let x = 0; x < dims.x; x++)
+        const size = new Point(grid.length, grid[0].length);
+        this.size = size;
+        for(let x = 0; x < size.x; x++)
         {
             newGrid[x] = [];
-            for(let y = 0; y < dims.y; y++)
+            for(let y = 0; y < size.y; y++)
             {
                 newGrid[x][y] = grid[x][y].clone();
             }

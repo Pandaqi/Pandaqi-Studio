@@ -33,7 +33,7 @@ const DISCRETE_LISTS = {
 	type: Object.keys(TILE_DICT), // the main one; see TILE_DICT
 	neighborCount: [2,3,4], // when hints count how many neighbors (at least) have something; hence 0,1 are missing
 	networkCount: [1,2,3,4,5], // with how many other tiles it is connected in the network
-	rotation: [0,1,2,3], // quarter rotations, 4 possible states
+	rot: [0,1,2,3], // quarter rotations, 4 possible states
 	bearings: Object.keys(BEARINGS), // quadrants indicated by the compass tile
 	row: [], // filled in dynamically
 	column: [], // filled in dynamically
@@ -49,8 +49,6 @@ const BEARING_CONDITIONS = [
 ]
 
 const FIXED_MAP_TILES = ['A1', 'A2', 'B1', 'B4', 'C4', 'D2', 'E2', 'E3', 'F1', 'F3', 'G2', 'H4'];
-
-const TEXTURES = ['hint_base', 'hint_tile_type', 'hint_quadrant', 'hint_bearings', 'hint_symbols'];
 
 const HINT_CATEGORIES = ['type', 'rotation', 'general', 'arrows', 'special', 'symbols', 'network'];
 const HINT_DICT = [
@@ -617,10 +615,10 @@ const HINT_DICT = [
 		],
 		layers: [
 			{ type: "texture", key: "hint_base", frame: 29 },
-			{ type: "texture", key: "hint_tile_type", frame: 13, y: 0.2, scale: 0.275, rotation: 3 },
-			{ type: "texture", key: "hint_tile_type", frame: 13, x: 0.8, scale: 0.275, rotation: 0 },
-			{ type: "texture", key: "hint_tile_type", frame: 13, y: 0.8, scale: 0.275, rotation: 1 },
-			{ type: "texture", key: "hint_tile_type", frame: 13, x: 0.2, scale: 0.275, rotation: 2 },
+			{ type: "texture", key: "hint_tile_type", frame: 13, y: 0.2, scale: 0.275, rot: 3 },
+			{ type: "texture", key: "hint_tile_type", frame: 13, x: 0.8, scale: 0.275, rot: 0 },
+			{ type: "texture", key: "hint_tile_type", frame: 13, y: 0.8, scale: 0.275, rot: 1 },
+			{ type: "texture", key: "hint_tile_type", frame: 13, x: 0.2, scale: 0.275, rot: 2 },
 		],
 		notCrossData: { scale: 0.33 },
 		layerCutoff: { index: 1, offset: 1 },
@@ -668,7 +666,6 @@ export {
 	DISCRETE_LISTS,
 	BEARING_CONDITIONS,
 	FIXED_MAP_TILES,
-	TEXTURES,
 	HINT_CATEGORIES,
 	HINT_DICT
 }

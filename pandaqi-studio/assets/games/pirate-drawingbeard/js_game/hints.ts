@@ -70,7 +70,7 @@ export default {
 		this.availableHints = structuredClone(HINT_DICT);
 		this.categories = HINT_CATEGORIES.slice();
 
-		if(!Config.expansions.rotation) { 
+		if(!Config.expansions.rot) { 
 			this.categories.splice(this.categories.indexOf("rotation"), 1);
 		}
 

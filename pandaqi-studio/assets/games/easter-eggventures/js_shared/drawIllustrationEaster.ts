@@ -23,24 +23,24 @@ export default (tile:MaterialEaster, vis:MaterialVisualizer, group:ResourceGroup
     if(vis.inkFriendly) { effects.push(new GrayScaleEffect()); }
 
     let trans = vis.center.clone();
-    let dims = vis.get("tiles.illu.dims");
+    let size = vis.get("tiles.illu.size");
     if(tile.needsText(vis))
     {
         trans.y -= vis.get("tiles.illu.offsetWhenTextPresent");
-        dims = vis.get("tiles.illu.dimsWithText");
+        size = vis.get("tiles.illu.sizeWithText");
     }
 
-    let rotation = 0;
-    if(typeData.rotationRandom)
+    let rot = 0;
+    if(typeData.rotRandom)
     {
-        rotation = typeData.rotationRandom.random();
+        rot = typeData.rotRandom.random();
     }
 
     const op = new LayoutOperation({
-        translate: trans,
-        dims: dims,
+        pos: trans,
+        size: size,
         frame: frame,
-        rotation: rotation,
+        rot: rot,
         pivot: Point.CENTER,
         effects: effects,
     })

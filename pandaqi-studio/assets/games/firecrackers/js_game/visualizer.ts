@@ -36,15 +36,15 @@ export default class Visualizer
         this.effectsGrayscaleOnly = [grayscale];
     }
 
-    getPointyRect(anchor:Point, dims:Point, offset = 0.9)
+    getPointyRect(anchor:Point, size:Point, offset = 0.9)
     {
         const points = [
-            new Point(anchor.x - 0.5*dims.x, anchor.y),
-            new Point(anchor.x - 0.5*offset*dims.x, anchor.y - 0.5*dims.y),
-            new Point(anchor.x + 0.5*offset*dims.x, anchor.y - 0.5*dims.y),
-            new Point(anchor.x + 0.5*dims.x, anchor.y),
-            new Point(anchor.x + 0.5*offset*dims.x, anchor.y + 0.5*dims.y),
-            new Point(anchor.x - 0.5*offset*dims.x, anchor.y + 0.5*dims.y)
+            new Point(anchor.x - 0.5*size.x, anchor.y),
+            new Point(anchor.x - 0.5*offset*size.x, anchor.y - 0.5*size.y),
+            new Point(anchor.x + 0.5*offset*size.x, anchor.y - 0.5*size.y),
+            new Point(anchor.x + 0.5*size.x, anchor.y),
+            new Point(anchor.x + 0.5*offset*size.x, anchor.y + 0.5*size.y),
+            new Point(anchor.x - 0.5*offset*size.x, anchor.y + 0.5*size.y)
         ]
         return new Path({ points: points });
     }

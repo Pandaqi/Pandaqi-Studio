@@ -33,7 +33,7 @@ export default class Token {
 
     setupCanvas()
     {
-        const size = CONFIG.tokens.size;
+        const size = CONFIG.tokens.sizeResult;
         this.size = new Point(size.x, size.y);
         this.sizeSquare = Math.min(size.x, size.y);
         this.radius = 0.5*this.sizeSquare;
@@ -54,8 +54,8 @@ export default class Token {
         const ctx = this.ctx;
         const res = CONFIG.resLoader.getResource("tokens");
         const canvOp = new LayoutOperation({
-            translate: new PointNonPhotomone(this.centerPos.x, this.centerPos.y),
-            dims: new PointNonPhotomone(this.radius*2),
+            pos: new PointNonPhotomone(this.centerPos.x, this.centerPos.y),
+            size: new PointNonPhotomone(this.radius*2),
             frame: this.typeData.frame,
             pivot: new PointNonPhotomone(0.5)
         });

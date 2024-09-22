@@ -60,20 +60,20 @@ export default class Domino
     drawPawn(vis:MaterialVisualizer, group:ResourceGroup)
     {
         const res = vis.getResource("pawns");
-        const dims = new Point(vis.sizeUnit);
+        const size = new Point(vis.sizeUnit);
         
         const opTop = new LayoutOperation({
-            translate: new Point(vis.size.x, vis.center.y),
+            pos: new Point(vis.size.x, vis.center.y),
             frame: this.pawnIndex,
-            dims: dims,
-            rotation: Math.PI
+            size: size,
+            rot: Math.PI
         });
         group.add(res, opTop);
 
         const opBottom = new LayoutOperation({
-            translate: new Point(0, vis.center.y),
+            pos: new Point(0, vis.center.y),
             frame: this.pawnIndex,
-            dims: dims
+            size: size
         });
         group.add(res, opBottom);
     }
@@ -81,13 +81,13 @@ export default class Domino
     drawBothParts(vis:MaterialVisualizer, group:ResourceGroup)
     {
         const opTop = new LayoutOperation({
-            translate: new Point(vis.center.x, 0.25*vis.size.y),
+            pos: new Point(vis.center.x, 0.25*vis.size.y),
             pivot: Point.CENTER
         });
         group.add(this.sides.top.draw(vis), opTop);
 
         const opBottom = new LayoutOperation({
-            translate: new Point(vis.center.x, 0.75*vis.size.y),
+            pos: new Point(vis.center.x, 0.75*vis.size.y),
             pivot: Point.CENTER
         })
         group.add(this.sides.bottom.draw(vis), opBottom);
@@ -109,11 +109,11 @@ export default class Domino
         })
         const resText = new ResourceText({ text, textConfig });
         const opText = new LayoutOperation({
-            translate: new Point(1.33*textConfig.size), 
+            pos: new Point(1.33*textConfig.size), 
             pivot: Point.CENTER,
             fill: "#FFFFFF",
             alpha: 0.75,
-            dims: new Point(2*textConfig.size)
+            size: new Point(2*textConfig.size)
         });
         group.add(resText, opText);
     }
@@ -125,8 +125,8 @@ export default class Domino
         const res = vis.getResource("misc");
         const op = new LayoutOperation({
             frame: MISC.entrance.frame,
-            translate: new Point(vis.center.x, 0.25*vis.size.y),
-            dims: vis.get("dominoes.entrance.dims"),
+            pos: new Point(vis.center.x, 0.25*vis.size.y),
+            size: vis.get("dominoes.entrance.size"),
             pivot: Point.CENTER
         });
         group.add(res, op);

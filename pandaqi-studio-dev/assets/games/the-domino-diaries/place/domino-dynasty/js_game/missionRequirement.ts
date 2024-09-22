@@ -44,8 +44,8 @@ export default class MissionRequirement
         const subGroup = new ResourceGroup();
         const resIcon = vis.getResource("icons");
         const opIcon = new LayoutOperation({
-            translate: vis.get("dominoes.mission.requirements.posIcon"),
-            dims: vis.get("dominoes.mission.requirements.dims"),
+            pos: vis.get("dominoes.mission.requirements.posIcon"),
+            size: vis.get("dominoes.mission.requirements.size"),
             frame: ICONS[this.icon].frame,
             pivot: Point.CENTER
         });
@@ -67,15 +67,15 @@ export default class MissionRequirement
 
         const resText = new ResourceText({ text: text, textConfig: textConfig });
         const opText = new LayoutOperation({
-            translate: vis.get("dominoes.mission.requirements.posText"),
-            dims: new Point(0.75*vis.size.x, 3*textConfig.size),
+            pos: vis.get("dominoes.mission.requirements.posText"),
+            size: new Point(0.75*vis.size.x, 3*textConfig.size),
             fill: "#121212",
             pivot: new Point(1, 0.5),
         })
         subGroup.add(resText, opText);
 
         const opGroup = new LayoutOperation({
-            translate: anchor.clone()
+            pos: anchor.clone()
         })
         group.add(subGroup, opGroup);
     }

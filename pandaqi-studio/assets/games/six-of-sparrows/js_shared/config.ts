@@ -93,8 +93,8 @@ const CONFIG:any =
         drawerConfig:
         {
             autoStroke: true,
-            dimsElement: new Point(1, 1.4),
-            dims: 
+            sizeElement: new Point(1, 1.4),
+            size: 
             { 
                 small: new Point(4,4),
                 regular: new Point(3,3),
@@ -121,7 +121,7 @@ const CONFIG:any =
             icon:
             {
                 pos: new CVal(new Point(0.5, 0.415), "size"),
-                dims: new CVal(new Point(0.69), "sizeUnit")
+                size: new CVal(new Point(0.69), "sizeUnit")
             },
 
             score: 
@@ -133,13 +133,13 @@ const CONFIG:any =
             bonus:
             {
                 pos: new CVal(new Point(0.22, 0.115), "size"),
-                dims: new CVal(new Point(0.2), "sizeUnit")
+                size: new CVal(new Point(0.2), "sizeUnit")
             },
 
             textBox:
             {
                 pos: new CVal(new Point(0.5, 0.8), "size"),
-                dims: new CVal(new Point(0.875, 0.25), "size"),
+                size: new CVal(new Point(0.875, 0.25), "size"),
                 fontSize: new CVal(0.069, "sizeUnit")
             }
         },

@@ -14,22 +14,22 @@ import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage
 class Board
 {
     grid: Tile[][]
-    dims: Point
+    size: Point
     sleighPos: Point // @TODO: set and use
 
-    constructor(dims:Point) 
+    constructor(size:Point) 
     {
-        this.dims = dims;
+        this.size = size;
         this.createGrid();
     }
 
     createGrid()
     {
         this.grid = [];
-        for(let x = 0; x < this.dims.x; x++)
+        for(let x = 0; x < this.size.x; x++)
         {
             this.grid[x] = [];
-            for(let y = 0; y < this.dims.y; y++)
+            for(let y = 0; y < this.size.y; y++)
             {
                 this.grid[x][y] = null;
             }
@@ -39,8 +39,8 @@ class Board
     // @TODO: create default function for "get random position within rectangle"?
     placeSleigh(tile:Tile, maxDistCenter:number)
     {
-        const cX = 0.5 * this.dims.x;
-        const cY = 0.5 * this.dims.y;
+        const cX = 0.5 * this.size.x;
+        const cY = 0.5 * this.size.y;
         const posX = range(cX - maxDistCenter*cX, cX + maxDistCenter*cX);
         const posY = range(cY - maxDistCenter*cY, cY + maxDistCenter*cY);
         const pos = new Point(posX, posY).round();
@@ -135,7 +135,7 @@ class Board
         // and either USED or ADJACENT
         const emptyAdjacentCells = this.getEmptyAdjacentCells(); 
         const cellsInStraightLine = [];
-        for(let x = 0; x < this.dims.x; x++) 
+        for(let x = 0; x < this.size.x; x++) 
         {
             const pos = new Point(x, this.sleighPos.y);
             if(pos.matches(this.sleighPos)) { continue; }
@@ -145,7 +145,7 @@ class Board
             cellsInStraightLine.push(pos);
         }
 
-        for(let y = 0; y < this.dims.y; y++)
+        for(let y = 0; y < this.size.y; y++)
         {
             const pos = new Point(this.sleighPos.x, y);
             if(pos.matches(this.sleighPos)) { continue; }
@@ -249,9 +249,9 @@ class Board
     getEmptyAdjacentCells()
     {
         const arr = [];
-        for(let x = 0; x < this.dims.x; x++)
+        for(let x = 0; x < this.size.x; x++)
         {
-            for(let y = 0; y < this.dims.y; y++)
+            for(let y = 0; y < this.size.y; y++)
             {
                 const pos = new Point(x,y);
                 const notEmpty = this.getCell(pos);
@@ -286,7 +286,7 @@ class Board
 
     outOfBounds(pos:Point)
     {
-        return pos.x < 0 || pos.x >= this.dims.x || pos.y < 0 || pos.y >= this.dims.y;
+        return pos.x < 0 || pos.x >= this.size.x || pos.y < 0 || pos.y >= this.size.y;
     }
 
     stringifyPosition(pos:Point)
@@ -313,7 +313,7 @@ class Board
 
     getShortestDim()
     {
-        return Math.min(this.dims.x, this.dims.y);
+        return Math.min(this.size.x, this.size.y);
     }
 
     checkWishesFulfilled(tiles:Tile[])
@@ -371,7 +371,7 @@ class Board
     async draw(highlightedTiles:Point[] = []) : Promise<HTMLImageElement>
     {
         const tileSize = CONFIG.rulebook.tileSize;
-        const fullSize = this.dims.clone().scale(tileSize);
+        const fullSize = this.size.clone().scale(tileSize);
         const ctx = createContext({ size: fullSize });
 
         let filledCellsAreHighlighted = false;
@@ -380,9 +380,9 @@ class Board
             if(this.getCell(pos)) { filledCellsAreHighlighted = true; break; }
         }
 
-        for(let x = 0; x < this.dims.x; x++)
+        for(let x = 0; x < this.size.x; x++)
         {
-            for(let y = 0; y < this.dims.y; y++)
+            for(let y = 0; y < this.size.y; y++)
             {
                 const pos = new Point(x,y);
                 const isHighlighted = highlightedTiles.filter((val) => { return val.matches(pos); }).length > 0;

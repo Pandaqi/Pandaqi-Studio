@@ -64,9 +64,9 @@ export default class SideBar
         const tutSizeX = this.dimensions.x - 2*this.padding;
         const tutSizeY = tutRatio * tutSizeX;
         const op = new LayoutOperation({
-            translate: this.anchorPos.clone(),
+            pos: this.anchorPos.clone(),
             pivot: new Point(),
-            dims: new Point(tutSizeX, tutSizeY)
+            size: new Point(tutSizeX, tutSizeY)
         })
         group.add(res, op);
 
@@ -90,8 +90,8 @@ export default class SideBar
         const tutorialWidth = tutorialHeight;
         const res = vis.getResource("general_spritesheet");
         const op = new LayoutOperation({
-            translate: pos,
-            dims: new Point(tutorialHeight),
+            pos: pos,
+            size: new Point(tutorialHeight),
             frame: GENERAL.tutorialIcon.frame,
             pivot: Point.CENTER
         });
@@ -101,8 +101,8 @@ export default class SideBar
         const frame = CELLS[type].frame;
         const iconSize = 0.5*tutorialHeight;
         const opIcon = new LayoutOperation({
-            translate: pos,
-            dims: new Point(iconSize),
+            pos: pos,
+            size: new Point(iconSize),
             frame: frame,
             pivot: Point.CENTER
         });
@@ -124,8 +124,8 @@ export default class SideBar
 
         const textPos = new Point(pos.x + 0.5*tutorialWidth + gapBetween, pos.y);
         const opText = new LayoutOperation({
-            translate: textPos,
-            dims: new Point(leftoverWidth, tutorialHeight),
+            pos: textPos,
+            size: new Point(leftoverWidth, tutorialHeight),
             fill: txtCfg.color,
             pivot: new Point(0, 0.5)
         })
@@ -153,17 +153,17 @@ export default class SideBar
         const yPosHeader = this.anchorPos.y + 0.05*this.dimensions.x;
         const xPosHeader = this.anchorPos.x + 0.5*this.dimensions.x;
         const posHeader = new Point(xPosHeader, yPosHeader);
-        const dimsHeader = new Point(0.5 * this.dimensions.x);
+        const sizeHeader = new Point(0.5 * this.dimensions.x);
         const resGeneral = vis.getResource("general_spritesheet");
         const opHeader = new LayoutOperation({
-            translate: posHeader,
-            dims: dimsHeader,
+            pos: posHeader,
+            size: sizeHeader,
             frame: GENERAL.header.frame,
             pivot: Point.CENTER
         });
         group.add(resGeneral, opHeader);
         
-        this.anchorPos.y += 0.25*dimsHeader.y;
+        this.anchorPos.y += 0.25*sizeHeader.y;
 
         const scoreTypes = boardDisplay.board.getTypesWithProperty("score");
         const NUM_ICONS = 10;
@@ -199,9 +199,9 @@ export default class SideBar
             // the type being scored
             const resIcon = vis.getResource(CONFIG.cellTexture);
             const opIcon = new LayoutOperation({
-                translate: new Point(xPos, this.anchorPos.y),
+                pos: new Point(xPos, this.anchorPos.y),
                 frame: CELLS[type].frame,
-                dims: new Point(iconSize)
+                size: new Point(iconSize)
             });
             group.add(resIcon, opIcon);
 
@@ -211,9 +211,9 @@ export default class SideBar
                 xPos += iconSize;
 
                 const opBox = new LayoutOperation({
-                    translate: new Point(xPos, this.anchorPos.y),
+                    pos: new Point(xPos, this.anchorPos.y),
                     frame: GENERAL.writingSpace.frame,
-                    dims: new Point(iconSize)
+                    size: new Point(iconSize)
                 });
                 group.add(resGeneral, opBox);
 
@@ -225,8 +225,8 @@ export default class SideBar
                 if(value != null)
                 {
                     const opText = new LayoutOperation({
-                        translate: new Point(opBox.translate.x + 0.5*iconSize, opBox.translate.y + 0.5*iconSize),
-                        dims: new Point(iconSize),
+                        pos: new Point(opBox.pos.x + 0.5*iconSize, opBox.pos.y + 0.5*iconSize),
+                        size: new Point(iconSize),
                         fill: txtCfg.color,
                         pivot: Point.CENTER,
                         alpha: alpha

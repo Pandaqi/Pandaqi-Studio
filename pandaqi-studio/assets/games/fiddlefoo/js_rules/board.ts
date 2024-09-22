@@ -268,8 +268,8 @@ export default class Board
                 // draw the resource to the canvas with the settings we just calculated
                 const res = new ResourceImage( await card.drawForRules(sim.getVisualizer()) );
                 const op = new LayoutOperation({
-                    translate: realPos,
-                    dims: cardSizeWithMargin,
+                    pos: realPos,
+                    size: cardSizeWithMargin,
                     pivot: Point.CENTER
                 })
                 res.toCanvas(ctx, op);

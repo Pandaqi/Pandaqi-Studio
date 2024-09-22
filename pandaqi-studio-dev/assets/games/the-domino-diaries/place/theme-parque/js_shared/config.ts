@@ -150,8 +150,8 @@ const CONFIG:any =
     {
         drawerConfig:
         {
-            dimsElement: new Point(1, 2),
-            dims: { 
+            sizeElement: new Point(1, 2),
+            size: { 
                 small: new Point(7,5),
                 regular: new Point(5,3),
                 large: new Point(4,2)
@@ -176,7 +176,7 @@ const CONFIG:any =
 
         score:
         {
-            dims: new CVal(new Point(0.3), "sizeUnit"),
+            size: new CVal(new Point(0.3), "sizeUnit"),
             fontSize: new CVal(0.2, "sizeUnit"),
             textColor: "#000000",
             strokeColor: "#FFFFFF",
@@ -185,12 +185,12 @@ const CONFIG:any =
 
         entrance:
         {
-            dims: new CVal(new Point(0.75), "sizeUnit")
+            size: new CVal(new Point(0.75), "sizeUnit")
         },
 
         main:
         {
-            dims: new CVal(new Point(0.8), "sizeUnit")
+            size: new CVal(new Point(0.8), "sizeUnit")
         },
 
         paths:

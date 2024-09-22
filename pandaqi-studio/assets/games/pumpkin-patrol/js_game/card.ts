@@ -112,8 +112,8 @@ export default class Card
 
         const gradientAlpha = vis.inkFriendly ? 0.15 : 1.0;
         const op = new LayoutOperation({
-            translate: midPoint.clone(),
-            dims: size,
+            pos: midPoint.clone(),
+            size: size,
             alpha: gradientAlpha,
             pivot: new Point(0.5)
         })
@@ -127,8 +127,8 @@ export default class Card
         const scoreOffset = CONFIG.cards.score.offset * vis.size.y* CONFIG.cards.bgPerson.beamOffsetY;
         const beamPos = midPoint.clone().move(new Point(0,scoreOffset));
         const beamOp = new LayoutOperation({
-            translate: beamPos,
-            dims: beamSize,
+            pos: beamPos,
+            size: beamSize,
             pivot: new Point(0.5),
             frame: frame,
             effects: vis.effects
@@ -148,8 +148,8 @@ export default class Card
         const anchor = new Point(0.5*vis.size.x, topBlockEnd);
         const op = new LayoutOperation({
             frame: data.frame,
-            translate: anchor.clone().move(new Point(0, iconOffsetY)),
-            dims: new Point(iconSize),
+            pos: anchor.clone().move(new Point(0, iconOffsetY)),
+            size: new Point(iconSize),
             pivot: new Point(0.5, 1),
             effects: vis.effects,
         })
@@ -159,13 +159,13 @@ export default class Card
         const resStar = vis.resLoader.getResource("misc");
         const starFrame = MISC.score.frame;
         const starOffset = new Point(0.5*vis.size.x, CONFIG.cards.score.offset * vis.size.y);
-        const starDims = CONFIG.cards.score.dims * vis.sizeUnit;
+        const starDims = CONFIG.cards.score.size * vis.sizeUnit;
         const shadowBlur = CONFIG.cards.score.shadowSize * starDims;
         const starEffects = [ new DropShadowEffect({ blurRadius: shadowBlur }), vis.effects ].flat();
         const starOp = new LayoutOperation({ 
             frame: starFrame,
-            translate: starOffset,
-            dims: new Point(starDims),
+            pos: starOffset,
+            size: new Point(starDims),
             pivot: new Point(0.5),
             effects: starEffects
         })
@@ -184,8 +184,8 @@ export default class Card
         const starTextColor = vis.inkFriendly ? "#000000" : CONFIG.cards.score.textColor;
         const starTextOp = new LayoutOperation({
             fill: starTextColor,
-            translate: starOffset.clone().move(new Point(0, 0.1*fontSizeScore)), // tiny offset just because it looks better inside star
-            dims: new Point(starDims),
+            pos: starOffset.clone().move(new Point(0, 0.1*fontSizeScore)), // tiny offset just because it looks better inside star
+            size: new Point(starDims),
             pivot: new Point(0.5)
         })
 
@@ -201,7 +201,7 @@ export default class Card
             new Point(vis.size.x - textOffset, 0.5*topBlockEnd)
         ];
 
-        const rotations = [
+        const rots = [
             0.5*Math.PI,
             -0.5*Math.PI
         ]
@@ -212,13 +212,13 @@ export default class Card
         for(let i = 0; i < positions.length; i++)
         {
             const pos = positions[i];
-            const rot = rotations[i];
+            const rot = rots[i];
             const res = new ResourceText({ text: name, textConfig: textConfig });
             const op = new LayoutOperation({
                 fill: textColor,
-                translate: pos,
-                dims: new Point(vis.size.x, fontSizeName), // @TODO: should really do auto-infinite-dim for text if not supplied
-                rotation: rot,
+                pos: pos,
+                size: new Point(vis.size.x, fontSizeName), // @TODO: should really do auto-infinite-dim for text if not supplied
+                rot: rot,
                 alpha: textAlpha,
                 pivot: new Point(0.5)
             })
@@ -283,8 +283,8 @@ export default class Card
 
         const resText = new ResourceText({ text: desc, textConfig });
         const op = new LayoutOperation({
-            translate: new Point(0.5*vis.size.x, powerMidY),
-            dims: new Point(powerMaxWidth, powerRectHeight),
+            pos: new Point(0.5*vis.size.x, powerMidY),
+            size: new Point(powerMaxWidth, powerRectHeight),
             fill: textColor,
             pivot: new Point(0.5),
             alpha: alpha
@@ -292,34 +292,34 @@ export default class Card
         resText.toCanvas(ctx, op);
     }
 
-    drawDetailsRectangle(vis:Visualizer, ctx, anchorY: number, size:Point, effs, side:string, prop:string)
+    drawDetailsRectangle(vis:Visualizer, ctx, anchorY: number, sizeRect:Point, effs, side:string, prop:string)
     {
         // background rect shape
-        const rect = this.getWonkyRectangle(vis, size, side);
+        const rect = this.getWonkyRectangle(vis, sizeRect, side);
         const res = new ResourceShape({ shape: rect });
         const colorBG = vis.inkFriendly ? CONFIG.cards.details.bgsInkFriendly[prop] : CONFIG.cards.details.bgs[prop];
         const op = new LayoutOperation({
-            translate: new Point(0, anchorY),
+            pos: new Point(0, anchorY),
             fill: colorBG,
             effects: effs
         })
         res.toCanvas(ctx, op);
 
         // type icon
-        const iconY = op.translate.y + 0.5*size.y;
-        const iconSize = CONFIG.cards.details.iconHeight*size.y;
+        const iconY = op.pos.y + 0.5*sizeRect.y;
+        const iconSize = CONFIG.cards.details.iconHeight*sizeRect.y;
         this.drawDetailsIcon(vis, ctx, iconY, iconSize, side, prop);
 
         // actual content
         const content = this[prop];
         content.sort(); // sort by type, looks cleaner than random order
 
-        const imageHeight = 0.8*size.y;
+        const imageHeight = 0.8*sizeRect.y;
         const imageSize = new Point(imageHeight, imageHeight);
         const iconEffects = [ new DropShadowEffect({ blurRadius: CONFIG.cards.details.iconShadowSize*imageHeight }) ];
 
         // @NOTE: we have to gather all info in advance and then draw because of the wildly different WIDTHS that things can be
-        const dims : Point[] = [];
+        const size : Point[] = [];
         const operations = [];
         const resources = [];
 
@@ -335,11 +335,11 @@ export default class Card
             const color = vis.inkFriendly ? "#000000" : CONFIG.cards.details.rectTextColor;
             const resText = new ResourceText({ text: "at most", textConfig: textConfig });
             const opText = new LayoutOperation({
-                dims: textDims,
+                size: textDims,
                 fill: color,
                 pivot: Point.CENTER
             });
-            dims.push(textDims);
+            size.push(textDims);
             operations.push(opText);
             resources.push(resText);
         }
@@ -358,20 +358,19 @@ export default class Card
 
             const resIcon = vis.resLoader.getResource(resKey).getImageFrameAsResource(frame);
             const opIcon = new LayoutOperation({
-                dims: imageSize,
+                size: imageSize,
                 pivot: Point.CENTER,
                 effects: iconEffects
             })
-            dims.push(imageSize);
+            size.push(imageSize);
             operations.push(opIcon);
             resources.push(resIcon);
         }
 
-        const anchorPos = op.translate.clone();
-        const positions = getPositionsCenteredAround({ pos: new Point(0.5*vis.size.x, iconY), dims: dims, num: dims.length });
+        const positions = getPositionsCenteredAround({ pos: new Point(0.5*vis.size.x, iconY), size: size, num: size.length });
         for(let i = 0; i < positions.length; i++)
         {
-            operations[i].translate = positions[i];
+            operations[i].pos = positions[i];
             resources[i].toCanvas(ctx, operations[i]);
         }
     }
@@ -388,8 +387,8 @@ export default class Card
 
         const iconOp = new LayoutOperation({
             frame: iconFrame,
-            translate: new Point(iconX, y),
-            dims: new Point(iconSize),
+            pos: new Point(iconX, y),
+            size: new Point(iconSize),
             pivot: new Point(0.5),
             effects: iconEffects
         });
@@ -490,9 +489,9 @@ export default class Card
             const patternRes = vis.patterns[subType];
             const patternAlpha = vis.inkFriendly ? CONFIG.cards.bgHand.patternAlphaInkFriendly : CONFIG.cards.bgHand.patternAlpha;
             const patternOp = new LayoutOperation({
-                translate: midPoint,
-                dims: new Point(vis.size.x * CONFIG.cards.bgHand.patternExtraMargin),
-                rotation: patternRot,
+                pos: midPoint,
+                size: new Point(vis.size.x * CONFIG.cards.bgHand.patternExtraMargin),
+                rot: patternRot,
                 alpha: patternAlpha,
                 pivot: new Point(0.5)
             })
@@ -505,7 +504,7 @@ export default class Card
         const resLine = new ResourceShape({ shape: slantedLine });
         const lineColor = vis.inkFriendly ? "#212121" : CONFIG.cards.bgHand.slantedLineColor;
         const lineOp = new LayoutOperation({
-            translate: new Point(0, halfHeight),
+            pos: new Point(0, halfHeight),
             strokeWidth: CONFIG.cards.bgHand.slantedLineWidth * vis.sizeUnit,
             stroke: lineColor
         })
@@ -534,9 +533,9 @@ export default class Card
         {
             const op = new LayoutOperation({
                 frame: data.frame,
-                translate: pos,
-                dims: new Point(iconSize),
-                rotation: rot,
+                pos: pos,
+                size: new Point(iconSize),
+                rot: rot,
                 pivot: new Point(0.5),
                 effects: effects
             })
@@ -556,9 +555,9 @@ export default class Card
         const col = vis.inkFriendly ? "#212121" : CONFIG.cards.bgHand.textColor;
         const textOp = new LayoutOperation({
             fill: col,
-            translate: textPos,
-            dims: new Point(vis.size.x, fontSize),
-            rotation: patternRot,
+            pos: textPos,
+            size: new Point(vis.size.x, fontSize),
+            rot: patternRot,
             effects: [ new DropShadowEffect({ blurRadius: CONFIG.cards.bgHand.textShadow * fontSize })],
             pivot: new Point(0.5)
         })
@@ -585,8 +584,8 @@ export default class Card
         const col = vis.inkFriendly ? "#212121" : CONFIG.cards.setID.color;
         const op = new LayoutOperation({
             fill: col,
-            translate: offset,
-            dims: new Point(8.0*vis.size.x, 2.0*fontSizeID),
+            pos: offset,
+            size: new Point(8.0*vis.size.x, 2.0*fontSizeID),
             alpha: CONFIG.cards.setID.alpha,
             pivot: new Point(0.5)
         })

@@ -35,7 +35,7 @@ export default class BoardDisplay
     board:BoardState
     cellSize:Point
     cellSizeUnit:number
-    dims:Point
+    size:Point
 
 	constructor(game:any)
 	{
@@ -54,10 +54,10 @@ export default class BoardDisplay
         const group = new ResourceGroup();
 
         this.board = board;
-        this.dims = board.getDimensions();
+        this.size = board.getDimensions();
         this.cellSize = new Point(
-            this.boardDimensions.x / this.dims.x, 
-            this.boardDimensions.y / this.dims.y 
+            this.boardDimensions.x / this.size.x, 
+            this.boardDimensions.y / this.size.y 
         );
         this.cellSizeUnit = Math.min(this.cellSize.x, this.cellSize.y);
 
@@ -82,13 +82,13 @@ export default class BoardDisplay
     {
         const offsetPerStep = new Point(this.cellSize.x / this.resolutionPerCell, this.cellSize.y / this.resolutionPerCell);
         const lines:Lines = { 
-            x: this.createSubdividedLines("x", this.dims, this.resolutionPerCell, offsetPerStep),
-            y: this.createSubdividedLines("y", this.dims, this.resolutionPerCell, offsetPerStep)
+            x: this.createSubdividedLines("x", this.size, this.resolutionPerCell, offsetPerStep),
+            y: this.createSubdividedLines("y", this.size, this.resolutionPerCell, offsetPerStep)
         }
         return lines;
     }
 
-    createSubdividedLines(variableAxis:string, dims:Point, resolutionPerCell:number, offsetPerStep:Point)
+    createSubdividedLines(variableAxis:string, size:Point, resolutionPerCell:number, offsetPerStep:Point)
     {
         const nonVariableAxis = (variableAxis == "x") ? "y" : "x";
 
@@ -99,7 +99,7 @@ export default class BoardDisplay
 
         // loop through all points
         const lines = [];
-        for(let a = 0; a <= dims[nonVariableAxis]; a++)
+        for(let a = 0; a <= size[nonVariableAxis]; a++)
         {
             const line = [];
 
@@ -113,13 +113,13 @@ export default class BoardDisplay
             line.push(curPoint.clone());
 
             // then just step along until we're done with the line
-            for(let b = 0; b < dims[variableAxis]; b++)
+            for(let b = 0; b < size[variableAxis]; b++)
             {
                 for(let i = 0; i < resolutionPerCell; i++)
                 {
                     curPoint.add(offsetVector);
                     const p = curPoint.clone();
-                    const isEdge = (a == 0 || a == dims[nonVariableAxis]);
+                    const isEdge = (a == 0 || a == size[nonVariableAxis]);
                     p.metadata = { edge: isEdge, cells: this.getCellsConnectedToRealPoint(variableAxis, p) };
                     line.push(p);
                 }
@@ -244,9 +244,9 @@ export default class BoardDisplay
 
         const distBetweenAnchors = smoothingResolution * this.resolutionPerCell;
 
-        for(let x = 0; x < this.dims.x; x++)
+        for(let x = 0; x < this.size.x; x++)
         {
-            for(let y = 0; y < this.dims.y; y++)
+            for(let y = 0; y < this.size.y; y++)
             {
                 const cell = this.board.getCellAt(new Point().setXY(x,y));
                 let backgroundColor = new Color(cell.getColor());
@@ -270,9 +270,9 @@ export default class BoardDisplay
 
     displayCells(vis:BoardVisualizer, group:ResourceGroup,)
     {
-        for(let x = 0; x < this.dims.x; x++)
+        for(let x = 0; x < this.size.x; x++)
         {
-            for(let y = 0; y < this.dims.y; y++)
+            for(let y = 0; y < this.size.y; y++)
             {
                 this.displayCell(vis, group, new Point(x,y));                
             }
@@ -295,8 +295,8 @@ export default class BoardDisplay
         if(cell.isTutorial())
         {
             const opBG = new LayoutOperation({
-                translate: centerPos,
-                dims: new Point(w,h),
+                pos: centerPos,
+                size: new Point(w,h),
                 frame: CUSTOM.tutorialBG.frame,
                 pivot: Point.CENTER,
             })
@@ -312,8 +312,8 @@ export default class BoardDisplay
 
             const resTut = vis.getResource(textureKey);
             const opTut = new LayoutOperation({
-                translate: centerPos,
-                dims: new Point(w,h),
+                pos: centerPos,
+                size: new Point(w,h),
                 frame: data.frame,
                 pivot: Point.CENTER
             })
@@ -333,8 +333,8 @@ export default class BoardDisplay
                 for(let i = 0; i < 2; i++)
                 {
                     const opTutIcon = new LayoutOperation({
-                        translate: positions[i],
-                        dims: new Point(tutIconSize),
+                        pos: positions[i],
+                        size: new Point(tutIconSize),
                         frame: data.frame,
                         pivot: Point.CENTER,
                         effects: [new GlowEffect({ color: "#FFFFFF", blur: 0.25 * tutIconSize })]
@@ -357,8 +357,8 @@ export default class BoardDisplay
             if(cell.mainType == "machine")
             {
                 const opBG = new LayoutOperation({
-                    translate: centerPos,
-                    dims: new Point(backgroundPatternScaleUp * w, backgroundPatternScaleUp * h),
+                    pos: centerPos,
+                    size: new Point(backgroundPatternScaleUp * w, backgroundPatternScaleUp * h),
                     frame: CUSTOM.machineBG.frame,
                     pivot: Point.CENTER,
                     clip: backgroundMask
@@ -369,8 +369,8 @@ export default class BoardDisplay
             const iconScale = CONFIG.board.iconScale;
             const spriteSize = new Point(iconScale * w, iconScale * h);
             const opSprite = new LayoutOperation({
-                translate: centerPos,
-                dims: spriteSize,
+                pos: centerPos,
+                size: spriteSize,
                 frame: data.frame,
                 pivot: Point.CENTER,
                 effects: [new DropShadowEffect({ color: "#000000", blur: 0.01 * spriteSize.x }) ]
@@ -389,8 +389,8 @@ export default class BoardDisplay
                 const extraFrameScale = CONFIG.board.extraFrameScale;
                 const frameNum = displayMoney ? CUSTOM.moneyFrame.frame : CUSTOM.fingerFrame.frame;
                 const opFrame = new LayoutOperation({
-                    translate: new Point(centerPos.x, realPos.y + 0.75*h),
-                    dims: new Point(extraFrameScale * w, extraFrameScale * h),
+                    pos: new Point(centerPos.x, realPos.y + 0.75*h),
+                    size: new Point(extraFrameScale * w, extraFrameScale * h),
                     frame: frameNum,
                     pivot: Point.CENTER
                 })
@@ -410,8 +410,8 @@ export default class BoardDisplay
                     }).alignCenter();
 
                     const opText = new LayoutOperation({
-                        translate: contentPos,
-                        dims: new Point(2*textConfig.size),
+                        pos: contentPos,
+                        size: new Point(2*textConfig.size),
                         fill: txcfg.color,
                         stroke: txcfg.stroke,
                         strokeWidth: fontSize * 0.1,
@@ -427,7 +427,7 @@ export default class BoardDisplay
                 {
                     const f = new FixedFingers(cell.getFixedFingers());
                     const handPos = contentPos.clone();
-                    const handHeight = opFrame.dims.y;
+                    const handHeight = opFrame.size.y;
                     handPos.x = centerPos.x;
                     // @TODO: dive into this function and loosely couple it too
                     f.display(vis, group, this, handPos, handHeight);
@@ -441,8 +441,8 @@ export default class BoardDisplay
         if(cell.mainType == "money")
         {
             const opBG = new LayoutOperation({
-                translate: centerPos,
-                dims: new Point(backgroundPatternScaleUp * w, backgroundPatternScaleUp * h),
+                pos: centerPos,
+                size: new Point(backgroundPatternScaleUp * w, backgroundPatternScaleUp * h),
                 pivot: Point.CENTER,
                 frame: CUSTOM.moneyBG.frame,
                 clip: backgroundMask
@@ -451,8 +451,8 @@ export default class BoardDisplay
 
             const moneySpriteScale = CONFIG.board.moneySpriteScale;
             const opMoney = new LayoutOperation({
-                translate: new Point(centerPos.x, realPos.y + 0.5 * h),
-                dims: new Point(moneySpriteScale * w, moneySpriteScale * h),
+                pos: new Point(centerPos.x, realPos.y + 0.5 * h),
+                size: new Point(moneySpriteScale * w, moneySpriteScale * h),
                 pivot: Point.CENTER,
                 frame: CUSTOM.moneyIcon.frame,
             })
@@ -466,8 +466,8 @@ export default class BoardDisplay
             }).alignCenter();
 
             const opText = new LayoutOperation({
-                translate: new Point(centerPos.x, realPos.y + 0.7*h),
-                dims: new Point(2*textConfig.size),
+                pos: new Point(centerPos.x, realPos.y + 0.7*h),
+                size: new Point(2*textConfig.size),
                 fill: txcfg.color,
                 stroke: txcfg.stroke,
                 strokeWidth: fontSize * 0.1,

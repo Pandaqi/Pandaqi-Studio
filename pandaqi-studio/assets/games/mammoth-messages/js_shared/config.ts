@@ -85,8 +85,8 @@ const CONFIG =
         drawerConfig:
         {
             autoStroke: true, // automatically adds thick outline around cards, which is customary and useful for imprecise cutters
-            dimsElement: new Point(1, 1.5),
-            dims: 
+            sizeElement: new Point(1, 1.5),
+            size: 
             { 
                 small: new Point(4,4),
                 regular: new Point(3,3),
@@ -144,8 +144,8 @@ const CONFIG =
         drawerConfig:
         {
             autoStroke: true,
-            dimsElement: new Point(1,1),
-            dims: 
+            sizeElement: new Point(1,1),
+            size: 
             {
                 small: new Point(8,10),
                 regular: new Point(6,8),
@@ -162,8 +162,8 @@ const CONFIG =
         drawerConfig:
         {
             autoStroke: true,
-            dimsElement: new Point(1,1),
-            dims: 
+            sizeElement: new Point(1,1),
+            size: 
             {
                 small: new Point(8,10),
                 regular: new Point(6,8),

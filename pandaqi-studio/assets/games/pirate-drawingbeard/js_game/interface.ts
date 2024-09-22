@@ -33,21 +33,18 @@ export default {
 
 	interfaceContainer: null,
 	interface: null,
-	phaser: null,
 	gameImagesContainer: null,
 
 	initialize()
 	{
 		this.interfaceContainer = document.getElementById('interface-container');
 		this.interface = document.getElementById('interface');
-		this.phaser = document.getElementById('phaser-container');
-		this.gameImagesContainer = document.getElementById('game-images-container');
+		this.gameImagesContainer = document.getElementById('game-canvases-container');
 
 		var useInterface = Config.useInterface;
 		if(!useInterface) {
 			this.clearInterface();
 			this.interfaceContainer.style.display = 'none';
-			this.phaser.style.display = 'block';
 			return;
 		}
 
@@ -56,10 +53,7 @@ export default {
 			return;
 		}
 
-		// @ts-ignore
-		window.GAME.destroy(true);
-		this.phaser.parentNode.removeChild(this.phaser);
-		
+
 		var welcomeMessage = this.texts.welcomeMessage;
 		if(Config.useRealMaterial) {
 			welcomeMessage = welcomeMessage.replace("{0}", '<strong>Step 1:</strong> grab the material you already have.');
@@ -275,7 +269,7 @@ export default {
 
 			for(let a = 0; a < allLocations.length; a++)
 			{
-				var option = document.createElement("option");
+				var option = document.createElement("option") as HTMLOptionElement;
 				option.innerHTML = allLocations[a];
 				option.value = allLocations[a];
 				select.appendChild(option);

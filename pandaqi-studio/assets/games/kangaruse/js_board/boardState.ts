@@ -38,7 +38,7 @@ export default class BoardState
     }
 
     getIncludedTypes() { return this.typeManager.getPossibleTypes(); }
-    getDimensions() { return CONFIG.board.dimsPerSize[CONFIG.boardSize]; }
+    getDimensions() { return CONFIG.board.sizePerSize[CONFIG.boardSize]; }
     getGrid() { return this.grid; }
     getGridFlat() { return this.grid.flat(); }
     getNumCells() { return this.getGridFlat().length; }
@@ -48,18 +48,18 @@ export default class BoardState
     }
     outOfBounds(point)
     {
-        const dims = this.getDimensions();
-        return (point.x < 0 || point.x >= dims.x) || (point.y < 0 || point.y >= dims.y);
+        const size = this.getDimensions();
+        return (point.x < 0 || point.x >= size.x) || (point.y < 0 || point.y >= size.y);
     }
     
     createGrid()
     {
         this.grid = [];
-        const dims = this.getDimensions();
-        for(let x = 0; x < dims.x; x++)
+        const size = this.getDimensions();
+        for(let x = 0; x < size.x; x++)
         {
             this.grid[x] = [];
-            for(let y = 0; y < dims.y; y++)
+            for(let y = 0; y < size.y; y++)
             {
                 const c = new Cell(x,y);
                 c.setEdgeName(this.getEdgeName(c));
@@ -67,17 +67,17 @@ export default class BoardState
             }
         }
 
-        this.longestSide = Math.max(dims.x, dims.y);
-        this.shortestSide = Math.min(dims.x, dims.y);
+        this.longestSide = Math.max(size.x, size.y);
+        this.shortestSide = Math.min(size.x, size.y);
     }
 
     getEdgeName(cell)
     {
-        const dims = this.getDimensions();
+        const size = this.getDimensions();
         if(cell.x <= 0) { return "left"; }
-        if(cell.x >= (dims.x-1)) { return "right"; }
+        if(cell.x >= (size.x-1)) { return "right"; }
         if(cell.y <= 0) { return "top"; }
-        if(cell.y >= (dims.y-1)) { return "bottom"; }
+        if(cell.y >= (size.y-1)) { return "bottom"; }
         return null;
     }
 
@@ -204,7 +204,7 @@ export default class BoardState
 
     assignRowColumnCommands()
     {
-        const dims = this.getDimensions();
+        const size = this.getDimensions();
 
         let numbersAxis = CONFIG.board.numbers.axis;
         if(CONFIG.board.randomizeAxes)
@@ -213,9 +213,9 @@ export default class BoardState
         }
 
         const columnHasNumbers = numbersAxis == "column"
-        const numsCount = columnHasNumbers ? dims.x : dims.y;
+        const numsCount = columnHasNumbers ? size.x : size.y;
         const nums = this.getRandomNumbers(numsCount);
-        const dirsCount = (numsCount == dims.x) ? dims.y : dims.x;
+        const dirsCount = (numsCount == size.x) ? size.y : size.x;
         const dirs = this.getRandomDirs(dirsCount);
 
         this.columnData = columnHasNumbers ? nums : dirs;
@@ -341,22 +341,22 @@ export default class BoardState
 
     getQuadrantForCell(cell:Cell) : number
     {
-        const dims = this.getDimensions();
-        if(cell.x < 0.5*dims.x)
+        const size = this.getDimensions();
+        if(cell.x < 0.5*size.x)
         {
-            if(cell.y < 0.5*dims.y) { return 0; }
+            if(cell.y < 0.5*size.y) { return 0; }
             return 1;
         }
         else
         {
-            if(cell.y < 0.5*dims.y) { return 2; }
+            if(cell.y < 0.5*size.y) { return 2; }
             return 3;
         }
     }
 
     // Groups anything with a type (not a hole)
     // If multiple of these must be created, then it means we have unreachable sections on the board
-    getConnectedReachableGroups() : FloodFiller[]
+    getConnectedReachableGroups() : FloodFiller<Cell>[]
     {
         const cells = this.getGridFlat();
         const cellsHandled : Cell[] = [];
@@ -380,7 +380,7 @@ export default class BoardState
 
             for(const cellHandled of group.get())
             {
-                cellsHandled.push(cellHandled);
+                cellsHandled.push(cellHandled as Cell);
             }
             
             groups.push(group);
@@ -390,7 +390,7 @@ export default class BoardState
     }
 
     // Groups all holes together, ignores any other cells
-    getHoleClumps() : FloodFiller[]
+    getHoleClumps() : FloodFiller<Cell>[]
     {
         const cells = this.getGridFlat();
         const cellsHandled : Cell[] = [];
@@ -416,7 +416,7 @@ export default class BoardState
 
             for(const cellHandled of clump.get())
             {
-                cellsHandled.push(cellHandled);
+                cellsHandled.push(cellHandled as Cell);
             }
             
             clumps.push(clump);
@@ -437,9 +437,9 @@ export default class BoardState
 
     getDistToEdge(cell:Cell) : number
     {
-        const dims = this.getDimensions();
-        const xMin = Math.min(cell.x, dims.x - 1 - cell.x);
-        const yMin = Math.min(cell.y, dims.y - 1 - cell.y);
+        const size = this.getDimensions();
+        const xMin = Math.min(cell.x, size.x - 1 - cell.x);
+        const yMin = Math.min(cell.y, size.y - 1 - cell.y);
         return Math.min(xMin, yMin);
     }
 }

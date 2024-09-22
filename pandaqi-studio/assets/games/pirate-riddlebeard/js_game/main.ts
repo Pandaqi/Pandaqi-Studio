@@ -1,44 +1,12 @@
-// @ts-nocheck
-import { CANVAS, Game, Scale } from "js/pq_games/phaser/phaser.esm";
-import { pdfSize } from "./dictionary";
-import GenerationScene from "./generation";
+import RendererPixi from "js/pq_games/layout/renderers/rendererPixi";
+import ResourceLoader from "js/pq_games/layout/resources/resourceLoader";
+import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer";
+import CONFIG from "./config";
+import BoardGeneration from "./generation";
 
-export default class PirateGame 
-{
-    start() 
-    {
-        document.getElementById('phaser-container').innerHTML = '';
-    
-        const gameConfig = JSON.parse(window.localStorage.getItem("pirateRiddlebeardData"));
-        const width = pdfSize.width;
-        const height = pdfSize.height;
-    
-        const config = 
-        {
-            type: CANVAS,
-            scale: 
-            {
-                mode: Scale.FIT,
-                parent: 'phaser-container',
-                autoCenter: Scale.CENTER_BOTH,
-                width: width,
-                height: height
-            },
-            
-            render: 
-            {
-                transparent: true
-            },
-    
-            backgroundColor: '#FFFFFF',
-            parent: 'phaserGameContainer'
-        }
-    
-        const game = new Game(config); 
-        window.GAME = game; // @NOTE: keep around, it's actually used by other code
-        game.scene.add('generation', GenerationScene, false, {});
-        game.scene.start('generation', gameConfig);
-    }
-}
-
-new PirateGame().start();
+const renderer = new RendererPixi();
+const resLoader = new ResourceLoader({ base: CONFIG.assetsBase, renderer: renderer });
+resLoader.planLoadMultiple(CONFIG.assets);
+const vis = new BoardVisualizer({ config: CONFIG, resLoader: resLoader, renderer: renderer });
+const gen = new BoardGeneration();
+gen.start(vis);

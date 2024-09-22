@@ -84,7 +84,7 @@ export default class Card
 
         const resBG = vis.getResource("card_templates");
         const opBG = new LayoutOperation({
-            dims: vis.size,
+            size: vis.size,
             frame: TEMPLATES.zoo.frame,
             effects: vis.inkFriendlyEffect
         });
@@ -101,9 +101,9 @@ export default class Card
         const circleCenter = vis.get("cards.cycle.pos");
         const invertEffect = vis.inkFriendly ? new InvertEffect() : [];
         const opCycle = new LayoutOperation({
-            translate: circleCenter,
-            dims: vis.get("cards.cycle.dims"),
-            rotation: startingAngle,
+            pos: circleCenter,
+            size: vis.get("cards.cycle.size"),
+            rot: startingAngle,
             frame: frame,
             pivot: Point.CENTER,
             effects: [vis.inkFriendlyEffect, invertEffect].flat(),
@@ -124,9 +124,9 @@ export default class Card
                 const circleOffset = new Point(Math.cos(angle) * radius, Math.sin(angle) * radius);
                 const pos = circleCenter.clone().add( circleOffset );
                 const opAnimal = new LayoutOperation({
-                    translate: pos,
-                    dims: iconDims,
-                    rotation: vis.get("cards.cycle.rotateAnimals") ? angle : 0,
+                    pos: pos,
+                    size: iconDims,
+                    rot: vis.get("cards.cycle.rotateAnimals") ? angle : 0,
                     frame: ANIMALS[this.cycle[i]].frame,
                     pivot: Point.CENTER,
                     effects: [vis.inkFriendlyEffect, glowEffect].flat()
@@ -139,8 +139,8 @@ export default class Card
         if(this.peopleIcon)
         {
             const opPeople = new LayoutOperation({
-                translate: circleCenter,
-                dims: vis.get("cards.cycle.peopleIconDims"),
+                pos: circleCenter,
+                size: vis.get("cards.cycle.peopleIconDims"),
                 pivot: Point.CENTER,
                 frame: MISC.people_icon.frame,
                 effects: vis.inkFriendlyEffect
@@ -155,8 +155,8 @@ export default class Card
         }).alignCenter();
         const resText = new ResourceText({ text: this.scoreValue.toString(), textConfig: textConfig });
         const opText = new LayoutOperation({
-            translate: vis.get("cards.score.textBoxPos"),
-            dims: new Point(2.0 * textConfig.size),
+            pos: vis.get("cards.score.textBoxPos"),
+            size: new Point(2.0 * textConfig.size),
             pivot: Point.CENTER,
             fill: vis.inkFriendly ? "#111111" : vis.get("cards.score.textColor")
         });
@@ -167,8 +167,8 @@ export default class Card
         if(zooPower)
         {
             const opTextBox = new LayoutOperation({
-                translate: vis.get("cards.power.textBoxPos"),
-                dims: vis.get("cards.power.textBoxDims"),
+                pos: vis.get("cards.power.textBoxPos"),
+                size: vis.get("cards.power.textBoxDims"),
                 pivot: Point.CENTER,
                 frame: MISC.textbox_zoo.frame,
                 effects: vis.inkFriendlyEffect
@@ -181,8 +181,8 @@ export default class Card
             }).alignCenter();
             const resText = new ResourceText({ text: zooPower, textConfig: textConfig });
             const opText = new LayoutOperation({
-                translate: vis.get("cards.power.textBoxPos"),
-                dims: vis.get("cards.power.textDims"),
+                pos: vis.get("cards.power.textBoxPos"),
+                size: vis.get("cards.power.textDims"),
                 pivot: Point.CENTER,
                 fill: vis.inkFriendly ? "#FFFFFF" : vis.get("cards.power.textColor")
             });
@@ -202,7 +202,7 @@ export default class Card
 
         const resBG = vis.getResource("card_templates");
         const opBG = new LayoutOperation({
-            dims: vis.size,
+            size: vis.size,
             frame: TEMPLATES.animal.frame,
             effects: vis.inkFriendlyEffect
         });
@@ -213,8 +213,8 @@ export default class Card
         const iconDims = vis.get("cards.animal.iconDims");
         const shadowEffect = vis.inkFriendly ? [] : new DropShadowEffect({ color: "#000000", blurRadius: 0.1*iconDims.x });
         const opAnimal = new LayoutOperation({
-            translate: vis.get("cards.animal.iconPos"),
-            dims: iconDims,
+            pos: vis.get("cards.animal.iconPos"),
+            size: iconDims,
             pivot: Point.CENTER,
             frame: data.frame,
             effects: [vis.inkFriendlyEffect, shadowEffect].flat()
@@ -226,8 +226,8 @@ export default class Card
         {
             const resMisc = vis.getResource("misc");
             const opTextBox = new LayoutOperation({
-                translate: vis.get("cards.power.textBoxPos"),
-                dims: vis.get("cards.power.textBoxDims"),
+                pos: vis.get("cards.power.textBoxPos"),
+                size: vis.get("cards.power.textBoxDims"),
                 pivot: Point.CENTER,
                 frame: MISC.textbox_animal.frame,
                 effects: vis.inkFriendlyEffect
@@ -240,8 +240,8 @@ export default class Card
             }).alignCenter();
             const resText = new ResourceText({ text: data.desc, textConfig: textConfig });
             const opText = new LayoutOperation({
-                translate: vis.get("cards.power.textBoxPos"),
-                dims: vis.get("cards.power.textBoxDims"),
+                pos: vis.get("cards.power.textBoxPos"),
+                size: vis.get("cards.power.textBoxDims"),
                 pivot: Point.CENTER,
                 fill: vis.inkFriendly ? "#FFFFFF" : "#000000"
             });
@@ -253,8 +253,8 @@ export default class Card
     {
         const resTemp = vis.getResource("card_templates");
         const opTex = new LayoutOperation({
-            translate: vis.center,
-            dims: vis.size,
+            pos: vis.center,
+            size: vis.size,
             flipX: Math.random() <= 0.5,
             flipY: Math.random() <= 0.5,
             pivot: Point.CENTER,

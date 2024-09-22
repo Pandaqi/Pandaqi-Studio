@@ -11,7 +11,7 @@ const textToPhaser = (res:ResourceText, op:LayoutOperation, game) =>
  
     // enhance with extra properties (from resource or layout operation)
     cfg.wordWrap = {
-        width: op.dims.x,
+        width: op.size.x,
         useAdvancedWrap: true
     }
 
@@ -22,7 +22,7 @@ const textToPhaser = (res:ResourceText, op:LayoutOperation, game) =>
     // @TODO: also support shadow?
 
     // create text
-    const text = game.add.text(op.translate.x, op.translate.y, res.text, cfg);
+    const text = game.add.text(op.pos.x, op.pos.y, res.text, cfg);
     
     // make sure its alignment/placement is correct
     const pivot = op.pivot.clone();
@@ -36,7 +36,7 @@ const textToPhaser = (res:ResourceText, op:LayoutOperation, game) =>
     text.setOrigin(pivot.x, pivot.y);
     
     text.setAlpha(op.alpha);
-    text.setRotation(op.rotation);
+    text.setRotation(op.rot);
     if(op.hasDepth()) { text.setDepth(op.depth) };
 
     return text;

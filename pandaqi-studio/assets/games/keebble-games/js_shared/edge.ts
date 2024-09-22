@@ -4,13 +4,13 @@ export default class Edge
 {
 	start: Point;
 	end: Point;
-	rotation: number;
+	rot: number;
 	
 	constructor(start: Point, end: Point, rot: number)
 	{
 		this.start = start;
 		this.end = end;
-		this.rotation = rot;
+		this.rot = rot;
 	}
 
 	getCenterPos()
@@ -23,6 +23,6 @@ export default class Edge
 
 	getRotation()
 	{
-		return this.rotation;
+		return this.rot;
 	}
 }

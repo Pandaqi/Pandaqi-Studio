@@ -147,7 +147,7 @@ export default
     tiles: {
         debug: false, // @DEBUGGING (should be false)
         numPages: 2,
-        dims: new Point(4, 5),
+        size: new Point(4, 5),
         varyDimsPerShape: true,
 
         // @TODO: this is to handle the nasty name clash between Point (from antassinss) and Point (from my general library)
@@ -155,13 +155,13 @@ export default
         tileCenter: new Point() as any,
         tileSizeOffset: new Point() as any,
 
-        dimsPerShape: {
+        sizePerShape: {
             rectangle: new Point(4, 5),
             hexagon: new Point(5, 5),
             triangle: new Point(5, 7),
             //triangle: { x: 8, y: 6 },
         },
-        dimsPerShapeReduced: {
+        sizePerShapeReduced: {
             rectangle: new Point(6, 8),
             hexagon: new Point(6, 8),
             triangle: new Point(10, 8),
@@ -180,8 +180,8 @@ export default
     cards: {
         debug: false, // @DEBUGGING (should be false)
         numPages: 1,
-        size: new Point() as any,
-        dims: new Point(4, 5),
+        size: new Point(4, 5),
+        sizeResult: new Point(),
         grid: new Point(5, 5),
 
         bgPatterns: {
@@ -271,8 +271,8 @@ export default
     tokens: {
         debug: false, // @DEBUGGING (should be false)
         numPages: 1,
-        dims: new Point(8, 8),
-        size: new Point() as any,
+        size: new Point(8, 8),
+        sizeResult: new Point(),
         types: []
     }
 }

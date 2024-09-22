@@ -45,8 +45,8 @@ export default class Visualizer
     async createPatterns()
     {
         const params = {
-            dims: (1.0 + CONFIG.cards.bgCats.patternExtraMargin) * CONFIG.cards.size.y,
-            size: CONFIG.cards.bgCats.patternIconSize,
+            size: (1.0 + CONFIG.cards.bgCats.patternExtraMargin) * this.size.y,
+            sizeIcon: CONFIG.cards.bgCats.patternIconSize,
             num: CONFIG.cards.bgCats.patternNumIcons,
             resource: this.resLoader.getResource("misc"),
             frame: MISC.bg_cat.frame

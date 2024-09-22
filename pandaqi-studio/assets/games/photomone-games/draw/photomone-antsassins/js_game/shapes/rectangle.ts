@@ -97,18 +97,18 @@ export default class Rectangle
         return arr;
     }
 
-    isOnEdge(p, dims)
+    isOnEdge(p, size)
     {
-        return (p.x == 0 || p.x == (dims.x-1) || p.y == 0 || p.y == (dims.y-1));
+        return (p.x == 0 || p.x == (size.x-1) || p.y == 0 || p.y == (size.y-1));
     }
 
-    getLineIndex(p, dims)
+    getLineIndex(p, size)
     {
-        const horizontalEdge = p.y == 0 || p.y == (dims.y-1);
-        if(horizontalEdge) { return p.x % (dims.x-1); }
+        const horizontalEdge = p.y == 0 || p.y == (size.y-1);
+        if(horizontalEdge) { return p.x % (size.x-1); }
 
-        const verticalEdge = p.x == 0 || p.x == (dims.x-1);
-        if(verticalEdge) { return p.y % (dims.y-1); }
+        const verticalEdge = p.x == 0 || p.x == (size.x-1);
+        if(verticalEdge) { return p.y % (size.y-1); }
 
         return -1;
     }

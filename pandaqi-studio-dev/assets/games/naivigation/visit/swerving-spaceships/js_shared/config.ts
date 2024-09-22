@@ -106,14 +106,14 @@ const CONFIG:any =
             {
                 numBounds: new Bounds(1,10),
                 baseDims: new CVal(new Point(0.066), "sizeUnit"),
-                dimsRand: new Bounds(0.65, 1.45),
+                sizeRand: new Bounds(0.65, 1.45),
                 alphaBounds: new Bounds(0.15, 0.4),
             },
 
             resources:
             {
                 position: new CVal(new Point(0.75, 0.75), "sizeUnit"),
-                dims: new CVal(new Point(0.2), "sizeUnit"),
+                size: new CVal(new Point(0.2), "sizeUnit"),
             }
         }
     }

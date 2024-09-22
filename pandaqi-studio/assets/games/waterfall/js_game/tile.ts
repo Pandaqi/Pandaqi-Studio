@@ -71,7 +71,7 @@ export default class Tile
     {
         const res = vis.getResource("misc");
         const op = new LayoutOperation({
-            dims: vis.size,
+            size: vis.size,
             frame: MISC[this.keyAction].frame,
             effects: vis.inkFriendlyEffect
         });
@@ -87,7 +87,7 @@ export default class Tile
         const resTemplate = vis.getResource("misc");
         const baseAlpha = vis.inkFriendly ? 0.35 : 1.0;
         const opTemplate = new LayoutOperation({
-            dims: vis.size,
+            size: vis.size,
             frame: MISC.card_template.frame,
             effects: vis.inkFriendlyEffect,
             alpha: baseAlpha,
@@ -96,7 +96,7 @@ export default class Tile
 
         const bgDirtTextureKey = "bg_" + CONFIG.generation.bgDirtTextureBounds.randomInteger();
         const opDirt = new LayoutOperation({
-            dims: vis.size,
+            size: vis.size,
             frame: MISC[bgDirtTextureKey].frame,
             composite: "overlay",
             effects: vis.inkFriendlyEffect,
@@ -114,8 +114,8 @@ export default class Tile
         }).alignCenter();
         const resText = new ResourceText({ text: this.score.toString(), textConfig });
         const opText = new LayoutOperation({
-            translate: vis.get("tiles.score.pos"),
-            dims: new Point(3*textConfig.size),
+            pos: vis.get("tiles.score.pos"),
+            size: new Point(3*textConfig.size),
             fill: vis.inkFriendly ? "#000000" : vis.get("tiles.score.textColor"),
             stroke: vis.inkFriendly ? "#FFFFFF" : vis.get("tiles.score.strokeColor"),
             strokeWidth: vis.get("tiles.score.strokeWidth"),
@@ -131,8 +131,8 @@ export default class Tile
         
         const resIcon = vis.getResource("actions");
         const opIcon = new LayoutOperation({
-            translate: vis.get("tiles.action.pos"),
-            dims: vis.get("tiles.action.dims"),
+            pos: vis.get("tiles.action.pos"),
+            size: vis.get("tiles.action.size"),
             frame: ACTIONS[this.keyAction].frame,
             pivot: Point.CENTER,
             effects: [vis.custom.glowEffect, vis.inkFriendlyEffect].flat()
@@ -145,11 +145,11 @@ export default class Tile
         // the actual gemstone
         const res = vis.getResource("gemstones");
         const opGem = new LayoutOperation({
-            translate: vis.get("tiles.gemstones.pos"),
-            dims: vis.get("tiles.gemstones.dims"),
+            pos: vis.get("tiles.gemstones.pos"),
+            size: vis.get("tiles.gemstones.size"),
             frame: GEMSTONES[this.gemstone].frame,
             pivot: Point.CENTER,
-            rotation: Math.random() * 2 * Math.PI,
+            rot: Math.random() * 2 * Math.PI,
             effects: vis.custom.glowEffect
         })
         group.add(res, opGem);

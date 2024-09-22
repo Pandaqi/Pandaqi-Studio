@@ -1,25 +1,17 @@
 import GridMapper from "js/pq_games/layout/gridMapper";
-import CONFIG from "../js_shared/config";
-import PandaqiWords from "js/pq_words/main";
-import WordData from "js/pq_words/wordData";
-import createContext from "js/pq_games/layout/canvas/createContext";
-import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import Point from "js/pq_games/tools/geometry/point";
-import ResourceText from "js/pq_games/layout/resources/resourceText";
-import equidistantColorsBetweenOpposites from "./tools/equidistantColorsBetweenOpposites";
-import createWavyRect from "./tools/createWavyRect";
-import ResourceShape from "js/pq_games/layout/resources/resourceShape";
-import Slider from "../js_shared/slider";
-import { ACTIONS, PROPERTIES, SLIDERS } from "../js_shared/dict";
-import fromArray from "js/pq_games/tools/random/fromArray";
-import shuffle from "js/pq_games/tools/random/shuffle";
 import getWeighted from "js/pq_games/tools/random/getWeighted";
 import rangeInteger from "js/pq_games/tools/random/rangeInteger";
+import shuffle from "js/pq_games/tools/random/shuffle";
+import CONFIG from "../js_shared/config";
+import { ACTIONS, PROPERTIES, SLIDERS } from "../js_shared/dict";
+import Slider from "../js_shared/slider";
 
 export default class SliderCards
 {
     sliders: Slider[];
     gridMapper: GridMapper;
+    itemSize:Point;
     
     constructor() { }
 
@@ -33,14 +25,13 @@ export default class SliderCards
 
     setup()
     {
-        const dims = CONFIG.sliderCards.dims[CONFIG.itemSize ?? "regular"];
+        const size = CONFIG.sliderCards.size[CONFIG.itemSize ?? "regular"];
 
-        const gridConfig = { pdfBuilder: CONFIG.pdfBuilder, dims: dims, dimsElement: CONFIG.sliderCards.dimsElement };
+        const gridConfig = { pdfBuilder: CONFIG.pdfBuilder, size: size, sizeElement: CONFIG.sliderCards.sizeElement };
         const gridMapper = new GridMapper(gridConfig);
         this.gridMapper = gridMapper; 
 
-        const itemSize = gridMapper.getMaxElementSize();
-        CONFIG.sliderCards.size = itemSize.clone();
+        this.itemSize = gridMapper.getMaxElementSize().clone();
     }
 
     getRequiredProperties(dict:Record<string,any>)
@@ -154,7 +145,7 @@ export default class SliderCards
         const promises = [];
         for(const slider of this.sliders)
         {
-            promises.push(slider.draw());
+            promises.push(slider.draw(this.itemSize));
         }
         const canvases = await Promise.all(promises);
         this.gridMapper.addElements(canvases.flat());

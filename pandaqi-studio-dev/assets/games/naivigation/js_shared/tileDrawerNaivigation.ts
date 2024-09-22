@@ -26,8 +26,8 @@ const drawTerrain = (vis, group, tile) =>
     const frame = TERRAINS[tile.customData.terrain].frame;
     const resOp = new LayoutOperation({
         frame: frame,
-        translate: new Point(),
-        dims: vis.size
+        pos: new Point(),
+        size: vis.size
     });
     group.add(res, resOp);
 }
@@ -42,8 +42,8 @@ const drawTile = (vis, group, tile) =>
 
     const spriteFrame = tempData.frameIcon ?? typeData.frame;
     const spriteOp = new LayoutOperation({
-        translate: vis.center,
-        dims: vis.get("tiles.general.illustration.mainDims"),
+        pos: vis.center,
+        size: vis.get("tiles.general.illustration.mainDims"),
         frame: spriteFrame,
         pivot: Point.CENTER
     });
@@ -68,9 +68,9 @@ const drawTile = (vis, group, tile) =>
     {
         const resIcon = vis.getResource("misc_shared");
         const iconOp = new LayoutOperation({
-            translate: topCenterPos,
+            pos: topCenterPos,
             frame: extraIconFrame,
-            dims: extraIconDims,
+            size: extraIconDims,
             pivot: Point.CENTER
         })
         group.add(resIcon, iconOp);
@@ -105,8 +105,8 @@ const drawElevation = (vis, group, tile) =>
     for(let i = 0; i < elevation; i++)
     {
         const tempOp = triangleOp.clone();
-        tempOp.translate = positions[i];
-        tempOp.rotation = i * 0.5 * Math.PI;
+        tempOp.pos = positions[i];
+        tempOp.rot = i * 0.5 * Math.PI;
         group.add(triangle, tempOp);
     }
 }

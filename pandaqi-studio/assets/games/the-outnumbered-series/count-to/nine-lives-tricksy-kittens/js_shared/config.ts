@@ -68,12 +68,13 @@ const CONFIG =
     // how to draw/layout cards (mostly visually)
     cards:
     {
-        dims: { 
+        size: { 
             small: new Point(4,4),
             regular: new Point(3,3),
             large: new Point(2,2)
         },
-        dimsElement: new Point(1, 1.4),
+        sizeElement: new Point(1, 1.4),
+        sizeResult: new Point(),
         
         shared:
         {

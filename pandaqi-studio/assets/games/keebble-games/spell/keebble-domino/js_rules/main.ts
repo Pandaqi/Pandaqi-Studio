@@ -6,27 +6,27 @@ const LETTER_DICTIONARY = {
     "joker": { frame: 0 },
     "E": { frame: 1 },
     "A": { frame: 2 },
-    "V": { frame: 2, rotation: 2 },
+    "V": { frame: 2, rot: 2 },
     "R": { frame: 3 },
     "I": { frame: 4 },
     "O": { frame: 5 },
     "T": { frame: 6 },
-    "K": { frame: 6, rotation: 3 },
+    "K": { frame: 6, rot: 3 },
     "N": { frame: 7 },
-    "Z": { frame: 7, rotation: 1 },
+    "Z": { frame: 7, rot: 1 },
     "S": { frame: 8 },
     "L": { frame: 9 },
     "C": { frame: 10 },
-    "D": { frame: 10, rotation: 2 },
-    "U": { frame: 10, rotation: 3 },
+    "D": { frame: 10, rot: 2 },
+    "U": { frame: 10, rot: 3 },
     "P": { frame: 11 },
     "M": { frame: 12 },
-    "W": { frame: 12, rotation: 2 },
+    "W": { frame: 12, rot: 2 },
     "H": { frame: 13 },
     "G": { frame: 14 },
     "B": { frame: 15 },
     "J": { frame: 16 },
-    "F": { frame: 16, rotation: 2 },
+    "F": { frame: 16, rot: 2 },
     "Y": { frame: 17 },
     "X": { frame: 18 },
     "Q": { frame: 19 },
@@ -43,16 +43,16 @@ const tools = {
 
         const img = params.sprites;
         const frame = LETTER_DICTIONARY[params.value].frame || 0;
-        const rotationIndex = LETTER_DICTIONARY[params.value].rotation || 0;
-        const rotationRadians = rotationIndex * 0.5 * Math.PI;
+        const rotIndex = LETTER_DICTIONARY[params.value].rot || 0;
+        const rotRadians = rotIndex * 0.5 * Math.PI;
         const spriteSize = 256
         const sourceX = (frame % 8) * spriteSize;
         const sourceY = Math.floor(frame / 8) * spriteSize;
         const scale = params.scale || 1.0;
         
         ctx.save();
-        ctx.translate((params.x + 0.5) * cs, (params.y + 0.5) * cs);
-        ctx.rotate(rotationRadians);
+        ctx.pos((params.x + 0.5) * cs, (params.y + 0.5) * cs);
+        ctx.rotate(rotRadians);
         ctx.drawImage(
             img,
             sourceX, sourceY, spriteSize, spriteSize,

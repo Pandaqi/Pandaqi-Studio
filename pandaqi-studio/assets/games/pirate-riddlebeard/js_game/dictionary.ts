@@ -1,6 +1,5 @@
 
-const scaleFactor = 3.8
-const pdfSize = { 'width': 297*scaleFactor, 'height': 210*scaleFactor }
+
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 const TERRAINS = ['grass', 'water', 'desert', 'mountain', 'tundra', 'snow'];
@@ -946,7 +945,5 @@ export {
 	HINT_ICONS,
 	LISTS,
 	HINTS,
-	scaleFactor,
-	pdfSize,
 	alphabet
 }

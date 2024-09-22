@@ -124,7 +124,7 @@ export default class Evaluator
     getColumn(bs:BoardState, num:number)
     {
         const arr = [];
-        for(let x = 0; x < bs.dims.x; x++)
+        for(let x = 0; x < bs.size.x; x++)
         {
             arr.push(bs.grid[x][num]);
         }

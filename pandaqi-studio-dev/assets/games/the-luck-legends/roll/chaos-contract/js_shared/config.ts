@@ -129,8 +129,8 @@ const CONFIG:any =
         drawerConfig:
         {
             autoStroke: true,
-            dimsElement: new Point(1, 1.4),
-            dims: 
+            sizeElement: new Point(1, 1.4),
+            size: 
             { 
                 small: new Point(4,4),
                 regular: new Point(3,3),
@@ -207,7 +207,7 @@ const CONFIG:any =
 
             stars:
             {
-                dims: new CVal(new Point(0.05), "sizeUnit"),
+                size: new CVal(new Point(0.05), "sizeUnit"),
                 pos: new CVal(new Point(0.2, 0.125), "size"),
                 alpha: 0.66
             },

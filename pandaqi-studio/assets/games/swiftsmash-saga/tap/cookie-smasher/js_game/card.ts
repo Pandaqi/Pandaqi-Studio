@@ -193,8 +193,8 @@ export default class Card
 
         const textPos = new Point(0.5*vis.size.x, 0.5*vis.size.y + 0.33*fontSize);
         const opMain = new LayoutOperation({
-            translate: textPos,
-            dims: vis.size,
+            pos: textPos,
+            size: vis.size,
             fill: "#000000",
             pivot: Point.CENTER,
         });
@@ -213,8 +213,8 @@ export default class Card
         for(const pos of positions)
         {
             const op = new LayoutOperation({
-                translate: pos,
-                dims: vis.size,
+                pos: pos,
+                size: vis.size,
                 fill: "#000000",
                 pivot: Point.CENTER,
             });
@@ -225,8 +225,8 @@ export default class Card
         // > type
         const typePos = new Point(0.5*vis.size.x, numberOffset);
         const opType = new LayoutOperation({
-            translate: new Point(typePos.x, typePos.y),
-            dims: vis.size,
+            pos: new Point(typePos.x, typePos.y),
+            size: vis.size,
             fill: "#000000",
             pivot: Point.CENTER,
         })
@@ -248,8 +248,8 @@ export default class Card
         const descPos = new Point(0.5*vis.size.x, 0.75*vis.size.y);
         const descDims = new Point(0.9*vis.size.x, 0.4*vis.size.y);
         const op = new LayoutOperation({
-            translate: descPos,
-            dims: descDims,
+            pos: descPos,
+            size: descDims,
             pivot: Point.CENTER,
             fill: "#000000",
         })
@@ -297,8 +297,8 @@ export default class Card
 
         const op = new LayoutOperation({
             frame: frame,
-            translate: vis.size.clone().scaleFactor(0.5),
-            dims: new Point(spriteSize),
+            pos: vis.size.clone().scaleFactor(0.5),
+            size: new Point(spriteSize),
             pivot: new Point(0.5),
             effects: effects
         })
@@ -311,11 +311,11 @@ export default class Card
         this.drawMetaDataSingle(vis, group, Math.PI);
     }
 
-    drawMetaDataSingle(vis:MaterialVisualizer, group: ResourceGroup, rotation = 0)
+    drawMetaDataSingle(vis:MaterialVisualizer, group: ResourceGroup, rot = 0)
     {
         // draw main trapezium
-        let anchorX = (rotation == 0) ? 0 : vis.size.x;
-        let dirX = (rotation == 0) ? 1 : -1;
+        let anchorX = (rot == 0) ? 0 : vis.size.x;
+        let dirX = (rot == 0) ? 1 : -1;
 
         const pos = new Point(anchorX, 0.5*vis.size.y);
         const mainIconSize = vis.get("cards.illustration.bgSize");
@@ -391,7 +391,7 @@ export default class Card
             const iconDims = calculateBoundingBox(points).getSize();
             const iconSize = Math.min(iconDims.x, iconDims.y) * iconScaleFactor;
 
-            const flipX = rotation != 0;
+            const flipX = rot != 0;
             const flipY = (i == 1);
 
             const iconFrame = TYPES[this.type].frame;
@@ -407,12 +407,12 @@ export default class Card
             const res = vis.resLoader.getResource("types");
             const iconOp = new LayoutOperation({
                 frame: iconFrame,
-                translate: midPoint,
-                dims: new Point(iconSize),
+                pos: midPoint,
+                size: new Point(iconSize),
                 pivot: new Point(0.5),
                 flipX: flipX,
                 flipY: flipY,
-                rotation: iconRotation,
+                rot: iconRotation,
                 effects: iconEffects
             })    
             group.add(res, iconOp);
@@ -438,13 +438,13 @@ export default class Card
         if(addUnderline)
         {
             const translate = positions[0].clone();
-            if(rotation == 0) { translate.add(new Point(0, 0.5*fontSizeNumber)); }
+            if(rot == 0) { translate.add(new Point(0, 0.5*fontSizeNumber)); }
             else { translate.add(new Point(0, -0.5*fontSizeNumber)); }
 
             const rect = new Rectangle({ extents: new Point(0.8*fontSizeNumber, 0.12*fontSizeNumber) });
             const underlineRes = new ResourceShape(rect);
             const underlineOp = new LayoutOperation({
-                translate: translate,
+                pos: translate,
                 fill: "#000000",
             })
             group.add(underlineRes, underlineOp);
@@ -453,11 +453,11 @@ export default class Card
         const cardNumber = new ResourceText({ text: this.num.toString(), textConfig: textConfigNumber });
         const textDims = new Point(trapSize.y, trapSize.x);
         const numOp = new LayoutOperation({
-            rotation: rotation,
-            translate: positions[0],
+            rot: rot,
+            pos: positions[0],
             fill: "#000000",
             pivot: new Point(0.5),
-            dims: textDims,
+            size: textDims,
         })
         group.add(cardNumber, numOp);
 
@@ -471,11 +471,11 @@ export default class Card
         })
         const cardName = new ResourceText({ text: this.food, textConfig: textConfigName });
         const nameOp = new LayoutOperation({
-            rotation: rotation + 0.5*Math.PI,
-            translate: positions[1],
+            rot: rot + 0.5*Math.PI,
+            pos: positions[1],
             fill: "#000000",
             pivot: new Point(0.5),
-            dims: textDims
+            size: textDims
         })
         group.add(cardName, nameOp);
     }
@@ -489,7 +489,7 @@ export default class Card
     drawPowerToCanvas(vis:MaterialVisualizer, group: ResourceGroup, id = 0)
     {
         const anchorOffset = 0.125*vis.size.y;
-        const rotation = id == 0 ? 0 : Math.PI;
+        const rot = id == 0 ? 0 : Math.PI;
         const positions = [
             new Point(vis.center.x, anchorOffset),
             new Point(vis.center.x, vis.size.y - anchorOffset)
@@ -504,8 +504,8 @@ export default class Card
         // prepare a sub container (and already add it)
         const subGroup = new ResourceGroup();
         const subGroupOp = new LayoutOperation({
-            translate: positions[id],
-            rotation: rotation,
+            pos: positions[id],
+            rot: rot,
             pivot: Point.CENTER
         });
         group.add(subGroup, subGroupOp);
@@ -516,8 +516,8 @@ export default class Card
         const frame = this.data.safe ? 1 : 0;
         const imgHeight = vis.get("cards.power.iconHeight") * contHeight;
         const iconOp = new LayoutOperation({
-            translate: new Point(-0.66*vis.center.x, 0), // all of this is centered around (0,0) middle of subGroup
-            dims: new Point(imgHeight),
+            pos: new Point(-0.66*vis.center.x, 0), // all of this is centered around (0,0) middle of subGroup
+            size: new Point(imgHeight),
             frame: frame,
             effects: vis.inkFriendlyEffect,
             pivot: Point.CENTER
@@ -533,8 +533,8 @@ export default class Card
         }).alignCenter();
 
         const textOp = new LayoutOperation({
-            translate: new Point(0.25*vis.center.x, 0),
-            dims: new Point(0.66*vis.size.x, 2*contHeight),
+            pos: new Point(0.25*vis.center.x, 0),
+            size: new Point(0.66*vis.size.x, 2*contHeight),
             fill: "#000000",
             pivot: Point.CENTER
         });

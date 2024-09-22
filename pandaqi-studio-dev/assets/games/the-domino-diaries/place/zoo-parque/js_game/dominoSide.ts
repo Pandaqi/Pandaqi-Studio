@@ -161,9 +161,9 @@ export default class DominoSide
         const partSize = new Point(vis.size.x, 0.5*vis.size.y);
         const randRotation = Math.floor(Math.random() * 4) * 0.5 * Math.PI;
         const op = new LayoutOperation({
-            dims: partSize,
+            size: partSize,
             pivot: Point.CENTER,
-            rotation: randRotation
+            rot: randRotation
         });
 
         if(this.needsPathBackground())
@@ -176,7 +176,7 @@ export default class DominoSide
         if(this.needsTerrainBackground())
         {
             const res = vis.getResource("terrains");
-            op.dims = vis.get("dominoes.bg.dimsTerrain");
+            op.size = vis.get("dominoes.bg.sizeTerrain");
             op.frame = TERRAINS[this.terrain].frame;
             const shadowEffect = new DropShadowEffect({ color: "#111111", blurRadius: vis.get("dominoes.bg.terrainShadowSize") });
             op.effects = [shadowEffect];
@@ -195,7 +195,7 @@ export default class DominoSide
         const shadowEffect = new DropShadowEffect({ color: shadowColor, blurRadius: vis.get("dominoes.main.shadowSize") });
         const op = new LayoutOperation({
             frame: this.getTypeData().frame,
-            dims: vis.get("dominoes.main.dims"),
+            size: vis.get("dominoes.main.size"),
             effects: [shadowEffect, vis.inkFriendlyEffect].flat(),
             pivot: Point.CENTER,
         })
@@ -212,7 +212,7 @@ export default class DominoSide
 
         const res = vis.getResource("misc");
         const partSize = new Point(vis.size.x, 0.5*vis.size.y);
-        const fenceSize = vis.get("dominoes.fences.dims");
+        const fenceSize = vis.get("dominoes.fences.size");
         const shadow = new DropShadowEffect({ color: "#221100", blurRadius: 0.05*fenceSize.x });
         for(let i = 0; i < 4; i++)
         {
@@ -222,10 +222,10 @@ export default class DominoSide
 
             const offset = FENCE_OFFSETS[i].clone().scale(0.5 * partSize.x);
             const op = new LayoutOperation({
-                translate: offset,
-                dims: fenceSize,
+                pos: offset,
+                size: fenceSize,
                 frame: MISC[elem].frame,
-                rotation: i*0.5*Math.PI,
+                rot: i*0.5*Math.PI,
                 effects: [shadow, vis.inkFriendlyEffect].flat(),
                 pivot: Point.CENTER
             });
@@ -244,7 +244,7 @@ export default class DominoSide
         {
             const textPos = new Point(0, 0.3*partHeight);
             const textDims = new Point(0.885*vis.size.x, 0.25*partHeight);
-            const rectParams = { pos: textPos, dims: textDims, color: "#111111", alpha: 0.75 };
+            const rectParams = { pos: textPos, size: textDims, color: "#111111", alpha: 0.75 };
             drawBlurryRectangle(rectParams, group);
     
             const text = data.desc;
@@ -256,10 +256,10 @@ export default class DominoSide
     
             const resText = new ResourceText({ text, textConfig });
             const opText = new LayoutOperation({
-                translate: textPos, 
+                pos: textPos, 
                 pivot: Point.CENTER,
                 fill: "#FFEEEE",
-                dims: new Point(0.9*textDims.x, textDims.y)
+                size: new Point(0.9*textDims.x, textDims.y)
             });
             group.add(resText, opText);
         }

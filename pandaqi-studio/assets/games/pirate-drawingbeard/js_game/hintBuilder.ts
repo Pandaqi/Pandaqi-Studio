@@ -97,7 +97,7 @@ export default
 
 			/* ROTATION */
 			case 'rotation_self':
-				values[0] = (params.cell.rotation == values[1]);
+				values[0] = (params.cell.rot == values[1]);
 				break;
 
 			case 'rotation_adjacent':
@@ -114,7 +114,7 @@ export default
 				{
 					let nb = params.cell.nbs[i];
 					let rotationTowardsUs = Map.getRotationTowardsCell(params.cell, nb);
-					if(nb.rotation != rotationTowardsUs) { continue; }
+					if(nb.rot != rotationTowardsUs) { continue; }
 					bool = true;
 					break;
 				}
@@ -139,7 +139,7 @@ export default
 					if(rotationTowardsThem != params.cell.rotation) { continue; }
 
 					let rotationTowardsUs = Map.getRotationTowardsCell(params.cell, nb);
-					if(nb.rotation != rotationTowardsUs) { continue; }
+					if(nb.rot != rotationTowardsUs) { continue; }
 
 					bool = true;
 					break;
@@ -182,7 +182,7 @@ export default
 
 			/* SPECIAL */
 			case 'special_compass':
-				let rot = Map.compassTile.rotation;
+				let rot = Map.compassTile.rot;
 				let requestedBearing = DISCRETE_LISTS.bearings.indexOf(values[1]);
 				let index = (rot + requestedBearing + 4) % 4;
 

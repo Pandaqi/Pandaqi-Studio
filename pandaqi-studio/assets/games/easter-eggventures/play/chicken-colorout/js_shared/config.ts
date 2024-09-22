@@ -78,7 +78,7 @@ const CONFIG:Record<string,any> =
         },
         grid:
         {
-            dims: new Point(4,4),
+            size: new Point(4,4),
             squaresNeededForText: new Point(2,2)
         }
     },

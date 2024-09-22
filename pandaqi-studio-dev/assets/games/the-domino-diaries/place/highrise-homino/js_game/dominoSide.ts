@@ -199,7 +199,7 @@ export default class DominoSide
             const resFloor = vis.getResource("misc");
             const opFloor = new LayoutOperation({
                 frame: MISC["floor_" + this.floor].frame,
-                dims: new Point(vis.sizeUnit),
+                size: new Point(vis.sizeUnit),
                 pivot: Point.CENTER
             });
             group.add(resFloor, opFloor);
@@ -212,9 +212,9 @@ export default class DominoSide
             const resBG = vis.getResource("misc");
             const opBG = new LayoutOperation({
                 frame: MISC.tenant_bg.frame,
-                dims: new Point(vis.sizeUnit),
+                size: new Point(vis.sizeUnit),
                 pivot: Point.CENTER,
-                rotation: Math.floor(Math.random() * 4) * 0.5 * Math.PI,
+                rot: Math.floor(Math.random() * 4) * 0.5 * Math.PI,
                 alpha: Math.random()*0.35 + 0.35
             });
             group.add(resBG, opBG);
@@ -230,11 +230,11 @@ export default class DominoSide
         // the main, centered, big illustration of the tile
         const resourceKey = this.getResourceKey();
         const resMain = vis.getResource(resourceKey);
-        const dims = vis.get("dominoes." + this.getTypeString()  + ".main.dims");
-        const effects = [new DropShadowEffect({ color: "#FFFFFF", blurRadius: 0.0375*dims.x }), vis.inkFriendlyEffect].flat();
+        const size = vis.get("dominoes." + this.getTypeString()  + ".main.size");
+        const effects = [new DropShadowEffect({ color: "#FFFFFF", blurRadius: 0.0375*size.x }), vis.inkFriendlyEffect].flat();
         const opMain = new LayoutOperation({
             frame: data.frame,
-            dims: dims,
+            size: size,
             effects: effects,
             pivot: Point.CENTER
         })
@@ -254,14 +254,14 @@ export default class DominoSide
         // fixed tenant properties (only score is unique, depends on wishes)
         if(this.type == ItemType.TENANTPROP)
         {
-            const tenantPropsDims = vis.get("dominoes.tenant.props.dims");
+            const tenantPropsDims = vis.get("dominoes.tenant.props.size");
             const effects = [new DropShadowEffect({ color: "#000000", blurRadius: 0.025*tenantPropsDims.x }), vis.inkFriendlyEffect].flat();
 
             // a big centered star + tenant score
-            const scoreDims = vis.get("dominoes.tenant.score.dims");
+            const scoreDims = vis.get("dominoes.tenant.score.size");
             const opStar = new LayoutOperation({
-                translate: new Point(0, tenantDetailsY),
-                dims: scoreDims,
+                pos: new Point(0, tenantDetailsY),
+                size: scoreDims,
                 frame: MISC.score_star.frame,
                 effects: effects,
                 pivot: Point.CENTER
@@ -276,10 +276,10 @@ export default class DominoSide
     
             const resText = new ResourceText({ text: this.score.toString(), textConfig });
             const opText = new LayoutOperation({
-                translate: new Point(0, tenantDetailsY), 
+                pos: new Point(0, tenantDetailsY), 
                 pivot: Point.CENTER,
                 fill: vis.get("dominoes.tenant.score.textColor"),
-                dims: scoreDims
+                size: scoreDims
             });
             group.add(resText, opText);
 
@@ -301,8 +301,8 @@ export default class DominoSide
                 for(let i = 0; i < numPropsToShow; i++)
                 {
                     const opProp = new LayoutOperation({
-                        translate: new Point((positions[i] - 0.5) * vis.size.x, tenantDetailsY),
-                        dims: tenantPropsDims,
+                        pos: new Point((positions[i] - 0.5) * vis.size.x, tenantDetailsY),
+                        size: tenantPropsDims,
                         frame: MISC["property_" + propsEnabled[i]].frame,
                         effects: effects,
                         pivot: Point.CENTER
@@ -317,14 +317,14 @@ export default class DominoSide
         {
             const numWishes = this.wishes.length;
             const anchor = new Point(0, tenantDetailsY);
-            const wishDims = vis.get("dominoes.tenant.wishes.dims");
-            const positions = getPositionsCenteredAround({ pos: anchor, dims: wishDims, num: numWishes });
+            const wishDims = vis.get("dominoes.tenant.wishes.size");
+            const positions = getPositionsCenteredAround({ pos: anchor, size: wishDims, num: numWishes });
 
             // drawing these is a little more involved, so we ask the class to draw itself and give back the final result
             for(let i = 0; i < numWishes; i++)
             {
                 const op = new LayoutOperation({
-                    translate: positions[i],
+                    pos: positions[i],
                 });
                 group.add(this.wishes[i].draw(vis, wishDims), op);
             }
@@ -335,7 +335,7 @@ export default class DominoSide
         {
             const textPos = new Point(0, 0.3*partHeight);
             const textDims = new Point(0.885*vis.size.x, 0.25*partHeight);
-            const rectParams = { pos: textPos, dims: textDims, color: "#111111", alpha: 0.75 };
+            const rectParams = { pos: textPos, size: textDims, color: "#111111", alpha: 0.75 };
             drawBlurryRectangle(rectParams, group);
     
             const text = data.desc;
@@ -347,10 +347,10 @@ export default class DominoSide
     
             const resText = new ResourceText({ text, textConfig });
             const opText = new LayoutOperation({
-                translate: textPos, 
+                pos: textPos, 
                 pivot: Point.CENTER,
                 fill: "#FFEEEE",
-                dims: new Point(0.9*textDims.x, textDims.y)
+                size: new Point(0.9*textDims.x, textDims.y)
             });
             group.add(resText, opText);
         }
@@ -365,7 +365,7 @@ export default class DominoSide
 
         const res = vis.getResource("misc");
         const partSize = new Point(vis.size.x, 0.5*vis.size.y);
-        const fenceSize = vis.get("dominoes.walls.dims");
+        const fenceSize = vis.get("dominoes.walls.size");
         for(let i = 0; i < 4; i++)
         {
             const elem = this.getWallAt(i);
@@ -375,10 +375,10 @@ export default class DominoSide
 
             const offset = FENCE_OFFSETS[i].clone().scale(0.5 * partSize.x);
             const op = new LayoutOperation({
-                translate: offset,
-                dims: fenceSize,
+                pos: offset,
+                size: fenceSize,
                 frame: frame,
-                rotation: i*0.5*Math.PI,
+                rot: i*0.5*Math.PI,
                 pivot: Point.CENTER
             });
             groupFences.add(res, op);

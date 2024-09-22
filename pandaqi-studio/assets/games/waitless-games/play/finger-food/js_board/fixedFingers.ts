@@ -21,8 +21,8 @@ export default class FixedFingers
         // hand background
         const res = vis.getResource("fixed_fingers_spritesheet");
         const opSprite = new LayoutOperation({
-            translate: pos,
-            dims: new Point(size),
+            pos: pos,
+            size: new Point(size),
             frame: 5,
             pivot: Point.CENTER
         })
@@ -33,8 +33,8 @@ export default class FixedFingers
         for(const finger of this.fixedFingers)
         {
             const opFinger = new LayoutOperation({
-                translate: pos,
-                dims: new Point(size),
+                pos: pos,
+                size: new Point(size),
                 frame: finger,
                 pivot: Point.CENTER,
             })

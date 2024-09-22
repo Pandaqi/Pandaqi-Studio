@@ -56,7 +56,7 @@ const CONFIG:any =
 
         compass:
         {
-            dims: new CVal(new Point(0.9), "sizeUnit")
+            size: new CVal(new Point(0.9), "sizeUnit")
         },
 
         // @DEBUGGING/testing

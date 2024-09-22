@@ -43,7 +43,7 @@ export default class Token
         const resBlock = vis.tintedSquareResource;
         const resBlockOp = new LayoutOperation({
             frame: this.getColorData().frame,
-            dims: vis.size,
+            size: vis.size,
             effects: vis.effects
         })
         group.add(resBlock, resBlockOp);
@@ -62,8 +62,8 @@ export default class Token
         const textDims = vis.size;
         
         const textOp = new LayoutOperation({
-            translate: vis.center,
-            dims: textDims,
+            pos: vis.center,
+            size: textDims,
             fill: CONFIG.tokens.textColor ?? "#000000",
             stroke: CONFIG.tokens.strokeColor ?? "#FFFFFF",
             strokeWidth: CONFIG.tokens.strokeWidth * vis.sizeUnit,

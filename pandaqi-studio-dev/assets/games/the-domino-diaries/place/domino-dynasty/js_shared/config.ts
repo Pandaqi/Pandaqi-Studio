@@ -145,8 +145,8 @@ const CONFIG:any =
     {
         drawerConfig:
         {
-            dimsElement: new Point(1, 2),
-            dims: { 
+            sizeElement: new Point(1, 2),
+            size: { 
                 small: new Point(7,5),
                 regular: new Point(5,3),
                 large: new Point(4,2)
@@ -159,20 +159,20 @@ const CONFIG:any =
 
         main:
         {
-            dims: new CVal(new Point(0.65), "sizeUnit"),
-            dimsCapital: new CVal(new Point(0.975), "sizeUnit")
+            size: new CVal(new Point(0.65), "sizeUnit"),
+            sizeCapital: new CVal(new Point(0.975), "sizeUnit")
         },
 
         mission:
         {
             fontSize: new CVal(0.062, "sizeUnit"),
             posFlavorText: new CVal(new Point(0.075, 0.175), "size"),
-            dimsFlavorText: new CVal(new Point(0.835, 0.5), "size"),
+            sizeFlavorText: new CVal(new Point(0.835, 0.5), "size"),
 
             requirements:
             {
                 pos: new CVal(new Point(0.5, 0.48), "size"),
-                dims: new CVal(new Point(0.195), "sizeUnit"), // this is PER icon/requirement
+                size: new CVal(new Point(0.195), "sizeUnit"), // this is PER icon/requirement
 
                 posIcon: new CVal(new Point(-0.38, 0), "size"), // this is RELATIVE to (0,0) in center of requirement row
                 posText: new CVal(new Point(0.45, 0), "size"),
@@ -183,14 +183,14 @@ const CONFIG:any =
             {
                 posHeader: new CVal(new Point(0.5, 0.8), "size"),
                 posText: new CVal(new Point(0.5, 0.885), "size"),
-                dimsText: new CVal(new Point(0.835, 0.185), "size"),
-                dimsHeader: new CVal(new Point(0.35), "sizeUnit"),
+                sizeText: new CVal(new Point(0.835, 0.185), "size"),
+                sizeHeader: new CVal(new Point(0.35), "sizeUnit"),
             },
 
             shushIcon:
             {
                 pos: new CVal(new Point(0.9, 0.14), "size"),
-                dims: new CVal(new Point(0.175), "sizeUnit")
+                size: new CVal(new Point(0.175), "sizeUnit")
             }
         },
 

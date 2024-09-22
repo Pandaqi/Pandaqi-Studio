@@ -61,8 +61,8 @@ const CONFIG_SHARED =
         drawerConfig:
         {
             autoStroke: true,
-            dimsElement: new Point(1, 1),
-            dims: 
+            sizeElement: new Point(1, 1),
+            size: 
             { 
                 small: new Point(5,7),
                 regular: new Point(3,5),
@@ -73,8 +73,8 @@ const CONFIG_SHARED =
         text:
         {
             fontSize: new CVal(0.07, "sizeUnit"),
-            translate: new CVal(new Point(0.5, 0.775), "size"),
-            dims: new CVal(new Point(0.875, 0.33), "size"),
+            pos: new CVal(new Point(0.5, 0.775), "size"),
+            size: new CVal(new Point(0.875, 0.33), "size"),
             bgDims: new CVal(new Point(0.975), "sizeUnit")
         },
 
@@ -89,8 +89,8 @@ const CONFIG_SHARED =
 
         illu:
         {
-            dims: new CVal(new Point(0.8), "sizeUnit"),
-            dimsWithText: new CVal(new Point(0.635), "sizeUnit"),
+            size: new CVal(new Point(0.8), "sizeUnit"),
+            sizeWithText: new CVal(new Point(0.635), "sizeUnit"),
             offsetWhenTextPresent: new CVal(0.166, "sizeUnit"),
             glowRadius: new CVal(0.066, "sizeUnit"),
             glowColor: "#FFFFFF",
@@ -113,8 +113,8 @@ const CONFIG_SHARED =
         drawerConfig:
         {
             autoStroke: true,
-            dimsElement: new Point(1, 1),
-            dims: 
+            sizeElement: new Point(1, 1),
+            size: 
             { 
                 small: new Point(20,24),
                 regular: new Point(12,17),

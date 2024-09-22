@@ -79,8 +79,8 @@ export default class Card
         const frame = CARD_TEMPLATES[key].frame;
         const alpha = vis.inkFriendly ? 0.5 : 1.0;
         const op = new LayoutOperation({
-            translate: new Point(),
-            dims: vis.size,
+            pos: new Point(),
+            size: vis.size,
             frame: frame,
             effects: vis.inkFriendlyEffect,
             alpha: alpha
@@ -106,14 +106,14 @@ export default class Card
         {
             const type = i == 0 ? "good" : "bad";
             const resources = this.resources[type];
-            const rotation = i == 0 ? 0 : Math.PI;
+            const rot = i == 0 ? 0 : Math.PI;
             const anchor = new Point(vis.center.x, offsetY);
             if(type == "bad") { anchor.y = vis.size.y - offsetY; }
 
             const pos = getPositionsCenteredAround({ 
                 pos: anchor,
                 num: resources.length,
-                dims: iconDims,
+                size: iconDims,
             });
 
             for(let a = 0; a < pos.length; a++)
@@ -121,11 +121,11 @@ export default class Card
                 const data = resources[a];
                 const tempPos = pos[a];
                 const opIcon = new LayoutOperation({
-                    translate: tempPos,
+                    pos: tempPos,
                     frame: RESOURCES[data.type].frame,
-                    dims: iconDims,
+                    size: iconDims,
                     pivot: Point.CENTER,
-                    rotation: rotation,
+                    rot: rot,
                     effects: effects
                 });
                 group.add(resIcon, opIcon);
@@ -136,10 +136,10 @@ export default class Card
                 if(i == 0) { crossPos = tempPos.clone().add(iconOffsetCross); }
 
                 const opCross = new LayoutOperation({
-                    translate: crossPos,
-                    dims: iconDimsCross,
+                    pos: crossPos,
+                    size: iconDimsCross,
                     frame: MISC.cross.frame,
-                    rotation: rotation,
+                    rot: rot,
                     pivot: Point.CENTER,
                     effects: effects
                 })
@@ -173,8 +173,8 @@ export default class Card
         const resText = new ResourceText({ text: this.randomText, textConfig: textConfig });
         const textBoxDims = new Point(vis.size.x*0.925, vis.size.y);
         const opText = new LayoutOperation({
-            translate: vis.center,
-            dims: textBoxDims,
+            pos: vis.center,
+            size: textBoxDims,
             fill: textColor,
             stroke: strokeColor,
             strokeWidth: vis.get("cards.randomText.strokeWidth"),
@@ -203,8 +203,8 @@ export default class Card
         const str = this.num.toString();
         const resText = new ResourceText({ text: str, textConfig: textConfig });
         const opText = new LayoutOperation({
-            translate: pos,
-            dims: vis.size,
+            pos: pos,
+            size: vis.size,
             fill: textColor,
             stroke: strokeColor,
             strokeWidth: vis.get("votes.number.strokeWidth"),
@@ -215,9 +215,9 @@ export default class Card
         group.add(resText, opText);
     }
 
-    drawBlurredRect(pos:Point, dims:Point, blur:number, group:ResourceGroup)
+    drawBlurredRect(pos:Point, size:Point, blur:number, group:ResourceGroup)
     {
-        const rect = new Rectangle({ center: pos, extents: dims });
+        const rect = new Rectangle({ center: pos, extents: size });
         const opRect = new LayoutOperation({
             fill: "#FFFFFF",
             alpha: 0.9,
@@ -233,8 +233,8 @@ export default class Card
         // draw the icon of the thing we're breaking into at the top
         const resMisc = vis.getResource("misc");
         const opIcon = new LayoutOperation({
-            translate: vis.get("cards.master.iconPos"),
-            dims: vis.get("cards.master.iconDims"),
+            pos: vis.get("cards.master.iconPos"),
+            size: vis.get("cards.master.iconDims"),
             frame: this.masterIconFrame,
             pivot: Point.CENTER,
         });
@@ -255,8 +255,8 @@ export default class Card
         const ruleString = MASTER_CARDS[this.rule].desc;
         const resText = new ResourceText({ text: ruleString, textConfig: textConfig });
         const opText = new LayoutOperation({
-            translate: rectPos,
-            dims: rectDims,
+            pos: rectPos,
+            size: rectDims,
             fill: textColor,
             pivot: Point.CENTER
         });
@@ -286,8 +286,8 @@ export default class Card
             const textDims = new Point(rectDims.x*0.95, rectDims.y);
             const resText = new ResourceText({ text: data, textConfig: textConfig });
             const opText = new LayoutOperation({
-                translate: rectPos,
-                dims: textDims,
+                pos: rectPos,
+                size: textDims,
                 fill: textColor,
                 pivot: Point.CENTER
             });
@@ -327,7 +327,7 @@ export default class Card
         {
             const type = i == 0 ? "green" : "red";
             const data = this.gadgets[type];
-            const rotation = i == 0 ? 0 : Math.PI;
+            const rot = i == 0 ? 0 : Math.PI;
 
             const textColor = vis.inkFriendly ? "#000000" : vis.get("cards.shared.textColor." + type);
             
@@ -344,9 +344,9 @@ export default class Card
             // draw the gadget name
             const resTextLabel = new ResourceText({ text: data.label, textConfig: textConfigLabel });
             const opTextLabel = new LayoutOperation({
-                translate: anchorLabel,
-                dims: textDims,
-                rotation: rotation,
+                pos: anchorLabel,
+                size: textDims,
+                rot: rot,
                 fill: textColor,
                 stroke: "#FFFFFF",
                 strokeWidth: strokeWidthLabel,
@@ -360,7 +360,7 @@ export default class Card
             const positions = getPositionsCenteredAround({ 
                 pos: anchor,
                 num: data.cost.length,
-                dims: iconDims,
+                size: iconDims,
             });
 
             for(let a = 0; a < positions.length; a++)
@@ -368,12 +368,12 @@ export default class Card
                 const icon = data.cost[a];
                 const pos = positions[a];
                 const opIcon = new LayoutOperation({
-                    translate: pos,
+                    pos: pos,
                     frame: RESOURCES[icon].frame,
-                    dims: iconDims,
+                    size: iconDims,
                     pivot: Point.CENTER,
                     effects: effects,
-                    rotation: rotation
+                    rot: rot
                 });
                 group.add(resIcon, opIcon);
             }
@@ -382,9 +382,9 @@ export default class Card
             const str = data.reward;
             const resText = new ResourceText({ text: str, textConfig: textConfig });
             const opText = new LayoutOperation({
-                translate: anchorText,
-                dims: textDims,
-                rotation: rotation,
+                pos: anchorText,
+                size: textDims,
+                rot: rot,
                 fill: textColor,
                 pivot: Point.CENTER,
             });

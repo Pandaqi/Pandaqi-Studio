@@ -1,4 +1,5 @@
-const messages = {
+const messages = 
+{
 	welcome: `<p>Welcome to a new treasure hunt!</p>
 	<p><strong>Step 1:</strong> grab some papers and pens.</p>
 	<p><strong>Step 2:</strong> discover your hints.</p>
@@ -32,7 +33,7 @@ export default class Interface
 	config: Record<string,any>;
 	interface: HTMLElement;
 	interfaceContainer: HTMLElement;
-	phaser: HTMLElement;
+	gameImagesContainer: HTMLElement;
 	outOfLostRiddles: boolean;
 	alphabet: string;
 	actionData: { dig: { numSquares: number; }; propose: { numSquares: number; randomFact: boolean; allowDuplicates: boolean; }; scan: { numSquares: number; connected: boolean; aggregate: boolean; }; };
@@ -42,12 +43,13 @@ export default class Interface
 		this.config = config;
 		this.interface = document.getElementById('interface');
 		this.interfaceContainer = document.getElementById("interfaceContainer");
-		this.phaser = document.getElementById('phaser-container');
+		this.gameImagesContainer = document.getElementById('game-canvases-container');
 
 		this.outOfLostRiddles = false;
 
 		this.alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		this.actionData = {
+		this.actionData = 
+		{
 			"dig": { 'numSquares': 1 },
 			"propose": { 'numSquares': 2, 'randomFact': true, 'allowDuplicates': true },
 			"scan": { "numSquares": 4, "connected": true, "aggregate": true }
@@ -67,7 +69,7 @@ export default class Interface
 
 		if(!useInterface) {
 			this.interfaceContainer.innerHTML = '';
-			this.phaser.style.display = 'block';
+			this.gameImagesContainer.style.display = 'block';
 			return;
 		}
 
@@ -82,17 +84,20 @@ export default class Interface
 
 		var btn = document.createElement('button');
 		btn.innerHTML = 'Close Map';
-		btn.addEventListener('click', (ev) => {
-			this.phaser.style.display = 'none';
+		btn.addEventListener('click', (ev) => 
+		{
+			this.gameImagesContainer.style.display = 'none';
 			this.interfaceContainer.classList.remove("interfaceContainer-lowvis");
 			this.interface.classList.remove("interface-lowvis");
 
-			if(this.config.expansions.theLostRiddles) {
+			if(this.config.expansions.theLostRiddles) 
+			{
 				this.showLostRiddleInterface();
 				return;
 			} 
 
-			if(this.config.addBot) {
+			if(this.config.addBot) 
+			{
 				this.showBotInterface();
 				return;
 			}
@@ -106,9 +111,10 @@ export default class Interface
 	{
 		var btn = document.createElement("button");
 		btn.innerHTML = 'Warning! Reveal solution.';
-		btn.addEventListener("click", (ev) => {
+		btn.addEventListener("click", (ev) => 
+		{
 			if(!confirm("Are you sure you want to see the solution?")) { return; }
-			this.phaser.style.display = 'block';
+			this.gameImagesContainer.style.display = 'block';
 			this.interface.style.opacity = "0.66";
 			this.interface.innerHTML = '<p>The treasure was at <strong>' + this.config.treasureCoords + '</strong></p>';
 
@@ -122,8 +128,9 @@ export default class Interface
 	{
 		var btn = document.createElement("button");
 		btn.innerHTML = 'Show Map';
-		btn.addEventListener("click", (ev) => {
-			this.phaser.style.display = 'block';
+		btn.addEventListener("click", (ev) => 
+		{
+			this.gameImagesContainer.style.display = 'block';
 
 			this.interface.classList.add("interface-lowvis");
 			this.interfaceContainer.classList.add("interfaceContainer-lowvis");
@@ -365,16 +372,20 @@ export default class Interface
 
 		// Hardcoding this one, don't see why not
 		// In the propose action, if our tiles happen to have been calculated, display their result
-		if(actionName == "propose") {
+		if(actionName == "propose") 
+		{
 			var tileA = this.config.map[realSquares[0].x][realSquares[0].y];
 			var tileB = this.config.map[realSquares[1].x][realSquares[1].y];
 			var tileBAsString = this.convertToStringPos(tileB);
-			if(tileBAsString in tileA.proposeData) {
+
+			if(tileBAsString in tileA.proposeData) 
+			{
 				var proposeData = tileA.proposeData[tileBAsString];
 				responseString = 'if you change ' + squares[0] + ' to <strong>'
 
 				var proposeDataText = [];
-				for(const key in proposeData) {
+				for(const key in proposeData) 
+				{
 					if(key == "changed") { continue; }
 					var val = proposeData[key]
 					if(val == '') { val = 'no' }

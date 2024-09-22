@@ -301,9 +301,9 @@ export default class Evaluator
         });
         const resText = new ResourceText({ text: txt, textConfig: textConfig });
         const opText = new LayoutOperation({
-            translate: new Point(textX, textY),
+            pos: new Point(textX, textY),
             fill: fontCfg.color,
-            dims: new Point(10*textConfig.size),
+            size: new Point(10*textConfig.size),
             stroke: fontCfg.strokeColor,
             strokeWidth: fontCfg.strokeThickness,
             pivot: new Point(1,1),

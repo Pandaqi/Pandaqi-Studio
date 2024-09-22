@@ -108,17 +108,17 @@ export default class Hexagon
         return arr;
     }
 
-    getLineIndex(p, dims)
+    getLineIndex(p, size)
     {
-        const horizontalEdge = p.y == 0 || p.y == (dims.y-2);
-        const pointsHidden = 0.5*Math.floor(dims.x*0.5);
+        const horizontalEdge = p.y == 0 || p.y == (size.y-2);
+        const pointsHidden = 0.5*Math.floor(size.x*0.5);
         if(horizontalEdge) 
         { 
             const relativeX = p.x - pointsHidden;
-            return relativeX % Math.floor(0.5*dims.x);
+            return relativeX % Math.floor(0.5*size.x);
         } 
 
-        const center = Math.floor(0.5*(dims.y-1))
+        const center = Math.floor(0.5*(size.y-1))
         const relativeY = p.y % center; // counting restarts at center line, after the bend
         return relativeY;
     }

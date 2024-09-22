@@ -159,8 +159,8 @@ const CONFIG:any =
     {
         drawerConfig:
         {
-            dimsElement: new Point(1, 1),
-            dims: { 
+            sizeElement: new Point(1, 1),
+            size: { 
                 small: new Point(10,15),
                 regular: new Point(8,12),
                 large: new Point(6,9)
@@ -177,8 +177,8 @@ const CONFIG:any =
         drawerConfig:
         {
             autoStroke: true,
-            dimsElement: new Point(1, 1),
-            dims: { 
+            sizeElement: new Point(1, 1),
+            size: { 
                 small: new Point(2,3),
                 regular: new Point(1,2),
                 large: new Point(1,1)
@@ -187,7 +187,7 @@ const CONFIG:any =
 
         name:
         {
-            dimsPlaque: new CVal(new Point(0.35), "sizeUnit"),
+            sizePlaque: new CVal(new Point(0.35), "sizeUnit"),
             posPlaque: new CVal(new Point(0.5, 0.1), "size"),
             fontSize: new CVal(0.08, "sizeUnit"),
             fontSizeLevel: new CVal(0.03, "sizeUnit"),
@@ -200,8 +200,8 @@ const CONFIG:any =
         modal:
         {
             fontSize: new CVal(0.0175, "sizeUnit"),
-            dims: new CVal(new Point(0.35), "sizeUnit"),
-            dimsForPositioning: new CVal(new Point(0.33), "sizeUnit"),
+            size: new CVal(new Point(0.35), "sizeUnit"),
+            sizeForPositioning: new CVal(new Point(0.33), "sizeUnit"),
             textBoxDims: new CVal(new Point(0.225, 0.33), "sizeUnit"),
             textPosOffset: 0.075,
             stateTextOffsetFromCenter: 0.265, // Y-direction
@@ -216,7 +216,7 @@ const CONFIG:any =
 
         modalOptional:
         {
-            dims: new CVal(new Point(0.29, 0.11), "size"),
+            size: new CVal(new Point(0.29, 0.11), "size"),
             blurRadius: new CVal(0.015, "sizeUnit"),
             offsetFromEdge: new CVal(new Point(0.175, 0.075), "size"),
             highlightColor: "#FF7777"
@@ -228,8 +228,8 @@ const CONFIG:any =
         drawerConfig:
         {
             autoStroke: true,
-            dimsElement: new Point(1, 1.4),
-            dims: { 
+            sizeElement: new Point(1, 1.4),
+            size: { 
                 small: new Point(4,4),
                 regular: new Point(3,3),
                 large: new Point(2,2)

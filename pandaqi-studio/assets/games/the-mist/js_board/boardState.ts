@@ -5,7 +5,7 @@ export default class BoardState
 {
     grid: Cell[][]
     cells: Cell[]
-    dims: Point;
+    size: Point;
     uniqueTypes: string[];
     startingPositions: Cell[];
 
@@ -19,7 +19,7 @@ export default class BoardState
 
     refresh()
     {
-        this.dims = new Point(this.grid.length, this.grid[0].length);
+        this.size = new Point(this.grid.length, this.grid[0].length);
         this.startingPositions = [];
 
         const types : Set<string> = new Set();

@@ -67,7 +67,7 @@ const CONFIG =
     types: 
     {
         debug: [], // @DEBUGGING (should be empty)
-        setTemplate: ["required", "score", "rotation"],
+        setTemplate: ["required", "score", "rot"],
         textureKey: "types",
         emptyKey: "empty",
         maxSetSize: { min: 4, max: 5 },
@@ -85,7 +85,7 @@ const CONFIG =
         position: "center",
         modifyEdgeCells: true,
         addHalfLines: true,
-        dims: new Point(7, 5),
+        size: new Point(7, 5),
         percentageEmpty: {
             easy: { min: 0.2, max: 0.3 }, // relative to total number of cells
             medium: { min: 0.125, max: 0.2 },

@@ -65,11 +65,11 @@ export default class Card
         const frameRope = MISC.rope.frame;
         const yPos = CONFIG.cards.heading.yPos * vis.size.y;
         const pos = new Point(vis.center.x, yPos);
-        const dims = new Point(vis.sizeUnit);
+        const size = new Point(vis.sizeUnit);
         const op = new LayoutOperation({
             frame: frameRope,
-            translate: pos,
-            dims: dims,
+            pos: pos,
+            size: size,
             pivot: Point.CENTER,
             effects: vis.effects
         })
@@ -94,7 +94,7 @@ export default class Card
         op.stroke = new ColorLike(strokeColor);
         op.strokeWidth = strokeWidth;
         op.strokeAlign = StrokeAlign.OUTSIDE,
-        op.dims = new Point(vis.size.x, 2*fontSize);
+        op.size = new Point(vis.size.x, 2*fontSize);
         op.effects = [new DropShadowEffect({ offset: new Point(textShadowOffset), color: CONFIG.cards.shared.shadowColor })];
 
         const resText = new ResourceText({ text: text, textConfig: textConfig });
@@ -109,8 +109,8 @@ export default class Card
         const positionsBig = getRectangleCornersWithOffset(vis.size, offsetBig);
         const positionsSmall = getRectangleCornersWithOffset(vis.size, offsetSmall)
 
-        const dimsBig = new Point(CONFIG.cards.corners.coinScaleBig * vis.sizeUnit);
-        const dimsSmall = new Point(CONFIG.cards.corners.coinScaleSmall * vis.sizeUnit);
+        const sizeBig = new Point(CONFIG.cards.corners.coinScaleBig * vis.sizeUnit);
+        const sizeSmall = new Point(CONFIG.cards.corners.coinScaleSmall * vis.sizeUnit);
 
         const resCoin = vis.resLoader.getResource("misc");
         const frameCoin = MISC.coin.frame;
@@ -136,15 +136,15 @@ export default class Card
 
             const rot = isBig ? 0 : Math.PI;
             const pos = isBig ? positionsBig[i] : positionsSmall[i];
-            const dims = isBig ? dimsBig : dimsSmall;
+            const size = isBig ? sizeBig : sizeSmall;
             const fontSize = isBig ? fontSizeBig : fontSizeSmall;
 
             const op = new LayoutOperation({
                 frame: frameCoin,
-                translate: pos,
-                dims: dims,
+                pos: pos,
+                size: size,
                 pivot: Point.CENTER,
-                rotation: rot,
+                rot: rot,
                 effects: vis.effects
             })
             await resCoin.toCanvas(ctx, op);
@@ -153,11 +153,11 @@ export default class Card
             // with actions that only trigger while scoring
             if(isBig && isScoreAction)
             {
-                const scoreCoinDims = dims.clone().scale(CONFIG.cards.corners.coinScoreScale);
+                const scoreCoinDims = size.clone().scale(CONFIG.cards.corners.coinScoreScale);
                 const opCoin = new LayoutOperation({
                     frame: MISC.coin_score.frame,
-                    dims: scoreCoinDims,
-                    translate: pos.clone().move(new Point(0, 0.5*dims.y + 0.5*scoreCoinDims.y)),
+                    size: scoreCoinDims,
+                    pos: pos.clone().move(new Point(0, 0.5*size.y + 0.5*scoreCoinDims.y)),
                     pivot: Point.CENTER,
                     effects: vis.effects
                 })
@@ -185,11 +185,11 @@ export default class Card
         const frame = this.data.frame;
         const yPos = CONFIG.cards.illustration.yPos * vis.size.y;
         const pos = new Point(vis.center.x, yPos);
-        const dims = new Point(CONFIG.cards.illustration.scale * vis.sizeUnit);
+        const size = new Point(CONFIG.cards.illustration.scale * vis.sizeUnit);
         const op = new LayoutOperation({
             frame: frame,
-            translate: pos,
-            dims: dims,
+            pos: pos,
+            size: size,
             pivot: Point.CENTER,
             effects: vis.effects
         })
@@ -202,11 +202,11 @@ export default class Card
         const resMisc = vis.resLoader.getResource("misc");
         const frame = MISC.scroll.frame;
         const pos = new Point(vis.center.x, CONFIG.cards.power.yPos * vis.size.y);
-        const dims = new Point(CONFIG.cards.power.scrollScale.x * vis.sizeUnit);
+        const size = new Point(CONFIG.cards.power.scrollScale.x * vis.sizeUnit);
         const opMisc = new LayoutOperation({
             frame: frame,
-            translate: pos,
-            dims: dims,
+            pos: pos,
+            size: size,
             pivot: Point.CENTER,
             effects: vis.effects
         })
@@ -226,7 +226,7 @@ export default class Card
         const textShadowOffset = CONFIG.cards.power.shadowOffset * fontSize;
         opMisc.effects = [new DropShadowEffect({ offset: new Point(textShadowOffset), color: CONFIG.cards.shared.shadowColor })];
         opMisc.fill = new ColorLike("#000000");
-        opMisc.dims.x *= CONFIG.cards.power.textBoxWidth;
+        opMisc.size.x *= CONFIG.cards.power.textBoxWidth;
         await resText.toCanvas(ctx, opMisc);
     }
 
@@ -242,7 +242,7 @@ export default class Card
         const frame = rangeInteger(0,3);
         const op = new LayoutOperation({
             frame: frame,
-            dims: vis.size.clone(),
+            size: vis.size.clone(),
         })
         await bg.toCanvas(ctx, op);
     }

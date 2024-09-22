@@ -72,7 +72,7 @@ interface RouteConfig
 interface ConnectionQueryData
 {
 	count: number,
-	rotation: number,
+	rot: number,
 	hasBend: boolean
 }
 
@@ -969,8 +969,8 @@ export default class BoardGeneration
 					const res = vis.getResource(imageKey);
 					const rectPos = rect.getTopLeft();
 					const op = new LayoutOperation({
-						translate: new Point(rectPos.x + 0.5*cs, rectPos.y + 0.5*cs),
-						dims: new Point(forestWidth, forestWidth*2.0),
+						pos: new Point(rectPos.x + 0.5*cs, rectPos.y + 0.5*cs),
+						size: new Point(forestWidth, forestWidth*2.0),
 						pivot: new Point(0.5 + randOffsetChangeX, 1.0 + randOffsetChangeY),
 						flipX: Math.random() <= 0.5,
 						frame: frame,
@@ -987,8 +987,8 @@ export default class BoardGeneration
 					{
 						const res = vis.getResource("seaprintfriendly");
 						const op = new LayoutOperation({
-							translate: rect.getTopLeft(),
-							dims: new Point(cs),
+							pos: rect.getTopLeft(),
+							size: new Point(cs),
 							alpha: 0.5,
 							depth: y - 0.51,
 						})
@@ -1046,7 +1046,7 @@ export default class BoardGeneration
 					let spriteFrame = (connectionInfo.count - 1)
 					if(connectionInfo.count == 2 && connectionInfo.hasBend) { spriteFrame = 0; }
 
-					const spriteRotation = connectionInfo.rotation
+					const spriteRotation = connectionInfo.rot
 
 					let sheetKey
 					if(pathType == PathType.BOAT) {
@@ -1062,11 +1062,11 @@ export default class BoardGeneration
 
 					const resRoad = vis.getResource(sheetKey);
 					const opRoad = new LayoutOperation({
-						translate: new Point(oX + (x+0.5)*cs, oY + (y+0.5)*cs),
-						dims: new Point(cs),
+						pos: new Point(oX + (x+0.5)*cs, oY + (y+0.5)*cs),
+						size: new Point(cs),
 						frame: spriteFrame,
 						pivot: Point.CENTER,
-						rotation: spriteRotation * 0.5 * Math.PI,
+						rot: spriteRotation * 0.5 * Math.PI,
 						depth: y
 					});
 					group.add(resRoad, opRoad);
@@ -1099,8 +1099,8 @@ export default class BoardGeneration
 						{
 							const res = vis.getResource("inbetween_space");
 							const op = new LayoutOperation({
-								translate: opRoad.translate.clone(),
-								dims: new Point(this.cfg.cellSize*0.75),
+								pos: opRoad.pos.clone(),
+								size: new Point(this.cfg.cellSize*0.75),
 								pivot: Point.CENTER,
 								depth: y + 0.5
 							});
@@ -1167,13 +1167,13 @@ export default class BoardGeneration
 				stroke: textCfg.stroke,
 				strokeWidth: textCfg.strokeThickness,
 				strokeAlign: StrokeAlign.OUTSIDE,
-				dims: new Point(10,2).scale(textConfig.size),
+				size: new Point(10,2).scale(textConfig.size),
 				pivot: Point.CENTER
 			});
 
 			const opSprite = new LayoutOperation({
-				translate: new Point(xPos, yPos), 
-				dims: new Point(radius*4),
+				pos: new Point(xPos, yPos), 
+				size: new Point(radius*4),
 				pivot: Point.CENTER,
 				depth: yPos + 1.1
 		    });
@@ -1198,7 +1198,7 @@ export default class BoardGeneration
 			// display name of city BELOW it
 			const yOffset = -6
 			const opTextCity = opText.clone();
-			opTextCity.translate = new Point(xPos, yPos + 2*radius + yOffset);
+			opTextCity.pos = new Point(xPos, yPos + 2*radius + yOffset);
 			opTextCity.depth = 10000;
 
 			const resTextCity = new ResourceText({ text: CITY_NAMES[i], textConfig: textConfig });
@@ -1217,8 +1217,8 @@ export default class BoardGeneration
 				const pos = new Point(xPos + (-wg.length*0.5 + g + 0.5)*iconSize, yPos - 2*radius);
 				const resGood = vis.getResource("goods");
 				const opGood = new LayoutOperation({
-					translate: pos,
-					dims: new Point(2*radius),
+					pos: pos,
+					size: new Point(2*radius),
 					frame: spritesheetFrame,
 					depth: 10000 + 1,
 					pivot: Point.CENTER	
@@ -1226,12 +1226,12 @@ export default class BoardGeneration
 				group.add(resGood, opGood);
 
 				const opText = new LayoutOperation({
-					translate: pos.clone().add(new Point(0, 0.33*iconSize)),
+					pos: pos.clone().add(new Point(0, 0.33*iconSize)),
 					fill: goodNumberCfg.color,
 					stroke: goodNumberCfg.stroke,
 					strokeWidth: goodNumberCfg.strokeThickness,
 					strokeAlign: StrokeAlign.OUTSIDE,
-					dims: new Point(5*radius),
+					size: new Point(5*radius),
 					depth: 10000 + 1,
 					pivot: Point.CENTER
 				})
@@ -1243,8 +1243,8 @@ export default class BoardGeneration
 			// Airport is indicated by underline (with arrow pattern) to city name!
 			if(c.airport) 
 			{
-				const pos1 = new Point(opTextCity.translate.x - 0.5*textConfig.size, opTextCity.translate.y + 0.5*textConfig.size);
-				const pos2 = new Point(opTextCity.translate.x + 0.5*textConfig.size, opTextCity.translate.y + 0.5*textConfig.size);
+				const pos1 = new Point(opTextCity.pos.x - 0.5*textConfig.size, opTextCity.pos.y + 0.5*textConfig.size);
+				const pos2 = new Point(opTextCity.pos.x + 0.5*textConfig.size, opTextCity.pos.y + 0.5*textConfig.size);
 				const thickness = Math.max(radius*0.5, 8)
 				const yOffset = -5;
 
@@ -1270,8 +1270,8 @@ export default class BoardGeneration
 				for(let i = 0; i < numRepeats; i++)
 				{
 					const opAirplaneTexture = new LayoutOperation({
-						translate: posStart.clone(),
-						dims: sizePerRepeat,
+						pos: posStart.clone(),
+						size: sizePerRepeat,
 						depth: graphicsAirport.depth + 1
 					});
 					posStart.x += sizePerRepeat.x;
@@ -1287,8 +1287,8 @@ export default class BoardGeneration
 				{
 					const resText = new ResourceText({ text: '+' + b, textConfig: textConfigBonus });
 					const opText = new LayoutOperation({
-						translate: new Point(xPos, yPos),
-						dims: new Point(2*textConfigBonus.size),
+						pos: new Point(xPos, yPos),
+						size: new Point(2*textConfigBonus.size),
 						pivot: Point.CENTER,
 						depth: 10000,
 						fill: bonusTxtCfg.color,
@@ -1316,8 +1316,8 @@ export default class BoardGeneration
 		const jungleNameString = '"' + this.cfg.jungleName + '"';
 		const anchorPos = new Point(oX + margin, oY + margin);
 		const opTextDetails1 = new LayoutOperation({
-			translate: anchorPos,
-			dims: new Point(15*textConfigDetails.size, 2*textConfigDetails.size),
+			pos: anchorPos,
+			size: new Point(15*textConfigDetails.size, 2*textConfigDetails.size),
 			fill: color,
 			depth: 20000
 		});
@@ -1328,18 +1328,18 @@ export default class BoardGeneration
 		if(this.cfg.numPlayers > 1) { playerTextString += 's'; }
 
 		const opTextDetails2 = opTextDetails1.clone();
-		opTextDetails2.translate = anchorPos.clone().add(new Point(0, fontSize));
+		opTextDetails2.pos = anchorPos.clone().add(new Point(0, fontSize));
 		const resText2 = new ResourceText({ text: playerTextString, textConfig: textConfigDetails });
 		group.add(resText2, opTextDetails2); // txt2
 
 		const opTextDetails3 = opTextDetails1.clone();
-		opTextDetails3.translate = anchorPos.clone().add(new Point(0, 2*fontSize));
+		opTextDetails3.pos = anchorPos.clone().add(new Point(0, 2*fontSize));
 		const diffString = this.cfg.difficulty.toString();
 		const resText3 = new ResourceText({ text: diffString, textConfig: textConfigDetails });
 		group.add(resText3, opTextDetails3); // txt3
 
 		// a rectangle behind the text, to make it legible (and look a bit like a map legend)
-		// @TODO: this used to be exact calculations using Phaser's functions to get text dims; now it's just a rough estimation
+		// @TODO: this used to be exact calculations using Phaser's functions to get text size; now it's just a rough estimation
 		const maxWidth = 10*textConfigDetails.size;
 		const maxHeight = 5*textConfigDetails.size;
 
@@ -1357,8 +1357,8 @@ export default class BoardGeneration
 			const ratio = 675.0 / 833;
 			const sizeX = maxWidth + margin;
 			const op = new LayoutOperation({
-				translate: new Point(rectPos.x, rectPos.y + maxHeight + margin),
-				dims: new Point(sizeX, sizeX / ratio),
+				pos: new Point(rectPos.x, rectPos.y + maxHeight + margin),
+				size: new Point(sizeX, sizeX / ratio),
 				depth: 20000 - 1,
 			});
 			group.add(res, op);
@@ -1410,15 +1410,15 @@ export default class BoardGeneration
 			let externalConns = [[-1,0], [0,-1], [1,0], [0,1]];
 			let cell = pos.clone();
 
-			// for each rotation (top left, top right, bottom right, bottom left)
+			// for each rot (top left, top right, bottom right, bottom left)
 			// NOTE: it DOES work, but it doesn't catch all possible cases (because it only looks at isolated 2x2 squares, once)
-			for(let rotation = 0; rotation < 4; rotation++) 
+			for(let rot = 0; rot < 4; rot++) 
 			{
 				let numExternalConns = 0;
 
 				// check if we have a vital external connection
 				let curRotatedCell = this.getCell(cell);
-				for(let ec = rotation; ec < rotation+2; ec++) 
+				for(let ec = rot; ec < rot+2; ec++) 
 				{
 					const tempPos = new Point(cell.x + externalConns[ec % 4][0], cell.y + externalConns[ec % 4][1]);
 
@@ -1444,7 +1444,7 @@ export default class BoardGeneration
 				}
 
 				// keep track of the current cell (of our 2x2 square) that we are considering
-				let orthoVec = externalConns[(rotation + 2) % 4]
+				let orthoVec = externalConns[(rot + 2) % 4]
 				cell = new Point(cell.x + orthoVec[0], cell.y + orthoVec[1]);
 			}
 		}
@@ -1456,7 +1456,7 @@ export default class BoardGeneration
 		let sum = 0;
 		let curCell = this.getCell(pos);
 
-		let rotation = -1;
+		let rot = -1;
 		let lastRotation = -1;
 		let hasBend = false;
 		for(let a = 0; a < 4; a++) 
@@ -1468,8 +1468,8 @@ export default class BoardGeneration
 			if(!this.validNeighbour(curCell, nbCell, pathType)) { continue; }
 
 			sum++;
-			if(rotation == -1 || (rotation == 0 && a == 3)) {
-				rotation = a;
+			if(rot == -1 || (rot == 0 && a == 3)) {
+				rot = a;
 			}
 
 			if(lastRotation != -1 && (a - lastRotation) % 2 == 1) {
@@ -1479,7 +1479,7 @@ export default class BoardGeneration
 			lastRotation = a;
 		}
 
-		// now keep looping until we find all neighbours in a row => the first one should be our rotation
+		// now keep looping until we find all neighbours in a row => the first one should be our rot
 		// @IMPROV: Can we generalize this for all numbers?
 		if(sum == 3) 
 		{
@@ -1513,10 +1513,10 @@ export default class BoardGeneration
 				iterator = (iterator + 1) % 4;
 			}
 
-			rotation = sequenceStarter;
+			rot = sequenceStarter;
 		}
 
-		return { count: sum, rotation: rotation, hasBend: hasBend }
+		return { count: sum, rot: rot, hasBend: hasBend }
 	}
 
 	validNeighbour(a : CellData, b : CellData, pathType = null) 

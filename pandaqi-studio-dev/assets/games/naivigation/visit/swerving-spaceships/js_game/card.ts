@@ -37,7 +37,7 @@ export default class Card extends MaterialNaivigation
         for(const prop of this.customData.planetProperties)
         {
             group.add(this.drawPlanetProperty(vis, prop), op.clone());
-            op.translate.add(offset);
+            op.pos.add(offset);
         }
         group.toCanvas(ctx);
     }
@@ -66,9 +66,9 @@ export default class Card extends MaterialNaivigation
             const resPlanet = vis.getResource("map_tiles");
             const frame = MAP_TILES.planet_0.frame + prop.num;
             const op = new LayoutOperation({
-                translate: new Point(vis.center.x, 0.5*height),
+                pos: new Point(vis.center.x, 0.5*height),
                 frame: frame,
-                dims: new Point(vis.get("cards.planetProperties.iconDims")),
+                size: new Point(vis.get("cards.planetProperties.iconDims")),
                 pivot: Point.CENTER
             })
             group.add(resPlanet, op);
@@ -84,8 +84,8 @@ export default class Card extends MaterialNaivigation
 
             const textRes = new ResourceText({ text: prop.desc, textConfig: textConfig });
             const op = new LayoutOperation({
-                translate: new Point(vis.center.x, 0.5*height),
-                dims: new Point(0.9*vis.size.x, 0.9*height),
+                pos: new Point(vis.center.x, 0.5*height),
+                size: new Point(0.9*vis.size.x, 0.9*height),
                 pivot: Point.CENTER
             })
             
@@ -122,8 +122,8 @@ export default class Card extends MaterialNaivigation
         for(let i = 0; i < 4; i++)
         {
             const op = new LayoutOperation({
-                translate: circleCenter,
-                rotation: i * 0.25 * Math.PI,
+                pos: circleCenter,
+                rot: i * 0.25 * Math.PI,
                 stroke: vis.get("cards.steer.strokeColorSpoke"),
                 strokeWidth: vis.get("cards.steer.strokeWidthSpoke"),
             })
@@ -147,8 +147,8 @@ export default class Card extends MaterialNaivigation
         const vehicleRes = vis.getResource("map_tiles");
         const frame = MAP_TILES.vehicle_0.frame;
         const vehicleOp = new LayoutOperation({
-            translate: circleCenter,
-            dims: vis.get("cards.steer.vehicleDims"),
+            pos: circleCenter,
+            size: vis.get("cards.steer.vehicleDims"),
             frame: frame,
             pivot: Point.CENTER
         })

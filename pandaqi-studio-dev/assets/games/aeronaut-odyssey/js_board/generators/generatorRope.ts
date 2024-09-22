@@ -31,8 +31,8 @@ export default class GeneratorRope
         const arr : PointGraph[] = [];
         
         // create all the first points (in a semi-random grid layout)
-        const numPoints = new Point(Math.floor(this.dims.x / this.idealTrackSize), Math.floor(this.dims.y / this.idealTrackSize));
-        this.dimsGrid = numPoints;
+        const numPoints = new Point(Math.floor(this.size.x / this.idealTrackSize), Math.floor(this.size.y / this.idealTrackSize));
+        this.sizeGrid = numPoints;
 
         const grid = [];
         for(let x = 0; x < numPoints.x; x++)
@@ -40,7 +40,7 @@ export default class GeneratorRope
             grid[x] = [];
             for(let y = 0; y < numPoints.y; y++)
             {
-                let pos = new Point(Math.random()*this.dims.x, Math.random()*this.dims.y);
+                let pos = new Point(Math.random()*this.size.x, Math.random()*this.size.y);
                 if(CONFIG.generation.startWithGrid) 
                 { 
                     pos = new Point(x*this.idealTrackSize, y*this.idealTrackSize); 
@@ -82,7 +82,7 @@ export default class GeneratorRope
 
     outOfBounds(pos:Point)
     {
-        return pos.x < 0 || pos.y < 0 || pos.x >= this.dimsGrid.x || pos.y >= this.dimsGrid.y
+        return pos.x < 0 || pos.y < 0 || pos.x >= this.sizeGrid.x || pos.y >= this.sizeGrid.y
     }
 
     timeout(ms) 
@@ -144,7 +144,7 @@ export default class GeneratorRope
             {
                 const off = p1.metadata.offset;
                 p1.move(off);
-                p1.clamp(new Point(), this.dims);
+                p1.clamp(new Point(), this.size);
             }
         }
 

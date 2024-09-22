@@ -14,7 +14,7 @@ export default class Card
     typeData: PackData;
     hand: boolean;
     ctx: CanvasRenderingContext2D;
-    dims: Point;
+    size: Point;
     minSize: number;
     centerPos: Point;
 
@@ -39,19 +39,19 @@ export default class Card
 
     setupCanvas()
     {
-        const dims = CONFIG.cards.size;
-        this.dims = dims.clone();
-        this.minSize = Math.min(this.dims.x, this.dims.y);
-        this.centerPos = new Point(0.5*dims.x, 0.5*dims.y);
+        const size = CONFIG.cards.sizeResult;
+        this.size = size.clone();
+        this.minSize = Math.min(this.size.x, this.size.y);
+        this.centerPos = new Point(0.5*size.x, 0.5*size.y);
 
-        return createContext({ size: dims });
+        return createContext({ size: size });
 
     }
 
     visualizeBackground(ctx)
     {
         ctx.fillStyle = "#FFFFFF";
-        ctx.fillRect(0, 0, this.dims.x, this.dims.y);
+        ctx.fillRect(0, 0, this.size.x, this.size.y);
 
         if(CONFIG.inkFriendly) { return; }
 
@@ -59,8 +59,8 @@ export default class Card
         const bgResource = CONFIG.resLoader.getResource("card_backgrounds");
         const canvOp = new LayoutOperation({
             frame: this.typeData.frame,
-            translate: this.centerPos,
-            dims: new Point(this.dims.x*scaleFactor, this.dims.y*scaleFactor),
+            pos: this.centerPos,
+            size: new Point(this.size.x*scaleFactor, this.size.y*scaleFactor),
             pivot: new Point(0.5)
         })
         bgResource.toCanvas(ctx, canvOp);
@@ -71,15 +71,15 @@ export default class Card
         if(this.type == "blank") { return; }
 
         const typePos = CONFIG.cards.type.pos;
-        const pos = new Point(typePos.x*this.dims.x, typePos.y*this.dims.y);
+        const pos = new Point(typePos.x*this.size.x, typePos.y*this.size.y);
         const typeSize = CONFIG.cards.type.size;
         const size = new Point(typeSize*this.minSize, typeSize*this.minSize);
 
         const typeResource = CONFIG.resLoader.getResource("card_types");
         const canvOp = new LayoutOperation({
             frame: this.typeData.frame,
-            translate: pos,
-            dims: size,
+            pos: pos,
+            size: size,
             composite: (CONFIG.cards.hand.composite as GlobalCompositeOperation) || "source-in",
             pivot: new Point(0.5)
         })
@@ -141,7 +141,7 @@ export default class Card
             alignVertical: TextAlign.MIDDLE
         })
 
-        const textDims = this.dims;
+        const textDims = this.size;
         const textRes = new ResourceText({ text: "", textConfig: textConfig });
 
         for(let i = 0; i < numbersToPlace; i++)
@@ -154,16 +154,16 @@ export default class Card
 
             textRes.text = text;
             const textOp = new LayoutOperation({
-                translate: numPos,
-                dims: textDims,
+                pos: numPos,
+                size: textDims,
                 pivot: Point.CENTER,
                 fill: offsetCol
             })
 
-            textOp.translate.y += offset;
+            textOp.pos.y += offset;
             textRes.toCanvas(ctx, textOp);
 
-            textOp.translate.y -= offset;
+            textOp.pos.y -= offset;
             textOp.fill = new ColorLike(mainCol);
             textOp.strokeWidth = mainStrokeWidth;
             textOp.stroke = new ColorLike(mainStrokeCol);
@@ -185,24 +185,24 @@ export default class Card
         {
             let edgePos = new Point();
             if(i == 0) {
-                edgePos.x = this.dims.x * (1.0 - edgeNumPos.x);
-                edgePos.y = this.dims.y * edgeNumPos.y;
+                edgePos.x = this.size.x * (1.0 - edgeNumPos.x);
+                edgePos.y = this.size.y * edgeNumPos.y;
             } else {
-                edgePos.x = this.dims.x * edgeNumPos.x;
-                edgePos.y = this.dims.y * (1.0 - edgeNumPos.y);
+                edgePos.x = this.size.x * edgeNumPos.x;
+                edgePos.y = this.size.y * (1.0 - edgeNumPos.y);
             }
 
             const textOp = new LayoutOperation({
-                translate: edgePos,
-                dims: edgeTextDims,
+                pos: edgePos,
+                size: edgeTextDims,
                 fill: edgeOffsetCol,
                 pivot: Point.CENTER
             });
 
-            textOp.translate.y += edgeNumOffset;
+            textOp.pos.y += edgeNumOffset;
             textRes.toCanvas(ctx, textOp);
 
-            textOp.translate.y -= edgeNumOffset;
+            textOp.pos.y -= edgeNumOffset;
             textOp.fill = new ColorLike(mainStrokeCol)
             textOp.stroke = new ColorLike(mainCol);
             textOp.strokeWidth = edgeStrokeWidth;
@@ -215,13 +215,13 @@ export default class Card
         if(!this.hand) { return; }
 
         const handPos = CONFIG.cards.hand.pos;
-        const pos = new Point(handPos.x*this.dims.x, handPos.y*this.dims.y);
+        const pos = new Point(handPos.x*this.size.x, handPos.y*this.size.y);
         const handSize = CONFIG.cards.hand.size;
         const size = new Point(handSize*this.minSize, handSize*this.minSize);
         const handResource = CONFIG.resLoader.getResource("hand_icon");
         const canvOp = new LayoutOperation({
-            translate: pos,
-            dims: size,
+            pos: pos,
+            size: size,
             composite: (CONFIG.cards.hand.composite as GlobalCompositeOperation) ?? "source-in",
             pivot: new Point(0.5)
         })
@@ -232,6 +232,6 @@ export default class Card
     {
         ctx.strokeStyle = this.typeData.outlineColor || CONFIG.cards.outlineColor;
         ctx.lineWidth = CONFIG.cards.outlineWidth * this.minSize;
-        ctx.strokeRect(0, 0, this.dims.x, this.dims.y);
+        ctx.strokeRect(0, 0, this.size.x, this.size.y);
     }
 }

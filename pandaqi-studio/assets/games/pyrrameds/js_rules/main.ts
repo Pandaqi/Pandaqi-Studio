@@ -452,8 +452,8 @@ class Board
                 // draw the resource to the canvas with the settings we just calculated
                 const res = new ResourceImage( await card.drawForRules(sim.getVisualizer()) );
                 const op = new LayoutOperation({
-                    translate: realPos,
-                    dims: cardSizeWithMargin,
+                    pos: realPos,
+                    size: cardSizeWithMargin,
                     pivot: Point.CENTER
                 })
                 res.toCanvas(ctx, op);
@@ -524,7 +524,7 @@ const generate = async (sim:InteractiveExampleSimulator) =>
 {
     const numPlayers = CONFIG.rulebook.numPlayerBounds.randomInteger() ?? 4;
     const maxNumCards = CONFIG.rulebook.numCardsInDeck ?? 36;
-    const allCards = shuffle(sim.getPicker("card").get().slice()).splice(0, maxNumCards);
+    const allCards = shuffle(sim.getPicker("card").get().slice() as Card[]).splice(0, maxNumCards);
 
     const startingRowSize = CONFIG.rulebook.startingRowSize ?? 6;
 

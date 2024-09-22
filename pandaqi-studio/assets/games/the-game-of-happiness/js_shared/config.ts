@@ -80,8 +80,8 @@ const CONFIG =
     {
         drawerConfig:
         {
-            dimsElement: new Point(1, 1.4),
-            dims: 
+            sizeElement: new Point(1, 1.4),
+            size: 
             { 
                 small: new Point(5,5),
                 regular: new Point(4,4),
@@ -91,8 +91,8 @@ const CONFIG =
 
         tokenConfig:
         {
-            dimsElement: new Point(1,1),
-            dims: 
+            sizeElement: new Point(1,1),
+            size: 
             {
                 small: new Point(8,8),
                 regular: new Point(6,6),
@@ -117,7 +117,7 @@ const CONFIG =
         {
             fontSize: { large: 0.125, medium: 0.105, small: 0.085 }, // ~sizeUnit
             fontSizeCutoffs: { large: 50, medium: 90, small: 130 },
-            dims: new Point(0.9, 0.75), // ~size
+            size: new Point(0.9, 0.75), // ~size
         },
 
         textMeta:

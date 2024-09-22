@@ -76,8 +76,8 @@ export default class Tile
         const frame = (tileData.bgLight || vis.inkFriendly) ? MISC.bg_hole.frame : MISC.bg_hole_inverse.frame;
         const op = new LayoutOperation({
             frame: frame,
-            translate: vis.center,
-            dims: vis.size,
+            pos: vis.center,
+            size: vis.size,
             pivot: Point.CENTER
         });
         group.add(res, op);
@@ -129,17 +129,17 @@ export default class Tile
 
             const pos = positions[i];
             const op = new LayoutOperation({
-                translate: pos,
-                dims: new Point(0.5*vis.size.x, fontSize),
+                pos: pos,
+                size: new Point(0.5*vis.size.x, fontSize),
                 pivot: Point.CENTER,
                 //stroke: strokeColor,
                 //strokeWidth: strokeWidth,
                 strokeAlign: StrokeAlign.OUTSIDE
             })
 
-            // wildcard = an IMAGE (same dims as number otherwise)
+            // wildcard = an IMAGE (same size as number otherwise)
             if(isWildcard) {
-                op.dims = new Point(fontSize * numberIconSizeFactor);
+                op.size = new Point(fontSize * numberIconSizeFactor);
                 op.frame = TILES.wildcard.frame;
                 group.add(resTiles, op.clone());
             
@@ -150,7 +150,7 @@ export default class Tile
             }
 
             // the small text stays at all times (for consistency and its purpose of clarity)
-            op.translate = pos.clone().move(offsetsForSmall[i].clone().scale(0.5*(fontSize + fontSizeSmall)));
+            op.pos = pos.clone().move(offsetsForSmall[i].clone().scale(0.5*(fontSize + fontSizeSmall)));
             op.alpha = textSmallAlpha;
             op.strokeWidth = 0;
             op.effects = [];
@@ -169,10 +169,10 @@ export default class Tile
             [vis.center], 
             [vis.center.clone().scale(0.75), vis.center.clone().scale(1.33)]
         ]
-        const dims = new Point(CONFIG.tiles.main.iconSize * vis.sizeUnit);
+        const size = new Point(CONFIG.tiles.main.iconSize * vis.sizeUnit);
         const sizes = [
-            [dims],
-            [dims.clone().scale(0.5), dims.clone().scale(0.5)]
+            [size],
+            [size.clone().scale(0.5), size.clone().scale(0.5)]
         ]
 
         if(isCustom) 
@@ -189,8 +189,8 @@ export default class Tile
                 
                 const op = new LayoutOperation({
                     frame: frame,
-                    translate: positions[numSprites - 1][i],
-                    dims: sizes[numSprites - 1][i],
+                    pos: positions[numSprites - 1][i],
+                    size: sizes[numSprites - 1][i],
                     pivot: Point.CENTER,
                     effects: vis.effects
                 })
@@ -212,8 +212,8 @@ export default class Tile
 
         const textDims = CONFIG.tiles.specialAction.textDims.clone().scale(vis.size);
         const textOp = new LayoutOperation({
-            translate: vis.center,
-            dims: textDims,
+            pos: vis.center,
+            size: textDims,
             pivot: Point.CENTER,
             fill: CONFIG.tiles.specialAction.textColor
         })
@@ -230,11 +230,11 @@ export default class Tile
         const res = vis.resourceLoader.getResource("tiles");
         const frame = TILES.house.frame;
         const xPosLeft = CONFIG.tiles.main.house.xPosLeft * vis.size.x;
-        const dims = new Point(CONFIG.tiles.main.iconSize * CONFIG.tiles.main.house.iconSizeFactor * vis.sizeUnit);
+        const size = new Point(CONFIG.tiles.main.iconSize * CONFIG.tiles.main.house.iconSizeFactor * vis.sizeUnit);
         const op = new LayoutOperation({
             frame: frame,
-            translate: new Point(xPosLeft, vis.center.y),
-            dims: dims,
+            pos: new Point(xPosLeft, vis.center.y),
+            size: size,
             pivot: Point.CENTER,
             effects: vis.effects
         })
@@ -243,13 +243,13 @@ export default class Tile
         // draw the presents it wants in a centered (column) list on the right
         const xPosRight = CONFIG.tiles.main.house.xPosRight * vis.size.x;
         const posRight = new Point(xPosRight, vis.center.y);
-        const dimsPresentWithSpace = new Point(CONFIG.tiles.main.house.iconSizePresent * vis.sizeUnit);
-        const dimsPresent = dimsPresentWithSpace.clone().scale(1.0 - CONFIG.tiles.main.house.iconPresentEmptySpace);
+        const sizePresentWithSpace = new Point(CONFIG.tiles.main.house.iconSizePresent * vis.sizeUnit);
+        const sizePresent = sizePresentWithSpace.clone().scale(1.0 - CONFIG.tiles.main.house.iconPresentEmptySpace);
         const numPresents = this.reqs.length;
         const positions = getPositionsCenteredAround({ 
             pos: posRight, 
             num: numPresents, 
-            dims: dimsPresentWithSpace, 
+            size: sizePresentWithSpace, 
             dir: Point.DOWN
         });
 
@@ -262,8 +262,8 @@ export default class Tile
 
             const op = new LayoutOperation({
                 frame: framePresent,
-                translate: pos,
-                dims: dimsPresent,
+                pos: pos,
+                size: sizePresent,
                 pivot: Point.CENTER,
                 effects: vis.effects
             });
@@ -273,11 +273,11 @@ export default class Tile
         // draw the house score at the top
         // (a horizontal centered list of star icons)
         const score = this.calculateScore();
-        const dimsStar = new Point(CONFIG.tiles.main.house.iconSizeStar * vis.sizeUnit);
+        const sizeStar = new Point(CONFIG.tiles.main.house.iconSizeStar * vis.sizeUnit);
         const yPos = CONFIG.tiles.main.house.yPosStar * vis.size.y;
         const positionsScore = getPositionsCenteredAround({
             pos: new Point(vis.center.x, yPos),
-            dims: dimsStar,
+            size: sizeStar,
             num: score,
             dir: Point.RIGHT
         })
@@ -289,8 +289,8 @@ export default class Tile
             const pos = positionsScore[i];
             const op = new LayoutOperation({
                 frame: frameStar,
-                translate: pos,
-                dims: dimsStar,
+                pos: pos,
+                size: sizeStar,
                 pivot: Point.CENTER,
                 //effects: vis.effects
             });

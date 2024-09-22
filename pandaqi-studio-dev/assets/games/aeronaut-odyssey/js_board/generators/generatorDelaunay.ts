@@ -38,7 +38,7 @@ export default class GeneratorDelaunay
 {
     boardState: BoardState;
     points: PointGraph[];
-    dimsUsable: Point;
+    sizeUsable: Point;
     marginBoard: Point;
 
     constructor(bs:BoardState)
@@ -71,19 +71,19 @@ export default class GeneratorDelaunay
         shuffle(requiredAreas);
 
         const cities = [];
-        const dims = this.boardState.dims;
+        const size = this.boardState.size;
         const marginBoard = new Point(CONFIG.generation.outerMarginBoard);
-        const dimsUsable = new Point(dims.x-2*marginBoard.x, dims.y-2*marginBoard.y);
+        const sizeUsable = new Point(size.x-2*marginBoard.x, size.y-2*marginBoard.y);
 
         this.marginBoard = marginBoard;
-        this.dimsUsable = dimsUsable;
+        this.sizeUsable = sizeUsable;
         
         for(let i = 0; i < numCities; i++)
         {
             const useRequiredArea = (i < requiredAreas.length);
             let pos:Point;
-            if(useRequiredArea) { pos = requiredAreas[i].getRandomPointInside(marginBoard, dimsUsable); }
-            else { pos = this.getValidPoint(cities, marginBoard, dimsUsable) }
+            if(useRequiredArea) { pos = requiredAreas[i].getRandomPointInside(marginBoard, sizeUsable); }
+            else { pos = this.getValidPoint(cities, marginBoard, sizeUsable) }
             
             if(this.boardState.forbiddenAreas.pointIsInside(pos)) { i--; continue; }
             
@@ -93,14 +93,14 @@ export default class GeneratorDelaunay
         return cities;
     }
 
-    getValidPoint(list:Point[], marginBoard: Point, dimsUsable:Point)
+    getValidPoint(list:Point[], marginBoard: Point, sizeUsable:Point)
     {
         let pos:Point;
         let badPos = false;
         let numTries = 0;
         const maxTries = 100;
         do {
-            pos = marginBoard.clone().add(new Point(Math.random(), Math.random()).scale(dimsUsable));
+            pos = marginBoard.clone().add(new Point(Math.random(), Math.random()).scale(sizeUsable));
             badPos = this.getDistToClosest(pos, list) < this.getMinDistance();
             numTries++;
         } while(badPos && numTries <= maxTries);
@@ -211,9 +211,9 @@ export default class GeneratorDelaunay
 
     cityNearCenter(city:PointGraph, factor = 1.0)
     {
-        const dims = this.boardState.dims;
-        const halfDims = dims.clone().scale(0.5);
-        const maxDist = dims.clone().scale(CONFIG.generation.centerBoxScale);
+        const size = this.boardState.size;
+        const halfDims = size.clone().scale(0.5);
+        const maxDist = size.clone().scale(CONFIG.generation.centerBoxScale);
         const manhattanDist = new Point(city.x - halfDims.x, city.y - halfDims.y).abs();
         if(manhattanDist.x < maxDist.x && manhattanDist.y < maxDist.y) { return true; }
         return false;
@@ -265,7 +265,7 @@ export default class GeneratorDelaunay
         const numIterations = CONFIG.generation.numRelaxIterations;
 
         const minBounds = this.marginBoard;
-        const maxBounds = minBounds.clone().add(this.dimsUsable);
+        const maxBounds = minBounds.clone().add(this.sizeUsable);
 
         for(let i = 0; i < numIterations; i++)
         {

@@ -17,9 +17,9 @@ class Cell
     }
 }
 
-function outOfBounds(pos:Point, dims:Point)
+function outOfBounds(pos:Point, size:Point)
 {
-    return pos.x < 0 || pos.y < 0  || pos.x >= dims.x || pos.y >= dims.y;
+    return pos.x < 0 || pos.y < 0  || pos.x >= size.x || pos.y >= size.y;
 }
 
 async function generate()
@@ -28,24 +28,24 @@ async function generate()
     const CELL_SIZE = 64;
     const dimBounds = { min: 5, max: 8 }
     const dim = rangeInteger(dimBounds);
-    const dims = new Point(dim, dim);
+    const size = new Point(dim, dim);
     const grid : Cell[][] = [];
-    for(let x = 0; x < dims.x; x++)
+    for(let x = 0; x < size.x; x++)
     {
         grid[x] = [];
-        for(let y = 0; y < dims.y; y++)
+        for(let y = 0; y < size.y; y++)
         {
             grid[x][y] = new Cell(x,y);
         }
     }
 
     // place player somewhere
-    const randPos = new Point(rangeInteger(0, dims.x-1), rangeInteger(0, dims.y-1));
+    const randPos = new Point(rangeInteger(0, size.x-1), rangeInteger(0, size.y-1));
     grid[randPos.x][randPos.y].player = true;
 
     // create numbers and directions
     const numbers : number[] = [];
-    for(let x = 0; x < dims.x; x++)
+    for(let x = 0; x < size.x; x++)
     {
         numbers.push(rangeInteger(1,4));
     }
@@ -57,7 +57,7 @@ async function generate()
         Point.LEFT,
         Point.UP
     ]
-    for(let y = 0; y < dims.y; y++)
+    for(let y = 0; y < size.y; y++)
     {
         directions.push(rangeInteger(0,3));
     }
@@ -70,7 +70,7 @@ async function generate()
     for(let i = 1; i <= 4; i++)
     {
         const newPos = randPos.clone().move(curDirectionVec.clone().scaleFactor(i));
-        if(outOfBounds(newPos, dims)) { break; }
+        if(outOfBounds(newPos, size)) { break; }
         possibleMoves.push(newPos);
     }
 
@@ -78,7 +78,7 @@ async function generate()
     {
         const dirVec = DIR_VECS[i];
         const newPos = randPos.clone().move(dirVec.clone().scaleFactor(curNumber));
-        if(outOfBounds(newPos, dims)) { continue; }
+        if(outOfBounds(newPos, size)) { continue; }
         possibleMoves.push(newPos);
     }
 
@@ -91,8 +91,8 @@ async function generate()
     // finally, display all this
     const cells = grid.flat();
     const canv = document.createElement("canvas") as HTMLCanvasElement;
-    canv.width = (dims.x+2) * CELL_SIZE;
-    canv.height = (dims.y+2) * CELL_SIZE;
+    canv.width = (size.x+2) * CELL_SIZE;
+    canv.height = (size.y+2) * CELL_SIZE;
 
     const ctx = canv.getContext("2d") as CanvasRenderingContext2D;
 
@@ -116,7 +116,7 @@ async function generate()
     {
         const str = numbers[i].toString();
         ctx.fillText(str, (i+1+0.5)*CELL_SIZE, 0.8*CELL_SIZE);
-        ctx.fillText(str, (i+1+0.5)*CELL_SIZE, (dims.y+1+0.5)*CELL_SIZE);
+        ctx.fillText(str, (i+1+0.5)*CELL_SIZE, (size.y+1+0.5)*CELL_SIZE);
     }
 
     const ARROW_SYMBOLS = ["→", "↓", "←", "↑"]
@@ -124,7 +124,7 @@ async function generate()
     {
         const symb = ARROW_SYMBOLS[directions[i]];
         ctx.fillText(symb, 0.5*CELL_SIZE, (i+1+0.66)*CELL_SIZE);
-        ctx.fillText(symb, (dims.x+1+0.5)*CELL_SIZE, (i+1+0.66)*CELL_SIZE);
+        ctx.fillText(symb, (size.x+1+0.5)*CELL_SIZE, (i+1+0.66)*CELL_SIZE);
     }
 
     const container = document.createElement("div");

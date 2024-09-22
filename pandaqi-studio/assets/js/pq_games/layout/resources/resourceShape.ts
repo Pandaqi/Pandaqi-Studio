@@ -40,7 +40,7 @@ export default class ResourceShape extends Resource
         const svgNS = "http://www.w3.org/2000/svg";
         const svg = document.createElementNS(svgNS, "svg");
         //const dims = this.shape.getDimensions();
-        const sizeInt = op.dims.clone().round();
+        const sizeInt = op.size.clone().round();
         //svg.setAttribute("width", sizeInt.x.toString());
         //svg.setAttribute("height", sizeInt.y.toString());
         svg.setAttribute("viewBox", "0 0 " + sizeInt.x + " " + sizeInt.y);

@@ -14,12 +14,14 @@ import Color from "../color/color";
 interface RendererPixiParams
 {
     bgColor?: string,
+    bgAlpha?: number,
     forceWebGPU?: boolean,
 }
 
 export default class RendererPixi extends Renderer
 {
     bgColor: Color;
+    bgAlpha:number;
     customBatchSize = 1; // more than that, an average computer might lose the graphics context
     rendererInstance: any;
     forceWebGPU = false
@@ -28,6 +30,7 @@ export default class RendererPixi extends Renderer
     {
         super();
         this.bgColor = new Color(params.bgColor ?? "#FFFFFF");
+        this.bgAlpha = params.bgAlpha ?? 0;
         this.forceWebGPU = params.forceWebGPU ?? false;
     }
 
@@ -50,6 +53,8 @@ export default class RendererPixi extends Renderer
             width: params.size.x, height: params.size.y, 
             backgroundColor: this.bgColor.toHEXNumber(),
             //antialias: true,
+            preference: 'webgpu',
+            backgroundAlpha: this.bgAlpha ?? 0,
             useBackBuffer: true,
         };
 
@@ -136,8 +141,8 @@ export default class RendererPixi extends Renderer
         //
         // set all the GENERAL PROPERTIES (which should exist on all/most DisplayObjects)
         //
-        obj.position.set(op.translateResult.x, op.translateResult.y);
-        obj.rotation = op.rotation;
+        obj.position.set(op.posResult.x, op.posResult.y);
+        obj.rotation = op.rot;
         obj.zIndex = op.depth; // ??
         
         obj.roundPixels = true;
@@ -151,7 +156,7 @@ export default class RendererPixi extends Renderer
         const scaleResult = op.scaleResult.clone();
         if(op.resource instanceof ResourceImage)
         {
-            const scale = op.dimsResult.clone().div(op.resource.frameSize);
+            const scale = op.sizeResult.clone().div(op.resource.frameSize);
             scaleResult.scale(scale);
         }
 
@@ -170,7 +175,7 @@ export default class RendererPixi extends Renderer
         // MASKING (either through graphics object or sprite)
         //
         if(op.clip) {
-            obj.mask = new Graphics({}).poly(op.clip.toPath(), false);
+            obj.mask = new Graphics({}).poly(op.clip.toPath(), false).fill(0xFFFFFF);
         } else if(op.mask) {
             obj.mask = op.mask.getPixiObject(0, Sprite);
         }

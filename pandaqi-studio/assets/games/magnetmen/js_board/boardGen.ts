@@ -1,27 +1,26 @@
 import BalancedDictionaryPicker from "js/pq_games/tools/generation/balancedDictionaryPicker";
-import BoardState from "./boardState";
-import { SETS } from "../js_shared/dict";
-import CONFIG from "../js_shared/config";
 import Point from "js/pq_games/tools/geometry/point";
-import Cell from "./cell";
 import shuffle from "js/pq_games/tools/random/shuffle";
+import CONFIG from "../js_shared/config";
+import BoardState from "./boardState";
+import Cell from "./cell";
 
 // Generates a balanced board, then spits out a BoardState object holding it
 export default class BoardGen
 {
     async generate()
     {
-        const dims = CONFIG.gen.dims[CONFIG.boardSize];
+        const size = CONFIG.gen.size[CONFIG.boardSize];
 
-        const typeList = this.determineTypes(dims);
-        const cells = this.createCells(typeList, dims);
+        const typeList = this.determineTypes(size);
+        const cells = this.createCells(typeList, size);
         const bs = new BoardState().fromGrid(cells);
         return bs;
     }
 
-    determineTypes(dims:Point)
+    determineTypes(size:Point)
     {
-        const numCells = dims.x * dims.y;
+        const numCells = size.x * size.y;
 
         if(Object.keys(CONFIG.allTypes).includes(CONFIG.gen.beginnerDestroyType))
         {
@@ -38,15 +37,15 @@ export default class BoardGen
         return typeList;
     }
 
-    createCells(list:string[], dims:Point)
+    createCells(list:string[], size:Point)
     {
         const arr = [];
         list = shuffle(list.slice());
         let counter = 0;
-        for(let x = 0; x < dims.x; x++)
+        for(let x = 0; x < size.x; x++)
         {
             arr[x] = [];
-            for(let y = 0; y < dims.y; y++)
+            for(let y = 0; y < size.y; y++)
             {
                 const elem = list[counter];
                 const cell = new Cell(new Point(x,y), elem);

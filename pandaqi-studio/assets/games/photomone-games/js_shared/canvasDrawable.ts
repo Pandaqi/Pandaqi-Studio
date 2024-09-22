@@ -403,9 +403,9 @@ export default class CanvasDrawable
             }).alignCenter();
 
             const opText = new LayoutOperation({
-                translate: new PointNonPhotomone(text.p),
-                rotation: text.rotation ?? 0,
-                dims: new PointNonPhotomone(2*textConfig.size),
+                pos: new PointNonPhotomone(text.p),
+                rot: text.rot ?? 0,
+                size: new PointNonPhotomone(2*textConfig.size),
                 fill: text.color,
                 pivot: PointNonPhotomone.CENTER
             })
@@ -418,8 +418,8 @@ export default class CanvasDrawable
             const res = this.params.RESOURCE_LOADER.getResource(sprite.textureKey);
             const canvOp = new LayoutOperation({ 
                 frame: sprite.frame,
-                dims: new PointNonPhotomone(sprite.size),
-                translate: new PointNonPhotomone(sprite.p),
+                size: new PointNonPhotomone(sprite.size),
+                pos: new PointNonPhotomone(sprite.p),
                 pivot: PointNonPhotomone.CENTER
             })
             res.toCanvas(ctx, canvOp);

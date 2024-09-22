@@ -75,8 +75,8 @@ export default class Card
         const key = this.type + "_" + this.subType;
         const frame = CARD_TEMPLATES[key].frame;
         const op = new LayoutOperation({
-            translate: new Point(),
-            dims: vis.size,
+            pos: new Point(),
+            size: vis.size,
             frame: frame,
             effects: vis.inkFriendlyEffect
         });
@@ -100,8 +100,8 @@ export default class Card
         const str = this.num.toString();
         const resText = new ResourceText({ text: str, textConfig: textConfig });
         const opText = new LayoutOperation({
-            translate: pos,
-            dims: vis.size,
+            pos: pos,
+            size: vis.size,
             fill: textColor,
             stroke: strokeColor,
             strokeWidth: vis.get("votes.number.strokeWidth"),
@@ -153,7 +153,7 @@ export default class Card
             const isIcons = Array.isArray(data);
             const isText = !isIcons;
 
-            const rotation = s == 0 ? 0 : Math.PI;
+            const rot = s == 0 ? 0 : Math.PI;
             const anchor = anchors[s];
 
             if(isText) 
@@ -162,9 +162,9 @@ export default class Card
 
                 const resText = new ResourceText({ text: data, textConfig: textConfig });
                 const opText = new LayoutOperation({
-                    translate: anchor,
-                    dims: textBoxDims,
-                    rotation: rotation,
+                    pos: anchor,
+                    size: textBoxDims,
+                    rot: rot,
                     pivot: Point.CENTER,
                     fill: textColor,
                 })
@@ -176,7 +176,7 @@ export default class Card
                 const positions = getPositionsCenteredAround({ 
                     pos: anchor, 
                     num: data.length,
-                    dims: iconDims.clone().scale(1.05)
+                    size: iconDims.clone().scale(1.05)
                 });
 
                 for(let i = 0; i < positions.length; i++)
@@ -184,9 +184,9 @@ export default class Card
                     const posTemp = positions[i];
                     const dataTemp = data[i] == "support" ? MISC.support : ICONS[data[i]];
                     const opIcon = new LayoutOperation({
-                        translate: posTemp,
-                        dims: iconDims,
-                        rotation: rotation,
+                        pos: posTemp,
+                        size: iconDims,
+                        rot: rot,
                         pivot: Point.CENTER,
                         frame: dataTemp.frame,
                         effects: iconEffects
@@ -219,8 +219,8 @@ export default class Card
 
         const textColor = vis.inkFriendly ? "#000000" : vis.get("cards.laws.textColor");
         const opText = new LayoutOperation({
-            translate: vis.get("cards.laws.pos"),
-            dims: vis.get("cards.laws.textBoxDims"),
+            pos: vis.get("cards.laws.pos"),
+            size: vis.get("cards.laws.textBoxDims"),
             fill: textColor,
             pivot: Point.CENTER
         })
@@ -266,9 +266,9 @@ export default class Card
             const pos = positions[i];
             const rot = i == 0 ? 0 : Math.PI;
             const opIcon = new LayoutOperation({
-                translate: pos,
-                dims: iconDims,
-                rotation: rot,
+                pos: pos,
+                size: iconDims,
+                rot: rot,
                 frame: MISC.vote_storage.frame,
                 pivot: Point.CENTER,
                 effects: [dropShadowEffect]
@@ -277,9 +277,9 @@ export default class Card
 
             // the text itself
             const opText = new LayoutOperation({
-                translate: pos,
-                dims: iconDims,
-                rotation: rot,
+                pos: pos,
+                size: iconDims,
+                rot: rot,
                 fill: textColor,
                 pivot: Point.CENTER
             })

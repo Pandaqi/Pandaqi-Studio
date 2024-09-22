@@ -1,64 +1,48 @@
 import Config from "./config"
 import Map from "./map"
-import { TEXTURES } from "./dictionary"
+import BoardVisualizer from "js/pq_games/tools/generation/boardVisualizer";
+import ResourceImage from "js/pq_games/layout/resources/resourceImage";
+import Point from "js/pq_games/tools/geometry/point";
 
-export default {
+class HintVisualizer
+{
+	size = new Point(256)
+	images = []
+	download = false
 
-	size: { "w": 256, "h": 256 },
-	targetNumImages: 0,
-	images: [],
-	finished: false,
-	download: false,
-	callback: null,
-	textures: {},
-
-	prepare()
+	async visualizeAll(list, vis:BoardVisualizer)
 	{
-		// we hijack the fact we already loaded all textures for the phaser game (to use them here)
-		for(let i = 0; i < TEXTURES.length; i++)
-		{
-			let key = TEXTURES[i]; // @IMPROV: fill this array using Phaser, now I need to do it manually and that's stupid
-			// @ts-ignore
-			let img = window.GAME.scene.keys.generation.textures.get(key).getSourceImage();
-			this.textures[key] = img;
-
-			let key_inkfriendly = key + "_inkfriendly"
-			// @ts-ignore
-			img = window.GAME.scene.keys.generation.textures.get(key_inkfriendly).getSourceImage();
-			this.textures[key_inkfriendly] = img;
-		}
-	},
-
-	visualizeAll(list, callback)
-	{
-		this.callback = callback;
-		this.finished = false;
-		this.targetNumImages = list.length;
 		this.images = [];
-		
 		for(let i = 0; i < list.length; i++)
 		{
-			this.visualize(list[i]);
+			this.images.push( await this.visualize(list[i], vis));
 		}
-	},
+	}
 
-	visualize(hint)
+	async visualize(hint, vis:BoardVisualizer)
 	{
-		let canvas = this.createCanvas();
-		this.paintCanvas(hint, canvas);
-		this.convertCanvasIntoImage(hint, canvas);
-	},
+		const canvas = this.createCanvas();
+		this.paintCanvas(hint, canvas, vis);
+		const img = await this.convertCanvasToImage(hint, canvas);	
+
+		// @TODO/@NOTE: This is a bit meh, but it's clean enough and I don't expect many changes to this API
+		const id = Config.getImageIDFromHint(hint);
+		await vis.resLoader.cacheLoadedImage(id, {}, img);
+		vis.resLoader.getResource(id).setUniqueKey(id);
+
+		return img;
+	}
 
 	createCanvas()
 	{
 		let canvas = document.createElement("canvas");
-		canvas.width = this.size.w;
-		canvas.height = this.size.h;
+		canvas.width = this.size.x;
+		canvas.height = this.size.y;
 		return canvas;
-	},
+	}
 
 	// @TODO: currently assumes all source spritesheets are also 8 wide + 256x256 pixels => just roll with that?
-	paintCanvas(hint, canvas)
+	paintCanvas(hint, canvas, vis:BoardVisualizer)
 	{
 		if(!("layers" in hint)) { return; }
 
@@ -121,7 +105,7 @@ export default {
 				let key = layer.key;
 				if(inkFriendly) { key += "_inkfriendly"; }
 
-				let tex = this.textures[key];
+				let tex = vis.getResource(key).img;
 				let frame = 0;
 				if("frame" in layer) { frame = layer.frame; }
 				if("list" in layer) { 
@@ -141,8 +125,8 @@ export default {
 				if("scale" in layer) { scale = layer.scale}
 
 				let position = { 
-					"x": xPos * this.size.w - 0.5*scale*this.size.w, 
-					"y": yPos * this.size.h - 0.5*scale*this.size.h 
+					"x": xPos * this.size.x - 0.5*scale*this.size.x, 
+					"y": yPos * this.size.y - 0.5*scale*this.size.y 
 				}
 
 				let rotation = 0;
@@ -153,20 +137,20 @@ export default {
 				if(transformCanvas)
 				{
 					ctx.save();
-					ctx.translate(position.x+0.5*scale*this.size.w, position.y+0.5*scale*this.size.h);
+					ctx.translate(position.x+0.5*scale*this.size.x, position.y+0.5*scale*this.size.y);
 					ctx.rotate(rotation * 0.5 * Math.PI);
 
 					// compensate for the changed origin
-					position.x = -0.5*scale*this.size.w;
-					position.y = -0.5*scale*this.size.h;
+					position.x = -0.5*scale*this.size.x;
+					position.y = -0.5*scale*this.size.y;
 				}
 
 				// place image precisely according to frame data and position
 				// @parameters => drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
 				ctx.drawImage(
 					tex, 
-					xFrame * this.size.w, yFrame * this.size.h, this.size.w, this.size.h,
-					position.x, position.y, this.size.w*scale, this.size.h*scale
+					xFrame * this.size.x, yFrame * this.size.y, this.size.x, this.size.y,
+					position.x, position.y, this.size.x*scale, this.size.y*scale
 				);
 
 				if(transformCanvas)
@@ -210,42 +194,29 @@ export default {
 				// draw hook so we know where the top left is
 				let hookScale = rectSize;
 				ctx.drawImage(
-					this.textures.hint_tile_type, 
+					vis.getResource("hint_tile_type").img, 
 					3*256, 1*256, 256, 256,
 					offset.x, offset.y-rectSize, hookScale, hookScale
 				);
 			}
 		}
-	},
+	}
 
-	convertCanvasIntoImage(hint, canvas)
+	async convertCanvasToImage(hint, canvas)
 	{
 		let image = new Image();
   		image.src = canvas.toDataURL();
-
-  		let ths = this;
-  		image.addEventListener('load', function() {
-			ths.images.push(image);
-			hint.image = image;
-
-			image.setAttribute('outputName', hint.id + '.png');
-
-			if(Config.debugging)
-			{
-				document.getElementById('debugging').appendChild(image);
-			}
-
-			if(ths.images.length >= ths.targetNumImages) 
-			{
-				ths.finishVisualization();
-			}
-		});
-	},
-
-	finishVisualization()
-	{
-		this.finished = true;
-		this.callback();
-	},
+		image.setAttribute('outputName', hint.id + '.png');
+		await image.decode();
+		hint.image = image;
+	
+		if(Config.debugging)
+		{
+			document.getElementById('debugging').appendChild(image);
+		}
+		return image;
+	}
 
 };
+
+export default new HintVisualizer();

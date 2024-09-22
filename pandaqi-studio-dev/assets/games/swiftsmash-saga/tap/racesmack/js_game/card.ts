@@ -56,7 +56,7 @@ export default class Card
     {
         const resMisc = vis.getResource("misc");
         const op = new LayoutOperation({ 
-            dims: vis.size, 
+            size: vis.size, 
             frame: MISC["pawn_" + this.pawnIndex].frame
         })
         group.add(resMisc, op);
@@ -68,8 +68,8 @@ export default class Card
         const resMisc = vis.getResource("misc");
         if(vis.inkFriendly) {  
             const opSonar = new LayoutOperation({
-                translate: vis.get("cards.sonar.templatePos"),
-                dims: vis.get("cards.sonar.templateDims"),
+                pos: vis.get("cards.sonar.templatePos"),
+                size: vis.get("cards.sonar.templateDims"),
                 pivot: Point.CENTER,
                 frame: MISC.sonar.frame,
             });
@@ -77,7 +77,7 @@ export default class Card
         } else {
             const resTemp = vis.getResource("card_templates");
             const opTemp = new LayoutOperation({
-                dims: vis.size,
+                size: vis.size,
                 frame: this.hasSpecialAction() ? 1 : 0
             });
             group.add(resTemp, opTemp);
@@ -87,21 +87,21 @@ export default class Card
         const resMove = vis.getResource("movements");
         const movementData = MOVEMENT_CARDS[this.typeMovement];
         const posMain = vis.get("cards.sonar.pos");
-        const dimsMain = vis.get("cards.sonar.dims");
+        const sizeMain = vis.get("cards.sonar.size");
         let opMain : LayoutOperation
         if(movementData.angled) {
             opMain = new LayoutOperation({
-                translate: posMain,
-                dims: dimsMain.clone().scale(0.5),
+                pos: posMain,
+                size: sizeMain.clone().scale(0.5),
                 pivot: new Point(0, 0.5),
-                rotation: movementData.rotation,
+                rot: movementData.rot,
                 frame: movementData.frame + 1, // the saved frame is the smaller icon, not sonar one
                 effects: vis.inkFriendlyEffect
             });
         } else {
             opMain = new LayoutOperation({
-                translate: posMain,
-                dims: dimsMain,
+                pos: posMain,
+                size: sizeMain,
                 pivot: Point.CENTER,
                 frame: movementData.frame + 1,
                 effects: vis.inkFriendlyEffect
@@ -120,8 +120,8 @@ export default class Card
         for(const pos of positions)
         {
             const opIcon = new LayoutOperation({
-                translate: pos,
-                dims: vis.get("cards.icons.dims"),
+                pos: pos,
+                size: vis.get("cards.icons.size"),
                 pivot: Point.CENTER,
                 frame: movementData.frame,
                 effects: vis.inkFriendlyEffect
@@ -136,8 +136,8 @@ export default class Card
         }).alignCenter();
         const resTextHeading = new ResourceText({ text: movementData.label, textConfig: textConfigHeading });
         const opTextHeading = new LayoutOperation({
-            translate: headingPos,
-            dims: new Point(vis.size.x, 2.0*textConfigHeading.size),
+            pos: headingPos,
+            size: new Point(vis.size.x, 2.0*textConfigHeading.size),
             pivot: Point.CENTER,
             fill: vis.inkFriendly ? "#222222" : headingColor
         })
@@ -153,8 +153,8 @@ export default class Card
             }).alignCenter();
             const resTextAction = new ResourceText({ text: MOVEMENT_SPECIAL[this.specialAction].label, textConfig: textConfigAction });
             const opTextAction = new LayoutOperation({
-                translate: headingPos.clone().sub(offset),
-                dims: new Point(vis.size.x, 2.0*textConfigHeading.size),
+                pos: headingPos.clone().sub(offset),
+                size: new Point(vis.size.x, 2.0*textConfigHeading.size),
                 pivot: Point.CENTER,
                 fill: vis.inkFriendly ? "#222222" : headingColor
             })
@@ -166,8 +166,8 @@ export default class Card
         {
             const randFish = fromArray( Object.values(FishType) );
             const opFish = new LayoutOperation({
-                translate: vis.get("cards.matchAction.pos"),
-                dims: vis.get("cards.matchAction.dims"),
+                pos: vis.get("cards.matchAction.pos"),
+                size: vis.get("cards.matchAction.size"),
                 pivot: Point.CENTER,
                 frame: MISC[randFish].frame,
                 effects: vis.inkFriendlyEffect
@@ -185,8 +185,8 @@ export default class Card
         const text = this.hasSpecialAction() ? specialData.desc : movementData.desc;
         const resText = new ResourceText({ text: text, textConfig: textConfig });
         const opText = new LayoutOperation({
-            translate: vis.get("cards.text.pos"),
-            dims: vis.get("cards.text.dims"),
+            pos: vis.get("cards.text.pos"),
+            size: vis.get("cards.text.size"),
             pivot: Point.CENTER,
             fill: "#000000"
         })
@@ -201,7 +201,7 @@ export default class Card
         {
             const resTemp = vis.getResource("tile_templates");
             const opTemp = new LayoutOperation({
-                dims: vis.size,
+                size: vis.size,
                 frame: this.hasSpecialAction() ? 1 : 0
             });
             group.add(resTemp, opTemp);
@@ -216,7 +216,7 @@ export default class Card
         }
         shuffle(anglesAvailable);
 
-        const fishDims = this.hasSpecialAction() ? vis.get("tiles.fishes.dimsSpecial") : vis.get("tiles.fishes.dims");
+        const fishDims = this.hasSpecialAction() ? vis.get("tiles.fishes.sizeSpecial") : vis.get("tiles.fishes.size");
         const fishRadiusBounds = this.hasSpecialAction() ? vis.get("tiles.fishes.radiusBoundsSpecial") : vis.get("tiles.fishes.radiusBounds");
         const glowEffect = new DropShadowEffect({ color: "#FFFFFF", blurRadius: 0.1*fishDims.x });
         for(const fish of this.fishes)
@@ -228,10 +228,10 @@ export default class Card
 
             // the fish outline
             const opOutline = new LayoutOperation({
-                translate: pos,
-                dims: fishDims.clone().scale(1.035),
+                pos: pos,
+                size: fishDims.clone().scale(1.035),
                 pivot: Point.CENTER,
-                rotation: angle + 0.5 * Math.PI,
+                rot: angle + 0.5 * Math.PI,
                 frame: MISC[fish].frame + 4,
                 composite: "overlay",
             });
@@ -239,10 +239,10 @@ export default class Card
 
             // the actual fish
             const opFish = new LayoutOperation({
-                translate: pos,
-                dims: fishDims,
+                pos: pos,
+                size: fishDims,
                 pivot: Point.CENTER,
-                rotation: angle + 0.5 * Math.PI,
+                rot: angle + 0.5 * Math.PI,
                 frame: MISC[fish].frame,
                 effects: [vis.inkFriendlyEffect, glowEffect].flat(),
             })
@@ -262,9 +262,9 @@ export default class Card
         {
             // background
             const opCorner = new LayoutOperation({
-                translate: corners[i],
-                dims: vis.get("tiles.actions.boxDims"),
-                rotation: i * 0.5 * Math.PI,
+                pos: corners[i],
+                size: vis.get("tiles.actions.boxDims"),
+                rot: i * 0.5 * Math.PI,
                 pivot: Point.CENTER,
                 frame: MISC.tile_corner.frame,
                 composite: "overlay"
@@ -273,9 +273,9 @@ export default class Card
 
             // actual icon
             const opCornerIcon = new LayoutOperation({
-                translate: cornerIcons[i],
-                dims: vis.get("tiles.actions.iconDims"),
-                rotation: (i - 0.5) * 0.5 * Math.PI,
+                pos: cornerIcons[i],
+                size: vis.get("tiles.actions.iconDims"),
+                rot: (i - 0.5) * 0.5 * Math.PI,
                 frame: MISC["action_" + this.tileAction].frame,
                 pivot: Point.CENTER,
                 effects: vis.inkFriendlyEffect,
@@ -284,12 +284,12 @@ export default class Card
 
             // number
             // @NOTE: the number is offset a bit to fall exactly on the first card in every icon; in the center it's a bit confusing/ugly
-            const numberOffset = new Point(0.2*opCornerIcon.dims.x,0).rotate(opCornerIcon.rotation);
+            const numberOffset = new Point(0.2*opCornerIcon.size.x,0).rotate(opCornerIcon.rot);
             const opTextAction = new LayoutOperation({
-                translate: opCornerIcon.translate.clone().sub(numberOffset),
-                dims: new Point(2.0 * textConfigAction.size),
+                pos: opCornerIcon.pos.clone().sub(numberOffset),
+                size: new Point(2.0 * textConfigAction.size),
                 pivot: Point.CENTER,
-                rotation: opCornerIcon.rotation,
+                rot: opCornerIcon.rot,
                 fill: "#FFFFFF",
                 stroke: "#000000",
                 strokeWidth: vis.get("tiles.actions.textStrokeWidth"),
@@ -322,9 +322,9 @@ export default class Card
         for(let i = 0; i < 2; i++)
         {
             const opTextHeading = new LayoutOperation({
-                translate: positions[i],
-                dims: vis.size,
-                rotation: (i == 0) ? 0 : Math.PI,
+                pos: positions[i],
+                size: vis.size,
+                rot: (i == 0) ? 0 : Math.PI,
                 pivot: Point.CENTER,
                 fill: vis.inkFriendly ? "#888888" : headingColor
             });
@@ -348,8 +348,8 @@ export default class Card
 
             const resText = new ResourceText({ text: str, textConfig: textConfig });
             const opText = new LayoutOperation({
-                translate: vis.get("tiles.text.pos"),
-                dims: vis.get("tiles.text.dims"),
+                pos: vis.get("tiles.text.pos"),
+                size: vis.get("tiles.text.size"),
                 pivot: Point.CENTER,
                 fill: "#000000"
             })

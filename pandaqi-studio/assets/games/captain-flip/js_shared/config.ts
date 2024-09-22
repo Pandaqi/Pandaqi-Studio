@@ -75,8 +75,8 @@ const CONFIG:any =
         drawerConfig:
         {
             autoStroke: true,
-            dimsElement: new Point(1, 1),
-            dims: 
+            sizeElement: new Point(1, 1),
+            size: 
             { 
                 small: new Point(5,7),
                 regular: new Point(3,5),
@@ -99,7 +99,7 @@ const CONFIG:any =
 
         type:
         {
-            dims: new CVal(new Point(0.35), "sizeUnit"),
+            size: new CVal(new Point(0.35), "sizeUnit"),
             fontSize: new CVal(0.275, "sizeUnit"),
             numberOffsetFromCenter: new CVal(0.295, "sizeUnit"),
             textColor: "#000000",

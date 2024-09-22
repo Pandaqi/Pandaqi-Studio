@@ -112,9 +112,9 @@ export default class BoardGeneration
         {
             const resSprite = vis.getResource(sprite.textureKey);
             const opSprite = new LayoutOperation({
-                translate: new Point(sprite.p),
-                rotation: sprite.rotation ?? 0,
-                dims: new Point(sprite.size),
+                pos: new Point(sprite.p),
+                rot: sprite.rot ?? 0,
+                size: new Point(sprite.size),
                 frame: sprite.frame ?? 0,
                 pivot: Point.CENTER
             })
@@ -130,13 +130,13 @@ export default class BoardGeneration
             const pivot = new Point(originX, originY);
 
             const op = new LayoutOperation({
-                translate: new Point(text.p),
-                dims: new Point(0.5*vis.size.y, 2*text.fontSize),
+                pos: new Point(text.p),
+                size: new Point(0.5*vis.size.y, 2*text.fontSize),
                 fill: text.color ?? "#000000",
                 stroke: text.stroke ?? "#FFFFFF",
                 strokeWidth: text.strokeWidth ?? 0,
                 strokeAlign: StrokeAlign.OUTSIDE,
-                rotation: text.rotation ?? 0,
+                rot: text.rot ?? 0,
                 pivot: pivot
             })
             
@@ -173,8 +173,8 @@ export default class BoardGeneration
 
         const resPoints = vis.getResource("icon_points");
         const opPoints = new LayoutOperation({
-            translate: new Point(xOffset, yOffset),
-            dims: new Point(spriteSize),
+            pos: new Point(xOffset, yOffset),
+            size: new Point(spriteSize),
             pivot: Point.CENTER
         });
         group.add(resPoints, opPoints);
@@ -186,8 +186,8 @@ export default class BoardGeneration
 
         const textString = this.map.getObjectiveScore().toString();
         const opText = new LayoutOperation({
-            translate: new Point(xOffset + 2*textConfig.size, yOffset),
-            dims: new Point(4*textConfig.size),
+            pos: new Point(xOffset + 2*textConfig.size, yOffset),
+            size: new Point(4*textConfig.size),
             fill: "#000000",
             pivot: Point.CENTER
         })

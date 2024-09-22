@@ -82,8 +82,8 @@ const CONFIG:any =
         drawerConfig:
         {
             autoStroke: true,
-            dimsElement: new Point(1, 1.4),
-            dims: 
+            sizeElement: new Point(1, 1.4),
+            size: 
             { 
                 small: new Point(4,4),
                 regular: new Point(3,3),
@@ -114,7 +114,7 @@ const CONFIG:any =
         icons:
         {
             offsetFromNumber: new CVal(new Point(-0.0115, 0.2), "sizeUnit"),
-            dims: new CVal(new Point(0.125), "sizeUnit"),
+            size: new CVal(new Point(0.125), "sizeUnit"),
         },
 
         special:

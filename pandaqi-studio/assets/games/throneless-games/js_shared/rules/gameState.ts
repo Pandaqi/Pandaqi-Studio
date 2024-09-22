@@ -147,7 +147,7 @@ export default class GameState
                 {
                     const randomPlayer = this.getRandomPlayer([player]);
                     const randomCard = player.getRandomCards(1, true);
-                    randomPlayer.addCard(randomCard);
+                    randomPlayer.addCard(randomCard[0]);
                 }
             }
         }
@@ -408,8 +408,8 @@ export default class GameState
             const params = 
             {
                 pos: new Point(x,y),
-                dims: new Point(80, 125),
-                rotation: angle,
+                size: new Point(80, 125),
+                rot: angle,
                 drawSeat: this.isPlayerKingseat(p),
                 cardToShow: this.cardsPlayed.getCardAtIndex(i),
                 textConfig: textConfig

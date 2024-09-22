@@ -60,7 +60,7 @@ export default class Token
 
         const resOp = new LayoutOperation({
             frame: frame,
-            translate: vis.center,
+            pos: vis.center,
             size: iconDims,
             effects: vis.effects,
             pivot: Point.CENTER
@@ -83,8 +83,8 @@ export default class Token
 
         // @TODO: might want a thick stroke outside here?
         const textOp = new LayoutOperation({
-            translate: vis.center,
-            dims: textDims,
+            pos: vis.center,
+            size: textDims,
             fill: colorText,
             pivot: Point.CENTER
         });

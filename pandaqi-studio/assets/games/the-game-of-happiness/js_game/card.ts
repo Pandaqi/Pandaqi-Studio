@@ -59,7 +59,7 @@ export default class Card
         const resOp = new LayoutOperation({
             frame: 0,
             effects: effects,
-            dims: vis.size,
+            size: vis.size,
         });
         group.add(res, resOp.clone());
 
@@ -82,9 +82,9 @@ export default class Card
         {
             const resOp = new LayoutOperation({
                 frame: data.frame,
-                translate: corners[i],
+                pos: corners[i],
                 flipY: (i <= 1),
-                dims: iconDims,
+                size: iconDims,
                 effects: vis.effects,
                 pivot: Point.CENTER
             });
@@ -103,9 +103,9 @@ export default class Card
         {
             const resOp = new LayoutOperation({
                 frame: data.frame,
-                translate: positions[i],
+                pos: positions[i],
                 flipY: (i <= 0),
-                dims: bigIconDims,
+                size: bigIconDims,
                 effects: vis.effects,
                 pivot: Point.CENTER
             })
@@ -139,13 +139,13 @@ export default class Card
         }).alignCenter();
 
         const resText = new ResourceText({ text: text, textConfig: textConfig });
-        const textDims = CONFIG.cards.text.dims.clone().scale(vis.size);
+        const textDims = CONFIG.cards.text.size.clone().scale(vis.size);
         const categoryData = this.getCategoryData();
         const colorText = vis.inkFriendly ? "#000000" : (categoryData.colorText ?? "#000000");
 
         const textOp = new LayoutOperation({
-            translate: vis.center,
-            dims: textDims,
+            pos: vis.center,
+            size: textDims,
             fill: colorText,
             pivot: Point.CENTER
         });
@@ -157,7 +157,7 @@ export default class Card
         const texts = ["Category: " + this.category, "Pack: " + this.pack];
         const fontSize = CONFIG.cards.textMeta.fontSize * vis.sizeUnit;
         const yPos = CONFIG.cards.textMeta.yPos * vis.size.y;
-        const dims = new Point(CONFIG.cards.textMeta.textBlockWidth * vis.size.x, 1.5*fontSize);
+        const size = new Point(CONFIG.cards.textMeta.textBlockWidth * vis.size.x, 1.5*fontSize);
         const positions = [
             new Point(vis.center.x, yPos),
             new Point(vis.center.x, vis.size.y-yPos)
@@ -178,12 +178,12 @@ export default class Card
         const textOp = new LayoutOperation({
             fill: vis.inkFriendly ? "#212121" : "#FFFFFF",
             pivot: Point.CENTER,
-            dims: dims
+            size: size
         })
 
         const subGroupOp = new LayoutOperation({
-            translate: positions[0],
-            rotation: Math.PI,
+            pos: positions[0],
+            rot: Math.PI,
             pivot: Point.CENTER,
         })
 
@@ -196,8 +196,8 @@ export default class Card
 
         group.add(subGroup, subGroupOp.clone());
 
-        subGroupOp.translate = positions[1];
-        subGroupOp.rotation = 0;
+        subGroupOp.pos = positions[1];
+        subGroupOp.rot = 0;
         group.add(subGroup, subGroupOp.clone());
     }
 

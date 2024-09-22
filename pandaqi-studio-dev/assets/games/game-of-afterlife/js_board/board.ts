@@ -16,7 +16,7 @@ import PathAdvanced from "js/pq_games/tools/geometry/paths/pathAdvanced";
 
 export default class Board
 {
-    dims: Point
+    size: Point
     grid: PointGraph[][];
     paths: PathSegment[];
     sections: FloodFillerTree;
@@ -26,7 +26,7 @@ export default class Board
     {
         const mapWidth = CONFIG.generation.mapWidth;
         const mapHeight = Math.floor(mapWidth / CONFIG.generation.boardRatio);
-        this.dims = new Point(mapWidth, mapHeight);
+        this.size = new Point(mapWidth, mapHeight);
     }
 
     generate()
@@ -40,7 +40,7 @@ export default class Board
     getPoints() { return this.grid.flat(); }
     createGrid()
     {
-        this.grid = createGrid(this.dims, (pos:Point) => { return new PointGraph(pos); })
+        this.grid = createGrid(this.size, (pos:Point) => { return new PointGraph(pos); })
         assignGridNeighbors({ grid: this.grid })
     }
 
@@ -48,9 +48,9 @@ export default class Board
     {
         return [
             this.grid[0][0], 
-            this.grid[this.dims.x-1][0],
-            this.grid[this.dims.x-1][this.dims.y-1],
-            this.grid[0][this.dims.y-1]
+            this.grid[this.size.x-1][0],
+            this.grid[this.size.x-1][this.size.y-1],
+            this.grid[0][this.size.y-1]
         ]
     }
 

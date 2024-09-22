@@ -76,7 +76,7 @@ export default class BoardDraw
         this.boardSize = boardSize;
         this.sidebarSize = sidebarSize;
 
-        this.cellSize = boardSize.clone().div(bs.dims);
+        this.cellSize = boardSize.clone().div(bs.size);
         this.cellSizeHalf = this.cellSize.clone().scale(0.5);
         this.cellSizeUnit = Math.min(this.cellSize.x, this.cellSize.y);
 
@@ -105,8 +105,8 @@ export default class BoardDraw
         {
             const resBG = vis.getResource("bg_map");
             const opBG = new LayoutOperation({
-                translate: this.fullSize.clone().scale(0.5),
-                dims: this.fullSize.clone().scale(CONFIG.draw.bg.mapScale),
+                pos: this.fullSize.clone().scale(0.5),
+                size: this.fullSize.clone().scale(CONFIG.draw.bg.mapScale),
                 alpha: CONFIG.draw.bg.mapAlpha,
                 pivot: Point.CENTER,
                 //composite: "color-burn"
@@ -138,7 +138,7 @@ export default class BoardDraw
         ];
 
         const iconOp = new LayoutOperation({
-            dims: iconDims,
+            size: iconDims,
             pivot: Point.CENTER,
             effects: this.defaultEffects
         })
@@ -192,11 +192,11 @@ export default class BoardDraw
                 group.add(new ResourceShape(path), triangleOp);
 
                 const icon = vis.getResource(iconData.textureKey);
-                const rotation = counter * 0.5 * Math.PI;
+                const rot = counter * 0.5 * Math.PI;
                 const pos = posCenter.clone().move(positions[counter]);
                 iconOp.frame = iconData.frame;
-                iconOp.translate = pos;
-                iconOp.rotation = rotation;
+                iconOp.pos = pos;
+                iconOp.rot = rot;
 
                 group.add(icon, iconOp.clone());
                 counter = (counter + 1) % 4;
@@ -241,8 +241,8 @@ export default class BoardDraw
             // extra starting location icon (low alpha)
             const iconOp = new LayoutOperation({
                 frame: MISC.starting_position.frame,
-                translate: posCenter,
-                dims: new Point(2*(1.0-0.275)*dotRadius),
+                pos: posCenter,
+                size: new Point(2*(1.0-0.275)*dotRadius),
                 alpha: 0.45,
                 pivot: Point.CENTER
             })
@@ -260,8 +260,8 @@ export default class BoardDraw
 
         const leftSide = cell.pos.x <= 0;
         const topSide = cell.pos.y <= 0;
-        const rightSide = cell.pos.x >= (bs.dims.x-1);
-        const bottomSide = cell.pos.y >= (bs.dims.y-1);
+        const rightSide = cell.pos.x >= (bs.size.x-1);
+        const bottomSide = cell.pos.y >= (bs.size.y-1);
 
         let possibleSides = [0,1,2,3];
         if(leftSide) { possibleSides.splice(possibleSides.indexOf(3), 1); }
@@ -284,8 +284,8 @@ export default class BoardDraw
         const frame = CONFIG.inSimpleMode ? 0 : 1;
         const tutOp = new LayoutOperation({
             frame: frame,
-            translate: this.originSidebar,
-            dims: tutDims,
+            pos: this.originSidebar,
+            size: tutDims,
             effects: this.defaultEffects
         })
 
@@ -332,8 +332,8 @@ export default class BoardDraw
             iconPos.x += xPadding;
             const iconOp = new LayoutOperation({
                 frame: data.frame,
-                translate: iconPos,
-                dims: iconDimsWithPadding,
+                pos: iconPos,
+                size: iconDimsWithPadding,
                 pivot: Point.CENTER,
                 effects: this.defaultEffects
             })
@@ -352,8 +352,8 @@ export default class BoardDraw
 
             const textOp = new LayoutOperation({
                 fill: "#000000",
-                dims: innerTextDims,
-                translate: innerTextPos,
+                size: innerTextDims,
+                pos: innerTextPos,
                 pivot: new Point(0,0.5)
             })
 
@@ -375,14 +375,14 @@ export default class BoardDraw
                     const metaDims = new Point(CONFIG.draw.sidebar.metadataScale * iconDimsWithPadding.x);
                     const effects = [new DropShadowEffect({ blurRadius: 0.06 * metaDims.x }), this.defaultEffects].flat();
                     const anchorPos = new Point(iconPos.x, iconPos.y + 0.5*iconDimsWithPadding.y);
-                    const pos = getPositionsCenteredAround({ pos: anchorPos, num: arr.length, dims: metaDims })
+                    const pos = getPositionsCenteredAround({ pos: anchorPos, num: arr.length, size: metaDims })
 
                     for(let m = 0; m < arr.length; m++)
                     {
                         const metaOp = new LayoutOperation({
                             frame: MISC[arr[m]].frame,
-                            dims: metaDims,
-                            translate: pos[m],
+                            size: metaDims,
+                            pos: pos[m],
                             pivot: Point.CENTER,
                             effects: effects
                         })

@@ -123,8 +123,8 @@ const CONFIG_SHARED =
         drawerConfig: 
         { 
             autoStroke: true,
-            dimsElement: new Point(1, 1.55),
-            dims:
+            sizeElement: new Point(1, 1.55),
+            size:
             {
                 small: new Point(4,4),
                 regular: new Point(3,3),

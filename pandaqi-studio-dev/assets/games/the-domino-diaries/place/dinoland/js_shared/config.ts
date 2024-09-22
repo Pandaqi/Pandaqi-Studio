@@ -164,8 +164,8 @@ const CONFIG:any =
     {
         drawerConfig:
         {
-            dimsElement: new Point(1, 2),
-            dims: { 
+            sizeElement: new Point(1, 2),
+            size: { 
                 small: new Point(8,6),
                 regular: new Point(6,4),
                 large: new Point(5,3)
@@ -179,8 +179,8 @@ const CONFIG:any =
 
         dino:
         {
-            dims: new CVal(new Point(0.8), "sizeUnit"),
-            dimsArrow: new CVal(new Point(0.66), "sizeUnit"),
+            size: new CVal(new Point(0.8), "sizeUnit"),
+            sizeArrow: new CVal(new Point(0.66), "sizeUnit"),
             shadowColor: "#111111",
             shadowBlur: new CVal(0.02, "sizeUnit"),
 
@@ -194,13 +194,13 @@ const CONFIG:any =
 
         impact:
         {
-            dims: new CVal(new Point(0.8), "sizeUnit"),
+            size: new CVal(new Point(0.8), "sizeUnit"),
             fontSize: new CVal(0.12, "sizeUnit")
         },
 
         asteroid:
         {
-            dims: new CVal(new Point(0.8), "sizeUnit"),
+            size: new CVal(new Point(0.8), "sizeUnit"),
             fontSize: new CVal(0.12, "sizeUnit")
         }
     },

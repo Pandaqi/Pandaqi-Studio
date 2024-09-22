@@ -197,7 +197,7 @@ function generate(o = o1, includeReverse = false)
 
     while(typesCached.length < (numPiles + numPlayers))
     {
-        typesCached.push(e1.getRandomFromList(types, 1)[0]);
+        typesCached.push(e1.getRandomFromList(types, 1)[0] as string);
     }
 
     shuffle(typesCached)

@@ -1,12 +1,12 @@
-import ProgressBar from "js/pq_games/website/progressBar";
-import CONFIG from "../js_shared/config";
+import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple";
+import GridMapper from "js/pq_games/layout/gridMapper";
 import ResourceLoader from "js/pq_games/layout/resources/resourceLoader";
 import PdfBuilder from "js/pq_games/pdf/pdfBuilder";
 import { PageFormat, PageOrientation } from "js/pq_games/pdf/pdfEnums";
-import GridMapper from "js/pq_games/layout/gridMapper";
-import convertCanvasToImageMultiple from "js/pq_games/layout/canvas/convertCanvasToImageMultiple";
-import CardPicker from "./cardPicker";
+import ProgressBar from "js/pq_games/website/progressBar";
+import CONFIG from "../js_shared/config";
 import Card from "./card";
+import CardPicker from "./cardPicker";
 import Visualizer from "./visualizer";
 
 export default class Generator
@@ -84,8 +84,8 @@ export default class Generator
 
         if(CONFIG.debugOnlyGenerate) { return; }
         
-        const dims = CONFIG[type].dims[CONFIG.itemSize ?? "regular"];
-        const gridConfig = { pdfBuilder: this.pdfBuilder, dims: dims, dimsElement: CONFIG[type].dimsElement };
+        const size = CONFIG[type].size[CONFIG.itemSize ?? "regular"];
+        const gridConfig = { pdfBuilder: this.pdfBuilder, size: size, sizeElement: CONFIG[type].sizeElement };
         const gridMapper = new GridMapper(gridConfig);
         this.gridMappers[type] = gridMapper;  
         const visualizerPlay = new Visualizer(this.resLoader, gridMapper.getMaxElementSize(), CONFIG.inkFriendly);

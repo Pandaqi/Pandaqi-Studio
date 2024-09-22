@@ -42,7 +42,7 @@ export default class Tile
     drawTemplate(vis:MaterialVisualizer, group:ResourceGroup)
     {
         const res = vis.getResource("animal_passport");
-        const op = new LayoutOperation({ dims: vis.size, effects: vis.inkFriendlyEffect });
+        const op = new LayoutOperation({ size: vis.size, effects: vis.inkFriendlyEffect });
         group.add(res, op);
     }
 
@@ -54,8 +54,8 @@ export default class Tile
         const res = vis.getResource("animals");
         const frame = data.frame;
         const op = new LayoutOperation({
-            translate: vis.get("tiles.animal.pos"),
-            dims: vis.get("tiles.animal.dims"),
+            pos: vis.get("tiles.animal.pos"),
+            size: vis.get("tiles.animal.size"),
             frame: frame,
             pivot: Point.CENTER
         })
@@ -66,11 +66,11 @@ export default class Tile
         {
             const res = vis.getResource("misc");
             const op = new LayoutOperation({
-                translate: vis.get("tiles.extinct.pos"),
-                dims: vis.get("tiles.extinct.dims"),
+                pos: vis.get("tiles.extinct.pos"),
+                size: vis.get("tiles.extinct.size"),
                 frame: MISC.extinct_stamp.frame,
                 pivot: Point.CENTER,
-                rotation: -0.25*Math.PI + (Math.random() - 0.5) * 0.1 * Math.PI
+                rot: -0.25*Math.PI + (Math.random() - 0.5) * 0.1 * Math.PI
             })
             group.add(res, op);
         }
@@ -84,8 +84,8 @@ export default class Tile
         const text = "<b>Fun Fact!</b> " + data.funFact;
         const resText = new ResourceText({ text: text, textConfig: textConfig });
         const opText = new LayoutOperation({
-            translate: vis.get("tiles.funFact.pos"),
-            dims: vis.get("tiles.funFact.dims"),
+            pos: vis.get("tiles.funFact.pos"),
+            size: vis.get("tiles.funFact.size"),
             fill: "#221100",
             pivot: Point.CENTER,
         })
@@ -108,14 +108,14 @@ export default class Tile
 
         const resTerrains = vis.getResource("terrains");
         const anchor = vis.get("tiles.terrains.posAnchor");
-        const terrainIconDims = vis.get("tiles.terrains.dims");
-        const positions = getPositionsCenteredAround({ pos: anchor, num: terrains.length, dims: terrainIconDims });
+        const terrainIconDims = vis.get("tiles.terrains.size");
+        const positions = getPositionsCenteredAround({ pos: anchor, num: terrains.length, size: terrainIconDims });
         const dropShadowEffect = [ new DropShadowEffect({ color: "#000000", blurRadius: vis.get("tiles.terrains.shadowBlur") }) ];
         for(let i = 0; i < positions.length; i++)
         {
             const op = new LayoutOperation({
-                translate: positions[i],
-                dims: terrainIconDims,
+                pos: positions[i],
+                size: terrainIconDims,
                 frame: TERRAINS[terrains[i]].frame,
                 effects: dropShadowEffect,
                 pivot: Point.CENTER
@@ -140,8 +140,8 @@ export default class Tile
         const glowEffect = [ new DropShadowEffect({ color: "#001100", blurRadius: glowBlur }) ];
         console.log(glowEffect);
         const opText = new LayoutOperation({
-            translate: vis.get("tiles.food.pos"),
-            dims: vis.get("tiles.food.dims"),
+            pos: vis.get("tiles.food.pos"),
+            size: vis.get("tiles.food.size"),
             fill: "#BBFF99",
             stroke: "#001100",
             strokeWidth: 0.5*glowBlur,
@@ -172,8 +172,8 @@ export default class Tile
         const textPower = data.power ?? "None.";
         const resTextPower = new ResourceText({ text: textPower, textConfig: textConfigPower });
         const opTextPower = new LayoutOperation({
-            translate: vis.get("tiles.power.pos"),
-            dims: vis.get("tiles.power.dims"),
+            pos: vis.get("tiles.power.pos"),
+            size: vis.get("tiles.power.size"),
             fill: "#221100",
         })
         group.add(resTextPower, opTextPower);
@@ -184,8 +184,8 @@ export default class Tile
     {
         const res = vis.getResource("misc");
         const op = new LayoutOperation({
-            translate: vis.get("tiles.checkmarks." + key),
-            dims: vis.get("tiles.checkmarks.dims"),
+            pos: vis.get("tiles.checkmarks." + key),
+            size: vis.get("tiles.checkmarks.size"),
             frame: MISC.checkmark.frame,
             pivot: Point.CENTER,
         })

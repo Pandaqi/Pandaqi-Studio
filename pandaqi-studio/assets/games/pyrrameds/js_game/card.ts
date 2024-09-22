@@ -99,7 +99,7 @@ export default class Card
             const alpha = data.invertTexture ? 0.2 : 0.2;
 
             const opTexture = new LayoutOperation({
-                dims: vis.size,
+                size: vis.size,
                 frame: CARD_TEMPLATES[fromArray(options)].frame,
                 composite: composite,
                 alpha: alpha
@@ -109,7 +109,7 @@ export default class Card
 
         // the actual card template on top
         const opTemplate = new LayoutOperation({
-            dims: vis.size,
+            size: vis.size,
             frame: data.frame,
             effects: vis.inkFriendlyEffect
         });
@@ -129,8 +129,8 @@ export default class Card
         const str = this.numWildcard ? "?" : this.num.toString();
         const resText = new ResourceText({ text: str, textConfig });
         const opText = new LayoutOperation({
-            translate: vis.get("cards.number.pos"),
-            dims: vis.size,
+            pos: vis.get("cards.number.pos"),
+            size: vis.size,
             fill: col,
             pivot: Point.CENTER,
             effects: vis.custom.dropShadowEffect
@@ -144,8 +144,8 @@ export default class Card
 
         const resIcon = vis.getResource("medicine");
         const opIcon = new LayoutOperation({
-            translate: vis.get("cards.medicine.pos"),
-            dims: vis.get("cards.medicine.iconDims"),
+            pos: vis.get("cards.medicine.pos"),
+            size: vis.get("cards.medicine.iconDims"),
             frame: MEDICINE[this.key].frame,
             effects: vis.custom.dropShadowEffect,
             pivot: Point.CENTER
@@ -189,7 +189,7 @@ export default class Card
             const iconPositions = getPositionsCenteredAround({ 
                 pos: anchorPos, 
                 num: numIconsInRow, 
-                dims: iconDims 
+                size: iconDims 
             })
 
             for(let a = 0; a < numIconsInRow; a++)
@@ -197,8 +197,8 @@ export default class Card
                 const pos = iconPositions[a];
                 const req = reqsRow[a];
                 const opIcon = new LayoutOperation({
-                    translate: pos,
-                    dims: iconDims,
+                    pos: pos,
+                    size: iconDims,
                     frame: MEDICINE[req].frame,
                     effects: vis.custom.dropShadowEffect,
                     pivot: Point.CENTER
@@ -212,8 +212,8 @@ export default class Card
         const frame = PATIENTS.patient_circle.frame;
         const posPatient = vis.get("cards.patient.illustration.pos");
         const opPatientCircle = new LayoutOperation({
-            translate: posPatient,
-            dims: vis.get("cards.patient.illustration.dimsCircle"),
+            pos: posPatient,
+            size: vis.get("cards.patient.illustration.sizeCircle"),
             frame: frame,
             pivot: Point.CENTER,
             effects: vis.custom.dropShadowEffect
@@ -221,8 +221,8 @@ export default class Card
         group.add(resPatients, opPatientCircle);
 
         const opPatient = new LayoutOperation({
-            translate: posPatient,
-            dims: vis.get("cards.patient.illustration.dimsIcon"),
+            pos: posPatient,
+            size: vis.get("cards.patient.illustration.sizeIcon"),
             frame: PATIENTS[this.key].frame,
             pivot: Point.CENTER,
         })
@@ -240,8 +240,8 @@ export default class Card
 
         const resText = new ResourceText({ text: this.special, textConfig });
         const opText = new LayoutOperation({
-            translate: vis.get("cards.special.textBoxPos"),
-            dims: vis.get("cards.special.textBoxDims"),
+            pos: vis.get("cards.special.textBoxPos"),
+            size: vis.get("cards.special.textBoxDims"),
             fill: vis.get("cards.special.textColor"),
             pivot: Point.CENTER
         })

@@ -62,7 +62,7 @@ export default class TenantWish
         this.num = Math.max(Math.min(this.num + n, CONFIG.generation.maxWishNumber), 1);
     }
 
-    draw(vis:MaterialVisualizer, dims:Point) : ResourceGroup
+    draw(vis:MaterialVisualizer, size:Point) : ResourceGroup
     {
         const group = new ResourceGroup();
 
@@ -107,9 +107,9 @@ export default class TenantWish
         }
 
         const resMain = vis.getResource(resourceKey);
-        const eff = new DropShadowEffect({ color: "#000000", blurRadius: 0.025*dims.x });
+        const eff = new DropShadowEffect({ color: "#000000", blurRadius: 0.025*size.x });
         const opMain = new LayoutOperation({
-            dims: dims,
+            size: size,
             pivot: Point.CENTER,
             effects: [eff, vis.inkFriendlyEffect].flat(),
             frame: frame,
@@ -126,8 +126,8 @@ export default class TenantWish
     
             const resText = new ResourceText({ text: this.num.toString(), textConfig });
             const opText = new LayoutOperation({
-                translate: vis.get("dominoes.tenant.wishes.number.pos"), 
-                dims: dims,
+                pos: vis.get("dominoes.tenant.wishes.number.pos"), 
+                size: size,
                 pivot: Point.CENTER,
                 fill: vis.get("dominoes.tenant.wishes.number.textColor"),
                 stroke: vis.get("dominoes.tenant.wishes.number.strokeColor"),
@@ -142,7 +142,7 @@ export default class TenantWish
         {
             const resMisc = vis.getResource("misc");
             const opInvert = new LayoutOperation({
-                dims: dims.clone().scale(1.33),
+                size: size.clone().scale(1.33),
                 pivot: Point.CENTER,
                 frame: MISC.invert_cross.frame
             })

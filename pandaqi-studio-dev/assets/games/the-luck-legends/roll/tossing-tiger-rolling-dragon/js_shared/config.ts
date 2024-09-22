@@ -135,8 +135,8 @@ const CONFIG:any =
         drawerConfig:
         {
             autoStroke: true,
-            dimsElement: new Point(1, 1.4),
-            dims: 
+            sizeElement: new Point(1, 1.4),
+            size: 
             { 
                 small: new Point(4,4),
                 regular: new Point(3,3),
@@ -158,7 +158,7 @@ const CONFIG:any =
         {
             useSimplified: false,
             pos: new CVal(new Point(0.5, 0.285), "size"),
-            dims: new CVal(new Point(0.65), "sizeUnit"),
+            size: new CVal(new Point(0.65), "sizeUnit"),
             shadowBlur: new CVal(0.01, "sizeUnit"),
         },
 
@@ -181,7 +181,7 @@ const CONFIG:any =
             {
                 fontSize: new CVal(0.08, "sizeUnit"),
                 pos: new CVal(new Point(0.5, 0.6), "size"),
-                dims: new CVal(new Point(0.85), "sizeUnit"),
+                size: new CVal(new Point(0.85), "sizeUnit"),
                 posRooster: new CVal(new Point(0.5, 0.92), "size"),
             },
 
@@ -191,7 +191,7 @@ const CONFIG:any =
             posText: new CVal(new Point(0.5, 0.75), "size"),
             posRooster: new CVal(new Point(0.5, 0.52), "size"), // for the EXTRA box on rooster cards
             textPosRooster: new CVal(new Point(0.5, 0.532), "size"),
-            dims: new CVal(new Point(0.9), "sizeUnit"),
+            size: new CVal(new Point(0.9), "sizeUnit"),
             textDims: new CVal(new Point(0.775), "sizeUnit")
         }
     },

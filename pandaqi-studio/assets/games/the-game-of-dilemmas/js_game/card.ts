@@ -59,7 +59,7 @@ export default class Card
         }
 
         const resOp = new LayoutOperation({
-            dims: vis.size,
+            size: vis.size,
             effects: effects
         });
         group.add(res, resOp);
@@ -73,8 +73,8 @@ export default class Card
         // cloudy things at bottom for backdrop
         const bubbleOp = new LayoutOperation({
             frame: 3,
-            dims: new Point(vis.sizeUnit),
-            translate: new Point(0, vis.size.y),
+            size: new Point(vis.sizeUnit),
+            pos: new Point(0, vis.size.y),
             pivot: new Point(0,1)
         })
         group.add(res, bubbleOp);
@@ -91,8 +91,8 @@ export default class Card
 
         const textOp = new LayoutOperation({
             fill: "#FFFFFF",
-            translate: new Point(vis.center.x, yPos),
-            dims: new Point(vis.size.x, 1.5*fontSize),
+            pos: new Point(vis.center.x, yPos),
+            size: new Point(vis.size.x, 1.5*fontSize),
             stroke: strokeColor,
             strokeWidth: strokeWidth,
             strokeAlign: StrokeAlign.OUTSIDE,
@@ -114,8 +114,8 @@ export default class Card
         {
             const resOp = new LayoutOperation({
                 frame: data.frame,
-                translate: corner,
-                dims: iconDims,
+                pos: corner,
+                size: iconDims,
                 pivot: Point.CENTER,
                 effects: vis.effects
             });
@@ -147,14 +147,14 @@ export default class Card
         }).alignCenter();
 
         const resText = new ResourceText({ text: text, textConfig: textConfig });
-        const textDims = CONFIG.cards.text.dims.clone().scale(vis.size);
+        const textDims = CONFIG.cards.text.size.clone().scale(vis.size);
         const categoryData = this.getCategoryData();
         const colorText = vis.inkFriendly ? "#000000" : (categoryData.colorText ?? "#000000");
         const yPos = CONFIG.cards.text.yPos * vis.size.y;
 
         const textOp = new LayoutOperation({
-            translate: new Point(vis.center.x, yPos),
-            dims: textDims,
+            pos: new Point(vis.center.x, yPos),
+            size: textDims,
             fill: colorText,
             pivot: Point.CENTER
         });

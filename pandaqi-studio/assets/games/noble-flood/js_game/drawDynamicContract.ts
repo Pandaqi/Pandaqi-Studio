@@ -121,8 +121,8 @@ const drawCardForContract = (vis:MaterialVisualizer, card:DrawCard, dynDetails:D
         let suits = Array.isArray(card.suit) ? card.suit : [card.suit];
 
         const anchor = vis.get("cards.contractDraw.card.suitPos");
-        const dims = vis.get("cards.contractDraw.card.suitDims").clone().scale(1.0 / suits.length);
-        const positions = getPositionsCenteredAround({ pos: anchor, num: suits.length, dims: dims })
+        const size = vis.get("cards.contractDraw.card.suitDims").clone().scale(1.0 / suits.length);
+        const positions = getPositionsCenteredAround({ pos: anchor, num: suits.length, size: size })
         
         for(let i = 0; i < suits.length; i++)
         {
@@ -136,8 +136,8 @@ const drawCardForContract = (vis:MaterialVisualizer, card:DrawCard, dynDetails:D
             }
 
             const op = new LayoutOperation({
-                translate: positions[i],
-                dims: dims,
+                pos: positions[i],
+                size: size,
                 frame: frame,
                 pivot: Point.CENTER
             });
@@ -146,8 +146,8 @@ const drawCardForContract = (vis:MaterialVisualizer, card:DrawCard, dynDetails:D
             if(card.suitInvert)
             {
                 const opInvert = new LayoutOperation({
-                    translate: positions[i],
-                    dims: dims.clone().scale(1.25),
+                    pos: positions[i],
+                    size: size.clone().scale(1.25),
                     frame: MISC.invert_cross.frame,
                     alpha: 0.85,
                     pivot: Point.CENTER
@@ -172,8 +172,8 @@ const drawCardForContract = (vis:MaterialVisualizer, card:DrawCard, dynDetails:D
         }).alignCenter();
 
         const anchor = vis.get("cards.contractDraw.card.numberPos");
-        const dims = vis.get("cards.contractDraw.card.numberDims").clone().scale(scaleFactor);
-        const positions = getPositionsCenteredAround({ pos: anchor, num: numbers.length, dims: dims })
+        const size = vis.get("cards.contractDraw.card.numberDims").clone().scale(scaleFactor);
+        const positions = getPositionsCenteredAround({ pos: anchor, num: numbers.length, size: size })
         
         for(let i = 0; i < numbers.length; i++)
         {
@@ -181,8 +181,8 @@ const drawCardForContract = (vis:MaterialVisualizer, card:DrawCard, dynDetails:D
             const mustBeSame = (number == -1);
 
             const op = new LayoutOperation({
-                translate: positions[i],
-                dims: dims,
+                pos: positions[i],
+                size: size,
                 pivot: Point.CENTER
             });
 
@@ -237,7 +237,7 @@ export default (vis: MaterialVisualizer, drawDetails:DrawDetails, dynDetails:Dyn
     const positionsGlobal = getPositionsCenteredAround({ 
         pos: canvSize.clone().scale(0.5),
         num: numGroups,
-        dims: groupDimsOuter,
+        size: groupDimsOuter,
         dir: layoutDir == "horizontal" ? Point.RIGHT : Point.DOWN
     })
 
@@ -305,7 +305,7 @@ export default (vis: MaterialVisualizer, drawDetails:DrawDetails, dynDetails:Dyn
         const positions = getPositionsCenteredAround({
             pos: new Point(),
             num: numCards,
-            dims: cardDims.clone().scale(new Point(1.0 - cardOverlap, 1))
+            size: cardDims.clone().scale(new Point(1.0 - cardOverlap, 1))
         });
 
         const cardDimsUnit = Math.min(cardDims.x, cardDims.y);
@@ -319,8 +319,8 @@ export default (vis: MaterialVisualizer, drawDetails:DrawDetails, dynDetails:Dyn
         {
             const fadeDims = new Point(cardDims.y);
             const opFadeLeft = new LayoutOperation({
-                translate: new Point(-0.5*groupDims.x + 0.225*fadeDims.x, 0),
-                dims: fadeDims,
+                pos: new Point(-0.5*groupDims.x + 0.225*fadeDims.x, 0),
+                size: fadeDims,
                 frame: MISC.undefined_length_1.frame,
                 alpha: 0.66,
                 flipX: true,
@@ -329,7 +329,7 @@ export default (vis: MaterialVisualizer, drawDetails:DrawDetails, dynDetails:Dyn
             group.add(resMisc, opFadeLeft);
 
             const opFadeRight = opFadeLeft.clone(true);
-            opFadeRight.translate = opFadeRight.translate.clone().scaleX(-1);
+            opFadeRight.pos = opFadeRight.pos.clone().scaleX(-1);
             opFadeRight.flipX = false;
             group.add(resMisc, opFadeRight);
         }
@@ -353,8 +353,8 @@ export default (vis: MaterialVisualizer, drawDetails:DrawDetails, dynDetails:Dyn
             if(drawGroup.discard)
             {
                 const opDiscard = new LayoutOperation({
-                    translate: new Point(0, -0.6*cardDims.y),
-                    dims: new Point(cardDims.x),
+                    pos: new Point(0, -0.6*cardDims.y),
+                    size: new Point(cardDims.x),
                     frame: MISC.discard_pile.frame,
                     pivot: Point.CENTER
                 });
@@ -364,8 +364,8 @@ export default (vis: MaterialVisualizer, drawDetails:DrawDetails, dynDetails:Dyn
             // draw the actual card
             const resCard = drawCardForContract(vis, card, dynDetails);
             const opCard = new LayoutOperation({
-                translate: pos,
-                dims: cardDims,
+                pos: pos,
+                size: cardDims,
                 pivot: Point.CENTER
             });
             group.add(resCard, opCard);
@@ -387,8 +387,8 @@ export default (vis: MaterialVisualizer, drawDetails:DrawDetails, dynDetails:Dyn
                 if(drawGroup.adjacent)
                 {
                     const op = new LayoutOperation({
-                        translate: betweenPosAdjacent,
-                        dims: betweenCardIconDims,
+                        pos: betweenPosAdjacent,
+                        size: betweenCardIconDims,
                         frame: MISC.adjacent.frame,
                         pivot: Point.CENTER
                     });
@@ -398,8 +398,8 @@ export default (vis: MaterialVisualizer, drawDetails:DrawDetails, dynDetails:Dyn
                 if(drawGroup.numeric)
                 {
                     const op = new LayoutOperation({
-                        translate: betweenPosNumeric,
-                        dims: betweenCardIconDims,
+                        pos: betweenPosNumeric,
+                        size: betweenCardIconDims,
                         frame: MISC.numeric.frame,
                         pivot: Point.CENTER
                     });
@@ -419,8 +419,8 @@ export default (vis: MaterialVisualizer, drawDetails:DrawDetails, dynDetails:Dyn
         if(drawRowIcon)
         {
             const opRow = new LayoutOperation({
-                translate: new Point(0, -0.5*cardDims.y),
-                dims: overSetIconDims,
+                pos: new Point(0, -0.5*cardDims.y),
+                size: overSetIconDims,
                 frame: MISC.same_row.frame,
                 pivot: Point.CENTER
             });
@@ -430,7 +430,7 @@ export default (vis: MaterialVisualizer, drawDetails:DrawDetails, dynDetails:Dyn
         // add this entire group as child of main one
         const anchorPos = positionsGlobal[i]; 
         const opGroup = new LayoutOperation({
-            translate: anchorPos,
+            pos: anchorPos,
             effects: shadowEffects
         });
         groupGlobal.add(group, opGroup);
@@ -442,11 +442,11 @@ export default (vis: MaterialVisualizer, drawDetails:DrawDetails, dynDetails:Dyn
             const nextAnchorPos = positionsGlobal[i+1];
             const data = MISC["union_" + drawGroup.union]
             const unionOp = new LayoutOperation({
-                translate: anchorPos.clone().add(nextAnchorPos).scale(0.5),
-                dims: unionDims,
+                pos: anchorPos.clone().add(nextAnchorPos).scale(0.5),
+                size: unionDims,
                 frame: data.frame,
                 pivot: Point.CENTER,
-                rotation: layoutDir == "horizontal" ? 0 : 0.5*Math.PI
+                rot: layoutDir == "horizontal" ? 0 : 0.5*Math.PI
             })
             groupGlobal.add(resMisc, unionOp);
         }

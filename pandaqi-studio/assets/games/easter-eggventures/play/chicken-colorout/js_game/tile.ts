@@ -57,8 +57,8 @@ export default class Tile extends MaterialEaster
     {
         const res = vis.getResource("misc_unique");
         const op = new LayoutOperation({
-            translate: new Point(),
-            dims: vis.size,
+            pos: new Point(),
+            size: vis.size,
             frame: MISC_UNIQUE.seeker_pawn.frame,
             effects: vis.inkFriendlyEffect
         });
@@ -70,8 +70,8 @@ export default class Tile extends MaterialEaster
         // the actual egg in background
         const res = vis.getResource("misc_unique");
         const op = new LayoutOperation({
-            translate: new Point(),
-            dims: vis.size,
+            pos: new Point(),
+            size: vis.size,
             frame: MISC_UNIQUE.victory_egg.frame,
             effects: vis.inkFriendlyEffect
         });
@@ -88,8 +88,8 @@ export default class Tile extends MaterialEaster
         const textRes = new ResourceText({ text: text, textConfig: textConfig });
         const textColor = vis.inkFriendly ? "#000000" : vis.get("eggs.victory.textColor");
         const textOp = new LayoutOperation({
-            translate: vis.get("eggs.victory.textPos"),
-            dims: new Point(3*textConfig.size),
+            pos: vis.get("eggs.victory.textPos"),
+            size: new Point(3*textConfig.size),
             pivot: Point.CENTER,
             fill: textColor
         })
@@ -117,8 +117,8 @@ export default class Tile extends MaterialEaster
         const key = "bg_" + vis.get("tiles.background.randomFrameBounds").randomInteger();
         const res = vis.getResource("misc_unique");
         const op = new LayoutOperation({
-            translate: new Point(),
-            dims: vis.size,
+            pos: new Point(),
+            size: vis.size,
             frame: MISC_UNIQUE[key].frame,
             alpha: vis.get("tiles.background.alpha"),
             effects: vis.inkFriendlyEffect
@@ -131,8 +131,8 @@ export default class Tile extends MaterialEaster
         {
             const resPattern = vis.getResource("misc");
             const opPattern = new LayoutOperation({
-                translate: new Point(),
-                dims: vis.size,
+                pos: new Point(),
+                size: vis.size,
                 frame: vis.get("tiles.background.randomPatternFrameBounds").randomInteger(),
                 alpha: vis.get("tiles.background.alphaPattern")
             })
@@ -145,8 +145,8 @@ export default class Tile extends MaterialEaster
             const res = vis.getResource("misc_unique");
             const key = "starter_tutorial_" + this.customData.num;
             const op = new LayoutOperation({
-                translate: vis.center,
-                dims: vis.get("tiles.starter.tutorialSize"),
+                pos: vis.center,
+                size: vis.get("tiles.starter.tutorialSize"),
                 frame: MISC_UNIQUE[key].frame,
                 pivot: Point.CENTER,
                 effects: vis.inkFriendlyEffect
@@ -162,8 +162,8 @@ export default class Tile extends MaterialEaster
         const grid = this.customData.grid;
         if(!grid) { return; }
 
-        const dims = new Point(grid.length, grid[0].length);
-        const cellSize = new Point(vis.size.x / dims.x, vis.size.y / dims.y);
+        const size = new Point(grid.length, grid[0].length);
+        const cellSize = new Point(vis.size.x / size.x, vis.size.y / size.y);
 
         // draw the grid lines
         const gridLineColor = vis.inkFriendly ? "#000000" : vis.get("tiles.grid.gridLines.fillColor");
@@ -174,14 +174,14 @@ export default class Tile extends MaterialEaster
             composite: vis.get("tiles.grid.gridLines.composite")
         })
 
-        for(let x = 0; x < dims.x; x++)
+        for(let x = 0; x < size.x; x++)
         {
             const realX = x * cellSize.x;
             const res = new ResourceShape(new Line(new Point(realX, 0), new Point(realX, vis.size.y)));
             group.add(res, gridOp);
         }
 
-        for(let y = 0; y < dims.y; y++)
+        for(let y = 0; y < size.y; y++)
         {
             const realY = y * cellSize.y;
             const res = new ResourceShape(new Line(new Point(0, realY), new Point(vis.size.x, realY)));
@@ -222,9 +222,9 @@ export default class Tile extends MaterialEaster
         // draw the contents of the grid
         const spriteDims = cellSize.clone().scale(vis.get("tiles.grid.spriteDimsScaleFactor"));
         const spriteDimsReq = spriteDims.clone().scale(vis.get("tiles.grid.spriteDimsScaleFactor"));
-        for(let x = 0; x < dims.x; x++)
+        for(let x = 0; x < size.x; x++)
         {
-            for(let y = 0; y < dims.y; y++)
+            for(let y = 0; y < size.y; y++)
             {
                 const data = grid[x][y];
                 const realPos = new Point(x + 0.5, y + 0.5).scale(cellSize);
@@ -235,8 +235,8 @@ export default class Tile extends MaterialEaster
                     const spriteData = this.customData.slotReq[data.index];
                     const res = vis.getResource(spriteData.texture);
                     const op = new LayoutOperation({
-                        translate: realPos,
-                        dims: spriteDimsReq,
+                        pos: realPos,
+                        size: spriteDimsReq,
                         frame: spriteData.frame,
                         pivot: Point.CENTER,
                         effects: vis.inkFriendlyEffect
@@ -248,11 +248,11 @@ export default class Tile extends MaterialEaster
                     {
                         const resArr = vis.getResource("misc_unique");
                         const opArr = new LayoutOperation({
-                            translate: realPos,
-                            dims: spriteDims,
+                            pos: realPos,
+                            size: spriteDims,
                             frame: MISC_UNIQUE.slot_arrows.frame,
                             pivot: Point.CENTER,
-                            rotation: spriteData.arrow * 0.5 * Math.PI,
+                            rot: spriteData.arrow * 0.5 * Math.PI,
                             effects: vis.inkFriendlyEffect
                         })
                         group.add(resArr, opArr);
@@ -263,8 +263,8 @@ export default class Tile extends MaterialEaster
                 
                     const res = vis.getResource("misc_unique");
                     const op = new LayoutOperation({
-                        translate: realPos,
-                        dims: spriteDims,
+                        pos: realPos,
+                        size: spriteDims,
                         frame: MISC_UNIQUE.egg_slot.frame,
                         pivot: Point.CENTER,
                         effects: vis.inkFriendlyEffect
@@ -279,12 +279,12 @@ export default class Tile extends MaterialEaster
                     const isLarge = decData.size == "large"
 
                     const pos = isLarge ? realPos.clone().add(cellSize.clone().scale(0.5)) : realPos;
-                    const dims = isLarge ? spriteDims.clone().scale(2) : spriteDims; 
+                    const size = isLarge ? spriteDims.clone().scale(2) : spriteDims; 
 
                     const res = vis.getResource("tiles");
                     const op = new LayoutOperation({
-                        translate: pos,
-                        dims: dims,
+                        pos: pos,
+                        size: size,
                         frame: decData.frame,
                         pivot: Point.CENTER,
                         flipX: Math.random() <= 0.5,
@@ -310,8 +310,8 @@ export default class Tile extends MaterialEaster
         // @TODO: make this a bit nicer, indicate it's an Added Score, etcetera
 
         const grid = this.customData.grid;
-        const dims = new Point(grid.length, grid[0].length);
-        const cellSize = new Point(vis.size.x / dims.x, vis.size.y / dims.y);
+        const size = new Point(grid.length, grid[0].length);
+        const cellSize = new Point(vis.size.x / size.x, vis.size.y / size.y);
 
         const scoreRect = this.customData.scoringRuleRect.clone(true).scaleCenter(cellSize).scale(cellSize);
         const textBoxDims = scoreRect.getSize().scale(0.9);
@@ -327,8 +327,8 @@ export default class Tile extends MaterialEaster
         const textResHint = new ResourceText({ text: textHint, textConfig: textConfig });
         const textColor = vis.inkFriendly ? "#000000" : vis.get("tiles.scoreText.color");
         const textOpHint = new LayoutOperation({
-            translate: new Point(scoreRect.getCenter().x, scoreRect.getTopLeft().y + 0.85 * textConfig.size),
-            dims: textBoxDims,
+            pos: new Point(scoreRect.getCenter().x, scoreRect.getTopLeft().y + 0.85 * textConfig.size),
+            size: textBoxDims,
             pivot: Point.CENTER,
             fill: textColor,
             alpha: 0.75
@@ -344,19 +344,19 @@ export default class Tile extends MaterialEaster
             const spriteDims = new Point(1.45 * textConfig.size);
             const sideOffsetFactor = 0.66;
             const op = new LayoutOperation({
-                translate: new Point(scoreRect.getTopLeft().x + sideOffsetFactor*spriteDims.x, textOpHint.translate.y),
-                dims: spriteDims,
+                pos: new Point(scoreRect.getTopLeft().x + sideOffsetFactor*spriteDims.x, textOpHint.pos.y),
+                size: spriteDims,
                 frame: MISC_UNIQUE.slot_arrows.frame,
-                rotation: rangeInteger(0,3) * 0.5 * Math.PI,
+                rot: rangeInteger(0,3) * 0.5 * Math.PI,
                 pivot: Point.CENTER,
                 effects: [new InvertEffect(), vis.inkFriendlyEffect].flat()
             });
             group.add(res, op);
 
             const opMirror = op.clone();
-            const mirrorTrans = op.translate.clone();
+            const mirrorTrans = op.pos.clone();
             mirrorTrans.x = scoreRect.getTopRight().x - sideOffsetFactor*spriteDims.x;
-            opMirror.translate = mirrorTrans;
+            opMirror.pos = mirrorTrans;
             group.add(res, opMirror);
         }
         
@@ -364,8 +364,8 @@ export default class Tile extends MaterialEaster
         const text = SPECIAL_SCORE_RULES[scoringRule].desc;
         const textRes = new ResourceText({ text: text, textConfig: textConfig });
         const textOp = new LayoutOperation({
-            translate: scoreRect.getCenter(),
-            dims: textBoxDims,
+            pos: scoreRect.getCenter(),
+            size: textBoxDims,
             pivot: Point.CENTER,
             fill: textColor
         })

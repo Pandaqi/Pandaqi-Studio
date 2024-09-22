@@ -15,20 +15,20 @@ export default class BoardGen
 {
     async generate()
     {
-        const dims = CONFIG.gen.dims[CONFIG.boardSize];
+        const size = CONFIG.gen.size[CONFIG.boardSize];
 
-        const iconDistribution = this.determineIconDistribution(dims);
-        const cells = this.createCells(dims, iconDistribution);
+        const iconDistribution = this.determineIconDistribution(size);
+        const cells = this.createCells(size, iconDistribution);
         this.assignTypes(cells);
-        this.pickStartingPositions(cells, dims);
+        this.pickStartingPositions(cells, size);
         
         const bs = new BoardState().fromGrid(cells);
         return bs;
     }
 
-    determineIconDistribution(dims:Point)
+    determineIconDistribution(size:Point)
     {
-        const numCells = dims.x * dims.y;
+        const numCells = size.x * size.y;
         const distBounds = CONFIG.gen.numIconsPerCell;
         const dist = [];
         for(const [num, bounds] of Object.entries(distBounds))
@@ -214,15 +214,15 @@ export default class BoardGen
         return options[0];
     }
 
-    createCells(dims:Point, list:number[])
+    createCells(size:Point, list:number[])
     {
         const arr = [];
         list = shuffle(list.slice());
         let counter = 0;
-        for(let x = 0; x < dims.x; x++)
+        for(let x = 0; x < size.x; x++)
         {
             arr[x] = [];
-            for(let y = 0; y < dims.y; y++)
+            for(let y = 0; y < size.y; y++)
             {
                 const numIcons = list[counter];
                 const cell = new Cell(new Point(x,y), numIcons);
@@ -241,10 +241,10 @@ export default class BoardGen
         return arr;
     }
 
-    getDistToEdge(cell:Cell, dims:Point) : number
+    getDistToEdge(cell:Cell, size:Point) : number
     {
-        const xDist = Math.min(cell.pos.x, dims.x - 1 - cell.pos.x);
-        const yDist = Math.min(cell.pos.y, dims.y - 1 - cell.pos.y);
+        const xDist = Math.min(cell.pos.x, size.x - 1 - cell.pos.x);
+        const yDist = Math.min(cell.pos.y, size.y - 1 - cell.pos.y);
         return xDist + yDist;
     }
 
@@ -260,13 +260,13 @@ export default class BoardGen
         return minDist;
     }
 
-    pickStartingPositions(grid:Cell[][], dims:Point)
+    pickStartingPositions(grid:Cell[][], size:Point)
     {
         const cells = shuffle(grid.flat());
         
         // pick any random first starting position
         const baseCell = cells.pop();
-        const baseDistToEdge = this.getDistToEdge(baseCell, dims);
+        const baseDistToEdge = this.getDistToEdge(baseCell, size);
 
         // select all other options with roughly equal distance to edge + enough icons for choice at start
         // (it's the most limiting / deciding factor)
@@ -276,7 +276,7 @@ export default class BoardGen
         const maxError = CONFIG.gen.maxStartingPositionEdgeDistError;
         for(const cell of cells)
         {
-            const distToEdge = this.getDistToEdge(cell, dims);
+            const distToEdge = this.getDistToEdge(cell, size);
             const diff = Math.abs(distToEdge - baseDistToEdge);
             if(diff > 2*maxError) { continue; }
             optionsLoose.push(cell);
@@ -286,7 +286,7 @@ export default class BoardGen
         }
 
         // pick randomly from those, keeping a minimum distance
-        const minDistRequired = Math.floor(Math.min(dims.x, dims.y) * 0.5);
+        const minDistRequired = Math.floor(Math.min(size.x, size.y) * 0.5);
         const startingPositions : Cell[] = [baseCell];
         shuffle(optionsLoose);
         for(const option of options)

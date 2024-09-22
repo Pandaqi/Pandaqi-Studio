@@ -114,7 +114,7 @@ export default class MapVisualizer {
             {
                 obj.sprites.push({
                     p: point,
-                    rotation: 0,
+                    rot: 0,
                     frame: frame,
                     textureKey: "point_types",
                     size: 1.2*radius
@@ -135,7 +135,7 @@ export default class MapVisualizer {
                     stroke: "#FFFFFF",
                     strokeWidth: 0.85*params.lineWidth,
                     fontFamily: "proza",
-                    rotation: 0,
+                    rot: 0,
                     fontSize: 0.735*params.fontSize
                 })
             }  
@@ -176,7 +176,7 @@ export default class MapVisualizer {
 
             const textParams = {
                 p: new Point({ x: x, y: y}),
-                rotation: -0.5 * Math.PI,
+                rot: -0.5 * Math.PI,
                 textAlign: "left",
                 textBaseline: "top",
                 fontSize: params.fontSize,
@@ -192,7 +192,7 @@ export default class MapVisualizer {
             const spriteOffsetSize = 1.75*spriteSize;
             const spriteParams = {
                 p: null,
-                rotation: -0.5 * Math.PI,
+                rot: -0.5 * Math.PI,
                 frame: 0,
                 textureKey: "icon_points",
                 size: spriteSize

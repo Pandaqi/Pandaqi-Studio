@@ -6,7 +6,7 @@ import ResourceImage from "../resources/resourceImage";
 
 interface PatternizeParams
 {
-    dims:Point|number, // total size
+    size:Point|number, // total size
     num:Point|number, // number of icons in each direction
     size:Point|number, // how much of the available icon space the icon actually takes up (so usually <1.0)
     resource:ResourceImage, // which image to actually draw
@@ -15,7 +15,7 @@ interface PatternizeParams
 
 export default async (params:PatternizeParams) =>
 {
-    const dims = new Point(params.dims);
+    const dims = new Point(params.size);
     const num = new Point(params.num);
     const size = new Point(params.size);
     const resourceInput = params.resource;
@@ -32,11 +32,11 @@ export default async (params:PatternizeParams) =>
             const pos = new Point(x,y).scale(distBetweenIcons);
             const op = new LayoutOperation({
                 frame: frame,
-                translate: pos,
-                dims: iconSize,
+                pos: pos,
+                size: iconSize,
                 pivot: Point.CENTER,
             })
-            await resourceInput.toCanvas(ctx, op);
+            resourceInput.toCanvas(ctx, op);
         }
     }
 

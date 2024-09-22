@@ -68,7 +68,7 @@ const CONFIG =
 
     board: 
     {
-        dims: new Point(8, 6),
+        size: new Point(8, 6),
         resolutionPerCell: 5,
         maxGridLineVariation: 0.1,
 

@@ -1,22 +1,21 @@
 import createContext from "js/pq_games/layout/canvas/createContext";
-import CONFIG from "../js_shared/config";
-import strokeCanvas from "js/pq_games/layout/canvas/strokeCanvas";
-import Point from "js/pq_games/tools/geometry/point";
-import Visualizer from "./visualizer";
-import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
+import strokeCanvas from "js/pq_games/layout/canvas/strokeCanvas";
 import Color from "js/pq_games/layout/color/color";
-import getRectangleCornersWithOffset from "js/pq_games/tools/geometry/paths/getRectangleCornersWithOffset";
-import Rectangle from "js/pq_games/tools/geometry/rectangle";
-import Path from "js/pq_games/tools/geometry/paths/path";
+import GrayScaleEffect from "js/pq_games/layout/effects/grayScaleEffect";
+import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import ResourceShape from "js/pq_games/layout/resources/resourceShape";
-import bevelCorners from "js/pq_games/tools/geometry/paths/bevelCorners";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
 import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
 import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
+import bevelCorners from "js/pq_games/tools/geometry/paths/bevelCorners";
+import getRectangleCornersWithOffset from "js/pq_games/tools/geometry/paths/getRectangleCornersWithOffset";
+import Path from "js/pq_games/tools/geometry/paths/path";
+import Point from "js/pq_games/tools/geometry/point";
+import Rectangle from "js/pq_games/tools/geometry/rectangle";
+import CONFIG from "../js_shared/config";
 import { CATS, POWERS } from "../js_shared/dict";
-import ColorLike from "js/pq_games/layout/color/colorLike";
-import GrayScaleEffect from "js/pq_games/layout/effects/grayScaleEffect";
+import Visualizer from "./visualizer";
 
 export default class Card
 {
@@ -70,9 +69,9 @@ export default class Card
         const pattern = vis.patternCat;
         const rot = CONFIG.cards.bgCats.patternRotation;
         const op = new LayoutOperation({
-            translate: vis.center,
+            pos: vis.center,
             alpha: alpha,
-            rotation: rot,
+            rot: rot,
             pivot: Point.CENTER
         })
         await pattern.toCanvas(ctx, op);
@@ -112,14 +111,14 @@ export default class Card
             const rot = i <= 1 ? 0 : Math.PI;
             const pos = positions[i];
             const op = new LayoutOperation({
-                translate: pos,
-                dims: new Point(vis.size.x, fontSize),
+                pos: pos,
+                size: new Point(vis.size.x, fontSize),
                 fill: colorDark,
                 stroke: colorLight,
                 strokeWidth: strokeWidth,
                 strokeAlign: StrokeAlign.OUTSIDE,
                 pivot: Point.CENTER,
-                rotation: rot,
+                rot: rot,
                 effects: vis.effects
             })
 
@@ -135,8 +134,8 @@ export default class Card
 
         // then the suit icon below
         const resIcon = vis.resLoader.getResource("suits");
-        const dimsIcon = CONFIG.cards.corners.iconSize * fontSize;
-        const offsetIcon = (0.5 * fontSize + 0.5*dimsIcon) * CONFIG.cards.corners.offsetIcon;
+        const sizeIcon = CONFIG.cards.corners.iconSize * fontSize;
+        const offsetIcon = (0.5 * fontSize + 0.5*sizeIcon) * CONFIG.cards.corners.offsetIcon;
         const frame = this.getData().frame;
         const effects = vis.inkFriendly ? [new GrayScaleEffect()] : [];
 
@@ -151,9 +150,9 @@ export default class Card
             const pos = positions[i].clone().move(new Point(0, offsetDir * offsetIcon));
             const op = new LayoutOperation({
                 frame: frame,
-                dims: new Point(dimsIcon),
-                translate: pos,
-                rotation: rot,
+                size: new Point(sizeIcon),
+                pos: pos,
+                rot: rot,
                 pivot: Point.CENTER,
                 effects: effects,
             })
@@ -167,7 +166,7 @@ export default class Card
         const extentsRect = vis.size.clone().scale(CONFIG.cards.powers.rectSize);
         const offsetFactor = CONFIG.includePowers ? CONFIG.cards.illustration.offset : 0.0;
         const offset = 0.5 * offsetFactor * extentsRect.y;
-        const dims = new Point(CONFIG.cards.illustration.size * vis.sizeUnit);
+        const size = new Point(CONFIG.cards.illustration.size * vis.sizeUnit);
         const res = vis.resLoader.getResource("cats");
         const frame = this.getData().frame;
         const effects = vis.inkFriendly ? [new GrayScaleEffect()] : [];
@@ -179,9 +178,9 @@ export default class Card
             const pos = vis.center.clone().move(new Point(0, dir * offset));
             const op = new LayoutOperation({
                 frame: frame,
-                translate: pos,
-                dims: dims,
-                rotation: rot,
+                pos: pos,
+                size: size,
+                rot: rot,
                 pivot: new Point(0.5, 1),
                 effects: effects
             })
@@ -232,8 +231,8 @@ export default class Card
         const extentsText = new Point(extents.x - 2*padding.x, extents.y - 2*padding.y);
 
         const opText = new LayoutOperation({
-            dims: extentsText,
-            translate: vis.center,
+            size: extentsText,
+            pos: vis.center,
             fill: "#000000",
             pivot: Point.CENTER
         })

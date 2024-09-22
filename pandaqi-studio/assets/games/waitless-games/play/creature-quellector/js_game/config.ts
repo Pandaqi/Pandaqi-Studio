@@ -134,13 +134,15 @@ export default
 
     cards: 
     {
-        dims: 
+        size: 
         { 
             small: new Point(4, 4),
             regular: new Point(3, 3),
             huge: new Point(2, 2)
         },
-        dimsElement: new Point(1, 1.55),
+        sizeElement: new Point(1, 1.55),
+        sizeResult: new Point(),
+        
         numPerElement: 12,
         iconsPerCard: 4,
         //backgroundColor: "#FFE4B3",
@@ -172,7 +174,6 @@ export default
             maxDifferenceBetweenTypes: 5,
             subTypeExtraProb: 0.2,
         },
-        size: new Point(),
         stroke: 
         {
             color: "#614100",

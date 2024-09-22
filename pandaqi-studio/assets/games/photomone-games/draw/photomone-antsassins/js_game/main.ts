@@ -40,8 +40,8 @@ export default class Generator {
         if(CONFIG.tileType == "simple") { 
             CONFIG.tileShape = "rectangle"; 
             CONFIG.tiles.gridResolution = 3;
-            CONFIG.tiles.dimsPerShape.rectangle = new Point(7, 8);
-            CONFIG.tiles.dimsPerShapeReduced.rectangle = new Point(10, 12);
+            CONFIG.tiles.sizePerShape.rectangle = new Point(7, 8);
+            CONFIG.tiles.sizePerShapeReduced.rectangle = new Point(10, 12);
             CONFIG.cards.gridPerShapeReduced.rectangle = new Point(8, 8);
         }
 

@@ -44,8 +44,8 @@ export default class Drawing
         const iconDims = new Point(CONFIG.drawings.iconSize * vis.sizeUnit);
         const resOp = new LayoutOperation({
             frame: frame,
-            translate: vis.center,
-            dims: iconDims,
+            pos: vis.center,
+            size: iconDims,
             pivot: Point.CENTER
         })
         group.add(res, resOp);

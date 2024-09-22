@@ -47,8 +47,8 @@ export default class Visualizer
                 const frame = MISC.bg_cat.frame;
                 const op = new LayoutOperation({
                     frame: frame,
-                    translate: pos,
-                    dims: new Point(iconSize),
+                    pos: pos,
+                    size: new Point(iconSize),
                     pivot: new Point(0.5),
                 })
                 await res.toCanvas(ctx, op);

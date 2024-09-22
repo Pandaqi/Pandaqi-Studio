@@ -153,13 +153,13 @@ const CONFIG =
     // how to draw/layout cards (mostly visually)
     cards:
     {
-        dims: { 
+        size: { 
             small: new Point(4,4),
             regular: new Point(3,3),
             large: new Point(2,2)
         },
-        dimsElement: new Point(1, 1.4),
-        size: new Point(),
+        sizeElement: new Point(1, 1.4),
+        sizeResult: new Point(),
 
         patterns: 
         {
@@ -175,7 +175,7 @@ const CONFIG =
         score:
         {
             offset: 0.1, // offset from top, relative to card height
-            dims: 0.25, // size of star, relative to sizeUnit
+            size: 0.25, // size of star, relative to sizeUnit
             shadowSize: 0.1, // relative to starDims
             textSize: 0.15, // relative to sizeUnit; should be ~2x as large as namePerson.size
             doubleDigitShrinkFactor: 0.875,

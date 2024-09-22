@@ -74,28 +74,28 @@ export default class Tiles
 
     setupGridMapper()
     {
-        let dims = CONFIG.tiles.dims;
+        let size = CONFIG.tiles.size;
         if(CONFIG.tiles.varyDimsPerShape) { 
-            dims = CONFIG.tiles.dimsPerShape[CONFIG.tileShape]; 
-            if(CONFIG.reducedTileSize) { dims = CONFIG.tiles.dimsPerShapeReduced[CONFIG.tileShape]; }
+            size = CONFIG.tiles.sizePerShape[CONFIG.tileShape]; 
+            if(CONFIG.reducedTileSize) { size = CONFIG.tiles.sizePerShapeReduced[CONFIG.tileShape]; }
         }
 
         let layoutShape = GridMapperLayout.RECTANGLE;
         if(CONFIG.tileShape == "hexagon") { layoutShape = GridMapperLayout.HEXAGON; }
         else if(CONFIG.tileShape == "triangle") { layoutShape = GridMapperLayout.TRIANGLE; }
 
-        const gridConfig = { debug: CONFIG.tiles.debug, pdfBuilder: CONFIG.pdfBuilder, dims: dims, layoutShape: layoutShape };
+        const gridConfig = { debug: CONFIG.tiles.debug, pdfBuilder: CONFIG.pdfBuilder, size: size, layoutShape: layoutShape };
         this.gridMapper = new GridMapper(gridConfig);
 
         const numPages = CONFIG.tiles.numPages;
-        const tilesPerPage = dims.x * dims.y;
+        const tilesPerPage = size.x * size.y;
         this.tilesToGenerate = numPages * tilesPerPage;
 
-        let size = this.gridMapper.getMaxElementSizeAsSquare().x;
-        CONFIG.tiles.tileCenter = new Point(0.5 * size, 0.5 * size);
-        CONFIG.tiles.tileSize = new Point(size, size);
+        let sizeElem = this.gridMapper.getMaxElementSizeAsSquare().x;
+        CONFIG.tiles.tileCenter = new Point(0.5 * sizeElem, 0.5 * sizeElem);
+        CONFIG.tiles.tileSize = new Point(sizeElem, sizeElem);
         
-        const smallerSize = size*(1.0 - 2*CONFIG.tiles.outlineWidth); // slightly offset size to push us off the edge
+        const smallerSize = sizeElem*(1.0 - 2*CONFIG.tiles.outlineWidth); // slightly offset size to push us off the edge
         CONFIG.tiles.tileSizeOffset = new Point(smallerSize, smallerSize);
     }
 

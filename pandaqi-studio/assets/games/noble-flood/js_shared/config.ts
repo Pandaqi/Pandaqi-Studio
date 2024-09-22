@@ -138,8 +138,8 @@ const CONFIG:any =
         drawerConfig:
         {
             autoStroke: true,
-            dimsElement: new Point(1, 1.4),
-            dims: { 
+            sizeElement: new Point(1, 1.4),
+            size: { 
                 small: new Point(4,4),
                 regular: new Point(3,3),
                 large: new Point(2,2)
@@ -191,7 +191,7 @@ const CONFIG:any =
             illustration:
             {
                 pos: new CVal(new Point(0.5, 0.38), "size"),
-                dims: new CVal(new Point(0.875), "sizeUnit"),
+                size: new CVal(new Point(0.875), "sizeUnit"),
             },
 
             rule:

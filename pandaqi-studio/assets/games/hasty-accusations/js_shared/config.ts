@@ -122,12 +122,12 @@ const CONFIG =
     {
         // @NOTE: the WIDTH should be identical to the cards, as this ensures they line up when placed on the table
         // height is whatever fits without shrinking it further
-        dims: { 
+        size: { 
             small: new Point(4,9),
             regular: new Point(3,7),
             large: new Point(2,5)
         },
-        dimsElement: new Point(2, 1),
+        sizeElement: new Point(2, 1),
 
         shared:
         {
@@ -158,12 +158,12 @@ const CONFIG =
     // how to draw/layout cards (mostly visually)
     cards:
     {
-        dims: { 
+        size: { 
             small: new Point(4,4),
             regular: new Point(3,3),
             large: new Point(2,2)
         },
-        dimsElement: new Point(1, 1.4),
+        sizeElement: new Point(1, 1.4),
         
         shared:
         {

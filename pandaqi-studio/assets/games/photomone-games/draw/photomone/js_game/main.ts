@@ -64,8 +64,8 @@ async function createWordCard(wordList)
 
     const res : ResourceImage = CONFIG.resLoader.getResource("grayscale_ant") as ResourceImage;
     const spriteParams = {
-        dims: new Point(spriteSize, spriteSize),
-        rotation: Math.PI,
+        size: new Point(spriteSize, spriteSize),
+        rot: Math.PI,
         pivot: new Point(0.5)
     }
     const canvOp = new LayoutOperation(spriteParams);
@@ -74,17 +74,17 @@ async function createWordCard(wordList)
     let antX = 0.5*cardSize.x + Math.random()*0.5*cardSize.x;
     while(antX > 0)
     {
-        canvOp.translate = new Point(antX, antMarginY);
+        canvOp.pos = new Point(antX, antMarginY);
         await res.toCanvas(ctx, canvOp);
         antX -= Math.random() * (cardSize.x - antX) + 1.25*spriteSize;
     }
 
     // bottom row
     antX = Math.random()*0.5*cardSize.x;
-    canvOp.rotation = 0;
+    canvOp.rot = 0;
     while(antX < cardSize.x)
     {
-        canvOp.translate = new Point(antX, cardSize.y - antMarginY);
+        canvOp.pos = new Point(antX, cardSize.y - antMarginY);
         await res.toCanvas(ctx, canvOp);
         antX += Math.random() * (cardSize.x - antX) + 1.25*spriteSize;
     }
@@ -189,8 +189,8 @@ async function createWordCard(wordList)
         dataX -= dataTextWidth;
 
         const resParams = {
-            dims: new Point(iconSize),
-            translate: new Point(dataX, y),
+            size: new Point(iconSize),
+            pos: new Point(dataX, y),
             pivot: new Point(0.5)
         }
         const canvOp = new LayoutOperation(resParams);
@@ -200,7 +200,7 @@ async function createWordCard(wordList)
         ctx.fillText(word.getLines(), dataX, y);
 
         dataX -= dataTextWidth;
-        canvOp.translate.x = dataX;
+        canvOp.pos.x = dataX;
         await iconLines.toCanvas(ctx, canvOp);
 
         ctx.globalAlpha = 1.0;
@@ -220,11 +220,11 @@ async function createWordCards(userConfig:Record<string,any>)
 	const pdfBuilder = new PdfBuilder(config);
 
     const customPageLayoutDims = new Point(3, 4);
-	const gridConfig = { pdfBuilder: pdfBuilder, dims: customPageLayoutDims };
+	const gridConfig = { pdfBuilder: pdfBuilder, size: customPageLayoutDims };
 	const gridMapper = new GridMapper(gridConfig);
 	
     const numPages = 3;
-	const cardsPerPage = gridConfig.dims.x * gridConfig.dims.y;
+	const cardsPerPage = gridConfig.size.x * gridConfig.size.y;
     const totalNumCards = cardsPerPage * numPages;
 	const numWordsNeeded = CONFIG.wordsPerCard * totalNumCards;
 

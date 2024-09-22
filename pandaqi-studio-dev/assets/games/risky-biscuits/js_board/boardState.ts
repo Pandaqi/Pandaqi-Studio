@@ -17,9 +17,9 @@ import subdividePath from "js/pq_games/tools/geometry/paths/subdividePath";
 
 export default class BoardState
 {
-    dims: Point
+    size: Point
     grid: Point[][];
-    dimsGrid: Point;
+    sizeGrid: Point;
     regions: Region[];
     areas: any[];
     continents: Continents;
@@ -31,8 +31,8 @@ export default class BoardState
     {
         const mapWidth = CONFIG.generation.mapWidth;
         const mapHeight = mapWidth / CONFIG.generation.boardRatio;
-        this.dims = new Point(mapWidth, mapHeight);
-        this.dimsGrid = this.dims.clone().scaleFactor(1.0 / CONFIG.generation.distBetweenPoints).round();
+        this.size = new Point(mapWidth, mapHeight);
+        this.sizeGrid = this.size.clone().scaleFactor(1.0 / CONFIG.generation.distBetweenPoints).round();
     }
 
     generate()
@@ -53,10 +53,10 @@ export default class BoardState
         const grid = [];
         const distBetween = CONFIG.generation.distBetweenPoints;
         const jitterBounds = CONFIG.generation.gridJitterBounds;
-        for(let x = 0; x < this.dimsGrid.x; x++)
+        for(let x = 0; x < this.sizeGrid.x; x++)
         {
             grid[x] = [];
-            for(let y = 0; y < this.dimsGrid.y; y++)
+            for(let y = 0; y < this.sizeGrid.y; y++)
             {
                 let jitterX = range(jitterBounds) * signRandom();
                 let jitterY = range(jitterBounds) * signRandom();
@@ -64,7 +64,7 @@ export default class BoardState
                     (x + 0.5 + jitterX) * distBetween, 
                     (y + 0.5 + jitterY) * distBetween
                 );
-                p.clamp(new Point(), this.dims);
+                p.clamp(new Point(), this.size);
                 grid[x][y] = p;
             }
         }
@@ -85,7 +85,7 @@ export default class BoardState
     createVoronoi()
     {
         const delaunay = d3.Delaunay.from(this.getAsDelaunayList(this.getPoints()));
-        const voronoi = delaunay.voronoi([0, 0, this.dims.x, this.dims.y]);
+        const voronoi = delaunay.voronoi([0, 0, this.size.x, this.size.y]);
 
         const list : Region[] = [];
         let counter = 0;
@@ -154,8 +154,8 @@ export default class BoardState
 
     getDistToClosestEdge(point:Point)
     {
-        const distX = Math.min(point.x, this.dims.x - point.x) / (0.5*this.dims.x);
-        const distY = Math.min(point.y, this.dims.y - point.y) / (0.5*this.dims.y);
+        const distX = Math.min(point.x, this.size.x - point.x) / (0.5*this.size.x);
+        const distY = Math.min(point.y, this.size.y - point.y) / (0.5*this.size.y);
         return new Point(distX, distY).length();
     }
 

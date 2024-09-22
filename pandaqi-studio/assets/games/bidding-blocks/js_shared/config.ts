@@ -82,8 +82,8 @@ const CONFIG:any =
         drawerConfig:
         {
             autoStroke: true,
-            dimsElement: new Point(1, 1.4),
-            dims: 
+            sizeElement: new Point(1, 1.4),
+            size: 
             { 
                 small: new Point(4,4),
                 regular: new Point(3,3),
@@ -94,13 +94,13 @@ const CONFIG:any =
         main:
         {
             pos: new CVal(new Point(0.5), "size"),
-            dims: new CVal(new Point(0.92), "sizeUnit"),
+            size: new CVal(new Point(0.92), "sizeUnit"),
         },
 
         fitsOnTop:
         {
             pos: new CVal(new Point(0.5, 0.115), "size"),
-            dims: new CVal(new Point(0.235), "sizeUnit")
+            size: new CVal(new Point(0.235), "sizeUnit")
         },
 
         numbers:
@@ -113,7 +113,7 @@ const CONFIG:any =
         suitIcons:
         {
             offset: new CVal(new Point(0.27, 0.17), "sizeUnit"), // should fit perfectly in this background circles
-            dims: new CVal(new Point(0.0775), "sizeUnit")
+            size: new CVal(new Point(0.0775), "sizeUnit")
         }
     },
 }

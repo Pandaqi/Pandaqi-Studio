@@ -71,7 +71,7 @@ export default class Tile
     {
         const res = vis.getResource("misc");
         const op = new LayoutOperation({
-            dims: vis.size,
+            size: vis.size,
             frame: MISC[this.keyAction].frame,
         });
         group.add(res, op);
@@ -87,14 +87,14 @@ export default class Tile
 
         const resTemplate = vis.getResource("decoration");
         const opTemplate = new LayoutOperation({
-            dims: vis.size,
+            size: vis.size,
             frame: templateData.frame
         });
         group.add(resTemplate, opTemplate);
 
         const bgDirtTextureKey = "bg_" + CONFIG.generation.bgDirtTextureBounds.randomInteger();
         const opDirt = new LayoutOperation({
-            dims: vis.size,
+            size: vis.size,
             frame: DECORATION[bgDirtTextureKey].frame,
             composite: "overlay",
             alpha: 0.2
@@ -111,8 +111,8 @@ export default class Tile
         }).alignCenter();
         const resText = new ResourceText({ text: this.score.toString(), textConfig });
         const opText = new LayoutOperation({
-            translate: vis.get("tiles.score.pos"),
-            dims: new Point(3*textConfig.size),
+            pos: vis.get("tiles.score.pos"),
+            size: new Point(3*textConfig.size),
             fill: vis.get("tiles.score.textColor"),
             stroke: vis.get("tiles.score.strokeColor"),
             strokeWidth: vis.get("tiles.score.strokeWidth"),
@@ -144,7 +144,7 @@ export default class Tile
             const drawText = !drawIcon;
             
             const pos = hasActionAndGate ? vis.get("tiles.action.posWithGate") : vis.get("tiles.action.pos");
-            const dims = hasActionAndGate ? vis.get("tiles.action.textBoxDimsWithGate") : vis.get("tiles.action.textBoxDims");
+            const size = hasActionAndGate ? vis.get("tiles.action.textBoxDimsWithGate") : vis.get("tiles.action.textBoxDims");
 
             if(drawIcon)
             {
@@ -152,8 +152,8 @@ export default class Tile
                 const resIcon = vis.getResource("misc");
                 const iconKey = "default_action_" + this.keyAction;
                 const opIcon = new LayoutOperation({
-                    translate: pos,
-                    dims: new Point(0.9*Math.min(dims.x, dims.y)),
+                    pos: pos,
+                    size: new Point(0.9*Math.min(size.x, size.y)),
                     frame: MISC[iconKey].frame,
                     pivot: Point.CENTER,
                 });
@@ -169,8 +169,8 @@ export default class Tile
     
                 const resText = new ResourceText({ text: actionData.desc, textConfig });
                 const opText = new LayoutOperation({
-                    translate: pos,
-                    dims: dims,
+                    pos: pos,
+                    size: size,
                     fill: vis.get("tiles.action.textColor"),
                     pivot: Point.CENTER
                 })
@@ -190,8 +190,8 @@ export default class Tile
 
             const resText = new ResourceText({ text: gateData.desc, textConfig });
             const opText = new LayoutOperation({
-                translate: vis.get("tiles.gate.pos"),
-                dims: vis.get("tiles.gate.textBoxDims"),
+                pos: vis.get("tiles.gate.pos"),
+                size: vis.get("tiles.gate.textBoxDims"),
                 fill: vis.get("tiles.gate.textColor"),
                 pivot: Point.CENTER
             })
@@ -213,10 +213,10 @@ export default class Tile
         return new Rectangle().fromTopLeft(pos, size);
     }
 
-    getRandomPosOnLine(line:Line, forbiddenPos:Point[], dims:Point)
+    getRandomPosOnLine(line:Line, forbiddenPos:Point[], size:Point)
     {
         const lineShrunk = line.clone(true);
-        const minDist = 2 * dims.length();
+        const minDist = 2 * size.length();
         lineShrunk.scale(new Point(0.8)); // to prevent overlapping with any diagonals
 
         let tooCloseToOthers = true;
@@ -286,8 +286,8 @@ export default class Tile
 
             // the shadow behind it to make it blend in better
             const opShadow = new LayoutOperation({
-                translate: randPos,
-                dims: gemDims.clone().scale(1.425),
+                pos: randPos,
+                size: gemDims.clone().scale(1.425),
                 frame: MISC.gemstone_shadow_circle.frame,
                 alpha: 0.875,
                 pivot: Point.CENTER
@@ -297,11 +297,11 @@ export default class Tile
             // the actual gemstone
             // @TODO: some subtle glow around them, make them shiny and stand out
             const opGem = new LayoutOperation({
-                translate: randPos,
-                dims: gemDims,
+                pos: randPos,
+                size: gemDims,
                 frame: GEMSTONES[gemType].frame,
                 pivot: Point.CENTER,
-                rotation: Math.random() * 2 * Math.PI
+                rot: Math.random() * 2 * Math.PI
             })
             group.add(resGemstones, opGem);
         }
@@ -315,7 +315,7 @@ export default class Tile
         const frameDiagonal = MISC.water_diagonal.frame;
 
         const innerRect = this.getInnerRect(vis);
-        const dims = innerRect.getSize();
+        const size = innerRect.getSize();
         const topLeft = innerRect.getTopLeft();
         const topRight = innerRect.getTopRight();
         const bottomLeft = innerRect.getBottomLeft();
@@ -324,16 +324,16 @@ export default class Tile
         const lines : Line[] = [];
         const subGroup = new ResourceGroup();
 
-        const dimsDecoration = vis.get("tiles.decoration.iconDims");
-        const dimsBoulder = vis.get("tiles.decoration.iconDimsBoulder");
+        const sizeDecoration = vis.get("tiles.decoration.iconDims");
+        const sizeBoulder = vis.get("tiles.decoration.iconDimsBoulder");
         const boulderOffset = vis.get("tiles.decoration.boulderOffset");
 
         // diagonal + straight down from top left
         if(this.water.topLeft)
         {
             const opDiag = new LayoutOperation({
-                translate: topLeft,
-                dims: dims,
+                pos: topLeft,
+                size: size,
                 frame: frameDiagonal,
                 pivot: new Point(1,1)
             });
@@ -341,9 +341,9 @@ export default class Tile
             lines.push(new Line(new Point(), topLeft));
 
             const opVert = new LayoutOperation({
-                translate: topLeft,
-                dims: dims,
-                rotation: 0.5*Math.PI,
+                pos: topLeft,
+                size: size,
+                rot: 0.5*Math.PI,
                 frame: frameStraight,
                 pivot: new Point(0, 0.5)
             });
@@ -355,8 +355,8 @@ export default class Tile
         if(this.water.topRight)
         {
             const opDiag = new LayoutOperation({
-                translate: topRight,
-                dims: dims,
+                pos: topRight,
+                size: size,
                 frame: frameDiagonal,
                 flipX: true,
                 pivot: new Point(0,1)
@@ -365,9 +365,9 @@ export default class Tile
             lines.push(new Line(new Point(vis.size.x, 0), topRight));
 
             const opVert = new LayoutOperation({
-                translate: topRight,
-                dims: dims,
-                rotation: 0.5*Math.PI,
+                pos: topRight,
+                size: size,
+                rot: 0.5*Math.PI,
                 frame: frameStraight,
                 pivot: new Point(0, 0.5)
             });
@@ -390,8 +390,8 @@ export default class Tile
             const alpha = (crossesBothSides && dir == "rightToLeft") ? 0.5 : 1.0;
 
             const opHoriz = new LayoutOperation({
-                translate: bottomLeft,
-                dims: dims,
+                pos: bottomLeft,
+                size: size,
                 frame: frameStraight,
                 flipX: (dir == "rightToLeft"),
                 pivot: new Point(0, 0.5),
@@ -405,8 +405,8 @@ export default class Tile
         if(this.water.bottomLeft)
         {
             const opDiag = new LayoutOperation({
-                translate: bottomLeft.clone(),
-                dims: dims,
+                pos: bottomLeft.clone(),
+                size: size,
                 frame: frameDiagonal,
                 flipX: true,
                 pivot: new Point(1,0)
@@ -418,8 +418,8 @@ export default class Tile
         if(this.water.bottomRight)
         {
             const opDiag = new LayoutOperation({
-                translate: bottomRight,
-                dims: dims,
+                pos: bottomRight,
+                size: size,
                 frame: frameDiagonal,
                 pivot: new Point(0,0)
             });
@@ -435,8 +435,8 @@ export default class Tile
             if(placeBoulderBehind)
             {
                 const op = new LayoutOperation({
-                    translate: line.getRandomPositionInside(boulderLineDownscale).add(new Point(0, -boulderOffset)),
-                    dims: dimsBoulder,
+                    pos: line.getRandomPositionInside(boulderLineDownscale).add(new Point(0, -boulderOffset)),
+                    size: sizeBoulder,
                     frame: DECORATION.boulders_horizontal.frame,
                     pivot: Point.CENTER
                 })
@@ -452,11 +452,11 @@ export default class Tile
 
             const randKey = "decoration_" + CONFIG.generation.decorationFrameBounds.randomInteger();
             const op = new LayoutOperation({
-                translate: pos,
-                dims: dimsDecoration,
+                pos: pos,
+                size: sizeDecoration,
                 frame: DECORATION[randKey].frame,
                 pivot: new Point(0.5, 1),
-                rotation: rotation
+                 rotation
             })
             group.add(resDecoration, op);
         }
@@ -473,7 +473,7 @@ export default class Tile
             for(const pos of positions)
             {
                 const op = new LayoutOperation({
-                    translate: pos,
+                    pos: pos,
                     fill: vis.get("tiles.water.fillColor")
                 });
                 group.add(circ, op);
@@ -493,8 +493,8 @@ export default class Tile
             if(isHoriz)
             {
                 const op = new LayoutOperation({
-                    translate: line.getRandomPositionInside(boulderLineDownscale).add(new Point(0, boulderOffset)),
-                    dims: dimsBoulder,
+                    pos: line.getRandomPositionInside(boulderLineDownscale).add(new Point(0, boulderOffset)),
+                    size: sizeBoulder,
                     frame: DECORATION.boulders_horizontal.frame,
                     pivot: Point.CENTER
                 })
@@ -512,8 +512,8 @@ export default class Tile
                 for(const position of positions)
                 {
                     const op = new LayoutOperation({
-                        translate: position,
-                        dims: dimsBoulder,
+                        pos: position,
+                        size: sizeBoulder,
                         frame: DECORATION.boulders_vertical.frame,
                         pivot: Point.CENTER
                     })

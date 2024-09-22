@@ -74,8 +74,8 @@ const CONFIG:Record<string,any> =
         customDrawerConfig:
         {
             autoStroke: true,
-            dimsElement: new Point(1, 1),
-            dims: 
+            sizeElement: new Point(1, 1),
+            size: 
             { 
                 small: new Point(4,6),
                 regular: new Point(2,4),
@@ -85,7 +85,7 @@ const CONFIG:Record<string,any> =
 
         objects:
         {
-            dims: new CVal(new Point(1.0), "sizeUnit")
+            size: new CVal(new Point(1.0), "sizeUnit")
         },
 
         rooms:
@@ -100,8 +100,8 @@ const CONFIG:Record<string,any> =
         drawerConfig:
         {
             autoStroke: true,
-            dimsElement: new Point(1, 1.4),
-            dims: { 
+            sizeElement: new Point(1, 1.4),
+            size: { 
                 small: new Point(5,5),
                 regular: new Point(4,4),
                 large: new Point(3,3)

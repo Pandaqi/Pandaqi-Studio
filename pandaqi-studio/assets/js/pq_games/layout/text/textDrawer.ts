@@ -504,10 +504,10 @@ export default class TextDrawer
 
         let op = (elem.operation ?? this.cfg.defaultImageOperation) ?? new LayoutOperation();
         op = op.clone(true);
-        op.translate.move(pos);
+        op.pos.move(pos);
         op.pivot = new Point(0, 0.5);
         op.keepTransform = true;
-        if(op.dims.isZero()) { op.dims = elem.getSize(); }
+        if(op.size.isZero()) { op.size = elem.getSize(); }
 
         // @DEBUGGING / @TODO
         // Now I need to manually redo/unset the effects merging, which is ugly and will get out of hand when I also need to reset other stuff.

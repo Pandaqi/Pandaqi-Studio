@@ -16,9 +16,9 @@ export default (tile:MaterialEaster, vis:MaterialVisualizer, group:ResourceGroup
     // the background
     const resMisc = vis.getResource("misc");
     const bgOp = new LayoutOperation({
-        translate: vis.get("tiles.text.translate"),
+        pos: vis.get("tiles.text.pos"),
         frame: MISC_SHARED.text_bg.frame,
-        dims: vis.get("tiles.text.bgDims"),
+        size: vis.get("tiles.text.bgDims"),
         pivot: Point.CENTER
     })
     group.add(resMisc, bgOp);
@@ -33,8 +33,8 @@ export default (tile:MaterialEaster, vis:MaterialVisualizer, group:ResourceGroup
     const textColor = "#000000";
     const resText = new ResourceText({ text: text, textConfig: textConfig });
     const textOp = new LayoutOperation({
-        translate: vis.get("tiles.text.translate"),
-        dims: vis.get("tiles.text.dims"),
+        pos: vis.get("tiles.text.pos"),
+        size: vis.get("tiles.text.size"),
         pivot: Point.CENTER,
         fill: textColor,
     })

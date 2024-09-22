@@ -166,12 +166,12 @@ export default class Evaluator
 
         const minSpan = CONFIG.generation.minBoardSpan.lerp(CONFIG.boardClarityNumber);
 
-        const dims = board.dims;
+        const size = board.size;
         const margin = 0.5*(1.0 - minSpan);
         let valid = true;
         if(topLeft.x < margin || topLeft.y < margin) { valid = false; }
-        if(dims.x - bottomRight.x < margin || dims.y - bottomRight.y < margin) { valid = false; }
-        this.log(valid, "Board span too small: ", { topLeft: topLeft, bottomRight: bottomRight, dims: dims });
+        if(size.x - bottomRight.x < margin || size.y - bottomRight.y < margin) { valid = false; }
+        this.log(valid, "Board span too small: ", { topLeft: topLeft, bottomRight: bottomRight, size: size });
         return valid;
     }
 

@@ -41,7 +41,7 @@ export default class RendererPandaqi extends Renderer
     applyOperationToCanvas(op:LayoutOperation, canv:CanvasLike)
     {
         let ctx = (canv instanceof HTMLCanvasElement) ? canv.getContext("2d") : canv;
-        if(!ctx) { ctx = createContext({ size: op.dims }); } // @TODO: how to control this size better?
+        if(!ctx) { ctx = createContext({ size: op.size }); } // @TODO: how to control this size better?
         
         // @TODO: OPTIMIZATION => don't create the temporary canvas if we don't need it
         // (Though that is rare; would only apply to stuff with only a transform + fill/stroke and nothing else)
@@ -49,7 +49,7 @@ export default class RendererPandaqi extends Renderer
         // we create a temporary canvas to do everything we want
         // once done, at the end, we stamp that onto the real one (with the right effects, alpha, etcetera set)
         const ctxTemp = createContext({ size: new Point(ctx.canvas.width, ctx.canvas.height) });
-        const dims = op.dimsResult;
+        const size = op.sizeResult;
 
         // we make sure we're drawing at the right position right away
         // (which includes bubbling up the tree to take our parent's transform into account)
@@ -85,10 +85,10 @@ export default class RendererPandaqi extends Renderer
         else if(op.isImage())
         { 
             // apply the effects that require an actual image to manipulate
-            let frameResource:ResourceImage = (op.resource as ResourceImage).getImageFrameAsResource(op.frame, dims.clone());
+            let frameResource:ResourceImage = (op.resource as ResourceImage).getImageFrameAsResource(op.frame, size.clone());
             frameResource = effOp.applyToDrawable(frameResource);
 
-            const box = new Dims(new Point(), dims.clone());
+            const box = new Dims(new Point(), size.clone());
             const boxPath = box.toPath2D();
 
             const drawImageCallback = () =>
@@ -132,7 +132,7 @@ export default class RendererPandaqi extends Renderer
             if(!op.clipRelative) 
             { 
                 const transInv = new TransformationMatrix().fromContext(ctx);
-                transInv.translate(op.pivotOffset.clone().negate());
+                // transInv.translate(op.pivotOffset.clone().negate()); // @TODO: No, this is often wrong, figure out the actual way! Or maybe we should clip on the TEMPORARY canvas instead?
                 transInv.invert();
                 points = transInv.applyToArray(points); 
             }
@@ -150,7 +150,7 @@ export default class RendererPandaqi extends Renderer
             ctx.drawImage(
                 op.mask.getImage(),
                 0, 0, maskData.width, maskData.height,
-                0, 0, dims.x, dims.y)
+                0, 0, size.x, size.y)
             ctx.globalCompositeOperation = "source-in";
         }
 
@@ -194,14 +194,14 @@ export default class RendererPandaqi extends Renderer
 
         // all the transform stuff
         const transforms = []
-        if(op.rotation != 0) 
+        if(op.rot != 0) 
         { 
-            transforms.push("rotate(" + op.rotation + "rad)"); 
+            transforms.push("rotate(" + op.rot + "rad)"); 
         }
 
-        if(op.translate.length() > 0) 
+        if(op.posResult.length() > 0) 
         { 
-            transforms.push("translate(" + op.translate.x + ", " + op.translate.y + ")");
+            transforms.push("translate(" + op.posResult.x + ", " + op.posResult.y + ")");
         }
 
         const scale = op.scaleResult;

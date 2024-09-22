@@ -104,7 +104,7 @@ const CONFIG:Record<string,any> =
         movementGrid:
         {
             pos: new CVal(new Point(0.5, 0.22), "size"),
-            dims: new CVal(new Point(0.38), "size"),
+            size: new CVal(new Point(0.38), "size"),
             strokeWidth: new CVal(0.005, "sizeUnit"),
             strokeDarkenValue: -66
         },

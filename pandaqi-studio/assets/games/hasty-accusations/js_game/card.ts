@@ -78,7 +78,7 @@ export default class Card
         const res = vis.resLoader.getResource("fingerprints");
         const alpha = CONFIG.suspects.bg.alpha;
         const op = new LayoutOperation({
-            dims: vis.size,
+            size: vis.size,
             alpha: alpha
         });
         group.add(res, op);
@@ -116,10 +116,10 @@ export default class Card
         {
             const rot = i == 0 ? -0.5 * Math.PI : 0.5 * Math.PI;
             const textOp = new LayoutOperation({
-                translate: positions[i],
-                dims: textDims,
+                pos: positions[i],
+                size: textDims,
                 fill: colorLighten,
-                rotation: rot,
+                rot: rot,
                 pivot: Point.CENTER,
                 effects: effects
             })
@@ -150,8 +150,8 @@ export default class Card
     
                 const iconOp = new LayoutOperation({
                     frame: frame,
-                    translate: positionsPower[i],
-                    dims: powerIconDims,
+                    pos: positionsPower[i],
+                    size: powerIconDims,
                     effects: grayScaleEffects,
                     pivot: Point.CENTER
                 })
@@ -166,8 +166,8 @@ export default class Card
         const illuDims = new Point(CONFIG.suspects.illustration.scaleFactor * vis.sizeUnit);
         const op = new LayoutOperation({
             frame: frame,
-            translate: vis.center,
-            dims: illuDims,
+            pos: vis.center,
+            size: illuDims,
             pivot: Point.CENTER,
             effects: [effects, grayScaleEffects].flat()
         })
@@ -176,11 +176,11 @@ export default class Card
         // paperclip at the top
         const resClip = vis.resLoader.getResource("misc");
         const frameClip = MISC.paperclip.frame;
-        const dimsClip = new Point(CONFIG.suspects.illustration.paperClipScale * vis.sizeUnit);
+        const sizeClip = new Point(CONFIG.suspects.illustration.paperClipScale * vis.sizeUnit);
         const opClip = new LayoutOperation({
             frame: frameClip,
-            dims: dimsClip,
-            translate: new Point(vis.center.x, 0),
+            size: sizeClip,
+            pos: new Point(vis.center.x, 0),
             pivot: Point.CENTER
         })
 
@@ -200,7 +200,7 @@ export default class Card
         const res = vis.resLoader.getResource("papers");
         const effects = vis.inkFriendly ? [new GrayScaleEffect()] : []
         const op = new LayoutOperation({
-            dims: vis.size,
+            size: vis.size,
             effects: effects
         })
         group.add(res, op);
@@ -263,8 +263,8 @@ export default class Card
         const titleShadowRadius = CONFIG.cards.photographs.titleShadowRadius * fontSize;
         const titleTextOp = new LayoutOperation({
             fill: titleTextCol,
-            dims: rectSizeTitle,
-            translate: rectTitlePos,
+            size: rectSizeTitle,
+            pos: rectTitlePos,
             pivot: Point.CENTER,
             effects: [new DropShadowEffect({ blurRadius: titleShadowRadius })]
         });
@@ -283,8 +283,8 @@ export default class Card
             loupe = vis.resLoader.getResource("misc");
             loupeOp = new LayoutOperation({
                 frame: frame,
-                translate: reqsPos,
-                dims: reqsDims,
+                pos: reqsPos,
+                size: reqsDims,
                 effects: reqEffects,
             })
 
@@ -298,8 +298,8 @@ export default class Card
             suspect = vis.resLoader.getResource("misc");
             suspectOp = new LayoutOperation({
                 frame: frame,
-                translate: reqsPos,
-                dims: reqsDims,
+                pos: reqsPos,
+                size: reqsDims,
                 effects: reqEffects
             })
         }
@@ -312,14 +312,14 @@ export default class Card
         const grayScaleEffects = vis.inkFriendly ? [new GrayScaleEffect()] : []
         const illustrationOp = new LayoutOperation({
             frame: frame,
-            translate: rectInnerPos,
-            dims: illuDims,
+            pos: rectInnerPos,
+            size: illuDims,
             pivot: Point.CENTER,
             effects: grayScaleEffects
         });
 
 
-        // create one group ( = set of instructions), then repeat it several times with different settings (such as rotation)
+        // create one group ( = set of instructions), then repeat it several times with different settings (such as rot)
         const groupSub = new ResourceGroup();
         groupSub.add(new ResourceShape({ shape: rect }), rectOp);
         groupSub.add(new ResourceShape({ shape: rectInner }), rectInnerOp);
@@ -328,11 +328,11 @@ export default class Card
         const maxPhotoRotation = CONFIG.cards.photographs.maxRotation;
         const alphaJumps = (1.0 / numPhotographs);
         let topPhotoRotation = 0;
-        const rotations = shuffle(this.createPhotoRotations(numPhotographs));
+        const rots = shuffle(this.createPhotoRotations(numPhotographs));
 
         for(let i = 0; i < numPhotographs; i++)
         {
-            const randRotation = rotations.pop();
+            const randRotation = rots.pop();
             const overlay = Color.BLACK.clone();
             const alpha = (i + 1) * alphaJumps;
             overlay.a = alpha;
@@ -348,9 +348,9 @@ export default class Card
             }
 
             const groupOp = new LayoutOperation({
-                translate: photographCenter,
-                rotation: randRotation,
-                dims: illuDims, // @TODO: checking the best way to give dims to layoutoperation
+                pos: photographCenter,
+                rot: randRotation,
+                size: illuDims, // @TODO: checking the best way to give size to layoutoperation
                 effects: [
                     new ColorOverlayEffect(overlay)
                 ],
@@ -363,13 +363,13 @@ export default class Card
         // paperclip at the top
         const resClip = vis.resLoader.getResource("misc");
         const frameClip = MISC.paperclip.frame;
-        const dimsClip = new Point(CONFIG.cards.illustration.paperClipScale * vis.sizeUnit);
+        const sizeClip = new Point(CONFIG.cards.illustration.paperClipScale * vis.sizeUnit);
         const offsetClip = CONFIG.cards.illustration.paperClipOffset.clone().scale(vis.sizeUnit);
         const offsetDir = topPhotoRotation > 0 ? -1 : 1;
         const opClip = new LayoutOperation({
             frame: frameClip,
-            dims: dimsClip,
-            translate: new Point(vis.center.x + offsetDir * offsetClip.x, offsetClip.y),
+            size: sizeClip,
+            pos: new Point(vis.center.x + offsetDir * offsetClip.x, offsetClip.y),
             flipX: offsetDir < 0,
             pivot: Point.CENTER
         })
@@ -424,8 +424,8 @@ export default class Card
         const effects = [new DropShadowEffect({ offset: new Point(CONFIG.cards.text.hardShadowOffset * fontSize) })];
         const op = new LayoutOperation({
             fill: "#000000",
-            translate: pos,
-            dims: size,
+            pos: pos,
+            size: size,
             pivot: Point.CENTER,
             effects: effects
         })

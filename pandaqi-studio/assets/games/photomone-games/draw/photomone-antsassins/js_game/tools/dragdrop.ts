@@ -29,14 +29,14 @@ export default class DragDropDebugger
         else if(key == "y") { this.rotateWholeBoard(+1); }
     }
 
-    // @TODO: when you take elements out of it, for dragging, this rotation is obviously forgotten
+    // @TODO: when you take elements out of it, for dragging, this rot is obviously forgotten
     // => The cleaner way is to ACTUALLY rearrange and individually rotate all tiles
     rotateWholeBoard(dr)
     {
         const cont = this.node;
-        const rotation = parseInt(cont.dataset.rotation) || 0;
-        const newRotation = rotation + dr;
-        cont.dataset.rotation = newRotation;
+        const rot = parseInt(cont.dataset.rot) || 0;
+        const newRotation = rot + dr;
+        cont.dataset.rot = newRotation;
         cont.style.transform = "rotate(" + Math.round(newRotation*90) + "deg)"
     }
 
@@ -45,9 +45,9 @@ export default class DragDropDebugger
         const elem = this.dragdrop.getCurrentDragElement();
         if(!elem) { return; }
 
-        const rotation = parseInt(elem.dataset.rotation) || 0;
-        const newRotation = rotation + dr;
-        elem.dataset.rotation = newRotation;
+        const rot = parseInt(elem.dataset.rot) || 0;
+        const newRotation = rot + dr;
+        elem.dataset.rot = newRotation;
 
         const img = elem.getElementsByTagName("img")[0];
         img.style.transform = "rotate(" + Math.round(newRotation * 90) + "deg)"

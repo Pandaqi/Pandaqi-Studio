@@ -59,8 +59,8 @@ export default class Board
 
         const fullSizeForCells = CONFIG.board.modifyEdgeCells ? this.outerRect : this.rect;
 
-        const cellX = (fullSizeForCells.getSize().x / CONFIG.board.dims.x);
-        const cellY = (fullSizeForCells.getSize().y / CONFIG.board.dims.y);
+        const cellX = (fullSizeForCells.getSize().x / CONFIG.board.size.x);
+        const cellY = (fullSizeForCells.getSize().y / CONFIG.board.size.y);
         const tilesNotSquare = Math.abs(cellX - cellY) > 10;
         if(tilesNotSquare) { return console.error("Tiles not square: ", cellX, cellY); }
 
@@ -317,16 +317,16 @@ export default class Board
 
     getRotationForCell(c:Cell)
     {
-        const rotationPerTeam = CONFIG.teams.num == 2 ? 2 : 1;
-        let rotation = c.getRotation();
+        const rotPerTeam = CONFIG.teams.num == 2 ? 2 : 1;
+        let rot = c.getRotation();
         const data = c.hasType() ? CONFIG.typeDict[c.getType()] : {};
         if(c.hasTeam() && !data.allowAllRotations)
         {
-            rotation = (c.getTeam() * rotationPerTeam) % 4;
-            if(CONFIG.noRotation) { rotation = 0; }
+            rot = (c.getTeam() * rotPerTeam) % 4;
+            if(CONFIG.noRotation) { rot = 0; }
         }
 
-        return rotation * 0.5 * Math.PI;
+        return rot * 0.5 * Math.PI;
     }
 
     getCornerFromRotation(rect:Rectangle, rot:number)
@@ -350,8 +350,8 @@ export default class Board
         let pos = this.convertGridToRealPos(c);
         let size = this.cellSize.clone();
 
-        const isHorizontalEdge = (c.x == 0 || c.x == (CONFIG.board.dims.x-1));
-        const isVerticalEdge = (c.y == 0 || c.y == (CONFIG.board.dims.y-1));
+        const isHorizontalEdge = (c.x == 0 || c.x == (CONFIG.board.size.x-1));
+        const isVerticalEdge = (c.y == 0 || c.y == (CONFIG.board.size.y-1));
         const isHorizontalTopEdge = (c.x == 0);
         const isVerticalTopEdge = (c.y == 0);
 
@@ -397,45 +397,45 @@ export default class Board
         }
 
         // vertical lines
-        const dims = CONFIG.board.dims;
-        for(let x = 1; x < dims.x; x++)
+        const size = CONFIG.board.size;
+        for(let x = 1; x < size.x; x++)
         {
-            this.drawLineVertical(group, x, dims);
+            this.drawLineVertical(group, x, size);
         }
 
         // horizontal lines
-        for(let y = 1; y < dims.y; y++)
+        for(let y = 1; y < size.y; y++)
         {
-            this.drawLineHorizontal(group, y, dims);
+            this.drawLineHorizontal(group, y, size);
         }
 
         // dotted lines halfway squares
         const addHalfLines = CONFIG.board.addHalfLines;
         if(addHalfLines)
         {
-            for(let x = 0; x < dims.x; x++)
+            for(let x = 0; x < size.x; x++)
             {
-                this.drawLineVertical(group, x + 0.5, dims, true)
+                this.drawLineVertical(group, x + 0.5, size, true)
             }
 
-            for(let y = 0; y < dims.y; y++)
+            for(let y = 0; y < size.y; y++)
             {
-                this.drawLineHorizontal(group, y + 0.5, dims, true);
+                this.drawLineHorizontal(group, y + 0.5, size, true);
             }
         }
     }
 
-    drawLineVertical(group, x, dims, dotted = false)
+    drawLineVertical(group, x, size, dotted = false)
     {
         const pos1 = this.convertGridToRealPos(new Point().fromXY(x, 0));
-        const pos2 = this.convertGridToRealPos(new Point().fromXY(x, dims.y));
+        const pos2 = this.convertGridToRealPos(new Point().fromXY(x, size.y));
         this.drawLineBetween(group, pos1, pos2, dotted);
     }
 
-    drawLineHorizontal(group, y, dims, dotted = false)
+    drawLineHorizontal(group, y, size, dotted = false)
     {
         const pos1 = this.convertGridToRealPos(new Point().fromXY(0, y));
-        const pos2 = this.convertGridToRealPos(new Point().fromXY(dims.x, y));
+        const pos2 = this.convertGridToRealPos(new Point().fromXY(size.x, y));
         this.drawLineBetween(group, pos1, pos2, dotted);
     }
 
@@ -531,10 +531,10 @@ export default class Board
 
             const resSprite = vis.getResource(textureKey); // @TODO: re-figure out how to load resources myself and get them
             const opSprite = new LayoutOperation({
-                translate: center,
+                pos: center,
                 frame: frame,
-                dims: new Point(iconSize*CONFIG.board.iconScale),
-                rotation: rot,
+                size: new Point(iconSize*CONFIG.board.iconScale),
+                rot: rot,
                 pivot: Point.CENTER
             });
             group.add(resSprite, opSprite);
@@ -553,9 +553,9 @@ export default class Board
 
                 const resSprite = vis.getResource(CONFIG.teams.textureKey);
                 const opSprite = new LayoutOperation({
-                    translate: pos,
-                    dims: new Point(teamIconScale),
-                    rotation: rot,
+                    pos: pos,
+                    size: new Point(teamIconScale),
+                    rot: rot,
                     frame: c.getTeam(),
                     pivot: Point.CENTER
                 })
@@ -572,10 +572,10 @@ export default class Board
 
                 const resTut = vis.getResource(CONFIG.tutorial.textureKey);
                 const opTut = new LayoutOperation({
-                    translate: center,
-                    dims: new Point(iconSize * CONFIG.board.tutScale),
+                    pos: center,
+                    size: new Point(iconSize * CONFIG.board.tutScale),
                     frame: frame,
-                    rotation: rot,
+                    rot: rot,
                     pivot: Point.CENTER
                 });
                 group.add(resTut, opTut);
@@ -587,10 +587,10 @@ export default class Board
                 const text = c.getValue().toString();
                 const resText = new ResourceText({ text: text, textConfig: textConfig });
                 const opText = new LayoutOperation({
-                    translate: center,
-                    dims: new Point(2*textConfig.size),
+                    pos: center,
+                    size: new Point(2*textConfig.size),
                     pivot: Point.CENTER,
-                    rotation: rot,
+                    rot: rot,
                     fill: fontCfg.color,
                     stroke: fontCfg.strokeColor,
                     strokeWidth: (fontCfg.strokeWidth * this.cellSizeSquare),

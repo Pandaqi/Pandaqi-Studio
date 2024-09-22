@@ -88,7 +88,7 @@ export default class Card
         // actual illustration
         const res = vis.resLoader.getResource("cats");
         const frame = CATS[this.cat].frame;
-        const dims = new Point(vis.size.x * CONFIG.cards.cat.sizeFactor);
+        const size = new Point(vis.size.x * CONFIG.cards.cat.sizeFactor);
         const offset = CONFIG.cards.cat.offset.clone().scaleFactor(vis.sizeUnit);
         const pos = new Point(0.5*vis.size.x).move(offset);
         const alpha = this.isRuleReminder() ? CONFIG.cards.cat.rulesReminderCatAlpha : 1.0;
@@ -96,8 +96,8 @@ export default class Card
         if(vis.inkFriendly) { catEffects.push(new GrayScaleEffect()); }
 
         const op = new LayoutOperation({
-            translate: pos,
-            dims: dims,
+            pos: pos,
+            size: size,
             frame: frame,
             pivot: new Point(0.5),
             alpha: alpha,
@@ -111,19 +111,19 @@ export default class Card
             const res = vis.resLoader.getResource("misc");
             op.frame = MISC.rulesReminder.frame;
             op.alpha = 1.0;
-            op.dims = op.dims.clone().scaleFactor(CONFIG.cards.cat.rulesReminderScale);
+            op.size = op.size.clone().scaleFactor(CONFIG.cards.cat.rulesReminderScale);
             res.toCanvas(ctx, op);
         }
 
         // two small rectangles to make transition to bottom look better
-        const bottomEdge = pos.clone().move(new Point(0, 0.5*dims.y));
+        const bottomEdge = pos.clone().move(new Point(0, 0.5*size.y));
         const strokeWidth = CONFIG.cards.sharedStrokeWidth * vis.sizeUnit;
         const extraRectHeight = CONFIG.cards.cat.extraRectHeight * vis.sizeUnit;
         const posAbove = bottomEdge.clone().move(new Point(0, -0.5*extraRectHeight));
         const rectAbove = new Rectangle({ extents: new Point(vis.size.x, extraRectHeight) })
         const resAbove = new ResourceShape({ shape: rectAbove });
         const opAbove = new LayoutOperation({
-            translate: posAbove,
+            pos: posAbove,
             fill: "#FFFFFF",
             stroke: "#000000",
             strokeWidth: strokeWidth,
@@ -132,7 +132,7 @@ export default class Card
         resAbove.toCanvas(ctx, opAbove);
 
         const posBelow = bottomEdge.clone().move(new Point(0, 0.5*extraRectHeight));
-        opAbove.translate = posBelow;
+        opAbove.pos = posBelow;
         resAbove.toCanvas(ctx, opAbove);
 
         // the cat's name
@@ -150,20 +150,20 @@ export default class Card
         const effects = [new DropShadowEffect({ blurRadius: 0.1*fontSize, color: CONFIG.cards.sharedShadowColor })];
 
         const textOp = new LayoutOperation({
-            translate: new Point(offsetInward, pos.y),
-            dims: new Point(1000, fontSize),
+            pos: new Point(offsetInward, pos.y),
+            size: new Point(1000, fontSize),
             fill: "#000000",
             stroke: "#FFFFFF",
             strokeWidth: strokeWidth * CONFIG.cards.cat.strokeWidthFactor,
             strokeAlign: StrokeAlign.OUTSIDE,
-            rotation: -0.5*Math.PI,
+            rot: -0.5*Math.PI,
             pivot: new Point(0.5),
             effects: effects
         })
         textRes.toCanvas(ctx, textOp);
 
-        textOp.rotation = 0.5*Math.PI;
-        textOp.translate.x = vis.size.x - offsetInward;
+        textOp.rot = 0.5*Math.PI;
+        textOp.pos.x = vis.size.x - offsetInward;
         textRes.toCanvas(ctx, textOp);
     }
 
@@ -179,9 +179,9 @@ export default class Card
         if(vis.inkFriendly) { effects.push(new GrayScaleEffect()); }
         
         const opIcon = new LayoutOperation({
-            translate: pos,
+            pos: pos,
             frame: frame,
-            dims: iconSize,
+            size: iconSize,
             pivot: new Point(0.5),
             effects: effects
         })
@@ -206,8 +206,8 @@ export default class Card
         }
 
         const op = new LayoutOperation({
-            translate: textPos,
-            dims: new Point(2*fontSize),
+            pos: textPos,
+            size: new Point(2*fontSize),
             pivot: new Point(0.5),
             fill: vis.inkFriendly ? "#FFFFFF" : "#FFE7D5",
             stroke: vis.inkFriendly ? "#111111" : "#4B0300",
@@ -235,8 +235,8 @@ export default class Card
             const pos = handIconPositions[i];
             const handOp = new LayoutOperation({
                 frame: MISC.hand.frame,
-                translate: pos,
-                dims: new Point(handIconSize),
+                pos: pos,
+                size: new Point(handIconSize),
                 pivot: Point.CENTER,
                 effects: effects,
                 flipX: (i == 1),
@@ -251,8 +251,8 @@ export default class Card
             const moveDir = i == 0 ? 1 : -1;
             const resHandText = new ResourceText({ text: limit.toString(), textConfig: textConfig });
             const handTextOp = new LayoutOperation({
-                translate: pos.clone().move(new Point(moveDir * 0.5 * fontSize, 0)),
-                dims: new Point(vis.size.x, fontSize),
+                pos: pos.clone().move(new Point(moveDir * 0.5 * fontSize, 0)),
+                size: new Point(vis.size.x, fontSize),
                 pivot: Point.CENTER,
                 fill: vis.inkFriendly ? "#ECECEC" : "#B3FFFE",
                 stroke: vis.inkFriendly ? "#323232" : "#003938",
@@ -308,8 +308,8 @@ export default class Card
 
         // then put the actual text inside it
         const opText = new LayoutOperation({
-            translate: new Point(vis.center.x, pos.y),
-            dims: rectSize,
+            pos: new Point(vis.center.x, pos.y),
+            size: rectSize,
             pivot: Point.CENTER,
             fill: "#000000"
         });
@@ -358,8 +358,8 @@ export default class Card
         const center = vis.size.clone().scale(0.5);
 
         const op = new LayoutOperation({
-            dims: new Point(iconSize*3), // @TODO: if no dims given, just make dims "whatever needed"?
-            translate: center,
+            size: new Point(iconSize*3), // @TODO: if no size given, just make size "whatever needed"?
+            pos: center,
             pivot: new Point(0.5),
             fill: "#FFFFFF",
             stroke: "#000000",
@@ -384,8 +384,8 @@ export default class Card
         const iconSize = CONFIG.cards.suits.bigSuitSize * vis.sizeUnit
         const opIcon = new LayoutOperation({
             frame: frame,
-            translate: center,
-            dims: new Point(iconSize),
+            pos: center,
+            size: new Point(iconSize),
             pivot: new Point(0.5),
             alpha: CONFIG.cards.suits.bigSuitAlpha
         })
@@ -407,8 +407,8 @@ export default class Card
         const pathObj = new Path({ points: path, close: true });
         const resLine = new ResourceShape({ shape: pathObj });
 
-        op.translate = new Point();
-        op.dims = new Point();
+        op.pos = new Point();
+        op.size = new Point();
         op.pivot = new Point();
         resLine.toCanvas(ctx, op);
         
@@ -448,14 +448,14 @@ export default class Card
             const res = new ResourceText({ text: text, textConfig: textConfig });
             const pos = edges[i].clone().move(offsets[i].clone().scaleFactor(textOffset));
             const op = new LayoutOperation({
-                dims: new Point(4*fontSize, fontSize),
-                translate: pos,
+                size: new Point(4*fontSize, fontSize),
+                pos: pos,
                 pivot: new Point(0.5),
                 fill: "#FFFFFF",
                 stroke: "#000000",
                 strokeWidth: strokeWidth,
                 strokeAlign: StrokeAlign.OUTSIDE,
-                rotation: rot
+                rot: rot
             });
             res.toCanvas(ctx, op);
         }
@@ -492,10 +492,10 @@ export default class Card
             const rot = i <= 1 ? 0 : Math.PI;
             const op = new LayoutOperation({
                 frame: frame,
-                dims: iconSize,
-                translate: pos,
+                size: iconSize,
+                pos: pos,
                 pivot: new Point(0.5),
-                rotation: rot,
+                rot: rot,
                 effects: effects
             })
             res.toCanvas(ctx, op);
@@ -518,9 +518,9 @@ export default class Card
 
         const center = vis.size.clone().scaleFactor(0.5);
         const op = new LayoutOperation({
-            translate: center,
+            pos: center,
             alpha: alpha,
-            rotation: CONFIG.cards.bgCats.patternRotation,
+            rot: CONFIG.cards.bgCats.patternRotation,
             pivot: new Point(0.5)
         })
         vis.patternCat.toCanvas(ctx, op);

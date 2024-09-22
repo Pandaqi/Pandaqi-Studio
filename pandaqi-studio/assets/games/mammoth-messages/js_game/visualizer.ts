@@ -63,8 +63,8 @@ export default class Visualizer
             const center = img1.size.clone().scale(0.5);
             const img2 = resIcon.getImageFrameAsResource(colorData.frame);
             const op2 = new LayoutOperation({
-                translate: center,
-                dims: img1.size.clone().scale(0.85),
+                pos: center,
+                size: img1.size.clone().scale(0.85),
                 pivot: Point.CENTER
             })
 

@@ -31,15 +31,15 @@ const CONFIG = {
 
     cards: 
     {
-        dims: 
+        size: 
         { 
             small: new Point(5, 5),
             regular: new Point(4, 4),
             large: new Point(3, 3)
         },
-
-        dimsElement: new Point(1, 1.55),
-        size: new Point(),
+        sizeElement: new Point(1, 1.55),
+        sizeResult: new Point(),
+        
         bgScale: 0.975,
         mainNumber: 
         {

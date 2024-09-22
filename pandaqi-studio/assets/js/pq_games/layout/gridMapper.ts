@@ -26,11 +26,11 @@ interface GridMapperParams
 {
     debug?: boolean,
     layoutShape?: GridMapperLayout
-    dims?: Point
+    size?: Point
+    sizeElement?: Point,
     outerMargin?: Point
     innerMargin?: Point,
     pdfBuilder?: PdfBuilder,
-    dimsElement?: Point,
     absoluteElementSize?: Point,
     pdfParams?: PdfBuilderConfig,
     autoStroke?: GridMapperElementStrokeParams
@@ -65,13 +65,13 @@ export default class GridMapper
     {
         this.debug = params.debug ?? false;
 
-        this.pdfBuilder = params.pdfBuilder || new PdfBuilder(params.pdfParams);
+        this.pdfBuilder = params.pdfBuilder ?? new PdfBuilder(params.pdfParams);
         this.pageSize = this.pdfBuilder.getSinglePageSize();
         this.pageSizeUnit = Math.min(this.pageSize.x, this.pageSize.y);
 
         this.canvases = [];
         this.layoutShape = params.layoutShape ?? GridMapperLayout.RECTANGLE; // rectangle, hexagon, triangle, circle
-        this.dims = params.dims || new Point(3, 3);
+        this.dims = params.size ?? new Point(3, 3);
         this.outerMargin = params.outerMargin ?? new Point(0.02); // default printer margin is 0.5 inch, which is roughly 0.02 of smallest side of A4
         this.innerMargin = params.innerMargin ?? new Point(0.01); // could be 0 if I wanted, so this is just a nice value for visual clarity
         this.outerMargin = this.outerMargin.clone().scaleFactor(this.pageSizeUnit);
@@ -132,9 +132,10 @@ export default class GridMapper
             })
         }
 
-        if(params.dimsElement)
+        const dimsElement = params.sizeElement;
+        if(dimsElement)
         {
-            const ratio = (params.dimsElement.y / params.dimsElement.x);
+            const ratio = (dimsElement.y / dimsElement.x);
             let newX = this.maxPixels.x;
             let newY = this.maxPixels.y;
             let scaleDown = 1.0;

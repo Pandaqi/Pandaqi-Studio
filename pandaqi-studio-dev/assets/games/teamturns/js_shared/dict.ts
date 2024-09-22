@@ -55,10 +55,10 @@ const TILE_ACTIONS:Record<TileAction, GeneralData> =
 
 const MOVEMENT_CARDS:Record<CardMovement, GeneralData> =
 {
-    [CardMovement.LEFT]: { frame: 0, label: "Left", desc: "Move one tile to the <b>left</b>.", angled: true, rotation: Math.PI, canHaveSpecial: true },
-    [CardMovement.RIGHT]: { frame: 2, label: "Right", desc: "Move one tile to the <b>right</b>.", angled: true, rotation: 0, canHaveSpecial: true },
-    [CardMovement.UP]: { frame: 4, label: "Up", desc: "Move one tile <b>up</b>.", angled: true, rotation: -0.5*Math.PI, canHaveSpecial: true },
-    [CardMovement.DOWN]: { frame: 6, label: "Down", desc: "Move one tile <b>down</b>.", angled: true, rotation: 0.5*Math.PI, canHaveSpecial: true },
+    [CardMovement.LEFT]: { frame: 0, label: "Left", desc: "Move one tile to the <b>left</b>.", angled: true, rot: Math.PI, canHaveSpecial: true },
+    [CardMovement.RIGHT]: { frame: 2, label: "Right", desc: "Move one tile to the <b>right</b>.", angled: true, rot: 0, canHaveSpecial: true },
+    [CardMovement.UP]: { frame: 4, label: "Up", desc: "Move one tile <b>up</b>.", angled: true, rot: -0.5*Math.PI, canHaveSpecial: true },
+    [CardMovement.DOWN]: { frame: 6, label: "Down", desc: "Move one tile <b>down</b>.", angled: true, rot: 0.5*Math.PI, canHaveSpecial: true },
     [CardMovement.NOTHING]: { frame: 8, label: "None", desc: "Do nothing." },
     [CardMovement.ANY]: { frame: 10, label: "Any", desc: "Move one tile in <b>any direction</b>.", canHaveSpecial: true },
     [CardMovement.COPY]: { frame: 12, label: "Copy", desc: "<b>Copy</b> the same movement as the <b>previous card</b>." },

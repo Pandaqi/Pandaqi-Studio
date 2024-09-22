@@ -1,4 +1,5 @@
-import Random from "js/pq_games/tools/random/main"
+import getWeighted from "js/pq_games/tools/random/getWeighted";
+import rangeInteger from "js/pq_games/tools/random/rangeInteger";
 
 export default class RandomWalk 
 {
@@ -98,7 +99,7 @@ export default class RandomWalk
 
         let min = config.randomWalk.length.min;
         let max = config.randomWalk.length.max;
-        const rawDesiredPathLength = Random.rangeInteger(min, max);
+        const rawDesiredPathLength = rangeInteger(min, max);
 
         const average = 0.5*(min+max);
         const prevWalk = config.randomWalk.linesPreviousWalk;
@@ -108,7 +109,7 @@ export default class RandomWalk
             if(prevWalk > average) { max = average; }
         }
 
-        let desiredPathLength = Random.rangeInteger(min, max);
+        let desiredPathLength = rangeInteger(min, max);
         if(config.randomWalk.simple) { desiredPathLength = rawDesiredPathLength; }
         const pathLength = Math.min(desiredPathLength, config.randomWalk.linesLeft);
 
@@ -136,17 +137,18 @@ export default class RandomWalk
         if(nbs.length <= 0) { return false; }
 
         const lastAngle = this.getLastAngle();
-        const nbWeighted = [];
-        for(const nb of nbs)
+        const nbWeighted = {};
+        for(let i = 0; i < nbs.length; i++)
         {
+            const nb = nbs[i];
             const angle = Math.atan2(nb.y - lastPoint.y, nb.x - lastPoint.x);
             const angleDiff = Math.abs(angle - lastAngle) % (Math.PI);
             const probFraction = (Math.PI - angleDiff)/Math.PI;
             const prob = 1 + probFraction*(7-1); // lerp(1,7)
-            nbWeighted.push({ point: nb, prob: prob });
+            nbWeighted[i] = { point: nb, prob: prob };
         }
 
-        const randomNb = nbWeighted[Random.getWeighted(nbWeighted, "prob")].point;
+        const randomNb = nbWeighted[getWeighted(nbWeighted, "prob")].point;
         const intersected = randomNb.hasConnections();
         if(intersected) { this.closedShape = true; }
         let shouldStop = intersected;

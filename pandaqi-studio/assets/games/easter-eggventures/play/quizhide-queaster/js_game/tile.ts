@@ -54,8 +54,8 @@ export default class Tile extends MaterialEaster
         const data = this.getData();
         const res = vis.getResource(this.getTypeData().textureKey);
         const op = new LayoutOperation({
-            translate: new Point(),
-            dims: vis.size,
+            pos: new Point(),
+            size: vis.size,
             frame: data.frame,
             effects: vis.inkFriendlyEffect
         });
@@ -76,8 +76,8 @@ export default class Tile extends MaterialEaster
         const posFinal = posRel.clone().scale(vis.size);
         const res = vis.getResource("objects");
         const op = new LayoutOperation({
-            translate: posFinal,
-            dims: vis.get("tiles.rooms.hidingSlotDims"),
+            pos: posFinal,
+            size: vis.get("tiles.rooms.hidingSlotDims"),
             pivot: Point.CENTER,
             frame: vis.get("tiles.rooms.hidingSlotFrame"),
             effects: vis.inkFriendlyEffect
@@ -89,10 +89,10 @@ export default class Tile extends MaterialEaster
     {
         const data = this.getData();
         const res = vis.getResource(this.getTypeData().textureKey);
-        const obstacleDims = vis.get("tiles.objects.dims");
+        const obstacleDims = vis.get("tiles.objects.size");
         const op = new LayoutOperation({
-            translate: vis.center,
-            dims: obstacleDims,
+            pos: vis.center,
+            size: obstacleDims,
             frame: data.frame,
             pivot: Point.CENTER,
             effects: vis.inkFriendlyEffect

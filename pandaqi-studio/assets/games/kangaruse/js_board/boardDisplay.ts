@@ -26,7 +26,7 @@ export default class BoardDisplay
 
     cellSize:Point
     cellSizeUnit:number
-    dims:Point
+    size:Point
     board:BoardState
     graphics: any;
     boardPadding: Point;
@@ -72,10 +72,10 @@ export default class BoardDisplay
     draw(vis: BoardVisualizer, group: ResourceGroup, board:BoardState)
     {        
         this.board = board;
-        this.dims = board.getDimensions();
+        this.size = board.getDimensions();
         this.cellSize = new Point(
-            this.boardDimensions.x / this.dims.x, 
-            this.boardDimensions.y / this.dims.y 
+            this.boardDimensions.x / this.size.x, 
+            this.boardDimensions.y / this.size.y 
         );
         this.cellSizeUnit = Math.min(this.cellSize.x, this.cellSize.y);
 
@@ -127,11 +127,11 @@ export default class BoardDisplay
 
     drawRowColumnCommands(vis: BoardVisualizer, group: ResourceGroup, board:BoardState)
     {
-        const dims = board.getDimensions();
+        const size = board.getDimensions();
         const colOffset = CONFIG.board.numbers.offsetFromGrid * this.cellSizeUnit;
         const colData = board.columnData;
         const anchorPos = this.getAnchorPos();
-        for(let i = 0; i < dims.x; i++)
+        for(let i = 0; i < size.x; i++)
         {
             const x = anchorPos.x + (i + 0.5) * this.cellSize.x;
             const yTop = anchorPos.y - colOffset;
@@ -144,7 +144,7 @@ export default class BoardDisplay
         // ROWS = Directions
         const rowOffset = CONFIG.board.dirs.offsetFromGrid * this.cellSizeUnit;
         const rowData = board.rowData;
-        for(let i = 0; i < dims.y; i++)
+        for(let i = 0; i < size.y; i++)
         {
             const y = anchorPos.y + (i + 0.5) * this.cellSize.y;
             const xTop = anchorPos.x - rowOffset;
@@ -189,12 +189,12 @@ export default class BoardDisplay
 
         const rot = (side == 1) ? Math.PI : 0;
         const opText = new LayoutOperation({
-            translate: pos,
-            dims: new Point(2*fontSize),
+            pos: pos,
+            size: new Point(2*fontSize),
             fill: txtCfg.color,
             stroke: txtCfg.stroke,
             strokeWidth: txtCfg.strokeThickness,
-            rotation: rot,
+            rot: rot,
             pivot: Point.CENTER
         })
 
@@ -210,10 +210,10 @@ export default class BoardDisplay
         const size = CONFIG.board.dirs.scaleFactor * this.cellSizeUnit;
         const res = vis.getResource("general_spritesheet");
         const op = new LayoutOperation({
-            translate: pos,
-            rotation: rot,
+            pos: pos,
+            rot: rot,
             pivot: Point.CENTER,
-            dims: new Point(size),
+            size: new Point(size),
             frame: GENERAL.dir.frame
         })
         group.add(res, op);

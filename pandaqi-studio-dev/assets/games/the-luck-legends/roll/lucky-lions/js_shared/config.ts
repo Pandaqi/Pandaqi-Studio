@@ -140,8 +140,8 @@ const CONFIG:any =
         drawerConfig:
         {
             autoStroke: true,
-            dimsElement: new Point(1, 1.4),
-            dims: 
+            sizeElement: new Point(1, 1.4),
+            size: 
             { 
                 small: new Point(4,4),
                 regular: new Point(3,3),
@@ -157,8 +157,8 @@ const CONFIG:any =
         {
             startingAngle: 0,
             pos: new CVal(new Point(0.5), "size"),
-            dims: new CVal(new Point(0.75), "sizeUnit"),
-            animalRadius: new CVal(0.3, "sizeUnit"), // should be slightly smaller than 0.5*dims
+            size: new CVal(new Point(0.75), "sizeUnit"),
+            animalRadius: new CVal(0.3, "sizeUnit"), // should be slightly smaller than 0.5*size
             iconDims: new CVal(new Point(0.175), "sizeUnit"),
             peopleIconDims: new CVal(new Point(0.2), "sizeUnit"),
             rotateAnimals: false,

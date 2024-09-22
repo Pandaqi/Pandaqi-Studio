@@ -46,7 +46,7 @@ export default class Card extends MaterialNaivigation
         const resSprite = vis.getResource("icons_shared");
         const spriteOp = new LayoutOperation({
             frame: tempData.frameIcon,
-            dims: new Point(vis.sizeUnit)
+            size: new Point(vis.sizeUnit)
         })
         subGroup.add(resSprite, spriteOp);
 
@@ -68,8 +68,8 @@ export default class Card extends MaterialNaivigation
         for(const textPos of textPositions)
         {
             const textOp = new LayoutOperation({
-                translate: textPos,
-                dims: new Point(0.5*vis.sizeUnit), 
+                pos: textPos,
+                size: new Point(0.5*vis.sizeUnit), 
                 fill: "#000000",
                 stroke: "#FFFFFF",
                 strokeWidth: vis.get("cards.instruction.strokeWidth"),
@@ -82,7 +82,7 @@ export default class Card extends MaterialNaivigation
 
         // place it twice (one top, one bottom)
         group.add(subGroup);
-        const op = new LayoutOperation({ translate: new Point(0, vis.center.y) })
+        const op = new LayoutOperation({ pos: new Point(0, vis.center.y) })
         group.add(subGroup, op);
     }
 
@@ -90,9 +90,9 @@ export default class Card extends MaterialNaivigation
     {
         const resSprite = vis.getResource("icons_shared");
         const spriteOp = new LayoutOperation({
-            translate: vis.center,
+            pos: vis.center,
             frame: this.getTemplateData().frameIcon,
-            dims: vis.get("cards.compass.dims"),
+            size: vis.get("cards.compass.size"),
             pivot: Point.CENTER
         })
         group.add(resSprite, spriteOp);

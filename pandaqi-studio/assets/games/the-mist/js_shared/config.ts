@@ -103,7 +103,7 @@ const CONFIG =
     // how generation/balancing happens
     gen:
     {
-        dims: {
+        size: {
             tiny: new Point(5,5),
             small: new Point(7,7),
             regular: new Point(9,9),
