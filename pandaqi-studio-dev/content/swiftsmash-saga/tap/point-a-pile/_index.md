@@ -4,6 +4,7 @@ boardgame: true
 
 title: "Point-a-Pile"
 headerTitle: "Point at the pile of juicy cards that you want. Live with the consequences."
+weightProject: 30
 
 color: "red"
 
@@ -35,8 +36,10 @@ devlog: "/blog/boardgames/swiftsmash-saga/point-a-pile/"
 {{< boardgame-settings type="game" local_storage="pointAPileConfig" btn_label="Generate Material" game_title="Point-a-Pile" defaults="true">}}
   {{< boardgame-settings-section heading="Sets" >}}
     {{< setting-checkbox id="setting-sets-base" text="Base?" checked="checked" >}}
+    {{< setting-checkbox id="setting-sets-pointAPolice" text="Point-a-Police?" >}}
     {{< setting-checkbox id="setting-sets-completeAMission" text="Complete-a-Mission?" >}}
     {{< setting-checkbox id="setting-sets-dontATouchme" text="Dont-a-Touchme?" >}}
+    {{< setting-checkbox id="setting-sets-waitAMinute" text="Wait-a-Minute?" >}}
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 

@@ -1,4 +1,6 @@
+import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator";
 import Point from "js/pq_games/tools/geometry/point";
+import Bounds from "js/pq_games/tools/numbers/bounds";
 import autoLoadFontCSS from "js/pq_games/website/autoLoadFontCSS";
 
 const CONFIG:any = 
@@ -59,21 +61,15 @@ const CONFIG:any =
 
     generation:
     {
-        
+        numberBounds: new Bounds(1,10),
+        numberSpecial: [3,6,9]
     },
 
     cards:
     {
         drawerConfig:
         {
-            autoStroke: true,
-            sizeElement: new Point(1, 1.4),
-            size: 
-            { 
-                small: new Point(4,4),
-                regular: new Point(3,3),
-                large: new Point(2,2)
-            }, 
+            preset: GridSizePreset.CARD
         },
     },
 }

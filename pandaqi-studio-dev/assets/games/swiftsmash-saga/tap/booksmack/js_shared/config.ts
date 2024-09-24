@@ -1,5 +1,7 @@
 import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textConfig"
+import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator";
 import Point from "js/pq_games/tools/geometry/point"
+import Bounds from "js/pq_games/tools/numbers/bounds";
 import autoLoadFontCSS from "js/pq_games/website/autoLoadFontCSS";
 
 const CONFIG:any = 
@@ -38,27 +40,6 @@ const CONFIG:any =
     assetsBase: "/swiftsmash-saga/tap/booksmack/assets/",
     assets:
     {
-        /*
-        whackadoo:
-        {
-            path: "fonts/Whackadoo.woff2",
-        },
-
-        whackadoo_italic:
-        {
-            key: "whackadoo",
-            path: "fonts/WhackadooUpper-Italic.woff2",
-            textConfig: new TextConfig({ style: TextStyle.ITALIC })
-        },
-
-        whackadoo_bold:
-        {
-            key: "whackadoo",
-            path: "fonts/WhackadooUpper.woff2",
-            textConfig: new TextConfig({ style: TextStyle.ITALIC, weight: TextWeight.BOLD })
-        },
-        */
-        
         andika:
         {
             path: "fonts/Andika.woff2",
@@ -105,21 +86,21 @@ const CONFIG:any =
 
     generation:
     {
-        
+        symbolsPerSet:
+        {
+            base: "ACDEILNOPRSTUabcdefghijklmnopqrstuvwxyz", // the rarest letters don't get an uppercase; all of them = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+            powerPunctuation: "?!.",
+            niftyNumbers: [2, 5, 8, 10, 12, 15, 18, 20, 25], // don't want to overcrowd the deck with numbers + "weird" numbers are just really hard to calculate while playing
+            gigglingGlyphs: "+- &*@~#",
+            cursedCritics: "áàâåéèêíîïôøöüúùñçč"
+        }
     },
 
     cards:
     {
         drawerConfig:
         {
-            autoStroke: true,
-            sizeElement: new Point(1, 1.4),
-            size: 
-            { 
-                small: new Point(4,4),
-                regular: new Point(3,3),
-                large: new Point(2,2)
-            }, 
+            preset: GridSizePreset.CARD
         },
     },
 }

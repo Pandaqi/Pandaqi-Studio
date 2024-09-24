@@ -1,6 +1,8 @@
 import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textConfig"
+import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator";
 import Point from "js/pq_games/tools/geometry/point"
 import autoLoadFontCSS from "js/pq_games/website/autoLoadFontCSS";
+import { CardType, ColorType } from "./dict";
 
 const CONFIG:any = 
 {
@@ -28,8 +30,10 @@ const CONFIG:any =
     sets:
     {
         base: true,
+        pointAPolice: false,
         completeAMission: false,
-        dontATouchme: false
+        dontATouchme: false,
+        waitAMinute: false
     },
 
     // assets
@@ -82,21 +86,38 @@ const CONFIG:any =
 
     generation:
     {
-        
+        setNameForCardType:
+        {
+            [CardType.REGULAR]: "base",
+            [CardType.RULE]: "pointAPolice",
+            [CardType.MISSION]: "completeAMission",
+            [CardType.ACTION]: "waitAMinute",
+            [CardType.SHY]: "dontATouchme",
+        },
+
+        numCardsPerSet:
+        {
+            base: 35,
+            pointAPolice: 15,
+            completeAMission: 10,
+            waitAMinute: 15,
+            dontATouchme: 10
+        },
+
+        colorDist:
+        {
+            [ColorType.RED]: 0.3,
+            [ColorType.GREEN]: 0.3,
+            [ColorType.BLUE]: 0.2,
+            [ColorType.PURPLE]: 0.2
+        }
     },
 
     cards:
     {
         drawerConfig:
         {
-            autoStroke: true,
-            sizeElement: new Point(1, 1.4),
-            size: 
-            { 
-                small: new Point(4,4),
-                regular: new Point(3,3),
-                large: new Point(2,2)
-            }, 
+            preset: GridSizePreset.CARD
         },
     },
 }

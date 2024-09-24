@@ -4,6 +4,7 @@ import CVal from "js/pq_games/tools/generation/cval"
 import Bounds from "js/pq_games/tools/numbers/bounds"
 import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textConfig"
 import autoLoadFontCSS from "js/pq_games/website/autoLoadFontCSS"
+import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator"
 
 const CONFIG:any = 
 {
@@ -161,14 +162,7 @@ const CONFIG:any =
     {
         drawerConfig:
         {
-            autoStroke: true,
-            sizeElement: new Point(1, 1.4),
-            size: 
-            { 
-                small: new Point(4,4),
-                regular: new Point(3,3),
-                large: new Point(2,2)
-            }, 
+            preset: GridSizePreset.CARD
         },
 
         sonar:
@@ -215,14 +209,7 @@ const CONFIG:any =
     {
         drawerConfig:
         {
-            autoStroke: true,
-            sizeElement: new Point(1, 1),
-            size: 
-            { 
-                small: new Point(5,7),
-                regular: new Point(3,5),
-                large: new Point(2,3)
-            },
+            preset: GridSizePreset.TILE
         }, 
 
         fishes:

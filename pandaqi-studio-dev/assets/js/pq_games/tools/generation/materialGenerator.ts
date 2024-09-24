@@ -8,6 +8,7 @@ import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage
 import { PageFormat, PageOrientation } from "js/pq_games/pdf/pdfEnums";
 import Renderer from "js/pq_games/layout/renderers/renderer";
 import RendererPandaqi from "js/pq_games/layout/renderers/rendererPandaqi";
+import Point from "../geometry/point";
 
 const DEFAULT_BATCH_SIZE = 10;
 const GIVE_FEEDBACK = true;
@@ -20,6 +21,55 @@ interface MaterialDrawCall
     visualizer: MaterialVisualizer
 }
 
+interface DrawerConfig
+{
+    autoStroke?: boolean,
+    sizeElement?: Point,
+    size: Record<string,Point>
+}
+
+enum GridSizePreset
+{
+    CARD = "card",
+    TILE = "tile"
+}
+
+const GRID_SIZE_DEFAULT:Record<string,Point> = 
+{
+    tiny: new Point(5,5),
+    small: new Point(4,4),
+    regular: new Point(3,3),
+    large: new Point(2,2),
+    huge: new Point(1,1)
+}
+
+const GRID_SIZE_PRESETS:Record<GridSizePreset, DrawerConfig> =
+{
+    [GridSizePreset.CARD]: 
+    {
+        autoStroke: true,
+        sizeElement: new Point(1, 1.4),
+        size: 
+        { 
+            small: new Point(4,4),
+            regular: new Point(3,3),
+            large: new Point(2,2)
+        }, 
+    },
+
+    [GridSizePreset.TILE]:
+    {
+        autoStroke: true,
+        sizeElement: new Point(1, 1),
+        size: 
+        { 
+            small: new Point(5,7),
+            regular: new Point(3,5),
+            large: new Point(2,3)
+        },
+    }
+}
+
 //
 // Default debug config settings are
 // debug.onlyGenerate => only invokes generator part of pipeline
@@ -30,6 +80,7 @@ interface MaterialDrawCall
 // itemSize => determines general size for drawing, input on general settings
 // size + sizeElement => specific settings for gridMapper, given when adding this particular drawer to the pipeline
 //
+export { DrawerConfig, GridSizePreset }
 export default class MaterialGenerator
 {
     config: Record<string,any>;
@@ -97,11 +148,28 @@ export default class MaterialGenerator
 
     addDrawer(id:string, drawerConfig:Record<string,any>)
     {
-        const size = drawerConfig.size[this.config.itemSize ?? "regular"];
+        // a shortcut to select an oft-used preset of settings
+        if(drawerConfig.preset) { drawerConfig = GRID_SIZE_PRESETS[drawerConfig.preset]; }
+        const size = this.getGridSize(drawerConfig);
         const autoStroke = drawerConfig.autoStroke ?? false;
         const gridConfig = { pdfBuilder: this.pdfBuilder, size: size, sizeElement: drawerConfig.sizeElement, autoStroke: autoStroke };
         const gridMapper = new GridMapper(gridConfig);
         this.drawers[id] = gridMapper;
+    }
+
+    getGridSize(drawerConfig:Record<string,any>) : Point
+    {
+        // if something is set specifically, use that
+        const size = drawerConfig.size[this.config.itemSize];
+        if(size) { return size; }
+
+        // otherwise, extract from "base" size 
+        // (calculate the relative step between default size and wanted size, apply to the input setting)
+        const baseSize = GRID_SIZE_DEFAULT.regular;
+        const targetSize = GRID_SIZE_DEFAULT[this.config.itemSize ?? "regular"];
+        const sizeChange = 0.5*Math.ceil((targetSize.x / baseSize.x) + (targetSize.y / baseSize.y));
+        const newSize = drawerConfig.size.regular.clone().scale(sizeChange).round();
+        return newSize;
     }
 
     setupConfig(CONFIG)

@@ -1,7 +1,9 @@
-import fromArray from "js/pq_games/tools/random/fromArray";
+import shuffle from "js/pq_games/tools/random/shuffle";
 import CONFIG from "../js_shared/config";
-import { CardMovement, CardType, MOVEMENT_CARDS, MOVEMENT_SPECIAL } from "../js_shared/dict";
+import { CardDisplayType, CardType, ColorType, FINISH_REQUIREMENTS, RULE_CARDS, ShapeType } from "../js_shared/dict";
 import Card from "./card";
+import fromArray from "js/pq_games/tools/random/fromArray";
+import getWeighted from "js/pq_games/tools/random/getWeighted";
 
 export default class CardPicker
 {
@@ -13,7 +15,7 @@ export default class CardPicker
         this.cards = [];
         
         this.generateBaseCards();
-        this.generateUnclearInstructions();
+        this.generateSpecialCards();
 
         console.log(this.cards);
     }
@@ -22,30 +24,87 @@ export default class CardPicker
     {
         if(!CONFIG.sets.base) { return; }
 
-        this.generateMovementCards(CONFIG.generation.movementCardNumBase, CONFIG.generation.movementCardDistBase);
+        this.generateRegularCards("base");
+        this.generateRulesCards("base");
     }
 
-    generateUnclearInstructions()
+    generateSpecialCards()
     {
-        if(!CONFIG.sets.unclearInstructions) { return; }
+        if(!CONFIG.sets.shiftingGears) { return; }
 
-        this.generateMovementCards(CONFIG.generation.movementCardNumUnclear, CONFIG.generation.movementCardDistUnclear, true);
+        this.generateRegularCards("shiftingGears");
     }
 
-    generateMovementCards(targetNum:number, dist:Record<CardMovement, number>, addSpecial:boolean = false)
+    generateRegularCards(set:string)
     {
-        const possibleActions = Object.keys(MOVEMENT_SPECIAL);
-        for(const [key,freqRaw] of Object.entries(dist))
+        const numCards : number = CONFIG.generation.numCardsPerSet[set];
+
+        // determine the symbols we need (exact quantities and types)
+        let totalNumSymbols = 0;
+        const numbersFinal = [];
+        const dist : Record<number, number> = CONFIG.generation.numSymbolsDist;
+        for(const [num,freqRaw] of Object.entries(dist))
         {
-            const freq = Math.ceil(freqRaw * targetNum);
-            const data = MOVEMENT_CARDS[key];
+            const freq = Math.ceil(freqRaw * numCards);
+            totalNumSymbols += freq * parseInt(num);
             for(let i = 0; i < freq; i++)
             {
-                const newCard = new Card(CardType.MOVEMENT);
-                newCard.typeMovement = key as CardMovement;
-                newCard.specialAction = (addSpecial && data.canHaveSpecial) ? fromArray(possibleActions) : "";
-                this.cards.push(newCard);
+                numbersFinal.push(num);
             }
+        }
+        shuffle(numbersFinal);
+
+        const shapesPossible = Object.values(ShapeType);
+        const numShapes = shapesPossible.length;
+        const shapeFreq = 1.0 / numShapes;
+        const shapesFinal = [];
+        for(const shape of shapesPossible)
+        {
+            const freq = Math.ceil(shapeFreq * totalNumSymbols);
+            for(let i = 0; i < freq; i++)
+            {
+                shapesFinal.push(shape);
+            }
+        }
+        shuffle(shapesFinal);
+
+        // determine the colors (every shape has its own color)
+        const colorsFinal = [];
+        const colorDist : Record<ColorType, number> = CONFIG.generation.colorDist;
+        for(const [color,freqRaw] of Object.entries(colorDist))
+        {
+            const freq = Math.ceil(freqRaw * numShapes);
+            for(let i = 0; i < freq; i++)
+            {
+                colorsFinal.push(color);
+            }
+        }
+        shuffle(colorsFinal);
+        
+        // create them all from the fairly generated data
+        const displayTypesAllowed : CardDisplayType[] = CONFIG.generation.displayTypesPerSet[set];
+        for(let i = 0; i < numCards; i++)
+        {
+            const dt = fromArray(displayTypesAllowed);
+            const num = numbersFinal.pop();
+            const colors = colorsFinal.splice(0, num);
+            const symbols = shapesFinal.splice(0, num);
+            const newCard = new Card(CardType.REGULAR);
+            newCard.setRegularProperties(dt, symbols, colors);
+            this.cards.push(newCard);
+        }
+    }
+
+    generateRulesCards(set)
+    {
+        const num : number = CONFIG.generation.numRulesCardsPerSet[set];
+        for(let i = 0; i < num; i++)
+        {
+            const action = getWeighted(RULE_CARDS);
+            const finishReq = getWeighted(FINISH_REQUIREMENTS);
+            const newCard = new Card(CardType.RULE);
+            newCard.setRuleProperties(action, finishReq);
+            this.cards.push(newCard);
         }
     }
 }

@@ -4,31 +4,45 @@ type: "rules"
 
 {{% rules-block heading="Setup" icon="setup" %}}
 
-Deal everyone X cards to take into their hand.
+Deal everyone X cards.
 
 {{% /rules-block %}}
 
 {{% rules-block heading="Objective" icon="objective" %}}
 
-The game ends when everyone is **out of (hand) cards**. Every card in your _Library_ is worth 1 point. **Highest score wins!**
+During the game, you'll win cards and place them in a row before you. This is called your **Race**. 
+
+Every Race needs a single Rules Card. Once you've satisfied its **Finish Requirements**, you win the game.
 
 {{% /rules-block %}}
 
 {{% rules-block heading="Gameplay" icon="action" %}}
 
-Gameplay happens in _rounds_. There are no turns: everyone plays _at the same time_.
+Gameplay happens in **rounds**. There are no turns: everyone plays _at the same time_.
 
 * Everyone picks a secret card from their hand and places it in front of them.
 * Once done, everyone reveals their cards at the same time.
 
-The first player to **tap the highest letter (in order of the alphabet)** wins the round!
+Now everyone quickly studies the cards played and then **taps a card**. Each card can only be tapped by one player.
 
-But there are two twists.
+Only some cards, however, are correct. By default,
 
-* If a letter appears **twice** (uppercase and lowercase), you must tap the **uppercase** version.
-* If the cards (when read in order) happen to **spell a word, don't tap any card**. Instead, tap empty space and say the word out loud to win.
+> A card is **correct** if it contains the **symbol that appears most often** (across all cards).
 
-The winner of a round wins all the cards. Place them in your _Library_, which is just a facedown pile in front of you on the table.
+@TODO: EXAMPLE IMAGE
+
+Once everyone has tapped something, the round ends.
+
+* If **correct**, you win your own card. Place it in your _Race_ (left or right end). A race can only contain a single Rules Card, but you can always replace it with later cards if you want.
+* If **incorrect**, you lose 1 of your Race cards.
+
+Any remaining cards are won by the _first player_ that tapped a _correct card_ (the "fastest winner").
+
+But there's one final twist. The Rules Cards can change everything.
+
+* **No Rules Cards played?** You simply use the default rules of the game for checking if a card is "correct".
+* **One Rules Card Played?** That rule determines the "correct" cards instead.
+* **Multiple Rules Cards Played?** They all cancel each other; pretend none have been played.
 
 @TODO: EXAMPLE IMAGE
 
@@ -38,80 +52,94 @@ The winner of a round wins all the cards. Place them in your _Library_, which is
 
 Played the base game and ready for more? Or looking to tweak the game to fit your playing group better? Check out these variants and expansions!
 
-{{% rules-block heading="Variant: Turn-Based Play" %}}
+This game has many different variants that require _no extra material_. This makes it very easy to try a few of them and see if you like the change.
 
-The default version of _Booksmack_ is a fast and loose (party) game. Try this variant instead if you want to play it more slowly and tactically, not relying on quick thinking or reaction time.
+{{% rules-block heading="Variant: Racing Rules" %}}
 
-Below are the changes for this variant.
+This variant simply changes the _default rule_ for each round.
 
-**Objective**: the game ends as soon as a single player is out of cards. 
-
-* Your final score is equal to your Library _plus_ the cards left in your hand.
-* All special cards (from expansions) score 1 point, as usual.
-* Every letter, however, scores its _position in the alphabet_ divided by 5 (and rounded down).
-* If you own both the uppercase and lowercase version of a letter, they are worth 2 extra points each.
-
-**Gameplay**:
-
-* You play **in turns**. The cards you play are still placed in a circle, not a single pile (as often happens in card games).
-* On your turn, you play a card from your hand, and place it in front of you. (Covering your previous card, if it's still there.)
-* If it's currently the "highest card" (the one you should "tap"), draw a card from the deck.
-* If it's currently the "lowest card", steal a card from another player. (Either blindly from their hand, or the latest card they played in front of them.)
-* If you spell a word, you win all cards played: they go into your Library.
+* Keep 10 random Rules Cards in a separate deck.
+* At the start of each round, reveal the top one. That's now the "default rule" for finding correct cards.
+* Once this deck is empty, simply re-use the same 10 cards again for a new deck.
 
 {{% /rules-block %}}
 
-{{% rules-block heading="Expansion: Power Punctuation" %}}
+{{% rules-block heading="Variant: Time Penalty" %}}
 
-This expansion adds **punctuation cards**.
+Use this variant if you find players are just tapping randomly and without concern for being incorrect.
 
-* The **period** (`.`) divides the cards into groups, like creating sentences. You only have to tap the highest letter _within its group_ to win.
-* The **question mark** (`?`) is a wildcard for spelling words. It is any letter you need to spell an existing word. Otherwise, it's considered "not a letter" and should never be tapped.
-* The **exclamation mark** (`!`) is a bailout: it there are more exclamation marks than regular letters, you must tap them.
+When tapping an incorrect card, you must pick one of the following penalties.
+
+* Lose **2 race cards**.
+* Lose **2 hand cards**.
+* Next round, you are always "incorrect" if there's a tie ( = there are _multiple_ correct cards).
+
+{{% /rules-block %}}
+
+{{% rules-block heading="Variant: Noise Canceling" %}}
+
+The following rule makes the game considerably harder, but creates more variety in what cards are correct.
+
+* Notice that every Rules Card has a unique number.
+* When multiple of them are played (in the same round), the _highest number_ is the rule you must follow.
+* (Instead of multiple Rules Cards _canceling_ each other.)
+
+{{% /rules-block %}}
+
+{{% rules-block heading="Variant: Tiebreaker" %}}
+
+This variant creates only a **single** correct card in most rounds.
+
+* Whenever there are multiple correct cards,
+* Ties are broken by the card showing the **color that appears most often** (among the tied cards).
+* If still a tie, the **highest number of symbols** on the card wins.
+
+For example,
+
+* 3 cards are played: 2 Square (G), 1 Square (G), 1 Square (Y) + 2 Circle (B)
+* The most common icon is Square, so all cards are correct.
+* The color that appears most often is G (Green), so only card 1-2 remains
+* The highest number of symbols is 2, so card 1 wins.
 
 @TODO: EXAMPLE IMAGE
 
 {{% /rules-block %}}
 
-{{% rules-block heading="Expansion: Nifty Numbers" %}}
+{{% rules-block heading="Variant: After You" %}}
 
-This expansion adds **number cards** (0--25).
+This variant makes the game **turn-based** instead of simultaneous.
 
-To win a round, you must still tap the "highest number". But now you'll have to convert letters to numbers, or numbers to letters, to find out which one comes _later_ in the alphabet.
-
-@TODO: EXAMPLE IMAGE?
-
-{{% /rules-block %}}
-
-{{% rules-block heading="Expansion: Giggling Glyphs" %}}
-
-This expansion adds more **uncommon glyps and symbols**.
-
-* The **plus** (`+`): it becomes the same letter as its highest neighbor, but 1 higher.
-* The **min** (`-`): it becomes the same letter as its lowest neighbor, but 1 lower.
-* The **space** (` `): this card should be ignored. (That is, it's allowed to be "inside" a word without ruining it. It should never be tapped and otherwise has no influence on the round.)
-* The **ampersand** (`&`): connects the two letters around it. Their "number" (or "place in the alphabet") is equal to the _sum_ of both their numbers.
-* The **asterisk** (`*`): ??
-* The **at** (`@`): if next to the highest number of the round, you must tap this card instead.
-* The **tilde** (`~`): you're allowed to tap ANY card (except this one) to win the round.
-* The **pound** (`#`): you must tap the LOWEST card instead to win the round.
+* Pick any start player.
+* Player's hands are "blind": a facedown pile before them.
+* From start player, in clockwise turns, people reveal a _single_ card (faceup).
+* Only once somebody reveals a Rules Card, the smashing begins.
+  * That specific card tells you the rule for what's "correct".
+  * If you're correct, you win the entire _pile_ of cards that has built up in front of you.
 
 @TODO: EXAMPLE IMAGE
 
 {{% /rules-block %}}
 
-{{% rules-block heading="Expansion: Cursed Critics" %}}
+{{% rules-block heading="Expansion: Shifting Gears" %}}
 
-This expansion adds **letters with diacritics**, more commonly known as "accents". (umlaute and stuff).
+All the cards in the game have three properties: their shapes, their colors, and how many of them.
 
-* A letter with a diacritic is always considered "higher" than the same letter without it.
-* A letter with a diacritic can't be used for spelling words.
+In the base game, cards show this by simply displaying the icons as many times as needed. 
 
-If a letter appears multiple times with a diacritic, tapping any of them will win the round. This means, in rare occassions, there can be a _tie_ and _multiple winners_. (If people slammed different winning cards at roughly the same time.)
+In this expansion, however, cards will have **different ways of displaying the "how many" part**.
 
-In that case, simply distribute the winning cards over the winners as fairly as possible, discarding any leftovers.
+* NUMBER = An actual number + times symbol
+* HAND = The number is shown by counting how many fingers the hand holds up
+* DICE = The number is shown by a die face.
+* ROMAN = The number is shown by roman numerals (or rather "tallying")
 
 @TODO: EXAMPLE IMAGE
+
+<!--- 
+DEPRECATED:
+* COPY = "I am whatever the neighbor is at which I point" => this is just a weird exception now to the otherwise consistent structure. It can also lead to a confusing loop when _all_ cards copy and there is thus no value to any of them. It's messy, it's meh, just left it out.
+* INVERT = Show some numbers/symbols but CROSSED OUT. The card is _all the things it didn't cross out_ => this doesn't really work because the core rules of the game stop working if a card can be "multiple things at once".
+--->
 
 {{% /rules-block %}}
 

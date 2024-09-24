@@ -4,6 +4,7 @@ boardgame: true
 
 title: "Booksmack"
 headerTitle: "Be the first to tap the highest letter of the alphabet ... or sneakily take away victory by spelling a word."
+weightProject: 10
 
 color: "purple"
 

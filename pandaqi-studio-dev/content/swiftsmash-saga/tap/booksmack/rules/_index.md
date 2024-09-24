@@ -49,7 +49,8 @@ Below are the changes for this variant.
 * Your final score is equal to your Library _plus_ the cards left in your hand.
 * All special cards (from expansions) score 1 point, as usual.
 * Every letter, however, scores its _position in the alphabet_ divided by 5 (and rounded down).
-* If you own both the uppercase and lowercase version of a letter, they are worth 2 extra points each.
+* If you own both the uppercase and lowercase version of a letter, they are worth +2 points each.
+* If you own multiple versions of the same lowercase letter (which is possible with the accents expansion), they are worth -2 points each.
 
 **Gameplay**:
 
@@ -63,55 +64,43 @@ Below are the changes for this variant.
 
 {{% rules-block heading="Expansion: Power Punctuation" %}}
 
-This expansion adds **punctuation cards**.
+This expansion adds **punctuation cards**. Their powers are also written on the cards.
 
-* The **period** (`.`) divides the cards into groups, like creating sentences. You only have to tap the highest letter _within its group_ to win.
-* The **question mark** (`?`) is a wildcard for spelling words. It is any letter you need to spell an existing word. Otherwise, it's considered "not a letter" and should never be tapped.
-* The **exclamation mark** (`!`) is a bailout: it there are more exclamation marks than regular letters, you must tap them.
-
-@TODO: EXAMPLE IMAGE
+@TODO: EXAMPLE IMAGE (these are simple and core enough to give an image; the period needs one)
 
 {{% /rules-block %}}
 
 {{% rules-block heading="Expansion: Nifty Numbers" %}}
 
-This expansion adds **number cards** (0--25).
+This expansion adds **number cards** (between 1 and 26; not all included).
 
 To win a round, you must still tap the "highest number". But now you'll have to convert letters to numbers, or numbers to letters, to find out which one comes _later_ in the alphabet.
 
-@TODO: EXAMPLE IMAGE?
+In case of a tie, the _number_ is always higher ranking than the _letter_.
+
+For example, the number "E" is at position 5 of the alphabet. Any number card of 5 or higher would be ranked _higher_ than it.
 
 {{% /rules-block %}}
 
 {{% rules-block heading="Expansion: Giggling Glyphs" %}}
 
-This expansion adds more **uncommon glyps and symbols**.
+This expansion adds more **uncommon glyps and symbols**. Their actions are simple and explained on the card. The image below merely clarifies the hardest ones.
 
-* The **plus** (`+`): it becomes the same letter as its highest neighbor, but 1 higher.
-* The **min** (`-`): it becomes the same letter as its lowest neighbor, but 1 lower.
-* The **space** (` `): this card should be ignored. (That is, it's allowed to be "inside" a word without ruining it. It should never be tapped and otherwise has no influence on the round.)
-* The **ampersand** (`&`): connects the two letters around it. Their "number" (or "place in the alphabet") is equal to the _sum_ of both their numbers.
-* The **asterisk** (`*`): ??
-* The **at** (`@`): if next to the highest number of the round, you must tap this card instead.
-* The **tilde** (`~`): you're allowed to tap ANY card (except this one) to win the round.
-* The **pound** (`#`): you must tap the LOWEST card instead to win the round.
-
-@TODO: EXAMPLE IMAGE
+@TODO: EXAMPLE IMAGE to clarify the hardest ones.
 
 {{% /rules-block %}}
 
 {{% rules-block heading="Expansion: Cursed Critics" %}}
 
-This expansion adds **letters with diacritics**, more commonly known as "accents". (umlaute and stuff).
+This expansion adds **letters with diacritics**, more commonly known as "accents".
 
-* A letter with a diacritic is always considered "higher" than the same letter without it.
-* A letter with a diacritic can't be used for spelling words.
+> A letter with a diacritic is always considered "higher" than the same letter without it.
 
-If a letter appears multiple times with a diacritic, tapping any of them will win the round. This means, in rare occassions, there can be a _tie_ and _multiple winners_. (If people slammed different winning cards at roughly the same time.)
+If a letter appears multiple times with a diacritic, tapping any of them will win the round. 
 
-In that case, simply distribute the winning cards over the winners as fairly as possible, discarding any leftovers.
+This means, on rare occassions, there can be a _tie_ and _multiple winners_. (If people slammed different winning cards at roughly the same time.) In that case, simply distribute the winning cards over the winners as fairly as possible, discarding any leftovers.
 
-@TODO: EXAMPLE IMAGE
+When it comes to spelling words, diacritics do not matter. (Example: The word "cafe" is on the table regardless of whether it's "café" or "câfe" or any other variant.)
 
 {{% /rules-block %}}
 

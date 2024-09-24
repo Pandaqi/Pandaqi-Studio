@@ -1,6 +1,5 @@
-import fromArray from "js/pq_games/tools/random/fromArray";
 import CONFIG from "../js_shared/config";
-import { CardMovement, CardType, MOVEMENT_CARDS, MOVEMENT_SPECIAL } from "../js_shared/dict";
+import { SYMBOLS } from "../js_shared/dict";
 import Card from "./card";
 
 export default class CardPicker
@@ -12,40 +11,27 @@ export default class CardPicker
     {
         this.cards = [];
         
-        this.generateBaseCards();
-        this.generateUnclearInstructions();
-
-        console.log(this.cards);
-    }
-
-    generateBaseCards()
-    {
-        if(!CONFIG.sets.base) { return; }
-
-        this.generateMovementCards(CONFIG.generation.movementCardNumBase, CONFIG.generation.movementCardDistBase);
-    }
-
-    generateUnclearInstructions()
-    {
-        if(!CONFIG.sets.unclearInstructions) { return; }
-
-        this.generateMovementCards(CONFIG.generation.movementCardNumUnclear, CONFIG.generation.movementCardDistUnclear, true);
-    }
-
-    generateMovementCards(targetNum:number, dist:Record<CardMovement, number>, addSpecial:boolean = false)
-    {
-        const possibleActions = Object.keys(MOVEMENT_SPECIAL);
-        for(const [key,freqRaw] of Object.entries(dist))
+        // collect all symbols we want to print (in a neat uniform array)
+        const allSymbols : string[] = [];
+        for(let [set,data] of Object.entries(CONFIG.generation.symbolsPerSet))
         {
-            const freq = Math.ceil(freqRaw * targetNum);
-            const data = MOVEMENT_CARDS[key];
+            if(!CONFIG.sets[set]) { continue; }
+            if(typeof data === "string") { data = data.split(""); }
+            const dataFinal = (data as any[]).map((x) => x.toString());
+            allSymbols.push(...dataFinal);
+        }
+
+        // then simply create them all
+        for(const symbol of allSymbols)
+        {
+            const data = SYMBOLS[symbol] ?? {};
+            const freq = data.freq ?? 1;
             for(let i = 0; i < freq; i++)
             {
-                const newCard = new Card(CardType.MOVEMENT);
-                newCard.typeMovement = key as CardMovement;
-                newCard.specialAction = (addSpecial && data.canHaveSpecial) ? fromArray(possibleActions) : "";
-                this.cards.push(newCard);
+                this.cards.push( new Card(symbol) );
             }
         }
+
+        console.log(this.cards);
     }
 }

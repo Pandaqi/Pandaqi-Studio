@@ -4,6 +4,7 @@ boardgame: true
 
 title: "Smackshapes"
 headerTitle: "Have the sharpest mind of all and quickly count how often all shapes appear, so you can smash the winning card first!"
+weightProject: 20
 
 color: "yellow"
 
