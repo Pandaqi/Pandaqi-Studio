@@ -174,8 +174,8 @@ const CONFIG =
             textConfig: { 
                 fontFamily: "mailray",
                 fontSize: 16,
-                color: '#332211',
-                stroke: '#FFDDBB',
+                color: "#332211",
+                stroke: "#FFDDBB",
                 strokeThickness: 10
             } 
         },

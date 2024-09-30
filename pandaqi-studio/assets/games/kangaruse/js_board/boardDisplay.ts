@@ -14,6 +14,7 @@ import BoardState from "./boardState";
 import CellDisplay from "./cellDisplay";
 import CONFIG from "./config";
 import SideBar from "./sideBar";
+import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
 
 export default class BoardDisplay
 {
@@ -173,7 +174,7 @@ export default class BoardDisplay
     drawGridCommandAt(vis: BoardVisualizer, group: ResourceGroup, val:number|string, pos:Point, side:number)
     {
         // @ts-ignore
-        if(!isNaN(parseInt(val))) { return this.drawNumberAt(val as number, pos, side); }
+        if(!isNaN(parseInt(val))) { return this.drawNumberAt(vis, group, val as number, pos, side); }
         this.drawDirAt(vis, group, val as string, pos);
     }
 
@@ -190,10 +191,11 @@ export default class BoardDisplay
         const rot = (side == 1) ? Math.PI : 0;
         const opText = new LayoutOperation({
             pos: pos,
-            size: new Point(2*fontSize),
+            size: new Point(3*fontSize),
             fill: txtCfg.color,
             stroke: txtCfg.stroke,
-            strokeWidth: txtCfg.strokeThickness,
+            strokeWidth: 0.5*txtCfg.strokeThickness,
+            strokeAlign: StrokeAlign.OUTSIDE,
             rot: rot,
             pivot: Point.CENTER
         })

@@ -14,6 +14,7 @@ import { CELLS, COLOR_GROUPS, CORNER_OFFSETS, GENERAL } from "../js_shared/dicti
 import BoardDisplay from "./boardDisplay";
 import Cell from "./cell";
 import CONFIG from "./config";
+import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
 
 export default class CellDisplay
 {
@@ -58,7 +59,8 @@ export default class CellDisplay
             pivot: Point.CENTER,
             fill: txtCfg.color,
             stroke: txtCfg.stroke,
-            strokeWidth: strokeThickness
+            strokeWidth: strokeThickness,
+            strokeAlign: StrokeAlign.OUTSIDE
         });
 
         const resText = new ResourceText({ text: str, textConfig: textConfig });
