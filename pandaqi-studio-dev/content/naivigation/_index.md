@@ -1,40 +1,32 @@
 ---
 type: "gamepage"
-gamepage: true
 boardgame: true
 
 title: "Naivigation"
 headerTitle: "A universe of simple party board games about driving one vehicle together."
 blurb: "A universe of simple party board games about driving one vehicle together, at the same time, without crashing too much."
 
+color: "green"
+
 downloadLink: "https://drive.google.com/drive/folders/16g8Bjlk01tTCW7c9qQVd-LzrkwfBM_de"
 
+date: 2025-10-26
 
-color: "brown"
+difficulty: "kids-can-play"
+genres: ["family", "thematic", "adventure"]
+categories: ["boardgame", "tile-game", "standard"]
+tags: ["fixed-order", "shared-map", "grid", "turn-based", "guessing", "bias", "variable-setup", "orientation", "set-collection", "high-score"]
+themes: ["sea"]
 
-
-
-date: 2023-01-01 # 2024-12-26
-
-categories: ["boardgame"]
-tags: ["creative", "guessing", "word"]
-
-multiplayermode: "cooperative"
-language: EN
-genre: ["card", "party", "social"]
+multiplayermode: ["cooperative", "competitive"]
+language: ["EN", "NL"]
 playtime: 30
 playercount: [2,3,4,5,6,7,8]
-complexity: low
 ages: everyone
 devlog: "/blog/boardgames/naivigation/"
-
 ---
 
-{{% boardgame-intro heading="" %}}
-
-Naivigation is a universe of simple party board games about driving one vehicle together, at the same time, without crashing ... too often.
-
-{{% /boardgame-intro %}}
+{{% boardgame-intro /%}}
 
 {{% section-centered heading="What's this?" %}}
 
@@ -57,28 +49,41 @@ In other words, want to try it? We recommend ...
 
 Below is a list of all major games, roughly sorted by difficulty.
 
-* Swerving Spaceships (Space)
-* Frightening Flights (Airplane)
-* Singing Sails (Ship)
-* Crashing Cars (Car)
-* Troublesome Trains (Train)
+{{< boardgame-project-games-list subdir="visit" >}}
 
-Below is a list of smaller and more unique spin-offs, roughly sorted by difficulty.
+<!---
+* Swerving Spaceships (Space) weightProject = 10
+* Frightening Flights (Airplane) weightProject = 20
+* Singing Sails (Ship) weightProject = 30
+* Crashing Cars (Car) weightProject = 40
+* Troublesome Trains (Train) weightProject = 50
+--->
 
-* Suspicious Submarines (Submarine)
+Below is a list of smaller or more unique vehicles, roughly sorted by difficulty.
+
+{{< boardgame-project-games-list subdir="swing-by" >}}
+
+<!---
+* Suspicious Submarines (Submarine) weightProject = 10
 * ??
+--->
 
-You can also [read the shared rules](rules), though they are repeated within the rulebook of each specific game. (On their own, they're not a full game!)
+Below is a list of very special spin-offs that are standalone.
 
-You can also [generate your own material](#material) right on this website. (If the PDFs at the "Download" button don't suit your needs, or you're just curious!)
+{{< boardgame-project-games-list subdir="wind-up-at" >}}
+
+* Amerigo's Dakenpad
+* Boot op Stoom
+
+You can [read the shared rules](rules), though they are repeated within the rulebook of each specific game. (On their own, they're not a full game!)
+
+You can [generate your own material](#material) right on this website. (If the PDFs at the "Download" button don't suit your needs, or you're just curious!)
 
 {{% /section-centered %}}
 
-{{% section-centered heading="Material" anchor="material" html="true" %}}
+{{% boardgame-settings-container type="material" %}}
 
-<p>Pick your desired settings and click the button!</p>
-
-{{< boardgame-settings type="game" local_storage="naivigationConfig" btn_label="Generate Material" game_title="Naivigation" defaults="true" >}}
+{{< boardgame-settings type="game" local_storage="naivigationConfig" btn_label="Generate Material" game_title="Naivigation" defaults="true">}}
   {{< boardgame-settings-section heading="Core Set" >}}
     {{< setting-checkbox id="setting-includeInstructionTokens" text="Include Instruction Tokens?" checked="checked" >}}
     {{< setting-checkbox id="setting-includeVehicleCards" text="Include Vehicle Cards?" checked="checked" >}}
@@ -91,11 +96,7 @@ You can also [generate your own material](#material) right on this website. (If 
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
-<p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>
-
-<p class="settings-remark">The optional expansions are roughly in the recommended order for trying them out. Especially the Action Cards are recommended to include as soon as possible.</p>
-
-{{% /section-centered %}}
+{{% /boardgame-settings-container %}}
 
 {{% section-centered heading="Credits" anchor="credits" %}}
 
@@ -114,7 +115,5 @@ Now the world can enjoy the final result :)
 I honestly think these are my masterpiece so far. The games aren't extremely "deep" or "ground-breaking" or "innovative", surely not. But the amount of _fun_ and _(diverse) challenge_ you get out of extremely simple rules and material is unmatched. 
 
 I mostly make games for families and casual groups. These games are cooperative, mostly textless, simple, fast, intuitive, thematic, cheap to print/cut yourself, varied, anything I'd want games to be.
-
-For more information, as always, read my [detailed developer diary on Pandaqi Blog](/blog/boardgames/naivigation/).
 
 {{% /section-centered %}}

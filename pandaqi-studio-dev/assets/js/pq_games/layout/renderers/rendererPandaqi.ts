@@ -123,7 +123,7 @@ export default class RendererPandaqi extends Renderer
 
         else if(op.isShape())
         {
-            let path = (op.resource as ResourceShape).shape.toPath2D();
+            const path = (op.resource as ResourceShape).shape.toPath2D();
             op.applyFillAndStrokeToPath(ctxTemp, path);
         }
 

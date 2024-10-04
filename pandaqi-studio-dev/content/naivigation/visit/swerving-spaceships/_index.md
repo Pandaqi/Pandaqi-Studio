@@ -1,48 +1,41 @@
 ---
 type: "gamepage"
-gamepage: true
 boardgame: true
 
 title: "Swerving Spaceships"
-headerTitle: "Swerving Spaceships | A Naivigation game about steering a single spaceship together"
+headerTitle: "A Naivigation game about steering a single spaceship together"
 blurb: "A Naivigation game about steering a single spaceship together, visiting planets and dodging asteroids."
+blurbShort: "A [Naivigation](/naivigation/) game about steering a single spaceship together, visiting planets and dodging asteroids."
 
-downloadLink: ""
+weightProject: 10
 
-# @TODO: removed links for headers and stuff for now, as it can't be found by the system
+color: "green"
 
+downloadLink: "https://drive.google.com/drive/folders/1-_aK59p3jHhUoo-V-9SuQXs89Fmj6Z5T"
 
-color: "brown"
+date: 2025-10-26
 
+difficulty: "kids-can-play"
+genres: ["family", "thematic", "adventure"]
+categories: ["boardgame", "tile-game", "standard"]
+tags: ["fixed-order", "shared-map", "grid", "turn-based", "guessing", "bias", "variable-setup", "orientation", "set-collection", "high-score"]
+themes: ["sea"]
 
-
-date: 2023-01-01 # 2024-12-26
-
-categories: ["boardgame"]
-tags: ["creative", "guessing", "word"]
-
-multiplayermode: "cooperative"
+multiplayermode: ["cooperative", "competitive"]
 language: EN
-genre: ["card", "party", "social"]
 playtime: 30
 playercount: [2,3,4,5,6,7,8]
-complexity: low
 ages: everyone
-
+devlog: "/blog/boardgames/naivigation/swerving-spaceships/"
 ---
 
-{{% boardgame-intro heading="" %}}
-
-A [Naivigation](/naivigation/) game about steering a single spaceship together, visiting planets and dodging asteroids.
-
-{{% /boardgame-intro %}}
+{{% boardgame-intro /%}}
 
 {{% section-centered heading="What do I need?" %}}
 
-This game is part of the Naivigation universe. If you have no idea what that is, [visit the overview page](/naivigation/) first.
+This game is part of the Naivigation universe. It means you need two things to play this game.
 
-It means you need two things to play this game.
-* The Core Set from Naivigation (which you need for all games).
+* The Core Set from [Naivigation](/naivigation/) (which you need for all games).
 * And the specific material for _this_ game. ("Download" > Core Set.)
 
 Print and cut it, read the short [playful rules](rules), and you can play!
@@ -53,9 +46,7 @@ Print and cut it, read the short [playful rules](rules), and you can play!
 
 {{% /section-centered %}}
 
-{{% section-centered heading="Material" anchor="material" html="true" %}}
-
-<p>Pick your desired settings and click the button! The settings already selected are the "core set" mentioned in the introduction.</p>
+{{% boardgame-settings-container type="material" %}}
 
 {{< boardgame-settings type="game" local_storage="naivigationSwervingSpaceshipsConfig" btn_label="Generate Material" game_title="Naivigation: Swerving Spaceships" defaults="true" >}}
   {{< setting-checkbox id="setting-includeMapTiles" text="Include Map Tiles?" checked="checked" >}}
@@ -67,9 +58,7 @@ Print and cut it, read the short [playful rules](rules), and you can play!
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
-<p class="settings-remark"><strong>Not working? Or unsure what to do?</strong> The "Download" button above has PDFs I already made for you! Pick any one of those.</p>
-
-{{% /section-centered %}}
+{{% /boardgame-settings-container %}}
 
 {{% section-centered heading="Credits" anchor="credits" %}}
 
