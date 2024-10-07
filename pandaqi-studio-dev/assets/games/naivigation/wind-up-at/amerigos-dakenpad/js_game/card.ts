@@ -86,12 +86,11 @@ export default class Card
         const resMisc = vis.getResource("misc");
         const data = ROUTEKAARTEN[this.key] ?? {};
 
-        // @NOTE: Anything that wants gifts is a home
-        // The other routes (at least in the base game) just display _nothing_.
+        // display the gifts wanted (if any are set)
         const numGifts = this.gifts.length;
-        if(numGifts > 0)
+        const hasGifts = numGifts > 0;
+        if(hasGifts)
         {
-            // the gifts wanted
             const iconSize = vis.get("cards.route.giftSize");
             const effects = [new DropShadowEffect({ color: "#00000099", blur: 0.025*iconSize.x }), vis.inkFriendlyEffect].flat();
             const positions = getPositionsCenteredAround({
@@ -110,35 +109,53 @@ export default class Card
                 });
                 group.add(resMisc, op);
             }
+        }
 
+        // the text explaining what something does (if needed)
+        const hasDescription = (data.desc ?? "").length > 0;
+        const showPowerText = hasDescription && !hasGifts;
+        if(showPowerText)
+        {
+            const textConfig = new TextConfig({
+                font: vis.get("fonts.body"),
+                size: vis.get("cards.route.text.fontSize"),
+                style: TextStyle.ITALIC
+            }).alignCenter();
+    
+            const resText = new ResourceText(data.desc, textConfig);
+            const opText = new LayoutOperation({
+                pos: vis.get("cards.route.giftPos"),
+                size: vis.get("cards.route.text.boxSize"),
+                fill: "#000000",
+                pivot: Point.CENTER
+            })
+            group.add(resText, opText);
+        }
+
+        // the big icon of the type
+        const resKey = data.textureKey ?? "none";
+        if(resKey != "none")
+        {
             // the big home
-            // @TODO: actually display the proper icon for special expansion homes?
-            const randHomeIndex = Math.floor(Math.random() * 4);
-            const randFrame = MISC["home_" + randHomeIndex].frame;
+            const resIcon = vis.getResource(resKey);
+            let frame = data.frame ?? -1;
+
+            if(frame < 0)
+            {
+                const randHomeIndex = Math.floor(Math.random() * 4);
+                frame = MISC["home_" + randHomeIndex].frame;
+            }
+
             const op = new LayoutOperation({
                 pos: vis.get("cards.route.homePos"),
                 size: vis.get("cards.route.homeSize"),
-                frame: randFrame,
+                frame: frame,
                 pivot: Point.CENTER,
                 effects: vis.inkFriendlyEffect
             })
-            group.add(resMisc, op);
+            group.add(resIcon, op);
         }
 
-        // a custom icon (if any)
-        const hasCustomIcon = data.frame;
-        if(hasCustomIcon)
-        {
-            const res = vis.getResource(data.textureKey ?? "misc");
-            const op = new LayoutOperation({
-                pos: vis.get("cards.route.giftPos"),
-                size: vis.get("cards.route.giftSize"),
-                frame: data.frame,
-                pivot: Point.CENTER,
-                effects: vis.inkFriendlyEffect
-            });
-            group.add(res, op);
-        }
     }
 
     drawVaarCard(vis:MaterialVisualizer, group:ResourceGroup)
@@ -147,9 +164,10 @@ export default class Card
 
         // the icon illustrating what the card does
         const res = vis.getResource(data.textureKey ?? "misc");
+        const customScale = data.customScale ?? 1;
         const op = new LayoutOperation({
             pos: vis.get("cards.varen.pos"),
-            size: vis.get("cards.varen.size"),
+            size: vis.get("cards.varen.size").clone().scale(customScale),
             frame: data.frame,
             effects: vis.inkFriendlyEffect,
             pivot: Point.CENTER
@@ -177,7 +195,7 @@ export default class Card
         const maxDistance = vis.get("cards.varen.icons.maxDist");
         const numRepeats = vis.get("cards.varen.icons.numRepeats");
         const offsetPerStep = new Point(maxDistance / numRepeats, 0);
-        const iconSize = new Point(offsetPerStep.x);
+        const iconSize = new Point(offsetPerStep.x).scale(customScale);
         for(let i = 0; i < numRepeats; i++)
         {
             const op = new LayoutOperation({

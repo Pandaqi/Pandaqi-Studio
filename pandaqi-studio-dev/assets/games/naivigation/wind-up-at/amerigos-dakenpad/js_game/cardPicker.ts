@@ -174,11 +174,14 @@ export default class CardPicker
 
         // these cards just have a raw frequency + number=-1 means "no number" (choose yourself)
         const cardFreqs:Record<string,number> = CONFIG.generation.paardenSprongen.cardFrequencies;
+        const allCards = [];
         for(const [key,freq] of Object.entries(cardFreqs))
         {
             for(let i = 0; i < freq; i++)
             {
-                this.cards.push(new Card(CardType.VAREN, key, -1));
+                const newCard = new Card(CardType.VAREN, key, -1);
+                this.cards.push(newCard);
+                allCards.push(newCard);
             }
         }
 
@@ -187,9 +190,30 @@ export default class CardPicker
         {
             for(let i = 0; i < giftFreq; i++)
             {
-                this.cards.push(new Card(CardType.PAKJE, key, -1));
+                const newCard = new Card(CardType.PAKJE, key, -1);
+                this.cards.push(newCard);
+                allCards.push(newCard);
             }
         }
+        shuffle(allCards);
+
+        const minNumber = CONFIG.generation.base.numRegularCards + 1;
+        const percentageWithNumber = 1.0 - CONFIG.generation.paardenSprongen.percentageWithoutNumber;
+        const subsetWithNumber : Card[] = allCards.slice(0, Math.floor(percentageWithNumber * allCards.length));
+        const extraNumbers = subsetWithNumber.length;
+        const numbers = [];
+        for(let i = 0; i < extraNumbers; i++)
+        {
+            numbers.push(minNumber + i);
+        }
+        shuffle(numbers);
+
+        for(const card of subsetWithNumber)
+        {
+            card.num = numbers.pop();
+        }
+
+        
     }
 
 }

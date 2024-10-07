@@ -46,10 +46,12 @@ export default class TilePicker
         shuffle(availablePakjes);
 
         // remove some to get a buffer
-        const numNeeded = Math.ceil( CONFIG.generation.pakjes.usagePercentageOnTiles * cardsThatNeedPakjes.length);
+        // (we take a percentage of all the pakjes that are actually in the game; as delivering one means removing it)
+        const numNeeded = Math.ceil(CONFIG.generation.pakjes.coveragePercentageOnTiles * availablePakjes.length);
 
         // assign desired pakjes to the tiles (discrete bucket filling to get roughly equal spread for sure)
-        const finalPakjes = availablePakjes.splice(0, numNeeded);
+        const finalPakjes = availablePakjes.slice(0, numNeeded);
+
         while(finalPakjes.length > 0)
         {
             for(const card of cardsThatNeedPakjes)
@@ -70,7 +72,8 @@ export default class TilePicker
             const isWishable = !data.cantWish;
             if(!isWishable) { continue; }
 
-            const freq = data.freq ?? defFreq;
+            let freq = data.freq ?? defFreq;
+            if(set != "base") { freq /= 2; } // @NOTE: same nasty exception here as in cardPicker
             for(let i = 0; i < freq; i++)
             {
                 pakjesList.push(key);
@@ -84,8 +87,9 @@ export default class TilePicker
         const dictOut : Record<string,GeneralData> = {};
         for(const [key,data] of Object.entries(dict))
         {
-            const set = data.set ?? "base";
-            if(set != setTarget) { continue; }
+            const setRaw = data.set ?? "base";
+            const set = Array.isArray(setRaw) ? setRaw : [setRaw];
+            if(!set.includes(setTarget)) { continue; }
             dictOut[key] = data;
         }
         return dictOut;

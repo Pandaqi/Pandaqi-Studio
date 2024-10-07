@@ -131,6 +131,7 @@ const CONFIG:any =
 
         paardenSprongen:
         {
+            percentageWithoutNumber: 0.5,
             cardFrequencies:
             {
                 vooruit_dubbel: 2,
@@ -159,8 +160,14 @@ const CONFIG:any =
         {
             homePos: new CVal(new Point(0.5, 0.66), "size"),
             homeSize: new CVal(new Point(0.75), "sizeUnit"),
-            giftPos: new CVal(new Point(0.5, 0.14), "size"),
-            giftSize: new CVal(new Point(0.2), "sizeUnit")
+            giftPos: new CVal(new Point(0.5, 0.15), "size"),
+            giftSize: new CVal(new Point(0.2), "sizeUnit"),
+
+            text:
+            {
+                fontSize: new CVal(0.07, "sizeUnit"),
+                boxSize: new CVal(new Point(0.85, 0.25), "size")
+            }
         },
 
         varen:

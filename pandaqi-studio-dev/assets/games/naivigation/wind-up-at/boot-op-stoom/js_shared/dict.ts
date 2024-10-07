@@ -17,6 +17,7 @@ interface GeneralData
     set?: string|string[],
     needPakjes?: boolean, // only true for tiles that ask for specific packages to be delivered
     cantWish?: boolean, // certain package cards are so unique they can't really be "wished for" by tiles, set to true then
+    cantDuo?: boolean, // if set to true, it can't be randomly picked as an option for a duo card
 }
 
 // @TODO: optionally reduce base game map to 4x4, because this is a lot of empty tiles doing nothing => but that'd need an exception to say "if using the expansions, go to 5x5!" which I don't want
@@ -37,10 +38,10 @@ const PAKJE_CARDS:Record<string, GeneralData> =
 {
     square: { frame: 0, freq: 4, set: "base" },
     circle: { frame: 1, freq: 4, set: ["base", "prachtigePakjes"], desc: "<b>Verplaats de Stoomboot</b> naar een andere tegel." },
-    triangle: { frame: 2, freq: 4, set: ["base", "prachtigePakjes"], desc: "<b>Verplaats 3 tegels</b> van het bord naar een andere plek." }, // @TODO: theme deze dingen rondom Sinterklaas, waarbij één of twee eten moeten zijn voor de speciale Bakkerij tegel?
-    wildcard: { frame: 3, freq: 2, set: "prachtigePakjes", desc: "Dit is <b>elk pakje</b> dat je maar wilt!" },
-    duo: { frame: 4, freq: 3, set: "prachtigePakjes", desc: "<b>Kies</b> welke van deze twee pakjes de kaart voorstelt.", cantWish: true },
-    telefoon: { frame: 5, freq: 3, set: "prachtigePakjes", desc: "Je mag <b>communiceren</b>! (Totdat je de volgende kaart onthult.)" },
+    pepernoot: { frame: 2, freq: 4, set: ["base", "prachtigePakjes"], desc: "<b>Verplaats 3 tegels</b> van het bord naar een andere plek." },
+    wildcard: { frame: 3, freq: 4, set: "prachtigePakjes", desc: "Dit is <b>elk pakje</b> dat je maar wilt!", cantDuo: true },
+    duo: { frame: 4, freq: 4, set: "prachtigePakjes", desc: "<b>Kies</b> welke van deze twee pakjes de kaart voorstelt.", cantWish: true, cantDuo: true },
+    telefoon: { frame: 5, freq: 4, set: "prachtigePakjes", desc: "Je mag <b>communiceren</b>! (Totdat je de volgende kaart onthult.)" },
 }
 
 const VAAR_CARDS:Record<string, GeneralData> =
@@ -71,27 +72,35 @@ const STOOM_CARDS:Record<string, GeneralData> =
 const KALENDER_KAARTEN:Record<string, GeneralData> =
 {
     niks: { frame: 0, label: "Rustige Avond", desc: "Niks bijzonders.", freq: 3 }, // slecht/goed
-    intocht: { frame: 1, label: "Sinterklaasintocht", desc: "Voeg gratis twee Stoombootkaarten toe." }, // goed
-    schoentje_zetten: { frame: 2, label: "Schoentje Zetten", desc: "Kies één speler. Diegene krijgt één kaart van alle andere spelers." }, // goed
-    exploderende_pakjes: { frame: 3, label: "Exploderende Pakjes", desc: "Iedereen moet alle Pakjeskaarten wegdoen en nieuwe kaarten trekken van een andere soort." }, // slecht
-    gezonken_boot: { frame: 4, label: "Gezonken Boot", desc: "Haal twee Stoombootkaarten weg." }, // slecht
+    intocht: { frame: 1, label: "Sinterklaasintocht", desc: "<b>Voeg</b> gratis 2 Stoombootkaarten <b>toe</b>." }, // goed
+    schoentje_zetten: { frame: 2, label: "Schoentje Zetten", desc: "Kies één speler. Diegene krijgt 1 kaart van <b>alle andere spelers</b>." }, // goed
+    exploderende_pakjes: { frame: 3, label: "Exploderende Pakjes", desc: "Iedereen moet alle <b>Pakjeskaarten afleggen</b> en nieuwe kaarten trekken van een <b>andere soort.</b>" }, // slecht
+    gezonken_boot: { frame: 4, label: "Gezonken Boot", desc: "<b>Haal</b> 2 Stoombootkaarten <b>weg</b>." }, // slecht
     verdwaalde_piet: { frame: 5, label: "Verdwaalde Piet", desc: "Volgende ronde bepaal je <b>niet</b> zelf waar je jouw kaarten plaatst. Dat bepaalt de Sint voor jou." }, // slecht
     verkeerde_namen: { frame: 6, label: "Verkeerde Namen", desc: "Komende ronde moeten pakjes <b>later</b> in de rij komen als je ze wilt afleveren." }, // slecht/goed
     sneeuwstorm: { frame: 7, label: "Sneeuwstorm", desc: "Komende ronde werken speciale icoontjes in de Stoomrij <b>niet</b>." }, // slecht/goed
-    journaal: { frame: 8, label: "Sinterklaasjournaal", desc: "Bekijk de komende 4 Kalenderkaarten." }, // goed
-    gulzige_piet: { frame: 9, label: "Gulzige Piet", desc: "Iedereen met Pepernoten in de hand speelt volgende ronde <b>niet</b> mee." }, // slecht
+    journaal: { frame: 8, label: "Sinterklaasjournaal", desc: "<b>Bekijk</b> de komende 4 Kalenderkaarten." }, // goed
+    gulzige_piet: { frame: 9, label: "Gulzige Piet", desc: "Iedereen met <b>Pepernoten</b> in de hand speelt volgende ronde <b>niet</b> mee." }, // slecht
     kapot_kompas: { frame: 10, label: "Kapot Kompas", desc: "Komende ronde mag je alleen <b>achteruit</b> en naar <b>links</b>." }, // slecht 
-    boek_kwijt: { frame: 11, label: "Boek Kwijt", desc: "Komende ronde wil elk huis één extra pakje. (De soort daarvan mag alles zijn.)" } // slecht/goed
+    boek_kwijt: { frame: 11, label: "Boek Kwijt", desc: "Komende ronde wil elk huis <b>1 extra pakje</b>. (De soort daarvan mag alles zijn.)" } // slecht/goed
 }
 
-const MISC:Record<string, GeneralData> =
+const CARD_TEMPLATES:Record<string, GeneralData> =
 {
-
+    stoomboot_bg: { frame: 0 },
+    stoomboot_overlay: { frame: 1 },
+    varen_bg: { frame: 2 },
+    varen_overlay: { frame: 3 },
+    pakje_bg: { frame: 4 },
+    pakje_overlay: { frame: 5 },
+    pawn: { frame: 6 },
+    kalender_bg: { frame: 7 },
+    kalender_overlay: { frame: 8 },
 }
 
 export {
     CardType,
-    MISC,
+    CARD_TEMPLATES,
     MAP_TILES,
     KALENDER_KAARTEN,
     PAKJE_CARDS,

@@ -1,4 +1,5 @@
 import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textConfig";
+import CVal from "js/pq_games/tools/generation/cval";
 import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator";
 import Point from "js/pq_games/tools/geometry/point"
 import autoLoadFontCSS from "js/pq_games/website/autoLoadFontCSS";
@@ -7,9 +8,9 @@ const CONFIG:any =
 {
     debug:
     {
-        omitFile: true, // @DEBUGGING (should be false)
-        singleDrawPerType: true, // @DEBUGGING (should be false)
-        onlyGenerate: true, // @DEBUGGING (should be false)
+        omitFile: false, // @DEBUGGING (should be false)
+        singleDrawPerType: false, // @DEBUGGING (should be false)
+        onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
     configKey: "naivigationBootOpStoomConfig",
@@ -70,10 +71,41 @@ const CONFIG:any =
             path: "fonts/FreebieRegular.woff2",
         },
 
-        misc:
+        card_templates:
         {
-            path: "misc.webp",
-            frames: new Point(4,4)
+            path: "card_templates.webp",
+            frames: new Point(9,1)
+        },
+
+        map_tiles:
+        {
+            path: "map_tiles.webp",
+            frames: new Point(6,2)
+        },
+
+        pakje_cards:
+        {
+            path: "pakje_cards.webp",
+            frames: new Point(6,1)
+        },
+
+        stoom_cards:
+        {
+            path: "stoom_cards.webp",
+            frames: new Point(4,2)
+        },
+
+        vaar_cards:
+        {
+            path: "vaar_cards.webp",
+            frames: new Point(4,2)
+        },
+
+        kalender_cards:
+        {
+            path: "kalender_cards.webp",
+            frames: new Point(4,3),
+            loadIf: ["sets.krappeKalender"]
         },
     },
 
@@ -87,7 +119,7 @@ const CONFIG:any =
         pakjes:
         {
             defaultFrequency: 3,
-            usagePercentageOnTiles: 0.775,
+            coveragePercentageOnTiles: 0.85,
         },
 
         varen:
@@ -102,7 +134,7 @@ const CONFIG:any =
 
         rebelsePietjes:
         {
-            number: 4 // 2 per tile = 8 total
+            number: 2 // 2 per tile = 4 total
         },
 
         kalenderKaarten:
@@ -117,6 +149,52 @@ const CONFIG:any =
         {
             preset: GridSizePreset.CARD
         },
+
+        shared:
+        {
+            icon:
+            {
+                pos: new CVal(new Point(0.5, 0.3), "size"),
+                size: new CVal(new Point(0.7), "sizeUnit")
+            },
+
+            text:
+            {
+                fontSize: new CVal(0.08, "sizeUnit"),
+                pos: new CVal(new Point(0.5, 0.825), "size"),
+                boxSize: new CVal(new Point(0.85, 0.275), "size")
+            }
+        },
+
+        stoom:
+        {
+            iconPos: new CVal(new Point(0.135, 0.365), "size"),
+            iconSize: new CVal(new Point(0.225), "sizeUnit"),
+            composite: "source-over", // might be "luminosity" too?
+        },
+
+        kalender:
+        {
+            icon:
+            {
+                pos: new CVal(new Point(0.5, 0.225), "size"),
+                size: new CVal(new Point(0.5), "sizeUnit")
+            },
+
+            label:
+            {
+                fontSize: new CVal(0.085, "sizeUnit"),
+                pos: new CVal(new Point(0.5, 0.505), "size"),
+                boxSize: new CVal(new Point(0.75, 0.225), "size")
+            },
+
+            text:
+            {
+                fontSize: new CVal(0.085, "sizeUnit"),
+                pos: new CVal(new Point(0.5, 0.7875), "size"),
+                boxSize: new CVal(new Point(0.85, 0.45), "size")
+            }
+        }
     },
 
     tiles:
@@ -125,6 +203,12 @@ const CONFIG:any =
         {
             preset: GridSizePreset.TILE
         },
+
+        giftsWanted:
+        {
+            pos: new CVal(new Point(0.5, 0.66), "size"),
+            size: new CVal(new Point(0.285), "sizeUnit")
+        }
     },
 }
 

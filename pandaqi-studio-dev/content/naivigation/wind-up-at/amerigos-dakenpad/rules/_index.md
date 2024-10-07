@@ -84,11 +84,12 @@ Als je met deze uitbreiding speelt, is het aan te raden om te beginnen met meer 
 
 {{% rules-block heading="Uitbreiding: Paardensprongen" %}}
 
-Deze uitbreiding voegt een paar nieuwe beweeg- en pakjekaarten toe. 
+Deze uitbreiding voegt een paar nieuwe beweeg- en pakjekaarten toe. Schudt deze kaarten simpelweg mee in de stapels.
 
-Deze hebben **geen getal**. Dat betekent dat de speler die ze heeft gespeeld zelf mag _kiezen_ waar ze terechtkomen in de volgorde!
+Deze hebben soms **geen getal** (een "X" op die plek). 
 
-Schudt deze kaarten simpelweg mee in de stapels.
+* Dat betekent dat de speler die de kaart heeft gespeeld zelf mag **kiezen** waar deze terechtkomt in de volgorde! (Maar nog altijd zonder overleg met anderen.)
+* Als **meerdere** getalloze kaarten worden gespeeld, gaan ze juist allemaal weg (en worden niet uitgevoerd).
 
 {{% /rules-block %}}
  

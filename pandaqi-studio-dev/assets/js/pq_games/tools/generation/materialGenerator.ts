@@ -277,7 +277,10 @@ export default class MaterialGenerator
             }
 
             const canvases = await Promise.all(promises);
-            drawCallsInBatch[0].drawer.addElements(canvases.flat());
+            for(let i = 0; i < canvases.length; i++)
+            {
+                drawCallsInBatch[i].drawer.addElement(canvases[i])
+            }
         }
     }
 
