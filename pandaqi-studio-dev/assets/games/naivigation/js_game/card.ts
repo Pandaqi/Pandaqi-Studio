@@ -11,12 +11,13 @@ import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
 import cardDrawerNaivigation from "../js_shared/cardDrawerNaivigation";
 import MaterialNaivigation from "../js_shared/materialNaivigation";
 import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
+import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
 
 export default class Card extends MaterialNaivigation
 {
     getData() { return MATERIAL[this.type][this.key]; }
     getMisc() { return MISC; }
-    async draw(vis)
+    async draw(vis:MaterialVisualizer)
     {
         const isDefaultType = (this.type != CardType.INSTRUCTION && this.type != CardType.COMPASS);
         if(isDefaultType)
@@ -24,20 +25,16 @@ export default class Card extends MaterialNaivigation
             return cardDrawerNaivigation(vis, this);
         }
 
-        const ctx = createContext({ size: vis.size });
-        fillCanvas(ctx, "#FFFFFF");
-        const group = new ResourceGroup();
+        const group = vis.renderer.prepareDraw();
         if(this.type == CardType.INSTRUCTION) {
             this.drawInstruction(vis, group);
         } else if(this.type == CardType.COMPASS) {
             this.drawCompass(vis, group);
         }
-
-        group.toCanvas(ctx);
-        return ctx.canvas;
+        return vis.renderer.finishDraw({ group: group, size: vis.size });
     }
 
-    drawInstruction(vis, group)
+    drawInstruction(vis:MaterialVisualizer, group:ResourceGroup)
     {
         // create the subgroup for instructions
         const subGroup = new ResourceGroup();
@@ -86,7 +83,7 @@ export default class Card extends MaterialNaivigation
         group.add(subGroup, op);
     }
 
-    drawCompass(vis, group)
+    drawCompass(vis:MaterialVisualizer, group:ResourceGroup)
     {
         const resSprite = vis.getResource("icons_shared");
         const spriteOp = new LayoutOperation({

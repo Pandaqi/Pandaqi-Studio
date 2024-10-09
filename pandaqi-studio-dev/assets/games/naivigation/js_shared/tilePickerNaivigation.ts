@@ -42,7 +42,7 @@ export default class TilePickerNaivigation
 
     generateVehicleTiles()
     {
-        if(!this.config.includeVehicleTiles || !this.config.includeMapTiles) { return; }
+        if(!this.config.sets.vehicleTiles || !this.config.sets.mapTiles) { return; }
 
         const num = this.config.tiles.generation.numUniqueVehicles ?? 3;
         for(let i = 0; i < num; i++)
@@ -55,7 +55,7 @@ export default class TilePickerNaivigation
 
     generateTiles(inputData:DictData)
     {
-        if(!this.config.includeMapTiles) { return; }
+        if(!this.config.sets.mapTiles) { return; }
         
         const tileType = inputData.type;
         for(const [key,data] of Object.entries(inputData.dict))

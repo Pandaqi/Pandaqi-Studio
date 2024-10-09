@@ -67,8 +67,10 @@ De speler die als laatste een kaart speelde wordt de **nieuwe Sint**.
 
 Het spel heeft 3 soorten kaarten.
 
+* STOOMBOOT: Als deze kaart wordt onthuld, mag je de Stoomrij langer of korter maken. 
+  * Langer door deze kaart aan een uiteinde te plaatsen; korter door een uiterste kaart juist uit de Stoomrij te halen. 
+  * Als deze specifieke kaart niet _aansluit_ op de Stoomrij, moet je kiezen voor _korter maken_.
 * VAREN: Deze kaarten zeggen hoe de stoomboot moet varen: vooruit, draai naar links, of draai naar rechts.
-* STOOMBOOT: Als deze kaart wordt onthuld, mag je de Stoomrij langer of korter maken. (Langer door deze kaart aan het uiteinde van de Stoomrij te plaatsen; korter door de laatste kaart juist uit de Stoomrij te halen.)
 * PAKJES: Deze kaarten zijn nodig om het spel te winnen.
 
 Want hoe bezorg je een pakje?

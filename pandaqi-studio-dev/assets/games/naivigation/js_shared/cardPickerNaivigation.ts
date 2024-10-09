@@ -45,7 +45,7 @@ export default class CardPickerNaivigation
 
     generateCards(inputData:DictData)
     {
-        if(!this.config.includeCards) { return; }
+        if(!this.config.sets.vehicleCards) { return; }
         
         const cardType = inputData.type;
         for(const [key,data] of Object.entries(inputData.dict))
@@ -56,7 +56,7 @@ export default class CardPickerNaivigation
             let shouldInclude = expansions.length <= 0;
             for(const exp of expansions)
             {
-                if(this.config.expansions[exp]) { shouldInclude = true; break; }
+                if(this.config.sets[exp]) { shouldInclude = true; break; }
             }
             if(!shouldInclude) { continue; }
 

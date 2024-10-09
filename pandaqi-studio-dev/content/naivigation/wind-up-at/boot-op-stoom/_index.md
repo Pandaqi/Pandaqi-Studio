@@ -24,7 +24,7 @@ language: NL
 playtime: 30
 playercount: [2,3,4,5,6,7,8]
 ages: everyone
-devlog: "/blog/boardgames/naivigation/sint-spellen/"
+devlog: "/blog/boardgames/naivigation/wind-up-at/sint-spellen/"
 ---
 
 {{% boardgame-intro /%}}

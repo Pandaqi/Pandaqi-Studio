@@ -1,16 +1,13 @@
-import createContext from "js/pq_games/layout/canvas/createContext";
 import fillResourceGroup from "js/pq_games/layout/canvas/fillResourceGroup";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import ResourceShape from "js/pq_games/layout/resources/resourceShape";
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
 import getRectangleCornersWithOffset from "js/pq_games/tools/geometry/paths/getRectangleCornersWithOffset";
 import Path from "js/pq_games/tools/geometry/paths/path";
 import Point from "js/pq_games/tools/geometry/point";
-import { TERRAINS, TileType } from "./dictShared";
+import { MISC_SHARED, TERRAINS, TileType } from "./dictShared";
 import MaterialNaivigation from "./materialNaivigation";
 import vehicleDrawerNaivigation from "./vehicleDrawerNaivigation";
-import { MISC_SHARED } from "./dictShared";
 
 const drawTerrain = (vis, group, tile) =>
 {
@@ -116,8 +113,7 @@ export default (vis:MaterialVisualizer, tile:MaterialNaivigation) =>
 {
     if(tile.type == TileType.VEHICLE) { return vehicleDrawerNaivigation(vis, tile); }
 
-    const ctx = createContext({ size: vis.size });
-    const group = new ResourceGroup();
+    const group = vis.renderer.prepareDraw();
 
     drawTerrain(vis, group, tile);
     drawTile(vis, group, tile);
@@ -125,6 +121,5 @@ export default (vis:MaterialVisualizer, tile:MaterialNaivigation) =>
 
     // @TODO: add the original game icon of a tile on it? This feels unnecessary, as tiles can be freely swapped out. But their frequency is still important per game ... (e.g. the Singing Sails should not have waaay too much/little water)
 
-    group.toCanvas(ctx);
-    return ctx.canvas;
+    return vis.renderer.finishDraw({ group: group, size: vis.size });
 }

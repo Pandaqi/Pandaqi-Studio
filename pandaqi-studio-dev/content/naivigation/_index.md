@@ -7,6 +7,7 @@ headerTitle: "A universe of simple party board games about driving one vehicle t
 blurb: "A universe of simple party board games about driving one vehicle together, at the same time, without crashing too much."
 
 color: "green"
+autoLoadFontCSS: true
 
 downloadLink: "https://drive.google.com/drive/folders/16g8Bjlk01tTCW7c9qQVd-LzrkwfBM_de"
 
@@ -45,9 +46,7 @@ In other words, want to try it? We recommend ...
 
 {{% section-centered heading="Journey through the Universe" %}}
 
-@TODO: Turn this into nice images/banners instead of text. => Put these games into SEPARATE subfolders! One folder for the big, main games (`visit`) and one for the smaller spinoffs (`swing-by`)
-
-Below is a list of all major games, roughly sorted by difficulty.
+Below is a list of all major games, roughly sorted by difficulty. These really represent the core of the Naivigation experience and will be consistent fun for any group. You will be steering a commonly known vehicle.
 
 {{< boardgame-project-games-list subdir="visit" >}}
 
@@ -59,7 +58,7 @@ Below is a list of all major games, roughly sorted by difficulty.
 * Troublesome Trains (Train) weightProject = 50
 --->
 
-Below is a list of smaller or more unique vehicles, roughly sorted by difficulty.
+Below is a list of smaller or more unique vehicles, roughly sorted by difficulty. These are a bit more unique or experimental, presenting a wider spread of play. Some are even simpler and shorter than the major games, some are harder and take longer to play.
 
 {{< boardgame-project-games-list subdir="swing-by" >}}
 
@@ -68,12 +67,9 @@ Below is a list of smaller or more unique vehicles, roughly sorted by difficulty
 * ??
 --->
 
-Below is a list of very special spin-offs that are standalone.
+Below is a list of _very_ special vehicles. These are merely _inspired_ by _parts_ of the Naivigation core. They are therefore best considered as standalone spin-offs.
 
 {{< boardgame-project-games-list subdir="wind-up-at" >}}
-
-* Amerigo's Dakenpad
-* Boot op Stoom
 
 You can [read the shared rules](rules), though they are repeated within the rulebook of each specific game. (On their own, they're not a full game!)
 
@@ -85,14 +81,14 @@ You can [generate your own material](#material) right on this website. (If the P
 
 {{< boardgame-settings type="game" local_storage="naivigationConfig" btn_label="Generate Material" game_title="Naivigation" defaults="true">}}
   {{< boardgame-settings-section heading="Core Set" >}}
-    {{< setting-checkbox id="setting-includeInstructionTokens" text="Include Instruction Tokens?" checked="checked" >}}
-    {{< setting-checkbox id="setting-includeVehicleCards" text="Include Vehicle Cards?" checked="checked" >}}
-    {{< setting-checkbox id="setting-includeHealthCards" text="Include Health Cards?" checked="checked" >}}
+    {{< setting-checkbox id="setting-sets-instructionTokens" text="Include Instruction Tokens?" checked="checked" >}}
+    {{< setting-checkbox id="setting-sets-vehicleCards" text="Include Vehicle Cards?" checked="checked" >}}
+    {{< setting-checkbox id="setting-sets-healthCards" text="Include Health Cards?" checked="checked" >}}
   {{< /boardgame-settings-section >}}
   {{< boardgame-settings-section heading="Expansions" >}}
-    {{< setting-checkbox id="setting-includeActionCards" text="Include Action Cards?" >}}
-    {{< setting-checkbox id="setting-includeTimeDeck" text="Include Time Deck?" >}}
-    {{< setting-checkbox id="setting-includeGPSCards" text="Include GPS Cards?" >}}
+    {{< setting-checkbox id="setting-sets-actionCards" text="Include Action Cards?" >}}
+    {{< setting-checkbox id="setting-sets-timeDeck" text="Include Time Deck?" >}}
+    {{< setting-checkbox id="setting-sets-GPSCards" text="Include GPS Cards?" >}}
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 

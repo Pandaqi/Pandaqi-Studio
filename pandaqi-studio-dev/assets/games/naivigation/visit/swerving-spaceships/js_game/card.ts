@@ -21,7 +21,7 @@ export default class Card extends MaterialNaivigation
     getGameData() { return MAIN_COLORS; }
     getData() { return VEHICLE_CARDS[this.key]; }
     getMisc() { return MISC; }
-    async draw(vis)
+    async draw(vis:MaterialVisualizer)
     {
         if(this.type == CardType.CUSTOM) { return this.drawPlanetProperties(vis); }
         return cardDrawerNaivigation(vis, this);
@@ -29,8 +29,7 @@ export default class Card extends MaterialNaivigation
 
     drawPlanetProperties(vis:MaterialVisualizer)
     {
-        const ctx = createContext({ size: vis.size });
-        const group = new ResourceGroup();
+        const group = vis.renderer.prepareDraw();
 
         const op = new LayoutOperation();
         const offset = new Point(0, vis.size.y / 3);
@@ -39,7 +38,8 @@ export default class Card extends MaterialNaivigation
             group.add(this.drawPlanetProperty(vis, prop), op.clone());
             op.pos.add(offset);
         }
-        group.toCanvas(ctx);
+
+        return vis.renderer.finishDraw({ group: group, size: vis.size });
     }
 
     drawPlanetProperty(vis:MaterialVisualizer, prop:PlanetProperty) : ResourceGroup

@@ -8,13 +8,13 @@ type: "rules"
 These rules are the shared rules that are true for all Naivigation games. They also include the explanations for expansions that you can tack onto any version of the game. Whenever another rulebook includes a shared rule, it will appear in a colored box like this one!
 </div>
 
-Create a deck of 25 tiles, including 5 special locations and 1 the starting tile. Place these in a 5x5 grid. Place the vehicle on the starting tile (oriented randomly).
+Create a deck of 25 tiles, including 5 special locations and 1 starting tile. Place these in a 5x5 grid. Place the vehicle on the starting tile (oriented randomly).
 
 {{% remark %}}
 If you feel the map is too bunched up or unplayable, just redo this step!
 {{% /remark %}}
 
-Combine the default **Vehicle Cards** with the specific Vehicle Cards for this game. Give each player 3 of these to hold in their hand.
+Combine the default **Vehicle Cards** with the specific Vehicle Cards for this game. Shuffle and place as a _faceup_ draw pile. Each player draws 3 of these to hold in their hand. 
 
 Combine the default Health Cards and the specific Health Cards for this game. Shuffle and take out 5: this is your **Health Deck**.
 
@@ -62,13 +62,19 @@ If you visit a **special location**, collect the tile and replace it with a new 
 
 {{% rules-block id="vehicle_cards" heading="Vehicle Cards" icon="action" icontint="green" %}}
 
-The shared material has only 2 possible vehicle cards.
+The shared material has 3 basic vehicle cards. They are all **optional**, but including them generally makes the game **easier**.
 
-**Discuss** (required): when executed, you may communicate about the game! Only one thing always remains off limits: you may **never** communicate your **hand cards** in whatever way. This discussion stops immediately when you decide to continue the game.
+**Discuss**: when executed, you may communicate about the game and your hand cards! This discussion stops immediately when you decide to continue the game.
 
-**Speedup** (optional): add or remove 1 Instruction Token. The number of instructions must always be between 3 and 8. 
+Important: If you include this card, turn the draw pile **facedown** for the entire game. The Discuss card is now your most important way to get information.
+
+**Wildcard**: this card represents any other vehicle card in the game. As usual, the start player decides _which one_ upon reveal.
+
+**Speedup**: add or remove 1 Instruction Token. The number of instructions must always be between 3 and 8. 
 * If this leaves a card hanging (its token removed), it's just not executed. 
 * If this creates a new empty slot, the player who played the original card must play a new card into the new slot. 
+
+@TODO: EXAMPLE IMAGE?
 
 {{% /rules-block %}}
 

@@ -1,5 +1,6 @@
 import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textConfig"
 import CVal from "js/pq_games/tools/generation/cval"
+import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator"
 import Point from "js/pq_games/tools/geometry/point"
 
 const CONFIG_NAIVIGATION_SHARED = 
@@ -87,14 +88,7 @@ const CONFIG_NAIVIGATION_SHARED =
     {
         drawerConfig:
         {
-            autoStroke: true,
-            sizeElement: new Point(1, 1.4),
-            size: 
-            { 
-                small: new Point(4,4),
-                regular: new Point(3,3),
-                large: new Point(2,2)
-            },
+            preset: GridSizePreset.CARD,
         }, 
 
         generation:
@@ -174,14 +168,7 @@ const CONFIG_NAIVIGATION_SHARED =
     {
         drawerConfig:
         {
-            autoStroke: true,
-            sizeElement: new Point(1, 1),
-            size: 
-            { 
-                small: new Point(5,7),
-                regular: new Point(3,5),
-                large: new Point(2,3)
-            },
+            preset: GridSizePreset.TILE,
         }, 
 
         general:
@@ -211,8 +198,6 @@ const CONFIG_NAIVIGATION_SHARED =
         {
             numUniqueVehicles: 3
         },
-
-       
     }
 }
 

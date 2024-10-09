@@ -1,35 +1,29 @@
-import createContext from "js/pq_games/layout/canvas/createContext";
-import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
-import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
-import { TileType } from "games/naivigation/js_shared/dictShared";
-import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import Point from "js/pq_games/tools/geometry/point";
-import { MAIN_COLORS, MAP_TILES, MISC } from "../js_shared/dict";
-import rangeInteger from "js/pq_games/tools/random/rangeInteger";
-import range from "js/pq_games/tools/random/range";
+import { MISC_SHARED, TileType } from "games/naivigation/js_shared/dictShared";
 import MaterialNaivigation from "games/naivigation/js_shared/materialNaivigation";
 import fillResourceGroup from "js/pq_games/layout/canvas/fillResourceGroup";
 import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
+import LayoutOperation from "js/pq_games/layout/layoutOperation";
+import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
+import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
 import getRectangleCornersWithOffset from "js/pq_games/tools/geometry/paths/getRectangleCornersWithOffset";
-import { MISC_SHARED } from "games/naivigation/js_shared/dictShared";
+import Point from "js/pq_games/tools/geometry/point";
+import range from "js/pq_games/tools/random/range";
+import rangeInteger from "js/pq_games/tools/random/rangeInteger";
+import { MAIN_COLORS, MAP_TILES, MISC } from "../js_shared/dict";
 
 export default class Tile extends MaterialNaivigation
 {
     isCollectible() { return MAP_TILES[this.key].collectible; }
     isStartingTile() { return MAP_TILES[this.key].starting; }
-    async draw(vis)
+    async draw(vis:MaterialVisualizer)
     {
-        const ctx = createContext({ size: vis.size });
-        fillCanvas(ctx, "#FFFFFF");
-
-        const group = new ResourceGroup();
+        const group = vis.renderer.prepareDraw();
         if(this.type == TileType.MAP) { this.drawMapTile(vis, group); }
         else if(this.type == TileType.VEHICLE) { this.drawVehicle(vis, group); }
-        group.toCanvas(ctx);
-        return ctx.canvas;
+        return vis.renderer.finishDraw({ group: group, size: vis.size });
     }
 
-    drawVehicle(vis, group)
+    drawVehicle(vis:MaterialVisualizer, group:ResourceGroup)
     {
         // a guiding sprite behind it to clearly show what's the front and stuff
         const resGuides = vis.getResource("misc_shared");
@@ -53,7 +47,7 @@ export default class Tile extends MaterialNaivigation
         group.add(res, op);
     }
 
-    drawMapTile(vis, group)
+    drawMapTile(vis:MaterialVisualizer, group:ResourceGroup)
     {
         const bgColor = vis.inkFriendly ? "#FFFFFF" : MAIN_COLORS.mapTileColor;
         fillResourceGroup(vis.size, group, bgColor);

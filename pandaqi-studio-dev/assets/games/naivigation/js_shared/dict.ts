@@ -137,8 +137,8 @@ const TIME_CARDS =
     new_decider: { shared: true, label: "New Decider", desc: "Whoever played into the <b>last slot</b> decides how cards are <b>executed</b> (instead of start player deciding for all)." },
     majority_voting: { shared: true, label: "Majority Voting", desc: "When executing cards that require a <b>decision</b>, players vote (without discussion) on which decision to take." },
 
-    gps_bonus: { shared: true, label: "GPS Bonus", desc: "If you <b>followed the GPS</b>, put this card back into the Time Deck.", required: ["includeGPSCards"], type: EventType.RULE },
-    gps_penalty: { shared: true, label: "GPS Penalty", desc: "If you <b>ignored the GPS</b>, lose 2 more Time.", required: ["includesGPSCards"], type: EventType.RULE },
+    gps_bonus: { shared: true, label: "GPS Bonus", desc: "If you <b>followed the GPS</b>, put this card back into the Time Deck.", required: ["GPSCards"], type: EventType.RULE },
+    gps_penalty: { shared: true, label: "GPS Penalty", desc: "If you <b>ignored the GPS</b>, lose 2 more Time.", required: ["GPSCards"], type: EventType.RULE },
 };
 
 //
@@ -173,11 +173,11 @@ const ACTION_CARDS =
     reconsider: { shared: true, frame: 28, label: "Reconsider", desc: "Play <b>faceup</b>. Study all instructions and either <b>rearrange</b> or <b>swap</b> them all for random deck cards." },
 
     // these need the GPS cards
-    lost_signal: { shared: true, frame: 29, label: "Lost Signal", desc: "<b>Remove</b> the <b>GPS card</b> for this round.", required: ["includeGPSCards"] },
+    lost_signal: { shared: true, frame: 29, label: "Lost Signal", desc: "<b>Remove</b> the <b>GPS card</b> for this round.", required: ["GPSCards"] },
     advanced_gps: { shared: true, frame: 30, label: "Advanced GPS", desc: "Study the next <b>5 GPS cards</b> and <b>rearrange</b> in any order desired." },
     
     // these need the time deck
-    crystal_ball: { shared: true, frame: 31, label: "Crystal Ball", desc: "<b>Look at</b> the next 5 cards of the <b>Time Deck</b>.", required: ["includeTimeDeck"] },
+    crystal_ball: { shared: true, frame: 31, label: "Crystal Ball", desc: "<b>Look at</b> the next 5 cards of the <b>Time Deck</b>.", required: ["timeDeck"] },
 
     // these were added much later
     take_control: { shared: true, frame: 32, label: "Take Control", desc: "This round, each player decides how to execute <b>their own card</b> (instead of start player deciding for all)." },

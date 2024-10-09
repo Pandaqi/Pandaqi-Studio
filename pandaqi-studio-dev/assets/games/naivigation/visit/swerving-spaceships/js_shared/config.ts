@@ -3,6 +3,7 @@ import mergeObjects from "js/pq_games/tools/collections/mergeObjects";
 import CVal from "js/pq_games/tools/generation/cval";
 import Point from "js/pq_games/tools/geometry/point";
 import Bounds from "js/pq_games/tools/numbers/bounds";
+import autoLoadFontCSS from "js/pq_games/website/autoLoadFontCSS";
 
 const CONFIG:any = 
 {
@@ -20,12 +21,11 @@ const CONFIG:any =
     inkFriendly: false,
     itemSize: "regular",
 
-    includeCards: true,
-    includeMapTiles: true,
-    includeVehicleTiles: true,
-
-    expansions:
+    sets:
     {
+        vehicleTiles: true,
+        vehicleCards: true,
+        mapTiles: true,
         shields: false,
         weapons: false,
         trade: false,
@@ -120,5 +120,6 @@ const CONFIG:any =
 }
 
 mergeObjects(CONFIG, CONFIG_NAIVIGATION_SHARED);
+autoLoadFontCSS(CONFIG);
 
 export default CONFIG

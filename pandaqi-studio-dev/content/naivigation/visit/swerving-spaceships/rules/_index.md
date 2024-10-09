@@ -14,7 +14,7 @@ Alternatvely, manually do the setup as follows.
 * Place the vehicle on the starting tile (oriented randomly)
 
 <div class="naivigation-shared-rule">
-Combine the default Vehicle Cards with the specific Vehicle Cards for this game. Give each player 3 of these to hold in their hand.
+Combine the default Vehicle Cards with the specific Vehicle Cards for this game. Shuffle and place as a FACEUP draw pile. Each player draws 3 of these to hold in their hand. 
 
 Combine the default Health Cards and the specific Health Cards for this game. Shuffle and take out 5: this is your Health Deck.
 

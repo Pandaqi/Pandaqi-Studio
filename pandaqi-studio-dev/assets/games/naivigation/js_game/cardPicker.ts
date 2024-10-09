@@ -35,7 +35,7 @@ export default class CardPicker
             const reqs = data.required ?? [];
             for(const requirement of reqs)
             {
-                if(!CONFIG[requirement]) { continue; }
+                if(!CONFIG.sets[requirement]) { continue; }
             }
 
             const freq = data.freq ?? 1;
@@ -49,7 +49,7 @@ export default class CardPicker
 
     generateInstructionTokens()
     {
-        if(!CONFIG.includeInstructionTokens) { return; }
+        if(!CONFIG.sets.instructionTokens) { return; }
 
         // we use a trick here to push 2 tokens on ONE card, to fold it into this system and ensure it has the same dimensions as the cards you play with
         const num = CONFIG.cards.generation.numInstructionTokens;
@@ -67,25 +67,25 @@ export default class CardPicker
 
     generateActionCards()
     {
-        if(!CONFIG.includeActionCards) { return; }
+        if(!CONFIG.sets.actionCards) { return; }
         this.generateFromDictionary(CardType.ACTION);
     }
 
     generateVehicleCards()
     {
-        if(!CONFIG.includeVehicleCards) { return; }
+        if(!CONFIG.sets.vehicleCards) { return; }
         this.generateFromDictionary(CardType.VEHICLE);
     }
 
     generateHealthCards()
     {
-        if(!CONFIG.includeHealthCards) { return; }
+        if(!CONFIG.sets.healthCards) { return; }
         this.generateFromDictionary(CardType.HEALTH);
     }
 
     generateGPSCards()
     {
-        if(!CONFIG.includeGPSCards) { return; }
+        if(!CONFIG.sets.GPSCards) { return; }
         
         const params = {
             num: CONFIG.cards.generation.numGPSCards,
@@ -104,14 +104,14 @@ export default class CardPicker
 
     generateTimeDeck()
     {
-        if(!CONFIG.includeTimeDeck) { return; }
+        if(!CONFIG.sets.timeDeck) { return; }
         this.generateFromDictionary(CardType.TIME);
     }
 
     /*
     generateFuelDeck()
     {
-        if(!CONFIG.includeFuelDeck) { return; }
+        if(!CONFIG.sets.fuelDeck) { return; }
 
         // add the actual fuel trackers
         const num = CONFIG.cards.generation.numFuelCards;

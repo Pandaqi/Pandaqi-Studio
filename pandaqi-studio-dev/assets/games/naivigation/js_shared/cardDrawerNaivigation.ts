@@ -1,21 +1,20 @@
-import createContext from "js/pq_games/layout/canvas/createContext";
 import fillResourceGroup from "js/pq_games/layout/canvas/fillResourceGroup";
+import Color from "js/pq_games/layout/color/color";
+import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
 import TintEffect from "js/pq_games/layout/effects/tintEffect";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
+import ResourceShape from "js/pq_games/layout/resources/resourceShape";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
 import TextConfig from "js/pq_games/layout/text/textConfig";
 import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
 import getRectangleCornersWithOffset from "js/pq_games/tools/geometry/paths/getRectangleCornersWithOffset";
 import Point from "js/pq_games/tools/geometry/point";
+import Rectangle from "js/pq_games/tools/geometry/rectangle";
 import rangeInteger from "js/pq_games/tools/random/rangeInteger";
 import { CardType, GPS_ICONS } from "./dictShared";
 import MaterialNaivigation from "./materialNaivigation";
-import Color from "js/pq_games/layout/color/color";
-import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
-import Rectangle from "js/pq_games/tools/geometry/rectangle";
-import ResourceShape from "js/pq_games/layout/resources/resourceShape";
 
 const drawCardBackground = (vis, group, card) =>
 {
@@ -402,13 +401,11 @@ const drawCardIcons = (vis, group, card) =>
 // The Card object holds the functions/data to grab the correct dictionaries/resources it needs
 export default (vis:MaterialVisualizer, card:MaterialNaivigation) =>
 {
-    const ctx = createContext({ size: vis.size });
-    const group = new ResourceGroup();
+    const group = vis.renderer.prepareDraw();
 
     drawCardBackground(vis, group, card);
     drawCardIcons(vis, group, card);
     drawCard(vis, group, card);
 
-    group.toCanvas(ctx);
-    return ctx.canvas;
+    return vis.renderer.finishDraw({ group: group, size: vis.size });
 }

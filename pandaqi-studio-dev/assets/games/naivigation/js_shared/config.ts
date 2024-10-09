@@ -3,6 +3,7 @@ import CVal from "js/pq_games/tools/generation/cval"
 import Point from "js/pq_games/tools/geometry/point"
 import CONFIG_NAIVIGATION_SHARED from "./configShared"
 import mergeObjects from "js/pq_games/tools/collections/mergeObjects"
+import autoLoadFontCSS from "js/pq_games/website/autoLoadFontCSS"
 
 const CONFIG:any = 
 {
@@ -20,12 +21,16 @@ const CONFIG:any =
     inkFriendly: false,
     itemSize: "regular",
 
-    includeInstructionTokens: true,
-    includeVehicleCards: true,
-    includeHealthCards: true,
-    includeActionCards: false,
-    includeGPSCards: false,
-    includeTimeDeck: false,
+    sets:
+    {
+
+        instructionTokens: true,
+        vehicleCards: true,
+        healthCards: true,
+        actionCards: false,
+        GPSCards: false,
+        timeDeck: false,
+    },
 
     // assets
     assetsBase: "/naivigation/assets/",
@@ -67,5 +72,6 @@ const CONFIG:any =
 }
 
 mergeObjects(CONFIG, CONFIG_NAIVIGATION_SHARED);
+autoLoadFontCSS(CONFIG);
 
 export default CONFIG
