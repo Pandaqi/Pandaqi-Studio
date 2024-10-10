@@ -18,6 +18,11 @@ import Renderer from "./renderers/renderer"
 import RendererPandaqi from "./renderers/rendererPandaqi"
 
 type ResourceLike = ResourceImage|ResourceShape|ResourceText|ResourceBox|ResourceGroup
+interface MaskData
+{
+    resource: ResourceImage,
+    operation: LayoutOperation
+}
 
 interface LayoutOperationParams
 {
@@ -50,7 +55,7 @@ interface LayoutOperationParams
 
     clip?:Shape,
     clipRelative?: boolean,
-    mask?:ResourceImage,
+    mask?:MaskData,
 
     resource?:ResourceLike,
     effects?:LayoutEffect[],
@@ -87,7 +92,7 @@ export default class LayoutOperation
 
     clip: Shape
     clipRelative : boolean
-    mask: ResourceImage
+    mask: MaskData
 
     resource : ResourceLike
     effects : LayoutEffect[]
@@ -334,4 +339,5 @@ export default class LayoutOperation
 
     setFrame(f:number) { this.frame = f; return this; }
     hasDepth() { return !isZero(this.depth); }
+    hasMask() { return this.mask && this.mask.resource; }
 }

@@ -1,3 +1,4 @@
+import Point from "js/pq_games/tools/geometry/point";
 import createContext from "../canvas/createContext";
 import LayoutOperation from "../layoutOperation";
 import ResourceImage from "../resources/resourceImage";
@@ -7,7 +8,7 @@ import LayoutEffect from "./layoutEffect";
 interface MaskEffectParams
 {
     resource?: ResourceImage,
-    operation?: LayoutOperation
+    operation?: LayoutOperation,
 }
 
 export default class MaskEffect extends LayoutEffect
@@ -27,6 +28,7 @@ export default class MaskEffect extends LayoutEffect
         return new MaskEffect({ resource: this.resource, operation: this.operation });
     }
 
+    // @NOTE: This is a mask _on the image directly_; use the `.mask` property of LayoutOperation for a mask in global/absolute coordinates on the final canvas
     applyToImage(drawable:ResourceImage)
     {
         if(!this.resource) { return drawable; }

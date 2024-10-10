@@ -10,9 +10,7 @@ blurbShort: "A word game like Scrabble, but played using letters that change whe
 blurbProject: "A 'traditional' game played with dominoes that look like different letters from different sides. Print and cut once, play however often you want."
 weightProject: 30
 
-
 color: "green"
-
 
 date: 2023-06-20
 
@@ -22,14 +20,12 @@ categories: ["boardgame", "standard"]
 tags: ["domino", "shared-map", "language", "spiritually-inspired"]
 themes: ["colorful", "vector"]
 
-
 downloadLink: "https://drive.google.com/drive/folders/14KGDtFeGMpGRltZorC6shHr3pYXGk5MQ"
 
 multiplayermode: "competitive"
 language: EN
 playtime: 40
 playercount: [2,3,4,5,6]
-complexity: low
 ages: everyone
 devlog: "/blog/boardgames/keebble-domino/"
 

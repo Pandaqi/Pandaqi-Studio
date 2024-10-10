@@ -64,51 +64,51 @@ It's recommended to play with all 6, but ...
 
 Books that have multiple colors are **wildcards**. They can represent any genre when matching, but have no action.
 
-Below are all the genres and their actions. => @TODO
+Below are all the genres and their actions.
 
 {{% rules-block heading="Red (Destructive)" %}}
 These powers are _bad_ and _trigger instantly_.
 
-* You lose the game
-* You lose an outer Book Shelf. (All cards inside are discarded.)
-* The Hand Limit is permanently lowered by 1
-* ??
+* **Horror:** You lose the game
+* **Detective:** Remove 1 Book Shelf. (All cards inside are discarded.)
+* **True Crime:** The Hand Limit is permanently lowered by 1
+* **Tragedy:** You can't stack letters on top of each other anymore.
 {{% /rules-block %}}
 
 {{% rules-block heading="Green (Addition)" %}}
 These powers are about adding value or bonuses.
 
-* Add a Book Shelf card to the top or bottom
-* The Hand Limit is permanently raised by 1
-* You may place cards ON TOP of other cards in your turn
-* ??
+* **Romance:** Remove 5 cards from the deck.
+* **Comedy:** Add a Book Shelf card to the top or bottom
+* **Adventure:** The Hand Limit is permanently raised by 1 
+* **Self-Help:** You may place cards ON TOP of other cards in your turn
 {{% /rules-block %}}
 
 {{% rules-block heading="Blue (Movement)" %}}
 These powers are about moving around cards, making the library more fluid.
 
-* Move 2 cards to a new empty space adjacent to the library.
-* Swap 2 cards
-* Remove 2 cards from the library. You _may_ replace them with a hand card.
-* ??
+* **Thriller:** Move 2 cards to an empty space adjacent to the library.
+* **Action:** Swap 2 cards.
+* **Travel:** Remove 2 cards from the library. You _may_ replace them with a hand card.
+* **Mythology:** Take 2 cards from the library into your hand.
 {{% /rules-block %}}
 
 {{% rules-block heading="Purple (Exceptions)" %}}
 These powers turn off a core rule of the game in times of need.
 
-* No need to play any card this turn.
-* No need to follow adjacency rule this turn. (You can place diagonally adjacent or leave a gap of at most 1 card.)
-* No need to follow alphabetical order this turn.
-* No need to follow the restriction on the number of book shelves this turn.
+* **Fantasy:** No need to play any card this turn.
+* **SciFi:** No need to follow adjacency rule this turn. (You can place diagonally adjacent or leave a gap of at most 1 card.)
+* **Poetry:** No need to follow alphabetical order this turn.
+* **Graphic Novel:** No need to follow the restriction on the number of book shelves this turn.
 {{% /rules-block %}}
 
 {{% rules-block heading="Yellow (Info)" %}}
 These powers help communicate or give info to players.
 
-* Show your hand to the table
-* Tap 2 cards on the board (to give or ask hints about what to do)
-* All players show (or GIVE?) their hand to the player on their left/right. (The player executing the power chooses the direction.)
-* Study the next 8 cards in the deck. Return them in any order and tell everyone what they are.
+* **Biography:** Show your hand to the table.
+* **Science:** Tap 2 cards on the board (to give or ask hints).
+* **Business:** All players give their hand to the player on their left.
+* **Cooking:** Study the next 6 cards in the deck. Return them in any order and tell everyone what they are.
 
 Or white, or orange/brown
 {{% /rules-block %}}
@@ -116,10 +116,10 @@ Or white, or orange/brown
 {{% rules-block heading="Black (Chaos)" %}}
 This color has weird, unique, special, disrupting powers
 
-* Insert a card _between_ two other cards. (Move the rest to fit.)
-* Shift an entire column up or down. (Cards that go out of bounds wrap to the other side.)
-* Rotate a shelf card: its alphabetical order now goes in the reverse direction.
-* This turn, you also complete a 4-in-a-row if it has one "wrong" genre in it.
+* **Mystery:** This turn, you also complete a genre if it has one "wrong" genre.
+* **Crime:** Rotate a shelf card (to reverse its direction).
+* **Drama:** Insert a card _between_ two other cards. (Move the rest to fit.)
+* **Picture Book:** Shift an entire column up or down. (Cards that go out of bounds wrap to the other side.)
 
 {{% /rules-block %}}
 

@@ -1,7 +1,9 @@
 import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textConfig"
 import CVal from "js/pq_games/tools/generation/cval"
+import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator"
 import Point from "js/pq_games/tools/geometry/point"
 import Bounds from "js/pq_games/tools/numbers/bounds"
+import autoLoadFontCSS from "js/pq_games/website/autoLoadFontCSS"
 
 const CONFIG:any = 
 {
@@ -9,7 +11,7 @@ const CONFIG:any =
     {
         omitFile: true, // @DEBUGGING (should be false)
         singleDrawPerType: true, // @DEBUGGING (should be false)
-        onlyGenerate: true, // @DEBUGGING (should be false)
+        onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
     configKey: "librariansConfig",
@@ -18,8 +20,13 @@ const CONFIG:any =
     // set through user config on page
     inkFriendly: false,
     itemSize: "regular",
+
     addHelpNumbers: true,
     addActionExplanation: true,
+    addGenreIcons: true,
+    addActionIcon: true,
+
+    generateGenreCards: true,
 
     fonts:
     {
@@ -76,7 +83,7 @@ const CONFIG:any =
 
         actions:
         {
-            path: "genres.webp",
+            path: "actions.webp",
             frames: new Point(8,3)
         },
 
@@ -102,12 +109,7 @@ const CONFIG:any =
     {
         drawerConfig:
         {
-            sizeElement: new Point(1, 1.4),
-            size: { 
-                small: new Point(4,4),
-                regular: new Point(3,3),
-                large: new Point(2,2)
-            },  
+            preset: GridSizePreset.CARD
         },
 
         generation:
@@ -116,39 +118,41 @@ const CONFIG:any =
             numBookShelfCards: 12,
             minFrequencyForSeries: 3,
             defAuthorActionCards: "Anonymous",
+            defFrequencyActionCards: 1,
         },
 
         shared:
         {
-            rectBlur: new CVal(0.05, "sizeUnit")
+            rectBlur: new CVal(0.03, "sizeUnit")
         },
 
         dropCap:
         {
-            fontSize: new CVal(0.2, "sizeUnit"),
-            offsetY: 0.2,
+            fontSize: new CVal(0.425, "sizeUnit"),
+            offsetY: 0.21,
         },
 
         title:
         {
-            fontSize: new CVal(0.075, "sizeUnit"),
-            offsetY: 0.35,
-            size: new CVal(new Point(0.75, 0.25), "size"),
-            helpNumbersAlpha: 0.75,
+            fontSize: new CVal(0.1, "sizeUnit"), // @NOTE: also helpNumbers fontSize!
+            offsetY: 0.485,
+            size: new CVal(new Point(0.7, 0.2), "size"),
+            helpNumbersAlpha: 0.45,
             helpNumbersColor: "#000000"
         },
 
         background:
         {
-            size: new CVal(new Point(0.875), "size"),
-            sizeOverlayRelative: new Point(0.9, 0.9), // "usable" size of book relative to calculated size
-            spineWidthRelative: 0.2, // width of the book spine relative to calculated size.x
+            size: new CVal(new Point(0.95), "size"),
+            sizeOverlayRelative: new Point(0.88, 0.85), // "usable" size of book relative to calculated size
+            spineWidthRelative: 0.18, // width of the book spine relative to calculated size.x
 
             cover:
             {
                 frameBounds: new Bounds(3,31), // the range of frames in the "covers" image that contain random covers
                 alpha: 0.15,
             },
+
             overlay:
             {
                 frame: 2,
@@ -160,12 +164,13 @@ const CONFIG:any =
         genre:
         {
             compositeRect: "overlay",
-            sizeIcon: new CVal(new Point(0.05), "sizeUnit"),
-            sizeRect: new CVal(new Point(0.1), "sizeUnit"),
+            cornerOffset: new CVal(new Point(0.05), "sizeUnit"),
+            sizeIcon: new CVal(new Point(0.1), "sizeUnit"),
+            sizeRect: new CVal(new Point(0.33), "sizeUnit"),
             textColor: "#000000",
             textComposite: "overlay",
-            fontSize: new CVal(new Point(0.125), "sizeUnit"),
-            textOffsetY: new CVal(new Point(0.1), "sizeUnit")
+            fontSize: new CVal(0.075, "sizeUnit"),
+            textOffsetY: new CVal(new Point(0.05), "sizeUnit")
         },
 
         bookShelf:
@@ -174,14 +179,14 @@ const CONFIG:any =
             {
                 pos: new CVal(new Point(0.5, 0.33), "size"),
                 size: new CVal(new Point(0.4), "sizeUnit"),
-                sizeVertical: new CVal(new Point(0.15), "sizeUnit"),
-                sizeRect: new CVal(new Point(0.75, 0.4), "size"),
+                sizeVertical: new CVal(new Point(0.175), "sizeUnit"),
+                sizeRect: new CVal(new Point(0.65, 0.3), "size"),
             },
 
             text:
             {
                 pos: new CVal(new Point(0.5, 0.66), "size"),
-                size: new CVal(new Point(0.75, 0.4), "size"),
+                size: new CVal(new Point(0.75, 0.35), "size"),
                 color: "#000000",
                 fontSize: new CVal(0.075, "sizeUnit")
             }
@@ -190,20 +195,25 @@ const CONFIG:any =
         metadata:
         {
             textColor: "#FFFFFF",
-            alpha: 0.75,
+            strokeColor: "#00000066",
+            textAlpha: 1.0,
             fontSize: new CVal(0.066, "sizeUnit"),
-            edgeMargin: new CVal(0.075, "sizeUnit")
+            edgeMargin: new CVal(0.1, "sizeUnit"),
+            sizeIcon: new CVal(new Point(0.09), "sizeUnit"),
+            compositeIcon: "luminosity",
         },
 
         action:
         {
-            offsetY: 0.6,
-            sizeY: 0.35,
+            offsetY: 0.75,
+            sizeY: 0.3,
             fontSize: new CVal(0.066, "sizeUnit"),
-            sizeIcon: new CVal(new Point(0.1), "sizeUnit"),
+            sizeIcon: new CVal(new Point(0.15), "sizeUnit"),
         }
 
     },
 }
+
+autoLoadFontCSS(CONFIG);
 
 export default CONFIG

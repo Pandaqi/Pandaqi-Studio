@@ -46,7 +46,7 @@ export default class RendererPandaqi extends Renderer
         
         // HUGE OPTIMIZATION => don't create the temporary canvas if we don't need it
         // (Though that is rare; would only apply to stuff with only a transform + fill/stroke and nothing else)
-        const needsTemporaryCanvas = effOp.needsTemporaryCanvas() || op.isGroup();
+        const needsTemporaryCanvas = effOp.needsTemporaryCanvas() || op.isGroup() || op.hasMask();
 
         // we create a temporary canvas to do everything we want
         // once done, at the end, we stamp that onto the real one (with the right effects, alpha, etcetera set)
@@ -58,6 +58,16 @@ export default class RendererPandaqi extends Renderer
         if(!op.keepTransform) 
         {
             ctx.resetTransform();
+        }
+
+        // @NOTE: this must come before any changes to ctxTemp (such as applying transform below), 
+        // otherwise the mask is positioned wrong!
+        // @TODO: we might make this optional though, like op.clip, by adding a `maskRelative` property to choose between relative/absolute positioning
+        if(op.hasMask())
+        {
+            const maskOp = op.mask.operation ?? new LayoutOperation();
+            op.mask.resource.toCanvas(ctxTemp, maskOp);
+            ctxTemp.globalCompositeOperation = "source-in";
         }
 
         // we make sure we're drawing at the right position right away
@@ -74,18 +84,6 @@ export default class RendererPandaqi extends Renderer
         ctx.globalCompositeOperation = op.composite;
         ctx.globalAlpha = op.alpha;
         effOp.setShadowProperties(ctx);
-
-        // @TODO: this is entirely untested and needs to be worked on
-        // (also preferably put into its own function? Same as clip?)
-        if(op.mask)
-        {
-            const maskData = op.mask.getFrameData();
-            ctx.drawImage(
-                op.mask.getImage(),
-                0, 0, maskData.width, maskData.height,
-                0, 0, size.x, size.y)
-            ctx.globalCompositeOperation = "source-in";
-        }
 
         // SAVE/RESTORE is extremely expensive and error prone (if you forget one even once); so limit it to only when really needed
         const needsStateManagement = op.clip;
@@ -191,9 +189,9 @@ export default class RendererPandaqi extends Renderer
         }
 
         // @TODO: how to handle the other mask properties? A Mask sub-class?
-        if(op.mask)
+        if(op.hasMask())
         {
-            node.style.maskImage = op.mask.getCSSUrl();
+            node.style.maskImage = op.mask.resource.getCSSUrl();
         }
 
         // all the transform stuff

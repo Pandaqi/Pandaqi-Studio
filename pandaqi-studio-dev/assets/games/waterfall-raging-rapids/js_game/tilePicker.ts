@@ -138,7 +138,7 @@ export default class TilePicker
             if(CONFIG.useConditionalActions && i < numConditionalActions) {
                 const cond = getWeighted(CONDITIONS);
                 const reward = getWeighted(ACTIONS_CONDITIONAL);
-                const finalString = cond + ", " + reward;
+                const finalString = CONDITIONS[cond].desc + ", " + ACTIONS_CONDITIONAL[reward].desc;
                 actions.push(finalString);
             } else {
                 actions.push(getWeighted(ACTIONS));

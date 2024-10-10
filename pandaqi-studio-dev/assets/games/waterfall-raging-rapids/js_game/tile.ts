@@ -47,9 +47,7 @@ export default class Tile
 
     async draw(vis:MaterialVisualizer)
     {
-        const ctx = createContext({ size: vis.size });
-        fillCanvas(ctx, "#FFFFFF");
-        const group = new ResourceGroup();
+        const group = vis.renderer.prepareDraw();
 
         if(this.type == TileType.PAWN) {
             this.drawPawn(vis, group);
@@ -61,8 +59,7 @@ export default class Tile
             this.drawWater(vis, group);
         }
 
-        group.toCanvas(ctx);
-        return ctx.canvas;
+        return vis.renderer.finishDraw({ group: group, size: vis.size })
     }
 
     // extremely simple function that just plasters an image at full size on tile
@@ -73,6 +70,7 @@ export default class Tile
         const op = new LayoutOperation({
             size: vis.size,
             frame: MISC[this.keyAction].frame,
+            effects: vis.inkFriendlyEffect
         });
         group.add(res, op);
     }
@@ -81,6 +79,8 @@ export default class Tile
     // overlaid by random dirt texture for much nicer look
     drawBackground(vis:MaterialVisualizer, group:ResourceGroup)
     {
+        if(vis.inkFriendly) { return; }
+
         const templateKey = "template_" + this.type;
         const templateData = DECORATION[templateKey];
         if(!templateData) { return; }
@@ -113,8 +113,8 @@ export default class Tile
         const opText = new LayoutOperation({
             pos: vis.get("tiles.score.pos"),
             size: new Point(3*textConfig.size),
-            fill: vis.get("tiles.score.textColor"),
-            stroke: vis.get("tiles.score.strokeColor"),
+            fill: vis.inkFriendly ? "#000000" : vis.get("tiles.score.textColor"),
+            stroke: vis.inkFriendly ? "#FFFFFF" : vis.get("tiles.score.strokeColor"),
             strokeWidth: vis.get("tiles.score.strokeWidth"),
             strokeAlign: StrokeAlign.OUTSIDE,
             pivot: Point.CENTER
@@ -132,6 +132,7 @@ export default class Tile
         {
             let actionData = ACTIONS[this.keyAction];
            
+            // in this case, the tile picker concatenates a final string and puts it into .keyAction instead
             const isConditional = !actionData;
             if(isConditional)
             {
@@ -148,7 +149,7 @@ export default class Tile
 
             if(drawIcon)
             {
-                // @TODO: probably some subtle drop-shadow + inkFriendly effect
+                // @TODO: probably some subtle drop-shadow
                 const resIcon = vis.getResource("misc");
                 const iconKey = "default_action_" + this.keyAction;
                 const opIcon = new LayoutOperation({
@@ -156,22 +157,24 @@ export default class Tile
                     size: new Point(0.9*Math.min(size.x, size.y)),
                     frame: MISC[iconKey].frame,
                     pivot: Point.CENTER,
+                    effects: vis.inkFriendlyEffect
                 });
                 group.add(resIcon, opIcon);
             }
 
             if(drawText)
             {
+                const fontSize = hasActionAndGate ? vis.get("tiles.action.fontSizeWithGate") : vis.get("tiles.action.fontSize");
                 const textConfig = new TextConfig({
                     font: vis.get("fonts.body"),
-                    size: vis.get("tiles.action.fontSize")
+                    size: fontSize
                 }).alignCenter();
     
                 const resText = new ResourceText({ text: actionData.desc, textConfig });
                 const opText = new LayoutOperation({
                     pos: pos,
                     size: size,
-                    fill: vis.get("tiles.action.textColor"),
+                    fill: vis.inkFriendly ? "#000000" : vis.get("tiles.action.textColor"),
                     pivot: Point.CENTER
                 })
                 group.add(resText, opText);
@@ -192,7 +195,7 @@ export default class Tile
             const opText = new LayoutOperation({
                 pos: vis.get("tiles.gate.pos"),
                 size: vis.get("tiles.gate.textBoxDims"),
-                fill: vis.get("tiles.gate.textColor"),
+                fill: vis.inkFriendly ? "#000000" : vis.get("tiles.gate.textColor"),
                 pivot: Point.CENTER
             })
             group.add(resText, opText);
@@ -290,7 +293,7 @@ export default class Tile
                 size: gemDims.clone().scale(1.425),
                 frame: MISC.gemstone_shadow_circle.frame,
                 alpha: 0.875,
-                pivot: Point.CENTER
+                pivot: Point.CENTER,
             });
             group.add(resMisc, opShadow);
 
@@ -328,6 +331,8 @@ export default class Tile
         const sizeBoulder = vis.get("tiles.decoration.iconDimsBoulder");
         const boulderOffset = vis.get("tiles.decoration.boulderOffset");
 
+        const placeDecorations = !vis.inkFriendly;
+
         // diagonal + straight down from top left
         if(this.water.topLeft)
         {
@@ -335,7 +340,8 @@ export default class Tile
                 pos: topLeft,
                 size: size,
                 frame: frameDiagonal,
-                pivot: new Point(1,1)
+                pivot: new Point(1,1),
+                effects: vis.inkFriendlyEffect
             });
             subGroup.add(resMisc, opDiag);
             lines.push(new Line(new Point(), topLeft));
@@ -345,7 +351,8 @@ export default class Tile
                 size: size,
                 rot: 0.5*Math.PI,
                 frame: frameStraight,
-                pivot: new Point(0, 0.5)
+                pivot: new Point(0, 0.5),
+                effects: vis.inkFriendlyEffect
             });
             subGroup.add(resMisc, opVert);
             lines.push(new Line(topLeft, bottomLeft));
@@ -359,7 +366,8 @@ export default class Tile
                 size: size,
                 frame: frameDiagonal,
                 flipX: true,
-                pivot: new Point(0,1)
+                pivot: new Point(0,1),
+                effects: vis.inkFriendlyEffect
             });
             subGroup.add(resMisc, opDiag);
             lines.push(new Line(new Point(vis.size.x, 0), topRight));
@@ -369,7 +377,8 @@ export default class Tile
                 size: size,
                 rot: 0.5*Math.PI,
                 frame: frameStraight,
-                pivot: new Point(0, 0.5)
+                pivot: new Point(0, 0.5),
+                effects: vis.inkFriendlyEffect
             });
             subGroup.add(resMisc, opVert);
             lines.push(new Line(topRight, bottomRight));
@@ -396,6 +405,7 @@ export default class Tile
                 flipX: (dir == "rightToLeft"),
                 pivot: new Point(0, 0.5),
                 alpha: alpha,
+                effects: vis.inkFriendlyEffect
             });
             subGroup.add(resMisc, opHoriz);
             lines.push(new Line(bottomLeft, bottomRight));
@@ -409,7 +419,8 @@ export default class Tile
                 size: size,
                 frame: frameDiagonal,
                 flipX: true,
-                pivot: new Point(1,0)
+                pivot: new Point(1,0),
+                effects: vis.inkFriendlyEffect
             });
             subGroup.add(resMisc, opDiag);
             lines.push(new Line(bottomLeft, new Point(0, vis.size.y)));
@@ -421,7 +432,8 @@ export default class Tile
                 pos: bottomRight,
                 size: size,
                 frame: frameDiagonal,
-                pivot: new Point(0,0)
+                pivot: new Point(0,0),
+                effects: vis.inkFriendlyEffect
             });
             subGroup.add(resMisc, opDiag);
             lines.push(new Line(bottomRight, vis.size.clone()));
@@ -429,36 +441,39 @@ export default class Tile
 
         // place decoration BEHIND its lines
         const boulderLineDownscale = 0.85; // to prevent the pretty large boulders from overlapping other incoming water streams
-        for(const line of lines)
+        if(placeDecorations)
         {
-            const placeBoulderBehind = Math.abs(line.angle()) <= 0.03 && Math.random() <= CONFIG.generation.boulderDecorationProbability;
-            if(placeBoulderBehind)
+            for(const line of lines)
             {
+                const placeBoulderBehind = Math.abs(line.angle()) <= 0.03 && Math.random() <= CONFIG.generation.boulderDecorationProbability;
+                if(placeBoulderBehind)
+                {
+                    const op = new LayoutOperation({
+                        pos: line.getRandomPositionInside(boulderLineDownscale).add(new Point(0, -boulderOffset)),
+                        size: sizeBoulder,
+                        frame: DECORATION.boulders_horizontal.frame,
+                        pivot: Point.CENTER
+                    })
+                    group.add(resDecoration, op);
+                }
+    
+                const placeDecoration = Math.random() <= CONFIG.generation.randomDecorationProbability;
+                if(!placeDecoration) { continue; }
+    
+                const pos = line.getRandomPositionInside();
+                let rotation = line.angle();
+                if(Math.random() <= 0.5) { rotation += Math.PI; }
+    
+                const randKey = "decoration_" + CONFIG.generation.decorationFrameBounds.randomInteger();
                 const op = new LayoutOperation({
-                    pos: line.getRandomPositionInside(boulderLineDownscale).add(new Point(0, -boulderOffset)),
-                    size: sizeBoulder,
-                    frame: DECORATION.boulders_horizontal.frame,
-                    pivot: Point.CENTER
+                    pos: pos,
+                    size: sizeDecoration,
+                    frame: DECORATION[randKey].frame,
+                    pivot: new Point(0.5, 1),
+                     rotation
                 })
                 group.add(resDecoration, op);
             }
-
-            const placeDecoration = Math.random() <= CONFIG.generation.randomDecorationProbability;
-            if(!placeDecoration) { continue; }
-
-            const pos = line.getRandomPositionInside();
-            let rotation = line.angle();
-            if(Math.random() <= 0.5) { rotation += Math.PI; }
-
-            const randKey = "decoration_" + CONFIG.generation.decorationFrameBounds.randomInteger();
-            const op = new LayoutOperation({
-                pos: pos,
-                size: sizeDecoration,
-                frame: DECORATION[randKey].frame,
-                pivot: new Point(0.5, 1),
-                 rotation
-            })
-            group.add(resDecoration, op);
         }
 
         // actually add the water to overall tile
@@ -474,53 +489,57 @@ export default class Tile
             {
                 const op = new LayoutOperation({
                     pos: pos,
-                    fill: vis.get("tiles.water.fillColor")
+                    fill: vis.get("tiles.water.fillColor"),
+                    effects: vis.inkFriendlyEffect
                 });
                 group.add(circ, op);
             }
         }
 
         // place decoration BEFORE its lines (only horizontal low boulders, or vertical boulders any side)
-        for(const line of lines)
+        if(placeDecorations)
         {
-            const isHoriz = Math.abs(line.angle()) <= 0.03;
-            const isVert = Math.abs(line.angle() - 0.5*Math.PI) <= 0.03;
-            if(!isHoriz && !isVert) { continue; }
-            
-            const placeBoulder = Math.random() <= CONFIG.generation.boulderDecorationProbability;
-            if(!placeBoulder) { continue; }
-
-            if(isHoriz)
+            for(const line of lines)
             {
-                const op = new LayoutOperation({
-                    pos: line.getRandomPositionInside(boulderLineDownscale).add(new Point(0, boulderOffset)),
-                    size: sizeBoulder,
-                    frame: DECORATION.boulders_horizontal.frame,
-                    pivot: Point.CENTER
-                })
-                group.add(resDecoration, op);
-            }
-
-            if(isVert)
-            {
-                const leftPos = line.getRandomPositionInside(boulderLineDownscale).add(new Point(-boulderOffset, 0));
-                const rightPos = line.getRandomPositionInside(boulderLineDownscale).add(new Point(boulderOffset, 0));
-
-                let positions = Math.random() <= 0.5 ? [leftPos] : [rightPos];
-                if(Math.random() <= CONFIG.generation.boulderDoubleProbability) { positions = [leftPos, rightPos]; }
-
-                for(const position of positions)
+                const isHoriz = Math.abs(line.angle()) <= 0.03;
+                const isVert = Math.abs(line.angle() - 0.5*Math.PI) <= 0.03;
+                if(!isHoriz && !isVert) { continue; }
+                
+                const placeBoulder = Math.random() <= CONFIG.generation.boulderDecorationProbability;
+                if(!placeBoulder) { continue; }
+    
+                if(isHoriz)
                 {
                     const op = new LayoutOperation({
-                        pos: position,
+                        pos: line.getRandomPositionInside(boulderLineDownscale).add(new Point(0, boulderOffset)),
                         size: sizeBoulder,
-                        frame: DECORATION.boulders_vertical.frame,
+                        frame: DECORATION.boulders_horizontal.frame,
                         pivot: Point.CENTER
                     })
                     group.add(resDecoration, op);
                 }
-
-                
+    
+                if(isVert)
+                {
+                    const leftPos = line.getRandomPositionInside(boulderLineDownscale).add(new Point(-boulderOffset, 0));
+                    const rightPos = line.getRandomPositionInside(boulderLineDownscale).add(new Point(boulderOffset, 0));
+    
+                    let positions = Math.random() <= 0.5 ? [leftPos] : [rightPos];
+                    if(Math.random() <= CONFIG.generation.boulderDoubleProbability) { positions = [leftPos, rightPos]; }
+    
+                    for(const position of positions)
+                    {
+                        const op = new LayoutOperation({
+                            pos: position,
+                            size: sizeBoulder,
+                            frame: DECORATION.boulders_vertical.frame,
+                            pivot: Point.CENTER
+                        })
+                        group.add(resDecoration, op);
+                    }
+    
+                    
+                }
             }
         }
     }

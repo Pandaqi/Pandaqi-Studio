@@ -18,12 +18,15 @@ export default class CardPicker
 
         const validColors = Object.keys(COLORS);
         const bookTitles = this.getBookTitlesPerLetter();
-        for(const [color,genre] of Object.entries(CONFIG.packs))
+        if(CONFIG.generateGenreCards)
         {
-            if(!validColors.includes(color)) { continue; }
-            this.generateCardsFor(bookTitles, color, genre as string);
+            for(const [color,genre] of Object.entries(CONFIG.packs))
+            {
+                if(!validColors.includes(color)) { continue; }
+                this.generateCardsFor(bookTitles, color, (genre as string).toLowerCase());
+            }        
         }
-
+        
         if(CONFIG.packs.shelves)
         {
             this.generateBookShelves();
@@ -50,6 +53,8 @@ export default class CardPicker
         for(const card of this.cards)
         {
             const auth = card.author;
+            if(!auth) { continue; }
+            if(!AUTHORS[auth]) { continue; }
             if(!freqs[auth]) { freqs[auth] = 0; }
             freqs[auth]++;
         }
@@ -224,6 +229,8 @@ export default class CardPicker
     convertActionTemplateToShelfAction(desc:string)
     {
         const allColors : string[] = Object.keys(COLORS);
+        allColors.splice(allColors.indexOf("default"), 1);
+
         const allLetters : string[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
         const rangeForbidden = 8; // letters to close to extremes don't really work here/are less interesting, so ignore them
 

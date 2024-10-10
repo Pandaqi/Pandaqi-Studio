@@ -1,4 +1,3 @@
-import Point from "js/pq_games/tools/geometry/point"
 
 enum CardType
 {
@@ -28,7 +27,7 @@ const GENRES =
     mythology: { color: "blue", action: "change_take", label: "Mythology" },
 
     // the PURPLE genres
-    fantasy: { color: "purple", action: "loosen_play", label: "Fantasy" },
+    fantasy: { color: "purple", action: "loosen_turn", label: "Fantasy" },
     scifi: { color: "purple", action: "loosen_adjacency", label: "Science-Fiction" },
     poetry: { color: "purple", action: "loosen_order", label: "Poetry" },
     graphic_novel: { color: "purple", action: "loosen_shelves", label: "Graphic Novel" },
@@ -49,7 +48,7 @@ const GENRES =
 const ACTIONS =
 {
     loss_game: { frame: 0, label: "Instant Loss", desc: "You lose the game." },
-    loss_shelf: { frame: 1, label: "Remove Shelf", desc: "Remove one of the outer book shelves. (All cards inside are discarded.)" },
+    loss_shelf: { frame: 1, label: "Remove Shelf", desc: "Remove 1 book shelf. (Discard all its cards.)" },
     loss_hand: { frame: 2, label: "Reduce Hand", desc: "The Hand Limit is permanently lowered by 1." },
     loss_stack: { frame: 3, label: "Stack Nothing", desc: "You can't stack letters on top of each other anymore." },
 
@@ -58,25 +57,25 @@ const ACTIONS =
     add_hand: { frame: 6, label: "Increase Hand", desc: "The Hand Limit is permanently increased by 1." },
     add_stack: { frame: 7, label: "Stack Any", desc: "You may play cards on top of any other card in your turn." },
     
-    change_move: { frame: 8, label: "Move 2", desc: "Move 2 cards to a new empty space adjacent to the library." },
+    change_move: { frame: 8, label: "Move 2", desc: "Move 2 cards to an empty space adjacent to the Library." },
     change_swap: { frame: 9, label: "Swap 2", desc: "Swap 2 cards." },
-    change_remove: { frame: 10, label: "Remove 2", desc: "Remove 2 cards from the library. You may replace them with a hand card." },
-    change_take: { frame: 11, label: "Take 2", desc: "Take 2 cards from the library into your hand." },
+    change_remove: { frame: 10, label: "Remove 2", desc: "Remove 2 cards from the Library. (Optional: replace with hand card)." },
+    change_take: { frame: 11, label: "Take 2", desc: "Take 2 cards from the Library into your hand." },
     
-    loosen_turn: { frame: 12, label: "No Play", desc: "You don't need to play any card this turn." },
-    loosen_adjacency: { frame: 13, label: "No Connection", desc: "You don't need to follow adjacency rules this turn. You can place cards diagonally adjacent or leave a gap of at most 1 card." },
-    loosen_order: { frame: 14, label: "No Order", desc: "You don't need to follow alphabetical order this turn." },
-    loosen_shelves: { frame: 15, label: "No Shelf Limit", desc: "You don't need to follow the restriction on the number of Book Shelves this turn." },
+    loosen_turn: { frame: 12, label: "No Play", desc: "This turn, you don't need to play any card." },
+    loosen_adjacency: { frame: 13, label: "No Connection", desc: "This turn, adjacency rules (when playing cards) are ignored." },
+    loosen_order: { frame: 14, label: "No Order", desc: "This turn, alphabetical order is not required." },
+    loosen_shelves: { frame: 15, label: "No Shelf Limit", desc: "This turn, there is no max number of Book Shelves." },
 
     info_hand: { frame: 16, label: "Show Hand", desc: "Show your hand to the table." },
-    info_tap: { frame: 17, label: "Tap 2", desc: "Tap 2 cards in the library (to give or ask hints)." },
-    info_carousel: { frame: 18, label: "Exchange Hands", desc: "All players give their hand to the player on their left/right. (The one executing the power chooses the direction.)" },
-    info_deck: { frame: 19, label: "Study Deck", desc: "Study the next 6 cards in the deck. Return them in any order and tell everyone what they are." },
+    info_tap: { frame: 17, label: "Tap 2", desc: "Tap 2 cards in the Library (for hinting)." },
+    info_carousel: { frame: 18, label: "Exchange Hands", desc: "All players give their hand to the player on their left." },
+    info_deck: { frame: 19, label: "Study Deck", desc: "Reveal the next 6 deck cards. Return them in any order." },
 
-    chaos_oddone: { frame: 20, label: "Complete Wrong", desc: "This turn, you may also complete a genre if it has ONE wrong genre card inside its match." },
-    chaos_rotate: { frame: 21, label: "Rotate Shelf", desc: "Rotate a shelf card. Its alphabetical order now goes in the opposite direction as before." },
+    chaos_oddone: { frame: 20, label: "Complete Wrong", desc: "This turn, you also complete a genre if it has one wrong card." },
+    chaos_rotate: { frame: 21, label: "Rotate Shelf", desc: "Rotate a shelf card (to reverse direction)." },
     chaos_insert: { frame: 22, label: "Insert Card", desc: "Insert a card BETWEEN 2 other cards. Move the rest to fit." },
-    chaos_shift: { frame: 23, label: "Shift Column", desc: "Shift an entire column up or down. Cards that go out of bounds wrap to the other side." },
+    chaos_shift: { frame: 23, label: "Shift Column", desc: "Shift an entire column up or down. Off-bounds cards wrap to the other side." },
 }
 
 //
@@ -499,7 +498,7 @@ const AUTHORS =
 //
 const AGE_RANGES =
 {
-    none: { frame: 0, prob: 1.5 },
+    none: { frame: 0, label: "Any", prob: 1.5 },
     kids: { frame: 1, label: "Kids" },
     teens: { frame: 2, label: "Teens" },
     young_adult: { frame: 3, label: "Young Adult" },
@@ -534,23 +533,24 @@ const SHELF_POWERS:Record<string, ShelfPowerData> =
 interface ActionThrillData
 {
     desc: string,
+    label: string,
     freq?: number
 }
 
 const ACTIONS_THRILL:Record<string,ActionThrillData> =
 {
-    skip: { desc: "The next player must skip their turn." },
-    stop: { desc: "End your turn immediately." },
-    swap: { desc: "Swap 2 cards." },
-    gap: { desc: "The next card may leave a gap of at most 1 card." },
-    no_order: { desc: "The next card doesn't need to follow alphabetical order." },
-    stack_any: { desc: "The next card may be placed on top of any other card." },
-    draw: { desc: "Immediately draw 3 more cards." },
-    force_color: { desc: "Name a color. The next player must play such a card, if possible." },
-    force_letter: { desc: "Name a letter. The next player must play such a card, if possible." },
-    reveal: { desc: "Pick a player. They reveal their hand." },
-    clear: { desc: "Clear exactly 5 cards from the library." },
-    power_other: { desc: "Pick a power card from another player and execute it yourself." },
+    skip: { label: "Skip!", desc: "The next player must skip their turn." },
+    stop: { label: "Stop!", desc: "End your turn immediately." },
+    swap: { label: "Swap!", desc: "Swap 2 cards." },
+    gap: { label: "Gap!", desc: "The next card may leave a gap of at most 1 card." },
+    no_order: { label: "No Order!", desc: "The next card doesn't need to follow alphabetical order." },
+    stack_any: { label: "Stack Any!", desc: "The next card may be placed on top of any other card." },
+    draw: { label: "Draw!", desc: "Immediately draw 3 more cards." },
+    force_color: { label: "Force Color!", desc: "Name a color. The next player must play such a card, if possible." },
+    force_letter: { label: "Force Letter!", desc: "Name a letter. The next player must play such a card, if possible." },
+    reveal: { label: "Reveal!", desc: "Pick a player. They reveal their hand." },
+    clear: { label: "Clear!", desc: "Clear exactly 5 cards from the Library." },
+    power_other: { label: "Steal Power!", desc: "Pick a power card from another player and execute it yourself." },
 }
 
 //
@@ -567,16 +567,15 @@ interface ColorTypeData
     authorsOptions: string[], // the authors from which it will randomly pick (no duplicates) to fill up remaining space
 }
 
-// @TODO: Add a "dark" value to all color options
 const COLORS:Record<string, ColorTypeData> =
 {
-    red: { frame: 0, main: "#E61948", light: "#FFCDD9", letters: ["A", "F", "L", "Q", "U", "D"], authorsFixed: ["shakespeare", "rowling", "rowling", "rowling", "hemingway", "dickens", "sanderson", "tolstoy"], authorsOptions: ["tolkien", "andersen", "carroll", "verne", "kafka", "eliot", "fitzgerald", "milton", "james", "riley"] },
-    green: { frame: 1, main: "#3CB44B", light: "#CCFFD3", letters: ["B", "E", "M", "R", "V", "G"], authorsFixed: ["orwell", "orwell", "orwell", "austen", "sanderson", "christie"], authorsOptions: ["clancy", "seuss", "king", "coelho", "wallace", "stine", "cartland", "roth", "meyer", "pullman"] },
-    blue: { frame: 2, main: "#4363D8", light: "#C5D8FF", letters: ["C", "G", "N", "S", "W", "K"], authorsFixed: ["hemingway", "austen", "dickens", "dickens", "dickens", "shakespeare", "sanderson", "christie"], authorsOptions: ["steel", "robbins", "simenon", "blyton", "toriyama", "roberts", "pushkin", "bardugo", "jordan", "hosseini"] },
-    purple: { frame: 3, main: "#AD70F4", light: "#DCBEFF", letters: ["D", "H", "O", "T", "X", "O"], authorsFixed: ["shakespeare", "shakespeare", "shakespeare", "dickens", "sanderson", "rowling"], authorsOptions:  ["patterson", "dahl", "lewis", "kishimoto", "brown", "lindgren", "rice", "martin", "lee", "alger"] },
-    yellow: { frame: 4, main: "#FFE119", light: "#FFF9D4", letters: ["E", "I", "K", "P", "Y", "S"], authorsFixed: ["orwell", "orwell", "austen", "austen", "austen", "sanderson", "christie"], authorsOptions: ["joyce", "marques", "borges", "dickinson", "dostoyevsky", "flaubert", "melville", "collins", "oda", "goscinny"] },
-    black: { frame: 5, main: "#111111", light: "#999999", letters: ["F", "J", "L", "P", "Z", "X"], authorsFixed: ["hemingway", "hemingway", "hemingway", "shakespeare", "tolstoy", "sanderson", "rowling"], authorsOptions: ["blake", "voltaire", "dante", "mark", "homer", "virgil", "cervantes", "patten", "sheldon", "archer"] },
-    default: { frame: -1, main: "#FFFFFF00", light: "#FFFFFF", dark: "#000000", letters: [], authorsFixed: [], authorsOptions: [] }
+    red: { frame: 0, main: "#E61948", light: "#FFCDD9", dark: "#220000", letters: ["A", "F", "L", "Q", "U", "D"], authorsFixed: ["shakespeare", "rowling", "rowling", "rowling", "hemingway", "dickens", "sanderson", "tolstoy"], authorsOptions: ["tolkien", "andersen", "carroll", "verne", "kafka", "eliot", "fitzgerald", "milton", "james", "riley"] },
+    green: { frame: 1, main: "#3CB44B", light: "#CCFFD3", dark: "#002200", letters: ["B", "E", "M", "R", "V", "G"], authorsFixed: ["orwell", "orwell", "orwell", "austen", "sanderson", "christie"], authorsOptions: ["clancy", "seuss", "king", "coelho", "wallace", "stine", "cartland", "roth", "meyer", "pullman"] },
+    blue: { frame: 2, main: "#4363D8", light: "#C5D8FF", dark: "#000022", letters: ["C", "G", "N", "S", "W", "K"], authorsFixed: ["hemingway", "austen", "dickens", "dickens", "dickens", "shakespeare", "sanderson", "christie"], authorsOptions: ["steel", "robbins", "simenon", "blyton", "toriyama", "roberts", "pushkin", "bardugo", "jordan", "hosseini"] },
+    purple: { frame: 3, main: "#AD70F4", light: "#DCBEFF", dark: "#220022", letters: ["D", "H", "O", "T", "X", "O"], authorsFixed: ["shakespeare", "shakespeare", "shakespeare", "dickens", "sanderson", "rowling"], authorsOptions:  ["patterson", "dahl", "lewis", "kishimoto", "brown", "lindgren", "rice", "martin", "lee", "alger"] },
+    yellow: { frame: 4, main: "#FFE119", light: "#FFF9D4", dark: "#222200", letters: ["E", "I", "K", "P", "Y", "S"], authorsFixed: ["orwell", "orwell", "austen", "austen", "austen", "sanderson", "christie"], authorsOptions: ["joyce", "marques", "borges", "dickinson", "dostoyevsky", "flaubert", "melville", "collins", "oda", "goscinny"] },
+    black: { frame: 5, main: "#AAAAAA", light: "#FFFFFF", dark: "#333333", letters: ["F", "J", "L", "P", "Z", "X"], authorsFixed: ["hemingway", "hemingway", "hemingway", "shakespeare", "tolstoy", "sanderson", "rowling"], authorsOptions: ["blake", "voltaire", "dante", "mark", "homer", "virgil", "cervantes", "patten", "sheldon", "archer"] },
+    default: { frame: -1, main: "#FFFFFF00", light: "#FFFFFF", dark: "#000000", letters: [], authorsFixed: [], authorsOptions: [] },
 }
 
 const MISC =
@@ -588,16 +587,7 @@ const MISC =
     
 }
 
-export 
-{
-    CardType,
-    COLORS,
-    GENRES,
-    ACTIONS,
-    AGE_RANGES,
-    BOOK_TITLES,
-    AUTHORS,
-    SHELF_POWERS,
-    ACTIONS_THRILL,
-    MISC,
+export {
+    ACTIONS, ACTIONS_THRILL, AGE_RANGES, AUTHORS, BOOK_TITLES, COLORS, CardType, GENRES, MISC, SHELF_POWERS
 }
+

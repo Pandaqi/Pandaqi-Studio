@@ -2,12 +2,13 @@ import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textC
 import CVal from "js/pq_games/tools/generation/cval"
 import Point from "js/pq_games/tools/geometry/point"
 import Bounds from "js/pq_games/tools/numbers/bounds"
+import autoLoadFontCSS from "js/pq_games/website/autoLoadFontCSS"
 
 const CONFIG:any = 
 {
     debug:
     {
-        omitFile: true, // @DEBUGGING (should be false)
+        omitFile: false, // @DEBUGGING (should be false)
         singleDrawPerType: false, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
@@ -42,38 +43,33 @@ const CONFIG:any =
     {
         avrile:
         {
-            path: "/waterfall/assets/fonts/AvrileSerif-Regular.woff2",
-            useAbsolutePath: true
+            path: "fonts/AvrileSerif-Regular.woff2",
         },
 
         avrile_bold:
         {
             key: "avrile",
-            path: "/waterfall/assets/fonts/AvrileSerif-Black.woff2",
+            path: "fonts/AvrileSerif-Black.woff2",
             textConfig: new TextConfig({ weight: TextWeight.BOLD }),
-            useAbsolutePath: true
         },
 
         avrile_italic:
         {
             key: "avrile",
-            path: "/waterfall/assets/fonts/AvrileSerif-Italic.woff2",
+            path: "fonts/AvrileSerif-Italic.woff2",
             textConfig: new TextConfig({ style: TextStyle.ITALIC }),
-            useAbsolutePath: true
         },
 
         avrile_bold_italic:
         {
             key: "avrile",
-            path: "/waterfall/assets/fonts/AvrileSerif-BlackItalic.woff2",
+            path: "fonts/AvrileSerif-BlackItalic.woff2",
             textConfig: new TextConfig({ style: TextStyle.ITALIC, weight: TextWeight.BOLD }),
-            useAbsolutePath: true
         },
 
         merienda:
         {
-            path: "/waterfall/assets/fonts/Merienda-Black.woff2",
-            useAbsolutePath: true
+            path: "fonts/Merienda-Black.woff2",
         },
 
         gemstones:
@@ -174,20 +170,21 @@ const CONFIG:any =
 
         action:
         {
-            fontSize: new CVal(0.086, "sizeUnit"),
+            fontSize: new CVal(0.085, "sizeUnit"),
+            fontSizeWithGate: new CVal(0.06, "sizeUnit"),
             textColor: "#FFEEEE",
             textBoxDims: new CVal(new Point(0.66, 0.66), "size"),
-            textBoxDimsWithGate: new CVal(new Point(0.8, 0.4), "size"),
+            textBoxDimsWithGate: new CVal(new Point(0.66, 0.4), "size"),
             pos: new CVal(new Point(0.5), "size"),
-            posWithGate: new CVal(new Point(0.5, 0.35), "size"),
+            posWithGate: new CVal(new Point(0.5, 0.382), "size"),
         },
 
         gate:
         {
             fontSize: new CVal(0.04, "sizeUnit"),
             textColor: "#110000",
-            textBoxDims: new CVal(new Point(0.8, 0.35), "size"),
-            pos: new CVal(new Point(0.5, 0.75), "size")
+            textBoxDims: new CVal(new Point(0.7, 0.35), "size"),
+            pos: new CVal(new Point(0.5, 0.715), "size")
         },
 
         gemstones:
@@ -209,5 +206,7 @@ const CONFIG:any =
         }
     },
 }
+
+autoLoadFontCSS(CONFIG);
 
 export default CONFIG

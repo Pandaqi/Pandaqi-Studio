@@ -33,7 +33,7 @@ devlog: "/blog/boardgames/waterfall/"
 {{% boardgame-instructions %}}
 This game is _textless_ and incredibly _simple_ in its rules. It is suitable for kids, families, any group. 
 
-For a heavier version of this idea (with way more actions, written on the tiles), visit the spin-off [Waterfall: Raging Rapids](/waterfall-raging-rapids/). 
+For a heavier version of this idea (with way more actions, written on the tiles, and some other twists), visit the spin-off [Waterfall: Raging Rapids](/waterfall-raging-rapids/). 
 {{% /boardgame-instructions %}}
 
 {{% boardgame-settings-container type="material" %}}

@@ -4,9 +4,9 @@ type: "rules"
 
 {{% rules-block id="setup" heading="Setup" icon="setup" %}}
 
-Pick one of the **starter tiles** (marked with X) and place it faceup in the center of the table.
+Pick any tile with the **ADD action**. Place it faceup in the center of the table; this will be the starting tile of the waterfall.
 
-Deal all players **X tiles** and **1 Pawn**. The remaining tiles become the facedown draw pile.
+Deal all players **4 tiles** and **1 Pawn**. The remaining tiles become the facedown draw pile.
 
 @TODO: SETUP IMAGE
 
@@ -14,9 +14,9 @@ Deal all players **X tiles** and **1 Pawn**. The remaining tiles become the face
 
 {{% rules-block id="objective" heading="Objective" icon="objective" %}}
 
-The game **ends** when when the waterfall **contains 20(+) cards**. 
+The game **ends** when the waterfall **contains 20(+) cards** or the **deck is empty** (rare). 
 
-Players sum the points on their scored tiles: **highest score wins!**
+Sum the points on your scored tiles. **Highest score wins!**
 
 {{% /rules-block %}}
 
@@ -27,15 +27,17 @@ From start player, take clockwise turns until the game ends.
 On your turn, place your pawn at the top of the waterfall and **fall down!**
 
 For every tile you pass on your way,
-* Execute its action (if it has one)
-* Then pick your next tile by following one of its paths that move _downward_.
-* You **can't** enter a tile that contains another player. You may only share a tile if, otherwise, getting stuck would block _all possible paths_ through the waterfall.
+* Execute its action (if it has one).
+* Then pick your next tile. (Follow one of its water paths _downward_).
+* You **can't** enter an occupied tile ( = it contains another pawn). 
 
-Your turn ends once you exit the waterfall or can't move further. (If you get stuck, leave your pawn where it is until your next turn.)
+{{% remark %}}
+EXCEPTION: You may share a tile if, otherwise, _all possible waterfall paths_ would be blocked.
+{{% /remark %}}
+
+Your turn **ends** once you **exit the waterfall** or **get stuck**. If so, leave your pawn where it is until your next turn.
 
 @TODO: EXAMPLE IMAGE
-
-@TODO: INTERACTIVE EXAMPLE
 
 {{% /rules-block %}}
 
@@ -45,22 +47,21 @@ Everything in this game happens by executing a tile's action (when you fall thro
 
 The main actions are ADD, DRAW and SCORE. Others are explained on the tile itself.
 
-When you do an **ADD** action,
-* Place a tile from your hand in the waterfall. 
-* It must be adjacent to an existing tile, and not overlap anything.
-* All the **water paths** must match.
-
 @TODO: IMAGE EXAMPLE
 
-The **DRAW** action allows drawing cards from the top of the facedown deck, into your hand.
+When you do an **ADD** action,
+* Place a tile from your hand in the waterfall. 
+* It must be _next_ to an existing tile
+* It must _not_ overlap an existing tile.
+* All its **water paths** must match neighbors.
+
+The **DRAW** action allows drawing 2 cards from the top of the facedown deck, into your hand.
 
 The **SCORE** action works as follows.
 * Check the _gemstones_ that are on this tile.
-* Pick a **tile from your hand** that has a _matching gemstone_.
-* Place that tile facedown in your score pile. It's point value (the golden star) scores at the end of the game.
+* Pick **1 hand tile** with a _matching gemstone_.
+* Place this tile facedown in your score pile. Its point value (the golden star) score at the end of the game.
 * If you have no matching tile (or don't want to score it), this does nothing.
-
-@TODO: IMAGE EXAMPLE
 
 That's it! Have fun!
 
@@ -68,17 +69,24 @@ That's it! Have fun!
 
 {{% rules-block id="expansions" heading="Expansions & Variants" icon="expansion" %}}
 
-Played the game a few times and ready for more challenge? You're in the right place! Try any of the expansions below.
+Want to modify the game to make it less or more challenging? Try these variants and expansions.
 
-{{% rules-block heading="Droplets with Demands" %}}
+{{% rules-block heading="Variant: Crowdy Currents" %}}
 
-This expansion adds tiles with a "condition" on them. Based on your path so far, this limits if you're allowed to visit the tile.
+Try any of these rule changes for an **easier** game.
+
+* The (score) number on a card states how many Pawns are allowed to be on it. (Example: a 2-card allows 2 pawns at once.)
+* Use only the tiles with basic actions (ADD, DRAW, SCORE; the ones that have an icon) and play until deck is empty.
+* Ignore the water paths when moving: you're allowed to move to any of the two tiles below your current one. (The paths must still match when _placing_ a new tile.)
+* Instead of resetting to the top each time, simply continue your turn where you left off.
 
 {{% /rules-block %}}
 
-{{% rules-block heading="Crowdy Currents" %}}
+{{% rules-block heading="Expansion: Droplets with Demands" %}}
 
-This expansion adds tiles that allow multiple players on them and/or provide special actions related to pawns. This mostly changes _how_ to execute the action based on the surroundings or the path taken thus far.
+This expansion adds "gated tiles". These have a requirement (or "gate") on them, and you're only allowed to enter the tile _if you meet the requirements_. 
+
+This is usually based on your path so far this turn. This makes the game harder to play and to win.
 
 {{% /rules-block %}}
 

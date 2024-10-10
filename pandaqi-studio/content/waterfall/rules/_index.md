@@ -53,12 +53,12 @@ Everything in this game happens by executing a tile's action (when you visit it)
 {{< rules-image src="tile_actions.webp" alt="Visual explanation of the three major actions: ADD, DRAW and SCORE." >}}
 
 When you do an **ADD** action,
-* Place a tile from your hand in the waterfall (a _pyramid_ shape).
+* Place 1 tile from your hand in the waterfall (a _pyramid_ shape).
 * Adjacent to an existing tile.
 
-The **DRAW** action allows 3 drawing cards from the top of the facedown deck, into your hand. If the deck runs out, shuffle the discarded tiles and make it the new deck.
+The **DRAW** action allows drawing 3 cards from the top of the facedown deck, into your hand. If the deck runs out, shuffle the discarded tiles and make it the new deck.
 
-The **SCORE** action works as follows. You may score at most _two_ tiles this way (with one SCORE action).
+The **SCORE** action works as follows. You may score at most _2 tiles_ this way (with one SCORE action).
 * Check the _gemstones_ that you visited thus far (when falling down this turn).
 * Pick a **tile from your hand** that has a _matching gemstone_. (If none exists, just do nothing.)
 * Place that tile facedown in your score pile. Its _number_ scores you points at the end of the game.
