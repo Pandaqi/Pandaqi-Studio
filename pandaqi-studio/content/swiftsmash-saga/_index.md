@@ -57,6 +57,6 @@ Hopefully these party games entertain people around the world, no matter which o
 
 Because all games are completely unique in their gameplay, there are no shared images or fonts. For detailed credits, you'll have to check out the page for a specific game.
 
-Much of the detailed illustrations was generated with image AI. Everything else---code, assets, ideas, general design---is all mine.
+Some minor graphics were generated using image AI. (Mostly background textures that you hardly notice are there, but really help things look more polished.) Everything else---code, assets, ideas, illustrations, general design---is all mine.
 
 {{% /section-centered %}}

@@ -1,3 +1,4 @@
+import Point from "js/pq_games/tools/geometry/point";
 import CONFIG from "./config";
 
 enum CardType
@@ -45,16 +46,38 @@ const SPECIAL_ACTIONS:Record<string, GeneralData> =
 
 const DYNAMIC_STRINGS = 
 {
-    "%color%": Object.values(Color),
-    "%shape%": Object.values(Shape),
+    "%color%": Object.values(Color).map((x) => x.toUpperCase()),
+    "%shape%": Object.values(Shape).map((x) => x.toUpperCase()),
     "%number%": CONFIG.generation.numberBounds.asList(),
     "%change%": [1,2,3],
-    "%identifier%": [Object.values(Color), Object.values(Shape)].flat()
+    "%identifier%": [Object.values(Color), Object.values(Shape)].flat().map((x) => x.toUpperCase())
 }
 
 const MISC:Record<string, GeneralData> =
 {
+    [Shape.TRIANGLE]: { frame: 0 },
+    [Shape.RECTANGLE]: { frame: 1 },
+    [Shape.CIRCLE]: { frame: 2 },
+    [Shape.STAR]: { frame: 3 },
+    action: { frame: 4 },
+    arrow: { frame: 5 }
+}
 
+const POSITIONS =
+[
+    new Point(0, 0), new Point(0.33, 0), new Point(0.66, 0), new Point(1, 0),
+    new Point(0, 0.25), new Point(0.33, 0.25), new Point(0.66, 0.25), new Point(1, 0.25),
+    new Point(0, 0.5), new Point(0.33, 0.5), new Point(0.66, 0.5), new Point(1, 0.5),
+    new Point(0, 0.75), new Point(0.33, 0.75), new Point(0.66, 0.75), new Point(1, 0.75),
+    new Point(0, 1), new Point(0.33, 1), new Point(0.66, 1), new Point(1, 1),
+]
+
+const COLORS =
+{
+    [Color.RED]: { hex: "#eb5d5d" },
+    [Color.BLUE]: { hex: "#78daef" },
+    [Color.GREEN]: { hex: "#97d72d" },
+    [Color.PURPLE]: { hex: "#cd8aff" },
 }
 
 export {
@@ -63,5 +86,7 @@ export {
     Color,
     MISC,
     SPECIAL_ACTIONS,
-    DYNAMIC_STRINGS
+    DYNAMIC_STRINGS,
+    POSITIONS,
+    COLORS
 };

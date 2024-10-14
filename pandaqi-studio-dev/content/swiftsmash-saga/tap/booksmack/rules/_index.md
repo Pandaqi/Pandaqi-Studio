@@ -4,7 +4,7 @@ type: "rules"
 
 {{% rules-block heading="Setup" icon="setup" %}}
 
-Deal everyone X cards to take into their hand.
+Deal everyone 4 cards to take into their hand.
 
 {{% /rules-block %}}
 

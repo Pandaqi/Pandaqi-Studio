@@ -1,7 +1,15 @@
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
-import { CardType, Color, DYNAMIC_STRINGS, SPECIAL_ACTIONS, Shape } from "../js_shared/dict";
+import { COLORS, CardType, Color, DYNAMIC_STRINGS, MISC, POSITIONS, SPECIAL_ACTIONS, Shape } from "../js_shared/dict";
 import shuffle from "js/pq_games/tools/random/shuffle";
+import Rectangle from "js/pq_games/tools/geometry/rectangle";
+import LayoutOperation from "js/pq_games/layout/layoutOperation";
+import ResourceShape from "js/pq_games/layout/resources/resourceShape";
+import getPositionsCenteredAround from "js/pq_games/tools/geometry/paths/getPositionsCenteredAround";
+import TintEffect from "js/pq_games/layout/effects/tintEffect";
+import TextConfig from "js/pq_games/layout/text/textConfig";
+import ResourceText from "js/pq_games/layout/resources/resourceText";
+import Point from "js/pq_games/tools/geometry/point";
 
 export default class Card
 {
@@ -54,14 +62,119 @@ export default class Card
     async draw(vis:MaterialVisualizer)
     {
         const group = vis.renderer.prepareDraw();
-        // @TODO
-        // @TODO: remember our final actionText is in `this.actionString`
-        // @TODO: remember to display the `this.ranking` on every card! Almost forgot!
-        return vis.renderer.finishDraw(group);
+        this.drawBackground(vis, group);
+        this.drawShapes(vis, group);
+        this.drawAction(vis, group);
+        this.drawRanking(vis, group);
+        return vis.renderer.finishDraw({ group: group, size: vis.size });
     }
 
-    drawMovementCard(vis:MaterialVisualizer, group:ResourceGroup)
+    drawBackground(vis:MaterialVisualizer, group:ResourceGroup)
     {
-        
+        const res = vis.getResource("card_templates");
+        const op = new LayoutOperation({
+            size: vis.size,
+            frame: 0
+        });
+        group.add(res, op);
+    }
+
+    drawShapes(vis:MaterialVisualizer, group:ResourceGroup)
+    {
+        const finalIndex = this.hasSpecialAction() ? vis.get("cards.action.positionCutoffIndex") : POSITIONS.length;
+        const positions = POSITIONS.slice(0, finalIndex);
+        shuffle(positions);
+
+        const res = vis.getResource("misc");
+        const iconSize = vis.get("cards.shapes.iconSize");
+        const effects = [new TintEffect(COLORS[this.color].hex)];
+        for(let i = 0; i < this.number; i++)
+        {
+            const posRaw = positions.pop();
+            const posCard = vis.get("cards.shapes.topLeft").clone().add(posRaw.clone().scale(vis.get("cards.shapes.boxSize")));
+            const op = new LayoutOperation({
+                pos: posCard,
+                rot: Math.floor(Math.random() * 4) * 0.5 * Math.PI,
+                frame: MISC[this.shape].frame,
+                size: iconSize,
+                pivot: Point.CENTER,
+                effects: effects
+            });
+            group.add(res, op);
+        }
+    }
+
+    drawAction(vis:MaterialVisualizer, group:ResourceGroup)
+    {
+        if(!this.hasSpecialAction()) { return; }
+
+        // the action icon to the left
+        const resIcon = vis.getResource("misc");
+        const opIcon = new LayoutOperation({
+            pos: vis.get("cards.action.icon.pos"),
+            rot: ((Math.random() <= 0.5) ? 1 : -1) * 0.05 * Math.PI,
+            size: vis.get("cards.action.icon.size"),
+            frame: MISC.action.frame,
+            pivot: Point.CENTER,
+            effects: vis.inkFriendlyEffect
+        });
+        group.add(resIcon, opIcon)
+
+        // the actual text
+        const textConfig = new TextConfig({
+            font: vis.get("fonts.body"),
+            size: vis.get("cards.action.text.fontSize")
+        }).alignCenter();
+        const resText = new ResourceText(this.actionString, textConfig);
+        const opText = new LayoutOperation({
+            pos: vis.get("cards.action.text.pos"),
+            size: vis.get("cards.action.text.boxSize"),
+            fill: "#000000",
+            pivot: Point.CENTER
+        })
+        group.add(resText, opText);
+    }
+
+    drawRanking(vis:MaterialVisualizer, group:ResourceGroup)
+    {
+        // the rectangle behind it
+        if(!vis.inkFriendly)
+        {
+            const rect = new Rectangle({ center: vis.get("cards.ranking.rectPos"), extents: vis.get("cards.ranking.rectSize") });
+            const fillColor = this.hasSpecialAction() ? vis.get("cards.ranking.bgColorAction") : vis.get("cards.ranking.bgColorNormal");
+            const opRect = new LayoutOperation({
+                fill: fillColor
+            });
+            group.add(new ResourceShape(rect), opRect);
+        }
+
+        // the actual icons
+        // (we insert a ">" sign in-between each)
+        // (turned completely black by tinting)
+        const numPositions = this.ranking.length + (this.ranking.length - 1);
+        const iconSize = vis.get("cards.ranking.iconSize");
+        const iconSizeArrow = iconSize.clone().scale(0.66);
+        const positions = getPositionsCenteredAround({
+            pos: vis.get("cards.ranking.rectPos"),
+            size: iconSize,
+            num: numPositions
+        });
+
+        const res = vis.getResource("misc");
+        const effects = [new TintEffect("#000000")];
+
+        for(let i = 0; i < positions.length; i++)
+        {
+            const isArrow = i % 2 == 1;
+            const indexRanking = Math.floor(i / 2);
+            const op = new LayoutOperation({
+                pos: positions[i],
+                size: isArrow ? iconSizeArrow : iconSize,
+                frame: isArrow ? MISC.arrow.frame : MISC[this.ranking[indexRanking]].frame,
+                effects: effects,
+                pivot: Point.CENTER
+            });
+            group.add(res, op);
+        }
     }
 }

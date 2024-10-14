@@ -3,14 +3,15 @@ import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator";
 import Point from "js/pq_games/tools/geometry/point"
 import autoLoadFontCSS from "js/pq_games/website/autoLoadFontCSS";
 import { CardDisplayType, ColorType } from "./dict";
+import CVal from "js/pq_games/tools/generation/cval";
 
 const CONFIG:any = 
 {
     debug:
     {
-        omitFile: true, // @DEBUGGING (should be false)
-        singleDrawPerType: true, // @DEBUGGING (should be false)
-        onlyGenerate: true, // @DEBUGGING (should be false)
+        omitFile: false, // @DEBUGGING (should be false)
+        singleDrawPerType: false, // @DEBUGGING (should be false)
+        onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
     configKey: "racesmackConfig",
@@ -59,6 +60,24 @@ const CONFIG:any =
         amsterdam:
         {
             path: "fonts/NewAmsterdam-Regular.woff2",
+        },
+        
+        card_templates:
+        {
+            path: "card_templates.webp",
+            frames: new Point(2,1)
+        },
+
+        finish_icons:
+        {
+            path: "finish_icons.webp",
+            frames: new Point(4,2)
+        },
+
+        rule_icons:
+        {
+            path: "rule_icons.webp",
+            frames: new Point(4,2)
         },
 
         misc:
@@ -109,7 +128,7 @@ const CONFIG:any =
         displayTypesPerSet:
         {
             base: [CardDisplayType.SYMBOLS],
-            shiftingGears: Object.values(CardDisplayType)
+            shiftingGears: [CardDisplayType.DICE, CardDisplayType.HAND, CardDisplayType.ROMAN, CardDisplayType.NUMBER]
         }
     },
 
@@ -119,6 +138,48 @@ const CONFIG:any =
         {
             preset: GridSizePreset.CARD
         },
+
+        shapes:
+        {
+            topLeft: new CVal(new Point(0.175, 0.225), "size"),
+            boxSize: new CVal(new Point(0.65, 0.55), "size"),
+            size: new CVal(new Point(0.275), "sizeUnit"),
+
+            custom:
+            {
+                posLeft: new CVal(new Point(0.3, 0.3), "size"),
+                posRight: new CVal(new Point(0.7, 0.3), "size"),
+                fontSizeNumber: new CVal(0.3, "sizeUnit"),
+                fontSizeRoman: new CVal(0.3, "sizeUnit"),
+                size: new CVal(new Point(0.33), "sizeUnit")
+            }
+        },
+
+        rules:
+        {
+            fontSize: new CVal(0.07, "sizeUnit"),
+            textBoxSize: new CVal(new Point(0.63, 0.35), "size"),
+            iconSize: new CVal(new Point(0.166), "sizeUnit"),
+
+            id:
+            {
+                pos: new CVal(new Point(0.59, 0.06), "size"),
+                fontSize: new CVal(0.115, "sizeUnit")
+            },
+
+            rule:
+            {
+                pos: new CVal(new Point(0.35, 0.25), "size"),
+                posIcon: new CVal(new Point(0.817, 0.247), "size")
+            },
+
+            finish:
+            {
+                pos: new CVal(new Point(0.35, 0.75), "size"),
+                posIcon: new CVal(new Point(0.817, 0.747), "size")
+            }
+
+        }
     },
 }
 

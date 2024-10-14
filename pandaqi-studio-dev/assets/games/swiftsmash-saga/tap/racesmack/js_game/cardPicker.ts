@@ -73,7 +73,7 @@ export default class CardPicker
         const colorDist : Record<ColorType, number> = CONFIG.generation.colorDist;
         for(const [color,freqRaw] of Object.entries(colorDist))
         {
-            const freq = Math.ceil(freqRaw * numShapes);
+            const freq = Math.ceil(freqRaw * shapesFinal.length);
             for(let i = 0; i < freq; i++)
             {
                 colorsFinal.push(color);
@@ -104,6 +104,7 @@ export default class CardPicker
             const finishReq = getWeighted(FINISH_REQUIREMENTS);
             const newCard = new Card(CardType.RULE);
             newCard.setRuleProperties(action, finishReq);
+            newCard.uniqueNumber = (i+1);
             this.cards.push(newCard);
         }
     }

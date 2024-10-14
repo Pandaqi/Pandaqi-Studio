@@ -4,7 +4,7 @@ type: "rules"
 
 {{% rules-block heading="Setup" icon="setup" %}}
 
-Deal everyone X cards.
+Deal everyone 4 cards.
 
 {{% /rules-block %}}
 
@@ -22,6 +22,7 @@ Gameplay happens in **rounds**. There are no turns: everyone plays _at the same 
 
 * Everyone picks a secret card from their hand and places it in front of them.
 * Once done, everyone reveals their cards at the same time.
+* Reveal your cards _facing away from you_. (This means other players see your card earlier; any text on it faces them, not you.)
 
 Now everyone quickly studies the cards played and then **taps a card**. Each card can only be tapped by one player.
 
@@ -36,13 +37,20 @@ Once _all players except one_ have tapped something, the round ends.
 * If **correct**, you win your own card. Place it in your _Race_ (left or right end). A race can only contain a single Rules Card, but you can always replace it with later cards if you want.
 * If **incorrect**, you lose 1 of your Race cards.
 
+{{% remark %}}
+Yes, you're allowed to tap cards that another player already tapped and still be correct.
+{{% /remark %}}
+
 Any remaining cards are won by the _first player_ that tapped a _correct card_ (the "fastest winner").
 
 But there's one final twist. The Rules Cards can change everything.
 
-* **No Rules Cards played?** You simply use the default rules of the game for checking if a card is "correct".
-* **One Rules Card Played?** That rule determines the "correct" cards instead.
-* **Multiple Rules Cards Played?** They all cancel each other; pretend none have been played.
+* If exactly **1 Rules card is played**, then its rule determines the "correct" cards instead.
+* Otherwise, if **no or multiple** Rules cards are played, just use the default rules stated above.
+
+{{% remark %}}
+For a very simple first game, you can ignore this mechanic and just always use the "default rule".
+{{% /remark %}}
 
 @TODO: EXAMPLE IMAGE
 
@@ -58,9 +66,9 @@ This game has many different variants that require _no extra material_. This mak
 
 This variant simply changes the _default rule_ for each round.
 
-* Keep 10 random Rules Cards in a separate deck.
+* Keep 6 random Rules Cards in a separate deck.
 * At the start of each round, reveal the top one. That's now the "default rule" for finding correct cards.
-* Once this deck is empty, simply re-use the same 10 cards again for a new deck.
+* Once this deck is empty, simply re-use the same 6 cards again for a new deck.
 
 {{% /rules-block %}}
 
@@ -70,8 +78,8 @@ Use this variant if you find players are just tapping randomly and without conce
 
 When tapping an incorrect card, you must pick one of the following penalties.
 
-* Lose **2 race cards**.
-* Lose **2 hand cards**.
+* Lose **2 Race cards**.
+* Lose **2 Hand cards**.
 * Next round, you are always "incorrect" if there's a tie ( = there are _multiple_ correct cards).
 
 {{% /rules-block %}}

@@ -3,14 +3,15 @@ import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator";
 import Point from "js/pq_games/tools/geometry/point"
 import autoLoadFontCSS from "js/pq_games/website/autoLoadFontCSS";
 import { CardType, ColorType } from "./dict";
+import CVal from "js/pq_games/tools/generation/cval";
 
 const CONFIG:any = 
 {
     debug:
     {
-        omitFile: true, // @DEBUGGING (should be false)
-        singleDrawPerType: true, // @DEBUGGING (should be false)
-        onlyGenerate: true, // @DEBUGGING (should be false)
+        omitFile: false, // @DEBUGGING (should be false)
+        singleDrawPerType: false, // @DEBUGGING (should be false)
+        onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
     configKey: "pointAPileConfig",
@@ -71,9 +72,39 @@ const CONFIG:any =
             path: "fonts/AuntBertha.woff2",
         },
 
-        misc:
+        card_templates:
         {
-            path: "misc.webp",
+            path: "card_templates.webp",
+            frames: new Point(5,1)
+        },
+
+        types:
+        {
+            path: "types.webp",
+            frames: new Point(5,1)
+        },
+
+        regular_cards:
+        {
+            path: "regular_cards.webp",
+            frames: new Point(6,2)
+        },
+
+        rule_cards:
+        {
+            path: "rule_cards.webp",
+            frames: new Point(4,2)
+        },
+
+        shy_cards:
+        {
+            path: "shy_cards.webp",
+            frames: new Point(4,2)
+        },
+
+        action_cards:
+        {
+            path: "action_cards.webp",
             frames: new Point(4,4)
         },
 
@@ -97,11 +128,11 @@ const CONFIG:any =
 
         numCardsPerSet:
         {
-            base: 35,
+            base: 54,
             pointAPolice: 15,
-            completeAMission: 10,
-            waitAMinute: 15,
-            dontATouchme: 10
+            completeAMission: 12,
+            waitAMinute: 20,
+            dontATouchme: 15
         },
 
         colorDist:
@@ -119,6 +150,44 @@ const CONFIG:any =
         {
             preset: GridSizePreset.CARD
         },
+        
+        title:
+        {
+            pos: new CVal(new Point(0.5, 0.55), "size"),
+            textBoxSize: new CVal(new Point(0.9, 0.2), "size"),
+            fontSize: new CVal(0.12, "sizeUnit"),
+            strokeWidth: new CVal(0.15, "cards.title.fontSize")
+        },
+
+        corners:
+        {
+            rectSize: new CVal(new Point(0.15), "sizeUnit"),
+            rectRadius: new CVal(0.025, "sizeUnit"),
+            strokeWidth: new CVal(0.015, "sizeUnit"),
+            iconSize: new CVal(new Point(0.1), "sizeUnit"),
+            offset: new CVal(new Point(0.12), "sizeUnit"),
+            fontSize: new CVal(0.14, "sizeUnit"),
+
+            type:
+            {
+                fontSize: new CVal(0.055, "sizeUnit"),
+                offset: new CVal(new Point(0.06, 0.225), "sizeUnit"),
+                alpha: 0.66
+            }
+        },
+
+        icon:
+        {
+            pos: new CVal(new Point(0.5, 0.275), "size"),
+            size: new CVal(new Point(0.5), "sizeUnit"),
+        },
+
+        action:
+        {
+            fontSize: new CVal(0.08, "sizeUnit"),
+            pos: new CVal(new Point(0.5, 0.765), "size"),
+            textBoxSize: new CVal(new Point(0.7, 0.4), "size"),
+        }
     },
 }
 

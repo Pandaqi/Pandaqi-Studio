@@ -1,16 +1,16 @@
-import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textConfig"
+import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textConfig";
+import CVal from "js/pq_games/tools/generation/cval";
 import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator";
-import Point from "js/pq_games/tools/geometry/point"
-import Bounds from "js/pq_games/tools/numbers/bounds";
+import Point from "js/pq_games/tools/geometry/point";
 import autoLoadFontCSS from "js/pq_games/website/autoLoadFontCSS";
 
 const CONFIG:any = 
 {
     debug:
     {
-        omitFile: true, // @DEBUGGING (should be false)
-        singleDrawPerType: true, // @DEBUGGING (should be false)
-        onlyGenerate: true, // @DEBUGGING (should be false)
+        omitFile: false, // @DEBUGGING (should be false)
+        singleDrawPerType: false, // @DEBUGGING (should be false)
+        onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
     configKey: "booksmackConfig",
@@ -71,10 +71,10 @@ const CONFIG:any =
             path: "fonts/AbrilFatface-Regular.woff2",
         },
 
-        misc:
+        card_templates:
         {
-            path: "misc.webp",
-            frames: new Point(4,4)
+            path: "card_templates.webp",
+            frames: new Point(2,1)
         },
 
     },
@@ -102,6 +102,36 @@ const CONFIG:any =
         {
             preset: GridSizePreset.CARD
         },
+
+        corners:
+        {
+            offset: new CVal(new Point(0.15, 0.125), "sizeUnit"),
+            fontSize: new CVal(0.125, "sizeUnit"),
+        },
+
+        main:
+        {
+            pos: new CVal(new Point(0.5), "size"),
+            posWithAction: new CVal(new Point(0.5, 0.35), "size"),
+            fontSize: new CVal(0.735, "sizeUnit"),
+            shadowBlur: new CVal(0.05, "cards.main.fontSize")
+        },
+
+        action:
+        {
+            textColor: "#221500",
+            title:
+            {
+                pos: new CVal(new Point(0.5, 0.635), "size"),
+                fontSize: new CVal(0.0475, "sizeUnit"),
+            },
+            text:
+            {
+                pos: new CVal(new Point(0.5, 0.8), "size"),
+                fontSize: new CVal(0.06, "sizeUnit"),
+                boxSize: new CVal(new Point(0.7, 0.25), "size")
+            }
+        }
     },
 }
 

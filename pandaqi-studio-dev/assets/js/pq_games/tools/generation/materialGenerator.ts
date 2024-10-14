@@ -118,7 +118,7 @@ export default class MaterialGenerator
         this.progressBar = new ProgressBar();
         this.progressBar.setPhases(this.progressBarPhases);
 
-        const pdfBuilderConfig = { orientation: this.config.pageOrientation ?? PageOrientation.PORTRAIT, debugWithoutFile: this.config.debug.omitFile, format: this.config.pageSize as PageFormat };
+        const pdfBuilderConfig = { orientation: this.config.pageOrientation ?? PageOrientation.PORTRAIT, debugWithoutFile: this.config.debug.omitFile, format: this.config.pageSize as PageFormat, lossless: this.config.losslessPdf };
         const pdfBuilder = new PdfBuilder(pdfBuilderConfig);
         this.pdfBuilder = pdfBuilder; 
     }

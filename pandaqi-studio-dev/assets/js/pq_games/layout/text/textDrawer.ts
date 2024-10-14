@@ -437,7 +437,7 @@ export default class TextDrawer
                     pos.x += elemWidth;
                     if(elem.isEmptySpace()) { pos.x += line.extraSpaceJustifyX; }
                 } else if(elem instanceof TextChunkImage) {
-                    this.drawImageChunk(ctx, elem, pos, line);
+                    this.drawImageChunk(ctx, elem, pos, line, op);
                     pos.x += elemWidth;
                 } else if(elem instanceof TextChunkStyle) { 
                     elem.updateTextConfig(style); 
@@ -496,7 +496,7 @@ export default class TextDrawer
         return new Point(sizeX, sizeY);
     }
 
-    drawImageChunk(ctx:CanvasRenderingContext2D, elem:TextChunkImage, pos:Point, line:LineData)
+    drawImageChunk(ctx:CanvasRenderingContext2D, elem:TextChunkImage, pos:Point, line:LineData, opParent:LayoutOperation)
     {
         const res = elem.resource;
         pos = pos.clone();
@@ -506,7 +506,8 @@ export default class TextDrawer
         op = op.clone(true);
         op.pos.move(pos);
         op.pivot = new Point(0, 0.5);
-        op.keepTransform = true;
+        //op.keepTransform = true;
+        op.parentOperation = opParent;
         if(op.size.isZero()) { op.size = elem.getSize(); }
 
         // @DEBUGGING / @TODO
@@ -518,9 +519,11 @@ export default class TextDrawer
             op.effects = [op.effects, this.cfg.defaultImageOperation.effects].flat(); 
         }
 
+        const oldTransform = ctx.getTransform();
         res.toCanvas(ctx, op);
 
         ctx.filter = oldEffects;
+        ctx.setTransform(oldTransform);
     }
 
     /*

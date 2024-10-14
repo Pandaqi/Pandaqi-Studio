@@ -3,4 +3,4 @@
 {{- partial "settings/setting-enum.html" (dict "id" "setting-itemSize" "text" "Item Size?" "keys" "tiny,small,regular,large,huge" "values" "Tiny,Small,Regular,Large,Huge" "default_option" "Regular") -}}
 {{- end -}}
 {{- partial "settings/setting-enum.html" (dict "id" "setting-pageSize" "text" "Page Size?" "keys" "a4,letter,a5" "values" "A4,Letter,A5" "default_option" "A4") -}}
-
+{{- partial "settings/setting-checkbox.html" (dict "id" "setting-losslessPdf" "text" "Lossless?" "remark" "Don't compress PDF. (Slightly higher resolution, but huge file size.)") -}}

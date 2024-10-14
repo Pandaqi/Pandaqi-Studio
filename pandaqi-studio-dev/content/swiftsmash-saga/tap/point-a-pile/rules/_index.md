@@ -4,7 +4,7 @@ type: "rules"
 
 {{% rules-block heading="Setup" icon="setup" %}}
 
-Turn all cards into a single deck, shuffle, and place facedown on the table. Pick any player to be **Headpointer** ( = start player).
+Turn all cards into a single deck. Shuffle it and place it facedown on the table. Pick any player to be **Headpointer** ( = start player).
 
 {{% /rules-block %}}
 
