@@ -7,7 +7,7 @@ headerTitle: "Stuur Amerigo samen over de daken om de juiste pakjes te bezorgen 
 
 weightProject: 10
 
-color: "green"
+color: "blue"
 
 downloadLink: "https://drive.google.com/drive/folders/1giEJCHkmCFO5gt9ivfRdFmQZALJRELGf"
 
@@ -36,7 +36,7 @@ Dit is een professioneel bordspel dat je gratis kan printen! Het is _tekstloos_,
 Hoe doe je dat?
 
 * Lees de [speelse regels](rules).
-* Klik Download > Files > 1 - Base Set
+* Klik Download > Files > 1 - Basis Set
 * Print de PDF, knip het uit, en heb plezier met je kinderen of familie!
 
 **Kan ik het spel aanpassen?** Met de [generator](#material) hieronder kan je precies instellen wat je wilt. Druk op de knop en hij maakt een PDF met jouw gewenste kaarten. Zo kan je een zwart-wit versie vragen (minder inkt nodig!) of eentje met veel grotere kaarten (voor de kleinste kinderen!) 

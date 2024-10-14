@@ -4,20 +4,22 @@ type: "rules"
 
 {{% rules-block id="setup" heading="Opzet" icon="setup" %}}
 
+{{% rules-double-view src="setup.webp" alt="Voorbeeld van hoe je een nieuw spel opzet." split="leftheavy" %}}
+
 Plaats alle vierkante tegels in een 5 bij 5 grid. Dit is het **Speelbord** (ofwel de "Kaart van Nederland"). Plaats de **Stoombootpion** op een willekeurig stuk water.
 
 Maak 3 gedekte stapels van de 3 soorten kaarten in het spel: **Varen, Stoomboot en Pakje**.
 
 * Iedere speler pakt 5 kaarten, waarbij diegene zelf mag kiezen van welke stapel(s) die worden gepakt.
-* Plaats 2 Stoomboot kaarten horizontaal tegen elkaar. Zo krijg je 3 afgewerkte "posities" eronder. Dit heet de **"Stoomrij"**.
+* Plaats 2 Stoombootkaarten horizontaal tegen elkaar. Zo krijg je 3 afgewerkte "posities" eronder. Dit heet de **"Stoomrij"**.
+
+{{% /rules-double-view %}}
+
+_Meer dan 4 spelers?_ Geef dan iedere speler 4 kaarten en begin de Stoomrij ook met 4 kaarten.
+
+_Eerste potje? Of je wilt een korter potje?_ Je kan de kaart ook 4 bij 4 maken. Zorg dan wel dat er minstens 4 huizen zijn.
 
 Kies tenslotte de persoon met de langste baard om **Sint** te worden ( = startspeler).
-
-{{% remark %}}
-Meer dan 4 spelers? Geef dan iedere speler 4 kaarten en begin de Stoomrij ook met 4 kaarten.
-{{% /remark %}}
-
-@TODO: EXAMPLE IMAGE
 
 {{% /rules-block %}}
 
@@ -41,7 +43,7 @@ Normaal gesproken leg je jouw kaart **gedekt** (geheim). Als de positie een oogj
 
 De ronde eindigt zodra de hele Stoomrij gevuld is.
 
-@TODO: EXAMPLE IMAGE
+{{< rules-image src="gameplay_instructions.webp" alt="Voorbeeld van hoe de ronde begint met één voor één instructies spelen, totdat de hele Stoomrij vol zit." >}}
 
 Dan gaat de Stoomboot **varen**! Eén voor één, van links naar rechts,
 
@@ -51,15 +53,15 @@ Dan gaat de Stoomboot **varen**! Eén voor één, van links naar rechts,
 
 Leg aan het einde van de ronde één van de gespeelde kaarten opzij. Dit vormt de zogenaamde **Kalenderstapel**. Zodra deze stapel 10 kaarten heeft, is Pakjesavond voorbij, en **verlies** je dus het spel.
 
-{{% remark %}}
-Het kan zijn dat alle gespeelde kaarten al zijn gebruikt voor iets. In dat geval heb je goed gespeeld en gaat de tijd NIET vooruit!
-{{% /remark %}}
+{{< rules-image src="gameplay_execute.webp" alt="Voorbeeld van hoe de ronde eindigt met het één voor één afhandelen van alle instructies. En dan de Kalender vooruit laten gaan." >}}
 
 Iedereen trekt nieuwe kaarten (van de 3 open stapels) totdat ze weer 5 kaarten in de hand hebben.
 
 De speler die als laatste een kaart speelde wordt de **nieuwe Sint**.
 
-@TODO: EXAMPLE IMAGE
+{{% remark %}}
+Het kan zijn dat alle gespeelde kaarten al zijn gebruikt voor iets. In dat geval heb je goed gespeeld en gaat de tijd NIET vooruit!
+{{% /remark %}}
 
 {{% /rules-block %}}
 
@@ -67,11 +69,13 @@ De speler die als laatste een kaart speelde wordt de **nieuwe Sint**.
 
 Het spel heeft 3 soorten kaarten.
 
-* STOOMBOOT: Als deze kaart wordt onthuld, mag je de Stoomrij langer of korter maken. 
+* VAREN: Deze kaarten laten de Stoomboot varen.
+* STOOMBOOT: Deze maken de Stoomrij langer of korter. 
   * Langer door deze kaart aan een uiteinde te plaatsen; korter door een uiterste kaart juist uit de Stoomrij te halen. 
   * Als deze specifieke kaart niet _aansluit_ op de Stoomrij, moet je kiezen voor _korter maken_.
-* VAREN: Deze kaarten zeggen hoe de stoomboot moet varen: vooruit, draai naar links, of draai naar rechts.
 * PAKJES: Deze kaarten zijn nodig om het spel te winnen.
+
+{{< rules-image src="card_types.webp" alt="Voorbeeld van de drie kaartsoorten en hoe ze werken." >}}
 
 Want hoe bezorg je een pakje?
 
@@ -80,8 +84,6 @@ Want hoe bezorg je een pakje?
 Als pakjes zijn bezorgd, haal je die kaarten uit het spel en draait de huistegel om. Niet-bezorgde pakjes gaan simpelweg terug in de stapel.
 
 Je kan niet van het Speelbord varen. Als je dat probeert, gebeurt er niks.
-
-@TODO: EXAMPLE IMAGE
 
 {{% /rules-block %}}
 
@@ -107,11 +109,21 @@ Het spel **eindigt** nu (in verlies) als deze stapel **op is**.
 
 Deze uitbreiding bevat bijzondere pakjeskaarten. Ze bevatten tekst met een speciale actie of vaardigheid, die altijd ingaat zodra de kaart succesvol wordt **bezorgd**.
 
+{{% rules-double-view src="expansion_pakjes.webp" alt="Voorbeeld van de nieuwe pakjes- en vaarkaarten." split="leftheavy" %}}
+
 * **Joker**: deze pakjes hebben een regenboogkleur en laten een vraagteken zien. Ze stellen elke pakje voor dat je maar wilt!
 * **Dubbelcadeau**: deze pakjes laten twee soorten zien. Als je deze gebruikt, mag je ter plekke kiezen welke van de twee het is.
-* **Telefoon**: zodra je dit pakje bezorgd, mag je communiceren! Vertel vrijuit over je kaarten, over wat nog meer in de Stoomrij ligt, etcetera. Dit communiceren mag _totdat_ je de volgende kaart onthult/uitvoert.
+* **Telefoon**: zodra je dit pakje bezorgd, mag je communiceren! Vertel vrijuit over je kaarten, over wat nog meer in de Stoomrij ligt, etcetera. Dit communiceren mag _totdat_ je de volgende kaart onthult.
 
-Het bevat ook een paar nieuwe vaarkaarten. En nieuwe kaarten voor de Stoomrij met andere icoontjes (naast het welbekende oogje).
+{{% /rules-double-view %}}
+
+Het bevat ook een paar nieuwe simpele vaarkaarten: **Dubbel Vooruit**, **Dubbel Achteruit**, **Draai Om** en **Anker**.
+
+Ten slotte bevat het nieuwe kaarten voor de Stoomrij. Deze speciale kracht geldt altijd alleen voor de kaart die je in die positie speelt.
+
+Hieronder staat de volledige lijst met icoontjes en wat ze betekenen. Als dit te veel is voor jonge/nieuwe spelers, kan je natuurlijk slechts een paar toevoegen aan het deck voor dit potje.
+
+<div id="rules-table-stoomIcoontjes"></div>
 
 {{% /rules-block %}}
 
@@ -119,10 +131,9 @@ Het bevat ook een paar nieuwe vaarkaarten. En nieuwe kaarten voor de Stoomrij me
 
 Deze uitbreiding bevat speciale tegels voor de kaart. Schud deze met de rest van de tegels voordat je het Speelbord bouwt. Het is prima als slechts een paar van deze voorkomen in jouw spel.
 
-* **KASTEEL:** Je mag alleen een pakjeskaart in je hand nemen als de Stoomboot in de buurt van het kasteel is. Dat wil zeggen: op de tegel zelf of een van de buurtegels (horizontaal, verticaal, diagonaal)
-* **BAKKERIJ**: Als je hier langs komt, mogen spelers _pepernoten/speculaas/chocoladeletters?_ in hun hand wisselen voor elk pakje naar keuze. (Je mag in de stapel kijken en degene pakken die je wilt.)
-* **HAVEN**: Je kunt alleen winnen als je elke haven op de kaart hebt bezocht. (Zodra je op de tegel staat, draai hem om.)
-* **AMERIGO**: Als je hier staat, gaat elke vaar-instructie _dubbel_. (Eén keer vooruit wordt twee keer vooruit. Eén kwartslag naar rechts wordt een halve draai.)
+<div id="rules-table-pepernootPlekken"></div>
+
+{{% rules-double-view src="expansion_plekken.webp" alt="Voorbeeld van wat de boot schade doet en de gevolgen daarvan ( = Stoomrij korter)." split="leftheavy" %}}
 
 Ook kan je Stoomboot nu **schade** oplopen.
 
@@ -130,6 +141,8 @@ Ook kan je Stoomboot nu **schade** oplopen.
 * Tegen een ROTS knallen doet **1 schade**. 
 
 Voor elke schade die je oploopt, **haal een Stoomrij kaart weg**. Als daardoor de Stoomrij helemaal leeg is, verlies je het spel ook direct.
+
+{{% /rules-double-view %}}
 
 {{% /rules-block %}}
 

@@ -20,18 +20,17 @@ interface GeneralData
     cantDuo?: boolean, // if set to true, it can't be randomly picked as an option for a duo card
 }
 
-// @TODO: optionally reduce base game map to 4x4, because this is a lot of empty tiles doing nothing => but that'd need an exception to say "if using the expansions, go to 5x5!" which I don't want
 const MAP_TILES:Record<string, GeneralData> =
 {
     water: { frame: 0, freq: 9, set: "base" },
     rots: { frame: 1, freq: 8, set: "base" },
     huis: { frame: 2, freq: 8, set: "base", needPakjes: true },
     huis_speciaal: { frame: 3, freq: 5, set: "prachtigePakjes", needPakjes: true },
-    kasteel: { frame: 4, freq: 2, set: "pepernootPlekken", desc: "Je mag alleen een pakjeskaart in je hand nemen als de Stoomboot in de buurt van het kasteel is." },
-    bakkerij: { frame: 5, freq: 2, set: "pepernootPlekken", desc: "Als je hierop staat, mogen spelers Pepernoten uit hun hand wisselen voor een ander pakje naar keuze." },
-    haven: { frame: 6, freq: 4, set: "pepernootPlekken", desc: "Je kunt alleen winnen als je elke haven hebt bezocht." },
-    amerigo: { frame: 7, freq: 2, set: "pepernootPlekken", desc: "Als je hier staat gaat elke vaarinstructie dubbel." },
-    speelgoedwinkel: { frame: 8, freq: 2, set: "pepernootPlekken", desc: "" }, // @TODO: of "fabriek"?
+    kasteel: { frame: 4, freq: 2, set: "pepernootPlekken", desc: "Je mag alleen een pakjeskaart in je hand nemen als de Stoomboot naast het kasteel is. (Horizontaal, verticaal of diagonaal.)", label: "Kasteel" },
+    bakkerij: { frame: 5, freq: 2, set: "pepernootPlekken", desc: "Als je hierop staat, mogen spelers Pepernoten uit hun hand wisselen voor een ander pakje naar keuze.", label: "Bakkerij" },
+    haven: { frame: 6, freq: 4, set: "pepernootPlekken", desc: "Je kunt alleen winnen als je elke haven hebt bezocht.", label: "Haven" },
+    amerigo: { frame: 7, freq: 2, set: "pepernootPlekken", desc: "Als je hier staat gaat elke vaarinstructie dubbel.", label: "Amerigo" },
+    speelgoedwinkel: { frame: 8, freq: 2, set: "pepernootPlekken", desc: "Als een speler 4 verschillende vaarkaarten kan inleveren, mag je de Stoomboot teleporteren naar elk ander vakje.", label: "Winkel" }, // of "fabriek"?
 }
 
 const PAKJE_CARDS:Record<string, GeneralData> =
@@ -47,8 +46,8 @@ const PAKJE_CARDS:Record<string, GeneralData> =
 const VAAR_CARDS:Record<string, GeneralData> =
 {
     vooruit: { frame: 0, freq: 6, set: "base", desc: "Vaar vooruit." },
-    draai_links: { frame: 1, freq: 5, set: "base", desc: "Draai kwartslag naar links." },
-    draai_rechts: { frame: 2, freq: 5, set: "base", desc: "Draai kwartslag naar rechts." },
+    draai_links: { frame: 1, freq: 5, set: "base", desc: "Draai een kwartslag naar links." },
+    draai_rechts: { frame: 2, freq: 5, set: "base", desc: "Draai een kwartslag naar rechts." },
     achteruit: { frame: 3, freq: 2, set: "base", desc: "Vaar achteruit." },
 
     vooruit_dubbel: { frame: 4, freq: 2, set: "prachtigePakjes", desc: "Vaar tweemaal vooruit." },
@@ -59,14 +58,14 @@ const VAAR_CARDS:Record<string, GeneralData> =
 
 const STOOM_CARDS:Record<string, GeneralData> =
 {
-    niks: { frame: 0, freq: 4, set: "base" },
-    oog: { frame: 1, freq: 4, set: "base", desc: "Speel je kaart hier <b>open</b>." },
-    pepernoot: { frame: 2, freq: 1, set: "prachtigePakjes", desc: "Hier mag alleen een <b>Pakje</b> worden gespeeld." },
-    chocoladeletter: { frame: 3, freq: 1, set: "prachtigePakjes", desc: "Voer vaarkaarten hier <b>meteen</b> uit (zodra neergelegd)." },
-    zak: { frame: 4, freq: 1, set: "prachtigePakjes", desc: "<b>Negeer</b> de kaart hier." },
-    amerigo: { frame: 5, freq: 1, set: "prachtigePakjes", desc: "De kaart hier telt <b>dubbel</b>." },
-    staf: { frame: 6, freq: 1, set: "prachtigePakjes", desc: "Voer vaarkaarten hier <b>omgekeerd</b> uit." },
-    boek: { frame: 7, freq: 1, set: "prachtigePakjes", desc: "Vul <b>meteen</b> je hand aan tot 5 kaarten." },
+    niks: { frame: 0, freq: 4, set: "base", desc: "Niks bijzonders.", label: "Niks" },
+    oog: { frame: 1, freq: 4, set: "base", desc: "Speel je kaart hier <b>open</b>.", label: "Oog" },
+    pepernoot: { frame: 2, freq: 1, set: "prachtigePakjes", desc: "Hier mag alleen een <b>Pakje</b> worden gespeeld.", label: "Pepernoot" },
+    chocoladeletter: { frame: 3, freq: 1, set: "prachtigePakjes", desc: "Voer vaarkaarten hier <b>meteen</b> uit (zodra neergelegd).", label: "Letter" },
+    zak: { frame: 4, freq: 1, set: "prachtigePakjes", desc: "<b>Negeer</b> de kaart hier.", label: "Zak" },
+    amerigo: { frame: 5, freq: 1, set: "prachtigePakjes", desc: "De kaart hier telt <b>dubbel</b>.", label: "Amerigo" },
+    staf: { frame: 6, freq: 1, set: "prachtigePakjes", desc: "Voer vaarkaarten hier <b>omgekeerd</b> uit.", label: "Staf" },
+    boek: { frame: 7, freq: 1, set: "prachtigePakjes", desc: "Vul <b>meteen</b> je hand aan tot 5 kaarten.", label: "Boek" },
 }
 
 const KALENDER_KAARTEN:Record<string, GeneralData> =

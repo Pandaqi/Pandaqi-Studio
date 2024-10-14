@@ -4,6 +4,8 @@ type: "rules"
 
 {{% rules-block id="setup" heading="Opzet" icon="setup" %}}
 
+{{% rules-double-view src="setup.webp" alt="Voorbeeld van hoe je een nieuw spel opzet." %}}
+
 Plaats **11 Routekaarten** op een rij. Plaats **Amerigo** in het midden. (Vouw deze dubbel zodat je hem kunt neerzetten als een pion.)
 
 Plaats alle andere kaarten in _open_ stapels per _soort_: één stapel voor alle **Paardkaarten** en één stapel voor alle **Pakjeskaarten**.
@@ -14,7 +16,7 @@ Elke speler trekt 3 kaarten naar keuze van deze stapels. Neem deze in de hand.
 De tekst op de Vaarkaart is slechts ter herinnering; het icoontje is genoeg om te weten wat de kaart doet.
 {{% /remark %}}
 
-@TODO: EXAMPLE IMAGE
+{{% /rules-double-view %}}
 
 {{% /rules-block %}}
 
@@ -43,6 +45,8 @@ Want hoe "bezorg" je pakjes aan een huis?
 
 > Als Amerigo op een **huiskaart** komt, en diens gewenste pakjes zijn **eerder deze ronde uitgevoerd**, dan bezorg je die! Draai de huiskaart om.
 
+{{< rules-image src="gameplay_round.webp" alt="Voorbeeld van een ronde: speel tegelijk kaarten, sorteer, voer uit." >}}
+
 Aan het **einde van elke ronde** moet je een _uiterste routekaart_ (meest links óf rechts) **weghalen**. Als hierdoor een huis verdwijnt (dat je nog niet had gescoord), plaats je deze aan het andere uiteinde, en moet je nóg een kaart weghalen. 
 
 Je kunt niet dezelfde kaart meerdere keren "weghalen" (in een ronde). Het kan dus zijn dat je kaarten blijft verplaatsen totdat je ze bijna allemaal hebt gehad.
@@ -51,7 +55,7 @@ Als je ooit de kaart onder Amerigo moet weghalen, of je loopt zelf van de route 
 
 Iedereen vult diens hand weer aan tot 3 kaarten. Volgende ronde!
 
-@TODO: EXAMPLE IMAGE
+{{< rules-image src="gameplay_round_end.webp" alt="Voorbeeld van het einde van een ronde: kort de route in, verlies het spel als je daardoor van de daken valt." >}}
 
 {{% /rules-block %}}
 
@@ -65,6 +69,14 @@ Voor een **makkelijker** spel, probeer een van deze regels.
 
 * Als jouw kaart de _hoogste_ in jouw hand was, mag je dat na de onthulling tegen de tafel zeggen.
 * Negeer het getal op de pakjeskaarten. Ze zijn altijd "eerder gespeeld" dan alle andere kaarten.
+
+Voor een **ander** spel (voor sommige makkelijker, voor andere moeilijker), gebruik de volgende regel.
+
+> Je bezorgt een pakje als de kaart wordt onthuld/uitgevoerd _terwijl je op het huis staat_.
+
+{{% remark %}}
+Dit vervangt de gebruikelijke regel waarbij je pakjes moet hebben gespeeld _voordat_ je het huis bezoekt, om ze te bezorgen.
+{{% /remark %}}
 
 Voor een **moeilijker** spel, probeer een van deze regels.
 

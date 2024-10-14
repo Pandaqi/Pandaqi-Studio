@@ -31,7 +31,7 @@ Only some cards, however, are correct. By default,
 
 @TODO: EXAMPLE IMAGE
 
-Once everyone has tapped something, the round ends.
+Once _all players except one_ have tapped something, the round ends.
 
 * If **correct**, you win your own card. Place it in your _Race_ (left or right end). A race can only contain a single Rules Card, but you can always replace it with later cards if you want.
 * If **incorrect**, you lose 1 of your Race cards.
