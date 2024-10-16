@@ -62,7 +62,9 @@ const CONFIG:any =
 
     rulebook:
     {
-        
+        numPlayerBounds: new Bounds(2,6),
+        numCardsPerPlayer: 3,
+        itemSize: new Point(375, 575)
     },
 
     generation:

@@ -22,11 +22,19 @@ export default class Card
     actionString:string;
     finishReq:string;
     finishReqString: string;
+
     uniqueNumber: number;
+    dynamicValues: any[];
+    dynamicValuesRule: any[];
 
     constructor(type:CardType)
     {
         this.type = type;
+        this.symbols = [];
+        this.colors = [];
+
+        this.dynamicValues = [];
+        this.dynamicValuesRule = [];
     }
 
     getNumber() { return this.symbols.length; }
@@ -42,13 +50,13 @@ export default class Card
     setRuleProperties(actionKey:string, finishReq:string)
     {
         this.action = actionKey;
-        this.actionString = this.replaceDynamicStrings(this.getActionData().desc);
+        this.actionString = this.replaceDynamicStrings(this.getActionData().desc, "rule");
 
         this.finishReq = finishReq;
-        this.finishReqString = this.replaceDynamicStrings(this.getFinishReqData().desc);
+        this.finishReqString = this.replaceDynamicStrings(this.getFinishReqData().desc, "finish");
     }
 
-    replaceDynamicStrings(str:string)
+    replaceDynamicStrings(str:string, saveKey = "finish")
     {
         const replacements = structuredClone(DYNAMIC_STRINGS);
         
@@ -65,6 +73,13 @@ export default class Card
                 const option = shuffle(options).pop().toString();
                 str = str.replace(needle, option);
                 replacedSomething = true;
+
+                const saveableValue = !isNaN(parseInt(option)) ? parseInt(option) : option;
+                if(saveKey == "finish") {
+                    this.dynamicValues.push(saveableValue);
+                } else if(saveKey == "rule") {
+                    this.dynamicValuesRule.push(saveableValue);
+                }
             }
 
             // then shape => image replacements
@@ -77,6 +92,11 @@ export default class Card
         }
 
         return str;
+    }
+
+    hasIdentifierMatch(id:string)
+    {
+        return this.symbols.includes(id as ShapeType) || this.colors.includes(id as ColorType);
     }
 
     async draw(vis:MaterialVisualizer)

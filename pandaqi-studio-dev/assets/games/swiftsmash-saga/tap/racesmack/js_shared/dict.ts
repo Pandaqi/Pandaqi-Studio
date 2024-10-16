@@ -68,13 +68,13 @@ EXAMPLE FINISH REQUIREMENT.
 
 const RULE_CARDS:Record<string, GeneralData> =
 {
-    freq: { frame: 0, desc: "The card has the <b>%property%</b> that appears <b>%freq% often</b>.", prob: 2.5 }, // "The card has the icon that appears least often"
+    freq: { frame: 0, desc: "The card has the <b>%property%</b> that appears <b>%freq% often</b>.", prob: 2.5 }, // "The card has the color/shape that appears least often"
     variety: { frame: 1, desc: "The card has <b>%num% %compare% %properties%.</b>" }, // "The card has 2 different colors."
-    neighbors: { frame: 2, desc: "The card has <b>%compareStrict% %properties%</b> as its <b>neighbors</b>" }, // "The card has the exact same icons as one of its neighbors." => ??
+    neighbors: { frame: 2, desc: "The card has <b>%compareStrict% %properties%</b> as its <b>neighbors</b>" }, // "The card has the exact same icons as one of its neighbors."
     number: { frame: 3, desc: "The card has a <b>number %compareNumber% %num%</b>." }, // "The card has a number less than 3."
     number_adjacent: { frame: 4, desc: "The card has the <b>same number</b> as one of its <b>neighbors</b>.", prob: 0.25 },
-    rules: { frame: 5, desc: "The card is a <b>Rules Card</b>.", prob: 0.25 },
-    rules_adjacent: { frame: 6, desc: "The card is <b>next</b> to a <b>Rules Card</b>.", prob: 0.25 },
+    rules: { frame: 5, desc: "The card is a <b>Rule Card</b>.", prob: 0.25 },
+    rules_adjacent: { frame: 6, desc: "The card is <b>next</b> to a <b>Rule Card</b>.", prob: 0.25 },
     duplicates: { frame: 7, desc: "The card has <b>%invert% double %properties%</b>." }, // "The card has no double shapes."
 }
 

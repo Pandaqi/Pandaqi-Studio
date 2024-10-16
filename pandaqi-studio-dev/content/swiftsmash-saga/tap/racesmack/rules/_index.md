@@ -4,7 +4,7 @@ type: "rules"
 
 {{% rules-block heading="Setup" icon="setup" %}}
 
-Deal everyone 4 cards.
+Shuffle all cards into one deck. Deal everyone **4 cards**. Place the remaining cards as a faceup draw pile.
 
 {{% /rules-block %}}
 
@@ -12,41 +12,44 @@ Deal everyone 4 cards.
 
 During the game, you'll win cards and place them in a row before you. This is called your **Race**. 
 
-Every Race needs a single Rules Card. Once you've satisfied its **Finish Requirements**, you win the game.
+If your Race has a **Finish Card**, and you satisfy its requirements, you win the game. If the deck runs out before this happens, whoever has the _most cards_ in their Race wins.
 
 {{% /rules-block %}}
 
 {{% rules-block heading="Gameplay" icon="action" %}}
 
+{{< rules-example id="turn" >}}
+
 Gameplay happens in **rounds**. There are no turns: everyone plays _at the same time_.
 
 * Everyone picks a secret card from their hand and places it in front of them.
 * Once done, everyone reveals their cards at the same time.
-* Reveal your cards _facing away from you_. (This means other players see your card earlier; any text on it faces them, not you.)
+* Reveal your cards _facing away from you_. (This means any text on it faces the others, not you.)
 
-Now everyone quickly studies the cards played and then **taps a card**. Each card can only be tapped by one player.
+Now everyone quickly studies the cards played and then **taps a card**.
 
-Only some cards, however, are correct. By default,
+{{% remark %}}
+Yes, you're allowed to tap a card that another player already tapped.
+{{% /remark %}}
 
-> A card is **correct** if it contains the **symbol that appears most often** (across all cards).
+Only some cards, however, are "correct". By default,
+
+> A card is **correct** if it contains the **symbol that appears most often** (across all cards). If **none** of the cards are correct, tap your own card.
 
 @TODO: EXAMPLE IMAGE
 
 Once _all players except one_ have tapped something, the round ends.
 
-* If **correct**, you win your own card. Place it in your _Race_ (left or right end). A race can only contain a single Rules Card, but you can always replace it with later cards if you want.
+* If **correct**, you win your own card.
 * If **incorrect**, you lose 1 of your Race cards.
 
-{{% remark %}}
-Yes, you're allowed to tap cards that another player already tapped and still be correct.
-{{% /remark %}}
+Any leftover cards are won by the _first player_ that tapped a _correct card_ (the "fastest winner").
 
-Any remaining cards are won by the _first player_ that tapped a _correct card_ (the "fastest winner").
+Won cards are placed in your _Race_ (left or right end). When checking if you've finished, only the Finish Card with the _highest number_ in your Race counts.
 
-But there's one final twist. The Rules Cards can change everything.
+But there's one final twist.
 
-* If exactly **1 Rules card is played**, then its rule determines the "correct" cards instead.
-* Otherwise, if **no or multiple** Rules cards are played, just use the default rules stated above.
+> When Rule Cards are played, find the one with the **highest** number. Its special rule (top text) determines what cards are "correct", instead of the default rule.
 
 {{% remark %}}
 For a very simple first game, you can ignore this mechanic and just always use the "default rule".
@@ -62,13 +65,26 @@ Played the base game and ready for more? Or looking to tweak the game to fit you
 
 This game has many different variants that require _no extra material_. This makes it very easy to try a few of them and see if you like the change.
 
+{{% rules-block heading="Variant: Noise Canceling (Easier)" %}}
+
+The following rule is a different way to handle Rule Cards being played. This makes the game easier, as special rules can often be ignored.
+
+* If exactly **1 Rules card is played**, then its rule determines the "correct" cards instead.
+* Otherwise, if **no or multiple** Rules cards are played, just use the default rules stated above.
+
+{{% /rules-block %}}
+
 {{% rules-block heading="Variant: Racing Rules" %}}
 
 This variant simply changes the _default rule_ for each round.
 
-* Keep 6 random Rules Cards in a separate deck.
+* Keep 6 random Rule Cards in a separate deck.
 * At the start of each round, reveal the top one. That's now the "default rule" for finding correct cards.
 * Once this deck is empty, simply re-use the same 6 cards again for a new deck.
+
+It also changes what you must do in one specific situation.
+
+> If **only Rule Cards are played**, only the Rule Card with the **highest number** is "correct".
 
 {{% /rules-block %}}
 
@@ -81,16 +97,6 @@ When tapping an incorrect card, you must pick one of the following penalties.
 * Lose **2 Race cards**.
 * Lose **2 Hand cards**.
 * Next round, you are always "incorrect" if there's a tie ( = there are _multiple_ correct cards).
-
-{{% /rules-block %}}
-
-{{% rules-block heading="Variant: Noise Canceling" %}}
-
-The following rule makes the game considerably harder, but creates more variety in what cards are correct.
-
-* Notice that every Rules Card has a unique number.
-* When multiple of them are played (in the same round), the _highest number_ is the rule you must follow.
-* (Instead of multiple Rules Cards _canceling_ each other.)
 
 {{% /rules-block %}}
 

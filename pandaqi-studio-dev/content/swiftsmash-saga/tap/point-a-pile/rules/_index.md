@@ -16,6 +16,8 @@ The game ends as soon as a player has **10 points**. They win!
 
 {{% rules-block heading="Gameplay" icon="action" %}}
 
+{{< rules-example id="turn" >}}
+
 First, the active player **creates piles**.
 
 * They draw twice as many cards as the number of players from the deck. 

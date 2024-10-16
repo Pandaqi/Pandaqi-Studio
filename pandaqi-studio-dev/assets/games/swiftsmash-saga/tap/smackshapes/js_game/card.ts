@@ -10,6 +10,7 @@ import TintEffect from "js/pq_games/layout/effects/tintEffect";
 import TextConfig from "js/pq_games/layout/text/textConfig";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
 import Point from "js/pq_games/tools/geometry/point";
+import fillResourceGroup from "js/pq_games/layout/canvas/fillResourceGroup";
 
 export default class Card
 {
@@ -71,6 +72,8 @@ export default class Card
 
     drawBackground(vis:MaterialVisualizer, group:ResourceGroup)
     {
+        fillResourceGroup(vis.size, group, "#FFFFFF");
+        
         const res = vis.getResource("card_templates");
         const op = new LayoutOperation({
             size: vis.size,

@@ -4,6 +4,7 @@ import Point from "js/pq_games/tools/geometry/point"
 import autoLoadFontCSS from "js/pq_games/website/autoLoadFontCSS";
 import { CardType, ColorType } from "./dict";
 import CVal from "js/pq_games/tools/generation/cval";
+import Bounds from "js/pq_games/tools/numbers/bounds";
 
 const CONFIG:any = 
 {
@@ -112,7 +113,8 @@ const CONFIG:any =
 
     rulebook:
     {
-        
+        numPlayerBounds: new Bounds(2,5),
+        itemSize: new Point(375, 575)
     },
 
     generation:

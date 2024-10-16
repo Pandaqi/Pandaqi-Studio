@@ -21,6 +21,7 @@ export default class Card
     actionString: string;
     color: ColorType;
     scoreValue: number = null;
+    dynamicValues: any[] = [];
 
     constructor(type:CardType)
     {
@@ -51,6 +52,9 @@ export default class Card
                 const option = shuffle(options).pop().toString();
                 str = str.replace(needle, option);
                 replacedSomething = true;
+
+                // track the exact values for the interactive rulebook example/simulation
+                this.dynamicValues.push(!isNaN(parseInt(option)) ? parseInt(option) : option);
 
                 // @NOTE: track score numbers within text, which always represent point values on regular cards
                 if(this.type == CardType.REGULAR)
@@ -96,6 +100,8 @@ export default class Card
 
     drawBackground(vis:MaterialVisualizer, group:ResourceGroup)
     {
+        fillResourceGroup(vis.size, group, "#FFFFFF");
+
         // to fill that gap with the same color on empty cards
         const tempData = this.getTemplateData();
         if(this.isEmpty() && !vis.inkFriendly)

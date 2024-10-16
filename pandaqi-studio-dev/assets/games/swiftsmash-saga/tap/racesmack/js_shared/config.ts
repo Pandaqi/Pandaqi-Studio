@@ -4,6 +4,7 @@ import Point from "js/pq_games/tools/geometry/point"
 import autoLoadFontCSS from "js/pq_games/website/autoLoadFontCSS";
 import { CardDisplayType, ColorType } from "./dict";
 import CVal from "js/pq_games/tools/generation/cval";
+import Bounds from "js/pq_games/tools/numbers/bounds";
 
 const CONFIG:any = 
 {
@@ -90,7 +91,15 @@ const CONFIG:any =
 
     rulebook:
     {
-        
+        numPlayerBounds: new Bounds(2,6),
+        numCardsPerPlayer: 4,
+        itemSize: new Point(375, 575),
+        ruleCardHandling: "highest", // ignore, one, highest
+        rules:
+        {
+            loseCardIfWrong: true,
+            onePlayerDoesntSmack: true,
+        }
     },
 
     generation:

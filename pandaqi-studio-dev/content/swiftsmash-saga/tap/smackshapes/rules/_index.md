@@ -10,11 +10,13 @@ Deal everyone 3 cards. Pick anyone to be _Smackhead_ ( = start player).
 
 {{% rules-block heading="Objective" icon="objective" %}}
 
-The game ends as soon as everyone is **out of (hand) cards**. The number of cards you won is your score: **highest score wins!**
+The game ends as soon as somebody is **out of (hand) cards**. The number of cards you won is your score: **highest score wins!**
 
 {{% /rules-block %}}
 
 {{% rules-block heading="Gameplay" icon="action" %}}
+
+{{< rules-example id="turn" >}}
 
 Gameplay happens in _rounds_. There are no turns: everyone plays _at the same time_.
 

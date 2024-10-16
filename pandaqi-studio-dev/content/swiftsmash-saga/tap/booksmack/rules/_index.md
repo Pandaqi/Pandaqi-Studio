@@ -16,6 +16,8 @@ The game ends when everyone is **out of (hand) cards**. Every card in your _Libr
 
 {{% rules-block heading="Gameplay" icon="action" %}}
 
+{{< rules-example id="turn" >}}
+
 Gameplay happens in _rounds_. There are no turns: everyone plays _at the same time_.
 
 * Everyone picks a secret card from their hand and places it in front of them.

@@ -2,6 +2,7 @@ import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textC
 import CVal from "js/pq_games/tools/generation/cval";
 import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator";
 import Point from "js/pq_games/tools/geometry/point";
+import Bounds from "js/pq_games/tools/numbers/bounds";
 import autoLoadFontCSS from "js/pq_games/website/autoLoadFontCSS";
 
 const CONFIG:any = 
@@ -81,7 +82,9 @@ const CONFIG:any =
 
     rulebook:
     {
-        
+        numPlayerBounds: new Bounds(3,6),
+        numCardsPerPlayer: 4,
+        itemSize: new Point(375, 575)
     },
 
     generation:
