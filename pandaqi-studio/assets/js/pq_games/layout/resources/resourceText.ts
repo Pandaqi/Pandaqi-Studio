@@ -18,7 +18,7 @@ export default class ResourceText extends Resource
     text:string
     textConfig:TextConfig
 
-    constructor(params:ResourceTextParams|string = {}, cfg:TextConfig = null)
+    constructor(params:ResourceTextParams|string = "", cfg:TextConfig = null)
     {
         super()
 

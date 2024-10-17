@@ -100,7 +100,8 @@ export default class CanvasDrawable
 
     lock() { this.locked = true; }
     unlock() { this.locked = false; }
-    startNewDrawing(keepObject = false) {
+    startNewDrawing(keepObject = false) 
+    {
         if(keepObject && this.curTurn) { this.curTurn.reset(); return; } 
         this.curTurn = new CanvasTurn(this); 
     }
@@ -341,6 +342,7 @@ export default class CanvasDrawable
     clearCanvas()
     {
         const ctx = this.getContext();
+        ctx.resetTransform();
         ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         
         if(!this.params.transparentBackground)
@@ -356,6 +358,7 @@ export default class CanvasDrawable
         const vis = this.mapVisualizer.getVisualization(this.params);
 
         const ctx = this.getContext();
+        ctx.resetTransform();
         for(const rect of vis.rects)
         {
             ctx.fillStyle = rect.color.toString();
@@ -389,6 +392,7 @@ export default class CanvasDrawable
             // a circle behind the text is cheaper and clearer than stroke in this case
             if(text.stroke)
             {
+                ctx.resetTransform();
                 ctx.fillStyle = text.stroke;
                 ctx.translate(text.p.x, text.p.y);
                 ctx.beginPath();
@@ -434,6 +438,7 @@ export default class CanvasDrawable
 
         const ctx = this.getContext();
         ctx.save();
+        ctx.resetTransform();
         ctx.beginPath();
         ctx.moveTo(p1.x, p1.y);
         ctx.lineTo(p2.x, p2.y);
@@ -450,6 +455,7 @@ export default class CanvasDrawable
         const fontSize = this.params.fontSize*0.95;
         const ctx = this.getContext();
         ctx.save();
+        ctx.resetTransform();
         ctx.globalAlpha = 0.7;
         ctx.fillStyle = "#000000";
         ctx.textAlign = "center";

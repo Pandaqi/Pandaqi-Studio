@@ -225,6 +225,11 @@ export default class Card
         return str;
     }
 
+    getBodyFont(vis:MaterialVisualizer)
+    {
+        return vis.get("useBiggerFont") ? vis.get("fonts.heading") : vis.get("fonts.body");
+    }
+
     drawRuleCard(vis:MaterialVisualizer, group:ResourceGroup)
     {
         // the unique number of this card
@@ -243,7 +248,7 @@ export default class Card
 
         // the rule text
         const textConfig = new TextConfig({
-            font: vis.get("fonts.body"),
+            font: this.getBodyFont(vis),
             size: vis.get("cards.rules.fontSize"),
             resLoader: vis.resLoader
         }).alignCenter();

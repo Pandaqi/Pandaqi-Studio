@@ -15,7 +15,9 @@ export default async (cfg) =>
         const isFont = fontNames.includes(keyFinal);
         if(!isFont) { continue; }
 
-        const pathFinal = (cfg.assetsBase ?? "/") + data.path;
+        let pathFinal = (cfg.assetsBase ?? "/") + data.path;
+        if(data.useAbsolutePath) { pathFinal = data.path; }
+
         const textConfigData = data.textConfig ? data.textConfig.getFontFaceDescriptors() : {};
         const myFont = new FontFace(keyFinal, "url(" + pathFinal + ")", textConfigData);
 

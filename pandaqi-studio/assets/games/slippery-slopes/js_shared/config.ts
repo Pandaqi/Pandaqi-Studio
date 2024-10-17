@@ -1,26 +1,120 @@
 import Color from "js/pq_games/layout/color/color";
 import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
+import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator";
 import Point from "js/pq_games/tools/geometry/point";
 import Bounds from "js/pq_games/tools/numbers/bounds";
 
-const CONFIG = {
-    debugWithoutPDF: false, // @DEBUGGING (should be false)
+const CONFIG = 
+{
+    debug:
+    {
+        omitFile: false, // @DEBUGGING (should be false)
+        singleDrawPerType: false, // @DEBUGGING (should be false)
+        onlyGenerate: false, // @DEBUGGING (should be false)
+    },
+
     debugAllPossibleProperties: false, // @DEBUGGING (should be false)
 
+    configKey: "slipperySlopesConfig",
     fileName: "[Slippery Slopes] Material",
-    configKeyBaseGame: "slipperySlopesConfig",
-    configKeyDigital: "slipperySlopesTrippyTouchesConfig",
-    progressBar: null,
-    pdfBuilder: null,
+    configKeyDigital: "slipperySlopesTrippyTouchesConfig", // @TODO: properly select this one when using digital
 
-    assetsURL: "/slippery-slopes/assets/", // same for both versions, hence only one URL
-    resLoader: null,
-    gridMapper: null,
+    fonts:
+    {
+        heading: "superfuntime",
+        body: "superfuntime",
+    },
+
+    assetsBase: "/slippery-slopes/assets/", // same for both versions, hence only one URL
+    assets:
+    {
+        special0: 
+        {
+            key: "superfuntime",
+            path: "fonts/SuperFuntime.woff2",
+        },
+
+        actions: 
+        {
+            path: "actions.webp",
+            frames: new Point(8, 1)
+        },
+
+        // slab serif, old-timey
+        special1: 
+        {
+            key: "abril",
+            path: "fonts/special/AbrilFatface-Regular.woff2",
+            loadIf: ["expansions.crasheryCliffs"],
+        },
+
+        // sans-serif
+        special2: 
+        {
+            key: "adventpro",
+            path: "fonts/special/AdventPro-Bold.woff2",
+            loadIf: ["expansions.crasheryCliffs"],
+        },
+
+        // serif, book
+        special3: 
+        {
+            key: "alegreya",
+            path: "fonts/special/Alegreya-Italic.woff2",
+            loadIf: ["expansions.crasheryCliffs"],
+        },
+
+        // handwritten, small-caps
+        special4: 
+        {
+            key: "amatic",
+            path: "fonts/special/AmaticSC-Regular.woff2",
+            loadIf: ["expansions.crasheryCliffs"],
+        },
+
+        // grunge, chaotic
+        special5: 
+        {
+            key: "anudaw",
+            path: "fonts/special/AnuDawItalic.woff2",
+            loadIf: ["expansions.crasheryCliffs"],
+        },
+
+        // cursive, curly, handwritten
+        special6: 
+        {
+            key: "blackJack",
+            path: "fonts/special/BlackJack.woff2",
+            loadIf: ["expansions.crasheryCliffs"],
+        },
+
+        // blackletter, medieval, fantasy
+        special7: 
+        {
+            key: "chomsky",
+            path: "fonts/special/Chomsky.woff2",
+            loadIf: ["expansions.crasheryCliffs"],
+        },
+
+        // monotype, typewriter
+        special8: 
+        {
+            key: "courier",
+            path: "fonts/special/CourierNewPS-ItalicMT.woff2",
+            loadIf: ["expansions.crasheryCliffs"],
+        },
+
+        // display, cursive, thick, swooshy
+        special9: 
+        {
+            key: "pacifico",
+            path: "fonts/special/Pacifico-Regular.woff2",
+            loadIf: ["expansions.crasheryCliffs"],
+        }
+    },
+
     pandaqiWords: null,
-    itemSize: "regular",
-    pageSize: "a4",
 
-    inkFriendly: false,
     generateWords: false,
     generateSliders: false,
     expansions:
@@ -33,97 +127,6 @@ const CONFIG = {
     numSpecialFonts: 10,
     maxWordLength: 11,
     signalManager: null,
-
-    fonts: 
-    {
-        special0: 
-        {
-            key: "superfuntime",
-            url: "fonts/SuperFuntime.woff2",
-            crasheryCliffs: false,
-        },
-
-        // slab serif, old-timey
-        special1: 
-        {
-            key: "abril",
-            url: "fonts/special/AbrilFatface-Regular.woff2",
-            crasheryCliffs: true
-        },
-
-        // sans-serif
-        special2: 
-        {
-            key: "adventpro",
-            url: "fonts/special/AdventPro-Bold.woff2",
-            crasheryCliffs: true
-        },
-
-        // serif, book
-        special3: 
-        {
-            key: "alegreya",
-            url: "fonts/special/Alegreya-Italic.woff2",
-            crasheryCliffs: true
-        },
-
-        // handwritten, small-caps
-        special4: 
-        {
-            key: "amatic",
-            url: "fonts/special/AmaticSC-Regular.woff2",
-            crasheryCliffs: true
-        },
-
-        // grunge, chaotic
-        special5: 
-        {
-            key: "anudaw",
-            url: "fonts/special/AnuDawItalic.woff2",
-            crasheryCliffs: true
-        },
-
-        // cursive, curly, handwritten
-        special6: 
-        {
-            key: "blackJack",
-            url: "fonts/special/BlackJack.woff2",
-            crasheryCliffs: true
-        },
-
-        // blackletter, medieval, fantasy
-        special7: 
-        {
-            key: "chomsky",
-            url: "fonts/special/Chomsky.woff2",
-            crasheryCliffs: true
-        },
-
-        // monotype, typewriter
-        special8: 
-        {
-            key: "courier",
-            url: "fonts/special/CourierNewPS-ItalicMT.woff2",
-            crasheryCliffs: true
-        },
-
-        // display, cursive, thick, swooshy
-        special9: 
-        {
-            key: "pacifico",
-            url: "fonts/special/Pacifico-Regular.woff2",
-            crasheryCliffs: true
-        }
-    },
-
-    assets: 
-    {
-        actions: 
-        {
-            path: "actions.webp",
-            frames: new Point(8, 1)
-        },
-    },
 
     game:
     {
@@ -145,20 +148,25 @@ const CONFIG = {
 
     wordCards:
     {
+        drawerConfig:
+        {
+            preset: GridSizePreset.TILE
+        },
+
         num: 48, // 12 per page on regular settings
         numPerCard: 4,
-        size: 
-        { 
-            small: new Point(4,5),
-            regular: new Point(3,4),
-            large: new Point(2,3)
-        },
-        sizeElement: new Point(1, 1),
         textScale: 0.5, // relative to block height 
     },
 
     sliderCards:
     {
+        drawerConfig:
+        {
+            preset: GridSizePreset.DOMINO
+        },
+
+        interactiveBaseSize: new Point(450, 900),
+
         num: 48, // 12 per page on regular settings
         numColorSteps: 6,
         meter: 
@@ -172,14 +180,7 @@ const CONFIG = {
         actionIconSize: 0.66, // relative to block height = height of one wavy rectangle step
         actionBGColor: "rgba(255,255,255,1.0)",
         numActionBounds: new Bounds(1,3),
-        size: 
-        { 
-            small: new Point(5,4),
-            regular: new Point(4,3),
-            large: new Point(3,2)
-        },
-        sizeElement: new Point(1,2),
-
+        
         words:
         {
             useRealWordProb: 0.33,

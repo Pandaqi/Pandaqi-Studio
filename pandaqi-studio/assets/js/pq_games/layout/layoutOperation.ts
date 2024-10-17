@@ -18,6 +18,11 @@ import Renderer from "./renderers/renderer"
 import RendererPandaqi from "./renderers/rendererPandaqi"
 
 type ResourceLike = ResourceImage|ResourceShape|ResourceText|ResourceBox|ResourceGroup
+interface MaskData
+{
+    resource: ResourceImage,
+    operation: LayoutOperation
+}
 
 interface LayoutOperationParams
 {
@@ -50,7 +55,7 @@ interface LayoutOperationParams
 
     clip?:Shape,
     clipRelative?: boolean,
-    mask?:ResourceImage,
+    mask?:MaskData,
 
     resource?:ResourceLike,
     effects?:LayoutEffect[],
@@ -87,7 +92,7 @@ export default class LayoutOperation
 
     clip: Shape
     clipRelative : boolean
-    mask: ResourceImage
+    mask: MaskData
 
     resource : ResourceLike
     effects : LayoutEffect[]
@@ -307,19 +312,22 @@ export default class LayoutOperation
 
     applyFillAndStrokeToPath(ctx:CanvasRenderingContext2D, path:Path2D, callback:Function = null)
     {
-        const strokeBeforeFill = this.strokeAlign == StrokeAlign.OUTSIDE;
-        const clipStroke = this.strokeAlign == StrokeAlign.INSIDE;
+        const hasFill = this.hasFill();
+        const hasStroke = this.hasStroke();
+
+        const strokeBeforeFill = this.strokeAlign == StrokeAlign.OUTSIDE && hasStroke;
+        const clipStroke = this.strokeAlign == StrokeAlign.INSIDE && hasStroke;
 
         if(clipStroke) { ctx.save(); ctx.clip(path); }
 
         if(strokeBeforeFill) {
-            ctx.stroke(path);
-            ctx.fill(path);
+            if(hasStroke) { ctx.stroke(path); }
+            if(hasFill) { ctx.fill(path); }
             if(callback) { callback(); }
         } else {
-            ctx.fill(path);
+            if(hasFill) { ctx.fill(path); }
             if(callback) { callback(); }
-            ctx.stroke(path);
+            if(hasStroke) { ctx.stroke(path); }
         }
 
         if(clipStroke) { ctx.restore(); }
@@ -331,4 +339,5 @@ export default class LayoutOperation
 
     setFrame(f:number) { this.frame = f; return this; }
     hasDepth() { return !isZero(this.depth); }
+    hasMask() { return this.mask && this.mask.resource; }
 }

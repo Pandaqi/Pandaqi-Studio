@@ -48,8 +48,8 @@ const DYNAMIC_STRINGS:Record<string,any[]> =
     "%freq%": ["least", "most"],
     "%numlow%": [2,2,3], // this is a trick to make the 2 more likely + allow dynamically replacing this more times than just 2 (after which the array would otherwise be empty)
     "%num%": [2,3,4],
-    "%numhigh%": [5,6,7],
-    "%numveryhigh%": [9,10,11,12],
+    "%numhigh%": [5,6],
+    "%numveryhigh%": [7,8,9],
     "%compare%": ["different", "identical"],
     "%compareStrict%": ["the exact same", "none of the same"],
     "%compareNumber%": ["less than", "greater than"],
@@ -68,26 +68,26 @@ EXAMPLE FINISH REQUIREMENT.
 
 const RULE_CARDS:Record<string, GeneralData> =
 {
-    freq: { frame: 0, desc: "The card has the <b>%property%</b> that appears <b>%freq% often</b>.", prob: 2.5 }, // "The card has the color/shape that appears least often"
-    variety: { frame: 1, desc: "The card has <b>%num% %compare% %properties%.</b>" }, // "The card has 2 different colors."
-    neighbors: { frame: 2, desc: "The card has <b>%compareStrict% %properties%</b> as its <b>neighbors</b>" }, // "The card has the exact same icons as one of its neighbors."
-    number: { frame: 3, desc: "The card has a <b>number %compareNumber% %num%</b>." }, // "The card has a number less than 3."
-    number_adjacent: { frame: 4, desc: "The card has the <b>same number</b> as one of its <b>neighbors</b>.", prob: 0.25 },
-    rules: { frame: 5, desc: "The card is a <b>Rule Card</b>.", prob: 0.25 },
-    rules_adjacent: { frame: 6, desc: "The card is <b>next</b> to a <b>Rule Card</b>.", prob: 0.25 },
-    duplicates: { frame: 7, desc: "The card has <b>%invert% double %properties%</b>." }, // "The card has no double shapes."
+    freq: { frame: 0, desc: "The card has the <b><i>%property%</i></b> that appears <b><i>%freq% often</i></b>.", prob: 2.5 }, // "The card has the color/shape that appears least often"
+    variety: { frame: 1, desc: "The card has <b><i>%num% %compare% %properties%.</i></b>" }, // "The card has 2 different colors."
+    neighbors: { frame: 2, desc: "The card has <b><i>%compareStrict% %properties%</i></b> as one of its <b><i>neighbors</i></b>" }, // "The card has the exact same icons as one of its neighbors."
+    number: { frame: 3, desc: "The card has a <b><i>number %compareNumber% %num%</i></b>." }, // "The card has a number less than 3."
+    number_adjacent: { frame: 4, desc: "The card has the <b><i>same number</i></b> as one of its <b><i>neighbors</i></b>.", prob: 0.25 },
+    rules: { frame: 5, desc: "The card is a <b><i>Rule Card</i></b>.", prob: 0.25 },
+    rules_adjacent: { frame: 6, desc: "The card is <b><i>next</i></b> to a <b><i>Rule Card</i></b>.", prob: 0.25 },
+    duplicates: { frame: 7, desc: "The card has <b><i>%invert% double %properties%</i></b>." }, // "The card has no double shapes."
 }
 
 const FINISH_REQUIREMENTS:Record<string, GeneralData> =
 {
-    specific_cards: { frame: 0, desc: "You need <b>%numhigh% cards</b> showing (at least) <b>1 %identifier%</b>" }, // "You need 5 cards showing (at least) one Blue."
-    specific_individual: { frame: 1, desc: "You need <b>%numhigh% %identifier%</b>." }, // "You need 5 Blue icons."
-    num_cards: { frame: 2, desc: "You need <b>%numveryhigh% cards</b>.", prob: 0.5 },
-    num_cards_cond: { frame: 3, desc: "You need <b>%numhigh% cards</b> and <b>none shares a %property%</b> with a neighbor.", prob: 0.75 },
-    pairs: { frame: 4, desc: "You need <b>every %property%</b> in the game at least <b>%numlow% times</b>." }, // "You need every color in the game at least 2 times."
-    variety_cards: { frame: 5, desc: "You need <b>%numhigh% cards without</b> any two cards having 100% <b>matching %properties%</b>." },
-    specific_double: { frame: 6, desc: "You need <b>%num% %identifier%</b> and <b>%num% %identifier%</b>.", prob: 0.66 },
-    specific_triple: { frame: 7, desc: "You need <b>%numlow% %identifier%</b>, <b>%numlow% %identifier%</b> and <b>%numlow% %identifier%</b>.", prob: 0.33 }
+    specific_cards: { frame: 0, desc: "You need <b><i>%numhigh% cards</i></b> showing (at least) <b><i>1 %identifier%</i></b>" }, // "You need 5 cards showing (at least) one Blue."
+    specific_individual: { frame: 1, desc: "You need <b><i>%numhigh% %identifier%</i></b>." }, // "You need 5 Blue icons."
+    num_cards: { frame: 2, desc: "You need <b><i>%numveryhigh% cards</i></b>.", prob: 0.5 },
+    num_cards_cond: { frame: 3, desc: "You need <b><i>%numhigh% cards</i></b> and <b><i>none shares a %property%</i></b> with a neighbor.", prob: 0.75 },
+    pairs: { frame: 4, desc: "You need <b><i>every %property%</i></b> in the game at least <b><i>%numlow% times</i></b>." }, // "You need every color in the game at least 2 times."
+    variety_cards: { frame: 5, desc: "You need <b><i>%numhigh% cards without</i></b> any two cards having 100% <b><i>matching %properties%</i></b>." },
+    specific_double: { frame: 6, desc: "You need <b><i>%num% %identifier%</i></b> and <b><i>%num% %identifier%</i></b>.", prob: 0.66 },
+    specific_triple: { frame: 7, desc: "You need <b><i>%numlow% %identifier%</i></b>, <b><i>%numlow% %identifier%</i></b> and <b><i>%numlow% %identifier%</i></b>.", prob: 0.33 }
 }
 
 const MISC:Record<string, GeneralData> =

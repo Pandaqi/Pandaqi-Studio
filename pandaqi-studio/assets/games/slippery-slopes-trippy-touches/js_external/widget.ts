@@ -13,7 +13,7 @@ export default class Widget
     wordNode: HTMLElement;
     reloadButton: HTMLElement;
     
-    constructor(node) 
+    constructor(node:HTMLElement) 
     {
         this.node = node;
         this.wordNode = document.getElementById(node.dataset.wordnodeid);

@@ -69,8 +69,8 @@ This game has many different variants that require _no extra material_. This mak
 
 The following rule is a different way to handle Rule Cards being played. This makes the game easier, as special rules can often be ignored.
 
-* If exactly **1 Rules card is played**, then its rule determines the "correct" cards instead.
-* Otherwise, if **no or multiple** Rules cards are played, just use the default rules stated above.
+* If exactly **1 Rule Card is played**, then its rule determines the "correct" cards instead.
+* Otherwise, if **no or multiple** Rules cards are played, just use the default rules stated above. (They "cancel" each other out.)
 
 {{% /rules-block %}}
 
@@ -78,9 +78,9 @@ The following rule is a different way to handle Rule Cards being played. This ma
 
 This variant simply changes the _default rule_ for each round.
 
-* Keep 6 random Rule Cards in a separate deck.
+* Keep 9 random Rule Cards in a separate deck.
 * At the start of each round, reveal the top one. That's now the "default rule" for finding correct cards.
-* Once this deck is empty, simply re-use the same 6 cards again for a new deck.
+* Once this deck is empty, simply re-use the same 9 cards again for a new deck.
 
 It also changes what you must do in one specific situation.
 
@@ -96,21 +96,21 @@ When tapping an incorrect card, you must pick one of the following penalties.
 
 * Lose **2 Race cards**.
 * Lose **2 Hand cards**.
-* Next round, you are always "incorrect" if there's a tie ( = there are _multiple_ correct cards).
+* Next round, you are **always "incorrect"** if there's a **tie** ( = there are _multiple_ correct cards).
 
 {{% /rules-block %}}
 
-{{% rules-block heading="Variant: Tiebreaker" %}}
+{{% rules-block heading="Variant: Tiebreaker (Harder)" %}}
 
 This variant creates only a **single** correct card in most rounds.
 
 * Whenever there are multiple correct cards,
 * Ties are broken by the card showing the **color that appears most often** (among the tied cards).
-* If still a tie, the **highest number of symbols** on the card wins.
+* If still a tie, the **highest number of shapes** on the card wins.
 
 For example,
 
-* 3 cards are played: 2 Square (G), 1 Square (G), 1 Square (Y) + 2 Circle (B)
+* 3 cards are played: 2 Square (G), 1 Square (G), 1 Square (R) + 2 Circle (B)
 * The most common icon is Square, so all cards are correct.
 * The color that appears most often is G (Green), so only card 1-2 remains
 * The highest number of symbols is 2, so card 1 wins.
@@ -126,7 +126,7 @@ This variant makes the game **turn-based** instead of simultaneous.
 * Pick any start player.
 * Player's hands are "blind": a facedown pile before them.
 * From start player, in clockwise turns, people reveal a _single_ card (faceup).
-* Only once somebody reveals a Rules Card, the smashing begins.
+* The smashing begins only **once somebody reveals a Rule Card**.
   * That specific card tells you the rule for what's "correct".
   * If you're correct, you win the entire _pile_ of cards that has built up in front of you.
 
@@ -140,12 +140,7 @@ All the cards in the game have three properties: their shapes, their colors, and
 
 In the base game, cards show this by simply displaying the icons as many times as needed. 
 
-In this expansion, however, cards will have **different ways of displaying the "how many" part**.
-
-* NUMBER = An actual number + times symbol
-* HAND = The number is shown by counting how many fingers the hand holds up
-* DICE = The number is shown by a die face.
-* ROMAN = The number is shown by roman numerals (or rather "tallying")
+In this expansion, however, cards will have **different ways of displaying the "how many" part**: number text, fingers on a hand, dice, or tallying.
 
 @TODO: EXAMPLE IMAGE
 

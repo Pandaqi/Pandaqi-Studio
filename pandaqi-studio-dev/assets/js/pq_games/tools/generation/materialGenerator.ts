@@ -31,7 +31,8 @@ interface DrawerConfig
 enum GridSizePreset
 {
     CARD = "card",
-    TILE = "tile"
+    TILE = "tile",
+    DOMINO = "domino"
 }
 
 const GRID_SIZE_DEFAULT:Record<string,Point> = 
@@ -66,6 +67,18 @@ const GRID_SIZE_PRESETS:Record<GridSizePreset, DrawerConfig> =
             small: new Point(5,7),
             regular: new Point(3,5),
             large: new Point(2,3)
+        },
+    },
+
+    [GridSizePreset.DOMINO]:
+    {
+        autoStroke: true,
+        sizeElement: new Point(1, 2),
+        size: 
+        { 
+            small: new Point(5,4),
+            regular: new Point(4,3),
+            large: new Point(3,2)
         },
     }
 }

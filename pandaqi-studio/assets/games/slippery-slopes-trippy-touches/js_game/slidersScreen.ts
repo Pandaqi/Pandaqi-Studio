@@ -60,7 +60,7 @@ export default class SlidersScreen
                     }
                 }
             })
-            await s.setup();
+            await s.setup(CONFIG.sliderCards.interactiveBaseSize);
         }
         subCont.appendChild(sliderContainer);
 

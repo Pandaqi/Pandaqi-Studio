@@ -54,8 +54,6 @@ class Game
         Object.assign(CONFIG, userConfig);
 
         CONFIG.game.maxTurns = parseInt(userConfig.maxTurns ?? "10");
-
-        CONFIG.sliderCards.size = new Point(450, 900);
         this.score = 0;
     }
 

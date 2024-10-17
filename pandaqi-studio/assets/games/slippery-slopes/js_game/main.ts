@@ -1,4 +1,18 @@
-import Generator from "./generator";
+import MaterialGenerator from "js/pq_games/tools/generation/materialGenerator";
+import CONFIG from "../js_shared/config";
+import SliderPicker from "./sliderPicker";
+import WordPicker from "./wordPicker";
+import loadPandaqiWords from "../js_shared/loadPandaqiWords";
 
-new Generator().start();
+const asyncWrapper = async () => 
+{
+    CONFIG.pandaqiWords = await loadPandaqiWords(CONFIG, true);
+
+    const generator = new MaterialGenerator(CONFIG);
+    generator.addPipeline("sliders", SliderPicker, CONFIG.sliderCards.drawerConfig);
+    generator.addPipeline("words", WordPicker, CONFIG.wordCards.drawerConfig);
+    generator.start();
+}
+
+asyncWrapper();
 

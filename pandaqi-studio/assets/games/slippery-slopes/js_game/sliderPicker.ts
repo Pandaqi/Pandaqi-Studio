@@ -7,31 +7,18 @@ import CONFIG from "../js_shared/config";
 import { ACTIONS, PROPERTIES, SLIDERS } from "../js_shared/dict";
 import Slider from "../js_shared/slider";
 
-export default class SliderCards
+export default class SliderPicker
 {
     sliders: Slider[];
     gridMapper: GridMapper;
-    itemSize:Point;
     
     constructor() { }
 
+    get() { return this.sliders.slice(); }
     generate()
     {
-        if(!CONFIG.generateSliders) { return; }
-
-        this.setup();
+        this.sliders = [];
         this.pickSliders();
-    }
-
-    setup()
-    {
-        const size = CONFIG.sliderCards.size[CONFIG.itemSize ?? "regular"];
-
-        const gridConfig = { pdfBuilder: CONFIG.pdfBuilder, size: size, sizeElement: CONFIG.sliderCards.sizeElement };
-        const gridMapper = new GridMapper(gridConfig);
-        this.gridMapper = gridMapper; 
-
-        this.itemSize = gridMapper.getMaxElementSize().clone();
     }
 
     getRequiredProperties(dict:Record<string,any>)
@@ -47,6 +34,8 @@ export default class SliderCards
     
     pickSliders()
     {
+        if(!CONFIG.generateSliders) { return; }
+
         let properties = Object.keys(PROPERTIES);
         shuffle(properties);
 
@@ -136,19 +125,5 @@ export default class SliderCards
             arr.push(getWeighted(actionDict));
         }
         return arr;
-    }
-
-    async draw()
-    {
-        if(!this.sliders) { return []; }
-
-        const promises = [];
-        for(const slider of this.sliders)
-        {
-            promises.push(slider.draw(this.itemSize));
-        }
-        const canvases = await Promise.all(promises);
-        this.gridMapper.addElements(canvases.flat());
-        return this.gridMapper.getCanvases();
     }
 }

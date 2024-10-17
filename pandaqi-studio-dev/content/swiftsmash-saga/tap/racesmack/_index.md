@@ -34,6 +34,7 @@ devlog: "/blog/boardgames/swiftsmash-saga/racesmack/"
 {{% boardgame-settings-container type="material" %}}
 
 {{< boardgame-settings type="game" local_storage="racesmackConfig" btn_label="Generate Material" game_title="Racesmack" defaults="true">}}
+  {{< setting-checkbox id="setting-useBiggerFont" text="Use Bold Font?" remark="Uses the thicker/bigger font on Rule Cards for readability." checked="checked" >}}
   {{< boardgame-settings-section heading="Sets" >}}
     {{< setting-checkbox id="setting-sets-base" text="Base?" checked="checked" >}}
     {{< setting-checkbox id="setting-sets-shiftingGears" text="Shifting Gears?" >}}

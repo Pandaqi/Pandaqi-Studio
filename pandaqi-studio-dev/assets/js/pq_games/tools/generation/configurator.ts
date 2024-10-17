@@ -91,6 +91,8 @@ export default class Configurator
             const isException = anyMatch(this.exceptions, pathNew);
             if(isException) { continue; }
 
+            if(data == null || data == undefined) { continue; }
+
             // either calculate the final value (or try to)
             const isCVal = (data instanceof CVal);
             if(isCVal)
@@ -122,7 +124,7 @@ export default class Configurator
 
     isClassInstance(data)
     {
-        if(data.constructor && data.constructor.name !== "Object") { return true; }
+        if(typeof data == "object" && data.constructor && data.constructor.name !== "Object") { return true; }
         return false;
     }
 

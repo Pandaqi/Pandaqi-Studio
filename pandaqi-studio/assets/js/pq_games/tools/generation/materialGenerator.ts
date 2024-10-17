@@ -8,6 +8,7 @@ import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage
 import { PageFormat, PageOrientation } from "js/pq_games/pdf/pdfEnums";
 import Renderer from "js/pq_games/layout/renderers/renderer";
 import RendererPandaqi from "js/pq_games/layout/renderers/rendererPandaqi";
+import Point from "../geometry/point";
 
 const DEFAULT_BATCH_SIZE = 10;
 const GIVE_FEEDBACK = true;
@@ -20,6 +21,68 @@ interface MaterialDrawCall
     visualizer: MaterialVisualizer
 }
 
+interface DrawerConfig
+{
+    autoStroke?: boolean,
+    sizeElement?: Point,
+    size: Record<string,Point>
+}
+
+enum GridSizePreset
+{
+    CARD = "card",
+    TILE = "tile",
+    DOMINO = "domino"
+}
+
+const GRID_SIZE_DEFAULT:Record<string,Point> = 
+{
+    tiny: new Point(5,5),
+    small: new Point(4,4),
+    regular: new Point(3,3),
+    large: new Point(2,2),
+    huge: new Point(1,1)
+}
+
+const GRID_SIZE_PRESETS:Record<GridSizePreset, DrawerConfig> =
+{
+    [GridSizePreset.CARD]: 
+    {
+        autoStroke: true,
+        sizeElement: new Point(1, 1.4),
+        size: 
+        { 
+            small: new Point(4,4),
+            regular: new Point(3,3),
+            large: new Point(2,2)
+        }, 
+    },
+
+    [GridSizePreset.TILE]:
+    {
+        autoStroke: true,
+        sizeElement: new Point(1, 1),
+        size: 
+        { 
+            small: new Point(5,7),
+            regular: new Point(3,5),
+            large: new Point(2,3)
+        },
+    },
+
+    [GridSizePreset.DOMINO]:
+    {
+        autoStroke: true,
+        sizeElement: new Point(1, 2),
+        size: 
+        { 
+            small: new Point(5,4),
+            regular: new Point(4,3),
+            large: new Point(3,2)
+        },
+    }
+}
+
 //
 // Default debug config settings are
 // debug.onlyGenerate => only invokes generator part of pipeline
@@ -30,6 +93,7 @@ interface MaterialDrawCall
 // itemSize => determines general size for drawing, input on general settings
 // size + sizeElement => specific settings for gridMapper, given when adding this particular drawer to the pipeline
 //
+export { DrawerConfig, GridSizePreset }
 export default class MaterialGenerator
 {
     config: Record<string,any>;
@@ -67,7 +131,7 @@ export default class MaterialGenerator
         this.progressBar = new ProgressBar();
         this.progressBar.setPhases(this.progressBarPhases);
 
-        const pdfBuilderConfig = { orientation: this.config.pageOrientation ?? PageOrientation.PORTRAIT, debugWithoutFile: this.config.debug.omitFile, format: this.config.pageSize as PageFormat };
+        const pdfBuilderConfig = { orientation: this.config.pageOrientation ?? PageOrientation.PORTRAIT, debugWithoutFile: this.config.debug.omitFile, format: this.config.pageSize as PageFormat, lossless: this.config.losslessPdf };
         const pdfBuilder = new PdfBuilder(pdfBuilderConfig);
         this.pdfBuilder = pdfBuilder; 
     }
@@ -97,11 +161,28 @@ export default class MaterialGenerator
 
     addDrawer(id:string, drawerConfig:Record<string,any>)
     {
-        const size = drawerConfig.size[this.config.itemSize ?? "regular"];
+        // a shortcut to select an oft-used preset of settings
+        if(drawerConfig.preset) { drawerConfig = GRID_SIZE_PRESETS[drawerConfig.preset]; }
+        const size = this.getGridSize(drawerConfig);
         const autoStroke = drawerConfig.autoStroke ?? false;
         const gridConfig = { pdfBuilder: this.pdfBuilder, size: size, sizeElement: drawerConfig.sizeElement, autoStroke: autoStroke };
         const gridMapper = new GridMapper(gridConfig);
         this.drawers[id] = gridMapper;
+    }
+
+    getGridSize(drawerConfig:Record<string,any>) : Point
+    {
+        // if something is set specifically, use that
+        const size = drawerConfig.size[this.config.itemSize];
+        if(size) { return size; }
+
+        // otherwise, extract from "base" size 
+        // (calculate the relative step between default size and wanted size, apply to the input setting)
+        const baseSize = GRID_SIZE_DEFAULT.regular;
+        const targetSize = GRID_SIZE_DEFAULT[this.config.itemSize ?? "regular"];
+        const sizeChange = 0.5*Math.ceil((targetSize.x / baseSize.x) + (targetSize.y / baseSize.y));
+        const newSize = drawerConfig.size.regular.clone().scale(sizeChange).round();
+        return newSize;
     }
 
     setupConfig(CONFIG)
@@ -209,7 +290,10 @@ export default class MaterialGenerator
             }
 
             const canvases = await Promise.all(promises);
-            drawCallsInBatch[0].drawer.addElements(canvases.flat());
+            for(let i = 0; i < canvases.length; i++)
+            {
+                drawCallsInBatch[i].drawer.addElement(canvases[i])
+            }
         }
     }
 

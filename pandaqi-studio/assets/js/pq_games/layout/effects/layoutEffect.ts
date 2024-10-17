@@ -6,6 +6,8 @@ import EffectsOperation from "./effectsOperation";
 
 export default class LayoutEffect
 {
+    temporaryCanvas = false
+
     constructor(params:Record<string,any> = {}) { }
 
     applyToImage(image:ResourceImage = null, effOp:EffectsOperation) : ResourceImage { return null; }
@@ -26,4 +28,5 @@ export default class LayoutEffect
     applyShadow(canv:CanvasLike) { }
     clone(deep = false) : LayoutEffect { return new LayoutEffect(); }
     getExtraSizeAdded() : Point { return new Point(); }
+    needsTemporaryCanvas() { return this.temporaryCanvas; }
 }

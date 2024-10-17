@@ -26,6 +26,7 @@ export default class OutlineEffect extends LayoutEffect
 {
     color: Color
     thickness: number
+    temporaryCanvas = true
 
     constructor(params:OutlineEffectParams = {})
     {

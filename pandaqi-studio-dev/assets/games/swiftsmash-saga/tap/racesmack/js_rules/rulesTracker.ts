@@ -1,3 +1,4 @@
+import anyMatch from "js/pq_games/tools/collections/anyMatch";
 import Card from "../js_game/card";
 import { CardType, ShapeType } from "../js_shared/dict";
 
@@ -11,11 +12,15 @@ export default class RulesTracker
 
     isCorrectDefault(t:Card, o:Card[]) 
     {
-        const sorted = this.getPropertySorted(o, "shape");
-        if(sorted.length <= 0) { return false; }
+        const extremeElements = this.getPropertySorted(o, "shape", true);
+        if(extremeElements.length <= 0) { return false; }
 
-        const mostFreqSymbol = sorted[sorted.length - 1];
-        return t.symbols.includes(mostFreqSymbol as ShapeType);
+        for(const elem of t.symbols)
+        {
+            if(!extremeElements.includes(elem)) { continue; }
+            return true;
+        }
+        return false;
     }
 
     getNeighbors(t:Card, o:Card[])
@@ -32,7 +37,7 @@ export default class RulesTracker
     }
 
     // this sorts ASCENDING by default
-    getPropertySorted(o:Card[], prop:string)
+    getPropertySorted(o:Card[], prop:string, pickHighest = false)
     {
         const freqs = {};
         const key = this.getKeyFromString(prop);
@@ -46,7 +51,12 @@ export default class RulesTracker
         const elems = Object.keys(freqs).sort((a:string, b:string) => {
             return freqs[a] - freqs[b];
         })
-        return elems;
+
+        const idx = pickHighest ? elems.length - 1 : 0; 
+        const maxElemFreq = freqs[ elems[idx] ];
+
+        const maxElems = elems.filter((x:string) => freqs[x] == maxElemFreq);
+        return maxElems;
     }
 
     getPropertyFreqs(t:Card, prop:string)
@@ -77,13 +87,15 @@ export default class RulesTracker
     {
         const prop = r.dynamicValuesRule[0];
         const extreme = r.dynamicValuesRule[1];
-        const sorted = this.getPropertySorted(o, prop);
-        const idx = (extreme == "least") ? 0 : sorted.length - 1; 
-        const wantedElem = sorted[idx];
-
+        const pickHighest = (extreme == "most");
+        const extremeElements = this.getPropertySorted(o, prop, pickHighest);
         const key = this.getKeyFromString(prop);
-        // @ts-ignore
-        return t[key].includes(wantedElem);
+        for(const elem of t[key])
+        {
+            if(!extremeElements.includes(elem)) { continue; }
+            return true;
+        }
+        return false;
     }
 
     variety(r: Card, t:Card, o:Card[])
@@ -101,7 +113,22 @@ export default class RulesTracker
     {
         const nbs = this.getNeighbors(t, o);
         const key = this.getKeyFromString( r.dynamicValuesRule[0] );
-        return this.arraysAreEqual(nbs[0][key], t[key]) || this.arraysAreEqual(nbs[1][key], t[key]);
+        const compare = r.dynamicValuesRule[1];
+
+        if(compare == "the exact same")
+        {
+            const hasFullMatch = this.arraysAreEqual(nbs[0][key], t[key]) || this.arraysAreEqual(nbs[1][key], t[key]);
+            return hasFullMatch;
+        }
+
+        if(compare == "none of the same")
+        {
+            // @ts-ignore
+            const hasFailedAnyMatch = !anyMatch(t[key], nbs[0][key]) || !anyMatch(t[key], nbs[0][key]);
+            return hasFailedAnyMatch;
+        }
+
+        return true;
     }
 
     rules(r: Card, t:Card, o:Card[])

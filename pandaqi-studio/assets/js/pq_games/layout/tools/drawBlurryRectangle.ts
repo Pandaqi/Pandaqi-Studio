@@ -18,7 +18,7 @@ interface BlurryRectParams
 // @TODO: not sure if pq_games/layout/tools folder is the best place for "common helper functions" like this ... will re-organize once I have more of these
 export default (params:BlurryRectParams = {}, group:ResourceGroup = null) =>
 {
-    const rect = new Rectangle({ center: params.pos ?? new Point(), extents: params.size });
+    const rect = new Rectangle({ center: params.pos ?? new Point(), extents: params.size});
     const res = new ResourceShape(rect);
     const op = new LayoutOperation({
         fill: params.color ?? "#FFFFFF",

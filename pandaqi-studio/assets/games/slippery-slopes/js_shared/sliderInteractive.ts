@@ -4,6 +4,7 @@ import preventDefaults from "js/pq_games/tools/dom/preventDefaults";
 import addTouchEvents from "js/pq_games/tools/dom/addTouchEvents";
 import Point from "js/pq_games/tools/geometry/point";
 import SignalManager from "js/pq_games/tools/signals/signalManager";
+import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
 
 export default class SliderInteractive
 {
@@ -37,7 +38,9 @@ export default class SliderInteractive
         
         if(!customSize && this.canvas) { customSize = new Point(this.canvas.width, this.canvas.height); }
         
-        const newCanvas = await this.slider.draw(customSize); 
+        const vis = new MaterialVisualizer({ itemSize: customSize });
+        const newCanvas = await this.slider.draw(vis); 
+
         if(this.canvas) {
             this.node.replaceChild(newCanvas, this.canvas);
         } else {

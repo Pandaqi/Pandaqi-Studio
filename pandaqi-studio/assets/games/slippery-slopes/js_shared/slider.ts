@@ -23,6 +23,7 @@ import fitPath from "js/pq_games/tools/geometry/paths/fitPath";
 import RectangleRounded from "js/pq_games/tools/geometry/rectangleRounded";
 import getWeighted from "js/pq_games/tools/random/getWeighted";
 import ResourceImage from "js/pq_games/layout/resources/resourceImage";
+import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
 
 export default class Slider
 {
@@ -45,33 +46,32 @@ export default class Slider
         this.subType = getWeighted(PROPERTIES);
     }
 
-    async draw(itemSize:Point) : Promise<HTMLCanvasElement>
+    async draw(vis:MaterialVisualizer) : Promise<HTMLCanvasElement>
     {
         const colorSteps = CONFIG.sliderCards.numColorSteps;
 
-        const ctx = createContext({ size: itemSize });
+        const ctx = createContext({ size: vis.size });
 
-        const blockHeight = itemSize.y / colorSteps;
+        const blockHeight = vis.size.y / colorSteps;
         const amp = CONFIG.wavyRect.amplitude * blockHeight;
         
-        const wavyRectSize = new Point(itemSize.x, blockHeight + 4*amp);
+        const wavyRectSize = new Point(vis.size.x, blockHeight + 4*amp);
         this.wavyRect = createWavyRect(wavyRectSize, amp, CONFIG.wavyRect.frequency, CONFIG.wavyRect.stepSize);
 
         const textConfig = CONFIG.cards.textConfig.clone();
         textConfig.size = CONFIG.sliderCards.textScale * blockHeight;
 
-        const saturation = CONFIG.inkFriendly ? 0 : CONFIG.wavyRect.saturation;
-        const lightness = CONFIG.inkFriendly ? 100 : CONFIG.wavyRect.lightness;
+        const saturation = vis.inkFriendly ? 0 : CONFIG.wavyRect.saturation;
+        const lightness = vis.inkFriendly ? 100 : CONFIG.wavyRect.lightness;
         const colors = equidistantColorsBetweenOpposites(colorSteps, saturation, lightness);
 
-        this.createOutlineRect(ctx, itemSize);
+        this.createOutlineRect(ctx, vis.size);
         ctx.clip(); // uses the path we just created above
 
-        this.drawBackground(ctx, colors, blockHeight, itemSize);
+        this.drawBackground(ctx, colors, blockHeight, vis.size);
         
-        this.drawCustom(ctx, colors, textConfig, blockHeight, itemSize);
-        this.drawActionIcons(ctx, colors, blockHeight, itemSize);
-        this.drawOutline(ctx, itemSize);
+        this.drawCustom(vis, ctx, colors, textConfig, blockHeight, vis.size);
+        this.drawActionIcons(vis, ctx, colors, blockHeight, vis.size);
 
         return ctx.canvas;
     }
@@ -82,19 +82,6 @@ export default class Slider
         const radius = CONFIG.cards.outline.radius * itemSize.x;
 
         ctx.roundRect(0.5*lw, 0.5*lw, itemSize.x-lw, itemSize.y-lw, radius);
-    }
-
-    drawOutline(ctx:CanvasRenderingContext2D, itemSize:Point)
-    {
-        const lw = CONFIG.cards.outline.width * itemSize.x;
-
-        ctx.save();
-        ctx.beginPath();
-        ctx.strokeStyle = CONFIG.cards.outline.color;
-        ctx.lineWidth = lw;
-        this.createOutlineRect(ctx, itemSize);
-        ctx.stroke();
-        ctx.restore();
     }
 
     drawBackground(ctx:CanvasRenderingContext2D, colors:Color[], blockHeight:number, itemSize:Point)
@@ -151,16 +138,16 @@ export default class Slider
         }
     }
 
-    drawCustom(ctx:CanvasRenderingContext2D, colors:Color[], textConfig:TextConfig, blockHeight:number, itemSize:Point)
+    drawCustom(vis: MaterialVisualizer, ctx:CanvasRenderingContext2D, colors:Color[], textConfig:TextConfig, blockHeight:number, itemSize:Point)
     {
-        if(this.mainType == "property") { this.drawProperties(ctx, colors, textConfig, blockHeight, itemSize); }
-        else if(this.mainType == "words") { this.drawWords(ctx, colors, blockHeight, itemSize); }
+        if(this.mainType == "property") { this.drawProperties(vis, ctx, colors, textConfig, blockHeight, itemSize); }
+        else if(this.mainType == "words") { this.drawWords(vis, ctx, colors, blockHeight, itemSize); }
         else if(this.mainType == "color") { this.drawColorRamp(ctx); }
         else if(this.mainType == "shapes") { this.drawShapes(ctx, colors, blockHeight, itemSize); }
     }
 
     // draw text with extremes
-    drawProperties(ctx:CanvasRenderingContext2D, colors:Color[], textConfig:TextConfig, blockHeight:number, itemSize:Point)
+    drawProperties(vis:MaterialVisualizer, ctx:CanvasRenderingContext2D, colors:Color[], textConfig:TextConfig, blockHeight:number, itemSize:Point)
     {
         const textDarken = CONFIG.cards.textDarkenFactor;
         const extremes = this.getExtremes();
@@ -168,7 +155,7 @@ export default class Slider
         {
             const color = (i == 0) ? colors[0] : colors[colors.length-1];
             let finalColor = color.getHighestContrast([color.darken(textDarken), Color.WHITE]);
-            if(CONFIG.inkFriendly) { finalColor = Color.BLACK; }
+            if(vis.inkFriendly) { finalColor = Color.BLACK; }
 
             const word = extremes[i];
             const text = new ResourceText({ text: word, textConfig: textConfig })
@@ -184,7 +171,7 @@ export default class Slider
     }
 
     // draw random words/letters in random fonts
-    drawWords(ctx:CanvasRenderingContext2D, colors:Color[], blockHeight:number, itemSize:Point)
+    drawWords(vis:MaterialVisualizer, ctx:CanvasRenderingContext2D, colors:Color[], blockHeight:number, itemSize:Point)
     {
         const textDarken = CONFIG.cards.textDarkenFactor;
         const fonts = [];
@@ -210,7 +197,7 @@ export default class Slider
 
             const color = colors[i];
             let finalColor = color.getHighestContrast([color.darken(textDarken), Color.WHITE]);
-            if(CONFIG.inkFriendly) { finalColor = Color.BLACK; }
+            if(vis.inkFriendly) { finalColor = Color.BLACK; }
 
             const word = this.getRandomWord();
 
@@ -321,7 +308,7 @@ export default class Slider
         }
     }
 
-    drawActionIcons(ctx:CanvasRenderingContext2D, colors:Color[], blockHeight:number, itemSize:Point)
+    drawActionIcons(vis:MaterialVisualizer, ctx:CanvasRenderingContext2D, colors:Color[], blockHeight:number, itemSize:Point)
     {
         const numActions = this.actions.length;
         if(numActions <= 0) { return; }
@@ -343,7 +330,7 @@ export default class Slider
         for(let i = 0; i < numActions; i++)
         {
             const actionKey = this.actions[i];
-            const res = CONFIG.resLoader.getResource(CONFIG.actionSpritesheetKey) as ResourceImage;
+            const res = vis.getResource(CONFIG.actionSpritesheetKey) as ResourceImage;
             const rectIndex = rectIndices.pop();
 
             const x = placeLeft ? 0.2 * itemSize.x : 0.8 * itemSize.x;
@@ -356,7 +343,7 @@ export default class Slider
                 pivot: Point.CENTER
             })
 
-            if(CONFIG.inkFriendly)
+            if(vis.inkFriendly)
             {
                 canvOp.addEffect(grayscaleEffect);
             }
@@ -364,6 +351,7 @@ export default class Slider
             const bgRectDims = actionIconSize.clone().scaleFactor(1.05);
             const bgRectRadius = 0.1*actionIconSize.x;
             ctx.save();
+            ctx.resetTransform();
             ctx.beginPath();
             ctx.roundRect(
                 canvOp.pos.x - 0.5*bgRectDims.x, canvOp.pos.y - 0.5*bgRectDims.y,

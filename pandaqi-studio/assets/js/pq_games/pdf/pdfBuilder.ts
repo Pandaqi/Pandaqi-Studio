@@ -12,7 +12,7 @@ interface PdfConfig
     format: number[],
     fileName: string,
     userUnit?: number,
-    hotfixes?: string[]
+    hotfixes?: string[],
 }
 
 interface PdfBuilderConfig 
@@ -26,7 +26,8 @@ interface PdfBuilderConfig
     format?: PageFormat,
     pageSize?: PageFormat,
     jsPDF?:any,
-    debugWithoutFile?: boolean
+    debugWithoutFile?: boolean,
+    lossless?: boolean, // default = false, means we compress the PDF
 }
 
 export { PdfBuilder, PdfBuilderConfig, PdfConfig };
@@ -43,6 +44,7 @@ export default class PdfBuilder
 
     images : HTMLImageElement[]
     debugWithoutFile : boolean
+    lossless : boolean
 
     constructor(cfg:PdfBuilderConfig = {})
     {
@@ -57,6 +59,7 @@ export default class PdfBuilder
         this.buttonConfig = {};
         this.debugWithoutFile = cfg.debugWithoutFile ?? false;
         this.orientation = cfg.orientation ?? PageOrientation.LANDSCAPE;
+        this.lossless = cfg.lossless ?? false;
         this.format = cfg.format ?? cfg.pageSize ?? PageFormat.A4;
         this.splitDims = new Point(1,1);
         this.size = this.calculatePageSize(cfg);
@@ -207,10 +210,11 @@ export default class PdfBuilder
         // DOC: addImage(imageData, format, x, y, width, height, alias, compression, rotation)
         // compression values = NONE, FAST, MEDIUM, SLOW
         // NONE creates 100+ mb files, so don't use that
+        const compressionValue = this.lossless ? "NONE" : "MEDIUM";
         for(var i = 0; i < this.images.length; i++) 
         {
             if(i > 0) { doc.addPage(); }
-            doc.addImage(this.images[i], 'png', 0, 0, pageSizeInches.x, pageSizeInches.y, undefined, 'MEDIUM');
+            doc.addImage(this.images[i], 'png', 0, 0, pageSizeInches.x, pageSizeInches.y, undefined, compressionValue);
         }
 
         doc.save(pdfConfig.fileName);

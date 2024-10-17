@@ -100,6 +100,11 @@ const generate = async (sim:InteractiveExampleSimulator) =>
         const numCardsCorrect = cardCorrectness.filter((cor:boolean) => cor).length;
         const noCardsCorrect = numCardsCorrect <= 0;
 
+        if(noCardsCorrect)
+        {
+            sim.print("Oh no! <b>None</b> of the cards are correct. Only players who tap their own card are \"correct\".");
+        }
+
         sim.stats.correctCardsTotal += numCardsCorrect;
         if(noCardsCorrect) { sim.stats.noneCorrectRoundTotal++; }
 
@@ -110,9 +115,10 @@ const generate = async (sim:InteractiveExampleSimulator) =>
             const myCardSmacked = cardSmacked[player.num];
             const myCardPlayed = cardsPlayed.cards[player.num];
             const isCorrectRaw = cardCorrectness[cardsPlayed.cards.indexOf(myCardSmacked)];
-            const isCorrect = (noCardsCorrect && myCardSmacked == myCardPlayed) || (!noCardsCorrect && isCorrectRaw);
+            let isCorrect = (noCardsCorrect && myCardSmacked == myCardPlayed) || (!noCardsCorrect && isCorrectRaw);
+            if(player == playerTooLate) { isCorrect = false; }
             playersCorrectness.push(isCorrect);
-            if(isCorrect && player != playerTooLate) { playersCorrect.push(player); }
+            if(isCorrect) { playersCorrect.push(player); }
         }
         const playerFastest = playersCorrect.length > 0 ? fromArray(playersCorrect) : null;
 

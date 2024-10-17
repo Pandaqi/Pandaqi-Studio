@@ -23,6 +23,8 @@ const CONFIG:any =
     itemSize: "regular",
     pageSize: "a4",
 
+    useBiggerFont: false,
+
     fonts:
     {
         heading: "amsterdam",
@@ -106,12 +108,10 @@ const CONFIG:any =
     {
         numSymbolsDist:
         {
-            1: 0.1, // "this percentage of cards has 1 symbol"
-            2: 0.2,
+            1: 0.2, // "this percentage of cards has 1 symbol"
+            2: 0.35,
             3: 0.3,
-            4: 0.2,
-            5: 0.1,
-            6: 0.1
+            4: 0.15,
         },
 
         numCardsPerSet:
@@ -167,7 +167,7 @@ const CONFIG:any =
         rules:
         {
             fontSize: new CVal(0.07, "sizeUnit"),
-            textBoxSize: new CVal(new Point(0.63, 0.35), "size"),
+            textBoxSize: new CVal(new Point(0.605, 0.35), "size"),
             iconSize: new CVal(new Point(0.166), "sizeUnit"),
 
             id:
@@ -178,13 +178,13 @@ const CONFIG:any =
 
             rule:
             {
-                pos: new CVal(new Point(0.35, 0.25), "size"),
+                pos: new CVal(new Point(0.34, 0.25), "size"),
                 posIcon: new CVal(new Point(0.817, 0.247), "size")
             },
 
             finish:
             {
-                pos: new CVal(new Point(0.35, 0.75), "size"),
+                pos: new CVal(new Point(0.34, 0.75), "size"),
                 posIcon: new CVal(new Point(0.817, 0.747), "size")
             }
 
