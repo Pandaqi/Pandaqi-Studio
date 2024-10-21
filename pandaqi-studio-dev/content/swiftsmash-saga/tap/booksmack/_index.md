@@ -6,7 +6,7 @@ title: "Booksmack"
 headerTitle: "Be the first to tap the highest letter of the alphabet ... or sneakily take away victory by spelling a word."
 weightProject: 10
 
-color: "purple"
+color: "brown"
 
 downloadLink: "https://drive.google.com/drive/folders/13Pl94vYlfbsGWsz5_ADtw0wvNRmFUs6E"
 
@@ -20,8 +20,8 @@ themes: ["sea"]
 
 multiplayermode: "competitive"
 language: EN
-playtime: 30
-playercount: [2,3,4,5,6,7,8]
+playtime: 20
+playercount: [2,3,4,5,6,7]
 ages: everyone
 devlog: "/blog/boardgames/swiftsmash-saga/booksmack/"
 

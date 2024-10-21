@@ -6,7 +6,7 @@ title: "Point-a-Pile"
 headerTitle: "Point at the pile of juicy cards that you want. Live with the consequences."
 weightProject: 30
 
-color: "red"
+color: "purple"
 
 downloadLink: "https://drive.google.com/drive/folders/1g2lnFUYucTaO0Iy8ooPXnp9PALr6R5w7"
 
@@ -21,7 +21,7 @@ themes: ["sea"]
 multiplayermode: "competitive"
 language: EN
 playtime: 30
-playercount: [2,3,4,5,6,7,8]
+playercount: [2,3,4,5,6]
 ages: everyone
 devlog: "/blog/boardgames/swiftsmash-saga/point-a-pile/"
 

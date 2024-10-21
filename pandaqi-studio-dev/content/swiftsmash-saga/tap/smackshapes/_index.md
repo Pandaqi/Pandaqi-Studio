@@ -20,8 +20,8 @@ themes: ["sea"]
 
 multiplayermode: "competitive"
 language: EN
-playtime: 30
-playercount: [2,3,4,5,6,7,8]
+playtime: 10
+playercount: [2,3,4,5,6]
 ages: everyone
 devlog: "/blog/boardgames/swiftsmash-saga/smackshapes/"
 
