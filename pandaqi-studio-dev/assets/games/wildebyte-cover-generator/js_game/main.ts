@@ -23,6 +23,7 @@ import Color from "js/pq_games/layout/color/color";
 
 const CREATE_PDF_FOR_AMAZON = true;
 const REMOVE_BACK_LOGO_FOR_D2D = true;
+const CUSTOM_TARGETS = ["amazon_hardcover"] // @DEBUGGING (make empty to just use ALL targets defined)
 
 let resLoader:ResourceLoader;
 
@@ -77,7 +78,7 @@ const getSpineSizePixels = (target:string) =>
 
 const getSpineSize = (target:string) =>
 {
-    let spineX = TARGETS[target].pageThickness * BOOK_DATA.numPages;
+    let spineX = (TARGETS[target].pageThicknessConstant ?? 0) + TARGETS[target].pageThickness * BOOK_DATA.numPages;
     if(BOOK_DATA.forcedSpineSize != null) { spineX = BOOK_DATA.forcedSpineSize; } // this must be inches too
     return new Point(spineX, getPageSize(target).y);
 }
@@ -91,8 +92,8 @@ const getPageSize = (target:string) =>
 {
     const targetData = TARGETS[target];
     return new Point(
-        1 * targetData.bleed + PAGE_SIZE.x,
-        2 * targetData.bleed + PAGE_SIZE.y
+        1 * targetData.bleed.x + PAGE_SIZE.x,
+        2 * targetData.bleed.y + PAGE_SIZE.y
     )
 }
 
@@ -380,9 +381,10 @@ const createSpine = (size:Point, center: Point) =>
     // the general textured background
     // @NOTE: it retains its size (larger than any spine will ever be) to prevent any ugly stretching
     const resBg = resLoader.getResource("spine_background");
+    const realBGSize = resBg.getSize();
     const opBg = new LayoutOperation({
         pos: center,
-        size: resBg.getSize(),
+        size: new Point(realBGSize.x, size.y),
         pivot: Point.CENTER
     });
     group.add(resBg, opBg);
@@ -492,7 +494,7 @@ const createFront = (size:Point, center: Point) =>
         pos: framingPosPainting,
         size: paintingDims,
         pivot: Point.CENTER,
-        clip: new Rectangle().fromTopLeft(framingPos, framingImageSize),
+        clip: new Rectangle().fromTopLeft(framingPos.clone().sub(framingImageSize.clone().scale(0.5)), framingImageSize),
     })
     group.add(bgPainting, paintingOp);
 
@@ -597,7 +599,7 @@ const createPrintWraparound = async (target:string) =>
 
 const downloadPDF = (img:HTMLImageElement, target:string) =>
 {
-    if(target != "amazon") { return; }
+    if(!TARGETS[target].createPDF) { return; }
     if(!CREATE_PDF_FOR_AMAZON) { return; }
 
     const fileName = "Print Wraparound for Target " + target + " (" + BOOK_DATA.name + ")";
@@ -620,7 +622,8 @@ const start = async () =>
     resLoader = new ResourceLoader({ base: "/wildebyte-cover-generator/assets/" });
     await loadAssets(resLoader);
 
-    for(const key of Object.keys(TARGETS))
+    const targetsChosen = CUSTOM_TARGETS.length > 0 ? CUSTOM_TARGETS : Object.keys(TARGETS)
+    for(const key of targetsChosen)
     {
         createPrintWraparound(key);
     }

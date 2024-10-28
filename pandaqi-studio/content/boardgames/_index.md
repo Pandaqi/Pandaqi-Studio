@@ -130,6 +130,7 @@ All games on this website are completely developed by me and unavailable anywher
 
 * [Asmodee](https://print-and-play.asmodee.fun/en/all/games) has an excellent website with print-and-play versions for many of their (famous) games!
 * [PNP Arcade](https://www.pnparcade.com/) brings together both free and paid PNP versions of games of many different publishers
+* [Good Little Games](http://www.goodlittlegames.co.uk/index.html) not only gives free PNP games, it's also minimalist: their games never require more than 27 cards or 3 papers to print.
 
 <div class="copyright-statement">
 	<em>Copyright?</em> I maintain the motto "Don't steal my games, share them". Feel free to play these games, share them with others, customize them to your liking, and let them inspire you. Do not copy the name/concept, rules or graphic assets and/or present them as your own, especially not for commercial purposes. Credit me when talking about my work, to support the free creation of these games and to keep this website online.
