@@ -65,13 +65,13 @@ const CONFIG:any =
         misc:
         {
             path: "misc.webp",
-            frames: new Point(4,4), // @TODO: should be (4,2) in the end
+            frames: new Point(4,2),
         },
 
         action_icons:
         {
-            path: "misc.webp", // @TODO: should be action_icons.webp
-            frames: new Point(4,4),
+            path: "action_icons.webp",
+            frames: new Point(4,5),
             loadIf: ["sets.pietjePrecies", "sets.actiepiet"]
         }
     },
@@ -98,7 +98,8 @@ const CONFIG:any =
     {
         base:
         {
-            numCards: 46,
+            numCards: 50, // 46,
+            generateExactNumber: true,
             numberDistribution: 
             {
                 1: 0.25,
@@ -112,7 +113,7 @@ const CONFIG:any =
 
         pietjePrecies:
         {
-            numCards: 12
+            numCards: 10
         },
 
         actiepiet:
@@ -171,7 +172,16 @@ const CONFIG:any =
             },
 
             templateScaleFactor: new CVal(new Point(0.28, 0.33), "size"),  
-            size: new CVal(new Point(0.22), "sizeUnit") 
+            size: new CVal(new Point(0.22), "sizeUnit"),
+
+            special:
+            {
+                randomVariation: new CVal(new Point(0, 0.35), "size"),
+                surprise: new CVal(new Point(0.08, 0.5), "size"),
+                bid: new CVal(new Point(0.92, 0.5), "size"),
+                circleRadius: new CVal(0.06, "sizeUnit"),
+                size: new CVal(new Point(0.08), "sizeUnit")
+            }
         },
 
         action:
@@ -186,9 +196,9 @@ const CONFIG:any =
 
             illu:
             {
-                pos: new CVal(new Point(0.5, 0.31), "size"),
+                pos: new CVal(new Point(0.5, 0.313), "size"),
                 rot: -0.2007,
-                size: new CVal(new Point(0.35), "sizeUnit")
+                size: new CVal(new Point(0.425), "sizeUnit")
             },
 
             desc:

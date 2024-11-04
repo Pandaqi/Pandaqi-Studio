@@ -13,10 +13,10 @@ downloadLink: "https://drive.google.com/drive/folders/13Pl94vYlfbsGWsz5_ADtw0wvN
 date: 2025-07-26
 
 difficulty: "kids-can-play"
-genres: ["family", "thematic", "adventure"]
-categories: ["boardgame", "tile-game", "standard"]
-tags: ["fixed-order", "shared-map", "grid", "turn-based", "guessing", "bias", "variable-setup", "orientation", "set-collection", "high-score"]
-themes: ["sea"]
+genres: ["action", "party"]
+categories: ["boardgame", "card-game"]
+tags: ["simultaneous-turns", "fast-paced", "high-score", "language"]
+themes: []
 
 multiplayermode: "competitive"
 language: EN

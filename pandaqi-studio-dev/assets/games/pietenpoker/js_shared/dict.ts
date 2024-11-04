@@ -44,8 +44,8 @@ const ACTIEPIETEN:Record<string, GeneralData> =
     hoofdpiet: { frame: 2, label: "Hoofdpiet", desc: "<b>Spoel vooruit</b> naar de volgende onthulling." },
     indipietje: { frame: 3, label: "Indipietje Jones", desc: "<b>Verwissel</b> één handkaart met één uit de Pakjeskamer.", freq: 3 },
     hardlooppiet: { frame: 4, label: "Hardlooppiet", desc: "<b>Scoor</b> nu meteen deze ronde.", freq: 2 },
-    rekenpiet: { frame: 5, label: "Rekenpiet", desc: "Alleen combinaties qua <b>getal</b> tellen." },
-    kleurpiet: { frame: 6, label: "Kleurpiet", desc: "Alleen combinaties qua <b>kleur</b> tellen." }, 
+    rekenpiet: { frame: 6, label: "Rekenpiet", desc: "Alleen combinaties qua <b>getal</b> tellen." },
+    kleurpiet: { frame: 5, label: "Kleurpiet", desc: "Alleen combinaties qua <b>kleur</b> tellen." }, 
     omdenkpiet: { frame: 7, label: "Omdenkpiet", desc: "Elk bod is evenveel waard als het <b>aantal kaarten</b> (ipv totale waarde)." },
     crimepiet: { frame: 8, label: "Crimepiet", desc: "<b>Steel 2</b> willekeurige kaarten van andere spelers.", freq: 3 }, 
     brilpiet: { frame: 9, label: "Brilpiet", desc: "<b>Bekijk</b> de handkaarten van 2 andere spelers.", freq: 2 },
@@ -56,6 +56,11 @@ const ACTIEPIETEN:Record<string, GeneralData> =
 
     // freq = 0 to prevent it being added in the ACTIEPIET expansion too
     pietje_precies: { frame: 14, label: "Pietje Precies", desc: "Bij het maken van je combinatie moet je <b>1 kaart wegstrepen</b>.", freq: 0 }, 
+
+    // I added these later, that's why they come after PietjePrecies
+    pietje_verliefd: { frame: 15, label: "Pietje Verliefd", desc: "Maak de <b>Pakjeskamer</b> deze ronde <b>1 kaart groter</b>.", freq: 2 },
+    filmpiet: { frame: 16, label: "Celebripiet", desc: "Maak alle <b>actiekaarten ongedaan</b> (deze ronde).", freq: 2 },
+    chihuahuapiet: { frame: 17, label: "Chihuahuapiet", desc: "Een combinatie van <b>4 exact dezelfde kaarten</b> overtreft alles.", freq: 2 }
 }
 
 const CARD_TEMPLATES:Record<string, GeneralData> =

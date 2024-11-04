@@ -8,6 +8,8 @@ import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
 import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
 import fillResourceGroup from "js/pq_games/layout/canvas/fillResourceGroup";
+import ResourceShape from "js/pq_games/layout/resources/resourceShape";
+import Circle from "js/pq_games/tools/geometry/circle";
 
 export default class Card
 {
@@ -35,12 +37,13 @@ export default class Card
         this.drawIcons(vis, group);
         this.drawLabels(vis, group);
         this.drawAction(vis, group);
+        this.drawSpecialIcons(vis, group);
         return vis.renderer.finishDraw({ group: group, size: vis.size });
     }
 
     getTintColor(vis:MaterialVisualizer)
     {
-        return vis.inkFriendly ? "#AAAAAA" : (this.type == CardType.SINT ? MISC.sint.light : MISC[this.color].light);
+        return vis.inkFriendly ? "#EDEDED" : (this.type == CardType.SINT ? MISC.sint.light : MISC[this.color].light);
     }
 
     getTextColor(vis:MaterialVisualizer)
@@ -174,6 +177,53 @@ export default class Card
         }
     }
 
+    drawSpecialIcons(vis:MaterialVisualizer, group:ResourceGroup)
+    {
+        if(this.type == CardType.SINT) { return; }
+
+        // collect what we actually want to place
+        const anchors : Record<string,Point> = {};
+        if(this.hasSurpriseIcon)
+        {
+            anchors.surprise = vis.get("cards.icons.special.surprise");
+        }
+
+        if(this.hasBidIcon)
+        {
+            anchors.bieden = vis.get("cards.icons.special.bid");
+        }
+
+        if(Object.keys(anchors).length <= 0) { return; }
+
+        // actually place it
+        const resCirc = new ResourceShape(new Circle({ radius: vis.get("cards.icons.special.circleRadius") }));
+        const resIcon = vis.getResource("misc");
+        const iconSize = vis.get("cards.icons.special.size");
+        for(const [key,anchor] of Object.entries(anchors))
+        {
+            // modify to get final point
+            const variation = 0.5*(Math.random()*2 - 1) * vis.get("cards.icons.special.randomVariation").y;
+            const pos = anchor.clone().add(new Point(0, variation));
+
+            // place circle behind
+            const opCirc = new LayoutOperation({
+                pos: pos,
+                fill: this.getTintColor(vis)
+            })
+            group.add(resCirc, opCirc);
+
+            // place icon on top
+            const opIcon = new LayoutOperation({
+                pos: pos,
+                size: iconSize,
+                frame: MISC[key].frame,
+                pivot: Point.CENTER,
+                effects: vis.inkFriendlyEffect
+            })
+            group.add(resIcon, opIcon);
+        }
+    }
+
     drawIcons(vis:MaterialVisualizer, group:ResourceGroup)
     {
         // sint just adds their main illustration in the center and that's that
@@ -271,7 +321,8 @@ export default class Card
             rot: vis.get("cards.action.illu.rot"),
             size: vis.get("cards.action.illu.size"),
             frame: data.frame,
-            pivot: Point.CENTER
+            pivot: Point.CENTER,
+            effects: vis.inkFriendlyEffect
         })
         group.add(resIcons, opIllu);
 

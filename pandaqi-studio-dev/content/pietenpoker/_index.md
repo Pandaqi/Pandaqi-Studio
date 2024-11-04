@@ -12,10 +12,10 @@ downloadLink: "https://drive.google.com/drive/folders/15h2WfRlYZwEBD_LSHhYH0pEMT
 date: 2025-11-05
 
 difficulty: "kids-can-play"
-genres: ["family", "thematic", "adventure"]
-categories: ["boardgame", "tile-game", "standard"]
-tags: ["fixed-order", "shared-map", "grid", "turn-based", "guessing", "bias", "variable-setup", "orientation", "set-collection", "high-score"]
-themes: ["sea"]
+genres: ["family", "thematic"]
+categories: ["boardgame", "card-game", "standard"]
+tags: ["turn-based", "bluffing", "set-collection", "high-score"]
+themes: ["holiday"]
 
 multiplayermode: "competitive"
 language: NL

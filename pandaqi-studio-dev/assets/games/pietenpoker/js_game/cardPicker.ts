@@ -26,12 +26,17 @@ export default class CardPicker
     {
         if(!CONFIG.sets.base) { return; }
 
+        // create big sint and small sint
+        this.cards.push(new Card(CardType.SINT, null, null, "small"));
+        this.cards.push(new Card(CardType.SINT, null, null, "big"));
+
         const colors = Object.values(ColorType);
         const num = CONFIG.generation.base.numCards;
         const numPerColor = Math.ceil(num / colors.length);
         const dist : Record<number, number> = CONFIG.generation.base.numberDistribution;
 
         // simply create the numbers per color, equally distributed
+        const allCards = [];
         for(const color of colors)
         {
             for(const [numOnCard, freqRaw] of Object.entries(dist))
@@ -39,14 +44,17 @@ export default class CardPicker
                 const freq = Math.ceil(freqRaw * numPerColor);
                 for(let i = 0; i < freq; i++)
                 {
-                    this.cards.push(new Card(CardType.REGULAR, parseInt(numOnCard), color));
+                    allCards.push(new Card(CardType.REGULAR, parseInt(numOnCard), color));
                 }
             }
         }
-
-        // create big sint and small sint
-        this.cards.push(new Card(CardType.SINT, null, null, "small"));
-        this.cards.push(new Card(CardType.SINT, null, null, "big"));
+        
+        // if enabled, we keep exactly the number specified, even if it means discarding cards randomly
+        if(CONFIG.generation.base.generateExactNumber)
+        {
+            shuffle(allCards);
+            this.cards.push(...allCards.splice(0,num));
+        }
     }
 
     getRandomActionNumber() : number

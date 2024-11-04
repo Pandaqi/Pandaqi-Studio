@@ -12,9 +12,7 @@ weightProject: 20
 
 downloadLink: "https://drive.google.com/drive/folders/1Vb-cB7KrYaxakv2X2oSmQJdSNg-9T5T_"
 
-
 color: "white"
-
 
 date: 2024-07-26
 
