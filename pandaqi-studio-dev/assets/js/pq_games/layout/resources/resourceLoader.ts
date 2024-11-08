@@ -29,15 +29,14 @@ interface ResourceLoadParams
     uniqueKey?: string,
 }
 
+const IMAGE_EXTENSIONS = ["jpg", "jpeg", "webp", "png", "jfif", "avif", "svg"]
+const AUDIO_EXTENSIONS = ["mp3", "ogg", "wav"]
+const VIDEO_EXTENSIONS = ["mp4", "webm"]
+const FONT_EXTENSIONS = ["otf", "ttf", "woff", "woff2"]
+
 export { ResourceLoadParams, ResourceLoaderParams }
 export default class ResourceLoader 
 {
-
-    IMAGE_EXTENSIONS = ["jpg", "jpeg", "webp", "png", "jfif", "avif", "svg"]
-    AUDIO_EXTENSIONS = ["mp3", "ogg", "wav"]
-    VIDEO_EXTENSIONS = ["mp4", "webm"]
-    FONT_EXTENSIONS = ["otf", "ttf", "woff", "woff2"]
-
     resourcesQueued : Record<string, ResourceLoadParams>
     resourcesLoaded : Record<string, Resource>
     base: string
@@ -129,22 +128,22 @@ export default class ResourceLoader
 
     isImage(path:string) : boolean
     {
-        return this.IMAGE_EXTENSIONS.includes(this.getExtension(path))
+        return IMAGE_EXTENSIONS.includes(this.getExtension(path))
     }
 
     isAudio(path:string) : boolean
     {
-        return this.AUDIO_EXTENSIONS.includes(this.getExtension(path))
+        return AUDIO_EXTENSIONS.includes(this.getExtension(path))
     }
 
     isVideo(path:string) : boolean
     {
-        return this.VIDEO_EXTENSIONS.includes(this.getExtension(path))
+        return VIDEO_EXTENSIONS.includes(this.getExtension(path))
     }
 
     isFont(path:string) : boolean
     {
-        return this.FONT_EXTENSIONS.includes(this.getExtension(path));
+        return FONT_EXTENSIONS.includes(this.getExtension(path));
     }
 
     addResource(id:string, res:Resource)

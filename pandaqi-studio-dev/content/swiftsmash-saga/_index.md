@@ -1,6 +1,5 @@
 ---
 type: "gamepage"
-gamepage: true
 boardgame: true
 
 title: "Swiftsmash Saga"
@@ -9,9 +8,7 @@ blurb: "A series of (party) games about thinking on your feet and swiftly smashi
 
 downloadLink: "https://drive.google.com/drive/folders/153TCjVAmGbWwDFeXqa-eacGi2taA2PnZ"
 
-
 color: "green"
-
 
 date: 2024-07-26
 
