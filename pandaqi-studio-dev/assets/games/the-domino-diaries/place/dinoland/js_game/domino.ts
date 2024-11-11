@@ -8,7 +8,7 @@ import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import Point from "js/pq_games/tools/geometry/point";
 import CONFIG from "../js_shared/config";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
-import TextConfig from "js/pq_games/layout/text/textConfig";
+import TextConfig, { TextStyle } from "js/pq_games/layout/text/textConfig";
 
 export default class Domino
 {
@@ -145,7 +145,8 @@ export default class Domino
         const text = data.desc;
         const textConfig = new TextConfig({
             font: vis.get("fonts.body"),
-            size: vis.get("dominoes.impact.fontSize")
+            size: vis.get("dominoes.impact.fontSize"),
+            style: TextStyle.ITALIC
         }).alignCenter();
 
         const textColor = vis.inkFriendly ? "#111111" : "#FCFCFC";
@@ -188,7 +189,8 @@ export default class Domino
             const textColor = vis.inkFriendly ? "#111111" : "#FCFCFC";
             const textConfig = new TextConfig({
                 font: vis.get("fonts.body"),
-                size: vis.get("dominoes.asteroid.fontSize")
+                size: vis.get("dominoes.asteroid.fontSize"),
+                style: TextStyle.ITALIC
             }).alignCenter();
     
             const resText = new ResourceText({ text, textConfig });

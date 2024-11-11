@@ -6,7 +6,7 @@ type: "rules"
 
 {{% rules-double-view src="setup.webp" alt="Visual examples of how to set up the game." %}}
 
-Create the **Asteroid Deck:** pick 10 Asteroid Tiles (6 regular, 4 Egg Hatch), shuffle, and place faceup on the table.
+Create the **Asteroid Deck:** pick 10 random Asteroid Tiles, shuffle, and place faceup on the table.
 
 Create a **Domino Deck:** grab all Domino tiles, shuffle, and place facedown on the table.
 
@@ -46,22 +46,17 @@ Then take the action of each dinosaur on the tile (if it has one).
 * **Velociraptor**: reveal the top card of the asteroid deck.
 * **Brachiosaurus**: look at the next 5 Asteroid Tiles.
 
+{{% remark %}}
+For your first/base game, just ignore any eggs you see.
+{{% /remark %}}
+
 {{< rules-image src="gameplay_play.webp" alt="Example of how to play a single turn." >}}
-
-There is one special type of asteroid tile: the **Egg Hatcher**. When revealed, 
-
-* Find all claimed eggs. (All egg icons inside an Area claimed by a player.)
-* For each one, its owner must now hatch the egg. (Do so in clockwise order, starting from the current active player.)
-* This means they place a domino from their hand _on top_ of the egg, which must show a dinosaur in the spot where the egg previously was. It is _optional_ to take the corresponding dinosaur action.
-* If it's _possible_, you _must hatch_. Otherwise, nothing happens.
-
-{{< rules-image src="gameplay_egghatch.webp" alt="Example of how to execute the Egghatch rule (when that icon appears on an Asteroid Tile)." >}}
 
 {{% /rules-block %}}
 
 {{% rules-block id="scoring" heading="Scoring" icon="score" %}}
 
-{{% rules-double-view src="scoring.webp" alt="Example of how to determine your score at the end." %}}
+{{% rules-double-view src="scoring.webp" alt="Example of how to determine your score at the end." split="leftheavy" %}}
 
 Let's define an **Area** as the largest possible group of connected tiles with the same terrain.
 
@@ -69,7 +64,7 @@ Let's define an **Area** as the largest possible group of connected tiles with t
 
 Each player only scores Areas that they have claimed ( = one of their Pawns is inside that area.)
 
-It can happen that Areas _merge_ over time: two Areas that used to be separate, and were claimed, are connected at some point. This is fine! All owners score that Area, but any eggs inside will never hatch.
+It can happen that Areas _merge_ over time: two Areas that used to be separate, and were claimed, are connected at some point. This is fine! All owners score that Area.
 
 {{% /rules-double-view %}}
 
@@ -79,9 +74,9 @@ It can happen that Areas _merge_ over time: two Areas that used to be separate, 
 
 When the Asteroid Deck runs out, the asteroid crashes into your map.
 
-* It hits the location where both its crosshairs meet.
-* That square and all 8 neighboring squares (horizontal, vertical and diagonal) are "destroyed".
-* (The map does _not_ wrap like the crosshairs, which makes checking the impact far simpler.)
+* It hits the location where **both its crosshairs meet**.
+* That square and all 8 neighboring squares (horizontal, vertical and diagonal) are **"destroyed"**.
+* (The map **doesn't wrap** like the crosshairs, which makes checking the impact far simpler.)
 * If a square is destroyed, its entire **Area** (see [scoring](#scoring)) must be ignored when scoring.
 
 {{< rules-image src="gameplay_impact.webp" alt="Example of how to calculate the impact of the asteroid (disabling tiles for score) at the end." >}}
@@ -95,8 +90,6 @@ Played the base game and ready for more? Or looking to tweak the game to fit you
 {{% rules-block heading="Variants" %}}
 
 The "simpler" variants are great for a first game with very young kids, because they make the game extremely simple to teach and play.
-
-**Variant (simpler):** remove all dominoes that show an Egg, and don't include any Egg Hatch asteroid tiles. The entire egg-hatching mechanic is simply excluded from the game.
 
 **Variant (simpler):** reduce the range of the Asteroid to only the single square that it hits.
 
@@ -114,9 +107,29 @@ The "simpler" variants are great for a first game with very young kids, because 
 
 {{% /rules-block %}}
 
+{{% rules-block heading="Upgrade: Egg Hatching" %}}
+
+This is an "upgrade" to the base game that doesn't require extra material. From now on, we'll use those **eggs** you see!
+
+During **setup**, make sure you include some Egg Hatch Asteroid tiles. (A good distribution to start is 6 regular, 4 hatch.)
+
+When the **Egg Hatcher** Asteroid is revealed,
+
+* Find all claimed eggs. (All egg icons inside an Area claimed by a player.)
+* For each one, its owner must now hatch the egg. (Do so in clockwise order, starting from the current active player.)
+* This means they place a domino from their hand _on top_ of the egg, which must show a dinosaur in the spot where the egg previously was. (It is _optional_ to take the corresponding dinosaur action.)
+
+{{< rules-image src="gameplay_egghatch.webp" alt="Example of how to execute the Egghatch rule (when that icon appears on an Asteroid Tile)." >}}
+
+If it's _possible_, you _must hatch_. Otherwise, nothing happens.
+
+An Area that is shared ( = claimed by multiple Players) can't hatch eggs anymore.
+
+{{% /rules-block %}}
+
 {{% rules-block heading="Expansion" %}}
 
-{{% rules-double-view src="expansion.webp" alt="Visuals for the newly added terrains and dinosaurs in this expansion." %}}
+{{% rules-double-view src="expansion.webp" alt="Visuals for the newly added terrains and dinosaurs in this expansion." split="leftheavy" %}}
 
 This expansion adds two more terrain types: desert and wildcard (which can be _any terrain_, or rather "all of them at the same time").
 
@@ -130,9 +143,7 @@ It also adds two more dinosaurs.
 
 {{% rules-block heading="Impact Cards" %}}
 
-This expansion adds a new deck: the Impact Cards. 
-
-At the start of your game, draw a random card and place it faceup on the table. 
+This expansion adds a new deck: the Impact Cards. During **Setup**, draw a random Impact Card and place it faceup on the table. 
 
 This card tells you **how** to handle the Asteroid Impact at the end of the game! (What gets destroyed and perhaps another rules tweak.)
 
@@ -142,9 +153,9 @@ This card tells you **how** to handle the Asteroid Impact at the end of the game
 
 This expansion adds many more Asteroid Cards with special actions on them.
 
-* During Setup, swap any regular Asteroid Tiles for _random ones_ from this expansion.
-* During Gameplay, whenever you reveal such a tile, execute its action!
-* If the action must be done by someone, this is always the player who revealed the tile.
+* During **Setup**, swap any regular Asteroid Tiles for _random ones_ from this expansion.
+* During **Gameplay**, whenever you reveal such a tile, execute its action!
+* Any actions are done by whoever revealed the tile.
 
 {{% /rules-block %}}
 

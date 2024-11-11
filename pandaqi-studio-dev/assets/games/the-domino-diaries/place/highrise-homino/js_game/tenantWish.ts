@@ -40,7 +40,9 @@ export default class TenantWish
 
     getScore()
     {
-        const rawVal = 1.0 / (this.getData().prob ?? 1.0);
+        let rawVal = 1.0 / (this.getData().prob ?? 1.0);
+        if(this.getData().scoreVal) { rawVal = this.getData().scoreVal; }
+
         let mult = CONFIG.generation.score.wishMultiplier ?? 1.0;
         if(this.invert) { mult *= CONFIG.generation.score.wishInverseMultiplier ?? 1.0; }
 

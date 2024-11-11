@@ -41,6 +41,7 @@ devlog: "/blog/boardgames/the-domino-diaries/theme-parque/"
   {{< boardgame-settings-section heading="Sets" >}}
     {{< setting-checkbox id="setting-sets-pawns" text="Pawns?" checked="checked" >}}
     {{< setting-checkbox id="setting-sets-base" text="Base?" checked="checked" >}}
+    {{< setting-checkbox id="setting-sets-rollercooper" text="Rollercooper?" remark="Allows playing the game cooperatively." >}}
     {{< setting-checkbox id="setting-sets-wishneyland" text="Wishneyland Parki?" >}}
     {{< setting-checkbox id="setting-sets-unibearsal" text="Unibearsal Honeyos?" >}}
     {{< setting-checkbox id="setting-sets-rollercoasters" text="Raging Rollercoasters?" >}}

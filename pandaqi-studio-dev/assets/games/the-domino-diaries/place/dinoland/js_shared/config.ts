@@ -1,6 +1,9 @@
 import CVal from "js/pq_games/tools/generation/cval"
 import Point from "js/pq_games/tools/geometry/point"
 import { DinoType, TerrainType } from "./dict"
+import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator"
+import autoLoadFontCSS from "js/pq_games/website/autoLoadFontCSS"
+import TextConfig, { TextStyle } from "js/pq_games/layout/text/textConfig"
 
 const CONFIG:any = 
 {
@@ -38,10 +41,16 @@ const CONFIG:any =
     assetsBase: "/the-domino-diaries/place/dinoland/assets/",
     assets:
     {
+        tinos:
+        {
+            path: "fonts/Tinos-Regular.woff2",
+        },
+
         tinos_italic:
         {
             key: "tinos",
             path: "fonts/Tinos-Italic.woff2",
+            textConfig: new TextConfig({ style: TextStyle.ITALIC })
         },
 
         cutedino:
@@ -164,13 +173,7 @@ const CONFIG:any =
     {
         drawerConfig:
         {
-            sizeElement: new Point(1, 2),
-            size: { 
-                small: new Point(8,6),
-                regular: new Point(6,4),
-                large: new Point(5,3)
-            },  
-            autoStroke: true
+            preset: GridSizePreset.DOMINO
         },
 
         bgColor: "#FFEFCF",
@@ -205,5 +208,7 @@ const CONFIG:any =
         }
     },
 }
+
+autoLoadFontCSS(CONFIG);
 
 export default CONFIG

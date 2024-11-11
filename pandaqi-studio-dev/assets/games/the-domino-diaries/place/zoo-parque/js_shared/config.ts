@@ -1,6 +1,8 @@
 import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textConfig"
 import CVal from "js/pq_games/tools/generation/cval"
+import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator"
 import Point from "js/pq_games/tools/geometry/point"
+import autoLoadFontCSS from "js/pq_games/website/autoLoadFontCSS"
 
 const CONFIG:any = 
 {
@@ -30,6 +32,7 @@ const CONFIG:any =
         pawns: true,
         base: true,
         passports: true,
+        zooperative: false,
         strong: false,
         wildlife: false,
         utilities: false,
@@ -112,6 +115,14 @@ const CONFIG:any =
             path: "misc.webp",
             frames: new Point(6,1),
         },
+
+        campaign_templates:
+        {
+            path: "campaign_templates.webp",
+            frames: new Point(3,1),
+            loadIf: ["sets.zooperative"]
+        }
+
     },
 
     rulebook:
@@ -131,9 +142,9 @@ const CONFIG:any =
             utilities: 36
         },
 
-        percAllWithoutTerrain: 0.225,
-        percHalfWithoutTerrain: 0.225,
-        percAllWithTerrain: 0.55,
+        percAllWithoutTerrain: 0.175,
+        percHalfWithoutTerrain: 0.2,
+        percAllWithTerrain: 0.625,
 
         fenceNumDistribution:
         {
@@ -155,13 +166,7 @@ const CONFIG:any =
     {
         drawerConfig:
         {
-            sizeElement: new Point(1, 2),
-            size: { 
-                small: new Point(7,5),
-                regular: new Point(5,3),
-                large: new Point(4,2)
-            },  
-            autoStroke: true
+            preset: GridSizePreset.DOMINO
         },
 
         bg:
@@ -179,7 +184,7 @@ const CONFIG:any =
 
         fences:
         {
-            size: new CVal(new Point(0.75), "sizeUnit")
+            size: new CVal(new Point(0.85), "sizeUnit")
         },
 
         entrance:
@@ -263,5 +268,7 @@ const CONFIG:any =
         }
     },
 }
+
+autoLoadFontCSS(CONFIG);
 
 export default CONFIG

@@ -41,6 +41,7 @@ devlog: "/blog/boardgames/the-domino-diaries/zoo-parque/"
     {{< setting-checkbox id="setting-sets-pawns" text="Pawns?" checked="checked" >}}
     {{< setting-checkbox id="setting-sets-base" text="Base?" checked="checked" >}}
     {{< setting-checkbox id="setting-sets-passports" text="Animal Passports?" checked="checked" >}}
+    {{< setting-checkbox id="setting-sets-zooperative" text="Zooperative?" remark="Allows playing the game cooperatively." >}}
     {{< setting-checkbox id="setting-sets-strong" text="Strong Species?" >}}
     {{< setting-checkbox id="setting-sets-wildlife" text="Wildlife Wishes?" >}}
     {{< setting-checkbox id="setting-sets-utilities" text="Unnatural Utilities?" >}}

@@ -4,13 +4,15 @@ type: "rules"
 
 {{% rules-block heading="Setup" icon="setup" %}}
 
+{{% rules-double-view src="setup.webp" alt="Example of how to setup a new game." split="leftheavy" %}}
+
 Place the **Entrance Tile** in the center of the table. 
 
 Shuffle the deck and hand each player 4 Tiles. Each player also picks a color and receives all its Pawns.
 
 Finally, place 4 Tiles faceup next to the deck: this is the **market**.
 
-@TODO: EXAMPLE IMAGE
+{{% /rules-double-view %}}
 
 {{% /rules-block %}}
 
@@ -43,11 +45,13 @@ The placement rules are ...
 * Path endings **don't need to match**: they can be a dead end or run off into the void. That is, _unless_ the domino part to which they're connected has a path of the same type.
 * A **queue** can have exactly one connection to a **regular path**, and one connection to an **attraction**. Any other connections (to a different queue type, both ends to a regular path, etcetera) are disallowed.
 
-@TODO: IMAGE EXAMPLE
+{{< rules-image src="gameplay_play.webp" alt="Example of how to do your turn: play 2 dominoes, separated, following path matching rules." >}}
 
 {{% /rules-block %}}
 
 {{% rules-block heading="Claim" %}}
+
+{{% rules-double-view src="gameplay_claim.webp" alt="Example of how to claim a Scorable Item (after your turn)." split="leftheavy" %}}
 
 You **may** claim a "scorable item" on a domino (see [scoring](#scoring)) by placing your Pawn on it.
 
@@ -55,7 +59,7 @@ Everything can only be claimed once.
 
 When you place your final Pawn, you stay in the game. On subsequent turns, however, you only play **1 domino**, and **don't refill** your hand.
 
-@TODO: IMAGE EXAMPLE?
+{{% /rules-double-view %}}
 
 {{% /rules-block %}}
 
@@ -72,7 +76,7 @@ Finally, draw tiles from the market until you have 4 hand tiles again. Refill th
 In these rules, **nearby** refers to all 8 neighbors (horizontally, vertically, diagonally).
 
 Tiles come in 4 varieties.
-* **Paths**: regular, queue1 and queue2. (The queues only differ in how they look---there is no functional difference.)
+* **Paths**: regular, queue1 and queue2. (The two queue types are **not** the same and can't be mixed.)
 * **Decoration**: modifies their surroundings. (Recognizable by their _lack_ of number or icon.)
 * **Attractions**: only score when connected to a regular path through a **queue**. It scores the **length of its longest queue** multiplied by its **score factor**.
 * **Stalls**: only score when **nearby a regular path**. It scores whatever it says.
@@ -81,9 +85,11 @@ As you see, only Attractions and Stalls are "scorable items". They might have **
 
 Finally, some deadend paths have a special icon: **tunnel**. It connects to any other tunnel.
 
-@TODO: EXAMPLE IMAGE
+{{< rules-image src="scoring.webp" alt="Examples of all different elements on tiles and how they score." >}}
 
-@TODO: TABLE OF ALL OPTIONS
+Below are all (special) tiles that can appear in the base game.
+
+<div id="rules-table-base"></div>
 
 {{% /rules-block %}}
 
@@ -99,7 +105,7 @@ This variant creates more cooperation towards building high-scoring attractions.
 * Pawns placed that way only score **half** of the attraction's points (rounded down).
 * You may also move that pawn later, but only to a different **unfinished queue**. This replaces your usual claim action that round.
 
-Other ways to create a more "friendly" game of Theme Parque are ...
+Other ways to create a **"friendlier"** game of Theme Parque are ...
 
 * To play in teams.
 * Or to print the pawns twice so everyone can claim 6 things. 
@@ -110,10 +116,41 @@ Other ways to create a more "friendly" game of Theme Parque are ...
 I'm sorry, I always make my games really cutthroat by default and then offer friendlier variants ;)
 {{% /remark %}}
 
-If you want to make the game even _harder_, though, add these rules.
+If you want to make the game even **harder**, though, add these rules.
 
 * Queues only count if they connect to a regular path _which is connected to the entrance_.
 * After claiming an attraction, you're not allowed to extend its queue anymore.
+
+{{% /rules-block %}}
+
+{{% rules-block heading="Rollercooper" %}}
+
+This expansion allows playing the game completely **cooperatively**! You win or lose together.
+
+During **setup**,
+
+* Don't add a market; you simply draw blind from the deck.
+* Everyone's hand cards are open.
+* Create a deck with the **Event** cards. (Leave out Events with higher scores for a simpler game.)
+
+At the start of each round ( = it's the start player's turn again), reveal the next Event.
+
+* This instantly triggers a special rule (for as long as this card is visible) or action (to take once, immediately)
+* It also adds a new challenge that the group must fulfill.
+
+There are two types of challenges:
+
+* WIN: Complete it by fulfilling the condition. You can do this **at any time**. (They stay around with no penalty.)
+* LOSE: If you don't fulfill the condition _before the next Event_, place this card to the side. If you have 3 LOSE cards, you **instantly lose the game**.
+
+Whenever you fulfill an Event, put it facedown to the side, in your "Score Pile".
+
+If you reach the end of the game, and you have no uncompleted events, you beat the game! Otherwise, sum the _score_ on all cards in your Score Pile. Higher score is better.
+
+Finally, some clarifications on terms used in the events.
+
+* The term "is free" means that it doesn't count as a domino placement during your turn. You _may_ still count it, if you wish. It doesn't need to be separate from your other dominoes.
+* To "ignore" a type of tile simply means that you should pretend it doesn't exist, and that its space is just a blank one.
 
 {{% /rules-block %}}
 
@@ -121,7 +158,7 @@ If you want to make the game even _harder_, though, add these rules.
 
 This adds a few more attractions, decoration and stalls. These are the "simpler" additions to the game, with one-liner rules and often no special requirements.
 
-@TODO: TABLE OF ALL OPTIONS
+<div id="rules-table-wishneyland"></div>
 
 {{% /rules-block %}}
 
@@ -129,7 +166,7 @@ This adds a few more attractions, decoration and stalls. These are the "simpler"
 
 This adds a few more attractions, decoration and stalls. These are the slightly "harder" additions to the game, which often score in very unique ways or have strict requirements before scoring.
 
-@TODO: TABLE OF ALL OPTIONS
+<div id="rules-table-unibearsal"></div>
 
 {{% /rules-block %}}
 
@@ -142,13 +179,13 @@ The possible rollercoaster parts are: Station, Straight, Bend, Tunnel.
 * Every **Station** tile can be claimed by a Pawn. Yes, a single rollercoaster with multiple stations can be claimed _multiple times_ (by different players).
 * **Rollercoaster parts must match**. If a tile has an open-ended rollercoaster track, you can _only_ play tiles connected to it that continue the rollercoaster track properly. Any other placement is illegal.
 * **Queues must be connected to stations.** You can't attach a path to any other coaster part.
-* **Tunnels continue the coaster from another tunnel.**
+* **Tunnels continue the coaster from another tunnel.** It can only continue from a tunnel that it hasn't used yet on its entire track. 
 
 A rollercoaster only scores points if it has at least one station and it is a loop (it returns where it started).
 
-> **Rollercoaster Score** = 2 x "length of rollercoaster" x "length of queue"
+> **Rollercoaster Score** = "Length of rollercoaster" x "Length of queue"
 
-@TODO: IMAGE EXAMPLE
+{{< rules-image src="rollercoasters.webp" alt="Example of how to build a rollercoaster and how to score one." >}}
 
 {{% /rules-block %}}
 

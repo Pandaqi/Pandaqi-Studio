@@ -1,20 +1,6 @@
-import InteractiveExample from "js/pq_rulebook/examples/interactiveExample"
 import CONFIG from "../js_shared/config";
 import { ActionSet, SETS, SUSPECTS } from "../js_shared/dict";
 import { convertDictToRulesTableHTML } from "js/pq_rulebook/table";
-
-/*async function generate()
-{
-    
-}
-
-const e = new InteractiveExample({ id: "turn" });
-e.setButtonText("Give me an example turn!");
-e.setGenerationCallback(generate);
-
-const o = e.getOutputBuilder();
-*/
-
 
 // auto-display all card options and descriptions inside rulebook
 const rtConversion = { heading: "label", desc: "desc" };

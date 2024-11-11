@@ -197,9 +197,11 @@ export default class DominoSide
         if(this.hasFloor())
         {
             const resFloor = vis.getResource("misc");
+            const alpha = vis.inkFriendly ? 0.45 : 1.0;
             const opFloor = new LayoutOperation({
                 frame: MISC["floor_" + this.floor].frame,
                 size: new Point(vis.sizeUnit),
+                alpha: alpha,
                 pivot: Point.CENTER
             });
             group.add(resFloor, opFloor);

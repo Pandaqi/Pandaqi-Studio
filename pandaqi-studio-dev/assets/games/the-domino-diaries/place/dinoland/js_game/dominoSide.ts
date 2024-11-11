@@ -79,6 +79,7 @@ export default class DominoSide
                 const textConfig = new TextConfig({
                     font: vis.get("fonts.body"),
                     size: vis.get("dominoes.dino.fontSize"),
+                    style: TextStyle.ITALIC
                 }).alignCenter();
 
                 const resText = new ResourceText({ text, textConfig });

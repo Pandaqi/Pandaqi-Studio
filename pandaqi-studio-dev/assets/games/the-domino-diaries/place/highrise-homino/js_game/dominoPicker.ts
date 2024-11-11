@@ -38,6 +38,11 @@ export default class DominoPicker
         return arr;
     }
 
+    filterNonWishableObjects(options:string[])
+    {
+        return options.filter((x) => !OBJECTS[x].nonWishable);
+    }
+
     generateDominoes(set:string)
     {
         const setNotIncluded = !CONFIG.sets[set];
@@ -206,7 +211,7 @@ export default class DominoPicker
         Object.assign(fullDict, OBJECTS);
         Object.assign(fullDict, WISHES);
 
-        const availableItems = this.filterBySet(OBJECTS, set);
+        const availableItems = this.filterNonWishableObjects( this.filterBySet(OBJECTS, set) );
         const availableSpecialWishes = this.filterBySet(WISHES, set);
         const availableOptions = [availableItems, availableSpecialWishes].flat();
         let totalProb = 0;

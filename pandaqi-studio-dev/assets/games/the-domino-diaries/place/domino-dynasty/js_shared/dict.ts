@@ -77,7 +77,7 @@ const ICONS:Record<string, GeneralData> =
     bomb: { frame: 19, desc: "All adjacent icons are to be ignored.", type: IconType.BAD, sets: ["proximity"] },
     village: { frame: 20, desc: "I'm your Role Icon <b>if</b> all my neighbors are different.", type: IconType.GOOD, sets: ["proximity"] },
     sniper: { frame: 21, desc: "No Capital can be placed in the same row/column as me.", type: IconType.BAD, sets: ["proximity"] },
-    aeronaut: { frame: 22, prob: 0.5, desc: "Scores +4 if within 3 tiles of a Capital.", sets: ["proximity"] },
+    aeronaut: { frame: 22, prob: 0.5, desc: "Scores +3 if within 2 tiles of a Capital.", sets: ["proximity"] },
     builder: { frame: 23, desc: "Restarts any adjacent path.", sets: ["proximity"] }
 
 }

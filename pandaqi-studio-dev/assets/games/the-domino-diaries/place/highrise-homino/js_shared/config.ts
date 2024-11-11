@@ -2,6 +2,8 @@ import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textC
 import Point from "js/pq_games/tools/geometry/point"
 import { FloorType } from "./dict"
 import CVal from "js/pq_games/tools/generation/cval"
+import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator"
+import autoLoadFontCSS from "js/pq_games/website/autoLoadFontCSS"
 
 const CONFIG:any = 
 {
@@ -124,10 +126,10 @@ const CONFIG:any =
         numTenants:
         {
             base: 24,
-            roomService: 18,
-            walletWatchers: 18,
-            usefulUtilities: 18,
-            happyHousing: 18,
+            roomService: 14,
+            walletWatchers: 14,
+            usefulUtilities: 14,
+            happyHousing: 14,
             livingTogether: 0,
         },
 
@@ -175,13 +177,7 @@ const CONFIG:any =
     {
         drawerConfig:
         {
-            sizeElement: new Point(1, 2),
-            size: { 
-                small: new Point(7,5),
-                regular: new Point(5,3),
-                large: new Point(4,2)
-            },  
-            autoStroke: true
+            preset: GridSizePreset.DOMINO
         },
 
         setText:
@@ -263,5 +259,7 @@ const CONFIG:any =
         setTextAlpha: 0.5,
     }
 }
+
+autoLoadFontCSS(CONFIG);
 
 export default CONFIG

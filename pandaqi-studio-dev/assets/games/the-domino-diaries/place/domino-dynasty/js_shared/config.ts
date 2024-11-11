@@ -1,6 +1,8 @@
 import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textConfig"
 import CVal from "js/pq_games/tools/generation/cval"
+import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator"
 import Point from "js/pq_games/tools/geometry/point"
+import autoLoadFontCSS from "js/pq_games/website/autoLoadFontCSS"
 
 const CONFIG:any = 
 {
@@ -110,10 +112,10 @@ const CONFIG:any =
         numMissions:
         {
             base: 26,
-            proximity: 14,
+            proximity: 10,
             direction: 10,
-            machine: 14,
-            goblin: 14
+            machine: 10,
+            goblin: 10
         },
 
         percMissionRewards: 0.33,
@@ -130,7 +132,7 @@ const CONFIG:any =
             3: 0.25
         },
 
-        pathPercentageDirected: 0.33,
+        pathPercentageDirected: 1.0,
         pathDist:
         {
             deadend: 0.15,
@@ -145,13 +147,7 @@ const CONFIG:any =
     {
         drawerConfig:
         {
-            sizeElement: new Point(1, 2),
-            size: { 
-                small: new Point(7,5),
-                regular: new Point(5,3),
-                large: new Point(4,2)
-            },  
-            autoStroke: true
+            preset: GridSizePreset.DOMINO
         },
 
         missionTemplateFrame: 5, // 0-4 are for the 5 player roles
@@ -219,5 +215,7 @@ const CONFIG:any =
 
     },
 }
+
+autoLoadFontCSS(CONFIG);
 
 export default CONFIG

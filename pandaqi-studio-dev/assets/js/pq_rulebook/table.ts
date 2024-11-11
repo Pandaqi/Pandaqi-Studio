@@ -5,6 +5,8 @@ interface RulesEntryData
     class?: string,
     icon?: string,
     frame?: number,
+    sheetURL?: string,
+    sheetWidth?: number,
     // iconPrefix?: string => dropped support for this, as it's just a nasty useless exception that shouldn't be used anyway
 }
 
@@ -54,8 +56,6 @@ const convertRulesTableDictToHTML = (dict:Record<string,RulesEntryData>, params:
     uiHint.innerHTML = "Click a symbol to see its name / meaning.";
     cont.appendChild(uiHint);
 
-    params.sheetWidth = params.sheetWidth ?? 8;
-
     const base = params.base ?? "";
 
     for(const [key,data] of Object.entries(dict))
@@ -72,11 +72,14 @@ const convertRulesTableDictToHTML = (dict:Record<string,RulesEntryData>, params:
         const icon = document.createElement("div");
         icon.classList.add("rules-table-icon", "icon-" + data.icon);
 
-        if(params.sheetURL) { icon.style.backgroundImage = "url(" + base + params.sheetURL + ")"; }
-        icon.style.backgroundSize = (params.sheetWidth*100) + "%";
+        const sheetURL = data.sheetURL ?? params.sheetURL;
+        const sheetWidth = data.sheetWidth ?? (params.sheetWidth ?? 8);
 
-        const xPos = data.frame % params.sheetWidth;
-        const yPos = Math.floor(data.frame / params.sheetWidth); 
+        if(sheetURL) { icon.style.backgroundImage = "url(" + base + sheetURL + ")"; }
+        icon.style.backgroundSize = (sheetWidth*100) + "%";
+
+        const xPos = data.frame % sheetWidth;
+        const yPos = Math.floor(data.frame / sheetWidth); 
         icon.style.backgroundPositionX = -(xPos * 100) + "%";
         icon.style.backgroundPositionY = -(yPos * 100) + "%";
 

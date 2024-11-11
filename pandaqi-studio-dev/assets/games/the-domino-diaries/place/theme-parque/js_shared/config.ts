@@ -4,6 +4,8 @@ import Point from "js/pq_games/tools/geometry/point"
 import Bounds from "js/pq_games/tools/numbers/bounds"
 import { PathType } from "./dict"
 import Color from "js/pq_games/layout/color/color"
+import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator"
+import autoLoadFontCSS from "js/pq_games/website/autoLoadFontCSS"
 
 const CONFIG:any = 
 {
@@ -32,6 +34,7 @@ const CONFIG:any =
     {
         pawns: true,
         base: true,
+        rollercooper: false,
         wishneyland: false,
         unibearsal: false,
         rollercoasters: false
@@ -108,6 +111,13 @@ const CONFIG:any =
             path: "misc.webp",
             frames: new Point(8,1),
         },
+
+        events:
+        {
+            path: "events.webp",
+            frames: new Point(2,1),
+            loadIf: ["sets.rollercooper"]
+        }
     },
 
     rulebook:
@@ -150,13 +160,7 @@ const CONFIG:any =
     {
         drawerConfig:
         {
-            sizeElement: new Point(1, 2),
-            size: { 
-                small: new Point(7,5),
-                regular: new Point(5,3),
-                large: new Point(4,2)
-            },  
-            autoStroke: true
+            preset: GridSizePreset.DOMINO
         },
 
         bg:
@@ -204,5 +208,7 @@ const CONFIG:any =
         }
     },
 }
+
+autoLoadFontCSS(CONFIG);
 
 export default CONFIG
