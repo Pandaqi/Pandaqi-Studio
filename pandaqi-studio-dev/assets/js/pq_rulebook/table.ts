@@ -27,7 +27,7 @@ const convertDictToRulesTableHTML = (dict:Record<string,any>, props:Record<strin
 const convertDictToRulesTableDict = (dict:Record<string,any>, props:Record<string,string>) : Record<string,RulesEntryData> =>
 {
     const newDict = {};
-    const defProps = ["heading", "desc", "class", "icon", "frame"]; // @NOTE: should be the same as the interface keys of RulesEntryData
+    const defProps = ["heading", "desc", "class", "icon", "frame", "sheetURL", "sheetWidth"]; // @NOTE: should be the same as the interface keys of RulesEntryData
     for(const [key,data] of Object.entries(dict))
     {
         const obj = {};
