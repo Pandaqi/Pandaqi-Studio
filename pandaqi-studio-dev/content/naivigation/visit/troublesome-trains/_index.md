@@ -3,7 +3,7 @@ type: "gamepage"
 boardgame: true
 
 title: "Troublesome Trains"
-headerTitle: "A Naivigation game about steering a single train together"
+headerTitle: "A Naivigation game about steering trains together on the same unpredictable rails"
 blurbShort: "A [Naivigation](/naivigation/) game about steering trains together, while on the same rails that keep shifting."
 
 weightProject: 50
@@ -48,10 +48,12 @@ Print and cut it, read the short [playful rules](rules), and you can play!
 {{% boardgame-settings-container type="material" %}}
 
 {{< boardgame-settings type="game" local_storage="naivigationTroublesomeTrainsConfig" btn_label="Generate Material" game_title="Naivigation: Troublesome Trains" defaults="true" >}}
-  {{< setting-checkbox id="setting-sets-vehicleTiles" text="Include the Vehicle Tile?" checked="checked" >}}
-  {{< setting-checkbox id="setting-sets-mapTiles" text="Include Map Tiles?" checked="checked" >}}
-  {{< setting-checkbox id="setting-sets-vehicleCards" text="Include (Vehicle) Cards?" checked="checked" >}}
-  {{< boardgame-settings-section heading="Expansions" >}}
+  {{< boardgame-settings-section heading="Core Set" >}}
+    {{< setting-checkbox id="setting-sets-vehicleTiles" text="Vehicle Pawns?" checked="checked" >}}
+    {{< setting-checkbox id="setting-sets-mapTiles" text="Map Tiles?" checked="checked" >}}
+    {{< setting-checkbox id="setting-sets-vehicleCards" text="Vehicle Cards?" checked="checked" >}}
+  {{< /boardgame-settings-section >}}
+  {{< boardgame-settings-section heading="Expansion Sets" >}}
     {{< setting-checkbox id="setting-sets-leadersFollowers" text="Leaders & Followers" >}}
     {{< setting-checkbox id="setting-sets-animalsCrossings" text="Animals & Crossings" >}}
     {{< setting-checkbox id="setting-sets-railsFails" text="Rails & Fails" >}}

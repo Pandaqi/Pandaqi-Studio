@@ -6,5 +6,5 @@ import planetPropertiesPicker from "./planetPropertiesPicker";
 const generator = new MaterialGenerator(CONFIG);
 generator.addPipeline("tiles", tilePicker, CONFIG.tiles.drawerConfig);
 generator.addPipeline("cards", cardPicker, CONFIG.cards.drawerConfig);
-if(CONFIG.expansions.trade) { generator.addPipeline("props", planetPropertiesPicker, CONFIG.cards.drawerConfig); }
+if(CONFIG.sets.trade) { generator.addPipeline("props", planetPropertiesPicker, CONFIG.cards.drawerConfig); }
 generator.start();

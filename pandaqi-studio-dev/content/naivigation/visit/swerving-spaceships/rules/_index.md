@@ -8,7 +8,7 @@ Press the button below to get a random setup you can simply copy to your table.
 
 {{< rules-example id="naivigation-setup" >}}
 
-Alternatvely, manually do the setup as follows.
+Alternatively, manually do the setup as follows.
 * Create a deck of 25 tiles, including 5 planets and 1 starting tile. 
 * Randomly place these in a 5x5 grid. 
 * Place the vehicle on the starting tile (oriented randomly)
@@ -75,7 +75,7 @@ Whenever you move **diagonally**, you must choose which of the two directions (h
 
 In the base game, just ignore any special elements on tiles. They are for the expansions. That's it!
 
-@TODO: IMAGE
+@TODO: IMAGE EXAMPLE
 
 {{% /rules-block %}}
 
@@ -83,9 +83,7 @@ In the base game, just ignore any special elements on tiles. They are for the ex
 
 {{% rules-block id="vehicle-cards" heading="Vehicle Cards" icon="expansion" icontint="red" %}}
 
-@TODO: Make this a rules-table or something?
-
-@TODO: IMAGE
+@TODO: IMAGE EXAMPLE
 
 The following vehicle cards are in the base game.
 
@@ -115,6 +113,8 @@ Add the following vehicle cards.
 	* A **Disable** card ALSO turns off the shield.
 * **Thrust+**: Moves 2 spaces at once. (Ignore the space you pass by; you simply skip over it.)
 
+@TODO: IMAGE EXAMPLE
+
 {{% /rules-block %}}
 
 {{% rules-block heading="Weapons & Aliens" %}}
@@ -129,6 +129,8 @@ Add the following vehicle card.
 * **Shoot**: destroys the _first_ tile within line of sight. 
   * If this is a planet, you immediately lost the game! 
   * If this tile contained another spaceship (when playing with two teams), they take 2 damage.
+
+@TODO: IMAGE EXAMPLE
 
 {{% /rules-block %}}
 
@@ -150,6 +152,8 @@ If you have a planet property requiring a resource, make sure that resource is a
 
 Add the following vehicle cards
 * **Hyper**: move to one edge of the map ( = one end of your row or column)
+
+@TODO: IMAGE EXAMPLE
 
 {{% /rules-block %}}
 

@@ -10,7 +10,7 @@ interface MaterialData
     freq?: number,
     collectible?: boolean,
     starting?: boolean,
-    expansion?: string[]
+    sets?: string[]
 }
 
 const MAIN_COLORS = { bgColor: "#8B46FF", tintColor: "#D5BDFF", textColor: "#1C004B", mapTileColor: "#151E3D" };
@@ -23,10 +23,10 @@ const VEHICLE_CARDS:Record<string,MaterialData> =
     steer: { frame: 1, label: "Steer", desc: "Pick an angle within range. Rotate the vehicle that much." },
     thrust: { frame: 0, label: "Thrust", desc: "Move 1 tile forward ( = in the direction your spaceship faces).", freq: 12 },
     disengage: { frame: 2, label: "Disable", desc: "Perform one gravitational pull step.", freq: 12 },
-    shield: { frame: 3, label: "Shield", desc: "Toggles the shield on and off.", freq: 10, expansion: ["shields"] },
-    superthrust: { frame: 4, label: "Thrust+", desc: "Move 2 tiles forward.", freq: 4, expansion: ["shields"] },
-    shoot: { frame: 5, label: "Shoot", desc: "Destroys the first tile within line of sight.", freq: 8, expansion: ["weapons"] },
-    hyperdrive: { frame: 6, label: "Hyper", desc: "Move to a tile at the end of your row or column.", freq: 6, expansion: ["trade"] },
+    shield: { frame: 3, label: "Shield", desc: "Toggles the shield on and off.", freq: 10, sets: ["shields"] },
+    superthrust: { frame: 4, label: "Thrust+", desc: "Move 2 tiles forward.", freq: 4, sets: ["shields"] },
+    shoot: { frame: 5, label: "Shoot", desc: "Destroys the first tile within line of sight.", freq: 8, sets: ["weapons"] },
+    hyperdrive: { frame: 6, label: "Hyper", desc: "Move to a tile at the end of your row or column.", freq: 6, sets: ["trade"] },
 };
 
 const HEALTH_CARDS:Record<string,MaterialData> =
@@ -55,12 +55,12 @@ const MAP_TILES:Record<string,MaterialData> =
 
     starting_tile: { frame: 8, label: "Starting Tile", freq: 1, starting: true },
 
-    wormhole: { frame: 9, label: "Wormhole", freq: 4, expansion: ["shields"] },
-    asteroids: { frame: 10, label: "Asteroids", freq: 4, expansion: ["shields"] },
-    spaceship: { frame: 11, label: "Enemy Spaceship", freq: 4, expansion: ["weapons"] },
-    moon: { frame: 12, label: "Moon", freq: 6, expansion: ["trade"] }, 
-    sun: { frame: 13, label: "Sun", freq: 2, expansion: ["weapons"] },
-    space_station: { frame: 14, label: "Space Station", freq: 3, expansion: ["trade"] }
+    wormhole: { frame: 9, label: "Wormhole", freq: 4, sets: ["shields"] },
+    asteroids: { frame: 10, label: "Asteroids", freq: 4, sets: ["shields"] },
+    spaceship: { frame: 11, label: "Enemy Spaceship", freq: 4, sets: ["weapons"] },
+    moon: { frame: 12, label: "Moon", freq: 6, sets: ["trade"] }, 
+    sun: { frame: 13, label: "Sun", freq: 2, sets: ["weapons"] },
+    space_station: { frame: 14, label: "Space Station", freq: 3, sets: ["trade"] }
 }
 
 const MISC =
@@ -93,7 +93,7 @@ const PLANET_PROPERTIES : Record<string, PlanetProperty> =
     slot_check_high: { desc: "<b>Collectable</b> using a card in slot %val% or earlier.", values: [1,2,3] },
     card_check_yes: { desc: "<b>Collectable</b> if you played a %val% card this round.", values: ["Discuss", "Thrust", "Steer", "Disable"] },
     card_check_no: { desc: "<b>Collectable</b> if you did NOT play a %val% card this round.", values: ["Discuss", "Thrust", "Steer", "Disable"] },
-    resource_check: { desc: "<b>Collectable</b> if you have resource %val%.", values: ['<img id="misc" frame="4">', '<img id="misc" frame="5">'], freq: 2 },
+    resource_check: { desc: "<b>Collectable</b> if you have resource %val%.", values: ['<img id="misc" frame="4">', '<img id="misc" frame="5">'], freq: 5 },
     reward: { desc: "Reward: if you collect this planet, <b>%val%</b>", values: PLANET_PROPERTY_REWARDS },
     reward_order: { desc: "Reward: if you visit this planet in order, <b>%val%</b>.", values: PLANET_PROPERTY_REWARDS },
     reward_fail: { desc: "Penalty: if you bump into this planet, <b>%val%</b>", values: PLANET_PROPERTY_PENALTIES }

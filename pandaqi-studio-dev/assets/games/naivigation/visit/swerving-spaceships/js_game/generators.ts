@@ -56,10 +56,15 @@ const mapCallback = (key, data) =>
 {
     if(key != "moon") { return; }
 
-    const t = new Tile(TileType.MAP, "moon");
-    t.customData.resourceType = resourceBalancer;
-    resourceBalancer = (resourceBalancer + 1) % 2;
-    return t;
+    const arr = [];
+    for(let i = 0; i < MAP_TILES.moon.freq; i++)
+    {
+        const t = new Tile(TileType.MAP, "moon");
+        t.customData.resourceType = resourceBalancer;
+        resourceBalancer = (resourceBalancer + 1) % 2;    
+        arr.push(t);
+    }
+    return arr;
 }
 
 tilePicker.setCustomCallback(mapCallback);

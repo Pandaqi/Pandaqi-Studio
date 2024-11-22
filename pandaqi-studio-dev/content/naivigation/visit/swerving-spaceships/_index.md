@@ -49,11 +49,13 @@ Print and cut it, read the short [playful rules](rules), and you can play!
 {{% boardgame-settings-container type="material" %}}
 
 {{< boardgame-settings type="game" local_storage="naivigationSwervingSpaceshipsConfig" btn_label="Generate Material" game_title="Naivigation: Swerving Spaceships" defaults="true" >}}
-  {{< setting-checkbox id="setting-sets-vehicleTiles" text="Include the Vehicle Tile?" checked="checked" >}}
-  {{< setting-checkbox id="setting-sets-mapTiles" text="Include Map Tiles?" checked="checked" >}}
-  {{< setting-checkbox id="setting-sets-vehicleCards" text="Include (Vehicle) Cards?" checked="checked" >}}
-  {{< boardgame-settings-section heading="Expansions" >}}
-    {{< setting-checkbox id="setting-sets-shield" text="Shields & Asteroids" >}}
+  {{< boardgame-settings-section heading="Core Set" >}}
+    {{< setting-checkbox id="setting-sets-vehicleTiles" text="Vehicle Pawns?" checked="checked" >}}
+    {{< setting-checkbox id="setting-sets-mapTiles" text="Map Tiles?" checked="checked" >}}
+    {{< setting-checkbox id="setting-sets-vehicleCards" text="Vehicle Cards?" checked="checked" >}}
+  {{< /boardgame-settings-section >}}
+  {{< boardgame-settings-section heading="Expansion Sets" >}}
+    {{< setting-checkbox id="setting-sets-shields" text="Shields & Asteroids" >}}
     {{< setting-checkbox id="setting-sets-weapons" text="Weapons & Aliens" >}}
     {{< setting-checkbox id="setting-sets-trade" text="Trade & Technology" >}}
   {{< /boardgame-settings-section >}}

@@ -12,34 +12,39 @@ import InteractiveExample from "js/pq_rulebook/examples/interactiveExample";
 import { TileType } from "./dictShared";
 import fromArray from "js/pq_games/tools/random/fromArray";
 import MaterialNaivigation from "./materialNaivigation";
+import TilePickerNaivigation from "./tilePickerNaivigation";
+import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
 
 interface TileData
 {
     tile: MaterialNaivigation
-    position: Point,
-    rot: number,
-    collectible: boolean
+    position?: Point,
+    rot?: number,
+    collectible?: boolean,
+    facedown?: boolean
 }
 
 interface NaivigationSetupParams
 {
     size?: Point,
-    tiles?: MaterialNaivigation[],
-    validPlacementCallback?: Function,
+    tilePicker?: TilePickerNaivigation,
+    validPlacementCallback?: TilePlacementFunction,
     visualizer?: MaterialVisualizer
 }
 
 const TILE_SIZE = 128;
-const PLAYER_TOKEN_SIZE = 48;
-const DEF_PLACEMENT_CALLBACK = (cell, grid, tiles) => 
+const PLAYER_TOKEN_SIZE = 128; // it's drawn smaller anyway by default
+const DEF_PLACEMENT_CALLBACK = (cell, setup) => 
 { 
     let tileFinal = null;
-    for(const tile of tiles)
+    for(const tile of setup.tiles)
     {
         if(tile.isCollectible() == cell.collectible) { tileFinal = tile; break; }
     }
     return { tile: tileFinal }
 }
+
+type TilePlacementFunction = (cell:TileData, setup:RandomNaivigationSetupGenerator) => TileData
 
 export { TileData, NaivigationSetupParams }
 export default class RandomNaivigationSetupGenerator
@@ -48,29 +53,36 @@ export default class RandomNaivigationSetupGenerator
     cells: TileData[]
 
     size: Point
-    tiles: any[] // The specific game is responsible for handing a list of valid Tile/Token objects for that game
-    playerToken: any
+    tilePicker: TilePickerNaivigation
+    tiles: MaterialNaivigation[] // The specific game is responsible for handing a list of valid Tile/Token objects for that game
+    playerToken: MaterialNaivigation
     playerTokenData: TileData
-    validPlacementCallback: Function // As well as any special code regarding placement to be followed
+    validPlacementCallback: TilePlacementFunction // As well as any special code regarding placement to be followed
     example: InteractiveExample
     visualizer: MaterialVisualizer
+
+    ruleNoDiagonals = true // if on, diagonals snap to a random vertical/horizontal step instead
 
     constructor(params:NaivigationSetupParams = {})
     {
         this.size = params.size ?? new Point(5,5);
         this.visualizer = params.visualizer;
-        this.tiles = params.tiles ?? [];
-        this.validPlacementCallback = params.validPlacementCallback ?? DEF_PLACEMENT_CALLBACK
+        this.tilePicker = params.tilePicker;
+        this.tiles = [];
+        this.validPlacementCallback = params.validPlacementCallback ?? DEF_PLACEMENT_CALLBACK;
         this.attachToRules();
-        this.sanitizeTiles();
     }
 
-    sanitizeTiles()
+    generateAndSanitizeTiles()
     {
+        if(this.tiles.length > 0 && this.playerToken) { return; }
+
+        const allTiles = this.tilePicker.generate();
         const mapTiles = [];
         const playerTokens = [];
-        for(const tile of this.tiles)
+        for(const tile of allTiles)
         {
+            if(tile.isStartingTile()) { continue; }
             if(tile.type == TileType.VEHICLE) { playerTokens.push(tile); }
             else if(tile.type == TileType.MAP) { mapTiles.push(tile); }
         }
@@ -87,8 +99,15 @@ export default class RandomNaivigationSetupGenerator
         this.example = e;
     }
 
+    getCellAt(pos:Point)
+    {
+        return this.grid[pos.x][pos.y];
+    }
+
     generate()
     {
+        this.generateAndSanitizeTiles();
+
         // initialize the original tiles
         // BASE RULE => In every row, place ONE collectible at a unique column
         let grid : TileData[][] = [];
@@ -105,19 +124,20 @@ export default class RandomNaivigationSetupGenerator
                     tile: null,
                     position: new Point(x,y),
                     rot: 0,
-                    collectible: (y == collectibleIndex)
+                    collectible: (y == collectibleIndex),
+                    facedown: false
                 }
             }
         }
 
-        console.log(grid);
-
         // Keep trying until we have a layout that is valid
-        const cells = grid.flat()
+        const cells = grid.flat();
         let invalidBoard = true;
+        const tilesCopy = this.tiles.slice();
         while(invalidBoard)
         {
             // reset it all
+            this.tiles = tilesCopy;
             invalidBoard = false;
             for(const cell of cells)
             {
@@ -125,30 +145,29 @@ export default class RandomNaivigationSetupGenerator
             }
 
             // draw new tiles
-            const tiles = shuffle(this.tiles.slice());
+            shuffle(this.tiles);
             for(const cell of cells)
             {
-                const tileData = this.validPlacementCallback(cell, grid, tiles);
+                const tileData = this.validPlacementCallback(cell, this);
                 if(!tileData) { invalidBoard = true; break; }
                 cell.tile = tileData.tile;
                 cell.rot = tileData.rot ?? rangeInteger(0,3);
-                tiles.splice(tiles.indexOf(tileData.tile), 1);
+                this.tiles.splice(this.tiles.indexOf(tileData.tile), 1);
             }
         }
 
-        console.log("HAAAA");
-
         // place the player token
         const positions = this.getStartingPositions(cells);
-        const finalPick = positions[rangeInteger(0,4)];
-        const startingCell = finalPick.cell; // pick one at random that's furthest away from all collectibles
+        const finalPick = positions[rangeInteger(0,1)];
+        const startingCell : TileData = finalPick.cell; // pick one at random that's furthest away from all collectibles
         const startingRotation = rangeInteger(0,3);
 
         this.playerTokenData = { 
-            tile: startingCell,
-            position: finalPick.position,
+            tile: startingCell.tile,
+            position: startingCell.position,
             rot: startingRotation,
-            collectible: false
+            collectible: false,
+            facedown: false
         }
 
         this.grid = grid;
@@ -161,22 +180,23 @@ export default class RandomNaivigationSetupGenerator
 
         // draw it all
         const ctx = createContext({ size: this.size.clone().scale(TILE_SIZE) })
+        const tileMargin = 0.0375*TILE_SIZE
         const group = new ResourceGroup();
         for(const cell of this.cells)
         {
             const realPos = cell.position.clone().scale(TILE_SIZE).move(new Point(0.5*TILE_SIZE));
 
-            const canv = await this.drawItem(cell.tile);
+            const canv = await this.drawItem(cell.tile, cell.facedown);
             const resCell = new ResourceImage(canv);
             const cellOp = new LayoutOperation({
                 pos: realPos,
-                size: new Point(TILE_SIZE),
+                size: new Point(TILE_SIZE).sub(new Point(2*tileMargin)),
                 rot: cell.rot * 0.5 * Math.PI,
                 pivot: Point.CENTER
             })
             group.add(resCell, cellOp);
             
-            if(cell.tile == this.playerTokenData.tile)
+            if(cell.position.matches(this.playerTokenData.position))
             {
                 const canvToken = await this.drawItem(this.playerToken);
                 const resToken = new ResourceImage(canvToken);
@@ -194,27 +214,36 @@ export default class RandomNaivigationSetupGenerator
         return await convertCanvasToImage(ctx.canvas);
     }
 
-    async onSetupRequested()
+    async onSetupRequested(customOutput = null)
     {
         this.generate();
-        const img = await this.visualize();
-        const o = this.example.getOutputBuilder();
-        o.addNode(img);
+        const o = customOutput ?? this.example.getOutputBuilder();
+        await this.visualizeToOutput(o)
     }
 
-    getDistToClosestCollectible(cell, cells)
+    async visualizeToOutput(outputBuilder)
+    {
+        const img = await this.visualize();
+        outputBuilder.addNode(img);
+        // @NOTE: modifying image style comes AFTER adding node, because `addNode` can (re)set styles too
+        img.style.maxHeight = "100%";
+        img.style.display = "block";
+        img.style.margin = "auto";
+    }
+
+    getDistToClosestCollectible(cell:TileData, cells:TileData[])
     {
         let minDist = Infinity;
         for(const otherCell of cells)
         {
-            if(!otherCell.collectible) { return; }
+            if(!otherCell.collectible) { continue; }
             const dist = Math.abs(cell.position.x -  otherCell.position.x) + Math.abs(cell.position.y - otherCell.position.y);
             minDist = Math.min(minDist, dist);
         }
         return minDist;
     }
 
-    getStartingPositions(cells)
+    getStartingPositions(cells:TileData[])
     {
         const positions = [];
         for(const cell of cells)
@@ -230,8 +259,70 @@ export default class RandomNaivigationSetupGenerator
         return positions;
     }
 
-    async drawItem(item)
+    async drawItem(item:MaterialNaivigation, facedown = false)
     {
+        if(facedown)
+        {
+            const ctx = createContext({ size: this.visualizer.size });
+            fillCanvas(ctx, "#FFFFFF");
+            return await convertCanvasToImage(ctx.canvas);
+        }
+
         return item.drawForRules(this.visualizer);
+    }
+
+    rotatePlayer(rot = 0)
+    {
+        this.playerTokenData.rot = (this.playerTokenData.rot + rot + 4) % 4;
+    }
+
+    movePlayer(vector:Point, levelWrap = false)
+    {
+        const curPosition = this.playerTokenData.position;
+        let newPosition = curPosition.clone().add(vector);
+        if(levelWrap) { newPosition = this.wrapPosition(newPosition); }
+        this.setPlayerPosition(newPosition);
+    }
+
+    setPlayerPosition(pos:Point)
+    {
+        this.playerTokenData.position = pos;
+        this.playerTokenData.tile = this.grid[pos.x][pos.y].tile;
+    }
+
+    wrapPosition(pos:Point) : Point
+    {
+        const posOut = new Point();
+        posOut.x = (pos.x + this.size.x) % this.size.x;
+        posOut.y = (pos.y + this.size.y) % this.size.y;
+        return posOut;
+    }
+    
+    getVectorFromRotation(rot = 0) : Point
+    {
+        const rotReal = rot * 0.5 * Math.PI;
+        const vector = new Point(Math.cos(rotReal), Math.sin(rotReal));
+        vector.x = Math.sign(vector.x);
+        vector.y = Math.sign(vector.y);
+
+        const isDiagonal = Math.abs(vector.x) > 0 && Math.abs(vector.y) > 0;
+        if(this.ruleNoDiagonals && isDiagonal)
+        {
+            if(Math.random() <= 0.5) { vector.x = 0; } else { vector.y = 0; }
+        }
+
+        return vector;
+    }
+
+    movePlayerForward(numSteps = 1, levelWrap = false)
+    {
+        const forwardVec = this.getVectorFromRotation(this.playerTokenData.rot).scale(numSteps);
+        this.movePlayer(forwardVec, levelWrap);
+    }
+
+    movePlayerBackward(numSteps = 1, levelWrap = false)
+    {
+        const backwardVec = this.getVectorFromRotation(this.playerTokenData.rot).scale(numSteps).negate();
+        this.movePlayer(backwardVec, levelWrap);
     }
 }

@@ -10,11 +10,12 @@ import Point from "js/pq_games/tools/geometry/point";
 import range from "js/pq_games/tools/random/range";
 import rangeInteger from "js/pq_games/tools/random/rangeInteger";
 import { MAIN_COLORS, MAP_TILES, MISC } from "../js_shared/dict";
+import { TileData } from "games/naivigation/js_shared/randomNaivigationSetupGenerator";
 
 export default class Tile extends MaterialNaivigation
 {
-    isCollectible() { return MAP_TILES[this.key].collectible; }
-    isStartingTile() { return MAP_TILES[this.key].starting; }
+    isCollectible() { return (MAP_TILES[this.key] ?? {}).collectible ?? false; }
+    isStartingTile() { return (MAP_TILES[this.key] ?? {}).starting ?? false; }
     async draw(vis:MaterialVisualizer)
     {
         const group = vis.renderer.prepareDraw();
@@ -54,7 +55,7 @@ export default class Tile extends MaterialNaivigation
 
         // create random starry background
         const numStars = vis.get("tiles.map.stars.numBounds").randomInteger();
-        const resStar = vis.getResource("map_tiles");
+        const resStar = vis.getResource("misc");
         const starFrame = MISC.star_0.frame + Math.floor(Math.random()*2);
         const baseStarDims = vis.get("tiles.map.stars.baseDims");
         for(let i = 0; i < numStars; i++)
@@ -76,13 +77,11 @@ export default class Tile extends MaterialNaivigation
         const data = MAP_TILES[this.key];
         const res = vis.getResource("map_tiles");
         const randPos = vis.center.clone().add( new Point().random() * range(0, vis.get("tiles.map.maxPosRand")) );
-        const randRot = rangeInteger(0,3)*0.5*Math.PI;
         const eff = new DropShadowEffect({ color: "#FFFFFF", blurRadius: vis.get("tiles.map.glowRadius") })
         const op = new LayoutOperation({
             pos: randPos,
             frame: data.frame,
             size: vis.get("tiles.map.iconDims"),
-            rot: randRot,
             effects: [eff],
             pivot: Point.CENTER
         });
@@ -95,7 +94,7 @@ export default class Tile extends MaterialNaivigation
         const topCenterPos = new Point(vis.center.x, 0.66*extraIconSize.y);
         if(this.isCollectible())
         {
-            const randVehicleRot = rangeInteger(0,8)*0.25*Math.PI;
+            const randVehicleRot = this.getCollectOrientation()*0.5*Math.PI;;
             const vehicleOp = new LayoutOperation({
                 pos: randPos,
                 frame: MAP_TILES.vehicle_0.frame,
@@ -156,5 +155,15 @@ export default class Tile extends MaterialNaivigation
             })
             group.add(resMisc, resOp);
         }
+    }
+
+    canCollect(data:TileData)
+    {
+        return Math.abs(this.getCollectOrientation() - data.rot) <= 0.1;
+    }
+
+    getCollectOrientation()
+    {
+        return (this.randomSeed % 8)*0.5;
     }
 }

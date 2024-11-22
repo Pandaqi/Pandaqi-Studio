@@ -45,25 +45,23 @@ export default class CardPickerNaivigation
 
     generateCards(inputData:DictData)
     {
-        if(!this.config.sets.vehicleCards) { return; }
-        
         const cardType = inputData.type;
         for(const [key,data] of Object.entries(inputData.dict))
         {
-            // auto include anything without expansions set;
-            // otherwise only include if at least one matches
-            const expansions = data.expansion ?? [];
-            let shouldInclude = expansions.length <= 0;
-            for(const exp of expansions)
+            // filter based on sets
+            const setsTarget = data.sets ?? ["vehicleCards"];
+            let shouldInclude = false;
+            for(const set of setsTarget)
             {
-                if(this.config.sets[exp]) { shouldInclude = true; break; }
+                if(this.config.sets[set]) { shouldInclude = true; break; }
             }
             if(!shouldInclude) { continue; }
 
             // hook for custom handling of certain cards
-            const res = this.customCallback(key, data);
+            let res = this.customCallback(key, data);
             if(res)
-            {
+            {   
+                if(!Array.isArray(res)) { res = [res]; }
                 for(const elem of res) { this.cards.push(elem); }
                 continue;
             }

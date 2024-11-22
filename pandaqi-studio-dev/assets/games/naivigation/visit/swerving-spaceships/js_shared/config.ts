@@ -17,10 +17,6 @@ const CONFIG:any =
     configKey: "naivigationSwervingSpaceshipsConfig",
     fileName: "[Material] Naivigation: Swerving Spaceships",
 
-    // set through user config on page
-    inkFriendly: false,
-    itemSize: "regular",
-
     sets:
     {
         vehicleTiles: true,
@@ -81,8 +77,8 @@ const CONFIG:any =
         planetProperties:
         {
             stroke: "#000000",
-            strokeWidth: new CVal(0.03, "sizeUnit"), // @NOTE: remember that true height is smaller than sizeUnit because multiple properties are placed on one card
-            fontSize: new CVal(0.03, "sizeUnit"),
+            strokeWidth: new CVal(0.015, "sizeUnit"), // @NOTE: remember that true height is smaller than sizeUnit because multiple properties are placed on one card
+            fontSize: new CVal(0.075, "sizeUnit"),
             iconDims: new CVal(0.4, "sizeUnit")
         }
     },
@@ -112,7 +108,7 @@ const CONFIG:any =
 
             resources:
             {
-                position: new CVal(new Point(0.75, 0.75), "sizeUnit"),
+                position: new CVal(new Point(0.75, 0.25), "sizeUnit"),
                 size: new CVal(new Point(0.2), "sizeUnit"),
             }
         }

@@ -26,54 +26,57 @@ const drawCardBackground = (vis, group, card) =>
     fillResourceGroup(vis.size, group, bgColor);
 
     // the blobby shapes on the background
-    const resBlobs = vis.getResource("bg_blobs");
-    const blobFrame = rangeInteger(0, vis.get("cards.general.numBackgroundBlobs") - 1);
-    const pos = new Point(0.5 * vis.sizeUnit);
-    const size = vis.get("cards.background.size");
-    const randRotationBlob = rangeInteger(0,3) * 0.5 * Math.PI;
-    let blobsCol = new Color(bgColor);
-    blobsCol = blobsCol.rotate(6);
-    blobsCol = blobsCol.saturate(10);
-    blobsCol = blobsCol.darken(8);
-
-    const blobsOp = new LayoutOperation({
-        pos: pos,
-        size: size,
-        rot: randRotationBlob,
-        flipX: Math.random() <= 0.5,
-        frame: blobFrame,
-        effects: [new TintEffect({ color: blobsCol })],
-        //alpha: vis.get("cards.background.blobAlpha"),
-        pivot: Point.CENTER
-    })
-
-    group.add(resBlobs, blobsOp);
-
-    // the overlaid pattern
-    const resPattern = vis.getResource("misc");
-    const frame = card.getMisc().game_pattern.frame;
-    const randRotationPattern = rangeInteger(0,3) * 0.5 * Math.PI;
-    const patternOp = new LayoutOperation({
-        pos: pos,
-        size: size,
-        rot: randRotationPattern,
-        frame: frame,
-        composite: "overlay",
-        alpha: vis.get("cards.background.patternAlpha"),
-        pivot: Point.CENTER
-    });
-
-    group.add(resPattern, patternOp);
+    if(!vis.inkFriendly)
+    {
+        const resBlobs = vis.getResource("bg_blobs");
+        const blobFrame = rangeInteger(0, vis.get("cards.general.numBackgroundBlobs") - 1);
+        const pos = new Point(0.5 * vis.sizeUnit);
+        const size = vis.get("cards.background.size");
+        const randRotationBlob = rangeInteger(0,3) * 0.5 * Math.PI;
+        let blobsCol = new Color(bgColor);
+        blobsCol = blobsCol.rotate(6);
+        blobsCol = blobsCol.saturate(10);
+        blobsCol = blobsCol.darken(8);
+    
+        const blobsOp = new LayoutOperation({
+            pos: pos,
+            size: size,
+            rot: randRotationBlob,
+            flipX: Math.random() <= 0.5,
+            frame: blobFrame,
+            effects: [new TintEffect({ color: blobsCol })],
+            //alpha: vis.get("cards.background.blobAlpha"),
+            pivot: Point.CENTER
+        })
+    
+        group.add(resBlobs, blobsOp);
+    
+        // the overlaid pattern
+        const resPattern = vis.getResource("misc");
+        const frame = card.getMisc().game_pattern.frame;
+        const randRotationPattern = rangeInteger(0,3) * 0.5 * Math.PI;
+        const patternOp = new LayoutOperation({
+            pos: pos,
+            size: size,
+            rot: randRotationPattern,
+            frame: frame,
+            composite: "overlay",
+            alpha: vis.get("cards.background.patternAlpha"),
+            pivot: Point.CENTER
+        });
+    
+        group.add(resPattern, patternOp);
+    }
 
     // the template behind text
     const resTemplate = vis.getResource("card_templates");
-    const tempEffects = [];
+    let tempEffects = vis.inkFriendlyEffect;
     let tintColor = gameData ? gameData.tintColor : tempData.tintColor;
     if(!vis.inkFriendly)
     {
         if(card.type == CardType.VEHICLE || card.type == CardType.ACTION)
         {
-            tempEffects.push(new TintEffect(tintColor));
+            tempEffects = [new TintEffect(tintColor)];
         }
     }
 
@@ -243,7 +246,8 @@ const drawCardIcons = (vis, group, card) =>
     const typeData = card.getData();
     const tempData = card.getTemplateData();
     let resSprite = vis.getResource("icons");
-    if(typeData && typeData.shared) { resSprite = vis.getResource("icons_shared"); }
+    const useSharedIcons = (typeData && typeData.shared) || ![CardType.VEHICLE, CardType.ACTION].includes(card.type);
+    if(useSharedIcons) { resSprite = vis.getResource("icons_shared"); }
 
     const spriteFrame = tempData.frameIcon ?? typeData.frame;
     const eff = new DropShadowEffect({ color: "#000000", blurRadius: vis.get("cards.general.illustration.shadowBlur") });
@@ -256,7 +260,8 @@ const drawCardIcons = (vis, group, card) =>
     });
 
     let resIllu = resSprite;
-    if(card.getCustomIllustration) {
+    if(card.getCustomIllustration) 
+    {
         const resTemp = card.getCustomIllustration(vis, card, spriteOp);
         if(resTemp) { resIllu = resTemp; spriteOp.frame = 0; }
     }
@@ -264,6 +269,7 @@ const drawCardIcons = (vis, group, card) =>
     group.add(resIllu, spriteOp);
 
     // GPS cards draw that dynamic grid on top of the usual main illu
+    // @TODO: make this huge batch of code a SEPARATE FUNCTION
     const isGPSCard = card.type == CardType.GPS;
     if(isGPSCard)
     {
@@ -329,7 +335,7 @@ const drawCardIcons = (vis, group, card) =>
         const smallDims = vis.get("cards.general.illustration.smallDims");
         const anchorPos = vis.get("cards.general.textPos");
         const anchorOffset = tempData.smallIconOffset.clone().scale(vis.sizeUnit);
-        const effSmall = new DropShadowEffect({ color: "#000000", blurRadius: vis.get("cards.general.illustration.smallShadowBlur") });
+        const effSmall = [new DropShadowEffect({ color: "#000000", blurRadius: vis.get("cards.general.illustration.smallShadowBlur") }), vis.inkFriendlyEffect].flat();
         
         const smallPositions = [
             anchorPos.clone().add(new Point(-anchorOffset.x, anchorOffset.y)),
@@ -345,7 +351,7 @@ const drawCardIcons = (vis, group, card) =>
                 size: smallDims,
                 pivot: Point.CENTER,
                 flipX: onRightSide,
-                effects: [effSmall]
+                effects: effSmall
             })
 
             if(card.type == CardType.ACTION) 
@@ -368,7 +374,7 @@ const drawCardIcons = (vis, group, card) =>
     const defaultPos =  vis.get("cards.general.gameIcon.posDefault");
     const offset = iconDims.clone().scale(vis.get("cards.general.gameIcon.edgeOffsetFactor"));
     const cornerPositions = getRectangleCornersWithOffset(vis.size, offset);
-    const gameIconEff = new DropShadowEffect({ color: "#FFFFFF", blurRadius: vis.get("cards.general.gameIcon.glowBlur") });
+    const gameIconEff = [new DropShadowEffect({ color: "#FFFFFF", blurRadius: vis.get("cards.general.gameIcon.glowBlur") }), vis.inkFriendlyEffect].flat();
     
     if(card.type == CardType.VEHICLE || card.type == CardType.HEALTH || card.type == CardType.ACTION)
     {
@@ -389,7 +395,7 @@ const drawCardIcons = (vis, group, card) =>
             pivot: Point.CENTER,
             flipX: onRightSide,
             flipY: onBottomSide,
-            effects: [gameIconEff]
+            effects: gameIconEff
         })
         group.add(resIcon, iconOp);
     }   

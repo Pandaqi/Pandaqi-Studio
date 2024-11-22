@@ -21,7 +21,7 @@ export default class MaterialVisualizer
     rendererInstance:any;
     groupFinal: ResourceGroup
 
-    constructor(config)
+    constructor(config, customItemSize:Point = null)
     {
         this.renderer = config.renderer ?? new RendererPandaqi();
 
@@ -34,7 +34,7 @@ export default class MaterialVisualizer
 
         this.inkFriendly = config.inkFriendly;
         this.inkFriendlyEffect = this.inkFriendly ? [new GrayScaleEffect()] : [];
-        this.size = config.itemSize ? config.itemSize.clone() : new Point(512, 512);
+        this.size = customItemSize ?? (config.itemSize ? config.itemSize.clone() : new Point(512, 512));
         
         this.configurator = new Configurator();
         this.configurator.addExceptions(["resLoader", "drawerConfig", "gameTitle", "fileName", "localstorage", "debug"]);

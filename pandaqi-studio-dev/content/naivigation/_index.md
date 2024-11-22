@@ -85,7 +85,7 @@ You can [generate your own material](#material) right on this website. (If the P
     {{< setting-checkbox id="setting-sets-vehicleCards" text="Include Vehicle Cards?" checked="checked" >}}
     {{< setting-checkbox id="setting-sets-healthCards" text="Include Health Cards?" checked="checked" >}}
   {{< /boardgame-settings-section >}}
-  {{< boardgame-settings-section heading="Expansions" >}}
+  {{< boardgame-settings-section heading="Expansion Sets" >}}
     {{< setting-checkbox id="setting-sets-actionCards" text="Include Action Cards?" >}}
     {{< setting-checkbox id="setting-sets-timeDeck" text="Include Time Deck?" >}}
     {{< setting-checkbox id="setting-sets-GPSCards" text="Include GPS Cards?" >}}

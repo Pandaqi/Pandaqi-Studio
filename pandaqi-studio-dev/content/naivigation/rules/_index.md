@@ -14,7 +14,7 @@ Create a deck of 25 tiles, including 5 special locations and 1 starting tile. Pl
 If you feel the map is too bunched up or unplayable, just redo this step!
 {{% /remark %}}
 
-Combine the default **Vehicle Cards** with the specific Vehicle Cards for this game. Shuffle and place as a _faceup_ draw pile. Each player draws 3 of these to hold in their hand. 
+Combine the default **Vehicle Cards** with the specific Vehicle Cards for this game. Shuffle and place as a **faceup** draw pile. Each player draws 3 of these to hold in their hand. 
 
 Combine the default Health Cards and the specific Health Cards for this game. Shuffle and take out 5: this is your **Health Deck**.
 
@@ -54,7 +54,7 @@ By default, _no communication about the game is allowed!_ Don't reveal cards, do
 
 Whenever you **take damage**, take the top card off of your Health Deck to reveal the next top card. These cards always have a _handicap_. All revealed handicaps must be followed at all times. (And if all health cards are revealed, you lose the game.)
 
-If you visit a **special location**, collect the tile and replace it with a new one from the deck. As an extra reward, players may _draw 1 more card_ and _show their cards to each other_. (The only time you're allowed to do so. Still no other communication besides that!)
+If you visit a **special location**, collect the tile and replace it with a new one from the deck.
 
 @TODO: IMAGE
 
@@ -106,8 +106,12 @@ To make the game **easier**:
 
 * Turn the health deck facedown so you start with no handicaps at all. (In the base rules, you already start with one handicap---the top health card.)
 * Start with more Health cards.
-* Consider **allowing discussion** at the end of each round. You're still not allowed to explicitly state your cards, but may otherwise strategize or clarify rules when uncertain.
 * The "Action Cards" expansion (see below) is also designed to make the game easier in most cases.
+
+To get more **information** (which usually makes the game easier and less random):
+
+* Whenever you successfully get a **new collectible**, you get an extra **reward**! Players may _draw 1 more card_ and _show their cards to each other_. (The only time you're allowed to do so. Still no other communication besides that!)
+* Or onsider **allowing discussion** at the end of each round. You're still not allowed to explicitly state your cards, but may otherwise strategize or clarify rules when uncertain.
 
 To make the game **harder**:
 
@@ -133,12 +137,11 @@ MIXED-IN (harder game): Simply mix all these cards with the regular Vehicle Card
 * Some cards tell you to play faceup, which means instant execution.
 * If a choice must be made, the _start player_ must make it.
 
-As usual, action cards execute when **revealed**. Some cards, though, tell you to play them faceup. This means they instantly execute. An action card never triggers more than once during a round.
+{{% remark %}} 
+An action card never triggers more than once during a round.
+{{% /remark %}}
 
-
-
-
-@IDEA: Fewer used = higher score? Or using more of them lowers your health or something? Some other consequence? Bad Actions and you must use all of them or you can't win?
+<!--- @IDEA (DISCARDED): Fewer used = higher score? Or using more of them lowers your health or something? Some other consequence? Bad Actions and you must use all of them or you can't win? --->
 
 {{% /rules-block %}}
 

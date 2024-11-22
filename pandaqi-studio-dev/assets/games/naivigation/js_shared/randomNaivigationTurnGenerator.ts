@@ -6,25 +6,37 @@ import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer"
 import createContext from "js/pq_games/layout/canvas/createContext";
 import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
 import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage";
+import MaterialNaivigation from "./materialNaivigation";
+import { CardType } from "./dictShared";
+import CardPickerNaivigation from "./cardPickerNaivigation";
 
 interface NaivigationTurnParams
 {
     setup?: RandomNaivigationSetupGenerator
-    cards?: any[]
-    movementCallback?: Function
-    roundCallback?: Function,
+    cardPicker?: CardPickerNaivigation,
+    movementCallback?: MovementCallbackFunction
+    roundCallback?: RoundCallbackFunction,
     visualizer?: MaterialVisualizer
 }
 
-const DEF_MOVEMENT_CALLBACK = (card, setup, example) => { return; }
-const DEF_ROUND_CALLBACK = (example) => { return; }
+interface MovementResult
+{
+    feedback?: string[]
+}
+
+const DEF_MOVEMENT_CALLBACK = (card, setup, turn) => { return {}; }
+const DEF_ROUND_CALLBACK = (turn) => { return; }
+
+type MovementCallbackFunction = (card:MaterialNaivigation, setup:RandomNaivigationSetupGenerator, turn:RandomNaivigationTurnGenerator) => MovementResult
+type RoundCallbackFunction = (turn:RandomNaivigationTurnGenerator) => void
 
 export default class RandomNaivigationTurnGenerator
 {
     setup: RandomNaivigationSetupGenerator
-    cards: any[]
-    movementCallback: Function // given this card, how does the vehicle move/change?
-    roundCallback: Function // given the events this round, what should happen to end the round?
+    cardPicker: CardPickerNaivigation
+    cards: MaterialNaivigation[]
+    movementCallback: MovementCallbackFunction // given this card, how does the vehicle move/change?
+    roundCallback: RoundCallbackFunction // given the events this round, what should happen to end the round?
     example: InteractiveExample
     generationData: Record<string,any> // for tracking special data while generating the random turn
     visualizer: MaterialVisualizer
@@ -33,10 +45,25 @@ export default class RandomNaivigationTurnGenerator
     {
         this.setup = params.setup;
         this.visualizer = params.visualizer;
-        this.cards = params.cards ?? [];
+        this.cardPicker = params.cardPicker;
+        this.cards = [];
         this.movementCallback = params.movementCallback ?? DEF_MOVEMENT_CALLBACK;
         this.roundCallback = params.roundCallback ?? DEF_ROUND_CALLBACK;
         this.attachToRules();
+    }
+
+    generateAndSanitizeCards()
+    {
+        if(this.cards.length > 0) { return; }
+
+        const allCards = this.cardPicker.generate();
+        const validCards = [];
+        for(const card of allCards)
+        {
+            if(card.type != CardType.VEHICLE) { continue; }
+            validCards.push(card);
+        }
+        this.cards = validCards;
     }
 
     attachToRules()
@@ -49,22 +76,22 @@ export default class RandomNaivigationTurnGenerator
 
     async generate()
     {
-        this.setup.generate();
-
         const o = this.example.getOutputBuilder();
         o.addParagraph("The map currently looks like this:");
-        o.addNode(await this.setup.visualize());
+        await this.setup.onSetupRequested(o);
 
         o.addParagraph("Each player plays a facedown card to the instructions, without communication. Once done, they are revealed and handled one at a time, left to right.");
+
+        this.generateAndSanitizeCards();
 
         const DEF_NUM_INSTRUCTIONS = 5;
         const numPlayers = rangeInteger(3,5);
         const cardsPlayed = shuffle(this.cards.slice()).slice(0, DEF_NUM_INSTRUCTIONS);
         const cardsVisualized = [];
-        for(const card of cardsPlayed)
-        {
-            cardsVisualized.push(await this.visualizeCard(card, true));
-        }
+
+        const ctx = createContext({ size: this.visualizer.size });
+        fillCanvas(ctx, "#FFFFFF");
+        const facedownCardImage = await convertCanvasToImage(ctx.canvas);
 
         this.generationData = {}; // for tracking special data as we go
 
@@ -73,13 +100,33 @@ export default class RandomNaivigationTurnGenerator
             o.addNode(document.createElement("hr"));
 
             const card = cardsPlayed[i];
-            cardsVisualized[i] = await this.visualizeCard(card);
-            o.addFlexList(cardsVisualized);
+            cardsVisualized.push( await this.visualizeCard(card) );
 
-            this.movementCallback(card, this.setup, this); // this actually executes the move
+            // fill the rest of the row with facedown/empty cards
+            // @NOTE: we must cloneNode() everything, otherwise it just _moves_ the same HTML Image node!
+            const copyFilledFacedown = [];
+            for(let j = 0; j < cardsPlayed.length; j++)
+            {
+                if(j <= i) { copyFilledFacedown.push(cardsVisualized[j].cloneNode()); }
+                else { copyFilledFacedown.push(facedownCardImage.cloneNode()); }
+            }
 
-            o.addParagraph("Now the map looks like this:");
-            o.addNode(await this.setup.visualize());
+            o.addParagraph("Reveal the next card, so the instruction row looks like this.");
+            o.addFlexList(copyFilledFacedown);
+
+            const moveResult = this.movementCallback(card, this.setup, this) ?? {}; // this actually executes the move
+            if(Object.keys(moveResult).length > 0)
+            {
+                const fb = moveResult.feedback ?? [];
+                if(fb.length > 0)
+                {
+                    o.addParagraph("<em>What happened?</em>");
+                    o.addParagraphList(moveResult.feedback);    
+                }
+            }
+
+            o.addParagraph("After executing that card, the map now looks like this.");
+            await this.setup.visualizeToOutput(o);
         }
 
         o.addNode(document.createElement("hr"));
@@ -87,19 +134,9 @@ export default class RandomNaivigationTurnGenerator
         this.roundCallback(this); // this is very optional
     }
 
-    async visualizeCard(card:any, facedown = false) : Promise<HTMLImageElement>
+    async visualizeCard(card:MaterialNaivigation, facedown = false) : Promise<HTMLImageElement>
     {
         await this.visualizer.resLoader.loadPlannedResources();
-
-        let canv
-        if(facedown) {
-            const ctx = createContext({ size: this.visualizer.size });
-            fillCanvas(ctx, "#FFFFFF");
-            canv = ctx.canvas;
-        } else {
-            canv = await card.drawForRules(this.visualizer);
-        }
-
-        return await convertCanvasToImage(canv);
+        return await convertCanvasToImage(await card.drawForRules(this.visualizer));
     }
 }

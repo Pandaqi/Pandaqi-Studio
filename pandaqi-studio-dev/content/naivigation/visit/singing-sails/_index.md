@@ -48,10 +48,12 @@ Print and cut it, read the short [playful rules](rules), and you can play!
 {{% boardgame-settings-container type="material" %}}
 
 {{< boardgame-settings type="game" local_storage="naivigationSingingSailsConfig" btn_label="Generate Material" game_title="Naivigation: Singing Sails" defaults="true" >}}
-  {{< setting-checkbox id="setting-sets-vehicleTiles" text="Include the Vehicle Tile?" checked="checked" >}}
-  {{< setting-checkbox id="setting-sets-mapTiles" text="Include Map Tiles?" checked="checked" >}}
-  {{< setting-checkbox id="setting-sets-vehicleCards" text="Include (Vehicle) Cards?" checked="checked" >}}
-  {{< boardgame-settings-section heading="Expansions" >}}
+  {{< boardgame-settings-section heading="Core Set" >}}
+    {{< setting-checkbox id="setting-sets-vehicleTiles" text="Vehicle Pawns?" checked="checked" >}}
+    {{< setting-checkbox id="setting-sets-mapTiles" text="Map Tiles?" checked="checked" >}}
+    {{< setting-checkbox id="setting-sets-vehicleCards" text="Vehicle Cards?" checked="checked" >}}
+  {{< /boardgame-settings-section >}}
+  {{< boardgame-settings-section heading="Expansion Sets" >}}
     {{< setting-checkbox id="setting-sets-supertilesSlipstreams" text="Supertiles & Slipstreams" >}}
     {{< setting-checkbox id="setting-sets-windstormsWeather" text="Windstorms & Weather" >}}
     {{< setting-checkbox id="setting-sets-islandsTreasures" text="Islands & Treasures" >}}

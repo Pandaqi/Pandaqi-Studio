@@ -1,5 +1,5 @@
 import cardDrawerNaivigation from "games/naivigation/js_shared/cardDrawerNaivigation";
-import { MAIN_COLORS, MAP_TILES, MISC, PlanetProperty, VEHICLE_CARDS } from "../js_shared/dict";
+import { HEALTH_CARDS, MAIN_COLORS, MAP_TILES, MISC, PlanetProperty, VEHICLE_CARDS } from "../js_shared/dict";
 import MaterialNaivigation from "games/naivigation/js_shared/materialNaivigation";
 import createContext from "js/pq_games/layout/canvas/createContext";
 import Point from "js/pq_games/tools/geometry/point";
@@ -19,7 +19,10 @@ import Rectangle from "js/pq_games/tools/geometry/rectangle";
 export default class Card extends MaterialNaivigation
 {
     getGameData() { return MAIN_COLORS; }
-    getData() { return VEHICLE_CARDS[this.key]; }
+    getData() { 
+        if(this.type == CardType.HEALTH) { return HEALTH_CARDS[this.key]; }
+        return VEHICLE_CARDS[this.key]; 
+    }
     getMisc() { return MISC; }
     async draw(vis:MaterialVisualizer)
     {
@@ -33,10 +36,14 @@ export default class Card extends MaterialNaivigation
 
         const op = new LayoutOperation();
         const offset = new Point(0, vis.size.y / 3);
+        let counter = 0;
         for(const prop of this.customData.planetProperties)
         {
-            group.add(this.drawPlanetProperty(vis, prop), op.clone());
-            op.pos.add(offset);
+            const op = new LayoutOperation({
+                pos: offset.clone().scale(counter)
+            })
+            group.add(this.drawPlanetProperty(vis, prop), op);
+            counter++;
         }
 
         return vis.renderer.finishDraw({ group: group, size: vis.size });
@@ -85,6 +92,7 @@ export default class Card extends MaterialNaivigation
             const textRes = new ResourceText({ text: prop.desc, textConfig: textConfig });
             const op = new LayoutOperation({
                 pos: new Point(vis.center.x, 0.5*height),
+                fill: "#111111",
                 size: new Point(0.9*vis.size.x, 0.9*height),
                 pivot: Point.CENTER
             })

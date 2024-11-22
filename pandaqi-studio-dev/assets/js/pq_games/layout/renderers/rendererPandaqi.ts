@@ -46,7 +46,8 @@ export default class RendererPandaqi extends Renderer
         
         // HUGE OPTIMIZATION => don't create the temporary canvas if we don't need it
         // (Though that is rare; would only apply to stuff with only a transform + fill/stroke and nothing else)
-        const needsTemporaryCanvas = effOp.needsTemporaryCanvas() || op.isGroup() || op.hasMask();
+        const isMultiStepText = op.isText() && op.hasStroke();
+        const needsTemporaryCanvas = effOp.needsTemporaryCanvas() || op.isGroup() || op.hasMask() || isMultiStepText;
 
         // SAVE/RESTORE is extremely expensive and error prone (if you forget one even once); so limit it to only when really needed
         const needsStateManagement = op.hasClip();
