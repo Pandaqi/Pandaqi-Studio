@@ -22,7 +22,10 @@ Het spel verloopt in rondes met twee stappen: BIEDEN en SCOREN.
 
 {{% rules-block heading="Bieden" %}}
 
-Elke speler pakt **3 kaarten** in de hand uit hun **eerder gescoorde kaarten** (als mogelijk). Daarna krijgen ze **nieuwe kaarten** van de stapel totdat ze in **totaal 6 handkaarten** hebben.
+Iedereen krijgt **nieuwe kaarten** van de stapel totdat ze in **totaal 6 handkaarten** hebben. (Je mag _nooit_ meer dan 6 kaarten op hand hebben.)
+
+<!--- @TODO: Maak dit optioneel? Een variant? Is dit net één regel te veel? --->
+Je mag ook vragen om minder kaarten van de stapel, en in plaats daarvan (maximaal) **3 kaarten** in de hand nemen uit je **eerder gescoorde kaarten**. 
 
 {{< rules-image src="gameplay_round.webp" alt="Voorbeeld van hoe een ronde in het algemeen verloopt." >}}
 
@@ -31,7 +34,7 @@ Herhaal dan onderstaande 3 keer.
 * De Sint onthult de volgende kaart van de stapel. (Deze rij kaarten heet de **Pakjeskamer**.)
 * Beginnend bij de Sint, met de klok mee, maakt iedereen een keuze.
   * Ofwel je **gaat mee**. Je biedt _minstens_ hetzelfde als het huidige hoogste bod.
-  * Ofwel je **stopt**. Leg al je handkaarten weg en doe deze ronde niet meer mee. (Als je geen handkaarten meer hebt, dan **moet** je stoppen.)
+  * Ofwel je **stopt**. Je behoudt je handkaarten, maar doet deze ronde niet meer mee. (Als je geen handkaarten meer hebt, dan **moet** je stoppen.)
 
 {{% remark %}}
 Ja, in tegenstelling tot echt Poker, ga je hier gewoon één keer de tafel rond per onthulde kaart.
@@ -58,7 +61,7 @@ Hierbij winnen _meer kaarten_ dus van _minder kaarten_. Bij gelijkspel winnen _g
 
 Als nog steeds gelijk, dan wint niemand.
 
-Degene met de beste combinatie wint alle _geboden kaarten_ en wordt de nieuwe Sint.
+Degene met de beste combinatie wint alle _geboden kaarten_ en wordt de nieuwe Sint. Iedereen die tot het einde meeging verliest ook al diens handkaarten (want die zijn gebruikt voor combinaties scoren).
 
 {{% /rules-block %}}
 
@@ -98,7 +101,9 @@ Elke regel is optioneel en staat op zichzelf; je hoeft ze niet allemaal _tegelij
 
 {{% /rules-double-view %}}
 
-**Handregel:** aan het begin van elke ronde, voordat iets is ingezet of onthuld, noemt de Small Sint een getal _lager dan 4_. Dit is het aantal kaarten dat mensen _minstens_ in hun hand moeten houden deze ronde.
+**Handregel:** 
+* Aan het begin van elke ronde, voordat iets is ingezet of onthuld, noemt de Small Sint een getal _lager dan 4_. Dit is het aantal kaarten dat mensen _minstens_ in hun hand moeten houden deze ronde. 
+* Aan het eind van elke ronde mag men nu _kiezen_ of ze hun handkaarten willen behouden, of allemaal weggooien (voor nieuwe kaarten volgende ronde).
 
 **Overschattingsregel:** Als het _onmogelijk_ is voor een speler om mee te gaan met een bod---ze hebben simpelweg de kaarten niet---dan zeggen ze dit. Waarom? Als jij een bod doet waardoor _iedereen_ zou moeten afhaken, lig je per direct uit de ronde.
 

@@ -13,7 +13,7 @@ This game has a special setup for the map, instead of the usual setup for a Naiv
 
 @TODO: EXAMPLE IMAGE
 
-<div class="naivigation-shared-rule">
+<div class="rulebook-shared-rule">
 Combine the default Vehicle Cards with the specific Vehicle Cards for this game. Shuffle and place as a FACEUP draw pile. Each player draws 3 of these to hold in their hand. 
 
 Combine the default Health Cards and the specific Health Cards for this game. Shuffle and take out 5: this is your Health Deck.
@@ -35,7 +35,7 @@ Skip "Rounds & Turns" if you already know how to play Naivigation. The other sec
 
 {{< rules-example id="naivigation-turn" >}}
 
-{{% rules-block heading="Rounds & Turns" class="naivigation-shared-rule-block" %}}
+{{% rules-block heading="Rounds & Turns" class="rulebook-shared-rule-block" %}}
 
 Play happens in rounds.
 

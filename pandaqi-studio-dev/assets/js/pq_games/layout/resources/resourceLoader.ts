@@ -4,6 +4,7 @@ import RendererPandaqi from "../renderers/rendererPandaqi"
 import TextConfig from "../text/textConfig"
 import Resource from "./resource"
 import ResourceFont from "./resourceFont"
+import ResourceImage from "./resourceImage"
 
 interface ResourceLoaderParams
 {
@@ -44,6 +45,9 @@ export default class ResourceLoader
 
     loadInSequence = false
     onResourceLoaded = (txt:string) => {}
+
+    fallbackImage : ResourceImage
+    fallbackFont : ResourceFont
 
     constructor(params:ResourceLoaderParams = {})
     {
@@ -90,6 +94,7 @@ export default class ResourceLoader
 
     planLoadMultiple(dict:Record<string,ResourceLoadParams>, config:Record<string,any> = {})
     {
+        const filterAssets = (config.debug ?? {}).filterAssets ?? [];
         for(const [id,data] of Object.entries(dict))
         {
             if(data.loadIf)
@@ -97,6 +102,12 @@ export default class ResourceLoader
                 const val = this.getStringPathIntoDict(data.loadIf, config);
                 if(!val) { continue; }
             }
+
+            if(filterAssets.length > 0 && !filterAssets.includes(id))
+            {
+                continue;
+            }
+
             this.planLoad(id, data);
         }
     }
@@ -175,6 +186,7 @@ export default class ResourceLoader
             img.src = params.path;
             await this.cacheLoadedImage(key, params, img);
             this.onResourceLoaded("Image (" + fileName + ")");
+            if(!this.fallbackImage) { this.fallbackImage = this.resourcesLoaded[id] as ResourceImage; }
         }
 
         if(this.isFont(path))
@@ -184,6 +196,7 @@ export default class ResourceLoader
             const f = await fontFile.load()
             this.cacheLoadedFont(key, params, f);
             this.onResourceLoaded("Font (" + fileName + ")");
+            if(!this.fallbackFont) { this.fallbackFont = this.resourcesLoaded[id] as ResourceFont; }
         }
         
     }
@@ -207,5 +220,10 @@ export default class ResourceLoader
         if(!res) { return null; }
         if(copy) { res = res.clone(true); }
         return res;
+    }
+
+    getResourceImageRandom() : ResourceImage
+    {
+        return this.fallbackImage;
     }
 }

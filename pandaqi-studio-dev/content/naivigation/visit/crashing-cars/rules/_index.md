@@ -16,7 +16,7 @@ Alternatively, manually do the setup as follows.
 
 Grab all **Gear Cards** and sort them from low to high. The top card of this pile always represents your current "Gear". Start at 0.
 
-<div class="naivigation-shared-rule">
+<div class="rulebook-shared-rule">
 Combine the default Vehicle Cards with the specific Vehicle Cards for this game. Give each player 3 of these to hold in their hand.
 
 Combine the default Health Cards and the specific Health Cards for this game. Shuffle and take out 5: this is your Health Deck.
@@ -38,7 +38,7 @@ Skip "Rounds & Turns" if you already know how to play Naivigation. The other sec
 
 {{< rules-example id="naivigation-turn" >}}
 
-{{% rules-block heading="Rounds & Turns" class="naivigation-shared-rule-block" %}}
+{{% rules-block heading="Rounds & Turns" class="rulebook-shared-rule-block" %}}
 
 Play happens in rounds.
 

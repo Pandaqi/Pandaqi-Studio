@@ -5,7 +5,7 @@ boardgame: true
 title: "Queenseat"
 headerTitle: "Make sure the right Princess ends up on the throne, playable without a table or chairs"
 blurb: "Vote, swap places and use powers to ensure the right Princess ends up on the throne. A game playable without a table or chairs."
-blurbShort: "A [Throneless Game](/throneless-games/) game about helping your animal win the throne, aimed more at kids."
+blurbShort: "A [Throneless Game](/throneless-games/) game about making sure your Princess ends up on the throne."
 
 blurbProject: "The best introduction for all ages, using a changing Throne card to keep the game simple but tactical."
 weightProject: 20
@@ -40,7 +40,7 @@ ages: everyone
 
 {{< boardgame-settings type="game" btn_label="Create Material" local_storage="queenseatConfig" game_title="Queenseat" defaults="true" >}}
   {{< setting-checkbox id="setting-highLegibility" text="High Legibility?" remark="Picks a more neutral font for maximum legibility." checked="checked" >}}
-  {{< setting-enum id="setting-set" text="Set?" values="none,starter,medium,advanced,complete,random" valaskey="true" def="starter" remark="Pick a predetermined set, or use none and pick your specific princes below!" >}}
+  {{< setting-enum id="setting-set" text="Set?" values="none,starter,medium,advanced,complete,random" valaskey="true" def="starter" remark="Pick a predetermined set, or use none and pick your specific princesses below!" >}}
   {{< boardgame-settings-section heading="Princesses" >}}
     {{< setting-checkbox id="setting-packs-stingersHive" text="Stinger's Hive?" checked="checked" >}}
     {{< setting-checkbox id="setting-packs-gallopingSun" text="Galloping Sun?" >}}

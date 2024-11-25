@@ -2,6 +2,7 @@ import shuffle from "js/pq_games/tools/random/shuffle";
 import InteractiveExampleSimulator from "js/pq_rulebook/examples/interactiveExampleSimulator";
 import GameState from "./gameState";
 import fromArray from "js/pq_games/tools/random/fromArray";
+import CardThroneless from "../cardThroneless";
 
 export default async (sim:InteractiveExampleSimulator, CONFIG, PACKS) =>
 {
@@ -17,11 +18,18 @@ export default async (sim:InteractiveExampleSimulator, CONFIG, PACKS) =>
 
     const cardPicker = sim.getPicker("card");
     await cardPicker.generate()
-    const allCards = shuffle(cardPicker.get());
+    const allCards : CardThroneless[] = shuffle(cardPicker.get());
 
     // setup
     const board = new GameState();
     board.generate(playerNames, allCards, CONFIG);
+
+    // @UNIQUE (SMALLSEAT): for the interactive example, we always show the "first turn" of a game 
+    // => but that's a bad example to give for this particular game (teller starts without cards), so we just give the Teller some random extra cards to make it work.
+    if(sim.displaySingleTurn() && board.getTeller().count() <= 1)
+    {
+        board.getTeller().addCards(board.players[1].cards);
+    }
 
     let continueTheGame = true;
     while(continueTheGame)

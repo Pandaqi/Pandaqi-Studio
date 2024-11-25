@@ -4,7 +4,11 @@ type: "rules"
 
 {{% rules-block id="setup" heading="Setup" icon="setup" icontint="purple" %}}
 
-Pick as many unique animals as the number of players. Add all their cards to the deck, then shuffle.
+Pick as many unique **Animals** as the **number of players**. Add all their cards to the deck, then shuffle.
+
+{{% remark %}}
+You CAN include more animals; this makes the game longer and harder.
+{{% /remark %}}
 
 Pick a player: they become the **Teller**. 
 
@@ -14,13 +18,13 @@ Pick a player: they become the **Teller**.
 
 All other players are **Candidates**. Deal the deck to the candidates until empty, as fairly as possible. Any remaining cards go to the Teller.
 
-Card facing is important in this game. From now on, hand cards that face towards yourself are called **secret cards**. Cards that face away (to the _other players_) are **public cards**.
-
-During the game, whoever sits at the Smallseat position is called the **Boss**.
+Card facing is important in this game. From now on, hand cards that face towards yourself are called **secret cards**. Cards that face away (to the _other players_) are **public cards**. 
 
 {{% remark %}}
-You CAN include more animals; this makes the game longer and harder.
+Whenever you receive cards and it's not specified how to hold them (secret or public), you decide yourself.
 {{% /remark %}}
+
+During the game, whoever sits at the Smallseat position is called the **Boss**.
 
 {{< rules-image src="starting_setup.webp" alt="Example of setup for 4 players." >}}
 

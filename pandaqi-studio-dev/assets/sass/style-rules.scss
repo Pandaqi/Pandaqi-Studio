@@ -964,18 +964,18 @@ blockquote
     }
 }
 
-// Styles for shared rules Naivigation => @TODO: this is MESSY, yes, but right now this is the only game that needs it and I don't know how/if to generalize this
-.naivigation-shared-rule, .naivigation-shared-rule-block
+// Styles for shared rules => anything that's the same across MULTIPLE games in the same project
+.rulebook-shared-rule, .rulebook-shared-rule-block
 {
     margin: 0.5rem;
-    background-color: rgba(255,128,128,0.5);
+    background-color: rgb(203, 231, 255);
     padding: 0.5rem;
     border-radius: 0.5rem;
-    border-left: 10px solid rgb(255, 48, 48);
+    border-left: 10px solid rgb(48, 141, 255);
     font-style: italic;
 }
 
-.naivigation-shared-rule
+.rulebook-shared-rule
 {
     &:before 
     {
@@ -985,7 +985,7 @@ blockquote
     }
 }
 
-.naivigation-shared-rule-block
+.rulebook-shared-rule-block
 {
     .content > p:first-child::before 
     {

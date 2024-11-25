@@ -2,13 +2,15 @@
 type: "rules"
 ---
 
-{{% rules-block id="setup" heading="Setup" icon="setup" icontint="green" %}}
+{{% rules-block id="setup" heading="Setup" icon="setup" %}}
 
-<div class="naivigation-shared-rule">
+<div class="rulebook-shared-rule">
 These rules are the shared rules that are true for all Naivigation games. They also include the explanations for expansions that you can tack onto any version of the game. Whenever another rulebook includes a shared rule, it will appear in a colored box like this one!
 </div>
 
-Create a deck of 25 tiles, including 5 special locations and 1 starting tile. Place these in a 5x5 grid. Place the vehicle on the starting tile (oriented randomly).
+{{% rules-double-view src="setup.webp" alt="Example of how to (generally) setup a new Naivigation game." split="leftheavy" %}}
+
+Create a deck of 25 tiles, including 5 Collectibles and 1 starting tile. Place these in a 5x5 grid. Place the vehicle on the starting tile (oriented randomly).
 
 {{% remark %}}
 If you feel the map is too bunched up or unplayable, just redo this step!
@@ -22,19 +24,19 @@ Place 5 instruction tokens in a row. You'll place your vehicle cards underneath 
 
 Pick any start player.
 
-@TODO: IMAGE
+{{% /rules-double-view %}}
 
 {{% /rules-block %}}
 
-{{% rules-block id="objective" heading="Objective" icon="objective" icontint="red" %}}
+{{% rules-block id="objective" heading="Objective" icon="objective" %}}
 
-You immediately win once you **visited the 5 special locations**. (What they look like or how to visit them depends on the game.) 
+You immediately win once you **visited the 5 Collectibles**. (What these special locations look like, or how to visit them, depends on the game.) 
 
 You immediately **lose** if your vehicle takes **too much damage**: your Health Deck is empty! (How you take damage also depends on the specific game.)
 
 {{% /rules-block %}}
 
-{{% rules-block id="action_play" heading="Gameplay" icon="action" icontint="green" %}}
+{{% rules-block id="action_play" heading="Gameplay" icon="action" %}}
 
 Play happens in rounds.
 
@@ -48,19 +50,17 @@ Then, one at a time, **reveal each instruction and execute it** (left to right).
 
 Whoever played into slot 1 becomes the new **start player**. Discard the instructions and play the next round!
 
-@TODO: IMAGE
-
 By default, _no communication about the game is allowed!_ Don't reveal cards, don't ask others what you should do, don't explain what you did, nothing of the sort. 
 
 Whenever you **take damage**, take the top card off of your Health Deck to reveal the next top card. These cards always have a _handicap_. All revealed handicaps must be followed at all times. (And if all health cards are revealed, you lose the game.)
 
-If you visit a **special location**, collect the tile and replace it with a new one from the deck.
+If you visit a **Collectible**, collect the tile and replace it with a new one from the deck.
 
-@TODO: IMAGE
+{{< rules-image src="gameplay.webp" alt="The core gameplay of Naivigation: play vehicle cards, execute, move vehicle." >}}
 
 {{% /rules-block %}}
 
-{{% rules-block id="vehicle_cards" heading="Vehicle Cards" icon="action" icontint="green" %}}
+{{% rules-block id="vehicle_cards" heading="Vehicle Cards" icon="action" %}}
 
 The shared material has 3 basic vehicle cards. They are all **optional**, but including them generally makes the game **easier**.
 
@@ -74,17 +74,19 @@ Important: If you include this card, turn the draw pile **facedown** for the ent
 * If this leaves a card hanging (its token removed), it's just not executed. 
 * If this creates a new empty slot, the player who played the original card must play a new card into the new slot. 
 
-@TODO: EXAMPLE IMAGE?
+{{< rules-image src="vehicle_cards.webp" alt="Examples of how to us the three (optional) shared vehicle cards." >}}
 
 {{% /rules-block %}}
 
-{{% rules-block id="large_groups" heading="Playing with 6+ players" icon="action" icontint="green" %}}
+{{% rules-block id="large_groups" heading="Playing with 6+ players" icon="action" %}}
 
 At high player counts, you split into **2 teams**. Each controls their own vehicle, with their own row of 5 instruction tokens. During setup, place both vehicles on the starting tile.
 
 You **win the game** immediately if
 * The opponent is total loss
 * Or you collected 3(+) of the collectibles (which is a majority the others can't surpass)
+
+{{% rules-double-view src="high_player_counts.webp" alt="Example of how to play the game, alternating between team vehicles, on high player counts." split="leftheavy" %}}
 
 The rules stay the same, except for the following changes.
 
@@ -94,11 +96,11 @@ The rules stay the same, except for the following changes.
 
 Finally, if you move into the same tile as the other team, you **collide**. Both teams take 1 damage, regardless of who causes this collision.
 
-@TODO: IMAGE (Just to make clear what it looks like with 2 instruction rows, even teams, alternating turns, etc)
+{{% /rules-double-view %}}
 
 {{% /rules-block %}}
 
-{{% rules-block id="variants" heading="Variants & Expansions" icon="expansion" icontint="red" %}}
+{{% rules-block id="variants" heading="Variants & Expansions" icon="expansion" %}}
 
 {{% rules-block heading="Variants" %}}
 
@@ -111,14 +113,14 @@ To make the game **easier**:
 To get more **information** (which usually makes the game easier and less random):
 
 * Whenever you successfully get a **new collectible**, you get an extra **reward**! Players may _draw 1 more card_ and _show their cards to each other_. (The only time you're allowed to do so. Still no other communication besides that!)
-* Or onsider **allowing discussion** at the end of each round. You're still not allowed to explicitly state your cards, but may otherwise strategize or clarify rules when uncertain.
+* Or consider **allowing discussion** at the end of each round. You're not allowed to explicitly state your cards, but may otherwise strategize, ask questions, or make plans.
 
 To make the game **harder**:
 
-* Randomize the start player.
+* Randomize the start player _each round_.
 * Start with fewer Health cards.
 * Try this rule: the Discuss card must always be played in the first or last slot.
-* When you collect a tile, leave an empty hole (don't replace from the deck). You can't enter that tile anymore, and trying to do so incurs 1 damage. => @TODO: Might be too fun/powerful as a variant, use as main rule??
+* When you collect a tile, leave an empty hole (don't replace from the deck). You can't enter that tile anymore, and trying to do so incurs 1 damage.
 
 The best way to keep the game challenging and varied, is by introducing new expansions once in a while.
 
@@ -128,6 +130,8 @@ The best way to keep the game challenging and varied, is by introducing new expa
 
 These are vehicle cards with a **special action**. It's recommended to include 5--10 random action cards, not the entire deck.
 
+{{% rules-double-view src="action_cards.webp" alt="Example of what Action Cards look like and the two different ways in which you can use them in a game." %}}
+
 At the start of the game, choose how you want to use them: either **public** or **mixed in**.
 
 PUBLIC (simpler game): Place the chosen action cards **faceup on the table**, within reach of all players. At any time, you may grab such a card and execute its action immediately. After doing so, however, the card is discarded and its action can never be taken again.
@@ -136,6 +140,8 @@ MIXED-IN (harder game): Simply mix all these cards with the regular Vehicle Card
 * For most cards, this is simply when it is revealed while executing instructions. 
 * Some cards tell you to play faceup, which means instant execution.
 * If a choice must be made, the _start player_ must make it.
+
+{{% /rules-double-view %}}
 
 {{% remark %}} 
 An action card never triggers more than once during a round.
@@ -147,6 +153,8 @@ An action card never triggers more than once during a round.
 
 {{% rules-block heading="GPS Cards" %}}
 
+{{% rules-double-view src="gps_cards.webp" alt="Example of what a GPS card looks like, how to read it, and how to check its bonuses/penalties at the end of a round." split="leftheavy" %}}
+
 At the start of each round, draw a new GPS Card from the deck.
 
 These cards show the current location of the vehicle and possible squares of the map it might visit this round.
@@ -156,19 +164,23 @@ These cards show the current location of the vehicle and possible squares of the
 
 Some cards introduce an effect for the next round. If you failed or succeeded such a card, leave it faceup next to the pile to remember this.
 
-@IDEA: Some special squares that give a slight power/rules change when that specific square is visited?
+{{% /rules-double-view %}}
 
-@TODO: IMAGE
+<!--- @TODO => @IDEA DISCARDED: Some special squares that give a slight power/rules change when that specific square is visited? --->
 
 {{% /rules-block %}}
 
 {{% rules-block heading="Time Deck" %}}
+
+{{% rules-double-view src="time_cards.webp" alt="Example of what Time Cards look like and how they add time pressure to any game." split="leftheavy" %}}
 
 This expansion adds extra time pressure. This is especially useful if your group tries to drive a little too ... safely.
 
 * During setup, place a facedown deck of **20 Time Cards**. (Randomly selected, shuffled.)
 * At the **start** of each round, reveal the next card.
 * If the deck runs out, you've lost the game.
+
+{{% /rules-double-view %}}
 
 Revealing and handling is always done by the start player. They make choices (when relevant), with no communication allowed.
 

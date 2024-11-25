@@ -8,12 +8,16 @@ Press the button below to get a random setup you can simply copy to your table.
 
 {{< rules-example id="naivigation-setup" >}}
 
+{{% rules-double-view src="setup.webp" alt="Example of how to setup a new game." split="leftheavy" %}}
+
 Alternatively, manually do the setup as follows.
 * Create a deck of 25 tiles, including 5 planets and 1 starting tile. 
 * Randomly place these in a 5x5 grid. 
 * Place the vehicle on the starting tile (oriented randomly)
 
-<div class="naivigation-shared-rule">
+{{% /rules-double-view %}}
+
+<div class="rulebook-shared-rule">
 Combine the default Vehicle Cards with the specific Vehicle Cards for this game. Shuffle and place as a FACEUP draw pile. Each player draws 3 of these to hold in their hand. 
 
 Combine the default Health Cards and the specific Health Cards for this game. Shuffle and take out 5: this is your Health Deck.
@@ -35,7 +39,7 @@ Alternatively, manually do the setup as follows.
 
 {{% rules-block id="objective" heading="Objective" icon="objective" icontint="red" %}}
 
-You win once you've visited **5 planets**. You lose immediately once you're total loss: your **health deck is empty**. 
+You win once you've visited **5 planets**. You lose immediately once you're total loss: your **Health Deck is empty**. 
 
 {{% /rules-block %}}
 
@@ -45,7 +49,7 @@ Skip "Rounds & Turns" if you already know how to play Naivigation. The other sec
 
 {{< rules-example id="naivigation-turn" >}}
 
-{{% rules-block heading="Rounds & Turns" class="naivigation-shared-rule-block" %}}
+{{% rules-block heading="Rounds & Turns" class="rulebook-shared-rule-block" %}}
 
 Play happens in rounds.
 
@@ -59,7 +63,9 @@ Whoever played into the first slot becomes the new start player. Discard the ins
 
 _No communication about the game is allowed._
 
-Whenever you **take damage**, reveal the top card of your Health Deck. These cards always have a _handicap_, which must all be followed at all times.
+Whenever you **take damage**, reveal the top card of your Health Deck. These cards always have a _handicap_, which must be followed at all times.
+
+{{< rules-image src="gameplay.webp" alt="The core gameplay of Naivigation: play vehicle cards, execute, move vehicle." >}}
 
 {{% /rules-block %}}
 
@@ -73,9 +79,7 @@ The map **wraps around**: flying off of one side makes you reappear on the other
 
 Whenever you move **diagonally**, you must choose which of the two directions (horizontally or vertically) you want to take. Actual diagonal movement doesn't exist.
 
-In the base game, just ignore any special elements on tiles. They are for the expansions. That's it!
-
-@TODO: IMAGE EXAMPLE
+{{< rules-image src="gameplay_moving_visiting.webp" alt="Example of the rules around collecting planets and moving through space." >}}
 
 {{% /rules-block %}}
 
@@ -83,17 +87,16 @@ In the base game, just ignore any special elements on tiles. They are for the ex
 
 {{% rules-block id="vehicle-cards" heading="Vehicle Cards" icon="expansion" icontint="red" %}}
 
-@TODO: IMAGE EXAMPLE
-
 The following vehicle cards are in the base game.
 
 * **Thrust**: Move one tile forward, in the direction the spaceship currently faces.
 * **Steer:** The steering cards show a **range**. You may pick any angle (horizontal, vertical or diagonal) within that range.
   * Remember this is steering, so rotate the vehicle starting from its current direction. (Don't just snap to the angle indicated.)
 * **Disable.** Perform one gravitational pull step.
-	* Find the closest planet. (If tied, pick one.)
-	* Move one tile closer to that planet.
+  * Find the closest planet. (If tied, pick one.)
+  * Move one tile closer to that planet.
 
+{{< rules-image src="vehicle_cards.webp" alt="Examples of how to execute the three possible movement cards." >}}
 
 {{% /rules-block %}}
 
@@ -103,17 +106,19 @@ It's recommended to add these expansions in order, as they get progressively har
 
 {{% rules-block heading="Shields & Asteroids" %}}
 
+{{% rules-double-view src="expansion_shields_asteroids.webp" alt="Examples of how to use all the new tiles/cards in the Shields expansion." split="leftheavy" %}}
+
 Add the following map tiles.
 * **Asteroids:** if you fly into this tile, take 1 damage.
 * **Wormhole:** teleport to another wormhole, take 1 damage.
 
 Add the following vehicle cards.
-* **Shield**: Toggles the shield on and off. When the shield is on, you don't take damage.
+* **Shield**: Toggles the shield on and off. When the shield is on, you don't take damage, but you also can't land on planets.
 	* When on, place this card faceup on the table to remember this. (When the shield turns off, just remove this card.)
 	* A **Disable** card ALSO turns off the shield.
 * **Thrust+**: Moves 2 spaces at once. (Ignore the space you pass by; you simply skip over it.)
 
-@TODO: IMAGE EXAMPLE
+{{% /rules-double-view %}}
 
 {{% /rules-block %}}
 
@@ -130,7 +135,7 @@ Add the following vehicle card.
   * If this is a planet, you immediately lost the game! 
   * If this tile contained another spaceship (when playing with two teams), they take 2 damage.
 
-@TODO: IMAGE EXAMPLE
+{{< rules-image src="expansion_weapon_aliens.webp" alt="Examples of how to use all the new tiles/cards in the Weapons expansion." >}}
 
 {{% /rules-block %}}
 
@@ -148,12 +153,12 @@ Add the following map tiles.
 * **Space Station**: enter this tile to repair 2 damage. Then remove the tile and replace with the top one from the deck.
 * **Moon**: when visiting, collect this tile and replace with a new one from the deck. You may also  _rearrange_ the planets or planet properties.
 
-If you have a planet property requiring a resource, make sure that resource is actually part of the map.
+If you have a planet property requiring a resource, make sure that resource is actually part of the starting map.
 
 Add the following vehicle cards
 * **Hyper**: move to one edge of the map ( = one end of your row or column)
 
-@TODO: IMAGE EXAMPLE
+{{< rules-image src="expansion_trade_tech.webp" alt="Examples of how to use all the new tiles/cards in the Trade expansion." >}}
 
 {{% /rules-block %}}
 

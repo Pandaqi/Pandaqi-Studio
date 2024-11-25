@@ -24,7 +24,7 @@ const CONFIG:Record<string,any> =
         numVotesMeansDone: 1,
         tellerIsPerson: true,
         tellerGoesFirst: true,
-        mustFollowTellerType: true, // @TODO: code this
+        mustFollowTellerType: true,
         tellerTypeDisobeyProb: 0.25,
     }
 }

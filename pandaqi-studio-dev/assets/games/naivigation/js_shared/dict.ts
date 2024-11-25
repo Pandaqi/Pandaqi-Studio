@@ -17,7 +17,8 @@ interface DefaultCardData
 const VEHICLE_CARDS = 
 {
     discuss: { shared: true, frame: 2, label: "Discuss", desc: "You may <b>communicate</b> until you decide to execute the next card.", freq: 5 },
-    speedup: { shared: true, frame: 7, label: "Speedup", desc: "Remove or Add <b>1 Instruction Slot</b>. (There must be at least 3 and at most 8 slots.)", freq: 6 }
+    speedup: { shared: true, frame: 7, label: "Speedup", desc: "Remove or Add <b>1 Instruction Slot</b>. (There must be at least 3 and at most 8 slots.)", freq: 6 },
+    wildcard: { shared: true, frame: 36, label: "Wildcard", desc: "Execute any possible <b>Vehicle Card</b> in the game.", freq: 5 }
 };
 
 //

@@ -8,6 +8,7 @@ import Point from "js/pq_games/tools/geometry/point";
 import TextConfig from "js/pq_games/layout/text/textConfig";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
+import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage";
 
 export default class GameState
 {
@@ -104,7 +105,7 @@ export default class GameState
         this.cardsPlayed = newRound;
 
         const tellerPlayer = this.getTeller();
-        let num = 0;
+        let numVotesCast = 0;
         for(const player of this.players)
         {
             let stats = this.getCards(true, [player]);
@@ -121,6 +122,7 @@ export default class GameState
             let allowDisobey = false;
 
             // @UNIQUE (QUEENSEAT): only picking what you DON'T see the most on other player's hands
+            // @TODO: Wait, isn't this exactly WRONG right now??
             if(this.config.rulebook.cantVoteMajorityPublic || this.config.rulebook.cantVoteMajorityNeighborsOnly)
             {
                 typesAllowed = mostOccurring;
@@ -134,8 +136,9 @@ export default class GameState
                 allowDisobey = true;
             }
 
+            // @NOTE: this also REMOVES the card picked (fourth parameter)
             const vote = player.getValidVote(sim, typesAllowed, this.config, true, allowDisobey);
-            if(vote) { num++; }
+            if(vote) { numVotesCast++; }
             newRound.addCard(vote);
 
             // If they had to follow, but decided to disobey, this "costs" a card
@@ -146,12 +149,13 @@ export default class GameState
                 if(didntFollow && couldHaveFollowed)
                 {
                     const randomPlayer = this.getRandomPlayer([player]);
-                    const randomCard = player.getRandomCards(1, true);
-                    randomPlayer.addCard(randomCard[0]);
+                    const randomCard : CardThroneless = player.getRandomCards(1, true)[0];
+                    randomPlayer.addCard(randomCard);
                 }
             }
         }
-        sim.stats.numVotesCast += num;
+
+        sim.stats.numVotesCast += numVotesCast;
     }
 
     // Round; Step 2) Find the winner
@@ -396,7 +400,7 @@ export default class GameState
         }).alignCenter();
 
         const groupOp = new LayoutOperation({
-            effects: [new DropShadowEffect({ blurRadius: 6 })]
+            effects: [new DropShadowEffect({ blurRadius: 5 })]
         })
 
         let angle = 1.5 * Math.PI
@@ -420,9 +424,12 @@ export default class GameState
             group.toCanvas(ctx, groupOp);
         }
 
+        const img = await convertCanvasToImage(canvas);
+        img.style.maxHeight = "100%";
+
         const container = document.createElement("div");
         container.style.textAlign = "center";
-        container.appendChild(canvas);
+        container.appendChild(img);
         
         sim.outputBuilder.addNode(container);
     }

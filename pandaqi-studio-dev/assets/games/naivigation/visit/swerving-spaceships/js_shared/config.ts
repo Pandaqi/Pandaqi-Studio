@@ -9,6 +9,7 @@ const CONFIG:any =
 {
     debug:
     {
+        filterAssets: [], // @DEBUGGING (should be empty)
         omitFile: false, // @DEBUGGING (should be false)
         singleDrawPerType: false, // @DEBUGGING (should be false)
         onlyGenerate: false, // @DEBUGGING (should be false)
