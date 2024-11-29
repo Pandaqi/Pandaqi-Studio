@@ -55,12 +55,12 @@ const MAP_TILES:Record<string,MaterialData> =
 
     starting_tile: { frame: 8, label: "Starting Tile", freq: 1, starting: true },
 
-    wormhole: { frame: 9, label: "Wormhole", desc: "Take 1 damage. Teleport to another Wormhole.", freq: 4, sets: ["shields"] },
-    asteroids: { frame: 10, label: "Asteroids", desc: "Take 1 damage.", freq: 4, sets: ["shields"] },
-    spaceship: { frame: 11, label: "Enemy Spaceship", desc: "Take 1 damage if in their line of sight. Then rotate them.", freq: 4, sets: ["weapons"] },
-    moon: { frame: 12, label: "Moon", desc: "Collect this resource, then replace tile. Optional: rearrange planet properties.", freq: 6, sets: ["trade"] }, 
-    sun: { frame: 13, label: "Sun", desc: "Take 3 damage. Also counts for Gravitational Pull.", freq: 2, sets: ["weapons"] },
-    space_station: { frame: 14, label: "Space Station", desc: "Repair 2 damage. Then replace this tile.", freq: 3, sets: ["trade"] }
+    wormhole: { frame: 9, label: "Wormhole", freq: 4, sets: ["shields"] },
+    asteroids: { frame: 10, label: "Asteroids", freq: 4, sets: ["shields"] },
+    spaceship: { frame: 11, label: "Enemy Spaceship", freq: 4, sets: ["weapons"] },
+    moon: { frame: 12, label: "Moon", freq: 6, sets: ["trade"] }, 
+    sun: { frame: 13, label: "Sun", freq: 2, sets: ["weapons"] },
+    space_station: { frame: 14, label: "Space Station", freq: 3, sets: ["trade"] }
 }
 
 const MISC =

@@ -8,8 +8,13 @@ import Point from "js/pq_games/tools/geometry/point";
 import { MISC_SHARED, TERRAINS, TileType } from "./dictShared";
 import MaterialNaivigation from "./materialNaivigation";
 import vehicleDrawerNaivigation from "./vehicleDrawerNaivigation";
+import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
+import TextConfig from "js/pq_games/layout/text/textConfig";
+import ResourceText from "js/pq_games/layout/resources/resourceText";
+import Rectangle from "js/pq_games/tools/geometry/rectangle";
+import BlurEffect from "js/pq_games/layout/effects/blurEffect";
 
-const drawTerrain = (vis, group, tile) =>
+const drawTerrain = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaivigation) =>
 {
     // main background color
     const tempData = tile.getTemplateData();
@@ -29,7 +34,7 @@ const drawTerrain = (vis, group, tile) =>
     group.add(res, resOp);
 }
 
-const drawTile = (vis, group, tile) =>
+const drawTile = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaivigation) =>
 {
     // the main illustration of the tile
     const typeData = tile.getData();
@@ -47,10 +52,8 @@ const drawTile = (vis, group, tile) =>
 
     // allow custom draws (in fact, we'll need that a lot)
     let resIllu = resSprite;
-    if(tile.getCustomIllustration) {
-        const resTemp = tile.getCustomIllustration(vis, tile, spriteOp);
-        if(resTemp) { resIllu = resTemp; spriteOp.frame = 0; }
-    }
+    const resTemp = tile.getCustomIllustration(vis, tile, spriteOp);
+    if(resTemp) { resIllu = resTemp; spriteOp.frame = 0; }
     group.add(resIllu, spriteOp);
 
     // draw collectible icon top center
@@ -72,9 +75,36 @@ const drawTile = (vis, group, tile) =>
         })
         group.add(resIcon, iconOp);
     }
+
+    const needsText = typeData.desc && vis.get("addTextOnTiles");
+    if(needsText)
+    {
+        const textConfig = new TextConfig({
+            font: vis.get("fonts.body"),
+            size: vis.get("tiles.general.text.fontSize")
+        }).alignCenter();
+        const resText = new ResourceText(typeData.desc, textConfig);
+        const textBoxDims = vis.get("tiles.general.text.boxDims");
+        const textPos = vis.get("tiles.general.text.pos");
+        const rect = new ResourceShape(new Rectangle({ center: textPos, extents: textBoxDims }));
+        const opRect = new LayoutOperation({
+            fill: vis.get("tiles.general.text.bgColor"),
+            effects: [new BlurEffect(vis.get("tiles.general.text.boxBlur"))],
+            alpha: vis.get("tiles.general.text.boxAlpha")
+        })
+        group.add(rect, opRect);
+
+        const opText = new LayoutOperation({
+            pos: textPos,
+            size: textBoxDims,
+            fill: vis.get("tiles.general.text.textColor"),
+            pivot: Point.CENTER
+        });
+        group.add(resText, opText);
+    }
 }
 
-const drawElevation = (vis, group, tile) =>
+const drawElevation = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaivigation) =>
 {
     const elevation = tile.customData.elevation ?? TERRAINS[tile.customData.terrain].elevation;
     if(elevation <= 0) { return; }

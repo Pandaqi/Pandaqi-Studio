@@ -80,7 +80,8 @@ When leaving a tile with a **switch** (it splits into multiple directions), the 
 * The color/symbol that points _up_ (away from the instruction row) is the one to take.
 * EXCEPTION: If this matches no direction, or multiple directions, then the start player _chooses_.
 
-Whenever you take damage in this game, you may also (instead of losing health) do the following: **change the map**. 
+Whenever you take damage in this game, you may also (instead of losing health) do the following: **change the map**.
+ 
 * Remove 5 crossroads tiles.
 * And replace them with the top 5 tiles from the deck.
 

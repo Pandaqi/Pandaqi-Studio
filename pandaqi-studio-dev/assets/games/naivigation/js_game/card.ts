@@ -15,7 +15,7 @@ import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer"
 
 export default class Card extends MaterialNaivigation
 {
-    getData() { return MATERIAL[this.type][this.key]; }
+    getData() { return MATERIAL[this.type][this.key] ?? {}; }
     getMisc() { return MISC; }
     async draw(vis:MaterialVisualizer)
     {
@@ -43,7 +43,8 @@ export default class Card extends MaterialNaivigation
         const resSprite = vis.getResource("icons_shared");
         const spriteOp = new LayoutOperation({
             frame: tempData.frameIcon,
-            size: new Point(vis.sizeUnit)
+            size: new Point(vis.sizeUnit),
+            effects: vis.inkFriendlyEffect
         })
         subGroup.add(resSprite, spriteOp);
 
@@ -90,6 +91,7 @@ export default class Card extends MaterialNaivigation
             pos: vis.center,
             frame: this.getTemplateData().frameIcon,
             size: vis.get("cards.compass.size"),
+            effects: vis.inkFriendlyEffect,
             pivot: Point.CENTER
         })
         group.add(resSprite, spriteOp);

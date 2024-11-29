@@ -1,13 +1,14 @@
 import CONFIG from "../js_shared/config";
 import { GPS_PENALTIES, GPS_REWARDS, MATERIAL } from "../js_shared/dict";
 import { CardType } from "../js_shared/dictShared";
+import MaterialNaivigation from "../js_shared/materialNaivigation";
 import pickNavigationCards from "../js_shared/pickNavigationCards";
 import Card from "./card";
 
 
 export default class CardPicker
 {
-    cards: Card[]
+    cards: MaterialNaivigation[]
 
     constructor() {}
     get() { return this.cards; }

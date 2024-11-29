@@ -20,10 +20,11 @@ export default class MaterialNaivigation
     isCollectible() : boolean { return false; }
     canCollect(playerTokenData:TileData) : boolean { return true; }
     isStartingTile() : boolean { return false; }
-    getData() { return; }
-    getMisc() { return; }
-    getGameData() { return; }
+    getData() { return null; }
+    getMisc() { return null; }
+    getGameData() { return null; }
     getTemplateData() { return TEMPLATES[this.type]; }
+    getCustomIllustration(vis, card, spriteOp) { return null; }
 
     async drawForRules(vis) : Promise<HTMLCanvasElement> { return this.draw(vis); }
     async draw(vis) : Promise<HTMLCanvasElement> { return document.createElement("canvas"); }

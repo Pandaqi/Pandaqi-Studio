@@ -3,6 +3,7 @@ import Bounds from "js/pq_games/tools/numbers/bounds";
 import getWeighted from "js/pq_games/tools/random/getWeighted";
 import shuffle from "js/pq_games/tools/random/shuffle";
 import { CardType } from "./dictShared";
+import MaterialNaivigation from "./materialNaivigation";
 
 interface GPSCardData
 {
@@ -24,7 +25,7 @@ interface GPSCardParams
     numSquaresBounds?: Bounds
 }
 
-const pickNavigationCards = (params:GPSCardParams = {}) =>
+const pickNavigationCards = (params:GPSCardParams = {}) : MaterialNaivigation[] =>
 {
     // prepare all reward/penalty options in the right quantities
     const numGPSCards = params.num ?? 10; 
@@ -97,6 +98,8 @@ const pickNavigationCards = (params:GPSCardParams = {}) =>
         c.customData = data;
         cardsGPS.push(c);
     }
+
+    return cardsGPS
 }
 
 export { GPSCardData, GPSCardParams, pickNavigationCards };

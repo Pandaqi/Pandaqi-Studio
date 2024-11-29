@@ -13,8 +13,9 @@ import getRectangleCornersWithOffset from "js/pq_games/tools/geometry/paths/getR
 import Point from "js/pq_games/tools/geometry/point";
 import Rectangle from "js/pq_games/tools/geometry/rectangle";
 import rangeInteger from "js/pq_games/tools/random/rangeInteger";
-import { CardType, GPS_ICONS } from "./dictShared";
+import { CardType, GPS_ICONS, MaterialNaivigationType } from "./dictShared";
 import MaterialNaivigation from "./materialNaivigation";
+import { GPS_PENALTIES, GPS_REWARDS } from "./dict";
 
 const drawCardBackground = (vis, group, card) =>
 {
@@ -95,6 +96,7 @@ const drawCard = (vis, group, card) =>
 {
     const data = card.getData();
     const tempData = card.getTemplateData();
+    const isGPSCard = (card.type == CardType.GPS);
 
     // card title + subtitle ( = type indicator)
     const textConfig = new TextConfig({
@@ -104,7 +106,12 @@ const drawCard = (vis, group, card) =>
 
     const text = (data.label ?? tempData.label) ?? "No Label";
     const resText = new ResourceText({ text: text, textConfig: textConfig });
-    const textPos = vis.get("cards.general.textPos");
+    let textPos = vis.get("cards.general.textPos");
+    if(isGPSCard)
+    {
+        textPos = vis.get("cards.general.gps.textPos");
+    }
+
     const shadowOffset = new Point(0, 0.1*textConfig.size);
     const eff = new DropShadowEffect({ color: "#000000AA", offset: shadowOffset });
     const textOp = new LayoutOperation({
@@ -118,14 +125,14 @@ const drawCard = (vis, group, card) =>
         pivot: Point.CENTER
     });
 
-    group.add(resText, textOp);
-
     const textMeta = data.subText ?? tempData.subText;
     const metaPos = textPos.clone().add(new Point(0, 0.5*textConfig.size + 0.5*vis.get("cards.general.fontSizeMeta") + shadowOffset.y));
     if(textMeta)
     {
-        const textConfigMeta = textConfig.clone();
-        textConfigMeta.size = vis.get("cards.general.fontSizeMeta");
+        const textConfigMeta = new TextConfig({
+            font: vis.get("fonts.heading"),
+            size: vis.get("cards.general.fontSizeMeta")
+        }).alignCenter();
         const resTextMeta = new ResourceText({ text: textMeta, textConfig: textConfigMeta });
         const textMetaOp = new LayoutOperation({
             pos: metaPos,
@@ -137,6 +144,9 @@ const drawCard = (vis, group, card) =>
 
         group.add(resTextMeta, textMetaOp);
     }
+
+    // @NOTE: we place the main title AFTER the metadata, as that is more important to be visible (and looks better)
+    group.add(resText, textOp);
 
     // card number (if needed)
     const textNumber = data.num + "";
@@ -170,8 +180,9 @@ const drawCard = (vis, group, card) =>
     }
 
     // main card content (if available)
+    // @NOTE: exception for GPS card, which has 2 randomly generated phrases at bottom
     const textContent = data.desc ?? tempData.desc;
-    if(textContent)
+    if(textContent && !isGPSCard)
     {
         const textConfigContent = textConfig.clone();
         textConfigContent.size = vis.get("cards.general.fontSizeContent");
@@ -187,66 +198,137 @@ const drawCard = (vis, group, card) =>
             pivot: Point.CENTER
         });
         group.add(resTextContent, textContentOp);
-
-        // @TODO: exception for GPS card, which has 2 randomly generated phrases at bottom
     }
 
-    const isGPSCard = (card.type == CardType.GPS);
     if(isGPSCard)
     {
-        const textConfigGPS = new TextConfig({
-            size: vis.get("cards.general.gps.fontSize"),
-            font: vis.get("fonts.body")
-        }).alignCenter();
+        drawGPSText(vis, group, card);
+    }
+}
 
+const drawGPSText = (vis:MaterialVisualizer, group:ResourceGroup, card:MaterialNaivigation) =>
+{
+    const textConfigGPS = new TextConfig({
+        size: vis.get("cards.general.gps.fontSize"),
+        font: vis.get("fonts.body")
+    }).alignCenter();
+
+    const iconOffsetX = vis.get("cards.general.gps.iconOffset");
+    const resIcon = vis.getResource("icons_shared");
+
+    // @TODO: generalize the dictionary (instead of only using GPS_REWARDS/GPS_ICONS, use `getGPSData()` function or something)
+    if(card.customData.reward)
+    {
+        const str = GPS_REWARDS[card.customData.reward].desc;
+        const resText = new ResourceText(str, textConfigGPS);
         const op = new LayoutOperation({
+            pos: vis.get("cards.general.gps.posReward"),
             fill: vis.get("cards.general.gps.fontColor"),
             size: vis.get("cards.general.gps.textBoxDims"),
             pivot: Point.CENTER
         });
+        group.add(resText, op);
 
-        const iconOffsetX = vis.get("cards.general.gps.iconOffset");
-        const resIcon = vis.getResource("icons");
         const iconOp = new LayoutOperation({
+            pos: new Point(iconOffsetX, op.pos.y),
+            frame: GPS_ICONS.reward.frame,
             size: vis.get("cards.general.gps.textBoxIconDims"),
             pivot: Point.CENTER
         })
 
-        if(card.customData.reward)
-        {
-            const resText = new ResourceText({ text: card.customData.reward, textConfig: textConfigGPS });
-            const tempOp = op.clone();
-            tempOp.pos = vis.get("cards.general.gps.posReward");
-            group.add(resText, tempOp);
+        group.add(resIcon, iconOp);
+    }
 
-            const tempIconOp = iconOp.clone();
-            tempIconOp.pos = new Point(iconOffsetX, tempOp.pos.y);
-            tempIconOp.frame = GPS_ICONS.reward.frame;
-            group.add(resIcon, tempIconOp);
-        }
+    if(card.customData.penalty)
+    {
+        const str = GPS_PENALTIES[card.customData.penalty].desc;
+        const resText = new ResourceText(str, textConfigGPS);
+        const op = new LayoutOperation({
+            pos: vis.get("cards.general.gps.posPenalty"),
+            fill: vis.get("cards.general.gps.fontColor"),
+            size: vis.get("cards.general.gps.textBoxDims"),
+            pivot: Point.CENTER
+        });
+        group.add(resText, op);
 
-        if(card.customData.penalty)
-        {
-            const resText = new ResourceText({ text: card.customData.penalty, textConfig: textConfigGPS });
-            const tempOp = op.clone();
-            tempOp.pos = vis.get("cards.general.gps.posPenalty");
-            group.add(resText, tempOp);
-
-            const tempIconOp = iconOp.clone();
-            tempIconOp.pos = new Point(iconOffsetX, tempOp.pos.y);
-            tempIconOp.frame = GPS_ICONS.penalty.frame;
-            group.add(resIcon, tempIconOp);
-        }
+        const iconOp = new LayoutOperation({
+            pos: new Point(iconOffsetX, op.pos.y),
+            frame: GPS_ICONS.penalty.frame,
+            size: vis.get("cards.general.gps.textBoxIconDims"),
+            pivot: Point.CENTER
+        })
+        group.add(resIcon, iconOp);
     }
 }
 
-const drawCardIcons = (vis, group, card) =>
+const drawGPSGrid = (vis:MaterialVisualizer, group:ResourceGroup, card:MaterialNaivigation) =>
+{
+    const gridRawDims = card.customData.gridDims;
+    const gridPixelDims = vis.get("cards.general.gps.gridDims")
+    const resIcons = vis.getResource("icons_shared");
+    const gridGroup = new ResourceGroup();
+    const cellSize = gridPixelDims.clone().div(gridRawDims);
+
+    const iconScaledown = vis.get("cards.general.gps.gridIconSizeFactor");
+    const iconAlpha = vis.get("cards.general.gps.gridIconAlpha");
+
+    for(let x = 0; x < gridRawDims.x; x++)
+    {
+        for(let y = 0; y < gridRawDims.y; y++)
+        {
+            const id = x + y * gridRawDims.x;
+            const pixelPos = new Point(x,y).scale(cellSize);
+            const resShape = new ResourceShape( new Rectangle().fromTopLeft(pixelPos, cellSize) );
+            const isReward = card.customData.rewardSquares.includes(id);
+            const isPenalty = card.customData.penaltySquares.includes(id);
+            const isCenterPos = (x == Math.floor(0.5*gridRawDims.x) && y == Math.floor(0.5*gridRawDims.y));
+
+            const cellOp = new LayoutOperation({
+                fill: vis.get("cards.general.gps.cellColors.neutral"),
+                stroke: vis.get("cards.general.gps.strokeColor"),
+                strokeWidth: vis.get("cards.general.gps.strokeWidth"),
+                alpha: vis.get("cards.general.gps.alpha")
+            })
+
+            if(!isReward && !isPenalty && !isCenterPos) { gridGroup.add(resShape, cellOp); continue; }
+
+            // if highlighted, add rectangle of correct color
+            let spriteFrame = GPS_ICONS.reward.frame;
+            let fill = vis.get("cards.general.gps.cellColors.reward");
+            if(isPenalty) { fill = vis.get("cards.general.gps.cellColors.penalty"); spriteFrame = GPS_ICONS.penalty.frame; }
+            if(isCenterPos) { fill = vis.get("cards.general.gps.cellColors.arrow"); spriteFrame = GPS_ICONS.arrow.frame; }
+            cellOp.setFill(fill);
+            gridGroup.add(resShape, cellOp);
+
+            // and then sprite to back it up
+            const centerPos = pixelPos.add(new Point(0.5, 0.5).scale(cellSize));
+            const iconOp = new LayoutOperation({
+                pos: centerPos,
+                frame: spriteFrame,
+                size: cellSize.clone().scale(iconScaledown),
+                alpha: iconAlpha,
+                pivot: Point.CENTER
+            })
+            gridGroup.add(resIcons, iconOp);
+        }
+    }
+
+    const gridOp = new LayoutOperation({
+        pos: vis.get("cards.general.illustration.mainPos"),
+        size: gridPixelDims,
+        pivot: Point.CENTER
+    })
+    group.add(gridGroup, gridOp);
+}
+
+const drawCardIcons = (vis:MaterialVisualizer, group:ResourceGroup, card:MaterialNaivigation) =>
 {
     // the main illustration at the top
     const typeData = card.getData();
     const tempData = card.getTemplateData();
     let resSprite = vis.getResource("icons");
-    const useSharedIcons = (typeData && typeData.shared) || ![CardType.VEHICLE, CardType.ACTION].includes(card.type);
+    const cardTypesWithUniqueIcons : MaterialNaivigationType[] = [CardType.VEHICLE, CardType.ACTION];
+    const useSharedIcons = (typeData && typeData.shared) || !cardTypesWithUniqueIcons.includes(card.type);
     if(useSharedIcons) { resSprite = vis.getResource("icons_shared"); }
 
     const spriteFrame = tempData.frameIcon ?? typeData.frame;
@@ -260,71 +342,18 @@ const drawCardIcons = (vis, group, card) =>
     });
 
     let resIllu = resSprite;
-    if(card.getCustomIllustration) 
-    {
-        const resTemp = card.getCustomIllustration(vis, card, spriteOp);
-        if(resTemp) { resIllu = resTemp; spriteOp.frame = 0; }
-    }
+
+    // override with a custom illustration, IF that function returned anything
+    const resTempCustom = card.getCustomIllustration(vis, card, spriteOp);
+    if(resTempCustom) { resIllu = resTempCustom; spriteOp.frame = 0; }
 
     group.add(resIllu, spriteOp);
 
     // GPS cards draw that dynamic grid on top of the usual main illu
-    // @TODO: make this huge batch of code a SEPARATE FUNCTION
     const isGPSCard = card.type == CardType.GPS;
     if(isGPSCard)
     {
-        const gridRawDims = card.customData.gridDims;
-        const gridPixelDims = vis.get("cards.general.gps.gridDims")
-        const resIcons = vis.getResource("icons");
-        const gridGroup = new ResourceGroup();
-        const cellSize = gridPixelDims.clone().div(gridRawDims);
-
-        const cellOp = new LayoutOperation({
-            fill: vis.get("cards.general.gps.cellColors.neutral"),
-            stroke: vis.get("cards.general.gps.strokeColor"),
-            strokeWidth: vis.get("cards.general.gps.strokeWidth"),
-            alpha: vis.get("cards.general.gps.alpha")
-        })
-
-        for(let x = 0; x < gridRawDims.x; x++)
-        {
-            for(let y = 0; y < gridRawDims.y; y++)
-            {
-                const id = x + y * gridRawDims.x;
-                const pixelPos = new Point(x,y).scale(cellSize);
-                const resShape = new ResourceShape( new Rectangle().fromTopLeft(pixelPos, cellSize) );
-                const isReward = card.customData.rewardSquares.includes(id);
-                const isPenalty = card.customData.penaltySquares.includes(id);
-                const isCenterPos = (x == Math.floor(0.5*gridRawDims.x) && y == Math.floor(0.5*gridRawDims.y));
-                if(!isReward && !isPenalty && !isCenterPos) { gridGroup.add(resShape, cellOp); continue; }
-
-                // if highlighted, add rectangle of correct color
-                const tempOp = cellOp.clone();
-                tempOp.fill = vis.get("cards.general.gps.cellColors.reward")
-                let spriteFrame = GPS_ICONS.reward.frame;
-                if(isPenalty) { tempOp.fill = vis.get("cards.general.gps.cellColors.penalty"); spriteFrame = GPS_ICONS.penalty.frame; }
-                if(isCenterPos) { tempOp.fill = vis.get("cards.general.gps.cellColors.arrow"); spriteFrame = GPS_ICONS.arrow.frame; }
-                gridGroup.add(resShape, tempOp);
-
-                // and then sprite to back it up
-                const centerPos = pixelPos.add(new Point(0.5, 0.5).scale(cellSize));
-                const iconOp = new LayoutOperation({
-                    pos: centerPos,
-                    frame: spriteFrame,
-                    size: cellSize.clone().scale(0.8),
-                    pivot: Point.CENTER
-                })
-                gridGroup.add(resIcons, iconOp);
-            }
-        }
-
-        const gridOp = new LayoutOperation({
-            pos: spriteOp.pos.clone(),
-            size: gridPixelDims,
-            pivot: Point.CENTER
-        })
-        group.add(gridGroup, gridOp);
-
+        drawGPSGrid(vis, group, card);
     }
 
     // smaller illustrations, usually to the sides of title

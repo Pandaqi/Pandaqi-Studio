@@ -85,7 +85,7 @@ The following vehicle cards are in the base game.
 
 * **Fly:** move one step forward ( = in current facing direction)
 * **Turn**: rotate a quarter turn left or right (start player decides)
-* **Stunt**: a wildcard; can be any of the other instructions (start player decides)
+* **Stunt**: move one step forward, ignoring elevation/the elevation rule.
 * **Elevate**: if played in an odd-numbered slot, add 1 elevation. Otherwise, remove 1 elevation.
 
 It's possible to fly **too low** (you need to remove the last elevation card) or **too high** (need to add a new elevation card but can't). In both cases, take 1 damage, but don't change elevation.

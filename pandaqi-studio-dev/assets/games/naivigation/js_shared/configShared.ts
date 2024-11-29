@@ -73,7 +73,8 @@ const CONFIG_NAIVIGATION_SHARED =
         {
             path: "/naivigation/assets/terrains.webp",
             frames: new Point(8,1),
-            useAbsolutePath: true
+            useAbsolutePath: true,
+            loadIf: ["sets.willneverhappen"]
         },
 
         icons_shared:
@@ -140,10 +141,14 @@ const CONFIG_NAIVIGATION_SHARED =
 
             gps:
             {
+                textPos: new CVal(new Point(0.5, 0.605), "size"),
+
                 strokeColor: "#000000",
-                strokeWidth: new CVal(0.05, "sizeUnit"),
-                gridDims: new CVal(new Point(0.7), "sizeUnit"),
-                alpha: 0.85,
+                strokeWidth: new CVal(0.0075, "sizeUnit"),
+                gridDims: new CVal(new Point(0.65), "sizeUnit"),
+                gridIconSizeFactor: 0.65,
+                gridIconAlpha: 0.75, 
+                alpha: 0.75,
 
                 cellColors:
                 {
@@ -154,12 +159,12 @@ const CONFIG_NAIVIGATION_SHARED =
                 },
 
                 fontColor: "#000000",
-                fontSize: new CVal(0.03, "sizeUnit"),
-                textBoxDims: new CVal(new Point(0.2, 0.8), "size"),
-                textBoxIconDims: new CVal(new Point(0.2), "sizeUnit"),
-                iconOffset: new CVal(0.05, "sizeUnit"),
-                posReward: new CVal(new Point(0.5, 0.7), "size"),
-                posPenalty: new CVal(new Point(0.5, 0.85), "size")
+                fontSize: new CVal(0.055, "sizeUnit"),
+                textBoxDims: new CVal(new Point(0.785, 0.2), "size"),
+                textBoxIconDims: new CVal(new Point(0.14), "sizeUnit"),
+                iconOffset: new CVal(0.1, "sizeUnit"),
+                posReward: new CVal(new Point(0.572, 0.765), "size"),
+                posPenalty: new CVal(new Point(0.572, 0.933), "size")
             }
         }
     },
@@ -191,6 +196,19 @@ const CONFIG_NAIVIGATION_SHARED =
             {
                 size: new CVal(new Point(0.4), "sizeUnit"),
                 sizeGuides: new CVal(new Point(0.6), "sizeUnit")
+            }, 
+
+            text:
+            {
+                fontSize: new CVal(0.065, "sizeUnit"),
+                textColor: "#FFFFFF",
+                bgColor: "#000000",
+
+                pos: new CVal(new Point(0.5, 0.75), "sizeUnit"),
+
+                boxDims: new CVal(new Point(0.9, 0.33), "sizeUnit"),
+                boxBlur: new CVal(0.01, "sizeUnit"),
+                boxAlpha: 0.85
             }
         },
 

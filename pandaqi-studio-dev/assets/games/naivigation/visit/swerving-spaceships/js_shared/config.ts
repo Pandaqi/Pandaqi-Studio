@@ -18,6 +18,7 @@ const CONFIG:any =
     configKey: "naivigationSwervingSpaceshipsConfig",
     fileName: "[Material] Naivigation: Swerving Spaceships",
 
+    addTextOnTiles: false,
     sets:
     {
         vehicleTiles: true,
@@ -116,7 +117,7 @@ const CONFIG:any =
     }
 }
 
-mergeObjects(CONFIG, CONFIG_NAIVIGATION_SHARED);
+mergeObjects(CONFIG, CONFIG_NAIVIGATION_SHARED, false);
 autoLoadFontCSS(CONFIG);
 
 export default CONFIG
