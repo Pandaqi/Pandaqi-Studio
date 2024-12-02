@@ -48,6 +48,8 @@ Print and cut it, read the short [playful rules](rules), and you can play!
 {{% boardgame-settings-container type="material" %}}
 
 {{< boardgame-settings type="game" local_storage="naivigationCrashingCarsConfig" btn_label="Generate Material" game_title="Naivigation: Crashing Cars" defaults="true" >}}
+  {{< setting-checkbox id="setting-addTextOnTiles" text="Add text on tiles?" remark="Map tiles explain themselves with text on them." >}}
+  {{< setting-checkbox id="setting-vehiclesAsPawns" text="Create vehicles as pawns?" remark="If enabled, you can fold the vehicle to place it on the board standing up." checked="checked" >}}
   {{< boardgame-settings-section heading="Core Set" >}}
     {{< setting-checkbox id="setting-sets-vehicleTiles" text="Vehicle Pawns?" checked="checked" >}}
     {{< setting-checkbox id="setting-sets-mapTiles" text="Map Tiles?" checked="checked" >}}

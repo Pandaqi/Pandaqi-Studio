@@ -7,6 +7,7 @@ export default class Combo
     cards:Card[]
     highestCard:number
     numCards:number
+    total:number
     comboType:string
 
     constructor(c:Card[] = [])
@@ -26,7 +27,8 @@ export default class Combo
     {
         this.numCards = this.cards.length;
         this.highestCard = this.numCards <= 0 ? 0 : this.cards.sort((a:Card, b:Card) => b.num - a.num)[0].num;
-        
+        this.total = this.cards.reduce((prevVal, newVal) => prevVal + newVal.num, 0);
+
         const basedOnColor = this.cards.length <= 1 ? false : (this.cards[0].color == this.cards[1].color);
         this.comboType = basedOnColor ? "color" : "number";
     }
@@ -41,6 +43,11 @@ export default class Combo
         return this.highestCard;
     }
 
+    getTotalValue()
+    {
+        return this.total;
+    }
+
     // used in sorting functions
     // (returns -1 if we're better, 1 if we're not)
     compareTo(c:Combo) : number
@@ -52,6 +59,11 @@ export default class Combo
         {
             if(this.getComboType() == "number" && c.getComboType() == "color") { return -1; }
             if(this.getComboType() == "color" && c.getComboType() == "number") { return 1; }
+        }
+
+        if(this.getComboType() == "color" && c.getComboType() == "color")
+        {
+            return c.getTotalValue() - this.getTotalValue();
         }
 
         const numberDiff = c.getHighestNumber() - this.getHighestNumber();

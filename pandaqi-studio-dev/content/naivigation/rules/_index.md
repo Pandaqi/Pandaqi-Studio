@@ -8,17 +8,17 @@ type: "rules"
 These rules are the shared rules that are true for all Naivigation games. They also include the explanations for expansions that you can tack onto any version of the game. Whenever another rulebook includes a shared rule, it will appear in a colored box like this one!
 </div>
 
-{{% rules-double-view src="setup.webp" alt="Example of how to (generally) setup a new Naivigation game." split="leftheavy" %}}
-
 Create a deck of 25 tiles, including 5 Collectibles and 1 starting tile. Place these in a 5x5 grid. Place the vehicle on the starting tile (oriented randomly).
 
 {{% remark %}}
 If you feel the map is too bunched up or unplayable, just redo this step!
 {{% /remark %}}
 
-Combine the default **Vehicle Cards** with the specific Vehicle Cards for this game. Shuffle and place as a **faceup** draw pile. Each player draws 3 of these to hold in their hand. 
+{{% rules-double-view src="setup.webp" alt="Example of how to (generally) setup a new Naivigation game." split="leftheavy" %}}
 
-Combine the default Health Cards and the specific Health Cards for this game. Shuffle and take out 5: this is your **Health Deck**.
+Combine the default **Vehicle Cards** with the specific Vehicle Cards for the chosen game. Shuffle and place as a **faceup** draw pile. Each player draws 3 of these to hold in their hand. 
+
+Combine the default **Health Cards** and the specific Health Cards for chosen game. Shuffle and take out 5: this is your **Health Deck**.
 
 Place 5 instruction tokens in a row. You'll place your vehicle cards underneath these each round.
 
@@ -50,13 +50,13 @@ Then, one at a time, **reveal each instruction and execute it** (left to right).
 
 Whoever played into slot 1 becomes the new **start player**. Discard the instructions and play the next round!
 
+{{< rules-image src="gameplay.webp" alt="The core gameplay of Naivigation: play vehicle cards, execute, move vehicle." >}}
+
 By default, _no communication about the game is allowed!_ Don't reveal cards, don't ask others what you should do, don't explain what you did, nothing of the sort. 
 
 Whenever you **take damage**, take the top card off of your Health Deck to reveal the next top card. These cards always have a _handicap_. All revealed handicaps must be followed at all times. (And if all health cards are revealed, you lose the game.)
 
 If you visit a **Collectible**, collect the tile and replace it with a new one from the deck.
-
-{{< rules-image src="gameplay.webp" alt="The core gameplay of Naivigation: play vehicle cards, execute, move vehicle." >}}
 
 {{% /rules-block %}}
 
@@ -128,11 +128,13 @@ The best way to keep the game challenging and varied, is by introducing new expa
 
 {{% rules-block heading="Action Cards" %}}
 
-These are vehicle cards with a **special action**. It's recommended to include 5--10 random action cards, not the entire deck.
-
 {{% rules-double-view src="action_cards.webp" alt="Example of what Action Cards look like and the two different ways in which you can use them in a game." %}}
 
+These are vehicle cards with a **special action**. It's recommended to include 5--10 random action cards, not the entire deck.
+
 At the start of the game, choose how you want to use them: either **public** or **mixed in**.
+
+{{% /rules-double-view %}}
 
 PUBLIC (simpler game): Place the chosen action cards **faceup on the table**, within reach of all players. At any time, you may grab such a card and execute its action immediately. After doing so, however, the card is discarded and its action can never be taken again.
 
@@ -140,8 +142,6 @@ MIXED-IN (harder game): Simply mix all these cards with the regular Vehicle Card
 * For most cards, this is simply when it is revealed while executing instructions. 
 * Some cards tell you to play faceup, which means instant execution.
 * If a choice must be made, the _start player_ must make it.
-
-{{% /rules-double-view %}}
 
 {{% remark %}} 
 An action card never triggers more than once during a round.
@@ -180,11 +180,15 @@ This expansion adds extra time pressure. This is especially useful if your group
 * At the **start** of each round, reveal the next card.
 * If the deck runs out, you've lost the game.
 
-{{% /rules-double-view %}}
-
 Revealing and handling is always done by the start player. They make choices (when relevant), with no communication allowed.
 
-**New Rule:** when you take involuntary damage, you may choose to take a penalty of 3 Time Cards instead. (Involuntary means it's forced by the game's rules, not a special card or your personal choice when doing an action.)
+{{% /rules-double-view %}}
+
+**New Rule:** when you take involuntary damage, you may choose to take a penalty of 3 Time Cards instead. 
+
+{{% remark %}}
+Involuntary means it's forced by the rules, not your personal choice to take damage.
+{{% /remark %}}
 
 Special actions can be one of three types.
 

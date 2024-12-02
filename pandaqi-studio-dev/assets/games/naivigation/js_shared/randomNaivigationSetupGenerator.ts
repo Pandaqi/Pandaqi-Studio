@@ -12,7 +12,7 @@ import InteractiveExample from "js/pq_rulebook/examples/interactiveExample";
 import { TileType } from "./dictShared";
 import fromArray from "js/pq_games/tools/random/fromArray";
 import MaterialNaivigation from "./materialNaivigation";
-import TilePickerNaivigation from "./tilePickerNaivigation";
+import TilePickerNaivigation from "./generalPickerNaivigation";
 import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
 
 interface TileData

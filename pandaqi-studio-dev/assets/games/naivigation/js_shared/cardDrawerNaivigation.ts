@@ -107,9 +107,9 @@ const drawCard = (vis, group, card) =>
     const text = (data.label ?? tempData.label) ?? "No Label";
     const resText = new ResourceText({ text: text, textConfig: textConfig });
     let textPos = vis.get("cards.general.textPos");
-    if(isGPSCard)
+    if(tempData.titleTextPos)
     {
-        textPos = vis.get("cards.general.gps.textPos");
+        textPos = tempData.titleTextPos.clone().scale(vis.size);
     }
 
     const shadowOffset = new Point(0, 0.1*textConfig.size);
@@ -214,7 +214,7 @@ const drawGPSText = (vis:MaterialVisualizer, group:ResourceGroup, card:MaterialN
     }).alignCenter();
 
     const iconOffsetX = vis.get("cards.general.gps.iconOffset");
-    const resIcon = vis.getResource("icons_shared");
+    const resIcon = vis.getResource("misc_shared");
 
     // @TODO: generalize the dictionary (instead of only using GPS_REWARDS/GPS_ICONS, use `getGPSData()` function or something)
     if(card.customData.reward)
@@ -265,7 +265,7 @@ const drawGPSGrid = (vis:MaterialVisualizer, group:ResourceGroup, card:MaterialN
 {
     const gridRawDims = card.customData.gridDims;
     const gridPixelDims = vis.get("cards.general.gps.gridDims")
-    const resIcons = vis.getResource("icons_shared");
+    const resIcons = vis.getResource("misc_shared");
     const gridGroup = new ResourceGroup();
     const cellSize = gridPixelDims.clone().div(gridRawDims);
 
@@ -340,6 +340,15 @@ const drawCardIcons = (vis:MaterialVisualizer, group:ResourceGroup, card:Materia
         frame: spriteFrame,
         pivot: Point.CENTER
     });
+
+    // the template icons are needed for basically all games, which is why I put them in misc_shared
+    // to load as little as possible, yet have them always available
+    // @NOTE: but the check below might be WRONG/INSUFFICIENT!
+    const useTemplateIcons = tempData.frameIcon != undefined;
+    if(useTemplateIcons)
+    {
+        resSprite = vis.getResource("misc_shared");
+    }
 
     let resIllu = resSprite;
 

@@ -1,9 +1,8 @@
-import ColorSet from "js/pq_games/layout/color/colorSet"
+import mergeObjects from "js/pq_games/tools/collections/mergeObjects"
 import CVal from "js/pq_games/tools/generation/cval"
 import Point from "js/pq_games/tools/geometry/point"
-import CONFIG_NAIVIGATION_SHARED from "./configShared"
-import mergeObjects from "js/pq_games/tools/collections/mergeObjects"
 import autoLoadFontCSS from "js/pq_games/website/autoLoadFontCSS"
+import CONFIG_NAIVIGATION_SHARED from "./configShared"
 
 const CONFIG:any = 
 {
@@ -29,7 +28,7 @@ const CONFIG:any =
         healthCards: true,
         actionCards: false,
         GPSCards: false,
-        timeDeck: false,
+        timeCards: false,
     },
 
     // assets
@@ -39,7 +38,15 @@ const CONFIG:any =
         misc:
         {
             path: "misc.webp",
-            frames: new Point(5,1)
+            frames: new Point(8,2)
+        },
+
+        icons_shared:
+        {
+            path: "/naivigation/assets/icons.webp",
+            frames: new Point(8,4),
+            useAbsolutePath: true,
+            loadIf: ["sets.vehicleCards", "sets.actionCards", "sets.instructionTokens"]
         },
     },
 
@@ -63,11 +70,6 @@ const CONFIG:any =
         {
             size: new CVal(new Point(0.9), "sizeUnit")
         },
-
-        // @DEBUGGING/testing
-        fontSize: new CVal(0.05, "sizeUnit"),
-        textBox: new CVal(new Point(0.1, 0.1), "size"),
-        backgroundColor: new CVal(new ColorSet("#FFAAAA", "#FFFFFF"), "inkFriendly")
     },
 }
 

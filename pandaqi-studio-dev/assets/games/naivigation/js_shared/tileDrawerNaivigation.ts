@@ -1,21 +1,25 @@
 import fillResourceGroup from "js/pq_games/layout/canvas/fillResourceGroup";
+import BlurEffect from "js/pq_games/layout/effects/blurEffect";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
+import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import ResourceShape from "js/pq_games/layout/resources/resourceShape";
+import ResourceText from "js/pq_games/layout/resources/resourceText";
+import TextConfig from "js/pq_games/layout/text/textConfig";
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
 import getRectangleCornersWithOffset from "js/pq_games/tools/geometry/paths/getRectangleCornersWithOffset";
 import Path from "js/pq_games/tools/geometry/paths/path";
 import Point from "js/pq_games/tools/geometry/point";
-import { MISC_SHARED, TERRAINS, TileType } from "./dictShared";
+import Rectangle from "js/pq_games/tools/geometry/rectangle";
+import { MISC_SHARED, TERRAINS, TerrainType, TileType } from "./dictShared";
 import MaterialNaivigation from "./materialNaivigation";
 import vehicleDrawerNaivigation from "./vehicleDrawerNaivigation";
-import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
-import TextConfig from "js/pq_games/layout/text/textConfig";
-import ResourceText from "js/pq_games/layout/resources/resourceText";
-import Rectangle from "js/pq_games/tools/geometry/rectangle";
-import BlurEffect from "js/pq_games/layout/effects/blurEffect";
+import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
 
 const drawTerrain = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaivigation) =>
 {
+    const needsTerrain = tile.getTerrain() != TerrainType.NONE && !tile.customData.suppressTerrain;
+    if(!needsTerrain) { return; }
+
     // main background color
     const tempData = tile.getTemplateData();
     const gameData = tile.getGameData();
@@ -25,7 +29,7 @@ const drawTerrain = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialN
 
     // terrain image
     const res = vis.getResource("terrains");
-    const frame = TERRAINS[tile.customData.terrain].frame;
+    const frame = TERRAINS[tile.getTerrain()].frame;
     const resOp = new LayoutOperation({
         frame: frame,
         pos: new Point(),
@@ -39,15 +43,17 @@ const drawTile = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaiv
     // the main illustration of the tile
     const typeData = tile.getData();
     const tempData = tile.getTemplateData();
-    let resSprite = vis.getResource("icons");
-    if(typeData && typeData.shared) { resSprite = vis.getResource("icons_shared"); }
+    const resSprite = vis.getResource("map_tiles");
 
     const spriteFrame = tempData.frameIcon ?? typeData.frame;
+    const mainIconSize = vis.get("tiles.general.illustration.mainDims");
+    const eff = new DropShadowEffect({ color: "#000000", blurRadius: 0.05*mainIconSize.x })
     const spriteOp = new LayoutOperation({
         pos: vis.center,
-        size: vis.get("tiles.general.illustration.mainDims"),
+        size: mainIconSize,
         frame: spriteFrame,
-        pivot: Point.CENTER
+        pivot: Point.CENTER,
+        effects: [eff, vis.inkFriendlyEffect].flat()
     });
 
     // allow custom draws (in fact, we'll need that a lot)
@@ -56,8 +62,8 @@ const drawTile = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaiv
     if(resTemp) { resIllu = resTemp; spriteOp.frame = 0; }
     group.add(resIllu, spriteOp);
 
-    // draw collectible icon top center
-    const extraIconDims = new Point(vis.get("tiles.general.elevation.triangleSideLength"));
+    // draw collectible icon + starting tile icon top center
+    const extraIconDims = new Point(vis.get("tiles.general.collectibleIcon.size"));
     const topCenterPos = new Point(vis.center.x, 0.66*extraIconDims.y);
     let extraIconFrame = -1;
     if(tile.isCollectible()) { extraIconFrame = MISC_SHARED.collectible_icon.frame; }
@@ -76,6 +82,8 @@ const drawTile = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaiv
         group.add(resIcon, iconOp);
     }
 
+    // (added late) an option to add text on the tiles to explain themselves
+    // not recommended on more complex games (where you really need to be able to see the entire tile below), but still possible for those who like it
     const needsText = typeData.desc && vis.get("addTextOnTiles");
     if(needsText)
     {
@@ -106,8 +114,9 @@ const drawTile = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaiv
 
 const drawElevation = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaivigation) =>
 {
-    const elevation = tile.customData.elevation ?? TERRAINS[tile.customData.terrain].elevation;
-    if(elevation <= 0) { return; }
+    const elevation = tile.getElevation();
+    const needsElevation = elevation > 0 && !tile.customData.suppressElevation;
+    if(!needsElevation) { return; }
 
     const size = vis.get("tiles.general.elevation.triangleSideLength");
     const points = 
@@ -118,11 +127,6 @@ const drawElevation = (vis:MaterialVisualizer, group:ResourceGroup, tile:Materia
     ];
 
     const triangle = new ResourceShape(new Path(points));
-    const triangleOp = new LayoutOperation({
-        fill: vis.get("tiles.general.elevation.fill"),
-        stroke: vis.get("tiles.general.elevation.stroke"),
-        strokeWidth: vis.get("tiles.general.elevation.strokeWidth"),
-    });
 
     const offset = vis.get("tiles.general.elevation.triangleEdgeOffset");
     const positions = getRectangleCornersWithOffset(vis.size, offset);
@@ -131,25 +135,23 @@ const drawElevation = (vis:MaterialVisualizer, group:ResourceGroup, tile:Materia
     // so we can rotate it to get all the possible corners if we want
     for(let i = 0; i < elevation; i++)
     {
-        const tempOp = triangleOp.clone();
-        tempOp.pos = positions[i];
-        tempOp.rot = i * 0.5 * Math.PI;
-        group.add(triangle, tempOp);
+        const triangleOp = new LayoutOperation({
+            pos: positions[i],
+            rot: i * 0.5 * Math.PI,
+            fill: vis.get("tiles.general.elevation.fill"),
+            stroke: vis.get("tiles.general.elevation.stroke"),
+            strokeWidth: vis.get("tiles.general.elevation.strokeWidth"),
+        });
+        group.add(triangle, triangleOp);
     }
 }
 
 // The default Tile Drawer that can just be plugged into most games
-export default (vis:MaterialVisualizer, tile:MaterialNaivigation) =>
+export default (vis:MaterialVisualizer, group: ResourceGroup, tile:MaterialNaivigation) =>
 {
-    if(tile.type == TileType.VEHICLE) { return vehicleDrawerNaivigation(vis, tile); }
-
-    const group = vis.renderer.prepareDraw();
+    if(tile.type == TileType.VEHICLE) { vehicleDrawerNaivigation(vis, group, tile); return }
 
     drawTerrain(vis, group, tile);
     drawTile(vis, group, tile);
     drawElevation(vis, group, tile);
-
-    // @TODO: add the original game icon of a tile on it? This feels unnecessary, as tiles can be freely swapped out. But their frequency is still important per game ... (e.g. the Singing Sails should not have waaay too much/little water)
-
-    return vis.renderer.finishDraw({ group: group, size: vis.size });
 }

@@ -5,7 +5,12 @@ import Card from "../js_game/card";
 
 export default class Hand
 {
-    cards: Card[] = []
+    cards: Card[]
+
+    constructor()
+    {
+        this.cards = [];
+    }
 
     getCards() { return this.cards.slice(); }
     count() { return this.cards.length; }
@@ -32,6 +37,12 @@ export default class Hand
         return this.removeCard(this.getCardRandom());
     }
 
+    removeCardLowest()
+    {
+        this.cards.sort((a:Card, b:Card) => a.num - b.num);
+        return this.removeCard(this.cards[0]);
+    }
+
     removeCardAtIndex(idx:number)
     {
         if(idx < 0) { return null; }
@@ -47,19 +58,6 @@ export default class Hand
     removeCards(cards:Card[]) 
     {
         for(const card of cards) { this.removeCard(card); }
-    }
-    
-    getWinner(smackheadCard:Card) : Card
-    {
-        const ranking = smackheadCard.ranking.slice();
-        const cards = this.cards.slice();
-        cards.sort((a:Card, b:Card) => {
-            const rankIdxA = ranking.indexOf(a.shape);
-            const rankIdxB = ranking.indexOf(b.shape);
-            if(rankIdxA != rankIdxB) { return rankIdxA - rankIdxB; } // it's LEAST position in ranking
-            return b.number - a.number; // it's MOST icons
-        })
-        return cards[0];
     }
 
     async draw(sim:InteractiveExampleSimulator)

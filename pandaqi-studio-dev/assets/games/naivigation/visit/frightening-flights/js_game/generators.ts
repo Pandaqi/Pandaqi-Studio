@@ -1,76 +1,53 @@
-import TilePickerNaivigation from "games/naivigation/js_shared/tilePickerNaivigation";
-import Card from "./card";
-import { CardType, TileType } from "games/naivigation/js_shared/dictShared";
+import GeneralPickerNaivigation from "games/naivigation/js_shared/generalPickerNaivigation";
 import CONFIG from "../js_shared/config";
+import { MATERIAL } from "../js_shared/dict";
+import Card from "./card";
 import Tile from "./tile";
-import { HEALTH_CARDS, MAP_TILES, VEHICLE_CARDS } from "../js_shared/dict";
-import shuffle from "js/pq_games/tools/random/shuffle";
-import CardPickerNaivigation from "games/naivigation/js_shared/cardPickerNaivigation";
+import { TileType } from "games/naivigation/js_shared/dictShared";
 
-const cardPicker = new CardPickerNaivigation(CONFIG, Card);
-cardPicker.addData(CardType.VEHICLE, VEHICLE_CARDS);
-cardPicker.addData(CardType.HEALTH, HEALTH_CARDS);
-const customCallback = (key, data) =>
+const cardPicker = new GeneralPickerNaivigation(CONFIG, Card).addMaterialData(MATERIAL);
+const tilePicker = new GeneralPickerNaivigation(CONFIG, Tile).addMaterialData(MATERIAL);
+
+cardPicker.generateCallback = () =>
 {
-    if(key != "steer") { return; }
+    // @TODO: generate passengers
+}
 
-    // create all possible ranges (all of them clockwise)
-    // but ignore anything above 180 degrees (a complete flip) to filter the options
-    const angleCombos = [];
-    for(let i = 0; i < 8; i++)
+tilePicker.generateCallback = () =>
+{
+    if(tilePicker.config.sets.mapTiles)
     {
-        for(let j = 1; j <= 4; j++)
+        const bounds = tilePicker.config.tiles.custom.elevationBounds;
+        for(let i = bounds.min; i <= bounds.max; i++)
         {
-            angleCombos.push([i, i+j]);
+            tilePicker.addSingle(new Tile(TileType.CUSTOM, "elevation", { num: i }));
         }
     }
 
-    // then filter to bring it back to a reasonable amount by removing those that go through the origin OR have diagonal angles
-    const maxNum = CONFIG.cards.generation.numSteerCards;
-    shuffle(angleCombos);
-    for(let i = angleCombos.length - 1; i >= 0; i--)
+    if(tilePicker.config.sets.timezonesTomorrow)
     {
-        if(angleCombos.length <= maxNum) { break; }
-        const combo = angleCombos[i];
-        const passesOrigin = combo[0] > combo[1];
-        const weirdDiagonal = (combo[0] % 2) != (combo[1] % 2);
-        if(passesOrigin || weirdDiagonal) { angleCombos.splice(i, 1); }
+        const bounds = tilePicker.config.tiles.custom.clockBounds;
+        const numPerValue = tilePicker.config.tiles.custom.clockCardsPerValue;
+        for(let i = bounds.min; i <= bounds.max; i++)
+        {
+            for(let a = 0; a < numPerValue; a++)
+            {
+                tilePicker.addSingle(new Tile(TileType.CUSTOM, "clock", { num: i }));
+            }
+        }
     }
 
-    const cards = [];
-    for(const combo of angleCombos)
+    if(tilePicker.config.sets.fuelFalling)
     {
-        const card = new Card(CardType.VEHICLE, key);
-        card.customData = { angles: combo };
-        cards.push(card);
+        const bounds = tilePicker.config.tiles.custom.fuelBounds;
+        for(let i = bounds.min; i <= bounds.max; i++)
+        {
+            tilePicker.addSingle(new Tile(TileType.CUSTOM, "fuel", { num: i }));
+        }
     }
-
-    return cards;
-}
-cardPicker.setCustomCallback(customCallback);
-
-const tilePicker = new TilePickerNaivigation(CONFIG, Tile);
-tilePicker.addData(TileType.MAP, MAP_TILES);
-let resourceBalancer = 0;
-const mapCallback = (key, data) => 
-{
-    if(key != "moon") { return; }
-
-    const arr = [];
-    for(let i = 0; i < MAP_TILES.moon.freq; i++)
-    {
-        const t = new Tile(TileType.MAP, "moon");
-        t.customData.resourceType = resourceBalancer;
-        resourceBalancer = (resourceBalancer + 1) % 2;    
-        arr.push(t);
-    }
-    return arr;
 }
 
-tilePicker.setCustomCallback(mapCallback);
-
-export
-{
+export {
     cardPicker,
     tilePicker
-}
+};

@@ -1,11 +1,13 @@
 import fillResourceGroup from "js/pq_games/layout/canvas/fillResourceGroup";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
+import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
 import Point from "js/pq_games/tools/geometry/point";
 import { MISC } from "./dict";
 import MaterialNaivigation from "./materialNaivigation";
+import pawnDrawerNaivigation from "./pawnDrawerNaivigation";
 
-const drawHelpers = (vis, group, tile) =>
+const drawHelpers = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaivigation) =>
 {
     // main background color
     fillResourceGroup(vis.size, group, "#FFFFFF");
@@ -19,30 +21,39 @@ const drawHelpers = (vis, group, tile) =>
         pivot: Point.CENTER
     })
     group.add(resGuides, opGuides)
-
 }
 
-const drawVehicle = (vis, group, tile) =>
+const drawVehicle = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaivigation) =>
 {
-    
     // the main vehicle illustration
     const typeData = tile.getData();
     const res = vis.getResource("map_tiles");
-    const frame = typeData.frame + tile.customData.num;
     const op = new LayoutOperation({
         pos: vis.center,
-        frame: frame,
+        frame: typeData.frame,
         size: vis.get("tiles.general.vehicle.size"),
         pivot: Point.CENTER
     });
     group.add(res, op);
 }
 
-// The default Tile Drawer that can just be plugged into most games
-export default (vis:MaterialVisualizer, card:MaterialNaivigation) =>
+const drawPawn = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaivigation) =>
 {
-    const group = vis.renderer.prepareDraw();
-    drawHelpers(vis, group, card);
-    drawVehicle(vis, group, card);
-    return vis.renderer.finishDraw({ group: group, size: vis.size });
+    pawnDrawerNaivigation(vis, group, tile, { addGuides: true });
+}
+
+const drawToken = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaivigation) =>
+{
+    drawHelpers(vis, group, tile);
+    drawVehicle(vis, group, tile);
+}
+
+// The default Tile Drawer that can just be plugged into most games
+export default (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaivigation) =>
+{
+    if(vis.get("vehiclesAsPawns")) {
+        drawPawn(vis, group, tile);
+    } else {
+        drawToken(vis, group, tile);
+    }
 }

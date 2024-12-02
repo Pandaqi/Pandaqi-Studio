@@ -1,16 +1,14 @@
-import TilePickerNaivigation from "games/naivigation/js_shared/tilePickerNaivigation";
-import Card from "./card";
 import { CardType, TileType } from "games/naivigation/js_shared/dictShared";
-import CONFIG from "../js_shared/config";
-import Tile from "./tile";
-import { HEALTH_CARDS, MAP_TILES, VEHICLE_CARDS } from "../js_shared/dict";
+import GeneralPickerNaivigation from "games/naivigation/js_shared/generalPickerNaivigation";
 import shuffle from "js/pq_games/tools/random/shuffle";
-import CardPickerNaivigation from "games/naivigation/js_shared/cardPickerNaivigation";
+import CONFIG from "../js_shared/config";
+import { MATERIAL } from "../js_shared/dict";
+import Card from "./card";
+import Tile from "./tile";
 
-const cardPicker = new CardPickerNaivigation(CONFIG, Card);
-cardPicker.addData(CardType.VEHICLE, VEHICLE_CARDS);
-cardPicker.addData(CardType.HEALTH, HEALTH_CARDS);
-const customCallback = (key, data) =>
+const cardPicker = new GeneralPickerNaivigation(CONFIG, Card).addMaterialData(MATERIAL);
+const tilePicker = new GeneralPickerNaivigation(CONFIG, Tile).addMaterialData(MATERIAL);
+const cardCustomCallback = (key, data) =>
 {
     if(key != "steer") { return; }
 
@@ -47,17 +45,16 @@ const customCallback = (key, data) =>
 
     return cards;
 }
-cardPicker.setCustomCallback(customCallback);
+cardPicker.setCustomCallback(cardCustomCallback);
 
-const tilePicker = new TilePickerNaivigation(CONFIG, Tile);
-tilePicker.addData(TileType.MAP, MAP_TILES);
 let resourceBalancer = 0;
 const mapCallback = (key, data) => 
 {
     if(key != "moon") { return; }
 
     const arr = [];
-    for(let i = 0; i < MAP_TILES.moon.freq; i++)
+    const numMoons = MATERIAL[TileType.MAP].moon.freq;
+    for(let i = 0; i < numMoons; i++)
     {
         const t = new Tile(TileType.MAP, "moon");
         t.customData.resourceType = resourceBalancer;
@@ -66,11 +63,9 @@ const mapCallback = (key, data) =>
     }
     return arr;
 }
-
 tilePicker.setCustomCallback(mapCallback);
 
-export
-{
+export {
     cardPicker,
     tilePicker
-}
+};

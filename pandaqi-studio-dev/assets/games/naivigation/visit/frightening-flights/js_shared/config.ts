@@ -1,6 +1,8 @@
 import CONFIG_NAIVIGATION_SHARED from "games/naivigation/js_shared/configShared";
 import mergeObjects from "js/pq_games/tools/collections/mergeObjects";
+import CVal from "js/pq_games/tools/generation/cval";
 import Point from "js/pq_games/tools/geometry/point";
+import Bounds from "js/pq_games/tools/numbers/bounds";
 import autoLoadFontCSS from "js/pq_games/website/autoLoadFontCSS";
 
 const CONFIG:any = 
@@ -41,7 +43,13 @@ const CONFIG:any =
         misc:
         {
             path: "misc.webp",
-            frames: new Point(6,1)
+            frames: new Point(4,1)
+        },
+
+        vehicle_cards:
+        {
+            path: "vehicle_cards.webp",
+            frames: new Point(8,2)
         },
 
         map_tiles:
@@ -53,7 +61,7 @@ const CONFIG:any =
         icons:
         {
             path: "icons.webp",
-            frames: new Point(7,1)
+            frames: new Point(8,1)
         },
 
         terrains:
@@ -69,7 +77,16 @@ const CONFIG:any =
 
     tiles:
     {
-        
+        custom:
+        {
+            fontSize: new CVal(0.3, "sizeUnit"),
+            strokeWidth: new CVal(0.08, "tiles.custom.fontSize"),
+
+            elevationBounds: new Bounds(1,5),
+            clockBounds: new Bounds(0,7),
+            clockCardsPerValue: 2,
+            fuelBounds: new Bounds(1,10)
+        }   
     }
 }
 

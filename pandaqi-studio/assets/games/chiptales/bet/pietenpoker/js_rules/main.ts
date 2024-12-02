@@ -46,6 +46,7 @@ const generate = async (sim:InteractiveExampleSimulator) =>
         players.push(new Player(i));        
     }
 
+    // sanitize the list of cards to just the things we need for this interactive example
     const allCards : Card[] = sim.getPicker("card").get().slice();
     for(let i = allCards.length - 1; i >= 0; i--)
     {
@@ -66,30 +67,29 @@ const generate = async (sim:InteractiveExampleSimulator) =>
 
         // reset all players and deal cards
         shuffle(allCards);
+        let notEnoughCardsToContinue = false;
         for(const player of players)
         {
-            /*if(player.num == sintIndex && CONFIG.rulebook.rules.sintUsesScoredCards)
+            const numCardsAlready = player.hand.count();
+            const numSelfCards = Math.min( Math.min(player.score.count(), Math.floor(0.5*numStartingCards)), numStartingCards - numCardsAlready);
+            const numDrawCards = numStartingCards - numSelfCards - numCardsAlready;
+
+            if(allCards.length < numDrawCards)
             {
-                const cards = [];
-                while(cards.length < numStartingCards && player.score.count() > 0)
-                {
-                    cards.push(player.score.removeCardRandom());
-                }
-                while(cards.length < numStartingCards)
-                {
-                    cards.push(allCards.pop());
-                }
-                player.reset(cards);
-                continue;
-            }*/
+                notEnoughCardsToContinue = true;
+                break;
+            }
 
-            const numSelfCards = Math.min(player.score.count(), Math.floor(0.5*numStartingCards));
-            const numDrawCards = numStartingCards - numSelfCards;
-
-            const cards = [];
+            const cards = player.hand.cards.slice();
             for(let i = 0; i < numSelfCards; i++) { cards.push(player.score.removeCardRandom()); }
             for(let i = 0; i < numDrawCards; i++) { cards.push(allCards.pop()); }
             player.reset(cards);
+        }
+
+        if(allCards.length < numCardsRevealed) { notEnoughCardsToContinue = true; }
+        if(notEnoughCardsToContinue)
+        {
+            break;
         }
 
         // repeat the main loop a fixed number of times
@@ -158,18 +158,27 @@ const generate = async (sim:InteractiveExampleSimulator) =>
                     let newHighestBid = -1;
                     while(newHighestBid < highestBid && player.hand.count() > 0)
                     {
-                        player.bid.addCard(player.hand.removeCardRandom());
+                        player.bid.addCard(player.hand.removeCardLowest());
                         newHighestBid = player.getTotalBid();
                     }
 
-                    highestBid = newHighestBid;
-                    const str = " besluit diens bod te verhogen tot " + newHighestBid + ".";
+                    const usedAllCards = player.hand.count() <= 0;
+
+                    let extraStr = "";
+                    if(!usedAllCards) {
+                        highestBid = newHighestBid;
+                    } else {
+                        extraStr = " (Daardoor zijn wel al diens kaarten op, dus hun bod wordt genegeerd.)";
+                    }
+                    
+                    const str = " besluit diens bod te verhogen tot " + newHighestBid + "." + extraStr;
                     fb.push(str);
 
-                    if(player.hand.count() <= 0)
+                    if(usedAllCards)
                     {
                         playerAllIn = player;
                         if(CONFIG.rulebook.rules.allInStopsRound) { break; }
+                        //player.stop();
                     }
 
                     continue;
@@ -202,74 +211,82 @@ const generate = async (sim:InteractiveExampleSimulator) =>
             }
         }
 
-        // decide the winner
-        sim.print("<hr>");
-        sim.print("De (geheime) kaarten van de overgebleven spelers zijn als volgt");
+        const playersLeft = players.filter((p:Player) => !p.stopped);
+        const numPlayersLeft = playersLeft.length;
+        const applyQuickFinish = numPlayersLeft <= 1;
+        let isTied = false;
+        let winningPlayer = playersLeft[0]; 
+        const roundFinishString = "Diegene krijgt alle inzet. De Pakjeskamer, en handkaarten van spelers die meegingen tot het einde, gaan naar de aflegstapel. Volgende ronde!";
+
+        if(applyQuickFinish)
+        {
+            sim.print("<hr/>");
+            sim.print("Slechts één speler is over. Diegene wint!");
+            sim.print(roundFinishString); 
+            winningPlayer.calculateBestCombo(pakjesKamer.cards);
+        }
+        else 
+        {
+            // decide the winner
+            sim.print("<hr>");
+            sim.print("De (geheime) kaarten van de overgebleven spelers zijn als volgt");
+            for(const player of players)
+            {
+                if(player.stopped) { continue; }
+                await sim.listImages(player.hand);
+            }
+
+            sim.print("Dit zijn de beste combinaties die alle overgebleven spelers kunnen maken:");
+            
+            // calculate results and add to player object
+            const fbList = [];
+            for(const player of players)
+            {
+                player.calculateBestCombo(pakjesKamer.cards);
+                if(player.stopped) { continue; }
+                fbList.push("<b>Speler " + (player.num + 1) + "</b> kan <b>" + player.bestCombo.toString() + "</b> maken.");
+            }
+            sim.printList(fbList);
+
+            // sort to find the winner
+            const playersCopy = players.slice();
+            playersCopy.sort((a:Player, b:Player) => a.bestCombo.compareTo(b.bestCombo));
+
+            // handle consequences
+            isTied = playersCopy[0].bestCombo.isEqualTo(playersCopy[1].bestCombo);
+            winningPlayer = playersCopy[0];
+            
+            if(isTied) {
+                sim.print("Het is een <b>gelijkspel</b>! Niemand wint de inzet; alles gaat terug naar de stapel. Volgende ronde!");
+                for(const player of players) { allCards.push(...player.bid.cards); }
+            } else {
+                sim.print("<b>Speler " + (winningPlayer.num + 1) + " wint!</b> " + roundFinishString);
+                for(const player of players) { winningPlayer.scoreCards(player.bid.cards); }
+                if(CONFIG.rulebook.rules.sintChange == "winner") { sintIndex = winningPlayer.num; }
+
+                if(winningPlayer.bestCombo.getComboType() == "color") { sim.stats.winningComboColor++; }
+                else { sim.stats.winningComboNumber++; }
+            }
+
+            if(CONFIG.rulebook.rules.sintChange == "clockwise") 
+            {
+                sintIndex = (sintIndex + 1) % numPlayers;
+            }
+        }
+
+        // give hand cards of finished players back to deck
         for(const player of players)
         {
             if(player.stopped) { continue; }
-            await sim.listImages(player.hand);
-        }
-
-        sim.print("Dit zijn de beste combinaties die alle overgebleven spelers kunnen maken:");
-        
-        // calculate results and add to player object
-        const fbList = [];
-        for(const player of players)
-        {
-            player.calculateBestCombo(pakjesKamer.cards);
-            if(player.stopped) { continue; }
-            fbList.push("<b>Speler " + (player.num + 1) + "</b> kan <b>" + player.bestCombo.toString() + "</b> maken.");
-        }
-        sim.printList(fbList);
-
-        // sort to find the winner
-        const playersCopy = players.slice();
-        playersCopy.sort((a:Player, b:Player) => a.bestCombo.compareTo(b.bestCombo));
-
-        // handle consequences
-        const isTied = playersCopy[0].bestCombo.isEqualTo(playersCopy[1].bestCombo);
-        const winningPlayer = playersCopy[0];
-        if(isTied) {
-            sim.print("Het is een <b>gelijkspel</b>! Niemand wint de inzet; alles gaat terug naar de stapel. Volgende ronde!");
-            for(const player of players) { allCards.push(...player.bid.cards); }
-        } else {
-            sim.print("<b>Speler " + (winningPlayer.num + 1) + " wint!</b> Diegene krijgt alle inzet; alle andere kaarten gaan terug in de stapel. Volgende ronde!");
-            for(const player of players) { winningPlayer.scoreCards(player.bid.cards); }
-            if(CONFIG.rulebook.rules.sintChange == "winner") { sintIndex = winningPlayer.num; }
-
-            if(winningPlayer.bestCombo.getComboType() == "color") { sim.stats.winningComboColor++; }
-            else { sim.stats.winningComboNumber++; }
-        }
-
-        if(CONFIG.rulebook.rules.sintChange == "clockwise") 
-        {
-            sintIndex = (sintIndex + 1) % numPlayers;
-        }
-
-        // give unused cards back to deck
-        for(const player of players)
-        {
             allCards.push(...player.hand.cards);
+            player.resetHand();
         }
 
         sim.stats.numRounds++;
         sim.stats.playersStopped += players.filter((p:Player) => p.stopped).length;
         sim.stats.winningComboSize += isTied ? 0 : winningPlayer.bestCombo.count();
 
-        const cardsLeft = allCards.length;
-        let cardsNeeded = numCardsRevealed;
-        for(const player of players)
-        {
-            cardsNeeded += numStartingCards - Math.min(player.score.count(), Math.floor(0.5*numStartingCards));
-        }
-
-        /*if(CONFIG.rulebook.rules.sintUsesScoredCards)
-        {
-            cardsNeeded -= Math.min(players[sintIndex].score.count(), numStartingCards);
-        }*/
-
-        continueTheGame = (cardsLeft >= cardsNeeded);
+        continueTheGame = true;
         if(sim.displaySingleTurn()) { continueTheGame = false; }
     }
 
@@ -281,7 +298,7 @@ const generate = async (sim:InteractiveExampleSimulator) =>
     sim.stats.winningScore += winningPlayer.getTotalScore();
 }
 
-const SIMULATION_ENABLED = true;
+const SIMULATION_ENABLED = false;
 const SIMULATION_ITERATIONS = 100;
 
 const gen = new InteractiveExampleGenerator({

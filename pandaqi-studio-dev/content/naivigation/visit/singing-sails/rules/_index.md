@@ -169,17 +169,23 @@ VARIANT: For a harder game, add this to the objective: you can only win if you c
 
 This expansion adds special **tiles** and (Enemy) **pawns**.
 
+During **setup**, place 1 Pawn of each enemy type somewhere besides the board. This is _their_ "instruction token", for their own little instruction row with 1 slot.
+
 During **gameplay**,
 
 * When a tile appears with an **Enemy symbol**, place a new Enemy of that type on the map (Pirate Ship, Sea Monster or Whirlpool).
-* Each round, _1 vehicle card_ needs to be played to every Enemy in play, faceup. It doesn't matter who does it or when.
+* Each round, _1 vehicle card_ needs to be played to every Enemy Instruction Token, faceup. It doesn't matter who does it or when.
 * After moving your own ship, move all Enemies (in any order), according to their single Vehicle Card.
+
+{{% remark %}}
+So yes, all pawns of the same type, will all move in the same way.
+{{% /remark %}}
 
 What do Enemies do?
 
 * **Pirate Ship**: if you run into them, take 2 damage and remove the Pirates. If you are to the _left_ or _right_ of one, take 1 damage. 
 * **Sea Monster**: if you run into them, take 1 damage.
-* **Whirlpool**: if you run into them, shuffle all remaining instructions this round. If there are no instructions left, remove the whirlpool.
+* **Huge Wave**: if you run into them, shuffle all remaining instructions this round. If there are no instructions left, remove the whirlpool.
 
 It also adds a **Pirate Haven/Harbor** tile. You need to visit these as well (to win the game). You can only do so, however, if there are currently Enemies within 2 tiles of this harbor.
 

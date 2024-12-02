@@ -1,30 +1,20 @@
 import Point from "js/pq_games/tools/geometry/point";
-import { CardType, EventType, MISC_SHARED } from "./dictShared";
-
-interface DefaultCardData
-{
-    frame?: number,
-    label?: string,
-    desc?: string,
-    freq?: number,
-    num?: number,
-    required?: string[]
-}
+import { CardType, EventType, MISC_SHARED, MaterialNaivigationData, TileType } from "./dictShared";
 
 //
 // Vehicle Cards (only 1 for the shared material)
 //
-const VEHICLE_CARDS = 
+const VEHICLE_CARDS:Record<string,MaterialNaivigationData> = 
 {
     discuss: { shared: true, frame: 2, label: "Discuss", desc: "You may <b>communicate</b> until you decide to execute the next card.", freq: 5 },
-    speedup: { shared: true, frame: 7, label: "Speedup", desc: "Remove or Add <b>1 Instruction Slot</b>. (There must be at least 3 and at most 8 slots.)", freq: 6 },
-    wildcard: { shared: true, frame: 36, label: "Wildcard", desc: "Execute any possible <b>Vehicle Card</b> in the game.", freq: 5 }
+    speedup: { shared: true, frame: 3, label: "Speedup", desc: "Remove or Add <b>1 Instruction Slot</b>. (There must be at least 3 and at most 8 slots.)", freq: 6 },
+    wildcard: { shared: true, frame: 4, label: "Wildcard", desc: "Execute any possible <b>Vehicle Card</b> in the game.", freq: 5 }
 };
 
 //
 // Health Cards (a lot of them; keep their text/handicap simple though)
 //
-const HEALTH_CARDS = 
+const HEALTH_CARDS:Record<string,MaterialNaivigationData> = 
 {
     //last_life: { shared: true, subText: "Regular Life", desc: "Nothing special.", num: 1, freq: 2 },
     be_special: { shared: true, subText: "Be Special", desc: "Each card type is only executed once; ignore duplicates further down the row. All cards are duplicates? Take 1 damage.", num: 3 },
@@ -41,7 +31,7 @@ const HEALTH_CARDS =
     random_replace: { shared: true, subText: "Random Replace", desc: "<b>End of round</b>: start player must <b>replace</b> one card played with a random one from hand or deck.", num: 5 },
     limited_communication: { shared: true, subText: "Limited Communication", desc: "The <b>Discuss</b> card only counts when it's the <b>first card</b> executed.", num: 5 },
     risky_turns: { shared: true, subText: "Risky Turns", desc: "<b>End of round</b>: Take <b>1 damage</b> if you end on the same tile as you began.", num: 4 },
-    risky_rotations: { shared: true, subText: "<b>End of round</b>: Take <b>1 damage</b> if the vehicle ends at the same orientation as it started.", num: 3 },
+    risky_rotations: { shared: true, subText: "<b>End of round</b>: Take <b>1 damage</b> if the vehicle ends at its starting orientation.", num: 3 },
     out_of_order: { shared: true, subText: "Out Of Order", desc: "Before executing, <b>shuffle</b> the first 3 instruction tokens. Then execute in <b>numeric order</b>.", num: 1 },
     forced_swap: { shared: true, subText: "Forced Swap", desc: "Each round, one player must <b>discard</b> their hand and draw new cards from the deck, before playing their first card.", num: 3 },
     forced_order: { shared: true, subText: "Forced Order", desc: "Your first card played (in a round) must be in numerical order (left to right)", num: 2 },
@@ -60,7 +50,7 @@ const HEALTH_CARDS =
 // The actual red/green tiles are randomly generated
 // But the dictionary below contains the bonuses/penalties for GPS cards
 //
-const GPS_REWARDS = 
+const GPS_REWARDS:Record<string,MaterialNaivigationData> = 
 {
     health: { desc: "Repair 1 damage.", prob: 2.0 },
     health_plus: { desc: "Repair 2 damage.", prob: 0.25 },
@@ -80,7 +70,7 @@ const GPS_REWARDS =
     one_exception: { desc: "Next round, after revealing, you may pick 1 card to ignore.", prob: 0.5 },
 }
 
-const GPS_PENALTIES = 
+const GPS_PENALTIES:Record<string,MaterialNaivigationData> = 
 {
     health: { desc: "Take 1 damage.", prob: 2.0 },
     health_plus: { desc: "Take 2 damage.", prob: 0.5 },
@@ -105,7 +95,7 @@ const GPS_PENALTIES =
 // Time Cards
 // This doubles as an "event expansion" that always works nicely in games
 //
-const TIME_CARDS = 
+const TIME_CARDS:Record<string,MaterialNaivigationData> = 
 {
     blank: { shared: true, label: "Regular Card", desc: "Nothing special.", freq: 10, type: EventType.NONE },
 
@@ -145,8 +135,15 @@ const TIME_CARDS =
 //
 // Action Cards
 //
-const ACTION_CARDS = 
+const ACTION_CARDS:Record<string,MaterialNaivigationData> = 
 {
+    // these were added much later
+    take_control: { shared: true, frame: 5, label: "Take Control", desc: "This round, each player decides how to execute <b>their own card</b> (instead of start player deciding for all)." },
+    new_driver: { shared: true, frame: 6, label: "New Driver", desc: "From now on, whoever played this card <b>makes decisions</b> (for cards that require a decision when executed)." },
+    window_gazing: { shared: true, frame: 7, label: "Window Gazing", desc: "Play <b>faceup</b>. Any card played that requires a <b>decision</b> (when executed) may be played <b>faceup</b> this round." },
+    superman: { shared: true, frame: 8, label: "Superman", desc: "Play <b>faceup</b>. Ignore all your <b>handicaps</b> this round." },
+
+    // the basics
     share_hand: { shared: true, frame: 11, label: "Share Hand", desc: "All players <b>reveal</b> their cards to each other." },
     bumper_strong: { shared: true, frame: 12, label: "Strong Bumper", desc: "Any <b>involuntary damage</b> taken this round is <b>ignored</b>." }, // @NOTE: "involuntary" is to prevent against stuff like offers to trade damage for time being abused
     bumper_weak: { shared: true, frame: 13, label: "Weak Bumper", desc: "<b>Take 1 damage</b> for sure. But any damage beyond that is <b>ignored</b> this round." },
@@ -178,17 +175,11 @@ const ACTION_CARDS =
     advanced_gps: { shared: true, frame: 30, label: "Advanced GPS", desc: "Study the next <b>5 GPS cards</b> and <b>rearrange</b> in any order desired." },
     
     // these need the time deck
-    crystal_ball: { shared: true, frame: 31, label: "Crystal Ball", desc: "<b>Look at</b> the next 5 cards of the <b>Time Deck</b>.", required: ["timeDeck"] },
-
-    // these were added much later
-    take_control: { shared: true, frame: 32, label: "Take Control", desc: "This round, each player decides how to execute <b>their own card</b> (instead of start player deciding for all)." },
-    new_driver: { shared: true, frame: 33, label: "New Driver", desc: "From now on, whoever played this card <b>makes decisions</b> (for cards that require a decision when executed)." },
-    window_gazing: { shared: true, frame: 34, label: "Window Gazing", desc: "Play <b>faceup</b>. Any card played that requires a <b>decision</b> (when executed) may be played <b>faceup</b> this round." },
-    superman: { shared: true, frame: 35, label: "Superman", desc: "Play <b>faceup</b>. Ignore all your <b>handicaps</b> this round." },
+    crystal_ball: { shared: true, frame: 31, label: "Crystal Ball", desc: "<b>Look at</b> the next 5 cards of the <b>Time Deck</b>.", required: ["timeCards"] },
 
 };
 
-type MaterialData = Record<string, DefaultCardData>;
+type MaterialData = Record<string, MaterialNaivigationData>;
 
 const MATERIAL:Record<CardType, MaterialData> =
 {
@@ -199,7 +190,9 @@ const MATERIAL:Record<CardType, MaterialData> =
     [CardType.ACTION]: ACTION_CARDS,
     [CardType.INSTRUCTION]: {},
     [CardType.COMPASS]: {},
-    [CardType.CUSTOM]: {}
+    [CardType.CUSTOM]: {},
+    [CardType.PASSENGER]: {},
+    [CardType.FUEL]: {}
 }
 
 interface TemplateData
@@ -213,18 +206,23 @@ interface TemplateData
     desc?: string, // the actual text on card; usually overriden by specific card
     smallIconOffset?: Point, // placement of smaller versions of icons is one major difference between templates
     extraNumberOffset?: Point, // where to position the (optional) number on a select few templates
+    titleTextPos?: Point, // where to position the title text, for customization on some templates
 }
 
 const TEMPLATES:Record<string, TemplateData> =
 {
     [CardType.VEHICLE]: { frameTemplate: 0, bgColor: "#FFFFFF", tintColor: "#DADADA", label: null, subText: "Vehicle Card", smallIconOffset: new Point(0.33, 0) },
-    [CardType.HEALTH]: { frameTemplate: 2, frameIcon: 3, bgColor: "#F9C98C", label: "Health", subText: "Handicap", smallIconOffset: new Point(0.35, -0.05), extraNumberOffset: new Point(0.46, 0) },
-    [CardType.GPS]: { frameTemplate: 3, frameIcon: 4, bgColor: "#A6741A", label: "GPS", subText: null },
-    [CardType.TIME]: { frameTemplate: 4, frameIcon: 5, bgColor: "#4AD9FC", label: "Time", subText: "Event", extraNumberOffset: new Point(0.46, -0.2) },
-    /*[CardType.FUEL]: { frameTemplate: 5, frameIcon: 7, bgColor: "#3A3A3A", label: "Fuel", subText: null, desc: "If <b>empty</b> (0) or <b>overfilled</b> (10), take damage and reset." },*/
+    [CardType.HEALTH]: { frameTemplate: 2, frameIcon: 5, bgColor: "#F9C98C", label: "Health", subText: "Handicap", smallIconOffset: new Point(0.35, -0.05), extraNumberOffset: new Point(0.46, 0) },
+    [CardType.GPS]: { frameTemplate: 3, frameIcon: 6, bgColor: "#A6741A", label: "GPS", subText: null, titleTextPos: new Point(0.5, 0.605) },
+    [CardType.TIME]: { frameTemplate: 4, frameIcon: 7, bgColor: "#4AD9FC", label: "Time", subText: "Event", extraNumberOffset: new Point(0.46, -0.2) },
+    [CardType.FUEL]: { frameTemplate: 5, frameIcon: 12, bgColor: "#3A3A3A", label: "Fuel", subText: null },
     [CardType.ACTION]: { frameTemplate: 1, bgColor: "#FFFFFF", tintColor: "#DADADA", label: null, subText: "Action Card", smallIconOffset: new Point(0.4125, 0) },
     [CardType.INSTRUCTION]: { frameIcon: 1 },
-    [CardType.COMPASS]: { frameIcon: 0 }
+    [CardType.COMPASS]: { frameIcon: 0 },
+    [CardType.PASSENGER]: { frameTemplate: 6, bgColor: "#f5b7ff", label: null, subText: "Cargo", titleTextPos: new Point(0.5, 0.35) },
+    [TileType.MAP]: {},
+    [TileType.VEHICLE]: {},
+    [TileType.PAWN]: {},
 }
 
 const NUM_BG_BLOBS = 4

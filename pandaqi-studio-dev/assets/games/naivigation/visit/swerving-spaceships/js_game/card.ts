@@ -1,28 +1,25 @@
 import cardDrawerNaivigation from "games/naivigation/js_shared/cardDrawerNaivigation";
-import { HEALTH_CARDS, MAIN_COLORS, MAP_TILES, MISC, PlanetProperty, VEHICLE_CARDS } from "../js_shared/dict";
+import { CardType, TileType } from "games/naivigation/js_shared/dictShared";
 import MaterialNaivigation from "games/naivigation/js_shared/materialNaivigation";
 import createContext from "js/pq_games/layout/canvas/createContext";
-import Point from "js/pq_games/tools/geometry/point";
-import ResourceImage from "js/pq_games/layout/resources/resourceImage";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
-import ResourceShape from "js/pq_games/layout/resources/resourceShape";
-import Circle from "js/pq_games/tools/geometry/circle";
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
+import ResourceImage from "js/pq_games/layout/resources/resourceImage";
+import ResourceShape from "js/pq_games/layout/resources/resourceShape";
+import ResourceText from "js/pq_games/layout/resources/resourceText";
+import TextConfig from "js/pq_games/layout/text/textConfig";
+import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
+import Circle from "js/pq_games/tools/geometry/circle";
 import Line from "js/pq_games/tools/geometry/line";
 import Pie from "js/pq_games/tools/geometry/pie";
-import { CardType } from "games/naivigation/js_shared/dictShared";
-import TextConfig from "js/pq_games/layout/text/textConfig";
-import ResourceText from "js/pq_games/layout/resources/resourceText";
+import Point from "js/pq_games/tools/geometry/point";
 import Rectangle from "js/pq_games/tools/geometry/rectangle";
+import { GAME_DATA, MATERIAL, MISC, PlanetProperty } from "../js_shared/dict";
 
 export default class Card extends MaterialNaivigation
 {
-    getGameData() { return MAIN_COLORS; }
-    getData() { 
-        if(this.type == CardType.HEALTH) { return HEALTH_CARDS[this.key]; }
-        return VEHICLE_CARDS[this.key]; 
-    }
+    getGameData() { return GAME_DATA; }
+    getData() { return MATERIAL[this.type][this.key]; } 
     getMisc() { return MISC; }
     async draw(vis:MaterialVisualizer)
     {
@@ -66,12 +63,12 @@ export default class Card extends MaterialNaivigation
         // it's either a planet, which just means showing its icon + dark bg color
         const isPlanet = prop.key == "planet";
         if(isPlanet) {
-            const bgColor = vis.inkFriendly ? "#FFFFFF" : MAIN_COLORS.mapTileColor;
+            const bgColor = vis.inkFriendly ? "#FFFFFF" : GAME_DATA.mapTileColor;
             const bgOp = new LayoutOperation({ fill: bgColor });
             group.add(resShape, bgOp);
 
             const resPlanet = vis.getResource("map_tiles");
-            const frame = MAP_TILES.planet_0.frame + prop.num;
+            const frame = MATERIAL[TileType.MAP].planet_0.frame + prop.num;
             const op = new LayoutOperation({
                 pos: new Point(vis.center.x, 0.5*height),
                 frame: frame,
@@ -153,7 +150,7 @@ export default class Card extends MaterialNaivigation
 
         // Draw spaceship vehicle on top of center to indicate what is up
         const vehicleRes = vis.getResource("map_tiles");
-        const frame = MAP_TILES.vehicle_0.frame;
+        const frame = MATERIAL[TileType.MAP].vehicle_0.frame;
         const vehicleOp = new LayoutOperation({
             pos: circleCenter,
             size: vis.get("cards.steer.vehicleDims"),

@@ -32,72 +32,59 @@ const movementCallback = (card:MaterialNaivigation, setup:RandomNaivigationSetup
     const fb = [];
     const oldPosition = setup.playerTokenData.position;
 
-    if(key == "steer")
+    if(key == "turn")
     {
-        const angle = new Bounds(card.customData.angles[0], card.customData.angles[1]).randomInteger();
-        const angleQuarters = angle / 2.0;
-        setup.rotatePlayer(angleQuarters);
-        fb.push("The spaceship rotated by one of the valid angles on the Steer card.");
+        const turnDir = card.customData.turnDirection;
+        const str = turnDir == 1 ? "right" : "left";
+        setup.rotatePlayer(turnDir);
+        fb.push("The Turn card rotated the airplane to the " + str + ".");
     }
 
-    if(key == "thrust")
+    if(key == "fly")
     {
         setup.movePlayerForward(1, true);
-        fb.push("The Thrust card moved the spaceship 1 step forward (in the direction it faces).");
-        const newPosition = setup.playerTokenData.position.clone();
-        const vectorMoved = newPosition.sub(oldPosition); 
-        const isDiagonal = Math.abs(vectorMoved.x) > 0 && Math.abs(vectorMoved.y) > 0;
-        if(isDiagonal)
+        fb.push("The Fly card moved the airplane 1 step forward (in the direction it faces).");
+        
+        const curTile = setup.playerTokenData.tile;
+        const curTileElevation = curTile.customData.elevation;
+        const ourElevation = setup.playerToken.customData.elevation;
+        const wrongElevation = ourElevation <= curTileElevation || (curTile.isCollectible() && ourElevation < curTileElevation);
+
+        if(wrongElevation)
         {
-            fb.push("(Remember diagonal movement doesn't exist; if so, you pick horizontal OR vertical.)");
+            setup.movePlayerBackward(1, true);
+            fb.push("But our elevation was wrong! So we take 1 damage and stay where we are.");
         }
     }
 
-    if(key == "disengage")
+    if(key == "Stunt")
     {
-        // calculate nearest planet
-        let nearestPlanet = null;
-        let nearestDist = Infinity;
-        for(const cell of setup.cells)
-        {
-            if(!cell.collectible) { continue; }
-            const dist = Math.abs(cell.position.x - oldPosition.x) + Math.abs(cell.position.y - oldPosition.y);
-            if(dist >= nearestDist) { continue; }
-            nearestPlanet = cell;
-            nearestDist = dist;
-        }
-
-        console.log(nearestPlanet);
-
-        // pick a random single step towards it
-        const movementNeeded = nearestPlanet.position.clone().sub(oldPosition);
-        const isDiagonal = Math.abs(movementNeeded.x) > 0 && Math.abs(movementNeeded.y) > 0;
-        const vector = new Point();
-        if(Math.abs(movementNeeded.x) > Math.abs(movementNeeded.y)) {
-            vector.x = Math.sign(movementNeeded.x);
-        } else {
-            vector.y = Math.sign(movementNeeded.y);
-        }
-
-        setup.movePlayer(vector, true);   
-        fb.push("The Disable card moved the spaceship 1 step closer to the nearest planet.");
-
-        if(isDiagonal)
-        {
-            fb.push("(Remember diagonal movement doesn't exist; if so, you pick horizontal OR vertical.)");
-        }
+        setup.movePlayerForward(1, true);
+        fb.push("The Stunt card moved the airplane 1 step forward (in the direction it faces).");
     }
 
-    const onCollectible = setup.playerTokenData.tile.isCollectible();
+    if(key == "elevate")
+    {
+        const cardIndex = turn.getCardIndex(card);
+        const elevateDir = ((cardIndex + 1) % 2 == 1) ? +1 : -1;
+        fb.push("The Elevate card was played to slot " + (cardIndex + 1) + ", so the airplane elevation goes " + elevateDir + ".");
+        
+        const newElevation = setup.playerToken.customData.elevation + elevateDir;
+        setup.playerToken.customData.elevation = Math.min(Math.max(newElevation, 1), 4);
+    }
+
+    const curTile = setup.playerTokenData.tile;
+    const onCollectible = curTile.isCollectible();
     if(onCollectible)
     {
-        const correctOrient = setup.playerTokenData.tile.canCollect(setup.playerTokenData);
-        if(correctOrient) {
-            fb.push("Great! You visited a planet with the right orientation! Collect it.");
+        const curTileElevation = curTile.customData.elevation;
+        const ourElevation = setup.playerToken.customData.elevation;
+
+        const correctOrient = ourElevation == curTileElevation;
+        if(correctOrient) 
+        {
+            fb.push("Great! You landed on an airport (with the correct orientation). Collect it.");
             setup.getCellAt(setup.playerTokenData.position).facedown = true
-        } else {
-            fb.push("Oh no! You visited a planet, but with the wrong orientation! You bounce back + take 1 damage.");
-            setup.setPlayerPosition(oldPosition);
         }
     }
 

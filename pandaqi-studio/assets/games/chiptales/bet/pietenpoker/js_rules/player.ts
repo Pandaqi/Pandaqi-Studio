@@ -1,5 +1,4 @@
 import Card from "../js_game/card";
-import { ColorType } from "../js_shared/dict";
 import Combo from "./combo";
 import Hand from "./hand";
 
@@ -16,6 +15,7 @@ export default class Player
     {
         this.num = n;
         this.score = new Hand();
+        this.hand = new Hand();
     }
 
     stop()
@@ -29,6 +29,11 @@ export default class Player
         this.bid = new Hand();
         this.stopped = false;
         this.bestCombo = null;
+    }
+
+    resetHand()
+    {
+        this.hand = new Hand();
     }
 
     scoreCards(cards:Card[])

@@ -34,7 +34,8 @@ export default class RandomNaivigationTurnGenerator
 {
     setup: RandomNaivigationSetupGenerator
     cardPicker: CardPickerNaivigation
-    cards: MaterialNaivigation[]
+    cards: MaterialNaivigation[] // all possible cards to use
+    cardsPlayed: MaterialNaivigation[] // cards played during this specific turn example
     movementCallback: MovementCallbackFunction // given this card, how does the vehicle move/change?
     roundCallback: RoundCallbackFunction // given the events this round, what should happen to end the round?
     example: InteractiveExample
@@ -74,6 +75,11 @@ export default class RandomNaivigationTurnGenerator
         this.example = e;
     }
 
+    getCardIndex(c:MaterialNaivigation)
+    {
+        return this.cardsPlayed.indexOf(c) ?? 0;
+    }
+
     async generate()
     {
         const o = this.example.getOutputBuilder();
@@ -87,6 +93,8 @@ export default class RandomNaivigationTurnGenerator
         const DEF_NUM_INSTRUCTIONS = 5;
         const numPlayers = rangeInteger(3,5);
         const cardsPlayed = shuffle(this.cards.slice()).slice(0, DEF_NUM_INSTRUCTIONS);
+        this.cardsPlayed = cardsPlayed;
+
         const cardsVisualized = [];
 
         const ctx = createContext({ size: this.visualizer.size });

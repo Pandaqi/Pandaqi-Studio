@@ -14,6 +14,9 @@ const CONFIG_NAIVIGATION_SHARED =
         body: "k2d"
     },
 
+    addTextOnTiles: false,
+    vehiclesAsPawns: false, // @NOTE: easiest way for now to make sure the interactive examples use the token version => @TODO: find a CLEANER WAY to have the generators turn this off; maybe tweak config before putting into visualizer?
+
     // assets
     // these links are absolute, so we can keep using relative links all throughout the specific games
     // but this shit will still load fine for all
@@ -51,14 +54,14 @@ const CONFIG_NAIVIGATION_SHARED =
         misc_shared:
         {
             path: "/naivigation/assets/misc.webp",
-            frames: new Point(5, 1),
+            frames: new Point(8,2),
             useAbsolutePath: true
         },
 
         card_templates:
         {
             path: "/naivigation/assets/card_templates.webp",
-            frames: new Point(6,1),
+            frames: new Point(8,1),
             useAbsolutePath: true,
         },
 
@@ -77,11 +80,12 @@ const CONFIG_NAIVIGATION_SHARED =
             loadIf: ["sets.willneverhappen"]
         },
 
-        icons_shared:
+        persons:
         {
-            path: "/naivigation/assets/icons.webp",
-            frames: new Point(8,5),
-            useAbsolutePath: true
+            path: "/naivigation/assets/persons.webp",
+            frames: new Point(8,1),
+            useAbsolutePath: true,
+            loadIf: ["sets.willneverhappen"]
         },
     },
 
@@ -141,8 +145,6 @@ const CONFIG_NAIVIGATION_SHARED =
 
             gps:
             {
-                textPos: new CVal(new Point(0.5, 0.605), "size"),
-
                 strokeColor: "#000000",
                 strokeWidth: new CVal(0.0075, "sizeUnit"),
                 gridDims: new CVal(new Point(0.65), "sizeUnit"),
@@ -192,6 +194,11 @@ const CONFIG_NAIVIGATION_SHARED =
                 strokeWidth: new CVal(0.01, "sizeUnit"),
             },
 
+            collectibleIcon:
+            {
+                size: new CVal(0.185, "sizeUnit")
+            },
+
             vehicle:
             {
                 size: new CVal(new Point(0.4), "sizeUnit"),
@@ -200,14 +207,14 @@ const CONFIG_NAIVIGATION_SHARED =
 
             text:
             {
-                fontSize: new CVal(0.065, "sizeUnit"),
+                fontSize: new CVal(0.0625, "sizeUnit"),
                 textColor: "#FFFFFF",
                 bgColor: "#000000",
 
-                pos: new CVal(new Point(0.5, 0.75), "sizeUnit"),
+                pos: new CVal(new Point(0.5, 0.82), "sizeUnit"),
 
-                boxDims: new CVal(new Point(0.9, 0.33), "sizeUnit"),
-                boxBlur: new CVal(0.01, "sizeUnit"),
+                boxDims: new CVal(new Point(0.933, 0.3), "sizeUnit"),
+                boxBlur: new CVal(0.02, "sizeUnit"),
                 boxAlpha: 0.85
             }
         },
@@ -216,6 +223,24 @@ const CONFIG_NAIVIGATION_SHARED =
         {
             numUniqueVehicles: 3
         },
+    },
+
+    pawns:
+    {
+        general:
+        {
+            outline:
+            {
+                color: "#000000",
+                width: new CVal(0.01, "sizeUnit"),
+            },
+
+            cuttingLine:
+            {
+                color: "#BBBBBB",
+                width: new CVal(0.005, "sizeUnit")
+            }
+        }
     }
 }
 

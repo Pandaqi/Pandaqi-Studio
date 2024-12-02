@@ -106,11 +106,12 @@ During **setup**,
 * Place the **10 Fuel Cards** on the table: this is your Fuel Deck.
 * Include the **Refuel** Vehicle Cards.
 
-During **gameplay**, many Vehicle Cards deplete fuel. Whenever you execute a card, check the number of Fuel icons it has. Remove that many Fuel Cards.
+During **gameplay**, many Vehicle Cards deplete fuel. Whenever you execute a card that ends up **moving the plane**, it costs 1 Fuel. (That is, remove the next Fuel card from that deck.)
 
-The **Refuel** card adds as much Fuel back to the deck as indicated. It can, however, only be used if the plane has _landed_. If executed at any other time, take 1 damage and clear the remaining instructions.
+The **Refuel** card replenishes the entire fuel tank. It can, however, only be used if the plane has _landed_. If executed at any other time, take 1 damage and clear the remaining instructions.
 
 If you **run out of fuel** ( = fuel deck is empty), you enter "free fall".
+
 * The Fly and Elevate cards don't work anymore. (You will mostly be steering and hoping for a refuel.)
 * At the end of each round, you automatically move forward 1 tile and drop 1 elevation level.
 
@@ -124,7 +125,7 @@ Adds three new Vehicle Cards.
 
 * **Repair:** when executed, repair 1 damage. (Add one card back to the Health Deck.) It can only be used if the plane has _landed_. If executed at any other time, take 1 damage and clear the remaining instructions.
 * **Backflip:** rotate the plane 180 degrees
-* **Fly Double:** fly forward twice.
+* **Fly+:** fly forward twice.
 
 @TODO: EXAMPLE IMAGE?
 
@@ -134,7 +135,11 @@ Adds three new Vehicle Cards.
 
 This expansion adds new material (**Timezone Tiles**) and a new mechanic.
 
-During **setup**, add a random Timezone Tile above each _column_ of the map.
+During **setup**, add a Timezone tile above each _column_ of the map. From left to right, add them in numeric order.
+
+{{% remark %}}
+Once you understand this expansion better, you can add the Timezone tiles in a RANDOM ORDER!
+{{% /remark %}}
 
 The remaining Timezone Tiles create the **Clock Deck**. It works similar to the Elevation Deck: place them in numeric order, from low to high, and start the timer at the lowest number.
 
@@ -178,27 +183,31 @@ It also adds a few cards for the action/time deck about **weather effects** (in 
 
 This expansion adds extra material: **Passenger Tiles**.
 
-During **setup**, draw 5 random Passenger Tiles. They will be traveling with your amazing airline today.
+During **setup**, draw 3 random Passenger Tiles. They will be traveling with your amazing airline today.
 
 Each passenger ...
 * Has a specific airport they want to visit.
 * Has a penalty (which must be followed for as long as they are in your airplane)
 * Has a bonus (which triggers when you deliver them)
 
-The passenger leaves ("is delivered") when you visit their preferred airport. 
+The passenger leaves ("is delivered") when you visit their preferred airport. If so, clearly place them apart from the undelivered passengers.
+
+{{% remark %}}
+Yes, you _don't_ have to deliver them all to win, though it's probably desirable because of their penalty.
+{{% /remark %}}
 
 @TODO: EXAMPLE IMAGE
 
-<!--- @DISCARDED??: A variant where you start with the passengers flipped facedown? Or one where you draw new passengers upon visiting an airport? (And redraw if they have a destination that doesn't exist anymore?) --->
+Once comfortable with this, you can raise the number of passengers. You can also add the following rule: "When you visit a new airport, draw an extra passenger. If its destination doesn't exist anymore, remove 1 passenger (delivered or not) of choice."
 
-{{% remark %}}
-You _don't_ have to deliver them all to win, though it's probably desirable because of their penalty.
-{{% /remark %}}
+{{% /rules-block %}}
 
-This expansion also, optionally, allows splitting the players into teams. (Similar to the shared Naivigation rules for 6+ players, where you're moving two vehicles and racing against each other.)
+{{% rules-block heading="Variant: Poly Planes" %}}
 
-* The teams move their own airplane, with their own instruction row.
-* Each round, however, each team must also place 1 card in the row of the _other_ team.
+With some expansions enabled, you have enough material and options to split players into two teams, even on low player counts. You might try this variant then. (Similar to the shared Naivigation rules for 6+ players, where you're moving two vehicles and racing against each other.)
+
+* The teams move their own airplane, with their own decks. (Instruction row, Elevation/Fuel, Passengers, ...)
+* Each round, however, each team must also place 1 card in the row of the _other_ team. (Doesn't matter who or when.)
 
 If you ever crash into the other airplane, both teams lose the game.
 

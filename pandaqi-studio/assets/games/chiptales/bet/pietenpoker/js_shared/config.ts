@@ -83,7 +83,7 @@ const CONFIG:any =
         numCardsRevealed: 3,
         itemSize: new Point(375, 575),
         stopProbability: 0.25,
-        raiseProbability: 0.5,
+        raiseProbability: 0.75,
 
         rules:
         {

@@ -20,7 +20,7 @@ const mergeObjects = (target, source, overwrite = true) =>
         } 
         else 
         {
-          const keepValue = (target[key] != undefined) && overwrite;
+          const keepValue = (target[key] != undefined) && !overwrite;
           if(!keepValue)
           {
             Object.assign(target, { [key]: source[key] });
@@ -29,7 +29,7 @@ const mergeObjects = (target, source, overwrite = true) =>
       }
     }
   
-    return mergeObjects(target, source);
+    return target;
 }
 
 export default mergeObjects;

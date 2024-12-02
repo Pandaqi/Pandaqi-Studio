@@ -87,8 +87,8 @@ const pickNavigationCards = (params:GPSCardParams = {}) : MaterialNaivigation[] 
 
         if(isSingleType) {
             const isReward = (i < 0.5*numSingleType);
-            if(isReward) { data.reward = allRewards.pop(); }
-            else { data.penalty = allPenalties.pop(); }
+            if(isReward) { data.reward = allRewards.pop(); data.penaltySquares = []; }
+            else { data.penalty = allPenalties.pop(); data.rewardSquares = []; }
         } else {
             data.reward = allRewards.pop();
             data.penalty = allPenalties.pop();

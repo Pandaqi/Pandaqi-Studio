@@ -1,24 +1,11 @@
+import { CardType, GameNaivigationData, MaterialNaivigationData, TileType } from "games/naivigation/js_shared/dictShared";
 
-
-interface MaterialData
-{
-    frame?: number,
-    label?: string,
-    subText?: string,
-    num?: number,
-    desc?: string,
-    freq?: number,
-    collectible?: boolean,
-    starting?: boolean,
-    sets?: string[]
-}
-
-const MAIN_COLORS = { bgColor: "#8B46FF", tintColor: "#D5BDFF", textColor: "#1C004B", mapTileColor: "#151E3D" };
+const GAME_DATA:GameNaivigationData = { bgColor: "#8B46FF", tintColor: "#D5BDFF", textColor: "#1C004B", mapTileColor: "#151E3D" };
 
 //
 // Vehicle Cards (thing #1 that'll be unique for each game)
 //
-const VEHICLE_CARDS:Record<string,MaterialData> = 
+const VEHICLE_CARDS:Record<string,MaterialNaivigationData> = 
 {
     steer: { frame: 1, label: "Steer", desc: "Pick an angle within range. Rotate the vehicle that much." },
     thrust: { frame: 0, label: "Thrust", desc: "Move 1 tile forward ( = in the direction your spaceship faces).", freq: 12 },
@@ -29,7 +16,7 @@ const VEHICLE_CARDS:Record<string,MaterialData> =
     hyperdrive: { frame: 6, label: "Hyper", desc: "Move to a tile at the end of your row or column.", freq: 6, sets: ["trade"] },
 };
 
-const HEALTH_CARDS:Record<string,MaterialData> =
+const HEALTH_CARDS:Record<string,MaterialNaivigationData> =
 {
     downgrade: { subText: "Downgrade", desc: "You can't wrap around the map anymore.", num: 2 },
     favorite_direction: { subText: "Favorite Direction", desc: "When moving diagonally, you always pick the <b>horizontal</b> option (never vertical).", num: 3 },
@@ -41,7 +28,7 @@ const HEALTH_CARDS:Record<string,MaterialData> =
 //
 // The map tiles (thing #2 that'll be unique each game---there are no "shared" map tiles)
 //
-const MAP_TILES:Record<string,MaterialData> =
+const MAP_TILES:Record<string,MaterialNaivigationData> =
 {
     empty: { frame: -1, label: "Nothing Special", freq: 20 },
     planet_0: { frame: 0, label: "Planet", collectible: true },
@@ -49,9 +36,6 @@ const MAP_TILES:Record<string,MaterialData> =
     planet_2: { frame: 2, label: "Planet", collectible: true },
     planet_3: { frame: 3, label: "Planet", collectible: true },
     planet_4: { frame: 4, label: "Planet", collectible: true },
-    vehicle_0: { frame: 5, label: "Vehicle", freq: 0 },
-    vehicle_1: { frame: 6, label: "Vehicle", freq: 0 },
-    vehicle_2: { frame: 7, label: "Vehicle", freq: 0 },
 
     starting_tile: { frame: 8, label: "Starting Tile", freq: 1, starting: true },
 
@@ -61,6 +45,13 @@ const MAP_TILES:Record<string,MaterialData> =
     moon: { frame: 12, label: "Moon", desc: "Collect this resource, then replace tile. Optional: rearrange planet properties.", freq: 6, sets: ["trade"] }, 
     sun: { frame: 13, label: "Sun", desc: "Take 3 damage. Also counts for Gravitational Pull.", freq: 2, sets: ["weapons"] },
     space_station: { frame: 14, label: "Space Station", desc: "Repair 2 damage. Then replace this tile.", freq: 3, sets: ["trade"] }
+}
+
+const VEHICLE_TILES:Record<string,MaterialNaivigationData> =
+{
+    vehicle_0: { frame: 5, label: "Vehicle" },
+    vehicle_1: { frame: 6, label: "Vehicle" },
+    vehicle_2: { frame: 7, label: "Vehicle" },
 }
 
 const MISC =
@@ -99,13 +90,20 @@ const PLANET_PROPERTIES : Record<string, PlanetProperty> =
     reward_fail: { desc: "Penalty: if you bump into this planet, <b>%val%</b>", values: PLANET_PROPERTY_PENALTIES }
 }
 
-export 
+const MATERIAL =
 {
-    MAIN_COLORS,
-    VEHICLE_CARDS,
-    HEALTH_CARDS,
-    MAP_TILES,
+    [CardType.VEHICLE]: VEHICLE_CARDS,
+    [CardType.HEALTH]: HEALTH_CARDS,
+    [TileType.MAP]: MAP_TILES,
+    [TileType.VEHICLE]: VEHICLE_TILES
+}
+
+export {
+    GAME_DATA, 
+    MATERIAL, 
     MISC,
     PLANET_PROPERTIES,
+    VEHICLE_TILES,
     PlanetProperty
-}
+};
+
