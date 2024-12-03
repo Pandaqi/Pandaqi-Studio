@@ -17,6 +17,14 @@ import { CardType, GPS_ICONS, MaterialNaivigationType } from "./dictShared";
 import MaterialNaivigation from "./materialNaivigation";
 import { GPS_PENALTIES, GPS_REWARDS } from "./dict";
 
+const drawBackground = (vis:MaterialVisualizer, group:ResourceGroup, card:MaterialNaivigation) =>
+{
+    const resCustom = card.getCustomBackground(vis, group);
+    if(resCustom) { return; }
+    drawCardBackground(vis, group, card);
+    drawCardIcons(vis, group, card);
+}
+
 const drawCardBackground = (vis, group, card) =>
 {
     // main background color
@@ -181,8 +189,14 @@ const drawCard = (vis, group, card) =>
 
     // main card content (if available)
     // @NOTE: exception for GPS card, which has 2 randomly generated phrases at bottom
-    const textContent = data.desc ?? tempData.desc;
-    if(textContent && !isGPSCard)
+    let textContent = card.customData.desc ?? data.desc ?? tempData.desc;
+    if(isGPSCard) 
+    { 
+        drawGPSText(vis, group, card);
+        textContent = ""; 
+    }
+
+    if(textContent)
     {
         const textConfigContent = textConfig.clone();
         textConfigContent.size = vis.get("cards.general.fontSizeContent");
@@ -198,11 +212,6 @@ const drawCard = (vis, group, card) =>
             pivot: Point.CENTER
         });
         group.add(resTextContent, textContentOp);
-    }
-
-    if(isGPSCard)
-    {
-        drawGPSText(vis, group, card);
     }
 }
 
@@ -324,38 +333,33 @@ const drawGPSGrid = (vis:MaterialVisualizer, group:ResourceGroup, card:MaterialN
 const drawCardIcons = (vis:MaterialVisualizer, group:ResourceGroup, card:MaterialNaivigation) =>
 {
     // the main illustration at the top
-    const typeData = card.getData();
+    const typeData = card.getData() ?? {};
     const tempData = card.getTemplateData();
-    let resSprite = vis.getResource("icons");
-    const cardTypesWithUniqueIcons : MaterialNaivigationType[] = [CardType.VEHICLE, CardType.ACTION];
-    const useSharedIcons = (typeData && typeData.shared) || !cardTypesWithUniqueIcons.includes(card.type);
-    if(useSharedIcons) { resSprite = vis.getResource("icons_shared"); }
+    let resSpriteKey = tempData.textureKey ?? "icons";
 
+    // this is an ugly exception to make shared material pick the right spritesheet; but it's fine as long as it remains a SINGLE exception
+    const useSharedIcons = typeData.shared == true;
+    if(useSharedIcons) { resSpriteKey = "icons_shared"; }
+    
+    const resSprite = vis.getResource(resSpriteKey);
     const spriteFrame = tempData.frameIcon ?? typeData.frame;
+    const flipX = card.customData.iconFlipX ?? false;
+    const flipY = card.customData.iconFlipY ?? false;
     const eff = new DropShadowEffect({ color: "#000000", blurRadius: vis.get("cards.general.illustration.shadowBlur") });
     const spriteOp = new LayoutOperation({
         pos: vis.get("cards.general.illustration.mainPos"),
         size: vis.get("cards.general.illustration.mainDims"),
         effects: [eff],
+        flipX: flipX,
+        flipY: flipY,
         frame: spriteFrame,
         pivot: Point.CENTER
     });
 
-    // the template icons are needed for basically all games, which is why I put them in misc_shared
-    // to load as little as possible, yet have them always available
-    // @NOTE: but the check below might be WRONG/INSUFFICIENT!
-    const useTemplateIcons = tempData.frameIcon != undefined;
-    if(useTemplateIcons)
-    {
-        resSprite = vis.getResource("misc_shared");
-    }
-
-    let resIllu = resSprite;
-
     // override with a custom illustration, IF that function returned anything
+    let resIllu = resSprite;
     const resTempCustom = card.getCustomIllustration(vis, card, spriteOp);
     if(resTempCustom) { resIllu = resTempCustom; spriteOp.frame = 0; }
-
     group.add(resIllu, spriteOp);
 
     // GPS cards draw that dynamic grid on top of the usual main illu
@@ -439,17 +443,21 @@ const drawCardIcons = (vis:MaterialVisualizer, group:ResourceGroup, card:Materia
     }   
 }
 
+const drawForeground = (vis:MaterialVisualizer, group:ResourceGroup, card:MaterialNaivigation) =>
+{
+    const resCustom = card.getCustomBackground(vis, group);
+    if(resCustom) { return; }
+
+    // @TODO: perhaps reshuffle when stuff is drawn to actually get a "foreground" layer on these cards
+}
+
 // This is the default card drawer for all types, used by shared material. 
 // It's what most other games and variants need, but not all of them
 // Which is why I decided each game has to manually call it, instead of making this 100% automatic for each game
 // The Card object holds the functions/data to grab the correct dictionaries/resources it needs
-export default (vis:MaterialVisualizer, card:MaterialNaivigation) =>
+export default (vis:MaterialVisualizer, group:ResourceGroup, card:MaterialNaivigation) =>
 {
-    const group = vis.renderer.prepareDraw();
-
-    drawCardBackground(vis, group, card);
-    drawCardIcons(vis, group, card);
+    drawBackground(vis, group, card);
     drawCard(vis, group, card);
-
-    return vis.renderer.finishDraw({ group: group, size: vis.size });
+    drawForeground(vis, group, card);
 }

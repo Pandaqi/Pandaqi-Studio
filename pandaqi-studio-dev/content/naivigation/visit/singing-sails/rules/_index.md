@@ -134,15 +134,6 @@ This expansion also adds two more (simpler) **Vehicle Cards**.
 * **Row**: move the ship _forward_ by 1 tile.
 * **Spyglass**: draw 3 tiles from any deck. Attach them to your current map at the _side_ (of the compass) from where you grabbed the tile.
 
-WHAT COULD THE WEATHER CARDS POSSIBLY DO?
-* Thunder (-3) => spin the compass to randomize it. Do the same at the start of each round.
-* Storm (-2) => all instructions are doubled. Rotating the ship's direction incurs 1 damage.
-* Windy Day (-1) => the wind value is doubled.
-* Calm Seas (0) => There is no wind at all.
-* Cloudy Day (1) => the weather card only switches if the new weather card's number is at most 1 away.
-* Sunny Day (2) => you're not required to play a weather card if you have one (?)
-* Scorching Heat (3) => the wind value is divided by 2 (rounded). Any time you end a round with this weather, take 1 damage.
-
 {{% /rules-block %}}
 
 {{% rules-block heading="Islands & Treasures" %}}
@@ -151,13 +142,17 @@ This expansion adds special **Treasure Cards**.
 
 During **setup**, draw 5 random treasures and place them faceup on the table. (The others will not be used this game.)
 
-Each treasure has an "ideal island" where it can be found. (General shape, number of tiles, surroundings, etcetera.)
+Each treasure has an "ideal island" where it can be found. This is any island that fits the _condition_ written on the treasure.
 
 During **gameplay**, when you visit a harbor at an "ideal island", you collect the associated treasure! You get the bonus described. Remove the treasure; you can't collect it multiple times.
 
 This expansion also adds a new Vehicle Card.
 
 * **Dig**: replace 1--3 tiles next to the ship (horizontal, vertical, diagonal) with new ones from the deck.
+
+And a new Map Tile.
+
+* **Whirlpool**: Randomize your Wind deck and Ship orientation. (Shuffle the Wind cards and let someone pick a random one. Then rotate the ship by that many quarter turns.)
 
 VARIANT: For easier treasure collection, notice that every treasure also shows a specific harbor tile. Add this rule: "You also get the treasure by simply visiting that harbor, regardless of what its island looks like."
 
@@ -173,7 +168,7 @@ During **setup**, place 1 Pawn of each enemy type somewhere besides the board. T
 
 During **gameplay**,
 
-* When a tile appears with an **Enemy symbol**, place a new Enemy of that type on the map (Pirate Ship, Sea Monster or Whirlpool).
+* Whenever you place a map tile with an **Enemy symbol**, place a new Enemy of that type on the map (Pirate Ship, Sea Monster or Whirlpool).
 * Each round, _1 vehicle card_ needs to be played to every Enemy Instruction Token, faceup. It doesn't matter who does it or when.
 * After moving your own ship, move all Enemies (in any order), according to their single Vehicle Card.
 
@@ -191,8 +186,7 @@ It also adds a **Pirate Haven/Harbor** tile. You need to visit these as well (to
 
 Finally, this expansion also adds a new **Vehicle Card** for self-defense.
 
-* **Cannon**: destroy any Enemy to your left or right.
-  * It also shows an Enemy Symbol + arrow. If played to an Enemy, _that_ icon decides how it moves.
+* **Cannon**: destroy any Enemy directly to your left or right.
 
 {{% /rules-block %}}
 

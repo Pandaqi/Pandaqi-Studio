@@ -23,14 +23,17 @@ export default class Card extends MaterialNaivigation
     getMisc() { return MISC; }
     async draw(vis:MaterialVisualizer)
     {
-        if(this.type == CardType.CUSTOM) { return this.drawPlanetProperties(vis); }
-        return cardDrawerNaivigation(vis, this);
+        const group = vis.renderer.prepareDraw();
+        if(this.type == CardType.CUSTOM) { 
+            this.drawPlanetProperties(vis, group); 
+        } else {
+            cardDrawerNaivigation(vis, group, this);
+        }
+        return vis.renderer.finishDraw({ group: group, size: vis.size });
     }
 
-    drawPlanetProperties(vis:MaterialVisualizer)
+    drawPlanetProperties(vis:MaterialVisualizer, group:ResourceGroup)
     {
-        const group = vis.renderer.prepareDraw();
-
         const op = new LayoutOperation();
         const offset = new Point(0, vis.size.y / 3);
         let counter = 0;
@@ -42,8 +45,6 @@ export default class Card extends MaterialNaivigation
             group.add(this.drawPlanetProperty(vis, prop), op);
             counter++;
         }
-
-        return vis.renderer.finishDraw({ group: group, size: vis.size });
     }
 
     drawPlanetProperty(vis:MaterialVisualizer, prop:PlanetProperty) : ResourceGroup

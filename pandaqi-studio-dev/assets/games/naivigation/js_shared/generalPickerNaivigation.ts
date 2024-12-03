@@ -1,11 +1,24 @@
-import { MaterialNaivigationData, MaterialNaivigationType, TileType } from "games/naivigation/js_shared/dictShared";
+import { MaterialNaivigationData, MaterialNaivigationType, TerrainType, TileType } from "games/naivigation/js_shared/dictShared";
 import MaterialNaivigation from "./materialNaivigation";
+import shuffle from "js/pq_games/tools/random/shuffle";
+import fromArray from "js/pq_games/tools/random/fromArray";
 
 interface DictData
 {
     type: MaterialNaivigationType,
     dict: Record<string,any>
 }
+
+interface TerrainDataParams
+{
+    perc?: number, // an exact percentage of total that must be filled
+    prob?: number, // (or) a random drawing probability; defaults to 1
+    filterInclude?: string[], // only add this type on these map tiles
+    filterExclude?: string[], // NEVER add this type on these map tiles
+    filterCollectibles?: string, // "include" or "exclude"
+}
+
+type TerrainData = Record<string, TerrainDataParams>
 
 export default class GeneralPickerNaivigation
 {
@@ -15,6 +28,7 @@ export default class GeneralPickerNaivigation
     data: DictData[];
     generateCallback: Function
     mapCallback: Function = (key, data) => { return null; } // for custom callbacks for map tiles to be made
+    terrainData:TerrainData
 
     constructor(config, elemClass) 
     {
@@ -28,6 +42,7 @@ export default class GeneralPickerNaivigation
     {
         this.elements = [];
         for(const data of this.data) { this.generateMaterial(data); }
+        this.assignTerrains();
         if(this.generateCallback) { this.generateCallback(); }
         return this.elements;
     }
@@ -39,6 +54,7 @@ export default class GeneralPickerNaivigation
             type: type,
             dict: dict
         })
+        return this;
     }
 
     addMaterialData(dict:Record<string,MaterialNaivigationData>)
@@ -54,6 +70,102 @@ export default class GeneralPickerNaivigation
     addSingle(elem:MaterialNaivigation)
     {
         this.elements.push(elem);
+        return this;
+    }
+
+    addTerrainData(td:TerrainData = {})
+    {
+        const shouldConstructRandom = Object.keys(td).length <= 0;
+        if(shouldConstructRandom)
+        {
+            for(const value of Object.values(TerrainType))
+            {
+                td[value] = { prob: Math.round(1 + 4*Math.random()) }
+            }
+        }
+
+        this.terrainData = td;
+        return this;
+    }
+
+    assignTerrains()
+    {
+        if(!this.terrainData) { return; }
+
+        // collect map tiles only
+        const mapTiles = this.elements.filter((e:MaterialNaivigation) => e.type == TileType.MAP);
+        const possibleTerrains = Object.keys(this.terrainData);
+        const numTiles = mapTiles.length;
+
+        // create list with everything in correct numbers
+        const terrainTypes = [];
+        for(const type of possibleTerrains)
+        {
+            const data = this.terrainData[type];
+            let numOfType = 0;
+
+            if(data.prob)
+            {
+                for(let i = 0; i < numTiles; i++)
+                {
+                    if(Math.random() <= data.prob) { continue; }
+                    numOfType++;
+                }    
+            } 
+
+            if(data.perc)
+            {
+                numOfType = Math.ceil(data.perc * numTiles);
+            }
+            
+            for(let i = 0; i < numOfType; i++)
+            {
+                terrainTypes.push(type);
+            }
+        }
+        shuffle(terrainTypes);
+
+        // cache the list of allowed terrains per tile type (so finding the first suitable one is really cheap below)
+        const terrainsAllowedPerTile = {};
+        for(const tile of mapTiles)
+        {
+            const key = tile.key;
+            const arr = [];
+            for(const type of possibleTerrains)
+            {
+                const data = this.terrainData[type];
+                if(data.filterInclude && !data.filterInclude.includes(key)) { continue; }
+                if(data.filterExclude && data.filterExclude.includes(key)) { continue; }
+                if(data.filterCollectibles)
+                {
+                    if(tile.isCollectible() && data.filterCollectibles == "exclude") { continue; }
+                    if(!tile.isCollectible() && data.filterCollectibles == "include") { continue; }
+                }
+                arr.push(type);
+            }
+            terrainsAllowedPerTile[key] = arr;
+        }
+
+        // actually assign these to tiles, keeping the filters in mind
+        for(const tile of mapTiles)
+        {
+            const terrain = this.takeFirstSuitableTerrainForTile(terrainsAllowedPerTile[tile.key], terrainTypes);
+            tile.setTerrain(terrain);
+        }
+    }
+
+    // @TODO: optimization would be to cache exactly which terrains are allowed on each map tile ONCE, then reuse that
+    // but with such a low number of terrains and map tiles, is that worth it?
+    takeFirstSuitableTerrainForTile(terrainsAllowed:string[], terrainTypes:string[]) : TerrainType
+    {
+        for(let i = 0; i < terrainTypes.length; i++)
+        {
+            const type = terrainTypes[i];
+            if(!terrainsAllowed.includes(type)) { continue; }
+            terrainTypes.splice(i, 1);
+            return type as TerrainType;
+        }
+        return fromArray(terrainsAllowed) as TerrainType;
     }
 
     generateMaterial(inputData:DictData)

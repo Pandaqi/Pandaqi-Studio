@@ -15,6 +15,13 @@ import MaterialNaivigation from "./materialNaivigation";
 import vehicleDrawerNaivigation from "./vehicleDrawerNaivigation";
 import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
 
+const drawBackground = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaivigation) =>
+{
+    const resCustom = tile.getCustomBackground(vis, group);
+    if(resCustom) { return; }
+    drawTerrain(vis, group, tile);
+}
+
 const drawTerrain = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaivigation) =>
 {
     const needsTerrain = tile.getTerrain() != TerrainType.NONE && !tile.customData.suppressTerrain;
@@ -112,6 +119,13 @@ const drawTile = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaiv
     }
 }
 
+const drawForeground = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaivigation) =>
+{
+    const resCustom = tile.getCustomForeground(vis, group);
+    if(resCustom) { return; }
+    drawElevation(vis, group, tile);
+}
+
 const drawElevation = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaivigation) =>
 {
     const elevation = tile.getElevation();
@@ -151,7 +165,7 @@ export default (vis:MaterialVisualizer, group: ResourceGroup, tile:MaterialNaivi
 {
     if(tile.type == TileType.VEHICLE) { vehicleDrawerNaivigation(vis, group, tile); return }
 
-    drawTerrain(vis, group, tile);
+    drawBackground(vis, group, tile);
     drawTile(vis, group, tile);
-    drawElevation(vis, group, tile);
+    drawForeground(vis, group, tile);
 }

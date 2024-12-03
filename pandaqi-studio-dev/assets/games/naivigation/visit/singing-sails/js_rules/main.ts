@@ -1,29 +1,26 @@
+import MaterialNaivigation from "games/naivigation/js_shared/materialNaivigation";
+import RandomNaivigationSetupGenerator from "games/naivigation/js_shared/randomNaivigationSetupGenerator";
+import RandomNaivigationTurnGenerator from "games/naivigation/js_shared/randomNaivigationTurnGenerator";
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
-import CONFIG from "../js_shared/config";
 import Point from "js/pq_games/tools/geometry/point";
 import { cardPicker, tilePicker } from "../js_game/generators";
-import RandomNaivigationSetupGenerator, { TileData } from "games/naivigation/js_shared/randomNaivigationSetupGenerator";
-import RandomNaivigationTurnGenerator from "games/naivigation/js_shared/randomNaivigationTurnGenerator";
-import MaterialNaivigation from "games/naivigation/js_shared/materialNaivigation";
-import Bounds from "js/pq_games/tools/numbers/bounds";
-
-// given the current grid and available tiles, find a valid one for this cell
-const validPlacementCallback = (cell:TileData, setup:RandomNaivigationSetupGenerator) => 
-{
-    let tileFinal = null;
-    for(const tile of setup.tiles)
-    {
-        if(tile.isCollectible() == cell.collectible) { tileFinal = tile; break; }
-    }
-    return { tile: tileFinal }
-}
+import CONFIG from "../js_shared/config";
 
 const visualizerTiles = new MaterialVisualizer(CONFIG, new Point(256,256));
 const setup = new RandomNaivigationSetupGenerator({
     tilePicker: tilePicker,
-    validPlacementCallback: validPlacementCallback,
     visualizer: visualizerTiles
 });
+
+const setupCallback = (setup:RandomNaivigationSetupGenerator, turn:RandomNaivigationTurnGenerator) =>
+{
+    const initialData = 
+    {
+        wind: Math.floor(Math.random() * 4),
+        compass: new Point().fromAngle(Math.floor(Math.random() * 4) * 0.5 * Math.PI),
+    }
+    Object.assign(setup.playerToken.customData, initialData);
+}
 
 // given the card and current map/round state, what happens?
 const movementCallback = (card:MaterialNaivigation, setup:RandomNaivigationSetupGenerator, turn:RandomNaivigationTurnGenerator) =>
@@ -32,72 +29,57 @@ const movementCallback = (card:MaterialNaivigation, setup:RandomNaivigationSetup
     const fb = [];
     const oldPosition = setup.playerTokenData.position;
 
-    if(key == "steer")
+    if(key == "rotate")
     {
-        const angle = new Bounds(card.customData.angles[0], card.customData.angles[1]).randomInteger();
-        const angleQuarters = angle / 2.0;
-        setup.rotatePlayer(angleQuarters);
-        fb.push("The spaceship rotated by one of the valid angles on the Steer card.");
-    }
+        const turnDir = card.customData.turnDirection;
+        const str = (turnDir == 1) ? "right" : "left";
+        const rotateShip = Math.random() <= 0.5;
 
-    if(key == "thrust")
-    {
-        setup.movePlayerForward(1, true);
-        fb.push("The Thrust card moved the spaceship 1 step forward (in the direction it faces).");
-        const newPosition = setup.playerTokenData.position.clone();
-        const vectorMoved = newPosition.sub(oldPosition); 
-        const isDiagonal = Math.abs(vectorMoved.x) > 0 && Math.abs(vectorMoved.y) > 0;
-        if(isDiagonal)
-        {
-            fb.push("(Remember diagonal movement doesn't exist; if so, you pick horizontal OR vertical.)");
-        }
-    }
-
-    if(key == "disengage")
-    {
-        // calculate nearest planet
-        let nearestPlanet = null;
-        let nearestDist = Infinity;
-        for(const cell of setup.cells)
-        {
-            if(!cell.collectible) { continue; }
-            const dist = Math.abs(cell.position.x - oldPosition.x) + Math.abs(cell.position.y - oldPosition.y);
-            if(dist >= nearestDist) { continue; }
-            nearestPlanet = cell;
-            nearestDist = dist;
-        }
-
-        console.log(nearestPlanet);
-
-        // pick a random single step towards it
-        const movementNeeded = nearestPlanet.position.clone().sub(oldPosition);
-        const isDiagonal = Math.abs(movementNeeded.x) > 0 && Math.abs(movementNeeded.y) > 0;
-        const vector = new Point();
-        if(Math.abs(movementNeeded.x) > Math.abs(movementNeeded.y)) {
-            vector.x = Math.sign(movementNeeded.x);
+        if(rotateShip) {
+            setup.rotatePlayer(turnDir);
+            fb.push("The Rotate card rotated the Ship to the " + str + ".");
         } else {
-            vector.y = Math.sign(movementNeeded.y);
-        }
-
-        setup.movePlayer(vector, true);   
-        fb.push("The Disable card moved the spaceship 1 step closer to the nearest planet.");
-
-        if(isDiagonal)
-        {
-            fb.push("(Remember diagonal movement doesn't exist; if so, you pick horizontal OR vertical.)");
+            setup.playerToken.customData.compass.rotate(0.5*Math.PI);
+            fb.push("The Rotate card rotated the Compass to the " + str + ".");
         }
     }
 
-    const onCollectible = setup.playerTokenData.tile.isCollectible();
+    if(key == "sail")
+    {
+        const windValue = 1
+        const compassDir = new Point(1,0);
+        const movement = compassDir.clone().scale(windValue);
+
+        setup.movePlayer(movement);
+        fb.push("The Sail card moved the ship " + windValue + " spaces ( = Wind strength) in the direction (x=" + compassDir.x + ",y=" + compassDir.y + ").");
+
+        // @TODO: check if off-board, if so, add new tile?
+    }
+
+    if(key == "wind")
+    {
+        const windDir = Math.random() <= 0.5 ? 1 : -1;
+        const str = (windDir == 1) ? "+1" : "-1";
+
+        const newWind = setup.playerToken.customData.wind + windDir
+        setup.playerToken.customData.wind = Math.min(Math.max(newWind, 0), 4);
+        fb.push("The Wind card changed wind strength by " + str + ". (That's the direction the start player chose, without discussion.)");
+    }
+
+    const curTile = setup.playerTokenData.tile;
+    const curPosition = setup.playerTokenData.position;
+    const movement = curPosition.clone().sub(oldPosition);
+    const cameFromRot = setup.convertVectorToRotation(movement);
+
+    const onCollectible = curTile.isCollectible();
     if(onCollectible)
     {
-        const correctOrient = setup.playerTokenData.tile.canCollect(setup.playerTokenData);
-        if(correctOrient) {
-            fb.push("Great! You visited a planet with the right orientation! Collect it.");
+        const cameFromCorrectSide = setup.getCellAt(curPosition).rot == (cameFromRot + 2) % 4
+        if(cameFromCorrectSide) {
+            fb.push("Great! You arrived at a harbor. Collect it.");
             setup.getCellAt(setup.playerTokenData.position).facedown = true
         } else {
-            fb.push("Oh no! You visited a planet, but with the wrong orientation! You bounce back + take 1 damage.");
-            setup.setPlayerPosition(oldPosition);
+            fb.push("Oh no! You tried to reach the harbor, but came from the wrong side and hit land instead.");
         }
     }
 
@@ -110,6 +92,7 @@ const visualizerCards = new MaterialVisualizer(CONFIG, new Point(256,360));
 const turn = new RandomNaivigationTurnGenerator({
     setup: setup,
     cardPicker: cardPicker,
+    setupCallback: setupCallback,
     movementCallback: movementCallback,
     visualizer: visualizerCards
 })

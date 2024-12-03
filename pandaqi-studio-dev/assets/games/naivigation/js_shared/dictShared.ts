@@ -67,6 +67,18 @@ const GPS_ICONS =
     arrow: { frame: 11 }
 }
 
+const PASSENGERS =
+{
+    girl: { frame: 0, label: "Tiara Train" }, // Daisy Green
+    boy: { frame: 1, label: "Timmy Taxi" }, // Jim Red
+    woman: { frame: 2, label: "Claire Car" }, // Ms. Sparkle
+    man: { frame: 3, label: "Simon Ship" }, // Mr. Grumpy
+    grandma: { frame: 4, label: "Boris Boat" }, // John Johnson
+    grandpa: { frame: 5, label: "Rachel Rocket" }, // Ann Annie
+    woman_young: { frame: 6, label: "Bella Bus" },
+    man_young: { frame: 7, label: "Peter Plane" }
+}
+
 const MISC_SHARED =
 {
     game_icon: { frame: 0 },
@@ -114,6 +126,7 @@ export
     GameNaivigationData,
     TERRAINS,
     TerrainType,
+    PASSENGERS,
     MISC_SHARED,
     GPS_ICONS
 }

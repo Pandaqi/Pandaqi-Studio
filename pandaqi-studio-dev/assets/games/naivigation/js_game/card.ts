@@ -19,17 +19,13 @@ export default class Card extends MaterialNaivigation
     getMisc() { return MISC; }
     async draw(vis:MaterialVisualizer)
     {
-        const isDefaultType = (this.type != CardType.INSTRUCTION && this.type != CardType.COMPASS);
-        if(isDefaultType)
-        {
-            return cardDrawerNaivigation(vis, this);
-        }
-
         const group = vis.renderer.prepareDraw();
         if(this.type == CardType.INSTRUCTION) {
             this.drawInstruction(vis, group);
         } else if(this.type == CardType.COMPASS) {
             this.drawCompass(vis, group);
+        } else {
+            cardDrawerNaivigation(vis, group, this);
         }
         return vis.renderer.finishDraw({ group: group, size: vis.size });
     }

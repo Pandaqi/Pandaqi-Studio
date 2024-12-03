@@ -199,6 +199,7 @@ interface TemplateData
 {
     frameTemplate?:number, // frame for template at the bottom
     frameIcon?: number, // frame for big main illustration
+    textureKey?: string,
     bgColor?: string, // color used for filling entire background of card
     tintColor?: string, // color used for tinting template (bg for title + text)
     label?: string, // title, heading
@@ -211,15 +212,15 @@ interface TemplateData
 
 const TEMPLATES:Record<string, TemplateData> =
 {
-    [CardType.VEHICLE]: { frameTemplate: 0, bgColor: "#FFFFFF", tintColor: "#DADADA", label: null, subText: "Vehicle Card", smallIconOffset: new Point(0.33, 0) },
-    [CardType.HEALTH]: { frameTemplate: 2, frameIcon: 5, bgColor: "#F9C98C", label: "Health", subText: "Handicap", smallIconOffset: new Point(0.35, -0.05), extraNumberOffset: new Point(0.46, 0) },
-    [CardType.GPS]: { frameTemplate: 3, frameIcon: 6, bgColor: "#A6741A", label: "GPS", subText: null, titleTextPos: new Point(0.5, 0.605) },
-    [CardType.TIME]: { frameTemplate: 4, frameIcon: 7, bgColor: "#4AD9FC", label: "Time", subText: "Event", extraNumberOffset: new Point(0.46, -0.2) },
-    [CardType.FUEL]: { frameTemplate: 5, frameIcon: 12, bgColor: "#3A3A3A", label: "Fuel", subText: null },
-    [CardType.ACTION]: { frameTemplate: 1, bgColor: "#FFFFFF", tintColor: "#DADADA", label: null, subText: "Action Card", smallIconOffset: new Point(0.4125, 0) },
-    [CardType.INSTRUCTION]: { frameIcon: 1 },
-    [CardType.COMPASS]: { frameIcon: 0 },
-    [CardType.PASSENGER]: { frameTemplate: 6, bgColor: "#f5b7ff", label: null, subText: "Cargo", titleTextPos: new Point(0.5, 0.35) },
+    [CardType.VEHICLE]: { frameTemplate: 0, bgColor: "#FFFFFF", tintColor: "#DADADA", label: null, subText: "Vehicle Card", smallIconOffset: new Point(0.33, 0), textureKey: "vehicle_cards" },
+    [CardType.HEALTH]: { frameTemplate: 2, frameIcon: 5, bgColor: "#F9C98C", label: "Health", subText: "Handicap", smallIconOffset: new Point(0.35, -0.05), extraNumberOffset: new Point(0.46, 0), textureKey: "misc_shared" },
+    [CardType.GPS]: { frameTemplate: 3, frameIcon: 6, bgColor: "#A6741A", label: "GPS", subText: null, titleTextPos: new Point(0.5, 0.605), textureKey: "misc_shared" },
+    [CardType.TIME]: { frameTemplate: 4, frameIcon: 7, bgColor: "#4AD9FC", label: "Time", subText: "Event", extraNumberOffset: new Point(0.46, -0.2), textureKey: "misc_shared" },
+    [CardType.FUEL]: { frameTemplate: 5, frameIcon: 12, bgColor: "#3A3A3A", label: "Fuel", subText: null, desc: "Worth 1 Fuel.", textureKey: "misc_shared" },
+    [CardType.ACTION]: { frameTemplate: 1, bgColor: "#FFFFFF", tintColor: "#DADADA", label: null, subText: "Action Card", smallIconOffset: new Point(0.4125, 0), textureKey: "icons" },
+    [CardType.INSTRUCTION]: { frameIcon: 1, textureKey: "icons" },
+    [CardType.COMPASS]: { frameIcon: 0, textureKey: "icons" },
+    [CardType.PASSENGER]: { frameTemplate: 6, bgColor: "#f5b7ff", label: null, subText: "Cargo", titleTextPos: new Point(0.5, 0.35), textureKey: "passengers" },
     [TileType.MAP]: {},
     [TileType.VEHICLE]: {},
     [TileType.PAWN]: {},

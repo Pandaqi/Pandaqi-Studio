@@ -1,169 +1,200 @@
-import { MISC_SHARED, TileType } from "games/naivigation/js_shared/dictShared";
+import { TERRAINS, TerrainType, TileType } from "games/naivigation/js_shared/dictShared";
 import MaterialNaivigation from "games/naivigation/js_shared/materialNaivigation";
-import fillResourceGroup from "js/pq_games/layout/canvas/fillResourceGroup";
-import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
-import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
+import pawnDrawerNaivigation from "games/naivigation/js_shared/pawnDrawerNaivigation";
+import tileDrawerNaivigation from "games/naivigation/js_shared/tileDrawerNaivigation";
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
-import getRectangleCornersWithOffset from "js/pq_games/tools/geometry/paths/getRectangleCornersWithOffset";
+import { MATERIAL, MISC, TREASURE_BONUSES, TREASURE_CONDITIONS } from "../js_shared/dict";
+import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
+import LayoutOperation from "js/pq_games/layout/layoutOperation";
+import TextConfig from "js/pq_games/layout/text/textConfig";
+import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
+import ResourceText from "js/pq_games/layout/resources/resourceText";
 import Point from "js/pq_games/tools/geometry/point";
-import range from "js/pq_games/tools/random/range";
-import rangeInteger from "js/pq_games/tools/random/rangeInteger";
-import { MAIN_COLORS, MAP_TILES, MISC } from "../js_shared/dict";
-import { TileData } from "games/naivigation/js_shared/randomNaivigationSetupGenerator";
 
 export default class Tile extends MaterialNaivigation
 {
-    isCollectible() { return (MAP_TILES[this.key] ?? {}).collectible ?? false; }
-    isStartingTile() { return (MAP_TILES[this.key] ?? {}).starting ?? false; }
+    getData() { return MATERIAL[this.type][this.key]; }
     async draw(vis:MaterialVisualizer)
     {
         const group = vis.renderer.prepareDraw();
-        if(this.type == TileType.MAP) { this.drawMapTile(vis, group); }
-        else if(this.type == TileType.VEHICLE) { this.drawVehicle(vis, group); }
+        if(this.type == TileType.VEHICLE) {
+            tileDrawerNaivigation(vis, group, this);
+        } else if(this.type == TileType.MAP) {
+            this.drawMapTile(vis, group);
+        } else if(this.type == TileType.PAWN) {
+            pawnDrawerNaivigation(vis, group, this);
+        } else if(this.type == TileType.CUSTOM) {
+            this.drawCustomTile(vis, group);
+        }
         return vis.renderer.finishDraw({ group: group, size: vis.size });
     }
 
-    drawVehicle(vis:MaterialVisualizer, group:ResourceGroup)
+    getCustomBackground(vis:MaterialVisualizer, group:ResourceGroup)
     {
-        // a guiding sprite behind it to clearly show what's the front and stuff
-        const resGuides = vis.getResource("misc_shared");
-        const opGuides = new LayoutOperation({
-            pos: vis.center,
-            frame: MISC_SHARED.vehicle_guides.frame,
-            size: vis.get("tiles.general.vehicle.sizeGuides"),
-            pivot: Point.CENTER
-        })
-        group.add(resGuides, opGuides)
+        if(!this.isCollectible()) { return false; }
 
-        // the actual vehicle
-        const res = vis.getResource("map_tiles");
-        const frame = MAP_TILES.vehicle_0.frame + this.customData.num;
-        const op = new LayoutOperation({
-            pos: vis.center,
-            frame: frame,
-            size: vis.get("tiles.general.vehicle.size"),
-            pivot: Point.CENTER
+        // first half = land, second half = water
+        const res = vis.getResource("terrains");
+        const frameLand = TERRAINS[TerrainType.GRASS].frame;
+        const resOpLand = new LayoutOperation({
+            pos: new Point(-0.5*vis.size.x, 0),
+            size: vis.size,
+            frame: frameLand,
         });
-        group.add(res, op);
+
+        const frameWater = TERRAINS[TerrainType.SEA].frame;
+        const resOpWater = new LayoutOperation({
+            pos: new Point(0.5*vis.size.x, 0),
+            size: vis.size,
+            frame: frameWater,
+        });
+        
+        group.add(res, resOpLand);
+        group.add(res, resOpWater);
+
+        return true;
     }
 
     drawMapTile(vis:MaterialVisualizer, group:ResourceGroup)
     {
-        const bgColor = vis.inkFriendly ? "#FFFFFF" : MAIN_COLORS.mapTileColor;
-        fillResourceGroup(vis.size, group, bgColor);
+        // do the general stuff
+        tileDrawerNaivigation(vis, group, this);
 
-        // create random starry background
-        const numStars = vis.get("tiles.map.stars.numBounds").randomInteger();
-        const resStar = vis.getResource("misc");
-        const starFrame = MISC.star_0.frame + Math.floor(Math.random()*2);
-        const baseStarDims = vis.get("tiles.map.stars.baseDims");
-        for(let i = 0; i < numStars; i++)
+        // add the ENEMY ICON if wanted
+        if(this.customData.enemyIcon)
         {
+            const res = vis.getResource("misc");
             const op = new LayoutOperation({
-                pos: new Point(Math.random(), Math.random()).scale(vis.size),
-                frame: starFrame,
-                size: baseStarDims.clone().scale(vis.get("tiles.map.stars.sizeRand").random()),
-                rot: Math.random() * 2 * Math.PI,
+                pos: vis.get("tiles.enemyIcon.pos"),
+                size: vis.get("tiles.enemyIcon.size"),
+                pivot: Point.CENTER
+            })
+            group.add(res, op);
+        }
+
+        // add the WATER CURRENT if wanted
+        // @TODO: put this BEFORE the main illustration??
+        if(this.customData.waterCurrent)
+        {
+            // actual icon
+            const rot = this.customData.waterCurrent.dir * 0.5 * Math.PI;
+            const res = vis.getResource("misc");
+            const op = new LayoutOperation({
+                pos: vis.center,
+                rot: rot,
+                size: vis.get("tiles.waterCurrent.size"),
                 pivot: Point.CENTER,
-                alpha: vis.get("tiles.map.stars.alphaBounds").random()
-            })
-            group.add(resStar, op);
-        }
+                composite: "overlay",
+            });
+            group.add(res, op);
 
-        // place the actual tile type illustration
-        if(this.key == "empty") { return; }
-        
-        const data = MAP_TILES[this.key];
-        const res = vis.getResource("map_tiles");
-        const randPos = vis.center.clone().add( new Point().random() * range(0, vis.get("tiles.map.maxPosRand")) );
-        const eff = new DropShadowEffect({ color: "#FFFFFF", blurRadius: vis.get("tiles.map.glowRadius") })
-        const op = new LayoutOperation({
-            pos: randPos,
-            frame: data.frame,
-            size: vis.get("tiles.map.iconDims"),
-            effects: [eff],
-            pivot: Point.CENTER
-        });
-        group.add(res, op);
-
-        // if a planet, 
-        // - also show the orientation of the vehicle (for landing)
-        // - and the general "this is a collectible" icon
-        const extraIconSize = vis.get("tiles.map.vehicleIconDimsSmall");
-        const topCenterPos = new Point(vis.center.x, 0.66*extraIconSize.y);
-        if(this.isCollectible())
-        {
-            const randVehicleRot = this.getCollectOrientation()*0.5*Math.PI;;
-            const vehicleOp = new LayoutOperation({
-                pos: randPos,
-                frame: MAP_TILES.vehicle_0.frame,
-                size: vis.get("tiles.map.vehicleIconDims"),
-                rot: randVehicleRot,
-                alpha: vis.get("tiles.map.vehicleIconAlpha"),
-                composite: vis.get("tiles.map.vehicleComposite"),
-                effects: [new DropShadowEffect({ color: "#000000", blurRadius: vis.get("tiles.map.vehicleShadowBlur" )})],
-                pivot: Point.CENTER
-            })
-            group.add(res, vehicleOp);
-
-            const vehicleDimsSmall = vis.get("tiles.map.vehicleIconDimsSmall");
-            const cornerOffset = vehicleDimsSmall.clone().scale(0.66);
-            const corners = getRectangleCornersWithOffset(vis.size, cornerOffset);
-            for(const corner of corners)
+            // strength indication => @TODO: not sure if I will keep this actually
+            const strength = this.customData.waterCurrent.strength ?? 1;
+            if(strength != 1)
             {
-                const op = vehicleOp.clone();
-                op.pos = corner;
-                op.size = vehicleDimsSmall;
-                op.effects = [];
-                group.add(res, op);
+                const textConfig = new TextConfig({
+                    font: vis.get("fonts.heading"),
+                    size: vis.get("tiles.waterCurrent.fontSize")
+                }).alignCenter();
+                const resText = new ResourceText(strength.toString(), textConfig);
+        
+                const opText = new LayoutOperation({
+                    pos: vis.get("tiles.waterCurrent.textPos"),
+                    size: vis.size,
+                    fill: vis.get("tiles.waterCurrent.fontColor"),
+                    pivot: Point.CENTER,
+                    composite: "overlay",
+                });
+                group.add(resText, opText);
             }
-
-            const resIcon = vis.getResource("misc_shared");
-            const iconOp = new LayoutOperation({
-                pos: topCenterPos,
-                frame: MISC_SHARED.collectible_icon.frame,
-                size: extraIconSize,
-                pivot: Point.CENTER
-            })
-            group.add(resIcon, iconOp);
-        }
-
-        // starting tiles get the special starting icon at top center instead
-        if(this.isStartingTile())
-        {
-            const resIcon = vis.getResource("misc_shared");
-            const iconOp = new LayoutOperation({
-                pos: topCenterPos,
-                frame: MISC_SHARED.starting_icon.frame,
-                size: extraIconSize,
-                pivot: Point.CENTER
-            })
-            group.add(resIcon, iconOp);
-        }
-
-        // @EXCEPTION: moon tile also shows a resource in its top right quadrant
-        if(this.key.includes("moon"))
-        {
-            const resMisc = vis.getResource("misc");
-            const frame = MISC.resource_0.frame + this.customData.resourceType;
-            const resOp = new LayoutOperation({
-                pos: vis.get("tiles.map.resources.position"),
-                size: vis.get("tiles.map.resources.size"),
-                frame: frame,
-                pivot: Point.CENTER
-            })
-            group.add(resMisc, resOp);
         }
     }
 
-    canCollect(data:TileData)
+    // draws the COMPASS, WIND and TREASURE special deck tiles
+    drawCustomTile(vis:MaterialVisualizer, group:ResourceGroup)
     {
-        return Math.abs(this.getCollectOrientation() - data.rot) <= 0.1;
-    }
+        // the background template
+        const resBG = vis.getResource("misc");
+        const opBG = new LayoutOperation({
+            size: vis.size,
+            frame: MISC[this.key + "_template"].frame
+        })
+        group.add(resBG, opBG);
 
-    getCollectOrientation()
-    {
-        return (this.randomSeed % 8)*0.5;
+        if(this.key == "compass") { return; }
+        
+        if(this.key == "wind")
+        {
+            // the specific text
+            const val = this.customData.num;
+            let str = val.toString();
+    
+            const textConfig = new TextConfig({
+                font: vis.get("fonts.heading"),
+                size: vis.get("tiles.custom.fontSize")
+            }).alignCenter();
+            const resText = new ResourceText(str, textConfig);
+    
+            const opText = new LayoutOperation({
+                pos: vis.center,
+                size: vis.size,
+                fill: "#000000",
+                stroke: "#FFFFFF",
+                strokeWidth: vis.get("tiles.custom.strokeWidth"),
+                strokeAlign: StrokeAlign.OUTSIDE,
+                pivot: Point.CENTER
+            });
+            group.add(resText, opText);
+        }
+
+        // preferred harbor, condition, bonus
+        if(this.key == "treasure")
+        {
+            // the two special texts
+            const textConfig = new TextConfig({
+                font: vis.get("fonts.body"),
+                size: vis.get("tiles.treasure.fontSize")
+            }).alignCenter();
+
+            const textBoxDims = vis.get("tiles.treasure.textBoxDims");
+            const condition = TREASURE_CONDITIONS[this.customData.condition].desc;
+            const resTextCond = new ResourceText(condition, textConfig);
+            const opTextCond = new LayoutOperation({
+                pos: vis.get("tiles.treasure.conditionPos"),
+                size: textBoxDims,
+                fill: "#000000",
+                pivot: Point.CENTER
+            });
+            group.add(resTextCond, opTextCond);
+
+            const bonus = TREASURE_BONUSES[this.customData.bonus].desc;
+            const resTextBonus = new ResourceText(bonus, textConfig);
+            const opTextBonus = new LayoutOperation({
+                pos: vis.get("tiles.treasure.bonusPos"),
+                size: textBoxDims,
+                fill: "#000000",
+                pivot: Point.CENTER
+            });
+            group.add(resTextBonus, opTextBonus);
+
+            // the icons for the preferred harbor
+            const iconOffset = vis.get("tiles.treasure.iconOffset");
+            const positions = [
+                iconOffset.clone(),
+                new Point(vis.size.x - iconOffset.x, iconOffset.y)
+            ]
+
+            const harborData = MATERIAL[TileType.MAP][this.customData.harbor];
+            const resIcon = vis.getResource("map_tiles");
+            for(const pos of positions)
+            {
+                const op = new LayoutOperation({
+                    pos: pos,
+                    size: vis.get("tiles.treasure.harborIconSize"),
+                    frame: harborData.frame
+                });
+                group.add(resIcon, op);
+            }
+        }
     }
 }

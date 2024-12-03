@@ -1,9 +1,8 @@
 import CONFIG_NAIVIGATION_SHARED from "games/naivigation/js_shared/configShared";
-import { PASSENGERS, TerrainType } from "games/naivigation/js_shared/dictShared";
+import { TerrainType } from "games/naivigation/js_shared/dictShared";
 import mergeObjects from "js/pq_games/tools/collections/mergeObjects";
 import CVal from "js/pq_games/tools/generation/cval";
 import Point from "js/pq_games/tools/geometry/point";
-import Bounds from "js/pq_games/tools/numbers/bounds";
 import autoLoadFontCSS from "js/pq_games/website/autoLoadFontCSS";
 
 const CONFIG:any = 
@@ -16,8 +15,8 @@ const CONFIG:any =
         onlyGenerate: false, // @DEBUGGING (should be false)
     },
 
-    configKey: "naivigationFrighteningFlightsConfig",
-    fileName: "[Material] Naivigation: Frightening Flights",
+    configKey: "naivigationTroublesomeTrainsConfig",
+    fileName: "[Material] Naivigation: Troublesome Trains",
 
     addTextOnTiles: false,
     sets:
@@ -25,11 +24,10 @@ const CONFIG:any =
         vehicleTiles: true,
         vehicleCards: true,
         mapTiles: true,
-        fuelFalling: false,
-        repairsRacing: false,
-        timezonesTomorrow: false,
-        birdsBumps: false,
-        passengersPlanes: false
+        leadersFollowers: false,
+        animalsCrossings: false,
+        railsFails: false,
+        traintwistRailsteal: false,
     },
 
     fonts:
@@ -38,7 +36,7 @@ const CONFIG:any =
     },
 
     // assets
-    assetsBase: "/naivigation/visit/frightening-flights/assets/",
+    assetsBase: "/naivigation/visit/troublesome-trains/assets/",
     assets:
     {
         misc:
@@ -67,7 +65,7 @@ const CONFIG:any =
 
         terrains:
         {
-            loadIf: ["sets.mapTiles", "sets.repairsRacing"]
+            loadIf: ["sets.mapTiles", "@TODO"]
         }
     },
 
@@ -75,29 +73,14 @@ const CONFIG:any =
     {
         terrainDist:
         {
-            [TerrainType.SEA]: { perc: 0.1, filterCollectibles: "exclude" },
-            [TerrainType.GRASS]: { perc: 0.3 },
-            [TerrainType.FOREST]: { perc: 0.3 },
+            [TerrainType.GRASS]: { perc: 0.4 },
+            [TerrainType.FOREST]: { perc: 0.4 },
             [TerrainType.CITY]: { perc: 0.2 },
-            [TerrainType.MOUNTAIN]: { perc: 0.1 },
         }
     },
 
     cards:
     {
-        fuelBounds: new Bounds(1,10),
-
-        passengers:
-        {
-            numCards: 10,
-            options: Object.keys(PASSENGERS),
-            fontSize: new CVal(0.07, "sizeUnit"),
-            textBoxDims: new CVal(new Point(0.925, 0.33), "size"),
-            bonusPos: new CVal(new Point(0.5, 0.6), "size"),
-            cursePos: new CVal(new Point(0.5, 0.8), "size"),
-            iconOffset: new CVal(new Point(0.1, 0.5), "size"),
-            airportIconSize: new CVal(new Point(0.1), "sizeUnit")
-        }
 
     },
 
@@ -107,11 +90,12 @@ const CONFIG:any =
         {
             fontSize: new CVal(0.3, "sizeUnit"),
             strokeWidth: new CVal(0.08, "tiles.custom.fontSize"),
-
-            elevationBounds: new Bounds(1,5),
-            clockBounds: new Bounds(0,7),
-            clockCardsPerValue: 2,
         }   
+    },
+
+    pawns:
+    {
+
     }
 }
 

@@ -8,14 +8,15 @@ import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
 import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage";
 import MaterialNaivigation from "./materialNaivigation";
 import { CardType } from "./dictShared";
-import CardPickerNaivigation from "./cardPickerNaivigation";
+import GeneralPickerNaivigation from "./generalPickerNaivigation";
 
 interface NaivigationTurnParams
 {
     setup?: RandomNaivigationSetupGenerator
-    cardPicker?: CardPickerNaivigation,
+    cardPicker?: GeneralPickerNaivigation,
     movementCallback?: MovementCallbackFunction
     roundCallback?: RoundCallbackFunction,
+    setupCallback?: RoundCallbackFunction,
     visualizer?: MaterialVisualizer
 }
 
@@ -25,17 +26,19 @@ interface MovementResult
 }
 
 const DEF_MOVEMENT_CALLBACK = (card, setup, turn) => { return {}; }
-const DEF_ROUND_CALLBACK = (turn) => { return; }
+const DEF_ROUND_CALLBACK = (setup, turn) => { return; }
 
 type MovementCallbackFunction = (card:MaterialNaivigation, setup:RandomNaivigationSetupGenerator, turn:RandomNaivigationTurnGenerator) => MovementResult
-type RoundCallbackFunction = (turn:RandomNaivigationTurnGenerator) => void
+type RoundCallbackFunction = (setup:RandomNaivigationSetupGenerator, turn:RandomNaivigationTurnGenerator) => void
+type SetupCallbackFunction = (setup:RandomNaivigationSetupGenerator, turn:RandomNaivigationTurnGenerator) => void
 
 export default class RandomNaivigationTurnGenerator
 {
     setup: RandomNaivigationSetupGenerator
-    cardPicker: CardPickerNaivigation
+    cardPicker: GeneralPickerNaivigation
     cards: MaterialNaivigation[] // all possible cards to use
     cardsPlayed: MaterialNaivigation[] // cards played during this specific turn example
+    setupCallback: SetupCallbackFunction // called once when the example is being set up
     movementCallback: MovementCallbackFunction // given this card, how does the vehicle move/change?
     roundCallback: RoundCallbackFunction // given the events this round, what should happen to end the round?
     example: InteractiveExample
@@ -48,6 +51,7 @@ export default class RandomNaivigationTurnGenerator
         this.visualizer = params.visualizer;
         this.cardPicker = params.cardPicker;
         this.cards = [];
+        this.setupCallback = params.setupCallback ?? DEF_ROUND_CALLBACK;
         this.movementCallback = params.movementCallback ?? DEF_MOVEMENT_CALLBACK;
         this.roundCallback = params.roundCallback ?? DEF_ROUND_CALLBACK;
         this.attachToRules();
@@ -85,6 +89,8 @@ export default class RandomNaivigationTurnGenerator
         const o = this.example.getOutputBuilder();
         o.addParagraph("The map currently looks like this:");
         await this.setup.onSetupRequested(o);
+
+        this.setupCallback(this.setup, this); // necessary to get game data into some initial values
 
         o.addParagraph("Each player plays a facedown card to the instructions, without communication. Once done, they are revealed and handled one at a time, left to right.");
 
@@ -139,7 +145,7 @@ export default class RandomNaivigationTurnGenerator
 
         o.addNode(document.createElement("hr"));
 
-        this.roundCallback(this); // this is very optional
+        this.roundCallback(this.setup, this); // this is very optional
     }
 
     async visualizeCard(card:MaterialNaivigation, facedown = false) : Promise<HTMLImageElement>

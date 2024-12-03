@@ -50,9 +50,9 @@ const CONFIG:any =
             frames: new Point(8,2)
         },
 
-        icons:
+        vehicle_cards:
         {
-            path: "icons.webp",
+            path: "vehicle_cards.webp",
             frames: new Point(7,1)
         },
     },

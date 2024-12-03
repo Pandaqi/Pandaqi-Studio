@@ -30,7 +30,9 @@ export default class MaterialNaivigation
     getMisc() { return null; }
     getGameData() { return null; }
     getTemplateData() { return TEMPLATES[this.type]; }
+    getCustomBackground(vis, group) { return null; }
     getCustomIllustration(vis, card, spriteOp) { return null; }
+    getCustomForeground(vis, group) { return null; }
 
     getTerrain() { return this.terrain; }
     getElevation() { return this.elevation ?? TERRAINS[this.terrain].elevation ?? 0; }

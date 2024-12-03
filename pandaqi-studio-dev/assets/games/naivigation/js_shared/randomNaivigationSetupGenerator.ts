@@ -325,4 +325,18 @@ export default class RandomNaivigationSetupGenerator
         const backwardVec = this.getVectorFromRotation(this.playerTokenData.rot).scale(numSteps).negate();
         this.movePlayer(backwardVec, levelWrap);
     }
+
+    // @TODO: these two conversion functions are not great, do something more robust?
+    convertRotationToVector(rot:number)
+    {
+        return new Point().fromAngle(rot * 0.5 * Math.PI);
+    }
+
+    convertVectorToRotation(vec:Point)
+    {
+        if(vec.x == 1) { return 0; }
+        if(vec.y == 1) { return 1; }
+        if(vec.x == -1) { return 2; }
+        return 3;
+    }
 }
