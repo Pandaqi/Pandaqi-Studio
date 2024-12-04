@@ -60,6 +60,32 @@ const TERRAINS:Record<TerrainType, TerrainData> =
     [TerrainType.MOUNTAIN]: { frame: 7, elevation: 4 },
 }
 
+enum NetworkType
+{
+    NONE = "none",
+    DEADEND = "deadend",
+    CORNER = "corner",
+    STRAIGHT = "straight",
+    THREEWAY = "tsplit",
+    ALL = "crossroads"
+}
+
+interface NetworkData
+{
+    frameOffset: number,
+    sides: boolean[], // at which sides there is a road/connection -> as usual, goes (right, down, left, up)
+}
+
+const NETWORKS:Record<NetworkType, NetworkData> =
+{
+    [NetworkType.NONE]: { frameOffset: -1, sides: [true, true, true, true] },
+    [NetworkType.DEADEND]: { frameOffset: 0, sides: [true, false, false, false] },
+    [NetworkType.CORNER]: { frameOffset: 1, sides: [true, true, false, false] },
+    [NetworkType.STRAIGHT]: { frameOffset: 2, sides: [true, false, true, false] },
+    [NetworkType.THREEWAY]: { frameOffset: 3, sides: [true, true, true, false] },
+    [NetworkType.ALL]: { frameOffset: 4, sides: [true, true, true, true] },
+}
+
 const GPS_ICONS = 
 {
     reward: { frame: 9 },
@@ -126,6 +152,8 @@ export
     GameNaivigationData,
     TERRAINS,
     TerrainType,
+    NETWORKS,
+    NetworkType,
     PASSENGERS,
     MISC_SHARED,
     GPS_ICONS

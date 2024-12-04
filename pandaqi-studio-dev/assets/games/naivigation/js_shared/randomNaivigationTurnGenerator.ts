@@ -42,6 +42,7 @@ export default class RandomNaivigationTurnGenerator
     movementCallback: MovementCallbackFunction // given this card, how does the vehicle move/change?
     roundCallback: RoundCallbackFunction // given the events this round, what should happen to end the round?
     example: InteractiveExample
+    gameData: Record<string,any>
     generationData: Record<string,any> // for tracking special data while generating the random turn
     visualizer: MaterialVisualizer
 
@@ -90,6 +91,7 @@ export default class RandomNaivigationTurnGenerator
         o.addParagraph("The map currently looks like this:");
         await this.setup.onSetupRequested(o);
 
+        this.gameData = {};
         this.setupCallback(this.setup, this); // necessary to get game data into some initial values
 
         o.addParagraph("Each player plays a facedown card to the instructions, without communication. Once done, they are revealed and handled one at a time, left to right.");

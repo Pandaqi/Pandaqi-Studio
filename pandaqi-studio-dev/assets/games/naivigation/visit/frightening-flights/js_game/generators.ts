@@ -14,7 +14,7 @@ cardPicker.generateCallback = () =>
 {
     if(cardPicker.config.sets.passengersPlanes)
     {
-        const airports = ["airport_0", "airport_1", "airport_2", "airport_3", "airport_4"];
+        const airports = Object.keys(MATERIAL[TileType.MAP]).filter((key:string) => MATERIAL[TileType.MAP][key].collectible);
         const numPassengers = cardPicker.config.cards.passengers.numCards;
         const passengersPossible = cardPicker.config.cards.passengers.options;
         const randBonusOrder = shuffle(Object.keys(PASSENGER_BONUSES));
@@ -32,8 +32,8 @@ cardPicker.generateCallback = () =>
 
     if(cardPicker.config.sets.fuelFalling)
     {
-        const bounds = cardPicker.config.cards.fuelBounds;
-        for(let i = bounds.min; i <= bounds.max; i++)
+        const num = cardPicker.config.cards.numFuelCards;
+        for(let i = 0; i < num; i++)
         {
             cardPicker.addSingle(new Card(CardType.FUEL, "fuel"));
         }

@@ -74,16 +74,16 @@ export default class Tile extends MaterialNaivigation
             const vehicleOp = new LayoutOperation({
                 pos: vis.center,
                 frame: VEHICLE_TILES.vehicle_0.frame,
-                size: vis.get("tiles.map.vehicleIconDims"),
+                size: vis.get("tiles.map.vehicleIcon.dims"),
                 rot: randVehicleRot,
-                alpha: vis.get("tiles.map.vehicleIconAlpha"),
-                composite: vis.get("tiles.map.vehicleComposite"),
-                effects: [new DropShadowEffect({ color: "#000000", blurRadius: vis.get("tiles.map.vehicleShadowBlur" )})],
+                alpha: vis.get("tiles.map.vehicleIcon.alpha"),
+                composite: vis.get("tiles.map.vehicleIcon.composite"),
+                effects: [new DropShadowEffect({ color: "#000000", blurRadius: vis.get("tiles.map.vehicleIcon.shadowBlur" )})],
                 pivot: Point.CENTER
             })
             group.add(res, vehicleOp);
 
-            const vehicleDimsSmall = vis.get("tiles.map.vehicleIconDimsSmall");
+            const vehicleDimsSmall = vis.get("tiles.map.vehicleIcon.dimsSmall");
             const cornerOffset = vehicleDimsSmall.clone().scale(0.66);
             const corners = getRectangleCornersWithOffset(vis.size, cornerOffset);
             for(const corner of corners)

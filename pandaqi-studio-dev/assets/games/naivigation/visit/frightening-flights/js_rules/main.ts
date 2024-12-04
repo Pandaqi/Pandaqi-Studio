@@ -14,11 +14,7 @@ const setup = new RandomNaivigationSetupGenerator({
 
 const setupCallback = (setup:RandomNaivigationSetupGenerator, turn:RandomNaivigationTurnGenerator) =>
 {
-    const initialData = 
-    {
-        elevation: 1 + Math.floor(Math.random() * 4),
-    }
-    Object.assign(setup.playerToken.customData, initialData);
+    turn.gameData.elevation = 1 + Math.floor(Math.random() * 4)
 }
 
 
@@ -27,36 +23,36 @@ const movementCallback = (card:MaterialNaivigation, setup:RandomNaivigationSetup
 {
     const key = card.key;
     const fb = [];
-    const oldPosition = setup.playerTokenData.position;
+    const oldPosition = setup.getVehicleData(0).position;
 
     if(key == "turn")
     {
         const turnDir = Math.random() <= 0.5 ? 1 : -1;
         const str = (turnDir == 1) ? "right" : "left";
-        setup.rotatePlayer(turnDir);
+        setup.rotatePlayer(0, turnDir);
         fb.push("The Turn card rotated the airplane to the " + str + ". (That's the direction the start player chose in the moment, without discussion.)");
     }
 
     if(key == "fly")
     {
-        setup.movePlayerForward(1, true);
+        setup.movePlayerForward(0, 1, true);
         fb.push("The Fly card moved the airplane 1 step forward (in the direction it faces).");
         
-        const curTile = setup.playerTokenData.tile;
+        const curTile = setup.getVehicleData(0).tile;
         const curTileElevation = curTile.customData.elevation;
-        const ourElevation = setup.playerToken.customData.elevation;
+        const ourElevation = turn.gameData.elevation;
         const wrongElevation = ourElevation <= curTileElevation || (curTile.isCollectible() && ourElevation < curTileElevation);
 
         if(wrongElevation)
         {
-            setup.movePlayerBackward(1, true);
+            setup.setPlayerPosition(0, oldPosition);
             fb.push("But our elevation was wrong! So we take 1 damage and stay where we are.");
         }
     }
 
     if(key == "stunt")
     {
-        setup.movePlayerForward(1, true);
+        setup.movePlayerForward(0, 1, true);
         fb.push("The Stunt card moved the airplane 1 step forward (in the direction it faces).");
     }
 
@@ -66,22 +62,22 @@ const movementCallback = (card:MaterialNaivigation, setup:RandomNaivigationSetup
         const elevateDir = ((cardIndex + 1) % 2 == 1) ? +1 : -1;
         fb.push("The Elevate card was played to slot " + (cardIndex + 1) + ", so the airplane elevation goes " + elevateDir + ".");
         
-        const newElevation = setup.playerToken.customData.elevation + elevateDir;
-        setup.playerToken.customData.elevation = Math.min(Math.max(newElevation, 1), 4);
+        const newElevation = turn.gameData.elevation + elevateDir;
+        turn.gameData.elevation = Math.min(Math.max(newElevation, 1), 4);
     }
 
-    const curTile = setup.playerTokenData.tile;
+    const curTile = setup.getVehicleData(0).tile;
     const onCollectible = curTile.isCollectible();
     if(onCollectible)
     {
         const curTileElevation = curTile.customData.elevation;
-        const ourElevation = setup.playerToken.customData.elevation;
+        const ourElevation = turn.gameData.elevation;
 
         const correctOrient = ourElevation == curTileElevation;
         if(correctOrient) 
         {
             fb.push("Great! You landed on an airport (with the correct orientation). Collect it.");
-            setup.getCellAt(setup.playerTokenData.position).facedown = true
+            setup.collectCurrentTile();
         }
     }
 

@@ -1,24 +1,54 @@
 import MaterialNaivigation from "games/naivigation/js_shared/materialNaivigation";
-import RandomNaivigationSetupGenerator from "games/naivigation/js_shared/randomNaivigationSetupGenerator";
+import RandomNaivigationSetupGenerator, { TileData } from "games/naivigation/js_shared/randomNaivigationSetupGenerator";
 import RandomNaivigationTurnGenerator from "games/naivigation/js_shared/randomNaivigationTurnGenerator";
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
 import Point from "js/pq_games/tools/geometry/point";
 import { cardPicker, tilePicker } from "../js_game/generators";
 import CONFIG from "../js_shared/config";
+import { NetworkType, TileType } from "games/naivigation/js_shared/dictShared";
+import { MATERIAL } from "../js_shared/dict";
+import fromArray from "js/pq_games/tools/random/fromArray";
+
+const validPlacementCallback = (cell:TileData, setup:RandomNaivigationSetupGenerator) => 
+{ 
+    let tileFinal = null;
+    for(const tile of setup.tiles)
+    {
+        if(tile.networkType != NetworkType.ALL) { continue; } // start with all crossroads
+        if(tile.isCollectible() == cell.collectible) { tileFinal = tile; break; }
+    }
+    return { tile: tileFinal }
+}
+
+const vehicleStartCallback = (vehicle:MaterialNaivigation, cells:TileData[], setup:RandomNaivigationSetupGenerator) : Point =>
+{
+    const ourWantedStationType = "station_" + vehicle.key.slice(-1);
+    let validCell = null;
+    for(const cell of cells)
+    {
+        if(!cell.tile.isCollectible()) { continue; }
+        const stationType = cell.tile.key;
+        if(ourWantedStationType == stationType) { continue; }
+        validCell = cell;
+        break;
+    }
+    cells.splice(cells.indexOf(validCell), 1);
+    return validCell.position;
+}
 
 const visualizerTiles = new MaterialVisualizer(CONFIG, new Point(256,256));
 const setup = new RandomNaivigationSetupGenerator({
     tilePicker: tilePicker,
-    visualizer: visualizerTiles
+    validPlacementCallback: validPlacementCallback,
+    vehicleStartCallback: vehicleStartCallback,
+    visualizer: visualizerTiles,
+    numVehicles: 5, // @NOTE: CRUCIAL! This actually generates the 5 trains, instead of just the 1 basic vehicle as usual
 });
 
 const setupCallback = (setup:RandomNaivigationSetupGenerator, turn:RandomNaivigationTurnGenerator) =>
 {
-    const initialData = 
-    {
-        elevation: 1 + Math.floor(Math.random() * 4),
-    }
-    Object.assign(setup.playerToken.customData, initialData);
+    turn.gameData.switchTile = 0;
+    turn.gameData.trainTiles = [1,1,1,1,1]; // 1 = forward, 0 = do nothing, -1 = backward
 }
 
 
@@ -27,61 +57,56 @@ const movementCallback = (card:MaterialNaivigation, setup:RandomNaivigationSetup
 {
     const key = card.key;
     const fb = [];
-    const oldPosition = setup.playerTokenData.position;
 
-    if(key == "turn")
+    if(key == "switch")
     {
-        const turnDir = Math.random() <= 0.5 ? 1 : -1;
-        const str = (turnDir == 1) ? "right" : "left";
-        setup.rotatePlayer(turnDir);
-        fb.push("The Turn card rotated the airplane to the " + str + ". (That's the direction the start player chose in the moment, without discussion.)");
+        turn.gameData.switchTile = Math.floor(Math.random() * 4); // @TODO: actually give specifics/make this mean something?
+        fb.push("The Switch card rotated the Switch tile to a new side pointing up. (This side determines where trains must go when moving over a tile that splits in multiple directions.)");
     }
 
-    if(key == "fly")
+    if(key == "power")
     {
-        setup.movePlayerForward(1, true);
-        fb.push("The Fly card moved the airplane 1 step forward (in the direction it faces).");
+        const randomTrain = Math.floor(Math.random() * 5);
+        const tileTypeString = MATERIAL[TileType.VEHICLE]["vehicle_" + randomTrain].label;
+        const newValue = Math.random() <= 0.33 ? 1 : (Math.random() <= 0.5 ? -1 : 0);
+        turn.gameData.trainTiles[randomTrain] = newValue;
+        const outcomeString = ["Backward", "Stand Still", "Forward"][newValue + 1];
+        fb.push("The Power card rotated a Train Tile (" + tileTypeString + "). Now that Train is set to " + outcomeString + ".");
+    }
+
+    if(key == "map")
+    {
+        const cell = setup.getCellRandom();
+        cell.rot = (cell.rot + 1) % 4;
+        fb.push("The Map card rotated a tile on the map.");
+    }
+
+    if(key == "train")
+    {
+        const trainPicked : string = fromArray(card.customData.trainKeys);
+        const trainTypeString = MATERIAL[TileType.VEHICLE][trainPicked].label;
+
+        const trainIndex = parseInt(trainPicked.slice(-1)); // @TODO: this is a MESSY/UNSTABLE way to connect KEY (vehicle_0) to train INDEX (0)! (ALSO USED during starting position callback, so also update there if needed)
+        const tileValue = turn.gameData.trainTiles[trainIndex]; 
+        const outcomeString = ["moving 1 tile backward", "standing still", "moving 1 tile forward"][tileValue + 1];
+
+        fb.push("The Train card moved one of the trains depicted (" + trainTypeString + ") by 1 step. This means going " + outcomeString + " (because its Train Tile says so).");
+
+        // @TODO: ACTUALLY do this movement -> how can we write a simple function to follow tracks and all?
         
-        const curTile = setup.playerTokenData.tile;
-        const curTileElevation = curTile.customData.elevation;
-        const ourElevation = setup.playerToken.customData.elevation;
-        const wrongElevation = ourElevation <= curTileElevation || (curTile.isCollectible() && ourElevation < curTileElevation);
-
-        if(wrongElevation)
+        const curTile = setup.getVehicleData(trainIndex).tile;
+        const onCollectible = curTile.isCollectible();
+        if(onCollectible)
         {
-            setup.movePlayerBackward(1, true);
-            fb.push("But our elevation was wrong! So we take 1 damage and stay where we are.");
-        }
-    }
-
-    if(key == "stunt")
-    {
-        setup.movePlayerForward(1, true);
-        fb.push("The Stunt card moved the airplane 1 step forward (in the direction it faces).");
-    }
-
-    if(key == "elevate")
-    {
-        const cardIndex = turn.getCardIndex(card);
-        const elevateDir = ((cardIndex + 1) % 2 == 1) ? +1 : -1;
-        fb.push("The Elevate card was played to slot " + (cardIndex + 1) + ", so the airplane elevation goes " + elevateDir + ".");
-        
-        const newElevation = setup.playerToken.customData.elevation + elevateDir;
-        setup.playerToken.customData.elevation = Math.min(Math.max(newElevation, 1), 4);
-    }
-
-    const curTile = setup.playerTokenData.tile;
-    const onCollectible = curTile.isCollectible();
-    if(onCollectible)
-    {
-        const curTileElevation = curTile.customData.elevation;
-        const ourElevation = setup.playerToken.customData.elevation;
-
-        const correctOrient = ourElevation == curTileElevation;
-        if(correctOrient) 
-        {
-            fb.push("Great! You landed on an airport (with the correct orientation). Collect it.");
-            setup.getCellAt(setup.playerTokenData.position).facedown = true
+            const ourWantedStationType = "station_" + trainIndex;
+            const stationType = curTile.key;
+            const matchingTypes = (ourWantedStationType == stationType);
+            if(matchingTypes) {
+                fb.push("Great! That train arrived at the station matching its color! Collect the station; remove the train.");
+                setup.collectCurrentTile(trainIndex);
+            } else {
+                fb.push("That train arrives at a station, but it's the wrong type! Take 1 damage. You may teleport this train to a different (wrong) station.");
+            }
         }
     }
 

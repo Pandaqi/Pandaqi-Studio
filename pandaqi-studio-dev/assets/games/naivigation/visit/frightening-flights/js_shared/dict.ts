@@ -123,7 +123,6 @@ const MISC =
     game_pattern: { frame: 1 },
     elevation_template: { frame: 2 },
     clock_template: { frame: 3 },
-    fuel_template: { frame: 4 }
 }
 
 const MATERIAL =

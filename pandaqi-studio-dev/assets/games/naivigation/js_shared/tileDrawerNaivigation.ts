@@ -10,7 +10,7 @@ import getRectangleCornersWithOffset from "js/pq_games/tools/geometry/paths/getR
 import Path from "js/pq_games/tools/geometry/paths/path";
 import Point from "js/pq_games/tools/geometry/point";
 import Rectangle from "js/pq_games/tools/geometry/rectangle";
-import { MISC_SHARED, TERRAINS, TerrainType, TileType } from "./dictShared";
+import { MISC_SHARED, NETWORKS, TERRAINS, TerrainType, TileType } from "./dictShared";
 import MaterialNaivigation from "./materialNaivigation";
 import vehicleDrawerNaivigation from "./vehicleDrawerNaivigation";
 import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
@@ -20,6 +20,7 @@ const drawBackground = (vis:MaterialVisualizer, group:ResourceGroup, tile:Materi
     const resCustom = tile.getCustomBackground(vis, group);
     if(resCustom) { return; }
     drawTerrain(vis, group, tile);
+    drawNetwork(vis, group, tile);
 }
 
 const drawTerrain = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaivigation) =>
@@ -43,6 +44,24 @@ const drawTerrain = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialN
         size: vis.size
     });
     group.add(res, resOp);
+}
+
+const drawNetwork = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaivigation) =>
+{
+    const needsNetwork = tile.hasNetwork() && !tile.customData.suppressNetwork;
+    if(!needsNetwork) { return; }
+
+    // simply grab the right frame out of the networks spritesheet and display that full size
+    const data = tile.getNetworkData();
+    const res = data.textureKey ?? vis.getResource("networks");
+    const frameOffset = NETWORKS[tile.networkType].frameOffset;
+    const baseFrame = data.frame * 5; // there are 5 different versions for each terrain
+    const frameFinal = baseFrame + frameOffset;
+    const op = new LayoutOperation({
+        size: vis.size,
+        frame: frameFinal
+    });
+    group.add(res, op);
 }
 
 const drawTile = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaivigation) =>

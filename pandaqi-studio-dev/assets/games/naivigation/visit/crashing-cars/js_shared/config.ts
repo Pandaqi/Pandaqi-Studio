@@ -1,5 +1,5 @@
 import CONFIG_NAIVIGATION_SHARED from "games/naivigation/js_shared/configShared";
-import { TerrainType } from "games/naivigation/js_shared/dictShared";
+import { NetworkType, PASSENGERS, TerrainType } from "games/naivigation/js_shared/dictShared";
 import mergeObjects from "js/pq_games/tools/collections/mergeObjects";
 import CVal from "js/pq_games/tools/generation/cval";
 import Point from "js/pq_games/tools/geometry/point";
@@ -25,7 +25,7 @@ const CONFIG:any =
         vehicleTiles: true,
         vehicleCards: true,
         mapTiles: true,
-        trafficPolce: false,
+        trafficPolice: false,
         fuelFear: false,
         taxisCargo: false,
         terrainTripplanning: false,
@@ -66,7 +66,7 @@ const CONFIG:any =
 
         terrains:
         {
-            loadIf: ["sets.mapTiles", "@TODO"]
+            loadIf: ["sets.mapTiles", "sets.trafficPolice", "sets.fuelFear", "sets.terrainTripplanning"]
         }
     },
 
@@ -78,12 +78,44 @@ const CONFIG:any =
             [TerrainType.FOREST]: { perc: 0.3 },
             [TerrainType.CITY]: { perc: 0.3 },
             [TerrainType.MOUNTAIN]: { perc: 0.1 },
-        }
+        },
+
+        networks:
+        {
+            typeDistribution:
+            {
+                [NetworkType.DEADEND]: { perc: 0.05 },
+                [NetworkType.CORNER]: { perc: 0.2 },
+                [NetworkType.STRAIGHT]: { perc: 0.2 },
+                [NetworkType.THREEWAY]: { perc: 0.1 },
+                [NetworkType.ALL]: { perc: 0.45 }
+            },
+
+            keyDistribution:
+            {
+                regular: { perc: 0.7 },
+                dirt_road: { perc: 0.1 },
+                asphalt: { perc: 0.1 },
+                cobblestones: { perc: 0.1 }
+            }
+        },
     },
 
     cards:
     {
+        numFuelCards: 10,
         
+        passengers:
+        {
+            numCards: 12,
+            options: Object.keys(PASSENGERS),
+            fontSize: new CVal(0.07, "sizeUnit"),
+            textBoxDims: new CVal(new Point(0.925, 0.33), "size"),
+            bonusPos: new CVal(new Point(0.5, 0.6), "size"),
+            cursePos: new CVal(new Point(0.5, 0.8), "size"),
+            iconOffset: new CVal(new Point(0.1, 0.5), "size"),
+            shopIconSize: new CVal(new Point(0.1), "sizeUnit")
+        }
     },
 
     tiles:
@@ -92,8 +124,26 @@ const CONFIG:any =
         {
             fontSize: new CVal(0.3, "sizeUnit"),
             strokeWidth: new CVal(0.08, "tiles.custom.fontSize"),
-            gearBounds: new Bounds(0,4),
-        }   
+            gearBounds: new Bounds(-2,4),
+        },
+
+        parkingLot:
+        {
+            vehicleIcon:
+            {
+                dims: new CVal(new Point(0.5), "sizeUnit"),
+                dimsSmall: new CVal(new Point(0.185), "sizeUnit"),
+                alpha: 1.0,
+                composite: "luminosity",
+                shadowBlur: new CVal(0.05 * 0.5, "sizeUnit"),
+            }
+        },
+
+        shop:
+        {
+            fontSize: new CVal(0.175, "sizeUnit"),
+            strokeWidth: new CVal(0.08, "tiles.shop.fontSize"),
+        }
     }
 }
 

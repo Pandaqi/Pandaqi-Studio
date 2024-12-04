@@ -1,4 +1,4 @@
-import { MaterialNaivigationData, MaterialNaivigationType, TerrainType, TileType } from "games/naivigation/js_shared/dictShared";
+import { MaterialNaivigationData, MaterialNaivigationType, NetworkType, TerrainType, TileType } from "games/naivigation/js_shared/dictShared";
 import MaterialNaivigation from "./materialNaivigation";
 import shuffle from "js/pq_games/tools/random/shuffle";
 import fromArray from "js/pq_games/tools/random/fromArray";
@@ -9,7 +9,7 @@ interface DictData
     dict: Record<string,any>
 }
 
-interface TerrainDataParams
+interface ExtraDataParams
 {
     perc?: number, // an exact percentage of total that must be filled
     prob?: number, // (or) a random drawing probability; defaults to 1
@@ -18,7 +18,7 @@ interface TerrainDataParams
     filterCollectibles?: string, // "include" or "exclude"
 }
 
-type TerrainData = Record<string, TerrainDataParams>
+type ExtraData = Record<string, ExtraDataParams>
 
 export default class GeneralPickerNaivigation
 {
@@ -28,7 +28,9 @@ export default class GeneralPickerNaivigation
     data: DictData[];
     generateCallback: Function
     mapCallback: Function = (key, data) => { return null; } // for custom callbacks for map tiles to be made
-    terrainData:TerrainData
+    terrainData:ExtraData
+    networkTypeData:ExtraData
+    networkKeyData:ExtraData
 
     constructor(config, elemClass) 
     {
@@ -43,6 +45,7 @@ export default class GeneralPickerNaivigation
         this.elements = [];
         for(const data of this.data) { this.generateMaterial(data); }
         this.assignTerrains();
+        this.assignNetworks();
         if(this.generateCallback) { this.generateCallback(); }
         return this.elements;
     }
@@ -73,7 +76,7 @@ export default class GeneralPickerNaivigation
         return this;
     }
 
-    addTerrainData(td:TerrainData = {})
+    addTerrainData(td:ExtraData = {})
     {
         const shouldConstructRandom = Object.keys(td).length <= 0;
         if(shouldConstructRandom)
@@ -88,25 +91,87 @@ export default class GeneralPickerNaivigation
         return this;
     }
 
+    addNetworkData(nd:ExtraData = {}, kd:ExtraData = {})
+    {
+        // @TODO: this is now just a copy-paste of terrainData => if I need this more often, generalize/optimize
+        const shouldConstructRandom = Object.keys(nd).length <= 0;
+        if(shouldConstructRandom)
+        {
+            for(const value of Object.values(NetworkType))
+            {
+                nd[value] = { prob: Math.round(1 + 4*Math.random()) }
+            }
+        }
+
+        this.networkTypeData = nd;
+        this.networkKeyData = kd;
+        return this;
+    }
+
+    getMapTiles()
+    {
+        return this.elements.filter((e:MaterialNaivigation) => e.type == TileType.MAP);
+    }
+
     assignTerrains()
     {
         if(!this.terrainData) { return; }
-
+        
         // collect map tiles only
-        const mapTiles = this.elements.filter((e:MaterialNaivigation) => e.type == TileType.MAP);
+        const mapTiles = this.getMapTiles();
         const possibleTerrains = Object.keys(this.terrainData);
         const numTiles = mapTiles.length;
 
         // create list with everything in correct numbers
-        const terrainTypes = [];
-        for(const type of possibleTerrains)
+        const terrainTypes = this.createExtraDataList(this.terrainData, possibleTerrains, numTiles);
+
+        // cache the list of allowed terrains per tile type (so finding the first suitable one is really cheap below)
+        const terrainsAllowedPerTile = this.createExtraDataCache(mapTiles, possibleTerrains);
+
+        // actually assign these to tiles, keeping the filters in mind
+        for(const tile of mapTiles)
         {
-            const data = this.terrainData[type];
+            const terrain = this.takeFirstValidOption(terrainsAllowedPerTile[tile.key], terrainTypes);
+            tile.setTerrain(terrain as TerrainType);
+        }
+    }
+
+    assignNetworks()
+    {
+        if(!this.networkTypeData) { return; }
+
+        const mapTiles = this.getMapTiles();
+        const numTiles = mapTiles.length;
+
+        // first the type (crossroads, deadend, etc)
+        const possibleNetworks = Object.keys(this.networkTypeData);
+        const networkTypes = this.createExtraDataList(this.networkTypeData, possibleNetworks, numTiles);
+        const networksAllowedPerTile = this.createExtraDataCache(mapTiles, possibleNetworks);
+
+        // then the key, specific to the game (dirt road, quick road, etc)
+        const possibleNetworkKeys = Object.keys(this.networkKeyData);
+        const networkKeys = this.createExtraDataList(this.networkKeyData, possibleNetworkKeys, numTiles);
+        const networkKeysAllowedPerTile = this.createExtraDataCache(mapTiles, possibleNetworkKeys);
+
+        for(const tile of mapTiles)
+        {
+            const networkType = this.takeFirstValidOption(networksAllowedPerTile[tile.key], networkTypes);
+            const networkKey = this.takeFirstValidOption(networkKeysAllowedPerTile[tile.key], networkKeys);
+            tile.setNetwork(networkType as NetworkType, networkKey);
+        }
+    }
+
+    createExtraDataList(dataAll:ExtraData, options:string[], num:number)
+    {
+        const allTypes = [];
+        for(const type of options)
+        {
+            const data = dataAll[type];
             let numOfType = 0;
 
             if(data.prob)
             {
-                for(let i = 0; i < numTiles; i++)
+                for(let i = 0; i < num; i++)
                 {
                     if(Math.random() <= data.prob) { continue; }
                     numOfType++;
@@ -115,57 +180,53 @@ export default class GeneralPickerNaivigation
 
             if(data.perc)
             {
-                numOfType = Math.ceil(data.perc * numTiles);
+                numOfType = Math.ceil(data.perc * num);
             }
             
             for(let i = 0; i < numOfType; i++)
             {
-                terrainTypes.push(type);
+                allTypes.push(type);
             }
         }
-        shuffle(terrainTypes);
+        shuffle(allTypes);
+        return allTypes;
+    }
 
-        // cache the list of allowed terrains per tile type (so finding the first suitable one is really cheap below)
-        const terrainsAllowedPerTile = {};
-        for(const tile of mapTiles)
+    createExtraDataCache(elements:MaterialNaivigation[], options:string[])
+    {
+        const typesAllowedPerTile = {};
+        for(const element of elements)
         {
-            const key = tile.key;
+            const key = element.key;
             const arr = [];
-            for(const type of possibleTerrains)
+            for(const type of options)
             {
                 const data = this.terrainData[type];
                 if(data.filterInclude && !data.filterInclude.includes(key)) { continue; }
                 if(data.filterExclude && data.filterExclude.includes(key)) { continue; }
                 if(data.filterCollectibles)
                 {
-                    if(tile.isCollectible() && data.filterCollectibles == "exclude") { continue; }
-                    if(!tile.isCollectible() && data.filterCollectibles == "include") { continue; }
+                    if(element.isCollectible() && data.filterCollectibles == "exclude") { continue; }
+                    if(!element.isCollectible() && data.filterCollectibles == "include") { continue; }
                 }
                 arr.push(type);
             }
-            terrainsAllowedPerTile[key] = arr;
+            typesAllowedPerTile[key] = arr;
         }
-
-        // actually assign these to tiles, keeping the filters in mind
-        for(const tile of mapTiles)
-        {
-            const terrain = this.takeFirstSuitableTerrainForTile(terrainsAllowedPerTile[tile.key], terrainTypes);
-            tile.setTerrain(terrain);
-        }
+        return typesAllowedPerTile;
     }
 
-    // @TODO: optimization would be to cache exactly which terrains are allowed on each map tile ONCE, then reuse that
-    // but with such a low number of terrains and map tiles, is that worth it?
-    takeFirstSuitableTerrainForTile(terrainsAllowed:string[], terrainTypes:string[]) : TerrainType
+    takeFirstValidOption(typesAllowed:string[], typesPossible:string[])
     {
-        for(let i = 0; i < terrainTypes.length; i++)
+        if(typesAllowed.length <= 0) { return ""; }
+        for(let i = 0; i < typesPossible.length; i++)
         {
-            const type = terrainTypes[i];
-            if(!terrainsAllowed.includes(type)) { continue; }
-            terrainTypes.splice(i, 1);
-            return type as TerrainType;
+            const type = typesPossible[i];
+            if(!typesAllowed.includes(type)) { continue; }
+            typesPossible.splice(i, 1);
+            return type;
         }
-        return fromArray(terrainsAllowed) as TerrainType;
+        return fromArray(typesAllowed);
     }
 
     generateMaterial(inputData:DictData)

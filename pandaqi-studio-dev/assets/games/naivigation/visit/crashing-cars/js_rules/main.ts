@@ -1,87 +1,113 @@
 import MaterialNaivigation from "games/naivigation/js_shared/materialNaivigation";
-import RandomNaivigationSetupGenerator from "games/naivigation/js_shared/randomNaivigationSetupGenerator";
+import RandomNaivigationSetupGenerator, { TileData } from "games/naivigation/js_shared/randomNaivigationSetupGenerator";
 import RandomNaivigationTurnGenerator from "games/naivigation/js_shared/randomNaivigationTurnGenerator";
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
 import Point from "js/pq_games/tools/geometry/point";
 import { cardPicker, tilePicker } from "../js_game/generators";
 import CONFIG from "../js_shared/config";
+import fromArray from "js/pq_games/tools/random/fromArray";
+import { NetworkType } from "games/naivigation/js_shared/dictShared";
+
+const validPlacementCallback = (cell:TileData, setup:RandomNaivigationSetupGenerator) => 
+{ 
+    let tileFinal = null;
+    for(const tile of setup.tiles)
+    {
+        if(tile.networkType != NetworkType.ALL) { continue; } // start with all crossroads
+        if(tile.isCollectible() == cell.collectible) { tileFinal = tile; break; }
+    }
+    return { tile: tileFinal }
+}
 
 const visualizerTiles = new MaterialVisualizer(CONFIG, new Point(256,256));
 const setup = new RandomNaivigationSetupGenerator({
     tilePicker: tilePicker,
+    validPlacementCallback: validPlacementCallback,
     visualizer: visualizerTiles
 });
 
 const setupCallback = (setup:RandomNaivigationSetupGenerator, turn:RandomNaivigationTurnGenerator) =>
 {
-    const initialData = 
-    {
-        elevation: 1 + Math.floor(Math.random() * 4),
-    }
-    Object.assign(setup.playerToken.customData, initialData);
+    turn.gameData.gear = fromArray([-1,1,2,3]) // these are simply more interesting starting values for the example
 }
-
 
 // given the card and current map/round state, what happens?
 const movementCallback = (card:MaterialNaivigation, setup:RandomNaivigationSetupGenerator, turn:RandomNaivigationTurnGenerator) =>
 {
     const key = card.key;
     const fb = [];
-    const oldPosition = setup.playerTokenData.position;
+    const oldPosition = setup.getVehicleData(0).position;
+    const curGear = turn.gameData.gear;
 
     if(key == "turn")
     {
-        const turnDir = Math.random() <= 0.5 ? 1 : -1;
-        const str = (turnDir == 1) ? "right" : "left";
-        setup.rotatePlayer(turnDir);
-        fb.push("The Turn card rotated the airplane to the " + str + ". (That's the direction the start player chose in the moment, without discussion.)");
+        setup.rotatePlayer(0, curGear);
+        const str = (curGear >= 0) ? "right" : "left";
+        fb.push("The Turn card rotated the car " + Math.abs(curGear) + " quarter turns to the " + str + ". (Because your current Gear is " + curGear + ".)");
     }
 
-    if(key == "fly")
+    if(key == "drive")
     {
-        setup.movePlayerForward(1, true);
-        fb.push("The Fly card moved the airplane 1 step forward (in the direction it faces).");
+        setup.movePlayerForward(0, curGear, true);
+        const str = (curGear >= 0) ? "forward" : "backward"; 
+        fb.push("The Drive card moved the car " + Math.abs(curGear) + " steps " + str + ". (Because your current Gear is " + curGear + ".)");
         
-        const curTile = setup.playerTokenData.tile;
-        const curTileElevation = curTile.customData.elevation;
-        const ourElevation = setup.playerToken.customData.elevation;
-        const wrongElevation = ourElevation <= curTileElevation || (curTile.isCollectible() && ourElevation < curTileElevation);
-
-        if(wrongElevation)
+        const invalidMove = setup.isPlayerOutOfBounds(); // @TODO: check if off-road? This should be another general function, right?
+        if(invalidMove)
         {
-            setup.movePlayerBackward(1, true);
-            fb.push("But our elevation was wrong! So we take 1 damage and stay where we are.");
+            setup.setPlayerPosition(0, oldPosition);
+            fb.push("But we can't move off the map! So we take 1 damage and stay where we are.");
         }
     }
 
-    if(key == "stunt")
-    {
-        setup.movePlayerForward(1, true);
-        fb.push("The Stunt card moved the airplane 1 step forward (in the direction it faces).");
-    }
-
-    if(key == "elevate")
+    if(key == "gear")
     {
         const cardIndex = turn.getCardIndex(card);
-        const elevateDir = ((cardIndex + 1) % 2 == 1) ? +1 : -1;
-        fb.push("The Elevate card was played to slot " + (cardIndex + 1) + ", so the airplane elevation goes " + elevateDir + ".");
+        const changeDir = Math.random() <= 0.5 ? +1 : -1;
+        const totalChange = changeDir * (cardIndex + 1);
+        const totalChangeStr = (totalChange >= 0) ? "+" + totalChange : totalChange.toString();
+
+        fb.push("The Gear card was played to slot " + (cardIndex + 1) + ", so the car's Gear goes " + totalChangeStr + ". (Start player chose this direction of change.");
         
-        const newElevation = setup.playerToken.customData.elevation + elevateDir;
-        setup.playerToken.customData.elevation = Math.min(Math.max(newElevation, 1), 4);
+        const newGear = curGear + totalChange;
+        turn.gameData.gear = CONFIG.tiles.custom.gearBounds.clamp(newGear);
     }
 
-    const curTile = setup.playerTokenData.tile;
+    if(key == "cruise_control")
+    {
+        const pickDrive = Math.random() <= 0.5;
+        if(pickDrive) {
+            const dir = Math.random() <= 0.5 ? 1 : -1;
+            const str = (dir > 1) ? "forward" : "backward";
+            setup.movePlayerForward(0, dir, true);
+            fb.push("The Cruise card moved the car 1 tile " + str + ". (Start player chose this movement for this card.)");
+        } else {
+            const dir = Math.random() <= 0.5 ? 1 : -1;
+            const str = (dir > 1) ? "right" : "left";
+            setup.rotatePlayer(0, dir);
+            fb.push("The Cruise card rotated the car to the " + str + ". (Start player chose this movement for this card.)");
+        }
+    }
+
+    const curTile = setup.getVehicleData(0).tile;
     const onCollectible = curTile.isCollectible();
+    const onParkingLot = curTile.key == "parking_lot";
     if(onCollectible)
     {
-        const curTileElevation = curTile.customData.elevation;
-        const ourElevation = setup.playerToken.customData.elevation;
+        fb.push("You ended on a collectible, but that means nothing. In this game, you can only visit shops by visiting an adjacent parking lot.");
+    }
 
-        const correctOrient = ourElevation == curTileElevation;
-        if(correctOrient) 
+    if(onParkingLot)
+    {
+        const wantedOrientation = curTile.customData.carOrientation;
+        const ourOrientation = setup.getVehicleData(0).rot;
+        const orientedCorrectly = (wantedOrientation == ourOrientation);
+        if(orientedCorrectly)
         {
-            fb.push("Great! You landed on an airport (with the correct orientation). Collect it.");
-            setup.getCellAt(setup.playerTokenData.position).facedown = true
+            fb.push("Great! You visited a parking lot with the correct orientation. You collect any adjacent shops.");
+            // @TODO: actually do that collecting + keep the unique shop number in mind for taking damage?
+        } else {
+            fb.push("You visited the parking lot with the wrong orientation. Nothing happens.");
         }
     }
 

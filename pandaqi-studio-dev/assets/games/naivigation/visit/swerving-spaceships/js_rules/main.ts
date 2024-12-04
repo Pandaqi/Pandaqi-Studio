@@ -30,21 +30,21 @@ const movementCallback = (card:MaterialNaivigation, setup:RandomNaivigationSetup
 {
     const key = card.key;
     const fb = [];
-    const oldPosition = setup.playerTokenData.position;
+    const oldPosition = setup.getVehicleData(0).position;
 
     if(key == "steer")
     {
         const angle = new Bounds(card.customData.angles[0], card.customData.angles[1]).randomInteger();
         const angleQuarters = angle / 2.0;
-        setup.rotatePlayer(angleQuarters);
+        setup.rotatePlayer(0, angleQuarters);
         fb.push("The spaceship rotated by one of the valid angles on the Steer card.");
     }
 
     if(key == "thrust")
     {
-        setup.movePlayerForward(1, true);
+        setup.movePlayerForward(0, 1, true);
         fb.push("The Thrust card moved the spaceship 1 step forward (in the direction it faces).");
-        const newPosition = setup.playerTokenData.position.clone();
+        const newPosition = setup.getVehicleData(0).position.clone();
         const vectorMoved = newPosition.sub(oldPosition); 
         const isDiagonal = Math.abs(vectorMoved.x) > 0 && Math.abs(vectorMoved.y) > 0;
         if(isDiagonal)
@@ -79,7 +79,7 @@ const movementCallback = (card:MaterialNaivigation, setup:RandomNaivigationSetup
             vector.y = Math.sign(movementNeeded.y);
         }
 
-        setup.movePlayer(vector, true);   
+        setup.movePlayer(0, vector, true);   
         fb.push("The Disable card moved the spaceship 1 step closer to the nearest planet.");
 
         if(isDiagonal)
@@ -88,16 +88,17 @@ const movementCallback = (card:MaterialNaivigation, setup:RandomNaivigationSetup
         }
     }
 
-    const onCollectible = setup.playerTokenData.tile.isCollectible();
+    const vehicleData = setup.getVehicleData(0)
+    const onCollectible = vehicleData.tile.isCollectible();
     if(onCollectible)
     {
-        const correctOrient = setup.playerTokenData.tile.canCollect(setup.playerTokenData);
+        const correctOrient = vehicleData.tile.canCollect(vehicleData);
         if(correctOrient) {
             fb.push("Great! You visited a planet with the right orientation! Collect it.");
-            setup.getCellAt(setup.playerTokenData.position).facedown = true
+            setup.collectCurrentTile();
         } else {
             fb.push("Oh no! You visited a planet, but with the wrong orientation! You bounce back + take 1 damage.");
-            setup.setPlayerPosition(oldPosition);
+            setup.setPlayerPosition(0, oldPosition);
         }
     }
 

@@ -94,11 +94,14 @@ const CONFIG:any =
             glowRadius: new CVal(0.033, "sizeUnit"),
 
             // this is for their icon on the PLANETS
-            vehicleIconDims: new CVal(new Point(0.5), "sizeUnit"),
-            vehicleIconDimsSmall: new CVal(new Point(0.185), "sizeUnit"),
-            vehicleIconAlpha: 1.0,
-            vehicleComposite: "luminosity",
-            vehicleShadowBlur: new CVal(0.05 * 0.5, "sizeUnit"),
+            vehicleIcon:
+            {
+                dims: new CVal(new Point(0.5), "sizeUnit"),
+                dimsSmall: new CVal(new Point(0.185), "sizeUnit"),
+                alpha: 1.0,
+                composite: "luminosity",
+                shadowBlur: new CVal(0.05 * 0.5, "sizeUnit"),
+            },
 
             stars:
             {

@@ -18,7 +18,7 @@ Shuffle the 5 Train Pawns and place one on each station.
 * Place the corresponding **Train Tile** above the instruction row. Rotate it such that "Forward" is at the top.
 * EXCEPTION: The Train Pawn must be different than its station. So if it happens to match already, place it somewhere else.
 
-Finally, place the **Switch Tile** in any orientation above the instruction row too.
+Finally, pick any (single) **Switch Tile**. Place it in any orientation above the instruction row too.
 
 <div class="rulebook-shared-rule">
 Combine the default Vehicle Cards with the specific Vehicle Cards for this game. Give each player 3 of these to hold in their hand.
@@ -85,9 +85,7 @@ Whenever you take damage in this game, you may also (instead of losing health) d
 * Remove 5 crossroads tiles.
 * And replace them with the top 5 tiles from the deck.
 
-{{% remark %}}
-This option is not available, of course, it there aren't 5 deck tiles or 5 crossroads tiles anymore to replace.
-{{% /remark %}}
+If there are fewer replaceable tiles left (than 5), just replace as much as possible. If _none_ are left, you can't take this option anymore.
 
 @TODO: IMAGE EXAMPLE
 
@@ -124,7 +122,7 @@ The first train you place during setup---and thus the first Train Tile, from lef
 * If the Leading Train moves, it takes all trains on the same tile with it.
 * A train attached to the Leading Train can't move independently anymore. The only way to cut the connection is by playing a Disengage card (see below).
 
-It also adds a new Vehicle Card.
+It also adds new Vehicle Cards.
 
 * **Disengage:** move all trains connected to the leading car to an adjacent tile.
 * **Lead Change** (?? rare? useful?): Rotate both the Switch Tile and a Train Tile one quarter turn.

@@ -14,12 +14,8 @@ const setup = new RandomNaivigationSetupGenerator({
 
 const setupCallback = (setup:RandomNaivigationSetupGenerator, turn:RandomNaivigationTurnGenerator) =>
 {
-    const initialData = 
-    {
-        wind: Math.floor(Math.random() * 4),
-        compass: new Point().fromAngle(Math.floor(Math.random() * 4) * 0.5 * Math.PI),
-    }
-    Object.assign(setup.playerToken.customData, initialData);
+    turn.gameData.wind = Math.floor(Math.random() * 4);
+    turn.gameData.compass = new Point().fromAngle(Math.floor(Math.random() * 4) * 0.5 * Math.PI);
 }
 
 // given the card and current map/round state, what happens?
@@ -27,7 +23,7 @@ const movementCallback = (card:MaterialNaivigation, setup:RandomNaivigationSetup
 {
     const key = card.key;
     const fb = [];
-    const oldPosition = setup.playerTokenData.position;
+    const oldPosition = setup.getVehicleData(0).position;
 
     if(key == "rotate")
     {
@@ -36,21 +32,21 @@ const movementCallback = (card:MaterialNaivigation, setup:RandomNaivigationSetup
         const rotateShip = Math.random() <= 0.5;
 
         if(rotateShip) {
-            setup.rotatePlayer(turnDir);
+            setup.rotatePlayer(0, turnDir);
             fb.push("The Rotate card rotated the Ship to the " + str + ".");
         } else {
-            setup.playerToken.customData.compass.rotate(0.5*Math.PI);
+            turn.gameData.compass.rotate(0.5*Math.PI);
             fb.push("The Rotate card rotated the Compass to the " + str + ".");
         }
     }
 
     if(key == "sail")
     {
-        const windValue = 1
-        const compassDir = new Point(1,0);
+        const windValue = turn.gameData.wind;
+        const compassDir = turn.gameData.compass;
         const movement = compassDir.clone().scale(windValue);
 
-        setup.movePlayer(movement);
+        setup.movePlayer(0, movement);
         fb.push("The Sail card moved the ship " + windValue + " spaces ( = Wind strength) in the direction (x=" + compassDir.x + ",y=" + compassDir.y + ").");
 
         // @TODO: check if off-board, if so, add new tile?
@@ -61,13 +57,13 @@ const movementCallback = (card:MaterialNaivigation, setup:RandomNaivigationSetup
         const windDir = Math.random() <= 0.5 ? 1 : -1;
         const str = (windDir == 1) ? "+1" : "-1";
 
-        const newWind = setup.playerToken.customData.wind + windDir
-        setup.playerToken.customData.wind = Math.min(Math.max(newWind, 0), 4);
+        const newWind = turn.gameData.wind + windDir
+        turn.gameData.wind = Math.min(Math.max(newWind, 0), 4);
         fb.push("The Wind card changed wind strength by " + str + ". (That's the direction the start player chose, without discussion.)");
     }
 
-    const curTile = setup.playerTokenData.tile;
-    const curPosition = setup.playerTokenData.position;
+    const curTile = setup.getVehicleData(0).tile;
+    const curPosition = setup.getVehicleData(0).position;
     const movement = curPosition.clone().sub(oldPosition);
     const cameFromRot = setup.convertVectorToRotation(movement);
 
@@ -77,7 +73,7 @@ const movementCallback = (card:MaterialNaivigation, setup:RandomNaivigationSetup
         const cameFromCorrectSide = setup.getCellAt(curPosition).rot == (cameFromRot + 2) % 4
         if(cameFromCorrectSide) {
             fb.push("Great! You arrived at a harbor. Collect it.");
-            setup.getCellAt(setup.playerTokenData.position).facedown = true
+            setup.collectCurrentTile();
         } else {
             fb.push("Oh no! You tried to reach the harbor, but came from the wrong side and hit land instead.");
         }

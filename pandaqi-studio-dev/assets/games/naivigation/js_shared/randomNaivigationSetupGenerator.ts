@@ -27,8 +27,10 @@ interface TileData
 interface NaivigationSetupParams
 {
     size?: Point,
+    numVehicles?: number,
     tilePicker?: TilePickerNaivigation,
     validPlacementCallback?: TilePlacementFunction,
+    vehicleStartCallback?: VehicleStartCallback,
     visualizer?: MaterialVisualizer
 }
 
@@ -45,6 +47,7 @@ const DEF_PLACEMENT_CALLBACK = (cell, setup) =>
 }
 
 type TilePlacementFunction = (cell:TileData, setup:RandomNaivigationSetupGenerator) => TileData
+type VehicleStartCallback = (vehicle:MaterialNaivigation, options:TileData[], setup:RandomNaivigationSetupGenerator) => Point
 
 export { TileData, NaivigationSetupParams }
 export default class RandomNaivigationSetupGenerator
@@ -55,9 +58,13 @@ export default class RandomNaivigationSetupGenerator
     size: Point
     tilePicker: TilePickerNaivigation
     tiles: MaterialNaivigation[] // The specific game is responsible for handing a list of valid Tile/Token objects for that game
-    playerToken: MaterialNaivigation
-    playerTokenData: TileData
+    numVehicles: number
+    
+    vehicleTokens: MaterialNaivigation[]
+    vehicleTokenData: TileData[]
+
     validPlacementCallback: TilePlacementFunction // As well as any special code regarding placement to be followed
+    vehicleStartCallback: VehicleStartCallback
     example: InteractiveExample
     visualizer: MaterialVisualizer
 
@@ -66,16 +73,19 @@ export default class RandomNaivigationSetupGenerator
     constructor(params:NaivigationSetupParams = {})
     {
         this.size = params.size ?? new Point(5,5);
+        this.numVehicles = params.numVehicles ?? 1;
         this.visualizer = params.visualizer;
         this.tilePicker = params.tilePicker;
         this.tiles = [];
+        this.vehicleTokens = [];
+        this.vehicleStartCallback = params.vehicleStartCallback;
         this.validPlacementCallback = params.validPlacementCallback ?? DEF_PLACEMENT_CALLBACK;
         this.attachToRules();
     }
 
     generateAndSanitizeTiles()
     {
-        if(this.tiles.length > 0 && this.playerToken) { return; }
+        if(this.tiles.length > 0 && this.vehicleTokens.length > 0) { return; }
 
         const allTiles = this.tilePicker.generate();
         const mapTiles = [];
@@ -88,7 +98,7 @@ export default class RandomNaivigationSetupGenerator
         }
 
         this.tiles = mapTiles;
-        this.playerToken = fromArray(playerTokens);
+        this.vehicleTokens = playerTokens.slice(0, this.numVehicles);
     }
 
     attachToRules()
@@ -102,6 +112,11 @@ export default class RandomNaivigationSetupGenerator
     getCellAt(pos:Point)
     {
         return this.grid[pos.x][pos.y];
+    }
+
+    getCellRandom()
+    {
+        return fromArray(this.cells);
     }
 
     generate()
@@ -156,18 +171,24 @@ export default class RandomNaivigationSetupGenerator
             }
         }
 
-        // place the player token
-        const positions = this.getStartingPositions(cells);
-        const finalPick = positions[rangeInteger(0,1)];
-        const startingCell : TileData = finalPick.cell; // pick one at random that's furthest away from all collectibles
-        const startingRotation = rangeInteger(0,3);
+        // place the player token(s)
+        this.vehicleTokenData = [];
 
-        this.playerTokenData = { 
-            tile: startingCell.tile,
-            position: startingCell.position,
-            rot: startingRotation,
-            collectible: false,
-            facedown: false
+        const positions = this.getStartingPositions(cells); // this just sorts them based on distance to collectibles, which is fine for ALMOST ALL games
+        for(const vehicle of this.vehicleTokens)
+        {
+            const finalPick = this.vehicleStartCallback ? this.vehicleStartCallback(vehicle, positions, this) : positions.shift();
+            const startingCell : TileData = finalPick.cell; // pick one at random that's furthest away from all collectibles
+            const startingRotation = rangeInteger(0,3);
+    
+            const dataObj = { 
+                tile: startingCell.tile,
+                position: startingCell.position,
+                rot: startingRotation,
+                collectible: false,
+                facedown: false
+            }
+            this.vehicleTokenData.push(dataObj);
         }
 
         this.grid = grid;
@@ -195,18 +216,23 @@ export default class RandomNaivigationSetupGenerator
                 pivot: Point.CENTER
             })
             group.add(resCell, cellOp);
-            
-            if(cell.position.matches(this.playerTokenData.position))
+
+            for(let i = 0; i < this.vehicleTokenData.length; i++)
             {
-                const canvToken = await this.drawItem(this.playerToken);
-                const resToken = new ResourceImage(canvToken);
-                const tokenOp = new LayoutOperation({
-                    pos: realPos,
-                    size: new Point(PLAYER_TOKEN_SIZE),
-                    rot: this.playerTokenData.rot * 0.5 * Math.PI,
-                    pivot: Point.CENTER
-                });
-                group.add(resToken, tokenOp);
+                const data = this.vehicleTokenData[i];
+                const vehicleIsHere = cell.position.matches(data.position)
+                if(vehicleIsHere)
+                {
+                    const canvToken = await this.drawItem(this.vehicleTokens[i]);
+                    const resToken = new ResourceImage(canvToken);
+                    const tokenOp = new LayoutOperation({
+                        pos: realPos,
+                        size: new Point(PLAYER_TOKEN_SIZE),
+                        rot: data.rot * 0.5 * Math.PI,
+                        pivot: Point.CENTER
+                    });
+                    group.add(resToken, tokenOp);
+                }
             }
         }
 
@@ -271,23 +297,26 @@ export default class RandomNaivigationSetupGenerator
         return item.drawForRules(this.visualizer);
     }
 
-    rotatePlayer(rot = 0)
+    getVehicle(idx = 0) { return this.vehicleTokens[idx]; }
+    getVehicleData(idx = 0) { return this.vehicleTokenData[idx]; }
+
+    rotatePlayer(idx = 0, rot = 0)
     {
-        this.playerTokenData.rot = (this.playerTokenData.rot + rot + 4) % 4;
+        this.getVehicleData(idx).rot = (this.getVehicleData(idx).rot + rot + 4) % 4;
     }
 
-    movePlayer(vector:Point, levelWrap = false)
+    movePlayer(idx = 0, vector = Point.RIGHT, levelWrap = false)
     {
-        const curPosition = this.playerTokenData.position;
+        const curPosition = this.getVehicleData(idx).position;
         let newPosition = curPosition.clone().add(vector);
         if(levelWrap) { newPosition = this.wrapPosition(newPosition); }
-        this.setPlayerPosition(newPosition);
+        this.setPlayerPosition(idx, newPosition);
     }
 
-    setPlayerPosition(pos:Point)
+    setPlayerPosition(idx = 0, pos:Point)
     {
-        this.playerTokenData.position = pos;
-        this.playerTokenData.tile = this.grid[pos.x][pos.y].tile;
+        this.getVehicleData(idx).position = pos;
+        this.getVehicleData(idx).tile = this.grid[pos.x][pos.y].tile;
     }
 
     wrapPosition(pos:Point) : Point
@@ -314,16 +343,31 @@ export default class RandomNaivigationSetupGenerator
         return vector;
     }
 
-    movePlayerForward(numSteps = 1, levelWrap = false)
+    movePlayerForward(idx = 0, numSteps = 1, levelWrap = false)
     {
-        const forwardVec = this.getVectorFromRotation(this.playerTokenData.rot).scale(numSteps);
-        this.movePlayer(forwardVec, levelWrap);
+        const forwardVec = this.getVectorFromRotation(this.getVehicleData(idx).rot).scale(numSteps);
+        this.movePlayer(idx, forwardVec, levelWrap);
     }
 
-    movePlayerBackward(numSteps = 1, levelWrap = false)
+    movePlayerBackward(idx = 0, numSteps = 1, levelWrap = false)
     {
-        const backwardVec = this.getVectorFromRotation(this.playerTokenData.rot).scale(numSteps).negate();
-        this.movePlayer(backwardVec, levelWrap);
+        const backwardVec = this.getVectorFromRotation(this.getVehicleData(idx).rot).scale(numSteps).negate();
+        this.movePlayer(idx, backwardVec, levelWrap);
+    }
+
+    collectCurrentTile(idx = 0)
+    {
+        this.getCellAt(this.getVehicleData(idx).position).facedown = true
+    }
+
+    isOutOfBounds(pos:Point) : boolean
+    {
+        return pos.x < 0 || pos.x >= this.grid.length || pos.y < 0 || pos.y >= this.grid[0].length;
+    }
+
+    isPlayerOutOfBounds(idx = 0) : boolean
+    {
+        return this.isOutOfBounds(this.getVehicleData(idx).position);
     }
 
     // @TODO: these two conversion functions are not great, do something more robust?

@@ -67,12 +67,11 @@ You can go **off the road**. If you did so, however, take 1 damage at the end of
 If you drive **off the map**, you take 1 damage and stay where you are.
 
 Whenever you take damage, you can also do it in another way (instead of lowering your health): **changing the map**. 
+
 * Draw the top 5 tiles from the deck.
 * Use them to replace 5 crossroads tiles on the map.
 
-{{% remark %}}
-This option is not available, of course, it there aren't 5 deck tiles or 5 crossroads tiles anymore to replace.
-{{% /remark %}}
+If there are fewer replaceable tiles left (than 5), just replace as much as possible. If _none_ are left, you can't take this option anymore.
 
 @TODO: IMAGE
 
@@ -84,14 +83,14 @@ This option is not available, of course, it there aren't 5 deck tiles or 5 cross
 
 The following vehicle cards are available.
 
-* **Gear**: change the gear by as much as the slot number in which it's played (up or down).
-* **Drive**: move as many tiles _forward_ as your _gear_. (If gear is negative, move backward.)
-* **Rotate**: rotate as many quarter turns to the _right_ as your _gear_. (If gear is negative, rotate to the _left_ instead.)
-* **Cruise Control**: move once while ignoring gear (forward, backward, rotate left, or rotate right)
+* **Gear**: change the Gear by as much as the slot number in which it's played (up or down).
+* **Drive**: move as many tiles _forward_ as your _Gear_. (If Gear is negative, move backward.)
+* **Turn**: rotate as many quarter turns to the _right_ as your _Gear_. (If Gear is negative, rotate to the _left_ instead.)
+* **Cruise Control**: move once while ignoring Gear (forward, backward, rotate left, or rotate right)
 
 There are also three special **map tiles** with traffic signs.
 
-* **Stop Sign:** When entered, end the round immediately, and reset gear to 0.
+* **Stop Sign:** When entered, end the round immediately, and reset Gear to 0.
 * **Construction Work**: When entered, take 1 damage.
 * **Earthquake** (Natural Disaster? Quicksand Warning?): Swap 2 map tiles, or replace 1 map tile from the deck. (You can't swap your current tile.)
 
@@ -122,7 +121,7 @@ This adds two new vehicle cards.
 It also adds a few new map tiles, and modifies existing map tiles to allow "breaking the law".
 
 * **Traffic Light**: Some tiles have a traffic light with a number. You may only move _away_ from that tile with a card in a _higher_ slot than that number. (Example: if it shows a 4, then no card before position 4 may cause the car to drive through the traffic light). Otherwise, you break the law.
-* **Maximum Speed**: If you move onto or from this tile with a gear out of bounds, you break the law.
+* **Maximum Speed**: If you move onto or from this tile with a Gear out of bounds, you break the law.
 * **Parking Lot** (if included): If you end the round here with your car in the wrong orientation, you break the law.
 * **Construction Work** (if included): If you enter this tile, you break the law.
 * **Stop Sign** (if included): you may _decide_ to ignore it and not stop the round. But if you do, you break the law.
@@ -133,39 +132,36 @@ It also adds a few new map tiles, and modifies existing map tiles to allow "brea
 
 This expansion adds a **Fuel Deck**.
 
-> At the end of each round, your fuel is depleted by as many cards as your current gear.
+> At the end of each round, your fuel is depleted by as many cards as your current Gear.
 
 Parking lots are the only exception. While there, you don't use any fuel.
 
-If you run out of fuel, you incur **2 damage**. If you overfill your fuel (you want to add more fuel than you have cards), you incur **1 damage**. In both cases, reset the fuel tank to maximum size.
+If you run out of fuel, you incur **1 damage**. If you overfill your fuel (you want to add more fuel than you have cards), you incur **1 damage**. In both cases, reset the fuel tank to maximum size.
 
 There are two ways to refuel.
 
-* Play the **Refuel** vehicle card. Add as many cards back as the number stated.
+* Play the **Refuel** vehicle card. Gain as many Fuel cards as your current Gear.
 * Visit the **Tank Station**. This completely fills up your fuel tank.
 
-@IDEA: Some way to deplete fuel _during the round_, so refueling _during the round_ also makes more sense?
+VARIANT: For an even harder game, deplete Fuel (by current Gear) _every time_ a Drive card is played. (This _replaces_ draining Fuel at the end of the round.)
 
 {{% /rules-block %}}
 
 {{% rules-block heading="Taxis & Cargo" %}}
 
-This expansion adds a deck of **Passenger Cards** (with curses, destinations and bonuses).
+This expansion adds a deck of **Passenger Cards** (with destinations, curses and rewards).
 
 It also adds two Vehicle Cards.
 
 * **Load/Unload**: either grab a new passenger from the deck (they're now in your car), or drop off an existing passenger.
 * **Turn On Radio:** if the radio is turned on this round, the _curses_ of all your passengers are ignored.
 
-Your car has a maximum size of 3. (Though passenger curses/bonuses can change this.)
+Your car has a maximum size of 3. (Some curses or rewards change this.)
 
-While inside your car, Passengers have a "curse" that is permanently active.
-
-If you drop off a passenger at their _preferred destination_, you get the reward listed on them. (If their target destination is not on the board, you can drop them off at any shop.)
+* While inside your car, Passengers have a "curse" that is permanently active.
+* If you drop off a passenger at their _preferred destination_, you get the "reward" listed on them. If their destination isn't on the board, you can drop them off at any shop.
 
 VARIANT: For an even bigger challenge, add this to the objective: "You can't win the game until you've successfully dropped off 5 passengers."
-
-VARIANT (??): For an even bigger challenge, notice how some shop tiles show icons of _passengers_. => You can only collect this shop if you have (at least) _one_ of the passengers it wants.
 
 {{% /rules-block %}}
 
@@ -183,8 +179,8 @@ New Map Tiles:
 
 * **Tunnel/Crane** (as a map tile): Same as Cruise Control. Execute when entered.
 * Special roads with a different **maximum speed** / **terrain**.
-  * **Maximum Speed (Dirt Road)**: When you enter such a road, your gear instantly jumps to that value. It can't go above it while there.
-  * **Minimum Speed (Asphalt)**: When you enter such a road, your gear instantly jumps to that value. It can't go below it while there.
+  * **Maximum Speed (Dirt Road)**: When you enter such a road, your Gear instantly jumps to that value. It can't go above it while there.
+  * **Minimum Speed (Asphalt)**: When you enter such a road, your Gear instantly jumps to that value. It can't go below it while there.
   * **Cobblestones**: Any time you rotate here, take 1 damage.
 
 {{% /rules-block %}}

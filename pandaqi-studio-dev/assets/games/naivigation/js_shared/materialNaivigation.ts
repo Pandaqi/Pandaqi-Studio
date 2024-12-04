@@ -1,5 +1,5 @@
 import { TEMPLATES } from "./dict";
-import { MaterialNaivigationType, TERRAINS, TerrainType } from "./dictShared";
+import { MaterialNaivigationType, NetworkType, TERRAINS, TerrainType } from "./dictShared";
 import { TileData } from "./randomNaivigationSetupGenerator";
 
 export default class MaterialNaivigation
@@ -8,6 +8,8 @@ export default class MaterialNaivigation
     key: string;
     randomSeed: number;
     terrain: TerrainType;
+    networkType: NetworkType; // the connections
+    networkKey: string; // the unique (game-specific) _type_ of network, such as "dirt road vs asphalt road"
     elevation: number;
     customData:Record<string,any>;
 
@@ -30,6 +32,7 @@ export default class MaterialNaivigation
     getMisc() { return null; }
     getGameData() { return null; }
     getTemplateData() { return TEMPLATES[this.type]; }
+    getNetworkData() { return null; }
     getCustomBackground(vis, group) { return null; }
     getCustomIllustration(vis, card, spriteOp) { return null; }
     getCustomForeground(vis, group) { return null; }
@@ -38,6 +41,12 @@ export default class MaterialNaivigation
     getElevation() { return this.elevation ?? TERRAINS[this.terrain].elevation ?? 0; }
     setTerrain(t:TerrainType) { this.terrain = t; }
     setElevation(e:number) { this.elevation = e; }
+    setNetwork(t:NetworkType, k:string)
+    {
+        this.networkType = t ?? NetworkType.NONE;
+        this.networkKey = k ?? "";
+    }
+    hasNetwork() { return this.networkType && this.networkType != NetworkType.NONE; }
 
     addCustomData(cd:Record<string,any> = {}) { Object.assign(this.customData, cd); }
     getCustomData() { return structuredClone(this.customData); }

@@ -85,7 +85,7 @@ const CONFIG:any =
 
     cards:
     {
-        fuelBounds: new Bounds(1,10),
+        numFuelCards: 10,
 
         passengers:
         {
