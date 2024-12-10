@@ -38,7 +38,8 @@ export default class MaterialNaivigation
     getCustomForeground(vis, group) { return null; }
 
     getTerrain() { return this.terrain; }
-    getElevation() { return this.elevation ?? TERRAINS[this.terrain].elevation ?? 0; }
+    hasTerrain() { return this.terrain && this.terrain != TerrainType.NONE; }
+    getElevation() { return this.elevation ?? TERRAINS[this.terrain ?? TerrainType.NONE].elevation ?? 0; }
     setTerrain(t:TerrainType) { this.terrain = t; }
     setElevation(e:number) { this.elevation = e; }
     setNetwork(t:NetworkType, k:string)

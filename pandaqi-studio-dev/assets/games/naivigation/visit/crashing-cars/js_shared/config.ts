@@ -43,25 +43,31 @@ const CONFIG:any =
         misc:
         {
             path: "misc.webp",
-            frames: new Point(4,1)
+            frames: new Point(3,1)
         },
 
         vehicle_cards:
         {
             path: "vehicle_cards.webp",
-            frames: new Point(8,1)
+            frames: new Point(5,2)
         },
 
         map_tiles:
         {
             path: "map_tiles.webp",
-            frames: new Point(8,2)
+            frames: new Point(8,3)
         },
 
         icons:
         {
             path: "icons.webp",
-            frames: new Point(8,1)
+            frames: new Point(5,1)
+        },
+
+        networks:
+        {
+            path: "networks.webp",
+            frames: new Point(5,4)
         },
 
         terrains:

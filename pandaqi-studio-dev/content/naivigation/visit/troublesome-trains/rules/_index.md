@@ -13,10 +13,11 @@ Alternatively, manually do the setup as follows.
 * Place these in a 5x5 grid.
 * Remove all leftover crossroads or station tiles from the deck. Shuffle all remaining track tiles and place them facedown as the draw pile.
 
-Shuffle the 5 Train Pawns and place one on each station.
-* Point the train out of the station.
-* Place the corresponding **Train Tile** above the instruction row. Rotate it such that "Forward" is at the top.
-* EXCEPTION: The Train Pawn must be different than its station. So if it happens to match already, place it somewhere else.
+Shuffle the 5 Train Pawns and place each on a random station. You _can't_ start a Train on its destination ( = station that shows its icon and color).
+
+{{% remark %}}
+For a simpler (first) game, simply use fewer trains and stations.
+{{% /remark %}}
 
 Finally, pick any (single) **Switch Tile**. Place it in any orientation above the instruction row too.
 
@@ -74,11 +75,11 @@ You suffer **1 damage** in any of the following situations.
 * A train tries to **leave the map**.
 * Two trains **collide** ( = a train enters a tile that already has another train).
 
-When leaving a tile with a **switch** (it splits into multiple directions), the following steps determine where to go.
+When moving trains, the **Switch Tile** is crucial. 
 
-* Look at the Switch Tile.
-* The color/symbol that points _up_ (away from the instruction row) is the one to take.
-* EXCEPTION: If this matches no direction, or multiple directions, then the start player _chooses_.
+> The Switch Side that points _up_ (away from the instruction row) shows the direction (symbol) you should take.
+
+If multiple directions are allowed, you _choose_. If none of the directions matches your train's current tile, you can _go any direction_ (as long as there's railroad track there).
 
 Whenever you take damage in this game, you may also (instead of losing health) do the following: **change the map**.
  
@@ -97,11 +98,8 @@ If there are fewer replaceable tiles left (than 5), just replace as much as poss
 
 The following vehicle cards are available.
 
-* **Train Color** (CHOICE; if the card has multiple colors): move 1 train of a matching color by 1 "step". 
-  * Check the corresponding Train Tile.
-  * The side that points _up_ (away from instruction row) shows whether that step means _forward_, _backward_ or _do nothing_.
+* **Train Color** (CHOICE; if the card has multiple colors): move 1 train of a matching color by 1 "step".
 * **Switch** (CHOICE): rotate the Switch Tile.
-* **Electricity** (CHOICE): rotate any Train Tile.
 * **Map** (CHOICE): rotate 1 map tile; or replace 1 map tile from deck.
 
 Because all the vehicle cards allow _choice_ when executing, there is one major change from the core rules: **whoever played the card makes the decisions for it**. (Instead of the start player deciding for all.)
@@ -151,11 +149,7 @@ It also adds a vehicle card.
 
 This expansion adds tiles with different **types of rails**. Their special powers apply to trains moving over them.
 
-* **Speedy**: any step taken on it is _doubled_.
-* **One Way**: they only allow moving in one direction (forward/backward).
-* **Safety**: while on here, you never take any damage.
-* **Wide/Double**: allows 2 trains without colliding.
-* **Colored**: only allows trains of the color shown. (@TODO: Must there be some exception to this? Or does the Map card and other rules already prevent a deadlock?)
+@TODO: RulesTable of these => or is an EXAMPLE IMAGE showing them all a better idea?
 
 {{% /rules-block %}}
 
@@ -170,6 +164,22 @@ During **setup**,
 * Place every Train Pawn as _far away_ from its station as possible. (It's fine if this means multiple trains start on the same tile.)
 
 The **objective** is simply to be the first to **finish all your trains!**
+
+{{% /rules-block %}}
+
+{{% rules-block heading="Direction & Delay" %}}
+
+The Switch Tile system in the base game makes train movement very easy. This final "expansion" makes it a bit more realistic---but also harder---by giving trains "forward" and "backward" movement.
+
+During **setup**, place the **Train Tiles** for all trains above the instruction row too. Rotate them such that "Forward" points up (or "is at the top").
+
+When **moving** a train, you only consider the Switch Symbols when the track splits (3-way or 4-way split). Otherwise, the train follows its Train Tile.
+
+This also adds a new vehicle card to control this:
+
+* **Electricity** (CHOICE): rotate any Train Tile.
+
+VARIANT (even harder): Even on split tracks, "forward" and "backward" still matter! For example, if you choose the "Square" direction, but your Train Tile is set to Backward, then you actually move in the _opposite_ direction.
 
 {{% /rules-block %}}
 

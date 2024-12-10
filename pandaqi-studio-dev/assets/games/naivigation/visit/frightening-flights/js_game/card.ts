@@ -8,11 +8,12 @@ import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import Point from "js/pq_games/tools/geometry/point";
 import { CardType, TileType } from "games/naivigation/js_shared/dictShared";
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
+import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
 
 export default class Card extends MaterialNaivigation
 {
     getGameData() { return GAME_DATA; }
-    getData() { return MATERIAL[this.type][this.key]; }
+    getData() { return MATERIAL[this.type][this.key] ?? {}; }
     getMisc() { return MISC; }
     async draw(vis:MaterialVisualizer)
     {
@@ -33,7 +34,7 @@ export default class Card extends MaterialNaivigation
         }).alignCenter();
 
         const textBoxDims = vis.get("cards.passengers.textBoxDims");
-        const bonus = "REWARD:" + PASSENGER_BONUSES[this.customData.bonus].desc;
+        const bonus = "REWARD: " + PASSENGER_BONUSES[this.customData.bonus].desc;
         const resTextBonus = new ResourceText(bonus, textConfig);
         const opTextBonus = new LayoutOperation({
             pos: vis.get("cards.passengers.bonusPos"),
@@ -62,12 +63,15 @@ export default class Card extends MaterialNaivigation
 
         const airportData = MATERIAL[TileType.MAP][this.customData.airport];
         const resIcon = vis.getResource("map_tiles");
+        const effects = [new DropShadowEffect({ color: "#000000", blur: 0.1*textConfig.size })];
         for(const pos of positions)
         {
             const op = new LayoutOperation({
                 pos: pos,
                 size: vis.get("cards.passengers.airportIconSize"),
-                frame: airportData.frame
+                frame: airportData.frame,
+                pivot: Point.CENTER,
+                effects: effects
             });
             group.add(resIcon, op);
         }

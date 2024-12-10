@@ -29,6 +29,7 @@ const CONFIG:any =
         animalsCrossings: false,
         railsFails: false,
         traintwistRailsteal: false,
+        directionDelay: false,
     },
 
     fonts:
@@ -43,7 +44,7 @@ const CONFIG:any =
         misc:
         {
             path: "misc.webp",
-            frames: new Point(4,1)
+            frames: new Point(8,1)
         },
 
         vehicle_cards:
@@ -61,12 +62,18 @@ const CONFIG:any =
         icons:
         {
             path: "icons.webp",
-            frames: new Point(8,1)
+            frames: new Point(5,1)
+        },
+
+        networks:
+        {
+            path: "networks.webp",
+            frames: new Point(5,4)
         },
 
         terrains:
         {
-            loadIf: ["sets.mapTiles", "@TODO"]
+            loadIf: ["sets.mapTiles", "sets.animalsCrossings"]
         }
     },
 

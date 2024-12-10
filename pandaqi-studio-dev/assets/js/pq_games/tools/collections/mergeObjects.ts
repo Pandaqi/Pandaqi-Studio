@@ -16,7 +16,7 @@ const mergeObjects = (target, source, overwrite = true) =>
         if (isObject(source[key])) 
         {
           if (!target[key]) Object.assign(target, { [key]: {} });
-          mergeObjects(target[key], source[key]);
+          mergeObjects(target[key], source[key], overwrite);
         } 
         else 
         {

@@ -187,11 +187,12 @@ const CONFIG_NAIVIGATION_SHARED =
 
             elevation:
             {
-                triangleSideLength: new CVal(0.05, "sizeUnit"),
-                triangleEdgeOffset: new CVal(0.025, "sizeUnit"),
-                fill: "#FFFFFF",
-                stroke: "#000000",
-                strokeWidth: new CVal(0.01, "sizeUnit"),
+                triangleSideLength: new CVal(0.125, "sizeUnit"),
+                triangleEdgeOffset: new CVal(new Point(0.024), "sizeUnit"),
+                fill: "#000000",
+                stroke: "#FFFFFF",
+                strokeWidth: new CVal(0.02, "sizeUnit"),
+                composite: "overlay", // source-over
             },
 
             collectibleIcon:

@@ -1,4 +1,4 @@
-import { MaterialNaivigationData, MaterialNaivigationType, NetworkType, TerrainType, TileType } from "games/naivigation/js_shared/dictShared";
+import { CardType, MaterialNaivigationData, MaterialNaivigationType, NetworkType, TerrainType, TileType } from "games/naivigation/js_shared/dictShared";
 import MaterialNaivigation from "./materialNaivigation";
 import shuffle from "js/pq_games/tools/random/shuffle";
 import fromArray from "js/pq_games/tools/random/fromArray";
@@ -35,8 +35,16 @@ export default class GeneralPickerNaivigation
     constructor(config, elemClass) 
     {
         this.config = config;
+        //this.setupConfig();
         this.elementClass = elemClass;
         this.data = [];
+    }
+
+    // @TODO: is this even needed?? Turned off and seems fine => .generate() is called by MaterialGenerator _after_ it does .setupConfig itself, so it's fine!
+    setupConfig()
+    {
+        const userConfig = JSON.parse(window.localStorage[this.config.configKey] ?? "{}");
+        Object.assign(this.config, userConfig);
     }
 
     get() { return this.elements; }
@@ -47,6 +55,7 @@ export default class GeneralPickerNaivigation
         this.assignTerrains();
         this.assignNetworks();
         if(this.generateCallback) { this.generateCallback(); }
+        console.log(this.elements);
         return this.elements;
     }
 
@@ -60,12 +69,13 @@ export default class GeneralPickerNaivigation
         return this;
     }
 
-    addMaterialData(dict:Record<string,MaterialNaivigationData>)
+    addMaterialData(filter:string, dict:Record<string,MaterialNaivigationData>)
     {
         for(const [key,data] of Object.entries(dict))
         {
-            if(!Object.values(TileType).includes(key as TileType)) { continue; }
-            this.addData(key as TileType, data);
+            if(filter == "card" && !Object.values(CardType).includes(key as CardType)) { continue; }
+            if(filter == "tile" && !Object.values(TileType).includes(key as TileType)) { continue; }
+            this.addData(key as MaterialNaivigationType, data);
         }
         return this;
     }
@@ -232,7 +242,11 @@ export default class GeneralPickerNaivigation
     generateMaterial(inputData:DictData)
     {
         const tileType = inputData.type;
-        const defaultSets = ["vehicleCards", "mapTiles"];
+
+        // @NOTE: this is tricky; all regular cards are generated with vehicleCards (if true), only MAP tiles are different and have their own toggle
+        let defaultSets = ["vehicleCards"];
+        if(tileType == TileType.MAP) { defaultSets = ["mapTiles"]; }
+        
         for(const [key,data] of Object.entries(inputData.dict))
         {            
             // filter based on sets

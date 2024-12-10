@@ -69,7 +69,10 @@ tilePicker.generateCallback = () =>
         {
             tilePicker.addSingle(new Tile(TileType.CUSTOM, "switch", { num: i }));
         }
+    }
 
+    if(tilePicker.config.sets.directionDelay)
+    {
         // the train tile for each possible vehicle
         for(const [key,data] of Object.entries(MATERIAL[TileType.VEHICLE]))
         {

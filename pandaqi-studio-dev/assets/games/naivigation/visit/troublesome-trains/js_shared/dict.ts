@@ -9,7 +9,7 @@ const VEHICLE_CARDS:Record<string,MaterialNaivigationData> =
 {
     train: { frame: 0, label: "Train", desc: "<b>Move</b> 1 train of a matching color by <b>1 step</b>.", freq: 10 },
     switch: { frame: 1, label: "Switch", desc: "<b>Rotate</b> the <b>Switch</b> tile however you like.", freq: 10 },
-    power: { frame: 2, label: "Power", desc: "<b>Rotate</b> any <b>Train</b> tile however you like.", freq: 10 },
+    power: { frame: 2, label: "Power", desc: "<b>Rotate</b> any <b>Train</b> tile however you like.", freq: 10, sets: ["directionDelay"] },
     map: { frame: 3, label: "Map", desc: "<b>Rotate</b> 1 map tile OR <b>replace</b> 1 map tile (from deck).", freq: 5 },
     disengage: { frame: 4, label: "Disengage", desc: "<b>Move</b> all trains connected to the <b>leading car</b> to an adjacent tile.", freq: 8, sets: ["leadersFollowers"] },
     lead_change: { frame: 5, label: "Lead Change", desc: "<b>Rotate</b> both the Switch Tile and a Train Tile one quarter turn.", freq: 5, sets: ["leadersFollowers"] }, // @TODO: most uncertain about this one
@@ -50,6 +50,11 @@ const TIME_CARDS:Record<string,MaterialNaivigationData> =
     subsidy: { label: "Rail Subsidy", desc: "If <b>no</b> Train has reached a station yet, <b>remove a Train</b> of choice.", type: EventType.EVENT },
     subsidy_big: { label: "Rail Subsidy+", desc: "If <b>no</b> Train has reached a station yet, <b>gain 2 Health</b>.", type: EventType.EVENT },
 
+    reset_for_repair: { label: "Back for Repairs", desc: "<b>Reset</b> 1 train to its <b>starting station</b> to <b>repair 1 damage</b>.", type: EventType.OFFER },
+    damage_for_info: { label: "Wipers", desc: "<b>Take 1 damage</b> to play all cards <b>faceup</b> this round.", type: EventType.OFFER }, 
+    damage_for_orient: { label: "Slippery", desc: "<b>Take 1 damage</b> to <b>reset</b> one or more trains to any (wrong) <b>station</b>.", type: EventType.OFFER }, 
+    damage_for_crossroads: { label: "Rocket Launch", desc: "<b>Take 1 damage</b> to <b>rotate or replace</b> 5 tiles on the map.", type: EventType.OFFER }, 
+
     magic_trains: { label: "Magic Trains", desc: "Trains are allowed to <b>share a tile</b> (without colliding)", type: EventType.RULE },
     frozen_switch: { label: "Frozen Switch", desc: "Every train on a <b>crossroads</b> is not allowed to move.", type: EventType.RULE },
     damaged_switches: { label: "Damaged Switches", desc: "The <b>Switch</b> card does nothing.", type: EventType.RULE },
@@ -58,14 +63,6 @@ const TIME_CARDS:Record<string,MaterialNaivigationData> =
     safe_trains: { label: "Safe Trip", desc: "<b>Pick 2 Trains</b>: they are <b>\"safe\"</b>. They can't go off-track or take damage this round.", type: EventType.RULE },
     careful_trip: { label: "Careful Trip", desc: "<b>Pick 2 Trains</b>: they're the only ones allowed to move this round.", type: EventType.RULE },
     supersonic: { label: "Supersonic", desc: "Every train movement is <b>doubled</b> (2 steps instead of 1).", type: EventType.RULE },
-
-    
-    damage_for_info: { label: "Wipers", desc: "<b>Take 1 damage</b> to play all cards <b>faceup</b> this round.", type: EventType.OFFER }, 
-    damage_for_orient: { label: "Slippery", desc: "<b>Take 1 damage</b> to <b>orient</b> your car in any way.", type: EventType.OFFER }, 
-    damage_for_crossroads: { label: "Rocket Launch", desc: "<b>Take 1 damage</b> to <b>replace</b> up to 3 crossroads with any tile(s) from deck.", type: EventType.OFFER }, 
-
-    cruise_disable: { label: "No Cruising", desc: "<b>Cruise Control</b> doesn't work.", type: EventType.RULE },
-    cruise_penalty: { label: "No Control", desc: "Executing <b>Cruise Control</b> incurs 1 damage.", type: EventType.RULE },
 }
 
 //
@@ -114,11 +111,13 @@ const MISC =
 const NETWORK_TYPES =
 {
     regular: { frame: 0, desc: "Nothing special." },
-    speedy: { frame: 1, desc: "Any step taken on it is <b>doubled</b>." },
+    speedy_one_way: { frame: 1, desc: "If entered from the direction of the arrows, this trains instantly <b>moves again</b>. If entered otherwise, this train <b>stops</b> (it can't move anymore this round)." },
+    safety_double: { frame: 2, desc: "While here, trains don't collide and you don't take damage." },
+    /*speedy: { frame: 1, desc: "Any step taken on it is <b>doubled</b>." },
     one_way: { frame: 2, desc: "Only allows moving over it in the direction shown." },
     safety: { frame: 3, desc: "While here, you can't take damage." },
-    double: { frame: 4, desc: "Allows 2 trains without colliding." },
-    colored: { frame: 5, desc: "Only trains of the color(s) shown are allowed." }
+    double: { frame: 4, desc: "Allows 2 trains without colliding." },*/
+    colored: { frame: 5, desc: "Only trains of the type(s) shown are allowed to move over this tile." }
 }
 
 const MATERIAL =

@@ -25,7 +25,7 @@ const drawBackground = (vis:MaterialVisualizer, group:ResourceGroup, tile:Materi
 
 const drawTerrain = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaivigation) =>
 {
-    const needsTerrain = tile.getTerrain() != TerrainType.NONE && !tile.customData.suppressTerrain;
+    const needsTerrain = tile.hasTerrain() && !tile.customData.suppressTerrain;
     if(!needsTerrain) { return; }
 
     // main background color
@@ -159,7 +159,7 @@ const drawElevation = (vis:MaterialVisualizer, group:ResourceGroup, tile:Materia
         new Point(0, size)
     ];
 
-    const triangle = new ResourceShape(new Path(points));
+    const triangle = new ResourceShape(new Path({ points: points, close: true }));
 
     const offset = vis.get("tiles.general.elevation.triangleEdgeOffset");
     const positions = getRectangleCornersWithOffset(vis.size, offset);
@@ -174,6 +174,7 @@ const drawElevation = (vis:MaterialVisualizer, group:ResourceGroup, tile:Materia
             fill: vis.get("tiles.general.elevation.fill"),
             stroke: vis.get("tiles.general.elevation.stroke"),
             strokeWidth: vis.get("tiles.general.elevation.strokeWidth"),
+            composite: vis.get("tiles.general.elevation.composite")
         });
         group.add(triangle, triangleOp);
     }

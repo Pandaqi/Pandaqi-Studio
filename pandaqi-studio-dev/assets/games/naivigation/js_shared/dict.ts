@@ -17,7 +17,7 @@ const VEHICLE_CARDS:Record<string,MaterialNaivigationData> =
 const HEALTH_CARDS:Record<string,MaterialNaivigationData> = 
 {
     //last_life: { shared: true, subText: "Regular Life", desc: "Nothing special.", num: 1, freq: 2 },
-    be_special: { shared: true, subText: "Be Special", desc: "Each card type is only executed once; ignore duplicates further down the row. All cards are duplicates? Take 1 damage.", num: 3 },
+    be_special: { shared: true, subText: "Be Special", desc: "Card types are only <b>executed once</b>. (Ignore duplicates.) <b>All cards</b> are duplicates? <b>Take 1 damage.</b>", num: 3 },
     random_draw: { shared: true, subText: "Random Draw", desc: "The <b>first card</b> of the round must be randomly selected.", num: 3 },
     first_from_left: { shared: true, subText: "First from Left", desc: "Players must play their card at the <b>first</b> available spot from the <b>left</b>.", num: 2 },
     first_from_right: { shared: true, subText: "First from Right", desc: "Players must play their card at the <b>first</b> available spot from the <b>right</b>.", num: 2 }, // @NOTE: "last from left" = "first from right"
@@ -208,6 +208,8 @@ interface TemplateData
     smallIconOffset?: Point, // placement of smaller versions of icons is one major difference between templates
     extraNumberOffset?: Point, // where to position the (optional) number on a select few templates
     titleTextPos?: Point, // where to position the title text, for customization on some templates
+    iconScale?: Point, // how to scale the main icon (relative to the usual (1,1) scale)
+    iconOffset?: Point, // offset for the MAIN icon
 }
 
 const TEMPLATES:Record<string, TemplateData> =
@@ -220,7 +222,7 @@ const TEMPLATES:Record<string, TemplateData> =
     [CardType.ACTION]: { frameTemplate: 1, bgColor: "#FFFFFF", tintColor: "#DADADA", label: null, subText: "Action Card", smallIconOffset: new Point(0.4125, 0), textureKey: "icons" },
     [CardType.INSTRUCTION]: { frameIcon: 1, textureKey: "icons" },
     [CardType.COMPASS]: { frameIcon: 0, textureKey: "icons" },
-    [CardType.PASSENGER]: { frameTemplate: 6, bgColor: "#f5b7ff", label: null, subText: "Cargo", titleTextPos: new Point(0.5, 0.35), textureKey: "passengers" },
+    [CardType.PASSENGER]: { frameTemplate: 6, bgColor: "#f5b7ff", label: null, subText: "Cargo", titleTextPos: new Point(0.5, 0.39), iconScale: new Point(0.63), iconOffset: new Point(0, -0.125), textureKey: "persons" },
     [TileType.MAP]: {},
     [TileType.VEHICLE]: {},
     [TileType.PAWN]: {},

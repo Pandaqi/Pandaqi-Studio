@@ -77,7 +77,7 @@ const MAP_TILES:Record<string,MaterialNaivigationData> =
     earthquake: { frame: 12, label: "Earthquake", desc: "Swap 2 map tiles OR replace 1 map tile (from deck)." },
     traffic_light: { frame: 13, label: "Traffic Light", desc: "If you move away from here using a card in a lower slot than my number, you break the law.", sets: ["trafficPolice"] },
     max_speed: { frame: 14, label: "Max Speed", desc: "If you move onto this tile with a Gear out of bounds, you break the law.", sets: ["trafficPolice"] },
-    tank_station: { frame: 15, label: "Tank Station", desc: "Completely refill your Fuel.", sets: ["fuelFear"] },
+    gas_station: { frame: 15, label: "Gas Station", desc: "Completely refill your Fuel.", sets: ["fuelFear"] },
     crane: { frame: 16, label: "Crane", desc: "Move once (Drive or Turn) in any direction you want.", sets: ["terrainTripplanning"] }, // or "tunnel"
     shop_special_1: { frame: 17, label: "Shop Special", collectible: true, sets: ["terrainTripplanning"] }, // simply has a new illustration + higher number?
     shop_special_2: { frame: 18, label: "Shop Special", collectible: true, sets: ["terrainTripplanning"] }, // simply has a new illustration + higher number?

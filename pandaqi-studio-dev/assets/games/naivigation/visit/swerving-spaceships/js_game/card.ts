@@ -34,7 +34,6 @@ export default class Card extends MaterialNaivigation
 
     drawPlanetProperties(vis:MaterialVisualizer, group:ResourceGroup)
     {
-        const op = new LayoutOperation();
         const offset = new Point(0, vis.size.y / 3);
         let counter = 0;
         for(const prop of this.customData.planetProperties)
@@ -137,8 +136,6 @@ export default class Card extends MaterialNaivigation
         }
 
         // Draw dynamic rotation range
-        console.log(this.customData.angles);
-
         const a1 = this.customData.angles[0] * 0.25 * Math.PI - 0.5*Math.PI; // second part to make 0 = pointing up, as the spaceship does
         const a2 = this.customData.angles[1] * 0.25 * Math.PI - 0.5*Math.PI;
         const range = new Pie({ center: circleCenter, radius: circleRadius, startAngle: a1, endAngle: a2 });
@@ -151,7 +148,7 @@ export default class Card extends MaterialNaivigation
 
         // Draw spaceship vehicle on top of center to indicate what is up
         const vehicleRes = vis.getResource("map_tiles");
-        const frame = MATERIAL[TileType.MAP].vehicle_0.frame;
+        const frame = MATERIAL[TileType.VEHICLE].vehicle_0.frame;
         const vehicleOp = new LayoutOperation({
             pos: circleCenter,
             size: vis.get("cards.steer.vehicleDims"),

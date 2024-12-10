@@ -13,9 +13,9 @@ import getRectangleCornersWithOffset from "js/pq_games/tools/geometry/paths/getR
 import Point from "js/pq_games/tools/geometry/point";
 import Rectangle from "js/pq_games/tools/geometry/rectangle";
 import rangeInteger from "js/pq_games/tools/random/rangeInteger";
-import { CardType, GPS_ICONS, MaterialNaivigationType } from "./dictShared";
-import MaterialNaivigation from "./materialNaivigation";
 import { GPS_PENALTIES, GPS_REWARDS } from "./dict";
+import { CardType, GPS_ICONS } from "./dictShared";
+import MaterialNaivigation from "./materialNaivigation";
 
 const drawBackground = (vis:MaterialVisualizer, group:ResourceGroup, card:MaterialNaivigation) =>
 {
@@ -113,7 +113,7 @@ const drawCard = (vis, group, card) =>
     }).alignCenter();
 
     const text = (data.label ?? tempData.label) ?? "No Label";
-    const resText = new ResourceText({ text: text, textConfig: textConfig });
+    const resText = new ResourceText(text, textConfig);
     let textPos = vis.get("cards.general.textPos");
     if(tempData.titleTextPos)
     {
@@ -141,7 +141,7 @@ const drawCard = (vis, group, card) =>
             font: vis.get("fonts.heading"),
             size: vis.get("cards.general.fontSizeMeta")
         }).alignCenter();
-        const resTextMeta = new ResourceText({ text: textMeta, textConfig: textConfigMeta });
+        const resTextMeta = new ResourceText(textMeta, textConfigMeta);
         const textMetaOp = new LayoutOperation({
             pos: metaPos,
             size: new Point(vis.size.x, textConfigMeta.size*2),
@@ -157,7 +157,7 @@ const drawCard = (vis, group, card) =>
     group.add(resText, textOp);
 
     // card number (if needed)
-    const textNumber = data.num + "";
+    const textNumber = data.num;
     if(textNumber && tempData.extraNumberOffset)
     {
         const textConfigNumber = textConfig.clone();
@@ -171,7 +171,7 @@ const drawCard = (vis, group, card) =>
 
         for(const pos of positions)
         {
-            const resTextNumber = new ResourceText({ text: textNumber, textConfig: textConfigNumber });
+            const resTextNumber = new ResourceText(textNumber.toString(), textConfigNumber);
             const textNumberOp = new LayoutOperation({
                 pos: pos,
                 size: new Point(textConfigNumber.size*2),
@@ -193,7 +193,7 @@ const drawCard = (vis, group, card) =>
     if(isGPSCard) 
     { 
         drawGPSText(vis, group, card);
-        textContent = ""; 
+        textContent = undefined; 
     }
 
     if(textContent)
@@ -204,7 +204,7 @@ const drawCard = (vis, group, card) =>
 
         const contentPos = metaPos.clone().add(new Point(0, 0.5*(vis.size.y - metaPos.y)));
 
-        const resTextContent = new ResourceText({ text: textContent, textConfig: textConfigContent });
+        const resTextContent = new ResourceText(textContent, textConfigContent);
         const textContentOp = new LayoutOperation({
             pos: contentPos,
             size: vis.get("cards.general.contentTextBox"),
@@ -338,7 +338,7 @@ const drawCardIcons = (vis:MaterialVisualizer, group:ResourceGroup, card:Materia
     let resSpriteKey = tempData.textureKey ?? "icons";
 
     // this is an ugly exception to make shared material pick the right spritesheet; but it's fine as long as it remains a SINGLE exception
-    const useSharedIcons = typeData.shared == true;
+    const useSharedIcons = typeData.shared && (card.type == CardType.VEHICLE || card.type == CardType.ACTION);
     if(useSharedIcons) { resSpriteKey = "icons_shared"; }
     
     const resSprite = vis.getResource(resSpriteKey);
@@ -346,9 +346,17 @@ const drawCardIcons = (vis:MaterialVisualizer, group:ResourceGroup, card:Materia
     const flipX = card.customData.iconFlipX ?? false;
     const flipY = card.customData.iconFlipY ?? false;
     const eff = new DropShadowEffect({ color: "#000000", blurRadius: vis.get("cards.general.illustration.shadowBlur") });
+
+    const mainIconSize = vis.get("cards.general.illustration.mainDims").clone();
+    const sizeFactor = tempData.iconScale ?? Point.ONE;
+    mainIconSize.scale(sizeFactor);
+
+    const mainIconPos = vis.get("cards.general.illustration.mainPos").clone();
+    if(tempData.iconOffset) { mainIconPos.add(tempData.iconOffset.clone().scale(vis.size)) }
+
     const spriteOp = new LayoutOperation({
-        pos: vis.get("cards.general.illustration.mainPos"),
-        size: vis.get("cards.general.illustration.mainDims"),
+        pos: mainIconPos,
+        size: mainIconSize,
         effects: [eff],
         flipX: flipX,
         flipY: flipY,

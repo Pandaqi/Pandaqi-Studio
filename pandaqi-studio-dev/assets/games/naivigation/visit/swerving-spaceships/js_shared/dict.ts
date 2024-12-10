@@ -7,13 +7,13 @@ const GAME_DATA:GameNaivigationData = { bgColor: "#8B46FF", tintColor: "#D5BDFF"
 //
 const VEHICLE_CARDS:Record<string,MaterialNaivigationData> = 
 {
-    steer: { frame: 1, label: "Steer", desc: "Pick an angle within range. Rotate the vehicle that much." },
-    thrust: { frame: 0, label: "Thrust", desc: "Move 1 tile forward ( = in the direction your spaceship faces).", freq: 12 },
-    disengage: { frame: 2, label: "Disable", desc: "Perform one gravitational pull step.", freq: 12 },
-    shield: { frame: 3, label: "Shield", desc: "Toggles the shield on and off.", freq: 10, sets: ["shields"] },
-    superthrust: { frame: 4, label: "Thrust+", desc: "Move 2 tiles forward.", freq: 4, sets: ["shields"] },
-    shoot: { frame: 5, label: "Shoot", desc: "Destroys the first tile within line of sight.", freq: 8, sets: ["weapons"] },
-    hyperdrive: { frame: 6, label: "Hyper", desc: "Move to a tile at the end of your row or column.", freq: 6, sets: ["trade"] },
+    steer: { frame: 1, label: "Steer", desc: "Pick an angle within range. <b>Rotate</b> the vehicle that much." },
+    thrust: { frame: 0, label: "Thrust", desc: "<b>Move</b> 1 tile <b>forward</b> ( = in the direction your spaceship faces).", freq: 12 },
+    disengage: { frame: 2, label: "Disable", desc: "Perform 1 <b>gravitational pull</b> step.", freq: 12 },
+    shield: { frame: 3, label: "Shield", desc: "<b>Toggle the shield</b> on/off.", freq: 10, sets: ["shields"] },
+    superthrust: { frame: 4, label: "Thrust+", desc: "<b>Move</b> 2 tiles <b>forward</b>.", freq: 4, sets: ["shields"] },
+    shoot: { frame: 5, label: "Shoot", desc: "<b>Destroy</b> the first tile within <b>line of sight</b>.", freq: 8, sets: ["weapons"] },
+    hyperdrive: { frame: 6, label: "Hyper", desc: "<b>Move</b> to a tile at the <b>end of your row</b>.", freq: 6, sets: ["trade"] },
 };
 
 const HEALTH_CARDS:Record<string,MaterialNaivigationData> =

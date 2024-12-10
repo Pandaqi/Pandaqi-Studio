@@ -62,12 +62,18 @@ const CONFIG:any =
         icons:
         {
             path: "icons.webp",
-            frames: new Point(8,1)
+            frames: new Point(8,1),
+            loadIf: ["sets.mapTiles", "sets.fuelFalling"]
         },
 
         terrains:
         {
             loadIf: ["sets.mapTiles", "sets.repairsRacing"]
+        },
+
+        persons:
+        {
+            loadIf: ["sets.passengersPlanes"]
         }
     },
 
@@ -93,10 +99,10 @@ const CONFIG:any =
             options: Object.keys(PASSENGERS),
             fontSize: new CVal(0.07, "sizeUnit"),
             textBoxDims: new CVal(new Point(0.925, 0.33), "size"),
-            bonusPos: new CVal(new Point(0.5, 0.6), "size"),
-            cursePos: new CVal(new Point(0.5, 0.8), "size"),
-            iconOffset: new CVal(new Point(0.1, 0.5), "size"),
-            airportIconSize: new CVal(new Point(0.1), "sizeUnit")
+            bonusPos: new CVal(new Point(0.5, 0.625), "size"),
+            cursePos: new CVal(new Point(0.5, 0.875), "size"),
+            iconOffset: new CVal(new Point(0.1, 0.4), "size"),
+            airportIconSize: new CVal(new Point(0.12), "sizeUnit")
         }
 
     },

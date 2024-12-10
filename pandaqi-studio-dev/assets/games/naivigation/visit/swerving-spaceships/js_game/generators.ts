@@ -6,8 +6,8 @@ import { MATERIAL } from "../js_shared/dict";
 import Card from "./card";
 import Tile from "./tile";
 
-const cardPicker = new GeneralPickerNaivigation(CONFIG, Card).addMaterialData(MATERIAL);
-const tilePicker = new GeneralPickerNaivigation(CONFIG, Tile).addMaterialData(MATERIAL);
+const cardPicker = new GeneralPickerNaivigation(CONFIG, Card).addMaterialData("card", MATERIAL);
+const tilePicker = new GeneralPickerNaivigation(CONFIG, Tile).addMaterialData("tile", MATERIAL);
 const cardCustomCallback = (key, data) =>
 {
     if(key != "steer") { return; }

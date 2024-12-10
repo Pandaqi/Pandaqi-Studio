@@ -29,6 +29,7 @@ export default (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaivig
     const resGuides = vis.getResource("misc_shared");
     const res = vis.getResource(params.resourceKey ?? "map_tiles");
     const frame = typeData.frame;
+    const addGuides = params.addGuides ?? false;
 
     // the actual icons + helpers
     for(let i = 0; i < 2; i++)
@@ -41,7 +42,7 @@ export default (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaivig
             flipY: (i == 1),
             pivot: Point.CENTER
         })
-        subGroup.add(resGuides, opGuides)
+        if(addGuides) { subGroup.add(resGuides, opGuides); }
 
         // actual vehicle icon
         const op = new LayoutOperation({

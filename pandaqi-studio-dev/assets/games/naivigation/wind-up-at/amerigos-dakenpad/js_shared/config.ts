@@ -105,20 +105,21 @@ const CONFIG:any =
     {
         base:
         {
-            numRouteCards: 13,
+            numRouteCards: 20,
             routeCardDist:
             {
                 huis: 0.55,
-                niks: 0.45
+                niks: 0.5
             },
             routeCardGiftDist:
             {
                 1: 0.75, // "this percentage requires only 1 gift"
-                2: 0.25
+                2: 0.2,
+                3: 0.05
             },
 
-            numRegularCards: 24,
-            percentageGiftCards: 0.45,
+            numRegularCards: 26,
+            percentageGiftCards: 0.433,
 
             vaarCardDist:
             {
@@ -131,16 +132,16 @@ const CONFIG:any =
 
         paardenSprongen:
         {
-            percentageWithoutNumber: 0.5,
+            percentageWithoutNumber: 0.67,
             cardFrequencies:
             {
                 vooruit_dubbel: 2,
-                achteruit_dubbel: 1,
-                touw: 2,
-                niks: 1,
+                achteruit_dubbel: 2,
+                touw: 3,
+                niks: 3,
             },
 
-            pakjeFrequency: 1
+            pakjeFrequency: 2
         },
 
         gladdeDaken:

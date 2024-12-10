@@ -8,7 +8,7 @@ blurbShort: "A [Naivigation](/naivigation/) game about steering trains together,
 
 weightProject: 50
 
-color: "pink"
+color: "orange"
 
 downloadLink: "https://drive.google.com/drive/folders/186gZy7euPX5wFrZcyRDBt8T1bPzThe9m"
 

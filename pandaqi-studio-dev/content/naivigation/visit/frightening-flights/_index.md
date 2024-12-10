@@ -8,7 +8,7 @@ blurbShort: "A [Naivigation](/naivigation/) game about steering a single airplan
 
 weightProject: 20
 
-color: "black"
+color: "pink"
 
 downloadLink: "https://drive.google.com/drive/folders/1jqob8rGmP2Mb_VIC1DzjPz1YS7r7u6T-"
 

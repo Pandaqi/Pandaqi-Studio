@@ -1,4 +1,4 @@
-import { CardType, EventType, GameNaivigationData, MaterialNaivigationData, TileType } from "games/naivigation/js_shared/dictShared";
+import { CardType, EventType, GameNaivigationData, MaterialNaivigationData, PASSENGERS, TileType } from "games/naivigation/js_shared/dictShared";
 
 const GAME_DATA:GameNaivigationData = { bgColor: "#de4d87", tintColor: "#ffe6f0", textColor: "#260311", mapTileColor: "#FFFFFF" };
 
@@ -9,7 +9,7 @@ const VEHICLE_CARDS:Record<string,MaterialNaivigationData> =
 {
     fly: { frame: 0, label: "Fly", desc: "<b>Move 1 tile</b> forward ( = in the direction your airplane faces).", freq: 10 },
     turn: { frame: 1, label: "Turn", desc: "<b>Rotate</b> a quarter turn <b>left or right</b>.", freq: 10 },
-    elevate: { frame: 2, label: "Elevate", desc: "If played in <b>odd-numbered</b> slot, <b>add 1 Elevation</b>. Otherwise, <b>remove 1</b>.", freq: 10 },
+    elevate: { frame: 2, label: "Elevate", desc: "Played in <b>odd-numbered</b> slot? <b>Add 1 Elevation</b>. Otherwise, <b>remove 1</b>.", freq: 10 },
     stunt: { frame: 3, label: "Stunt", desc: "<b>Move 1 tile</b> forward, <b>ignoring Elevation</b>.", freq: 5 },
     repair: { frame: 4, label: "Repair", desc: "<b>Repair 1 health if landed.</b> Otherwise, take 1 damage and end round.", freq: 4, sets: ["repairsRacing"] },
     backflip: { frame: 5, label: "Backflip", desc: "<b>Rotate</b> the plane to face <b>backwards</b>.", freq: 8, sets: ["repairsRacing"] },
@@ -131,6 +131,8 @@ const MATERIAL =
     [CardType.HEALTH]: HEALTH_CARDS,
     [CardType.TIME]: TIME_CARDS,
     [CardType.ACTION]: ACTION_CARDS,
+    [CardType.FUEL]: {},
+    [CardType.PASSENGER]: PASSENGERS,
     [TileType.MAP]: MAP_TILES,
     [TileType.VEHICLE]: VEHICLE_TILES,
     [TileType.PAWN]: PAWN_TILES,
