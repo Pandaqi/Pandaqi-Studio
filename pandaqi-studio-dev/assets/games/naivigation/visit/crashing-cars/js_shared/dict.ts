@@ -1,4 +1,4 @@
-import { CardType, EventType, GameNaivigationData, MaterialNaivigationData, TileType } from "games/naivigation/js_shared/dictShared";
+import { CardType, EventType, GameNaivigationData, MaterialNaivigationData, PASSENGERS, TileType } from "games/naivigation/js_shared/dictShared";
 
 const GAME_DATA:GameNaivigationData = { bgColor: "#9bc61b", tintColor: "#f7ffdf", textColor: "#1c2402", mapTileColor: "#FFFFFF" };
 
@@ -8,13 +8,13 @@ const GAME_DATA:GameNaivigationData = { bgColor: "#9bc61b", tintColor: "#f7ffdf"
 const VEHICLE_CARDS:Record<string,MaterialNaivigationData> = 
 {
     gear: { frame: 0, label: "Gear", desc: "<b>Change Gear</b> by as much as the <b>slot number</b> in which it's played (up or down).", freq: 10 },
-    drive: { frame: 1, label: "Drive", desc: "<b>Move</b> as many tiles <b>forward</b> as your <b>Gear</b>. (Negative Gear = Backward.)", freq: 10 },
+    drive: { frame: 1, label: "Drive", desc: "<b>Move</b> as many tiles <b>forward</b> as your <b>Gear</b>. (Negative Gear = Backward.)", freq: 12 },
     turn: { frame: 2, label: "Turn", desc: "<b>Rotate</b> as many quarter turns to the <b>right</b> as your <b>Gear</b>. (Negative Gear = Turn Left)", freq: 10 },
-    cruise_control: { frame: 3, label: "Cruise Control", desc: "<b>Move once</b> (Drive or Turn) while <b>ignoring Gear</b>.", freq: 5 },
+    cruise_control: { frame: 3, label: "Cruise", desc: "<b>Move once</b> (Drive or Turn) while <b>ignoring Gear</b>.", freq: 6 },
     police: { frame: 4, label: "Police", desc: "Adjacent to Police? Move them <b>1 tile away</b> from you. Otherwise, move them <b>1 tile closer</b>.", freq: 7, sets: ["trafficPolice"] },
     lock_doors: { frame: 5, label: "Lock Doors", desc: "This round, hitting the Police <b>doesn't</b> harm you in any way.", freq: 4, sets: ["trafficPolice"] },
     refuel: { frame: 6, label: "Refuel", desc: "<b>Gain</b> as much <b>Fuel</b> as your current <b>Gear</b>.", freq: 6, sets: ["fuelFear"] },
-    unload: { frame: 7, label: "(Un)Load", desc: "Grab a <b>new passenger</b> from the deck OR <b>drop off</b> an existing passenger.", freq: 10, sets: ["taxisCargo"] },
+    unload: { frame: 7, label: "(Un)Load", desc: "Grab a <b>new passenger</b> from the deck OR <b>drop off</b> an existing passenger.", freq: 6, sets: ["taxisCargo"] },
     radio: { frame: 8, label: "Radio On", desc: "This round, <b>ignore the curses</b> of all your passengers.", freq: 4, sets: ["taxisCargo"] },
 
 };
@@ -64,21 +64,21 @@ const TIME_CARDS:Record<string,MaterialNaivigationData> =
 //
 const MAP_TILES:Record<string,MaterialNaivigationData> =
 {
-    empty: { frame: -1, label: "Regular", freq: 20 },
+    empty: { frame: -1, label: "Regular", freq: 30 },
     shop_0: { frame: 0, label: "Shop", collectible: true },
     shop_1: { frame: 1, label: "Shop", collectible: true },
     shop_2: { frame: 2, label: "Shop", collectible: true },
     shop_3: { frame: 3, label: "Shop", collectible: true },
     shop_4: { frame: 4, label: "Shop", collectible: true },
     starting_tile: { frame: 8, label: "Starting Tile", freq: 1, starting: true },
-    parking_lot: { frame: 9, label: "Parking Lot", freq: 6 },
-    stop_sign: { frame: 10, label: "Stop Sign", desc: "End the round. Reset Gear to 0." },
-    construction: { frame: 11, label: "Construction Work", desc: "Take 1 damage." },
-    earthquake: { frame: 12, label: "Earthquake", desc: "Swap 2 map tiles OR replace 1 map tile (from deck)." },
-    traffic_light: { frame: 13, label: "Traffic Light", desc: "If you move away from here using a card in a lower slot than my number, you break the law.", sets: ["trafficPolice"] },
-    max_speed: { frame: 14, label: "Max Speed", desc: "If you move onto this tile with a Gear out of bounds, you break the law.", sets: ["trafficPolice"] },
-    gas_station: { frame: 15, label: "Gas Station", desc: "Completely refill your Fuel.", sets: ["fuelFear"] },
-    crane: { frame: 16, label: "Crane", desc: "Move once (Drive or Turn) in any direction you want.", sets: ["terrainTripplanning"] }, // or "tunnel"
+    parking_lot: { frame: 9, label: "Parking Lot", freq: 5 },
+    stop_sign: { frame: 10, label: "Stop Sign", desc: "End the round. Reset Gear to 0.", freq: 2 },
+    construction: { frame: 11, label: "Construction Work", desc: "Take 1 damage.", freq: 2 },
+    earthquake: { frame: 12, label: "Earthquake", desc: "Swap 2 map tiles OR replace 1 map tile (from deck).", freq: 2 },
+    traffic_light: { frame: 13, label: "Traffic Light", desc: "If you move away from here using a card in a lower slot than my number, you break the law.", sets: ["trafficPolice"], freq: 3 },
+    max_speed: { frame: 14, label: "Max Speed", desc: "If you move onto this tile with a Gear out of bounds, you break the law.", sets: ["trafficPolice"], freq: 3 },
+    gas_station: { frame: 15, label: "Gas Station", desc: "Completely refill your Fuel.", sets: ["fuelFear"], freq: 2 },
+    tunnel: { frame: 16, label: "Tunnel", desc: "Move once (Drive or Turn) in any direction you want.", sets: ["terrainTripplanning"], freq: 2 }, // or "tunnel"
     shop_special_1: { frame: 17, label: "Shop Special", collectible: true, sets: ["terrainTripplanning"] }, // simply has a new illustration + higher number?
     shop_special_2: { frame: 18, label: "Shop Special", collectible: true, sets: ["terrainTripplanning"] }, // simply has a new illustration + higher number?
 }
@@ -162,6 +162,7 @@ const MATERIAL =
     [CardType.HEALTH]: HEALTH_CARDS,
     [CardType.TIME]: TIME_CARDS,
     [CardType.ACTION]: ACTION_CARDS,
+    [CardType.FUEL]: {},
     [TileType.MAP]: MAP_TILES,
     [TileType.VEHICLE]: VEHICLE_TILES,
     [TileType.PAWN]: PAWN_TILES,

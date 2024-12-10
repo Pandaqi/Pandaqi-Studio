@@ -27,7 +27,8 @@ export default (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaivig
 
     const typeData = params.customData ?? tile.getData();
     const resGuides = vis.getResource("misc_shared");
-    const res = vis.getResource(params.resourceKey ?? "map_tiles");
+    const textureKey = params.resourceKey ?? typeData.textureKey ?? "map_tiles";
+    const res = vis.getResource(textureKey);
     const frame = typeData.frame;
     const addGuides = params.addGuides ?? false;
 
@@ -39,7 +40,7 @@ export default (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaivig
             pos: positions[i],
             frame: MISC.vehicle_guides.frame,
             size: iconSize.clone().scale(1.1),
-            flipY: (i == 1),
+            flipY: (i == 0),
             pivot: Point.CENTER
         })
         if(addGuides) { subGroup.add(resGuides, opGuides); }
@@ -49,7 +50,7 @@ export default (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaivig
             pos: positions[i],
             size: iconSize.clone().scale(0.9),
             frame: frame,
-            flipY: (i == 1),
+            flipY: (i == 0),
             pivot: Point.CENTER
         });
         subGroup.add(res, op);

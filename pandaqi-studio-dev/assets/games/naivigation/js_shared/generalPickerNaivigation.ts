@@ -136,7 +136,7 @@ export default class GeneralPickerNaivigation
         const terrainTypes = this.createExtraDataList(this.terrainData, possibleTerrains, numTiles);
 
         // cache the list of allowed terrains per tile type (so finding the first suitable one is really cheap below)
-        const terrainsAllowedPerTile = this.createExtraDataCache(mapTiles, possibleTerrains);
+        const terrainsAllowedPerTile = this.createExtraDataCache(this.terrainData, mapTiles, possibleTerrains);
 
         // actually assign these to tiles, keeping the filters in mind
         for(const tile of mapTiles)
@@ -156,12 +156,12 @@ export default class GeneralPickerNaivigation
         // first the type (crossroads, deadend, etc)
         const possibleNetworks = Object.keys(this.networkTypeData);
         const networkTypes = this.createExtraDataList(this.networkTypeData, possibleNetworks, numTiles);
-        const networksAllowedPerTile = this.createExtraDataCache(mapTiles, possibleNetworks);
+        const networksAllowedPerTile = this.createExtraDataCache(this.networkTypeData, mapTiles, possibleNetworks);
 
         // then the key, specific to the game (dirt road, quick road, etc)
         const possibleNetworkKeys = Object.keys(this.networkKeyData);
         const networkKeys = this.createExtraDataList(this.networkKeyData, possibleNetworkKeys, numTiles);
-        const networkKeysAllowedPerTile = this.createExtraDataCache(mapTiles, possibleNetworkKeys);
+        const networkKeysAllowedPerTile = this.createExtraDataCache(this.networkKeyData, mapTiles, possibleNetworkKeys);
 
         for(const tile of mapTiles)
         {
@@ -202,7 +202,7 @@ export default class GeneralPickerNaivigation
         return allTypes;
     }
 
-    createExtraDataCache(elements:MaterialNaivigation[], options:string[])
+    createExtraDataCache(dataAll:ExtraData, elements:MaterialNaivigation[], options:string[])
     {
         const typesAllowedPerTile = {};
         for(const element of elements)
@@ -211,7 +211,7 @@ export default class GeneralPickerNaivigation
             const arr = [];
             for(const type of options)
             {
-                const data = this.terrainData[type];
+                const data = dataAll[type];
                 if(data.filterInclude && !data.filterInclude.includes(key)) { continue; }
                 if(data.filterExclude && data.filterExclude.includes(key)) { continue; }
                 if(data.filterCollectibles)

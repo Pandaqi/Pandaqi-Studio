@@ -7,8 +7,8 @@ import Tile from "./tile";
 import MaterialNaivigation from "games/naivigation/js_shared/materialNaivigation";
 import shuffle from "js/pq_games/tools/random/shuffle";
 
-const cardPicker = new GeneralPickerNaivigation(CONFIG, Card).addMaterialData(MATERIAL);
-const tilePicker = new GeneralPickerNaivigation(CONFIG, Tile).addMaterialData(MATERIAL).addTerrainData(CONFIG.generation.terrainDist).addNetworkData(CONFIG.generation.networks.typeDistribution, CONFIG.generation.networks.keyDistribution);
+const cardPicker = new GeneralPickerNaivigation(CONFIG, Card).addMaterialData("card", MATERIAL);
+const tilePicker = new GeneralPickerNaivigation(CONFIG, Tile).addMaterialData("tile", MATERIAL).addTerrainData(CONFIG.generation.terrainDist).addNetworkData(CONFIG.generation.networks.typeDistribution, CONFIG.generation.networks.keyDistribution);
 
 cardPicker.generateCallback = () =>
 {
@@ -65,7 +65,7 @@ tilePicker.generateCallback = () =>
     if(tilePicker.config.sets.mapTiles)
     {
         // the switch tiles
-        for(let i = 0; i < tilePicker.config.custom.numSwitchTemplates; i++)
+        for(let i = 0; i < tilePicker.config.tiles.custom.numSwitchTemplates; i++)
         {
             tilePicker.addSingle(new Tile(TileType.CUSTOM, "switch", { num: i }));
         }

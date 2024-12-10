@@ -1,9 +1,9 @@
 import CONFIG_NAIVIGATION_SHARED from "games/naivigation/js_shared/configShared";
 import { TerrainType } from "games/naivigation/js_shared/dictShared";
-import { Bounds } from "js/pq_games/pixi/pixi.mjs";
 import mergeObjects from "js/pq_games/tools/collections/mergeObjects";
 import CVal from "js/pq_games/tools/generation/cval";
 import Point from "js/pq_games/tools/geometry/point";
+import Bounds from "js/pq_games/tools/numbers/bounds";
 import autoLoadFontCSS from "js/pq_games/website/autoLoadFontCSS";
 
 const CONFIG:any = 
@@ -58,6 +58,12 @@ const CONFIG:any =
             frames: new Point(8,2)
         },
 
+        weather_cards:
+        {
+            path: "weather_cards.webp",
+            frames: new Point(7,1)
+        },
+
         terrains:
         {
             loadIf: ["sets.mapTiles", "sets.supertilesSlipstreams", "sets.islandsTreasures", "sets.piratesCannons"]
@@ -66,14 +72,15 @@ const CONFIG:any =
 
     generation:
     {
-        percentageEnemyIcon: 0.1,
-        percentageWaterCurrent: 0.33,
+        percentageEnemyIcon: 0.125,
+        percentageWaterCurrent: 0.35,
+        numCardsPerWeatherType: 2,
 
         terrainDist:
         {
             [TerrainType.NONE]: { perc: 0, filterCollectibles: "include" },
             [TerrainType.SEA]: { perc: 0.66, filterCollectibles: "exclude" },
-            [TerrainType.GRASS]: { perc: 0.33, filterCollectibles: "exclude", filterInclude: ["pirate_haven"] }, // this basically forces all special types to be on water tiles
+            [TerrainType.GRASS]: { perc: 0.33, filterCollectibles: "exclude", filterInclude: ["empty"] }, // this basically forces all special types to be on water tiles
         }
     },
 
@@ -89,24 +96,25 @@ const CONFIG:any =
     {
         enemyIcon:
         {
-            pos: new CVal(new Point(0.15), "sizeUnit"),
-            size: new CVal(new Point(0.1), "sizeUnit")
+            pos: new CVal(new Point(0.1), "sizeUnit"),
+            size: new CVal(new Point(0.175), "sizeUnit")
         },
 
         waterCurrent:
         {
-            posText: new CVal(new Point(0.5), "size"),
+            size: new CVal(new Point(1.0), "size"),
+            textPos: new CVal(new Point(0.5), "size"),
             fontColor: "#000000",
             fontSize: new CVal(0.4, "sizeUnit")
         },
 
         treasure:
         {
-            fontSize: new CVal(0.07, "sizeUnit"),
-            textBoxDims: new CVal(new Point(0.925, 0.33), "size"),
-            conditionPos: new CVal(new Point(0.5, 0.6), "size"),
-            bonusPos: new CVal(new Point(0.5, 0.8), "size"),
-            iconOffset: new CVal(new Point(0.1, 0.1), "size"),
+            fontSize: new CVal(0.053, "sizeUnit"),
+            textBoxDims: new CVal(new Point(0.7, 0.33), "size"),
+            conditionPos: new CVal(new Point(0.5, 0.41), "size"),
+            bonusPos: new CVal(new Point(0.5, 0.72), "size"),
+            iconOffset: new CVal(new Point(0.125, 0.135), "size"),
             harborIconSize: new CVal(new Point(0.1), "sizeUnit")
         },
 

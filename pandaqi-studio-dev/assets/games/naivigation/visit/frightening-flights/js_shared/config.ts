@@ -63,7 +63,7 @@ const CONFIG:any =
         {
             path: "icons.webp",
             frames: new Point(8,1),
-            loadIf: ["sets.mapTiles", "sets.fuelFalling"]
+            loadIf: ["sets.vehicleCards", "sets.fuelFalling"]
         },
 
         terrains:

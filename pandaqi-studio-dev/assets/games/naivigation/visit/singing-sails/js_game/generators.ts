@@ -8,8 +8,8 @@ import MaterialNaivigation from "games/naivigation/js_shared/materialNaivigation
 import shuffle from "js/pq_games/tools/random/shuffle";
 import fromArray from "js/pq_games/tools/random/fromArray";
 
-const cardPicker = new GeneralPickerNaivigation(CONFIG, Card).addMaterialData(MATERIAL);
-const tilePicker = new GeneralPickerNaivigation(CONFIG, Tile).addMaterialData(MATERIAL);
+const cardPicker = new GeneralPickerNaivigation(CONFIG, Card).addMaterialData("card", MATERIAL);
+const tilePicker = new GeneralPickerNaivigation(CONFIG, Tile).addMaterialData("tile", MATERIAL).addTerrainData(CONFIG.generation.terrainDist);
 
 // special card types that need some modification
 const cardCustomCallback = (key, data) =>
@@ -17,7 +17,7 @@ const cardCustomCallback = (key, data) =>
     // rotation is half left, half right
     if(key == "rotate")
     {
-        const freq = MATERIAL[TileType.MAP][key].freq;
+        const freq = MATERIAL[CardType.VEHICLE][key].freq;
         const halfPoint = Math.round(0.5*freq);
         const cards = [];
         for(let i = 0; i < freq; i++)
@@ -36,11 +36,16 @@ const cardCustomCallback = (key, data) =>
         const cards = [];
         for(const [key,data] of Object.entries(WEATHER_CARDS))
         {
-            const customData = { weatherKey: key, desc: data.desc };
-            cards.push(new Card(CardType.VEHICLE, "weather", customData));
+            for(let i = 0; i < CONFIG.generation.numCardsPerWeatherType; i++)
+            {
+                const customData = { weatherKey: key, desc: data.desc };
+                cards.push(new Card(CardType.VEHICLE, "weather", customData));
+            }
         }
         return cards;
     }
+
+    return null;
 }
 cardPicker.setCustomCallback(cardCustomCallback);
 
@@ -81,16 +86,18 @@ tilePicker.generateCallback = () =>
     const mapTiles = shuffle(tilePicker.get().filter((e:MaterialNaivigation) => e.type == TileType.MAP));
     const waterTiles = shuffle(mapTiles.filter((e:MaterialNaivigation) => e.terrain == TerrainType.SEA));
     
-    const numEnemy = Math.round(tilePicker.config.tiles.percentageEnemyIcon * mapTiles.length);
+    const numEnemy = Math.round(tilePicker.config.generation.percentageEnemyIcon * mapTiles.length);
     for(let i = 0; i < numEnemy; i++)
     {
         mapTiles[i].customData.enemyIcon = true;
     }
 
-    const numWater = Math.round(tilePicker.config.tiles.percentageWaterCurrent * waterTiles.length);
+    const numWater = Math.round(tilePicker.config.generation.percentageWaterCurrent * waterTiles.length);
     for(let i = 0; i < numWater; i++)
     {
-        waterTiles[i].customData.waterCurrent = { dir: Math.floor(Math.random() * 4), strength: 1 + Math.floor(Math.random() * 2) }
+        const randDir = Math.floor(Math.random() * 4);
+        const randStrength = 1; // 1 + Math.floor(Math.random() * 2)
+        waterTiles[i].customData.waterCurrent = { dir: randDir, strength: randStrength }
     }
 }
 

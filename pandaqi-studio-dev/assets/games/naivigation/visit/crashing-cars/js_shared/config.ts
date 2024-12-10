@@ -61,7 +61,8 @@ const CONFIG:any =
         icons:
         {
             path: "icons.webp",
-            frames: new Point(5,1)
+            frames: new Point(5,1),
+            loadIf: ["sets.vehicleCards", "sets.fuelFear"]
         },
 
         networks:
@@ -73,6 +74,11 @@ const CONFIG:any =
         terrains:
         {
             loadIf: ["sets.mapTiles", "sets.trafficPolice", "sets.fuelFear", "sets.terrainTripplanning"]
+        },
+
+        persons:
+        {
+            loadIf: ["sets.taxisCargo"]
         }
     },
 
@@ -80,28 +86,26 @@ const CONFIG:any =
     {
         terrainDist:
         {
-            [TerrainType.GRASS]: { perc: 0.3 },
-            [TerrainType.FOREST]: { perc: 0.3 },
-            [TerrainType.CITY]: { perc: 0.3 },
-            [TerrainType.MOUNTAIN]: { perc: 0.1 },
+            [TerrainType.GRASS]: { perc: 0.5 },
+            [TerrainType.FOREST]: { perc: 0.5 },
         },
 
         networks:
         {
             typeDistribution:
             {
-                [NetworkType.DEADEND]: { perc: 0.05 },
-                [NetworkType.CORNER]: { perc: 0.2 },
-                [NetworkType.STRAIGHT]: { perc: 0.2 },
-                [NetworkType.THREEWAY]: { perc: 0.1 },
-                [NetworkType.ALL]: { perc: 0.45 }
+                [NetworkType.DEADEND]: { perc: 0.05, filterCollectibles: "exclude" },
+                [NetworkType.CORNER]: { perc: 0.1, filterCollectibles: "exclude" },
+                [NetworkType.STRAIGHT]: { perc: 0.1 },
+                [NetworkType.THREEWAY]: { perc: 0.1, filterCollectibles: "exclude" },
+                [NetworkType.ALL]: { perc: 0.65 }
             },
 
             keyDistribution:
             {
-                regular: { perc: 0.7 },
+                regular: { perc: 0.725 },
                 dirt_road: { perc: 0.1 },
-                asphalt: { perc: 0.1 },
+                asphalt: { perc: 0.075, filterCollectibles: "exclude" },
                 cobblestones: { perc: 0.1 }
             }
         },
@@ -117,10 +121,10 @@ const CONFIG:any =
             options: Object.keys(PASSENGERS),
             fontSize: new CVal(0.07, "sizeUnit"),
             textBoxDims: new CVal(new Point(0.925, 0.33), "size"),
-            bonusPos: new CVal(new Point(0.5, 0.6), "size"),
-            cursePos: new CVal(new Point(0.5, 0.8), "size"),
-            iconOffset: new CVal(new Point(0.1, 0.5), "size"),
-            shopIconSize: new CVal(new Point(0.1), "sizeUnit")
+            bonusPos: new CVal(new Point(0.5, 0.625), "size"),
+            cursePos: new CVal(new Point(0.5, 0.875), "size"),
+            iconOffset: new CVal(new Point(0.1, 0.4), "size"),
+            shopIconSize: new CVal(new Point(0.12), "sizeUnit")
         }
     },
 
@@ -138,7 +142,7 @@ const CONFIG:any =
             vehicleIcon:
             {
                 dims: new CVal(new Point(0.5), "sizeUnit"),
-                dimsSmall: new CVal(new Point(0.185), "sizeUnit"),
+                dimsSmall: new CVal(new Point(0.15), "sizeUnit"),
                 alpha: 1.0,
                 composite: "luminosity",
                 shadowBlur: new CVal(0.05 * 0.5, "sizeUnit"),

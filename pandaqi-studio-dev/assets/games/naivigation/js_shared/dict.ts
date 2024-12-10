@@ -223,9 +223,9 @@ const TEMPLATES:Record<string, TemplateData> =
     [CardType.INSTRUCTION]: { frameIcon: 1, textureKey: "icons" },
     [CardType.COMPASS]: { frameIcon: 0, textureKey: "icons" },
     [CardType.PASSENGER]: { frameTemplate: 6, bgColor: "#f5b7ff", label: null, subText: "Cargo", titleTextPos: new Point(0.5, 0.39), iconScale: new Point(0.63), iconOffset: new Point(0, -0.125), textureKey: "persons" },
-    [TileType.MAP]: {},
-    [TileType.VEHICLE]: {},
-    [TileType.PAWN]: {},
+    [TileType.MAP]: { textureKey: "map_tiles" },
+    [TileType.VEHICLE]: { textureKey: "map_tiles" },
+    [TileType.PAWN]: { textureKey: "map_tiles" },
 }
 
 const NUM_BG_BLOBS = 4

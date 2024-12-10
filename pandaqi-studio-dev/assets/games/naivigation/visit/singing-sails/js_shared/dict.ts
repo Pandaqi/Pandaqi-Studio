@@ -8,14 +8,14 @@ const GAME_DATA:GameNaivigationData = { bgColor: "#40cfe3", tintColor: "#e7fcff"
 //
 const VEHICLE_CARDS:Record<string,MaterialNaivigationData> = 
 {
-    sail: { frame: 0, label: "Sail", desc: "<b>Move</b> as many tiles as your Wind, in the North direction of the Compass.", freq: 10 },
+    sail: { frame: 0, label: "Sail", desc: "<b>Move</b> as many tiles as your <b>Wind</b>, in the <b>North</b> direction (of the Compass).", freq: 10 },
     wind: { frame: 1, label: "Wind", desc: "<b>Change</b> the <b>Wind</b> deck by 1 (up or down).", freq: 10 },
     rotate: { frame: 2, label: "Rotate", desc: "<b>Rotate</b> Ship or Compass a quarter turn in the direction shown.", freq: 10 },
     weather: { frame: 3, label: "Weather", desc: "@CUSTOM", freq: 7, sets: ["windstormsWeather"] },
-    row: { frame: 4, label: "Row", desc: "<b>Move</b> 1 tile forward ( = in the direction the ship faces).", freq: 4, sets: ["windstormsWeather"] },
+    row: { frame: 4, label: "Row", desc: "<b>Move</b> 1 tile forward ( = in the direction the ship faces).", freq: 8, sets: ["windstormsWeather"] },
     spyglass: { frame: 5, label: "Spyglass", desc: "<b>Draw</b> 3 tiles from any deck. <b>Attach</b> them to your <b>map</b> at that compass point.", freq: 8, sets: ["windstormsWeather"] },
-    dig: { frame: 6, label: "Dig", desc: "<b>Replace</b> 1-3 tiles on the map with new ones from any deck(s).", freq: 6, sets: ["islandsTreasures"] },
-    cannon: { frame: 7, label: "Cannon", desc: "<b>Destroy enemies</b> on the tile directly to your left and right.", freq: 10, sets: ["piratesCannons"] },
+    dig: { frame: 6, label: "Dig", desc: "<b>Replace</b> 1-3 tiles on the map with new ones from any deck(s).", freq: 4, sets: ["islandsTreasures"] },
+    cannon: { frame: 7, label: "Cannon", desc: "<b>Destroy enemies</b> on the tile directly to your left and right.", freq: 8, sets: ["piratesCannons"] },
 };
 
 const HEALTH_CARDS:Record<string,MaterialNaivigationData> =
@@ -71,14 +71,14 @@ const MAP_TILES:Record<string,MaterialNaivigationData> =
     harbor_2: { frame: 2, label: "Harbor", collectible: true, freq: 2 },
     harbor_3: { frame: 3, label: "Harbor", collectible: true, freq: 2 },
     harbor_4: { frame: 4, label: "Harbor", collectible: true, freq: 2 },
-    island: { frame: 8, label: "Island", desc: "Add any deck tile to the map. Land tiles, though, must attach to other land." },
-    anchor: { frame: 9, label: "Anchor", desc: "The round ends. There are instructions left to execute? Take 1 damage." },
-    lighthouse: { frame: 10, label: "Lighthouse", desc: "While here, the start player shows their hand and plays their cards faceup." },
-    buoy: { frame: 11, label: "Buoy", desc: "You may freely discuss the game, but not reveal your exact hand cards.", sets: ["supertilesSlipstreams"] },
-    shipwreck: { frame: 12, label: "Shipwreck", desc: "If you move through here at a speed of less than 3, bounce back and take 1 damage.", sets: ["supertilesSlipstreams"] },
-    treasure_map: { frame: 13, label: "Treasure Map", desc: "Look at any deck until you find a Harbor tile. Move it to the top.", sets: ["supertilesSlipstreams"] },
-    pirate_haven: { frame: 14, label: "Pirate Haven", desc: "You must visit all Pirate Havens, but can only do so if an Enemy is within 2 tiles.", sets: ["piratesCannons"] },
-    whirlpool: { frame: 15, label: "Whirlpool", desc: "Randomize your Wind deck and Ship orientation.", sets: ["islandsTreasures"] },
+    island: { frame: 8, label: "Island", desc: "Add any deck tile to the map. Land tiles, though, must attach to other land.", freq: 2 },
+    anchor: { frame: 9, label: "Anchor", desc: "The round ends. There are instructions left to execute? Take 1 damage.", freq: 3 },
+    lighthouse: { frame: 10, label: "Lighthouse", desc: "While here, the start player shows their hand and plays their cards faceup.", freq: 3 },
+    buoy: { frame: 11, label: "Buoy", desc: "You may freely discuss the game, but not reveal your exact hand cards.", sets: ["supertilesSlipstreams"], freq: 2 },
+    shipwreck: { frame: 12, label: "Shipwreck", desc: "If you move through here at a speed < 3, bounce back and take 1 damage.", sets: ["supertilesSlipstreams"], freq: 2 },
+    treasure_map: { frame: 13, label: "Treasure Map", desc: "Look at any deck until you find a Harbor tile. Move it to the top.", sets: ["supertilesSlipstreams"], freq: 1 },
+    pirate_haven: { frame: 14, label: "Pirate Haven", desc: "You must visit all Pirate Havens, but can only do so if an Enemy is within 2 tiles.", sets: ["piratesCannons"], collectible: true, freq: 3 },
+    whirlpool: { frame: 15, label: "Whirlpool", desc: "Randomize your Wind deck and Ship orientation.", sets: ["islandsTreasures"], freq: 3 },
 }
 
 const VEHICLE_TILES:Record<string,MaterialNaivigationData> =
@@ -90,9 +90,9 @@ const VEHICLE_TILES:Record<string,MaterialNaivigationData> =
 
 const PAWN_TILES:Record<string,MaterialNaivigationData> =
 {
-    pawn_pirateship: { frame: 7, label: "Pirates", sets: ["piratesCannons"], freq: 3 },
-    pawn_seamonster: { frame: 8, label: "Sea Monster", sets: ["piratesCannons"], freq: 3 },
-    pawn_giantwave: { frame: 9, label: "Giant Wave", sets: ["piratesCannons"], freq: 3 },
+    pawn_pirateship: { frame: 7, label: "Pirates", textureKey: "misc", sets: ["piratesCannons"], freq: 3 },
+    pawn_seamonster: { frame: 8, label: "Sea Monster", textureKey: "misc", sets: ["piratesCannons"], freq: 3 },
+    pawn_giantwave: { frame: 9, label: "Giant Wave", textureKey: "misc", sets: ["piratesCannons"], freq: 3 },
 }
 
 const MISC =

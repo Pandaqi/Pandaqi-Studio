@@ -15,7 +15,7 @@ import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
 
 export default class Tile extends MaterialNaivigation
 {
-    getData() { return MATERIAL[this.type][this.key]; }
+    getData() { return MATERIAL[this.type][this.key] ?? {}; }
     getNetworkData() { return NETWORK_TYPES[this.networkKey]; }
     async draw(vis:MaterialVisualizer)
     {
@@ -75,7 +75,7 @@ export default class Tile extends MaterialNaivigation
             group.add(res, vehicleOp);
 
             const vehicleDimsSmall = vis.get("tiles.parkingLot.vehicleIcon.dimsSmall");
-            const cornerOffset = vehicleDimsSmall.clone().scale(0.66);
+            const cornerOffset = vehicleDimsSmall.clone().scale(0.5);
             const corners = getRectangleCornersWithOffset(vis.size, cornerOffset);
             for(const corner of corners)
             {

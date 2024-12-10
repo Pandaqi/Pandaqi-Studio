@@ -62,13 +62,15 @@ const CONFIG:any =
         icons:
         {
             path: "icons.webp",
-            frames: new Point(5,1)
+            frames: new Point(5,1),
+            loadIf: ["sets.vehicleCards"]
         },
 
         networks:
         {
             path: "networks.webp",
-            frames: new Point(5,4)
+            frames: new Point(5,4),
+            loadIf: ["sets.mapTiles", "sets.animalsCrossings"]
         },
 
         terrains:
@@ -81,29 +83,27 @@ const CONFIG:any =
     {
         terrainDist:
         {
-            [TerrainType.GRASS]: { perc: 0.4 },
-            [TerrainType.FOREST]: { perc: 0.4 },
-            [TerrainType.CITY]: { perc: 0.2 },
+            [TerrainType.GRASS]: { perc: 0.6 },
+            [TerrainType.FOREST]: { perc: 0.1 },
+            [TerrainType.CITY]: { perc: 0.3 },
         },
 
         networks:
         {
             typeDistribution:
             {
-                [NetworkType.CORNER]: { perc: 0.1 },
-                [NetworkType.STRAIGHT]: { perc: 0.1 },
-                [NetworkType.THREEWAY]: { perc: 0.3 },
-                [NetworkType.ALL]: { perc: 0.5 }
+                [NetworkType.CORNER]: { perc: 0.075, filterCollectibles: "exclude" },
+                [NetworkType.STRAIGHT]: { perc: 0.075, filterCollectibles: "exclude" },
+                [NetworkType.THREEWAY]: { perc: 0.15, filterCollectibles: "exclude" },
+                [NetworkType.ALL]: { perc: 0.7 }
             },
 
             keyDistribution:
             {
-                regular: { perc: 0.6 },
-                speedy: { perc: 0.1 },
-                one_way: { perc: 0.05 },
-                safety: { perc: 0.1 },
-                double: { perc: 0.1 },
-                colored: { perc: 0.05 }
+                regular: { perc: 0.7 },
+                speedy_one_way: { perc: 0.1, filterCollectibles: "exclude" },
+                safety_double: { perc: 0.1, filterCollectibles: "exclude" },
+                colored: { perc: 0.1, filterCollectibles: "exclude" }
             }
         },
     },
@@ -122,14 +122,15 @@ const CONFIG:any =
             },
 
             options: Object.keys(MATERIAL[TileType.VEHICLE]),
-            iconSize: new CVal(new Point(0.1), "sizeUnit"),
+            iconSize: 0.125,
+            iconPlacementBounds: 0.5,
             iconPositions:
             {
-                1: [new CVal(new Point(0.5), "sizeUnit")],
-                2: [new CVal(new Point(0.33), "sizeUnit"), new CVal(new Point(0.66), "sizeUnit")],
-                3: [new CVal(new Point(0.25), "sizeUnit"), new CVal(new Point(0.5), "sizeUnit"), new CVal(new Point(0.75), "sizeUnit")],
-                4: [new CVal(new Point(0.25), "sizeUnit"), new CVal(new Point(0.25, 0.75), "sizeUnit"), new CVal(new Point(0.75, 0.25), "sizeUnit"), new CVal(new Point(0.75), "sizeUnit")],
-                5: [new CVal(new Point(0.25), "sizeUnit"), new CVal(new Point(0.25, 0.75), "sizeUnit"), new CVal(new Point(0.5), "sizeUnit"), new CVal(new Point(0.75, 0.25), "sizeUnit"), new CVal(new Point(0.75), "sizeUnit")]
+                1: [new Point(0)],
+                2: [new Point(-0.66), new Point(0.66)],
+                3: [new Point(-1), new Point(0), new Point(1)],
+                4: [new Point(-1), new Point(-1, 1), new Point(1, -1), new Point(1)],
+                5: [new Point(-1), new Point(-1, 1), new Point(0), new Point(1, -1), new Point(1)]
             }
         }
     },
@@ -141,7 +142,7 @@ const CONFIG:any =
             fontSize: new CVal(0.3, "sizeUnit"),
             strokeWidth: new CVal(0.08, "tiles.custom.fontSize"),
             numSwitchTemplates: 5,
-            trainIconSize: new CVal(new Point(0.5), "sizeUnit")
+            trainIconSize: new CVal(new Point(0.385), "sizeUnit")
         }   
     },
 }

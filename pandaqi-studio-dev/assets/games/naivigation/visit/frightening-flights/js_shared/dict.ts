@@ -132,7 +132,6 @@ const MATERIAL =
     [CardType.TIME]: TIME_CARDS,
     [CardType.ACTION]: ACTION_CARDS,
     [CardType.FUEL]: {},
-    [CardType.PASSENGER]: PASSENGERS,
     [TileType.MAP]: MAP_TILES,
     [TileType.VEHICLE]: VEHICLE_TILES,
     [TileType.PAWN]: PAWN_TILES,

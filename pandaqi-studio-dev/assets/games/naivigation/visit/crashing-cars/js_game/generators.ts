@@ -8,8 +8,8 @@ import fromArray from "js/pq_games/tools/random/fromArray";
 import shuffle from "js/pq_games/tools/random/shuffle";
 import MaterialNaivigation from "games/naivigation/js_shared/materialNaivigation";
 
-const cardPicker = new GeneralPickerNaivigation(CONFIG, Card).addMaterialData(MATERIAL);
-const tilePicker = new GeneralPickerNaivigation(CONFIG, Tile).addMaterialData(MATERIAL).addTerrainData(CONFIG.generation.terrainDist).addNetworkData(CONFIG.generation.networks.typeDistribution, CONFIG.generation.networks.keyDistribution);
+const cardPicker = new GeneralPickerNaivigation(CONFIG, Card).addMaterialData("card", MATERIAL);
+const tilePicker = new GeneralPickerNaivigation(CONFIG, Tile).addMaterialData("tile", MATERIAL).addTerrainData(CONFIG.generation.terrainDist).addNetworkData(CONFIG.generation.networks.typeDistribution, CONFIG.generation.networks.keyDistribution);
 
 cardPicker.generateCallback = () =>
 {

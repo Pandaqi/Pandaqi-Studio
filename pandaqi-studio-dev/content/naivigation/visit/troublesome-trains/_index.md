@@ -59,7 +59,7 @@ Print and cut it, read the short [playful rules](rules), and you can play!
     {{< setting-checkbox id="setting-sets-leadersFollowers" text="Leaders & Followers" >}}
     {{< setting-checkbox id="setting-sets-animalsCrossings" text="Animals & Crossings" >}}
     {{< setting-checkbox id="setting-sets-railsFails" text="Rails & Fails" >}}
-    {{< setting-checkbox id="setting-sets-traintwistRailsteal" text="Traintwist & Railsteal" >}}
+    {{< setting-checkbox id="setting-sets-directionDelay" text="Direction & Delay" >}}
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 

@@ -6,13 +6,17 @@ import ResourceText from "js/pq_games/layout/resources/resourceText";
 import TextConfig from "js/pq_games/layout/text/textConfig";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import Point from "js/pq_games/tools/geometry/point";
-import { CardType, TileType } from "games/naivigation/js_shared/dictShared";
+import { CardType, PASSENGERS, TileType } from "games/naivigation/js_shared/dictShared";
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 
 export default class Card extends MaterialNaivigation
 {
     getGameData() { return GAME_DATA; }
-    getData() { return MATERIAL[this.type][this.key]; }
+    getData() 
+    { 
+        if(this.type == CardType.PASSENGER) { return PASSENGERS[this.key]; }
+        return MATERIAL[this.type][this.key] ?? {}; 
+    }
     getMisc() { return MISC; }
     async draw(vis:MaterialVisualizer)
     {
@@ -33,7 +37,7 @@ export default class Card extends MaterialNaivigation
         }).alignCenter();
 
         const textBoxDims = vis.get("cards.passengers.textBoxDims");
-        const bonus = PASSENGER_BONUSES[this.customData.bonus].desc;
+        const bonus = "REWARD: " + PASSENGER_BONUSES[this.customData.bonus].desc;
         const resTextBonus = new ResourceText(bonus, textConfig);
         const opTextBonus = new LayoutOperation({
             pos: vis.get("cards.passengers.bonusPos"),
@@ -43,7 +47,7 @@ export default class Card extends MaterialNaivigation
         });
         group.add(resTextBonus, opTextBonus);
 
-        const curse = PASSENGER_CURSES[this.customData.curse].desc;
+        const curse = "CURSE: " + PASSENGER_CURSES[this.customData.curse].desc;
         const resTextCurse = new ResourceText(curse, textConfig);
         const opTextCurse = new LayoutOperation({
             pos: vis.get("cards.passengers.cursePos"),
@@ -67,7 +71,8 @@ export default class Card extends MaterialNaivigation
             const op = new LayoutOperation({
                 pos: pos,
                 size: vis.get("cards.passengers.shopIconSize"),
-                frame: shopData.frame
+                frame: shopData.frame,
+                pivot: Point.CENTER
             });
             group.add(resIcon, op);
         }

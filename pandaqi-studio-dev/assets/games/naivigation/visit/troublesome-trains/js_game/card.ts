@@ -29,16 +29,23 @@ export default class Card extends MaterialNaivigation
         const ctx = createContext({ size: canvSize });
         const group = new ResourceGroup();
 
+        const resMainIcon = vis.getResource("vehicle_cards");
+        const opMainIcon = new LayoutOperation({
+            size: new Point(vis.sizeUnit),
+        });
+        group.add(resMainIcon, opMainIcon);
+
         const trainData = this.customData.trainKeys;
         const numIcons = trainData.length;
         const positions = vis.get("cards.trainVehicle.iconPositions")[numIcons];
         const res = vis.getResource("map_tiles");
-        const iconSize = vis.get("cards.trainVehicle.iconSize");
+        const iconSize = new Point( vis.get("cards.trainVehicle.iconSize") * vis.sizeUnit );
+        const iconPlacementBounds = vis.get("cards.trainVehicle.iconPlacementBounds") * vis.sizeUnit;
         for(let i = 0; i < numIcons; i++)
         {
             const trainKey = trainData[i];
             const op = new LayoutOperation({
-                pos: positions[i],
+                pos: vis.center.clone().add( positions[i].clone().scale(iconPlacementBounds) ),
                 size: iconSize,
                 frame: MATERIAL[TileType.VEHICLE][trainKey].frame,
                 pivot: Point.CENTER

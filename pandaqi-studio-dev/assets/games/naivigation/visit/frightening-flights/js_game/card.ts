@@ -6,14 +6,18 @@ import ResourceText from "js/pq_games/layout/resources/resourceText";
 import TextConfig from "js/pq_games/layout/text/textConfig";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import Point from "js/pq_games/tools/geometry/point";
-import { CardType, TileType } from "games/naivigation/js_shared/dictShared";
+import { CardType, PASSENGERS, TileType } from "games/naivigation/js_shared/dictShared";
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
 
 export default class Card extends MaterialNaivigation
 {
     getGameData() { return GAME_DATA; }
-    getData() { return MATERIAL[this.type][this.key] ?? {}; }
+    getData() 
+    { 
+        if(this.type == CardType.PASSENGER) { return PASSENGERS[this.key]; }
+        return MATERIAL[this.type][this.key] ?? {}; 
+    }
     getMisc() { return MISC; }
     async draw(vis:MaterialVisualizer)
     {

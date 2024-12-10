@@ -335,7 +335,7 @@ const drawCardIcons = (vis:MaterialVisualizer, group:ResourceGroup, card:Materia
     // the main illustration at the top
     const typeData = card.getData() ?? {};
     const tempData = card.getTemplateData();
-    let resSpriteKey = tempData.textureKey ?? "icons";
+    let resSpriteKey = typeData.textureKey ?? tempData.textureKey ?? "icons";
 
     // this is an ugly exception to make shared material pick the right spritesheet; but it's fine as long as it remains a SINGLE exception
     const useSharedIcons = typeData.shared && (card.type == CardType.VEHICLE || card.type == CardType.ACTION);

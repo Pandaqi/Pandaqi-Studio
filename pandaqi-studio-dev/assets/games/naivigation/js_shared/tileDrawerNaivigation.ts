@@ -53,7 +53,8 @@ const drawNetwork = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialN
 
     // simply grab the right frame out of the networks spritesheet and display that full size
     const data = tile.getNetworkData();
-    const res = data.textureKey ?? vis.getResource("networks");
+    const textureKey = data.textureKey ?? "networks";
+    const res = vis.getResource(textureKey);
     const frameOffset = NETWORKS[tile.networkType].frameOffset;
     const baseFrame = data.frame * 5; // there are 5 different versions for each terrain
     const frameFinal = baseFrame + frameOffset;
@@ -69,7 +70,8 @@ const drawTile = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaiv
     // the main illustration of the tile
     const typeData = tile.getData();
     const tempData = tile.getTemplateData();
-    const resSprite = vis.getResource("map_tiles");
+    const spriteTextureKey = typeData.textureKey ?? typeData.textureKey ?? "map_tiles";
+    const resSprite = vis.getResource(spriteTextureKey);
 
     const spriteFrame = tempData.frameIcon ?? typeData.frame;
     const mainIconSize = vis.get("tiles.general.illustration.mainDims");

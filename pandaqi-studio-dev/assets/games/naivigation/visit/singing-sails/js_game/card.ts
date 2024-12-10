@@ -9,6 +9,7 @@ import TextConfig from "js/pq_games/layout/text/textConfig";
 import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
 import Point from "js/pq_games/tools/geometry/point";
 import { GAME_DATA, MATERIAL, MISC, WEATHER_CARDS } from "../js_shared/dict";
+import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
 
 export default class Card extends MaterialNaivigation
 {
@@ -34,7 +35,7 @@ export default class Card extends MaterialNaivigation
         // draw main weather icon
         const resIcon = vis.getResource("weather_cards");
         const opIcon = new LayoutOperation({
-            size: vis.size,
+            size: new Point(vis.sizeUnit),
             frame: weatherData.frame
         });
         group.add(resIcon, opIcon);
@@ -52,6 +53,9 @@ export default class Card extends MaterialNaivigation
             pos: vis.center,
             size: vis.size,
             fill: "#000000",
+            stroke: "#FFFFFF",
+            strokeWidth: 0.1*textConfig.size,
+            strokeAlign: StrokeAlign.OUTSIDE,
             pivot: Point.CENTER
         });
         group.add(resText, opText);

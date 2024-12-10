@@ -131,7 +131,8 @@ interface MaterialNaivigationData
     vehicle?: boolean, // true if a vehicle pawn
     sets?: string[] // the set(s) to which this thing belongs; if one matches, we use it
     required?: string[], // required sets to be selected in shared material for this to generate; ALL must match to use it
-    type?: any
+    type?: any,
+    textureKey?: string, // a custom texture to use, instead of the template default one
 }
 
 interface GameNaivigationData

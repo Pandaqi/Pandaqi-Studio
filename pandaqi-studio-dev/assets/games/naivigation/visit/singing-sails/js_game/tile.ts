@@ -10,6 +10,7 @@ import TextConfig from "js/pq_games/layout/text/textConfig";
 import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
 import Point from "js/pq_games/tools/geometry/point";
+import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
 
 export default class Tile extends MaterialNaivigation
 {
@@ -67,7 +68,8 @@ export default class Tile extends MaterialNaivigation
             const op = new LayoutOperation({
                 pos: vis.get("tiles.enemyIcon.pos"),
                 size: vis.get("tiles.enemyIcon.size"),
-                pivot: Point.CENTER
+                pivot: Point.CENTER,
+                frame: MISC.enemy_icon.frame
             })
             group.add(res, op);
         }
@@ -85,6 +87,7 @@ export default class Tile extends MaterialNaivigation
                 size: vis.get("tiles.waterCurrent.size"),
                 pivot: Point.CENTER,
                 composite: "overlay",
+                frame: MISC.water_direction.frame
             });
             group.add(res, op);
 
@@ -186,12 +189,15 @@ export default class Tile extends MaterialNaivigation
 
             const harborData = MATERIAL[TileType.MAP][this.customData.harbor];
             const resIcon = vis.getResource("map_tiles");
+            const effects = [new DropShadowEffect({ color: "#000000", blur: 0.05 * textConfig.size })];
             for(const pos of positions)
             {
                 const op = new LayoutOperation({
                     pos: pos,
                     size: vis.get("tiles.treasure.harborIconSize"),
-                    frame: harborData.frame
+                    frame: harborData.frame,
+                    pivot: Point.CENTER,
+                    effects: effects
                 });
                 group.add(resIcon, op);
             }

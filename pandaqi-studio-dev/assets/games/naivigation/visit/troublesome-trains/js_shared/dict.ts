@@ -7,12 +7,12 @@ const GAME_DATA:GameNaivigationData = { bgColor: "#ea7731", tintColor: "#ffddc8"
 //
 const VEHICLE_CARDS:Record<string,MaterialNaivigationData> = 
 {
-    train: { frame: 0, label: "Train", desc: "<b>Move</b> 1 train of a matching color by <b>1 step</b>.", freq: 10 },
-    switch: { frame: 1, label: "Switch", desc: "<b>Rotate</b> the <b>Switch</b> tile however you like.", freq: 10 },
-    power: { frame: 2, label: "Power", desc: "<b>Rotate</b> any <b>Train</b> tile however you like.", freq: 10, sets: ["directionDelay"] },
-    map: { frame: 3, label: "Map", desc: "<b>Rotate</b> 1 map tile OR <b>replace</b> 1 map tile (from deck).", freq: 5 },
+    train: { frame: 0, label: "Train", desc: "<b>Move</b> 1 train of a matching color by <b>1 step</b>.", freq: 16 },
+    switch: { frame: 1, label: "Switch", desc: "<b>Rotate</b> the <b>Switch</b> tile however you like.", freq: 12 },
+    power: { frame: 2, label: "Power", desc: "<b>Rotate</b> any <b>Train</b> tile however you like.", freq: 8, sets: ["directionDelay"] },
+    map: { frame: 3, label: "Map", desc: "<b>Rotate</b> 1 map tile OR <b>replace</b> 1 map tile (from deck).", freq: 7 },
     disengage: { frame: 4, label: "Disengage", desc: "<b>Move</b> all trains connected to the <b>leading car</b> to an adjacent tile.", freq: 8, sets: ["leadersFollowers"] },
-    lead_change: { frame: 5, label: "Lead Change", desc: "<b>Rotate</b> both the Switch Tile and a Train Tile one quarter turn.", freq: 5, sets: ["leadersFollowers"] }, // @TODO: most uncertain about this one
+    control_room: { frame: 5, label: "Control Room", desc: "<b>Rotate</b> both the Switch Tile and a Train Tile one quarter turn.", freq: 5, sets: ["leadersFollowers"] }, // @TODO: most uncertain about this one
     wildlife: { frame: 6, label: "Wildlife", desc: "<b>Move</b> an Animal to an adjacent tile.", freq: 6, sets: ["animalsCrossings"] },
 };
 
@@ -70,7 +70,7 @@ const TIME_CARDS:Record<string,MaterialNaivigationData> =
 //
 const MAP_TILES:Record<string,MaterialNaivigationData> =
 {
-    empty: { frame: -1, label: "Regular", freq: 20 },
+    empty: { frame: -1, label: "Regular", freq: 36 },
     station_0: { frame: 0, label: "Station", collectible: true },
     station_1: { frame: 1, label: "Station", collectible: true },
     station_2: { frame: 2, label: "Station", collectible: true },
@@ -117,7 +117,7 @@ const NETWORK_TYPES =
     one_way: { frame: 2, desc: "Only allows moving over it in the direction shown." },
     safety: { frame: 3, desc: "While here, you can't take damage." },
     double: { frame: 4, desc: "Allows 2 trains without colliding." },*/
-    colored: { frame: 5, desc: "Only trains of the type(s) shown are allowed to move over this tile." }
+    colored: { frame: 3, desc: "Only trains of the type(s) shown are allowed to move over this tile." }
 }
 
 const MATERIAL =
