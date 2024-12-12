@@ -4,7 +4,7 @@ boardgame: true
 
 title: "Troublesome Trains"
 headerTitle: "A Naivigation game about steering trains together on the same unpredictable rails"
-blurbShort: "A [Naivigation](/naivigation/) game about steering trains together, while on the same rails that keep shifting."
+blurbShort: "A [Naivigation](/naivigation/) game about steering multiple trains together, while on the same rails that keep shifting."
 
 weightProject: 50
 
