@@ -6,7 +6,7 @@ headerTitle: "Blow up your friends by finding the hidden bombs first."
 
 color: "red"
 
-date: 2024-12-12
+date: 2025-12-12
 
 difficulty: "no-brainer"
 genres: ["action"]

@@ -6,7 +6,7 @@ headerTitle: "Ward off the evil spirits by looking the right way and wearing the
 
 color: "black"
 
-date: 2024-12-12
+date: 2025-12-12
 
 difficulty: "no-brainer"
 genres: ["arcade"]

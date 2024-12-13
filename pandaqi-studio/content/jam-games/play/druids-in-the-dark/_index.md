@@ -6,7 +6,7 @@ headerTitle: "Run a potion shop covered in shadows, where one misstep is fatal."
 
 color: "purple"
 
-date: 2024-12-12
+date: 2025-12-12
 
 difficulty: "no-brainer"
 genres: ["puzzle"]

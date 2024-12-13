@@ -6,7 +6,7 @@ headerTitle: "Race your canoe through the raging rapids while escaping your frie
 
 color: "turquoise"
 
-date: 2024-12-12
+date: 2025-12-12
 
 difficulty: "no-brainer"
 genres: ["sports"]
