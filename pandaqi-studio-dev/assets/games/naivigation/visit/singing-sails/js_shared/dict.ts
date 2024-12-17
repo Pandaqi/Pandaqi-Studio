@@ -13,9 +13,9 @@ const VEHICLE_CARDS:Record<string,MaterialNaivigationData> =
     rotate: { frame: 2, label: "Rotate", desc: "<b>Rotate</b> Ship or Compass a quarter turn in the direction shown.", freq: 10 },
     weather: { frame: 3, label: "Weather", desc: "@CUSTOM", freq: 7, sets: ["windstormsWeather"] },
     row: { frame: 4, label: "Row", desc: "<b>Move</b> 1 tile forward ( = in the direction the ship faces).", freq: 8, sets: ["windstormsWeather"] },
-    spyglass: { frame: 5, label: "Spyglass", desc: "<b>Draw</b> 3 tiles from any deck. <b>Attach</b> them to your <b>map</b> at that compass point.", freq: 8, sets: ["windstormsWeather"] },
-    dig: { frame: 6, label: "Dig", desc: "<b>Replace</b> 1-3 tiles on the map with new ones from any deck(s).", freq: 4, sets: ["islandsTreasures"] },
-    cannon: { frame: 7, label: "Cannon", desc: "<b>Destroy enemies</b> on the tile directly to your left and right.", freq: 8, sets: ["piratesCannons"] },
+    spyglass: { frame: 5, label: "Spyglass", desc: "<b>Study all</b> tiles from one deck OR <b>Add 3</b> tiles from one deck.", freq: 6, sets: ["windstormsWeather"] },
+    dig: { frame: 6, label: "Dig", desc: "<b>Replace</b> 1-3 map tiles with new ones from any deck(s).", freq: 4, sets: ["islandsTreasures"] },
+    cannon: { frame: 7, label: "Cannon", desc: "<b>Destroy adjacent Enemies</b>. (Directly to your left or right.)", freq: 8, sets: ["piratesCannons"] },
 };
 
 const HEALTH_CARDS:Record<string,MaterialNaivigationData> =
@@ -71,13 +71,13 @@ const MAP_TILES:Record<string,MaterialNaivigationData> =
     harbor_2: { frame: 2, label: "Harbor", collectible: true, freq: 2 },
     harbor_3: { frame: 3, label: "Harbor", collectible: true, freq: 2 },
     harbor_4: { frame: 4, label: "Harbor", collectible: true, freq: 2 },
-    island: { frame: 8, label: "Island", desc: "Add any deck tile to the map. Land tiles, though, must attach to other land.", freq: 2 },
-    anchor: { frame: 9, label: "Anchor", desc: "The round ends. There are instructions left to execute? Take 1 damage.", freq: 3 },
-    lighthouse: { frame: 10, label: "Lighthouse", desc: "While here, the start player shows their hand and plays their cards faceup.", freq: 3 },
-    buoy: { frame: 11, label: "Buoy", desc: "You may freely discuss the game, but not reveal your exact hand cards.", sets: ["supertilesSlipstreams"], freq: 2 },
-    shipwreck: { frame: 12, label: "Shipwreck", desc: "If you move through here at a speed < 3, bounce back and take 1 damage.", sets: ["supertilesSlipstreams"], freq: 2 },
-    treasure_map: { frame: 13, label: "Treasure Map", desc: "Look at any deck until you find a Harbor tile. Move it to the top.", sets: ["supertilesSlipstreams"], freq: 1 },
-    pirate_haven: { frame: 14, label: "Pirate Haven", desc: "You must visit all Pirate Havens, but can only do so if an Enemy is within 2 tiles.", sets: ["piratesCannons"], collectible: true, freq: 3 },
+    island: { frame: 8, label: "Island", desc: "Add 1 tile from any deck to the map, ignoring placement rules.", freq: 2 },
+    anchor: { frame: 9, label: "Anchor", desc: "The round ends. There were remaining instructions? Take 1 damage.", freq: 3 },
+    lighthouse: { frame: 10, label: "Lighthouse", desc: "While here, start player shows their hand and plays their cards faceup.", freq: 3 },
+    buoy: { frame: 11, label: "Buoy", desc: "You may freely discuss the game, but at the cost of <b>1 damage</b>.", sets: ["supertilesSlipstreams"], freq: 2 },
+    shipwreck: { frame: 12, label: "Shipwreck", desc: "Moved through here at a speed < 3? Bounce back and take 1 damage.", sets: ["supertilesSlipstreams"], freq: 2 },
+    treasure_map: { frame: 13, label: "Treasure Map", desc: "Look at any deck until you find a Harbor. Move it to the top.", sets: ["supertilesSlipstreams"], freq: 1 },
+    pirate_haven: { frame: 14, label: "Pirate Haven", desc: "<b>Visit all Pirate Havens.</b> Only possible if an Enemy is within 2 tiles.", sets: ["piratesCannons"], collectible: true, freq: 3 },
     whirlpool: { frame: 15, label: "Whirlpool", desc: "Randomize your Wind deck and Ship orientation.", sets: ["islandsTreasures"], freq: 3 },
 }
 
@@ -112,31 +112,31 @@ const WEATHER_CARDS:Record<string,MaterialNaivigationData> =
     storm: { frame: 1, label: "Storm", num: -2, desc: "All instructions are <b>doubled</b>. <b>Rotating</b> incurs 1 damage." },
     windy_day: { frame: 2, label: "Windy Day", num: -1, desc: "The wind value is <b>doubled</b>." },
     calm_seas: { frame: 3, label: "Calm Seas", num: 0, desc: "There is <b>no wind</b> at all." },
-    cloudy_day: { frame: 4, label: "Cloudy Day", num: 1, desc: "The weather card only <b>switches</b> if the new weather card's number is <b>at most 1 away</b>." },
-    sunny_day: { frame: 5, label: "Sunny Day", num: 2, desc: "You're <b>not required</b> to play a weather card if you have one." }, // @TODO: most unsure about this one, as it can lock the entire weather mechanic easily
-    scorching_heat: { frame: 6, label: "Scorching Heat", num: 3, desc: "The wind value is <b>halved</b> (rounded down). If you <b>end a round</b> with this weather, <b>take 1 damage</b>." },
+    cloudy_day: { frame: 4, label: "Cloudy Day", num: 1, desc: "The Weather only <b>switches</b> if the new Weather Card's number is <b>at most 1 away</b>." },
+    sunny_day: { frame: 5, label: "Sunny Day", num: 2, desc: "You're <b>not required</b> to play a Weather card if you have one." }, // @TODO: most unsure about this one, as it can lock the entire weather mechanic easily
+    scorching_heat: { frame: 6, label: "Scorching Heat", num: 3, desc: "The Wind value is <b>halved</b> (rounded down). If you <b>end a round</b> with this Weather, <b>take 1 damage</b>." },
 }
 
 const TREASURE_CONDITIONS = 
 {
-    island_size_small: { desc: "The island has at least 3 tiles." },
-    island_size_regular: { desc: "The island has at least 5 tiles." },
-    island_size_large: { desc: "The island has at least 8 tiles." },
-    island_shape_small: { desc: "The island's longest side has at least 3 tiles." },
-    island_shape_regular: { desc: "The island's longest side has at least 5 tiles." },
-    island_shape_large: { desc: "The island's longest side has at least 8 tiles." },
-    island_shape_square: { desc: "The island has a square shape." },
-    island_shape_rectangle: { desc: "The island has a rectangle shape." },
-    island_shape_line: { desc: "The island has a line shape ( = single straight row.)" },
-    num_harbors_small: { desc: "The island has exactly 1 harbor." },
-    num_harbors_regular: { desc: "The island has at least 2 harbors." },
-    num_harbors_large: { desc: "The island has at least 3 harbors." },
-    surrounded: { desc: "The island is completely surrounded by (water) tiles." },
-    surrounded_not: { desc: "The island is <b>not</b> completely surrounded by (water) tiles yet." },
-    no_other: { desc: "No other treasure can be found on this island." },
-    special_tiles_small: { desc: "No special tile is adjacent to this island." },
-    special_tiles_regular: { desc: "At least 2 special tiles are adjacent to this island." },
-    special_tiles_big: { desc: "At least 3 special tiles are adjacent to this island." },
+    island_size_small: { desc: "The island has <b>at least 3 tiles</b>." },
+    island_size_regular: { desc: "The island has <b>at least 5 tiles</b>." },
+    island_size_large: { desc: "The island has <b>at least 8 tiles</b>." },
+    island_shape_small: { desc: "The island's <b>longest side</b> has <b>at least 3 tiles</b>." },
+    island_shape_regular: { desc: "The island's <b>longest side</b> has <b>at least 5 tiles</b>." },
+    island_shape_large: { desc: "The island's <b>longest side</b> has <b>at least 8 tiles</b>." },
+    island_shape_square: { desc: "The island has a <b>square shape</b> ( = length and width the same)." },
+    island_shape_rectangle: { desc: "The island has a <b>rectangle shape</b>." },
+    island_shape_line: { desc: "The island has a <b>line shape</b> ( = single straight row.)" },
+    num_harbors_small: { desc: "The island has <b>exactly 1 harbor</b>." },
+    num_harbors_regular: { desc: "The island has <b>at least 2 harbors</b>." },
+    num_harbors_large: { desc: "The island has <b>at least 3 harbors</b>." },
+    surrounded: { desc: "The island is <b>completely surrounded</b> by (water) tiles." },
+    surrounded_not: { desc: "The island is <b>not completely surrounded</b> by (water) tiles yet." },
+    no_other: { desc: "<b>No other treasure</b> can be found on this island." },
+    special_tiles_small: { desc: "<b>No special tile</b> is adjacent to this island." },
+    special_tiles_regular: { desc: "<b>At least 2 special tiles</b> are adjacent to this island." },
+    special_tiles_big: { desc: "<b>At least 3 special tiles</b> are adjacent to this island." },
 }
 
 const TREASURE_BONUSES =

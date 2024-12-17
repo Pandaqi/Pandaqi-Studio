@@ -75,7 +75,7 @@ const CONFIG:any =
         percentageEnemyIcon: 0.125,
         percentageWaterCurrent: 0.35,
         numCardsPerWeatherType: 2,
-
+        
         terrainDist:
         {
             [TerrainType.NONE]: { perc: 0, filterCollectibles: "include" },

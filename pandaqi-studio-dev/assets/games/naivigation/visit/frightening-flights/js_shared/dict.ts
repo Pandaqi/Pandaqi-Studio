@@ -14,7 +14,7 @@ const VEHICLE_CARDS:Record<string,MaterialNaivigationData> =
     repair: { frame: 4, label: "Repair", desc: "<b>Repair 1 health if landed.</b> Otherwise, take 1 damage and end round.", freq: 4, sets: ["repairsRacing"] },
     backflip: { frame: 5, label: "Backflip", desc: "<b>Rotate</b> the plane to face <b>backwards</b>.", freq: 8, sets: ["repairsRacing"] },
     fly_double: { frame: 6, label: "Fly+", desc: "<b>Move 2 tiles</b> forward.", freq: 6, sets: ["repairsRacing"] },
-    refuel: { frame: 7, label: "Refuel", desc: "<b>Replenish fuel if landed.</b> Otherwise, take 1 damage and end round.", freq: 10, sets: ["fuelFalling"] },
+    refuel: { frame: 7, label: "Refuel", desc: "<b>Replenish fuel if landed.</b> Otherwise, take 1 damage and only gain 3 Fuel.", freq: 10, sets: ["fuelFalling"] },
 };
 
 const HEALTH_CARDS:Record<string,MaterialNaivigationData> =
@@ -63,8 +63,8 @@ const MAP_TILES:Record<string,MaterialNaivigationData> =
     airport_4: { frame: 4, label: "Airport", collectible: true },
     starting_tile: { frame: 8, label: "Starting Tile", freq: 1, starting: true },
     stopover: { frame: 12, label: "Stopover", desc: "You can land here.", freq: 2 },
-    volcano: { frame: 13, label: "Volcano", desc: "Take 1 damage and turn the plane 180 degrees.", freq: 4, sets: ["repairsRacing"] },
-    skyscraper: { frame: 14, label: "Skyscraper", desc: "At the lowest possible elevation? Instantly lose the game.", freq: 1, sets: ["repairsRacing"] },
+    volcano: { frame: 13, label: "Volcano", desc: "Take 1 damage, but change Elevation to anything.", freq: 4, sets: ["repairsRacing"] },
+    skyscraper: { frame: 14, label: "Skyscraper", desc: "Elevation 1? Instantly lose the game. Otherwise, do a backflip.", freq: 1, sets: ["repairsRacing"] },
     fireworks: { frame: 15, label: "Fireworks Show", desc: "Reveal the remaining instructions. Decide if you still want to execute them.", freq: 3, sets: ["repairsRacing"] },
 }
 

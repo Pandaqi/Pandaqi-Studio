@@ -8,12 +8,19 @@ Press the button below to get a random setup you can simply copy to your table.
 
 {{< rules-example id="naivigation-setup" >}}
 
-Alternatvely, manually do the setup as follows.
-* Create a deck of 25 tiles, including 5 airports.
-* Randomly place these in a 5x5 grid. 
-* Place the vehicle on the first non-airport tile (oriented randomly).
+{{% rules-double-view src="setup.webp" alt="Example of how to setup the game." split="leftheavy" %}}
 
-Grab all **Elevation Cards** and place them in numeric order (low to high). This is the "Elevation Deck". It represents the current altitude of your plane. Remove cards from the top until it shows the same elevation as your starting tile.
+Alternatively, manually do the setup as follows.
+
+* Create a deck of 25 tiles, including 5 Airports and the Starting Tile.
+* Randomly place these in a 5x5 grid. 
+* Place the vehicle on the starting tile (oriented randomly).
+
+Grab all **Elevation Cards** and place them in numeric order (low to high). This is the "Elevation Deck". It represents the current altitude of your plane. Start at the same elevation as your starting tile.
+
+The elevation of a _map tile_ is given by the number of triangles in the corners. The elevation for a specific _terrain_ (grass, forest, ...) is always the same.
+
+{{% /rules-double-view %}}
 
 <div class="rulebook-shared-rule">
 Combine the default Vehicle Cards with the specific Vehicle Cards for this game. Shuffle and place as a FACEUP draw pile. Each player draws 3 of these to hold in their hand. 
@@ -53,25 +60,27 @@ _No communication about the game is allowed._
 
 Whenever you **take damage**, reveal the top card of your Health Deck. These cards always have a _handicap_ which must be followed at all times.
 
+{{< rules-image src="gameplay.webp" alt="The core gameplay of Naivigation: play vehicle cards, execute, move vehicle." >}}
+
 {{% /rules-block %}}
 
 {{% rules-block heading="Moving & Visiting" %}}
 
 When moving, first check your elevation.
 
-* Tiles show an _elevation_ number. (If they don't, their elevation is simply 1.)
+* Tiles have a specific _elevation_, shown by triangles in the corner.
 * **You can only fly over tiles if your elevation is higher.** 
 * If you try to enter a tile at the wrong elevation, take 1 damage and don't move.
 
 There is only one exception: **landing**.
 
 * Any Airport or Stopover tiles can be landed on if you have **the exact same elevation**.
-* Remove the tile and replace it with a random one from the deck. (Remember: if all Airports are gone, you win the game.)
-* Change your elevation deck to the elevation of this _new_ tile. 
+* If so, remove the tile and replace it with a random one from the deck. (Remember: if all Airports are gone, you win the game.)
+* And change your Elevation to the elevation of this _new_ tile. 
 
 The map **wraps around**: flying off of one side makes you reappear on the other. Doing this, however, incurs 1 damage.
 
-@TODO: EXAMPLE IMAGE
+{{< rules-image src="gameplay_moving_visiting.webp" alt="How to fly around and land on/collect airports." >}}
 
 {{% /rules-block %}}
 
@@ -79,14 +88,14 @@ The map **wraps around**: flying off of one side makes you reappear on the other
 
 {{% rules-block id="vehicle-cards" heading="Vehicle Cards" icon="expansion" %}}
 
-@TODO: EXAMPLE IMAGE
+{{< rules-image src="vehicle_cards.webp" alt="Examples of the 4 basic vehicle cards in the game, as well as elevation extremes being bad." >}}
 
 The following vehicle cards are in the base game.
 
 * **Fly:** move one step forward ( = in current facing direction)
 * **Turn**: rotate a quarter turn left or right (start player decides)
-* **Stunt**: move one step forward, ignoring elevation/the elevation rule.
 * **Elevate**: if played in an odd-numbered slot, add 1 elevation. Otherwise, remove 1 elevation.
+* **Stunt**: move one step forward, ignoring elevation rules.
 
 It's possible to fly **too low** (you need to remove the last elevation card) or **too high** (need to add a new elevation card but can't). In both cases, take 1 damage, but don't change elevation.
 
@@ -98,6 +107,20 @@ The elevation deck ranges from 1--5. Elevation on tiles ranges from 0--4.
 
 Played the base game and ready for more? Try one or more of these expansions!
 
+{{% rules-block heading="Variants" %}}
+
+For an **easier game**, 
+
+* Whenever you replace your tile (after landing), **don't** update your Elevation to the new tile. Just keep it as it is.
+* Also allow flying over a tile if your elevation is the **same**.
+
+For a **harder game**, 
+
+* Take out the **Stunt** cards. (Or simply make them the same as **Fly**.)
+* Disable **wrapping around** the map. (Just stay where you are, and take 1 damage for this at the end of the round.)
+
+{{% /rules-block %}}
+
 {{% rules-block heading="Fuel & Falling" %}}
 
 This expansion adds a constant extra pressure or decision to the game. Its rules are simple as always, but it makes the game considerably harder, so ye be warned.
@@ -108,26 +131,20 @@ During **setup**,
 
 During **gameplay**, many Vehicle Cards deplete fuel. Whenever you execute a card that ends up **moving the plane**, it costs 1 Fuel. (That is, remove the next Fuel card from that deck.)
 
-The **Refuel** card replenishes the entire fuel tank. It can, however, only be used if the plane has _landed_. If executed at any other time, take 1 damage and clear the remaining instructions.
-
 If you **run out of fuel** ( = fuel deck is empty), you enter "free fall".
 
 * The Fly and Elevate cards don't work anymore. (You will mostly be steering and hoping for a refuel.)
-* At the end of each round, you automatically move forward 1 tile and drop 1 elevation level.
+* At the end of each round, you automatically move forward 1 tile and drop 1 elevation level. (Take these two steps in the order that suits you.)
 
-@TODO: EXAMPLE IMAGE
+{{< rules-image src="fuel_falling.webp" alt="Example of tracking fuel, freefall when you run out, and how to refuel in time." >}}
 
 {{% /rules-block %}}
 
 {{% rules-block heading="Repairs & Racing" %}}
 
-Adds three new Vehicle Cards.
+This expansion adds three new Vehicle Cards: **Repair, Backflip** and **Fly**.
 
-* **Repair:** when executed, repair 1 damage. (Add one card back to the Health Deck.) It can only be used if the plane has _landed_. If executed at any other time, take 1 damage and clear the remaining instructions.
-* **Backflip:** rotate the plane 180 degrees
-* **Fly+:** fly forward twice.
-
-@TODO: EXAMPLE IMAGE?
+{{< rules-image src="expansion_repairs_racing.webp" alt="Examples of the 3 new vehicle cards in this expansion." >}}
 
 {{% /rules-block %}}
 
@@ -144,22 +161,30 @@ Once you understand this expansion better, you can add the Timezone tiles in a R
 The remaining Timezone Tiles create the **Clock Deck**. It works similar to the Elevation Deck: place them in numeric order, from low to high, and start the timer at the lowest number.
 
 During **gameplay**,
-* After each round, advance the clock by placing the next tile on top.
-* Whenever you fly into a new timezone, modify the clock based on the difference. (Example: going from zone +5 to +3 means the clock goes back by 2 tiles.)
+
+* After _each round_, advance the clock by placing the next tile on top.
 * Whenever you collect a new airport, reset this clock to 0.
-* An airport can only be collected if you reach it when the clock is _lower_ than its indicated time. (Each airport has a simple CLOCK ICON with a number on it.)
+* Whenever you fly into a new timezone, modify the clock based on the difference. 
+  * Example: going from zone +2 to +3 means you **add** a Clock Card (advance time).
+  * Example: going from zone +5 to +3 means you **remove** two Clock Cards (back in time).
 
-If it's impossible to land on _any_ airport anymore, you immediately lose the game.
+Crucially, the clock now determines if you can visit a specific airport at all.
 
-@TODO: EXAMPLE IMAGE
+> An airport can only be collected if you reach it when the Clock is _lower_ than its indicated time.
+
+{{< rules-image src="expansion_timezones_tomorrow.webp" alt="Example of how to track the Clock and timezones, and use that to land on airports in time." >}}
 
 {{% /rules-block %}}
 
 {{% rules-block heading="Birds & Bumps" %}}
 
-This expansion adds **Obstacle Pawns**.
+This expansion adds **Obstacle Pawns**: Bird, Balloon and Tornado.
 
 During **setup**, place 3 random obstacles on random airports. 
+
+{{% remark %}}
+Add more obstacles for a harder game, fewer for an easier game.
+{{% /remark %}}
 
 During **gameplay**,
 
@@ -169,17 +194,13 @@ During **gameplay**,
 
 When you _hit_ an obstacle, there are consequences. These depend on what you hit.
 
-* **Bird**: take 1 damage and end the round.
-* **Balloon**: end the round. (You can only hit this if your elevation is 3 or higher.)
-* **Storm**: take 1 damage. (You can only hit this if your elevation is 3 or lower.)
-
-It also adds a few cards for the action/time deck about **weather effects** (in case you're playing with that expansion).
-
-@TODO: EXAMPLE IMAGE
+{{< rules-image src="expansion_birds_bumps.webp" alt="Example of how to place and move obstacle pawns, including their special power when you collide with them." >}}
 
 {{% /rules-block %}}
 
 {{% rules-block heading="Passengers & Planes" %}}
+
+{{% rules-double-view src="expansion_passengers_planes.webp" alt="Example of passengers and how to read/use them." split="leftheavy" %}}
 
 This expansion adds extra material: **Passenger Tiles**.
 
@@ -190,13 +211,13 @@ Each passenger ...
 * Has a penalty (which must be followed for as long as they are in your airplane)
 * Has a bonus (which triggers when you deliver them)
 
+{{% /rules-double-view %}}
+
 The passenger leaves ("is delivered") when you visit their preferred airport. If so, clearly place them apart from the undelivered passengers.
 
 {{% remark %}}
 Yes, you _don't_ have to deliver them all to win, though it's probably desirable because of their penalty.
 {{% /remark %}}
-
-@TODO: EXAMPLE IMAGE
 
 Once comfortable with this, you can raise the number of passengers. You can also add the following rule: "When you visit a new airport, draw an extra passenger. If its destination doesn't exist anymore, remove 1 passenger (delivered or not) of choice."
 

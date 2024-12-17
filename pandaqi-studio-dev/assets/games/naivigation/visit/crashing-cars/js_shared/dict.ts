@@ -75,10 +75,10 @@ const MAP_TILES:Record<string,MaterialNaivigationData> =
     stop_sign: { frame: 10, label: "Stop Sign", desc: "End the round. Reset Gear to 0.", freq: 2 },
     construction: { frame: 11, label: "Construction Work", desc: "Take 1 damage.", freq: 2 },
     earthquake: { frame: 12, label: "Earthquake", desc: "Swap 2 map tiles OR replace 1 map tile (from deck).", freq: 2 },
-    traffic_light: { frame: 13, label: "Traffic Light", desc: "If you move away from here using a card in a lower slot than my number, you break the law.", sets: ["trafficPolice"], freq: 3 },
-    max_speed: { frame: 14, label: "Max Speed", desc: "If you move onto this tile with a Gear out of bounds, you break the law.", sets: ["trafficPolice"], freq: 3 },
+    traffic_light: { frame: 13, label: "Traffic Light", desc: "You must move away from this tile with a card past slot 3. Otherwise, law broken.", sets: ["trafficPolice"], freq: 3 },
+    max_speed: { frame: 14, label: "Max Speed", desc: "Your Gear must stay between 1 and 2. Otherwise, law broken.", sets: ["trafficPolice"], freq: 3 },
     gas_station: { frame: 15, label: "Gas Station", desc: "Completely refill your Fuel.", sets: ["fuelFear"], freq: 2 },
-    tunnel: { frame: 16, label: "Tunnel", desc: "Move once (Drive or Turn) in any direction you want.", sets: ["terrainTripplanning"], freq: 2 }, // or "tunnel"
+    tunnel: { frame: 16, label: "Tunnel", desc: "Move once (Drive or Turn) in any direction. Another tunnel exists? Teleport there.", sets: ["terrainTripplanning"], freq: 3 }, // used to be "crane" or "roadworker"
     shop_special_1: { frame: 17, label: "Shop Special", collectible: true, sets: ["terrainTripplanning"] }, // simply has a new illustration + higher number?
     shop_special_2: { frame: 18, label: "Shop Special", collectible: true, sets: ["terrainTripplanning"] }, // simply has a new illustration + higher number?
 }
@@ -144,7 +144,7 @@ const PASSENGER_CURSES:Record<string, MaterialNaivigationData> =
 const NETWORK_TYPES =
 {
     regular: { frame: 0, desc: "Nothing special." },
-    dirt_road: { frame: 1, desc: "Your Gear instantly jumps to 1. It can't go above it while here." },
+    dirt_road: { frame: 1, desc: "Your Gear instantly jumps to -1. It can't go above it while here." },
     asphalt: { frame: 2, desc: "Your Gear instantly jumps to 4. It can't go below while here." },
     cobblestones: { frame: 3, desc: "Turning here always incurs 1 damage." },
 }

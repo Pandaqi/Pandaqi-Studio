@@ -67,7 +67,7 @@ tilePicker.generateCallback = () =>
     if(tilePicker.config.sets.islandsTreasures)
     {
         const numTreasures = tilePicker.config.tiles.custom.numTreasures;
-        const harbors = Object.keys(MATERIAL[TileType.MAP]).filter((key:string) => MATERIAL[TileType.MAP][key].collectible);
+        const harbors = Object.keys(MATERIAL[TileType.MAP]).filter((key:string) => MATERIAL[TileType.MAP][key].collectible && key != "pirate_haven");
         const randCondOrder = shuffle(Object.keys(TREASURE_CONDITIONS));
         const randBonusOrder = shuffle(Object.keys(TREASURE_BONUSES))
         for(let i = 0; i <= numTreasures; i++)

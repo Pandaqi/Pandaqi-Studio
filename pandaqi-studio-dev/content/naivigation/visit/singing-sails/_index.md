@@ -6,7 +6,7 @@ title: "Singing Sails"
 headerTitle: "A Naivigation game about steering a single ship together"
 blurbShort: "A [Naivigation](/naivigation/) game about steering a single ship together, battling sea currents and dangerous islands."
 
-weightProject: 30
+weightProject: 40
 
 color: "turquoise"
 
@@ -67,9 +67,11 @@ Print and cut it, read the short [playful rules](rules), and you can play!
 
 {{% section-centered heading="Credits" anchor="credits" %}}
 
-This project is the "middle game" of the 5 major Naivigation games. And you can probably guess why. It's slightly more involved than the starter games, because of how wind direction and strength must move your ship. But it's still very simple, because a ship is quite free to move in the water, and everyone intuitively knows it can't move over land.
+This project started as the "middle game" of the 5 major Naivigation games. It's slightly more involved than the starter games, because of how wind direction and strength must move your ship. But it's still very simple, because a ship is quite free to move in the water, and everyone intuitively knows it can't move over land.
 
-In return for a few more rules, you get a more fluid and creative game, where the ocean map is built as you go. The expansions are certainly recommended too, adding fun elements like pirate ships, treasures and water currents.
+To make the game shine (and more intuitive/realistic), though, I had to add one or two extra rules. Such as that a Ship can only visit harbors if rotated the right way. Otherwise, it looks weird (it would destroy the whole harbor! so dangerous!), and the game is less challenging. Once all this work was said and done, I decided it was probably best to place this as a slightly more advanced Naivigation game.
+
+But in return for a few more rules, you get a more fluid and creative game, where the ocean map is built as you go. The expansions are certainly recommended too, adding fun elements like pirate ships, treasures and water currents.
 
 For more information, check out the credits and supporting information from the [Naivigation overview page](/naivigation/).
 

@@ -12,7 +12,7 @@ const VEHICLE_CARDS:Record<string,MaterialNaivigationData> =
     power: { frame: 2, label: "Power", desc: "<b>Rotate</b> any <b>Train</b> tile however you like.", freq: 8, sets: ["directionDelay"] },
     map: { frame: 3, label: "Map", desc: "<b>Rotate</b> 1 map tile OR <b>replace</b> 1 map tile (from deck).", freq: 7 },
     disengage: { frame: 4, label: "Disengage", desc: "<b>Move</b> all trains connected to the <b>leading car</b> to an adjacent tile.", freq: 8, sets: ["leadersFollowers"] },
-    control_room: { frame: 5, label: "Control Room", desc: "<b>Rotate</b> both the Switch Tile and a Train Tile one quarter turn.", freq: 5, sets: ["leadersFollowers"] }, // @TODO: most uncertain about this one
+    control_room: { frame: 5, label: "Control Room", desc: "<b>Rotate 2 items</b> equally much. <b>Lead Trains</b> move on their own this round.", freq: 5, sets: ["leadersFollowers"] },
     wildlife: { frame: 6, label: "Wildlife", desc: "<b>Move</b> an Animal to an adjacent tile.", freq: 6, sets: ["animalsCrossings"] },
 };
 

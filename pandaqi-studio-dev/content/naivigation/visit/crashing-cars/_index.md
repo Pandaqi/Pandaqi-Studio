@@ -6,7 +6,7 @@ title: "Crashing cars"
 headerTitle: "A Naivigation game about steering a single car together"
 blurbShort: "A [Naivigation](/naivigation/) game about steering a single car together, trying not to end up total loss."
 
-weightProject: 40
+weightProject: 30
 
 color: "green"
 
@@ -71,11 +71,11 @@ As mentioned on the Naivigation page, this whole idea started with the _car_. Ma
 
 When I created this new (and vastly improved) Naivigation series of games, I thought the car would be the first game again. I thought it was surely the simplest and most well-known vehicle, so its game should be the simplest. Right?
 
-Well, no. I actually struggled the most with this vehicle. It was hard to make driving a car really feel different and play different than the other Naivigation games, without overcomplicating it. (My very first notes even said stuff like "Add a vehicle card for activating your windshield?! What else can you do!?")
+Well, no. I actually struggled the most with this vehicle. It was hard to make driving a car really feel different and play different than the other Naivigation games, without overcomplicating it. (My very first notes even said stuff like "Add a vehicle card for activating your windshield wipers?! What else can you do!?")
 
 Fortunately, as I continued development, I figured out how to make this game work. It still didn't become the simplest version, because cars are confined to _roads_, which automatically makes it harder to control than, say, a spaceship that can float freely. But it became much simpler and much stronger, until I can proudly say that this might be my favorite of the "major Naivigation games".
 
-That being said, I am always looking for opportunities to improve and simplify. To make strong games with such simple rules that they're accessible to anyone. As such, if you find improvements or have suggestions for simplification, let me know. (Because, looking at my data, most people try the "Car Version" of Naivigation first, precisely because they think it's the vehicle that will be easiest.)
+That being said, I am always looking for opportunities to improve and simplify. To make strong games with such simple rules that they're accessible to anyone. As such, if you find improvements or have suggestions for simplification, let me know. (Because, looking at my data, most people try the "Car Version" of Naivigation first, precisely because they think it's the vehicle that will be easiest or most relatable.)
 
 For more information, check out the credits and supporting information from the [Naivigation overview page](/naivigation/).
 
