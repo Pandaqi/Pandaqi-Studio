@@ -137,7 +137,7 @@ Will the Ogres ever find the exit?
 
 {{% section-centered %}}
 
-Played the game? Liked it? Didn't like it? Whatever it is, let me know: [schoolofpanda@gmail.com](mailto:schoolofpanda@gmail.com)
+Played the game? Liked it? Didn't like it? Whatever it is, let me know: [harmonize@pandaqi.com](mailto:harmonize@pandaqi.com)
 
 I love hearing your stories. And your feedback only makes games better.
 

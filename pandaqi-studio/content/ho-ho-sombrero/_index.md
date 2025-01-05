@@ -76,7 +76,7 @@ That's what this game is :)
 {{% /section-centered %}}
 
 {{% section-centered heading="Feedback & More" %}}
-Any **feedback** (at [schoolofpanda@gmail.com](mailto:schoolofpanda@gmail.com)) is more than welcome!
+Any **feedback** (at [harmonize@pandaqi.com](mailto:harmonize@pandaqi.com)) is more than welcome!
 
 This game was made using Godot (game engine), Blender (3D modelling), Affinity Designer (drawing and design), and Studio One (music). Fonts used are _Kavoon_ and _Bitter_, both available at Google Fonts. 
 

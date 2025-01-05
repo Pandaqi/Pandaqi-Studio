@@ -1,10 +1,8 @@
 import Quiz from "./quiz";
 
 const params = {
-    seed: "sintquiz",
+    seed: "newyearsevequiz2024",
     loadExternalMediaAsIframe: true,
-    //possibleCategories: [],
-    //exclude: { author: "Esther" },
     groupBy: "category"
 }
 const quiz = new Quiz(params);

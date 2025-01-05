@@ -13,7 +13,7 @@ const PROPS_FORCED_LOWERCASE = ["category", "author", "type"];
 
 const MASK_QUESTION_SYMBOL = "?";
 const MASK_ANSWER_SYMBOL = "!";
-const INLINE_SPLIT_SYMBOL = ",";
+const INLINE_SPLIT_SYMBOL = "|";
 const PROPERTY_DECLARE_SYMBOL = "=>";
 const COMMENT_SYMBOL = "//";
 

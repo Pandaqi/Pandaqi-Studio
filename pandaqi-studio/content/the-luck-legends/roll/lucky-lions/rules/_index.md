@@ -6,7 +6,7 @@ type: "rules"
 
 {{% rules-double-view src="setup.webp" alt="Example of how to setup a game and the different kinds of material." split="leftheavy" %}}
 
-Create a deck of **Zoo Cards**. Place the top 3 cards faceup on the table.
+Create a deck of **Zoo Cards**. Place the top 4 cards faceup on the table.
 
 Deal all players 6 random **Animal Cards**. This is their "die". Place the remaining cards as a facedown draw pile.
 
@@ -33,7 +33,7 @@ You and your opponent "roll your die": shuffle your personal deck and reveal a r
 
 The chosen [Zoo Card](#zoo_cards) tells you which player has the **most valuable animal**. They win the Zoo Card and place it faceup before them. (Check if anyone has scored enough points to win the game!)
 
-In case of a **tie**, one battler must discard a card and the other wins the Zoo Card. The active player decides who gets what. You can't discard your final card.
+In case of a **tie**, one battler must discard a card and the other wins the Zoo Card. The active player decides who gets what. Discarded cards are _secret_; you can't discard your final card.
 
 That's it, have fun!
 
@@ -65,12 +65,25 @@ Played the base game and ready for more? Or looking to tweak the game to fit you
 
 {{% rules-block heading="Variants" %}}
 
+To give the game **more decisions** to make, use the following variant.
+
+* For every battle, count the number of arrows on the zoo card.
+* Battlers select only **that many cards** from their die. (The others are temporarily put aside.)
+* Now roll this reduced die (instead of your entire hand).
+
+For example, a Zoo card with 3 arrows means that the two battlers pick 3 of their cards first (which they think will give them the highest chance of a win) and only shuffle + reveal from _that_.
+
 To make the game **less random**, use the "no shuffle" variant.
 
 * You only shuffle your die at the start of the game.
 * When "rolling" your die, simply grab the top card.
 * If you ever get your card back (after rolling but losing) place it at the bottom.
 * When you reach **5 points** or **draw a new card** (possible with expansions), shuffle once more.
+
+To make the game **longer** (and your die more changeable), use the following variant.
+
+* Whenever you win a Zoo card, you can decide to **draw Animal cards instead** (increasing your hand size).
+* You draw as many as the **score** number on that Zoo card you refused.
 
 {{% /rules-block %}}
 

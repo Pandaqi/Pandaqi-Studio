@@ -12,7 +12,7 @@ noThumb: true
 
 Send me feedback, feature requests, questions about how I made something, proposals for collaborations, you name it. Well, anything except _spam_ of course.
 
-My email address is: [schoolofpanda@gmail.com](mailto:schoolofpanda@gmail.com)
+My email address is: [harmonize@pandaqi.com](mailto:harmonize@pandaqi.com)
 
 {{< /custom-entry-banner >}}
 

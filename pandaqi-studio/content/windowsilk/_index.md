@@ -105,6 +105,6 @@ I also wrote a detailed devlog about the development of this game: [Windowsilk (
 
 If you’re interested in any of the game’s mechanics, the source code is freely available here: [Windowsilk (Source)](https://github.com/Pandaqi/Windowsilk)
 
-If you have any **feedback**, let me know at [schoolofpanda@gmail.com](mailto:schoolofpanda@gmail.com). Games made for jams can always improve immensely, especially one as ambitious as this. 
+If you have any **feedback**, let me know at [harmonize@pandaqi.com](mailto:harmonize@pandaqi.com). Games made for jams can always improve immensely, especially one as ambitious as this. 
 {{% /section-centered %}} 
 
