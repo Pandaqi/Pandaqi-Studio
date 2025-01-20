@@ -19,9 +19,10 @@ My email address is: [harmonize@pandaqi.com](mailto:harmonize@pandaqi.com)
 {{< custom-entry-banner id="1" title="Play together, create together" class="yellow height-medium" >}}
 
 Because I create (local) multiplayer games, getting feedback and working together with my players is even more important. They _literally_ can't exist without a group of enthusiastic players.
-- Want to help me test my next game? Contact me!
-- Found a serious issue with a game (bug, crash, annoying mechanic)? Contact me!
-- Have your own ideas, proposals, feature requests? Contact me!
+
+* Want to help me test my next game? Contact me!
+* Found a serious issue with a game (bug, crash, annoying mechanic)? Contact me!
+* Have your own ideas, proposals, feature requests? Contact me!
 
 {{< /custom-entry-banner >}}
 
@@ -50,6 +51,8 @@ I maintain a blog with **devlogs** about literally all my game projects and upda
 The name "Pandaqi" comes from a **tutorial website** I started long ago. It has moved to a new address (a sub domain): [Pandaqi Tutorials](https://pandaqi.com/tutorials)
 
 I'm a registered **freelance artist** in the Netherlands: [Portfolio](https://rodepanda.com). I also write books, create music, design picturebooks and websites, and some more creative stuff.
+
+Recently, I started exploring the possibility of a full-blown online store. You can [visit my (mostly Dutch) webshop](https://nietdathetuitmaakt.nl) to see what I've been creating.
 
 To know how to **support** me, visit the [Support Page](/info/support/).
 
