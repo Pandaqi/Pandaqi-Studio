@@ -11,7 +11,7 @@ downloadLink: "https://drive.google.com/drive/folders/1tB1Lfp1zUNvR8ARU9d1quTG3E
 color: "black"
 invert: true
 
-date: 2025-01-12
+date: 2025-12-26
 
 difficulty: "kids-can-play"
 categories: ["boardgame", "card-game", "standard"]

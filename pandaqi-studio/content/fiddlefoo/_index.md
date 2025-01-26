@@ -10,7 +10,7 @@ downloadLink: "https://drive.google.com/drive/folders/1fRQWyYs7Vi9pX8ArL0zFN87Q-
 
 color: "yellow"
 
-date: 2025-01-12
+date: 2025-12-16
 
 difficulty: "kids-can-play"
 categories: ["boardgame", "card-game", "standard"]
