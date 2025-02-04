@@ -4,8 +4,6 @@ type: "rules"
 
 {{% rules-block id="setup" heading="Setup" icon="setup" %}}
 
-Press the button below to get a random setup you can simply copy to your table.
-
 {{< rules-example id="naivigation-setup" >}}
 
 {{% rules-double-view src="setup.webp" alt="Example of how to setup the game." split="leftheavy" %}}

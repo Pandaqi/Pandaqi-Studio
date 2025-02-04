@@ -16,33 +16,33 @@ const VEHICLE_CARDS:Record<string,MaterialNaivigationData> =
 //
 const HEALTH_CARDS:Record<string,MaterialNaivigationData> = 
 {
-    //last_life: { shared: true, subText: "Regular Life", desc: "Nothing special.", num: 1, freq: 2 },
-    be_special: { shared: true, subText: "Be Special", desc: "Card types are only <b>executed once</b>. (Ignore duplicates.) <b>All cards</b> are duplicates? <b>Take 1 damage.</b>", num: 3 },
-    random_draw: { shared: true, subText: "Random Draw", desc: "The <b>first card</b> of the round must be randomly selected.", num: 3 },
-    first_from_left: { shared: true, subText: "First from Left", desc: "Players must play their card at the <b>first</b> available spot from the <b>left</b>.", num: 2 },
-    first_from_right: { shared: true, subText: "First from Right", desc: "Players must play their card at the <b>first</b> available spot from the <b>right</b>.", num: 2 }, // @NOTE: "last from left" = "first from right"
-    delayed_draw: { shared: true, subText: "Delayed Draw", desc: "<b>Don't draw new cards</b> until your hand is completely empty.", num: 3 },
-    last_player_disabled: { shared: true, subText: "One Fewer Instruction", desc: "1 Instruction Slot must remain <b>empty</b>", num: 5 },
-    last_player_double: { shared: true, subText: "One More Instruction", desc: "The <b>start player</b> must play <b>2 instructions</b> in one turn.", num: 3 },
-    double_round: { shared: true, subText: "Double Round", desc: "You play <b>2 rounds</b> (creating a double row) before executing instructions.", num: 3 },
-    forced_follow: { shared: true, subText: "Forced Follow", desc: "<b>Start player</b> plays their card <b>faceup</b>. All other players must play the <b>same type of card</b> if they have it.", num: 4  },
-    lower_hand_limit: { shared: true, subText: "Lower Hand Limit", desc: "The <b>hand limit</b> is permanently lowered by 1.", num: 3 },
-    forced_spot: { shared: true, subText: "Forced Spot", desc: "The <b>first card</b> of the round must be played at a random slot (the other players vote on this).", num: 4 },
-    random_replace: { shared: true, subText: "Random Replace", desc: "<b>End of round</b>: start player must <b>replace</b> one card played with a random one from hand or deck.", num: 5 },
-    limited_communication: { shared: true, subText: "Limited Communication", desc: "The <b>Discuss</b> card only counts when it's the <b>first card</b> executed.", num: 5 },
-    risky_turns: { shared: true, subText: "Risky Turns", desc: "<b>End of round</b>: Take <b>1 damage</b> if you end on the same tile as you began.", num: 4 },
-    risky_rotations: { shared: true, subText: "<b>End of round</b>: Take <b>1 damage</b> if the vehicle ends at its starting orientation.", num: 3 },
-    out_of_order: { shared: true, subText: "Out Of Order", desc: "Before executing, <b>shuffle</b> the first 3 instruction tokens. Then execute in <b>numeric order</b>.", num: 1 },
-    forced_swap: { shared: true, subText: "Forced Swap", desc: "Each round, one player must <b>discard</b> their hand and draw new cards from the deck, before playing their first card.", num: 3 },
-    forced_order: { shared: true, subText: "Forced Order", desc: "Your first card played (in a round) must be in numerical order (left to right)", num: 2 },
-    no_neighbors: { shared: true, subText: "No Neighbors", desc: "Nobody is allowed to play a card next to the previously played card (unless this is unavoidable).", num: 2 },
-    prepared_instruction: { shared: true, subText: "Prepared Instruction", desc: "<b>Start of Round:</b> add the top card of the deck faceup into the 3 slot.", num: 4 },
-    starting_confusion: { shared: true, subText: "Starting Confusion", desc: "Each round, one player must play <b>their entire hand</b> in one turn, to become start player next round.", num: 2 },
-    delayed_decisions: { shared: true, subText: "Delayed Decisions", desc: "Cards that require a <b>decision</b> (when executed) are <b>ignored</b> if played before <b>slot 3</b>.", num: 3 },
-    new_decider: { shared: true, subText: "New Decider", desc: "Whoever plays their card in <b>slot 3</b> decides how cards are <b>executed</b> (instead of start player).", num: 4 },
-    one_decision: { shared: true, subText: "One Decision", desc: "If multiple cards are played that require a <b>decision</b> (when executed), only the <b>first one</b> is actually executed.", num: 2 },
-    earlier_decisions: { shared: true, subText: "Earlier Decisions", desc: "Nobody may play a card that requires a <b>decision</b> (when executed) in the last slot (if possible).", num: 2 },
-    cross_decisions: { shared: true, subText: "Cross Decisions", desc: "If playing with 2 teams, the first card that requires a <b>decision</b> (when executed) is handled by the <b>other team</b>.", num: 1 } // @TODO: Not sure if this is okay?
+    //last_life: { shared: true, label: "Regular Life", desc: "Nothing special.", num: 1, freq: 2 },
+    be_special: { shared: true, label: "Be Special", desc: "Card types are only <b>executed once</b>. (Ignore duplicates.) <b>All cards</b> are duplicates? <b>Take 1 damage.</b>", num: 3 },
+    random_draw: { shared: true, label: "Random Draw", desc: "The <b>first card</b> of the round must be randomly selected.", num: 3 },
+    first_from_left: { shared: true, label: "First from Left", desc: "Players must play their card at the <b>first</b> available spot from the <b>left</b>.", num: 2 },
+    first_from_right: { shared: true, label: "First from Right", desc: "Players must play their card at the <b>first</b> available spot from the <b>right</b>.", num: 2 }, // @NOTE: "last from left" = "first from right"
+    delayed_draw: { shared: true, label: "Delayed Draw", desc: "<b>Don't draw new cards</b> until your hand is completely empty.", num: 3 },
+    last_player_disabled: { shared: true, label: "One Fewer Instruction", desc: "1 Instruction Slot must remain <b>empty</b>", num: 5 },
+    last_player_double: { shared: true, label: "One More Instruction", desc: "The <b>start player</b> must play <b>2 instructions</b> in one turn.", num: 3 },
+    double_round: { shared: true, label: "Double Round", desc: "You play <b>2 rounds</b> (creating a double row) before executing instructions.", num: 3 },
+    forced_follow: { shared: true, label: "Forced Follow", desc: "<b>Start player</b> plays their card <b>faceup</b>. All other players must play the <b>same type of card</b> if they have it.", num: 4  },
+    lower_hand_limit: { shared: true, label: "Lower Hand Limit", desc: "The <b>hand limit</b> is permanently lowered by 1.", num: 3 },
+    forced_spot: { shared: true, label: "Forced Spot", desc: "The <b>first card</b> of the round must be played at a random slot (the other players vote on this).", num: 4 },
+    random_replace: { shared: true, label: "Random Replace", desc: "<b>End of round</b>: start player must <b>replace</b> one card played with a random one from hand or deck.", num: 5 },
+    limited_communication: { shared: true, label: "Limited Communication", desc: "The <b>Discuss</b> card only counts when it's the <b>first card</b> executed.", num: 5 },
+    risky_turns: { shared: true, label: "Risky Turns", desc: "<b>End of round</b>: Take <b>1 damage</b> if you end on the same tile as you began.", num: 4 },
+    risky_rotations: { shared: true, label: "Risky Rotations", desc: "<b>End of round</b>: Take <b>1 damage</b> if the vehicle ends at its starting orientation.", num: 3 },
+    out_of_order: { shared: true, label: "Out Of Order", desc: "Before executing, <b>shuffle</b> the first 3 instruction tokens. Then execute in <b>numeric order</b>.", num: 1 },
+    forced_swap: { shared: true, label: "Forced Swap", desc: "Each round, one player must <b>discard</b> their hand and draw new cards from the deck, before playing their first card.", num: 3 },
+    forced_order: { shared: true, label: "Forced Order", desc: "Your first card played (in a round) must be in numerical order (left to right)", num: 2 },
+    no_neighbors: { shared: true, label: "No Neighbors", desc: "Nobody is allowed to play a card next to the previously played card (unless this is unavoidable).", num: 2 },
+    prepared_instruction: { shared: true, label: "Prepared Instruction", desc: "<b>Start of Round:</b> add the top card of the deck faceup into the 3 slot.", num: 4 },
+    starting_confusion: { shared: true, label: "Starting Confusion", desc: "Each round, one player must play <b>their entire hand</b> in one turn, to become start player next round.", num: 2 },
+    delayed_decisions: { shared: true, label: "Delayed Decisions", desc: "Cards that require a <b>decision</b> (when executed) are <b>ignored</b> if played before <b>slot 3</b>.", num: 3 },
+    new_decider: { shared: true, label: "New Decider", desc: "Whoever plays their card in <b>slot 3</b> decides how cards are <b>executed</b> (instead of start player).", num: 4 },
+    one_decision: { shared: true, label: "One Decision", desc: "If multiple cards are played that require a <b>decision</b> (when executed), only the <b>first one</b> is actually executed.", num: 2 },
+    earlier_decisions: { shared: true, label: "Earlier Decisions", desc: "Nobody may play a card that requires a <b>decision</b> (when executed) in the last slot (if possible).", num: 2 },
+    cross_decisions: { shared: true, label: "Cross Decisions", desc: "If playing with 2 teams, the first card that requires a <b>decision</b> (when executed) is handled by the <b>other team</b>.", num: 1 } // @TODO: Not sure if this is okay?
 };
 
 //
@@ -215,7 +215,7 @@ interface TemplateData
 const TEMPLATES:Record<string, TemplateData> =
 {
     [CardType.VEHICLE]: { frameTemplate: 0, bgColor: "#FFFFFF", tintColor: "#DADADA", label: null, subText: "Vehicle Card", smallIconOffset: new Point(0.33, 0), textureKey: "vehicle_cards" },
-    [CardType.HEALTH]: { frameTemplate: 2, frameIcon: 5, bgColor: "#F9C98C", label: "Health", subText: "Handicap", smallIconOffset: new Point(0.35, -0.05), extraNumberOffset: new Point(0.46, 0), textureKey: "misc_shared" },
+    [CardType.HEALTH]: { frameTemplate: 2, frameIcon: 5, bgColor: "#F9C98C", label: null, subText: "Health", smallIconOffset: new Point(0.35, -0.05), extraNumberOffset: new Point(0.46, 0), textureKey: "misc_shared" },
     [CardType.GPS]: { frameTemplate: 3, frameIcon: 6, bgColor: "#A6741A", label: "GPS", subText: null, titleTextPos: new Point(0.5, 0.605), textureKey: "misc_shared" },
     [CardType.TIME]: { frameTemplate: 4, frameIcon: 7, bgColor: "#4AD9FC", label: "Time", subText: "Event", extraNumberOffset: new Point(0.46, -0.2), textureKey: "misc_shared" },
     [CardType.FUEL]: { frameTemplate: 5, frameIcon: 12, bgColor: "#3A3A3A", label: "Fuel", subText: null, desc: "Worth 1 Fuel.", textureKey: "misc_shared" },

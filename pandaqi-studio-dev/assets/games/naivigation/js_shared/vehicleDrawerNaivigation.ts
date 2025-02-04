@@ -6,11 +6,15 @@ import Point from "js/pq_games/tools/geometry/point";
 import { MISC } from "./dict";
 import MaterialNaivigation from "./materialNaivigation";
 import pawnDrawerNaivigation from "./pawnDrawerNaivigation";
+import ResourceShape from "js/pq_games/layout/resources/resourceShape";
+import Rectangle from "js/pq_games/tools/geometry/rectangle";
 
 const drawHelpers = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaivigation) =>
 {
-    // main background color
-    fillResourceGroup(vis.size, group, "#FFFFFF");
+    // main background color (scaled down because the actual pawn is about half the size of full tile)
+    const rect = new ResourceShape(new Rectangle({ center: vis.center, extents: vis.size.clone().scale(0.6) }));
+    const rectOp = new LayoutOperation({ fill: "#FFFFFF" });
+    group.add(rect, rectOp);
 
     // a guiding sprite behind it to clearly show what's the front and stuff
     const resGuides = vis.getResource("misc_shared");

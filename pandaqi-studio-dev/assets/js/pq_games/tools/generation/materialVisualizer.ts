@@ -30,7 +30,7 @@ export default class MaterialVisualizer
         if(!this.resLoader)
         {
             this.resLoader = new ResourceLoader({ base: config.assetsBase, renderer: this.renderer });
-            this.resLoader.planLoadMultiple(config.assets ?? {});
+            this.resLoader.planLoadMultiple(config.assets ?? {}, config);
         }
 
         this.inkFriendly = config.inkFriendly;

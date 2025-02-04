@@ -1,13 +1,11 @@
 import cardDrawerNaivigation from "games/naivigation/js_shared/cardDrawerNaivigation";
-import MaterialNaivigation from "games/naivigation/js_shared/materialNaivigation";
-import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
-import { GAME_DATA, MATERIAL, MISC } from "../js_shared/dict";
-import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import ResourceImage from "js/pq_games/layout/resources/resourceImage";
-import Point from "js/pq_games/tools/geometry/point";
-import createContext from "js/pq_games/layout/canvas/createContext";
-import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
 import { TileType } from "games/naivigation/js_shared/dictShared";
+import MaterialNaivigation from "games/naivigation/js_shared/materialNaivigation";
+import LayoutOperation from "js/pq_games/layout/layoutOperation";
+import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
+import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
+import Point from "js/pq_games/tools/geometry/point";
+import { GAME_DATA, MATERIAL, MISC } from "../js_shared/dict";
 
 export default class Card extends MaterialNaivigation
 {
@@ -21,40 +19,33 @@ export default class Card extends MaterialNaivigation
         return vis.renderer.finishDraw({ group: group, size: vis.size });
     }
 
-    getCustomIllustration(vis:MaterialVisualizer, card:MaterialNaivigation, op:LayoutOperation) : ResourceImage
+    getCustomIllustration(vis:MaterialVisualizer, op:LayoutOperation) : ResourceGroup
     {
         if(this.key != "train") { return null; }
 
-        const canvSize = new Point(vis.sizeUnit);
-        const ctx = createContext({ size: canvSize });
+        const sizeUnit = Math.min(op.size.x, op.size.y);
         const group = new ResourceGroup();
-
         const resMainIcon = vis.getResource("vehicle_cards");
-        const opMainIcon = new LayoutOperation({
-            size: new Point(vis.sizeUnit),
-        });
+        const opMainIcon = new LayoutOperation({ size: op.size, pivot: Point.CENTER });
         group.add(resMainIcon, opMainIcon);
 
         const trainData = this.customData.trainKeys;
         const numIcons = trainData.length;
         const positions = vis.get("cards.trainVehicle.iconPositions")[numIcons];
         const res = vis.getResource("map_tiles");
-        const iconSize = new Point( vis.get("cards.trainVehicle.iconSize") * vis.sizeUnit );
-        const iconPlacementBounds = vis.get("cards.trainVehicle.iconPlacementBounds") * vis.sizeUnit;
+        const iconSize = new Point( vis.get("cards.trainVehicle.iconSize") * sizeUnit );
+        const iconPlacementBounds = vis.get("cards.trainVehicle.iconPlacementBounds") * sizeUnit;
         for(let i = 0; i < numIcons; i++)
         {
             const trainKey = trainData[i];
             const op = new LayoutOperation({
-                pos: vis.center.clone().add( positions[i].clone().scale(iconPlacementBounds) ),
+                pos: positions[i].clone().scale(iconPlacementBounds),
                 size: iconSize,
                 frame: MATERIAL[TileType.VEHICLE][trainKey].frame,
                 pivot: Point.CENTER
             });
             group.add(res, op);
         }
-
-        // Finally, turn that all into a resource image to give back
-        group.toCanvas(ctx);
-        return new ResourceImage(ctx.canvas);
+        return group;
     }
 }

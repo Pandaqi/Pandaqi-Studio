@@ -105,14 +105,19 @@ const drawCard = (vis, group, card) =>
     const data = card.getData();
     const tempData = card.getTemplateData();
     const isGPSCard = (card.type == CardType.GPS);
+    const isTimeCard = (card.type == CardType.TIME);
+
+    const text = (data.label ?? tempData.label) ?? "No Label";
+    let titleFontSize = vis.get("cards.general.fontSize");
+    const titleIsLong = text.length > 14;
+    if(titleIsLong) { titleFontSize *= 0.75; }
 
     // card title + subtitle ( = type indicator)
     const textConfig = new TextConfig({
         font: vis.get("fonts.heading"),
-        size: vis.get("cards.general.fontSize")
+        size: titleFontSize
     }).alignCenter();
 
-    const text = (data.label ?? tempData.label) ?? "No Label";
     const resText = new ResourceText(text, textConfig);
     let textPos = vis.get("cards.general.textPos");
     if(tempData.titleTextPos)
@@ -133,7 +138,15 @@ const drawCard = (vis, group, card) =>
         pivot: Point.CENTER
     });
 
-    const textMeta = data.subText ?? tempData.subText;
+    let textMeta = data.subText ?? tempData.subText;
+    
+    // @EXCEPTION: This is the only card that modifies subText that way, so just made it an exception
+    if(isTimeCard)
+    {
+        const eventType = data.type ?? "none";
+        textMeta = "TYPE " + eventType.toUpperCase();
+    }
+
     const metaPos = textPos.clone().add(new Point(0, 0.5*textConfig.size + 0.5*vis.get("cards.general.fontSizeMeta") + shadowOffset.y));
     if(textMeta)
     {
@@ -188,7 +201,7 @@ const drawCard = (vis, group, card) =>
     }
 
     // main card content (if available)
-    // @NOTE: exception for GPS card, which has 2 randomly generated phrases at bottom
+    // @EXCEPTION: for GPS card, which has 2 randomly generated phrases at bottom
     let textContent = card.customData.desc ?? data.desc ?? tempData.desc;
     if(isGPSCard) 
     { 
@@ -366,8 +379,8 @@ const drawCardIcons = (vis:MaterialVisualizer, group:ResourceGroup, card:Materia
 
     // override with a custom illustration, IF that function returned anything
     let resIllu = resSprite;
-    const resTempCustom = card.getCustomIllustration(vis, card, spriteOp);
-    if(resTempCustom) { resIllu = resTempCustom; spriteOp.frame = 0; }
+    const resTempCustom = card.getCustomIllustration(vis, spriteOp);
+    if(resTempCustom) { resIllu = resTempCustom; spriteOp.frame = 0; spriteOp.size = new Point(); }
     group.add(resIllu, spriteOp);
 
     // GPS cards draw that dynamic grid on top of the usual main illu

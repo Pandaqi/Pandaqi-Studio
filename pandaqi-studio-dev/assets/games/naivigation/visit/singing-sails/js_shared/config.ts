@@ -24,6 +24,7 @@ const CONFIG:any =
     {
         vehicleTiles: true,
         vehicleCards: true,
+        specialCards: true,
         mapTiles: true,
         supertilesSlipstreams: false,
         windstormsWeather: false,
@@ -79,8 +80,8 @@ const CONFIG:any =
         terrainDist:
         {
             [TerrainType.NONE]: { perc: 0, filterCollectibles: "include" },
-            [TerrainType.SEA]: { perc: 0.66, filterCollectibles: "exclude" },
-            [TerrainType.GRASS]: { perc: 0.33, filterCollectibles: "exclude", filterInclude: ["empty"] }, // this basically forces all special types to be on water tiles
+            [TerrainType.SEA]: { perc: 0.55, filterCollectibles: "exclude" },
+            [TerrainType.GRASS]: { perc: 0.45, filterCollectibles: "exclude", filterInclude: ["empty"] }, // this basically forces all special types to be on water tiles
         }
     },
 

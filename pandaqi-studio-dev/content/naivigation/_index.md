@@ -14,15 +14,15 @@ downloadLink: "https://drive.google.com/drive/folders/16g8Bjlk01tTCW7c9qQVd-Lzrk
 date: 2025-10-26
 
 difficulty: "kids-can-play"
-genres: ["family", "thematic", "adventure"]
-categories: ["boardgame", "tile-game", "standard"]
-tags: ["fixed-order", "shared-map", "grid", "turn-based", "guessing", "bias", "variable-setup", "orientation", "set-collection", "high-score"]
-themes: ["sea"]
+genres: ["family", "thematic", "simulation"]
+categories: ["boardgame", "family-friendly", "local-multiplayer", "standard"]
+tags: ["chaos", "delayed-actions", "events", "fast-paced", "grid", "limited-communication", "logic", "memory", "modular", "movement", "orientation", "shared-map", "sudden-death", "team-based", "transportation", "turn-based", "variable-setup", "vehicle-simulation"]
+themes: ["cartoon", "colorful", "humor", "top-down"]
 
 multiplayermode: ["cooperative", "competitive"]
 language: ["EN", "NL"]
-playtime: 30
-playercount: [2,3,4,5,6,7,8]
+playtime: 60
+playercount: [2,3,4,5,6,7,8,9,10]
 ages: everyone
 devlog: "/blog/boardgames/naivigation/"
 ---

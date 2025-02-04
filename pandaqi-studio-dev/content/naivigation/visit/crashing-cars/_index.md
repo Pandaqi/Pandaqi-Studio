@@ -14,16 +14,16 @@ downloadLink: "https://drive.google.com/drive/folders/1WKmILf44gTef64QHRQO0jdkur
 
 date: 2025-10-26
 
-difficulty: "kids-can-play"
-genres: ["family", "thematic", "adventure"]
-categories: ["boardgame", "tile-game", "standard"]
-tags: ["fixed-order", "shared-map", "grid", "turn-based", "guessing", "bias", "variable-setup", "orientation", "set-collection", "high-score"]
-themes: ["sea"]
+difficulty: "simple"
+genres: ["family", "thematic", "simulation"]
+categories: ["boardgame", "family-friendly", "local-multiplayer", "standard"]
+tags: ["chaos", "delayed-actions", "events", "fast-paced", "grid", "limited-communication", "logic", "memory", "modular", "movement", "orientation", "shared-map", "sudden-death", "team-based", "transportation", "turn-based", "variable-setup", "vehicle-simulation"]
+themes: ["cartoon", "colorful", "humor", "top-down"]
 
 multiplayermode: ["cooperative", "competitive"]
 language: EN
-playtime: 30
-playercount: [2,3,4,5,6,7,8]
+playtime: 60
+playercount: [2,3,4,5,6,7,8,9,10]
 ages: everyone
 devlog: "/blog/boardgames/naivigation/visit/crashing-cars/"
 ---
@@ -54,6 +54,7 @@ Print and cut it, read the short [playful rules](rules), and you can play!
     {{< setting-checkbox id="setting-sets-vehicleTiles" text="Vehicle Pawns?" checked="checked" >}}
     {{< setting-checkbox id="setting-sets-mapTiles" text="Map Tiles?" checked="checked" >}}
     {{< setting-checkbox id="setting-sets-vehicleCards" text="Vehicle Cards?" checked="checked" >}}
+    {{< setting-checkbox id="setting-sets-specialCards" text="Special Cards?" remark="Refers to the (unique) health, time, GPS, or action cards for this game." checked="checked" >}}
   {{< /boardgame-settings-section >}}
   {{< boardgame-settings-section heading="Expansion Sets" >}}
     {{< setting-checkbox id="setting-sets-trafficPolice" text="Traffic & Police" >}}

@@ -14,7 +14,9 @@ import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
 
 export default class Tile extends MaterialNaivigation
 {
-    getData() { return MATERIAL[this.type][this.key]; }
+    terrainUsesGrayscale = true
+
+    getData() { return MATERIAL[this.type][this.key] ?? {}; }
     async draw(vis:MaterialVisualizer)
     {
         const group = vis.renderer.prepareDraw();
@@ -41,6 +43,7 @@ export default class Tile extends MaterialNaivigation
             pos: new Point(-0.5*vis.size.x, 0),
             size: vis.size,
             frame: frameLand,
+            effects: vis.inkFriendlyEffect
         });
 
         const frameWater = TERRAINS[TerrainType.SEA].frame;
@@ -48,6 +51,7 @@ export default class Tile extends MaterialNaivigation
             pos: new Point(0.5*vis.size.x, 0),
             size: vis.size,
             frame: frameWater,
+            effects: vis.inkFriendlyEffect
         });
         
         group.add(res, resOpLand);
@@ -69,7 +73,8 @@ export default class Tile extends MaterialNaivigation
                 pos: vis.get("tiles.enemyIcon.pos"),
                 size: vis.get("tiles.enemyIcon.size"),
                 pivot: Point.CENTER,
-                frame: MISC.enemy_icon.frame
+                frame: MISC.enemy_icon.frame,
+                effects: vis.inkFriendlyEffect
             })
             group.add(res, op);
         }
@@ -120,7 +125,8 @@ export default class Tile extends MaterialNaivigation
         const resBG = vis.getResource("misc");
         const opBG = new LayoutOperation({
             size: vis.size,
-            frame: MISC[this.key + "_template"].frame
+            frame: MISC[this.key + "_template"].frame,
+            effects: vis.inkFriendlyEffect
         })
         group.add(resBG, opBG);
 

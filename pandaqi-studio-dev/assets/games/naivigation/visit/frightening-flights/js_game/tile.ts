@@ -13,7 +13,7 @@ import Point from "js/pq_games/tools/geometry/point";
 
 export default class Tile extends MaterialNaivigation
 {
-    getData() { return MATERIAL[this.type][this.key]; }
+    getData() { return MATERIAL[this.type][this.key] ?? []; }
     async draw(vis:MaterialVisualizer)
     {
         const group = vis.renderer.prepareDraw();

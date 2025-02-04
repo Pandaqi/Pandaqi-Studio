@@ -19,13 +19,13 @@ const VEHICLE_CARDS:Record<string,MaterialNaivigationData> =
 
 const HEALTH_CARDS:Record<string,MaterialNaivigationData> =
 {
-    downgrade: { subText: "Downgrade", desc: "You can't wrap around the map anymore.", num: 2 },
-    fragile_ship: { subText: "Fragile Plane", desc: "Flying over the wrong elevation does <b>2 damage</b> (instead of 1).", num: 2 },
-    bad_steering_soft: { subText: "Stuck Steering", desc: "All <b>Turn</b> cards in the same round must turn the same way.", num: 3 },
-    bad_steering: { subText: "Bad Steering", desc: "When executing a <b>Turn</b> card, always turn <b>left</b>.", num: 1 },
-    stuck_elevation: { subText: "Stuck Stick", desc: "The first Elevate card determines how all later Elevate cards work (+1 or -1).", num: 3 },
-    disoriented: { subText: "Disoriented", desc: "After executing a <b>Stunt</b> or <b>Backflip</b>, end the round immediately.", num: 4 },
-    disoriented_super: { subText: "Super Disoriented", desc: "After executing a <b>Stunt</b> or <b>Backflip</b>, all later cards are <b>inverted</b>.", num: 2 }
+    downgrade: { label: "Downgrade", desc: "You can't wrap around the map anymore.", num: 2 },
+    fragile_ship: { label: "Fragile Plane", desc: "Flying over the wrong elevation does <b>2 damage</b> (instead of 1).", num: 2 },
+    bad_steering_soft: { label: "Stuck Steering", desc: "All <b>Turn</b> cards in the same round must turn the same way.", num: 3 },
+    bad_steering: { label: "Bad Steering", desc: "When executing a <b>Turn</b> card, always turn <b>left</b>.", num: 1 },
+    stuck_elevation: { label: "Stuck Stick", desc: "The first Elevate card determines how all later Elevate cards work (+1 or -1).", num: 3 },
+    disoriented: { label: "Disoriented", desc: "After executing a <b>Stunt</b> or <b>Backflip</b>, end the round immediately.", num: 4 },
+    disoriented_super: { label: "Super Disoriented", desc: "After executing a <b>Stunt</b> or <b>Backflip</b>, all later cards are <b>inverted</b>.", num: 2 }
 }
 
 const ACTION_CARDS:Record<string,MaterialNaivigationData> =

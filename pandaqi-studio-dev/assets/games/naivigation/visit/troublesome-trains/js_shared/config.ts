@@ -24,6 +24,7 @@ const CONFIG:any =
     {
         vehicleTiles: true,
         vehicleCards: true,
+        specialCards: true,
         mapTiles: true,
         leadersFollowers: false,
         animalsCrossings: false,
@@ -63,7 +64,7 @@ const CONFIG:any =
         {
             path: "icons.webp",
             frames: new Point(5,1),
-            loadIf: ["sets.vehicleCards"]
+            loadIf: ["sets.vehicleCards", "sets.specialCards"]
         },
 
         networks:
@@ -122,8 +123,8 @@ const CONFIG:any =
             },
 
             options: Object.keys(MATERIAL[TileType.VEHICLE]),
-            iconSize: 0.125,
-            iconPlacementBounds: 0.5,
+            iconSize: 0.145, // ~tiles.general.illustration.mainDims
+            iconPlacementBounds: 0.175, // ~mainDims
             iconPositions:
             {
                 1: [new Point(0)],

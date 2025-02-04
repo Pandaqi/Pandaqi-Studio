@@ -105,7 +105,7 @@ export default class CardPicker
 
     generateTimeDeck()
     {
-        if(!CONFIG.sets.timeDeck) { return; }
+        if(!CONFIG.sets.timeCards) { return; }
         this.generateFromDictionary(CardType.TIME);
     }
 

@@ -19,6 +19,7 @@ interface ExtraDataParams
 }
 
 type ExtraData = Record<string, ExtraDataParams>
+const SPECIAL_CARD_TYPES = [CardType.ACTION, CardType.GPS, CardType.HEALTH, CardType.TIME];
 
 export default class GeneralPickerNaivigation
 {
@@ -241,11 +242,13 @@ export default class GeneralPickerNaivigation
 
     generateMaterial(inputData:DictData)
     {
-        const tileType = inputData.type;
+        const materialType = inputData.type;
+        const isVehiclePawn = materialType == TileType.VEHICLE;
+        const isSpecialCard = SPECIAL_CARD_TYPES.includes(materialType as CardType);
 
         // @NOTE: this is tricky; all regular cards are generated with vehicleCards (if true), only MAP tiles are different and have their own toggle
-        let defaultSets = ["vehicleCards"];
-        if(tileType == TileType.MAP) { defaultSets = ["mapTiles"]; }
+        let defaultSets = isSpecialCard ? ["specialCards"] : ["vehicleCards"];
+        if(materialType == TileType.MAP) { defaultSets = ["mapTiles"]; }
         
         for(const [key,data] of Object.entries(inputData.dict))
         {            
@@ -256,7 +259,11 @@ export default class GeneralPickerNaivigation
             {
                 if(this.config.sets[set]) { shouldInclude = true; break; }
             }
-            if(tileType == TileType.VEHICLE) { shouldInclude = this.config.sets.vehicleTiles; }
+            
+            // handy default settings to toggle an entire section on/off, available in all settings blocks
+            if(isVehiclePawn) { shouldInclude = shouldInclude && this.config.sets.vehicleTiles; }
+            if(isSpecialCard) { shouldInclude = shouldInclude && this.config.sets.specialCards; }
+            
             if(!shouldInclude) { continue; }
 
             // hook for custom handling of certain tiles
@@ -272,7 +279,7 @@ export default class GeneralPickerNaivigation
             const freq = data.freq ?? 1;
             for(let i = 0; i < freq; i++)
             {
-                const newTile = new this.elementClass(tileType, key);
+                const newTile = new this.elementClass(materialType, key);
                 this.elements.push(newTile);
             }
         }

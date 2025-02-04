@@ -60,7 +60,8 @@ const movementCallback = (card:MaterialNaivigation, setup:RandomNaivigationSetup
     {
         const cardIndex = turn.getCardIndex(card);
         const elevateDir = ((cardIndex + 1) % 2 == 1) ? +1 : -1;
-        fb.push("The Elevate card was played to slot " + (cardIndex + 1) + ", so the airplane elevation goes " + elevateDir + ".");
+        const elevateDirString = elevateDir > 0 ? "+" + elevateDir : elevateDir.toString();
+        fb.push("The Elevate card was played to slot " + (cardIndex + 1) + ", so the airplane elevation goes " + elevateDirString + ".");
         
         const newElevation = turn.gameData.elevation + elevateDir;
         turn.gameData.elevation = Math.min(Math.max(newElevation, 1), 4);

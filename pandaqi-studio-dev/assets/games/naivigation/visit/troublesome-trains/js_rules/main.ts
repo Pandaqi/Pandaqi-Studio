@@ -5,35 +5,39 @@ import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer"
 import Point from "js/pq_games/tools/geometry/point";
 import { cardPicker, tilePicker } from "../js_game/generators";
 import CONFIG from "../js_shared/config";
-import { NetworkType, TileType } from "games/naivigation/js_shared/dictShared";
+import { NETWORKS, NetworkType, TileType } from "games/naivigation/js_shared/dictShared";
 import { MATERIAL } from "../js_shared/dict";
 import fromArray from "js/pq_games/tools/random/fromArray";
+import shuffle from "js/pq_games/tools/random/shuffle";
 
 const validPlacementCallback = (cell:TileData, setup:RandomNaivigationSetupGenerator) => 
 { 
     let tileFinal = null;
     for(const tile of setup.tiles)
     {
+        tileFinal = tile;
         if(tile.networkType != NetworkType.ALL) { continue; } // start with all crossroads
-        if(tile.isCollectible() == cell.collectible) { tileFinal = tile; break; }
+        if(tile.isCollectible() == cell.collectible) { break; }
     }
     return { tile: tileFinal }
 }
 
-const vehicleStartCallback = (vehicle:MaterialNaivigation, cells:TileData[], setup:RandomNaivigationSetupGenerator) : Point =>
+const vehicleStartCallback = (vehicle:MaterialNaivigation, setup:RandomNaivigationSetupGenerator) : TileData =>
 {
     const ourWantedStationType = "station_" + vehicle.key.slice(-1);
-    let validCell = null;
-    for(const cell of cells)
+    let validCell : TileData = null;
+    const cellsAlreadyPicked = setup.vehicleTokenData.map((x) => setup.getCellAt(x.position));
+    const cellsShuffled = shuffle(setup.cells);
+    for(const cell of cellsShuffled)
     {
+        if(cellsAlreadyPicked.includes(cell)) { continue; }
         if(!cell.tile.isCollectible()) { continue; }
         const stationType = cell.tile.key;
         if(ourWantedStationType == stationType) { continue; }
         validCell = cell;
         break;
     }
-    cells.splice(cells.indexOf(validCell), 1);
-    return validCell.position;
+    return validCell;
 }
 
 const visualizerTiles = new MaterialVisualizer(CONFIG, new Point(256,256));
@@ -60,10 +64,11 @@ const movementCallback = (card:MaterialNaivigation, setup:RandomNaivigationSetup
 
     if(key == "switch")
     {
-        turn.gameData.switchTile = Math.floor(Math.random() * 4); // @TODO: actually give specifics/make this mean something?
+        turn.gameData.switchTile = Math.floor(Math.random() * 4);
         fb.push("The Switch card rotated the Switch tile to a new side pointing up. (This side determines where trains must go when moving over a tile that splits in multiple directions.)");
     }
 
+    // only relevant in EXPANSION now, so basically ignored here
     if(key == "power")
     {
         const randomTrain = Math.floor(Math.random() * 5);
@@ -77,22 +82,38 @@ const movementCallback = (card:MaterialNaivigation, setup:RandomNaivigationSetup
     if(key == "map")
     {
         const cell = setup.getCellRandom();
-        cell.rot = (cell.rot + 1) % 4;
-        fb.push("The Map card rotated a tile on the map.");
+        const randRot = 1 + Math.floor(Math.random() * 3);
+        cell.rot = (cell.rot + randRot) % 4;
+        fb.push("The Map card rotated a tile on the map. (At position " + cell.position.x + ", " + cell.position.y +  ".)");
     }
 
     if(key == "train")
     {
         const trainPicked : string = fromArray(card.customData.trainKeys);
         const trainTypeString = MATERIAL[TileType.VEHICLE][trainPicked].label;
-
         const trainIndex = parseInt(trainPicked.slice(-1)); // @TODO: this is a MESSY/UNSTABLE way to connect KEY (vehicle_0) to train INDEX (0)! (ALSO USED during starting position callback, so also update there if needed)
-        const tileValue = turn.gameData.trainTiles[trainIndex]; 
-        const outcomeString = ["moving 1 tile backward", "standing still", "moving 1 tile forward"][tileValue + 1];
+        let fbString = "The Train card moved one of the trains depicted (" + trainTypeString + ") by 1 step.";
 
-        fb.push("The Train card moved one of the trains depicted (" + trainTypeString + ") by 1 step. This means going " + outcomeString + " (because its Train Tile says so).");
+        // const trainTileValue = turn.gameData.trainTiles[trainIndex];
+        // const outcomeString = ["moving 1 tile backward", "standing still", "moving 1 tile forward"][tileValue + 1];
+ 
+        const oldCell = setup.getVehicleData(trainIndex);
+        const networkSidesData = NETWORKS[oldCell.tile.networkType].sides;
+        const directionsAllowed = [];
+        for(const [side,isPossible] of Object.entries(networkSidesData))
+        {
+            if(!isPossible) { continue; }
+            directionsAllowed.push(side);
+        }
 
-        // @TODO: ACTUALLY do this movement -> how can we write a simple function to follow tracks and all?
+        let randDirection = fromArray(directionsAllowed);
+        randDirection = Math.round( (randDirection + oldCell.rot) % 4 );
+
+        const dirString = ["to the right", "down", "to the left", "up"][randDirection];
+        fbString += " This means going " + dirString + " (because the symbol on that side matches the Switch Tile).";
+
+        fb.push(fbString);
+        setup.movePlayer(trainIndex, setup.getVectorFromRotation(randDirection), false);
         
         const curTile = setup.getVehicleData(trainIndex).tile;
         const onCollectible = curTile.isCollectible();

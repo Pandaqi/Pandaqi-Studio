@@ -13,6 +13,10 @@ export default class MaterialNaivigation
     elevation: number;
     customData:Record<string,any>;
 
+    // global switches for major visual changes => @TODO: might become a single object later, or something better, but this is fine for now
+    illustrationUsesGlow = false;
+    terrainUsesGrayscale = false;
+
     constructor(t:MaterialNaivigationType, k:string = "", cd:Record<string,any> = {})
     {
         this.type = t;
@@ -34,7 +38,7 @@ export default class MaterialNaivigation
     getTemplateData() { return TEMPLATES[this.type]; }
     getNetworkData() { return null; }
     getCustomBackground(vis, group) { return null; }
-    getCustomIllustration(vis, card, spriteOp) { return null; }
+    getCustomIllustration(vis, spriteOp) { return null; }
     getCustomForeground(vis, group) { return null; }
 
     getTerrain() { return this.terrain; }

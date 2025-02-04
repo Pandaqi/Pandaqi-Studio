@@ -13,8 +13,9 @@ const validPlacementCallback = (cell:TileData, setup:RandomNaivigationSetupGener
     let tileFinal = null;
     for(const tile of setup.tiles)
     {
+        tileFinal = tile;
         if(tile.networkType != NetworkType.ALL) { continue; } // start with all crossroads
-        if(tile.isCollectible() == cell.collectible) { tileFinal = tile; break; }
+        if(tile.isCollectible() == cell.collectible) { break; }
     }
     return { tile: tileFinal }
 }
@@ -48,7 +49,7 @@ const movementCallback = (card:MaterialNaivigation, setup:RandomNaivigationSetup
 
     if(key == "drive")
     {
-        setup.movePlayerForward(0, curGear, true);
+        setup.movePlayerForward(0, curGear, false);
         const str = (curGear >= 0) ? "forward" : "backward"; 
         fb.push("The Drive card moved the car " + Math.abs(curGear) + " steps " + str + ". (Because your current Gear is " + curGear + ".)");
         
@@ -67,7 +68,7 @@ const movementCallback = (card:MaterialNaivigation, setup:RandomNaivigationSetup
         const totalChange = changeDir * (cardIndex + 1);
         const totalChangeStr = (totalChange >= 0) ? "+" + totalChange : totalChange.toString();
 
-        fb.push("The Gear card was played to slot " + (cardIndex + 1) + ", so the car's Gear goes " + totalChangeStr + ". (Start player chose this direction of change.");
+        fb.push("The Gear card was played to slot " + (cardIndex + 1) + ", so the car's Gear goes " + totalChangeStr + ". (Start player chose this direction of change.)");
         
         const newGear = curGear + totalChange;
         turn.gameData.gear = CONFIG.tiles.custom.gearBounds.clamp(newGear);

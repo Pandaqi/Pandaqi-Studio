@@ -18,11 +18,11 @@ const VEHICLE_CARDS:Record<string,MaterialNaivigationData> =
 
 const HEALTH_CARDS:Record<string,MaterialNaivigationData> =
 {
-    downgrade: { subText: "Downgrade", desc: "You can't wrap around the map anymore.", num: 2 },
-    favorite_direction: { subText: "Favorite Direction", desc: "When moving diagonally, you always pick the <b>horizontal</b> option (never vertical).", num: 3 },
-    fragile_ship: { subText: "Fragile Ship", desc: "Running into a planet or wrapping around the map does <b>2 damage</b> (instead of 1).", num: 3 },
-    bad_steering: { subText: "Bad Steering", desc: "When executing a <b>Steer</b> card, you must always pick one of the two <b>extreme angles</b>", num: 1 },
-    no_engine: { subText: "No Engine", desc: "After executing a <b>Disable</b> card, end the round immediately. Unless the next card is another <b>Disable</b>.", num: 4 }
+    downgrade: { label: "Downgrade", desc: "You can't wrap around the map anymore.", num: 2 },
+    favorite_direction: { label: "Favorite Direction", desc: "When moving diagonally, you always pick the <b>horizontal</b> option (never vertical).", num: 3 },
+    fragile_ship: { label: "Fragile Ship", desc: "Running into a planet or wrapping around the map does <b>2 damage</b> (instead of 1).", num: 3 },
+    bad_steering: { label: "Bad Steering", desc: "When executing a <b>Steer</b> card, you must always pick one of the two <b>extreme angles</b>", num: 1 },
+    no_engine: { label: "No Engine", desc: "After executing a <b>Disable</b> card, end the round immediately. Unless the next card is another <b>Disable</b>.", num: 4 }
 }
 
 //

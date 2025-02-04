@@ -24,6 +24,7 @@ const CONFIG:any =
     {
         vehicleTiles: true,
         vehicleCards: true,
+        specialCards: true,
         mapTiles: true,
         trafficPolice: false,
         fuelFear: false,
@@ -62,7 +63,7 @@ const CONFIG:any =
         {
             path: "icons.webp",
             frames: new Point(5,1),
-            loadIf: ["sets.vehicleCards", "sets.fuelFear"]
+            loadIf: ["sets.vehicleCards", "sets.specialCards", "sets.fuelFear"]
         },
 
         networks:
@@ -96,7 +97,7 @@ const CONFIG:any =
             {
                 [NetworkType.DEADEND]: { perc: 0.05, filterCollectibles: "exclude" },
                 [NetworkType.CORNER]: { perc: 0.1, filterCollectibles: "exclude" },
-                [NetworkType.STRAIGHT]: { perc: 0.1 },
+                [NetworkType.STRAIGHT]: { perc: 0.1, filterCollectibles: "exclude" },
                 [NetworkType.THREEWAY]: { perc: 0.1, filterCollectibles: "exclude" },
                 [NetworkType.ALL]: { perc: 0.65 }
             },

@@ -45,9 +45,10 @@ const DEF_PLACEMENT_CALLBACK = (cell, setup) =>
     }
     return { tile: tileFinal }
 }
+const DEF_START_CALLBACK = (veh,set) => undefined;
 
 type TilePlacementFunction = (cell:TileData, setup:RandomNaivigationSetupGenerator) => TileData
-type VehicleStartCallback = (vehicle:MaterialNaivigation, options:TileData[], setup:RandomNaivigationSetupGenerator) => Point
+type VehicleStartCallback = (vehicle:MaterialNaivigation, setup:RandomNaivigationSetupGenerator) => TileData
 
 export { TileData, NaivigationSetupParams }
 export default class RandomNaivigationSetupGenerator
@@ -58,9 +59,11 @@ export default class RandomNaivigationSetupGenerator
     size: Point
     tilePicker: TilePickerNaivigation
     tiles: MaterialNaivigation[] // The specific game is responsible for handing a list of valid Tile/Token objects for that game
+    tilesAll: MaterialNaivigation[]
     numVehicles: number
     
     vehicleTokens: MaterialNaivigation[]
+    vehicleTokensAll: MaterialNaivigation[]
     vehicleTokenData: TileData[]
 
     validPlacementCallback: TilePlacementFunction // As well as any special code regarding placement to be followed
@@ -77,28 +80,32 @@ export default class RandomNaivigationSetupGenerator
         this.visualizer = params.visualizer;
         this.tilePicker = params.tilePicker;
         this.tiles = [];
+        this.tilesAll = [];
         this.vehicleTokens = [];
-        this.vehicleStartCallback = params.vehicleStartCallback;
+        this.vehicleTokensAll = [];
+        this.vehicleStartCallback = params.vehicleStartCallback ?? DEF_START_CALLBACK;
         this.validPlacementCallback = params.validPlacementCallback ?? DEF_PLACEMENT_CALLBACK;
         this.attachToRules();
     }
 
     generateAndSanitizeTiles()
     {
-        if(this.tiles.length > 0 && this.vehicleTokens.length > 0) { return; }
+        if(this.tilesAll.length > 0 && this.vehicleTokensAll.length > 0) { return; }
 
         const allTiles = this.tilePicker.generate();
         const mapTiles = [];
         const playerTokens = [];
+        const vehiclesAlreadyPicked = [];
         for(const tile of allTiles)
         {
+            if(![TileType.VEHICLE, TileType.MAP].includes(tile.type as TileType)) { continue; }
             if(tile.isStartingTile()) { continue; }
-            if(tile.type == TileType.VEHICLE) { playerTokens.push(tile); }
-            else if(tile.type == TileType.MAP) { mapTiles.push(tile); }
+            if(tile.type == TileType.VEHICLE && !vehiclesAlreadyPicked.includes(tile.key)) { playerTokens.push(tile); vehiclesAlreadyPicked.push(tile.key); }
+            if(tile.type == TileType.MAP) { mapTiles.push(tile); }
         }
 
-        this.tiles = mapTiles;
-        this.vehicleTokens = playerTokens.slice(0, this.numVehicles);
+        this.tilesAll = mapTiles;
+        this.vehicleTokensAll = playerTokens.slice(0, this.numVehicles);
     }
 
     attachToRules()
@@ -147,12 +154,17 @@ export default class RandomNaivigationSetupGenerator
 
         // Keep trying until we have a layout that is valid
         const cells = grid.flat();
+        this.grid = grid;
+        this.cells = cells;
+
+        console.log(cells);
+
         let invalidBoard = true;
-        const tilesCopy = this.tiles.slice();
         while(invalidBoard)
         {
+            this.tiles = this.tilesAll.slice();
+
             // reset it all
-            this.tiles = tilesCopy;
             invalidBoard = false;
             for(const cell of cells)
             {
@@ -175,10 +187,10 @@ export default class RandomNaivigationSetupGenerator
         this.vehicleTokenData = [];
 
         const positions = this.getStartingPositions(cells); // this just sorts them based on distance to collectibles, which is fine for ALMOST ALL games
+        this.vehicleTokens = this.vehicleTokensAll.slice();
         for(const vehicle of this.vehicleTokens)
         {
-            const finalPick = this.vehicleStartCallback ? this.vehicleStartCallback(vehicle, positions, this) : positions.shift();
-            const startingCell : TileData = finalPick.cell; // pick one at random that's furthest away from all collectibles
+            const startingCell = this.vehicleStartCallback(vehicle, this) ?? positions.shift();
             const startingRotation = rangeInteger(0,3);
     
             const dataObj = { 
@@ -190,14 +202,13 @@ export default class RandomNaivigationSetupGenerator
             }
             this.vehicleTokenData.push(dataObj);
         }
-
-        this.grid = grid;
-        this.cells = cells;
     }
 
     async visualize() : Promise<HTMLImageElement>
     {
         await this.visualizer.resLoader.loadPlannedResources();
+
+        console.log(this.vehicleTokenData);
 
         // draw it all
         const ctx = createContext({ size: this.size.clone().scale(TILE_SIZE) })
@@ -220,19 +231,18 @@ export default class RandomNaivigationSetupGenerator
             for(let i = 0; i < this.vehicleTokenData.length; i++)
             {
                 const data = this.vehicleTokenData[i];
-                const vehicleIsHere = cell.position.matches(data.position)
-                if(vehicleIsHere)
-                {
-                    const canvToken = await this.drawItem(this.vehicleTokens[i]);
-                    const resToken = new ResourceImage(canvToken);
-                    const tokenOp = new LayoutOperation({
-                        pos: realPos,
-                        size: new Point(PLAYER_TOKEN_SIZE),
-                        rot: data.rot * 0.5 * Math.PI,
-                        pivot: Point.CENTER
-                    });
-                    group.add(resToken, tokenOp);
-                }
+                const vehicleIsHere = cell.position.matches(data.position);
+                if(!vehicleIsHere) { continue; }
+
+                const canvToken = await this.drawItem(this.vehicleTokens[i]);
+                const resToken = new ResourceImage(canvToken);
+                const tokenOp = new LayoutOperation({
+                    pos: realPos,
+                    size: new Point(PLAYER_TOKEN_SIZE),
+                    rot: data.rot * 0.5 * Math.PI,
+                    pivot: Point.CENTER
+                });
+                group.add(resToken, tokenOp);
             }
         }
 
@@ -282,7 +292,7 @@ export default class RandomNaivigationSetupGenerator
             return b.dist - a.dist
         })
 
-        return positions;
+        return positions.map((x) => x.cell);
     }
 
     async drawItem(item:MaterialNaivigation, facedown = false)
@@ -316,7 +326,10 @@ export default class RandomNaivigationSetupGenerator
     setPlayerPosition(idx = 0, pos:Point)
     {
         this.getVehicleData(idx).position = pos;
-        this.getVehicleData(idx).tile = this.grid[pos.x][pos.y].tile;
+        if(!this.isOutOfBounds(pos))
+        {
+            this.getVehicleData(idx).tile = this.grid[pos.x][pos.y].tile;
+        }
     }
 
     wrapPosition(pos:Point) : Point
@@ -331,6 +344,9 @@ export default class RandomNaivigationSetupGenerator
     {
         const rotReal = rot * 0.5 * Math.PI;
         const vector = new Point(Math.cos(rotReal), Math.sin(rotReal));
+        if(Math.abs(vector.x) < 0.03) { vector.x = 0; }
+        if(Math.abs(vector.y) < 0.03) { vector.y = 0; }
+
         vector.x = Math.sign(vector.x);
         vector.y = Math.sign(vector.y);
 

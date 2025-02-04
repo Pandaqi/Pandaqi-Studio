@@ -18,14 +18,14 @@ const VEHICLE_CARDS:Record<string,MaterialNaivigationData> =
 
 const HEALTH_CARDS:Record<string,MaterialNaivigationData> =
 {
-    fragile_car: { subText: "Fragile Car", desc: "Driving off-track does <b>2 damage</b> (instead of 1).", num: 2 },
-    trains_restricted: { subText: "Color Mix-up", desc: "If a Train card has multiple options, you must pick one of the <b>first 2</b>.", num: 3 },
-    crossroads_restricted: { subText: "Overwhelmed", desc: "You <b>can't</b> change a Train's Tile if it's on a <b>crossroads</b>.", num: 2 },
-    large_train: { subText: "Ultrawide Train", desc: "You already <b>hit</b> an animal if it's <b>adjacent</b> to a train car.", num: 2, sets: ["animalsCrossings"] },
-    power_required: { subText: "Low Battery", desc: "Any <b>Switch</b> or <b>Map</b> cards only work if a <b>Power</b> card was played earlier.", num: 3 },
-    map_limit: { subText: "Protected Area", desc: "The <b>Map</b> card is only allowed to <b>rotate</b> map tiles (never replace).", num: 4 },
-    valid_network: { subText: "Rubbish Network", desc: "Any new tiles you place <b>must</b> properly connect the tracks. (If not, leave a hole.)", num: 1 },
-    tired_steel: { subText: "Tired Steel", desc: "<b>No</b> Train may move twice in the same round.", num: 5 },
+    fragile_car: { label: "Fragile Car", desc: "Driving off-track does <b>2 damage</b> (instead of 1).", num: 2 },
+    trains_restricted: { label: "Color Mix-up", desc: "If a Train card has multiple options, you must pick one of the <b>first 2</b>.", num: 3 },
+    crossroads_restricted: { label: "Overwhelmed", desc: "You <b>can't</b> change a Train's Tile if it's on a <b>crossroads</b>.", num: 2 },
+    large_train: { label: "Ultrawide Train", desc: "You already <b>hit</b> an animal if it's <b>adjacent</b> to a train car.", num: 2, sets: ["animalsCrossings"] },
+    power_required: { label: "Low Battery", desc: "Any <b>Switch</b> or <b>Map</b> cards only work if a <b>Power</b> card was played earlier.", num: 3 },
+    map_limit: { label: "Protected Area", desc: "The <b>Map</b> card is only allowed to <b>rotate</b> map tiles (never replace).", num: 4 },
+    valid_network: { label: "Rubbish Network", desc: "Any new tiles you place <b>must</b> properly connect the tracks. (If not, leave a hole.)", num: 1 },
+    tired_steel: { label: "Tired Steel", desc: "<b>No</b> Train may move twice in the same round.", num: 5 },
 }
 
 const ACTION_CARDS:Record<string,MaterialNaivigationData> =

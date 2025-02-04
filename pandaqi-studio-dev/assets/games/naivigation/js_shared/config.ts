@@ -22,7 +22,6 @@ const CONFIG:any =
 
     sets:
     {
-
         instructionTokens: true,
         vehicleCards: true,
         healthCards: true,

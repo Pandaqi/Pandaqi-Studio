@@ -10,6 +10,8 @@ import { MATERIAL, MISC, NETWORK_TYPES } from "../js_shared/dict";
 
 export default class Tile extends MaterialNaivigation
 {
+    terrainUsesGrayscale = true
+
     getData() { return MATERIAL[this.type][this.key]; }
     getNetworkData() { return NETWORK_TYPES[this.networkKey]; }
     async draw(vis:MaterialVisualizer)
@@ -35,7 +37,8 @@ export default class Tile extends MaterialNaivigation
         const resBG = vis.getResource("misc");
         const opBG = new LayoutOperation({
             size: vis.size,
-            frame: MISC[key + "_template"].frame
+            frame: MISC[key + "_template"].frame,
+            effects: vis.inkFriendlyEffect
         })
         group.add(resBG, opBG);
 

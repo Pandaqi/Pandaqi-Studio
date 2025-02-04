@@ -35,13 +35,23 @@ const drawTerrain = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialN
     bgColor = vis.inkFriendly ? "#FFFFFF" : bgColor;
     fillResourceGroup(vis.size, group, bgColor);
 
-    // terrain image
+    // @EXCEPTION: my terrible laptop sometimes can't load more than one or two images, so allow drawing to continue anyway
     const res = vis.getResource("terrains");
+    if(!res) 
+    { 
+        fillResourceGroup(vis.size, group, "#CCCCCC");
+        console.error("Needs to draw terrain, but resource isn't loaded"); 
+        return; 
+    }
+
+    // terrain image
     const frame = TERRAINS[tile.getTerrain()].frame;
+    const effects = tile.terrainUsesGrayscale ? vis.inkFriendlyEffect : [];
     const resOp = new LayoutOperation({
         frame: frame,
         pos: new Point(),
-        size: vis.size
+        size: vis.size,
+        effects: effects
     });
     group.add(res, resOp);
 }
@@ -51,10 +61,18 @@ const drawNetwork = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialN
     const needsNetwork = tile.hasNetwork() && !tile.customData.suppressNetwork;
     if(!needsNetwork) { return; }
 
-    // simply grab the right frame out of the networks spritesheet and display that full size
     const data = tile.getNetworkData();
     const textureKey = data.textureKey ?? "networks";
+
+    // @EXCEPTION: my terrible laptop sometimes can't load more than one or two images, so allow drawing to continue anyway
     const res = vis.getResource(textureKey);
+    if(!res)
+    {
+        console.error("Needs to draw network, but resource isn't loaded");
+        return;
+    }
+
+    // simply grab the right frame out of the networks spritesheet and display that full size
     const frameOffset = NETWORKS[tile.networkType].frameOffset;
     const baseFrame = data.frame * 5; // there are 5 different versions for each terrain
     const frameFinal = baseFrame + frameOffset;
@@ -75,7 +93,9 @@ const drawTile = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaiv
 
     const spriteFrame = tempData.frameIcon ?? typeData.frame;
     const mainIconSize = vis.get("tiles.general.illustration.mainDims");
-    const eff = new DropShadowEffect({ color: "#000000", blurRadius: 0.05*mainIconSize.x })
+    const eff = new DropShadowEffect({ color: "#000000", blurRadius: 0.05*mainIconSize.x });
+    if(tile.illustrationUsesGlow) { eff.setColor("#FFFFFF"); }
+
     const spriteOp = new LayoutOperation({
         pos: vis.center,
         size: mainIconSize,
@@ -86,8 +106,8 @@ const drawTile = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaiv
 
     // allow custom draws (in fact, we'll need that a lot)
     let resIllu = resSprite;
-    const resTemp = tile.getCustomIllustration(vis, tile, spriteOp);
-    if(resTemp) { resIllu = resTemp; spriteOp.frame = 0; }
+    const resTemp = tile.getCustomIllustration(vis, spriteOp);
+    if(resTemp) { resIllu = resTemp; spriteOp.frame = 0; spriteOp.size = new Point(); }
     group.add(resIllu, spriteOp);
 
     // draw collectible icon + starting tile icon top center

@@ -23,6 +23,7 @@ const CONFIG:any =
     {
         vehicleTiles: true,
         vehicleCards: true,
+        specialCards: true,
         mapTiles: true,
         shields: false,
         weapons: false,
@@ -66,14 +67,14 @@ const CONFIG:any =
 
         steer:
         {
-            circleRadius: new CVal(0.4, "sizeUnit"),
-            strokeWidthCircle: new CVal(0.075, "sizeUnit"),
+            circleRadius: 0.45, // ~tiles.general.illustration.mainDims
+            strokeWidthCircle: 0.085, // ~mainDims
             strokeColorCircle: "#FFFFFF",
-            strokeWidthSpoke: new CVal(0.03, "sizeUnit"),
+            strokeWidthSpoke: 0.04, // ~mainDims
             strokeColorSpoke: "#CCCCCC",
             rangeColor: "#AAFFAA",
             rangeAlpha: 0.75,
-            vehicleDims: new CVal(new Point(0.4), "sizeUnit")
+            vehicleDims: 0.45, // ~mainDims
         },
 
         planetProperties:

@@ -20,16 +20,16 @@ const VEHICLE_CARDS:Record<string,MaterialNaivigationData> =
 
 const HEALTH_CARDS:Record<string,MaterialNaivigationData> =
 {
-    fog: { subText: "Fog", desc: "Turn one Compass deck <b>facedown</b>.", num: 3 },
-    fragile_plane: { subText: "Fragile Ship", desc: "Sailing into land does <b>2 damage</b> (instead of 1).", num: 2 },
-    stubborn_storms: { subText: "Stubborn Storms", desc: "The first <b>Wind</b> card played determines how all later Wind cards work (+1 or -1).", num: 3 },
-    row_invert: { subText: "Inverted Paddles", desc: "The <b>Row</b> card moves you 1 tile backward (instead of forward).", num: 5, sets: ["windstormsWeather"] },
-    end_of_world: { subText: "At World's End", desc: "Shuffle one Compass deck into another. (You can never explore in that direction again.)", num: 4 },
-    moodswing_sails: { subText: "Moodswing Sails", desc: "Round your Wind deck. (You either move at <b>minimum speed</b> or <b>maximum speed</b>.)", num: 1 },
-    rioting_rudder: { subText: "Rudder Riot", desc: "Whenever you <b>take damage</b>, <b>rotate</b> the ship a quarter turn to the <b>right</b>.", num: 4 },
-    soaked_map: { subText: "Soaked Map", desc: "Whenever you <b>take damage</b> or <b>visit harbor</b>, shuffle all your Compass decks.", num: 3  },
-    torn_sails: { subText: "Torn Sails", desc: "You <b>lose 1 Wind</b> at the end of <b>every round</b>.", num: 3 },
-    danger_stream: { subText: "Danger Stream", desc: "The strength of all <b>water currents</b> is <b>doubled</b>.", num: 3 },
+    fog: { label: "Fog", desc: "Turn one Compass deck <b>facedown</b>.", num: 3 },
+    fragile_plane: { label: "Fragile Ship", desc: "Sailing into land does <b>2 damage</b> (instead of 1).", num: 2 },
+    stubborn_storms: { label: "Stubborn Storms", desc: "The first <b>Wind</b> card played determines how all later Wind cards work (+1 or -1).", num: 3 },
+    row_invert: { label: "Inverted Paddles", desc: "The <b>Row</b> card moves you 1 tile backward (instead of forward).", num: 5, sets: ["windstormsWeather"] },
+    end_of_world: { label: "At World's End", desc: "Shuffle one Compass deck into another. (You can never explore in that direction again.)", num: 4 },
+    moodswing_sails: { label: "Moodswing Sails", desc: "Round your Wind deck. (You either move at <b>minimum speed</b> or <b>maximum speed</b>.)", num: 1 },
+    rioting_rudder: { label: "Rudder Riot", desc: "Whenever you <b>take damage</b>, <b>rotate</b> the ship a quarter turn to the <b>right</b>.", num: 4 },
+    soaked_map: { label: "Soaked Map", desc: "Whenever you <b>take damage</b> or <b>visit harbor</b>, shuffle all your Compass decks.", num: 3  },
+    torn_sails: { label: "Torn Sails", desc: "You <b>lose 1 Wind</b> at the end of <b>every round</b>.", num: 3 },
+    danger_stream: { label: "Danger Stream", desc: "The strength of all <b>water currents</b> is <b>doubled</b>.", num: 3 },
 }
 
 /*const ACTION_CARDS:Record<string,MaterialNaivigationData> =
@@ -65,7 +65,7 @@ const TIME_CARDS:Record<string,MaterialNaivigationData> =
 //
 const MAP_TILES:Record<string,MaterialNaivigationData> =
 {
-    empty: { frame: -1, label: "Regular", freq: 20 },
+    empty: { frame: -1, label: "Regular", freq: 26 },
     harbor_0: { frame: 0, label: "Harbor", collectible: true, freq: 3 },
     harbor_1: { frame: 1, label: "Harbor", collectible: true, freq: 3 },
     harbor_2: { frame: 2, label: "Harbor", collectible: true, freq: 2 },

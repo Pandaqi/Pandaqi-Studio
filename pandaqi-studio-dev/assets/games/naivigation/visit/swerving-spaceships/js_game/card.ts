@@ -1,10 +1,8 @@
 import cardDrawerNaivigation from "games/naivigation/js_shared/cardDrawerNaivigation";
 import { CardType, TileType } from "games/naivigation/js_shared/dictShared";
 import MaterialNaivigation from "games/naivigation/js_shared/materialNaivigation";
-import createContext from "js/pq_games/layout/canvas/createContext";
 import LayoutOperation from "js/pq_games/layout/layoutOperation";
 import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
-import ResourceImage from "js/pq_games/layout/resources/resourceImage";
 import ResourceShape from "js/pq_games/layout/resources/resourceShape";
 import ResourceText from "js/pq_games/layout/resources/resourceText";
 import TextConfig from "js/pq_games/layout/text/textConfig";
@@ -100,26 +98,23 @@ export default class Card extends MaterialNaivigation
         return group;
     }
 
-    getCustomIllustration(vis:MaterialVisualizer, card:MaterialNaivigation, op:LayoutOperation) : ResourceImage
+    getCustomIllustration(vis:MaterialVisualizer, op:LayoutOperation) : ResourceGroup
     {
         if(this.key != "steer") { return null; }
 
-        const canvSize = new Point(vis.sizeUnit);
-        const ctx = createContext({ size: canvSize });
         const group = new ResourceGroup();
+        const sizeUnit = Math.min(op.size.x, op.size.y);
 
         // draw main circle
-        const circleCenter = canvSize.clone().scale(0.5);
-        const circleRadius = vis.get("cards.steer.circleRadius");
-        const circleRes = new ResourceShape(new Circle({ center: circleCenter, radius: circleRadius }))
+        const circleRadius = vis.get("cards.steer.circleRadius") * sizeUnit;
+        const circleRes = new ResourceShape(new Circle({ radius: circleRadius }))
         const circleOp = new LayoutOperation({
             stroke: vis.get("cards.steer.strokeColorCircle"),
-            strokeWidth: vis.get("cards.steer.strokeWidthCircle"),
+            strokeWidth: vis.get("cards.steer.strokeWidthCircle") * sizeUnit,
         })
 
         group.add(circleRes, circleOp);
 
-  
         // draw spokes
         const lineExtent = 1.1;
         const line = new ResourceShape(new Line(new Point(-circleRadius*lineExtent, 0), new Point(circleRadius*lineExtent, 0))); // this is already pivoted around center
@@ -127,18 +122,17 @@ export default class Card extends MaterialNaivigation
         for(let i = 0; i < 4; i++)
         {
             const op = new LayoutOperation({
-                pos: circleCenter,
                 rot: i * 0.25 * Math.PI,
                 stroke: vis.get("cards.steer.strokeColorSpoke"),
-                strokeWidth: vis.get("cards.steer.strokeWidthSpoke"),
+                strokeWidth: vis.get("cards.steer.strokeWidthSpoke") * sizeUnit,
             })
             group.add(line, op);
         }
 
-        // Draw dynamic rotation range
+        // draw dynamic rotation range
         const a1 = this.customData.angles[0] * 0.25 * Math.PI - 0.5*Math.PI; // second part to make 0 = pointing up, as the spaceship does
         const a2 = this.customData.angles[1] * 0.25 * Math.PI - 0.5*Math.PI;
-        const range = new Pie({ center: circleCenter, radius: circleRadius, startAngle: a1, endAngle: a2 });
+        const range = new Pie({ radius: circleRadius, startAngle: a1, endAngle: a2 });
         const rangeRes = new ResourceShape(range);
         const rangeOp = new LayoutOperation({
             fill: vis.get("cards.steer.rangeColor"),
@@ -146,19 +140,16 @@ export default class Card extends MaterialNaivigation
         })
         group.add(rangeRes, rangeOp);
 
-        // Draw spaceship vehicle on top of center to indicate what is up
+        // draw spaceship vehicle on top of center to indicate what is up
         const vehicleRes = vis.getResource("map_tiles");
         const frame = MATERIAL[TileType.VEHICLE].vehicle_0.frame;
         const vehicleOp = new LayoutOperation({
-            pos: circleCenter,
-            size: vis.get("cards.steer.vehicleDims"),
+            size: new Point(vis.get("cards.steer.vehicleDims") * sizeUnit),
+            rot: -0.5*Math.PI, // because now it defaults to pointing to the side, so put it back up 
             frame: frame,
             pivot: Point.CENTER
         })
         group.add(vehicleRes, vehicleOp);
-
-        // Finally, turn that all into a resource image to give back
-        group.toCanvas(ctx);
-        return new ResourceImage(ctx.canvas);
+        return group;
     }
 }

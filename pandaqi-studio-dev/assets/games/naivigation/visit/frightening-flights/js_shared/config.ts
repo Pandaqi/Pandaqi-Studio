@@ -24,6 +24,7 @@ const CONFIG:any =
     {
         vehicleTiles: true,
         vehicleCards: true,
+        specialCards: true,
         mapTiles: true,
         fuelFalling: false,
         repairsRacing: false,
@@ -63,7 +64,7 @@ const CONFIG:any =
         {
             path: "icons.webp",
             frames: new Point(8,1),
-            loadIf: ["sets.vehicleCards", "sets.fuelFalling"]
+            loadIf: ["sets.vehicleCards", "sets.specialCards", "sets.fuelFalling"]
         },
 
         terrains:

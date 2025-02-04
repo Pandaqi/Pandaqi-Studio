@@ -135,7 +135,7 @@ Add the following vehicle card.
   * If this is a planet, you immediately lost the game! 
   * If this tile contained another spaceship (when playing with two teams), they take 2 damage.
 
-{{< rules-image src="expansion_weapon_aliens.webp" alt="Examples of how to use all the new tiles/cards in the Weapons expansion." >}}
+{{< rules-image src="expansion_weapons_aliens.webp" alt="Examples of how to use all the new tiles/cards in the Weapons expansion." >}}
 
 {{% /rules-block %}}
 

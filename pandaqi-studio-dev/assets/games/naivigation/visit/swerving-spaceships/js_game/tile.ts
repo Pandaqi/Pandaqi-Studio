@@ -14,6 +14,8 @@ import { GAME_DATA, MATERIAL, MISC, VEHICLE_TILES } from "../js_shared/dict";
 
 export default class Tile extends MaterialNaivigation
 {
+    illustrationUsesGlow = true;
+
     getData() { return MATERIAL[this.type][this.key]; } 
     async draw(vis:MaterialVisualizer)
     {

@@ -196,7 +196,7 @@ During **gameplay**,
 So yes, all pawns of the same type, will all move in the same way.
 {{% /remark %}}
 
-{{< rules-image src="expansion_pirates_cannnons.webp" alt="Examples of how to place Pawns, give them instructions, then move and interact with them." >}}
+{{< rules-image src="expansion_pirates_cannons.webp" alt="Examples of how to place Pawns, give them instructions, then move and interact with them." >}}
 
 In these rules, "adjacent" means **to the side**. A tile is adjacent to another if it's directly to the left or right. 
 

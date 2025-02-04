@@ -21,14 +21,14 @@ const VEHICLE_CARDS:Record<string,MaterialNaivigationData> =
 
 const HEALTH_CARDS:Record<string,MaterialNaivigationData> =
 {
-    fragile_car: { subText: "Fragile Car", desc: "Driving off-road does <b>2 damage</b> (instead of 1).", num: 2 },
-    careful_steering: { subText: "Tiny Wheel", desc: "All <b>Turn</b> cards only turn one step (regardless of Gear).", num: 4 },
-    stuck_elevation: { subText: "Stuck Stick", desc: "The first Gear card determines how all later Gear cards work (up or down).", num: 2 },
-    distracted: { subText: "Distracted", desc: "After executing <b>Cruise</b>, <b>reset Gear</b> to 0.", num: 4 },
-    slipping: { subText: "Slipping", desc: "Once you <b>Turn</b> in a round, you Turn that same way again <b>after every card</b> executed.", num: 1 },
-    gear_limit: { subText: "Broken Gears", desc: "Reduce your <b>Gear</b> deck to only values -1, 0 and 1.", num: 3 },
-    crossroads_limit: { subText: "Overwhelmed", desc: "Any card other than <b>Drive</b> is ignored if you're on a <b>crossroads</b>.", num: 1 },
-    foggy_window: { subText: "Foggy Window", desc: "<b>No</b> cards may ever be played <b>faceup</b> (for whatever reason).", num: 5 },
+    fragile_car: { label: "Fragile Car", desc: "Driving off-road does <b>2 damage</b> (instead of 1).", num: 2 },
+    careful_steering: { label: "Tiny Wheel", desc: "All <b>Turn</b> cards only turn one step (regardless of Gear).", num: 4 },
+    stuck_elevation: { label: "Stuck Stick", desc: "The first Gear card determines how all later Gear cards work (up or down).", num: 2 },
+    distracted: { label: "Distracted", desc: "After executing <b>Cruise</b>, <b>reset Gear</b> to 0.", num: 4 },
+    slipping: { label: "Slipping", desc: "Once you <b>Turn</b> in a round, you Turn that same way again <b>after every card</b> executed.", num: 1 },
+    gear_limit: { label: "Broken Gears", desc: "Reduce your <b>Gear</b> deck to only values -1, 0 and 1.", num: 3 },
+    crossroads_limit: { label: "Overwhelmed", desc: "Any card other than <b>Drive</b> is ignored if you're on a <b>crossroads</b>.", num: 1 },
+    foggy_window: { label: "Foggy Window", desc: "<b>No</b> cards may ever be played <b>faceup</b> (for whatever reason).", num: 5 },
 }
 
 const ACTION_CARDS:Record<string,MaterialNaivigationData> =
