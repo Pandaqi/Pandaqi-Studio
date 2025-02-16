@@ -1,20 +1,21 @@
-import shuffle from "js/pq_games/tools/random/shuffle";
 import Loader from "./loader";
 import Nodes from "./nodes";
 import Question from "./question";
 import seedrandom from "js/pq_games/tools/random/seedrandom";
 import DOM from "./dom";
 import clamp from "js/pq_games/tools/numbers/clamp";
-import { anyMatch, getAllPossibleValuesFor, parseQuestionsIntoJSON } from "./parser";
+import { anyMatch, getAllPossibleValuesFor, parseQuestionsIntoJSON, shuffle } from "./parser";
 import ErrorHandler from "./errorHandler";
 
 interface ParseSymbols
 {
     comment?: string,
-    property?: string,
+    pairing?: string,
     questionOnly?: string,
     answerOnly?: string,
-    inlineMultiple?: string
+    inlineList?: string,
+    keepAsIs?: string,
+    section?: string,
 }
 
 interface QuizParams
@@ -25,40 +26,42 @@ interface QuizParams
     filenames?: string[], // for fixed filenames given by user, can be anything
     fileExtensions?: string[],
     seed?: string,
-    maxScore?: number,
-    loadExternalMediaAsIframe?: boolean,
+    subFolders?: { media?: string, questions?: string },
+    excludeSections?: boolean,
+    allowInput?: boolean,
 
+    loadExternalMediaAsIframe?: boolean,
     linkPrefixes?: string[],
     mediaFormats?: string[],
-    symbols?: ParseSymbols,
 
     defaultCategory?: string,
-    defaultAuthor?: string,
-    defaultScore?: number,
-
     possibleCategories?: string[],
-    possibleAuthors?: string[],
-
-    minAnswers?: number,
-    maxAnswers?: number,
-    exclude?: Record<string, any>, // a FILTER: any properties with these values are removed from the question set
-    include?: Record<string, any>, // a MASK: only questions with properties matching these values are added to the question set
-
     hideCategory?: boolean,
+    
+    defaultAuthor?: string,
+    possibleAuthors?: string[],
     hideAuthor?: boolean,
+
+    minScore?: number,
+    maxScore?: number,
+    defaultScore?: number,
     hideScore?: boolean,
 
-    enableInlineMultiple?: boolean,
-    enableSafety?: boolean
-    enableMouse?: boolean
-    enableKeys?: boolean
-    enableUI?: boolean
+    symbols?: ParseSymbols,
+    groupBy?: string,
+    exclude?: Record<string, any>, // a FILTER: any properties with these values are removed from the question set
+    include?: Record<string, any>, // a MASK: only questions with properties matching these values are added to the question set
+    minAnswers?: number,
+    maxAnswers?: number,
+    questionTypesAllowed?: string[],
 
-    groupBy?: string
-
-    subFolders?: { media?: string, questions?: string }
-
-    showErrors?: boolean
+    enableInlineLists?: boolean,
+    enableSafety?: boolean,
+    enableMouse?: boolean,
+    enableKeys?: boolean,
+    enableUI?: boolean,
+    showErrors?: boolean,
+    loadDefaultStyles?: boolean
 }
 
 enum QuizMode
@@ -105,7 +108,10 @@ export default class Quiz
         params.symbols = params.symbols ?? {};
         params.exclude = params.exclude ?? {};
         params.include = params.include ?? {};
-        params.enableInlineMultiple = params.enableInlineMultiple ?? true;
+        params.enableInlineLists = params.enableInlineLists ?? true;
+        params.excludeSections = params.excludeSections ?? false;
+        params.loadDefaultStyles = params.loadDefaultStyles ?? true;
+        params.allowInput = params.allowInput ?? false;
 
         console.log(params);
 
@@ -203,7 +209,8 @@ export default class Quiz
         }
 
         // track some statistics
-        const stats = {
+        const stats = 
+        {
             numQuestions: this.questions.length,
             totalScore: totalScore
         }

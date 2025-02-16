@@ -1,5 +1,4 @@
-import shuffle from "js/pq_games/tools/random/shuffle"
-import { parsePathToID, parseQuestionProperty, toWhiteSpaceString } from "./parser"
+import { parsePathToID, parseQuestionProperty, shuffle, toWhiteSpaceString } from "./parser"
 import { QuizParams } from "./quiz"
 import QVal, { QValType } from "./questionValue"
 import { showMessage } from "./errorHandler"
@@ -10,6 +9,7 @@ enum QuestionType
     OPEN = "open", // an open question, parsed as normal
     OPEN_SINGLE = "opensingle", // an open question, but the answers should be displayed as ONE piece of text
     RANGE = "range", // the answer is a numeric range (@TODO: not implemented yet) => interpret the first two answers given as the bounds of that range?
+    SECTION = "section"
 }
 
 export { Question, QuestionType }
@@ -27,6 +27,7 @@ export default class Question
     author: QVal[]
     color: QVal
     url: string // origin file of this question, for easier debugging/finding an error in submitted questions
+    section: string
 
     constructor()
     {

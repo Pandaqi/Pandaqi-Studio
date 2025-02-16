@@ -1,5 +1,5 @@
 import { showMessage } from "./errorHandler";
-import Question from "./question";
+import Question, { QuestionType } from "./question";
 import QVal, { QValType } from "./questionValue";
 import { QuizParams } from "./quiz";
 
@@ -13,9 +13,13 @@ const PROPS_FORCED_LOWERCASE = ["category", "author", "type"];
 
 const MASK_QUESTION_SYMBOL = "?";
 const MASK_ANSWER_SYMBOL = "!";
+const MASK_KEEP_AS_IS_SYMBOL = "$";
 const INLINE_SPLIT_SYMBOL = "|";
-const PROPERTY_DECLARE_SYMBOL = "=>";
+const ATTRIBUTE_PAIRING_SYMBOL = "=>";
+const SECTION_SYMBOL = "#";
 const COMMENT_SYMBOL = "//";
+
+const DEF_SECTION_NAME = "no-section";
 
 const isValidMediaType = (path:string, params:QuizParams = {}) =>
 {
@@ -60,20 +64,45 @@ const parseFileString = (url: string, data:string, params:QuizParams = {}) : Que
     const lines = data.split(/\r?\n/)
 
     const commentSymbol = params.symbols.comment ?? COMMENT_SYMBOL;
-    const propertyDeclareSymbol = params.symbols.property ?? PROPERTY_DECLARE_SYMBOL;
+    const sectionSymbol = params.symbols.section ?? SECTION_SYMBOL;
+    const attributePairingSymbol = params.symbols.pairing ?? ATTRIBUTE_PAIRING_SYMBOL;
 
     let curQuestion : Question = null;
+    let curSection : Question = new Question();
     let currentProperty : string = null;
     const questions = [];
+
+    const finalizeQuestion = (q:Question) =>
+    {
+        const curSectionName = curSection.getPropertySingle("question") ?? DEF_SECTION_NAME;
+        if(q.section == curSectionName && params.excludeSections) { return; }
+        
+        q.finalize(params);
+        questions.push(q);
+    }
+
     for(const line of lines)
     {
-        const emptyLine = line.length <= 0;
-        if(emptyLine) { continue; }
+        const lineTrimmed = line.trim();
+        const isEmptyLine = lineTrimmed.length <= 0;
+        if(isEmptyLine) { continue; }
 
-        const comment = line.trim().indexOf(commentSymbol) == 0;
-        if(comment) { continue; }
+        const isComment = lineTrimmed.indexOf(commentSymbol) == 0;
+        if(isComment) { continue; }
 
-        let parts = line.split(propertyDeclareSymbol);
+        const isSection = lineTrimmed.indexOf(sectionSymbol) == 0;
+        if(isSection) 
+        {
+            if(params.excludeSections) { continue; }
+            curSection = new Question();
+            // remove the section symbol from start of string, then save remainder as section name
+            curSection.updateProperty("question", lineTrimmed.slice(sectionSymbol.length).trim());
+            curSection.updateProperty("type", QuestionType.SECTION);
+            finalizeQuestion(curSection);
+            continue; 
+        }
+
+        let parts = line.split(attributePairingSymbol);
         parts = parts.map(s => s.trim());
 
         const invalid = parts.length > 2;
@@ -95,21 +124,30 @@ const parseFileString = (url: string, data:string, params:QuizParams = {}) : Que
         parts[0] = parts[0].toLowerCase();
         currentProperty = parts[0];
 
+        const curSectionName = curSection.getPropertySingle("question") ?? "no-section";
         const startNewQuestion = (currentProperty == "question");
         if(startNewQuestion)
         {
             const mustSavePreviousQuestion = curQuestion != null;
-            if(mustSavePreviousQuestion) { curQuestion.finalize(params); questions.push(curQuestion); }
+            if(mustSavePreviousQuestion) 
+            { 
+                curQuestion.section = curSectionName; // @NOTE: section is saved at the end of question creation cycle, so it's also correct on the Section changing questions themselves
+                finalizeQuestion(curQuestion);
+            }
             curQuestion = new Question();
             curQuestion.url = url;
         }
         
         const val = parseInlinePropertyValue(currentProperty, parts[1], params);
         curQuestion.updateProperty(currentProperty, val, params);
+
+        // once we've figured out that the question marks a new section, update immediately
+        const shouldUpdateSection = currentProperty == "type" && parts[1] == QuestionType.SECTION;
+        if(shouldUpdateSection) { curSection = curQuestion; }
     }
 
-    curQuestion.finalize(params);
-    questions.push(curQuestion); 
+    // don't forget to add the very last one too!
+    finalizeQuestion(curQuestion);
 
     return questions;
 }
@@ -122,9 +160,9 @@ const acceptsInlineList = (prop:string) =>
 const parseInlinePropertyValue = (prop: string, val:string, params:QuizParams = {}) : string[] =>
 {
     if(val.length <= 0) { return []; }
-    if(acceptsInlineList(prop) && params.enableInlineMultiple) 
+    if(acceptsInlineList(prop) && params.enableInlineLists) 
     {
-        const splitSymbol = params.symbols.inlineMultiple ?? INLINE_SPLIT_SYMBOL;
+        const splitSymbol = params.symbols.inlineList ?? INLINE_SPLIT_SYMBOL;
         return val.split(splitSymbol); 
     }
     return [val];
@@ -139,16 +177,19 @@ const parseQuestionProperty = (prop: string, val:string[], params:QuizParams = {
     if(!params.symbols) { params.symbols = {}; }
     const questionMaskSymbol = params.symbols.questionOnly ?? MASK_QUESTION_SYMBOL;
     const answerMaskSymbol = params.symbols.answerOnly ?? MASK_ANSWER_SYMBOL; 
+    const keepAsIsSymbol = params.symbols.keepAsIs ?? MASK_KEEP_AS_IS_SYMBOL;
 
     const arr : QVal[] = [];
     for(let elem of val)
     {
         const firstChar = elem.charAt(0);
         let qValType = QValType.ALL;
+        let keepAsIs = false;
         if(firstChar == questionMaskSymbol) { elem = elem.slice(1).trim(); qValType = QValType.QUESTION; }
         else if(firstChar == answerMaskSymbol) { elem = elem.slice(1).trim(); qValType = QValType.ANSWER; }
+        else if(firstChar == keepAsIsSymbol) { elem = elem.slice(1).trim(); keepAsIs = true; }
 
-        arr.push(new QVal(elem, qValType));
+        arr.push(new QVal(elem, qValType, keepAsIs));
     }
     return arr;
 }
@@ -265,6 +306,15 @@ const parseWordDocument = async (url:string) =>
     return "CAN'T PARSE WORD DOCUMENTS, all libraries for some fucking reason require Node and a bunch of dependencies. I tried, I really tried.";
 }
 
+const shuffle = <T>(array:T[], RNG = Math.random) : T[] =>
+{
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(RNG() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
 export
 {
     parseRawFile,
@@ -282,6 +332,7 @@ export
     isExternalURL,
 
     anyMatch,
+    shuffle,
     getAllPossibleValuesFor,
 
     IMAGE_FORMATS,

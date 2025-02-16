@@ -3,9 +3,10 @@ import { isExternalURL, isValidMediaType, parseExtension, parseQuestionsIntoList
 import Question from "./question";
 import { QuizParams } from "./quiz";
 
-const BASE_URL = "/pub-quiz/";
+const BASE_URL = "";
 const QUESTION_FILE_NAME_PATTERN = "questions";
 const MAX_SCORE = 5;
+const MIN_SCORE = 1;
 const DEF_FILE_EXTENSIONS = ["txt"];
 const VALID_FILE_EXTENSIONS = ["txt", "md", "json"]; //["txt", "md", "doc", "docx", "pdf", "json"];
 const SUB_FOLDERS = {
@@ -22,6 +23,8 @@ export default class Loader
     fileExtensions: string[];
     cache: Record<string, Question[]>
     maxScore: number;
+    minScore: number;
+    questionTypesAllowed: string[];
     data: Question[];
     subFolders: { media: string, questions: string }
     id: string;
@@ -31,7 +34,9 @@ export default class Loader
         this.params = params;
         this.url = params.url ?? BASE_URL;
         this.maxScore = params.maxScore ?? MAX_SCORE;
+        this.minScore = params.minScore ?? MIN_SCORE;
         this.filename = params.filename ?? QUESTION_FILE_NAME_PATTERN;
+        this.questionTypesAllowed = params.questionTypesAllowed ?? [];
         this.filenames = params.filenames ?? [];
         this.fileExtensions = params.fileExtensions ?? DEF_FILE_EXTENSIONS;
         this.id = params.id;
@@ -173,9 +178,17 @@ export default class Loader
         for(const q of questions)
         {
             const score = parseInt(q.score.get());
-            if(score > this.maxScore || score <= 0)
+            if(score > this.maxScore || score < this.minScore)
             {
                 showMessage(["Question has a score that's too high or too low: " + score, q], this.id);
+                const scoreSanitized = Math.max(Math.min(score, this.maxScore), this.minScore);
+                q.score.set(scoreSanitized.toString());
+            }
+
+            const type = q.type.get();
+            if(this.questionTypesAllowed.length > 0 && !this.questionTypesAllowed.includes(type))
+            {
+                showMessage(["Question has a forbidden question type: " + type, q], this.id);
             }
         }
     }
