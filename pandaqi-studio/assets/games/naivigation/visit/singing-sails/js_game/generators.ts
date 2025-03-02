@@ -53,14 +53,17 @@ cardPicker.setCustomCallback(cardCustomCallback);
 // special tile types
 tilePicker.generateCallback = () =>
 {
+    // Add these tiles TWICE in case people play with 2 boats
     if(tilePicker.config.sets.mapTiles)
     {
         tilePicker.addSingle(new Tile(TileType.CUSTOM, "compass"));
+	tilePicker.addSingle(new Tile(TileType.CUSTOM, "compass"));
 
         const bounds = tilePicker.config.tiles.custom.windBounds;
         for(let i = bounds.min; i <= bounds.max; i++)
         {
             tilePicker.addSingle(new Tile(TileType.CUSTOM, "wind", { num: i }));
+	    tilePicker.addSingle(new Tile(TileType.CUSTOM, "wind", { num: i }));
         }
     }
 

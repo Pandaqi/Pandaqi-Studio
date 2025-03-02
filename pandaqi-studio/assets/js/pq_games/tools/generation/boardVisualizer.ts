@@ -33,12 +33,6 @@ export default class BoardVisualizer
 		// just handy shortcuts
 		this.size = this.config.size;
 		this.sizeUnit = Math.min(this.size.x, this.size.y);
-		
-		// @TODO: now stuff should get the visualizer directly
-		//this.gameConfig.visualizer = this;
-
-		// @TODO: startCollection + endCollection are gone, just as secretBoard
-		// Classes are simply responsible for returning the entire list of resource groups by themselves => though I might create a helper class like `BoardCollection`?
 	}
 
 	getResource(key:string)

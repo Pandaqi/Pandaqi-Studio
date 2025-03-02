@@ -46,7 +46,12 @@ export default class RendererPandaqi extends Renderer
         
         // HUGE OPTIMIZATION => don't create the temporary canvas if we don't need it
         // (Though that is rare; would only apply to stuff with only a transform + fill/stroke and nothing else)
-        const needsTemporaryCanvas = effOp.needsTemporaryCanvas() || op.isGroup() || op.hasMask();
+        const isMultiStepText = op.isText() && op.hasStroke();
+        const needsTemporaryCanvas = effOp.needsTemporaryCanvas() || op.isGroup() || op.hasMask() || isMultiStepText;
+
+        // SAVE/RESTORE is extremely expensive and error prone (if you forget one even once); so limit it to only when really needed
+        const needsStateManagement = op.hasClip();
+        if(needsStateManagement) { ctx.save(); }
 
         // we create a temporary canvas to do everything we want
         // once done, at the end, we stamp that onto the real one (with the right effects, alpha, etcetera set)
@@ -70,6 +75,23 @@ export default class RendererPandaqi extends Renderer
             ctxTemp.globalCompositeOperation = "source-in";
         }
 
+        if(op.hasClip())
+        {
+            // this necessitates converting any shape to a slightly more expensive path, but it can't be helped
+            const points = op.clip.toPath();
+            const path = new Path(points).toPath2D();
+
+            // relative clipping is a legacy support thing; just do ugly SET->DO->UNSET
+            // @TODO: should this be on ctxTemp instead??
+            if(op.clipRelative) {
+                op.transformResult.applyToContext(ctx);
+                ctx.clip(path);
+                ctx.resetTransform();
+            } else {
+                ctx.clip(path); 
+            }
+        }
+
         // we make sure we're drawing at the right position right away
         const trans = op.transformResult;
         trans.applyToContext(ctxTemp);
@@ -84,30 +106,6 @@ export default class RendererPandaqi extends Renderer
         ctx.globalCompositeOperation = op.composite;
         ctx.globalAlpha = op.alpha;
         effOp.setShadowProperties(ctx);
-
-        // SAVE/RESTORE is extremely expensive and error prone (if you forget one even once); so limit it to only when really needed
-        const needsStateManagement = op.clip;
-        if(needsStateManagement) { ctx.save(); }
-
-        // `clipRelative` means it just retains the original offset/scale/rotation of the thing when calculating clip path (my original, flawed, accidental approach)
-        // otherwise, it's `clipAbsolute` which offsets the clip to consider its coordinates as absolute positions
-        if(op.clip) 
-        { 
-            let points = op.clip.toPath();
-            
-            // get our current transform => then undo pivot to get true top-left => then invert to UNDO that and make our clip path absolute
-            if(!op.clipRelative) 
-            { 
-                const transInv = new TransformationMatrix().fromContext(ctx);
-                // transInv.translate(op.pivotOffset.clone().negate()); // @TODO: No, this is often wrong, figure out the actual way! Or maybe we should clip on the TEMPORARY canvas instead?
-                transInv.invert();
-                points = transInv.applyToArray(points); 
-            }
-
-            // this necessitates converting any shape to a slightly more expensive path, but it can't be helped
-            const path = new Path(points).toPath2D();
-            ctx.clip(path); 
-        }
 
         // now prepare/draw the actual resource onto it
         if(op.isGroup())

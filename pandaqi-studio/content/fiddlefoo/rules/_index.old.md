@@ -32,66 +32,42 @@ From start player, take clockwise turns until done.
 
 On your turn, **add 1 hand card to the Map**.
 
-* The card must **connect** to the existing map.
-* The card has to be in the **same row** (_horizontal, vertical or diagonal_) as another card of the same _color_.
+* The card has to be in the **same row** (horizontal or vertical) as another card of the same _color_.
 * The card **can't be adjacent** to a card of the same _color_.
 
 {{% remark %}}
-In the rare case you can't play any card, draw 1 card from the deck.
+In the rare case you can't play any card on your turn, draw 1 card from the deck.
 {{% /remark %}}
 
-By doing so, you'll have created one or more "Pairs": your new card and the older ones of the same color (in the same row). All pairs created count.
+By doing so, you'll have created a "Pair": your new card and the older one of the same color.
 
-Each Pair has two important properties.
+There are two important properties of such a Pair.
 
-* **(Number) Range**: all numbers between its _lowest_ number and its _highest_. (Example: a 2-6 Pair has range 3, 4, and 5.)
-* **(Note) Difference**: subtract the _lowest_ number of notes from the _highest_. (Example: a 1-Note card and a 4-Note card have a difference of 3.)
+* Its **range**: all the numbers between its _lowest_ number and its _highest_ number. (For example, a 2-6 Pair has a range that includes 3, 4, and 5.)
+* Its **distance**: how many spaces are in-between the two cards on the map.
+
+{{% remark %}}
+If you created multiple pairs, pick the one with the **largest range**. No, distance doesn't matter.
+{{% /remark %}}
 
 {{< rules-image src="gameplay_pair.webp" alt="Example of valid card placement and the pair you create from it." >}}
 
-Now everyone _may_ **give you hand cards** that match these criteria:
+Now all the other players _may_ **throw hand cards at you** that match one of the following criteria. They do so while yelling "Fiddlefoo, a penalty card for you!" ;)
 
-* Its number is inside the _number range_ and it's the same _color_.
-* Its _number of music notes_ is equal to the _note difference_.
+* Either that card is the same _color_ and its number is inside the _range_.
+* Or the _number of music notes_ on that card is equal to the _distance_. If they choose this option, they may only give you 1 card this turn.
 
-{{% remark %}}
-Preferably, throwing happens while yelling "Fiddlefoo, a penalty card for you!" ;)
-{{% /remark %}}
+If the **distance** you created is larger than 3, however, you do a "Safe Song"! Nobody may throw anything at you, but you must draw 1 card from the deck.
 
-Take all cards received into your hand. If you _end your turn_ without any cards, the game ends (and you win). Have fun!
+Take all cards received into your hand.
+
+If you end your turn without any cards, the game ends (and you win). Have fun!
 
 {{< rules-image src="gameplay_penalty.webp" alt="Example of penalty cards others may throw at you for making a certain pair." >}}
 
 {{% /rules-block %}}
 
 {{% rules-block id="expansions" heading="Expansions & Variants" icon="expansion" %}}
-
-Played the base game a few times and ready for more? Try these expansions and variants.
-
-{{% rules-block heading="Variant: Safesong" %}}
-
-This expansion defines a third property that your Pairs have.
-
-> **Distance**: how many other cards are in-between the two cards on the map.
-
-First, change these existing rules.
-
-* **Adjacency**: you _are_ allowed to play cards of the same color adjacent to each other now!
-* **Map Size**: the map has a maximum size of 8 by 8 cards. Also, once somebody created a "Safesong" (see below), the affected rows are now "done": they can't grow any longer.
-
-The following rules are required now.
-
-* **Safesong:** if all Pairs you created have distance 3(+), you are safe! Nobody may throw anything at you.
-* **Silence**: if you create a Pair with distance 0, players may throw any _single_ hand card at you.
-
-The following rules are _optional_.
-
-* **Toned Down**: if you create (at least) one Pair with distance 3(+), you may _choose_ what people are allowed to throw at you. (That is, they may only give cards based on _range_ OR _notes_ OR _distance_.)
-* **Dissonance:** people may also throw cards at you if their _number_ or _number of notes_ matches the _distance_ you created. This rule _only applies if_, otherwise, no possible throwable card exists. (That is, the Range and Note Difference are both 0.)
-
-{{< rules-image src="variant_safesong.webp" alt="Example of the Distance property and the new rules it allows." >}}
-
-{{% /rules-block %}}
 
 {{% rules-block heading="Variant: Wildcard" %}}
 
@@ -134,8 +110,6 @@ Such actions can trigger ...
 They usually allow you to do something you _really want to do_ but can't following the regular rules. Less likely, they are penalties or restrictions to obey.
 
 It's recommended to include just _some_ of them---perhaps the one you like the most!---as all of them at the same time is very overwhelming.
-
-There are two cards that mention _Distance_. Only include those if playing with the "Safesong" variant (see above).
 
 {{% /rules-double-view %}}
 

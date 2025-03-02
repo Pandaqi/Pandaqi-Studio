@@ -11,6 +11,8 @@ import Point from "js/pq_games/tools/geometry/point";
 import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
 import getPositionsCenteredAround from "js/pq_games/tools/geometry/paths/getPositionsCenteredAround";
 import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
+import Circle from "js/pq_games/tools/geometry/circle";
+import ResourceShape from "js/pq_games/layout/resources/resourceShape";
 
 const NUMBERS_WRITTEN = ["Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen", "Twenty"];
 
@@ -108,7 +110,6 @@ export default class Card
         }
 
         // add the big number in the center
-        // @TODO: Shadow behind it?
         const textConfigBig = new TextConfig({
             font: vis.get("fonts.heading"),
             size: vis.get("cards.numberCenter.fontSize")
@@ -126,6 +127,18 @@ export default class Card
             effects: [shadowEffect]
         })
         group.add(resTextBig, opTextBig);
+
+        // add the typical indicator for 6/9 difference
+        if(this.num == 6 || this.num == 9)
+        {
+            // get center of number, then offset towards lower right (roughly)
+            const circlePos = opTextBig.pos.clone().add(new Point(0.275*textConfigBig.size, 0.35*textConfigBig.size));
+            const circleRadius = 0.0875*textConfigBig.size;
+            const circle = new ResourceShape(new Circle({ center: circlePos, radius: circleRadius }));
+            // black circle, match white number stroke to make sure it's visible
+            const opCircle = new LayoutOperation({ fill: "#000000", stroke: "#FFFFFF", strokeWidth: opTextBig.strokeWidth, effects: [shadowEffect] });
+            group.add(circle, opCircle);
+        }
 
         // add written version of card at top and bottom
         const offsetWritten = vis.get("cards.typeWritten.offset");

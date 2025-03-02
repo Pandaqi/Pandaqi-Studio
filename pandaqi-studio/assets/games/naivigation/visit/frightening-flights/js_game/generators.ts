@@ -43,12 +43,14 @@ cardPicker.generateCallback = () =>
 
 tilePicker.generateCallback = () =>
 {
+    // Add elevation tiles twice, in case a group plays with 2 planes
     if(tilePicker.config.sets.mapTiles)
     {
         const bounds = tilePicker.config.tiles.custom.elevationBounds;
         for(let i = bounds.min; i <= bounds.max; i++)
         {
             tilePicker.addSingle(new Tile(TileType.CUSTOM, "elevation", { num: i }));
+	    tilePicker.addSingle(new Tile(TileType.CUSTOM, "elevation", { num: i }));
         }
     }
 

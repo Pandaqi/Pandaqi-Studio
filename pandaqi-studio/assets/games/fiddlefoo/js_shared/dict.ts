@@ -22,7 +22,7 @@ const SPECIAL_CARDS =
     score_minus_conditional: { frame: 16, freq: 1, desc: "<b>When Scored</b>: I'm worth 10 minus points, if this is the color you have the most (at the end)." },
     throw_other_colors: { frame: 17, freq: 1, desc: "<b>When Paired</b>: Players may also throw cards of other colors at you (within the Range you created)." },
  
-    safety_rule_disable: { frame: 18, freq: 1, desc: "<b>When Paired</b>: The \"safety rule\" (if the Distance is big enough) doesn't apply." },
+    safety_rule_disable: { frame: 18, freq: 1, desc: "<b>When Paired</b>: The \"Safesong\" rule (if the Distance is big enough) doesn't apply." },
     range_limit: { frame: 19, freq: 1, desc: "<b>When Paired</b>: You can't create a Range smaller than 4." },
     distance_limit: { frame: 20, freq: 1, desc: "<b>When Paired</b>: You can't create a Distance larger than 2." },
 }

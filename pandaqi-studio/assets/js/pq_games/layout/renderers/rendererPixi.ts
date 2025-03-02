@@ -30,7 +30,7 @@ export default class RendererPixi extends Renderer
     {
         super();
         this.bgColor = new Color(params.bgColor ?? "#FFFFFF");
-        this.bgAlpha = params.bgAlpha ?? 0;
+        this.bgAlpha = params.bgAlpha ?? 1;
         this.forceWebGPU = params.forceWebGPU ?? false;
     }
 
@@ -54,7 +54,7 @@ export default class RendererPixi extends Renderer
             backgroundColor: this.bgColor.toHEXNumber(),
             //antialias: true,
             preference: 'webgpu',
-            backgroundAlpha: this.bgAlpha ?? 0,
+            backgroundAlpha: this.bgAlpha ?? 1,
             useBackBuffer: true,
         };
 
@@ -177,7 +177,7 @@ export default class RendererPixi extends Renderer
         if(op.clip) {
             obj.mask = new Graphics({}).poly(op.clip.toPath(), false).fill(0xFFFFFF);
         } else if(op.mask) {
-            obj.mask = op.mask.getPixiObject(0, Sprite);
+            obj.mask = op.mask.resource.getPixiObject(0, Sprite);
         }
 
         //

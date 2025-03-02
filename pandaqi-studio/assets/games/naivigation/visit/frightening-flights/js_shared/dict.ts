@@ -35,7 +35,7 @@ const ACTION_CARDS:Record<string,MaterialNaivigationData> =
     cloudy: { frame: 2, label: "Cloudy Day", desc: "You may choose to <b>ignore</b> any <b>special powers</b> or <b>pawns</b> on tiles." },
     thunderstorm: { frame: 3, label: "Thunderstorm", desc: "Instantly <b>return</b> to the <b>last airport</b> you visited." },
     lost_luggage: { frame: 4, label: "Lost Luggage", desc: "Change your <b>Elevation</b> to whatever you want." },
-    snowstorm: { frame: 5, label: "Snowstorm", desc: "You may \"land\" on <b>any tile</b>." },
+    snowstorm: { frame: 5, label: "Snowstorm", desc: "This round, you can <b>match any tile's elevation</b> (= \"land on it\") without taking damage." },
 }
 
 const TIME_CARDS:Record<string,MaterialNaivigationData> =
@@ -55,7 +55,7 @@ const TIME_CARDS:Record<string,MaterialNaivigationData> =
 //
 const MAP_TILES:Record<string,MaterialNaivigationData> =
 {
-    empty: { frame: -1, label: "Regular", freq: 20 },
+    empty: { frame: -1, label: "Regular", freq: 26 },
     airport_0: { frame: 0, label: "Airport", collectible: true },
     airport_1: { frame: 1, label: "Airport", collectible: true },
     airport_2: { frame: 2, label: "Airport", collectible: true },

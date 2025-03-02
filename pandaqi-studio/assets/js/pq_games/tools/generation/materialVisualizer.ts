@@ -20,8 +20,9 @@ export default class MaterialVisualizer
     renderer: Renderer;
     rendererInstance:any;
     groupFinal: ResourceGroup
+    filterAssets: string[]
 
-    constructor(config)
+    constructor(config, customItemSize:Point = null)
     {
         this.renderer = config.renderer ?? new RendererPandaqi();
 
@@ -29,18 +30,19 @@ export default class MaterialVisualizer
         if(!this.resLoader)
         {
             this.resLoader = new ResourceLoader({ base: config.assetsBase, renderer: this.renderer });
-            this.resLoader.planLoadMultiple(config.assets ?? {});
+            this.resLoader.planLoadMultiple(config.assets ?? {}, config);
         }
 
         this.inkFriendly = config.inkFriendly;
         this.inkFriendlyEffect = this.inkFriendly ? [new GrayScaleEffect()] : [];
-        this.size = config.itemSize ? config.itemSize.clone() : new Point(512, 512);
+        this.size = customItemSize ?? (config.itemSize ? config.itemSize.clone() : new Point(512, 512));
         
         this.configurator = new Configurator();
         this.configurator.addExceptions(["resLoader", "drawerConfig", "gameTitle", "fileName", "localstorage", "debug"]);
 
         this.sizeUnit = Math.min(this.size.x, this.size.y);
         this.center = this.size.clone().scale(0.5);
+        this.filterAssets = (config.debug ?? {}).filterAssets ?? [];
 
         // this is just for very easy access through the configurator later; must come first though to ensure we have it for everything else
         this.configurator.calculate({
@@ -62,8 +64,11 @@ export default class MaterialVisualizer
         return this.configurator.get(s);
     }
 
+    // @TODO: the fallback system is now half-ass-implemented because I needed it in a hurry; do something more robust/clean one day
     getResource(s:string)
     {
+        const useFallback = this.filterAssets.length > 0 && !this.filterAssets.includes(s);
+        if(useFallback) { return this.resLoader.getResourceImageRandom(); }
         return this.resLoader.getResource(s);
     }
 

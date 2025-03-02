@@ -46,6 +46,11 @@ export default class Bounds
         return this.min <= val && this.max >= val;
     }
 
+    clamp(val:number)
+    {
+        return Math.min(this.max, Math.max(val, this.min));
+    }
+
     random() { return range(this); }
     randomInteger() {  return rangeInteger(this); }
 

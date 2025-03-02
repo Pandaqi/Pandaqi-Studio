@@ -23,7 +23,7 @@ export default class DropShadowEffect extends LayoutEffect
         super(params);
 
         this.blurRadius = ((params.size ?? params.blur) ?? params.blurRadius) ?? 0;
-        this.color = new Color(params.color ?? "#000000");
+        this.setColor(params.color);
         this.offset = params.offset ?? new Point();
     }
 
@@ -36,6 +36,11 @@ export default class DropShadowEffect extends LayoutEffect
             offset: off,
         });
         return eff;
+    }
+
+    setColor(c:Color|string)
+    {
+        this.color = new Color(c ?? "#000000");
     }
 
     applyToCanvas(ctx:CanvasRenderingContext2D, effOp = new EffectsOperation())

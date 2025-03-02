@@ -340,4 +340,5 @@ export default class LayoutOperation
     setFrame(f:number) { this.frame = f; return this; }
     hasDepth() { return !isZero(this.depth); }
     hasMask() { return this.mask && this.mask.resource; }
+    hasClip() { return this.clip != null; }
 }

@@ -44,12 +44,14 @@ cardPicker.generateCallback = () =>
 
 tilePicker.generateCallback = () =>
 {
+    // Add these tiles twice in case people play with TWO cars
     if(tilePicker.config.sets.mapTiles)
     {
         const bounds = tilePicker.config.tiles.custom.gearBounds;
         for(let i = bounds.min; i <= bounds.max; i++)
         {
             tilePicker.addSingle(new Tile(TileType.CUSTOM, "gear", { num: i }));
+	    tilePicker.addSingle(new Tile(TileType.CUSTOM, "gear", { num: i }));
         }
     }
 
