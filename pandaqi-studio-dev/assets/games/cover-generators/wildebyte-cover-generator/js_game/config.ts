@@ -9,8 +9,8 @@ const CONFIG =
     {
         noPDF: false, // @DEBUGGING (should be false)
         noImage: false, // @DEBUGGING (should be false)
-        noCover: true, // @DEBUGGING (should be false)
-        targets: ["amazon_hardcover"], // @DEBUGGING (should be empty)
+        noCover: false, // @DEBUGGING (should be false)
+        targets: [], // @DEBUGGING (should be empty)
     },
 
     pageSize: new Point(5.5, 8.5), // inches
