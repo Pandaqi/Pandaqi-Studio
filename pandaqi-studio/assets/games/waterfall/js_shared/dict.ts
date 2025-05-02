@@ -43,7 +43,7 @@ const ACTIONS:Record<string, GeneralData> =
     score: { frame: 2, label: "Score", desc: "<b>Score</b> 2 tiles. (With a matching gemstone on the path taken so far.)", prob: 1.75, min: 8 },
     remove: { frame: 3, label: "Remove", desc: "<b>Remove</b> a tile from the waterfall. (Waterfall must stay connected!)", prob: 0.45 },
     swap: { frame: 4, label: "Swap", desc: "<b>Swap</b> two tiles in the waterfall." },
-    leapfrog: { frame: 5, label: "Leapfrog", desc: "Once this turn, <b>jump</b> over a tile OR <b>share</b> a tile with a pawn." },
+    leapfrog: { frame: 5, label: "Leapfrog", desc: "This turn, you may <b>share</b> occupied tiles, and <b>don't stop</b> if you reset to the top." },
     pawn: { frame: 6, label: "Pawn", desc: "<b>Move</b> a pawn to another tile." },
     wildcard: { frame: 7, label: "Wildcard", desc: "Take <b>any other action</b> that's in the path you've taken." }
 }

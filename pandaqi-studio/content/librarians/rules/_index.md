@@ -48,7 +48,9 @@ If you create **4 in a row** of the same **genre** (horizontal, vertical, or dia
 * This player can now, at any time during their turn, _use_ this card for its [power](#genres).
 * Once used, the power is gone.
 
-Draw back up to the hand limit (which is 4 cards by default).
+The library must always be **fully connected** at the _end_ of your turn. That is, you're allowed to create gaps and have cards on an island during your turn. But once your turn is over, the library must be one unit of connected cards.
+
+Finally, draw back up to the hand limit (which is 4 cards by default).
 
 {{< rules-image src="gameplay_genrematch.webp" alt="Example of how to match or complete a genre, with a 4 in a row." >}}
 
