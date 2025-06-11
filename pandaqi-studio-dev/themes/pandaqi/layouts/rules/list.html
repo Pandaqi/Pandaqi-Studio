@@ -10,7 +10,7 @@
 
     <!-- General CSS for rulebooks -->
     {{ $options := (dict "targetPath" "/css/style-rules.css" "outputStyle" "compressed" "enableSourceMap" (not hugo.IsProduction)  "transpiler" "dartsass") }}
-    {{ $rules_style := resources.Get "/sass/style-rules.scss" | resources.ToCSS $options | minify }}
+    {{ $rules_style := resources.Get "/sass/style-rules.scss" | css.Sass $options | minify }}
     <link rel="stylesheet" type="text/css" href="{{ $rules_style.RelPermalink }}" /> 
 
     <!-- Unique CSS for this rulebook -->

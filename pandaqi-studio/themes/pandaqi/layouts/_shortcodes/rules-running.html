@@ -1,0 +1,6 @@
+{{ $class := or (.Get "class") "" }}
+{{ $id := or (.Get "id") "" }}
+
+<section class="{{ $class }}" id="{{ $id }}">
+    {{- .Inner -}}
+</section>

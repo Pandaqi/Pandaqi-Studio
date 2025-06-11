@@ -1,0 +1,24 @@
+{{ $class := "games-list" }}
+{{ if .Site.Params.simpleBanners }}{{ $class = "games-list-simple" }}{{ end }}
+
+<nav class="{{ $class }}">
+	{{ $counter := 0 }}
+
+	<!-- @NOTE: Order is important; infopages should be at the BACK -->
+	{{ if .IsHome }}
+		{{ $range1 := (where .Site.Pages "Type" "infopage") }}
+		{{ $range2 := (where .Site.Pages "Type" "gamepage") }}
+		{{ $range := $range1 | union $range2 }}
+		{{- $paginator := .Paginate $range -}}
+	{{ end }}
+
+	{{ range .Paginator.Pages }}
+		{{ $counter = add $counter 1 }}
+		{{ .Scratch.Set "counter" $counter }}
+		{{ if .Site.Params.simpleBanners }}
+			{{ partial "entry-banner-simple.html" . }}
+		{{ else }}
+			{{ partial "entry-banner.html" . }}
+		{{ end }}
+	{{ end }}
+</nav>

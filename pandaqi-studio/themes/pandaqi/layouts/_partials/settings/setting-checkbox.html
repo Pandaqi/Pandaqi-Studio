@@ -1,0 +1,3 @@
+<label for="{{- .id -}}">{{ .text }}</label>
+<input type="checkbox" name="{{- .id -}}" id="{{- .id -}}" {{ with .checked }}{{- . -}}{{- end -}}>
+{{- with .remark -}}<span class="setting-remark">{{- . | safeHTML -}}</span>{{- end -}}

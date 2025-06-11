@@ -1,0 +1,5 @@
+{{ $game_url := partial "func/get-game-url.html" (dict "context" .) }}
+{{ $game_asset_name := partial "func/get-game-asset-name.html" . }}
+{{ $favicon_name := or .Params.favicon $game_asset_name }}
+{{ $favicon := printf "/%s/assets/%s_favicon.png" $game_url $favicon_name }} 
+{{ return $favicon }}

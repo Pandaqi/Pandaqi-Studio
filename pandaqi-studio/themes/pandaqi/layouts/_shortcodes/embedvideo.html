@@ -1,0 +1,34 @@
+{{- $class := .Get "class" -}}
+{{- $img_url := .Get "bg" -}}
+{{- $full_size := .Get "full-size" -}}
+{{- $static_logo := .Get "static-logo" -}}
+{{- $caption := .Get "caption" -}}
+<section class="game-header {{ $class }}">
+	{{- if $img_url -}}
+		{{- partial "show-image.html" (dict "context" $.Page "img_url" $img_url) -}}
+	{{- end -}}
+	{{- $border_col := or (.Get "col") "#6bb73e" -}}
+	{{- $border_width := or (.Get "thickness") "5px" -}}
+	{{- $base_class := "video-over-header" -}}
+	{{- $fixed_size := "width='560' height='315'" -}}
+	{{- if $full_size -}}
+		{{- $fixed_size = "" -}}
+		{{- $base_class = "video-no-header" -}}
+	{{- end -}}
+	<div class="{{ $base_class }}" style="border-color:{{ $border_col }};border-size:{{ $border_width }};">
+		<div class="static-logo">
+			{{- if $static_logo -}}
+				{{- $img_url := add (.Get "static-logo") ".webp" -}}
+				{{- partial "show-image.html" (dict "context" $.Page "img_url" $static_logo) -}}
+			{{- end -}}
+		</div>
+		<div class="video-container">
+			<iframe src='{{- .Get "vid" -}}' allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" {{- $fixed_size -}} frameborder="0"></iframe>
+		</div>
+	</div>
+	{{- if $caption -}}
+		<div class="video-caption">
+			{{- $caption | markdownify -}}
+		</div>
+	{{- end -}}
+</section>

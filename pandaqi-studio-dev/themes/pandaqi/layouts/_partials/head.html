@@ -1,0 +1,53 @@
+<head>
+    <meta charset="utf-8">
+
+    <!-- Basic metadata stuff -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="index, follow">
+
+    <!-- RSS Feed -->
+    {{ with .OutputFormats.Get "rss" -}}
+        {{ printf `<link rel=%q type=%q href=%q title=%q>` .Rel .MediaType.Type .Permalink site.Title | safeHTML }}
+    {{ end }}
+
+    <!-- OpenGraph Tags included, only on articles -->
+    {{ if .Summary }}
+	    <meta property="og:type" content="article" />
+		<meta property="og:title" content="{{ .Title }}" />
+		<meta property="og:description" content="{{ .Summary }}" />
+		<meta property="og:image" content="{{ .Params.thumb }}" />
+		<meta property="og:url" content="{{ .Permalink }}" />
+		<meta property="og:site_name" content="Pandaqi Games" />
+	{{ end }}
+
+    <!-- Progressive Web App essentials -->
+    <link rel="manifest" href="/manifest.webmanifest">
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Pandaqi Games" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <!-- Only load critical CSS first, rest comes after it (external spritesheet) -->
+    {{ $options := (dict "targetPath" "css/critical.css" "outputStyle" "compressed" "transpiler" "dartsass") }}
+    {{ $crit_style := resources.Get "sass/critical.scss" | css.Sass $options }}
+    <link rel="stylesheet" type="text/css" href="{{ $crit_style.RelPermalink }}">
+
+    <!-- Favicon (use default one on regular pages, unique one for game pages) -->
+    {{ $favicon := .Site.Params.favicon | absURL }}
+    {{ if eq .Type "gamepage" }} 
+        {{ $favicon = partial "func/get-game-favicon.html" . }}
+    {{ end }}
+
+    <link rel="icon"  type="image/png" href="{{ $favicon }}">
+
+    <!-- Title (use unique game title on game pages, default site descriptor otherwise) -->
+    {{ $page_title := partial "func/format-page-title.html" . }}
+    {{ if .Params.headerTitle }}
+        {{ $page_title = printf "%s | %s" .Title .Params.headerTitle }}
+        {{ if strings.Contains .Params.headerTitle "|" }}{{ $page_title = .Params.headerTitle }}{{ end }}
+    {{ end }}
+
+    {{ $site_title := .Site.Title }}
+    {{ $title := printf "%s | %s" $page_title $site_title }}
+    
+    <title>{{ $title | safeHTML }}</title>
+</head>

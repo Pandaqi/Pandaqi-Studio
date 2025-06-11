@@ -1,0 +1,6 @@
+{{- $base_id := .Get "id" -}}
+{{- $values_checked := .Get "values_checked" -}}
+{{- $values := .Get "values" -}}
+{{- $keys := .Get "keys" -}}
+{{- $remark := .Get "remark" -}}
+{{- partial "settings/setting-checkbox-multiple.html" (dict "id" $base_id "values_checked" $values_checked "values" $values "keys" $keys "remark" $remark) -}}

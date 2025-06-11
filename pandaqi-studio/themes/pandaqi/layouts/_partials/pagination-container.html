@@ -1,0 +1,16 @@
+{{ if gt .Paginator.TotalPages 1 }}
+
+	<section class="clipped entry-banner entry-banner-custom page-navigation">
+		<div class="horizontal-flex">
+			<div class="text-side custom">
+				<h1>Pagination</h1>
+				<div>
+					<p>Use the buttons below to navigate to different pages.</p>
+					<nav>
+						{{ partial "pagination.html" . }}
+					</nav>
+				</div>
+			</div>
+		</div>
+	</section>
+{{ end }}

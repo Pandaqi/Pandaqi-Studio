@@ -1,0 +1,26 @@
+
+{{ $type := .type }}
+{{ $url := .context.RelPermalink }}
+{{ $game_name := "" }}
+{{ with .context.File }}
+	{{ $game_name = .ContentBaseName }}
+{{ end }}
+<!--- @TODO: need better check for whether the game_name we get is correct --->
+<!--- This just checks if we're at the rules page, when type is rules, and then goes up one section to main page --->
+{{ if eq $game_name $type }}
+    {{ $game_name = (index .context.Ancestors 0).File.ContentBaseName }}
+{{ end }}
+
+{{ $full_game_url := "" }}
+{{ with $url }}
+    {{ $full_game_url = strings.Trim . "/" }}
+    {{ $full_game_url = strings.Split $full_game_url "/" }}
+    {{ $new_url := slice }}
+    {{ range $v := $full_game_url }}
+        {{ $new_url = $new_url | append $v }}
+        {{ if eq $v $game_name }}{{ break }}{{ end }}
+    {{ end }}
+    {{ $full_game_url = collections.Delimit $new_url "/" }}
+{{ end }}
+
+{{ return $full_game_url }}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    {{ block "head" . }}{{- partial "head.html" . -}}{{ end }}
+
+    {{ $class := "general-page" }}
+    {{ if eq .Type "gamepage" }}{{ $class = "game-page" }}{{ end }}
+    {{ if eq .Type "infopage" }}{{ $class = "info-page" }}{{ end }}
+
+    {{ $class_invert := "" }}
+    {{ if .Params.invert }}{{ $class_invert = "invert" }}{{ end }}
+
+    {{ $all_colors := .Site.Params.all_colors }}
+    {{ $color_scheme := .Params.color }}
+    {{ if .Parent }}
+        {{ $color_scheme = or $color_scheme .Parent.Params.color }}
+    {{ end }}
+    {{ $color_scheme = or $color_scheme (index ($all_colors | shuffle) 0) }}
+
+    {{ $font_size := .Params.fontSizeBase }}
+    {{ if .Parent }}{{ $font_size = or $font_size .Parent.Params.fontSizeBase }}{{ end }}
+    {{ $font_size = or $font_size 15 }}
+
+    <body class="{{ $class }} {{ $color_scheme }} {{ $class_invert }}" style="--font-size-base:{{- $font_size -}}px;">
+        {{ block "header" . }}
+            {{- partial "header.html" . -}}
+        {{ end }}
+
+        <main>
+            {{- block "main" . }}{{- end }}
+        </main>
+
+        {{ block "footer" . }}
+            {{- partial "footer.html" . -}}
+        {{ end }}
+    </body>
+</html>

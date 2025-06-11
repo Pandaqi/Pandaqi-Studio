@@ -1,0 +1,14 @@
+{{- $class := or (.Get "class") "" -}}
+{{- $media_raw := .Get "media" -}}
+<section class="horizontal-flex-container {{ $class }}">
+	<div class="flex">
+		<div class="text-side">
+{{- if .Get "heading" -}}<div class="titleContainer"><h2>{{- .Get "heading" -}}</h2></div>{{- end -}}
+{{- .InnerDeindent | markdownify -}}
+		</div>
+		<div class="non-text-side">
+{{- $is_video := (.Get "video") -}}
+{{- partial "show-media.html" (dict "context" . "media_url" $media_raw "is_video" $is_video) -}}
+		</div>
+	</div>
+</section>

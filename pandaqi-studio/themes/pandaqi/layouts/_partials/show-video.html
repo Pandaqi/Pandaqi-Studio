@@ -1,0 +1,9 @@
+{{- $controls := or (.context.Get "controls") "" -}}
+{{- $loop := or (.context.Get "loop") "loop" -}}
+{{- $autoplay := or (.context.Get "autoplay") "autoplay" -}}
+{{- $video_url := index (strings.Split .video_url ".") 0 -}} <!--- chop off any extension --->
+{{- $url := partial "func/get-valid-image-url.html" (dict "context" .context "img_url" $video_url) -}}
+<video {{ $autoplay }} {{ $loop }} {{ $controls }} muted playsinline loading="lazy" decoding="async">
+<source src="{{ $url }}" type="video/webm">
+Video: {{ (replace $url ".webm" "") | humanize }}
+</video>

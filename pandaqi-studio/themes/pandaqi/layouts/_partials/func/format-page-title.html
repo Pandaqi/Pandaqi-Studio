@@ -1,0 +1,24 @@
+{{ $title := .Title | humanize }}
+{{ $title_no_suffix := (substr $title 0 -2) }}
+
+{{ if eq .Data.Singular "price" }}
+    {{ if eq $title "0th" }}
+        {{ $title = "free" }}
+    {{ else }}
+        {{ $title = printf "%s euros" $title_no_suffix }}
+    {{ end }}
+{{ end }}
+
+{{ if eq .Data.Singular "playtime" }}
+    {{ $title = printf "%s minutes" $title_no_suffix }} 
+{{ end }}
+
+{{ if eq .Data.Singular "language" }}
+    {{ $title = printf "Language: %s" $title }}
+{{ end }}
+
+{{ if eq .Page.Kind "taxonomy" }}
+    {{ $title = printf "%s: %s" (.Data.Singular | humanize) $title }}
+{{ end }}
+
+{{ return $title }}
