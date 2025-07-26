@@ -1,9 +1,7 @@
 ---
-type: "gamepage"
+type: "project"
 draft: true 
 
-gamepage: true
-boardgame: true
 
 title: "Conductors of the Underground"
 headerTitle: "Fix the transit mess in Hades' underworld"

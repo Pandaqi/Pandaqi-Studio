@@ -1,8 +1,6 @@
 ---
 draft: true 
 
-gamepage: true
-boardgame: true
 
 title: "Lijpe Lessen"
 headerTitle: "Lijpe Lessen &mdash; improviseer jezelf door de middelbare school"

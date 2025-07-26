@@ -1,4 +1,4 @@
-import InteractiveExample from "js/pq_rulebook/examples/interactiveExample"
+import InteractiveExample from "lib/pq-rulebook/examples/interactiveExample"
 
 async function generate()
 {

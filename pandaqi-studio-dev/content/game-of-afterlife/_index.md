@@ -1,7 +1,5 @@
 ---
-type: "gamepage"
-gamepage: true
-boardgame: true
+type: "project"
 
 title: "Game of Afterlife"
 headerTitle: "Make daring, brave or unique decisions as you travel through life---and maybe even beyond that."

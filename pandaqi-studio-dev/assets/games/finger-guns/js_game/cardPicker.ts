@@ -1,4 +1,4 @@
-import fromArray from "js/pq_games/tools/random/fromArray";
+import fromArray from "lib/pq-games/tools/random/fromArray";
 import CONFIG from "../js_shared/config";
 import { CardMovement, CardType, MOVEMENT_CARDS, MOVEMENT_SPECIAL } from "../js_shared/dict";
 import Card from "./card";

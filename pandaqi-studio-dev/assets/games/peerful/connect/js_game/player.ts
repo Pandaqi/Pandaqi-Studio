@@ -1,9 +1,9 @@
-import Point from "js/pq_games/tools/geometry/point";
-import { receiveAction, sendAction } from "js/pq_peerful/peerfulUtilities";
+import Point from "lib/pq-games/tools/geometry/point";
+import { receiveAction, sendAction } from "lib/pq-peerful/peerfulUtilities";
 import GameServer from "./gameServer";
 import CONFIG from "./config";
 import BackpackItem, { BackpackItemRaw } from "./backpackItem";
-import { listenForEvent } from "js/pq_peerful/events";
+import { listenForEvent } from "lib/pq-peerful/events";
 
 export default class Player
 {

@@ -1,15 +1,11 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+date: 2026-07-26
 
 title: "Ten Bucks"
-headerTitle: "A simple, lightning fast game about earning 10 money before anyone else."
-
-color: "green"
+blurb: "A simple, lightning fast game about earning 10 money before anyone else."
 
 downloadLink: "https://drive.google.com/drive/folders/1YBS5mXkuKTRGXPoLVGJBizaMWvnYlPyM"
-
-date: 2026-07-26
 
 # metadata = partially done, check tags/themes
 difficulty: "no-brainer"

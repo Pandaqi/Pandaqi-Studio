@@ -2,11 +2,11 @@ baseURL         = "https://pandaqi.com/"
 theme           = "pandaqi"
 title       	= "Pandaqi Games"
 languageCode    = "en-US"
-disqusShortname = ""
-paginate        = 5
 summaryLength 	= 18
 SectionPagesMenu = "main"
-timeout = "60s" # slow pc :/
+
+[pagination]
+  pagerSize = 5
 
 [markup]
   [markup.goldmark]

@@ -1,6 +1,6 @@
 {{- $pctx := . }}
 {{- if .IsHome }}{{ $pctx = .Site }}{{ end }}
-{{- $pages := (where .Site.Pages "Type" "gamepage") }}
+{{- $pages := (where .Site.Pages "Type" "project") }}
 {{- $limit := .Site.Config.Services.RSS.Limit }}
 {{- if ge $limit 1 }}
 {{- $pages = $pages | first $limit }}

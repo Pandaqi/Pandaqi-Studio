@@ -1,6 +1,5 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
 
 title: "Teamturns"
 headerTitle: "A game where you're forced to combine your card with a new team member every turn, uncertain if their input will strengthen your card ... or ruin it."

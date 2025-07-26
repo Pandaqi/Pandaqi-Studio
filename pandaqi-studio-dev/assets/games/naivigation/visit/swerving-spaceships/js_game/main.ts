@@ -1,5 +1,5 @@
 import CONFIG from "../js_shared/config";
-import MaterialGenerator from "js/pq_games/tools/generation/materialGenerator";
+import MaterialGenerator from "lib/pq-games/tools/generation/materialGenerator";
 import { cardPicker, tilePicker } from "./generators";
 import planetPropertiesPicker from "./planetPropertiesPicker";
 

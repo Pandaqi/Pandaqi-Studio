@@ -1,14 +1,14 @@
-import createContext from "js/pq_games/layout/canvas/createContext";
+import createContext from "lib/pq-games/layout/canvas/createContext";
 import { COLORS, CardData, Type } from "../js_shared/dict";
 import CONFIG from "../js_shared/config";
-import strokeCanvas from "js/pq_games/layout/canvas/strokeCanvas";
-import Point from "js/pq_games/tools/geometry/point";
-import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
-import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import ResourceText from "js/pq_games/layout/resources/resourceText";
-import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
-import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage";
-import signRandom from "js/pq_games/tools/random/signRandom";
+import strokeCanvas from "lib/pq-games/layout/canvas/strokeCanvas";
+import Point from "lib/pq-games/tools/geometry/point";
+import fillCanvas from "lib/pq-games/layout/canvas/fillCanvas";
+import LayoutOperation from "lib/pq-games/layout/layoutOperation";
+import ResourceText from "lib/pq-games/layout/resources/resourceText";
+import TextConfig, { TextAlign } from "lib/pq-games/layout/text/textConfig";
+import convertCanvasToImage from "lib/pq-games/layout/canvas/convertCanvasToImage";
+import signRandom from "lib/pq-games/tools/random/signRandom";
 
 interface EliminationData
 {

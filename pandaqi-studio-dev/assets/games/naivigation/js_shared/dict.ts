@@ -1,4 +1,4 @@
-import Point from "js/pq_games/tools/geometry/point";
+import Point from "lib/pq-games/tools/geometry/point";
 import { CardType, EventType, MISC_SHARED, MaterialNaivigationData, TileType } from "./dictShared";
 
 //

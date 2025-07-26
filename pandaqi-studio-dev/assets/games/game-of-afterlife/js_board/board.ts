@@ -1,18 +1,18 @@
-import Point from "js/pq_games/tools/geometry/point";
+import Point from "lib/pq-games/tools/geometry/point";
 import CONFIG from "./config"
-import createGrid from "js/pq_games/tools/graphs/createGrid";
-import PathFinder from "js/pq_games/tools/pathfinding/pathFinder";
-import assignGridNeighbors from "js/pq_games/tools/graphs/assignGridNeighbors";
-import PointGraph from "js/pq_games/tools/geometry/pointGraph";
-import shuffle from "js/pq_games/tools/random/shuffle";
-import Path from "js/pq_games/tools/geometry/paths/path";
-import Bounds from "js/pq_games/tools/numbers/bounds";
-import FloodFillerTree, { FloodFillerTreeNode } from "js/pq_games/tools/generation/floodFillerTree";
+import createGrid from "lib/pq-games/tools/graphs/createGrid";
+import PathFinder from "lib/pq-games/tools/pathfinding/pathFinder";
+import assignGridNeighbors from "lib/pq-games/tools/graphs/assignGridNeighbors";
+import PointGraph from "lib/pq-games/tools/geometry/pointGraph";
+import shuffle from "lib/pq-games/tools/random/shuffle";
+import Path from "lib/pq-games/tools/geometry/paths/path";
+import Bounds from "lib/pq-games/tools/numbers/bounds";
+import FloodFillerTree, { FloodFillerTreeNode } from "lib/pq-games/tools/generation/floodFillerTree";
 import PathSegment from "./pathSegment";
-import fromArray from "js/pq_games/tools/random/fromArray";
-import calculatePathLength from "js/pq_games/tools/geometry/paths/calculatePathLength";
-import mergePaths from "js/pq_games/tools/geometry/paths/mergePaths";
-import PathAdvanced from "js/pq_games/tools/geometry/paths/pathAdvanced";
+import fromArray from "lib/pq-games/tools/random/fromArray";
+import calculatePathLength from "lib/pq-games/tools/geometry/paths/calculatePathLength";
+import mergePaths from "lib/pq-games/tools/geometry/paths/mergePaths";
+import PathAdvanced from "lib/pq-games/tools/geometry/paths/pathAdvanced";
 
 export default class Board
 {

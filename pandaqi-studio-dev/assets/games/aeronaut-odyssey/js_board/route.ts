@@ -1,18 +1,18 @@
-import Line from "js/pq_games/tools/geometry/line";
-import PointGraph from "js/pq_games/tools/geometry/pointGraph";
+import Line from "lib/pq-games/tools/geometry/line";
+import PointGraph from "lib/pq-games/tools/geometry/pointGraph";
 import CONFIG from "./config";
 import RouteSet from "./routeSet";
-import isZero from "js/pq_games/tools/numbers/isZero";
-import signRandom from "js/pq_games/tools/random/signRandom";
-import range from "js/pq_games/tools/random/range";
-import bezierCurveWithLength from "js/pq_games/tools/geometry/paths/bezierCurveWithLength";
-import calculatePathLength from "js/pq_games/tools/geometry/paths/calculatePathLength";
-import Point from "js/pq_games/tools/geometry/point";
-import simplifyPath from "js/pq_games/tools/geometry/paths/simplifyPath";
-import thickenPath from "js/pq_games/tools/geometry/paths/thickenPath";
-import calculateBoundingBox from "js/pq_games/tools/geometry/paths/calculateBoundingBox";
-import Rectangle from "js/pq_games/tools/geometry/rectangle";
-import countElementsInArray from "js/pq_games/tools/collections/countElementsInArray";
+import isZero from "lib/pq-games/tools/numbers/isZero";
+import signRandom from "lib/pq-games/tools/random/signRandom";
+import range from "lib/pq-games/tools/random/range";
+import bezierCurveWithLength from "lib/pq-games/tools/geometry/paths/bezierCurveWithLength";
+import calculatePathLength from "lib/pq-games/tools/geometry/paths/calculatePathLength";
+import Point from "lib/pq-games/tools/geometry/point";
+import simplifyPath from "lib/pq-games/tools/geometry/paths/simplifyPath";
+import thickenPath from "lib/pq-games/tools/geometry/paths/thickenPath";
+import calculateBoundingBox from "lib/pq-games/tools/geometry/paths/calculateBoundingBox";
+import Rectangle from "lib/pq-games/tools/geometry/rectangle";
+import countElementsInArray from "lib/pq-games/tools/collections/countElementsInArray";
 
 
 interface BlockData

@@ -1,7 +1,6 @@
 ---
 draft: true
 
-gamepage: true
 
 title: "Company of the Tackling Tourists"
 headerTitle: "Monuments, gotta visit them aaaaall!"

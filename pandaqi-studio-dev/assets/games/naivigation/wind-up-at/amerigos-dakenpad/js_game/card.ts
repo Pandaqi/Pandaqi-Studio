@@ -1,13 +1,13 @@
-import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
-import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
-import ResourceShape from "js/pq_games/layout/resources/resourceShape";
-import ResourceText from "js/pq_games/layout/resources/resourceText";
-import TextConfig, { TextStyle } from "js/pq_games/layout/text/textConfig";
-import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
-import Circle from "js/pq_games/tools/geometry/circle";
-import getPositionsCenteredAround from "js/pq_games/tools/geometry/paths/getPositionsCenteredAround";
-import Point from "js/pq_games/tools/geometry/point";
+import DropShadowEffect from "lib/pq-games/layout/effects/dropShadowEffect";
+import LayoutOperation from "lib/pq-games/layout/layoutOperation";
+import ResourceGroup from "lib/pq-games/layout/resources/resourceGroup";
+import ResourceShape from "lib/pq-games/layout/resources/resourceShape";
+import ResourceText from "lib/pq-games/layout/resources/resourceText";
+import TextConfig, { TextStyle } from "lib/pq-games/layout/text/textConfig";
+import MaterialVisualizer from "lib/pq-games/tools/generation/materialVisualizer";
+import Circle from "lib/pq-games/tools/geometry/circle";
+import getPositionsCenteredAround from "lib/pq-games/tools/geometry/paths/getPositionsCenteredAround";
+import Point from "lib/pq-games/tools/geometry/point";
 import { CARD_TEMPLATES, CardType, GiftType, KAARTEN, MISC, ROUTEKAARTEN } from "../js_shared/dict";
 
 export default class Card

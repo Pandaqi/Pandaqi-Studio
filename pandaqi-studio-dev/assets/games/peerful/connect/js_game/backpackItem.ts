@@ -1,4 +1,4 @@
-import Point from "js/pq_games/tools/geometry/point";
+import Point from "lib/pq-games/tools/geometry/point";
 import GameServer from "./gameServer";
 import CONFIG from "./config";
 import { ITEMS } from "./dict";

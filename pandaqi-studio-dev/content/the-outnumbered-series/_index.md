@@ -1,7 +1,5 @@
 ---
-type: "gamepage"
-gamepage: true
-boardgame: true
+type: "project"
 
 title: "The Outnumbered Series"
 headerTitle: "A series of simple card games all about one number."

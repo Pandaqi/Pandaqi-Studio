@@ -1,7 +1,7 @@
 {{- $url := trim .Parent.Page.RelPermalink "/" -}}
 {{- $subdir := or (.Get "subdir") "play" -}}
 {{- $final_dir := printf "content/%s/%s/" $url $subdir -}}
-{{- $pages := where .Site.Pages "Type" "gamepage" -}}
+{{- $pages := where .Site.Pages "Type" "project" -}}
 {{- $display_type := or (.Get "display") "grid" -}} <!--- GRID or LIST --->
 {{- $color := or (.Get "color") "" -}}
 {{- $final_pages := slice -}}
@@ -28,7 +28,7 @@
 <li {{ with $color -}}style="background-color:{{- . -}};"{{- end -}}><a href="{{ .RelPermalink }}"><div class="games-collection-project">
 {{- if $header_url -}}
 <div class="bg-image">
-{{ partial "show-image.html" (dict "context" . "img_url" $header_url) }}
+{{ partial "content/show-image.html" (dict "context" . "src" $header_url) }}
 </div>
 {{- end -}}
 <h3>{{- .Title -}}</h3>

@@ -1,7 +1,7 @@
-import Point from "js/pq_games/tools/geometry/point";
-import Bounds from "js/pq_games/tools/numbers/bounds";
-import getWeighted from "js/pq_games/tools/random/getWeighted";
-import shuffle from "js/pq_games/tools/random/shuffle";
+import Point from "lib/pq-games/tools/geometry/point";
+import Bounds from "lib/pq-games/tools/numbers/bounds";
+import getWeighted from "lib/pq-games/tools/random/getWeighted";
+import shuffle from "lib/pq-games/tools/random/shuffle";
 import { CardType } from "./dictShared";
 import MaterialNaivigation from "./materialNaivigation";
 

@@ -1,4 +1,4 @@
-import Path from "js/pq_games/tools/geometry/paths/path";
+import Path from "lib/pq-games/tools/geometry/paths/path";
 import CONFIG from "./config";
 
 export default class PathSegment

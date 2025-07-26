@@ -1,15 +1,15 @@
 import BoardState from "./boardState";
 import CONFIG from "./config";
 import Trajectory from "./trajectory";
-import Rectangle from "js/pq_games/tools/geometry/rectangle";
-import Point from "js/pq_games/tools/geometry/point";
-import fromArray from "js/pq_games/tools/random/fromArray";
+import Rectangle from "lib/pq-games/tools/geometry/rectangle";
+import Point from "lib/pq-games/tools/geometry/point";
+import fromArray from "lib/pq-games/tools/random/fromArray";
 import { BONUSES } from "./dict";
-import getWeighted from "js/pq_games/tools/random/getWeighted";
-import range from "js/pq_games/tools/random/range";
-import PointGraph from "js/pq_games/tools/geometry/pointGraph";
-import shuffle from "js/pq_games/tools/random/shuffle";
-import rangeInteger from "js/pq_games/tools/random/rangeInteger";
+import getWeighted from "lib/pq-games/tools/random/getWeighted";
+import range from "lib/pq-games/tools/random/range";
+import PointGraph from "lib/pq-games/tools/geometry/pointGraph";
+import shuffle from "lib/pq-games/tools/random/shuffle";
+import rangeInteger from "lib/pq-games/tools/random/rangeInteger";
 
 export default class Trajectories
 {

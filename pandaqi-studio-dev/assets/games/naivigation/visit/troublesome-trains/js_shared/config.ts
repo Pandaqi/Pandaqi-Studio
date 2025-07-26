@@ -1,9 +1,9 @@
 import CONFIG_NAIVIGATION_SHARED from "games/naivigation/js_shared/configShared";
 import { NetworkType, TerrainType, TileType } from "games/naivigation/js_shared/dictShared";
-import mergeObjects from "js/pq_games/tools/collections/mergeObjects";
-import CVal from "js/pq_games/tools/generation/cval";
-import Point from "js/pq_games/tools/geometry/point";
-import autoLoadFontCSS from "js/pq_games/website/autoLoadFontCSS";
+import mergeObjects from "lib/pq-games/tools/collections/mergeObjects";
+import CVal from "lib/pq-games/tools/generation/cval";
+import Point from "lib/pq-games/tools/geometry/point";
+import autoLoadFontCSS from "lib/pq-games/website/autoLoadFontCSS";
 import { MATERIAL } from "./dict";
 
 const CONFIG:any = 

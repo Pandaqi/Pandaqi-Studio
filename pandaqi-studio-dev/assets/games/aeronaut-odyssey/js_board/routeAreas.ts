@@ -1,8 +1,8 @@
-import Line from "js/pq_games/tools/geometry/line";
-import PointGraph from "js/pq_games/tools/geometry/pointGraph";
+import Line from "lib/pq-games/tools/geometry/line";
+import PointGraph from "lib/pq-games/tools/geometry/pointGraph";
 import Route from "./route";
 import CONFIG from "./config";
-import arraysAreDuplicates from "js/pq_games/tools/collections/arraysAreDuplicates";
+import arraysAreDuplicates from "lib/pq-games/tools/collections/arraysAreDuplicates";
 
 export default class RouteAreas
 {

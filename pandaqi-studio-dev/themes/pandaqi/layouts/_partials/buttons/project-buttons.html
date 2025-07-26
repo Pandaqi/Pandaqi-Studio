@@ -1,0 +1,37 @@
+<nav>
+    <ul class="no-default-list-styles gap-m flex flex-align-center flex-wrap-until-cutoff-s">
+        {{ $download_url := .Params.downloadLink }}
+        {{ if $download_url }}
+            <li class="width-maximize">
+                {{ partial "buttons/button.html" (dict "content" "Download" "href" $download_url "class" "button-large accent-green") }}
+                <div class="font-size-s text-italic text-color-mid-light text-center">Google Drive<br>(Files = Material; Rules = Rulebook)</div>
+            </li>
+        {{ end }}
+        
+        {{ $game_page := .GetPage "./game" }}
+        {{ if $game_page }}
+            <li class="width-maximize">
+                {{ partial "buttons/button.html" (dict "content" "Game Generator" "href" "game" "class" "button-large accent-purple") }}
+                <div class="font-size-s text-italic text-color-mid-light text-center">Generate your own custom PDF</div>
+            </li>
+        {{ end }}
+        
+        {{ $board_page := .GetPage "./board" }}
+        {{ if $board_page }}
+            <li class="width-maximize">
+                {{ partial "buttons/button.html" (dict "content" "Board Generator" "href" "board" "class" "button-large accent-blue") }}
+                <div class="font-size-s text-italic text-color-mid-light text-center">Generate your own custom PDF</div>
+            </li>
+        {{ end }}
+        
+        {{ $rules_page := .GetPage "./rules/" }}
+        {{ if $rules_page }}
+            <li class="width-maximize">
+                {{ partial "buttons/button.html" (dict "content" "Rulebook" "href" "rules" "class" "button-large accent-orange") }}
+                <div class="font-size-s text-italic text-color-mid-light text-center">The interactive rulebook</div>
+            </li>
+        {{ end }}
+    </ul>
+</nav>
+
+

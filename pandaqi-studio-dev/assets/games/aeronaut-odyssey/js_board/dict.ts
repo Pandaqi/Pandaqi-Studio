@@ -1,4 +1,4 @@
-import Color from "js/pq_games/layout/color/color"
+import Color from "lib/pq-games/layout/color/color"
 
 interface BonusData
 {

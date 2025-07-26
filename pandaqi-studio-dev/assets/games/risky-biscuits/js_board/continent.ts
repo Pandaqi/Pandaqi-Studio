@@ -1,9 +1,9 @@
 import Area from "./area";
-import Point from "js/pq_games/tools/geometry/point";
-import calculateCenter from "js/pq_games/tools/geometry/paths/calculateCenter";
+import Point from "lib/pq-games/tools/geometry/point";
+import calculateCenter from "lib/pq-games/tools/geometry/paths/calculateCenter";
 import CONFIG from "./config";
-import lerp from "js/pq_games/tools/numbers/lerp";
-import clamp from "js/pq_games/tools/numbers/clamp";
+import lerp from "lib/pq-games/tools/numbers/lerp";
+import clamp from "lib/pq-games/tools/numbers/clamp";
 
 export default class Continent
 {

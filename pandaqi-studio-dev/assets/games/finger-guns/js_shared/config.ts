@@ -1,5 +1,5 @@
-import Point from "js/pq_games/tools/geometry/point"
-import autoLoadFontCSS from "js/pq_games/website/autoLoadFontCSS";
+import Point from "lib/pq-games/tools/geometry/point"
+import autoLoadFontCSS from "lib/pq-games/website/autoLoadFontCSS";
 
 const CONFIG:any = 
 {

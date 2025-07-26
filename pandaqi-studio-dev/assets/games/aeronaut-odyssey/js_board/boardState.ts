@@ -1,6 +1,6 @@
-import PointGraph from "js/pq_games/tools/geometry/pointGraph";
+import PointGraph from "lib/pq-games/tools/geometry/pointGraph";
 import CONFIG, { GenerationMethod } from "./config"
-import Point from "js/pq_games/tools/geometry/point";
+import Point from "lib/pq-games/tools/geometry/point";
 import GeneratorDelaunay from "./generators/generatorDelaunay";
 import GeneratorRope from "./generators/generatorRope";
 import Trajectories from "./trajectories";

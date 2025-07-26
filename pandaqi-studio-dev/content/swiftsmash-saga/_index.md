@@ -1,6 +1,5 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
 
 title: "Swiftsmash Saga"
 headerTitle: "A series of games about thinking quickly and smashing the right card before anyone else."

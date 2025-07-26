@@ -3,13 +3,13 @@ import MaterialNaivigation from "games/naivigation/js_shared/materialNaivigation
 import { TileData } from "games/naivigation/js_shared/randomNaivigationSetupGenerator";
 import tileDrawerNaivigation from "games/naivigation/js_shared/tileDrawerNaivigation";
 import vehicleDrawerNaivigation from "games/naivigation/js_shared/vehicleDrawerNaivigation";
-import fillResourceGroup from "js/pq_games/layout/canvas/fillResourceGroup";
-import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
-import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
-import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
-import getRectangleCornersWithOffset from "js/pq_games/tools/geometry/paths/getRectangleCornersWithOffset";
-import Point from "js/pq_games/tools/geometry/point";
+import fillResourceGroup from "lib/pq-games/layout/canvas/fillResourceGroup";
+import DropShadowEffect from "lib/pq-games/layout/effects/dropShadowEffect";
+import LayoutOperation from "lib/pq-games/layout/layoutOperation";
+import ResourceGroup from "lib/pq-games/layout/resources/resourceGroup";
+import MaterialVisualizer from "lib/pq-games/tools/generation/materialVisualizer";
+import getRectangleCornersWithOffset from "lib/pq-games/tools/geometry/paths/getRectangleCornersWithOffset";
+import Point from "lib/pq-games/tools/geometry/point";
 import { GAME_DATA, MATERIAL, MISC, VEHICLE_TILES } from "../js_shared/dict";
 
 export default class Tile extends MaterialNaivigation

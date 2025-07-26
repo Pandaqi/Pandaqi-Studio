@@ -1,11 +1,11 @@
-import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
+import MaterialVisualizer from "lib/pq-games/tools/generation/materialVisualizer";
 import CONFIG from "../js_shared/config";
-import Point from "js/pq_games/tools/geometry/point";
+import Point from "lib/pq-games/tools/geometry/point";
 import { cardPicker, tilePicker } from "../js_game/generators";
 import RandomNaivigationSetupGenerator, { TileData } from "games/naivigation/js_shared/randomNaivigationSetupGenerator";
 import RandomNaivigationTurnGenerator from "games/naivigation/js_shared/randomNaivigationTurnGenerator";
 import MaterialNaivigation from "games/naivigation/js_shared/materialNaivigation";
-import Bounds from "js/pq_games/tools/numbers/bounds";
+import Bounds from "lib/pq-games/tools/numbers/bounds";
 
 // given the current grid and available tiles, find a valid one for this cell
 const validPlacementCallback = (cell:TileData, setup:RandomNaivigationSetupGenerator) => 

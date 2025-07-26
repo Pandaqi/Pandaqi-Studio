@@ -1,7 +1,5 @@
 ---
 draft: true
-gamepage: true
-boardgame: true
 
 title: "Kings of Compromise"
 headerTitle: "Kings of Compromise | Design your kingdom to make all players happy"

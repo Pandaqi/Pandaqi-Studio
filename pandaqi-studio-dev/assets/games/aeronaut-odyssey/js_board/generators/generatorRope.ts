@@ -1,9 +1,9 @@
-import PointGraph from "js/pq_games/tools/geometry/pointGraph";
+import PointGraph from "lib/pq-games/tools/geometry/pointGraph";
 import BoardState from "../boardState";
-import rangeInteger from "js/pq_games/tools/random/rangeInteger";
-import shuffle from "js/pq_games/tools/random/shuffle";
+import rangeInteger from "lib/pq-games/tools/random/rangeInteger";
+import shuffle from "lib/pq-games/tools/random/shuffle";
 import CONFIG from "../config";
-import Point from "js/pq_games/tools/geometry/point";
+import Point from "lib/pq-games/tools/geometry/point";
 import Route from "../route";
 
 export default class GeneratorRope

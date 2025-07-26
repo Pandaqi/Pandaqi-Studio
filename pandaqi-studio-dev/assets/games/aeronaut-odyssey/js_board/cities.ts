@@ -1,9 +1,9 @@
-import PointGraph from "js/pq_games/tools/geometry/pointGraph";
+import PointGraph from "lib/pq-games/tools/geometry/pointGraph";
 import BoardState from "./boardState";
 import Route from "./route";
 import CONFIG from "./config";
-import range from "js/pq_games/tools/random/range";
-import clamp from "js/pq_games/tools/numbers/clamp";
+import range from "lib/pq-games/tools/random/range";
+import clamp from "lib/pq-games/tools/numbers/clamp";
 
 export default class Cities
 {

@@ -1,4 +1,5 @@
 @use "sass:map";
+@use "sass:string";
 @use "sass:list";
 @use "modules/colorschemes";
 @use "modules/globals.scss" as g;
@@ -164,7 +165,7 @@ $icons: (
 
 @each $name, $data in $icons
 {    
-    $frame: map-get($data, "frame");
+    $frame: map.get($data, "frame");
 
     .rules-icon-#{$name}
     {
@@ -396,12 +397,13 @@ header {
 //
 // Images in rulebooks
 //
-@function css-function( $function, $values... ) {
+@function css-function( $function, $values... ) 
+{
 	@return 
 		$function
-		+ unquote( '(' )
+		+ string.unquote( '(' )
 		+ $values
-		+ unquote( ')' )
+		+ string.unquote( ')' )
 	;
 }
 

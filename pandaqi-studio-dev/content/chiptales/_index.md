@@ -1,6 +1,5 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
 
 title: "Chiptales"
 headerTitle: "A series of games inspired by poker"

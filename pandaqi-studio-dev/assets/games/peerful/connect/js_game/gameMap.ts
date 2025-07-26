@@ -1,4 +1,4 @@
-import Point from "js/pq_games/tools/geometry/point";
+import Point from "lib/pq-games/tools/geometry/point";
 import BackpackItem from "./backpackItem";
 import CONFIG from "./config";
 import GameServer from "./gameServer";

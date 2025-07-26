@@ -1,11 +1,11 @@
-import OnPageVisualizer from "js/pq_games/tools/generation/boardVisualizer"
+import OnPageVisualizer from "lib/pq-games/tools/generation/boardVisualizer"
 // @ts-ignore
-import { Scene } from "js/pq_games/phaser/phaser.esm"
+import { Scene } from "lib/pq-games/phaser/phaser.esm"
 import BoardState from "./boardState"
 import BoardDisplay from "./boardDisplay"
 import Evaluator from "./evaluator"
 import CONFIG from "./config"
-import Point from "js/pq_games/tools/geometry/point"
+import Point from "lib/pq-games/tools/geometry/point"
 
 const sceneKey = "boardGeneration"
 

@@ -1,0 +1,16 @@
+{{ $url := .RelPermalink }}
+{{ $url_prefixed := printf "games/%s" $url }}
+{{ $url_js_direct := printf "%s.ts" (trim $url_prefixed "/") $url_prefixed }}
+{{ $res := resources.Get $url_js_direct }} <!--- /gamename/game/ => /gamename/game.ts --->
+
+{{ if not $res }}
+    {{ $url_js_folder := printf "%smain.ts" $url_prefixed }} <!--- /gamename/game/ => /gamename/game/main.ts --->
+    {{ $res = resources.Get $url_js_folder }}
+{{ end }}
+
+{{ if $res }}
+    {{ $output_name := printf "%s/bundle.js" $url_prefixed }}
+    {{ $script := $res | js.Build $output_name | minify }}
+    {{ $script.Publish }}
+    <script async defer src="{{ $script.RelPermalink }}"></script>
+{{ end }}

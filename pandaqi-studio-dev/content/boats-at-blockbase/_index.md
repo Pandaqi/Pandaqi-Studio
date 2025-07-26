@@ -1,6 +1,5 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
 
 title: "Boats at Blockbase"
 headerTitle: "Claim the best parts of the ocean by placing Tetris-shaped blocks on a shared map."

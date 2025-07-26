@@ -1,21 +1,14 @@
 ---
-type: "gamepage"
-gamepage: true
-boardgame: true
-
-title: "Aeronaut Odyssey"
-headerTitle: "Claim routes and connect sky castles in a fast game inspired by Ticket to Ride"
-blurb: "Travel the world, claim the most valuable routes and profit from it. Connect the sky castles faster than your opponents, in a One Paper Game inspired by Ticket to Ride."
-
-extraJSBoardInclude: true
-downloadLink: "https://drive.google.com/drive/folders/11yggBK2i8MlMg6sxD-oE4xBQzpgC4AUr"
-
-color: "blue"
-
+type: "project"
 date: 2023-01-01 # 2024-05-25
 
+title: "Aeronaut Odyssey"
+blurb: "Travel the world, claim the most valuable routes and profit from it. Connect the sky castles faster than your opponents, in a One Paper Game inspired by Ticket to Ride."
+
+downloadLink: "https://drive.google.com/drive/folders/11yggBK2i8MlMg6sxD-oE4xBQzpgC4AUr"
+
 categories: ["boardgame"]
-tags: ["real_inspired", ""]
+tags: ["real_inspired"]
 
 multiplayermode: "competitive"
 language: EN
@@ -27,9 +20,9 @@ ages: everyone
 
 ---
 
-{{% section-centered heading="Material" anchor="material" html="true" %}}
+## Material
 
-<p>The tool below can generate random playing boards! Input your settings, press the button, and download the PDF with your unique world. (This can take up to 30 seconds on huge boards.)</p>
+The tool below can generate random playing boards! Input your settings, press the button, and download the PDF with your unique world. (This can take up to 30 seconds on huge boards.)
 
 {{< boardgame-settings type="board" local_storage="aeronautOdysseyConfig" game_title="Aeronaut Odyssey" defaults="true" >}}
   {{< setting-enum id="setting-boardSize" text="Board Size?" values="tiny,small,regular,large,huge" valaskey="true" def="regular" remark="How many cities and routes to place." >}}
@@ -50,5 +43,3 @@ ages: everyone
 <p class="settings-remark">To approximate an average Ticket to Ride board, choose the "large" board size, and "use real material". Also make sure your printer doesn't add very large margins, as that might make the spaces too small.</p>
 
 <p class="settings-remark">If you increase the board size, it's recommended to also increase print size. Otherwise things get too small. (If you <strong>use real material</strong>, it does so automatically. Then the blocks obviously need to stay the same size as the plastic trains from the real game and can't shrink.)</p>
-
-{{% /section-centered %}}

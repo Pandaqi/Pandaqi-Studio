@@ -1,14 +1,14 @@
-import rangeInteger from "js/pq_games/tools/random/rangeInteger";
+import rangeInteger from "lib/pq-games/tools/random/rangeInteger";
 import BoardState from "../boardState";
 import CONFIG from "../config";
-import Point from "js/pq_games/tools/geometry/point";
-import range from "js/pq_games/tools/random/range";
+import Point from "lib/pq-games/tools/geometry/point";
+import range from "lib/pq-games/tools/random/range";
 // @ts-ignore
-import * as d3 from "js/pq_games/tools/graphs/d3-delaunay@6"
-import PointGraph from "js/pq_games/tools/geometry/pointGraph";
-import shuffle from "js/pq_games/tools/random/shuffle";
-import getWeightedByIndex from "js/pq_games/tools/random/getWeightedByIndex";
-import clamp from "js/pq_games/tools/numbers/clamp";
+import * as d3 from "lib/pq-games/tools/graphs/d3-delaunay@6"
+import PointGraph from "lib/pq-games/tools/geometry/pointGraph";
+import shuffle from "lib/pq-games/tools/random/shuffle";
+import getWeightedByIndex from "lib/pq-games/tools/random/getWeightedByIndex";
+import clamp from "lib/pq-games/tools/numbers/clamp";
 
 class RequiredArea
 {

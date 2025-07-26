@@ -1,0 +1,7 @@
+{{ $title := .Title }}
+{{ $is_taxonomy_page := .Data.Singular }}
+{{ if $is_taxonomy_page }}
+    {{ $title = partial "metadata/get-metadata-humanized.html" . }}
+{{ end }}
+{{ $title = printf "%s | %s" $title .Site.Title }}
+{{ return $title }}

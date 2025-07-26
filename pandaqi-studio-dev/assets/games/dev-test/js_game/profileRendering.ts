@@ -1,12 +1,12 @@
 // This is just a suite of test functions to profile the performance of my rendering/layout system
 
-import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import RendererPandaqi from "js/pq_games/layout/renderers/rendererPandaqi";
-import ResourceImage from "js/pq_games/layout/resources/resourceImage";
-import ResourceShape from "js/pq_games/layout/resources/resourceShape";
-import ResourceText from "js/pq_games/layout/resources/resourceText";
-import TextConfig from "js/pq_games/layout/text/textConfig";
-import Point from "js/pq_games/tools/geometry/point";
+import LayoutOperation from "lib/pq-games/layout/layoutOperation";
+import RendererPandaqi from "lib/pq-games/layout/renderers/rendererPandaqi";
+import ResourceImage from "lib/pq-games/layout/resources/resourceImage";
+import ResourceShape from "lib/pq-games/layout/resources/resourceShape";
+import ResourceText from "lib/pq-games/layout/resources/resourceText";
+import TextConfig from "lib/pq-games/layout/text/textConfig";
+import Point from "lib/pq-games/tools/geometry/point";
 
 const profile = (label:string, repeat:number = 1, func:Function) =>
 {

@@ -1,7 +1,7 @@
-import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textConfig"
-import CVal from "js/pq_games/tools/generation/cval"
-import { GridSizePreset } from "js/pq_games/tools/generation/materialGenerator"
-import Point from "js/pq_games/tools/geometry/point"
+import TextConfig, { TextStyle, TextWeight } from "lib/pq-games/layout/text/textConfig"
+import CVal from "lib/pq-games/tools/generation/cval"
+import { GridSizePreset } from "lib/pq-games/tools/generation/materialGenerator"
+import Point from "lib/pq-games/tools/geometry/point"
 
 const CONFIG_NAIVIGATION_SHARED = 
 {

@@ -1,9 +1,7 @@
 ---
-type: "gamepage"
+type: "project"
 draft: true
 
-gamepage: true
-boardgame: true
 
 title: "The Curse of Coop"
 headerTitle: "Enter a cursed temple ... or rule it as a (mad) god"

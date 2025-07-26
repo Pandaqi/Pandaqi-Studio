@@ -1,12 +1,12 @@
-import Point from "js/pq_games/tools/geometry/point";
+import Point from "lib/pq-games/tools/geometry/point";
 import Area from "./area";
 import CONFIG from "./config";
-import calculateCentroid from "js/pq_games/tools/geometry/paths/calculateCentroid";
-import subdividePath from "js/pq_games/tools/geometry/paths/subdividePath";
-import Path from "js/pq_games/tools/geometry/paths/path";
-import signRandom from "js/pq_games/tools/random/signRandom";
-import smoothPath from "js/pq_games/tools/geometry/paths/smoothPath";
-import PathAdvanced from "js/pq_games/tools/geometry/paths/pathAdvanced";
+import calculateCentroid from "lib/pq-games/tools/geometry/paths/calculateCentroid";
+import subdividePath from "lib/pq-games/tools/geometry/paths/subdividePath";
+import Path from "lib/pq-games/tools/geometry/paths/path";
+import signRandom from "lib/pq-games/tools/random/signRandom";
+import smoothPath from "lib/pq-games/tools/geometry/paths/smoothPath";
+import PathAdvanced from "lib/pq-games/tools/geometry/paths/pathAdvanced";
 
 export default class Region
 {

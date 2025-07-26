@@ -2,16 +2,16 @@ import { TileType } from "games/naivigation/js_shared/dictShared";
 import MaterialNaivigation from "games/naivigation/js_shared/materialNaivigation";
 import pawnDrawerNaivigation from "games/naivigation/js_shared/pawnDrawerNaivigation";
 import tileDrawerNaivigation from "games/naivigation/js_shared/tileDrawerNaivigation";
-import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
+import MaterialVisualizer from "lib/pq-games/tools/generation/materialVisualizer";
 import { MATERIAL, MISC, NETWORK_TYPES } from "../js_shared/dict";
-import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
-import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import TextConfig from "js/pq_games/layout/text/textConfig";
-import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
-import ResourceText from "js/pq_games/layout/resources/resourceText";
-import Point from "js/pq_games/tools/geometry/point";
-import getRectangleCornersWithOffset from "js/pq_games/tools/geometry/paths/getRectangleCornersWithOffset";
-import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
+import ResourceGroup from "lib/pq-games/layout/resources/resourceGroup";
+import LayoutOperation from "lib/pq-games/layout/layoutOperation";
+import TextConfig from "lib/pq-games/layout/text/textConfig";
+import StrokeAlign from "lib/pq-games/layout/values/strokeAlign";
+import ResourceText from "lib/pq-games/layout/resources/resourceText";
+import Point from "lib/pq-games/tools/geometry/point";
+import getRectangleCornersWithOffset from "lib/pq-games/tools/geometry/paths/getRectangleCornersWithOffset";
+import DropShadowEffect from "lib/pq-games/layout/effects/dropShadowEffect";
 
 export default class Tile extends MaterialNaivigation
 {

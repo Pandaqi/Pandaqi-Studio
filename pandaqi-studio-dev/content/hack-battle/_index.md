@@ -1,6 +1,5 @@
 ---
 draft: true
-gamepage: true
 
 title: "Hack Battle"
 headerTitle: "Hack Battle | Crack logic codes faster than your friend, or the timer."

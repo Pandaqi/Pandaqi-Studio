@@ -1,6 +1,6 @@
-import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textConfig"
-import Point from "js/pq_games/tools/geometry/point"
-import autoLoadFontCSS from "js/pq_games/website/autoLoadFontCSS";
+import TextConfig, { TextStyle, TextWeight } from "lib/pq-games/layout/text/textConfig"
+import Point from "lib/pq-games/tools/geometry/point"
+import autoLoadFontCSS from "lib/pq-games/website/autoLoadFontCSS";
 
 const CONFIG:any = 
 {

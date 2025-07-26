@@ -5,7 +5,7 @@
 {{- $caption := .Get "caption" -}}
 <section class="game-header {{ $class }}">
 	{{- if $img_url -}}
-		{{- partial "show-image.html" (dict "context" $.Page "img_url" $img_url) -}}
+		{{- partial "content/show-image.html" (dict "context" $.Page "src" $img_url) -}}
 	{{- end -}}
 	{{- $border_col := or (.Get "col") "#6bb73e" -}}
 	{{- $border_width := or (.Get "thickness") "5px" -}}
@@ -19,7 +19,7 @@
 		<div class="static-logo">
 			{{- if $static_logo -}}
 				{{- $img_url := add (.Get "static-logo") ".webp" -}}
-				{{- partial "show-image.html" (dict "context" $.Page "img_url" $static_logo) -}}
+				{{- partial "content/show-image.html" (dict "context" $.Page "src" $static_logo) -}}
 			{{- end -}}
 		</div>
 		<div class="video-container">

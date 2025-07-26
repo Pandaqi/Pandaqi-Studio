@@ -4,8 +4,8 @@ import CONFIG from "../js_shared/config";
 import { MATERIAL, PASSENGER_BONUSES, PASSENGER_CURSES } from "../js_shared/dict";
 import Card from "./card";
 import Tile from "./tile";
-import fromArray from "js/pq_games/tools/random/fromArray";
-import shuffle from "js/pq_games/tools/random/shuffle";
+import fromArray from "lib/pq-games/tools/random/fromArray";
+import shuffle from "lib/pq-games/tools/random/shuffle";
 import MaterialNaivigation from "games/naivigation/js_shared/materialNaivigation";
 
 const cardPicker = new GeneralPickerNaivigation(CONFIG, Card).addMaterialData("card", MATERIAL);

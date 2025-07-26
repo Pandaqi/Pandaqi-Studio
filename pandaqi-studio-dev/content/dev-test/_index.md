@@ -1,7 +1,5 @@
 ---
-type: "gamepage"
-gamepage: true
-boardgame: true
+type: "project"
 
 title: "Dev Test"
 headerTitle: "Dev Test | Testing Environment"

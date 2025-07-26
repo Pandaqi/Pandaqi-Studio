@@ -1,0 +1,7 @@
+{{- $context := .context -}}
+{{- $media_url := .media_url -}}
+{{- if .is_video -}}
+{{- partial "content/show-video.html" (dict "context" $context "video_url" $media_url) -}}
+{{- else -}}
+{{- partial "content/show-image.html" (dict "context" $context "src" $media_url) -}}
+{{- end -}}

@@ -1,17 +1,17 @@
-import createContext from "js/pq_games/layout/canvas/createContext";
-import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
-import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
-import ResourceText from "js/pq_games/layout/resources/resourceText";
-import TextConfig, { TextStyle } from "js/pq_games/layout/text/textConfig";
-import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
-import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
-import getRectangleCornersWithOffset from "js/pq_games/tools/geometry/paths/getRectangleCornersWithOffset";
-import Point from "js/pq_games/tools/geometry/point";
-import fromArray from "js/pq_games/tools/random/fromArray";
-import shuffle from "js/pq_games/tools/random/shuffle";
+import createContext from "lib/pq-games/layout/canvas/createContext";
+import fillCanvas from "lib/pq-games/layout/canvas/fillCanvas";
+import LayoutOperation from "lib/pq-games/layout/layoutOperation";
+import ResourceGroup from "lib/pq-games/layout/resources/resourceGroup";
+import ResourceText from "lib/pq-games/layout/resources/resourceText";
+import TextConfig, { TextStyle } from "lib/pq-games/layout/text/textConfig";
+import StrokeAlign from "lib/pq-games/layout/values/strokeAlign";
+import MaterialVisualizer from "lib/pq-games/tools/generation/materialVisualizer";
+import getRectangleCornersWithOffset from "lib/pq-games/tools/geometry/paths/getRectangleCornersWithOffset";
+import Point from "lib/pq-games/tools/geometry/point";
+import fromArray from "lib/pq-games/tools/random/fromArray";
+import shuffle from "lib/pq-games/tools/random/shuffle";
 import { CardMovement, CardType, FishType, MAP_SPECIAL, MISC, MOVEMENT_CARDS, MOVEMENT_SPECIAL, TILE_ACTIONS, TileAction } from "../js_shared/dict";
-import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
+import DropShadowEffect from "lib/pq-games/layout/effects/dropShadowEffect";
 
 export default class Card
 {

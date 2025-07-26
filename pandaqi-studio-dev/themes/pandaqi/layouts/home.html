@@ -1,7 +1,14 @@
+{{ define "header" }}
+<header>
+    {{ if .Site.Params.heroImage }}
+        <img src="/theme/webp/pandaqi_hero_image.webp" />
+    {{ end }}
+</header>
+{{ end }}
+
 {{ define "main" }}
 
-{{ partial "games-list.html" . }}
-
-{{ partial "pagination-container.html" . }}
+{{ partial "navigation/games-list.html" . }}
+{{ partial "navigation/pagination-container.html" . }}
 
 {{ end }}

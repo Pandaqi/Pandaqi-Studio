@@ -15,7 +15,7 @@
 	{{ if $url }}<a href="{{ $url }}">{{ end }}
 	{{ if $bg_img }}
 		<div>
-			{{ partial "show-image.html" (dict "context" . "img_url" $bg_img) }}
+			{{ partial "content/show-image.html" (dict "context" . "src" $bg_img) }}
 		</div>
 	{{ end }}
 
@@ -28,7 +28,7 @@
 		</div>
 		{{ if $thumb_img }}
 			<div class="non-text-side custom">
-				{{ partial "show-image.html" (dict "context" . "img_url" $thumb_img) }}
+				{{ partial "content/show-image.html" (dict "context" . "src" $thumb_img) }}
 			</div>
 		{{ end }}
 	</div>

@@ -1,6 +1,5 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
 
 title: "The Luck Legends"
 headerTitle: "A series of unfortunate games."

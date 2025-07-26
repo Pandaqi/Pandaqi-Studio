@@ -1,9 +1,9 @@
-import PeerfulClient from "js/pq_peerful/peerfulClient";
-import { receiveAction, sendAction } from "js/pq_peerful/peerfulUtilities";
+import PeerfulClient from "lib/pq-peerful/peerfulClient";
+import { receiveAction, sendAction } from "lib/pq-peerful/peerfulUtilities";
 import BackpackItem from "./backpackItem";
-import addTouchEvents from "js/pq_games/tools/dom/addTouchEvents";
-import convertEventToLocal from "js/pq_games/tools/dom/convertEventToLocal";
-import Point from "js/pq_games/tools/geometry/point";
+import addTouchEvents from "lib/pq-games/tools/dom/addTouchEvents";
+import convertEventToLocal from "lib/pq-games/tools/dom/convertEventToLocal";
+import Point from "lib/pq-games/tools/geometry/point";
 
 export default class GameClient
 {

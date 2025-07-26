@@ -1,9 +1,9 @@
-import PointGraph from "js/pq_games/tools/geometry/pointGraph";
-import PathFinder from "js/pq_games/tools/pathfinding/pathFinder";
+import PointGraph from "lib/pq-games/tools/geometry/pointGraph";
+import PathFinder from "lib/pq-games/tools/pathfinding/pathFinder";
 import Route from "./route";
 import CONFIG from "./config";
-import clamp from "js/pq_games/tools/numbers/clamp";
-import LineGraph from "js/pq_games/tools/geometry/lineGraph";
+import clamp from "lib/pq-games/tools/numbers/clamp";
+import LineGraph from "lib/pq-games/tools/geometry/lineGraph";
 import { BONUSES } from "./dict";
 
 export default class Trajectory

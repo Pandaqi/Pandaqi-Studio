@@ -1,6 +1,5 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
 
 title: "Puzzle Species"
 headerTitle: "Combine multiple puzzle-shaped creatures into one that's stronger than the sum of its parts---and use it to confuse the opponent's puzzles."

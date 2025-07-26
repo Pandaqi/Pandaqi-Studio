@@ -1,6 +1,5 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
 
 title: "Finger Guns"
 headerTitle: "A party game about pointing finger guns at opponents and hoping you prepared the right shot."

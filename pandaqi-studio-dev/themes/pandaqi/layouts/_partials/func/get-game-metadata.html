@@ -26,7 +26,6 @@
 
 {{ with .Params.categories }}
 	{{ range . }}
-		{{ if or (eq . "boardgame") (eq . "videogame") }}{{ continue }}{{ end }}
 		{{ $metadata = $metadata | append . }}
 	{{ end }}
 {{ end }}
@@ -41,15 +40,5 @@
 
 {{ $metadata = shuffle $metadata | first 4 }}
 {{ $metadata = $metadata | append (time.Format "2 Jan 2006" .Date) }}
-
-{{ $page_type := "general page" }}
-{{ if eq .Type "gamepage" }}
-	{{ $page_type = "video game" }}
-	{{ if .Params.boardgame }}{{ $page_type = "board game" }}{{ end }}
-{{ end }}
-{{ if eq .Type "infopage" }}
-	{{ $page_type = "info page" }}
-{{ end }}
-{{ $metadata = $metadata | append $page_type }}
 
 {{ return $metadata }}

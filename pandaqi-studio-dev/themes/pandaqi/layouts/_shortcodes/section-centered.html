@@ -14,11 +14,11 @@
 		{{- if $heading -}}
 			<div class="title-container">
 				{{- if $as_image -}}
-					{{- $heading_url := partial "func/get-valid-image-url.html" (dict "context" $.Page "img_url" $heading) -}}
+					{{- $heading_url := partial "func/get-valid-image-url.html" (dict "context" $.Page "src" $heading) -}}
 					<div class="heading-as-image"><img src="{{  $heading_url }}" /></div> 
 				{{- else -}}
 					{{- if $icon -}}
-						{{- $icon_url := partial "func/get-valid-image-url.html" (dict "context" $.Page "img_url" $icon) -}}
+						{{- $icon_url := partial "func/get-valid-image-url.html" (dict "context" $.Page "src" $icon) -}}
 						<h2 class="heading-with-icon">
 							<div class="part-icon"><img src="{{ $icon_url }}"></div>
 							<div class="part-heading">{{- $heading -}}</div>

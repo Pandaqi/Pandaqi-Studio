@@ -1,13 +1,13 @@
-import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
-import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
+import ResourceGroup from "lib/pq-games/layout/resources/resourceGroup";
+import MaterialVisualizer from "lib/pq-games/tools/generation/materialVisualizer";
 import { CARD_TEMPLATES, CardType, KALENDER_KAARTEN, MAP_TILES, PAKJE_CARDS, STOOM_CARDS, VAAR_CARDS } from "../js_shared/dict";
-import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
-import getPositionsCenteredAround from "js/pq_games/tools/geometry/paths/getPositionsCenteredAround";
-import Point from "js/pq_games/tools/geometry/point";
-import TextConfig, { TextStyle } from "js/pq_games/layout/text/textConfig";
-import ResourceText from "js/pq_games/layout/resources/resourceText";
-import fromArray from "js/pq_games/tools/random/fromArray";
+import LayoutOperation from "lib/pq-games/layout/layoutOperation";
+import DropShadowEffect from "lib/pq-games/layout/effects/dropShadowEffect";
+import getPositionsCenteredAround from "lib/pq-games/tools/geometry/paths/getPositionsCenteredAround";
+import Point from "lib/pq-games/tools/geometry/point";
+import TextConfig, { TextStyle } from "lib/pq-games/layout/text/textConfig";
+import ResourceText from "lib/pq-games/layout/resources/resourceText";
+import fromArray from "lib/pq-games/tools/random/fromArray";
 
 export default class Card
 {

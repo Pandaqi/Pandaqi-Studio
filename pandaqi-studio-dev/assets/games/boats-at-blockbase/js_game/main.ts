@@ -1,4 +1,4 @@
-import MaterialGenerator from "js/pq_games/tools/generation/materialGenerator";
+import MaterialGenerator from "lib/pq-games/tools/generation/materialGenerator";
 import CONFIG from "../js_shared/config";
 import CardPicker from "./cardPicker";
 import TilePicker from "./tilePicker";

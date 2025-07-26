@@ -1,4 +1,4 @@
-import { convertDictToRulesTableHTML } from "js/pq_rulebook/table";
+import { convertDictToRulesTableHTML } from "lib/pq-rulebook/table";
 import CONFIG from "../js_shared/config";
 import { MAP_TILES, STOOM_CARDS } from "../js_shared/dict";
 

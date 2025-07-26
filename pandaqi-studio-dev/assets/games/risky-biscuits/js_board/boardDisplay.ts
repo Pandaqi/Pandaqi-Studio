@@ -1,18 +1,18 @@
 import BoardState from "./boardState";
 import CONFIG from "./config";
-import Point from "js/pq_games/tools/geometry/point";
-import equidistantColors from "js/pq_games/layout/color/equidistantColors";
+import Point from "lib/pq-games/tools/geometry/point";
+import equidistantColors from "lib/pq-games/layout/color/equidistantColors";
 import Region from "./region";
 import Area from "./area";
-import Path from "js/pq_games/tools/geometry/paths/path";
-import Rectangle from "js/pq_games/tools/geometry/rectangle";
-import { circleToPhaser, pathToPhaser, rectToPhaser } from "js/pq_games/phaser/shapeToPhaser";
-import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import Circle from "js/pq_games/tools/geometry/circle";
-import Color from "js/pq_games/layout/color/color";
-import ResourceText from "js/pq_games/layout/resources/resourceText";
-import TextConfig, { TextAlign } from "js/pq_games/layout/text/textConfig";
-import textToPhaser from "js/pq_games/phaser/textToPhaser";
+import Path from "lib/pq-games/tools/geometry/paths/path";
+import Rectangle from "lib/pq-games/tools/geometry/rectangle";
+import { circleToPhaser, pathToPhaser, rectToPhaser } from "lib/pq-games/phaser/shapeToPhaser";
+import LayoutOperation from "lib/pq-games/layout/layoutOperation";
+import Circle from "lib/pq-games/tools/geometry/circle";
+import Color from "lib/pq-games/layout/color/color";
+import ResourceText from "lib/pq-games/layout/resources/resourceText";
+import TextConfig, { TextAlign } from "lib/pq-games/layout/text/textConfig";
+import textToPhaser from "lib/pq-games/phaser/textToPhaser";
 
 
 export default class BoardDisplay

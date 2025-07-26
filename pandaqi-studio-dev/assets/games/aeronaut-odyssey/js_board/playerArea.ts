@@ -1,5 +1,5 @@
-import Point from "js/pq_games/tools/geometry/point";
-import Rectangle from "js/pq_games/tools/geometry/rectangle";
+import Point from "lib/pq-games/tools/geometry/point";
+import Rectangle from "lib/pq-games/tools/geometry/rectangle";
 
 export default class PlayerArea
 {

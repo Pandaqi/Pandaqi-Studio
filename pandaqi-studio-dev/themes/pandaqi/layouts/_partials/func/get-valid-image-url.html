@@ -1,16 +1,8 @@
-{{- $img_url := index (strings.Split .img_url ".") 0 -}} <!--- chop off any extension --->
-{{- $exts := slice "webm" "webp" "png" -}}
+{{- $src := printf "%s.webp" .src -}}
 {{- $page_url := .context.Page.RelPermalink -}}
-{{- $base_url := printf "content%sassets/%s" $page_url $img_url }}
-{{- $temp_url := "" -}}
-{{- $exists := false -}}
-{{- range $exts -}}
-	{{- $temp_url = printf "%s.%s" $base_url . -}}
-	{{- if fileExists $temp_url -}}
-		{{- $exists = true -}}
-		{{- break -}}
-	{{- end -}}
+{{- $base_url := printf "content%s%s" $page_url $src -}}
+{{- $final_url := "" }}
+{{- if fileExists $base_url -}}
+	{{- $final_url = (replace $base_url "content" "") -}}
 {{- end -}}
-{{- $temp_url = replace $temp_url "content" "" -}}
-{{- if not $exists -}}{{- $temp_url = "" -}}{{- end -}}
-{{- return $temp_url -}}
+{{- return $final_url -}}

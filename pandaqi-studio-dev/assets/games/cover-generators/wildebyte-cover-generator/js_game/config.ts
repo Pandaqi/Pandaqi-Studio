@@ -1,7 +1,7 @@
-import TextConfig, { TextStyle, TextWeight } from "js/pq_games/layout/text/textConfig";
+import TextConfig, { TextStyle, TextWeight } from "lib/pq-games/layout/text/textConfig";
 import TARGETS from "./targetData";
 import BOOK_DATA from "./bookData";
-import Point from "js/pq_games/tools/geometry/point";
+import Point from "lib/pq-games/tools/geometry/point";
 
 const CONFIG = 
 {

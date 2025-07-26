@@ -1,11 +1,11 @@
-import countElementsInArray from "js/pq_games/tools/collections/countElementsInArray";
+import countElementsInArray from "lib/pq-games/tools/collections/countElementsInArray";
 import BoardState from "./boardState";
 import CONFIG from "./config"
 import Route from "./route";
-import pathIntersectsPath from "js/pq_games/tools/geometry/intersection/pathIntersectsPath";
-import distToPath from "js/pq_games/tools/geometry/distance/distToPath";
-import Point from "js/pq_games/tools/geometry/point";
-import { rectIntersectsRect } from "js/pq_games/tools/geometry/intersection/shapeIntersectsShape";
+import pathIntersectsPath from "lib/pq-games/tools/geometry/intersection/pathIntersectsPath";
+import distToPath from "lib/pq-games/tools/geometry/distance/distToPath";
+import Point from "lib/pq-games/tools/geometry/point";
+import { rectIntersectsRect } from "lib/pq-games/tools/geometry/intersection/shapeIntersectsShape";
 
 export default class Evaluator
 {

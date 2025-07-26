@@ -1,0 +1,49 @@
+{{ define "main" }}
+
+{{ $deprecated := or .Params.deprecated false }}
+{{ if $deprecated }}
+<div class="maintenance-modal-container" onclick="this.remove();">
+	<div class="maintenance-modal-content">
+		This is one of my oldest projects and thus of a lower quality. You may still try it, of course, but I recommend checking out a newer game! (Click to remove this message.)
+	</div>
+</div>
+{{ end }}
+
+<div class="position-absolute opacity-half align-top">
+	<!--- Big background image fading into content --->
+	{{ $src := partial "func/get-game-header.html" . }}
+	{{ partial "content/show-image.html" (dict "context" . "src" $src "alt" "Header image for this project") }}
+	<div class="gradient-fade-to-bg"></div>
+</div>
+
+<div class="width-limit block-center margin-top-xs">
+	<div class="double-view">
+		<!--- Trailers, Screenshots, Game Title, etc --->
+		<div>
+
+		</div> 
+
+		<!--- Small image, small desc, anything else --->
+		<div class="sidebar-block">
+			{{ $src := partial "func/get-game-header.html" . }}
+			{{ partial "content/show-image.html" (dict "context" . "src" $src "alt" "Header image for this project") }}
+			<p class="text-italic">{{ .Params.blurb | markdownify }}</p>
+			{{ partial "buttons/project-buttons.html" . }}
+		</div>
+	</div>
+
+	<main class="double-view">
+		<!--- Main content (of Markdown file) --->
+		<div>
+			<h1>{{ .Title }}</h1>
+			{{ .Content }}
+		</div>
+
+		<!--- Metadata, etc. --->
+		<div>
+			{{ partial "metadata/metadata-block.html" . }}
+		</div>
+	</main>
+</div>
+
+{{ end }}

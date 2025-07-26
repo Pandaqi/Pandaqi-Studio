@@ -1,7 +1,5 @@
 ---
-type: "gamepage"
-gamepage: true
-boardgame: true
+type: "project"
 
 title: "Pub Quiz"
 headerTitle: "Pub Quiz | Test."

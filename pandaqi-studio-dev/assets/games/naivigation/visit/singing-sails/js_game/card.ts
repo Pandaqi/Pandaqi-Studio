@@ -1,12 +1,12 @@
 import cardDrawerNaivigation from "games/naivigation/js_shared/cardDrawerNaivigation";
 import MaterialNaivigation from "games/naivigation/js_shared/materialNaivigation";
-import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
-import ResourceText from "js/pq_games/layout/resources/resourceText";
-import TextConfig from "js/pq_games/layout/text/textConfig";
-import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
-import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
-import Point from "js/pq_games/tools/geometry/point";
+import LayoutOperation from "lib/pq-games/layout/layoutOperation";
+import ResourceGroup from "lib/pq-games/layout/resources/resourceGroup";
+import ResourceText from "lib/pq-games/layout/resources/resourceText";
+import TextConfig from "lib/pq-games/layout/text/textConfig";
+import StrokeAlign from "lib/pq-games/layout/values/strokeAlign";
+import MaterialVisualizer from "lib/pq-games/tools/generation/materialVisualizer";
+import Point from "lib/pq-games/tools/geometry/point";
 import { GAME_DATA, MATERIAL, MISC, WEATHER_CARDS } from "../js_shared/dict";
 
 export default class Card extends MaterialNaivigation

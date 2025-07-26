@@ -1,10 +1,10 @@
-import FloodFiller from "js/pq_games/tools/generation/floodFiller";
+import FloodFiller from "lib/pq-games/tools/generation/floodFiller";
 import Area from "./area";
 import BoardState from "./boardState";
 import CONFIG from "./config";
 import Continent from "./continent";
-import shuffle from "js/pq_games/tools/random/shuffle";
-import Bounds from "js/pq_games/tools/numbers/bounds";
+import shuffle from "lib/pq-games/tools/random/shuffle";
+import Bounds from "lib/pq-games/tools/numbers/bounds";
 
 export default class Continents
 {

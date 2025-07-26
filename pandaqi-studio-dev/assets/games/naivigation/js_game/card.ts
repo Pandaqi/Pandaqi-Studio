@@ -1,17 +1,17 @@
-import createContext from "js/pq_games/layout/canvas/createContext";
-import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
+import createContext from "lib/pq-games/layout/canvas/createContext";
+import fillCanvas from "lib/pq-games/layout/canvas/fillCanvas";
 import { CardType } from "../js_shared/dictShared";
-import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
-import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import Point from "js/pq_games/tools/geometry/point";
+import ResourceGroup from "lib/pq-games/layout/resources/resourceGroup";
+import LayoutOperation from "lib/pq-games/layout/layoutOperation";
+import Point from "lib/pq-games/tools/geometry/point";
 import { MATERIAL, MISC, TEMPLATES } from "../js_shared/dict";
-import TextConfig from "js/pq_games/layout/text/textConfig";
-import ResourceText from "js/pq_games/layout/resources/resourceText";
-import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
+import TextConfig from "lib/pq-games/layout/text/textConfig";
+import ResourceText from "lib/pq-games/layout/resources/resourceText";
+import StrokeAlign from "lib/pq-games/layout/values/strokeAlign";
 import cardDrawerNaivigation from "../js_shared/cardDrawerNaivigation";
 import MaterialNaivigation from "../js_shared/materialNaivigation";
-import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
-import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
+import DropShadowEffect from "lib/pq-games/layout/effects/dropShadowEffect";
+import MaterialVisualizer from "lib/pq-games/tools/generation/materialVisualizer";
 
 export default class Card extends MaterialNaivigation
 {

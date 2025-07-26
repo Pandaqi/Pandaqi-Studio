@@ -1,6 +1,5 @@
 ---
 draft: true
-gamepage: true
 
 title: "Bellyboinkers"
 headerTitle: "Boink each other off the map with your belly, or reverse boink yourself trying."

@@ -1,19 +1,19 @@
-import fillResourceGroup from "js/pq_games/layout/canvas/fillResourceGroup";
-import BlurEffect from "js/pq_games/layout/effects/blurEffect";
-import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
-import ResourceShape from "js/pq_games/layout/resources/resourceShape";
-import ResourceText from "js/pq_games/layout/resources/resourceText";
-import TextConfig from "js/pq_games/layout/text/textConfig";
-import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
-import getRectangleCornersWithOffset from "js/pq_games/tools/geometry/paths/getRectangleCornersWithOffset";
-import Path from "js/pq_games/tools/geometry/paths/path";
-import Point from "js/pq_games/tools/geometry/point";
-import Rectangle from "js/pq_games/tools/geometry/rectangle";
+import fillResourceGroup from "lib/pq-games/layout/canvas/fillResourceGroup";
+import BlurEffect from "lib/pq-games/layout/effects/blurEffect";
+import LayoutOperation from "lib/pq-games/layout/layoutOperation";
+import ResourceGroup from "lib/pq-games/layout/resources/resourceGroup";
+import ResourceShape from "lib/pq-games/layout/resources/resourceShape";
+import ResourceText from "lib/pq-games/layout/resources/resourceText";
+import TextConfig from "lib/pq-games/layout/text/textConfig";
+import MaterialVisualizer from "lib/pq-games/tools/generation/materialVisualizer";
+import getRectangleCornersWithOffset from "lib/pq-games/tools/geometry/paths/getRectangleCornersWithOffset";
+import Path from "lib/pq-games/tools/geometry/paths/path";
+import Point from "lib/pq-games/tools/geometry/point";
+import Rectangle from "lib/pq-games/tools/geometry/rectangle";
 import { MISC_SHARED, NETWORKS, TERRAINS, TerrainType, TileType } from "./dictShared";
 import MaterialNaivigation from "./materialNaivigation";
 import vehicleDrawerNaivigation from "./vehicleDrawerNaivigation";
-import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
+import DropShadowEffect from "lib/pq-games/layout/effects/dropShadowEffect";
 
 const drawBackground = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaivigation) =>
 {

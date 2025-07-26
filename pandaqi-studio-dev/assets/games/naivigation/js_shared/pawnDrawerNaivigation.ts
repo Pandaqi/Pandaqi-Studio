@@ -1,12 +1,12 @@
-import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
-import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
+import ResourceGroup from "lib/pq-games/layout/resources/resourceGroup";
+import MaterialVisualizer from "lib/pq-games/tools/generation/materialVisualizer";
 import MaterialNaivigation from "./materialNaivigation";
-import Point from "js/pq_games/tools/geometry/point";
-import LayoutOperation from "js/pq_games/layout/layoutOperation";
+import Point from "lib/pq-games/tools/geometry/point";
+import LayoutOperation from "lib/pq-games/layout/layoutOperation";
 import { MISC } from "./dict";
-import ResourceShape from "js/pq_games/layout/resources/resourceShape";
-import Rectangle from "js/pq_games/tools/geometry/rectangle";
-import Line from "js/pq_games/tools/geometry/line";
+import ResourceShape from "lib/pq-games/layout/resources/resourceShape";
+import Rectangle from "lib/pq-games/tools/geometry/rectangle";
+import Line from "lib/pq-games/tools/geometry/line";
 
 interface PawnDrawParams
 {

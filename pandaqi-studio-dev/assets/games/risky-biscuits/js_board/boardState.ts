@@ -1,19 +1,19 @@
 import CONFIG, { GenerationMethod } from "./config"
-import Point from "js/pq_games/tools/geometry/point";
-import range from "js/pq_games/tools/random/range";
+import Point from "lib/pq-games/tools/geometry/point";
+import range from "lib/pq-games/tools/random/range";
 // @ts-ignore
-import * as d3 from "js/pq_games/tools/graphs/d3-delaunay@6"
+import * as d3 from "lib/pq-games/tools/graphs/d3-delaunay@6"
 import Region from "./region";
-import signRandom from "js/pq_games/tools/random/signRandom";
-import { createNoise2D } from "js/pq_games/tools/generation/simplexNoise"
-import clamp from "js/pq_games/tools/numbers/clamp";
-import lerp from "js/pq_games/tools/numbers/lerp";
-import FloodFiller from "js/pq_games/tools/generation/floodFiller";
-import shuffle from "js/pq_games/tools/random/shuffle";
+import signRandom from "lib/pq-games/tools/random/signRandom";
+import { createNoise2D } from "lib/pq-games/tools/generation/simplexNoise"
+import clamp from "lib/pq-games/tools/numbers/clamp";
+import lerp from "lib/pq-games/tools/numbers/lerp";
+import FloodFiller from "lib/pq-games/tools/generation/floodFiller";
+import shuffle from "lib/pq-games/tools/random/shuffle";
 import Area from "./area";
 import Continent from "./continent";
 import Continents from "./continents";
-import subdividePath from "js/pq_games/tools/geometry/paths/subdividePath";
+import subdividePath from "lib/pq-games/tools/geometry/paths/subdividePath";
 
 export default class BoardState
 {

@@ -1,19 +1,19 @@
-import convertCanvasToImage from "js/pq_games/layout/canvas/convertCanvasToImage";
-import createContext from "js/pq_games/layout/canvas/createContext";
-import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
-import ResourceImage from "js/pq_games/layout/resources/resourceImage";
-import numberRange from "js/pq_games/tools/collections/numberRange";
-import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
-import Point from "js/pq_games/tools/geometry/point";
-import rangeInteger from "js/pq_games/tools/random/rangeInteger";
-import shuffle from "js/pq_games/tools/random/shuffle";
-import InteractiveExample from "js/pq_rulebook/examples/interactiveExample";
+import convertCanvasToImage from "lib/pq-games/layout/canvas/convertCanvasToImage";
+import createContext from "lib/pq-games/layout/canvas/createContext";
+import LayoutOperation from "lib/pq-games/layout/layoutOperation";
+import ResourceGroup from "lib/pq-games/layout/resources/resourceGroup";
+import ResourceImage from "lib/pq-games/layout/resources/resourceImage";
+import numberRange from "lib/pq-games/tools/collections/numberRange";
+import MaterialVisualizer from "lib/pq-games/tools/generation/materialVisualizer";
+import Point from "lib/pq-games/tools/geometry/point";
+import rangeInteger from "lib/pq-games/tools/random/rangeInteger";
+import shuffle from "lib/pq-games/tools/random/shuffle";
+import InteractiveExample from "lib/pq-rulebook/examples/interactiveExample";
 import { TileType } from "./dictShared";
-import fromArray from "js/pq_games/tools/random/fromArray";
+import fromArray from "lib/pq-games/tools/random/fromArray";
 import MaterialNaivigation from "./materialNaivigation";
 import TilePickerNaivigation from "./generalPickerNaivigation";
-import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
+import fillCanvas from "lib/pq-games/layout/canvas/fillCanvas";
 
 interface TileData
 {

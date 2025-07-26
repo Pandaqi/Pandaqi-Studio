@@ -1,7 +1,5 @@
 ---
-type: "gamepage"
-gamepage: true
-boardgame: true
+type: "project"
 
 title: "Waitless Games"
 headerTitle: "Games you can play while waiting in line or standing up."

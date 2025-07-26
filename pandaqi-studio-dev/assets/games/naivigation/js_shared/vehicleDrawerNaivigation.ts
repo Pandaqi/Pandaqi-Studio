@@ -1,13 +1,13 @@
-import fillResourceGroup from "js/pq_games/layout/canvas/fillResourceGroup";
-import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
-import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
-import Point from "js/pq_games/tools/geometry/point";
+import fillResourceGroup from "lib/pq-games/layout/canvas/fillResourceGroup";
+import LayoutOperation from "lib/pq-games/layout/layoutOperation";
+import ResourceGroup from "lib/pq-games/layout/resources/resourceGroup";
+import MaterialVisualizer from "lib/pq-games/tools/generation/materialVisualizer";
+import Point from "lib/pq-games/tools/geometry/point";
 import { MISC } from "./dict";
 import MaterialNaivigation from "./materialNaivigation";
 import pawnDrawerNaivigation from "./pawnDrawerNaivigation";
-import ResourceShape from "js/pq_games/layout/resources/resourceShape";
-import Rectangle from "js/pq_games/tools/geometry/rectangle";
+import ResourceShape from "lib/pq-games/layout/resources/resourceShape";
+import Rectangle from "lib/pq-games/tools/geometry/rectangle";
 
 const drawHelpers = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaivigation) =>
 {

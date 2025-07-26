@@ -1,6 +1,5 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
 
 title: "Naivigation"
 headerTitle: "A universe of simple party board games about driving one vehicle together."

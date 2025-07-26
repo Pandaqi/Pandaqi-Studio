@@ -1,0 +1,8 @@
+{{ $favicon := .Site.Params.favicon | absURL }}
+{{ if eq .Type "project" }}
+    {{ $game_url := .Permalink }}
+    {{ $game_asset_name := partial "func/get-game-asset-name.html" . }}
+    {{ $favicon_name := or .Params.favicon $game_asset_name }}
+    {{ $favicon = printf "%sassets/%s-favicon.png" $game_url $favicon_name }} 
+{{ end }}
+{{ return $favicon }}

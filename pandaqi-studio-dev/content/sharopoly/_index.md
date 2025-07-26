@@ -1,7 +1,5 @@
 ---
-type: "gamepage"
-gamepage: true
-boardgame: true
+type: "project"
 
 title: "Sharopoly"
 headerTitle: "Claim routes and connect sky castles in a fast game inspired by Ticket to Ride."

@@ -1,8 +1,6 @@
 --- 
 draft: true
 
-gamepage: true
-boardgame: true
 
 title: "Proof of Loch Ness"
 headerTitle: "Proof of Loch Ness &mdash; Tracking mythical monsters that might not even exist"

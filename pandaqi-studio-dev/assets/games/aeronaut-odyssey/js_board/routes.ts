@@ -1,17 +1,17 @@
-import PointGraph from "js/pq_games/tools/geometry/pointGraph";
+import PointGraph from "lib/pq-games/tools/geometry/pointGraph";
 import Route from "./route";
 import BoardState from "./boardState";
-import fromArray from "js/pq_games/tools/random/fromArray";
+import fromArray from "lib/pq-games/tools/random/fromArray";
 import CONFIG from "./config";
-import range from "js/pq_games/tools/random/range";
-import shuffle from "js/pq_games/tools/random/shuffle";
+import range from "lib/pq-games/tools/random/range";
+import shuffle from "lib/pq-games/tools/random/shuffle";
 import RouteSet from "./routeSet";
-import lineIntersectsShape from "js/pq_games/tools/geometry/intersection/lineIntersectsShape";
-import Line from "js/pq_games/tools/geometry/line";
-import getWeightedByIndex from "js/pq_games/tools/random/getWeightedByIndex";
-import getWeighted from "js/pq_games/tools/random/getWeighted";
+import lineIntersectsShape from "lib/pq-games/tools/geometry/intersection/lineIntersectsShape";
+import Line from "lib/pq-games/tools/geometry/line";
+import getWeightedByIndex from "lib/pq-games/tools/random/getWeightedByIndex";
+import getWeighted from "lib/pq-games/tools/random/getWeighted";
 import { BONUSES } from "./dict";
-import rangeInteger from "js/pq_games/tools/random/rangeInteger";
+import rangeInteger from "lib/pq-games/tools/random/rangeInteger";
 
 export default class Routes
 {

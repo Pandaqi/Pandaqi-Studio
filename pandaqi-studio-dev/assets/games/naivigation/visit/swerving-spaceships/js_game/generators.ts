@@ -1,6 +1,6 @@
 import { CardType, TileType } from "games/naivigation/js_shared/dictShared";
 import GeneralPickerNaivigation from "games/naivigation/js_shared/generalPickerNaivigation";
-import shuffle from "js/pq_games/tools/random/shuffle";
+import shuffle from "lib/pq-games/tools/random/shuffle";
 import CONFIG from "../js_shared/config";
 import { MATERIAL } from "../js_shared/dict";
 import Card from "./card";

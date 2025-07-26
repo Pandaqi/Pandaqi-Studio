@@ -1,7 +1,5 @@
 ---
-type: "gamepage"
-gamepage: true
-boardgame: true
+type: "project"
 
 title: "Sleighwell"
 headerTitle: "Santa needs help delivering presents in a town that constantly changes."

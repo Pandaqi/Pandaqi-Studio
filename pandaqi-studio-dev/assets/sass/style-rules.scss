@@ -1,4 +1,5 @@
 @use "sass:map";
+@use "sass:string";
 @use "sass:list";
 @use "modules/colorschemes";
 @use "modules/globals.scss" as g;
@@ -164,7 +165,7 @@ $icons: (
 
 @each $name, $data in $icons
 {    
-    $frame: map-get($data, "frame");
+    $frame: map.get($data, "frame");
 
     .rules-icon-#{$name}
     {
@@ -396,12 +397,13 @@ header {
 //
 // Images in rulebooks
 //
-@function css-function( $function, $values... ) {
+@function css-function( $function, $values... ) 
+{
 	@return 
 		$function
-		+ unquote( '(' )
+		+ string.unquote( '(' )
 		+ $values
-		+ unquote( ')' )
+		+ string.unquote( ')' )
 	;
 }
 
@@ -964,33 +966,3 @@ blockquote
     }
 }
 
-// Styles for shared rules => anything that's the same across MULTIPLE games in the same project
-.rulebook-shared-rule, .rulebook-shared-rule-block
-{
-    margin: 0.5rem;
-    background-color: rgb(203, 231, 255);
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-    border-left: 10px solid rgb(48, 141, 255);
-    font-style: italic;
-}
-
-.rulebook-shared-rule
-{
-    &:before 
-    {
-        content: "CORE RULE |";
-        opacity: 0.5;
-        font-weight: bold;
-    }
-}
-
-.rulebook-shared-rule-block
-{
-    .content > p:first-child::before 
-    {
-        content: "CORE RULES | ";
-        opacity: 0.5;
-        font-weight: bold;
-    }
-}

@@ -1,7 +1,7 @@
-import calculateCenter from "js/pq_games/tools/geometry/paths/calculateCenter";
+import calculateCenter from "lib/pq-games/tools/geometry/paths/calculateCenter";
 import Continent from "./continent";
 import Region from "./region";
-import Path from "js/pq_games/tools/geometry/paths/path";
+import Path from "lib/pq-games/tools/geometry/paths/path";
 
 export default class Area
 {

@@ -1,11 +1,11 @@
 import MaterialNaivigation from "games/naivigation/js_shared/materialNaivigation";
 import RandomNaivigationSetupGenerator, { TileData } from "games/naivigation/js_shared/randomNaivigationSetupGenerator";
 import RandomNaivigationTurnGenerator from "games/naivigation/js_shared/randomNaivigationTurnGenerator";
-import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
-import Point from "js/pq_games/tools/geometry/point";
+import MaterialVisualizer from "lib/pq-games/tools/generation/materialVisualizer";
+import Point from "lib/pq-games/tools/geometry/point";
 import { cardPicker, tilePicker } from "../js_game/generators";
 import CONFIG from "../js_shared/config";
-import fromArray from "js/pq_games/tools/random/fromArray";
+import fromArray from "lib/pq-games/tools/random/fromArray";
 import { NetworkType } from "games/naivigation/js_shared/dictShared";
 
 const validPlacementCallback = (cell:TileData, setup:RandomNaivigationSetupGenerator) => 

@@ -3,7 +3,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    {{ $favicon := partial "func/get-game-favicon.html" .Parent }}
+    {{ $favicon := partial "func/get-favicon.html" .Parent }}
     <link rel="icon" type="image/png" href="{{ $favicon }}">
 
     <title>{{ .Parent.Title }} | Rules | Pandaqi Games</title>
@@ -12,22 +12,18 @@
     {{ $options := (dict "targetPath" "/css/style-rules.css" "outputStyle" "compressed" "enableSourceMap" (not hugo.IsProduction)  "transpiler" "dartsass") }}
     {{ $rules_style := resources.Get "/sass/style-rules.scss" | css.Sass $options | minify }}
     <link rel="stylesheet" type="text/css" href="{{ $rules_style.RelPermalink }}" /> 
-
-    <!-- Unique CSS for this rulebook -->
-    {{ partial "load-assets.html" (dict "context" . "ext" "css" "type" "rules" "include" true) }}
 </head>
 {{ end }}
 
 {{ define "header" }}
-<!-- Used when you click on an image, to show it full screen -->
-<div class="image-overlay"><img src="" /></div>
 
+<!--- @TODO: This should probably just be INSERTED by the system on demand, just like the <div> for enlarging image fullscreen should --->
 <header class="rules-header">
     <!-- Steal the header image from the parent page, if available -->
     {{ $url := partial "func/get-game-header.html" .Parent }}
     {{ if $url }}
         <div class="header-image">
-            {{ partial "show-image.html" (dict "context" .Parent "img_url" $url) }}
+            {{ partial "content/show-image.html" (dict "context" .Parent "src" $url) }}
         </div>
     {{ end }}
 
@@ -63,9 +59,5 @@
 {{- end -}}
 
 {{ define "footer" }}
-    {{ partial "load-assets.html" (dict "context" . "ext" "js" "type" "rules" "include" true) }}
-    {{ partial "load-fonts-auto.html" (dict "context" . "type" "rules") }}
-
-    {{ $js := resources.Get "/js/pq_rulebook/main.ts" | js.Build "/js/lib-pqRulebook.js" | minify }}
-    <script async defer src="{{ $js.RelPermalink }}"></script>
+    {{ partial "func/load-assets.html" . }}
 {{ end }}

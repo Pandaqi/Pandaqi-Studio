@@ -1,23 +1,14 @@
 ---
-type: "gamepage"
-gamepage: true
-boardgame: true
+type: "project"
 
 title: "Bodyguard"
-headerTitle: "Bodyguard | Discover if the emperor is in danger, and how to save them, before anyone else. Then do it again."
 blurb: "Discover if the emperor is in danger, and how to save them, before anyone else. Then do it again."
 
 downloadLink: "https://drive.google.com/drive/folders/1XU--sSxY2N6wIsvosMi_4ko9lV1X3TGI"
 
 ---
 
-{{% section-centered heading="Material" anchor="material" html="true" %}}
 
-{{< boardgame-settings type="game" local_storage="bodyguardConfig" game_title="Bodyguard" defaults="true" >}}{{< /boardgame-settings >}}
-
-{{% /section-centered %}}
-
-{{% section-centered %}}
 
 The fonts used are **MESY** (for headings) and **Margherita** (for text). The first is extremely thematic, the second is an absolutely beautiful font (that comes in many variations) that I now want to use in _everything_.
 
@@ -30,6 +21,3 @@ Fun fact: I spent a loooong time trying to find a title. I tried every possible 
 It's fine if multiple projects have the same name (there are plenty characters and games called "Bodyguard", for example), but only if it's a _generic_ name. If I give my projects a more _specific_ name, then it should really be unique and never seen before. Otherwise you're floating in some weird middle ground in which the title of your project doesn't serve its purpose however you look at it.
 
 @TODO
-
-{{% /section-centered %}}
-

@@ -1,5 +1,5 @@
-import BookCoverTargetData from "js/pq_games/tools/generation/bookCovers/bookCoverTargetData";
-import Point from "js/pq_games/tools/geometry/point";
+import BookCoverTargetData from "lib/pq-games/tools/generation/bookCovers/bookCoverTargetData";
+import Point from "lib/pq-games/tools/geometry/point";
 
 // These values are in INCHES; converted to pixels at the end by multiplying by 300
 // It's the only way I could get very close to the numbers from their systems

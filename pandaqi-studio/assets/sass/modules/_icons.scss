@@ -2,7 +2,8 @@
 @use "sass:list";
 @use "sass:math";
 
-@mixin sprite-icon($offset:0) {
+@mixin sprite-icon($offset:0) 
+{
     background-position-x: $offset;
 }
 
@@ -19,7 +20,7 @@ $icon-labels: ("itch", "mail", "youtube", "windows", "mac", "linux", "android", 
     filter: drop-shadow(0 0 0.1em black);
     transition: transform 0.3s, filter 0.3s;
 
-    @for $i from 1 through length($icon-labels) {
+    @for $i from 1 through list.length($icon-labels) {
         $label: list.nth($icon-labels, $i);
 
         &.#{$label} {

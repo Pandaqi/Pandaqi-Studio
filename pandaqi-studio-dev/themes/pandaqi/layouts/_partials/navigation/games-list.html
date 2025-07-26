@@ -1,0 +1,9 @@
+<nav>
+	{{ $pages := where .Pages "Type" "project" }}
+	{{ $paginator := .Paginate $pages 10 }}
+	<ul>
+		{{ range $paginator.Pages }}
+			<li>{{ partial "navigation/project-summary.html" . }}</li>
+		{{ end }}
+	</ul>
+</nav>

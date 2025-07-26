@@ -1,16 +1,16 @@
 import Board from "./board";
 import CONFIG from "./config";
-import Point from "js/pq_games/tools/geometry/point";
-import thickenPath from "js/pq_games/tools/geometry/paths/thickenPath";
-import smoothPath from "js/pq_games/tools/geometry/paths/smoothPath";
-import { FloodFillerTreeNode } from "js/pq_games/tools/generation/floodFillerTree";
-import equidistantColors from "js/pq_games/layout/color/equidistantColors";
-import Color from "js/pq_games/layout/color/color";
-import Rectangle from "js/pq_games/tools/geometry/rectangle";
-import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import { circleToPhaser, pathToPhaser, rectToPhaser } from "js/pq_games/phaser/shapeToPhaser";
-import Circle from "js/pq_games/tools/geometry/circle";
-import Path from "js/pq_games/tools/geometry/paths/path";
+import Point from "lib/pq-games/tools/geometry/point";
+import thickenPath from "lib/pq-games/tools/geometry/paths/thickenPath";
+import smoothPath from "lib/pq-games/tools/geometry/paths/smoothPath";
+import { FloodFillerTreeNode } from "lib/pq-games/tools/generation/floodFillerTree";
+import equidistantColors from "lib/pq-games/layout/color/equidistantColors";
+import Color from "lib/pq-games/layout/color/color";
+import Rectangle from "lib/pq-games/tools/geometry/rectangle";
+import LayoutOperation from "lib/pq-games/layout/layoutOperation";
+import { circleToPhaser, pathToPhaser, rectToPhaser } from "lib/pq-games/phaser/shapeToPhaser";
+import Circle from "lib/pq-games/tools/geometry/circle";
+import Path from "lib/pq-games/tools/geometry/paths/path";
 
 export default class Drawer
 {

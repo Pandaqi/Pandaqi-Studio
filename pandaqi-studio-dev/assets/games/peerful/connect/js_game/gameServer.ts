@@ -1,11 +1,11 @@
-import PeerfulServer from "js/pq_peerful/peerfulServer";
-import { receiveAction, sendAction } from "js/pq_peerful/peerfulUtilities";
+import PeerfulServer from "lib/pq-peerful/peerfulServer";
+import { receiveAction, sendAction } from "lib/pq-peerful/peerfulUtilities";
 import Player from "./player";
 import CONFIG from "./config";
-import instantiatePhaser from "js/pq_peerful/phaser/instantiatePhaser";
+import instantiatePhaser from "lib/pq-peerful/phaser/instantiatePhaser";
 import GameMap from "./gameMap";
-import fromArray from "js/pq_games/tools/random/fromArray";
-import createPhaserSceneTemplate, { PHASER_SCENE_KEY } from "js/pq_peerful/phaser/createPhaserSceneTemplate";
+import fromArray from "lib/pq-games/tools/random/fromArray";
+import createPhaserSceneTemplate, { PHASER_SCENE_KEY } from "lib/pq-peerful/phaser/createPhaserSceneTemplate";
 
 // The GameServer runs the whole game and is like the root / global manager
 // -> It knows the Server peer to hook into online messaging.

@@ -1,7 +1,5 @@
 ---
-type: "gamepage"
-gamepage: true
-boardgame: true
+type: "project"
 
 title: "Wildebyte Cover Generator"
 headerTitle: "Automatic generator of Wildebyte covers, setting correct size and texts"

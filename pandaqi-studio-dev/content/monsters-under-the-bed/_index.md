@@ -1,7 +1,6 @@
 ---
 draft: true
 
-gamepage: true
 
 title: "Monsters under the Bed"
 headerTitle: "Monsters under the Bed -- Local coop on a smartphone"

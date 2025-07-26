@@ -1,4 +1,4 @@
-import PeerfulGame from "js/pq_peerful/main";
+import PeerfulGame from "lib/pq-peerful/main";
 import GameServer from "./gameServer";
 import GameClient from "./gameClient";
 import CONFIG from "./config";

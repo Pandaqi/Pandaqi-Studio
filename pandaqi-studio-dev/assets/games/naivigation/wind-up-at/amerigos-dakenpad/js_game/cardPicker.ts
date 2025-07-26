@@ -1,4 +1,4 @@
-import shuffle from "js/pq_games/tools/random/shuffle";
+import shuffle from "lib/pq-games/tools/random/shuffle";
 import CONFIG from "../js_shared/config";
 import { CardType, GiftType, ROUTEKAARTEN } from "../js_shared/dict";
 import Card from "./card";

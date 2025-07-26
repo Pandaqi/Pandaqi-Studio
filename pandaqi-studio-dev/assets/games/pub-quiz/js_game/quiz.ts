@@ -1,9 +1,9 @@
 import Loader from "./loader";
 import Nodes from "./nodes";
 import Question from "./question";
-import seedrandom from "js/pq_games/tools/random/seedrandom";
+import seedrandom from "lib/pq-games/tools/random/seedrandom";
 import DOM from "./dom";
-import clamp from "js/pq_games/tools/numbers/clamp";
+import clamp from "lib/pq-games/tools/numbers/clamp";
 import { anyMatch, getAllPossibleValuesFor, parseQuestionsIntoJSON, shuffle } from "./parser";
 import ErrorHandler from "./errorHandler";
 

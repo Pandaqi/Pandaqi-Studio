@@ -4,7 +4,7 @@
 	<div class="big-header-image">
 		{{- $img := or (.Get "img") (partial "func/get-game-header.html" $context) -}}
 		{{- if $img -}}
-			{{- partial "show-image.html" (dict "context" $context "img_url" $img) -}}
+			{{- partial "content/show-image.html" (dict "context" $context "src" $img) -}}
 		{{- end -}}
 	</div>
 </section>

@@ -1,7 +1,5 @@
 ---
-type: "gamepage"
-gamepage: true
-boardgame: true
+type: "project"
 
 title: "Arquetect"
 headerTitle: "A fast and light game about designing your ideal city, despite opponents starting fires"

@@ -1,5 +1,5 @@
-import TextConfig, { TextWeight } from "js/pq_games/layout/text/textConfig";
-import autoLoadFontCSS from "js/pq_games/website/autoLoadFontCSS";
+import TextConfig, { TextWeight } from "lib/pq-games/layout/text/textConfig";
+import autoLoadFontCSS from "lib/pq-games/website/autoLoadFontCSS";
 
 const CONFIG:any = 
 {

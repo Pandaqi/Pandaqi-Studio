@@ -1,7 +1,5 @@
 ---
-type: "gamepage"
-gamepage: true
-boardgame: true
+type: "project"
 
 title: "Risky Biscuits"
 headerTitle: "A game of world domination, now playable with just paper and a pen."

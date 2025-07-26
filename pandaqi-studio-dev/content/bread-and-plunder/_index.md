@@ -1,9 +1,7 @@
 ---
-type: "gamepage"
+type: "project"
 draft: true
 
-gamepage: true
-boardgame: true
 
 title: "Bread & Plunder"
 slug: "bread-and-plunder"

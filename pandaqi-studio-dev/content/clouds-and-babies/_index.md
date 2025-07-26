@@ -1,7 +1,6 @@
 ---
 draft: true 
 
-gamepage: true
 
 title: "Clouds & Babies"
 headerTitle: "Clouds & Babies - Companion websites "

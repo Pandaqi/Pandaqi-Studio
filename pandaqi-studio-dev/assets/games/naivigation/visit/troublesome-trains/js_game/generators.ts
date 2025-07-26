@@ -5,7 +5,7 @@ import { MATERIAL } from "../js_shared/dict";
 import Card from "./card";
 import Tile from "./tile";
 import MaterialNaivigation from "games/naivigation/js_shared/materialNaivigation";
-import shuffle from "js/pq_games/tools/random/shuffle";
+import shuffle from "lib/pq-games/tools/random/shuffle";
 
 const cardPicker = new GeneralPickerNaivigation(CONFIG, Card).addMaterialData("card", MATERIAL);
 const tilePicker = new GeneralPickerNaivigation(CONFIG, Tile).addMaterialData("tile", MATERIAL).addTerrainData(CONFIG.generation.terrainDist).addNetworkData(CONFIG.generation.networks.typeDistribution, CONFIG.generation.networks.keyDistribution);

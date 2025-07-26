@@ -2,10 +2,10 @@ import { TileType } from "games/naivigation/js_shared/dictShared";
 import MaterialNaivigation from "games/naivigation/js_shared/materialNaivigation";
 import pawnDrawerNaivigation from "games/naivigation/js_shared/pawnDrawerNaivigation";
 import tileDrawerNaivigation from "games/naivigation/js_shared/tileDrawerNaivigation";
-import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
-import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer";
-import Point from "js/pq_games/tools/geometry/point";
+import LayoutOperation from "lib/pq-games/layout/layoutOperation";
+import ResourceGroup from "lib/pq-games/layout/resources/resourceGroup";
+import MaterialVisualizer from "lib/pq-games/tools/generation/materialVisualizer";
+import Point from "lib/pq-games/tools/geometry/point";
 import { MATERIAL, MISC, NETWORK_TYPES } from "../js_shared/dict";
 
 export default class Tile extends MaterialNaivigation

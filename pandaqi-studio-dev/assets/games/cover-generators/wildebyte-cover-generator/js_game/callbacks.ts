@@ -1,18 +1,18 @@
-import createContext from "js/pq_games/layout/canvas/createContext";
-import Color from "js/pq_games/layout/color/color";
-import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
-import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
-import ResourceImage from "js/pq_games/layout/resources/resourceImage";
-import ResourceShape from "js/pq_games/layout/resources/resourceShape";
-import ResourceText from "js/pq_games/layout/resources/resourceText";
-import TextConfig, { TextAlign, TextStyle, TextWeight } from "js/pq_games/layout/text/textConfig";
-import StrokeAlign from "js/pq_games/layout/values/strokeAlign";
-import Point from "js/pq_games/tools/geometry/point";
-import Rectangle from "js/pq_games/tools/geometry/rectangle";
+import createContext from "lib/pq-games/layout/canvas/createContext";
+import Color from "lib/pq-games/layout/color/color";
+import DropShadowEffect from "lib/pq-games/layout/effects/dropShadowEffect";
+import LayoutOperation from "lib/pq-games/layout/layoutOperation";
+import ResourceGroup from "lib/pq-games/layout/resources/resourceGroup";
+import ResourceImage from "lib/pq-games/layout/resources/resourceImage";
+import ResourceShape from "lib/pq-games/layout/resources/resourceShape";
+import ResourceText from "lib/pq-games/layout/resources/resourceText";
+import TextConfig, { TextAlign, TextStyle, TextWeight } from "lib/pq-games/layout/text/textConfig";
+import StrokeAlign from "lib/pq-games/layout/values/strokeAlign";
+import Point from "lib/pq-games/tools/geometry/point";
+import Rectangle from "lib/pq-games/tools/geometry/rectangle";
 import DISKS from "./diskData";
-import BookCoverVisualizer from "js/pq_games/tools/generation/bookCovers/bookCoverVisualizer";
-import { BookCoverComponent } from "js/pq_games/tools/generation/bookCovers/bookCoverGenerator";
+import BookCoverVisualizer from "lib/pq-games/tools/generation/bookCovers/bookCoverVisualizer";
+import { BookCoverComponent } from "lib/pq-games/tools/generation/bookCovers/bookCoverGenerator";
 
 const ADD_BACK_LOGO = false;
 

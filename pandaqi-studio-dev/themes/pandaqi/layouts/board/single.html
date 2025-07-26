@@ -3,12 +3,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    {{ $favicon := partial "func/get-game-favicon.html" .Parent }}
+    {{ $favicon := partial "func/get-favicon.html" .Parent }}
     <link rel="icon" type="image/png" href="{{ $favicon }}">
 
     <title>{{ .Parent.Title }} | Board Generator | Pandaqi Games</title>
-
-    {{ partial "load-assets.html" (dict "context" . "ext" "css" "type" "board" "include" true) }}
 </head>
 {{ end }}
 
@@ -21,5 +19,5 @@
 {{- end -}}
 
 {{ define "footer" }}
-    {{ partial "load-assets.html" (dict "context" . "ext" "js" "type" "board" "include" true) }}
+    {{ partial "func/load-assets.html" . }}
 {{ end }}

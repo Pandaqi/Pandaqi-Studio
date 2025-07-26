@@ -1,20 +1,20 @@
-import fillCanvas from "js/pq_games/layout/canvas/fillCanvas";
-import DropShadowEffect from "js/pq_games/layout/effects/dropShadowEffect";
-import TintEffect from "js/pq_games/layout/effects/tintEffect";
-import GridMapper from "js/pq_games/layout/gridMapper";
-import LayoutOperation from "js/pq_games/layout/layoutOperation";
-import RendererPixi from "js/pq_games/layout/renderers/rendererPixi";
-import ResourceGroup from "js/pq_games/layout/resources/resourceGroup";
-import ResourceImage from "js/pq_games/layout/resources/resourceImage";
-import ResourceLoader from "js/pq_games/layout/resources/resourceLoader";
-import ResourceShape from "js/pq_games/layout/resources/resourceShape";
-import ResourceText from "js/pq_games/layout/resources/resourceText";
-import TextConfig from "js/pq_games/layout/text/textConfig";
-import PdfBuilder from "js/pq_games/pdf/pdfBuilder";
-import { PageOrientation } from "js/pq_games/pdf/pdfEnums";
-import Circle from "js/pq_games/tools/geometry/circle";
-import Point from "js/pq_games/tools/geometry/point";
-import Rectangle from "js/pq_games/tools/geometry/rectangle";
+import fillCanvas from "lib/pq-games/layout/canvas/fillCanvas";
+import DropShadowEffect from "lib/pq-games/layout/effects/dropShadowEffect";
+import TintEffect from "lib/pq-games/layout/effects/tintEffect";
+import GridMapper from "lib/pq-games/layout/gridMapper";
+import LayoutOperation from "lib/pq-games/layout/layoutOperation";
+import RendererPixi from "lib/pq-games/layout/renderers/rendererPixi";
+import ResourceGroup from "lib/pq-games/layout/resources/resourceGroup";
+import ResourceImage from "lib/pq-games/layout/resources/resourceImage";
+import ResourceLoader from "lib/pq-games/layout/resources/resourceLoader";
+import ResourceShape from "lib/pq-games/layout/resources/resourceShape";
+import ResourceText from "lib/pq-games/layout/resources/resourceText";
+import TextConfig from "lib/pq-games/layout/text/textConfig";
+import PdfBuilder from "lib/pq-games/pdf/pdfBuilder";
+import { PageOrientation } from "lib/pq-games/pdf/pdfEnums";
+import Circle from "lib/pq-games/tools/geometry/circle";
+import Point from "lib/pq-games/tools/geometry/point";
+import Rectangle from "lib/pq-games/tools/geometry/rectangle";
 
 const TEST_ASSETS = {
     creatures_1: {

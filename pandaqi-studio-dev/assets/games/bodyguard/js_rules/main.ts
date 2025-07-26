@@ -1,11 +1,11 @@
-import InteractiveExample from "js/pq_rulebook/examples/interactiveExample"
+import InteractiveExample from "lib/pq-rulebook/examples/interactiveExample"
 import { CardData, SETS } from "../js_shared/dict"
-import fromArray from "js/pq_games/tools/random/fromArray";
-import Point from "js/pq_games/tools/geometry/point";
-import rangeInteger from "js/pq_games/tools/random/rangeInteger";
+import fromArray from "lib/pq-games/tools/random/fromArray";
+import Point from "lib/pq-games/tools/geometry/point";
+import rangeInteger from "lib/pq-games/tools/random/rangeInteger";
 import Card from "../js_game/card";
 import PowerChecker from "../js_shared/powerChecker";
-import getWeighted from "js/pq_games/tools/random/getWeighted";
+import getWeighted from "lib/pq-games/tools/random/getWeighted";
 import createRandomSet from "../js_shared/createRandomSet";
 import { getIndexOfProp } from "../js_shared/queries";
 
