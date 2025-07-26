@@ -20,12 +20,6 @@
 		<meta property="og:site_name" content="Pandaqi Games" />
 	{{ end }}
 
-    <!-- Progressive Web App essentials -->
-    <link rel="manifest" href="/manifest.webmanifest">
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-title" content="Pandaqi Games" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-
     <!-- Load Default CSS -->
     {{ $options := (dict "targetPath" "css/styles.css" "outputStyle" "compressed" "transpiler" "dartsass") }}
     {{ $style := resources.Get "sass/styles.scss" | css.Sass $options | fingerprint }}

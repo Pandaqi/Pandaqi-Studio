@@ -9,7 +9,7 @@
 </div>
 {{ end }}
 
-<div class="position-absolute opacity-half align-top">
+<div class="position-absolute opacity-half align-top width-maximize">
 	<!--- Big background image fading into content --->
 	{{ $src := partial "func/get-game-header.html" . }}
 	{{ partial "content/show-image.html" (dict "context" . "src" $src "alt" "Header image for this project") }}
@@ -17,10 +17,14 @@
 </div>
 
 <div class="width-limit block-center margin-top-xs">
-	<div class="double-view">
-		<!--- Trailers, Screenshots, Game Title, etc --->
+	<div class="double-view double-view-main-sidebar">
+		<!--- Media Gallery: Trailers, Screenshots, etc --->
 		<div>
+			{{ partial "content/media-gallery.html" (dict "context" .) }}
 
+			{{ if .Params.collection }}
+				{{ partial "navigation/collection-list.html" . }}
+			{{ end }}
 		</div> 
 
 		<!--- Small image, small desc, anything else --->
@@ -32,18 +36,19 @@
 		</div>
 	</div>
 
-	<main class="double-view">
+	<div class="double-view double-view-main-sidebar">
 		<!--- Main content (of Markdown file) --->
-		<div>
+		<main class="add-leafs-to-headings width-maximize">
 			<h1>{{ .Title }}</h1>
 			{{ .Content }}
-		</div>
+			{{ partial "content/support.html" . }}
+		</main>
 
 		<!--- Metadata, etc. --->
 		<div>
 			{{ partial "metadata/metadata-block.html" . }}
 		</div>
-	</main>
+	</div>
 </div>
 
 {{ end }}

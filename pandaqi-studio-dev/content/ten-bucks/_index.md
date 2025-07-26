@@ -10,7 +10,7 @@ downloadLink: "https://drive.google.com/drive/folders/1YBS5mXkuKTRGXPoLVGJBizaMW
 # metadata = partially done, check tags/themes
 difficulty: "no-brainer"
 genres: ["family", "abstract"]
-categories: ["boardgame", "card-game", "standard"]
+categories: ["board-game", "card-game", "standard"]
 tags: ["shared-map", "turn-based", "variable-setup", "set-collection"]
 themes: []
 
@@ -23,42 +23,38 @@ devlog: "/blog/boardgames/ten-bucks/"
 
 ---
 
-{{% boardgame-intro /%}}
+{{% blocks/review-container %}}
 
-{{% boardgame-instructions /%}}
-
-{{% review-container %}}
-
-{{< review stars="5" author="Beyonce" >}}
+{{< blocks/review stars="5" author="Beyonce" >}}
 This game proves to Sia that you _do_ need dollar bills to have fun tonight.
-{{< /review >}}
+{{< /blocks/review >}}
 
-{{< review stars="4" author="Donald Duck" >}}
+{{< blocks/review stars="4" author="Donald Duck" >}}
 I was disappointed to hear this game did not feature my favorite character Bucks Bunny.
-{{< /review >}}
+{{< /blocks/review >}}
 
-{{< review stars="5" author="Anonymous" >}}
+{{< blocks/review stars="5" author="Anonymous" >}}
 Really fun game, but these colorful dollar bills are a true choking hazard once players try to put their money where their mouth is.
-{{< /review >}}
+{{< /blocks/review >}}
 
-{{% /review-container %}}
+{{% /blocks/review-container %}}
 
-{{% boardgame-settings-container type="material" %}}
+{{% settings/settings-container type="material" %}}
 
-{{< boardgame-settings type="game" local_storage="tenBucksConfig" btn_label="Generate Material" game_title="Ten Bucks" defaults="true">}}
-  {{< boardgame-settings-section heading="Sets" >}}
-    {{< setting-checkbox id="setting-sets-base" text="Base?" checked="checked" >}}
-    {{< setting-checkbox id="setting-sets-wildWagers" text="Wild Wagers?" >}}
-    {{< setting-checkbox id="setting-sets-zeroRisk" text="Zero Risk?" >}}
-    {{< setting-checkbox id="setting-sets-badInvestment" text="Bad Investment?" >}}
-    {{< setting-checkbox id="setting-sets-actionFund" text="Action Fund?" >}}
-    {{< setting-checkbox id="setting-sets-shoppingSpree" text="Shopping Spree?" >}}
-  {{< /boardgame-settings-section >}}
-{{< /boardgame-settings >}}
+{{< settings/settings-box type="game" local_storage="tenBucksConfig" btn_label="Generate Material" game_title="Ten Bucks" defaults="true">}}
+  {{< settings/settings-section heading="Sets" >}}
+    {{< settings/setting-checkbox id="setting-sets-base" text="Base?" checked="checked" >}}
+    {{< settings/setting-checkbox id="setting-sets-wildWagers" text="Wild Wagers?" >}}
+    {{< settings/setting-checkbox id="setting-sets-zeroRisk" text="Zero Risk?" >}}
+    {{< settings/setting-checkbox id="setting-sets-badInvestment" text="Bad Investment?" >}}
+    {{< settings/setting-checkbox id="setting-sets-actionFund" text="Action Fund?" >}}
+    {{< settings/setting-checkbox id="setting-sets-shoppingSpree" text="Shopping Spree?" >}}
+  {{< /settings/settings-section >}}
+{{< /settings/settings-box >}}
 
-{{% /boardgame-settings-container %}}
+{{% /settings/settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 The fonts used are **@TODO** (headings) and **@TODO** (body text). Everything else is mine.
 
@@ -67,5 +63,3 @@ This game has a special origin. The devlog explains this far better, but I'll gi
 As such, to honor him, I decided to make a simple game where everything came back to "10 dollar". The only material are dollar bills, there are only a handful very simple rules for playing/claiming them, and the objective is to earn 10 dollar before anyone else.
 
 This is probably my most lightweight game ever: even with all expansions enabled, the amount of material for this game is almost nothing, and the rules just a single page. Whether it's any good is up to the judgment of others ...
-
-{{% /section-centered %}}

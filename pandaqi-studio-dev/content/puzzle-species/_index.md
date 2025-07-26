@@ -13,7 +13,7 @@ date: 2026-05-26
 
 difficulty: "kids-can-play"
 genres: ["family", "thematic", "adventure"]
-categories: ["boardgame", "tile-game", "standard"]
+categories: ["board-game", "tile-game", "standard"]
 tags: ["fixed-order", "shared-map", "grid", "turn-based", "guessing", "bias", "variable-setup", "orientation", "set-collection", "high-score"]
 themes: ["sea"]
 
@@ -26,23 +26,19 @@ devlog: "/blog/boardgames/puzzle-species/"
 
 ---
 
-{{% boardgame-intro /%}}
+{{% settings/settings-container type="material" %}}
 
-{{% boardgame-instructions /%}}
+{{< settings/settings-box type="game" local_storage="puzzleSpeciesConfig" btn_label="Generate Material" game_title="Puzzle Species" defaults="true">}}
+  {{< settings/settings-section heading="Sets" >}}
+    {{< settings/setting-checkbox id="setting-sets-base" text="Base?" checked="checked" >}}
+    {{< settings/setting-checkbox id="setting-sets-puzzleGiants" text="Puzzle Giants?" >}}
+    {{< settings/setting-checkbox id="setting-sets-puzzleDancers" text="Puzzle Dancers?" >}}
+  {{< /settings/settings-section >}}
+{{< /settings/settings-box >}}
 
-{{% boardgame-settings-container type="material" %}}
+{{% /settings/settings-container %}}
 
-{{< boardgame-settings type="game" local_storage="puzzleSpeciesConfig" btn_label="Generate Material" game_title="Puzzle Species" defaults="true">}}
-  {{< boardgame-settings-section heading="Sets" >}}
-    {{< setting-checkbox id="setting-sets-base" text="Base?" checked="checked" >}}
-    {{< setting-checkbox id="setting-sets-puzzleGiants" text="Puzzle Giants?" >}}
-    {{< setting-checkbox id="setting-sets-puzzleDancers" text="Puzzle Dancers?" >}}
-  {{< /boardgame-settings-section >}}
-{{< /boardgame-settings >}}
-
-{{% /boardgame-settings-container %}}
-
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 The fonts used are **Freckle Face** (headings) and **Shantell Sans** (body text). Everything else is mine.
 
@@ -55,5 +51,3 @@ As usual, I decided to split that one idea into _two completely separate games_.
 Teamturns is a slightly shorter and easier game. This game has one or two more rules to learn, but gives more depth and a longer game in return.
 
 Also, yes, Puzzle Species is a pun on Puzzle Pieces. I'm shocked how many people miss that pun and ask where on earth I got the idea to create cartoony puzzle piece creatures as the theme for a game ;)
-
-{{% /section-centered %}}

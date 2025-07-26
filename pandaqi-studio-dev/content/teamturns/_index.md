@@ -12,7 +12,7 @@ date: 2026-05-26
 
 difficulty: "kids-can-play"
 genres: ["family", "thematic", "adventure"]
-categories: ["boardgame", "tile-game", "standard"]
+categories: ["board-game", "tile-game", "standard"]
 tags: ["fixed-order", "shared-map", "grid", "turn-based", "guessing", "bias", "variable-setup", "orientation", "set-collection", "high-score"]
 themes: ["sea"]
 
@@ -25,28 +25,22 @@ devlog: "/blog/boardgames/teamturns/"
 
 ---
 
-{{% boardgame-intro /%}}
+{{% settings/settings-container type="material" %}}
 
-{{% boardgame-instructions /%}}
+{{< settings/settings-box type="game" local_storage="teamturnsConfig" btn_label="Generate Material" game_title="Teamturns" defaults="true">}}
+  {{< settings/settings-section heading="Sets" >}}
+    {{< settings/setting-checkbox id="setting-sets-base" text="Base?" checked="checked" >}}
+    {{< settings/setting-checkbox id="setting-sets-megaMoves" text="Megamoves?" >}}
+    {{< settings/setting-checkbox id="setting-sets-cookyClasses" text="Cookyclasses?" >}}
+  {{< /settings/settings-section >}}
+{{< /settings/settings-box >}}
 
-{{% boardgame-settings-container type="material" %}}
+{{% /settings/settings-container %}}
 
-{{< boardgame-settings type="game" local_storage="teamturnsConfig" btn_label="Generate Material" game_title="Teamturns" defaults="true">}}
-  {{< boardgame-settings-section heading="Sets" >}}
-    {{< setting-checkbox id="setting-sets-base" text="Base?" checked="checked" >}}
-    {{< setting-checkbox id="setting-sets-megaMoves" text="Megamoves?" >}}
-    {{< setting-checkbox id="setting-sets-cookyClasses" text="Cookyclasses?" >}}
-  {{< /boardgame-settings-section >}}
-{{< /boardgame-settings >}}
-
-{{% /boardgame-settings-container %}}
-
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 The fonts used are **Sledge** (headings) and **Chizz** (body text). Everything else is mine.
 
 This game is a kind of "twin game" with [Puzzle Species](/puzzle-species/). Visit that game's page and read the Credits section for more background information!
 
 The summary is: _Teamturns_ (this game) is shorter and easier, _Puzzle Species_ (the other game) has few more rules but also more depth.
-
-{{% /section-centered %}}

@@ -1,7 +1,12 @@
 {{- $context := .context -}}
-{{- $media_url := .media_url -}}
-{{- if .is_video -}}
-{{- partial "content/show-video.html" (dict "context" $context "video_url" $media_url) -}}
-{{- else -}}
-{{- partial "content/show-image.html" (dict "context" $context "src" $media_url) -}}
+{{- $src := .src -}}
+{{- $image_url_exists := partial "func/get-valid-image-url.html" (dict "context" .context "src" $src) -}}
+{{- if $image_url_exists -}}
+{{- partial "content/show-image.html" (dict "context" $context "src" $src) -}}
+{{- end -}}
+
+{{- $video_url_exists := partial "func/get-valid-video-url.html" (dict "context" .context "src" $src) -}}
+{{- $is_video := or .is_video ($video_url_exists) -}}
+{{- if $is_video -}}
+{{- partial "content/show-video.html" (dict "context" $context "src" $src) -}}
 {{- end -}}

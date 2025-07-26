@@ -1,5 +1,6 @@
 <nav>
     <ul class="no-default-list-styles gap-m flex flex-align-center flex-wrap-until-cutoff-s">
+        <!--- Local Board Game Stuff --->
         {{ $download_url := .Params.downloadLink }}
         {{ if $download_url }}
             <li class="width-maximize">
@@ -30,6 +31,33 @@
                 {{ partial "buttons/button.html" (dict "content" "Rulebook" "href" "rules" "class" "button-large accent-orange") }}
                 <div class="font-size-s text-italic text-color-mid-light text-center">The interactive rulebook</div>
             </li>
+        {{ end }}
+
+        <!--- External (Video Game) Stuff --->
+        {{ $links := .Params.externalLinks }}
+        {{ $accent_colors := slice "accent-orange" "accent-green" "accent-purple" "accent-blue" }}
+        {{ $accent_colors_num := sub (len $accent_colors) 1}}
+        {{ with $links }}
+            {{ range . }}
+                {{ $price := or .price 0 }}
+                {{ $label := or .label "Buy" }}
+                {{ $label = printf "%s ($%s)" $label (string $price) }}
+                {{ if eq $price 0 }}{{ $label = or .label "Download" }}{{ end }}
+                {{ $url := or .url "#" }}
+                {{ $platforms := or .platforms slice }}
+                {{ $rand_accent_color := index $accent_colors (shuffle (seq 0 $accent_colors_num) | first 1) }}
+                {{ $class := printf "button-large %s" $rand_accent_color }}
+                <li class="width-maximize">
+                    {{ partial "buttons/button.html" (dict "content" $label "href" $url "class" $class) }}
+                    {{ with $platforms }}
+                        <div class="font-size-s text-italic text-color-mid-light text-center">
+                            {{ range . }}
+                                <span class="icon icon-s {{ . -}}"></span>
+                            {{ end }}
+                        </div>
+                    {{ end }}
+                </li>
+            {{ end }}
         {{ end }}
     </ul>
 </nav>

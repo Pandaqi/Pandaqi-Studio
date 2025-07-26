@@ -38,7 +38,6 @@
 	{{ $metadata = $metadata | append . }}
 {{ end }}
 
-{{ $metadata = shuffle $metadata | first 4 }}
-{{ $metadata = $metadata | append (time.Format "2 Jan 2006" .Date) }}
+{{ $metadata = shuffle $metadata | first 5 }}
 
 {{ return $metadata }}

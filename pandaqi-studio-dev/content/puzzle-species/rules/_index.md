@@ -2,25 +2,25 @@
 type: "rules"
 ---
 
-{{% rules-block heading="Setup" icon="setup" %}}
+{{% rules/rules-block heading="Setup" icon="setup" %}}
 
 Deal everyone X cards. Pick anyone to be start player.
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block heading="Objective" icon="objective" %}}
+{{% rules/rules-block heading="Objective" icon="objective" %}}
 
 The game ends when a player's _Puzzlepile_ contains **10 cards**, or the **deck runs out**. (Whichever happens first.)
 
 All players count their score from the cards inside their _Puzzlepile_. **Highest score wins.**
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block heading="Gameplay" icon="action" %}}
+{{% rules/rules-block heading="Gameplay" icon="action" %}}
 
 Take clockwise turns from start player until done.
 
-{{% rules-block heading="On your turn" %}}
+{{% rules/rules-block heading="On your turn" %}}
 
 On your turn, you play a combination of **2 cards**. Their puzzle pieces must _fit_ inside each other.
 
@@ -33,9 +33,9 @@ After playing a combo,
 
 @TODO: EXAMPLE IMAGE
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block heading="Cards" %}}
+{{% rules/rules-block heading="Cards" %}}
 
 Every card has a puzzle piece (color + shape open at some side).
 
@@ -52,9 +52,9 @@ But some cards have a special **effect/action** that talks about modifying the _
 
 @TODO: EXAMPLE IMAGE
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block heading="Scoring" %}}
+{{% rules/rules-block heading="Scoring" %}}
 
 When scoring, combinations matter too! As such, never (accidentally) change the order of your _Puzzle Pile_, and newly gained cards are always placed on top.
 
@@ -64,21 +64,21 @@ When scoring, combinations matter too! As such, never (accidentally) change the 
 
 @TODO: EXAMPLE IMAGE
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block heading="Expansions & Variants" id="expansions" icon="expansion" %}}
+{{% rules/rules-block heading="Expansions & Variants" id="expansions" icon="expansion" %}}
 
 Played the base game and ready for more? Or looking to tweak the game to fit your playing group better? Check out these variants and expansions!
 
-{{% rules-block heading="Variants" %}}
+{{% rules/rules-block heading="Variants" %}}
 
 This game has no official variants.
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block heading="Expansion: Puzzle Giants" %}}
+{{% rules/rules-block heading="Expansion: Puzzle Giants" %}}
 
 This adds puzzle pieces with multiple openings. It has some massive changes to the core gameplay.
 
@@ -93,13 +93,13 @@ There are three important twists.
 
 @TODO: EXAMPLE IMAGE
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block heading="Expansion: Puzzle Dancers" %}}
+{{% rules/rules-block heading="Expansion: Puzzle Dancers" %}}
 
 This expansion adds more cards with special actions and effects. (@TODO: See my ideas file for specifics, optionally give some examples here.)
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 

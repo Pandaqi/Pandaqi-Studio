@@ -7,11 +7,9 @@ headerTitle: "Automatic generator of Wildebyte covers, setting correct size and 
 
 ---
 
-{{% section-centered heading="Material" anchor="material" html="true" %}}
+## Material
 
-{{< boardgame-settings type="game" local_storage="devTestConfig" >}}
-	{{< setting-hidden id="setting-gameTitle" text="Dev Test" >}}
-  {{< setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the board mostly grayscale." >}}
-{{< /boardgame-settings >}}
-
-{{% /section-centered %}}
+{{< settings/settings-box type="game" local_storage="devTestConfig" >}}
+	{{< settings/setting-hidden id="setting-gameTitle" text="Dev Test" >}}
+  {{< settings/setting-checkbox id="setting-inkFriendly" text="Ink Friendly?" remark="Turns the board mostly grayscale." >}}
+{{< /settings/settings-box >}}

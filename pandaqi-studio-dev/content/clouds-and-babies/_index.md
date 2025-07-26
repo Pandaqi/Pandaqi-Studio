@@ -14,7 +14,7 @@ googleFonts: "https://fonts.googleapis.com/css2?family=Cookie&display=swap"
 
 date: 2021-04-29
 
-categories: ["boardgame"]
+categories: ["board-game"]
 tags: ["cooperative", "hybrid"]
 ---
 

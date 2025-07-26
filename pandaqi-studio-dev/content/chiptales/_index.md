@@ -1,5 +1,6 @@
 ---
 type: "project"
+collection: "bet"
 
 title: "Chiptales"
 headerTitle: "A series of games inspired by poker"
@@ -14,7 +15,7 @@ date: 2026-08-26
 # @TODO: metadata
 difficulty: "simple"
 genres: ["action", "party"]
-categories: ["boardgame", "card-game"]
+categories: ["board-game", "card-game"]
 tags: ["simultaneous-turns", "fast-paced", "numbers"]
 themes: []
 
@@ -27,19 +28,14 @@ ages: everyone
 
 ---
 
-{{% boardgame-intro /%}}
-
-{{% section-centered heading="What's this?" %}}
+## What's This?
 
 This is the **overview page** of the Chiptales collection.
 
 Click any of the links below to visit a specific game. They are roughly sorted based on simplicity.
 
-{{< boardgame-project-games-list subdir="bet" >}}
 
-{{% /section-centered %}}
-
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 Each of these ideas started because I played another game of poker and thought "surely we can find a better casual family game version than this?" 
 
@@ -56,5 +52,3 @@ For the longest time, they weren't even a "collection". I only realized I could 
 With these games, I vowed to **not** use any image generation AI. I barely use it in other games as it is, but I wanted to challenge myself and keep it out of this project completely. The fonts used for this main project page are **Klarissa** (headings) and **Cooper** (body). 
 
 Everything else---code, assets, ideas, illustrations, general design---is mine. Check the specific games for the specific fonts used or other remarks.
-
-{{% /section-centered %}}

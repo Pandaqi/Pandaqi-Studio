@@ -1,19 +1,24 @@
 ---
 draft: true
 
-
 title: "Company of the Tackling Tourists"
-headerTitle: "Monuments, gotta visit them aaaaall!"
 blurb: "Up to 4 players compete to become the best tour guide without 'losing' too many tourists along the way"
-
-customHeight: "large"
-
-color: "beige"
 
 date: 2021-10-30
 
 categories: ["game"]
 tags: ["desktop", "multiplayer"]
+
+downloadLink: "http://pandaqi.itch.io/company-of-the-tackling-tourists"
+externalLinks:
+  - label: "Try on ITCH"
+    url: "http://pandaqi.itch.io/company-of-the-tackling-tourists"
+    platforms: ["windows", "mac", "linux"]
+    price: 0 
+  - label: "Buy on ITCH"
+    url: "http://pandaqi.itch.io/company-of-the-tackling-tourists"
+    platforms: ["windows", "mac", "linux"]
+    price: 5
 
 multiplayertype: 'offline'
 multiplayermode: 'competitive'
@@ -28,19 +33,9 @@ devlog: "/blog/videogames/devlog-company-of-the-tackling-tourists/"
 
 ---
 
-{{% embedvideo bg="tourists_header" vid="https://youtube.com/embed/wbbFJdYkwZ4" class="limit-width" %}}
+{{% content/embed-video bg="tourists_header" vid="https://youtube.com/embed/wbbFJdYkwZ4" class="limit-width" %}}
 
-{{% buylink-container class="limit-width" %}}
-	{{< buylink url="http://pandaqi.itch.io/company-of-the-tackling-tourists" platforms="windows,mac,linux" >}} 
-		Buy (&euro;5)
-	{{< /buylink >}}
-
-	{{< buylink url="http://pandaqi.itch.io/company-of-the-tackling-tourists" platforms="windows,mac,linux" >}} 
-		Try (Free Demo)
-	{{< /buylink >}}
-{{% /buylink-container %}}
-
-{{% section-centered %}}
+## Welcome!
 
 Welcome to your new job as a tour guide!
 
@@ -52,14 +47,12 @@ You know what? I'll be going now, good luck! Guide your tourists to all landmark
 
 We're glad to have you at the _Company of the Tackling Tourists_!
 
-{{% /section-centered %}}
 
 <!-- Section 1 -->
+## How To Play?
 <div class="image-as-heading">
-	{{< figure url="assets/page/tourists_h1.webp" alt="How to play?" >}}
+	{{< content/figure url="assets/page/tourists_h1.webp" alt="How to play?" >}}
 </div>
-
-{{% section-centered heading="" %}}
 
 A random world is generated, full of wonderful landmarks, but also full of hazards.
 
@@ -73,14 +66,12 @@ A game about being more speedy and creative than the other players, which comes 
 
 Oh, and, when two players meet, they might just tackle each other off the map. Which, you know, is bad for the reviews.
 
-{{% /section-centered %}}
 
 <!-- Section 2 -->
+## Easy To Pick Up, Hard To Master
 <div class="image-as-heading">
-	{{< figure url="assets/page/tourists_h2.webp" alt="Easy to pick up, hard to master" >}}
+	{{< content/figure url="assets/page/tourists_h2.webp" alt="Easy to pick up, hard to master" >}}
 </div>
-
-{{% section-centered %}}
 
 This game supports **1&ndash;4 players** (locally) using whatever combination of **controllers and keyboard** you want. Games last roughly **5 minutes**.
 
@@ -94,14 +85,12 @@ Once more hazards appear, however, you'll long for stronger and more varied move
 
 <img src="assets/page/tourists_action_sacrifice.webp" alt="Action 2: Sacrificing (for a tourists' special power)" />
 
-{{% /section-centered %}}
 
 <!-- Section 3 -->
+## Tutorial System
 <div class="image-as-heading">
-	{{< figure url="assets/page/tourists_h3.webp" alt="Learning is a piece of cake" >}}
+	{{< content/figure url="assets/page/tourists_h3.webp" alt="Learning is a piece of cake" >}}
 </div>
-
-{{% section-centered %}}
 
 <div class="float-left">
 	<img src="assets/page/tourists_tutorial_1.webp" alt="Example of tutorial system: before reveal">
@@ -124,14 +113,12 @@ Once all cards are flipped, the game starts!
 
 This way, the game never overwhelms you with information, you can read the new bits at your own pace, and will be playing within 30 seconds. (Anything that can be taught interactively, such as which buttons to press, is done so.)
 
-{{% /section-centered %}}
 
 <!-- Section 4 -->
+## Mountains Of Content
 <div class="image-as-heading">
-	{{< figure url="assets/page/tourists_h4.webp" alt="Mountains of content" >}}
+	{{< content/figure url="assets/page/tourists_h4.webp" alt="Mountains of content" >}}
 </div>
-
-{{% section-centered %}}
 
 The **full game** contains 20 terrain types, 20 tourist types, and 30 landmarks.
 
@@ -145,14 +132,12 @@ This demo contains the first 4 worlds of the campaign and 9 options per element 
 
 _Remark:_ to make the game as easy to understand as possible, especially for non-English players, it communicates a lot via icons (on landmarks, when giving feedback, etc.). This can be turned off in the settings, if you prefer written (English) feedback.
 
-{{% /section-centered %}}
 
 <!-- Section 5 -->
+## More By Me
 <div class="image-as-heading">
-	{{< figure url="assets/page/tourists_h5.webp" alt="More by me" >}}
+	{{< content/figure url="assets/page/tourists_h5.webp" alt="More by me" >}}
 </div>
-
-{{% section-centered %}}
 
 For the details behind development, visit my devlog: [Company of the Tackling Tourists](/blog/videogames/devlog-company-of-the-tackling-tourists)
 
@@ -164,5 +149,3 @@ Play my other local multiplayer games:
 If you played the game, let me know! Feedback, positive or negative, is always good.
 
 This game is finished, but that doesn't mean the idea is finished. With some major changes to its core, I think the game could shine as a 3D (party)game with&nbsp;support for 1-6 players. If this game becomes popular enough, and with your valuable feedback, that sequel will be made!
-
-{{% /section-centered %}}

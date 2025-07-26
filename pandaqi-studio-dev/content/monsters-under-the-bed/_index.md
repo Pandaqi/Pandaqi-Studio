@@ -19,7 +19,6 @@ tags: []
 ---
 
 <!--- monsters_header image was here --->
-{{% section-centered class="intro-text" %}}
 
 Grab helpful monsters, avoid the bad ones, cooperate, react, jump, dodge, communicate, puzzle, dream!
 
@@ -29,9 +28,8 @@ Because maybe ... dreams can be bad, and monsters can be good?
 
 **COMING SOON** and **DOWNLOAD BUTTONS HERE**
 
-{{% /section-centered %}}
 
-{{% section-centered heading="Development" %}}
+## Development
 
 This is a cooperative game, so it seemed right to make the development cooperative as well.
 
@@ -46,18 +44,15 @@ This is the roadmap for development:
 - **Improve worlds 1-4:** they are too fast/difficult at the moment. By spacing out levels and removing some of the harder mechanics, I can make the introductory worlds a better ... well ... introduction.
 -- **Create worlds 5-10:** I already have nice mechanics and plans lined up for all the worlds.
 
-{{% /section-centered %}}
+## What Do I Do?
 
-{{% section-centered heading="What do I do?" %}}
 **Monsters under the Bed** is a combination of action, platformer and puzzle.
 
 Jump, run and float through randomly generated levels, in an effort to keep the kid asleep _for as long as possible_
 
 This is a family friendly game to play together (with your children, or with friends), whilst introducing many unique puzzles and challenges never seen before.
 
-{{% /section-centered %}}
-
-{{% section-centered heading="Features" %}}
+## Features
 
 This game has all these amazing things:
 - **Platforms?** Smartphones and computers (supporting touch screen, keyboard and controllers).
@@ -65,9 +60,7 @@ This game has all these amazing things:
 - **Price?** Free on mobile, which means it is funded through advertisments. If you want to support my work, or don't like ads, consider buying the full game for only 10 dollars.
 -- **Content?** Ten worlds, each containing ten levels. Every world introduces a completely new mechanic and set of monsters to the game!
 
-{{% /section-centered %}}
-
-{{% section-centered heading="The first true mobile multiplayer" %}}
+## The First True Mobile Multiplayer
 
 This game was originally designed to be played by two people on the same smartphone, sitting on opposite sides!
 
@@ -79,9 +72,7 @@ But don't let that fool you: if you want to get a good score, especially in sing
 
 With each world, the game introduces more interesting mechanics and monsters. Complexity comes _not_ from making the game unfair or too hard, it comes from the wide diversity of monsters and ways to tackle them.
 
-{{% /section-centered %}}
-
-{{% section-centered heading="Magnificent Monsters & Cuddly Creatures" %}}
+## Magnificent Monsters & Cuddly Creatures
 
 Long ago, the great researcher Mona Star went on a journey to discover and catalogue all the monsters in the world!
 
@@ -89,14 +80,11 @@ Below you can find her diary:
 
 **DIARY COMES HERE**
 
-{{% /section-centered %}}
 
-{{% section-centered heading="Credits" %}}
+## Credits
 
 The full game (design, art, music) is created by me, Pandaqi.
 
 The header font is called Munstar and freely available.
 
 The engine used is Solar2D (formerly called Corona Engine).
-
-{{% /section-centered %}}

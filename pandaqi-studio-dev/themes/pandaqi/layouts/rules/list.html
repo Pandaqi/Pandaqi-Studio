@@ -7,17 +7,12 @@
     <link rel="icon" type="image/png" href="{{ $favicon }}">
 
     <title>{{ .Parent.Title }} | Rules | Pandaqi Games</title>
-
-    <!-- General CSS for rulebooks -->
-    {{ $options := (dict "targetPath" "/css/style-rules.css" "outputStyle" "compressed" "enableSourceMap" (not hugo.IsProduction)  "transpiler" "dartsass") }}
-    {{ $rules_style := resources.Get "/sass/style-rules.scss" | css.Sass $options | minify }}
-    <link rel="stylesheet" type="text/css" href="{{ $rules_style.RelPermalink }}" /> 
 </head>
 {{ end }}
 
 {{ define "header" }}
 
-<!--- @TODO: This should probably just be INSERTED by the system on demand, just like the <div> for enlarging image fullscreen should --->
+<!--- @TODO: This should probably just be INSERTED by the system on demand, just like the <div> for enlarging image fullscreen should, and the whole stylesheet needed for this --->
 <header class="rules-header">
     <!-- Steal the header image from the parent page, if available -->
     {{ $url := partial "func/get-game-header.html" .Parent }}

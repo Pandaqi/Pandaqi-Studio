@@ -9,9 +9,8 @@ downloadLink: "https://drive.google.com/drive/folders/1ydtMKAUdtozQFcBwwR8VoP9Tr
 
 ---
 
-{{% section-centered heading="Material" anchor="material" html="true" %}}
+## Material
 
-{{< boardgame-settings type="game" local_storage="arquetectConfig" game_title="Arquetect" defaults="true" >}}{{< /boardgame-settings >}}
+{{< settings/settings-box type="game" local_storage="arquetectConfig" game_title="Arquetect" defaults="true" >}}{{< /settings/settings-box >}}
 
-{{% /section-centered %}}
 

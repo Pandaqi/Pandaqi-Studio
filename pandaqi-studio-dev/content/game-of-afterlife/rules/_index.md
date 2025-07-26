@@ -2,22 +2,22 @@
 type: "rules"
 ---
 
-{{% rules-block id="setup" heading="Setup" icon="setup" icontint="pink" %}}
+{{% rules/rules-block id="setup" heading="Setup" icon="setup" icontint="pink" %}}
 
 Print a game board and grab some pens. Each player invents their own unique _icon_ and draws this in the _first_ square of the board.
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block id="objective" heading="Objective" icon="objective" icontint="blue" %}}
+{{% rules/rules-block id="objective" heading="Objective" icon="objective" icontint="blue" %}}
 
 There are two ways to win.
 
 * Be the **last player** to reach a finish.
 * Or be the **first player** to complete the afterlife and return to the start.
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block id="gameplay" heading="Gameplay" icon="action" class="force-page-break-before" icontint="lightblue" %}}
+{{% rules/rules-block id="gameplay" heading="Gameplay" icon="action" class="force-page-break-before" icontint="lightblue" %}}
 
 Take clockwise turns until done. 
 
@@ -30,15 +30,15 @@ Most options mean _moving_. To do so, cross out your icon and draw it again some
 
 Once you reach a finish, you enter the **afterlife**. You keep playing, but now you walk _backwards_: from finish to start.
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block id="actions" heading="Actions" class="force-page-break-before" icon="actions" icontint="yellow" %}}
+{{% rules/rules-block id="actions" heading="Actions" class="force-page-break-before" icon="actions" icontint="yellow" %}}
 
 Below is a table of the possible actions that can appear around a space.
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block id="expansions" heading="Expansion" class="force-page-break-before" icon="expansion" icontint="yellow" %}}
+{{% rules/rules-block id="expansions" heading="Expansion" class="force-page-break-before" icon="expansion" icontint="yellow" %}}
 
 Once you've played the base game once or twice, you're ready for the expansion!
 
@@ -49,7 +49,7 @@ In the expansion, spaces can be a special _type_. Execute its effect whenever yo
 
 
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
 
 

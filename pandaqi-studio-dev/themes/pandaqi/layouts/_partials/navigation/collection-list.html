@@ -1,0 +1,23 @@
+{{- $url := trim .RelPermalink "/" -}}
+{{- $subdir := or .Params.collection "play" -}}
+{{- $final_dir := printf "content/%s/%s/" $url $subdir -}}
+{{- $pages := where .Site.Pages "Type" "project" -}}
+<!--- Find all project pages in subdir --->
+{{- $final_pages := slice -}}
+{{- range (readDir $final_dir) -}}
+    {{- if .IsDir -}}
+        {{- $path1 := printf "%s/%s/%s/" $url $subdir .Name -}}
+        {{- $path2 := replace $path1 "/" "\\" -}} <!--- Oh fuck off, this is the solution on some systems? Differing slash directions in paths? --->
+        {{- $selected_pages := union (where $pages ".File.Dir" $path1) (where $pages ".File.Dir" $path2) -}}
+        {{- $final_pages = $final_pages | union $selected_pages -}}
+    {{- end -}}
+{{- end -}}
+<!--- Display them sorted by weight --->
+{{- $final_pages = sort $final_pages ".Params.weightProject" -}}
+<div class="games-collection-container">
+    <ul class="no-default-list-styles project-grid">
+    {{- range $final_pages -}}
+        <li>{{ partial "navigation/project-summary.html" . }}</li>
+    {{- end -}}
+    </ul>
+</div>

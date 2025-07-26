@@ -2,15 +2,7 @@
 draft: true
 
 title: "Hack Battle"
-headerTitle: "Hack Battle | Crack logic codes faster than your friend, or the timer."
 blurb: "Crack a network of wires and logic gates to find the password faster than your friend(s), or the in-game timer."
-
-headerImg: "banner_bg"
-headerThumb: "banner_thumb"
-
-
-
-color: "turquoise"
 
 googleFonts: "https://fonts.googleapis.com/css2?family=Nova+Flat&display=swap"
 
@@ -20,6 +12,15 @@ categories: ["game"]
 tags: ["desktop", "one_week_game", "logic", "abstract", "duel"]
 
 downloadLink: "http://pandaqi.itch.io/hack-battle"
+externalLinks:
+  - label: "Download"
+    url: "http://pandaqi.itch.io/hack-battle"
+    platforms: ["windows", "mac", "linux"]
+    price: 0 
+  - label: "Download"
+    url: "http://pandaqi.itch.io/hack-battle"
+    platforms: ["android"]
+    price: 0
 
 multiplayertype: 'offline'
 multiplayermode: 'competitive'
@@ -33,25 +34,11 @@ input: ["controller", "keyboard", "mouse", "touch"]
 
 ---
 
-{{% embedvideo bg="banner_wide" vid="https://www.youtube.com/embed/OorjwESxxZ4" class="limit-width" %}}
+{{% content/embed-video bg="banner_wide" vid="https://www.youtube.com/embed/OorjwESxxZ4" class="limit-width" %}}
 
-{{% buylink-container class="limit-width" %}}
-	{{< buylink url="http://pandaqi.itch.io/hack-battle" platforms="windows,mac,linux" >}} 
-		Download (Desktop)
-	{{< /buylink >}}
+Solve codes. Before the timer runs out, or before your friend solves theirs.
 
-	{{< buylink url="http://pandaqi.itch.io/hack-battle" platforms="android" >}} 
-		Download (Mobile)
-	{{< /buylink >}}
-{{% /buylink-container %}}
-
-{{% section-centered %}}
-
-<span id="first-line"><strong>Solve codes. Before the timer runs out, or before your friend solves theirs.</strong></span>
-
-{{% /section-centered %}}
-
-{{% section-centered heading="What?" %}}
+## What?
 
 Blocks and wires create a network. Wires start with a signal (ON or OFF), go through the network, until they end in password blocks. 
 
@@ -67,9 +54,8 @@ The rules are always simple. But once a signal passes 2, 3, 5, 10 blocks ... cra
 
 @TODO: IMAGE?
 
-{{% /section-centered %}}
+## Three Flavors
 
-{{% section-centered heading="Three Flavors" %}}
 Pick your poison:
 * **ON/OFF**: Signals can only be on or off. (Easy)
 * **SHAPES**: Signals are a shape out of five options. (Medium)
@@ -79,9 +65,8 @@ The game is identical. But 90% of the blocks will be different! And increasing t
 
 @TODO: IMAGE?
 
-{{% /section-centered %}}
+## How To Play?
 
-{{% section-centered heading="How to Play?" %}}
 This game ... 
 
 * Supports **1-4 players** (on the same device)
@@ -91,9 +76,8 @@ This game ...
 * Is a **very tough logic puzzle**. Easy to learn, yes, but don't expect it to be kind to you. That's why it's most fun playing against someone else, instead of the in-game timer, as then it's just a battle of wits.
 The mobile version is supported by ads. The desktop version is completely free, but if you enjoyed it, consider donating to support more of these games!
 
-{{% /section-centered %}}
+## Anything Else?
 
-{{% section-centered heading="Anything else?" %}}
 This was my second "weekend project". It turned out so promising that I wanted to make the three flavors and worked on it much longer.
 
 * Font? Nova Flat, available on Google Fonts.
@@ -103,5 +87,3 @@ This was my second "weekend project". It turned out so promising that I wanted t
 Bugs, improvements, feedback always welcome: [schoolofpanda@gmail.com](mailto:schoolofpanda@gmail.com)
 
 Or read the devlog about how this game was made: [[Devlog] Hack Battle](/blog/videogames/one-week-games/devlog-hack-battle) (on Pandaqi Blog)
-
-{{% /section-centered %}}

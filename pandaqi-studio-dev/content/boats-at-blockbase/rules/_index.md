@@ -2,7 +2,7 @@
 type: "rules"
 ---
 
-{{% rules-block heading="Setup" icon="setup" %}}
+{{% rules/rules-block heading="Setup" icon="setup" %}}
 
 Generate/pick a paper and print it.
 
@@ -12,15 +12,15 @@ The Tetris shape displayed in the top-left becomes the current "drawing shape". 
 
 @TODO: EXAMPLE IMAGE
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block heading="Objective" icon="objective" %}}
+{{% rules/rules-block heading="Objective" icon="objective" %}}
 
 The game ends as soon as one player **can't move anymore**. Players calculate their **score** by checking all squares they "encircled" during the game.
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block heading="Gameplay" icon="action" %}}
+{{% rules/rules-block heading="Gameplay" icon="action" %}}
 
 Take clockwise turns until done. On your turn, draw the current (Tetris) **shape**.
 
@@ -34,13 +34,13 @@ That's it!
 
 @TODO: EXAMPLE IMAGE
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block heading="Expansions" id="expansions" icon="expansion" %}}
+{{% rules/rules-block heading="Expansions" id="expansions" icon="expansion" %}}
 
 Played the base game and ready for more? Or looking to tweak the game to fit your playing group better? Check out these variants and expansions!
 
-{{% rules-block heading="Variant: Solo Ships" %}}
+{{% rules/rules-block heading="Variant: Solo Ships" %}}
 
 Pick this option if you don't like the high interaction from the base game and want players to just play solo.
 
@@ -53,9 +53,9 @@ This also has a few other benefits.
 
 @TODO: EXAMPLE IMAGE
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block heading="Expansion: New Routes" %}}
+{{% rules/rules-block heading="Expansion: New Routes" %}}
 
 This expansion adds more advanced actions (called PATHERS and LIMITERS). 
 
@@ -67,8 +67,8 @@ They explain themselves on the paper. Below are some **clarifications** to remov
 
 @TODO: EXAMPLE IMAGE
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 

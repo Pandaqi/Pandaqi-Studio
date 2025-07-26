@@ -1,117 +1,30 @@
-{{ $paginator := .Paginator }}
+{{ $paginator := .paginator }}
+{{ $has_prev := $paginator.HasPrev }}
+{{ $has_next := $paginator.HasNext }}
+{{ $something_to_show := or $has_prev $has_next }}
+{{ if $something_to_show }}
+<nav class="pagination">
+	<h2 class="text-center add-leaf-before add-leaf-after">Navigation</h2>
+	<ul class="flex flex-align-center flex-wrap no-default-list-styles font-heading gap-s margin-s">
+		{{ if $has_prev }}
+			<li><a class="pagination-item-first navigation-link" href="{{ $paginator.First.URL }}"><span>First Page</span></a></li>
+			<li><a class="pagination-item-prev navigation-link" href="{{ $paginator.Prev.URL }}"><span>Previous Page</span></a></li>
+		{{ else }}
+			<li><span class="margin-s">No previous page :(</span></li>
+		{{ end }}
 
-<!-- Number of links either side of the current page. -->
-{{ $adjacent_links := 2 }}
-
-<!-- $max_links = ($adjacent_links * 2) + 1 -->
-{{ $max_links := (add (mul $adjacent_links 2) 1) }}
-
-<!-- $lower_limit = $adjacent_links + 1 -->
-{{ $lower_limit := (add $adjacent_links 1) }}
-
-<!-- $upper_limit = $paginator.TotalPages - $adjacent_links -->
-{{ $upper_limit := (sub $paginator.TotalPages $adjacent_links) }}
-
-<!-- If there's more than one page. -->
-{{ if gt $paginator.TotalPages 1 }}
-
-  <ul class="pagination">
-    
-    <!-- First page. -->
-    {{ if ne $paginator.PageNumber 1 }}
-    <li class="pagination__item pagination__item--first">
-
-      {{ $url := $paginator.First.URL }}
-      {{ partial "buttons/button.html" (dict "href" $url "content" "««" "class" "pagination__link pagination__link--first") }}
-
-    </li>
-    {{ end }}
-
-    <!-- Previous page. -->
-    {{ if $paginator.HasPrev }}
-    <li class="pagination__item pagination__item--previous">
-
-      {{ $url := $paginator.Prev.URL }}
-      {{ partial "buttons/button.html" (dict "href" $url "content" "«" "class" "pagination__link pagination__link--previous") }}
-
-    </li>
-    {{ end }}
-  
-    <!-- Page numbers. -->
-    {{ range $paginator.Pagers }}
-    
-      {{ $.Scratch.Set "page_number_flag" false }}
-      
-      <!-- Advanced page numbers. -->
-      {{ if gt $paginator.TotalPages $max_links }}
-
-        <!-- Lower limit pages. -->
-        <!-- If the user is on a page which is in the lower limit.  -->
-        {{ if le $paginator.PageNumber $lower_limit }}
-
-          <!-- If the current loop page is less than max_links. -->
-          {{ if le .PageNumber $max_links }}
-            {{ $.Scratch.Set "page_number_flag" true }}
-          {{ end }}
-
-
-        <!-- Upper limit pages. -->
-        <!-- If the user is on a page which is in the upper limit. -->
-        {{ else if ge $paginator.PageNumber $upper_limit }}
-
-          <!-- If the current loop page is greater than total pages minus $max_links -->
-          {{ if gt .PageNumber (sub $paginator.TotalPages $max_links) }}
-            {{ $.Scratch.Set "page_number_flag" true }}
-          {{ end }}
-
-
-        <!-- Middle pages. -->
-        {{ else }}
-          
-          {{ if and ( ge .PageNumber (sub $paginator.PageNumber $adjacent_links) ) ( le .PageNumber (add $paginator.PageNumber $adjacent_links) ) }}
-            {{ $.Scratch.Set "page_number_flag" true }}
-          {{ end }}
-
-        {{ end }}
-
-      
-      <!-- Simple page numbers. -->
-      {{ else }}
-
-        {{ $.Scratch.Set "page_number_flag" true }}
-
-      {{ end }}
-
-      <!-- Output page numbers. -->
-      {{ if eq ($.Scratch.Get "page_number_flag") true }}
-        <li class="pagination__item{{ if eq . $paginator }} pagination__item--current{{ end }}">
-        	
-          {{ $url := .URL }}
-          {{ partial "buttons/button.html" (dict "href" $url "content" .PageNumber "class" "pagination__link") }}
-
-        </li>
-      {{ end }}
-
-    {{ end }}
-
-    <!-- Next page. -->
-    {{ if $paginator.HasNext }}
-    <li class="pagination__item pagination__item--next">
-
-      {{ $url := $paginator.Next.URL }}
-      {{ partial "buttons/button.html" (dict "href" $url "content" "»" "class" "pagination__link pagination__link--next") }}
-
-    </li>
-    {{ end }}
-
-    <!-- Last page. -->
-    {{ if ne $paginator.PageNumber $paginator.TotalPages }}
-    <li class="pagination__item pagination__item--last">
-
-      {{ $url := $paginator.Last.URL }}
-      {{ partial "buttons/button.html" (dict "href" $url "content" "»»" "class" "pagination__link pagination__link--last") }}
-    </li>
-    {{ end }}
-
-  </ul><!-- .pagination -->
+		<li>
+			<span>{{ $paginator.PageNumber }}</span>
+			<span> of </span>
+			<span>{{ $paginator.TotalPages }}</span>
+		</li>
+		
+		{{ if $has_next }}
+			<li><a class="pagination-item-next navigation-link" href="{{ $paginator.Next.URL }}"><span>Next Page</span></a></li>
+			<li><a class="pagination-item-last navigation-link" href="{{ $paginator.Last.URL }}"><span>Last Page</span></a></li>
+		{{ else }}
+			<li><span class="margin-s">No next page :(</span></li>
+		{{ end }}
+	</ul>
+</nav>
 {{ end }}

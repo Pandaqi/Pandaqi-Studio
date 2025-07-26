@@ -2,21 +2,21 @@
 type: "rules"
 ---
 
-{{% rules-block heading="Setup" icon="setup" %}}
+{{% rules/rules-block heading="Setup" icon="setup" %}}
 
 Give everyone 8 random cards: their **lives**. Place these faceup in front of you.
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block heading="Objective" icon="objective" %}}
+{{% rules/rules-block heading="Objective" icon="objective" %}}
 
 The default game mode is called **QUICKSHOT** (see the variants for other modes).
 
 End the game as soon as one player is dead. **Player with the most lives left wins.** (If tied, player with highest possible damage on their personal cards wins.)
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block heading="Gameplay" icon="action" %}}
+{{% rules/rules-block heading="Gameplay" icon="action" %}}
 
 Every round is played _simultaneously_: everybody acts at the same time.
 
@@ -45,13 +45,13 @@ Next round!
 
 @TODO: EXAMPLE IMAGE
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block heading="Expansions & Variants" id="expansions" icon="expansion" %}}
+{{% rules/rules-block heading="Expansions & Variants" id="expansions" icon="expansion" %}}
 
 Played the base game and ready for more? Or looking to tweak the game to fit your playing group better? Check out these variants and expansions!
 
-{{% rules-block heading="Variant: Longshot" %}}
+{{% rules/rules-block heading="Variant: Longshot" %}}
 
 This variant makes the game longer than Quickshot.
 
@@ -66,9 +66,9 @@ All the dead players still participate but in a limited way.
 * Their attack is always reduced by how much damage others deal them.
 * If other players picked the same card as them, they do nothing.
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block heading="Variant: Gun Gang" %}}
+{{% rules/rules-block heading="Variant: Gun Gang" %}}
 
 For a more **cooperative / friendly** game,
 
@@ -76,9 +76,9 @@ For a more **cooperative / friendly** game,
 * Instead, they _share_ your shield. (Any attacks on them are also reduced by the shield's value.)
 * (OPTIONAL: This is not true if the player you point at also points back at you with an Attack card?)
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block heading="Expansion: Flipping Fingers" %}}
+{{% rules/rules-block heading="Expansion: Flipping Fingers" %}}
 
 This expansion adds the "flipping" mechanic.
 
@@ -92,7 +92,7 @@ It also adds an extra rule.
 Every second round, it's reversed: pick your card first, then point your finger gun.
 => ALTERNATIVE: The player currently in the lead / most behind _picks_ the order.
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 

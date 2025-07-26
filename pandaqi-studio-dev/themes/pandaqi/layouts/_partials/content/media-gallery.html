@@ -1,0 +1,12 @@
+{{- $class := or .class "" -}}
+{{- $urls_string := or .urls (.context.Params.media) }}
+{{- $urls := split .urls_string "," -}}
+{{- $context := .context -}}
+<section class="media-gallery-container {{ $class }}">
+	<div class="media-gallery">
+		{{- range $k, $v := $urls -}}
+			{{ $v = trim $v " " }}
+			{{- partial "content/show-media.html" (dict "context" $context "src" $v) -}}
+		{{- end -}}
+	</div>
+</section>

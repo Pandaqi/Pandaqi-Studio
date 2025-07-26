@@ -10,11 +10,9 @@ downloadLink: "https://drive.google.com/drive/folders/16Zhb_Ze5ijQTEWXIizQsO1SAh
 
 ---
 
-{{% section-centered heading="Material" anchor="material" html="true" %}}
+## Material
 
-{{< boardgame-settings type="board" local_storage="riskyBiscuitsConfig" game_title="Risky Biscuits" defaults="true" >}}
-  {{< setting-enum id="setting-boardSize" text="Board Size?" values="tiny,small,regular,large,huge" valaskey="true" def="regular" remark="How many cities and routes to place." >}}
-  {{< setting-enum id="setting-printSize" text="Print Size?" values="1 page, 4 pages, 9 pages" keys="1x1,2x2,3x3" def="1x1" >}}
-{{< /boardgame-settings >}}
-
-{{% /section-centered %}}
+{{< settings/settings-box type="board" local_storage="riskyBiscuitsConfig" game_title="Risky Biscuits" defaults="true" >}}
+  {{< settings/setting-enum id="setting-boardSize" text="Board Size?" values="tiny,small,regular,large,huge" valaskey="true" def="regular" remark="How many cities and routes to place." >}}
+  {{< settings/setting-enum id="setting-printSize" text="Print Size?" values="1 page, 4 pages, 9 pages" keys="1x1,2x2,3x3" def="1x1" >}}
+{{< /settings/settings-box >}}

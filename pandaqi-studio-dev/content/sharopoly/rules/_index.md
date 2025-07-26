@@ -2,7 +2,7 @@
 type: "rules"
 ---
 
-{{% rules-block id="setup" heading="Setup" icon="setup" icontint="pink" %}}
+{{% rules/rules-block id="setup" heading="Setup" icon="setup" icontint="pink" %}}
 
 Print a game board. Each player ... 
 
@@ -12,9 +12,9 @@ Print a game board. Each player ...
 
 The money squares are already filled with your starting money. (15 divided into 1 + 2 + 3 + 4 + 5)
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block id="objective" heading="Objective" icon="objective" icontint="blue" %}}
+{{% rules/rules-block id="objective" heading="Objective" icon="objective" icontint="blue" %}}
 
 The game ends when a player goes **bankrupt**, or nobody can **move** anymore, or somebody has used their entire **money square**.
 
@@ -22,9 +22,9 @@ Everybody counts their final score: money + rent of properties you own + ??
 
 Highest score wins!
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block id="gameplay" heading="Gameplay" icon="action" class="force-page-break-before" icontint="lightblue" %}}
+{{% rules/rules-block id="gameplay" heading="Gameplay" icon="action" class="force-page-break-before" icontint="lightblue" %}}
 
 Take clockwise turns. Each turn has one step **move**.
 
@@ -40,9 +40,9 @@ There are two possible squares.
 
 @TODO: EXAMPLE IMAGE
 
-{{< rules-example id="turn" >}} @TODO: does a playful rules example make sense?
+{{< rules/rules-example id="turn" >}} @TODO: does a playful rules example make sense?
 
-{{% rules-block id="handling_money" heading="Handling Money" %}}
+{{% rules/rules-block id="handling_money" heading="Handling Money" %}}
 
 When you receive money, write the _number_ in a free cell of your money square. 
 
@@ -50,9 +50,9 @@ When you pay money, cross out the cells needed to arrive at the correct sum. The
 
 @TODO: EXAMPLE IMAGE?
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block id="buying_property" heading="Buying Property" %}}
+{{% rules/rules-block id="buying_property" heading="Buying Property" %}}
 
 To buy property, pay the price indicated, then draw your icon in a free owner slot.
 
@@ -60,9 +60,9 @@ If you don't want to buy, the property goes up for **auction**. Players can bid 
 
 @TODO: EXAMPLE IMAGE (these are all just tiny squares floating right)
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block id="upgrading_and_trading" heading="Upgrading & Trading" %}}
+{{% rules/rules-block id="upgrading_and_trading" heading="Upgrading & Trading" %}}
 
 You may _upgrade_ or _trade_ at any moment! 
 
@@ -72,9 +72,9 @@ You can upgrade property as soon as you have **all property of the same color** 
 
 @TODO: EXAMPLE IMAGE
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
 @TODO:
 

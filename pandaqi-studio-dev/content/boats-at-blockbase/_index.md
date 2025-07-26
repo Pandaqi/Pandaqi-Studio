@@ -12,7 +12,7 @@ date: 2026-05-26
 
 difficulty: "kids-can-play"
 genres: ["family", "thematic", "adventure"]
-categories: ["boardgame", "tile-game", "standard"]
+categories: ["board-game", "tile-game", "standard"]
 tags: ["fixed-order", "shared-map", "grid", "turn-based", "guessing", "bias", "variable-setup", "orientation", "set-collection", "high-score"]
 themes: ["sea"]
 
@@ -25,23 +25,19 @@ devlog: "/blog/boardgames/boats-at-blockbase/"
 
 ---
 
-{{% boardgame-intro /%}}
+{{% settings/settings-container type="material" %}}
 
-{{% boardgame-instructions /%}}
+{{< settings/settings-box type="board" local_storage="boatsAtBlockbaseConfig" btn_label="Generate Paper" game_title="Boats at Blockbase" defaults="true">}}
+  {{< settings/setting-checkbox id="setting-sets-soloShips" text="Solo Ships?" remark="Cuts the paper into smaller boards; each player is confined to their own little piece." >}}
+  {{< settings/settings-section heading="Sets" >}}
+    {{< settings/setting-checkbox id="setting-sets-base" text="Base?" checked="checked" >}}
+    {{< settings/setting-checkbox id="setting-sets-newRoutes" text="New Routes?" >}}
+  {{< /settings/settings-section >}}
+{{< /settings/settings-box >}}
 
-{{% boardgame-settings-container type="material" %}}
+{{% /settings/settings-container %}}
 
-{{< boardgame-settings type="board" local_storage="boatsAtBlockbaseConfig" btn_label="Generate Paper" game_title="Boats at Blockbase" defaults="true">}}
-  {{< setting-checkbox id="setting-sets-soloShips" text="Solo Ships?" remark="Cuts the paper into smaller boards; each player is confined to their own little piece." >}}
-  {{< boardgame-settings-section heading="Sets" >}}
-    {{< setting-checkbox id="setting-sets-base" text="Base?" checked="checked" >}}
-    {{< setting-checkbox id="setting-sets-newRoutes" text="New Routes?" >}}
-  {{< /boardgame-settings-section >}}
-{{< /boardgame-settings >}}
-
-{{% /boardgame-settings-container %}}
-
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 The fonts used are **Sea Gardens** (headings) and **Chelsea** (body text). Everything else is mine.
 
@@ -50,5 +46,3 @@ The original idea for this game is quite directly inspired by the game _Silver &
 As usual, I did away with all the extra fluff. (That game that inspired me has all these little scoring rules, and extra rules about drawing/completing cards, and all this extra material. I'm about minimalism and really try to simplify every game as much as possible.) I added more interaction between players and included some ideas I thought were cool and only possible because it's a One Paper Game now.
 
 As it happens, this game ended up waaaay different than its original inspiration. A nice little game you can print and play anywhere, with rules so simple and intuitive that I can confidently say it's for all ages and backgrounds.
-
-{{% /section-centered %}}

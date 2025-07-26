@@ -2,7 +2,7 @@
 type: "rules"
 ---
 
-{{% rules-block id="setup" heading="Setup" icon="setup" icontint="pink" %}}
+{{% rules/rules-block id="setup" heading="Setup" icon="setup" icontint="pink" %}}
 
 Print a game board and hand out pens. Each player ...
 
@@ -20,25 +20,25 @@ Pick a start player. Players who come later in the turn order (clockwise) receiv
 
 @TODO: Now we need an IMAGE of the setup (with the new modifications)
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block id="objective" heading="Objective" icon="objective" icontint="blue" %}}
+{{% rules/rules-block id="objective" heading="Objective" icon="objective" icontint="blue" %}}
 
 The game ends when **all routes have been claimed** or **nobody can take any more actions**. 
 
 The player with the **highest score** wins.
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block id="gameplay" heading="Gameplay" icon="action" class="force-page-break-before" icontint="lightblue" %}}
+{{% rules/rules-block id="gameplay" heading="Gameplay" icon="action" class="force-page-break-before" icontint="lightblue" %}}
 
 Take clockwise turns. On your turn, pick one action: **Move** or **Claim**.
 
 The rules often mention that somebody is "rewarded". This always means that they pick one balloon of choice _or_ add one space to their inventory.
 
-{{< rules-example id="turn" >}}
+{{< rules/rules-example id="turn" >}}
 
-{{% rules-block id="action_move" heading="Move" %}}
+{{% rules/rules-block id="action_move" heading="Move" %}}
 
 Pick a **destination**: a city connected to your traveler's current city, with a free movement slot. 
 
@@ -51,9 +51,9 @@ If no free movement slot exists on a connected city, you cannot move anymore.
 
 @TODO: IMAGE
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block id="action_claim" heading="Claim" %}}
+{{% rules/rules-block id="action_claim" heading="Claim" %}}
 
 To claim a route, pay balloons from your inventory.
 
@@ -66,11 +66,11 @@ You can claim a route from _anywhere_---you don't need to be next to it. If you 
 
 With **2 players**, double routes become single routes. Only one of them can be claimed.
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block id="scoring" heading="Scoring" class="force-page-break-before" icon="score" icontint="yellow" %}}
+{{% rules/rules-block id="scoring" heading="Scoring" class="force-page-break-before" icon="score" icontint="yellow" %}}
 
 All points are permanent on the board. This means you don't need to track score while playing: just calculate it when the game is over.
 
@@ -89,13 +89,13 @@ The points go to the player who participated the most: the majority of routes us
 
 @TODO: IMAGE EXAMPLE?
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block id="expansions" heading="Expansions" class="force-page-break-before" icon="expansion" icontint="yellow" %}}
+{{% rules/rules-block id="expansions" heading="Expansions" class="force-page-break-before" icon="expansion" icontint="yellow" %}}
 
 Once you've played the base game once or twice, you might be ready for expansions!
 
-{{% rules-block id="expansion_trajectories" heading="Trajectories" %}}
+{{% rules/rules-block id="expansion_trajectories" heading="Trajectories" %}}
 
 Trajectories are printed at the bottom right. If you've fulfilled one, draw your icon in an open slot and receive its reward. 
 
@@ -104,17 +104,17 @@ There are two trajectory types:
 * **Cities**: fulfilled if you can travel from one city to the other using only _your_ routes. (You have "connected" the two cities with your traveling company!)
 * **Routes**: fulfilled if you own routes of all the types shown (at least). Order and length doesn't matter.
 
-{{% remark %}}
+{{% blocks/remark %}}
 You can't claim a trajectory twice nor when all its slots are already taken.
-{{% /remark %}}
+{{% /blocks/remark %}}
 
 @TODO: Rules table showing specific trajectory bonuses
 
 When _swapping_, add a new inventory space. Then cross out the current balloon and draw the new one in the new space you just created. (A swap should not cost you any inventory space.)
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block id="expansion_wildWinds" heading="Wild Winds" %}}
+{{% rules/rules-block id="expansion_wildWinds" heading="Wild Winds" %}}
 
 Introduces **gray routes**. You can use any one type to claim these. (For example, a gray route of 3 blocks can be claimed by 3 yellow.)
 
@@ -122,9 +122,9 @@ Introduces **gray routes**. You can use any one type to claim these. (For exampl
 
 When picking balloons to receive, a gray route allows you to pick a "wildcard". Write a "W" in an inventory slot. This balloon can represent _any_ type when claiming a route. If you do this, however, you only receive 1 balloon this turn (regardless of other rules).
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block id="expansion_multiroutes" heading="Multiroutes" %}}
+{{% rules/rules-block id="expansion_multiroutes" heading="Multiroutes" %}}
 
 Introduces **multiroutes**.
 
@@ -134,9 +134,9 @@ Anybody who participated scores _full_ points for this route, but only if it is 
 
 @TODO: IMAGE EXAMPLE?
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block id="expansion_bonus" heading="Bonus Balloons" %}}
+{{% rules/rules-block id="expansion_bonus" heading="Bonus Balloons" %}}
 
 Some route blocks have an added bonus or penalty. You receive this bonus when you claim the route.
 
@@ -146,9 +146,9 @@ As opposed to trajectories, bonuses are always value "1". (One point, one balloo
 
 @TODO: Rules table showing these bonuses
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block id="expansion_variants" heading="Variants" %}}
+{{% rules/rules-block id="expansion_variants" heading="Variants" %}}
 
 Below are some variants that make the game more competitive and "cutthroat". Try any **one** of the rules below in a game.
 
@@ -158,9 +158,9 @@ When picking your two balloons (during "move") ...
 * You can't pick the type over which you just moved.
 * If you pick a type from a claimed route, and the owner doesn't _want_ to be rewarded, they can block you. You're simply not allowed to pick that type.
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
 
 

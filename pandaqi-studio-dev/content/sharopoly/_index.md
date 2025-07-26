@@ -11,13 +11,11 @@ downloadLink: "https://drive.google.com/drive/folders/1lgnWjJG1pjb-YD7vg_0rS1QHW
 
 ---
 
-{{% section-centered heading="Material" anchor="material" html="true" %}}
+## Material
 
-<p>The tool below can generate random playing boards! Input your settings, press the button, and download the PDF with your unique world.</p>
+The tool below can generate random playing boards! Input your settings, press the button, and download the PDF with your unique world.
 
-{{< boardgame-settings type="board" local_storage="sharopolyConfig" game_title="Sharopoly" defaults="true"  >}}
-  {{< setting-enum id="setting-boardSize" text="Board Size?" values="tiny,small,regular,large,huge" valaskey="true" def="regular" remark="How many cities and routes to place." >}}
-  {{< setting-enum id="setting-printSize" text="Print Size?" values="1 page, 4 pages, 9 pages" keys="1x1,2x2,3x3" def="1x1" >}}
-{{< /boardgame-settings >}}
-
-{{% /section-centered %}}
+{{< settings/settings-box type="board" local_storage="sharopolyConfig" game_title="Sharopoly" defaults="true"  >}}
+  {{< settings/setting-enum id="setting-boardSize" text="Board Size?" values="tiny,small,regular,large,huge" valaskey="true" def="regular" remark="How many cities and routes to place." >}}
+  {{< settings/setting-enum id="setting-printSize" text="Print Size?" values="1 page, 4 pages, 9 pages" keys="1x1,2x2,3x3" def="1x1" >}}
+{{< /settings/settings-box >}}

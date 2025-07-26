@@ -1,9 +1,10 @@
-<nav>
+<nav class="width-limit block-center">
 	{{ $pages := where .Pages "Type" "project" }}
 	{{ $paginator := .Paginate $pages 10 }}
-	<ul>
+	<ul class="no-default-list-styles project-grid">
 		{{ range $paginator.Pages }}
 			<li>{{ partial "navigation/project-summary.html" . }}</li>
 		{{ end }}
 	</ul>
+	{{ partial "navigation/pagination.html" (dict "paginator" $paginator) }}
 </nav>

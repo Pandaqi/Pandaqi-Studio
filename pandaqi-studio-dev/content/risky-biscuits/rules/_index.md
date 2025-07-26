@@ -2,15 +2,15 @@
 type: "rules"
 ---
 
-{{% rules-block id="setup" heading="Setup" icon="setup" icontint="pink" %}}
+{{% rules/rules-block id="setup" heading="Setup" icon="setup" icontint="pink" %}}
 
 Print a world map from the website. Each player invents a unique icon: you'll use this to draw where your armies are.
 
 Take clockwise turns placing **1** army in any free space, until everybody has **2** armies in total.
 
-{{% remark %}}
+{{% blocks/remark %}}
 A free space has nothing inside: no artefact, no obstacle, no other army.
-{{% /remark %}}
+{{% /blocks/remark %}}
 
 All land spaces can be used. Ocean spaces, however, can only be used if highlighted.
 
@@ -21,29 +21,29 @@ Areas can contain any number of icons from any number of players! The "current o
 * Show unique icon being drawn inside squares
 * Show majority rule => who "owns" what areas after some setup
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block id="objective" heading="Objective" icon="objective" icontint="blue" %}}
+{{% rules/rules-block id="objective" heading="Objective" icon="objective" icontint="blue" %}}
 
 The game ends once all army slots have been used. The player who **owns the most areas** (at that moment) **wins**. Ties are broken by most individual armies.
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block id="gameplay" heading="Gameplay" icon="action" class="force-page-break-before" icontint="lightblue" %}}
+{{% rules/rules-block id="gameplay" heading="Gameplay" icon="action" class="force-page-break-before" icontint="lightblue" %}}
 
 Take clockwise turns. Each turn has the same three steps: **Move**, **Battle** and **Debrief**. All of these are _optional_.
 
-{{< rules-example id="turn" >}}
+{{< rules/rules-example id="turn" >}}
 
-{{% rules-block id="action_move" heading="Move" %}}
+{{% rules/rules-block id="action_move" heading="Move" %}}
 
 Move an army of yours into another free space. Cross out the old one, draw it again at the new location. You can repeat this as often as you like, but each individual army can only move once per turn.
 
 @TODO: IMAGE EXAMPLE
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block id="action_battle" heading="Battle" %}}
+{{% rules/rules-block id="action_battle" heading="Battle" %}}
 
 Start a battle against another player. This can be within an area you occupy _or_ against an adjacent area.
 
@@ -54,9 +54,9 @@ Both sides of the conflict ...
   * If they want to use an _artefact_. If they do, execute its power, then cross it out (it can never be used again).
 * Until they arrive at the number that represents their final strength.
 
-{{% remark %}}
+{{% blocks/remark %}}
 You can discuss, promise, negotiate all you want. But when the battle has started, and you ask people what they want to do (join and/or use artefact) ... they're free to break promises and do anything they want.
-{{% /remark %}}
+{{% /blocks/remark %}}
 
 The losing side---the lowest number---is _wiped out_. Cross out all their armies (in that area).
 
@@ -72,19 +72,19 @@ All winners receive **1 free army** to place in one of the areas involved _or_ a
 
 If this _completely_ wipes out a player, they simply come back following the same rules as the setup. (Place 2 new armies in any free spaces.)
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block id="action_debrief" heading="Debrief" %}}
+{{% rules/rules-block id="action_debrief" heading="Debrief" %}}
 
 Count how many areas you own. That is, you are currently the _majority_. Also count bonus armies if you control an entire _continent_. 
 
 Now place that many new armies, in areas you already occupy _or_ adjacent areas that are unoccupied.
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block id="artefacts" heading="Artefacts" class="force-page-break-before" icon="score" icontint="yellow" %}}
+{{% rules/rules-block id="artefacts" heading="Artefacts" class="force-page-break-before" icon="score" icontint="yellow" %}}
 
 There are two types. 
 
@@ -99,4 +99,4 @@ These powerups are how I want to make "destroyed" slots relevant. Examples are .
 
 @TODO: RULES TABLE, IMAGE EXAMPLE
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}

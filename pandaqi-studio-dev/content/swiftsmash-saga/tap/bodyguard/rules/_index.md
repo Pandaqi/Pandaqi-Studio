@@ -2,7 +2,7 @@
 type: "rules"
 ---
 
-{{% rules-block id="setup" heading="Setup" icon="setup" icontint="pink" %}}
+{{% rules/rules-block id="setup" heading="Setup" icon="setup" icontint="pink" %}}
 
 Create a deck of cards, but keep the _Emperor_ separate. Shuffle and deal until empty. (It's fine if some players have one more card than others.)
 
@@ -12,15 +12,15 @@ The youngest player becomes the Guardian.
 
 Cards come in three flavors: monsters, shields and bystanders. You can assemble your own custom deck, as long as you make sure they are roughly in the proportions 50% / 25% / 25%.
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block id="objective" heading="Objective" icon="objective" icontint="blue" %}}
+{{% rules/rules-block id="objective" heading="Objective" icon="objective" icontint="blue" %}}
 
 The game ends as soon as a player is **out of cards**. Whoever **has the most cards** wins!
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block id="action_play" heading="Gameplay" icon="action" class="force-page-break-before" icontint="lightblue" %}}
+{{% rules/rules-block id="action_play" heading="Gameplay" icon="action" class="force-page-break-before" icontint="lightblue" %}}
 
 Turns happen simultaneously.
 
@@ -49,15 +49,15 @@ As soon as somebody smashed a card, the round is over.
 
 Whatever the case, this player becomes the new Guardian.
 
-{{% remark %}}
+{{% blocks/remark %}}
 Never discard the Emperor. Keep it to the side for next round.
-{{% /remark %}}
+{{% /blocks/remark %}}
 
-{{< rules-example id="turn" >}}
+{{< rules/rules-example id="turn" >}}
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block id="attacking" heading="Attacking" class="force-page-break-before" icon="expansions" icontint="purple" %}}
+{{% rules/rules-block id="attacking" heading="Attacking" class="force-page-break-before" icon="expansions" icontint="purple" %}}
 
 Each card shows somebody **facing right**. By revealing the card upside down, you can make them face **left**.
 
@@ -77,4 +77,4 @@ What is an attack?
 
 @TODO: IMAGE EXAMPLE of how to resolve one round (the playful example will be much better in explaining this)
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}

@@ -17,7 +17,7 @@ extraJS: true
 
 date: 2021-04-29
 
-categories: ["boardgame"]
+categories: ["board-game"]
 tags: [""]
 
 meta: 
@@ -47,13 +47,7 @@ Spectral (extremely nice, free, commissioned workhorse font): https://fonts.goog
 
 -->
 
-{{% boardgame-intro heading="Bread & Plunder" img="" %}}
-
-A boardgame for 1&ndash;8 players playing pirates in space, while keeping up a pretend bakery to cover-up your crimes.
-
-{{% /boardgame-intro %}}
-
-{{% section-centered heading="What's this?" %}}
+## What's This?
 
 This is a board game (no device/app required during play), BUT all components are randomly generated beforehand!
 
@@ -69,22 +63,17 @@ Print these and play the game!
 
 So check if you like what you see, before you print!
 
-{{% /section-centered %}}
-
-{{% section-centered heading="Board Generation" html="true" %}}
+## Board Generation
 	
-	<p>Input any seed you want (your favorite artist, a made-up word, whatever) and your player count.</p>
-	<p>Click "Generate Board". Save the image and print it.</p>
+Input any seed you want (your favorite artist, a made-up word, whatever) and your player count.
 
-	{{< boardgame-settings type="board" >}}
+Click "Generate Board". Save the image and print it.
 
-		{{< setting-seed >}}
-		{{< setting-playercount min="2" max="7" def="4" >}}
-		{{< setting-enum id="setting-boardVariation" text="Variation?" values="None,Small,Medium,Large,Extreme" def="Medium" >}}
-		{{< setting-checkbox id="setting-pizzaPolice" text="Pizza Police?" >}}
+{{< settings/settings-box type="board" >}}
 
-	{{< /boardgame-settings >}}
+	{{< settings/setting-seed >}}
+	{{< settings/setting-playercount min="2" max="7" def="4" >}}
+	{{< settings/setting-enum id="setting-boardVariation" text="Variation?" values="None,Small,Medium,Large,Extreme" def="Medium" >}}
+	{{< settings/setting-checkbox id="setting-pizzaPolice" text="Pizza Police?" >}}
 
-	<p>General remarks about the game/digital component go here.</p>
-
-{{% /section-centered %}}
+{{< /settings/settings-box >}}

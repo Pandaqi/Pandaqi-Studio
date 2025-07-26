@@ -1,11 +1,21 @@
 ---
 type: "project"
+collection: "place"
 
 title: "The Domino Diaries"
 headerTitle: "A series of games about placing domino tiles."
 blurb: "A series of games about placing domino tiles to shape your dream world---or simply the one that scores you the most points."
 
 downloadLink: "https://drive.google.com/drive/folders/1lxKWuSj0hlggY0Nx1_jQsNr0yqjfhoHb"
+externalLinks:
+  - label: "Play on POKI"
+    url: "https://poki.com/en/g/a-recipe-for-disaster"
+    platforms: ["web"]
+    price: 0 
+  - label: "Play on ITCH"
+    url: "http://pandaqi.itch.io/a-recipe-for-disaster"
+    platforms: ["windows", "mac", "linux"]
+    price: 2
 
 color: "blue"
 
@@ -13,7 +23,7 @@ date: 2025-06-26
 
 difficulty: "simple"
 genres: ["family", "thematic", "strategy"]
-categories: ["boardgame", "tile-game"]
+categories: ["board-game", "tile-game"]
 tags: ["domino"]
 themes: []
 
@@ -31,8 +41,6 @@ devlog: "/blog/boardgames/the-domino-diaries/project/"
 This is the **overview page** of the The Domino Diaries.
 
 Click any of the links below to visit a specific game. They are roughly sorted based on simplicity.
-
-<!--- Used to have the games list but that broke now: boardgame-project-games-list subdir="place" >}} --->
 
 The core mechanic of these games is the fun and time-tested **domino tile**. You'll be placing tiles in a shared map, or in your own little worlds, trying to shape a unique world that scores you the most points or does what you need to win.
 

@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+     "baseUrl": ".",
+     "lib": ["DOM", "ES2021"],
+     "paths": {
+      "*": [
+       "*"
+      ]
+     }
+    }
+}

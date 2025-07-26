@@ -1,5 +1,6 @@
 ---
 type: "project"
+collection: "count-to"
 
 title: "The Outnumbered Series"
 headerTitle: "A series of simple card games all about one number."
@@ -15,7 +16,7 @@ date: 2023-10-20
 
 difficulty: "kids-can-play"
 genres: ["party"]
-categories: ["boardgame", "card-game"]
+categories: ["board-game", "card-game"]
 tags: ["numbers", "simultaneous-turns", "fast-paced"]
 themes: []
 
@@ -28,19 +29,11 @@ ages: everyone
 
 ---
 
-{{% boardgame-intro heading="" %}}
-
-A series of simple card games that all revolve around one unique number.
-
-{{% /boardgame-intro %}}
-
-{{% section-centered heading="What's this?" %}}
+## What's this?
 
 This is the **overview page** of The Outnumbered Series.
 
 Click any of the links below to visit a specific game. They are sorted based on their unique number, not any other metric (such as simplicity).
-
-{{< boardgame-project-games-list subdir="count-to" >}}
 
 All the games are unique: new rules, new art style, new material, new ideas.
 
@@ -50,9 +43,7 @@ The perfect quick family games for the (aspiring) mathemagicians among us.
 
 _Great! When are new games added?_ Currently, I have ~10 ideas, of which ~2 new ones will be added each year.
 
-{{% /section-centered %}}
-
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Background
 
 Once upon a time, I noticed that these kind of "number card games" are very useful. They are easy to learn for all ages, as they only require cards with numbers, no text or complicated rules. They are quick to play. And at the same time, they offer a lot of depth, because the number can always be dealt or used differently.
 
@@ -60,8 +51,8 @@ That's when I decided to take inspiration from that and make such a game. This b
 
 The fact that I'm officially an Engineer of Mathematics, though I'll never use that diploma for anything, also made it easy to pursue these ideas.
 
+## Credits
+
 Because all games are completely unique in their gameplay, there are no shared images or fonts. For detailed credits, you'll have to check out the page for a specific game.
 
 Some images were generated using AI. I generally use open source and free fonts, though I sometimes make one myself. Everything else---code, assets, ideas, rules, this website---is all mine.
-
-{{% /section-centered %}}

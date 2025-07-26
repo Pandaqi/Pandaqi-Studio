@@ -2,19 +2,19 @@
 type: "rules"
 ---
 
-{{% rules-block heading="Setup" icon="setup" %}}
+{{% rules/rules-block heading="Setup" icon="setup" %}}
 
 Give everyone X cards. Once picked up, you may **not** change their order anymore.
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block heading="Objective" icon="objective" %}}
+{{% rules/rules-block heading="Objective" icon="objective" %}}
 
 The game ends when **everyone is out of cards**. Players count the scores of the 2-card combos they collected; **highest score wins**!
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block heading="Gameplay" icon="action" %}}
+{{% rules/rules-block heading="Gameplay" icon="action" %}}
 
 Take clockwise turns from start player until done.
 
@@ -33,9 +33,9 @@ See [Cards & Combos](#cards-and-combos) for the specifics on how they work.
 
 @TODO: EXAMPLE IMAGE
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block heading="Cards & Combos" id="cards-and-combos" %}}
+{{% rules/rules-block heading="Cards & Combos" id="cards-and-combos" %}}
 
 Every card shows a **recipe** (which determines score) and some **food icons**. Some also show an **action**.
 
@@ -49,19 +49,19 @@ If both cards have an action, the action with the _higher number_ is the one you
 
 @TODO: EXAMPLE IMAGE
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block heading="Expansions & Variants" id="expansions" icon="expansion" %}}
+{{% rules/rules-block heading="Expansions & Variants" id="expansions" icon="expansion" %}}
 
 Played the base game and ready for more? Or looking to tweak the game to fit your playing group better? Check out these variants and expansions!
 
-{{% rules-block heading="Variants" %}}
+{{% rules/rules-block heading="Variants" %}}
 
 This game has no official variants.
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block heading="Expansion: Megamoves" %}}
+{{% rules/rules-block heading="Expansion: Megamoves" %}}
 
 This adds cards with some more advanced actions. 
 
@@ -71,13 +71,13 @@ Note that a modifier is _not_ an action, so if a combo only has cards with modif
 
 @TODO: EXAMPLE IMAGE
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% rules-block heading="Expansion: Cookyclasses" %}}
+{{% rules/rules-block heading="Expansion: Cookyclasses" %}}
 
 This expansion adds cards with some _other_ way of scoring. (@TODO: as usual, see the original idea file for examples, and perhaps give an image/example here.)
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 
-{{% /rules-block %}}
+{{% /rules/rules-block %}}
 

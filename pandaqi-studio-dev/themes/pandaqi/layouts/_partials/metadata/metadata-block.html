@@ -1,19 +1,26 @@
 <div class="metadata-container flex flex-wrap gap-m">
+	{{ $has_categories := .Params.categories }}
+	{{ $has_tags := .Params.tags }}
+	{{ $display_label_section := or $has_categories $has_tags }}
+	{{ if $display_label_section }}
 	<aside class="sidebar-block">
 		<!-- Categories & Tags -->
 		<h3 class="text-uppercase font-size-s">Labels</h3>
-		<nav>
-			<ul class="no-default-list-styles">
-				<li><span class="font-size-s text-uppercase text-thin">Categories</span>
-					{{ range $k, $v := .Params.categories }}
-						{{ $url := printf "/categories/%s" $v }}
-						{{ partial "buttons/button.html" (dict "href" $url "content" ($v | humanize) "class" "font-size-s") }}
-					{{ end }}
+		{{ if $has_categories }}
+			<nav>
+				<ul class="no-default-list-styles">
+					<li><span class="font-size-s text-uppercase text-thin">Categories</span>
+						{{ range $k, $v := .Params.categories }}
+							{{ $url := printf "/categories/%s" $v }}
+							{{ partial "buttons/button.html" (dict "href" $url "content" ($v | humanize) "class" "font-size-s") }}
+						{{ end }}
 
-				</li>
-			</ul>
-		</nav>
+					</li>
+				</ul>
+			</nav>
+		{{ end }}
 
+		{{ if $has_tags }}
 		<nav>
 			<ul class="no-default-list-styles">
 				<li><span class="font-size-s text-uppercase text-thin">Tags</span>
@@ -21,18 +28,28 @@
 						{{ $url := printf "/tags/%s" $v }}
 						{{ partial "buttons/button.html" (dict "href" $url "content" ($v | humanize) "class" "font-size-s") }}
 					{{ end }}
-
 				</li>
 			</ul>
 		</nav>
+		{{ end }}
 	</aside>
+	{{ end }}
 
 	<!-- Concrete Metadata (player count, multiplayer type, platforms, etc) -->
+	{{ $data_keys := slice "multiplayertype" "multiplayermode" "price" "platform" "language" "genres" "themes" "playtime" "playercount" "input" "ages" "difficulty" }}
+	{{ $data_labels := slice "Multiplayer Type" "Multiplayer Mode" "Price" "Platforms" "Languages" "Genres" "Themes" "Playtime" "Player Count" "Input" "Ages" "Difficulty" }}
+	{{ $display_metadata := false }}
+	{{ range $key, $val := $data_keys }}
+		{{ $param_val := $.Param $val }}
+		{{ if or $param_val (eq $param_val 0) }}
+			{{ $display_metadata = true }}
+			{{ break }}
+		{{ end }}
+	{{ end }}
+
+	{{ if $display_metadata }}
 	<aside class="sidebar-block">
 		<h3 class="text-uppercase font-size-s">Metadata</h3>
-		{{ $data_keys := slice "multiplayertype" "multiplayermode" "price" "platform" "language" "genres" "themes" "playtime" "playercount" "input" "ages" "complexity" }}
-		{{ $data_labels := slice "Multiplayer Type" "Multiplayer Mode" "Price" "Platforms" "Languages" "Genres" "Themes" "Playtime" "Player Count" "Input" "Ages" "Complexity" }}
-
 		<!-- NOTE: I use $.Param $val here, because within a "range", apparently the scope (".") is the value being looped over, not the original one -->
 		<!-- NOTE: or $param_val (eq $param_val 0) basically says => ignore any parameters that are empty, EXCEPT those that are the number 0, as those ALSO resolve to false/empty (as in most languages -->
 		<ul class="no-default-list-styles">
@@ -86,10 +103,10 @@
 			{{ end }}
 		</ul>
 	</aside>
+	{{ end }}
 
 	<!-- Metadata -->
 	{{ $press_kit := .Params.pressKit }}
-	{{ $download_link := .Params.downloadLink }}
 	{{ $requirements := .Params.requirements | markdownify }}
 	{{ $devlog := .Params.devlog }}
 	{{ $source_code := .Params.sourcecode }}
@@ -100,12 +117,6 @@
 		<h3 class="text-uppercase font-size-s">Info</h3>
 		<ul class="no-default-list-styles">
 			<li><span class="font-size-s text-uppercase text-thin">Date Published</span> <span class="font-size-s text-italic">{{ .Date.Format "January 2, 2006" }}</span></li>
-
-			{{ with $download_link }}
-				<li><span class="font-size-s text-uppercase text-thin">Buy/Download</span>
-					{{ partial "buttons/button.html" (dict "href" . "content" $title "failContent" "<em>(not available)</em>" "class" "font-size-s") }}
-				</li>
-			{{ end }}
 
 			{{ with $press_kit }}
 				<li><span class="font-size-s text-uppercase text-thin">Press Kit</span>
