@@ -1,10 +1,9 @@
 ---
-type: "gamepage"
+type: "project"
 
 title: "Boltcorpse & Sons"
-headerTitle: "Ward off the evil spirits by looking the right way and wearing the right goggles."
+blurb: "Ward off the evil spirits by looking the right way and wearing the right goggles."
 
-color: "black"
 
 date: 2025-12-12
 
@@ -15,6 +14,11 @@ tags: []
 themes: ["2D"]
 
 downloadLink: "http://pandaqi.itch.io/boltcorpse-and-sons/"
+externalLinks:
+  - label: "Play"
+    url: "http://pandaqi.itch.io/boltcorpse-and-sons/"
+    platforms: ["windows", "mac", "linux", "web"]
+    price: 2
 
 price: 2
 platform: ["windows", "mac", "linux", "web"]
@@ -24,15 +28,10 @@ playercount: [1]
 input: ["controller", "keyboard", "touch"]
 devlog: "/blog/videogames/game-jams/boltcorpse-and-sons/"
 sourcecode: "https://github.com/Pandaqi/boltcorpse-and-sons/"
+
+media: [boltcorpse_screenshot_1,boltcorpse_screenshot_2,boltcorpse_screenshot_3,boltcorpse_screenshot_4,boltcorpse_screenshot_5,boltcorpse_screenshot_6]
+
 ---
-
-{{< videogame-intro >}}
-
-{{< buylink-container class="limit-width" >}}
-{{< buylink url="http://pandaqi.itch.io/boltcorpse-and-sons/" platforms="windows,mac,linux,android" text="Buy (&euro;2)" />}} 
-{{< /buylink-container >}}
-
-{{% section-centered heading="Welcome" %}}
 
 Congratulations! You are a new employee at **Boltcorpse & Sons**.
 
@@ -49,11 +48,7 @@ The longer you *stay in one view*, the bigger your range and damage. But don't l
 
 Defend the palace! Or, well, just survive as long as you can. Those glasses were expensive.
 
-{{% /section-centered %}}
-
-{{% screenshot-gallery class="limit-width" urls="boltcorpse_screenshot_1,boltcorpse_screenshot_2,boltcorpse_screenshot_3,boltcorpse_screenshot_4,boltcorpse_screenshot_5,boltcorpse_screenshot_6" %}}
-
-{{% section-centered heading="Inspiration" %}}
+## Inspiration
 
 This is my submission for the **Mini Jame Gam 33**. Its theme was **Behind You**, and the special object (you had to use somehow) was **Glasses**.
 
@@ -61,12 +56,9 @@ Recently, I read a few novels from the *Lockwood & Co* series. That's probably w
 
 I was also inspired by the *Weeping Angels* from Doctor Who. Those are evil spirits that only move when you're *not looking*. In other words, they're a statue when in front of you, but when behind you ...
 
-{{% /section-centered %}}
-
-{{% section-centered heading="Anything else?" %}}
+## Anything else?
 
 The source code is available for free on GitHub: [Boltcorpse & Sons](https://github.com/Pandaqi/boltcorpse-and-sons/).
 
 The game was made in **Godot 4.3**, its graphics in **Affinity Designer**, and all music a mix of **Audacity** and my crappy built-in microphone.
 
-{{% /section-centered %}}

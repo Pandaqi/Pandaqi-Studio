@@ -1,23 +1,20 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Hasty Accusations"
-headerTitle: "Ensure your character survives the murder investigation, but do it in secret"
 blurb: "Everybody is investigating the same murder and pointing fingers every which way. Secret fingers. With secret actions. And you don't want too many targeting your hidden role."
-blurbShort: "Ensure your character survives the murder investigation, but do it in secret."
-
+# blurb: "Ensure your character survives the murder investigation, but do it in secret."
 downloadLink: "https://drive.google.com/drive/folders/1rpuM28gjwNK5-sSxLlJj0HYrXq8mgZkr" # already updated!
 
 
-color: "black"
 
 
 date: 2025-01-12
 
 difficulty: "simple"
 genres: ["thematic"]
-categories: ["boardgame", "card-game", "standard"]
+categories: ["board-game", "card-game", "standard"]
 tags: ["hidden-roles", "detective", "fixed-order", "player-elimination"]
 
 multiplayermode: "competitive"
@@ -29,9 +26,9 @@ devlog: "/blog/boardgames/hasty-accusations/"
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% boardgame-instructions /%}}
+
+
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -43,7 +40,7 @@ devlog: "/blog/boardgames/hasty-accusations/"
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits & Remarks" anchor="credits" %}}
+## Credits & Remarks
 
 Because this game went through so many iterations, the "lore" behind the theme has become quite comedic. You're basically terrible detectives who keep accusing potential suspects way too early, which puts them in danger and ends up getting them killed. But you're _just_ capable enough that you try to protect one specific suspect until the end. That's the only way I can thematically explain the mechanics and flow of this game. 
 
@@ -57,6 +54,4 @@ Of course, actually creating and testing the game changed it in so many ways tha
 
 But, as always, all those changes made the game much better.
 
-{{% /section-centered %}}
 
-{{< support >}}

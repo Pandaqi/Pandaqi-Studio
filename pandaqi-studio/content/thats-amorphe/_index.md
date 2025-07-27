@@ -1,20 +1,17 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "That's Amorphe"
-headerTitle: "A party game about what's halfway between a moon and an eye"
 blurb: "A party game about imagining what happens if one thing morphed into another---or guessing what other players mean with their inventions."
-blurbShort: "What happens when you morph a cat halfway into a house? And what if you do it _a little bit_? A party game about inventing things and then asking others to guess what on earth you meant."
-
-color: "red"
+# blurb: "What happens when you morph a cat halfway into a house? And what if you do it _a little bit_? A party game about inventing things and then asking others to guess what on earth you meant."
 
 
 date: 2023-02-27
 
 difficulty: "kids-can-play"
 genres: ["party"]
-categories: ["boardgame", "standard"]
+categories: ["board-game", "standard"]
 tags: ["social", "guessing", "language", "sorting", "turn-based"]
 themes: []
 
@@ -30,10 +27,10 @@ devlog: "/blog/boardgames/thats-amorphe/"
 
 ---
 
-{{% boardgame-intro /%}}
+
 
 <!-- Introduction + explanation text -->
-{{% section-centered heading="What's the idea?" %}}
+## What's the idea?
 
 Draw two **word cards**. Place them open on the table: these are the start and end of your _scale_.
 
@@ -45,9 +42,8 @@ What's halfway a bike and a house? What's 80% between a cow and a car? What's _m
 
 The other players must answer these questions. You score points only if they guess (close to) the correct morph number!
 
-{{% /section-centered %}}
 
-{{% section-centered heading="What do I need?" %}}
+## What do I need?
 
 Four simple steps.
 
@@ -58,7 +54,6 @@ Four simple steps.
 
 **Want more?** This website can generate [random word cards](#material) for you! You know, if you've played the game fifty times and want some variation.
 
-{{% /section-centered %}}
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -77,17 +72,15 @@ Four simple steps.
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Taking too long?" %}}
+## Taking too long?
 
 Coming up with a great morph is _hard_. People might take too long on their turn, while they keep thinking and can't make a decision.
 
 To solve that, use my [timer](/tools/timer/). A length of 1-2 minutes (at most!) should be great.
 
-{{% /section-centered %}}
 
-{{< support >}}
 
-{{% section-centered heading="Credits" %}}
+## Credits
           
 Fonts? [Ribeye](https://fonts.google.com/specimen/Ribeye) for headings. [Lora](https://fonts.google.com/specimen/Lora) for the rest. Both are freely available on Google Fonts.
 
@@ -95,4 +88,3 @@ The inspiration for this game came from popular party games such as Wavelength.
 
 Want to know how I developed this game? Check out the [devlog](/blog/boardgames/thats-amorphe/).
 
-{{% /section-centered %}}

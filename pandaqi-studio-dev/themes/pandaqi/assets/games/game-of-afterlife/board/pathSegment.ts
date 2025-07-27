@@ -1,4 +1,4 @@
-import Path from "lib/pq-games/tools/geometry/paths/path";
+import { Path } from "lib/pq-games";
 import CONFIG from "./config";
 
 export default class PathSegment
@@ -12,7 +12,7 @@ export default class PathSegment
         this.squares = [];
     }
 
-    toPath() { return this.path.toPath(); }
+    toPath() { return this.path.toPathArray(); }
     lengthRaw() { return this.toPath().length; }
     createSquares()
     {

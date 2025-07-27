@@ -1,17 +1,8 @@
 ---
-type: "gamepage"
+type: "project"
 
 title: "I Wish You Good Hug"
-headerTitle: "Help create a teddy bear topia"
 blurb: "1-4 players try to deliver teddy bears to a warm bed ... whatever it takes"
-
-headerImg: "goodhug_pattern"
-headerThumb: "goodhug_logo"
-
-color: "green"
-
-
-
 
 date: 2021-07-14
 
@@ -22,6 +13,11 @@ tags: ["chaos", "shared-map", "pick-up-and-deliver", "grid", "hot-potato", "proc
 themes: ["2D", "relaxing", "vector"]
 
 downloadLink: "http://pandaqi.itch.io/i-wish-you-good-hug"
+externalLinks:
+  - label: "Download"
+    url: "http://pandaqi.itch.io/i-wish-you-good-hug/"
+    platforms: ["windows", "mac", "linux", "android"]
+    price: 2
 
 multiplayertype: 'offline'
 multiplayermode: 'cooperative'
@@ -33,15 +29,11 @@ playercount: [1,2,3,4]
 input: ["keyboard", "controller", "touch"]
 devlog: "/blog/videogames/one-week-games/devlog-i-wish-you-good-hug/"
 
+media: [goodhug_1, goodhug_2, goodhug_3]
+
 ---
 
-{{% embedvideo bg="goodhug_header" vid="https://www.youtube.com/embed/9Qwpho6_8uc" %}}
-
-{{< buylink-container class="limit-width" >}}
-{{< buylink url="http://pandaqi.itch.io/i-wish-you-good-hug" platforms="windows,mac,linux,android"  text="Buy (&euro;2)" />}} 
-{{< /buylink-container >}}
-
-{{% section-centered heading="" %}}
+{{% embed-video bg="goodhug_header" vid="https://www.youtube.com/embed/9Qwpho6_8uc" %}}
 
 You have been given the most important task known to mankind: <span style="color:purple;">making sure that teddybears get the soft, warm hugs they deserve!</span>
 
@@ -53,9 +45,7 @@ So we've added some very special cells to help you, such as trampolines that per
 
 A short couch coop chaos game for 1&ndash;4 players. A campaign with 27 levels. A warm hug, in video game form.
 
-{{% /section-centered %}}
-
-{{% section-centered heading="Controls" %}}
+## Controls
 
 This game is playable ... 
 - On <span style="color:#b8341f;">Windows/Mac/Linux</span> with any combination of keyboard and controllers
@@ -65,40 +55,26 @@ The full game only has two controls: move your character around and rotate it.
 
 This means it's simple to pick up and playable by literally anyone. But not because it's an easy game &mdash; oh no, properly hugging is never easy!
 
-{{% /section-centered %}}
-
-{{% section-centered html="true" %}}
 {{% figure url="goodhug_1" alt="Action 1: How to move" %}}
 {{% figure url="goodhug_2" alt="Action 2: How to rotate" %}}
-{{% /section-centered %}}
 
-{{% section-centered heading="What do I do?" %}}
+## What Do I Do?
 
 The objective is the same throughout the whole game: <span style="color:purple;">get teddy bears to where they want to go!</span>
 
 However, you can only grab bears by hugging them, and there are a great many thorny obstacles to avoid on your way. You must move past cacti, alarm clocks, shooters, and more, whilst being correctly rotated to hug the things you want to hug.
 
-{{% /section-centered %}}
-
-{{% section-centered heading="" html="true" %}}
 {{% figure url="goodhug_3" alt="Explanation: how to hug ... properly" %}}
-{{% /section-centered %}}
-
-{{% section-centered heading="" %}}
 			
 Additionally, there's an annoying but necessary secret ingredient called _teamwork_ Each player has their own area and cannot (easily) visit others, which means you'll have to communicate, hand your bears to your teammates, and make sure they are rotated correctly to receive them.
 
 In other words: throwing a bear in this game is the ultimate trust hug.
 
-{{% /section-centered %}}
-
-{{% section-centered heading="Other links" %}}
+## Other Links
 
 This game was featured on the GamesKeys website (as a handpicked, underplayed mobile game): [I Wish You Good Hug (on GamesKeys)](https://gameskeys.net/product/i-wish-you-good-hug/)
 
-{{% /section-centered %}}
-
-{{% section-centered heading="The 1-week challenge" %}}
+## The 1-week challenge
 
 I love couch co-op games and have tons of cute, little ideas for them.
 
@@ -109,5 +85,3 @@ Originally, this game was called _Huggy Bastard_ ... but that didn't seem very f
 If you have any _feedback_ (improvements, bugs, things that are unclear/too hard/too easy, etc.), never hesitate to let me know. Even though I can do a lot of development in a week, these games are bound to have areas that can be greatly improved with your feedback.
 
 For a more detailed "devlog" (with the lessons I learned, the original idea, etcetera), visit .. [I Wish You Good Hug: What I've Learned](/blog/videogames/one-week-games/devlog-i-wish-you-good-hug)
-
-{{% /section-centered %}}

@@ -1,22 +1,20 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Folly & Fortune"
-headerTitle: "Stop re-rolling your dice before fortune turns into folly ... if you can resist the temptation for larger attacks."
 blurb: "Stop re-rolling your dice before fortune turns into folly ... if you can resist the temptation for larger attacks."
 
 weightProject: 25
 
 downloadLink: "https://drive.google.com/drive/folders/1chjXiPxGk8ydViL-6O7BosN_-2nRBmNS"
 
-color: "pink"
 
 date: 2025-11-26
 
 difficulty: "kids-can-play"
 genres: ["family", "abstract"]
-categories: ["boardgame", "card-game"]
+categories: ["board-game", "card-game"]
 tags: ["chance", "dice", "battle", "turn-based", "numbers", "push-your-luck", "high-score"]
 themes: ["humor", "cartoon"]
 
@@ -29,9 +27,9 @@ devlog: "/blog/boardgames/the-luck-legends/folly-and-fortune/"
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% boardgame-instructions /%}}
+
+
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -44,7 +42,7 @@ devlog: "/blog/boardgames/the-luck-legends/folly-and-fortune/"
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 The fonts used are **Antique No14** (headings) and **Goodfish** (body text). Everything else is mine.
 
@@ -54,4 +52,3 @@ Until I looked at it the other way around. I came up with the core mechanic of t
 
 Once I had the name (_Folly & Fortune_), this pushed the game into a direction of silly and wacky graphics. And that's the game you can play now!
 
-{{% /section-centered %}}

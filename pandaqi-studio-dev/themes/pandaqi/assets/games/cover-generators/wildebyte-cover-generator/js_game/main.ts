@@ -1,4 +1,4 @@
-import BookCoverGenerator from "lib/pq-games/tools/generation/bookCovers/bookCoverGenerator";
+import BookCoverGenerator from "lib/pq-games/tools/bookCovers/bookCoverGenerator";
 import CONFIG from "./config";
 import CALLBACKS from "./callbacks";
 

@@ -1,13 +1,9 @@
-import InteractiveExample from "lib/pq-rulebook/examples/interactiveExample"
-import { CardData, SETS } from "../js_shared/dict"
-import fromArray from "lib/pq-games/tools/random/fromArray";
-import Point from "lib/pq-games/tools/geometry/point";
-import rangeInteger from "lib/pq-games/tools/random/rangeInteger";
-import Card from "../js_game/card";
-import PowerChecker from "../js_shared/powerChecker";
-import getWeighted from "lib/pq-games/tools/random/getWeighted";
-import createRandomSet from "../js_shared/createRandomSet";
-import { getIndexOfProp } from "../js_shared/queries";
+import { CardData, SETS } from "../shared/dict"
+import Card from "../game/card";
+import PowerChecker from "../shared/powerChecker";
+import createRandomSet from "../shared/createRandomSet";
+import { Vector2, fromArray, getWeighted, rangeInteger } from "lib/pq-games";
+import { InteractiveExample } from "lib/pq-rulebook";
 
 const CONFIG =
 {
@@ -17,7 +13,7 @@ const CONFIG =
     numSimulations: 1000,
 
     fontFamily: "Pettingill",
-    cardSize: new Point(480, 672),
+    cardSize: new Vector2(480, 672),
     possibleCards: {},
     setsWeighted: {
         starter: { prob: 10 },

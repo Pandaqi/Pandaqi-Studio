@@ -1,23 +1,20 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Theme Parque"
-headerTitle: "Design a theme park of dominoes together that scores you the most points."
 blurb: "Design a theme park of dominoes together, but with the queues and attractions that score you the most points."
-blurbShort: "Design a theme park together, but with strategical queuing and ride placement. A [Domino Diaries](/the-domino-diaries/) game."
-
+# blurb: "Design a theme park together, but with strategical queuing and ride placement. A [Domino Diaries](/the-domino-diaries/) game."
 weightProject: 30
 
 downloadLink: "https://drive.google.com/drive/folders/1bgRo7I6wblim32c6pOV8wKh_CWHedtOB"
 
-color: "green"
 
 date: 2025-06-26
 
 difficulty: "kids-can-play"
 genres: ["family", "thematic"]
-categories: ["boardgame", "tile-game"]
+categories: ["board-game", "tile-game"]
 tags: ["domino", "shared-map", "matching", "turn-based", "market", "ownership", "high-score", "networks"]
 themes: ["cartoon", "colorful"]
 
@@ -30,9 +27,9 @@ devlog: "/blog/boardgames/the-domino-diaries/theme-parque/"
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% boardgame-instructions /%}}
+
+
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -50,7 +47,7 @@ devlog: "/blog/boardgames/the-domino-diaries/theme-parque/"
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 The fonts used are **Wild Ride** (headings) and **Besley** (body text). Some generative image AI was used. Everything else (code, idea, rules, illustrations) is entirely mine.
 
@@ -68,4 +65,3 @@ In the end, I think the graphics turned into a unique blend of "simple/cartoonis
 
 (Also, yes, the fonts I use often give insight into my incredibly professional process for finding new fonts: by _name_ :p A font called "Wild Ride" just sounded perfect for a game about rides, so I _had_ to use it. That's also why the Dino-themed domino game has a font called _Cute Dino_. I'm just lucky the fonts were great and readable too.)
 
-{{% /section-centered %}}

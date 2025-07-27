@@ -1,16 +1,10 @@
 ---
 draft: true
 
-
 title: "Monsters under the Bed"
-headerTitle: "Monsters under the Bed -- Local coop on a smartphone"
-blurb: "??"
+blurb: "Local coop on a smartphone"
 
-
-
-buttonColor: "#7CFF86"
-
-googleFonts: "https://fonts.googleapis.com/css2?family=Ibarra+Real+Nova:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+# googleFonts: "https://fonts.googleapis.com/css2?family=Ibarra+Real+Nova:ital,wght@0,400;0,700;1,400;1,700&display=swap"
 
 date: 2021-04-29
 

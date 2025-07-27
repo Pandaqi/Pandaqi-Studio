@@ -1,17 +1,9 @@
-import PointGraph from "lib/pq-games/tools/geometry/pointGraph";
 import Route from "./route";
 import BoardState from "./boardState";
-import fromArray from "lib/pq-games/tools/random/fromArray";
 import CONFIG from "./config";
-import range from "lib/pq-games/tools/random/range";
-import shuffle from "lib/pq-games/tools/random/shuffle";
 import RouteSet from "./routeSet";
-import lineIntersectsShape from "lib/pq-games/tools/geometry/intersection/lineIntersectsShape";
-import Line from "lib/pq-games/tools/geometry/line";
-import getWeightedByIndex from "lib/pq-games/tools/random/getWeightedByIndex";
-import getWeighted from "lib/pq-games/tools/random/getWeighted";
+import { Vector2Graph, Line, range, getWeightedByIndex, rangeInteger, shuffle, fromArray, getWeighted } from "lib/pq-games";
 import { BONUSES } from "./dict";
-import rangeInteger from "lib/pq-games/tools/random/rangeInteger";
 
 export default class Routes
 {
@@ -26,7 +18,7 @@ export default class Routes
     
     get() { return this.routes; }
     count() { return this.routes.length; }
-    generate(points:PointGraph[])
+    generate(points:Vector2Graph[])
     {
         const routes = this.createRoutesFromPoints(points);
         this.routes = routes;
@@ -53,7 +45,6 @@ export default class Routes
     remove(route:Route)
     {
         //console.log("Should remove route ", route);
-        
         route.removeFromPoints();
         if(route.set) { route.set.remove(route); }
 
@@ -69,7 +60,7 @@ export default class Routes
         return false;
     }
 
-    createRouteBetween(a:PointGraph, b:PointGraph, list:Route[])
+    createRouteBetween(a:Vector2Graph, b:Vector2Graph, list:Route[])
     {
         const r = new Route(a,b);
         if(this.routeAlreadyRegistered(r, list)) { return null; }
@@ -82,7 +73,7 @@ export default class Routes
         return r;
     }
 
-    createRoutesFromPoints(points:PointGraph[])
+    createRoutesFromPoints(points:Vector2Graph[])
     {
         for(const point of points)
         {
@@ -164,7 +155,7 @@ export default class Routes
         return routes;
     }
 
-    countUniqueRoutes(point:PointGraph)
+    countUniqueRoutes(point:Vector2Graph)
     {
         const routes = point.metadata.routes;
         let sets = [];
@@ -179,7 +170,7 @@ export default class Routes
         return sum;
     }
 
-    trySneakConnections(points:PointGraph[], routes:Route[])
+    trySneakConnections(points:Vector2Graph[], routes:Route[])
     {
         if(!CONFIG.generation.trySneakConnections) { return; }
 

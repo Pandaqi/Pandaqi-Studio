@@ -1,14 +1,12 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Crashing cars"
-headerTitle: "A Naivigation game about steering a single car together"
-blurbShort: "A [Naivigation](/naivigation/) game about steering a single car together, trying not to end up total loss."
-
+blurb: "A Naivigation game about steering a single car together"
+# blurb: "A [Naivigation](/naivigation/) game about steering a single car together, trying not to end up total loss."
 weightProject: 30
 
-color: "green"
 
 downloadLink: "https://drive.google.com/drive/folders/1WKmILf44gTef64QHRQO0jdkur54nXpNI"
 
@@ -16,7 +14,7 @@ date: 2025-10-26
 
 difficulty: "simple"
 genres: ["family", "thematic", "simulation"]
-categories: ["boardgame", "family-friendly", "local-multiplayer", "standard"]
+categories: ["board-game", "family-friendly", "local-multiplayer", "standard"]
 tags: ["chaos", "delayed-actions", "events", "fast-paced", "grid", "limited-communication", "logic", "memory", "modular", "movement", "orientation", "shared-map", "sudden-death", "team-based", "transportation", "turn-based", "variable-setup", "vehicle-simulation"]
 themes: ["cartoon", "colorful", "humor", "top-down"]
 
@@ -28,9 +26,9 @@ ages: everyone
 devlog: "/blog/boardgames/naivigation/visit/crashing-cars/"
 ---
 
-{{% boardgame-intro /%}}
 
-{{% section-centered heading="What do I need?" %}}
+
+## What do I need?
 
 This game is part of the Naivigation universe. It means you need two things to play this game.
 
@@ -43,7 +41,6 @@ Print and cut it, read the short [playful rules](rules), and you can play!
 
 **Want more?** You can also [generate your own material](#material) right on this website, to suit your specific needs.
 
-{{% /section-centered %}}
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -66,7 +63,7 @@ Print and cut it, read the short [playful rules](rules), and you can play!
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 As mentioned on the Naivigation page, this whole idea started with the _car_. Many years ago, I made a very flawed first version of Naivigation where you moved a car together. The core was really strong---which is why I continued to iterate on it---but the rules I came up with were just too convoluted and unbalanced.
 
@@ -80,4 +77,3 @@ That being said, I am always looking for opportunities to improve and simplify. 
 
 For more information, check out the credits and supporting information from the [Naivigation overview page](/naivigation/).
 
-{{% /section-centered %}}

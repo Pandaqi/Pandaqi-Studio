@@ -4,7 +4,7 @@ blurb: "How to subscribe and get updates whenever new games, features or project
 type: "infopage"
 data: 2015-01-01
 noHeader: true
-noThumb: true
+
 
 ---
 {{< custom-entry-banner id="0" title="Subscribe" class="green" >}}

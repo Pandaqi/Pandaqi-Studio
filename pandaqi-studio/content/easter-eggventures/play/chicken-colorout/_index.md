@@ -1,23 +1,20 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Chicken Colorout"
-headerTitle: "Be the first to hide all your eggs in an environment filled with kids eager to find them again."
 blurb: "Be the first to hide all your eggs in an environment filled with kids eager to find them again."
-blurbShort: "An [Easter Eggventures](/easter-eggventures/) game about a reverse egg hunt: hide all your eggs in the best hiding spots so they will never be found again."
-
+# blurb: "An [Easter Eggventures](/easter-eggventures/) game about a reverse egg hunt: hide all your eggs in the best hiding spots so they will never be found again."
 blurbProject: "Be the first to hide all your eggs in an environment filled with kids (or other forces) eager to find them again."
 weightProject: 30
 
 downloadLink: "https://drive.google.com/drive/folders/1qKnpae5c9UUf1UC2XiAmE01oGXPXsmJC"
 
-color: "green"
 
 date: 2025-03-26
 
 difficulty: "kids-can-play"
-categories: ["boardgame", "tile-game", "standard"]
+categories: ["board-game", "tile-game", "standard"]
 genre: ["family"]
 tags: ["shared-map", "move-through-all"]
 themes: ["colorful", "holiday"]
@@ -30,9 +27,9 @@ ages: everyone
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% boardgame-instructions /%}}
+
+
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -46,9 +43,8 @@ ages: everyone
 
 {{% /boardgame-settings-container %}}
 
-{{< support >}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 As stated, this game is part of the Easter Eggventures project. It shares the fonts, style, and origins with all other games in the project. As such, for more information, check out the [Easter Eggventures overview page](/easter-eggventures/).
 
@@ -58,4 +54,3 @@ The core rules of the game are short and consistent from start to finish. The di
 
 This is probably my favorite, because it's unique and simple, yet has the most tactical depth and puzzling turns.
 
-{{% /section-centered %}}

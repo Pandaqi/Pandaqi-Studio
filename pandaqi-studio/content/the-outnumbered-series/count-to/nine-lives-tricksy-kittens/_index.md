@@ -1,22 +1,20 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Nine Lives: Tricksy Kittens"
-headerTitle: "Be the first cat to achieve your nine lives!"
 blurb: "A trick-taking game about getting your nine lives before anybody else, by placing smart bets on the right cats."
 
 weightProject: 92
 
 downloadLink: "https://drive.google.com/drive/folders/1FxdHCEaLdaSrGDIrCx5yZHMx6P07_Ios"
 
-color: "white"
 
 date: 2024-09-11
 
 difficulty: "simple"
 genres: ["family"]
-categories: ["boardgame", "card-game", "standard"]
+categories: ["board-game", "card-game", "standard"]
 tags: ["numbers", "hand-management", "move-through-all", "turn-based", "player-powers", "trick-taking"]
 themes: ["nature"]
 
@@ -31,9 +29,9 @@ devlog: "/blog/boardgames/the-outnumbered-series/nine-lives-tricksy-kittens/"
 
 <div class="bg-cats"></div>
 
-{{% boardgame-intro /%}}
 
-{{% boardgame-instructions /%}}
+
+
 
 {{% boardgame-settings-container type="material" remarks="As stated in the rules, you need 1 suit per player. Each suit is only 9 cards (1 page in regular size), so when unsure, just include all of them." %}}
 
@@ -46,7 +44,7 @@ devlog: "/blog/boardgames/the-outnumbered-series/nine-lives-tricksy-kittens/"
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 The fonts used are **Puss in Boots** (headings, fancy text) and **Catcafe** (body text, readable). Both freely available online. Parts of the illustrations were generated with AI. Everything else is mine.
 
@@ -60,4 +58,3 @@ Do you have a favorite version of Nine Lives? Let me know which one and why!
 
 For more information, as always, read my [detailed developer diary on Pandaqi Blog](/blog/boardgames/the-outnumbered-series/nine-lives-tricksy-kittens/).
 
-{{% /section-centered %}}

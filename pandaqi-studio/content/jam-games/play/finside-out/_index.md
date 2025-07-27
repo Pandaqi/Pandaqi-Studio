@@ -1,10 +1,8 @@
 ---
-type: "gamepage"
+type: "project"
 
 title: "Finside Out"
-headerTitle: "Race your canoe through the raging rapids while escaping your friends or piranhas."
-
-color: "turquoise"
+blurb: "Race your canoe through the raging rapids while escaping your friends or piranhas."
 
 date: 2025-12-12
 
@@ -15,6 +13,11 @@ tags: []
 themes: ["2D"]
 
 downloadLink: "http://pandaqi.itch.io/finside-out/"
+externalLinks:
+  - label: "Buy"
+    url: "http://pandaqi.itch.io/finside-out/"
+    platforms: ["windows", "mac", "linux", "web"]
+    price: 2
 
 price: 2
 platform: ["windows", "mac", "linux", "web"]
@@ -25,15 +28,9 @@ input: ["controller", "keyboard"]
 devlog: "/blog/videogames/game-jams/finside-out/"
 sourcecode: "https://github.com/Pandaqi/Wanna-Jam-2024/"
 
+media: [finside_out_sc0,finside_out_sc1,finside_out_sc2,finside_out_sc3,finside_out_sc4,finside_out_sc5]
+
 ---
-
-{{< videogame-intro >}}
-
-{{< buylink-container class="limit-width" >}}
-{{< buylink url="http://pandaqi.itch.io/finside-out/" platforms="windows,mac,linux,android" text="Buy (&euro;2)" />}} 
-{{< /buylink-container >}}
-
-{{% section-centered heading="About the Game" %}}
 
 **Race to the finish with 1-4 players** in a canoe that can only peddle left or right.
 
@@ -45,11 +42,7 @@ It's incredibly easy to learn because you only need two controls: left and right
 
 In short: A high stakes canoe race to the Fin-nish.
 
-{{% /section-centered %}}
-
-{{% screenshot-gallery class="limit-width" urls="finside_out_sc0,finside_out_sc1,finside_out_sc2,finside_out_sc3,finside_out_sc4,finside_out_sc5" %}}
-
-{{% section-centered heading="Anything Else?" %}}
+## Anything Else?
 
 This was one of my submissions for the **Do you Wanna Jam 2024!?**
 
@@ -63,4 +56,3 @@ I think the random river generation became far better than I could've hoped for,
 
 At the same time, it's obviously unpolished and lacking quite some content. But I found it promising enough to also submit to the jam and perhaps turn into something bigger once the jam is over.
 
-{{% /section-centered %}}

@@ -1,22 +1,15 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
 
 title: "Starry Skylines"
-headerTitle: "Build your new city in space, together"
 blurb: "You are all simultaneously building a city in space. On the same planet. And no, this is not a cooperative game."
-blurbShort: "A [One Paper Game](/boardgames#one-paper-games) for 1--9 players about simultaneously building a city in space."
-
-noThumb: true
-customHeight: "small-medium"
-
-color: "black"
+# blurb: "A [One Paper Game](/boardgames#one-paper-games) for 1--9 players about simultaneously building a city in space."
 
 date: 2020-08-22
 
 difficulty: "no-brainer"
 genres: ["family"]
-categories: ["boardgame", "one-paper-game", "hybrid-game"]
+categories: ["board-game", "one-paper-game", "hybrid-game"]
 tags: ["area-control", "numbers", "point-salad", "logic", "variable-setup", "construction", "synergies", "events", "modular"]
 themes: ["space", "top-down"]
 
@@ -28,15 +21,10 @@ playtime: 30-60
 playercount: [1,2,3,4,5,6,7,8,9]
 ages: everyone
 devlog: "/blog/boardgames/starry-skylines/devlog-starry-skylines/"
+
+media: [video/starryskylines_explanation_gif, page/starryskylines_finishedgames]
+
 ---
-
-{{% boardgame-intro /%}}
-
-<div class="limit-width explanation-gif">
-  {{< video url="video/starryskylines_explanation_gif" controls="controls" >}}
-</div>
-
-{{% section-centered heading="How to play" unfold="true" %}}
 
 Build the nicest neighbourhood on your planet and **score the most points**. The problem? Your opponents are doing the same and invading your precious space!
 
@@ -48,9 +36,7 @@ Play continues until the board is full or a player has been unable to do a move 
 
 Count your people, count your buildings, get awards for special achievements, and voila---the player with the most points wins!
 
-{{% /section-centered %}}
-
-{{% section-centered heading="What do I need?" %}}
+## What do I need?
 
 Three simple steps.
 
@@ -61,8 +47,6 @@ Three simple steps.
 This website handles everything for you. It also shows explanations for all the different buildings and mechanics (if you **click** on them).
 
 **Don't like blank papers?** Use the [board](#board) generator below to get a random starting setup.
-
-{{% /section-centered %}}
 
 {{% boardgame-settings-container type="game" %}}
 
@@ -84,9 +68,7 @@ This website handles everything for you. It also shows explanations for all the 
 
 {{% /boardgame-settings-container %}}
 
-{{< support >}}
-
-{{% section-centered heading="Credits" %}}
+## Credits
 
 This game is inspired by the boardgame [Welcome To ...](https://boardgamegeek.com/boardgame/233867/welcome). If you like this game, check out that one!
 
@@ -101,8 +83,4 @@ I've also written a detailed devlopment log about the whole process of creating 
 
 Wondering what a game looks like? Here are some of our test games.
 
-{{% figure alt="Three finished games of Starry Skylines" url="page/starryskylines_finishedgames" %}}
-
-<span style="opacity: 0.75; font-style: italic; font-size: 0.75em; display: inline-block;">(Yeah, we couldn't find any white paper, therefore we used yellow ones. This is a section of the campaign I played with two players; there are more games on the backside of these papers.)</span>
-
-{{% /section-centered %}}
+About the screenshots of real games: yeah, we couldn't find any white paper, therefore we used yellow ones. This is a section of the campaign I played with two players; there are more games on the backside of these papers.

@@ -1,20 +1,17 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Pyrrameds"
-headerTitle: "Build a pyramid of cards that delivers the right medicine to the right patients."
 blurb: "Build a pyramid of cards that delivers the right medicine to the right patients. Do it with everyone else, but finish before anyone else."
-blurbShort: "Build a pyramid of cards that delivers the right medicine to the right patients."
-
+# blurb: "Build a pyramid of cards that delivers the right medicine to the right patients."
 downloadLink: "https://drive.google.com/drive/folders/1qkIw5weWYltavQCp8GJ-TmiT63Pb9sci"
 
-color: "yellow"
 
 date: 2025-05-26
 
 difficulty: "kids-can-play"
-categories: ["boardgame", "card-game", "standard"]
+categories: ["board-game", "card-game", "standard"]
 genre: ["family"]
 tags: ["numbers", "patterns", "shared-map", "networks", "move-through-all"]
 themes: ["animals"]
@@ -28,9 +25,9 @@ devlog: "/blog/boardgames/pyrrameds/"
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% boardgame-instructions /%}}
+
+
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -44,7 +41,7 @@ devlog: "/blog/boardgames/pyrrameds/"
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 The fonts used are **Library 3 AM** (headings, decorative) and **Bellota** (body, readable, longer paragraphs). Both a freely available online. 
 
@@ -58,4 +55,3 @@ I decided to write a simulation first (instead of doing a paper prototype first)
 
 (Yes, I know Pyramid has one -r. I made it two just to prevent people and machines autocorrecting the game's title to Pyramids immediately.)
 
-{{% /section-centered %}}

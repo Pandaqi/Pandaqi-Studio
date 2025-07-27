@@ -1,25 +1,10 @@
-import fillCanvas from "lib/pq-games/layout/canvas/fillCanvas";
-import DropShadowEffect from "lib/pq-games/layout/effects/dropShadowEffect";
-import TintEffect from "lib/pq-games/layout/effects/tintEffect";
-import GridMapper from "lib/pq-games/layout/gridMapper";
-import LayoutOperation from "lib/pq-games/layout/layoutOperation";
-import RendererPixi from "lib/pq-games/layout/renderers/rendererPixi";
-import ResourceGroup from "lib/pq-games/layout/resources/resourceGroup";
-import ResourceImage from "lib/pq-games/layout/resources/resourceImage";
-import ResourceLoader from "lib/pq-games/layout/resources/resourceLoader";
-import ResourceShape from "lib/pq-games/layout/resources/resourceShape";
-import ResourceText from "lib/pq-games/layout/resources/resourceText";
-import TextConfig from "lib/pq-games/layout/text/textConfig";
-import PdfBuilder from "lib/pq-games/pdf/pdfBuilder";
-import { PageOrientation } from "lib/pq-games/pdf/pdfEnums";
-import Circle from "lib/pq-games/tools/geometry/circle";
-import Point from "lib/pq-games/tools/geometry/point";
-import Rectangle from "lib/pq-games/tools/geometry/rectangle";
+import { Vector2, ResourceLoader, PageOrientation, PdfBuilder, GridMapper, ResourceImage, LayoutOperation, TintEffect, DropShadowEffect, ResourceShape, Circle, ResourceGroup, fillCanvas, Rectangle, TextConfig, ResourceText } from "lib/pq-games";
+import { RendererPixi } from "lib/pq-games/renderers/pixi/rendererPixi";
 
 const TEST_ASSETS = {
     creatures_1: {
         path: "/dev-test/assets/quellector_creatures_1.webp",
-        frames: new Point(8,2)
+        frames: new Vector2(8,2)
     },
     font: {
         key: "Comica Boom",
@@ -29,7 +14,7 @@ const TEST_ASSETS = {
 
     misc: {
         path: "/naivigation/assets/misc.webp",
-        frames: new Point(5,1)
+        frames: new Vector2(5,1)
     }
 }
 
@@ -59,7 +44,7 @@ const testPDFBuilder = () =>
 
 const testGridMapper = (pdfBuilder) =>
 {
-    const size = new Point(3,3);
+    const size = new Vector2(3,3);
 
     const gridConfig = { pdfBuilder: pdfBuilder, size: size };
     const gridMapper = new GridMapper(gridConfig);
@@ -72,10 +57,10 @@ const testSingleImage = async (canv, resLoader) =>
 {
     const res = resLoader.getResource("creatures_1") as ResourceImage;
     const spriteParams = {
-        pos: new Point(256, 256),
-        size: new Point(150),
+        pos: new Vector2(256, 256),
+        size: new Vector2(150),
         rot: 0.25*Math.PI,
-        pivot: Point.CENTER,
+        pivot: Vector2.CENTER,
         frame: 9,
     }
     const canvOp = new LayoutOperation(spriteParams);
@@ -83,7 +68,7 @@ const testSingleImage = async (canv, resLoader) =>
         new TintEffect({ color: "#FF0000" })
     )
     canvOp.addEffect(
-        new DropShadowEffect({ blur: 10, color: "#000000", offset: new Point(5,5) })
+        new DropShadowEffect({ blur: 10, color: "#000000", offset: new Vector2(5,5) })
     )
 
     await res.toCanvas(canv, canvOp);
@@ -97,8 +82,8 @@ const testGroups = async (canv, resLoader) =>
 {
     const res = resLoader.getResource("creatures_1") as ResourceImage;
     const resOp = new LayoutOperation({
-        size: new Point(150),
-        pivot: Point.CENTER,
+        size: new Vector2(150),
+        pivot: Vector2.CENTER,
         frame: 9,
     });
 
@@ -112,7 +97,7 @@ const testGroups = async (canv, resLoader) =>
     group.add(resCenter, resCenterOp);
 
     const groupOp = new LayoutOperation({
-        pos: new Point(128, 128),
+        pos: new Vector2(128, 128),
         rot: -0.25 * Math.PI
     })
     console.log(groupOp);
@@ -134,7 +119,7 @@ const testCompositeOperation = async (canv, resLoader) =>
 
     const res = resLoader.getResource("misc") as ResourceImage;
     const canvOp = new LayoutOperation({
-        size: new Point(512,256),
+        size: new Vector2(512,256),
         composite: "overlay"
     });
 
@@ -162,14 +147,14 @@ const testPixiImages = async () =>
     // place test image
     const res = resLoader.getResource("misc");
     const op = new LayoutOperation({
-        pos: new Point(80,80),
+        pos: new Vector2(80,80),
         rot: 0.2*Math.PI,
-        size: new Point(200,200),
-        pivot: Point.CENTER
+        size: new Vector2(200,200),
+        pivot: Vector2.CENTER
     });
 
     // place test graphics
-    const resRect = new ResourceShape(new Rectangle().fromTopLeft(new Point(), new Point(500,50)));
+    const resRect = new ResourceShape(new Rectangle().fromTopLeft(new Vector2(), new Vector2(500,50)));
     const opRect = new LayoutOperation({
         fill: "#FF0000",
         //effects: [ new DropShadowEffect({ color: "#333333", blur: 2 }) ],
@@ -183,8 +168,8 @@ const testPixiImages = async () =>
     });
     const resText = new ResourceText({ text: "Ik ben <b>Tiamo Pastoor</b>. Wie <i>ben jij</i>?", textConfig: textConfig });
     const opText = new LayoutOperation({
-        pos: new Point(300,300),
-        size: new Point(300, 300),
+        pos: new Vector2(300,300),
+        size: new Vector2(300, 300),
         fill: "#000000",
     })
     
@@ -193,7 +178,7 @@ const testPixiImages = async () =>
     group.add(resRect, opRect);
     group.add(resText, opText);
 
-    const canv = await renderer.finishDraw({ size: new Point(1280,720), group: group });
+    const canv = await renderer.finishDraw({ size: new Vector2(1280,720), group: group });
     document.body.appendChild(canv);
 }
 
@@ -206,7 +191,7 @@ const runTests = async () =>
     //const size = gridMapper.getMaxElementSize();
     //const canv = createCanvas({ size: size })
 
-    //const canv = createCanvas({ size: new Point(512, 512) });
+    //const canv = createCanvas({ size: new Vector2(512, 512) });
     //await testSingleImage(canv, resLoader);
     //await testGroups(canv, resLoader);
     //document.body.appendChild(canv);

@@ -1,8 +1,4 @@
-import lineIntersectsShape from "lib/pq-games/tools/geometry/intersection/lineIntersectsShape";
-import { pointIsInsideRectangle } from "lib/pq-games/tools/geometry/intersection/pointInsideShape";
-import Line from "lib/pq-games/tools/geometry/line";
-import Point from "lib/pq-games/tools/geometry/point";
-import Rectangle from "lib/pq-games/tools/geometry/rectangle";
+import { Rectangle, Line, lineIntersectsShape, pointIsInsideRectangle, Vector2 } from "lib/pq-games";
 import CONFIG from "./config";
 
 export default class ForbiddenAreas
@@ -29,7 +25,7 @@ export default class ForbiddenAreas
         return false;
     }
 
-    pointIsInside(p:Point)
+    pointIsInside(p:Vector2)
     {
         for(const rect of this.rectangles)
         {

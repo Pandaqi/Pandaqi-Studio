@@ -1,13 +1,10 @@
-import Point from "lib/pq-games/tools/geometry/point";
-import Bounds from "lib/pq-games/tools/numbers/bounds";
-import getWeighted from "lib/pq-games/tools/random/getWeighted";
-import shuffle from "lib/pq-games/tools/random/shuffle";
+import { Vector2, Bounds, getWeighted, shuffle } from "lib/pq-games";
 import { CardType } from "./dictShared";
 import MaterialNaivigation from "./materialNaivigation";
 
 interface GPSCardData
 {
-    gridDims?: Point,
+    gridDims?: Vector2,
     reward: string,
     rewardSquares: number[],
     penalty: string,
@@ -21,7 +18,7 @@ interface GPSCardParams
     rewardDict?: Record<string,any>,
     penaltyDict?: Record<string,any>,
     cardClass?: any,
-    gridDims?: Point,
+    gridDims?: Vector2,
     numSquaresBounds?: Bounds
 }
 
@@ -55,7 +52,7 @@ const pickNavigationCards = (params:GPSCardParams = {}) : MaterialNaivigation[] 
     shuffle(allPenalties);
 
     // prepare the grid of movement options
-    const gridDims = params.gridDims ?? new Point(3,3);
+    const gridDims = params.gridDims ?? new Vector2(3,3);
     const numSquaresBounds = params.numSquaresBounds ?? new Bounds(2,4);
     const posCenter = gridDims.clone().scale(0.5).floor();
     const gridSquares : number[] = [];

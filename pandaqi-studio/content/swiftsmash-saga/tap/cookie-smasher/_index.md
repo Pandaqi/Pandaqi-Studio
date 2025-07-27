@@ -1,24 +1,21 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Cookie Smasher"
-headerTitle: "Smash the poisoned food faster than anyone else to prevent the king's assassination!"
 blurb: "A fast party game about quick thinking and deduction, finding the poisoned food, then smashing it before anyone else."
-blurbShort: "Smash the poisoned food faster than anyone else to prevent the king's assassination!"
-
+# blurb: "Smash the poisoned food faster than anyone else to prevent the king's assassination!"
 blurbProject: "The king dines at a mighty feast, but one ingredient is secretly poisoned. Smash it before anyone else to save the king!"
 weightProject: 20
 
 downloadLink: "https://drive.google.com/drive/folders/1Vb-cB7KrYaxakv2X2oSmQJdSNg-9T5T_"
 
-color: "white"
 
 date: 2024-07-26
 
 difficulty: "simple"
 genres: ["action", "party"]
-categories: ["boardgame", "card-game", "standard"]
+categories: ["board-game", "card-game", "standard"]
 tags: ["simultaneous-turns", "fast-paced", "numbers"]
 themes: ["colorful", "mosaic", "medieval"]
 
@@ -31,9 +28,9 @@ devlog: "/blog/boardgames/swiftsmash-saga/cookie-smasher/"
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% boardgame-instructions /%}}
+
+
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -44,7 +41,7 @@ devlog: "/blog/boardgames/swiftsmash-saga/cookie-smasher/"
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 The fonts used are **Palette Mosaic** and **Pettingill CF**. The first is available on Google Fonts, the second is from Chuck's Fonts. Both are free for commercial use.
 
@@ -71,4 +68,3 @@ Before I knew it, the idea of cookies was entrenched in the rules and illustrati
 
 (Unless you play the later, more advanced card sets. Here's a quick strategy tip for those reading this: _eggs_ is the most probable card to be poisoned, while _pear_ and _cinnamon_ are the least probable. I asked the computer to simulate a million games, that's how I know for sure.)
 
-{{% /section-centered %}}

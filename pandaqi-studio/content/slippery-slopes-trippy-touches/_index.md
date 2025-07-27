@@ -1,14 +1,8 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
 
 title: "Slippery Slopes: Trippy Touches"
-headerTitle: "A spin-off of Slippery Slopes, completely playable on one mobile phone."
 blurb: "It's Slippery Slopes, but now playable on one mobile phone!"
-
-
-color: "red"
-
 
 date: 2024-04-25
 
@@ -29,14 +23,6 @@ devlog: "/blog/boardgames/slippery-slopes/"
 
 ---
 
-<div class="boardgame-intro">
-  <div class="big-header-image">
-    <img src="assets/slippery_slopes_trippy_touches_header.webp">
-  </div>
-</div>
-
-{{% section-centered heading="" %}}
-
 <p style="font-size: 1.5em; line-height: 1.35em; text-align: center;">How would you communicate the word <strong>"<span id="random-slippery-word">...</span>"</strong> using only the four sliders below?</p>
 
 <div class="slippery-slopes-interactive-widget" data-wordnodeid="random-slippery-word" data-reloadbtnid="slippery-reload-button"></div>
@@ -45,11 +31,9 @@ devlog: "/blog/boardgames/slippery-slopes/"
 
 Congratulations, you've just learned how to play this quick party game! Use the section below to start an official game on your phone. Or <a href="" id="slippery-reload-button">refresh this example</a> as much as you like.
 
-{{% /section-centered %}}
+## Game
 
-{{% section-centered heading="Game" anchor="game" html="true" %}}
-
-<p>Input your settings, click the button. The game opens in a new page and explains itself as you go!</p>
+Input your settings, click the button. The game opens in a new page and explains itself as you go!
 
 {{< boardgame-settings type="game" local_storage="slipperySlopesTrippyTouchesConfig" game_title="Slippery Slopes: Trippy Touches" >}}
   {{< setting-enum id="setting-maxTurns" text="How many rounds?" values="5,10,15,20,25" valaskey="true" def="10" >}}
@@ -59,11 +43,7 @@ Congratulations, you've just learned how to play this quick party game! Use the 
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
-{{% /section-centered %}}
-
-{{< support >}}
-
-{{% section-centered heading="Credits" %}}
+## Background
 
 This game is the "digital" version of [Slippery Slopes](/slippery-slopes/). If you want a physical (offline) version of this idea, with more expansions and sliders, check that out!
 
@@ -73,4 +53,3 @@ Well, you know me, if I think "it shouldn't be _too_ hard to ..." then I've basi
 
 For more information, I refer you to the original game (and its credits/devlog at the bottom)!
 
-{{% /section-centered %}}

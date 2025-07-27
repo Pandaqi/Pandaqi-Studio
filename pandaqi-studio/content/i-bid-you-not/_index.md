@@ -1,20 +1,17 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "I Bid You Not"
-headerTitle: "Sweeten the deal and be the highest bidder---or sour the deal and run away."
 blurb: "Take turns either adding items to the offer or declaring an auction. But once the auction is over, you might not be happy with how much you paid for what you got."
-blurbShort: "Sweeten the deal and be the highest bidder---or sour the deal and run away."
-
+# blurb: "Sweeten the deal and be the highest bidder---or sour the deal and run away."
 downloadLink: "https://drive.google.com/drive/folders/17wUGca1wpZq7EFj3XV7zTPL_Q774X4lN"
 
-color: "purple"
 
 date: 2025-02-26
 
 difficulty: "simple"
-categories: ["boardgame", "tile-game", "standard"]
+categories: ["board-game", "tile-game", "standard"]
 genre: ["family"]
 tags: ["numbers", "bidding", "auction"]
 themes: ["cartoon"]
@@ -28,9 +25,9 @@ devlog: "/blog/boardgames/i-bid-you-not/"
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% boardgame-instructions /%}}
+
+
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -44,7 +41,7 @@ devlog: "/blog/boardgames/i-bid-you-not/"
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 This game started as the question "what's the simplest bidding game I can come up with?" (With the added requirement that it actually be a good game and not a vague shouting match.)
 
@@ -62,4 +59,3 @@ All of that combined into the simplest bidding game I can imagine, with as much 
 
 The fonts used are **Digitalt** (header, thick) and **Inter Tight** (body, paragraphs), both freely available for commercial use. Some imagery was generated with AI. Everything else (code, rules, idea, assets, etcetera) is entirely mine.
 
-{{% /section-centered %}}

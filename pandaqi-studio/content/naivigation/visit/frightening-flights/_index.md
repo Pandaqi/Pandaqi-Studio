@@ -1,14 +1,12 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Frightening Flights"
-headerTitle: "A Naivigation game about steering a single airplane together"
-blurbShort: "A [Naivigation](/naivigation/) game about steering a single airplane together without crashing into a mountain that's surprisingly tall."
-
+blurb: "A Naivigation game about steering a single airplane together"
+# blurb: "A [Naivigation](/naivigation/) game about steering a single airplane together without crashing into a mountain that's surprisingly tall."
 weightProject: 20
 
-color: "pink"
 
 downloadLink: "https://drive.google.com/drive/folders/1jqob8rGmP2Mb_VIC1DzjPz1YS7r7u6T-"
 
@@ -16,7 +14,7 @@ date: 2025-10-26
 
 difficulty: "kids-can-play"
 genres: ["family", "thematic", "simulation"]
-categories: ["boardgame", "family-friendly", "local-multiplayer", "standard"]
+categories: ["board-game", "family-friendly", "local-multiplayer", "standard"]
 tags: ["chaos", "delayed-actions", "events", "fast-paced", "grid", "limited-communication", "logic", "memory", "modular", "movement", "orientation", "shared-map", "sudden-death", "team-based", "transportation", "turn-based", "variable-setup", "vehicle-simulation"]
 themes: ["cartoon", "colorful", "humor", "top-down"]
 
@@ -28,9 +26,9 @@ ages: everyone
 devlog: "/blog/boardgames/naivigation/visit/frightening-flights/"
 ---
 
-{{% boardgame-intro /%}}
 
-{{% section-centered heading="What do I need?" %}}
+
+## What do I need?
 
 This game is part of the Naivigation universe. It means you need two things to play this game.
 
@@ -43,7 +41,6 @@ Print and cut it, read the short [playful rules](rules), and you can play!
 
 **Want more?** You can also [generate your own material](#material) right on this website, to suit your specific needs.
 
-{{% /section-centered %}}
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -67,7 +64,7 @@ Print and cut it, read the short [playful rules](rules), and you can play!
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 This version is generally recommended as the "second version". It has more rules than the other "flying" vehicle---the spaceship---but not many. The biggest change is that height differences matter now and you need to actually land your airplane on solid ground sometimes.
 
@@ -75,4 +72,3 @@ The core game is extremely simple, because I moved all my crazy ideas to expansi
 
 For more information, check out the credits and supporting information from the [Naivigation overview page](/naivigation/).
 
-{{% /section-centered %}}

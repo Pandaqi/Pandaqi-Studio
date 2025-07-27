@@ -1,16 +1,8 @@
 ---
 draft: true 
 
-
 title: "Clouds & Babies"
-headerTitle: "Clouds & Babies - Companion websites "
-blurb: "??"
-
-
-
-buttonColor: "#7CFF86"
-
-googleFonts: "https://fonts.googleapis.com/css2?family=Cookie&display=swap"
+blurb: "Clouds & Babies - Companion websites "
 
 date: 2021-04-29
 

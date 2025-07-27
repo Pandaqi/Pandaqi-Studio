@@ -33,7 +33,7 @@ devlog: "/blog/videogames/devlog-company-of-the-tackling-tourists/"
 
 ---
 
-{{% content/embed-video bg="tourists_header" vid="https://youtube.com/embed/wbbFJdYkwZ4" class="limit-width" %}}
+{{% content/embed-video src="https://youtube.com/embed/wbbFJdYkwZ4" %}}
 
 ## Welcome!
 

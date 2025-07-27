@@ -1,5 +1,4 @@
-import Point from "lib/pq-games/tools/geometry/point"
-import Bounds from "lib/pq-games/tools/numbers/bounds"
+import { Vector2, Bounds } from "lib/pq-games"
 import { TYPES } from "./dict"
 
 const CONFIG = 
@@ -43,47 +42,47 @@ const CONFIG =
         types:
         {
             path: "types.webp",
-            frames: new Point(5,1)
+            frames: new Vector2(5,1)
         },
 
         misc:
         {
             path: "misc.webp",
-            frames: new Point(5,1)
+            frames: new Vector2(5,1)
         },
 
         starter:
         {
             path: "starter.webp",
-            frames: new Point(5,2),
+            frames: new Vector2(5,2),
             cardSet: true
         },
 
         beginner:
         {
             path: "beginner.webp",
-            frames: new Point(5,2),
+            frames: new Vector2(5,2),
             cardSet: true
         },
 
         amateur:
         {
             path: "amateur.webp",
-            frames: new Point(5,2),
+            frames: new Vector2(5,2),
             cardSet: true
         },
 
         advanced:
         {
             path: "advanced.webp",
-            frames: new Point(5,2),
+            frames: new Vector2(5,2),
             cardSet: true
         },
 
         expert:
         {
             path: "expert.webp",
-            frames: new Point(5,2),
+            frames: new Vector2(5,2),
             cardSet: true
         }
 
@@ -100,12 +99,12 @@ const CONFIG =
     cards:
     {
         size: { 
-            small: new Point(4,4),
-            regular: new Point(3,3),
-            huge: new Point(2,2)
+            small: new Vector2(4,4),
+            regular: new Vector2(3,3),
+            huge: new Vector2(2,2)
         },
-        sizeElement: new Point(1, 1.4),
-        size: new Point(),
+        sizeElement: new Vector2(1, 1.4),
+        size: new Vector2(),
 
         wonkyRect:
         {
@@ -127,11 +126,11 @@ const CONFIG =
         illustration:
         {
             sizeFactor: 0.55, // relative to sizeUnit
-            bgSize: new Point(0.65, 0.6), // should always be bigger than sizeFactor above
+            bgSize: new Vector2(0.65, 0.6), // should always be bigger than sizeFactor above
 
             addShadow: true,
             shadowRadius: 0.01, // relative to spriteSize
-            shadowOffset: new Point(0.02), // relative to spriteSize
+            shadowOffset: new Vector2(0.02), // relative to spriteSize
         },
 
         power:

@@ -1,7 +1,6 @@
-import TextConfig, { TextWeight } from "lib/pq-games/layout/text/textConfig";
-import autoLoadFontCSS from "lib/pq-games/website/autoLoadFontCSS";
+import { TextConfig, TextWeight } from "lib/pq-games";
 
-const CONFIG:any = 
+export default 
 {
     fonts:
     {
@@ -31,7 +30,3 @@ const CONFIG:any =
         },
     },
 }
-
-autoLoadFontCSS(CONFIG);
-
-export default CONFIG

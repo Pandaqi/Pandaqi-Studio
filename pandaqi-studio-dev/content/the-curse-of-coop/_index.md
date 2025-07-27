@@ -2,17 +2,10 @@
 type: "project"
 draft: true
 
-
 title: "The Curse of Coop"
-headerTitle: "Enter a cursed temple ... or rule it as a (mad) god"
-blurb: "Lala vlavla"
+blurb: "Enter a cursed temple ... or rule it as a (mad) god"
 
-
-buttonColor: "#7C593B"
-
-googleFonts: "https://fonts.googleapis.com/css2?family=Langar&family=Londrina+Solid:wght@100;300;400;900&display=swap"
-
-extraJS: true
+# googleFonts: "https://fonts.googleapis.com/css2?family=Langar&family=Londrina+Solid:wght@100;300;400;900&display=swap"
 
 date: 2021-04-29
 

@@ -1,7 +1,6 @@
-import TextConfig, { TextStyle, TextWeight } from "lib/pq-games/layout/text/textConfig";
 import TARGETS from "./targetData";
 import BOOK_DATA from "./bookData";
-import Point from "lib/pq-games/tools/geometry/point";
+import { Vector2, TextConfig, TextStyle, TextWeight } from "lib/pq-games";
 
 const CONFIG = 
 {
@@ -13,7 +12,7 @@ const CONFIG =
         targets: [], // @DEBUGGING (should be empty)
     },
 
-    pageSize: new Point(5.5, 8.5), // inches
+    pageSize: new Vector2(5.5, 8.5), // inches
     targets: TARGETS,
     bookData: BOOK_DATA,
 

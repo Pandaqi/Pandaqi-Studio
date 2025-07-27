@@ -1,9 +1,8 @@
-import ResourceLoader from "js/pq_games/layout/resources/resourceLoader"
-import OutputBuilder from "./outputBuilder"
-import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer"
-import RulesSettings from "./rulesSettings"
+import { MaterialVisualizer, ResourceLoader } from "lib/pq-games"
+import { OutputBuilder } from "./outputBuilder"
+import { RulesSettings } from "./rulesSettings"
 
-interface InteractiveExampleSimulatorParams
+export interface InteractiveExampleSimulatorParams
 {
     enabled?: boolean,
     iterations?: number,
@@ -15,8 +14,7 @@ interface InteractiveExampleSimulatorParams
     callbackFinishStats?: (s:InteractiveExampleSimulator) => void
 }
 
-export { InteractiveExampleSimulator, InteractiveExampleSimulatorParams }
-export default class InteractiveExampleSimulator
+export class InteractiveExampleSimulator
 {
     enabled: boolean
     iterations: number

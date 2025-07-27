@@ -1,21 +1,18 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+collection: "count-to"
 
 title: "The Outnumbered Series"
-headerTitle: "A series of simple card games all about one number."
 blurb: "A series of simple card games that all revolve around one unique number, using it as creatively as possible."
-blurbShort: "A series of simple card games that all revolve around one unique number."
-
+# blurb: "A series of simple card games that all revolve around one unique number."
 downloadLink: "https://drive.google.com/drive/folders/1ZOi00XqNZdUMHlVJj0ylx_8vFSA6EPow"
 
-color: "blue"
 
 date: 2023-10-20
 
 difficulty: "kids-can-play"
 genres: ["party"]
-categories: ["boardgame", "card-game", "standard"]
+categories: ["board-game", "card-game", "standard"]
 tags: ["numbers", "simultaneous-turns", "fast-paced"]
 themes: []
 
@@ -28,15 +25,11 @@ ages: everyone
 
 ---
 
-{{% boardgame-intro /%}}
-
-{{% section-centered heading="What's this?" %}}
+## What's this?
 
 This is the **overview page** of The Outnumbered Series.
 
-Click any of the links below to visit a specific game. They are sorted based on their unique number, not any other metric (such as simplicity).
-
-{{< boardgame-project-games-list subdir="count-to" >}}
+Click any of the links to visit a specific game. They are sorted based on their unique number, not any other metric (such as simplicity).
 
 All the games are unique: new rules, new art style, new material, new ideas.
 
@@ -46,9 +39,8 @@ The perfect quick family games for the (aspiring) mathemagicians among us.
 
 _Great! When are new games added?_ Currently, I have ~10 ideas, of which ~2 new ones will be added each year.
 
-{{% /section-centered %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 Once upon a time, I noticed that these kind of "number card games" are very useful. They are easy to learn for all ages, as they only require cards with numbers, no text or complicated rules. They are quick to play. And at the same time, they offer a lot of depth, because the number can always be dealt or used differently.
 
@@ -60,4 +52,3 @@ Because all games are completely unique in their gameplay, there are no shared i
 
 Some images were generated using AI. I generally use open source and free fonts, though I sometimes make one myself. Everything else---code, assets, ideas, rules, this website---is all mine.
 
-{{% /section-centered %}}

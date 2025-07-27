@@ -1,20 +1,17 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Noble Flood"
-headerTitle: "Score the best possible patterns with your hand of cards or deny others the opportunity."
 blurb: "Score the best possible patterns with your hand of cards or deny others the opportunity. Also playable with standard deck of cards."
-blurbShort: "Score the best possible patterns with your hand of cards or deny others the opportunity."
-
+# blurb: "Score the best possible patterns with your hand of cards or deny others the opportunity."
 downloadLink: "https://drive.google.com/drive/folders/1CcsMv1m33GWZypAiNYZgkpCh17RQtqW5"
 
-color: "purple"
 
 date: 2025-05-26
 
 difficulty: "simple"
-categories: ["boardgame", "card-game", "standard"]
+categories: ["board-game", "card-game", "standard"]
 genre: ["family"]
 tags: ["contracts", "shared-map", "high-score"]
 themes: []
@@ -28,9 +25,9 @@ devlog: "/blog/boardgames/chiptales/noble-flood/"
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% boardgame-instructions /%}}
+
+
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -46,7 +43,7 @@ devlog: "/blog/boardgames/chiptales/noble-flood/"
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 The fonts used are **Romes Palace** (headings, decorative) and **Cardo** (body, readable, longer paragraphs). Some illustrations also use **Rechtman** (cursive, wavey). All of these are freely available online.
 
@@ -64,4 +61,3 @@ All of that combined into this simple card-based game that I like a lot.
 
 And yes, _Noble Flood_ is a pun on _Royal Flush_. It felt like a silly temporary name, until I started to like it a lot halfway through development, and it stuck.
 
-{{% /section-centered %}}

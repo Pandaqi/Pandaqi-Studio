@@ -1,16 +1,8 @@
 ---
-type: "gamepage"
+type: "project"
 
 title: "Carving Pumpkins & Dwarfing Dumplings"
-headerTitle: "A party game about slicing your friends into smaller and smaller pieces ... "
 blurb: "A party game for 2-8 players about slicing your friends into smaller pieces, or preventing a huge dumpling from meeting the same fate."
-
-headerImg: "carvingpumpkins_banner_bg"
-headerThumb: "carvingpumpkins_logo"
-
-customHeight: "medium"
-
-color: "brown"
 
 date: 2022-01-27
 
@@ -21,6 +13,15 @@ tags: ["battle", "chaos", "physics-based", "player-elimination", "real-time", "s
 themes: ["2D", "colorful", "holiday", "top-down"]
 
 downloadLink: "http://pandaqi.itch.io/carving-pumpkins-and-dwarfing-dumplings/"
+externalLinks:
+  - label: "Demo"
+    url: "http://pandaqi.itch.io/carving-pumpkins-and-dwarfing-dumplings/"
+    platforms: ["windows", "mac", "linux"]
+    price: 0 
+  - label: "Buy"
+    url: "http://pandaqi.itch.io/carving-pumpkins-and-dwarfing-dumplings/"
+    platforms: ["windows", "mac", "linux"]
+    price: 5
 
 multiplayertype: 'offline'
 multiplayermode: 'competitive'
@@ -32,16 +33,12 @@ playercount: [2,3,4,5,6,7,8]
 input: ["controller", "keyboard"]
 devlog: "/blog/videogames/one-week-games/devlog-carving-pumpkins-and-dwarfing-dumplings/"
 
+media: [carvingpumpkins_itchlogo.webp, video/01-TrainingRavine.webm, video/02-FamilyDinner.webm, video/03-JungleAndTown.webm, video/04-SwimmingPoolAndBlackouts.webm, video/05-ForestAndPirate.webm, video/06-HauntedHouse.webm, video/07-Menus.webm, video/08-GraveyardAndTown.webm, video/09-DinnerAndRavine.webm]
+
 ---
 
-{{% embedvideo bg="carvingpumpkins_header" vid="https://www.youtube.com/embed/4eBCYBOjo-0" class="limit-width extra-top-offset" col="#a20000" %}}
+{{% embed-video src="https://www.youtube.com/embed/4eBCYBOjo-0" %}}
 
-{{< buylink-container class="limit-width" >}}
-{{< buylink url="http://pandaqi.itch.io/carving-pumpkins-and-dwarfing-dumplings" platforms="windows,mac,linux" text="Buy (&euro;5)" />}} 
-{{< buylink url="http://pandaqi.itch.io/carving-pumpkins-and-dwarfing-dumplings" platforms="windows,mac,linux" class="try-link" text="Demo (free)" />}} 
-{{< /buylink-container >}}
-
-{{% section-centered heading="" %}}
 **A party game about slicing your friends into smaller and smaller pieces, or protecting a huge dumpling from meeting the same fate.**
 
 Each knife thrown has the potential to deflect off the environment, get stuck in something, or realistically slice through your opponent's character. 
@@ -50,15 +47,10 @@ But no matter the result, you'll have to retrieve it and go again. Without getti
 
 Fun for the whole family, with a unique and intuitive system for slicing anything in two.
 
-{{% /section-centered %}}
-
-<div class="big_slash">
-	<img src="assets/big_slash.png" />
-</div>
-
-{{% section-flex media="video/02-FamilyDinner" video="true" heading="What's Pumpkinside?" class="alternate_bg" %}}
+## What's Pumpkinside?
 
 Here are the highlights:
+
 * Player count? **2-8 Players**. You can easily team up or add bots.
 * Input? **Keyboard & Controller**.
 * Tutorial? **Interactive**, only seconds long
@@ -68,13 +60,7 @@ Here are the highlights:
 
 The game can be played _solo_, but it's not the recommended way to play, as the bots are quite dumb. 
 
-{{% /section-flex %}}
-
-<div class="big_slash alternate_slash">
-	<img src="assets/big_slash.png" />
-</div>
-
-{{% section-flex media="video/01-TrainingRavine" video="true" heading="How does it work?" class="reversed" %}}
+## How does it work?
 
 Move around! While holding the "throw" button, you rotate and power up (to aim). Release to **throw your knife**!
 
@@ -84,24 +70,10 @@ This means you only need to learn two buttons for the whole game. Aiming _well_,
 
 Gather your friends or family and carve some pumpkins!
 
-{{% /section-flex %}}
-
-<div class="big_slash">
-	<img src="assets/big_slash.png" />
-</div>
-
-{{% video-gallery class="full-width alternate_bg" urls="video/03-JungleAndTown,video/04-SwimmingPoolAndBlackouts,video/05-ForestAndPirate,video/06-HauntedHouse" %}}
-
-<div class="big_slash alternate_slash">
-	<img src="assets/big_slash.png" />
-</div>
-
-{{% section-flex media="video/07-Menus" video="true" heading="Just a slice" %}}
+## Just a slice
 
 Although this party game is simple to learn and explain, it's overflowing with content. The rules explained above are just a slice of the full package.
 
 You get **5 game modes**, **8 arenas**, **17 powerups**, **9 things to throw** and **10 rules to turn on/off**
 
 _Remark_: one rule turns off heavy visual effects that might be too much for hypersensitive people, or too much for your broken old laptop. The tutorial can also be toggled quickly in case any newcomers want to join.
-
-{{% /section-centered %}}

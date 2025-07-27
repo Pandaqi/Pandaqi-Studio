@@ -3,12 +3,9 @@ type: "project"
 collection: "bet"
 
 title: "Chiptales"
-headerTitle: "A series of games inspired by poker"
 blurb: "A series of games inspired by poker, trying to simplify, improve or change different parts."
 
 downloadLink: "https://drive.google.com/drive/folders/146uKZvbAPjaFnNVwQkz1Rwo3vGNJ1B1W"
-
-color: "white"
 
 date: 2026-08-26
 

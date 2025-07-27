@@ -1,19 +1,16 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "That's Amorphe: Pictures"
-headerTitle: "A spin-off for That's Amorphe played using drawings"
 blurb: "A party game about changing someone else's drawing into a different thing, then asking others to guess how much you changed it."
-blurbShort: "You receive a drawing of a cat. You have to change it into a farmer with just three lines. Others need to guess what on earth you did. A spin-off of [That's Amorphe](/thats-amorphe)."
-
-color: "turquoise"
+# blurb: "You receive a drawing of a cat. You have to change it into a farmer with just three lines. Others need to guess what on earth you did. A spin-off of [That's Amorphe](/thats-amorphe)."
 
 date: 2023-03-10
 
 difficulty: "kids-can-play"
 genres: ["party"]
-categories: ["boardgame", "standard"]
+categories: ["board-game", "standard"]
 tags: ["social", "guessing", "language", "drawing", "creative", "sorting", "simultaneous-turns"]
 themes: []
 
@@ -28,9 +25,9 @@ devlog: "/blog/boardgames/thats-amorphe-pictures/"
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% section-centered heading="What's the idea?" %}}
+
+## What's the idea?
 Each round, you're teamed up (randomly) in pairs. You draw a word from your card, then give it to your teammate.
 
 They must _change_ your drawing to a different word (from their card). But only by _some secret amount_! 
@@ -38,9 +35,8 @@ They must _change_ your drawing to a different word (from their card). But only 
 How do you change a dog into a house _by a little bit_? How do you turn a fireman into a teddy bear _by a lot_?
 
 You score points only if the other players guess your secret number!
-{{% /section-centered %}}
 
-{{% section-centered heading="What do I need?" %}}
+## What do I need?
 
 Three simple steps.
 
@@ -52,7 +48,6 @@ Three simple steps.
 
 **Want more?** This website can generate [new word cards](#material) for you!
 
-{{% /section-centered %}}
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -70,17 +65,15 @@ Three simple steps.
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Timer" %}}
+## Timer
 
 It's highly recommended to put a (strict) timer on the drawing rounds. Players might say they don't want that: they are wrong 😉 It makes the game quicker, more fun, and prevents any "cheats" players will come up with (like making very detailed drawings).
 
 You can use anything! Or use my simple [timer](/tools/timer/) page.
 
-{{% /section-centered %}}
 
-{{< support >}}
 
-{{% section-centered heading="Credits" %}}
+## Credits
 
 This game is a spin-off of [That's Amorphe](https://pandaqi.com/thats-amorphe). Visit that page for more information! 
 
@@ -88,4 +81,3 @@ The two games are very similar. In fact, you can reuse material if you want. But
 
 Want to know how I developed this game? Check out the [devlog](/blog/boardgames/thats-amorphe-pictures/).
 
-{{% /section-centered %}}

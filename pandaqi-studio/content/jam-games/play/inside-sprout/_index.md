@@ -1,10 +1,9 @@
 ---
-type: "gamepage"
+type: "project"
 
 title: "Inside Sprout"
-headerTitle: "Defend your treeheart by distracting animals with the right flowers."
+blurb: "Defend your treeheart by distracting animals with the right flowers."
 
-color: "green"
 
 date: 2025-12-12
 
@@ -15,6 +14,11 @@ tags: ["tower-defense"]
 themes: ["2D"]
 
 downloadLink: "http://pandaqi.itch.io/inside-sprout/"
+externalLinks:
+  - label: "Buy"
+    url: "http://pandaqi.itch.io/inside-sprout/"
+    platforms: ["windows", "mac", "linux", "web"]
+    price: 2
 
 price: 2
 platform: ["windows", "mac", "linux", "web"]
@@ -25,15 +29,9 @@ input: ["controller", "keyboard"]
 devlog: "/blog/videogames/game-jams/inside-sprout/"
 sourcecode: "https://github.com/Pandaqi/Inside-Sprout/"
 
+media: [inside_sprout_sc1,inside_sprout_sc2,inside_sprout_sc3,inside_sprout_sc4,inside_sprout_sc5]
+
 ---
-
-{{< videogame-intro >}}
-
-{{< buylink-container class="limit-width" >}}
-{{< buylink url="http://pandaqi.itch.io/inside-sprout/" platforms="windows,mac,linux,android" text="Buy (&euro;2)" />}} 
-{{< /buylink-container >}}
-
-{{% section-centered heading="About the Game" %}}
 
 You must defend your Treeheart in the center from animals who want to eat it. Fortunately, those animals also like eating other things: flowers.
 
@@ -47,11 +45,7 @@ I guess you might say this is a ... **flower defense game**.
 
 Have fun!
 
-{{% /section-centered %}}
-
-{{% screenshot-gallery class="limit-width" urls="inside_sprout_sc1,inside_sprout_sc2,inside_sprout_sc3,inside_sprout_sc4,inside_sprout_sc5" %}}
-
-{{% section-centered heading="Anything Else?" %}}
+## Anything Else?
 
 This was my submission for the **Do You Wanna Jam 2024!?**
 
@@ -61,4 +55,3 @@ Sounded great---but I just couldn't find the game here. What would even be the o
 
 A loooot of ideas were scrapped for time though, and some enemies might be ... less tested.
 
-{{% /section-centered %}}

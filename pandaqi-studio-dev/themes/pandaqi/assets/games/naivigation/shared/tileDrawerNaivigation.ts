@@ -1,19 +1,7 @@
-import fillResourceGroup from "lib/pq-games/layout/canvas/fillResourceGroup";
-import BlurEffect from "lib/pq-games/layout/effects/blurEffect";
-import LayoutOperation from "lib/pq-games/layout/layoutOperation";
-import ResourceGroup from "lib/pq-games/layout/resources/resourceGroup";
-import ResourceShape from "lib/pq-games/layout/resources/resourceShape";
-import ResourceText from "lib/pq-games/layout/resources/resourceText";
-import TextConfig from "lib/pq-games/layout/text/textConfig";
-import MaterialVisualizer from "lib/pq-games/tools/generation/materialVisualizer";
-import getRectangleCornersWithOffset from "lib/pq-games/tools/geometry/paths/getRectangleCornersWithOffset";
-import Path from "lib/pq-games/tools/geometry/paths/path";
-import Point from "lib/pq-games/tools/geometry/point";
-import Rectangle from "lib/pq-games/tools/geometry/rectangle";
-import { MISC_SHARED, NETWORKS, TERRAINS, TerrainType, TileType } from "./dictShared";
+import { MaterialVisualizer, ResourceGroup, fillResourceGroup, LayoutOperation, Vector2, DropShadowEffect, TextConfig, ResourceText, ResourceShape, Rectangle, BlurEffect, Path, getRectangleCornersWithOffset } from "lib/pq-games";
+import { MISC_SHARED, NETWORKS, TERRAINS, TileType } from "./dictShared";
 import MaterialNaivigation from "./materialNaivigation";
 import vehicleDrawerNaivigation from "./vehicleDrawerNaivigation";
-import DropShadowEffect from "lib/pq-games/layout/effects/dropShadowEffect";
 
 const drawBackground = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaivigation) =>
 {
@@ -49,7 +37,7 @@ const drawTerrain = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialN
     const effects = tile.terrainUsesGrayscale ? vis.inkFriendlyEffect : [];
     const resOp = new LayoutOperation({
         frame: frame,
-        pos: new Point(),
+        pos: new Vector2(),
         size: vis.size,
         effects: effects
     });
@@ -100,19 +88,19 @@ const drawTile = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaiv
         pos: vis.center,
         size: mainIconSize,
         frame: spriteFrame,
-        pivot: Point.CENTER,
+        pivot: Vector2.CENTER,
         effects: [eff, vis.inkFriendlyEffect].flat()
     });
 
     // allow custom draws (in fact, we'll need that a lot)
     let resIllu = resSprite;
     const resTemp = tile.getCustomIllustration(vis, spriteOp);
-    if(resTemp) { resIllu = resTemp; spriteOp.frame = 0; spriteOp.size = new Point(); }
+    if(resTemp) { resIllu = resTemp; spriteOp.frame = 0; spriteOp.size = new Vector2(); }
     group.add(resIllu, spriteOp);
 
     // draw collectible icon + starting tile icon top center
-    const extraIconDims = new Point(vis.get("tiles.general.collectibleIcon.size"));
-    const topCenterPos = new Point(vis.center.x, 0.66*extraIconDims.y);
+    const extraIconDims = new Vector2(vis.get("tiles.general.collectibleIcon.size"));
+    const topCenterPos = new Vector2(vis.center.x, 0.66*extraIconDims.y);
     let extraIconFrame = -1;
     if(tile.isCollectible()) { extraIconFrame = MISC_SHARED.collectible_icon.frame; }
     else if(tile.isStartingTile()) { extraIconFrame = MISC_SHARED.starting_icon.frame; }
@@ -125,7 +113,7 @@ const drawTile = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaiv
             pos: topCenterPos,
             frame: extraIconFrame,
             size: extraIconDims,
-            pivot: Point.CENTER
+            pivot: Vector2.CENTER
         })
         group.add(resIcon, iconOp);
     }
@@ -154,7 +142,7 @@ const drawTile = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaiv
             pos: textPos,
             size: textBoxDims,
             fill: vis.get("tiles.general.text.textColor"),
-            pivot: Point.CENTER
+            pivot: Vector2.CENTER
         });
         group.add(resText, opText);
     }
@@ -176,12 +164,12 @@ const drawElevation = (vis:MaterialVisualizer, group:ResourceGroup, tile:Materia
     const size = vis.get("tiles.general.elevation.triangleSideLength");
     const points = 
     [
-        new Point(),
-        new Point(size, 0),
-        new Point(0, size)
+        new Vector2(),
+        new Vector2(size, 0),
+        new Vector2(0, size)
     ];
 
-    const triangle = new ResourceShape(new Path({ points: points, close: true }));
+    const triangle = new ResourceShape(new Path(points, true));
 
     const offset = vis.get("tiles.general.elevation.triangleEdgeOffset");
     const positions = getRectangleCornersWithOffset(vis.size, offset);

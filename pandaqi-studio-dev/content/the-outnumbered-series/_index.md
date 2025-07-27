@@ -3,7 +3,7 @@ type: "project"
 collection: "count-to"
 
 title: "The Outnumbered Series"
-headerTitle: "A series of simple card games all about one number."
+# blurb: "A series of simple card games all about one number."
 blurb: "A series of simple card games that all revolve around one unique number, using it as creatively as possible."
 
 downloadLink: "https://drive.google.com/drive/folders/1ZOi00XqNZdUMHlVJj0ylx_8vFSA6EPow"

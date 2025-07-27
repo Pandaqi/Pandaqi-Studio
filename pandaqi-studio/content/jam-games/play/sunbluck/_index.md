@@ -1,10 +1,9 @@
 ---
-type: "gamepage"
+type: "project"
 
 title: "Sunbluck"
-headerTitle: "Throw shade at your beach tourists to prevent them getting sunburned."
+blurb: "Throw shade at your beach tourists to prevent them getting sunburned."
 
-color: "yellow"
 
 date: 2025-12-12
 
@@ -15,6 +14,11 @@ tags: []
 themes: ["2D"]
 
 downloadLink: "http://pandaqi.itch.io/sunbluck/"
+externalLinks:
+  - label: "Buy"
+    url: "http://pandaqi.itch.io/sunbluck/"
+    platforms: ["windows", "mac", "linux", "web"]
+    price: 2
 
 price: 2
 platform: ["windows", "mac", "linux", "web"]
@@ -25,15 +29,9 @@ input: ["controller", "keyboard"]
 devlog: "/blog/videogames/game-jams/sunbluck/"
 sourcecode: "https://github.com/Pandaqi/from-dawn-to-duck/"
 
+media: [sc1,sc2,sc3,sc4]
+
 ---
-
-{{< videogame-intro >}}
-
-{{< buylink-container class="limit-width" >}}
-{{< buylink url="http://pandaqi.itch.io/sunbluck/" platforms="windows,mac,linux,android" text="Buy (&euro;2)" />}} 
-{{< /buylink-container >}}
-
-{{% section-centered heading="About the Game" %}}
 
 **Keep your beach tourists in the shade!**
 
@@ -43,11 +41,7 @@ Controls, objective, powerups---everything is **explained interactively** as you
 
 Have fun!
 
-{{% /section-centered %}}
-
-{{% screenshot-gallery class="limit-width" urls="sc1,sc2,sc3,sc4" %}}
-
-{{% section-centered heading="Anything Else?" %}}
+## Anything Else?
 
 This was my entry for the **Godot Wild Jam 72**. The theme was **Light and Dark**.
 
@@ -61,4 +55,3 @@ The final version was exported with **Godot 4.3** that just released. (Before th
 
 This game will probably receive local multiplayer in a later update, as well as some quality of life fixes and tiny ideas for which I didn't have time (such as throwing tourists in the water to cool them off :p).
 
-{{% /section-centered %}}

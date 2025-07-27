@@ -1,19 +1,17 @@
 ---
-type: "gamepage"
+type: "project"
 
 title: "Photomone: Digital Antists"
-headerTitle: "A video game spin-off for Photomone"
 blurb: "Communicate words by drawing. But you may only draw straight lines between the dots on your screen, and not all dots are created equal."
 
 weightProject: 20
 
-color: "brown"
 
 date: 2023-08-21
 
 difficulty: "no-brainer"
 genres: ["party"]
-categories: ["boardgame", "one-paper-game", "hybrid-game", "spin-off"]
+categories: ["board-game", "one-paper-game", "hybrid-game", "spin-off"]
 tags: ["drawing", "creative", "guessing", "turn-based"]
 themes: ["top-down", "vector"]
 
@@ -47,11 +45,11 @@ devlog: "/blog/boardgames/photomone-digital-antists/"
 
 </div>
 
-{{% section-centered heading="Game" anchor="game" html="true" %}}
+## Game
 
-<p>Input your settings, click the button. A new page opens and you can immediately play</p>
+Input your settings, click the button. A new page opens and you can immediately play.
 
-<p>If unsure, just leave all settings as they are.</p>
+If unsure, just leave all settings as they are.
 
 {{< boardgame-settings type="game" local_storage="photomoneDigitalAntistsConfig" game_title="Photomone: Digital Antists" >}}
   {{< setting-enum id="setting-wordComplexity" text="Word Complexity?" values="Core,Easy,Medium" valaskey="true" remark="How hard should the words be?" def="Core" >}}
@@ -63,11 +61,9 @@ devlog: "/blog/boardgames/photomone-digital-antists/"
   {{< /boardgame-settings-section >}}
 {{< /boardgame-settings >}}
 
-{{% /section-centered %}}
 
-{{< support >}}
 
-{{% section-centered heading="Credits" %}}
+## Credits
 
 Check out the main page for [Photomone Games](/photomone-games/) for detailed credits and more information.
 
@@ -81,7 +77,6 @@ For some games it's still a bad idea, though. That is why 90+% of my board games
 
 For a detailed diary about the game, check out the [devlog](/blog/boardgames/photomone-digital-antists).
 
-{{% /section-centered %}}
 
 <script>
 window.onload = (ev) => {

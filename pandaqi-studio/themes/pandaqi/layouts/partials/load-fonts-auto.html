@@ -1,9 +1,0 @@
-{{ $folder_name := partial "func/get-game-url.html" (dict "context" .context "type" .type) }}
-{{ $full_folder_url := printf "/%s/assets" $folder_name }}
-{{ $path := (printf "/games/%s/js_shared/config.ts" $folder_name) }}
-{{ $output_name := printf "%s/auto-load-fonts-css.js" $full_folder_url }}
-{{ $res_auto_fonts := resources.Get $path }}
-{{ if $res_auto_fonts }}
-	{{ $script := $res_auto_fonts | js.Build $output_name | minify }}
-	<script async defer src="{{ $script.RelPermalink }}"></script>
-{{ end }}

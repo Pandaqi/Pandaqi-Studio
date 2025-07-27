@@ -1,6 +1,6 @@
-import RulesTable from "./table";
-import RulesSection from "./section";
-import elem from "js/pq_games/tools/dom/elem";
+import { RulesTable } from "./table";
+import { RulesSection } from "./section";
+import { elem } from "lib/pq-games";
 
 export default class Rulebook
 {

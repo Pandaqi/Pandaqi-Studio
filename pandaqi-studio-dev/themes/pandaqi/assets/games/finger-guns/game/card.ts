@@ -1,17 +1,5 @@
-import createContext from "lib/pq-games/layout/canvas/createContext";
-import fillCanvas from "lib/pq-games/layout/canvas/fillCanvas";
-import LayoutOperation from "lib/pq-games/layout/layoutOperation";
-import ResourceGroup from "lib/pq-games/layout/resources/resourceGroup";
-import ResourceText from "lib/pq-games/layout/resources/resourceText";
-import TextConfig, { TextStyle } from "lib/pq-games/layout/text/textConfig";
-import StrokeAlign from "lib/pq-games/layout/values/strokeAlign";
-import MaterialVisualizer from "lib/pq-games/tools/generation/materialVisualizer";
-import getRectangleCornersWithOffset from "lib/pq-games/tools/geometry/paths/getRectangleCornersWithOffset";
-import Point from "lib/pq-games/tools/geometry/point";
-import fromArray from "lib/pq-games/tools/random/fromArray";
-import shuffle from "lib/pq-games/tools/random/shuffle";
-import { CardMovement, CardType, FishType, MAP_SPECIAL, MISC, MOVEMENT_CARDS, MOVEMENT_SPECIAL, TILE_ACTIONS, TileAction } from "../js_shared/dict";
-import DropShadowEffect from "lib/pq-games/layout/effects/dropShadowEffect";
+import { MaterialVisualizer, createContext, fillCanvas, ResourceGroup, LayoutOperation, Vector2, TextConfig, ResourceText, fromArray, TextStyle, shuffle, DropShadowEffect, getRectangleCornersWithOffset, StrokeAlign } from "lib/pq-games";
+import { CardMovement, CardType, FishType, MAP_SPECIAL, MISC, MOVEMENT_CARDS, MOVEMENT_SPECIAL, TILE_ACTIONS, TileAction } from "../shared/dict";
 
 export default class Card
 {
@@ -70,7 +58,7 @@ export default class Card
             const opSonar = new LayoutOperation({
                 pos: vis.get("cards.sonar.templatePos"),
                 size: vis.get("cards.sonar.templateDims"),
-                pivot: Point.CENTER,
+                pivot: Vector2.CENTER,
                 frame: MISC.sonar.frame,
             });
             group.add(resMisc, opSonar);
@@ -93,7 +81,7 @@ export default class Card
             opMain = new LayoutOperation({
                 pos: posMain,
                 size: sizeMain.clone().scale(0.5),
-                pivot: new Point(0, 0.5),
+                pivot: new Vector2(0, 0.5),
                 rot: movementData.rot,
                 frame: movementData.frame + 1, // the saved frame is the smaller icon, not sonar one
                 effects: vis.inkFriendlyEffect
@@ -102,7 +90,7 @@ export default class Card
             opMain = new LayoutOperation({
                 pos: posMain,
                 size: sizeMain,
-                pivot: Point.CENTER,
+                pivot: Vector2.CENTER,
                 frame: movementData.frame + 1,
                 effects: vis.inkFriendlyEffect
             })
@@ -114,15 +102,15 @@ export default class Card
         const headingColor = this.hasSpecialAction() ? "#394700" : "#201600";
         const iconOffsetSmall = vis.get("cards.icons.offset");
         const positions = [
-            new Point(iconOffsetSmall.x, headingPos.y),
-            new Point(vis.size.x - iconOffsetSmall.x, headingPos.y)
+            new Vector2(iconOffsetSmall.x, headingPos.y),
+            new Vector2(vis.size.x - iconOffsetSmall.x, headingPos.y)
         ];
         for(const pos of positions)
         {
             const opIcon = new LayoutOperation({
                 pos: pos,
                 size: vis.get("cards.icons.size"),
-                pivot: Point.CENTER,
+                pivot: Vector2.CENTER,
                 frame: movementData.frame,
                 effects: vis.inkFriendlyEffect
             });
@@ -137,8 +125,8 @@ export default class Card
         const resTextHeading = new ResourceText({ text: movementData.label, textConfig: textConfigHeading });
         const opTextHeading = new LayoutOperation({
             pos: headingPos,
-            size: new Point(vis.size.x, 2.0*textConfigHeading.size),
-            pivot: Point.CENTER,
+            size: new Vector2(vis.size.x, 2.0*textConfigHeading.size),
+            pivot: Vector2.CENTER,
             fill: vis.inkFriendly ? "#222222" : headingColor
         })
         group.add(resTextHeading, opTextHeading);
@@ -154,8 +142,8 @@ export default class Card
             const resTextAction = new ResourceText({ text: MOVEMENT_SPECIAL[this.specialAction].label, textConfig: textConfigAction });
             const opTextAction = new LayoutOperation({
                 pos: headingPos.clone().sub(offset),
-                size: new Point(vis.size.x, 2.0*textConfigHeading.size),
-                pivot: Point.CENTER,
+                size: new Vector2(vis.size.x, 2.0*textConfigHeading.size),
+                pivot: Vector2.CENTER,
                 fill: vis.inkFriendly ? "#222222" : headingColor
             })
             group.add(resTextAction, opTextAction);
@@ -168,7 +156,7 @@ export default class Card
             const opFish = new LayoutOperation({
                 pos: vis.get("cards.matchAction.pos"),
                 size: vis.get("cards.matchAction.size"),
-                pivot: Point.CENTER,
+                pivot: Vector2.CENTER,
                 frame: MISC[randFish].frame,
                 effects: vis.inkFriendlyEffect
             });
@@ -187,7 +175,7 @@ export default class Card
         const opText = new LayoutOperation({
             pos: vis.get("cards.text.pos"),
             size: vis.get("cards.text.size"),
-            pivot: Point.CENTER,
+            pivot: Vector2.CENTER,
             fill: "#000000"
         })
         group.add(resText, opText);
@@ -224,13 +212,13 @@ export default class Card
             const angleRaw = anglesAvailable.pop();
             const angle = (angleRaw + Math.random()*0.5) * (2.0 * Math.PI / numAngles);
             const randRadius = fishRadiusBounds.random() * vis.size.x;
-            const pos = vis.center.clone().add( new Point(Math.cos(angle), Math.sin(angle)).scaleFactor(randRadius) );
+            const pos = vis.center.clone().add( new Vector2(Math.cos(angle), Math.sin(angle)).scaleFactor(randRadius) );
 
             // the fish outline
             const opOutline = new LayoutOperation({
                 pos: pos,
                 size: fishDims.clone().scale(1.035),
-                pivot: Point.CENTER,
+                pivot: Vector2.CENTER,
                 rot: angle + 0.5 * Math.PI,
                 frame: MISC[fish].frame + 4,
                 composite: "overlay",
@@ -241,7 +229,7 @@ export default class Card
             const opFish = new LayoutOperation({
                 pos: pos,
                 size: fishDims,
-                pivot: Point.CENTER,
+                pivot: Vector2.CENTER,
                 rot: angle + 0.5 * Math.PI,
                 frame: MISC[fish].frame,
                 effects: [vis.inkFriendlyEffect, glowEffect].flat(),
@@ -265,7 +253,7 @@ export default class Card
                 pos: corners[i],
                 size: vis.get("tiles.actions.boxDims"),
                 rot: i * 0.5 * Math.PI,
-                pivot: Point.CENTER,
+                pivot: Vector2.CENTER,
                 frame: MISC.tile_corner.frame,
                 composite: "overlay"
             });
@@ -277,18 +265,18 @@ export default class Card
                 size: vis.get("tiles.actions.iconDims"),
                 rot: (i - 0.5) * 0.5 * Math.PI,
                 frame: MISC["action_" + this.tileAction].frame,
-                pivot: Point.CENTER,
+                pivot: Vector2.CENTER,
                 effects: vis.inkFriendlyEffect,
             })
             group.add(resMisc, opCornerIcon);
 
             // number
             // @NOTE: the number is offset a bit to fall exactly on the first card in every icon; in the center it's a bit confusing/ugly
-            const numberOffset = new Point(0.2*opCornerIcon.size.x,0).rotate(opCornerIcon.rot);
+            const numberOffset = new Vector2(0.2*opCornerIcon.size.x,0).rotate(opCornerIcon.rot);
             const opTextAction = new LayoutOperation({
                 pos: opCornerIcon.pos.clone().sub(numberOffset),
-                size: new Point(2.0 * textConfigAction.size),
-                pivot: Point.CENTER,
+                size: new Vector2(2.0 * textConfigAction.size),
+                pivot: Vector2.CENTER,
                 rot: opCornerIcon.rot,
                 fill: "#FFFFFF",
                 stroke: "#000000",
@@ -325,7 +313,7 @@ export default class Card
                 pos: positions[i],
                 size: vis.size,
                 rot: (i == 0) ? 0 : Math.PI,
-                pivot: Point.CENTER,
+                pivot: Vector2.CENTER,
                 fill: vis.inkFriendly ? "#888888" : headingColor
             });
             group.add(resTextHeading, opTextHeading);
@@ -350,7 +338,7 @@ export default class Card
             const opText = new LayoutOperation({
                 pos: vis.get("tiles.text.pos"),
                 size: vis.get("tiles.text.size"),
-                pivot: Point.CENTER,
+                pivot: Vector2.CENTER,
                 fill: "#000000"
             })
             group.add(resText, opText);

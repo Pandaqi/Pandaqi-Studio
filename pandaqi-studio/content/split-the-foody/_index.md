@@ -1,21 +1,18 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Split the Foody"
-headerTitle: "A game of food heists and dividing treasure."
 blurb: "Stealing food treasure is the easy part. Grabbing the biggest chunk when dividing the booty is tough---but also crucial to your success as a true pearate."
-blurbShort: "A bluffin', stealin', eatin' game of food heists and dividing treasure amongst the pearates."
-
+# blurb: "A bluffin', stealin', eatin' game of food heists and dividing treasure amongst the pearates."
 downloadLink: "https://drive.google.com/drive/folders/1Jw9vO5RnVDgh-ECN8NxMDVKeN9Uhfjjg"
 
-color: "brown"
 
 date: 2024-05-26
 
 difficulty: "simple"
 genres: ["thematic"]
-categories: ["boardgame", "card-game", "standard"]
+categories: ["board-game", "card-game", "standard"]
 tags: ["bidding", "bluffing", "social", "high-score", "numbers"]
 themes: ["pirates"]
 
@@ -29,9 +26,9 @@ devlog: "/blog/boardgames/split-the-foody/"
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% boardgame-instructions /%}}
+
+
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -41,7 +38,7 @@ devlog: "/blog/boardgames/split-the-foody/"
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 For a while now, the popular author Brandon Sanderson has had a running joke about food heists. One day, I wrote down that it would be a cool title for a game about pirates ignoring treasure but stealing food.
 
@@ -51,4 +48,3 @@ Besides that, the fonts used are **Primitive** (headings) and **Rosarivo** (body
 
 I usually pick my next idea based on what is "easiest or simplest to make". This idea seemed really simple ... but I had to do a _lot_ of testing and prototyping to actually make it work, while keeping the rules light. A bit of a misfire from me, but in the end I'm glad I stuck it out and made this game, because it's quite different from anything else I made before.
 
-{{% /section-centered %}}

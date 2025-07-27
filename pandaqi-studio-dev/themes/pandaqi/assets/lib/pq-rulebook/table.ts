@@ -1,4 +1,4 @@
-interface RulesEntryData
+export interface RulesEntryData
 {
     heading: string,
     desc: string,
@@ -10,7 +10,7 @@ interface RulesEntryData
     // iconPrefix?: string => dropped support for this, as it's just a nasty useless exception that shouldn't be used anyway
 }
 
-interface RulesTableParams
+export interface RulesTableParams
 {
     sheetURL?: string
     sheetWidth?: number
@@ -18,13 +18,13 @@ interface RulesTableParams
     class?: string
 }
 
-const convertDictToRulesTableHTML = (dict:Record<string,any>, props:Record<string,string>, params:RulesTableParams = {}) =>
+export const convertDictToRulesTableHTML = (dict:Record<string,any>, props:Record<string,string>, params:RulesTableParams = {}) =>
 {
     return convertRulesTableDictToHTML( convertDictToRulesTableDict(dict, props), params);
 }
 
 // This is just a helper function to easily map any set of data to the right format for a RulesTable to display
-const convertDictToRulesTableDict = (dict:Record<string,any>, props:Record<string,string>) : Record<string,RulesEntryData> =>
+export const convertDictToRulesTableDict = (dict:Record<string,any>, props:Record<string,string>) : Record<string,RulesEntryData> =>
 {
     const newDict = {};
     const defProps = ["heading", "desc", "class", "icon", "frame", "sheetURL", "sheetWidth"]; // @NOTE: should be the same as the interface keys of RulesEntryData
@@ -42,7 +42,7 @@ const convertDictToRulesTableDict = (dict:Record<string,any>, props:Record<strin
     return newDict;
 }
 
-const convertRulesTableDictToHTML = (dict:Record<string,RulesEntryData>, params:RulesTableParams = {}) =>
+export const convertRulesTableDictToHTML = (dict:Record<string,RulesEntryData>, params:RulesTableParams = {}) =>
 {
     const cont = document.createElement("div"); 
 
@@ -102,7 +102,7 @@ const convertRulesTableDictToHTML = (dict:Record<string,RulesEntryData>, params:
     return cont;
 }
 
-class RulesTable
+export class RulesTable
 {
     node: HTMLElement;
     entries: RulesEntry[];
@@ -137,7 +137,7 @@ class RulesTable
     }
 }
 
-class RulesEntry 
+export class RulesEntry 
 {
     node: HTMLElement;
     turnFullWidthOnClick: boolean;
@@ -183,7 +183,4 @@ class RulesEntry
         this.toggle();
     }
 }
-
-export { RulesTable, RulesEntry, convertDictToRulesTableDict, convertRulesTableDictToHTML, convertDictToRulesTableHTML }
-export default RulesTable;
 

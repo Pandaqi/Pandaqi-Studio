@@ -1,22 +1,20 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Champions of Chance"
-headerTitle: "Battle your custom dice against those of other players and hope the odds are in your favor."
 blurb: "Battle your custom dice against those of other players and hope the odds are in your favor."
 
 weightProject: 10
 
 downloadLink: "https://drive.google.com/drive/folders/1AESN6T9GAYg2ZTSzneAAiSdEQbMHXWsV"
 
-color: "yellow"
 
 date: 2025-06-26
 
 difficulty: "no-brainer"
 genres: ["family", "abstract"]
-categories: ["boardgame", "card-game"]
+categories: ["board-game", "card-game"]
 tags: ["chance", "dice", "battle", "turn-based", "numbers", "fast-paced", "textless", "move-through-all"]
 themes: ["cartoon", "colorful"]
 
@@ -29,9 +27,9 @@ devlog: "/blog/boardgames/the-luck-legends/champions-of-chance/"
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% boardgame-instructions /%}}
+
+
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -44,7 +42,7 @@ devlog: "/blog/boardgames/the-luck-legends/champions-of-chance/"
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 The fonts used are **Luckiest Guy** (headings) and **Nunito Sans** (body text). Yes, I chose that first font because of how the name fit the game. Everything else is mine.
 
@@ -56,4 +54,3 @@ This game was born from those considerations. What if you would _challenge_ anot
 
 This already worked great. Then I combined it with the simple fact that we can now easily _customize_ our dice---for example, if you pick only 3 of your 6 cards and "roll" those, you suddenly have completely different probabilities for which numbers would appear! This sealed the deal and made this game a very simple but fun and strategic entry to the Luck Legends.
 
-{{% /section-centered %}}

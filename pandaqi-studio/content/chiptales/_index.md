@@ -1,21 +1,18 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+collection: "bet"
 
 title: "Chiptales"
-headerTitle: "A series of games inspired by poker"
 blurb: "A series of games inspired by poker, trying to simplify, improve or change different parts."
 
 downloadLink: "https://drive.google.com/drive/folders/146uKZvbAPjaFnNVwQkz1Rwo3vGNJ1B1W"
-
-color: "white"
 
 date: 2026-08-26
 
 # @TODO: metadata
 difficulty: "simple"
 genres: ["action", "party"]
-categories: ["boardgame", "card-game"]
+categories: ["board-game", "card-game"]
 tags: ["simultaneous-turns", "fast-paced", "numbers"]
 themes: []
 
@@ -28,19 +25,15 @@ ages: everyone
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% section-centered heading="What's this?" %}}
+
+## What's this?
 
 This is the **overview page** of the Chiptales collection.
 
-Click any of the links below to visit a specific game. They are roughly sorted based on simplicity.
+Click any of the links to visit a specific game. They are roughly sorted based on simplicity.
 
-{{< boardgame-project-games-list subdir="bet" >}}
-
-{{% /section-centered %}}
-
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 Each of these ideas started because I played another game of poker and thought "surely we can find a better casual family game version than this?" 
 
@@ -58,4 +51,3 @@ With these games, I vowed to **not** use any image generation AI. I barely use i
 
 Everything else---code, assets, ideas, illustrations, general design---is mine. Check the specific games for the specific fonts used or other remarks.
 
-{{% /section-centered %}}

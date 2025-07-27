@@ -1,22 +1,17 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+collection: "spell"
 
 title: "Keebble Games"
-headerTitle: "A series of word games inspired by Scrabble, but also completely different."
 blurb: "A series of word games inspired by Scrabble, but also completely different."
 
 downloadLink: "https://drive.google.com/drive/folders/1uetb7g-4GW5yp_bwQyozFr_ktS2uU_ul"
-
-
-color: "purple"
-
 
 date: 2023-02-16
 
 difficulty: "kids-can-play"
 genres: ["abstract"]
-categories: ["boardgame", "one-paper-game"]
+categories: ["board-game", "one-paper-game"]
 tags: ["grid", "shared-map", "language", "spiritually-inspired"]
 themes: []
 
@@ -29,19 +24,15 @@ devlog: "/blog/boardgames/keebble/"
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% section-centered heading="What's this?" %}}
+
+## What's this?
 
 This is the **overview page** for the Keebble Games.
 
-Click any of the links below to visit a specific game. They aren't sorted in any way.
+Click any of the links to visit a specific game. They aren't sorted in any way.
 
-{{< boardgame-project-games-list subdir="spell" >}}
-
-{{% /section-centered %}}
-
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 The font used is **Arbetus Slab** for both heading and body. Everything else---images, code, idea, rules, etcetera---was made by me.
 
@@ -55,4 +46,3 @@ In the end, this turned one Scrabble-inspired game into an entire project of sim
 
 Want more details? Check out the [devlog](/blog/boardgames/keebble/).
 
-{{% /section-centered %}}

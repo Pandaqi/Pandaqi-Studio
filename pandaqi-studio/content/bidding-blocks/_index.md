@@ -1,12 +1,10 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Bidding Blocks"
-headerTitle: "Play tricks building a house together, but let the house crumble when it favors your risky bid."
 blurb: "Play tricks building a house together, but let the house crumble when it favors your risky bid."
 
-color: "orange"
 
 downloadLink: "https://drive.google.com/drive/folders/1Tcw0OHh5wn-li1w0AGjbX4mGM7zPUcZe"
 
@@ -14,7 +12,7 @@ date: 2026-01-26
 
 difficulty: "simple"
 genres: ["family", "thematic", "standard"]
-categories: ["boardgame", "card-game"]
+categories: ["board-game", "card-game"]
 tags: ["matching", "trick-taking", "turn-based", "high-score", "score-and-reset"]
 themes: []
 
@@ -27,9 +25,9 @@ devlog: "/blog/boardgames/bidding-blocks/"
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% boardgame-instructions /%}}
+
+
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -41,7 +39,7 @@ devlog: "/blog/boardgames/bidding-blocks/"
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 The fonts used are **Vadamecum** (headings) and **Josefin Slab** (body). Everything else is mine.
 
@@ -58,4 +56,3 @@ I continued developing that idea, streamlining how scoring works, adding some mo
 
 Pick whichever one you like best!
 
-{{% /section-centered %}}

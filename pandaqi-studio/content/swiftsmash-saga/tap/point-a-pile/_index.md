@@ -1,12 +1,11 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Point-a-Pile"
-headerTitle: "Point at the pile of juicy cards that you want. Live with the consequences."
+blurb: "Point at the pile of juicy cards that you want. Live with the consequences."
 weightProject: 30
 
-color: "purple"
 
 downloadLink: "https://drive.google.com/drive/folders/1g2lnFUYucTaO0Iy8ooPXnp9PALr6R5w7"
 
@@ -14,7 +13,7 @@ date: 2025-07-26
 
 difficulty: "simple"
 genres: ["action", "party", "abstract"]
-categories: ["boardgame", "card-game"]
+categories: ["board-game", "card-game"]
 tags: ["simultaneous-turns", "fast-paced", "numbers", "high-score", "set-collection", "i-cut-you-choose"]
 themes: ["colorful"]
 
@@ -27,9 +26,9 @@ devlog: "/blog/boardgames/swiftsmash-saga/point-a-pile/"
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% boardgame-instructions /%}}
+
+
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -45,7 +44,7 @@ devlog: "/blog/boardgames/swiftsmash-saga/point-a-pile/"
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 The fonts used are **Aunt Bertha** (headings) and **Amaranth** (body text). Everything else is mine.
 
@@ -59,4 +58,3 @@ In my game, you're still pointing at piles of cards that you want (at the same t
 
 Besides that, this game is completely different from its inspiration. It's even simpler in terms of rules and setup, yet has a bit more depth and strategy. Exactly what I set out to do!
 
-{{% /section-centered %}}

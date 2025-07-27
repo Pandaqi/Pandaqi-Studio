@@ -1,23 +1,20 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Domino Dynasty"
-headerTitle: "Run a family empire by each fulfilling your own role as well as possible."
 blurb: "Run a family empire by each fulfilling your own role as well as possible, by placing dominoes strategically for yourself or others."
-blurbShort: "Run a family empire together and alone. A [Domino Diaries](/the-domino-diaries/) game."
-
+# blurb: "Run a family empire together and alone. A [Domino Diaries](/the-domino-diaries/) game."
 weightProject: 50
 
 downloadLink: "https://drive.google.com/drive/folders/1JF86MMfZ-RhUwyRbRRv0FOwuNChAAP_N"
 
-color: "purple"
 
 date: 2025-06-26
 
 difficulty: "regular"
 genres: ["thematic", "strategy"]
-categories: ["boardgame", "tile-game"]
+categories: ["board-game", "tile-game"]
 tags: ["domino", "shared-map", "map", "matching", "roles", "networks", "turn-based", "contracts", "construction", "numbers", "asymmetric", "player-powers", "political", "high-score", "alliances"]
 themes: ["medieval"]
 
@@ -30,9 +27,9 @@ devlog: "/blog/boardgames/the-domino-diaries/domino-dynasty/"
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% boardgame-instructions /%}}
+
+
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -50,7 +47,7 @@ devlog: "/blog/boardgames/the-domino-diaries/domino-dynasty/"
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 The fonts used are **Dumbledor** (headings) and **Libre Caslon Text** (body text). Some generative image AI was used. Everything else (code, idea, rules, illustrations) is entirely mine.
 
@@ -60,4 +57,3 @@ Unsurprisingly, this one was the hardest to make and took the longest to finish.
 
 Yes, the rules of the base game are still very simple. However, because all players get their own unique _role_ in the empire, e.g. "you are the only one who handles our military matters", the game is very cooperative and interactive by default. This means that if some of the players have no clue what they're doing, it becomes pretty hard to play, because suddenly you have no military at all and nobody can fix that :p
 
-{{% /section-centered %}}

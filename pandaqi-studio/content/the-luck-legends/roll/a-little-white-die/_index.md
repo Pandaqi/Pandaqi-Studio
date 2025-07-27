@@ -1,21 +1,20 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "A Little White Die"
-headerTitle: "Guess how often certain numbers appear or bluff your way through it. A variant on Liar's Dice using cards."
+blurb: "Guess how often certain numbers appear or bluff your way through it. A variant on Liar's Dice using cards."
 
 weightProject: 15
 
 downloadLink: "https://drive.google.com/drive/folders/1phiHNNnl6Vl028o8I-Fmm7l3xZTXoUK9"
 
-color: "black"
 
 date: 2025-11-26
 
 difficulty: "kids-can-play"
 genres: ["family", "abstract"]
-categories: ["boardgame", "card-game"]
+categories: ["board-game", "card-game"]
 tags: ["chance", "dice", "turn-based", "bidding", "bluffing", "guessing", "numbers", "fast-paced", "single-loser"]
 themes: ["vector"]
 
@@ -28,9 +27,9 @@ devlog: "/blog/boardgames/the-luck-legends/a-little-white-die/"
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% boardgame-instructions /%}}
+
+
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -44,7 +43,7 @@ devlog: "/blog/boardgames/the-luck-legends/a-little-white-die/"
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 The font used is **Rum Raisin** (both headings and body text). Everything else is mine.
 
@@ -54,4 +53,3 @@ When I invented the Luck Legends, I quickly realized I could create an alternati
 
 That's how this game (and Deceptidice, a variant focused on guessing/bluffing combos or poker hands) came to be. It also became just as simple as Liar's Dice, if not simpler, which is why it's at the top of the list for this project.
 
-{{% /section-centered %}}

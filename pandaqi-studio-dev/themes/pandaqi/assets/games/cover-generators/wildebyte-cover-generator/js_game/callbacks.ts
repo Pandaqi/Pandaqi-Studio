@@ -1,18 +1,7 @@
-import createContext from "lib/pq-games/layout/canvas/createContext";
-import Color from "lib/pq-games/layout/color/color";
-import DropShadowEffect from "lib/pq-games/layout/effects/dropShadowEffect";
-import LayoutOperation from "lib/pq-games/layout/layoutOperation";
-import ResourceGroup from "lib/pq-games/layout/resources/resourceGroup";
-import ResourceImage from "lib/pq-games/layout/resources/resourceImage";
-import ResourceShape from "lib/pq-games/layout/resources/resourceShape";
-import ResourceText from "lib/pq-games/layout/resources/resourceText";
-import TextConfig, { TextAlign, TextStyle, TextWeight } from "lib/pq-games/layout/text/textConfig";
-import StrokeAlign from "lib/pq-games/layout/values/strokeAlign";
-import Point from "lib/pq-games/tools/geometry/point";
-import Rectangle from "lib/pq-games/tools/geometry/rectangle";
 import DISKS from "./diskData";
-import BookCoverVisualizer from "lib/pq-games/tools/generation/bookCovers/bookCoverVisualizer";
-import { BookCoverComponent } from "lib/pq-games/tools/generation/bookCovers/bookCoverGenerator";
+import BookCoverVisualizer from "lib/pq-games/tools/bookCovers/bookCoverVisualizer";
+import { BookCoverComponent } from "lib/pq-games/tools/bookCovers/bookCoverGenerator";
+import { Vector2, ResourceGroup, ResourceShape, Rectangle, LayoutOperation, TextConfig, ResourceText, TextWeight, StrokeAlign, TextStyle, TextAlign, DropShadowEffect, Color, createContext, ResourceImage } from "lib/pq-games";
 
 const ADD_BACK_LOGO = false;
 
@@ -49,16 +38,16 @@ const getDiskData = (vis:BookCoverVisualizer) =>
     return DISKS[vis.bookData.custom.disk ?? "handheld"];
 }
 
-const drawBackgroundRect = (vis:BookCoverVisualizer, size:Point, group:ResourceGroup) =>
+const drawBackgroundRect = (vis:BookCoverVisualizer, size:Vector2, group:ResourceGroup) =>
 {
-    const rect = new ResourceShape( new Rectangle().fromTopLeft(new Point(), size) );
+    const rect = new ResourceShape( new Rectangle().fromTopLeft(new Vector2(), size) );
     const rectOp = new LayoutOperation({
         fill: getDiskData(vis).bg.color
     });
     group.add(rect, rectOp);
 }
 
-const drawElectricityLines = (vis:BookCoverVisualizer, size: Point, center: Point, group:ResourceGroup) =>
+const drawElectricityLines = (vis:BookCoverVisualizer, size: Vector2, center: Vector2, group:ResourceGroup) =>
 {
     const diskData = getDiskData(vis);
     const res = vis.getResource("electric_lines");
@@ -67,15 +56,15 @@ const drawElectricityLines = (vis:BookCoverVisualizer, size: Point, center: Poin
         size: size,
         alpha: diskData.electricityLines.alpha,
         composite: diskData.electricityLines.composite,
-        pivot: Point.CENTER
+        pivot: Vector2.CENTER
     })
     group.add(res, op)
 }
 
-const drawWildebyteBadge = (vis:BookCoverVisualizer, size: Point, center: Point, group: ResourceGroup) =>
+const drawWildebyteBadge = (vis:BookCoverVisualizer, size: Vector2, center: Vector2, group: ResourceGroup) =>
 {
     const diskData = getDiskData(vis);
-    const pos = new Point(center.x, vis.getPageAnchorContent(BookCoverComponent.FRONT).y + diskData.badge.yPos * size.y);
+    const pos = new Vector2(center.x, vis.getPageAnchorContent(BookCoverComponent.FRONT).y + diskData.badge.yPos * size.y);
 
     // badge itself
     const res = vis.getResource("wildebyte_badge");
@@ -83,7 +72,7 @@ const drawWildebyteBadge = (vis:BookCoverVisualizer, size: Point, center: Point,
     const op = new LayoutOperation({
         pos: pos,
         size: badgeSize,
-        pivot: Point.CENTER
+        pivot: Vector2.CENTER
     })
     group.add(res, op);
 
@@ -96,9 +85,9 @@ const drawWildebyteBadge = (vis:BookCoverVisualizer, size: Point, center: Point,
     const textSmall = "Book #" + vis.bookData.index;
     const resTextSmall = new ResourceText(textSmall, textConfigSmall);
     const opTextSmall = new LayoutOperation({
-        pos: new Point(pos.x, pos.y + diskData.badge.smallTextOffsetY*res.getSize().y),
-        size: new Point(badgeSize.x, 1.5*textConfigSmall.size),
-        pivot: Point.CENTER,
+        pos: new Vector2(pos.x, pos.y + diskData.badge.smallTextOffsetY*res.getSize().y),
+        size: new Vector2(badgeSize.x, 1.5*textConfigSmall.size),
+        pivot: Vector2.CENTER,
         fill: diskData.badge.smallTextColor,
         composite: diskData.badge.composite
     })
@@ -114,9 +103,9 @@ const drawWildebyteBadge = (vis:BookCoverVisualizer, size: Point, center: Point,
     const textBig = convertToBinary(vis.bookData.index - 1);
     const resTextBig = new ResourceText(textBig, textConfigBig);
     const opTextBig = new LayoutOperation({
-        pos: new Point(pos.x, pos.y + diskData.badge.bigTextOffsetY*res.getSize().y),
-        size: new Point(badgeSize.x, 1.5*textConfigBig.size),
-        pivot: Point.CENTER,
+        pos: new Vector2(pos.x, pos.y + diskData.badge.bigTextOffsetY*res.getSize().y),
+        size: new Vector2(badgeSize.x, 1.5*textConfigBig.size),
+        pivot: Vector2.CENTER,
         fill: diskData.badge.bigTextColor,
         composite: diskData.badge.composite
     })
@@ -127,26 +116,26 @@ const drawWildebyteBadge = (vis:BookCoverVisualizer, size: Point, center: Point,
     {
         const resChoice = vis.getResource("choice_story");
         const opChoice = new LayoutOperation({
-            pos: new Point(pos.x, pos.y + diskData.badge.choiceStoryOffsetY*res.getSize().y),
+            pos: new Vector2(pos.x, pos.y + diskData.badge.choiceStoryOffsetY*res.getSize().y),
             size: resChoice.getSize(),
-            pivot: Point.CENTER
+            pivot: Vector2.CENTER
         })
         group.add(resChoice, opChoice)
     }
 }
 
-const drawTopGradient = (vis:BookCoverVisualizer, size: Point, group: ResourceGroup) =>
+const drawTopGradient = (vis:BookCoverVisualizer, size: Vector2, group: ResourceGroup) =>
 {
     const res = vis.getResource("overlay_gradient");
     const op = new LayoutOperation({
-        pos: new Point(),
+        pos: new Vector2(),
         size: size,
         alpha: getDiskData(vis).overlayGradient.alpha
     })
     group.add(res, op);
 }
 
-const drawBackSection = (vis:BookCoverVisualizer, sectionData, size: Point, pos:Point, index:number, group:ResourceGroup) =>
+const drawBackSection = (vis:BookCoverVisualizer, sectionData, size: Vector2, pos:Vector2, index:number, group:ResourceGroup) =>
 {
     const diskData = getDiskData(vis);
 
@@ -156,7 +145,7 @@ const drawBackSection = (vis:BookCoverVisualizer, sectionData, size: Point, pos:
     const opHeading = new LayoutOperation({
         pos: pos,
         size: headingSize,
-        pivot: Point.CENTER,
+        pivot: Vector2.CENTER,
         flipX: (index % 2 == 0) && diskData.back.alternateFlipHeadings
     });
     group.add(resHeading, opHeading);
@@ -171,7 +160,7 @@ const drawBackSection = (vis:BookCoverVisualizer, sectionData, size: Point, pos:
     const opHeadingText = new LayoutOperation({
         pos: pos,
         size: headingSize,
-        pivot: Point.CENTER,
+        pivot: Vector2.CENTER,
         fill: diskData.back.textColor,
         stroke: diskData.back.textStrokeColor,
         strokeWidth: diskData.back.textStrokeWidth,
@@ -196,21 +185,21 @@ const drawBackSection = (vis:BookCoverVisualizer, sectionData, size: Point, pos:
     const textBoxDims = diskData.back.textBoxDims.clone().scale(size);
     const resText = new ResourceText(sectionData.text, textConfig);
     const opText = new LayoutOperation({
-        pos: new Point(pos.x, pos.y + 0.6*resHeading.getSize().y),
+        pos: new Vector2(pos.x, pos.y + 0.6*resHeading.getSize().y),
         size: textBoxDims,
         fill: diskData.back.textColor,
-        pivot: new Point(0.5, 0)
+        pivot: new Vector2(0.5, 0)
     })
     group.add(resText, opText);
 }
 
-const drawTitleText = (vis:BookCoverVisualizer, size: Point, layer: string, group: ResourceGroup, titleTexts: string[], titlePositions: Point[]) =>
+const drawTitleText = (vis:BookCoverVisualizer, size: Vector2, layer: string, group: ResourceGroup, titleTexts: string[], titlePositions: Vector2[]) =>
 {
     const diskData = getDiskData(vis);
 
     const titleFontSize = diskData.titleText.fontSize;
     const lineHeight = diskData.titleText.lineHeight;
-    const textBoxDims = new Point(0.9 * size.x, lineHeight*titleFontSize);
+    const textBoxDims = new Vector2(0.9 * size.x, lineHeight*titleFontSize);
     const textConfigTitle = new TextConfig({
         font: diskData.fonts.heading,
         size: titleFontSize,
@@ -227,7 +216,7 @@ const drawTitleText = (vis:BookCoverVisualizer, size: Point, layer: string, grou
     for(let i = 0; i < titleTexts.length; i++)
     {
         const resTitleText = new ResourceText(titleTexts[i], textConfigTitle);
-        const pos = titlePositions[i].clone().add(new Point(0, diskData.titleText.offsetY[layer]));
+        const pos = titlePositions[i].clone().add(new Vector2(0, diskData.titleText.offsetY[layer]));
         const composite = (layer == "overlay") ? "overlay" : "source-over";
         const effects = addGradient ? glowEffect : [];
         const strokeColor = addGradient ? diskData.titleText.strokeColor : Color.TRANSPARENT;
@@ -239,7 +228,7 @@ const drawTitleText = (vis:BookCoverVisualizer, size: Point, layer: string, grou
             stroke: strokeColor,
             strokeWidth: strokeWidth,
             strokeAlign: StrokeAlign.OUTSIDE,
-            pivot: new Point(0.5, 0),
+            pivot: new Vector2(0.5, 0),
             composite: composite,
             effects: effects
         });
@@ -252,7 +241,7 @@ const drawTitleText = (vis:BookCoverVisualizer, size: Point, layer: string, grou
                 pos: textBoxDims.clone().scale(0.5),
                 size: textBoxDims,
                 fill: "#000000",
-                pivot: Point.CENTER
+                pivot: Vector2.CENTER
             });
 
             resTitleText.toCanvas(ctx, opTextCopy);
@@ -268,7 +257,7 @@ const drawTitleText = (vis:BookCoverVisualizer, size: Point, layer: string, grou
             const op = new LayoutOperation({
                 pos: pos,
                 size: textBoxDims,
-                pivot: new Point(0.5, 0),
+                pivot: new Vector2(0.5, 0),
             });
             group.add(res, op);
         }
@@ -305,7 +294,7 @@ const createBack = (vis:BookCoverVisualizer) =>
     for(let i = 0; i < sections.length; i++)
     {
         const sectionData = sections[i];
-        const pos = new Point(pageCenterContent.x, pageAnchorContent.y + (diskData.back.sectionStartY + i*diskData.back.sectionJumpY) * pageSizeContent.y);
+        const pos = new Vector2(pageCenterContent.x, pageAnchorContent.y + (diskData.back.sectionStartY + i*diskData.back.sectionJumpY) * pageSizeContent.y);
         drawBackSection(vis, sectionData, pageSizeContent, pos, i, group);
     }
 
@@ -335,20 +324,20 @@ const createSpine = (vis:BookCoverVisualizer) =>
     const realBGSize = resBg.getSize();
     const opBg = new LayoutOperation({
         pos: spineCenter,
-        size: new Point(realBGSize.x, spineSize.y),
-        pivot: Point.CENTER
+        size: new Vector2(realBGSize.x, spineSize.y),
+        pivot: Vector2.CENTER
     });
     group.add(resBg, opBg);
 
     // the unique icon for the book
     const resIcon = vis.getResource("spine_icon");
-    const posIcon = new Point(spineCenter.x, spineAnchorContent.y + diskData.spine.iconEdgeOffset * spineSizeContent.y);
+    const posIcon = new Vector2(spineCenter.x, spineAnchorContent.y + diskData.spine.iconEdgeOffset * spineSizeContent.y);
     const iconSize = diskData.spine.iconSize; // just use consistent icon size for all books; scaling per book will be wonky
     const opIcon = new LayoutOperation({
         pos: posIcon,
         size: iconSize,
         rot: spineRot,
-        pivot: Point.CENTER,
+        pivot: Vector2.CENTER,
         effects: [glowEffect]
     })
     group.add(resIcon, opIcon);
@@ -364,13 +353,13 @@ const createSpine = (vis:BookCoverVisualizer) =>
     const resTextTitle = new ResourceText(bookTitle, textConfigTitle);
     const marginIconToText = 1.0*iconSize.x;
     const opTextTitleStroke = new LayoutOperation({
-        pos: new Point(posIcon.x, posIcon.y + marginIconToText),
-        size: new Point(0.5*spineSizeContent.y, 1.5*textConfigTitle.size),
+        pos: new Vector2(posIcon.x, posIcon.y + marginIconToText),
+        size: new Vector2(0.5*spineSizeContent.y, 1.5*textConfigTitle.size),
         fill: diskData.spine.textColor,
         stroke: diskData.spine.strokeColor,
         strokeWidth: diskData.spine.strokeWidth,
         strokeAlign: StrokeAlign.OUTSIDE,
-        pivot: new Point(0, 0.5),
+        pivot: new Vector2(0, 0.5),
         rot: spineRot,
         effects: [glowEffect]
     });
@@ -389,16 +378,16 @@ const createSpine = (vis:BookCoverVisualizer) =>
     })
 
     const authorText = convertToSmallCaps("Tiamo Pastoor", textConfigAuthor.size);
-    const posWBIcon = new Point(spineCenter.x, spineAnchorContent.y + spineSizeContent.y - diskData.spine.iconEdgeOffset * spineSizeContent.y);
+    const posWBIcon = new Vector2(spineCenter.x, spineAnchorContent.y + spineSizeContent.y - diskData.spine.iconEdgeOffset * spineSizeContent.y);
     const resTextAuthor = new ResourceText(authorText, textConfigAuthor);
     const opTextAuthorStroke = new LayoutOperation({
-        pos: new Point(posWBIcon.x, posWBIcon.y - marginIconToText),
-        size: new Point(0.5*spineSizeContent.y, 1.5*textConfigAuthor.size),
+        pos: new Vector2(posWBIcon.x, posWBIcon.y - marginIconToText),
+        size: new Vector2(0.5*spineSizeContent.y, 1.5*textConfigAuthor.size),
         fill: diskData.spine.textColor,
         stroke: diskData.spine.strokeColor,
         strokeWidth: diskData.spine.strokeWidth,
         strokeAlign: StrokeAlign.OUTSIDE,
-        pivot: new Point(1, 0.5),
+        pivot: new Vector2(1, 0.5),
         rot: spineRot,
         alpha: diskData.spine.authorAlpha,
         effects: [glowEffect]
@@ -415,7 +404,7 @@ const createSpine = (vis:BookCoverVisualizer) =>
         pos: posWBIcon,
         size: iconSize,
         rot: spineRot,
-        pivot: Point.CENTER,
+        pivot: Vector2.CENTER,
         effects: [glowEffect]
     })
     group.add(resWBIcon, opWBIcon);
@@ -443,7 +432,7 @@ const createFront = (vis:BookCoverVisualizer) =>
         pos: vis.getPageCenter(),
         size: pageSize,
         alpha: diskData.bg.paintingAlpha,
-        pivot: Point.CENTER
+        pivot: Vector2.CENTER
     });
     group.add(bgPainting, bgPaintingOp)
 
@@ -452,15 +441,15 @@ const createFront = (vis:BookCoverVisualizer) =>
     // the unique full_painting again, but now at forefront, locked inside framing graphic
     const resFraming = vis.getResource("framing_graphic");
     const framingOffset = vis.bookData.custom.framePaintingOffset ?? 0;
-    const framingPos = new Point(pageCenterContent.x, pageAnchorContent.y + diskData.framing.yPos * pageSizeContent.y);
-    const framingPosPainting = framingPos.clone().add(new Point(0, framingOffset*pageSizeContent.y));
+    const framingPos = new Vector2(pageCenterContent.x, pageAnchorContent.y + diskData.framing.yPos * pageSizeContent.y);
+    const framingPosPainting = framingPos.clone().add(new Vector2(0, framingOffset*pageSizeContent.y));
     const idealPaintingDims = resFraming.getSize().clone().scale(diskData.framing.fullPaintingScaleFactor);
-    const paintingDims = new Point(idealPaintingDims.y * bgPainting.getRatio(), idealPaintingDims.y);
+    const paintingDims = new Vector2(idealPaintingDims.y * bgPainting.getRatio(), idealPaintingDims.y);
     const framingImageSize = resFraming.getSize().clone().scale(diskData.framing.frameScaleFactor ?? 1.0);
     const paintingOp = new LayoutOperation({
         pos: framingPosPainting,
         size: paintingDims,
-        pivot: Point.CENTER,
+        pivot: Vector2.CENTER,
         clip: new Rectangle().fromTopLeft(framingPos.clone().sub(framingImageSize.clone().scale(0.5)), framingImageSize),
     })
     group.add(bgPainting, paintingOp);
@@ -468,20 +457,20 @@ const createFront = (vis:BookCoverVisualizer) =>
     const framingOp = new LayoutOperation({
         pos: framingPos,
         size: framingImageSize,
-        pivot: Point.CENTER
+        pivot: Vector2.CENTER
     });
     group.add(resFraming, framingOp);
 
     // the metadata graphic (which is entirely fixed per disk, so just one simple image)
     const resMetadata = vis.getResource("metadata");
     const opMetadata = new LayoutOperation({
-        pos: new Point(pageCenterContent.x, pageAnchorContent.y + diskData.metadata.yPos * pageSizeContent.y),
+        pos: new Vector2(pageCenterContent.x, pageAnchorContent.y + diskData.metadata.yPos * pageSizeContent.y),
         size: resMetadata.getSize(),
-        pivot: Point.CENTER
+        pivot: Vector2.CENTER
     });
     group.add(resMetadata, opMetadata);
 
-    const posTitle = new Point(pageCenterContent.x, pageAnchorContent.y + diskData.titleText.posY * pageSizeContent.y);
+    const posTitle = new Vector2(pageCenterContent.x, pageAnchorContent.y + diskData.titleText.posY * pageSizeContent.y);
     const titleFontSize = diskData.titleText.fontSize;
     const lineHeight = diskData.titleText.lineHeight;
     const lineHeightLowerCase = diskData.titleText.lineHeightLowerCase;
@@ -495,7 +484,7 @@ const createFront = (vis:BookCoverVisualizer) =>
 
         const isCapitalized = titleTexts[i].includes("</size>");
         const lh = isCapitalized ? lineHeight : lineHeightLowerCase;
-        posTitle.add(new Point(0, lh*titleFontSize))
+        posTitle.add(new Vector2(0, lh*titleFontSize))
     }
 
     const titleTextLayers = ["overlay", "shadow", "front"];

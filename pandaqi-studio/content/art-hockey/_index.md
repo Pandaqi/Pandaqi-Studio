@@ -1,17 +1,8 @@
 ---
-type: "gamepage"
+type: "project"
 
 title: "Art Hockey"
-headerTitle: "Multiplayer Drawing Sport (Android Game)"
 blurb: "Brush your friends aside and draw out their defenses in this creative game of air hockey ... with a twist"
-
-headerImg: "arthockey_pattern"
-headerThumb: "arthockey_logo"
-
-color: "red"
-
-
-
 
 date: 2020-03-16
 
@@ -32,17 +23,11 @@ playtime: 5
 playercount: [1,2,3,4]
 input: ["touch", "mouse"]
 
+media: [arthockey_1, arthockey_2, arthockey_3, arthockey_4, arthockey_5, arthockey_6, arthockey_7, arthockey_8]
+
 ---
 
-<div class="bgDiv"></div>
-
-{{% embedvideo bg="arthockey_logo" vid="https://www.youtube.com/embed/EnU19uRTz_M" class="limit-width" col="#FFAAAA" %}}
-
-<section>
-	<a href="https://pandaqi.itch.io/art-hockey/" id="playStoreDownloadButton"></a>
-</section>
-
-{{% section-centered heading="" %}}
+{{% embed-video src="https://www.youtube.com/embed/EnU19uRTz_M" %}}
 
 Brush your friends aside and draw out their defenses in this creative game of air hockey ... with a twist.
 
@@ -50,47 +35,37 @@ Brush your friends aside and draw out their defenses in this creative game of ai
 <!-- <p>Up to 4 creative and swift painters must defend their goal in a wild game of air hockey.</p> -->
 <!-- <p>Air hockey for 1-4 players ... with a twist.</p> -->
 
-{{% /section-centered %}}
+## Air Hockey ... Improved
 
-{{% section-centered heading="AIR HOCKEY ... IMPROVED" %}}
+**Your objective?** Shoot the ball against your opponent's goal.
 
-<span class="art-hockey-red">Your objective?</span> Shoot the ball against your opponent's goal.
+**How?** By drawing lines to deflect the ball.
 
-<span class="art-hockey-blue">How?</span> By drawing lines to deflect the ball.
+**Problems?** You only have limited ink, and can only draw one line at a time.
 
-<span class="art-hockey-green">Problems?</span> You only have limited ink, and can only draw one line at a time.
+**The catch?** The previous line you've drawn ... becomes your next goal!
 
-<span class="art-hockey-purple">The catch?</span> The previous line you've drawn ... becomes your next goal!
-
-{{% /section-centered %}}
-
-{{% section-centered heading="MULTIPLAYER MADNESS" %}}
+## Multiplayer Madness
 
 Play with up to three friends on the same device!
 
 Defend against attacks from all sides, grab the powerups you need, and deflect the ball into your opponent's goal ... all with a single, swift stroke of the brush.
 
-{{% /section-centered %}}
+## Features
 
-{{% screenshot-gallery class="limit-width" urls="arthockey_1,arthockey_2,arthockey_3,arthockey_4,arthockey_5,arthockey_6,arthockey_7,arthockey_8" %}}
-
-{{% section-centered heading="FEATURES" %}}
-
-- 1&ndash;4 players supported (on the same device)
+- 1--4 players supported (on the same device)
 - Creative and unique gameplay involving drawing
 - Computer opponents trained using advanced Machine Learning. (In other words: they're good, really good.)
 - Three challenging game modes
 - 15+ game-changing powerups
 
-{{% /section-centered %}}
+## Powerup Library
 
-{{% section-centered heading="POWERUP LIBRARY" html="true" %}}
-<p>In case you've forgotten what a powerup does, or want a glimpse of what you can unlock, I present <strong>The Great Library of Powerups!</strong></p>
+In case you've forgotten what a powerup does, or want a glimpse of what you can unlock, I present **The Great Library of Powerups!**
 
 {{% figure url="powerup_overview" alt="The full library of powerups" %}} 
-{{% /section-centered %}}
 
-{{% section-centered heading="WHY FREE?" %}}
+## Why Free?
 
 I strive to create innovative multiplayer games, for all ages, to bring people _together_ in real life.
 
@@ -99,5 +74,3 @@ But I know there's a great risk to buying multiplayer games: how often do you ev
 As such, I provide these games for free, no matter how good I think they are.
 
 Within the game, you can (only if you want to) watch an advertisment to receive extra content, such as powerups. Doing so would already be a great way to support me!
-
-{{% /section-centered %}}

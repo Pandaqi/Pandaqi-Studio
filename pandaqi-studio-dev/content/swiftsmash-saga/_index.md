@@ -3,12 +3,9 @@ type: "project"
 collection: "tap"
 
 title: "Swiftsmash Saga"
-headerTitle: "A series of games about thinking quickly and smashing the right card before anyone else."
 blurb: "A series of (party) games about thinking on your feet and swiftly smashing the right card before anyone else."
 
 downloadLink: "https://drive.google.com/drive/folders/153TCjVAmGbWwDFeXqa-eacGi2taA2PnZ"
-
-color: "green"
 
 date: 2024-07-26
 

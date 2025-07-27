@@ -1,23 +1,20 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Maybe Missions"
-headerTitle: "Propose spy missions and hope enough people help you succeed."
 blurb: "Propose spy missions and hope enough people want them to succeed---or deviously let them fail to benefit your own secret cover."
-blurbShort: "A [Maybe Game](/maybe-games/) game about tactically proposing spy missions so the other players want to help you succeed."
-
+# blurb: "A [Maybe Game](/maybe-games/) game about tactically proposing spy missions so the other players want to help you succeed."
 blurbProject: "Propose spy missions and hope enough people want them to succeed---or deviously let them fail to benefit your own secret cover."
 weightProject: 20
 
 downloadLink: "https://drive.google.com/drive/folders/1U1HIR6DoWPo3gdoHc7zPQAjNDPMmNgia"
 
-color: "yellow"
 
 date: 2025-04-26
 
 difficulty: "simple"
-categories: ["boardgame", "card-game", "standard"]
+categories: ["board-game", "card-game", "standard"]
 genre: ["family", "thematic"]
 tags: ["voting", "simultaneous-turns", "move-through-all"]
 themes: ["espionage"]
@@ -30,9 +27,9 @@ ages: everyone
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% boardgame-instructions /%}}
+
+
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -46,7 +43,7 @@ ages: everyone
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 The unique font for this game is **Star Trebek**, freely available online. (Designed to be a space or sci-fi font, which you can tell, but I thought it fit well in this game too.) Some of the illustrations are AI generated. Everything else is entirely mine.
 
@@ -58,4 +55,3 @@ I'd rather people think "wow this game is so simple, let's try it this weekend" 
 
 For more information, check out the the [Maybe Games overview page](/maybe-games/).
 
-{{% /section-centered %}}

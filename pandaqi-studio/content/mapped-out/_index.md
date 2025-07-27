@@ -1,12 +1,10 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Mapped Out"
-headerTitle: "Design the treasure map to make the most of the random route you were given at the start."
 blurb: "Design the treasure map to make the most of the random route you were given at the start."
 
-color: "turquoise"
 
 downloadLink: "https://drive.google.com/drive/folders/1_jKU6uzGmq2h1d1IVBt3R_kadOrny3vB"
 
@@ -14,7 +12,7 @@ date: 2026-01-26
 
 difficulty: "kids-can-play"
 genres: ["family", "thematic", "adventure"]
-categories: ["boardgame", "tile-game", "standard"]
+categories: ["board-game", "tile-game", "standard"]
 tags: ["fixed-order", "shared-map", "grid", "turn-based", "guessing", "bias", "variable-setup", "orientation", "set-collection", "high-score"]
 themes: ["sea"]
 
@@ -27,9 +25,9 @@ devlog: "/blog/boardgames/mapped-out/"
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% boardgame-instructions /%}}
+
+
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -43,7 +41,7 @@ devlog: "/blog/boardgames/mapped-out/"
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 The fonts used are **Vanilla Whale** (headings) and **Source Serif (4)** (body text). Everything else is mine.
 
@@ -59,4 +57,3 @@ It took a few tries, but finally the ideas came together and we get this nice li
 
 Also, a lot of my original ideas were decisively moved to _expansions_, to really keep the base game small, textless, and kid friendly. If you think the base game is a bit too simplistic or straightforward, be sure to try out the expansions.
 
-{{% /section-centered %}}

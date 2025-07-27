@@ -1,14 +1,6 @@
-import createContext from "lib/pq-games/layout/canvas/createContext";
-import { COLORS, CardData, Type } from "../js_shared/dict";
-import CONFIG from "../js_shared/config";
-import strokeCanvas from "lib/pq-games/layout/canvas/strokeCanvas";
-import Point from "lib/pq-games/tools/geometry/point";
-import fillCanvas from "lib/pq-games/layout/canvas/fillCanvas";
-import LayoutOperation from "lib/pq-games/layout/layoutOperation";
-import ResourceText from "lib/pq-games/layout/resources/resourceText";
-import TextConfig, { TextAlign } from "lib/pq-games/layout/text/textConfig";
-import convertCanvasToImage from "lib/pq-games/layout/canvas/convertCanvasToImage";
-import signRandom from "lib/pq-games/tools/random/signRandom";
+import { COLORS, CardData, Type } from "../shared/dict";
+import CONFIG from "../shared/config";
+import { Vector2, signRandom, createContext, TextConfig, TextAlign, ResourceText, LayoutOperation, convertCanvasToImage, fillCanvas, strokeCanvas } from "lib/pq-games";
 
 interface EliminationData
 {
@@ -30,7 +22,7 @@ export default class Card
     convertedShooter: boolean;
 
     ctx: CanvasRenderingContext2D;
-    size: Point;
+    size: Vector2;
     sizeUnit: number;
     colorMain: string;
 
@@ -107,7 +99,7 @@ export default class Card
 
         // @DEBUGGING: some easy way to indicate direction
         const rectWidth = 0.2*size.x;
-        const positions = [new Point(0,0), new Point(size.x-rectWidth, 0)];
+        const positions = [new Vector2(0,0), new Vector2(size.x-rectWidth, 0)];
         const pos = this.dir == 1 ? positions[1] : positions[0];
 
         ctx.fillStyle = "#333333";
@@ -120,7 +112,7 @@ export default class Card
         ctx.fillStyle = "#000000";
 
         // > person type
-        const textPos = new Point(0.5*size.x, 0.5*size.y + 0.33*fontSize);
+        const textPos = new Vector2(0.5*size.x, 0.5*size.y + 0.33*fontSize);
         ctx.fillText(this.person, textPos.x, textPos.y);
 
         // desc
@@ -135,12 +127,12 @@ export default class Card
 
         let desc = this.data.desc;
         const res = new ResourceText({ text: desc, textConfig: textConfig });
-        const descPos = new Point(0.5*size.x, 0.75*size.y);
-        const descDims = new Point(0.9*size.x, 0.4*size.y);
+        const descPos = new Vector2(0.5*size.x, 0.75*size.y);
+        const descDims = new Vector2(0.9*size.x, 0.4*size.y);
         const op = new LayoutOperation({
             pos: descPos,
             size: descDims,
-            pivot: new Point(0.5),
+            pivot: new Vector2(0.5),
             fill: "#000000"
         })
         await res.toCanvas(ctx, op);

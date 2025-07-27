@@ -1,10 +1,8 @@
 import CONFIG from "./config"
-// @ts-ignore
-import * as d3 from "lib/pq-games/tools/graphs/d3-delaunay@6"
 import Region from "./region";
 import Area from "./area";
 import Continents from "./continents";
-import { Vector2, range, signRandom, shuffle, clamp, lerp, createNoise2D } from "lib/pq-games";
+import { Vector2, range, signRandom, shuffle, clamp, lerp, createNoise2D, d3 } from "lib/pq-games";
 
 export default class BoardState
 {

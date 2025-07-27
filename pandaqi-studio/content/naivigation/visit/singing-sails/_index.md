@@ -1,14 +1,12 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Singing Sails"
-headerTitle: "A Naivigation game about steering a single ship together"
-blurbShort: "A [Naivigation](/naivigation/) game about steering a single ship together, battling sea currents and dangerous islands."
-
+blurb: "A Naivigation game about steering a single ship together"
+# blurb: "A [Naivigation](/naivigation/) game about steering a single ship together, battling sea currents and dangerous islands."
 weightProject: 40
 
-color: "turquoise"
 
 downloadLink: "https://drive.google.com/drive/folders/1GwRIBb3Wf3TQnImiKwxCPcrnd1HOQ6KL"
 
@@ -16,7 +14,7 @@ date: 2025-10-26
 
 difficulty: "kids-can-play"
 genres: ["family", "thematic", "simulation"]
-categories: ["boardgame", "family-friendly", "local-multiplayer", "standard"]
+categories: ["board-game", "family-friendly", "local-multiplayer", "standard"]
 tags: ["chaos", "delayed-actions", "events", "fast-paced", "grid", "limited-communication", "logic", "memory", "modular", "movement", "orientation", "shared-map", "sudden-death", "team-based", "transportation", "turn-based", "variable-setup", "vehicle-simulation"]
 themes: ["cartoon", "colorful", "humor", "top-down"]
 
@@ -28,9 +26,9 @@ ages: everyone
 devlog: "/blog/boardgames/naivigation/visit/singing-sails/"
 ---
 
-{{% boardgame-intro /%}}
 
-{{% section-centered heading="What do I need?" %}}
+
+## What do I need?
 
 This game is part of the Naivigation universe. It means you need two things to play this game.
 
@@ -43,7 +41,6 @@ Print and cut it, read the short [playful rules](rules), and you can play!
 
 **Want more?** You can also [generate your own material](#material) right on this website, to suit your specific needs.
 
-{{% /section-centered %}}
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -66,7 +63,7 @@ Print and cut it, read the short [playful rules](rules), and you can play!
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 This project started as the "middle game" of the 5 major Naivigation games. It's slightly more involved than the starter games, because of how wind direction and strength must move your ship. But it's still very simple, because a ship is quite free to move in the water, and everyone intuitively knows it can't move over land.
 
@@ -76,4 +73,3 @@ But in return for a few more rules, you get a more fluid and creative game, wher
 
 For more information, check out the credits and supporting information from the [Naivigation overview page](/naivigation/).
 
-{{% /section-centered %}}

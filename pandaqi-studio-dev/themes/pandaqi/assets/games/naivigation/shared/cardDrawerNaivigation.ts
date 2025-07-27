@@ -1,18 +1,4 @@
-import fillResourceGroup from "lib/pq-games/layout/canvas/fillResourceGroup";
-import Color from "lib/pq-games/layout/color/color";
-import DropShadowEffect from "lib/pq-games/layout/effects/dropShadowEffect";
-import TintEffect from "lib/pq-games/layout/effects/tintEffect";
-import LayoutOperation from "lib/pq-games/layout/layoutOperation";
-import ResourceGroup from "lib/pq-games/layout/resources/resourceGroup";
-import ResourceShape from "lib/pq-games/layout/resources/resourceShape";
-import ResourceText from "lib/pq-games/layout/resources/resourceText";
-import TextConfig from "lib/pq-games/layout/text/textConfig";
-import StrokeAlign from "lib/pq-games/layout/values/strokeAlign";
-import MaterialVisualizer from "lib/pq-games/tools/generation/materialVisualizer";
-import getRectangleCornersWithOffset from "lib/pq-games/tools/geometry/paths/getRectangleCornersWithOffset";
-import Point from "lib/pq-games/tools/geometry/point";
-import Rectangle from "lib/pq-games/tools/geometry/rectangle";
-import rangeInteger from "lib/pq-games/tools/random/rangeInteger";
+import { MaterialVisualizer, ResourceGroup, fillResourceGroup, rangeInteger, Vector2, Color, LayoutOperation, TintEffect, TextConfig, ResourceText, DropShadowEffect, StrokeAlign, ResourceShape, Rectangle, getRectangleCornersWithOffset, colorDarken, colorRotate, colorSaturate } from "lib/pq-games";
 import { GPS_PENALTIES, GPS_REWARDS } from "./dict";
 import { CardType, GPS_ICONS } from "./dictShared";
 import MaterialNaivigation from "./materialNaivigation";
@@ -39,13 +25,13 @@ const drawCardBackground = (vis, group, card) =>
     {
         const resBlobs = vis.getResource("bg_blobs");
         const blobFrame = rangeInteger(0, vis.get("cards.general.numBackgroundBlobs") - 1);
-        const pos = new Point(0.5 * vis.sizeUnit);
+        const pos = new Vector2(0.5 * vis.sizeUnit);
         const size = vis.get("cards.background.size");
         const randRotationBlob = rangeInteger(0,3) * 0.5 * Math.PI;
         let blobsCol = new Color(bgColor);
-        blobsCol = blobsCol.rotate(6);
-        blobsCol = blobsCol.saturate(10);
-        blobsCol = blobsCol.darken(8);
+        blobsCol = colorRotate(blobsCol, 6);
+        blobsCol = colorSaturate(blobsCol, 10);
+        blobsCol = colorDarken(blobsCol, 8);
     
         const blobsOp = new LayoutOperation({
             pos: pos,
@@ -55,7 +41,7 @@ const drawCardBackground = (vis, group, card) =>
             frame: blobFrame,
             effects: [new TintEffect({ color: blobsCol })],
             //alpha: vis.get("cards.background.blobAlpha"),
-            pivot: Point.CENTER
+            pivot: Vector2.CENTER
         })
     
         group.add(resBlobs, blobsOp);
@@ -71,7 +57,7 @@ const drawCardBackground = (vis, group, card) =>
             frame: frame,
             composite: "overlay",
             alpha: vis.get("cards.background.patternAlpha"),
-            pivot: Point.CENTER
+            pivot: Vector2.CENTER
         });
     
         group.add(resPattern, patternOp);
@@ -91,10 +77,10 @@ const drawCardBackground = (vis, group, card) =>
 
     const templateOp = new LayoutOperation({
         pos: vis.size,
-        size: new Point(vis.sizeUnit),
+        size: new Vector2(vis.sizeUnit),
         frame: tempData.frameTemplate,
         effects: tempEffects,
-        pivot: Point.ONE
+        pivot: Vector2.ONE
     })
 
     group.add(resTemplate, templateOp);
@@ -125,17 +111,17 @@ const drawCard = (vis, group, card) =>
         textPos = tempData.titleTextPos.clone().scale(vis.size);
     }
 
-    const shadowOffset = new Point(0, 0.1*textConfig.size);
+    const shadowOffset = new Vector2(0, 0.1*textConfig.size);
     const eff = new DropShadowEffect({ color: "#000000AA", offset: shadowOffset });
     const textOp = new LayoutOperation({
         pos: textPos,
-        size: new Point(vis.size.x, textConfig.size*2), 
+        size: new Vector2(vis.size.x, textConfig.size*2), 
         fill: "#000000",
         stroke: "#FFFFFF",
         effects: [eff],
         strokeWidth: vis.get("cards.general.strokeWidth"),
         strokeAlign: StrokeAlign.OUTSIDE,
-        pivot: Point.CENTER
+        pivot: Vector2.CENTER
     });
 
     let textMeta = data.subText ?? tempData.subText;
@@ -147,7 +133,7 @@ const drawCard = (vis, group, card) =>
         textMeta = "TYPE " + eventType.toUpperCase();
     }
 
-    const metaPos = textPos.clone().add(new Point(0, 0.5*textConfig.size + 0.5*vis.get("cards.general.fontSizeMeta") + shadowOffset.y));
+    const metaPos = textPos.clone().add(new Vector2(0, 0.5*textConfig.size + 0.5*vis.get("cards.general.fontSizeMeta") + shadowOffset.y));
     if(textMeta)
     {
         const textConfigMeta = new TextConfig({
@@ -157,10 +143,10 @@ const drawCard = (vis, group, card) =>
         const resTextMeta = new ResourceText(textMeta, textConfigMeta);
         const textMetaOp = new LayoutOperation({
             pos: metaPos,
-            size: new Point(vis.size.x, textConfigMeta.size*2),
+            size: new Vector2(vis.size.x, textConfigMeta.size*2),
             fill: "#000000",
             alpha: vis.get("cards.general.alphaMeta"),
-            pivot: Point.CENTER
+            pivot: Vector2.CENTER
         })
 
         group.add(resTextMeta, textMetaOp);
@@ -177,22 +163,22 @@ const drawCard = (vis, group, card) =>
         textConfigNumber.size = vis.get("cards.general.extraNumber.fontSize");
         const baseOffset = tempData.extraNumberOffset.clone().scale(vis.sizeUnit);
         const positions = [
-            textPos.clone().add(new Point(-baseOffset.x, baseOffset.y)),
-            textPos.clone().add(new Point(baseOffset.x, baseOffset.y))
+            textPos.clone().add(new Vector2(-baseOffset.x, baseOffset.y)),
+            textPos.clone().add(new Vector2(baseOffset.x, baseOffset.y))
         ]
-        const dropShadowEff = new DropShadowEffect({ color: "#00000077", offset: new Point(0, 0.1 * textConfigNumber.size) });
+        const dropShadowEff = new DropShadowEffect({ color: "#00000077", offset: new Vector2(0, 0.1 * textConfigNumber.size) });
 
         for(const pos of positions)
         {
             const resTextNumber = new ResourceText(textNumber.toString(), textConfigNumber);
             const textNumberOp = new LayoutOperation({
                 pos: pos,
-                size: new Point(textConfigNumber.size*2),
+                size: new Vector2(textConfigNumber.size*2),
                 fill: "#000000", // @TODO: correct colors
                 stroke: "#FFFFFF",
                 strokeWidth: vis.get("cards.general.extraNumber.strokeWidth"),
                 strokeAlign: StrokeAlign.OUTSIDE,
-                pivot: Point.CENTER,
+                pivot: Vector2.CENTER,
                 effects: [dropShadowEff]
             })
 
@@ -215,14 +201,14 @@ const drawCard = (vis, group, card) =>
         textConfigContent.size = vis.get("cards.general.fontSizeContent");
         textConfigContent.font = vis.get("fonts.body");
 
-        const contentPos = metaPos.clone().add(new Point(0, 0.5*(vis.size.y - metaPos.y)));
+        const contentPos = metaPos.clone().add(new Vector2(0, 0.5*(vis.size.y - metaPos.y)));
 
         const resTextContent = new ResourceText(textContent, textConfigContent);
         const textContentOp = new LayoutOperation({
             pos: contentPos,
             size: vis.get("cards.general.contentTextBox"),
             fill: "#000000",
-            pivot: Point.CENTER
+            pivot: Vector2.CENTER
         });
         group.add(resTextContent, textContentOp);
     }
@@ -247,15 +233,15 @@ const drawGPSText = (vis:MaterialVisualizer, group:ResourceGroup, card:MaterialN
             pos: vis.get("cards.general.gps.posReward"),
             fill: vis.get("cards.general.gps.fontColor"),
             size: vis.get("cards.general.gps.textBoxDims"),
-            pivot: Point.CENTER
+            pivot: Vector2.CENTER
         });
         group.add(resText, op);
 
         const iconOp = new LayoutOperation({
-            pos: new Point(iconOffsetX, op.pos.y),
+            pos: new Vector2(iconOffsetX, op.pos.y),
             frame: GPS_ICONS.reward.frame,
             size: vis.get("cards.general.gps.textBoxIconDims"),
-            pivot: Point.CENTER
+            pivot: Vector2.CENTER
         })
 
         group.add(resIcon, iconOp);
@@ -269,15 +255,15 @@ const drawGPSText = (vis:MaterialVisualizer, group:ResourceGroup, card:MaterialN
             pos: vis.get("cards.general.gps.posPenalty"),
             fill: vis.get("cards.general.gps.fontColor"),
             size: vis.get("cards.general.gps.textBoxDims"),
-            pivot: Point.CENTER
+            pivot: Vector2.CENTER
         });
         group.add(resText, op);
 
         const iconOp = new LayoutOperation({
-            pos: new Point(iconOffsetX, op.pos.y),
+            pos: new Vector2(iconOffsetX, op.pos.y),
             frame: GPS_ICONS.penalty.frame,
             size: vis.get("cards.general.gps.textBoxIconDims"),
-            pivot: Point.CENTER
+            pivot: Vector2.CENTER
         })
         group.add(resIcon, iconOp);
     }
@@ -299,7 +285,7 @@ const drawGPSGrid = (vis:MaterialVisualizer, group:ResourceGroup, card:MaterialN
         for(let y = 0; y < gridRawDims.y; y++)
         {
             const id = x + y * gridRawDims.x;
-            const pixelPos = new Point(x,y).scale(cellSize);
+            const pixelPos = new Vector2(x,y).scale(cellSize);
             const resShape = new ResourceShape( new Rectangle().fromTopLeft(pixelPos, cellSize) );
             const isReward = card.customData.rewardSquares.includes(id);
             const isPenalty = card.customData.penaltySquares.includes(id);
@@ -323,13 +309,13 @@ const drawGPSGrid = (vis:MaterialVisualizer, group:ResourceGroup, card:MaterialN
             gridGroup.add(resShape, cellOp);
 
             // and then sprite to back it up
-            const centerPos = pixelPos.add(new Point(0.5, 0.5).scale(cellSize));
+            const centerPos = pixelPos.add(new Vector2(0.5, 0.5).scale(cellSize));
             const iconOp = new LayoutOperation({
                 pos: centerPos,
                 frame: spriteFrame,
                 size: cellSize.clone().scale(iconScaledown),
                 alpha: iconAlpha,
-                pivot: Point.CENTER
+                pivot: Vector2.CENTER
             })
             gridGroup.add(resIcons, iconOp);
         }
@@ -338,7 +324,7 @@ const drawGPSGrid = (vis:MaterialVisualizer, group:ResourceGroup, card:MaterialN
     const gridOp = new LayoutOperation({
         pos: vis.get("cards.general.illustration.mainPos"),
         size: gridPixelDims,
-        pivot: Point.CENTER
+        pivot: Vector2.CENTER
     })
     group.add(gridGroup, gridOp);
 }
@@ -361,7 +347,7 @@ const drawCardIcons = (vis:MaterialVisualizer, group:ResourceGroup, card:Materia
     const eff = new DropShadowEffect({ color: "#000000", blurRadius: vis.get("cards.general.illustration.shadowBlur") });
 
     const mainIconSize = vis.get("cards.general.illustration.mainDims").clone();
-    const sizeFactor = tempData.iconScale ?? Point.ONE;
+    const sizeFactor = tempData.iconScale ?? Vector2.ONE;
     mainIconSize.scale(sizeFactor);
 
     const mainIconPos = vis.get("cards.general.illustration.mainPos").clone();
@@ -374,13 +360,13 @@ const drawCardIcons = (vis:MaterialVisualizer, group:ResourceGroup, card:Materia
         flipX: flipX,
         flipY: flipY,
         frame: spriteFrame,
-        pivot: Point.CENTER
+        pivot: Vector2.CENTER
     });
 
     // override with a custom illustration, IF that function returned anything
     let resIllu = resSprite;
     const resTempCustom = card.getCustomIllustration(vis, spriteOp);
-    if(resTempCustom) { resIllu = resTempCustom; spriteOp.frame = 0; spriteOp.size = new Point(); }
+    if(resTempCustom) { resIllu = resTempCustom; spriteOp.frame = 0; spriteOp.size = new Vector2(); }
     group.add(resIllu, spriteOp);
 
     // GPS cards draw that dynamic grid on top of the usual main illu
@@ -401,8 +387,8 @@ const drawCardIcons = (vis:MaterialVisualizer, group:ResourceGroup, card:Materia
         const effSmall = [new DropShadowEffect({ color: "#000000", blurRadius: vis.get("cards.general.illustration.smallShadowBlur") }), vis.inkFriendlyEffect].flat();
         
         const smallPositions = [
-            anchorPos.clone().add(new Point(-anchorOffset.x, anchorOffset.y)),
-            anchorPos.clone().add(new Point(anchorOffset.x, anchorOffset.y))
+            anchorPos.clone().add(new Vector2(-anchorOffset.x, anchorOffset.y)),
+            anchorPos.clone().add(new Vector2(anchorOffset.x, anchorOffset.y))
         ]
         
         for(const pos of smallPositions)
@@ -412,7 +398,7 @@ const drawCardIcons = (vis:MaterialVisualizer, group:ResourceGroup, card:Materia
                 pos: pos,
                 frame: spriteFrame,
                 size: smallDims,
-                pivot: Point.CENTER,
+                pivot: Vector2.CENTER,
                 flipX: onRightSide,
                 effects: effSmall
             })
@@ -455,7 +441,7 @@ const drawCardIcons = (vis:MaterialVisualizer, group:ResourceGroup, card:Materia
             pos: pos,
             frame: card.getMisc().game_icon.frame,
             size: iconDims,
-            pivot: Point.CENTER,
+            pivot: Vector2.CENTER,
             flipX: onRightSide,
             flipY: onBottomSide,
             effects: gameIconEff

@@ -1,5 +1,0 @@
-{{ $game_asset_name := partial "func/get-game-asset-name.html" . }}
-{{ $thumb_auto := printf "%s_favicon" $game_asset_name }} 
-{{ $final_thumb := or .Params.headerThumb $thumb_auto }}
-{{ if .Params.noThumb }}{{ $final_thumb = "" }}{{ end }}
-{{ return $final_thumb }}

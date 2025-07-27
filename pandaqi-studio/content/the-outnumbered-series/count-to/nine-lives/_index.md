@@ -1,24 +1,21 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Nine Lives"
-headerTitle: "Don't be the first cat to run out of lives!"
 blurb: "As we all know, cats start with nine lives. And as we all know, playing the wrong cards makes you lose a life ... unless you're willing to bet on it."
-blurbShort: "A simple and fast card game about losing your nine lives less quickly than all the other players."
-
+# blurb: "A simple and fast card game about losing your nine lives less quickly than all the other players."
 blurbProject: "You're a cat with 9 lives. But blowing up a round with the wrong number makes you lose a life, and you really don't want to be the first to die. (Has several expansions and spin-offs.)"
 weightProject: 90
 
 downloadLink: "https://drive.google.com/drive/folders/1WkqwCiMo_ggHSkjPDfKS1fSDENgWjzoh"
 
-color: "white"
 
 date: 2024-08-25
 
 difficulty: "kids-can-play"
 genres: ["family"]
-categories: ["boardgame", "card-game", "standard"]
+categories: ["board-game", "card-game", "standard"]
 tags: ["textless", "player-powers", "numbers", "hand-management", "ladder-climbing", "catch-the-leader", "move-through-all", "turn-based"]
 themes: ["nature"]
 
@@ -33,9 +30,9 @@ devlog: "/blog/boardgames/the-outnumbered-series/nine-lives/"
 
 <div class="bg-cats"></div>
 
-{{% boardgame-intro /%}}
 
-{{% boardgame-instructions /%}}
+
+
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -47,7 +44,7 @@ devlog: "/blog/boardgames/the-outnumbered-series/nine-lives/"
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 The fonts used are **Puss in Boots** (headings, fancy text) and **Catcafe** (body text, readable). Both freely available online. Parts of the illustrations were generated with AI. Everything else is mine.
 
@@ -66,4 +63,3 @@ Do you have a favorite version of Nine Lives? Let me know which one and why!
 
 For more information, as always, read my [detailed developer diary on Pandaqi Blog](/blog/boardgames/the-outnumbered-series/nine-lives/).
 
-{{% /section-centered %}}

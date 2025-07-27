@@ -1,24 +1,21 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Sixpack"
-headerTitle: "A simple, fast card game about six wonderful cards."
 blurb: "A card game both simple and fast about using your six unique cards as best you can, while predicting how the others will use theirs."
-blurbShort: "You get six cards. Play them well, but don't be the first to play them all."
-
+# blurb: "You get six cards. Play them well, but don't be the first to play them all."
 blurbProject: "Use your 6 cards as best you can to claim the biggest piles, which you do by playing a 1 or a 6 on top at the right time."
 weightProject: 60
 
 
-color: "purple"
 
 
 date: 2023-10-20
 
 difficulty: "kids-can-play"
 genres: ["party"]
-categories: ["boardgame", "card-game", "standard"]
+categories: ["board-game", "card-game", "standard"]
 tags: ["numbers", "simultaneous-turns", "fast-paced", "stacking", "move-through-all", "ladder-climbing"]
 themes: ["pop-art", "retro", "colorful"]
 
@@ -34,9 +31,9 @@ devlog: "/blog/boardgames/the-outnumbered-series/sixpack/"
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% boardgame-instructions /%}}
+
+
 
 {{% boardgame-settings-container type="material" remarks="**Reminder!** You always need (at least) one more pack than the number of players." %}}
 
@@ -64,9 +61,8 @@ devlog: "/blog/boardgames/the-outnumbered-series/sixpack/"
 
 {{% /boardgame-settings-container %}}
 
-{{< support >}}
 
-{{% section-centered heading="Credits" %}}
+## Credits
 
 The font used is **Londrina Solid** (freely available at Google Fonts). All other assets and code are mine.
 
@@ -74,4 +70,3 @@ This game was inspired by a play session of the game "Take 5". (In the Netherlan
 
 Because the rules are so simple, I could spend most of the time on the art and visuals of the cards. The end result is probably my nicest game in terms of graphics and rules!
 
-{{% /section-centered %}}

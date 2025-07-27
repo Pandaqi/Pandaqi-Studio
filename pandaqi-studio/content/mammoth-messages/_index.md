@@ -1,22 +1,20 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Mammoth Messages"
-headerTitle: "Communicate words using only barebones cave drawings"
 blurb: "Give message. They guess. Only cave drawings. Nothing else. More guess is more good. Party game. Hum."
 
 downloadLink: "https://drive.google.com/drive/folders/1lFWm9gEBEFxKMeDMy_fucT5xcDac4KsC"
 
 
-color: "brown"
 
 
 date: 2024-03-26
 
 difficulty: "no-brainer"
 genres: ["party"]
-categories: ["boardgame", "standard"]
+categories: ["board-game", "standard"]
 tags: ["guessing", "language", "creative", "social"]
 themes: ["prehistoric"]
 
@@ -29,9 +27,9 @@ devlog: "/blog/boardgames/mammoth-messages/"
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% boardgame-instructions /%}}
+
+
 
 {{% boardgame-settings-container type="material" remark="The material for this game is heavy to generate. Please use a computer (not a phone) and give it a few minutes!" %}}
 
@@ -50,9 +48,8 @@ devlog: "/blog/boardgames/mammoth-messages/"
 
 {{% /boardgame-settings-container %}}
 
-{{< support >}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 The fonts used are **Boblox Classic** (headings, decorative text) and **Averia Serif Libre** (body, longer paragraphs). Both are freely available online. Some generative AI was used for backgrounds, everything else is entirely mine.
 
@@ -66,4 +63,3 @@ You also might wonder "aren't some of these cave drawings a little too modern?" 
 
 Their understanding of the world, their _spoken_ language, might have been on par with ours. Because why wouldn't it be? The prehistoric times lasted waaay longer than our modern times. They actually lived in nature and had to use and understand it every day. Science even shows they were healthier and more creative than modern day humans in some respects.
 
-{{% /section-centered %}}

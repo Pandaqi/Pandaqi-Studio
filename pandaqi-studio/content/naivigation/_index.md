@@ -1,13 +1,9 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+collection: "visit"
 
 title: "Naivigation"
-headerTitle: "A universe of simple party board games about driving one vehicle together."
 blurb: "A universe of simple party board games about driving one vehicle together, at the same time, without crashing too much."
-
-color: "green"
-autoLoadFontCSS: true
 
 downloadLink: "https://drive.google.com/drive/folders/16g8Bjlk01tTCW7c9qQVd-LzrkwfBM_de"
 
@@ -15,7 +11,7 @@ date: 2025-10-26
 
 difficulty: "kids-can-play"
 genres: ["family", "thematic", "simulation"]
-categories: ["boardgame", "family-friendly", "local-multiplayer", "standard"]
+categories: ["board-game", "family-friendly", "local-multiplayer", "standard"]
 tags: ["chaos", "delayed-actions", "events", "fast-paced", "grid", "limited-communication", "logic", "memory", "modular", "movement", "orientation", "shared-map", "sudden-death", "team-based", "transportation", "turn-based", "variable-setup", "vehicle-simulation"]
 themes: ["cartoon", "colorful", "humor", "top-down"]
 
@@ -27,9 +23,9 @@ ages: everyone
 devlog: "/blog/boardgames/naivigation/"
 ---
 
-{{% boardgame-intro /%}}
 
-{{% section-centered heading="What's this?" %}}
+
+## What's this?
 
 This is the **overview page** of the Naivigation project, or the "master project" if you will. 
 
@@ -42,13 +38,12 @@ In other words, want to try it? We recommend ...
 * Do the same for [Naivigation: Swerving Spaceships](/naivigation/visit/swerving-spaceships/), and read its short rulebook.
 * Print, cut, have fun!
 
-{{% /section-centered %}}
 
-{{% section-centered heading="Journey through the Universe" %}}
+## Journey through the Universe
 
 Below is a list of all major games, roughly sorted by difficulty. These really represent the core of the Naivigation experience and will be consistent fun for any group. You will be steering a commonly known vehicle.
 
-{{< boardgame-project-games-list subdir="visit" >}}
+{{< collection-list subdir="visit" >}}
 
 <!---
 * Swerving Spaceships (Space) weightProject = 10
@@ -60,7 +55,7 @@ Below is a list of all major games, roughly sorted by difficulty. These really r
 
 Below is a list of smaller or more unique vehicles, roughly sorted by difficulty. These are a bit more unique or experimental, presenting a wider spread of play. Some are even simpler and shorter than the major games, some are harder and take longer to play.
 
-{{< boardgame-project-games-list subdir="swing-by" >}}
+{{< collection-list subdir="swing-by" >}}
 
 <!---
 * Suspicious Submarines (Submarine) weightProject = 10
@@ -69,13 +64,12 @@ Below is a list of smaller or more unique vehicles, roughly sorted by difficulty
 
 Below is a list of _very_ special vehicles. These are merely _inspired_ by _parts_ of the Naivigation core. They are therefore best considered as standalone spin-offs.
 
-{{< boardgame-project-games-list subdir="wind-up-at" >}}
+{{< collection-list subdir="wind-up-at" >}}
 
 You can [read the shared rules](rules), though they are repeated within the rulebook of each specific game. (On their own, they're not a full game!)
 
 You can [generate your own material](#material) right on this website. (If the PDFs at the "Download" button don't suit your needs, or you're just curious!)
 
-{{% /section-centered %}}
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -94,7 +88,7 @@ You can [generate your own material](#material) right on this website. (If the P
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 The fonts used are **Ambery Gardens** (headings, decorative text) and **K2D** (body, longer paragraphs). Both are freely available online. Some generative AI was used for complex illustrations, everything else is entirely mine.
 
@@ -112,4 +106,3 @@ I honestly think these are my masterpiece so far. The games aren't extremely "de
 
 I mostly make games for families and casual groups. These games are cooperative, mostly textless, simple, fast, intuitive, thematic, cheap to print/cut yourself, varied, anything I'd want games to be.
 
-{{% /section-centered %}}

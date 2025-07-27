@@ -2,17 +2,9 @@
 draft: true
 
 title: "Kings of Compromise"
-headerTitle: "Kings of Compromise | Design your kingdom to make all players happy"
 blurb: "2-6 players try to discover the kingdom that satisfies everyone's secret wishes by changing one thing at a time"
 
-fullHeaderImg: "timelytransports_header_faded"
-headerImg: "timelytransports_header_faded"
-
-
-color: "green"
-
-
-googleFonts: "https://fonts.googleapis.com/css2?family=Chelsea+Market&display=swap"
+# googleFonts: "https://fonts.googleapis.com/css2?family=Chelsea+Market&display=swap"
 
 date: 2022-06-02
 

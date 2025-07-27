@@ -1,5 +1,4 @@
-import Point from "lib/pq-games/tools/geometry/point";
-import Rectangle from "lib/pq-games/tools/geometry/rectangle";
+import { Vector2 } from "lib/pq-games";
 import CONFIG from "./config";
 import PlayerArea from "./playerArea";
 
@@ -7,7 +6,7 @@ export default class PlayerAreas
 {
     boardState
     areas: PlayerArea[]
-    trajectoryBoardOffset: Point
+    trajectoryBoardOffset: Vector2
 
     constructor(boardState)
     {
@@ -25,16 +24,16 @@ export default class PlayerAreas
         const off = CONFIG.display.playerAreas.edgeOffset;
         const areaSizeRaw = CONFIG.display.playerAreas.sizeRaw;
         const areas = [
-            { anchor: new Point(off.x, 1.0-off.y-areaSizeRaw.y/size.y), rot: 0, size: null },
-            { anchor: new Point(0.5+off.x, 1.0-off.y-areaSizeRaw.y/size.y), rot: 0 },
-            { anchor: new Point(1.0-off.x, 1.0-off.y-areaSizeRaw.y/size.y), rot: 3 },
-            { anchor: new Point(1.0-off.x, off.y), rot: 2 },
-            { anchor: new Point(0.5-off.x, off.y), rot: 2 },
-            { anchor: new Point(off.x, off.y), rot: 1 }
+            { anchor: new Vector2(off.x, 1.0-off.y-areaSizeRaw.y/size.y), rot: 0, size: null },
+            { anchor: new Vector2(0.5+off.x, 1.0-off.y-areaSizeRaw.y/size.y), rot: 0 },
+            { anchor: new Vector2(1.0-off.x, 1.0-off.y-areaSizeRaw.y/size.y), rot: 3 },
+            { anchor: new Vector2(1.0-off.x, off.y), rot: 2 },
+            { anchor: new Vector2(0.5-off.x, off.y), rot: 2 },
+            { anchor: new Vector2(off.x, off.y), rot: 1 }
         ]
-        const areaSize = areaSizeRaw.clone().scale(new Point(size.x, 1));
+        const areaSize = areaSizeRaw.clone().scale(new Vector2(size.x, 1));
 
-        CONFIG.generation.calculatedTrajectoryRectOffset = new Point(
+        CONFIG.generation.calculatedTrajectoryRectOffset = new Vector2(
             off.x + 2*areaSizeRaw.y, 
             off.y + 2*areaSizeRaw.y
         );

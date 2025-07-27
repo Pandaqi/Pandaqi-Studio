@@ -1,22 +1,19 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "The Game of Happiness"
-headerTitle: "A group game of discovery and relatability"
 blurb: "Rank a series of random events based on how happy they'd make you---and hope your friends and family know you well enough to perfectly guess your ranking."
 
 downloadLink: "https://drive.google.com/drive/folders/1GyAwnyAyk8J9XK190-KQNGulIBGo3xIb"
 
-customHeight: "large"
 
-color: "pink"
 
 date: 2024-12-26
 
 difficulty: "no-brainer"
 genres: ["family", "party"]
-categories: ["boardgame", "card-game", "standard"]
+categories: ["board-game", "card-game", "standard"]
 tags: ["social", "emotional", "guessing", "sorting"]
 themes: ["colorful"]
 
@@ -29,12 +26,7 @@ devlog: "/blog/boardgames/the-game-of-happiness/"
 
 ---
 
-
-{{% boardgame-intro /%}}
-
-{{% boardgame-instructions %}}
 **Don't want to print stuff?** You can also play the game digitally on a single smartphone. Go to [material](#material) on a device and check "Load Digital Game".
-{{% /boardgame-instructions %}}
 
 {{% boardgame-settings-container type="material" remarks="**Which pack(s) should I use!?** The base, advanced, expert and silly packs contain ~10 new cards for each category. They are the largest and most diverse. They get slightly more _complex_ (in order of the list), but you should mostly see this as a way to break the game into more manageable files to print and cut.||The other packs add cards within one particular category, such as Superpowers: cards proposing a fun dilemma through a superpower with a drawback. They are usually much smaller and should just be shuffled into the category cards you already have." %}}
 
@@ -49,9 +41,8 @@ devlog: "/blog/boardgames/the-game-of-happiness/"
 
 {{% /boardgame-settings-container %}}
 
-{{< support >}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 This game is a personal project. I've been struggling with finding something I enjoy and gives me happiness for as long as I can remember. This game is basically another experiment in trying to find answers or discoveries. It's also why the game is kept really small and simple, with no marketing, expansions, or any of the stuff I usually do.
 
@@ -61,4 +52,3 @@ The fonts used are **Sunny Spells** (headings, decorative) and **Minya Nouvelle*
 
 **Want to add your own cards?** You can always send me a message with ideas for cards! Once I have enough, I can easily add them as another pack.
 
-{{% /section-centered %}}

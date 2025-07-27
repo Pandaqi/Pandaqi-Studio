@@ -3,10 +3,11 @@ type: "project"
 collection: "place"
 
 title: "The Domino Diaries"
-headerTitle: "A series of games about placing domino tiles."
+# blurb: "A series of games about placing domino tiles."
 blurb: "A series of games about placing domino tiles to shape your dream world---or simply the one that scores you the most points."
 
 downloadLink: "https://drive.google.com/drive/folders/1lxKWuSj0hlggY0Nx1_jQsNr0yqjfhoHb"
+# @DEBUGGING
 externalLinks:
   - label: "Play on POKI"
     url: "https://poki.com/en/g/a-recipe-for-disaster"
@@ -16,8 +17,6 @@ externalLinks:
     url: "http://pandaqi.itch.io/a-recipe-for-disaster"
     platforms: ["windows", "mac", "linux"]
     price: 2
-
-color: "blue"
 
 date: 2025-06-26
 

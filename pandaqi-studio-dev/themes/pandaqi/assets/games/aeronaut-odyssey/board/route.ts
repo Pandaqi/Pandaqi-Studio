@@ -1,30 +1,18 @@
-import Line from "lib/pq-games/tools/geometry/line";
-import PointGraph from "lib/pq-games/tools/geometry/pointGraph";
+import { Vector2, Vector2Graph, Rectangle, Line, countElementsInArray, isZero, signRandom, range, bezierCurveWithLength, calculatePathLength, simplifyPath, thickenPath, calculateBoundingBox, Dims } from "lib/pq-games";
 import CONFIG from "./config";
 import RouteSet from "./routeSet";
-import isZero from "lib/pq-games/tools/numbers/isZero";
-import signRandom from "lib/pq-games/tools/random/signRandom";
-import range from "lib/pq-games/tools/random/range";
-import bezierCurveWithLength from "lib/pq-games/tools/geometry/paths/bezierCurveWithLength";
-import calculatePathLength from "lib/pq-games/tools/geometry/paths/calculatePathLength";
-import Point from "lib/pq-games/tools/geometry/point";
-import simplifyPath from "lib/pq-games/tools/geometry/paths/simplifyPath";
-import thickenPath from "lib/pq-games/tools/geometry/paths/thickenPath";
-import calculateBoundingBox from "lib/pq-games/tools/geometry/paths/calculateBoundingBox";
-import Rectangle from "lib/pq-games/tools/geometry/rectangle";
-import countElementsInArray from "lib/pq-games/tools/collections/countElementsInArray";
 
 
 interface BlockData
 {
-    pos: Point,
+    pos: Vector2,
     rot: number
 }
 
 export default class Route
 {
-    start: PointGraph;
-    end: PointGraph;
+    start: Vector2Graph;
+    end: Vector2Graph;
     types: number[];
     disabled: boolean;
     multi: boolean;
@@ -34,15 +22,15 @@ export default class Route
     closestAngle: number;
     curveSide:number;
     blockData:BlockData[];
-    path:Point[]
-    pathSimple: Point[];
+    path:Vector2[]
+    pathSimple: Vector2[];
 
     failed:boolean;
     conservative:boolean; // rounds block length downwards for more space
-    pathBoundingBox: Rectangle;
+    pathBoundingBox: Dims;
     usedForArea: boolean[];
     
-    constructor(start:PointGraph, end:PointGraph)
+    constructor(start:Vector2Graph, end:Vector2Graph)
     {
         this.start = start;
         this.end = end;
@@ -62,7 +50,7 @@ export default class Route
         this.end.removeConnectionByPoint(this.start);
     }
 
-    getOther(p:PointGraph)
+    getOther(p:Vector2Graph)
     {
         if(this.start == p) { return this.end; }
         return this.start;
@@ -125,7 +113,7 @@ export default class Route
 
     getForbiddenTypes()
     {
-        const maxTypesAllowed = Math.round(CONFIG.evaluator.maxRoutesOfSameTypeAtPoint.lerp(CONFIG.boardClarityNumber));
+        const maxTypesAllowed = Math.round(CONFIG.evaluator.maxRoutesOfSameTypeAtVector2.lerp(CONFIG.boardClarityNumber));
         const arr = [
             this.getTypesAtPointAtThreshold(this.start, maxTypesAllowed),
             this.getTypesAtPointAtThreshold(this.end, maxTypesAllowed)
@@ -133,7 +121,7 @@ export default class Route
         return arr.flat();
     }
 
-    getTypesAtPointAtThreshold(p:PointGraph, num:number)
+    getTypesAtPointAtThreshold(p:Vector2Graph, num:number)
     {
         const routeTypes = [];
         const routesHere : Route[] = p.metadata.routes;
@@ -213,10 +201,10 @@ export default class Route
 
     }
 
-    getAngleToClosestOtherRoute(p:PointGraph)
+    getAngleToClosestOtherRoute(p:Vector2Graph)
     {
         const routes : Route[] = p.metadata.routes;
-        let anchorVec : PointGraph = p.vecTo(this.getOther(p)).normalize();
+        let anchorVec : Vector2Graph = p.vecTo(this.getOther(p)).normalize();
 
         let closestAng = 2*Math.PI;
         for(const route of routes)
@@ -238,7 +226,7 @@ export default class Route
                 const blockIndex = weAreStart ? 0 : (route.blockData.length - 1);
                 let rot = route.blockData[blockIndex].rot;
                 if(!weAreStart) { rot += Math.PI; }
-                routeVec = new Point().fromAngle(rot);
+                routeVec = new Vector2().fromAngle(rot);
             }
 
             let ang = anchorVec.angleSignedTo(routeVec);            
@@ -282,7 +270,7 @@ export default class Route
         const curveParams = {
             line: line,
             targetLength: targetLength,
-            controlPointRotation: this.curveSide,
+            controlVector2Rotation: this.curveSide,
             stepSize: 0.05, // smaller = more precise fit, but more expensive to calculate
             resolution: resolution
         }
@@ -350,26 +338,26 @@ export default class Route
         {
             const point = curve[i];
             if(i < curve.length - 1) {
-                const nextPoint = curve[i+1];
-                rot = point.vecTo(nextPoint).angle()
+                const nextVector2 = curve[i+1];
+                rot = point.vecTo(nextVector2).angle()
             }
 
-            const vecForSet = new Point().fromAngle(rot);
+            const vecForSet = new Vector2().fromAngle(rot);
             vecForSet.rotate(0.5*Math.PI).scale(blockY + marginBetweenSameSet);
             vecForSet.scale(offsetForSet);
             point.add(vecForSet);     
         }
     }
 
-    isUsedForAreaBy(p:PointGraph)
+    isUsedForAreaBy(p:Vector2Graph)
     {
         if(this.start == p) { return this.usedForArea[0]; }
         else if(this.end == p) { return this.usedForArea[1]; }
     }
 
-    markUsedForArea(startPoint)
+    markUsedForArea(startVector2)
     {
-        if(startPoint == this.start) { this.usedForArea[0] = true; }
+        if(startVector2 == this.start) { this.usedForArea[0] = true; }
         else { this.usedForArea[1] = true;}
     }
 }

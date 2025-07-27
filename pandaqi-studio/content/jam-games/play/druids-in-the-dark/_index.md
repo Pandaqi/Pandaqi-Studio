@@ -1,10 +1,9 @@
 ---
-type: "gamepage"
+type: "project"
 
 title: "Druids in the Dark"
-headerTitle: "Run a potion shop covered in shadows, where one misstep is fatal."
+blurb: "Run a potion shop covered in shadows, where one misstep is fatal."
 
-color: "purple"
 
 date: 2025-12-12
 
@@ -15,6 +14,11 @@ tags: []
 themes: ["2D"]
 
 downloadLink: "http://pandaqi.itch.io/druids-in-the-dark/"
+externalLinks:
+  - label: "Buy"
+    url: "http://pandaqi.itch.io/druids-in-the-dark/"
+    platforms: ["windows", "mac", "linux", "web"]
+    price: 2
 
 price: 2
 platform: ["windows", "mac", "linux", "web"]
@@ -25,15 +29,9 @@ input: ["controller", "keyboard"]
 devlog: "/blog/videogames/game-jams/druids-in-the-dark/"
 sourcecode: "https://github.com/Pandaqi/Druids-in-the-Dark/"
 
+media: [druids_screenshot_1,druids_screenshot_2,druids_screenshot_3]
+
 ---
-
-{{< videogame-intro >}}
-
-{{< buylink-container class="limit-width" >}}
-{{< buylink url="http://pandaqi.itch.io/druids-in-the-dark/" platforms="windows,mac,linux,android" text="Buy (&euro;2)" />}} 
-{{< /buylink-container >}}
-
-{{% section-centered heading="About the Game" %}}
 
 Run a (barebones, grid-based) potion shop with 1 to 4 players. 
 
@@ -48,7 +46,3 @@ Playable by anyone thanks to only a single button: **move around**. Nothing else
 Chaotic local multiplayer that requires great cooperation, memorization of where things are, staying on the move ... and not making a single misstep.
 
 Made for the **Pirate Jam (2024)**, which means it's missing some polish and advanced features like saving runs.
-
-{{% /section-centered %}}
-
-{{% screenshot-gallery class="limit-width" urls="druids_screenshot_1,druids_screenshot_2,druids_screenshot_3" %}}

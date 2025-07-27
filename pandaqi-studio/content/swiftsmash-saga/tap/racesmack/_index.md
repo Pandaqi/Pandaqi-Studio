@@ -1,12 +1,11 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Racesmack"
-headerTitle: "Tap the acceleration or the brakes at the right times to complete a perilous race first."
+blurb: "Tap the acceleration or the brakes at the right times to complete a perilous race first."
 weightProject: 30
 
-color: "red"
 
 downloadLink: "https://drive.google.com/drive/folders/18qcDMjQ1jyoyo1HCt9PxzSPRLdyYylY4"
 
@@ -14,7 +13,7 @@ date: 2025-06-26
 
 difficulty: "simple"
 genres: ["action", "party"]
-categories: ["boardgame", "card-game"]
+categories: ["board-game", "card-game"]
 tags: ["simultaneous-turns", "fast-paced", "numbers", "contracts", ]
 themes: []
 
@@ -27,9 +26,9 @@ devlog: "/blog/boardgames/swiftsmash-saga/racesmack/"
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% boardgame-instructions /%}}
+
+
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -43,7 +42,7 @@ devlog: "/blog/boardgames/swiftsmash-saga/racesmack/"
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 The fonts used are **New Amsterdam** (headings) and **Whackadoo** (body text). Yes, that second font was chosen purely because the name ("whack") fits the SwiftSmash saga. I am a professional designer, thank you very much. Everything else is mine.
 
@@ -57,4 +56,3 @@ With this game, I was finally able to center the entire gameplay around these ru
 
 I think this is a nice "middle of the road game". A bit more depth and strategy than the simpler SwiftSmash games, but faster to pick up and play than some of the harder ones. 
 
-{{% /section-centered %}}

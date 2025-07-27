@@ -1,7 +1,6 @@
-import PeerfulGame from "lib/pq-peerful/main";
 import GameServer from "./gameServer";
 import GameClient from "./gameClient";
-import CONFIG from "./config";
+import { PeerfulGame } from "lib/pq-peerful";
 
 const config = {
     debug: true,

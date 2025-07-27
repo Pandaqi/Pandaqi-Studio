@@ -1,4 +1,5 @@
-import Point from "lib/pq-games/tools/geometry/point"
+import { Vector2 } from "lib/pq-games"
+
 
 const DISKS =
 {
@@ -26,7 +27,7 @@ const DISKS =
             alternateFlipHeadings: true,
             headingFontSize: 72,
             contentFontSize: 48,
-            textBoxDims: new Point(0.775, 0.5),
+            textBoxDims: new Vector2(0.775, 0.5),
             sections: [
                 { title: "NEW GAME", text: "" },
                 { title: "AUTHOR", text: "" },
@@ -101,7 +102,7 @@ const DISKS =
             titleFontSize: 84,
             authorFontSize: 64,
             textColor: "#FDDDFF",
-            iconSize: new Point(96, 96),
+            iconSize: new Vector2(96, 96),
             strokeColor: "#000000",
             strokeWidth: 8,
             authorAlpha: 1.0,

@@ -1,15 +1,12 @@
-import Line from "lib/pq-games/tools/geometry/line";
-import PointGraph from "lib/pq-games/tools/geometry/pointGraph";
+import { Vector2Graph, Line } from "lib/pq-games";
 import Route from "./route";
-import CONFIG from "./config";
-import arraysAreDuplicates from "lib/pq-games/tools/collections/arraysAreDuplicates";
 
 export default class RouteAreas
 {
-    areas: PointGraph[][];
+    areas: Vector2Graph[][];
 
     get() { return this.areas.slice(); }
-    generate(points:PointGraph[], routes:Route[])
+    generate(points:Vector2Graph[], routes:Route[])
     {
 
         for(const route of routes)
@@ -20,7 +17,7 @@ export default class RouteAreas
         const areas = [];
         for(const p of points)
         {
-            areas.push( this.calculateAreasForPoint(p) );
+            areas.push( this.calculateAreasForVector2(p) );
         }
 
         const areasUnique = areas.flat(); 
@@ -42,7 +39,7 @@ export default class RouteAreas
         this.areas = areasUnique;
     }
 
-    calculateAreasForPoint(p:PointGraph)
+    calculateAreasForVector2(p:Vector2Graph)
     {
         const routes : Route[] = p.metadata.routes;
         const arr = [];
@@ -62,29 +59,29 @@ export default class RouteAreas
         return arr;
     }
     
-    calculateArea(pointStart:PointGraph, routeStart:Route, dir:number)
+    calculateArea(pointStart:Vector2Graph, routeStart:Route, dir:number)
     {
-        let curPoint = pointStart;
+        let curVector2 = pointStart;
         let curRoute = routeStart;
         let keepSearching = true;
-        const area = [curPoint];
+        const area = [curVector2];
         const routes = [curRoute];
-        //const maxAreaLength = CONFIG.generation.maxRouteAreaPoints;
+        //const maxAreaLength = CONFIG.generation.maxRouteAreaVector2s;
         while(keepSearching)
         {
-            const newPoint = curRoute.getOther(curPoint);
-            area.push(newPoint);
-            if(newPoint == pointStart) { keepSearching = false; break; }
+            const newVector2 = curRoute.getOther(curVector2);
+            area.push(newVector2);
+            if(newVector2 == pointStart) { keepSearching = false; break; }
 
-            const incoming = new Line(newPoint, curPoint); // this is REVERSED to match the direction of outgoing routes on next point
-            const newRoute = this.getRouteWithClosestAngle(incoming, newPoint, dir, curPoint);
+            const incoming = new Line(newVector2, curVector2); // this is REVERSED to match the direction of outgoing routes on next point
+            const newRoute = this.getRouteWithClosestAngle(incoming, newVector2, dir, curVector2);
             if(!newRoute) { break; }
-            if(newRoute.isUsedForAreaBy(newPoint)) { break; }
+            if(newRoute.isUsedForAreaBy(newVector2)) { break; }
             
             routes.push(newRoute);
             // not needed anymore => if(area.length >= maxAreaLength) { keepSearching = false; break; }
 
-            curPoint = newPoint;
+            curVector2 = newVector2;
             curRoute = newRoute;
         }
 
@@ -100,17 +97,17 @@ export default class RouteAreas
         return area;
     }
 
-    getRouteWithClosestAngle(incoming:Line, p:PointGraph, dir:number, comingFrom:PointGraph)
+    getRouteWithClosestAngle(incoming:Line, p:Vector2Graph, dir:number, comingFrom:Vector2Graph)
     {
         const routes : Route[] = p.metadata.routes;
         let closestAngle = dir*10000;
         let closestRoute = null;
         for(const route of routes)
         {
-            const otherPoint = route.getOther(p);
-            if(comingFrom == otherPoint) { continue; }
+            const otherVector2 = route.getOther(p);
+            if(comingFrom == otherVector2) { continue; }
 
-            const line = new Line(p, otherPoint);
+            const line = new Line(p, otherVector2);
             let angle = incoming.vector().angleSignedTo(line.vector());
             if(Math.sign(angle) != Math.sign(dir)) { angle += dir*2*Math.PI; }
             

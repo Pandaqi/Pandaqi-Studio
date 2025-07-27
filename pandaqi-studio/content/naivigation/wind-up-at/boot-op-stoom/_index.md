@@ -1,13 +1,12 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Boot op Stoom"
-headerTitle: "Bestuur samen de stoomboot en zorg dat je niet op de klippen loopt of de pakjes verkeerd aflevert."
+blurb: "Bestuur samen de stoomboot en zorg dat je niet op de klippen loopt of de pakjes verkeerd aflevert."
 
 weightProject: 20
 
-color: "turquoise"
 
 downloadLink: "https://drive.google.com/drive/folders/15EEuGgU5vfh_S2dgEua5zhxdyeXvSBRX"
 
@@ -15,7 +14,7 @@ date: 2025-10-26
 
 difficulty: "kids-can-play"
 genres: ["family", "thematic", "adventure"]
-categories: ["boardgame", "tile-game", "standard"]
+categories: ["board-game", "tile-game", "standard"]
 tags: ["fixed-order", "shared-map", "grid", "turn-based", "guessing", "bias", "variable-setup", "orientation", "set-collection", "high-score"]
 themes: ["sea"]
 
@@ -27,9 +26,9 @@ ages: everyone
 devlog: "/blog/boardgames/naivigation/wind-up-at/sint-spellen/"
 ---
 
-{{% boardgame-intro /%}}
 
-{{% section-centered heading="Wat heb ik nodig?" %}}
+
+## Wat heb ik nodig?
 
 Dit is een professioneel bordspel dat je gratis kan printen! Het kan natuurlijk altijd gespeeld, maar is in eerste instantie gemaakt voor _Sinterklaasavond_, met _zeer simpele regels_ and ondersteuning voor _grote groepen_ (als nodig).
 
@@ -45,7 +44,6 @@ Hoe doe je dat?
 
 **Ik wil meer!** Dit spel is onderdeel van een groter project genaamd [Naivigation](/naivigation/). Dit zijn allemaal soortgelijke spellen waarbij je _samen_ (zonder communicatie!) een voertuig moet besturen. De meeste daarvan zijn, echter, alleen beschikbaar in het Engels.
 
-{{% /section-centered %}}
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -61,7 +59,7 @@ Hoe doe je dat?
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 De gebruikte lettertypes voor dit spel zijn **Freebie** (voor sierlijke kopjes) en **Crimson** (voor langere, leesbare tekst). Deze lettertypes had ik uitgezocht voor mijn [Sinterklaasbundel](https://tiamopastoor.com/books/de-laatste-piet-en-diens-veertig-versintsels/) en ik vond ze leuk genoeg om ze ook voor dit Sinterklaasspel te gebruiken. Alle andere onderdelen---plaatjes, spelontwerp, idee, code---zijn volledig door mij gemaakt.
 
@@ -73,4 +71,3 @@ Ik maak regelmatig spellen rondom feestdagen. Het geeft een handige deadline, ma
 
 Zoals altijd kan je met véél meer diepgang lezen over het hele proces in de [devlog](/blog/boardgames/naivigation/sint-spellen/) op mijn blog.
 
-{{% /section-centered %}}

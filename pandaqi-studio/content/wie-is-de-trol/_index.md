@@ -1,24 +1,15 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
 
 title: "Wie is de Trol?"
-headerTitle: "Een bordspel geïnspireerd door Wie is de Mol?"
 blurb: "(Dutch only) Probeer in uitdagende opdrachten zoveel mogelijk geld te verdienen ... tenzij je de trol bent, die alles stiekem moet laten mislukken."
-longblurb: "Iedereen probeert in uitdagende opdrachten zoveel mogelijk geld te verdienen ... behalve de trol. Die probeert alles te laten mislukken, zonder te worden gepakt. Kan jij de trol ontmaskeren?<br><br><em>(This game is only available in Dutch, as it's based on a popular Dutch TV show.)</em>"
-blurbShort: "Een spel voor 3--10 spelers waarbij iedereen zoveel mogelijk geld probeert te verdienen ... behalve de trol. Die probeert alles te laten mislukken, zonder te worden gepakt. Kan jij de trol ontmaskeren?"
-
-customHeight: "small-medium"
-
-color: "white"
-
-
+# blurb: "Een spel voor 3--10 spelers waarbij iedereen zoveel mogelijk geld probeert te verdienen ... behalve de trol. Die probeert alles te laten mislukken, zonder te worden gepakt. Kan jij de trol ontmaskeren?"
 
 date: 2020-09-05
 
 difficulty: "regular"
 genres: ["thematic"]
-categories: ["boardgame", "hybrid-game", "standard"]
+categories: ["board-game", "hybrid-game", "standard"]
 tags: ["media", "traitor", "player-powers", "bluffing"]
 themes: []
 
@@ -30,11 +21,11 @@ playtime: 60-120
 playercount: [3,4,5,6,7,8,9,10]
 ages: everyone
 
+media: [wieisdetrol_inaction_1, wieisdetrol_inaction_2, wieisdetrol_inaction_3]
+
 ---
 
-{{% boardgame-intro /%}}
-
-{{% section-centered heading="Hoe werkt het?" unfold="true" %}}
+## Hoe werkt het?
 
 Dit is een bordspelvariant op het programma _Wie is de Mol?_ De ervaring probeert zoveel mogelijk trouw te blijven aan het origineel.
 
@@ -57,9 +48,8 @@ De ene opdracht ben je aan het pokeren. De andere opdracht moet je in groepen el
 
 {{< figure url="wieisdetrol_tutorial_1" alt="Hoe een typische opdracht werkt. (Plaatje uit spelregels.)" >}}
 
-{{% /section-centered %}}
 
-{{% section-centered heading="Wat heb ik nodig?" %}}
+## Wat heb ik nodig?
 
 Klik de **"Download"**-knop hierboven.
 * **Files** bevat 3 bestanden: _hulpkaarten_ (jokers, vrijstellingen), _geldbriefjes_ en _speelkaarten_. Print deze uit en volg de instructies op de blaadjes.
@@ -69,13 +59,14 @@ Het spel heeft **75+ unieke opdrachten**. Dus zelfs met het basisspel zal het no
 
 En als laatste natuurlijk: medespelers, gezelligheid, een bak chips, en een goede pokerface.
 
-{{% /section-centered %}}
 
-{{% section-centered heading="Speel het spel!" html="true" %}}
+## Speel het spel!
 
-<p>Kies de gewenste instellingen hieronder en klik "Start spel!"</p>
-<p>Je hoeft het spel maar op één apparaat (computer, tablet, smartphone) te starten.</p>
-<p>Eenmaal begonnen kan je de pagina niet meer verlaten, want dan verlies je alle voortgang. (Het spel zal je ook tegenhouden.)</p>
+Kies de gewenste instellingen hieronder en klik "Start spel!"
+
+Je hoeft het spel maar op één apparaat (computer, tablet, smartphone) te starten/
+
+Eenmaal begonnen kan je de pagina niet meer verlaten, want dan verlies je alle voortgang. (Het spel zal je ook tegenhouden.)
 	
 {{< boardgame-settings type="game" local_storage="wieIsDeTrolConfig" game_title="Wie is de Trol" >}}
 	{{< setting-playercount min="3" max="10" def="4" text="Hoeveel spelers?" >}}
@@ -93,9 +84,8 @@ En als laatste natuurlijk: medespelers, gezelligheid, een bak chips, en een goed
 
 <p style="opacity: 0.5; font-size: 12px;"><em>Opmerking:</em> het spel opent op een nieuwe pagina. Op sommige apparaten denkt hij daarom dat dit een pop-up is en blokkeert deze. Dat is het niet, ik zou nooit pop-ups laten zien.</p>
 
-{{% /section-centered %}}
 
-{{% section-centered heading="Eerste potje?" %}}
+## Eerste potje?
 
 Hier zijn wat tips om het spel snel uit te leggen en te beginnen.
 
@@ -108,24 +98,9 @@ Klik de optie **"Eerste Potje"** aan. Je krijgt simpelere opdrachten en een knop
 Pas als je bij de eerste testfase komt, leg je uit hoe deze werkt.
 
 Pas als je bij de eerste executie komt (iemand is afgevallen), leg je de gevolgen hiervan uit.
-{{% /section-centered %}}
 
-<!-- @IMPROV: Replace with more professional image -->
-<div style="padding: 20px; max-width: 1280px; margin: auto;">
-	<p style="display: flex; gap: 5px;" class="special-screenshot-gallery">
-		{{< figure url="wieisdetrol_inaction_1" >}}
-		{{< figure url="wieisdetrol_inaction_2" >}}
-		{{< figure url="wieisdetrol_inaction_3" >}}
-	</p>
-	<p style="opacity: 0.5; text-align: center; font-size: 12px;">(Natuurlijk heb je in een echt potje niet je kaarten open liggen, dit was speciaal voor de foto's.)</p>
-</div>
-
-{{% section-centered heading="Wie heeft dit spel gemaakt?" %}}
+## Wie heeft dit spel gemaakt?
 
 Nou ja, ik dus. **Pandaqi**. Ook wel **Tiamo Pastoor** in het echt, een freelance kunstenaar. Check de rest van [deze spellenwebsite](https://pandaqi.com). Of mijn [portfolio](https://rodepanda.com/nl) voor mijn andere werk.
 
 Ik was zeer ontevreden met het "officiële" WIDM bordspel en besloot zelf iets te maken dat het programma veel beter nabootst. Het heeft anderhalf jaar en meerdere versies gekost, maar het eindresultaat mag er zijn!
-
-{{% /section-centered %}}
-
-{{< support >}}

@@ -4,7 +4,7 @@ blurb: "How to contact me and why you might want to do that (or not)."
 type: "infopage"
 data: 2015-01-01
 noHeader: true
-noThumb: true
+
 
 ---
 

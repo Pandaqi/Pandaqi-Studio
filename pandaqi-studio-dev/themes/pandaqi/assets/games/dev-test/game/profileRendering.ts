@@ -1,12 +1,7 @@
 // This is just a suite of test functions to profile the performance of my rendering/layout system
 
-import LayoutOperation from "lib/pq-games/layout/layoutOperation";
-import RendererPandaqi from "lib/pq-games/layout/renderers/rendererPandaqi";
-import ResourceImage from "lib/pq-games/layout/resources/resourceImage";
-import ResourceShape from "lib/pq-games/layout/resources/resourceShape";
-import ResourceText from "lib/pq-games/layout/resources/resourceText";
-import TextConfig from "lib/pq-games/layout/text/textConfig";
-import Point from "lib/pq-games/tools/geometry/point";
+import { RendererPandaqi, LayoutOperation, ResourceImage, ResourceText, ResourceShape, Vector2, TextConfig } from "lib/pq-games";
+
 
 const profile = (label:string, repeat:number = 1, func:Function) =>
 {
@@ -44,17 +39,17 @@ export default async () =>
 
     profile("Complex LayoutOperation Creation", num, () => {
         const op = new LayoutOperation({
-            pos: new Point(50,50),
+            pos: new Vector2(50,50),
             rot: Math.PI,
-            size: new Point(100,100),
-            pivot: Point.CENTER
+            size: new Vector2(100,100),
+            pivot: Vector2.CENTER
         });
     })
 
     profile("Complex ResourceImage Creation", num, () => {
         const img = new Image();
         img.src = "/dev-test/assets/quellector_creatures_1.webp";
-        const params = { frames: new Point(8,2) }
+        const params = { frames: new Vector2(8,2) }
         const res = new ResourceImage(img, params);
     })
 
@@ -75,7 +70,7 @@ export default async () =>
     img.src = "/dev-test/assets/quellector_creatures_1.webp";
     await img.decode();
 
-    const params = { frames: new Point(8,2) }
+    const params = { frames: new Vector2(8,2) }
     const res = new ResourceImage(img, params);
 
     profile("Simple ResourceImage Drawing", num, () => {

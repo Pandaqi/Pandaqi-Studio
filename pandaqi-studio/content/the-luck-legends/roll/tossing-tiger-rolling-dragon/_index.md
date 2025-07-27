@@ -1,22 +1,20 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Tossing Tiger, Rolling Dragon"
-headerTitle: "Prepare the right series of kung-fu attacks to win the war, while hoping your opponent didn't roll the exact counter moves."
 blurb: "Prepare the right series of kung-fu attacks to win the war, while hoping your opponent didn't roll the exact counter moves."
 
 weightProject: 25
 
 downloadLink: "https://drive.google.com/drive/folders/1F7OUyXoUAcCNtXki5YA1wi9EjSWcTTaK"
 
-color: "red"
 
 date: 2025-11-26
 
 difficulty: "kids-can-play"
 genres: ["family", "thematic"]
-categories: ["boardgame", "card-game"]
+categories: ["board-game", "card-game"]
 tags: ["chance", "dice", "battle", "auto-battler", "hand-management"]
 themes: ["humor", "vector", "textured", "animals"]
 
@@ -29,9 +27,9 @@ devlog: "/blog/boardgames/the-luck-legends/tossing-tiger-rolling-dragon/"
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% boardgame-instructions /%}}
+
+
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -46,7 +44,7 @@ devlog: "/blog/boardgames/the-luck-legends/tossing-tiger-rolling-dragon/"
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 The fonts used are **Chinese Rocks** (headings) and **Koho** (body text). Everything else is mine.
 
@@ -58,4 +56,3 @@ After some refinement, the game became a very simple but unique experience with 
 
 Honestly, though, the more I researched the typical animals associated with asian martial arts and stances ... the more I realized I was just listing all characters and villains from the _Kung Fu Panda_ franchise. I decided I was okay with that.
 
-{{% /section-centered %}}

@@ -1,23 +1,20 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Quizhide Queaster"
-headerTitle: "Win the reverse egg hunt by cleverly changing egg locations just before you decide to look."
 blurb: "Win the reverse egg hunt by cleverly changing where eggs are hidden just before you decide to look."
-blurbShort: "An [Easter Eggventures](/easter-eggventures/) game about hiding eggs and communicating their location to the seekers using vague fantastical clues."
-
+# blurb: "An [Easter Eggventures](/easter-eggventures/) game about hiding eggs and communicating their location to the seekers using vague fantastical clues."
 blurbProject: "One team hides the eggs, the other searches. But communication between them is unfortunately limited to vague, dreamlike illustrations."
 weightProject: 10
 
 downloadLink: "https://drive.google.com/drive/folders/1AAQRgCe5rsNxgsaNKRV8uYlT7MVDY6sT"
 
-color: "brown"
 
 date: 2025-03-26
 
 difficulty: "no-brainer"
-categories: ["boardgame", "tile-game", "standard"]
+categories: ["board-game", "tile-game", "standard"]
 genre: ["family", "party"]
 tags: ["shared-map", "creative", "limited-communication", "guessing"]
 themes: ["colorful", "holiday"]
@@ -30,9 +27,9 @@ ages: everyone
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% boardgame-instructions /%}}
+
+
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -45,9 +42,8 @@ ages: everyone
 
 {{% /boardgame-settings-container %}}
 
-{{< support >}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 As stated, this game is part of the Easter Eggventures project. It shares the fonts, style, and origins with all other games in the project. As such, for more information, check out the [Easter Eggventures overview page](/easter-eggventures/).
 
@@ -59,4 +55,3 @@ The idea only worked after a few crucial ideas/realizations, such as adding the 
 
 Ironically enough, once the idea clicked, it became the simplest of them all. The rules are so short and simple that I almost considered ditching the rulebook entirely and just printing them on a few cards in the material.
 
-{{% /section-centered %}}

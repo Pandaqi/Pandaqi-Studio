@@ -1,25 +1,23 @@
-import PointGraph from "lib/pq-games/tools/geometry/pointGraph";
 import CONFIG, { GenerationMethod } from "./config"
-import Point from "lib/pq-games/tools/geometry/point";
 import GeneratorDelaunay from "./generators/generatorDelaunay";
 import GeneratorRope from "./generators/generatorRope";
 import Trajectories from "./trajectories";
-import Route from "./route";
 import Routes from "./routes";
 import Evaluator from "./evaluator";
 import ForbiddenAreas from "./forbiddenAreas";
 import PlayerAreas from "./playerAreas";
 import Cities from "./cities";
 import RouteAreas from "./routeAreas";
+import { Vector2Graph, Vector2 } from "lib/pq-games";
 
 type Generator = GeneratorDelaunay|GeneratorRope;
 
 export default class BoardState
 {
-    points: PointGraph[]
+    points: Vector2Graph[]
     failed: boolean
 
-    size: Point
+    size: Vector2
     generator: Generator;
     forbiddenAreas: ForbiddenAreas;
     playerAreas: PlayerAreas;
@@ -41,7 +39,7 @@ export default class BoardState
         const blocksX = CONFIG.numBlocksXOverride ?? Math.ceil(CONFIG.generation.numBlocksFullWidth * blocksFactor);
         const blocksY = blocksX / CONFIG.generation.pageRatio;
         
-        this.size = new Point(blocksX, blocksY);
+        this.size = new Vector2(blocksX, blocksY);
         this.trajectories = new Trajectories(this);
         this.playerAreas = new PlayerAreas(this);
         this.forbiddenAreas = new ForbiddenAreas();

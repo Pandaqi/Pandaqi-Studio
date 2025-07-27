@@ -1,22 +1,16 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Timely Transports"
-headerTitle: "The first ever hybrid between boardgames and computer games"
 blurb: "The first ever hybrid board+smartphone game for 1–8 players about transporting exotic goods across the jungle!"
-blurbShort: "A hybrid board+smartphone game for 1–8 players about transporting exotic goods across the jungle."
-
-noThumb: true
-customHeight: "small-medium"
-
-color: "green"
+# blurb: "A hybrid board+smartphone game for 1–8 players about transporting exotic goods across the jungle."
 
 date: 2020-07-02
 
 difficulty: "simple"
 genres: ["party", "family"]
-categories: ["boardgame", "one-paper-game", "hybrid-game"]
+categories: ["board-game", "one-paper-game", "hybrid-game"]
 tags: ["transportation", "movement", "real-time", "fast-paced", "shared-map", "procedural-generation", "campaign", "resource-management"]
 themes: ["vector"]
 
@@ -29,15 +23,15 @@ playercount: [1,2,3,4,5,6,7,8]
 ages: everyone
 devlog: "/blog/boardgames/timely-transports/devlog-timely-transports/"
 
+media: [timelytransports_tutorial_1, timelytransports_tutorial_2]
+
 ---
 
-
-{{% boardgame-intro img="timelytransports_header_faded" /%}}
-
 <!-- Introduction + explanation text -->
-{{% section-centered heading="What do I do?" %}}
 
-**Lead a transport company in the jungle!** Bamboo, birds, bees, anything can appear. Deliver it to the right city for points.
+**Lead a transport company in the jungle!** 
+
+Bamboo, birds, bees, anything can appear. Deliver it to the right city for points.
 
 Moving a vehicle? Start a timer! Your movement is done when it runs out. But forget about it ... and you'll face the consequences.
 
@@ -45,24 +39,19 @@ Your vehicle is idling on a city when another player arrives? It's bumped off th
 
 Keep all your vehicles going, all the time, and you might just win!
 
-{{% /section-centered %}}
+## What do I need?
 
-{{% section-centered heading="What do I need?" %}}
 The game is played on a **physical** board with pieces to move around, but the timers (and more) are controlled by your **smartphone**. Each player needs to have a smartphone with them.
 
-{{< figure url="timelytransports_tutorial_2" class="small-centered-image" alt="Tutorial: Moving in realtime, with timers on your smartphone" >}}
-
 Print these files. (Use the "Download" button.)
-- Two pages of materials ( = the vehicles and resource chips).
-- The rules &mdash; including images, setup and examples &mdash; are only three pages.
+* Two pages of materials ( = the vehicles and resource chips).
+* The rules &mdash; including images, setup and examples &mdash; are only three pages.
 
 Use this website
-- Scroll down to the [generator](#board) to print a game board.
-- Each player visits the [game](#game) section to play.
+* Scroll down to the [generator](#board) to print a game board.
+* Each player visits the [game](#game) section to play.
 
 The **campaign** has six scenarios, increasing in difficulty, allowing you to get comfortable with the game before adding new rules and mechanics.
-
-{{% /section-centered %}}
 
 {{% boardgame-settings-container type="game" remarks="**Don't** tap to start on your device until all players are ready!||Because it opens a new page, your browser might register this as a pop-up. It's not, I would never show pop-ups." %}}
 
@@ -87,9 +76,8 @@ The **campaign** has six scenarios, increasing in difficulty, allowing you to ge
 
 {{% /boardgame-settings-container %}}
 
-{{< support >}}
 
-{{% section-centered heading="Credits" %}}
+## Credits
           
 Fonts? **Rowdies** for header text. **Yanone Kaffeesatz** for body text. Both freely available on Google Fonts.
 
@@ -100,4 +88,3 @@ Everything else (concept, code, graphics, rules, ...) was completely made by me,
 - [(Technical Devlog) Timely Transports](/blog/boardgames/timely-transports/tech-devlog-timely-transports): about the actual algorithms used for the game interface and generating the game board, both high overview and actual code samples
 - [(Update) Timely Transports](/blog/boardgames/timely-transports/update-timely-transports): about the huge update I did for the game, half a year after release. Why I did it, what changed, and more.
 
-{{% /section-centered %}}

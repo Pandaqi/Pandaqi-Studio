@@ -1,20 +1,17 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Pirate Drawingbeard"
-headerTitle: "Unravel cryptic drawings to find the secret treasures"
 blurb: "1-6 pirates try to discover the secret (drawn) hints of the other players, to find the treasure before the others"
-blurbShort: "Discover the treasure by figuring out what secret visual clues the other players are holding!"
-
-color: "blue"
+# blurb: "Discover the treasure by figuring out what secret visual clues the other players are holding!"
 
 
 date: 2022-07-20
 
 difficulty: "simple"
 genres: ["puzzle"]
-categories: ["boardgame", "hybrid-game", "tile-game", "spin-off", "one-paper-game"]
+categories: ["board-game", "hybrid-game", "tile-game", "spin-off", "one-paper-game"]
 tags: ["deduction", "turn-based", "logic"]
 themes: ["pirate"]
 
@@ -31,10 +28,10 @@ devlog: "/blog/boardgames/the-pirate-games/devlog-pirate-drawingbeard/"
 ---
 
 
-{{% boardgame-intro /%}}
+
 
 <!-- Introduction + explanation text -->
-{{% section-centered heading="What's the idea?" %}}
+## What's the idea?
 
 Everyone receives a unique **clue** in the form of a drawing. For example: "The treasure is next to a palm tree".
 
@@ -44,9 +41,8 @@ But you can't just share your clues: you can only ask the players questions in m
 
 This game is a spin-off of [Pirate Riddlebeard](https://pandaqi.com/pirate-riddlebeard). It was designed to be **language independent** (all clues are visual) and use **simpler maps and clues**. A more kid/family friendly version of the same idea!
 
-{{% /section-centered %}}
 
-{{% section-centered heading="What do I need?" %}}
+## What do I need?
 
 Three steps.
 * Read the rules. (Click the "Download" button.)
@@ -59,7 +55,6 @@ Three steps.
 
 **Offline version?** There's a folder called "Generated Games". Pick one, print it, cut the hints into cards, and you can play completely offline at some later point in time.
 
-{{% /section-centered %}}
 
 {{% boardgame-settings-container type="game" %}}
 
@@ -82,9 +77,8 @@ Three steps.
 
 {{% /boardgame-settings-container %}}
 
-{{< support >}}
 
-{{% section-centered heading="Credits" %}}
+## Credits
 
 Fonts? **Chelsea Market** for headings and fancy text, **Charis Sil** for the rest. Both are freely available on Google Fonts.
 
@@ -94,4 +88,3 @@ How does this game work? A smart algorithm! It creates a random map and tries to
 
 Want to know how I made that? Check out the [devlog](/blog/boardgames/the-pirate-games/devlog-pirate-drawingbeard).
 
-{{% /section-centered %}}

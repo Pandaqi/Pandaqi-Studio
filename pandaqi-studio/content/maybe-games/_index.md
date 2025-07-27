@@ -1,20 +1,16 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+collection: "vote"
 
 title: "Maybe Games"
-headerTitle: "A collection of simple board games using the Maybe Mechanic."
 blurb: "A collection of simple board games using the Maybe Mechanic, about voting for or against your friend's proposals at the most strategic times."
-blurbShort: "_Maybe Games_ is collection of simple board games about voting YES or NO all the time to collect the highest score for yourself."
-
+# blurb: "_Maybe Games_ is collection of simple board games about voting YES or NO all the time to collect the highest score for yourself."
 downloadLink: "https://drive.google.com/drive/folders/1PiESe5tpn51F2VzsQLyzUKud6AgdPmVJ"
-
-color: "red"
 
 date: 2025-04-26
 
 difficulty: "kids-can-play"
-categories: ["boardgame", "card-game", "standard"]
+categories: ["board-game", "card-game", "standard"]
 genre: ["family", "thematic"]
 tags: ["voting", "simultaneous-turns", "move-through-all"]
 themes: []
@@ -28,21 +24,18 @@ devlog: "/blog/boardgames/maybe-games/"
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% section-centered heading="What's this?" %}}
+
+## What's this?
 
 This is the **overview page** of the Maybe Games. 
 
-Click any of the links below to visit a specific game. They are sorted based on how simple they are to learn and play, according to my experiences.
-
-{{< boardgame-project-games-list subdir="vote" >}}
+Click any of the links to visit a specific game. They are sorted based on how simple they are to learn and play, according to my experiences.
 
 All the games use the same core mechanic: the Maybe Mechanic. A very simple ruleset about a player proposing something and others simultaneously voting YES or NO on it. This means rules are simple, you're always doing something, and it's highly interactive. All games, however, provide varied themes and a few unique twists that make the experience completely different.
 
-{{% /section-centered %}}
 
-{{% section-centered heading="Credits & Background" anchor="credits" %}}
+## Credits & Background
 
 It's my never-ending goal to develop games with the absolute **simplest ruleset** possible. 
 
@@ -62,4 +55,3 @@ UPDATE: A 4th game is in consideration, but wasn't developed far enough to be re
 
 <!--- @TODO: remove this text when the 4th game actually launches, of course --->
 
-{{% /section-centered %}}

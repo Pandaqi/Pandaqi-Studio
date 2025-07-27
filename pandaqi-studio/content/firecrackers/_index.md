@@ -1,21 +1,18 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Firecrackers"
-headerTitle: "Build the best fireworks show without having it blow up in your face."
 blurb: "A push-your-luck game about building your own deck of valuable fireworks, with the least chance of igniting the wrong one."
-blurbShort: "Build the best fireworks show without having it blow up in your face."
-
+# blurb: "Build the best fireworks show without having it blow up in your face."
 downloadLink: "https://drive.google.com/drive/folders/12cmopxbr8HZWw8jkXijINkCd8wdTAPQs"
 
-color: "black"
 
 date: 2024-12-12
 
 difficulty: "kids-can-play"
 genres: ["thematic", "family", "party"]
-categories: ["boardgame", "card-game", "standard"]
+categories: ["board-game", "card-game", "standard"]
 tags: ["push-your-luck", "deck-building", "hot-potato", "numbers", "market"]
 themes: ["colorful", "holiday"]
 
@@ -28,9 +25,9 @@ devlog: "/blog/boardgames/firecrackers/"
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% boardgame-instructions /%}}
+
+
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -43,7 +40,7 @@ devlog: "/blog/boardgames/firecrackers/"
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 The fonts used are **4th of July** (headings, fancy text) and **Neuton** (body text, readable, multiple variations). Both freely available online. Parts of the illustrations were generated with AI; everything else is mine.
 
@@ -53,6 +50,4 @@ I guess that's the benefit of basing a game idea on two proven mechanics: **push
 
 One of my simplest games, one of my most thematic games, and one that seems to hook most people immediately.
 
-{{% /section-centered %}}
 
-{{< support >}}

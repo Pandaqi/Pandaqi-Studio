@@ -1,26 +1,23 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Queenseat"
-headerTitle: "Make sure the right Princess ends up on the throne, playable without a table or chairs"
 blurb: "Vote, swap places and use powers to ensure the right Princess ends up on the throne. A game playable without a table or chairs."
-blurbShort: "A [Throneless Game](/throneless-games/) game about making sure your Princess ends up on the throne."
-
+# blurb: "A [Throneless Game](/throneless-games/) game about making sure your Princess ends up on the throne."
 blurbProject: "The best introduction for all ages, using a changing Throne card to keep the game simple but tactical."
 weightProject: 20
 
 downloadLink: "https://drive.google.com/drive/folders/16xLqB1wBo_7nwB-YYTBUjGun7cjaJ-0g"
 
 
-color: "black"
 
 
 date: 2024-11-12
 
 difficulty: "kids-can-play"
 genres: ["thematic"]
-categories: ["boardgame", "waitless-game", "card-game", "standard"]
+categories: ["board-game", "waitless-game", "card-game", "standard"]
 tags: ["political", "hidden-roles", "social", "fast-paced", "king-of-the-hill"]
 themes: ["medieval"]
 
@@ -32,9 +29,9 @@ ages: everyone
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% boardgame-instructions /%}}
+
+
 
 {{% boardgame-settings-container type="material" remarks="Check the rules to see **how many Princesses** are recommended for each player count. Each choice adds ~1 page to print." %}}
 
@@ -59,7 +56,7 @@ ages: everyone
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 Check out the main overview page for [Throneless Games](/throneless-games/) for more detailed credits and background.
 
@@ -69,4 +66,3 @@ Thus I brainstormed longer and found more extreme (and interesting) twists on th
 
 This made Queenseat probably the most unique entry in the Throneless Games. To keep it simple, nicely in the second spot based on complexity, the Seatcard idea then moved to Kaizerseat. (Along with some more complicated actions, because Queenseat still has only one _type_ of action.)
 
-{{% /section-centered %}}

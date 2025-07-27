@@ -1,21 +1,15 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
 
 title: "Wondering Witches"
-headerTitle: "Brew potions, deduce recipes, and enchant the poorly communicating High Witch"
 blurb: "Brew a secret potion to defeat your greatest enemies—as witches tend to do—but the High Witch is terrible at communicating recipes ..."
-blurbShort: "Ten ingredients, one correct combination. A cooperative [One Paper Game](/boardgames#one-paper-games) for 1--5 players about finding the right potion, where ingredients have wondrous effects and the High Witch is terrible at communicating."
-
-customHeight: "small-medium"
-
-color: "purple"
+# blurb: "Ten ingredients, one correct combination. A cooperative [One Paper Game](/boardgames#one-paper-games) for 1--5 players about finding the right potion, where ingredients have wondrous effects and the High Witch is terrible at communicating."
 
 date: 2023-02-14 # old publishing date: 2020-04-28
 
 difficulty: "kids-can-play"
 genres: ["family"]
-categories: ["boardgame", "one-paper-game", "hybrid-game"]
+categories: ["board-game", "one-paper-game", "hybrid-game"]
 tags: ["cooking", "deduction", "logic"]
 themes: ["magic", "fantasy"]
 
@@ -30,9 +24,7 @@ requirements: "A blank paper!"
 devlog: "/blog/boardgames/wondering-witches/devlog-wondering-witches/"
 ---
 
-{{% boardgame-intro /%}}
-
-{{% section-centered heading="How can I play?" %}}
+## How can I play?
 
 Three steps.
 
@@ -42,9 +34,8 @@ Three steps.
 
 There's also a solo mode, a competitive variant and an offline variant (that doesn't need this website).
 
-{{% /section-centered %}}
 
-{{% section-centered heading="How does it work?" unfold="true" %}}
+## How does it work?
 
 You win by finding the secret recipe ( = the secret number attached to each ingredient). You lose if the board is full.
 
@@ -57,11 +48,10 @@ When satisfied, **test a potion**! Input a garden on the game interface; it tell
 
 Brew your potions wisely ... and you might discover the secret combination.
 
-{{% /section-centered %}}
 
-{{% section-centered heading="Board" html="true" anchor="board" %}}
+## Board
   
-<p>Input your settings. Click the button. Copy the gardens and ingredients to your paper.</p>
+Input your settings. Click the button. Copy the gardens and ingredients to your paper.
 
 {{< boardgame-settings type="board" local_storage="wonderingWitchesConfig" game_title="Wondering Witches" >}}
 	{{< setting-playercount id="setting-numPlayers" min="1" max="4" def="4" >}}
@@ -71,11 +61,10 @@ Brew your potions wisely ... and you might discover the secret combination.
 
 <p style="font-size:0.5em;opacity:0.66;">The generator isn't working? Don't worry! The "Download" button also gives you PDFs with valid boards! (And a colorized game board, if you don't like blank papers.)</p>
 
-{{% /section-centered %}}
 
-{{% section-centered heading="The High Witch" anchor="high-witch" html="true" %}}
+## The High Witch
 
-<p>Input your settings, click the button. A new page opens with the interface for testing your potions!</p>
+Input your settings, click the button. A new page opens with the interface for testing your potions!
 
 {{< boardgame-settings type="game" local_storage="wonderingWitchesConfig" game_title="Wondering Witches" >}}
 	{{< setting-checkbox id="setting-competitive" text="Competitive?" >}}
@@ -86,11 +75,7 @@ Brew your potions wisely ... and you might discover the secret combination.
 	{{< setting-checkbox id="setting-dramaDecoys" text="Drama Decoys?" remark="Decoy ingredients can now be one of three different types." >}}
 {{< /boardgame-settings >}}
 
-{{% /section-centered %}}
-
-{{< support >}}
-
-{{% section-centered heading="Credits" %}}
+## Credits
 
 Fonts? **Niconne** for headings and **Mali** for the body text. Both freely available on Google Fonts.
 
@@ -101,4 +86,3 @@ As always, I wrote two devlogs about the development process of this game:
 - [(Technical Devlog) Wondering Witches](/blog/boardgames/wondering-witches/tech-devlog-wondering-witches) => about the technical side, programming this website
 - [(Update) Wondering Witches](/blog/boardgames/wondering-witches/v2-update) => about the huge update I did a few years later, making the game as good as it is now
 
-{{% /section-centered %}}

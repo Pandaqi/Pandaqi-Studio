@@ -1,19 +1,16 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Kangaruse"
-headerTitle: "Jumping has never been so tactical and treacherous"
 blurb: "Jumping has never been so tactical and treacherous. Hop along the smartest route to collect the most points before your opponents stamped the whole brushland to dust."
-blurbShort: "Hop along the smartest route to collect points and powers---before your opponents blocked all your desired jumps."
-
-color: "brown"
+# blurb: "Hop along the smartest route to collect points and powers---before your opponents blocked all your desired jumps."
 
 date: 2024-03-26
 
 difficulty: "no-brainer"
 genres: ["thematic", "family"]
-categories: ["boardgame", "one-paper-game"]
+categories: ["board-game", "one-paper-game"]
 tags: ["grid", "shared-map", "point-salad", "movement"]
 themes: ["colorful", "nature"]
 
@@ -27,11 +24,12 @@ complexity: low
 ages: everyone
 devlog: "/blog/boardgames/kangaruse/"
 
+media: [page/kangaruse_playtest_paper]
+
 ---
 
-{{% boardgame-intro /%}}
-
-{{% section-centered heading="page/page_heading_1" asimage="true" %}}
+<!--- HEADING 1 --->
+{{< figure src="page/page_heading_1" >}}
 
 [Generate](#board) a paper below. Or click the "Download" button to find a PDF I already generated for you.
 
@@ -39,11 +37,10 @@ Print and play!
 
 If you didn't add rules on the paper itself---or just want more clarification---read the short [playful rules](rules).
 
-{{% /section-centered %}}
+<!--- HEADING 2 --->
+{{< figure src="page/page_heading_2" >}}
 
-{{% section-centered heading="page/page_heading_2" html="true" anchor="board" asimage="true" %}}
-
-<p>Input your desired settings and click "generate".</p>
+Input your desired settings and click "generate".
 
 {{< boardgame-settings type="board" local_storage="kangaruseConfig" game_title="Kangaruse" defaults="true" >}}
   {{< setting-enum id="setting-sideBarType" text="Side Bar?" values="No,Rules,Score" valaskey="true" remark="Add the rules or a score tracker on the paper itself?" def="Rules" >}}
@@ -54,9 +51,8 @@ If you didn't add rules on the paper itself---or just want more clarification---
 
 <p class="settings-remark"><strong>Not working?</strong> Don't worry! At the "Download" link, you can also find PDFs I already generated for you.</p> 
 
-{{% /section-centered %}}
-
-{{% section-centered heading="page/page_heading_3" asimage="true" %}}
+<!--- HEADING 3 --->
+{{< figure src="page/page_heading_3" >}}
 
 I've used the fonts **Mail Ray Stuff** (headings, thick) and **Poppins** (body, thin). The latter is freely available on Google Fonts, the first was received from 1001fonts.
 
@@ -66,12 +62,5 @@ This idea started when I woke up one morning and had this pressing thought about
 
 This might be the simplest One Paper Game I ever made, while having a lot of depth and a theme that makes total sense. 
 
-That was a good morning.
-
-Below is a quick image (from my cheap phone) of one early test game we played.
-
-<img src="assets/page/kangaruse_playtest_paper.webp">
-
+That was a good morning. In the screenshots you can see a quick image (from my cheap phone) of one early test game we played.
 As usual, my players stubbornly insisted on complicated icons and aggressively crossing out squares from opponents who just blocked their move ;) Otherwise, this is fairly representative of what a finished game looks like.
-
-{{% /section-centered %}}

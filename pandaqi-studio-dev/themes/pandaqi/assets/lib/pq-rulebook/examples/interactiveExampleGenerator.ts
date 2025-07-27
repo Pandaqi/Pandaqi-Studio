@@ -1,24 +1,21 @@
-import ResourceLoader from "js/pq_games/layout/resources/resourceLoader"
-import MaterialVisualizer from "js/pq_games/tools/generation/materialVisualizer"
-import Point from "js/pq_games/tools/geometry/point"
-import InteractiveExample from "./interactiveExample"
-import InteractiveExampleSimulator, { InteractiveExampleSimulatorParams } from "./interactiveExampleSimulator"
-import RulesSettings from "./rulesSettings"
+import { Vector2, MaterialVisualizer, ResourceLoader } from "lib/pq-games"
+import { InteractiveExample } from "./interactiveExample"
+import { InteractiveExampleSimulator, InteractiveExampleSimulatorParams } from "./interactiveExampleSimulator"
+import { RulesSettings } from "./rulesSettings"
 
-interface InteractiveExampleGeneratorParams
+export interface InteractiveExampleGeneratorParams
 {
     simulateConfig?: InteractiveExampleSimulatorParams,
     id?: string,
     buttonText?: string,
     config?: Record<string,any>,
-    itemSize?: Point,
+    itemSize?: Vector2,
     pickers?: Record<string, any>,
     settings?: RulesSettings,
     callback: Function
 }
 
-export { InteractiveExampleGenerator, InteractiveExampleGeneratorParams }
-export default class InteractiveExampleGenerator
+export class InteractiveExampleGenerator
 {
     id: string
     config: Record<string,any>
@@ -39,7 +36,7 @@ export default class InteractiveExampleGenerator
         resLoader.planLoadMultiple(this.config.assets, this.config);
 
         this.config.resLoader = resLoader;
-        this.config.itemSize = p.itemSize ?? new Point(512,512);
+        this.config.itemSize = p.itemSize ?? new Vector2(512,512);
         this.visualizer = new MaterialVisualizer(this.config);
         
         // prepare all pickers

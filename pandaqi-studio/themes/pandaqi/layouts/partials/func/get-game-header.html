@@ -1,5 +1,0 @@
-{{ $game_asset_name := partial "func/get-game-asset-name.html" . }}
-{{ $header_auto := printf "%s_header" $game_asset_name }} 
-{{ $final_header := or (or .Params.fullHeaderImg .Params.headerImg) $header_auto }}
-{{ if .Params.noHeader }}{{ $final_header = "" }}{{ end }}
-{{ return $final_header }}

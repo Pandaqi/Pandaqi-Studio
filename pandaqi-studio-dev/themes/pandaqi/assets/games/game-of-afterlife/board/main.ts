@@ -1,6 +1,5 @@
-import OnPageVisualizer from "lib/pq-games/tools/generation/boardVisualizer"
 // @ts-ignore
-import { Scene } from "lib/pq-games/phaser/phaser.esm"
+// import { Scene } from "lib/pq-games/phaser/phaser.esm"
 import Board from "./board"
 import Drawer from "./drawer"
 import Evaluator from "./evaluator"

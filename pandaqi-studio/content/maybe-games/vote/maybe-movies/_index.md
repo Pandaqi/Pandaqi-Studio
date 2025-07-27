@@ -1,23 +1,20 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Maybe Movies"
-headerTitle: "Pitch movie ideas that enough players would like to throw money at."
 blurb: "Pitch movie ideas that enough players would like to throw money at, or see your money go down the drain after another flop."
-blurbShort: "A [Maybe Game](/maybe-games/) about pitching movie ideas that enough players want to throw money at---or want to see flop."
-
+# blurb: "A [Maybe Game](/maybe-games/) about pitching movie ideas that enough players want to throw money at---or want to see flop."
 blurbProject: "Pitch movie ideas that enough players would like to throw money at, or see your money go down the drain after another flop."
 weightProject: 10
 
 downloadLink: "https://drive.google.com/drive/folders/1bdI9dMCd9EWE_G8oWUYl0g3h4lU3Hg08"
 
-color: "green"
 
 date: 2025-04-26
 
 difficulty: "kids-can-play"
-categories: ["boardgame", "card-game", "standard"]
+categories: ["board-game", "card-game", "standard"]
 genre: ["family", "thematic"]
 tags: ["voting", "income", "media", "simultaneous-turns", "move-through-all"]
 themes: ["hollywood"]
@@ -30,9 +27,9 @@ ages: everyone
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% boardgame-instructions /%}}
+
+
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -46,7 +43,7 @@ ages: everyone
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 The unique font for this game is **Rialto NF**, freely available online. Some of the illustrations are AI generated. Everything else is entirely mine.
 
@@ -56,4 +53,3 @@ To me, this game is most thematically sound and uses the Maybe Mechanic in an el
 
 For more information, check out the the [Maybe Games overview page](/maybe-games/).
 
-{{% /section-centered %}}

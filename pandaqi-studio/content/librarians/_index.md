@@ -1,22 +1,16 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
 
 title: "Librarians"
-headerTitle: "Fill the book shelves in the correct order without communication."
 blurb: "Silence in the library! Work together to fill bookshelves in alphabetical order, but without any communication."
 
 downloadLink: "https://drive.google.com/drive/folders/1oXsEhIbOgYbdzvjnbK0XVSkOymGM8KxX"
-
-color: "purple"
-invert: true
-autoLoadFontCSS: true
 
 date: 2025-01-12
 
 difficulty: "kids-can-play"
 genres: ["thematic", "family"]
-categories: ["boardgame", "card-game"]
+categories: ["board-game", "card-game"]
 tags: ["shared-map", "language", "spiritually-inspired"]
 themes: ["colorful", "textured"]
 
@@ -29,11 +23,7 @@ devlog: "/blog/boardgames/librarians/"
 
 ---
 
-{{% boardgame-intro /%}}
-
-{{% boardgame-instructions %}}
 The base game is simple enough to play with kids who are learning the alphabet. Adding the extra levels turns this into a challenging puzzle for the whole group.
-{{% /boardgame-instructions %}}
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -53,7 +43,7 @@ The base game is simple enough to play with kids who are learning the alphabet. 
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 The fonts used are **Grenze Gotisch** (text + headings) and **Fleur Caps** (for extravagant flowery capital letters on some things). Some generative AI was used for the faint book covers you see. Everything else---idea, code, assets, rules, other illustrations---is mine.
 
@@ -79,4 +69,3 @@ Ironically, one of the simplest ideas I ever wrote down (about placing books in 
 
 That's the **second moral of this story**. Don't overcomplicate things. Keep small ideas ... small and simple. Don't add 24 genres and a loooong list of puns on author and bestselling book names ;)
 
-{{% /section-centered %}}

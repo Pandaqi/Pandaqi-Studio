@@ -1,21 +1,18 @@
-import PointGraph from "lib/pq-games/tools/geometry/pointGraph";
-import PathFinder from "lib/pq-games/tools/pathfinding/pathFinder";
 import Route from "./route";
 import CONFIG from "./config";
-import clamp from "lib/pq-games/tools/numbers/clamp";
-import LineGraph from "lib/pq-games/tools/geometry/lineGraph";
 import { BONUSES } from "./dict";
+import { Vector2Graph, LineGraph, clamp } from "lib/pq-games";
 
 export default class Trajectory
 {
-    start: PointGraph;
-    end: PointGraph;
+    start: Vector2Graph;
+    end: Vector2Graph;
     score: number;
     bonus: string;
     bonusNumber: number;
-    shortestPath: PointGraph[];
+    shortestPath: Vector2Graph[];
     
-    constructor(start:PointGraph, end:PointGraph)
+    constructor(start:Vector2Graph, end:Vector2Graph)
     {
         this.start = start;
         this.end = end;
@@ -38,7 +35,7 @@ export default class Trajectory
 
     getRouteBetween(line:LineGraph) : Route
     {
-        const routes : Route[] = (line.start as PointGraph).metadata.routes;
+        const routes : Route[] = (line.start as Vector2Graph).metadata.routes;
         for(const route of routes)
         {
             if(route.matches(line)) { return route; }
@@ -50,7 +47,7 @@ export default class Trajectory
     {
         const pfConfig = 
         {
-            neighborFunction: (point:PointGraph) => { return point.getConnectionsByLine(); },
+            neighborFunction: (point:Vector2Graph) => { return point.getConnectionsByLine(); },
             costFunction: (line:LineGraph, score:number) => { 
                 const r = this.getRouteBetween(line);
                 return r ? r.getBlockLength() : Infinity;
@@ -76,7 +73,7 @@ export default class Trajectory
     calculateScore(maxDist:number)
     {
         const scorePerBlock = CONFIG.generation.trajectoryScorePerBlock;
-        const multiplierForBoardSize = CONFIG.generation.trajectoryPointsMultiplier[CONFIG.boardSize];
+        const multiplierForBoardSize = CONFIG.generation.trajectoryVector2sMultiplier[CONFIG.boardSize];
         const randomization = CONFIG.generation.trajectoryScoreRandomization.random();
         const length = this.getPathFindBlockLength();
         const score = Math.round(length * scorePerBlock * multiplierForBoardSize * randomization);

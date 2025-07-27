@@ -1,17 +1,14 @@
 ---
-type: "gamepage"
+type: "project"
 
 title: "Boardgames"
-headerTitle: "Free Print-n-Play titles"
 blurb: "An overview page for the (most common categories of) boardgames I made."
 
-customHeight: "medium"
 
-color: "blue"
 
 date: 2021-04-29
 
-categories: ["boardgame"]
+categories: ["board-game"]
 collection: true
 ---
 
@@ -33,7 +30,7 @@ collection: true
 {{< figure url="boardgames_games" alt="Traditional Games logo">}}
 	</div>
 
-{{% section-centered heading="Traditional Games" anchor="traditional"  %}}
+## Traditional Games
 
 These are my "regular" boardgames. They are more similar to the typical boardgame. (Unlike my _Hybrid_ games that add a digital element, or my _One Paper Games_ that you play by writing on paper.)
 
@@ -41,7 +38,6 @@ Because it's print-n-play, I mostly create card games, tile games and simple par
 
 This is by far the largest category of games on this website. If unfamiliar with my work, these games are more "safe" to try first, because they're less "experimental".
 
-{{% /section-centered %}}
 
 <!--- List all in category "standard" -->
 {{< list-in-category-grid type="categories" key="standard" >}}
@@ -52,13 +48,12 @@ This is by far the largest category of games on this website. If unfamiliar with
 {{< figure url="boardgames_opg" alt="One Paper Games logo" >}}
 	</div>
 
-{{% section-centered heading="One Paper Games" anchor="one-paper-games" %}}
+## One Paper Games
 
 These games only require you to print _a single sheet of paper_ and find a pen(cil) somewhere! (Sometimes even a blank paper is enough!)
 
 This simplicity is great. You can download, explain, carry, play or pause these games instantly.
 
-{{% /section-centered %}}
 
 <!--- List all in category "opg" -->
 {{< list-in-category-grid type="categories" key="one-paper-game" >}}
@@ -69,7 +64,7 @@ This simplicity is great. You can download, explain, carry, play or pause these 
 {{< figure url="boardgames_hybrid" alt="Hybrid Games logo">}}
 	</div>
 
-{{% section-centered heading="Hybrid" anchor="hybrid" %}}
+## Hybrid
 
 **Hybrid games** are a combination of a _board game_ and a _video game_.
 
@@ -77,7 +72,6 @@ In other words, they have an offline component (usually a physical board, pieces
 
 Sometimes an offline mode is present or the digital component is optional. But the reason I make these games is precisely _because_ a digital component adds so many possibilities you don't want to miss!
 
-{{% /section-centered %}}
 
 <!--- List all in category "hybrid" -->
 {{< list-in-category-grid type="categories" key="hybrid-game" >}}
@@ -88,7 +82,7 @@ Sometimes an offline mode is present or the digital component is optional. But t
 {{< figure url="boardgames_faq" alt="Frequently Asked Questions (Ilustration)" >}}
 	</div>
 
-{{% section-centered heading="How does it work?" anchor="explanation" %}}
+## How does it work?
 
 Click on a game to reach the official game page.
 
@@ -104,7 +98,6 @@ The files are also usually sorted. For a first game you can just pick the very f
 
 The project sometimes contains a third folder called "Vault". That's where I store backups of older versions or variants.
 
-{{% /section-centered %}}
 </div>
 
 <div class="colorScheme-black">
@@ -112,7 +105,7 @@ The project sometimes contains a third folder called "Vault". That's where I sto
 {{< figure url="boardgames_pnp" alt="Print 'n Play (Ilustration)" >}}
 	</div>
 
-{{% section-centered heading="Print & Play" anchor="print_and_play" %}}
+## Print & Play
 
 It means you can download the game files, print them yourself, and then play them&mdash;for free!
 
@@ -136,7 +129,6 @@ All games on this website are completely developed by me and unavailable anywher
 	<em>Copyright?</em> I maintain the motto "Don't steal my games, share them". Feel free to play these games, share them with others, customize them to your liking, and let them inspire you. Do not copy the name/concept, rules or graphic assets and/or present them as your own, especially not for commercial purposes. Credit me when talking about my work, to support the free creation of these games and to keep this website online.
 </div>
 
-{{% /section-centered %}}
 </div>
 
 		

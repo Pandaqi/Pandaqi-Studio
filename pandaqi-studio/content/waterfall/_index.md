@@ -1,20 +1,17 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Waterfall"
-headerTitle: "Fall down the waterfall as best you can to collect the highest-scoring gemstones along the way."
 blurb: "Fall down the waterfall as best you can, while lengthening the waterfall as you play, to collect the highest-scoring gemstones along the way."
-blurbShort: "Fall down the waterfall as best you can to collect the highest-scoring gemstones along the way."
-
+# blurb: "Fall down the waterfall as best you can to collect the highest-scoring gemstones along the way."
 downloadLink: "https://drive.google.com/drive/folders/1vMuxpb1QiOHnb2tmGOcu50q0xkyRcE9i"
 
-color: "turquoise"
 
 date: 2025-08-26
 
 difficulty: "no-brainer"
-categories: ["boardgame", "tile-game", "pawn-game", "standard"]
+categories: ["board-game", "tile-game", "pawn-game", "standard"]
 genre: ["family", "thematic"]
 tags: ["shared-map", "high-score", "fast-paced", "movement"]
 themes: ["nature", "sea"]
@@ -28,13 +25,9 @@ devlog: "/blog/boardgames/waterfall/"
 
 ---
 
-{{% boardgame-intro /%}}
-
-{{% boardgame-instructions %}}
 This game is _textless_ and incredibly _simple_ in its rules. It is suitable for kids, families, any group. 
 
 For a heavier version of this idea (with way more actions, written on the tiles, and some other twists), visit the spin-off [Waterfall: Raging Rapids](/waterfall-raging-rapids/). 
-{{% /boardgame-instructions %}}
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -47,7 +40,7 @@ For a heavier version of this idea (with way more actions, written on the tiles,
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 The fonts used are **Avrile Serif** (body, longer paragraphs, very readable) and **Merienda** (headings, short phrases, more curvy). Some generative AI was used for the action illustrations. Everything else is entirely mine.
 
@@ -59,4 +52,3 @@ The first version of this idea, as usual, was slightly more complicated (and tex
 
 Also as usual, though, _after_ making something you realize the exact ways in which you can make it _better_ next time. And so I created a second version, which is the game you're visiting right now: _Waterfall_. A simpler, more streamlined, and textless version that better fits my original vision for the idea.
 
-{{% /section-centered %}}

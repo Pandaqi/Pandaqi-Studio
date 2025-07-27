@@ -34,7 +34,7 @@ input: ["controller", "keyboard", "mouse", "touch"]
 
 ---
 
-{{% content/embed-video bg="banner_wide" vid="https://www.youtube.com/embed/OorjwESxxZ4" class="limit-width" %}}
+{{% content/embed-video src="https://www.youtube.com/embed/OorjwESxxZ4" %}}
 
 Solve codes. Before the timer runs out, or before your friend solves theirs.
 

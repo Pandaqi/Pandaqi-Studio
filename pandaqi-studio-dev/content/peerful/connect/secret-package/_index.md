@@ -2,15 +2,9 @@
 type: "project"
 
 title: "Sleighwell"
-headerTitle: "Santa needs help delivering presents in a town that constantly changes."
 blurb: "A cooperative game about placing houses and presents such that the sleigh can fulfill all wishes, with a dash of reindeer road and pine tree obstacles."
 
 downloadLink: "https://drive.google.com/drive/folders/11q1JvlufY06QORspG35SfAKQU4JakWhS"
-
-
-color: "white"
-
-
 
 date: 2023-01-01 # 2024-07-25?
 

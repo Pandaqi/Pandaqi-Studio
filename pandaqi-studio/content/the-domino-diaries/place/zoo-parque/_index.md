@@ -1,23 +1,20 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Zoo Parque"
-headerTitle: "Design a zoo of dominoes together that scores you the most points."
 blurb: "Design a zoo of dominoes together, but make sure your animals are well-fed, in the right biome, and actually behind a fence."
-blurbShort: "Design a zoo together and make sure the animals are well-fed. A [Domino Diaries](/the-domino-diaries/) game."
-
+# blurb: "Design a zoo together and make sure the animals are well-fed. A [Domino Diaries](/the-domino-diaries/) game."
 weightProject: 20
 
 downloadLink: "https://drive.google.com/drive/folders/1ICUrbOMz8xbiQeeSdnQcuHm521x794B1"
 
-color: "brown"
 
 date: 2025-06-26
 
 difficulty: "kids-can-play"
 genres: ["family", "thematic"]
-categories: ["boardgame", "tile-game"]
+categories: ["board-game", "tile-game"]
 tags: ["domino", "shared-map", "matching", "turn-based", "ownership", "high-score", "enclosure", "educational"]
 themes: ["animals", "nature", "top-down", "colorful"]
 
@@ -30,9 +27,9 @@ devlog: "/blog/boardgames/the-domino-diaries/zoo-parque/"
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% boardgame-instructions /%}}
+
+
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -51,7 +48,7 @@ devlog: "/blog/boardgames/the-domino-diaries/zoo-parque/"
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 The fonts used are **Ceviche One** (headings) and **Noticia Text** (body text). Some generative image AI was used. Everything else (code, idea, rules, illustrations) is entirely mine.
 
@@ -61,4 +58,3 @@ It ended up being one of the hardest to figure out in terms of rules and logisti
 
 The game is a unique mix between cooperative and competitive play, while using dominoes in a few ways I've rarely seen before :p It turned into a warm and cozy little game about building a zoo, with more than enough strategic depth to want to keep creating new zoos.
 
-{{% /section-centered %}}

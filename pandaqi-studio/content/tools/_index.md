@@ -1,15 +1,13 @@
 ---
-type: "gamepage"
+type: "project"
 title: "Tools"
 type: "infopage"
 
 noHeader: true
-noThumb: true
 
-headerTitle: "Pandaqi Tools | Always useful when playing a game"
+
 blurb: "Pandaqi Tools | Always useful when playing a game."
 
-color: "black"
 
 date: 2015-01-01
 

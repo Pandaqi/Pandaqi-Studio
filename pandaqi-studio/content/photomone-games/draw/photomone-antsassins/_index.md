@@ -1,24 +1,21 @@
 ---
-type: "gamepage"
+type: "project"
 
-boardgame: true
+
 
 title: "Photomone: Antsassins"
-headerTitle: "A party game about trying to communicate which vague shape belongs to your team"
 blurb: "A party game similar to Codenames. The board has random shapes, and you must somehow communicate which one is yours."
-blurbShort: "A party game about communicating a secret code to your team mates. But the code is made out of weird _shapes_---and you may only say _words_."
-
+# blurb: "A party game about communicating a secret code to your team mates. But the code is made out of weird _shapes_---and you may only say _words_."
 weightProject: 30
 
 
-color: "brown"
 
 
 date: 2023-09-18
 
 difficulty: "no-brainer"
 genres: ["party"]
-categories: ["boardgame", "standard", "tile-game", "spin-off"]
+categories: ["board-game", "standard", "tile-game", "spin-off"]
 tags: ["creative", "guessing", "turn-based"]
 themes: ["top-down", "vector"]
 
@@ -34,11 +31,7 @@ devlog: "/blog/boardgames/photomone-antsassins/"
 
 ---
 
-{{% boardgame-intro /%}}
-
-{{% boardgame-instructions %}}
 **Hey, Pandaqi here!** This game is quite experimental. It requires your group to be imaginative and take creative leaps, otherwise it falls flat. I am open to any feedback on how to improve it. If you read my [devlog](/blog/boardgames/photomone-antsassins/), you'll see how much I struggled to make it "good enough".
-{{% /boardgame-instructions %}}
 
 {{% boardgame-settings-container type="material" remarks="Everything is sorted based on how easy it is to play. Rectangles are more predictable (and easy to see shapes in) than hexagons or triangles. The same is true Photomone and Mosaic vs the rest." %}}
 
@@ -58,9 +51,8 @@ devlog: "/blog/boardgames/photomone-antsassins/"
 
 {{% /boardgame-settings-container %}}
 
-{{< support >}}
 
-{{% section-centered heading="Credits" %}}
+## Credits
 
 Check out the main page for [Photomone Games](/photomone-games/) for detailed credits and more information.
 
@@ -70,4 +62,3 @@ Yes, the game Codenames was a direct inspiration for this. But also, yes, as sta
 
 For a detailed diary about the game, check out the [devlog](/blog/boardgames/photomone-antsassins/). It is looong and writes about aaaaall the problems I encountered and different versions.
 
-{{% /section-centered %}}

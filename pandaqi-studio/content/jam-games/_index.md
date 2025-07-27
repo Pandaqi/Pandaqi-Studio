@@ -1,10 +1,9 @@
 ---
-type: "gamepage"
+type: "project"
+collection: "play"
 
 title: "Jam Games"
-headerTitle: "An overview of all little video games I made for Game Jams."
-
-color: "brown"
+blurb: "An overview of all little video games I made for Game Jams."
 
 date: 2025-12-12
 

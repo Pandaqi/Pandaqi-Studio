@@ -1,21 +1,18 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Meadowmight"
-headerTitle: "Claim the biggest meadow in this war of the wool"
 blurb: "Build a meadow and fill it with sheep, but beware other players stomping into your peaceful grasslands and fencing off the wrong parts!"
-blurbShort: "Claim the biggest meadow in this war of the wool."
-
+# blurb: "Claim the biggest meadow in this war of the wool."
 downloadLink: "https://drive.google.com/drive/folders/1mdYwronNojq_L3I9vTkGdCVhVsnpiruT"
 
-color: "green"
 
 date: 2024-05-26
 
 difficulty: "kids-can-play"
 genres: ["family"]
-categories: ["boardgame", "tile-game", "standard"]
+categories: ["board-game", "tile-game", "standard"]
 tags: ["grid", "shared-map", "area-control", "take-that", "high-score"]
 themes: ["nature", "top-down"]
 
@@ -28,9 +25,9 @@ devlog: "/blog/boardgames/meadowmight/"
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% boardgame-instructions /%}}
+
+
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -40,7 +37,7 @@ devlog: "/blog/boardgames/meadowmight/"
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 This game doesn't have an interesting (or complicated) origin, for a change. I woke up one day with this idea in my head, tested a paper prototype the same day, and after some tweaks it just worked.
 
@@ -48,4 +45,3 @@ The words "deceptively cute" are certainly applicable. The game is simple, light
 
 The fonts used are **Sheep** (by MJType) and **PajamaPants** (by Sarah Weber). Some images were generated with AI, but not all, because it _really_ doesn't understand top-down perspective on many things. Everything else is mine.
 
-{{% /section-centered %}}

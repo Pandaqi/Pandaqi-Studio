@@ -1,14 +1,9 @@
-import rangeInteger from "lib/pq-games/tools/random/rangeInteger";
-import shuffle from "lib/pq-games/tools/random/shuffle";
-import InteractiveExample from "lib/pq-rulebook/examples/interactiveExample";
 import RandomNaivigationSetupGenerator from "./randomNaivigationSetupGenerator";
-import MaterialVisualizer from "lib/pq-games/tools/generation/materialVisualizer";
-import createContext from "lib/pq-games/layout/canvas/createContext";
-import fillCanvas from "lib/pq-games/layout/canvas/fillCanvas";
-import convertCanvasToImage from "lib/pq-games/layout/canvas/convertCanvasToImage";
 import MaterialNaivigation from "./materialNaivigation";
 import { CardType } from "./dictShared";
 import GeneralPickerNaivigation from "./generalPickerNaivigation";
+import { MaterialVisualizer, rangeInteger, shuffle, createContext, fillCanvas, convertCanvasToImage } from "lib/pq-games";
+import { InteractiveExample } from "lib/pq-rulebook";
 
 interface NaivigationTurnParams
 {

@@ -1,6 +1,6 @@
 import { Bounds, Vector2 } from "lib/pq-games";
 
-const CONFIG = 
+export default 
 {
     playerSize: 40,
     itemSize: 20,
@@ -32,5 +32,3 @@ const CONFIG =
         // @TODO: fonts to preload as well; then reuse in phaser configs above
     }
 }
-
-export default CONFIG;

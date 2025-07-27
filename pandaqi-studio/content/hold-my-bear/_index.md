@@ -1,21 +1,18 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Hold my Bear"
-headerTitle: "Play with more skill, or play a different sport altogether, but beware treacherous bears"
 blurb: "Beat your opponents at the Unbearable Games, either by being more skillful ... or changing the sport being played altogether. A fast and loose card game for any situation."
-blurbShort: "Beat your opponents at the Unbearable Games, either by being more skillful ... or changing the sport being played altogether."
-
+# blurb: "Beat your opponents at the Unbearable Games, either by being more skillful ... or changing the sport being played altogether."
 downloadLink: "https://drive.google.com/drive/folders/1JD-LWnPoX3yXfQM8jXdlh4vsZvdMOzQQ"
 
-color: "brown"
 
 date: 2024-06-25
 
 difficulty: "simple"
 genres: ["sports"]
-categories: ["boardgame", "card-game", "standard"]
+categories: ["board-game", "card-game", "standard"]
 tags: ["numbers", "follow", "modular", "hand-management"]
 themes: ["nature", "watercolor", "sports"]
 
@@ -30,11 +27,11 @@ devlog: "/blog/boardgames/hold-my-bear/"
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% boardgame-instructions /%}}
 
-{{% section-centered heading="Unbearable Games" %}}
+
+
+## Unbearable Games
 
 Welcome to the Unbearable Games! Where the rules change every second and bears are sure to ruin everything.
 
@@ -51,7 +48,6 @@ But bears ... have several special powers that can either hand you victory or de
 
 It's your goal to win _so hard_ that nobody can do the two things above. Have fun! 
 
-{{% /section-centered %}}
 
 {{% boardgame-settings-container type="material" remarks="**Help! What do I need?** For most player counts, the default values (1 bear + 4 animals) are fine. With more players, you can add the other animals. If you're up for a bigger challenge, add expansion animals (one at a time)." %}}
 
@@ -67,7 +63,7 @@ It's your goal to win _so hard_ that nobody can do the two things above. Have fu
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" %}}
+## Credits
 
 The fonts used are **Sloval** (headings) and **Ciscopic** (body), both freely available (for commercial use). The website and rules use **Merriweather**, as that is more readable for longer paragraphs. 
 
@@ -81,5 +77,4 @@ I combined this with some other ideas, such as the simple game loop of "on your 
 
 Until I ended up with this simple game that has surprising depth.
 
-{{% /section-centered %}}
 

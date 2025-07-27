@@ -1,23 +1,20 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Highrise Homino"
-headerTitle: "Manage your own floor in the same skyscraper as everyone else."
 blurb: "Manage your own floor in the same skyscraper as everyone else, attracting the best guests and providing the highest value homes."
-blurbShort: "Manage your own floor in the same skyscraper as everyone else. A [Domino Diaries](/the-domino-diaries/) game."
-
+# blurb: "Manage your own floor in the same skyscraper as everyone else. A [Domino Diaries](/the-domino-diaries/) game."
 weightProject: 40
 
 downloadLink: "https://drive.google.com/drive/folders/13k6JEZKAqR5WlvXLPevKTAaEKbCKCGEI"
 
-color: "blue"
 
 date: 2025-06-26
 
 difficulty: "simple"
 genres: ["family", "thematic"]
-categories: ["boardgame", "tile-game"]
+categories: ["board-game", "tile-game"]
 tags: ["domino", "map", "matching", "turn-based", "market", "sorting", "high-score", "contracts"]
 themes: ["cartoon", "top-down", "colorful"]
 
@@ -30,9 +27,9 @@ devlog: "/blog/boardgames/the-domino-diaries/highrise-homino/"
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% boardgame-instructions /%}}
+
+
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -49,7 +46,7 @@ devlog: "/blog/boardgames/the-domino-diaries/highrise-homino/"
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 The fonts used are **Grolear** (headings) and **Kanit** (body text). Some generative image AI was used. Everything else (code, idea, rules, illustrations) is entirely mine.
 
@@ -59,4 +56,3 @@ By placing all players inside the same building, you can even piggyback. If the 
 
 As always, have fun with it, and let me know what you think, both the good and the bad.
 
-{{% /section-centered %}}

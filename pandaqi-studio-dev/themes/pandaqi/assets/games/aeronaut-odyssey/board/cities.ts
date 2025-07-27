@@ -1,17 +1,15 @@
-import PointGraph from "lib/pq-games/tools/geometry/pointGraph";
 import BoardState from "./boardState";
 import Route from "./route";
 import CONFIG from "./config";
-import range from "lib/pq-games/tools/random/range";
-import clamp from "lib/pq-games/tools/numbers/clamp";
+import { Vector2Graph, range, clamp } from "lib/pq-games";
 
 export default class Cities
 {
-    points: PointGraph[];
+    points: Vector2Graph[];
     boardState: BoardState;
-    capital: PointGraph;
+    capital: Vector2Graph;
 
-    constructor(b:BoardState, points:PointGraph[])
+    constructor(b:BoardState, points:Vector2Graph[])
     {
         this.boardState = b;
         this.points = points;
@@ -20,7 +18,7 @@ export default class Cities
     getCapital() { return this.capital; }
     count() { return this.get().length; }
     get() { return this.points; }
-    remove(p:PointGraph)
+    remove(p:Vector2Graph)
     {
         //console.log("Should remove point ", p);
         
@@ -55,24 +53,24 @@ export default class Cities
 
     assignCapital()
     {
-        let secondBestPoint = null;
-        let bestPoint = null;
+        let secondBestVector2 = null;
+        let bestVector2 = null;
         let bestScore = 0;
         for(const point of this.points)
         {
             const numRoutes = point.metadata.routes.length;
             if(numRoutes <= bestScore) { continue; }
-            secondBestPoint = null;
+            secondBestVector2 = null;
 
             if(!point.metadata.nearCenter) { continue; }
             bestScore = numRoutes;
-            bestPoint = point;
+            bestVector2 = point;
         }
 
-        const finalPoint = bestPoint ?? secondBestPoint;
+        const finalVector2 = bestVector2 ?? secondBestVector2;
 
-        this.capital = finalPoint;
-        finalPoint.metadata.numVisitorSpots = CONFIG.generation.numVisitorSpotsAtCapital;
-        finalPoint.metadata.capital = true;
+        this.capital = finalVector2;
+        finalVector2.metadata.numVisitorSpots = CONFIG.generation.numVisitorSpotsAtCapital;
+        finalVector2.metadata.capital = true;
     }
 }

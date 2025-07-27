@@ -1,24 +1,9 @@
 ---
-type: "gamepage"
+type: "project"
 
 title: "Pizza Peers"
-headerTitle: "Tasty Local Multiplayer"
 blurb: "Start the game on a computer, connect your smartphone, and have some cooperative multiplayer fun delivering tasty pizzas!"
 deprecated: true
-
-shortblurb: "Tasty cooperative delivery fun"
-longblurb: "<p>Grab ingredients, create tasty combinations, bake until they're just right, and deliver them before the customer gets angry.</p>
-<p>Oh, and some of the players might be ... allergic to certain essential ingredients.</p>"
-
-fullHeaderImg: "pizzapeers_header"
-headerImg: "pizzapeers_header"
-headerThumb: "pizzapeers_logo"
-
-color: "white"
-
-customHeight: "medium"
-
-
 
 date: 2020-07-12
 
@@ -40,11 +25,13 @@ playercount: [1,2,3,4,5,6,7,8,9,10]
 input: ["touch"]
 devlog: "/blog/videogames/the-peerful-project/pizza-peers/"
 
+media: [pizzapeers-logo, video/1_how_to_move, video/2_how_to_buy, video/3_how_to_deliver, video/4_how_to_combine, video/5_how_allergies_work, video/6_how_to_bake, video/7_how_to_take_orders, pizzapeers-logo-animated]
+
 ---
 
-{{% embedvideo bg="pizzapeers_header" vid="https://youtube.com/embed/6BKfPS9q3qI" caption="(Hover/click logo for the trailer)" static-logo="pizzapeers_logo_animated" class="extra-top-offset" %}}
+{{% embed-video src="https://youtube.com/embed/6BKfPS9q3qI" caption="(Hover/click logo for the trailer)" static-logo="pizzapeers_logo_animated" %}}
 
-{{% section-centered heading="How do I start a game?" %}}
+## How do I start a game?
 
 Go to [pizza-peers.herokuapp.com](https://pizza-peers.herokuapp.com) on a computer. Press **start game**.
 
@@ -52,30 +39,19 @@ Now all players can connect with their smartphone! Go to the same website, enter
 
 While everyone's connecting, you can choose your **difficulty**. The higher the difficulty, the more mechanics and rules are in the game. I highly recommend starting with "amateur" and working your way up from there!
 
-{{% /section-centered %}}
-
-{{% section-centered heading="What's my goal?" %}}
+## What's my goal?
 
 Work together to keep your pizza place alive until the timer runs out! You lose if you **fail three deliveries**
 
 Do not worry if you don't immediately remember the rules below. Have fun, play a few rounds, and everything will become clear.
 
-{{% /section-centered %}}
-
-{{% section-centered heading="How do I move?" %}}
+## Amateur: How do I move?
 
 Simply move your finger around the screen! (For example: if you touch the top left, your character moves in that direction.)
 
 {{< video url="video/1_how_to_move" >}}
 
-{{% /section-centered %}}
-
-<div class="difficultySeparator">
-	<span class='difficultyName'>Difficulty: Amateur</span>
-	<div class='line'></div>
-</div>
-
-{{% section-centered heading="How do I make a pizza?" %}}
+## Amateur: How do I make a pizza?
 
 Every pizza goes through these steps. (On lower difficulty settings, though, you only do a few of these.)
 1. Gather ingredients
@@ -83,9 +59,7 @@ Every pizza goes through these steps. (On lower difficulty settings, though, you
 3. Bake the pizza
 4. Deliver
 
-{{% /section-centered %}}
-
-{{% section-centered heading="How do I get ingredients?" %}}
+## Amateur: How do I get ingredients?
 
 There are 5 main ingredients: dough, tomatoes, cheese, spice and vegetables.
 
@@ -95,9 +69,7 @@ _Beware!_ You only have space for **three things** in your personal backpack.
 
 {{< video url="video/2_how_to_buy" >}}
 
-{{% /section-centered %}}
-
-{{% section-centered heading="How do I deliver?" %}}
+## Amateur: How do I deliver?
 
 Buildings will automatically place orders. How do you know? The building will flicker and their order will fly above it.
 
@@ -105,14 +77,7 @@ Also, an orange circle appears in front of it. Stand on it and press "deliver or
 
 {{< video url="video/3_how_to_deliver" >}}
 
-{{% /section-centered %}}
-
-<div class="difficultySeparator">
-	<span class='difficultyName'>Difficulty: Cook</span>
-	<div class='line'></div>
-</div>
-
-{{% section-centered heading="How do I combine ingredients?" %}}
+## Cook: How do I combine ingredients?
 
 Combining is done on **tables**
 
@@ -122,9 +87,7 @@ _Beware!_ You can only combine ingredients if you have the basis of all pizzas: 
 
 {{< video url="video/4_how_to_combine" >}}
 
-{{% /section-centered %}}
-
-{{% section-centered heading="Allergies!" %}}
+## Cook: Allergies!
 
 Each player receives a list of "allergies" at the start of the game. This remains visible at all times on your phone.
 
@@ -134,14 +97,7 @@ If you have 4+ players, you also cannot hold a pizza that _contains_ any of thos
 
 {{< video url="video/5_how_allergies_work" >}}
 
-{{% /section-centered %}}
-
-<div class="difficultySeparator">
-	<span class='difficultyName'>Difficulty: Chef</span>
-	<div class='line'></div>
-</div>
-
-{{% section-centered heading="How do I bake a pizza?" %}}
+## Chef: How do I bake a pizza?
 
 Baking is done at **ovens**
 
@@ -153,26 +109,17 @@ If it's **green** (or higher), the pizza is hot enough.
 
 {{< video url="video/6_how_to_bake" >}}
 
-{{% /section-centered %}}
-
-{{% section-centered heading="How do I get orders?" %}}
+## Chef: How do I get orders?
 
 From now on, buildings will not automatically order something &mdash; you need to ask them first!
 
 A **dancing exclamation mark** means this building wants to order.
 
->Walk toward the orange circle in front of it and press "take their order" on your phone, before you're too late!
+> Walk toward the orange circle in front of it and press "take their order" on your phone, before you're too late!
 
 {{< video url="video/7_how_to_take_orders" >}}
 
-{{% /section-centered %}}
-
-<div class="difficultySeparator">
-	<span class='difficultyName'>Difficulty: Master Chef</span>
-	<div class='line'></div>
-</div>
-
-{{% section-centered heading="Special stuff" %}}
+## Master Chef: Special stuff
 
 **Cooldown:** pizzas automatically cool down when out of the oven. So do not take too long when delivering!
 
@@ -182,19 +129,11 @@ A **dancing exclamation mark** means this building wants to order.
 
 **Money Penalty:** you get a (severe) money penalty for failing orders!
 
-{{% /section-centered %}}
-
-{{% section-centered heading="Want to create something like this?" %}}
+## Miscellaneous
 
 I wrote an in-depth article series about servers, peer-to-peer networking, using Phaser for browser games and more! 
 
 Check out: [How I Created Pizza Peers](/blog/videogames/the-peerful-project/pizza-peers)
-
-{{% /section-centered %}}
-
-{{% section-centered heading="More?" %}}
-
-Questions? Feedback? Improvements? Don't hesitate to [contact me](/about/contact)
 
 This game is optimized for **local multiplayer** play: people within the same room using the same Wi-Fi network. It works flawlessly there. In any other setup, connections may fail or be delayed.
 
@@ -204,6 +143,4 @@ This game is part of [The Peerful Project](https://pandaqi.com/the-peerful-proje
 
 **If you like my work**, please support me by donating, buying any of my games or simply sharing my work!
 
-The game is hosted on a free server (precisely because I earn no income from it). Because of the way I designed the game, this should rarely be a problem. It just means that, occasionally, establishing your first connection with the server might take a few seconds longer.
-
-{{% /section-centered %}}
+The game is hosted on a free server (precisely because I earn no income from it). **It may go down any time.** Because of the way I designed the game, this should rarely be a problem. It just means that, occasionally, establishing your first connection with the server might take a few seconds longer.

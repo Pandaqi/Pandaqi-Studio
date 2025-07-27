@@ -1,19 +1,17 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Fiddlefoo"
-headerTitle: "Get rid of your cards without allowing others to throw their music at you."
 blurb: "Get rid of your cards without allowing others to throw their music at you."
 
 downloadLink: "https://drive.google.com/drive/folders/1fRQWyYs7Vi9pX8ArL0zFN87Q-b7G3eIf"
 
-color: "yellow"
 
 date: 2025-12-16
 
 difficulty: "kids-can-play"
-categories: ["boardgame", "card-game", "standard"]
+categories: ["board-game", "card-game", "standard"]
 genre: ["family", "abstract"]
 tags: ["shared-map", "grid", "turn-based", "score-and-reset", "numbers"]
 themes: ["colorful", "music"]
@@ -27,9 +25,9 @@ devlog: "/blog/boardgames/fiddlefoo/"
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% boardgame-instructions /%}}
+
+
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -42,7 +40,7 @@ devlog: "/blog/boardgames/fiddlefoo/"
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 The fonts used are **Andada** (body text) and **Casanova** (heading). Everything else (idea, code, assets, rules, etcetera) is mine.
 
@@ -52,4 +50,3 @@ But I also thought it might be interesting to take the core idea in a slightly d
 
 All of that combined into the game Fiddlefoo! A simple and quick game that is surely distinct from its inspiration, in exactly the ways I was looking for.
 
-{{% /section-centered %}}

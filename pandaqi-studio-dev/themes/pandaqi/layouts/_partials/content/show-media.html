@@ -1,5 +1,10 @@
 {{- $context := .context -}}
 {{- $src := .src -}}
+{{- $is_embed := strings.Contains $src "youtube.com/embed" -}}
+{{- if $is_embed -}}
+{{ partial "content/embed-video/html" (dict "src" $src) }}
+{{- end -}}
+
 {{- $image_url_exists := partial "func/get-valid-image-url.html" (dict "context" .context "src" $src) -}}
 {{- if $image_url_exists -}}
 {{- partial "content/show-image.html" (dict "context" $context "src" $src) -}}

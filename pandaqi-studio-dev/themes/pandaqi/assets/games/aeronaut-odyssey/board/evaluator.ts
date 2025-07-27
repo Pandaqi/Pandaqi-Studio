@@ -1,11 +1,7 @@
-import countElementsInArray from "lib/pq-games/tools/collections/countElementsInArray";
+import { Vector2, countElementsInArray, rectIntersectsRect, pathIntersectsPath, distToPath } from "lib/pq-games";
 import BoardState from "./boardState";
 import CONFIG from "./config"
 import Route from "./route";
-import pathIntersectsPath from "lib/pq-games/tools/geometry/intersection/pathIntersectsPath";
-import distToPath from "lib/pq-games/tools/geometry/distance/distToPath";
-import Point from "lib/pq-games/tools/geometry/point";
-import { rectIntersectsRect } from "lib/pq-games/tools/geometry/intersection/shapeIntersectsShape";
 
 export default class Evaluator
 {
@@ -154,8 +150,8 @@ export default class Evaluator
 
     boardLargeEnough(board:BoardState)
     {
-        let topLeft = new Point(Infinity, Infinity);
-        let bottomRight = new Point(-Infinity, -Infinity);
+        let topLeft = new Vector2(Infinity, Infinity);
+        let bottomRight = new Vector2(-Infinity, -Infinity);
         for(const point of board.getPoints())
         {
             topLeft.x = Math.min(topLeft.x, point.x);

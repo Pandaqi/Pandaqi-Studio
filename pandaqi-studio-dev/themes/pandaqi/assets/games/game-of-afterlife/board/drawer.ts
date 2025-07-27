@@ -1,22 +1,12 @@
+import { Vector2, Color, Rectangle, LayoutOperation, Circle, equidistantColors, FloodFillerTreeNode, smoothPath, thickenPath, Path } from "lib/pq-games";
 import Board from "./board";
 import CONFIG from "./config";
-import Point from "lib/pq-games/tools/geometry/point";
-import thickenPath from "lib/pq-games/tools/geometry/paths/thickenPath";
-import smoothPath from "lib/pq-games/tools/geometry/paths/smoothPath";
-import { FloodFillerTreeNode } from "lib/pq-games/tools/generation/floodFillerTree";
-import equidistantColors from "lib/pq-games/layout/color/equidistantColors";
-import Color from "lib/pq-games/layout/color/color";
-import Rectangle from "lib/pq-games/tools/geometry/rectangle";
-import LayoutOperation from "lib/pq-games/layout/layoutOperation";
-import { circleToPhaser, pathToPhaser, rectToPhaser } from "lib/pq-games/phaser/shapeToPhaser";
-import Circle from "lib/pq-games/tools/geometry/circle";
-import Path from "lib/pq-games/tools/geometry/paths/path";
 
 export default class Drawer
 {
     game:any;
     graphics:any;
-    canvSize:Point;
+    canvSize:Vector2;
     canvUnit:number;
     cellSize: number;
     sectionColors: Color[];
@@ -27,7 +17,7 @@ export default class Drawer
         this.game = game;
     }
 
-    convertToRealPositions(points:Point[], offset:Point = new Point())
+    convertToRealPositions(points:Vector2[], offset:Vector2 = new Vector2())
     {
         const arr = [];
         for(const point of points)
@@ -37,14 +27,14 @@ export default class Drawer
         return arr;
     }
 
-    convertToRealPosition(p:Point, offset:Point = new Point())
+    convertToRealPosition(p:Vector2, offset:Vector2 = new Vector2())
     {
         return p.clone().add(offset).scale(this.cellSize);
     }
 
     draw(board:Board)
     {
-        this.canvSize = new Point(this.game.canvas.width, this.game.canvas.height);
+        this.canvSize = new Vector2(this.game.canvas.width, this.game.canvas.height);
         this.canvUnit = Math.min(this.canvSize.x, this.canvSize.y);
         this.cellSize = this.game.canvas.width / CONFIG.generation.mapWidth;        
         this.graphics = this.game.add.graphics();
@@ -57,14 +47,14 @@ export default class Drawer
 
     drawBackground()
     {
-        const rect = new Rectangle().fromTopLeft(new Point(), this.canvSize);
+        const rect = new Rectangle().fromTopLeft(new Vector2(), this.canvSize);
         const op = new LayoutOperation({ fill: "#FFFFFF" });
         rectToPhaser(rect, op, this.graphics);
     }
 
     drawGrid(board:Board)
     {
-        const points = board.getPoints();
+        const points = board.getVector2s();
         const op = new LayoutOperation({ fill: "#FF0000" });
         for(const point of points)
         {
@@ -85,8 +75,8 @@ export default class Drawer
         const op = new LayoutOperation({ fill: this.sectionColors.pop() });
         for(const point of n.floodFiller.get())
         {
-            const realPoint = this.convertToRealPosition(point);
-            const rect = new Rectangle().fromTopLeft(realPoint, new Point(this.cellSize));
+            const realVector2 = this.convertToRealPosition(point);
+            const rect = new Rectangle().fromTopLeft(realVector2, new Vector2(this.cellSize));
             rectToPhaser(rect, op, this.graphics);
         }
 
@@ -99,7 +89,7 @@ export default class Drawer
     drawPaths(board:Board)
     {
         const smoothResolution = CONFIG.display.paths.smoothResolution;
-        const squareSize = CONFIG.generation.squareSizeInPathPoints;
+        const squareSize = CONFIG.generation.squareSizeInPathVector2s;
         const thickness = CONFIG.display.paths.thickness * this.cellSize;
         const squareSizeReal = squareSize * smoothResolution;
 
@@ -107,7 +97,7 @@ export default class Drawer
 
         for(const path of board.paths)
         {
-            let points = this.convertToRealPositions(path.toPath(), new Point(0.5));
+            let points = this.convertToRealPositions(path.toPath(), new Vector2(0.5));
             if(CONFIG.display.paths.smoothPath) { points = smoothPath({ path: points, resolution: smoothResolution }); }
             if(CONFIG.display.paths.thickenPath) { points = thickenPath({ path: points, thickness: thickness }); }
 
@@ -127,7 +117,7 @@ export default class Drawer
         }
     }
 
-    drawPathSquare(num:number, path:Point[], type: string, offset:number)
+    drawPathSquare(num:number, path:Vector2[], type: string, offset:number)
     {
         const left = path.slice(num * offset, (num+1)*offset + 1);
         const right = path.slice(path.length - (num+1)*offset - 1, path.length - (num * offset));

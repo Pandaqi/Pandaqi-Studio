@@ -1,14 +1,10 @@
-import OnPageVisualizer from "lib/pq-games/tools/generation/boardVisualizer"
-import ResourceLoader from "lib/pq-games/layout/resources/resourceLoader"
-import { PDF_DPI } from "lib/pq-games/pdf/main"
 // @ts-ignore
-import { Scene } from "lib/pq-games/phaser/phaser.esm"
-import resourceLoaderToPhaser from "lib/pq-games/phaser/resourceLoaderToPhaser"
-import setDefaultPhaserSettings from "lib/pq-games/phaser/setDefaultPhaserSettings"
+// import { Scene } from "lib/pq-games/phaser/phaser.esm"
 import BoardDisplay from "./boardDisplay"
 import BoardState from "./boardState"
 import CONFIG from "./config"
 import Evaluator from "./evaluator"
+import { ResourceLoader, PDF_DPI } from "lib/pq-games"
 
 const sceneKey = "boardGeneration"
 const resLoader = new ResourceLoader({ base: CONFIG.assetsBase });

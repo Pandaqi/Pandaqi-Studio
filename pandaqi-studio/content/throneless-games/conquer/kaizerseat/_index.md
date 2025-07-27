@@ -1,26 +1,23 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Kaizerseat"
-headerTitle: "Make sure the right Seeker wins the throne in the most strategical Throneless Game."
 blurb: "Vote, swap places, use powers and backstab to ensure the right Seeker wins the throne. The longest and most strategical Throneless Game."
-blurbShort: "A [Throneless Game](/throneless-games/) game about helping your animal win the throne, aimed more at kids."
-
+# blurb: "A [Throneless Game](/throneless-games/) game about helping your animal win the throne, aimed more at kids."
 blurbProject: "The most complicated version, giving you the deepest gameplay in return."
 weightProject: 40
 
 downloadLink: "https://drive.google.com/drive/folders/1XYqoqGmFc2gfgWcIsjDOJG48GQ2qjZGJ"
 
 
-color: "black"
 
 
 date: 2025-11-12
 
 difficulty: "simple"
 genres: ["thematic"]
-categories: ["boardgame", "card-game", "standard"]
+categories: ["board-game", "card-game", "standard"]
 tags: ["political", "hidden-roles", "social", "fast-paced"]
 themes: ["medieval"]
 
@@ -32,9 +29,9 @@ ages: everyone
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% boardgame-instructions /%}}
+
+
 
 {{% boardgame-settings-container type="material" remarks="Check the rules to see **how many Seekers** are recommended for each player count. Each choice adds ~1 page to print." %}}
 
@@ -61,7 +58,7 @@ ages: everyone
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 Check out the main overview page for [Throneless Games](/throneless-games/) for more detailed credits and background.
 
@@ -73,4 +70,3 @@ I have also learned, however, that those nice ideas can be brought back if you s
 
 As expected, this became Kaizerseat. About half of it is the result of discarded ideas that I pushed upstream, the other half unique mechanics and actions invented just for this version. For example, it contains a Seatcard that randomizes a few rules per game, and it has _multiple types of actions_. Both were ideas I'd originally given to other games, but which turned out to be slightly too much for those simple versions. So they ended up here!
 
-{{% /section-centered %}}

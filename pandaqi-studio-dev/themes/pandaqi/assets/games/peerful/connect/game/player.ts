@@ -1,9 +1,9 @@
-import { receiveAction, sendAction } from "lib/pq-peerful/peerfulUtilities";
+
 import GameServer from "./gameServer";
 import CONFIG from "./config";
 import BackpackItem, { BackpackItemRaw } from "./backpackItem";
-import { listenForEvent } from "lib/pq-peerful/events";
 import { Vector2 } from "lib/pq-games";
+import { receiveAction, listenForEvent, sendAction } from "lib/pq-peerful";
 
 export default class Player
 {
@@ -54,7 +54,7 @@ export default class Player
             const itemsExploded = this.getItemsPastTimestamp();
             if(itemsExploded.length > 0) { this.explode(); return; }
         }
-        listenForEvent("phaser-update", updateHandler, this.game.server.config.node);
+        listenForEvent("phaser-update", updateHandler, this.game.server.config);
     }
 
     setPosition(pos)

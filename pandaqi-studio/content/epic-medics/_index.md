@@ -1,23 +1,16 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Epic Medics"
-headerTitle: "Epic Medics | A boardgame about fighting viruses"
 blurb: "Oh no, a terrible pandemic is raging across the country! Will you be the heroic medics ... or will you play the virus?"
-blurbShort: "A cooperative [One Paper Game](boardgames#one-paper-games) for 2--7 players about fighting an uncontrollable pandemic."
-
-fullHeaderImg: "epicmedics_header"
-headerImg: "epicmedics_bg"
-noThumb: true
-
-color: "pink"
+# blurb: "A cooperative [One Paper Game](boardgames#one-paper-games) for 2--7 players about fighting an uncontrollable pandemic."
 
 date: 2020-03-22
 
 difficulty: "challenge"
 genres: ["thematic", "simulation"]
-categories: ["boardgame", "one-paper-game", "hybrid-game"]
+categories: ["board-game", "one-paper-game", "hybrid-game"]
 tags: ["hidden-movement", "logic", "player-powers", "traitor", "turn-based", "shared-map", "events"]
 themes: ["science", "cartoon"]
 
@@ -29,33 +22,13 @@ playtime: 90
 playercount: [2,3,4,5,6,7]
 ages: everyone
 
+media: [epicmedics_board, epicmedics_med, epicmedics_virus]
+
 ---
 
-{{% boardgame-intro /%}}
+**Who will you be? Team Medics or The Virus?**
 
-<section>
-	<p class="bigQuestion">Who will you be?</p>
-	<div class="bigQuestionButtons">
-		<div>
-			<a href="#team-medic" class="btn">Team Medic</a> 
-		</div>
-		<div>
-			<a href="#team-virus" class="btn">The Virus</a>
-		</div>
-	</div>
-</section>
-
-<div class="board-image">
-	{{< figure url="epicmedics_board" alt="Example of Game Board (Map: Netherlands)" >}}
-</div>
-
-<div class="float-left">
-	{{< figure url="epicmedics_med" alt="Cartoon Medics" >}}
-</div>
-
-<a name="team-medic"></a>
-
-{{% section-centered heading="Team Medics" class="background-alternate" %}}
+## Team Medics
 
 Your job is to discover the vaccine and keep the virus from spreading too much.
 
@@ -71,15 +44,7 @@ You have one big **advantage**: you can cooperate with all the other medic playe
 
 But there's a huge **disadvantage**: you can only move healthy people. Even worse: the virus can move unseen, while you have to take and discuss your actions out in the open!
 
-{{% /section-centered %}}
-
-<div class="float-right">
-	{{< figure url="epicmedics_virus" alt="Cartoon Virus" >}}
-</div>
-
-<a name="team-virus"></a>
-
-{{% section-centered heading="Team Virus" %}}
+## Team Virus
 
 Your job is to infect as many cities as possible. (Or overwhelm the medics and prevent them from creating a vaccine.)
 
@@ -90,17 +55,13 @@ Take one of these actions:
 
 You use a **secret part** of the board to infect cities, which means medics will have a tough time figuring out the mysterious ways of a virus ... 
 
-{{% /section-centered %}}
+## Random Events
 
-{{% section-centered heading="Random Events" class="background-alternate" anchor="game" html="true" %}}
+This is an expansion to the base game. It introduces a random event at the start of each round, to shake things up and add extra challenge.
 
-<p>This is an expansion to the base game. It introduces a random event at the start of each round, to shake things up and add extra challenge.</p>
-
-<p>At the start of a game, go to this website and click the button below. It opens an interface in a new tab. Whenever you start a new round (in the real game), click the button again to get a new event.</p>
+At the start of a game, go to this website and click the button below. It opens an interface in a new tab. Whenever you start a new round (in the real game), click the button again to get a new event.
 
 {{< boardgame-settings type="game" local_storage="epicMedicsConfig" >}}
 	{{< setting-hidden id="setting-gameTitle" text="Epic Medics" >}}
 	{{< setting-playercount min="2" max="7" def="4" >}}
 {{< /boardgame-settings >}}
-
-{{% /section-centered %}}

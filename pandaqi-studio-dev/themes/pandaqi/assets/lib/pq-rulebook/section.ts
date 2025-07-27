@@ -1,4 +1,4 @@
-class RulesSection
+export class RulesSection
 {
     node: HTMLElement;
     root: boolean;

@@ -1,11 +1,10 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Pietenpoker"
-headerTitle: "Een simpelere versie van Poker voor Sinterklaasavonden en Blufpieten."
+blurb: "Een simpelere versie van Poker voor Sinterklaasavonden en Blufpieten."
 
-color: "blue"
 
 downloadLink: "https://drive.google.com/drive/folders/15h2WfRlYZwEBD_LSHhYH0pEMT80xbfcO"
 
@@ -13,7 +12,7 @@ date: 2025-11-05
 
 difficulty: "kids-can-play"
 genres: ["family", "thematic"]
-categories: ["boardgame", "card-game", "standard"]
+categories: ["board-game", "card-game", "standard"]
 tags: ["turn-based", "bluffing", "set-collection", "high-score"]
 themes: ["holiday"]
 
@@ -26,9 +25,9 @@ devlog: "/blog/boardgames/chiptales/pietenpoker/"
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% section-centered heading="Wat heb ik nodig?" %}}
+
+## Wat heb ik nodig?
 
 Dit is een professioneel bordspel dat je gratis kan printen! Het is gemaakt voor _Sinterklaasavond_ en _grote groepen_ (als nodig), en de regels passen op een half blaadje. Zoals de naam suggereert is het een variant op Poker die kleiner, simpeler en sneller is.
 
@@ -42,7 +41,6 @@ Hoe doe je dat?
 
 **Kan ik het spel aanpassen?** Met de [generator](#material) hieronder kan je precies instellen wat je wilt. Druk op de knop en hij maakt een PDF met jouw gewenste kaarten. Zo kan je een zwart-wit versie vragen (minder inkt nodig!) of eentje met veel grotere kaarten (voor de kleinste kinderen!) 
 
-{{% /section-centered %}}
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -56,7 +54,7 @@ Hoe doe je dat?
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 De gebruikte lettertypes zijn **Howdy Lemon** (kopteksten, lekker dikgedrukt en vrolijk) en **Kiwi Maru** (langere tekst, paragrafen, leesbaar). Alle andere onderdelen---plaatjes, code, idee, etcetera---zijn door mij gemaakt.
 
@@ -68,4 +66,3 @@ Hoe dan ook, het **idee** van poker spreekt veel mensen aan en is best sterk, ma
 
 En een kleurrijk **Sinterklaasthema**, natuurlijk, en een hoop subtiele knipogen naar dingen die dat familielid van mij leuk vindt.
 
-{{% /section-centered %}}

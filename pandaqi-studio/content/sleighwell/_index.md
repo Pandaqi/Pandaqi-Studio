@@ -1,23 +1,19 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Sleighwell"
-headerTitle: "Santa needs help delivering presents in a town that constantly changes."
 blurb: "A cooperative game about placing houses and presents such that the sleigh can fulfill all wishes, with a dash of reindeer road and pine tree obstacles."
-blurbShort: "Santa needs help delivering presents in a town that constantly changes."
-
+# blurb: "Santa needs help delivering presents in a town that constantly changes."
 downloadLink: "https://drive.google.com/drive/folders/11q1JvlufY06QORspG35SfAKQU4JakWhS"
 
-customHeight: "large"
 
-color: "white"
 
 date: 2024-12-12
 
 difficulty: "kids-can-play"
 genres: ["family"]
-categories: ["boardgame", "tile-game", "standard"]
+categories: ["board-game", "tile-game", "standard"]
 tags: ["shared-map", "movement", "numbers", "logic"]
 themes: ["holidays"]
 
@@ -30,9 +26,9 @@ devlog: "/blog/boardgames/sleighwell/"
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% boardgame-instructions /%}}
+
+
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -42,9 +38,8 @@ devlog: "/blog/boardgames/sleighwell/"
 
 {{% /boardgame-settings-container %}}
 
-{{< support >}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 The fonts used are **Good Grace** (headings, fancy text) and **Roboto** (body text, readable, multiple variations). Both freely available online. Parts of the illustrations were generated with AI; everything else is mine.
 
@@ -54,4 +49,3 @@ After a week of half-baked not-so-great ideas, this one came along. I instantly 
 
 A simple game that simulates Santa's job quite well, while being _cooperative_ (always great for families or large groups) and having surprising _depth_. The teach is one minute. Turns are five seconds. Ideal for a family game!
 
-{{% /section-centered %}}

@@ -1,22 +1,19 @@
 ---
-type: "gamepage"
+type: "project"
 
-boardgame: true
+
 
 title: "Finger Food"
-headerTitle: "A quick game playable with just a paper and your fingers"
 blurb: "A quick game playable with just a single paper. Each turn, place a finger on a new square, to score more points than your opponents before you've used your whole hand."
-blurbShort: "Place your fingers on the best squares and score more pie points than your opponents! Playable with just a single paper, nothing else needed."
-
+# blurb: "Place your fingers on the best squares and score more pie points than your opponents! Playable with just a single paper, nothing else needed."
 blurbProject: "Bake the highest-scoring recipes by _placing your fingers_ on the right squares, nothing else needed."
 
-color: "pink"
 
 date: 2024-01-26
 
 difficulty: "no-brainer"
 genres: ["action", "family", "kids-game"]
-categories: ["boardgame", "one-paper-game"]
+categories: ["board-game", "one-paper-game"]
 tags: ["cooking", "turn-based", "shared-map", "colorful", "experimental", "fast-paced"]
 themes: ["cartoon", "food"]
 
@@ -30,19 +27,16 @@ ages: everyone
 devlog: "/blog/boardgames/waitless-games/finger-food/"
 ---
 
-{{% boardgame-intro /%}}
+## What do I need?
 
-{{% section-centered heading="What do I need?" icon="page/finger_food_hand.webp" %}}
-
-Generate a paper below. Print and play!
+Generate a paper. Print and play!
 
 Or click the "Download" button to print one of the PDFs I already generated for you.
 
-{{% /section-centered %}}
 
-{{% section-centered heading="Board" html="true" anchor="board" icon="page/finger_food_hand.webp" %}}
+## Board
 
-<p>Input your desired settings and click "generate". Rules are explained on the board itself.</p>
+Input your desired settings and click "generate". Rules are explained on the board itself.
 
 {{< boardgame-settings type="board" local_storage="fingerFoodConfig" game_title="Finger Food" defaults="true" >}}
   {{< setting-checkbox id="setting-includeRules" text="Include Rules?" remark="Only turn off if you're familiar with all the rules." checked="checked" >}}
@@ -56,9 +50,7 @@ Or click the "Download" button to print one of the PDFs I already generated for 
 
 <p class="remark-under-settings"><strong>Not working?</strong> Don't worry! At the "Download" link, you can also find PDFs I already generated for you.</p> 
 
-{{% /section-centered %}}
-
-{{% section-centered heading="Clarifications" icon="page/finger_food_hand.webp" %}}
+## Clarifications
 
 Yes, you really play with your hands! And yes, that means you might physically get in each other's way, and people with large hands naturally have a slight advantage, and after a while you'll need to move your head to see some obscured squares.
 
@@ -72,16 +64,10 @@ To make sure we're all on the same page, here is an image of how a single hand m
 
 At the end, you might want to take a picture (from above) or write down the fingers for each player on another paper. Especially if you have many players (4+), it can be tiring to keep your hand in a difficult position for a long time, or very hard to verify scores from your own perspective.
 
-{{% /section-centered %}}
-
-{{% section-centered heading="Credits" icon="page/finger_food_hand.webp" %}}
+## Credits
 
 I've used the fonts **Cherry Bomb One** (headings, thick) and **Quicksand** (body, thin). They are both freely available from Google Fonts.
 
 Everything else (idea, code, assets) are completely mine, with the exception of some ingredient and machine illustrations. For those a generative AI was used, although they were often (heavily) edited afterwards to keep a consistent style.
 
 Want more details? Check out the [devlog](/blog/boardgames/waitless-games/finger-food/).
-
-{{% /section-centered %}}
-
-{{< support >}}

@@ -1,23 +1,21 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Deceptidice"
-headerTitle: "Bank on riskier and riskier combinations appearing on the secret dice, or call your neighbor's bluff."
 blurb: "Bank on riskier and riskier combinations appearing on the secret dice, or call your neighbor's bluff."
 
 weightProject: 35
 
 downloadLink: "https://drive.google.com/drive/folders/11ELawc0hyiDkflmzuKTKb94sOzccwPXw"
 
-color: "purple"
 fontSizeBase: 17
 
 date: 2025-11-26
 
 difficulty: "simple"
 genres: ["family", "thematic"]
-categories: ["boardgame", "card-game"]
+categories: ["board-game", "card-game"]
 tags: ["chance", "dice", "bidding", "bluffing", "turn-based", "numbers", "patterns", "single-loser"]
 themes: ["dystopian"]
 
@@ -30,9 +28,9 @@ devlog: "/blog/boardgames/the-luck-legends/deceptidice/"
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% boardgame-instructions /%}}
+
+
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -46,7 +44,7 @@ devlog: "/blog/boardgames/the-luck-legends/deceptidice/"
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 The fonts used are **Brasspounder** (headings; multiple variations) and **Caslon Antique** (body text). Everything else is mine.
 
@@ -60,4 +58,3 @@ After playing 1 or 2 games, I highly recommend playing with some of the variants
 ALTERNATE NAMES: "Fortune Favors the Fire" (because alliteration and fire sounds like liar) or "Fortune Favors the Fibber" or "Fibber's Fortune" or "Truth & Dice" 
 --->
 
-{{% /section-centered %}}

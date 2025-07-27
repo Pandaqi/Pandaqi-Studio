@@ -1,23 +1,20 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Maybe Minister"
-headerTitle: "Change the law to expand your power, but do it subtly enough that most players will vote for you."
 blurb: "Propose changes to the law of the land as you try to expand your own power, but you can only do so if the majority of the other political factions agree."
-blurbShort: "A [Maybe Game](/maybe-games/) about changing the law and expanding power. But you can only do so if the other politicians around the table vote the way you need."
-
+# blurb: "A [Maybe Game](/maybe-games/) about changing the law and expanding power. But you can only do so if the other politicians around the table vote the way you need."
 blurbProject: "Propose changes to the law of the land as you try to expand your own power, but you can only do so if the majority of the other political factions agree."
 weightProject: 40
 
 downloadLink: "https://drive.google.com/drive/folders/1PdgCFax2blH6ctznnxCiEX5zZk79jsvK"
 
-color: "brown"
 
 date: 2026-04-26
 
 difficulty: "regular"
-categories: ["boardgame", "card-game", "standard"]
+categories: ["board-game", "card-game", "standard"]
 genre: ["family", "thematic"]
 tags: ["voting", "income", "simultaneous-turns", "political"]
 themes: []
@@ -30,9 +27,9 @@ ages: everyone
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% boardgame-instructions /%}}
+
+
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -46,7 +43,7 @@ ages: everyone
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 The unique font for this game is **Blackwood Castle**, freely available online. Some of the illustrations are AI generated. Everything else is entirely mine.
 
@@ -58,4 +55,3 @@ For most people, I still think it's best to play the games in the order mentione
 
 For more information, check out the the [Maybe Games overview page](/maybe-games/).
 
-{{% /section-centered %}}

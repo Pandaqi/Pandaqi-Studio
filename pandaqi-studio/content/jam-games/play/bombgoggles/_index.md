@@ -1,10 +1,9 @@
 ---
-type: "gamepage"
+type: "project"
 
 title: "Bombgoggles"
-headerTitle: "Blow up your friends by finding the hidden bombs first."
+blurb: "Blow up your friends by finding the hidden bombs first."
 
-color: "red"
 
 date: 2025-12-12
 
@@ -15,6 +14,11 @@ tags: []
 themes: ["2D"]
 
 downloadLink: "http://pandaqi.itch.io/bombgoggles/"
+externalLinks:
+  - label: "Play"
+    url: "http://pandaqi.itch.io/bombgoggles/"
+    platforms: ["windows", "mac", "linux", "web"]
+    price: 0 
 
 price: 0
 platform: ["windows", "mac", "linux", "web"]
@@ -25,15 +29,11 @@ input: ["controller", "keyboard"]
 devlog: "/blog/videogames/game-jams/bombgoggles/"
 sourcecode: "https://github.com/Pandaqi/Bombgoggles/"
 
+media: [bombgoggles_screenshot_1,bombgoggles_screenshot_2,bombgoggles_screenshot_3,bombgoggles_screenshot_4,bombgoggles_screenshot_5]
+
 ---
 
-{{< videogame-intro >}}
-
-{{< buylink-container class="limit-width" >}}
-{{< buylink url="http://pandaqi.itch.io/bombgoggles/" platforms="windows,mac,linux,android" text="Play (Free)" />}} 
-{{< /buylink-container >}}
-
-{{% section-centered heading="About the Game" %}}
+## About the Game
 
 Some forgotten conflict has left countless hidden bombs underneath the surface. As well as, strangely enough, other powerups and useful things.
 
@@ -41,11 +41,7 @@ We created robots to crawl over the dangerous mud and find these things.
 
 Then, humans being humans, they turned it into a competitive sport!
 
-{{% /section-centered %}}
-
-{{% screenshot-gallery class="limit-width" urls="bombgoggles_screenshot_1,bombgoggles_screenshot_2,bombgoggles_screenshot_3,bombgoggles_screenshot_4,bombgoggles_screenshot_5" %}}
-
-{{% section-centered heading="What do I do?" %}}
+## What do I do?
 
 Bombgoggles is a **local multiplayer party game** (for 1-4 players). You are a robot that has three sensors: the closer they get to an object, the more such a sensor fills up.
 
@@ -59,9 +55,8 @@ Only your first round shows a simple tutorial image.  Any other elements, some r
 
 The game is a bit **different** between single player and multiplayer. In single player, you play against a bot and try to gather enough treasures to win *before* accidentally killing *yourself* through bombs. In multiplayer, it's more about attacking the other players.
 
-{{% /section-centered %}}
 
-{{% section-centered heading="Anything else?" %}}
+## Anything else?
 
 This is my submission for the **Mini Jam 164**. The theme was **Destruction** and the limitation **Constant Escalation**.
 
@@ -71,4 +66,3 @@ Constant Escalation is a bit more subtle. Everything in the game ramps up over t
 
 Because I barely had any time to put into this game, I built a general skeleton/template (menu->game->gameover loop) a few hours before the jam started, and used AI for the background music. Everything else was made by me and completely within the jam's timeframe.
 
-{{% /section-centered %}}

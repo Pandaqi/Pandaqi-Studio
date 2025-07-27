@@ -1,23 +1,20 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Dinoland"
-headerTitle: "Create a flourishing world of dinosaurs that avoids the asteroid as much as possible."
 blurb: "Create a flourishing world of dinosaurs that avoids the asteroid as much as possible."
-blurbShort: "Create a flourishing world of dinosaurs that avoids the asteroid as much as possible. A [Domino Diaries](/the-domino-diaries/) game."
-
+# blurb: "Create a flourishing world of dinosaurs that avoids the asteroid as much as possible. A [Domino Diaries](/the-domino-diaries/) game."
 weightProject: 10
 
 downloadLink: "https://drive.google.com/drive/folders/196ze4dYzEq7uW4gFh032UkQB32UMl847"
 
-color: "orange"
 
 date: 2025-06-26
 
 difficulty: "no-brainer"
 genres: ["family", "thematic"]
-categories: ["boardgame", "tile-game"]
+categories: ["board-game", "tile-game"]
 tags: ["bias", "domino", "shared-map", "matching", "area-control", "ownership", "textless", "turn-based", "high-score"]
 themes: ["cartoon", "animals", "nature", "textured", "prehistoric", "history"]
 
@@ -30,9 +27,9 @@ devlog: "/blog/boardgames/the-domino-diaries/dinoland/"
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% boardgame-instructions /%}}
+
+
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -49,7 +46,7 @@ devlog: "/blog/boardgames/the-domino-diaries/dinoland/"
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 The fonts used are **Cute Dino** (headings) and **Tinos** (body text). Some generative image AI was used. Everything else (code, idea, rules, illustrations) is entirely mine.
 
@@ -63,4 +60,3 @@ Because of its simplicity, I decided to also make it the most colorful, textless
 
 (And yes, as I also mentioned at the Theme Park domino game, the names of the fonts used give insight into my incredibly professional process for selecting them. I basically searched for fonts with "dino" or "dinosaurs" in their name, or something that _sounded similar_ ... such as Tinos. Of course, I still check if it's readable and looks good, but it's honestly impressive how often this just works out. You can search for the most specific or random of keywords and find a cool, thematic font just sideways of that.)
 
-{{% /section-centered %}}

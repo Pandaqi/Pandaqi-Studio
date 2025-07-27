@@ -3,14 +3,10 @@ type: "project"
 collection: "play"
 
 title: "Waitless Games"
-headerTitle: "Games you can play while waiting in line or standing up."
+# blurb: "Games you can play while waiting in line or standing up."
 blurb: "A series of simple games you can play while waiting in line, or standing up, or any other unconventional situation."
 
 downloadLink: "https://drive.google.com/drive/folders/1xu-YTqi_OCm_WmzhVhGbTQPiu0pc87TG"
-
-
-color: "turquoise"
-
 
 date: 2024-02-25
 

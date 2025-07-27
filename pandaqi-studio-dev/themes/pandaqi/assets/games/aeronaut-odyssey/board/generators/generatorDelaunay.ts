@@ -1,14 +1,6 @@
-import rangeInteger from "lib/pq-games/tools/random/rangeInteger";
+import { Vector2, range, Vector2Graph, shuffle, rangeInteger, getWeightedByIndex, d3 } from "lib/pq-games";
 import BoardState from "../boardState";
 import CONFIG from "../config";
-import Point from "lib/pq-games/tools/geometry/point";
-import range from "lib/pq-games/tools/random/range";
-// @ts-ignore
-import * as d3 from "lib/pq-games/tools/graphs/d3-delaunay@6"
-import PointGraph from "lib/pq-games/tools/geometry/pointGraph";
-import shuffle from "lib/pq-games/tools/random/shuffle";
-import getWeightedByIndex from "lib/pq-games/tools/random/getWeightedByIndex";
-import clamp from "lib/pq-games/tools/numbers/clamp";
 
 class RequiredArea
 {
@@ -25,9 +17,9 @@ class RequiredArea
         this.yMax = yMax;
     }
 
-    getRandomPointInside(marginBoard:Point, realDims:Point) : Point
+    getRandomVector2Inside(marginBoard:Vector2, realDims:Vector2) : Vector2
     {
-        return new Point(
+        return new Vector2(
             marginBoard.x + range(this.xMin, this.xMax) * realDims.x,
             marginBoard.y + range(this.yMin, this.yMax) * realDims.y
         )
@@ -37,9 +29,9 @@ class RequiredArea
 export default class GeneratorDelaunay
 {
     boardState: BoardState;
-    points: PointGraph[];
-    sizeUsable: Point;
-    marginBoard: Point;
+    points: Vector2Graph[];
+    sizeUsable: Vector2;
+    marginBoard: Vector2;
 
     constructor(bs:BoardState)
     {
@@ -51,7 +43,7 @@ export default class GeneratorDelaunay
         const cities = this.placeCities();
         const points = this.triangulate(cities);
         this.points = points;
-        this.relaxPoints(points);
+        this.relaxVector2s(points);
         return points;
     }
 
@@ -72,8 +64,8 @@ export default class GeneratorDelaunay
 
         const cities = [];
         const size = this.boardState.size;
-        const marginBoard = new Point(CONFIG.generation.outerMarginBoard);
-        const sizeUsable = new Point(size.x-2*marginBoard.x, size.y-2*marginBoard.y);
+        const marginBoard = new Vector2(CONFIG.generation.outerMarginBoard);
+        const sizeUsable = new Vector2(size.x-2*marginBoard.x, size.y-2*marginBoard.y);
 
         this.marginBoard = marginBoard;
         this.sizeUsable = sizeUsable;
@@ -81,9 +73,9 @@ export default class GeneratorDelaunay
         for(let i = 0; i < numCities; i++)
         {
             const useRequiredArea = (i < requiredAreas.length);
-            let pos:Point;
-            if(useRequiredArea) { pos = requiredAreas[i].getRandomPointInside(marginBoard, sizeUsable); }
-            else { pos = this.getValidPoint(cities, marginBoard, sizeUsable) }
+            let pos:Vector2;
+            if(useRequiredArea) { pos = requiredAreas[i].getRandomVector2Inside(marginBoard, sizeUsable); }
+            else { pos = this.getValidVector2(cities, marginBoard, sizeUsable) }
             
             if(this.boardState.forbiddenAreas.pointIsInside(pos)) { i--; continue; }
             
@@ -93,21 +85,21 @@ export default class GeneratorDelaunay
         return cities;
     }
 
-    getValidPoint(list:Point[], marginBoard: Point, sizeUsable:Point)
+    getValidVector2(list:Vector2[], marginBoard: Vector2, sizeUsable:Vector2)
     {
-        let pos:Point;
+        let pos:Vector2;
         let badPos = false;
         let numTries = 0;
         const maxTries = 100;
         do {
-            pos = marginBoard.clone().add(new Point(Math.random(), Math.random()).scale(sizeUsable));
+            pos = marginBoard.clone().add(new Vector2(Math.random(), Math.random()).scale(sizeUsable));
             badPos = this.getDistToClosest(pos, list) < this.getMinDistance();
             numTries++;
         } while(badPos && numTries <= maxTries);
         return pos;
     }
 
-    getDistToClosest(pos:Point, list:Point[])
+    getDistToClosest(pos:Vector2, list:Vector2[])
     {
         let closestDist = Infinity;
         for(const point of list)
@@ -118,15 +110,15 @@ export default class GeneratorDelaunay
         return closestDist;
     }
 
-    triangulate(cities:Point[])
+    triangulate(cities:Vector2[])
     {
         // delaunay library needs points in [x,y],[x,y] format
         const delaunayList = [];
-        const citiesGraph : PointGraph[] = [];
+        const citiesGraph : Vector2Graph[] = [];
         for(const city of cities)
         {
             delaunayList.push([city.x, city.y]);
-            citiesGraph.push(new PointGraph(city.x, city.y));
+            citiesGraph.push(new Vector2Graph(city.x, city.y));
         }
 
         const delaunay = d3.Delaunay.from(delaunayList);
@@ -162,14 +154,14 @@ export default class GeneratorDelaunay
         let connsToRemove = 2*numConnections - numIdealConnections;
         if(!CONFIG.generation.reduceConnectivityAfterTriangulation) { connsToRemove = 0; }
 
-        const minConnsPerPoint = Math.round(CONFIG.generation.minConnectionsPerPoint.lerp(CONFIG.boardClarityNumber));
+        const minConnsPerVector2 = Math.round(CONFIG.generation.minConnectionsPerVector2.lerp(CONFIG.boardClarityNumber));
         const citiesThatCanLoseConnections = [];
         for(let i = citiesGraph.length-1; i >= 0; i--)
         {
             const city = citiesGraph[i];
             const numConns = city.countConnections();
             if(numConns == 0) { citiesGraph.splice(i, 1); continue; }
-            if(numConns <= minConnsPerPoint) { continue; }
+            if(numConns <= minConnsPerVector2) { continue; }
             if(this.cityNearCenter(city)) { continue; }
 
             citiesThatCanLoseConnections.push(city);
@@ -185,22 +177,22 @@ export default class GeneratorDelaunay
             if(citiesThatCanLoseConnections.length <= 0) { break; }
 
             citiesThatCanLoseConnections.sort((a,b) => {
-                return b.getConnectionsByPoint().length - a.getConnectionsByPoint().length
+                return b.getConnectionsByVector2().length - a.getConnectionsByVector2().length
             })
 
             let randIdx = getWeightedByIndex(citiesThatCanLoseConnections, true);
 
             const city = citiesThatCanLoseConnections[randIdx];
             const randConnIdx = rangeInteger(0, city.countConnections()-1);
-            const conn = city.getConnectionPointByIndex(randConnIdx);
-            if(conn.countConnections() <= minConnsPerPoint) { continue; }
+            const conn = city.getConnectionVector2ByIndex(randConnIdx);
+            if(conn.countConnections() <= minConnsPerVector2) { continue; }
 
             city.removeConnectionByIndex(randConnIdx);
             connsRemoved++;
 
             // ugly boards usually remove too many points from one city
             // so just remove use from the list once we get low
-            if(city.countConnections() <= minConnsPerPoint + 2) 
+            if(city.countConnections() <= minConnsPerVector2 + 2) 
             {
                 citiesThatCanLoseConnections.splice(citiesThatCanLoseConnections.indexOf(city), 1);
             }
@@ -209,12 +201,12 @@ export default class GeneratorDelaunay
         return citiesGraph;
     }
 
-    cityNearCenter(city:PointGraph, factor = 1.0)
+    cityNearCenter(city:Vector2Graph, factor = 1.0)
     {
         const size = this.boardState.size;
         const halfDims = size.clone().scale(0.5);
         const maxDist = size.clone().scale(CONFIG.generation.centerBoxScale);
-        const manhattanDist = new Point(city.x - halfDims.x, city.y - halfDims.y).abs();
+        const manhattanDist = new Vector2(city.x - halfDims.x, city.y - halfDims.y).abs();
         if(manhattanDist.x < maxDist.x && manhattanDist.y < maxDist.y) { return true; }
         return false;
     }
@@ -229,7 +221,7 @@ export default class GeneratorDelaunay
         return 2*CONFIG.generation.cityRadius + this.boardState.maxBlocksPerRoute;
     }
 
-    connectionIsValid(p1:PointGraph, p2:PointGraph)
+    connectionIsValid(p1:Vector2Graph, p2:Vector2Graph)
     {
         if(p1.isConnectedTo(p2) || p2.isConnectedTo(p1)) { return false; }
 
@@ -258,9 +250,9 @@ export default class GeneratorDelaunay
         return true;
     }
     
-    relaxPoints(points:PointGraph[])
+    relaxVector2s(points:Vector2Graph[])
     {
-        if(!CONFIG.generation.relaxPoints) { return points; }
+        if(!CONFIG.generation.relaxVector2s) { return points; }
 
         const numIterations = CONFIG.generation.numRelaxIterations;
 
@@ -275,7 +267,7 @@ export default class GeneratorDelaunay
             // intialize all points to not move
             for(const p1 of points)
             {
-                p1.metadata.offset = new Point();
+                p1.metadata.offset = new Vector2();
             }
 
             // now check influence on (and from) surroundings

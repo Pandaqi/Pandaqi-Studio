@@ -1,15 +1,8 @@
 import BoardState from "./boardState";
 import CONFIG from "./config";
 import Trajectory from "./trajectory";
-import Rectangle from "lib/pq-games/tools/geometry/rectangle";
-import Point from "lib/pq-games/tools/geometry/point";
-import fromArray from "lib/pq-games/tools/random/fromArray";
 import { BONUSES } from "./dict";
-import getWeighted from "lib/pq-games/tools/random/getWeighted";
-import range from "lib/pq-games/tools/random/range";
-import PointGraph from "lib/pq-games/tools/geometry/pointGraph";
-import shuffle from "lib/pq-games/tools/random/shuffle";
-import rangeInteger from "lib/pq-games/tools/random/rangeInteger";
+import { Rectangle, range, Vector2, Vector2Graph, rangeInteger, shuffle, fromArray, getWeighted } from "lib/pq-games";
 
 export default class Trajectories
 {
@@ -32,10 +25,10 @@ export default class Trajectories
         const mult = CONFIG.generation.numTrajectoryMultipliers[CONFIG.boardSize];
         const numTrajectories = Math.round(range(CONFIG.generation.numTrajectoryBounds) * mult);
         const trajectorySize = CONFIG.generation.trajectorySize; // relative to block size
-        const size = trajectorySize.clone().scale(new Point(1, numTrajectories));
+        const size = trajectorySize.clone().scale(new Vector2(1, numTrajectories));
         this.num = numTrajectories;
 
-        const offsetFromCorner = CONFIG.generation.calculatedTrajectoryRectOffset ?? new Point(0.125, 0.125);
+        const offsetFromCorner = CONFIG.generation.calculatedTrajectoryRectOffset ?? new Vector2(0.125, 0.125);
         const fullPageDims = this.boardState.size;
         const anchor = fullPageDims.clone().sub(offsetFromCorner);
 
@@ -44,11 +37,11 @@ export default class Trajectories
         this.boardState.forbiddenAreas.add(rect); 
     }
 
-    getMaxPointDistance(points:PointGraph[])
+    getMaxPointDistance(points:Vector2Graph[])
     {
         // first establish maximum distance, so we know what "small" / "medium" / "large" mean
         let maxDist = 0;
-        let extremePoints = [null,null];
+        let extremeVector2s = [null,null];
         for(const p1 of points)
         {
             for(const p2 of points)
@@ -56,20 +49,20 @@ export default class Trajectories
                 const dist = p1.distTo(p2);
                 if(dist > maxDist)
                 {
-                    extremePoints = [p1, p2];
+                    extremeVector2s = [p1, p2];
                     maxDist = dist;
                 }
             }
         }
 
-        const tempTraj = new Trajectory(extremePoints[0], extremePoints[1]);
+        const tempTraj = new Trajectory(extremeVector2s[0], extremeVector2s[1]);
         const maxDistPathFind = tempTraj.getPathFindBlockLength();
         return { maxDist, maxDistPathFind };
     }
 
-    createPointDistanceLookup(points:PointGraph[], maxDist:number)
+    createPointDistanceLookup(points:Vector2Graph[], maxDist:number)
     {
-        const map : Map<PointGraph, any> = new Map();
+        const map : Map<Vector2Graph, any> = new Map();
 
         // now bucket everything according to that
         for(const p1 of points)
@@ -129,7 +122,7 @@ export default class Trajectories
 
             if(possibleDestinations.length <= 0) { continue; }
             
-            const p2 = fromArray(possibleDestinations);
+            const p2 : Vector2Graph = fromArray(possibleDestinations);
             const traj = new Trajectory(p1, p2);
             if(!traj.isValid()) { continue; }
             if(traj.matchesAny(trajectories)) { continue; }

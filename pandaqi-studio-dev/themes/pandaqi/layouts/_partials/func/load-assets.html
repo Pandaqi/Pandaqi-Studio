@@ -1,6 +1,6 @@
 {{ $url := .RelPermalink }}
-{{ $url_prefixed := printf "games/%s" $url }}
-{{ $url_js_direct := printf "%s.ts" (trim $url_prefixed "/") $url_prefixed }}
+{{ $url_prefixed := printf "games%s" $url }}
+{{ $url_js_direct := printf "%s.ts" (trim $url_prefixed "/") }}
 {{ $res := resources.Get $url_js_direct }} <!--- /gamename/game/ => /gamename/game.ts --->
 
 {{ if not $res }}

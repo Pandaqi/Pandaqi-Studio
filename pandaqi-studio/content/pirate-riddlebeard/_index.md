@@ -1,13 +1,11 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Pirate Riddlebeard"
-headerTitle: "Be the first to find the secret location of the treasure!"
 blurb: "A One Paper Game for 1-6 pirates about discovering all the secret hints leading to the treasure."
 
 
-color: "purple"
 
 
 
@@ -15,7 +13,7 @@ date: 2022-06-02
 
 difficulty: "simple"
 genres: ["puzzle"]
-categories: ["boardgame", "hybrid-game", "one-paper-game"]
+categories: ["board-game", "hybrid-game", "one-paper-game"]
 tags: ["deduction", "turn-based", "logic"]
 themes: ["pirate"]
 downloadLink: "https://drive.google.com/drive/folders/1GXtqwg9tsK57zDzmiumtdtlgn3NeAHuF"
@@ -30,10 +28,10 @@ devlog: "/blog/boardgames/the-pirate-games/devlog-pirate-riddlebeard/"
 ---
 
 
-{{% boardgame-intro /%}}
+
 
 <!-- Introduction + explanation text -->
-{{% section-centered heading="What's the idea?" %}}
+## What's the idea?
 
 Pirate Riddlebeard hid a treasure in one square of the map. He left behind a set of unique hints leading to it.
 
@@ -41,9 +39,8 @@ But each player only receives part of that list! Figure out what the other pirat
 
 Find the treasure before the others!
 
-{{% /section-centered %}}
 
-{{% section-centered heading="What do I need?" %}}
+## What do I need?
 
 Three steps.
 * Read the rules. (Click the "Download" button. Base game is two pages.)
@@ -54,7 +51,6 @@ Three steps.
 
 **Offline version?** Also available in the rulebook.
 
-{{% /section-centered %}}
 
 {{% boardgame-settings-container type="game" %}}
 
@@ -83,9 +79,8 @@ Three steps.
 
 {{% /boardgame-settings-container %}}
 
-{{< support >}}
 
-{{% section-centered heading="Credits" %}}
+## Credits
 
 **Fonts?** _Chelsea Market_ for headings, _Charis SIL_ for text, freely available on Google Fonts.
 
@@ -97,4 +92,3 @@ Want to know how I made that? I've written articles!
 - [How to create logic deduction (board)games](/blog/tutorials/deduction-boardgames-part-1-passive)
 - [(Devlog) Pirate Riddlebeard](/blog/boardgames/the-pirate-games/devlog-pirate-riddlebeard)
 
-{{% /section-centered %}}

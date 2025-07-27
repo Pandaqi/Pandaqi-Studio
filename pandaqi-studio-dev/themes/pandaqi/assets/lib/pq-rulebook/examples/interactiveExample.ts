@@ -1,16 +1,15 @@
-import OutputBuilder from "./outputBuilder"
-import Random from "js/pq_games/tools/random/main"
-import RulesSettings from "./rulesSettings";
+import { rangeInteger, shuffle } from "lib/pq-games";
+import { OutputBuilder } from "./outputBuilder"
+import { RulesSettings } from "./rulesSettings";
 
-interface InteractiveExampleParams
+export interface InteractiveExampleParams
 {
     id: string,
     buttonText?: string,
     className?: string,
 }
 
-export { InteractiveExampleParams }
-export default class InteractiveExample 
+export class InteractiveExample 
 {
     id: string;
     className: string;
@@ -126,7 +125,7 @@ export default class InteractiveExample
 
     getNumPlayers(min, max)
     {
-        return Random.rangeInteger(min, max);
+        return rangeInteger(min, max);
     }
 
     getNamesAlphabetical(num)
@@ -141,7 +140,7 @@ export default class InteractiveExample
 
     getRandomFromList(list, num)
     {
-        return Random.shuffle(list).slice(0, num);
+        return shuffle(list).slice(0, num);
     }
 
     

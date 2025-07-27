@@ -1,12 +1,11 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Smackshapes"
-headerTitle: "Have the sharpest mind of all and quickly count how often all shapes appear, so you can smash the winning card first!"
+blurb: "Have the sharpest mind of all and quickly count how often all shapes appear, so you can smash the winning card first!"
 weightProject: 20
 
-color: "yellow"
 
 downloadLink: "https://drive.google.com/drive/folders/1dvo3QDYhFrpa6slVb8h7Z4nxVO-uto05"
 
@@ -14,7 +13,7 @@ date: 2025-07-26
 
 difficulty: "no-brainer"
 genres: ["action", "party", "abstract"]
-categories: ["boardgame", "card-game"]
+categories: ["board-game", "card-game"]
 tags: ["simultaneous-turns", "fast-paced", "numbers", "high-score"]
 themes: ["colorful"]
 
@@ -27,9 +26,9 @@ devlog: "/blog/boardgames/swiftsmash-saga/smackshapes/"
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% boardgame-instructions /%}}
+
+
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -42,7 +41,7 @@ devlog: "/blog/boardgames/swiftsmash-saga/smackshapes/"
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 The fonts used are **Mouse Memoirs** (headings) and **Manuscript** (body text). Everything else is mine.
 
@@ -54,4 +53,3 @@ Well, this game _is_ that simpler version! I took all the lessons from Cookie Sm
 
 And with the creation of this game, I finally had _multiple games_ with this mechanic and could call it a series: the SwiftSmash Saga.
 
-{{% /section-centered %}}

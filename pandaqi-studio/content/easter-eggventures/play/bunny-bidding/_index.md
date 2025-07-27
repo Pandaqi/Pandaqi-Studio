@@ -1,23 +1,20 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Bunny Bidding"
-headerTitle: "Snatch the best offers containing the one secret egg that scores you points."
 blurb: "Play rounds adding cards to the secret offer and bidding on it. But use your highest value cards wisely, because only ONE type of egg actually scores you points in the end!"
-blurbShort: "An [Easter Eggventures](/easter-eggventures/) game about winning auctions that contain your secret point-scoring egg, and strategically losing all the others."
-
+# blurb: "An [Easter Eggventures](/easter-eggventures/) game about winning auctions that contain your secret point-scoring egg, and strategically losing all the others."
 blurbProject: "Snatch the best offers containing the secret eggs that actually score you points."
 weightProject: 40
 
 downloadLink: "https://drive.google.com/drive/folders/15E5czi0s4g4Nua22HvMPB3j7DNGgOz0p"
 
-color: "pink"
 
 date: 2025-03-26
 
 difficulty: "simple"
-categories: ["boardgame", "tile-game", "standard"]
+categories: ["board-game", "tile-game", "standard"]
 genre: ["family"]
 tags: ["bidding", "auction", "secret-objective", "numbers", "simultaneous-turns"]
 themes: ["colorful", "holiday"]
@@ -30,9 +27,9 @@ ages: everyone
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% boardgame-instructions /%}}
+
+
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -46,9 +43,8 @@ ages: everyone
 
 {{% /boardgame-settings-container %}}
 
-{{< support >}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 As stated, this game is part of the Easter Eggventures project. It shares the fonts, style, and origins with all other games in the project. As such, for more information, check out the [Easter Eggventures overview page](/easter-eggventures/).
 
@@ -58,4 +54,3 @@ Then I made it, tested it, tested it again, and the simple rules just didn't cre
 
 This made the game one of the more difficult ones to learn and grasp in the end. Not because it has a lot of rules, no, but because those rules are very exact and almost ... mathematical?
 
-{{% /section-centered %}}

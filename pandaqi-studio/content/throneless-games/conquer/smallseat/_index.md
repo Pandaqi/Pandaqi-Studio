@@ -1,26 +1,23 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Smallseat"
-headerTitle: "Make sure the right Animal gets the throne, playable without a table or chairs"
 blurb: "Vote, swap places and use powers to ensure the right Animal gets the throne. A game playable without a table or chairs."
-blurbShort: "A [Throneless Game](/throneless-games/) about helping your Animal win the throne, aimed more at kids."
-
+# blurb: "A [Throneless Game](/throneless-games/) about helping your Animal win the throne, aimed more at kids."
 blurbProject: "The most simplified and streamlined version, with a visual style more attractive to kids."
 weightProject: 10
 
 downloadLink: "https://drive.google.com/drive/folders/1Q5I2VAXnGEC268x5If10e_Gpjed3vDxj"
 
 
-color: "black"
 
 
 date: 2024-11-12
 
 difficulty: "kids-can-play"
 genres: ["thematic"]
-categories: ["boardgame", "waitless-game", "card-game", "standard"]
+categories: ["board-game", "waitless-game", "card-game", "standard"]
 tags: ["political", "follow", "social", "fast-paced"]
 themes: ["medieval"]
 
@@ -32,11 +29,7 @@ ages: everyone
 
 ---
 
-{{% boardgame-intro /%}}
-
-{{% boardgame-instructions %}}
 The cards contain text. However, this text is simple and consistent ( = the same for each card of that animal), so you can explain them beforehand if some players can't read (English).
-{{% /boardgame-instructions %}}
 
 {{% boardgame-settings-container type="material" remarks="Check the rules to see **how many Animals** are recommended for each player count. Each choice adds ~1 page to print." %}}
 
@@ -61,7 +54,7 @@ The cards contain text. However, this text is simple and consistent ( = the same
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 Check out the main overview page for [Throneless Games](/throneless-games/) for more detailed credits and background.
 
@@ -76,4 +69,3 @@ So what's different in this version?
 * Both of these things simplify setup and gameplay even more, at the slight cost of the action text usually requiring a few more words.
 * The graphic design is cuter and more aimed at kids.
 
-{{% /section-centered %}}

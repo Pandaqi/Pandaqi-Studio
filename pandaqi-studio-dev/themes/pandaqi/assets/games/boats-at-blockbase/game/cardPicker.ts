@@ -1,6 +1,6 @@
-import fromArray from "lib/pq-games/tools/random/fromArray";
-import CONFIG from "../js_shared/config";
-import { CardMovement, CardType, MOVEMENT_CARDS, MOVEMENT_SPECIAL } from "../js_shared/dict";
+import { fromArray } from "lib/pq-games";
+import CONFIG from "../shared/config";
+import { CardMovement, CardType, MOVEMENT_CARDS, MOVEMENT_SPECIAL } from "../shared/dict";
 import Card from "./card";
 
 export default class CardPicker

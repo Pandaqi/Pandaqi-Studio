@@ -1,17 +1,8 @@
-import createContext from "lib/pq-games/layout/canvas/createContext";
-import fillCanvas from "lib/pq-games/layout/canvas/fillCanvas";
-import { CardType } from "../js_shared/dictShared";
-import ResourceGroup from "lib/pq-games/layout/resources/resourceGroup";
-import LayoutOperation from "lib/pq-games/layout/layoutOperation";
-import Point from "lib/pq-games/tools/geometry/point";
-import { MATERIAL, MISC, TEMPLATES } from "../js_shared/dict";
-import TextConfig from "lib/pq-games/layout/text/textConfig";
-import ResourceText from "lib/pq-games/layout/resources/resourceText";
-import StrokeAlign from "lib/pq-games/layout/values/strokeAlign";
-import cardDrawerNaivigation from "../js_shared/cardDrawerNaivigation";
-import MaterialNaivigation from "../js_shared/materialNaivigation";
-import DropShadowEffect from "lib/pq-games/layout/effects/dropShadowEffect";
-import MaterialVisualizer from "lib/pq-games/tools/generation/materialVisualizer";
+import { CardType } from "../shared/dictShared";
+import { MATERIAL, MISC } from "../shared/dict";
+import { MaterialVisualizer, ResourceGroup, LayoutOperation, Vector2, TextConfig, ResourceText, DropShadowEffect, StrokeAlign } from "lib/pq-games";
+import cardDrawerNaivigation from "../shared/cardDrawerNaivigation";
+import MaterialNaivigation from "../shared/materialNaivigation";
 
 export default class Card extends MaterialNaivigation
 {
@@ -39,7 +30,7 @@ export default class Card extends MaterialNaivigation
         const resSprite = vis.getResource("icons_shared");
         const spriteOp = new LayoutOperation({
             frame: tempData.frameIcon,
-            size: new Point(vis.sizeUnit),
+            size: new Vector2(vis.sizeUnit),
             effects: vis.inkFriendlyEffect
         })
         subGroup.add(resSprite, spriteOp);
@@ -57,18 +48,18 @@ export default class Card extends MaterialNaivigation
 
         const text = this.customData.num.toString();
         const resText = new ResourceText({ text: text, textConfig: textConfig });
-        const eff = new DropShadowEffect({ color: "#000000AA", offset: new Point(0, 0.125*textConfig.size) });
+        const eff = new DropShadowEffect({ color: "#000000AA", offset: new Vector2(0, 0.125*textConfig.size) });
 
         for(const textPos of textPositions)
         {
             const textOp = new LayoutOperation({
                 pos: textPos,
-                size: new Point(0.5*vis.sizeUnit), 
+                size: new Vector2(0.5*vis.sizeUnit), 
                 fill: "#000000",
                 stroke: "#FFFFFF",
                 strokeWidth: vis.get("cards.instruction.strokeWidth"),
                 strokeAlign: StrokeAlign.OUTSIDE,
-                pivot: Point.CENTER,
+                pivot: Vector2.CENTER,
                 effects: [eff]
             });
             subGroup.add(resText, textOp);
@@ -76,7 +67,7 @@ export default class Card extends MaterialNaivigation
 
         // place it twice (one top, one bottom)
         group.add(subGroup);
-        const op = new LayoutOperation({ pos: new Point(0, vis.center.y) })
+        const op = new LayoutOperation({ pos: new Vector2(0, vis.center.y) })
         group.add(subGroup, op);
     }
 
@@ -88,7 +79,7 @@ export default class Card extends MaterialNaivigation
             frame: this.getTemplateData().frameIcon,
             size: vis.get("cards.compass.size"),
             effects: vis.inkFriendlyEffect,
-            pivot: Point.CENTER
+            pivot: Vector2.CENTER
         })
         group.add(resSprite, spriteOp);
     }

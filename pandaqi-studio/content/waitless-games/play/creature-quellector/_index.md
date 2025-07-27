@@ -1,24 +1,20 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Creature Quellector"
-headerTitle: "A game you can play while standing in line, about collecting and battling creatures"
 blurb: "Choose your battles wisely and build the strongest hand of magical creatures. A waitless game, playable without table, chairs, or loads of material."
-blurbShort: "Pick your battles wisely to design the best squad of cute creatures."
-
+# blurb: "Pick your battles wisely to design the best squad of cute creatures."
 blurbProject: "Design the best squad of _creature cards_ by winning or tactically losing battles against your opponent's hands."
 
-customHeight: "large"
 
-color: "brown"
 
 
 date: 2024-02-25
 
 difficulty: "kids-can-play"
 genres: ["family"]
-categories: ["boardgame", "card-game", "waitless-game", "standard"]
+categories: ["board-game", "card-game", "waitless-game", "standard"]
 tags: ["set-collecting", "battle", "hidden-score", "modular", "turn-based"]
 themes: ["colorful", "monsters"]
 
@@ -34,11 +30,7 @@ devlog: "/blog/boardgames/waitless-games/creature-quellector/"
 
 ---
 
-{{% boardgame-intro /%}}
-
-{{% boardgame-instructions %}}
 Any single PDF is fine, actually. Pick the one with the four elements or colors you like the most!
-{{% /boardgame-instructions %}}
 
 {{% boardgame-settings-container type="material" remarks="**Creature names** are randomly generated from a huge list of words and phrases. This means there might be 'unfortunate' combinations to some people, such as 'childkill', which I just can't prevent. I hope we can all see the humor in silly random names!" %}}
 
@@ -54,7 +46,7 @@ Any single PDF is fine, actually. Pick the one with the four elements or colors 
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Waitless Games?" %}}
+## Waitless Games?
 
 This game is part of a genre I invented which I call "waitless games" or "queuing games".
 
@@ -67,11 +59,9 @@ What does that mean?
 
 In other words, take this game with you wherever you go. Whenever you have to wait for something, stand in line, have some downtime ... play it!
 
-{{% /section-centered %}}
 
-{{< support >}}
 
-{{% section-centered heading="Credits" %}}
+## Credits
 
 This game started when I had a discussion with somebody about how _annoying_ it is to _wait_ and do _nothing_! Especially in theme parks, where waiting might mean "standing for 2 hours doing nothing in a tight space".
 
@@ -90,7 +80,6 @@ Obviously, the aesthetic and rules were very much inspired by Pokémon (and simi
 
 For a detailed diary about the game, check out the [devlog](/blog/boardgames/waitless-games/creature-quellector/).
 
-{{% /section-centered %}}
 
 <!--- Loads a random element-related theme for the whole page --->
 <script>

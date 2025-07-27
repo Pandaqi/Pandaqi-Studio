@@ -1,20 +1,18 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Death by Digits"
-headerTitle: "Be a math detective and guess the missing numbers."
 blurb: "Be a math detective and guess the missing numbers that are in nobody's hand."
 
 downloadLink: "https://drive.google.com/drive/folders/1tB1Lfp1zUNvR8ARU9d1quTG3EGq9H5fv"
 
-color: "black"
 invert: true
 
 date: 2025-12-26
 
 difficulty: "kids-can-play"
-categories: ["boardgame", "card-game", "standard"]
+categories: ["board-game", "card-game", "standard"]
 genre: ["family"]
 tags: ["deduction", "detective", "memory", "numbers", "patterns", "textless", "turn-based", "guessing", "variable-setup"]
 themes: ["textured", "espionage"]
@@ -28,11 +26,7 @@ devlog: "/blog/boardgames/death-by-digits/"
 
 ---
 
-{{% boardgame-intro /%}}
-
-{{% boardgame-instructions %}}
 The base game is simple enough to play with young kids that can do simple math (with low numbers). Only the expansion (included in the base material) has text on the cards and some more complicated effects.
-{{% /boardgame-instructions %}}
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -41,7 +35,7 @@ The base game is simple enough to play with young kids that can do simple math (
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 The fonts used are **JSL Ancient** (body text) and **Requiem** (headings). Everything else (idea, code, rules, assets, etcetera) is mine.
 
@@ -49,4 +43,3 @@ I'd been bouncing around an idea about a "murder by numbers" game for a while. Y
 
 Until I played a few card games that are based around (unknown) numbers too, which gave me the final push on how to approach this game! I quickly finalized the rules, prototyped it, and then I _finally_ had my "Death by Digits" game about guessing the missing numbers :)
 
-{{% /section-centered %}}

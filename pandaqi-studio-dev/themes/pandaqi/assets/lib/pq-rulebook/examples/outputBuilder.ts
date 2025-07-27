@@ -1,4 +1,4 @@
-export default class OutputBuilder
+export class OutputBuilder
 {
     node: HTMLElement;
 

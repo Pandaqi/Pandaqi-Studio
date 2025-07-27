@@ -1,23 +1,19 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "The Mist"
-headerTitle: "Explore an area covered in mist and discover the right path"
 blurb: "A Mist covers the world. Each area might be a warm fire, or a trap, or a portal---you decide, but do so wisely."
-blurbShort: "A [One Paper Game](/boardgames#one_paper_games) about exploring a world where each square is multiple things at once---until you step onto it."
-
+# blurb: "A [One Paper Game](/boardgames#one_paper_games) about exploring a world where each square is multiple things at once---until you step onto it."
 downloadLink: "https://drive.google.com/drive/folders/1yy2JZhtm1iiTvff9o3kyOf0sXtMQjF_f"
 
-customHeight: "large"
 
-color: "brown"
 
 date: 2025-01-26
 
 difficulty: "no-brainer"
 genres: ["family", "thematic"]
-categories: ["boardgame", "one-paper-game"]
+categories: ["board-game", "one-paper-game"]
 tags: ["shared-map", "movement"]
 themes: ["fantasy"]
 
@@ -29,10 +25,6 @@ ages: everyone
 devlog: "/blog/boardgames/the-mist/"
 
 ---
-
-{{% boardgame-intro /%}}
-
-{{% boardgame-instructions ruleless="true" /%}}
 
 {{% boardgame-settings-container type="board" %}}
 
@@ -48,9 +40,8 @@ devlog: "/blog/boardgames/the-mist/"
 
 {{% /boardgame-settings-container %}}
 
-{{< support >}}
 
-{{% section-centered heading="Credits" %}}
+## Credits
 
 The fonts used are **Adventure Script** (headings) and **Inika** (body). Both freely available. Some of the art was generated with AI. Everything else (code, assets, idea, etcetera) is entirely mine.
 
@@ -64,4 +55,3 @@ While obviously not on the same level as Chess or Go, I do compare its general f
 
 I sometimes feel like those games aren't so much "designed" as that they are "found". This feels like a game that was always there, I just found it and hopefully executed it well enough :)
 
-{{% /section-centered %}}

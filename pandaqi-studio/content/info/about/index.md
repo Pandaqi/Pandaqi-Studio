@@ -4,7 +4,7 @@ blurb: "About me, what I do, and what you can expect from this game studio."
 type: "infopage"
 data: 2015-01-01
 noHeader: true
-noThumb: true
+
 ---
 
 {{< custom-entry-banner id="0" title="Buenos Dias!" bg="pandaqi_bg" thumb="pandaqi_logo" class="orange" >}}

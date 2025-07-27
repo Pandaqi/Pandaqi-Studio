@@ -1,10 +1,9 @@
 ---
-type: "gamepage"
+type: "project"
 
 title: "Bot Bouldering"
-headerTitle: "Guide your robot to the top of the mountain by drawing to-scale instructions on a piece of paper."
+blurb: "Guide your robot to the top of the mountain by drawing to-scale instructions on a piece of paper."
 
-color: "brown"
 
 date: 2025-12-12
 
@@ -15,6 +14,11 @@ tags: []
 themes: ["2D"]
 
 downloadLink: "http://pandaqi.itch.io/bot-bouldering/"
+externalLinks:
+  - label: "Play"
+    url: "http://pandaqi.itch.io/bot-bouldering/"
+    platforms: ["windows", "mac", "linux", "web"]
+    price: 0 
 
 price: 0
 platform: ["windows", "mac", "linux", "web"]
@@ -25,15 +29,9 @@ input: ["controller", "keyboard", "touch"]
 devlog: "/blog/videogames/game-jams/bot-bouldering/"
 sourcecode: "https://github.com/Pandaqi/gmtk-jam-2024/"
 
+media: [sc1,sc2,sc3,sc4]
+
 ---
-
-{{< videogame-intro >}}
-
-{{< buylink-container class="limit-width" >}}
-{{< buylink url="http://pandaqi.itch.io/bot-bouldering/" platforms="windows,mac,linux,android" text="Play (Free)" />}} 
-{{< /buylink-container >}}
-
-{{% section-centered heading="About the Game" %}}
 
 A challenge awaits. A mountain to be climbed, a wall to be scaled. But your robot won't do anything without your input, of course!
 
@@ -43,11 +41,7 @@ With every mountain conquered ... a bigger one awaits with more special pencils,
 
 Have fun!
 
-{{% /section-centered %}}
-
-{{% screenshot-gallery class="limit-width" urls="sc1,sc2,sc3,sc4" %}}
-
-{{% section-centered heading="How to play?" %}}
+## How to play?
 
 The game has a nice tutorial that explains everything. Just to be sure, here's a reminder:
 
@@ -57,9 +51,7 @@ The game has a nice tutorial that explains everything. Just to be sure, here's a
 * **Collect all stars and arrive at the finish**, roughly at the end of your drawn lines, to beat the level.
 If not, you simply **lose a life**, but retry from where you are. (If you go out of bounds, you fall off the mountain, and retry from the bottom or hope some obstacle catches you.)
 
-{{% /section-centered %}}
-
-{{% section-centered heading="Anything else?" %}}
+## Anything else?
 
 This game is my submission for **GMTK Jam 2024** which had the theme **Built to Scale**. Basically everything went wrong this time (first three ideas weren't fun/possible at all, then I got sick, then my computer crashed), so I'm just glad I submitted *something*! 
 
@@ -67,5 +59,4 @@ This idea also changed completely like 3 times and I'm certain that the majority
 
 For example, the stars were introduced to not make it "too easy" (it was just a straight line to the finish at first) ... but now that we have different obstacles and pencils and the rule of "finish at the right time", the game is hard enough as it is and the stars could probably go away. Oh well.
 
-{{% /section-centered %}}
 

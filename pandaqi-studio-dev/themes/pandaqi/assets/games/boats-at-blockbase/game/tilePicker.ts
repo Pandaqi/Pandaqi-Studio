@@ -1,8 +1,7 @@
-import fromArray from "lib/pq-games/tools/random/fromArray";
-import CONFIG from "../js_shared/config";
-import { CardMovement, CardType, FishType, MOVEMENT_SPECIAL, TILE_ACTIONS, TileAction } from "../js_shared/dict";
+import { shuffle } from "lib/pq-games";
+import CONFIG from "../shared/config";
+import { CardType, FishType, TILE_ACTIONS, TileAction } from "../shared/dict";
 import Card from "./card";
-import shuffle from "lib/pq-games/tools/random/shuffle";
 
 export default class TilePicker
 {

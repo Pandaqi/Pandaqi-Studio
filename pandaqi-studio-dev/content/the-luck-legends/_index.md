@@ -3,12 +3,10 @@ type: "project"
 collection: "roll"
 
 title: "The Luck Legends"
-headerTitle: "A series of unfortunate games."
+# blurb: "A series of unfortunate games."
 blurb: "A series of games where you roll dice, create custom dice, the map is made of dice, or any other lucky mechanic using dice decks."
 
 downloadLink: "https://drive.google.com/drive/folders/1Dp3anjWLbrJVVznUVE14vxCiezfk6VXu"
-
-color: "brown"
 
 date: 2025-11-26
 

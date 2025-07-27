@@ -1,23 +1,21 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Chaos Contract"
-headerTitle: "Enter Chaos Contracts with other lost souls and place the difference between major rewards and huge curses on a single dice roll."
 blurb: "Enter Chaos Contracts with other lost souls and place the difference between major rewards and huge curses on a single dice roll."
 
 weightProject: 30
 
 downloadLink: "https://drive.google.com/drive/folders/1uw-nB4F36NqM6XUbVqXUyemRKPAwjDLJ"
 
-color: "purple"
 fontSizeBase: 17
 
 date: 2025-11-26
 
 difficulty: "simple"
 genres: ["family", "thematic"]
-categories: ["boardgame", "card-game"]
+categories: ["board-game", "card-game"]
 tags: ["chance", "dice", "contracts", "turn-based", "numbers", "high-score"]
 themes: ["mythology"]
 
@@ -30,9 +28,9 @@ devlog: "/blog/boardgames/the-luck-legends/chaos-contract/"
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% boardgame-instructions /%}}
+
+
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -46,7 +44,7 @@ devlog: "/blog/boardgames/the-luck-legends/chaos-contract/"
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 The fonts used are **Celexa** (headings) and **Quixotte** (body text). Everything else is mine.
 
@@ -56,4 +54,3 @@ That's why I eventually moved this game a bit further into the project. I create
 
 And as I worked more on it, the title _Chaos Contract_ came to me, and the theme slowly shifted to something like "making a deal with the devil". Every turn, you try to succeed at some improbable challenge by rolling dice, and you'll often take other players with you in the fall---or success, of course.
 
-{{% /section-centered %}}

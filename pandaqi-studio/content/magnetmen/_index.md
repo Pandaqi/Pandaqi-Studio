@@ -1,21 +1,18 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Magnetmen"
-headerTitle: "Score the most points before everyone repels you"
 blurb: "The Magnetmen are magical robots, scoring points left and right. The only issue? The more you use them, the more spaces from which you're repelled."
-blurbShort: "A [One Paper Game](/boardgames#one_paper_games) about scoring points before the Magnetmen repel you from the entire board!"
-
+# blurb: "A [One Paper Game](/boardgames#one_paper_games) about scoring points before the Magnetmen repel you from the entire board!"
 downloadLink: "https://drive.google.com/drive/folders/1IWl4VH_Ai7e6BQM6PE4dY3YUfkDn2zQj"
 
-color: "blue"
 
 date: 2025-01-26
 
 difficulty: "no-brainer"
 genres: ["family"]
-categories: ["boardgame", "one-paper-game"]
+categories: ["board-game", "one-paper-game"]
 tags: ["set-collection", "shared-map", "high-score"]
 themes: ["science-fiction"]
 
@@ -27,10 +24,6 @@ ages: everyone
 devlog: "/blog/boardgames/magnetmen/"
 
 ---
-
-{{% boardgame-intro /%}}
-
-{{% boardgame-instructions ruleless="true" /%}}
 
 {{% boardgame-settings-container type="board" %}}
 
@@ -46,9 +39,8 @@ devlog: "/blog/boardgames/magnetmen/"
 
 {{% /boardgame-settings-container %}}
 
-{{< support >}}
 
-{{% section-centered heading="Credits" %}}
+## Credits
 
 The fonts used are **Vina Sans** (headings) and **Urbanist** (body). Both freely available from Google Fonts. 
 
@@ -64,4 +56,3 @@ Magnetmen was the first attempt. (Some other OPG games with that same idea are c
 
 To be honest, this game is so small and simple that I pretty casually worked on it in between much larger projects. The game was done within a few days. It almost feels like it just dropped into my lap. And yet, it works _great_, even better than I could've hoped for.
 
-{{% /section-centered %}}

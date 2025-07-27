@@ -1,15 +1,12 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Swerving Spaceships"
-headerTitle: "A Naivigation game about steering a single spaceship together"
 blurb: "A Naivigation game about steering a single spaceship together, visiting planets and dodging asteroids."
-blurbShort: "A [Naivigation](/naivigation/) game about steering a single spaceship together, visiting planets and dodging asteroids."
-
+# blurb: "A [Naivigation](/naivigation/) game about steering a single spaceship together, visiting planets and dodging asteroids."
 weightProject: 10
 
-color: "purple"
 
 downloadLink: "https://drive.google.com/drive/folders/1-_aK59p3jHhUoo-V-9SuQXs89Fmj6Z5T"
 
@@ -17,7 +14,7 @@ date: 2025-10-26
 
 difficulty: "kids-can-play"
 genres: ["family", "thematic", "simulation"]
-categories: ["boardgame", "family-friendly", "local-multiplayer", "standard"]
+categories: ["board-game", "family-friendly", "local-multiplayer", "standard"]
 tags: ["chaos", "delayed-actions", "events", "fast-paced", "grid", "limited-communication", "logic", "memory", "modular", "movement", "orientation", "shared-map", "sudden-death", "team-based", "transportation", "turn-based", "variable-setup", "vehicle-simulation"]
 themes: ["cartoon", "colorful", "humor", "top-down"]
 
@@ -29,9 +26,9 @@ ages: everyone
 devlog: "/blog/boardgames/naivigation/visit/swerving-spaceships/"
 ---
 
-{{% boardgame-intro /%}}
 
-{{% section-centered heading="What do I need?" %}}
+
+## What do I need?
 
 This game is part of the Naivigation universe. It means you need two things to play this game.
 
@@ -44,7 +41,6 @@ Print and cut it, read the short [playful rules](rules), and you can play!
 
 **Want more?** You can also [generate your own material](#material) right on this website, to suit your specific needs.
 
-{{% /section-centered %}}
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -66,7 +62,7 @@ Print and cut it, read the short [playful rules](rules), and you can play!
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 This version is now the recommended "first version" because of its simplicity. Space is free! You can move anywhere, it has lots of empty space, and rockets can't do anything besides fly forward. That made this version the one that introduces new players to Naivigation.
 
@@ -78,4 +74,3 @@ This is an example of why it's good to just _make something_ and then iterate on
 
 For more information, check out the credits and supporting information from the [Naivigation overview page](/naivigation/).
 
-{{% /section-centered %}}

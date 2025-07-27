@@ -1,21 +1,8 @@
 ---
-type: "gamepage"
+type: "project"
 
 title: "Into My Arms"
-headerTitle: "Cute puzzling for 1-2 players on mobile"
 blurb: "A 1-2 player puzzle game about love, faith and a witch who might be the hero of the story."
-
-
-color: "blue"
-
-headerImg: "intomyarms_bg"
-headerThumb: "intomyarms_header"
-
-
-entryBannerNonTextClasses: "no-shadow"
-
-buttonColor: "#7CFF86"
-
 
 date: 2020-01-30
 
@@ -26,6 +13,11 @@ tags: ["grid", "logic", "map", "creative"]
 themes: ["2D", "relaxing", "isometric"]
 
 downloadLink: "http://pandaqi.itch.io/into-my-arms"
+externalLinks:
+  - label: "Buy"
+    url: "http://pandaqi.itch.io/into-my-arms/"
+    platforms: ["windows", "mac", "linux","android"]
+    price: 4
 
 multiplayertype: 'offline'
 multiplayermode: 'cooperative'
@@ -35,16 +27,15 @@ language: EN
 playtime: 15
 playercount: [1,2]
 input: ["keyboard", "touch"]
+source: https://github.com/Pandaqi/Into-My-Arms
+
+media: [ima_1,ima_2,ima_3,ima_4,ima_5,ima_6,ima_7, video/intomyarms_video]
 
 ---
 
-{{% embedvideo bg="intomyarms_header" vid="https://www.youtube.com/embed/L3HQCfPT7n8" class="limit-width" col="#002277" %}}
+{{% embed-video src="https://www.youtube.com/embed/L3HQCfPT7n8" %}}
 
-{{< buylink-container class="text" >}}
-{{< buylink url="http://pandaqi.itch.io/into-my-arms" platforms="windows,mac,linux" text="Buy (&euro;4)" />}}
-{{< /buylink-container >}}
-
-{{% section-flex media="video/intomyarms_video" video="true" class="limit-width reversed" %}}
+{{% double-view media="video/intomyarms_video" video="true" class="limit-width reversed" %}}
 
 Once upon a time, a witch gave two lovers a terrible curse: **they were never allowed to see each other again!**
 
@@ -56,11 +47,9 @@ Well, by making **a leap of faith**.
 
 The only way to pass each stage, is by falling backwards from a great height. Falling into your lover's arms ... that's how love will bloom tonight.
 
-{{% /section-flex %}}
+{{% /double-view %}}
 
-{{% screenshot-gallery class="full-width" urls="ima_1,ima_2,ima_3,ima_4,ima_5,ima_6,ima_7" %}}
-
-{{% section-centered heading="Co-op Puzzling" %}}
+## Co-op Puzzling
 
 "Into My Arms" is a local multiplayer game: each player simply controls one of the two lovers!
 
@@ -68,9 +57,7 @@ This game is perfect to play with a friend, or for a parent to play with their k
 
 Single player mode is equally enjoyable, but harder. It's more challenging to keep track of two players on your own!
 
-{{% /section-centered %}}
-
-{{% section-centered heading="Deluxe Edition" %}}
+## Deluxe Edition
 
 This game was originally made in two weeks for the Github Game Off (a month-long game contest). It won 11th place (out of 237)!
 
@@ -78,14 +65,10 @@ This motivated me to turn it into a full game, which is the version you see on t
 
 Source code (for the original version) is still available here: [Into My Arms (Source)](https://github.com/Pandaqi/Into-My-Arms)
 
-{{% /section-centered %}}
-
-{{% section-centered heading="Interesting facts" %}}
+## Interesting Facts
 
 The title of the game is taken from the beautiful song **Into My Arms** by **Nick Cave**.
 
 The game has **40 levels** and a story about love and faith that elegantly matches all the mechanics in the game.
 
 The game was made in [Godot Game Engine](https://godotengine.org).
-
-{{% /section-centered %}}

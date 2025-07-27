@@ -1,23 +1,20 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Pumpkin Patrol"
-headerTitle: "Hand out the most candy in a very competitive Halloween neighborhood."
 blurb: "Attract the most valuable Trick-or-Treaters with beautiful Halloween decorations, but don't forget to collect enough candy to actually make them happy!"
-blurbShort: "Hand out the most candy in a very competitive Halloween neighborhood."
-
+# blurb: "Hand out the most candy in a very competitive Halloween neighborhood."
 downloadLink: "https://drive.google.com/drive/folders/1tg66GnYFxZukTDFUGoSjGIpr9BlU3Wy8"
 
 
-color: "purple"
 
 
 date: 2024-10-12
 
 difficulty: "kids-can-play"
 genres: ["family"]
-categories: ["boardgame", "card-game", "standard"]
+categories: ["board-game", "card-game", "standard"]
 tags: ["fixed-order", "movement", "hand-management", "high-score", "turn-based", "kill-steal", "modular", "patterns"]
 themes: ["holiday", "monsters"]
 
@@ -30,9 +27,9 @@ devlog: "/blog/boardgames/pumpkin-patrol/"
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% boardgame-instructions /%}}
+
+
 
 {{% boardgame-settings-container type="material" remarks="You can combine the sets in any way and the generator will create a balanced deck. The names _starter_, _beginner_, and so forth merely give an indication how hard it is to play with or learn this specific set." %}}
 
@@ -48,7 +45,7 @@ devlog: "/blog/boardgames/pumpkin-patrol/"
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 The fonts used are **Carousel** (headings, thick decorative text) and **DuBellay** (body, longer text), both freely available. Most of the images were generated with AI. Everything else is completely mine.
 
@@ -62,4 +59,3 @@ It ended up becoming a very simple game with cute art, yet many opportunities to
 
 Hopefully this game gives families around the world a fun activity to do around Halloween. The theme is obviously focused on it, though the game is perfectly playable on its own, any day.
 
-{{% /section-centered %}}

@@ -1,20 +1,17 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Slippery Slopes"
-headerTitle: "A party game about communicating words by grading them on funky scales."
 blurb: "A party game about conveying words by grading them on funky scales. How do you communicate PIZZA when you only have hot-cold, heavy-light and dry-wet?"
-blurbShort: "A party game about communicating words by grading them on funky scales."
-
-color: "red"
+# blurb: "A party game about communicating words by grading them on funky scales."
 
 
 date: 2024-04-25
 
 difficulty: "no-brainer"
 genres: ["party"]
-categories: ["boardgame", "standard"]
+categories: ["board-game", "standard"]
 tags: ["social", "guessing", "sorting", "language", "creative", "limited-communication"]
 themes: ["retro", "colorful"]
 
@@ -29,10 +26,6 @@ ages: everyone
 devlog: "/blog/boardgames/slippery-slopes/"
 
 ---
-
-{{% boardgame-intro /%}}
-
-{{% boardgame-instructions /%}}
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -53,7 +46,7 @@ devlog: "/blog/boardgames/slippery-slopes/"
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Using your Phone" %}}
+## Using your Phone
 
 By default, this game is completely offline: just download the material once, print it, and play.
 
@@ -61,13 +54,11 @@ It is highly recommended, however, to add a timer to rounds. You can use any tim
 
 Or you can simply play the completely _digital_ sequel: [Slippery Slopes: Trippy Touches](https://pandaqi.com/slippery-slopes-trippy-touches/). Playable with just one smartphone, rules explained as you go, still the same fun core mechanic.
 
-{{% /section-centered %}}
-
-{{< support >}}
-
-{{% section-centered heading="Credits" %}}
+## Credits
 
 The fonts used are **Fraunces** (soft variation) for text and **Super Funtime** for headers. Everything else is mine.
+
+## Background
 
 This game is a sort of spiritual successor to my [That's Amorphe](https://pandaqi.com/thats-amorphe) games. I came up with the idea just as I was finishing the spin-off ([That's Amorphe Pictures](https://pandaqi.com/thats-amorphe-pictures)), but I had already committed to another project so I couldn't make it back then. 
 
@@ -77,4 +68,3 @@ This game takes the same idea of "communicate secret words/concepts in a vague a
 
 A simple, fast party game for any group!
 
-{{% /section-centered %}}

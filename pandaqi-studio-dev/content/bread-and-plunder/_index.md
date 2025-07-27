@@ -2,18 +2,11 @@
 type: "project"
 draft: true
 
-
 title: "Bread & Plunder"
-slug: "bread-and-plunder"
-headerTitle: "Bread & Plunder -- the adventure of space pirates using a bakery to cover up their crimes"
-blurb: "Lala vlavla"
+blurb: "Bread & Plunder -- the adventure of space pirates using a bakery to cover up their crimes"
 
-
-buttonColor: "#7C593B"
 
 googleFonts: "https://fonts.googleapis.com/css2?family=Acme&family=Rajdhani:wght@300;500;700&display=swap"
-
-extraJS: true
 
 date: 2021-04-29
 

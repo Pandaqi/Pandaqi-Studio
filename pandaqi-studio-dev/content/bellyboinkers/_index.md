@@ -32,7 +32,7 @@ input: ["controller", "keyboard"]
 
 ---
 
-{{% content/embed-video bg="banner_wide" vid="https://www.youtube.com/embed/OorjwESxxZ4" class="limit-width" %}}
+{{% content/embed-video src="https://www.youtube.com/embed/OorjwESxxZ4" %}}
 
 <span class="one-rule">One rule:</span> don't fall off the field. 
 

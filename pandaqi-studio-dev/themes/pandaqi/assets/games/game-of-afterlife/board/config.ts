@@ -1,8 +1,5 @@
-import Point from "lib/pq-games/tools/geometry/point"
-import Bounds from "lib/pq-games/tools/numbers/bounds"
-
-
-const CONFIG = {
+export default 
+{
     inkFriendly: false,
     boardSize: "regular",
     printSize: "singlePage",
@@ -44,5 +41,3 @@ const CONFIG = {
         }
     }
 }
-
-export default CONFIG

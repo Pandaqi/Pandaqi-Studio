@@ -1,13 +1,8 @@
-import fillResourceGroup from "lib/pq-games/layout/canvas/fillResourceGroup";
-import LayoutOperation from "lib/pq-games/layout/layoutOperation";
-import ResourceGroup from "lib/pq-games/layout/resources/resourceGroup";
-import MaterialVisualizer from "lib/pq-games/tools/generation/materialVisualizer";
-import Point from "lib/pq-games/tools/geometry/point";
+
+import { MaterialVisualizer, ResourceGroup, ResourceShape, Rectangle, LayoutOperation, Vector2 } from "lib/pq-games";
 import { MISC } from "./dict";
 import MaterialNaivigation from "./materialNaivigation";
 import pawnDrawerNaivigation from "./pawnDrawerNaivigation";
-import ResourceShape from "lib/pq-games/layout/resources/resourceShape";
-import Rectangle from "lib/pq-games/tools/geometry/rectangle";
 
 const drawHelpers = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialNaivigation) =>
 {
@@ -22,7 +17,7 @@ const drawHelpers = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialN
         pos: vis.center,
         frame: MISC.vehicle_guides.frame,
         size: vis.get("tiles.general.vehicle.sizeGuides"),
-        pivot: Point.CENTER
+        pivot: Vector2.CENTER
     })
     group.add(resGuides, opGuides)
 }
@@ -36,7 +31,7 @@ const drawVehicle = (vis:MaterialVisualizer, group:ResourceGroup, tile:MaterialN
         pos: vis.center,
         frame: typeData.frame,
         size: vis.get("tiles.general.vehicle.size"),
-        pivot: Point.CENTER
+        pivot: Vector2.CENTER
     });
     group.add(res, op);
 }

@@ -1,22 +1,20 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Lucky Lions"
-headerTitle: "Create more attractive zoos than others, but the animals that come out might be a bit ... random."
 blurb: "Create more attractive zoos than others, but the animals that come out might be a bit ... random."
 
 weightProject: 20
 
 downloadLink: "https://drive.google.com/drive/folders/1plpmBaxsa6Qez87puJDpXHiCsU0nwK6Q"
 
-color: "green"
 
 date: 2025-11-26
 
 difficulty: "no-brainer"
 genres: ["family", "thematic"]
-categories: ["boardgame", "card-game"]
+categories: ["board-game", "card-game"]
 tags: ["chance", "dice", "battle", "turn-based", "numbers", "fast-paced", "high-score", "textless", "move-through-all"]
 themes: ["animals", "nature"]
 
@@ -29,9 +27,9 @@ devlog: "/blog/boardgames/the-luck-legends/lucky-lions/"
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% boardgame-instructions /%}}
+
+
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -45,7 +43,7 @@ devlog: "/blog/boardgames/the-luck-legends/lucky-lions/"
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 The fonts used are **Bamboo Gothic** (headings) and **Berylium** (body text). Everything else is mine.
 
@@ -57,4 +55,3 @@ That's how this idea was born! You roll your die (with animals), but you also se
 
 This also turned out to be the simplest of all my ideas for the Luck Legends, which is why I put it first on the list.
 
-{{% /section-centered %}}

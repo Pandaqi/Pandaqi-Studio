@@ -37,6 +37,7 @@ enum CardMovement
 interface GeneralData
 {
     frame?: number,
+    rot?: number,
     desc?: string,
     maxNum?: number,
     canHaveSpecial?: boolean,

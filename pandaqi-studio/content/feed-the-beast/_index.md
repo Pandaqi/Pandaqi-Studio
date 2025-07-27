@@ -1,20 +1,17 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Feed the Beast"
-headerTitle: "Keep the beast satisfied with your food offerings, but be the first to get rid of the entire feast."
 blurb: "Keep the beast satisfied with your strategic offerings of apples, pie or bread. Be the first to get rid of your entire food storage."
-blurbShort: "Oh, the dragon wants candy now? It will only release the princess for a slice of pie? Time to prepare the right dinner that wins me the game!"
-
+# blurb: "Oh, the dragon wants candy now? It will only release the princess for a slice of pie? Time to prepare the right dinner that wins me the game!"
 downloadLink: "https://drive.google.com/drive/folders/1iuOlI1iYqptXn3HZQYIu0x7qy_jmb2aZ"
 
-color: "black"
 
 date: 2025-08-26
 
 difficulty: "kids-can-play"
-categories: ["boardgame", "standard"]
+categories: ["board-game", "standard"]
 genre: ["family", "thematic"]
 tags: ["variable-setup", "move-through-all", "map-selection"]
 themes: ["monsters", "mythology", "fantasy"]
@@ -28,9 +25,9 @@ devlog: "/blog/boardgames/feed-the-beast/"
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% boardgame-instructions /%}}
+
+
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -47,7 +44,7 @@ devlog: "/blog/boardgames/feed-the-beast/"
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 The fonts used are **Getronde** (headings, rough and grungy, but not so rough it's unreadable) and **IBM Plex Serif** (body, longer paragraphs, highly readable). Generative AI was used for the big monster illustrations and food tokens, everything else is mine.
 
@@ -59,4 +56,3 @@ Then I made that game, and it became the _Feed the Beast_ you see now, with rela
 
 The second part of that original idea---the fact that the monster might be guarding something, like the typical "princess locked in a tower"---was eventually moved to an expansion to keep the base game simple.
 
-{{% /section-centered %}}

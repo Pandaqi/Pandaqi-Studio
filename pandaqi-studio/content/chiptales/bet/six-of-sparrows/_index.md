@@ -1,13 +1,10 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Six of Sparrows"
-headerTitle: "Create patterns using your cards, while bidding early is risky but rewarded."
 blurb: "Create card patterns, but the earlier you state which pattern you'll complete (without seeing all your cards), the more points you get."
-blurbShort: "Create card patterns where early blind bids multiply your points---if you manage to actually complete them."
-
-color: "brown"
+# blurb: "Create card patterns where early blind bids multiply your points---if you manage to actually complete them."
 
 downloadLink: "https://drive.google.com/drive/folders/1njaLYJ2YF_hRqz94qi8inNJCzSUB5doM"
 
@@ -15,7 +12,7 @@ date: 2026-01-26
 
 difficulty: "kids-can-play"
 genres: ["family"]
-categories: ["boardgame", "card-game", "standard"]
+categories: ["board-game", "card-game", "standard"]
 tags: ["score-and-reset", "contracts", "patterns", "bidding", "high-score"]
 themes: ["textured"]
 
@@ -28,9 +25,9 @@ devlog: "/blog/boardgames/chiptales/six-of-sparrows/"
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% boardgame-instructions /%}}
+
+
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -44,7 +41,7 @@ devlog: "/blog/boardgames/chiptales/six-of-sparrows/"
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 The fonts used are **Sancreek** (headings) and **Sedan** (body text). Everything else is mine.
 
@@ -54,4 +51,3 @@ This idea is a kind of "twin" of [Bidding Blocks](/bidding-blocks/). Visit that 
 
 Yes, the title is a homage to the book _Six of Crows_, if you've read it. The game has absolutely nothing to do with that book or fantasy world, but I just really like the sound of the title.
 
-{{% /section-centered %}}

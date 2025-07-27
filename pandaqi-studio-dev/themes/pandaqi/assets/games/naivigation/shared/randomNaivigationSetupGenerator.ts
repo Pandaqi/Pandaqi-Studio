@@ -1,24 +1,14 @@
-import convertCanvasToImage from "lib/pq-games/layout/canvas/convertCanvasToImage";
-import createContext from "lib/pq-games/layout/canvas/createContext";
-import LayoutOperation from "lib/pq-games/layout/layoutOperation";
-import ResourceGroup from "lib/pq-games/layout/resources/resourceGroup";
-import ResourceImage from "lib/pq-games/layout/resources/resourceImage";
-import numberRange from "lib/pq-games/tools/collections/numberRange";
-import MaterialVisualizer from "lib/pq-games/tools/generation/materialVisualizer";
-import Point from "lib/pq-games/tools/geometry/point";
-import rangeInteger from "lib/pq-games/tools/random/rangeInteger";
-import shuffle from "lib/pq-games/tools/random/shuffle";
-import InteractiveExample from "lib/pq-rulebook/examples/interactiveExample";
+
 import { TileType } from "./dictShared";
-import fromArray from "lib/pq-games/tools/random/fromArray";
 import MaterialNaivigation from "./materialNaivigation";
 import TilePickerNaivigation from "./generalPickerNaivigation";
-import fillCanvas from "lib/pq-games/layout/canvas/fillCanvas";
+import { Vector2, MaterialVisualizer, fromArray, shuffle, rangeInteger, createContext, ResourceGroup, ResourceImage, LayoutOperation, convertCanvasToImage, fillCanvas, initNumberRange } from "lib/pq-games";
+import { InteractiveExample } from "lib/pq-rulebook";
 
 interface TileData
 {
     tile: MaterialNaivigation
-    position?: Point,
+    position?: Vector2,
     rot?: number,
     collectible?: boolean,
     facedown?: boolean
@@ -26,7 +16,7 @@ interface TileData
 
 interface NaivigationSetupParams
 {
-    size?: Point,
+    size?: Vector2,
     numVehicles?: number,
     tilePicker?: TilePickerNaivigation,
     validPlacementCallback?: TilePlacementFunction,
@@ -56,7 +46,7 @@ export default class RandomNaivigationSetupGenerator
     grid: TileData[][];
     cells: TileData[]
 
-    size: Point
+    size: Vector2
     tilePicker: TilePickerNaivigation
     tiles: MaterialNaivigation[] // The specific game is responsible for handing a list of valid Tile/Token objects for that game
     tilesAll: MaterialNaivigation[]
@@ -75,7 +65,7 @@ export default class RandomNaivigationSetupGenerator
 
     constructor(params:NaivigationSetupParams = {})
     {
-        this.size = params.size ?? new Point(5,5);
+        this.size = params.size ?? new Vector2(5,5);
         this.numVehicles = params.numVehicles ?? 1;
         this.visualizer = params.visualizer;
         this.tilePicker = params.tilePicker;
@@ -116,7 +106,7 @@ export default class RandomNaivigationSetupGenerator
         this.example = e;
     }
 
-    getCellAt(pos:Point)
+    getCellAt(pos:Vector2)
     {
         return this.grid[pos.x][pos.y];
     }
@@ -133,7 +123,7 @@ export default class RandomNaivigationSetupGenerator
         // initialize the original tiles
         // BASE RULE => In every row, place ONE collectible at a unique column
         let grid : TileData[][] = [];
-        const allRows = shuffle(numberRange(0, this.size.y - 1));
+        const allRows = shuffle(initNumberRange(0, this.size.y - 1));
 
         for(let x = 0; x < this.size.x; x++)
         {
@@ -144,7 +134,7 @@ export default class RandomNaivigationSetupGenerator
             {
                 grid[x][y] = {
                     tile: null,
-                    position: new Point(x,y),
+                    position: new Vector2(x,y),
                     rot: 0,
                     collectible: (y == collectibleIndex),
                     facedown: false
@@ -216,15 +206,15 @@ export default class RandomNaivigationSetupGenerator
         const group = new ResourceGroup();
         for(const cell of this.cells)
         {
-            const realPos = cell.position.clone().scale(TILE_SIZE).move(new Point(0.5*TILE_SIZE));
+            const realPos = cell.position.clone().scale(TILE_SIZE).move(new Vector2(0.5*TILE_SIZE));
 
             const canv = await this.drawItem(cell.tile, cell.facedown);
             const resCell = new ResourceImage(canv);
             const cellOp = new LayoutOperation({
                 pos: realPos,
-                size: new Point(TILE_SIZE).sub(new Point(2*tileMargin)),
+                size: new Vector2(TILE_SIZE).sub(new Vector2(2*tileMargin)),
                 rot: cell.rot * 0.5 * Math.PI,
-                pivot: Point.CENTER
+                pivot: Vector2.CENTER
             })
             group.add(resCell, cellOp);
 
@@ -238,9 +228,9 @@ export default class RandomNaivigationSetupGenerator
                 const resToken = new ResourceImage(canvToken);
                 const tokenOp = new LayoutOperation({
                     pos: realPos,
-                    size: new Point(PLAYER_TOKEN_SIZE),
+                    size: new Vector2(PLAYER_TOKEN_SIZE),
                     rot: data.rot * 0.5 * Math.PI,
-                    pivot: Point.CENTER
+                    pivot: Vector2.CENTER
                 });
                 group.add(resToken, tokenOp);
             }
@@ -315,7 +305,7 @@ export default class RandomNaivigationSetupGenerator
         this.getVehicleData(idx).rot = (this.getVehicleData(idx).rot + rot + 4) % 4;
     }
 
-    movePlayer(idx = 0, vector = Point.RIGHT, levelWrap = false)
+    movePlayer(idx = 0, vector = Vector2.RIGHT, levelWrap = false)
     {
         const curPosition = this.getVehicleData(idx).position;
         let newPosition = curPosition.clone().add(vector);
@@ -323,7 +313,7 @@ export default class RandomNaivigationSetupGenerator
         this.setPlayerPosition(idx, newPosition);
     }
 
-    setPlayerPosition(idx = 0, pos:Point)
+    setPlayerPosition(idx = 0, pos:Vector2)
     {
         this.getVehicleData(idx).position = pos;
         if(!this.isOutOfBounds(pos))
@@ -332,18 +322,18 @@ export default class RandomNaivigationSetupGenerator
         }
     }
 
-    wrapPosition(pos:Point) : Point
+    wrapPosition(pos:Vector2) : Vector2
     {
-        const posOut = new Point();
+        const posOut = new Vector2();
         posOut.x = (pos.x + this.size.x) % this.size.x;
         posOut.y = (pos.y + this.size.y) % this.size.y;
         return posOut;
     }
     
-    getVectorFromRotation(rot = 0) : Point
+    getVectorFromRotation(rot = 0) : Vector2
     {
         const rotReal = rot * 0.5 * Math.PI;
-        const vector = new Point(Math.cos(rotReal), Math.sin(rotReal));
+        const vector = new Vector2(Math.cos(rotReal), Math.sin(rotReal));
         if(Math.abs(vector.x) < 0.03) { vector.x = 0; }
         if(Math.abs(vector.y) < 0.03) { vector.y = 0; }
 
@@ -376,7 +366,7 @@ export default class RandomNaivigationSetupGenerator
         this.getCellAt(this.getVehicleData(idx).position).facedown = true
     }
 
-    isOutOfBounds(pos:Point) : boolean
+    isOutOfBounds(pos:Vector2) : boolean
     {
         return pos.x < 0 || pos.x >= this.grid.length || pos.y < 0 || pos.y >= this.grid[0].length;
     }
@@ -389,10 +379,10 @@ export default class RandomNaivigationSetupGenerator
     // @TODO: these two conversion functions are not great, do something more robust?
     convertRotationToVector(rot:number)
     {
-        return new Point().fromAngle(rot * 0.5 * Math.PI);
+        return new Vector2().fromAngle(rot * 0.5 * Math.PI);
     }
 
-    convertVectorToRotation(vec:Point)
+    convertVectorToRotation(vec:Vector2)
     {
         if(vec.x == 1) { return 0; }
         if(vec.y == 1) { return 1; }

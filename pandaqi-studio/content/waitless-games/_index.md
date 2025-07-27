@@ -1,22 +1,17 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+collection: "play"
 
 title: "Waitless Games"
-headerTitle: "Games you can play while waiting in line or standing up."
 blurb: "A series of simple games you can play while waiting in line, or standing up, or any other unconventional situation."
 
 downloadLink: "https://drive.google.com/drive/folders/1xu-YTqi_OCm_WmzhVhGbTQPiu0pc87TG"
-
-
-color: "turquoise"
-
 
 date: 2024-02-25
 
 difficulty: "kids-can-play"
 genres: ["family"]
-categories: ["boardgame", "card-game", "waitless-game"]
+categories: ["board-game", "card-game", "waitless-game"]
 tags: ["set-collecting"]
 themes: ["colorful"]
 
@@ -29,15 +24,13 @@ ages: everyone
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% section-centered heading="What's this?" %}}
+
+## What's this?
 
 This is the **overview page** of the Waitless Games.
 
-Click any of the links below to visit a specific game. They aren't sorted in any particular way.
-
-{{< boardgame-project-games-list subdir="play" >}}
+Click any of the links to visit a specific game. They aren't sorted in any particular way.
 
 All the games are unique: new rules, new art style, new material, new ideas.
 
@@ -50,9 +43,8 @@ Their one thing in common, though, is that they are **"waitless"**. Designed to 
 
 _Great! When are new games added?_ Currently, I have ~6 ideas, of which ~2 new ones will be added each year.
 
-{{% /section-centered %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 It is not hard to guess where these ideas came from. Waiting in line at a theme park is never fun---why not play a game? I have, unfortunately, spent a lot of time waiting in the hospital, or living in a situation where a traditional game just can't be played. Is it really that hard to design (board) games you _could_ do in that moment?
 
@@ -64,4 +56,3 @@ Because all games are completely unique in their gameplay, there are no shared i
 
 Some images were generated using AI. I generally use open source and free fonts, though I sometimes make one myself. Everything else---code, assets, ideas, rules, this website---is all mine.
 
-{{% /section-centered %}}

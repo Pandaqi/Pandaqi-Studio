@@ -1,15 +1,12 @@
-import PointGraph from "lib/pq-games/tools/geometry/pointGraph";
+import { Vector2Graph, Vector2, rangeInteger, shuffle } from "lib/pq-games";
 import BoardState from "../boardState";
-import rangeInteger from "lib/pq-games/tools/random/rangeInteger";
-import shuffle from "lib/pq-games/tools/random/shuffle";
 import CONFIG from "../config";
-import Point from "lib/pq-games/tools/geometry/point";
 import Route from "../route";
 
 export default class GeneratorRope
 {
     boardState: BoardState;
-    points: PointGraph[];
+    points: Vector2Graph[];
     routes: Route[];
 
     constructor(bs:BoardState)
@@ -19,36 +16,36 @@ export default class GeneratorRope
 
     async generate()
     {
-        let points = this.createPoints();
-        points = await this.relaxPoints(points);
+        let points = this.createVector2s();
+        points = await this.relaxVector2s(points);
         this.connectCities(points);
         this.points = points;
         return points;
     }
 
-    createPoints()
+    createVector2s()
     {
-        const arr : PointGraph[] = [];
+        const arr : Vector2Graph[] = [];
         
         // create all the first points (in a semi-random grid layout)
-        const numPoints = new Point(Math.floor(this.size.x / this.idealTrackSize), Math.floor(this.size.y / this.idealTrackSize));
-        this.sizeGrid = numPoints;
+        const numVector2s = new Vector2(Math.floor(this.size.x / this.idealTrackSize), Math.floor(this.size.y / this.idealTrackSize));
+        this.sizeGrid = numVector2s;
 
         const grid = [];
-        for(let x = 0; x < numPoints.x; x++)
+        for(let x = 0; x < numVector2s.x; x++)
         {
             grid[x] = [];
-            for(let y = 0; y < numPoints.y; y++)
+            for(let y = 0; y < numVector2s.y; y++)
             {
-                let pos = new Point(Math.random()*this.size.x, Math.random()*this.size.y);
+                let pos = new Vector2(Math.random()*this.size.x, Math.random()*this.size.y);
                 if(CONFIG.generation.startWithGrid) 
                 { 
-                    pos = new Point(x*this.idealTrackSize, y*this.idealTrackSize); 
-                    pos.move(new Point().random().scaleFactor(0.5*this.idealTrackSize))
+                    pos = new Vector2(x*this.idealTrackSize, y*this.idealTrackSize); 
+                    pos.move(new Vector2().random().scaleFactor(0.5*this.idealTrackSize))
                 }
 
-                const p = new PointGraph(pos.x, pos.y);
-                p.metadata.gridPos = new Point(x,y);
+                const p = new Vector2Graph(pos.x, pos.y);
+                p.metadata.gridPos = new Vector2(x,y);
                 grid[x][y] = p;
                 arr.push(p);
             }
@@ -57,14 +54,14 @@ export default class GeneratorRope
         // assign them their neighbours
         // @TODO; should really make a general function for this, I keep retyping the same array and logic for getting grid neighbors
         const NB_OFFSETS = [
-            Point.RIGHT,
-            Point.DOWN,
-            Point.LEFT,
-            Point.UP,
-            new Point(1,1),
-            new Point(1,-1),
-            new Point(-1,1),
-            new Point(-1,-1)
+            Vector2.RIGHT,
+            Vector2.DOWN,
+            Vector2.LEFT,
+            Vector2.UP,
+            new Vector2(1,1),
+            new Vector2(1,-1),
+            new Vector2(-1,1),
+            new Vector2(-1,-1)
         ]
 
         for(const point of arr)
@@ -80,7 +77,7 @@ export default class GeneratorRope
         return arr;
     }
 
-    outOfBounds(pos:Point)
+    outOfBounds(pos:Vector2)
     {
         return pos.x < 0 || pos.y < 0 || pos.x >= this.sizeGrid.x || pos.y >= this.sizeGrid.y
     }
@@ -91,7 +88,7 @@ export default class GeneratorRope
     }
 
     // @TODO: doesn't actually clone points right now
-    async relaxPoints(points:PointGraph[])
+    async relaxVector2s(points:Vector2Graph[])
     {
         const arr = points.slice();
         const numIterations = CONFIG.generation.numRelaxIterations;
@@ -108,7 +105,7 @@ export default class GeneratorRope
             // intialize all points to not move
             for(const p1 of arr)
             {
-                p1.metadata.offset = new Point();
+                p1.metadata.offset = new Vector2();
                 p1.metadata.weight = 0;
             }
 
@@ -144,14 +141,14 @@ export default class GeneratorRope
             {
                 const off = p1.metadata.offset;
                 p1.move(off);
-                p1.clamp(new Point(), this.size);
+                p1.clamp(new Vector2(), this.size);
             }
         }
 
         return arr;
     }
 
-    connectCities(points:PointGraph[])
+    connectCities(points:Vector2Graph[])
     {
         // first determine the actual cities
         const numCities = rangeInteger(CONFIG.generation.numCityBounds);

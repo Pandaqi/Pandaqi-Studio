@@ -1,21 +1,15 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
 
 title: "Waterfall: Raging Rapids"
-headerTitle: "Fall down the waterfall as best you can to collect the highest-scoring gemstones along the way."
 blurb: "Fall down the waterfall as best you can, while lengthening the waterfall as you play, to collect the highest-scoring gemstones along the way."
-blurbShort: "Fall down the waterfall as best you can to collect the highest-scoring gemstones along the way."
-
+# blurb: "Fall down the waterfall as best you can to collect the highest-scoring gemstones along the way."
 downloadLink: "https://drive.google.com/drive/folders/1Y_P8ghT3QPOhu6K13W8Va72Y7qGIwfgx"
-autoLoadFontCSS: true
-
-color: "turquoise"
 
 date: 2025-05-26
 
 difficulty: "kids-can-play"
-categories: ["boardgame", "tile-game", "pawn-game", "standard"]
+categories: ["board-game", "tile-game", "pawn-game", "standard"]
 genre: ["family", "thematic"]
 tags: ["shared-map", "high-score", "fast-paced", "movement"]
 themes: ["nature", "sea"]
@@ -29,15 +23,9 @@ devlog: "/blog/boardgames/waterfall/"
 
 ---
 
-{{% boardgame-intro /%}}
-
-{{% boardgame-instructions %}}
-
 This game is uses text for the action on tiles, which means some English reading comprehension is required. It also adds a few more rules and variations, making it a more complicated (but "deeper") version of the original.
 
-If you want a very simple, textless, more casual game, check out the original [Waterfall](/waterfall/) game!  
-
-{{% /boardgame-instructions %}}
+If you want a very simple, textless, more casual game, check out the original [Waterfall](/waterfall/) game! 
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -53,7 +41,7 @@ If you want a very simple, textless, more casual game, check out the original [W
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 This was actually the "original version" of my Waterfall game idea. After working on it, however, I realized how to make it simpler and remove all text. (This almost always happens and is why iteration is the magic word when trying to create _anything_.) That is why there are _two_ Waterfall games which I developed and released in parallel.
 
@@ -61,4 +49,3 @@ The basic rules for this game are still **incredibly simple**. But because each 
 
 As such, for more background information or details, visit the [Waterfall](/waterfall/) project page.
 
-{{% /section-centered %}}

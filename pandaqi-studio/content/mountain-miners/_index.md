@@ -1,22 +1,20 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Mountain Miners"
-headerTitle: "Mine the best tiles from the top of the mountain, by constantly changing what is up and what is down."
 blurb: "Mine the best tiles from the top of the mountain, by constantly changing what is up and what is down."
 
 downloadLink: "https://drive.google.com/drive/folders/1Y8dzzlw19-ZWUxmLlk7f35NBR22OEEkd"
 
 
-color: "black"
 
 
 date: 2024-11-12
 
 difficulty: "kids-can-play"
 genres: ["family"]
-categories: ["boardgame", "tile-game", "standard"]
+categories: ["board-game", "tile-game", "standard"]
 tags: ["set-collection", "shared-map", "fixed-order", "high-score", "mining", "orientation"]
 themes: ["fantasy"]
 
@@ -29,11 +27,7 @@ devlog: "/blog/boardgames/mountain-miners/"
 
 ---
 
-{{% boardgame-intro /%}}
-
-{{% boardgame-instructions %}}
 The base game can be learned in less than a minute; several small expansions keep the game interesting for way longer!
-{{% /boardgame-instructions %}}
 
 {{% boardgame-settings-container type="material" remarks="The optional expansions can be used however you wish. If you check all of them, however, more tile types are possible in the generation (but you also need to play with both expansions enabled)." %}}
 
@@ -48,7 +42,7 @@ The base game can be learned in less than a minute; several small expansions kee
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 The fonts used are **Vlaanderen Chiseled** (headings, decorative text) and **Rokkitt** (body, longer paragraphs). Both are freely available online. Some generative AI was used for the main tile illustrations, everything else is entirely mine.
 
@@ -60,4 +54,3 @@ I like those kinds of games, because they have very simple _material_ requiremen
 
 I also like it because it's just such a simple and silly idea---turn the regular rectangular board into a diamond by placing it at an angle---that actually works.
 
-{{% /section-centered %}}

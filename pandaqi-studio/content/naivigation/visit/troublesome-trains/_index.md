@@ -1,14 +1,12 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Troublesome Trains"
-headerTitle: "A Naivigation game about steering trains together on the same unpredictable rails"
-blurbShort: "A [Naivigation](/naivigation/) game about steering multiple trains together, while on the same rails that keep shifting."
-
+blurb: "A Naivigation game about steering trains together on the same unpredictable rails"
+# blurb: "A [Naivigation](/naivigation/) game about steering multiple trains together, while on the same rails that keep shifting."
 weightProject: 50
 
-color: "orange"
 
 downloadLink: "https://drive.google.com/drive/folders/186gZy7euPX5wFrZcyRDBt8T1bPzThe9m"
 
@@ -16,7 +14,7 @@ date: 2025-10-26
 
 difficulty: "simple"
 genres: ["family", "thematic", "simulation"]
-categories: ["boardgame", "family-friendly", "local-multiplayer", "standard"]
+categories: ["board-game", "family-friendly", "local-multiplayer", "standard"]
 tags: ["chaos", "delayed-actions", "events", "fast-paced", "grid", "limited-communication", "logic", "memory", "modular", "movement", "orientation", "shared-map", "sudden-death", "team-based", "transportation", "turn-based", "variable-setup", "vehicle-simulation"]
 themes: ["cartoon", "colorful", "humor", "top-down"]
 
@@ -28,9 +26,9 @@ ages: everyone
 devlog: "/blog/boardgames/naivigation/visit/troublesome-trains/"
 ---
 
-{{% boardgame-intro /%}}
 
-{{% section-centered heading="What do I need?" %}}
+
+## What do I need?
 
 This game is part of the Naivigation universe. It means you need two things to play this game.
 
@@ -43,7 +41,6 @@ Print and cut it, read the short [playful rules](rules), and you can play!
 
 **Want more?** You can also [generate your own material](#material) right on this website, to suit your specific needs.
 
-{{% /section-centered %}}
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -66,7 +63,7 @@ Print and cut it, read the short [playful rules](rules), and you can play!
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 This game is the most unique of all the major Naivigation games, and it makes the largest tweaks to the core rules. That's the only reason why I placed it as the "hardest" of them all.
 
@@ -78,4 +75,3 @@ This makes it the ideal Naivigation game for some, and certainly _not_ the ideal
 
 For more information, check out the credits and supporting information from the [Naivigation overview page](/naivigation/).
 
-{{% /section-centered %}}

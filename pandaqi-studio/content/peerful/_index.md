@@ -1,12 +1,10 @@
 ---
 draft: true
-type: "gamepage"
+type: "project"
 
 title: "The Peerful Project"
-headerTitle: "Smartphone-Controlled Multiplayer Games"
 blurb: "Start the game on your computer, control it with your smartphone. Easy local multiplayer for groups small and large."
 
-color: "pink"
 
 date: 2020-04-29
 

@@ -1,23 +1,13 @@
-import Point from "lib/pq-games/tools/geometry/point";
+
 import CONFIG from "./config"
-import createGrid from "lib/pq-games/tools/graphs/createGrid";
-import PathFinder from "lib/pq-games/tools/pathfinding/pathFinder";
-import assignGridNeighbors from "lib/pq-games/tools/graphs/assignGridNeighbors";
-import PointGraph from "lib/pq-games/tools/geometry/pointGraph";
-import shuffle from "lib/pq-games/tools/random/shuffle";
-import Path from "lib/pq-games/tools/geometry/paths/path";
-import Bounds from "lib/pq-games/tools/numbers/bounds";
 import FloodFillerTree, { FloodFillerTreeNode } from "lib/pq-games/tools/generation/floodFillerTree";
 import PathSegment from "./pathSegment";
-import fromArray from "lib/pq-games/tools/random/fromArray";
-import calculatePathLength from "lib/pq-games/tools/geometry/paths/calculatePathLength";
-import mergePaths from "lib/pq-games/tools/geometry/paths/mergePaths";
-import PathAdvanced from "lib/pq-games/tools/geometry/paths/pathAdvanced";
+import { Vector2, Vector2Graph, createGrid, assignGridNeighbors, Bounds, mergePaths, Path, calculatePathLength, fromArray, PathAdvanced } from "lib/pq-games";
 
 export default class Board
 {
-    size: Point
-    grid: PointGraph[][];
+    size: Vector2
+    grid: Vector2Graph[][];
     paths: PathSegment[];
     sections: FloodFillerTree;
     pathsIntermediate: any[];
@@ -26,7 +16,7 @@ export default class Board
     {
         const mapWidth = CONFIG.generation.mapWidth;
         const mapHeight = Math.floor(mapWidth / CONFIG.generation.boardRatio);
-        this.size = new Point(mapWidth, mapHeight);
+        this.size = new Vector2(mapWidth, mapHeight);
     }
 
     generate()
@@ -37,14 +27,14 @@ export default class Board
         this.createSquaresOnPaths();
     }
 
-    getPoints() { return this.grid.flat(); }
+    getVector2s() { return this.grid.flat(); }
     createGrid()
     {
-        this.grid = createGrid(this.size, (pos:Point) => { return new PointGraph(pos); })
+        this.grid = createGrid(this.size, (pos:Vector2) => { return new Vector2Graph(pos); })
         assignGridNeighbors({ grid: this.grid })
     }
 
-    getCornerPoints()
+    getCornerVector2s()
     {
         return [
             this.grid[0][0], 
@@ -159,13 +149,13 @@ export default class Board
         const leafNode = n.children.length <= 0;
         if(leafNode)
         {
-            ends.push(this.getFurthestPointFrom(start, n.floodFiller.get()));
+            ends.push(this.getFurthestVector2From(start, n.floodFiller.get()));
         }
 
         n.metadata.paths = [];
         for(const end of ends)
         {
-            const path = this.createPathBetweenPoints(start, end, n);
+            const path = this.createPathBetweenVector2s(start, end, n);
             n.metadata.paths.push(path);
             start = null; // any subsequent paths should start from a point on the existing line
         }
@@ -176,7 +166,7 @@ export default class Board
         }
     }
 
-    getFurthestPointFrom(p:PointGraph, points:PointGraph[])
+    getFurthestVector2From(p:Vector2Graph, points:Vector2Graph[])
     {
         let maxDist = 0;
         let maxElem = null;
@@ -190,7 +180,7 @@ export default class Board
         return maxElem;
     }
 
-    createPathBetweenPoints(start:PointGraph, end:PointGraph, n:FloodFillerTreeNode) : PathAdvanced
+    createPathBetweenVector2s(start:Vector2Graph, end:Vector2Graph, n:FloodFillerTreeNode) : PathAdvanced
     {
         // decides whether something is a connection or not
         // we must filter out anything that isn't actually inside the section from our Node
@@ -205,7 +195,7 @@ export default class Board
                 let intersectsPath = false;
                 for(const path of n.metadata.paths)
                 {
-                    if(path.hasPoint(nb)) { intersectsPath = true; break; }
+                    if(path.hasVector2(nb)) { intersectsPath = true; break; }
                 }
                 if(intersectsPath) { continue; }
 
@@ -217,7 +207,7 @@ export default class Board
         const f = new PathFinder({
             connectionFunction: connFunc
         });
-        f.costMap = f.assignRandomWeights({ points: this.getPoints() });
+        f.costMap = f.assignRandomWeights({ points: this.getVector2s() });
 
         let pathRaw
         if(start) {
@@ -225,7 +215,7 @@ export default class Board
         } else {
             while(true)
             {
-                const randStart = this.getRandomPointFromPaths(n.metadata.paths);
+                const randStart = this.getRandomVector2FromPaths(n.metadata.paths);
                 pathRaw = f.getPath({ start: randStart, end: end });
                 if(pathRaw.length > 0) { break; }
             }
@@ -235,13 +225,13 @@ export default class Board
         return path;
     }
 
-    getRandomPointFromPaths(pathList:Path[])
+    getRandomVector2FromPaths(pathList:Path[])
     {
         console.log("SHOULD RANDOMIZE");
         const randPath = fromArray(pathList);
-        const randPoint = randPath.getRandomPoint();
-        console.log(randPoint);
-        return randPoint;
+        const randVector2 = randPath.getRandomVector2();
+        console.log(randVector2);
+        return randVector2;
     }
 
     /*
@@ -250,9 +240,9 @@ export default class Board
         const f = new PathFinder({
             connectionFunction: (p) => { return p.getNeighbors(); }
         });
-        f.costMap = f.assignRandomWeights({ points: this.getPoints() });
+        f.costMap = f.assignRandomWeights({ points: this.getVector2s() });
 
-        const corners = shuffle(this.getCornerPoints());
+        const corners = shuffle(this.getCornerVector2s());
         const start = corners.pop();
         const end = corners.pop();
         

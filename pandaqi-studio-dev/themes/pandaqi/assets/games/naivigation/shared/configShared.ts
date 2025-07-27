@@ -1,7 +1,4 @@
-import TextConfig, { TextStyle, TextWeight } from "lib/pq-games/layout/text/textConfig"
-import CVal from "lib/pq-games/tools/generation/cval"
-import { GridSizePreset } from "lib/pq-games/tools/generation/materialGenerator"
-import Point from "lib/pq-games/tools/geometry/point"
+import { TextConfig, TextWeight, TextStyle, Vector2, CVal, MapperPreset } from "lib/pq-games"
 
 const CONFIG_NAIVIGATION_SHARED = 
 {
@@ -54,28 +51,28 @@ const CONFIG_NAIVIGATION_SHARED =
         misc_shared:
         {
             path: "/naivigation/assets/misc.webp",
-            frames: new Point(8,2),
+            frames: new Vector2(8,2),
             useAbsolutePath: true
         },
 
         card_templates:
         {
             path: "/naivigation/assets/card_templates.webp",
-            frames: new Point(8,1),
+            frames: new Vector2(8,1),
             useAbsolutePath: true,
         },
 
         bg_blobs:
         {
             path: "/naivigation/assets/bg_blobs.webp",
-            frames: new Point(4,2),
+            frames: new Vector2(4,2),
             useAbsolutePath: true
         },
 
         terrains:
         {
             path: "/naivigation/assets/terrains.webp",
-            frames: new Point(8,1),
+            frames: new Vector2(8,1),
             useAbsolutePath: true,
             loadIf: ["sets.willneverhappen"]
         },
@@ -83,7 +80,7 @@ const CONFIG_NAIVIGATION_SHARED =
         persons:
         {
             path: "/naivigation/assets/persons.webp",
-            frames: new Point(8,1),
+            frames: new Vector2(8,1),
             useAbsolutePath: true,
             loadIf: ["sets.willneverhappen"]
         },
@@ -93,7 +90,7 @@ const CONFIG_NAIVIGATION_SHARED =
     {
         drawerConfig:
         {
-            preset: GridSizePreset.CARD,
+            preset: MapperPreset.CARD,
         }, 
 
         generation:
@@ -103,7 +100,7 @@ const CONFIG_NAIVIGATION_SHARED =
 
         background:
         {
-            size: new CVal(new Point(1.2), "sizeUnit"),
+            size: new CVal(new Vector2(1.2), "sizeUnit"),
             blobAlpha: 0.15,
             patternAlpha: 0.25
         },
@@ -115,10 +112,10 @@ const CONFIG_NAIVIGATION_SHARED =
             fontSize: new CVal(0.125, "sizeUnit"),
             fontSizeMeta: new CVal(0.05, "sizeUnit"),
             fontSizeContent: new CVal(0.0575, "sizeUnit"),
-            textPos: new CVal(new Point(0.5, 0.7), "size"),
+            textPos: new CVal(new Vector2(0.5, 0.7), "size"),
             strokeWidth: new CVal(0.01, "sizeUnit"),
             alphaMeta: 0.5,
-            contentTextBox: new CVal(new Point(0.9, 0.3), "size"),
+            contentTextBox: new CVal(new Vector2(0.9, 0.3), "size"),
 
             extraNumber:
             {
@@ -128,17 +125,17 @@ const CONFIG_NAIVIGATION_SHARED =
 
             illustration:
             {
-                mainPos: new CVal(new Point(0.5, 0.3), "size"),
-                mainDims: new CVal(new Point(0.7), "sizeUnit"),
+                mainPos: new CVal(new Vector2(0.5, 0.3), "size"),
+                mainDims: new CVal(new Vector2(0.7), "sizeUnit"),
                 shadowBlur: new CVal(0.05 * 0.7, "sizeUnit"),
-                smallDims: new CVal(new Point(0.15), "sizeUnit"),
+                smallDims: new CVal(new Vector2(0.15), "sizeUnit"),
                 smallShadowBlur: new CVal(0.05 * 0.15, "sizeUnit")
             },
 
             gameIcon:
             {
-                size: new CVal(new Point(0.12), "sizeUnit"),
-                posDefault: new CVal(new Point(0.5, 0.6), "size"),
+                size: new CVal(new Vector2(0.12), "sizeUnit"),
+                posDefault: new CVal(new Vector2(0.5, 0.6), "size"),
                 edgeOffsetFactor: 0.66,
                 glowBlur: new CVal(0.1 * 0.12, "sizeUnit")
             },
@@ -147,7 +144,7 @@ const CONFIG_NAIVIGATION_SHARED =
             {
                 strokeColor: "#000000",
                 strokeWidth: new CVal(0.0075, "sizeUnit"),
-                gridDims: new CVal(new Point(0.65), "sizeUnit"),
+                gridDims: new CVal(new Vector2(0.65), "sizeUnit"),
                 gridIconSizeFactor: 0.65,
                 gridIconAlpha: 0.75, 
                 alpha: 0.75,
@@ -162,11 +159,11 @@ const CONFIG_NAIVIGATION_SHARED =
 
                 fontColor: "#000000",
                 fontSize: new CVal(0.055, "sizeUnit"),
-                textBoxDims: new CVal(new Point(0.785, 0.2), "size"),
-                textBoxIconDims: new CVal(new Point(0.14), "sizeUnit"),
+                textBoxDims: new CVal(new Vector2(0.785, 0.2), "size"),
+                textBoxIconDims: new CVal(new Vector2(0.14), "sizeUnit"),
                 iconOffset: new CVal(0.1, "sizeUnit"),
-                posReward: new CVal(new Point(0.572, 0.765), "size"),
-                posPenalty: new CVal(new Point(0.572, 0.933), "size")
+                posReward: new CVal(new Vector2(0.572, 0.765), "size"),
+                posPenalty: new CVal(new Vector2(0.572, 0.933), "size")
             }
         }
     },
@@ -175,20 +172,20 @@ const CONFIG_NAIVIGATION_SHARED =
     {
         drawerConfig:
         {
-            preset: GridSizePreset.TILE,
+            preset: MapperPreset.TILE,
         }, 
 
         general:
         {
             illustration:
             {
-                mainDims: new CVal(new Point(0.8), "sizeUnit")
+                mainDims: new CVal(new Vector2(0.8), "sizeUnit")
             },
 
             elevation:
             {
                 triangleSideLength: new CVal(0.125, "sizeUnit"),
-                triangleEdgeOffset: new CVal(new Point(0.024), "sizeUnit"),
+                triangleEdgeOffset: new CVal(new Vector2(0.024), "sizeUnit"),
                 fill: "#000000",
                 stroke: "#FFFFFF",
                 strokeWidth: new CVal(0.02, "sizeUnit"),
@@ -202,8 +199,8 @@ const CONFIG_NAIVIGATION_SHARED =
 
             vehicle:
             {
-                size: new CVal(new Point(0.4), "sizeUnit"),
-                sizeGuides: new CVal(new Point(0.6), "sizeUnit")
+                size: new CVal(new Vector2(0.4), "sizeUnit"),
+                sizeGuides: new CVal(new Vector2(0.6), "sizeUnit")
             }, 
 
             text:
@@ -212,9 +209,9 @@ const CONFIG_NAIVIGATION_SHARED =
                 textColor: "#FFFFFF",
                 bgColor: "#000000",
 
-                pos: new CVal(new Point(0.5, 0.82), "sizeUnit"),
+                pos: new CVal(new Vector2(0.5, 0.82), "sizeUnit"),
 
-                boxDims: new CVal(new Point(0.933, 0.3), "sizeUnit"),
+                boxDims: new CVal(new Vector2(0.933, 0.3), "sizeUnit"),
                 boxBlur: new CVal(0.02, "sizeUnit"),
                 boxAlpha: 0.85
             }

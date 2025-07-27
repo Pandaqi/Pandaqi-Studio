@@ -1,21 +1,18 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "The Game of Dilemmas"
-headerTitle: "Create the juiciest dilemmas that have players doubt themselves"
 blurb: "Combine a positive and negative card from your hand to create a dilemma. If yours is the most controversial, you score the most points!"
-blurbShort: "Create tough dilemmas by combining cards from your hand, then make sure yours gets the most controversial votes."
-
+# blurb: "Create tough dilemmas by combining cards from your hand, then make sure yours gets the most controversial votes."
 downloadLink: "https://drive.google.com/drive/folders/1b-raHI4BNZjow8E4X9Qc7ZLWbr4jZ3ne"
 
-color: "green"
 
 date: 2024-12-26
 
 difficulty: "no-brainer"
 genres: ["family", "party"]
-categories: ["boardgame", "card-game", "standard"]
+categories: ["board-game", "card-game", "standard"]
 tags: ["social", "emotional", "guessing", "sorting", "creative"]
 themes: ["colorful"]
 
@@ -28,9 +25,9 @@ devlog: "/blog/boardgames/the-game-of-dilemmas/"
 
 ---
 
-{{% boardgame-intro /%}}
 
-{{% boardgame-instructions /%}}
+
+
 
 {{% boardgame-settings-container type="material" remarks="**Which pack(s) should I use!?** The packs mostly exist to break the huge number of possible cards into smaller chunks. There are no big differences. Each pack could be used standalone or mixed with any other packs in a game.||Except for the **extraordinary** pack! It contains more adult content, not suitable for every group. (It's also much smaller, so needs to be shuffled into existing packs.)" %}}
 
@@ -44,9 +41,8 @@ devlog: "/blog/boardgames/the-game-of-dilemmas/"
 
 {{% /boardgame-settings-container %}}
 
-{{< support >}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 The fonts used are **Sunny Spells** (headings, decorative) and **Minya Nouvelle** (body, text, paragraphs). Both freely available for commercial use. Everything else is entirely mine.
 
@@ -58,4 +54,3 @@ The Game of Dilemmas is more of a silly, gamified, creative, try-your-best-to-ma
 
 **Want to add your own cards?** You can always send me a message with ideas for cards! Once I have enough, I can easily add them as another pack.
 
-{{% /section-centered %}}

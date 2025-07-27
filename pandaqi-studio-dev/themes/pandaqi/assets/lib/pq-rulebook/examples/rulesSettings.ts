@@ -1,7 +1,7 @@
 
 // TO DO: Some day, all of this needs to generalized and put into PQ_GAMES
 // (most of this would be in tools > dom, perhaps the main settings under website folder)
-enum SettingsType
+export enum SettingsType
 {
     TEXT,
     NUMBER,
@@ -10,7 +10,7 @@ enum SettingsType
     ENUM,
 }
 
-interface SettingsParams
+export interface SettingsParams
 {
     id?: string,
     type?: SettingsType,
@@ -20,8 +20,7 @@ interface SettingsParams
     keys?: string|string[]
 }
 
-export { SettingsType, SettingsParams, RulesSettings }
-export default class RulesSettings
+export class RulesSettings
 {
     nodes:Record<string,HTMLElement>
     node:HTMLElement

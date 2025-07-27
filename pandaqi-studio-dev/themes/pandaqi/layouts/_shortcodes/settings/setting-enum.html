@@ -1,9 +1,0 @@
-{{- $id := .Get "id" -}}
-{{- $default_option := or (.Get "def") "" -}}
-{{- $values := .Get "values" -}}
-{{- $use_values_as_keys := .Get "valaskey" -}}
-{{- $keys := .Get "keys" -}}
-{{- $keep_case := .Get "keep-case" -}}
-{{- $remark := .Get "remark" -}}
-{{- $text := .Get "text" -}}
-{{- partial "settings/setting-enum.html" (dict "id" $id "default_option" $default_option "remark" $remark "text" $text "values" $values "keys" $keys "use_values_as_keys" $use_values_as_keys  "keep_case" $keep_case) -}}

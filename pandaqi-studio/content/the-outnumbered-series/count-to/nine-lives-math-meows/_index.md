@@ -1,25 +1,22 @@
 ---
-type: "gamepage"
-boardgame: true
+type: "project"
+
 
 title: "Nine Lives: Math Meows"
-headerTitle: "Don't be the first cat to run out of lives!"
 blurb: "As we all know, cats start with nine lives. And as we all know, being unable to play a card makes you lose a life. Don't lose them all!"
-blurbShort: "A simple and fast card game about losing your nine lives less quickly than all the other players."
-
+# blurb: "A simple and fast card game about losing your nine lives less quickly than all the other players."
 weightProject: 91
 
 downloadLink: "https://drive.google.com/drive/folders/1kKuH20FTKx5pm4qy_dqdNgt79iDSJwYp"
 
 
-color: "white"
 
 
 date: 2024-09-11
 
 difficulty: "kids-can-play"
 genres: ["family"]
-categories: ["boardgame", "card-game", "standard"]
+categories: ["board-game", "card-game", "standard"]
 tags: ["numbers", "hand-management", "ladder-climbing", "move-through-all", "turn-based", "player-powers"]
 themes: ["nature"]
 
@@ -34,9 +31,9 @@ devlog: "/blog/boardgames/the-outnumbered-series/nine-lives-math-meows/"
 
 <div class="bg-cats"></div>
 
-{{% boardgame-intro /%}}
 
-{{% boardgame-instructions /%}}
+
+
 
 {{% boardgame-settings-container type="material" %}}
 
@@ -47,7 +44,7 @@ devlog: "/blog/boardgames/the-outnumbered-series/nine-lives-math-meows/"
 
 {{% /boardgame-settings-container %}}
 
-{{% section-centered heading="Credits" anchor="credits" %}}
+## Credits
 
 As expected, this game is a spin-off for the original [Nine Lives](/the-outnumbered-series/count-to/nine-lives/).
 
@@ -57,4 +54,3 @@ The fonts used are **Puss in Boots** (headings, fancy text) and **Catcafe** (bod
 
 For more information, as always, read my [detailed developer diary on Pandaqi Blog](/blog/boardgames/the-outnumbered-series/nine-lives-math-meows/).
 
-{{% /section-centered %}}
